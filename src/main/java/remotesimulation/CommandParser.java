@@ -503,10 +503,12 @@ public class CommandParser {
         commandList.add(sc);
 
         // save-timeline-trace-in-file
-        params = new int[1];
-        paramNames = new String[1];
+        params = new int[2];
+        paramNames = new String[2];
         params[0] = 2;
         paramNames[0] = "Task List";
+        params[1] = 1;
+        paramNames[1] = "Scale idle time: 0 -> no, 1 -> yes";
         sc = new SimulationCommand("show-timeline-trace", "stlt", "7 4", params, paramNames, "Show the current timeline diagram tracein HTML format");
         commandList.add(sc);
 

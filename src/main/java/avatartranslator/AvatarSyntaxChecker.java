@@ -225,16 +225,16 @@ public class AvatarSyntaxChecker  {
             act = Conversion.putVariableValueInString(AvatarSpecification.ops, act, aa.getName(), aa.getDefaultInitialValue());
         }
 
-        /*AvatarExpressionSolver e1 = new AvatarExpressionSolver(act);
+        AvatarExpressionSolver e1 = new AvatarExpressionSolver(act);
 
         if (e1.buildExpression()) {
             return 1;
         }
 
-        return 0;*/
+        return 0;
 
 
-        BoolExpressionEvaluator bee = new BoolExpressionEvaluator();
+        /*BoolExpressionEvaluator bee = new BoolExpressionEvaluator();
 
         //TraceManager.addDev("Evaluating (modified) guard:" + act);
         boolean result = bee.getResultOfWithIntExpr(act);
@@ -244,7 +244,7 @@ public class AvatarSyntaxChecker  {
         }
 
 
-        return 0;
+        return 0;*/
         // END of NEW
 
         //return parse(_as, _ab, "guard", act);
@@ -269,7 +269,19 @@ public class AvatarSyntaxChecker  {
             act = Conversion.putVariableValueInString(AvatarSpecification.ops, act, aa.getName(), aa.getDefaultInitialValue());
         }
 
-        IntExpressionEvaluator iee = new IntExpressionEvaluator();
+        AvatarExpressionSolver e1 = new AvatarExpressionSolver(act);
+        boolean ret = e1.buildExpression();
+        if (!ret) {
+            return -1;
+        }
+
+        if (e1.getReturnType() == AvatarExpressionSolver.IMMEDIATE_INT) {
+            return 0;
+        }
+
+        return -1;
+
+        /*IntExpressionEvaluator iee = new IntExpressionEvaluator();
 
         //TraceManager.addDev("Evaluating int:" + act);
         double result = iee.getResultOf(act);
@@ -278,7 +290,7 @@ public class AvatarSyntaxChecker  {
             return -1;
         }
 
-        return 0;
+        return 0;*/
         // OLD return parse(_as, _ab, "actionnat", _expr);
 
     }
@@ -344,7 +356,7 @@ public class AvatarSyntaxChecker  {
         //TraceManager.addDev("2. IsValidBoolExpr Evaluating bool:" + act);
 
 
-        BoolExpressionEvaluator bee = new BoolExpressionEvaluator();
+        /*BoolExpressionEvaluator bee = new BoolExpressionEvaluator();
 
 
         boolean result = bee.getResultOfWithIntExpr(act);
@@ -353,7 +365,7 @@ public class AvatarSyntaxChecker  {
             return -1;
         } else {
             //TraceManager.addDev("IsValidBoolExpr: YES (" + act + ")");
-        }
+        }*/
 
         // Testing with parsing AvatarExpressionSolver
 

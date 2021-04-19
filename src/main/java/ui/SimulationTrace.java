@@ -43,6 +43,8 @@ public class SimulationTrace {
 	private String fullPathToFile = null;
 	private int type;
 
+	private String content;
+
 	public static final int VCD_DIPLO = 0;
     public static final int TXT_DIPLO = 1;
     public static final int HTML_DIPLO = 2;
@@ -52,7 +54,9 @@ public class SimulationTrace {
     public static final int TXT_AVATAR = 4;
     public static final int SVG_AVATAR = 5;
 
-	private static String[] TYPES = {"VCD DIPLO", "TXT DIPLO", "HTML DIPLO", "PNG AVATAR", "TXT AVATAR", "SVG AVATAR","XML DIPLO"};
+    public static final int CSV_AVATAR = 7;
+
+	private static String[] TYPES = {"VCD DIPLO", "TXT DIPLO", "HTML DIPLO", "PNG AVATAR", "TXT AVATAR", "SVG AVATAR","XML DIPLO", "CSV AVATAR"};
 
     public SimulationTrace(String name, int type) {
         this(name, type, null);
@@ -86,6 +90,18 @@ public class SimulationTrace {
 
     public String getName() {
 	    return name;
+    }
+
+    public boolean hasContent() {
+        return content != null;
+    }
+
+    public void setContent(String _content) {
+        content = _content;
+    }
+
+    public String getContent() {
+        return content;
     }
 
     public String toString() {

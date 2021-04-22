@@ -1,0 +1,14 @@
+TMLSPEC
+    #include "signal.tml"
+ENDTMLSPEC
+
+TMLARCHI
+    #include "signal.tarchi"
+ENDTMLARCHI
+
+TMLMAPPING
+    MAP CPU0 Application__Function1
+    SET Application__Function1 priority 0
+    MAP CPU0 Application__Function2
+    SET Application__Function2 priority 0
+ENDTMLMAPPING

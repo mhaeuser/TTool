@@ -1,0 +1,16 @@
+TMLSPEC
+    #include "fpga_clock_divider.tml"
+ENDTMLSPEC
+
+TMLARCHI
+    #include "fpga_clock_divider.tarchi"
+ENDTMLARCHI
+
+TMLMAPPING
+    MAP FPGA0 ApplicationSimple__Src
+    SET ApplicationSimple__Src priority 0
+    MAP FPGA0 ApplicationSimple__T2
+    SET ApplicationSimple__T2 priority 0
+    MAP FPGA0 ApplicationSimple__T1
+    SET ApplicationSimple__T1 priority 0
+ENDTMLMAPPING

@@ -261,14 +261,14 @@ public class JDialogSelectTasks extends JDialogBase implements ActionListener, L
         //scale idle time by default
         checkBoxScaleIdleTime.setSelected(true);
         panel4.add(checkBoxScaleIdleTime);
-        JLabel jLabelScale = new JLabel("Start time:");
-        panel4.add(jLabelScale);
-        JTextField startTime = new JTextField();
-        panel4.add(startTime);
-        jLabelScale = new JLabel("End time:");
-        panel4.add(jLabelScale);
-        JTextField endTime = new JTextField();
-        panel4.add(endTime);
+//        JLabel jLabelScale = new JLabel("Start time:");
+//        panel4.add(jLabelScale);
+//        JTextField startTime = new JTextField();
+//        panel4.add(startTime);
+//        jLabelScale = new JLabel("End time:");
+//        panel4.add(jLabelScale);
+//        JTextField endTime = new JTextField();
+//        panel4.add(endTime);
         c2.gridwidth = GridBagConstraints.REMAINDER;
         c.add(panel4, c2);
 

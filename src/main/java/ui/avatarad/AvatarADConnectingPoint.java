@@ -38,6 +38,7 @@
 
 package ui.avatarad;
 
+import myutil.TraceManager;
 import ui.CDElement;
 import ui.TGComponentManager;
 import ui.TGConnectingPoint;
@@ -63,9 +64,13 @@ public class AvatarADConnectingPoint extends TGConnectingPointWidthHeight {
     }
 
     public boolean isCompatibleWith(int type, TGConnectingPoint outPoint) {
+        //TraceManager.addDev("isCompatibleWithExtended");
+
+
         if (getFather() instanceof AvatarADActivity) {
             AvatarADActivity act = (AvatarADActivity)getFather();
             int nb = act.getNbOfOccupiedPoints(outPoint == null);
+            //TraceManager.addDev("Nb of occupied points " + nb + " in case out? " + (outPoint == null));
             if (nb > 0) {
                 return false;
             }

@@ -40,6 +40,7 @@
 package ui;
 
 import myutil.GraphicLib;
+import myutil.TraceManager;
 
 import java.awt.*;
 
@@ -88,7 +89,7 @@ public class TGConnectingPoint extends AbstractCDElement /*implements CDElement*
     public static final int SOUTH=2;
     public static final int WEST=3;
 
-    protected TGConnector referenceToConnector;
+    private TGConnector referenceToConnector;
 
     private boolean source = false;
 
@@ -277,9 +278,9 @@ public class TGConnectingPoint extends AbstractCDElement /*implements CDElement*
     }
 
     public void setFree(boolean b) {
-        /*TraceManager.addDev("Setting connecting point as free=" + b + " point=" + this);
+        //TraceManager.addDev("Setting connecting point as free=" + b + " point=" + this);
 
-          for (StackTraceElement ste : Thread.currentThread().getStackTrace()) {
+        /*for (StackTraceElement ste : Thread.currentThread().getStackTrace()) {
           TraceManager.addDev(ste.toString());
           }*/
 
@@ -289,6 +290,7 @@ public class TGConnectingPoint extends AbstractCDElement /*implements CDElement*
         }
 
         if (free) {
+            //TraceManager.addDev("Setting ref to connector to null");
             referenceToConnector = null;
         }
 
@@ -334,6 +336,7 @@ public class TGConnectingPoint extends AbstractCDElement /*implements CDElement*
     //fin DG
 
     public void setReferenceToConnector( TGConnector _ref )     {
+        //TraceManager.addDev("Setting ref to connector to " + _ref);
         referenceToConnector = _ref;
     }
 

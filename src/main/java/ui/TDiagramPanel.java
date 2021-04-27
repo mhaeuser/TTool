@@ -1138,7 +1138,7 @@ public abstract class TDiagramPanel extends JPanel implements GenericTree {
 
     // true if connector not added
     public void stopAddingConnector(boolean b) {
-        if (p1 != null) {
+        if ((p1 != null) && b) {
             p1.setFree(true);
         }
         x1 = -1;

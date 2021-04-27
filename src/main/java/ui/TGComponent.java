@@ -3443,6 +3443,7 @@ public abstract class TGComponent  extends AbstractCDElement implements /*CDElem
             TGConnector connector = pt.getReferenceToConnector();
             TGConnectingPoint cp;
             if (connector != null) {
+                //TraceManager.addDev("Non null reference");
                 if (out) {
                     cp = connector.getTGConnectingPointP1();
                 } else {
@@ -3450,6 +3451,10 @@ public abstract class TGComponent  extends AbstractCDElement implements /*CDElem
                 }
                 if (cp == pt) {
                     cpt++;
+                }
+            } else {
+                if (!pt.isFree()) {
+                    //TraceManager.addDev("Null reference on non free cp");
                 }
             }
         }

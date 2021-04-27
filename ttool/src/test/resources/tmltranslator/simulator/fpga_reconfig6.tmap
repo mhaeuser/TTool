@@ -1,0 +1,20 @@
+TMLSPEC
+    #include "fpga_reconfig6.tml"
+ENDTMLSPEC
+
+TMLARCHI
+    #include "fpga_reconfig6.tarchi"
+ENDTMLARCHI
+
+TMLMAPPING
+    MAP FPGA0 Application__Task5
+    SET Application__Task5 priority 0
+    MAP FPGA0 Application__Task2
+    SET Application__Task2 priority 0
+    MAP FPGA0 Application__Task1
+    SET Application__Task1 priority 0
+    MAP FPGA0 Application__Task3
+    SET Application__Task3 priority 0
+    MAP FPGA0 Application__Task4
+    SET Application__Task4 priority 0
+ENDTMLMAPPING

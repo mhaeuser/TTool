@@ -168,9 +168,10 @@ void CPU::schedule2XML(std::ostringstream& glob,std::ofstream& myfile) const{
 
   }
 }
-std::map<TMLTask*, std::string> CPU::HWTIMELINE2HTML(std::ostringstream& myfile,std::map<TMLTask*, std::string> taskCellClasses,unsigned int nextCellClassIndex, std::string& iTracetaskList) {
+std::map<TMLTask*, std::string> CPU::HWTIMELINE2HTML(std::ostringstream& myfile,std::map<TMLTask*, std::string> taskCellClasses,unsigned int nextCellClassIndex, std::string& iTracetaskList, bool isScalable) {
     TransactionList _transactListClone;
     std::string taskList = iTracetaskList.c_str();
+    maxScale = 0;
     for (int z = 0; z < _transactList.size(); z++) {
         std::string taskName = _transactList[z]->getCommand()->getTask()->toString();
         std::size_t pos = taskList.find(taskName); /*pos1 = position of "bin" if we working with open model*/
@@ -208,7 +209,7 @@ std::map<TMLTask*, std::string> CPU::HWTIMELINE2HTML(std::ostringstream& myfile,
         bool isBlankTooBig = false;
         std::ostringstream tempString;
         int tempBlanks;
-        if(endTimeOfCore >= MIN_RESIZE_THRESHOLD && aBlanks > MIN_RESIZE_TRANS) {
+        if(isScalable && endTimeOfCore >= MIN_RESIZE_THRESHOLD && aBlanks > MIN_RESIZE_TRANS) {
             int newBlanks = 0;
             if (aBlanks > 100000) {
                 newBlanks = (int) aBlanks/100;
@@ -255,7 +256,7 @@ std::map<TMLTask*, std::string> CPU::HWTIMELINE2HTML(std::ostringstream& myfile,
         unsigned int aLength = aCurrTrans->getPenalties();
         if ( aLength != 0 ) {
           listScaleTime.push_back(listScaleTime.back()+aLength);
-          if (endTimeOfCore >= MIN_RESIZE_THRESHOLD && aLength > MIN_RESIZE_TRANS){
+          if (isScalable && endTimeOfCore >= MIN_RESIZE_THRESHOLD && aLength > MIN_RESIZE_TRANS){
               int tempLength = 0;
               if (aLength > 100000) {
                   tempLength = (int) aLength/100;
@@ -282,7 +283,7 @@ std::map<TMLTask*, std::string> CPU::HWTIMELINE2HTML(std::ostringstream& myfile,
         unsigned int indexTrans=aCurrTransName.find_first_of(":");
         std::string aCurrContent=aCurrTransName.substr(indexTrans+1,2);
         if(!(!(aCurrTrans->getCommand()->getActiveDelay()) && aCurrTrans->getCommand()->isDelayTransaction())){
-          if (endTimeOfCore >= MIN_RESIZE_THRESHOLD && aLength > MIN_RESIZE_TRANS){
+          if (isScalable && endTimeOfCore >= MIN_RESIZE_THRESHOLD && aLength > MIN_RESIZE_TRANS){
               int tempLength = 0;
               if (aLength > 100000) {
                   tempLength = (int) aLength/100;

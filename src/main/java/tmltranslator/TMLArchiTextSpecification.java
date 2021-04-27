@@ -647,7 +647,7 @@ public class TMLArchiTextSpecification {
                         return -1;
                     }
 
-                    if (!checkParameter("SET", _split, 3, 1, _lineNb)) {
+                    if (!_split[2].toUpperCase().equals("SCHEDULING") && !checkParameter("SET", _split, 3, 1, _lineNb)) {
                         return -1;
                     }
 

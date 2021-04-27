@@ -96,7 +96,7 @@ public class TMLTextSpecification<E> {
 
     private static String keywords[] = {"BOOL", "INT", "NAT", "CHANNEL", "EVENT", "REQUEST", "LOSSYCHANNEL", "VCCHANNEL",
             "LOSSYEVENT", "LOSSYREQUEST", "BRBW", "NBRNBW",
-            "BRNBW", "INF", "NIB", "NINB", "TASK", "ENDTASK", "TASKOP", "IF", "ELSE", "ORIF", "ENDIF", "FOR", "ENDFOR",
+            "BRNBW", "INF", "NIB", "NINB", "TASK", "ENDTASK", "DAEMON", "TASKOP", "IF", "ELSE", "ORIF", "ENDIF", "FOR", "ENDFOR",
             "SELECTEVT", "CASE", "ENDSELECTEVT", "ENDCASE", "WRITE", "READ", "WAIT", "NOTIFY", "NOTIFIED", "NOTIFYREQUEST", "RAND", "CASERAND",
             "ENDRAND",
             "ENDCASERAND", "EXECI", "EXECC", "DELAY", "RANDOM",

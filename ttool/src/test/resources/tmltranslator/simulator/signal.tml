@@ -1,0 +1,37 @@
+// TML Application - FORMAT 0.2
+// Application: /home/levan/Desktop/TTool/ttool/src/test/resources/tmltranslator/simulator/signal.xml
+// Generated: Thu Apr 22 15:02:18 CEST 2021
+
+// PRAGMAS
+
+// Channels
+
+// Events
+EVENT Application__evt1to2__Application__evt1to2(int) NIB 8 Application__Function1 Application__Function2
+
+// Requests
+
+TASK Application__Function1
+    TASKOP
+    //Local variables
+    int loop__0 = 0
+    
+    //Behavior
+    FOR(loop__0 = 0; loop__0<5; loop__0 = loop__0 + 1)
+        DELAY 5 ns isActiveDelay false
+        EXECI 5
+    ENDFOR
+ENDTASK
+
+TASK Application__Function2
+    DAEMON
+    TASKOP
+    //Local variables
+    int x
+    
+    //Behavior
+    FOR( ; ; )
+        WAIT Application__evt1to2__Application__evt1to2 x
+    ENDFOR
+ENDTASK
+

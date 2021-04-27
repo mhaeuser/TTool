@@ -264,7 +264,6 @@ public class JFrameInteractiveSimulation extends JFrame implements ActionListene
     private String listOfTaskToShowInTimeLine = "";
     private String timelineParam = "";
     private boolean isServerReply = false;
-    private boolean isScalable = true;
     
 	public JFrameInteractiveSimulation(Frame _f, MainGUI _mgui, String _title, String _hostSystemC, String _pathExecute, TMLMapping<TGComponent> _tmap, List<Point> _points) {
         super(_title);
@@ -1575,7 +1574,7 @@ public class JFrameInteractiveSimulation extends JFrame implements ActionListene
                     mctb.setActive(false);
                     isServerReply = false;
                     timelineParam = "";
-                    sendCommand( "show-timeline-trace " + listOfTaskToShowInTimeLine + ((isScalable) ? " 1" : " 0" ));
+                    sendCommand( "show-timeline-trace " + listOfTaskToShowInTimeLine );
                     Frame f = new JFrame("Updating Data");
                     JPanel p = new JPanel();
                     JProgressBar b = new JProgressBar();
@@ -1626,7 +1625,6 @@ public class JFrameInteractiveSimulation extends JFrame implements ActionListene
         for (String taskname : tmlComponentsToValidate) {
             listOfTaskToShowInTimeLine += taskname + ",";
         }
-        isScalable = jdstmlc.getScaleIdleTime();
 
         if (!listOfTaskToShowInTimeLine.equals("")) {
             tmlSimPanelTimeline = new JFrameTMLSimulationPanelTimeline(new Frame(), mgui, this, "Show Trace - Timeline", timelineParam);

@@ -628,10 +628,9 @@ std::string FPGA::determineHTMLCellClass(std::map<TMLTask*, std::string> &taskCo
 	return taskColors[ task ];
 }
 
-std::map<TMLTask*, std::string> FPGA::HWTIMELINE2HTML(std::ostringstream& myfile,std::map<TMLTask*, std::string> taskCellClasses1,unsigned int nextCellClassIndex1, std::string& iTracetaskList, bool isScalable) {
+std::map<TMLTask*, std::string> FPGA::HWTIMELINE2HTML(std::ostringstream& myfile,std::map<TMLTask*, std::string> taskCellClasses1,unsigned int nextCellClassIndex1, std::string& iTracetaskList) {
     TransactionList _transactListClone;
     std::string taskList = iTracetaskList.c_str();
-    maxScale = 0;
     for (int z = 0; z < _transactList.size(); z++) {
         std::string taskName = _transactList[z]->getCommand()->getTask()->toString();
         std::size_t pos = taskList.find(taskName); /*pos1 = position of "bin" if we working with open model*/
@@ -680,7 +679,7 @@ std::map<TMLTask*, std::string> FPGA::HWTIMELINE2HTML(std::ostringstream& myfile
         bool isBlankTooBig = false;
         std::ostringstream tempString, tempReconfigIdle;
         int tempBlanks;
-        if(isScalable && _htmlCurrTask->getEndLastTransaction() >= MIN_RESIZE_THRESHOLD && aBlanks > MIN_RESIZE_TRANS) {
+        if(_htmlCurrTask->getEndLastTransaction() >= MIN_RESIZE_THRESHOLD && aBlanks > MIN_RESIZE_TRANS) {
             int newBlanks = 0;
             if (aBlanks > 100000) {
                 newBlanks = (int) aBlanks/100;
@@ -730,7 +729,7 @@ std::map<TMLTask*, std::string> FPGA::HWTIMELINE2HTML(std::ostringstream& myfile
         unsigned int indexTrans=aCurrTransName.find_first_of(":");
         std::string aCurrContent=aCurrTransName.substr(indexTrans+1,2);
         if(!(!(aCurrTrans->getCommand()->getActiveDelay()) && aCurrTrans->getCommand()->isDelayTransaction())){
-          if(isScalable && _htmlCurrTask->getEndLastTransaction() >= MIN_RESIZE_THRESHOLD && aLength > MIN_RESIZE_TRANS){
+          if(_htmlCurrTask->getEndLastTransaction() >= MIN_RESIZE_THRESHOLD && aLength > MIN_RESIZE_TRANS){
               int tempLength = 0;
               if (aLength > 100000) {
                   tempLength = (int) aLength/100;

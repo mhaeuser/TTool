@@ -71,7 +71,6 @@ public class JDialogSelectTasks extends JDialogBase implements ActionListener, L
 
     //subpanels
     private JPanel panel1, panel2, panel3, panel4, panel5, panel6;
-    private JCheckBox checkBoxScaleIdleTime;
     private JList<String> listIgnored;
     private JList<String> listValidated;
     private JButton allValidated;
@@ -254,33 +253,12 @@ public class JDialogSelectTasks extends JDialogBase implements ActionListener, L
         panel2.setPreferredSize(new Dimension(200, 250));
         c2.gridwidth = GridBagConstraints.REMAINDER; //end row
         c.add(panel2, c2);
-        
-        panel4 = new JPanel();
-        panel4.setLayout(new BoxLayout(panel4, BoxLayout.Y_AXIS));
-        checkBoxScaleIdleTime = new JCheckBox("Enable IdleTime Scaling");
-        //scale idle time by default
-        checkBoxScaleIdleTime.setSelected(true);
-        panel4.add(checkBoxScaleIdleTime);
-//        JLabel jLabelScale = new JLabel("Start time:");
-//        panel4.add(jLabelScale);
-//        JTextField startTime = new JTextField();
-//        panel4.add(startTime);
-//        jLabelScale = new JLabel("End time:");
-//        panel4.add(jLabelScale);
-//        JTextField endTime = new JTextField();
-//        panel4.add(endTime);
-        c2.gridwidth = GridBagConstraints.REMAINDER;
-        c.add(panel4, c2);
 
         c2.fill = GridBagConstraints.HORIZONTAL;
         c2.gridwidth = 1; //end row
         initMainButtons(c2, c, this, false, "Show trace", "Cancel");
 
 
-    }
-
-    public boolean getScaleIdleTime() {
-        return checkBoxScaleIdleTime.isSelected();
     }
 
     public void actionPerformed(ActionEvent evt) {

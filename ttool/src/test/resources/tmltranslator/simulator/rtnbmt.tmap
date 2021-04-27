@@ -1,0 +1,16 @@
+TMLSPEC
+    #include "rtnbmt.tml"
+ENDTMLSPEC
+
+TMLARCHI
+    #include "rtnbmt.tarchi"
+ENDTMLARCHI
+
+TMLMAPPING
+    MAP CPU0 ApplicationSimple__Src
+    SET ApplicationSimple__Src priority 0
+    MAP CPU0 ApplicationSimple__T2
+    SET ApplicationSimple__T2 priority 0
+    MAP CPU0 ApplicationSimple__T1
+    SET ApplicationSimple__T1 priority 0
+ENDTMLMAPPING

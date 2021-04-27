@@ -461,7 +461,7 @@ void Simulator::latencies2XML(std::ostringstream& glob, int id1, int id2) {
     (*j)->latencies2XML(glob, id1,id2);
   }
 }
-void Simulator::timeline2HTML(std::string& iTracetaskList, std::ostringstream& myfile) const {
+void Simulator::timeline2HTML(std::string& iTracetaskList, std::ostringstream& myfile, bool isScalable) const {
 
     std::map<TMLTask*, std::string> taskCellClasses;
     std::ostringstream myfileTemp, myfileTemp1;
@@ -481,7 +481,7 @@ void Simulator::timeline2HTML(std::string& iTracetaskList, std::ostringstream& m
     unsigned int maxScale = 0;
     for(CPUList::const_iterator i=_simComp->getCPUList().begin(); i != _simComp->getCPUList().end(); ++i){
         for(unsigned int j = 0; j < (*i)->getAmoutOfCore(); j++) {
-            taskCellClasses = (*i)->HWTIMELINE2HTML(myfileTemp, taskCellClasses, taskCellClasses.size(), iTracetaskList);
+            taskCellClasses = (*i)->HWTIMELINE2HTML(myfileTemp, taskCellClasses, taskCellClasses.size(), iTracetaskList, isScalable);
             if((*i)->getMaxScale() > maxScale) {
                 maxScale = (*i)->getMaxScale();
             }
@@ -496,7 +496,7 @@ void Simulator::timeline2HTML(std::string& iTracetaskList, std::ostringstream& m
         (*j)->setStartFlagHTML(true);
         for(TaskList::const_iterator i = (*j)->getTaskList().begin(); i != (*j)->getTaskList().end(); ++i){
             (*j)->setHtmlCurrTask(*i);
-            taskCellClasses = (*j)->HWTIMELINE2HTML(myfileTemp, taskCellClasses, taskCellClasses.size(), iTracetaskList);
+            taskCellClasses = (*j)->HWTIMELINE2HTML(myfileTemp, taskCellClasses, taskCellClasses.size(), iTracetaskList, isScalable);
             if((*j)->getMaxScale() > maxScale) {
                 maxScale = (*j)->getMaxScale();
             }
@@ -505,7 +505,7 @@ void Simulator::timeline2HTML(std::string& iTracetaskList, std::ostringstream& m
     }
 
     for(BusList::const_iterator j=_simComp->getBusList().begin(); j != _simComp->getBusList().end(); ++j){
-        taskCellClasses = (*j)->HWTIMELINE2HTML(myfileTemp, taskCellClasses, taskCellClasses.size(), iTracetaskList);
+        taskCellClasses = (*j)->HWTIMELINE2HTML(myfileTemp, taskCellClasses, taskCellClasses.size(), iTracetaskList, isScalable);
         if((*j)->getMaxScale() > maxScale) {
             maxScale = (*j)->getMaxScale();
         }
@@ -2053,8 +2053,12 @@ void Simulator::decodeCommand(std::string iCmd, std::ostream& iXmlOutStream){
     case 4: {//timeline diagram
       aGlobMsg << TAG_MSGo << "Schedule output in HTML format" << TAG_MSGc << std::endl;
       std::ostringstream timelineContent;
+      int temp = 0;
+      aInpStream >> temp;
+      bool _isScalable = (temp == 1) ? true : false;
+
       timelineContent << "<![CDATA[";
-      timeline2HTML(aStrParam, timelineContent);
+      timeline2HTML(aStrParam, timelineContent, _isScalable);
       timelineContent << "]]>";
       aGlobMsg << TAG_MSGo << timelineContent.str() << TAG_MSGc << std::endl;
       break;

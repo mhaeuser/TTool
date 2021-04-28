@@ -10,4 +10,4 @@ wait 2
 action avatar-simulation-open-window
 wait 2
 action asst ./../graphs/tracecmpartial.csv
-wait 2
+wait 200

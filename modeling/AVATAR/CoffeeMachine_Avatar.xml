@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<TURTLEGMODELING version="1.0beta" ANIMATE_INTERACTIVE_SIMULATION="false" ACTIVATE_PENALTIES="true" UPDATE_INFORMATION_DIPLO_SIM="false" ANIMATE_WITH_INFO_DIPLO_SIM="true" OPEN_DIAG_DIPLO_SIM="false" LAST_SELECTED_MAIN_TAB="1" LAST_SELECTED_SUB_TAB="2">
+<TURTLEGMODELING version="1.0beta" ANIMATE_INTERACTIVE_SIMULATION="false" ACTIVATE_PENALTIES="true" UPDATE_INFORMATION_DIPLO_SIM="false" ANIMATE_WITH_INFO_DIPLO_SIM="true" OPEN_DIAG_DIPLO_SIM="false" LAST_SELECTED_MAIN_TAB="1" LAST_SELECTED_SUB_TAB="3">
 
 <Modeling type="Avatar Requirement" nameTab="AVATAR Requirements" >
 <AvatarRDPanel name="AVATAR RD" minX="10" maxX="1900" minY="10" maxY="1400" zoom="1.0" >
@@ -570,7 +570,7 @@
 </extraparam>
 </COMPONENT>
 
-<CONNECTOR type="5205" id="390" >
+<CONNECTOR type="5205" id="390" uid="34ca7799-3a0e-4d01-83f8-ae20f0b73c75" >
 <cdparam x="661" y="76" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector" value="&lt;&lt;composition&gt;&gt;" />
@@ -579,7 +579,7 @@
 <P2  x="499" y="75" id="305" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="5208" id="392" >
+<CONNECTOR type="5208" id="392" uid="3dcf1aca-7b26-498d-965e-0ce76e35d74c" >
 <cdparam x="749" y="267" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector" value="&lt;&lt;satisfy&gt;&gt;" />
@@ -588,7 +588,7 @@
 <P2  x="504" y="199" id="273" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="5208" id="394" >
+<CONNECTOR type="5208" id="394" uid="92b60407-bed3-42f3-85f9-79c4fa7b7464" >
 <cdparam x="783" y="223" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector" value="&lt;&lt;satisfy&gt;&gt;" />
@@ -597,7 +597,7 @@
 <P2  x="504" y="173" id="272" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="5205" id="396" >
+<CONNECTOR type="5205" id="396" uid="dba5607e-348b-4eb0-aa5e-9364bef195de" >
 <cdparam x="124" y="457" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="1000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from Requirement to Requirement" value="&lt;&lt;composition&gt;&gt;" />
@@ -606,7 +606,7 @@
 <P2  x="122" y="302" id="176" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="5205" id="398" >
+<CONNECTOR type="5205" id="398" uid="0c74ef40-da5b-401a-9963-6aa77f1a1c90" >
 <cdparam x="244" y="315" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="1000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from Requirement to Requirement" value="&lt;&lt;composition&gt;&gt;" />
@@ -615,7 +615,7 @@
 <P2  x="160" y="272" id="170" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="5205" id="400" >
+<CONNECTOR type="5205" id="400" uid="738dc73a-f5b8-4f44-bc7b-22a007baaa25" >
 <cdparam x="249" y="199" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="1000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from Requirement to Requirement" value="&lt;&lt;composition&gt;&gt;" />
@@ -624,7 +624,7 @@
 <P2  x="160" y="212" id="168" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="5205" id="402" >
+<CONNECTOR type="5205" id="402" uid="a9a6682a-e612-4a26-bf3a-19ad83c15c8b" >
 <cdparam x="237" y="98" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="1000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from Requirement to Requirement" value="&lt;&lt;composition&gt;&gt;" />
@@ -633,7 +633,7 @@
 <P2  x="122" y="182" id="173" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="5203" id="404" >
+<CONNECTOR type="5203" id="404" uid="27c5ca6a-578f-4236-934f-702c2dc5707b" >
 <cdparam x="538" y="537" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="1000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from AvatarProperty to Requirement" value="&lt;&lt;verify&gt;&gt;" />
@@ -642,7 +642,7 @@
 <P2  x="565" y="381" id="361" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="5203" id="406" >
+<CONNECTOR type="5203" id="406" uid="816b42a1-ea46-4c60-8fe1-8e0bafd5b89e" >
 <cdparam x="545" y="329" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="1000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from AvatarProperty to Requirement" value="&lt;&lt;verify&gt;&gt;" />
@@ -651,7 +651,7 @@
 <P2  x="504" y="199" id="257" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="5203" id="408" >
+<CONNECTOR type="5203" id="408" uid="9f92255c-a65c-44f2-b7f2-26437150ffac" >
 <cdparam x="563" y="148" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="1000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from AvatarProperty to Requirement" value="&lt;&lt;verify&gt;&gt;" />
@@ -664,7 +664,7 @@
 </AvatarRDPanel>
 
 <AvatarPDPanel name="AVATAR PD" minX="10" maxX="1400" minY="10" maxY="900" zoom="1.0000000000000004" >
-<CONNECTOR type="5312" id="410" >
+<CONNECTOR type="5312" id="410" uid="5786535d-3c79-48a8-a54b-96d466ced62a" >
 <cdparam x="582" y="248" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="1000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from TGComponent to TGComponent" value="reg" />
@@ -673,7 +673,7 @@
 <P2  x="502" y="334" id="423" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="5310" id="416" >
+<CONNECTOR type="5310" id="416" uid="455354c9-2755-40b4-87cc-768024569fb7" >
 <cdparam x="247" y="616" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="1000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from TGComponent to TGComponent" value="" />
@@ -702,7 +702,7 @@
 <infoparam name="point " value="null" />
 </SUBCOMPONENT>
 
-<CONNECTOR type="5311" id="418" >
+<CONNECTOR type="5311" id="418" uid="11524948-a147-43ef-96d1-5735e92d5595" >
 <cdparam x="280" y="200" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="1000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from TGComponent to TGComponent" value="" />
@@ -711,7 +711,7 @@
 <P2  x="361" y="261" id="436" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="5312" id="420" >
+<CONNECTOR type="5312" id="420" uid="5158f55a-df11-4b2d-84af-dbf9292cf117" >
 <cdparam x="473" y="190" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="1000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from TGComponent to TGComponent" value="reg" />
@@ -720,7 +720,7 @@
 <P2  x="390" y="331" id="428" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="5311" id="422" >
+<CONNECTOR type="5311" id="422" uid="93d13263-174e-4cf6-84df-d6189931b7be" >
 <cdparam x="276" y="190" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="1000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from TGComponent to TGComponent" value="" />
@@ -934,7 +934,7 @@
 </AvatarPDPanel>
 
 <AvatarPDPanel name="AVATAR PD" minX="10" maxX="1400" minY="10" maxY="1400" zoom="1.0" >
-<CONNECTOR type="5312" id="548" >
+<CONNECTOR type="5312" id="548" uid="804e9975-57cd-4256-841e-4b27c4d6a4b7" >
 <cdparam x="580" y="547" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="1000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from TGComponent to TGComponent" value="reg" />
@@ -943,7 +943,7 @@
 <P2  x="632" y="563" id="580" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="5312" id="550" >
+<CONNECTOR type="5312" id="550" uid="745ab8ed-0f7b-4547-89d8-c41760ff8e68" >
 <cdparam x="506" y="493" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="1000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from TGComponent to TGComponent" value="reg" />
@@ -952,7 +952,7 @@
 <P2  x="617" y="498" id="722" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="5312" id="552" >
+<CONNECTOR type="5312" id="552" uid="378e2969-7a9a-4fd3-babc-615537326b6b" >
 <cdparam x="694" y="460" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="1000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from TGComponent to TGComponent" value="reg" />
@@ -961,7 +961,7 @@
 <P2  x="657" y="498" id="724" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="5311" id="558" >
+<CONNECTOR type="5311" id="558" uid="e80d282a-ac5f-4bd7-ad2c-3eddf0adf9f1" >
 <cdparam x="581" y="133" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="1000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from TGComponent to TGComponent" value="" />
@@ -990,7 +990,7 @@
 <infoparam name="point " value="null" />
 </SUBCOMPONENT>
 
-<CONNECTOR type="5311" id="562" >
+<CONNECTOR type="5311" id="562" uid="92277775-80ba-462e-9e92-a291bfef15f4" >
 <cdparam x="631" y="143" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="1000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from TGComponent to TGComponent" value="" />
@@ -1009,7 +1009,7 @@
 <infoparam name="point " value="null" />
 </SUBCOMPONENT>
 
-<CONNECTOR type="5312" id="564" >
+<CONNECTOR type="5312" id="564" uid="d5b6f7ef-d921-42be-a1cd-c55cac2ed3ba" >
 <cdparam x="695" y="396" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="1000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from TGComponent to TGComponent" value="reg" />
@@ -1018,7 +1018,7 @@
 <P2  x="694" y="417" id="575" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="5310" id="568" >
+<CONNECTOR type="5310" id="568" uid="2ebd68a2-a655-43d9-bfca-aae8caefd17d" >
 <cdparam x="877" y="168" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="1000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from TGComponent to TGComponent" value="" />
@@ -1037,7 +1037,7 @@
 <infoparam name="point " value="null" />
 </SUBCOMPONENT>
 
-<CONNECTOR type="5312" id="570" >
+<CONNECTOR type="5312" id="570" uid="5879f6a1-a770-4eb3-896c-23db885e74c0" >
 <cdparam x="915" y="307" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="1000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from TGComponent to TGComponent" value="reg" />
@@ -1046,7 +1046,7 @@
 <P2  x="711" y="285" id="686" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="5312" id="572" >
+<CONNECTOR type="5312" id="572" uid="04af3f3a-6136-41ac-9584-89e70a450fc1" >
 <cdparam x="993" y="581" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="1000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from TGComponent to TGComponent" value="reg" />
@@ -1055,7 +1055,7 @@
 <P2  x="577" y="416" id="733" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="5311" id="574" >
+<CONNECTOR type="5311" id="574" uid="f54001b1-3193-4e4e-85b0-1c835681ec49" >
 <cdparam x="426" y="264" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="1000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from TGComponent to TGComponent" value="" />
@@ -1346,7 +1346,7 @@
 <Validated value="Wallet;CoffeeMachine;CoffeeButton;TeaButton;" />
 <Ignored value="" />
 
-<CONNECTOR type="5002" id="739" >
+<CONNECTOR type="5002" id="739" uid="f480e606-bbb6-4ab7-8f89-8abb37ff40bb" >
 <cdparam x="256" y="452" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="800" maxHeight="1600" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from Block1 to Block0" value="" />
@@ -1360,7 +1360,7 @@
 <FIFOType asynchronous="false" synchronousCH="true" size="1024" blocking="false" private="true" broadcast="false" lossy="false" ams="false" />
 </extraparam>
 </CONNECTOR>
-<CONNECTOR type="5002" id="741" >
+<CONNECTOR type="5002" id="741" uid="403b1fb9-e973-4050-b3c2-b7e92680c5b4" >
 <cdparam x="220" y="90" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="800" maxHeight="1600" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from Block0 to Block0" value="" />
@@ -1376,7 +1376,7 @@
 <FIFOType asynchronous="false" synchronousCH="true" size="1024" blocking="false" private="true" broadcast="false" lossy="false" ams="false" />
 </extraparam>
 </CONNECTOR>
-<CONNECTOR type="5002" id="743" >
+<CONNECTOR type="5002" id="743" uid="2f759ef7-69b3-40e9-9fea-acea53f78b16" >
 <cdparam x="497" y="451" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="800" maxHeight="1600" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from Block1 to Block0" value="" />
@@ -1621,7 +1621,7 @@ CoffeeMachine.CoffeeDelivered --&gt; CoffeeMachine.nbOfCoins&lt;2
 </AVATARBlockDiagramPanel>
 
 <AVATARStateMachineDiagramPanel name="CoffeeButton" minX="10" maxX="1400" minY="10" maxY="900" >
-<CONNECTOR type="5102" id="867" >
+<CONNECTOR type="5102" id="867" uid="ab3fc175-6883-4ceb-932b-6a503e349bea" >
 <cdparam x="177" y="199" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="1000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from start state to Send signal" value="null" />
@@ -1654,7 +1654,7 @@ CoffeeMachine.CoffeeDelivered --&gt; CoffeeMachine.nbOfCoins&lt;2
 </extraparam>
 </SUBCOMPONENT>
 
-<CONNECTOR type="5102" id="874" >
+<CONNECTOR type="5102" id="874" uid="55f1de79-3429-47a8-9f5c-84ccf8abc547" >
 <cdparam x="322" y="69" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="1000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from start state to state0" value="null" />
@@ -1687,7 +1687,7 @@ CoffeeMachine.CoffeeDelivered --&gt; CoffeeMachine.nbOfCoins&lt;2
 </extraparam>
 </SUBCOMPONENT>
 
-<CONNECTOR type="5102" id="881" >
+<CONNECTOR type="5102" id="881" uid="27ff6095-9b50-46df-afe1-3b6ad63ec543" >
 <cdparam x="377" y="144" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="1000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from state0 to Send signal" value="null" />
@@ -1720,7 +1720,7 @@ CoffeeMachine.CoffeeDelivered --&gt; CoffeeMachine.nbOfCoins&lt;2
 </extraparam>
 </SUBCOMPONENT>
 
-<CONNECTOR type="5102" id="888" >
+<CONNECTOR type="5102" id="888" uid="8265b237-e32a-4014-9db6-0e4817084b6d" >
 <cdparam x="377" y="187" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="1000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from Send signal to state0" value="null" />
@@ -2043,7 +2043,7 @@ CoffeeMachine.CoffeeDelivered --&gt; CoffeeMachine.nbOfCoins&lt;2
 </AVATARStateMachineDiagramPanel>
 
 <AVATARStateMachineDiagramPanel name="TeaButton" minX="10" maxX="1400" minY="10" maxY="900" >
-<CONNECTOR type="5102" id="1129" >
+<CONNECTOR type="5102" id="1129" uid="b6b72041-1a86-4a7e-b183-a1063714fc5a" >
 <cdparam x="363" y="193" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="1000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from Send signal to state0" value="null" />
@@ -2076,7 +2076,7 @@ CoffeeMachine.CoffeeDelivered --&gt; CoffeeMachine.nbOfCoins&lt;2
 </extraparam>
 </SUBCOMPONENT>
 
-<CONNECTOR type="5102" id="1136" >
+<CONNECTOR type="5102" id="1136" uid="55be5b63-5ab7-4c70-82a5-ccb157f1e48e" >
 <cdparam x="363" y="150" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="1000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from state0 to Send signal" value="null" />
@@ -2109,7 +2109,7 @@ CoffeeMachine.CoffeeDelivered --&gt; CoffeeMachine.nbOfCoins&lt;2
 </extraparam>
 </SUBCOMPONENT>
 
-<CONNECTOR type="5102" id="1143" >
+<CONNECTOR type="5102" id="1143" uid="fbfd2179-4cd4-412d-999c-b51632f9369a" >
 <cdparam x="362" y="101" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="1000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from start state to state0" value="null" />
@@ -2341,7 +2341,7 @@ CoffeeMachine.CoffeeDelivered --&gt; CoffeeMachine.nbOfCoins&lt;2
 </AVATARStateMachineDiagramPanel>
 
 <AVATARStateMachineDiagramPanel name="CoffeeMachine" minX="10" maxX="1400" minY="10" maxY="1400" >
-<CONNECTOR type="5102" id="1309" >
+<CONNECTOR type="5102" id="1309" uid="337b5408-bff6-4276-ab18-13e08d8e6eed" >
 <cdparam x="296" y="699" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector" value="null" />
@@ -2374,7 +2374,7 @@ CoffeeMachine.CoffeeDelivered --&gt; CoffeeMachine.nbOfCoins&lt;2
 </extraparam>
 </SUBCOMPONENT>
 
-<CONNECTOR type="5102" id="1316" >
+<CONNECTOR type="5102" id="1316" uid="c7e8cb96-e451-49ce-9cc9-6ec084226c22" >
 <cdparam x="303" y="40" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="1000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from start state to state0" value="null" />
@@ -2407,7 +2407,7 @@ CoffeeMachine.CoffeeDelivered --&gt; CoffeeMachine.nbOfCoins&lt;2
 </extraparam>
 </SUBCOMPONENT>
 
-<CONNECTOR type="5102" id="1323" >
+<CONNECTOR type="5102" id="1323" uid="fc30809c-b1b6-4b45-84f0-7974cfc18ef4" >
 <cdparam x="303" y="103" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="1000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from state0 to Send signal" value="null" />
@@ -2440,7 +2440,7 @@ CoffeeMachine.CoffeeDelivered --&gt; CoffeeMachine.nbOfCoins&lt;2
 </extraparam>
 </SUBCOMPONENT>
 
-<CONNECTOR type="5102" id="1330" >
+<CONNECTOR type="5102" id="1330" uid="9550af17-6cff-4985-a9bf-c5a20e1fbdde" >
 <cdparam x="309" y="160" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="1000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from Send signal to state0" value="null" />
@@ -2450,7 +2450,7 @@ CoffeeMachine.CoffeeDelivered --&gt; CoffeeMachine.nbOfCoins&lt;2
 <AutomaticDrawing  data="true" />
 </CONNECTOR><SUBCOMPONENT type="-1" id="1328" uid="b559eedf-0c1b-4649-af86-002b18b6cec0" >
 <father id="1330" num="0" />
-<cdparam x="328" y="178" />
+<cdparam x="112" y="175" />
 <sizeparam width="168" height="15" minWidth="1" minHeight="1" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <hidden value="false" />
 <enabled value="true" />
@@ -2474,7 +2474,7 @@ CoffeeMachine.CoffeeDelivered --&gt; CoffeeMachine.nbOfCoins&lt;2
 </extraparam>
 </SUBCOMPONENT>
 
-<CONNECTOR type="5102" id="1337" >
+<CONNECTOR type="5102" id="1337" uid="5aca63f4-637a-4446-bf35-5ceca5b2b5b7" >
 <cdparam x="270" y="224" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="1000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from state0 to Send signal" value="null" />
@@ -2507,7 +2507,7 @@ CoffeeMachine.CoffeeDelivered --&gt; CoffeeMachine.nbOfCoins&lt;2
 </extraparam>
 </SUBCOMPONENT>
 
-<CONNECTOR type="5102" id="1344" >
+<CONNECTOR type="5102" id="1344" uid="eabfbfd7-d326-4844-98e5-c9d776fb3af7" >
 <cdparam x="243" y="319" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="1000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from Send signal to state0" value="null" />
@@ -2541,7 +2541,7 @@ CoffeeMachine.CoffeeDelivered --&gt; CoffeeMachine.nbOfCoins&lt;2
 </extraparam>
 </SUBCOMPONENT>
 
-<CONNECTOR type="5102" id="1351" >
+<CONNECTOR type="5102" id="1351" uid="f81da3ef-51ca-491d-b645-4672ae80a670" >
 <cdparam x="348" y="228" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="1000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from state0 to Send signal" value="null" />
@@ -2574,7 +2574,7 @@ CoffeeMachine.CoffeeDelivered --&gt; CoffeeMachine.nbOfCoins&lt;2
 </extraparam>
 </SUBCOMPONENT>
 
-<CONNECTOR type="5102" id="1358" >
+<CONNECTOR type="5102" id="1358" uid="125fbb03-8eb0-4874-930b-4795cc51a421" >
 <cdparam x="667" y="346" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="1000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from Send signal to state0" value="null" />
@@ -2608,7 +2608,7 @@ CoffeeMachine.CoffeeDelivered --&gt; CoffeeMachine.nbOfCoins&lt;2
 </extraparam>
 </SUBCOMPONENT>
 
-<CONNECTOR type="5102" id="1365" >
+<CONNECTOR type="5102" id="1365" uid="f110ec7e-786f-4874-aa4c-a5a8452e3bec" >
 <cdparam x="280" y="420" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="1000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from start state to state0" value="null" />
@@ -2641,7 +2641,7 @@ CoffeeMachine.CoffeeDelivered --&gt; CoffeeMachine.nbOfCoins&lt;2
 </extraparam>
 </SUBCOMPONENT>
 
-<CONNECTOR type="5102" id="1372" >
+<CONNECTOR type="5102" id="1372" uid="ec9882f1-0571-4a17-8450-f90cc3541165" >
 <cdparam x="229" y="465" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="1000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from state0 to Send signal" value="null" />
@@ -2674,7 +2674,7 @@ CoffeeMachine.CoffeeDelivered --&gt; CoffeeMachine.nbOfCoins&lt;2
 </extraparam>
 </SUBCOMPONENT>
 
-<CONNECTOR type="5102" id="1379" >
+<CONNECTOR type="5102" id="1379" uid="fd458a6e-b8c4-40f4-9bcf-7c278afd59f0" >
 <cdparam x="148" y="549" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="1000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from Send signal to stop state" value="null" />
@@ -2709,7 +2709,7 @@ CoffeeMachine.CoffeeDelivered --&gt; CoffeeMachine.nbOfCoins&lt;2
 </extraparam>
 </SUBCOMPONENT>
 
-<CONNECTOR type="5102" id="1386" >
+<CONNECTOR type="5102" id="1386" uid="3c5402fb-df1c-436c-b72e-b1dd1b9edfce" >
 <cdparam x="295" y="465" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="1000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from state0 to Send signal" value="null" />
@@ -2742,7 +2742,7 @@ CoffeeMachine.CoffeeDelivered --&gt; CoffeeMachine.nbOfCoins&lt;2
 </extraparam>
 </SUBCOMPONENT>
 
-<CONNECTOR type="5102" id="1393" >
+<CONNECTOR type="5102" id="1393" uid="1ab7405e-ff9d-48d1-a671-8176c9b67d36" >
 <cdparam x="355" y="545" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="1000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from Send signal to stop state" value="null" />
@@ -2777,7 +2777,7 @@ CoffeeMachine.CoffeeDelivered --&gt; CoffeeMachine.nbOfCoins&lt;2
 </extraparam>
 </SUBCOMPONENT>
 
-<CONNECTOR type="5102" id="1400" >
+<CONNECTOR type="5102" id="1400" uid="cee896e5-8c0f-4b50-8b35-1f184209456c" >
 <cdparam x="555" y="559" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="1000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from state0 to Send signal" value="null" />
@@ -2810,7 +2810,7 @@ CoffeeMachine.CoffeeDelivered --&gt; CoffeeMachine.nbOfCoins&lt;2
 </extraparam>
 </SUBCOMPONENT>
 
-<CONNECTOR type="5102" id="1409" >
+<CONNECTOR type="5102" id="1409" uid="d927b2cb-520a-4566-9900-87c60e941505" >
 <cdparam x="481" y="501" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="1000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from Send signal to stop state" value="null" />
@@ -2854,7 +2854,7 @@ CoffeeMachine.CoffeeDelivered --&gt; CoffeeMachine.nbOfCoins&lt;2
 </extraparam>
 </SUBCOMPONENT>
 
-<CONNECTOR type="5102" id="1416" >
+<CONNECTOR type="5102" id="1416" uid="dbe5265f-c3eb-4de1-8a5c-ee149db3ca08" >
 <cdparam x="691" y="288" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="1000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from state0 to Send signal" value="null" />
@@ -2887,7 +2887,7 @@ CoffeeMachine.CoffeeDelivered --&gt; CoffeeMachine.nbOfCoins&lt;2
 </extraparam>
 </SUBCOMPONENT>
 
-<CONNECTOR type="118" id="1417" >
+<CONNECTOR type="118" id="1417" uid="16a00ddb-ec76-43d7-b039-f31426282506" >
 <cdparam x="372" y="83" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector" value="null" />
@@ -2895,7 +2895,7 @@ CoffeeMachine.CoffeeDelivered --&gt; CoffeeMachine.nbOfCoins&lt;2
 <P2  x="472" y="82" id="1428" />
 <AutomaticDrawing  data="false" />
 </CONNECTOR>
-<CONNECTOR type="5102" id="1424" >
+<CONNECTOR type="5102" id="1424" uid="ffb36ef5-a87f-4098-9e53-6b9aa5d9f2bf" >
 <cdparam x="126" y="702" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector" value="null" />
@@ -3845,7 +3845,7 @@ CoffeeMachine.CoffeeDelivered --&gt; CoffeeMachine.nbOfCoins&lt;2
 </AVATARStateMachineDiagramPanel>
 
 <AVATARStateMachineDiagramPanel name="Wallet" minX="10" maxX="1400" minY="10" maxY="900" >
-<CONNECTOR type="5102" id="2175" >
+<CONNECTOR type="5102" id="2175" uid="e1fdc635-a14a-4753-a90a-d34a5c378103" >
 <cdparam x="516" y="264" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="1000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from Send signal to state0" value="null" />
@@ -3880,7 +3880,7 @@ CoffeeMachine.CoffeeDelivered --&gt; CoffeeMachine.nbOfCoins&lt;2
 </extraparam>
 </SUBCOMPONENT>
 
-<CONNECTOR type="5102" id="2182" >
+<CONNECTOR type="5102" id="2182" uid="a1601233-0112-4577-872e-f3d1239ddaa2" >
 <cdparam x="382" y="165" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="1000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from state0 to Send signal" value="null" />
@@ -3913,7 +3913,7 @@ CoffeeMachine.CoffeeDelivered --&gt; CoffeeMachine.nbOfCoins&lt;2
 </extraparam>
 </SUBCOMPONENT>
 
-<CONNECTOR type="5102" id="2189" >
+<CONNECTOR type="5102" id="2189" uid="cb8b379f-fbb5-465e-b390-d20051de84c9" >
 <cdparam x="223" y="260" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="1000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from Send signal to state0" value="null" />
@@ -3948,7 +3948,7 @@ CoffeeMachine.CoffeeDelivered --&gt; CoffeeMachine.nbOfCoins&lt;2
 </extraparam>
 </SUBCOMPONENT>
 
-<CONNECTOR type="5102" id="2196" >
+<CONNECTOR type="5102" id="2196" uid="1051ae7b-48a2-4ad4-bcfd-7e2d67fb5557" >
 <cdparam x="357" y="165" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="1000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from state0 to Send signal" value="null" />
@@ -3981,7 +3981,7 @@ CoffeeMachine.CoffeeDelivered --&gt; CoffeeMachine.nbOfCoins&lt;2
 </extraparam>
 </SUBCOMPONENT>
 
-<CONNECTOR type="5102" id="2203" >
+<CONNECTOR type="5102" id="2203" uid="e20c8526-7e17-4a95-a112-8b1e6afc65ff" >
 <cdparam x="369" y="115" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="1000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from start state to state0" value="null" />
@@ -3991,7 +3991,7 @@ CoffeeMachine.CoffeeDelivered --&gt; CoffeeMachine.nbOfCoins&lt;2
 <AutomaticDrawing  data="true" />
 </CONNECTOR><SUBCOMPONENT type="-1" id="2201" uid="67af2caf-f2db-4b34-b537-438d7b0e3fcc" >
 <father id="2203" num="0" />
-<cdparam x="376" y="105" />
+<cdparam x="406" y="124" />
 <sizeparam width="173" height="15" minWidth="1" minHeight="1" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <hidden value="false" />
 <enabled value="true" />

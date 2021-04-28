@@ -996,22 +996,29 @@ public class AvatarSpecificationSimulation {
         // Find the corresponding elements of the trace. If cannot be found, then stop with the trace
         for (AvatarSimulationPendingTransaction pt: _pendingTransactions) {
             // check the current UUID and the one of the pendingTransaction
-            UUID currentUUID = traceToPlay.getUUID(idInTrace, INDEX_UUID);
-            if (currentUUID != null) {
-                UUID toExecuteUUID = pt.getUUID();
-                if (toExecuteUUID == currentUUID) {
-                    // Select this one
-                    ll.add(pt);
-                    indexSelectedTransaction = -1;
-                    TraceManager.addDev("Trace execution ok at ID = " + idInTrace);
-                    idInTrace ++;
-                    if (idInTrace >= traceToPlay.getNbOfLines()) {
-                        resetTrace();
-                        TraceManager.addDev("Stopping simulation");
-                        stopSimulation();
+
+            for(int i = idInTrace; i<traceToPlay.getNbOfLines(); i++) {
+                UUID currentUUID = traceToPlay.getUUID(idInTrace, INDEX_UUID);
+                TraceManager.addDev("SIM Current UUID: " + currentUUID + " for in in trace=" + idInTrace);
+                if (currentUUID != null) {
+                    UUID toExecuteUUID = pt.getUUID();
+                    TraceManager.addDev("SIM Current UUID: " + currentUUID + " vs toExecuteUUID: " + toExecuteUUID);
+                    if (toExecuteUUID.equals(currentUUID)) {
+                        // Select this one
+                        ll.add(pt);
+                        indexSelectedTransaction = -1;
+                        TraceManager.addDev("Trace execution ok at ID = " + idInTrace);
+                        idInTrace++;
+                        if (idInTrace >= traceToPlay.getNbOfLines()) {
+                            resetTrace();
+                            TraceManager.addDev("Stopping simulation");
+                            stopSimulation();
+                        }
+                        return ll;
                     }
-                    return ll;
                 }
+                idInTrace++;
+
             }
 
         }
@@ -1722,7 +1729,7 @@ public class AvatarSpecificationSimulation {
             append(sb, ast.clockValueWhenFinished);
             append(sb, ast.duration);
             append(sb, ast.getAttributesString());
-            append(sb, ast.getActionsString());
+            append(sb, ast.getActionsString(), false);
             sb.append("\n");
         }
 
@@ -1731,15 +1738,24 @@ public class AvatarSpecificationSimulation {
     }
 
     public void append(StringBuffer sb, String s) {
-        if ((s == null) || (s.length() ==0)) {
-            sb.append("null" + COMMA);
-        } else {
-            sb.append(s + COMMA);
-        }
+        append(sb, s, true);
     }
 
     public void append(StringBuffer sb, long s) {
-        sb.append(s + COMMA);
+        append(sb, ""+s, true);
+    }
+
+    public void append(StringBuffer sb, String s, boolean addComma) {
+        String com = "";
+        if (addComma)
+            com = COMMA;
+
+        if ((s == null) || (s.length() ==0)) {
+            sb.append("null" + com);
+        } else {
+            sb.append(s + com);
+        }
+
     }
 
     public void append(StringBuffer sb, AvatarBlock b) {

@@ -732,7 +732,8 @@ public abstract class TGComponent  extends AbstractCDElement implements /*CDElem
     public void drawAVATARID(Graphics g) {
         if (getAVATARID() != -1) {
             g.setColor(ColorManager.AVATARID);
-            g.drawString("" + getAVATARID(), x + width, y + height + 5);
+            g.drawString("" + getAVATARID() + " / " + getUUID().toString(), x + width, y + height + 5);
+
         }
     }
 

@@ -15,7 +15,7 @@
 <Validated value="" />
 <Ignored value="" />
 
-<CONNECTOR type="5002" id="2" >
+<CONNECTOR type="5002" id="2" uid="309db81b-e9d5-4cbf-8d09-ba7295a2cd4d" >
 <cdparam x="730" y="217" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector" value="" />
@@ -29,7 +29,7 @@
 <FIFOType asynchronous="false" synchronousCH="true" size="1" blocking="false" private="true" broadcast="false" lossy="false" ams="false" />
 </extraparam>
 </CONNECTOR>
-<COMPONENT type="5000" id="27" >
+<COMPONENT type="5000" id="27" uid="868ac6a4-676c-4c44-9037-1e37a3f48b60" >
 <cdparam x="965" y="118" />
 <sizeparam width="250" height="200" minWidth="5" minHeight="2" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <hidden value="false" />
@@ -67,7 +67,7 @@
 </extraparam>
 </COMPONENT>
 
-<COMPONENT type="5000" id="52" >
+<COMPONENT type="5000" id="52" uid="584422f1-6c0e-4b71-863a-19b696cb2c30" >
 <cdparam x="480" y="117" />
 <sizeparam width="250" height="200" minWidth="5" minHeight="2" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <hidden value="false" />
@@ -111,7 +111,7 @@
 </extraparam>
 </COMPONENT>
 
-<COMPONENT type="5000" id="77" >
+<COMPONENT type="5000" id="77" uid="5ac0ce35-a42a-4c8f-a8e5-a1c83658d6ae" >
 <cdparam x="36" y="119" />
 <sizeparam width="250" height="200" minWidth="5" minHeight="2" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <hidden value="false" />
@@ -158,7 +158,7 @@
 </AVATARBlockDiagramPanel>
 
 <AVATARStateMachineDiagramPanel name="Sender" minX="10" maxX="2500" minY="10" maxY="1500" >
-<CONNECTOR type="5102" id="84" >
+<CONNECTOR type="5102" id="84" uid="ae320b2b-d852-4634-b3de-c49c9bb1cbf9" >
 <cdparam x="407" y="70" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector" value="null" />
@@ -166,7 +166,7 @@
 <P1  x="407" y="70" id="87" />
 <P2  x="407" y="109" id="85" />
 <AutomaticDrawing  data="true" />
-</CONNECTOR><SUBCOMPONENT type="-1" id="82" >
+</CONNECTOR><SUBCOMPONENT type="-1" id="82" uid="b1ac6e3f-65a9-45f8-8e5f-e178bb743581" >
 <father id="84" num="0" />
 <cdparam x="409" y="94" />
 <sizeparam width="83" height="15" minWidth="1" minHeight="1" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
@@ -192,7 +192,7 @@
 </extraparam>
 </SUBCOMPONENT>
 
-<COMPONENT type="5101" id="86" >
+<COMPONENT type="5101" id="86" uid="2f6e2748-e6f2-4b84-9537-ff0a0e2b58a2" >
 <cdparam x="397" y="114" />
 <sizeparam width="20" height="20" minWidth="1" minHeight="1" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <hidden value="false" />
@@ -201,7 +201,7 @@
 <TGConnectingPoint num="0" id="85" />
 </COMPONENT>
 
-<COMPONENT type="5100" id="88" >
+<COMPONENT type="5100" id="88" uid="9570acd4-6298-42ef-ac6a-4dc466d0c072" >
 <cdparam x="400" y="50" />
 <sizeparam width="15" height="15" minWidth="1" minHeight="1" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <hidden value="false" />
@@ -214,7 +214,7 @@
 </AVATARStateMachineDiagramPanel>
 
 <AVATARStateMachineDiagramPanel name="Forwarder" minX="10" maxX="2500" minY="10" maxY="1500" >
-<CONNECTOR type="5102" id="95" >
+<CONNECTOR type="5102" id="95" uid="731b5b48-e7b6-4b5d-848b-3009da481057" >
 <cdparam x="407" y="70" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector" value="null" />
@@ -222,7 +222,7 @@
 <P1  x="407" y="70" id="116" />
 <P2  x="407" y="103" id="105" />
 <AutomaticDrawing  data="true" />
-</CONNECTOR><SUBCOMPONENT type="-1" id="93" >
+</CONNECTOR><SUBCOMPONENT type="-1" id="93" uid="b1500719-f3c3-4351-9503-09d6936cbb5e" >
 <father id="95" num="0" />
 <cdparam x="410" y="85" />
 <sizeparam width="117" height="15" minWidth="1" minHeight="1" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
@@ -248,7 +248,7 @@
 </extraparam>
 </SUBCOMPONENT>
 
-<CONNECTOR type="5102" id="102" >
+<CONNECTOR type="5102" id="102" uid="0a32b5c4-f490-4bdf-890a-f39fb570f689" >
 <cdparam x="407" y="133" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector" value="null" />
@@ -256,7 +256,7 @@
 <P1  x="407" y="133" id="106" />
 <P2  x="407" y="154" id="103" />
 <AutomaticDrawing  data="true" />
-</CONNECTOR><SUBCOMPONENT type="-1" id="100" >
+</CONNECTOR><SUBCOMPONENT type="-1" id="100" uid="9aeb2e23-f489-430c-8768-ffc6a1bb3cb0" >
 <father id="102" num="0" />
 <cdparam x="410" y="147" />
 <sizeparam width="10" height="15" minWidth="1" minHeight="1" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
@@ -281,7 +281,7 @@
 </extraparam>
 </SUBCOMPONENT>
 
-<COMPONENT type="5101" id="104" >
+<COMPONENT type="5101" id="104" uid="c979ef61-638f-4a19-a83a-974e3ed994cf" >
 <cdparam x="397" y="159" />
 <sizeparam width="20" height="20" minWidth="1" minHeight="1" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <hidden value="false" />
@@ -290,7 +290,7 @@
 <TGConnectingPoint num="0" id="103" />
 </COMPONENT>
 
-<COMPONENT type="5103" id="115" >
+<COMPONENT type="5103" id="115" uid="d828889a-21e2-4ab2-a399-4b3b57d3de91" >
 <cdparam x="369" y="108" />
 <sizeparam width="76" height="20" minWidth="30" minHeight="1" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <hidden value="false" />
@@ -309,7 +309,7 @@
 <TGConnectingPoint num="9" id="114" />
 </COMPONENT>
 
-<COMPONENT type="5100" id="117" >
+<COMPONENT type="5100" id="117" uid="580a74e6-2813-4054-827f-04aa5d95f3d6" >
 <cdparam x="400" y="50" />
 <sizeparam width="15" height="15" minWidth="1" minHeight="1" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <hidden value="false" />
@@ -322,7 +322,7 @@
 </AVATARStateMachineDiagramPanel>
 
 <AVATARStateMachineDiagramPanel name="Receiver" minX="10" maxX="2500" minY="10" maxY="1500" >
-<CONNECTOR type="5102" id="124" >
+<CONNECTOR type="5102" id="124" uid="059d4843-5aa5-457b-ad31-ab0e24296bb7" >
 <cdparam x="407" y="70" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector" value="null" />
@@ -330,7 +330,7 @@
 <P1  x="407" y="70" id="145" />
 <P2  x="407" y="96" id="134" />
 <AutomaticDrawing  data="true" />
-</CONNECTOR><SUBCOMPONENT type="-1" id="122" >
+</CONNECTOR><SUBCOMPONENT type="-1" id="122" uid="8de50aaa-df7e-4ff3-961d-608e25d65d34" >
 <father id="124" num="0" />
 <cdparam x="409" y="84" />
 <sizeparam width="10" height="15" minWidth="1" minHeight="1" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
@@ -355,7 +355,7 @@
 </extraparam>
 </SUBCOMPONENT>
 
-<CONNECTOR type="5102" id="131" >
+<CONNECTOR type="5102" id="131" uid="a14f199f-4414-4313-9356-4976cb59b730" >
 <cdparam x="407" y="126" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector" value="null" />
@@ -363,7 +363,7 @@
 <P1  x="407" y="126" id="135" />
 <P2  x="407" y="135" id="132" />
 <AutomaticDrawing  data="true" />
-</CONNECTOR><SUBCOMPONENT type="-1" id="129" >
+</CONNECTOR><SUBCOMPONENT type="-1" id="129" uid="0c62eb95-4650-4fb5-89e0-219593a1a184" >
 <father id="131" num="0" />
 <cdparam x="407" y="130" />
 <sizeparam width="10" height="15" minWidth="1" minHeight="1" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
@@ -388,7 +388,7 @@
 </extraparam>
 </SUBCOMPONENT>
 
-<COMPONENT type="5101" id="133" >
+<COMPONENT type="5101" id="133" uid="1ec30cf9-d414-435f-b1f1-b7c0adecb756" >
 <cdparam x="397" y="140" />
 <sizeparam width="20" height="20" minWidth="1" minHeight="1" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <hidden value="false" />
@@ -397,7 +397,7 @@
 <TGConnectingPoint num="0" id="132" />
 </COMPONENT>
 
-<COMPONENT type="5104" id="144" >
+<COMPONENT type="5104" id="144" uid="d2059d7b-0cca-4709-a4cf-bbbaa71d9c1a" >
 <cdparam x="366" y="101" />
 <sizeparam width="83" height="20" minWidth="30" minHeight="1" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <hidden value="false" />
@@ -416,7 +416,7 @@
 <TGConnectingPoint num="9" id="143" />
 </COMPONENT>
 
-<COMPONENT type="5100" id="146" >
+<COMPONENT type="5100" id="146" uid="2a4ecf06-891e-4b88-b41b-0dc46f74b422" >
 <cdparam x="400" y="50" />
 <sizeparam width="15" height="15" minWidth="1" minHeight="1" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <hidden value="false" />

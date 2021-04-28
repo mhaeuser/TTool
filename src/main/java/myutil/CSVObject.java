@@ -62,6 +62,9 @@ public class CSVObject  {
    }
    
    public boolean parse(String _toParse) {
+
+        TraceManager.addDev("Parsing CSV: "+ _toParse);
+
        if (_toParse == null) {
            return false;
        }
@@ -84,6 +87,7 @@ public class CSVObject  {
        int lineLength = 0;
        for(int i=0; i<allLines.length; i++) {
            String [] elt = allLines[i].split(",");
+           //TraceManager.addDev( "nbOElements per line at line :" + i + ": "+ elt.length);
            if (i == 0) {
                lineLength = elt.length;
            } else {
@@ -97,6 +101,9 @@ public class CSVObject  {
 
        // Remove spaces
        removeSpaces();
+
+       TraceManager.addDev( "nbOfLines:" + getNbOfLines() + " nbOfCol:" + getNbOfEltsPerLine());
+
 
        return true;
 
@@ -155,10 +162,18 @@ public class CSVObject  {
    }
 
    public UUID getUUID(int line, int col) throws IllegalArgumentException {
+        //TraceManager.addDev("Getting value at index " + line + "," + col + " nbOfLines:" + getNbOfLines() + " nbOfCol:" + getNbOfEltsPerLine());
+
+
        String val = get(line, col);
+
        if (val == null) {
+           TraceManager.addDev("Null value");
            return null;
        }
+
+       //TraceManager.addDev("Value:" + val);
+
        UUID uuid = UUID.fromString(val);
        return uuid;
    }

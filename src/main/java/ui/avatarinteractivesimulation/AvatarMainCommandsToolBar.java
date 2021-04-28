@@ -118,12 +118,12 @@ public class AvatarMainCommandsToolBar extends AvatarInteractiveSimulationBar {
         button = this.add(jfais.actions[AvatarInteractiveSimulationActions.ACT_RUN_X_COMMANDS]);
         button.addMouseListener(jfais.mouseHandler);
 
-        if (MainGUI.experimentalOn) {
-            this.addSeparator();
 
-            button = this.add(jfais.actions[AvatarInteractiveSimulationActions.ACT_RUN_TRACE]);
-            button.addMouseListener(jfais.mouseHandler);
-        }
+        this.addSeparator();
+
+        button = this.add(jfais.actions[AvatarInteractiveSimulationActions.ACT_RUN_TRACE]);
+        button.addMouseListener(jfais.mouseHandler);
+
 
         this.addSeparator();
         this.addSeparator();

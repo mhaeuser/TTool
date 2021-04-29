@@ -61,11 +61,8 @@ public class AvatarSpecificationSimulation {
 
     public final static String COMMA = ", ";
     public final static int INDEX_UUID = 3;
-
-
-    public static int MAX_TRANSACTION_IN_A_ROW = 1000;
-
-    public static int MAX_TRANSACTIONS = 100000;
+    public final static int INDEX_CO_UUID = 4;
+    public final static int INDEX_ATTRIBUTES = 8;
 
     public final static int INITIALIZE = 0;
     public final static int RESET = 1;
@@ -75,7 +72,8 @@ public class AvatarSpecificationSimulation {
     public final static int TERMINATED = 5;
     public final static int KILLED = 6;
     public final static int FIRST = 7;
-
+    public static int MAX_TRANSACTION_IN_A_ROW = 1000;
+    public static int MAX_TRANSACTIONS = 100000;
     private int state;
 
     private AvatarSpecification avspec;
@@ -188,7 +186,7 @@ public class AvatarSpecificationSimulation {
         traceToPlay = null;
         idInTrace = 1;
     }
-    
+
     public void reset() {
         TraceManager.addDev("Reset simulation");
 
@@ -258,13 +256,15 @@ public class AvatarSpecificationSimulation {
         t.start();
         goSimulation();
         try {
-            while(getState() != TERMINATED) {
+            while (getState() != TERMINATED) {
                 Thread.currentThread().sleep(25);
                 //TraceManager.addDev("Waiting for termination");
-            };
+            }
+            ;
             killSimulation();
             t.join();
-        } catch (InterruptedException ie) {}
+        } catch (InterruptedException ie) {
+        }
     }
 
     public void runSimulation() {
@@ -358,7 +358,7 @@ public class AvatarSpecificationSimulation {
                         TraceManager.addDev("Null trace");
                     }
 
-                    if ((traceToPlay != null) && (idInTrace > 0)){
+                    if ((traceToPlay != null) && (idInTrace > 0)) {
                         TraceManager.addDev("Selecting transaction from trace");
                         selectedTransactions = selectTransactionsFromTrace(pendingTransactions);
                     } else {
@@ -393,7 +393,7 @@ public class AvatarSpecificationSimulation {
                             }
 
                             //TraceManager.addDev("Nb of transations: " + allTransactions.size() + " max: " + maxNbOfTransactions);
-                            if ((maxNbOfTransactions > 0) && (allTransactions.size() >= maxNbOfTransactions)){
+                            if ((maxNbOfTransactions > 0) && (allTransactions.size() >= maxNbOfTransactions)) {
                                 //TraceManager.addDev("Max nb of transactions reached: " + maxNbOfTransactions);
                                 setState(TERMINATED);
                             } else {
@@ -500,6 +500,10 @@ public class AvatarSpecificationSimulation {
         return;
     }
 
+    public int getState() {
+        return state;
+    }
+
     public void setState(int _state) {
         state = _state;
 
@@ -510,10 +514,6 @@ public class AvatarSpecificationSimulation {
         if (asi != null) {
             asi.setMode(state);
         }
-    }
-
-    public int getState() {
-        return state;
     }
 
     public void setNbOfCommands(int _nbOfCommands) {
@@ -545,11 +545,7 @@ public class AvatarSpecificationSimulation {
         notifyAll();
     }
 
-    public synchronized void  
-     
-     
-     
-     
+    public synchronized void
 
 
     newStateInSimulation() {
@@ -992,29 +988,55 @@ public class AvatarSpecificationSimulation {
             silentTransactionExecuted = true;
             return ll;
         }
-        
+
         // Find the corresponding elements of the trace. If cannot be found, then stop with the trace
-        for (AvatarSimulationPendingTransaction pt: _pendingTransactions) {
+        for (AvatarSimulationPendingTransaction pt : _pendingTransactions) {
             // check the current UUID and the one of the pendingTransaction
 
-            for(int i = idInTrace; i<traceToPlay.getNbOfLines(); i++) {
+            for (int i = idInTrace; i < traceToPlay.getNbOfLines(); i++) {
                 UUID currentUUID = traceToPlay.getUUID(idInTrace, INDEX_UUID);
-                TraceManager.addDev("SIM Current UUID: " + currentUUID + " for in in trace=" + idInTrace);
+                //TraceManager.addDev("SIM Current UUID: " + currentUUID + " for in in trace=" + idInTrace);
                 if (currentUUID != null) {
                     UUID toExecuteUUID = pt.getUUID();
-                    TraceManager.addDev("SIM Current UUID: " + currentUUID + " vs toExecuteUUID: " + toExecuteUUID);
+                    //TraceManager.addDev("SIM Current UUID: " + currentUUID + " vs toExecuteUUID: " + toExecuteUUID);
                     if (toExecuteUUID.equals(currentUUID)) {
-                        // Select this one
-                        ll.add(pt);
-                        indexSelectedTransaction = -1;
-                        TraceManager.addDev("Trace execution ok at ID = " + idInTrace);
-                        idInTrace++;
-                        if (idInTrace >= traceToPlay.getNbOfLines()) {
-                            resetTrace();
-                            TraceManager.addDev("Stopping simulation");
-                            stopSimulation();
+                        // Check linked transaction
+                        boolean ok = true;
+
+                        if (pt.linkedTransaction != null) {
+                            TraceManager.addDev("Has linked Transaction: " + pt.toString());
+                            ok = false;
+                            UUID secondUUID = pt.linkedTransaction.getUUID();
+                            // is this UUId part of the possible UUIDs of linked transactions?
+                            int[] refs = traceToPlay.getInts(idInTrace, INDEX_CO_UUID);
+                            for (int j = 0; j < refs.length; j++) {
+                                UUID testUUID = traceToPlay.getUUID(refs[j] + 1, INDEX_UUID);
+                                TraceManager.addDev("Testing j=" + j + " with " + refs[j] + " / UUID =" + testUUID.toString() + " against" + secondUUID.toString());
+
+                                if (testUUID.equals(secondUUID)) {
+                                    TraceManager.addDev("ok j=" + j);
+                                    ok = true;
+                                    break;
+                                }
+                            }
                         }
-                        return ll;
+
+
+                        // Select this one
+                        if (ok) {
+                            ll.add(pt);
+                            pt.lineInTrace = idInTrace;
+                            pt.trace = traceToPlay;
+                            indexSelectedTransaction = -1;
+                            //TraceManager.addDev("Trace execution ok at ID = " + idInTrace);
+                            idInTrace++;
+                            if (idInTrace >= traceToPlay.getNbOfLines()) {
+                                resetTrace();
+                                TraceManager.addDev("Stopping trace simulation");
+                                stopSimulation();
+                            }
+                            return ll;
+                        }
                     }
                 }
                 idInTrace++;
@@ -1023,7 +1045,7 @@ public class AvatarSpecificationSimulation {
 
         }
 
-       // None were found!
+        // None were found!
         TraceManager.addDev("Trace execution failed at ID = " + idInTrace);
         return ll;
     }
@@ -1047,7 +1069,7 @@ public class AvatarSpecificationSimulation {
             // Consider probabilities
             double sumProb = 0.0;
             int selectedIndex = -1;
-            for (AvatarSimulationPendingTransaction pt: _pendingTransactions) {
+            for (AvatarSimulationPendingTransaction pt : _pendingTransactions) {
                 sumProb += pt.probability;
             }
 
@@ -1057,14 +1079,14 @@ public class AvatarSpecificationSimulation {
 
             double prob = 0.0;
             int index = 0;
-            for (AvatarSimulationPendingTransaction pt: _pendingTransactions) {
+            for (AvatarSimulationPendingTransaction pt : _pendingTransactions) {
                 prob += pt.probability;
                 //TraceManager.addDev("rand=" + rand2 + " prob=" + prob + " pt.probability=" + pt.probability);
                 if (rand2 < prob) {
                     selectedIndex = index;
                     break;
                 }
-                index ++;
+                index++;
             }
             //indexSelectedTransaction = (int) (Math.floor(Math.random() * _pendingTransactions.size()));
             indexSelectedTransaction = selectedIndex;
@@ -1081,7 +1103,8 @@ public class AvatarSpecificationSimulation {
         if (_pendingTransactions.size() == 1) {
             long tempo_clock_Value = clockValue;
             preExecutedTransaction(_pendingTransactions.get(0));
-            _pendingTransactions.get(0).asb.runSoloPendingTransaction(_pendingTransactions.get(0), allTransactions, tempo_clock_Value, MAX_TRANSACTION_IN_A_ROW, bunchid);
+            _pendingTransactions.get(0).asb.runSoloPendingTransaction(_pendingTransactions.get(0), allTransactions, tempo_clock_Value,
+                    MAX_TRANSACTION_IN_A_ROW, bunchid);
             postExecutedTransaction(_pendingTransactions.get(0));
             previousBlock = _pendingTransactions.get(0).asb;
             AvatarSimulationTransaction transaction0 = _pendingTransactions.get(0).asb.getLastTransaction();
@@ -1213,7 +1236,38 @@ public class AvatarSpecificationSimulation {
     }
 
     public void postExecutedTransaction(AvatarSimulationPendingTransaction _aspt) {
+        // If executing the transaction of a trace, then update according to the trace
+        TraceManager.addDev("postExecutedTransaction of " + _aspt.toString());
+        if (_aspt.builtFromATrace()) {
+            // Update attribute value
+
+            TraceManager.addDev("Getting elt " + _aspt.lineInTrace + "," + INDEX_ATTRIBUTES);
+            String vals = traceToPlay.get(_aspt.lineInTrace, INDEX_ATTRIBUTES).trim();
+            TraceManager.addDev("vals = >" + vals + "<");
+
+            if ((vals != null) && (!(vals.equals("null")))) {
+                AvatarSimulationTransaction ast = _aspt.asb.getLastTransaction();
+                ast.actions = new Vector<String>();
+                String[] valss = vals.trim().split(" ");
+                for (int i = 0; i < valss.length; i++) {
+                    TraceManager.addDev("Getting attribute #" + i + " in block " + _aspt.asb.getBlock().getName());
+                    String tmpV = _aspt.asb.getAttributeValue(i);
+                    TraceManager.addDev("Comparing >" + tmpV + "< with >" + valss[i] + "<");
+                    if (!tmpV.equals(valss[i])) {
+                        TraceManager.addDev("Setting attribute " + i + " of block " + _aspt.asb.getName() + " to " + valss[i]);
+                        _aspt.asb.setAttributeValue(i, valss[i]);
+                        String attrName = _aspt.asb.getBlock().getAttribute(i).getName();
+                        ast.actions.add(attrName + " = " + valss[i]);
+                    }
+                }
+
+            }
+        }
+
+
         clockValue = _aspt.clockValueAtEnd;
+
+
     }
 
     public synchronized void backOneTransactionBunch() {
@@ -1712,19 +1766,33 @@ public class AvatarSpecificationSimulation {
     public String toCSV() {
         StringBuffer sb = new StringBuffer();
 
-        sb.append("ID, block, elementID, element UUID, linked transaction ID, initial clock value, final clock value, duration, attributes, " +
+        sb.append("ID, block, elementID, element UUID, linked transactions ID, initial clock value, final clock value, duration, attributes, " +
                 "actions\n");
-        for(AvatarSimulationTransaction ast: allTransactions) {
+        for (AvatarSimulationTransaction ast : allTransactions) {
             append(sb, ast.id);
             append(sb, ast.block);
             append(sb, ast.executedElement);
             UUID uuid = ast.executedElement.getUUID();
             if (uuid == null) {
-                append(sb, "-");
+                append(sb, "");
             } else {
                 append(sb, uuid.toString());
             }
-            append(sb, ast.linkedTransaction);
+
+
+            if (ast.linkedTransaction != null) {
+                append(sb, ast.linkedTransaction.id);
+            } else {
+                // find all linked transaction
+                String lt = "";
+                for (AvatarSimulationTransaction astS : allTransactions) {
+                    if (astS.linkedTransaction == ast) {
+                        lt += astS.id + " ";
+                    }
+                }
+                append(sb, lt);
+            }
+
             append(sb, ast.initialClockValue);
             append(sb, ast.clockValueWhenFinished);
             append(sb, ast.duration);
@@ -1742,7 +1810,7 @@ public class AvatarSpecificationSimulation {
     }
 
     public void append(StringBuffer sb, long s) {
-        append(sb, ""+s, true);
+        append(sb, "" + s, true);
     }
 
     public void append(StringBuffer sb, String s, boolean addComma) {
@@ -1750,7 +1818,7 @@ public class AvatarSpecificationSimulation {
         if (addComma)
             com = COMMA;
 
-        if ((s == null) || (s.length() ==0)) {
+        if ((s == null) || (s.length() == 0)) {
             sb.append("null" + com);
         } else {
             sb.append(s + com);
@@ -1785,7 +1853,7 @@ public class AvatarSpecificationSimulation {
     public long getTimeOfLastTransactionOfBlock(AvatarBlock ab) {
         long lastTime = 0;
 
-        for(AvatarSimulationTransaction ast: allTransactions) {
+        for (AvatarSimulationTransaction ast : allTransactions) {
             if (ast.block == ab) {
                 lastTime = ast.clockValueWhenFinished;
             }
@@ -1812,11 +1880,10 @@ public class AvatarSpecificationSimulation {
         }
 
 
-
-        toBeFilled.add((double)oldValue);
+        toBeFilled.add((double) oldValue);
         toBeFilled.add(0.0);
 
-        for(AvatarSimulationTransaction ast: allTransactions) {
+        for (AvatarSimulationTransaction ast : allTransactions) {
             if (ast.block == ab) {
                 int newValue = 0;
                 if (aa.isInt()) {
@@ -1831,8 +1898,8 @@ public class AvatarSpecificationSimulation {
                 if (newValue != oldValue) {
                     oldValue = newValue;
                     //TraceManager.addDev("Block " + ab.getName() + " / " + aa.getName() + ". Adding value " + newValue + " at time " +
-                    toBeFilled.add((double)newValue);
-                    toBeFilled.add((double)ast.clockValueWhenFinished);
+                    toBeFilled.add((double) newValue);
+                    toBeFilled.add((double) ast.clockValueWhenFinished);
                 }
             }
         }
@@ -1858,7 +1925,7 @@ public class AvatarSpecificationSimulation {
 
         long oldTime = 0;
 
-        for(AvatarSimulationTransaction ast: allTransactions) {
+        for (AvatarSimulationTransaction ast : allTransactions) {
             if (ast.block == ab) {
                 int newValue = 0;
                 if (aa.isInt()) {
@@ -1881,8 +1948,8 @@ public class AvatarSpecificationSimulation {
             }
         }
 
-        toBeFilled.add((double)oldValue);
-        toBeFilled.add((double)oldTime);
+        toBeFilled.add((double) oldValue);
+        toBeFilled.add((double) oldTime);
     }
 
 

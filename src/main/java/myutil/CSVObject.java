@@ -177,6 +177,38 @@ public class CSVObject  {
        UUID uuid = UUID.fromString(val);
        return uuid;
    }
+
+   public boolean hasStringIn(String s, int line, int col) {
+        String tmp = get(line, col);
+        if (tmp == null) {
+            return false;
+        }
+
+        return tmp.contains(s);
+   }
+
+   public int[] getInts(int line, int col) {
+       String tmp = get(line, col);
+       if (tmp == null) {
+           return null;
+       }
+
+       String[] ints = tmp.trim().split(" ");
+       ArrayList<Integer> list = new ArrayList<>();
+       for (int i = 0; i < ints.length; i++) {
+           try {
+               list.add(new Integer(ints[i]));
+           } catch (NumberFormatException nfe) {
+
+           }
+       }
+
+       int[] ret = new int[list.size()];
+       for(int j=0; j<ret.length; j++) {
+           ret[j] = list.get(j);
+       }
+       return ret;
+   }
    
   
 }

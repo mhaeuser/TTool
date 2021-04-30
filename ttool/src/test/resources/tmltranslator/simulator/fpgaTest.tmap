@@ -1,0 +1,14 @@
+TMLSPEC
+    #include "fpgaTest.tml"
+ENDTMLSPEC
+
+TMLARCHI
+    #include "fpgaTest.tarchi"
+ENDTMLARCHI
+
+TMLMAPPING
+    MAP FPGA0 TestCycleEvt_wait__C0
+    SET TestCycleEvt_wait__C0 priority 0
+    MAP FPGA0 TestCycleEvt_wait__C1
+    SET TestCycleEvt_wait__C1 priority 0
+ENDTMLMAPPING

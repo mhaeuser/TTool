@@ -161,6 +161,11 @@ public class CSVObject  {
         return Integer.decode(val);
    }
 
+    public long getLong(int line, int col) throws NumberFormatException {
+        String val = get(line, col);
+        return Long.decode(val);
+    }
+
    public UUID getUUID(int line, int col) throws IllegalArgumentException {
         //TraceManager.addDev("Getting value at index " + line + "," + col + " nbOfLines:" + getNbOfLines() + " nbOfCol:" + getNbOfEltsPerLine());
 

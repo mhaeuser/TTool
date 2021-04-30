@@ -63,6 +63,8 @@ public class AvatarSpecificationSimulation {
     public final static int INDEX_UUID = 3;
     public final static int INDEX_CO_UUID = 4;
     public final static int INDEX_ATTRIBUTES = 8;
+    public final static int INDEX_FINAL_CLOCK_VALUE = 6;
+    public final static int INDEX_DURATION = 7;
 
     public final static int INITIALIZE = 0;
     public final static int RESET = 1;
@@ -1236,6 +1238,8 @@ public class AvatarSpecificationSimulation {
     }
 
     public void postExecutedTransaction(AvatarSimulationPendingTransaction _aspt) {
+        clockValue = _aspt.clockValueAtEnd;
+
         // If executing the transaction of a trace, then update according to the trace
         TraceManager.addDev("postExecutedTransaction of " + _aspt.toString());
         if (_aspt.builtFromATrace()) {
@@ -1262,10 +1266,23 @@ public class AvatarSpecificationSimulation {
                 }
 
             }
+
+            // Adapt the transaction clock
+            long clockValAtEnd = traceToPlay.getLong(_aspt.lineInTrace, INDEX_FINAL_CLOCK_VALUE);
+            int duration = traceToPlay.getInt(_aspt.lineInTrace, INDEX_DURATION);
+            TraceManager.addDev("clockValAtEnd:" + clockValAtEnd);
+            _aspt.clockValueAtEnd = clockValAtEnd;
+            _aspt.selectedDuration = duration;
+            _aspt.maxDuration = duration;
+            _aspt.durationSelected = true;
+            if (duration > 0) {
+                _aspt.hasClock = true;
+            }
+            clockValue = clockValAtEnd;
         }
 
 
-        clockValue = _aspt.clockValueAtEnd;
+
 
 
     }

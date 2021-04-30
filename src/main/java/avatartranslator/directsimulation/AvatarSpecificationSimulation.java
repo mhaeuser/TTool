@@ -1129,7 +1129,8 @@ public class AvatarSpecificationSimulation {
             if (_pendingTransactions.get(0).linkedTransaction != null) {
                 tempo_clock_Value = clockValue;
                 preExecutedTransaction(_pendingTransactions.get(0).linkedTransaction);
-                _pendingTransactions.get(0).linkedTransaction.asb.runSoloPendingTransaction(_pendingTransactions.get(0).linkedTransaction, allTransactions, tempo_clock_Value, MAX_TRANSACTION_IN_A_ROW, bunchid);
+                _pendingTransactions.get(0).linkedTransaction.asb.runSoloPendingTransaction(_pendingTransactions.get(0).linkedTransaction,
+                        allTransactions, tempo_clock_Value, MAX_TRANSACTION_IN_A_ROW, bunchid);
                 postExecutedTransaction(_pendingTransactions.get(0).linkedTransaction);
                 AvatarSimulationTransaction transaction1 = _pendingTransactions.get(0).linkedTransaction.asb.getLastTransaction();
                 transaction1.linkedTransaction = transaction0;
@@ -1261,24 +1262,33 @@ public class AvatarSpecificationSimulation {
 
             if ((vals != null) && (!(vals.equals("null")))) {
                 AvatarSimulationTransaction ast = _aspt.asb.getLastTransaction();
+                boolean variableModified = ast.actions.size() > 0;
+
                 ast.actions = new Vector<String>();
-                String[] valss = vals.trim().split(" ");
-                for (int i = 0; i < valss.length; i++) {
-                    TraceManager.addDev("Getting attribute #" + i + " in block " + _aspt.asb.getBlock().getName());
-                    String tmpV = _aspt.asb.getAttributeValue(i);
-                    TraceManager.addDev("Comparing >" + tmpV + "< with >" + valss[i] + "<");
-                    if (!tmpV.equals(valss[i])) {
-                        TraceManager.addDev("Setting attribute " + i + " of block " + _aspt.asb.getName() + " to " + valss[i]);
-                        _aspt.asb.setAttributeValue(i, valss[i]);
-                        String attrName = _aspt.asb.getBlock().getAttribute(i).getName();
-                        ast.actions.add(attrName + " = " + valss[i]);
+                if (variableModified && (_aspt.lineInTrace > 1)) {
+                    String valsP = traceToPlay.get(_aspt.lineInTrace-1, INDEX_ATTRIBUTES).trim();
+
+                    String[] valss = vals.trim().split(" ");
+                    String[] valssP = valsP.trim().split(" ");
+
+                    for (int i = 0; i < valss.length; i++) {
+                        //TraceManager.addDev("Getting attribute #" + i + " in block " + _aspt.asb.getBlock().getName());
+                        //String tmpV = _aspt.asb.getAttributeValue(i);
+                        String tmpV = valssP[i];
+                        TraceManager.addDev("Comparing >" + tmpV + "< with >" + valss[i] + "<");
+                        if (!tmpV.equals(valss[i])) {
+                            TraceManager.addDev("Setting attribute " + i + " of block " + _aspt.asb.getName() + " to " + valss[i]);
+                            _aspt.asb.setAttributeValue(i, valss[i]);
+                            String attrName = _aspt.asb.getBlock().getAttribute(i).getName();
+                            ast.actions.add(attrName + " = " + valss[i]);
+                        }
                     }
                 }
 
             }
 
             // Adapt the transaction clock
-            long clockValAtEnd = traceToPlay.getLong(_aspt.lineInTrace, INDEX_FINAL_CLOCK_VALUE);
+            /*long clockValAtEnd = traceToPlay.getLong(_aspt.lineInTrace, INDEX_FINAL_CLOCK_VALUE);
             int duration = traceToPlay.getInt(_aspt.lineInTrace, INDEX_DURATION);
             TraceManager.addDev("clockValAtEnd:" + clockValAtEnd);
             _aspt.clockValueAtEnd = clockValAtEnd;
@@ -1287,8 +1297,8 @@ public class AvatarSpecificationSimulation {
             _aspt.durationSelected = true;
             if (duration > 0) {
                 _aspt.hasClock = true;
-            }
-            clockValue = clockValAtEnd;
+            }*/
+            //clockValue = clockValAtEnd;
         }
 
 

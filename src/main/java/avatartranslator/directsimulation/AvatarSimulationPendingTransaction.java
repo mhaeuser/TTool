@@ -39,6 +39,7 @@
 
 package avatartranslator.directsimulation;
 
+import avatartranslator.AvatarSpecification;
 import avatartranslator.AvatarStateMachineElement;
 import avatartranslator.AvatarTransition;
 import myutil.CSVObject;
@@ -263,10 +264,16 @@ public class AvatarSimulationPendingTransaction {
 
         //TraceManager.addDev("False");
         return false;
-
     }
 
     public void makeRandomDelay() {
+
+        if (trace != null) {
+            selectedDuration = trace.getInt(lineInTrace, AvatarSpecificationSimulation.INDEX_DURATION);
+            return;
+        }
+
+
         switch (delayDistributionLaw) {
             case AvatarTransition.DELAY_UNIFORM_LAW:
                 //TraceManager.addDev("\n\n\n******* UNIFORM LAW ********");

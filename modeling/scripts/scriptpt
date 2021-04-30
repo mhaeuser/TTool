@@ -1,5 +1,6 @@
 # Playing simulation trace
-set model ./../modeling/AVATAR/CoffeeMachine_avatar.xml
+#set model ./../modeling/AVATAR/CoffeeMachine_avatar.xml
+set model  ./../modeling/AVATAR/testTrace.xml
 #print The model to be opened is: $model
 action start
 wait 2
@@ -9,5 +10,6 @@ action check-syntax
 wait 2
 action avatar-simulation-open-window
 wait 2
-action asst ./../graphs/tracecmpartial.csv
+#action asst ./../graphs/tracecmpartial.csv
+action asst ./../graphs/testrandandtime.csv
 wait 200

@@ -360,17 +360,27 @@ public class AvatarSpecificationSimulation {
                         TraceManager.addDev("Null trace");
                     }
 
+                    boolean okContinue = true;
                     if ((traceToPlay != null) && (idInTrace > 0)) {
                         TraceManager.addDev("Selecting transaction from trace");
                         selectedTransactions = selectTransactionsFromTrace(pendingTransactions);
+                        if(selectedTransactions.size() == 0) {
+                            okContinue = false;
+                        }
+
                     } else {
                         TraceManager.addDev("Selecting transaction randomly");
                         selectedTransactions = selectTransactions(pendingTransactions);
                     }
 
                     if (selectedTransactions.size() == 0) {
-                        setState(TERMINATED);
-                        TraceManager.addDev("Deadlock: no transaction can be selected");
+                        if (okContinue) {
+                            setState(TERMINATED);
+                            TraceManager.addDev("Deadlock: no transaction can be selected");
+                        } else {
+                            setState(DONT_EXECUTE);
+                            TraceManager.addDev("End of trace execution");
+                        }
                     } else {
                         //TraceManager.addDev("performSelectedTrans?");
                         if (performSelectedTransactions(selectedTransactions)) {

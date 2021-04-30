@@ -60,6 +60,7 @@ import java.util.Vector;
 public class AvatarSpecificationSimulation {
 
     public final static String COMMA = ", ";
+    public final static int INDEX_BLOCK = 1;
     public final static int INDEX_UUID = 3;
     public final static int INDEX_CO_UUID = 4;
     public final static int INDEX_ATTRIBUTES = 8;
@@ -1262,25 +1263,33 @@ public class AvatarSpecificationSimulation {
 
             if ((vals != null) && (!(vals.equals("null")))) {
                 AvatarSimulationTransaction ast = _aspt.asb.getLastTransaction();
-                boolean variableModified = ast.actions.size() > 0;
+
+                boolean variableModified = false;
+                if (ast.actions != null) {
+                    variableModified = ast.actions.size() > 0;
+                }
 
                 ast.actions = new Vector<String>();
                 if (variableModified && (_aspt.lineInTrace > 1)) {
-                    String valsP = traceToPlay.get(_aspt.lineInTrace-1, INDEX_ATTRIBUTES).trim();
 
-                    String[] valss = vals.trim().split(" ");
-                    String[] valssP = valsP.trim().split(" ");
+                    int index = traceToPlay.getBeforeIndexWithSameElement(INDEX_BLOCK, _aspt.lineInTrace);
+                    if (index != -1) {
+                        String valsP = traceToPlay.get(index, INDEX_ATTRIBUTES).trim();
 
-                    for (int i = 0; i < valss.length; i++) {
-                        //TraceManager.addDev("Getting attribute #" + i + " in block " + _aspt.asb.getBlock().getName());
-                        //String tmpV = _aspt.asb.getAttributeValue(i);
-                        String tmpV = valssP[i];
-                        TraceManager.addDev("Comparing >" + tmpV + "< with >" + valss[i] + "<");
-                        if (!tmpV.equals(valss[i])) {
-                            TraceManager.addDev("Setting attribute " + i + " of block " + _aspt.asb.getName() + " to " + valss[i]);
-                            _aspt.asb.setAttributeValue(i, valss[i]);
-                            String attrName = _aspt.asb.getBlock().getAttribute(i).getName();
-                            ast.actions.add(attrName + " = " + valss[i]);
+                        String[] valss = vals.trim().split(" ");
+                        String[] valssP = valsP.trim().split(" ");
+
+                        for (int i = 0; i < valss.length; i++) {
+                            //TraceManager.addDev("Getting attribute #" + i + " in block " + _aspt.asb.getBlock().getName());
+                            //String tmpV = _aspt.asb.getAttributeValue(i);
+                            String tmpV = valssP[i];
+                            //TraceManager.addDev("Comparing >" + tmpV + "< with >" + valss[i] + "<");
+                            if (!tmpV.equals(valss[i])) {
+                                //TraceManager.addDev("Setting attribute " + i + " of block " + _aspt.asb.getName() + " to " + valss[i]);
+                                _aspt.asb.setAttributeValue(i, valss[i]);
+                                String attrName = _aspt.asb.getBlock().getAttribute(i).getName();
+                                ast.actions.add(attrName + " = " + valss[i]);
+                            }
                         }
                     }
                 }

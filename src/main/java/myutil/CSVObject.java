@@ -214,6 +214,29 @@ public class CSVObject  {
        }
        return ret;
    }
+
+   public int getBeforeIndexWithSameElement(int col, int lineIndex) {
+        String s = get(lineIndex, col);
+
+        for(int i=lineIndex-1; i>=0; i--) {
+            String tmp = get(i, col);
+            if (tmp != null) {
+                if ((tmp == null) && (s == null)) {
+                    return i;
+                }
+
+                if ((tmp != null) && (s != null)) {
+                    if (tmp.equals(s)) {
+                        return i;
+                    }
+                }
+
+            }
+        }
+
+        return -1;
+
+   }
    
   
 }

@@ -343,7 +343,7 @@ public class CommandParser {
         paramNames[0] = "task ID";
         params[1] = 0;
         paramNames[1] = "comamnd ID";
-        sc = new SimulationCommand("rm-breakpoint", "abp", "16", params, paramNames, "Remove a breakpoint in task which id is the first parameter on the command provided as the second parameter");
+        sc = new SimulationCommand("rm-breakpoint", "rmb", "16", params, paramNames, "Remove a breakpoint in task which id is the first parameter on the command provided as the second parameter");
         commandList.add(sc);
 
         // reset

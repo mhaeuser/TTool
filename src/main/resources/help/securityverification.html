@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>TTool help</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+</head>
+<body>
+<h1 id="security-verification">Security verification</h1>
+<h2 id="main-principle">Main principle</h2>
+<p>Security verification can be performed either from <a href="file://mapping.html">DIPLODOCUS mapping diagrams</a> or from <a href="file://avatarsoftwaredesign.html">AVATAR design diagrams</a>.</p>
+<p>The security verification consists in transforming a diagram and its security properties into a ProVerif specification, and then colling ProVerif to check for the satisfaction of security properties. while ProVerif runs, TTool indicates which properties could be proved and backtraces the results to diagrams, using locks next to perperties or elements involved in these properties. A green lock indicates a satisfied property, a greay lock indicates that the property could not be proved, and a red lock indicates that the property could be proved as violated.</p>
+<h2 id="proverif-installation-and-configuration">ProVerif installation and configuration</h2>
+<p>We advice to install the latest version of ProVerif on your computer. We usually install ProVerif using <em>opam</em>:</p>
+<pre><code>$ opam install proverif</code></pre>
+<p>Once proverif has been installed, TTool must be configured. TTool relies on a .xml configuration file (bu defautl: config.xml). Open this configuration file and configure:</p>
+<p>The directory in which TTool generated ProVerif specifications. For instance:</p>
+<pre><code>&lt;ProVerifCodeDirectory data=&quot;/home/foo/TTool/proverif/&quot; /&gt;</code></pre>
+<p>The path to the ProVerif executable. For instance:</p>
+<pre><code>&lt;ProVerifVerifierPath data=&quot;/home/foo/bin/proverif&quot; /&gt;</code></pre>
+<h2 id="security-properties">Security properties</h2>
+<h2 id="investigating-verification-results">Investigating verification results</h2>
+<h2 id="advanced-concepts">Advanced concepts</h2>
+<p>If the syntax is correct, then you can go on for verification or code generation.</p>
+<p>On the contrary, errors are listed in the tree on the left of the main panel. Similarly, warnings are listed in this tree.</p>
+</body>
+</html>

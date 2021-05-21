@@ -2330,24 +2330,31 @@ public class AvatarDesignPanelTranslator {
 
     private void createGuard(final AvatarTransition transition,
                              final AvatarSMDConnector connector) {
+
+
         final AvatarStateMachineOwner block = transition.getBlock();
-        final String guardStr = modifyString(connector.getEffectiveGuard());
-        //TraceManager.addDev("Effective guard:" + guardStr);
-        final AvatarGuard guard = AvatarGuard.createFromString(block, guardStr);
-        //TraceManager.addDev("Avatarguard:" + guard);
+        String toCheck = modifyString(connector.getEffectiveGuard());
+        toCheck = toCheck.replaceAll(" ", "");
         final int error;
 
-        if (guard.isElseGuard()) {
+        if ( (toCheck.equalsIgnoreCase("[]")) ||
+                (toCheck.equalsIgnoreCase("")) ||
+                (toCheck.equalsIgnoreCase("[else]"))
+                || (toCheck.equalsIgnoreCase("else"))) {
             error = 0;
         } else {
-            error = AvatarSyntaxChecker.isAValidGuard(block.getAvatarSpecification(), block, guardStr);
+            TraceManager.addDev("Testing valid guard: " + toCheck);
+            error = AvatarSyntaxChecker.isAValidGuard(block.getAvatarSpecification(), block, toCheck);
+            TraceManager.addDev("guard Error? " + error);
         }
 
         if (error < 0) {
-            makeError(error, connector.tdp, block, connector, "transition guard", guardStr);
+            makeError(error, connector.tdp, block, connector, "transition guard", toCheck);
         } else {
+            final AvatarGuard guard = AvatarGuard.createFromString(block, toCheck);
             transition.setGuard(guard);
         }
+
     }
 
     private void createAfterDelay(final AvatarTransition transition,

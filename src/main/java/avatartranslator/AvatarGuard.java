@@ -72,10 +72,11 @@ public abstract class AvatarGuard {
             return new AvatarGuardEmpty();
 
         String sane = AvatarGuard.sanitizeString(_guard);
+
         if (sane.isEmpty())
             return new AvatarGuardEmpty();
 
-        if (sane.toLowerCase().equals("else"))
+        if (sane.equalsIgnoreCase("else"))
             return new AvatarGuardElse();
 
         int indexRParen = 0;
@@ -120,14 +121,16 @@ public abstract class AvatarGuard {
                 } else {
                     int indexLParen = sane.indexOf("(", indexRParen);
                     if (indexLParen == -1)
-                        indexLParen = indexRParen;
+                        indexLParen = sane.length();
 
                     for (String delim: new String[]{"and", "or", "&&", "||"}) {
-
+                        TraceManager.addDev("Working on delim: " + delim);
                         int indexBinaryOp = sane.substring(0, indexLParen).indexOf(delim, indexRParen + 1);
                         if (indexBinaryOp != -1) {
+                            TraceManager.addDev("Found delim!");
                             first = AvatarGuard.createFromString(block, sane.substring(0, indexBinaryOp));
                             AvatarGuard second = AvatarGuard.createFromString(block, sane.substring(indexBinaryOp + delim.length()));
+                            TraceManager.addDev("First=" + first + "\nSecond=" + second);
                             if (first instanceof AvatarComposedGuard && second instanceof AvatarComposedGuard)
                                 return new AvatarBinaryGuard((AvatarComposedGuard) first, (AvatarComposedGuard) second, delim);
                             TraceManager.addDev("Binary guard " + sane + "does not contain 2 guards");
@@ -207,12 +210,12 @@ public abstract class AvatarGuard {
         return new AvatarGuardEmpty();
     }
 
-    private static String sanitizeString(String s) {
+    public static String sanitizeString(String s) {
         String result = Conversion.replaceAllChar(s, ' ', "").trim();
         result = Conversion.replaceAllChar(result, '[', "");
         result = Conversion.replaceAllChar(result, ']', "");
 
-        return result;
+        return result.trim();
     }
 
     public static AvatarGuard addGuard(AvatarGuard _guard, AvatarGuard _g, String _binaryOp) {

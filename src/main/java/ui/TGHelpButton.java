@@ -72,6 +72,13 @@ public class TGHelpButton extends JButton {
         makeHelpConfiguration(helpWord, mgui, hm);
     }
 
+    public TGHelpButton(String text, Icon icon, String helpWord, MainGUI mgui, HelpManager hm) {
+        super(text, icon);
+        this.mgui = mgui;
+        setGeneralConfiguration();
+        makeHelpConfiguration(helpWord, mgui, hm);
+    }
+
     private void setGeneralConfiguration() {
         setOpaque(false);
         setFocusPainted(false);
@@ -90,6 +97,8 @@ public class TGHelpButton extends JButton {
                 }
                 if (he == null) {
                     TraceManager.addDev("NULL HE");
+                } else {
+                    buttonClick(this, he, mgui);
                 }
             }
         }
@@ -104,7 +113,7 @@ public class TGHelpButton extends JButton {
         c.weightx = 0.5;
         c.gridwidth = GridBagConstraints.REMAINDER;
 
-        buttonClick(this, he, mgui);
+
         panel.add(this, c);
     }
 
@@ -112,7 +121,7 @@ public class TGHelpButton extends JButton {
         if (he == null) {
             return;
         }
-        buttonClick(this, he, mgui);
+        //buttonClick(this, he, mgui);
         panel.add(this);
 
     }
@@ -120,10 +129,12 @@ public class TGHelpButton extends JButton {
 
 
 
-    private void buttonClick(JButton but, HelpEntry he, MainGUI mgui) {
+    public void buttonClick(JButton but, HelpEntry he, MainGUI mgui) {
+        //TraceManager.addDev("ADding action listener");
         but.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                //TraceManager.addDev("Action performed on help button!");
                 if(helpDialog == null) {
                     helpDialog = new JDialogTGComponentHelp(mgui, he);
                     helpDialog.setLocationHelpWindow(but);

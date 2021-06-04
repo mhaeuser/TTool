@@ -42,6 +42,7 @@ package attacktrees;
 import java.util.*;
 
 import com.microsoft.z3.*;
+import myutil.TraceManager;
 
 /**
  * Class AttackTreeSMTAnalysis
@@ -61,6 +62,8 @@ public  class AttackTreeSMTAnalysis  {
 
     public AttackTreeSMTSolution computeSolution(Attacker attacker) {
         AttackTreeSMTSolution atsmts = new AttackTreeSMTSolution();
+        atsmts.at = at;
+        atsmts.attacker = attacker;
         atsmts.status = AttackTreeSMTSolution.NO_SOLUTION;
 
         if (attacker == null) {
@@ -79,6 +82,7 @@ public  class AttackTreeSMTAnalysis  {
         if (indexRoot == -1) {
             return atsmts;
         }
+        atsmts.indexRoot = indexRoot;
 
 
         // Z3 init
@@ -155,8 +159,10 @@ public  class AttackTreeSMTAnalysis  {
             Attack resultingAttack = node.getResultingAttack();
             ArrayList<Attack> inputAttacks = node.getInputAttacks();
             if ((resultingAttack != null) && (inputAttacks != null) && (inputAttacks.size() > 0)) {
+
                 int indexResulting = at.getAttacks().indexOf(resultingAttack);
                 if (indexResulting > -1) {
+                    TraceManager.addDev("Found resulting attack: " + resultingAttack.getName());
 
                     // Getting indexes of input attacks
                     ArrayList<Integer> indexes = new ArrayList<>();
@@ -167,16 +173,20 @@ public  class AttackTreeSMTAnalysis  {
                         }
                     }
 
+                    TraceManager.addDev("Nb Of indexes:" + indexes.size());
+
                     // If at least one input attack, we can start working on the node semantics
-                    if (indexes.size() > 1) {
+                    if (indexes.size() > 0) {
                         //Make the list
                         BoolExpr [] e = new BoolExpr[indexes.size()];
                         for(int i=0; i<indexes.size(); i++) {
                             e[i] = ctx.mkGe( startA[indexResulting], endA[indexes.get(i)] );
                         }
                         if (node instanceof ORNode) {
+                            TraceManager.addDev("OR");
                             c_const[index_c_const] = ctx.mkOr( e );
                         } else {
+                            TraceManager.addDev("AND");
                             c_const[index_c_const] = ctx.mkAnd( e );
                         }
                         // Finally adding the constraint on the node
@@ -198,8 +208,20 @@ public  class AttackTreeSMTAnalysis  {
 
         if (s.check() == Status.SATISFIABLE) {
             atsmts.status = AttackTreeSMTSolution.SATISFY_SOLUTION;
-            atsmts.model = s.getModel();
-            atsmts.endTime = Integer.decode( atsmts.model.evaluate(endA[indexRoot], false).toString()   ) ;
+            Model model = s.getModel();
+            atsmts.endTime = Integer.decode( model.evaluate(endA[indexRoot], false).toString()   ) ;
+
+            // start Times
+            atsmts.startA = new int[nbOfAttacks];
+            atsmts.endA = new int[nbOfAttacks];
+
+            for(int i=0; i<nbOfAttacks; i++) {
+                atsmts.startA[i] = Integer.decode( model.evaluate(startA[i], false).toString()   ) ;
+                atsmts.endA[i] = Integer.decode( model.evaluate(endA[i], false).toString()   ) ;
+            }
+
+            // end Times
+
 
             // Now, find an optimum for the end of the root attack
             Optimize opt = ctx.mkOptimize();
@@ -210,12 +232,12 @@ public  class AttackTreeSMTAnalysis  {
 
             if (opt.Check() == Status.SATISFIABLE) {
                 atsmts.status = AttackTreeSMTSolution.OPTIMAL_SOLUTION;
-                atsmts.model = opt.getModel();
-                atsmts.endTime = Integer.decode( atsmts.model.evaluate(endA[indexRoot], false).toString()   ) ;
+                model = opt.getModel();
+                atsmts.endTime = Integer.decode( model.evaluate(endA[indexRoot], false).toString()   ) ;
             }
         }
 
-        // Z3 finish
+        // Z3 has finished!
         closeZ3(ctx);
 
         return atsmts;

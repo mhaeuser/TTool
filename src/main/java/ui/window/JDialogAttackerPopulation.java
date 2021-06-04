@@ -294,11 +294,11 @@ public class JDialogAttackerPopulation extends JDialogBase implements ActionList
         resultArea = new JTextArea();
         JScrollPane jsp = new JScrollPane(resultArea, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         //jsp.setPreferredSize(new Dimension(600, 150));
-        jta.add(jsp);
+        //jta.add(jsp);
         resultArea.append("Click on \"Analyse\" to analyse the current population");
 
         c0.gridheight = 25;
-        c.add(jta, c0);
+        c.add(jsp, c0);
 
 
         c0.gridheight = 1;
@@ -548,6 +548,16 @@ public class JDialogAttackerPopulation extends JDialogBase implements ActionList
                 resultArea.append("\nTesting attacker: " + ag.attacker.getName() + "\n");
                 AttackTreeSMTSolution sol = analysis.computeSolution(ag.attacker);
                 resultArea.append("\tResult: " + sol.STATUS[sol.status] + "\n");
+                if (sol.status>sol.NO_SOLUTION) {
+                    // End time
+                    resultArea.append("\tUsed resources: " + sol.endTime + "\n");
+
+                    // Attacks
+                    String attacks = sol.getAttackStartEndTime();
+                    if (attacks != null) {
+                        resultArea.append("\tAttacks: name, start, end\n" + attacks + "\n");
+                    }
+                }
             }
         }
 

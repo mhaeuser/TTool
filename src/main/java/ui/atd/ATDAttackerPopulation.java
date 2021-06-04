@@ -140,7 +140,7 @@ public class ATDAttackerPopulation extends TGCScalableWithInternalComponent impl
 
         JDialogAttackerPopulation dialog = new JDialogAttackerPopulation(getTDiagramPanel().getMainGUI(), frame, "Setting attackers", population);
         //     dialog.setSize(450, 350);
-        GraphicLib.centerOnParent(dialog, 950, 650);
+        GraphicLib.centerOnParent(dialog, 950, 950);
         dialog.setVisible(true); // blocked until dialog has been closed
 
         return dialog.hasBeenCancelled();

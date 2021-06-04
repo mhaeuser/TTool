@@ -449,7 +449,7 @@
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
 <COMPONENT type="1404" id="231" uid="858d2663-e817-47c1-8954-f18f17c45ca0" >
-<cdparam x="1031" y="131" />
+<cdparam x="1031" y="130" />
 <sizeparam width="429" height="213" minWidth="100" minHeight="50" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <hidden value="false" />
 <enabled value="true" />

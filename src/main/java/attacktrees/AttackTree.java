@@ -99,6 +99,18 @@ public class AttackTree extends AttackElement {
 
     public ArrayList<AttackerPopulation> getAttackerPopulation() { return populations;}
 
+    // Returns -1 if not found
+    public int getIndexRootAttack() {
+        int cpt = 0;
+        for(Attack att: attacks) {
+            if (att.isRoot()) {
+                return cpt;
+            }
+            cpt ++;
+        }
+        return -1;
+    }
+
     // Checks:
     // Sequence/after/before nodes have attacks which are ordered (i.e. unique positive number)
     // Time value is positive in before and after

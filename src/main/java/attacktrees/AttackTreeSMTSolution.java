@@ -37,21 +37,37 @@
  */
 
 
-
-
 package attacktrees;
 
-/**
- * Class BeforeNode
- * Creation: 13/04/2015
- * @version 1.0 13/04/2015
- * @author Ludovic APVRILLE
- */
-public class BeforeNode extends TimeNode {
 
-    public BeforeNode(String _name, Object _referenceObject, int _time) {
-	super(_name, _referenceObject, _time);
-	type = "BEFORE";
+import com.microsoft.z3.*;
+
+/**
+ * Class AttackTreeSMTSolution
+ * Creation: 04/06/2021
+ *
+ * @author Ludovic APVRILLE
+ * @version 1.0 04/06/2021
+ */
+public  class AttackTreeSMTSolution  {
+
+    public final static int NO_SOLUTION = 0;
+    public final static int SATISFY_SOLUTION = 1;
+    public final static int OPTIMAL_SOLUTION = 2;
+
+    public final static String[] STATUS = {"No solution", "Satisfiable solution found", "Optimal solution found"};
+
+    public int status;
+    public int endTime;
+    public Model model;
+
+
+    public AttackTreeSMTSolution() {
+
     }
-    
+
+
+
+
+
 }

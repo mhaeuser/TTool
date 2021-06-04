@@ -53,6 +53,7 @@ import ui.util.IconManager;
 import javax.swing.*;
 import javax.swing.event.HyperlinkEvent;
 import javax.swing.event.HyperlinkListener;
+import javax.swing.text.html.HTMLDocument;
 import javax.swing.text.html.HTMLEditorKit;
 import javax.swing.text.html.StyleSheet;
 import java.awt.*;
@@ -130,6 +131,9 @@ public	class JFrameHelp extends JFrame implements ActionListener {
         StyleSheet styleSheet = kit.getStyleSheet();
 
         // Load help.css
+
+        //String imgsrc = this.getClass().getClassLoader().getSystemResource("ctlaall.png").toString();
+        //TraceManager.addDev("PATH=" + imgsrc);
 
         URL url = HelpManager.getURL("help.css");
         try {
@@ -325,17 +329,29 @@ public	class JFrameHelp extends JFrame implements ActionListener {
 
         while ((index = initialContent.indexOf("<img src=\"file:")) != -1) {
 
+            URL url = null;
+
             String tmpContent = initialContent.substring(index + 15, initialContent.length());
             int index2 = tmpContent.indexOf("\"");
             if (index2 == -1) return initialContent;
 
             String infoFile = tmpContent.substring(0, index2);
 
+            TraceManager.addDev("infoFile 1 =  " + infoFile);
+
             if (infoFile.startsWith("../ui/util/")) {
                 infoFile = infoFile.substring(11, infoFile.length());
+                url = IconManager.class.getResource(infoFile);
+            } else if (infoFile.startsWith("../help/")) {
+                infoFile = infoFile.substring(8, infoFile.length());
+                url = HelpEntry.class.getResource(infoFile);
             }
 
-            URL url = IconManager.class.getResource(infoFile);
+            TraceManager.addDev("infoFile 2 =  " + infoFile);
+
+
+            TraceManager.addDev("Image url=" + url);
+
             if (url != null) {
                 String imgsrc = url.toString();
                 TraceManager.addDev("Infofile:" + infoFile + " imgsrc=" + imgsrc);

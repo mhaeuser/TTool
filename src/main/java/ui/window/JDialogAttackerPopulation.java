@@ -40,6 +40,7 @@
 package ui.window;
 
 import attacktrees.*;
+import common.ConfigurationTTool;
 import myutil.Conversion;
 import myutil.TraceManager;
 import ui.MainGUI;
@@ -292,12 +293,12 @@ public class JDialogAttackerPopulation extends JDialogBase implements ActionList
         jta.setFont(f);
         resultArea = new JTextArea();
         JScrollPane jsp = new JScrollPane(resultArea, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-        jsp.setPreferredSize(new Dimension(600, 150));
-        jta.add(jsp);
+        //jsp.setPreferredSize(new Dimension(600, 150));
+        //jta.add(jsp);
         resultArea.append("Click on \"Analyse\" to analyse the current population");
 
         c0.gridheight = 25;
-        c.add(jta, c0);
+        c.add(jsp, c0);
 
 
         c0.gridheight = 1;
@@ -511,13 +512,12 @@ public class JDialogAttackerPopulation extends JDialogBase implements ActionList
         }
         resultArea.append("\t\t-> OK\n");
         resultArea.append("\tTree analysis\n");
-        AttackTree at  = mgui.runAttackTreeAnalysis();
+        AttackTree at = mgui.runAttackTreeAnalysis();
         if (at == null) {
             resultArea.append("\t\t-> KO\n");
             return;
         }
         resultArea.append("\t\t-> OK\n");
-
 
 
         AttackerPopulation pop = new AttackerPopulation(population.getName(), population.getReferenceObject());
@@ -527,8 +527,41 @@ public class JDialogAttackerPopulation extends JDialogBase implements ActionList
         resultArea.append("\tPopulation analysis\n");
         resultArea.append("\t\tTotal population: " + size + "\n");
         resultArea.append("\t\tSuccessful attackers: " + success + "\n");
-        resultArea.append("\t\t% of successful attackers: " + (int)(100.0 * success/size) + "%\n");
-        resultArea.append("\t\tProbability of success: " + ((double)success/size) + "\n");
+        resultArea.append("\t\t% of successful attackers: " + (int) (100.0 * success / size) + "%\n");
+        resultArea.append("\t\tProbability of success: " + ((double) success / size) + "\n");
+
+
+        // Using Z3
+        resultArea.append("\n\nRunning analysis with Z3\n");
+        resultArea.append("\nLoading Z3 libraries\n");
+        String ret = ConfigurationTTool.loadZ3Libs();
+        if (ret != null) {
+            resultArea.append("\nError - aborting. \n" + ret + "\n");
+            return;
+        }
+
+        AttackTreeSMTAnalysis analysis = new AttackTreeSMTAnalysis(at);
+        ArrayList<AttackerPopulation> aps = at.getAttackerPopulation();
+        for (AttackerPopulation ap : aps) {
+            ArrayList<AttackerGroup> ags = ap.getAttackerGroups();
+            for (AttackerGroup ag : ags) {
+                resultArea.append("\nTesting attacker: " + ag.attacker.getName() + "\n");
+                AttackTreeSMTSolution sol = analysis.computeSolution(ag.attacker);
+                resultArea.append("\tResult: " + sol.STATUS[sol.status] + "\n");
+                if (sol.status>sol.NO_SOLUTION) {
+                    // End time
+                    resultArea.append("\tUsed resources: " + sol.endTime + "\n");
+
+                    // Attacks
+                    String attacks = sol.getAttackStartEndTime();
+                    if (attacks != null) {
+                        resultArea.append("\tAttacks: name, start, end\n" + attacks + "\n");
+                    }
+                }
+            }
+        }
+
+
     }
 
 

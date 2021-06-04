@@ -289,7 +289,7 @@ public class TML extends Command  {
         return null;
     }
 
-    private String loadZ3lib(String lib) {
+    private static String loadZ3lib(String lib) {
         try {
             String [] libs = lib.split(":");
             boolean setLibPath = false;

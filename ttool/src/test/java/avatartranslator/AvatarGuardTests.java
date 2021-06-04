@@ -206,7 +206,7 @@ public class AvatarGuardTests {
         assertTrue(res instanceof AvatarUnaryGuard);
         res= AvatarGuard.createFromString(B, "not(m__a==key2)");
         assertTrue(res instanceof AvatarUnaryGuard);
-        res= AvatarGuard.createFromString(B, "not(m__a==m__b)");
+        res= AvatarGuard.createFromString(B, "not (m__a == m__b ) ");
         assertTrue(res instanceof AvatarUnaryGuard);
 
     }

@@ -107,10 +107,7 @@ import proverifspec.ProVerifQueryAuthResult;
 import proverifspec.ProVerifQueryResult;
 import proverifspec.ProVerifResultTraceStep;
 import tmltranslator.TMLMapping;
-import ui.AvatarDesignPanel;
-import ui.MainGUI;
-import ui.TMLArchiPanel;
-import ui.TURTLEPanel;
+import ui.*;
 import ui.interactivesimulation.JFrameSimulationSDPanel;
 import ui.util.IconManager;
 
@@ -181,6 +178,9 @@ public class JDialogProverifVerification extends JDialog implements ActionListen
 	protected JButton allValidated, addOneValidated, allIgnored, addOneIgnored;
 
     protected JCheckBox removeForkAndJoin;
+
+    public TGHelpButton myButton;
+    public static String helpString = "securityverification.html";
 
     private Map<JCheckBox, List<JCheckBox>> cpuTaskObjs = new HashMap<JCheckBox, List<JCheckBox>>();
 
@@ -483,6 +483,11 @@ public class JDialogProverifVerification extends JDialog implements ActionListen
         jp01.setLayout(gridbag01);
         jp01.setBorder(new javax.swing.border.TitledBorder("Verification options"));
 
+        myButton = new TGHelpButton("Help me!", IconManager.imgic32, helpString, mgui, mgui.getHelpManager());
+        jp01.add(myButton, new GridBagConstraints(3, curY, 1, 1, 1.0, 1.0, GridBagConstraints.EAST,
+                GridBagConstraints.BOTH, insets, 0, 0));
+        curY++;
+
         JLabel gen = new JLabel("Generate ProVerif code in: ");
 
         addComponent(jp01, gen, 0, curY, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH);
@@ -513,7 +518,8 @@ public class JDialogProverifVerification extends JDialog implements ActionListen
         stateReachabilityAll.setSelected(true);
         curY++;
 
-        addComponent(jp01, new JLabel("Allow message duplication in private channels: "), 0, 3, 2, GridBagConstraints.CENTER, GridBagConstraints.BOTH);
+        addComponent(jp01, new JLabel("Allow message duplication in private channels: "), 0, curY, 2,
+                GridBagConstraints.CENTER, GridBagConstraints.BOTH);
         ButtonGroup privateChannelGroup = new ButtonGroup();
         privateChannelDup = new JRadioButton("Yes");
         JRadioButton privateChannelNoDup = new JRadioButton("No");
@@ -538,7 +544,13 @@ public class JDialogProverifVerification extends JDialog implements ActionListen
         }
 
         JLabel empty = new JLabel("");
-        jp01.add(empty, new GridBagConstraints(0, curY, 3, 1, 1.0, 1.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, insets, 0, 0));
+        jp01.add(empty, new GridBagConstraints(0, curY, 3, 1, 1.0, 1.0, GridBagConstraints.CENTER,
+                GridBagConstraints.BOTH, insets, 0, 0));
+
+
+
+
+
 
         jta = new JPanel();
         jta.setLayout(new GridBagLayout());

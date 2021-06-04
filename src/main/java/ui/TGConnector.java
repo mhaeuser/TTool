@@ -60,6 +60,7 @@ public abstract class TGConnector extends TGCScalableWithInternalComponent {
 
     protected final static String XML_CONNECTOR_HEAD = "<CONNECTOR type=\"";
     protected final static String XML_ID = "\" id=\"";
+    protected final static String XML_UUID = "\" uid=\"";
     protected final static String XML_CONNECTOR_TAIL = "</CONNECTOR>";
 
     protected TGConnectingPoint p1, p2; // initial and destination connecting points.
@@ -340,7 +341,7 @@ public abstract class TGConnector extends TGCScalableWithInternalComponent {
                 xx = p2.getX();
                 yy = p2.getY();
             }
-            g.drawString(""+getAVATARID(), (p1.getX()+xx)/2, ((p1.getY()+yy)/2) + 5);
+            g.drawString(""+getAVATARID() + " / " + getUUID().toString(), (p1.getX()+xx)/2, ((p1.getY()+yy)/2) + 5);
         }
     }
 
@@ -750,6 +751,10 @@ public abstract class TGConnector extends TGCScalableWithInternalComponent {
         sb.append(getType());
         sb.append(XML_ID);
         sb.append(getId());
+        if (getUUID() != null) {
+            sb.append(XML_UUID);
+            sb.append(getUUID().toString());
+        }
         sb.append("\" >\n");
         sb.append(translateCDParam());
         sb.append(translateSizeParam());

@@ -39,9 +39,10 @@
 
 package avatartranslator.directsimulation;
 
-import avatartranslator.AvatarRandom;
+import avatartranslator.AvatarSpecification;
 import avatartranslator.AvatarStateMachineElement;
 import avatartranslator.AvatarTransition;
+import myutil.CSVObject;
 import myutil.MyMath;
 import myutil.TraceManager;
 
@@ -108,6 +109,11 @@ public class AvatarSimulationPendingTransaction {
 
     // Probability of this transaction
     public double probability = 0.5;
+
+
+    // Trace if applicable, and coordinates
+    public CSVObject trace = null;
+    public int lineInTrace = -1;
 
 
     public AvatarSimulationPendingTransaction() {
@@ -258,10 +264,16 @@ public class AvatarSimulationPendingTransaction {
 
         //TraceManager.addDev("False");
         return false;
-
     }
 
     public void makeRandomDelay() {
+
+        if (trace != null) {
+            selectedDuration = trace.getInt(lineInTrace, AvatarSpecificationSimulation.INDEX_DURATION);
+            return;
+        }
+
+
         switch (delayDistributionLaw) {
             case AvatarTransition.DELAY_UNIFORM_LAW:
                 //TraceManager.addDev("\n\n\n******* UNIFORM LAW ********");
@@ -313,6 +325,18 @@ public class AvatarSimulationPendingTransaction {
 
         return elementToExecute.getUUID();
 
+    }
+
+    public boolean builtFromATrace() {
+        if (trace == null) {
+            return false;
+        }
+
+        if (lineInTrace <0) {
+            return false;
+        }
+
+        return lineInTrace < trace.getNbOfLines();
     }
 
 

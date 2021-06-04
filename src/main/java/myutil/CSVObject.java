@@ -62,6 +62,9 @@ public class CSVObject  {
    }
    
    public boolean parse(String _toParse) {
+
+        TraceManager.addDev("Parsing CSV: "+ _toParse);
+
        if (_toParse == null) {
            return false;
        }
@@ -84,6 +87,7 @@ public class CSVObject  {
        int lineLength = 0;
        for(int i=0; i<allLines.length; i++) {
            String [] elt = allLines[i].split(",");
+           //TraceManager.addDev( "nbOElements per line at line :" + i + ": "+ elt.length);
            if (i == 0) {
                lineLength = elt.length;
            } else {
@@ -97,6 +101,9 @@ public class CSVObject  {
 
        // Remove spaces
        removeSpaces();
+
+       TraceManager.addDev( "nbOfLines:" + getNbOfLines() + " nbOfCol:" + getNbOfEltsPerLine());
+
 
        return true;
 
@@ -154,13 +161,81 @@ public class CSVObject  {
         return Integer.decode(val);
    }
 
+    public long getLong(int line, int col) throws NumberFormatException {
+        String val = get(line, col);
+        return Long.decode(val);
+    }
+
    public UUID getUUID(int line, int col) throws IllegalArgumentException {
+        //TraceManager.addDev("Getting value at index " + line + "," + col + " nbOfLines:" + getNbOfLines() + " nbOfCol:" + getNbOfEltsPerLine());
+
+
        String val = get(line, col);
+
        if (val == null) {
+           TraceManager.addDev("Null value");
            return null;
        }
+
+       //TraceManager.addDev("Value:" + val);
+
        UUID uuid = UUID.fromString(val);
        return uuid;
+   }
+
+   public boolean hasStringIn(String s, int line, int col) {
+        String tmp = get(line, col);
+        if (tmp == null) {
+            return false;
+        }
+
+        return tmp.contains(s);
+   }
+
+   public int[] getInts(int line, int col) {
+       String tmp = get(line, col);
+       if (tmp == null) {
+           return null;
+       }
+
+       String[] ints = tmp.trim().split(" ");
+       ArrayList<Integer> list = new ArrayList<>();
+       for (int i = 0; i < ints.length; i++) {
+           try {
+               list.add(new Integer(ints[i]));
+           } catch (NumberFormatException nfe) {
+
+           }
+       }
+
+       int[] ret = new int[list.size()];
+       for(int j=0; j<ret.length; j++) {
+           ret[j] = list.get(j);
+       }
+       return ret;
+   }
+
+   public int getBeforeIndexWithSameElement(int col, int lineIndex) {
+        String s = get(lineIndex, col);
+
+        for(int i=lineIndex-1; i>=0; i--) {
+            String tmp = get(i, col);
+            if (tmp != null) {
+                if ((tmp == null) && (s == null)) {
+                    return i;
+                }
+
+                if ((tmp != null) && (s != null)) {
+                    if (tmp.equals(s)) {
+                        return i;
+                    }
+                }
+
+            }
+        }
+
+        return -1;
+
    }
    
   

@@ -122,11 +122,21 @@ public class AvatarSimulationBlock {
     }
 
     public String getAttributeValue(int _index) {
+
+
         if (lastTransaction == null) {
-            return block.getAttribute(_index).getInitialValue();
+            if (_index < block.getAttributes().size() ) {
+                return block.getAttribute(_index).getInitialValue();
+            } else {
+                return null;
+            }
         }
 
-        return lastTransaction.attributeValues.get(_index);
+        if (_index < lastTransaction.attributeValues.size()) {
+            return lastTransaction.attributeValues.get(_index);
+        }
+
+        return null;
     }
 
     public boolean setAttributeValue(int _index, String _value) {

@@ -61,7 +61,7 @@ import java.util.Vector;
  * @author Ludovic APVRILLE
  */
 public class TGComboBoxWithHelp<E> extends JComboBox<E> {
-    public  TGHelpButton myButton;
+    private  TGHelpButton myButton;
 
     public TGComboBoxWithHelp() {
         super();

@@ -110,6 +110,10 @@ public class AvatarExpressionTest {
         assertTrue(e1.buildExpression());
         assertTrue(e1.getReturnType() == AvatarExpressionSolver.IMMEDIATE_BOOL);
 
+        AvatarExpressionSolver e1bis = new AvatarExpressionSolver("not( ( 0>10 ) and true)");
+        assertTrue(e1bis.buildExpression());
+        assertTrue(e1bis.getReturnType() == AvatarExpressionSolver.IMMEDIATE_BOOL);
+
         AvatarExpressionSolver e2 = new AvatarExpressionSolver("-10 / 2 - 15 * 2 + 1 == -30 -4");
         assertTrue(e2.buildExpression());
         assertTrue(e2.getReturnType() == AvatarExpressionSolver.IMMEDIATE_BOOL);

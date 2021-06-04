@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<TURTLEGMODELING version="1.0beta" ANIMATE_INTERACTIVE_SIMULATION="true" ACTIVATE_PENALTIES="true" UPDATE_INFORMATION_DIPLO_SIM="true" ANIMATE_WITH_INFO_DIPLO_SIM="true" OPEN_DIAG_DIPLO_SIM="false" LAST_SELECTED_MAIN_TAB="0" LAST_SELECTED_SUB_TAB="2">
+<TURTLEGMODELING version="1.0beta" ANIMATE_INTERACTIVE_SIMULATION="true" ACTIVATE_PENALTIES="true" UPDATE_INFORMATION_DIPLO_SIM="true" ANIMATE_WITH_INFO_DIPLO_SIM="true" OPEN_DIAG_DIPLO_SIM="false" LAST_SELECTED_MAIN_TAB="0" LAST_SELECTED_SUB_TAB="0">
 
 <Modeling type="TML Component Design" nameTab="AppC" tabs="TML Component Task Diagram$Application$TCPIP$Timer$InterfaceDevice$SmartCard" >
 <TMLComponentTaskDiagramPanel name="TML Component Task Diagram" minX="0" maxX="2724" minY="0" maxY="916" channels="true" events="true" requests="true" zoom="1.0000000000000018" >
-<CONNECTOR type="126" id="1" >
+<CONNECTOR type="126" id="1" uid="dd8950f9-dccd-49e8-aea4-219ca3a95476" >
 <cdparam x="535" y="347" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector" value="Connector between ports" />
-<P1  x="556" y="321" id="113" />
-<P2  x="534" y="395" id="68" />
+<P1  x="556" y="347" id="113" />
+<P2  x="547" y="382" id="68" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="126" id="3" >
+<CONNECTOR type="126" id="3" uid="4a2c5a33-f88e-4da9-b64a-45103816fb37" >
 <cdparam x="820" y="398" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector" value="Connector between ports" />
-<P1  x="1025" y="471" id="210" />
-<P2  x="761" y="548" id="98" />
+<P1  x="1025" y="497" id="210" />
+<P2  x="761" y="574" id="98" />
 <Point x="887" y="577" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR><SUBCOMPONENT type="-1" id="2" uid="4bcaea62-3a9b-4d77-8c08-e18e1a23e96d" >
@@ -29,23 +29,23 @@
 <infoparam name="point " value="null" />
 </SUBCOMPONENT>
 
-<CONNECTOR type="126" id="4" >
+<CONNECTOR type="126" id="4" uid="89d8b7dd-950b-4374-9587-6957cbf402fa" >
 <cdparam x="568" y="323" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector" value="Connector between ports" />
 <P1  x="710" y="403" id="96" />
-<P2  x="693" y="321" id="135" />
+<P2  x="693" y="347" id="135" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="126" id="5" >
+<CONNECTOR type="126" id="5" uid="590255d9-9f89-49a2-87e2-17318d0abccc" >
 <cdparam x="522" y="390" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector" value="Connector between ports" />
-<P1  x="534" y="369" id="63" />
-<P2  x="453" y="322" id="33" />
+<P1  x="521" y="382" id="63" />
+<P2  x="466" y="335" id="33" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="126" id="6" >
+<CONNECTOR type="126" id="6" uid="eeb54eee-9b62-40aa-bcc3-ff74e304e4bc" >
 <cdparam x="409" y="124" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector" value="Connector between ports" />
@@ -53,172 +53,172 @@
 <P2  x="593" y="84" id="111" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="126" id="7" >
+<CONNECTOR type="126" id="7" uid="235e4ab9-dcf9-4178-9d61-ba9a2b28757b" >
 <cdparam x="656" y="426" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector" value="Connector between ports" />
-<P1  x="805" y="542" id="92" />
-<P2  x="969" y="474" id="196" />
+<P1  x="816" y="552" id="92" />
+<P2  x="969" y="495" id="196" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="126" id="8" >
+<CONNECTOR type="126" id="8" uid="67f612f0-5ea5-4a1d-b7f2-3b65592d193d" >
 <cdparam x="656" y="400" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector" value="Connector between ports" />
-<P1  x="805" y="509" id="90" />
-<P2  x="931" y="466" id="198" />
+<P1  x="816" y="519" id="90" />
+<P2  x="921" y="476" id="198" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="126" id="9" >
+<CONNECTOR type="126" id="9" uid="23221950-7cea-42cd-8e4f-038dfe2e63fb" >
 <cdparam x="602" y="327" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector" value="Connector between ports" />
 <P1  x="751" y="406" id="82" />
-<P2  x="842" y="362" id="162" />
+<P2  x="829" y="375" id="162" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="126" id="10" >
+<CONNECTOR type="126" id="10" uid="3d5fd9ed-3538-4e84-a664-0ae1c9f58c87" >
 <cdparam x="689" y="292" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector" value="Connector between ports" />
-<P1  x="842" y="388" id="166" />
-<P2  x="931" y="352" id="188" />
+<P1  x="855" y="375" id="166" />
+<P2  x="921" y="362" id="188" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="126" id="11" >
+<CONNECTOR type="126" id="11" uid="69a493f5-ffc4-4069-84f1-06da9eec5ae6" >
 <cdparam x="656" y="377" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector" value="Connector between ports" />
-<P1  x="805" y="481" id="86" />
-<P2  x="931" y="443" id="190" />
+<P1  x="816" y="491" id="86" />
+<P2  x="921" y="453" id="190" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="126" id="12" >
+<CONNECTOR type="126" id="12" uid="4dcfefd2-79da-48f4-9ea7-49d9a9ceb8c5" >
 <cdparam x="656" y="351" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector" value="Connector between ports" />
-<P1  x="805" y="448" id="88" />
-<P2  x="931" y="416" id="192" />
+<P1  x="816" y="458" id="88" />
+<P2  x="921" y="426" id="192" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="126" id="13" >
+<CONNECTOR type="126" id="13" uid="d7f4c05f-6b18-4f50-88f5-8b1677434ac4" >
 <cdparam x="741" y="296" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector" value="Connector between ports" />
-<P1  x="931" y="387" id="194" />
-<P2  x="805" y="419" id="84" />
+<P1  x="921" y="397" id="194" />
+<P2  x="816" y="429" id="84" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="126" id="14" >
+<CONNECTOR type="126" id="14" uid="f6c94a35-09d7-4f05-8f18-3381d24831e6" >
 <cdparam x="735" y="260" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector" value="Connector between ports" />
-<P1  x="931" y="317" id="186" />
-<P2  x="734" y="269" id="123" />
+<P1  x="918" y="330" id="186" />
+<P2  x="747" y="282" id="123" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="126" id="15" >
+<CONNECTOR type="126" id="15" uid="2a9ff07c-2754-49b4-932f-de3f90949ba8" >
 <cdparam x="641" y="230" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector" value="Connector between ports" />
-<P1  x="734" y="235" id="125" />
-<P2  x="931" y="278" id="184" />
+<P1  x="747" y="248" id="125" />
+<P2  x="918" y="291" id="184" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="126" id="16" >
+<CONNECTOR type="126" id="16" uid="8f322008-dfe1-49ea-aff5-34ffca9153ae" >
 <cdparam x="641" y="195" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector" value="Connector between ports" />
-<P1  x="734" y="190" id="127" />
-<P2  x="931" y="235" id="182" />
+<P1  x="747" y="203" id="127" />
+<P2  x="918" y="248" id="182" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="126" id="17" >
+<CONNECTOR type="126" id="17" uid="047cc18e-811d-4386-9f6d-b9133ea23c48" >
 <cdparam x="740" y="353" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector" value="Connector between ports" />
-<P1  x="842" y="362" id="161" />
-<P2  x="734" y="301" id="129" />
+<P1  x="829" y="375" id="161" />
+<P2  x="747" y="314" id="129" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="126" id="18" >
+<CONNECTOR type="126" id="18" uid="f8f79fd2-d44f-47d3-840c-29abf0ef37fc" >
 <cdparam x="460" y="270" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector" value="Connector between ports" />
-<P1  x="534" y="282" id="119" />
-<P2  x="453" y="286" id="39" />
+<P1  x="521" y="295" id="119" />
+<P2  x="466" y="299" id="39" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="126" id="19" >
+<CONNECTOR type="126" id="19" uid="2a1dd6d4-61be-417b-b85f-ee4d07f5376c" >
 <cdparam x="387" y="129" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector" value="Connector between ports" />
-<P1  x="453" y="116" id="43" />
-<P2  x="534" y="116" id="131" />
+<P1  x="464" y="126" id="43" />
+<P2  x="524" y="126" id="131" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="126" id="20" >
+<CONNECTOR type="126" id="20" uid="5dfb2b94-94af-49a2-b5f8-8c5eff59acfd" >
 <cdparam x="389" y="200" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector" value="Connector between ports" />
-<P1  x="453" y="202" id="37" />
-<P2  x="534" y="202" id="117" />
+<P1  x="466" y="215" id="37" />
+<P2  x="521" y="215" id="117" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="126" id="21" >
+<CONNECTOR type="126" id="21" uid="4f7cbdc3-081d-489a-8e01-325692bb4534" >
 <cdparam x="460" y="236" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector" value="Connector between ports" />
-<P1  x="534" y="247" id="115" />
-<P2  x="453" y="247" id="35" />
+<P1  x="521" y="260" id="115" />
+<P2  x="466" y="260" id="35" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="126" id="22" >
+<CONNECTOR type="126" id="22" uid="de3719d0-ced8-4ca2-bcc5-d2e3e823d672" >
 <cdparam x="389" y="163" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector" value="Connector between ports" />
-<P1  x="453" y="156" id="41" />
-<P2  x="534" y="156" id="121" />
+<P1  x="466" y="169" id="41" />
+<P2  x="521" y="169" id="121" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="126" id="23" >
+<CONNECTOR type="126" id="23" uid="6a7aff0b-ca82-48e0-89a7-6730dc1421a9" >
 <cdparam x="967" y="190" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="1000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from TGComponent to TGComponent" value="Connector between ports" />
-<P1  x="931" y="185" id="180" />
-<P2  x="734" y="111" id="109" />
+<P1  x="918" y="198" id="180" />
+<P2  x="747" y="124" id="109" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="126" id="24" >
+<CONNECTOR type="126" id="24" uid="99e271be-6c66-4aad-baa3-3da4017fe856" >
 <cdparam x="1028" y="535" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="1000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from TGComponent to TGComponent" value="Connector between ports" />
-<P1  x="630" y="324" id="133" />
+<P1  x="630" y="345" id="133" />
 <P2  x="669" y="406" id="94" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="126" id="25" >
+<CONNECTOR type="126" id="25" uid="571956ea-b287-4d0e-be70-5093c575e87c" >
 <cdparam x="1308" y="303" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="1000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from TGComponent to TGComponent" value="Connector between ports" />
-<P1  x="1232" y="368" id="146" />
-<P2  x="1167" y="370" id="200" />
+<P1  x="1222" y="378" id="146" />
+<P2  x="1178" y="380" id="200" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="126" id="26" >
+<CONNECTOR type="126" id="26" uid="157f002c-ee2c-4c06-acba-013bb1097d4e" >
 <cdparam x="1172" y="437" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="1000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from TGComponent to TGComponent" value="Connector between ports" />
-<P1  x="1167" y="405" id="202" />
-<P2  x="1232" y="403" id="148" />
+<P1  x="1178" y="415" id="202" />
+<P2  x="1222" y="413" id="148" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="126" id="29" >
+<CONNECTOR type="126" id="29" uid="8111029f-661c-4b87-a26f-cd741f1e8247" >
 <cdparam x="1041" y="162" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="1000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from TGComponent to TGComponent" value="Connector between ports" />
-<P1  x="1167" y="198" id="204" />
-<P2  x="1167" y="266" id="206" />
+<P1  x="1178" y="208" id="204" />
+<P2  x="1178" y="276" id="206" />
 <Point x="1227" y="207" />
 <Point x="1227" y="247" />
 <AutomaticDrawing  data="true" />
@@ -239,12 +239,12 @@
 <infoparam name="point " value="null" />
 </SUBCOMPONENT>
 
-<CONNECTOR type="126" id="30" >
+<CONNECTOR type="126" id="30" uid="ceb60fcf-e505-4e58-a04a-bbc8c911ccac" >
 <cdparam x="877" y="343" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="1000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from TGComponent to TGComponent" value="Connector between ports" />
-<P1  x="1167" y="444" id="208" />
-<P2  x="1232" y="431" id="150" />
+<P1  x="1178" y="454" id="208" />
+<P2  x="1222" y="441" id="150" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
 <COMPONENT type="1202" id="53" uid="1968e564-baf8-409e-b7a9-37b99e82cf53" >
@@ -1491,7 +1491,7 @@
 <TGConnectingPoint num="0" id="276" />
 </COMPONENT>
 
-<CONNECTOR type="115" id="278" >
+<CONNECTOR type="115" id="278" uid="57e860f1-6ba5-45de-8881-c50e4604dbc8" >
 <cdparam x="510" y="294" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector" value="null" />
@@ -1499,7 +1499,7 @@
 <P2  x="509" y="348" id="262" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="115" id="279" >
+<CONNECTOR type="115" id="279" uid="11f67870-66a1-4bd1-9769-d71e9b309504" >
 <cdparam x="508" y="424" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector" value="null" />
@@ -1507,7 +1507,7 @@
 <P2  x="510" y="509" id="252" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="115" id="280" >
+<CONNECTOR type="115" id="280" uid="3b9112f7-4af8-4496-b9a6-a635f6abc4b0" >
 <cdparam x="512" y="154" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector" value="null" />
@@ -1515,7 +1515,7 @@
 <P2  x="511" y="187" id="246" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="115" id="281" >
+<CONNECTOR type="115" id="281" uid="294cbf72-422d-4da0-8991-fe068fd1f86d" >
 <cdparam x="594" y="221" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector" value="null" />
@@ -1523,7 +1523,7 @@
 <P2  x="510" y="254" id="240" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="115" id="282" >
+<CONNECTOR type="115" id="282" uid="d240d2cb-ec41-4dab-abb5-b3f42e0df492" >
 <cdparam x="506" y="36" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="600" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from start state to send event" value="null" />
@@ -1531,7 +1531,7 @@
 <P2  x="505" y="66" id="259" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="115" id="283" >
+<CONNECTOR type="115" id="283" uid="affa731d-f7bd-4d25-b290-bb27a5f8c462" >
 <cdparam x="508" y="154" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="600" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from send event to write channel" value="null" />
@@ -1539,7 +1539,7 @@
 <P2  x="512" y="124" id="243" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="115" id="284" >
+<CONNECTOR type="115" id="284" uid="2c32904d-2a6f-414e-829d-5b80198831c9" >
 <cdparam x="509" y="397" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="600" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from write channel to send event" value="null" />
@@ -1547,7 +1547,7 @@
 <P2  x="508" y="394" id="265" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="115" id="285" >
+<CONNECTOR type="115" id="285" uid="98dd6afa-9674-45df-a819-0ffd02cea3af" >
 <cdparam x="587" y="614" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="600" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from send event to stop state" value="null" />
@@ -1555,7 +1555,7 @@
 <P2  x="587" y="643" id="268" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="115" id="286" >
+<CONNECTOR type="115" id="286" uid="019535b0-bdfa-4fa8-90ae-29def3ead671" >
 <cdparam x="471" y="608" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="600" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from choice to send event" value="null" />
@@ -1563,7 +1563,7 @@
 <P2  x="433" y="592" id="273" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="115" id="287" >
+<CONNECTOR type="115" id="287" uid="8ef65246-9d6e-47d3-b5b4-32cf51221193" >
 <cdparam x="433" y="622" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="600" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from send event to stop state" value="null" />
@@ -1571,7 +1571,7 @@
 <P2  x="433" y="641" id="276" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="115" id="288" >
+<CONNECTOR type="115" id="288" uid="9754497e-d3b2-479e-99e2-e7bb618a04db" >
 <cdparam x="551" y="608" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="600" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from choice to send event" value="null" />
@@ -1823,7 +1823,7 @@
 <SUBCOMPONENT type="-1" id="336" uid="25263319-a1b7-4a56-b225-094991320fc9" >
 <father id="339" num="0" />
 <cdparam x="1539" y="1274" />
-<sizeparam width="8" height="15" minWidth="10" minHeight="1" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
+<sizeparam width="10" height="15" minWidth="10" minHeight="1" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <hidden value="false" />
 <cdrectangleparam minX="-75" maxX="30" minY="10" maxY="30" />
 <infoparam name="value of the delay" value="b" />
@@ -1842,7 +1842,7 @@
 <SUBCOMPONENT type="-1" id="340" uid="916f4c72-9f79-411f-b945-7bef02598d9c" >
 <father id="343" num="0" />
 <cdparam x="1538" y="1088" />
-<sizeparam width="8" height="15" minWidth="10" minHeight="1" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
+<sizeparam width="10" height="15" minWidth="10" minHeight="1" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <hidden value="false" />
 <cdrectangleparam minX="-75" maxX="30" minY="10" maxY="30" />
 <infoparam name="value of the delay" value="b" />
@@ -1935,7 +1935,7 @@
 <SUBCOMPONENT type="-1" id="360" uid="b14bfb44-ae9e-4498-8ca4-0982571e79f5" >
 <father id="363" num="0" />
 <cdparam x="1655" y="1254" />
-<sizeparam width="8" height="15" minWidth="10" minHeight="1" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
+<sizeparam width="10" height="15" minWidth="10" minHeight="1" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <hidden value="false" />
 <cdrectangleparam minX="-75" maxX="30" minY="10" maxY="30" />
 <infoparam name="value of the delay" value="b" />
@@ -1954,7 +1954,7 @@
 <SUBCOMPONENT type="-1" id="364" uid="876b57b0-c80d-44e2-8d47-c59506a3644d" >
 <father id="367" num="0" />
 <cdparam x="2219" y="1083" />
-<sizeparam width="8" height="15" minWidth="10" minHeight="1" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
+<sizeparam width="10" height="15" minWidth="10" minHeight="1" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <hidden value="false" />
 <cdrectangleparam minX="-75" maxX="30" minY="10" maxY="30" />
 <infoparam name="value of the delay" value="b" />
@@ -1973,7 +1973,7 @@
 <SUBCOMPONENT type="-1" id="368" uid="cd15b4f4-2179-4208-838d-4ec443d79fad" >
 <father id="371" num="0" />
 <cdparam x="2288" y="1044" />
-<sizeparam width="8" height="15" minWidth="10" minHeight="1" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
+<sizeparam width="10" height="15" minWidth="10" minHeight="1" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <hidden value="false" />
 <cdrectangleparam minX="-75" maxX="30" minY="10" maxY="30" />
 <infoparam name="value of the delay" value="b" />
@@ -2030,7 +2030,7 @@
 <SUBCOMPONENT type="-1" id="380" uid="3000bf51-e0e5-4565-8868-85f003720e67" >
 <father id="383" num="0" />
 <cdparam x="1218" y="1127" />
-<sizeparam width="8" height="15" minWidth="10" minHeight="1" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
+<sizeparam width="10" height="15" minWidth="10" minHeight="1" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <hidden value="false" />
 <cdrectangleparam minX="-75" maxX="30" minY="10" maxY="30" />
 <infoparam name="value of the delay" value="b" />
@@ -2087,7 +2087,7 @@
 <SUBCOMPONENT type="-1" id="392" uid="a1c8f60a-5d60-450a-ac83-a380030ee735" >
 <father id="395" num="0" />
 <cdparam x="732" y="714" />
-<sizeparam width="8" height="15" minWidth="10" minHeight="1" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
+<sizeparam width="10" height="15" minWidth="10" minHeight="1" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <hidden value="false" />
 <cdrectangleparam minX="-75" maxX="30" minY="10" maxY="30" />
 <infoparam name="value of the delay" value="b" />
@@ -2106,7 +2106,7 @@
 <SUBCOMPONENT type="-1" id="396" uid="203aff0b-5d31-4b50-bbc3-28c61ddffbe4" >
 <father id="399" num="0" />
 <cdparam x="953" y="1045" />
-<sizeparam width="8" height="15" minWidth="10" minHeight="1" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
+<sizeparam width="10" height="15" minWidth="10" minHeight="1" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <hidden value="false" />
 <cdrectangleparam minX="-75" maxX="30" minY="10" maxY="30" />
 <infoparam name="value of the delay" value="b" />
@@ -2164,7 +2164,7 @@
 <SUBCOMPONENT type="-1" id="408" uid="feebe61a-ff03-44a8-8843-74bfa927aabf" >
 <father id="411" num="0" />
 <cdparam x="818" y="1031" />
-<sizeparam width="8" height="15" minWidth="10" minHeight="1" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
+<sizeparam width="10" height="15" minWidth="10" minHeight="1" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <hidden value="false" />
 <cdrectangleparam minX="-75" maxX="30" minY="10" maxY="30" />
 <infoparam name="value of the delay" value="b" />
@@ -2222,7 +2222,7 @@
 <SUBCOMPONENT type="-1" id="420" uid="b1d47b88-a81f-44df-a5fa-185d877f410f" >
 <father id="423" num="0" />
 <cdparam x="354" y="785" />
-<sizeparam width="8" height="15" minWidth="10" minHeight="1" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
+<sizeparam width="10" height="15" minWidth="10" minHeight="1" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <hidden value="false" />
 <cdrectangleparam minX="-75" maxX="30" minY="10" maxY="30" />
 <infoparam name="value of the delay" value="b" />
@@ -2241,7 +2241,7 @@
 <SUBCOMPONENT type="-1" id="424" uid="dd9e2123-8c23-4886-89bf-abb64b2ce4c0" >
 <father id="427" num="0" />
 <cdparam x="146" y="818" />
-<sizeparam width="8" height="15" minWidth="10" minHeight="1" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
+<sizeparam width="10" height="15" minWidth="10" minHeight="1" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <hidden value="false" />
 <cdrectangleparam minX="-75" maxX="30" minY="10" maxY="30" />
 <infoparam name="value of the delay" value="b" />
@@ -2296,7 +2296,7 @@
 <SUBCOMPONENT type="-1" id="436" uid="653b0f2b-f700-4172-81f2-67ba3b506553" >
 <father id="439" num="0" />
 <cdparam x="474" y="802" />
-<sizeparam width="8" height="15" minWidth="10" minHeight="1" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
+<sizeparam width="10" height="15" minWidth="10" minHeight="1" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <hidden value="false" />
 <cdrectangleparam minX="-75" maxX="30" minY="10" maxY="30" />
 <infoparam name="value of the delay" value="b" />
@@ -2315,7 +2315,7 @@
 <SUBCOMPONENT type="-1" id="440" uid="b3c72553-cf5f-4bd0-9172-9a30d830f7d2" >
 <father id="443" num="0" />
 <cdparam x="245" y="885" />
-<sizeparam width="8" height="15" minWidth="10" minHeight="1" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
+<sizeparam width="10" height="15" minWidth="10" minHeight="1" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <hidden value="false" />
 <cdrectangleparam minX="-75" maxX="30" minY="10" maxY="30" />
 <infoparam name="value of the delay" value="b" />
@@ -2334,7 +2334,7 @@
 <SUBCOMPONENT type="-1" id="444" uid="6777cebc-cc77-4a97-872c-265b68b0405c" >
 <father id="447" num="0" />
 <cdparam x="1059" y="1077" />
-<sizeparam width="8" height="15" minWidth="10" minHeight="1" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
+<sizeparam width="10" height="15" minWidth="10" minHeight="1" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <hidden value="false" />
 <cdrectangleparam minX="-75" maxX="30" minY="10" maxY="30" />
 <infoparam name="value of the delay" value="b" />
@@ -2952,7 +2952,7 @@ On prend b=1 comme exemple
 
 <COMPONENT type="301" id="622" uid="90cef370-0935-431a-bc1b-bb748acc1167" >
 <cdparam x="998" y="850" />
-<sizeparam width="50" height="15" minWidth="50" minHeight="20" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
+<sizeparam width="50" height="20" minWidth="50" minHeight="20" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <hidden value="false" />
 <cdrectangleparam minX="10" maxX="2900" minY="10" maxY="1900" />
 <infoparam name="UML Note" value="Final
@@ -3014,7 +3014,7 @@ On prend b=1 comme exemple
 
 <COMPONENT type="301" id="647" uid="5889bd3e-2e61-4183-828b-c0ddc6beb473" >
 <cdparam x="781" y="950" />
-<sizeparam width="89" height="15" minWidth="50" minHeight="20" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
+<sizeparam width="89" height="20" minWidth="50" minHeight="20" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <hidden value="false" />
 <cdrectangleparam minX="10" maxX="2900" minY="10" maxY="1900" />
 <infoparam name="UML Note" value="Active Open
@@ -3042,7 +3042,7 @@ On prend b=1 comme exemple
 
 <COMPONENT type="301" id="664" uid="1012654f-3ddc-4ce6-8231-fcca921430db" >
 <cdparam x="715" y="907" />
-<sizeparam width="97" height="15" minWidth="50" minHeight="20" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
+<sizeparam width="97" height="20" minWidth="50" minHeight="20" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <hidden value="false" />
 <cdrectangleparam minX="10" maxX="2900" minY="10" maxY="1900" />
 <infoparam name="UML Note" value="Passive Open
@@ -3115,7 +3115,7 @@ On prend b=1 comme exemple
 
 <COMPONENT type="301" id="692" uid="deb329f2-b88f-4538-b1b9-82096a81e237" >
 <cdparam x="884" y="1068" />
-<sizeparam width="108" height="15" minWidth="50" minHeight="20" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
+<sizeparam width="108" height="20" minWidth="50" minHeight="20" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <hidden value="false" />
 <cdrectangleparam minX="10" maxX="2900" minY="10" maxY="1900" />
 <infoparam name="UML Note" value="send Ack of Fin
@@ -3177,7 +3177,7 @@ On prend b=1 comme exemple
 
 <COMPONENT type="301" id="717" uid="dc5b21eb-2d86-43a9-a9f0-5e918eb0fa7a" >
 <cdparam x="1000" y="1094" />
-<sizeparam width="108" height="15" minWidth="50" minHeight="20" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
+<sizeparam width="108" height="20" minWidth="50" minHeight="20" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <hidden value="false" />
 <cdrectangleparam minX="10" maxX="2900" minY="10" maxY="1900" />
 <infoparam name="UML Note" value="send Ack of Fin
@@ -3557,7 +3557,7 @@ On prend b=1 comme exemple
 
 <COMPONENT type="301" id="813" uid="b361e171-a814-4147-994f-e0414689614d" >
 <cdparam x="1159" y="1153" />
-<sizeparam width="108" height="15" minWidth="50" minHeight="20" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
+<sizeparam width="108" height="20" minWidth="50" minHeight="20" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <hidden value="false" />
 <cdrectangleparam minX="10" maxX="2900" minY="10" maxY="1900" />
 <infoparam name="UML Note" value="send Ack of Fin
@@ -3690,7 +3690,7 @@ On prend b=1 comme exemple
 
 <COMPONENT type="301" id="854" uid="3a43d68b-84e4-4952-bd46-025277b7a929" >
 <cdparam x="1759" y="1192" />
-<sizeparam width="86" height="15" minWidth="50" minHeight="20" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
+<sizeparam width="86" height="20" minWidth="50" minHeight="20" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <hidden value="false" />
 <cdrectangleparam minX="10" maxX="2900" minY="10" maxY="1900" />
 <infoparam name="UML Note" value="Correct ack
@@ -3718,7 +3718,7 @@ On prend b=1 comme exemple
 
 <COMPONENT type="301" id="871" uid="1fad9b43-08d5-43aa-9a50-81f2e6eb80bf" >
 <cdparam x="1635" y="1168" />
-<sizeparam width="71" height="15" minWidth="50" minHeight="20" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
+<sizeparam width="71" height="20" minWidth="50" minHeight="20" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <hidden value="false" />
 <cdrectangleparam minX="10" maxX="2900" minY="10" maxY="1900" />
 <infoparam name="UML Note" value="false ack
@@ -3769,7 +3769,7 @@ On prend b=1 comme exemple
 
 <COMPONENT type="301" id="893" uid="5ef50071-788a-49a1-a1a8-a760c0b5d19d" >
 <cdparam x="1469" y="1295" />
-<sizeparam width="127" height="15" minWidth="50" minHeight="20" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
+<sizeparam width="127" height="20" minWidth="50" minHeight="20" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <hidden value="false" />
 <cdrectangleparam minX="10" maxX="2900" minY="10" maxY="1900" />
 <infoparam name="UML Note" value="return acknowldge
@@ -3797,7 +3797,7 @@ On prend b=1 comme exemple
 
 <COMPONENT type="301" id="910" uid="f5f79efc-f8a9-4d61-83a4-0cd9f13ab8c3" >
 <cdparam x="1620" y="927" />
-<sizeparam width="50" height="15" minWidth="50" minHeight="20" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
+<sizeparam width="50" height="20" minWidth="50" minHeight="20" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <hidden value="false" />
 <cdrectangleparam minX="10" maxX="2900" minY="10" maxY="1900" />
 <infoparam name="UML Note" value="data
@@ -3967,7 +3967,7 @@ On prend b=1 comme exemple
 
 <COMPONENT type="301" id="961" uid="6f7a2eb1-63c7-44bd-9a62-3faeab9de781" >
 <cdparam x="1825" y="889" />
-<sizeparam width="50" height="15" minWidth="50" minHeight="20" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
+<sizeparam width="50" height="20" minWidth="50" minHeight="20" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <hidden value="false" />
 <cdrectangleparam minX="10" maxX="2900" minY="10" maxY="1900" />
 <infoparam name="UML Note" value="Syn
@@ -3995,7 +3995,7 @@ On prend b=1 comme exemple
 
 <COMPONENT type="301" id="978" uid="291a1172-a93b-4334-974a-4fac2e1eeb9f" >
 <cdparam x="1707" y="945" />
-<sizeparam width="50" height="15" minWidth="50" minHeight="20" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
+<sizeparam width="50" height="20" minWidth="50" minHeight="20" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <hidden value="false" />
 <cdrectangleparam minX="10" maxX="2900" minY="10" maxY="1900" />
 <infoparam name="UML Note" value="ack
@@ -4124,7 +4124,7 @@ On prend b=1 comme exemple
 
 <COMPONENT type="301" id="1018" uid="d8d59259-a796-4193-ade2-f5557c909799" >
 <cdparam x="2283" y="1065" />
-<sizeparam width="114" height="15" minWidth="50" minHeight="20" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
+<sizeparam width="114" height="20" minWidth="50" minHeight="20" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <hidden value="false" />
 <cdrectangleparam minX="10" maxX="2900" minY="10" maxY="1900" />
 <infoparam name="UML Note" value="send Ack of SYN
@@ -4239,7 +4239,7 @@ On prend b=1 comme exemple
 </extraparam>
 </COMPONENT>
 
-<CONNECTOR type="115" id="1039" >
+<CONNECTOR type="115" id="1039" uid="8a772c81-3a97-4565-af87-a91a8590dc16" >
 <cdparam x="192" y="445" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector" value="null" />
@@ -4247,7 +4247,7 @@ On prend b=1 comme exemple
 <P2  x="188" y="481" id="451" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="115" id="1040" >
+<CONNECTOR type="115" id="1040" uid="6420e117-7d63-4092-9214-94bb10c7e42e" >
 <cdparam x="1048" y="795" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="1000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from choice to choice" value="null" />
@@ -4255,7 +4255,7 @@ On prend b=1 comme exemple
 <P2  x="1728" y="870" id="355" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="115" id="1041" >
+<CONNECTOR type="115" id="1041" uid="e1c7e8ae-ff0d-4478-834b-e2b20b22fca6" >
 <cdparam x="1048" y="795" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="1000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from choice to choice" value="null" />
@@ -4263,7 +4263,7 @@ On prend b=1 comme exemple
 <P2  x="1208" y="1015" id="375" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="115" id="1042" >
+<CONNECTOR type="115" id="1042" uid="e3834022-985c-4531-8ebf-9106dcdd3fc5" >
 <cdparam x="722" y="614" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="1000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from read channel to execI" value="null" />
@@ -4271,7 +4271,7 @@ On prend b=1 comme exemple
 <P2  x="722" y="689" id="393" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="115" id="1043" >
+<CONNECTOR type="115" id="1043" uid="9b19f68a-36ae-467e-8273-713b892a439a" >
 <cdparam x="504" y="597" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="1000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from choice to choice" value="null" />
@@ -4279,7 +4279,7 @@ On prend b=1 comme exemple
 <P2  x="572" y="707" id="387" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="115" id="1044" >
+<CONNECTOR type="115" id="1044" uid="b8200224-9f9e-404c-9a78-b4a37c9bc329" >
 <cdparam x="464" y="637" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="1000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from choice to execI" value="null" />
@@ -4287,7 +4287,7 @@ On prend b=1 comme exemple
 <P2  x="464" y="778" id="437" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="115" id="1045" >
+<CONNECTOR type="115" id="1045" uid="5eb2ab2a-7c14-4403-8b61-9cf5fb2c1e57" >
 <cdparam x="424" y="597" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="1000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from choice to execI" value="null" />
@@ -4295,7 +4295,7 @@ On prend b=1 comme exemple
 <P2  x="346" y="759" id="421" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="115" id="1046" >
+<CONNECTOR type="115" id="1046" uid="3f0a6790-b970-4422-9ba4-4365b05de974" >
 <cdparam x="289" y="619" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="1000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from choice to read channel" value="null" />
@@ -4303,7 +4303,7 @@ On prend b=1 comme exemple
 <P2  x="230" y="803" id="574" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="115" id="1047" >
+<CONNECTOR type="115" id="1047" uid="6f8e4471-58d4-408d-b82d-cab374c2d5dc" >
 <cdparam x="249" y="579" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="1000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from choice to execI" value="null" />
@@ -4311,7 +4311,7 @@ On prend b=1 comme exemple
 <P2  x="132" y="789" id="425" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="115" id="1048" >
+<CONNECTOR type="115" id="1048" uid="835ecef2-a08a-4164-8188-e1cc020ebf49" >
 <cdparam x="371" y="93" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="600" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from for loop to notified event" value="null" />
@@ -4319,7 +4319,7 @@ On prend b=1 comme exemple
 <P2  x="374" y="128" id="516" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="115" id="1049" >
+<CONNECTOR type="115" id="1049" uid="00bad55f-cb19-4bb3-a3d5-fe5903d9f282" >
 <cdparam x="234" y="169" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="600" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from action state to stop state" value="null" />
@@ -4327,7 +4327,7 @@ On prend b=1 comme exemple
 <P2  x="235" y="202" id="511" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="115" id="1050" >
+<CONNECTOR type="115" id="1050" uid="be3e833d-bc3a-442a-9758-3627cfdab960" >
 <cdparam x="234" y="104" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="600" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from for loop to action state" value="null" />
@@ -4335,7 +4335,7 @@ On prend b=1 comme exemple
 <P2  x="235" y="139" id="513" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="115" id="1051" >
+<CONNECTOR type="115" id="1051" uid="f3c6346f-6dae-43e5-90c3-cd87dd871505" >
 <cdparam x="234" y="47" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="600" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from start state to for loop" value="null" />
@@ -4343,7 +4343,7 @@ On prend b=1 comme exemple
 <P2  x="235" y="80" id="507" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="115" id="1052" >
+<CONNECTOR type="115" id="1052" uid="dcf244b6-d674-4540-b028-7b03956b8d17" >
 <cdparam x="425" y="162" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="600" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from notified event to choice" value="null" />
@@ -4351,7 +4351,7 @@ On prend b=1 comme exemple
 <P2  x="374" y="187" id="459" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="115" id="1053" >
+<CONNECTOR type="115" id="1053" uid="47e42700-2d4d-48b9-933e-146b1c8ba3af" >
 <cdparam x="564" y="482" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="600" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from choice to wait event" value="null" />
@@ -4359,7 +4359,7 @@ On prend b=1 comme exemple
 <P2  x="722" y="529" id="522" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="115" id="1054" >
+<CONNECTOR type="115" id="1054" uid="9002a37c-67f8-42e4-8647-685231960a64" >
 <cdparam x="722" y="559" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="600" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from wait event to read channel" value="null" />
@@ -4367,7 +4367,7 @@ On prend b=1 comme exemple
 <P2  x="722" y="584" id="519" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="115" id="1055" >
+<CONNECTOR type="115" id="1055" uid="442c4915-f877-4dc3-a2e5-fb6c276ee696" >
 <cdparam x="604" y="442" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="600" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from choice to wait event" value="null" />
@@ -4375,7 +4375,7 @@ On prend b=1 comme exemple
 <P2  x="1008" y="523" id="525" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="115" id="1056" >
+<CONNECTOR type="115" id="1056" uid="d198e2c7-459c-49d9-8817-5a12dfdb9aef" >
 <cdparam x="1007" y="553" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="600" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from wait event to read channel" value="null" />
@@ -4383,7 +4383,7 @@ On prend b=1 comme exemple
 <P2  x="1008" y="580" id="504" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="115" id="1057" >
+<CONNECTOR type="115" id="1057" uid="02cbbeeb-d00d-40dc-8910-ed6fcf91a555" >
 <cdparam x="524" y="442" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="600" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from choice to wait event" value="null" />
@@ -4391,7 +4391,7 @@ On prend b=1 comme exemple
 <P2  x="464" y="487" id="528" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="115" id="1058" >
+<CONNECTOR type="115" id="1058" uid="59590192-61c4-432b-996e-480f4414d20c" >
 <cdparam x="330" y="428" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="600" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from choice to wait event" value="null" />
@@ -4399,7 +4399,7 @@ On prend b=1 comme exemple
 <P2  x="289" y="463" id="531" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="115" id="1059" >
+<CONNECTOR type="115" id="1059" uid="90e5ca49-2776-4be1-8c66-bb87dd3f89e6" >
 <cdparam x="318" y="520" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="600" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from wait event to choice" value="null" />
@@ -4407,7 +4407,7 @@ On prend b=1 comme exemple
 <P2  x="289" y="559" id="475" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="115" id="1060" >
+<CONNECTOR type="115" id="1060" uid="8e2230e0-5d7b-4fe2-af56-98880e99ee0b" >
 <cdparam x="160" y="481" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="600" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from choice to action state" value="null" />
@@ -4415,7 +4415,7 @@ On prend b=1 comme exemple
 <P2  x="148" y="544" id="499" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="115" id="1061" >
+<CONNECTOR type="115" id="1061" uid="e752e567-a5b8-496c-bf28-7ab29d86a842" >
 <cdparam x="290" y="388" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="600" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from choice to wait event" value="null" />
@@ -4423,7 +4423,7 @@ On prend b=1 comme exemple
 <P2  x="188" y="378" id="534" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="115" id="1062" >
+<CONNECTOR type="115" id="1062" uid="34ba3859-0290-4a2d-bddc-df155d48cd90" >
 <cdparam x="229" y="467" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="600" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from wait event to choice" value="null" />
@@ -4431,7 +4431,7 @@ On prend b=1 comme exemple
 <P2  x="188" y="419" id="293" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="115" id="1063" >
+<CONNECTOR type="115" id="1063" uid="c3fedfdb-09eb-4f57-9521-278f5816939d" >
 <cdparam x="228" y="501" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="600" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from choice to stop state" value="null" />
@@ -4439,7 +4439,7 @@ On prend b=1 comme exemple
 <P2  x="228" y="524" id="548" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="115" id="1064" >
+<CONNECTOR type="115" id="1064" uid="07c798c4-ffc1-4332-9e4b-b264107b649f" >
 <cdparam x="334" y="207" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="600" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from choice to wait event" value="null" />
@@ -4447,7 +4447,7 @@ On prend b=1 comme exemple
 <P2  x="301" y="223" id="552" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="115" id="1065" >
+<CONNECTOR type="115" id="1065" uid="7867d1bd-57de-4f36-b5bd-cd3f4e23da64" >
 <cdparam x="301" y="253" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="600" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from wait event to stop state" value="null" />
@@ -4455,7 +4455,7 @@ On prend b=1 comme exemple
 <P2  x="301" y="285" id="555" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="115" id="1066" >
+<CONNECTOR type="115" id="1066" uid="06389b12-c33e-4d2f-8f5f-055287fd4844" >
 <cdparam x="464" y="517" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="600" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from wait event to choice" value="null" />
@@ -4463,7 +4463,7 @@ On prend b=1 comme exemple
 <P2  x="464" y="577" id="467" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="115" id="1067" >
+<CONNECTOR type="115" id="1067" uid="16576df8-a203-4896-a176-02fb6164ec93" >
 <cdparam x="329" y="579" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="600" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from choice to stop state" value="null" />
@@ -4471,7 +4471,7 @@ On prend b=1 comme exemple
 <P2  x="329" y="609" id="550" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="115" id="1068" >
+<CONNECTOR type="115" id="1068" uid="36b1e5f5-7ef0-42b7-b18d-ba43d7bf55eb" >
 <cdparam x="126" y="574" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="600" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from action state to stop state" value="null" />
@@ -4479,7 +4479,7 @@ On prend b=1 comme exemple
 <P2  x="148" y="610" id="502" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="115" id="1069" >
+<CONNECTOR type="115" id="1069" uid="033c8d90-6159-4752-940c-4868471ef445" >
 <cdparam x="414" y="207" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="600" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from choice to select" value="null" />
@@ -4487,7 +4487,7 @@ On prend b=1 comme exemple
 <P2  x="464" y="262" id="537" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="115" id="1070" >
+<CONNECTOR type="115" id="1070" uid="989093b7-8f85-4aa7-9364-2d74b9305e06" >
 <cdparam x="230" y="833" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="600" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from read channel to execI" value="null" />
@@ -4495,7 +4495,7 @@ On prend b=1 comme exemple
 <P2  x="230" y="858" id="441" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="115" id="1071" >
+<CONNECTOR type="115" id="1071" uid="981ff175-7733-4238-8abb-fa410f20cc4a" >
 <cdparam x="716" y="749" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="600" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from choice to choice" value="null" />
@@ -4503,7 +4503,7 @@ On prend b=1 comme exemple
 <P2  x="843" y="864" id="415" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="115" id="1072" >
+<CONNECTOR type="115" id="1072" uid="f76a0d3a-e6f0-4af2-909a-9dddf1b2c9a2" >
 <cdparam x="720" y="1074" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="600" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from action state to stop state" value="null" />
@@ -4511,7 +4511,7 @@ On prend b=1 comme exemple
 <P2  x="728" y="1027" id="626" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="115" id="1073" >
+<CONNECTOR type="115" id="1073" uid="a7d29627-3ab7-4819-8b84-824f8b373417" >
 <cdparam x="733" y="899" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="600" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from choice to action state" value="null" />
@@ -4519,7 +4519,7 @@ On prend b=1 comme exemple
 <P2  x="728" y="960" id="623" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="115" id="1074" >
+<CONNECTOR type="115" id="1074" uid="25ffcf54-0882-4696-bebd-9a847f1d5ee6" >
 <cdparam x="800" y="938" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="600" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from choice to execI" value="null" />
@@ -4527,7 +4527,7 @@ On prend b=1 comme exemple
 <P2  x="800" y="1004" id="409" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="115" id="1075" >
+<CONNECTOR type="115" id="1075" uid="14d4b7d9-fcae-4d31-a2ae-74e2ea0f814e" >
 <cdparam x="800" y="1057" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="600" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from execI to write channel" value="null" />
@@ -4535,7 +4535,7 @@ On prend b=1 comme exemple
 <P2  x="800" y="1081" id="628" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="115" id="1076" >
+<CONNECTOR type="115" id="1076" uid="45a6db68-787d-48f3-baa0-9bf8b632fbed" >
 <cdparam x="132" y="886" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="600" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from action state to write channel" value="null" />
@@ -4543,7 +4543,7 @@ On prend b=1 comme exemple
 <P2  x="132" y="933" id="590" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="115" id="1077" >
+<CONNECTOR type="115" id="1077" uid="eb57b6bc-f6cd-4072-8e39-46db77bd79e1" >
 <cdparam x="943" y="1061" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="600" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from execI to write channel" value="null" />
@@ -4551,7 +4551,7 @@ On prend b=1 comme exemple
 <P2  x="943" y="1118" id="673" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="115" id="1078" >
+<CONNECTOR type="115" id="1078" uid="8639051e-d010-4353-97a9-af4afee6a77f" >
 <cdparam x="1049" y="1093" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="600" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from execI to write channel" value="null" />
@@ -4559,7 +4559,7 @@ On prend b=1 comme exemple
 <P2  x="1049" y="1150" id="698" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="115" id="1079" >
+<CONNECTOR type="115" id="1079" uid="338e2e3d-3fba-48fe-bc3b-6c04e1cf633a" >
 <cdparam x="1049" y="994" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="600" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from choice to execI" value="null" />
@@ -4567,7 +4567,7 @@ On prend b=1 comme exemple
 <P2  x="1049" y="1052" id="445" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="115" id="1080" >
+<CONNECTOR type="115" id="1080" uid="8e3be92c-395a-45b4-8c1b-d28017fe17d8" >
 <cdparam x="696" y="742" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="600" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from execI to write channel" value="null" />
@@ -4575,7 +4575,7 @@ On prend b=1 comme exemple
 <P2  x="722" y="753" id="723" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="115" id="1081" >
+<CONNECTOR type="115" id="1081" uid="b6f66e08-8e87-43d0-836a-aa27bc52a16b" >
 <cdparam x="132" y="1125" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="600" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from send request to write channel" value="null" />
@@ -4583,7 +4583,7 @@ On prend b=1 comme exemple
 <P2  x="132" y="1162" id="731" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="115" id="1082" >
+<CONNECTOR type="115" id="1082" uid="97d1d052-36a2-4400-81b5-b4bfd0601e08" >
 <cdparam x="132" y="1192" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="600" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from write channel to stop state" value="null" />
@@ -4591,7 +4591,7 @@ On prend b=1 comme exemple
 <P2  x="132" y="1231" id="734" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="115" id="1083" >
+<CONNECTOR type="115" id="1083" uid="a7a74113-b488-48e9-be4d-e69602c58e1d" >
 <cdparam x="132" y="1066" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="600" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from action state to send request" value="null" />
@@ -4599,7 +4599,7 @@ On prend b=1 comme exemple
 <P2  x="132" y="1095" id="728" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="115" id="1084" >
+<CONNECTOR type="115" id="1084" uid="1fe3738f-1571-4074-8c6e-c8f0d37ce2b8" >
 <cdparam x="229" y="1127" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="600" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from send request to write channel" value="null" />
@@ -4607,7 +4607,7 @@ On prend b=1 comme exemple
 <P2  x="230" y="1164" id="739" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="115" id="1085" >
+<CONNECTOR type="115" id="1085" uid="97098667-c691-401a-a6b3-f8b1bbd6d8bf" >
 <cdparam x="346" y="1131" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="600" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from send request to write channel" value="null" />
@@ -4615,7 +4615,7 @@ On prend b=1 comme exemple
 <P2  x="346" y="1168" id="745" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="115" id="1086" >
+<CONNECTOR type="115" id="1086" uid="bbf44e36-5b9b-4e53-987d-fcb695dd2d23" >
 <cdparam x="346" y="1051" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="600" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from action state to send request" value="null" />
@@ -4623,7 +4623,7 @@ On prend b=1 comme exemple
 <P2  x="346" y="1101" id="742" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="115" id="1087" >
+<CONNECTOR type="115" id="1087" uid="adf39b6d-c9e5-4e2a-8d90-4875d34a723b" >
 <cdparam x="437" y="1118" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="600" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from send request to write channel" value="null" />
@@ -4631,7 +4631,7 @@ On prend b=1 comme exemple
 <P2  x="464" y="1154" id="751" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="115" id="1088" >
+<CONNECTOR type="115" id="1088" uid="7e5b097e-9599-4d7f-944d-63ec53a621ce" >
 <cdparam x="438" y="1057" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="600" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from action state to send request" value="null" />
@@ -4639,7 +4639,7 @@ On prend b=1 comme exemple
 <P2  x="464" y="1085" id="748" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="115" id="1089" >
+<CONNECTOR type="115" id="1089" uid="3b8dceea-c10c-4675-8a16-a4dfe2052cbe" >
 <cdparam x="132" y="808" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="600" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from execI to action state" value="null" />
@@ -4647,7 +4647,7 @@ On prend b=1 comme exemple
 <P2  x="132" y="856" id="754" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="115" id="1090" >
+<CONNECTOR type="115" id="1090" uid="e6081a24-215f-440c-a55b-057e32781e10" >
 <cdparam x="230" y="898" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="600" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from execI to action state" value="null" />
@@ -4655,7 +4655,7 @@ On prend b=1 comme exemple
 <P2  x="230" y="935" id="757" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="115" id="1091" >
+<CONNECTOR type="115" id="1091" uid="16b6a9c1-04f1-4708-9208-143643f668b5" >
 <cdparam x="230" y="965" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="600" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from action state to write channel" value="null" />
@@ -4663,7 +4663,7 @@ On prend b=1 comme exemple
 <P2  x="230" y="997" id="577" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="115" id="1092" >
+<CONNECTOR type="115" id="1092" uid="e6bfc1dd-c7f5-46e5-afa9-d0b98db06e3f" >
 <cdparam x="346" y="799" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="600" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from execI to action state" value="null" />
@@ -4671,7 +4671,7 @@ On prend b=1 comme exemple
 <P2  x="346" y="826" id="763" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="115" id="1093" >
+<CONNECTOR type="115" id="1093" uid="c0802762-0aea-4845-bb0c-251c3ef85230" >
 <cdparam x="346" y="856" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="600" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from action state to write channel" value="null" />
@@ -4679,7 +4679,7 @@ On prend b=1 comme exemple
 <P2  x="346" y="895" id="601" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="115" id="1094" >
+<CONNECTOR type="115" id="1094" uid="68fe3fd4-56b8-4729-9952-a107bd178066" >
 <cdparam x="439" y="818" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="600" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from execI to action state" value="null" />
@@ -4687,7 +4687,7 @@ On prend b=1 comme exemple
 <P2  x="464" y="860" id="760" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="115" id="1095" >
+<CONNECTOR type="115" id="1095" uid="d3368670-7d77-4b09-ad66-1324544117ac" >
 <cdparam x="439" y="890" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="600" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from action state to write channel" value="null" />
@@ -4695,7 +4695,7 @@ On prend b=1 comme exemple
 <P2  x="464" y="936" id="598" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="115" id="1096" >
+<CONNECTOR type="115" id="1096" uid="d92a18ad-af73-4d8e-85f2-176926330731" >
 <cdparam x="132" y="963" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="600" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from write channel to send event" value="null" />
@@ -4703,7 +4703,7 @@ On prend b=1 comme exemple
 <P2  x="132" y="981" id="775" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="115" id="1097" >
+<CONNECTOR type="115" id="1097" uid="463b7272-7126-44eb-8565-c037892cbbaf" >
 <cdparam x="132" y="1011" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="600" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from send event to action state" value="null" />
@@ -4711,7 +4711,7 @@ On prend b=1 comme exemple
 <P2  x="132" y="1036" id="587" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="115" id="1098" >
+<CONNECTOR type="115" id="1098" uid="cc32367d-992f-4973-b084-f6e444d23eee" >
 <cdparam x="230" y="1027" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="600" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from write channel to send event" value="null" />
@@ -4719,7 +4719,7 @@ On prend b=1 comme exemple
 <P2  x="230" y="1047" id="766" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="115" id="1099" >
+<CONNECTOR type="115" id="1099" uid="1c9f6f23-cce5-4dfe-8ed1-fa1b616c02d5" >
 <cdparam x="228" y="1088" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="600" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from send event to send request" value="null" />
@@ -4727,7 +4727,7 @@ On prend b=1 comme exemple
 <P2  x="230" y="1097" id="736" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="115" id="1100" >
+<CONNECTOR type="115" id="1100" uid="0dffc5b5-eeef-4611-8b07-7969d16106b5" >
 <cdparam x="346" y="925" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="600" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from write channel to send event" value="null" />
@@ -4735,7 +4735,7 @@ On prend b=1 comme exemple
 <P2  x="346" y="957" id="769" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="115" id="1101" >
+<CONNECTOR type="115" id="1101" uid="0126f546-0576-4c39-9ab8-a01c22480de5" >
 <cdparam x="348" y="987" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="600" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from send event to action state" value="null" />
@@ -4743,7 +4743,7 @@ On prend b=1 comme exemple
 <P2  x="346" y="1021" id="593" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="115" id="1102" >
+<CONNECTOR type="115" id="1102" uid="112866cb-b34f-494c-bbde-956536e85f26" >
 <cdparam x="439" y="966" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="600" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from write channel to send event" value="null" />
@@ -4751,7 +4751,7 @@ On prend b=1 comme exemple
 <P2  x="464" y="978" id="772" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="115" id="1103" >
+<CONNECTOR type="115" id="1103" uid="6c9ddc18-660f-4be7-b2e7-ddd724e74f55" >
 <cdparam x="438" y="1008" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="600" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from send event to action state" value="null" />
@@ -4759,7 +4759,7 @@ On prend b=1 comme exemple
 <P2  x="464" y="1027" id="582" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="115" id="1104" >
+<CONNECTOR type="115" id="1104" uid="14cbfad2-f59f-45b7-83fd-eb81575eee42" >
 <cdparam x="722" y="783" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="600" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from write channel to send event" value="null" />
@@ -4767,7 +4767,7 @@ On prend b=1 comme exemple
 <P2  x="722" y="808" id="778" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="115" id="1105" >
+<CONNECTOR type="115" id="1105" uid="1ad26b0a-f119-47ca-acac-0f9013796ba9" >
 <cdparam x="722" y="838" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="600" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from send event to stop state" value="null" />
@@ -4775,7 +4775,7 @@ On prend b=1 comme exemple
 <P2  x="722" y="860" id="726" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="115" id="1106" >
+<CONNECTOR type="115" id="1106" uid="fc065e38-261c-46e1-92e2-6cc39b506a8c" >
 <cdparam x="800" y="1111" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="600" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from write channel to send event" value="null" />
@@ -4783,7 +4783,7 @@ On prend b=1 comme exemple
 <P2  x="800" y="1136" id="781" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="115" id="1107" >
+<CONNECTOR type="115" id="1107" uid="29797185-7c80-4e76-939c-f92fcec84eb4" >
 <cdparam x="798" y="1166" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="600" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from send event to action state" value="null" />
@@ -4791,7 +4791,7 @@ On prend b=1 comme exemple
 <P2  x="800" y="1188" id="665" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="115" id="1108" >
+<CONNECTOR type="115" id="1108" uid="b3aa120b-47fa-4534-9f56-c1590a8275bb" >
 <cdparam x="943" y="1148" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="600" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from write channel to send event" value="null" />
@@ -4799,7 +4799,7 @@ On prend b=1 comme exemple
 <P2  x="943" y="1173" id="784" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="115" id="1109" >
+<CONNECTOR type="115" id="1109" uid="ef66b5b0-f2dd-4a66-872b-44980291569f" >
 <cdparam x="950" y="1201" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="600" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from send event to action state" value="null" />
@@ -4807,7 +4807,7 @@ On prend b=1 comme exemple
 <P2  x="943" y="1229" id="693" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="115" id="1110" >
+<CONNECTOR type="115" id="1110" uid="a5163245-5bdf-426e-ba3f-8223c5a9d013" >
 <cdparam x="1049" y="1180" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="600" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from write channel to send event" value="null" />
@@ -4815,7 +4815,7 @@ On prend b=1 comme exemple
 <P2  x="1049" y="1206" id="787" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="115" id="1111" >
+<CONNECTOR type="115" id="1111" uid="f4ff9078-c199-4509-bbc7-743263e459dc" >
 <cdparam x="1049" y="1223" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="600" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from send event to action state" value="null" />
@@ -4823,7 +4823,7 @@ On prend b=1 comme exemple
 <P2  x="1049" y="1261" id="718" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="115" id="1112" >
+<CONNECTOR type="115" id="1112" uid="80674320-8e77-4987-91da-e972659cce2c" >
 <cdparam x="883" y="884" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="600" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from choice to stop state" value="null" />
@@ -4831,7 +4831,7 @@ On prend b=1 comme exemple
 <P2  x="883" y="917" id="792" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="115" id="1113" >
+<CONNECTOR type="115" id="1113" uid="5d1fa0e8-e30b-4944-aa61-aadc906374fd" >
 <cdparam x="612" y="727" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="600" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from choice to stop state" value="null" />
@@ -4839,7 +4839,7 @@ On prend b=1 comme exemple
 <P2  x="612" y="757" id="790" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="115" id="1114" >
+<CONNECTOR type="115" id="1114" uid="e0b9bd85-fbf0-4c26-b56f-684d05b3eb80" >
 <cdparam x="532" y="727" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="600" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from choice to action state" value="null" />
@@ -4847,7 +4847,7 @@ On prend b=1 comme exemple
 <P2  x="496" y="763" id="668" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="115" id="1115" >
+<CONNECTOR type="115" id="1115" uid="784a685d-2ebf-4481-8ff6-b86b4ca52908" >
 <cdparam x="799" y="1218" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="600" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from action state to stop state" value="null" />
@@ -4855,7 +4855,7 @@ On prend b=1 comme exemple
 <P2  x="800" y="1265" id="604" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="115" id="1116" >
+<CONNECTOR type="115" id="1116" uid="3c1e1286-a827-43cc-a418-5e26dd372d4c" >
 <cdparam x="1009" y="954" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="600" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from choice to execI" value="null" />
@@ -4863,7 +4863,7 @@ On prend b=1 comme exemple
 <P2  x="943" y="1020" id="397" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="115" id="1117" >
+<CONNECTOR type="115" id="1117" uid="89136364-3a3f-4b0e-a52a-8ae4ae740ce4" >
 <cdparam x="229" y="1194" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="600" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from write channel to stop state" value="null" />
@@ -4871,7 +4871,7 @@ On prend b=1 comme exemple
 <P2  x="230" y="1232" id="580" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="115" id="1118" >
+<CONNECTOR type="115" id="1118" uid="b6c22fdd-05d2-4275-b8e5-7c6a3d5895f0" >
 <cdparam x="346" y="1198" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="600" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from write channel to stop state" value="null" />
@@ -4879,7 +4879,7 @@ On prend b=1 comme exemple
 <P2  x="346" y="1224" id="596" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="115" id="1119" >
+<CONNECTOR type="115" id="1119" uid="56dd1744-d07f-4729-bfb2-865c8afa4305" >
 <cdparam x="438" y="1184" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="600" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from write channel to stop state" value="null" />
@@ -4887,7 +4887,7 @@ On prend b=1 comme exemple
 <P2  x="464" y="1208" id="585" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="115" id="1120" >
+<CONNECTOR type="115" id="1120" uid="365a7e0f-b4d6-4ad9-9f6b-9f5b631d2cb1" >
 <cdparam x="496" y="793" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="600" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from action state to stop state" value="null" />
@@ -4895,7 +4895,7 @@ On prend b=1 comme exemple
 <P2  x="496" y="825" id="671" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="115" id="1121" >
+<CONNECTOR type="115" id="1121" uid="3a58847a-d84f-4f0e-8c11-91f476fa0976" >
 <cdparam x="943" y="1259" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="600" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from action state to stop state" value="null" />
@@ -4903,7 +4903,7 @@ On prend b=1 comme exemple
 <P2  x="943" y="1306" id="696" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="115" id="1122" >
+<CONNECTOR type="115" id="1122" uid="2d020f38-e35d-4171-86dd-0dc546f4111f" >
 <cdparam x="1008" y="835" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="600" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from choice to choice" value="null" />
@@ -4911,7 +4911,7 @@ On prend b=1 comme exemple
 <P2  x="1049" y="934" id="403" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="115" id="1123" >
+<CONNECTOR type="115" id="1123" uid="3732b177-dbbb-4b17-b205-1d2fe4f099d9" >
 <cdparam x="1049" y="1291" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="600" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from action state to stop state" value="null" />
@@ -4919,7 +4919,7 @@ On prend b=1 comme exemple
 <P2  x="1049" y="1336" id="721" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="115" id="1124" >
+<CONNECTOR type="115" id="1124" uid="0addc11f-0260-4bf3-ab67-722546983c5e" >
 <cdparam x="1208" y="1152" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="600" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from execI to write channel" value="null" />
@@ -4927,7 +4927,7 @@ On prend b=1 comme exemple
 <P2  x="1208" y="1209" id="794" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="115" id="1125" >
+<CONNECTOR type="115" id="1125" uid="f7884c0c-9c38-4c68-8b88-a6c2663c7221" >
 <cdparam x="1208" y="1239" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="600" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from write channel to action state" value="null" />
@@ -4935,7 +4935,7 @@ On prend b=1 comme exemple
 <P2  x="1208" y="1290" id="814" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="115" id="1126" >
+<CONNECTOR type="115" id="1126" uid="0f43d11e-a79c-407c-b309-c998526d9c0a" >
 <cdparam x="1208" y="1320" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="600" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from action state to send event" value="null" />
@@ -4943,7 +4943,7 @@ On prend b=1 comme exemple
 <P2  x="1208" y="1346" id="822" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="115" id="1127" >
+<CONNECTOR type="115" id="1127" uid="b3c7e8ae-bffc-4665-9f80-87906facd502" >
 <cdparam x="1206" y="1385" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="600" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from send event to action state" value="null" />
@@ -4951,7 +4951,7 @@ On prend b=1 comme exemple
 <P2  x="1208" y="1397" id="819" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="115" id="1128" >
+<CONNECTOR type="115" id="1128" uid="133112cd-3a5a-4210-9188-9c9e9fbb7d06" >
 <cdparam x="1206" y="1088" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="600" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from choice to execI" value="null" />
@@ -4959,7 +4959,7 @@ On prend b=1 comme exemple
 <P2  x="1208" y="1102" id="381" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="115" id="1129" >
+<CONNECTOR type="115" id="1129" uid="fd5e0ace-c45c-401e-a203-183fb6c5d1e6" >
 <cdparam x="1248" y="1035" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="600" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from choice to stop state" value="null" />
@@ -4967,7 +4967,7 @@ On prend b=1 comme exemple
 <P2  x="1287" y="1065" id="825" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="115" id="1130" >
+<CONNECTOR type="115" id="1130" uid="2e089849-7ead-4d72-b212-29e8fc6a1d01" >
 <cdparam x="1207" y="1427" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="600" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from action state to stop state" value="null" />
@@ -4975,7 +4975,7 @@ On prend b=1 comme exemple
 <P2  x="1208" y="1466" id="817" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="115" id="1131" >
+<CONNECTOR type="115" id="1131" uid="9a4e6d6f-7fb6-425a-b7d0-821d641ca54f" >
 <cdparam x="1553" y="1019" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="600" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from choice to execI" value="null" />
@@ -4983,7 +4983,7 @@ On prend b=1 comme exemple
 <P2  x="1529" y="1059" id="341" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="115" id="1132" >
+<CONNECTOR type="115" id="1132" uid="4d33de75-a1e1-48d3-9cd6-f5af337c8bcb" >
 <cdparam x="1529" y="1324" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="600" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from execI to write channel" value="null" />
@@ -4991,7 +4991,7 @@ On prend b=1 comme exemple
 <P2  x="1529" y="1343" id="832" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="115" id="1133" >
+<CONNECTOR type="115" id="1133" uid="faedd0b9-5884-4d79-b0f8-66ecd7744f27" >
 <cdparam x="1684" y="929" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="600" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from choice to send event" value="null" />
@@ -4999,7 +4999,7 @@ On prend b=1 comme exemple
 <P2  x="1728" y="1021" id="835" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="115" id="1134" >
+<CONNECTOR type="115" id="1134" uid="5708511a-7738-46f7-b599-4701917bb26f" >
 <cdparam x="1615" y="1283" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="600" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from execI to write channel" value="null" />
@@ -5007,7 +5007,7 @@ On prend b=1 comme exemple
 <P2  x="1641" y="1294" id="872" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="115" id="1135" >
+<CONNECTOR type="115" id="1135" uid="41c8ca88-63e0-4f9b-a303-ba32b1906b84" >
 <cdparam x="1641" y="1324" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="600" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from write channel to send event" value="null" />
@@ -5015,7 +5015,7 @@ On prend b=1 comme exemple
 <P2  x="1641" y="1343" id="914" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="115" id="1136" >
+<CONNECTOR type="115" id="1136" uid="db46a494-951f-4068-8631-1691ad13de66" >
 <cdparam x="1529" y="1373" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="600" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from write channel to send event" value="null" />
@@ -5023,7 +5023,7 @@ On prend b=1 comme exemple
 <P2  x="1529" y="1400" id="911" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="115" id="1137" >
+<CONNECTOR type="115" id="1137" uid="a0524f7a-e1d8-4487-be4f-680f23199f64" >
 <cdparam x="1529" y="1422" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="600" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from send event to stop state" value="null" />
@@ -5031,7 +5031,7 @@ On prend b=1 comme exemple
 <P2  x="1529" y="1452" id="827" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="115" id="1138" >
+<CONNECTOR type="115" id="1138" uid="dcabba37-6183-46f1-8502-37b0edb8b806" >
 <cdparam x="1642" y="1373" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="600" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from send event to write channel" value="null" />
@@ -5039,7 +5039,7 @@ On prend b=1 comme exemple
 <P2  x="1641" y="1399" id="917" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="115" id="1139" >
+<CONNECTOR type="115" id="1139" uid="73dccdc6-dc89-45a3-827b-86d310a2f528" >
 <cdparam x="1956" y="1361" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="600" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from choice to action state" value="null" />
@@ -5047,7 +5047,7 @@ On prend b=1 comme exemple
 <P2  x="1920" y="1406" id="927" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="115" id="1140" >
+<CONNECTOR type="115" id="1140" uid="d91b50ba-f35b-4f14-bee7-09fb339027e6" >
 <cdparam x="2100" y="1490" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="600" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from action state to stop state" value="null" />
@@ -5055,7 +5055,7 @@ On prend b=1 comme exemple
 <P2  x="2101" y="1532" id="937" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="115" id="1141" >
+<CONNECTOR type="115" id="1141" uid="bb8f5850-6fcc-474c-9fcf-ebc28f323247" >
 <cdparam x="1996" y="1401" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="600" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from choice to action state" value="null" />
@@ -5063,7 +5063,7 @@ On prend b=1 comme exemple
 <P2  x="1996" y="1429" id="942" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="115" id="1142" >
+<CONNECTOR type="115" id="1142" uid="57e90d37-3bbf-4381-aadd-b184fc58e54b" >
 <cdparam x="1996" y="1459" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="600" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from action state to action state" value="null" />
@@ -5071,7 +5071,7 @@ On prend b=1 comme exemple
 <P2  x="1996" y="1488" id="939" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="115" id="1143" >
+<CONNECTOR type="115" id="1143" uid="64ec2208-fbf0-48e5-9e26-00d9dc41037e" >
 <cdparam x="2021" y="1038" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="600" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from choice to execI" value="null" />
@@ -5079,7 +5079,7 @@ On prend b=1 comme exemple
 <P2  x="2237" y="1054" id="365" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="115" id="1144" >
+<CONNECTOR type="115" id="1144" uid="0d2b8297-99b6-403d-ba51-587313de6c34" >
 <cdparam x="2217" y="1323" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="600" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from send request to write channel" value="null" />
@@ -5087,7 +5087,7 @@ On prend b=1 comme exemple
 <P2  x="2237" y="1360" id="987" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="115" id="1145" >
+<CONNECTOR type="115" id="1145" uid="c8e87228-425b-48a0-a350-358be7c662a9" >
 <cdparam x="2218" y="1094" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="600" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from execI to action state" value="null" />
@@ -5095,7 +5095,7 @@ On prend b=1 comme exemple
 <P2  x="2237" y="1131" id="990" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="115" id="1146" >
+<CONNECTOR type="115" id="1146" uid="f7d6c434-599b-4343-82a3-6fc73d0c6aa9" >
 <cdparam x="2218" y="1161" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="600" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from action state to write channel" value="null" />
@@ -5103,7 +5103,7 @@ On prend b=1 comme exemple
 <P2  x="2237" y="1193" id="979" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="115" id="1147" >
+<CONNECTOR type="115" id="1147" uid="115bd2f0-8c66-47ec-88b7-44effc9afd1a" >
 <cdparam x="2218" y="1223" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="600" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from write channel to send event" value="null" />
@@ -5111,7 +5111,7 @@ On prend b=1 comme exemple
 <P2  x="2237" y="1243" id="993" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="115" id="1148" >
+<CONNECTOR type="115" id="1148" uid="b2f3ce58-94ed-4b34-a762-39270825ccd7" >
 <cdparam x="2216" y="1284" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="600" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from send event to send request" value="null" />
@@ -5119,7 +5119,7 @@ On prend b=1 comme exemple
 <P2  x="2237" y="1293" id="984" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="115" id="1149" >
+<CONNECTOR type="115" id="1149" uid="051918a1-0c86-494c-9502-d5d02a0254dd" >
 <cdparam x="2217" y="1390" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="600" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from write channel to action state" value="null" />
@@ -5127,7 +5127,7 @@ On prend b=1 comme exemple
 <P2  x="2237" y="1419" id="996" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="115" id="1150" >
+<CONNECTOR type="115" id="1150" uid="cfd73a32-3e06-48bb-8749-5ea6b915fb6b" >
 <cdparam x="2341" y="1060" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="600" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from execI to write channel" value="null" />
@@ -5135,7 +5135,7 @@ On prend b=1 comme exemple
 <P2  x="2317" y="1117" id="999" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="115" id="1151" >
+<CONNECTOR type="115" id="1151" uid="1bf9f654-7ad8-47b8-8a17-71739e69c3ae" >
 <cdparam x="1529" y="1099" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="600" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from execI to write channel" value="null" />
@@ -5143,7 +5143,7 @@ On prend b=1 comme exemple
 <P2  x="1529" y="1127" id="829" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="115" id="1152" >
+<CONNECTOR type="115" id="1152" uid="f261e0fa-9ed9-48a7-9eeb-2452e62cf5b5" >
 <cdparam x="2101" y="1433" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="600" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from choice to action state" value="null" />
@@ -5151,7 +5151,7 @@ On prend b=1 comme exemple
 <P2  x="2101" y="1461" id="934" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="115" id="1153" >
+<CONNECTOR type="115" id="1153" uid="eeec8749-7803-40dc-b99d-6df2a9e201d4" >
 <cdparam x="2158" y="1460" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="600" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from choice to stop state" value="null" />
@@ -5159,7 +5159,7 @@ On prend b=1 comme exemple
 <P2  x="2178" y="1416" id="1029" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="115" id="1154" >
+<CONNECTOR type="115" id="1154" uid="148ded8d-1a09-40b7-8720-2a6e3e25b0c2" >
 <cdparam x="1688" y="890" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="600" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from choice to choice" value="null" />
@@ -5167,7 +5167,7 @@ On prend b=1 comme exemple
 <P2  x="1607" y="1001" id="347" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="115" id="1155" >
+<CONNECTOR type="115" id="1155" uid="c35632df-e496-4ba9-b686-0917008fec66" >
 <cdparam x="1768" y="890" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="600" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from choice to choice" value="null" />
@@ -5175,7 +5175,7 @@ On prend b=1 comme exemple
 <P2  x="2277" y="946" id="307" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="115" id="1156" >
+<CONNECTOR type="115" id="1156" uid="2fe3b9c6-b0a5-46ac-9762-9e5a26e6c8cc" >
 <cdparam x="2317" y="966" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="600" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from choice to execI" value="null" />
@@ -5183,7 +5183,7 @@ On prend b=1 comme exemple
 <P2  x="2317" y="1019" id="369" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="115" id="1157" >
+<CONNECTOR type="115" id="1157" uid="55631f55-789f-4bcc-8895-1c4ae7054fb9" >
 <cdparam x="2341" y="1147" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="600" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from write channel to send event" value="null" />
@@ -5191,7 +5191,7 @@ On prend b=1 comme exemple
 <P2  x="2317" y="1194" id="1024" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="115" id="1158" >
+<CONNECTOR type="115" id="1158" uid="a3d03c37-9e73-44ef-beaa-572af3462f93" >
 <cdparam x="2341" y="1224" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="600" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from send event to send event" value="null" />
@@ -5199,7 +5199,7 @@ On prend b=1 comme exemple
 <P2  x="2317" y="1262" id="1019" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="115" id="1159" >
+<CONNECTOR type="115" id="1159" uid="ca79329c-aedc-49fd-a79d-0bc5cac9d927" >
 <cdparam x="1731" y="1051" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="600" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from send event to choice" value="null" />
@@ -5207,7 +5207,7 @@ On prend b=1 comme exemple
 <P2  x="1728" y="1081" id="1036" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="115" id="1160" >
+<CONNECTOR type="115" id="1160" uid="d280cd0b-a877-4221-95b6-e10bc5410357" >
 <cdparam x="1647" y="1021" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="600" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from choice to stop state" value="null" />
@@ -5215,7 +5215,7 @@ On prend b=1 comme exemple
 <P2  x="1647" y="1052" id="1027" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="115" id="1161" >
+<CONNECTOR type="115" id="1161" uid="e566aebb-62c6-459f-afaf-9eda3a6a9ef0" >
 <cdparam x="1826" y="1324" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="600" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from choice to action state" value="null" />
@@ -5223,7 +5223,7 @@ On prend b=1 comme exemple
 <P2  x="1826" y="1344" id="922" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="115" id="1162" >
+<CONNECTOR type="115" id="1162" uid="92d8681d-0a8c-43ec-80f6-c5579547d96c" >
 <cdparam x="1826" y="1374" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="600" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from action state to stop state" value="null" />
@@ -5231,7 +5231,7 @@ On prend b=1 comme exemple
 <P2  x="1826" y="1452" id="925" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="115" id="1163" >
+<CONNECTOR type="115" id="1163" uid="5ef80e6a-eb77-4567-8ae7-768d91900f79" >
 <cdparam x="1786" y="1284" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="600" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from choice to stop state" value="null" />
@@ -5239,7 +5239,7 @@ On prend b=1 comme exemple
 <P2  x="1740" y="1330" id="920" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="115" id="1164" >
+<CONNECTOR type="115" id="1164" uid="aa3f1749-4fe5-4a71-9ee8-31fb3d549757" >
 <cdparam x="1920" y="1436" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="600" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from action state to stop state" value="null" />
@@ -5247,7 +5247,7 @@ On prend b=1 comme exemple
 <P2  x="1920" y="1476" id="930" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="115" id="1165" >
+<CONNECTOR type="115" id="1165" uid="cb553369-01c2-4b42-b502-513d8d565dbc" >
 <cdparam x="1996" y="1518" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="600" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from action state to stop state" value="null" />
@@ -5255,7 +5255,7 @@ On prend b=1 comme exemple
 <P2  x="1996" y="1538" id="932" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="115" id="1166" >
+<CONNECTOR type="115" id="1166" uid="d039e0d3-a11a-48ba-bde0-da82ab357ac1" >
 <cdparam x="2036" y="1361" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="600" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from choice to choice" value="null" />
@@ -5263,7 +5263,7 @@ On prend b=1 comme exemple
 <P2  x="2101" y="1373" id="299" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="115" id="1167" >
+<CONNECTOR type="115" id="1167" uid="c0c16169-bf0e-4d3f-b5dd-9e9b40c1036f" >
 <cdparam x="1866" y="1284" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="600" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from choice to choice" value="null" />
@@ -5271,7 +5271,7 @@ On prend b=1 comme exemple
 <P2  x="1996" y="1341" id="315" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="115" id="1168" >
+<CONNECTOR type="115" id="1168" uid="bec30769-c45c-4c60-aae5-5aa721a736f7" >
 <cdparam x="2341" y="1292" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="600" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from action state to stop state" value="null" />
@@ -5279,7 +5279,7 @@ On prend b=1 comme exemple
 <P2  x="2317" y="1319" id="1022" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="115" id="1169" >
+<CONNECTOR type="115" id="1169" uid="db6b206f-af70-4933-9a70-fc2674e6c9db" >
 <cdparam x="2217" y="1449" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="600" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from action state to stop state" value="null" />
@@ -5287,7 +5287,7 @@ On prend b=1 comme exemple
 <P2  x="2237" y="1478" id="982" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="115" id="1170" >
+<CONNECTOR type="115" id="1170" uid="a35ff08c-daf0-4bc0-a1c3-bcb63716f0d5" >
 <cdparam x="2277" y="1006" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="600" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from choice to stop state" value="null" />
@@ -5295,7 +5295,7 @@ On prend b=1 comme exemple
 <P2  x="2277" y="1034" id="1031" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="115" id="1171" >
+<CONNECTOR type="115" id="1171" uid="2a84d899-9d30-4b69-9474-57f5565571fa" >
 <cdparam x="1642" y="1429" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="600" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from write channel to stop state" value="null" />
@@ -5303,7 +5303,7 @@ On prend b=1 comme exemple
 <P2  x="1641" y="1463" id="875" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="115" id="1172" >
+<CONNECTOR type="115" id="1172" uid="3f98288e-5087-4e1a-9d65-3c07458e2269" >
 <cdparam x="1529" y="1157" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="600" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from write channel to send event" value="null" />
@@ -5311,7 +5311,7 @@ On prend b=1 comme exemple
 <P2  x="1529" y="1187" id="1033" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="115" id="1173" >
+<CONNECTOR type="115" id="1173" uid="ff172a8b-9d3c-479b-8866-8884da35e32b" >
 <cdparam x="1529" y="1217" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="600" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from send event to execI" value="null" />
@@ -5319,7 +5319,7 @@ On prend b=1 comme exemple
 <P2  x="1529" y="1249" id="337" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="115" id="1174" >
+<CONNECTOR type="115" id="1174" uid="3a6f2355-3036-4601-924c-86e68c10a135" >
 <cdparam x="1691" y="1156" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="600" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from choice to execI" value="null" />
@@ -5327,7 +5327,7 @@ On prend b=1 comme exemple
 <P2  x="1641" y="1230" id="361" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="115" id="1175" >
+<CONNECTOR type="115" id="1175" uid="f820599d-0eb4-4bfa-91b7-f045d12b7d7c" >
 <cdparam x="1771" y="1156" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="600" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from choice to choice" value="null" />
@@ -5335,7 +5335,7 @@ On prend b=1 comme exemple
 <P2  x="1826" y="1264" id="323" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="115" id="1176" >
+<CONNECTOR type="115" id="1176" uid="c52999c5-3a9d-4554-b6cf-89571f604761" >
 <cdparam x="1731" y="1111" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="600" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from read channel to choice" value="null" />
@@ -5343,7 +5343,7 @@ On prend b=1 comme exemple
 <P2  x="1728" y="1136" id="331" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="115" id="1177" >
+<CONNECTOR type="115" id="1177" uid="a53fcdb7-e5e3-44b7-9f16-8a19dedce0d8" >
 <cdparam x="1008" y="610" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector" value="null" />
@@ -5351,7 +5351,7 @@ On prend b=1 comme exemple
 <P2  x="1008" y="638" id="290" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="115" id="1178" >
+<CONNECTOR type="115" id="1178" uid="b7e8c1e5-5fcc-4613-a509-d2410ea90026" >
 <cdparam x="1011" y="678" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector" value="null" />
@@ -5470,7 +5470,7 @@ On prend b=1 comme exemple
 </extraparam>
 </COMPONENT>
 
-<CONNECTOR type="115" id="1202" >
+<CONNECTOR type="115" id="1202" uid="6604e4ef-da83-4231-8df7-87b15c6b96a2" >
 <cdparam x="496" y="46" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector" value="null" />
@@ -5478,7 +5478,7 @@ On prend b=1 comme exemple
 <P2  x="526" y="152" id="1199" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="115" id="1203" >
+<CONNECTOR type="115" id="1203" uid="fee8bf92-bfb8-4a12-aab6-3359544e0902" >
 <cdparam x="484" y="237" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector" value="null" />
@@ -5486,7 +5486,7 @@ On prend b=1 comme exemple
 <P2  x="427" y="334" id="1191" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="115" id="1204" >
+<CONNECTOR type="115" id="1204" uid="b8ff0fb0-0b36-4574-861d-27c78741691f" >
 <cdparam x="427" y="364" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="600" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from send event to stop state" value="null" />
@@ -5494,7 +5494,7 @@ On prend b=1 comme exemple
 <P2  x="427" y="402" id="1189" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="115" id="1205" >
+<CONNECTOR type="115" id="1205" uid="42b71e9f-c5b6-4045-aa37-e6784219f4ce" >
 <cdparam x="622" y="325" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="600" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from wait event to stop state" value="null" />
@@ -5502,7 +5502,7 @@ On prend b=1 comme exemple
 <P2  x="622" y="360" id="1197" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="115" id="1206" >
+<CONNECTOR type="115" id="1206" uid="1b246c1f-32e7-4cb0-bedf-b7cb32ae1829" >
 <cdparam x="524" y="175" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="600" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from notified event to choice" value="null" />
@@ -5510,7 +5510,7 @@ On prend b=1 comme exemple
 <P2  x="524" y="217" id="1182" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="115" id="1207" >
+<CONNECTOR type="115" id="1207" uid="80868c7f-e63c-4e72-bd25-82508644b2da" >
 <cdparam x="564" y="237" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="600" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from choice to wait event" value="null" />
@@ -5844,7 +5844,7 @@ On prend b=1 comme exemple
 <TGConnectingPoint num="0" id="1286" />
 </COMPONENT>
 
-<CONNECTOR type="115" id="1288" >
+<CONNECTOR type="115" id="1288" uid="56b212eb-50af-4bf1-ac69-5ec7ccf65338" >
 <cdparam x="434" y="177" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector" value="null" />
@@ -5852,7 +5852,7 @@ On prend b=1 comme exemple
 <P2  x="434" y="282" id="1282" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="115" id="1289" >
+<CONNECTOR type="115" id="1289" uid="6e66f80d-452c-4d3f-9ab3-413532ac540b" >
 <cdparam x="340" y="458" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector" value="null" />
@@ -5860,7 +5860,7 @@ On prend b=1 comme exemple
 <P2  x="340" y="472" id="1286" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="115" id="1290" >
+<CONNECTOR type="115" id="1290" uid="03830c17-edf6-495b-a276-0129f57513df" >
 <cdparam x="434" y="312" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector" value="null" />
@@ -5868,7 +5868,7 @@ On prend b=1 comme exemple
 <P2  x="340" y="428" id="1208" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="115" id="1291" >
+<CONNECTOR type="115" id="1291" uid="b02af4f1-4c1d-45df-9eb1-003441f0de01" >
 <cdparam x="561" y="301" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector" value="null" />
@@ -5876,7 +5876,7 @@ On prend b=1 comme exemple
 <P2  x="561" y="371" id="1214" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="115" id="1296" >
+<CONNECTOR type="115" id="1296" uid="6282cd2d-c1f9-4304-8227-bd80231e0c21" >
 <cdparam x="78" y="363" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="600" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from send event to wait event" value="null" />
@@ -5920,7 +5920,7 @@ On prend b=1 comme exemple
 <infoparam name="point " value="null" />
 </SUBCOMPONENT>
 
-<CONNECTOR type="115" id="1297" >
+<CONNECTOR type="115" id="1297" uid="6ff6d5a6-23e9-4e6b-aeb9-bbfe0459f5f3" >
 <cdparam x="228" y="57" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="600" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from start state to send request" value="null" />
@@ -5928,7 +5928,7 @@ On prend b=1 comme exemple
 <P2  x="229" y="132" id="1229" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="115" id="1298" >
+<CONNECTOR type="115" id="1298" uid="5499bef8-855f-4b32-9b17-85d56d70824b" >
 <cdparam x="228" y="162" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="600" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from send request to send event" value="null" />
@@ -5936,7 +5936,7 @@ On prend b=1 comme exemple
 <P2  x="228" y="232" id="1232" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="115" id="1299" >
+<CONNECTOR type="115" id="1299" uid="edfa11a4-9109-482e-8345-771604dbbd44" >
 <cdparam x="228" y="284" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="600" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from wait event to send event" value="null" />
@@ -5944,7 +5944,7 @@ On prend b=1 comme exemple
 <P2  x="229" y="332" id="1238" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="115" id="1300" >
+<CONNECTOR type="115" id="1300" uid="e79e70d2-5e76-495d-b5d2-5b2d193250e7" >
 <cdparam x="528" y="391" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="600" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from choice to write channel" value="null" />
@@ -5952,7 +5952,7 @@ On prend b=1 comme exemple
 <P2  x="476" y="443" id="1261" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="115" id="1301" >
+<CONNECTOR type="115" id="1301" uid="6d6899af-a6b7-4ec6-80d2-93b042e6f36c" >
 <cdparam x="476" y="473" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="600" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from write channel to send event" value="null" />
@@ -5960,7 +5960,7 @@ On prend b=1 comme exemple
 <P2  x="477" y="502" id="1264" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="115" id="1302" >
+<CONNECTOR type="115" id="1302" uid="9851daa5-0fc8-4fd7-9ce3-346ff85899f0" >
 <cdparam x="471" y="529" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="600" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from send event to stop state" value="null" />
@@ -5968,7 +5968,7 @@ On prend b=1 comme exemple
 <P2  x="476" y="565" id="1267" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="115" id="1303" >
+<CONNECTOR type="115" id="1303" uid="ce02f5d1-19bf-403c-bde4-85b5ce6725e3" >
 <cdparam x="619" y="532" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="600" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from choice to stop state" value="null" />
@@ -5976,7 +5976,7 @@ On prend b=1 comme exemple
 <P2  x="579" y="572" id="1272" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="115" id="1304" >
+<CONNECTOR type="115" id="1304" uid="b45c6345-9336-4fe2-bd26-729f7584b4fa" >
 <cdparam x="580" y="405" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="600" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from choice to notified event" value="null" />
@@ -5984,7 +5984,7 @@ On prend b=1 comme exemple
 <P2  x="659" y="442" id="1269" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="115" id="1305" >
+<CONNECTOR type="115" id="1305" uid="3f22d746-86f5-4da7-9b8c-2f2df26dbe5d" >
 <cdparam x="659" y="472" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="600" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from notified event to choice" value="null" />
@@ -5992,7 +5992,7 @@ On prend b=1 comme exemple
 <P2  x="659" y="512" id="1222" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="115" id="1306" >
+<CONNECTOR type="115" id="1306" uid="11f9ab68-2969-4b57-bcc3-e7caff9fe505" >
 <cdparam x="659" y="572" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="600" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from choice to wait event" value="null" />
@@ -6000,7 +6000,7 @@ On prend b=1 comme exemple
 <P2  x="660" y="614" id="1277" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="115" id="1307" >
+<CONNECTOR type="115" id="1307" uid="ed195232-95a7-4585-8ea1-60c987b705e7" >
 <cdparam x="670" y="644" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="600" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from wait event to read channel" value="null" />
@@ -6008,7 +6008,7 @@ On prend b=1 comme exemple
 <P2  x="659" y="695" id="1274" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="115" id="1308" >
+<CONNECTOR type="115" id="1308" uid="7268aae5-648a-47ff-9e83-630e1989e69b" >
 <cdparam x="659" y="725" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="600" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from read channel to stop state" value="null" />
@@ -6016,7 +6016,7 @@ On prend b=1 comme exemple
 <P2  x="659" y="769" id="1280" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="115" id="1309" >
+<CONNECTOR type="115" id="1309" uid="e3197985-4696-499d-971f-8768a9bad7ec" >
 <cdparam x="228" y="262" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="600" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from send event to wait event" value="null" />
@@ -6367,7 +6367,7 @@ the smart card and the terminal
 <TGConnectingPoint num="9" id="1398" />
 </COMPONENT>
 
-<CONNECTOR type="115" id="1400" >
+<CONNECTOR type="115" id="1400" uid="be9538a5-ad91-44eb-ba35-29207c9880b3" >
 <cdparam x="302" y="227" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector" value="null" />
@@ -6375,7 +6375,7 @@ the smart card and the terminal
 <P2  x="298" y="256" id="1383" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="115" id="1405" >
+<CONNECTOR type="115" id="1405" uid="3cba6d05-4a9e-42e2-a9ae-c32f448bae75" >
 <cdparam x="111" y="331" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="600" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from send event to send request" value="null" />
@@ -6419,7 +6419,7 @@ the smart card and the terminal
 <infoparam name="point " value="null" />
 </SUBCOMPONENT>
 
-<CONNECTOR type="115" id="1406" >
+<CONNECTOR type="115" id="1406" uid="d3f37c88-bf31-4e6b-84d3-9da35abb2d56" >
 <cdparam x="166" y="64" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="600" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from start state to wait event" value="null" />
@@ -6427,7 +6427,7 @@ the smart card and the terminal
 <P2  x="166" y="124" id="1320" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="115" id="1407" >
+<CONNECTOR type="115" id="1407" uid="7d95ef85-8e3d-4fae-bd95-276714356519" >
 <cdparam x="166" y="154" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="600" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from wait event to send event" value="null" />
@@ -6435,7 +6435,7 @@ the smart card and the terminal
 <P2  x="166" y="177" id="1323" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="115" id="1408" >
+<CONNECTOR type="115" id="1408" uid="cb55fc0d-074a-449f-8418-8a17e1acae53" >
 <cdparam x="312" y="133" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="600" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from send request to send request" value="null" />
@@ -6443,7 +6443,7 @@ the smart card and the terminal
 <P2  x="299" y="143" id="1352" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="115" id="1409" >
+<CONNECTOR type="115" id="1409" uid="6fae754a-7543-4956-905d-dfc5e49c93d5" >
 <cdparam x="286" y="421" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="600" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from wait event to read channel" value="null" />
@@ -6451,7 +6451,7 @@ the smart card and the terminal
 <P2  x="293" y="424" id="1362" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="115" id="1410" >
+<CONNECTOR type="115" id="1410" uid="b0d4bca0-779d-44fc-b932-12a99b83960b" >
 <cdparam x="286" y="486" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="600" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from read channel to send event" value="null" />
@@ -6459,7 +6459,7 @@ the smart card and the terminal
 <P2  x="294" y="466" id="1357" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="115" id="1411" >
+<CONNECTOR type="115" id="1411" uid="208ec2fe-2701-49d9-af45-41f18d063896" >
 <cdparam x="286" y="538" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="600" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from send event to write channel" value="null" />
@@ -6467,7 +6467,7 @@ the smart card and the terminal
 <P2  x="293" y="508" id="1368" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="115" id="1412" >
+<CONNECTOR type="115" id="1412" uid="98b2b6a7-8c68-4f82-9633-5b5ee3f7530b" >
 <cdparam x="286" y="594" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="600" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from write channel to stop state" value="null" />
@@ -6475,7 +6475,7 @@ the smart card and the terminal
 <P2  x="293" y="542" id="1360" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="115" id="1413" >
+<CONNECTOR type="115" id="1413" uid="3a301079-0237-49cd-b056-a79b5e1a91bc" >
 <cdparam x="607" y="480" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="600" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from read channel to send event" value="null" />
@@ -6483,7 +6483,7 @@ the smart card and the terminal
 <P2  x="591" y="467" id="1371" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="115" id="1414" >
+<CONNECTOR type="115" id="1414" uid="4efa152b-2b7c-4845-a1b6-7bb147f0fa51" >
 <cdparam x="606" y="524" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="600" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from send event to write channel" value="null" />
@@ -6491,7 +6491,7 @@ the smart card and the terminal
 <P2  x="591" y="504" id="1377" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="115" id="1415" >
+<CONNECTOR type="115" id="1415" uid="b1376dba-5f2d-4339-b998-66c26e2a55fe" >
 <cdparam x="609" y="427" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="600" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from wait event to read channel" value="null" />
@@ -6499,7 +6499,7 @@ the smart card and the terminal
 <P2  x="591" y="428" id="1374" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="115" id="1416" >
+<CONNECTOR type="115" id="1416" uid="f5a19c7c-4af8-4790-9b73-cdb5b9fea146" >
 <cdparam x="606" y="586" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="600" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from write channel to stop state" value="null" />
@@ -6507,7 +6507,7 @@ the smart card and the terminal
 <P2  x="591" y="545" id="1355" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="115" id="1417" >
+<CONNECTOR type="115" id="1417" uid="e8adb3bc-ae4f-4ed9-866f-0eb6d214494d" >
 <cdparam x="298" y="173" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="600" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from send request to for loop" value="null" />
@@ -6515,7 +6515,7 @@ the smart card and the terminal
 <P2  x="302" y="196" id="1315" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="115" id="1418" >
+<CONNECTOR type="115" id="1418" uid="78dd2dca-5c91-4d19-9d38-09201113e511" >
 <cdparam x="328" y="291" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="600" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from for loop to stop state" value="null" />
@@ -6523,7 +6523,7 @@ the smart card and the terminal
 <P2  x="285" y="304" id="1387" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="115" id="1419" >
+<CONNECTOR type="115" id="1419" uid="a365ac2c-e69d-413c-b5e9-fd71e7ca6860" >
 <cdparam x="385" y="404" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="600" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from select to wait event" value="null" />
@@ -6531,7 +6531,7 @@ the smart card and the terminal
 <P2  x="294" y="380" id="1365" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="115" id="1420" >
+<CONNECTOR type="115" id="1420" uid="ebacd6da-92b2-418f-9702-0af740b0e6d5" >
 <cdparam x="533" y="462" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="600" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from select to wait event" value="null" />
@@ -6539,7 +6539,7 @@ the smart card and the terminal
 <P2  x="591" y="385" id="1380" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="115" id="1421" >
+<CONNECTOR type="115" id="1421" uid="23503d24-790c-4bde-852d-1f0cd905b11e" >
 <cdparam x="391" y="341" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="600" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from for loop to select" value="null" />
@@ -6547,7 +6547,7 @@ the smart card and the terminal
 <P2  x="439" y="280" id="1389" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="115" id="1422" >
+<CONNECTOR type="115" id="1422" uid="ed15bdbc-ef9a-428e-be4a-eff903c36dbb" >
 <cdparam x="164" y="262" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="600" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from wait event to send event" value="null" />
@@ -6555,7 +6555,7 @@ the smart card and the terminal
 <P2  x="166" y="303" id="1329" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="115" id="1423" >
+<CONNECTOR type="115" id="1423" uid="02cf4a18-9921-4560-b1d8-8b19e4e868a8" >
 <cdparam x="166" y="207" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="600" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from send event to wait event" value="null" />
@@ -6563,7 +6563,7 @@ the smart card and the terminal
 <P2  x="167" y="232" id="1326" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="115" id="1424" >
+<CONNECTOR type="115" id="1424" uid="d072a357-a9f6-401c-a63e-729c22a2e6ad" >
 <cdparam x="439" y="340" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector" value="null" />
@@ -6571,7 +6571,7 @@ the smart card and the terminal
 <P2  x="440" y="359" id="1312" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
-<CONNECTOR type="115" id="1425" >
+<CONNECTOR type="115" id="1425" uid="5f2dd7ac-df2e-432d-9967-7b42fbd8c0c5" >
 <cdparam x="440" y="389" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector" value="null" />
@@ -6792,7 +6792,7 @@ the smart card and the terminal
 </extraparam>
 </SUBCOMPONENT>
 
-<CONNECTOR type="125" id="1546" >
+<CONNECTOR type="125" id="1546" uid="26400bc1-e82d-4b7a-9b71-556001ca517f" >
 <cdparam x="800" y="322" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector" value="{info}" />
@@ -6804,7 +6804,7 @@ the smart card and the terminal
 <spy value="false" />
 </extraparam>
 </CONNECTOR>
-<CONNECTOR type="125" id="1547" >
+<CONNECTOR type="125" id="1547" uid="da335ac4-76eb-45db-a631-f15c6cc6bfaf" >
 <cdparam x="510" y="411" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector" value="{info}" />
@@ -7101,7 +7101,7 @@ the smart card and the terminal
 </extraparam>
 </SUBCOMPONENT>
 
-<CONNECTOR type="125" id="1718" >
+<CONNECTOR type="125" id="1718" uid="75ea94f7-a4e1-4cf7-996a-e870c761f927" >
 <cdparam x="388" y="162" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="1000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from CPU0 to Bus0" value="{info}" />
@@ -7113,7 +7113,7 @@ the smart card and the terminal
 <spy value="false" />
 </extraparam>
 </CONNECTOR>
-<CONNECTOR type="125" id="1719" >
+<CONNECTOR type="125" id="1719" uid="0d4c5508-58bb-4483-85cb-f842d3ac0575" >
 <cdparam x="190" y="300" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="1000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from CPU1 to Bus0" value="{info}" />
@@ -7125,7 +7125,7 @@ the smart card and the terminal
 <spy value="false" />
 </extraparam>
 </CONNECTOR>
-<CONNECTOR type="125" id="1720" >
+<CONNECTOR type="125" id="1720" uid="7dc488cb-8029-4ce6-9c7d-b84a56752b61" >
 <cdparam x="402" y="367" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="1000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from Memory0 to Bus0" value="{info}" />
@@ -7137,7 +7137,7 @@ the smart card and the terminal
 <spy value="false" />
 </extraparam>
 </CONNECTOR>
-<CONNECTOR type="125" id="1721" >
+<CONNECTOR type="125" id="1721" uid="58c74c68-dc54-4a06-a6de-db307a1df62b" >
 <cdparam x="612" y="289" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector" value="{info}" />
@@ -7434,7 +7434,7 @@ the smart card and the terminal
 </extraparam>
 </SUBCOMPONENT>
 
-<CONNECTOR type="125" id="1892" >
+<CONNECTOR type="125" id="1892" uid="cc63c7cd-f8ff-40de-88d5-4de215572ba7" >
 <cdparam x="612" y="289" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector" value="{info}" />
@@ -7446,7 +7446,7 @@ the smart card and the terminal
 <spy value="false" />
 </extraparam>
 </CONNECTOR>
-<CONNECTOR type="125" id="1893" >
+<CONNECTOR type="125" id="1893" uid="ecab8cc1-da27-46b1-93f9-389477847365" >
 <cdparam x="402" y="367" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="1000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from Memory0 to Bus0" value="{info}" />
@@ -7458,7 +7458,7 @@ the smart card and the terminal
 <spy value="false" />
 </extraparam>
 </CONNECTOR>
-<CONNECTOR type="125" id="1894" >
+<CONNECTOR type="125" id="1894" uid="288ee0cb-7a08-4ef7-9c27-717ba142bf13" >
 <cdparam x="190" y="300" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="1000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from CPU1 to Bus0" value="{info}" />
@@ -7470,7 +7470,7 @@ the smart card and the terminal
 <spy value="false" />
 </extraparam>
 </CONNECTOR>
-<CONNECTOR type="125" id="1895" >
+<CONNECTOR type="125" id="1895" uid="4c16f1de-400e-4a4e-9c43-0bc911b02c0f" >
 <cdparam x="413" y="222" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector" value="{info}" />

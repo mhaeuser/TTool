@@ -39,6 +39,7 @@ Ludovic Apvrille, Renaud Pacalet
  */
 
 #include <definitions.h>
+#include <ServerHelpData.h>
 
 class CommandInfo {
     public:
@@ -56,6 +57,7 @@ class CommandInfo {
             description = _desc;
         }
 };
+
 ///Class helping print help command and help sever
 class ServerHelp {
 public:
@@ -65,6 +67,20 @@ public:
 	void printHelpSever();
 	///print the help to specific command
 	void printHelpCommand(std::string cmd);
+	///parse html and getdata
+	void parseHtml(std::string filePath);
+
+	bool replace(std::string& str, const std::string& from, const std::string& to);
+
+	std::vector<std::string> splitData(std::string s, std::string delimiter);
+
+    // trim from both ends of string (right then left)
+    inline std::string trim(std::string s) {
+        std::string t = " \t\n\r\f\v";
+        s.erase(s.find_last_not_of(t) + 1);
+        s.erase(0, s.find_first_not_of(t));
+        return s;
+    }
 
 	std::map <std::string, CommandInfo> allCmds;
 	std::map <std::string, std::string> aliasMapWithName;

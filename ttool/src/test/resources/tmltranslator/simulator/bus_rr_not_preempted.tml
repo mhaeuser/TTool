@@ -1,0 +1,50 @@
+// TML Application - FORMAT 0.2
+// Application: /home/levan/Downloads/Basic1-update.xml
+// Generated: Fri Jun 04 18:53:16 CEST 2021
+
+// PRAGMAS
+
+// Channels
+CHANNEL Application__c0 BRBW 1 40 OUT Application__Src0 IN Application__Tgt0
+VCCHANNEL Application__c0 0
+CHANNEL Application__c1 BRBW 1 40 OUT Application__Src1 IN Application__Tgt1
+VCCHANNEL Application__c1 0
+
+// Events
+
+// Requests
+
+TASK Application__Src0
+    TASKOP
+    //Local variables
+    
+    //Behavior
+    WRITE Application__c0 5
+    EXECI 400
+ENDTASK
+
+TASK Application__Src1
+    TASKOP
+    //Local variables
+    
+    //Behavior
+    WRITE Application__c1 5
+    EXECI 300
+ENDTASK
+
+TASK Application__Tgt0
+    TASKOP
+    //Local variables
+    
+    //Behavior
+    READ Application__c0 5
+ENDTASK
+
+TASK Application__Tgt1
+    TASKOP
+    //Local variables
+    
+    //Behavior
+    READ Application__c1 5
+ENDTASK
+

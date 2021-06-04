@@ -2,23 +2,16 @@ package tmltranslator;
 
 import common.ConfigurationTTool;
 import common.SpecConfigTTool;
-import graph.AUTGraph;
 import myutil.FileUtils;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import req.ebrdd.EBRDD;
 import tepe.TEPE;
-import tmltranslator.TMLMapping;
-import tmltranslator.TMLMappingTextSpecification;
-import tmltranslator.TMLSyntaxChecking;
 import tmltranslator.tomappingsystemc2.DiploSimulatorFactory;
 import tmltranslator.tomappingsystemc2.IDiploSimulatorCodeGenerator;
 import tmltranslator.tomappingsystemc2.Penalties;
 import ui.AbstractUITest;
-import ui.TDiagramPanel;
-import ui.TMLArchiPanel;
-import ui.tmldd.TMLArchiDiagramPanel;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -28,24 +21,28 @@ import java.util.List;
 
 import static org.junit.Assert.assertTrue;
 
-public class FpgaClockDividerTest extends AbstractUITest {
+public class HelpSeverTest extends AbstractUITest {
 
     private final String DIR_GEN = "test_diplo_simulator/";
-    private final String [] MODELS_FPGA_CLOCK_DIVIDER = {"fpga_clock_divider"};
+    private final String [] MODELS_HELP_SERVER = {"fpga_clock_divider"};
     private String SIM_DIR;
-    private final int [] NB_OF_FCD_STATES = {49};
-    private final int [] NB_OF_FCD_TRANSTIONS = {48};
-    private final int [] MIN_FCD_CYCLES = {248};
-    private final int [] MAX_FCD_CYCLES = {248};
+    private final String[] HELP_SERVER = {"active-breakpoints/ab",
+            "add-breakpoint/abp",
+            "add-virtual-signals/avs",
+            "calculate-latencies/cl",
+            "choose-branch/cb"};
+    private final String[] HELP_COMMAND = {"Help on command: run-to-next-breakpoint",
+            "Runs the simulation until a breakpoint is met",
+            "alias: rtnb",
+            "code: 1 0"};
     private static String CPP_DIR = "../../../../simulators/c++2/";
-    private static String mappingName = "ArchitectureSimple";
 
     @BeforeClass
     public static void setUpBeforeClass() throws Exception {
         RESOURCES_DIR = getBaseResourcesDir() + "/tmltranslator/simulator/";
     }
 
-    public FpgaClockDividerTest() {
+    public HelpSeverTest() {
         super();
     }
 
@@ -56,9 +53,9 @@ public class FpgaClockDividerTest extends AbstractUITest {
 
     @Test(timeout = 600000)
     public void testMulticoreNotHangingWhenSaveTrace() throws Exception {
-        for (int i = 0; i < MODELS_FPGA_CLOCK_DIVIDER.length; i++) {
-            String s = MODELS_FPGA_CLOCK_DIVIDER[i];
-            SIM_DIR = DIR_GEN + s + "/";
+        for (int i = 0; i < MODELS_HELP_SERVER.length; i++) {
+            String s = MODELS_HELP_SERVER[i];
+            SIM_DIR = DIR_GEN + s + "_helpserver/";
             System.out.println("executing: checking syntax " + s);
             System.out.println("executing: loading " + s);
             TMLMappingTextSpecification tmts = new TMLMappingTextSpecification(s);
@@ -161,13 +158,13 @@ public class FpgaClockDividerTest extends AbstractUITest {
             System.out.println("SUCCESS: executing: " + "make -C " + SIM_DIR);
 
             String graphPath = SIM_DIR + "testgraph_" + s;
+            String tempData = "";
             try {
-
-                String[] params = new String[3];
+                // helpserver test
+                String[] params = new String[2];
 
                 params[0] = "./" + SIM_DIR + "run.x";
-                params[1] = "-cmd";
-                params[2] = "1 0; 1 7 100 100 " + graphPath;
+                params[1] = "-helpserver";
                 proc = Runtime.getRuntime().exec(params);
                 proc_in = new BufferedReader(new InputStreamReader(proc.getInputStream()));
 
@@ -175,39 +172,43 @@ public class FpgaClockDividerTest extends AbstractUITest {
 
                 while ((str = proc_in.readLine()) != null) {
                     // TraceManager.addDev( "Sending " + str + " from " + port + " to client..." );
-                    System.out.println("executing: " + str);
+                    tempData += str + "\n";
                 }
+
+                System.out.println("HELP_SERVER = " + tempData);
+                for (int j = 0; j < HELP_SERVER.length; j++) {
+                    System.out.println("Checked HELP_SERVER = " + tempData.contains(HELP_SERVER[j]));
+                    assertTrue(tempData.contains(HELP_SERVER[j]));
+                }
+
+                //helpcommand test
+                tempData = "";
+                params = new String[3];
+
+                params[0] = "./" + SIM_DIR + "run.x";
+                params[1] = "-helpcommand";
+                params[2] = "rtnb";
+                proc = Runtime.getRuntime().exec(params);
+                proc_in = new BufferedReader(new InputStreamReader(proc.getInputStream()));
+
+                monitorError(proc);
+
+                while ((str = proc_in.readLine()) != null) {
+                    // TraceManager.addDev( "Sending " + str + " from " + port + " to client..." );
+                    tempData += str + "\n";;
+                }
+
+                System.out.println("HELP_COMMAND = " + tempData);
+                for (int j = 0; j < HELP_COMMAND.length; j++) {
+                    System.out.println("Checked HELP_COMMAND = " + tempData.contains(HELP_COMMAND[j]));
+                    assertTrue(tempData.contains(HELP_COMMAND[j]));
+                }
+
             } catch (Exception e) {
                 // Probably make is not installed
                 System.out.println("FAILED: executing simulation " + e.getCause());
                 return;
             }
-
-            File graphFile = new File(graphPath + ".aut");
-            String graphData = "";
-            try {
-                graphData = FileUtils.loadFileData(graphFile);
-            } catch (Exception e) {
-                assertTrue(false);
-            }
-
-            AUTGraph graph = new AUTGraph();
-            graph.buildGraph(graphData);
-
-            // States and transitions
-            System.out.println("executing: nb states of " + s + " " + graph.getNbOfStates());
-            assertTrue(NB_OF_FCD_STATES[i] == graph.getNbOfStates());
-            System.out.println("executing: nb transitions of " + s + " " + graph.getNbOfTransitions());
-            assertTrue(NB_OF_FCD_TRANSTIONS[i] == graph.getNbOfTransitions());
-
-            // Min and max cycles
-            int minValue = graph.getMinValue("allCPUsFPGAsTerminated");
-            System.out.println("executing: minvalue of " + s + " " + minValue);
-            assertTrue(MIN_FCD_CYCLES[i] == minValue);
-
-            int maxValue = graph.getMaxValue("allCPUsFPGAsTerminated");
-            System.out.println("executing: maxvalue of " + s + " " + maxValue);
-            assertTrue(MAX_FCD_CYCLES[i] == maxValue);
         }
     }
 }

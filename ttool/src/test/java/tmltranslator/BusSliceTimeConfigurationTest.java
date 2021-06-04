@@ -9,16 +9,10 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import req.ebrdd.EBRDD;
 import tepe.TEPE;
-import tmltranslator.TMLMapping;
-import tmltranslator.TMLMappingTextSpecification;
-import tmltranslator.TMLSyntaxChecking;
 import tmltranslator.tomappingsystemc2.DiploSimulatorFactory;
 import tmltranslator.tomappingsystemc2.IDiploSimulatorCodeGenerator;
 import tmltranslator.tomappingsystemc2.Penalties;
 import ui.AbstractUITest;
-import ui.TDiagramPanel;
-import ui.TMLArchiPanel;
-import ui.tmldd.TMLArchiDiagramPanel;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -28,24 +22,20 @@ import java.util.List;
 
 import static org.junit.Assert.assertTrue;
 
-public class FpgaClockDividerTest extends AbstractUITest {
+public class BusSliceTimeConfigurationTest extends AbstractUITest {
 
     private final String DIR_GEN = "test_diplo_simulator/";
-    private final String [] MODELS_FPGA_CLOCK_DIVIDER = {"fpga_clock_divider"};
+    private final String[] MODELS_BUS_SLICE_TIME = {"bus_rr_preempted", "bus_rr_not_preempted","bus_rrpb_preempted", "bus_rrpb_not_preempted"};
+    private final Integer[] EXPECTED_RESULT = {5, 2, 5, 2};
     private String SIM_DIR;
-    private final int [] NB_OF_FCD_STATES = {49};
-    private final int [] NB_OF_FCD_TRANSTIONS = {48};
-    private final int [] MIN_FCD_CYCLES = {248};
-    private final int [] MAX_FCD_CYCLES = {248};
     private static String CPP_DIR = "../../../../simulators/c++2/";
-    private static String mappingName = "ArchitectureSimple";
 
     @BeforeClass
     public static void setUpBeforeClass() throws Exception {
         RESOURCES_DIR = getBaseResourcesDir() + "/tmltranslator/simulator/";
     }
 
-    public FpgaClockDividerTest() {
+    public BusSliceTimeConfigurationTest() {
         super();
     }
 
@@ -56,8 +46,8 @@ public class FpgaClockDividerTest extends AbstractUITest {
 
     @Test(timeout = 600000)
     public void testMulticoreNotHangingWhenSaveTrace() throws Exception {
-        for (int i = 0; i < MODELS_FPGA_CLOCK_DIVIDER.length; i++) {
-            String s = MODELS_FPGA_CLOCK_DIVIDER[i];
+        for (int i = 0; i < MODELS_BUS_SLICE_TIME.length; i++) {
+            String s = MODELS_BUS_SLICE_TIME[i];
             SIM_DIR = DIR_GEN + s + "/";
             System.out.println("executing: checking syntax " + s);
             System.out.println("executing: loading " + s);
@@ -167,7 +157,7 @@ public class FpgaClockDividerTest extends AbstractUITest {
 
                 params[0] = "./" + SIM_DIR + "run.x";
                 params[1] = "-cmd";
-                params[2] = "1 0; 1 7 100 100 " + graphPath;
+                params[2] = "1 0; 7 2 " + graphPath;
                 proc = Runtime.getRuntime().exec(params);
                 proc_in = new BufferedReader(new InputStreamReader(proc.getInputStream()));
 
@@ -183,31 +173,18 @@ public class FpgaClockDividerTest extends AbstractUITest {
                 return;
             }
 
-            File graphFile = new File(graphPath + ".aut");
+            File graphFile = new File(graphPath + ".txt");
             String graphData = "";
+            String findStr = "Execi";
             try {
                 graphData = FileUtils.loadFileData(graphFile);
             } catch (Exception e) {
                 assertTrue(false);
             }
 
-            AUTGraph graph = new AUTGraph();
-            graph.buildGraph(graphData);
-
-            // States and transitions
-            System.out.println("executing: nb states of " + s + " " + graph.getNbOfStates());
-            assertTrue(NB_OF_FCD_STATES[i] == graph.getNbOfStates());
-            System.out.println("executing: nb transitions of " + s + " " + graph.getNbOfTransitions());
-            assertTrue(NB_OF_FCD_TRANSTIONS[i] == graph.getNbOfTransitions());
-
-            // Min and max cycles
-            int minValue = graph.getMinValue("allCPUsFPGAsTerminated");
-            System.out.println("executing: minvalue of " + s + " " + minValue);
-            assertTrue(MIN_FCD_CYCLES[i] == minValue);
-
-            int maxValue = graph.getMaxValue("allCPUsFPGAsTerminated");
-            System.out.println("executing: maxvalue of " + s + " " + maxValue);
-            assertTrue(MAX_FCD_CYCLES[i] == maxValue);
+            int countExecI = graphData.split(findStr, -1).length-1;
+            System.out.println("Number of ExecI transactions in model " + s + ": " + countExecI);
+            assertTrue(countExecI == EXPECTED_RESULT[i]);
         }
     }
 }

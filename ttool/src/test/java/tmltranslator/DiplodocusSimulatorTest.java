@@ -9,10 +9,15 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import req.ebrdd.EBRDD;
 import tepe.TEPE;
+import tmltranslator.TMLMapping;
+import tmltranslator.TMLMappingTextSpecification;
+import tmltranslator.TMLSyntaxChecking;
+import tmltranslator.TMLTextSpecification;
 import tmltranslator.tomappingsystemc2.DiploSimulatorFactory;
 import tmltranslator.tomappingsystemc2.IDiploSimulatorCodeGenerator;
 import tmltranslator.tomappingsystemc2.Penalties;
 import ui.*;
+import ui.tmldd.TMLArchiDiagramPanel;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -24,12 +29,13 @@ import static org.junit.Assert.*;
 
 public class DiplodocusSimulatorTest extends AbstractUITest {
 
+    //final String [] MODELS = {"scp"};
     final String [] MODELS = {"scp", "ssdf"};
     final String DIR_GEN = "test_diplo_simulator/";
-    final int [] NB_Of_STATES = {119, 1824};
-    final int [] NB_Of_TRANSTIONS = {118, 1823};
-    final int [] MIN_CYCLES = {201, 4109};
-    final int [] MAX_CYCLES = {297, 4109};
+    final int [] NB_Of_STATES = {173, 1824};
+    final int [] NB_Of_TRANSTIONS = {172, 1823};
+    final int [] MIN_CYCLES = {210, 4109};
+    final int [] MAX_CYCLES = {315, 4109};
     //model for daemon task
     final String [] MODELS_DAEMON = {"daemontest1", "daemontest2"};
     final int [] NB_Of_DAEMON_STATES = {203, 406};
@@ -39,9 +45,11 @@ public class DiplodocusSimulatorTest extends AbstractUITest {
 
     // model for Daemon Run To Next Breakpoint
     final String MODELS_DAEMON_RTNB = "testDaemon";
-    final int [] DAEMON_RTNBP_1 = {10, 9, 205, 205};
-    final int [] DAEMON_RTNBP_2 = {16, 15, 408, 408};
+    final int [] DAEMON_RTNBP_1 = {16, 15, 205, 205};
+    final int [] DAEMON_RTNBP_2 = {28, 27, 408, 408};
     private String SIM_DIR;
+
+
 
     @BeforeClass
     public static void setUpBeforeClass() throws Exception {

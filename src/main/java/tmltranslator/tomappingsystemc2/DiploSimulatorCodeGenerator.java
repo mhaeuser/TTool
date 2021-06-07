@@ -654,7 +654,7 @@ public class DiploSimulatorCodeGenerator implements IDiploSimulatorCodeGenerator
                     declaration += namesGen.busInstanceName(bus, 0) + "->setScheduler( (WorkloadSource*) new ";
 
                     if (bus.arbitration == HwBus.BASIC_ROUND_ROBIN) {
-                        declaration += "RRScheduler(\"" + namesGen.rrSchedulerName(bus) + "\", 0, " + (tmlmapping.getTMLArchitecture().getMasterClockFrequency() * ((HwBus) node).sliceTime) + ", "
+                        declaration += "RRScheduler(\"" + namesGen.rrSchedulerName(bus) + "\", 0, 5, "
                                 + (int) Math.ceil(((float) node.clockRatio) / ((float) ((HwBus) node).byteDataSize)) + ", array(";
                     } else {
                         declaration += "PrioScheduler(\"" + namesGen.prioSchedulerName(bus) + "\", 0, array(";

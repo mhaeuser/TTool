@@ -10,7 +10,7 @@ GRADLE_OPTIONS          = --parallel
 #GRADLE_OPTIONS          =
 GRADLE			= $(shell which gradle)
 GRADLE_VERSION_NEEDED	= 3.3
-ERROR_MSG		= printf "$(COLOR)\nBuild with gradle failed. Falling back to regular javac command...\n$(RESET)"
+ERROR_MSG		= printf "$(COLOR)\nBuild with gradle failed. Falling back to regular javac command...\nCompilation or execution of TTool may thus fail...\n\n$(RESET)"
 
 NO_GUI_TESTS		= avatartranslator.* graph.* help.* launcher.* myutil.* tmltranslator.*
 

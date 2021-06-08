@@ -41,6 +41,7 @@ package tmltranslator;
 
 import org.junit.Before;
 import org.junit.Test;
+import test.AbstractTest;
 import ui.AbstractUITest;
 
 import java.util.*;
@@ -55,7 +56,7 @@ import static org.junit.Assert.*;
  * @author Minh Hiep PHAM
  */
 
-public class TMLComparingMethodTest extends AbstractUITest {
+public class TMLComparingMethodTest extends AbstractTest {
 
     private TMLComparingMethod comparing;
 

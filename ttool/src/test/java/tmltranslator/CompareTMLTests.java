@@ -4,7 +4,6 @@ import test.AbstractTest;
 import tmltranslator.compareTMLTest.CompareTML;
 import org.junit.Before;
 import org.junit.Test;
-import ui.AbstractUITest;
 
 import java.io.File;
 import java.nio.file.Files;

@@ -9,6 +9,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import req.ebrdd.EBRDD;
 import tepe.TEPE;
+import test.AbstractTest;
 import tmltranslator.TMLMapping;
 import tmltranslator.TMLMappingTextSpecification;
 import tmltranslator.TMLSyntaxChecking;
@@ -28,7 +29,7 @@ import java.util.List;
 
 import static org.junit.Assert.assertTrue;
 
-public class FpgaClockDividerTest extends AbstractUITest {
+public class FpgaClockDividerTest extends AbstractTest {
 
     private final String DIR_GEN = "test_diplo_simulator/";
     private final String [] MODELS_FPGA_CLOCK_DIVIDER = {"fpga_clock_divider"};

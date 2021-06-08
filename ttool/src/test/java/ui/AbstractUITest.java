@@ -77,21 +77,4 @@ public abstract class AbstractUITest extends AbstractTest {
         return null;
 	}
 
-	protected void monitorError(Process proc) {
-        BufferedReader proc_err = new BufferedReader(new InputStreamReader(proc.getErrorStream()));
-        new Thread() {
-            @Override public void run() {
-                String line;
-                try {
-                    while ((line = proc_err.readLine()) != null) {
-                        System.out.println("NOC executing err: " + line);
-                    }
-                } catch (Exception e) {
-                    //System.out.println("FAILED reading errors");
-                    return;
-                }
-
-            }
-        }.start();
-	}
 }

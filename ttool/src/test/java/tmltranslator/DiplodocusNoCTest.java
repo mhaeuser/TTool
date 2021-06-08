@@ -9,6 +9,7 @@ import org.junit.Test;
 import org.junit.runners.model.TestTimedOutException;
 import req.ebrdd.EBRDD;
 import tepe.TEPE;
+import test.AbstractTest;
 import tmltranslator.tomappingsystemc2.DiploSimulatorFactory;
 import tmltranslator.tomappingsystemc2.IDiploSimulatorCodeGenerator;
 import tmltranslator.tomappingsystemc2.Penalties;
@@ -25,7 +26,7 @@ import static org.junit.Assert.*;
 
 
 
-public class DiplodocusNoCTest extends AbstractUITest {
+public class DiplodocusNoCTest extends AbstractTest {
 
 
     final String MODEL = "spec";

@@ -9,6 +9,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import req.ebrdd.EBRDD;
 import tepe.TEPE;
+import test.AbstractTest;
 import tmltranslator.TMLMapping;
 import tmltranslator.TMLMappingTextSpecification;
 import tmltranslator.TMLSyntaxChecking;
@@ -27,7 +28,7 @@ import java.util.List;
 
 import static org.junit.Assert.assertTrue;
 
-public class RemoveAllTransactionsTests extends AbstractUITest {
+public class RemoveAllTransactionsTests extends AbstractTest {
     final String DIR_GEN = "test_diplo_simulator/";
     final String [] MODELS_PARSE_HTML = {"parseFPGA_HTML"};
     final static String EXPECTED_FILE_REMOVE_ALL_TRANS = getBaseResourcesDir() + "tmltranslator/expected/expected_remove_all_trans.txt";

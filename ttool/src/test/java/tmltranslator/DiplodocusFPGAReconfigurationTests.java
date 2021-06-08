@@ -9,6 +9,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import req.ebrdd.EBRDD;
 import tepe.TEPE;
+import test.AbstractTest;
 import tmltranslator.tomappingsystemc2.DiploSimulatorFactory;
 import tmltranslator.tomappingsystemc2.IDiploSimulatorCodeGenerator;
 import tmltranslator.tomappingsystemc2.Penalties;
@@ -22,7 +23,7 @@ import java.util.List;
 
 import static org.junit.Assert.assertTrue;
 
-public class DiplodocusFPGAReconfigurationTests extends AbstractUITest {
+public class DiplodocusFPGAReconfigurationTests extends AbstractTest {
 
     private static final String DIR_GEN = "test_diplo_simulator/";
     // test for reconfiguration of FPGA

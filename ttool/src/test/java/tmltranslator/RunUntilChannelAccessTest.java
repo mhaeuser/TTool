@@ -8,6 +8,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import req.ebrdd.EBRDD;
 import tepe.TEPE;
+import test.AbstractTest;
 import tmltranslator.TMLMapping;
 import tmltranslator.TMLMappingTextSpecification;
 import tmltranslator.TMLSyntaxChecking;
@@ -26,7 +27,7 @@ import java.util.List;
 
 import static org.junit.Assert.assertTrue;
 
-public class RunUntilChannelAccessTest extends AbstractUITest {
+public class RunUntilChannelAccessTest extends AbstractTest {
     final String DIR_GEN = "test_diplo_simulator/";
     final String [] MODELS_RUCA = {"ruca"};
     final static String EXPECTED_FILE_RUCA = getBaseResourcesDir() + "tmltranslator/expected/expected_ruca.txt";

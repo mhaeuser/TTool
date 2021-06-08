@@ -9,6 +9,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import req.ebrdd.EBRDD;
 import tepe.TEPE;
+import test.AbstractTest;
 import tmltranslator.TMLMapping;
 import tmltranslator.TMLMappingTextSpecification;
 import tmltranslator.TMLSyntaxChecking;
@@ -27,7 +28,7 @@ import java.util.List;
 
 import static org.junit.Assert.*;
 
-public class DiplodocusSimulatorTest extends AbstractUITest {
+public class DiplodocusSimulatorTest extends AbstractTest {
 
     //final String [] MODELS = {"scp"};
     final String [] MODELS = {"scp", "ssdf"};

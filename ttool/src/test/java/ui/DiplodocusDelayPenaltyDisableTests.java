@@ -1,4 +1,4 @@
-package tmltranslator;
+package ui;
 
 import common.ConfigurationTTool;
 import common.SpecConfigTTool;
@@ -9,6 +9,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import req.ebrdd.EBRDD;
 import tepe.TEPE;
+import test.AbstractTest;
 import tmltranslator.TMLMapping;
 import tmltranslator.TMLMappingTextSpecification;
 import tmltranslator.TMLSyntaxChecking;

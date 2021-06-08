@@ -11,6 +11,7 @@ import remotesimulation.RemoteConnection;
 import remotesimulation.RemoteConnectionException;
 import req.ebrdd.EBRDD;
 import tepe.TEPE;
+import test.AbstractTest;
 import tmltranslator.TMLMapping;
 import tmltranslator.TMLMappingTextSpecification;
 import tmltranslator.TMLSyntaxChecking;
@@ -27,7 +28,7 @@ import java.util.List;
 
 import static org.junit.Assert.assertTrue;
 
-public class DiplodocusSimulatorTerminationTest extends AbstractUITest {
+public class DiplodocusSimulatorTerminationTest extends AbstractTest {
     final String DIR_GEN = "test_diplo_simulator/";
     final String [] MODELS_TERMINATE = {"terminatedTest"};
     private String SIM_DIR;

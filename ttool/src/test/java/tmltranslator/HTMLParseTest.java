@@ -13,6 +13,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import req.ebrdd.EBRDD;
 import tepe.TEPE;
+import test.AbstractTest;
 import tmltranslator.TMLMapping;
 import tmltranslator.TMLMappingTextSpecification;
 import tmltranslator.TMLSyntaxChecking;
@@ -31,7 +32,7 @@ import java.util.List;
 
 import static org.junit.Assert.assertTrue;
 
-public class HTMLParseTest extends AbstractUITest {
+public class HTMLParseTest extends AbstractTest {
     final String DIR_GEN = "test_diplo_simulator/";
     final String [] MODELS_PARSE_HTML = {"parseFPGA_HTML", "parseCPU1_HTML","parseCPU2_HTML"};
     final String [] PARSE_FPGA = {"<- idle 468 ->","", "", "", ""};

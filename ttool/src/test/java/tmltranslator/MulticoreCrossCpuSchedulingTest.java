@@ -9,6 +9,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import req.ebrdd.EBRDD;
 import tepe.TEPE;
+import test.AbstractTest;
 import tmltranslator.TMLMapping;
 import tmltranslator.TMLMappingTextSpecification;
 import tmltranslator.TMLSyntaxChecking;
@@ -28,7 +29,7 @@ import java.util.List;
 
 import static org.junit.Assert.assertTrue;
 
-public class MulticoreCrossCpuSchedulingTest extends AbstractUITest {
+public class MulticoreCrossCpuSchedulingTest extends AbstractTest {
     final String DIR_GEN = "test_diplo_simulator/";
     final String [] MODELS_CPU_CROSS = {"testMultiCoreRRPB", "testMultiCoreRR"};
     private String SIM_DIR;

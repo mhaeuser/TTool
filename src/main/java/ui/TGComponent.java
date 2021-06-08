@@ -3232,8 +3232,8 @@ public abstract class TGComponent  extends AbstractCDElement implements /*CDElem
         sb.append(translateInvariant());
         sb.append(translateMasterMutex());
         sb.append(translateBreakpoint());
-        sb.append(translateExtraParam());
         sb.append(translateColor());
+        sb.append(translateExtraParam());
 
         if (b) {
             sb.append(XML_TAIL);
@@ -3385,12 +3385,15 @@ public abstract class TGComponent  extends AbstractCDElement implements /*CDElem
 
     protected String translateColor() {
         if (currentMainColor == null) {
+            //TraceManager.addDev("Current color: null");
             return "";
         }
 
         if (!(this instanceof ColorCustomizable)) {
             return "";
         }
+
+        //TraceManager.addDev("Instance  color customizable ok");
 
         return "<color value=\"" + currentMainColor.getRGB() + "\" />\n";
     }

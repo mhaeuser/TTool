@@ -7669,6 +7669,7 @@ public class GTURTLEModeling {
             int myX = -1, myY = -1, myWidth = -1, myHeight = -1;
             int myMinWidth = -1, myMinHeight = -1, myMinDesiredWidth = -1, myMinDesiredHeight = -1;
             int myMinX = -1, myMaxX = -1, myMinY = -1, myMaxY = -1;
+            boolean colorFound = false;
             int color = -1;
             String myName = null, myValue = null;
             String customData = null;
@@ -7754,6 +7755,7 @@ public class GTURTLEModeling {
                         breakpoint = true;
                     } else if (elt.getTagName().equals("color")) {
                         color = Integer.decode(elt.getAttribute("value"));
+                        colorFound = true;
                     }
                 }
             }
@@ -7829,7 +7831,7 @@ public class GTURTLEModeling {
                 tgc.setCustomData(customData);
             }
 
-            if (color != -1) {
+            if (colorFound) {
                 tgc.setCurrentColor(color);
             }
 

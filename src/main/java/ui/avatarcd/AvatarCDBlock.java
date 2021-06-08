@@ -170,23 +170,30 @@ public class AvatarCDBlock extends TGCScalableWithInternalComponent implements S
 
         Color avat = getCurrentColor();
         Font f = g.getFont();
-        int currentHeight = f.getSize() * 2;
+        int currentHeight = f.getSize() * 2 + 4;
         g.setColor(new Color(avat.getRed(), avat.getGreen(), Math.min(255, avat.getBlue() + (getMyDepth() * 10))));
         g.fill3DRect(x + 1, y + 1, width - 1, Math.min(currentHeight, height), true);
         g.setColor(c);
         
         //Strings
-        String ster = "<<" + stereotype + ">>";
-        g.setFont(f.deriveFont(Font.BOLD));
-        currentHeight = f.getSize();
-        drawSingleString(g, ster, getCenter(g, ster), y + currentHeight);
+        if (stereotype.length() > 0) {
+            String ster = "<<" + stereotype + ">>";
+            g.setFont(f.deriveFont(Font.BOLD));
+            currentHeight = f.getSize();
+            drawSingleString(g, ster, getCenter(g, ster), y + currentHeight);
+        }
         
         
         g.setFont(f);
 //        strWidth = g.getFontMetrics().stringWidth(value);
-        currentHeight = 2 * f.getSize();
+        if (stereotype.length() == 0) {
+            currentHeight = (int)(1.5 * f.getSize());
+        } else {
+            currentHeight = 2 * f.getSize();
+        }
         drawSingleString(g, value, getCenter(g, value), y + currentHeight);
-        
+
+        currentHeight += 4;
      
         if (currentHeight < height) {
             //g.drawLine(x, y+h, x+width, y+h);
@@ -273,7 +280,7 @@ public class AvatarCDBlock extends TGCScalableWithInternalComponent implements S
 
             String ster = s.substring(0, index);
             String blo = s.substring(index+1, s.length());
-            if (ster.length() == 0 ) {
+            /*if (ster.length() == 0 ) {
                 JOptionPane.showMessageDialog(frame,
                         "Invalid stereotype",
                         "Error",
@@ -310,12 +317,10 @@ public class AvatarCDBlock extends TGCScalableWithInternalComponent implements S
                         "Error",
                         JOptionPane.INFORMATION_MESSAGE);
                 return false;
-            }
+            }*/
 
             stereotype = ster;
             setValue(blo);
-
-
 
             recalculateSize();
 
@@ -504,6 +509,8 @@ public class AvatarCDBlock extends TGCScalableWithInternalComponent implements S
     @Override
     protected String translateExtraParam() {
         StringBuffer sb = new StringBuffer("<extraparam>\n");
+        sb.append("<stereotype value=\"" + stereotype);
+        sb.append("\" />\n");
         if (texts != null) {
             for (int i = 0; i < texts.length; i++) {
                 //value = value + texts[i] + "\n";

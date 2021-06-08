@@ -162,12 +162,12 @@ public final class GraphicLib {
 
         g.drawLine(x1, y1, x2, y2);
 
-        // extremite 1
+        // end 1
         if ((type == 0) || (type == 2)) {
             drawArrow(g, x1, y1, x2, y2, head, length, full);
         }
 
-        // extremite 2
+        // end 2
         if ((type == 0) || (type == 1)) {
             drawArrow(g, x2, y2, x1, y1, head, length, full);
         }
@@ -176,7 +176,7 @@ public final class GraphicLib {
 
 
     private static void drawArrow(Graphics g, int x1, int y1, int x2, int y2, int head, int length, boolean full) {
-        // changement de repere
+        // coordinate change
         int x = x2 - x1;
         int y = y2 - y1;
 
@@ -185,11 +185,11 @@ public final class GraphicLib {
             length = longueur;
         }
 
-        // passage en cds polaires
+        // Polar coordinates
         // double ro = Conversion.ro(x, y);
         double alpha = Conversion.theta(x, y);
 
-        // tete de la fleche
+        // arrow head
         xPoints[0] = x1;
         yPoints[0] = y1;
         xPoints[1] = (int) (length * Math.cos(alpha - angle) + x1);

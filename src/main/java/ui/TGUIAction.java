@@ -520,6 +520,7 @@ public class TGUIAction extends AbstractAction {
     public static final int ACD_BLOCK = 345;
     public static final int ACD_COMPOSITION_CONNECTOR = 346;
     public static final int ACD_AGGREGATION_CONNECTOR = 530;
+    public static final int ACD_ASSOCIATION_CONNECTOR_ARROW = 538;
     public static final int ACD_ACTOR_STICKMAN = 347;
     public static final int ACD_ACTOR_BOX = 348;
     public static final int ACD_ASSOCIATION_CONNECTOR = 349;
@@ -691,7 +692,7 @@ public class TGUIAction extends AbstractAction {
     public static final int MOVE_ENABLED = 463;
     public static final int FIRST_DIAGRAM = 464;
 
-    public static final int NB_ACTION = 538;
+    public static final int NB_ACTION = 539;
 
     private static final TAction [] actions = new TAction[NB_ACTION];
 
@@ -1424,6 +1425,12 @@ public class TGUIAction extends AbstractAction {
         actions[ACD_AGGREGATION_CONNECTOR] = new TAction("acd-aggregation-connector", "Add an aggregation between blocks", IconManager.imgic5078,
          IconManager.imgic5078, "Aggregation between blocks", "Add an aggregation between blocks to the currently opened AVATAR Context Diagram", 0);
         actions[ACD_ASSOCIATION_CONNECTOR] = new TAction("acd-association-connector", "Add an association", IconManager.imgic5044, IconManager.imgic5044, "Association", "Add an association between blocks to the currently opened AVATAR Context Diagram", 0);
+        actions[ACD_ASSOCIATION_CONNECTOR_ARROW] = new TAction("acd-association-connector-arrow", "Add an association with an arrow",
+                IconManager.imgic5080,
+                IconManager.imgic5080, "Association arrow",
+                "Add an association with an arrow between elements to the currently opened AVATAR Context " +
+                "Diagram",
+0);
         actions[ACD_ACTOR_STICKMAN] = new TAction("acd-add-actor", "Add an actor (stickman format)", IconManager.imgic600, IconManager.imgic600, "Actor", "Add a stickman actor to the currently opened AVATAR Context diagram", 0);
         actions[ACD_ACTOR_BOX] = new TAction("acd-add-actor-box", "Add an actor (box format)", IconManager.imgic614, IconManager.imgic614, "Actor (box format)", "Add a box actor  to the currently opened AVATAR Context diagram", 0);
         actions[ACD_SPECIA_CONNECTOR] = new TAction("add-connector-specia-cd", "Specialization", IconManager.imgic610, IconManager.imgic610,

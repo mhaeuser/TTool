@@ -497,6 +497,8 @@ public class ActionPerformer {
 
         } else if (command.equals(mgui.actions[TGUIAction.ACD_ASSOCIATION_CONNECTOR].getActionCommand())) {
             mgui.actionOnButton(TGComponentManager.CONNECTOR, TGComponentManager.ACD_ASSOCIATION_CONNECTOR);
+        } else if (command.equals(mgui.actions[TGUIAction.ACD_ASSOCIATION_CONNECTOR_ARROW].getActionCommand())) {
+            mgui.actionOnButton(TGComponentManager.CONNECTOR, TGComponentManager.ACD_ASSOCIATION_CONNECTOR_ARROW);
         } else if (command.equals(mgui.actions[TGUIAction.ACD_COMPOSITION_CONNECTOR].getActionCommand())) {
             mgui.actionOnButton(TGComponentManager.CONNECTOR, TGComponentManager.ACD_COMPOSITION_CONNECTOR);
         } else if (command.equals(mgui.actions[TGUIAction.ACD_AGGREGATION_CONNECTOR].getActionCommand())) {

@@ -82,6 +82,7 @@ public class AvatarCDToolBar extends TToolBar {
 		mgui.actions[TGUIAction.ACD_COMPOSITION_CONNECTOR].setEnabled(b);
         mgui.actions[TGUIAction.ACD_AGGREGATION_CONNECTOR].setEnabled(b);
 		mgui.actions[TGUIAction.ACD_ASSOCIATION_CONNECTOR].setEnabled(b);
+        mgui.actions[TGUIAction.ACD_ASSOCIATION_CONNECTOR_ARROW].setEnabled(b);
         mgui.actions[TGUIAction.ACD_SPECIA_CONNECTOR].setEnabled(b);
 		mgui.actions[TGUIAction.ACD_ACTOR_BOX].setEnabled(b);
 		mgui.actions[TGUIAction.ACD_ACTOR_STICKMAN].setEnabled(b);
@@ -126,6 +127,9 @@ public class AvatarCDToolBar extends TToolBar {
         button.addMouseListener(mgui.mouseHandler);
 		
 		button = this.add(mgui.actions[TGUIAction.ACD_ASSOCIATION_CONNECTOR]);
+        button.addMouseListener(mgui.mouseHandler);
+
+        button = this.add(mgui.actions[TGUIAction.ACD_ASSOCIATION_CONNECTOR_ARROW]);
         button.addMouseListener(mgui.mouseHandler);
 
         button = this.add(mgui.actions[TGUIAction.ACD_SPECIA_CONNECTOR]);

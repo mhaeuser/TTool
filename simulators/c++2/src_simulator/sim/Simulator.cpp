@@ -52,6 +52,7 @@
 #include <ServerIF.h>
 #include <Server.h>
 #include <ServerLocal.h>
+#include <ServerHelp.h>
 #include <TMLEventChannel.h>
 #ifdef EBRDD_ENABLED
 #include <EBRDD.h>
@@ -1242,6 +1243,8 @@ void Simulator::printHelp(){
   std::cout <<  "\n************************** Command line arguments *************************\n"
     "-gpath                 specify path for graph output\n"
     "-server                launch simulator in server mode\n"
+    "-helpserver            print all available commands\n"
+    "-helpcommand cmd       print all information about cmd\n"
     "-file                  read simulation commands from file\n"
     "-help                  display this help text\n"
     "-ohtml ofile           simulate and write traces to ofile in html format\n"
@@ -1384,6 +1387,21 @@ ServerIF* Simulator::run(int iLen, char ** iArgs){
           }
     }
   }
+  // print help server
+  aArgString =getArgs("-helpserver", "helpserver", iLen, iArgs);
+  if (!aArgString.empty()) {
+    ServerHelp serverHelp;
+    serverHelp.printHelpSever();
+    return 0;
+  }
+
+  aArgString =getArgs("-helpcommand", "helpcommand", iLen, iArgs);
+  if (!aArgString.empty()) {
+    ServerHelp serverHelp;
+    serverHelp.printHelpCommand(aArgString);
+    return 0;
+  }
+
   aArgString =getArgs("-help", "help", iLen, iArgs);
   if (aArgString.empty()){
     //aArgString =getArgs("-explo", "explo", iLen, iArgs);

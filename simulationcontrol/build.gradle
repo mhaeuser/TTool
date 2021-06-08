@@ -5,11 +5,15 @@ sourceSets {
     main {
         java {
             srcDir "${rootProject.absPath}/src/main/java/remotesimulation"
+            resources {
+                srcDir "${rootProject.absPath}/src/main/resources"
+            }
         }
     }
 }
 
 dependencies {
+    compile name: 'jsoup-1.8.1'
 }
 
 jar {

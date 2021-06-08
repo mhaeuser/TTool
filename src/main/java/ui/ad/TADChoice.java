@@ -74,40 +74,14 @@ public class TADChoice extends TADComponentWithSubcomponents/* Issue #69  TGCWit
     
     public TADChoice(int _x, int _y, int _minX, int _maxX, int _minY, int _maxY, boolean _pos, TGComponent _father, TDiagramPanel _tdp)  {
         super(_x, _y, _minX, _maxX, _minY, _maxY, _pos, _father, _tdp);
-        
-        // Issue #31
+
         createConnectingPoints();
 
-//        width = 30;
-//        height = 30;
         initScaling( 30, 30 );
         
         nbInternalTGComponent = 3;
         tgcomponent = new TGComponent[nbInternalTGComponent];
         createGuards();
-        
-//        dtextX1 = -lineOutLength;
-//        final int margin = scale( 5 );
-//        dtextY1 = height/2 - margin;
-//        dtextX2 = width + margin;
-//        dtextY2 = height/2 - margin;
-//        dtextX3 = width /2 + margin;
-//        dtextY3 = height + scale( 15 );
-        
-//        TGCOneLineText tgc = new TGCOneLineText(x+textX1-50, y+textY1, textX1-50, textX1+5, textY1, textY1 + 25, true, this, _tdp);
-//        tgc.setValue("[ ]");
-//        tgc.setName("guard 1");
-//        tgcomponent[0] = tgc;
-//        
-//        tgc = new TGCOneLineText(x+textX2, y+textY2, textX2, textX2+20, textY2, textY2+25, true, this, _tdp);
-//        tgc.setValue("[ ]");
-//        tgc.setName("guard 2");
-//        tgcomponent[1] = tgc;
-//        
-//        tgc = new TGCOneLineText(x+textX3, y+textY3, textX3, textX3+20, textY3, textY3+25, true, this, _tdp);
-//        tgc.setValue("[ ]");
-//        tgc.setName("guard 3");
-//        tgcomponent[2] = tgc;
         
         moveable = true;
         editable = false;

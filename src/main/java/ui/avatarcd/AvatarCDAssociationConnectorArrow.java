@@ -40,6 +40,7 @@ package ui.avatarcd;
 
 import myutil.GraphicLib;
 import ui.*;
+import ui.avatarsmd.AvatarSMDTransitionInfo;
 import ui.util.IconManager;
 
 import java.awt.*;
@@ -62,7 +63,14 @@ public  class AvatarCDAssociationConnectorArrow extends TGConnectorWithMultiplic
        
         myImageIcon = IconManager.imgic202;
 
-        value = "{info}";
+        TGCOneLineText tgc = new TGCOneLineText((_p1.getX() + _p2.getX()) / 2, (_p1.getY() + _p2.getY()) / 2, tdp.getMinX(), tdp.getMaxX(),
+                tdp.getMinY(), tdp.getMaxY(), false, this, _tdp);
+        tgc.setValue("info");
+        tgc.setName("semantics");
+        tgc.setMoveWithFather(false);
+        addInternalComponent(tgc, getNbInternalTGComponent());
+
+        value = "";
         editable = true;
 //		oldScaleFactor = tdp.getZoom();
 //		rescaled = true;

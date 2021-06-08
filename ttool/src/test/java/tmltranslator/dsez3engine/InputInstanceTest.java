@@ -266,7 +266,7 @@ public class InputInstanceTest {
 
 
         Log.close();
-        
+
 
     }
 

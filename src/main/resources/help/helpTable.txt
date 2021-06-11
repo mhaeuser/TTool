@@ -35,10 +35,10 @@
 -- mapping mapping tasks communication mapping
 ---taskmapping taskmapping tasks mapping
 ---communicationmapping communicationmapping communication mapping
+--- diplodocussimulator diplodocus_simulator simulator diplodocus server command
 --- addRule add-rule rule
 --- taint taint Taint
 --- considerRule consider-rule consider rules
---- helpserver helpserver help server command
 
 - avatar avatar software embedded systems safety security
 -- requirements requirements satified satisfy derivereqt

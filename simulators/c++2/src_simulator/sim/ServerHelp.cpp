@@ -122,7 +122,7 @@ void ServerHelp::parseHtml(std::string filePath) {
                     if tempData.at(4) > 0 then these values which have index > 4 will be the param types and param description
                 */
                 int nbOfParams = 5;
-                for (int i = 4; i < tempData.size(); i++) {
+                for (unsigned int i = 4; i < tempData.size(); i++) {
 //                    std::cout << tempData.at(i);
                     if (tempData.at(i) == "-") {
                         nbOfParams--;
@@ -135,23 +135,23 @@ void ServerHelp::parseHtml(std::string filePath) {
                         //do nothing
                     } else if (tempData.at(4 + i).find("[Type: 1]", 0) != std::string::npos) {
                         std::size_t temp_pos = tempData.at(4 + i).find("[Type: 1]", 0);
-                        std::string temp_param =  tempData.at(4 + i).substr(temp_pos + 9);
+                        std::string temp_param =  trim(tempData.at(4 + i).substr(temp_pos + 9));
                         tempParam += " <int: " + temp_param + ">";
                     } else if (tempData.at(4 + i).find("[Type: 2]", 0) != std::string::npos) {
-                        std::size_t temp_pos = tempData.at(4 + i).find("[Type: 1]", 0);
-                        std::string temp_param =  tempData.at(4 + i).substr(temp_pos + 9);
+                        std::size_t temp_pos = tempData.at(4 + i).find("[Type: 2]", 0);
+                        std::string temp_param =  trim(tempData.at(4 + i).substr(temp_pos + 9));
                         tempParam += " <string: " + temp_param + ">";
                     } else if (tempData.at(4 + i).find("[Type: 3]", 0) != std::string::npos) {
-                        std::size_t temp_pos = tempData.at(4 + i).find("[Type: 1]", 0);
-                        std::string temp_param =  tempData.at(4 + i).substr(temp_pos + 9);
+                        std::size_t temp_pos = tempData.at(4 + i).find("[Type: 3]", 0);
+                        std::string temp_param =  trim(tempData.at(4 + i).substr(temp_pos + 9));
                         tempParam += " [int: " + temp_param + "]";
                     } else if (tempData.at(4 + i).find("[Type: 4]", 0) != std::string::npos) {
-                        std::size_t temp_pos = tempData.at(4 + i).find("[Type: 1]", 0);
-                        std::string temp_param =  tempData.at(4 + i).substr(temp_pos + 9);
+                        std::size_t temp_pos = tempData.at(4 + i).find("[Type: 4]", 0);
+                        std::string temp_param =  trim(tempData.at(4 + i).substr(temp_pos + 9));
                         tempParam += " [string: " + temp_param + "]";
                     } else if (tempData.at(4 + i).find("[Type: 6]", 0) != std::string::npos) {
-                        std::size_t temp_pos = tempData.at(4 + i).find("[Type: 1]", 0);
-                        std::string temp_param =  tempData.at(4 + i).substr(temp_pos + 9);
+                        std::size_t temp_pos = tempData.at(4 + i).find("[Type: 6]", 0);
+                        std::string temp_param =  trim(tempData.at(4 + i).substr(temp_pos + 9));
                         tempParam += " [int between 0 and 100 (percentage): " + temp_param + "]";
                     } else {
                         tempParam += " <unknow param>";

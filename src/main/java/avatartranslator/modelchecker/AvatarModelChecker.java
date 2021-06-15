@@ -2128,7 +2128,7 @@ public class AvatarModelChecker implements Runnable, myutil.Graph {
 
     private AvatarStateElement getStateWithNonEmptyUniqueTransitionArray(AvatarStateElement _ase, AvatarBlock _block, SpecificationBlock _sb, SpecificationState _ss, ArrayList<AvatarStateElement> listOfStates) {
 
-        TraceManager.addDev("Handling Empty transition of previous=" + _ase.getName() + " in block " + _block.getName());
+        //TraceManager.addDev("Handling Empty transition of previous=" + _ase.getName() + " in block " + _block.getName());
         
         if (studySafety && safety.propertyType == SafetyProperty.BLOCK_STATE) {
             boolean result = safety.getSolverResult(_ss, _ase);
@@ -2147,7 +2147,7 @@ public class AvatarModelChecker implements Runnable, myutil.Graph {
         }
 
 
-        TraceManager.addDev("Handling Empty transition of previous= 1 " + _ase.getName());
+        //TraceManager.addDev("Handling Empty transition of previous= 1 " + _ase.getName());
 
         AvatarTransition at = (AvatarTransition) (_ase.getNext(0));
 

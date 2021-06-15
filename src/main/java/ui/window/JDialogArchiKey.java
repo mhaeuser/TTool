@@ -217,9 +217,14 @@ public class JDialogArchiKey extends JDialogBase implements ActionListener  {
     }
 	
 	public String getReferenceCommunicationName() {
-		if (emptyList) {
+		if (emptyList || referenceCommunicationName == null) {
 			return null;
 		}
+
+		if (referenceCommunicationName.getSelectedItem() == null) {
+		    return null;
+        }
+
 		String tmp = (String)(referenceCommunicationName.getSelectedItem());
 		int index = tmp.indexOf("::");
 		if (index == -1) {

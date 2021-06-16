@@ -180,6 +180,7 @@ public class DiplodocusSimulatorTerminationTest extends AbstractTest {
                         line = rc.readOneLine();
                     } catch (RemoteConnectionException e) {
                         e.printStackTrace();
+                        return;
                     }
                     running = analyzeServerAnswer(line);
                 }

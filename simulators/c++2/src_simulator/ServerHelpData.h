@@ -34,7 +34,7 @@
 <p>Basically, options are used to express the working mode (<code>-server</code>for interactive mode, <code>-explo</code>to generate a reachability graphs, …), to set the output (e.g., <code>-gpath</code>or finally to set commands to be executed, either from the command line (<code>-cmd</code>) or from a file (<code>-file</code>). For instance:</p> \n\
 <pre><code>$ ./run.x -cmd &#39;1 6 100 ; 3 Task1 ; 1 0 ; 3 Task1&#39; \n\
 means &#39;run-to-time 100 ; get-variable-of-task Task1 ; run-to-next-breakpoint ; get-variable-of-task Task1&#39; \n\
-(Using the alias code instead of the command name when running in command line mode)</code></pre> \n\
+(Using the corresponding code instead of the command name when running in command line mode)</code></pre> \n\
 <h3 id=\"simulator-commands\">Simulator commands</h3> \n\
 <p>The parameters types are defined as follow:</p> \n\
 <pre><code>Type = 0: &quot;&quot;; \n\

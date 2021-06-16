@@ -31,7 +31,7 @@ Basically, options are used to express the working mode (```-server```for intera
 ```
 $ ./run.x -cmd '1 6 100 ; 3 Task1 ; 1 0 ; 3 Task1'
 means 'run-to-time 100 ; get-variable-of-task Task1 ; run-to-next-breakpoint ; get-variable-of-task Task1'
-(Using the alias code instead of the command name when running in command line mode)
+(Using the corresponding code instead of the command name when running in command line mode)
 ```
 
 ### Simulator commands

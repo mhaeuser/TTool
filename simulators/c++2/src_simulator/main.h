@@ -72,7 +72,7 @@ int main(int len, char ** args) {
 #endif
 	//ESO::setSimComponents(mySync._simComponents);
 	gettimeofday(&end,NULL);
-	std::cout << "The preparation took " << getTimeDiff(begin,end) << "usec.\n";
+//	std::cout << "The preparation took " << getTimeDiff(begin,end) << "usec.\n";
 	ServerIF* myServer = mySim.run(len, args);
 	if (myServer!=0){
 		//Server myServer(&mySync);

@@ -36,6 +36,7 @@ public class HelpServerTest extends AbstractTest {
             "Runs the simulation until a breakpoint is met",
             "alias: rtnb",
             "code: 1 0"};
+    private final String[] INVALID_PARAMETERS = {"Invalid parameter! Please run \"./run.x -help\" for more information"};
     private static String CPP_DIR = "../../../../simulators/c++2/";
 
     @BeforeClass
@@ -203,6 +204,28 @@ public class HelpServerTest extends AbstractTest {
                 for (int j = 0; j < HELP_COMMAND.length; j++) {
                     System.out.println("Checked HELP_COMMAND = " + tempData.contains(HELP_COMMAND[j]));
                     assertTrue(tempData.contains(HELP_COMMAND[j]));
+                }
+
+                //detect invalid parameter test
+                tempData = "";
+                params = new String[2];
+
+                params[0] = "./" + SIM_DIR + "run.x";
+                params[1] = "-helpp";
+                proc = Runtime.getRuntime().exec(params);
+                proc_in = new BufferedReader(new InputStreamReader(proc.getInputStream()));
+
+                monitorError(proc);
+
+                while ((str = proc_in.readLine()) != null) {
+                    // TraceManager.addDev( "Sending " + str + " from " + port + " to client..." );
+                    tempData += str + "\n";
+                }
+
+                System.out.println("INVALID_PARAMETERS = " + tempData);
+                for (String invalid_parameter : INVALID_PARAMETERS) {
+                    System.out.println("Checked INVALID_PARAMETERS = " + tempData.contains(invalid_parameter));
+                    assertTrue(tempData.contains(invalid_parameter));
                 }
 
             } catch (Exception e) {

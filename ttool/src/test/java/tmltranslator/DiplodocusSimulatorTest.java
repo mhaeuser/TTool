@@ -10,15 +10,9 @@ import org.junit.Test;
 import req.ebrdd.EBRDD;
 import tepe.TEPE;
 import test.AbstractTest;
-import tmltranslator.TMLMapping;
-import tmltranslator.TMLMappingTextSpecification;
-import tmltranslator.TMLSyntaxChecking;
-import tmltranslator.TMLTextSpecification;
 import tmltranslator.tomappingsystemc2.DiploSimulatorFactory;
 import tmltranslator.tomappingsystemc2.IDiploSimulatorCodeGenerator;
 import tmltranslator.tomappingsystemc2.Penalties;
-import ui.*;
-import ui.tmldd.TMLArchiDiagramPanel;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -30,13 +24,12 @@ import static org.junit.Assert.*;
 
 public class DiplodocusSimulatorTest extends AbstractTest {
 
-    //final String [] MODELS = {"scp"};
     final String [] MODELS = {"scp", "ssdf"};
     final String DIR_GEN = "test_diplo_simulator/";
-    final int [] NB_Of_STATES = {173, 1824};
-    final int [] NB_Of_TRANSTIONS = {172, 1823};
-    final int [] MIN_CYCLES = {210, 4109};
-    final int [] MAX_CYCLES = {315, 4109};
+    final int [] NB_Of_STATES = {119, 1824};
+    final int [] NB_Of_TRANSTIONS = {118, 1823};
+    final int [] MIN_CYCLES = {201, 4109};
+    final int [] MAX_CYCLES = {297, 4109};
     //model for daemon task
     final String [] MODELS_DAEMON = {"daemontest1", "daemontest2"};
     final int [] NB_Of_DAEMON_STATES = {203, 406};
@@ -46,11 +39,9 @@ public class DiplodocusSimulatorTest extends AbstractTest {
 
     // model for Daemon Run To Next Breakpoint
     final String MODELS_DAEMON_RTNB = "testDaemon";
-    final int [] DAEMON_RTNBP_1 = {16, 15, 205, 205};
-    final int [] DAEMON_RTNBP_2 = {28, 27, 408, 408};
+    final int [] DAEMON_RTNBP_1 = {10, 9, 205, 205};
+    final int [] DAEMON_RTNBP_2 = {16, 15, 408, 408};
     private String SIM_DIR;
-
-
 
     @BeforeClass
     public static void setUpBeforeClass() throws Exception {
@@ -168,9 +159,9 @@ public class DiplodocusSimulatorTest extends AbstractTest {
                 monitorError(proc);
 
                 while ( ( str = proc_in.readLine() ) != null ) {
-	                    // TraceManager.addDev( "Sending " + str + " from " + port + " to client..." );
-	                    System.out.println("executing: " + str);
-	                }
+                    // TraceManager.addDev( "Sending " + str + " from " + port + " to client..." );
+                    System.out.println("executing: " + str);
+                }
             } catch (Exception e) {
                 // Probably make is not installed
                 System.out.println("FAILED: executing: " + "make -C " + SIM_DIR);
@@ -487,95 +478,95 @@ public class DiplodocusSimulatorTest extends AbstractTest {
         }
 
         System.out.println("executing: " + "make -C " + SIM_DIR);
-            try {
+        try {
 
-                proc = Runtime.getRuntime().exec("make -C " + SIM_DIR + "");
-                proc_in = new BufferedReader(new InputStreamReader(proc.getInputStream()));
+            proc = Runtime.getRuntime().exec("make -C " + SIM_DIR + "");
+            proc_in = new BufferedReader(new InputStreamReader(proc.getInputStream()));
 
-                monitorError(proc);
+            monitorError(proc);
 
-                while ((str = proc_in.readLine()) != null) {
-                    // TraceManager.addDev( "Sending " + str + " from " + port + " to client..." );
-                    System.out.println("executing: " + str);
-                }
-            } catch (Exception e) {
-                // Probably make is not installed
-                System.out.println("FAILED: executing: " + "make -C " + SIM_DIR);
-                return;
+            while ((str = proc_in.readLine()) != null) {
+                // TraceManager.addDev( "Sending " + str + " from " + port + " to client..." );
+                System.out.println("executing: " + str);
             }
-            System.out.println("SUCCESS: executing: " + "make -C " + SIM_DIR);
+        } catch (Exception e) {
+            // Probably make is not installed
+            System.out.println("FAILED: executing: " + "make -C " + SIM_DIR);
+            return;
+        }
+        System.out.println("SUCCESS: executing: " + "make -C " + SIM_DIR);
 
-            // Run the simulator
-            String graphPath = SIM_DIR + "testgraph_" + s;
-            try {
+        // Run the simulator
+        String graphPath = SIM_DIR + "testgraph_" + s;
+        try {
 
-                String[] params = new String[3];
+            String[] params = new String[3];
 
-                params[0] = "./" + SIM_DIR + "run.x";
-                params[1] = "-cmd";
-                params[2] = "11 2 26; 1 0; 1 7 100 100 " + graphPath;
-                proc = Runtime.getRuntime().exec(params);
-                //proc = Runtime.getRuntime().exec("./" + SIM_DIR + "run.x -explo -gname testgraph_" + s);
-                proc_in = new BufferedReader(new InputStreamReader(proc.getInputStream()));
+            params[0] = "./" + SIM_DIR + "run.x";
+            params[1] = "-cmd";
+            params[2] = "11 2 26; 1 0; 1 7 100 100 " + graphPath;
+            proc = Runtime.getRuntime().exec(params);
+            //proc = Runtime.getRuntime().exec("./" + SIM_DIR + "run.x -explo -gname testgraph_" + s);
+            proc_in = new BufferedReader(new InputStreamReader(proc.getInputStream()));
 
-                monitorError(proc);
+            monitorError(proc);
 
-                while ((str = proc_in.readLine()) != null) {
-                    // TraceManager.addDev( "Sending " + str + " from " + port + " to client..." );
-                    System.out.println("executing: " + str);
-                }
-
-                //second case
-                params = new String[3];
-
-                params[0] = "./" + SIM_DIR + "run.x";
-                params[1] = "-cmd";
-                params[2] = "11 2 26; 1 0; 1 0; 1 7 100 100 " + graphPath + "_second";
-                proc = Runtime.getRuntime().exec(params);
-                //proc = Runtime.getRuntime().exec("./" + SIM_DIR + "run.x -explo -gname testgraph_" + s);
-                proc_in = new BufferedReader(new InputStreamReader(proc.getInputStream()));
-
-                monitorError(proc);
-
-                while ((str = proc_in.readLine()) != null) {
-                    // TraceManager.addDev( "Sending " + str + " from " + port + " to client..." );
-                    System.out.println("executing second case: " + str);
-                }
-            } catch (Exception e) {
-                // Probably make is not installed
-                System.out.println("FAILED: executing simulation");
-                return;
+            while ((str = proc_in.readLine()) != null) {
+                // TraceManager.addDev( "Sending " + str + " from " + port + " to client..." );
+                System.out.println("executing: " + str);
             }
 
-            // Compare results with expected ones
-            // Must load the graph
-            File graphFile = new File(graphPath + ".aut");
-            String graphData = "";
-            try {
-                graphData = FileUtils.loadFileData(graphFile);
-            } catch (Exception e) {
-                assertTrue(false);
+            //second case
+            params = new String[3];
+
+            params[0] = "./" + SIM_DIR + "run.x";
+            params[1] = "-cmd";
+            params[2] = "11 2 26; 1 0; 1 0; 1 7 100 100 " + graphPath + "_second";
+            proc = Runtime.getRuntime().exec(params);
+            //proc = Runtime.getRuntime().exec("./" + SIM_DIR + "run.x -explo -gname testgraph_" + s);
+            proc_in = new BufferedReader(new InputStreamReader(proc.getInputStream()));
+
+            monitorError(proc);
+
+            while ((str = proc_in.readLine()) != null) {
+                // TraceManager.addDev( "Sending " + str + " from " + port + " to client..." );
+                System.out.println("executing second case: " + str);
             }
+        } catch (Exception e) {
+            // Probably make is not installed
+            System.out.println("FAILED: executing simulation");
+            return;
+        }
 
-            AUTGraph graph = new AUTGraph();
-            graph.buildGraph(graphData);
+        // Compare results with expected ones
+        // Must load the graph
+        File graphFile = new File(graphPath + ".aut");
+        String graphData = "";
+        try {
+            graphData = FileUtils.loadFileData(graphFile);
+        } catch (Exception e) {
+            assertTrue(false);
+        }
 
-            // States and transitions
-            System.out.println("executing: nb states of " + s + " " + graph.getNbOfStates());
-            assertTrue(DAEMON_RTNBP_1[0] == graph.getNbOfStates());
-            System.out.println("executing: nb transitions of " + s + " " + graph.getNbOfTransitions());
-            assertTrue(DAEMON_RTNBP_1[1] == graph.getNbOfTransitions());
+        AUTGraph graph = new AUTGraph();
+        graph.buildGraph(graphData);
 
-            // Min and max cycles
-            int minValue = graph.getMinValue("allCPUsFPGAsTerminated");
-            System.out.println("executing: minvalue of " + s + " " + minValue);
-            assertTrue(DAEMON_RTNBP_1[2] == minValue);
+        // States and transitions
+        System.out.println("executing: nb states of " + s + " " + graph.getNbOfStates());
+        assertTrue(DAEMON_RTNBP_1[0] == graph.getNbOfStates());
+        System.out.println("executing: nb transitions of " + s + " " + graph.getNbOfTransitions());
+        assertTrue(DAEMON_RTNBP_1[1] == graph.getNbOfTransitions());
 
-            int maxValue = graph.getMaxValue("allCPUsFPGAsTerminated");
-            System.out.println("executing: maxvalue of " + s + " " + maxValue);
-            assertTrue(DAEMON_RTNBP_1[3] == maxValue);
+        // Min and max cycles
+        int minValue = graph.getMinValue("allCPUsFPGAsTerminated");
+        System.out.println("executing: minvalue of " + s + " " + minValue);
+        assertTrue(DAEMON_RTNBP_1[2] == minValue);
 
-            //test for second case
+        int maxValue = graph.getMaxValue("allCPUsFPGAsTerminated");
+        System.out.println("executing: maxvalue of " + s + " " + maxValue);
+        assertTrue(DAEMON_RTNBP_1[3] == maxValue);
+
+        //test for second case
         graphFile = new File(graphPath + "_second.aut");
         graphData = "";
         try {

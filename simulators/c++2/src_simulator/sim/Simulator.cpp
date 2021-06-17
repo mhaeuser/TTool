@@ -1315,7 +1315,16 @@ int countLineNumber(std::string& filename){
 ServerIF* Simulator::run(int iLen, char ** iArgs){
   std::string aArgString;
   std::string graphName = "";
-  std::cout << "Starting up...\n";
+  std::string arr[] = {"-gname", "-gpath", "-server", "-file", "-explo", "-signals", "-helpserver", "-helpcommand", "-help", "-cmd", "-ohtml",
+  "-otxt", "-ovcd", "-ograph", "-oxml"};
+  std::vector<std::string> validCmds(arr, arr + sizeof(arr)/sizeof(arr[0]));
+  for (int k = 0; k < iLen; k++) {
+    if ((iArgs[k][0] == '-') && std::find(validCmds.begin(), validCmds.end(), iArgs[k]) == validCmds.end()) {
+      std::cout << iArgs[k] <<": Invalid parameter! Please run \"./run.x -help\" for more information." << std::endl;
+      return 0;
+    }
+  }
+//  std::cout << "Starting up...\n";
   graphName = getArgs("-gname", "", iLen, iArgs);
   if (graphName.empty()) {
     graphName = "graph";
@@ -1323,21 +1332,23 @@ ServerIF* Simulator::run(int iLen, char ** iArgs){
   _graphOutPath = getArgs("-gpath", "", iLen, iArgs);
   if (_graphOutPath.length()>0 && _graphOutPath[_graphOutPath.length()-1]!='/')
     _graphOutPath+="/";
+
   aArgString =getArgs("-server", "server", iLen, iArgs);
   if (!aArgString.empty()) return new Server();
+
   aArgString =getArgs("-file", "file", iLen, iArgs);
   if (!aArgString.empty()) return new ServerLocal(aArgString);
+
+  //  std::cout << "Running in command line mode.\n";
+  _replyToServer = false;
+
   aArgString =getArgs("-explo", "file", iLen, iArgs);
-  std::cout << "Just analyzed explo 1->" + aArgString + "<-\n";
   if (!aArgString.empty()) {
     std::string command = "1 7 100 100 " + graphName;
     std::cout << "Just analyzed explo 1->" + aArgString + "<- with command: " + command + "\n";
     decodeCommand(command);
   }
-  std::cout << "Just analyzed explo 2\n";
-  //if (!aArgString.empty()) return new ServerExplore();
-  std::cout << "Running in command line mode.\n";
-  _replyToServer = false;
+
   aArgString=getArgs("-signals", "signals.txt", iLen, iArgs);
   if (!aArgString.empty()) {
     int lineNumber =  countLineNumber(aArgString);

@@ -50,7 +50,7 @@ ServerHelp::ServerHelp() {
         aliasMapWithName[it->second.alias] = it->first;
     }
 
-    helpServerContent += "********************************************\n\n";
+    helpServerContent += "********************************************\n";
 }
 
 void ServerHelp::printHelpSever(){
@@ -77,7 +77,7 @@ void ServerHelp::printHelpCommand(std::string cmd) {
             result += it->second.description + "\n";
             result += "alias: " + it->second.alias + "\n";
             result += "code: " + it->second.code + "\n";
-            result += "-------------------------------------------------------------\n\n";
+            result += "-------------------------------------------------------------\n";
         } else {
             result += "Wrong command name!\n";
         }

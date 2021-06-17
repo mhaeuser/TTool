@@ -73,6 +73,25 @@ int main(int len, char ** args) {
 	//ESO::setSimComponents(mySync._simComponents);
 	gettimeofday(&end,NULL);
 //	std::cout << "The preparation took " << getTimeDiff(begin,end) << "usec.\n";
+
+    std::string arr[] = {"-gname", "-gpath", "-server", "-file", "-explo", "-signals", "-helpserver", "-helpcommand", "-help", "-cmd", "-ohtml",
+    "-otxt", "-ovcd", "-ograph", "-oxml"};
+    std::vector<std::string> validCmds(arr, arr + sizeof(arr)/sizeof(arr[0]));
+    for (int k = 0; k < len; k++) {
+        if ((args[k][0] == '-') && std::find(validCmds.begin(), validCmds.end(), args[k]) == validCmds.end()) {
+            std::cout << args[k] <<": Invalid parameter! Please run \"./run.x -help\" for more information." << std::endl;
+            return 0;
+        }
+    }
+
+    bool check = false;
+    for (int k = 0; k < len; k++) {
+        if (strcmp(args[k], "-help") == 0 || strcmp(args[k], "-helpserver") == 0 || strcmp(args[k], "-helpcommand") == 0) {
+            check = true;
+            break;
+        }
+    }
+
 	ServerIF* myServer = mySim.run(len, args);
 	if (myServer!=0){
 		//Server myServer(&mySync);
@@ -95,7 +114,8 @@ int main(int len, char ** args) {
 		delete myServer;
 	}
 	delete mySync._simComponents;
-	std::cout << "Terminate\n";
+	if (!check)
+	    std::cout << "Terminate\n";
 	return 0;
 }
 #endif

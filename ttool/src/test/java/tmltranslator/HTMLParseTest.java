@@ -6,7 +6,6 @@ import graph.AUTGraph;
 import myutil.FileUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -14,17 +13,9 @@ import org.junit.Test;
 import req.ebrdd.EBRDD;
 import tepe.TEPE;
 import test.AbstractTest;
-import tmltranslator.TMLMapping;
-import tmltranslator.TMLMappingTextSpecification;
-import tmltranslator.TMLSyntaxChecking;
 import tmltranslator.tomappingsystemc2.DiploSimulatorFactory;
 import tmltranslator.tomappingsystemc2.IDiploSimulatorCodeGenerator;
 import tmltranslator.tomappingsystemc2.Penalties;
-import ui.AbstractUITest;
-import ui.TDiagramPanel;
-import ui.TMLArchiPanel;
-import ui.TURTLEPanel;
-import ui.tmldd.TMLArchiDiagramPanel;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -35,9 +26,9 @@ import static org.junit.Assert.assertTrue;
 public class HTMLParseTest extends AbstractTest {
     final String DIR_GEN = "test_diplo_simulator/";
     final String [] MODELS_PARSE_HTML = {"parseFPGA_HTML", "parseCPU1_HTML","parseCPU2_HTML"};
-    final String [] PARSE_FPGA = {"<- idle 468 ->","", "", "", ""};
+    final String [] PARSE_FPGA = {"<- idle 471 ->","", "", "", ""};
     final String [] PARSE_SINGLE_CORE = {"<- idle 366 ->", "<- idle 401 ->", "<- idle 401 ->", "<- idle 401 ->", "<- idle 401 ->"};
-    final String [] PARSE_MULTI_CORE = { "", "", "", "", ""};
+    final String [] PARSE_MULTI_CORE = { "", "", "", "", "<- idle 377 ->"};
     final static String EXPECTED_FILE_GET_ALL_TRANS = getBaseResourcesDir() + "tmltranslator/expected/expected_get_all_transactions.txt";
     private String SIM_DIR;
 

@@ -31,8 +31,8 @@ public class MulticoreHangingTest extends AbstractTest {
     final String DIR_GEN = "test_diplo_simulator/";
     final String [] MODELS_CPU_SHOWTRACE = {"multicore_trace"};
     private String SIM_DIR;
-    final int [] NB_OF_MH_STATES = {49};
-    final int [] NB_OF_MH_TRANSTIONS = {48};
+    final int [] NB_OF_MH_STATES = {21};
+    final int [] NB_OF_MH_TRANSTIONS = {20};
     final int [] MIN_MH_CYCLES = {125};
     final int [] MAX_MH_CYCLES = {125};
     static String CPP_DIR = "../../../../simulators/c++2/";

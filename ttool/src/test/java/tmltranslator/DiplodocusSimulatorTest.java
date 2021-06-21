@@ -26,16 +26,16 @@ public class DiplodocusSimulatorTest extends AbstractTest {
 
     final String [] MODELS = {"scp", "ssdf"};
     final String DIR_GEN = "test_diplo_simulator/";
-    final int [] NB_Of_STATES = {119, 1824};
-    final int [] NB_Of_TRANSTIONS = {118, 1823};
-    final int [] MIN_CYCLES = {201, 4109};
-    final int [] MAX_CYCLES = {297, 4109};
+    final int [] NB_Of_STATES = {119, 1045};
+    final int [] NB_Of_TRANSTIONS = {118, 1044};
+    final int [] MIN_CYCLES = {201, 4025};
+    final int [] MAX_CYCLES = {297, 4025};
     //model for daemon task
     final String [] MODELS_DAEMON = {"daemontest1", "daemontest2"};
-    final int [] NB_Of_DAEMON_STATES = {203, 406};
-    final int [] NB_Of_DAEMON_TRANSTIONS = {202, 405};
-    final int [] MIN_DAEMON_CYCLES = {2517, 7097};
-    final int [] MAX_DAEMON_CYCLES = {2517, 7097};
+    final int [] NB_Of_DAEMON_STATES = {7, 109};
+    final int [] NB_Of_DAEMON_TRANSTIONS = {6, 108};
+    final int [] MIN_DAEMON_CYCLES = {160, 2722};
+    final int [] MAX_DAEMON_CYCLES = {160, 2722};
 
     // model for Daemon Run To Next Breakpoint
     final String MODELS_DAEMON_RTNB = "testDaemon";

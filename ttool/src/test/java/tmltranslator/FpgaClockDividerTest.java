@@ -34,10 +34,10 @@ public class FpgaClockDividerTest extends AbstractTest {
     private final String DIR_GEN = "test_diplo_simulator/";
     private final String [] MODELS_FPGA_CLOCK_DIVIDER = {"fpga_clock_divider"};
     private String SIM_DIR;
-    private final int [] NB_OF_FCD_STATES = {49};
-    private final int [] NB_OF_FCD_TRANSTIONS = {48};
-    private final int [] MIN_FCD_CYCLES = {248};
-    private final int [] MAX_FCD_CYCLES = {248};
+    private final int [] NB_OF_FCD_STATES = {21};
+    private final int [] NB_OF_FCD_TRANSTIONS = {20};
+    private final int [] MIN_FCD_CYCLES = {230};
+    private final int [] MAX_FCD_CYCLES = {230};
     private static String CPP_DIR = "../../../../simulators/c++2/";
     private static String mappingName = "ArchitectureSimple";
 

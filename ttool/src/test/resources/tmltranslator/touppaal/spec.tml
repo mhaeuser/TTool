@@ -1,0 +1,25 @@
+// TML Application - FORMAT 0.2
+// Application: /home/bsu/Development/TTool/modeling/bugUPPAAL.xml
+// Generated: Thu Jun 17 10:02:27 CEST 2021
+
+// PRAGMAS
+
+// Channels
+CHANNEL Application__chan BRBW 4 8 OUT Application__Component IN Application__Component
+VCCHANNEL Application__chan 0
+
+// Events
+
+// Requests
+
+TASK Application__Component
+    TASKOP
+    //Local variables
+    int n
+    
+    //Behavior
+    n=1
+    WRITE Application__chan 1
+    READ Application__chan 1
+ENDTASK
+

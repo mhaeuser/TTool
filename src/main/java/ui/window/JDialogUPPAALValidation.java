@@ -686,6 +686,7 @@ public class JDialogUPPAALValidation extends javax.swing.JDialog implements Acti
                             //jta.append("\n\n--------------------------------------------\n");
                             jta.append("\nReachability of: " + name + "\n");
                             result = workQuery("E<> " + query, fn, trace_id, rshc);
+                            TraceManager.addDev("**VERIF** R result=" + result);
                             if (cq.tgc != null) {
                                 if (result == 0) {
                                     cq.tgc.setReachability(TGComponent.ACCESSIBILITY_KO);
@@ -725,6 +726,7 @@ public class JDialogUPPAALValidation extends javax.swing.JDialog implements Acti
                             //jta.append("\n--------------------------------------------\n");
                             jta.append("\nLiveness of: " + name + "\n");
                             result = workQuery("A<> " + query, fn, trace_id, rshc);
+                            TraceManager.addDev("**VERIF** L result=" + result);
                             if (cq.tgc != null) {
                                 if (result == 0) {
                                     cq.tgc.setLiveness(TGComponent.ACCESSIBILITY_KO);
@@ -1021,8 +1023,9 @@ public class JDialogUPPAALValidation extends javax.swing.JDialog implements Acti
                     jta.append("-> property is NOT satisfied\n");
                     status = 0;
                 }
-                ret = 1;
+                ret = status;
             }
+
             // Issue #35: Different labels for UPPAAL 4.1.19
             else if (checkAnalysisResult(data, PROP_NOT_VERIFIED_LABELS)) {
                 //            else if (data.indexOf("Property is NOT satisfied") > -1) {
@@ -1033,7 +1036,8 @@ public class JDialogUPPAALValidation extends javax.swing.JDialog implements Acti
                     jta.append("-> property is NOT satisfied\n");
                     status = 0;
                 }
-                ret = 1;
+                ret = status;
+
             } else {
                 jta.append("ERROR -> property could not be studied\n");
                 status = 2;

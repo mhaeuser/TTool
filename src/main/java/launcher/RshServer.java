@@ -372,13 +372,13 @@ public class RshServer {
             info = checkSecurity(info);
         }
 
-        TraceManager.addDev("Got from client:" + info);
+        //TraceManager.addDev("Got from client:" + info);
 
         if (info != null) {
             final RequestCode reqCode = SocketComHelper.requestCode(info);
-            TraceManager.addDev("Received request code " + reqCode + ".");
+            //TraceManager.addDev("Received request code " + reqCode + ".");
             final String message = SocketComHelper.message(reqCode, info);
-            TraceManager.addDev("Received request message '" + message + "'.");
+            //TraceManager.addDev("Received request message '" + message + "'.");
 
             switch (reqCode) {
                 // Session id
@@ -386,7 +386,7 @@ public class RshServer {
 //            if (info.substring(0, 1).equals("0")) { // Session id
                     //if (info.substring(1, 2).equals("0")) { // Get session id
                     int id = getSessionId();
-                    TraceManager.addDev("-> New session id = " + id);
+                    //TraceManager.addDev("-> New session id = " + id);
                     respond(out, "" + id); // A zero response means error
 
                     break;
@@ -396,7 +396,7 @@ public class RshServer {
                     try {
                         int id = Integer.decode(message);//.intValue();
                         freeSessionId(id);
-                        TraceManager.addDev("-> Free session id=" + id + " terminated");
+                        //TraceManager.addDev("-> Free session id=" + id + " terminated");
                         respond(out, "" + id);
                     } catch (Exception e) {
                         respond(out, ResponseCode.FAILED);
@@ -414,7 +414,7 @@ public class RshServer {
                     if (id < 0) {
                         respond(out, ResponseCode.FAILED);       // fail
                     } else {
-                        TraceManager.addDev("Process accepted on port " + id);
+                        //TraceManager.addDev("Process accepted on port " + id);
                         respond(out, ResponseCode.SUCCESS, Integer.toString(id)); // process created
                     }
 
@@ -438,11 +438,11 @@ public class RshServer {
                     final ExecutionThread process = getExecutionThread(Integer.decode(message));
 
                     if (process == null) {
-                        TraceManager.addError("Process " + message + " not created!");
+                        //TraceManager.addError("Process " + message + " not created!");
                         respond(out, ResponseCode.FAILED);
                     } else {
                         final String retCodeStr = String.valueOf(process.getReturnCode());
-                        TraceManager.addDev("Sending return code " + retCodeStr + " for process " + message + ".");
+                        //TraceManager.addDev("Sending return code " + retCodeStr + " for process " + message + ".");
                         respond(out, ResponseCode.SUCCESS, retCodeStr);
                     }
 
@@ -451,7 +451,7 @@ public class RshServer {
                 case PROCESS_PIPE: {
                     //else if (info.substring(0, 1).equals("2")) {
                     // Piped processes
-                    TraceManager.addDev("Piped processes.");
+                    //TraceManager.addDev("Piped processes.");
                     //String str = info.substring(1, info.length());
                     //String str1, str2;
                     final int index = message.indexOf(' ');
@@ -460,17 +460,17 @@ public class RshServer {
                     if (index > 0) {
                         final String str1 = message.substring(0, index);
                         final String str2 = message.substring(index + 1);
-                        TraceManager.addDev("str = " + message + " str1 = *" + str1 + "* str2 = *" + str2 + "*");
+                        //TraceManager.addDev("str = " + message + " str1 = *" + str1 + "* str2 = *" + str2 + "*");
 
                         if (pipeProcesses(str1, str2)) {
-                            TraceManager.addDev("Making piped processes...");
+                            //TraceManager.addDev("Making piped processes...");
                             respond(out, ResponseCode.SUCCESS);   // OK
                         } else {
-                            TraceManager.addDev("Making piped processes failed!");
+                            //TraceManager.addDev("Making piped processes failed!");
                             respond(out, ResponseCode.FAILED);   // fail
                         }
                     } else {
-                        TraceManager.addDev("Making piped processes FAILED");
+                        //TraceManager.addDev("Making piped processes FAILED");
                         respond(out, ResponseCode.FAILED);       // fail
                     }
 
@@ -574,7 +574,7 @@ public class RshServer {
         File file = new File(fileName);
 
         if (!isFileOkForSave(file)) {
-            TraceManager.addDev("Cannot make file");
+            //TraceManager.addDev("Cannot make file");
             respond(out, ResponseCode.FAILED);  // fail
 
             return;

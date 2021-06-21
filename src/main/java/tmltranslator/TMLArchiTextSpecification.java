@@ -78,7 +78,7 @@ public class TMLArchiTextSpecification {
             "maxConsecutiveIdleCycles", "reconfigurationTime", "execiTime", "execcTime", "scheduling", "clockDivider"};
     private String linkparameters[] = {"bus", "node", "priority"};
     private String hwaparameters[] = {"byteDataSize", "execiTime", "execcTime", "clockDivider"};
-    private String busparameters[] = {"byteDataSize", "pipelineSize", "arbitration", "clockDivider"};
+    private String busparameters[] = {"byteDataSize", "pipelineSize", "arbitration", "sliceTime", "clockDivider"};
     private String bridgeparameters[] = {"bufferByteSize", "clockDivider"};
     private String memoryparameters[] = {"byteDataSize", "clockDivider"};
     private String nocparameters[] = {"bufferbytesize", "nocSize", "clockdivider"};
@@ -225,6 +225,7 @@ public class TMLArchiTextSpecification {
                 code += set + "byteDataSize " + bus.byteDataSize + CR;
                 code += set + "pipelineSize " + bus.pipelineSize + CR;
                 code += set + "arbitration " + bus.arbitration + CR;
+                code += set + "sliceTime " + bus.sliceTime + CR;
             }
 
 
@@ -773,6 +774,10 @@ public class TMLArchiTextSpecification {
 
                     if (_split[2].toUpperCase().equals("CLOCKDIVIDER")) {
                         bus.clockRatio = Integer.decode(_split[3]).intValue();
+                    }
+
+                    if (_split[2].toUpperCase().equals("SLICETIME")) {
+                        bus.sliceTime = Integer.decode(_split[3]).intValue();
                     }
                 }
 

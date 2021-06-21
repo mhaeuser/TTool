@@ -9,6 +9,7 @@ NODE BUS Bus0
 SET Bus0 byteDataSize 1
 SET Bus0 pipelineSize 1
 SET Bus0 arbitration 1
+SET Bus0 sliceTime 10000
 SET Bus0 clockDivider 1
 
 NODE CPU TGT

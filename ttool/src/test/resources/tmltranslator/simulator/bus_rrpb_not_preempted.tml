@@ -19,7 +19,7 @@ TASK Application__Src0
     //Local variables
     
     //Behavior
-    WRITE Application__c0 5
+    WRITE Application__c0 200
     EXECI 400
 ENDTASK
 
@@ -28,7 +28,7 @@ TASK Application__Src1
     //Local variables
     
     //Behavior
-    WRITE Application__c1 5
+    WRITE Application__c1 10
     EXECI 300
 ENDTASK
 
@@ -37,7 +37,7 @@ TASK Application__Tgt0
     //Local variables
     
     //Behavior
-    READ Application__c0 5
+    READ Application__c0 200
 ENDTASK
 
 TASK Application__Tgt1
@@ -45,6 +45,6 @@ TASK Application__Tgt1
     //Local variables
     
     //Behavior
-    READ Application__c1 5
+    READ Application__c1 10
 ENDTASK
 

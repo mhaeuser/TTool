@@ -2,17 +2,16 @@ package tmltranslator;
 
 import common.ConfigurationTTool;
 import common.SpecConfigTTool;
-import graph.AUTGraph;
 import myutil.FileUtils;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import req.ebrdd.EBRDD;
 import tepe.TEPE;
+import test.AbstractTest;
 import tmltranslator.tomappingsystemc2.DiploSimulatorFactory;
 import tmltranslator.tomappingsystemc2.IDiploSimulatorCodeGenerator;
 import tmltranslator.tomappingsystemc2.Penalties;
-import ui.AbstractUITest;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -22,11 +21,11 @@ import java.util.List;
 
 import static org.junit.Assert.assertTrue;
 
-public class BusSliceTimeConfigurationTest extends AbstractUITest {
+public class BusSliceTimeConfigurationTest extends AbstractTest {
 
     private final String DIR_GEN = "test_diplo_simulator/";
     private final String[] MODELS_BUS_SLICE_TIME = {"bus_rr_preempted", "bus_rr_not_preempted","bus_rrpb_preempted", "bus_rrpb_not_preempted"};
-    private final Integer[] EXPECTED_RESULT = {5, 2, 5, 2};
+    private final String[] EXPECTED_RESULT = {"20 - 2", "10 - 2", "10 - 2", "10 - 2"};
     private String SIM_DIR;
     private static String CPP_DIR = "../../../../simulators/c++2/";
 
@@ -175,16 +174,22 @@ public class BusSliceTimeConfigurationTest extends AbstractUITest {
 
             File graphFile = new File(graphPath + ".txt");
             String graphData = "";
-            String findStr = "Execi";
+            String findStr0 = "Application__Src0: Write";
+            String findStr1 = "Application__Src1: Write";
             try {
                 graphData = FileUtils.loadFileData(graphFile);
             } catch (Exception e) {
                 assertTrue(false);
             }
 
-            int countExecI = graphData.split(findStr, -1).length-1;
-            System.out.println("Number of ExecI transactions in model " + s + ": " + countExecI);
-            assertTrue(countExecI == EXPECTED_RESULT[i]);
+            String result = "";
+            int countExecI = graphData.split(findStr0, -1).length-1;
+            System.out.println("Number of Write transactions of Src0 in model " + s + ": " + countExecI);
+            result += countExecI;
+            countExecI = graphData.split(findStr1, -1).length-1;
+            System.out.println("Number of Write transactions of Src1 in model " + s + ": " + countExecI);
+            result += " - " + countExecI;
+            assertTrue(result.equals(EXPECTED_RESULT[i]));
         }
     }
 }

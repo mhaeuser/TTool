@@ -467,6 +467,7 @@ public abstract class TGComponent  extends AbstractCDElement implements /*CDElem
     }
 
     public void setReachability(int reach) {
+        TraceManager.addDev("**VERIF** Setting reachability to " + reach);
         reachability = reach;
     }
 
@@ -480,6 +481,7 @@ public abstract class TGComponent  extends AbstractCDElement implements /*CDElem
     }
 
     public void setLiveness(int live) {
+        TraceManager.addDev("**VERIF** Setting liveness to " + live);
         liveness = live;
     }
 

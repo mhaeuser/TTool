@@ -43,6 +43,8 @@ package ui.avatarmethodology;
 
 
 import ui.*;
+import ui.avatarmad.AvatarMADAssumptionConnectingPoint;
+import ui.avatarmad.AvatarMADToAssumptionsConnectingPoint;
 
 /**
 * Class AvatarMethodologyReferenceToAssumptions
@@ -60,10 +62,16 @@ public class AvatarMethodologyReferenceToAssumptions extends AvatarMethodologyDi
         
 		initScaling(200, 70);
         
-        nbConnectingPoint = 1;
+        /*nbConnectingPoint = 1;
         connectingPoint = new TGConnectingPoint[nbConnectingPoint];
         connectingPoint[0] = new AvatarMethodologyConnectingPoint(this, 0, 0, false, true, 0.30, 1.0, TGConnectingPoint.WEST);
-        
+*/
+
+
+
+
+
+
         typeOfReference = ASSUMPTIONS;
         
         addTGConnectingPointsCommentTop();    

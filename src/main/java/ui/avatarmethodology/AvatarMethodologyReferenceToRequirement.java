@@ -59,13 +59,7 @@ public class AvatarMethodologyReferenceToRequirement extends AvatarMethodologyDi
         super(_x, _y, _minX, _maxX, _minY, _maxY, _pos, _father, _tdp);
         
 		initScaling(200, 70);
-        
-        nbConnectingPoint = 3;
-        connectingPoint = new TGConnectingPoint[nbConnectingPoint];
-        connectingPoint[0] = new AvatarMethodologyConnectingPoint(this, 0, 0, false, true, 0.0, 0.5, TGConnectingPoint.WEST);
-        connectingPoint[1] = new AvatarMethodologyConnectingPoint(this, 0, 0, false, true, 0.3, 1.0, TGConnectingPoint.WEST);
-        connectingPoint[2] = new AvatarMethodologyConnectingPoint(this, 0, 0, false, true, 0.1, 1.0, TGConnectingPoint.WEST);
-        
+
         typeOfReference = REQUIREMENT;
         
         addTGConnectingPointsCommentTop();    
@@ -75,15 +69,17 @@ public class AvatarMethodologyReferenceToRequirement extends AvatarMethodologyDi
     public  int getType() {
         return TGComponentManager.AVATARMETHODOLOGY_REF_REQUIREMENT;
     }
+
     @Override
     public boolean isAValidPanelType(TURTLEPanel panel) {
         return panel instanceof AvatarRequirementPanel;
-
     }
+
     @Override
     public void makeValidationInfos(AvatarMethodologyDiagramName dn) {
     	dn.setValidationsNumber(0);
     }
+
     @Override
     public boolean makeCall(String diagramName, int index) {
     	return true;

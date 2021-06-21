@@ -99,7 +99,7 @@ public class IconManager {
     public static ImageIcon imgic340, imgic341, imgic342, imgic344;
 
     //IOD
-    public static ImageIcon imgic400, imgic402;
+    public static ImageIcon imgic400, imgic402, imgic404, imgic406, imgic408, imgic410, imgic412, imgic414;
 
     public static ImageIcon imgic500, imgic502, imgic504, imgic506, imgic508, imgic510;
     public static ImageIcon imgic512, imgic514, imgic516, imgic518, imgic520, imgic522, imgic524;
@@ -429,9 +429,17 @@ public class IconManager {
     private static String icon344 = "viewrg.gif";
 
 
-    // IOD
+    // IOD, Avatar method
     private static String icon400 = "referencetosd.gif";
     private static String icon402 = "iodpreemption.gif";
+    private static String icon404 = "referencetoass.gif";
+    private static String icon406 = "referencetoreq.gif";
+    private static String icon408 = "referencetoanalysis.gif";
+    private static String icon410 = "referencetodesign.gif";
+    private static String icon412 = "referencetoprop.gif";
+    private static String icon414 = "referencetoproto.gif";
+
+
 
     // SD
     private static String icon500 = "sdinstance.gif";
@@ -967,6 +975,14 @@ public class IconManager {
 
         imgic400 = getIcon(icon400);
         imgic402 = getIcon(icon402);
+        imgic404 = getIcon(icon404);
+        imgic406 = getIcon(icon406);
+        imgic408 = getIcon(icon408);
+        imgic410 = getIcon(icon410);
+        imgic412 = getIcon(icon412);
+        imgic414 = getIcon(icon414);
+
+
 
         imgic500 = getIcon(icon500);
         imgic502 = getIcon(icon502);

@@ -121,6 +121,22 @@ public abstract class AvatarMethodologyDiagramReference extends TGCScalableWithI
 //        minWidth = 10;
 //        minHeight = lineLength;
 
+
+        nbConnectingPoint = 12;
+        connectingPoint = new TGConnectingPoint[nbConnectingPoint];
+        connectingPoint[0] = new AvatarMethodologyConnectingPoint(this, 0, 0, true, true, 0.0, 0.25, TGConnectingPoint.WEST);
+        connectingPoint[1] = new AvatarMethodologyConnectingPoint(this, 0, 0, true, true, 0.0, 0.5, TGConnectingPoint.WEST);
+        connectingPoint[2] = new AvatarMethodologyConnectingPoint(this, 0, 0, true, true, 0.0, 0.75, TGConnectingPoint.WEST);
+        connectingPoint[3] = new AvatarMethodologyConnectingPoint(this, 0, 0, true, true, 1.0, 0.25, TGConnectingPoint.EAST);
+        connectingPoint[4] = new AvatarMethodologyConnectingPoint(this, 0, 0, true, true, 1.0, 0.5, TGConnectingPoint.EAST);
+        connectingPoint[5] = new AvatarMethodologyConnectingPoint(this, 0, 0, true, true, 1.0, 0.75, TGConnectingPoint.EAST);
+        connectingPoint[6] = new AvatarMethodologyConnectingPoint(this, 0, 0, true, true, 0.25, 0.0, TGConnectingPoint.NORTH);
+        connectingPoint[7] = new AvatarMethodologyConnectingPoint(this, 0, 0, true, true, 0.5, 0.0, TGConnectingPoint.NORTH);
+        connectingPoint[8] = new AvatarMethodologyConnectingPoint(this, 0, 0, true, true, 0.75, 0.0, TGConnectingPoint.NORTH);
+        connectingPoint[9] = new AvatarMethodologyConnectingPoint(this, 0, 0, true, true, 0.25, 1.0, TGConnectingPoint.SOUTH);
+        connectingPoint[10] = new AvatarMethodologyConnectingPoint(this, 0, 0, true, true, 0.5, 1.0, TGConnectingPoint.SOUTH);
+        connectingPoint[11] = new AvatarMethodologyConnectingPoint(this, 0, 0, true, true, 0.75, 1.0, TGConnectingPoint.SOUTH);
+
         addTGConnectingPointsCommentTop();
 
         nbInternalTGComponent = 0;
@@ -133,7 +149,7 @@ public abstract class AvatarMethodologyDiagramReference extends TGCScalableWithI
 
         moveable = true;
         editable = true;
-        removable = false;
+        removable = true;
         userResizable = true;
         multieditable = true;
         

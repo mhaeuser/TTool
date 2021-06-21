@@ -71,20 +71,17 @@ public class AvatarMethodologyDiagramToolbar extends TToolBar {
 		mgui.actions[TGUIAction.ACT_SHOW_ZOOM].setEnabled(b);
 		mgui.updateZoomInfo();
 		
-        //mgui.actions[TGUIAction.ARD_EDIT].setEnabled(b);
+        mgui.actions[TGUIAction.AM_EDIT].setEnabled(b);
         mgui.actions[TGUIAction.UML_NOTE].setEnabled(b);
         mgui.actions[TGUIAction.CONNECTOR_COMMENT].setEnabled(b);
-        /*mgui.actions[TGUIAction.ARD_REQUIREMENT].setEnabled(b);
-        mgui.actions[TGUIAction.ARD_PROPERTY].setEnabled(b);
-        mgui.actions[TGUIAction.ARD_VERIFY_CONNECTOR].setEnabled(b);
-        mgui.actions[TGUIAction.ARD_DERIVE_CONNECTOR].setEnabled(b);
-		mgui.actions[TGUIAction.ARD_REFINE_CONNECTOR].setEnabled(b);
-		mgui.actions[TGUIAction.ARD_COPY_CONNECTOR].setEnabled(b);
-		mgui.actions[TGUIAction.ARD_COMPOSITION_CONNECTOR].setEnabled(b);
-		
-		mgui.actions[TGUIAction.ACT_TOGGLE_ATTR].setEnabled(b);
-		
-		mgui.actions[TGUIAction.ACT_ENHANCE].setEnabled(b);*/
+
+        mgui.actions[TGUIAction.AM_LINK].setEnabled(b);
+        mgui.actions[TGUIAction.AM_REF_ASSUMPTIONS].setEnabled(b);
+        mgui.actions[TGUIAction.AM_REF_REQUIREMENTS].setEnabled(b);
+        mgui.actions[TGUIAction.AM_REF_ANALYSIS].setEnabled(b);
+        mgui.actions[TGUIAction.AM_REF_DESIGN].setEnabled(b);
+        mgui.actions[TGUIAction.AM_REF_PROPERTIES].setEnabled(b);
+        mgui.actions[TGUIAction.AM_REF_PROTOTYPING].setEnabled(b);
 
         mgui.actions[TGUIAction.ACT_MODEL_CHECKING].setEnabled(!b);
         
@@ -93,10 +90,10 @@ public class AvatarMethodologyDiagramToolbar extends TToolBar {
     protected void setButtons() {
         JButton button;
         
-        /*button = this.add(mgui.actions[TGUIAction.ARD_EDIT]);
+        button = this.add(mgui.actions[TGUIAction.AM_EDIT]);
         button.addMouseListener(mgui.mouseHandler);
         
-        this.addSeparator();*/
+        this.addSeparator();
         
         button = this.add(mgui.actions[TGUIAction.UML_NOTE]);
         button.addMouseListener(mgui.mouseHandler);
@@ -106,42 +103,39 @@ public class AvatarMethodologyDiagramToolbar extends TToolBar {
         
         this.addSeparator();
         
-        /*button = this.add(mgui.actions[TGUIAction.ARD_REQUIREMENT]);
+        button = this.add(mgui.actions[TGUIAction.AM_LINK]);
         button.addMouseListener(mgui.mouseHandler);
-        
-        button = this.add(mgui.actions[TGUIAction.ARD_PROPERTY]);
-        button.addMouseListener(mgui.mouseHandler);
-        
+
         this.addSeparator();
         
-		button = this.add(mgui.actions[TGUIAction.ARD_COMPOSITION_CONNECTOR]);
+        button = this.add(mgui.actions[TGUIAction.AM_REF_ASSUMPTIONS]);
         button.addMouseListener(mgui.mouseHandler);
-		
-        button = this.add(mgui.actions[TGUIAction.ARD_DERIVE_CONNECTOR]);
+
+        this.addSeparator();
+
+        button = this.add(mgui.actions[TGUIAction.AM_REF_REQUIREMENTS]);
         button.addMouseListener(mgui.mouseHandler);
-		
-		button = this.add(mgui.actions[TGUIAction.ARD_COPY_CONNECTOR]);
+
+        this.addSeparator();
+
+        button = this.add(mgui.actions[TGUIAction.AM_REF_ANALYSIS]);
         button.addMouseListener(mgui.mouseHandler);
-		
-		this.addSeparator();
-		
-		button = this.add(mgui.actions[TGUIAction.ARD_REFINE_CONNECTOR]);
+
+        this.addSeparator();
+
+        button = this.add(mgui.actions[TGUIAction.AM_REF_DESIGN]);
         button.addMouseListener(mgui.mouseHandler);
-		
-		this.addSeparator();
-        
-        button = this.add(mgui.actions[TGUIAction.ARD_VERIFY_CONNECTOR]);
+
+        this.addSeparator();
+
+        button = this.add(mgui.actions[TGUIAction.AM_REF_PROPERTIES]);
         button.addMouseListener(mgui.mouseHandler);
-		
-		this.addSeparator();
-		
-		button = this.add(mgui.actions[TGUIAction.ACT_TOGGLE_ATTR]);
+
+        this.addSeparator();
+
+        button = this.add(mgui.actions[TGUIAction.AM_REF_PROTOTYPING]);
         button.addMouseListener(mgui.mouseHandler);
-		
-		this.addSeparator();
-         
-        button = this.add(mgui.actions[TGUIAction.ACT_ENHANCE]);
-        button.addMouseListener(mgui.mouseHandler);*/
+
         
     }
     

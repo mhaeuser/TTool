@@ -60,10 +60,6 @@ public class AvatarMethodologyReferenceToPrototype extends AvatarMethodologyDiag
 
         initScaling(300, 70);
 
-        nbConnectingPoint = 1;
-        connectingPoint = new TGConnectingPoint[nbConnectingPoint];
-        connectingPoint[0] = new AvatarMethodologyConnectingPoint(this, 0, 0, false, true, 0.0, 0.5, TGConnectingPoint.WEST);
-
         typeOfReference = PROTOTYPING;
 
         addTGConnectingPointsCommentTop();

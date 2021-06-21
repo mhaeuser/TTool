@@ -59,11 +59,7 @@ public class AvatarMethodologyReferenceToProperties extends AvatarMethodologyDia
         super(_x, _y, _minX, _maxX, _minY, _maxY, _pos, _father, _tdp);
         
 		initScaling(180, 70);
-        
-        nbConnectingPoint = 1;
-        connectingPoint = new TGConnectingPoint[nbConnectingPoint];
-        connectingPoint[0] = new AvatarMethodologyConnectingPoint(this, 0, 0, false, true, 0.2, 0.0, TGConnectingPoint.WEST);
-        
+
         typeOfReference = PROPERTY;
         
         addTGConnectingPointsCommentTop();    

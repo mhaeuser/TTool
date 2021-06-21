@@ -59,12 +59,7 @@ public class AvatarMethodologyReferenceToDesign extends AvatarMethodologyDiagram
         super(_x, _y, _minX, _maxX, _minY, _maxY, _pos, _father, _tdp);
         
 		initScaling(300, 70);
-        
-        nbConnectingPoint = 2;
-        connectingPoint = new TGConnectingPoint[nbConnectingPoint];
-        connectingPoint[0] = new AvatarMethodologyConnectingPoint(this, 0, 0, false, true, 0.0, 0.5, TGConnectingPoint.WEST);
-        connectingPoint[1] = new AvatarMethodologyConnectingPoint(this, 0, 0, false, true, 0.20, 1.0, TGConnectingPoint.WEST);
-        
+
         typeOfReference = DESIGN;
         
         addTGConnectingPointsCommentTop();    

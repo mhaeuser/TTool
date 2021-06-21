@@ -517,6 +517,10 @@ public class TML2UPPAAL {
             }
 
             loc = addLocation(template);
+            if (!previous.urgent) {
+                previous.setCommitted();
+            }
+
             tr = addTransition(template, previous, loc);
             setAssignment(tr, action);
             rtu.addTMLActivityElementLocation(elt, previous, loc);

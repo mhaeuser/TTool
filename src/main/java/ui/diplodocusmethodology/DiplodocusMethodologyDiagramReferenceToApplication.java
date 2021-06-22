@@ -88,7 +88,7 @@ public class DiplodocusMethodologyDiagramReferenceToApplication extends Diplodoc
         dn.setValidationsInfo(1, DiplodocusMethodologyDiagramName.SIM_TRACE_APP_DIPLO);
         //dn.setValidationsInfo(2, DiplodocusMethodologyDiagramName.LOT_APP_DIPLO);
         dn.setValidationsInfo(2, DiplodocusMethodologyDiagramName.UPP_APP_DIPLO);
-	dn.setValidationsInfo(3, DiplodocusMethodologyDiagramName.PROVERIF_DIPLO);
+	    dn.setValidationsInfo(3, DiplodocusMethodologyDiagramName.PROVERIF_DIPLO);
         dn.setValidationsInfo(4, DiplodocusMethodologyDiagramName.TML_APP_DIPLO);
     }
     

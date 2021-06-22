@@ -1108,23 +1108,23 @@ public class ActionPerformer {
 
 
             // avatar Method
-        } else if (command.equals(mgui.actions[TGUIAction.AM_EDIT].getActionCommand())) {
+        } else if (command.equals(mgui.actions[TGUIAction.M_EDIT].getActionCommand())) {
                 mgui.actionOnButton(TGComponentManager.EDIT, -1);
-        } else if (command.equals(mgui.actions[TGUIAction.AM_LINK].getActionCommand())) {
+        } else if (command.equals(mgui.actions[TGUIAction.M_LINK].getActionCommand())) {
                 // TraceManager.addDev("Connector interaction");
-                mgui.actionOnButton(TGComponentManager.CONNECTOR, TGComponentManager.AVATARMETHODOLOGY_CONNECTOR);
-        } else if (command.equals(mgui.actions[TGUIAction.AM_REF_ASSUMPTIONS].getActionCommand())) {
-            mgui.actionOnButton(TGComponentManager.COMPONENT, TGComponentManager.AVATARMETHODOLOGY_REF_ASSUMPTIONS);
-        } else if (command.equals(mgui.actions[TGUIAction.AM_REF_REQUIREMENTS].getActionCommand())) {
-            mgui.actionOnButton(TGComponentManager.COMPONENT, TGComponentManager.AVATARMETHODOLOGY_REF_REQUIREMENT);
-        } else if (command.equals(mgui.actions[TGUIAction.AM_REF_ANALYSIS].getActionCommand())) {
-            mgui.actionOnButton(TGComponentManager.COMPONENT, TGComponentManager.AVATARMETHODOLOGY_REF_ANALYSIS);
-        } else if (command.equals(mgui.actions[TGUIAction.AM_REF_DESIGN].getActionCommand())) {
-            mgui.actionOnButton(TGComponentManager.COMPONENT, TGComponentManager.AVATARMETHODOLOGY_REF_DESIGN);
+                mgui.actionOnButton(TGComponentManager.CONNECTOR, TGComponentManager.SYSMLSEC_METHODOLOGY_CONNECTOR);
+        } else if (command.equals(mgui.actions[TGUIAction.M_REF_ASSUMPTIONS].getActionCommand())) {
+            mgui.actionOnButton(TGComponentManager.COMPONENT, TGComponentManager.SYSMLSEC_METHODOLOGY_REF_ASSUMPTIONS);
+        } else if (command.equals(mgui.actions[TGUIAction.M_REF_REQUIREMENTS].getActionCommand())) {
+            mgui.actionOnButton(TGComponentManager.COMPONENT, TGComponentManager.SYSMLSEC_METHODOLOGY_REF_REQUIREMENT);
+        } else if (command.equals(mgui.actions[TGUIAction.M_REF_ANALYSIS].getActionCommand())) {
+            mgui.actionOnButton(TGComponentManager.COMPONENT, TGComponentManager.SYSMLSEC_METHODOLOGY_REF_ANALYSIS);
+        } else if (command.equals(mgui.actions[TGUIAction.M_REF_DESIGN].getActionCommand())) {
+            mgui.actionOnButton(TGComponentManager.COMPONENT, TGComponentManager.SYSMLSEC_METHODOLOGY_REF_DESIGN);
         } else if (command.equals(mgui.actions[TGUIAction.AM_REF_PROPERTIES].getActionCommand())) {
-            mgui.actionOnButton(TGComponentManager.COMPONENT, TGComponentManager.AVATARMETHODOLOGY_REF_PROPERTIES);
-        } else if (command.equals(mgui.actions[TGUIAction.AM_REF_PROTOTYPING].getActionCommand())) {
-            mgui.actionOnButton(TGComponentManager.COMPONENT, TGComponentManager.AVATARMETHODOLOGY_REF_PROTOTYPE);
+            mgui.actionOnButton(TGComponentManager.COMPONENT, TGComponentManager.SYSMLSEC_METHODOLOGY_REF_PROPERTIES);
+        } else if (command.equals(mgui.actions[TGUIAction.M_REF_PROTOTYPING].getActionCommand())) {
+            mgui.actionOnButton(TGComponentManager.COMPONENT, TGComponentManager.SYSMLSEC_METHODOLOGY_REF_PROTOTYPE);
 
             // Requirement diagrams
         } else if (command.equals(mgui.actions[TGUIAction.TREQ_REQUIREMENT].getActionCommand())) {

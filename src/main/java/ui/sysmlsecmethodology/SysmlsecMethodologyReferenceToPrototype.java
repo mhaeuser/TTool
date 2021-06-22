@@ -60,10 +60,6 @@ public class SysmlsecMethodologyReferenceToPrototype extends SysmlsecMethodology
 
         initScaling(200, 70);
 
-        nbConnectingPoint = 1;
-        connectingPoint = new TGConnectingPoint[nbConnectingPoint];
-        connectingPoint[0] = new SysmlsecMethodologyConnectingPoint(this, 0, 0, false, true, 0.0, 0.5, TGConnectingPoint.WEST);
-
         typeOfReference = PROTOTYPING;
 
         addTGConnectingPointsCommentTop();

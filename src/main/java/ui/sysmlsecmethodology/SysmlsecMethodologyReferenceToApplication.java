@@ -62,10 +62,6 @@ public class SysmlsecMethodologyReferenceToApplication extends SysmlsecMethodolo
 
         initScaling(200, 70);
 
-        nbConnectingPoint = 1;
-        connectingPoint = new TGConnectingPoint[nbConnectingPoint];
-        connectingPoint[0] = new SysmlsecMethodologyConnectingPoint(this, 0, 0, false, true, 0.5, 1.0, TGConnectingPoint.WEST);
-
         typeOfReference = FUNCTIONAL_VIEW;
 
         addTGConnectingPointsCommentTop();

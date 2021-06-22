@@ -62,11 +62,6 @@ public class SysmlsecMethodologyReferenceToMapping extends SysmlsecMethodologyDi
 
         initScaling(200, 70);
 
-        nbConnectingPoint = 3;
-        connectingPoint = new TGConnectingPoint[nbConnectingPoint];
-        connectingPoint[0] = new SysmlsecMethodologyConnectingPoint(this, 0, 0, false, true, 0.3, 0.0, TGConnectingPoint.WEST);
-        connectingPoint[1] = new SysmlsecMethodologyConnectingPoint(this, 0, 0, false, true, 0.7, 0.0, TGConnectingPoint.WEST);
-        connectingPoint[2] = new SysmlsecMethodologyConnectingPoint(this, 0, 0, false, true, 0.5, 0.0, TGConnectingPoint.WEST);
 
         typeOfReference = MAPPING_VIEW;
 

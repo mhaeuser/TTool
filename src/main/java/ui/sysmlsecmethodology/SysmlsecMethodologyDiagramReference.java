@@ -45,6 +45,7 @@ package ui.sysmlsecmethodology;
 import myutil.GraphicLib;
 import myutil.TraceManager;
 import ui.*;
+import ui.avatarmethodology.AvatarMethodologyConnectingPoint;
 import ui.util.IconManager;
 import ui.window.JDialogManageListOfString;
 
@@ -121,6 +122,23 @@ public abstract class SysmlsecMethodologyDiagramReference extends TGCScalableWit
         minWidth = 10;
         minHeight = lineHeight;
 
+        nbConnectingPoint = 12;
+        connectingPoint = new TGConnectingPoint[nbConnectingPoint];
+        connectingPoint[0] = new SysmlsecMethodologyConnectingPoint(this, 0, 0, true, true, 0.0, 0.25, TGConnectingPoint.WEST);
+        connectingPoint[1] = new SysmlsecMethodologyConnectingPoint(this, 0, 0, true, true, 0.0, 0.5, TGConnectingPoint.WEST);
+        connectingPoint[2] = new SysmlsecMethodologyConnectingPoint(this, 0, 0, true, true, 0.0, 0.75, TGConnectingPoint.WEST);
+        connectingPoint[3] = new SysmlsecMethodologyConnectingPoint(this, 0, 0, true, true, 1.0, 0.25, TGConnectingPoint.EAST);
+        connectingPoint[4] = new SysmlsecMethodologyConnectingPoint(this, 0, 0, true, true, 1.0, 0.5, TGConnectingPoint.EAST);
+        connectingPoint[5] = new SysmlsecMethodologyConnectingPoint(this, 0, 0, true, true, 1.0, 0.75, TGConnectingPoint.EAST);
+        connectingPoint[6] = new SysmlsecMethodologyConnectingPoint(this, 0, 0, true, true, 0.25, 0.0, TGConnectingPoint.NORTH);
+        connectingPoint[7] = new SysmlsecMethodologyConnectingPoint(this, 0, 0, true, true, 0.5, 0.0, TGConnectingPoint.NORTH);
+        connectingPoint[8] = new SysmlsecMethodologyConnectingPoint(this, 0, 0, true, true, 0.75, 0.0, TGConnectingPoint.NORTH);
+        connectingPoint[9] = new SysmlsecMethodologyConnectingPoint(this, 0, 0, true, true, 0.25, 1.0, TGConnectingPoint.SOUTH);
+        connectingPoint[10] = new SysmlsecMethodologyConnectingPoint(this, 0, 0, true, true, 0.5, 1.0, TGConnectingPoint.SOUTH);
+        connectingPoint[11] = new SysmlsecMethodologyConnectingPoint(this, 0, 0, true, true, 0.75, 1.0, TGConnectingPoint.SOUTH);
+
+        addTGConnectingPointsCommentTop();
+
         addTGConnectingPointsCommentTop();
 
         nbInternalTGComponent = 0;
@@ -133,7 +151,7 @@ public abstract class SysmlsecMethodologyDiagramReference extends TGCScalableWit
 
         moveable = true;
         editable = true;
-        removable = false;
+        removable = true;
         userResizable = true;
         multieditable = true;
 

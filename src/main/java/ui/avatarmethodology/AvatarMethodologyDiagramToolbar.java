@@ -70,18 +70,10 @@ public class AvatarMethodologyDiagramToolbar extends TToolBar {
 		
 		mgui.actions[TGUIAction.ACT_SHOW_ZOOM].setEnabled(b);
 		mgui.updateZoomInfo();
-		
-        mgui.actions[TGUIAction.AM_EDIT].setEnabled(b);
+
         mgui.actions[TGUIAction.UML_NOTE].setEnabled(b);
         mgui.actions[TGUIAction.CONNECTOR_COMMENT].setEnabled(b);
-
-        mgui.actions[TGUIAction.AM_LINK].setEnabled(b);
-        mgui.actions[TGUIAction.AM_REF_ASSUMPTIONS].setEnabled(b);
-        mgui.actions[TGUIAction.AM_REF_REQUIREMENTS].setEnabled(b);
-        mgui.actions[TGUIAction.AM_REF_ANALYSIS].setEnabled(b);
-        mgui.actions[TGUIAction.AM_REF_DESIGN].setEnabled(b);
-        mgui.actions[TGUIAction.AM_REF_PROPERTIES].setEnabled(b);
-        mgui.actions[TGUIAction.AM_REF_PROTOTYPING].setEnabled(b);
+		
 
         mgui.actions[TGUIAction.ACT_MODEL_CHECKING].setEnabled(!b);
         
@@ -90,10 +82,7 @@ public class AvatarMethodologyDiagramToolbar extends TToolBar {
     protected void setButtons() {
         JButton button;
         
-        button = this.add(mgui.actions[TGUIAction.AM_EDIT]);
-        button.addMouseListener(mgui.mouseHandler);
-        
-        this.addSeparator();
+
         
         button = this.add(mgui.actions[TGUIAction.UML_NOTE]);
         button.addMouseListener(mgui.mouseHandler);
@@ -101,40 +90,7 @@ public class AvatarMethodologyDiagramToolbar extends TToolBar {
         button = this.add(mgui.actions[TGUIAction.CONNECTOR_COMMENT]);
         button.addMouseListener(mgui.mouseHandler);
         
-        this.addSeparator();
-        
-        button = this.add(mgui.actions[TGUIAction.AM_LINK]);
-        button.addMouseListener(mgui.mouseHandler);
 
-        this.addSeparator();
-        
-        button = this.add(mgui.actions[TGUIAction.AM_REF_ASSUMPTIONS]);
-        button.addMouseListener(mgui.mouseHandler);
-
-        this.addSeparator();
-
-        button = this.add(mgui.actions[TGUIAction.AM_REF_REQUIREMENTS]);
-        button.addMouseListener(mgui.mouseHandler);
-
-        this.addSeparator();
-
-        button = this.add(mgui.actions[TGUIAction.AM_REF_ANALYSIS]);
-        button.addMouseListener(mgui.mouseHandler);
-
-        this.addSeparator();
-
-        button = this.add(mgui.actions[TGUIAction.AM_REF_DESIGN]);
-        button.addMouseListener(mgui.mouseHandler);
-
-        this.addSeparator();
-
-        button = this.add(mgui.actions[TGUIAction.AM_REF_PROPERTIES]);
-        button.addMouseListener(mgui.mouseHandler);
-
-        this.addSeparator();
-
-        button = this.add(mgui.actions[TGUIAction.AM_REF_PROTOTYPING]);
-        button.addMouseListener(mgui.mouseHandler);
 
         
     }

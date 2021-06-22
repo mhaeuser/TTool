@@ -694,14 +694,14 @@ public class TGUIAction extends AbstractAction {
 
 
     // AVATAR Method
-    public static final int AM_EDIT = 539;
-    public static final int AM_LINK = 540;
-    public static final int AM_REF_ASSUMPTIONS = 541;
-    public static final int AM_REF_REQUIREMENTS = 542;
-    public static final int AM_REF_ANALYSIS = 543;
-    public static final int AM_REF_DESIGN = 544;
+    public static final int M_EDIT = 539;
+    public static final int M_LINK = 540;
+    public static final int M_REF_ASSUMPTIONS = 541;
+    public static final int M_REF_REQUIREMENTS = 542;
+    public static final int M_REF_ANALYSIS = 543;
+    public static final int M_REF_DESIGN = 544;
     public static final int AM_REF_PROPERTIES = 545;
-    public static final int AM_REF_PROTOTYPING = 546;
+    public static final int M_REF_PROTOTYPING = 546;
 
 
     public static final int NB_ACTION = 547; // Last + 1
@@ -1478,22 +1478,22 @@ public class TGUIAction extends AbstractAction {
         actions[FIRST_DIAGRAM] = new TAction("FirstDiagram", "First Diagram", IconManager.imgic142, IconManager.imgic142, "Switch the the first diagram", "Switch to the first diagram", 0);
 
         // Avatar methods
-        actions[AM_EDIT] = new TAction("edit-am-diagram", "Edit Avatar Methodology", IconManager.imgic100, IconManager.imgic101, "Edit " +
-                "Avatar methodology diagram", "Make it possible to edit the currently opened avatar methodology", 0);
-        actions[AM_LINK] = new TAction("add-am-connector", "Add Connector", IconManager.imgic202, IconManager.imgic202, "Connector", "Add" +
-                       " a Connector between two components of the currently opened avatar method", 0);
-        actions[AM_REF_ASSUMPTIONS] = new TAction("add-ref-ass", "Add reference to a assumption diagram", IconManager.imgic404, IconManager.imgic404,
+        actions[M_EDIT] = new TAction("edit-m-diagram", "Edit  Methodology", IconManager.imgic100, IconManager.imgic101, "Edit " +
+                "Methodology diagram", "Make it possible to edit the currently opened  methodology", 0);
+        actions[M_LINK] = new TAction("add-m-connector", "Add Connector", IconManager.imgic202, IconManager.imgic202, "Connector", "Add" +
+                       " a Connector between two components of the currently opened  method", 0);
+        actions[M_REF_ASSUMPTIONS] = new TAction("add-ref-ass", "Add reference to an assumption diagram", IconManager.imgic404, IconManager.imgic404,
                 "Reference to assumptions", "Add a reference to an assumption diagram", 0);
-        actions[AM_REF_REQUIREMENTS] = new TAction("add-ref-req", "Add reference to a requirement diagram", IconManager.imgic406,
+        actions[M_REF_REQUIREMENTS] = new TAction("add-ref-req", "Add reference to a requirement diagram", IconManager.imgic406,
                 IconManager.imgic406,
                 "Reference to requirements", "Add a reference to a requirement diagram", 0);
-        actions[AM_REF_ANALYSIS] = new TAction("add-ref-anal", "Add reference to analysis diagrams", IconManager.imgic408, IconManager.imgic408,
+        actions[M_REF_ANALYSIS] = new TAction("add-ref-anal", "Add reference to analysis diagrams", IconManager.imgic408, IconManager.imgic408,
                 "Reference to analysis", "Add a reference to a analysis diagrams", 0);
-        actions[AM_REF_DESIGN] = new TAction("add-ref-des", "Add reference to design diagrams", IconManager.imgic410, IconManager.imgic410,
+        actions[M_REF_DESIGN] = new TAction("add-ref-des", "Add reference to design diagrams", IconManager.imgic410, IconManager.imgic410,
                 "Reference to designs", "Add a reference to design diagrams", 0);
         actions[AM_REF_PROPERTIES] = new TAction("add-ref-prop", "Add reference to property diagrams", IconManager.imgic412, IconManager.imgic412,
                 "Reference to properties", "Add a reference to a property diagrams", 0);
-        actions[AM_REF_PROTOTYPING] = new TAction("add-ref-proto", "Add reference to a prototyping diagram", IconManager.imgic414,
+        actions[M_REF_PROTOTYPING] = new TAction("add-ref-proto", "Add reference to a prototyping diagram", IconManager.imgic414,
                 IconManager.imgic414,
                 "Reference to prototyping", "Add a reference to a prototyping diagram", 0);
 

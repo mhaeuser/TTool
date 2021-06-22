@@ -97,7 +97,7 @@ public class SysmlsecMethodologyDiagramName extends TGCScalableWithoutInternalCo
         "Verify security properties on the model with ProVerif",
         "Verify mutual exclusions on the model with invariants",
         "Generate executable code",
-	"Generate a vcd simulation trace of a DIPLODOCUS functional model",
+	    "Generate a vcd simulation trace of a DIPLODOCUS functional model",
         "Verify a DIPLODOCUS functional model with UPPAAL",
         "Generate a Reachability graph of a DIPLODOCUS functional model",
         "Generate a TML text description of a DIPLODOCUS functional model",

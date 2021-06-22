@@ -1521,9 +1521,9 @@ public class TGUIAction extends AbstractAction {
         actions[M_REF_MAPPING] = new TAction("add-ref-mapping", "Add reference to a mapping", IconManager.imgic426,
                 IconManager.imgic426,
                 "Reference to a mapping", "Add a reference to a mapping", 0);
-        actions[M_PANEL_INFO] = new TAction("add-diag-name", "Add a diagram name", IconManager.imgic426,
+        actions[M_PANEL_INFO] = new TAction("add-info-comp", "Add an information component", IconManager.imgic426,
                 IconManager.imgic426,
-                "diagram name", "Add a diagram name", 0);
+                "Information", "Add a information component", 0);
 
 
     }

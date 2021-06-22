@@ -2073,7 +2073,7 @@ public class MainGUI implements ActionListener, WindowListener, KeyListener, Per
 
     public void newMethodology() {
         // TraceManager.addDev("NEW DESIGN");
-        addSysmlsecMethodologyPanel("Methodology", -1, true);
+        addSysmlsecMethodologyPanel("Methodology", -1, false);
         tabs.elementAt(tabs.size() - 1).tabbedPane.setSelectedIndex(0);
         mainTabbedPane.setSelectedIndex(tabs.size() - 1);
         // paneAction(null);

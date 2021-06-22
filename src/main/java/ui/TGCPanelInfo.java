@@ -42,6 +42,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 
+import myutil.Conversion;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -52,6 +53,10 @@ import ui.atd.ATDConstraint;
 import ui.atd.ATDCountermeasure;
 import ui.sysmlsecmethodology.SysmlsecMethodologyDiagramReference;
 import ui.util.IconManager;
+import ui.window.JDialogInfoPanel;
+import ui.window.JDialogManageListOfString;
+
+import javax.swing.*;
 
 /**
    * Class TGCPanelInfo
@@ -71,6 +76,10 @@ public class TGCPanelInfo extends TGCScalableWithInternalComponent implements Sw
     public final static int LOWER_LEFT = 7;
     public final static int LOWER_MIDDLE = 8;
     public final static int LOWER_RIGHT = 9;
+
+
+    public final String[] TEXT_POSITIONS = {"Upper left", "Upper middle", "Upper right", "Middle left", "Middle",
+        "Middle right", "Lower left", "Lower middle", "Lower right"};
     
     // Issue #31
     private static final int MARGIN_X = 5;
@@ -123,8 +132,8 @@ public class TGCPanelInfo extends TGCScalableWithInternalComponent implements Sw
 		}
 
         moveable = true;
-        editable = false;
-        removable = false;
+        editable = true;
+        removable = true;
         userResizable = true;
 
         name = "Info";
@@ -212,6 +221,27 @@ public class TGCPanelInfo extends TGCScalableWithInternalComponent implements Sw
         return null;
     }
 
+    @Override
+    public boolean editOnDoubleClick(JFrame frame) {
+        String oldValue = value;
+
+        JDialogInfoPanel jdip = new JDialogInfoPanel(frame, "Attributes", value, TEXT_POSITIONS, stringPos-1);
+        GraphicLib.centerOnParent(jdip, 550, 350);
+        jdip.setVisible( true );
+
+        if (jdip.isRegularClose()) {
+            value = jdip.getValue().trim();
+            if (value.length() == 0) {
+                value = oldValue;
+            }
+            stringPos = jdip.getSelectedIndex() + 1;
+            return true;
+        }
+
+        return false;
+    }
+
+
     public boolean acceptSwallowedTGComponent(TGComponent tgc) {
         return tgc instanceof SysmlsecMethodologyDiagramReference;
 
@@ -269,6 +299,7 @@ public class TGCPanelInfo extends TGCScalableWithInternalComponent implements Sw
         //
         //value = "";
         StringBuffer sb = new StringBuffer("<extraparam>\n");
+        sb.append("<TextPos value=\"" + stringPos + "\" />\n");
         sb.append("<TextColor value=\"" + textColor.getRGB() + "\" />\n");
         sb.append("</extraparam>\n");
         
@@ -298,6 +329,12 @@ public class TGCPanelInfo extends TGCScalableWithInternalComponent implements Sw
                                 s = elt.getAttribute("value");
                                 textColor = new Color(Integer.decode(s).intValue());	
                              }
+
+                            if (elt.getTagName().equals("TextPos")) {
+                                s = elt.getAttribute("value");
+                                stringPos = Integer.decode(s);
+                            }
+
                         }
                     }
                 }

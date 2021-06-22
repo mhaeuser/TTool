@@ -139,16 +139,13 @@ public class SysmlsecMethodologyPanel extends TURTLEPanel {
         p1 = tgc1.getTGConnectingPointAtIndex(0);
         p2 = tgc2.getTGConnectingPointAtIndex(0);
         Vector<Point> listPoint = new Vector<Point>();
-        Point p = new Point(210, 235);
-        listPoint.add(p);
-        TGConnector tgco = TGComponentManager.addConnector(p1.getX(), p1.getY(), TGComponentManager.SYSMLSEC_METHODOLOGY_CONNECTOR, dmd, p1, p2, listPoint);
-        p1.setFree(false);
-        p2.setFree(false);
-        //dmd.getComponentList().add(0, tgco);
+        TGConnector tgco;
+        Point p;
+
 
         // Reqs -> Attacks
-        p1 = tgc2.getTGConnectingPointAtIndex(1);
-        p2 = tgc10.getTGConnectingPointAtIndex(0);
+        p1 = tgc2.getTGConnectingPointAtIndex(9);
+        p2 = tgc10.getTGConnectingPointAtIndex(6);
         listPoint = new Vector<Point>();
         //p = new Point(375, 370);
         //listPoint.add(p);
@@ -158,8 +155,8 @@ public class SysmlsecMethodologyPanel extends TURTLEPanel {
         dmd.getComponentList().add(0, tgco);
 
         // Reqs -> Faults
-        p1 = tgc2.getTGConnectingPointAtIndex(4);
-        p2 = tgc12.getTGConnectingPointAtIndex(0);
+        p1 = tgc2.getTGConnectingPointAtIndex(6);
+        p2 = tgc12.getTGConnectingPointAtIndex(9);
         listPoint = new Vector<Point>();
         tgco = TGComponentManager.addConnector(p1.getX(), p1.getY(), TGComponentManager.SYSMLSEC_METHODOLOGY_CONNECTOR, dmd, p1, p2, listPoint);
         p1.setFree(false);
@@ -167,8 +164,8 @@ public class SysmlsecMethodologyPanel extends TURTLEPanel {
         dmd.getComponentList().add(0, tgco);
 
         // Faults -> Reqs
-        p1 = tgc12.getTGConnectingPointAtIndex(1);
-        p2 = tgc2.getTGConnectingPointAtIndex(3);
+        p1 = tgc12.getTGConnectingPointAtIndex(11);
+        p2 = tgc2.getTGConnectingPointAtIndex(8);
         listPoint = new Vector<Point>();
         //p = new Point(375, 370);
         //listPoint.add(p);
@@ -178,8 +175,8 @@ public class SysmlsecMethodologyPanel extends TURTLEPanel {
         dmd.getComponentList().add(0, tgco);
 
         // Attacks -> Reqs
-        p1 = tgc10.getTGConnectingPointAtIndex(1);
-        p2 = tgc2.getTGConnectingPointAtIndex(2);
+        p1 = tgc10.getTGConnectingPointAtIndex(8);
+        p2 = tgc2.getTGConnectingPointAtIndex(11);
         listPoint = new Vector<Point>();
         //p = new Point(375, 370);
         //listPoint.add(p);
@@ -189,7 +186,7 @@ public class SysmlsecMethodologyPanel extends TURTLEPanel {
         dmd.getComponentList().add(0, tgco);
 
         // Analysis -> Design
-        p1 = tgc3.getTGConnectingPointAtIndex(1);
+        p1 = tgc3.getTGConnectingPointAtIndex(9);
         p2 = tgc4.getTGConnectingPointAtIndex(0);
         listPoint = new Vector<Point>();
         p = new Point(xa + 60, ya + 125);
@@ -200,7 +197,7 @@ public class SysmlsecMethodologyPanel extends TURTLEPanel {
         dmd.getComponentList().add(0, tgco);
 
         // Design -> Prototyping
-        p1 = tgc4.getTGConnectingPointAtIndex(1);
+        p1 = tgc4.getTGConnectingPointAtIndex(9);
         p2 = tgc5.getTGConnectingPointAtIndex(0);
         listPoint = new Vector<Point>();
         p = new Point(xa + 160, ya + 225);
@@ -211,7 +208,7 @@ public class SysmlsecMethodologyPanel extends TURTLEPanel {
         dmd.getComponentList().add(0, tgco);
 
         // Reqs -> Prop
-        p1 = tgc2.getTGConnectingPointAtIndex(0);
+        p1 = tgc2.getTGConnectingPointAtIndex(4);
         p2 = tgc6.getTGConnectingPointAtIndex(0);
         listPoint = new Vector<Point>();
         p = new Point(xa - 305, 385);
@@ -225,7 +222,7 @@ public class SysmlsecMethodologyPanel extends TURTLEPanel {
 
         // Partitioning
         // App -> mapping
-        p1 = tgc7.getTGConnectingPointAtIndex(0);
+        p1 = tgc7.getTGConnectingPointAtIndex(10);
         p2 = tgc9.getTGConnectingPointAtIndex(0);
         listPoint = new Vector<Point>();
         tgco = TGComponentManager.addConnector(p1.getX(), p1.getY(), TGComponentManager.DIPLODOCUSMETHODOLOGY_CONNECTOR, dmd, p1, p2, listPoint);
@@ -234,8 +231,8 @@ public class SysmlsecMethodologyPanel extends TURTLEPanel {
         dmd.getComponentList().add(0, tgco);
 
         // cp -> mapping
-        p1 = tgc11.getTGConnectingPointAtIndex(0);
-        p2 = tgc9.getTGConnectingPointAtIndex(2);
+        p1 = tgc11.getTGConnectingPointAtIndex(10);
+        p2 = tgc9.getTGConnectingPointAtIndex(7);
         listPoint = new Vector<Point>();
         tgco = TGComponentManager.addConnector(p1.getX(), p1.getY(), TGComponentManager.DIPLODOCUSMETHODOLOGY_CONNECTOR, dmd, p1, p2, listPoint);
         p1.setFree(false);
@@ -243,8 +240,8 @@ public class SysmlsecMethodologyPanel extends TURTLEPanel {
         dmd.getComponentList().add(0, tgco);
 
         // Archi -> mapping
-        p1 = tgc8.getTGConnectingPointAtIndex(0);
-        p2 = tgc9.getTGConnectingPointAtIndex(1);
+        p1 = tgc8.getTGConnectingPointAtIndex(10);
+        p2 = tgc9.getTGConnectingPointAtIndex(3);
         listPoint = new Vector<Point>();
         tgco = TGComponentManager.addConnector(p1.getX(), p1.getY(), TGComponentManager.DIPLODOCUSMETHODOLOGY_CONNECTOR, dmd, p1, p2, listPoint);
         p1.setFree(false);

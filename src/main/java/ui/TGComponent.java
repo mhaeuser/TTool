@@ -82,6 +82,7 @@ public abstract class TGComponent  extends AbstractCDElement implements /*CDElem
 
     protected final static String XML_HEAD = "<COMPONENT type=\"";
     protected final static String XML_ID = "\" id=\"";
+    protected final static String XML_INDEX = "\" index=\"";
     protected final static String XML_UUID = "\" uid=\"";
     protected final static String XML_TAIL = "</COMPONENT>\n";
 
@@ -217,6 +218,9 @@ public abstract class TGComponent  extends AbstractCDElement implements /*CDElem
 
     // Colors
     protected Color currentMainColor;
+
+    // For front / back
+    public int indexU = -1;
 
 
     // Zoom
@@ -2593,6 +2597,18 @@ public abstract class TGComponent  extends AbstractCDElement implements /*CDElem
         return id;
     }
 
+    public int getIndexU() {
+        return indexU;
+    }
+
+    public int compareTo(TGComponent tgc){
+        return indexU - tgc.getIndexU();
+    }
+
+        public void setIndexU(int _indexU) {
+        indexU = _indexU;
+    }
+
     public UUID getUUID() {
         if (uniqueID == null) {
             makeUUID();
@@ -3203,6 +3219,9 @@ public abstract class TGComponent  extends AbstractCDElement implements /*CDElem
         sb.append(getType());
         sb.append(XML_ID);
         sb.append(getId());
+        sb.append(XML_INDEX);
+        sb.append((getIndexU()));
+
         if (getUUID() != null) {
             sb.append(XML_UUID);
             sb.append(getUUID().toString());
@@ -3496,6 +3515,7 @@ public abstract class TGComponent  extends AbstractCDElement implements /*CDElem
         if (currentMainColor != null) {
             return currentMainColor;
         }
+
         if (this instanceof ColorCustomizable) {
             return ((ColorCustomizable)(this)).getMainColor();
         }
@@ -3504,10 +3524,12 @@ public abstract class TGComponent  extends AbstractCDElement implements /*CDElem
     }
 
     public void setCurrentColor(int _rgb) {
+        //TraceManager.addDev("Setting current color to: " + _rgb);
         currentMainColor = new Color(_rgb);
     }
 
     public void setCurrentColor(Color _c) {
+        //TraceManager.addDev("Setting current color to: " + _c);
         currentMainColor = _c;
     }
 

@@ -45,6 +45,7 @@ package ui.sysmlsecmethodology;
 import myutil.GraphicLib;
 import myutil.TraceManager;
 import ui.*;
+import ui.atd.ATDBlock;
 import ui.avatarmethodology.AvatarMethodologyConnectingPoint;
 import ui.util.IconManager;
 import ui.window.JDialogManageListOfString;
@@ -63,7 +64,8 @@ import java.util.Vector;
    * @version 1.0 26/01/2016
    * @author Ludovic APVRILLE
  */
-public abstract class SysmlsecMethodologyDiagramReference extends TGCScalableWithInternalComponent implements SwallowTGComponent  {
+public abstract class SysmlsecMethodologyDiagramReference extends TGCScalableWithInternalComponent implements SwallowTGComponent, ColorCustomizable,
+         SwallowedTGComponent  {
     public String oldValue;
     protected int textX = 5;
     protected int textY = 22;
@@ -193,7 +195,7 @@ public abstract class SysmlsecMethodologyDiagramReference extends TGCScalableWit
 
      //   int h  = g.getFontMetrics().getHeight();
 
-        g.setColor(ColorManager.AVATAR_REQUIREMENT_TOP);
+        g.setColor(getCurrentColor());
         g.fillRect(x, y, width, height);
         ColorManager.setColor(g, getState(), 0);
         g.drawRect(x, y, width, height);
@@ -305,6 +307,16 @@ public abstract class SysmlsecMethodologyDiagramReference extends TGCScalableWit
 
 
           g.setFont(f);*/
+    }
+
+    @Override
+    public void resizeWithFather() {
+
+        if ((father != null) && (father instanceof TGCPanelInfo)) {
+            setCdRectangle(0, father.getWidth() - getWidth(), 0, father.getHeight() - getHeight());
+            //setCd(Math.min(x, father.getWidth() - getWidth()), Math.min(y, father.getHeight() - getHeight()));
+            setMoveCd(x, y);
+        }
     }
 
     public boolean editOnDoubleClick(JFrame frame, int _x, int _y) {
@@ -572,6 +584,10 @@ public abstract class SysmlsecMethodologyDiagramReference extends TGCScalableWit
         tdp.getMGUI().setStatusBarText(info);
     }
 
+    // Color management
+    public Color getMainColor() {
+        return ColorManager.AVATAR_REQUIREMENT_TOP;
+    }
 
 
     /*public String getDiagramReferences() {

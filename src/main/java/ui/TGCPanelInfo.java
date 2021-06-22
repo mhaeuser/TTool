@@ -47,16 +47,20 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import myutil.GraphicLib;
+import ui.atd.ATDAttack;
+import ui.atd.ATDConstraint;
+import ui.atd.ATDCountermeasure;
+import ui.sysmlsecmethodology.SysmlsecMethodologyDiagramReference;
 import ui.util.IconManager;
 
 /**
    * Class TGCPanelInfo
-   * Component for displaying an informatio
+   * Component for displaying an information
    * Creation: 8/03/2016
    * @version 1.0 8/03/2016
    * @author Ludovic APVRILLE
  */
-public class TGCPanelInfo extends TGCScalableWithoutInternalComponent {
+public class TGCPanelInfo extends TGCScalableWithInternalComponent implements SwallowTGComponent, ColorCustomizable  {
 
     public final static int UPPER_LEFT = 1;
     public final static int UPPER_MIDDLE = 2;
@@ -76,7 +80,6 @@ public class TGCPanelInfo extends TGCScalableWithoutInternalComponent {
     
     protected Graphics myg;
 
-    protected Color myColor;
 
     private Font myFont;//, myFontB;
 //    private int maxFontSize = 30;
@@ -85,7 +88,6 @@ public class TGCPanelInfo extends TGCScalableWithoutInternalComponent {
 
 
     private int stringPos = 2; //Upperleft: 1; Upper: 2; UpperRight: 3, etc.
-    private Color fillColor;
     private Color textColor;
 
     protected Graphics graphics;
@@ -127,7 +129,7 @@ public class TGCPanelInfo extends TGCScalableWithoutInternalComponent {
 
         name = "Info";
         value = "Info";
-        fillColor = Color.LIGHT_GRAY;
+        //fillColor = Color.LIGHT_GRAY;
         textColor = Color.RED;
         myImageIcon = IconManager.imgic320;
     }
@@ -154,7 +156,7 @@ public class TGCPanelInfo extends TGCScalableWithoutInternalComponent {
 
         Color c = g.getColor();
 
-		g.setColor(fillColor);
+		g.setColor(getCurrentColor());
 		g.fillRect(x, y, width, height);
 		g.setColor(c);
 		g.drawRect(x, y, width, height);
@@ -202,13 +204,37 @@ public class TGCPanelInfo extends TGCScalableWithoutInternalComponent {
 		g.setColor(c);
     }
 
-    @Override
-    public TGComponent isOnMe(int x1, int y1) {
+    public TGComponent isOnOnlyMe(int x1, int y1) {
+
         if (GraphicLib.isInRectangle(x1, y1, x, y, width, height)) {
             return this;
         }
         return null;
     }
+
+    public boolean acceptSwallowedTGComponent(TGComponent tgc) {
+        return tgc instanceof SysmlsecMethodologyDiagramReference;
+
+    }
+
+    public boolean addSwallowedTGComponent(TGComponent tgc, int x, int y) {
+        if (tgc instanceof SysmlsecMethodologyDiagramReference) {
+            tgc.setFather(this);
+            tgc.setDrawingZone(true);
+            tgc.resizeWithFather();
+            addInternalComponent(tgc, 0);
+            return true;
+        }
+
+
+        return false;
+    }
+
+    public void removeSwallowedTGComponent(TGComponent tgc) {
+        removeInternalComponent(tgc);
+    }
+
+
 
 //    @Override
 //    public void rescale(double scaleFactor){
@@ -230,10 +256,6 @@ public class TGCPanelInfo extends TGCScalableWithoutInternalComponent {
     }
 
 
-    public void setFillColor(Color _c) {
-    	fillColor = _c;
-    }
-
     public void setTextColor(Color _c) {
     	textColor = _c;
     }
@@ -248,7 +270,6 @@ public class TGCPanelInfo extends TGCScalableWithoutInternalComponent {
         //value = "";
         StringBuffer sb = new StringBuffer("<extraparam>\n");
         sb.append("<TextColor value=\"" + textColor.getRGB() + "\" />\n");
-        sb.append("<FillColor value=\"" + textColor.getRGB() + "\" />\n");
         sb.append("</extraparam>\n");
         
         return new String(sb);
@@ -285,4 +306,11 @@ public class TGCPanelInfo extends TGCScalableWithoutInternalComponent {
             throw new MalformedModelingException();
         }
     }
+
+
+    // Color management
+    public Color getMainColor() {
+        return Color.LIGHT_GRAY;
+    }
+
 }//Class

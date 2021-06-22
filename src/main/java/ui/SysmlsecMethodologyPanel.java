@@ -113,14 +113,14 @@ public class SysmlsecMethodologyPanel extends TURTLEPanel {
         infoParti.resize(750, 250);
         infoParti.setValue("SW/HW Partitioning");
         infoParti.setStringPos(TGCPanelInfo.UPPER_MIDDLE);
-        infoParti.setFillColor(ColorManager.SYSMLSEC_PARTITIONING);
+        infoParti.setCurrentColor(ColorManager.SYSMLSEC_PARTITIONING);
         infoParti.setTextColor(Color.white);
 
         TGCPanelInfo infoSw = (TGCPanelInfo) (dmd.addComponent(xa - 270, ya - 25, TGComponentManager.INFO_PANEL, false));
         infoSw.resize(750, 325);
         infoSw.setValue("SW Design");
         infoSw.setStringPos(TGCPanelInfo.UPPER_MIDDLE);
-        infoSw.setFillColor(ColorManager.SYSMLSEC_SWDESIGN);
+        infoSw.setCurrentColor(ColorManager.SYSMLSEC_SWDESIGN);
         infoSw.setTextColor(Color.white);
 
 
@@ -129,7 +129,7 @@ public class SysmlsecMethodologyPanel extends TURTLEPanel {
         infoReq.setValue("Req / faults / attacks");
         infoReq.setStringPos(TGCPanelInfo.UPPER_MIDDLE);
         infoReq.setTextColor(Color.white);
-        infoReq.setFillColor(ColorManager.SYSMLSEC_REQ);
+        infoReq.setCurrentColor(ColorManager.SYSMLSEC_REQ);
 
 
         //Connectors

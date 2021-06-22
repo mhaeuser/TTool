@@ -2071,6 +2071,15 @@ public class MainGUI implements ActionListener, WindowListener, KeyListener, Per
         // frame.repaint();
     }
 
+    public void newMethodology() {
+        // TraceManager.addDev("NEW DESIGN");
+        addSysmlsecMethodologyPanel("Methodology", -1, true);
+        tabs.elementAt(tabs.size() - 1).tabbedPane.setSelectedIndex(0);
+        mainTabbedPane.setSelectedIndex(tabs.size() - 1);
+        // paneAction(null);
+        // frame.repaint();
+    }
+
     public void newVerificationPropertyPanel() {
         // TraceManager.addDev("NEW DESIGN");
         addVerificationPropertyPanel("Verification Tracking", -1, true);
@@ -9437,7 +9446,7 @@ public class MainGUI implements ActionListener, WindowListener, KeyListener, Per
         private JMenuItem rename, remove, moveRight, moveLeft, newDesign, newAnalysis, newDeployment, newRequirement/* , newTMLDesign */,
                 newTMLComponentDesign, newTMLArchi, newProactiveDesign, newTURTLEOSDesign, newNCDesign, sort, clone, newAttackTree, newFaultTree,
                 newAVATARBD, newAVATARRequirement, newMAD, newTMLCP, newTMLMethodo, newAvatarMethodo, newAVATARDD, newSysmlsecMethodo, newSysCAMS,
-                newELN, newVerificationProperty, clearVerificationInformation;
+                newELN, newVerificationProperty, clearVerificationInformation, newMethodo;
         private JMenuItem newAVATARAnalysis;
 
         public PopupListener(MainGUI _mgui) {
@@ -9505,6 +9514,7 @@ public class MainGUI implements ActionListener, WindowListener, KeyListener, Per
             newAVATARAnalysis = createMenuItem("New Analysis");
             newAVATARBD = createMenuItem("New Design");
             newAVATARDD = createMenuItem("New Deployment Diagram");
+            newMethodo = createMenuItem("New Methodology");
             newAvatarMethodo = createMenuItem("New AVATAR Methodology");
             newSysmlsecMethodo = createMenuItem("New SysML-Sec Methodology");
             newVerificationProperty = createMenuItem("New Verification Tracking");
@@ -9559,13 +9569,15 @@ public class MainGUI implements ActionListener, WindowListener, KeyListener, Per
 
             }
 
+            menu.add(newMethodo);
+
             // Methodologies
             if (!avatarOnly) {
                 if (systemcOn) {
                     menu.add(newTMLMethodo);
                 }
-
             }
+
 
             if (avatarOn) {
                 menu.add(newAvatarMethodo);
@@ -9703,6 +9715,9 @@ public class MainGUI implements ActionListener, WindowListener, KeyListener, Per
                 } else if (e.getSource() == newSysmlsecMethodo) {
                     ModeManager.setMode(CREATE_NEW_PANEL, actions, mainBar, mgui);
                     mgui.newSysmlsecMethodology();
+                } else if (e.getSource() == newMethodo) {
+                    ModeManager.setMode(CREATE_NEW_PANEL, actions, mainBar, mgui);
+                    mgui.newMethodology();
                 } else if (ac.equals("New DIPLODOCUS Design")) {
                     ModeManager.setMode(CREATE_NEW_PANEL, actions, mainBar, mgui);
                     mgui.newTMLDesign();

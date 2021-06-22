@@ -751,6 +751,8 @@ public abstract class TGConnector extends TGCScalableWithInternalComponent {
         sb.append(getType());
         sb.append(XML_ID);
         sb.append(getId());
+        sb.append(XML_INDEX);
+        sb.append(getIndexU());
         if (getUUID() != null) {
             sb.append(XML_UUID);
             sb.append(getUUID().toString());

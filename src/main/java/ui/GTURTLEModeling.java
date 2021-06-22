@@ -7558,6 +7558,27 @@ public class GTURTLEModeling {
             //TraceManager.addDev(tgc.getValue());
             tgc.makePostLoading(decId);
         }
+
+        // Order components
+        //TraceManager.addDev("Ordering components?");
+        list = tdp.getComponentList();
+        if (list.size() > 0) {
+            tgc = list.get(0);
+            if (tgc.getIndexU() > -1) {
+                // We need to order components
+                //TraceManager.addDev("Ordering components");
+                ArrayList<IndexedTGComponent> comps = new ArrayList<IndexedTGComponent>(list.size());
+                for(TGComponent tgcL: list) {
+                    comps.add(new IndexedTGComponent(tgcL.getIndexU(), tgcL));
+                }
+                Collections.sort(comps);
+                tdp.removeAll();
+                for(IndexedTGComponent iTgc: comps) {
+                    tdp.addComponent(iTgc.tgc);
+                }
+            }
+        }
+
 		/*SwingUtilities.invokeAndWait(new Runnable() {
 		  public void run() {
 		  mgui.repaintAll();
@@ -7648,6 +7669,7 @@ public class GTURTLEModeling {
 
         //
         try {
+            int index = -1;
 
             NodeList nl = n.getChildNodes();
             elt = (Element) n;
@@ -7656,6 +7678,12 @@ public class GTURTLEModeling {
 
             int myType = Integer.decode(elt.getAttribute("type"));
             int myId = Integer.decode(elt.getAttribute("id")) + decId;
+            if (elt.hasAttribute("index")) {
+                String tmp = elt.getAttribute("index");
+                if (tmp != null) {
+                    index = Integer.decode(tmp);
+                }
+            }
 
             UUID uid = null;
             String tmpUid = elt.getAttribute("uid");
@@ -7687,6 +7715,7 @@ public class GTURTLEModeling {
             boolean hidden = false;
             boolean masterMutex = false;
             boolean enable = true;
+
 
             for (i = 0; i < nl.getLength(); i++) {
                 n = nl.item(i);
@@ -7822,6 +7851,8 @@ public class GTURTLEModeling {
                 TraceManager.addDev("Malformed null");
                 throw new MalformedModelingException();
             }
+
+            tgc.setIndexU(index);
 
             if (myName != null) {
                 tgc.setName(myName);
@@ -8203,6 +8234,7 @@ public class GTURTLEModeling {
         //TraceManager.addDev(n.toString());
 
         try {
+            int index = -1;
 
             NodeList nl = n.getChildNodes();
             elt = (Element) n;
@@ -8210,6 +8242,13 @@ public class GTURTLEModeling {
 
             int myType = Integer.decode(elt.getAttribute("type"));
             int myId = Integer.decode(elt.getAttribute("id")) + decId;
+            if (elt.hasAttribute("index")) {
+                String tmp = elt.getAttribute("index");
+                if (tmp != null) {
+                    index = Integer.decode(tmp);
+                }
+            }
+
 
             UUID uid = null;
             String tmpUid = elt.getAttribute("uid");
@@ -8301,6 +8340,8 @@ public class GTURTLEModeling {
             }
 
             tgco.setAutomaticDrawing(automaticDrawing);
+
+            tgco.setIndexU(index);
 
             if (myName != null) {
                 tgco.setName(myName);

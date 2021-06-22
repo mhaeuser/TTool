@@ -700,11 +700,18 @@ public class TGUIAction extends AbstractAction {
     public static final int M_REF_REQUIREMENTS = 542;
     public static final int M_REF_ANALYSIS = 543;
     public static final int M_REF_DESIGN = 544;
-    public static final int AM_REF_PROPERTIES = 545;
+    public static final int M_REF_PROPERTIES = 545;
     public static final int M_REF_PROTOTYPING = 546;
+    public static final int M_REF_FAULT = 547;
+    public static final int M_REF_ATTACK = 548;
+    public static final int M_REF_FV = 549;
+    public static final int M_REF_CP = 550;
+    public static final int M_REF_ARCHI = 551;
+    public static final int M_REF_MAPPING = 552;
+    public static final int M_PANEL_INFO = 553;
 
 
-    public static final int NB_ACTION = 547; // Last + 1
+    public static final int NB_ACTION = 554; // Last + 1
 
     private static final TAction [] actions = new TAction[NB_ACTION];
 
@@ -1491,11 +1498,32 @@ public class TGUIAction extends AbstractAction {
                 "Reference to analysis", "Add a reference to a analysis diagrams", 0);
         actions[M_REF_DESIGN] = new TAction("add-ref-des", "Add reference to design diagrams", IconManager.imgic410, IconManager.imgic410,
                 "Reference to designs", "Add a reference to design diagrams", 0);
-        actions[AM_REF_PROPERTIES] = new TAction("add-ref-prop", "Add reference to property diagrams", IconManager.imgic412, IconManager.imgic412,
+        actions[M_REF_PROPERTIES] = new TAction("add-ref-prop", "Add reference to property diagrams", IconManager.imgic412, IconManager.imgic412,
                 "Reference to properties", "Add a reference to a property diagrams", 0);
         actions[M_REF_PROTOTYPING] = new TAction("add-ref-proto", "Add reference to a prototyping diagram", IconManager.imgic414,
                 IconManager.imgic414,
                 "Reference to prototyping", "Add a reference to a prototyping diagram", 0);
+        actions[M_REF_FAULT] = new TAction("add-ref-fault", "Add reference to a fault diagram", IconManager.imgic416,
+                IconManager.imgic416,
+                "Reference to fault", "Add a reference to a fault diagram", 0);
+        actions[M_REF_ATTACK] = new TAction("add-ref-attack", "Add reference to an attack diagram", IconManager.imgic418,
+                IconManager.imgic418,
+                "Reference to attack", "Add a reference to an attack diagram", 0);
+        actions[M_REF_FV] = new TAction("add-ref-fv", "Add reference to a functional view", IconManager.imgic420,
+                IconManager.imgic420,
+                "Reference to function view", "Add a reference to a functional view", 0);
+        actions[M_REF_CP] = new TAction("add-ref-cp", "Add reference to a communication pattern", IconManager.imgic422,
+                IconManager.imgic422,
+                "Reference to communication pattern", "Add a reference to a communication pattern", 0);
+        actions[M_REF_ARCHI] = new TAction("add-ref-archi", "Add reference to an architecture", IconManager.imgic424,
+                IconManager.imgic424,
+                "Reference to an architecture", "Add a reference to an architecture", 0);
+        actions[M_REF_MAPPING] = new TAction("add-ref-mapping", "Add reference to a mapping", IconManager.imgic426,
+                IconManager.imgic426,
+                "Reference to a mapping", "Add a reference to a mapping", 0);
+        actions[M_PANEL_INFO] = new TAction("add-diag-name", "Add a diagram name", IconManager.imgic426,
+                IconManager.imgic426,
+                "diagram name", "Add a diagram name", 0);
 
 
     }

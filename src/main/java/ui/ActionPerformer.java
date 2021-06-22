@@ -1121,10 +1121,24 @@ public class ActionPerformer {
             mgui.actionOnButton(TGComponentManager.COMPONENT, TGComponentManager.SYSMLSEC_METHODOLOGY_REF_ANALYSIS);
         } else if (command.equals(mgui.actions[TGUIAction.M_REF_DESIGN].getActionCommand())) {
             mgui.actionOnButton(TGComponentManager.COMPONENT, TGComponentManager.SYSMLSEC_METHODOLOGY_REF_DESIGN);
-        } else if (command.equals(mgui.actions[TGUIAction.AM_REF_PROPERTIES].getActionCommand())) {
+        } else if (command.equals(mgui.actions[TGUIAction.M_REF_PROPERTIES].getActionCommand())) {
             mgui.actionOnButton(TGComponentManager.COMPONENT, TGComponentManager.SYSMLSEC_METHODOLOGY_REF_PROPERTIES);
         } else if (command.equals(mgui.actions[TGUIAction.M_REF_PROTOTYPING].getActionCommand())) {
             mgui.actionOnButton(TGComponentManager.COMPONENT, TGComponentManager.SYSMLSEC_METHODOLOGY_REF_PROTOTYPE);
+        } else if (command.equals(mgui.actions[TGUIAction.M_REF_FAULT].getActionCommand())) {
+            mgui.actionOnButton(TGComponentManager.COMPONENT, TGComponentManager.SYSMLSEC_METHODOLOGY_REF_FAULT);
+        } else if (command.equals(mgui.actions[TGUIAction.M_REF_ATTACK].getActionCommand())) {
+            mgui.actionOnButton(TGComponentManager.COMPONENT, TGComponentManager.SYSMLSEC_METHODOLOGY_REF_ATTACK);
+        } else if (command.equals(mgui.actions[TGUIAction.M_REF_FV].getActionCommand())) {
+            mgui.actionOnButton(TGComponentManager.COMPONENT, TGComponentManager.SYSMLSEC_METHODOLOGY_REF_FUNCTIONAL_VIEW);
+        } else if (command.equals(mgui.actions[TGUIAction.M_REF_CP].getActionCommand())) {
+            mgui.actionOnButton(TGComponentManager.COMPONENT, TGComponentManager.SYSMLSEC_METHODOLOGY_REF_CP_VIEW);
+        } else if (command.equals(mgui.actions[TGUIAction.M_REF_ARCHI].getActionCommand())) {
+            mgui.actionOnButton(TGComponentManager.COMPONENT, TGComponentManager.SYSMLSEC_METHODOLOGY_REF_ARCHITECTURE_VIEW);
+        } else if (command.equals(mgui.actions[TGUIAction.M_REF_MAPPING].getActionCommand())) {
+            mgui.actionOnButton(TGComponentManager.COMPONENT, TGComponentManager.SYSMLSEC_METHODOLOGY_REF_MAPPING_VIEW);
+        } else if (command.equals(mgui.actions[TGUIAction.M_PANEL_INFO].getActionCommand())) {
+            mgui.actionOnButton(TGComponentManager.COMPONENT, TGComponentManager.INFO_PANEL);
 
             // Requirement diagrams
         } else if (command.equals(mgui.actions[TGUIAction.TREQ_REQUIREMENT].getActionCommand())) {

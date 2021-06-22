@@ -398,6 +398,8 @@ public abstract class TDiagramPanel extends JPanel implements GenericTree {
         this.componentList = new LinkedList<>();
     }
 
+
+
     public void setInternalCommentVisible(int mode) {
         internalCommentVisible = mode;
     }
@@ -684,8 +686,10 @@ public abstract class TDiagramPanel extends JPanel implements GenericTree {
         //    LinkedList<TGComponent> ruteoList = this.componentList;
         //
 
-        for (TGComponent tgc : this.getAllComponentList()){
+        int cpt = 0;
+        for (TGComponent tgc : this.getAllComponentList()) {
         //for (TGComponent tgc : this.componentList) {
+            tgc.setIndexU(cpt);
             if ((selected == false) || (tgc.isSelected())) {
                if((tgc.getFather() == null) || (cloneEvenIfNonNullFather)) {
                    //TraceManager.addDev("Cloning:" + tgc);
@@ -698,6 +702,7 @@ public abstract class TDiagramPanel extends JPanel implements GenericTree {
                    sb.append("\n");
                }
             }
+            cpt ++;
         }
         if (cloneEvenIfNonNullFather) {
             TraceManager.addDev("sb=\n" + sb);
@@ -973,6 +978,7 @@ public abstract class TDiagramPanel extends JPanel implements GenericTree {
     }
 
 
+
     public TGConnectingPoint getSelectedTGConnectingPoint() {
         return selectedConnectingPoint;
     }
@@ -1038,6 +1044,10 @@ public abstract class TDiagramPanel extends JPanel implements GenericTree {
         }
 
         return ret;
+    }
+
+    public void addComponent(TGComponent tgc) {
+        componentList.add(tgc);
     }
 
 

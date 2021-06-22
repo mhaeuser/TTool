@@ -76,11 +76,23 @@ public class SysmlsecMethodologyDiagramToolbar extends TToolBar {
         mgui.actions[TGUIAction.CONNECTOR_COMMENT].setEnabled(b);
 
         mgui.actions[TGUIAction.M_LINK].setEnabled(b);
+
+        mgui.actions[TGUIAction.M_PANEL_INFO].setEnabled(b);
+
         mgui.actions[TGUIAction.M_REF_ASSUMPTIONS].setEnabled(b);
+
         mgui.actions[TGUIAction.M_REF_REQUIREMENTS].setEnabled(b);
+        mgui.actions[TGUIAction.M_REF_FAULT].setEnabled(b);
+        mgui.actions[TGUIAction.M_REF_ATTACK].setEnabled(b);
+
+        mgui.actions[TGUIAction.M_REF_FV].setEnabled(b);
+        mgui.actions[TGUIAction.M_REF_CP].setEnabled(b);
+        mgui.actions[TGUIAction.M_REF_ARCHI].setEnabled(b);
+        mgui.actions[TGUIAction.M_REF_MAPPING].setEnabled(b);
+
         mgui.actions[TGUIAction.M_REF_ANALYSIS].setEnabled(b);
         mgui.actions[TGUIAction.M_REF_DESIGN].setEnabled(b);
-        mgui.actions[TGUIAction.AM_REF_PROPERTIES].setEnabled(b);
+        mgui.actions[TGUIAction.M_REF_PROPERTIES].setEnabled(b);
         mgui.actions[TGUIAction.M_REF_PROTOTYPING].setEnabled(b);
 
         mgui.actions[TGUIAction.ACT_MODEL_CHECKING].setEnabled(!b);
@@ -95,6 +107,7 @@ public class SysmlsecMethodologyDiagramToolbar extends TToolBar {
         button.addMouseListener(mgui.mouseHandler);
 
         this.addSeparator();
+        this.addSeparator();
 
         button = this.add(mgui.actions[TGUIAction.UML_NOTE]);
         button.addMouseListener(mgui.mouseHandler);
@@ -103,36 +116,62 @@ public class SysmlsecMethodologyDiagramToolbar extends TToolBar {
         button.addMouseListener(mgui.mouseHandler);
 
         this.addSeparator();
+        this.addSeparator();
 
         button = this.add(mgui.actions[TGUIAction.M_LINK]);
         button.addMouseListener(mgui.mouseHandler);
 
+        this.addSeparator();
+        this.addSeparator();
+
+        button = this.add(mgui.actions[TGUIAction.M_PANEL_INFO]);
+        button.addMouseListener(mgui.mouseHandler);
+
+        this.addSeparator();
         this.addSeparator();
 
         button = this.add(mgui.actions[TGUIAction.M_REF_ASSUMPTIONS]);
         button.addMouseListener(mgui.mouseHandler);
 
         this.addSeparator();
+        this.addSeparator();
 
         button = this.add(mgui.actions[TGUIAction.M_REF_REQUIREMENTS]);
         button.addMouseListener(mgui.mouseHandler);
 
+        button = this.add(mgui.actions[TGUIAction.M_REF_FAULT]);
+        button.addMouseListener(mgui.mouseHandler);
+
+        button = this.add(mgui.actions[TGUIAction.M_REF_ATTACK]);
+        button.addMouseListener(mgui.mouseHandler);
+
+        this.addSeparator();
+        this.addSeparator();
+
+        button = this.add(mgui.actions[TGUIAction.M_REF_FV]);
+        button.addMouseListener(mgui.mouseHandler);
+
+        button = this.add(mgui.actions[TGUIAction.M_REF_CP]);
+        button.addMouseListener(mgui.mouseHandler);
+
+        button = this.add(mgui.actions[TGUIAction.M_REF_ARCHI]);
+        button.addMouseListener(mgui.mouseHandler);
+
+        button = this.add(mgui.actions[TGUIAction.M_REF_MAPPING]);
+        button.addMouseListener(mgui.mouseHandler);
+
+
+        this.addSeparator();
         this.addSeparator();
 
         button = this.add(mgui.actions[TGUIAction.M_REF_ANALYSIS]);
         button.addMouseListener(mgui.mouseHandler);
 
-        this.addSeparator();
-
         button = this.add(mgui.actions[TGUIAction.M_REF_DESIGN]);
         button.addMouseListener(mgui.mouseHandler);
 
-        this.addSeparator();
-
-        button = this.add(mgui.actions[TGUIAction.AM_REF_PROPERTIES]);
+        button = this.add(mgui.actions[TGUIAction.M_REF_PROPERTIES]);
         button.addMouseListener(mgui.mouseHandler);
-
-        this.addSeparator();
 
         button = this.add(mgui.actions[TGUIAction.M_REF_PROTOTYPING]);
         button.addMouseListener(mgui.mouseHandler);

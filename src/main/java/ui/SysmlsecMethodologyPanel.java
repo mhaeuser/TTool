@@ -334,13 +334,13 @@ public class SysmlsecMethodologyPanel extends TURTLEPanel {
         TGComponent tgc1 = dmd.addComponent(350, 100, TGComponentManager.SYSMLSEC_METHODOLOGY_REF_FUNCTIONAL_VIEW, false);
         TGComponent tgc2 = dmd.addComponent(850, 100, TGComponentManager.SYSMLSEC_METHODOLOGY_REF_ARCHITECTURE_VIEW, false);
         TGComponent tgc3 = dmd.addComponent(600, 300, TGComponentManager.SYSMLSEC_METHODOLOGY_REF_MAPPING_VIEW, false);
-        TGComponent tgc4 = dmd.addComponent(600, 100, TGComponentManager.SYSMLSEC_METHODOLOGY_REF_CP_VIEW, false);
+        TGComponent tgc4 = dmd.addComponent(587, 100, TGComponentManager.SYSMLSEC_METHODOLOGY_REF_CP_VIEW, false);
 
         //Connectors
 
         // App -> mapping
         TGConnectingPoint p1, p2;
-        p1 = tgc1.getTGConnectingPointAtIndex(0);
+        p1 = tgc1.getTGConnectingPointAtIndex(10);
         p2 = tgc3.getTGConnectingPointAtIndex(0);
         Vector<Point> listPoint = new Vector<Point>();
         TGConnector tgco = TGComponentManager.addConnector(p1.getX(), p1.getY(), TGComponentManager.SYSMLSEC_METHODOLOGY_CONNECTOR, dmd, p1, p2, listPoint);
@@ -349,8 +349,8 @@ public class SysmlsecMethodologyPanel extends TURTLEPanel {
         dmd.getComponentList().add(0, tgco);
 
         // cp -> mapping
-        p1 = tgc4.getTGConnectingPointAtIndex(0);
-        p2 = tgc3.getTGConnectingPointAtIndex(2);
+        p1 = tgc4.getTGConnectingPointAtIndex(10);
+        p2 = tgc3.getTGConnectingPointAtIndex(7);
         listPoint = new Vector<Point>();
         tgco = TGComponentManager.addConnector(p1.getX(), p1.getY(), TGComponentManager.SYSMLSEC_METHODOLOGY_CONNECTOR, dmd, p1, p2, listPoint);
         p1.setFree(false);
@@ -358,15 +358,15 @@ public class SysmlsecMethodologyPanel extends TURTLEPanel {
         dmd.getComponentList().add(0, tgco);
 
         // Archi -> mapping
-        p1 = tgc2.getTGConnectingPointAtIndex(0);
-        p2 = tgc3.getTGConnectingPointAtIndex(1);
+        p1 = tgc2.getTGConnectingPointAtIndex(10);
+        p2 = tgc3.getTGConnectingPointAtIndex(3);
         listPoint = new Vector<Point>();
         tgco = TGComponentManager.addConnector(p1.getX(), p1.getY(), TGComponentManager.SYSMLSEC_METHODOLOGY_CONNECTOR, dmd, p1, p2, listPoint);
         p1.setFree(false);
         p2.setFree(false);
         dmd.getComponentList().add(0, tgco);
 
-        dmd.addComponent(50, 150, TGComponentManager.DIPLODODUSMETHODOLOGY_REF_REQUIREMENT, false);
+        dmd.addComponent(50, 150, TGComponentManager.SYSMLSEC_METHODOLOGY_REF_REQUIREMENT, false);
     }
 
     public void init() {

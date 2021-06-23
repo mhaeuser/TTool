@@ -188,6 +188,7 @@ public class TGComponentManager {
     public static final int AVATAR_FIREWALL = 306;
     public static final int PERFORMANCE_PRAGMA = 307;
     public static final int TML_PRAGMA = 308;
+    public static final int DEPENDENCY_MATRIX = 309;
 
     public static final int IOD_CHOICE = 501;
     public static final int IOD_START_STATE = 502;
@@ -955,6 +956,9 @@ public class TGComponentManager {
                 break;
             case UML_NOTE:
                 tgc = new TGCNote(x, y, tdp.getMinX(), tdp.getMaxX(), tdp.getMinY(), tdp.getMaxY(), false, null, tdp);
+                break;
+            case DEPENDENCY_MATRIX:
+                tgc = new TGCDependencyMatrix(x, y, tdp.getMinX(), tdp.getMaxX(), tdp.getMinY(), tdp.getMaxY(), false, null, tdp);
                 break;
             case INFO_PANEL:
                 tgc = new TGCPanelInfo(x, y, tdp.getMinX(), tdp.getMaxX(), tdp.getMinY(), tdp.getMaxY(), false, null, tdp);
@@ -1974,6 +1978,8 @@ public class TGComponentManager {
             return CONNECTOR_INTERACTION;
         } else if (tgc instanceof TGCNote) {
             return UML_NOTE;
+        } else if (tgc instanceof TGCDependencyMatrix) {
+            return DEPENDENCY_MATRIX;
         } else if (tgc instanceof TGCPanelInfo) {
             return INFO_PANEL;
         } else if (tgc instanceof IODChoice) {

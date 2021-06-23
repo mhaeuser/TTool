@@ -72,6 +72,7 @@ public class AvatarRDToolBar extends TToolBar {
 
         mgui.actions[TGUIAction.ARD_EDIT].setEnabled(b);
         mgui.actions[TGUIAction.UML_NOTE].setEnabled(b);
+        mgui.actions[TGUIAction.DEPENDENCY_MATRIX].setEnabled(b);
         mgui.actions[TGUIAction.CONNECTOR_COMMENT].setEnabled(b);
         mgui.actions[TGUIAction.ARD_REQUIREMENT].setEnabled(b);
         mgui.actions[TGUIAction.ARD_REQUIREMENT_REFERENCE].setEnabled(b);
@@ -104,6 +105,11 @@ public class AvatarRDToolBar extends TToolBar {
         button.addMouseListener(mgui.mouseHandler);
 
         button = this.add(mgui.actions[TGUIAction.CONNECTOR_COMMENT]);
+        button.addMouseListener(mgui.mouseHandler);
+
+        this.addSeparator();
+
+        button = this.add(mgui.actions[TGUIAction.DEPENDENCY_MATRIX]);
         button.addMouseListener(mgui.mouseHandler);
 
         this.addSeparator();

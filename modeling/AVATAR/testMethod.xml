@@ -632,7 +632,7 @@
 <TGConnectingPoint num="1" id="379" />
 <TGConnectingPoint num="2" id="380" />
 <P1  x="334" y="322" id="308" />
-<P2  x="652" y="463" id="457" />
+<P2  x="652" y="463" id="435" />
 <Point x="595" y="385" />
 <Point x="595" y="450" />
 <AutomaticDrawing  data="true" />
@@ -659,8 +659,8 @@
 <infoparam name="connector" value="&lt;&lt;deriveReqt&gt;&gt;" />
 <TGConnectingPoint num="0" id="383" />
 <TGConnectingPoint num="1" id="384" />
-<P1  x="1019" y="520" id="436" />
-<P2  x="1119" y="602" id="413" />
+<P1  x="1019" y="520" id="458" />
+<P2  x="1119" y="602" id="479" />
 <Point x="1060" y="625" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR><SUBCOMPONENT type="-1" id="382" index="25" uid="05aeea61-d04f-4ff6-be02-396da907c3f2" >
@@ -678,8 +678,8 @@
 <infoparam name="connector" value="&lt;&lt;deriveReqt&gt;&gt;" />
 <TGConnectingPoint num="0" id="387" />
 <TGConnectingPoint num="1" id="388" />
-<P1  x="873" y="447" id="480" />
-<P2  x="1019" y="502" id="435" />
+<P1  x="873" y="447" id="414" />
+<P2  x="1019" y="502" id="457" />
 <Point x="960" y="525" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR><SUBCOMPONENT type="-1" id="386" index="26" uid="b0f480a8-0658-4db6-9e16-8eea59b72850" >
@@ -773,13 +773,13 @@
 <TextColor value="-1" />
 </extraparam>
 </COMPONENT>
-<SUBCOMPONENT type="5706" id="434" index="27" uid="e0ff3e6e-1e15-4426-8332-e13a7e1c550c" >
+<SUBCOMPONENT type="5703" id="434" index="27" uid="a2a71bbd-7559-4609-b6cb-c8dcf47d440c" >
 <father id="517" num="0" />
-<cdparam x="1119" y="585" />
+<cdparam x="873" y="412" />
 <sizeparam width="200" height="70" minWidth="10" minHeight="30" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <hidden value="false" />
-<cdrectangleparam minX="10" maxX="2500" minY="10" maxY="1500" />
-<infoparam name="TGComponent" value="Prototyping" />
+<cdrectangleparam minX="0" maxX="550" minY="0" maxY="255" />
+<infoparam name="TGComponent" value="Analysis" />
 <TGConnectingPoint num="0" id="413" />
 <TGConnectingPoint num="1" id="414" />
 <TGConnectingPoint num="2" id="415" />
@@ -801,14 +801,15 @@
 <TGConnectingPoint num="18" id="431" />
 <TGConnectingPoint num="19" id="432" />
 <TGConnectingPoint num="20" id="433" />
+<color value="-10027162" />
 </SUBCOMPONENT>
-<SUBCOMPONENT type="5704" id="456" index="28" uid="addfb764-3038-4156-8c16-d91b2e7927b7" >
+<SUBCOMPONENT type="5705" id="456" index="28" uid="84567e94-5550-4b70-a671-9ba505d4c00f" >
 <father id="517" num="1" />
-<cdparam x="1019" y="485" />
-<sizeparam width="200" height="70" minWidth="10" minHeight="30" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
+<cdparam x="652" y="446" />
+<sizeparam width="180" height="70" minWidth="10" minHeight="30" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <hidden value="false" />
 <cdrectangleparam minX="10" maxX="2500" minY="10" maxY="1500" />
-<infoparam name="TGComponent" value="Design" />
+<infoparam name="TGComponent" value="Properties" />
 <TGConnectingPoint num="0" id="435" />
 <TGConnectingPoint num="1" id="436" />
 <TGConnectingPoint num="2" id="437" />
@@ -831,13 +832,13 @@
 <TGConnectingPoint num="19" id="454" />
 <TGConnectingPoint num="20" id="455" />
 </SUBCOMPONENT>
-<SUBCOMPONENT type="5705" id="478" index="29" uid="84567e94-5550-4b70-a671-9ba505d4c00f" >
+<SUBCOMPONENT type="5704" id="478" index="29" uid="addfb764-3038-4156-8c16-d91b2e7927b7" >
 <father id="517" num="2" />
-<cdparam x="652" y="446" />
-<sizeparam width="180" height="70" minWidth="10" minHeight="30" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
+<cdparam x="1019" y="485" />
+<sizeparam width="200" height="70" minWidth="10" minHeight="30" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <hidden value="false" />
 <cdrectangleparam minX="10" maxX="2500" minY="10" maxY="1500" />
-<infoparam name="TGComponent" value="Properties" />
+<infoparam name="TGComponent" value="Design" />
 <TGConnectingPoint num="0" id="457" />
 <TGConnectingPoint num="1" id="458" />
 <TGConnectingPoint num="2" id="459" />
@@ -860,13 +861,13 @@
 <TGConnectingPoint num="19" id="476" />
 <TGConnectingPoint num="20" id="477" />
 </SUBCOMPONENT>
-<SUBCOMPONENT type="5703" id="500" index="30" uid="a2a71bbd-7559-4609-b6cb-c8dcf47d440c" >
+<SUBCOMPONENT type="5706" id="500" index="30" uid="e0ff3e6e-1e15-4426-8332-e13a7e1c550c" >
 <father id="517" num="3" />
-<cdparam x="873" y="412" />
+<cdparam x="1119" y="585" />
 <sizeparam width="200" height="70" minWidth="10" minHeight="30" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <hidden value="false" />
-<cdrectangleparam minX="0" maxX="550" minY="0" maxY="255" />
-<infoparam name="TGComponent" value="Analysis" />
+<cdrectangleparam minX="10" maxX="2500" minY="10" maxY="1500" />
+<infoparam name="TGComponent" value="Prototyping" />
 <TGConnectingPoint num="0" id="479" />
 <TGConnectingPoint num="1" id="480" />
 <TGConnectingPoint num="2" id="481" />
@@ -888,7 +889,6 @@
 <TGConnectingPoint num="18" id="497" />
 <TGConnectingPoint num="19" id="498" />
 <TGConnectingPoint num="20" id="499" />
-<color value="-10027162" />
 </SUBCOMPONENT>
 
 <COMPONENT type="5712" id="539" index="20" uid="6ade1061-b234-4b85-8519-837517860b2c" >

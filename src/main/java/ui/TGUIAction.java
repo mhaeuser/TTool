@@ -609,6 +609,7 @@ public class TGUIAction extends AbstractAction {
     public static final int ACT_VIEW_PM_SAVED_AUT = 267;
 
     public static final int UML_NOTE = 42;
+    public static final int DEPENDENCY_MATRIX = 554;
     public static final int PRAGMA = 424;
     public static final int SAFETY_PRAGMA = 425;
     public static final int PERFORMANCE_PRAGMA = 438;
@@ -711,7 +712,7 @@ public class TGUIAction extends AbstractAction {
     public static final int M_PANEL_INFO = 553;
 
 
-    public static final int NB_ACTION = 554; // Last + 1
+    public static final int NB_ACTION = 555; // Last + 1
 
     private static final TAction [] actions = new TAction[NB_ACTION];
 
@@ -1038,6 +1039,9 @@ public class TGUIAction extends AbstractAction {
         actions[TCD_INVOCATION_OPERATOR] = new TAction("add-invocation-operator", "Add Invocation composition operator", IconManager.imgic126, IconManager.imgic126, "Invocation composition operator", "Adds an invocation composition operator to the currently opened class diagram", 0);
         actions[TCD_ASSOCIATION_NAVIGATION] = new TAction("add-association-navigation", "Add association with navigation", IconManager.imgic106, IconManager.imgic108, "Association with navigation", "Adds an association with a navigation indication between two tclasses of the currently opened class diagram", 0);
         actions[UML_NOTE] = new TAction("edit-note", "Add a note to a diagram", IconManager.imgic320, IconManager.imgic321, "Add a comment", "Add a comment to the currently opened TTool diagram", 0);
+        actions[DEPENDENCY_MATRIX] = new TAction("dep-matrix", "Add a dependency matrix", IconManager.imgic320,
+                IconManager.imgic321, "Dependency matrix",
+                "Add a dependency matrix to the currently opened TTool diagram", 0);
         actions[PRAGMA] = new TAction("pragma", "Security pragmas", IconManager.imgic6000, IconManager.imgic6001, "Security pragmas", "Add security pragmas to the currently opened TTool diagram", 0);
         actions[SAFETY_PRAGMA] = new TAction("safety_pragma", "Add a safety (UPPAAL) property to a diagram", IconManager.imgic6002, IconManager.imgic6003, "Safety property (UPPAAL)", "Add a safety (UPPAAL) property to the currently opened TTool diagram", 0);
         actions[TML_PRAGMA] = new TAction("tml_pragma", "Add a TML pragma", IconManager.imgic6006, IconManager.imgic6007,"TML pragma", "Add a TML pragma to the currently opened TTool diagram", 0);

@@ -6418,6 +6418,57 @@ public class MainGUI implements ActionListener, WindowListener, KeyListener, Per
         return foundPanels;
     }
 
+    public ArrayList<String> getAllPanelNames() {
+        TURTLEPanel tp;
+        ArrayList<String> foundPanels = new ArrayList<>();
+        for (int i = 0; i < tabs.size(); i++) {
+            tp = tabs.elementAt(i);
+            foundPanels.add(tp.getNameOfTab());
+        }
+        return foundPanels;
+    }
+
+    public String[] getAllDiagNamesFromPanel( int index) {
+        TURTLEPanel tp = tabs.elementAt(index);
+        if (tp == null) {
+            return null;
+        }
+        return tp.getAllTabsName().split("\\$");
+
+    }
+
+    public ArrayList<TGComponent> getAllElementsOfCategories(int index1, int index2, List<String> categories) {
+        TURTLEPanel tp = getTURTLEPanel(index1);
+        if (tp == null) {
+            TraceManager.addDev("Null tp");
+            return null;
+        }
+
+        TDiagramPanel tdp = tp.getPanels().get(index2);
+        if (tdp == null) {
+            TraceManager.addDev("Null tdp");
+            return null;
+        }
+
+        return tdp.getAllElementsOfCategories(categories);
+    }
+
+    public HashSet<String> getAllCategories( int index1, int index2) {
+        TURTLEPanel tp = getTURTLEPanel(index1);
+        if (tp == null) {
+            TraceManager.addDev("Null tp");
+            return null;
+        }
+
+        TDiagramPanel tdp = tp.getPanels().get(index2);
+        if (tdp == null) {
+            TraceManager.addDev("Null tdp");
+            return null;
+        }
+
+        return tdp.getCategories();
+    }
+
     public void removeTClass(TURTLEPanel tp, String s) {
         if (!(tp instanceof DesignPanel)) {
             return;

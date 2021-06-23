@@ -1065,6 +1065,24 @@ public abstract class TDiagramPanel extends JPanel implements GenericTree {
 
     }
 
+    public HashSet<String> getCategories() {
+        HashSet<String> classes = new HashSet<>();
+        for(TGComponent tgc: getAllComponentList()) {
+            classes.add(tgc.getClass().toString());
+        }
+        return classes;
+    }
+
+    public ArrayList<TGComponent> getAllElementsOfCategories(List<String> categories) {
+        ArrayList<TGComponent> comps = new ArrayList<>();
+        for(TGComponent tgc: getAllComponentList()) {
+            if (categories.contains(tgc.getClass().toString())) {
+                comps.add(tgc);
+            }
+        }
+        return comps;
+    }
+
     public SwallowTGComponent findSwallowTGComponent(int x, int y) {
         return findSwallowTGComponent(x, y, null);
     }

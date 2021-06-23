@@ -429,7 +429,7 @@ public class TML2MappingSystemC implements IDiploSimulatorCodeGenerator {
                     declaration += node.getName() + "_0->setScheduler((WorkloadSource*) new ";
                     if (((HwBus) node).arbitration == HwBus.BASIC_ROUND_ROBIN)
                         //declaration+="RRScheduler(\"" + node.getName() + "_RRSched\", 0, 5, " + (int) Math.ceil(((float)node.clockRatio)/((float)((HwBus)node).byteDataSize)) + ", array(";
-                        declaration += "RRScheduler(\"" + node.getName() + "_RRSched\", 0, 5, " + (int) Math.ceil(((float) node.clockRatio) / ((float) ((HwBus) node).byteDataSize)) + ", array(";
+                        declaration += "RRScheduler(\"" + node.getName() + "_RRSched\", 0, " + (tmlmapping.getTMLArchitecture().getMasterClockFrequency() * ((HwBus) node).sliceTime) + ", " + (int) Math.ceil(((float) node.clockRatio) / ((float) ((HwBus) node).byteDataSize)) + ", array(";
                     else
                         declaration += "PrioScheduler(\"" + node.getName() + "_PrioSched\", 0, array(";
                     declaration += numDevices + devices + "), " + numDevices + "))" + SCCR;

@@ -914,13 +914,13 @@ public class TMLTextSpecification<E> {
 
             ch = new TMLChannel(_split[1], null);
             ch.setTypeByName(_split[2]);
+            ch.setMax(tmp);// the capacity already calculated with _split[4]
             try {
                 tmp = Integer.decode(_split[3]).intValue();
             } catch (Exception e) {
                 tmp = 4;
             }
             ch.setSize(tmp);
-            ch.setMax(tmp);
 
             for (i = 5 + dec; i < _split.length; i++) {
                 if (i != indexOfIN) {

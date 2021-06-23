@@ -2,7 +2,6 @@ package tmltranslator;
 
 import common.ConfigurationTTool;
 import common.SpecConfigTTool;
-import graph.AUTGraph;
 import myutil.FileUtils;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -10,14 +9,9 @@ import org.junit.Test;
 import req.ebrdd.EBRDD;
 import tepe.TEPE;
 import test.AbstractTest;
-import tmltranslator.TMLMapping;
-import tmltranslator.TMLMappingTextSpecification;
-import tmltranslator.TMLSyntaxChecking;
 import tmltranslator.tomappingsystemc2.DiploSimulatorFactory;
 import tmltranslator.tomappingsystemc2.IDiploSimulatorCodeGenerator;
 import tmltranslator.tomappingsystemc2.Penalties;
-import ui.*;
-import ui.tmldd.TMLArchiDiagramPanel;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -27,24 +21,20 @@ import java.util.List;
 
 import static org.junit.Assert.assertTrue;
 
-public class MulticoreHangingTest extends AbstractTest {
-    final String DIR_GEN = "test_diplo_simulator/";
-    final String [] MODELS_CPU_SHOWTRACE = {"multicore_trace"};
+public class BusSliceTimeConfigurationTest extends AbstractTest {
+
+    private final String DIR_GEN = "test_diplo_simulator/";
+    private final String[] MODELS_BUS_SLICE_TIME = {"bus_rr_preempted", "bus_rr_not_preempted","bus_rrpb_preempted", "bus_rrpb_not_preempted"};
+    private final String[] EXPECTED_RESULT = {"20 - 2", "10 - 2", "10 - 2", "10 - 2"};
     private String SIM_DIR;
-    final int [] NB_OF_MH_STATES = {21};
-    final int [] NB_OF_MH_TRANSTIONS = {20};
-    final int [] MIN_MH_CYCLES = {125};
-    final int [] MAX_MH_CYCLES = {125};
-    static String CPP_DIR = "../../../../simulators/c++2/";
-    static String mappingName = "ArchitectureSimple";
-    private TMLArchiDiagramPanel currTdp;
+    private static String CPP_DIR = "../../../../simulators/c++2/";
 
     @BeforeClass
     public static void setUpBeforeClass() throws Exception {
         RESOURCES_DIR = getBaseResourcesDir() + "/tmltranslator/simulator/";
     }
 
-    public MulticoreHangingTest() {
+    public BusSliceTimeConfigurationTest() {
         super();
     }
 
@@ -55,9 +45,10 @@ public class MulticoreHangingTest extends AbstractTest {
 
     @Test(timeout = 600000)
     public void testMulticoreNotHangingWhenSaveTrace() throws Exception {
-        for (int i = 0; i < MODELS_CPU_SHOWTRACE.length; i++) {
-            String s = MODELS_CPU_SHOWTRACE[i];
+        for (int i = 0; i < MODELS_BUS_SLICE_TIME.length; i++) {
+            String s = MODELS_BUS_SLICE_TIME[i];
             SIM_DIR = DIR_GEN + s + "/";
+            System.out.println("executing: checking syntax " + s);
             System.out.println("executing: loading " + s);
             TMLMappingTextSpecification tmts = new TMLMappingTextSpecification(s);
             File f = new File(RESOURCES_DIR + s + ".tmap");
@@ -114,7 +105,7 @@ public class MulticoreHangingTest extends AbstractTest {
             BufferedReader proc_in;
             String str;
             boolean mustRecompileAll;
-            Penalties penalty = new Penalties(SIM_DIR + File.separator + "src_simulator");
+            Penalties penalty = new Penalties(SIM_DIR + "src_simulator");
             int changed = penalty.handlePenalties(false);
 
             if (changed == 1) {
@@ -165,7 +156,7 @@ public class MulticoreHangingTest extends AbstractTest {
 
                 params[0] = "./" + SIM_DIR + "run.x";
                 params[1] = "-cmd";
-                params[2] = "1 0; 7 1 " + SIM_DIR + "test; 2; 1 0; 7 1 " + SIM_DIR + "test ;1 7 100 100 " + graphPath;
+                params[2] = "1 0; 7 2 " + graphPath;
                 proc = Runtime.getRuntime().exec(params);
                 proc_in = new BufferedReader(new InputStreamReader(proc.getInputStream()));
 
@@ -181,31 +172,24 @@ public class MulticoreHangingTest extends AbstractTest {
                 return;
             }
 
-            File graphFile = new File(graphPath + ".aut");
+            File graphFile = new File(graphPath + ".txt");
             String graphData = "";
+            String findStr0 = "Application__Src0: Write";
+            String findStr1 = "Application__Src1: Write";
             try {
                 graphData = FileUtils.loadFileData(graphFile);
             } catch (Exception e) {
                 assertTrue(false);
             }
 
-            AUTGraph graph = new AUTGraph();
-            graph.buildGraph(graphData);
-
-            // States and transitions
-            System.out.println("executing: nb states of " + s + " " + graph.getNbOfStates());
-            assertTrue(NB_OF_MH_STATES[i] == graph.getNbOfStates());
-            System.out.println("executing: nb transitions of " + s + " " + graph.getNbOfTransitions());
-            assertTrue(NB_OF_MH_TRANSTIONS[i] == graph.getNbOfTransitions());
-
-            // Min and max cycles
-            int minValue = graph.getMinValue("allCPUsFPGAsTerminated");
-            System.out.println("executing: minvalue of " + s + " " + minValue);
-            assertTrue(MIN_MH_CYCLES[i] == minValue);
-
-            int maxValue = graph.getMaxValue("allCPUsFPGAsTerminated");
-            System.out.println("executing: maxvalue of " + s + " " + maxValue);
-            assertTrue(MAX_MH_CYCLES[i] == maxValue);
+            String result = "";
+            int countExecI = graphData.split(findStr0, -1).length-1;
+            System.out.println("Number of Write transactions of Src0 in model " + s + ": " + countExecI);
+            result += countExecI;
+            countExecI = graphData.split(findStr1, -1).length-1;
+            System.out.println("Number of Write transactions of Src1 in model " + s + ": " + countExecI);
+            result += " - " + countExecI;
+            assertTrue(result.equals(EXPECTED_RESULT[i]));
         }
     }
 }

@@ -28,10 +28,10 @@ public class DiplodocusFPGAReconfigurationTests extends AbstractTest {
     private static final String DIR_GEN = "test_diplo_simulator/";
     // test for reconfiguration of FPGA
     private static final String [] MODELS_FPGA_RECONFIG = {"fpga_reconfig1", "fpga_reconfig2", "fpga_reconfig3", "fpga_reconfig4", "fpga_reconfig5", "fpga_reconfig6"};
-    private static final int [] NB_Of_FPGA_STATES = {24, 24, 24, 24, 24, 24};
-    private static final int [] NB_Of_FPGA_TRANSTIONS = {23, 23, 23, 23, 23, 23};
-    private static final int [] MIN_FPGA_CYCLES = {87, 80, 74, 72, 72, 73};
-    private static final int [] MAX_FPGA_CYCLES = {87, 80, 74, 72, 72, 73};
+    private static final int [] NB_Of_FPGA_STATES = {20, 20, 20, 20, 20, 20};
+    private static final int [] NB_Of_FPGA_TRANSTIONS = {19, 19, 19, 19, 19, 19};
+    private static final int [] MIN_FPGA_CYCLES = {90, 83, 77, 70, 75, 76};
+    private static final int [] MAX_FPGA_CYCLES = {90, 83, 77, 70, 75, 76};
 
     private static final String CPP_DIR = "../../../../simulators/c++2/";
     private String SIM_DIR;

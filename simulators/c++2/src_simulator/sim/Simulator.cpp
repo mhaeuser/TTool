@@ -1315,15 +1315,7 @@ int countLineNumber(std::string& filename){
 ServerIF* Simulator::run(int iLen, char ** iArgs){
   std::string aArgString;
   std::string graphName = "";
-  std::string arr[] = {"-gname", "-gpath", "-server", "-file", "-explo", "-signals", "-helpserver", "-helpcommand", "-help", "-cmd", "-ohtml",
-  "-otxt", "-ovcd", "-ograph", "-oxml"};
-  std::vector<std::string> validCmds(arr, arr + sizeof(arr)/sizeof(arr[0]));
-  for (int k = 0; k < iLen; k++) {
-    if ((iArgs[k][0] == '-') && std::find(validCmds.begin(), validCmds.end(), iArgs[k]) == validCmds.end()) {
-      std::cout << iArgs[k] <<": Invalid parameter! Please run \"./run.x -help\" for more information." << std::endl;
-      return 0;
-    }
-  }
+
 //  std::cout << "Starting up...\n";
   graphName = getArgs("-gname", "", iLen, iArgs);
   if (graphName.empty()) {

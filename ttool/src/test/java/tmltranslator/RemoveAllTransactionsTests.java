@@ -32,8 +32,8 @@ public class RemoveAllTransactionsTests extends AbstractTest {
     final String DIR_GEN = "test_diplo_simulator/";
     final String [] MODELS_PARSE_HTML = {"parseFPGA_HTML"};
     final static String EXPECTED_FILE_REMOVE_ALL_TRANS = getBaseResourcesDir() + "tmltranslator/expected/expected_remove_all_trans.txt";
-    final int [] FULL_DATA_TRANSACTION = {24, 23, 473, 473};
-    final int [] REMOVE_DATA_TRANSACTION = {12, 11, 473, 473};
+    final int [] FULL_DATA_TRANSACTION = {20, 19, 476, 476};
+    final int [] REMOVE_DATA_TRANSACTION = {8, 7, 476, 476};
     private String SIM_DIR;
     @BeforeClass
     public static void setUpBeforeClass() throws Exception {

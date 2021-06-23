@@ -1144,6 +1144,11 @@ public class MainGUI implements ActionListener, WindowListener, KeyListener, Per
     }
 
     private int addSysmlsecMethodologyPanel(String name, int index, boolean addDefaultElements) {
+        return addSysmlsecMethodologyPanel(name, index, addDefaultElements, 0);
+    }
+
+    // Types: 0: sysml-sec ; 1: avatar ; 2: diplodocus
+    private int addSysmlsecMethodologyPanel(String name, int index, boolean addDefaultElements, int type) {
         if (index == -1) {
             index = tabs.size();
         }
@@ -1158,7 +1163,7 @@ public class MainGUI implements ActionListener, WindowListener, KeyListener, Per
         // diagrams");
         dp.init(name);
         if (addDefaultElements) {
-            dp.initElements();
+            dp.initElements(type);
         }
         // ystem.out.println("Design added");
         return index;
@@ -2046,7 +2051,7 @@ public class MainGUI implements ActionListener, WindowListener, KeyListener, Per
 
     public void newDiplodocusMethodology() {
         // TraceManager.addDev("NEW DESIGN");
-        addDiplodocusMethodologyPanel("DIPLODOCUS_Methodology", -1, true);
+        addSysmlsecMethodologyPanel("DIPLODOCUS_Methodology", -1, true, 2);
         tabs.elementAt(tabs.size() - 1).tabbedPane.setSelectedIndex(0);
         mainTabbedPane.setSelectedIndex(tabs.size() - 1);
         // paneAction(null);
@@ -2055,7 +2060,7 @@ public class MainGUI implements ActionListener, WindowListener, KeyListener, Per
 
     public void newAvatarMethodology() {
         // TraceManager.addDev("NEW DESIGN");
-        addAvatarMethodologyPanel("AVATAR_Methodology", -1, true);
+        addSysmlsecMethodologyPanel("AVATAR_Methodology", -1, true, 1);
         tabs.elementAt(tabs.size() - 1).tabbedPane.setSelectedIndex(0);
         mainTabbedPane.setSelectedIndex(tabs.size() - 1);
         // paneAction(null);

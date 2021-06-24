@@ -51,6 +51,7 @@ import help.HelpManager;
 import launcher.RemoteExecutionThread;
 import launcher.RshClient;
 import myutil.*;
+import myutilsvg.SVGGeneration;
 import proverifspec.ProVerifOutputAnalyzer;
 import tmltranslator.TMLMapping;
 import tmltranslator.simulation.SimulationTransaction;
@@ -5993,6 +5994,7 @@ public class MainGUI implements ActionListener, WindowListener, KeyListener, Per
                 JOptionPane.showMessageDialog(frame, "File could not be saved: " + e.getMessage(), "Error", JOptionPane.INFORMATION_MESSAGE);
                 return;
             }
+            SVGGeneration.toPdf(file.getAbsolutePath());
             JOptionPane.showMessageDialog(frame, "The capture was correctly performed and saved in " + file.getAbsolutePath(),
                     "Save in svg format ok", JOptionPane.INFORMATION_MESSAGE);
         }

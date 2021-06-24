@@ -45,8 +45,11 @@ import myutil.*;
 
 import org.apache.batik.dom.GenericDOMImplementation;
 import org.apache.batik.svggen.SVGGraphics2D;
+import org.apache.batik.anim.dom.*;
+import org.apache.batik.transcoder.*;
 import org.w3c.dom.DOMImplementation;
 import org.w3c.dom.Document;
+import org.apache.fop.svg.PDFTranscoder;
 
 
 import java.io.File;
@@ -98,8 +101,56 @@ public class SVGGeneration  {
             FileOutputStream fos = new FileOutputStream(fileSave);
             Writer out = new OutputStreamWriter(fos, "UTF-8");
             svgGenerator.stream(out, useCSS);
+
+            TraceManager.addDev("File written to svg" + fileName);
+
+            //String docSvg = FileUtils.loadFile(fileName);
+            String svgURI = new File(fileName).toString();
+            TranscoderInput input = new TranscoderInput(svgURI);
+
+            // Create the transcoder output.
+
+
+
+            OutputStream outputStream = new FileOutputStream(new File(fileName + ".pdf"));
+            TranscoderOutput output = new TranscoderOutput(outputStream);
+            PDFTranscoder transcoder = new PDFTranscoder();
+
+            transcoder.transcode(input, output);
+
+            outputStream.flush();
+            outputStream.close();
+            /*Document[] doccs = { doc1, doc2 };
+            transcoder.transcode(doccs, null, transcoderOutput);*/
+
+
         } catch (Exception e) {
             TraceManager.addDev("SVG generation failed: " + e.getMessage());
+        }
+    }
+
+    public static void toPdf(String fileName) {
+        try {
+
+            TraceManager.addDev("PDF generation in " + fileName + ".pdf");
+            //String docSvg = FileUtils.loadFile(fileName);
+            String svgURI = new File(fileName).toString();
+            TranscoderInput input = new TranscoderInput(svgURI);
+
+            // Create the transcoder output.
+
+            OutputStream outputStream = new FileOutputStream(new File(fileName + ".pdf"));
+            TranscoderOutput output = new TranscoderOutput(outputStream);
+            PDFTranscoder transcoder = new PDFTranscoder();
+
+            transcoder.transcode(input, output);
+
+            outputStream.flush();
+            outputStream.close();
+
+
+        } catch (Exception e) {
+            TraceManager.addDev("PDF generation failed: " + e.getMessage());
         }
     }
 

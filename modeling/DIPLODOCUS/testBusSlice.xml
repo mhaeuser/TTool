@@ -8,8 +8,8 @@
 <cdparam x="373" y="220" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector" value="Connector between ports" />
-<P1  x="373" y="220" id="13" />
-<P2  x="682" y="223" id="2" />
+<P1  x="360" y="207" id="13" />
+<P2  x="695" y="210" id="2" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
 <COMPONENT type="1202" id="12" index="1" uid="588dfa64-71a6-4080-b48a-c725e3093aeb" >
@@ -75,7 +75,7 @@
 <infoparam name="Primitive port" value="Channel comm_0" />
 <TGConnectingPoint num="0" id="13" />
 <extraparam>
-<Prop commName="comm_0" commType="0" origin="true" finite="false" blocking="true" maxSamples="100" widthSamples="4000" isLossy="false" isPrex="false" isPostex="false" lossPercentage="0" maxNbOfLoss="0" dataFlowType="int16_t" associatedEvent="" checkConf="false" checkConfStatus="0" checkAuth="false" checkWeakAuthStatus="1" checkStrongAuthStatus="1" vc="0" />
+<Prop commName="comm_0" commType="0" origin="true" finite="false" blocking="true" maxSamples="100" widthSamples="4000" isLossy="false" isPrex="false" isPostex="false" lossPercentage="0" maxNbOfLoss="0" dataFlowType="int16_t" associatedEvent="" checkConf="false" checkConfStatus="0" checkAuth="false" checkWeakAuthStatus="0" checkStrongAuthStatus="0" vc="0" />
 <Type type="0" typeOther="" />
 <Type type="0" typeOther="" />
 <Type type="0" typeOther="" />

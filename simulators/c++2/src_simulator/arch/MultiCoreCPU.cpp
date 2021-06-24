@@ -203,13 +203,15 @@ std::cout << "CPU:calcSTL: scheduling decision of CPU " << _name << ": " << _nex
   }
 #endif
 #ifdef PENALTIES_ENABLED
-  if (_lastTransaction==0 || _lastTransaction->getCommand()->getTask()!=_nextTransaction->getCommand()->getTask()){
+  if (_lastTransaction != 0 && _lastTransaction->getCommand()->getTask() != _nextTransaction->getCommand()->getTask()) {
     _nextTransaction->setTaskSwitchingPenalty(_taskSwitchingTime);
   }
 
   //std::cout << "starttime=" <<  _nextTransaction->getStartTime() << "\n";
-  if ((_nextTransaction->getStartTime()-_endSchedule) >=_timeBeforeIdle){
+  if (_lastTransaction != 0 && (_nextTransaction->getStartTime()-_endSchedule) >= _timeBeforeIdle) {
     _nextTransaction->setIdlePenalty(_changeIdleModeTime);
+  } else {
+       _nextTransaction->setIdlePenalty(0);
   }
 #endif
 }

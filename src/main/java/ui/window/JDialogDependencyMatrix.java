@@ -73,11 +73,13 @@ public class JDialogDependencyMatrix extends JDialogBase implements ActionListen
     private MainGUI mgui;
 
     private JTabbedPane mainPane;
+    private JTextField name;
     private JComboBox<String> rowPanelBox, rowDiagBox, colPanelBox, colDiagBox;
     private JList<String> rowClassList, colClassList;
     private DefaultListModel<String> rowClassListModel, colClassListModel;
     private JButton generateMatrix;
 
+    private String value;
     private String rowDiag;
     private String columnDiag;
     private String rows;
@@ -93,12 +95,13 @@ public class JDialogDependencyMatrix extends JDialogBase implements ActionListen
     protected DependencyTableModel dtm;
 
     /* Creates new form  */
-    public JDialogDependencyMatrix(JFrame f, MainGUI _mgui, String title, String _columnDiag, String _rowDiag,
+    public JDialogDependencyMatrix(JFrame f, MainGUI _mgui, String title, String _value, String _columnDiag, String _rowDiag,
                                    String _columns, String _rows, ArrayList<BytePoint> _dependencies) {
         super(f, title, true);
 
         mgui = _mgui;
 
+        value = _value;
         rowDiag = _rowDiag;
         columnDiag = _columnDiag;
         rows = _rows;
@@ -123,6 +126,18 @@ public class JDialogDependencyMatrix extends JDialogBase implements ActionListen
         Container c = getContentPane();
         mainPane = new JTabbedPane();
         c.add(BorderLayout.CENTER, mainPane);
+
+
+        // Name panel
+        JPanel namePanel = new JPanel();
+        namePanel.add(new JLabel("Name:"));
+        name = new JTextField("", 30);
+        if (value != null) {
+            name.setText(value);
+        }
+        name.setEditable(true);
+        namePanel.add(name);
+        c.add(BorderLayout.NORTH, namePanel);
 
         // Tab to generate Matrix
 
@@ -531,6 +546,13 @@ public class JDialogDependencyMatrix extends JDialogBase implements ActionListen
     // Getting information of matrix
     public boolean hasMatrix() {
         return matrix != null;
+    }
+
+    public String getName() {
+        if (name == null) {
+            return "";
+        }
+        return name.getText();
     }
 
     public String getRowDiag() {

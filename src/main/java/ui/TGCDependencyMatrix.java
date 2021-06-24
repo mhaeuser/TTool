@@ -185,7 +185,8 @@ public class TGCDependencyMatrix extends TGCScalableWithInternalComponent implem
     public boolean editOnDoubleClick(JFrame frame) {
         String oldValue = value;
 
-        JDialogDependencyMatrix jddm = new JDialogDependencyMatrix(frame, tdp.getMainGUI(), "Dependency Matrix", columnDiag, rowDiag,
+        JDialogDependencyMatrix jddm = new JDialogDependencyMatrix(frame, tdp.getMainGUI(), "Dependency Matrix", value,
+                columnDiag, rowDiag,
                 columns, rows, dependencies);
         GraphicLib.centerOnParent(jddm, 800, 500);
         jddm.setVisible( true );
@@ -194,11 +195,16 @@ public class TGCDependencyMatrix extends TGCScalableWithInternalComponent implem
             TraceManager.addDev("Has been saved");
             if (jddm.hasMatrix()) {
                 TraceManager.addDev("Has matrix!");
+                String valTmp = jddm.getName().trim();
+                if ((valTmp != null) && (valTmp.length() > 0)) {
+                    value = valTmp;
+                }
                 rowDiag = jddm.getRowDiag();
                 columnDiag = jddm.getColumnDiag();
                 rows = jddm.getRows();
                 columns = jddm.getColumns();
                 dependencies = jddm.getDependencies();
+                tdp.repaint();
             }
         }
 

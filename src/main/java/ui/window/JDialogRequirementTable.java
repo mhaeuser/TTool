@@ -81,6 +81,8 @@ public class JDialogRequirementTable extends JDialogBase implements ActionListen
     private ArrayList<JComboBox<String>> itemBoxes, sizeBoxes;
 
     private boolean data = false;
+
+
     
     /* Creates new form  */
     public JDialogRequirementTable(JFrame f, String title) {
@@ -224,5 +226,6 @@ public class JDialogRequirementTable extends JDialogBase implements ActionListen
 		
 		return pts;
 	}
+
     
 }

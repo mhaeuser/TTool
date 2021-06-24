@@ -39,6 +39,7 @@
 
 package ui.window;
 
+import myutil.BytePoint;
 import myutil.TableSorter;
 import myutil.TraceManager;
 import ui.MainGUI;
@@ -50,6 +51,8 @@ import javax.swing.event.ListSelectionListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -69,6 +72,7 @@ public class JDialogDependencyMatrix extends JDialogBase implements ActionListen
     private boolean hasBeenCancelled = true;
     private MainGUI mgui;
 
+    private JTabbedPane mainPane;
     private JComboBox<String> rowPanelBox, rowDiagBox, colPanelBox, colDiagBox;
     private JList<String> rowClassList, colClassList;
     private DefaultListModel<String> rowClassListModel, colClassListModel;
@@ -78,16 +82,19 @@ public class JDialogDependencyMatrix extends JDialogBase implements ActionListen
     private String columnDiag;
     private String rows;
     private String columns;
-    private ArrayList<Point> dependencies;
+    private ArrayList<BytePoint> dependencies;
 
     private JPanel panelMatrix;
     private JLabel labelMatrix;
     private JTable matrix;
 
+    protected JMenuItem edit0, edit1, edit2, edit3;
+    protected int selectedRow, selectedCol;
+    protected DependencyTableModel dtm;
 
     /* Creates new form  */
     public JDialogDependencyMatrix(JFrame f, MainGUI _mgui, String title, String _columnDiag, String _rowDiag,
-                                   String _columns, String _rows, ArrayList<Point> _dependencies) {
+                                   String _columns, String _rows, ArrayList<BytePoint> _dependencies) {
         super(f, title, true);
 
         mgui = _mgui;
@@ -97,7 +104,7 @@ public class JDialogDependencyMatrix extends JDialogBase implements ActionListen
         rows = _rows;
         columns = _columns;
         dependencies = new ArrayList<>();
-        dependencies.addAll(dependencies);
+        dependencies.addAll(_dependencies);
 
         myInitComponents();
         initComponents();
@@ -114,7 +121,7 @@ public class JDialogDependencyMatrix extends JDialogBase implements ActionListen
         setFont(new Font("Helvetica", Font.PLAIN, 14));
 
         Container c = getContentPane();
-        JTabbedPane mainPane = new JTabbedPane();
+        mainPane = new JTabbedPane();
         c.add(BorderLayout.CENTER, mainPane);
 
         // Tab to generate Matrix
@@ -226,16 +233,17 @@ public class JDialogDependencyMatrix extends JDialogBase implements ActionListen
         csp.gridheight = 1;
         panelConfiguration.add(generateMatrix, csp);
 
-        mainPane.add("Configuration", panelConfiguration);
+        if (dependencies.size() == 0) {
+            mainPane.add("Configuration", panelConfiguration);
+        }
+
+
         // Tab to edit Matrix
         // Empty if no matrix
         panelMatrix = new JPanel(new BorderLayout());
         labelMatrix = new JLabel("");
         panelMatrix.add(BorderLayout.NORTH, labelMatrix);
         mainPane.add("Matrix", panelMatrix);
-
-
-        // main panel;
 
 
         initButtons(c, this);
@@ -265,6 +273,14 @@ public class JDialogDependencyMatrix extends JDialogBase implements ActionListen
         } else if (evt.getSource() == generateMatrix) {
             prepareMatrixElements();
             makeMatrix();
+        } else if (evt.getSource() == edit0) {
+            setValueInMatrix(0);
+        } else if (evt.getSource() == edit1) {
+            setValueInMatrix(1);
+        } else if (evt.getSource() == edit2) {
+            setValueInMatrix(2);
+        } else if (evt.getSource() == edit3) {
+            setValueInMatrix(3);
         }
     }
 
@@ -377,15 +393,39 @@ public class JDialogDependencyMatrix extends JDialogBase implements ActionListen
 
         labelMatrix.setText("Matrix between " + rowDiag + " and " + columnDiag);
 
-        DependencyTableModel dtm = new DependencyTableModel(rows.split("\\$"), columns.split("\\$"),
+        dtm = new DependencyTableModel(rows.split("\\$"), columns.split("\\$"),
                 dependencies);
         TableSorter sorterRTM = new TableSorter(dtm);
         matrix = new JTable(sorterRTM);
+        matrix.setCellSelectionEnabled(true);
+        matrix.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                int r = matrix.rowAtPoint(e.getPoint());
+                int c = matrix.columnAtPoint(e.getPoint());
+                selectedRow = -1;
+                selectedRow = -1;
+                if (r >= 0 && r < matrix.getRowCount() && c >= 0 && c < matrix.getColumnCount()) {
+                    selectedRow = r;
+                    selectedCol = c;
+
+                    if (e.getComponent() instanceof JTable) {
+                        TraceManager.addDev("Popup at x=" + e.getX() + " y=" + e.getY() + " row=" + selectedRow + " col=" + selectedCol);
+                        JPopupMenu popup = createDependencyPopup();
+                        popup.show(e.getComponent(), e.getX(), e.getY());
+                    }
+                }
+            }
+        });
         matrix.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
         JScrollPane jspRTM = new JScrollPane(matrix);
         jspRTM.setWheelScrollingEnabled(true);
         jspRTM.getVerticalScrollBar().setUnitIncrement(10);
         panelMatrix.add(BorderLayout.CENTER, jspRTM);
+
+        if (mainPane != null) {
+            mainPane.setSelectedIndex(mainPane.getTabCount()-1);
+        }
 
     }
 
@@ -452,6 +492,73 @@ public class JDialogDependencyMatrix extends JDialogBase implements ActionListen
         }
 
     }
+
+
+
+    private JPopupMenu createDependencyPopup() {
+        JPopupMenu menu = new JPopupMenu("Change dependency");
+
+        edit0 = new JMenuItem("Remove dependency");
+        edit0.setActionCommand("edit0");
+        edit0.addActionListener(this);
+        menu.add(edit0);
+
+        edit1 = new JMenuItem("->");
+        edit1.setActionCommand("edit1");
+        edit1.addActionListener(this);
+        menu.add(edit1);
+
+        edit2 = new JMenuItem("<-");
+        edit2.setActionCommand("edit2");
+        edit2.addActionListener(this);
+        menu.add(edit2);
+
+        edit3 = new JMenuItem("<->");
+        edit3.setActionCommand("edit3");
+        edit3.addActionListener(this);
+        menu.add(edit3);
+
+        return menu;
+    }
+
+    public void setValueInMatrix(int value) {
+        if ((selectedCol >= 0) && (selectedRow >= 0) & dtm != null) {
+            dtm.mySetValueAt(value, selectedRow, selectedCol-1);
+            matrix.repaint();
+        }
+    }
+
+    // Getting information of matrix
+    public boolean hasMatrix() {
+        return matrix != null;
+    }
+
+    public String getRowDiag() {
+        return rowDiag;
+    }
+
+    public String getColumnDiag() {
+        return columnDiag;
+    }
+
+    public String getRows() {
+        return rows;
+    }
+
+    public String getColumns() {
+        return columns;
+    }
+
+    public ArrayList<BytePoint> getDependencies() {
+
+        if (dtm == null) {
+            return null;
+        }
+
+        return dtm.getNonNullPoints();
+    }
+
+
 
 
 }

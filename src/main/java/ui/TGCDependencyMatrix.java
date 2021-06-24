@@ -41,7 +41,9 @@ package ui;
 import java.awt.*;
 import java.util.ArrayList;
 
+import myutil.BytePoint;
 import myutil.Conversion;
+import myutil.TraceManager;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -85,7 +87,7 @@ public class TGCDependencyMatrix extends TGCScalableWithInternalComponent implem
     protected String columns = ""; // separated by ";"
     protected String rows = ""; // separated by ;
 
-    protected ArrayList<Point> dependencies;
+    protected ArrayList<BytePoint> dependencies;
 
 
 
@@ -124,7 +126,7 @@ public class TGCDependencyMatrix extends TGCScalableWithInternalComponent implem
         removable = true;
         userResizable = true;
 
-        dependencies = new ArrayList<Point>();
+        dependencies = new ArrayList<BytePoint>();
 
         name = "Matrix";
         value = "Dependency Matrix";
@@ -189,7 +191,15 @@ public class TGCDependencyMatrix extends TGCScalableWithInternalComponent implem
         jddm.setVisible( true );
 
         if (!jddm.hasBeenCancelled()) {
-
+            TraceManager.addDev("Has been saved");
+            if (jddm.hasMatrix()) {
+                TraceManager.addDev("Has matrix!");
+                rowDiag = jddm.getRowDiag();
+                columnDiag = jddm.getColumnDiag();
+                rows = jddm.getRows();
+                columns = jddm.getColumns();
+                dependencies = jddm.getDependencies();
+            }
         }
 
         return false;
@@ -206,20 +216,15 @@ public class TGCDependencyMatrix extends TGCScalableWithInternalComponent implem
 
 
     protected String translateExtraParam() {
- //       TAttribute a;
-//        AvatarMethod am;
-//        AvatarSignal as;
-
-        //
-        //value = "";
+ //
         StringBuffer sb = new StringBuffer("<extraparam>\n");
         sb.append("<columnDiag v=\"" + columnDiag + "\" />\n");
         sb.append("<rowDiag v=\"" + rowDiag + "\" />\n");
         StringBuffer sbT = new StringBuffer();
         sb.append("<rows v=\"" + rows + "\" />\n");
         sb.append("<columns v=\"" + columns + "\" />\n");
-        for(Point pt: dependencies) {
-            sb.append("<p x=\"" + pt.x + "\" y=\"" + pt.y +  "\" />\n");
+        for(BytePoint pt: dependencies) {
+            sb.append("<p x=\"" + pt.x + "\" y=\"" + pt.y + "\" v=\"" + pt.value  + "\" />\n");
         }
         sb.append("</extraparam>\n");
         
@@ -228,7 +233,7 @@ public class TGCDependencyMatrix extends TGCScalableWithInternalComponent implem
     
     @Override
     public void loadExtraParam(NodeList nl, int decX, int decY, int decId) throws MalformedModelingException{
-        String xP, yP;
+        String xP, yP, vP;
 
         try {
             NodeList nli;
@@ -264,10 +269,12 @@ public class TGCDependencyMatrix extends TGCScalableWithInternalComponent implem
                             if (elt.getTagName().equals("p")) {
                                 xP = elt.getAttribute("x");
                                 yP = elt.getAttribute("y");
-                                if ((xP != null) && (yP != null) && (xP.length() > 0) && (yP.length() > 0)) {
+                                vP = elt.getAttribute("v");
+                                if ((xP != null) && (yP != null) && (vP != null) && (xP.length() > 0) && (yP.length() > 0) && (vP.length() > 0)) {
                                     int xT = Integer.decode(xP);
                                     int yT = Integer.decode(yP);
-                                    dependencies.add(new Point(xT, yT));
+                                    int vT = Integer.decode(vP);
+                                    dependencies.add(new BytePoint(xT, yT, vT));
                                 }
                             }
 

@@ -2476,6 +2476,9 @@ public class JFrameAvatarInteractiveSimulation extends JFrame implements AvatarS
                 "Variable modification", JOptionPane.PLAIN_MESSAGE, IconManager.imgic101,
                 null,
                 variableValue);
+        if (s == null) {
+            return;
+        }
         s = s.trim();
 
         boolean ret;

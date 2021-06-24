@@ -39,6 +39,7 @@
 
 package ui.window;
 
+import myutil.BytePoint;
 import myutil.TraceManager;
 import ui.TGComponent;
 import ui.avatarrd.AvatarRDRequirement;
@@ -58,14 +59,17 @@ import java.util.LinkedList;
  * @version 1.0 23/06/2021
  */
 public class DependencyTableModel extends AbstractTableModel {
+    public static final String[] VALUES = {"", "->", "<-", "<->"};
+
     private String[] cols, rows;
-    private ArrayList<Point> points;
+    private byte[][] values;
 
 
-    public DependencyTableModel(String[] _rows, String[] _cols, ArrayList<Point> _points) {
+    public DependencyTableModel(String[] _rows, String[] _cols, ArrayList<BytePoint> _points) {
         rows = _rows;
         cols = _cols;
-        points = _points;
+        values = new byte[rows.length][cols.length];
+        fillValues(_points);
     }
 
     // From AbstractTableModel
@@ -81,11 +85,12 @@ public class DependencyTableModel extends AbstractTableModel {
         if (column == 0) {
                 return rows[row];
         }
-        return "-";
-    }
 
-    public String getRowName(int rowIndex) {
-        return rows[rowIndex];
+        int val = values[row][column-1];
+        if ((val >=0) && (val<VALUES.length)) {
+            return VALUES[val];
+        }
+        return "";
     }
 
     public String getColumnName(int columnIndex) {
@@ -93,6 +98,34 @@ public class DependencyTableModel extends AbstractTableModel {
             return "row / col";
         }
         return cols[columnIndex-1];
+    }
+
+    private void fillValues(ArrayList<BytePoint> _points) {
+        for(BytePoint p: _points) {
+            if ((p.x >= 0) && (p.y >= 0) && (p.x < rows.length) && (p.y<cols.length))  {
+                values[p.x][p.y] = p.value;
+            }
+        }
+    }
+
+    public ArrayList<BytePoint> getNonNullPoints() {
+        ArrayList<BytePoint> points = new ArrayList<>();
+        for(int i=0; i<rows.length; i++) {
+            for(int j=0; j< cols.length; j++) {
+                if (values[i][j] > 0) {
+                    BytePoint pt = new BytePoint(i, j, values[i][j]);
+                    TraceManager.addDev("Adding point: " + pt);
+                    points.add(pt);
+                }
+            }
+        }
+        return points;
+    }
+
+    public void mySetValueAt(int value, int selectedRow, int selectedCol) {
+        if ((selectedRow >= 0) && (selectedCol >= 0) && (selectedRow < rows.length) && (selectedCol<cols.length)) {
+            values[selectedRow][selectedCol] = (byte) value;
+        }
     }
 
 }

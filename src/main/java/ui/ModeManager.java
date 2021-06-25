@@ -116,8 +116,10 @@ public class ModeManager {
             }
             actions[TGUIAction.ACT_DIAGRAM_CAPTURE].setEnabled(true);
             actions[TGUIAction.ACT_SVG_DIAGRAM_CAPTURE].setEnabled(true);
+            actions[TGUIAction.ACT_PDF_DIAGRAM_CAPTURE].setEnabled(true);
             actions[TGUIAction.ACT_ALL_DIAGRAM_CAPTURE].setEnabled(true);
             actions[TGUIAction.ACT_ALL_DIAGRAM_CAPTURE_SVG].setEnabled(true);
+            actions[TGUIAction.ACT_ALL_DIAGRAM_CAPTURE_PDF].setEnabled(true);
             actions[TGUIAction.ACT_GEN_DOC].setEnabled(true);
             actions[TGUIAction.ACT_GEN_DOC_REQ].setEnabled(true);
             actions[TGUIAction.ACT_VIEW_JAVA].setEnabled(true);

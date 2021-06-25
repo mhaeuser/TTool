@@ -279,10 +279,14 @@ public class ActionPerformer {
             mgui.diagramCapture();
         } else if (command.equals(mgui.actions[TGUIAction.ACT_SVG_DIAGRAM_CAPTURE].getActionCommand())) {
             mgui.svgDiagramCapture();
+        } else if (command.equals(mgui.actions[TGUIAction.ACT_PDF_DIAGRAM_CAPTURE].getActionCommand())) {
+            mgui.pdfDiagramCapture();
         } else if (command.equals(mgui.actions[TGUIAction.ACT_ALL_DIAGRAM_CAPTURE].getActionCommand())) {
             mgui.allDiagramCapture();
         } else if (command.equals(mgui.actions[TGUIAction.ACT_ALL_DIAGRAM_CAPTURE_SVG].getActionCommand())) {
             mgui.allDiagramCaptureSvg();
+        } else if (command.equals(mgui.actions[TGUIAction.ACT_ALL_DIAGRAM_CAPTURE_PDF].getActionCommand())) {
+            mgui.allDiagramCapturePdf();
         } else if (command.equals(mgui.actions[TGUIAction.ACT_SELECTED_CAPTURE].getActionCommand())) {
             mgui.selectedCapture();
         } else if (command.equals(mgui.actions[TGUIAction.ACT_GEN_DOC].getActionCommand())) {

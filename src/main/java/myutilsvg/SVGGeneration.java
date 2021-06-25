@@ -45,13 +45,14 @@ import myutil.*;
 
 import org.apache.batik.dom.GenericDOMImplementation;
 import org.apache.batik.svggen.SVGGraphics2D;
-import org.apache.batik.anim.dom.*;
 import org.apache.batik.transcoder.*;
 import org.w3c.dom.DOMImplementation;
 import org.w3c.dom.Document;
 import org.apache.fop.svg.PDFTranscoder;
+import ui.TDiagramPanel;
 
 
+import java.awt.*;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
@@ -64,7 +65,7 @@ import java.io.*;
    * Class SVGGeneration
    *
    * Creation: 20/06/2018
-   * @version 1.0 20/06/2018
+   * @version 2.0 25/06/2021
    * @author Ludovic APVRILLE
  */
 public class SVGGeneration  {
@@ -129,6 +130,32 @@ public class SVGGeneration  {
         }
     }
 
+
+
+
+    public static void toPdfFromString(String fileName, String data) {
+        try {
+
+            TraceManager.addDev("PDF generation in " + fileName + ".pdf");
+            InputStream targetStream = new ByteArrayInputStream(data.getBytes());
+            TranscoderInput input = new TranscoderInput(targetStream);
+
+            // Create the transcoder output.
+            OutputStream outputStream = new FileOutputStream(new File(fileName));
+            TranscoderOutput output = new TranscoderOutput(outputStream);
+            PDFTranscoder transcoder = new PDFTranscoder();
+
+            transcoder.transcode(input, output);
+
+            outputStream.flush();
+            outputStream.close();
+
+
+        } catch (Exception e) {
+            TraceManager.addDev("PDF generation failed: " + e.getMessage());
+        }
+    }
+
     public static void toPdf(String fileName) {
         try {
 
@@ -154,8 +181,15 @@ public class SVGGeneration  {
         }
     }
 
-    public String getSVGString(JPanel panel) {
+    public String getSVGString(TDiagramPanel panel, int _maxX, int _maxY) {
+        TraceManager.addDev("maxX=" + _maxX + " maxY=" + _maxY);
+        panel.setSize(_maxX, _maxY);
+
         SVGGraphics2D svgGenerator = getSVGGenerator(panel);
+        svgGenerator.setSVGCanvasSize(new Dimension(_maxX, _maxY));
+        panel.basicPaintMyComponents(svgGenerator);
+
+
 
         boolean useCSS = true; // we want to use CSS style attributes
         try {

@@ -101,7 +101,7 @@ public class JBirdPanel extends JPanel implements MouseListener, MouseMotionList
                 } else {
                     hratio = wratio;
                 }
-                currentTdp.paintMycomponents(g, false, wratio, hratio);
+                currentTdp.paintMyComponents(g, false, wratio, hratio);
                 g.drawRect(rect.x, rect.y, rect.width, rect.height);
             }
         }

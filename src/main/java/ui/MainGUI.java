@@ -325,6 +325,7 @@ public class MainGUI implements ActionListener, WindowListener, KeyListener, Per
     private JFileChooser jfclib;
     private JFileChooser jfcimg;
     private JFileChooser jfcimgsvg;
+    private JFileChooser jfcimgpdf;
     private JFileChooser jfcggraph;
     private JFileChooser jfctgraph;
     private JFileChooser jfclot;
@@ -468,6 +469,12 @@ public class MainGUI implements ActionListener, WindowListener, KeyListener, Per
             jfcimgsvg = new JFileChooser();
         }
 
+        if (SpecConfigTTool.IMGPath.length() > 0) {
+            jfcimgpdf = new JFileChooser(SpecConfigTTool.IMGPath);
+        } else {
+            jfcimgpdf = new JFileChooser();
+        }
+
         if (ConfigurationTTool.LOTOSPath.length() > 0) {
             jfclot = new JFileChooser(ConfigurationTTool.LOTOSPath);
         } else {
@@ -504,6 +511,9 @@ public class MainGUI implements ActionListener, WindowListener, KeyListener, Per
 
         TSVGFilter filterSVG = new TSVGFilter();
         jfcimgsvg.setFileFilter(filterSVG);
+
+        TPDFFilter filterPDF = new TPDFFilter();
+        jfcimgpdf.setFileFilter(filterPDF);
 
         RTLFileFilter filterRTL = new RTLFileFilter();
         jfclot.setFileFilter(filterRTL);
@@ -6000,6 +6010,36 @@ public class MainGUI implements ActionListener, WindowListener, KeyListener, Per
         }
     }
 
+    public void pdfDiagramCapture() {
+
+        TraceManager.addDev("PDF capture ");
+
+        if (tabs.size() < 1) {
+            JOptionPane.showMessageDialog(frame, "No diagram is under edition", "Error", JOptionPane.INFORMATION_MESSAGE);
+            return;
+        }
+
+        File file = selectPDFFileForCapture(true);
+
+        if (file == null)
+            return;
+
+        TDiagramPanel tdp1 = getCurrentTDiagramPanel();
+        if (tdp1 != null) {
+            String s = tdp1.svgCapture();
+            SVGGeneration.toPdfFromString(file.getAbsolutePath(), s);
+            /*try {
+                FileUtils.saveFile(file.getAbsolutePath(), s);
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(frame, "File could not be saved: " + e.getMessage(), "Error", JOptionPane.INFORMATION_MESSAGE);
+                return;
+            }*/
+
+            JOptionPane.showMessageDialog(frame, "The capture was correctly performed and saved in " + file.getAbsolutePath(),
+                    "Save in pdf format ok", JOptionPane.INFORMATION_MESSAGE);
+        }
+    }
+
     public void allDiagramCapture() {
         if (tabs.size() < 1) {
             JOptionPane.showMessageDialog(frame, "No diagram is under edition", "Error", JOptionPane.INFORMATION_MESSAGE);
@@ -6045,7 +6085,7 @@ public class MainGUI implements ActionListener, WindowListener, KeyListener, Per
             }
         }
 
-        JOptionPane.showMessageDialog(frame, "All diagrams were sucessfully captured in png format", "Capture ok", JOptionPane.INFORMATION_MESSAGE);
+        JOptionPane.showMessageDialog(frame, "All diagrams were successfully captured in png format", "Capture ok", JOptionPane.INFORMATION_MESSAGE);
     }
 
     public void allDiagramCaptureSvg() {
@@ -6093,7 +6133,59 @@ public class MainGUI implements ActionListener, WindowListener, KeyListener, Per
             }
         }
 
-        JOptionPane.showMessageDialog(frame, "All diagrams were sucessfully captured in svg format", "Capture ok", JOptionPane.INFORMATION_MESSAGE);
+        JOptionPane.showMessageDialog(frame, "All diagrams were successfully captured in svg format", "Capture ok", JOptionPane.INFORMATION_MESSAGE);
+    }
+
+    public void allDiagramCapturePdf() {
+        if (tabs.size() < 1) {
+            JOptionPane.showMessageDialog(frame, "No diagram is under edition", "Error", JOptionPane.INFORMATION_MESSAGE);
+            return;
+        }
+
+        File file = selectPDFFileForCapture(false);
+        if (file == null)
+            return;
+
+        TURTLEPanel tp;// = getCurrentTURTLEPanel();
+        TDiagramPanel tdp1;
+        // BufferedImage image;
+
+        String name = file.getAbsolutePath();
+        file = null;
+        name = name.substring(0, name.length() - 4);
+
+        // boolean actions;
+        for (int j = 0; j < tabs.size(); j++) {
+            tp = tabs.get(j);
+            for (int i = 0; i < tp.panels.size(); i++) {
+                tdp1 = tp.panels.elementAt(i);
+                tdp1.repaint();
+                
+                // tdp1.performMinimalCapture();
+                String pdfImg = tdp1.svgCapture();
+                String tmpName;
+
+                if (i < 10) {
+                    tmpName = name + j + "_" + "0" + i + "__" + tdp1.getName();
+                } else {
+                    tmpName = name + j + "_" + i + "__" + tdp1.getName();
+                }
+                tmpName = FileUtils.addFileExtensionIfMissing(tmpName, TPDFFilter.getExtension());
+
+                try {
+                    SVGGeneration.toPdfFromString(tmpName, pdfImg);
+                    TraceManager.addDev("Saved in file:" + tmpName);
+                    //FileUtils.saveFile(file1, svgImg);
+                } catch (Exception e) {
+                    JOptionPane.showMessageDialog(frame, "Diagrams could NOT be captured in pdf format", "Capture failed",
+                            JOptionPane.INFORMATION_MESSAGE);
+                    return;
+                }
+
+            }
+        }
+
+        JOptionPane.showMessageDialog(frame, "All diagrams were successfully captured in PDF", "Capture ok", JOptionPane.INFORMATION_MESSAGE);
     }
 
     public void selectedCapture() {
@@ -6134,6 +6226,31 @@ public class MainGUI implements ActionListener, WindowListener, KeyListener, Per
             file = jfcimgsvg.getSelectedFile();
             file = FileUtils.addFileExtensionIfMissing(file, TSVGFilter.getExtension());
 
+        }
+        if (checkForSave) {
+            if (!checkFileForSave(file)) {
+                JOptionPane.showMessageDialog(frame, "The capture could not be performed: invalid file", "Error", JOptionPane.INFORMATION_MESSAGE);
+                return null;
+            }
+        }
+        return file;
+    }
+
+
+    public File selectPDFFileForCapture(boolean checkForSave) {
+        File file = null;
+        jfcimgpdf.setCurrentDirectory(new File(SpecConfigTTool.IMGPath));
+        int returnVal = jfcimgpdf.showSaveDialog(frame);
+        if (returnVal == JFileChooser.CANCEL_OPTION)
+            return null;
+
+        if (returnVal == JFileChooser.APPROVE_OPTION) {
+            file = jfcimgpdf.getSelectedFile();
+            if (file == null) {
+                TraceManager.addDev("Null file");
+                return null;
+            }
+            file = FileUtils.addFileExtensionIfMissing(file, TPDFFilter.getExtension());
         }
         if (checkForSave) {
             if (!checkFileForSave(file)) {

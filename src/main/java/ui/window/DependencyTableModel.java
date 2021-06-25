@@ -58,7 +58,7 @@ import java.util.LinkedList;
  * @author Ludovic APVRILLE
  * @version 1.0 23/06/2021
  */
-public class DependencyTableModel extends AbstractTableModel {
+public class DependencyTableModel extends AbstractTableModel implements Reorderable {
     public static final String[] VALUES = {"", "->", "<-", "<->"};
 
     private String[] cols, rows;
@@ -126,6 +126,10 @@ public class DependencyTableModel extends AbstractTableModel {
         if ((selectedRow >= 0) && (selectedCol >= 0) && (selectedRow < rows.length) && (selectedCol<cols.length)) {
             values[selectedRow][selectedCol] = (byte) value;
         }
+    }
+
+    public void reorder(int fromIndex, int toIndex) {
+        TraceManager.addDev("Reordering from " + fromIndex + " to " + toIndex);
     }
 
 }

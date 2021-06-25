@@ -6160,7 +6160,7 @@ public class MainGUI implements ActionListener, WindowListener, KeyListener, Per
             for (int i = 0; i < tp.panels.size(); i++) {
                 tdp1 = tp.panels.elementAt(i);
                 tdp1.repaint();
-                
+
                 // tdp1.performMinimalCapture();
                 String pdfImg = tdp1.svgCapture();
                 String tmpName;

@@ -410,28 +410,37 @@ public class JDialogDependencyMatrix extends JDialogBase implements ActionListen
 
         dtm = new DependencyTableModel(rows.split("\\$"), columns.split("\\$"),
                 dependencies);
-        TableSorter sorterRTM = new TableSorter(dtm);
-        matrix = new JTable(sorterRTM);
+        //TableSorter sorterRTM = new TableSorter(dtm);
+        matrix = new JTable(dtm);
+        matrix.getTableHeader().setReorderingAllowed(false);
         matrix.setCellSelectionEnabled(true);
-        matrix.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseReleased(MouseEvent e) {
-                int r = matrix.rowAtPoint(e.getPoint());
-                int c = matrix.columnAtPoint(e.getPoint());
-                selectedRow = -1;
-                selectedRow = -1;
-                if (r >= 0 && r < matrix.getRowCount() && c >= 0 && c < matrix.getColumnCount()) {
-                    selectedRow = r;
-                    selectedCol = c;
+        matrix.setDragEnabled(true);
+        matrix.setDropMode(DropMode.INSERT_ROWS);
+        matrix.setTransferHandler(new TableRowTransferHandler(matrix));
 
-                    if (e.getComponent() instanceof JTable) {
-                        TraceManager.addDev("Popup at x=" + e.getX() + " y=" + e.getY() + " row=" + selectedRow + " col=" + selectedCol);
-                        JPopupMenu popup = createDependencyPopup();
-                        popup.show(e.getComponent(), e.getX(), e.getY());
+        JPopupMenu popup = createDependencyPopup();
+
+        matrix.addMouseListener(new MouseAdapter() {
+
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if (e.getButton() == MouseEvent.BUTTON3) { //Button3 is rightclick
+                    //TraceManager.addDev("Right click");
+                    int r = matrix.rowAtPoint(e.getPoint());
+                    int c = matrix.columnAtPoint(e.getPoint());
+                    selectedRow = -1;
+                    selectedRow = -1;
+                    if (r >= 0 && r < matrix.getRowCount() && c >= 0 && c < matrix.getColumnCount()) {
+                        //TraceManager.addDev("Popup");
+                        selectedRow = r;
+                        selectedCol = c;
+                        popup.show(matrix, e.getX(), e.getY());
                     }
                 }
             }
         });
+
+        
         matrix.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
         JScrollPane jspRTM = new JScrollPane(matrix);
         jspRTM.setWheelScrollingEnabled(true);
@@ -537,6 +546,9 @@ public class JDialogDependencyMatrix extends JDialogBase implements ActionListen
     }
 
     public void setValueInMatrix(int value) {
+        TraceManager.addDev("set value in matrix" + value);
+        //selectedRow = matrix.getSelectedRow();
+        //selectedCol = matrix.getSelectedColumn();
         if ((selectedCol >= 0) && (selectedRow >= 0) & dtm != null) {
             dtm.mySetValueAt(value, selectedRow, selectedCol-1);
             matrix.repaint();

@@ -936,9 +936,9 @@ public class TGUIAction extends AbstractAction {
 
         actions[ACT_VIEW_JAVA] = new TAction("view-java", "Display Java code", IconManager.imgic38, IconManager.imgic39, "Display Java code",  "Display the java code of the pointed component", 0);
         actions[ACT_VIEW_RTLOTOS] = new TAction("view-rtlotos", "Show last formal specification", IconManager.imgic302, IconManager.imgic302, "Show formal specification",  "Display the lastest generated formal specification", 0);
-        actions[ACT_VIEW_SUGGESTED_DESIGN] = new TAction("view-suggested-design", "Show last suggested design", IconManager.imgic302, IconManager.imgic302, "Show suggested design",  "Display the lastest generated suggested design", 0);
-        actions[ACT_VIEW_SIM] = new TAction("view-sim", "Show last simulation trace (timing order)", IconManager.imgic318, IconManager.imgic319, "Show last simulation trace (timing order)",  "Display the lastest generated simulation trace in function of action time", 0);
-        actions[ACT_VIEW_SIM_CHRONO] = new TAction("view-sim-chrono", "Show last simulation trace (chronological order)", IconManager.imgic318, IconManager.imgic319, "Show last simulation trace (chronological order)",  "Display the lastest generated simulation trace in function of action chronological order", 0);
+        actions[ACT_VIEW_SUGGESTED_DESIGN] = new TAction("view-suggested-design", "Show last suggested design", IconManager.imgic302, IconManager.imgic302, "Show suggested design",  "Display the latest generated suggested design", 0);
+        actions[ACT_VIEW_SIM] = new TAction("view-sim", "Show last simulation trace (timing order)", IconManager.imgic318, IconManager.imgic319, "Show last simulation trace (timing order)",  "Display the latest generated simulation trace in function of action time", 0);
+        actions[ACT_VIEW_SIM_CHRONO] = new TAction("view-sim-chrono", "Show last simulation trace (chronological order)", IconManager.imgic318, IconManager.imgic319, "Show last simulation trace (chronological order)",  "Display the latest generated simulation trace in function of action chronological order", 0);
         actions[ACT_VIEW_DTADOT] = new TAction("view-dtadot", "Show last DTA", IconManager.imgic306, IconManager.imgic306, "Show DTA",  "Display the lastest generated DTA", 0);
         actions[ACT_VIEW_RGDOT] = new TAction("view-rgdot", "Show last RG", IconManager.imgic308, IconManager.imgic308, "Show RG",  "Display the lastest generated RG", 0);
         actions[ACT_VIEW_TLSADOT] = new TAction("view-tlsadot", "Show last TLSA", IconManager.imgic308, IconManager.imgic308, "Show TLSA",  "Display the lastest generated TLSA", 0);
@@ -955,12 +955,17 @@ public class TGUIAction extends AbstractAction {
 
         actions[ACT_SCREEN_CAPTURE] = new TAction("screen-capture", "Screen capture", IconManager.imgic338, IconManager.imgic339, "Screen capture",  "Capture the screen", 0);
         actions[ACT_TTOOL_WINDOW_CAPTURE] = new TAction("tool-window-capture", "TTool Window capture", IconManager.imgic338, IconManager.imgic339, "Main window capture",  "Capture the main window", 0);
-        actions[ACT_DIAGRAM_CAPTURE] = new TAction("diagram-capture", "Current diagram capture (PNG)", IconManager.imgic338, IconManager.imgic339, "Diagram capture",  "Capture the currenlty opened diagram", 0);
-        actions[ACT_SVG_DIAGRAM_CAPTURE] = new TAction("svg-diagram-capture", "Current diagram capture (SVG)", IconManager.imgic338, IconManager.imgic339, "Diagram capture (SVG)",  "Capture the currenlty opened diagram in svg format", 0);
+        actions[ACT_DIAGRAM_CAPTURE] = new TAction("diagram-capture", "Current diagram capture (PNG)", IconManager.imgic338, IconManager.imgic339,
+                "Diagram capture",  "Capture the currently opened diagram", 0);
+        actions[ACT_SVG_DIAGRAM_CAPTURE] = new TAction("svg-diagram-capture", "Current diagram capture (SVG)", IconManager.imgic338,
+                IconManager.imgic339, "Diagram capture (SVG)",  "Capture the currently opened diagram in svg format", 0);
         actions[ACT_PDF_DIAGRAM_CAPTURE] = new TAction("pdf-diagram-capture", "Current diagram capture (PDF)", IconManager.imgic338,
                 IconManager.imgic339, "Diagram capture (PDF)",  "Capture the currently opened diagram in PDF format", 0);
-        actions[ACT_ALL_DIAGRAM_CAPTURE] = new TAction("all-diagram-capture", "All diagrams capture (PNG)", IconManager.imgic338, IconManager.imgic339, "All diagram capture (PNG)",  "Capture in png images the currenlty opened set of diagram (analysis, design, etc.)", 0);
-        actions[ACT_ALL_DIAGRAM_CAPTURE_SVG] = new TAction("all-diagram-capture-svg", "All diagrams capture (SVG)", IconManager.imgic338, IconManager.imgic339, "All diagram capture (SVG)",  "Capture in svg images the currenlty opened set of diagram (analysis, design, etc.)", 0);
+        actions[ACT_ALL_DIAGRAM_CAPTURE] = new TAction("all-diagram-capture", "All diagrams capture (PNG)", IconManager.imgic338,
+                IconManager.imgic339, "All diagram capture (PNG)",  "Capture in png images the currently opened set of diagram (analysis, design, etc.)", 0);
+        actions[ACT_ALL_DIAGRAM_CAPTURE_SVG] = new TAction("all-diagram-capture-svg", "All diagrams capture (SVG)", IconManager.imgic338,
+                IconManager.imgic339, "All diagram capture (SVG)",  "Capture in svg images the currently opened set of diagram (analysis, design, " +
+                "etc.)", 0);
         actions[ACT_ALL_DIAGRAM_CAPTURE_PDF] = new TAction("all-diagram-capture-pdf", "All diagrams capture (PDF)", IconManager.imgic338,
                 IconManager.imgic339, "All diagram capture (PDF)",  "Capture in PDF document the currently opened set of diagram (analysis, design," +
                 " " +

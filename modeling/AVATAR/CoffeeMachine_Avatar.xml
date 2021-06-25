@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<TURTLEGMODELING version="1.0beta" ANIMATE_INTERACTIVE_SIMULATION="false" ACTIVATE_PENALTIES="true" UPDATE_INFORMATION_DIPLO_SIM="false" ANIMATE_WITH_INFO_DIPLO_SIM="true" OPEN_DIAG_DIPLO_SIM="false" LAST_SELECTED_MAIN_TAB="1" LAST_SELECTED_SUB_TAB="3">
+<TURTLEGMODELING version="1.0beta" ANIMATE_INTERACTIVE_SIMULATION="false" ACTIVATE_PENALTIES="true" UPDATE_INFORMATION_DIPLO_SIM="false" ANIMATE_WITH_INFO_DIPLO_SIM="true" OPEN_DIAG_DIPLO_SIM="false" LAST_SELECTED_MAIN_TAB="0" LAST_SELECTED_SUB_TAB="0">
 
 <Modeling type="Avatar Requirement" nameTab="AVATAR Requirements" >
 <AvatarRDPanel name="AVATAR RD" minX="10" maxX="1900" minY="10" maxY="1400" zoom="1.0" >
@@ -62,7 +62,14 @@
 <rows v="Requirement_0/21634324-f1ec-471d-b025-373bb090c963$req00/6a44a70b-341e-4094-9eb3-95ef05784845$Req_Availability/2db149ef-c53b-4707-8c0f-285eea3e4257$Req_CoffeeMachine/e73051aa-2858-45ad-9538-4bb540752766$req1/d6ff748e-4216-4bb2-b0ce-81e64e2dbd68$req0/3f856106-1533-4f29-bb50-d5da20b70742$req2/e1c3057e-2674-463d-8b8c-6d741b397711" />
 <columns v="Requirement_0/21634324-f1ec-471d-b025-373bb090c963$req00/6a44a70b-341e-4094-9eb3-95ef05784845$Req_Availability/2db149ef-c53b-4707-8c0f-285eea3e4257$Req_CoffeeMachine/e73051aa-2858-45ad-9538-4bb540752766$req1/d6ff748e-4216-4bb2-b0ce-81e64e2dbd68$req0/3f856106-1533-4f29-bb50-d5da20b70742$req2/e1c3057e-2674-463d-8b8c-6d741b397711" />
 <p x="0" y="0" v="2" />
+<p x="0" y="3" v="3" />
+<p x="0" y="4" v="2" />
+<p x="0" y="5" v="3" />
+<p x="0" y="6" v="2" />
 <p x="2" y="1" v="3" />
+<p x="2" y="3" v="1" />
+<p x="2" y="6" v="3" />
+<p x="4" y="6" v="1" />
 <p x="6" y="6" v="1" />
 </extraparam>
 </COMPONENT>

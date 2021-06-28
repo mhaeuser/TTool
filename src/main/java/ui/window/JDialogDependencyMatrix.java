@@ -404,7 +404,7 @@ public class JDialogDependencyMatrix extends JDialogBase implements ActionListen
             return;
         }
 
-        TraceManager.addDev("Going to make the matrix / rows=" + rows + " / cols=" + columns);
+        //TraceManager.addDev("Going to make the matrix / rows=" + rows + " / cols=" + columns);
 
         labelMatrix.setText("Matrix between " + rowDiag + " and " + columnDiag);
 
@@ -576,11 +576,37 @@ public class JDialogDependencyMatrix extends JDialogBase implements ActionListen
     }
 
     public String getRows() {
-        return rows;
+        if (dtm == null) {
+            return rows;
+        }
+
+        ArrayList<String> rowsN = dtm.getRows();
+        String s = "";
+        for(String r: rowsN) {
+            if (s.length() > 0) {
+                s += "$";
+            }
+            s += r;
+        }
+
+        return s;
     }
 
     public String getColumns() {
-        return columns;
+        if (dtm == null) {
+            return columns;
+        }
+
+        ArrayList<String> colsN = dtm.getCols();
+        String s = "";
+        for(String r: colsN) {
+            if (s.length() > 0) {
+                s += "$";
+            }
+            s += r;
+        }
+
+        return s;
     }
 
     public ArrayList<BytePoint> getDependencies() {

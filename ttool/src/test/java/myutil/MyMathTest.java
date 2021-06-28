@@ -39,8 +39,7 @@ package myutil;
 
 import org.junit.Test;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 public class MyMathTest {
 
@@ -75,9 +74,67 @@ public class MyMathTest {
         assertTrue((int)average > ((b-a)/2) - 1);
         assertTrue((int)average < ((b-a)/2) + 1);
 
+    }
 
+    @Test
+    public void testMatrixMoveLine() {
+        byte[][] testMatrix = {
+                {0, 0, 0},
+                {1, 1, 1},
+                {2, 2, 2},
+                {3, 3, 3},
+                {4, 4, 4}};
 
+        String bm0 = MyMath.byteMatrixToString(testMatrix);
+        System.out.println("\nMatrix0:\n" + bm0 + "\n\n");
 
+        byte[][] resultMatrix1 = MyMath.moveLineCreateNew(testMatrix, 3, 1);
+        assertNotNull(resultMatrix1);
+        String bm1 = MyMath.byteMatrixToString(resultMatrix1);
+        assertNotNull(bm1);
+        System.out.println("\nMatrix1:\n" + bm1 + "\n\n");
+
+        assertEquals(resultMatrix1[0][0], 0);
+        assertEquals(resultMatrix1[1][0], 3);
+        assertEquals(resultMatrix1[2][0], 1);
+        assertEquals(resultMatrix1[3][0], 2);
+        assertEquals(resultMatrix1[4][0], 4);
+
+        byte[][] resultMatrix2 = MyMath.moveLineCreateNew(testMatrix, 1, 3);
+        assertNotNull(resultMatrix2);
+        String bm2 = MyMath.byteMatrixToString(resultMatrix2);
+        assertNotNull(bm2);
+        System.out.println("\nMatrix2:\n" + bm2 + "\n\n");
+
+        assertEquals(resultMatrix2[0][0], 0);
+        assertEquals(resultMatrix2[1][0], 2);
+        assertEquals(resultMatrix2[2][0], 3);
+        assertEquals(resultMatrix2[3][0], 1);
+        assertEquals(resultMatrix2[4][0], 4);
+
+        byte[][] resultMatrix3 = MyMath.moveLineCreateNew(testMatrix, 0, 4);
+        assertNotNull(resultMatrix3);
+        String bm3 = MyMath.byteMatrixToString(resultMatrix3);
+        assertNotNull(bm3);
+        System.out.println("\nMatrix3:\n" + bm3 + "\n\n");
+
+        assertEquals(resultMatrix3[0][0], 1);
+        assertEquals(resultMatrix3[1][0], 2);
+        assertEquals(resultMatrix3[2][0], 3);
+        assertEquals(resultMatrix3[3][0], 4);
+        assertEquals(resultMatrix3[4][0], 0);
+
+        byte[][] resultMatrix4 = MyMath.moveLineCreateNew(testMatrix, 4, 0);
+        assertNotNull(resultMatrix4);
+        String bm4 = MyMath.byteMatrixToString(resultMatrix4);
+        assertNotNull(bm4);
+        System.out.println("\nMatrix4:\n" + bm4 + "\n\n");
+
+        assertEquals(resultMatrix4[0][0], 4);
+        assertEquals(resultMatrix4[1][0], 0);
+        assertEquals(resultMatrix4[2][0], 1);
+        assertEquals(resultMatrix4[3][0], 2);
+        assertEquals(resultMatrix4[4][0], 3);
     }
 
 

@@ -40,6 +40,7 @@
 package ui.window;
 
 import myutil.BytePoint;
+import myutil.MyMath;
 import myutil.TraceManager;
 import ui.TGComponent;
 import ui.avatarrd.AvatarRDRequirement;
@@ -48,6 +49,7 @@ import ui.req.Requirement;
 import javax.swing.table.AbstractTableModel;
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedList;
 
 /**
@@ -61,29 +63,39 @@ import java.util.LinkedList;
 public class DependencyTableModel extends AbstractTableModel implements Reorderable {
     public static final String[] VALUES = {"", "->", "<-", "<->"};
 
-    private String[] cols, rows;
+    private ArrayList<String> cols, rows;
     private byte[][] values;
 
 
     public DependencyTableModel(String[] _rows, String[] _cols, ArrayList<BytePoint> _points) {
-        rows = _rows;
-        cols = _cols;
-        values = new byte[rows.length][cols.length];
+        rows = new ArrayList<>(Arrays.asList(_rows));
+        cols = new ArrayList<>(Arrays.asList(_cols));
+        values = new byte[_rows.length][_cols.length];
         fillValues(_points);
     }
 
+    public ArrayList<String> getRows() {
+        return rows;
+    }
+
+    public ArrayList<String> getCols() {
+        return cols;
+    }
+
+
+
     // From AbstractTableModel
     public int getRowCount() {
-        return rows.length;
+        return rows.size();
     }
 
     public int getColumnCount() {
-        return cols.length + 1;
+        return cols.size() + 1;
     }
 
     public Object getValueAt(int row, int column) {
         if (column == 0) {
-                return rows[row];
+                return rows.get(row);
         }
 
         int val = values[row][column-1];
@@ -97,12 +109,12 @@ public class DependencyTableModel extends AbstractTableModel implements Reordera
         if (columnIndex == 0) {
             return "row / col";
         }
-        return cols[columnIndex-1];
+        return cols.get(columnIndex-1);
     }
 
     private void fillValues(ArrayList<BytePoint> _points) {
         for(BytePoint p: _points) {
-            if ((p.x >= 0) && (p.y >= 0) && (p.x < rows.length) && (p.y<cols.length))  {
+            if ((p.x >= 0) && (p.y >= 0) && (p.x < rows.size()) && (p.y<cols.size()))  {
                 values[p.x][p.y] = p.value;
             }
         }
@@ -110,8 +122,8 @@ public class DependencyTableModel extends AbstractTableModel implements Reordera
 
     public ArrayList<BytePoint> getNonNullPoints() {
         ArrayList<BytePoint> points = new ArrayList<>();
-        for(int i=0; i<rows.length; i++) {
-            for(int j=0; j< cols.length; j++) {
+        for(int i=0; i<rows.size(); i++) {
+            for(int j=0; j< cols.size(); j++) {
                 if (values[i][j] > 0) {
                     BytePoint pt = new BytePoint(i, j, values[i][j]);
                     TraceManager.addDev("Adding point: " + pt);
@@ -123,13 +135,46 @@ public class DependencyTableModel extends AbstractTableModel implements Reordera
     }
 
     public void mySetValueAt(int value, int selectedRow, int selectedCol) {
-        if ((selectedRow >= 0) && (selectedCol >= 0) && (selectedRow < rows.length) && (selectedCol<cols.length)) {
+        if ((selectedRow >= 0) && (selectedCol >= 0) && (selectedRow < rows.size()) && (selectedCol<cols.size())) {
             values[selectedRow][selectedCol] = (byte) value;
         }
     }
 
-    public void reorder(int fromIndex, int toIndex) {
+    public void reorderRow(int fromIndex, int toIndex) {
         TraceManager.addDev("Reordering from " + fromIndex + " to " + toIndex);
+
+        // String of row
+        String s = rows.get(fromIndex);
+        rows.remove(fromIndex);
+        int tmpI = toIndex;
+        if (toIndex > fromIndex) {
+            tmpI --;
+        }
+        rows.add(tmpI, s);
+
+        // Values must be changed as well
+        // We ignore the from and leave one space of the new line
+
+        // We first save the line
+
+
+
+        values = MyMath.moveLineCreateNew(values, fromIndex, toIndex);
+
+        //printValues();
+
+    }
+
+    private void printValues() {
+        TraceManager.addDev("\n");
+        for(int i=0; i<rows.size(); i++) {
+            String s = "" + i+ "\t";
+            for (int j = 0; j < cols.size(); j++) {
+                s += values[i][j] + " ";
+            }
+            TraceManager.addDev(s);
+        }
+        TraceManager.addDev("\n");
     }
 
 }

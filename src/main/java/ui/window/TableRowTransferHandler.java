@@ -97,7 +97,7 @@ public class TableRowTransferHandler extends TransferHandler {
         try {
             Integer rowFrom = (Integer) info.getTransferable().getTransferData(localObjectFlavor);
             if (rowFrom != -1 && rowFrom != index) {
-                ((Reorderable)(table.getModel())).reorder(rowFrom, index);
+                ((Reorderable)(table.getModel())).reorderRow(rowFrom, index);
                 if (index > rowFrom)
                     index--;
                 target.getSelectionModel().addSelectionInterval(index, index);

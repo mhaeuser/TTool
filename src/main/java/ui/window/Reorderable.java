@@ -60,5 +60,5 @@ import java.awt.dnd.DragSource;
  */
 
 public interface Reorderable {
-    public void reorder(int fromIndex, int toIndex);
+    public void reorderRow(int fromIndex, int toIndex);
 }

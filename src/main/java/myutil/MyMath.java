@@ -207,6 +207,79 @@ public class MyMath {
         return false;
     }
 
+    public static byte[][] moveLineCreateNew(byte[][] byteMatrix, int fromIndex, int toIndex) {
+		int lengthR = byteMatrix.length;
+
+		if (lengthR == 0) {
+			return null;
+		}
+
+		int lengthC = byteMatrix[0].length;
+
+		if (lengthC == 0) {
+			return null;
+		}
+
+		if ((fromIndex < 0) || (fromIndex >= lengthR)) {
+			return null;
+		}
+
+		if (toIndex<0) {
+			toIndex = 0;
+		}
+
+		if (toIndex >= lengthR) {
+			toIndex = lengthR - 1;
+		}
+
+		byte[][] newValues = new byte[lengthR][lengthC];
+
+		int dec = 0;
+		for(int i=0; i<lengthR; i++) {
+			if (i == toIndex) {
+				for (int j = 0; j < lengthC; j++) {
+					newValues[toIndex][j] = byteMatrix[fromIndex][j];
+				}
+				dec --;
+			}  else {
+				if ((i == fromIndex) && (fromIndex < toIndex)) {
+					dec ++;
+				}
+				//System.out.println("to:" + i + " from:" + (i+dec));
+				for (int j = 0; j < lengthC; j++) {
+					newValues[i][j] = byteMatrix[i+dec][j];
+				}
+				if ((i == fromIndex) && (fromIndex >= toIndex)) {
+					dec ++;
+				}
+			}
+		}
+
+		return newValues;
+	}
+
+	public static String byteMatrixToString(byte[][] byteMatrix) {
+		if (byteMatrix == null) {
+			return "";
+		}
+		int lengthR = byteMatrix.length;
+		if (lengthR == 0) {
+			return "";
+		}
+		int lengthC = byteMatrix[0].length;
+
+		StringBuffer sb = new StringBuffer();
+		for(int i=0; i<lengthR; i++) {
+			String s = "" + i+ "\t";
+			for (int j = 0; j < lengthC; j++) {
+				s += byteMatrix[i][j] + " ";
+			}
+			sb.append(s+"\n");
+
+		}
+		return sb.toString();
+	}
+
 
 
 

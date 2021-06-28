@@ -40,14 +40,16 @@
 package ui.window;
 
 import myutil.BytePoint;
-import myutil.TableSorter;
 import myutil.TraceManager;
 import ui.MainGUI;
 import ui.TGComponent;
+import ui.util.IconManager;
 
 import javax.swing.*;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
+import javax.swing.event.*;
+import javax.swing.table.JTableHeader;
+import javax.swing.table.TableColumn;
+import javax.swing.table.TableColumnModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -90,9 +92,15 @@ public class JDialogDependencyMatrix extends JDialogBase implements ActionListen
     private JLabel labelMatrix;
     private JTable matrix;
 
+    protected JButton upRow, downRow, leftCol, rightCol;
+
     protected JMenuItem edit0, edit1, edit2, edit3;
-    protected int selectedRow, selectedCol;
+    protected int r = -1, c = -1; // selected row and col with all mouse clicks
+    protected int selectedRow, selectedCol; // selected row and columns with right click
     protected DependencyTableModel dtm;
+
+    //private boolean mDraggingColumn = false;
+    //private boolean mColumnCHangedIndex = false;
 
     /* Creates new form  */
     public JDialogDependencyMatrix(JFrame f, MainGUI _mgui, String title, String _value, String _columnDiag, String _rowDiag,
@@ -158,7 +166,6 @@ public class JDialogDependencyMatrix extends JDialogBase implements ActionListen
 
         JPanel panel0 = new JPanel(gridbag0);
         panel0.setBorder(new javax.swing.border.TitledBorder("Setting row parameters "));
-        c0.gridwidth = 1;
         c0.gridheight = 2;
         c0.weighty = GridBagConstraints.BOTH;
         c0.weightx = GridBagConstraints.BOTH;
@@ -254,12 +261,11 @@ public class JDialogDependencyMatrix extends JDialogBase implements ActionListen
 
 
         // Tab to edit Matrix
-        // Empty if no matrix
+        // Empty if no matrix, i.e. only the label
         panelMatrix = new JPanel(new BorderLayout());
         labelMatrix = new JLabel("");
         panelMatrix.add(BorderLayout.NORTH, labelMatrix);
         mainPane.add("Matrix", panelMatrix);
-
 
         initButtons(c, this);
 
@@ -296,7 +302,16 @@ public class JDialogDependencyMatrix extends JDialogBase implements ActionListen
             setValueInMatrix(2);
         } else if (evt.getSource() == edit3) {
             setValueInMatrix(3);
+        } else if (evt.getSource() == upRow) {
+            upRow();
+        } else if (evt.getSource() == downRow) {
+            downRow();
+        } else if (evt.getSource() == leftCol) {
+            leftCol();
+        } else if (evt.getSource() == rightCol) {
+            rightCol();
         }
+
     }
 
     @Override
@@ -321,7 +336,7 @@ public class JDialogDependencyMatrix extends JDialogBase implements ActionListen
     }
 
     private void prepareMatrixElements() {
-        TraceManager.addDev("Preparing matrix elements");
+        //TraceManager.addDev("Preparing matrix elements");
 
         // row
         int index1 = rowPanelBox.getSelectedIndex();
@@ -350,7 +365,7 @@ public class JDialogDependencyMatrix extends JDialogBase implements ActionListen
             String val = tgc.getValue();
             rows += val.substring(0, Math.min(20, val.length())) + "/" + tgc.getUUID();
         }
-        TraceManager.addDev("Rows=" + rows);
+        //TraceManager.addDev("Rows=" + rows);
 
         // col
         index1 = colPanelBox.getSelectedIndex();
@@ -378,9 +393,10 @@ public class JDialogDependencyMatrix extends JDialogBase implements ActionListen
             String val = tgc.getValue();
             columns += val.substring(0, Math.min(20, val.length())) + "/" + tgc.getUUID();
         }
-        TraceManager.addDev("Columns=" + columns);
+        //TraceManager.addDev("Columns=" + columns);
 
     }
+
 
 
     private void makeMatrix() {
@@ -405,8 +421,9 @@ public class JDialogDependencyMatrix extends JDialogBase implements ActionListen
         }
 
         //TraceManager.addDev("Going to make the matrix / rows=" + rows + " / cols=" + columns);
-
+        //TraceManager.addDev("Setting label");
         labelMatrix.setText("Matrix between " + rowDiag + " and " + columnDiag);
+        labelMatrix.repaint();
 
         dtm = new DependencyTableModel(rows.split("\\$"), columns.split("\\$"),
                 dependencies);
@@ -414,9 +431,9 @@ public class JDialogDependencyMatrix extends JDialogBase implements ActionListen
         matrix = new JTable(dtm);
         matrix.getTableHeader().setReorderingAllowed(false);
         matrix.setCellSelectionEnabled(true);
-        matrix.setDragEnabled(true);
-        matrix.setDropMode(DropMode.INSERT_ROWS);
-        matrix.setTransferHandler(new TableRowTransferHandler(matrix));
+        //matrix.setDragEnabled(true);
+        //matrix.setDropMode(DropMode.INSERT_ROWS);
+        //matrix.setTransferHandler(new TableRowTransferHandler(matrix));
 
         JPopupMenu popup = createDependencyPopup();
 
@@ -424,10 +441,13 @@ public class JDialogDependencyMatrix extends JDialogBase implements ActionListen
 
             @Override
             public void mouseClicked(MouseEvent e) {
+
+                r = matrix.rowAtPoint(e.getPoint());
+                c = matrix.columnAtPoint(e.getPoint());
+
+
                 if (e.getButton() == MouseEvent.BUTTON3) { //Button3 is rightclick
                     //TraceManager.addDev("Right click");
-                    int r = matrix.rowAtPoint(e.getPoint());
-                    int c = matrix.columnAtPoint(e.getPoint());
                     selectedRow = -1;
                     selectedRow = -1;
                     if (r >= 0 && r < matrix.getRowCount() && c >= 0 && c < matrix.getColumnCount()) {
@@ -437,15 +457,93 @@ public class JDialogDependencyMatrix extends JDialogBase implements ActionListen
                         popup.show(matrix, e.getX(), e.getY());
                     }
                 }
+
+                checkButtons();
             }
         });
 
-        
+
+
+        /*matrix.getTableHeader().addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                if (mDraggingColumn && mColumnCHangedIndex) {
+                    TraceManager.addDev("Column changed");
+                }
+                mDraggingColumn = false;
+                mColumnCHangedIndex = false;
+            }
+        });
+        matrix.getColumnModel().addColumnModelListener(new TableColumnModelListener() {
+            @Override
+            public void columnAdded(TableColumnModelEvent e) {}
+            @Override
+            public void columnRemoved(TableColumnModelEvent e) {}
+            @Override
+            public void columnMoved(TableColumnModelEvent e) {
+                mDraggingColumn = true;
+                if (e.getFromIndex() != e.getToIndex()) {
+                    mColumnCHangedIndex = true;
+                }
+            }
+            @Override
+            public void columnMarginChanged(ChangeEvent e) {}
+            @Override
+            public void columnSelectionChanged(ListSelectionEvent e) {}
+        });*/
+
+
+
         matrix.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
         JScrollPane jspRTM = new JScrollPane(matrix);
         jspRTM.setWheelScrollingEnabled(true);
         jspRTM.getVerticalScrollBar().setUnitIncrement(10);
         panelMatrix.add(BorderLayout.CENTER, jspRTM);
+
+
+        // Adding buttons for up / down / left right
+        GridBagLayout gridbagB = new GridBagLayout();
+        GridBagConstraints cB = new GridBagConstraints();
+        JPanel panelButton = new JPanel(gridbagB);
+
+        // Line 1
+        cB.gridwidth = 1;
+        cB.gridheight = 2;
+        cB.weighty = GridBagConstraints.BOTH;
+        cB.weightx = GridBagConstraints.BOTH;
+        panelButton.add(new JLabel(""), cB);
+        upRow = new JButton(IconManager.imgic78);
+        upRow.addActionListener(this);
+        panelButton.add(upRow, cB);
+        cB.gridwidth = GridBagConstraints.REMAINDER;
+        panelButton.add(new JLabel(""), cB);
+
+        // Line 2
+        cB.gridwidth = 1;
+        leftCol = new JButton(IconManager.imgic52r);
+        leftCol.addActionListener(this);
+        panelButton.add(leftCol, cB);
+        panelButton.add(new JLabel(""), cB);
+        cB.gridwidth = GridBagConstraints.REMAINDER;
+        rightCol = new JButton(IconManager.imgic52);
+        rightCol.addActionListener(this);
+        panelButton.add(rightCol, cB);
+
+        // Line 3
+        cB.gridwidth = 1;
+        panelButton.add(new JLabel(""), cB);
+        downRow = new JButton(IconManager.imgic79);
+        downRow.addActionListener(this);
+        panelButton.add(downRow, cB);
+        cB.gridwidth = GridBagConstraints.REMAINDER;
+        panelButton.add(new JLabel(""), cB);
+
+        panelMatrix.add(BorderLayout.EAST, panelButton);
+
+        checkButtons();
+
+
+
 
         if (mainPane != null) {
             mainPane.setSelectedIndex(mainPane.getTabCount()-1);
@@ -460,12 +558,24 @@ public class JDialogDependencyMatrix extends JDialogBase implements ActionListen
     }
 
     private void checkButtons() {
-        generateMatrix.setEnabled(
-                (rowClassList != null) &&
-                        (colClassList != null) &&
-                        (rowClassList.getSelectedIndex() != -1) &&
-                        (colClassList.getSelectedIndex() != -1) &&
-                        (matrix == null));
+        if (generateMatrix != null) {
+            generateMatrix.setEnabled(
+                    (rowClassList != null) &&
+                            (colClassList != null) &&
+                            (rowClassList.getSelectedIndex() != -1) &&
+                            (colClassList.getSelectedIndex() != -1) &&
+                            (matrix == null));
+        }
+
+        if ((upRow != null) && (downRow != null) && (leftCol != null) && (rightCol != null)) {
+            //TraceManager.addDev("row =" + r  + " column = " + c);
+            //TraceManager.addDev("Setting row / col move buttons");
+            upRow.setEnabled(r > 0);
+            downRow.setEnabled( (r >= 0) && (r < (matrix.getRowCount() - 1)));
+
+            leftCol.setEnabled(c > 1);
+            rightCol.setEnabled( (c > -1) && (c < (matrix.getColumnCount() - 1)));
+        }
     }
 
     private void fillDiagBox(JComboBox<String> panelBox, JComboBox<String> diagBox) {
@@ -484,6 +594,62 @@ public class JDialogDependencyMatrix extends JDialogBase implements ActionListen
             for (String st : elts) {
                 diagBox.addItem(st);
             }
+        }
+    }
+
+    private void upRow() {
+         if (dtm != null) {
+             dtm.upRow(r);
+             r = r - 1;
+             matrix.changeSelection(r, c, false, false);
+             matrix.repaint();
+             checkButtons();
+         }
+    }
+
+    private void downRow() {
+        if (dtm != null) {
+            dtm.downRow(r);
+            r = r + 1;
+            matrix.changeSelection(r, c, false, false);
+            matrix.repaint();
+            checkButtons();
+
+        }
+    }
+
+    private void leftCol() {
+        if (dtm != null) {
+            dtm.leftCol(c-1);
+            c = c - 1;
+            matrix.changeSelection(r, c, false, false);
+            matrix.repaint();
+            JTableHeader th = matrix.getTableHeader();
+            TableColumnModel tcm = th.getColumnModel();
+            TableColumn tc = tcm.getColumn(c);
+            tc.setHeaderValue( dtm.getColumnName(c) );
+            tc = tcm.getColumn(c+1);
+            tc.setHeaderValue( dtm.getColumnName(c+1) );
+            th.repaint();
+
+            checkButtons();
+        }
+    }
+
+    private void rightCol() {
+        if (dtm != null) {
+            dtm.rightCol(c-1);
+            c = c + 1;
+            matrix.changeSelection(r, c, false, false);
+            matrix.repaint();
+            JTableHeader th = matrix.getTableHeader();
+            TableColumnModel tcm = th.getColumnModel();
+            TableColumn tc = tcm.getColumn(c);
+            tc.setHeaderValue( dtm.getColumnName(c) );
+            tc = tcm.getColumn(c-1);
+            tc.setHeaderValue( dtm.getColumnName(c-1) );
+            th.repaint();
+            checkButtons();
         }
     }
 
@@ -546,7 +712,7 @@ public class JDialogDependencyMatrix extends JDialogBase implements ActionListen
     }
 
     public void setValueInMatrix(int value) {
-        TraceManager.addDev("set value in matrix" + value);
+        //TraceManager.addDev("set value in matrix" + value);
         //selectedRow = matrix.getSelectedRow();
         //selectedCol = matrix.getSelectedColumn();
         if ((selectedCol >= 0) && (selectedRow >= 0) & dtm != null) {

@@ -135,6 +135,7 @@ public class MyMathTest {
         assertEquals(resultMatrix4[2][0], 1);
         assertEquals(resultMatrix4[3][0], 2);
         assertEquals(resultMatrix4[4][0], 3);
+
     }
 
 

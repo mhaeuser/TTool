@@ -50,6 +50,7 @@ import javax.swing.table.AbstractTableModel;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.LinkedList;
 
 /**
@@ -126,7 +127,7 @@ public class DependencyTableModel extends AbstractTableModel implements Reordera
             for(int j=0; j< cols.size(); j++) {
                 if (values[i][j] > 0) {
                     BytePoint pt = new BytePoint(i, j, values[i][j]);
-                    TraceManager.addDev("Adding point: " + pt);
+                    //TraceManager.addDev("Adding point: " + pt);
                     points.add(pt);
                 }
             }
@@ -139,6 +140,67 @@ public class DependencyTableModel extends AbstractTableModel implements Reordera
             values[selectedRow][selectedCol] = (byte) value;
         }
     }
+
+
+    public void upRow(int indexR) {
+
+        // Saving row values
+        Collections.swap(rows, indexR, indexR - 1);
+
+        byte[] line = new byte[values.length];
+        for (int j = 0; j < cols.size(); j++) {
+            line[j] = values[indexR][j];
+        }
+
+        for (int j = 0; j < cols.size(); j++) {
+            values[indexR][j] = values[indexR-1][j];
+            values[indexR-1][j] = line[j];
+        }
+    }
+
+    public void downRow(int indexR) {
+        // Saving row values
+        Collections.swap(rows, indexR, indexR + 1);
+
+        byte[] line = new byte[values.length];
+        for (int j = 0; j < cols.size(); j++) {
+            line[j] = values[indexR][j];
+        }
+
+        for (int j = 0; j < cols.size(); j++) {
+            values[indexR][j] = values[indexR+1][j];
+            values[indexR+1][j] = line[j];
+        }
+    }
+
+    public void leftCol(int indexCol) {
+        Collections.swap(cols, indexCol, indexCol - 1);
+
+        byte[] col = new byte[rows.size()];
+        for (int i = 0; i < rows.size(); i++) {
+            col[i] = values[i][indexCol];
+        }
+
+        for (int i = 0; i < rows.size(); i++) {
+            values[i][indexCol] = values[i][indexCol-1];
+            values[i][indexCol-1] = col[i];
+        }
+    }
+
+    public void rightCol(int indexCol) {
+        Collections.swap(cols, indexCol, indexCol + 1);
+
+        byte[] col = new byte[rows.size()];
+        for (int i = 0; i < rows.size(); i++) {
+            col[i] = values[i][indexCol];
+        }
+
+        for (int i = 0; i < rows.size(); i++) {
+            values[i][indexCol] = values[i][indexCol+1];
+            values[i][indexCol+1] = col[i];
+        }
+    }
+
 
     public void reorderRow(int fromIndex, int toIndex) {
         TraceManager.addDev("Reordering from " + fromIndex + " to " + toIndex);

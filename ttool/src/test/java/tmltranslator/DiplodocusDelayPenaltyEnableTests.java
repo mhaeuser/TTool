@@ -32,8 +32,8 @@ public class DiplodocusDelayPenaltyEnableTests extends AbstractTest {
     //model for Delay task with penalties
     private static final int [] NB_Of_DELAY_STATES_PENALTIES = {42, 42, 42, 42, 32, 32};
     private static final int [] NB_Of_DELAY_TRANSTIONS_PENALTIES = {41, 41, 41, 41, 31, 31};
-    private static final int [] MIN_DELAY_CYCLES_PENALTIES = {2590, 2590, 2670, 2670, 2010, 2340};
-    private static final int [] MAX_DELAY_CYCLES_PENALTIES = {2590, 2590, 2670, 2670, 2010, 2340};
+    private static final int [] MIN_DELAY_CYCLES_PENALTIES = {2570, 2570, 2640, 2640, 2010, 2320};
+    private static final int [] MAX_DELAY_CYCLES_PENALTIES = {2570, 2570, 2640, 2640, 2010, 2320};
 
     private static final String CPP_DIR = "../../../../simulators/c++2/";
     private String SIM_DIR;

@@ -35,7 +35,7 @@
 </COMPONENT>
 
 <COMPONENT type="309" id="34" index="1" uid="4264f684-9e08-4164-a2f5-6c22db88858f" >
-<cdparam x="1106" y="423" />
+<cdparam x="1107" y="422" />
 <sizeparam width="150" height="150" minWidth="20" minHeight="20" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <hidden value="false" />
 <cdrectangleparam minX="10" maxX="1900" minY="10" maxY="1400" />
@@ -59,10 +59,17 @@
 <extraparam>
 <columnDiag v="AVATAR RD" />
 <rowDiag v="AVATAR RD" />
-<rows v="Requirement_0/21634324-f1ec-471d-b025-373bb090c963$req00/6a44a70b-341e-4094-9eb3-95ef05784845$Req_Availability/2db149ef-c53b-4707-8c0f-285eea3e4257$Req_CoffeeMachine/e73051aa-2858-45ad-9538-4bb540752766$req1/d6ff748e-4216-4bb2-b0ce-81e64e2dbd68$req0/3f856106-1533-4f29-bb50-d5da20b70742$req2/e1c3057e-2674-463d-8b8c-6d741b397711" />
-<columns v="Requirement_0/21634324-f1ec-471d-b025-373bb090c963$req00/6a44a70b-341e-4094-9eb3-95ef05784845$Req_Availability/2db149ef-c53b-4707-8c0f-285eea3e4257$Req_CoffeeMachine/e73051aa-2858-45ad-9538-4bb540752766$req1/d6ff748e-4216-4bb2-b0ce-81e64e2dbd68$req0/3f856106-1533-4f29-bb50-d5da20b70742$req2/e1c3057e-2674-463d-8b8c-6d741b397711" />
-<p x="0" y="0" v="2" />
-<p x="2" y="1" v="3" />
+<rows v="Requirement_0/21634324-f1ec-471d-b025-373bb090c963$req00/6a44a70b-341e-4094-9eb3-95ef05784845$Req_Availability/2db149ef-c53b-4707-8c0f-285eea3e4257$Req_CoffeeMachine/e73051aa-2858-45ad-9538-4bb540752766$req1/d6ff748e-4216-4bb2-b0ce-81e64e2dbd68$req2/e1c3057e-2674-463d-8b8c-6d741b397711$req0/3f856106-1533-4f29-bb50-d5da20b70742" />
+<columns v="Requirement_0/21634324-f1ec-471d-b025-373bb090c963$Req_Availability/2db149ef-c53b-4707-8c0f-285eea3e4257$req00/6a44a70b-341e-4094-9eb3-95ef05784845$Req_CoffeeMachine/e73051aa-2858-45ad-9538-4bb540752766$req1/d6ff748e-4216-4bb2-b0ce-81e64e2dbd68$req0/3f856106-1533-4f29-bb50-d5da20b70742$req2/e1c3057e-2674-463d-8b8c-6d741b397711" />
+<p x="1" y="0" v="2" />
+<p x="1" y="3" v="3" />
+<p x="1" y="4" v="2" />
+<p x="1" y="5" v="3" />
+<p x="1" y="6" v="2" />
+<p x="2" y="2" v="3" />
+<p x="2" y="3" v="1" />
+<p x="2" y="6" v="3" />
+<p x="4" y="6" v="1" />
 <p x="6" y="6" v="1" />
 </extraparam>
 </COMPONENT>

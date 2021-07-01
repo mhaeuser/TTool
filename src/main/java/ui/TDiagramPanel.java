@@ -439,14 +439,14 @@ public abstract class TDiagramPanel extends JPanel implements GenericTree {
 
     @Override
     protected void paintComponent(Graphics g) {
-        paintMycomponents(g);
+        paintMyComponents(g);
     }
 
-    public void paintMycomponents(Graphics g) {
-        paintMycomponents(g, true, 1, 1);
+    public void paintMyComponents(Graphics g) {
+        paintMyComponents(g, true, 1, 1);
     }
 
-    protected void basicPaintMyComponents(Graphics g) {
+    public void basicPaintMyComponents(Graphics g) {
         TGComponent tgc;
         for (int i = componentList.size() - 1; i >= 0; i--) {
             tgc = this.componentList.get(i);
@@ -461,8 +461,10 @@ public abstract class TDiagramPanel extends JPanel implements GenericTree {
 
     private Font fontToUse = null;
 
-    public void paintMycomponents(Graphics g, boolean b, double w, double h) {
+    public void paintMyComponents(Graphics g, boolean b, double w, double h) {
+        //TraceManager.addDev("Going to paint components (1)" + tp);
         if (!drawable) {
+            TraceManager.addDev("Not drawable! " + tp);
             return;
         }
 
@@ -475,9 +477,11 @@ public abstract class TDiagramPanel extends JPanel implements GenericTree {
         this.drawingMain = b;
 
         if (!this.overcomeShowing && !this.isShowing()) {
-            TraceManager.addDev("Not showing!" + tp);
+            TraceManager.addDev("Not showing! " + tp);
             return;
         }
+
+        //TraceManager.addDev("Going to paint components (2)" + tp);
 
         try {
             super.paintComponent(g);
@@ -3784,7 +3788,7 @@ public abstract class TDiagramPanel extends JPanel implements GenericTree {
         draw = true;
         //paintMycomponents(g);
         overcomeShowing = true;
-        paintMycomponents(g, false, 1, 1);
+        paintMyComponents(g, false, 1, 1);
         //this.paint(g);
         overcomeShowing = false;
         //g.dispose();
@@ -4099,8 +4103,13 @@ public abstract class TDiagramPanel extends JPanel implements GenericTree {
 
         return sb.toString();*/
 
+        TraceManager.addDev("Capturing SVG for:" + this);
+
+        overcomeShowing = true;
         SVGGeneration gen = new SVGGeneration();
-        return gen.getSVGString(this);
+        String ret =  gen.getSVGString(this, getRealMaxX()+10, getRealMaxY()+10);
+        overcomeShowing = false;
+        return ret;
     }
 
     public String oldSvgCapture() {

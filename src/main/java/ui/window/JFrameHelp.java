@@ -142,9 +142,15 @@ public	class JFrameHelp extends JFrame implements ActionListener {
             String line;
 
             while ((line = in.readLine()) != null) {
+                TraceManager.addDev("Line of css: " + line);
                 styleSheet.addRule(line);
             }
+
+            //styleSheet.addRule("h3 {color: green; margin-top: 15px;}");
+            //styleSheet.addRule("p {color: blue; margin-top: 5em; margin-bottom: 5em;}");
+
         } catch (Exception e) {
+            TraceManager.addDev("Failed style HTML:" + e.getMessage());
             styleSheet.addRule("body {color:#000; font-family:times; margin: 4px; }");
             styleSheet.addRule("h1 {color: blue; margin-top: 20px;}");
             styleSheet.addRule("h2 {color: #ff0000; margin-top: 20px;}");

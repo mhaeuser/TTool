@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<TURTLEGMODELING version="1.0beta" ANIMATE_INTERACTIVE_SIMULATION="true" ACTIVATE_PENALTIES="true" UPDATE_INFORMATION_DIPLO_SIM="true" ANIMATE_WITH_INFO_DIPLO_SIM="true" OPEN_DIAG_DIPLO_SIM="false" LAST_SELECTED_MAIN_TAB="1" LAST_SELECTED_SUB_TAB="0">
+<TURTLEGMODELING version="1.0beta" ANIMATE_INTERACTIVE_SIMULATION="true" ACTIVATE_PENALTIES="true" UPDATE_INFORMATION_DIPLO_SIM="true" ANIMATE_WITH_INFO_DIPLO_SIM="true" OPEN_DIAG_DIPLO_SIM="false" LAST_SELECTED_MAIN_TAB="0" LAST_SELECTED_SUB_TAB="0">
 
 <Modeling type="TML Component Design" nameTab="Application" tabs="TML Component Task Diagram$Sender$Receiver" >
 <TMLComponentTaskDiagramPanel name="TML Component Task Diagram" minX="10" maxX="2500" minY="10" maxY="1500" channels="true" events="true" requests="true" zoom="1.0" >
@@ -75,7 +75,7 @@
 <infoparam name="Primitive port" value="Channel comm_0" />
 <TGConnectingPoint num="0" id="13" />
 <extraparam>
-<Prop commName="comm_0" commType="0" origin="true" finite="false" blocking="true" maxSamples="100" widthSamples="4000" isLossy="false" isPrex="false" isPostex="false" lossPercentage="0" maxNbOfLoss="0" dataFlowType="int16_t" associatedEvent="" checkConf="false" checkConfStatus="0" checkAuth="false" checkWeakAuthStatus="1" checkStrongAuthStatus="1" vc="0" />
+<Prop commName="comm_0" commType="0" origin="true" finite="false" blocking="true" maxSamples="100" widthSamples="4000" isLossy="false" isPrex="false" isPostex="false" lossPercentage="0" maxNbOfLoss="0" dataFlowType="int16_t" associatedEvent="" checkConf="false" checkConfStatus="0" checkAuth="false" checkWeakAuthStatus="0" checkStrongAuthStatus="0" vc="0" />
 <Type type="0" typeOther="" />
 <Type type="0" typeOther="" />
 <Type type="0" typeOther="" />
@@ -226,7 +226,7 @@
 <Modeling type="TML Architecture" nameTab="Architecture" >
 <TMLArchiDiagramPanel name="DIPLODOCUS architecture and mapping Diagram" minX="10" maxX="2500" minY="10" maxY="1500" attributes="0" masterClockFrequency="200" zoom="1.0" >
 <COMPONENT type="1105" id="80" index="0" uid="499d2730-701a-49ce-98de-fb5b89908470" >
-<cdparam x="867" y="514" />
+<cdparam x="857" y="473" />
 <sizeparam width="382" height="269" minWidth="100" minHeight="35" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <hidden value="false" />
 <cdrectangleparam minX="10" maxX="2500" minY="10" maxY="1500" />
@@ -262,7 +262,7 @@
 </COMPONENT>
 <SUBCOMPONENT type="1103" id="55" index="7" uid="1150df61-ad07-443a-a02e-479d023a0113" >
 <father id="80" num="0" />
-<cdparam x="977" y="589" />
+<cdparam x="967" y="548" />
 <sizeparam width="156" height="40" minWidth="75" minHeight="1" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <hidden value="false" />
 <cdrectangleparam minX="0" maxX="226" minY="0" maxY="229" />
@@ -281,7 +281,7 @@
 </SUBCOMPONENT>
 
 <COMPONENT type="1102" id="114" index="1" uid="83b398a4-cecf-45bc-bee1-20303cff0c67" >
-<cdparam x="487" y="395" />
+<cdparam x="477" y="354" />
 <sizeparam width="328" height="105" minWidth="100" minHeight="50" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <hidden value="false" />
 <cdrectangleparam minX="10" maxX="2500" minY="10" maxY="1500" />
@@ -317,7 +317,7 @@
 </COMPONENT>
 <SUBCOMPONENT type="1103" id="89" index="8" uid="218c8e0c-d407-4ae9-b202-7fffcccaf62f" >
 <father id="114" num="0" />
-<cdparam x="565" y="442" />
+<cdparam x="555" y="401" />
 <sizeparam width="156" height="40" minWidth="75" minHeight="1" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <hidden value="false" />
 <cdrectangleparam minX="0" maxX="172" minY="0" maxY="65" />
@@ -336,7 +336,7 @@
 </SUBCOMPONENT>
 
 <COMPONENT type="1100" id="148" index="2" uid="c0c220f8-2902-4636-b02b-5987a6e8a61a" >
-<cdparam x="1009" y="113" />
+<cdparam x="999" y="72" />
 <sizeparam width="250" height="200" minWidth="150" minHeight="100" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <hidden value="false" />
 <cdrectangleparam minX="10" maxX="2500" minY="10" maxY="1500" />
@@ -372,7 +372,7 @@
 </COMPONENT>
 <SUBCOMPONENT type="1101" id="123" index="9" uid="3e021e68-13e0-4589-b40b-a4374f4293ac" >
 <father id="148" num="0" />
-<cdparam x="1078" y="176" />
+<cdparam x="1068" y="135" />
 <sizeparam width="156" height="40" minWidth="100" minHeight="1" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <hidden value="false" />
 <cdrectangleparam minX="0" maxX="94" minY="0" maxY="160" />
@@ -391,7 +391,7 @@
 </SUBCOMPONENT>
 
 <COMPONENT type="1100" id="182" index="3" uid="be2d08f3-6598-44fe-bc97-a3f830ab925f" >
-<cdparam x="155" y="92" />
+<cdparam x="145" y="51" />
 <sizeparam width="250" height="200" minWidth="150" minHeight="100" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <hidden value="false" />
 <cdrectangleparam minX="10" maxX="2500" minY="10" maxY="1500" />
@@ -427,7 +427,7 @@
 </COMPONENT>
 <SUBCOMPONENT type="1101" id="157" index="10" uid="4cb3d2c2-880f-498b-a4d4-b9031600e42b" >
 <father id="182" num="0" />
-<cdparam x="234" y="176" />
+<cdparam x="224" y="135" />
 <sizeparam width="147" height="40" minWidth="100" minHeight="1" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <hidden value="false" />
 <cdrectangleparam minX="0" maxX="103" minY="0" maxY="160" />
@@ -446,11 +446,11 @@
 </SUBCOMPONENT>
 
 <CONNECTOR type="125" id="183" index="4" uid="bed2347c-6349-4403-9f39-a69080e513b9" >
-<cdparam x="827" y="633" />
+<cdparam x="817" y="592" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector" value="{info}" />
-<P1  x="867" y="581" id="66" />
-<P2  x="733" y="500" id="105" />
+<P1  x="857" y="540" id="66" />
+<P2  x="723" y="459" id="105" />
 <AutomaticDrawing  data="true" />
 <extraparam>
 <info priority="0" />
@@ -458,11 +458,11 @@
 </extraparam>
 </CONNECTOR>
 <CONNECTOR type="125" id="184" index="5" uid="dc577ebd-531f-4665-9928-f514c9b1bf09" >
-<cdparam x="1071" y="313" />
+<cdparam x="1061" y="272" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector" value="{info}" />
-<P1  x="1071" y="313" id="138" />
-<P2  x="815" y="421" id="101" />
+<P1  x="1061" y="272" id="138" />
+<P2  x="805" y="380" id="101" />
 <AutomaticDrawing  data="true" />
 <extraparam>
 <info priority="0" />
@@ -470,11 +470,11 @@
 </extraparam>
 </CONNECTOR>
 <CONNECTOR type="125" id="185" index="6" uid="c6717ed3-5807-4b49-9aad-78ffef2736fa" >
-<cdparam x="404" y="301" />
+<cdparam x="394" y="260" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector" value="{info}" />
-<P1  x="342" y="292" id="173" />
-<P2  x="487" y="421" id="100" />
+<P1  x="332" y="251" id="173" />
+<P2  x="477" y="380" id="100" />
 <AutomaticDrawing  data="true" />
 <extraparam>
 <info priority="0" />

@@ -43,11 +43,7 @@ import myutilsvg.*;
 import ui.atd.ATDAttack;
 import ui.atd.ATDBlock;
 import ui.avatarad.AvatarADActivity;
-import ui.avatarbd.AvatarBDBlock;
-import ui.avatarbd.AvatarBDInterface;
-import ui.avatarbd.AvatarBDPragma;
-import ui.avatarbd.AvatarBDDataType;
-import ui.avatarbd.AvatarBDLibraryFunction;
+import ui.avatarbd.*;
 import ui.avatarcd.AvatarCDBlock;
 import ui.avatarmad.AvatarMADAssumption;
 import ui.avatarrd.AvatarRDRequirement;
@@ -3936,8 +3932,7 @@ public abstract class TDiagramPanel extends JPanel implements GenericTree {
             tgc.checkAllMySize();
     }
 
-    public void enhance() {
-    }
+
 
     public void autoAdjust() {
         for (TGComponent tgc : this.componentList)
@@ -3947,6 +3942,10 @@ public abstract class TDiagramPanel extends JPanel implements GenericTree {
         adjustMode = (adjustMode + 1) % 2;
 
         repaint();
+    }
+
+    public void enhance() {
+
     }
 
     public boolean hasAutoConnect() {

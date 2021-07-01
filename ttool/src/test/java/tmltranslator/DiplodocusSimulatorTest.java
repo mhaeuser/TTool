@@ -32,10 +32,10 @@ public class DiplodocusSimulatorTest extends AbstractTest {
     final int [] MAX_CYCLES = {297, 4025};
     //model for daemon task
     final String [] MODELS_DAEMON = {"daemontest1", "daemontest2"};
-    final int [] NB_Of_DAEMON_STATES = {7, 109};
-    final int [] NB_Of_DAEMON_TRANSTIONS = {6, 108};
-    final int [] MIN_DAEMON_CYCLES = {160, 2722};
-    final int [] MAX_DAEMON_CYCLES = {160, 2722};
+    final int [] NB_Of_DAEMON_STATES = {5, 108};
+    final int [] NB_Of_DAEMON_TRANSTIONS = {4, 107};
+    final int [] MIN_DAEMON_CYCLES = {26, 3030};
+    final int [] MAX_DAEMON_CYCLES = {26, 3030};
 
     // model for Daemon Run To Next Breakpoint
     final String MODELS_DAEMON_RTNB = "testDaemon";

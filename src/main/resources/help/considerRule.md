@@ -1,2 +1,0 @@
-## consider Rule
-consider Rule

@@ -279,6 +279,9 @@ public class InputInstanceTest {
 
         try {
             OptimizationResult result = optimizationModel.findFeasibleMapping();
+        } catch (UnsatisfiedLinkError ule) {
+            System.out.println("InputInstanceTest. Exception: " + ule.getMessage());
+            return;
         } catch (Exception e) {
             System.out.println("InputInstanceTest. Exception: " + e.getMessage());
             return;

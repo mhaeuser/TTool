@@ -1575,7 +1575,23 @@ public class JFrameInteractiveSimulation extends JFrame implements ActionListene
                     mctb.setActive(false);
                     isServerReply = false;
                     timelineParam = "";
-                    sendCommand( "show-timeline-trace " + listOfTaskToShowInTimeLine + ((isScalable) ? " 1" : " 0" ));
+                    if (tmlSimPanelTimeline.getCheckBoxSelectedTimePeriod()) {
+                        if (tmlSimPanelTimeline.isValidDuration()) {
+                            sendCommand( "show-timeline-trace " + listOfTaskToShowInTimeLine + ((isScalable) ? " 1 " : " 0 " ) + tmlSimPanelTimeline.getStarTime() + " " + tmlSimPanelTimeline.getEndTime());
+                        } else {
+                            timelineParam = "<!DOCTYPE html><html><body><header><h1>WRONG TIME FORMAT</h1></header></body></html>";
+                            tmlSimPanelTimeline.setStatusBar(status.getText().trim(), time.getText().trim(), info.getText().trim());
+                            tmlSimPanelTimeline.setContentPaneEnable(true);
+                            mctb.setActive(true);
+                            commandTab.setEnabled(true);
+                            setAll();
+                            return;
+                        }
+                    } else {
+                        sendCommand( "show-timeline-trace " + listOfTaskToShowInTimeLine + ((isScalable) ? " 1 0 10000000" : " 0 0 10000000" ) );
+                        // display transactions from 0 to 10000000
+                    }
+
                     Frame f = new JFrame("Updating Data");
                     JPanel p = new JPanel();
                     JProgressBar b = new JProgressBar();
@@ -1630,6 +1646,11 @@ public class JFrameInteractiveSimulation extends JFrame implements ActionListene
 
         if (!listOfTaskToShowInTimeLine.equals("")) {
             tmlSimPanelTimeline = new JFrameTMLSimulationPanelTimeline(new Frame(), mgui, this, "Show Trace - Timeline", timelineParam);
+            tmlSimPanelTimeline.setCheckBoxSelectedTimePeriod(jdstmlc.getSelectedTimePeriod());
+            if (jdstmlc.getSelectedTimePeriod()) {
+                tmlSimPanelTimeline.setStartTime(jdstmlc.getStartTime());
+                tmlSimPanelTimeline.setEndTime(jdstmlc.getEndTime());
+            }
             tmlSimPanelTimeline.setParam(paramMainCommand.getText().trim());
             tmlSimPanelTimeline.setVisible(true);
             updateTimelineTrace();

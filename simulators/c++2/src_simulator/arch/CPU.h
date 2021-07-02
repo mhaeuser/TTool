@@ -122,7 +122,7 @@ public:
 	void buttonPieChart(std::ofstream& myfile) const;
 	void showPieChart(std::ofstream& myfile) const;
 	void HW2HTML(std::ofstream& myfile) const;
-	std::map<TMLTask*, std::string> HWTIMELINE2HTML(std::ostringstream& myfile,std::map<TMLTask*, std::string> taskCellClasses,unsigned int nextCellClassIndex, std::string& iTracetaskList, bool isScalable);
+	std::map<TMLTask*, std::string> HWTIMELINE2HTML(std::ostringstream& myfile,std::map<TMLTask*, std::string> taskCellClasses,unsigned int nextCellClassIndex, std::string& iTracetaskList, bool isScalable, double start, double end);
 	inline unsigned int getMaxScale() { return maxScale; }
 	inline void resetMaxScale() { maxScale = 0; }
 	void schedule2HTML(std::ofstream& myfile) const;

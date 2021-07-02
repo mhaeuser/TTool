@@ -1579,13 +1579,8 @@ public class JFrameInteractiveSimulation extends JFrame implements ActionListene
                         if (tmlSimPanelTimeline.isValidDuration()) {
                             sendCommand( "show-timeline-trace " + listOfTaskToShowInTimeLine + ((isScalable) ? " 1 " : " 0 " ) + tmlSimPanelTimeline.getStarTime() + " " + tmlSimPanelTimeline.getEndTime());
                         } else {
-                            timelineParam = "<!DOCTYPE html><html><body><header><h1>WRONG TIME FORMAT</h1></header></body></html>";
-                            tmlSimPanelTimeline.setStatusBar(status.getText().trim(), time.getText().trim(), info.getText().trim());
-                            tmlSimPanelTimeline.setContentPaneEnable(true);
-                            mctb.setActive(true);
-                            commandTab.setEnabled(true);
-                            setAll();
-                            return;
+                            //unvalid start and end time, send default command
+                            sendCommand( "show-timeline-trace " + listOfTaskToShowInTimeLine + ((isScalable) ? " 1 0 10000000" : " 0 0 10000000" ) );
                         }
                     } else {
                         sendCommand( "show-timeline-trace " + listOfTaskToShowInTimeLine + ((isScalable) ? " 1 0 10000000" : " 0 0 10000000" ) );

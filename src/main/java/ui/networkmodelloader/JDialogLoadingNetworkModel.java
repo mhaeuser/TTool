@@ -54,7 +54,7 @@ import java.awt.event.ActionListener;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.ArrayList;;
 
 
 /**
@@ -408,7 +408,7 @@ public class JDialogLoadingNetworkModel extends javax.swing.JFrame implements Ac
                 File file = new File(filePath);
                 file = FileUtils.addFileExtensionIfMissing(file, TFileFilter.getExtension());
                 try {
-                    FileUtils.moveFileToDirectory(file, dir, false);
+                    org.apache.commons.io.FileUtils.moveFileToDirectory(file, dir, false);
                 } catch (IOException e) {
                     System.err.println(e.getMessage() + " : Network loading failed");
                 }

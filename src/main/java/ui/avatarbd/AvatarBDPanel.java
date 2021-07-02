@@ -407,6 +407,45 @@ public class AvatarBDPanel extends TDiagramPanel {
         }
     }
 
+    public void enhance() {
+        TraceManager.addDev("Enhance i.e. auto connect signals");
+        // We take all BDPortConnector
+        // We look for the origin blocks, and available signals. If nthey are compatible, we connect them
+        connectSignals();
+    }
+
+    public void connectSignals() {
+        for (TGComponent tgc : this.getAllComponentList()) {
+            if (tgc instanceof AvatarBDPortConnector) {
+                AvatarBDBlock block1 = ((AvatarBDPortConnector)tgc).getAvatarBDBlock1();
+                AvatarBDBlock block2 = ((AvatarBDPortConnector)tgc).getAvatarBDBlock2();
+                List<AvatarSignal> available1 = block1.getListOfAvailableSignals();
+                connectIfPossible((AvatarBDPortConnector)tgc, block1, available1, block2, true);
+                updateSignalAttachement(block1, (AvatarBDPortConnector)tgc);
+                updateSignalAttachement(block2, (AvatarBDPortConnector)tgc);
+            }
+        }
+    }
+
+    private void connectIfPossible(AvatarBDPortConnector port, AvatarBDBlock block, List<AvatarSignal> sigs, AvatarBDBlock otherBlock,
+                                   boolean origin) {
+        for(AvatarSignal sig: sigs) {
+            // Try to associate it with one of the signals
+            for(AvatarSignal pot: otherBlock.getListOfAvailableSignals()) {
+                TraceManager.addDev("Testing block" + block.getBlockName() + " sig=" + sig.getId() +
+                        " with block " + otherBlock.getBlockName()  + " sig = " + pot.getId());
+                if ( sig.isCompatibleWith(pot) && (sig.getId().compareTo(pot.getId()) == 0) ) {
+                    TraceManager.addDev("Added connection: block " + block.getBlockName() + " sig=" + sig.getId() +
+                            " with block " + otherBlock.getBlockName()  + " sig = " + pot.getId());
+                    port.addSignal(sig.toString(), sig.getInOut() == AvatarSignal.IN, origin);
+                    port.addSignal(pot.toString(), pot.getInOut() == AvatarSignal.IN, !origin);
+
+                    break;
+                }
+            }
+        }
+    }
+
     public void updateAllSignalsOnConnectors() {
         for (TGComponent tgc: this.componentList)
             if (tgc instanceof AvatarBDPortConnector) {

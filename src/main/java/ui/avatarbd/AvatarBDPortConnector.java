@@ -619,13 +619,13 @@ public class AvatarBDPortConnector extends TGConnectorWithCommentConnectionPoint
         String s;
 
         for (i = 0; i < outSignalsAtOrigin.size(); i++) {
-            //TraceManager.addDev("out sig origin");
+            TraceManager.addDev("out sig origin");
             try {
-                //TraceManager.addDev("sig block1: " + block1.getAvatarSignalFromFullName(outSignalsAtOrigin.get(i)).toString());
+                TraceManager.addDev("sig block1: " + block1.getAvatarSignalFromFullName(outSignalsAtOrigin.get(i)).toString());
                 //TraceManager.addDev("Found");
                 //TraceManager.addDev("Size of in at dest:" + inSignalsAtDestination.size() + " signal name:" + inSignalsAtDestination.get(i)
                 //.toString());
-                //TraceManager.addDev("Sig block2: " + block2.getAvatarSignalFromFullName(inSignalsAtDestination.get(i)).toString());
+                TraceManager.addDev("Sig block2: " + block2.getAvatarSignalFromFullName(inSignalsAtDestination.get(i)).toString());
 
                 //TraceManager.addDev("Found");
                 s = makeSignalAssociation(block1, block1.getAvatarSignalFromFullName(outSignalsAtOrigin.get(i)), block2, block2.getAvatarSignalFromFullName(inSignalsAtDestination.get(i)));
@@ -637,12 +637,14 @@ public class AvatarBDPortConnector extends TGConnectorWithCommentConnectionPoint
         }
 
         for (i = 0; i < inSignalsAtOrigin.size(); i++) {
-            //TraceManager.addDev("in sig origin");
+            TraceManager.addDev("in sig origin");
             try {
-                s = makeSignalAssociation(block1, block1.getAvatarSignalFromFullName(inSignalsAtOrigin.get(i)), block2, block2.getAvatarSignalFromFullName(outSignalsAtDestination.get(i)));
+
+                s = makeSignalAssociation(block1, block1.getAvatarSignalFromFullName(inSignalsAtOrigin.get(i)), block2,
+                        block2.getAvatarSignalFromFullName(outSignalsAtDestination.get(i)));
                 v.add(s);
             } catch (Exception e) {
-                TraceManager.addDev("Exception: signal removed? in origin");
+                TraceManager.addDev("Exception: signal removed? in origin. " + e.getMessage());
                 // Probably a signal has been removed
             }
         }
@@ -701,7 +703,7 @@ public class AvatarBDPortConnector extends TGConnectorWithCommentConnectionPoint
     }
 
     public void addSignal(String signal, boolean in, boolean origin) {
-        //TraceManager.addDev("Adding signal " + signal + " isIn:" + in + " origin:" + origin);
+        TraceManager.addDev("Adding signal " + signal + " isIn:" + in + " origin:" + origin);
         if (in) {
             if (origin) {
                 inSignalsAtOrigin.add(signal);

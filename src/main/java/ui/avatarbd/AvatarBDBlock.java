@@ -1622,6 +1622,7 @@ public class AvatarBDBlock extends TGCScalableWithInternalComponent implements S
             //TraceManager.addDev("out  signal");
             return getSignalNameBySignalDef(_id.substring(4, _id.length()).trim());
         }
+
         return null;
     }
 

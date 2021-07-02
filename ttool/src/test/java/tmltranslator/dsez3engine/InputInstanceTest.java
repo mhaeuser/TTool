@@ -245,6 +245,8 @@ public class InputInstanceTest {
 
         System.out.println("Z3. Finding optimal mapping");
         try {
+            Class.forName("com.microsoft.z3.Native");
+
             OptimizationResult result = optimizationModel.findOptimizedMapping();
             assertEquals(1, optimizationModel.getOptimizedSolutionX().get("X[task__A][MainCPU] = ").intValue());
             assertEquals(0, optimizationModel.getOptimizedSolutionX().get("X[task__A][dsp] = ").intValue());
@@ -259,7 +261,10 @@ public class InputInstanceTest {
             assertEquals(300, optimizationModel.getOptimizedSolutionStart().get("start[task__B] = ").intValue());
             assertEquals(400, optimizationModel.getOptimizedSolutionStart().get("start[task__D] = ").intValue());
             assertEquals(500, optimizationModel.getOptimizedSolutionStart().get("start[task__E] = ").intValue());
-        } catch (Exception e) {
+        } catch (NoClassDefFoundError ncdfe) {
+            System.out.println("InputInstanceTest. Exception: " + ncdfe.getMessage());
+            return;
+        }catch (Exception e) {
             System.out.println("InputInstanceTest. Exception: " + e.getMessage());
             return;
         }
@@ -279,6 +284,9 @@ public class InputInstanceTest {
 
         try {
             OptimizationResult result = optimizationModel.findFeasibleMapping();
+        } catch (UnsatisfiedLinkError ule) {
+            System.out.println("InputInstanceTest. Exception: " + ule.getMessage());
+            return;
         } catch (Exception e) {
             System.out.println("InputInstanceTest. Exception: " + e.getMessage());
             return;

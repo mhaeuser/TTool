@@ -97,6 +97,8 @@ public class AvatarBDToolBar extends TToolBar {
 
         mgui.actions[TGUIAction.ACT_TOGGLE_ATTR].setEnabled(b);
 
+        mgui.actions[TGUIAction.ACT_ENHANCE].setEnabled(b);
+
         mgui.actions[TGUIAction.ACT_MODEL_CHECKING].setEnabled(b);
 
     }
@@ -191,6 +193,11 @@ public class AvatarBDToolBar extends TToolBar {
         this.addSeparator();
 
         button = this.add(mgui.actions[TGUIAction.ACT_TOGGLE_ATTR]);
+        button.addMouseListener(mgui.mouseHandler);
+
+        this.addSeparator();
+
+        button = this.add(mgui.actions[TGUIAction.ACT_ENHANCE]);
         button.addMouseListener(mgui.mouseHandler);
 
 

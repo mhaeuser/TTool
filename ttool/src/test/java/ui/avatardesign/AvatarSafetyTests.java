@@ -69,6 +69,7 @@ public class AvatarSafetyTests {
     public AvatarSafetyTests () {
        // super ("AvatarSafety", true);
     }
+
 	@Before
     public void setupForTest () {
 
@@ -142,9 +143,6 @@ public class AvatarSafetyTests {
 		assertNull(pragma);
 		pragma = adpt.checkPerformancePragma("Latency(b<s),1", blocks, as, null);
 		assertNull(pragma);
-
-
-
 	}
 
 	@Test

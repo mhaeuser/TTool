@@ -246,7 +246,7 @@ public class InputInstanceTest {
         System.out.println("Z3. Finding optimal mapping");
         try {
             Class.forName("com.microsoft.z3.Native");
-            
+
             OptimizationResult result = optimizationModel.findOptimizedMapping();
             assertEquals(1, optimizationModel.getOptimizedSolutionX().get("X[task__A][MainCPU] = ").intValue());
             assertEquals(0, optimizationModel.getOptimizedSolutionX().get("X[task__A][dsp] = ").intValue());

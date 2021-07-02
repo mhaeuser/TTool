@@ -14,7 +14,6 @@ dependencies {
     compileOnly name: 'JavaPlot'
     compileOnly name: 'derbynet'
     compile name: 'commons-codec-1.10'
-    compile name: 'commons-io-2.5-javadoc'
     compile name: 'commons-io-2.5'
     compileOnly name: 'jsoup-1.8.1'
     compileOnly name: 'gs-core-2.0'

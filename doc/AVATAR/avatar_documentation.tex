@@ -93,6 +93,8 @@ Modifications} & \textbf{Sections Modified} \\
 \hline
 1.1 & Oct 29, 2019 & Adding safety pragmas &  \\ 
 \hline
+1.2 & Jul 2, 2021 & Updating document with Sophie Coudert's remarks &  \\ 
+\hline
 \end{tabular}
 \end{adjustbox}
 \end{table}
@@ -134,34 +136,12 @@ Editor} & \textbf{Year}
 \newpage
 \section{Introduction}
 
-TTool is an open-source toolkit dedicated to the design of embedded systems based on UML and SysML diagrams. The source files of TTool can be downloaded from the website: http://ttool.telecom-paris.fr/download.html
-after having accepted the license agreement. To install the tool, simply unpack the archive in your home directory and follow the installation process of your operating system.
+TTool is a free and open-source toolkit dedicated to the design of embedded systems based on UML and SysML diagrams. The source files of TTool are available from its public git: \url{https://gitlab.telecom-paris.fr/mbe-tools/TTool}.
+
+Installing TTool can be done either from the git, or by first downloading an installer from the website of TTool \url{https://ttool.telecom-paris.fr/installation.html}. This webpage also explains how to start TTool in Windows, MacOS, Linux.
 
 \section{Getting Started}
-\subsection{Opening from terminal}
-
-After downloading it from the Internet, the most effective way to open TTool is to open it from your computer terminal. Open the folder in which the application is located and then open using the command:
-\begin{lstlisting}{bash}
-
- start ttool_windows
- 
-
-\end{lstlisting}
-
-or 
-\begin{lstlisting}{bash}
-
-open ttool_macosx
- 
-
-\end{lstlisting}
-
-or \begin{lstlisting}{bash}
-
-Run ttool_linux
-
-\end{lstlisting}
-
+This section assumes that you were able to start TTool.
 
 \subsection{Start new project}
 To create a new project, click on the “new” button as shown in Figure \ref{fig:createfile} below or select file and then new on the main tab. As shown in Figure \ref{fig:createmethod}, the main TTool window contains three different areas, the Project navigation window, the Design window and the Map view window; allowing the user to navigate through the files of the project and rapidly search for elements of a design, observe and create the SysML diagrams of the design, and have a bird’s eye view of the current diagram respectively.
@@ -198,7 +178,7 @@ To begin, we will start with the creation of a Methodology diagram as the one sh
 \section{Analysis}
 \subsection{Assumptions}
 
-As shown in Figure \ref{fig:assumptionswindow}, right click on the panel tab and add a “New Modeling Assumptions” diagram. By right clicking on the panel, it can be moved left or right. You will now have an Assumptions panel and underneath it an Assumptions diagram tab. You can right click on this tab in order to rename it, in this example, we changed its name to ‘System’. You will then add an assumption box by clicking on the AST button as shown in Figure \ref{fig:assumptionswindow}. You can add as many assumptions as needed in order to fully explain what is being taken into account for the system. 
+As shown in Figure \ref{fig:assumptionswindow}, right click on the panel tab and add a “New Modeling Assumptions” diagram. By right clicking on the panel, it can be moved left or right. You can also drag-and-drop a panel to another position. You will now have an Assumptions panel and underneath it an Assumptions diagram tab. You can right click on this tab in order to rename it, in this example, we changed its name to ‘System’. You will then add an assumption box by clicking on the AST button as shown in Figure \ref{fig:assumptionswindow}. You can add as many assumptions as needed in order to fully explain what is being taken into account for the system. 
 
 \begin{figure*}[htbp]
 \centering
@@ -213,7 +193,7 @@ As shown in Figure \ref{fig:assumptionswindow}, right click on the panel tab and
 \item  AST: add an assumption box to the diagram
 \item  Diagram reference: add a box who refers to another diagram
 \item  Element reference: add a box who refers to an Avatar element
-\item  Composite: Splits up a compound asuumptions into elementary ones
+\item  Composite: Splits up a compound assumptions into elementary ones
 \item  Versioning: classify changes that are made to the original model
 \item  Impact: indicate that the assumption at the origin of the link as a direct impact on the referenced element at the end on the link. 
 \item Composition connector: relations between a diagram reference and elements references

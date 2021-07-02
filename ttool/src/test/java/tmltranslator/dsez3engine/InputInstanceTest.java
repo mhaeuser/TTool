@@ -259,7 +259,10 @@ public class InputInstanceTest {
             assertEquals(300, optimizationModel.getOptimizedSolutionStart().get("start[task__B] = ").intValue());
             assertEquals(400, optimizationModel.getOptimizedSolutionStart().get("start[task__D] = ").intValue());
             assertEquals(500, optimizationModel.getOptimizedSolutionStart().get("start[task__E] = ").intValue());
-        } catch (Exception e) {
+        } catch (NoClassDefFoundError ncdfe) {
+            System.out.println("InputInstanceTest. Exception: " + ncdfe.getMessage());
+            return;
+        }catch (Exception e) {
             System.out.println("InputInstanceTest. Exception: " + e.getMessage());
             return;
         }

@@ -207,13 +207,13 @@ To edit each of these boxes, one should double click on them. A window like the 
 \caption{Assumptions Editing} \label{fig:assumptionsedit}
 \end{figure*}
 
-Finally, in this example we have created two assumption diagrams; one for the system itself and one for the environment. The first one contains all the assumptions made directly about the system, while the second includes assumptions that may not be directly included in the system, but will affect its performance as shown in Figure \ref{fig:envassumptions}. One can add as many diagrams as one pleases by simply right clicking next to the existing diagram and selecting ``New AVATAR Modeling Assumptions Diagram'' and following the previously mentioned steps.
+Finally, in this example we have created two assumption diagrams; one for the system itself and one for the environment. The first one contains all the assumptions directly related to the system, while the second includes assumptions that may not be directly related to the system, but that may affect its performance as shown in Figure \ref{fig:envassumptions}. One can add as many diagrams as one pleases by simply right clicking next to the existing diagram and selecting ``New AVATAR Modeling Assumptions Diagram'' and following the previously mentioned steps.
 
 It is important to keep in mind that these assumptions will allow the creator and others needing to interact with the system to keep track of what was and was not considered during design. Therefore, one should attempt to be as descriptive as possible. This will make future improvements and changes easier while providing essential information about the system itself, resulting in a more complete design. 
 
 As shown in Figure \ref{fig:systemassumptions}, the system assumptions made for the coffee machine are those who enable the system to perform without malfunction. For example, we have assumed the lack of failures due to power outages and connectivity failures. 
 
-The environment assumptions were divided in two main categories: the sensors and the actuators. In this example, due to the short number of environment assumptions, they were all created on the same diagram as shown in Figure \ref{fig:envassumptions}. It should be noted that there could be three diagrams for the environment assumptions only. The first one would indicate the link between the environment and the two other diagrams, which would be the sensors diagram and the actuators diagram.
+The environment assumptions were divided in two main categories: the sensors and the actuators. In this example, due to the short number of environment assumptions, they were all created on the same diagram as shown in Figure \ref{fig:envassumptions}. Another option would be to user three diagrams for the environment assumptions. The first one would indicate the link between the environment and the two other diagrams, which would be the sensors diagram and the actuators diagram.
 \begin{figure*}[htbp]
 \centering
 \includegraphics[width=0.99\textwidth]{fig/systemassumptions.jpg}
@@ -246,9 +246,9 @@ A requirement is a capability or a condition that the system must satisfy. It ca
 \item Reference elements
 \end{itemize}
 
-There are two parts where the requirements can be expressed. The use cases, which is a part of the analysis diagram, can be useful to express the functional requirements. However, it is not suitable for non-functional requirements. For its part, the requirements diagram enables us to introduce text-based requirements, providing a way to express the non-functional requirements. This diagram follows after setting up the assumptions for our system.
+Use cases, which are part of analysis diagrams, can be useful to express  functional requirements. However, they are no  suitable for non-functional requirements. Requirements diagrams support introduce text-based requirements, providing a way to express both functional and non-functional requirements. Requirements diagrams are expected to be modeled after setting up the assumptions for our system.
 
-We will create one or several diagrams defining the requirements that the coffee machine controller will have. To do this, right click on the panel tab as before, but instead select “New Requirement Diagrams”. Just as before, a new diagram tab will appear underneath. Once again, this diagram tab can be renamed as preferred following the same steps we used in the assumption diagrams.
+We will create one or several requirement diagrams defining the requirements that the coffee machine controller will have. To do this, right click on the panel tab as before, and select “New Requirement Diagrams”. Just as before, a new diagram tab will appear underneath. Once again, this diagram tab can be renamed as preferred following the same steps we used in the assumption diagrams.
 	
 For the coffee machine, we will divide the requirements in three parts: the requirements related to the inputs, the control and the outputs.
 The first diagram is named ``General Requirement Diagram''. It contains the link between the three parts mentioned above, which will all have their own requirements diagram. 
@@ -342,14 +342,14 @@ In a similar way to that of the assumptions, a new requirement can be added by s
 \item Actor (Box Format): add an actor box to the diagram
 \item Add a use case
 \item Actor <->use case: links an actor to a use case
-\item Include: a relationship who links a function to a subfunction whose mandatorily included
-\item Extend: a relationship who links a function to a sibfunction whose optionally included
-\item Specialization: links a `parent' function whose specialized by a `child' function
+\item Include: a relationship which links a function to a mandatory subfunction
+\item Extend: a relationship which links a function to an optional subfunction
+\item Specialization: links a `parent' function to a specialized  `child' function
 \end{enumerate}
 
-As shown in Figure \ref{fig:usecase}, on the left hand of the diagram, one can find the actors that initialize a process, while on the right we have the actors or elements that are activated as a result of it. The box in the middle represents the enclosed system and the four bubbles inside of it are the use cases: they represent the actions that the system will perform and are linked to the actor(s) involved in them. The links are usually an action description in a few words.
+In Figure \ref{fig:usecase}, on the left hand of the diagram, we have put the actors that triggers processing (i.e., inputs), while on the right we have the actors or elements that are activated as a result of it. The box in the middle represents the enclosed system: everything which is inside is what a designer promises to implement, i.e. the four bubbles are the use cases. Use cases are linked to the actor(s) involved in them. \\
 
-Once done, the next step is to create an activity diagram. Just as before, right click on the diagram tab and select “New Activity Diagram”.  In TTool, an activity diagram is portrayed in the form of what is commonly known as a flowchart. The elements that can be added to it are shown on the button tab and they include activities, partitions, the start and end of the activity, choices and tabs for whether there is a signal being sent or received. 
+Once the use case diagram is finished, the next step is to create an activity diagram. Just as before, right click on the diagram tab and select “New Activity Diagram”.  In TTool, an activity diagram is portrayed in the form of what is commonly known as a flowchart, depicting the internal behaviour of the system. The elements that can be added to it are shown on the button tab and they include activities, partitions, the start and end of the activity, choices and tabs for whether there is a signal being sent or received. 
 
 \begin{figure*}[htbp]
 \centering
@@ -357,11 +357,12 @@ Once done, the next step is to create an activity diagram. Just as before, right
 \caption{Activity Diagram} \label{fig:actdiagram}
 \end{figure*}
  
-In the example shown in Figure \ref{fig:actdiagram}, only a start, activities and a junction are used.  After each of the elements is added, they can be edited by double clicking on them. The activity boxes should represent each of the steps that the system will perform. In addition, to edit the choice elements, click on each of the brackets or guards that appear on each of the rhombus connectors and write in the condition that must be satisfied for each option. Finally, the arrows, or associations, can be added by clicking on the respective button and then by clicking on a point on the perimeter of each of the elements being linked.
-	The final section of the analysis is creating a scenario or sequence. As in previous, cases right click on the diagram tab and select “New Sequence Diagram.” This diagram will allow us to showcase the logical progression of actions as well as the different instances in which different actors or components come into play during the execution of the system. Using the different buttons at the top of the window one can add instances, timers and indicate whether the message being transmitted is synchronous or asynchronous1 among other elements. 
+In the example shown in Figure \ref{fig:actdiagram},  one start, four activities and one junction are used.  After each of the elements is added, they can be edited by double clicking on them. Each activity box  represent an execution stage of the system. In addition, to edit the choice elements, click on each of the brackets or guards that appear on each of the rhombus connectors and write in the condition that must be satisfied for each option. Finally, the arrows, or associations, can be added by clicking on the respective button and then by clicking on a point on the perimeter of each of the elements being linked.\\
+
+	The final stage of the analysis is creating a scenario or sequence, e.g. to show how the system interacts with its environment. As before, right click on the diagram tab and select “New Sequence Diagram.” This diagram will allow us to showcase the logical progression of actions as well as the different instances in which different actors or components come into play during the execution of the system and of the environment. Using the different buttons at the top of the window one can add instances, timers and indicate whether the message being transmitted is synchronous or asynchronous among other elements. 
 To add an actor, click the “Instance” button and place it on the window. Then, double click as if to edit. When the pop up window appears, check the box that says “actor”. After setting up the main structure of the system use the arrows mentioned before to represent the messages being sent between the different elements, add text describing the process by double clicking on them after setting them in place. Though not shown in this example, when adding a timer one must also indicate the amount of time assigned to it and its attributes.
 
-As shown in Figure \ref{fig:paymentseqdiagram} and \ref{fig:choiceseqdiagram}, the sequence diagram functions as a visual description of the flow of messages and information inside the system. If required, one can create more than one diagram in the same window, or add as many sequence diagrams as necessary.
+As shown in Figure \ref{fig:paymentseqdiagram} and \ref{fig:choiceseqdiagram}, the sequence diagram shows  a visual description of the flow of messages and information inside the system. If required, one can create more than one diagram in the same window, or can add as many sequence diagrams as necessary.
 
 \begin{figure*}[htbp]
 \centering
@@ -412,7 +413,7 @@ The coffee machine controller has five blocks: the pushbuttons, the token slot, 
 
 \begin{figure*}[htbp]
 \centering
-\includegraphics[width=0.5\textwidth]{fig/setattribute.png}
+\includegraphics[width=0.7\textwidth]{fig/setattribute.png}
 \caption{Setting attributes of a block} \label{fig:setattribute}
 \end{figure*}
 
@@ -421,7 +422,7 @@ Furthermore, the ‘signals’ represent the information being sent and received
 
 \begin{figure*}[htbp]
 \centering
-\includegraphics[width=0.5\textwidth]{fig/setsignal.png}
+\includegraphics[width=0.7\textwidth]{fig/setsignal.png}
 \caption{Setting signals of a block} \label{fig:setsignal}
 \end{figure*}
 
@@ -430,7 +431,7 @@ Furthermore, the ‘signals’ represent the information being sent and received
 	
 	\begin{figure*}[htbp]
 \centering
-\includegraphics[width=0.5\textwidth]{fig/portconn.png}
+\includegraphics[width=0.7\textwidth]{fig/portconn.png}
 \caption{Port Connection between blocks} \label{fig:portconn}
 \end{figure*}
 

@@ -576,7 +576,7 @@ public class DSEMappingSimulationResults  {
 		return index;
 	}
 	public int getMappingWithHighestAverageCycleDuration(){
-		if (results.size() == 0) {
+		if (results == null || results.size() == 0) {
 			return -1;
 		}
 		
@@ -735,7 +735,7 @@ public class DSEMappingSimulationResults  {
 	}
 	
 	public int getMappingWithLowestMaxSimulationDuration() {
-		if (results.size() == 0) {
+		if ( (results == null) || (results.size() == 0)) {
 			return -1;
 		}
 		
@@ -743,6 +743,8 @@ public class DSEMappingSimulationResults  {
 		int index = 0;
 		long value = Long.MAX_VALUE;
 		long valuetmp;
+
+
 		
 		for(DSESimulationResult dserr: results) {
 			valuetmp = dserr.getMaxSimulationDuration();

@@ -546,6 +546,12 @@ public class DSESimulationResult {
 
 
     public String getWholeResults() {
+
+        if (cdwr == null) {
+            TraceManager.addDev("NULL CDWR");
+            return "";
+        }
+
         StringBuffer sb = new StringBuffer("");
 
         //      sb.append(sdwr.toStringResult() + "\n");

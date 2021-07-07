@@ -75,7 +75,7 @@ public class SysmlsecMethodologyDiagramName extends TGCScalableWithoutInternalCo
 
     protected final static int SIM_ANIM_APP_DIPLO = 5;
     protected final static int SIM_TRACE_APP_DIPLO = 6;
-    protected final static int LOT_APP_DIPLO = 7;
+    protected final static int RG_APP_DIPLO = 7;
     protected final static int UPP_APP_DIPLO = 8;
     protected final static int TML_APP_DIPLO = 9;
 
@@ -88,12 +88,12 @@ public class SysmlsecMethodologyDiagramName extends TGCScalableWithoutInternalCo
 
     protected final String[] SHORT_ACTION_NAMES = {
         "simu", "upp", "proverif", "inv",
-        "code-gen", "sim-anim", "sim-trace", "lot", "upp", "tml",
+        "code-gen", "sim-anim", "sim-trace", "rg", "upp", "tml",
         "fv", "sim-trace", "sim-anim", "tmap", "RG"};
 
     protected final String[] LONG_ACTION_NAMES = {
         /*0*/ "Simulation and animate the model",
-        "Verify safety propeties on the model with UPPAAL",
+        "Verify safety properties on the model with UPPAAL",
         "Verify security properties on the model with ProVerif",
         "Verify mutual exclusions on the model with invariants",
         "Generate executable code",

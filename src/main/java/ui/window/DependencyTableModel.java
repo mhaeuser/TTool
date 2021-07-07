@@ -147,7 +147,7 @@ public class DependencyTableModel extends AbstractTableModel implements Reordera
         // Saving row values
         Collections.swap(rows, indexR, indexR - 1);
 
-        byte[] line = new byte[values.length];
+        byte[] line = new byte[cols.size()];
         for (int j = 0; j < cols.size(); j++) {
             line[j] = values[indexR][j];
         }
@@ -162,7 +162,7 @@ public class DependencyTableModel extends AbstractTableModel implements Reordera
         // Saving row values
         Collections.swap(rows, indexR, indexR + 1);
 
-        byte[] line = new byte[values.length];
+        byte[] line = new byte[cols.size()];
         for (int j = 0; j < cols.size(); j++) {
             line[j] = values[indexR][j];
         }

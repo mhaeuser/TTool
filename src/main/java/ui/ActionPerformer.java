@@ -333,6 +333,8 @@ public class ActionPerformer {
             mgui.actionOnButton(TGComponentManager.EDIT, -1);
         } else if (command.equals(mgui.actions[TGUIAction.UML_NOTE].getActionCommand())) {
             mgui.actionOnButton(TGComponentManager.COMPONENT, TGComponentManager.UML_NOTE);
+        } else if (command.equals(mgui.actions[TGUIAction.SysMLV2_TEXT].getActionCommand())) {
+            mgui.actionOnButton(TGComponentManager.COMPONENT, TGComponentManager.SYSMLV2_TEXT);
         } else if (command.equals(mgui.actions[TGUIAction.DEPENDENCY_MATRIX].getActionCommand())) {
             mgui.actionOnButton(TGComponentManager.COMPONENT, TGComponentManager.DEPENDENCY_MATRIX);
         } else if (command.equals(mgui.actions[TGUIAction.PRAGMA].getActionCommand())) {

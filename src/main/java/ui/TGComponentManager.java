@@ -576,6 +576,9 @@ public class TGComponentManager {
     public static final int COMPONENT = 0;
     public static final int CONNECTOR = 1;
 
+    // SysML V2
+    public static final int SYSMLV2_TEXT = 11000;
+
 
     public static LinkedList<ADDConnector> addconnectors = new LinkedList<ADDConnector>();
 
@@ -956,6 +959,9 @@ public class TGComponentManager {
                 break;
             case UML_NOTE:
                 tgc = new TGCNote(x, y, tdp.getMinX(), tdp.getMaxX(), tdp.getMinY(), tdp.getMaxY(), false, null, tdp);
+                break;
+            case SYSMLV2_TEXT:
+                tgc = new TGCSysMLV2(x, y, tdp.getMinX(), tdp.getMaxX(), tdp.getMinY(), tdp.getMaxY(), false, null, tdp);
                 break;
             case DEPENDENCY_MATRIX:
                 tgc = new TGCDependencyMatrix(x, y, tdp.getMinX(), tdp.getMaxX(), tdp.getMinY(), tdp.getMaxY(), false, null, tdp);
@@ -1978,6 +1984,8 @@ public class TGComponentManager {
             return CONNECTOR_INTERACTION;
         } else if (tgc instanceof TGCNote) {
             return UML_NOTE;
+        } else if (tgc instanceof TGCSysMLV2) {
+            return SYSMLV2_TEXT;
         } else if (tgc instanceof TGCDependencyMatrix) {
             return DEPENDENCY_MATRIX;
         } else if (tgc instanceof TGCPanelInfo) {

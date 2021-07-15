@@ -49,7 +49,7 @@ import java.awt.event.ActionListener;
 
 /**
  * Class AvatarInteractiveSimulationActions
- * <p>
+ *
  * Creation: 21/01/2011
  *
  * @author Ludovic APVRILLE

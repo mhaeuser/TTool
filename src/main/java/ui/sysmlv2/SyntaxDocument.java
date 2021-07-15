@@ -66,10 +66,11 @@ class SyntaxDocument extends DefaultStyledDocument {
 	private static Color Green = new Color(43, 125, 15);
 	private static Color ColorComment = new Color(156, 0, 255);
 	private static Color ColorText = Color.black;
-	private static Color Color0 = Color.blue;
+	private static Color Color0 = ENSTRed;
 	private static Color Color1 = Green;
 	private static Color Color2 = Color.orange;
-	private static Color Color3 = ENSTRed;
+	private static Color Color3 = Color.blue;
+	private static Color Color4 = Color.GRAY;
 	private static Color ColorFind = Color.magenta;
 	
 	
@@ -133,6 +134,7 @@ class SyntaxDocument extends DefaultStyledDocument {
 		StyleConstants.setForeground(keyword[1], Color1);    
 		StyleConstants.setForeground(keyword[2], Color2);   
 		StyleConstants.setForeground(keyword[3], Color3);
+		StyleConstants.setForeground(keyword[4], Color4);
 
 		// main keywords
 		keywords[0].add( "package");

@@ -39,13 +39,18 @@
 
 package ui.sysmlv2;
 
+import myutil.TraceManager;
+import ui.ColorManager;
 import ui.TGCSysMLV2;
 import ui.util.IconManager;
 
 import javax.swing.*;
+import javax.swing.plaf.basic.BasicTabbedPaneUI;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 
 /**
@@ -57,15 +62,23 @@ import java.awt.event.ActionListener;
  */
 public class JFrameSysMLV2Text extends JFrame implements ActionListener {
 
-	public static final int SAVED = 1;
+    public final String REQUIREMENT_TEXT = "requirement def id '1.1' name {\n" +
+            "\tdoc  /* documentation */\n\n" +
+            "\tsubject x : y\n\n" +
+            "\tattribute x : y ;\n\n" +
+            "\trequire constraint { x < y }\n\n" +
+            "}\n";
 
 
 
+    public static final int SAVED = 1;
+    public SysMLV2Actions[] actions;
     private TGCSysMLV2 comp;
-
+    private JLabel statuss;
     private JButton buttonCancel, buttonClose;
     private JTextArea jta;
     private JPanelForEdition jpfe;
+    public MouseHandler mouseHandler;
 
 
     public JFrameSysMLV2Text(String title, TGCSysMLV2 _comp, String[] _lines, ImageIcon imgic) {
@@ -76,13 +89,19 @@ public class JFrameSysMLV2Text extends JFrame implements ActionListener {
         Container framePanel = getContentPane();
         framePanel.setLayout(new BorderLayout());
 
+        initActions();
+
+        statuss = createStatusBar();
+
+        // Mouse handler
+        mouseHandler = new MouseHandler(statuss);
+
         String line = "";
         if (_lines != null) {
             for (int i = 0; i < _lines.length; i++) {
                 line += _lines[i] + "\n";
             }
         }
-
 
 
         jta = new JTextArea(line);
@@ -93,8 +112,8 @@ public class JFrameSysMLV2Text extends JFrame implements ActionListener {
         Font f = new Font("Courrier", Font.BOLD, 12);
         jta.setFont(f);*/
 
-		jpfe = new JPanelForEdition(this);
-		jpfe.setText(line);
+        jpfe = new JPanelForEdition(this);
+        jpfe.setText(line);
 
 
         JScrollPane jsp = new JScrollPane(jpfe);
@@ -109,6 +128,7 @@ public class JFrameSysMLV2Text extends JFrame implements ActionListener {
         JPanel jp = new JPanel();
         jp.add(buttonCancel);
         jp.add(buttonClose);
+        jp.add(statuss);
 
         framePanel.add(jp, BorderLayout.SOUTH);
 
@@ -116,24 +136,54 @@ public class JFrameSysMLV2Text extends JFrame implements ActionListener {
         pack();
     }
 
+    private void initActions() {
+        actions = new SysMLV2Actions[SysMLV2Actions.NB_ACTION];
+        for (int i = 0; i < SysMLV2Actions.NB_ACTION; i++) {
+            actions[i] = new SysMLV2Actions(i);
+            actions[i].addActionListener(this);
+        }
+
+    }
+
+    private JLabel createStatusBar() {
+        statuss = new JLabel("Ready...");
+        statuss.setForeground(ColorManager.InteractiveSimulationText);
+        statuss.setBorder(BorderFactory.createEtchedBorder());
+        return statuss;
+    }
+
     public void actionPerformed(ActionEvent evt) {
+
+        TraceManager.addDev("Action performed");
 
         if (evt.getSource() == buttonCancel) {
             cancel();
         } else if (evt.getSource() == buttonClose) {
             close();
+        } else if (evt.getActionCommand().equals(actions[SysMLV2Actions.ACT_SAVE].getActionCommand())) {
+            TraceManager.addDev("save");
+            saveText();
+        } else if ( evt.getActionCommand().equals(actions[SysMLV2Actions.INSERT_REQUIREMENT].getActionCommand())) {
+            TraceManager.addDev("insert req");
+            insertText(REQUIREMENT_TEXT);
         }
+
+
     }
 
     private void cancel() {
         dispose();
     }
 
-    private void close() {
+    private void saveText() {
         if (comp != null) {
             comp.setLines(jpfe.getText());
             comp.getTDiagramPanel().repaint();
         }
+    }
+
+    private void close() {
+        saveText();
         dispose();
     }
 
@@ -144,6 +194,45 @@ public class JFrameSysMLV2Text extends JFrame implements ActionListener {
 
     public void setStatusBarText(String text) {
 
+    }
+
+    private void insertText(String toBeInserted) {
+        if (jpfe != null) {
+            jpfe.insertText(toBeInserted, "");
+        }
+    }
+
+    /**
+     * This adapter is constructed to handle mouse over component events.
+     */
+    private class MouseHandler extends MouseAdapter {
+
+        private JLabel label;
+
+        /**
+         * ctor for the adapter.
+         *
+         * @param label the JLabel which will recieve value of the
+         *              Action.LONG_DESCRIPTION key.
+         */
+        public MouseHandler(JLabel label) {
+            setLabel(label);
+        }
+
+        public void setLabel(JLabel label) {
+            this.label = label;
+        }
+
+        public void mouseEntered(MouseEvent evt) {
+            if (evt.getSource() instanceof AbstractButton) {
+                AbstractButton button = (AbstractButton) evt.getSource();
+                Action action = button.getAction();
+                if (action != null) {
+                    String message = (String) action.getValue(Action.LONG_DESCRIPTION);
+                    label.setText(message);
+                }
+            }
+        }
     }
 
 

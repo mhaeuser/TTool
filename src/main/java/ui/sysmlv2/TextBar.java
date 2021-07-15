@@ -46,75 +46,37 @@ import javax.swing.*;
  * Class TextBar
  * Sysmlv2 edition
  * Creation: 15/07/2021
- * @version 1.0 15/07/2021
+ *
  * @author Ludovic APVRILLE
+ * @version 1.0 15/07/2021
  */
 public class TextBar extends JToolBar {
-   
+
     protected JFrameSysMLV2Text frame;
-    
+
     public TextBar(JFrameSysMLV2Text _frame) {
         super();
         frame = _frame;
         setOrientation(SwingConstants.HORIZONTAL);
-        setFloatable(true) ;
-		setEnableActions(false);
+        setFloatable(true);
+        setEnableActions(false);
         setButtons();
     }
-	
-	public void setEnableActions(boolean b) {
-		/*mgui.actions[LEGUIAction.TEXT_BOLD].setEnabled(b);
-		mgui.actions[LEGUIAction.TEXT_ITALICS].setEnabled(b);
-		mgui.actions[LEGUIAction.TEXT_UNDERLINE].setEnabled(b);
-		
-		mgui.actions[LEGUIAction.ALIGN_LEFT].setEnabled(b);
-		mgui.actions[LEGUIAction.ALIGN_RIGHT].setEnabled(b);   
-		mgui.actions[LEGUIAction.ALIGN_CENTER].setEnabled(b);
-		mgui.actions[LEGUIAction.ALIGN_JUSTIFY].setEnabled(b);
-		
-		mgui.actions[LEGUIAction.TEXT_SIZE_0].setEnabled(b);
-		mgui.actions[LEGUIAction.TEXT_SIZE_1].setEnabled(b);
-		mgui.actions[LEGUIAction.TEXT_SIZE_2].setEnabled(b);
-		mgui.actions[LEGUIAction.TEXT_SIZE_3].setEnabled(b);
-		mgui.actions[LEGUIAction.TEXT_SIZE_4].setEnabled(b);
-		mgui.actions[LEGUIAction.TEXT_SIZE_5].setEnabled(b);
-		mgui.actions[LEGUIAction.TEXT_SIZE_6].setEnabled(b);
-		mgui.actions[LEGUIAction.TEXT_SIZE_7].setEnabled(b);
-		mgui.actions[LEGUIAction.TEXT_SIZE_8].setEnabled(b);
-		mgui.actions[LEGUIAction.TEXT_SIZE_9].setEnabled(b);*/
-		
-		
-	}
-    
-     protected void setButtons() {
+
+    public void setEnableActions(boolean b) {
+        frame.actions[SysMLV2Actions.INSERT_REQUIREMENT].setEnabled(true);
+
+    }
+
+    protected void setButtons() {
         JButton button;
-        
-		/*button = this.add(mgui.actions[LEGUIAction.TEXT_BOLD]);
-        button.addMouseListener(mgui.mouseHandler);
-		
-		button = this.add(mgui.actions[LEGUIAction.TEXT_ITALICS]);
-        button.addMouseListener(mgui.mouseHandler);
-		
-		button = this.add(mgui.actions[LEGUIAction.TEXT_UNDERLINE]);
-        button.addMouseListener(mgui.mouseHandler);
-		
-		
-		this.addSeparator();
-		
-		button = this.add(mgui.actions[LEGUIAction.ALIGN_LEFT]);
-        button.addMouseListener(mgui.mouseHandler);
-		
-		button = this.add(mgui.actions[LEGUIAction.ALIGN_CENTER]);
-        button.addMouseListener(mgui.mouseHandler);
-		
-		button = this.add(mgui.actions[LEGUIAction.ALIGN_JUSTIFY]);
-        button.addMouseListener(mgui.mouseHandler);
-		
-		button = this.add(mgui.actions[LEGUIAction.ALIGN_RIGHT]);
-        button.addMouseListener(mgui.mouseHandler);*/
-		
-		
-		this.addSeparator();
+
+        button = this.add(frame.actions[SysMLV2Actions.INSERT_REQUIREMENT]);
+        button.addMouseListener(frame.mouseHandler);
+
+
+
+        this.addSeparator();
 		
 		/*button = this.add(mgui.actions[LEGUIAction.TEXT_SIZE_0]);
         button.addMouseListener(mgui.mouseHandler);
@@ -136,10 +98,10 @@ public class TextBar extends JToolBar {
         button.addMouseListener(mgui.mouseHandler);
 		button = this.add(mgui.actions[LEGUIAction.TEXT_SIZE_9]);
         button.addMouseListener(mgui.mouseHandler);*/
-		
-        
-	 }
-    
+
+
+    }
+
 } // Class
 
 

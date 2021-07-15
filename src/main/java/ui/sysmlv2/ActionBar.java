@@ -38,8 +38,6 @@
 
 package ui.sysmlv2;
 
-import ui.*;
-
 import javax.swing.*;
 
 
@@ -47,141 +45,39 @@ import javax.swing.*;
  * Class ActionBar
  * Sysmlv2 edition
  * Creation: 15/07/2021
- * @version 1.0 15/07/2021
+ *
  * @author Ludovic APVRILLE
+ * @version 1.0 15/07/2021
  */
 public class ActionBar extends JToolBar {
-   
+
     protected JFrameSysMLV2Text frame;
-    
+
     public ActionBar(JFrameSysMLV2Text _frame) {
         super();
         frame = _frame;
         setOrientation(SwingConstants.HORIZONTAL);
-        setFloatable(true) ;
-		setEnableActions(false);
+        setFloatable(true);
+        setEnableActions(false);
         setButtons();
     }
-	
-	public void setEnableActions(boolean b) {
-		/*mgui.actions[LEGUIAction.COMMENT_REGION].setEnabled(b);
-		
-		mgui.actions[LEGUIAction.INSERT_SECTION].setEnabled(b);
-		mgui.actions[LEGUIAction.INSERT_SUBSECTION].setEnabled(b);
-		
-		mgui.actions[LEGUIAction.INSERT_REFERENCE].setEnabled(b);
-		mgui.actions[LEGUIAction.INSERT_LABEL].setEnabled(b);
-		
-		mgui.actions[LEGUIAction.INSERT_CITE].setEnabled(b);
-		
-		mgui.actions[LEGUIAction.INSERT_ITEMIZE].setEnabled(b);
-		mgui.actions[LEGUIAction.INSERT_ITEM].setEnabled(b);
-		mgui.actions[LEGUIAction.INSERT_ENUMERATE].setEnabled(b);
-		
-		mgui.actions[LEGUIAction.INSERT_FIGURE].setEnabled(b);
-		
-		mgui.actions[LEGUIAction.INSERT_BLOCK].setEnabled(b);
-		mgui.actions[LEGUIAction.INSERT_ALERTBLOCK].setEnabled(b);
-		mgui.actions[LEGUIAction.INSERT_EXAMPLEBLOCK].setEnabled(b);
-		
-		mgui.actions[LEGUIAction.INSERT_COLUMNS].setEnabled(b);
-		mgui.actions[LEGUIAction.INSERT_COLUMN].setEnabled(b);
-		
-		mgui.actions[LEGUIAction.INSERT_TABULAR].setEnabled(b);
-		mgui.actions[LEGUIAction.INSERT_ROWCOLOR].setEnabled(b);
-		mgui.actions[LEGUIAction.INSERT_HLINE].setEnabled(b);
-		
-		mgui.actions[LEGUIAction.INSERT_LISTING].setEnabled(b);
-		
-		mgui.actions[LEGUIAction.INSERT_FRAME].setEnabled(b);
-		
-		mgui.actions[LEGUIAction.INSERT_NOTE].setEnabled(b);*/
-		
-		
-	}
-    
-     protected void setButtons() {
+
+    public void setEnableActions(boolean b) {
+        frame.actions[SysMLV2Actions.ACT_SAVE].setEnabled(b);
+
+
+    }
+
+    protected void setButtons() {
         JButton button;
-        
-        /*button = this.add(mgui.actions[LEGUIAction.COMMENT_REGION]);*/
-        
+        button = this.add(frame.actions[SysMLV2Actions.ACT_SAVE]);
+        button.addMouseListener(frame.mouseHandler);
+
         this.addSeparator();
-		
-		/*button = this.add(mgui.actions[LEGUIAction.INSERT_FRAME]);
-        button.addMouseListener(mgui.mouseHandler);
-		
-		button = this.add(mgui.actions[LEGUIAction.INSERT_SECTION]);
-        button.addMouseListener(mgui.mouseHandler);
-		
-		button = this.add(mgui.actions[LEGUIAction.INSERT_SUBSECTION]);
-        button.addMouseListener(mgui.mouseHandler);
-		
-		this.addSeparator();
-		
-		button = this.add(mgui.actions[LEGUIAction.INSERT_LABEL]);
-        button.addMouseListener(mgui.mouseHandler);
-		
-		button = this.add(mgui.actions[LEGUIAction.INSERT_REFERENCE]);
-        button.addMouseListener(mgui.mouseHandler);
-		
-		this.addSeparator();
-		
-		button = this.add(mgui.actions[LEGUIAction.INSERT_CITE]);
-        button.addMouseListener(mgui.mouseHandler);
-		
-		this.addSeparator();
-		
-        button = this.add(mgui.actions[LEGUIAction.INSERT_ITEMIZE]);
-        button.addMouseListener(mgui.mouseHandler);
-		
-		button = this.add(mgui.actions[LEGUIAction.INSERT_ENUMERATE]);
-        button.addMouseListener(mgui.mouseHandler);
-		
-		button = this.add(mgui.actions[LEGUIAction.INSERT_ITEM]);
-        button.addMouseListener(mgui.mouseHandler);
-		
-        this.addSeparator();
-        
-		button = this.add(mgui.actions[LEGUIAction.INSERT_FIGURE]);
-        button.addMouseListener(mgui.mouseHandler); 
-		
-		this.addSeparator();
-        
-		button = this.add(mgui.actions[LEGUIAction.INSERT_BLOCK]);
-        button.addMouseListener(mgui.mouseHandler); 
-		
-		button = this.add(mgui.actions[LEGUIAction.INSERT_ALERTBLOCK]);
-        button.addMouseListener(mgui.mouseHandler); 
-		
-		button = this.add(mgui.actions[LEGUIAction.INSERT_EXAMPLEBLOCK]);
-        button.addMouseListener(mgui.mouseHandler); 
-		
-		this.addSeparator();
-		
-		button = this.add(mgui.actions[LEGUIAction.INSERT_COLUMNS]);
-        button.addMouseListener(mgui.mouseHandler); 
-		
-		button = this.add(mgui.actions[LEGUIAction.INSERT_COLUMN]);
-        button.addMouseListener(mgui.mouseHandler); 
-		
-		this.addSeparator();
-		
-		button = this.add(mgui.actions[LEGUIAction.INSERT_TABULAR]);
-        button.addMouseListener(mgui.mouseHandler); 
-		
-		button = this.add(mgui.actions[LEGUIAction.INSERT_HLINE]);
-        button.addMouseListener(mgui.mouseHandler); 
-		
-		button = this.add(mgui.actions[LEGUIAction.INSERT_ROWCOLOR]);
-        button.addMouseListener(mgui.mouseHandler);
-		
-		this.addSeparator();
-		
-		button = this.add(mgui.actions[LEGUIAction.INSERT_NOTE]);
-        button.addMouseListener(mgui.mouseHandler); */
-		
-	 }
-    
+
+
+    }
+
 } // Class
 
 

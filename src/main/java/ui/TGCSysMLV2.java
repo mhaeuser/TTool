@@ -38,16 +38,14 @@
 
 package ui;
 
-import myutil.Conversion;
 import myutil.GraphicLib;
 import myutil.TraceManager;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import ui.sysmlv2.JFrameSysMLV2Text;
 import ui.util.IconManager;
-import ui.window.JDialogDependencyMatrix;
-import ui.window.JDialogNote;
-import ui.window.JFrameSysMLV2Text;
+
 
 import javax.swing.*;
 import java.awt.*;

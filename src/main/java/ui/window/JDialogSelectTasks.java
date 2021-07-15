@@ -48,6 +48,7 @@ import javax.swing.event.ListSelectionListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Vector;
@@ -71,7 +72,8 @@ public class JDialogSelectTasks extends JDialogBase implements ActionListener, L
 
     //subpanels
     private JPanel panel1, panel2, panel3, panel4, panel5, panel6;
-    private JCheckBox checkBoxScaleIdleTime;
+    private JCheckBox checkBoxScaleIdleTime, checkBoxSelectedTimePeriod;
+    private JTextField startTime, endTime;
     private JList<String> listIgnored;
     private JList<String> listValidated;
     private JButton allValidated;
@@ -261,14 +263,33 @@ public class JDialogSelectTasks extends JDialogBase implements ActionListener, L
         //scale idle time by default
         checkBoxScaleIdleTime.setSelected(true);
         panel4.add(checkBoxScaleIdleTime);
-//        JLabel jLabelScale = new JLabel("Start time:");
-//        panel4.add(jLabelScale);
-//        JTextField startTime = new JTextField();
-//        panel4.add(startTime);
-//        jLabelScale = new JLabel("End time:");
-//        panel4.add(jLabelScale);
-//        JTextField endTime = new JTextField();
-//        panel4.add(endTime);
+
+        //Select time duration
+        checkBoxSelectedTimePeriod = new JCheckBox("Select StartTime and EndTime");
+        checkBoxSelectedTimePeriod.setSelected(false);
+        panel4.add(checkBoxSelectedTimePeriod);
+        JLabel jLabelScale = new JLabel("Start time:");
+        panel4.add(jLabelScale);
+        startTime = new JTextField();
+        startTime.setEnabled(false);
+        panel4.add(startTime);
+        jLabelScale = new JLabel("End time:");
+        panel4.add(jLabelScale);
+        endTime = new JTextField();
+        endTime.setText("100000000");
+        endTime.setEnabled(false);
+        panel4.add(endTime);
+
+        checkBoxSelectedTimePeriod.addItemListener(e -> {
+            if (e.getStateChange() == ItemEvent.SELECTED) {
+                startTime.setEnabled(true);
+                endTime.setEnabled(true);
+            } else {
+                startTime.setEnabled(false);
+                endTime.setEnabled(false);
+            }
+        });
+
         c2.gridwidth = GridBagConstraints.REMAINDER;
         c.add(panel4, c2);
 
@@ -281,6 +302,22 @@ public class JDialogSelectTasks extends JDialogBase implements ActionListener, L
 
     public boolean getScaleIdleTime() {
         return checkBoxScaleIdleTime.isSelected();
+    }
+
+    public boolean getSelectedTimePeriod() {
+        return checkBoxSelectedTimePeriod.isSelected();
+    }
+
+    public String getStartTime() {
+        if (startTime.isEnabled())
+            return startTime.getText();
+        return "0";
+    }
+
+    public String getEndTime() {
+        if (endTime.isEnabled())
+            return endTime.getText();
+        return "100000000";
     }
 
     public void actionPerformed(ActionEvent evt) {

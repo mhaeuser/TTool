@@ -86,7 +86,7 @@ run-x-time-units | rxtu | 1 6 | Runs the simulation for x units of time | [Type:
 run-x-transactions | rxtr | 1 2 | Runs the simulation for x transactions | [Type: 1] nb of transactions | -  | -  | -  | - 
 save-simulation-state-in-file | sssif | 8 | Saves the current simulation state into a file | [Type: 2] File name | -  | -  | -  | - 
 save-trace-in-file | stif | 7 | Saves the current trace of the simulation in a VCD, HTML, TXT or XML file | [Type: 1] File format: 0-> VCD, 1->HTML, 2->TXT, 3->XML | [Type: 2] File name | -  | -  | - 
-show-timeline-trace | stlt | 7 4 | Show the current timeline diagram tracein HTML format | [Type: 2] Task List | [Type: 1] Scale idle time: 0 -> no, 1 -> yes | -  | -  | - 
+show-timeline-trace | stlt | 7 4 | Show the current timeline diagram tracein HTML format | [Type: 2] Task List | [Type: 1] Scale idle time: 0 -> no, 1 -> yes | [Type: 2] Start Time  | [Type: 2] End Time  | - 
 set-variable | sv | 5 | Set the value of a variable | [Type: 1] task ID | [Type: 1] variable ID | [Type: 1] variable value | -  | - 
 stop | stop | 15 | Stops the currently running simulation | -  | -  | -  | -  | - 
 write-in-channel | wic | 6 | Writes y samples / events to channel / event x | [Type: 1] Channel ID | [Type: 2] Nb of samples | -  | -  | - 

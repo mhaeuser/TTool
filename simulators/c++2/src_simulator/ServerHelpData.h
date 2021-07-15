@@ -14,6 +14,7 @@
     div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;} \n\
     ul.task-list{list-style: none;} \n\
   </style> \n\
+  <link rel=\"stylesheet\" href=\"/home/levan/Desktop/TTool/src/main/resources/help/help.css\" /> \n\
   <!--[if lt IE 9]> \n\
     <script src=\"//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js\"></script> \n\
   <![endif]--> \n\
@@ -484,8 +485,8 @@ Not defined: &lt;unknow param&gt;</code></pre> \n\
 <td style=\"text-align: center;\">Show the current timeline diagram tracein HTML format</td> \n\
 <td style=\"text-align: center;\">[Type: 2] Task List</td> \n\
 <td style=\"text-align: center;\">[Type: 1] Scale idle time: 0 -&gt; no, 1 -&gt; yes</td> \n\
-<td style=\"text-align: center;\">-</td> \n\
-<td style=\"text-align: center;\">-</td> \n\
+<td style=\"text-align: center;\">[Type: 2] Start Time</td> \n\
+<td style=\"text-align: center;\">[Type: 2] End Time</td> \n\
 <td style=\"text-align: center;\">-</td> \n\
 </tr> \n\
 <tr class=\"odd\"> \n\

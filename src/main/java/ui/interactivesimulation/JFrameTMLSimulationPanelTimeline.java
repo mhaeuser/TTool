@@ -40,6 +40,8 @@ public class JFrameTMLSimulationPanelTimeline extends JFrame implements ActionLi
     private JTextField paramMainCommand;
     private MainCommandsToolBar mctb;
     private JScrollPane jsp;
+    private JTextArea startTime, endTime;
+    private JCheckBox checkBoxSelectedTimePeriod;
     private String zoomIndex = "";
     private String toolTipText = null;
     private int X = 0, Y = 0, Y_AXIS_START = 0, maxPos = 0, minPos = 0;
@@ -78,13 +80,14 @@ public class JFrameTMLSimulationPanelTimeline extends JFrame implements ActionLi
         // Top panel
         JPanel timelinePane = new JPanel();
         JPanel topPanel = new JPanel();
+        JPanel northPanel = new JPanel();
         JButton buttonClose = new JButton(actions[InteractiveSimulationActions.ACT_QUIT_SD_WINDOW]);
-        topPanel.add(buttonClose);
+        northPanel.add(buttonClose);
         JButton buttonHtml = new JButton(actions[InteractiveSimulationActions.ACT_SAVE_TIMELINE_HTML]);
-        topPanel.add(buttonHtml);
+        northPanel.add(buttonHtml);
         JTextField zoomIn = new JTextField("Zoom In:");
         zoomIn.setEditable(false);
-        topPanel.add(zoomIn);
+        northPanel.add(zoomIn);
         String[] zoomFactor = new String[] {"50%","75%","100%", "125%", "150%", "175%", "200%"};
         JComboBox comboBoxUpdateView = new JComboBox<String>(zoomFactor);
         comboBoxUpdateView.setSelectedIndex(2);
@@ -111,7 +114,31 @@ public class JFrameTMLSimulationPanelTimeline extends JFrame implements ActionLi
                 jsp.repaint();
             }
         });
-        topPanel.add(comboBoxUpdateView);
+        northPanel.add(comboBoxUpdateView);
+
+        JPanel southPanel = new JPanel();
+        checkBoxSelectedTimePeriod = new JCheckBox("Time Duration");
+        southPanel.add(checkBoxSelectedTimePeriod);
+        startTime = new JTextArea(1, 10);
+        startTime.setToolTipText("Start Time");
+        startTime.setEnabled(false);
+        southPanel.add(startTime);
+        endTime = new JTextArea(1, 10);
+        endTime.setToolTipText("End Time");
+        endTime.setEnabled(false);
+        southPanel.add(endTime);
+        checkBoxSelectedTimePeriod.addItemListener(e -> {
+            if (e.getStateChange() == ItemEvent.SELECTED) {
+                startTime.setEnabled(true);
+                endTime.setEnabled(true);
+            } else {
+                startTime.setEnabled(false);
+                endTime.setEnabled(false);
+            }
+        });
+
+        JSplitPane combinePanel = new JSplitPane(JSplitPane.VERTICAL_SPLIT, true, northPanel, southPanel);
+        topPanel.add(combinePanel,BorderLayout.CENTER);
         timelinePane.add(topPanel,BorderLayout.NORTH);
         //Main control
         JPanel jp01, jp02;
@@ -560,5 +587,42 @@ public class JFrameTMLSimulationPanelTimeline extends JFrame implements ActionLi
         else if (trans.toLowerCase().contains("send")) return TransType.SEND;
         else if (trans.toLowerCase().contains("wait")) return TransType.WAIT;
         return TransType.NONE;
+    }
+
+    public void setCheckBoxSelectedTimePeriod(boolean b) {
+        checkBoxSelectedTimePeriod.setSelected(b);
+    }
+
+    public boolean getCheckBoxSelectedTimePeriod() {
+        return checkBoxSelectedTimePeriod.isSelected();
+    }
+
+    public void setStartTime(String startTime) {
+        this.startTime.setText(startTime);
+    }
+
+    public String getStarTime() {
+        return startTime.getText();
+    }
+
+    public void setEndTime(String endTime) {
+        this.endTime.setText(endTime);
+    }
+
+    public String getEndTime() {
+        return endTime.getText();
+    }
+
+    public boolean isValidDuration() {
+        try {
+            Double start = Double.parseDouble(getStarTime());
+            Double end = Double.parseDouble(getEndTime());
+            if (start > end)
+                return false;
+            return true;
+        } catch(NumberFormatException e){
+            return false;
+        }
+
     }
 }

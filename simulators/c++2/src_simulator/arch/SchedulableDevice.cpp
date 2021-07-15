@@ -299,14 +299,14 @@ void SchedulableDevice::buttonPieChart(std::ofstream& myfile) const{
     myfile << "   chart" << _ID << ".update();" << std::endl;
 }
 
-std::map<TMLTask*, std::string> SchedulableDevice::HWTIMELINE2HTML(std::ostringstream& myfile,std::map<TMLTask*, std::string> taskCellClasses,unsigned int nextCellClassIndex, std::string& iTracetaskList, bool isScalable) {
+std::map<TMLTask*, std::string> SchedulableDevice::HWTIMELINE2HTML(std::ostringstream& myfile,std::map<TMLTask*, std::string> taskCellClasses,unsigned int nextCellClassIndex, std::string& iTracetaskList, bool isScalable, double start, double end) {
     TransactionList _transactListClone;
     std::string taskList = iTracetaskList.c_str();
     maxScale = 0;
     for (int z = 0; z < _transactList.size(); z++) {
         std::string taskName = _transactList[z]->getCommand()->getTask()->toString();
         std::size_t pos = taskList.find(taskName); /*pos1 = position of "bin" if we working with open model*/
-        if(pos != std::string::npos){
+        if(pos != std::string::npos && start <= (double)_transactList[z]->getStartTime() && (double)_transactList[z]->getEndTime() <= end){
             _transactListClone.push_back(_transactList[z]);
         }
     }

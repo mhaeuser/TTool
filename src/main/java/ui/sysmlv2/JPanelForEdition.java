@@ -253,7 +253,7 @@ public class JPanelForEdition extends JPanel implements ActionListener, Document
         //TraceManager.addDev("Action on find");
         editorKit.setFind(_text);
         editorKit.changeMade();
-        frame.setStatusBarText("Occurences found: " + editorKit.getFindFound());
+        frame.setStatusBarText("Occurrences found: " + editorKit.getFindFound());
         return editorKit.getFindFound();
     }
 

@@ -338,11 +338,13 @@ public abstract class TGComponent  extends AbstractCDElement implements /*CDElem
 
         if (this instanceof WithAttributes) {
             String tmp = ((WithAttributes) (this)).getAttributes();
-            if (tmp != null)
-                return tmp.replaceAll("\n", " / ");
+            if (tmp != null) {
+                tmp = getName() + " / " + getUUID() + " / " + tmp.replaceAll("\n", " / ");
+                return tmp;
+            }
         }
 
-        return " ";
+        return getName() + " / " + getUUID();
     }
 
 

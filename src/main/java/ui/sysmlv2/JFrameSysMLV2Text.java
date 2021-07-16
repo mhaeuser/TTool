@@ -227,7 +227,7 @@ public class JFrameSysMLV2Text extends JFrame implements ActionListener {
     }
 
     public void setStatusBarText(String text) {
-
+        statuss.setText(text);
     }
 
     private void insertText(String toBeInserted) {

@@ -2344,7 +2344,7 @@ public abstract class TDiagramPanel extends JPanel implements GenericTree {
         if (copyData != null) {
             try {
                 //TraceManager.addDev("Data to copy:" + copyData);
-                mgui.gtm.copyModelingFromXML(this, copyData, X, Y);
+                mgui.gtm.copyModelingFromXML(this, copyData, X, Y, false);
             } catch (MalformedModelingException mme) {
                 TraceManager.addDev("Paste Exception: " + mme.getMessage());
                 JOptionPane.showMessageDialog(mgui.getFrame(), "Exception", "Paste failed", JOptionPane.INFORMATION_MESSAGE);
@@ -2359,7 +2359,7 @@ public abstract class TDiagramPanel extends JPanel implements GenericTree {
         //TraceManager.addDev(data);
         if (data != null) {
             try {
-                mgui.gtm.copyModelingFromXML(this, data, X, Y);
+                mgui.gtm.copyModelingFromXML(this, data, X, Y, false);
             } catch (MalformedModelingException mme) {
                 TraceManager.addDev("Insert Library Exception: " + mme.getMessage());
                 JOptionPane.showMessageDialog(mgui.getFrame(), "Exception", "insertion of library has failed", JOptionPane.INFORMATION_MESSAGE);
@@ -2531,7 +2531,7 @@ public abstract class TDiagramPanel extends JPanel implements GenericTree {
         //TraceManager.addDev("clone=\n"+ clone);
         // paste
         try {
-            mgui.gtm.copyModelingFromXML(this, clone, _tgc.getX() + 50, _tgc.getY() + 25);
+            mgui.gtm.copyModelingFromXML(this, clone, _tgc.getX() + 50, _tgc.getY() + 25, false);
         } catch (MalformedModelingException mme) {
             TraceManager.addDev("Clone Exception: " + mme.getMessage());
             JOptionPane.showMessageDialog(mgui.getFrame(), "Clone creation failed", "Exception", JOptionPane.INFORMATION_MESSAGE);

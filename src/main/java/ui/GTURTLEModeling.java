@@ -3914,13 +3914,15 @@ public class GTURTLEModeling {
         warnings = new ArrayList<CheckingError>();
     }
 
-    public void copyModelingFromXML(TDiagramPanel tdp, String s, int X, int Y) throws MalformedModelingException {
+    public void copyModelingFromXML(TDiagramPanel tdp, String s, int X, int Y, boolean keepUUID) throws MalformedModelingException {
         //TraceManager.addDev("copyModelingFromXML: " + s);
         //TraceManager.addDev("tdp: " + tdp);
 
         //TraceManager.addDev(s);
         //TraceManager.addDev("copyModelingFromXML:");
         //LinkedList ComponentsList=tdp.getComponentList();
+
+        TraceManager.addDev("KeepUUID=" + keepUUID);
 
         prepareErrors();
 
@@ -3964,8 +3966,8 @@ public class GTURTLEModeling {
                 adn = nl.item(i);
                 if (adn.getNodeType() == Node.ELEMENT_NODE) {
                     elt = (Element) adn;
-                    _decX = X - Integer.decode(elt.getAttribute("decX")).intValue();
-                    _decY = Y - Integer.decode(elt.getAttribute("decY")).intValue();
+                    _decX = X - Integer.decode(elt.getAttribute("decX"));
+                    _decY = Y - Integer.decode(elt.getAttribute("decY"));
                     //copyMaxId = Integer.decode(elt.getAttribute("copyMaxId")).intValue();
                 }
             }
@@ -4005,12 +4007,12 @@ public class GTURTLEModeling {
                         tcdp.loadExtraParameters(elt);
 
                         //TraceManager.addDev("Class diagram : " + tcdp.getName() + " components");
-                        makeXMLComponents(elt.getElementsByTagName("COMPONENT"), tcdp);
+                        makeXMLComponents(elt.getElementsByTagName("COMPONENT"), tcdp, keepUUID);
                         makePostProcessing(tcdp);
                         //TraceManager.addDev("Class diagram : " + tcdp.getName() + " connectors");
-                        makeXMLConnectors(elt.getElementsByTagName("CONNECTOR"), tcdp);
+                        makeXMLConnectors(elt.getElementsByTagName("CONNECTOR"), tcdp, keepUUID);
                         //TraceManager.addDev("Class diagram : " + tcdp.getName() + " subcomponents");
-                        makeXMLComponents(elt.getElementsByTagName("SUBCOMPONENT"), tcdp);
+                        makeXMLComponents(elt.getElementsByTagName("SUBCOMPONENT"), tcdp, keepUUID);
                         //TraceManager.addDev("Class diagram : " + tcdp.getName() + " real points");
                         connectConnectorsToRealPoints(tcdp);
                         tcdp.structureChanged();
@@ -4051,11 +4053,11 @@ public class GTURTLEModeling {
                         tadp.loadExtraParameters(elt);
 
                         //TraceManager.addDev("Activity diagram : " + tadp.getName() + " components");
-                        makeXMLComponents(elt.getElementsByTagName("COMPONENT"), tadp);
+                        makeXMLComponents(elt.getElementsByTagName("COMPONENT"), tadp, keepUUID);
                         //TraceManager.addDev("Activity diagram : " + tadp.getName() + " connectors");
-                        makeXMLConnectors(elt.getElementsByTagName("CONNECTOR"), tadp);
+                        makeXMLConnectors(elt.getElementsByTagName("CONNECTOR"), tadp, keepUUID);
                         //TraceManager.addDev("Activity diagram : " + tadp.getName() + " subcomponents");
-                        makeXMLComponents(elt.getElementsByTagName("SUBCOMPONENT"), tadp);
+                        makeXMLComponents(elt.getElementsByTagName("SUBCOMPONENT"), tadp, keepUUID);
                         //TraceManager.addDev("Activity diagram : " + tadp.getName() + " real points");
                         connectConnectorsToRealPoints(tadp);
                         tadp.structureChanged();
@@ -4091,11 +4093,11 @@ public class GTURTLEModeling {
                         decY = _decY;
 
                         //TraceManager.addDev("Activity diagram : " + iodp.getName() + " components");
-                        makeXMLComponents(elt.getElementsByTagName("COMPONENT"), iodp);
+                        makeXMLComponents(elt.getElementsByTagName("COMPONENT"), iodp, keepUUID);
                         //TraceManager.addDev("Activity diagram : " + iodp.getName() + " connectors");
-                        makeXMLConnectors(elt.getElementsByTagName("CONNECTOR"), iodp);
+                        makeXMLConnectors(elt.getElementsByTagName("CONNECTOR"), iodp, keepUUID);
                         //TraceManager.addDev("Activity diagram : " + iodp.getName() + " subcomponents");
-                        makeXMLComponents(elt.getElementsByTagName("SUBCOMPONENT"), iodp);
+                        makeXMLComponents(elt.getElementsByTagName("SUBCOMPONENT"), iodp, keepUUID);
                         //TraceManager.addDev("Activity diagram : " + iodp.getName() + " real points");
                         connectConnectorsToRealPoints(iodp);
                         iodp.structureChanged();
@@ -4133,11 +4135,11 @@ public class GTURTLEModeling {
                         decY = _decY;
 
                         //TraceManager.addDev("Sequence diagram: " + sdp.getName() + " components");
-                        makeXMLComponents(elt.getElementsByTagName("COMPONENT"), sdp);
+                        makeXMLComponents(elt.getElementsByTagName("COMPONENT"), sdp, keepUUID);
                         //TraceManager.addDev("Sequence diagram: " + sdp.getName() + " connectors");
-                        makeXMLConnectors(elt.getElementsByTagName("CONNECTOR"), sdp);
+                        makeXMLConnectors(elt.getElementsByTagName("CONNECTOR"), sdp, keepUUID);
                         //TraceManager.addDev("Sequence diagram: " + sdp.getName() + " subcomponents");
-                        makeXMLComponents(elt.getElementsByTagName("SUBCOMPONENT"), sdp);
+                        makeXMLComponents(elt.getElementsByTagName("SUBCOMPONENT"), sdp, keepUUID);
                         //TraceManager.addDev("Sequence diagram: " + sdp.getName() + " real points");
                         connectConnectorsToRealPoints(sdp);
                         sdp.structureChanged();
@@ -4175,11 +4177,11 @@ public class GTURTLEModeling {
                         decY = _decY;
 
                         //TraceManager.addDev("Sequence diagram: " + sdp.getName() + " components");
-                        makeXMLComponents(elt.getElementsByTagName("COMPONENT"), sdp);
+                        makeXMLComponents(elt.getElementsByTagName("COMPONENT"), sdp, keepUUID);
                         //TraceManager.addDev("Sequence diagram: " + sdp.getName() + " connectors");
-                        makeXMLConnectors(elt.getElementsByTagName("CONNECTOR"), sdp);
+                        makeXMLConnectors(elt.getElementsByTagName("CONNECTOR"), sdp, keepUUID);
                         //TraceManager.addDev("Sequence diagram: " + sdp.getName() + " subcomponents");
-                        makeXMLComponents(elt.getElementsByTagName("SUBCOMPONENT"), sdp);
+                        makeXMLComponents(elt.getElementsByTagName("SUBCOMPONENT"), sdp, keepUUID);
                         //TraceManager.addDev("Sequence diagram: " + sdp.getName() + " real points");
                         connectConnectorsToRealPoints(sdp);
                         sdp.structureChanged();
@@ -4215,11 +4217,11 @@ public class GTURTLEModeling {
                         decY = _decY;
 
                         //TraceManager.addDev("Activity diagram : " + sdp.getName() + " components");
-                        makeXMLComponents(elt.getElementsByTagName("COMPONENT"), ucdp);
+                        makeXMLComponents(elt.getElementsByTagName("COMPONENT"), ucdp, keepUUID);
                         //TraceManager.addDev("Activity diagram : " + sdp.getName() + " connectors");
-                        makeXMLConnectors(elt.getElementsByTagName("CONNECTOR"), ucdp);
+                        makeXMLConnectors(elt.getElementsByTagName("CONNECTOR"), ucdp, keepUUID);
                         //TraceManager.addDev("Activity diagram : " + sdp.getName() + " subcomponents");
-                        makeXMLComponents(elt.getElementsByTagName("SUBCOMPONENT"), ucdp);
+                        makeXMLComponents(elt.getElementsByTagName("SUBCOMPONENT"), ucdp, keepUUID);
                         //TraceManager.addDev("Activity diagram : " + sdp.getName() + " real points");
                         connectConnectorsToRealPoints(ucdp);
                         ucdp.structureChanged();
@@ -4254,11 +4256,11 @@ public class GTURTLEModeling {
                         decY = _decY;
 
                         //TraceManager.addDev("Activity diagram : " + sdp.getName() + " components");
-                        makeXMLComponents(elt.getElementsByTagName("COMPONENT"), tddp);
+                        makeXMLComponents(elt.getElementsByTagName("COMPONENT"), tddp, keepUUID);
                         //TraceManager.addDev("Activity diagram : " + sdp.getName() + " connectors");
-                        makeXMLConnectors(elt.getElementsByTagName("CONNECTOR"), tddp);
+                        makeXMLConnectors(elt.getElementsByTagName("CONNECTOR"), tddp, keepUUID);
                         //TraceManager.addDev("Activity diagram : " + sdp.getName() + " subcomponents");
-                        makeXMLComponents(elt.getElementsByTagName("SUBCOMPONENT"), tddp);
+                        makeXMLComponents(elt.getElementsByTagName("SUBCOMPONENT"), tddp, keepUUID);
                         //TraceManager.addDev("Activity diagram : " + sdp.getName() + " real points");
                         connectConnectorsToRealPoints(tddp);
                         tddp.structureChanged();
@@ -4293,11 +4295,11 @@ public class GTURTLEModeling {
                         decY = _decY;
 
                         //TraceManager.addDev("Activity diagram : " + sdp.getName() + " components");
-                        makeXMLComponents(elt.getElementsByTagName("COMPONENT"), ncdp);
+                        makeXMLComponents(elt.getElementsByTagName("COMPONENT"), ncdp, keepUUID);
                         //TraceManager.addDev("Activity diagram : " + sdp.getName() + " connectors");
-                        makeXMLConnectors(elt.getElementsByTagName("CONNECTOR"), ncdp);
+                        makeXMLConnectors(elt.getElementsByTagName("CONNECTOR"), ncdp, keepUUID);
                         //TraceManager.addDev("Activity diagram : " + sdp.getName() + " subcomponents");
-                        makeXMLComponents(elt.getElementsByTagName("SUBCOMPONENT"), ncdp);
+                        makeXMLComponents(elt.getElementsByTagName("SUBCOMPONENT"), ncdp, keepUUID);
                         //TraceManager.addDev("Activity diagram : " + sdp.getName() + " real points");
                         connectConnectorsToRealPoints(ncdp);
                         ncdp.structureChanged();
@@ -4331,9 +4333,9 @@ public class GTURTLEModeling {
                         decX = _decX;
                         decY = _decY;
 
-                        makeXMLComponents(elt.getElementsByTagName("COMPONENT"), rdp);
-                        makeXMLConnectors(elt.getElementsByTagName("CONNECTOR"), rdp);
-                        makeXMLComponents(elt.getElementsByTagName("SUBCOMPONENT"), rdp);
+                        makeXMLComponents(elt.getElementsByTagName("COMPONENT"), rdp, keepUUID);
+                        makeXMLConnectors(elt.getElementsByTagName("CONNECTOR"), rdp, keepUUID);
+                        makeXMLComponents(elt.getElementsByTagName("SUBCOMPONENT"), rdp, keepUUID);
                         connectConnectorsToRealPoints(rdp);
                         rdp.structureChanged();
                         makePostLoading(rdp, beginIndex);
@@ -4365,9 +4367,9 @@ public class GTURTLEModeling {
                         decX = _decX;
                         decY = _decY;
 
-                        makeXMLComponents(elt.getElementsByTagName("COMPONENT"), ebrddp);
-                        makeXMLConnectors(elt.getElementsByTagName("CONNECTOR"), ebrddp);
-                        makeXMLComponents(elt.getElementsByTagName("SUBCOMPONENT"), ebrddp);
+                        makeXMLComponents(elt.getElementsByTagName("COMPONENT"), ebrddp, keepUUID);
+                        makeXMLConnectors(elt.getElementsByTagName("CONNECTOR"), ebrddp, keepUUID);
+                        makeXMLComponents(elt.getElementsByTagName("SUBCOMPONENT"), ebrddp, keepUUID);
                         connectConnectorsToRealPoints(ebrddp);
                         ebrddp.structureChanged();
                         makePostLoading(ebrddp, beginIndex);
@@ -4399,9 +4401,9 @@ public class GTURTLEModeling {
                         decX = _decX;
                         decY = _decY;
 
-                        makeXMLComponents(elt.getElementsByTagName("COMPONENT"), atdp);
-                        makeXMLConnectors(elt.getElementsByTagName("CONNECTOR"), atdp);
-                        makeXMLComponents(elt.getElementsByTagName("SUBCOMPONENT"), atdp);
+                        makeXMLComponents(elt.getElementsByTagName("COMPONENT"), atdp, keepUUID);
+                        makeXMLConnectors(elt.getElementsByTagName("CONNECTOR"), atdp, keepUUID);
+                        makeXMLComponents(elt.getElementsByTagName("SUBCOMPONENT"), atdp, keepUUID);
                         connectConnectorsToRealPoints(atdp);
                         atdp.structureChanged();
                         makePostLoading(atdp, beginIndex);
@@ -4434,9 +4436,9 @@ public class GTURTLEModeling {
                         decX = _decX;
                         decY = _decY;
 
-                        makeXMLComponents(elt.getElementsByTagName("COMPONENT"), ftdp);
-                        makeXMLConnectors(elt.getElementsByTagName("CONNECTOR"), ftdp);
-                        makeXMLComponents(elt.getElementsByTagName("SUBCOMPONENT"), ftdp);
+                        makeXMLComponents(elt.getElementsByTagName("COMPONENT"), ftdp, keepUUID);
+                        makeXMLConnectors(elt.getElementsByTagName("CONNECTOR"), ftdp, keepUUID);
+                        makeXMLComponents(elt.getElementsByTagName("SUBCOMPONENT"), ftdp, keepUUID);
                         connectConnectorsToRealPoints(ftdp);
                         ftdp.structureChanged();
                         makePostLoading(ftdp, beginIndex);
@@ -4478,13 +4480,13 @@ public class GTURTLEModeling {
                         //TraceManager.addDev("Toto 2");
 
                         //TraceManager.addDev("TML task diagram : " + tmltdp.getName() + " components");
-                        makeXMLComponents(elt.getElementsByTagName("COMPONENT"), tmltdp);
+                        makeXMLComponents(elt.getElementsByTagName("COMPONENT"), tmltdp, keepUUID);
                         //TraceManager.addDev("Toto 3");
                         makePostProcessing(tmltdp);
                         //TraceManager.addDev("TML task diagram : " + tmltdp.getName() + " connectors");
-                        makeXMLConnectors(elt.getElementsByTagName("CONNECTOR"), tmltdp);
+                        makeXMLConnectors(elt.getElementsByTagName("CONNECTOR"), tmltdp, keepUUID);
                         //TraceManager.addDev("TML task diagram : " + tmltdp.getName() + " subcomponents");
-                        makeXMLComponents(elt.getElementsByTagName("SUBCOMPONENT"), tmltdp);
+                        makeXMLComponents(elt.getElementsByTagName("SUBCOMPONENT"), tmltdp, keepUUID);
                         //TraceManager.addDev("TML task diagram : " + tmltdp.getName() + " real points");
                         connectConnectorsToRealPoints(tmltdp);
                         tmltdp.structureChanged();
@@ -4529,13 +4531,13 @@ public class GTURTLEModeling {
                         //TraceManager.addDev("Toto 2");
 
                         //TraceManager.addDev("TML task diagram : " + tmltdp.getName() + " components");
-                        makeXMLComponents(elt.getElementsByTagName("COMPONENT"), tmltdp);
+                        makeXMLComponents(elt.getElementsByTagName("COMPONENT"), tmltdp, keepUUID);
                         //TraceManager.addDev("Toto 3");
                         makePostProcessing(tmltdp);
                         //TraceManager.addDev("TML task diagram : " + tmltdp.getName() + " connectors");
-                        makeXMLConnectors(elt.getElementsByTagName("CONNECTOR"), tmltdp);
+                        makeXMLConnectors(elt.getElementsByTagName("CONNECTOR"), tmltdp, keepUUID);
                         //TraceManager.addDev("TML task diagram : " + tmltdp.getName() + " subcomponents");
-                        makeXMLComponents(elt.getElementsByTagName("SUBCOMPONENT"), tmltdp);
+                        makeXMLComponents(elt.getElementsByTagName("SUBCOMPONENT"), tmltdp, keepUUID);
                         //TraceManager.addDev("TML task diagram : " + tmltdp.getName() + " real points");
                         connectConnectorsToRealPoints(tmltdp);
                         tmltdp.structureChanged();
@@ -4582,13 +4584,13 @@ public class GTURTLEModeling {
                         //TraceManager.addDev("Toto 2");
 
                         //TraceManager.addDev("TML task diagram : " + tmltdp.getName() + " components");
-                        makeXMLComponents(elt.getElementsByTagName("COMPONENT"), amdp);
+                        makeXMLComponents(elt.getElementsByTagName("COMPONENT"), amdp, keepUUID);
                         //TraceManager.addDev("Toto 3");
                         makePostProcessing(amdp);
                         //TraceManager.addDev("TML task diagram : " + tmltdp.getName() + " connectors");
-                        makeXMLConnectors(elt.getElementsByTagName("CONNECTOR"), amdp);
+                        makeXMLConnectors(elt.getElementsByTagName("CONNECTOR"), amdp, keepUUID);
                         //TraceManager.addDev("TML task diagram : " + tmltdp.getName() + " subcomponents");
-                        makeXMLComponents(elt.getElementsByTagName("SUBCOMPONENT"), amdp);
+                        makeXMLComponents(elt.getElementsByTagName("SUBCOMPONENT"), amdp, keepUUID);
                         //TraceManager.addDev("TML task diagram : " + tmltdp.getName() + " real points");
                         connectConnectorsToRealPoints(amdp);
                         amdp.structureChanged();
@@ -4633,13 +4635,13 @@ public class GTURTLEModeling {
                         //TraceManager.addDev("Toto 2");
 
                         //TraceManager.addDev("TML task diagram : " + tmltdp.getName() + " components");
-                        makeXMLComponents(elt.getElementsByTagName("COMPONENT"), amdp);
+                        makeXMLComponents(elt.getElementsByTagName("COMPONENT"), amdp, keepUUID);
                         //TraceManager.addDev("Toto 3");
                         makePostProcessing(amdp);
                         //TraceManager.addDev("TML task diagram : " + tmltdp.getName() + " connectors");
-                        makeXMLConnectors(elt.getElementsByTagName("CONNECTOR"), amdp);
+                        makeXMLConnectors(elt.getElementsByTagName("CONNECTOR"), amdp, keepUUID);
                         //TraceManager.addDev("TML task diagram : " + tmltdp.getName() + " subcomponents");
-                        makeXMLComponents(elt.getElementsByTagName("SUBCOMPONENT"), amdp);
+                        makeXMLComponents(elt.getElementsByTagName("SUBCOMPONENT"), amdp, keepUUID);
                         //TraceManager.addDev("TML task diagram : " + tmltdp.getName() + " real points");
                         connectConnectorsToRealPoints(amdp);
                         amdp.structureChanged();
@@ -4685,13 +4687,13 @@ public class GTURTLEModeling {
                         //TraceManager.addDev("Toto 2");
 
                         //TraceManager.addDev("TML task diagram : " + tmltdp.getName() + " components");
-                        makeXMLComponents(elt.getElementsByTagName("COMPONENT"), tmlctdp);
+                        makeXMLComponents(elt.getElementsByTagName("COMPONENT"), tmlctdp, keepUUID);
                         //TraceManager.addDev("Toto 3");
                         makePostProcessing(tmlctdp);
                         //TraceManager.addDev("TML task diagram : " + tmltdp.getName() + " connectors");
-                        makeXMLConnectors(elt.getElementsByTagName("CONNECTOR"), tmlctdp);
+                        makeXMLConnectors(elt.getElementsByTagName("CONNECTOR"), tmlctdp, keepUUID);
                         //TraceManager.addDev("TML task diagram : " + tmltdp.getName() + " subcomponents");
-                        makeXMLComponents(elt.getElementsByTagName("SUBCOMPONENT"), tmlctdp);
+                        makeXMLComponents(elt.getElementsByTagName("SUBCOMPONENT"), tmlctdp, keepUUID);
                         //TraceManager.addDev("TML task diagram : " + tmltdp.getName() + " real points");
                         connectConnectorsToRealPoints(tmlctdp);
                         tmlctdp.structureChanged();
@@ -4732,11 +4734,11 @@ public class GTURTLEModeling {
                         //tmladp.loadExtraParameters(elt);
 
                         //TraceManager.addDev("Activity diagram : " + tmladp.getName() + " components");
-                        makeXMLComponents(elt.getElementsByTagName("COMPONENT"), tmladp);
+                        makeXMLComponents(elt.getElementsByTagName("COMPONENT"), tmladp, keepUUID);
                         //TraceManager.addDev("Activity diagram : " + tmladp.getName() + " connectors");
-                        makeXMLConnectors(elt.getElementsByTagName("CONNECTOR"), tmladp);
+                        makeXMLConnectors(elt.getElementsByTagName("CONNECTOR"), tmladp, keepUUID);
                         //TraceManager.addDev("Activity diagram : " + tmladp.getName() + " subcomponents");
-                        makeXMLComponents(elt.getElementsByTagName("SUBCOMPONENT"), tmladp);
+                        makeXMLComponents(elt.getElementsByTagName("SUBCOMPONENT"), tmladp, keepUUID);
                         //TraceManager.addDev("Activity diagram : " + tadp.getName() + " real points");
                         connectConnectorsToRealPoints(tmladp);
                         tmladp.structureChanged();
@@ -4778,13 +4780,13 @@ public class GTURTLEModeling {
                         //TraceManager.addDev("Toto 2");
 
                         //TraceManager.addDev("TML task diagram : " + tmltdp.getName() + " components");
-                        makeXMLComponents(elt.getElementsByTagName("COMPONENT"), tmlcpp);
+                        makeXMLComponents(elt.getElementsByTagName("COMPONENT"), tmlcpp, keepUUID);
                         //TraceManager.addDev("Toto 3");
                         makePostProcessing(tmlcpp);
                         //TraceManager.addDev("TML task diagram : " + tmltdp.getName() + " connectors");
-                        makeXMLConnectors(elt.getElementsByTagName("CONNECTOR"), tmlcpp);
+                        makeXMLConnectors(elt.getElementsByTagName("CONNECTOR"), tmlcpp, keepUUID);
                         //TraceManager.addDev("TML task diagram : " + tmltdp.getName() + " subcomponents");
-                        makeXMLComponents(elt.getElementsByTagName("SUBCOMPONENT"), tmlcpp);
+                        makeXMLComponents(elt.getElementsByTagName("SUBCOMPONENT"), tmlcpp, keepUUID);
                         //TraceManager.addDev("TML task diagram : " + tmltdp.getName() + " real points");
                         connectConnectorsToRealPoints(tmlcpp);
                         tmlcpp.structureChanged();
@@ -4827,13 +4829,13 @@ public class GTURTLEModeling {
                         //TraceManager.addDev("Toto 2");
 
                         //TraceManager.addDev("TML task diagram : " + tmltdp.getName() + " components");
-                        makeXMLComponents(elt.getElementsByTagName("COMPONENT"), tmlsdp);
+                        makeXMLComponents(elt.getElementsByTagName("COMPONENT"), tmlsdp, keepUUID);
                         //TraceManager.addDev("Toto 3");
                         makePostProcessing(tmlsdp);
                         //TraceManager.addDev("TML task diagram : " + tmltdp.getName() + " connectors");
-                        makeXMLConnectors(elt.getElementsByTagName("CONNECTOR"), tmlsdp);
+                        makeXMLConnectors(elt.getElementsByTagName("CONNECTOR"), tmlsdp, keepUUID);
                         //TraceManager.addDev("TML task diagram : " + tmltdp.getName() + " subcomponents");
-                        makeXMLComponents(elt.getElementsByTagName("SUBCOMPONENT"), tmlsdp);
+                        makeXMLComponents(elt.getElementsByTagName("SUBCOMPONENT"), tmlsdp, keepUUID);
                         //TraceManager.addDev("TML task diagram : " + tmltdp.getName() + " real points");
                         connectConnectorsToRealPoints(tmlsdp);
                         tmlsdp.structureChanged();
@@ -4876,13 +4878,13 @@ public class GTURTLEModeling {
                         //TraceManager.addDev("Toto 2");
 
                         //TraceManager.addDev("TML task diagram : " + tmltdp.getName() + " components");
-                        makeXMLComponents(elt.getElementsByTagName("COMPONENT"), tmadp);
+                        makeXMLComponents(elt.getElementsByTagName("COMPONENT"), tmadp, keepUUID);
                         //TraceManager.addDev("Toto 3");
                         makePostProcessing(tmadp);
                         //TraceManager.addDev("TML task diagram : " + tmltdp.getName() + " connectors");
-                        makeXMLConnectors(elt.getElementsByTagName("CONNECTOR"), tmadp);
+                        makeXMLConnectors(elt.getElementsByTagName("CONNECTOR"), tmadp, keepUUID);
                         //TraceManager.addDev("TML task diagram : " + tmltdp.getName() + " subcomponents");
-                        makeXMLComponents(elt.getElementsByTagName("SUBCOMPONENT"), tmadp);
+                        makeXMLComponents(elt.getElementsByTagName("SUBCOMPONENT"), tmadp, keepUUID);
                         //TraceManager.addDev("TML task diagram : " + tmltdp.getName() + " real points");
                         connectConnectorsToRealPoints(tmadp);
                         tmadp.structureChanged();
@@ -4921,13 +4923,13 @@ public class GTURTLEModeling {
                         //toscdp.loadExtraParameters(elt);
                         //TraceManager.addDev("Toto 2");
                         //TraceManager.addDev("TURTLEOS task diagram : " + toscdp.getName() + " components");
-                        makeXMLComponents(elt.getElementsByTagName("COMPONENT"), toscdp);
+                        makeXMLComponents(elt.getElementsByTagName("COMPONENT"), toscdp, keepUUID);
                         //TraceManager.addDev("Toto 3");
                         makePostProcessing(toscdp);
                         //TraceManager.addDev("TURTLEOS task diagram : " + toscdp.getName() + " connectors");
-                        makeXMLConnectors(elt.getElementsByTagName("CONNECTOR"), toscdp);
+                        makeXMLConnectors(elt.getElementsByTagName("CONNECTOR"), toscdp, keepUUID);
                         //TraceManager.addDev("TURTLEOS task diagram : " + toscdp.getName() + " subcomponents");
-                        makeXMLComponents(elt.getElementsByTagName("SUBCOMPONENT"), toscdp);
+                        makeXMLComponents(elt.getElementsByTagName("SUBCOMPONENT"), toscdp, keepUUID);
                         //TraceManager.addDev("TURTLEOS task diagram : " + toscdp.getName() + " real points");
                         connectConnectorsToRealPoints(toscdp);
                         toscdp.structureChanged();
@@ -4965,11 +4967,11 @@ public class GTURTLEModeling {
                         //tmladp.loadExtraParameters(elt);
 
                         //TraceManager.addDev("Activity diagram : " + tadp.getName() + " components");
-                        makeXMLComponents(elt.getElementsByTagName("COMPONENT"), tosadp);
+                        makeXMLComponents(elt.getElementsByTagName("COMPONENT"), tosadp, keepUUID);
                         //TraceManager.addDev("Activity diagram : " + tadp.getName() + " connectors");
-                        makeXMLConnectors(elt.getElementsByTagName("CONNECTOR"), tosadp);
+                        makeXMLConnectors(elt.getElementsByTagName("CONNECTOR"), tosadp, keepUUID);
                         //TraceManager.addDev("Activity diagram : " + tadp.getName() + " subcomponents");
-                        makeXMLComponents(elt.getElementsByTagName("SUBCOMPONENT"), tosadp);
+                        makeXMLComponents(elt.getElementsByTagName("SUBCOMPONENT"), tosadp, keepUUID);
                         //TraceManager.addDev("Activity diagram : " + tadp.getName() + " real points");
                         connectConnectorsToRealPoints(tosadp);
                         tosadp.structureChanged();
@@ -5009,13 +5011,13 @@ public class GTURTLEModeling {
                         //pcsdp.loadExtraParameters(elt);
                         //TraceManager.addDev("Toto 2");
                         //TraceManager.addDev("TML task diagram : " + tmltdp.getName() + " components");
-                        makeXMLComponents(elt.getElementsByTagName("COMPONENT"), pcsdp);
+                        makeXMLComponents(elt.getElementsByTagName("COMPONENT"), pcsdp, keepUUID);
                         //TraceManager.addDev("Toto 3");
                         makePostProcessing(pcsdp);
                         //TraceManager.addDev("TML task diagram : " + tmltdp.getName() + " connectors");
-                        makeXMLConnectors(elt.getElementsByTagName("CONNECTOR"), pcsdp);
+                        makeXMLConnectors(elt.getElementsByTagName("CONNECTOR"), pcsdp, keepUUID);
                         //TraceManager.addDev("TML task diagram : " + tmltdp.getName() + " subcomponents");
-                        makeXMLComponents(elt.getElementsByTagName("SUBCOMPONENT"), pcsdp);
+                        makeXMLComponents(elt.getElementsByTagName("SUBCOMPONENT"), pcsdp, keepUUID);
                         //TraceManager.addDev("TML task diagram : " + tmltdp.getName() + " real points");
                         connectConnectorsToRealPoints(pcsdp);
                         pcsdp.structureChanged();
@@ -5054,11 +5056,11 @@ public class GTURTLEModeling {
 
                         //tmladp.loadExtraParameters(elt);
                         //TraceManager.addDev("Activity diagram : " + tadp.getName() + " components");
-                        makeXMLComponents(elt.getElementsByTagName("COMPONENT"), psmdp);
+                        makeXMLComponents(elt.getElementsByTagName("COMPONENT"), psmdp, keepUUID);
                         //TraceManager.addDev("Activity diagram : " + tadp.getName() + " connectors");
-                        makeXMLConnectors(elt.getElementsByTagName("CONNECTOR"), psmdp);
+                        makeXMLConnectors(elt.getElementsByTagName("CONNECTOR"), psmdp, keepUUID);
                         //TraceManager.addDev("Activity diagram : " + tadp.getName() + " subcomponents");
-                        makeXMLComponents(elt.getElementsByTagName("SUBCOMPONENT"), psmdp);
+                        makeXMLComponents(elt.getElementsByTagName("SUBCOMPONENT"), psmdp, keepUUID);
                         //TraceManager.addDev("Activity diagram : " + tadp.getName() + " real points");
                         connectConnectorsToRealPoints(psmdp);
                         psmdp.structureChanged();
@@ -5098,11 +5100,11 @@ public class GTURTLEModeling {
                         //tmladp.loadExtraParameters(elt);
 
                         //TraceManager.addDev("Activity diagram : " + tadp.getName() + " components");
-                        makeXMLComponents(elt.getElementsByTagName("COMPONENT"), psmdp);
+                        makeXMLComponents(elt.getElementsByTagName("COMPONENT"), psmdp, keepUUID);
                         //TraceManager.addDev("Activity diagram : " + tadp.getName() + " connectors");
-                        makeXMLConnectors(elt.getElementsByTagName("CONNECTOR"), psmdp);
+                        makeXMLConnectors(elt.getElementsByTagName("CONNECTOR"), psmdp, keepUUID);
                         //TraceManager.addDev("Activity diagram : " + tadp.getName() + " subcomponents");
-                        makeXMLComponents(elt.getElementsByTagName("SUBCOMPONENT"), psmdp);
+                        makeXMLComponents(elt.getElementsByTagName("SUBCOMPONENT"), psmdp, keepUUID);
                         //TraceManager.addDev("Activity diagram : " + tadp.getName() + " real points");
                         connectConnectorsToRealPoints(psmdp);
                         psmdp.structureChanged();
@@ -5148,13 +5150,13 @@ public class GTURTLEModeling {
                         //TraceManager.addDev("Toto 2");
 
                         //TraceManager.addDev("TML task diagram : " + tmltdp.getName() + " components");
-                        makeXMLComponents(elt.getElementsByTagName("COMPONENT"), abdp);
+                        makeXMLComponents(elt.getElementsByTagName("COMPONENT"), abdp, keepUUID);
                         //TraceManager.addDev("Toto 3");
                         makePostProcessing(abdp);
                         //TraceManager.addDev("TML task diagram : " + tmltdp.getName() + " connectors");
-                        makeXMLConnectors(elt.getElementsByTagName("CONNECTOR"), abdp);
+                        makeXMLConnectors(elt.getElementsByTagName("CONNECTOR"), abdp, keepUUID);
                         //TraceManager.addDev("TML task diagram : " + tmltdp.getName() + " subcomponents");
-                        makeXMLComponents(elt.getElementsByTagName("SUBCOMPONENT"), abdp);
+                        makeXMLComponents(elt.getElementsByTagName("SUBCOMPONENT"), abdp, keepUUID);
                         //TraceManager.addDev("TML task diagram : " + tmltdp.getName() + " real points");
                         connectConnectorsToRealPoints(abdp);
                         abdp.structureChanged();
@@ -5201,13 +5203,13 @@ public class GTURTLEModeling {
                         //TraceManager.addDev("Toto 2");
 
                         //TraceManager.addDev("TML task diagram : " + tmltdp.getName() + " components");
-                        makeXMLComponents(elt.getElementsByTagName("COMPONENT"), addp);
+                        makeXMLComponents(elt.getElementsByTagName("COMPONENT"), addp, keepUUID);
                         //TraceManager.addDev("Toto 3");
                         makePostProcessing(addp);
                         //TraceManager.addDev("TML task diagram : " + tmltdp.getName() + " connectors");
-                        makeXMLConnectors(elt.getElementsByTagName("CONNECTOR"), addp);
+                        makeXMLConnectors(elt.getElementsByTagName("CONNECTOR"), addp, keepUUID);
                         //TraceManager.addDev("TML task diagram : " + tmltdp.getName() + " subcomponents");
-                        makeXMLComponents(elt.getElementsByTagName("SUBCOMPONENT"), addp);
+                        makeXMLComponents(elt.getElementsByTagName("SUBCOMPONENT"), addp, keepUUID);
                         //TraceManager.addDev("TML task diagram : " + tmltdp.getName() + " real points");
                         connectConnectorsToRealPoints(addp);
                         addp.structureChanged();
@@ -5246,11 +5248,11 @@ public class GTURTLEModeling {
                         //tmladp.loadExtraParameters(elt);
 
                         //TraceManager.addDev("Activity diagram : " + tmladp.getName() + " components");
-                        makeXMLComponents(elt.getElementsByTagName("COMPONENT"), asmdp);
+                        makeXMLComponents(elt.getElementsByTagName("COMPONENT"), asmdp, keepUUID);
                         //TraceManager.addDev("Activity diagram : " + tmladp.getName() + " connectors");
-                        makeXMLConnectors(elt.getElementsByTagName("CONNECTOR"), asmdp);
+                        makeXMLConnectors(elt.getElementsByTagName("CONNECTOR"), asmdp, keepUUID);
                         //TraceManager.addDev("Activity diagram : " + tmladp.getName() + " subcomponents");
-                        makeXMLComponents(elt.getElementsByTagName("SUBCOMPONENT"), asmdp);
+                        makeXMLComponents(elt.getElementsByTagName("SUBCOMPONENT"), asmdp, keepUUID);
                         //TraceManager.addDev("Activity diagram : " + tadp.getName() + " real points");
                         connectConnectorsToRealPoints(asmdp);
                         asmdp.structureChanged();
@@ -5279,9 +5281,9 @@ public class GTURTLEModeling {
                         decX = _decX;
                         decY = _decY;
 
-                        makeXMLComponents(elt.getElementsByTagName("COMPONENT"), elndp);
-                        makeXMLConnectors(elt.getElementsByTagName("CONNECTOR"), elndp);
-                        makeXMLComponents(elt.getElementsByTagName("SUBCOMPONENT"), elndp);
+                        makeXMLComponents(elt.getElementsByTagName("COMPONENT"), elndp, keepUUID);
+                        makeXMLConnectors(elt.getElementsByTagName("CONNECTOR"), elndp, keepUUID);
+                        makeXMLComponents(elt.getElementsByTagName("SUBCOMPONENT"), elndp, keepUUID);
                         connectConnectorsToRealPoints(elndp);
                         elndp.structureChanged();
                         makePostLoading(elndp, beginIndex);
@@ -5308,9 +5310,9 @@ public class GTURTLEModeling {
                         decX = _decX;
                         decY = _decY;
 
-                        makeXMLComponents(elt.getElementsByTagName("COMPONENT"), aadp);
-                        makeXMLConnectors(elt.getElementsByTagName("CONNECTOR"), aadp);
-                        makeXMLComponents(elt.getElementsByTagName("SUBCOMPONENT"), aadp);
+                        makeXMLComponents(elt.getElementsByTagName("COMPONENT"), aadp, keepUUID);
+                        makeXMLConnectors(elt.getElementsByTagName("CONNECTOR"), aadp, keepUUID);
+                        makeXMLComponents(elt.getElementsByTagName("SUBCOMPONENT"), aadp, keepUUID);
                         connectConnectorsToRealPoints(aadp);
                         aadp.structureChanged();
                         makePostLoading(aadp, beginIndex);
@@ -5344,9 +5346,9 @@ public class GTURTLEModeling {
                         decX = _decX;
                         decY = _decY;
 
-                        makeXMLComponents(elt.getElementsByTagName("COMPONENT"), ardp);
-                        makeXMLConnectors(elt.getElementsByTagName("CONNECTOR"), ardp);
-                        makeXMLComponents(elt.getElementsByTagName("SUBCOMPONENT"), ardp);
+                        makeXMLComponents(elt.getElementsByTagName("COMPONENT"), ardp, keepUUID);
+                        makeXMLConnectors(elt.getElementsByTagName("CONNECTOR"), ardp, keepUUID);
+                        makeXMLComponents(elt.getElementsByTagName("SUBCOMPONENT"), ardp, keepUUID);
                         connectConnectorsToRealPoints(ardp);
                         ardp.structureChanged();
                         makePostLoading(ardp, beginIndex);
@@ -5379,9 +5381,9 @@ public class GTURTLEModeling {
                         decX = _decX;
                         decY = _decY;
 
-                        makeXMLComponents(elt.getElementsByTagName("COMPONENT"), amadp);
-                        makeXMLConnectors(elt.getElementsByTagName("CONNECTOR"), amadp);
-                        makeXMLComponents(elt.getElementsByTagName("SUBCOMPONENT"), amadp);
+                        makeXMLComponents(elt.getElementsByTagName("COMPONENT"), amadp, keepUUID);
+                        makeXMLConnectors(elt.getElementsByTagName("CONNECTOR"), amadp, keepUUID);
+                        makeXMLComponents(elt.getElementsByTagName("SUBCOMPONENT"), amadp, keepUUID);
                         connectConnectorsToRealPoints(amadp);
                         amadp.structureChanged();
                         makePostLoading(amadp, beginIndex);
@@ -5414,9 +5416,9 @@ public class GTURTLEModeling {
                         decX = _decX;
                         decY = _decY;
 
-                        makeXMLComponents(elt.getElementsByTagName("COMPONENT"), apdp);
-                        makeXMLConnectors(elt.getElementsByTagName("CONNECTOR"), apdp);
-                        makeXMLComponents(elt.getElementsByTagName("SUBCOMPONENT"), apdp);
+                        makeXMLComponents(elt.getElementsByTagName("COMPONENT"), apdp, keepUUID);
+                        makeXMLConnectors(elt.getElementsByTagName("CONNECTOR"), apdp, keepUUID);
+                        makeXMLComponents(elt.getElementsByTagName("SUBCOMPONENT"), apdp, keepUUID);
                         connectConnectorsToRealPoints(apdp);
                         apdp.structureChanged();
                         makePostLoading(apdp, beginIndex);
@@ -5449,9 +5451,9 @@ public class GTURTLEModeling {
                         decX = _decX;
                         decY = _decY;
 
-                        makeXMLComponents(elt.getElementsByTagName("COMPONENT"), acdp);
-                        makeXMLConnectors(elt.getElementsByTagName("CONNECTOR"), acdp);
-                        makeXMLComponents(elt.getElementsByTagName("SUBCOMPONENT"), acdp);
+                        makeXMLComponents(elt.getElementsByTagName("COMPONENT"), acdp, keepUUID);
+                        makeXMLConnectors(elt.getElementsByTagName("CONNECTOR"), acdp, keepUUID);
+                        makeXMLComponents(elt.getElementsByTagName("SUBCOMPONENT"), acdp, keepUUID);
                         connectConnectorsToRealPoints(acdp);
                         acdp.structureChanged();
                         makePostLoading(acdp, beginIndex);
@@ -5487,59 +5489,59 @@ public class GTURTLEModeling {
         //TraceManager.addDev("IDs done");
     }
 
-    public void loadModeling(Node node) throws MalformedModelingException, SAXException {
+    public void loadModeling(Node node, boolean keepUUID) throws MalformedModelingException, SAXException {
         Element elt = (Element) node;
         String type = elt.getAttribute("type");
         // AVATAR
         if (type.compareTo("ADD") == 0) {
-            loadAvatarDeployment(node);
+            loadAvatarDeployment(node, keepUUID);
         } else if (type.compareTo("AVATAR Design") == 0) {
-            loadAvatarDesign(node);
+            loadAvatarDesign(node, keepUUID);
         } else if (type.compareTo("Avatar Requirement") == 0) {
-            loadAvatarRequirement(node);
+            loadAvatarRequirement(node, keepUUID);
         } else if (type.compareTo("Avatar MAD") == 0) {
-            loadAvatarMADs(node);
+            loadAvatarMADs(node, keepUUID);
         } else if (type.compareTo("Avatar Analysis") == 0) {
-            loadAvatarAnalysis(node);
+            loadAvatarAnalysis(node, keepUUID);
 
 
             // TURTLE
         } else if (type.compareTo("Design") == 0) {
-            loadDesign(node);
+            loadDesign(node, keepUUID);
         } else if (type.compareTo("Analysis") == 0) {
-            loadAnalysis(node);
+            loadAnalysis(node, keepUUID);
         } else if (type.compareTo("Deployment") == 0) {
-            loadDeployment(node);
+            loadDeployment(node, keepUUID);
         } else if (type.compareTo("NC diagram") == 0) {
-            loadNC(node);
+            loadNC(node, keepUUID);
         } else if (type.compareTo("Requirement") == 0) {
-            loadRequirement(node);
+            loadRequirement(node, keepUUID);
         } else if (type.compareTo("AttackTree") == 0) {
-            loadAttackTree(node);
+            loadAttackTree(node, keepUUID);
         } else if (type.compareTo("FaultTree") == 0) {
-            loadFaultTree(node);
+            loadFaultTree(node, keepUUID);
         } else if (type.compareTo("Diplodocus Methodology") == 0) {
-            loadDiplodocusMethodology(node);
+            loadDiplodocusMethodology(node, keepUUID);
         } else if (type.compareTo("Avatar Methodology") == 0) {
-            loadAvatarMethodology(node);
+            loadAvatarMethodology(node, keepUUID);
         } else if (type.compareTo("Sysmlsec Methodology") == 0) {
-            loadSysmlsecMethodology(node);
+            loadSysmlsecMethodology(node, keepUUID);
         } else if (type.compareTo("SystemC-AMS") == 0) {
-            loadSysCAMS(node);
+            loadSysCAMS(node, keepUUID);
         } else if (type.compareTo("ELN") == 0) {
-            loadELN(node);
+            loadELN(node, keepUUID);
         } else if (type.compareTo("TML Design") == 0) {
-            loadTMLDesign(node);
+            loadTMLDesign(node, keepUUID);
         } else if (type.compareTo("TML Component Design") == 0) {
-            loadTMLComponentDesign(node);
+            loadTMLComponentDesign(node, keepUUID);
         } else if (type.compareTo("TML CP") == 0) {
-            loadTMLCP(node);
+            loadTMLCP(node, keepUUID);
         } else if (type.compareTo("TML Architecture") == 0) {
-            loadTMLArchitecture(node);
+            loadTMLArchitecture(node, keepUUID);
         } else if (type.compareTo("TURTLE-OS Design") == 0) {
-            loadTURTLEOSDesign(node);
+            loadTURTLEOSDesign(node, keepUUID);
         } else if (type.compareTo("ProActive Design") == 0) {
-            loadProActiveDesign(node);
+            loadProActiveDesign(node, keepUUID);
         } else {
             throw new MalformedModelingException();
         }
@@ -5592,6 +5594,11 @@ public class GTURTLEModeling {
     }
 
     public void loadModelingFromXML(String s) throws MalformedModelingException, UnsupportedEncodingException {
+        loadModelingFromXML(s, true);
+    }
+
+
+    public void loadModelingFromXML(String s, boolean keepUUID) throws MalformedModelingException, UnsupportedEncodingException {
 
         if (s == null) {
             return;
@@ -5637,9 +5644,10 @@ public class GTURTLEModeling {
                 // Modeling saved in old format?
                 s = upgradeSaved(s);
                 if (s != null) {
-                    JOptionPane.showMessageDialog(mgui.frame, "The modeling has been converted to this new version of TTool", "Loading information", JOptionPane.INFORMATION_MESSAGE);
+                    JOptionPane.showMessageDialog(mgui.frame, "The modeling has been converted to this new version of TTool",
+                            "Loading information", JOptionPane.INFORMATION_MESSAGE);
                 }
-                loadModelingFromXML(s);
+                loadModelingFromXML(s, keepUUID);
                 return;
 
             }
@@ -5671,7 +5679,7 @@ public class GTURTLEModeling {
                     // create design, and get an index for it
                     try {
                         //TraceManager.addDev("Loading Node");
-                        loadModeling(node);
+                        loadModeling(node, keepUUID);
                         //TraceManager.addDev("Node loaded = ");
                     } catch (MalformedModelingException mme) {
                         TraceManager.addError("Error when loading diagram");
@@ -5767,7 +5775,7 @@ public class GTURTLEModeling {
         }
     }*/
 
-    public void loadAvatarDesign(Node node) throws MalformedModelingException, SAXException {
+    public void loadAvatarDesign(Node node, boolean keepUUID) throws MalformedModelingException, SAXException {
         Element elt = (Element) node;
         String nameTab;
         NodeList diagramNl;
@@ -5792,7 +5800,7 @@ public class GTURTLEModeling {
                 elt = (Element) node;
                 if (elt.getTagName().compareTo("AVATARBlockDiagramPanel") == 0)
                     // Class diagram
-                    loadAvatarBD(elt, indexDesign);
+                    loadAvatarBD(elt, indexDesign, keepUUID);
             }
         }
         for (int j = 0; j < diagramNl.getLength(); j++) {
@@ -5801,7 +5809,7 @@ public class GTURTLEModeling {
                 elt = (Element) node;
                 if (elt.getTagName().compareTo("AVATARStateMachineDiagramPanel") == 0)
                     // Managing activity diagrams
-                    loadAvatarSMD(elt, indexDesign);
+                    loadAvatarSMD(elt, indexDesign, keepUUID);
             }
         }
 
@@ -5813,7 +5821,7 @@ public class GTURTLEModeling {
 
     }
 
-    public void loadAvatarDeployment(Node node) throws MalformedModelingException, SAXException {
+    public void loadAvatarDeployment(Node node, boolean keepUUID) throws MalformedModelingException, SAXException {
         Element elt = (Element) node;
         String nameTab;
         NodeList diagramNl;
@@ -5835,14 +5843,14 @@ public class GTURTLEModeling {
                 elt = (Element) node;
                 if (elt.getTagName().compareTo("ADDDiagramPanel") == 0) {
                     TraceManager.addDev("Loading ADD 1");
-                    loadADDDiagram(elt, indexReq, cpt_req);
+                    loadADDDiagram(elt, indexReq, cpt_req, keepUUID);
                     cpt_req++;
                 }
             }
         }
     }
 
-    public void loadAvatarRequirement(Node node) throws MalformedModelingException, SAXException {
+    public void loadAvatarRequirement(Node node, boolean keepUUID) throws MalformedModelingException, SAXException {
         Element elt = (Element) node;
         String nameTab;
         NodeList diagramNl;
@@ -5862,17 +5870,17 @@ public class GTURTLEModeling {
             if (node.getNodeType() == Node.ELEMENT_NODE) {
                 elt = (Element) node;
                 if (elt.getTagName().compareTo("AvatarRDPanel") == 0) {
-                    loadAvatarRD(elt, indexReq, cpt_req);
+                    loadAvatarRD(elt, indexReq, cpt_req, keepUUID);
                     cpt_req++;
                 } else if (elt.getTagName().compareTo("AvatarPDPanel") == 0) {
-                    loadAvatarPD(elt, indexReq, cpt_req);
+                    loadAvatarPD(elt, indexReq, cpt_req, keepUUID);
                     cpt_req++;
                 }
             }
         }
     }
 
-    public void loadAttackTree(Node node) throws MalformedModelingException, SAXException {
+    public void loadAttackTree(Node node, boolean keepUUID) throws MalformedModelingException, SAXException {
         Element elt = (Element) node;
         String nameTab;
         NodeList diagramNl;
@@ -5892,14 +5900,14 @@ public class GTURTLEModeling {
             if (node.getNodeType() == Node.ELEMENT_NODE) {
                 elt = (Element) node;
                 if (elt.getTagName().compareTo("AttackTreeDiagramPanel") == 0) {
-                    loadAttackTreeDiagram(elt, indexTree, cpttdp);
+                    loadAttackTreeDiagram(elt, indexTree, cpttdp, keepUUID);
                     cpttdp++;
                 }
             }
         }
     }
 
-    public void loadFaultTree(Node node) throws MalformedModelingException, SAXException {
+    public void loadFaultTree(Node node, boolean keepUUID) throws MalformedModelingException, SAXException {
         Element elt = (Element) node;
         String nameTab;
         NodeList diagramNl;
@@ -5919,14 +5927,14 @@ public class GTURTLEModeling {
             if (node.getNodeType() == Node.ELEMENT_NODE) {
                 elt = (Element) node;
                 if (elt.getTagName().compareTo("FaultTreeDiagramPanel") == 0) {
-                    loadFaultTreeDiagram(elt, indexTree, cpttdp);
+                    loadFaultTreeDiagram(elt, indexTree, cpttdp, keepUUID);
                     cpttdp++;
                 }
             }
         }
     }
 
-    public void loadAvatarMADs(Node node) throws MalformedModelingException, SAXException {
+    public void loadAvatarMADs(Node node, boolean keepUUID) throws MalformedModelingException, SAXException {
         Element elt = (Element) node;
         String nameTab;
         NodeList diagramNl;
@@ -5948,14 +5956,14 @@ public class GTURTLEModeling {
             if (node.getNodeType() == Node.ELEMENT_NODE) {
                 elt = (Element) node;
                 if (elt.getTagName().compareTo("AvatarMADPanel") == 0) {
-                    loadAvatarMAD(elt, indexReq, cpt_req);
+                    loadAvatarMAD(elt, indexReq, cpt_req, keepUUID);
                     cpt_req++;
                 }
             }
         }
     }
 
-    public void loadDesign(Node node) throws MalformedModelingException, SAXException {
+    public void loadDesign(Node node, boolean keepUUID) throws MalformedModelingException, SAXException {
         Element elt = (Element) node;
         String nameTab;
         NodeList diagramNl;
@@ -5975,18 +5983,18 @@ public class GTURTLEModeling {
                 elt = (Element) node;
                 if (elt.getTagName().compareTo("TClassDiagramPanel") == 0) {
                     // Class diagram
-                    loadTClassDiagram(elt, indexDesign);
+                    loadTClassDiagram(elt, indexDesign, keepUUID);
                 } else { // Managing activity diagrams
                     if (elt.getTagName().compareTo("TActivityDiagramPanel") == 0) {
                         // Managing activity diagrams
-                        loadTActivityDiagram(elt, indexDesign);
+                        loadTActivityDiagram(elt, indexDesign, keepUUID);
                     }
                 }
             }
         }
     }
 
-    public void loadAnalysis(Node node) throws MalformedModelingException, SAXException {
+    public void loadAnalysis(Node node, boolean keepUUID) throws MalformedModelingException, SAXException {
         Element elt = (Element) node;
         String nameTab;
         NodeList diagramNl;
@@ -6006,18 +6014,18 @@ public class GTURTLEModeling {
                 elt = (Element) node;
                 if (elt.getTagName().compareTo("InteractionOverviewDiagramPanel") == 0) {
                     // IOD
-                    loadIODiagram(elt, indexAnalysis);
+                    loadIODiagram(elt, indexAnalysis, keepUUID);
                     cpt++;
                 } else { // Managing sequence diagrams
                     if (elt.getTagName().compareTo("SequenceDiagramPanel") == 0) {
-                        loadSequenceDiagram(elt, indexAnalysis);
+                        loadSequenceDiagram(elt, indexAnalysis, keepUUID);
                         cpt++;
                     } else if (elt.getTagName().compareTo("SequenceDiagramPanelZV") == 0) {
-                        loadSequenceDiagramZV(elt, indexAnalysis);
+                        loadSequenceDiagramZV(elt, indexAnalysis, keepUUID);
                         cpt++;
                     } else if (elt.getTagName().compareTo("UseCaseDiagramPanel") == 0) {
                         // Managing use case diagrams
-                        loadUseCaseDiagram(elt, indexAnalysis, cpt);
+                        loadUseCaseDiagram(elt, indexAnalysis, cpt, keepUUID);
                         cpt++;
                     } /*else if (elt.getTagName().compareTo("AvatarCDPanel") == 0) {
 					// Managing use case diagrams
@@ -6033,7 +6041,7 @@ public class GTURTLEModeling {
         }
     }
 
-    public void loadTMLCP(Node node) throws MalformedModelingException, SAXException {
+    public void loadTMLCP(Node node, boolean keepUUID) throws MalformedModelingException, SAXException {
         Element elt = (Element) node;
         String nameTab;
         NodeList diagramNl;
@@ -6053,11 +6061,11 @@ public class GTURTLEModeling {
                 elt = (Element) node;
                 if (elt.getTagName().compareTo("CommunicationPatternDiagramPanel") == 0) {
                     // CP
-                    loadTMLCPDiagram(elt, indexTMLCP);
+                    loadTMLCPDiagram(elt, indexTMLCP, keepUUID);
                     // cpt ++;
                 } else { // Managing sequence diagrams
                     if (elt.getTagName().compareTo("TMLSDPanel") == 0) {
-                        loadTMLSDDiagram(elt, indexTMLCP);
+                        loadTMLSDDiagram(elt, indexTMLCP, keepUUID);
                         //       cpt ++;
                     }
                 }
@@ -6065,7 +6073,7 @@ public class GTURTLEModeling {
         }
     }
 
-    public void loadAvatarAnalysis(Node node) throws MalformedModelingException, SAXException {
+    public void loadAvatarAnalysis(Node node, boolean keepUUID) throws MalformedModelingException, SAXException {
         Element elt = (Element) node;
         String nameTab;
         NodeList diagramNl;
@@ -6088,31 +6096,31 @@ public class GTURTLEModeling {
 
                 if (elt.getTagName().compareTo("SequenceDiagramPanel") == 0) {
                     //TraceManager.addDev("Loading seq diag");
-                    loadSequenceDiagram(elt, indexAnalysis);
+                    loadSequenceDiagram(elt, indexAnalysis, keepUUID);
                     //TraceManager.addDev("Loading seq diag done");
                     cpt++;
                 } else if (elt.getTagName().compareTo("SequenceDiagramPanelZV") == 0) {
                     //TraceManager.addDev("Loading seq diag");
-                    loadSequenceDiagramZV(elt, indexAnalysis);
+                    loadSequenceDiagramZV(elt, indexAnalysis, keepUUID);
                     //TraceManager.addDev("Loading seq diag done");
                     cpt++;
                 } else if (elt.getTagName().compareTo("UseCaseDiagramPanel") == 0) {
                     // Managing use case diagrams
                     //TraceManager.addDev("Loading ucd diag");
-                    loadUseCaseDiagram(elt, indexAnalysis, cpt);
+                    loadUseCaseDiagram(elt, indexAnalysis, cpt, keepUUID);
                     //TraceManager.addDev("Loading ucd diag done");
 
                     cpt++;
                 } else if (elt.getTagName().compareTo("AvatarCDPanel") == 0) {
                     // Managing use case diagrams
                     //TraceManager.addDev("Loading cd diag");
-                    loadAvatarCD(elt, indexAnalysis, cpt);
+                    loadAvatarCD(elt, indexAnalysis, cpt, keepUUID);
                     //TraceManager.addDev("Loading cd diag done");
                     cpt++;
                 } else if (elt.getTagName().compareTo("AvatarADPanel") == 0) {
                     // Managing use case diagrams
                     //TraceManager.addDev("Loading ad diag");
-                    loadAvatarAD(elt, indexAnalysis, cpt);
+                    loadAvatarAD(elt, indexAnalysis, cpt, keepUUID);
                     //TraceManager.addDev("Loading ad diag done");
                     cpt++;
                 }
@@ -6121,7 +6129,7 @@ public class GTURTLEModeling {
         }
     }
 
-    public void loadDeployment(Node node) throws MalformedModelingException, SAXException {
+    public void loadDeployment(Node node, boolean keepUUID) throws MalformedModelingException, SAXException {
         Element elt = (Element) node;
         String nameTab;
         NodeList diagramNl;
@@ -6141,13 +6149,13 @@ public class GTURTLEModeling {
                 elt = (Element) node;
                 if (elt.getTagName().compareTo("TDeploymentDiagramPanel") == 0) {
                     // IOD
-                    loadTDeploymentDiagram(elt, indexAnalysis);
+                    loadTDeploymentDiagram(elt, indexAnalysis, keepUUID);
                 }
             }
         }
     }
 
-    public void loadNC(Node node) throws MalformedModelingException, SAXException {
+    public void loadNC(Node node, boolean keepUUID) throws MalformedModelingException, SAXException {
         Element elt = (Element) node;
         String nameTab;
         NodeList diagramNl;
@@ -6167,13 +6175,13 @@ public class GTURTLEModeling {
                 elt = (Element) node;
                 if (elt.getTagName().compareTo("NCDiagramPanel") == 0) {
                     // IOD
-                    loadNCDiagram(elt, indexAnalysis);
+                    loadNCDiagram(elt, indexAnalysis, keepUUID);
                 }
             }
         }
     }
 
-    public void loadRequirement(Node node) throws MalformedModelingException, SAXException {
+    public void loadRequirement(Node node, boolean keepUUID) throws MalformedModelingException, SAXException {
         Element elt = (Element) node;
         String nameTab;
         NodeList diagramNl;
@@ -6193,10 +6201,10 @@ public class GTURTLEModeling {
             if (node.getNodeType() == Node.ELEMENT_NODE) {
                 elt = (Element) node;
                 if (elt.getTagName().compareTo("TRequirementDiagramPanel") == 0) {
-                    loadRequirementDiagram(elt, indexReq, cpt_req);
+                    loadRequirementDiagram(elt, indexReq, cpt_req, keepUUID);
                     cpt_req++;
                 } else if (elt.getTagName().compareTo("EBRDDPanel") == 0) {
-                    loadEBRDD(elt, indexReq, cpt_req);
+                    loadEBRDD(elt, indexReq, cpt_req, keepUUID);
                     cpt_req++;
                 }
             }
@@ -6204,7 +6212,7 @@ public class GTURTLEModeling {
     }
 
 
-    public void loadDiplodocusMethodology(Node node) throws MalformedModelingException, SAXException {
+    public void loadDiplodocusMethodology(Node node, boolean keepUUID) throws MalformedModelingException, SAXException {
         Element elt = (Element) node;
         String nameTab;
         NodeList diagramNl;
@@ -6225,14 +6233,14 @@ public class GTURTLEModeling {
                 if (elt.getTagName().compareTo("DiplodocusMethodologyDiagramPanel") == 0) {
                     // Class diagram
                     //TraceManager.addDev("Loading TML CD");
-                    loadDiplodocusMethodologyDiagram(elt, indexDesign);
+                    loadDiplodocusMethodologyDiagram(elt, indexDesign, keepUUID);
                     //TraceManager.addDev("End loading TML CD");
                 }
             }
         }
     }
 
-    public void loadAvatarMethodology(Node node) throws MalformedModelingException, SAXException {
+    public void loadAvatarMethodology(Node node, boolean keepUUID) throws MalformedModelingException, SAXException {
         Element elt = (Element) node;
         String nameTab;
         NodeList diagramNl;
@@ -6253,14 +6261,14 @@ public class GTURTLEModeling {
                 if (elt.getTagName().compareTo("AvatarMethodologyDiagramPanel") == 0) {
                     // Class diagram
                     TraceManager.addDev("Loading Avatar methodo");
-                    loadAvatarMethodologyDiagram(elt, indexDesign);
+                    loadAvatarMethodologyDiagram(elt, indexDesign, keepUUID);
                     TraceManager.addDev("End Loading avatar methodo");
                 }
             }
         }
     }
 
-    public void loadSysmlsecMethodology(Node node) throws MalformedModelingException, SAXException {
+    public void loadSysmlsecMethodology(Node node, boolean keepUUID) throws MalformedModelingException, SAXException {
         Element elt = (Element) node;
         String nameTab;
         NodeList diagramNl;
@@ -6281,7 +6289,7 @@ public class GTURTLEModeling {
                 if (elt.getTagName().compareTo("SysmlsecMethodologyDiagramPanel") == 0) {
                     // Class diagram
                     TraceManager.addDev("Loading SysMLSec methodo");
-                    loadSysmlsecMethodologyDiagram(elt, indexDesign);
+                    loadSysmlsecMethodologyDiagram(elt, indexDesign, keepUUID);
                     TraceManager.addDev("End loading SysMLSec methodo");
                 }
             }
@@ -6289,7 +6297,7 @@ public class GTURTLEModeling {
     }
 
 
-    public void loadSysCAMS(Node node) throws MalformedModelingException, SAXException {
+    public void loadSysCAMS(Node node, boolean keepUUID) throws MalformedModelingException, SAXException {
         Element elt = (Element) node;
         String nameTab;
         NodeList diagramNl;
@@ -6311,7 +6319,7 @@ public class GTURTLEModeling {
                 if (elt.getTagName().compareTo("SysCAMSComponentTaskDiagramPanel") == 0) {
                     // Class diagram
                     TraceManager.addDev("Loading SystemC-AMS");
-                    loadSysCAMSDiagram(elt, indexDesign, indexTab);
+                    loadSysCAMSDiagram(elt, indexDesign, indexTab, keepUUID);
                     indexTab++;
                     TraceManager.addDev("End loading SystemC-AMS");
                 }
@@ -6320,7 +6328,7 @@ public class GTURTLEModeling {
     }
 
 
-    public void loadELN(Node node) throws MalformedModelingException, SAXException {
+    public void loadELN(Node node, boolean keepUUID) throws MalformedModelingException, SAXException {
         Element elt = (Element) node;
         String nameTab;
         NodeList diagramNl;
@@ -6341,7 +6349,7 @@ public class GTURTLEModeling {
                 if (elt.getTagName().compareTo("ELNDiagramPanel") == 0) {
                     // Class diagram
                     TraceManager.addDev("Loading ELN");
-                    loadELNDiagram(elt, indexDesign, indexTab);
+                    loadELNDiagram(elt, indexDesign, indexTab, keepUUID);
                     indexTab++;
                     TraceManager.addDev("End loading ELN");
                 }
@@ -6350,7 +6358,7 @@ public class GTURTLEModeling {
     }
 
 
-    public void loadTMLDesign(Node node) throws MalformedModelingException, SAXException {
+    public void loadTMLDesign(Node node, boolean keepUUID) throws MalformedModelingException, SAXException {
         Element elt = (Element) node;
         String nameTab;
         NodeList diagramNl;
@@ -6371,20 +6379,20 @@ public class GTURTLEModeling {
                 if (elt.getTagName().compareTo("TMLTaskDiagramPanel") == 0) {
                     // Class diagram
                     //TraceManager.addDev("Loading TML CD");
-                    loadTMLTaskDiagram(elt, indexDesign);
+                    loadTMLTaskDiagram(elt, indexDesign, keepUUID);
                     //TraceManager.addDev("End loading TML CD");
                 } else { // Managing activity diagrams
                     if (elt.getTagName().compareTo("TMLActivityDiagramPanel") == 0) {
                         // Managing activity diagrams
                         //TraceManager.addDev("Loading TML AD");
-                        loadTMLActivityDiagram(elt, indexDesign);
+                        loadTMLActivityDiagram(elt, indexDesign, keepUUID);
                     }
                 }
             }
         }
     }
 
-    public void loadTMLComponentDesign(Node node) throws MalformedModelingException, SAXException {
+    public void loadTMLComponentDesign(Node node, boolean keepUUID) throws MalformedModelingException, SAXException {
         Element elt = (Element) node;
         String nameTab;
         NodeList diagramNl;
@@ -6406,13 +6414,13 @@ public class GTURTLEModeling {
                 if (elt.getTagName().compareTo("TMLComponentTaskDiagramPanel") == 0) {
                     // Component diagram
                     //TraceManager.addDev("Loading TML Component diagram");
-                    loadTMLComponentTaskDiagram(elt, indexDesign);
+                    loadTMLComponentTaskDiagram(elt, indexDesign, keepUUID);
                     //TraceManager.addDev("End loading TML CD");
                 } else { // Managing activity diagrams
                     if (elt.getTagName().compareTo("TMLActivityDiagramPanel") == 0) {
                         // Managing activity diagrams
                         //TraceManager.addDev("Loading TML AD");
-                        loadTMLActivityDiagram(elt, indexDesign);
+                        loadTMLActivityDiagram(elt, indexDesign, keepUUID);
                     }
                 }
             }
@@ -6425,7 +6433,7 @@ public class GTURTLEModeling {
         }
     }
 
-    public void loadTMLArchitecture(Node node) throws MalformedModelingException, SAXException {
+    public void loadTMLArchitecture(Node node, boolean keepUUID) throws MalformedModelingException, SAXException {
         Element elt = (Element) node;
         String nameTab;
         NodeList diagramNl;
@@ -6445,14 +6453,14 @@ public class GTURTLEModeling {
                 elt = (Element) node;
                 if (elt.getTagName().compareTo("TMLArchiDiagramPanel") == 0) {
                     //TraceManager.addDev("Loading TML DD" + elt.getTagName() );
-                    loadTMLArchitectureDiagram(elt, indexDesign);
+                    loadTMLArchitectureDiagram(elt, indexDesign, keepUUID);
                     //TraceManager.addDev("End loading TML DD");
                 }
             }
         }
     }
 
-    public void loadTURTLEOSDesign(Node node) throws MalformedModelingException, SAXException {
+    public void loadTURTLEOSDesign(Node node, boolean keepUUID) throws MalformedModelingException, SAXException {
         Element elt = (Element) node;
         String nameTab;
         NodeList diagramNl;
@@ -6472,20 +6480,20 @@ public class GTURTLEModeling {
                 if (elt.getTagName().compareTo("TURTLEOSClassDiagramPanel") == 0) {
                     // Class diagram
                     //TraceManager.addDev("Loading TURTLEOS CD");
-                    loadTURTLEOSClassDiagram(elt, indexDesign);
+                    loadTURTLEOSClassDiagram(elt, indexDesign, keepUUID);
                     //TraceManager.addDev("End loading TML CD");
                 } else { // Managing activity diagrams
                     if (elt.getTagName().compareTo("TURTLEOSActivityDiagramPanel") == 0) {
                         // Managing activity diagrams
                         //TraceManager.addDev("Loading TURTLEOS AD");
-                        loadTURTLEOSActivityDiagram(elt, indexDesign);
+                        loadTURTLEOSActivityDiagram(elt, indexDesign, keepUUID);
                     }
                 }
             }
         }
     }
 
-    public void loadProActiveDesign(Node node) throws MalformedModelingException, SAXException {
+    public void loadProActiveDesign(Node node, boolean keepUUID) throws MalformedModelingException, SAXException {
         Element elt = (Element) node;
         String nameTab;
         NodeList diagramNl;
@@ -6507,30 +6515,30 @@ public class GTURTLEModeling {
                 if (elt.getTagName().compareTo("ProactiveCSDPanel") == 0) {
                     // Class diagram
                     //TraceManager.addDev("Loading TML CD");
-                    loadProactiveCSD(elt, indexDesign);
+                    loadProactiveCSD(elt, indexDesign, keepUUID);
                     //TraceManager.addDev("End loading TML CD");
                 } else { // Managing activity diagrams
                     if (elt.getTagName().compareTo("ProactiveSMDPanel") == 0) {
                         // Managing activity diagrams
                         //TraceManager.addDev("Loading TML AD");
-                        loadProactiveSMD(elt, indexDesign);
+                        loadProactiveSMD(elt, indexDesign, keepUUID);
                     }
                 }
             }
         }
     }
 
-    public void loadDiagram(Element elt, TDiagramPanel tdp) throws MalformedModelingException, SAXException {
+    public void loadDiagram(Element elt, TDiagramPanel tdp, boolean keepUUID) throws MalformedModelingException, SAXException {
         int x, y;
         double zoom = 0;
         try {
-            x = Integer.decode(elt.getAttribute("minX")).intValue();
+            x = Integer.decode(elt.getAttribute("minX"));
             tdp.setMinX(x);
-            x = Integer.decode(elt.getAttribute("maxX")).intValue();
+            x = Integer.decode(elt.getAttribute("maxX"));
             tdp.setMaxX(x);
-            y = Integer.decode(elt.getAttribute("minY")).intValue();
+            y = Integer.decode(elt.getAttribute("minY"));
             tdp.setMinY(y);
-            y = Integer.decode(elt.getAttribute("maxY")).intValue();
+            y = Integer.decode(elt.getAttribute("maxY"));
             tdp.setMaxY(y);
             tdp.updateSize();
             zoom = Double.parseDouble(elt.getAttribute("zoom"));
@@ -6575,13 +6583,13 @@ public class GTURTLEModeling {
         //TraceManager.addDev("Element" + elt.toString());
         // Loads components of the class diagram
         //TraceManager.addDev("Components");
-        makeXMLComponents(elt.getElementsByTagName("COMPONENT"), tdp);
+        makeXMLComponents(elt.getElementsByTagName("COMPONENT"), tdp, keepUUID);
         //TraceManager.addDev("Post processing");
         makePostProcessing(tdp);
         //TraceManager.addDev("Connectors");
-        makeXMLConnectors(elt.getElementsByTagName("CONNECTOR"), tdp);
+        makeXMLConnectors(elt.getElementsByTagName("CONNECTOR"), tdp, keepUUID);
         //TraceManager.addDev("Subcomponents");
-        makeXMLComponents(elt.getElementsByTagName("SUBCOMPONENT"), tdp);
+        makeXMLComponents(elt.getElementsByTagName("SUBCOMPONENT"), tdp, keepUUID);
         //TraceManager.addDev("RealPoints");
         connectConnectorsToRealPoints(tdp);
         //TraceManager.addDev("Structure changed");
@@ -6653,7 +6661,7 @@ public class GTURTLEModeling {
     }
 
     // AVATAR
-    public void loadAvatarBD(Element elt, int indexDesign) throws MalformedModelingException, SAXException {
+    public void loadAvatarBD(Element elt, int indexDesign, boolean keepUUID) throws MalformedModelingException, SAXException {
 
         String name;
         TDiagramPanel tdp;
@@ -6663,10 +6671,10 @@ public class GTURTLEModeling {
         mgui.setAvatarBDName(indexDesign, name);
         tdp = mgui.getMainTDiagramPanel(indexDesign);
 
-        loadDiagram(elt, tdp);
+        loadDiagram(elt, tdp, keepUUID);
     }
 
-    public void loadAvatarSMD(Element elt, int indexDesign) throws MalformedModelingException, SAXException {
+    public void loadAvatarSMD(Element elt, int indexDesign, boolean keepUUID) throws MalformedModelingException, SAXException {
         String name;
 
         name = elt.getAttribute("name");
@@ -6680,11 +6688,11 @@ public class GTURTLEModeling {
         asmdp.removeAll();
 
         mgui.selectDummyTab(indexDesign);
-        loadDiagram(elt, asmdp);
+        loadDiagram(elt, asmdp, keepUUID);
         mgui.forgetDummyTab();
     }
 
-    public void loadAvatarRD(Element elt, int indexAnalysis, int indexTab) throws MalformedModelingException, SAXException {
+    public void loadAvatarRD(Element elt, int indexAnalysis, int indexTab, boolean keepUUID) throws MalformedModelingException, SAXException {
         String name;
 
         name = elt.getAttribute("name");
@@ -6698,10 +6706,10 @@ public class GTURTLEModeling {
         }
         tdp.removeAll();
 
-        loadDiagram(elt, tdp);
+        loadDiagram(elt, tdp, keepUUID);
     }
 
-    public void loadAvatarMAD(Element elt, int indexAnalysis, int indexTab) throws MalformedModelingException, SAXException {
+    public void loadAvatarMAD(Element elt, int indexAnalysis, int indexTab, boolean keepUUID) throws MalformedModelingException, SAXException {
         String name;
         name = elt.getAttribute("name");
         mgui.createAvatarMAD(indexAnalysis, name);
@@ -6710,11 +6718,11 @@ public class GTURTLEModeling {
             throw new MalformedModelingException();
         }
         tdp.removeAll();
-        loadDiagram(elt, tdp);
+        loadDiagram(elt, tdp, keepUUID);
     }
 
 
-    public void loadADDDiagram(Element elt, int indexAnalysis, int indexTab) throws MalformedModelingException, SAXException {
+    public void loadADDDiagram(Element elt, int indexAnalysis, int indexTab, boolean keepUUID) throws MalformedModelingException, SAXException {
         String name;
 
         name = elt.getAttribute("name");
@@ -6738,11 +6746,11 @@ public class GTURTLEModeling {
         tdp.removeAll();
         TraceManager.addDev("ADD 4");
 
-        loadDiagram(elt, tdp);
+        loadDiagram(elt, tdp, keepUUID);
         TraceManager.addDev("ADD 5");
     }
 
-    public void loadAvatarPD(Element elt, int indexAnalysis, int indexTab) throws MalformedModelingException, SAXException {
+    public void loadAvatarPD(Element elt, int indexAnalysis, int indexTab, boolean keepUUID) throws MalformedModelingException, SAXException {
         String name;
 
         name = elt.getAttribute("name");
@@ -6755,10 +6763,10 @@ public class GTURTLEModeling {
         }
         tdp.removeAll();
 
-        loadDiagram(elt, tdp);
+        loadDiagram(elt, tdp, keepUUID);
     }
 
-    public void loadAvatarCD(Element elt, int indexAnalysis, int indexTab) throws MalformedModelingException, SAXException {
+    public void loadAvatarCD(Element elt, int indexAnalysis, int indexTab, boolean keepUUID) throws MalformedModelingException, SAXException {
         String name;
 
         name = elt.getAttribute("name");
@@ -6771,10 +6779,10 @@ public class GTURTLEModeling {
         }
         tdp.removeAll();
 
-        loadDiagram(elt, tdp);
+        loadDiagram(elt, tdp, keepUUID);
     }
 
-    public void loadAvatarAD(Element elt, int indexAnalysis, int indexTab) throws MalformedModelingException, SAXException {
+    public void loadAvatarAD(Element elt, int indexAnalysis, int indexTab, boolean keepUUID) throws MalformedModelingException, SAXException {
         String name;
 
         name = elt.getAttribute("name");
@@ -6787,11 +6795,11 @@ public class GTURTLEModeling {
         }
         tdp.removeAll();
 
-        loadDiagram(elt, tdp);
+        loadDiagram(elt, tdp, keepUUID);
     }
 
     // TURTLE Design
-    public void loadTClassDiagram(Element elt, int indexDesign) throws MalformedModelingException, SAXException {
+    public void loadTClassDiagram(Element elt, int indexDesign, boolean keepUUID) throws MalformedModelingException, SAXException {
 
         String name;
         TDiagramPanel tdp;
@@ -6801,10 +6809,10 @@ public class GTURTLEModeling {
         mgui.setClassDiagramName(indexDesign, name);
         tdp = mgui.getMainTDiagramPanel(indexDesign);
 
-        loadDiagram(elt, tdp);
+        loadDiagram(elt, tdp, keepUUID);
     }
 
-    public void loadTActivityDiagram(Element elt, int indexDesign) throws MalformedModelingException, SAXException {
+    public void loadTActivityDiagram(Element elt, int indexDesign, boolean keepUUID) throws MalformedModelingException, SAXException {
         String name;
 
         name = elt.getAttribute("name");
@@ -6816,10 +6824,10 @@ public class GTURTLEModeling {
 
         tadp.removeAll();
 
-        loadDiagram(elt, tadp);
+        loadDiagram(elt, tadp, keepUUID);
     }
 
-    public void loadDiplodocusMethodologyDiagram(Element elt, int indexDesign) throws MalformedModelingException, SAXException {
+    public void loadDiplodocusMethodologyDiagram(Element elt, int indexDesign, boolean keepUUID) throws MalformedModelingException, SAXException {
 
         String name;
         TDiagramPanel tdp;
@@ -6832,10 +6840,10 @@ public class GTURTLEModeling {
 
         //TraceManager.addDev("tdp=" + tdp.getName());
 
-        loadDiagram(elt, tdp);
+        loadDiagram(elt, tdp, keepUUID);
     }
 
-    public void loadAvatarMethodologyDiagram(Element elt, int indexDesign) throws MalformedModelingException, SAXException {
+    public void loadAvatarMethodologyDiagram(Element elt, int indexDesign, boolean keepUUID) throws MalformedModelingException, SAXException {
 
         String name;
         TDiagramPanel tdp;
@@ -6848,10 +6856,10 @@ public class GTURTLEModeling {
 
         //TraceManager.addDev("tdp=" + tdp.getName());
 
-        loadDiagram(elt, tdp);
+        loadDiagram(elt, tdp, keepUUID);
     }
 
-    public void loadSysmlsecMethodologyDiagram(Element elt, int indexDesign) throws MalformedModelingException, SAXException {
+    public void loadSysmlsecMethodologyDiagram(Element elt, int indexDesign, boolean keepUUID) throws MalformedModelingException, SAXException {
 
         String name;
         TDiagramPanel tdp;
@@ -6865,10 +6873,10 @@ public class GTURTLEModeling {
 
         //TraceManager.addDev("tdp=" + tdp.getName());
 
-        loadDiagram(elt, tdp);
+        loadDiagram(elt, tdp, keepUUID);
     }
 
-    public void loadSysCAMSDiagram(Element elt, int indexDesign, int indexTab) throws MalformedModelingException, SAXException {
+    public void loadSysCAMSDiagram(Element elt, int indexDesign, int indexTab, boolean keepUUID) throws MalformedModelingException, SAXException {
         String name;
 
         name = elt.getAttribute("name");
@@ -6881,10 +6889,10 @@ public class GTURTLEModeling {
         }
         tdp.removeAll();
 
-        loadDiagram(elt, tdp);
+        loadDiagram(elt, tdp, keepUUID);
     }
 
-    public void loadELNDiagram(Element elt, int indexDesign, int indexTab) throws MalformedModelingException, SAXException {
+    public void loadELNDiagram(Element elt, int indexDesign, int indexTab, boolean keepUUID) throws MalformedModelingException, SAXException {
         String name;
 
         name = elt.getAttribute("name");
@@ -6896,11 +6904,11 @@ public class GTURTLEModeling {
             throw new MalformedModelingException();
         }
         tdp.removeAll();
-        loadDiagram(elt, tdp);
+        loadDiagram(elt, tdp, keepUUID);
     }
 
 
-    public void loadSysCAMSDiagram(Element elt, int indexDesign) throws MalformedModelingException, SAXException {
+    public void loadSysCAMSDiagram(Element elt, int indexDesign, boolean keepUUID) throws MalformedModelingException, SAXException {
         String name;
         TDiagramPanel tdp;
 
@@ -6910,10 +6918,10 @@ public class GTURTLEModeling {
         tdp = mgui.getMainTDiagramPanel(indexDesign);
         tdp.setName(name);
 
-        loadDiagram(elt, tdp);
+        loadDiagram(elt, tdp, keepUUID);
     }
 
-    public void loadTMLTaskDiagram(Element elt, int indexDesign) throws MalformedModelingException, SAXException {
+    public void loadTMLTaskDiagram(Element elt, int indexDesign, boolean keepUUID) throws MalformedModelingException, SAXException {
 
         String name;
         TDiagramPanel tdp;
@@ -6925,10 +6933,10 @@ public class GTURTLEModeling {
 
         //TraceManager.addDev("tdp=" + tdp.getName());
 
-        loadDiagram(elt, tdp);
+        loadDiagram(elt, tdp, keepUUID);
     }
 
-    public void loadTMLComponentTaskDiagram(Element elt, int indexDesign) throws MalformedModelingException, SAXException {
+    public void loadTMLComponentTaskDiagram(Element elt, int indexDesign, boolean keepUUID) throws MalformedModelingException, SAXException {
 
         String name;
         TDiagramPanel tdp;
@@ -6940,13 +6948,13 @@ public class GTURTLEModeling {
 
         //TraceManager.addDev("tdp=" + tdp.getName());
 
-        loadDiagram(elt, tdp);
+        loadDiagram(elt, tdp, keepUUID);
 
         ((TMLComponentTaskDiagramPanel) tdp).hideConnectors();
         ((TMLComponentTaskDiagramPanel) tdp).updatePorts();
     }
 
-    public void loadTMLArchitectureDiagram(Element elt, int indexDesign) throws MalformedModelingException, SAXException {
+    public void loadTMLArchitectureDiagram(Element elt, int indexDesign, boolean keepUUID) throws MalformedModelingException, SAXException {
 
         String name;
         TDiagramPanel tdp;
@@ -6958,10 +6966,10 @@ public class GTURTLEModeling {
 
         //TraceManager.addDev("tdp=" + tdp.getName());
 
-        loadDiagram(elt, tdp);
+        loadDiagram(elt, tdp, keepUUID);
     }
 
-    public void loadTMLActivityDiagram(Element elt, int indexDesign) throws MalformedModelingException, SAXException {
+    public void loadTMLActivityDiagram(Element elt, int indexDesign, boolean keepUUID) throws MalformedModelingException, SAXException {
         String name;
 
         name = elt.getAttribute("name");
@@ -6979,10 +6987,10 @@ public class GTURTLEModeling {
         tmladp.removeAll();
 
         //TraceManager.addDev("Loading diagram of " + name + " in " + tmladp.getName() +"\n");
-        loadDiagram(elt, tmladp);
+        loadDiagram(elt, tmladp, keepUUID);
     }
 
-    public void loadTURTLEOSClassDiagram(Element elt, int indexDesign) throws MalformedModelingException, SAXException {
+    public void loadTURTLEOSClassDiagram(Element elt, int indexDesign, boolean keepUUID) throws MalformedModelingException, SAXException {
 
         String name;
         TDiagramPanel tdp;
@@ -6991,10 +6999,10 @@ public class GTURTLEModeling {
         name = elt.getAttribute("name");
         mgui.setTMLTaskDiagramName(indexDesign, name);
         tdp = mgui.getMainTDiagramPanel(indexDesign);
-        loadDiagram(elt, tdp);
+        loadDiagram(elt, tdp, keepUUID);
     }
 
-    public void loadTURTLEOSActivityDiagram(Element elt, int indexDesign) throws MalformedModelingException, SAXException {
+    public void loadTURTLEOSActivityDiagram(Element elt, int indexDesign, boolean keepUUID) throws MalformedModelingException, SAXException {
         String name;
 
         name = elt.getAttribute("name");
@@ -7006,10 +7014,10 @@ public class GTURTLEModeling {
 
         tosadp.removeAll();
 
-        loadDiagram(elt, tosadp);
+        loadDiagram(elt, tosadp, keepUUID);
     }
 
-    public void loadProactiveCSD(Element elt, int indexDesign) throws MalformedModelingException, SAXException {
+    public void loadProactiveCSD(Element elt, int indexDesign, boolean keepUUID) throws MalformedModelingException, SAXException {
 
         String name;
         TDiagramPanel tdp;
@@ -7028,11 +7036,11 @@ public class GTURTLEModeling {
 
         //TraceManager.addDev("tdp=" + tdp.getName());
 
-        loadDiagram(elt, tdp);
+        loadDiagram(elt, tdp, keepUUID);
 
     }
 
-    public void loadProactiveSMD(Element elt, int indexAnalysis) throws MalformedModelingException, SAXException {
+    public void loadProactiveSMD(Element elt, int indexAnalysis, boolean keepUUID) throws MalformedModelingException, SAXException {
         String name;
 
         name = elt.getAttribute("name");
@@ -7047,10 +7055,10 @@ public class GTURTLEModeling {
 
         smd.removeAll();
 
-        loadDiagram(elt, smd);
+        loadDiagram(elt, smd, keepUUID);
     }
 
-    public void loadIODiagram(Element elt, int indexAnalysis) throws MalformedModelingException, SAXException {
+    public void loadIODiagram(Element elt, int indexAnalysis, boolean keepUUID) throws MalformedModelingException, SAXException {
         String name;
 
         name = elt.getAttribute("name");
@@ -7066,10 +7074,10 @@ public class GTURTLEModeling {
         }
         tdp.removeAll();
 
-        loadDiagram(elt, tdp);
+        loadDiagram(elt, tdp, keepUUID);
     }
 
-    public void loadTMLCPDiagram(Element elt, int indexAnalysis) throws MalformedModelingException, SAXException {
+    public void loadTMLCPDiagram(Element elt, int indexAnalysis, boolean keepUUID) throws MalformedModelingException, SAXException {
         String name;
 
         name = elt.getAttribute("name");
@@ -7084,10 +7092,10 @@ public class GTURTLEModeling {
         }
         tdp.removeAll();
 
-        loadDiagram(elt, tdp);
+        loadDiagram(elt, tdp, keepUUID);
     }
 
-    public void loadTMLSDDiagram(Element elt, int indexAnalysis) throws MalformedModelingException, SAXException {
+    public void loadTMLSDDiagram(Element elt, int indexAnalysis, boolean keepUUID) throws MalformedModelingException, SAXException {
         String name;
 
         name = elt.getAttribute("name");
@@ -7102,10 +7110,10 @@ public class GTURTLEModeling {
         }
         tdp.removeAll();
 
-        loadDiagram(elt, tdp);
+        loadDiagram(elt, tdp, keepUUID);
     }
 
-    public void loadRequirementDiagram(Element elt, int indexAnalysis, int indexTab) throws MalformedModelingException, SAXException {
+    public void loadRequirementDiagram(Element elt, int indexAnalysis, int indexTab, boolean keepUUID) throws MalformedModelingException, SAXException {
         String name;
 
         name = elt.getAttribute("name");
@@ -7119,10 +7127,10 @@ public class GTURTLEModeling {
         }
         tdp.removeAll();
 
-        loadDiagram(elt, tdp);
+        loadDiagram(elt, tdp, keepUUID);
     }
 
-    public void loadEBRDD(Element elt, int indexAnalysis, int indexTab) throws MalformedModelingException, SAXException {
+    public void loadEBRDD(Element elt, int indexAnalysis, int indexTab, boolean keepUUID) throws MalformedModelingException, SAXException {
         String name;
 
         name = elt.getAttribute("name");
@@ -7136,10 +7144,10 @@ public class GTURTLEModeling {
         }
         tdp.removeAll();
 
-        loadDiagram(elt, tdp);
+        loadDiagram(elt, tdp, keepUUID);
     }
 
-    public void loadAttackTreeDiagram(Element elt, int indexDiag, int indexTab) throws MalformedModelingException, SAXException {
+    public void loadAttackTreeDiagram(Element elt, int indexDiag, int indexTab, boolean keepUUID) throws MalformedModelingException, SAXException {
         String name;
 
         //TraceManager.addDev("indexDiag=" + indexDiag);
@@ -7154,10 +7162,10 @@ public class GTURTLEModeling {
         }
         tdp.removeAll();
 
-        loadDiagram(elt, tdp);
+        loadDiagram(elt, tdp, keepUUID);
     }
 
-    public void loadFaultTreeDiagram(Element elt, int indexDiag, int indexTab) throws MalformedModelingException, SAXException {
+    public void loadFaultTreeDiagram(Element elt, int indexDiag, int indexTab, boolean keepUUID) throws MalformedModelingException, SAXException {
         String name;
 
         //TraceManager.addDev("indexDiag=" + indexDiag);
@@ -7172,10 +7180,10 @@ public class GTURTLEModeling {
         }
         tdp.removeAll();
 
-        loadDiagram(elt, tdp);
+        loadDiagram(elt, tdp, keepUUID);
     }
 
-    public void loadSequenceDiagram(Element elt, int indexAnalysis) throws MalformedModelingException, SAXException {
+    public void loadSequenceDiagram(Element elt, int indexAnalysis, boolean keepUUID) throws MalformedModelingException, SAXException {
         String name;
 
         name = elt.getAttribute("name");
@@ -7191,12 +7199,12 @@ public class GTURTLEModeling {
             sdp.removeAll();
             //TraceManager.addDev("Loading seq diag4");
 
-            loadDiagram(elt, sdp);
+            loadDiagram(elt, sdp, keepUUID);
             //TraceManager.addDev("Loading seq diag5");
         } else if (sdp2 != null) {
             sdp2.removeAll();
 
-            loadDiagram(elt, sdp2);
+            loadDiagram(elt, sdp2, keepUUID);
         } else
             throw new MalformedModelingException();
         //TraceManager.addDev("Loading seq diag3");
@@ -7204,7 +7212,7 @@ public class GTURTLEModeling {
 
     }
 
-    public void loadSequenceDiagramZV(Element elt, int indexAnalysis) throws MalformedModelingException, SAXException {
+    public void loadSequenceDiagramZV(Element elt, int indexAnalysis, boolean keepUUID) throws MalformedModelingException, SAXException {
         String name;
 
         name = elt.getAttribute("name");
@@ -7223,11 +7231,11 @@ public class GTURTLEModeling {
         sdp.removeAll();
         //TraceManager.addDev("Loading seq diag4");
 
-        loadDiagram(elt, sdp);
+        loadDiagram(elt, sdp, keepUUID);
         //TraceManager.addDev("Loading seq diag5");
     }
 
-    public void loadUseCaseDiagram(Element elt, int indexAnalysis, int indexTab) throws MalformedModelingException, SAXException {
+    public void loadUseCaseDiagram(Element elt, int indexAnalysis, int indexTab, boolean keepUUID) throws MalformedModelingException, SAXException {
         String name;
 
         name = elt.getAttribute("name");
@@ -7242,27 +7250,27 @@ public class GTURTLEModeling {
 
         ucdp.removeAll();
 
-        loadDiagram(elt, ucdp);
+        loadDiagram(elt, ucdp, keepUUID);
     }
 
-    public void loadTDeploymentDiagram(Element elt, int indexDeployment) throws MalformedModelingException, SAXException {
+    public void loadTDeploymentDiagram(Element elt, int indexDeployment, boolean keepUUID) throws MalformedModelingException, SAXException {
         String name;
 
         name = elt.getAttribute("name");
         mgui.setDeploymentName(indexDeployment, name);
         TDiagramPanel tdp = mgui.getMainTDiagramPanel(indexDeployment);
 
-        loadDiagram(elt, tdp);
+        loadDiagram(elt, tdp, keepUUID);
     }
 
-    public void loadNCDiagram(Element elt, int indexNC) throws MalformedModelingException, SAXException {
+    public void loadNCDiagram(Element elt, int indexNC, boolean keepUUID) throws MalformedModelingException, SAXException {
         String name;
 
         name = elt.getAttribute("name");
         mgui.setNCName(indexNC, name);
         TDiagramPanel tdp = mgui.getMainTDiagramPanel(indexNC);
 
-        loadDiagram(elt, tdp);
+        loadDiagram(elt, tdp, keepUUID);
     }
 
     // reinit the id of all components
@@ -7288,13 +7296,13 @@ public class GTURTLEModeling {
         int x, y;
         double zoom = 0;
         try {
-            x = Integer.decode(elt.getAttribute("minX")).intValue();
+            x = Integer.decode(elt.getAttribute("minX"));
             tdp.setMinX(x);
-            x = Integer.decode(elt.getAttribute("maxX")).intValue();
+            x = Integer.decode(elt.getAttribute("maxX"));
             tdp.setMaxX(x);
-            y = Integer.decode(elt.getAttribute("minY")).intValue();
+            y = Integer.decode(elt.getAttribute("minY"));
             tdp.setMinY(y);
-            y = Integer.decode(elt.getAttribute("maxY")).intValue();
+            y = Integer.decode(elt.getAttribute("maxY"));
             tdp.setMaxY(y);
             tdp.updateSize();
             zoom = Double.parseDouble(elt.getAttribute("zoom"));
@@ -7311,7 +7319,7 @@ public class GTURTLEModeling {
         }
     }
 
-    public void loadActivityDiagram(TDiagramPanel tdp, String oldValue, String newValue) throws MalformedModelingException {
+    public void loadActivityDiagram(TDiagramPanel tdp, String oldValue, String newValue, boolean keepUUID) throws MalformedModelingException {
         //TraceManager.addDev("---> Load activity diagram");
         try {
             NodeList activityDiagramNl = docCopy.getElementsByTagName("TActivityDiagramPanel");
@@ -7366,11 +7374,11 @@ public class GTURTLEModeling {
                         loadDiagramInformation(elt, tadp);
 
                         //TraceManager.addDev("Activity diagram : " + tadp.getName() + " components");
-                        makeXMLComponents(elt.getElementsByTagName("COMPONENT"), tadp);
+                        makeXMLComponents(elt.getElementsByTagName("COMPONENT"), tadp, keepUUID);
                         //TraceManager.addDev("Activity diagram : " + tadp.getName() + " connectors");
-                        makeXMLConnectors(elt.getElementsByTagName("CONNECTOR"), tadp);
+                        makeXMLConnectors(elt.getElementsByTagName("CONNECTOR"), tadp, keepUUID);
                         //TraceManager.addDev("Activity diagram : " + tadp.getName() + " subcomponents");
-                        makeXMLComponents(elt.getElementsByTagName("SUBCOMPONENT"), tadp);
+                        makeXMLComponents(elt.getElementsByTagName("SUBCOMPONENT"), tadp, keepUUID);
                         //TraceManager.addDev("Activity diagram : " + tadp.getName() + " real points");
                         connectConnectorsToRealPoints(tadp);
                         tadp.structureChanged();
@@ -7388,7 +7396,7 @@ public class GTURTLEModeling {
         }
     }
 
-    public void loadAvatarSMD(TDiagramPanel tdp, String oldValue, String newValue) throws MalformedModelingException {
+    public void loadAvatarSMD(TDiagramPanel tdp, String oldValue, String newValue, boolean keepUUID) throws MalformedModelingException {
         TraceManager.addDev("---> Load activity diagram of old=" + oldValue + " new=" + newValue);
         try {
             NodeList smdNl = docCopy.getElementsByTagName("AVATARStateMachineDiagramPanel");
@@ -7444,11 +7452,11 @@ public class GTURTLEModeling {
                         loadDiagramInformation(elt, asmdp);
 
                         //TraceManager.addDev("Activity diagram : " + tadp.getName() + " components");
-                        makeXMLComponents(elt.getElementsByTagName("COMPONENT"), asmdp);
+                        makeXMLComponents(elt.getElementsByTagName("COMPONENT"), asmdp, keepUUID);
                         //TraceManager.addDev("Activity diagram : " + tadp.getName() + " connectors");
-                        makeXMLConnectors(elt.getElementsByTagName("CONNECTOR"), asmdp);
+                        makeXMLConnectors(elt.getElementsByTagName("CONNECTOR"), asmdp, keepUUID);
                         //TraceManager.addDev("Activity diagram : " + tadp.getName() + " subcomponents");
-                        makeXMLComponents(elt.getElementsByTagName("SUBCOMPONENT"), asmdp);
+                        makeXMLComponents(elt.getElementsByTagName("SUBCOMPONENT"), asmdp, keepUUID);
                         //TraceManager.addDev("Activity diagram : " + tadp.getName() + " real points");
                         connectConnectorsToRealPoints(asmdp);
                         asmdp.structureChanged();
@@ -7466,7 +7474,7 @@ public class GTURTLEModeling {
         }
     }
 
-    public void loadTMLActivityDiagram(TDiagramPanel tdp, String oldValue, String newValue) throws MalformedModelingException {
+    public void loadTMLActivityDiagram(TDiagramPanel tdp, String oldValue, String newValue, boolean keepUUID) throws MalformedModelingException {
         //TraceManager.addDev("---> Load TML activity diagram");
         try {
             if (docCopy == null) {
@@ -7523,11 +7531,11 @@ public class GTURTLEModeling {
                         loadDiagramInformation(elt, tmladp);
 
                         //TraceManager.addDev("Activity diagram : " + tmladp.getName() + " components");
-                        makeXMLComponents(elt.getElementsByTagName("COMPONENT"), tmladp);
+                        makeXMLComponents(elt.getElementsByTagName("COMPONENT"), tmladp, keepUUID);
                         //TraceManager.addDev("Activity diagram : " + tmladp.getName() + " connectors");
-                        makeXMLConnectors(elt.getElementsByTagName("CONNECTOR"), tmladp);
+                        makeXMLConnectors(elt.getElementsByTagName("CONNECTOR"), tmladp, keepUUID);
                         //TraceManager.addDev("Activity diagram : " + tmladp.getName() + " subcomponents");
-                        makeXMLComponents(elt.getElementsByTagName("SUBCOMPONENT"), tmladp);
+                        makeXMLComponents(elt.getElementsByTagName("SUBCOMPONENT"), tmladp, keepUUID);
                         //TraceManager.addDev("Activity diagram : " + tmladp.getName() + " real points");
                         connectConnectorsToRealPoints(tmladp);
                         tmladp.structureChanged();
@@ -7589,7 +7597,7 @@ public class GTURTLEModeling {
         //TraceManager.addDev("Post loading of diagram " + tdp.toString() + " achieved");
     }
 
-    public void makeXMLComponents(NodeList nl, TDiagramPanel tdp) throws SAXException, MalformedModelingException {
+    public void makeXMLComponents(NodeList nl, TDiagramPanel tdp, boolean keepUUID) throws SAXException, MalformedModelingException {
         Node n;
         //Element elt;
         TGComponent tgc;
@@ -7601,6 +7609,9 @@ public class GTURTLEModeling {
 
         tdp.drawable = false;
 
+        //TraceManager.addDev("Keep UUID=" + keepUUID);
+
+
         try {
 
             for (int i = 0; i < nl.getLength(); i++) {
@@ -7610,7 +7621,7 @@ public class GTURTLEModeling {
                 }
                 if (n.getNodeType() == Node.ELEMENT_NODE) {
                     try {
-                        tgc = makeXMLComponent(n, tdp);
+                        tgc = makeXMLComponent(n, tdp, keepUUID);
                         //TraceManager.addDev("About to add component= " + tgc);
                         if ((tgc != null) && (tgc.getFather() == null)) {
                             //TraceManager.addDev("Component added to diagram tgc=" + tgc);
@@ -7653,14 +7664,14 @@ public class GTURTLEModeling {
         try {
             //NodeList nl = n.getChildNodes();
             Element elt = (Element) n;
-            return Integer.decode(elt.getAttribute("type")).intValue();
+            return Integer.decode(elt.getAttribute("type"));
         } catch (Exception e) {
         }
         return -1;
     }
 
 
-    public TGComponent makeXMLComponent(Node n, TDiagramPanel tdp) throws SAXException, MalformedModelingException {
+    public TGComponent makeXMLComponent(Node n, TDiagramPanel tdp, boolean keepUUID) throws SAXException, MalformedModelingException {
         Element elt;
         Element elt1;
         TGComponent tgc = null;
@@ -7722,32 +7733,32 @@ public class GTURTLEModeling {
                 if (n.getNodeType() == Node.ELEMENT_NODE) {
                     elt = (Element) n;
                     if (elt.getTagName().equals("cdparam")) {
-                        myX = Integer.decode(elt.getAttribute("x")).intValue() + decX;
-                        myY = Integer.decode(elt.getAttribute("y")).intValue() + decY;
+                        myX = Integer.decode(elt.getAttribute("x")) + decX;
+                        myY = Integer.decode(elt.getAttribute("y")) + decY;
                     } else if (elt.getTagName().equals("sizeparam")) {
-                        myWidth = Integer.decode(elt.getAttribute("width")).intValue();
-                        myHeight = Integer.decode(elt.getAttribute("height")).intValue();
-                        myMinWidth = Integer.decode(elt.getAttribute("minWidth")).intValue();
+                        myWidth = Integer.decode(elt.getAttribute("width"));
+                        myHeight = Integer.decode(elt.getAttribute("height"));
+                        myMinWidth = Integer.decode(elt.getAttribute("minWidth"));
                         if (myMinWidth < 1) {
                             myMinWidth = 1;
                         }
                         if (myWidth < myMinWidth) {
                             myWidth = myMinWidth;
                         }
-                        myMinHeight = Integer.decode(elt.getAttribute("minHeight")).intValue();
+                        myMinHeight = Integer.decode(elt.getAttribute("minHeight"));
                         if (myMinHeight < 1) {
                             myMinHeight = 1;
                         }
                         if (myHeight < myMinHeight) {
                             myHeight = myMinHeight;
                         }
-                        myMinDesiredWidth = Integer.decode(elt.getAttribute("minDesiredWidth")).intValue();
-                        myMinDesiredHeight = Integer.decode(elt.getAttribute("minDesiredHeight")).intValue();
+                        myMinDesiredWidth = Integer.decode(elt.getAttribute("minDesiredWidth"));
+                        myMinDesiredHeight = Integer.decode(elt.getAttribute("minDesiredHeight"));
                     } else if (elt.getTagName().equals("cdrectangleparam")) {
-                        myMinX = Integer.decode(elt.getAttribute("minX")).intValue();
-                        myMaxX = Integer.decode(elt.getAttribute("maxX")).intValue();
-                        myMinY = Integer.decode(elt.getAttribute("minY")).intValue();
-                        myMaxY = Integer.decode(elt.getAttribute("maxY")).intValue();
+                        myMinX = Integer.decode(elt.getAttribute("minX"));
+                        myMaxX = Integer.decode(elt.getAttribute("maxX"));
+                        myMinY = Integer.decode(elt.getAttribute("minY"));
+                        myMaxY = Integer.decode(elt.getAttribute("maxY"));
                     } else if (elt.getTagName().equals("infoparam")) {
                         myName = elt.getAttribute("name");
                         myValue = elt.getAttribute("value");
@@ -7788,6 +7799,8 @@ public class GTURTLEModeling {
                     }
                 }
             }
+
+            //TraceManager.addDev("After long list");
 
             if ((myId == -1) || (myX == -1) || (myY == -1) || (myWidth == -1) || (myHeight == -1)) {
                 TraceManager.addDev("Malformed id");
@@ -7929,32 +7942,36 @@ public class GTURTLEModeling {
                 tgc.setValueWithChange(myValue);
                 //TraceManager.addDev("value done");
                 if ((tgc instanceof TCDTClass) && (decId > 0)) {
-                    loadActivityDiagram(tdp, oldClassName, myValue);
+                    loadActivityDiagram(tdp, oldClassName, myValue, keepUUID);
                 }
 
                 if ((tgc instanceof AvatarBDBlock) && (decId > 0)) {
                     //TraceManager.addDev("Going to load ad of task " + oldClassName + " myValue=" + myValue);
-                    loadAvatarSMD(tdp, oldClassName, myValue);
+                    loadAvatarSMD(tdp, oldClassName, myValue, keepUUID);
                 }
 
                 if ((tgc instanceof TMLTaskOperator) && (decId > 0)) {
                     //TraceManager.addDev("Going to load ad of task " + oldClassName + " myValue=" + myValue);
-                    loadTMLActivityDiagram(tdp, oldClassName, myValue);
+                    loadTMLActivityDiagram(tdp, oldClassName, myValue, keepUUID);
                 }
 
                 if ((tgc instanceof TMLCPrimitiveComponent) && (decId > 0)) {
                     //TraceManager.addDev("Going to load ad of component " + oldClassName + " myValue=" + myValue);
-                    loadTMLActivityDiagram(tdp, oldClassName, myValue);
+                    loadTMLActivityDiagram(tdp, oldClassName, myValue, keepUUID);
                 }
             }
 
+            //TraceManager.addDev("Laoding component with id="+ myId);
             tgc.forceId(myId);
-            if (uid != null) {
+
+            if ((uid != null) && (keepUUID)) {
+                //TraceManager.addDev("Forcing UUID");
                 tgc.forceUUID(uid);
             } else {
+                //TraceManager.addDev("making new UUID");
                 tgc.makeUUID();
             }
-            tgc.forceUUID(uid);
+
             tgc.setLoaded(true);
             tgc.setInternalLoaded(false);
             tgc.setMinSize(myMinWidth, myMinHeight);
@@ -8007,7 +8024,7 @@ public class GTURTLEModeling {
             //TraceManager.addDev("Extra param ok");
 
             //#issue 82
-            if ((myValue != null) && (!myValue.equals(null))) {
+            if ((myValue != null) && (!myValue.equals("null"))) {
                 if ((tgc instanceof TMLCPrimitivePort) && (decId > 0)) {
                     if (tdp.isAlreadyATMLPrimitivePortName(myValue)) {
                         myValue = tdp.findTMLCPrimitivePortName(myValue + "_");
@@ -8084,7 +8101,7 @@ public class GTURTLEModeling {
         //TraceManager.addDev("Post processing is over");
     }
 
-    public void makeXMLConnectors(NodeList nl, TDiagramPanel tdp) throws SAXException, MalformedModelingException {
+    public void makeXMLConnectors(NodeList nl, TDiagramPanel tdp, boolean keepUUID) throws SAXException, MalformedModelingException {
         Node n;
         //Element elt;
         TGConnector tgco = null;
@@ -8097,7 +8114,7 @@ public class GTURTLEModeling {
         for (i = 0; i < nl.getLength(); i++) {
             n = nl.item(i);
             if (n.getNodeType() == Node.ELEMENT_NODE) {
-                tgco = makeXMLConnector(n, tdp);
+                tgco = makeXMLConnector(n, tdp, keepUUID);
                 if (tgco != null) {
                     tdp.addBuiltConnector(tgco);
                 } else {
@@ -8226,7 +8243,7 @@ public class GTURTLEModeling {
         //TraceManager.addDev("Last load done");
     }
 
-    public TGConnector makeXMLConnector(Node n, TDiagramPanel tdp) throws SAXException, MalformedModelingException {
+    public TGConnector makeXMLConnector(Node n, TDiagramPanel tdp, boolean keepUUID) throws SAXException, MalformedModelingException {
         Element elt, elt1;
         TGConnector tgco = null;
         //TGComponent tgc = null;
@@ -8276,44 +8293,44 @@ public class GTURTLEModeling {
                 if (n.getNodeType() == Node.ELEMENT_NODE) {
                     elt = (Element) n;
                     if (elt.getTagName().equals("cdparam")) {
-                        myX = Integer.decode(elt.getAttribute("x")).intValue() + decX;
-                        myY = Integer.decode(elt.getAttribute("y")).intValue() + decY;
+                        myX = Integer.decode(elt.getAttribute("x")) + decX;
+                        myY = Integer.decode(elt.getAttribute("y")) + decY;
                     } else if (elt.getTagName().equals("sizeparam")) {
-                        myWidth = Integer.decode(elt.getAttribute("width")).intValue();
-                        myHeight = Integer.decode(elt.getAttribute("height")).intValue();
-                        myMinWidth = Integer.decode(elt.getAttribute("minWidth")).intValue();
-                        myMinHeight = Integer.decode(elt.getAttribute("minHeight")).intValue();
+                        myWidth = Integer.decode(elt.getAttribute("width"));
+                        myHeight = Integer.decode(elt.getAttribute("height"));
+                        myMinWidth = Integer.decode(elt.getAttribute("minWidth"));
+                        myMinHeight = Integer.decode(elt.getAttribute("minHeight"));
                         if ((elt.getAttribute("maxWidth") != null) && (elt.getAttribute("maxWidth").length() > 0)) { // Test is made for compatibility with old versions
                             //TraceManager.addDev("maxWidth = " +  elt.getAttribute("maxWidth"));
-                            myMaxWidth = Integer.decode(elt.getAttribute("maxWidth")).intValue();
-                            myMaxHeight = Integer.decode(elt.getAttribute("maxHeight")).intValue();
+                            myMaxWidth = Integer.decode(elt.getAttribute("maxWidth"));
+                            myMaxHeight = Integer.decode(elt.getAttribute("maxHeight"));
                         }
-                        myMinDesiredWidth = Integer.decode(elt.getAttribute("minDesiredWidth")).intValue();
-                        myMinDesiredHeight = Integer.decode(elt.getAttribute("minDesiredHeight")).intValue();
+                        myMinDesiredWidth = Integer.decode(elt.getAttribute("minDesiredWidth"));
+                        myMinDesiredHeight = Integer.decode(elt.getAttribute("minDesiredHeight"));
                     } else if (elt.getTagName().equals("infoparam")) {
                         myName = elt.getAttribute("name");
                         myValue = elt.getAttribute("value");
                     } else if (elt.getTagName().equals("P1")) {
-                        tmpx = Integer.decode(elt.getAttribute("x")).intValue() + decX;
-                        tmpy = Integer.decode(elt.getAttribute("y")).intValue() + decY;
-                        tmpid = Integer.decode(elt.getAttribute("id")).intValue() + decId;
+                        tmpx = Integer.decode(elt.getAttribute("x")) + decX;
+                        tmpy = Integer.decode(elt.getAttribute("y")) + decY;
+                        tmpid = Integer.decode(elt.getAttribute("id")) + decId;
                         TGComponent tgc1 = TGComponentManager.addComponent(tmpx, tmpy, TGComponentManager.TAD_START_STATE, tdp);
                         p1 = new TGConnectingPointTmp(tgc1, tmpx, tmpy, tmpid);
                         //TraceManager.addDev("P1id = " + tmpid);
                     } else if (elt.getTagName().equals("P2")) {
-                        tmpx = Integer.decode(elt.getAttribute("x")).intValue() + decX;
-                        tmpy = Integer.decode(elt.getAttribute("y")).intValue() + decY;
-                        tmpid = Integer.decode(elt.getAttribute("id")).intValue() + decId;
+                        tmpx = Integer.decode(elt.getAttribute("x")) + decX;
+                        tmpy = Integer.decode(elt.getAttribute("y")) + decY;
+                        tmpid = Integer.decode(elt.getAttribute("id")) + decId;
                         TGComponent tgc2 = TGComponentManager.addComponent(tmpx, tmpy, TGComponentManager.TAD_START_STATE, tdp);
                         p2 = new TGConnectingPointTmp(tgc2, tmpx, tmpy, tmpid);
                         //TraceManager.addDev("P2id = " + tmpid);
                     } else if (elt.getTagName().equals("Point")) {
-                        tmpx = Integer.decode(elt.getAttribute("x")).intValue() + decX;
-                        tmpy = Integer.decode(elt.getAttribute("y")).intValue() + decY;
+                        tmpx = Integer.decode(elt.getAttribute("x")) + decX;
+                        tmpy = Integer.decode(elt.getAttribute("y")) + decY;
                         pointList.add(new Point(tmpx, tmpy));
                     } else if (elt.getTagName().equals("TGConnectingPoint")) {
-                        x = Integer.decode(elt.getAttribute("num")).intValue();
-                        y = Integer.decode(elt.getAttribute("id")).intValue() + decId;
+                        x = Integer.decode(elt.getAttribute("num"));
+                        y = Integer.decode(elt.getAttribute("id")) + decId;
                         tgcpList.add(new Point(x, y));
                         //TraceManager.addDev(" adding Connecting point !");
                     } else if (elt.getTagName().equals("AutomaticDrawing")) {
@@ -8351,9 +8368,10 @@ public class GTURTLEModeling {
                 tgco.setValueWithChange(myValue);
             }
 
+
             tgco.forceId(myId);
 
-            if (uid != null) {
+            if ((uid != null) && (keepUUID)) {
                 tgco.forceUUID(uid);
             } else {
                 tgco.makeUUID();

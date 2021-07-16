@@ -2349,9 +2349,6 @@ public class MainGUI implements ActionListener, WindowListener, KeyListener, Per
             } catch (Exception e) {
                 JOptionPane.showMessageDialog(frame, "File could not be opened because " + e.getMessage(), "File Error",
                         JOptionPane.INFORMATION_MESSAGE);
-            } catch (OutOfMemoryError er) {
-                JOptionPane.showMessageDialog(frame, "File could not be opened because " + er.getMessage(), "File Error",
-                        JOptionPane.INFORMATION_MESSAGE);
             }
         }
         return s;
@@ -8560,7 +8557,7 @@ public class MainGUI implements ActionListener, WindowListener, KeyListener, Per
     public void cloneTab(int index) {
         String s = gtm.makeXMLFromTurtleModeling(index, "_cloned");
         try {
-            gtm.loadModelingFromXML(s);
+            gtm.loadModelingFromXML(s, false);
             changeMade(null, -1);
         } catch (MalformedModelingException mme) {
             JOptionPane.showMessageDialog(frame, "Modeling could not be loaded (unsupported xml format) ", "Error when loading modeling",

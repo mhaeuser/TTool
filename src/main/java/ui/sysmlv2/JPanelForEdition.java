@@ -123,11 +123,12 @@ public class JPanelForEdition extends JPanel implements ActionListener, Document
 
         JPanel panel = new JPanel(new BorderLayout());
         panel.setBorder(new javax.swing.border.TitledBorder("Edition options"));
-        tb = new TextBar(frame);
-        panel.add(tb, BorderLayout.CENTER);
+
         ab = new ActionBar(frame);
         JPanel topPanel = new JPanel();
-        panel.add(ab, BorderLayout.SOUTH);
+        tb = new TextBar(frame);
+        panel.add(tb, BorderLayout.SOUTH);
+        panel.add(ab, BorderLayout.CENTER);
         showOnlyCurrent = new JCheckBox("Show only current");
         showOnlyCurrent.addActionListener(this);
         //showOnlyCurrent.setSelected(ConfigurationLatexEditor.ShowOnlyCurrent);

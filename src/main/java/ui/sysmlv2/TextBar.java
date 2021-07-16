@@ -65,6 +65,8 @@ public class TextBar extends JToolBar {
 
     public void setEnableActions(boolean b) {
         frame.actions[SysMLV2Actions.INSERT_REQUIREMENT].setEnabled(true);
+        frame.actions[SysMLV2Actions.INSERT_CONSTRAINT].setEnabled(true);
+        frame.actions[SysMLV2Actions.INSERT_STATE_MACHINE].setEnabled(true);
 
     }
 
@@ -72,6 +74,14 @@ public class TextBar extends JToolBar {
         JButton button;
 
         button = this.add(frame.actions[SysMLV2Actions.INSERT_REQUIREMENT]);
+        button.addMouseListener(frame.mouseHandler);
+
+        button = this.add(frame.actions[SysMLV2Actions.INSERT_CONSTRAINT]);
+        button.addMouseListener(frame.mouseHandler);
+
+        this.addSeparator();
+
+        button = this.add(frame.actions[SysMLV2Actions.INSERT_STATE_MACHINE]);
         button.addMouseListener(frame.mouseHandler);
 
 

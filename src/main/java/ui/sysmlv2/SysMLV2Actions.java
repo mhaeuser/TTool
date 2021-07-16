@@ -101,16 +101,16 @@ public class SysMLV2Actions extends AbstractAction {
         actions[ACT_SAVE] = new TAction("sysmlv2-save", "Save text", IconManager.imgic24, IconManager.imgic25,
                 "Save", "Save text under edition", 'S');
 
-        actions[INSERT_REQUIREMENT] = new TAction("sysmlv2-insert-req", "Insert requirement", IconManager.imgic5006,
-                IconManager.imgic5006,
+        actions[INSERT_REQUIREMENT] = new TAction("sysmlv2-insert-req", "Insert requirement", IconManager.imgic84,
+                IconManager.imgic84,
                 "Requirement", "Insert requirement", 'R');
 
-        actions[INSERT_CONSTRAINT] = new TAction("sysmlv2-insert-constraint", "Insert constraint", IconManager.imgic1302,
-                IconManager.imgic1302,
+        actions[INSERT_CONSTRAINT] = new TAction("sysmlv2-insert-constraint", "Insert constraint", IconManager.imgic82,
+                IconManager.imgic82,
                 "Constraint", "Insert constraint", 'C');
 
-        actions[INSERT_STATE_MACHINE] = new TAction("sysmlv2-insert-sm", "Insert state machine", IconManager.imgic1302,
-                IconManager.imgic1302,
+        actions[INSERT_STATE_MACHINE] = new TAction("sysmlv2-insert-sm", "Insert state machine", IconManager.imgic63,
+                IconManager.imgic63,
                 "State machine", "Insert state machine", 'M');
 
     }

@@ -69,6 +69,32 @@ public class JFrameSysMLV2Text extends JFrame implements ActionListener {
             "\trequire constraint { x < y }\n\n" +
             "}\n";
 
+    public final String CONSTRAINT_TEXT = "constraint def MyLovelyConstraint (\n" +
+            "\tweight : int[0..*],\n\n" +
+            "\tmaxTotalWeight : int) {\n\n" +
+            "\tsum(weight) <= maxTotalWeight\n\n" +
+            "}\n";
+
+    public final String STATE_MACHINE_TEXT = "state def VehicleStates {\n" +
+            "\tdoc  /* documentation */\n\n" +
+            "\tentry: then off;\n\n" +
+            "\tstate off;\n\n" +
+            "\ttransition off_to_starting\n\n" +
+            "\t\tfirst off\n\n" +
+            "\t\taccept VehicleStartSignal\n\n" +
+            "\t\tthen starting;\n\n" +
+            "\tstate starting;\n\n" +
+            "\ttransition starting_to_on\n\n" +
+            "\t\tfirst starting\n\n" +
+            "\t\taccept VehicleOnSignal\n\n" +
+            "\t\tthen on;\n\n" +
+            "\tstate on;\n\n" +
+            "\ttransition on_to_off\n\n" +
+            "\t\tfirst on\n\n" +
+            "\t\taccept VehicleOffSignal\n\n" +
+            "\t\tthen off;\n\n" +
+            "}\n";
+
 
 
     public static final int SAVED = 1;
@@ -116,21 +142,23 @@ public class JFrameSysMLV2Text extends JFrame implements ActionListener {
         jpfe.setText(line);
 
 
-        JScrollPane jsp = new JScrollPane(jpfe);
+        //JScrollPane jsp = new JScrollPane(jpfe);
 
-        framePanel.add(jsp, BorderLayout.CENTER);
+        framePanel.add(jpfe, BorderLayout.CENTER);
 
         buttonCancel = new JButton("Cancel", IconManager.imgic27);
         buttonCancel.addActionListener(this);
         buttonClose = new JButton("Save and close", IconManager.imgic25);
         buttonClose.addActionListener(this);
 
+        JPanel lowPart = new JPanel(new BorderLayout());
         JPanel jp = new JPanel();
         jp.add(buttonCancel);
         jp.add(buttonClose);
-        jp.add(statuss);
+        lowPart.add(jp, BorderLayout.CENTER);
+        lowPart.add(statuss, BorderLayout.SOUTH);
 
-        framePanel.add(jp, BorderLayout.SOUTH);
+        framePanel.add(lowPart, BorderLayout.SOUTH);
 
 
         pack();
@@ -166,6 +194,12 @@ public class JFrameSysMLV2Text extends JFrame implements ActionListener {
         } else if ( evt.getActionCommand().equals(actions[SysMLV2Actions.INSERT_REQUIREMENT].getActionCommand())) {
             TraceManager.addDev("insert req");
             insertText(REQUIREMENT_TEXT);
+        } else if ( evt.getActionCommand().equals(actions[SysMLV2Actions.INSERT_CONSTRAINT].getActionCommand())) {
+            TraceManager.addDev("insert constraint");
+            insertText(CONSTRAINT_TEXT);
+        } else if ( evt.getActionCommand().equals(actions[SysMLV2Actions.INSERT_STATE_MACHINE].getActionCommand())) {
+            TraceManager.addDev("insert smd");
+            insertText(STATE_MACHINE_TEXT);
         }
 
 

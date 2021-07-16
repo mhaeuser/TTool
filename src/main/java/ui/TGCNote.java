@@ -174,7 +174,7 @@ public class TGCNote extends TGCScalableWithoutInternalComponent implements Colo
         graph.drawLine(this.x, this.y, this.x, this.y + this.height);
         graph.drawLine(this.x, this.y + this.height, this.x + this.width - limit, this.y + this.height);
         graph.drawLine(this.x + this.width, this.y, this.x + this.width, this.y + this.height - limit);
-        
+
         graph.setColor(getCurrentColor());
         int[] px1 = {this.x + 1, this.x + this.width, this.x + this.width, this.x + this.width - limit, this.x + 1};
         int[] py1 = {this.y + 1, this.y + 1, this.y + this.height - limit, this.y + this.height, this.y + this.height};

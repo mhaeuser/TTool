@@ -96,7 +96,7 @@ public class IconManager {
     public static ImageIcon imgic310, imgic312, imgic314, imgic315, imgic316, imgic317, imgic318, imgic319;
     public static ImageIcon imgic320, imgic321, imgic322, imgic323, imgic324;
     public static ImageIcon imgic330, imgic331, imgic332, imgic333, imgic334, imgic335, imgic336, imgic337, imgic338, imgic339;
-    public static ImageIcon imgic340, imgic341, imgic342, imgic344;
+    public static ImageIcon imgic340, imgic341, imgic342, imgic344, imgic346, imgic348;
 
     //IOD
     public static ImageIcon imgic400, imgic402, imgic404, imgic406, imgic408;
@@ -429,6 +429,8 @@ public class IconManager {
     private static String icon342 = "oneformalvalidation.gif";
 
     private static String icon344 = "viewrg.gif";
+    private static String icon346 = "matrix.gif";
+    private static String icon348 = "sysmlv2.gif";
 
 
     // IOD, Avatar method
@@ -980,6 +982,8 @@ public class IconManager {
         imgic341 = getIcon(icon341);
         imgic342 = getIcon(icon342);
         imgic344 = getIcon(icon344);
+        imgic346 = getIcon(icon346);
+        imgic348 = getIcon(icon348);
 
         imgic400 = getIcon(icon400);
         imgic402 = getIcon(icon402);

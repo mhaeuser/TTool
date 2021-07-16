@@ -1057,11 +1057,11 @@ public class TGUIAction extends AbstractAction {
         actions[TCD_ASSOCIATION_NAVIGATION] = new TAction("add-association-navigation", "Add association with navigation", IconManager.imgic106, IconManager.imgic108, "Association with navigation", "Adds an association with a navigation indication between two tclasses of the currently opened class diagram", 0);
         actions[UML_NOTE] = new TAction("edit-note", "Add a note to a diagram", IconManager.imgic320, IconManager.imgic321,
                 "Add a comment", "Add a comment to the currently opened TTool diagram", 0);
-        actions[SysMLV2_TEXT] = new TAction("edit-sysmlv2-text", "Add a SysMLV2 text", IconManager.imgic320,
-                IconManager.imgic321, "Add a SysML V2 text", "Add a SysML V2 text to the currently opened TTool diagram",
+        actions[SysMLV2_TEXT] = new TAction("edit-sysmlv2-text", "Add a SysMLV2 text", IconManager.imgic348,
+                IconManager.imgic348, "Add a SysML V2 text", "Add a SysML V2 text to the currently opened TTool diagram",
                 0);
-        actions[DEPENDENCY_MATRIX] = new TAction("dep-matrix", "Add a dependency matrix", IconManager.imgic320,
-                IconManager.imgic321, "Dependency matrix",
+        actions[DEPENDENCY_MATRIX] = new TAction("dep-matrix", "Add a dependency matrix", IconManager.imgic346,
+                IconManager.imgic346, "Dependency matrix",
                 "Add a dependency matrix to the currently opened TTool diagram", 0);
         actions[PRAGMA] = new TAction("pragma", "Security pragmas", IconManager.imgic6000, IconManager.imgic6001,
                 "Security pragmas", "Add security pragmas to the currently opened TTool diagram", 0);

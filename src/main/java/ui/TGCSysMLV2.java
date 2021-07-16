@@ -112,7 +112,7 @@ public class TGCSysMLV2 extends TGCScalableWithoutInternalComponent implements C
 
         this.currentFontSize = tdp.getFontSize();
 
-        this.name = "SysMLV2 Text";
+        this.name = "SysMLV2_Text";
         this.value = "";
 
         rescaled = true;
@@ -170,7 +170,7 @@ public class TGCSysMLV2 extends TGCScalableWithoutInternalComponent implements C
     public boolean editOnDoubleClick(JFrame frame) {
         String oldValue = value;
 
-        JFrameSysMLV2Text jfsmlv2t = new JFrameSysMLV2Text("Edit " + name,  this, lines, IconManager.imgic8);
+        JFrameSysMLV2Text jfsmlv2t = new JFrameSysMLV2Text("Edit " + name,   this, name, lines, IconManager.ttoolImage);
         jfsmlv2t.setIconImage(IconManager.img8);
         GraphicLib.centerOnParent(jfsmlv2t, 740, 800);
         jfsmlv2t.setVisible(true);
@@ -241,6 +241,12 @@ public class TGCSysMLV2 extends TGCScalableWithoutInternalComponent implements C
 
     public void setLines(String line) {
         lines = line.split(("\n"));
+    }
+
+    public void setNewName(String _name) {
+        if (TAttribute.isAValidId(_name, false, false, false)) {
+            name = _name;
+        }
     }
 
     // Color management

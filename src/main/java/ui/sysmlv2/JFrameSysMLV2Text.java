@@ -100,6 +100,7 @@ public class JFrameSysMLV2Text extends JFrame implements ActionListener {
     public static final int SAVED = 1;
     public SysMLV2Actions[] actions;
     private TGCSysMLV2 comp;
+    private JTextField nameOfText;
     private JLabel statuss;
     private JButton buttonCancel, buttonClose;
     private JTextArea jta;
@@ -107,15 +108,25 @@ public class JFrameSysMLV2Text extends JFrame implements ActionListener {
     public MouseHandler mouseHandler;
 
 
-    public JFrameSysMLV2Text(String title, TGCSysMLV2 _comp, String[] _lines, ImageIcon imgic) {
+    public JFrameSysMLV2Text(String title, TGCSysMLV2 _comp, String  _nameOfText, String[] _lines, Image imgic) {
         super(title);
         comp = _comp;
 
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         Container framePanel = getContentPane();
         framePanel.setLayout(new BorderLayout());
+        setIconImage(imgic);
 
         initActions();
+
+        JPanel textPanel = new JPanel();
+        textPanel.add(new JLabel("Text identifier:"));
+        nameOfText = new JTextField(_nameOfText, 30);
+        nameOfText.setEditable(true);
+        textPanel.add(nameOfText);
+
+        framePanel.add(textPanel, BorderLayout.NORTH);
+
 
         statuss = createStatusBar();
 
@@ -213,6 +224,7 @@ public class JFrameSysMLV2Text extends JFrame implements ActionListener {
         if (comp != null) {
             comp.setLines(jpfe.getText());
             comp.getTDiagramPanel().repaint();
+            comp.setNewName(nameOfText.getText());
         }
     }
 

@@ -57,7 +57,7 @@ import java.awt.*;
  * @author Ludovic APVRILLE
  * @version 1.0 06/12/2003
  */
-public class TGCNote extends TGCScalableWithoutInternalComponent {
+public class TGCNote extends TGCScalableWithoutInternalComponent implements ColorCustomizable {
 
     protected String[] values;
     
@@ -174,8 +174,8 @@ public class TGCNote extends TGCScalableWithoutInternalComponent {
         graph.drawLine(this.x, this.y, this.x, this.y + this.height);
         graph.drawLine(this.x, this.y + this.height, this.x + this.width - limit, this.y + this.height);
         graph.drawLine(this.x + this.width, this.y, this.x + this.width, this.y + this.height - limit);
-
-        graph.setColor(ColorManager.UML_NOTE_BG);
+        
+        graph.setColor(getCurrentColor());
         int[] px1 = {this.x + 1, this.x + this.width, this.x + this.width, this.x + this.width - limit, this.x + 1};
         int[] py1 = {this.y + 1, this.y + 1, this.y + this.height - limit, this.y + this.height, this.y + this.height};
         graph.fillPolygon(px1, py1, 5);
@@ -296,5 +296,10 @@ public class TGCNote extends TGCScalableWithoutInternalComponent {
         } catch (Exception e) {
             throw new MalformedModelingException( e );
         }
+    }
+
+    // Color management
+    public Color getMainColor() {
+        return ColorManager.UML_NOTE_BG;
     }
 }

@@ -148,6 +148,7 @@ public class JFrameTMLSimulationPanelTimeline extends JFrame implements ActionLi
                 startTime.setEnabled(false);
                 endTime.setEnabled(false);
                 validate.setEnabled(false);
+                jfis.validateTimeDuration();
             }
         });
 

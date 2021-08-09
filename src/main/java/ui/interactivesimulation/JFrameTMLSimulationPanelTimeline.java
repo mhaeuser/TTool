@@ -127,13 +127,27 @@ public class JFrameTMLSimulationPanelTimeline extends JFrame implements ActionLi
         endTime.setToolTipText("End Time");
         endTime.setEnabled(false);
         southPanel.add(endTime);
+        JButton validate = new JButton("Validate");
+        validate.setEnabled(false);
+        validate.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                if (checkBoxSelectedTimePeriod.isSelected() && isValidDuration()) {
+                    jfis.validateTimeDuration();
+                }
+            }
+        });
+        southPanel.add(validate);
+
         checkBoxSelectedTimePeriod.addItemListener(e -> {
             if (e.getStateChange() == ItemEvent.SELECTED) {
                 startTime.setEnabled(true);
                 endTime.setEnabled(true);
+                validate.setEnabled(true);
             } else {
                 startTime.setEnabled(false);
                 endTime.setEnabled(false);
+                validate.setEnabled(false);
             }
         });
 

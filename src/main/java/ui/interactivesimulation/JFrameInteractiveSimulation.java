@@ -3962,6 +3962,10 @@ public class JFrameInteractiveSimulation extends JFrame implements ActionListene
         sendCommand("get-variable-of-task " + _idTask + " " + _idVariable);
     }
 
+    public void validateTimeDuration() {
+        updateTimelineTrace();
+    }
+
     public Vector<SimulationTransaction> getListOfRecentTransactions() {
         return trans;
     }

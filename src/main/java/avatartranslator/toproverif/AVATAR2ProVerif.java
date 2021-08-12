@@ -1455,6 +1455,11 @@ public class AVATAR2ProVerif implements AvatarTranslator {
         this.translateNext (_asme.getNext(0), _arg);
     }
 
+    public void translateEmpty(AvatarEmpty _asme, Object _arg) {
+        TraceManager.addDev("|    Empty");
+        this.translateNext (_asme.getNext(0), _arg);
+    }
+
     public void translateStartState (AvatarStartState _asme, Object _arg) {
         this.translateNext (_asme.getNext(0), _arg);
     }

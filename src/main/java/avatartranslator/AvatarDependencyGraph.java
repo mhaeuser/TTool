@@ -115,6 +115,7 @@ public class AvatarDependencyGraph  {
                     AvatarSignal correspondingSig = _avspec.getCorrespondingSignal(signal);
                     //TraceManager.addDev("Corresponding signal=" + correspondingSig);
                     if (correspondingSig != null) {
+                        ArrayList<AUTState> destinationStates = new ArrayList<>();
                         for(AUTState stateDestination: states) {
                             if (stateDestination.referenceObject instanceof AvatarActionOnSignal) {
                                 AvatarActionOnSignal aaosD = (AvatarActionOnSignal) stateDestination.referenceObject;
@@ -126,6 +127,7 @@ public class AvatarDependencyGraph  {
                                     state.addOutTransition(tr);
                                     stateDestination.addInTransition(tr);
                                     AvatarRelation ar = _avspec.getAvatarRelationWithSignal(correspondingSig);
+                                    destinationStates.add(stateDestination);
                                     if (!(ar.isAsynchronous())) {
                                         tr = new AUTTransition(stateDestination.id, "", state.id);
                                         transitions.add(tr);
@@ -136,12 +138,20 @@ public class AvatarDependencyGraph  {
                             }
                         }
                     }
+
+                    // If more than one state in destination, we must split the situations
+
+
                 }
             }
         }
 
+        // Rework Avatar Actions on Signals if multiple, synchros for the same AAOS
+
         // Make the graph
         graph = new AUTGraph(states, transitions);
+
+
 
     }
 
@@ -265,7 +275,7 @@ public class AvatarDependencyGraph  {
             }
         }
 
-        //TraceManager.addDev("Size of before: " + beforeStates.size());
+        TraceManager.addDev("Size of before: " + beforeStates.size());
 
         // We now have to figure out which states have to be removed
         ArrayList<AUTState> toRemoveStates = new ArrayList<>();
@@ -275,7 +285,7 @@ public class AvatarDependencyGraph  {
             }
         }
 
-        //TraceManager.addDev("Size of remove: " + toRemoveStates.size());
+        TraceManager.addDev("Size of remove: " + toRemoveStates.size());
 
         result.graph.removeStates(toRemoveStates);
         result.removeReferencesOf(toRemoveStates);

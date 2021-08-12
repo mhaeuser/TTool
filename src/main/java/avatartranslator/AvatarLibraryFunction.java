@@ -631,6 +631,13 @@ public class AvatarLibraryFunction extends AvatarElement implements AvatarTransl
     }
 
     @Override
+    public void translateEmpty (AvatarEmpty _asme, Object _arg) {
+        TranslatorArgument arg = (TranslatorArgument) _arg;
+
+        this.translateNext (_asme, _asme, arg);
+    }
+
+    @Override
     public void translateStopState (AvatarStopState _asme, Object _arg) {
         TranslatorArgument arg = (TranslatorArgument) _arg;
 

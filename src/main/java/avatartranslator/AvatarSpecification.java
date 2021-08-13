@@ -947,7 +947,7 @@ public class AvatarSpecification extends AvatarElement {
             // We first check if the start is still in the graph
             // If not, the state machine is empty: we just create a stop, and that's it
             AvatarStartState ass = asm.getStartState();
-            if (_adg.getStateFor(ass) == null) {
+            if (_adg.getFirstStateWithReference(ass) == null) {
                 TraceManager.addDev("No start state in " + block.getName());
                 asm.makeBasicSM(block);
                 block.clearAttributes();
@@ -962,8 +962,7 @@ public class AvatarSpecification extends AvatarElement {
 
                 ArrayList<AvatarElement> toRemove = new ArrayList<>();
                 for(AvatarStateMachineElement asme: asm.getListOfElements()) {
-
-                    if (_adg.getStateFor(asme) == null) {
+                    if (_adg.getFirstStateWithReference(asme) == null) {
                         toRemove.add(asme);
                     }
 

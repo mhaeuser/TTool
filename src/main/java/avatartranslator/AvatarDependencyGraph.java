@@ -43,22 +43,18 @@ import graph.AUTGraph;
 import graph.AUTState;
 import graph.AUTTransition;
 import myutil.TraceManager;
-import ui.TGComponent;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 
-public class AvatarDependencyGraph  {
+public class AvatarDependencyGraph {
     private AUTGraph graph;
-    private HashMap<AvatarElement, AUTState> toStates;
-    private HashMap<AUTState, AvatarElement> fromStates;
     private int id = 0;
 
     public AvatarDependencyGraph() {
-        toStates = new HashMap<>();
-        fromStates = new HashMap<>();
+        //fromStates = new HashMap<>();
     }
 
     public AUTGraph getGraph() {
@@ -69,23 +65,13 @@ public class AvatarDependencyGraph  {
         graph = _g;
     }
 
-    public void setRefs(HashMap<AvatarElement, AUTState> _toStates, HashMap<AUTState, AvatarElement> _fromStates) {
-       toStates = _toStates;
-       fromStates = _fromStates;
-    }
+    /*public void setRefs(HashMap<AvatarElement, ArrayList<AUTState>> _toStates, HashMap<AUTState, AvatarElement> _fromStates) {
+        toStates = _toStates;
+        fromStates = _fromStates;
+    }*/
 
-    public AUTState getStateFor(AvatarElement _ae) {
-        return toStates.get(_ae);
-    }
-
-    public AUTState getStateFromReferenceObject(Object _referenceObject) {
-        for(AvatarElement elt: toStates.keySet()) {
-            if (elt.referenceObject == _referenceObject) {
-                TraceManager.addDev("Found equivalence between " + elt.referenceObject + " and " + _referenceObject);
-                return getStateFor(elt);
-            }
-        }
-        return null;
+    public AUTState getFirstStateWithReference(AvatarElement _ae) {
+        return graph.getFirstStateWithReference(_ae);
     }
 
     public void buildGraph(AvatarSpecification _avspec) {
@@ -95,56 +81,141 @@ public class AvatarDependencyGraph  {
         ArrayList<AUTState> states = new ArrayList<>();
         ArrayList<AUTTransition> transitions = new ArrayList<>();
         // First build state machines, and then link them on RD / WR operators
-        for(AvatarBlock block: _avspec.getListOfBlocks()) {
+
+        for (AvatarBlock block : _avspec.getListOfBlocks()) {
             AvatarStateMachine asm = block.getStateMachine();
             AvatarStartState ass = asm.getStartState();
 
             // Make general structure
             makeDependencyGraphForAvatarElement(ass, null, null, states, transitions);
-
         }
+
+        ArrayList<AUTState> newStates = new ArrayList<>();
+
         // Connect everything ie writers to all potential readers
         // For each writing state, we draw a transition to all possible corresponding readers
         // Double direction if synchronous
-        for(AUTState state: states) {
+        for (AUTState state : states) {
             if (state.referenceObject instanceof AvatarActionOnSignal) {
                 AvatarActionOnSignal aaos = (AvatarActionOnSignal) state.referenceObject;
-                AvatarSignal signal = aaos.getSignal();
-                if (signal.isOut()) {
-                    // Write operation
-                    AvatarSignal correspondingSig = _avspec.getCorrespondingSignal(signal);
-                    //TraceManager.addDev("Corresponding signal=" + correspondingSig);
-                    if (correspondingSig != null) {
-                        ArrayList<AUTState> destinationStates = new ArrayList<>();
-                        for(AUTState stateDestination: states) {
-                            if (stateDestination.referenceObject instanceof AvatarActionOnSignal) {
-                                AvatarActionOnSignal aaosD = (AvatarActionOnSignal) stateDestination.referenceObject;
-                                if (aaosD.getSignal() == correspondingSig) {
-                                    // Found relation
-                                    //TraceManager.addDev("Found relation!");
-                                    AUTTransition tr = new AUTTransition(state.id, "", stateDestination.id);
-                                    transitions.add(tr);
-                                    state.addOutTransition(tr);
-                                    stateDestination.addInTransition(tr);
-                                    AvatarRelation ar = _avspec.getAvatarRelationWithSignal(correspondingSig);
-                                    destinationStates.add(stateDestination);
-                                    if (!(ar.isAsynchronous())) {
-                                        tr = new AUTTransition(stateDestination.id, "", state.id);
+
+                // Find previous of state
+                AUTTransition previousTr = state.inTransitions.get(0);
+                int previousId = previousTr.origin;
+                AUTState previousState = null;
+                for (AUTState st : states) {
+                    if (st.id == previousId) {
+                        previousState = st;
+                        break;
+                    }
+                }
+
+                if (previousState != null) {
+                    AvatarSignal signal = aaos.getSignal();
+                    boolean found = false;
+                    if (signal.isOut()) {
+                        // Write operation
+                        AvatarSignal correspondingSig = _avspec.getCorrespondingSignal(signal);
+                        //TraceManager.addDev("Corresponding signal=" + correspondingSig);
+                        if (correspondingSig != null) {
+                            for (AUTState stateDestination : states) {
+                                if (stateDestination.referenceObject instanceof AvatarActionOnSignal) {
+                                    AvatarActionOnSignal aaosD = (AvatarActionOnSignal) stateDestination.referenceObject;
+                                    if (aaosD.getSignal() == correspondingSig) {
+                                        // Found relation
+                                        //TraceManager.addDev("Found relation!");
+                                        found = true;
+
+                                        // Create a new state dedicated to this relation
+                                        AUTState newState = new AUTState(id);
+                                        newState.referenceObject = state.referenceObject;
+                                        newState.info = state.info;
+                                        if( state.referenceObject instanceof AvatarElement) {
+                                            //putState((AvatarElement) state.referenceObject, newState);
+                                            //fromStates.put(newState, (AvatarElement) state.referenceObject);
+                                        }
+
+                                        newStates.add(newState);
+                                        id++;
+
+                                        AUTTransition tr = new AUTTransition(previousId, "", newState.id);
                                         transitions.add(tr);
-                                        stateDestination.addOutTransition(tr);
+                                        previousState.addOutTransition(tr);
+                                        newState.addInTransition(tr);
+
+                                        tr = new AUTTransition(newState.id, "", state.id);
+                                        transitions.add(tr);
+                                        newState.addOutTransition(tr);
                                         state.addInTransition(tr);
+
+                                        // We must do the same for the destination : create a state before
+
+                                        // Find previous of state
+                                        AUTTransition previousDTr = stateDestination.inTransitions.get(0);
+                                        int previousDId = previousDTr.origin;
+                                        AUTState previousStateD = null;
+                                        for (AUTState st : states) {
+                                            if (st.id == previousDId) {
+                                                previousStateD = st;
+                                                break;
+                                            }
+                                        }
+
+                                        if (previousStateD != null) {
+
+                                            AUTState newStateD = new AUTState(id);
+                                            newStateD.referenceObject = stateDestination.referenceObject;
+                                            newStateD.info = stateDestination.info;
+                                            newStates.add(newStateD);
+                                            id++;
+
+                                            // linking the new state to the correct states
+
+                                            tr = new AUTTransition(previousDId, "", newStateD.id);
+                                            transitions.add(tr);
+                                            previousStateD.addOutTransition(tr);
+                                            newStateD.addInTransition(tr);
+
+                                            tr = new AUTTransition(newStateD.id, "", stateDestination.id);
+                                            transitions.add(tr);
+                                            newStateD.addOutTransition(tr);
+                                            stateDestination.addInTransition(tr);
+
+                                            // Links between the two new states
+
+                                            tr = new AUTTransition(newState.id, "", newStateD.id);
+                                            transitions.add(tr);
+                                            newState.addOutTransition(tr);
+                                            newStateD.addInTransition(tr);
+                                            AvatarRelation ar = _avspec.getAvatarRelationWithSignal(correspondingSig);
+
+                                            if (!(ar.isAsynchronous())) {
+                                                tr = new AUTTransition(newStateD.id, "", newState.id);
+                                                transitions.add(tr);
+                                                newStateD.addOutTransition(tr);
+                                                newState.addInTransition(tr);
+                                            }
+                                        }
                                     }
                                 }
                             }
                         }
                     }
 
-                    // If more than one state in destination, we must split the situations
-
-
+                    if (found) {
+                        // We have to remove the old transition
+                        previousState.outTransitions.remove(0);
+                        state.inTransitions.remove(0);
+                        transitions.remove(previousTr);
+                    }
                 }
             }
         }
+
+        for(AUTState state: newStates) {
+            states.add(state);
+        }
+
 
         // Rework Avatar Actions on Signals if multiple, synchros for the same AAOS
 
@@ -152,11 +223,21 @@ public class AvatarDependencyGraph  {
         graph = new AUTGraph(states, transitions);
 
 
-
     }
 
+    /*private void putState(AvatarElement _elt, AUTState _state) {
+        ArrayList<AUTState> list = toStates.get(_elt);
+        if (list == null) {
+            list = new ArrayList<>();
+            list.add(_state);
+            toStates.put(_elt, list);
+        } else {
+            list.add(_state);
+        }
+    }*/
+
     private AUTState makeDependencyGraphForAvatarElement(AvatarStateMachineElement _elt,
-                                                     AUTState _previousS, AvatarStateMachineElement _previousE,
+                                                         AUTState _previousS, AvatarStateMachineElement _previousE,
                                                          ArrayList<AUTState> _states,
                                                          ArrayList<AUTTransition> _transitions) {
         if (_elt == null) {
@@ -167,9 +248,11 @@ public class AvatarDependencyGraph  {
         _states.add(state);
         state.referenceObject = _elt;
         state.info = _elt.toStringExtendedID();
-        toStates.put(_elt, state);
-        fromStates.put(state, _elt);
-        id ++;
+
+        //putState(_elt, state);
+
+        //fromStates.put(state, _elt);
+        id++;
 
         if (_previousE != null) {
             AUTTransition tr = new AUTTransition(_previousS.id, "", state.id);
@@ -181,9 +264,16 @@ public class AvatarDependencyGraph  {
         }
 
         // Handling all nexts
-        for(AvatarStateMachineElement eltN: _elt.getNexts()) {
+        for (AvatarStateMachineElement eltN : _elt.getNexts()) {
             // Already a state for a next?
-            AUTState stateN = toStates.get(eltN);
+            AUTState stateN = null;
+            for(AUTState st: _states) {
+                if (st.referenceObject == eltN) {
+                    stateN = st;
+                    break;
+                }
+            }
+            //AUTState stateN = getFirstStateFor(eltN);
             if (stateN != null) {
                 AUTTransition tr = new AUTTransition(state.id, "", stateN.id);
                 _transitions.add(tr);
@@ -193,9 +283,9 @@ public class AvatarDependencyGraph  {
                 makeDependencyGraphForAvatarElement(eltN, state, _elt, _states, _transitions);
             }
         }
-
         return state;
     }
+
 
     @SuppressWarnings("unchecked")
     public AvatarDependencyGraph clone() {
@@ -203,20 +293,27 @@ public class AvatarDependencyGraph  {
         AUTGraph g = graph.cloneMe();
         adg.setGraph(g);
 
-        HashMap<AvatarElement, AUTState> newToStates = new HashMap<>();
-        HashMap<AUTState, AvatarElement> newFromStates = new HashMap<>();
+        //HashMap<AvatarElement, ArrayList<AUTState>> newToStates = new HashMap<>();
+        //HashMap<AUTState, AvatarElement> newFromStates = new HashMap<>();
 
-        adg.setRefs(newToStates, newFromStates);
+        //adg.setRefs(newToStates, newFromStates);
 
         // Filling states references
-        for(AvatarElement ae: toStates.keySet()) {
-            AUTState st = toStates.get(ae);
+        /*for (AvatarElement ae : toStates.keySet()) {
+            ArrayList<AUTState> list  = toStates.get(ae);
 
-            // We must find the corresponding state in the new graph
-            AUTState newState = g.getState(st.id);
-            newToStates.put(ae, newState);
-            newFromStates.put(newState, ae);
-        }
+            ArrayList<AUTState> newList = new ArrayList<>();
+            for(AUTState oldS: list) {
+                // We must find the corresponding state in the new graph
+                AUTState newState = g.getState(oldS.id);
+                newList.add(newState);
+                newFromStates.put(newState, ae);
+            }
+            if (newList.size() > 0) {
+                newToStates.put(ae, newList);
+            }
+        }*/
+
 
         return adg;
     }
@@ -243,14 +340,14 @@ public class AvatarDependencyGraph  {
 
 
         // We take each elt one after the other and we complete the after or before states
-        for(AvatarElement ae: eltsOfInterest) {
+        for (AvatarElement ae : eltsOfInterest) {
             //TraceManager.addDev("Considering elt:" + ae.getName());
             Object ref = ae.getReferenceObject();
             if (ref != null) {
                 // Finding the state referencing o
                 AUTState stateOfInterest = null;
-                for(AUTState s: graph.getStates()) {
-                    AvatarElement elt = fromStates.get(s);
+                for (AUTState s : graph.getStates()) {
+                    AvatarElement elt = (AvatarElement) s.referenceObject;
                     if (elt.getReferenceObject() == ref) {
                         stateOfInterest = s;
                         break;
@@ -279,7 +376,7 @@ public class AvatarDependencyGraph  {
 
         // We now have to figure out which states have to be removed
         ArrayList<AUTState> toRemoveStates = new ArrayList<>();
-        for(AUTState st: result.graph.getStates()) {
+        for (AUTState st : result.graph.getStates()) {
             if (!beforeStates.contains(st)) {
                 toRemoveStates.add(st);
             }
@@ -302,22 +399,21 @@ public class AvatarDependencyGraph  {
     }
 
     public void removeReferencesOf(Collection<AUTState> _c) {
-        for(AUTState st: _c) {
+        /*for (AUTState st : _c) {
             fromStates.remove(st);
         }
 
         ArrayList<AvatarElement> toBeRemoved = new ArrayList<>();
-        for(AvatarElement ae: toStates.keySet()) {
+        for (AvatarElement ae : toStates.keySet()) {
             if (_c.contains(toStates.get(ae))) {
                 toBeRemoved.add(ae);
             }
         }
 
-        for(AvatarElement ae: toBeRemoved) {
+        for (AvatarElement ae : toBeRemoved) {
             toStates.remove(ae);
-        }
+        }*/
     }
-
 
 
 }

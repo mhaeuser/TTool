@@ -100,6 +100,8 @@ public class AUTState implements Comparable<AUTState> {
         return null;
     }
 
+
+
     public boolean hasTransitionTo(int destination) {
         for (AUTTransition aut1 : outTransitions) {
             if (aut1.destination == destination) {

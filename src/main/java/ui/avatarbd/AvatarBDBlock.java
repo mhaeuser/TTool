@@ -116,26 +116,27 @@ public class AvatarBDBlock extends TGCScalableWithInternalComponent implements S
         initScaling(250, 200);
 
 
-        nbConnectingPoint = 16;
-        connectingPoint = new TGConnectingPoint[16];
+        nbConnectingPoint = 32;
+        connectingPoint = new TGConnectingPoint[32];
+        for(int i=0; i<32; i = i + 16) {
+            connectingPoint[0+i] = new AvatarBDConnectingPoint(this, 0, 0, true, true, 0.0, 0.0);
+            connectingPoint[1+i] = new AvatarBDConnectingPoint(this, 0, 0, true, true, 0.5, 0.0);
+            connectingPoint[2+i] = new AvatarBDConnectingPoint(this, 0, 0, true, true, 1.0, 0.0);
+            connectingPoint[3+i] = new AvatarBDConnectingPoint(this, 0, 0, true, true, 0.0, 0.5);
+            connectingPoint[4+i] = new AvatarBDConnectingPoint(this, 0, 0, true, true, 1.0, 0.5);
+            connectingPoint[5+i] = new AvatarBDConnectingPoint(this, 0, 0, true, true, 0.0, 1.0);
+            connectingPoint[6+i] = new AvatarBDConnectingPoint(this, 0, 0, true, true, 0.5, 1.0);
+            connectingPoint[7+i] = new AvatarBDConnectingPoint(this, 0, 0, true, true, 1.0, 1.0);
 
-        connectingPoint[0] = new AvatarBDConnectingPoint(this, 0, 0, true, true, 0.0, 0.0);
-        connectingPoint[1] = new AvatarBDConnectingPoint(this, 0, 0, true, true, 0.5, 0.0);
-        connectingPoint[2] = new AvatarBDConnectingPoint(this, 0, 0, true, true, 1.0, 0.0);
-        connectingPoint[3] = new AvatarBDConnectingPoint(this, 0, 0, true, true, 0.0, 0.5);
-        connectingPoint[4] = new AvatarBDConnectingPoint(this, 0, 0, true, true, 1.0, 0.5);
-        connectingPoint[5] = new AvatarBDConnectingPoint(this, 0, 0, true, true, 0.0, 1.0);
-        connectingPoint[6] = new AvatarBDConnectingPoint(this, 0, 0, true, true, 0.5, 1.0);
-        connectingPoint[7] = new AvatarBDConnectingPoint(this, 0, 0, true, true, 1.0, 1.0);
-
-        connectingPoint[8] = new AvatarBDConnectingPoint(this, 0, 0, true, true, 0.25, 0.0);
-        connectingPoint[9] = new AvatarBDConnectingPoint(this, 0, 0, true, true, 0.75, 0.0);
-        connectingPoint[10] = new AvatarBDConnectingPoint(this, 0, 0, true, true, 0.0, 0.25);
-        connectingPoint[11] = new AvatarBDConnectingPoint(this, 0, 0, true, true, 1.0, 0.25);
-        connectingPoint[12] = new AvatarBDConnectingPoint(this, 0, 0, true, true, 0.0, 0.75);
-        connectingPoint[13] = new AvatarBDConnectingPoint(this, 0, 0, true, true, 1.0, 0.75);
-        connectingPoint[14] = new AvatarBDConnectingPoint(this, 0, 0, true, true, 0.25, 1.0);
-        connectingPoint[15] = new AvatarBDConnectingPoint(this, 0, 0, true, true, 0.75, 1.0);
+            connectingPoint[8+i] = new AvatarBDConnectingPoint(this, 0, 0, true, true, 0.25, 0.0);
+            connectingPoint[9+i] = new AvatarBDConnectingPoint(this, 0, 0, true, true, 0.75, 0.0);
+            connectingPoint[10+i] = new AvatarBDConnectingPoint(this, 0, 0, true, true, 0.0, 0.25);
+            connectingPoint[11+i] = new AvatarBDConnectingPoint(this, 0, 0, true, true, 1.0, 0.25);
+            connectingPoint[12+i] = new AvatarBDConnectingPoint(this, 0, 0, true, true, 0.0, 0.75);
+            connectingPoint[13+i] = new AvatarBDConnectingPoint(this, 0, 0, true, true, 1.0, 0.75);
+            connectingPoint[14+i] = new AvatarBDConnectingPoint(this, 0, 0, true, true, 0.25, 1.0);
+            connectingPoint[15+i] = new AvatarBDConnectingPoint(this, 0, 0, true, true, 0.75, 1.0);
+        }
 
         addTGConnectingPointsComment();
 

@@ -77,7 +77,7 @@ public class TADChoice extends TADComponentWithSubcomponents/* Issue #69  TGCWit
 
         createConnectingPoints();
 
-        initScaling( 30, 30 );
+        initScaling( 20, 20 );
         
         nbInternalTGComponent = 3;
         tgcomponent = new TGComponent[nbInternalTGComponent];
@@ -108,7 +108,7 @@ public class TADChoice extends TADComponentWithSubcomponents/* Issue #69  TGCWit
     	final int textX1 = - scale( OUT_LINE_LENGTH );
     	final int scaledMargin = scale( MARGIN ); 
     	final int textY1 = height / 2 - scaledMargin;
-        TGCOneLineText tgc = new TGCOneLineText( x + textX1, y + textY1, textX1-50, textX1 + 5 , textY1, textY1 + 25, true, this, tdp );
+        TGCOneLineText tgc = new TGCOneLineText( x + textX1, y + textY1, textX1-100, textX1 + 15 , textY1, textY1 + 25, true, this, tdp );
         tgc.setValue( EMPTY_GUARD_TEXT );
         tgc.setName("guard 1");
         tgcomponent[ 0 ] = tgc;
@@ -116,7 +116,7 @@ public class TADChoice extends TADComponentWithSubcomponents/* Issue #69  TGCWit
     	// Issue #31
         final int textX2 = width + scaledMargin;
         final int textY2 = height / 2 - scaledMargin;
-        tgc = new TGCOneLineText( x + textX2, y + textY2, textX2, textX2 + 20, textY2, textY2 + 25, true, this, tdp);
+        tgc = new TGCOneLineText( x + textX2, y + textY2, textX2, textX2 + 80, textY2, textY2 + 25, true, this, tdp);
         tgc.setValue( EMPTY_GUARD_TEXT );
         tgc.setName("guard 2");
         tgcomponent[ 1 ] = tgc;
@@ -124,7 +124,7 @@ public class TADChoice extends TADComponentWithSubcomponents/* Issue #69  TGCWit
     	// Issue #31
         final int textX3 = width / 2 + scaledMargin;
         final int textY3 = height + scale( 15 );
-        tgc = new TGCOneLineText( x + textX3, y + textY3, textX3, textX3 + 20, textY3, textY3 + 25, true, this, tdp );
+        tgc = new TGCOneLineText( x + textX3, y + textY3, textX3 - 20, textX3 + 80, textY3, textY3 + 25, true, this, tdp );
         tgc.setValue( EMPTY_GUARD_TEXT );
         tgc.setName("guard 3");
         tgcomponent[ 2 ] = tgc;

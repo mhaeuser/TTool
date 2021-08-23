@@ -57,7 +57,7 @@ import java.awt.geom.Line2D;
  */
 public class AvatarADJunction extends AvatarADBasicComponent {
 
-    protected int range = 5;
+    protected int range = 10;
 
     public AvatarADJunction(int _x, int _y, int _minX, int _maxX, int _minY, int _maxY, boolean _pos, TGComponent _father, TDiagramPanel _tdp) {
         super(_x, _y, _minX, _maxX, _minY, _maxY, _pos, _father, _tdp);

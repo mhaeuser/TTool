@@ -67,7 +67,7 @@ import java.util.LinkedList;
  * @author Ludovic APVRILLE
  * @version 1.0 20/04/2010
  */
-public class AvatarRDRequirement extends TGCScalableWithInternalComponent implements WithAttributes, TGAutoAdjust {
+public class AvatarRDRequirement extends TGCScalableWithInternalComponent implements WithAttributes, TGAutoAdjust, ColorCustomizable {
     public static int SIZE_LIMIT = 35;
 
     public String oldValue;
@@ -246,8 +246,7 @@ public class AvatarRDRequirement extends TGCScalableWithInternalComponent implem
     
 
     @Override
-    public void internalDrawing(Graphics g)
-    {
+    public void internalDrawing(Graphics g) {
     	// Rectangle and lines
     	g.drawRect(x, y, width, height);
     	g.drawLine(x, y + lineHeight, x + width, y + lineHeight);
@@ -258,7 +257,7 @@ public class AvatarRDRequirement extends TGCScalableWithInternalComponent implem
     		topColor = ColorManager.AVATAR_REQUIREMENT_TOP;
     	g.setColor(topColor);
     	g.fillRect(x + 1, y + 1, width - 1, lineHeight - 1);
-    	g.setColor(ColorManager.AVATAR_REQUIREMENT_ATTRIBUTES);
+    	g.setColor(getCurrentColor());
     	g.fillRect(x + 1, y + 1 + lineHeight, width - 1, height - 1 - lineHeight);
     	ColorManager.setColor(g, getState(), 0);
 	  
@@ -1339,6 +1338,11 @@ public class AvatarRDRequirement extends TGCScalableWithInternalComponent implem
 
     public void removeReference(AvatarRDRequirementReference ref) {
         references.remove(ref);
+    }
+
+    // Color customizable
+    public Color getMainColor() {
+        return ColorManager.AVATAR_REQUIREMENT_ATTRIBUTES;
     }
 
 }

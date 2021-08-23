@@ -54,7 +54,7 @@ import java.util.Vector;
 * @version 1.0 05/01/2021
 * @author Ludovic APVRILLE
  */
-public  class AvatarCDAssociationConnectorArrow extends TGConnectorWithMultiplicity /* Issue #31 implements ScalableTGComponent*/ {
+public  class AvatarCDAssociationConnectorArrow extends TGConnectorWithMultiplicity  implements ColorCustomizable {
 
 	
     
@@ -72,8 +72,6 @@ public  class AvatarCDAssociationConnectorArrow extends TGConnectorWithMultiplic
 
         value = "";
         editable = true;
-//		oldScaleFactor = tdp.getZoom();
-//		rescaled = true;
     }
 
 	@Override
@@ -86,10 +84,13 @@ public  class AvatarCDAssociationConnectorArrow extends TGConnectorWithMultiplic
 	}
 
 
-
-    
 	@Override
     public int getType() {
         return TGComponentManager.ACD_ASSOCIATION_CONNECTOR_ARROW;
+    }
+
+    // Color management
+    public Color getMainColor() {
+        return Color.BLACK;
     }
 }

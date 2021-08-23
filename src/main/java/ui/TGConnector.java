@@ -204,6 +204,11 @@ public abstract class TGConnector extends TGCScalableWithInternalComponent {
     protected void internalDrawing(Graphics g) {
         TGComponent p3, p4;
 
+        Color c = g.getColor();
+        if (getCurrentColor() != null) {
+            g.setColor(getCurrentColor());
+        }
+
         if (hasTGCPointOfConnector())  {
             p3 = tgcomponent[0];
             p4 = tgcomponent[0];
@@ -225,6 +230,7 @@ public abstract class TGConnector extends TGCScalableWithInternalComponent {
 	            drawLastSegment(g, p1.getX(), p1.getY(), p2.getX(), p2.getY());
 	    	}
         }
+        g.setColor(c);
     }
 
     protected void drawMiddleSegment(Graphics g, int x1, int y1, int x2, int y2) {

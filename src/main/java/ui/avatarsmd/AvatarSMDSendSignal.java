@@ -52,18 +52,7 @@ import javax.swing.JOptionPane;
 
 import myutil.GraphicLib;
 import myutil.TraceManager;
-import ui.AvatarSignal;
-import ui.BasicErrorHighlight;
-import ui.CheckableAccessibility;
-import ui.CheckableLatency;
-import ui.ColorManager;
-import ui.ErrorHighlight;
-import ui.LinkedReference;
-import ui.PartOfInvariant;
-import ui.TDiagramPanel;
-import ui.TGComponent;
-import ui.TGComponentManager;
-import ui.TGConnectingPoint;
+import ui.*;
 import ui.avatarrd.AvatarRDRequirement;
 import ui.tmlad.TMLADWriteChannel;
 import ui.util.IconManager;
@@ -75,7 +64,8 @@ import ui.window.JDialogAvatarSignal;
    * @version 1.0 12/04/2010
    * @author Ludovic APVRILLE
  */
-public class AvatarSMDSendSignal extends AvatarSMDBasicCanBeDisabledComponent /* Issue #69 AvatarSMDBasicComponent*/ implements CheckableAccessibility, LinkedReference, CheckableLatency, BasicErrorHighlight, PartOfInvariant {
+public class AvatarSMDSendSignal extends AvatarSMDBasicCanBeDisabledComponent /* Issue #69 AvatarSMDBasicComponent*/
+		implements CheckableAccessibility, LinkedReference, CheckableLatency, BasicErrorHighlight, PartOfInvariant, ColorCustomizable {
     protected int lineLength = 5;
 //    protected int textX =  5;
 //    protected int textY =  15;
@@ -133,24 +123,27 @@ public class AvatarSMDSendSignal extends AvatarSMDBasicCanBeDisabledComponent /*
             width = w1;            //updateConnectingPoints();
         }
 
+		Color c = g.getColor();
+
+
         if (stateOfError > 0)  {
-            Color c = g.getColor();
             switch(stateOfError) {
-            case ErrorHighlight.OK:
-                g.setColor(ColorManager.AVATAR_SEND_SIGNAL);
-                break;
-            default:
-                g.setColor(ColorManager.UNKNOWN_BOX_ACTION);
+				case ErrorHighlight.OK:
+					g.setColor(getCurrentColor());
+					break;
+				default:
+					g.setColor(ColorManager.UNKNOWN_BOX_ACTION);
             }
             // Making the polygon
-            int [] px1 = {x, x+width-linebreak, x+width, x+width-linebreak, x};
-            int [] py1 = {y, y, y+(height/2), y+height, y+height};
+			int [] px1 = {x, x+width-linebreak, x+width, x+width-linebreak, x};
+			int [] py1 = {y, y, y+(height/2), y+height, y+height};
             g.fillPolygon(px1, py1, 5);
             g.setColor(c);
         }
 
+
+
         //g.drawRoundRect(x, y, width, height, arc, arc);
-        Color c = g.getColor();
         //
 
         g.drawLine(x+(width/2), y, x+(width/2), y - lineLength);
@@ -164,7 +157,7 @@ public class AvatarSMDSendSignal extends AvatarSMDBasicCanBeDisabledComponent /*
         int y1 = y + 1;
         int height1 = height;
         int width1 = width;
-        g.setColor(ColorManager.AVATAR_SEND_SIGNAL);
+        g.setColor(getCurrentColor());
         g.drawLine(x1, y1, x1+width1-linebreak, y1);
         g.drawLine(x1, y1+height1, x1+width1-linebreak, y1+height1);
         g.drawLine(x1, y1, x1, y1+height1);
@@ -517,4 +510,9 @@ public class AvatarSMDSendSignal extends AvatarSMDBasicCanBeDisabledComponent /*
     public void setStateAction(int _stateAction) {
         stateOfError = _stateAction;
     }
+
+	// Color management
+	public Color getMainColor() {
+		return ColorManager.AVATAR_SEND_SIGNAL;
+	}
 }

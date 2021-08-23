@@ -8288,6 +8288,9 @@ public class GTURTLEModeling {
             //int fatherId = -1, fatherNum = -1;
             boolean automaticDrawing = true;
 
+            boolean colorFound = false;
+            int color = -1;
+
             for (i = 0; i < nl.getLength(); i++) {
                 n = nl.item(i);
                 if (n.getNodeType() == Node.ELEMENT_NODE) {
@@ -8338,6 +8341,9 @@ public class GTURTLEModeling {
                         //TraceManager.addDev("set to true");
                         automaticDrawing = elt.getAttribute("data").compareTo("true") == 0;
                         //automaticDrawing = Boolean.getBoolean(elt.getAttribute("data"));
+                    } else if (elt.getTagName().equals("color")) {
+                        color = Integer.decode(elt.getAttribute("value"));
+                        colorFound = true;
                     }
                 }
             }
@@ -8376,6 +8382,11 @@ public class GTURTLEModeling {
             } else {
                 tgco.makeUUID();
             }
+
+            if (colorFound) {
+                tgco.setCurrentColor(color);
+            }
+
 
             tgco.setLoaded(true);
             tgco.setInternalLoaded(false);

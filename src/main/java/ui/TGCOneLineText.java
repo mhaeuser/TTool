@@ -52,7 +52,7 @@ import java.awt.*;
    * @version 1.0 21/12/2003
    * @author Ludovic APVRILLE
  */
-public class TGCOneLineText extends TGCWithoutInternalComponent {
+public class TGCOneLineText extends TGCWithoutInternalComponent implements  ColorCustomizable {
 
 	protected boolean emptyText;
 
@@ -80,12 +80,19 @@ public class TGCOneLineText extends TGCWithoutInternalComponent {
             width = g.getFontMetrics().stringWidth(value);
             height = g.getFontMetrics().getHeight();
         }
+
+        Color c = g.getColor();
+        if (getCurrentColor() != null) {
+            g.setColor(getCurrentColor());
+        }
         
         g.drawString(value, x, y);
         
         if ( value.isEmpty() ) {
             g.drawString("value?", x, y);
         }
+
+        g.setColor(c);
     }
 
     @Override
@@ -132,4 +139,10 @@ public class TGCOneLineText extends TGCWithoutInternalComponent {
     public boolean canBeDisabled() {
     	return getFather() != null && getFather().canLabelBeDisabled( this );
     }
+
+    // Color management
+    public Color getMainColor() {
+        return Color.BLACK;
+    }
+
 }

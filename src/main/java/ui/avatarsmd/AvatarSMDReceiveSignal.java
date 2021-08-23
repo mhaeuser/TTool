@@ -52,18 +52,7 @@ import javax.swing.JOptionPane;
 
 import myutil.GraphicLib;
 import myutil.TraceManager;
-import ui.AvatarSignal;
-import ui.BasicErrorHighlight;
-import ui.CheckableAccessibility;
-import ui.CheckableLatency;
-import ui.ColorManager;
-import ui.ErrorHighlight;
-import ui.LinkedReference;
-import ui.PartOfInvariant;
-import ui.TDiagramPanel;
-import ui.TGComponent;
-import ui.TGComponentManager;
-import ui.TGConnectingPoint;
+import ui.*;
 import ui.avatarrd.AvatarRDRequirement;
 import ui.tmlad.TMLADReadChannel;
 import ui.util.IconManager;
@@ -75,7 +64,8 @@ import ui.window.JDialogAvatarSignal;
  * @version 1.0 12/04/2010
  * @author Ludovic APVRILLE
  */
-public class AvatarSMDReceiveSignal extends AvatarSMDBasicCanBeDisabledComponent /* Issue #69 AvatarSMDBasicComponent*/ implements CheckableAccessibility, LinkedReference, CheckableLatency, BasicErrorHighlight, PartOfInvariant {
+public class AvatarSMDReceiveSignal extends AvatarSMDBasicCanBeDisabledComponent /* Issue #69 AvatarSMDBasicComponent*/
+		implements CheckableAccessibility, LinkedReference, CheckableLatency, BasicErrorHighlight, PartOfInvariant, ColorCustomizable {
     protected int lineLength = 5;
 //    protected int textX =  5;
 //    protected int textY =  15;
@@ -140,7 +130,7 @@ public class AvatarSMDReceiveSignal extends AvatarSMDBasicCanBeDisabledComponent
 			Color c = g.getColor();
 			switch(stateOfError) {
 			case ErrorHighlight.OK:
-				g.setColor(ColorManager.AVATAR_RECEIVE_SIGNAL);
+				g.setColor(getCurrentColor());
 				break;
 			default:
 				g.setColor(ColorManager.UNKNOWN_BOX_ACTION);
@@ -167,7 +157,7 @@ public class AvatarSMDReceiveSignal extends AvatarSMDBasicCanBeDisabledComponent
 		int y1 = y + 1;
 		int height1 = height;
 		int width1 = width;
-		g.setColor(ColorManager.AVATAR_RECEIVE_SIGNAL);
+		g.setColor(getCurrentColor());
 		g.drawLine(x1, y1, x1+width1, y1);
         g.drawLine(x1+width1, y1, x1+width1, y1+height1);
         g.drawLine(x1, y1+height1, x1+width1, y1+height1);
@@ -457,5 +447,10 @@ public class AvatarSMDReceiveSignal extends AvatarSMDBasicCanBeDisabledComponent
 	@Override
 	public void setStateAction(int _stateAction) {
 		stateOfError = _stateAction;
+	}
+
+	// Color management
+	public Color getMainColor() {
+		return ColorManager.AVATAR_RECEIVE_SIGNAL;
 	}
 }

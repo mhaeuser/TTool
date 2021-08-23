@@ -771,6 +771,7 @@ public abstract class TGConnector extends TGCScalableWithInternalComponent {
         sb.append(translateP1());
         sb.append(translateP2());
         sb.append(translatePoints());
+        sb.append(translateColor());
         sb.append(translateAutomaticDrawing());
         sb.append(translateExtraParam());
         sb.append(XML_CONNECTOR_TAIL);

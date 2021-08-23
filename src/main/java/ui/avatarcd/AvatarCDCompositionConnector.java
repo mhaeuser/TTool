@@ -51,7 +51,7 @@ import java.util.Vector;
 * @version 1.0 31/08/2011
 * @author Ludovic APVRILLE
  */
-public  class AvatarCDCompositionConnector extends TGConnectorWithMultiplicity /* Issue #31 implements ScalableTGComponent*/ {
+public  class AvatarCDCompositionConnector extends TGConnectorWithMultiplicity implements ColorCustomizable {
     protected int d = 20;
 	protected int D = 26;
     //protected int widthValue, heightValue, maxWidthValue, h;
@@ -180,4 +180,9 @@ public  class AvatarCDCompositionConnector extends TGConnectorWithMultiplicity /
     public int getType() {
         return TGComponentManager.ACD_COMPOSITION_CONNECTOR;
     }
+
+	// Color management
+	public Color getMainColor() {
+		return Color.BLACK;
+	}
 }

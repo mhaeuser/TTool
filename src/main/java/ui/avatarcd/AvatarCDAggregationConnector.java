@@ -51,7 +51,7 @@ import java.util.Vector;
 * @version 1.0 05/01/2021
 * @author Ludovic APVRILLE
  */
-public  class AvatarCDAggregationConnector extends TGConnectorWithMultiplicity /* Issue #31 implements ScalableTGComponent*/ {
+public  class AvatarCDAggregationConnector extends TGConnectorWithMultiplicity implements ColorCustomizable {
     protected int d = 20;
 	protected int D = 26;
     //protected int widthValue, heightValue, maxWidthValue, h;
@@ -163,4 +163,9 @@ public  class AvatarCDAggregationConnector extends TGConnectorWithMultiplicity /
     public int getType() {
         return TGComponentManager.ACD_AGGREGATION_CONNECTOR;
     }
+
+	// Color management
+	public Color getMainColor() {
+		return Color.BLACK;
+	}
 }

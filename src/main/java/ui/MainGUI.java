@@ -7924,6 +7924,7 @@ public class MainGUI implements ActionListener, WindowListener, KeyListener, Per
         }
     }
 
+
     public int getTDiagramPanelIndex() {
         try {
             TURTLEPanel tp = tabs.elementAt(mainTabbedPane.getSelectedIndex());
@@ -7931,6 +7932,18 @@ public class MainGUI implements ActionListener, WindowListener, KeyListener, Per
         } catch (Exception e) {
             return -1;
         }
+    }
+
+
+    public TGComponent findComponentWithUUID(UUID _uid) {
+        TGComponent tgc = null;
+        for(TURTLEPanel panel: tabs) {
+            tgc = panel.findComponentWithUUID(_uid);
+            if (tgc != null) {
+                break;
+            }
+        }
+        return tgc;
     }
 
     public TDiagramPanel getCurrentMainTDiagramPanel() {

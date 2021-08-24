@@ -429,6 +429,15 @@ public abstract class TDiagramPanel extends JPanel implements GenericTree {
         return id;
     }
 
+    public TGComponent findComponentWithUUID(UUID _uid) {
+        for(TGComponent tgc: getAllComponentList()) {
+            if (tgc.getUUID().equals(_uid)) {
+                return tgc;
+            }
+        }
+        return null;
+    }
+
     public void selectTab(String name) {
         mgui.selectTab(tp, name);
     }

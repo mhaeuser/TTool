@@ -42,6 +42,7 @@ package ui.window;
 import myutil.BytePoint;
 import myutil.TraceManager;
 import ui.MainGUI;
+import ui.TDiagramPanel;
 import ui.TGComponent;
 import ui.util.IconManager;
 
@@ -58,6 +59,7 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.UUID;
 
 
 /**
@@ -114,6 +116,11 @@ public class JDialogDependencyMatrix extends JDialogBase implements ActionListen
         columnDiag = _columnDiag;
         rows = _rows;
         columns = _columns;
+
+        TraceManager.addDev("Rows:" + rows);
+        TraceManager.addDev("Columns:" + columns);
+
+
         dependencies = new ArrayList<>();
         dependencies.addAll(_dependencies);
 
@@ -202,7 +209,7 @@ public class JDialogDependencyMatrix extends JDialogBase implements ActionListen
             rowPanelBox.addItem(s);
         }
 
-        csp.gridwidth = 1;
+        csp.gridwidth = 5;
         csp.gridheight = 30;
         csp.weighty = GridBagConstraints.BOTH;
         csp.weightx = GridBagConstraints.BOTH;
@@ -237,6 +244,7 @@ public class JDialogDependencyMatrix extends JDialogBase implements ActionListen
         colClassList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
         scroll = new JScrollPane(colClassList);
         //scroll.setPreferredSize(new Dimension(400, 300));
+        c0.gridheight = 30;
         panel0.add(scroll, c0);
 
 
@@ -253,8 +261,8 @@ public class JDialogDependencyMatrix extends JDialogBase implements ActionListen
         panelConfiguration.add(panel0, csp);
 
         csp.gridheight = 1;
-        panelConfiguration.add(generateMatrix, csp);
 
+        panelConfiguration.add(generateMatrix, csp);
         if (dependencies.size() == 0) {
             mainPane.add("Configuration", panelConfiguration);
         }
@@ -419,6 +427,10 @@ public class JDialogDependencyMatrix extends JDialogBase implements ActionListen
             makeMatrixIssue("No element in row");
             return;
         }
+
+        // Update rows
+        rows = updateNamesIn(rows);
+        columns = updateNamesIn(columns);
 
         //TraceManager.addDev("Going to make the matrix / rows=" + rows + " / cols=" + columns);
         //TraceManager.addDev("Setting label");
@@ -782,6 +794,46 @@ public class JDialogDependencyMatrix extends JDialogBase implements ActionListen
         }
 
         return dtm.getNonNullPoints();
+    }
+
+    private String updateNamesIn(String input) {
+        TraceManager.addDev("\n\nupdateNamesIn with input=" + input);
+
+        if (mgui == null) {
+            return input;
+        }
+
+        String ret = "";
+        String tab[] = input.split("\\$");
+        for (int i=0; i<tab.length; i++) {
+            int index = tab[i].indexOf("/");
+            if (index > -1) {
+                String id = tab[i].substring(index+1);
+                try {
+                    UUID uid = UUID.fromString(id);
+                    if (uid != null) {
+                        TGComponent tgc = mgui.findComponentWithUUID(uid);
+                        if (tgc != null) {
+                            String val = tgc.getValue();
+                            String val1 = val.substring(0, Math.min(20, val.length())) + "/" + tgc.getUUID();
+                            if (ret.length() == 0) {
+                                ret = val1;
+                            } else {
+                                ret += "$" + val1;
+                            }
+                        } else {
+                            if (ret.length() > 0) {
+                                ret += "$";
+                            }
+                            ret += tab[i];
+                        }
+                    }
+                } catch (Exception e) {}
+            }
+        }
+
+        TraceManager.addDev("\nReturning ret=" + ret);
+        return ret;
     }
 
 

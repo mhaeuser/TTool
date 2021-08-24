@@ -50,6 +50,7 @@ import javax.swing.*;
 import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.UUID;
 import java.util.Vector;
 
 /**
@@ -169,6 +170,8 @@ public abstract class TURTLEPanel implements GenericTree, DraggableTabbedPaneCal
         return sb;
     }
 
+
+
     public String toString() {
         return "TURTLE Modeling";
     }
@@ -187,6 +190,17 @@ public abstract class TURTLEPanel implements GenericTree, DraggableTabbedPaneCal
             return index;
         }
         return panels.size();
+    }
+
+    public TGComponent findComponentWithUUID(UUID _uid) {
+        TGComponent tgc = null;
+        for(TDiagramPanel tdp: panels) {
+            tgc = tdp.findComponentWithUUID(_uid);
+            if (tgc != null) {
+                break;
+            }
+        }
+        return tgc;
     }
 
     public Vector<TDiagramPanel> getPanels() {

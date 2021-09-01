@@ -111,6 +111,8 @@ public abstract class DiplodocusMethodologyDiagramReference extends TGCScalableW
 
         addTGConnectingPointsCommentTop();
 
+        value = TYPE_STR[typeOfReference];
+
         nbInternalTGComponent = 0;
         //tgcomponent = new TGComponent[nbInternalTGComponent];
 
@@ -139,7 +141,7 @@ public abstract class DiplodocusMethodologyDiagramReference extends TGCScalableW
       //  int w, c;
        // int size;
 
-        value = TYPE_STR[typeOfReference];
+
 
 //        if (!tdp.isScaled()) {
 //            graphics = g;
@@ -392,30 +394,37 @@ public abstract class DiplodocusMethodologyDiagramReference extends TGCScalableW
 
         fillIgnoredSelectedFromInternalComponents(ignored, selected);
 
-        jdmlos = new JDialogManageListOfString(frame, ignored, selected, "Selection of diagrams");
+        jdmlos = new JDialogManageListOfString(frame, ignored, selected, "Selection of diagrams", value);
       //  jdmlos.setSize(550, 350);
         GraphicLib.centerOnParent(jdmlos, 550, 350);
         jdmlos.setVisible( true );
 
-        ignored = jdmlos.getIgnored();
-        selected = jdmlos.getSelected();
+        if (!jdmlos.hasBeenCancelled()) {
+            ignored = jdmlos.getIgnored();
+            selected = jdmlos.getSelected();
 
-        //We reconstruct the list of internal components.
-        DiplodocusMethodologyDiagramName dn;
-        nbInternalTGComponent = 0;
-        tgcomponent = null;
-        int index = 0;
-        int tmpx, tmpy;
-        for(String s: selected) {
-            tmpy = (int)(y + (40*tdp.getZoom()) + (index * 15 *tdp.getZoom()));
-            tmpx = (int)(DiplodocusMethodologyDiagramName.X_MARGIN*tdp.getZoom());
-            dn = new  DiplodocusMethodologyDiagramName(x+tmpx, tmpy, x+tmpx, x+tmpx, tmpy, tmpy, true, this, getTDiagramPanel());
-            //makeValidationInfos(dn);
-            dn.setValue(s);
-            dn.setFather(this);
-            //dn.resizeWithFather();
-            addInternalComponent(dn, index);
-            index ++;
+            String nameTmp = jdmlos.getName();
+            if ((nameTmp != null) && (nameTmp.trim().length() > 0)) {
+                value = nameTmp.trim();
+            }
+
+            //We reconstruct the list of internal components.
+            DiplodocusMethodologyDiagramName dn;
+            nbInternalTGComponent = 0;
+            tgcomponent = null;
+            int index = 0;
+            int tmpx, tmpy;
+            for (String s : selected) {
+                tmpy = (int) (y + (40 * tdp.getZoom()) + (index * 15 * tdp.getZoom()));
+                tmpx = (int) (DiplodocusMethodologyDiagramName.X_MARGIN * tdp.getZoom());
+                dn = new DiplodocusMethodologyDiagramName(x + tmpx, tmpy, x + tmpx, x + tmpx, tmpy, tmpy, true, this, getTDiagramPanel());
+                //makeValidationInfos(dn);
+                dn.setValue(s);
+                dn.setFather(this);
+                //dn.resizeWithFather();
+                addInternalComponent(dn, index);
+                index++;
+            }
         }
 
 

@@ -41,6 +41,7 @@
 
 package ui.window;
 
+import myutil.TraceManager;
 import ui.util.IconManager;
 
 import javax.swing.*;
@@ -65,27 +66,31 @@ public class JDialogManageListOfString extends JDialogBase implements ActionList
 
    // private static boolean overideSyntaxChecking = false;
 
+    private String name;
     private Vector<String> ignored, selected;
 
     //subpanels
-    private JPanel panel1, panel2, panel3, panel6;
+    private JPanel panelName, panel1, panel2, panel3, panel6;
     private JList<String> listIgnored;
     private JList<String> listSelected;
     private JButton allSelected;
     private JButton addOneSelected;
     private JButton addOneIgnored;
     private JButton allIgnored;
+    private JTextField nameField;
 
     // Main Panel
 
     private boolean hasBeenCancelled = true;
 
     /* Creates new form  */
-    public JDialogManageListOfString(Frame f, Vector<String> _ignored, Vector<String> _selected, String title) {
+    public JDialogManageListOfString(Frame f, Vector<String> _ignored, Vector<String> _selected, String title, String _name) {
         super(f, title, true);
 
         ignored = _ignored;
         selected = _selected;
+
+        name = _name;
 
         initComponents();
         myInitComponents();
@@ -103,6 +108,18 @@ public class JDialogManageListOfString extends JDialogBase implements ActionList
         setFont(new Font("Helvetica", Font.PLAIN, 14));
         c.setLayout(new BorderLayout());
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+
+        // Name
+        panelName = new JPanel();
+        if (name != null) {
+            panelName.setLayout(new BorderLayout());
+            panelName.setBorder(new javax.swing.border.TitledBorder("Name"));
+            panelName.add(new JLabel("Name:"), BorderLayout.CENTER);
+            nameField = new JTextField(name, 30);
+            panelName.add(nameField, BorderLayout.CENTER);
+            //panelName.setPreferredSize(new Dimension(200, 250));
+            c.add(panelName, BorderLayout.NORTH);
+        }
 
         // ignored list
         panel1 = new JPanel();
@@ -318,6 +335,15 @@ public class JDialogManageListOfString extends JDialogBase implements ActionList
 
     public Vector<String> getIgnored() {
         return ignored;
+    }
+
+    public String getName() {
+        if (nameField == null) {
+            //TraceManager.addDev("Returning null");
+            return null;
+        }
+        //TraceManager.addDev("Returning " + nameField.getText());
+        return nameField.getText();
     }
 
 }

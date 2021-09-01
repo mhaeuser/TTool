@@ -586,7 +586,7 @@ public class JDialogDependencyMatrix extends JDialogBase implements ActionListen
             downRow.setEnabled( (r >= 0) && (r < (matrix.getRowCount() - 1)));
 
             leftCol.setEnabled(c > 1);
-            rightCol.setEnabled( (c > -1) && (c < (matrix.getColumnCount() - 1)));
+            rightCol.setEnabled( (c > 0) && (c < (matrix.getColumnCount() - 1)));
         }
     }
 
@@ -797,7 +797,7 @@ public class JDialogDependencyMatrix extends JDialogBase implements ActionListen
     }
 
     private String updateNamesIn(String input) {
-        TraceManager.addDev("\n\nupdateNamesIn with input=" + input);
+        //TraceManager.addDev("\n\nupdateNamesIn with input=" + input);
 
         if (mgui == null) {
             return input;
@@ -832,7 +832,7 @@ public class JDialogDependencyMatrix extends JDialogBase implements ActionListen
             }
         }
 
-        TraceManager.addDev("\nReturning ret=" + ret);
+        //TraceManager.addDev("\nReturning ret=" + ret);
         return ret;
     }
 

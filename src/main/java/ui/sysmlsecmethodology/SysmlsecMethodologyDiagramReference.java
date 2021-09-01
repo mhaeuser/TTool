@@ -144,6 +144,8 @@ public abstract class SysmlsecMethodologyDiagramReference extends TGCScalableWit
         addTGConnectingPointsCommentTop();
 
         nbInternalTGComponent = 0;
+
+        value = TYPE_STR[typeOfReference];
         //tgcomponent = new TGComponent[nbInternalTGComponent];
 
         //int h = 1;
@@ -174,7 +176,7 @@ public abstract class SysmlsecMethodologyDiagramReference extends TGCScalableWit
 //        int w, c;
         int size;
 
-        value = TYPE_STR[typeOfReference];
+
 
         if (!tdp.isScaled()) {
             graphics = g;
@@ -322,59 +324,7 @@ public abstract class SysmlsecMethodologyDiagramReference extends TGCScalableWit
     public boolean editOnDoubleClick(JFrame frame, int _x, int _y) {
         addDiagramReference(frame);
         return true;
-        // On the name ?
-        /*oldValue = value;
 
-          if ((displayText) && (_y <= (y + lineHeight))) {
-          String text = getName() + ": ";
-          if (hasFather()) {
-          text = getTopLevelName() + " / " + text;
-          }
-          String s = (String)JOptionPane.showInputDialog(frame, text,
-          "setting value", JOptionPane.PLAIN_MESSAGE, IconManager.imgic101,
-          null,
-          getValue());
-
-          if ((s != null) && (s.length() > 0) && (!s.equals(oldValue))) {
-          //boolean b;
-          if (!TAttribute.isAValidId(s, false, false)) {
-          JOptionPane.showMessageDialog(frame,
-          "Could not change the name of the Requirement: the new name is not a valid name",
-          "Error",
-          JOptionPane.INFORMATION_MESSAGE);
-          return false;
-          }
-
-          if (!tdp.isRequirementNameUnique(s)) {
-          JOptionPane.showMessageDialog(frame,
-          "Could not change the name of the Requirement: the new name is already in use",
-          "Error",
-          JOptionPane.INFORMATION_MESSAGE);
-          return false;
-          }
-
-
-          int size = graphics.getFontMetrics().stringWidth(s) + iconSize + 5;
-          minDesiredWidth = Math.max(size, minWidth);
-          if (minDesiredWidth != width) {
-          newSizeForSon(null);
-          }
-          setValue(s);
-
-          if (tdp.actionOnDoubleClick(this)) {
-          return true;
-          } else {
-          JOptionPane.showMessageDialog(frame,
-          "Could not change the name of the Requirement: this name is already in use",
-          "Error",
-          JOptionPane.INFORMATION_MESSAGE);
-          setValue(oldValue);
-          }
-          }
-          return false;
-          }
-
-          return editAttributes();*/
 
     }
 
@@ -431,7 +381,7 @@ public abstract class SysmlsecMethodologyDiagramReference extends TGCScalableWit
 
         fillIgnoredSelectedFromInternalComponents(ignored, selected);
 
-        jdmlos = new JDialogManageListOfString(frame, ignored, selected, "Selection of diagrams");
+        jdmlos = new JDialogManageListOfString(frame, ignored, selected, "Selection of diagrams", value);
         //jdmlos.setSize(550, 350);
         GraphicLib.centerOnParent(jdmlos, 550, 350);
         jdmlos.setVisible( true );
@@ -439,22 +389,30 @@ public abstract class SysmlsecMethodologyDiagramReference extends TGCScalableWit
         ignored = jdmlos.getIgnored();
         selected = jdmlos.getSelected();
 
+        if (!jdmlos.hasBeenCancelled()) {
+            String nameTmp = jdmlos.getName();
+            if ((nameTmp != null) && (nameTmp.trim().length() > 0)) {
+                //TraceManager.addDev("Setting value to " + nameTmp.trim());
+                setValueWithChange(nameTmp.trim());
+            }
 
-        //We reconstruct the list of internal components.
-        SysmlsecMethodologyDiagramName dn;
-        nbInternalTGComponent = 0;
-        tgcomponent = null;
-        int index = 0;
-        int tmpx, tmpy;
-        for(String s: selected) {
-            tmpy = (int)(y + (40*tdp.getZoom()) + (index * 15 *tdp.getZoom()));
-            tmpx = (int)(SysmlsecMethodologyDiagramName.X_MARGIN*tdp.getZoom());
-            dn = new  SysmlsecMethodologyDiagramName(x+tmpx, tmpy, x+tmpx, x+tmpx, tmpy, tmpy, true, this, getTDiagramPanel());
-            //makeValidationInfos(dn);
-            dn.setValue(s);
-            dn.setFather(this);
-            addInternalComponent(dn, index);
-            index ++;
+
+            // We reconstruct the list of internal components.
+            SysmlsecMethodologyDiagramName dn;
+            nbInternalTGComponent = 0;
+            tgcomponent = null;
+            int index = 0;
+            int tmpx, tmpy;
+            for (String s : selected) {
+                tmpy = (int) (y + (40 * tdp.getZoom()) + (index * 15 * tdp.getZoom()));
+                tmpx = (int) (SysmlsecMethodologyDiagramName.X_MARGIN * tdp.getZoom());
+                dn = new SysmlsecMethodologyDiagramName(x + tmpx, tmpy, x + tmpx, x + tmpx, tmpy, tmpy, true, this, getTDiagramPanel());
+                //makeValidationInfos(dn);
+                dn.setValue(s);
+                dn.setFather(this);
+                addInternalComponent(dn, index);
+                index++;
+            }
         }
 
 

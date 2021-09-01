@@ -110,6 +110,8 @@ public abstract class AvatarMethodologyDiagramReference extends TGCScalableWithI
     
         minWidth = 10;
         minHeight = lineLength;
+
+        value = TYPE_STR[typeOfReference];
         
         initScaling(200, 120);
         // Issue #31
@@ -173,7 +175,7 @@ public abstract class AvatarMethodologyDiagramReference extends TGCScalableWithI
         //    int w, c;
         //int size;
 
-        value = TYPE_STR[typeOfReference];
+
 
 //        if (!tdp.isScaled()) {
 //            graphics = g;
@@ -370,30 +372,38 @@ public abstract class AvatarMethodologyDiagramReference extends TGCScalableWithI
 
         fillIgnoredSelectedFromInternalComponents(ignored, selected);
 
-        jdmlos = new JDialogManageListOfString(frame, ignored, selected, "Selection of diagrams");
+        jdmlos = new JDialogManageListOfString(frame, ignored, selected, "Selection of diagrams", value);
         //jdmlos.setSize(550, 350);
         GraphicLib.centerOnParent(jdmlos, 550, 350);
         jdmlos.setVisible( true );
 
-        ignored = jdmlos.getIgnored();
-        selected = jdmlos.getSelected();
+        if (!jdmlos.hasBeenCancelled()) {
+
+            ignored = jdmlos.getIgnored();
+            selected = jdmlos.getSelected();
+
+            String nameTmp = jdmlos.getName();
+            if ((nameTmp != null) && (nameTmp.trim().length() > 0)) {
+                value = nameTmp.trim();
+            }
 
 
-        //We reconstruct the list of internal components.
-        AvatarMethodologyDiagramName dn;
-        nbInternalTGComponent = 0;
-        tgcomponent = null;
-        int index = 0;
-        int tmpx, tmpy;
-        for(String s: selected) {
-            tmpy = (int)(y + (40*tdp.getZoom()) + (index * 15 *tdp.getZoom()));
-            tmpx = (int)(AvatarMethodologyDiagramName.X_MARGIN*tdp.getZoom());
-            dn = new  AvatarMethodologyDiagramName(x+tmpx, tmpy, x+tmpx, x+tmpx, tmpy, tmpy, true, this, getTDiagramPanel());
-            //makeValidationInfos(dn);
-            dn.setValue(s);
-            dn.setFather(this);
-            addInternalComponent(dn, index);
-            index ++;
+            //We reconstruct the list of internal components.
+            AvatarMethodologyDiagramName dn;
+            nbInternalTGComponent = 0;
+            tgcomponent = null;
+            int index = 0;
+            int tmpx, tmpy;
+            for (String s : selected) {
+                tmpy = (int) (y + (40 * tdp.getZoom()) + (index * 15 * tdp.getZoom()));
+                tmpx = (int) (AvatarMethodologyDiagramName.X_MARGIN * tdp.getZoom());
+                dn = new AvatarMethodologyDiagramName(x + tmpx, tmpy, x + tmpx, x + tmpx, tmpy, tmpy, true, this, getTDiagramPanel());
+                //makeValidationInfos(dn);
+                dn.setValue(s);
+                dn.setFather(this);
+                addInternalComponent(dn, index);
+                index++;
+            }
         }
 
 

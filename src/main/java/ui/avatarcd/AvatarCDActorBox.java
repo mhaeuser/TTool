@@ -70,7 +70,6 @@ public class AvatarCDActorBox extends TGCScalableOneLineText {
         width = 40;
         height = 50;
         minWidth = 40; //(int)(40 * tdp.getZoom());
-        oldScaleFactor = tdp.getZoom();
         initScaling(40,50);
         
         nbConnectingPoint = 24;

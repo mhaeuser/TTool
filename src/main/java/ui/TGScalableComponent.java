@@ -300,16 +300,12 @@ public abstract class TGScalableComponent extends TGComponent implements Scalabl
     }
 
 	/**
-	 * Rescale with the help of a scaleFactor
-	 * @param scaleFactor
+	 * force a scale to a given ratio
+	 * @param factor
 	 * 
 	 * */
-    @Override
-    public void rescale( final double scaleFactor ) {
-        rescaled = true;
-        
-        final double factor = scaleFactor / oldScaleFactor;
 
+	public void forceScale(final double factor) {
         dwidth = (width + dwidth) * factor;
         dheight = (height + dheight) * factor;
         dx = (dx + x) * factor;
@@ -336,7 +332,7 @@ public abstract class TGScalableComponent extends TGComponent implements Scalabl
         dx = dx - x;
         y = (int)(dy);
         dy = dy - y;
-        
+
         dtextX = (textX + dtextX) * factor;
         textX = (int) (dtextX);
         dtextX = dtextX - textX;
@@ -348,18 +344,26 @@ public abstract class TGScalableComponent extends TGComponent implements Scalabl
         darc = (arc + darc) * factor;
         arc = (int) (darc);
         darc = darc - arc;
-        
+
         dLineLength = (lineLength + dLineLength) * factor;
         lineLength = (int) dLineLength;
         dLineLength = dLineLength - lineLength;
-        
+
         dLinebreak = (linebreak + dLinebreak) * factor;
         linebreak = (int) dLinebreak;
         dLinebreak = dLinebreak - linebreak;
-        
+
         // Issue #81: We also need to update max coordinate values
         maxX *= factor;
         maxY *= factor;
+    }
+
+    @Override
+    public void rescale( final double scaleFactor ) {
+        rescaled = true;
+        
+        final double factor = scaleFactor / oldScaleFactor;
+        forceScale(factor);
 
         oldScaleFactor = scaleFactor;
 

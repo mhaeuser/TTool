@@ -3962,6 +3962,7 @@ public class GTURTLEModeling {
             Node adn;
             Element elt;
 
+
             for (i = 0; i < nl.getLength(); i++) {
                 adn = nl.item(i);
                 if (adn.getNodeType() == Node.ELEMENT_NODE) {
@@ -3971,6 +3972,15 @@ public class GTURTLEModeling {
                     //copyMaxId = Integer.decode(elt.getAttribute("copyMaxId")).intValue();
                 }
             }
+
+            TraceManager.addDev("\nX=" + X);
+            TraceManager.addDev("Y=" + Y);
+            TraceManager.addDev("decX=" + _decX);
+            TraceManager.addDev("decY=" + _decY);
+
+            //_decX = X;
+            //_decY = Y;
+
 
             // Managing diagrams
             if (tdp instanceof TClassDiagramPanel) {
@@ -3982,6 +3992,8 @@ public class GTURTLEModeling {
                 if (nl == null) {
                     return;
                 }
+
+                double zoomRatio = getZoomFromXMLNodeList(nl, tdp.getZoom());
 
 
                 TClassDiagramPanel tcdp = (TClassDiagramPanel) tdp;
@@ -4007,12 +4019,12 @@ public class GTURTLEModeling {
                         tcdp.loadExtraParameters(elt);
 
                         //TraceManager.addDev("Class diagram : " + tcdp.getName() + " components");
-                        makeXMLComponents(elt.getElementsByTagName("COMPONENT"), tcdp, keepUUID);
+                        makeXMLComponents(elt.getElementsByTagName("COMPONENT"), tcdp, keepUUID, zoomRatio);
                         makePostProcessing(tcdp);
                         //TraceManager.addDev("Class diagram : " + tcdp.getName() + " connectors");
                         makeXMLConnectors(elt.getElementsByTagName("CONNECTOR"), tcdp, keepUUID);
                         //TraceManager.addDev("Class diagram : " + tcdp.getName() + " subcomponents");
-                        makeXMLComponents(elt.getElementsByTagName("SUBCOMPONENT"), tcdp, keepUUID);
+                        makeXMLComponents(elt.getElementsByTagName("SUBCOMPONENT"), tcdp, keepUUID, zoomRatio);
                         //TraceManager.addDev("Class diagram : " + tcdp.getName() + " real points");
                         connectConnectorsToRealPoints(tcdp);
                         tcdp.structureChanged();
@@ -4030,6 +4042,8 @@ public class GTURTLEModeling {
                 if (nl == null) {
                     return;
                 }
+
+                double zoomRatio = getZoomFromXMLNodeList(nl, tdp.getZoom());
 
                 TActivityDiagramPanel tadp = (TActivityDiagramPanel) tdp;
 
@@ -4053,11 +4067,11 @@ public class GTURTLEModeling {
                         tadp.loadExtraParameters(elt);
 
                         //TraceManager.addDev("Activity diagram : " + tadp.getName() + " components");
-                        makeXMLComponents(elt.getElementsByTagName("COMPONENT"), tadp, keepUUID);
+                        makeXMLComponents(elt.getElementsByTagName("COMPONENT"), tadp, keepUUID, zoomRatio);
                         //TraceManager.addDev("Activity diagram : " + tadp.getName() + " connectors");
                         makeXMLConnectors(elt.getElementsByTagName("CONNECTOR"), tadp, keepUUID);
                         //TraceManager.addDev("Activity diagram : " + tadp.getName() + " subcomponents");
-                        makeXMLComponents(elt.getElementsByTagName("SUBCOMPONENT"), tadp, keepUUID);
+                        makeXMLComponents(elt.getElementsByTagName("SUBCOMPONENT"), tadp, keepUUID, zoomRatio);
                         //TraceManager.addDev("Activity diagram : " + tadp.getName() + " real points");
                         connectConnectorsToRealPoints(tadp);
                         tadp.structureChanged();
@@ -4072,6 +4086,8 @@ public class GTURTLEModeling {
                 if (nl == null) {
                     return;
                 }
+
+                double zoomRatio = getZoomFromXMLNodeList(nl, tdp.getZoom());
 
                 InteractionOverviewDiagramPanel iodp = (InteractionOverviewDiagramPanel) tdp;
 
@@ -4093,11 +4109,11 @@ public class GTURTLEModeling {
                         decY = _decY;
 
                         //TraceManager.addDev("Activity diagram : " + iodp.getName() + " components");
-                        makeXMLComponents(elt.getElementsByTagName("COMPONENT"), iodp, keepUUID);
+                        makeXMLComponents(elt.getElementsByTagName("COMPONENT"), iodp, keepUUID, zoomRatio);
                         //TraceManager.addDev("Activity diagram : " + iodp.getName() + " connectors");
                         makeXMLConnectors(elt.getElementsByTagName("CONNECTOR"), iodp, keepUUID);
                         //TraceManager.addDev("Activity diagram : " + iodp.getName() + " subcomponents");
-                        makeXMLComponents(elt.getElementsByTagName("SUBCOMPONENT"), iodp, keepUUID);
+                        makeXMLComponents(elt.getElementsByTagName("SUBCOMPONENT"), iodp, keepUUID, zoomRatio);
                         //TraceManager.addDev("Activity diagram : " + iodp.getName() + " real points");
                         connectConnectorsToRealPoints(iodp);
                         iodp.structureChanged();
@@ -4112,6 +4128,8 @@ public class GTURTLEModeling {
                 if (nl == null) {
                     return;
                 }
+
+                double zoomRatio = getZoomFromXMLNodeList(nl, tdp.getZoom());
 
                 ui.sd.SequenceDiagramPanel sdp = (ui.sd.SequenceDiagramPanel) tdp;
 
@@ -4135,11 +4153,11 @@ public class GTURTLEModeling {
                         decY = _decY;
 
                         //TraceManager.addDev("Sequence diagram: " + sdp.getName() + " components");
-                        makeXMLComponents(elt.getElementsByTagName("COMPONENT"), sdp, keepUUID);
+                        makeXMLComponents(elt.getElementsByTagName("COMPONENT"), sdp, keepUUID, zoomRatio);
                         //TraceManager.addDev("Sequence diagram: " + sdp.getName() + " connectors");
                         makeXMLConnectors(elt.getElementsByTagName("CONNECTOR"), sdp, keepUUID);
                         //TraceManager.addDev("Sequence diagram: " + sdp.getName() + " subcomponents");
-                        makeXMLComponents(elt.getElementsByTagName("SUBCOMPONENT"), sdp, keepUUID);
+                        makeXMLComponents(elt.getElementsByTagName("SUBCOMPONENT"), sdp, keepUUID, zoomRatio);
                         //TraceManager.addDev("Sequence diagram: " + sdp.getName() + " real points");
                         connectConnectorsToRealPoints(sdp);
                         sdp.structureChanged();
@@ -4154,6 +4172,8 @@ public class GTURTLEModeling {
                 if (nl == null) {
                     return;
                 }
+
+                double zoomRatio = getZoomFromXMLNodeList(nl, tdp.getZoom());
 
                 ui.sd2.SequenceDiagramPanel sdp = (ui.sd2.SequenceDiagramPanel) tdp;
 
@@ -4177,11 +4197,11 @@ public class GTURTLEModeling {
                         decY = _decY;
 
                         //TraceManager.addDev("Sequence diagram: " + sdp.getName() + " components");
-                        makeXMLComponents(elt.getElementsByTagName("COMPONENT"), sdp, keepUUID);
+                        makeXMLComponents(elt.getElementsByTagName("COMPONENT"), sdp, keepUUID, zoomRatio);
                         //TraceManager.addDev("Sequence diagram: " + sdp.getName() + " connectors");
                         makeXMLConnectors(elt.getElementsByTagName("CONNECTOR"), sdp, keepUUID);
                         //TraceManager.addDev("Sequence diagram: " + sdp.getName() + " subcomponents");
-                        makeXMLComponents(elt.getElementsByTagName("SUBCOMPONENT"), sdp, keepUUID);
+                        makeXMLComponents(elt.getElementsByTagName("SUBCOMPONENT"), sdp, keepUUID, zoomRatio);
                         //TraceManager.addDev("Sequence diagram: " + sdp.getName() + " real points");
                         connectConnectorsToRealPoints(sdp);
                         sdp.structureChanged();
@@ -4196,6 +4216,8 @@ public class GTURTLEModeling {
                 if (nl == null) {
                     return;
                 }
+
+                double zoomRatio = getZoomFromXMLNodeList(nl, tdp.getZoom());
 
                 UseCaseDiagramPanel ucdp = (UseCaseDiagramPanel) tdp;
 
@@ -4217,11 +4239,11 @@ public class GTURTLEModeling {
                         decY = _decY;
 
                         //TraceManager.addDev("Activity diagram : " + sdp.getName() + " components");
-                        makeXMLComponents(elt.getElementsByTagName("COMPONENT"), ucdp, keepUUID);
+                        makeXMLComponents(elt.getElementsByTagName("COMPONENT"), ucdp, keepUUID, zoomRatio);
                         //TraceManager.addDev("Activity diagram : " + sdp.getName() + " connectors");
                         makeXMLConnectors(elt.getElementsByTagName("CONNECTOR"), ucdp, keepUUID);
                         //TraceManager.addDev("Activity diagram : " + sdp.getName() + " subcomponents");
-                        makeXMLComponents(elt.getElementsByTagName("SUBCOMPONENT"), ucdp, keepUUID);
+                        makeXMLComponents(elt.getElementsByTagName("SUBCOMPONENT"), ucdp, keepUUID, zoomRatio);
                         //TraceManager.addDev("Activity diagram : " + sdp.getName() + " real points");
                         connectConnectorsToRealPoints(ucdp);
                         ucdp.structureChanged();
@@ -4235,6 +4257,8 @@ public class GTURTLEModeling {
                 if (nl == null) {
                     return;
                 }
+
+                double zoomRatio = getZoomFromXMLNodeList(nl, tdp.getZoom());
 
                 TDeploymentDiagramPanel tddp = (TDeploymentDiagramPanel) tdp;
 
@@ -4256,11 +4280,11 @@ public class GTURTLEModeling {
                         decY = _decY;
 
                         //TraceManager.addDev("Activity diagram : " + sdp.getName() + " components");
-                        makeXMLComponents(elt.getElementsByTagName("COMPONENT"), tddp, keepUUID);
+                        makeXMLComponents(elt.getElementsByTagName("COMPONENT"), tddp, keepUUID, zoomRatio);
                         //TraceManager.addDev("Activity diagram : " + sdp.getName() + " connectors");
                         makeXMLConnectors(elt.getElementsByTagName("CONNECTOR"), tddp, keepUUID);
                         //TraceManager.addDev("Activity diagram : " + sdp.getName() + " subcomponents");
-                        makeXMLComponents(elt.getElementsByTagName("SUBCOMPONENT"), tddp, keepUUID);
+                        makeXMLComponents(elt.getElementsByTagName("SUBCOMPONENT"), tddp, keepUUID, zoomRatio);
                         //TraceManager.addDev("Activity diagram : " + sdp.getName() + " real points");
                         connectConnectorsToRealPoints(tddp);
                         tddp.structureChanged();
@@ -4274,6 +4298,8 @@ public class GTURTLEModeling {
                 if (nl == null) {
                     return;
                 }
+
+                double zoomRatio = getZoomFromXMLNodeList(nl, tdp.getZoom());
 
                 NCDiagramPanel ncdp = (NCDiagramPanel) tdp;
 
@@ -4295,11 +4321,11 @@ public class GTURTLEModeling {
                         decY = _decY;
 
                         //TraceManager.addDev("Activity diagram : " + sdp.getName() + " components");
-                        makeXMLComponents(elt.getElementsByTagName("COMPONENT"), ncdp, keepUUID);
+                        makeXMLComponents(elt.getElementsByTagName("COMPONENT"), ncdp, keepUUID, zoomRatio);
                         //TraceManager.addDev("Activity diagram : " + sdp.getName() + " connectors");
                         makeXMLConnectors(elt.getElementsByTagName("CONNECTOR"), ncdp, keepUUID);
                         //TraceManager.addDev("Activity diagram : " + sdp.getName() + " subcomponents");
-                        makeXMLComponents(elt.getElementsByTagName("SUBCOMPONENT"), ncdp, keepUUID);
+                        makeXMLComponents(elt.getElementsByTagName("SUBCOMPONENT"), ncdp, keepUUID, zoomRatio);
                         //TraceManager.addDev("Activity diagram : " + sdp.getName() + " real points");
                         connectConnectorsToRealPoints(ncdp);
                         ncdp.structureChanged();
@@ -4313,6 +4339,8 @@ public class GTURTLEModeling {
                 if (nl == null) {
                     return;
                 }
+
+                double zoomRatio = getZoomFromXMLNodeList(nl, tdp.getZoom());
 
                 RequirementDiagramPanel rdp = (RequirementDiagramPanel) tdp;
 
@@ -4333,9 +4361,9 @@ public class GTURTLEModeling {
                         decX = _decX;
                         decY = _decY;
 
-                        makeXMLComponents(elt.getElementsByTagName("COMPONENT"), rdp, keepUUID);
+                        makeXMLComponents(elt.getElementsByTagName("COMPONENT"), rdp, keepUUID, zoomRatio);
                         makeXMLConnectors(elt.getElementsByTagName("CONNECTOR"), rdp, keepUUID);
-                        makeXMLComponents(elt.getElementsByTagName("SUBCOMPONENT"), rdp, keepUUID);
+                        makeXMLComponents(elt.getElementsByTagName("SUBCOMPONENT"), rdp, keepUUID, zoomRatio);
                         connectConnectorsToRealPoints(rdp);
                         rdp.structureChanged();
                         makePostLoading(rdp, beginIndex);
@@ -4347,6 +4375,8 @@ public class GTURTLEModeling {
                 if (nl == null) {
                     return;
                 }
+
+                double zoomRatio = getZoomFromXMLNodeList(nl, tdp.getZoom());
 
                 EBRDDPanel ebrddp = (EBRDDPanel) tdp;
 
@@ -4367,9 +4397,9 @@ public class GTURTLEModeling {
                         decX = _decX;
                         decY = _decY;
 
-                        makeXMLComponents(elt.getElementsByTagName("COMPONENT"), ebrddp, keepUUID);
+                        makeXMLComponents(elt.getElementsByTagName("COMPONENT"), ebrddp, keepUUID, zoomRatio);
                         makeXMLConnectors(elt.getElementsByTagName("CONNECTOR"), ebrddp, keepUUID);
-                        makeXMLComponents(elt.getElementsByTagName("SUBCOMPONENT"), ebrddp, keepUUID);
+                        makeXMLComponents(elt.getElementsByTagName("SUBCOMPONENT"), ebrddp, keepUUID, zoomRatio);
                         connectConnectorsToRealPoints(ebrddp);
                         ebrddp.structureChanged();
                         makePostLoading(ebrddp, beginIndex);
@@ -4381,6 +4411,8 @@ public class GTURTLEModeling {
                 if (nl == null) {
                     return;
                 }
+
+                double zoomRatio = getZoomFromXMLNodeList(nl, tdp.getZoom());
 
                 AttackTreeDiagramPanel atdp = (AttackTreeDiagramPanel) tdp;
 
@@ -4401,9 +4433,9 @@ public class GTURTLEModeling {
                         decX = _decX;
                         decY = _decY;
 
-                        makeXMLComponents(elt.getElementsByTagName("COMPONENT"), atdp, keepUUID);
+                        makeXMLComponents(elt.getElementsByTagName("COMPONENT"), atdp, keepUUID, zoomRatio);
                         makeXMLConnectors(elt.getElementsByTagName("CONNECTOR"), atdp, keepUUID);
-                        makeXMLComponents(elt.getElementsByTagName("SUBCOMPONENT"), atdp, keepUUID);
+                        makeXMLComponents(elt.getElementsByTagName("SUBCOMPONENT"), atdp, keepUUID, zoomRatio);
                         connectConnectorsToRealPoints(atdp);
                         atdp.structureChanged();
                         makePostLoading(atdp, beginIndex);
@@ -4416,6 +4448,8 @@ public class GTURTLEModeling {
                 if (nl == null) {
                     return;
                 }
+
+                double zoomRatio = getZoomFromXMLNodeList(nl, tdp.getZoom());
 
                 FaultTreeDiagramPanel ftdp = (FaultTreeDiagramPanel) tdp;
 
@@ -4436,9 +4470,9 @@ public class GTURTLEModeling {
                         decX = _decX;
                         decY = _decY;
 
-                        makeXMLComponents(elt.getElementsByTagName("COMPONENT"), ftdp, keepUUID);
+                        makeXMLComponents(elt.getElementsByTagName("COMPONENT"), ftdp, keepUUID, zoomRatio);
                         makeXMLConnectors(elt.getElementsByTagName("CONNECTOR"), ftdp, keepUUID);
-                        makeXMLComponents(elt.getElementsByTagName("SUBCOMPONENT"), ftdp, keepUUID);
+                        makeXMLComponents(elt.getElementsByTagName("SUBCOMPONENT"), ftdp, keepUUID, zoomRatio);
                         connectConnectorsToRealPoints(ftdp);
                         ftdp.structureChanged();
                         makePostLoading(ftdp, beginIndex);
@@ -4451,6 +4485,8 @@ public class GTURTLEModeling {
                 if (nl == null) {
                     return;
                 }
+
+                double zoomRatio = getZoomFromXMLNodeList(nl, tdp.getZoom());
 
                 //TraceManager.addDev("Toto 1");
 
@@ -4480,13 +4516,13 @@ public class GTURTLEModeling {
                         //TraceManager.addDev("Toto 2");
 
                         //TraceManager.addDev("TML task diagram : " + tmltdp.getName() + " components");
-                        makeXMLComponents(elt.getElementsByTagName("COMPONENT"), tmltdp, keepUUID);
+                        makeXMLComponents(elt.getElementsByTagName("COMPONENT"), tmltdp, keepUUID, zoomRatio);
                         //TraceManager.addDev("Toto 3");
                         makePostProcessing(tmltdp);
                         //TraceManager.addDev("TML task diagram : " + tmltdp.getName() + " connectors");
                         makeXMLConnectors(elt.getElementsByTagName("CONNECTOR"), tmltdp, keepUUID);
                         //TraceManager.addDev("TML task diagram : " + tmltdp.getName() + " subcomponents");
-                        makeXMLComponents(elt.getElementsByTagName("SUBCOMPONENT"), tmltdp, keepUUID);
+                        makeXMLComponents(elt.getElementsByTagName("SUBCOMPONENT"), tmltdp, keepUUID, zoomRatio);
                         //TraceManager.addDev("TML task diagram : " + tmltdp.getName() + " real points");
                         connectConnectorsToRealPoints(tmltdp);
                         tmltdp.structureChanged();
@@ -4502,6 +4538,8 @@ public class GTURTLEModeling {
                 if (nl == null) {
                     return;
                 }
+
+                double zoomRatio = getZoomFromXMLNodeList(nl, tdp.getZoom());
 
                 //TraceManager.addDev("Toto 1");
 
@@ -4531,13 +4569,13 @@ public class GTURTLEModeling {
                         //TraceManager.addDev("Toto 2");
 
                         //TraceManager.addDev("TML task diagram : " + tmltdp.getName() + " components");
-                        makeXMLComponents(elt.getElementsByTagName("COMPONENT"), tmltdp, keepUUID);
+                        makeXMLComponents(elt.getElementsByTagName("COMPONENT"), tmltdp, keepUUID, zoomRatio);
                         //TraceManager.addDev("Toto 3");
                         makePostProcessing(tmltdp);
                         //TraceManager.addDev("TML task diagram : " + tmltdp.getName() + " connectors");
                         makeXMLConnectors(elt.getElementsByTagName("CONNECTOR"), tmltdp, keepUUID);
                         //TraceManager.addDev("TML task diagram : " + tmltdp.getName() + " subcomponents");
-                        makeXMLComponents(elt.getElementsByTagName("SUBCOMPONENT"), tmltdp, keepUUID);
+                        makeXMLComponents(elt.getElementsByTagName("SUBCOMPONENT"), tmltdp, keepUUID, zoomRatio);
                         //TraceManager.addDev("TML task diagram : " + tmltdp.getName() + " real points");
                         connectConnectorsToRealPoints(tmltdp);
                         tmltdp.structureChanged();
@@ -4555,6 +4593,8 @@ public class GTURTLEModeling {
                 if (nl == null) {
                     return;
                 }
+
+                double zoomRatio = getZoomFromXMLNodeList(nl, tdp.getZoom());
 
                 //TraceManager.addDev("Toto 1");
 
@@ -4584,13 +4624,13 @@ public class GTURTLEModeling {
                         //TraceManager.addDev("Toto 2");
 
                         //TraceManager.addDev("TML task diagram : " + tmltdp.getName() + " components");
-                        makeXMLComponents(elt.getElementsByTagName("COMPONENT"), amdp, keepUUID);
+                        makeXMLComponents(elt.getElementsByTagName("COMPONENT"), amdp, keepUUID, zoomRatio);
                         //TraceManager.addDev("Toto 3");
                         makePostProcessing(amdp);
                         //TraceManager.addDev("TML task diagram : " + tmltdp.getName() + " connectors");
                         makeXMLConnectors(elt.getElementsByTagName("CONNECTOR"), amdp, keepUUID);
                         //TraceManager.addDev("TML task diagram : " + tmltdp.getName() + " subcomponents");
-                        makeXMLComponents(elt.getElementsByTagName("SUBCOMPONENT"), amdp, keepUUID);
+                        makeXMLComponents(elt.getElementsByTagName("SUBCOMPONENT"), amdp, keepUUID, zoomRatio);
                         //TraceManager.addDev("TML task diagram : " + tmltdp.getName() + " real points");
                         connectConnectorsToRealPoints(amdp);
                         amdp.structureChanged();
@@ -4606,6 +4646,8 @@ public class GTURTLEModeling {
                 if (nl == null) {
                     return;
                 }
+
+                double zoomRatio = getZoomFromXMLNodeList(nl, tdp.getZoom());
 
                 //TraceManager.addDev("Toto 1");
 
@@ -4635,13 +4677,13 @@ public class GTURTLEModeling {
                         //TraceManager.addDev("Toto 2");
 
                         //TraceManager.addDev("TML task diagram : " + tmltdp.getName() + " components");
-                        makeXMLComponents(elt.getElementsByTagName("COMPONENT"), amdp, keepUUID);
+                        makeXMLComponents(elt.getElementsByTagName("COMPONENT"), amdp, keepUUID, zoomRatio);
                         //TraceManager.addDev("Toto 3");
                         makePostProcessing(amdp);
                         //TraceManager.addDev("TML task diagram : " + tmltdp.getName() + " connectors");
                         makeXMLConnectors(elt.getElementsByTagName("CONNECTOR"), amdp, keepUUID);
                         //TraceManager.addDev("TML task diagram : " + tmltdp.getName() + " subcomponents");
-                        makeXMLComponents(elt.getElementsByTagName("SUBCOMPONENT"), amdp, keepUUID);
+                        makeXMLComponents(elt.getElementsByTagName("SUBCOMPONENT"), amdp, keepUUID, zoomRatio);
                         //TraceManager.addDev("TML task diagram : " + tmltdp.getName() + " real points");
                         connectConnectorsToRealPoints(amdp);
                         amdp.structureChanged();
@@ -4657,6 +4699,8 @@ public class GTURTLEModeling {
                 if (nl == null) {
                     return;
                 }
+
+                double zoomRatio = getZoomFromXMLNodeList(nl, tdp.getZoom());
 
                 //TraceManager.addDev("Toto 1");
 
@@ -4687,13 +4731,13 @@ public class GTURTLEModeling {
                         //TraceManager.addDev("Toto 2");
 
                         //TraceManager.addDev("TML task diagram : " + tmltdp.getName() + " components");
-                        makeXMLComponents(elt.getElementsByTagName("COMPONENT"), tmlctdp, keepUUID);
+                        makeXMLComponents(elt.getElementsByTagName("COMPONENT"), tmlctdp, keepUUID, zoomRatio);
                         //TraceManager.addDev("Toto 3");
                         makePostProcessing(tmlctdp);
                         //TraceManager.addDev("TML task diagram : " + tmltdp.getName() + " connectors");
                         makeXMLConnectors(elt.getElementsByTagName("CONNECTOR"), tmlctdp, keepUUID);
                         //TraceManager.addDev("TML task diagram : " + tmltdp.getName() + " subcomponents");
-                        makeXMLComponents(elt.getElementsByTagName("SUBCOMPONENT"), tmlctdp, keepUUID);
+                        makeXMLComponents(elt.getElementsByTagName("SUBCOMPONENT"), tmlctdp, keepUUID, zoomRatio);
                         //TraceManager.addDev("TML task diagram : " + tmltdp.getName() + " real points");
                         connectConnectorsToRealPoints(tmlctdp);
                         tmlctdp.structureChanged();
@@ -4711,6 +4755,8 @@ public class GTURTLEModeling {
                 if (nl == null) {
                     return;
                 }
+
+                double zoomRatio = getZoomFromXMLNodeList(nl, tdp.getZoom());
 
                 TMLActivityDiagramPanel tmladp = (TMLActivityDiagramPanel) tdp;
 
@@ -4734,11 +4780,11 @@ public class GTURTLEModeling {
                         //tmladp.loadExtraParameters(elt);
 
                         //TraceManager.addDev("Activity diagram : " + tmladp.getName() + " components");
-                        makeXMLComponents(elt.getElementsByTagName("COMPONENT"), tmladp, keepUUID);
+                        makeXMLComponents(elt.getElementsByTagName("COMPONENT"), tmladp, keepUUID, zoomRatio);
                         //TraceManager.addDev("Activity diagram : " + tmladp.getName() + " connectors");
                         makeXMLConnectors(elt.getElementsByTagName("CONNECTOR"), tmladp, keepUUID);
                         //TraceManager.addDev("Activity diagram : " + tmladp.getName() + " subcomponents");
-                        makeXMLComponents(elt.getElementsByTagName("SUBCOMPONENT"), tmladp, keepUUID);
+                        makeXMLComponents(elt.getElementsByTagName("SUBCOMPONENT"), tmladp, keepUUID, zoomRatio);
                         //TraceManager.addDev("Activity diagram : " + tadp.getName() + " real points");
                         connectConnectorsToRealPoints(tmladp);
                         tmladp.structureChanged();
@@ -4753,6 +4799,8 @@ public class GTURTLEModeling {
                 if (nl == null) {
                     return;
                 }
+
+                double zoomRatio = getZoomFromXMLNodeList(nl, tdp.getZoom());
 
                 //TraceManager.addDev("Toto 1");
 
@@ -4780,13 +4828,13 @@ public class GTURTLEModeling {
                         //TraceManager.addDev("Toto 2");
 
                         //TraceManager.addDev("TML task diagram : " + tmltdp.getName() + " components");
-                        makeXMLComponents(elt.getElementsByTagName("COMPONENT"), tmlcpp, keepUUID);
+                        makeXMLComponents(elt.getElementsByTagName("COMPONENT"), tmlcpp, keepUUID, zoomRatio);
                         //TraceManager.addDev("Toto 3");
                         makePostProcessing(tmlcpp);
                         //TraceManager.addDev("TML task diagram : " + tmltdp.getName() + " connectors");
                         makeXMLConnectors(elt.getElementsByTagName("CONNECTOR"), tmlcpp, keepUUID);
                         //TraceManager.addDev("TML task diagram : " + tmltdp.getName() + " subcomponents");
-                        makeXMLComponents(elt.getElementsByTagName("SUBCOMPONENT"), tmlcpp, keepUUID);
+                        makeXMLComponents(elt.getElementsByTagName("SUBCOMPONENT"), tmlcpp, keepUUID, zoomRatio);
                         //TraceManager.addDev("TML task diagram : " + tmltdp.getName() + " real points");
                         connectConnectorsToRealPoints(tmlcpp);
                         tmlcpp.structureChanged();
@@ -4802,6 +4850,8 @@ public class GTURTLEModeling {
                 if (nl == null) {
                     return;
                 }
+
+                double zoomRatio = getZoomFromXMLNodeList(nl, tdp.getZoom());
 
                 //TraceManager.addDev("Toto 1");
 
@@ -4829,13 +4879,13 @@ public class GTURTLEModeling {
                         //TraceManager.addDev("Toto 2");
 
                         //TraceManager.addDev("TML task diagram : " + tmltdp.getName() + " components");
-                        makeXMLComponents(elt.getElementsByTagName("COMPONENT"), tmlsdp, keepUUID);
+                        makeXMLComponents(elt.getElementsByTagName("COMPONENT"), tmlsdp, keepUUID, zoomRatio);
                         //TraceManager.addDev("Toto 3");
                         makePostProcessing(tmlsdp);
                         //TraceManager.addDev("TML task diagram : " + tmltdp.getName() + " connectors");
                         makeXMLConnectors(elt.getElementsByTagName("CONNECTOR"), tmlsdp, keepUUID);
                         //TraceManager.addDev("TML task diagram : " + tmltdp.getName() + " subcomponents");
-                        makeXMLComponents(elt.getElementsByTagName("SUBCOMPONENT"), tmlsdp, keepUUID);
+                        makeXMLComponents(elt.getElementsByTagName("SUBCOMPONENT"), tmlsdp, keepUUID, zoomRatio);
                         //TraceManager.addDev("TML task diagram : " + tmltdp.getName() + " real points");
                         connectConnectorsToRealPoints(tmlsdp);
                         tmlsdp.structureChanged();
@@ -4851,6 +4901,8 @@ public class GTURTLEModeling {
                 if (nl == null) {
                     return;
                 }
+
+                double zoomRatio = getZoomFromXMLNodeList(nl, tdp.getZoom());
 
                 //TraceManager.addDev("Toto 1");
 
@@ -4878,13 +4930,13 @@ public class GTURTLEModeling {
                         //TraceManager.addDev("Toto 2");
 
                         //TraceManager.addDev("TML task diagram : " + tmltdp.getName() + " components");
-                        makeXMLComponents(elt.getElementsByTagName("COMPONENT"), tmadp, keepUUID);
+                        makeXMLComponents(elt.getElementsByTagName("COMPONENT"), tmadp, keepUUID, zoomRatio);
                         //TraceManager.addDev("Toto 3");
                         makePostProcessing(tmadp);
                         //TraceManager.addDev("TML task diagram : " + tmltdp.getName() + " connectors");
                         makeXMLConnectors(elt.getElementsByTagName("CONNECTOR"), tmadp, keepUUID);
                         //TraceManager.addDev("TML task diagram : " + tmltdp.getName() + " subcomponents");
-                        makeXMLComponents(elt.getElementsByTagName("SUBCOMPONENT"), tmadp, keepUUID);
+                        makeXMLComponents(elt.getElementsByTagName("SUBCOMPONENT"), tmadp, keepUUID, zoomRatio);
                         //TraceManager.addDev("TML task diagram : " + tmltdp.getName() + " real points");
                         connectConnectorsToRealPoints(tmadp);
                         tmadp.structureChanged();
@@ -4900,6 +4952,8 @@ public class GTURTLEModeling {
                 if (nl == null) {
                     return;
                 }
+
+                double zoomRatio = getZoomFromXMLNodeList(nl, tdp.getZoom());
 
                 TURTLEOSClassDiagramPanel toscdp = (TURTLEOSClassDiagramPanel) tdp;
 
@@ -4923,13 +4977,13 @@ public class GTURTLEModeling {
                         //toscdp.loadExtraParameters(elt);
                         //TraceManager.addDev("Toto 2");
                         //TraceManager.addDev("TURTLEOS task diagram : " + toscdp.getName() + " components");
-                        makeXMLComponents(elt.getElementsByTagName("COMPONENT"), toscdp, keepUUID);
+                        makeXMLComponents(elt.getElementsByTagName("COMPONENT"), toscdp, keepUUID, zoomRatio);
                         //TraceManager.addDev("Toto 3");
                         makePostProcessing(toscdp);
                         //TraceManager.addDev("TURTLEOS task diagram : " + toscdp.getName() + " connectors");
                         makeXMLConnectors(elt.getElementsByTagName("CONNECTOR"), toscdp, keepUUID);
                         //TraceManager.addDev("TURTLEOS task diagram : " + toscdp.getName() + " subcomponents");
-                        makeXMLComponents(elt.getElementsByTagName("SUBCOMPONENT"), toscdp, keepUUID);
+                        makeXMLComponents(elt.getElementsByTagName("SUBCOMPONENT"), toscdp, keepUUID, zoomRatio);
                         //TraceManager.addDev("TURTLEOS task diagram : " + toscdp.getName() + " real points");
                         connectConnectorsToRealPoints(toscdp);
                         toscdp.structureChanged();
@@ -4944,6 +4998,8 @@ public class GTURTLEModeling {
                 if (nl == null) {
                     return;
                 }
+
+                double zoomRatio = getZoomFromXMLNodeList(nl, tdp.getZoom());
 
                 TURTLEOSActivityDiagramPanel tosadp = (TURTLEOSActivityDiagramPanel) tdp;
 
@@ -4967,11 +5023,11 @@ public class GTURTLEModeling {
                         //tmladp.loadExtraParameters(elt);
 
                         //TraceManager.addDev("Activity diagram : " + tadp.getName() + " components");
-                        makeXMLComponents(elt.getElementsByTagName("COMPONENT"), tosadp, keepUUID);
+                        makeXMLComponents(elt.getElementsByTagName("COMPONENT"), tosadp, keepUUID, zoomRatio);
                         //TraceManager.addDev("Activity diagram : " + tadp.getName() + " connectors");
                         makeXMLConnectors(elt.getElementsByTagName("CONNECTOR"), tosadp, keepUUID);
                         //TraceManager.addDev("Activity diagram : " + tadp.getName() + " subcomponents");
-                        makeXMLComponents(elt.getElementsByTagName("SUBCOMPONENT"), tosadp, keepUUID);
+                        makeXMLComponents(elt.getElementsByTagName("SUBCOMPONENT"), tosadp, keepUUID, zoomRatio);
                         //TraceManager.addDev("Activity diagram : " + tadp.getName() + " real points");
                         connectConnectorsToRealPoints(tosadp);
                         tosadp.structureChanged();
@@ -4986,10 +5042,12 @@ public class GTURTLEModeling {
                 if (nl.getLength() == 0) {
                     nl = doc.getElementsByTagName("ProactiveCSDPanel");
                 }
+
                 docCopy = doc;
                 if (nl == null) {
                     return;
                 }
+                double zoomRatio = getZoomFromXMLNodeList(nl, tdp.getZoom());
                 ProactiveCSDPanel pcsdp = (ProactiveCSDPanel) tdp;
                 for (i = 0; i < nl.getLength(); i++) {
                     adn = nl.item(i);
@@ -5011,13 +5069,13 @@ public class GTURTLEModeling {
                         //pcsdp.loadExtraParameters(elt);
                         //TraceManager.addDev("Toto 2");
                         //TraceManager.addDev("TML task diagram : " + tmltdp.getName() + " components");
-                        makeXMLComponents(elt.getElementsByTagName("COMPONENT"), pcsdp, keepUUID);
+                        makeXMLComponents(elt.getElementsByTagName("COMPONENT"), pcsdp, keepUUID, zoomRatio);
                         //TraceManager.addDev("Toto 3");
                         makePostProcessing(pcsdp);
                         //TraceManager.addDev("TML task diagram : " + tmltdp.getName() + " connectors");
                         makeXMLConnectors(elt.getElementsByTagName("CONNECTOR"), pcsdp, keepUUID);
                         //TraceManager.addDev("TML task diagram : " + tmltdp.getName() + " subcomponents");
-                        makeXMLComponents(elt.getElementsByTagName("SUBCOMPONENT"), pcsdp, keepUUID);
+                        makeXMLComponents(elt.getElementsByTagName("SUBCOMPONENT"), pcsdp, keepUUID, zoomRatio);
                         //TraceManager.addDev("TML task diagram : " + tmltdp.getName() + " real points");
                         connectConnectorsToRealPoints(pcsdp);
                         pcsdp.structureChanged();
@@ -5056,11 +5114,11 @@ public class GTURTLEModeling {
 
                         //tmladp.loadExtraParameters(elt);
                         //TraceManager.addDev("Activity diagram : " + tadp.getName() + " components");
-                        makeXMLComponents(elt.getElementsByTagName("COMPONENT"), psmdp, keepUUID);
+                        makeXMLComponents(elt.getElementsByTagName("COMPONENT"), psmdp, keepUUID, zoomRatio);
                         //TraceManager.addDev("Activity diagram : " + tadp.getName() + " connectors");
                         makeXMLConnectors(elt.getElementsByTagName("CONNECTOR"), psmdp, keepUUID);
                         //TraceManager.addDev("Activity diagram : " + tadp.getName() + " subcomponents");
-                        makeXMLComponents(elt.getElementsByTagName("SUBCOMPONENT"), psmdp, keepUUID);
+                        makeXMLComponents(elt.getElementsByTagName("SUBCOMPONENT"), psmdp, keepUUID, zoomRatio);
                         //TraceManager.addDev("Activity diagram : " + tadp.getName() + " real points");
                         connectConnectorsToRealPoints(psmdp);
                         psmdp.structureChanged();
@@ -5077,6 +5135,8 @@ public class GTURTLEModeling {
                 if (nl == null) {
                     return;
                 }
+
+                double zoomRatio = getZoomFromXMLNodeList(nl, tdp.getZoom());
 
                 ProactiveSMDPanel psmdp = (ProactiveSMDPanel) tdp;
 
@@ -5100,11 +5160,11 @@ public class GTURTLEModeling {
                         //tmladp.loadExtraParameters(elt);
 
                         //TraceManager.addDev("Activity diagram : " + tadp.getName() + " components");
-                        makeXMLComponents(elt.getElementsByTagName("COMPONENT"), psmdp, keepUUID);
+                        makeXMLComponents(elt.getElementsByTagName("COMPONENT"), psmdp, keepUUID, zoomRatio);
                         //TraceManager.addDev("Activity diagram : " + tadp.getName() + " connectors");
                         makeXMLConnectors(elt.getElementsByTagName("CONNECTOR"), psmdp, keepUUID);
                         //TraceManager.addDev("Activity diagram : " + tadp.getName() + " subcomponents");
-                        makeXMLComponents(elt.getElementsByTagName("SUBCOMPONENT"), psmdp, keepUUID);
+                        makeXMLComponents(elt.getElementsByTagName("SUBCOMPONENT"), psmdp, keepUUID, zoomRatio);
                         //TraceManager.addDev("Activity diagram : " + tadp.getName() + " real points");
                         connectConnectorsToRealPoints(psmdp);
                         psmdp.structureChanged();
@@ -5121,6 +5181,8 @@ public class GTURTLEModeling {
                 if (nl == null) {
                     return;
                 }
+
+                double zoomRatio = getZoomFromXMLNodeList(nl, tdp.getZoom());
 
                 //TraceManager.addDev("Toto 1");
 
@@ -5150,13 +5212,13 @@ public class GTURTLEModeling {
                         //TraceManager.addDev("Toto 2");
 
                         //TraceManager.addDev("TML task diagram : " + tmltdp.getName() + " components");
-                        makeXMLComponents(elt.getElementsByTagName("COMPONENT"), abdp, keepUUID);
+                        makeXMLComponents(elt.getElementsByTagName("COMPONENT"), abdp, keepUUID, zoomRatio);
                         //TraceManager.addDev("Toto 3");
                         makePostProcessing(abdp);
                         //TraceManager.addDev("TML task diagram : " + tmltdp.getName() + " connectors");
                         makeXMLConnectors(elt.getElementsByTagName("CONNECTOR"), abdp, keepUUID);
                         //TraceManager.addDev("TML task diagram : " + tmltdp.getName() + " subcomponents");
-                        makeXMLComponents(elt.getElementsByTagName("SUBCOMPONENT"), abdp, keepUUID);
+                        makeXMLComponents(elt.getElementsByTagName("SUBCOMPONENT"), abdp, keepUUID, zoomRatio);
                         //TraceManager.addDev("TML task diagram : " + tmltdp.getName() + " real points");
                         connectConnectorsToRealPoints(abdp);
                         abdp.structureChanged();
@@ -5174,6 +5236,8 @@ public class GTURTLEModeling {
                 if (nl == null) {
                     return;
                 }
+
+                double zoomRatio = getZoomFromXMLNodeList(nl, tdp.getZoom());
 
                 //TraceManager.addDev("Toto 1");
 
@@ -5203,13 +5267,13 @@ public class GTURTLEModeling {
                         //TraceManager.addDev("Toto 2");
 
                         //TraceManager.addDev("TML task diagram : " + tmltdp.getName() + " components");
-                        makeXMLComponents(elt.getElementsByTagName("COMPONENT"), addp, keepUUID);
+                        makeXMLComponents(elt.getElementsByTagName("COMPONENT"), addp, keepUUID, zoomRatio);
                         //TraceManager.addDev("Toto 3");
                         makePostProcessing(addp);
                         //TraceManager.addDev("TML task diagram : " + tmltdp.getName() + " connectors");
                         makeXMLConnectors(elt.getElementsByTagName("CONNECTOR"), addp, keepUUID);
                         //TraceManager.addDev("TML task diagram : " + tmltdp.getName() + " subcomponents");
-                        makeXMLComponents(elt.getElementsByTagName("SUBCOMPONENT"), addp, keepUUID);
+                        makeXMLComponents(elt.getElementsByTagName("SUBCOMPONENT"), addp, keepUUID, zoomRatio);
                         //TraceManager.addDev("TML task diagram : " + tmltdp.getName() + " real points");
                         connectConnectorsToRealPoints(addp);
                         addp.structureChanged();
@@ -5225,6 +5289,8 @@ public class GTURTLEModeling {
                 if (nl == null) {
                     return;
                 }
+
+                double zoomRatio = getZoomFromXMLNodeList(nl, tdp.getZoom());
 
                 AvatarSMDPanel asmdp = (AvatarSMDPanel) tdp;
 
@@ -5248,11 +5314,11 @@ public class GTURTLEModeling {
                         //tmladp.loadExtraParameters(elt);
 
                         //TraceManager.addDev("Activity diagram : " + tmladp.getName() + " components");
-                        makeXMLComponents(elt.getElementsByTagName("COMPONENT"), asmdp, keepUUID);
+                        makeXMLComponents(elt.getElementsByTagName("COMPONENT"), asmdp, keepUUID, zoomRatio);
                         //TraceManager.addDev("Activity diagram : " + tmladp.getName() + " connectors");
                         makeXMLConnectors(elt.getElementsByTagName("CONNECTOR"), asmdp, keepUUID);
                         //TraceManager.addDev("Activity diagram : " + tmladp.getName() + " subcomponents");
-                        makeXMLComponents(elt.getElementsByTagName("SUBCOMPONENT"), asmdp, keepUUID);
+                        makeXMLComponents(elt.getElementsByTagName("SUBCOMPONENT"), asmdp, keepUUID, zoomRatio);
                         //TraceManager.addDev("Activity diagram : " + tadp.getName() + " real points");
                         connectConnectorsToRealPoints(asmdp);
                         asmdp.structureChanged();
@@ -5266,6 +5332,8 @@ public class GTURTLEModeling {
                 if (nl == null) {
                     return;
                 }
+
+                double zoomRatio = getZoomFromXMLNodeList(nl, tdp.getZoom());
 
                 ELNDiagramPanel elndp = (ELNDiagramPanel) tdp;
 
@@ -5281,9 +5349,9 @@ public class GTURTLEModeling {
                         decX = _decX;
                         decY = _decY;
 
-                        makeXMLComponents(elt.getElementsByTagName("COMPONENT"), elndp, keepUUID);
+                        makeXMLComponents(elt.getElementsByTagName("COMPONENT"), elndp, keepUUID, zoomRatio);
                         makeXMLConnectors(elt.getElementsByTagName("CONNECTOR"), elndp, keepUUID);
-                        makeXMLComponents(elt.getElementsByTagName("SUBCOMPONENT"), elndp, keepUUID);
+                        makeXMLComponents(elt.getElementsByTagName("SUBCOMPONENT"), elndp, keepUUID, zoomRatio);
                         connectConnectorsToRealPoints(elndp);
                         elndp.structureChanged();
                         makePostLoading(elndp, beginIndex);
@@ -5295,6 +5363,8 @@ public class GTURTLEModeling {
                 if (nl == null) {
                     return;
                 }
+
+                double zoomRatio = getZoomFromXMLNodeList(nl, tdp.getZoom());
 
                 AvatarADPanel aadp = (AvatarADPanel) tdp;
 
@@ -5310,9 +5380,9 @@ public class GTURTLEModeling {
                         decX = _decX;
                         decY = _decY;
 
-                        makeXMLComponents(elt.getElementsByTagName("COMPONENT"), aadp, keepUUID);
+                        makeXMLComponents(elt.getElementsByTagName("COMPONENT"), aadp, keepUUID, zoomRatio);
                         makeXMLConnectors(elt.getElementsByTagName("CONNECTOR"), aadp, keepUUID);
-                        makeXMLComponents(elt.getElementsByTagName("SUBCOMPONENT"), aadp, keepUUID);
+                        makeXMLComponents(elt.getElementsByTagName("SUBCOMPONENT"), aadp, keepUUID, zoomRatio);
                         connectConnectorsToRealPoints(aadp);
                         aadp.structureChanged();
                         makePostLoading(aadp, beginIndex);
@@ -5326,6 +5396,8 @@ public class GTURTLEModeling {
                 if (nl == null) {
                     return;
                 }
+
+                double zoomRatio = getZoomFromXMLNodeList(nl, tdp.getZoom());
 
                 AvatarRDPanel ardp = (AvatarRDPanel) tdp;
 
@@ -5346,9 +5418,9 @@ public class GTURTLEModeling {
                         decX = _decX;
                         decY = _decY;
 
-                        makeXMLComponents(elt.getElementsByTagName("COMPONENT"), ardp, keepUUID);
+                        makeXMLComponents(elt.getElementsByTagName("COMPONENT"), ardp, keepUUID, zoomRatio);
                         makeXMLConnectors(elt.getElementsByTagName("CONNECTOR"), ardp, keepUUID);
-                        makeXMLComponents(elt.getElementsByTagName("SUBCOMPONENT"), ardp, keepUUID);
+                        makeXMLComponents(elt.getElementsByTagName("SUBCOMPONENT"), ardp, keepUUID, zoomRatio);
                         connectConnectorsToRealPoints(ardp);
                         ardp.structureChanged();
                         makePostLoading(ardp, beginIndex);
@@ -5361,6 +5433,8 @@ public class GTURTLEModeling {
                 if (nl == null) {
                     return;
                 }
+
+                double zoomRatio = getZoomFromXMLNodeList(nl, tdp.getZoom());
 
                 AvatarMADPanel amadp = (AvatarMADPanel) tdp;
 
@@ -5381,9 +5455,9 @@ public class GTURTLEModeling {
                         decX = _decX;
                         decY = _decY;
 
-                        makeXMLComponents(elt.getElementsByTagName("COMPONENT"), amadp, keepUUID);
+                        makeXMLComponents(elt.getElementsByTagName("COMPONENT"), amadp, keepUUID, zoomRatio);
                         makeXMLConnectors(elt.getElementsByTagName("CONNECTOR"), amadp, keepUUID);
-                        makeXMLComponents(elt.getElementsByTagName("SUBCOMPONENT"), amadp, keepUUID);
+                        makeXMLComponents(elt.getElementsByTagName("SUBCOMPONENT"), amadp, keepUUID, zoomRatio);
                         connectConnectorsToRealPoints(amadp);
                         amadp.structureChanged();
                         makePostLoading(amadp, beginIndex);
@@ -5396,6 +5470,8 @@ public class GTURTLEModeling {
                 if (nl == null) {
                     return;
                 }
+
+                double zoomRatio = getZoomFromXMLNodeList(nl, tdp.getZoom());
 
                 AvatarPDPanel apdp = (AvatarPDPanel) tdp;
 
@@ -5416,9 +5492,10 @@ public class GTURTLEModeling {
                         decX = _decX;
                         decY = _decY;
 
-                        makeXMLComponents(elt.getElementsByTagName("COMPONENT"), apdp, keepUUID);
+
+                        makeXMLComponents(elt.getElementsByTagName("COMPONENT"), apdp, keepUUID, zoomRatio);
                         makeXMLConnectors(elt.getElementsByTagName("CONNECTOR"), apdp, keepUUID);
-                        makeXMLComponents(elt.getElementsByTagName("SUBCOMPONENT"), apdp, keepUUID);
+                        makeXMLComponents(elt.getElementsByTagName("SUBCOMPONENT"), apdp, keepUUID, zoomRatio);
                         connectConnectorsToRealPoints(apdp);
                         apdp.structureChanged();
                         makePostLoading(apdp, beginIndex);
@@ -5431,6 +5508,8 @@ public class GTURTLEModeling {
                 if (nl == null) {
                     return;
                 }
+
+                double zoomRatio = getZoomFromXMLNodeList(nl, tdp.getZoom());
 
                 AvatarCDPanel acdp = (AvatarCDPanel) tdp;
 
@@ -5448,12 +5527,16 @@ public class GTURTLEModeling {
                         //int widthSel = Integer.decode(elt.getAttribute("widthSel")).intValue();
                         //int heightSel = Integer.decode(elt.getAttribute("heightSel")).intValue();
 
-                        decX = _decX;
-                        decY = _decY;
+                        decX = (int)(_decX - X + X / zoomRatio);
+                        decY = (int)(_decY - Y  + Y / zoomRatio);
 
-                        makeXMLComponents(elt.getElementsByTagName("COMPONENT"), acdp, keepUUID);
+
+                        TraceManager.addDev("ACDPanel decX=" + decX );
+                        TraceManager.addDev("ACDPanel decY=" + decY );
+
+                        makeXMLComponents(elt.getElementsByTagName("COMPONENT"), acdp, keepUUID, zoomRatio);
                         makeXMLConnectors(elt.getElementsByTagName("CONNECTOR"), acdp, keepUUID);
-                        makeXMLComponents(elt.getElementsByTagName("SUBCOMPONENT"), acdp, keepUUID);
+                        makeXMLComponents(elt.getElementsByTagName("SUBCOMPONENT"), acdp, keepUUID, zoomRatio);
                         connectConnectorsToRealPoints(acdp);
                         acdp.structureChanged();
                         makePostLoading(acdp, beginIndex);
@@ -5488,6 +5571,20 @@ public class GTURTLEModeling {
         makeLovelyIds();
         //TraceManager.addDev("IDs done");
     }
+
+    private double getZoomFromXMLNodeList(NodeList nl, double zoomDiag) {
+        Element eltZ = (Element) nl.item(0);
+        String zoomS = eltZ.getAttribute("zoom");
+        if (zoomS != null) {
+            //TraceManager.addDev("Zoom found:" + zoomS);
+            double zoomV = new Double(zoomS);
+            return zoomDiag/zoomV;
+            //TraceManager.addDev("Zoom found:" + zoomV);
+        }
+        return 1;
+    }
+
+
 
     public void loadModeling(Node node, boolean keepUUID) throws MalformedModelingException, SAXException {
         Element elt = (Element) node;
@@ -7596,8 +7693,11 @@ public class GTURTLEModeling {
 
         //TraceManager.addDev("Post loading of diagram " + tdp.toString() + " achieved");
     }
-
     public void makeXMLComponents(NodeList nl, TDiagramPanel tdp, boolean keepUUID) throws SAXException, MalformedModelingException {
+        makeXMLComponents(nl, tdp, keepUUID, 1);
+    }
+
+    public void makeXMLComponents(NodeList nl, TDiagramPanel tdp, boolean keepUUID, double zoomV) throws SAXException, MalformedModelingException {
         Node n;
         //Element elt;
         TGComponent tgc;
@@ -7621,11 +7721,15 @@ public class GTURTLEModeling {
                 }
                 if (n.getNodeType() == Node.ELEMENT_NODE) {
                     try {
-                        tgc = makeXMLComponent(n, tdp, keepUUID);
+                        tgc = makeXMLComponent(n, tdp, keepUUID, zoomV);
                         //TraceManager.addDev("About to add component= " + tgc);
                         if ((tgc != null) && (tgc.getFather() == null)) {
                             //TraceManager.addDev("Component added to diagram tgc=" + tgc);
                             tdp.addBuiltComponent(tgc);
+                            if ((zoomV != 1) && (tgc instanceof TGScalableComponent)){
+                                ((TGScalableComponent)tgc).forceScale(zoomV);
+                                TraceManager.addDev("myX after =" + tgc.getX());
+                            }
                         } else if (tgc == null) {
                             TraceManager.addDev("Component not added to diagram:" + tgc);
                         }
@@ -7671,7 +7775,7 @@ public class GTURTLEModeling {
     }
 
 
-    public TGComponent makeXMLComponent(Node n, TDiagramPanel tdp, boolean keepUUID) throws SAXException, MalformedModelingException {
+    public TGComponent makeXMLComponent(Node n, TDiagramPanel tdp, boolean keepUUID, double zoomV) throws SAXException, MalformedModelingException {
         Element elt;
         Element elt1;
         TGComponent tgc = null;
@@ -7733,19 +7837,22 @@ public class GTURTLEModeling {
                 if (n.getNodeType() == Node.ELEMENT_NODE) {
                     elt = (Element) n;
                     if (elt.getTagName().equals("cdparam")) {
-                        myX = Integer.decode(elt.getAttribute("x")) + decX;
-                        myY = Integer.decode(elt.getAttribute("y")) + decY;
+                        //TraceManager.addDev("XMLComp decX=" + decX );
+                        //TraceManager.addDev("XMLComp decY=" + decY );
+                        myX = Integer.decode(elt.getAttribute("x"))  + decX;
+                        myY = Integer.decode(elt.getAttribute("y"))  + decY;
+                        TraceManager.addDev("myX=" + myX);
                     } else if (elt.getTagName().equals("sizeparam")) {
-                        myWidth = Integer.decode(elt.getAttribute("width"));
-                        myHeight = Integer.decode(elt.getAttribute("height"));
-                        myMinWidth = Integer.decode(elt.getAttribute("minWidth"));
+                        myWidth = (int)(Integer.decode(elt.getAttribute("width")) );
+                        myHeight = (int)(Integer.decode(elt.getAttribute("height")) );
+                        myMinWidth = (int)(Integer.decode(elt.getAttribute("minWidth")) );
                         if (myMinWidth < 1) {
                             myMinWidth = 1;
                         }
                         if (myWidth < myMinWidth) {
                             myWidth = myMinWidth;
                         }
-                        myMinHeight = Integer.decode(elt.getAttribute("minHeight"));
+                        myMinHeight = (int)(Integer.decode(elt.getAttribute("minHeight")));
                         if (myMinHeight < 1) {
                             myMinHeight = 1;
                         }
@@ -7810,6 +7917,9 @@ public class GTURTLEModeling {
 
             //TraceManager.addDev("Making TGComponent of type " + myType + " and of name " + myName);
             //TGComponent is ready to be built
+
+
+            // Do the scaling here?
 
 
             if (fatherId != -1) {

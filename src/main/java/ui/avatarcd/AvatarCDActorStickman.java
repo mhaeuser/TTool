@@ -66,7 +66,7 @@ public class AvatarCDActorStickman extends TGCScalableOneLineText {
 
         width = 30;// (int)(30 * tdp.getZoom());
         height = 70; //(int)(70 * tdp.getZoom());
-        oldScaleFactor = tdp.getZoom();
+        initScaling(30, 70);
 	
                
         nbConnectingPoint = 24;

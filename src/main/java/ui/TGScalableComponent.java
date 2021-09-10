@@ -246,7 +246,7 @@ public abstract class TGScalableComponent extends TGComponent implements Scalabl
                 TGScalableComponent sc = (TGScalableComponent)tgc;
                 double oldFactor = sc.getOldScaleFactor();
                 //TraceManager.addDev("Handling component:" + sc);
-                sc.rescale(zoomRatio * oldFactor);
+                sc.basicRescale(zoomRatio * oldFactor);
                 sc.forceOldScaleFactor(sc.getTDiagramPanel().getZoom());
             }
         }
@@ -386,6 +386,63 @@ public abstract class TGScalableComponent extends TGComponent implements Scalabl
         maxY *= factor;
     }
 
+    public void basicForceScale(final double factor) {
+        dwidth = (width + dwidth) * factor;
+        dheight = (height + dheight) * factor;
+        dx = (dx + x) * factor;
+        dy = (dy + y) * factor;
+        dMinWidth = (minWidth + dMinWidth) * factor;
+        dMinHeight = (minHeight + dMinHeight) * factor;//oldScaleFactor * scaleFactor;
+        dMaxWidth = (maxWidth + dMaxWidth) * factor;//oldScaleFactor * scaleFactor;
+        dMaxHeight = (maxHeight + dMaxHeight) * factor;//oldScaleFactor * scaleFactor;
+
+        width = (int)(dwidth);
+        dwidth = dwidth - width;
+        height = (int)(dheight);
+        dheight = dheight - height;
+        minWidth = (int)(dMinWidth);
+        minHeight = (int)(dMinHeight);
+        maxWidth = (int)(dMaxWidth);
+        maxHeight = (int)(dMaxHeight);
+
+        dMinWidth = dMinWidth - minWidth;
+        dMinHeight = dMinHeight - minHeight;
+        dMaxWidth = dMaxWidth - maxWidth;
+        dMaxHeight = dMaxHeight - maxHeight;
+        x = (int)(dx);
+        dx = dx - x;
+        y = (int)(dy);
+        dy = dy - y;
+
+        /*double basicFactor = getTDiagramPanel().getZoom();
+        TraceManager.addDev("Found zoom:" + basicFactor + " textY=" + textY);
+
+        textX = (int)(textX * basicFactor);
+        textY = (int)(textY * basicFactor);*/
+
+
+
+        /*dtextY = (textY + dtextY) * factor;
+        textY = (int) (dtextY);
+        dtextY = dtextY - textY;
+
+        darc = (arc + darc) * factor;
+        arc = (int) (darc);
+        darc = darc - arc;
+
+        dLineLength = (lineLength + dLineLength) * factor;
+        lineLength = (int) dLineLength;
+        dLineLength = dLineLength - lineLength;
+
+        dLinebreak = (linebreak + dLinebreak) * factor;
+        linebreak = (int) dLinebreak;
+        dLinebreak = dLinebreak - linebreak;*/
+
+        // Issue #81: We also need to update max coordinate values
+        maxX *= factor;
+        maxY *= factor;
+    }
+
     @Override
     public void rescale( final double scaleFactor ) {
         rescaled = true;
@@ -415,6 +472,38 @@ public abstract class TGScalableComponent extends TGComponent implements Scalabl
             }
         }
         
+        hasBeenResized();
+    }
+
+
+    public void basicRescale( final double scaleFactor ) {
+        rescaled = true;
+
+        final double factor = scaleFactor / oldScaleFactor;
+        basicForceScale(factor);
+
+        oldScaleFactor = scaleFactor;
+
+        if (father != null) {
+            // Must rescale my zone...
+            resizeWithFather();
+        } else {
+            minX = (int)(tdp.getMinX()/tdp.getZoom());
+            maxX = (int)(tdp.getMaxX()/tdp.getZoom());
+            minY = (int)(tdp.getMinY()/tdp.getZoom());
+            maxY = (int)(tdp.getMaxY()/tdp.getZoom());
+        }
+
+        setMoveCd(x, y, true);
+
+        //TraceManager.addDev("x=" + x + " y=" + y + " width=" + width + " height=" + height);
+
+        for(int i=0; i<nbInternalTGComponent; i++) {
+            if (tgcomponent[i] instanceof ScalableTGComponent) {
+                ((ScalableTGComponent)tgcomponent[i]).basicRescale(scaleFactor);
+            }
+        }
+
         hasBeenResized();
     }
 

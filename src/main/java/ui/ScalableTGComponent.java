@@ -48,4 +48,5 @@ package ui;
 public interface ScalableTGComponent {
     
 	void rescale(double scaleFactor);
+	void basicRescale(double scaleFactor);
 }

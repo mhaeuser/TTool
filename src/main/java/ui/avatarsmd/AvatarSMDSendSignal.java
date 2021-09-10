@@ -125,6 +125,8 @@ public class AvatarSMDSendSignal extends AvatarSMDBasicCanBeDisabledComponent /*
 
 		Color c = g.getColor();
 
+        TraceManager.addDev("TextY=" + textY + " for value=" + value);
+
 
         if (stateOfError > 0)  {
             switch(stateOfError) {

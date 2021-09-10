@@ -4915,8 +4915,6 @@ public class GTURTLEModeling {
                     if (adn.getNodeType() == Node.ELEMENT_NODE) {
                         elt = (Element) adn;
 
-                        if (asmdp == null) { throw new MalformedModelingException(); }
-
                         decX = (int)(_decX - X + X / zoomRatio);
                         decY = (int)(_decY - Y  + Y / zoomRatio);
 

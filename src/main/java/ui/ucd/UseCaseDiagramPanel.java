@@ -116,7 +116,8 @@ public class UseCaseDiagramPanel extends TDiagramPanel {
     }
 
     public String getXMLSelectedHead() {
-        return "<UseCaseDiagramPanelCopy name=\"" + name + "\" xSel=\"" + xSel + "\" ySel=\"" + ySel + "\" widthSel=\"" + widthSel + "\" heightSel=\"" + heightSel + "\" >";
+        return "<UseCaseDiagramPanelCopy name=\"" + name + "\" xSel=\"" + xSel + "\" ySel=\"" + ySel + "\" widthSel=\"" + widthSel + "\" heightSel=\"" + heightSel +
+                "\"" + zoomParam()  + ">";
     }
 
     public String getXMLSelectedTail() {
@@ -124,7 +125,8 @@ public class UseCaseDiagramPanel extends TDiagramPanel {
     }
 
     public String getXMLCloneHead() {
-        return "<UseCaseDiagramPanelCopy name=\"" + name + "\" xSel=\"" + 0 + "\" ySel=\"" + 0 + "\" widthSel=\"" + 0 + "\" heightSel=\"" + 0 + "\" >";
+        return "<UseCaseDiagramPanelCopy name=\"" + name + "\" xSel=\"" + 0 + "\" ySel=\"" + 0 + "\" widthSel=\"" + 0 + "\" heightSel=\"" + 0 +
+                "\"" + zoomParam()  + ">";
     }
 
     public String getXMLCloneTail() {

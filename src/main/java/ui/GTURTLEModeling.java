@@ -3973,10 +3973,10 @@ public class GTURTLEModeling {
                 }
             }
 
-            TraceManager.addDev("\nX=" + X);
-            TraceManager.addDev("Y=" + Y);
-            TraceManager.addDev("decX=" + _decX);
-            TraceManager.addDev("decY=" + _decY);
+            //TraceManager.addDev("\nX=" + X);
+            //TraceManager.addDev("Y=" + Y);
+            //TraceManager.addDev("decX=" + _decX);
+            //TraceManager.addDev("decY=" + _decY);
 
             //_decX = X;
             //_decY = Y;
@@ -3984,42 +3984,27 @@ public class GTURTLEModeling {
 
             // Managing diagrams
             if (tdp instanceof TClassDiagramPanel) {
-                TraceManager.addDev("TClassDiagramPanel copy");
-
+                //TraceManager.addDev("TClassDiagramPanel copy");
                 nl = doc.getElementsByTagName("TClassDiagramPanelCopy");
                 docCopy = doc;
 
-                if (nl == null) {
-                    return;
-                }
+                if (nl == null) { return; }
 
                 double zoomRatio = getZoomFromXMLNodeList(nl, tdp.getZoom());
-
-
                 TClassDiagramPanel tcdp = (TClassDiagramPanel) tdp;
-
 
                 for (i = 0; i < nl.getLength(); i++) {
                     adn = nl.item(i);
                     if (adn.getNodeType() == Node.ELEMENT_NODE) {
                         elt = (Element) adn;
 
-                        if (tcdp == null) {
-                            throw new MalformedModelingException();
-                        }
-
-                        //int xSel = Integer.decode(elt.getAttribute("xSel")).intValue();
-                        //int ySel = Integer.decode(elt.getAttribute("ySel")).intValue();
-                        //int widthSel = Integer.decode(elt.getAttribute("widthSel")).intValue();
-                        //int heightSel = Integer.decode(elt.getAttribute("heightSel")).intValue();
-
-                        decX = _decX;
-                        decY = _decY;
+                        decX = (int)(_decX - X + X / zoomRatio);
+                        decY = (int)(_decY - Y  + Y / zoomRatio);
 
                         tcdp.loadExtraParameters(elt);
 
                         //TraceManager.addDev("Class diagram : " + tcdp.getName() + " components");
-                        makeXMLComponents(elt.getElementsByTagName("COMPONENT"), tcdp, keepUUID, zoomRatio);
+                        ArrayList<TGComponent> list = makeXMLComponents(elt.getElementsByTagName("COMPONENT"), tcdp, keepUUID, zoomRatio);
                         makePostProcessing(tcdp);
                         //TraceManager.addDev("Class diagram : " + tcdp.getName() + " connectors");
                         makeXMLConnectors(elt.getElementsByTagName("CONNECTOR"), tcdp, keepUUID);
@@ -4027,6 +4012,7 @@ public class GTURTLEModeling {
                         makeXMLComponents(elt.getElementsByTagName("SUBCOMPONENT"), tcdp, keepUUID, zoomRatio);
                         //TraceManager.addDev("Class diagram : " + tcdp.getName() + " real points");
                         connectConnectorsToRealPoints(tcdp);
+                        TGScalableComponent.applyRawScaleToComponents(list, zoomRatio);
                         tcdp.structureChanged();
                         //TraceManager.addDev("Class diagram : " + tcdp.getName() + " post loading " + beginIndex);
                         makePostLoading(tcdp, beginIndex);
@@ -4036,15 +4022,11 @@ public class GTURTLEModeling {
                 docCopy = null;
 
             } else if (tdp instanceof TActivityDiagramPanel) {
-                TraceManager.addDev("TActivityDiagramPanel copy");
+                //TraceManager.addDev("TActivityDiagramPanel copy");
                 nl = doc.getElementsByTagName("TActivityDiagramPanelCopy");
-
-                if (nl == null) {
-                    return;
-                }
+                if (nl == null) { return; }
 
                 double zoomRatio = getZoomFromXMLNodeList(nl, tdp.getZoom());
-
                 TActivityDiagramPanel tadp = (TActivityDiagramPanel) tdp;
 
                 for (i = 0; i < nl.getLength(); i++) {
@@ -4052,43 +4034,30 @@ public class GTURTLEModeling {
                     if (adn.getNodeType() == Node.ELEMENT_NODE) {
                         elt = (Element) adn;
 
-                        if (tadp == null) {
-                            throw new MalformedModelingException();
-                        }
-
-                        //int xSel = Integer.decode(elt.getAttribute("xSel")).intValue();
-                        //int ySel = Integer.decode(elt.getAttribute("ySel")).intValue();
-                        //int widthSel = Integer.decode(elt.getAttribute("widthSel")).intValue();
-                        //int heightSel = Integer.decode(elt.getAttribute("heightSel")).intValue();
-
-                        decX = _decX;
-                        decY = _decY;
+                        decX = (int)(_decX - X + X / zoomRatio);
+                        decY = (int)(_decY - Y  + Y / zoomRatio);
 
                         tadp.loadExtraParameters(elt);
 
                         //TraceManager.addDev("Activity diagram : " + tadp.getName() + " components");
-                        makeXMLComponents(elt.getElementsByTagName("COMPONENT"), tadp, keepUUID, zoomRatio);
+                        ArrayList<TGComponent> list = makeXMLComponents(elt.getElementsByTagName("COMPONENT"), tadp, keepUUID, zoomRatio);
                         //TraceManager.addDev("Activity diagram : " + tadp.getName() + " connectors");
                         makeXMLConnectors(elt.getElementsByTagName("CONNECTOR"), tadp, keepUUID);
                         //TraceManager.addDev("Activity diagram : " + tadp.getName() + " subcomponents");
                         makeXMLComponents(elt.getElementsByTagName("SUBCOMPONENT"), tadp, keepUUID, zoomRatio);
                         //TraceManager.addDev("Activity diagram : " + tadp.getName() + " real points");
                         connectConnectorsToRealPoints(tadp);
+                        TGScalableComponent.applyRawScaleToComponents(list, zoomRatio);
                         tadp.structureChanged();
                         //TraceManager.addDev("Activity diagram : " + tadp.getName() + " post loading");
                         makePostLoading(tadp, beginIndex);
                     }
                 }
             } else if (tdp instanceof InteractionOverviewDiagramPanel) {
-
                 nl = doc.getElementsByTagName("InteractionOverviewDiagramPanelCopy");
-
-                if (nl == null) {
-                    return;
-                }
+                if (nl == null) { return; }
 
                 double zoomRatio = getZoomFromXMLNodeList(nl, tdp.getZoom());
-
                 InteractionOverviewDiagramPanel iodp = (InteractionOverviewDiagramPanel) tdp;
 
                 for (i = 0; i < nl.getLength(); i++) {
@@ -4096,26 +4065,18 @@ public class GTURTLEModeling {
                     if (adn.getNodeType() == Node.ELEMENT_NODE) {
                         elt = (Element) adn;
 
-                        if (iodp == null) {
-                            throw new MalformedModelingException();
-                        }
-
-                        //int xSel = Integer.decode(elt.getAttribute("xSel")).intValue();
-                        //int ySel = Integer.decode(elt.getAttribute("ySel")).intValue();
-                        //int widthSel = Integer.decode(elt.getAttribute("widthSel")).intValue();
-                        //int heightSel = Integer.decode(elt.getAttribute("heightSel")).intValue();
-
-                        decX = _decX;
-                        decY = _decY;
+                        decX = (int)(_decX - X + X / zoomRatio);
+                        decY = (int)(_decY - Y  + Y / zoomRatio);
 
                         //TraceManager.addDev("Activity diagram : " + iodp.getName() + " components");
-                        makeXMLComponents(elt.getElementsByTagName("COMPONENT"), iodp, keepUUID, zoomRatio);
+                        ArrayList<TGComponent> list = makeXMLComponents(elt.getElementsByTagName("COMPONENT"), iodp, keepUUID, zoomRatio);
                         //TraceManager.addDev("Activity diagram : " + iodp.getName() + " connectors");
                         makeXMLConnectors(elt.getElementsByTagName("CONNECTOR"), iodp, keepUUID);
                         //TraceManager.addDev("Activity diagram : " + iodp.getName() + " subcomponents");
                         makeXMLComponents(elt.getElementsByTagName("SUBCOMPONENT"), iodp, keepUUID, zoomRatio);
                         //TraceManager.addDev("Activity diagram : " + iodp.getName() + " real points");
                         connectConnectorsToRealPoints(iodp);
+                        TGScalableComponent.applyRawScaleToComponents(list, zoomRatio);
                         iodp.structureChanged();
                         //TraceManager.addDev("Activity diagram : " + iodp.getName() + " post loading");
                         makePostLoading(iodp, beginIndex);
@@ -4124,42 +4085,28 @@ public class GTURTLEModeling {
             } else if (tdp instanceof ui.sd.SequenceDiagramPanel) {
                 //TraceManager.addDev("Sequence diagram!");
                 nl = doc.getElementsByTagName("SequenceDiagramPanelCopy");
-
-                if (nl == null) {
-                    return;
-                }
+                if (nl == null) { return; }
 
                 double zoomRatio = getZoomFromXMLNodeList(nl, tdp.getZoom());
-
                 ui.sd.SequenceDiagramPanel sdp = (ui.sd.SequenceDiagramPanel) tdp;
-
-                //TraceManager.addDev("Sequence diagram!");
 
                 for (i = 0; i < nl.getLength(); i++) {
                     adn = nl.item(i);
                     if (adn.getNodeType() == Node.ELEMENT_NODE) {
                         elt = (Element) adn;
 
-                        if (sdp == null) {
-                            throw new MalformedModelingException();
-                        }
-
-                        //int xSel = Integer.decode(elt.getAttribute("xSel")).intValue();
-                        //int ySel = Integer.decode(elt.getAttribute("ySel")).intValue();
-                        //int widthSel = Integer.decode(elt.getAttribute("widthSel")).intValue();
-                        //int heightSel = Integer.decode(elt.getAttribute("heightSel")).intValue();
-
-                        decX = _decX;
-                        decY = _decY;
+                        decX = (int)(_decX - X + X / zoomRatio);
+                        decY = (int)(_decY - Y  + Y / zoomRatio);
 
                         //TraceManager.addDev("Sequence diagram: " + sdp.getName() + " components");
-                        makeXMLComponents(elt.getElementsByTagName("COMPONENT"), sdp, keepUUID, zoomRatio);
+                        ArrayList<TGComponent> list = makeXMLComponents(elt.getElementsByTagName("COMPONENT"), sdp, keepUUID, zoomRatio);
                         //TraceManager.addDev("Sequence diagram: " + sdp.getName() + " connectors");
                         makeXMLConnectors(elt.getElementsByTagName("CONNECTOR"), sdp, keepUUID);
                         //TraceManager.addDev("Sequence diagram: " + sdp.getName() + " subcomponents");
                         makeXMLComponents(elt.getElementsByTagName("SUBCOMPONENT"), sdp, keepUUID, zoomRatio);
                         //TraceManager.addDev("Sequence diagram: " + sdp.getName() + " real points");
                         connectConnectorsToRealPoints(sdp);
+                        TGScalableComponent.applyRawScaleToComponents(list, zoomRatio);
                         sdp.structureChanged();
                         //TraceManager.addDev("Sequence diagram: " + sdp.getName() + " post loading");
                         makePostLoading(sdp, beginIndex);
@@ -4169,41 +4116,30 @@ public class GTURTLEModeling {
                 //TraceManager.addDev("Sequence diagram!");
                 nl = doc.getElementsByTagName("SequenceDiagramPanelZVCopy");
 
-                if (nl == null) {
-                    return;
-                }
+                if (nl == null) { return; }
 
                 double zoomRatio = getZoomFromXMLNodeList(nl, tdp.getZoom());
-
                 ui.sd2.SequenceDiagramPanel sdp = (ui.sd2.SequenceDiagramPanel) tdp;
 
-                //TraceManager.addDev("Sequence diagram!");
+
 
                 for (i = 0; i < nl.getLength(); i++) {
                     adn = nl.item(i);
                     if (adn.getNodeType() == Node.ELEMENT_NODE) {
                         elt = (Element) adn;
 
-                        if (sdp == null) {
-                            throw new MalformedModelingException();
-                        }
-
-                        //int xSel = Integer.decode(elt.getAttribute("xSel")).intValue();
-                        //int ySel = Integer.decode(elt.getAttribute("ySel")).intValue();
-                        //int widthSel = Integer.decode(elt.getAttribute("widthSel")).intValue();
-                        //int heightSel = Integer.decode(elt.getAttribute("heightSel")).intValue();
-
-                        decX = _decX;
-                        decY = _decY;
+                        decX = (int)(_decX - X + X / zoomRatio);
+                        decY = (int)(_decY - Y  + Y / zoomRatio);
 
                         //TraceManager.addDev("Sequence diagram: " + sdp.getName() + " components");
-                        makeXMLComponents(elt.getElementsByTagName("COMPONENT"), sdp, keepUUID, zoomRatio);
+                        ArrayList<TGComponent> list = makeXMLComponents(elt.getElementsByTagName("COMPONENT"), sdp, keepUUID, zoomRatio);
                         //TraceManager.addDev("Sequence diagram: " + sdp.getName() + " connectors");
                         makeXMLConnectors(elt.getElementsByTagName("CONNECTOR"), sdp, keepUUID);
                         //TraceManager.addDev("Sequence diagram: " + sdp.getName() + " subcomponents");
                         makeXMLComponents(elt.getElementsByTagName("SUBCOMPONENT"), sdp, keepUUID, zoomRatio);
                         //TraceManager.addDev("Sequence diagram: " + sdp.getName() + " real points");
                         connectConnectorsToRealPoints(sdp);
+                        TGScalableComponent.applyRawScaleToComponents(list, zoomRatio);
                         sdp.structureChanged();
                         //TraceManager.addDev("Sequence diagram: " + sdp.getName() + " post loading");
                         makePostLoading(sdp, beginIndex);
@@ -4213,12 +4149,9 @@ public class GTURTLEModeling {
             } else if (tdp instanceof UseCaseDiagramPanel) {
                 nl = doc.getElementsByTagName("UseCaseDiagramPanelCopy");
 
-                if (nl == null) {
-                    return;
-                }
+                if (nl == null) { return; }
 
                 double zoomRatio = getZoomFromXMLNodeList(nl, tdp.getZoom());
-
                 UseCaseDiagramPanel ucdp = (UseCaseDiagramPanel) tdp;
 
                 for (i = 0; i < nl.getLength(); i++) {
@@ -4226,26 +4159,18 @@ public class GTURTLEModeling {
                     if (adn.getNodeType() == Node.ELEMENT_NODE) {
                         elt = (Element) adn;
 
-                        if (ucdp == null) {
-                            throw new MalformedModelingException();
-                        }
-
-                        //int xSel = Integer.decode(elt.getAttribute("xSel")).intValue();
-                        //int ySel = Integer.decode(elt.getAttribute("ySel")).intValue();
-                        //int widthSel = Integer.decode(elt.getAttribute("widthSel")).intValue();
-                        //int heightSel = Integer.decode(elt.getAttribute("heightSel")).intValue();
-
-                        decX = _decX;
-                        decY = _decY;
+                        decX = (int)(_decX - X + X / zoomRatio);
+                        decY = (int)(_decY - Y  + Y / zoomRatio);
 
                         //TraceManager.addDev("Activity diagram : " + sdp.getName() + " components");
-                        makeXMLComponents(elt.getElementsByTagName("COMPONENT"), ucdp, keepUUID, zoomRatio);
+                        ArrayList<TGComponent> list = makeXMLComponents(elt.getElementsByTagName("COMPONENT"), ucdp, keepUUID, zoomRatio);
                         //TraceManager.addDev("Activity diagram : " + sdp.getName() + " connectors");
                         makeXMLConnectors(elt.getElementsByTagName("CONNECTOR"), ucdp, keepUUID);
                         //TraceManager.addDev("Activity diagram : " + sdp.getName() + " subcomponents");
                         makeXMLComponents(elt.getElementsByTagName("SUBCOMPONENT"), ucdp, keepUUID, zoomRatio);
                         //TraceManager.addDev("Activity diagram : " + sdp.getName() + " real points");
                         connectConnectorsToRealPoints(ucdp);
+                        TGScalableComponent.applyRawScaleToComponents(list, zoomRatio);
                         ucdp.structureChanged();
                         //TraceManager.addDev("Activity diagram : " + iodp.getName() + " post loading");
                         makePostLoading(ucdp, beginIndex);
@@ -4254,12 +4179,9 @@ public class GTURTLEModeling {
             } else if (tdp instanceof TDeploymentDiagramPanel) {
                 nl = doc.getElementsByTagName("TDeploymentDiagramPanelCopy");
 
-                if (nl == null) {
-                    return;
-                }
+                if (nl == null) { return; }
 
                 double zoomRatio = getZoomFromXMLNodeList(nl, tdp.getZoom());
-
                 TDeploymentDiagramPanel tddp = (TDeploymentDiagramPanel) tdp;
 
                 for (i = 0; i < nl.getLength(); i++) {
@@ -4267,26 +4189,18 @@ public class GTURTLEModeling {
                     if (adn.getNodeType() == Node.ELEMENT_NODE) {
                         elt = (Element) adn;
 
-                        if (tddp == null) {
-                            throw new MalformedModelingException();
-                        }
-
-                        //int xSel = Integer.decode(elt.getAttribute("xSel")).intValue();
-                        //int ySel = Integer.decode(elt.getAttribute("ySel")).intValue();
-                        //int widthSel = Integer.decode(elt.getAttribute("widthSel")).intValue();
-                        //int heightSel = Integer.decode(elt.getAttribute("heightSel")).intValue();
-
-                        decX = _decX;
-                        decY = _decY;
+                        decX = (int)(_decX - X + X / zoomRatio);
+                        decY = (int)(_decY - Y  + Y / zoomRatio);
 
                         //TraceManager.addDev("Activity diagram : " + sdp.getName() + " components");
-                        makeXMLComponents(elt.getElementsByTagName("COMPONENT"), tddp, keepUUID, zoomRatio);
+                        ArrayList<TGComponent> list = makeXMLComponents(elt.getElementsByTagName("COMPONENT"), tddp, keepUUID, zoomRatio);
                         //TraceManager.addDev("Activity diagram : " + sdp.getName() + " connectors");
                         makeXMLConnectors(elt.getElementsByTagName("CONNECTOR"), tddp, keepUUID);
                         //TraceManager.addDev("Activity diagram : " + sdp.getName() + " subcomponents");
                         makeXMLComponents(elt.getElementsByTagName("SUBCOMPONENT"), tddp, keepUUID, zoomRatio);
                         //TraceManager.addDev("Activity diagram : " + sdp.getName() + " real points");
                         connectConnectorsToRealPoints(tddp);
+                        TGScalableComponent.applyRawScaleToComponents(list, zoomRatio);
                         tddp.structureChanged();
                         //TraceManager.addDev("Activity diagram : " + iodp.getName() + " post loading");
                         makePostLoading(tddp, beginIndex);
@@ -4300,7 +4214,6 @@ public class GTURTLEModeling {
                 }
 
                 double zoomRatio = getZoomFromXMLNodeList(nl, tdp.getZoom());
-
                 NCDiagramPanel ncdp = (NCDiagramPanel) tdp;
 
                 for (i = 0; i < nl.getLength(); i++) {
@@ -4308,26 +4221,18 @@ public class GTURTLEModeling {
                     if (adn.getNodeType() == Node.ELEMENT_NODE) {
                         elt = (Element) adn;
 
-                        if (ncdp == null) {
-                            throw new MalformedModelingException();
-                        }
-
-                        //int xSel = Integer.decode(elt.getAttribute("xSel")).intValue();
-                        //int ySel = Integer.decode(elt.getAttribute("ySel")).intValue();
-                        //int widthSel = Integer.decode(elt.getAttribute("widthSel")).intValue();
-                        //int heightSel = Integer.decode(elt.getAttribute("heightSel")).intValue();
-
-                        decX = _decX;
-                        decY = _decY;
+                        decX = (int)(_decX - X + X / zoomRatio);
+                        decY = (int)(_decY - Y  + Y / zoomRatio);
 
                         //TraceManager.addDev("Activity diagram : " + sdp.getName() + " components");
-                        makeXMLComponents(elt.getElementsByTagName("COMPONENT"), ncdp, keepUUID, zoomRatio);
+                        ArrayList<TGComponent> list = makeXMLComponents(elt.getElementsByTagName("COMPONENT"), ncdp, keepUUID, zoomRatio);
                         //TraceManager.addDev("Activity diagram : " + sdp.getName() + " connectors");
                         makeXMLConnectors(elt.getElementsByTagName("CONNECTOR"), ncdp, keepUUID);
                         //TraceManager.addDev("Activity diagram : " + sdp.getName() + " subcomponents");
                         makeXMLComponents(elt.getElementsByTagName("SUBCOMPONENT"), ncdp, keepUUID, zoomRatio);
                         //TraceManager.addDev("Activity diagram : " + sdp.getName() + " real points");
                         connectConnectorsToRealPoints(ncdp);
+                        TGScalableComponent.applyRawScaleToComponents(list, zoomRatio);
                         ncdp.structureChanged();
                         //TraceManager.addDev("Activity diagram : " + iodp.getName() + " post loading");
                         makePostLoading(ncdp, beginIndex);
@@ -4335,13 +4240,10 @@ public class GTURTLEModeling {
                 }
             } else if (tdp instanceof RequirementDiagramPanel) {
                 nl = doc.getElementsByTagName("TRequirementDiagramPanelCopy");
-
-                if (nl == null) {
-                    return;
-                }
+                docCopy = doc;
+                if (nl == null) { return; }
 
                 double zoomRatio = getZoomFromXMLNodeList(nl, tdp.getZoom());
-
                 RequirementDiagramPanel rdp = (RequirementDiagramPanel) tdp;
 
                 for (i = 0; i < nl.getLength(); i++) {
@@ -4349,35 +4251,26 @@ public class GTURTLEModeling {
                     if (adn.getNodeType() == Node.ELEMENT_NODE) {
                         elt = (Element) adn;
 
-                        if (rdp == null) {
-                            throw new MalformedModelingException();
-                        }
+                        decX = (int)(_decX - X + X / zoomRatio);
+                        decY = (int)(_decY - Y  + Y / zoomRatio);
 
-                        //int xSel = Integer.decode(elt.getAttribute("xSel")).intValue();
-                        //int ySel = Integer.decode(elt.getAttribute("ySel")).intValue();
-                        //int widthSel = Integer.decode(elt.getAttribute("widthSel")).intValue();
-                        //int heightSel = Integer.decode(elt.getAttribute("heightSel")).intValue();
-
-                        decX = _decX;
-                        decY = _decY;
-
-                        makeXMLComponents(elt.getElementsByTagName("COMPONENT"), rdp, keepUUID, zoomRatio);
+                        ArrayList<TGComponent> list = makeXMLComponents(elt.getElementsByTagName("COMPONENT"), rdp, keepUUID, zoomRatio);
                         makeXMLConnectors(elt.getElementsByTagName("CONNECTOR"), rdp, keepUUID);
                         makeXMLComponents(elt.getElementsByTagName("SUBCOMPONENT"), rdp, keepUUID, zoomRatio);
                         connectConnectorsToRealPoints(rdp);
+                        TGScalableComponent.applyRawScaleToComponents(list, zoomRatio);
                         rdp.structureChanged();
                         makePostLoading(rdp, beginIndex);
                     }
                 }
             } else if (tdp instanceof EBRDDPanel) {
-                nl = doc.getElementsByTagName("EBRDDPanelCopy");
 
-                if (nl == null) {
-                    return;
-                }
+                nl = doc.getElementsByTagName("EBRDDPanelCopy");
+                docCopy = doc;
+
+                if (nl == null) { return; }
 
                 double zoomRatio = getZoomFromXMLNodeList(nl, tdp.getZoom());
-
                 EBRDDPanel ebrddp = (EBRDDPanel) tdp;
 
                 for (i = 0; i < nl.getLength(); i++) {
@@ -4385,35 +4278,24 @@ public class GTURTLEModeling {
                     if (adn.getNodeType() == Node.ELEMENT_NODE) {
                         elt = (Element) adn;
 
-                        if (ebrddp == null) {
-                            throw new MalformedModelingException();
-                        }
+                        decX = (int)(_decX - X + X / zoomRatio);
+                        decY = (int)(_decY - Y  + Y / zoomRatio);
 
-                        //int xSel = Integer.decode(elt.getAttribute("xSel")).intValue();
-                        //int ySel = Integer.decode(elt.getAttribute("ySel")).intValue();
-                        //int widthSel = Integer.decode(elt.getAttribute("widthSel")).intValue();
-                        //int heightSel = Integer.decode(elt.getAttribute("heightSel")).intValue();
-
-                        decX = _decX;
-                        decY = _decY;
-
-                        makeXMLComponents(elt.getElementsByTagName("COMPONENT"), ebrddp, keepUUID, zoomRatio);
+                        ArrayList<TGComponent> list =  makeXMLComponents(elt.getElementsByTagName("COMPONENT"), ebrddp, keepUUID, zoomRatio);
                         makeXMLConnectors(elt.getElementsByTagName("CONNECTOR"), ebrddp, keepUUID);
                         makeXMLComponents(elt.getElementsByTagName("SUBCOMPONENT"), ebrddp, keepUUID, zoomRatio);
                         connectConnectorsToRealPoints(ebrddp);
+                        TGScalableComponent.applyRawScaleToComponents(list, zoomRatio);
                         ebrddp.structureChanged();
                         makePostLoading(ebrddp, beginIndex);
                     }
                 }
             } else if (tdp instanceof AttackTreeDiagramPanel) {
                 nl = doc.getElementsByTagName("AttackTreeDiagramPanelCopy");
-
-                if (nl == null) {
-                    return;
-                }
+                docCopy = doc;
+                if (nl == null) { return; }
 
                 double zoomRatio = getZoomFromXMLNodeList(nl, tdp.getZoom());
-
                 AttackTreeDiagramPanel atdp = (AttackTreeDiagramPanel) tdp;
 
                 for (i = 0; i < nl.getLength(); i++) {
@@ -4421,22 +4303,14 @@ public class GTURTLEModeling {
                     if (adn.getNodeType() == Node.ELEMENT_NODE) {
                         elt = (Element) adn;
 
-                        if (atdp == null) {
-                            throw new MalformedModelingException();
-                        }
+                        decX = (int)(_decX - X + X / zoomRatio);
+                        decY = (int)(_decY - Y  + Y / zoomRatio);
 
-                        //int xSel = Integer.decode(elt.getAttribute("xSel")).intValue();
-                        //int ySel = Integer.decode(elt.getAttribute("ySel")).intValue();
-                        //int widthSel = Integer.decode(elt.getAttribute("widthSel")).intValue();
-                        //int heightSel = Integer.decode(elt.getAttribute("heightSel")).intValue();
-
-                        decX = _decX;
-                        decY = _decY;
-
-                        makeXMLComponents(elt.getElementsByTagName("COMPONENT"), atdp, keepUUID, zoomRatio);
+                        ArrayList<TGComponent> list =  makeXMLComponents(elt.getElementsByTagName("COMPONENT"), atdp, keepUUID, zoomRatio);
                         makeXMLConnectors(elt.getElementsByTagName("CONNECTOR"), atdp, keepUUID);
                         makeXMLComponents(elt.getElementsByTagName("SUBCOMPONENT"), atdp, keepUUID, zoomRatio);
                         connectConnectorsToRealPoints(atdp);
+                        TGScalableComponent.applyRawScaleToComponents(list, zoomRatio);
                         atdp.structureChanged();
                         makePostLoading(atdp, beginIndex);
                     }
@@ -4444,13 +4318,10 @@ public class GTURTLEModeling {
 
             } else if (tdp instanceof FaultTreeDiagramPanel) {
                 nl = doc.getElementsByTagName("FaultTreeDiagramPanelCopy");
-
-                if (nl == null) {
-                    return;
-                }
+                docCopy = doc;
+                if (nl == null) { return; }
 
                 double zoomRatio = getZoomFromXMLNodeList(nl, tdp.getZoom());
-
                 FaultTreeDiagramPanel ftdp = (FaultTreeDiagramPanel) tdp;
 
                 for (i = 0; i < nl.getLength(); i++) {
@@ -4458,22 +4329,14 @@ public class GTURTLEModeling {
                     if (adn.getNodeType() == Node.ELEMENT_NODE) {
                         elt = (Element) adn;
 
-                        if (ftdp == null) {
-                            throw new MalformedModelingException();
-                        }
+                        decX = (int)(_decX - X + X / zoomRatio);
+                        decY = (int)(_decY - Y  + Y / zoomRatio);
 
-                        //int xSel = Integer.decode(elt.getAttribute("xSel")).intValue();
-                        //int ySel = Integer.decode(elt.getAttribute("ySel")).intValue();
-                        //int widthSel = Integer.decode(elt.getAttribute("widthSel")).intValue();
-                        //int heightSel = Integer.decode(elt.getAttribute("heightSel")).intValue();
-
-                        decX = _decX;
-                        decY = _decY;
-
-                        makeXMLComponents(elt.getElementsByTagName("COMPONENT"), ftdp, keepUUID, zoomRatio);
+                        ArrayList<TGComponent> list =  makeXMLComponents(elt.getElementsByTagName("COMPONENT"), ftdp, keepUUID, zoomRatio);
                         makeXMLConnectors(elt.getElementsByTagName("CONNECTOR"), ftdp, keepUUID);
                         makeXMLComponents(elt.getElementsByTagName("SUBCOMPONENT"), ftdp, keepUUID, zoomRatio);
                         connectConnectorsToRealPoints(ftdp);
+                        TGScalableComponent.applyRawScaleToComponents(list, zoomRatio);
                         ftdp.structureChanged();
                         makePostLoading(ftdp, beginIndex);
                     }
@@ -4482,41 +4345,23 @@ public class GTURTLEModeling {
                 nl = doc.getElementsByTagName("TMLTaskDiagramPanelCopy");
                 docCopy = doc;
 
-                if (nl == null) {
-                    return;
-                }
+                if (nl == null) { return; }
 
                 double zoomRatio = getZoomFromXMLNodeList(nl, tdp.getZoom());
-
-                //TraceManager.addDev("Toto 1");
-
-
                 TMLTaskDiagramPanel tmltdp = (TMLTaskDiagramPanel) tdp;
-
 
                 for (i = 0; i < nl.getLength(); i++) {
                     adn = nl.item(i);
                     if (adn.getNodeType() == Node.ELEMENT_NODE) {
                         elt = (Element) adn;
 
-                        if (tmltdp == null) {
-                            throw new MalformedModelingException();
-                        }
-
-                        //int xSel = Integer.decode(elt.getAttribute("xSel")).intValue();
-                        //int ySel = Integer.decode(elt.getAttribute("ySel")).intValue();
-                        //int widthSel = Integer.decode(elt.getAttribute("widthSel")).intValue();
-                        //int heightSel = Integer.decode(elt.getAttribute("heightSel")).intValue();
-
-                        decX = _decX;
-                        decY = _decY;
+                        decX = (int)(_decX - X + X / zoomRatio);
+                        decY = (int)(_decY - Y  + Y / zoomRatio);
 
                         tmltdp.loadExtraParameters(elt);
 
-                        //TraceManager.addDev("Toto 2");
-
                         //TraceManager.addDev("TML task diagram : " + tmltdp.getName() + " components");
-                        makeXMLComponents(elt.getElementsByTagName("COMPONENT"), tmltdp, keepUUID, zoomRatio);
+                        ArrayList<TGComponent> list = makeXMLComponents(elt.getElementsByTagName("COMPONENT"), tmltdp, keepUUID, zoomRatio);
                         //TraceManager.addDev("Toto 3");
                         makePostProcessing(tmltdp);
                         //TraceManager.addDev("TML task diagram : " + tmltdp.getName() + " connectors");
@@ -4525,6 +4370,7 @@ public class GTURTLEModeling {
                         makeXMLComponents(elt.getElementsByTagName("SUBCOMPONENT"), tmltdp, keepUUID, zoomRatio);
                         //TraceManager.addDev("TML task diagram : " + tmltdp.getName() + " real points");
                         connectConnectorsToRealPoints(tmltdp);
+                        TGScalableComponent.applyRawScaleToComponents(list, zoomRatio);
                         tmltdp.structureChanged();
                         //TraceManager.addDev("TML task diagram : " + tmltdp.getName() + " post loading " + beginIndex);
                         makePostLoading(tmltdp, beginIndex);
@@ -4535,41 +4381,23 @@ public class GTURTLEModeling {
                 nl = doc.getElementsByTagName("DiplodocusMethodologyDiagramPanelCopy");
                 docCopy = doc;
 
-                if (nl == null) {
-                    return;
-                }
+                if (nl == null) { return; }
 
                 double zoomRatio = getZoomFromXMLNodeList(nl, tdp.getZoom());
-
-                //TraceManager.addDev("Toto 1");
-
-
                 DiplodocusMethodologyDiagramPanel tmltdp = (DiplodocusMethodologyDiagramPanel) tdp;
-
 
                 for (i = 0; i < nl.getLength(); i++) {
                     adn = nl.item(i);
                     if (adn.getNodeType() == Node.ELEMENT_NODE) {
                         elt = (Element) adn;
 
-                        if (tmltdp == null) {
-                            throw new MalformedModelingException();
-                        }
-
-                        //int xSel = Integer.decode(elt.getAttribute("xSel")).intValue();
-                        //int ySel = Integer.decode(elt.getAttribute("ySel")).intValue();
-                        //int widthSel = Integer.decode(elt.getAttribute("widthSel")).intValue();
-                        //int heightSel = Integer.decode(elt.getAttribute("heightSel")).intValue();
-
-                        decX = _decX;
-                        decY = _decY;
+                        decX = (int)(_decX - X + X / zoomRatio);
+                        decY = (int)(_decY - Y  + Y / zoomRatio);
 
                         tmltdp.loadExtraParameters(elt);
 
-                        //TraceManager.addDev("Toto 2");
-
                         //TraceManager.addDev("TML task diagram : " + tmltdp.getName() + " components");
-                        makeXMLComponents(elt.getElementsByTagName("COMPONENT"), tmltdp, keepUUID, zoomRatio);
+                        ArrayList<TGComponent> list =  makeXMLComponents(elt.getElementsByTagName("COMPONENT"), tmltdp, keepUUID, zoomRatio);
                         //TraceManager.addDev("Toto 3");
                         makePostProcessing(tmltdp);
                         //TraceManager.addDev("TML task diagram : " + tmltdp.getName() + " connectors");
@@ -4578,6 +4406,7 @@ public class GTURTLEModeling {
                         makeXMLComponents(elt.getElementsByTagName("SUBCOMPONENT"), tmltdp, keepUUID, zoomRatio);
                         //TraceManager.addDev("TML task diagram : " + tmltdp.getName() + " real points");
                         connectConnectorsToRealPoints(tmltdp);
+                        TGScalableComponent.applyRawScaleToComponents(list, zoomRatio);
                         tmltdp.structureChanged();
                         //TraceManager.addDev("TML task diagram : " + tmltdp.getName() + " post loading " + beginIndex);
                         makePostLoading(tmltdp, beginIndex);
@@ -4589,42 +4418,23 @@ public class GTURTLEModeling {
             } else if (tdp instanceof AvatarMethodologyDiagramPanel) {
                 nl = doc.getElementsByTagName("AvatarMethodologyDiagramPanelCopy");
                 docCopy = doc;
-
-                if (nl == null) {
-                    return;
-                }
+                if (nl == null) { return; }
 
                 double zoomRatio = getZoomFromXMLNodeList(nl, tdp.getZoom());
-
-                //TraceManager.addDev("Toto 1");
-
-
                 AvatarMethodologyDiagramPanel amdp = (AvatarMethodologyDiagramPanel) tdp;
-
 
                 for (i = 0; i < nl.getLength(); i++) {
                     adn = nl.item(i);
                     if (adn.getNodeType() == Node.ELEMENT_NODE) {
                         elt = (Element) adn;
 
-                        if (amdp == null) {
-                            throw new MalformedModelingException();
-                        }
-
-                        //int xSel = Integer.decode(elt.getAttribute("xSel")).intValue();
-                        //int ySel = Integer.decode(elt.getAttribute("ySel")).intValue();
-                        //int widthSel = Integer.decode(elt.getAttribute("widthSel")).intValue();
-                        //int heightSel = Integer.decode(elt.getAttribute("heightSel")).intValue();
-
-                        decX = _decX;
-                        decY = _decY;
+                        decX = (int)(_decX - X + X / zoomRatio);
+                        decY = (int)(_decY - Y  + Y / zoomRatio);
 
                         amdp.loadExtraParameters(elt);
 
-                        //TraceManager.addDev("Toto 2");
-
                         //TraceManager.addDev("TML task diagram : " + tmltdp.getName() + " components");
-                        makeXMLComponents(elt.getElementsByTagName("COMPONENT"), amdp, keepUUID, zoomRatio);
+                        ArrayList<TGComponent> list = makeXMLComponents(elt.getElementsByTagName("COMPONENT"), amdp, keepUUID, zoomRatio);
                         //TraceManager.addDev("Toto 3");
                         makePostProcessing(amdp);
                         //TraceManager.addDev("TML task diagram : " + tmltdp.getName() + " connectors");
@@ -4633,6 +4443,7 @@ public class GTURTLEModeling {
                         makeXMLComponents(elt.getElementsByTagName("SUBCOMPONENT"), amdp, keepUUID, zoomRatio);
                         //TraceManager.addDev("TML task diagram : " + tmltdp.getName() + " real points");
                         connectConnectorsToRealPoints(amdp);
+                        TGScalableComponent.applyRawScaleToComponents(list, zoomRatio);
                         amdp.structureChanged();
                         //TraceManager.addDev("TML task diagram : " + tmltdp.getName() + " post loading " + beginIndex);
                         makePostLoading(amdp, beginIndex);
@@ -4642,42 +4453,23 @@ public class GTURTLEModeling {
             } else if (tdp instanceof SysmlsecMethodologyDiagramPanel) {
                 nl = doc.getElementsByTagName("SysmlsecMethodologyDiagramPanelCopy");
                 docCopy = doc;
-
-                if (nl == null) {
-                    return;
-                }
+                if (nl == null) { return; }
 
                 double zoomRatio = getZoomFromXMLNodeList(nl, tdp.getZoom());
-
-                //TraceManager.addDev("Toto 1");
-
-
                 SysmlsecMethodologyDiagramPanel amdp = (SysmlsecMethodologyDiagramPanel) tdp;
-
 
                 for (i = 0; i < nl.getLength(); i++) {
                     adn = nl.item(i);
                     if (adn.getNodeType() == Node.ELEMENT_NODE) {
                         elt = (Element) adn;
 
-                        if (amdp == null) {
-                            throw new MalformedModelingException();
-                        }
-
-                        //int xSel = Integer.decode(elt.getAttribute("xSel")).intValue();
-                        //int ySel = Integer.decode(elt.getAttribute("ySel")).intValue();
-                        //int widthSel = Integer.decode(elt.getAttribute("widthSel")).intValue();
-                        //int heightSel = Integer.decode(elt.getAttribute("heightSel")).intValue();
-
-                        decX = _decX;
-                        decY = _decY;
+                        decX = (int)(_decX - X + X / zoomRatio);
+                        decY = (int)(_decY - Y  + Y / zoomRatio);
 
                         amdp.loadExtraParameters(elt);
 
-                        //TraceManager.addDev("Toto 2");
-
                         //TraceManager.addDev("TML task diagram : " + tmltdp.getName() + " components");
-                        makeXMLComponents(elt.getElementsByTagName("COMPONENT"), amdp, keepUUID, zoomRatio);
+                        ArrayList<TGComponent> list = makeXMLComponents(elt.getElementsByTagName("COMPONENT"), amdp, keepUUID, zoomRatio);
                         //TraceManager.addDev("Toto 3");
                         makePostProcessing(amdp);
                         //TraceManager.addDev("TML task diagram : " + tmltdp.getName() + " connectors");
@@ -4686,6 +4478,7 @@ public class GTURTLEModeling {
                         makeXMLComponents(elt.getElementsByTagName("SUBCOMPONENT"), amdp, keepUUID, zoomRatio);
                         //TraceManager.addDev("TML task diagram : " + tmltdp.getName() + " real points");
                         connectConnectorsToRealPoints(amdp);
+                        TGScalableComponent.applyRawScaleToComponents(list, zoomRatio);
                         amdp.structureChanged();
                         //TraceManager.addDev("TML task diagram : " + tmltdp.getName() + " post loading " + beginIndex);
                         makePostLoading(amdp, beginIndex);
@@ -4695,43 +4488,23 @@ public class GTURTLEModeling {
             } else if (tdp instanceof TMLComponentTaskDiagramPanel) {
                 nl = doc.getElementsByTagName("TMLComponentTaskDiagramPanelCopy");
                 docCopy = doc;
-
-                if (nl == null) {
-                    return;
-                }
+                if (nl == null) { return; }
 
                 double zoomRatio = getZoomFromXMLNodeList(nl, tdp.getZoom());
-
-                //TraceManager.addDev("Toto 1");
-
-
                 TMLComponentTaskDiagramPanel tmlctdp = (TMLComponentTaskDiagramPanel) tdp;
-                //tmlctdp.updateReferences();
-
 
                 for (i = 0; i < nl.getLength(); i++) {
                     adn = nl.item(i);
                     if (adn.getNodeType() == Node.ELEMENT_NODE) {
                         elt = (Element) adn;
 
-                        if (tmlctdp == null) {
-                            throw new MalformedModelingException();
-                        }
-
-                        //int xSel = Integer.decode(elt.getAttribute("xSel")).intValue();
-                        //int ySel = Integer.decode(elt.getAttribute("ySel")).intValue();
-                        //int widthSel = Integer.decode(elt.getAttribute("widthSel")).intValue();
-                        //int heightSel = Integer.decode(elt.getAttribute("heightSel")).intValue();
-
-                        decX = _decX;
-                        decY = _decY;
+                        decX = (int)(_decX - X + X / zoomRatio);
+                        decY = (int)(_decY - Y  + Y / zoomRatio);
 
                         tmlctdp.loadExtraParameters(elt);
 
-                        //TraceManager.addDev("Toto 2");
-
                         //TraceManager.addDev("TML task diagram : " + tmltdp.getName() + " components");
-                        makeXMLComponents(elt.getElementsByTagName("COMPONENT"), tmlctdp, keepUUID, zoomRatio);
+                        ArrayList<TGComponent> list =  makeXMLComponents(elt.getElementsByTagName("COMPONENT"), tmlctdp, keepUUID, zoomRatio);
                         //TraceManager.addDev("Toto 3");
                         makePostProcessing(tmlctdp);
                         //TraceManager.addDev("TML task diagram : " + tmltdp.getName() + " connectors");
@@ -4740,6 +4513,7 @@ public class GTURTLEModeling {
                         makeXMLComponents(elt.getElementsByTagName("SUBCOMPONENT"), tmlctdp, keepUUID, zoomRatio);
                         //TraceManager.addDev("TML task diagram : " + tmltdp.getName() + " real points");
                         connectConnectorsToRealPoints(tmlctdp);
+                        TGScalableComponent.applyRawScaleToComponents(list, zoomRatio);
                         tmlctdp.structureChanged();
                         //TraceManager.addDev("TML task diagram : " + tmltdp.getName() + " post loading " + beginIndex);
                         makePostLoading(tmlctdp, beginIndex);
@@ -4751,13 +4525,9 @@ public class GTURTLEModeling {
                 tmlctdp.updatePorts();
             } else if (tdp instanceof TMLActivityDiagramPanel) {
                 nl = doc.getElementsByTagName("TMLActivityDiagramPanelCopy");
-
-                if (nl == null) {
-                    return;
-                }
+                if (nl == null) { return; }
 
                 double zoomRatio = getZoomFromXMLNodeList(nl, tdp.getZoom());
-
                 TMLActivityDiagramPanel tmladp = (TMLActivityDiagramPanel) tdp;
 
                 for (i = 0; i < nl.getLength(); i++) {
@@ -4765,28 +4535,18 @@ public class GTURTLEModeling {
                     if (adn.getNodeType() == Node.ELEMENT_NODE) {
                         elt = (Element) adn;
 
-                        if (tmladp == null) {
-                            throw new MalformedModelingException();
-                        }
-
-                        //int xSel = Integer.decode(elt.getAttribute("xSel")).intValue();
-                        //int ySel = Integer.decode(elt.getAttribute("ySel")).intValue();
-                        //int widthSel = Integer.decode(elt.getAttribute("widthSel")).intValue();
-                        //int heightSel = Integer.decode(elt.getAttribute("heightSel")).intValue();
-
-                        decX = _decX;
-                        decY = _decY;
-
-                        //tmladp.loadExtraParameters(elt);
+                        decX = (int)(_decX - X + X / zoomRatio);
+                        decY = (int)(_decY - Y  + Y / zoomRatio);
 
                         //TraceManager.addDev("Activity diagram : " + tmladp.getName() + " components");
-                        makeXMLComponents(elt.getElementsByTagName("COMPONENT"), tmladp, keepUUID, zoomRatio);
+                        ArrayList<TGComponent> list = makeXMLComponents(elt.getElementsByTagName("COMPONENT"), tmladp, keepUUID, zoomRatio);
                         //TraceManager.addDev("Activity diagram : " + tmladp.getName() + " connectors");
                         makeXMLConnectors(elt.getElementsByTagName("CONNECTOR"), tmladp, keepUUID);
                         //TraceManager.addDev("Activity diagram : " + tmladp.getName() + " subcomponents");
                         makeXMLComponents(elt.getElementsByTagName("SUBCOMPONENT"), tmladp, keepUUID, zoomRatio);
                         //TraceManager.addDev("Activity diagram : " + tadp.getName() + " real points");
                         connectConnectorsToRealPoints(tmladp);
+                        TGScalableComponent.applyRawScaleToComponents(list, zoomRatio);
                         tmladp.structureChanged();
                         //TraceManager.addDev("Activity diagram : " + tadp.getName() + " post loading");
                         makePostLoading(tmladp, beginIndex);
@@ -4795,15 +4555,9 @@ public class GTURTLEModeling {
             } else if (tdp instanceof TMLCPPanel) {
                 nl = doc.getElementsByTagName("CommunicationPatternDiagramPanelCopy");
                 docCopy = doc;
-
-                if (nl == null) {
-                    return;
-                }
+                if (nl == null) { return; }
 
                 double zoomRatio = getZoomFromXMLNodeList(nl, tdp.getZoom());
-
-                //TraceManager.addDev("Toto 1");
-
                 TMLCPPanel tmlcpp = (TMLCPPanel) tdp;
 
                 for (i = 0; i < nl.getLength(); i++) {
@@ -4811,24 +4565,11 @@ public class GTURTLEModeling {
                     if (adn.getNodeType() == Node.ELEMENT_NODE) {
                         elt = (Element) adn;
 
-                        if (tmlcpp == null) {
-                            throw new MalformedModelingException();
-                        }
-
-                        //int xSel = Integer.decode(elt.getAttribute("xSel")).intValue();
-                        //int ySel = Integer.decode(elt.getAttribute("ySel")).intValue();
-                        //int widthSel = Integer.decode(elt.getAttribute("widthSel")).intValue();
-                        //int heightSel = Integer.decode(elt.getAttribute("heightSel")).intValue();
-
-                        decX = _decX;
-                        decY = _decY;
-
-                        //tmlcpp.loadExtraParameters(elt);
-
-                        //TraceManager.addDev("Toto 2");
+                        decX = (int)(_decX - X + X / zoomRatio);
+                        decY = (int)(_decY - Y  + Y / zoomRatio);
 
                         //TraceManager.addDev("TML task diagram : " + tmltdp.getName() + " components");
-                        makeXMLComponents(elt.getElementsByTagName("COMPONENT"), tmlcpp, keepUUID, zoomRatio);
+                        ArrayList<TGComponent> list =  makeXMLComponents(elt.getElementsByTagName("COMPONENT"), tmlcpp, keepUUID, zoomRatio);
                         //TraceManager.addDev("Toto 3");
                         makePostProcessing(tmlcpp);
                         //TraceManager.addDev("TML task diagram : " + tmltdp.getName() + " connectors");
@@ -4837,6 +4578,7 @@ public class GTURTLEModeling {
                         makeXMLComponents(elt.getElementsByTagName("SUBCOMPONENT"), tmlcpp, keepUUID, zoomRatio);
                         //TraceManager.addDev("TML task diagram : " + tmltdp.getName() + " real points");
                         connectConnectorsToRealPoints(tmlcpp);
+                        TGScalableComponent.applyRawScaleToComponents(list, zoomRatio);
                         tmlcpp.structureChanged();
                         //TraceManager.addDev("TML task diagram : " + tmltdp.getName() + " post loading " + beginIndex);
                         makePostLoading(tmlcpp, beginIndex);
@@ -4846,15 +4588,9 @@ public class GTURTLEModeling {
             } else if (tdp instanceof TMLSDPanel) {
                 nl = doc.getElementsByTagName("TMLSDPanelCopy");
                 docCopy = doc;
-
-                if (nl == null) {
-                    return;
-                }
+                if (nl == null) { return; }
 
                 double zoomRatio = getZoomFromXMLNodeList(nl, tdp.getZoom());
-
-                //TraceManager.addDev("Toto 1");
-
                 TMLSDPanel tmlsdp = (TMLSDPanel) tdp;
 
                 for (i = 0; i < nl.getLength(); i++) {
@@ -4862,24 +4598,11 @@ public class GTURTLEModeling {
                     if (adn.getNodeType() == Node.ELEMENT_NODE) {
                         elt = (Element) adn;
 
-                        if (tmlsdp == null) {
-                            throw new MalformedModelingException();
-                        }
-
-                        //int xSel = Integer.decode(elt.getAttribute("xSel")).intValue();
-                        //int ySel = Integer.decode(elt.getAttribute("ySel")).intValue();
-                        //int widthSel = Integer.decode(elt.getAttribute("widthSel")).intValue();
-                        //int heightSel = Integer.decode(elt.getAttribute("heightSel")).intValue();
-
-                        decX = _decX;
-                        decY = _decY;
-
-                        //tmlcpp.loadExtraParameters(elt);
-
-                        //TraceManager.addDev("Toto 2");
+                        decX = (int)(_decX - X + X / zoomRatio);
+                        decY = (int)(_decY - Y  + Y / zoomRatio);
 
                         //TraceManager.addDev("TML task diagram : " + tmltdp.getName() + " components");
-                        makeXMLComponents(elt.getElementsByTagName("COMPONENT"), tmlsdp, keepUUID, zoomRatio);
+                        ArrayList<TGComponent> list =  makeXMLComponents(elt.getElementsByTagName("COMPONENT"), tmlsdp, keepUUID, zoomRatio);
                         //TraceManager.addDev("Toto 3");
                         makePostProcessing(tmlsdp);
                         //TraceManager.addDev("TML task diagram : " + tmltdp.getName() + " connectors");
@@ -4888,6 +4611,7 @@ public class GTURTLEModeling {
                         makeXMLComponents(elt.getElementsByTagName("SUBCOMPONENT"), tmlsdp, keepUUID, zoomRatio);
                         //TraceManager.addDev("TML task diagram : " + tmltdp.getName() + " real points");
                         connectConnectorsToRealPoints(tmlsdp);
+                        TGScalableComponent.applyRawScaleToComponents(list, zoomRatio);
                         tmlsdp.structureChanged();
                         //TraceManager.addDev("TML task diagram : " + tmltdp.getName() + " post loading " + beginIndex);
                         makePostLoading(tmlsdp, beginIndex);
@@ -4897,15 +4621,9 @@ public class GTURTLEModeling {
             } else if (tdp instanceof TMLArchiDiagramPanel) {
                 nl = doc.getElementsByTagName("TMLArchiDiagramPanelCopy");
                 docCopy = doc;
-
-                if (nl == null) {
-                    return;
-                }
+                if (nl == null) { return; }
 
                 double zoomRatio = getZoomFromXMLNodeList(nl, tdp.getZoom());
-
-                //TraceManager.addDev("Toto 1");
-
                 TMLArchiDiagramPanel tmadp = (TMLArchiDiagramPanel) tdp;
 
                 for (i = 0; i < nl.getLength(); i++) {
@@ -4913,24 +4631,13 @@ public class GTURTLEModeling {
                     if (adn.getNodeType() == Node.ELEMENT_NODE) {
                         elt = (Element) adn;
 
-                        if (tmadp == null) {
-                            throw new MalformedModelingException();
-                        }
-
-                        //int xSel = Integer.decode(elt.getAttribute("xSel")).intValue();
-                        //int ySel = Integer.decode(elt.getAttribute("ySel")).intValue();
-                        //int widthSel = Integer.decode(elt.getAttribute("widthSel")).intValue();
-                        //int heightSel = Integer.decode(elt.getAttribute("heightSel")).intValue();
-
-                        decX = _decX;
-                        decY = _decY;
+                        decX = (int)(_decX - X + X / zoomRatio);
+                        decY = (int)(_decY - Y  + Y / zoomRatio);
 
                         tmadp.loadExtraParameters(elt);
 
-                        //TraceManager.addDev("Toto 2");
-
                         //TraceManager.addDev("TML task diagram : " + tmltdp.getName() + " components");
-                        makeXMLComponents(elt.getElementsByTagName("COMPONENT"), tmadp, keepUUID, zoomRatio);
+                        ArrayList<TGComponent> list =  makeXMLComponents(elt.getElementsByTagName("COMPONENT"), tmadp, keepUUID, zoomRatio);
                         //TraceManager.addDev("Toto 3");
                         makePostProcessing(tmadp);
                         //TraceManager.addDev("TML task diagram : " + tmltdp.getName() + " connectors");
@@ -4939,6 +4646,7 @@ public class GTURTLEModeling {
                         makeXMLComponents(elt.getElementsByTagName("SUBCOMPONENT"), tmadp, keepUUID, zoomRatio);
                         //TraceManager.addDev("TML task diagram : " + tmltdp.getName() + " real points");
                         connectConnectorsToRealPoints(tmadp);
+                        TGScalableComponent.applyRawScaleToComponents(list, zoomRatio);
                         tmadp.structureChanged();
                         //TraceManager.addDev("TML task diagram : " + tmltdp.getName() + " post loading " + beginIndex);
                         makePostLoading(tmadp, beginIndex);
@@ -4948,13 +4656,9 @@ public class GTURTLEModeling {
             } else if (tdp instanceof TURTLEOSClassDiagramPanel) {
                 nl = doc.getElementsByTagName("TURTLEOSClassDiagramPanelCopy");
                 docCopy = doc;
-
-                if (nl == null) {
-                    return;
-                }
+                if (nl == null) { return; }
 
                 double zoomRatio = getZoomFromXMLNodeList(nl, tdp.getZoom());
-
                 TURTLEOSClassDiagramPanel toscdp = (TURTLEOSClassDiagramPanel) tdp;
 
                 for (i = 0; i < nl.getLength(); i++) {
@@ -4962,22 +4666,11 @@ public class GTURTLEModeling {
                     if (adn.getNodeType() == Node.ELEMENT_NODE) {
                         elt = (Element) adn;
 
-                        if (toscdp == null) {
-                            throw new MalformedModelingException();
-                        }
+                        decX = (int)(_decX - X + X / zoomRatio);
+                        decY = (int)(_decY - Y  + Y / zoomRatio);
 
-                        //int xSel = Integer.decode(elt.getAttribute("xSel")).intValue();
-                        //int ySel = Integer.decode(elt.getAttribute("ySel")).intValue();
-                        //int widthSel = Integer.decode(elt.getAttribute("widthSel")).intValue();
-                        //int heightSel = Integer.decode(elt.getAttribute("heightSel")).intValue();
-
-                        decX = _decX;
-                        decY = _decY;
-
-                        //toscdp.loadExtraParameters(elt);
-                        //TraceManager.addDev("Toto 2");
                         //TraceManager.addDev("TURTLEOS task diagram : " + toscdp.getName() + " components");
-                        makeXMLComponents(elt.getElementsByTagName("COMPONENT"), toscdp, keepUUID, zoomRatio);
+                        ArrayList<TGComponent> list =   makeXMLComponents(elt.getElementsByTagName("COMPONENT"), toscdp, keepUUID, zoomRatio);
                         //TraceManager.addDev("Toto 3");
                         makePostProcessing(toscdp);
                         //TraceManager.addDev("TURTLEOS task diagram : " + toscdp.getName() + " connectors");
@@ -4986,6 +4679,7 @@ public class GTURTLEModeling {
                         makeXMLComponents(elt.getElementsByTagName("SUBCOMPONENT"), toscdp, keepUUID, zoomRatio);
                         //TraceManager.addDev("TURTLEOS task diagram : " + toscdp.getName() + " real points");
                         connectConnectorsToRealPoints(toscdp);
+                        TGScalableComponent.applyRawScaleToComponents(list, zoomRatio);
                         toscdp.structureChanged();
                         //TraceManager.addDev("TURTLEOS task diagram : " + toscdp.getName() + " post loading " + beginIndex);
                         makePostLoading(toscdp, beginIndex);
@@ -4994,13 +4688,9 @@ public class GTURTLEModeling {
                 }
             } else if (tdp instanceof TURTLEOSActivityDiagramPanel) {
                 nl = doc.getElementsByTagName("TURTLEOSActivityDiagramPanelCopy");
-
-                if (nl == null) {
-                    return;
-                }
+                if (nl == null) { return; }
 
                 double zoomRatio = getZoomFromXMLNodeList(nl, tdp.getZoom());
-
                 TURTLEOSActivityDiagramPanel tosadp = (TURTLEOSActivityDiagramPanel) tdp;
 
                 for (i = 0; i < nl.getLength(); i++) {
@@ -5008,28 +4698,18 @@ public class GTURTLEModeling {
                     if (adn.getNodeType() == Node.ELEMENT_NODE) {
                         elt = (Element) adn;
 
-                        if (tosadp == null) {
-                            throw new MalformedModelingException();
-                        }
-
-                        //int xSel = Integer.decode(elt.getAttribute("xSel")).intValue();
-                        //int ySel = Integer.decode(elt.getAttribute("ySel")).intValue();
-                        //int widthSel = Integer.decode(elt.getAttribute("widthSel")).intValue();
-                        //int heightSel = Integer.decode(elt.getAttribute("heightSel")).intValue();
-
-                        decX = _decX;
-                        decY = _decY;
-
-                        //tmladp.loadExtraParameters(elt);
+                        decX = (int)(_decX - X + X / zoomRatio);
+                        decY = (int)(_decY - Y  + Y / zoomRatio);
 
                         //TraceManager.addDev("Activity diagram : " + tadp.getName() + " components");
-                        makeXMLComponents(elt.getElementsByTagName("COMPONENT"), tosadp, keepUUID, zoomRatio);
+                        ArrayList<TGComponent> list =  makeXMLComponents(elt.getElementsByTagName("COMPONENT"), tosadp, keepUUID, zoomRatio);
                         //TraceManager.addDev("Activity diagram : " + tadp.getName() + " connectors");
                         makeXMLConnectors(elt.getElementsByTagName("CONNECTOR"), tosadp, keepUUID);
                         //TraceManager.addDev("Activity diagram : " + tadp.getName() + " subcomponents");
                         makeXMLComponents(elt.getElementsByTagName("SUBCOMPONENT"), tosadp, keepUUID, zoomRatio);
                         //TraceManager.addDev("Activity diagram : " + tadp.getName() + " real points");
                         connectConnectorsToRealPoints(tosadp);
+                        TGScalableComponent.applyRawScaleToComponents(list, zoomRatio);
                         tosadp.structureChanged();
                         //TraceManager.addDev("Activity diagram : " + tadp.getName() + " post loading");
                         makePostLoading(tosadp, beginIndex);
@@ -5053,15 +4733,6 @@ public class GTURTLEModeling {
                     adn = nl.item(i);
                     if (adn.getNodeType() == Node.ELEMENT_NODE) {
                         elt = (Element) adn;
-                        if (pcsdp == null) {
-                            throw new MalformedModelingException();
-                        }
-
-
-                        //                                                                                        int xSel = Integer.decode(elt.getAttribute("xSel")).intValue();
-                        //int ySel = Integer.decode(elt.getAttribute("ySel")).intValue();
-                        //int widthSel = Integer.decode(elt.getAttribute("widthSel")).intValue();
-                        //int heightSel = Integer.decode(elt.getAttribute("heightSel")).intValue();
 
                         decX = _decX;
                         decY = _decY;
@@ -5069,7 +4740,7 @@ public class GTURTLEModeling {
                         //pcsdp.loadExtraParameters(elt);
                         //TraceManager.addDev("Toto 2");
                         //TraceManager.addDev("TML task diagram : " + tmltdp.getName() + " components");
-                        makeXMLComponents(elt.getElementsByTagName("COMPONENT"), pcsdp, keepUUID, zoomRatio);
+                        ArrayList<TGComponent> list =  makeXMLComponents(elt.getElementsByTagName("COMPONENT"), pcsdp, keepUUID, zoomRatio);
                         //TraceManager.addDev("Toto 3");
                         makePostProcessing(pcsdp);
                         //TraceManager.addDev("TML task diagram : " + tmltdp.getName() + " connectors");
@@ -5078,6 +4749,7 @@ public class GTURTLEModeling {
                         makeXMLComponents(elt.getElementsByTagName("SUBCOMPONENT"), pcsdp, keepUUID, zoomRatio);
                         //TraceManager.addDev("TML task diagram : " + tmltdp.getName() + " real points");
                         connectConnectorsToRealPoints(pcsdp);
+                        TGScalableComponent.applyRawScaleToComponents(list, zoomRatio);
                         pcsdp.structureChanged();
                         //TraceManager.addDev("TML task diagram : " + tmltdp.getName() + " post loading " + beginIndex);
                         makePostLoading(pcsdp, beginIndex);
@@ -5086,9 +4758,7 @@ public class GTURTLEModeling {
                 }
                 // Added by Solange
                 nl = doc.getElementsByTagName("ProactiveSMDPanel");
-                if (nl == null) {
-                    return;
-                }
+                if (nl == null) { return; }
                 String name = "";
                 ProactiveSMDPanel psmdp;
                 for (i = 0; i < nl.getLength(); i++) //Erased cuenta++ by Solange at the end condition of the for
@@ -5104,23 +4774,19 @@ public class GTURTLEModeling {
                             throw new MalformedModelingException();
                         }
 
-                        //                                                                                        int xSel = Integer.decode(elt.getAttribute("minX")).intValue();
-                        //int ySel = Integer.decode(elt.getAttribute("maxX")).intValue(); // - mgui.getCurrentTDiagramPanel().currentX;
-                        //                                                                                        int widthSel = Integer.decode(elt.getAttribute("minY")).intValue(); // - mgui.getCurrentTDiagramPanel().currentY;;
-                        //                                                                                        int heightSel = Integer.decode(elt.getAttribute("maxY")).intValue(); // - mgui.getCurrentTDiagramPanel().currentY;;
-
-                        decX = _decX;
-                        decY = _decY;
+                        decX = (int)(_decX - X + X / zoomRatio);
+                        decY = (int)(_decY - Y  + Y / zoomRatio);
 
                         //tmladp.loadExtraParameters(elt);
                         //TraceManager.addDev("Activity diagram : " + tadp.getName() + " components");
-                        makeXMLComponents(elt.getElementsByTagName("COMPONENT"), psmdp, keepUUID, zoomRatio);
+                        ArrayList<TGComponent> list =  makeXMLComponents(elt.getElementsByTagName("COMPONENT"), psmdp, keepUUID, zoomRatio);
                         //TraceManager.addDev("Activity diagram : " + tadp.getName() + " connectors");
                         makeXMLConnectors(elt.getElementsByTagName("CONNECTOR"), psmdp, keepUUID);
                         //TraceManager.addDev("Activity diagram : " + tadp.getName() + " subcomponents");
                         makeXMLComponents(elt.getElementsByTagName("SUBCOMPONENT"), psmdp, keepUUID, zoomRatio);
                         //TraceManager.addDev("Activity diagram : " + tadp.getName() + " real points");
                         connectConnectorsToRealPoints(psmdp);
+                        TGScalableComponent.applyRawScaleToComponents(list, zoomRatio);
                         psmdp.structureChanged();
                         //TraceManager.addDev("Activity diagram : " + tadp.getName() + " post loading");
                         makePostLoading(psmdp, beginIndex);
@@ -5131,13 +4797,9 @@ public class GTURTLEModeling {
                 //Changed by Solange, before it was like the first line
                 //nl = doc.getElementsByTagName("ProactiveSMDPanelCopy");
                 nl = doc.getElementsByTagName("ProactiveSMDPanelCopy");
-
-                if (nl == null) {
-                    return;
-                }
+                if (nl == null) { return; }
 
                 double zoomRatio = getZoomFromXMLNodeList(nl, tdp.getZoom());
-
                 ProactiveSMDPanel psmdp = (ProactiveSMDPanel) tdp;
 
                 for (i = 0; i < nl.getLength(); i++) {
@@ -5145,28 +4807,18 @@ public class GTURTLEModeling {
                     if (adn.getNodeType() == Node.ELEMENT_NODE) {
                         elt = (Element) adn;
 
-                        if (psmdp == null) {
-                            throw new MalformedModelingException();
-                        }
-
-                        //int xSel = Integer.decode(elt.getAttribute("xSel")).intValue();
-                        //int ySel = Integer.decode(elt.getAttribute("ySel")).intValue();
-                        //int widthSel = Integer.decode(elt.getAttribute("widthSel")).intValue();
-                        //int heightSel = Integer.decode(elt.getAttribute("heightSel")).intValue();
-
-                        decX = _decX;
-                        decY = _decY;
-
-                        //tmladp.loadExtraParameters(elt);
+                        decX = (int)(_decX - X + X / zoomRatio);
+                        decY = (int)(_decY - Y  + Y / zoomRatio);
 
                         //TraceManager.addDev("Activity diagram : " + tadp.getName() + " components");
-                        makeXMLComponents(elt.getElementsByTagName("COMPONENT"), psmdp, keepUUID, zoomRatio);
+                        ArrayList<TGComponent> list =  makeXMLComponents(elt.getElementsByTagName("COMPONENT"), psmdp, keepUUID, zoomRatio);
                         //TraceManager.addDev("Activity diagram : " + tadp.getName() + " connectors");
                         makeXMLConnectors(elt.getElementsByTagName("CONNECTOR"), psmdp, keepUUID);
                         //TraceManager.addDev("Activity diagram : " + tadp.getName() + " subcomponents");
                         makeXMLComponents(elt.getElementsByTagName("SUBCOMPONENT"), psmdp, keepUUID, zoomRatio);
                         //TraceManager.addDev("Activity diagram : " + tadp.getName() + " real points");
                         connectConnectorsToRealPoints(psmdp);
+                        TGScalableComponent.applyRawScaleToComponents(list, zoomRatio);
                         psmdp.structureChanged();
                         //TraceManager.addDev("Activity diagram : " + tadp.getName() + " post loading");
                         makePostLoading(psmdp, beginIndex);
@@ -5178,41 +4830,23 @@ public class GTURTLEModeling {
                 nl = doc.getElementsByTagName("AVATARBlockDiagramPanelCopy");
                 docCopy = doc;
 
-                if (nl == null) {
-                    return;
-                }
+                if (nl == null) { return; }
 
                 double zoomRatio = getZoomFromXMLNodeList(nl, tdp.getZoom());
-
-                //TraceManager.addDev("Toto 1");
-
-
                 AvatarBDPanel abdp = (AvatarBDPanel) tdp;
-
 
                 for (i = 0; i < nl.getLength(); i++) {
                     adn = nl.item(i);
                     if (adn.getNodeType() == Node.ELEMENT_NODE) {
                         elt = (Element) adn;
 
-                        if (abdp == null) {
-                            throw new MalformedModelingException();
-                        }
-
-                        //int xSel = Integer.decode(elt.getAttribute("xSel")).intValue();
-                        //int ySel = Integer.decode(elt.getAttribute("ySel")).intValue();
-                        //int widthSel = Integer.decode(elt.getAttribute("widthSel")).intValue();
-                        //int heightSel = Integer.decode(elt.getAttribute("heightSel")).intValue();
-
-                        decX = _decX;
-                        decY = _decY;
+                        decX = (int)(_decX - X + X / zoomRatio);
+                        decY = (int)(_decY - Y  + Y / zoomRatio);
 
                         abdp.loadExtraParameters(elt);
 
-                        //TraceManager.addDev("Toto 2");
-
                         //TraceManager.addDev("TML task diagram : " + tmltdp.getName() + " components");
-                        makeXMLComponents(elt.getElementsByTagName("COMPONENT"), abdp, keepUUID, zoomRatio);
+                        ArrayList<TGComponent> list =  makeXMLComponents(elt.getElementsByTagName("COMPONENT"), abdp, keepUUID, zoomRatio);
                         //TraceManager.addDev("Toto 3");
                         makePostProcessing(abdp);
                         //TraceManager.addDev("TML task diagram : " + tmltdp.getName() + " connectors");
@@ -5221,6 +4855,7 @@ public class GTURTLEModeling {
                         makeXMLComponents(elt.getElementsByTagName("SUBCOMPONENT"), abdp, keepUUID, zoomRatio);
                         //TraceManager.addDev("TML task diagram : " + tmltdp.getName() + " real points");
                         connectConnectorsToRealPoints(abdp);
+                        TGScalableComponent.applyRawScaleToComponents(list, zoomRatio);
                         abdp.structureChanged();
                         //TraceManager.addDev("TML task diagram : " + tmltdp.getName() + " post loading " + beginIndex);
                         makePostLoading(abdp, beginIndex);
@@ -5232,42 +4867,26 @@ public class GTURTLEModeling {
             } else if (tdp instanceof ADDDiagramPanel) {
                 nl = doc.getElementsByTagName("ADDDiagramPanelCopy");
                 docCopy = doc;
-
-                if (nl == null) {
-                    return;
-                }
+                if (nl == null) { return; }
 
                 double zoomRatio = getZoomFromXMLNodeList(nl, tdp.getZoom());
-
-                //TraceManager.addDev("Toto 1");
-
-
                 ADDDiagramPanel addp = (ADDDiagramPanel) tdp;
-
 
                 for (i = 0; i < nl.getLength(); i++) {
                     adn = nl.item(i);
                     if (adn.getNodeType() == Node.ELEMENT_NODE) {
                         elt = (Element) adn;
 
-                        if (addp == null) {
-                            throw new MalformedModelingException();
-                        }
+                        if (addp == null) { throw new MalformedModelingException(); }
 
-                        //int xSel = Integer.decode(elt.getAttribute("xSel")).intValue();
-                        //int ySel = Integer.decode(elt.getAttribute("ySel")).intValue();
-                        //int widthSel = Integer.decode(elt.getAttribute("widthSel")).intValue();
-                        //int heightSel = Integer.decode(elt.getAttribute("heightSel")).intValue();
-
-                        decX = _decX;
-                        decY = _decY;
+                        decX = (int)(_decX - X + X / zoomRatio);
+                        decY = (int)(_decY - Y  + Y / zoomRatio);
 
                         addp.loadExtraParameters(elt);
 
-                        //TraceManager.addDev("Toto 2");
 
                         //TraceManager.addDev("TML task diagram : " + tmltdp.getName() + " components");
-                        makeXMLComponents(elt.getElementsByTagName("COMPONENT"), addp, keepUUID, zoomRatio);
+                        ArrayList<TGComponent> list =  makeXMLComponents(elt.getElementsByTagName("COMPONENT"), addp, keepUUID, zoomRatio);
                         //TraceManager.addDev("Toto 3");
                         makePostProcessing(addp);
                         //TraceManager.addDev("TML task diagram : " + tmltdp.getName() + " connectors");
@@ -5276,6 +4895,7 @@ public class GTURTLEModeling {
                         makeXMLComponents(elt.getElementsByTagName("SUBCOMPONENT"), addp, keepUUID, zoomRatio);
                         //TraceManager.addDev("TML task diagram : " + tmltdp.getName() + " real points");
                         connectConnectorsToRealPoints(addp);
+                        TGScalableComponent.applyRawScaleToComponents(list, zoomRatio);
                         addp.structureChanged();
                         //TraceManager.addDev("TML task diagram : " + tmltdp.getName() + " post loading " + beginIndex);
                         makePostLoading(addp, beginIndex);
@@ -5285,13 +4905,9 @@ public class GTURTLEModeling {
 
             } else if (tdp instanceof AvatarSMDPanel) {
                 nl = doc.getElementsByTagName("AVATARStateMachineDiagramPanelCopy");
-
-                if (nl == null) {
-                    return;
-                }
+                if (nl == null) { return; }
 
                 double zoomRatio = getZoomFromXMLNodeList(nl, tdp.getZoom());
-
                 AvatarSMDPanel asmdp = (AvatarSMDPanel) tdp;
 
                 for (i = 0; i < nl.getLength(); i++) {
@@ -5299,28 +4915,20 @@ public class GTURTLEModeling {
                     if (adn.getNodeType() == Node.ELEMENT_NODE) {
                         elt = (Element) adn;
 
-                        if (asmdp == null) {
-                            throw new MalformedModelingException();
-                        }
+                        if (asmdp == null) { throw new MalformedModelingException(); }
 
-                        //int xSel = Integer.decode(elt.getAttribute("xSel")).intValue();
-                        //int ySel = Integer.decode(elt.getAttribute("ySel")).intValue();
-                        //int widthSel = Integer.decode(elt.getAttribute("widthSel")).intValue();
-                        //int heightSel = Integer.decode(elt.getAttribute("heightSel")).intValue();
-
-                        decX = _decX;
-                        decY = _decY;
-
-                        //tmladp.loadExtraParameters(elt);
+                        decX = (int)(_decX - X + X / zoomRatio);
+                        decY = (int)(_decY - Y  + Y / zoomRatio);
 
                         //TraceManager.addDev("Activity diagram : " + tmladp.getName() + " components");
-                        makeXMLComponents(elt.getElementsByTagName("COMPONENT"), asmdp, keepUUID, zoomRatio);
+                        ArrayList<TGComponent> list =  makeXMLComponents(elt.getElementsByTagName("COMPONENT"), asmdp, keepUUID, zoomRatio);
                         //TraceManager.addDev("Activity diagram : " + tmladp.getName() + " connectors");
                         makeXMLConnectors(elt.getElementsByTagName("CONNECTOR"), asmdp, keepUUID);
                         //TraceManager.addDev("Activity diagram : " + tmladp.getName() + " subcomponents");
                         makeXMLComponents(elt.getElementsByTagName("SUBCOMPONENT"), asmdp, keepUUID, zoomRatio);
                         //TraceManager.addDev("Activity diagram : " + tadp.getName() + " real points");
                         connectConnectorsToRealPoints(asmdp);
+                        TGScalableComponent.applyRawScaleToComponents(list, zoomRatio);
                         asmdp.structureChanged();
                         //TraceManager.addDev("Activity diagram : " + tadp.getName() + " post loading");
                         makePostLoading(asmdp, beginIndex);
@@ -5328,44 +4936,34 @@ public class GTURTLEModeling {
                 }
             } else if (tdp instanceof ELNDiagramPanel) {
                 nl = doc.getElementsByTagName("ELNDiagramPanelCopy");
-
-                if (nl == null) {
-                    return;
-                }
+                if (nl == null) { return; }
 
                 double zoomRatio = getZoomFromXMLNodeList(nl, tdp.getZoom());
-
                 ELNDiagramPanel elndp = (ELNDiagramPanel) tdp;
 
                 for (i = 0; i < nl.getLength(); i++) {
                     adn = nl.item(i);
                     if (adn.getNodeType() == Node.ELEMENT_NODE) {
                         elt = (Element) adn;
+                        if (elndp == null) { throw new MalformedModelingException(); }
 
-                        if (elndp == null) {
-                            throw new MalformedModelingException();
-                        }
+                        decX = (int)(_decX - X + X / zoomRatio);
+                        decY = (int)(_decY - Y  + Y / zoomRatio);
 
-                        decX = _decX;
-                        decY = _decY;
-
-                        makeXMLComponents(elt.getElementsByTagName("COMPONENT"), elndp, keepUUID, zoomRatio);
+                        ArrayList<TGComponent> list =  makeXMLComponents(elt.getElementsByTagName("COMPONENT"), elndp, keepUUID, zoomRatio);
                         makeXMLConnectors(elt.getElementsByTagName("CONNECTOR"), elndp, keepUUID);
                         makeXMLComponents(elt.getElementsByTagName("SUBCOMPONENT"), elndp, keepUUID, zoomRatio);
                         connectConnectorsToRealPoints(elndp);
+                        TGScalableComponent.applyRawScaleToComponents(list, zoomRatio);
                         elndp.structureChanged();
                         makePostLoading(elndp, beginIndex);
                     }
                 }
             } else if (tdp instanceof AvatarADPanel) {
                 nl = doc.getElementsByTagName("AvatarADPanelCopy");
-
-                if (nl == null) {
-                    return;
-                }
+                if (nl == null) { return; }
 
                 double zoomRatio = getZoomFromXMLNodeList(nl, tdp.getZoom());
-
                 AvatarADPanel aadp = (AvatarADPanel) tdp;
 
                 for (i = 0; i < nl.getLength(); i++) {
@@ -5373,17 +4971,15 @@ public class GTURTLEModeling {
                     if (adn.getNodeType() == Node.ELEMENT_NODE) {
                         elt = (Element) adn;
 
-                        if (aadp == null) {
-                            throw new MalformedModelingException();
-                        }
+                        if (aadp == null) { throw new MalformedModelingException(); }
+                        decX = (int)(_decX - X + X / zoomRatio);
+                        decY = (int)(_decY - Y  + Y / zoomRatio);
 
-                        decX = _decX;
-                        decY = _decY;
-
-                        makeXMLComponents(elt.getElementsByTagName("COMPONENT"), aadp, keepUUID, zoomRatio);
+                        ArrayList<TGComponent> list = makeXMLComponents(elt.getElementsByTagName("COMPONENT"), aadp, keepUUID, zoomRatio);
                         makeXMLConnectors(elt.getElementsByTagName("CONNECTOR"), aadp, keepUUID);
                         makeXMLComponents(elt.getElementsByTagName("SUBCOMPONENT"), aadp, keepUUID, zoomRatio);
                         connectConnectorsToRealPoints(aadp);
+                        TGScalableComponent.applyRawScaleToComponents(list, zoomRatio);
                         aadp.structureChanged();
                         makePostLoading(aadp, beginIndex);
                     }
@@ -5392,13 +4988,9 @@ public class GTURTLEModeling {
 
             } else if (tdp instanceof AvatarRDPanel) {
                 nl = doc.getElementsByTagName("AvatarRDPanelCopy");
-
-                if (nl == null) {
-                    return;
-                }
+                if (nl == null) { return; }
 
                 double zoomRatio = getZoomFromXMLNodeList(nl, tdp.getZoom());
-
                 AvatarRDPanel ardp = (AvatarRDPanel) tdp;
 
                 for (i = 0; i < nl.getLength(); i++) {
@@ -5406,22 +4998,16 @@ public class GTURTLEModeling {
                     if (adn.getNodeType() == Node.ELEMENT_NODE) {
                         elt = (Element) adn;
 
-                        if (ardp == null) {
-                            throw new MalformedModelingException();
-                        }
+                        if (ardp == null) { throw new MalformedModelingException(); }
 
-                        //int xSel = Integer.decode(elt.getAttribute("xSel")).intValue();
-                        //int ySel = Integer.decode(elt.getAttribute("ySel")).intValue();
-                        //int widthSel = Integer.decode(elt.getAttribute("widthSel")).intValue();
-                        //int heightSel = Integer.decode(elt.getAttribute("heightSel")).intValue();
+                        decX = (int)(_decX - X + X / zoomRatio);
+                        decY = (int)(_decY - Y  + Y / zoomRatio);
 
-                        decX = _decX;
-                        decY = _decY;
-
-                        makeXMLComponents(elt.getElementsByTagName("COMPONENT"), ardp, keepUUID, zoomRatio);
+                        ArrayList<TGComponent> list = makeXMLComponents(elt.getElementsByTagName("COMPONENT"), ardp, keepUUID, zoomRatio);
                         makeXMLConnectors(elt.getElementsByTagName("CONNECTOR"), ardp, keepUUID);
                         makeXMLComponents(elt.getElementsByTagName("SUBCOMPONENT"), ardp, keepUUID, zoomRatio);
                         connectConnectorsToRealPoints(ardp);
+                        TGScalableComponent.applyRawScaleToComponents(list, zoomRatio);
                         ardp.structureChanged();
                         makePostLoading(ardp, beginIndex);
                     }
@@ -5429,36 +5015,24 @@ public class GTURTLEModeling {
 
             } else if (tdp instanceof AvatarMADPanel) {
                 nl = doc.getElementsByTagName("AvatarMADPanelCopy");
-
-                if (nl == null) {
-                    return;
-                }
+                if (nl == null) { return; }
 
                 double zoomRatio = getZoomFromXMLNodeList(nl, tdp.getZoom());
-
                 AvatarMADPanel amadp = (AvatarMADPanel) tdp;
 
                 for (i = 0; i < nl.getLength(); i++) {
                     adn = nl.item(i);
                     if (adn.getNodeType() == Node.ELEMENT_NODE) {
                         elt = (Element) adn;
+                        if (amadp == null) { throw new MalformedModelingException(); }
+                        decX = (int)(_decX - X + X / zoomRatio);
+                        decY = (int)(_decY - Y  + Y / zoomRatio);
 
-                        if (amadp == null) {
-                            throw new MalformedModelingException();
-                        }
-
-                        //int xSel = Integer.decode(elt.getAttribute("xSel")).intValue();
-                        //int ySel = Integer.decode(elt.getAttribute("ySel")).intValue();
-                        //int widthSel = Integer.decode(elt.getAttribute("widthSel")).intValue();
-                        //int heightSel = Integer.decode(elt.getAttribute("heightSel")).intValue();
-
-                        decX = _decX;
-                        decY = _decY;
-
-                        makeXMLComponents(elt.getElementsByTagName("COMPONENT"), amadp, keepUUID, zoomRatio);
+                        ArrayList<TGComponent> list =  makeXMLComponents(elt.getElementsByTagName("COMPONENT"), amadp, keepUUID, zoomRatio);
                         makeXMLConnectors(elt.getElementsByTagName("CONNECTOR"), amadp, keepUUID);
                         makeXMLComponents(elt.getElementsByTagName("SUBCOMPONENT"), amadp, keepUUID, zoomRatio);
                         connectConnectorsToRealPoints(amadp);
+                        TGScalableComponent.applyRawScaleToComponents(list, zoomRatio);
                         amadp.structureChanged();
                         makePostLoading(amadp, beginIndex);
                     }
@@ -5466,13 +5040,9 @@ public class GTURTLEModeling {
 
             } else if (tdp instanceof AvatarPDPanel) {
                 nl = doc.getElementsByTagName("AvatarPDPanelCopy");
-
-                if (nl == null) {
-                    return;
-                }
+                if (nl == null) { return; }
 
                 double zoomRatio = getZoomFromXMLNodeList(nl, tdp.getZoom());
-
                 AvatarPDPanel apdp = (AvatarPDPanel) tdp;
 
                 for (i = 0; i < nl.getLength(); i++) {
@@ -5480,23 +5050,16 @@ public class GTURTLEModeling {
                     if (adn.getNodeType() == Node.ELEMENT_NODE) {
                         elt = (Element) adn;
 
-                        if (apdp == null) {
-                            throw new MalformedModelingException();
-                        }
-
-                        //int xSel = Integer.decode(elt.getAttribute("xSel")).intValue();
-                        //int ySel = Integer.decode(elt.getAttribute("ySel")).intValue();
-                        //int widthSel = Integer.decode(elt.getAttribute("widthSel")).intValue();
-                        //int heightSel = Integer.decode(elt.getAttribute("heightSel")).intValue();
-
-                        decX = _decX;
-                        decY = _decY;
+                        if (apdp == null) { throw new MalformedModelingException(); }
+                        decX = (int)(_decX - X + X / zoomRatio);
+                        decY = (int)(_decY - Y  + Y / zoomRatio);
 
 
-                        makeXMLComponents(elt.getElementsByTagName("COMPONENT"), apdp, keepUUID, zoomRatio);
+                        ArrayList<TGComponent> list = makeXMLComponents(elt.getElementsByTagName("COMPONENT"), apdp, keepUUID, zoomRatio);
                         makeXMLConnectors(elt.getElementsByTagName("CONNECTOR"), apdp, keepUUID);
                         makeXMLComponents(elt.getElementsByTagName("SUBCOMPONENT"), apdp, keepUUID, zoomRatio);
                         connectConnectorsToRealPoints(apdp);
+                        TGScalableComponent.applyRawScaleToComponents(list, zoomRatio);
                         apdp.structureChanged();
                         makePostLoading(apdp, beginIndex);
                     }
@@ -5504,13 +5067,9 @@ public class GTURTLEModeling {
 
             } else if (tdp instanceof AvatarCDPanel) {
                 nl = doc.getElementsByTagName("AvatarCDPanelCopy");
-
-                if (nl == null) {
-                    return;
-                }
+                if (nl == null) { return; }
 
                 double zoomRatio = getZoomFromXMLNodeList(nl, tdp.getZoom());
-
                 AvatarCDPanel acdp = (AvatarCDPanel) tdp;
 
                 for (i = 0; i < nl.getLength(); i++) {
@@ -5518,26 +5077,16 @@ public class GTURTLEModeling {
                     if (adn.getNodeType() == Node.ELEMENT_NODE) {
                         elt = (Element) adn;
 
-                        if (acdp == null) {
-                            throw new MalformedModelingException();
-                        }
-
-                        //int xSel = Integer.decode(elt.getAttribute("xSel")).intValue();
-                        //int ySel = Integer.decode(elt.getAttribute("ySel")).intValue();
-                        //int widthSel = Integer.decode(elt.getAttribute("widthSel")).intValue();
-                        //int heightSel = Integer.decode(elt.getAttribute("heightSel")).intValue();
+                        if (acdp == null) { throw new MalformedModelingException(); }
 
                         decX = (int)(_decX - X + X / zoomRatio);
                         decY = (int)(_decY - Y  + Y / zoomRatio);
 
-
-                        TraceManager.addDev("ACDPanel decX=" + decX );
-                        TraceManager.addDev("ACDPanel decY=" + decY );
-
-                        makeXMLComponents(elt.getElementsByTagName("COMPONENT"), acdp, keepUUID, zoomRatio);
+                        ArrayList<TGComponent> list = makeXMLComponents(elt.getElementsByTagName("COMPONENT"), acdp, keepUUID, zoomRatio);
                         makeXMLConnectors(elt.getElementsByTagName("CONNECTOR"), acdp, keepUUID);
                         makeXMLComponents(elt.getElementsByTagName("SUBCOMPONENT"), acdp, keepUUID, zoomRatio);
                         connectConnectorsToRealPoints(acdp);
+                        TGScalableComponent.applyRawScaleToComponents(list, zoomRatio);
                         acdp.structureChanged();
                         makePostLoading(acdp, beginIndex);
                     }
@@ -7697,7 +7246,8 @@ public class GTURTLEModeling {
         makeXMLComponents(nl, tdp, keepUUID, 1);
     }
 
-    public void makeXMLComponents(NodeList nl, TDiagramPanel tdp, boolean keepUUID, double zoomV) throws SAXException, MalformedModelingException {
+    public ArrayList<TGComponent> makeXMLComponents(NodeList nl, TDiagramPanel tdp, boolean keepUUID, double zoomV) throws SAXException,
+    MalformedModelingException {
         Node n;
         //Element elt;
         TGComponent tgc;
@@ -7711,6 +7261,7 @@ public class GTURTLEModeling {
 
         //TraceManager.addDev("Keep UUID=" + keepUUID);
 
+        ArrayList<TGComponent> list = new ArrayList<>();
 
         try {
 
@@ -7726,10 +7277,11 @@ public class GTURTLEModeling {
                         if ((tgc != null) && (tgc.getFather() == null)) {
                             //TraceManager.addDev("Component added to diagram tgc=" + tgc);
                             tdp.addBuiltComponent(tgc);
-                            if ((zoomV != 1) && (tgc instanceof TGScalableComponent)){
+                            list.add(tgc);
+                            /*if ((zoomV != 1) && (tgc instanceof TGScalableComponent)){
                                 ((TGScalableComponent)tgc).forceScale(zoomV);
                                 TraceManager.addDev("myX after =" + tgc.getX());
-                            }
+                            }*/
                         } else if (tgc == null) {
                             TraceManager.addDev("Component not added to diagram:" + tgc);
                         }
@@ -7758,6 +7310,8 @@ public class GTURTLEModeling {
         }
 
         tdp.drawable = true;
+
+        return list;
 
 		/*if (error) {
 		  throw new MalformedModelingException();
@@ -7919,8 +7473,12 @@ public class GTURTLEModeling {
             //TGComponent is ready to be built
 
 
-            // Do the scaling here?
 
+            // Do the scaling here?
+            /*if ((zoomV != 1) && (tgc instanceof TGScalableComponent)){
+                ((TGScalableComponent)tgc).forceScale(zoomV);
+                TraceManager.addDev("myX after =" + tgc.getX());
+            }*/
 
             if (fatherId != -1) {
                 fatherId += decId;
@@ -7945,6 +7503,10 @@ public class GTURTLEModeling {
                     if (father instanceof SwallowTGComponent) {
                         //TraceManager.addDev("1 Must add the component to its father:");
                         tgc = TGComponentManager.addComponent(myX, myY, myType, tdp);
+                        /*if ((zoomV != 1) && (tgc instanceof TGScalableComponent)){
+                            ((TGScalableComponent)tgc).forceScale(zoomV);
+                            TraceManager.addDev("myX after =" + tgc.getX());
+                        }*/
                         //TraceManager.addDev("2 Must add the component to its father:" + tgc);
                         if (tgc instanceof SwallowedTGComponent) {
                             //TraceManager.addDev("3 Must add the component to its father:");
@@ -7967,6 +7529,10 @@ public class GTURTLEModeling {
                 }
             } else {
                 tgc = TGComponentManager.addComponent(myX, myY, myType, tdp);
+                /*if ((zoomV != 1) && (tgc instanceof TGScalableComponent)){
+                    ((TGScalableComponent)tgc).forceScale(zoomV);
+                    TraceManager.addDev("myX after =" + tgc.getX());
+                }*/
             }
             // TraceManager.addDev("TGComponent (" + tgc + ") built " + myType);
 

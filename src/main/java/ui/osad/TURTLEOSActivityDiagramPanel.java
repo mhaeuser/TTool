@@ -86,7 +86,8 @@ public class TURTLEOSActivityDiagramPanel extends TDiagramPanel implements Activ
     }
     
     public String getXMLSelectedHead() {
-        return "<TURTLEOSActivityDiagramPanelCopy name=\"" + name + "\" xSel=\"" + xSel + "\" ySel=\"" + ySel + "\" widthSel=\"" + widthSel + "\" heightSel=\"" + heightSel + "\" >";
+        return "<TURTLEOSActivityDiagramPanelCopy name=\"" + name + "\" xSel=\"" + xSel + "\" ySel=\"" + ySel + "\" widthSel=\"" + widthSel + "\" heightSel=\"" + heightSel +
+                "\"" + zoomParam()  + ">";
     }
     
     public String getXMLSelectedTail() {
@@ -94,7 +95,8 @@ public class TURTLEOSActivityDiagramPanel extends TDiagramPanel implements Activ
     }
     
     public String getXMLCloneHead() {
-        return "<TURTLEOSActivityDiagramPanelCopy name=\"" + name + "\" xSel=\"" + 0 + "\" ySel=\"" + 0 + "\" widthSel=\"" + 0 + "\" heightSel=\"" + 0 + "\" >";
+        return "<TURTLEOSActivityDiagramPanelCopy name=\"" + name + "\" xSel=\"" + 0 + "\" ySel=\"" + 0 + "\" widthSel=\"" + 0 + "\" heightSel=\"" + 0 +
+                "\"" + zoomParam()  + ">";
     }
     
     public String getXMLCloneTail() {

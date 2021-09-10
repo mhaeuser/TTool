@@ -126,7 +126,8 @@ public class TMLTaskDiagramPanel extends TDiagramPanel {
     
     @Override
     public String getXMLSelectedHead() {
-        return "<TMLTaskDiagramPanelCopy name=\"" + name + "\" xSel=\"" + xSel + "\" ySel=\"" + ySel + "\" widthSel=\"" + widthSel + "\" heightSel=\"" + heightSel + "\" >";
+        return "<TMLTaskDiagramPanelCopy name=\"" + name + "\" xSel=\"" + xSel + "\" ySel=\"" + ySel + "\" widthSel=\"" + widthSel + "\" heightSel=\"" + heightSel +
+                "\"" + zoomParam()  + ">";
     }
     
     @Override
@@ -136,7 +137,8 @@ public class TMLTaskDiagramPanel extends TDiagramPanel {
     
     @Override
     public String getXMLCloneHead() {
-        return "<TMLTaskDiagramPanelCopy name=\"" + name + "\" xSel=\"" + 0 + "\" ySel=\"" + 0 + "\" widthSel=\"" + 0 + "\" heightSel=\"" + 0 + "\" >";
+        return "<TMLTaskDiagramPanelCopy name=\"" + name + "\" xSel=\"" + 0 + "\" ySel=\"" + 0 + "\" widthSel=\"" + 0 + "\" heightSel=\"" + 0 +
+                "\"" + zoomParam()  + ">";
     }
     
     @Override

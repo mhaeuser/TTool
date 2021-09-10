@@ -120,7 +120,8 @@ public class TDeploymentDiagramPanel extends TDiagramPanel {
     }
     
     public String getXMLSelectedHead() {
-        return "<TDeploymentDiagramPanelCopy name=\"" + name + "\" xSel=\"" + xSel + "\" ySel=\"" + ySel + "\" widthSel=\"" + widthSel + "\" heightSel=\"" + heightSel + "\" >";
+        return "<TDeploymentDiagramPanelCopy name=\"" + name + "\" xSel=\"" + xSel + "\" ySel=\"" + ySel + "\" widthSel=\"" + widthSel + "\" heightSel=\"" + heightSel +
+                "\"" + zoomParam()  + ">";
     }
     
     public String getXMLSelectedTail() {
@@ -128,7 +129,8 @@ public class TDeploymentDiagramPanel extends TDiagramPanel {
     }
     
     public String getXMLCloneHead() {
-        return "<TDeploymentDiagramPanelCopy name=\"" + name + "\" xSel=\"" + 0 + "\" ySel=\"" + 0 + "\" widthSel=\"" + 0 + "\" heightSel=\"" + 0 + "\" >";
+        return "<TDeploymentDiagramPanelCopy name=\"" + name + "\" xSel=\"" + 0 + "\" ySel=\"" + 0 + "\" widthSel=\"" + 0 + "\" heightSel=\"" + 0 +
+                "\"" + zoomParam()  + ">";
     }
     
     public String getXMLCloneTail() {

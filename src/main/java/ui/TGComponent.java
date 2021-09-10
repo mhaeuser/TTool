@@ -2391,6 +2391,8 @@ public abstract class TGComponent  extends AbstractCDElement implements /*CDElem
         return y;
     }
 
+
+
     public double getZoomFactor() {
     	if ( tdp == null ) {
     		return 1.0;

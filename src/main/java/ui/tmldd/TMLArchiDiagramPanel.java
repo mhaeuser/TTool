@@ -204,7 +204,8 @@ public class TMLArchiDiagramPanel extends TDiagramPanel implements TDPWithAttrib
 
     @Override
     public String getXMLSelectedHead() {
-        return "<TMLArchiDiagramPanelCopy name=\"" + name + "\" xSel=\"" + xSel + "\" ySel=\"" + ySel + "\" widthSel=\"" + widthSel + "\" heightSel=\"" + heightSel + "\" >";
+        return "<TMLArchiDiagramPanelCopy name=\"" + name + "\" xSel=\"" + xSel + "\" ySel=\"" + ySel + "\" widthSel=\"" + widthSel + "\" heightSel=\"" + heightSel +
+                "\"" + zoomParam()  + ">";
     }
 
     @Override
@@ -214,7 +215,8 @@ public class TMLArchiDiagramPanel extends TDiagramPanel implements TDPWithAttrib
 
     @Override
     public String getXMLCloneHead() {
-        return "<TMLArchiDiagramPanelCopy name=\"" + name + "\" xSel=\"" + 0 + "\" ySel=\"" + 0 + "\" widthSel=\"" + 0 + "\" heightSel=\"" + 0 + "\" >";
+        return "<TMLArchiDiagramPanelCopy name=\"" + name + "\" xSel=\"" + 0 + "\" ySel=\"" + 0 + "\" widthSel=\"" + 0 + "\" heightSel=\"" + 0 +
+                "\"" + zoomParam()  + ">";
     }
 
     @Override

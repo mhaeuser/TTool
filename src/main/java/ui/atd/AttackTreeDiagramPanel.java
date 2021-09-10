@@ -95,7 +95,9 @@ public class AttackTreeDiagramPanel extends TDiagramPanel implements TDPWithAttr
     }
     
     public String getXMLSelectedHead() {
-        return "<AttackTreeDiagramPanelCopy name=\"" + name + "\" xSel=\"" + xSel + "\" ySel=\"" + ySel + "\" widthSel=\"" + widthSel + "\" heightSel=\"" + heightSel + "\" >";
+        return "<AttackTreeDiagramPanelCopy name=\"" + name + "\" xSel=\"" + xSel + "\" ySel=\"" + ySel + "\" widthSel=\"" +
+                widthSel + "\" heightSel=\"" + heightSel +
+                "\"" + zoomParam()  + ">";
     }
     
     public String getXMLSelectedTail() {
@@ -103,7 +105,9 @@ public class AttackTreeDiagramPanel extends TDiagramPanel implements TDPWithAttr
     }
     
     public String getXMLCloneHead() {
-        return "<AttackTreeDiagramPanelCopy name=\"" + name + "\" xSel=\"" + 0 + "\" ySel=\"" + 0 + "\" widthSel=\"" + 0 + "\" heightSel=\"" + 0 + "\" >";
+        return "<AttackTreeDiagramPanelCopy name=\"" + name + "\" xSel=\"" + 0 + "\" ySel=\"" + 0 + "\" widthSel=\""
+                + 0 + "\" heightSel=\"" + 0 +
+                "\"" + zoomParam()  + ">";
     }
     
     public String getXMLCloneTail() {

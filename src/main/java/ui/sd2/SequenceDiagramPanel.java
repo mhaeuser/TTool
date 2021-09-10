@@ -132,7 +132,8 @@ public class SequenceDiagramPanel extends TDiagramPanel {
 
     @Override
     public String getXMLSelectedHead() {
-        return "<SequenceDiagramPanelZVCopy name=\"" + name + "\" xSel=\"" + xSel + "\" ySel=\"" + ySel + "\" widthSel=\"" + widthSel + "\" heightSel=\"" + heightSel + "\" >";
+        return "<SequenceDiagramPanelZVCopy name=\"" + name + "\" xSel=\"" + xSel + "\" ySel=\"" + ySel + "\" widthSel=\"" + widthSel + "\" heightSel=\"" + heightSel+
+                "\"" + zoomParam()  + ">";
     }
 
     @Override
@@ -142,7 +143,8 @@ public class SequenceDiagramPanel extends TDiagramPanel {
 
     @Override
     public String getXMLCloneHead() {
-        return "<SequenceDiagramPanelZVCopy name=\"" + name + "\" xSel=\"" + 0 + "\" ySel=\"" + 0 + "\" widthSel=\"" + 0 + "\" heightSel=\"" + 0 + "\" >";
+        return "<SequenceDiagramPanelZVCopy name=\"" + name + "\" xSel=\"" + 0 + "\" ySel=\"" + 0 + "\" widthSel=\"" + 0 + "\" heightSel=\"" + 0 +
+                "\"" + zoomParam()  + ">";
     }
 
     @Override

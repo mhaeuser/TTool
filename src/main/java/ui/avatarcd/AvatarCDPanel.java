@@ -114,7 +114,8 @@ public class AvatarCDPanel extends TDiagramPanel implements TDPWithAttributes{
     
     @Override
     public String getXMLCloneHead() {
-        return "<AvatarCDPanelCopy name=\"" + name + "\" xSel=\"" + 0 + "\" ySel=\"" + 0 + "\" widthSel=\"" + 0 + "\" heightSel=\"" + 0 + "\" >";
+        return "<AvatarCDPanelCopy name=\"" + name + "\" xSel=\"" + 0 + "\" ySel=\"" + 0 + "\" widthSel=\"" + 0 + "\" heightSel=\"" + 0 + zoomParam()
+                + ">";
     }
     
     @Override

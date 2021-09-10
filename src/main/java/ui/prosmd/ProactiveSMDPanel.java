@@ -89,7 +89,8 @@ public class ProactiveSMDPanel extends TDiagramPanel implements Behaviour {
     }
     
     public String getXMLSelectedHead() {
-        return "<ProactiveSMDPanelCopy name=\"" + name + "\" xSel=\"" + xSel + "\" ySel=\"" + ySel + "\" widthSel=\"" + widthSel + "\" heightSel=\"" + heightSel + "\" >";
+        return "<ProactiveSMDPanelCopy name=\"" + name + "\" xSel=\"" + xSel + "\" ySel=\"" + ySel + "\" widthSel=\"" + widthSel + "\" heightSel=\"" + heightSel +
+                "\"" + zoomParam()  + ">";
     }
     
     public String getXMLSelectedTail() {
@@ -97,7 +98,8 @@ public class ProactiveSMDPanel extends TDiagramPanel implements Behaviour {
     }
     
     public String getXMLCloneHead() {
-        return "<ProactiveSMDPanelCopy name=\"" + name + "\" xSel=\"" + 0 + "\" ySel=\"" + 0 + "\" widthSel=\"" + 0 + "\" heightSel=\"" + 0 + "\" >";
+        return "<ProactiveSMDPanelCopy name=\"" + name + "\" xSel=\"" + 0 + "\" ySel=\"" + 0 + "\" widthSel=\"" + 0 + "\" heightSel=\"" + 0 +
+                "\"" + zoomParam()  + ">";
     }
     
     public String getXMLCloneTail() {

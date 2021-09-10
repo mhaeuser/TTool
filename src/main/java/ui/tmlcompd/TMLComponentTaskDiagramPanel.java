@@ -576,7 +576,8 @@ public class TMLComponentTaskDiagramPanel extends TDiagramPanel implements TDPWi
 
     @Override
     public String getXMLSelectedHead() {
-        return "<TMLComponentTaskDiagramPanelCopy name=\"" + name + "\" xSel=\"" + xSel + "\" ySel=\"" + ySel + "\" widthSel=\"" + widthSel + "\" heightSel=\"" + heightSel + "\" >";
+        return "<TMLComponentTaskDiagramPanelCopy name=\"" + name + "\" xSel=\"" + xSel + "\" ySel=\"" + ySel + "\" widthSel=\"" + widthSel + "\" heightSel=\"" + heightSel +
+                "\"" + zoomParam()  + ">";
     }
 
     @Override
@@ -586,7 +587,8 @@ public class TMLComponentTaskDiagramPanel extends TDiagramPanel implements TDPWi
 
     @Override
     public String getXMLCloneHead() {
-        return "<TMLComponentTaskDiagramPanelCopy name=\"" + name + "\" xSel=\"" + 0 + "\" ySel=\"" + 0 + "\" widthSel=\"" + 0 + "\" heightSel=\"" + 0 + "\" >";
+        return "<TMLComponentTaskDiagramPanelCopy name=\"" + name + "\" xSel=\"" + 0 + "\" ySel=\"" + 0 + "\" widthSel=\"" + 0 + "\" heightSel=\"" + 0 +
+                "\"" + zoomParam()  + ">";
     }
 
     @Override

@@ -94,7 +94,8 @@ public class EBRDDPanel extends TDiagramPanel {
     }
     
     public String getXMLSelectedHead() {
-        return "<EBRDDPanelCopy name=\"" + name + "\" xSel=\"" + xSel + "\" ySel=\"" + ySel + "\" widthSel=\"" + widthSel + "\" heightSel=\"" + heightSel + "\" >";
+        return "<EBRDDPanelCopy name=\"" + name + "\" xSel=\"" + xSel + "\" ySel=\"" + ySel + "\" widthSel=\"" + widthSel + "\" heightSel=\"" + heightSel +
+                "\"" + zoomParam()  + ">";
     }
     
     public String getXMLSelectedTail() {
@@ -102,7 +103,8 @@ public class EBRDDPanel extends TDiagramPanel {
     }
     
     public String getXMLCloneHead() {
-        return "<EBRDDPanelCopy name=\"" + name + "\" xSel=\"" + 0 + "\" ySel=\"" + 0 + "\" widthSel=\"" + 0 + "\" heightSel=\"" + 0 + "\" >";
+        return "<EBRDDPanelCopy name=\"" + name + "\" xSel=\"" + 0 + "\" ySel=\"" + 0 + "\" widthSel=\"" + 0 + "\" heightSel=\"" + 0 +
+                "\"" + zoomParam()  + ">";
     }
     
     public String getXMLCloneTail() {

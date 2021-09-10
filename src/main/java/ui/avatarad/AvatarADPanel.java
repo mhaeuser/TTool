@@ -95,7 +95,9 @@ public class AvatarADPanel extends TDiagramPanel implements TDPWithAttributes{
     
     @Override
     public String getXMLSelectedHead() {
-        return "<AvatarADPanelCopy name=\"" + name + "\" xSel=\"" + xSel + "\" ySel=\"" + ySel + "\" widthSel=\"" + widthSel + "\" heightSel=\"" + heightSel + "\" >";
+        return "<AvatarADPanelCopy name=\"" + name + "\" xSel=\"" + xSel + "\" ySel=\"" + ySel + "\" widthSel=\"" + widthSel +
+                "\" heightSel=\"" + heightSel +
+                "\"" + zoomParam()  + ">";
     }
     
     @Override
@@ -105,7 +107,8 @@ public class AvatarADPanel extends TDiagramPanel implements TDPWithAttributes{
     
     @Override
     public String getXMLCloneHead() {
-        return "<AvatarADPanelCopy name=\"" + name + "\" xSel=\"" + 0 + "\" ySel=\"" + 0 + "\" widthSel=\"" + 0 + "\" heightSel=\"" + 0 + "\" >";
+        return "<AvatarADPanelCopy name=\"" + name + "\" xSel=\"" + 0 + "\" ySel=\"" + 0 + "\" widthSel=\"" + 0 + "\" heightSel=\"" + 0 +
+                "\"" + zoomParam()  + ">";
     }
     
     @Override

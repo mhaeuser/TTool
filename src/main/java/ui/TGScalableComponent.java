@@ -4,9 +4,11 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
+import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 
+import myutil.TraceManager;
 import ui.util.IconManager;
 
 /**
@@ -223,6 +225,32 @@ public abstract class TGScalableComponent extends TGComponent implements Scalabl
 								final double factor ) {
 		return (int) ( value * factor );
 	}
+
+    public double getOldScaleFactor() {
+        return oldScaleFactor;
+    }
+
+    public void forceOldScaleFactor(double scaleFactor) {
+	    oldScaleFactor = scaleFactor;
+
+        for(int i=0; i<nbInternalTGComponent; i++) {
+            if (tgcomponent[i] instanceof TGScalableComponent) {
+                ((TGScalableComponent)tgcomponent[i]).forceOldScaleFactor(scaleFactor);
+            }
+        }
+    }
+
+    public static void applyRawScaleToComponents(ArrayList<TGComponent> list, double zoomRatio) {
+        for(TGComponent tgc: list) {
+            if (tgc instanceof TGScalableComponent) {
+                TGScalableComponent sc = (TGScalableComponent)tgc;
+                double oldFactor = sc.getOldScaleFactor();
+                //TraceManager.addDev("Handling component:" + sc);
+                sc.rescale(zoomRatio * oldFactor);
+                sc.forceOldScaleFactor(sc.getTDiagramPanel().getZoom());
+            }
+        }
+    }
 
 	/**
 	 * Scale from a value and the oldScaleFactor previously saved

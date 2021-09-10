@@ -99,7 +99,8 @@ public class FaultTreeDiagramPanel extends TDiagramPanel implements TDPWithAttri
     
     @Override
     public String getXMLSelectedHead() {
-        return "<FaultTreeDiagramPanelCopy name=\"" + name + "\" xSel=\"" + xSel + "\" ySel=\"" + ySel + "\" widthSel=\"" + widthSel + "\" heightSel=\"" + heightSel + "\" >";
+        return "<FaultTreeDiagramPanelCopy name=\"" + name + "\" xSel=\"" + xSel + "\" ySel=\"" + ySel + "\" widthSel=\"" + widthSel + "\" heightSel=\"" + heightSel +
+                "\"" + zoomParam()  + ">";
     }
     
     @Override
@@ -109,7 +110,8 @@ public class FaultTreeDiagramPanel extends TDiagramPanel implements TDPWithAttri
     
     @Override
     public String getXMLCloneHead() {
-        return "<FaultTreeDiagramPanelCopy name=\"" + name + "\" xSel=\"" + 0 + "\" ySel=\"" + 0 + "\" widthSel=\"" + 0 + "\" heightSel=\"" + 0 + "\" >";
+        return "<FaultTreeDiagramPanelCopy name=\"" + name + "\" xSel=\"" + 0 + "\" ySel=\"" + 0 + "\" widthSel=\"" + 0 + "\" heightSel=\"" + 0 +
+                "\"" + zoomParam()  + ">";
     }
     
     @Override

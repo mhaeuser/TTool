@@ -88,7 +88,8 @@ public class TActivityDiagramPanel extends TDiagramPanel implements ActivityDiag
     }
     
     public String getXMLSelectedHead() {
-        return "<TActivityDiagramPanelCopy name=\"" + name + "\" xSel=\"" + xSel + "\" ySel=\"" + ySel + "\" widthSel=\"" + widthSel + "\" heightSel=\"" + heightSel + "\" >";
+        return "<TActivityDiagramPanelCopy name=\"" + name + "\" xSel=\"" + xSel + "\" ySel=\"" + ySel + "\" widthSel=\"" + widthSel
+                + "\" heightSel=\"" + heightSel + "\"" + zoomParam()  + ">";
     }
     
     public String getXMLSelectedTail() {
@@ -96,7 +97,8 @@ public class TActivityDiagramPanel extends TDiagramPanel implements ActivityDiag
     }
     
     public String getXMLCloneHead() {
-        return "<TActivityDiagramPanelCopy name=\"" + name + "\" xSel=\"" + 0 + "\" ySel=\"" + 0 + "\" widthSel=\"" + 0 + "\" heightSel=\"" + 0 + "\" >";
+        return "<TActivityDiagramPanelCopy name=\"" + name + "\" xSel=\"" + 0 + "\" ySel=\"" + 0 + "\" widthSel=\"" + 0 + "\" heightSel=\"" + 0 +
+                "\"" + zoomParam()  + ">";
     }
     
     public String getXMLCloneTail() {

@@ -2310,8 +2310,7 @@ public abstract class TDiagramPanel extends JPanel implements GenericTree {
 
     public void makeCopy() {
         copyData = mgui.gtm.makeXMLFromSelectedComponentOfADiagram(this, getMaxIdSelected(), xSel, ySel, false);
-
-        TraceManager.addDev("Copied data:" + copyData);
+        //TraceManager.addDev("Copied data:" + copyData);
         mgui.setMode(MainGUI.PASTE_OK);
         return;
     }

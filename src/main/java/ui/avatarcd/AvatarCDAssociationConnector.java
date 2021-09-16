@@ -59,6 +59,16 @@ public  class AvatarCDAssociationConnector extends TGConnectorWithMultiplicity i
     
     public AvatarCDAssociationConnector(int _x, int _y, int _minX, int _minY, int _maxX, int _maxY, boolean _pos, TGComponent _father, TDiagramPanel _tdp, TGConnectingPoint _p1, TGConnectingPoint _p2, Vector<Point> _listPoint) {
         super(_x, _y,  _minX, _minY, _maxX, _maxY, _pos, _father, _tdp, _p1, _p2, _listPoint);
+
+        TGCOneLineText tgc = new TGCOneLineText((_p1.getX() + _p2.getX()) / 2, (_p1.getY() + _p2.getY()) / 2, tdp.getMinX(), tdp.getMaxX(),
+                tdp.getMinY(), tdp.getMaxY(), false, this, _tdp);
+        tgc.setValue("info");
+        tgc.setName("semantics");
+        tgc.setMoveWithFather(false);
+        addInternalComponent(tgc, getNbInternalTGComponent());
+
+        value = "";
+        editable = true;
     }
     
     @Override
@@ -76,13 +86,13 @@ public  class AvatarCDAssociationConnector extends TGConnectorWithMultiplicity i
         GraphicLib.dashedLine(g, x1, y1, x2, y2);
     }*/
     
-    @Override
+    /*@Override
     public TGComponent extraIsOnOnlyMe(int x1, int y1) {
         if (GraphicLib.isInRectangle(x1, y1, (p1.getX() + p2.getX() - w) / 2, (p1.getY() + p2.getY())/2 - h, w, h)) {
             return this;
         }
         return null;
-    }
+    }*/
     
     @Override
 	 public int getType() {

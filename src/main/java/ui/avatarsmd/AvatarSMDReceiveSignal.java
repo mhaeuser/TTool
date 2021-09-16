@@ -118,6 +118,11 @@ public class AvatarSMDReceiveSignal extends AvatarSMDBasicCanBeDisabledComponent
     
 	@Override
 	public void internalDrawing(Graphics g) {
+
+		/*if (height != (int)(20 * tdp.getZoom())) {
+			height = (int)(20 * tdp.getZoom());
+		}*/
+
         int w  = g.getFontMetrics().stringWidth(value + textX);
         int w1 = Math.max(minWidth, w + 2 * textX);
         if ((w1 != width) & (!tdp.isScaled())) {

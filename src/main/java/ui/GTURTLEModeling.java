@@ -3952,6 +3952,7 @@ public class GTURTLEModeling {
 
             decId = tdp.getMaxId() + 1;
             TGComponent.setGeneralId(TGComponent.getGeneralId() + decId + 2);
+            //TraceManager.addDev("\n0. X=" + X);
             nl = doc.getElementsByTagName("TURTLEGSELECTEDCOMPONENTS");
 
             if (nl == null) {
@@ -3961,6 +3962,8 @@ public class GTURTLEModeling {
 
             Node adn;
             Element elt;
+
+            //TraceManager.addDev("\n1. X=" + X);
 
 
             for (i = 0; i < nl.getLength(); i++) {
@@ -3973,7 +3976,7 @@ public class GTURTLEModeling {
                 }
             }
 
-            //TraceManager.addDev("\nX=" + X);
+            //TraceManager.addDev("\n2. X=" + X);
             //TraceManager.addDev("Y=" + Y);
             //TraceManager.addDev("decX=" + _decX);
             //TraceManager.addDev("decY=" + _decY);
@@ -3991,6 +3994,7 @@ public class GTURTLEModeling {
                 if (nl == null) { return; }
 
                 double zoomRatio = getZoomFromXMLNodeList(nl, tdp.getZoom());
+
                 TClassDiagramPanel tcdp = (TClassDiagramPanel) tdp;
 
                 for (i = 0; i < nl.getLength(); i++) {
@@ -4116,10 +4120,17 @@ public class GTURTLEModeling {
                 //TraceManager.addDev("Sequence diagram!");
                 nl = doc.getElementsByTagName("SequenceDiagramPanelZVCopy");
 
+                TraceManager.addDev("\n3. X=" + X);
+
                 if (nl == null) { return; }
 
+                TraceManager.addDev("\n get Zoom");
                 double zoomRatio = getZoomFromXMLNodeList(nl, tdp.getZoom());
+                TraceManager.addDev("Got zoom");
+
                 ui.sd2.SequenceDiagramPanel sdp = (ui.sd2.SequenceDiagramPanel) tdp;
+
+                TraceManager.addDev("\n4. X=" + X);
 
 
 
@@ -4131,17 +4142,17 @@ public class GTURTLEModeling {
                         decX = (int)(_decX - X + X / zoomRatio);
                         decY = (int)(_decY - Y  + Y / zoomRatio);
 
-                        //TraceManager.addDev("Sequence diagram: " + sdp.getName() + " components");
+                        TraceManager.addDev("Sequence diagram: " + sdp.getName() + " components");
                         ArrayList<TGComponent> list = makeXMLComponents(elt.getElementsByTagName("COMPONENT"), sdp, keepUUID, zoomRatio);
-                        //TraceManager.addDev("Sequence diagram: " + sdp.getName() + " connectors");
+                        TraceManager.addDev("Sequence diagram: " + sdp.getName() + " connectors");
                         list.addAll(makeXMLConnectors(elt.getElementsByTagName("CONNECTOR"), sdp, keepUUID));
-                        //TraceManager.addDev("Sequence diagram: " + sdp.getName() + " subcomponents");
+                        TraceManager.addDev("Sequence diagram: " + sdp.getName() + " subcomponents");
                         makeXMLComponents(elt.getElementsByTagName("SUBCOMPONENT"), sdp, keepUUID, zoomRatio);
-                        //TraceManager.addDev("Sequence diagram: " + sdp.getName() + " real points");
+                        TraceManager.addDev("Sequence diagram: " + sdp.getName() + " real points");
                         connectConnectorsToRealPoints(sdp);
                         TGScalableComponent.applyRawScaleToComponents(list, zoomRatio);
                         sdp.structureChanged();
-                        //TraceManager.addDev("Sequence diagram: " + sdp.getName() + " post loading");
+                        TraceManager.addDev("Sequence diagram: " + sdp.getName() + " post loading");
                         makePostLoading(sdp, beginIndex);
                     }
                 }
@@ -5115,14 +5126,23 @@ public class GTURTLEModeling {
     }
 
     private double getZoomFromXMLNodeList(NodeList nl, double zoomDiag) {
-        Element eltZ = (Element) nl.item(0);
-        String zoomS = eltZ.getAttribute("zoom");
-        if (zoomS != null) {
-            //TraceManager.addDev("Zoom found:" + zoomS);
-            double zoomV = new Double(zoomS);
-            return zoomDiag/zoomV;
-            //TraceManager.addDev("Zoom found:" + zoomV);
-        }
+        String zoomS;
+        try {
+            //TraceManager.addDev("Getting node");
+            Element eltZ = (Element) nl.item(0);
+            //TraceManager.addDev("Getting zoom");
+            zoomS = eltZ.getAttribute("zoom");
+            //TraceManager.addDev("got zooms");
+            if (zoomS != null) {
+                //TraceManager.addDev("Zoom found:" + zoomS);
+                double zoomV = new Double(zoomS);
+                if (zoomV != 0)
+                    return zoomDiag/zoomV;
+
+            }
+        } catch (Exception e) {}
+
+        //TraceManager.addDev("Returning 1");
         return 1;
     }
 

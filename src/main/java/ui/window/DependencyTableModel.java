@@ -106,6 +106,36 @@ public class DependencyTableModel extends AbstractTableModel implements Reordera
         return "";
     }
 
+    public byte getByteValue(String sR, String sC) {
+        int colIndex = -1;
+        for(int j=1; j<getColumnCount(); j++) {
+            //TraceManager.addDev("getColumnName(j)="+getColumnName(j));
+            if (getColumnName(j).equals(sC)) {
+                colIndex = j;
+                break;
+            }
+        }
+
+        if (colIndex == -1) {
+            return -1;
+        }
+
+        int rowIndex = -1;
+        for(int i=1; i<getRowCount(); i++) {
+            //TraceManager.addDev("rows.get(i)="+rows.get(i));
+            if (rows.get(i).equals(sR)) {
+                rowIndex = i;
+                break;
+            }
+        }
+
+        if (rowIndex == -1) {
+            return -1;
+        }
+
+        return values[rowIndex][colIndex-1];
+    }
+
     public String getColumnName(int columnIndex) {
         if (columnIndex == 0) {
             return "row / col";

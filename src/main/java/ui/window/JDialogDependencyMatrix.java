@@ -56,10 +56,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.*;
 import java.util.List;
-import java.util.UUID;
 
 
 /**
@@ -94,7 +92,7 @@ public class JDialogDependencyMatrix extends JDialogBase implements ActionListen
     private JLabel labelMatrix;
     private JTable matrix;
 
-    protected JButton upRow, downRow, leftCol, rightCol;
+    protected JButton upRow, downRow, leftCol, rightCol, update;
 
     protected JMenuItem edit0, edit1, edit2, edit3;
     protected int r = -1, c = -1; // selected row and col with all mouse clicks
@@ -117,8 +115,8 @@ public class JDialogDependencyMatrix extends JDialogBase implements ActionListen
         rows = _rows;
         columns = _columns;
 
-        TraceManager.addDev("Rows:" + rows);
-        TraceManager.addDev("Columns:" + columns);
+        //TraceManager.addDev("Rows:" + rows);
+        //TraceManager.addDev("Columns:" + columns);
 
 
         dependencies = new ArrayList<>();
@@ -318,6 +316,8 @@ public class JDialogDependencyMatrix extends JDialogBase implements ActionListen
             leftCol();
         } else if (evt.getSource() == rightCol) {
             rightCol();
+        } else if (evt.getSource() == update) {
+            updateMatrix();
         }
 
     }
@@ -408,6 +408,8 @@ public class JDialogDependencyMatrix extends JDialogBase implements ActionListen
 
 
     private void makeMatrix() {
+        panelMatrix.removeAll();
+
         if ((columnDiag == null) || (columnDiag.length() == 0)) {
             makeMatrixIssue("invalid diagram for column");
             return;
@@ -457,7 +459,6 @@ public class JDialogDependencyMatrix extends JDialogBase implements ActionListen
                 r = matrix.rowAtPoint(e.getPoint());
                 c = matrix.columnAtPoint(e.getPoint());
 
-
                 if (e.getButton() == MouseEvent.BUTTON3) { //Button3 is rightclick
                     //TraceManager.addDev("Right click");
                     selectedRow = -1;
@@ -474,35 +475,6 @@ public class JDialogDependencyMatrix extends JDialogBase implements ActionListen
             }
         });
 
-
-
-        /*matrix.getTableHeader().addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseReleased(MouseEvent e) {
-                if (mDraggingColumn && mColumnCHangedIndex) {
-                    TraceManager.addDev("Column changed");
-                }
-                mDraggingColumn = false;
-                mColumnCHangedIndex = false;
-            }
-        });
-        matrix.getColumnModel().addColumnModelListener(new TableColumnModelListener() {
-            @Override
-            public void columnAdded(TableColumnModelEvent e) {}
-            @Override
-            public void columnRemoved(TableColumnModelEvent e) {}
-            @Override
-            public void columnMoved(TableColumnModelEvent e) {
-                mDraggingColumn = true;
-                if (e.getFromIndex() != e.getToIndex()) {
-                    mColumnCHangedIndex = true;
-                }
-            }
-            @Override
-            public void columnMarginChanged(ChangeEvent e) {}
-            @Override
-            public void columnSelectionChanged(ListSelectionEvent e) {}
-        });*/
 
 
 
@@ -550,16 +522,32 @@ public class JDialogDependencyMatrix extends JDialogBase implements ActionListen
         cB.gridwidth = GridBagConstraints.REMAINDER;
         panelButton.add(new JLabel(""), cB);
 
+        // Line 4: empty
+        cB.gridwidth = GridBagConstraints.REMAINDER;
+        panelButton.add(new JLabel(""), cB);
+
+        // Line 5: update
+        cB.gridwidth = 1;
+        panelButton.add(new JLabel(""), cB);
+        update = new JButton("Update matrix", IconManager.imgic16);
+        update.addActionListener(this);
+        panelButton.add(update, cB);
+        cB.gridwidth = GridBagConstraints.REMAINDER;
+        panelButton.add(new JLabel(""), cB);
+
         panelMatrix.add(BorderLayout.EAST, panelButton);
 
         checkButtons();
 
+        //TraceManager.addDev("Matrix made!");
 
 
 
         if (mainPane != null) {
             mainPane.setSelectedIndex(mainPane.getTabCount()-1);
         }
+
+        repaint();
 
     }
 
@@ -663,6 +651,122 @@ public class JDialogDependencyMatrix extends JDialogBase implements ActionListen
             th.repaint();
             checkButtons();
         }
+    }
+
+    private void updateMatrix() {
+
+        // Find the tdp of columns
+        TGComponent tgcC = findTGC(columns);
+        if (tgcC == null) {
+            TraceManager.addDev("Null tgc for column: update failed");
+            return;
+        }
+        TDiagramPanel tdpC = tgcC.getTDiagramPanel();
+        if (tdpC == null) {
+            TraceManager.addDev("Null tdp for column: update failed");
+            return;
+        }
+
+        // Find the tdp of rows
+        TGComponent tgcR = findTGC(rows);
+        if (tgcR == null) {
+            TraceManager.addDev("Null tgcR for rows: update failed");
+            return;
+        }
+        TDiagramPanel tdpR = tgcR.getTDiagramPanel();
+        if (tdpR == null) {
+            TraceManager.addDev("Null tdp for rows: update failed");
+            return;
+        }
+
+
+        // Gather all elements to be added
+        String newColumns = "";
+        HashMap<String, TGComponent> map = new HashMap<>();
+        ArrayList<TGComponent> colT = new ArrayList<>();
+        for (TGComponent tgc : tdpC.getAllComponentList()) {
+            if (tgc.getClass().equals(tgcC.getClass())) {
+                if (newColumns.length() > 0) {
+                    newColumns += "$";
+                }
+                String sTgc = tgc.getValue() + "/" + tgc.getUUID();
+                newColumns += sTgc;
+                map.put(sTgc, tgc);
+                colT.add(tgc);
+            }
+        }
+
+        String newRows = "";
+        ArrayList<TGComponent> rowT = new ArrayList<>();
+        for (TGComponent tgc : tdpR.getAllComponentList()) {
+            if (tgc.getClass().equals(tgcR.getClass())) {
+                if (newRows.length() > 0) {
+                    newRows += "$";
+                }
+                String sTgc = tgc.getValue() + "/" + tgc.getUUID();
+                newRows += sTgc;
+                map.put(sTgc, tgc);
+                rowT.add(tgc);
+            }
+        }
+
+
+        ArrayList<BytePoint> newDependencies = new ArrayList<>();
+
+
+        // We must set the new points to the new matrix
+        for(int i=0; i<rowT.size(); i++) {
+            TGComponent tgcI = rowT.get(i);
+            String tgcIS = tgcI.getValue() + "/" + tgcI.getUUID();
+            for(int j=0; j<colT.size(); j++) {
+                TGComponent tgcJ = colT.get(j);
+                String tgcJS = tgcJ.getValue() + "/" + tgcJ.getUUID();
+                //TraceManager.addDev("Getting value for " + tgcIS + " and " + tgcJS);
+                byte val = dtm.getByteValue(tgcIS, tgcJS);
+                if (val > 0  ) {
+                    //TraceManager.addDev("val=" + val);
+                    newDependencies.add(new BytePoint(i, j, val));
+                }
+            }
+        }
+
+        //TraceManager.addDev("New rows: " + newRows);
+        //TraceManager.addDev("New columns: " + newColumns);
+
+
+        rows = newRows;
+        columns = newColumns;
+        dependencies = newDependencies;
+
+        makeMatrix();
+
+    }
+
+
+    private TGComponent findTGC(String elts) {
+        if (mgui == null) {
+            return null;
+        }
+
+        String tab[] = elts.split("\\$");
+        for (int i=0; i<tab.length; i++) {
+            int index = tab[i].indexOf("/");
+            if (index > -1) {
+                String id = tab[i].substring(index + 1);
+                try {
+                    UUID uid = UUID.fromString(id);
+                    if (uid != null) {
+                        TGComponent tgc = mgui.findComponentWithUUID(uid);
+                        if (tgc != null) {
+                            return tgc;
+                        }
+                    }
+                } catch (Exception e) {}
+            }
+        }
+
+        return null;
+
     }
 
     private void fillClassBox(JComboBox<String> panelBox, JComboBox<String> diagBox, JList<String> classList, DefaultListModel<String> model) {

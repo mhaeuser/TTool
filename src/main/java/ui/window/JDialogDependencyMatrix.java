@@ -710,9 +710,7 @@ public class JDialogDependencyMatrix extends JDialogBase implements ActionListen
             }
         }
 
-
         ArrayList<BytePoint> newDependencies = new ArrayList<>();
-
 
         // We must set the new points to the new matrix
         for(int i=0; i<rowT.size(); i++) {

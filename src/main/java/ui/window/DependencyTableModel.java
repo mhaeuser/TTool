@@ -121,7 +121,7 @@ public class DependencyTableModel extends AbstractTableModel implements Reordera
         }
 
         int rowIndex = -1;
-        for(int i=1; i<getRowCount(); i++) {
+        for(int i=0; i<getRowCount(); i++) {
             //TraceManager.addDev("rows.get(i)="+rows.get(i));
             if (rows.get(i).equals(sR)) {
                 rowIndex = i;

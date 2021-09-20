@@ -338,7 +338,8 @@ $(STDRELEASE:.tgz=.tar): $(BASERELEASE:.tgz=.tar)
 	@cp $(TTOOL_EXE) $(TTOOL_TARGET)/
 	@cp $(TTOOL_CONFIG_SRC) $(TTOOL_TARGET)/bin
 	@cp $(TTOOL_LOTOS_H) $(TTOOL_TARGET)/bin
-	@$(TAR) uf $@ -C $(TTOOL_TARGET_RELEASE) TTool/lotos TTool/nc TTool/bin TTool/figures TTool/doc/prototyping_with_soclib_installation_guide.pdf TTool/doc/prototyping_with_soclib_user_guide.pdf  $(patsubst $(TTOOL_DOC)/%,TTool/%,$(TTOOL_EXE))
+#	@$(TAR) uf $@ -C $(TTOOL_TARGET_RELEASE) TTool/lotos TTool/nc TTool/bin TTool/figures TTool/doc/prototyping_with_soclib_installation_guide.pdf TTool/doc/prototyping_with_soclib_user_guide.pdf  $(patsubst $(TTOOL_DOC)/%,TTool/%,$(TTOOL_EXE))
+	@$(TAR) uf $@ -C $(TTOOL_TARGET_RELEASE) TTool/lotos TTool/nc TTool/bin TTool/figures   $(patsubst $(TTOOL_DOC)/%,TTool/%,$(TTOOL_EXE))
 
 $(ADVANCED_RELEASE:.tgz=.tar): $(STDRELEASE:.tgz=.tar) documentation
 	@echo "$(PREFIX) Generating advanced release"
@@ -496,10 +497,10 @@ $(BASERELEASE:.tgz=.tar): allnotest
 	@$(MAKE) -C $(TTOOL_DOC_AVATARCODEGENERATION_DIR) codegeneration_documentation
 	@cp $(TTOOL_DOC_AVATARCODEGENERATION_DIR)/build/codegeneration_documentation.pdf  $(TTOOL_TARGET)/doc/avatarcodegeneration_documentation.pdf
 	@cp $(TTOOL_DOC_AVATARCODEGENERATION_DIR)/build/codegeneration_documentation.pdf  $(TTOOL_PRIVATE)/website/ttool/docs/
-	@$(MAKE) -C $(TTOOL_DOC_SOCLIB_USERGUIDE_DIR) user_guide
-	@cp $(TTOOL_DOC_SOCLIB_USERGUIDE_DIR)/build/user_guide.pdf  $(TTOOL_TARGET)/doc/prototyping_with_soclib_user_guide.pdf
-	@$(MAKE) -C $(TTOOL_DOC_SOCLIB_INSTALLATIONGUIDE_DIR) installation_guide
-	@cp $(TTOOL_DOC_SOCLIB_INSTALLATIONGUIDE_DIR)/build/installation_guide.pdf  $(TTOOL_TARGET)/doc/prototyping_with_soclib_installation_guide.pdf
+#	@$(MAKE) -C $(TTOOL_DOC_SOCLIB_USERGUIDE_DIR) user_guide
+#	@cp $(TTOOL_DOC_SOCLIB_USERGUIDE_DIR)/build/user_guide.pdf  $(TTOOL_TARGET)/doc/prototyping_with_soclib_user_guide.pdf
+#	@$(MAKE) -C $(TTOOL_DOC_SOCLIB_INSTALLATIONGUIDE_DIR) installation_guide
+#	@cp $(TTOOL_DOC_SOCLIB_INSTALLATIONGUIDE_DIR)/build/installation_guide.pdf  $(TTOOL_TARGET)/doc/prototyping_with_soclib_installation_guide.pdf
 # Basic bin
 	@mkdir -p $(TTOOL_TARGET)/bin
 	@cp $(TTOOL_DOC)/README_bin $(TTOOL_TARGET)/bin

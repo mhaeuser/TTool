@@ -43,6 +43,7 @@ import attacktrees.AttackTree;
 import attacktrees.AttackerPopulation;
 import avatartranslator.*;
 import avatartranslator.toproverif.AVATAR2ProVerif;
+import avatartranslator.tosysmlv2.AVATAR2SysMLV2;
 import avatartranslator.totpn.AVATAR2TPN;
 import avatartranslator.toturtle.AVATAR2TURTLE;
 import avatartranslator.touppaal.AVATAR2UPPAAL;
@@ -1985,6 +1986,16 @@ public class GTURTLEModeling {
         TMLArchiPanel mapping = (TMLArchiPanel) newTP;
         return mapping.addRandomTasks(tasks);
 
+    }
+
+    public boolean toSysMLV2() {
+        if (avatarspec != null) {
+            AVATAR2SysMLV2 toS = new AVATAR2SysMLV2(avatarspec);
+            StringBuffer sb = toS.generateSysMLV2Spec(true, true);
+            System.out.println("SysMLV2:\n" + sb.toString());
+            return true;
+        }
+        return false;
     }
 
     public boolean generateProVerifFromAVATAR(String _path, int _stateReachability, boolean _typed, boolean allowPrivateChannelDuplication, String loopLimit) {

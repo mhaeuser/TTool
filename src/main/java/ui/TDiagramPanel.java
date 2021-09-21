@@ -133,7 +133,7 @@ public abstract class TDiagramPanel extends JPanel implements GenericTree {
     protected int popupX, popupY;
     protected JMenuItem remove, edit, clone, bringFront, bringBack, makeSquare, setJavaCode, removeJavaCode, setInternalComment,
             removeInternalComment, attach, detach, hide, unhide, search, enableDisable, setAsCryptoBlock, setAsRegularBlock,
-            setMainColor;
+            setMainColor, tosysmlv2;
     protected JMenuItem checkAccessibility, checkInvariant, checkMasterMutex, checkLatency;
     protected JMenuItem gotoReference;
     protected JMenuItem showProVerifTrace;
@@ -1578,6 +1578,7 @@ public abstract class TDiagramPanel extends JPanel implements GenericTree {
         diagramMenu.add(downY);
         diagramMenu.add(fitToContent);
         diagramMenu.add(backToMainDiagram);
+        diagramMenu.add(tosysmlv2);
     }
 
     private void buildSelectedPopupMenu() {
@@ -1717,6 +1718,15 @@ public abstract class TDiagramPanel extends JPanel implements GenericTree {
             @Override
             public void actionPerformed(ActionEvent e) {
                 tp.tabbedPane.setSelectedIndex(0);
+            }
+        });
+
+        tosysmlv2 = new JMenuItem("to SysML V2");
+        tosysmlv2.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                mgui.toSysMLV2();
             }
         });
 

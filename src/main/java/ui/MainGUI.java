@@ -3421,6 +3421,11 @@ public class MainGUI implements ActionListener, WindowListener, KeyListener, Per
         getCurrentTDiagramPanel().saveAsLibrary();
     }
 
+    public void toSysMLV2() {
+        checkModelingSyntax(true);
+        gtm.toSysMLV2();
+    }
+
     public void makeLotosFile() {
         String s = file.getAbsolutePath();
         int l = s.length();

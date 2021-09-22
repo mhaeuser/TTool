@@ -48,7 +48,7 @@ import java.util.Map;
 
 /**
    * Class AvatarRelation
-   * synchronizatio in Avatar ...
+   * synchronization in Avatar ...
    * Creation: 20/05/2010
    * @version 1.0 20/05/2010
    * @author Ludovic APVRILLE

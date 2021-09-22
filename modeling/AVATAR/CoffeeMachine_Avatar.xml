@@ -4441,7 +4441,7 @@ CoffeeMachine.CoffeeDelivered --&gt; CoffeeMachine.nbOfCoins&lt;2
 <MainCode value="}"/>
 <Optimized value="true" />
 <considerTimingOperators value="true" />
-<Validated value="" />
+<Validated value="Wallet;CoffeeMachine;TeaButton;CoffeeButton;ObserverProp1;RemotelyControlledMicrowave;RemoteControl;MicroWaveOven;Bell;WirelessInterface;Door;Magnetron;Controller;ControlPanel;" />
 <Ignored value="" />
 
 <CONNECTOR type="5002" id="2544" index="0" uid="f480e606-bbb6-4ab7-8f89-8abb37ff40bb" >

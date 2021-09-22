@@ -182,6 +182,19 @@ public class AvatarActionOnSignal extends AvatarStateMachineElement {
         }
     }
 
+    public String getAllVals() {
+        String ret = "";
+        boolean first = true;
+        for(String val: getValues()) {
+            if (!first) {
+                ret+=",";
+            }
+            first = false;
+            ret+= val;
+        }
+        return ret;
+    }
+
     public void translate (AvatarTranslator translator, Object arg) {
         translator.translateActionOnSignal (this, arg);
     }

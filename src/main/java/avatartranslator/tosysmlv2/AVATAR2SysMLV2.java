@@ -68,6 +68,7 @@ public class AVATAR2SysMLV2 {
     //private final static String UNKNOWN = "UNKNOWN";
     private final static java.lang.String CR = "\n";
     private final static java.lang.String END = ";" + CR;
+    private final static java.lang.String COMMA_SEP = ", ";
     private final static java.lang.String B_BRACKET = " {" + CR;
     private final static java.lang.String E_BRACKET = "}" + CR;
     private final static java.lang.String PART = "part";
@@ -79,6 +80,17 @@ public class AVATAR2SysMLV2 {
     private final static java.lang.String IN = "in";
     private final static java.lang.String OUT = "out";
     private final static java.lang.String BIND = "bind";
+    private final static java.lang.String STATE = "state";
+    private final static java.lang.String ENTRY = "entry";
+    private final static java.lang.String EXIT = "exit";
+    private final static java.lang.String FIRST = "first";
+    private final static java.lang.String SEND = "send";
+    private final static java.lang.String ACCEPT = "accept";
+    private final static java.lang.String ACTION = "action";
+    private final static java.lang.String IF = "IF";
+    private final static java.lang.String DO = "do";
+    private final static java.lang.String AFTER = "after";
+    private final static java.lang.String THEN = "then";
     private final static String DEC = "\t";
 
 
@@ -155,7 +167,7 @@ public class AVATAR2SysMLV2 {
 
        makeInterconnections(sysml);
 
-       makeStateMachines(sysml);
+
 
        return indent(sysml);
 
@@ -176,6 +188,7 @@ public class AVATAR2SysMLV2 {
             if (block.getFather() == null) {
                 makePartUsage(partUsage, block, avspec.getListOfBlocks());
             }
+
         }
 
         sysml.append(partUsage);
@@ -208,7 +221,10 @@ public class AVATAR2SysMLV2 {
             sysml.append(getSignal(as) + END);
         }
 
-        // parts
+        // State machine
+
+        sysml.append(CR);
+        sysml.append(getStateMachine(block.getStateMachine()));
 
         sysml.append(E_BRACKET + CR);
     }
@@ -226,6 +242,7 @@ public class AVATAR2SysMLV2 {
     }
 
     public void makeInterconnections(StringBuffer sysml) {
+        sysml.append("// Binding between signals" + CR);
         for(AvatarRelation ar: avspec.getRelations()) {
             sysml.append(getBindings(ar));
         }
@@ -234,7 +251,9 @@ public class AVATAR2SysMLV2 {
 
 
     public void makeStateMachines(StringBuffer sysml) {
-
+        for(AvatarBlock block: avspec.getListOfBlocks()) {
+            sysml.append(getStateMachine(block.getStateMachine()));
+        }
     }
 
 
@@ -275,12 +294,147 @@ public class AVATAR2SysMLV2 {
         StringBuffer ret = new StringBuffer("");
 
         int size = ar.getSignals1().size();
+        String characteristics = getRelationCharacteristics(ar);
 
         for(int i=0; i<size; i++) {
-            ret.append(BIND + " " + ar.getBlock1().getName() + "." + ar.getSignals1().get(i).getName() + " = " +
+            ret.append(BIND + " " + "(" + characteristics + ")");
+            ret.append(ar.getBlock1().getName() + "." + ar.getSignals1().get(i).getName() + " = " +
                     ar.getBlock2().getName() + "." + ar.getSignals2().get(i).getName() + END);
         }
         ret.append(CR);
+
+        return ret;
+    }
+
+    public static StringBuffer getStateMachine(AvatarStateMachine asm) {
+        StringBuffer ret = new StringBuffer("");
+
+        // declare all states
+        // Then handle each transition from a state until another state is reached
+
+        for(AvatarStateMachineElement asme: asm.getListOfElements()) {
+            if (asme instanceof AvatarState) {
+                ret.append(STATE + " " + asme.getName() + END);
+            }
+        }
+
+        ret.append(CR);
+
+        for(AvatarStateMachineElement asme: asm.getListOfElements()) {
+            if ((asme instanceof AvatarState) || (asme instanceof AvatarStartState)){
+                ret.append(getStateHandling(asme));
+            }
+        }
+
+        return ret;
+    }
+
+    public static StringBuffer getStateHandling(AvatarStateMachineElement asme) {
+        StringBuffer ret = new StringBuffer(CR);
+
+        if (asme instanceof  AvatarStartState) {
+            ret.append(STATE + " " + ENTRY + B_BRACKET);
+        } else if (asme instanceof  AvatarState) {
+            ret.append(STATE + " " + asme.getName() + B_BRACKET);
+        }
+
+        // for each transition getting our of this state
+        for(AvatarStateMachineElement next: asme.getNexts()) {
+            // We iterate until we reach a state or no next (in that case: exit)
+            AvatarStateMachineElement toConsider = next;
+            int nbB = 0;
+
+            while(toConsider != null) {
+
+                if (toConsider instanceof AvatarTransition) {
+                    AvatarTransition at = (AvatarTransition) toConsider;
+                    if (at.hasDelay()) {
+                        ret.append(AFTER + " " + at.getMinDelay() + " " + at.getMaxDelay() + CR);
+                    }
+                    if (!(at.hasNonDeterministicGuard())) {
+                        ret.append(IF + " " + at.getGuard() + CR);
+                        ret.append(DO + " " + B_BRACKET + CR);
+                        nbB ++;
+                    }
+
+                    if (at.hasActions()) {
+                        for(AvatarAction aa: at.getActions()) {
+                            ret.append(ACTION + " "+ aa.getName() + CR);
+                        }
+                    }
+
+                } else if (toConsider instanceof AvatarRandom) {
+                    AvatarRandom rand = (AvatarRandom) toConsider;
+                    ret.append(ACTION + rand.getVariable() + " = random(" + rand.getMinValue() + ", " +
+                            rand.getMaxValue() + ")" + CR);
+
+                } else if (toConsider instanceof AvatarActionOnSignal) {
+                    AvatarActionOnSignal aaos = (AvatarActionOnSignal) toConsider;
+                    if (aaos.isSending()) {
+                        ret.append(SEND + " " + aaos.getSignal().getName() + "(" + aaos.getAllVals() + ")" + CR);
+                    } else {
+                        ret.append(ACCEPT + " " + aaos.getSignal().getName() + "(" + aaos.getAllVals() + ")" + CR);
+                    }
+                }
+
+                if (toConsider instanceof AvatarStopState) {
+                    ret.append(THEN + " " + EXIT + END + CR);
+                    toConsider = null;
+
+                } else if (toConsider instanceof AvatarState) {
+                    ret.append(THEN + " " + toConsider.getName() + END + CR);
+                    toConsider = null;
+
+                } else {
+                    toConsider = toConsider.getNext(0);
+                }
+
+                if (toConsider == null) {
+                    while(nbB>0) {
+                        ret.append(E_BRACKET + CR);
+                        nbB --;
+                    }
+                }
+
+
+            }
+        }
+
+        ret.append(E_BRACKET);
+
+        return ret;
+    }
+
+
+
+    public static String getRelationCharacteristics(AvatarRelation ar) {
+        String ret = "type=";
+        if (ar.isAsynchronous()) {
+            ret += "asynchronous";
+        } else if (ar.isAMS()){
+            ret += "AMS";
+        } else {
+            ret += "synchronous";
+        }
+
+
+        if (ar.isAsynchronous()) {
+            ret+= COMMA_SEP;
+            ret += "isBlocking=" + ar.isBlocking();
+            ret+= COMMA_SEP;
+            ret+= "sizeOfFIFO=" + ar.getSizeOfFIFO();
+        }
+
+        if (!ar.isAsynchronous() && !ar.isAMS()) {
+            ret+= COMMA_SEP;
+            ret += "isBroadcast=" + ar.isBroadcast();
+        }
+
+        ret+= COMMA_SEP;
+        ret += "isPrivate=" + ar.isPrivate();
+
+        ret+= COMMA_SEP;
+        ret += "isLossy=" + ar.isLossy();
 
         return ret;
     }

@@ -1988,14 +1988,14 @@ public class GTURTLEModeling {
 
     }
 
-    public boolean toSysMLV2() {
+    public String toSysMLV2() {
         if (avatarspec != null) {
             AVATAR2SysMLV2 toS = new AVATAR2SysMLV2(avatarspec);
             StringBuffer sb = toS.generateSysMLV2Spec(true, true);
             System.out.println("SysMLV2:\n" + sb.toString());
-            return true;
+            return sb.toString();
         }
-        return false;
+        return null;
     }
 
     public boolean generateProVerifFromAVATAR(String _path, int _stateReachability, boolean _typed, boolean allowPrivateChannelDuplication, String loopLimit) {

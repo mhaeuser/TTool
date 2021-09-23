@@ -3423,7 +3423,15 @@ public class MainGUI implements ActionListener, WindowListener, KeyListener, Per
 
     public void toSysMLV2() {
         checkModelingSyntax(true);
-        gtm.toSysMLV2();
+        String data = gtm.toSysMLV2();
+        if (data != null) {
+            TraceManager.addDev("New Frame SysML");
+            JFrameBasicText fbt = new JFrameBasicText("SysML V2 - " + getCurrentTDiagramPanel().getName(), data);
+            fbt.setSize(800, 800);
+            fbt.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            fbt.setVisible(true);
+            TraceManager.addDev("Frame shown");
+        }
     }
 
     public void makeLotosFile() {

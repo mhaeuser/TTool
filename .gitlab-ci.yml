@@ -1,7 +1,8 @@
 stages:
-	- build
+        - build
 
 eval:
-	stage: build
-	script:
-		- 'scripts/eval.sh'
+        stage: build
+	        script:
+				- 'scripts/eval.sh'
+				

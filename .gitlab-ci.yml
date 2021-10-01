@@ -1,8 +1,10 @@
+# MASTER-ONLY: DO NOT MODIFY THIS FILE
+
 stages:
         - build
 
 eval:
         stage: build
-	        script:
-				- 'scripts/eval.sh'
-				
+        script:
+                - 'scripts/eval.sh'
+

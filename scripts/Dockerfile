@@ -1,5 +1,6 @@
-FROM gradle:4.7.0-jdk8-alpine
+FROM gradle:4.7.0-jdk8-alpine AS build
 FROM debian:latest
+
 
 MAINTAINER Ludovic Apvrille <ludovic.apvrille@telecom-paris.fr>
 RUN apt-get clean

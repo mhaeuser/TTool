@@ -3,7 +3,7 @@ printf 'testing\n'
 
 make noguitest
 
-if [ $? -eq 0 ] then
+if [ $? -eq 0 ]; then
    printf 'SUCCESS\n'
    exit 0
 fi

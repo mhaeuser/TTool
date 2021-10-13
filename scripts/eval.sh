@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
 printf 'testing\n'
-
 make noguitest
 
 if [ $? -eq 0 ]; then

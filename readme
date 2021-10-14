@@ -12,27 +12,30 @@ For developers: (rw access to the git)
 ---------------
 
 * Compiling the latest version of TTool:
-make ttool
+$ make ttool
 
 * Compiling the latest version of TTool + companions software:
-make all
+$ make all
 
 If the compilation fails with the following error: 'unmappable character for encoding ASCII', you need to do, before the compilation process:
 export JAVA_TOOL_OPTIONS=-Dfile.encoding=UTF8
 
 Alternatively, if you wish to compile TTool without running tests (tests can be long to run), do:
-make ttoolnotest
+$ make ttoolnotest
 or
-gradle build -x test
+$ gradle build -x test
+
+Graphical tests might be long to execute. An alternative is to execute only non graphical tests:
+$make noguitest
 
 * Installing TTool once compiled
-make install
+$ make install
 
 This installs all necessary files in bin/
 
 
 * Generating a release:
-make release
+$ make release
 
 * Starting TTool from the git clone
 You should not modify bin/config.xml. Create your own config.xml (e.g. myconfig.xml), and create your own "ttool.exe" file (e.g., myttool.exe) 

@@ -123,7 +123,7 @@ public abstract class AvatarGuard {
                     if (indexLParen == -1)
                         indexLParen = sane.length();
 
-                    for (String delim: new String[]{"and", "or", "&&", "||"}) {
+                    for (String delim: new String[]{"and", "or", "&&", "||", "&", "|"}) {
                         TraceManager.addDev("Working on delim: " + delim);
                         int indexBinaryOp = sane.substring(0, indexLParen).indexOf(delim, indexRParen + 1);
                         if (indexBinaryOp != -1) {
@@ -137,6 +137,21 @@ public abstract class AvatarGuard {
                             return new AvatarGuardEmpty();
                         }
                     }
+
+                    for (String delim : new String[]{"==", "!=", "<=", ">=", "<", ">"}) {
+                        TraceManager.addDev("Working on delim: " + delim);
+                        int indexBinaryOp = sane.substring(0, indexLParen).indexOf(delim, indexRParen + 1);
+                        if (indexBinaryOp != -1) {
+                            TraceManager.addDev("Found delim!");
+                            AvatarTerm firstTerm = AvatarTerm.createFromString(block, sane.substring(0, indexBinaryOp));
+                            AvatarTerm secondTerm = AvatarTerm.createFromString(block, sane.substring(indexBinaryOp + delim.length()));
+                            TraceManager.addDev("First term=" + firstTerm + "\nSecond term=" + secondTerm);
+                            if (secondTerm != null && firstTerm != null)
+                                return new AvatarSimpleGuardDuo(firstTerm, secondTerm, delim);
+                            return new AvatarGuardEmpty();
+                        }
+                    }
+
                     TraceManager.addDev("3. Invalid guard " + sane);
                     return new AvatarGuardEmpty();
                 }
@@ -154,7 +169,7 @@ public abstract class AvatarGuard {
                 if (indexLParen == -1)
                     indexLParen = indexRParen;
 
-                for (String delim : new String[]{"and", "or", "&&", "||"}) {
+                for (String delim : new String[]{"and", "or", "&&", "||", "&", "|"}) {
 
                     int indexBinaryOp = sane.substring(0, indexLParen).indexOf(delim, indexRParen + 1);
                     if (indexBinaryOp != -1) {
@@ -166,6 +181,21 @@ public abstract class AvatarGuard {
                         return new AvatarGuardEmpty();
                     }
                 }
+
+                for (String delim : new String[]{"==", "!=", "<=", ">=", "<", ">"}) {
+                    TraceManager.addDev("Working on delim: " + delim);
+                    int indexBinaryOp = sane.substring(0, indexLParen).indexOf(delim, indexRParen + 1);
+                    if (indexBinaryOp != -1) {
+                        TraceManager.addDev("Found delim!");
+                        AvatarTerm firstTerm = AvatarTerm.createFromString(block, sane.substring(0, indexBinaryOp));
+                        AvatarTerm secondTerm = AvatarTerm.createFromString(block, sane.substring(indexBinaryOp + delim.length()));
+                        TraceManager.addDev("First term=" + firstTerm + "\nSecond term=" + secondTerm);
+                        if (secondTerm != null && firstTerm != null)
+                            return new AvatarSimpleGuardDuo(firstTerm, secondTerm, delim);
+                        return new AvatarGuardEmpty();
+                    }
+                }
+
                 TraceManager.addDev("4. Invalid guard " + sane);
                 return new AvatarGuardEmpty();
             } else {

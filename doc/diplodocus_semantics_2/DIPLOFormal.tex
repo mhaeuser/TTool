@@ -1,0 +1,1343 @@
+\documentclass{article}
+% FONTS and SYMBOLS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage[utf8]{inputenc}
+%\usepackage[cyr]{aeguill}
+%\usepackage[francais]{babel}
+\usepackage{babel}
+%\usepackage[utf8]{inputenc}  
+\usepackage[T1]{fontenc}
+\usepackage{mathtools, bm}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{stmaryrd}
+% USUAL GRAPHICAL TOOLS %%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{boxedminipage}
+%\usepackage{graphics}
+\usepackage{graphicx}
+\usepackage[dvipsnames]{xcolor}
+
+\textwidth 16cm
+\textheight 24.5cm
+\voffset -2.5cm
+\hoffset -2cm
+\parindent 0mm
+\parskip 1mm
+
+% LOCAL ENVIRONMENTS AND VISUAL CUSTOMIZATIONS %%%%%%%%%%%%%%
+\newcommand{\fig}[4]{
+   \begin{figure}[!h]
+   \centering
+	 \vspace*{-1.5mm}
+   \includegraphics[width=#1]{#2}
+   \caption{#3}\vspace*{-2mm}
+   \label{#4}
+   \end{figure}}
+%\fig{9cm}{figures/secbus_global.pdf}{Simplified \SecB\/ overview}{fig_secbus_global}
+% EventB shortcuts %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand{\NAT}{\mbox{\normalfont I$\!$N}}
+\newcommand{\BOOL}{\mbox{\normalfont I$\!$B}}
+\newcommand{\INT}{\mbox{\normalfont $\mathbb{Z}$}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%========================================================================
+\begin{document}
+\newtheorem{definition}{Definition}
+\newtheorem{fact}[definition]{Fact}
+
+%--------------------------------------------------------------------------
+%°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°
+\section{Introduction}
+A rédiger selon le type de document visé
+
+%--------------------------------------------------------------------------
+%°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°
+\section{Overview}
+Nécessaire pour faciliter la lecture de la suite\ldots
+
+Pour le moment, en résumé,
+\begin{itemize}
+\item Les sections 3 et 4 caractérisent une sémantique task/channel/application mappée aussi conforme que possible à celle du simulateur. Elles s'appuient sur des notions plus abstraites que celle du TML concret, et les notions du TML concret en sont une instanciation, définie en section 5. Les sections 3 et 4 présentent directement une sémantique, sans syntaxe associée, vu qu'il n'existe pas de syntaxe concrete pour ce niveau d'abstraction.
+\item La section 3 donne une sémantique aux tâches, indépendente de l'application. Sur cette sémantique sont définis des "paths", sortes de traces. Cette sémantique s'appuie sur une notion générale de commandes pourvues de durées. Ces commandes et les points d'exécutions associés sont classifiés selon leurs durées possibles.
+
+Ensuite sont caractérisés les fonctionalités attendues des channels, afin de permettre l'attribution d'une sémantique à une application mappée en cours d'exécution (dans la section 4. Du coup, cette partie devra peut-être être déplacée). Suite à ça, les caractéristiques utiles des commandes de communications sont données. Elles sont une instanciation de la notion générale de commande, nécessaire avant la section 5 car intervenant dans la sémantique de la section 4 (Ces commandes seront à leur tour instanciées plus finement en section 5, associées à une syntaxe).
+
+Enfin la section 3 définit ce qu'est une application comme interconnection de composants, avec des tâches mapées sur des noeuds d'exécutions. 
+
+Cette section est dite statique car les divers états qui y sont définis comportent peu d'information "runtime", tel des "program counter" ou des dates (sauf états des channels, à déplacer sans doute, comme dit plus haut).
+
+NOTE: La section 5 peut être lue directement après la section 3, et en sautant la section 3.3 (sauf la toute dernière phrase du document qui réfère au mapping).
+\item La section 4 est le "gros morceau" qui définit les traces d'une application "running" comme des suites d'états/transitions étiquetées, avec des états complexes décrivant tout le système "runtime" (apparaissent entre autres les program counters des tasks). Ces états, dits dynamiques, sont décrits en section 4.1. Ensuite la section 4.2 définit les pas sémantiques correspondant aux pas se simulation (autant que possible). 
+
+De nombreuses définitions intermédiaires sont données, un peu comme des sous-fonctions en pro\-gram\-mation. Bon nombre d'entre elles rejoignent des fonctionalités internes du simulateur, avec quelques différences toutefois. L'objectif est d'atteindre une sémantique quasi-équivalente mais définie différemment. En particulier la sémantique n'est pas définie par rapport aux transactions. Ces dernières ne sont introduites qu'en section 4.3, un peu comme un enrichissement des états dynamiques dans lequel on enregistre une mémoire du passé afin de créer les transactions au moment de leur terminaison.
+\item la section 5 fournit une syntaxe abstraite pour le TML réel et lui associe une sémantique selon la  section 3, ce qui lui donne automatiquement une sémantique selon la section 4.
+
+Après quelques définition préalables (états, expressions,\ldots essentiellement des éléments de language), les descriptions de tâches sont caractérisés par des arbres de syntaxe abstraite proches des diagram\-mes SYS-ML. Ils sont décrit généralement en section 5.2, avec une forme générale pour les comman\-des et la sémantique des arbres. Les spécificités de chaque comman\-des sont surtout détaillées en section 5.3, qui est un inventaire des instanciation de la forme générale identifiée en section 5.2. Quelques modifications des sections 5.2 et 5.3 sont prévues afin de faire rentrer dans le cadre les deux commandes que nous n'avons pas encore pu faire rentrer telles quelles (LOOP,REQUESTS).
+
+Finalement, la section 5.4 présente informellement les divers types de channels de TML et montre en quoi ces channels instancie bien les définitions de la section 3.2.
+\item les grosses abstractions par rapport au simulateur et au mapping TML sont l'abstraction de l'algorithmique des schedulers, et l'abstraction des bus et chemins concrets. Du coup les channels sont juste "granted" ou "not granted". Et surtout les calculs (complexes) du temps réel étant omis, les durées réelles qui apparaissent (timeouts des cpu représentant des quantums) ne peuvent pas être corrélées aux durées virtuelles. Elles sont choisies aléatoirement. Un raffinement futur est envisageable... mais utile?...
+\end{itemize}
+\tableofcontents
+Note: to avoid heavy notation we generally omit indexes in definitions. These indexes may be added (in an obvious way) when the context leads to some ambiguity. This concern, among others, components that are associated to structures or parameterized functions/notations.
+
+%--------------------------------------------------------------------------
+%°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°
+\section{TML Application semantics, static aspects}\label{sec-stat}
+We characterize here a notion of application which subsumes TML applications.
+
+%°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°
+\subsection{Tasks}
+A task is a kind of {\em code}. It contains {\em commands} (instances) that may occur in some task {\em state}. Such a state, associated to the command is an execution {\em point}. Moreover command occurrences have durations, which are virtual {\em lengths} as real lengths depend on architecture. A point may have several possible lengths. A timed point (t-point) is a point with an associated length. The following definition introduces these concepts, with associated notations and vocabulary.
+%=========================================
+\begin{definition}[task base]\label{def-cb} A task base is a tuple $(S,C,len)$, where\footnote{$\NAT^*=\NAT\backslash\{0\}$ is the set of strictly positive naturals} \par
+\begin{itemize}
+\item $S$ is a set of {\em states} and $C$ is a set of {\em commands}. Members of $S\times C$ are called {\small (execution)} {\em points}.
+\item $len: S\times C\rightarrow {\cal P}(\NAT)\cup\{\infty\}$ is a total function associating a set of {\em lengths} to each point.
+\item Point are classified w.r.t. lengthes:
+   \begin{itemize}
+	 \item $\bar P=\{(s,c)\in S\times C\mid len(s,c)=\emptyset\}$ is the set of {\em buggy} points.
+	 \item $P=\{(s,c)\in S\times C\mid len(s,c)\neq\emptyset\}$ is the set of {\em safe} points.
+	   \begin{itemize}
+		 \item $iP=\{(s,c)\in S\times C\mid 0\in len(s,c)\}$ is the set of {\em instantaneous} points.
+		 \item $tP=\{(s,c)\in S\times C\mid len(s,c)\cap(\NAT^*)\neq\emptyset\}$ is the set of {\em transaction} points.
+		 \item $bP=\{(s,c)\in S\times C\mid len(s,c)=\{\infty\}\}$ is the set of {\em blocked} points
+		 \end{itemize}
+	 \end{itemize}
+\item $\hat P=\{((s,c),l)|(s,c)\in S\times C \wedge l\in len(s,c)\}$ is the set of {\em t-points}.
+\end{itemize}
+\vspace{1mm}
+The state of a point $p$ is denoted by $state(p)$ and its command by $cmd(p)$ (similarly for t-points). The length of a t-point $p$ is denoted by $len(p)$. Its point is denoted by $point(p)$.
+\end{definition}
+%++++++++++++++++++++++++++++++++++++++++++
+Buggy points are points where the command would lead to an error (for example a "divide by zero"). Other points are considered as safe although some of them (blocked points) may characterize a non-terminating execution. A point $p$ is always blocked or never: if $\infty\in len(p)$ then $len(p)=\{\infty\}$. Thus, $bP\cap(iP\cup tP)=\emptyset$. Blocked points may correspond to an unexpected deadlock, but also to a normal final point of the task. Non-blocked safe points have associated finite lengths. They are instantaneous if this length can be zero and transaction if this length can be strictly positive; these two categories are not exclusive. 
+
+Starting from a task base, the task itself can be described. It characterized the possible sequencing of commands and states by way of two "next point" functions. The first one handles instantaneous transitions. As developed later, such transitions are internal and will only be characterized w.r.t. the task state. The second one handles transaction transitions (with non null lengths). Their length only depend on task state. The way these transactions change the state may depend on external parameters, for example on values in a received message.
+%=========================================
+\begin{definition}[task]\label{def-task}
+A {\em task} is a tuple ${\cal T}=((S,C,len), I, init,F,inxt,tnxt)$ where
+\begin{enumerate}
+\item $(S,C,len)$ is a task base (with associated point sets $P,\bar P,\ldots$).
+\item $I\subseteq S$ is the set of initial states. 
+\item $init\in C$ is its {\em initial} command.
+\item $F\subseteq C$ is the set of its {\em final} commands.
+      \begin{enumerate}
+      \item $f\!P=S\times F$ is the set of its {\em final} points.
+			\item $f\!P\subseteq bP$
+			\item $dP=bP\backslash f\!P$ is the set of its {\em deadlocked} points.
+			\end{enumerate}
+\item $inxt: iP \rightarrow {\cal P}(P\cup\bar P)\backslash\{\emptyset\}$ is its (total) {\em instantaneous transition fonction}.
+\item $tnxt: tP \rightarrow {\cal P}(P\cup\bar P)\backslash\{\emptyset\}$ is its (total) {\em transaction transition fonction}.
+\item For any $(s,c)$ and $(s',c')$ such that $(s',c')=inxt(s,c)$ or $(s',c')=tnxt(s,c)$, we have $c\neq c'$.
+\item For any $(s,c)\in iP\cap tP$ there is $c'\in C$ such that $inxt(s,c)=\{(s,c')\}$.
+\end{enumerate}
+\end{definition}
+%++++++++++++++++++++++++++++++++++++++++++
+A task relies on a task base (1). It includes an initial command (3), initial states (2) and final commands (4) defining final points (4.a). Final commands induce blocked points for any state (4.b). These blocked point are normal final points. Other blocked points are deadlocked (4.c). "Next-point" functions (5,6) are only defined for safe non-blocked points (in $iP\cup tP$) and provide them with at least one successor. These functions may lead to buggy states. A command cannot loop on itself (7): for loops, explicit test/choice commands are required. Intuitively point (8) expresses that commands in $iP\cap tP$ are transactions that are not executed when their length is null. They do not modify the state nor make a choice between possible successors. That's why their successor is unique and preserve the state. These restrictions do not suffice to avoid a buggy task.
+
+In general, a task should behave well at least when it starts from an initial state with the initial command and then follows the "next point" sequencing. This defines the set of reachable points.
+%=========================================
+\begin{definition}[reachable points]\label{def-reach}Let ${\cal T}$ a task as defined in definition \ref{def-task}.
+The set $R$ of {\em reachable} points is inductively defined by\footnote{as usual, for a function $f$ and $E\subseteq dom(f)$, $f(E)$ denotes $\{f(x)|x\in E\}$}
+\begin{enumerate}
+\item for all $s\in I,\; (s,init)\in R$
+\item for all $(s,c)\in R\cap iP,\; inxt(s,c)\subseteq R$
+\item for all $(s,c)\in R\cap tP,\; tnxt(s,c)\subseteq R$
+\end{enumerate}
+\end{definition}
+%++++++++++++++++++++++++++++++++++++++++++
+Another constraint is to ensure time progress: infinite sequences of instantaneous points must be excluded. To be able to express this, we first define paths as words (monoid sequences) on execution points respecting the "next point" sequencing. As usually with words, we use notations "$pu$" or "$up$", where $p$ is a point and $u$ is a path, and $\varepsilon$ denotes the empty word.
+%=========================================
+\begin{definition}[Paths]\label{def-path}Let ${\cal T}$ a task and $p$ be a point.
+\begin{itemize}
+\item The set $Pth(p)$ of {\em paths} from $p$ is inductively defined by
+   \begin{enumerate}
+	 \item $p\in Pth(p)$
+   \item if $uq\in Pth(p)\wedge q\in iP\wedge x\in inxt(q)$ then $uqx\in Pth(p)$.
+   \item if $uq\in Pth(p)\wedge q\in tP\wedge x\in tnxt(q)$ then $uqx\in Pth(p)$
+   \end{enumerate}
+
+\item The set $iPth(p)\subseteq Pth(p)$ of {\em instantaneous} paths from $p$ is inductively defined by items 1 and 2 of the definition above (i.e. using only instantaneous transitions).
+\item $\uparrow\!P=\{p\in P|\forall n\in\NAT,\,\exists u\in iPth(p),\,|u|>n\}$ is the set of {\em divergent} points.
+
+\end{itemize}
+\end{definition}
+%++++++++++++++++++++++++++++++++++++++++++
+%=========================================
+\begin{fact}\label{fact-rchpth} Reachable points of a task are points in paths from initial points (in $I\times\{init\}$).
+\end{fact}
+%++++++++++++++++++++++++++++++++++++++++++
+{\em proof:} simple induction.$\Box$\\
+W.r.t. the underlying interpretation of these paths, the last point of a path is the "next point to execute" and not the "last executed point". This  allows to describe pathes terminating by points that are not executable (blocked or buggy). Notice that in items 2 and 3, $u$ may be $\varepsilon$ although $\varepsilon$ is not a path. Instantaneous paths represent suits of instantaneous transitions. Their last point (not executed) is not necessary instantaneous. A point is divergent if the size of instantaneous paths from it is unbounded, which means that it is the starting point of at least one infinite sequence of instantaneous transitions. We can now characterize the requirements for a task to be well-defined.
+
+%=========================================
+\begin{definition}[well formed task]\label{def-wd} Let ${\cal T}$ be a task.
+${\cal T}$ is {\em well formed} if and only if
+\begin{enumerate}
+\item There is no reachable infinite instantaneous path, i.e $R\,\cap\uparrow\!P=\emptyset$
+\item There is no reachable deadlocked point, $R\cap dP=\emptyset$.
+\item There is no reachable buggy point, $R\cap \bar P=\emptyset$.
+\end{enumerate}
+\end{definition}
+%++++++++++++++++++++++++++++++++++++++++++
+Item 1 exclude infinite suits of instantaneous transition. Item 2 and 3 exclude unwanted situations: bugs and deadlocks. This definition is a reference for verification although concrete verification may be hard. Once we have ensured that a task is well-formed, we can manipulate commands without being careful about buggy situations. We could also avoid dead code but it would require some more definition as some commands may be used without being reachable within definition \ref{def-reach} (c.f. the select command of definition \ref{def-slc}).
+
+Commands can be defined independently of each other. Indeed, a command is fully defined by its identity $c\in C$ and the restrictions of $len$, $inxt$ and $tnxt$ to the part of their domain that concerns $c$. Thus it suffice to provide $sem_c$ as defined below. Then the single constraint to respect when building a task from such a family of separate definition is to associate blocked commands to final states.
+%=========================================
+\begin{fact}[per command task semantics] \label{fact-pcsem}$~$Let $S$ be a set of states, $C$ a set of commands, $I\subseteq S$, $init\in C$, $F\subseteq C$ and $\{sem_c\}_{c\in C}$ a $C$-indexed family such that
+\begin{itemize}
+
+\item for any $c\in C$, $sem_c=(len_c,inxt_c,tnxt_c)$ with
+  \begin{enumerate}
+	  \item $len_c:S\rightarrow{\cal P}(\NAT)\cup\{\infty\}$ is total
+		\item $inxt_c: S\mapsto {\cal P}(S\times C)\backslash\{\emptyset\}$\\
+		      $dom(inxt_c)=\{s\in S\mid 0\in len_c(s)\}$. $~~~~~~~~${\small(if not $\emptyset$, $c$ may be instantaneous)}
+		\item $tnxt_c: S\mapsto {\cal P}(S\times C)\backslash\{\emptyset\}$\\
+		      $dom(tnxt_c)=\{s\in S\mid len_c(s)\cap\NAT^*\neq\emptyset\}$ $~~~~${\small(if not $\emptyset$, $c$ may be transition)}
+		\item For any $s,c,s',c'$ such that $(s',c')=inxt_c(s)$ or $(s',c')=tnxt_c(s)$, we have $c\neq c'$.
+    \item For any $s\in dom(inxt_c)\cap dom(tnxt_c)$ there is $c'\in C$ such that $inxt_c(s)=\{(s,c')\}$.
+	\end{enumerate}
+\item If $c\in F$ then for any $s\in S$ $len_c(s)=\{\infty\}$, thus\footnote{As a function $f$ is a set of couples, if $dom(f)=\emptyset$ then $f=\emptyset$} $sem_c=(len_c,\emptyset,\emptyset)$.
+\end{itemize}
+
+Let $len'_c:S\times \{c\}\rightarrow{\cal P}(\NAT)\cup\{\infty\}$, $inxt'_c: S\times \{c\}\mapsto {\cal P}(S\times C)\backslash\{\emptyset\}$ and $tnxt'_c: S\times \{c\}\mapsto {\cal P}(S\times C)\backslash\{\emptyset\}$ be defined by
+\begin{itemize}
+\item $len(s,c)=len_c(s)$
+\item If $(s)\in dom(tnxt_c)$ then $tnxt(s,c)=tnxt_c(s)$, else it is undefined.
+\item If $(s)\in dom(inxt_c)$ then $inxt(s,c)=inxt_c(s)$, else it is undefined.
+\end{itemize}
+Then
+${\cal T}=((S, C, \bigcup_{c\in C}len'_c), I, init, F, \bigcup_{c\in C}inxt'_c, \bigcup_{c\in C}tnxt'_c)$ is a task.
+\end{fact}
+%++++++++++++++++++++++++++++++++++++++++++
+Notice that functions $len_c$, $inxt_c$ and $tnxt_c$ always exist but have sometime empty domains. This fact is trivial as it is a simple rewriting of definitions \ref{def-cb} and \ref{def-task} (without the aspects classifying points) and consistence is obvious: unions of functions in the definition of ${\cal T}$ are  functions, as domains are disjoint. 
+
+Definitions \ref{def-cb} and \ref{def-task} (and implicitly fact \ref{fact-pcsem}) classify execution points w.r.t. lengths and strongly link $inxt$ and $tnxt$ domains to these lengths. In practice, $len_c$, $inxt_c$ and $tnxt_c$ will be provided by way of mathematical functions that have their own definition domain and most of the time, these domains won't naturally meet the above constraints (items 1-3). Thus they cannot directly instanciate the above definition. The following definition builds a correct semantics from such pragmatic definitions, allowing instantiation. It simply restricts the domain of provided concrete $Inxt_c$ and $T\!nxt_c$. Rewriting concrete $Len_c$ into $len_c$ is a little bit more complex.
+%=========================================
+\begin{definition}[concrete commands]\label{def-crc}$~$\\
+A tuple $(Len_c:S\times C\rightarrow {\cal P}(\INT), Inxt_c:S\times C\rightarrow {\cal P}(S\times C), T\!nxt_c:S\times C\rightarrow  {\cal P}(S\times C))$ such that
+\begin{enumerate}
+		\item For any $(s,s',c')$ such that $(s',c')=Inxt_c(s)$ or $(s',c')=T\!nxt_c(s)$, we have $c\neq c'$.
+    \item For any $s\in dom(Inxt_c)\cap dom(T\!nxt_c)$ there is $c'\in C$ such that $Inxt_c(s)=\{(s,c')\}$.
+\end{enumerate}
+
+defines a tuple $(len_c,inxt_c,tnxt_c)$ w.r.t. fact \ref{fact-pcsem} in the following way
+
+\vspace{1mm}
+Let $Dom(Len_c)=\{s\in dom(Len_c)\mid Len_c(s)\subseteq\NAT\}$. For all $s\in S$,\par
+Let $Dom(Inxt)=\{s\in dom(Inxt)\mid Inxt(s)\neq\emptyset\}$ and $Dom(T\!nxt)=\{s\in dom(T\!nxt)\mid T\!nxt(s)\neq\emptyset\}$
+\begin{itemize}
+\item 
+      if $s\notin Dom(Len_c)$ then $len_c(s)=\emptyset$\par
+      else if $0\in Len_c(s)\wedge s\notin dom(Inxt_c)$ or $Len_c(s)\cap\NAT^*\neq\emptyset\wedge s\notin dom(T\!nxt_c)$ then $len_c(s)=\emptyset$,\par
+      else if $0\in Len_c(s)\wedge s\notin Dom(Inxt_c)$ or $Len_c(s)\cap\NAT^*\neq\emptyset\wedge s\notin Dom(T\!nxt_c)$ then $len_c(s)=\{\infty\}$,\par
+			else $len_c(s)=Len_c(s)$.
+\item $dom(inxt_c)=\{s\in S\mid 0\in len_c(s)\}$ and for all $s\in dom(inxt_c),\; inxt_c=Inxt_c$.
+\item $dom(tnxt_c)=\{s\in S\mid len_c(s)\cap\NAT^*\neq\empty\}$ and for all $s\in dom(tnxt_c),\; tnxt_c=T\!nxt_c$.
+\end{itemize}
+\end{definition}
+%++++++++++++++++++++++++++++++++++++++++++
+In practice the characterization of $Len_c$ $Inxt_c$ and $T\!nxt_c$ rely on expressions within the definition of task syntax. Then their domains ($dom(Len_c)$, $dom(Inxt_c)$, $dom(T\!nxt)$) are the states where the used expression are well defined (for example, without divide by 0): they are computable and have a clear associated value. The restricted domains ($Dom(Len_c)$, $Dom(Inxt_c)$, $Dom(T\!nxt)$) express the relevant properties of these values. Lengths are natural and "next\_points" of $inxt$ and $tnxt$ cannot be empty. This allow to distinguish buggy states from blocked states: in buggy states, next\_points are not computable, in blocked states they are computable but empty. Both buggy and blocked should be avoided. An exception is final points but as their semantics is fully defined by their final status in a task context, we will never use $Len_c$/$Inxt_c$/$T\!nxt_c$ descriptions to characterize them. Thus, in a nutshell,
+
+\begin{boxedminipage}{15cm}\label{safestates}
+{\em Each time a $Len_c$/$Inxt_c$/$T\!nxt_c$ description is provided, checking the following list of properties ensures that a state $s$ is safe for a command $c$, i.e $len_c(s)\notin\{\emptyset,\{\infty\}\}$.}
+\begin{enumerate}
+\item $s\in dom(Len_c)$ and $Len_c(s)\subseteq\NAT$
+\item $0\in Len_c(s)\Rightarrow s\in dom(Inxt_c)$
+\item $Len_c(s)\cap\NAT^*\neq\emptyset\Rightarrow s\in dom(T\!nxt_c)$
+\item $0\in Len_c(s)\Rightarrow Inxt_c(s)\neq \emptyset$
+\item $Len_c(s)\cap\NAT^*\neq\emptyset\Rightarrow T\!nxt_c(s)\neq \emptyset$
+\item For any $(s',c')$ such that $(s',c')=Inxt_c(s)$ or $(s',c')=T\!nxt_c(s)$, we have $c\neq c'$.
+\item If $s\in dom(Inxt_c)\cap dom(T\!nxt_c)$ there is $c'\in C$ such that $Inxt_c(s)=\{(s,c')\}$.
+\end{enumerate}
+\end{boxedminipage}
+
+In practice items 6-7, which are structural, will be obvious from definitions. Items 1-5 can be associated to proof obligations. Most of the time, Items 4-5 are also obvious.
+
+%°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°
+\subsection{Communication Channels}\label{subsec-channelsem}
+As tasks interact, some commands are readings and writings on communication channels. There are two main kinds of communication: data communication and control communication. Communications have non-zero lengths and correspond to transaction points. Depending on system state (media content, scheduler time slice,\ldots) they may be delayed or split in several small {\em transactions}. Notice that here, transactions are atomic steps in model semantics and their length is decided w.r.t. this purpose. They define the granularity of time progress in semantics (it is the granularity of simulation steps). A real transaction in real world may be represented by several consecutive transactions in our modeling. This section describes the role of communication media w.r.t. communication transactions.
+
+Data values are abstracted thus only the amount of data is considered. This defines (virtual) lengths as number of samples. A data channel has a content which is such a length, abstracted as a {\em state} $s\in S$ in definition \ref{def-dch} below (1). The length of a data transaction may depends on this state. It also depends on the length of the timed point that require the transaction, which is also a number of sample. And finally it depends on the length of the point at the other side of the channel: it may impact the relevant granularity of time progress in simulation steps semantics.
+%=========================================
+\begin{definition}[data channel characteristics]\label{def-dch} A {\em data channel} is a tuple\\
+$dc=(S,maxread,maxwrite,rnxt,wnxt)$ where
+\begin{enumerate}
+\item $S$ is the set of its {\em states}
+\item $canread:S\rightarrow\BOOL$ is its (total) {\em can-read} function.
+\item $canwrite:S\rightarrow\BOOL$ is its (total) {\em can-write} function.
+\item $maxread:\NAT\times S\times \NAT\rightarrow\NAT$ is its {\em max-read} (total) function.\\
+      $\forall (l_r,s,l_s)\in\NAT^*\times S\rightarrow\NAT,\, maxread(l_r,s,l_w)\leq l_r \wedge\\
+			\hspace*{4cm}(l_r>0\wedge canread(s)=\top \Rightarrow maxread(l_r,s,l_w)>0)$
+\item $maxwrite:\NAT\times S\times\NAT\rightarrow\NAT$ is its {\em max-write} (total) function.\\
+      $\forall (l_w,s,l_r)\in\NAT\times S\rightarrow\NAT,\, maxwrite(l_w,s,l_r)\leq l_w \wedge\\ 
+			\hspace*{4cm}(l_w>0 \wedge canwrite(s)=\top \Rightarrow maxwrite(l_w,s,l_r)>0)$
+\item $rnxt:S\times\NAT\rightarrow S$ is its {\em r-next} function.\\
+      $\forall (l_r,s,l_w)\in\NAT\times S\times\NAT,\,\{(s,l)\mid 0\leq l\leq maxread(l_r,s,l_w)\}\subseteq dom(rnxt) \wedge rnxt(s,0)=s$
+\item $wnxt:S\times\NAT\rightarrow S$ is its {\em w-next} function.\\
+      $\forall (l_r,s,l_w)\in\NAT\times S\times\NAT,\,\{(s,l)\mid 0\leq l\leq maxwrite(l_r,s,l_w)\}\subseteq dom(wnxt) \wedge wnxt(s,0)=s$
+\item For any $s,l_r,l_w$ such that $s\in S$, $(s,l_r) \in dom(rnxt)$ and $(s,l_w)\in dom(wnxt)$,\\
+      $(wnxt(s,l_w),l_r)\in dom(rnxt)\;$ and $\;(rnxt(s,l_r),l_w)\in dom(wnxt)$  
+\end{enumerate}
+\end{definition}
+%++++++++++++++++++++++++++++++++++++++++++
+When $canread$ returns $\top$ (2), data is available in the channel. When $canwrite$ returns $\top$ (3), data can be put in the channel. The $maxread$ and $maxwrite$ functions (4,5) are relevant when at the same time, a point $p_r$ wants to read $l_r$ samples on the channel in state $s$ and point $p_w$ wants to write $l_w$ sample on the channel. In this case, the transaction length is bound by the granularity required by semantics or simulation (not detailed). Then $maxread(l_r,s,l_w)$ (resp. $maxwrite(l_w,n,l_r)$) is the maximal length allowed for the read (reps. write) transaction. $Maxread(l_r,s,l_w)$ (resp. $maxwrite(l_w,n,l_r)$) is bounded by $l_r$ (resp. $l_w$). These lengths are "maximal" as transaction lengths may be bounded by other constraints such as scheduler time slice, for example. Neither $maxread$ nor $maxwrite$ can reduce a possible transaction to zero length. When reading (resp. writing) $l$ samples in a channel in state $s$, $rnxt(s,l)$ (reps. $wnxt(s,l)$) provides the new state (6,7). Finally, $rnext$ (reps. $wnext$) is able to handle at least the amount of samples provided by $maxread$ (reps. $maxwrite$), or any lower amount (it won't be used with other values in the scope of this document). The last item (8) ensures that reading (resp.writing) on a channel does not restrict the amount of writable (resp.  readable) samples.
+
+Control channels route {\em events} which may be parametrized. Parameters are control parameters, without any link to data value. The virtual length of t-points which read or write on these channels is fixed and not null. The content of such channels is characterized by the events they contain (if fact, parameters). This content may be structured, as FIFO for example. Here, it is abstracted by a channel {\em state} ((1) in definition \ref{def-ech} below).
+%=========================================
+\begin{definition}[event channel characteristics]\label{def-ech} A {\em data channel} is a tuple\\
+$ec=(S,Par,canread,canwrite,event,rnxt,snxt)$ where\footnote{$\BOOL$ denotes the set $\{\top,\bot\}$ of booleans}:
+\begin{enumerate}
+\item $S$ is the set of its {\em states}
+\item $Par$ is the set of its {\em parameters} (values)
+\item $canread:S\rightarrow\BOOL$ is its (total) {\em can-read} function.
+\item $canwrite:S\rightarrow\BOOL$ is its (total) {\em can-write} function.
+\item $event:S\rightarrow Par$ is its {\em event} function.\\
+      $dom(event)=\{s\in S\mid canread(s)=\top\}$
+\item $rnxt: S\rightarrow S$ is its {\em r-content} function.\\
+      $dom(rnxt)=\{s\in S\mid canread(s)=\top\}$
+\item $snxt:S\times Par\rightarrow S$ is its {\em w-content} function.\\
+      $dom(snxt)=\{(s,x)\in S\times Par\mid canwrite(s)=\top\}$
+\item For any $(s,par)\in S\times Par$ such that $canread(s)=canwrite(s)=\top$,\\
+      $canread(snxt(s,par))=\top\;$ and $\;canwrite(rnxt(s))=\top$  
+
+\end{enumerate}
+\end{definition}
+%++++++++++++++++++++++++++++++++++++++++++
+When $canread$ returns $\top$ (3), an event is available in the channel. When $canwrite$ returns $\top$ (4), an event can be put in the channel. Function $event$ returns the available event (5), i.e a parameter value in $Par$ (2). If the channel routes events without parameter, the set $Par$ is a singleton $\{()\}$. Function $rnxt$ (6) modifies the channel state by reading (for example, it removes the available event from the channel). Function $snxt$ (7) modify the channel state by sending (for example, it puts an event in the channel).  The last item (8) ensures that receiving (resp. sending) on a channel cannot compromise its writable (resp. "receiv-able") status (when this status is $\top$).
+
+As raised throughout this section, there are command that read and write on channels. They are commands in execution points of a task. Thus the definitions of data channel commands and of control channel command below refine (or instanciate) definitions \ref{def-cb} and \ref{def-task}. Communication commands on data channels are called {\em read} and {\em write}. Communication commands on event channels are called {\em send} and {\em receive}. As their associated execution points are not blocked, they are not final. There is one more kind of communication command: a selection between several events. The following definition summarizes this.
+%=========================================
+\begin{definition}[channel commands]\label{def-chcmd} Let ${\cal T}$ be a task. $COM\subseteq C$ denotes the set of its {\em channel} commands. $W\!R\subseteq COM$ contains its (data) {\em write} commands. $RD\subseteq COM$ contains its (data) {\em read} commands. $S\!N\!D\subseteq COM$ contains its (event) {\em send} commands. $RCV\subseteq COM$ contains its (event) {\em receive} commands. $SLC\subseteq COM$ contains its (event) {\em select} commands. $\{W\!R,RD,S\!N\!D,RCV,S\!LC\}$ is a partition of $COM$.
+\end{definition}
+%++++++++++++++++++++++++++++++++++++++++++
+Notice that channels commands in DIPLODOCUS have associated channels at task level, which is only useful for information purpose. In our modeling, this association appears at application level (c.f. definition \ref{def-mapp}).
+ 
+Data channel commands characterize transaction points (in $tP$). These points do not make a choice. Thus they have exactly one successor. Some of them are sometime instantaneous (in $iP$, not-executed) when their (computed) length is null. At this level of abstraction, Data channel commands do not modify the state of the task. The following definitions describe this, relying on $Len_c/Inxt_c/Tnxt_c$ descriptions within definition \ref{def-crc}.
+%=========================================
+\begin{definition}[data channel commands]\label{def-dccmd} Let ${\cal T}$ be a task and $c\in W\!R\cup RD$ a command. $c$ is provided with semantics $sem_c=(Len_c,Inxt_c,Tnxt_c)$ within definition \ref{def-crc} such that for any $s\in S_{\cal T}$, if $s\in dom(Len_c)$ then
+\begin{enumerate}
+\item  there is $n\in\NAT$ such that $Len_c(s)=\{n\}$.
+\item  there is $c'\in C$ such that\\
+      $-$ If $n= 0$ then $Inxt_c(s)=\{(s,c')\}$\\
+      $-$ If $n\neq 0$ then $Tnxt_c(s)=\{(s,c')\}$
+\end{enumerate}
+\end{definition}
+%++++++++++++++++++++++++++++++++++++++++++
+Item (1) provides a unique length for non buggy execution point. Item (2) express the one successor characteristic, and says that the state is not modified.
+
+Event points are in $tP$ and never in $iP$, as all events have a non null length which is fixed for the whole application ((0) in definition \ref{def-eccmd} below). Send and receive commands have an associated set of parameter (one per command). When sending, the parameter is computed from the state. The state does not change and there is one unique successor point. When receiving, the state is updated w.r.t a parameter. Thus, there are several possible successors, but all successors points share a same command. The following definitions describe this.
+%=========================================
+\begin{definition}[event channel commands]\label{def-eccmd} Let ${\cal T}$ be a task, $c_s\in S\!N\!D$ a send command and $c_r\in RCV$ a receive command.
+\begin{enumerate}
+\setcounter{enumi}{-1}
+\item There is a (global) constant $evlength\in\NAT^*$. 
+\item $c_s$ is provided with a set $Par_{c_s}$ of {\em parameters} and a function $par_{c_s}:S\rightarrow Par_{c_s}$.
+\item $c_s$ is provided with semantics $sem_{c_s}=(Len_{c_s},Inxt_{c_s},Tnxt_{c_s})$ such that for any $s\in S_{\cal T}$,
+  \begin{enumerate}
+  \item $Len_{c_s}(s)=\{evlength\}$.
+  \item $dom(T\!nxt_{c_s})=dom(par_{c_s})$.\\
+	      If $s\in dom(T\!nxt_{c_s})$ then there is $c'\in C$ such that 
+      $T\!nxt_{c_s}(s)=\{(s,c')\}$.
+	\end{enumerate}
+\item $c_r$ is provided with\\
+      $-$ a set $Par_{c_r}$,\\
+			$-$ a function $par_{c_r}: S\rightarrow {\cal P}(Par_{c_r})\backslash\{\emptyset\}$ and\\ 
+			$-$ a function $upd_{c_r}:S\times Par_{c_r}\rightarrow S$ such that\par
+			for any $s\in dom(par_{c_r})$ and $p\in par_{c_r}(s)$, $(s,p)\in dom(upd_{c_r})$.
+\item $c_r$ is provided with semantics $sem_{c_r}=(Len_{c_r},Inxt_r,Tnxt_r)$ such that for any $s\in S_{\cal T}$,
+  \begin{enumerate}\setcounter{enumii}{2}
+\item $Len_{c_r}(s)=\{evlength\}$.
+\item $dom(T\!nxt_{c_r})=dom(par_{c_r})$.\\
+	    If $s\in dom(T\!nxt_{c_r})$ then there is $c'\in C$ such that
+      $T\!nxt_{c_r}(s)=\{(upd_{c_r}(s,x),c')\mid x\in par_{c_r}(s)\}$.
+	\end{enumerate}
+\end{enumerate}
+\end{definition}
+%++++++++++++++++++++++++++++++++++++++++++
+Item (1) provides send commands with a set of parameters and a way to compute such parameters from states. Item (a) specifies the fixed length of send commands. Item (b) provides each feasible send commands with a single successor preserving state. Item (3) provides receive commands with a set of parameters, a non empty subset of parameters that are actually acceptable for each state, and a way to update the state w.r.t. acceptable parameters. Item (c) specifies the fixed length of receive commands.
+Item (d) associates one unique successor command to feasible receive points, but different states may be reached depending on the received parameter, which is used to update the state. The domain of $par_{c_r}$ characterizes non buggy states as states for which at least one acceptable parameter is defined. One interessant point is that successor are only defined for acceptable parameters (definition of $tnxt$, item d). 
+
+Indeed, making the whole set $Par_{c_r}$ acceptable would sometimes make too much points reachable in the model, and restrict the set of well-defined tasks. Using constraints on received parameters is a way to make some buggy points non reachable. For example, a non null parameter can be used later as divider. Such constraints are requirements to respect when building applications using the task. They also may reflect some knowledge of the past that ensures that some parameters cannot arrive at a given moment. Some memory of this past may be present in the state and refered in $par_{c_r}$. Notice that the $par_{c_r}$ function must be defined with care. Proving that the restriction holds may be very hard as it often involves the dynamic behaviour at application level. And a restriction that do not hold compromises the coherence of the whole application model.
+
+ A task may be waiting for several events. As soon a one of them is delivered, the task may choose the {\em branch} associated to this event. This is allowed by the {\em select} command. This command is build on several receive commands as described in the following definition.
+%=========================================
+\begin{definition}[select command]\label{def-slc} Let ${\cal T}$ be a task, $c\in S\!LC$ be a select command, and $(c,s)$ be a state in $S\times C$. $c$ is characterized by a set $BR_c\subseteq RCV$. Semantics $sem_{c_s}=(Len_{c_s},Inxt_{c_s},Tnxt_{c_s})$ is defined by for any $s\in S_{\cal T}$,
+\begin{itemize}
+\item $Len_c(s)=\{evlength\}$.
+\item $dom(T\!nxt_c)=\bigcap_{c'\in BR}dom(T\!nxt_{c'})$.\par
+      If $s\in dom(T\!nxt_c)$ then $tnxt(s,c)=\bigcup_{c'\in BR}T\!nxt_{c'}(s)$
+\end{itemize}
+\end{definition}
+%++++++++++++++++++++++++++++++++++++++++++
+Notice that here, receive commands are used in the task but not necessary reachable within definition \ref{def-reach}. 
+
+%°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°
+\subsection{Applications}
+An application contains tasks interconnected by channels as described in the definition below. Tasks are disjoint: a command can belong to only one task (item 1). All communication commands are mapped to channels, respecting the data/event typing (items 4,5). All channels are properly connected: they are associated to at least one putting command (items a,e); they are associated to exactly one getting task (items c,f); they cannot connect two commands of a same task (items d,g). A data channel is associated to one single writing task (item b). All rcv commands of a select command must be mapped to different channels (item 6). Connections of event channels respect Parameter types (item h). Moreover, tasks are mapped on execution {\em nodes} (item 8,9). Low level communication support (bus,\ldots) is fully abstracted.
+%=========================================
+\begin{definition}[(mapped) application]\label{def-mapp}$~$\\
+ An {\em application} is a tuple ${\cal A}=(T\!sk,Dch,Ech,drmap,dwmap,ermap,esmap,X\!nd,tmap)$ where\footnote{Let $R$ be a binary relation, $x\in dom(R)$ and $X\subseteq dom(R)$. $R[X]$ denotes $\{y\in img(R)\mid\exists x\in X,\,(x,y)\in R\}$, $R[x]$ abbreviates $R[\{x\}]$ and $R^{-1}$ denotes $\{(y,x)|(x,y)\in R\}$.}
+\begin{enumerate}
+\item $T\!sk$ is a set of tasks such that $\forall ({\cal T, T'})\in T\!sk^2,\, {\cal T\neq T'}\Rightarrow C_{\cal T}\cap C_{\cal T'}=\emptyset$\\
+for any ${\cal T}\in T\!sk$, $c\in C_{\cal T}$ and $p\in P_{\cal T}$, $tsk(c)$ and $tsk(p)$ denote\footnote{As task command sets are disjoint, task point sets are disjoint too.} ${\cal T}$
+\item $Dch$ is a set of data channels
+\item $Ech$ is a set of event channels
+\item $drmap: \bigcup_{{\cal T}\in T\!sk}RD_{\cal T}\rightarrow Dch$ and
+      $dwmap: \bigcup_{{\cal T}\in T\!sk}W\!R_{\cal T}\rightarrow Dch$ are total surjective functions, respectively called the {\em read-mapping} and the {\em write-mapping}, and for any $dc\in Dch$
+			\begin{enumerate}
+			\item $dwmap^{-1}[dc]\neq\emptyset$
+			\item there is ${\cal T}\in T\!sk$ s.t. $dwmap^{-1}[dc]\subseteq W\!R_{\cal T}$. ${\cal T}$ is denoted by $wtsk(dc)$.
+			\item there is ${\cal T}\in T\!sk$ s.t. $drmap^{-1}[dc]\subseteq W\!R_{\cal T}$. ${\cal T}$ is denoted by $rtsk(dc)$.
+			\item $rtsk(dc)\neq wtsk(dc)$
+			\end{enumerate}
+\item $ermap: \bigcup_{{\cal T}\in T\!sk}RCV_{\cal T}\rightarrow Ech$ and
+      $esmap: \bigcup_{{\cal T}\in T\!sk}S\!N\!D_{\cal T}\rightarrow Ech$ are total surjective functions, respectively called the {\em receive-mapping} and the {\em send-mapping}, and for any $ec\in Ech$
+			\begin{enumerate}\setcounter{enumii}{4}
+			\item $esmap^{-1}[ec]\neq\emptyset$
+			\item there is ${\cal T}\in T\!sk$ s.t. $ermap^{-1}[ec]\subseteq W\!R_{\cal T}$. ${\cal T}$ is denoted by $rtsk(ec)$.
+			\item $rtsk(ec)\notin tsk(esmap^{-1}[ec])$
+			\item $Par_{esmap^{-1}(ec)}=Par_{ec}=Par_{ermap^{-1}(ec)}$
+			\end{enumerate}
+\item For any select command $c\in\bigcup_{{\cal T}\in Tsk}S\!LC_{\cal T},\,\forall c_1,c_2\in BR_c^2, ermap(c_1)\neq ermap(c_2)$
+\item For any $ec\in Ech$ if $card(tsk(esmap^{-1}[ec]))>1$ then $img(canwrite_{ec})=\{\top\}$.
+\item $Xnd$ is a set of (execution) {\em nodes}
+\item $tmap: T\!sk\rightarrow Xnd$ is a total surjective function called {\em task-mapping}.
+\end{enumerate}
+$Tsk$ and $Dch\cup Ech$ are dijoint. $Dch$ and $Ech$ are disjoint. $Xnd$ and $Tsk\cup Dch\cup Ech$ are disjoint.\\
+For $X\in\{C,COMM,W\!R,RD,S\!N\!D,RCV,S\!LC,P,\hat P,R,iP,\ldots\}$, $X_{\cal A}$ denotes $\bigcup_{{\cal T}\in Tsk}X_{\cal T}$\\
+Command mappings are extended to point and t-point in an obvious way ($map(p)=map(cmd(p)$).
+\end{definition}
+%++++++++++++++++++++++++++++++++++++++++++
+Notice that type constraints for event channel connection (item h) could have been inclusions. We choose equalities for simplicity. Moreover, w.r.t. concrete TML; data channels should also be typed by the size of their samples. We omit this, also for simplicity. Finally, item 9 says that event channels having several source tasks are always ready for sending commands. In concrete TML, these channels are "request" channels and their content are modeled by infinite FIFOs. This modeling choice, together with properties of other communication commands, provides a useful property: once a communication command has become executable (because the channel is ready for it), it remains executable until being executed. It cannot lost this status through the execution of other commands. This is required by our trace and simulation semantics.
+
+Once they have been associated to channels by an application, communication points can inherit their functionalities, in particular when considering a given state for the set of channels. For points with commands in $COMM\backslash SLC$, the extended notations are obvious, thus they are only informally summari\-zed in the following definition. The case of select commands is new and more detailed. In the sequel, these notation will essentially be used on timed points, i.e. t-points. 
+%=========================================
+\begin{definition}[channel command functionalities]\label{def-chfunc}Let ${\cal A}$ be an application.
+\begin{itemize}
+\item $DS_{Ch}$ denotes\footnote{"$DS$" for channel {\em dynamic} states. This definition anticipates definition \ref{def-dst}} $\bigcup_{ch\in Ech\cup Ech}S_{ch}$
+\item $CS$ is the set of {\em channel{\bf s} state}, i.e. total functions $d:Dch\cup Ech\rightarrow DS_{Ch}$ that associate a channel state to each channel $ch$, respecting $ds(ch)\in S_{ch}$.
+  \item T-points $p\in\hat P$ with $cmd(p)\in COM_{\cal A}\backslash S\!LC_{\cal A}$ have associated functionalities $canread$, $canwrite$, $maxread$, $maxwrite$ and $event$, inherited from their associated channel (when they exist), and defined on channel{\bf s} states insteed of channel states.\\
+  For example, for $p\in \hat P_{\cal A}$ with $cmd(p)\in RCV_{\cal A}$, $canread_{p}(d)=canread_{ermap(p)}(d(ermap(p)))$ .
+	\vspace{0.5mm}\item For any t-point $p\in\hat P$ whith $cmd(p)\in S\!LC_{\cal A}$, and any channels state $d\in CS$,\\
+	 let $\hat P'$ denote $\{p'\in\hat P\mid cmd(p')\in BR_{cmd(p)}\wedge state(p')=state(p)\}$
+  \begin{itemize}
+	  \item $rdy_p:CS\rightarrow{\cal P}(\hat P')$ is its  {\em rcv-ready} (total) function, where\\ $rdy_p(ds)=\{p'\in\hat P'\mid canread_{p'}(ds)=\top\}$.
+	  \item $canread_p:CS\rightarrow\BOOL$ is its  {\em can-read} (total) function, where\\ $canread_p(ds)=\top$ if and only if $rdy_{p}(ds)\neq\emptyset$.
+	\end{itemize}
+\end{itemize}
+\end{definition}
+%++++++++++++++++++++++++++++++++++++++++++
+Channel\underline{s} (with an "s") states are states for all channels of the application. They are considered as "dynamic", thus denoted by $ds$. The $rdy$ function returns all the branches (rcv t-points) that may be chosen by a select command for execution because an event is available on them. Notice that w.r.t. definitions \ref{def-eccmd} and \ref{def-slc}, select and receive t-points have the same length: $evlength\in\NAT^*$. The $canread$ function returns $\top$ if such a "runnable" branch exists. Then we can verify if communications commands are runnable in an homogeneous way: putting t-points have an associated $canwrite$ function and getting t-points have an associated $canread$ function.
+
+
+
+%--------------------------------------------------------------------------
+%°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°
+\section{TML Application semantics, dynamic aspects}\label{sec-dyn}
+
+%°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°
+\subsection{Dynamic States}\label{sec-dst}
+To describe the behaviours of an application we have to introduce dynamic information, i.e. information which takes sense when the application is running. This may concern modeling aspects such as dates. This may concern concrete aspects such as kind of a program counter for the tasks. In an application {\em run}, each execution point has a precise length, thus we model program counters by t-points. These t-point have status "transition", "instantaneous" or "blocked" extending those of definition \ref{def-cb}. They inherit "final" status from definition \ref{def-task}. Moreover, at runtime, communication points may be waiting from data or event to be available in channels. Thus we introduce a new status, "runnable", to denote transition points that are not blocked nor waiting. Instantaneaous point are not considered as runnable because they are internal to the tasks and their execution will be hidden (or automatic) at application level.
+%=========================================
+\begin{definition}[t-point status]\label{def-tpstat} Let {\cal A} be an application. 
+\begin{itemize}
+      \item $i\hat P_{\cal A}=\bigcup_{{\cal T}\in Tsk}\{p\in \hat P_{\cal T}\mid len(p)=0\}$ contains its {\em instantaneous} t-points.
+			\item $t\hat P_{\cal A}=\bigcup_{{\cal T}\in Tsk}\{p\in \hat P_{\cal T}\mid len(p)\in\NAT^*\}$ contains its {\em transition} t-points.
+			\item $b\hat P_{\cal A}=\bigcup_{{\cal T}\in Tsk}\{p\in \hat P_{\cal T}\mid len(p)=\infty\}$ contains its {\em blocked} t-points.
+		 \item $f\!\hat P_{\cal A}=\bigcup_{{\cal T}\in Tsk}\{p\in \hat P_{\cal T}\mid cmd(p)\in F_{\cal T}\}$ contains its {\em final} t-points.
+		
+		 \item $d\hat P_{\cal A}=b\hat P\backslash f\!\hat P$ is the set of its {\em deadlocked} t-points.
+     \item The set of {\em runnable} t-points for a channels state $ds\in CS$ is defined by\\
+		$r\hat P_{\cal A}(ds)=\{p\in t\hat P_{\cal A}\mid\;\;\;\; cmd(p)\notin COM_{\cal A}\\
+		  \hspace*{2.9cm}\vee(p\in RD\cup RCV\cup S\!LC \wedge canread_p(ds)=\top)\\
+			\hspace*{2.9cm}\vee(p\in W\!R\cup S\!N\!D \wedge canwrite_p(ds)=\top)
+		   \,\,\}$
+\end{itemize}
+These notations can be applied to tasks in an obvious way ($i\hat P_{\cal T},\ldots,r\hat P_{\cal T}(d)$)
+\end{definition}
+%++++++++++++++++++++++++++++++++++++++++++
+
+The notion of dynamic states has already been defined for channels (definition \ref{def-chfunc}). We extend it to other application components and to the application itself. We call such states {\em dstates} to avoid confusion with the states defined in section \ref{sec-stat}. Dynamic states do not add information to channels (item 1 below): their dstate is their state within definitions of section \ref{sec-stat}. Other dstates are provided here with attributess that are required to define application traces. Additionnal attributes will be added in subsection \ref{sec-trans} to define transactions.
+%=========================================
+\begin{definition}[dstates]\label{def-dst} Let {\cal A} be an application.\\  The {\em pre-dstates} for ${\cal A}$ are the tuples $ds=(ds_{Tsk},ds_{Ch},ds_{X\!nd},Gr)$ verifying items 1-4 below. $DS$ is the set of {\em dstates}, i.e. pre-dstates verifying items 5-7 below.
+\begin{enumerate}
+\item $ds_{Ch}:Dch\cup Ech\rightarrow DS_{Ch}$ is a channel {\em dstate} in $CS$\footnote{c.f. definition \ref{def-chfunc}}.
+\item $ds_{Tsk}:Tsk\rightarrow DS_{Tsk}$ is a total function where $DS_{Tsk}$ is the set of tuples $(pc,len,rst)$ such that
+   \begin{enumerate}
+	 \item $pc\in t\hat P_{\cal T}\cup b\hat P_{\cal T}$ is a {\em program counter}.
+	 \item $rst\in\NAT^*\cup\{\infty\}$ is a {\em rest}.
+	 \end{enumerate}
+\item $ds_{X\!nd}:X\!nd\rightarrow DS_{X\!nd}$ is a total function and $DS_{X\!nd}$ is the set of tuples $({\cal T},prg,to)$ such that
+   \begin{enumerate}\setcounter{enumii}{2}
+   \item ${\cal T}\in Tsk\cup\{\bot\}$ is its (current) {\em task}
+	 \item $prg\in\NAT^*$ is a {\em progress}
+	 \item $to\in\NAT$ is a {\em timeout}.
+   \end{enumerate}
+\item $Gr\subseteq Dch$ is the set of {\em granted} data channels.
+\item for any ${\cal T}\in Tsk$, $0<rst_{\cal T}\leq len(pc_{\cal T})$.
+\item for any $n\in X\!nd$, the {\em scheduler constraint} $sched(ds,n)$ is satisfied (c.f. definition \ref{def-sched}).
+\item Let ${\cal T}_{n}$ abbreviate ${\cal T}_{ds_{X\!nd}(n)}$,\\
+      Let $GR=\{dc\in Dch\mid\exists n\in X\!nd,\, {\cal T}_{n}\neq\bot \wedge\\ 
+			\hspace*{5.1cm}(\,\,\,\,\,(cmd(pc_{{\cal T}_{n}}))\in W\!R_{{\cal T}_{n}}\wedge dwmap(cmd(pc_{{\cal T}_{n}}))=dc)\\ 
+			\hspace*{5.2cm}\vee
+			(cmd(pc_{{\cal T}_{n}}))\in RD_{{\cal T}_{n}}\wedge drmap(cmd(pc_{{\cal T}_{n}}))=dc)\,\,\,\,)\}$.\\
+      $Gr\subseteq GR$ and if $GR\neq \emptyset$ then $Gr\neq \emptyset$.
+      
+
+\end{enumerate}
+\vspace{1.5mm}As their domains are disjoint, $ds_{Tsk}$, $ds_{Dch}$, $ds_{Ech}$ and $ds_{X\!nd}$ will simply be denoted by $ds$ in the sequel.\\
+For any $n\in X\!nd$ and ${\cal T}\in Tsk$, $DS_n=\{ds(n)\mid ds\in DS\}$ and $DS_{\cal T}=\{ds({\cal T})\mid ds\in DS\}$.
+\end{definition}
+%++++++++++++++++++++++++++++++++++++++++++
+\begin{fact}\label{fact-gr} Let $ds_{Tsk}$, $ds_{Ch}$ and $ds_{X\!nd}$ satisfy items 1-6 of definition \ref{def-dst}. There is $Gr$ satisfying item 7.
+\end{fact}
+A dstate represents the dynamic state of an application at some precise date within a run. A task (item 2) has an associated program counter (item a) which is one of its t-point, provided with a precise length. Instantaneous points are not visible at this level. Program counters are either transaction or blocked t-points. The rest attribute (item b) is the part of the pc length that has not been yet executed. Thus it respects constraint of item 5. Notice that if for some task ${\cal T}$, $t\hat P_{\cal T}\cup b\hat P_{\cal T}=\emptyset$, then there is no pre-dstate, as item 2.a is not satisfiable. Otherwise, any choice of program counter is suitable as item 5 is always satisfiable by choosing $rst_{\cal T}=1$ (lengthes of t-points are strictly positive), and for any choice, there is a suitable assignment for other components ($Gr$ may be $\emptyset$ and for nodes, c.f. fact \ref{fact-sched} below).
+
+An execution node (item 3) may have a current task (item c) or not. This task is the one that has been chosen by the (implicit) scheduler of the node. The progress attribute (item d) may be the time allocated by the scheduler to its current task. It is a length based on the same unit as the task "rst" attribute. It may also be the time until the next interrupt on the node (for example the end of a communication transaction). More generally, it is the time until the next event that may cause a task or transaction switching on the node, with virtual length as unit of mesure. The timeout (item e) represents the same time but considering time units instead of virtual lengths. This "real" time is strongly dependent to the virtual one. The relation relies on architectural parameters such as node speed (e.g. CPU frequency), data bus width,\ldots\/ It also relies on contextual parameters such as CPU idle state or task switching which may add time penalties. Here we fully abstract this relation. Thus constraints on $to$ do not appear. 
+
+Item 7 strongly abstracts the state of communication support such as busses. Channels are simply granted or not granted. The granted channels must have an associated pending execution point, i.e. an associated communication t-point which is the current program counter of a task selected by its execution node. Moreover, if such pending communication point exist, at least one of the associated channels is granted. Trivially, constraints of item 7 are always satisfiable (fact \ref{fact-gr}).
+
+W.r.t. item 6, the choices made by the scheduler respects some constraints which we describe in a separate definition for readability. Obviously, the current task of a node must be mapped on the node (item 1). Other constraints support modeling choices for a relevant characterization of system behaviour by traces and dstates. This "relevance" targets two aspects. First we want to respect real sequencing of events in real systems. Second we want a support to report interesting information w.r.t. system analysis. A program counter must be runnable (within definition \ref{def-tpstat}) or blocked (which has no real meaning). The relevance objective constrains the granularity of modeled system events. As dates of next system events on nodes are dependent on their progress attribute (implicitely related to timeouts), this leads to constrain the progress with upper bounds. The end of an execution point is interesting for analysis, thus it cannot occur without a semantic event, thanks to item 2. The execution of a communication point may make another communication point runnable at the other side of the channel. In real systems, this last point may begin its execution as soon as it is runnable. To represent this, the end date of the first point must not be too late, causing a too big semantic step. Thus, when the program counter of a selected task is a communication point, the progress of the associated execution node depends on the potential selected communication point at the other side of the channel (item 3). It causes system events that are not real ones on the node of the first point, but potential ones on the node of the second point. This aspects only concerns  data communication as application events are considered as atomic. Finally, if runnable points exist, the task of one of them must be scheduled. All this provides a sufficiently fine granularity for semantic or simulation steps. 
+%========================================= 
+\begin{definition}[scheduler constraint]\label{def-sched} Let ${\cal A}$ be an application, $ds$ a pre-dstate for ${\cal A}$, and $n$ a node in $X\!nd$. The {\em scheduler constraint} $sched(ds,n)$ is satisfied if and only if
+
+\vspace{0.5mm}
+$-$ ${\cal T}_{ds(n)}= \bot$ and for all ${\cal T}\in tmap^{-1}(nd)\;pc_{ds({\cal T})}\notin (r\hat P_{{\cal T}}(ds_{Ch}))$ or\\
+$-$ ${\cal T}_{ds(n)}\neq \bot$ and the following properties hold:
+
+Let ${\cal T}$ abbreviate ${\cal T}_{ds(n)}$. 
+\begin{enumerate}
+\item ${\cal T}\in tmap^{-1}(n)\;\wedge\; pc_{ds({\cal T})}\in (r\hat P_{{\cal T}}(ds_{Ch}))$
+\item $prg_{ds(nd)} \leq rst_{ds({\cal T})}$
+\item  Let $cmd$ abbreviate $cmd(pc_{ds({\cal T})})$.
+			  \begin{enumerate}
+				\item if $cmd\in RD$,\\ considering the dstate of the associated writing-task $dw= ds(wtsk(drmap(cmd)))$,\\ 
+				\hspace*{2mm} if $cmd(pc_{dw})\in dwmap^{-1}(drmap(cmd))$\\
+				\hspace*{2mm} then $prg_{ds(n)}\leq maxread(rst_{ds({\cal T})},ds(drmap(cmd)),rst_{dw})$\\
+				\hspace*{2mm} else $prg_{ds(n)}\leq maxread(rst_{ds({\cal T})},ds(drmap(cmd)),0)$
+				\item if $cmd\in W\!R$,\\ considering the dstate of the associated reading-task $dr=ds(rtsk(dwmap(cmd)))$,\\ 
+				\hspace*{2mm} if $cmd(pc_{dr})\in drmap^{-1}(dwmap(cmd))$\\
+				\hspace*{2mm} then $prg_{ds(n)}\leq maxwrite(rst_{ds({\cal T})},ds(dwmap(cmd)),rst_{dr})$\\
+				\hspace*{2mm} else $prg_{ds(n)}\leq maxwrite(rst_{ds({\cal T})},ds(dwmap(cmd)),0)$
+				\end{enumerate}
+\end{enumerate}
+
+\end{definition}
+%++++++++++++++++++++++++++++++++++++++++++
+%========================================= 
+\begin{fact}\label{fact-sched}Let ${\cal A}$ be an application, $ds$ pre-dstate for ${\cal A}$ satisfying item 5 of definition \ref{def-dst}, and $n$ a node in $X\!nd$.
+If the property below are verified then $sched(ds,n)$ is satisfied. Let ${\cal T}$ abbreviate ${\cal T}_{ds(n)}$
+
+\hspace*{3mm}$(\forall{\cal T'}\in tmap^{-1}(n)\;pc_{ds({\cal T'})}\notin (r\hat P_{{\cal T'}}(ds_{Ch})))$ and ${\cal T}= \bot$\\
+\hspace*{3mm}or ${\cal T}\neq \bot$ and item 1 of definition \ref{def-sched} holds and $prg_{ds({\cal T})}=1$
+
+\vspace{1mm}
+Thus any $n\in X\!nd$ has at least one possible dstate respecting definition \ref{def-dst}. 
+\end{fact}
+%++++++++++++++++++++++++++++++++++++++++++
+{\em proof:} Case ${\cal T}= \bot$: trivial. Case ${\cal T}\neq \bot$: Item 1 and 2 of definition \ref{def-sched} are trivially respected.\\
+Item 3: $rst_{ds({\cal T})}>0$ (hyp). As $pc_{ds({\cal T})}$ is runnable, $canread(ds(drmap(cmd(pc_{ds({\cal T})}))))=\top$ in item a, and $canwrite(ds(dwmap(cmd(pc_{ds({\cal T})}))))=\top$ in item b. Thus, thanks to constraints in definition \ref{def-dch} the used applications $maxread$ and $maxwrite$ return strictly positive values.\\
+$\Box$
+
+%°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°
+\subsection{Semantic/simulation Steps and Traces}\label{sec-traces}
+We can now characterize semantic or simulation traces as suits of dstates respecting chronological order. State changes occur when event occur on execution nodes. Thus considering one state
+of a trace, the next one correspond to a semantic event on an execution node with the smallest timeout (associated to progress). Such a sequencing relation rely on the following definition, which only consider significant timeouts, i.e. timeouts associated to tasks that are running.
+%=========================================
+\begin{definition}[next node/timeout]\label{def-nxtnd} Let ${\cal A}$ be an application and $ds$ a dstate in $DS_{\cal A}$.
+\begin{itemize}
+\item $rnodes(ds)= \{n\in X\!nd\mid {\cal T}_{ds(n)}\neq \bot \mbox{ and if $cmd(pc_{ds({\cal T}_{ds(n)}})$ is mapped on a data channel $ch$,}\\ \mbox{then $ch\in Gr_{ds}$} \}$ is the set of {\em running} nodes
+\item $NextN\!d(ds)=\{n\in rnodes(ds)\mid \forall n'\in rnodes(ds),\,to_{ds(n')}\geq to_{ds(n)}\}$ is the set of {\em next-nodes}
+\end{itemize}
+Clearly, all nodes in $NextN\!d(ds)$ have the same timeout, denoted by $NextT\!o(ds)$.
+\end{definition}
+%++++++++++++++++++++++++++++++++++++++++++
+Reminder that if $pc_{ds({\cal T}_{ds(n)})}\neq \bot$ then $pc_{ds({\cal T}_{ds(n)})}\in r\hat P_{\cal T}$ (definitions \ref{def-dst}, \ref{def-sched}). So, program counters scheduled by running nodes are runnable. Moreover if these program counters are data communication points, their associated channel must be granted. $NextN\!d$ identifies the running nodes which have the smallest timeout. If several nodes share this smallest timeout, they define consecutive semantic steps with zero duration, which can be executed in any order. A step may modify the state in various way. In particular, a step can be the termination of an execution point, when the progress of the selected node is the rest of its running task (c.f. definition \ref{def-dst}). In this case, the pc of the task is updated to a successor transaction or blocked point. To "reach" this new point, all intermediate instantaneous points are (automatically) executed. The following definition characterizes this process. It relies on instantaneous pathes (definition \ref{def-path}), which may lead to a non-instantaneous t-point. This defines {\em complete} paths, when the reached points are not buggy. 
+%=========================================
+\begin{definition}[next transaction/blocked]\label{def-nxttr} Let ${\cal T}$ be a task and $p$ a point of ${\cal T}$.
+\begin{enumerate}
+\item $cPth(p)=\{uq\in Pth(p)\mid u\in iPth(p)\wedge q\in tP\cup bP\}$ is the set of {\em complete} paths from $p$.
+\item $nextPc(p)= \{(last(u),l)\mid u\in cPth(p)\wedge l\in len(last(u))\backslash\{0\}\}$ is the set of {\em next-pc}s.
+\item $nextBg(p)=\{uq\in Pth(p)\mid u\in iPth(p)\wedge q\in\bar P\}$ is the set of {\em buggy} paths from $p$.
+\end{enumerate}
+\end{definition}
+%++++++++++++++++++++++++++++++++++++++++++ 
+Reminder that last points paths are "next point to execute". When non instantaneous, these points may be transaction or blocked (item 1), or buggy in (item 3). It allow to define the possible values for the next program counter of a task (item 2). These values can be transaction or blocked, but neither instantaneous nor buggy. The next program counter is a t-points with a precise length among the possible non null length associated to its command and its state. 
+
+A step makes the time progress and only impacts some components of the application. Thus the dstate of most components doesn't change except the state of nodes, as their timeout decreases. The two following notations will be used to define steps.
+%=========================================
+\begin{definition}[decreasing timeouts \& notation]\label{def-to}$~$\\
+Let ${\cal A}$ be an application, $ds\in DS_{\cal A}$ and $Gr\in GR_ds$ (c.f. definition \ref{def-dst} item 4).
+$\delta to(ds,Gr)\in DS_{\cal A}$ denote the dstate defined by
+\begin{itemize}
+\item for all $n\in X\!nd$,
+    \begin{itemize}
+		\item ${\cal T}_{\delta to(ds)(n)}={\cal T}_{ds(n)}$
+		\item $prg_{\delta to(ds)(n)}=prg_{ds(n)}$
+		\item If $cmd(pc_{})$ is a data communication node whose channel is not in $Gr_{ds}$, then $to_{\delta to(ds)(n)}=to_{ds(n)}$ else $to_{\delta to(ds)(n)}=to_{ds(n)}- NextT\!o(ds)$
+		\end{itemize}
+\item for all other components $c$, $\delta to(ds)(c)=c$.
+\item $Gr_{\delta to(ds,Gr)}=Gr$
+\end{itemize} 
+\vspace{1mm}
+Let $f:X\rightarrow Y$ be a function,
+$x_1,\ldots,x_n$ in $X$ and $y_1,\ldots y_n$ in $Y$.\\
+The function $f[x_1,\ldots,x_n\mapsto y_1,\ldots,y_n]:X\rightarrow Y$ is defined by: 
+\begin{itemize}
+\item for all $1<i<n$ $f[x_1,\ldots,x_n\mapsto y_1,\ldots,y_n](x_i)=y_i$
+\item forall $x$ in $dom(f)\backslash\{x_1,\ldots,x_n\}$, $f[x_1,\ldots,x_n\mapsto y_1,\ldots,y_n](x)=f(x)$.
+\end{itemize}
+\end{definition}
+%++++++++++++++++++++++++++++++++++++++++++
+
+Relying on previous definitions, we define semantic steps which characterize the possible transitions from a dstate to the following one in a trace. A step on a next-node $n$ impacts the dstate of $n$ itself and its current task ${\cal T}$. If it is a communication step, some other components are impacted . The dstate of the associated channel $ch$ may be modified. Then a pending communication point at the other side of $ch$ may become runnable. Thus the state of the execution node $nd$ associated to this point and the state of its scheluded task $T$ may change. A flag $bg$ signals the detection of a buggy point and a flag $dv$ signals the detection of a divergent point (during execution of instantaneous points). The set of granted data channels may change. Finally, when the step is the termination of a transition t-point, the execution of this t-point leads to an intermediate point $tp$. All this is expressed by the "typing" item 1.
+%=========================================
+\begin{definition}[semantic step]\label{def-step} Let ${\cal A}$ be an application, $ds\in DS_{\cal A}$ and $n\in NextN\!d(ds)$. A {\em next-step} in $nextStp(ds,n)$ is a couple $(ds',l)$ where $ds'\in DS_{\cal A}$, $l$ is a {\em step label},i.e. a tuple\\ $l= (n,\delta n,\delta {\cal T},ch,\delta ch,nd,\delta nd,\delta T,\delta Gr, tp,bg,dv)$ verifying the following properties.
+
+\vspace{0.5mm}
+Let ${\cal T}$ denote ${\cal T}_{ds(n)}$, $pc$ denote $pc_{ds({\cal T})}$ and $cmd$ denote $cmd(pc)$. 
+\begin{enumerate}
+\item "typing":
+  \begin{itemize}
+   \item $\delta n\in DS_{n}$, $\delta {\cal T}\in DS_{\cal T}$, $\delta ch\in\bigcup_{chn\in Dch\cup Ech} S_{chn}$, $\delta nd\in DS_{X\!nd}$,
+	       $bg\in\BOOL$ and\\ $tp\in tnxt(pc_{ds({\cal T})})$
+   \item $ch\in Dch\cup Ech\cup\{\bot\}$. If $ch\neq\bot$ then $\delta ch\in S_{ch}$. If $ch=\bot$ then $nd=\bot$.
+   \item $nd\in (X\!nd\backslash\{n\})\cup\{\bot\}$. If $nd\neq\bot$ then $\delta nd\in DS_{nd}$ and $\delta T\in DS_{{\cal T}_{ds(nd)}}$.
+	\end{itemize}
+\item If $ch=\bot$ then $ds'=\delta to(ds,\delta Gr)[n,{\cal T}\mapsto\delta  n,\delta {\cal T}]$ else\\
+      if $nd=\bot$ then $ds'=\delta to(ds,\delta Gr)[n,{\cal T},ch\mapsto\delta  n,\delta {\cal T},\delta ch]$ else\\ $ds'=\delta to(ds,\delta Gr)[n,{\cal T},ch,nd,{\cal T}_{ds(nd)}\mapsto\delta  n,\delta {\cal T},\delta ch,\delta nd,\delta T]$
+\item $\delta Gr\subseteq GR_{ds'}$ and $GR_{ds'}\neq\emptyset\Rightarrow \delta Gr\neq\emptyset$ ($GR_{ds'}$ defined w.r.t. point 7 of definition \ref{def-dst}).
+
+\item $\delta n$ respects the scheduler constraint: $sched(n,ds')$
+		
+\item If $prg_{ds(n)}< rst_{\cal T}$ then $ch=\bot$, $pc_{\delta{\cal T}}=pc$ and $rst_{\delta{\cal T}}=rst_{ds({\cal T})}-prg_{ds(n)}$.
+
+\item If $prg_{ds(n)}= rst_{\cal T}$
+      \begin{enumerate}
+			\item $tp\in tnxt(point(pc))$
+			\item If $nextBg(point(tp))=\emptyset$ then $bg=\bot$ else $bg=\top$.\\
+			      If $point(tp)\in\,\uparrow\!\!P_{\cal T}$ then $dv=\top$ else $dv=\bot$.
+      \item $pc_{\delta{\cal T}}\in nextPc(tp)$ and $rst_{\delta{\cal T}}=len(pc_{\delta{\cal T}})$.
+			\end{enumerate}
+			
+			
+			\vspace{1mm}
+			\hspace{-10mm} If $prg_{ds(n)}= rst_{\cal T}$ then
+			
+			\vspace{1mm}	
+\item if $cmd\in RD$
+      \begin{enumerate}
+			\item $ch=drmap(cmd)$ and $\delta ch=rnxt_{ch}(ds(ch),prg_{ds(n)})$
+			\item Let ${\cal T}\!w=wtsk(drmap(cmd))$ be the potential writing task.\\ 
+				If $cmd(pc_{ds({\cal T}\!w)})\in dwmap^{-1}[ch]$ and 
+				   ${\cal T}\!w\neq {\cal T}_{ds(tmap({\cal T}\!w))}$\\
+				then $nd=tmap({\cal T}\!w)$ and $sched(nd,ds')$,\\
+				     \hspace*{0.8cm}$pc_{\delta T}=pc_{{\cal T}_{ds(nd)}}$ and $0<rst_{\delta T}\leq rst_{{\cal T}_{ds(nd)}}$\\
+				else $nd=\bot$
+			\end{enumerate}
+\item if $cmd\in W\!R$
+      \begin{enumerate}
+			\item $ch=dwmap(cmd)$ and $\delta ch=wnxt_{ch}(ds(ch),prg_{ds(n)})$
+			\item Let ${\cal T}\!r=rtsk(dwmap(cmd))$ be the potential reading task.\\ 
+				If $cmd(pc_{ds({\cal T}\!r)})\in drmap^{-1}[ch]$ and 
+				   ${\cal T}\!r\neq {\cal T}_{ds(tmap({\cal T}\!r))}$\\
+				then $nd=tmap({\cal T}\!r)$ and $sched(nd,ds')$,\\
+				     \hspace*{0.8cm}$pc_{\delta T}=pc_{{\cal T}_{ds(nd)}}$ and $0<rst_{\delta T}\leq rst_{{\cal T}_{ds(nd)}}$\\
+				else $nd=\bot$
+			\end{enumerate}
+\item if $cmd\in RCV$
+      \begin{enumerate}
+			\item $ch=ermap(cmd)$ and $\delta ch=rnxt_{ch}(ds(ch))$
+			\item If there is $cmd'\in esmap^{-1}[ch]$ s.t\footnote{W.r.t.point 7 in definition \ref{def-mapp}, if $cmd'$ exists, it is unique.}.\\ \hspace*{3mm}
+			$cmd(pc_{ds(tsk(cmd'))})=cmd'$ and $canwrite(pc_{ds(tsk(cmd'))})=\bot$\\
+			\hspace*{4mm}and 
+				   $tsk(cmd')\neq {\cal T}_{ds(tmap(tsk(cmd')))}$\\
+				then $nd=tmap(tsk(cmd'))$ and $sched(nd,ds')$,\\
+				     \hspace*{0.8cm}$pc_{\delta T}=pc_{{\cal T}_{ds(nd)}}$ and $0<rst_{\delta T}\leq rst_{{\cal T}_{ds(nd)}}$\\
+				else $nd=\bot$
+			\item $event(ds(ch))\in par_{cmd}(state(pc))$ and $state(tp)= upd_{cmd}(state(pc),event(ds(ch)))$
+			\end{enumerate}
+\item if $cmd\in S\!N\!D$
+      \begin{enumerate}
+			\item $ch=esmap(cmd)$ and $\delta ch=snxt_{ch}(ds(ch),par_{cmd}(state(pc)))$
+			\item Let ${\cal T}\!r=rtsk(esmap(cmd))$ be the potential reading task.\\ 
+				If $cmd(pc_{ds({\cal T}\!r)})\in ermap^{-1}[ch]$ and $canread(pc_{ds({\cal T}\!r)})=\bot$and 
+				   ${\cal T}\!r\neq {\cal T}_{ds(tmap({\cal T}\!r))}$\\
+				then $nd=tmap({\cal T}\!r)$ and $sched(nd,ds')$,\\
+				     \hspace*{0.8cm}$pc_{\delta T}=pc_{{\cal T}_{ds(nd)}}$ and $0<rst_{\delta T}\leq rst_{{\cal T}_{ds(nd)}}$\\
+				else $nd=\bot$
+			\end{enumerate}
+\item if $cmd\in S\!LC$,\\
+      for some $p\in rdy_{pc}(ds)$, item 9 holds when replacing "$cmd$" by "$cmd(p)$" and\\ forall $p\in rdy_{pc}(ds),\;(state(pc),event(ds(ermap(cmd(p)))))\in dom(par_{cmd(p)})$
+\item if $cmd\notin COM$ then $ch=\bot$.
+\end{enumerate}
+$nextDs(ds,n)$ abreviates $\{ds'\in DS_{\cal A}\mid \exists t,\, (ds',t)\in nextStp(ds,n)\}$\\
+$Stp_{\cal A}$ denotes $\bigcup_{ds\in DS_{\cal A}}\bigcup_{n\in NextN\!d(ds)}\bigcup_{(ds',l)\in nextStp(ds,n)}\{(ds,l)\}$
+\end{definition}
+%++++++++++++++++++++++++++++++++++++++++++
+Item 2 describes the global dynamic state change w.r.t. the modified components. According to item 3, new granted channels correspond to pending communication points. Some channels may become granted, as the impacted one may become unused and thus free some bus. Some channels may loose their "granted" status, as scheduled nodes may choose communicating tasks that are more prior w.r.t. to bus policies. We do not detail this at our abstraction level. According to item 4, the step node is scheduled. If the step does not terminate an execution point (item 5), the single change is that the rest of the step node task decreases respecting the step node progress. Following items describe the "execution" of a terminating point. In this case, the point is executed using $tnxt$ (item 6.a) and then, the new program counter is characterized using $NextPc$ which executes internal instantaneous points until finding a non instantaneous one (item 6.c). The rest is set to the length of this point (which may be $\infty$). If no such point exist, $nextStp(ds,n)$ is empty. If a buggy or divergent point is reached, it cannot be chosen as new program counter and the corresponding flag is set (item 6.b), even if some correct program counter is found. 
+
+Items 7-9 describe specific behaviours associated to communication points, depending on their communi\-cation command. These behaviours are very similar. Sub-items (a) describe the way they impact their communication channel. Sub-items (b) tests if there is a pending communication point that becomes runnable at the other side of the channel. In this case, the task $T$ of the corresponding execution node progresses and the node is scheduled (branches "then"). Thus the newly allowed communication can be chosen. Notice that we consider that $T$ does not terminate to avoid some complexity. It is a little cheating as $T$ node's timeout may be 0. But it is very rare and introducing a (implicitly very little) delay seems to be acceptable. The simulator handles this case but without recursion: it does not handle the case in which executing the impacted Task $T$ impacts a third task. If no pending point exist at the other side of the channel (branches "else"), no other node than the step node is impacted. When the pending point at the other side is an event communication that is already possible (items 9.b, 10.b), no change on its node is required, thus the "else" branch is taken. Item 9.c refines item 6.a by linking the execution of a receive event to the received parameter value. The constraint on acceptable parameters must be respected (see definition \ref{def-eccmd}). Finally (item 11), select commands execute one of their receive command among those that are possible w.r.t. associated channel states. If the potentially received parameter of one of these commands is not acceptable, then item 11 is not satisfied.
+
+In short. When the selected execution point does not terminate (item 5), only task rest is updated and the step node is scheduled. When the execution point terminates (items 6-11), it is "executed" by $tnxt$ (6.a)
+and the next program counter is reached by $nextPc$ which executes a suit of instantaneous points until finding a non instantaneous one. $tnxt$ is total but item 9.c and 11 add constraints on execution that may compromise its success (and only those items do this). In both case a failure is due to the receiving of a non acceptable parameter value on an event channel. $nextPc$ may fail if buggy or divergent points are found. The following facts ensure that this inventory of failure cases is complete.
+%=========================================
+\begin{fact}\label{fact-step} Let ${\cal T}$ denote ${\cal T}_{ds(n)}$, $pc$ denote $pc_{ds({\cal T})}$ and $cmd$ denote $cmd(pc)$.
+\begin{enumerate}
+\item Definition \ref{def-step} is consistent.
+\item for any $(n,ds)\in NextN\!d(ds)\times DS_{\cal A}$ and any tuple $(ds',(n,\delta n,\delta {\cal T},ch,\delta ch,nd,\delta nd,\delta Gr, tp,bg))$ respec\-ting all items of definition \ref{def-step}, $ds'$ is a dstate.
+\item for any $(n,ds)\in NextN\!d(ds)\times DS_{\cal A}$, $nextStp(ds,n)=\emptyset$ if and only if $prg_{ds(n)}= rst_{{\cal T}}$ and one of the three following properties hold.
+  \begin{enumerate}
+  \item $cmd\in RCV \wedge event(ds(ermap(cmd))))\notin par_{cmd}(state(pc))$
+  \item $cmd\in S\!LC \wedge \exists p\in rdy_{pc},\,event(ds(ermap(cmd(p))))\notin par_{cmd(p)}(state(pc))$
+  \item for any $tp$ respecting items 6.a, 9.c and 11 of definition \ref{def-step}, $nextPc(tp)=\emptyset$
+\end{enumerate}
+\item for any $(n,ds,tp)\in NextN\!d(ds)\times DS_{\cal A}\times \hat P$, if $prg_{ds(n)}= rst_{{\cal T}_{ds(n)}}$ and items 6.a, 9.c and 11 of definition \ref{def-step} are satisfied, then $nextPc(tp)=\emptyset\Rightarrow bg=\top\vee dv=\top$.
+\item for any $ds, ds',n$ such that $ds'\in nextDs(ds,n)$, if all program counters of $ds$ are reachable points w.r.t. their task, then  and all program counters of $ds'$ are reachable points w.r.t. their task.
+\end{enumerate}
+\end{fact}
+%++++++++++++++++++++++++++++++++++++++++++
+{\em Sketch of the proof}:\\ 1) Steb by step check that in the definition, previously defined functions are used respecting their definition domains. $n$ and $nd$ cannot be equal as they have different program counters.\\
+2) $ds'$ respect items 5, 6 and 7 of definition \ref{def-dst}.
+\begin{itemize}
+\item $0 < rst_{\delta{\cal T}} < len(pc_{\delta{\cal T}})$: trivial in point 6.c. and 5.\\
+      No other case: $prg_{ds(n)} \leq rst_{\cal T}$ (definition \ref{def-sched}.2).
+\item Trivially modified nodes respect scheduler constraints (items 4,7-11).
+\item Items 5, 6 of definition \ref{def-dst}: Informally. For tasks and nodes that have not been modified (except for timeouts), these properties only rely on channels, nodes and tasks that have not been modified. Thus they are preserved from $ds$. It is trivial for tasks. Non-impacted nodes are not connected to the potential modified channel (otherwise, they would be impacted by "then" branches of items 7-11 of definition \ref{def-step}).
+\item $\delta Gr\subseteq GR_{ds'}$ and $GR_{ds'}\neq\emptyset\Rightarrow \delta Gr\neq\emptyset$ is true by definition (item 3).
+\end{itemize}
+3) "if". a, b and c respectively contradict items 9.c, 11 (third line) and 6.c.\\
+"only if".  If $prg_{ds(n)} < rst_{\cal T}$: $\delta {\cal T}$ is well defined (item 5) and any $\delta n=({\cal T},prg,to)$ with $0<prg\leq rst_{\delta{\cal T}}$ exists and is suitable, with $\delta Gr=Gr_{ds}$.
+If $prg_{ds(n)} = rst_{\cal T}$, suppose none of a, b, c hold.
+\begin{itemize}
+\item There is a $tp$ respecting items 6.a, 9.c and 11,:\\
+$-$ $pc$ is in $tnxt$'s domain (because runnable), and $tnxt(pc)\neq\emptyset$ (def.)\\
+$-$ if $cmd\notin S\!N\!D\cup S\!LC$, any $tp\in tnxt(pc)$ is appropriate.\\
+$-$ if $cmd\in S\!N\!D$: as a does not hold, 9.c is consistent and from definition \ref{def-eccmd} there is a unique $tp\in tnxt(pc)$ verifying constraint 9.c.\\
+$-$ if $cmd\in S\!LC$: there is $p$ in $rdy_{pc}(ds)$ (as $pc$ is runnable). As b does not hold, third line of 11 is satisfied, in particular for $p$. Then item 9.c is consistent and from definition \ref{def-eccmd} and \ref{def-slc} there is a unique $tp\in tnxt(pc)$ verifying constraint 9.c, replacing "$cmd$" by "$cmd(p)$".
+\item  There is such a $tp$ that also verify $nextPc(tp)\neq\emptyset$ as a. does not hold.
+\item Thus, well defined $tp$ and $\delta {\cal T}$ exists (item 6.c). $\delta n$ and potential $\delta nd$ respecting scheduler constraint exist thanks to fact \ref{fact-sched}.  $\delta Gr$ exists (fact \ref{fact-gr}). $bg$ and $dv$ are also well-defined (item 6.b).
+\end{itemize}
+4) In this case, although the tuple $t$ of definition \ref{def-step} is undefined, $bg$ and $dv$ are well defined by item 6.b. Let us suppose $bg=\bot$. If $up$ is a path from $point(tp)$, then $p\in ip$ ($p\notin bP\cup tP$ because $nextPc(tp)=\emptyset$ , c.f. fact \ref{fact-step}.3. $p\notin \bar P$, as $bg=\bot$). We prove that for all $x\in\NAT^*$ there is an instantaneous path from $tp$ with length $x$ (recurrence):
+\begin{itemize}
+\item length 1: $point(tp)$ is such a path 
+\item length n+1. Let $up$ be such a path of length $n$. $p\in iP$, thus $p\in dom(inxt)$. Then, there is $p'\in inxt(p)$. $upp'$ is an instantaneous path from $tp$ with length $n+1$.
+\end{itemize}
+Thus $bg=\bot\Rightarrow dv=\top$.\\
+5) In short, within item 6.a and 6.c of definition \ref{def-step}, any new program counter is reached from a previous one using only $tnxt$ and $inxt$, which respects definition \ref{def-reach}.
+\\
+$\Box$
+
+Failure while "executing" from a dynamic state $ds$ lead to an empty $nextDs(ds,n)$ with respect to a step node in $n\in NextN\!d(ds)$. The other situation that compromises the existence of a following dynamic step is $NextN\!d(ds)=\emptyset$. In this case, the application is blocked. This happens when that for any task, either its program counter is blocked or it is a communication point waiting for a channel to be ready ($canread/canwrite$) or granted ($Gr$). 
+%=========================================
+\begin{fact}[blocked application]\label{fact-blocked} Let ${\cal A}$ be an application and $ds\in DS_{\cal A}$. If $NextN\!d(ds)=\emptyset$ then $ds$ is  {\em blocked}, and
+$ds$ is blocked if and only if for any task ${\cal T}\in Tsk_{\cal A}$ one of the following items hold:
+\begin{itemize}
+\item $pc_{ds({\cal T})}\in b\hat P_{\cal T}$.
+\item $pc_{ds({\cal T})}\in RD\cup RCV\cup S\!LC \wedge canread_{pc_{ds({\cal T})}}(ds)=\top $
+\item $pc_{ds({\cal T})}\in W\!R\cup S\!N\!D \wedge canwrite_{pc_{ds({\cal T})}}(ds)=\top$
+\end{itemize}
+In this case, if all $pc_{ds({\cal T})}$ of tasks ${\cal T}\in Tsk$ are final t-points, $ds$ if a {\em final} dstate. Otherwise it is a {\em deadlocked} dstate. $ds$ is be partially deadlocked if for at least one task ${\cal T}\in Tsk$, $pc_{ds({\cal T})}$ is deadlocked. 
+\end{fact}
+%++++++++++++++++++++++++++++++++++++++++++
+{\em proof:} This directly follows from definitions \ref{def-dst}, \ref{def-sched}, \ref{def-tpstat} and \ref{def-nxtnd}. $\Box$
+
+If the program counter of some task is deadlocked, then it will remain deadlocked in all future. A communication deadlock (two last item) may disappear when some non blocked task reaches a new communication point and executes it, as this may change $canread/canwrite$ status. Finally, notice that no deadlock is caused by buses as at least one bus is granted if feasible pending communications exist (definition \ref{def-dst}). This is an assumption about the bus architecture which is highly abstracted here. 
+
+Semantic steps are usual state transitions and allow to provide applications with traces and reachable states. For this we first characterize initial dstates. As instantaneous points are automatically executed and cannot be program counter of tasks, initial program counter of tasks are points reached by instanta\-neous execution from their initial states. These instantaneous execution are comparable to initializations. As for semantic steps, even if some successful initialization exist, there may be initializations that fail. Thus we characterize {\em initially well formed} applications as applications that cannot diverge or reach buggy points at initialization. 
+%=========================================
+\begin{definition}[initial dstates]\label{def-idst} Let ${\cal A}$ be an application. $I\!DS_{\cal A}$ is the state of {\em initial dstate} which are the $ds\in DS_{\cal A}$ verifying:
+ for all ${\cal T}\in Tsk$, $pc_{ds({\cal T})}\in \bigcup_{i\in I_{\cal T}}nextPc(i,init_{\cal T})$ and $rst_{ds({\cal T})}=len(pc_{ds({\cal T})})$
+
+\vspace{1mm}
+${\cal A}$ is {\em initially well defined} if and only if
+for all ${\cal T}\in Tsk$ and $i\in I_{\cal T}$ $(i,init)\notin \,\uparrow\!\!P_{\cal T}$ and $nextBg(i,init)=\emptyset$
+\end{definition}
+%++++++++++++++++++++++++++++++++++++++++++
+As often, traces are characterized by a starting dstate followed by a suit of transitions. These transitions are semantic steps. Traces starting from an initial dstate are initial. Dstates inside a trace are reachable from its starting dstate. Reachable dstates at application level are dtates reachable from initial ones. All these concepts are mathematematically characterized in the following definition, with associated notations and precise vocabulary.
+%=========================================
+\begin{definition}[reachability and traces]\label{def-traces} Let ${\cal A}$ be an application and $ds\in DS_{\cal A}$. The set $Tds(ds)$ of {\em traces} from $ds$, the set $Rds(ds)$ of {\em reachable} dstates, the set $Rl(ds)$ of {\em reachable} labels from $ds$ and the total function $last:\bigcup_{ds\in DS_{\cal A}}Tds(ds)\rightarrow DS_{\cal A}$ are inductively defined by
+\begin{itemize}
+\item $ds \in Tds(ds)$, $last(ds)=ds$ and $ds\in Rds(ds)$. 
+\item if $u\in Tds(ds)$, $n\in NextN\!d(last(u))$ and $(ds',l)\in nextStp(last(u),n)$ then\\
+      $u\xrightarrow{l}ds'\in Tds(ds)$, $last(u\xrightarrow{l}ds')=ds'$, $ds'\in Rds(ds)$ and $l\in Rl(ds')$
+\end{itemize}
+Labels may be omited or partially described. For $u\in Tds(ds),\,first(u)=ds$.\\
+Let $u$ be a trace. As predicate, $u$ means that $u\in Tds(first(u))$ and as usually, $ds\xrightarrow* ds'$ means that there is $u\in Tds(ds)$ such that $last(u)= ds'$, which is equivalent to $ds'\in Rds(ds)$ (obvious induction).
+\begin{itemize}
+\item $Rds_{\cal A}=\bigcup_{ds\in I\!DS_{\cal A}}\{Rds(ds)\}$ is the set of {\em reacheable dstates of} ${\cal A}$
+\item $T\!ds_{\cal A}=\bigcup_{ds\in I\!DS_{\cal A}}\{Tds(ds)\}$ is the set of {\em traces of} ${\cal A}$
+\end{itemize}
+\end{definition}
+%++++++++++++++++++++++++++++++++++++++++++
+%=========================================
+\begin{definition}[well defined application]\label{def-wda} An application ${\cal A}$ is well defined if and only if it is initially well defined and for any $ds\in Rds_{\cal A}$ and $n\in NextN\!d(ds)$,\\ $nextStp(ds,n)\neq\emptyset$ and for any $(ds',l)\in nextStp(ds,n)$, $bg_l=dv_l=\bot$.
+
+${\cal A}$ is {\em strongly deadlock-free} if none of its reachable dstate is deadlocked, and weakly deadlock-free if none of its reachable dstates is {\em partially deadlocked}.
+\end{definition}
+%++++++++++++++++++++++++++++++++++++++++++
+%=========================================
+\begin{fact}\label{fact-wda} If all tasks of an application ${\cal A}$ are well formed and the two following property holds, then ${\cal A}$ is well formed. Property:
+
+for any $ds\in Rds_{\cal A}$ and $n\in NextN\!d(ds)$, let ${\cal T}$ denote ${\cal T}_{ds(n)}$, $pc$ denote $pc_{ds({\cal T})}$ and $cmd$ denote $cmd(pc)$.
+\begin{enumerate}
+  \item $cmd\in RCV \Rightarrow event(ds(ermap(cmd))))\in par_{cmd}(state(pc))$
+  \item $cmd\in S\!LC \Rightarrow \forall p\in rdy_{pc},\,event(ds(ermap(cmd(p))))\in par_{cmd(p)}(state(pc))$
+\end{enumerate}
+\end{fact}
+%++++++++++++++++++++++++++++++++++++++++++
+{\em sketch of the proof:} $-$ initial dstates are reached using $inxt$ from initial points of tasks, thus, as tasks are well defined, all their program counters are reachable and neither buggy nor divergeant points can be found during initialization.\\
+$-$ inductions. Reachable dstates have only reachable programs counters (fact \ref{fact-step}.5). Thus there is $tp\in tnxt(point(pc))$ (definition \ref{def-task}) and $tp$ satisfies item 6.4 of definition \ref{def-step}. From property of definition \ref{def-wda}, $tp$ satisfies items 9.c and 11 of definition \ref{def-step}, and items 3.a and 3.b of fact \ref{fact-step} do not hold. As $tp$ is reachable in a well defined task, neither $bg$ not $dv$ can be $\top$ (item 6.b, definition \ref{def-step}). And from item 3 of fact \ref{fact-step}, $nextStp(ds,n)\neq empty$.\\
+$\Box$\\
+This fact ensure that when considering well formed tasks, there is no divergence and bug are only due to the receiving of un-acceptable parameters. The reverse property does not always hold. Some buggy of divergent points that are reachable in a task may become un-reachable at application level as this may restrict the possible inputs/outputs of tasks. As already evoked, ensuring acceptable parameters is much more difficult than ensuring well defined tasks. Avoiding deadlocks may also be complex.
+
+%°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°
+\subsection{Transactions}\label{sec-trans}
+Analyzing traces may be tedious, as dstates are complex. The simulator makes a more abstract view of semantics available, relying on the notion of transactions. A transaction represents the execution of a piece of code or a piece of communication with a start time and an end time. Here we consider two kinds of transactions supporting two granularities. The finest one relies on scheduling quanta which strongly correspond to timeouts and progresses set when scheduling. The second one relies on task commands. A {\em task transaction} is associated to a sequence of {\em quantum transactions}. Informally, we use words to characterize these sequences. $X^{\star}$ denotes the set of words $u$ on $X$. $|u|$ is the length of $u$. $u(i)$ is its ith letter (beginning at 1). $l\in u$ for any letter $l$ at any place in $u$.
+%=========================================
+\begin{definition}[transaction]\label{def-trans} Let ${\cal A}$ be an application.
+\begin{itemize}
+\item $Qtr=\{(start, end, cmd\in\NAT^2\times C_{\!\cal A})\mid end>start\}$ is the set of its {\em qtransactions}.
+\item $Ttr=\{(start,end,cmd,seq)\in \NAT^2\times C_{\!\cal A}\times Qtr^{\star}\mid seq\neq\varepsilon \mbox{ and }end>start\\
+\hspace*{1.2cm}\mbox{ and }\forall 0<i\leq|seq|,\, cmd_{u(i)}=cmd \mbox{\hspace{2.9cm} (A)}\\ 
+\hspace*{1.2cm}\mbox{ and } \Sigma_{0<i\leq|seq|}(end_{u(i)}-start_{u(i)})\leq end-start\\
+\hspace*{1.2cm}\mbox{ and } \forall 0<i<|seq|,\,end_{u(i)}\leq start_{u(i+1)}\mbox{\hspace{2cm} (B)}\\
+\hspace*{1.2cm}\mbox{ and } start_{u(1)}=start\\ 
+\hspace*{1.2cm}\mbox{ and } end_{u(|u|)}=end \,\}$ is the set of its {\em ttransactions}.\par
+\end{itemize}
+Words $u\in Qtr^{\star}$ that satisfy $\exists cmd,\mbox{ (A)}$ are {\em homogeneous}. Their unic command is denoted $cmd_u$. Words in $Qtr^{\star}$ that satisfy (B) are {\em sequential} and called {\em sequences}.
+\end{definition}
+%++++++++++++++++++++++++++++++++++++++++++
+To describe transactions associated to a trace, we add some information that is not present in the dstates of previous section. For this we define {\em tstates}. Tstates of nodes memorize the date at which a quantum starts. Tstates of tasks memorize the date at which a command starts and a current ttransaction containing the set of associated quantum transactions that have already been executed. Global Tstates memorize the ttransactions that have already been executed.
+%=========================================
+\begin{definition}[tstates]\label{def-tst} Let ${\cal A}$ be an application. A {\em tstate} $ts\in TS_{\cal A}$ is a tuple $ts=(ts_{Tsk},ts_{X\!nd},T)$ where
+\begin{itemize}
+\item $ts_{Tsk}: Tsk\rightarrow \NAT\times Qtr^{\star}$ associates a tuple $(start,seq)$ to each task ${\cal T}$. $start$ is its {\em start date} and $seq$, homogeneous and sequential, is its {\em current sequence}.
+Moreover, $cmd_{seq}\in C_{\cal T}$.
+\item $ts_{X\!nd}: X\!nd\rightarrow \NAT$ associates a {\em start date} to nodes 
+\item $TT\subseteq Ttr$ associate to $ts$ its {\em past ttransactions}.
+\end{itemize}
+Notations and abbreviation are similar to those defined for dstates..
+\end{definition}
+%++++++++++++++++++++++++++++++++++++++++++
+Combining dstates, tstates and dates, we obtain a rich notion of state. Such combination must respect some constraints on sequences and dates in order to describe coherent transactions under construction.
+%=========================================
+\begin{definition}[transaction states and updates]\label{def-dtst} Let ${\cal A}$ be an application, $ds\in DS_{\cal A}$, $ts\in TS_{\cal A}$, $d\in\NAT$ a date, ${\cal T}$ a task and $n$ a node.
+\begin{enumerate}
+\item $(ds,ts,d)$ is a {\em dtstate} in $DTS_{\cal A}$ if and only if all dates in $ts$ are earlier than (or equal to) $d$ and for all ${\cal T}\in Tsk$, if $seq_{\cal T}\neq \varepsilon$ then 
+   \begin{enumerate}
+	 \item $cmd_{seq_{ts({\cal T})}}=cmd(pc_{ds({\cal T})})$
+	 \item $start_{seq_{\cal T}(1)}=start_{\cal T}$
+	 \item $end_{seq_{\cal T}(|seq_{\cal T}|)}\leq start_{ts(tmap({\cal T}))}$
+	 \end{enumerate}
+\end{enumerate}
+If $(ds,ts,d)$ is a dtstate, ${\cal T}=ds(tmap({\cal T}))$, $d\leq d'$ and $start_{ts({\cal T})}< d'$\hspace{2cm}(d)
+\begin{enumerate}\setcounter{enumi}{1}
+\item $qtadd (ds,ts,{\cal T},d')$ denotes $seq_{ts({\cal T})}.(start_{ts(tmap({\cal T}))},d',cmd(pc_{{\cal T}_{ds(tmap({\cal T}))}}))$
+\item $ttadd(ds,ts,{\cal T},d')$ denotes $(start_{ts({\cal T})},d',cmd_{qtadd (ds,ts,{\cal T},d')},qtadd (ds,ts,{\cal T},d'))$
+\end{enumerate}
+\end{definition}
+%++++++++++++++++++++++++++++++++++++++++++
+%=========================================
+\begin{fact}\label{fact-upd}
+$qtadd (ds,ts,{\cal T},d')$ is a homogeneous sequence and $ttadd(ds,ts,{\cal T},d')$ is a ttransaction.
+\end{fact}
+%++++++++++++++++++++++++++++++++++++++++++
+The proof is a simple check of each constraint of definition \ref{def-trans}. $qtadd$ and $ttadd$ are used to update the tstate while executing a semantic step. The constraint on their call {\em (d)} corresponds to the context in which they are used in definition \ref{def-dtstep}. $qtadd$ adds a quantum transaction to the current task sequence, describing the transaction terminating during the step. If a task command terminates, then a task transaction is obtained using $ttadd$ which invokes $qtadd$ before building the transaction. In this case the program counter of the executed task changes and the sequence of this task is reset (it becomes $\varepsilon$).
+%=========================================
+\begin{definition}[transaction step]\label{def-dtstep} Let ${\cal A}$ be an application, $(ds,ts,d)$ a dtstate in $DTS_{\cal A}$ and $n\in nextN\!d(ds)$.\par 
+A {\em next-tstep} in $nextDT\!stp(n,(ds,ts,d))$ is a tuple $((ds',ts',d'),dl)$ where\\
+$-$ $(ds',dl)\in nextStp(ds,n)$\\
+$-$ $d'=d+nextT\!o(ds)$\\
+$-$ there is $ts''\in TS_{\cal A}$ such that $(A)$ and $(B)$ below hold.
+
+\vspace{1.5mm}
+$(A)$ $ts'$ is equal to $ts''$ except that for each node $x\in X\!nd$ such that $pc_{ds''({\cal T}_{ds''(x)})}=pc_{ds({\cal T}_{ds(x)})}$ and this $pc$ is a communication node mapped on a channel in $GR_{ds''}\backslash Gr_{ds}$, then $start_{ts'(x)}=d'$.
+
+\vspace{1mm}
+$(B)$ $ts''$ is equal to $ts$ except that
+\begin{enumerate}
+
+\item $start_{ts''(n)}=d'$
+		  
+\item If $prg_{ds(n)}< rst_{ds({\cal T}_{ds(n)}}$ then $seq_{ts''({\cal T}_{ds(n)})}=qtadd(ds,ts,{\cal T}_{ds(n)},d')$\\ \hspace*{5mm} and if $seq_{ts({\cal T}_{ds(n)})}=\varepsilon$ then $start_{ts''({\cal T}_{ds(n)})}=start_{ts(n)}$
+
+\item If $prg_{ds(n)}= rst_{\cal T}$
+      \begin{enumerate}
+			\item $seq_{ts''({\cal T}_{ds(n)})}=\varepsilon$
+			\item $TT_{ts''}=TT_{ts}\cup \{ttadd(ds,ts,{\cal T}_{ds(n)},d')\} $
+      \item if $nd\neq\bot$ then\\
+			$-$ $start_{ts''(nd)}=d'$\\
+			$-$ if $start_{ts({\cal T}_{ds(nd)})}<d'$ then $seq_{ts''({\cal T}_{ds(nd)})}=qtadd(ds,ts,{\cal T}_{ds(nd)},d')$
+			\end{enumerate}
+\end{enumerate}
+\end{definition}
+%++++++++++++++++++++++++++++++++++++++++++
+The dstate evolves as previously (c.f. definition \ref{def-step}). The time progresses: $d$ is incremented by the step size, $NextT\!o(n)$, to obtain the new date $d'$. CPU that are scheduled are also reset: their start date is set to the new date $d'$ because they are starting a new transaction (items B.1, B.3.c.1). Qtransaction sequences of task that progress without termination are updated using $qadd$ (items B.2, B.3.c.2). If the step task terminates, its task sequence is reinitialized (item B.3.a) and the terminating task transaction is registred (item B.3.b). As explained after definition \ref{def-step}, by abuse for simplification, impacted tasks are never terminating here. Item (A) makes some transactions start. These transactions are those that have just become allowed as their channel have been granted by the semantic step.
+%=========================================
+\begin{fact}\label{fact-dtstp}Let ${\cal A}$ be an application, $(ds,ts,d)$ a dtstate in $DTS_{\cal A}$ and $n\in nextN\!d(ds)$. If $((ds',ts',d'),dl)\in nextDT\!stp(n,(ds,ts,d))$ then $(ds',ts',d')$ is a dtstate. 
+\end{fact}
+%++++++++++++++++++++++++++++++++++++++++++
+{\em sketch of the proof}. $ttadd$ and $qtadd$ are applied respecting condition {\em (d)} of definition \ref{def-dtst}, thus all transactions and sequences are well formed (fact \ref{fact-upd}). The single sensible point is to ensure $start_{ts({\cal T})}<d'$ in B.2, when step size is 0. Informally, the step task's cpu has its timeout set to a strictly positive value when 3.a is executed. Thus this task cannot be step task again (and execute B.2) until time actually progress. Other constraints (item 1 of definition \ref{def-dtst}) are relatively simple (induction). 
+
+$d'$ is greater than un-modified dates and all modified dates are set to $d'$. Def\_\ref{def-dtst}.1.a is a direct consequence of def\_\ref{def-dtst}.2. Def\_\ref{def-dtst}.1.b is established when item B.2 is executed with an empty sequence, and then preserved (item B.2 and def\_\ref{def-dtst}.2). Def\_\ref{def-dtst}.1.c: each time $end_{seq_{ts({\cal T}_{ds(n)})}}$ is updated by item B.2, item B.1 sets the node start adequately (this is not compromized by (A) which only increase node starts). 
+\\$\Box$
+
+The last requirement for defining traces with tdstates is to characterize initial tdstates. The initial date is 0 (in fact, it could be any value). The included dstates must be initial. The included tstates have relevant start dates set to 0, and all qtransition sequences of tasks are empty.
+%=========================================
+\begin{definition}[initial tdstate]\label{def-itdst} A tdstate $(ds,ts,d)$ of an application ${\cal A}$ is initial, in $I\!DTS_{\cal A}$,  if and only if $d=0$, $ds$ is initial, and
+\begin{itemize}
+\item for all $n\in X\!nd$, if ${\cal T}_{ds(n)}\neq \bot$ and $pc_{{\cal T}_{ds(n)}}$ is running, then $start_{ts(n)}=0$
+\item for all ${\cal T}\in Tsk$, $seq_{ts({\cal T})}=\varepsilon$.
+\end{itemize}
+\end{definition}
+%++++++++++++++++++++++++++++++++++++++++++
+%=========================================
+\begin{definition}[tdstate reachability and traces]\label{def-tdtraces} Let ${\cal A}$ be an application and $dts\in DTS_{\cal A}$. The set $Tdts(dts)$ of {\em tdtraces} from $dts$, the set $Rdts(dts)$ of {\em reachable} dtstates from $dts$, the set $Rdts_{\cal A}$ of {\em reacheable dtstates of} ${\cal A}$ and the set $T\!dts_{\cal A}$ of {\em dttraces of} ${\cal A}$ are defined exactly as in definition \ref{def-traces}, replacing $DS_{\cal A}$ by $DTS_{\cal A}$, $I\!DS_{\cal A}$ by $I\!DTS_{\cal A}$, and $nextStp$ by $nextDT\!stp$.
+
+\end{definition}
+%++++++++++++++++++++++++++++++++++++++++++
+
+The set of all transactions recorded during an execution represented by a trace is the set $TT_{dts}$ of ttransactions associated to the last dtstate of the trace, $dts=(ds,ts,d)$, i.e $TT_{ts}$ according to the previous definitions.
+
+%--------------------------------------------------------------------------
+%°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°
+\section{Concrete TML instanciation}\label{sec-TML}
+Using DIPLODOCUS, TML specifications can be described by SYS-ML diagrams or by way of a specific programming-like TML textual language. Here, we do not consider concrete syntax but abstract syntax trees, which are very similar to DIPLODOCUS SYS-ML task diagrams.  Semantics to these trees respects definitions of previous sections, 
+in particular, definition \ref{def-task}. Tasks are also provided with typed channel identifiers. So we first characterize task states and channels. We then describe command types, and how they allow to define trees from sub-trees.
+
+%°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°
+\subsection{Expressions and Task states}
+Tasks are characterized using typed expressions. Basic types are integers and booleans. As event parameters are tuples, we consider cartesian products as types, and atomic types are simply tuples with length=1. Expressions over variables are defined in the usual way. A valuation of variable can be extended to a valuation of expression that may be undefined for some of them. More precisely, "divide by 0" and "modulo 0" are undefined, and we consider lazy evaluation: if $val(x)=0$ then $val(6/x)$ is undefined but generally, $val(x\neq 0\wedge 6/x=2$) is well defined (and equal to $\bot$). Precise definition of lazy evaluation or well definedness may depend on tools. Thus it is a parameter of the following definition and $W\!D$ (item 10) is supposed to be provided (for example, tools associated to Event B provide such a functionality). To handle parameters in task communication commands (events), we also introduce several notations for tuples. Profiles link components of a tuple to expressions. Descriptors associate a canonical name $\pi_i$ to the ith component of a tuple. Concepts as substitution, affectation,\ldots are defined.
+%=========================================
+\begin{definition}[types and expressions]\label{def-expr}$~$\par
+$-$ Types and variables
+\begin{enumerate}
+\item $Types$ denotes $\bigcup_{n\in \INT}(\BOOL\cup\INT)^n$. $Values$ denotes $\bigcup_{n\in \NAT}(\BOOL\cup\INT)^n$. Values in $\BOOL\cup\INT$ are {\em atomic}.\par
+$values:Types\rightarrow {\cal P}(Values)$ is the total function defined by $values(t_1,\cdots,t_n)=t_1\times\cdots\times t_n$.
+$type:Values \rightarrow Types$ is clearly defined by $type(v)=t \Leftrightarrow v\in values(t)$.
+  \begin{itemize}
+	\item Atomic values are denoted by (usual) {\em constants}.
+  \item A total function $\Sigma: X\rightarrow Types$ is a {\em variable signature}.\\
+	      Conventionally, $type(x)$ denotes $\Sigma(x)$.\par
+	      Members of $X$ are {\em typed variables}. A variable $v$ is {\em atomic} if $type(x)\in\{\BOOL,\INT\}$ 
+	\item A total function $\sigma:X\rightarrow Values$ respecting $\sigma(x)\in type(x)$ is a {\em valuation}.
+	\end{itemize}
+\end{enumerate}
+$-$ Expressions
+\begin{enumerate}\setcounter{enumi}{1}
+\item {\em Expressions} in $EX(X)$ are defined as terms over atomic constants and variables, respecting types. Typing is extended to expression: $type:EX(X)\rightarrow\{\BOOL,\INT\}$. (very ususal thus not detailed).
+      \begin{itemize}
+      \item Integer expressions are build from integer constants and variables, using $+,-,*$, $/,\%$.
+			\item Boolean expressions are build from constants and variables, using $\wedge,\vee, \neg,\rightarrow \ldots$, $=$ between sub-expressions, and $>,<,\leq,\geq$ between integer sub-expressions
+			\end{itemize}
+			{\em Predicates} in $P\!R$(X) are boolean expressions.
+\item If $(x,e,e')\in X\times EX(V)^2$ with $type(e')=type(x)$, then\\ $e[x:=e']$ denotes the result of the (usual) substitution of $x$ by $e'$ in $e$.
+\item $\sigma$ is extended to expression in the usual way, relying on the usual interpretation of boolean and integer operators  ($\%$ is the modulus).\\
+			This extension may be partial. Expressions in $dom(\sigma)$ are {\em well defined} for $\sigma$.
+\item If $x\in V$ and $e\in EX(V)$ with $type(e)=type(x)$ and $e\in dom(\sigma)$, then\\ $\sigma[x\mapsto e]$ denotes $\sigma[x\mapsto\sigma(e)]$.
+\end{enumerate}
+$-$ Profiles
+\begin{enumerate}\setcounter{enumi}{5}
+\item A (parameter) {\em profile} for $X$ is a tuple $pp=(e_1,\cdots,e_n)$ where each $e_i$ is an expression.\\
+      $type$ and $values$ are canonically extended to profiles\footnote{Notice that $values(pp)\subseteq values(type(pp))$ and for input profiles, $values(pp)= values(type(pp))$}.\\
+      $pp$ is an {\em input profile} iff all $e_i$ are variables and they are all different from each other.
+\item $\sigma$ is extended to profiles by $\sigma^\star(pp)=(\sigma(a_1),\cdots,\sigma(a_n))$.\\
+      $pp\in dom(\sigma^{\star})$ if and only if $\bigwedge_{1\leq i\leq n}e_i\in dom(\sigma)$.\\
+      Notice that in most cases, if $pp\in V$ then $\sigma^\star(pp)\neq\sigma(pp)$.
+\item  If $pp=(a_1,\cdots,a_n)$ is an input profile and $v=(v_1,\cdots,v_n)$ is a value with $type(pp)=type(v)$,\\ then $\sigma[pp\leftarrow v]$ denotes $\sigma[a_1,\cdots,a_n\mapsto v_1,\cdots,v_n]$\\
+      Notice that  if $pp\in V$ then $\sigma[pp\leftarrow v]\neq\sigma[pp\mapsto v]$ (brackets matter).
+\end{enumerate}
+$-$ Descriptors
+\begin{enumerate}\setcounter{enumi}{8}
+\item Let $v=(v_1,\cdots,v_n)$ be a value of type $t=(t_1,\cdots,t_n)$:
+\begin{itemize}
+\item The parameter {\em descriptor} of $t$ is $\pi_{t}=\pi_v=\{\pi_1,\cdots,\pi_{n}\}$.\\
+      Extension to profiles: $\pi_{pp}=\pi_{type(pp)}$
+\item The parameter {\em valuation} $\bar\pi_v:\pi_v\rightarrow\{v_1,\cdots,v_n\}$ is defined by $\forall 1\leq i\leq n,\, \bar\pi_v(\pi_i)=v_i$
+\end{itemize}
+All $\pi_i$ with $i\in\NAT$ are conventional names.
+\end{enumerate}
+$-$ Well Definedness expression
+\begin{enumerate}\setcounter{enumi}{9}
+\item $W\!D:EX(X)\rightarrow P\!R(X)$ is a total function such that for any valuation $\sigma$ of $X$
+      \begin{itemize}
+			\item $W\!D(e)\in dom(\sigma)$
+			\item $\sigma(W\!D(e))$ is $\top$ if and only if $e\in dom(\sigma)$.
+			\end{itemize}
+\end{enumerate}
+\end{definition}
+%++++++++++++++++++++++++++++++++++++++++++
+Types, expressions and associated notations (item 1-5) are usual. Profiles (item 6) are used to specify events parameters. As they are tuples of expressions, they describe tuples of atomic values. Tuples of expressions are useful to compute values of sent parameters, using item 7, from valuations describing states. Tuples of variables (all different) are used to describe how a received parameter modify a state described by a valuation, using item 8. Notice that their is no restriction on variables, and in particular, we use an input profile as variable is the sequel. The reason is that some special tasks, the "requests", have an argument which is tuple which may be accessed while running the task. Characterizing this tuple by a profil variable is a way to handle it in an homogeneous way with respect to other variables. As pointed in items 7 and 8 notations around profiles must be used with care. Accessing the value of a profile variable is not accessing the values of its included variables. Finally, receive commands receive tuples of values and item 9 provides a way to denote components of these compound values. It is useful to describe properties that deals with both a state and a parameter value.
+
+States associated to TML tasks are very closed to usual ones. They are essentially characterized by valuations of a fixed set of variables, called attributes. These variables cannot be $\pi_i$, which are reserved names. However, as mentioned above,  there is also an unusual input profile variable (also valued) that characterize the argument value of request tasks. For tasks that are not requests, this profile variable is unused and doesn't matter.
+%=========================================
+\begin{definition}[Task signature]\label{def-tsksig}$~$A {\em task signature} is a variable signature\footnote{$\uplus:$ disjoint union. As usually, if $arg\in A$, we implicitly consider $(arg,0)\in A$ and $(arg,1)\in\{arg\}$.} $\Sigma:A\uplus\{arg\}\rightarrow Types$ such that
+\begin{itemize}
+\item Members of $A$, called {\em attributes}, are atomic and $A\cap \{\pi_i\mid i\in \NAT\}=\emptyset$.
+\item $arg$ is an input profile for $A$.
+\end{itemize}
+The states $s\in S_{\Sigma}$ of (a task with) such a signature are the valuations of this signature.
+\end{definition}
+%++++++++++++++++++++++++++++++++++++++++++
+Disjoint union makes the input profile $arg$ well identified, even if its length is 1 (in this case there is an attribute with same name\footnotemark[9]). Excluding $\pi_i$ from attributes allows to handle expressions or predicates dealing with te task state and a (received) parameter $v$ together. Such an expression is in $EX(A\cup\pi_v)$ and its valuations are in\footnote{Functions are set of tuples. When their domains are disjoint, their union is a function.} $\{s\cup\bar\pi_v\mid s\in S_{\Sigma}\}$. In concrete syntax of TML tasks, there are declarations of channels, and communication command are linked to these channels. However these channels do not impact task level semantics in our approach. Thus we consider these information as very useful documentation, but as an anticipation of maping information. That is why channels don't appear in our characterization of tasks.
+
+%°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°
+\subsection{Abstract syntax trees and their semantics}
+Abstract syntax trees describe task behaviours. Their semantics are tasks within definition \ref{def-task}. Intuitively, the paths from root to leaves in a tree correspond to executions. In syntax, nodes are labeled by command descriptions, and in semantics, nodes become commands of task respecting these descriptions. Then the root of a tree is associated to the initial command and most of the time, leaves are associated to final commands. However leaves are sometime not final but a kind of redirection. In particular when the task includes a loop, a leave command may be a redirection to a loop command, which is associated to an ancestors of the leave in the syntax tree. This section provides a general characterization of these trees and their semantics. As there are lots of command types, only the aspects that are common to all types are described here. Thus some concepts are underspecified and refined in next section, by a per command description. This section provide a frame for these refinements which are methodical. First some context is fixed for the rest of the presentation.
+To simplify definitions we consider a fixed set of nodes, a fixed labeling of nodes, and a fixed function that associate a set of states to each nodes (intended to be initial states). The set of nodes is sufficiently rich to offer any useful combination to build any desired task description. In this context, command descriptions are to be refined.
+%=========================================
+\begin{definition}[Task's fixed context]\label{def-context}
+\begin{itemize}
+\item We consider a fixed task signature $\Sigma$. Thus $S=S_\Sigma$ is fixed too, as well as all notations introduced for $\Sigma$ in previous section.
+\item $Nodes$ is a set of (abstract) {\em nodes}.
+\item $Labels$ is a set of {\em labels} also called "command descriptions".\par
+      $REQ\subseteq Labels$.
+\item $lbl: Nodes\rightarrow Labels$ is a total function.
+\item $Init: Nodes\rightarrow {\cal P}(S)$ associates {\em initial states} to nodes.
+\end{itemize}
+\end{definition}
+%++++++++++++++++++++++++++++++++++++++++++
+
+Initial states ($Init(n)$ for $n\in Nodes$) may be defined by way of characteristic predicates over $S$. In practice, predicate expressions $pr$ within definition \ref{def-expr} can be used provided that for all $s\in S_\Sigma$, $pr\in dom(s)$. $REQ$ is a particular class of labels that characterize root nodes of request tasks. Thus such nodes cannot occur in any sub-tree. The next definition characterizes the trees we use and associated notations. All nodes in these trees are explicit and clearly distinct, as commands must be well identified. Nodes that are not leave are provided with a forest. The labeling of nodes constrains the acceptable forests for a node, depending on the kind of commands (refined later). Thus we define first general trees, and then characterize abstract syntax trees (AST) as trees respecting these constraints. 
+%=========================================
+\begin{definition}[trees and ASTs]\label{def-ast} $-$ The set $Trees$ of {\em trees} and $GForests$ of {\em general forests} are inducti\-vely defined (together with $leaves, nodes$ and $root$) by
+\begin{itemize}
+\item A node $n\in Nodes$ is a tree. $nodes(n)=leaves(n)=\{n\}$ and $root(n)=n$.
+\item If $(t_1,\cdots,t_k)\in Trees^n$ ($n>0$), and for all $i,j$ in $[1,k]^2$,\\
+$n\notin nodes(t_i)\,\wedge\, lbl(root(t_i))\notin REQ\,\wedge \, (i\neq j\Rightarrow nodes(t_i)\cap nodes(t_j)=\emptyset)$ then
+  \begin{itemize}
+  \item  $f=\langle t_1,\cdots,t_k \rangle$ is a forest.\\ $nodes(f)=\bigcup_{i\in[1,n]}nodes(t_i)$ and $leaves(f)=\bigcup_{i\in[1,n]}leaves(t_i)$.
+  \item if $n\in Nodes\backslash leaves(f)$ then $t=(n,f)$ is a tree.\\
+	$nodes(t)=nodes(f)\cup\{n\}$, $leaves(n)=leaves(f)$ and $root(t)=n$.
+	\end{itemize}
+\end{itemize}
+$-$ Informally, other usual concepts around trees may be used (sons, sub-trees, size of forest,etc). 
+
+$-$ $gforests: Labels\rightarrow{\cal P}(GForests)$ associates to each label a set of {\em acceptable forests}.
+
+$-$ {\em Abstract syntax trees} (AST, in $AST\!s$) are the trees $t$ verifying:\\ \hspace*{3mm} foreach sub-tree $(n,f)$ of $t$, $f\in forests(lbl(n))$.
+
+$-$ $Forest$ is the set of forests containing only ASTs\\
+$-$ $forests: Labels\rightarrow{\cal P}(Forests)$ associates $gforest(l)\cap Forests$ to $l\in Labels$ 
+\end{definition}
+%++++++++++++++++++++++++++++++++++++++++++
+Notice that labels and forests associated to leaves by functions ($lbl,forest$) do not matter as they will never be used in following definitions. By constrast, it is useful to associate initial states to leaves. As previously mentioned, commands associated to leaves are final or redirecting commands. The node to which redirecting commands redirect may have some requirements on input states. Thus for proving purpose, it may be interesting to restrict the domain of such commands. As established in fact \ref{fact-pcsem}, semantics of final commands in tasks is fully defined and semantics of all commands share a general shape which is the base of their methodic characterization.
+
+
+Relying of this normalized shape ($sem_c$ in fact \ref{fact-pcsem}) we now define task semantics associated to trees by a function $Sem$ associating one task to each abstract syntax trees. $Sem$ has also a signature parameter $\Sigma$. We let this parameter implicit as we have fixed $\Sigma$ in this section. As ASTs are strongly related to tasks we now use variable $T$ to denote them, and $X_{T}$ will abbreviate $X_{Sem(T)}$ for any task related notation (when non ambiguous). As $\Sigma$ is fixed, in the following definition the set $S$ is the same for all tasks (associated to trees or sub-trees).
+
+\newcommand{\Mrk}{\mbox{\rm\bfseries\bf[*]}}
+
+Points that are underspecified ($Sem$ is a function) and will be completed by refinements of next section are signaled by \Mrk.
+%=========================================
+\begin{definition}[AST task semantics]\label{def-astsem} Let $T$ be an AST. Semantics of $T$ is inductively defined by $Sem(T)=((S, C_T, len_T), I_T, init_T, F_T, inxt_T, tnxt_T)$ where
+\begin{enumerate}
+\item $C_T=nodes(T)$
+\item If $T$ is a node $n$ then $F_T=\{n\}$, $I_T=Init(n)$ and $init_T=n$.
+\item If $T$ is $(n,f)$ with $f=\langle T_1,\cdots,T_k\rangle$ then let $oldF=\bigcup_{i\in[1,k]}F_{Sem(T_i)}$
+  \begin{enumerate}
+	\item $I_T=Init(n)$
+	\item $init_T=n$
+	\item $F_T\subseteq oldF$ \Mrk \\
+        let $modif= oldF\backslash F_T$
+	\item for any $c\in nodes(f)\backslash modif$, if $c\in nodes(T_i)$ then $sem_{c,T}=sem_{c,T_i}$.
+	\item for any command $c\in modif$, $sem_c$ respects fact \ref{fact-pcsem} \Mrk
+	\item $sem_n$ respects fact \ref{fact-pcsem} \Mrk
+	\end{enumerate}
+\end{enumerate}
+\end{definition}
+%++++++++++++++++++++++++++++++++++++++++++
+Semantics of a one-node task is determined by the fixed semantic of final commands. Semantics of the added node depends on command type and is refined later (item f). For most other nodes, semantics is ihnerited from trees in the forest (item d). Preserved final nodes keep their final command semantics. The exceptions are modified commands, in $modif$. These modified commands are those that where final in forest ($oldF$ in item 3) and are not final any more in the build tree (item c). These commands become redirecting commands (item e) whose definition depends on the shape of the containing tree (thus refined in next section). The three signaled points summarize the information to provide when refining a particular kind of command. We have to specify final states, redirection for leaves that lose their final status, and semantics for the added node. ASTs semantics have the following property.
+%=========================================
+\begin{fact}[well formedness]\label{fact-astsem} Respecting the notations of definition \ref{def-astsem},
+\begin{itemize}
+\item If $T$ is a node then $Sem(T)$ is well formed (c.f. definition \ref{def-wd}).
+\item If $T$ is $(n,f)$ with $f=\langle T_1,\cdots,T_k\rangle$, and $Sem(T_i)$ is well formed for all $1\leq i\leq k$, then $Sem(T)$ is well formed if and only if $\uparrow\!\!P_{T}\cap R_T=\emptyset$ and
+ \begin{enumerate}
+ \item for any state  $s\in Init(n)$, 
+       \begin{enumerate}
+			 \item $(s,n)\notin bP\cup \bar P$
+			 \item if $(s,n)\in iP$ then $\forall (s',c)\in inxt_n(s),\; s'\in Init(c)$
+			 \item if $(s,n)\in tP$ then $\forall (s',c)\in tnxt_n(s),\; s'\in Init(c)$
+			 \end{enumerate}
+			
+ \item for any command $c\in modif$ and any state $s\in Init(c)$,
+       \begin{enumerate}\setcounter{enumii}{3}
+			 \item $(s,c)\notin bP\cup \bar P$
+			 \item if $(s,c)\in iP$ then $\forall (s',c')\in inxt_c(s),\; s'\in Init(c')$
+			 \item if $(s,c)\in tP$ then $\forall (s',c')\in tnxt_c(s),\; s'\in Init(c')$
+			 \end{enumerate}
+ \end{enumerate}
+\end{itemize}
+\end{fact}
+%++++++++++++++++++++++++++++++++++++++++++
+This fact ensure that, except non-divergence, all properties required for well-formedness may be establi\-shed inductively, thus step-wise. When using $Len_c$/$Inxt_c$/$T\!nxt_c$-definition within definition \ref{def-crc}, items a and d can be verified following sidebar about safe states, page \pageref{safestates}. Notice that divergence with some more definitions (future work): we could characterize trees without instantaneous paths to leaves and restrain leave redirecting to root of such trees. Finally, an AST $T$ is complete if $I_T=S$, as TML task diagrams do not constrain initial states. Constrained initial states are associated to AST within the context of another AST, as reachable states may have useful properties that avoid buggy states.
+
+%°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°
+\subsection{Specific commands instantiation}
+Here is an inventory of (a rich subset of) TML specific commands. These commands are described by labels. With respect to requirement identified in the previous section, each label must characterize: 1) the allowed forest for the added node 2) final states, 3) semantics $sem_c$ for modified leaves, and 4) semantics $sem_c$ for the added node. This allows to proceed refinements in a methodological way.
+
+All the commands are described using a $Len_c$/$Inxt_c$/$T\!nxt_c$-definition within definition \ref{def-crc}. As initial states (provided by $Init$) must ensure the absence of buggy or blocked point, {\em a general requirement is that for each described command $c$ and each state $s$ in $Init(c)$ $s$ is a safe state for $c$ within sidebar page \pageref{safestates}. Thus all points of this sidebar must be satisfied. This is also required for leaves with modified semantics.}
+\begin{center}
+Reminder that $\Sigma= A\uplus\{arg\}$ where $A$ is a set of attributes.\\
+To characterize proof obligations, we suppose that there is a predicate $Init_c$ over $A$ characterizing $Init(c)$, i.e.
+for any state $\sigma$, $Init_c\in dom(\sigma)$ and $\sigma(Init_c)$ is $\top$ if and only if $\sigma\in Init(c)$.
+\end{center}
+
+Well formedness properties that imply several commands (items b,c,e,f of fact \ref{fact-astsem}) should also hold but they are not directly required by definition as ensuring them requires some more complex a posteriori verification. There are lots of commands but most of them are very similar or isomorphic. Thus we first define archetypes for lengths in definition \ref{def-larc}. As definitions are methodical, they use the same notations, which are fixed by convention in definition \ref{conv}. And finally, definition \ref{def-carc} provides command archetypes using these conventions.
+%=========================================
+\begin{definition}[concrete length archetypes]\label{def-larc}$~$\\
+There are three archetypes $X$ to define $Len_c$ (notation: $Len_c\simeq X$):
+\begin{itemize}
+\item {\em Single Length: $Len_c\simeq SL(e)$} where $e$ is an integer expression over $A$.\\
+      $dom(Len_c)=\{s\in S\mid e\in dom(s)\}$ and for $s\in dom(Len_c)$, $Len_c(s)=\{s(e)\}$.
+\item {\em Fixed Length: $Len_c\simeq FX(n)$} where $n$ is an natural constant. $FX(n)$ is equivalent to $SL(n)$
+\item {\em Interval: $Len_c\simeq ITV(l,h)$} where $l$ and $h$ are integer expressions over $A$.\\
+      $dom(Len_c)=\{s\in S\mid (l,h)\in dom(s)^2 \wedge s(l)\leq s(h)\}$ and for $s\in dom(Len_c)$, $Len_c(s)=[s(l),s(h)]$.
+\end{itemize}
+\end{definition}
+%++++++++++++++++++++++++++++++++++++++++++
+With respect to sidebar page \pageref{safestates}, when using these archetypes we have to verify the following properties, associated to concrete proof obligations ("$W\!D$": see item 10 in definition \ref{def-expr}):
+   \begin{itemize}
+	 \item if $Len_c\simeq SL(e)$: $e\in dom(s)$ and $s(e)\in\NAT$\\
+	       PO: $Init_c\Rightarrow W\!D(e) \wedge 0\leq e$
+	 \item if $Len_c\simeq FX(n)$: $n\in\NAT$\\
+	       PO: $0\leq n$
+	 \item if $Len_c\simeq ITV(l,h)$: $(l,h)\in dom(s)^2\wedge s(l)\leq s(h)$ and $(s(l),s(h))\in\NAT^2$\\
+	       PO: $Init_c\Rightarrow W\!D(l) \wedge W\!D(h) \wedge l\leq h \wedge 0\leq l\wedge 0\leq h$
+	 \end{itemize}
+%=========================================
+\begin{definition}[Convention for command definitions]\label{conv}
+All definition rely the following nota\-tions and properties. 
+\begin{enumerate} 
+\item They build an AST $T=(c,f)$. Reminder: no node of $f$ is labeled in $REQ$, no node of $f$ is $c$ and for any ASTs $t_1,t_2$ in $f$, $t_1\neq t_2\Rightarrow nodes(t_1)\cap nodes(t_2)=\emptyset$ (c.f. definition \ref{def-ast}).
+\item $l$ denotes $lbl(c)$. It is described by way of tuples such that
+      \begin{itemize}
+			\item the first component is a length description within definition \ref{def-larc}. (thus $len_c$ is defined)
+			\item other components are expressions over $A\cup \pi_{type(arg)}$
+			\end{itemize}
+\item $s$ denotes a state.
+\item If $Inxt_c$ is not characterized for some value $v$, then it is undefined for $v$.\\ If $T\!nxt_c$ is not characterized for some value $v$, then it is undefined for $v$.
+\end{enumerate}
+\end{definition}
+%++++++++++++++++++++++++++++++++++++++++++
+Item 1 ensures item 6 of sidebar page \pageref{safestates} for all commands defined below. Expressions in labels must be well defined, but the state in which they are constrained depends on commands. Thus proof obligations are given after command definitions.
+Thanks to data abstraction, most commands lead to one single next\_state. The only difference between them is that some of them have one possible length while others have interval lengths.
+%=========================================
+\begin{definition}[Command archetypes]\label{def-carc}$~$There are two command archetypes.
+\begin{itemize}
+\item {\em Single Length}, $SLC(e)$: $l= SL(e)$ 
+  \begin{enumerate} 
+  \item $forests:$  $f=\langle T'\rangle$ for some $T'\in ASTs$
+  \item $F_T=F_{T'}~~~~~~$ {\small (no modified leave)}\setcounter{enumi}{3} 
+  \item  if $s(e)=0$ then $Inxt_c(s)=(s,root(T'))$\\
+			   if $s(e)>0$ then $T\!nxt_c(s)=(s,root(T'))$
+  \end{enumerate}
+\item {\em Interval}, $ITVC(l,h)$: $l= ITV(l,h)$
+  \begin{enumerate} 
+  \item $forests:$  $f=\langle T'\rangle$ for some $T'\in ASTs$
+  \item $F_T=F_{T'}~~~~~~$ {\small (no modified leave)}\setcounter{enumi}{3} 
+  \item if $0\,\in len_c(s)$ then $T\!nxt_c(s)=(s,root(T'))$\\
+			  if $len_c(s)\neq\{0\}$ then $T\!nxt_c(s)=(s,root(T'))$
+  \end{enumerate}
+\end{itemize}
+\end{definition}
+%++++++++++++++++++++++++++++++++++++++++++
+Such commands require proof obligations presented after definition \ref{def-larc}. Other points (2-7) of sidebar page \pageref{safestates} are trivial. 
+
+Labels are classified into classes $CL\subseteq LBL$ that are disjoint (even if they are isomorphic).  Definitions of isomorphic classes are grouped. Listed names in definition labels provide the names of these classes.
+%=========================================
+\begin{definition}[EXECI,EXECC,DELAY,READ,W\!RITE] archetype $SLC(e)$
+\end{definition}
+%++++++++++++++++++++++++++++++++++++++++++
+READ is trivialy compatible with definition \ref{def-dccmd}. 
+$READ_{\cal T}\subseteq C_{\cal T}$ is $\{c\in C_{\cal T}\mid lbl(c)\in READ\}$.\\
+W\!RITE is trivialy compatible with definition \ref{def-dccmd}. 
+$W\!RITE_{\cal T}\subseteq C_{\cal T}$ is $\{c\in C_{\cal T}\mid lbl(c)\in W\!RITE\}$.
+%========================================= 
+\begin{definition}[EXECI\mbox{[]},EXECC\mbox{[]},DELAY\mbox{[]}] archetype $ITVC(l,h)$
+\end{definition}
+%++++++++++++++++++++++++++++++++++++++++++ 
+Note: Described delays are active delays. Passive delays are not handled (they can be considered as handled by our current abstraction level but it would rely on magic scheduler and further refinement of schedulers would be impossible).
+%=========================================
+\begin{definition}[ACTION] $l=(FX(0),a,e)$\\ where $a$ is an attribute and $e$ an expression over $A$ of the same type.
+\begin{enumerate} 
+\item $forests:$  $f=\langle T'\rangle$ for some $T'\in ASTs$
+\item $F_T=F_{T'}~~~~~~$ {\small (no modified leave)}\setcounter{enumi}{3} 
+\item If $e\in dom(s)$ then $Inxt_c(s)=(s[a\mapsto e],root(T'))$
+\end{enumerate}
+\end{definition}
+%++++++++++++++++++++++++++++++++++++++++++ 
+Item 2 of sidebar page \pageref{safestates} requires the following proof obligation. Other items are trivial.
+\begin{itemize}
+\item PO: $Init_c\Rightarrow W\!D(e)$
+\end{itemize}
+%=========================================
+\begin{definition}[CHOICE] $l=(FX(0),pr_1,\cdots pr_k)$\\ where for all $1\leq i\leq k$ ($1\leq k$), $pr_i$ is a predicate expression over $A$
+\begin{enumerate} 
+\item $forests:$  $f=\langle T_1,\cdots,T_k\rangle$ for some $(T_1,\cdots,T_k)\in AST\!s^k$
+\item $F_T=\bigcup_{i\in[1,k]}F_{T_i}~~~~~~$ {\small (no modified leave)}\setcounter{enumi}{3} 
+\item $Inxt_c(s)=\{(s,root(T_i)\mid s(pr_i)=\top\}$
+\end{enumerate}
+\end{definition}
+%++++++++++++++++++++++++++++++++++++++++++ 
+Proof obligation to ensure sidebar page \pageref{safestates}: well defined predicates (item 2) and avoid blocked states (item 4). Other items are trivial.
+\begin{itemize}
+\item for all $1\leq i\leq k$,\\
+      PO: $Init_c\Rightarrow W\!D(pr_i)$
+\item PO: $Init(c)\rightarrow \bigvee_{i\in[1,k]}pr_i$.
+\end{itemize}
+%=========================================
+\begin{definition}[LOOP] $l=(FX(0),a,e,(pr),a',e')$ where $pr$ is a predicate expression, $a$ and $a'$ are attribute and $e$ and $e'$ are expressions, all over $A$.
+\begin{enumerate} 
+\item $forests:$  $f=\langle T_1,T_2\rangle$ for some $(T_1,T_2)\in AST\!s^2$
+\item $F_T=F_{T_1}~~~~~~$ {\small (modified leaves: $F_{T_2}$)}
+\item for all $n\in F_{T_2}$, $Len_n\simeq FX(0)$ and if $e'\in dom(s')$ then $Inxt_n(s')=\{(s'[a'\mapsto e'],c)\}$.
+\item $Inxt_c(s)=\{(s[a\mapsto e],root(T_1)\mid s(pr)=\bot\}\cup\{(s[a\mapsto e],root(T_2)\mid s(pr)=\top\}$
+\end{enumerate}
+\end{definition}
+%++++++++++++++++++++++++++++++++++++++++++
+$(a,e)$ is the initialisation of the loop. $(a',e')$ is the affectation at the end of the loop.\\
+Proof obligation to ensure sidebar page \pageref{safestates}: item 2 for root $c$ and leaves $n$. Other items are trivial.
+\begin{itemize}
+\item PO: $Init_c\Rightarrow W\!D(e)~~$ (item 2)
+\item forall $n\in F_{T_2}$\\
+      PO: $Init_c\Rightarrow W\!D(e')~~$
+\end{itemize}
+%=========================================
+\begin{definition}[SEQ] $l=FX(0)$
+\begin{enumerate} 
+\item $forests:$  $f=\langle T_1,\cdots,T_k\rangle$ ($k>2$) for some $(T_1,\cdots,T_k)\in AST\!s^2$
+\item $F_T=F_{T_k}~~~~~~$ {\small (modified leaves: $\bigcup_{i\in[1,k-1]}F_{T_k}$)}
+\item for all $1\leq i\leq k-1$ and $n\in F_{T_i}$, $Len_n\simeq FX(0)$ and id $s'\in S$ then $Inxt_n(s')=\{(s',root(T_{i+1}))\}$
+\item $Inxt_c(s)=\{(s,root(T_{1}))\}$
+\end{enumerate}
+\end{definition}
+%++++++++++++++++++++++++++++++++++++++++++
+All items of sidebar page \pageref{safestates} are trivial.
+%=========================================
+\begin{definition}[RECEIVE] $l=(FX(evlength),pp,pr)$ where $pp$ is an input profile over $A$ and $pr$ is a predicate over $A\cup\pi_{type(pp)}$
+\begin{enumerate} 
+\item $forests:$  $f=\langle T'\rangle$ for some $T'\in ASTs$
+\item $F_T=F_{T'}~~~~~~$ {\small (no modified leave)}\setcounter{enumi}{3} 
+\item If for any $v\in values(pp),\,pr\in dom(s\cup \bar\pi_v)$ and there is $v\in values(pp),\,(s\cup \bar\pi_v)(pr)=\top$\\
+      then $T\!nxt_c(s)=\bigcup_{v\in values(pp) \wedge (s\cup \bar\pi_v)(pr)=\top}\{(s[pp\leftarrow v],root(T'))\}$
+\end{enumerate}
+\end{definition}
+%++++++++++++++++++++++++++++++++++++++++++
+A received parameter must satisfy a predicate which deal with its components denoted by descriptors ($\pi_i$). Items 3 and 5 of sidebar page \pageref{safestates} are ensured by proof obligations. Other items are trivial. Notice that item 5 requires that for any initial state, at least one parameter value is acceptable, which is not expressible by a propositional predicate. First order is required.
+\begin{itemize}
+\item PO: $Init_c\Rightarrow W\!D(pr)$
+\item PO: $Init_c\Rightarrow \exists \pi_{pp} pr$
+\end{itemize}
+RECEIVE is compatible with definition \ref{def-eccmd} w.r.t. the following instanciation. 
+\begin{itemize}
+\item $Par_{c_r}$ is $values(pp_{c_r})$. 
+\item For $s$ such that for any $v\in values(pp_{c_r}), pr_{c_r}\in dom(s\cup \bar\pi_v)$,\\ let $pr_{c_r}(s)=\{v\in values(pp_{c_r})\mid s\cup \bar\pi_v(pr_{c_r})=\top\}$.\\
+$par_{c_r}$ is $pr_{c_r}$ except that $dom(par_{c_s})$ is $\{s\in dom(pr_{c_r})\mid\exists v\in values(pp_{c_r}),\;s\cup \bar\pi_v(pr_{c_r})=\top\}$
+\item $upd_{c_r}(s,x)$ is $s[pp_{c_r}\leftarrow x]$.
+\end{itemize}
+%=========================================
+\begin{definition}[SEND]\label{def-send} $l=(FX(evlength),pp)$ where $pp$ is a profile over $A$.
+\begin{enumerate} 
+\item $forests:$  $f=\langle T'\rangle$ for some $T'\in ASTs$
+\item $F_T=F_{T'}~~~~~~$ {\small (no modified leave)}\setcounter{enumi}{3} 
+\item $T\!nxt_c(s)=\{(s,root(T')\}$
+\end{enumerate}
+\end{definition}
+%++++++++++++++++++++++++++++++++++++++++++
+All items of sidebar page \pageref{safestates} are trivial but there is an additionnal constraint for the application level to be well defined: the parameter to send must be well defined.
+\begin{itemize}
+\item if $pp=(e_1,\cdots,e_n)$ then for all $1\leq i\leq n$,\\
+      PO: $Init_c\Rightarrow W\!D(e_i)$
+\end{itemize}
+SND is trivially compatible with definition \ref{def-eccmd}. $Par_{c_s}$ is $values(pp)$. The instantiation of definition \ref{def-eccmd} can be completed. Indeed, although $par_{c_s}$ does not appear here, it is also well defined by $dom(par_{c_s})=dom(pp)$ and $par_{c_s}(s)=s(pp_{c_s})$. $S\!N\!D_{\cal T}\subseteq C_{\cal T}$ is $\{c\in C_{\cal T}\mid lbl(c)\in S\!E\!N\!D\}$.
+%=========================================
+\begin{definition}[SELECT] $l=FX(evlength)$ .
+\begin{enumerate} 
+\item $forests:$  $f=\langle T_1,\cdots,T_k\rangle$ ($1\leq k$) for some $T_1,\cdots,T_k\in ASTs$ such that\\
+ for any $1\leq i\leq k$, $lbl(root(T_i))\in REC\!EIV\!E$
+\item $F_T=\bigcup_{i\in[1,k]}F_{T_i}~~~~~~$ {\small (no modified leave)}\setcounter{enumi}{3}
+\item If for any $1\leq i\leq k$, for any $v\in values(pp_{root(T_i)}),\,pr_{root(T_i)}\in dom(s\cup \bar\pi_v)$  and there is $v\in values(pp_{root(T_i)}),\,(s\cup \bar\pi_v)(pr_{root(T_i)})=\top$,\, then\, $T\!nxt_c(s)=\bigcup_{i\in[1,k]}T\!nxt_{root(T_i)}(s)$
+\end{enumerate}
+\end{definition}
+%++++++++++++++++++++++++++++++++++++++++++
+The proof obligations of a select command are obviously the sames as the proof obligations of its sons, with its own $Init(c)$. For any $1\leq i\leq k$,
+\begin{itemize}
+\item PO: $Init_c\Rightarrow W\!D(pr_{root(T_i)})$
+\item PO: $Init_c\Rightarrow \exists \pi_{type(pp_{root(T_i)})} pr_{root(T_i)}$
+\end{itemize}
+
+SELECT is trivially compatible with definition \ref{def-slc}. $BR_c$ is $\{root(T_i)\}_{1\leq i\leq k}$.\\
+ $S\!LC_{\cal T}\subseteq C_{\cal T}$ is $\{c\in C_{\cal T}\mid lbl(c)\in S\!E\!LECT\}$.
+%=========================================
+\begin{definition}[REQ]$l=(FX(evlength),pr)$ where $pp$ is an input profile over $A$ and $pr$ is a predicate over $A\cup\pi_{type(pp)}$
+\begin{enumerate} 
+\item $forests:$  $f=\langle T'\rangle$ for some $T'\in ASTs$
+\item $F_T=\emptyset~~~~~~$ {\small (all leaves redirected to root $c$)}
+\item For any $n\in F_{T'}$, $Len_n\simeq FX(0)$ and for any $s\in S,\,Inxt_n(s)=\{(s,c)\}$.
+\item If for any $v\in values(arg),\,pr\in dom(s\cup \bar\pi_v)$ and there is $v\in values(arg),\,(s\cup \bar\pi_v)(pr)=\top$\\
+      then $T\!nxt_c(s)=\bigcup_{v\in values(arg) \wedge (s\cup \bar\pi_v)(pr)=\top}\{(s[arg\mapsto v],root(T'))\}$
+\end{enumerate}
+\end{definition}
+%++++++++++++++++++++++++++++++++++++++++++
+REQ is defined as RECEIVE except that $arg$ replace label component $pp$, variable $arg$ is updated insteed of atomic attributes variables, and final commands of the sub-tree are redirected to root. Leave redirecting trivially satisfies items of sidebar page \pageref{safestates}. Thus proof obligations are similar to those of RECEIVE.
+\begin{itemize}
+\item PO: $Init_c\Rightarrow W\!D(pr)$
+\item PO: $Init_c\Rightarrow \exists \pi_{arg} pr$
+\end{itemize}
+REQ instantiate definition \ref{def-eccmd} exactly in the same way as RECEIVE except that $arg$ replace label component $pp$ and $upd_{c_r}(s,x)$ is $s[arg\mapsto x]$.
+ $RCV_{\cal T}\subseteq C_{\cal T}$ is $\{c\in C_{\cal T}\mid lbl(c)\in REC\!EIV\!E\cup REQ\}$.
+%=========================================
+\begin{definition}[ARG]$l=FX(0)$
+\begin{enumerate} 
+\item $forests:$  $f=\langle T'\rangle$ for some $T'\in ASTs$
+\item $F_T=F_{T'}~~~~~~$ {\small (no modified leave)}\setcounter{enumi}{3} 
+\item $Inxt_c(s)=\{(s[arg\leftarrow s(arg)],root(T'))\}$
+\end{enumerate}
+\end{definition}
+%++++++++++++++++++++++++++++++++++++++++++
+Reminder: $s[arg\leftarrow s(arg)]$ updates attributes of $arg$. Items of sidebar page \pageref{safestates} are obviously satisfied.
+
+Thus, quite all TML commands are representable. The exception is the static delay. Non deterministic sequences would be theoretically definable but it would be very complex. Thus for these commands we prefer to consider task rewriting (non determinitstic choice between  subtrees describing all possible deterministic sequences, for example).
+
+%°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°
+\subsection{TML channels}
+TML channels are different kinds of fifos. As data are abstracted, data fifos are represented by their length, in $\NAT$. In this section, we informally describe the characteristics of all kind of fifos and explain how they instantiate definitions \ref{def-dch} and \ref{def-ech}.
+
+TML channels are classified w.r.t. the following parameters, where $BR$ means "blocking read" and $BW$ means "blocking-write" (only data channels may be "blocking read"):
+
+\hspace*{2.5cm} $(size\in\NAT^*\cup\{\infty\},BR\in \BOOL,BW\in\BOOL,type\in\{data\}\cup
+Types)$ with
+
+\hspace*{1cm} $size=\infty\Rightarrow BW=\bot~$ and $~BW=\bot\wedge BR=\top\Rightarrow size=\infty~$ and $~type\neq data\Rightarrow BR=\top$
+
+\vspace{1mm}
+Data channels ($type=data$) instanciate definition \ref{def-dch} in the following way. 
+\begin{itemize}
+\item $S$. If $size=\infty$ then $S=\NAT$ else $S=[0,size]$.
+\item $canread$. If $BR=\bot$ then $canread(s)=\top$ else $canread(s)=$ "$0<s$".
+\item $canwrite$. If $BW=\bot$ then $canwrite(s)=\top$ else $canwrite(s)=$ "$s<size$".
+\item $maxread.$ If $w=0$ or $w\leq size-s$ or $BW=\bot$ then $maxread(r,s,w)=min(r,s)$\\ else $maxread(r,s,w)=min(r,s,w-(size-s))$
+% autorise plus de pipelining...\item $maxread.$ Let $w'=min(w,size)$. If $w'=0$ or $w'<size-s$ or $BW=\bot$ then $maxread(r,s,w)=min(r,s)$ else $maxread(r,s,w)=min(r,s,w'-(size-s))$
+\item $maxwrite.$ If $r=0$ or $r\leq s$ or $BR=\bot$ then $maxwrite(w,s,r)=min(w,size-s)$\\ else $maxwrite(w,s,r)=min(w,size-s,r-s)$.
+\item $rnxt, wnxt.$ $rnxt(s,n)$ is $max(s-n,0)$ and $wnxt(s,n)$ is $s+n$
+\end{itemize}
+Notice that $BR=BW=\bot$ could be defined with only one state (the simulator does this). Here it is just a special case. $maxread$ and $maxwrite$ are defined to respect the simulator's choices. Other choices are possible. The simulator also implements lossy data channels, where data is lost when sending. We could also do this by modifying $wnxt$ instantiation (pas vérifié si faisable avec exactement la même sémantique que le simulateur).  Finally it is a little bit tedious but easy to verify that the proposed instantiation satisfies properties required by definition \ref{def-dch}, and that it respects channel size.
+
+Event channels ($type\in Types$) instantiate definition \ref{def-ech} in the following way. 
+\begin{itemize}
+\item $S$. $S=\{\mbox{words $s$ on } values(type) \mbox{ verifying if } size\neq \infty \mbox{ then } |s|\leq size\} $
+\item $Par$. $Par=values(type)$.
+\item $canread$. $canread(s)=$ "$|s|>0$".
+\item $canwrite$. If $BW=\bot$ then $canwrite(s)=\top$ else $canwrite(s)=$ "$|s|<size$".
+\item $event.$ $event(up)=p$. ($u$: word, $p$: parameter)
+\item $rnxt, snxt$. $rnxt(up)=u$ and $snxt(u,p)= pu$\\
+      Note: w.r.t. definition \ref{def-step}.10, parameter $p$ of $snxt$ is computed by $par_{c_s}$ of definition \ref{def-eccmd}, instantiate by the concrete $SEN\!D$ commands, as presented after definition \ref{def-send}.
+\end{itemize}
+Properties required by definition \ref{def-ech} are quite obvious for this instantiation.
+
+The last thing to say about the instantiation of general definitions of previous section by concrete TML described in this section is that event channels that have several writing tasks are called request channels. They are "non-blocking write" (as required by definition \ref{def-mapp}) thus infinite fifos. Moreover their reading commands (all in the same task) must be of type REQ.
+
+\end{document}

@@ -192,6 +192,9 @@ public class AvatarGuardTests {
         res= AvatarGuard.createFromString(A, "key1 != a1234");
         assertTrue(res instanceof AvatarSimpleGuardDuo);
 
+        res= AvatarGuard.createFromString(A, "(key1 - 42) > key2");
+        assertTrue(res instanceof AvatarSimpleGuardDuo);
+
         //res= AvatarGuard.createFromString(A, "(a,b)==(c,d)");
         //assertTrue(res instanceof AvatarSimpleGuardDuo);
     }

@@ -74,6 +74,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.text.BadLocationException;
 
 import avatartranslator.AvatarTransition;
+import myutil.Conversion;
 import myutil.GraphicLib;
 import ui.AvatarMethod;
 import ui.Expression;
@@ -773,7 +774,9 @@ public class JDialogAvatarTransition extends JDialogBase implements ActionListen
       }*/
 
     public String getGuard() {
-        return guardT.getText();
+
+		String ret = guardT.getText();
+		return ret;
     }
 
     public String getAfterMin() {

@@ -47,6 +47,9 @@ import java.util.Vector;
 import javax.swing.JFrame;
 
 import avatartranslator.AvatarTransition;
+import myutil.Conversion;
+import myutil.TraceManager;
+import org.apache.batik.anim.timing.Trace;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -532,12 +535,14 @@ public class AvatarSMDTransitionInfo extends TGCWithoutInternalComponent impleme
             return false;
         }
 
-        guard.setText( jdat.getGuard().trim() );
-
+        String g = jdat.getGuard().trim();
         int index = getGuard().indexOf('[');
         if (index == -1) {
-        	guard.setText( "[ " + guard + " ]" );
+            g = "[ " + guard + " ]";
         }
+        g = g.replaceAll("\\s{2,}", " ");
+        //TraceManager.addDev("New guard=" + g);
+        guard.setText( g );
 
         //TraceManager.addDev("Max delay:" + jdat.getAfterMax().trim());
         afterDelay.getMinExpression().setText( jdat.getAfterMin().trim() );

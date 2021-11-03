@@ -478,7 +478,7 @@ public class JDialogAvatarTransition extends JDialogBase implements ActionListen
 		
 		pnlTransitionInfo.add( removeButton, constraintsButtons );
 
-		addButton = new JButton( "Add" );
+		addButton = new JButton( "Add new Action" );
 		addButton.addActionListener( new ActionListener() {
 			
 			@Override

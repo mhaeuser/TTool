@@ -2381,7 +2381,7 @@ public class AvatarDesignPanelTranslator {
         //TraceManager.addDev("Delays:" + afterMinDelayStr + "," + afterMaxDelayStr);
 
         if (afterMinDelayStr != null && afterMaxDelayStr != null) {
-            TraceManager.addDev("Delays:" + afterMinDelayStr + "," + afterMaxDelayStr);
+            //TraceManager.addDev("Delays:" + afterMinDelayStr + "," + afterMaxDelayStr);
             transition.setDelays(afterMinDelayStr, afterMaxDelayStr);
 
             // Must handle distribution law and extra attributes

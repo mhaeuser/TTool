@@ -126,6 +126,7 @@ public class AvatarTransition extends AvatarStateMachineElement {
     public boolean buildDelaySolver() {
         boolean result;
         if (hasDelay()) {
+            TraceManager.addDev("Building delay for " + minDelay + "," + maxDelay);
             minDelaySolver = new AvatarExpressionSolver(minDelay);
             result = minDelaySolver.buildExpression((AvatarBlock) block);
             if (maxDelay.trim().length() != 0) {
@@ -285,6 +286,14 @@ public class AvatarTransition extends AvatarStateMachineElement {
     }
 
     public void setDelays(String _minDelay, String _maxDelay) {
+        /*TraceManager.addDev("Block " + getBlock().getName() + " / Setting delay: " + _minDelay + "," + _maxDelay);
+        System.out.println("Printing stack trace:");
+        StackTraceElement[] elements = Thread.currentThread().getStackTrace();
+        for (int i = 1; i < elements.length; i++) {
+            StackTraceElement s = elements[i];
+            System.out.println("\tat " + s.getClassName() + "." + s.getMethodName() + "(" + s.getFileName() + ":" + s.getLineNumber() + ")");
+        }*/
+
         minDelay = _minDelay;
         maxDelay = _maxDelay;
     }
@@ -367,6 +376,8 @@ public class AvatarTransition extends AvatarStateMachineElement {
         at.setComputes(getMinCompute(), getMaxCompute());
         at.setProbability(getProbability());
 
+
+
         //TraceManager.addDev("-------------- Cloning actions of " + this);
         for (int i = 0; i < getNbOfAction(); i++) {
             //TraceManager.addDev("-------------- Cloning actions:" + getAction(i));
@@ -430,7 +441,9 @@ public class AvatarTransition extends AvatarStateMachineElement {
     }
 
     public boolean hasDelay() {
-        return minDelay.trim().length() != 0;
+        boolean b = minDelay.trim().length() != 0;
+
+        return b;
     }
 
     public boolean hasCompute() {

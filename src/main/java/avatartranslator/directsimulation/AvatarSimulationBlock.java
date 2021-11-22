@@ -231,6 +231,7 @@ public class AvatarSimulationBlock {
                     AvatarTransition trans = (AvatarTransition) (aspt.elementToExecute);
                     aspt.probability = trans.getProbability();
                     if (trans.hasDelay()) {
+                        TraceManager.addDev("Transition has delay: " + trans.getMinDelay() + "," + trans.getMaxDelay());
                         aspt.myMinDelay = newEvaluateIntExpression(trans.getMinDelay(), lastTransaction.attributeValues);
                         aspt.myMaxDelay = newEvaluateIntExpression(trans.getMaxDelay(), lastTransaction.attributeValues);
                         aspt.hasDelay = true;

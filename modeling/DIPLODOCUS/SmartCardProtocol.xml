@@ -7262,8 +7262,8 @@ the smart card and the terminal
 <TGConnectingPoint num="22" id="1803" />
 <TGConnectingPoint num="23" id="1804" />
 <extraparam>
-<info stereotype="CPURRPB" nodeName="CPU1" />
-<attributes nbOfCores="1" byteDataSize="4"  schedulingPolicy="1"  sliceTime="10000"  goIdleTime="10"  maxConsecutiveIdleCycles="10"  pipelineSize="5"  taskSwitchingTime="20"  branchingPredictionPenalty="2"  cacheMiss="5" execiTime="1" execcTime="1" clockRatio="2" operation="" MECType="0" encryption="0"/>
+<info stereotype="CPUSP" nodeName="CPU1" />
+<attributes nbOfCores="1" byteDataSize="4"  schedulingPolicy="2"  sliceTime="10000"  goIdleTime="10"  maxConsecutiveIdleCycles="10"  pipelineSize="5"  taskSwitchingTime="20"  branchingPredictionPenalty="2"  cacheMiss="5" execiTime="1" execcTime="1" clockRatio="2" operation="" MECType="0" encryption="0"/>
 </extraparam>
 </COMPONENT>
 <SUBCOMPONENT type="1101" id="1780" index="9" uid="a0842fd5-3e78-483b-b8bd-0b0d8bc7e157" >

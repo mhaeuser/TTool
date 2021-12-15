@@ -192,9 +192,11 @@ public class TML2MappingSystemC implements IDiploSimulatorCodeGenerator {
                 HwCPU exNode = (HwCPU) node;
                 if (exNode.getType().equals("CPURRPB"))
                     declaration += "RRPrioScheduler* " + exNode.getName() + "_scheduler = new RRPrioScheduler(\"" + exNode.getName() + "_PrioSched" + "\",0, " + (tmlmapping.getTMLArchitecture().getMasterClockFrequency() * exNode.sliceTime) + ", " + (int) Math.ceil((float) (exNode.clockRatio * Math.max(exNode.execiTime, exNode.execcTime) * (exNode.branchingPredictionPenalty * exNode.pipelineSize + 100 - exNode.branchingPredictionPenalty)) / 100) + " ) " + SCCR;
+                else if (exNode.getType().equals("CPUSP"))
+                    declaration += "StrictScheduler* " + exNode.getName() + "_scheduler = new StrictPrioScheduler(\"" + exNode.getName() +
+                            "_StrictPrioSched" +
+                            "\",0, " + (tmlmapping.getTMLArchitecture().getMasterClockFrequency() * exNode.sliceTime) + ", " + (int) Math.ceil((float) (exNode.clockRatio * Math.max(exNode.execiTime, exNode.execcTime) * (exNode.branchingPredictionPenalty * exNode.pipelineSize + 100 - exNode.branchingPredictionPenalty)) / 100) + " ) " + SCCR;
                 else
-                    //tmlmapping.getTMLArchitecture().getMasterClockFrequency() * exNode.sliceTime
-                    //declaration += "RRScheduler* " + exNode.getName() + "_scheduler = new RRScheduler(\"" + exNode.getName() + "_RRSched\", 0, 5, " + (int) Math.ceil(((float)exNode.execiTime)*(1+((float)exNode.branchingPredictionPenalty)/100)) + " ) " + SCCR;
                     declaration += "RRScheduler* " + exNode.getName() + "_scheduler = new RRScheduler(\"" + exNode.getName() + "_RRSched\", 0, " + (tmlmapping.getTMLArchitecture().getMasterClockFrequency() * exNode.sliceTime) + ", " + (int) Math.ceil((float) (exNode.clockRatio * Math.max(exNode.execiTime, exNode.execcTime) * (exNode.branchingPredictionPenalty * exNode.pipelineSize + 100 - exNode.branchingPredictionPenalty)) / 100) + " ) " + SCCR;
                 //TraceManager.addDev("cores " + exNode.nbOfCores);
                 if (exNode.nbOfCores == 1) {
@@ -212,6 +214,7 @@ public class TML2MappingSystemC implements IDiploSimulatorCodeGenerator {
                 declaration += "addCPU(" + node.getName() + exNode.nbOfCores + ")" + SCCR;
 
             }
+
             if (node instanceof HwA) {
                 HwA hwaNode = (HwA) node;
                 declaration += "RRScheduler* " + hwaNode.getName() + "_scheduler = new RRScheduler(\"" + hwaNode.getName() + "_RRSched\", 0, " + (tmlmapping.getTMLArchitecture().getMasterClockFrequency() * HwA.DEFAULT_SLICE_TIME) + ", " + (int) Math.ceil((float) (hwaNode.clockRatio * Math.max(hwaNode.execiTime, hwaNode.execcTime) * (HwA.DEFAULT_BRANCHING_PREDICTION_PENALTY * HwA.DEFAULT_PIPELINE_SIZE + 100 - HwA.DEFAULT_BRANCHING_PREDICTION_PENALTY)) / 100) + " ) " + SCCR;

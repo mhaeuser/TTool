@@ -198,7 +198,8 @@ public class DiploSimulatorCodeGenerator implements IDiploSimulatorCodeGenerator
         header += "#include <PropRelConstraint.h>\n#include <SeqConstraint.h>\n#include <SignalConstraint.h>\n#include <TimeMMConstraint.h>\n";
         header += "#include <TimeTConstraint.h>\n";
         header += "#include <CPU.h>\n#include <SingleCoreCPU.h>\n#include <MultiCoreCPU.h>\n#include <FPGA.h>\n#include <RRScheduler.h>\n#include "
-                + "<RRPrioScheduler.h>\n" + "#include <OrderScheduler.h>\n" + "#include <PrioScheduler.h>\n#include <Bus.h>\n";
+                + "<RRPrioScheduler.h>\n#include <StrictPrioScheduler.h>\n" + "#include <OrderScheduler.h>\n" + "#include <PrioScheduler" +
+                ".h>\n#include <Bus.h>\n";
         header += "#include <ReconfigScheduler.h>\n";
         header += "#include <Bridge.h>\n#include <Memory.h>\n#include <TMLbrbwChannel.h>\n#include <TMLnbrnbwChannel.h>\n";
         header += "#include <TMLbrnbwChannel.h>\n#include <TMLEventBChannel.h>\n#include <TMLEventFChannel.h>\n#include <TMLEventFBChannel.h>\n";
@@ -234,7 +235,15 @@ public class DiploSimulatorCodeGenerator implements IDiploSimulatorCodeGenerator
                     declaration += "RRPrioScheduler* " + schedulerInstName + " = new RRPrioScheduler(\"" + namesGen.prioSchedulerName(exNode)
                             + "\", 0," + (tmlmapping.getTMLArchitecture().getMasterClockFrequency() * exNode.sliceTime) + ", "
                             + (int) Math.ceil((float) (exNode.clockRatio * Math.max(exNode.execiTime, exNode.execcTime)
-                                    * (exNode.branchingPredictionPenalty * exNode.pipelineSize + 100 - exNode.branchingPredictionPenalty)) / 100)
+                            * (exNode.branchingPredictionPenalty * exNode.pipelineSize + 100 - exNode.branchingPredictionPenalty)) / 100)
+                            + " ) " + SCCR;
+
+                } else if   (exNode.getType().equals("CPUSP")) {
+                    schedulerInstName = namesGen.prioSchedulerInstanceName(exNode);
+                    declaration += "StrictPrioScheduler* " + schedulerInstName + " = new StrictPrioScheduler(\"" + namesGen.prioSchedulerName(exNode)
+                            + "\", 0," + (tmlmapping.getTMLArchitecture().getMasterClockFrequency() * exNode.sliceTime) + ", "
+                            + (int) Math.ceil((float) (exNode.clockRatio * Math.max(exNode.execiTime, exNode.execcTime)
+                            * (exNode.branchingPredictionPenalty * exNode.pipelineSize + 100 - exNode.branchingPredictionPenalty)) / 100)
                             + " ) " + SCCR;
                 } else {
                     // tmlmapping.getTMLArchitecture().getMasterClockFrequency() * exNode.sliceTime

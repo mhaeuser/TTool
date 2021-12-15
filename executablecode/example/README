@@ -1,4 +1,4 @@
-*Microwave system
+# Microwave system
 -First, compile the microwave graphical interface
 $ javac *.java
 
@@ -9,7 +9,7 @@ $ java MainMicrowave
 -Generate the code, compile it, execute it
 
 
-*Pressure controller system
+# Pressure controller system
 -First, compile the pressure controller system
 $ javac *.java
 
@@ -18,3 +18,14 @@ $ java MainPressureController
 
 -Open the pressure controller model with code in TTool
 -Generate the code, compile it, execute it
+
+# Infusion pump r system
+-First, compile the java code
+$ javac *.java
+
+-Start the infusion pump GUI
+$ java MainInfusionPump
+
+-Open the infusion pump model in TTool
+-Generate the code, compile it, execute it
+

@@ -240,6 +240,10 @@ public class TMLArchiCPUNode extends TMLArchiNode implements SwallowTGComponent,
             stereotype = "CPURRPB";
         }
 
+        if (schedulingPolicy == HwCPU.STRICT_PRIORITY) {
+            stereotype = "CPUSP";
+        }
+
         if (dialog.getSliceTime().length() != 0) {
             try {
                 tmp = sliceTime;

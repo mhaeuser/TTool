@@ -180,6 +180,7 @@ public class JDialogCPUNode extends JDialogBase implements ActionListener  {
         schedulingPolicy = new TGComboBoxWithHelp<String>();
         schedulingPolicy.addItem("Round Robin");
         schedulingPolicy.addItem("Round Robin - Priority Based");
+        schedulingPolicy.addItem("Strict Priority");
         schedulingPolicy.setSelectedIndex(node.getSchedulingPolicy());
         panel2.add(schedulingPolicy, c2);
         schedulingPolicy.makeEndHelpButton(helpStrings[1], mgui, mgui.getHelpManager(), panel2, c2);

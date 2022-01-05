@@ -189,9 +189,6 @@ public class JDialogCommPatternMapping extends JDialog /* implements ActionListe
             mappedUnitsSL.addAll(_mappedUnits);
             emptyListOfMappedUnits = false;
         }
-//		else {
-//			mappedUnitsSL = new Vector<String>();
-//		}
 
         if (_assignedAttributes.size() > 0) {    //the validity of _assignedAttributes is checked when initializing components
             assignedAttributes = new Vector<String>();

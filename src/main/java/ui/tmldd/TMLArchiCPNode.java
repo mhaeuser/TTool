@@ -79,8 +79,8 @@ public class TMLArchiCPNode extends TMLArchiCommunicationNode implements Swallow
     private String reference="";
 
     // Mapped data
-    private Vector<String> mappedUnits = new Vector<String>();
-    private Vector<String> assignedAttributes = new Vector<String>();
+    private Vector<String> mappedUnits = new Vector<>();
+    private Vector<String> assignedAttributes = new Vector<>();
     private String cpMEC = "VOID";
     private int transferType1 = -1;
     private int transferType2 = -1;
@@ -240,7 +240,8 @@ public class TMLArchiCPNode extends TMLArchiCommunicationNode implements Swallow
         String errors = "";
         String tmpName;
 
-        JDialogCommPatternMapping dialog = new JDialogCommPatternMapping( frame, "Communication Pattern Mapping", this, mappedUnits, name, cpMEC, assignedAttributes, transferType1, transferType2 );
+        JDialogCommPatternMapping dialog = new JDialogCommPatternMapping( frame, "Communication Pattern Mapping", this, mappedUnits, name,
+                cpMEC, assignedAttributes, transferType1, transferType2 );
         //dialog.setSize( 700, 550 );
         GraphicLib.centerOnParent( dialog, 750, 500 );
         dialog.setVisible( true ); // blocked until dialog has been closed

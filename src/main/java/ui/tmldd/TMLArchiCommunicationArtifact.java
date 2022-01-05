@@ -48,6 +48,7 @@ import ui.window.JDialogCommunicationArtifact;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 
 /**
    * Class TMLArchiCommunicationArtifact
@@ -56,34 +57,27 @@ import java.awt.*;
    * @version 1.0 22/11/2007
    * @author Ludovic APVRILLE
  */
-public class TMLArchiCommunicationArtifact extends TGCWithoutInternalComponent implements SwallowedTGComponent, WithAttributes, TMLArchiChannelInterface {
+public class TMLArchiCommunicationArtifact extends TGCWithoutInternalComponent implements SwallowedTGComponent, WithAttributes,
+        TMLArchiChannelInterface {
 
 	// Issue #31
 	private static final int SPACE = 5;
 	private static final int CRAN = 5;
 	private static final int FILE_X = 20;
 	private static final int FILE_Y = 25;
-//    protected int lineLength = 5;
-//    protected int textX =  5;
-//    protected int textY =  15;
-//    protected int textY2 =  35;
-//    protected int space = 5;
-//    protected int fileX = 20;
-//    protected int fileY = 25;
-//    protected int cran = 5;
+
 
     protected String oldValue = "";
     protected String referenceCommunicationName = "TMLCommunication";
     protected String communicationName = "name";
     protected String typeName = "channel";
     protected int priority = 5; // Between 0 and 10
+    protected ArrayList<String> mappedElements = new ArrayList<>();
 
-    public TMLArchiCommunicationArtifact(int _x, int _y, int _minX, int _maxX, int _minY, int _maxY, boolean _pos, TGComponent _father, TDiagramPanel _tdp)  {
+    public TMLArchiCommunicationArtifact(int _x, int _y, int _minX, int _maxX, int _minY, int _maxY, boolean _pos, TGComponent _father,
+                                         TDiagramPanel _tdp)  {
         super(_x, _y, _minX, _maxX, _minY, _maxY, _pos, _father, _tdp);
 
-    	// Issue #31
-//        width = 75;
-//        height = 40;
         textX = 5;
         textY = 15;
         minWidth = 75;
@@ -100,9 +94,8 @@ public class TMLArchiCommunicationArtifact extends TGCWithoutInternalComponent i
         communicationName = "name";
         referenceCommunicationName = "TMLCommunication";
 
-        makeFullValue();
 
-        //setPriority(((TMLArchiDiagramPanel)tdp).getPriority(getFullValue(), priority);
+        makeFullValue();
 
         myImageIcon = IconManager.imgic702;
     }
@@ -151,10 +144,6 @@ public class TMLArchiCommunicationArtifact extends TGCWithoutInternalComponent i
         g.drawLine(x+width- marginCran/*space-cran*/, y+space, x+width- marginCran/*space-cran*/, y+ marginCran/*space+cran*/);
         g.drawLine(x+width- marginCran/*space-cran*/, y+ marginCran/*space+cran*/, x + width-space, y+ marginCran/*space+cran*/);
 
-
-
-
-
         g.drawString(value, x + textX , y + textY);
 
         Font f = g.getFont();
@@ -195,8 +184,9 @@ public class TMLArchiCommunicationArtifact extends TGCWithoutInternalComponent i
         String tmp;
         boolean error = false;
 
-        JDialogCommunicationArtifact dialog = new JDialogCommunicationArtifact(frame, "Setting channel artifact attributes", this);
-        GraphicLib.centerOnParent(dialog, 400, 300);
+        JDialogCommunicationArtifact dialog = new JDialogCommunicationArtifact(frame, "Setting channel artifact attributes", this,
+                mappedElements);
+        GraphicLib.centerOnParent(dialog, 800, 700);
         dialog.setVisible( true ); // blocked until dialog has been closed
 
         if (!dialog.isRegularClose()) {
@@ -231,6 +221,7 @@ public class TMLArchiCommunicationArtifact extends TGCWithoutInternalComponent i
 
         ((TMLArchiDiagramPanel)tdp).setPriority(getFullValue(), priority);
 
+        mappedElements = dialog.getMappedElements();
 
         if (error) {
             JOptionPane.showMessageDialog(frame,
@@ -267,6 +258,13 @@ public class TMLArchiCommunicationArtifact extends TGCWithoutInternalComponent i
         StringBuffer sb = new StringBuffer("<extraparam>\n");
         sb.append("<info value=\"" + value + "\" communicationName=\"" + communicationName + "\" referenceCommunicationName=\"");
         sb.append(referenceCommunicationName);
+        sb.append("\" mappedElements=\"");
+        String me = "";
+        for(String s: mappedElements) {
+            me += " " + s;
+        }
+        me = me.trim();
+        sb.append(me);
         sb.append("\" priority=\"");
         sb.append(priority);
         sb.append("\" typeName=\"" + typeName);
@@ -302,6 +300,11 @@ public class TMLArchiCommunicationArtifact extends TGCWithoutInternalComponent i
                                 sreferenceCommunication = elt.getAttribute("referenceCommunicationName");
                                 stype = elt.getAttribute("typeName");
                                 prio = elt.getAttribute("priority");
+                                String me = elt.getAttribute("mappedElements");
+                                String[] mes = me.split(" ");
+                                for(String s: mes) {
+                                    mappedElements.add(s);
+                                }
                             }
                             if (svalue != null) {
                                 value = svalue;

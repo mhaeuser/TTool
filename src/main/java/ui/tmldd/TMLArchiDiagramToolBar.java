@@ -88,7 +88,7 @@ public class TMLArchiDiagramToolBar extends TToolBar implements ActionListener {
         mgui.actions[TGUIAction.TMLARCHI_KEY].setEnabled(b);
         mgui.actions[TGUIAction.TMLARCHI_FIREWALL].setEnabled(b);
         mgui.actions[TGUIAction.TMLARCHI_PORT_ARTIFACT].setEnabled(b);
-        mgui.actions[TGUIAction.TMLARCHI_EVENT_ARTIFACT].setEnabled(b);
+        //mgui.actions[TGUIAction.TMLARCHI_EVENT_ARTIFACT].setEnabled(b);
         mgui.actions[TGUIAction.TMLARCHI_MEMORYNODE].setEnabled(b);
         mgui.actions[TGUIAction.TMLARCHI_DMANODE].setEnabled(b);
         mgui.actions[TGUIAction.ACT_TOGGLE_ATTR].setEnabled(b);

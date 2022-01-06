@@ -126,6 +126,17 @@ public class JDialogProverifVerification extends JDialog implements ActionListen
     private static final Insets insets = new Insets(0, 0, 0, 0);
     private static final Insets WEST_INSETS = new Insets(0, 0, 0, 0);
 
+    public final static int REACHABILITY_ALL = 1;
+    public final static int REACHABILITY_SELECTED = 2;
+    public final static int REACHABILITY_NONE = 3;
+
+    private static String CODE_PATH = null;
+    private static String EXECUTE_PATH = null;
+    private static int REACHABILITY_OPTION = REACHABILITY_ALL;
+    private static boolean MSG_DUPLICATION = true;
+    private static boolean PI_CALCULUS = true;
+    private static int LOOP_ITERATION = 1;
+
     protected MainGUI mgui;
     private AvatarDesignPanel adp;
 
@@ -137,9 +148,7 @@ public class JDialogProverifVerification extends JDialog implements ActionListen
     protected final static int STARTED = 2;
     protected final static int STOPPED = 3;
 
-    public final static int REACHABILITY_ALL = 1;
-    public final static int REACHABILITY_SELECTED = 2;
-    public final static int REACHABILITY_NONE = 3;
+
 
     TURTLEPanel currPanel;
 
@@ -248,10 +257,8 @@ public class JDialogProverifVerification extends JDialog implements ActionListen
         this.pvoa = null;
         this.limit = lim;
 
-        pathCode = _pathCode;
-
-        if (pathExecute == null)
-            pathExecute = _pathExecute;
+        pathCode = ((CODE_PATH == null) ? _pathCode : CODE_PATH);
+        pathExecute = ((EXECUTE_PATH == null) ? _pathExecute : EXECUTE_PATH);
 
 
         hostProVerif = _hostProVerif;
@@ -515,7 +522,9 @@ public class JDialogProverifVerification extends JDialog implements ActionListen
         stateReachabilityGroup.add(stateReachabilityAll);
         stateReachabilityGroup.add(stateReachabilitySelected);
         stateReachabilityGroup.add(stateReachabilityNone);
-        stateReachabilityAll.setSelected(true);
+        stateReachabilityAll.setSelected(REACHABILITY_OPTION == REACHABILITY_ALL);
+        stateReachabilitySelected.setSelected(REACHABILITY_OPTION == REACHABILITY_SELECTED);
+        stateReachabilityNone.setSelected(REACHABILITY_OPTION == REACHABILITY_NONE);
         curY++;
 
         addComponent(jp01, new JLabel("Allow message duplication in private channels: "), 0, curY, 2,
@@ -529,14 +538,15 @@ public class JDialogProverifVerification extends JDialog implements ActionListen
         privateChannelGroup.add(privateChannelNoDup);
         // TODO: change that
         // privateChannelNoDup.setSelected(true);
-        privateChannelDup.setSelected(true);
+        privateChannelDup.setSelected(MSG_DUPLICATION);
+        privateChannelNoDup.setSelected(!MSG_DUPLICATION);
         curY++;
 
         typedLanguage = new JCheckBox("Generate typed Pi calculus");
-        typedLanguage.setSelected(true);
+        typedLanguage.setSelected(PI_CALCULUS);
         addComponent(jp01, typedLanguage, 0, curY, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH);
         curY++;
-        loopLimit = new JTextField("1", 3);
+        loopLimit = new JTextField(""+LOOP_ITERATION, 3);
         if (limit) {
             addComponent(jp01, new JLabel("Limit on loop iterations:"), 0, curY, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH);
             addComponent(jp01, loopLimit, 1, curY, 2, GridBagConstraints.CENTER, GridBagConstraints.BOTH);
@@ -546,8 +556,6 @@ public class JDialogProverifVerification extends JDialog implements ActionListen
         JLabel empty = new JLabel("");
         jp01.add(empty, new GridBagConstraints(0, curY, 3, 1, 1.0, 1.0, GridBagConstraints.CENTER,
                 GridBagConstraints.BOTH, insets, 0, 0));
-
-
 
 
 
@@ -768,6 +776,21 @@ public class JDialogProverifVerification extends JDialog implements ActionListen
         if (mode == STARTED) {
             stopProcess();
         }
+        CODE_PATH = code1.getText();
+        EXECUTE_PATH = exe2.getText();
+        if (stateReachabilityAll.isSelected()) {
+            REACHABILITY_OPTION = REACHABILITY_ALL;
+        } else if (stateReachabilitySelected.isSelected()) {
+            REACHABILITY_OPTION = REACHABILITY_SELECTED;
+        } else {
+            REACHABILITY_OPTION = REACHABILITY_NONE;
+        }
+        MSG_DUPLICATION = privateChannelDup.isSelected();
+        PI_CALCULUS = typedLanguage.isSelected();
+        try {
+            LOOP_ITERATION = Integer.decode(loopLimit.getText());
+        } catch (Exception e) {}
+
         dispose();
     }
 

@@ -64,14 +64,6 @@ public class TMLArchiEventArtifact extends TGCWithoutInternalComponent implement
 	private static final int CRAN = 5;
 	private static final int FILE_X = 20;
 	private static final int FILE_Y = 25;
-//    protected int lineLength = 5;
-//    protected int textX =  5;
-//    protected int textY =  15;
-//    protected int textY2 =  35;
-//    protected int space = 5;
-//    protected int fileX = 20;
-//    protected int fileY = 25;
-//    protected int cran = 5;
 
     protected String oldValue = "";
     protected String referenceEventName = "TMLEvent";

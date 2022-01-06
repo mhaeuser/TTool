@@ -3868,9 +3868,11 @@ public class GTMLModeling {
 
             // Other nodes (memory, bridge, bus, VGMN, crossbar)
             //}
-            if ((tgc instanceof TMLArchiBUSNode) || (tgc instanceof TMLArchiVGMNNode) || (tgc instanceof TMLArchiCrossbarNode) || (tgc instanceof TMLArchiBridgeNode) || (tgc instanceof TMLArchiMemoryNode) || (tgc instanceof TMLArchiDMANode) || (tgc instanceof TMLArchiFirewallNode)) {
+            if ((tgc instanceof TMLArchiBUSNode) || (tgc instanceof TMLArchiVGMNNode) || (tgc instanceof TMLArchiCrossbarNode)
+                    || (tgc instanceof TMLArchiBridgeNode) || (tgc instanceof TMLArchiMemoryNode) || (tgc instanceof TMLArchiDMANode)
+                    || (tgc instanceof TMLArchiFirewallNode)) {
                 node = archi.getHwNodeByName(tgc.getName());
-                if ((node != null) && (node instanceof HwCommunicationNode)) {
+                if (node instanceof HwCommunicationNode) {
                     if (tgc instanceof TMLArchiFirewallNode) {
                         map.firewall = true;
                     }
@@ -3895,10 +3897,20 @@ public class GTMLModeling {
                         if (elt instanceof TMLChannel) {
                             //TraceManager.addDev("Setting priority of " + elt + " to " + artifact.getPriority() );
                             ((TMLChannel) (elt)).setPriority(artifact.getPriority());
+
                         }
                         if (elt != null) {
                             //TraceManager.addDev( "Adding communication " + s + " to Hardware Communication Node " + node.getName() );
                             map.addCommToHwCommNode(elt, (HwCommunicationNode) node);
+
+                            // Map to other referenced comm of the artifact
+                            for(String nn: artifact.getOtherCommunicationNames()) {
+                                HwNode oNode = archi.getHwNodeByName(nn);
+                                if (oNode instanceof HwCommunicationNode) {
+                                    TraceManager.addDev("Found another node for allocation of " + s + ": " + nn);
+                                    map.addCommToHwCommNode(elt, (HwCommunicationNode) oNode);
+                                }
+                            }
                         } else {
                             //TraceManager.addDev("Null mapping: no element named: " + s );
                         }

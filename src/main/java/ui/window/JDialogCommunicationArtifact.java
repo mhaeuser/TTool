@@ -153,12 +153,10 @@ public class JDialogCommunicationArtifact extends JDialogBase implements ActionL
             list.add("No communication to map");
             emptyList = true;
         } else {
-
-            index = indexOf(list, artifact.getFullValue());
-            //
+            index = indexOf(list, artifact.getValue());
         }
 
-        TraceManager.addDev("Got communications");
+        TraceManager.addDev("Got communications. Index=" + index);
 
         referenceCommunicationName = new JComboBox<>(list);
         referenceCommunicationName.setSelectedIndex(index);
@@ -201,7 +199,7 @@ public class JDialogCommunicationArtifact extends JDialogBase implements ActionL
         c3.fill = GridBagConstraints.HORIZONTAL;
         panel3.add(new JLabel("Memories and buses:"), c3);
         Vector<String> memAndBuses = makeListOfMappableArchUnits(mappedUnits);
-        TraceManager.addDev("Size of jlist:" + memAndBuses.size());
+        //TraceManager.addDev("Size of jlist:" + memAndBuses.size());
         mappableElementsModel = new DefaultListModel<>();
         for (String s: memAndBuses) {
             mappableElementsModel.addElement(s);
@@ -430,6 +428,7 @@ public class JDialogCommunicationArtifact extends JDialogBase implements ActionL
 
 
     public int indexOf(Vector<String> _list, String name) {
+        //TraceManager.addDev("Computing index with name=" + name + "\n");
         int i = 0;
         for (String s : _list) {
             if (s.equals(name)) {
@@ -452,7 +451,7 @@ public class JDialogCommunicationArtifact extends JDialogBase implements ActionL
         for (TGComponent tgc : componentList) {
             if (tgc instanceof TMLArchiCommunicationNode) {
                 if (!(alreadyMapped.contains(tgc.getName()))) {
-                    TraceManager.addDev("Adding component: " + tgc.getName());
+                    //TraceManager.addDev("Adding component: " + tgc.getName());
                     list.add(tgc.getName());
                 }
             }

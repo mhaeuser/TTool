@@ -352,6 +352,10 @@ public class TMLArchiCommunicationArtifact extends TGCWithoutInternalComponent i
         return communicationName;
     }
 
+    public ArrayList<String> getOtherCommunicationNames() {
+        return mappedElements;
+    }
+
     public String getFullValue() {
         String tmp = getValue();
         tmp += " (" + getTypeName() + ")";

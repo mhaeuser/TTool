@@ -49,6 +49,7 @@ import ui.window.JDialogCommunicationArtifact;
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.ListIterator;
 
 /**
    * Class TMLArchiCommunicationArtifact
@@ -150,6 +151,31 @@ public class TMLArchiCommunicationArtifact extends TGCWithoutInternalComponent i
         g.setFont(f.deriveFont(Font.ITALIC));
         g.drawString(typeName, x + textX , y + textY + scale( 20 ) );// Issue #31
         g.setFont(f);
+
+        if (g.getColor() == ColorManager.POINTER_ON_ME_0) {
+            TDiagramPanel tdp = getTDiagramPanel();
+            TGComponent tgc;
+            if (tdp != null) {
+                for(String ss: mappedElements) {
+                            if (ss.length() > 0) {
+                                ListIterator<TGComponent> iterator = tdp.getComponentList().listIterator();
+
+                                while(iterator.hasNext()) {
+                                    tgc = iterator.next();
+
+                                    if (tgc instanceof TMLArchiNode) {
+                                        //TraceManager.addDev("Testing |" + tgc.getName() + "|  vs | " + s + "|");
+                                        if (tgc.getName().compareTo(ss) == 0) {
+                                            //TraceManager.addDev("Ok");
+                                            GraphicLib.dashedLine(g, getX() + getWidth()/2, getY() + getHeight()/2, tgc.getX() + tgc.getWidth()/2, tgc.getY() + tgc.getHeight()/2);
+                                        }
+                                    }
+                                }
+
+                    }
+                }
+            }
+        }
     }
 
     public void setValue(String val, Graphics g) {

@@ -62,7 +62,8 @@ import java.util.Vector;
  * @author Ludovic APVRILLE
  * @version 1.0 12/03/2008
  */
-public class TMLCPrimitiveComponent extends TGCScalableWithInternalComponent implements SwallowTGComponent, SwallowedTGComponent, WithAttributes {
+public class TMLCPrimitiveComponent extends TGCScalableWithInternalComponent implements SwallowTGComponent, SwallowedTGComponent, WithAttributes,
+        ColorCustomizable {
     // #FIXME Debugging
     //private int maxFontSize = 14;
     //private int minFontSize = 4;
@@ -139,12 +140,12 @@ public class TMLCPrimitiveComponent extends TGCScalableWithInternalComponent imp
         actionOnAdd();
     }
 
-    private Color choosingColor() {
+    /*private Color choosingColor() {
         if (ColorManager.TML_COMPOSITE_COMPONENT == Color.white)
             return Color.white;
         else
             return new Color(201, 243, 188 - (getMyDepth() * 10), 200);
-    }
+    }*/
 
 //    private boolean canTextGoInTheBox(Graphics g, int fontSize, String text)
 //    {
@@ -165,7 +166,8 @@ public class TMLCPrimitiveComponent extends TGCScalableWithInternalComponent imp
     public void internalDrawing(Graphics g) {
         //rectangle + Filling color
         Color c = g.getColor();
-        myColor = choosingColor();
+        //myColor = choosingColor();
+        myColor = getCurrentColor();;
         g.drawRect(x, y, width, height);
         g.setColor(myColor);
         g.fill3DRect(x, y, width, height, true);
@@ -938,6 +940,15 @@ public class TMLCPrimitiveComponent extends TGCScalableWithInternalComponent imp
 
     public void setNameOfArchi(String _nameOfArchi) {
         nameOfArchi = _nameOfArchi;
+    }
+
+    // Color management
+    public Color getMainColor() {
+
+        if (ColorManager.TML_COMPOSITE_COMPONENT == Color.white)
+            return Color.white;
+        else
+            return new Color(201, 243, 188 - (getMyDepth() * 10), 200);
     }
 
 

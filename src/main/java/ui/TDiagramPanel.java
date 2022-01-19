@@ -133,7 +133,7 @@ public abstract class TDiagramPanel extends JPanel implements GenericTree {
     protected int popupX, popupY;
     protected JMenuItem remove, edit, clone, bringFront, bringBack, makeSquare, setJavaCode, removeJavaCode, setInternalComment,
             removeInternalComment, attach, detach, hide, unhide, search, enableDisable, setAsCryptoBlock, setAsRegularBlock,
-            setMainColor, tosysmlv2;
+            setMainColor, setDefaultColor, tosysmlv2;
     protected JMenuItem checkAccessibility, checkInvariant, checkMasterMutex, checkLatency;
     protected JMenuItem gotoReference;
     protected JMenuItem showProVerifTrace;
@@ -1536,6 +1536,7 @@ public abstract class TDiagramPanel extends JPanel implements GenericTree {
         componentMenu.add(bringBack);
         componentMenu.add(enableDisable);
         componentMenu.add(setMainColor);
+        componentMenu.add(setDefaultColor);
         componentMenu.add(makeSquare);
         componentMenu.addSeparator();
         componentMenu.add(attach);
@@ -1623,6 +1624,9 @@ public abstract class TDiagramPanel extends JPanel implements GenericTree {
 
         setMainColor = new JMenuItem("Set main color");
         setMainColor.addActionListener(menuAL);
+
+        setDefaultColor = new JMenuItem("Set default color");
+        setDefaultColor.addActionListener(menuAL);
 
         makeSquare = new JMenuItem("Make Square");
         makeSquare.addActionListener(menuAL);
@@ -1847,6 +1851,13 @@ public abstract class TDiagramPanel extends JPanel implements GenericTree {
 
         if (e.getSource() == setMainColor) {
             setMainColor(componentPopup);
+            mgui.changeMade(this, MOVE_COMPONENT);
+            repaint();
+            return;
+        }
+
+        if (e.getSource() == setDefaultColor) {
+            setDefaultColor(componentPopup);
             mgui.changeMade(this, MOVE_COMPONENT);
             repaint();
             return;
@@ -2426,6 +2437,14 @@ public abstract class TDiagramPanel extends JPanel implements GenericTree {
         Color newColor = JColorChooser.showDialog
                 (null, "Main color", tgc.getCurrentColor());
         tgc.setCurrentColor(newColor);
+    }
+
+    public void setDefaultColor(TGComponent tgc) {
+        // setting main color
+        if (tgc instanceof ColorCustomizable) {
+            Color defaultColor = ((ColorCustomizable) tgc).getMainColor();
+            tgc.setCurrentColor(defaultColor);
+        }
     }
 
     private void removeAllSelectedComponents() {

@@ -66,7 +66,10 @@ public  class AvatarRDRefineConnector extends TGConnectorWithCommentConnectionPo
 		
 		myImageIcon = IconManager.imgic1008;
     }
-    
+
+    protected void drawMiddleSegment(Graphics g, int x1, int y1, int x2, int y2) {
+        GraphicLib.dashedLine(g, x1, y1, x2, y2);
+    }
     
     protected void drawLastSegment(Graphics g, int x1, int y1, int x2, int y2){
 		 

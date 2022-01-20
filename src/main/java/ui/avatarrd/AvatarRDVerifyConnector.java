@@ -66,6 +66,10 @@ public  class AvatarRDVerifyConnector extends TGConnectorWithCommentConnectionPo
 		
 		myImageIcon = IconManager.imgic1006;
     }
+
+    protected void drawMiddleSegment(Graphics g, int x1, int y1, int x2, int y2) {
+        GraphicLib.dashedLine(g, x1, y1, x2, y2);
+    }
     
     protected void drawLastSegment(Graphics g, int x1, int y1, int x2, int y2){
 		GraphicLib.dashedArrowWithLine(g, 1, 1, 0, x1, y1, x2, y2, false);

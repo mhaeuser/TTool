@@ -56,7 +56,7 @@ import java.util.List;
  * @version 1.0 21/12/2003
  * @author Ludovic APVRILLE
  */
-public class TADChoice extends TADComponentWithSubcomponents/* Issue #69  TGCWithInternalComponent */ {
+public class TADChoice extends TADComponentWithSubcomponents implements FatherDependencyDrawingInterface {
 
 	public static final String EMPTY_GUARD_TEXT = "[ ]";
     
@@ -271,5 +271,23 @@ public class TADChoice extends TADComponentWithSubcomponents/* Issue #69  TGCWit
  	   	}
 
 		return TRUE_GUARD_TEXT;
+    }
+
+    public boolean shallBeDrawn(TGComponent _tgc) {
+        // Must find which subcomponent ist concerns.
+        int index = -1;
+        for(int i=0; i<tgcomponent.length; i++) {
+            if (tgcomponent[i] == _tgc) {
+                index = i;
+                break;
+            }
+        }
+        if (index == -1) {
+            return true;
+        }
+
+        return !tgconnectingPointAtIndex(index+1).isFree();
+
+      
     }
 }

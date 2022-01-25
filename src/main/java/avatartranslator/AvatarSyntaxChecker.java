@@ -68,9 +68,46 @@ public class AvatarSyntaxChecker  {
     public static ArrayList<AvatarError> checkSyntax(AvatarSpecification avspec) {
         ArrayList<AvatarError> errors = new ArrayList<>();
 
+        errors.addAll(checkNextASMSpec(avspec));
         errors.addAll(checkSignalRelations(avspec));
         errors.addAll(checkASMLibraryFunctions(avspec));
 
+        return errors;
+    }
+
+    public static ArrayList<AvatarError> checkNextASMSpec(AvatarSpecification avspec) {
+        ArrayList<AvatarError> errors = new ArrayList<>();
+
+        for(AvatarBlock ab: avspec.getListOfBlocks()) {
+            errors.addAll(checkNextASMBlock(avspec, ab));
+        }
+
+        return errors;
+    }
+
+    public static ArrayList<AvatarError> checkNextASMBlock(AvatarSpecification avspec, AvatarBlock ab) {
+        ArrayList<AvatarError> errors = new ArrayList<>();
+
+        AvatarStateMachine asm = ab.getStateMachine();
+        if (asm == null) {
+            AvatarError error = new AvatarError(avspec);
+            error.firstAvatarElement = ab;
+            error.secondAvatarElement = null;
+            error.error = 9;
+            errors.add(error);
+        } else {
+            for(AvatarStateMachineElement asme: asm.getListOfElements()) {
+                if (! ((asme instanceof AvatarState) || (asme instanceof  AvatarStopState) || (asme instanceof AvatarStartState))) {
+                    if (asme.nexts.isEmpty()) {
+                        AvatarError error = new AvatarError(avspec);
+                        error.firstAvatarElement = asme;
+                        error.secondAvatarElement = ab;
+                        error.error = 8;
+                        errors.add(error);
+                    }
+                }
+            }
+        }
         return errors;
     }
 

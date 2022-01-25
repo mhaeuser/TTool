@@ -137,6 +137,19 @@ public class AvatarDesignPanelTranslator {
 
         //TraceManager.addDev("Removing else guards ... done");
         //System.out.println(as.toString());
+
+        ArrayList<AvatarError> list = AvatarSyntaxChecker.checkSyntax(as);
+        for(AvatarError ar: list) {
+            UICheckingError ce = new UICheckingError(CheckingError.STRUCTURE_ERROR, AvatarError.errorStrings[ar.error]);
+            ce.setTDiagramPanel(adp.getAvatarBDPanel());
+            Object o = ar.firstAvatarElement.getReferenceObject();
+            if (o instanceof TGComponent) {
+                ce.setTGComponent((TGComponent)o);
+                ce.setTDiagramPanel(  ((TGComponent) o).getTDiagramPanel());
+            }
+            addWarning(ce);
+        }
+
         adp.abdp.repaint();
         return as;
     }

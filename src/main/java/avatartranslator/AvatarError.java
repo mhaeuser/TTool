@@ -56,7 +56,9 @@ public class AvatarError {
                     "Missing block1 declaration in relation",
                     "Missing block2 declaration in relation", //5
                     "No signal of that name in block",
-                    "State machine must terminate with a stop state"
+                    "State machine must terminate with a (stop) state",
+                    "ASM operator has not next operator",
+                    "Empty state machine"
             };
 
 

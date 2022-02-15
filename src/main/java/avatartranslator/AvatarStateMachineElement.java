@@ -180,16 +180,23 @@ public abstract class AvatarStateMachineElement extends AvatarElement {
     }
 
     public boolean hasInUpperState(AvatarState _as) {
-        if (getState() == _as) {
+        AvatarState as = getState();
+
+        if (_as == null) {
+            return false;
+        }
+
+        if (as == _as) {
             return true;
         }
 
-        if (getState() != null) {
+        if (as != null) {
             return getState().hasInUpperState(_as);
         }
 
         return false;
     }
+    
 
     public boolean inAnUpperStateOf(AvatarState _state) {
         if (_state == null) {

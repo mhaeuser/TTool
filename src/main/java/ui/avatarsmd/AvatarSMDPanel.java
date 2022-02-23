@@ -185,8 +185,6 @@ public class AvatarSMDPanel extends TDiagramPanel implements TDPWithAttributes {
 	public void setConnectorsToFront() {
 		TGComponent tgc;
 		
-		//
-		
         Iterator<TGComponent> iterator = componentList.listIterator();
         
 		List<TGComponent> list = new ArrayList<TGComponent>();
@@ -356,6 +354,7 @@ public class AvatarSMDPanel extends TDiagramPanel implements TDPWithAttributes {
             foundIn1.setFree(false);
             foundIn2.setFree(false);
             componentList.add(tgco);
+            bringToFront(tgco);
         }
         
         if ((foundOut1 != null) && (foundOut1.isFree()) && (foundOut2.isFree())) {
@@ -363,6 +362,7 @@ public class AvatarSMDPanel extends TDiagramPanel implements TDPWithAttributes {
             foundOut1.setFree(false);
             foundOut2.setFree(false);
             componentList.add(tgco);
+            bringToFront(tgco);
         }
 		//TraceManager.addDev("End Autoconnect");
 	}

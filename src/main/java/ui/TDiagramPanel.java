@@ -4057,7 +4057,8 @@ public abstract class TDiagramPanel extends JPanel implements GenericTree {
                     found.setFree(false);
                     tgcp.setFree(false);
                     this.componentList.add(tgco);
-                    //TraceManager.addDev("Connector added");
+                    bringToFront(tgco);
+                    //TraceManager.addDev("Connector added to front");
                 }
             }
         }

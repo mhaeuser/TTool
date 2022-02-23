@@ -196,7 +196,7 @@ public abstract class AvatarStateMachineElement extends AvatarElement {
 
         return false;
     }
-    
+
 
     public boolean inAnUpperStateOf(AvatarState _state) {
         if (_state == null) {

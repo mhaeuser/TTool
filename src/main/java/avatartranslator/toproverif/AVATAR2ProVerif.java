@@ -231,10 +231,14 @@ public class AVATAR2ProVerif implements AvatarTranslator {
     protected static String translateTerm (AvatarTerm term, Map<AvatarAttribute, Integer> attributeCmp) {
         if (term instanceof AvatarAttribute) {
             AvatarAttribute attr = (AvatarAttribute) term;
+
             if (attributeCmp != null) {
+                TraceManager.addDev("Mae Attr name 1");
                 return AVATAR2ProVerif.makeAttrName (attr.getBlock ().getName (), attr.getName (), attributeCmp.get (attr).toString ());
-            } else
-                return AVATAR2ProVerif.makeAttrName (attr.getBlock ().getName (), attr.getName ());
+            } else {
+                TraceManager.addDev("Mae Attr name 2");
+                return AVATAR2ProVerif.makeAttrName(attr.getBlock().getName(), attr.getName());
+            }
         }
 
         if (term instanceof AvatarConstant) {
@@ -259,16 +263,18 @@ public class AVATAR2ProVerif implements AvatarTranslator {
 
                     return sb.toString ();
                 } else {
+                    TraceManager.addDev("ERROR=ZERO");
                     // TODO: raise error
                     return ZERO;
                 }
-            } catch (NumberFormatException e) { }
+            } catch (NumberFormatException e) {  TraceManager.addDev("ERROR=NFE");}
 
             return constant.getName ();
         }
 
         if (term instanceof AvatarArithmeticOp) {
             AvatarArithmeticOp op = (AvatarArithmeticOp) term;
+            TraceManager.addDev("TERM=" + op.toString());
             if (op.getOperator ().compareTo ("+") == 0) {
                 AvatarTerm t1, t2;
                 t1 = op.getTerm1 ();
@@ -279,6 +285,7 @@ public class AVATAR2ProVerif implements AvatarTranslator {
                     t2 = t;
                 } else if (!(t2 instanceof AvatarConstant)) {
                     // TODO: raise error
+                    TraceManager.addDev("ERROR= t2!=constant");
                     return null;
                 }
 
@@ -299,16 +306,19 @@ public class AVATAR2ProVerif implements AvatarTranslator {
                         return sb.toString ();
                     } else {
                         // TODO: raise error
+                        TraceManager.addDev("ERROR= max int");
                         return AVATAR2ProVerif.translateTerm(t1, attributeCmp);
                     }
                 } catch (NumberFormatException e) { 
                     // TODO: raise error
+                    TraceManager.addDev("ERROR= NumberFormatException");
                     return AVATAR2ProVerif.translateTerm(t1, attributeCmp);
                 }
 
 
             } else {
                 // TODO: raise error
+                TraceManager.addDev("ERROR= not a +");
                 return null;
             }
         }

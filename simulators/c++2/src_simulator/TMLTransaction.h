@@ -48,8 +48,7 @@
 //class TMLCommand;
 class TMLChannel;
 
-enum vcdTransVisState
-    {
+enum vcdTransVisState {
 	END_IDLE_TRANS,
 	END_PENALTY_TRANS,
 	END_TASK_TRANS
@@ -232,6 +231,7 @@ class TMLTransaction {
   /**
      \param iChannel Pointer to a channel
   */
+
   inline void setChannel(TMLChannel* iChannel) {_channel=iChannel;}
   ///Get channel on which data was conveyed
 

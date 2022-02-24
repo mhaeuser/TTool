@@ -65,13 +65,16 @@ SingleCoreCPU::SingleCoreCPU(   ID iID,
                                                              , _changeIdleModeCycles(iChangeIdleModeCycles), _cyclesBeforeIdle(iCyclesBeforeIdle)
 #endif
                                                              , _cyclesPerExeci(iCyclesPerExeci) /*, _busyCycles(0)*/
+							     , _cyclesPerExecc(iCyclesPerExecc) 
 #ifdef PENALTIES_ENABLED
                                                              , _timePerExeci(_cyclesPerExeci * _timePerCycle * (_pipelineSize *  _brachingMissrate + 100 - _brachingMissrate) /100.0)
+							      , _timePerExecc(_cyclesPerExecc * _timePerCycle * (_pipelineSize *  _brachingMissrate + 100 - _brachingMissrate) /100.0)
                                                              ,_taskSwitchingTime(_taskSwitchingCycles*_timePerCycle)
                                                              , _timeBeforeIdle(_cyclesBeforeIdle*_timePerCycle)
                                                              , _changeIdleModeTime(_changeIdleModeCycles*_timePerCycle)
 #else
                                                              , _timePerExeci(_cyclesPerExeci*_timePerCycle)
+							     , _timePerExecc(_cyclesPerExecc*_timePerCycle)
 #endif
                                                                //, _pipelineSizeTimesExeci(_pipelineSize * _timePerExeci)
                                                                //,_missrateTimesPipelinesize(_brachingMissrate*_pipelineSize)
@@ -154,12 +157,18 @@ void SingleCoreCPU::calcStartTimeLength(TMLTime iTimeSlice){
 #ifdef BUS_ENABLED
   if (_masterNextTransaction==0){
 #endif
+    float timeExec = _timePerExeci;
+     //std::cout << "CPU: EXECI or EXECC??" << "\n";
+    if( (_nextTransaction->getCommand() != 0) && (_nextTransaction->getCommand()->getExecType() == 1) ) {
+      //std::cout << "CPU: EXECC" << "\n";
+      timeExec = _timePerExecc;
+    }
     //calculate length of transaction
     //if (_nextTransaction->getOperationLength()!=-1){
     if (iTimeSlice!=0){
-      _nextTransaction->setVirtualLength(max(min(_nextTransaction->getVirtualLength(), (TMLLength)(iTimeSlice /_timePerExeci)), (TMLTime)1));
+      _nextTransaction->setVirtualLength(max(min(_nextTransaction->getVirtualLength(), (TMLLength)(iTimeSlice / timeExec)), (TMLTime)1));
     }
-    _nextTransaction->setLength(_nextTransaction->getVirtualLength()*_timePerExeci);
+    _nextTransaction->setLength(_nextTransaction->getVirtualLength() * timeExec);
 
 #ifdef BUS_ENABLED
   }
@@ -205,7 +214,15 @@ void SingleCoreCPU::truncateAndAddNextTransAt(TMLTime iTime){
 }
 
 TMLTime SingleCoreCPU::truncateNextTransAt(TMLTime iTime){
-  if (_masterNextTransaction==0){
+
+
+  if (_masterNextTransaction==0) { // EXECI or EXECC
+
+    float timeExec = _timePerExeci;
+     if( (_nextTransaction->getCommand() != 0) && (_nextTransaction->getCommand()->getExecType() == 1) ) {
+
+      timeExec = _timePerExecc;
+    }
 #ifdef PENALTIES_ENABLED
 
     //std::cout << "CPU:nt.startTime: " << _nextTransaction->getStartTime() << std::endl;
@@ -216,21 +233,21 @@ TMLTime SingleCoreCPU::truncateNextTransAt(TMLTime iTime){
     TMLTime aNewDuration = iTime - _nextTransaction->getStartTime();
     TMLTime aStaticPenalty = _nextTransaction->getIdlePenalty() + _nextTransaction->getTaskSwitchingPenalty();
     if (aNewDuration<=aStaticPenalty){
-      _nextTransaction->setLength(_timePerExeci);
+      _nextTransaction->setLength(timeExec);
       _nextTransaction->setVirtualLength(1);
 #ifdef DEBUG_CPU
       std::cout << "CPU:truncateNTA: transaction truncated\n";
 #endif
     } else{
       aNewDuration-=aStaticPenalty;
-      _nextTransaction->setVirtualLength(max((TMLTime)(aNewDuration /_timePerExeci),(TMLTime)1));
-      _nextTransaction->setLength(_nextTransaction->getVirtualLength() *_timePerExeci);
+      _nextTransaction->setVirtualLength(max((TMLTime)(aNewDuration / timeExec),(TMLTime)1));
+      _nextTransaction->setLength(_nextTransaction->getVirtualLength() * timeExec);
     }
 #else
     if (iTime <= _nextTransaction->getStartTime()) return 0;  //before: <=
     TMLTime aNewDuration = iTime - _nextTransaction->getStartTime();
-    _nextTransaction->setVirtualLength(max((TMLTime)(aNewDuration /_timePerExeci), (TMLTime)1));
-    _nextTransaction->setLength(_nextTransaction->getVirtualLength() *_timePerExeci);
+    _nextTransaction->setVirtualLength(max((TMLTime)(aNewDuration / timeExec), (TMLTime)1));
+    _nextTransaction->setLength(_nextTransaction->getVirtualLength() * timeExec);
 #endif
 #ifdef DEBUG_CPU
     std::cout << "aNewDuration: " << aNewDuration << std::endl;

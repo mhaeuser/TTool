@@ -55,7 +55,7 @@ class SimComponents;
 class HashAlgo;
 
 ///This class defines the basic interfaces and functionalites of a TML command. All specific commands are derived from this base class. 
-class TMLCommand: public Serializable, public ListenerSubject <GeneralListener>{
+class TMLCommand: public Serializable, public ListenerSubject <GeneralListener> {
 public:
 	///Constructor
     	/**
@@ -69,6 +69,13 @@ public:
 	TMLCommand(ID iID, TMLTask* iTask, TMLLength iLength, unsigned int iNbOfNextCmds, const char* iLiveVarList, bool iCheckpoint);
 	///Destructor
 	virtual ~TMLCommand();
+
+
+	virtual unsigned int getExecType() {
+		return 0;
+	}
+
+
 	///Initializes the command and passes the control flow to the prepare() method of the next command if necessary
 	/**This function calls prepareNextCommand() which is implemented by subclasses of TMLCommand
       	\return True if there was a transaction to prepare
@@ -229,6 +236,9 @@ public:
 	static unsigned int getBranchCoverage();
 	///Reset coverage related state variables
 	static void clearCoverageVars();
+
+	
+ 
 
 	std::string lastParams; // Exchanged params
 	

@@ -73,6 +73,7 @@ Ludovic Apvrille, Renaud Pacalet
 #include <unistd.h>
 #include "penalties.h"
 
+
 #define WRITE_STREAM(s,v) s.write((char*) &v,sizeof(v)); 
 //std::cout << sizeof(v) << " bytes written" << std::endl;
 #define READ_STREAM(s,v) s.read((char*) &v,sizeof(v)); 

@@ -164,8 +164,15 @@ protected:
 #endif
 	///Cycles needed to execute one execi unit
 	unsigned int _cyclesPerExeci;
+   ///Cycles needed to execute one execc unit
+	unsigned int _cyclesPerExecc;
 	///Time needed to execute one execi unit
 	float _timePerExeci;
+  
+ 
+	///Time needed to execute one execc unit
+	float _timePerExecc;
+  
 #ifdef PENALTIES_ENABLED
 	///Task switching penalty in time units
 	TMLTime _taskSwitchingTime;

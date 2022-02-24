@@ -64,12 +64,16 @@ public:
 	std::string toString() const;
 	std::string toShortString() const;
 	inline std::string getCommandStr() const {return "exe";}
+    inline unsigned int getExecType() override {return _execType;}
 protected:
 	TMLCommand* prepareNextTransaction();
 	///Pointer to the function returning the length of the command
 	LengthFuncPointer _lengthFunc;
 	///Type of command: EXECI, EXECC
 	unsigned int _execType;
+  
+
+  
 };
 
 #endif

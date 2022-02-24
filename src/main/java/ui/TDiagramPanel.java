@@ -2174,6 +2174,7 @@ public abstract class TDiagramPanel extends JPanel implements GenericTree {
 
 
         setMainColor.setEnabled(componentPointed instanceof ColorCustomizable);
+        setDefaultColor.setEnabled(componentPointed instanceof ColorCustomizable);
 
 
         // Issue #69

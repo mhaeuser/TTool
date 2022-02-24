@@ -61,8 +61,7 @@ public abstract class TGScalableComponent extends TGComponent implements Scalabl
      * @param g
      * @return
      */
-    protected boolean isTextReadable(Graphics g)
-    {
+    protected boolean isTextReadable(Graphics g) {
     	int textSize = g.getFont().getSize();
     	return textSize > 7;
     }

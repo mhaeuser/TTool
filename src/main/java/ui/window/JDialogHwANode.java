@@ -73,7 +73,7 @@ public class JDialogHwANode extends JDialogBase implements ActionListener  {
     protected JTextField nodeName;
 
     // Panel2
-    protected JTextField byteDataSize, execiTime, clockRatio, operationTypes;
+    protected JTextField byteDataSize, execiTime, execcTime, clockRatio, operationTypes;
 
     /* Creates new form  */
     public JDialogHwANode(Frame _frame, String _title, TMLArchiHWANode _node) {
@@ -138,6 +138,12 @@ public class JDialogHwANode extends JDialogBase implements ActionListener  {
         c2.gridwidth = GridBagConstraints.REMAINDER; //end row
         execiTime = new JTextField(""+node.getExeciTime(), 15);
         panel2.add(execiTime, c2);
+
+        c2.gridwidth = 1;
+        panel2.add(new JLabel("Execc execution time (in cycle):"), c2);
+        c2.gridwidth = GridBagConstraints.REMAINDER; //end row
+        execcTime = new JTextField(""+node.getExeccTime(), 15);
+        panel2.add(execcTime, c2);
 
         c2.gridwidth = 1;
         panel2.add(new JLabel("Clock divider:"), c2);
@@ -207,6 +213,10 @@ public class JDialogHwANode extends JDialogBase implements ActionListener  {
 
     public String getExeciTime(){
         return execiTime.getText();
+    }
+
+    public String getExeccTime(){
+        return execcTime.getText();
     }
 
     public String getClockRatio(){

@@ -2898,6 +2898,7 @@ public class GTMLModeling {
                     hwa.setCustomData(hwanode.getCustomData());
                     hwa.byteDataSize = hwanode.getByteDataSize();
                     hwa.execiTime = hwanode.getExeciTime();
+                    hwa.execcTime = hwanode.getExeccTime();
                     hwa.clockRatio = hwanode.getClockRatio();
                     hwa.setOperation(hwanode.getOperation());
 

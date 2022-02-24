@@ -39,7 +39,6 @@
 package ui.tmldd;
 
 import myutil.GraphicLib;
-import myutil.TraceManager;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -76,6 +75,8 @@ public class TMLArchiHWANode extends TMLArchiNode implements SwallowTGComponent,
 
     private int byteDataSize = HwCPU.DEFAULT_BYTE_DATA_SIZE;
     private int execiTime = HwCPU.DEFAULT_EXECI_TIME;
+    private int execcTime = HwCPU.DEFAULT_EXECC_TIME;
+
 
     private String operation = "";
 
@@ -261,6 +262,21 @@ public class TMLArchiHWANode extends TMLArchiNode implements SwallowTGComponent,
             }
         }
 
+        if (dialog.getExeccTime().length() != 0) {
+            try {
+                tmp = execcTime;
+                execcTime = Integer.decode(dialog.getExeccTime()).intValue();
+                if (execcTime < 0) {
+                    execcTime = tmp;
+                    error = true;
+                    errors += "execc time  ";
+                }
+            } catch (Exception e) {
+                error = true;
+                errors += "execc time  ";
+            }
+        }
+
         if (dialog.getClockRatio().length() != 0) {
             try {
                 tmp = clockRatio;
@@ -347,6 +363,7 @@ public class TMLArchiHWANode extends TMLArchiNode implements SwallowTGComponent,
         sb.append("\" />\n");
         sb.append("<attributes byteDataSize=\"" + byteDataSize + "\" ");
         sb.append(" execiTime=\"" + execiTime + "\" ");
+        sb.append(" execcTime=\"" + execcTime + "\" ");
         sb.append(" clockRatio=\"" + clockRatio + "\" ");
         sb.append(" operation=\"" + operation + "\" ");
         sb.append("/>\n");
@@ -390,6 +407,7 @@ public class TMLArchiHWANode extends TMLArchiNode implements SwallowTGComponent,
                             if (elt.getTagName().equals("attributes")) {
                                 byteDataSize = Integer.decode(elt.getAttribute("byteDataSize")).intValue();
                                 execiTime = Integer.decode(elt.getAttribute("execiTime")).intValue();
+
                                 if ((elt.getAttribute("clockRatio") != null) && (elt.getAttribute("clockRatio").length() > 0)) {
                                     clockRatio = Integer.decode(elt.getAttribute("clockRatio")).intValue();
                                 }
@@ -397,6 +415,12 @@ public class TMLArchiHWANode extends TMLArchiNode implements SwallowTGComponent,
                                 if (operation == null) {
                                     operation = "";
                                 }
+                            }
+
+                            try {
+                                execcTime = Integer.decode(elt.getAttribute("execcTime")).intValue();
+                            } catch (Exception e) {
+
                             }
                         }
                     }
@@ -421,6 +445,10 @@ public class TMLArchiHWANode extends TMLArchiNode implements SwallowTGComponent,
         return execiTime;
     }
 
+    public int getExeccTime() {
+        return execcTime;
+    }
+
     public String getOperation() {
         return operation;
     }
@@ -430,6 +458,7 @@ public class TMLArchiHWANode extends TMLArchiNode implements SwallowTGComponent,
         String attr = "";
         attr += "Data size (in byte) = " + byteDataSize + "\n";
         attr += "EXECI execution time (in cycle) = " + execiTime + "\n";
+        attr += "EXECC execution time (in cycle) = " + execcTime + "\n";
         attr += "Operation  = " + operation + "\n";
         attr += "Clock divider = " + clockRatio + "\n";
         return attr;

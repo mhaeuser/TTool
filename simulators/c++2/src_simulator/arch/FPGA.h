@@ -190,6 +190,7 @@ protected:
 	unsigned int _cyclesPerExecc;
 	///Time needed to execute one execi unit
 	float _timePerExeci;
+	float _timePerExecc;
  
 	///Idle time which elapses before entering idle mode
 	TMLTime _timeBeforeIdle;

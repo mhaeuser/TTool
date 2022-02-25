@@ -154,7 +154,12 @@ void FPGA::calcStartTimeLength(){
 #ifdef BUS_ENABLED
   if (_masterNextTransaction==0){
 #endif  
-    _nextTransaction->setLength(max(_nextTransaction->getVirtualLength() * _cyclesPerExeci,(TMLTime)1));
+  
+    if( (_nextTransaction->getCommand() != 0) && (_nextTransaction->getCommand()->getExecType() == 1) ) {
+      _nextTransaction->setLength(max(_nextTransaction->getVirtualLength() * _cyclesPerExecc,(TMLTime)1));
+    } else {
+      _nextTransaction->setLength(max(_nextTransaction->getVirtualLength() * _cyclesPerExeci,(TMLTime)1));
+    }
 #ifdef BUS_ENABLED
   }
 #endif
@@ -189,9 +194,15 @@ TMLTime FPGA::truncateNextTransAt(TMLTime iTime){
 std::cout<<"fpga truncateNextTransAt"<<std::endl;
   if (_masterNextTransaction==0){
     if (iTime <= _nextTransaction->getStartTime()) return 0;  //before: <=
+    float timeExec = _timePerExeci;
+     //std::cout << "CPU: EXECI or EXECC??" << "\n";
+    if( (_nextTransaction->getCommand() != 0) && (_nextTransaction->getCommand()->getExecType() == 1) ) {
+      //std::cout << "CPU: EXECC" << "\n";
+      timeExec = _timePerExecc;
+    }
     TMLTime aNewDuration = iTime - _nextTransaction->getStartTime();
     _nextTransaction->setVirtualLength(max((TMLTime)(aNewDuration), (TMLTime)1));
-    _nextTransaction->setLength(_nextTransaction->getVirtualLength() * _cyclesPerExeci);
+    _nextTransaction->setLength(_nextTransaction->getVirtualLength() * timeExec);
   }
   return _nextTransaction->getOverallLength();
 }
@@ -256,19 +267,25 @@ std::cout<<"fpga addTransaction"<<std::endl;
           }
     }
     unsigned int _tempReconfigNumber = _reconfigNumber - _highestRank;
+    float timeExec = _timePerExeci;
+     //std::cout << "CPU: EXECI or EXECC??" << "\n";
+    if( (_nextTransaction->getCommand() != 0) && (_nextTransaction->getCommand()->getExecType() == 1) ) {
+      //std::cout << "CPU: EXECC" << "\n";
+      timeExec = _timePerExecc;
+    }
     if(_tempReconfigNumber == 0 && _reconfigNumber > 0) {
         std::string _tempTranName = _nextTransaction->toShortString();
         if(!_nextTransaction->getCommand()->getTask()->getIsFirstTranExecuted() && (_tempTranName.find("Read") == std::string::npos
         && _tempTranName.find("Wait") == std::string::npos && _tempTranName.find("Notified") == std::string::npos)) {
             unsigned int _tempStartTime = _nextTransaction->getStartTime();
-            _nextTransaction->setStartTime(_tempStartTime + _reconfigNumber * _reconfigTime * _cyclesPerExeci);
+            _nextTransaction->setStartTime(_tempStartTime + _reconfigNumber * _reconfigTime * timeExec);
             _maxEndTime=max(_maxEndTime,_nextTransaction->getEndTime());
             _transactListReconfig.push_back(_nextTransaction);
         }
         _nextTransaction->getCommand()->getTask()->setIsFirstTranExecuted(true);
     } else if(_tempReconfigNumber>0) {
         if(!_nextTransaction->getCommand()->getTask()->getIsFirstTranExecuted()) {
-            _nextTransaction->setStartTime(_maxEndTime + _tempReconfigNumber * _reconfigTime * _cyclesPerExeci);
+            _nextTransaction->setStartTime(_maxEndTime + _tempReconfigNumber * _reconfigTime * timeExec);
             _nextTransaction->getCommand()->getTask()->setIsFirstTranExecuted(true);
             _transactListReconfig.push_back(_nextTransaction);
         }

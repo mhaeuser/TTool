@@ -700,6 +700,7 @@ public class TMLComparingMethodTest extends AbstractTest {
         bus2.byteDataSize = HwBus.DEFAULT_BYTE_DATA_SIZE + 1; // For testing difference byteDataSize
         bus3.pipelineSize = HwBus.DEFAULT_PIPELINE_SIZE + 1; // for testing difference pipelineSize
         bus4.sliceTime = HwBus.DEFAULT_SLICE_TIME + 1; // For testing difference slide time
+        bus4.burstSize = HwBus.DEFAULT_BURST_SIZE + 1; // For testing difference burst sizes
         bus5.clockRatio = HwBus.DEFAULT_CLOCK_RATIO + 1; // For testing difference clockRatio
         bus6.privacy = HwBus.BUS_PRIVATE; // For testing difference bus privacy
 

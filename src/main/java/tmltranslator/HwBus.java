@@ -56,6 +56,7 @@ public class HwBus extends HwCommunicationNode {
     public static final int CAN = 2;
     public static final int CROSSBAR = 3;
 
+    public static final int DEFAULT_BURST_SIZE = 100;
     public static final int DEFAULT_SLICE_TIME = 10000; // in microseconds
     public static final int DEFAULT_BYTE_DATA_SIZE = 4;
     public static final int DEFAULT_PIPELINE_SIZE = 1;
@@ -65,6 +66,7 @@ public class HwBus extends HwCommunicationNode {
     public int pipelineSize = DEFAULT_PIPELINE_SIZE;
     public int arbitration = DEFAULT_ARBITRATION;
     public int sliceTime = DEFAULT_SLICE_TIME;
+    public int burstSize = DEFAULT_BURST_SIZE;
 
     public HwBus(String _name) {
         super(_name);
@@ -72,7 +74,9 @@ public class HwBus extends HwCommunicationNode {
     
     @Override
     public String toXML() {
-        String s = "<BUS name=\"" + getName() + "\" clockRatio=\"" + clockRatio + "\"  byteDataSize=\"" + byteDataSize + "\"  pipelineSize=\"" + pipelineSize + "\" arbitration=\"" + arbitration + "\" sliceTime=\"" + sliceTime + "\" />\n";
+        String s = "<BUS name=\"" + getName() + "\" clockRatio=\"" + clockRatio +
+                "\"  byteDataSize=\"" + byteDataSize + "\"  pipelineSize=\"" + pipelineSize +
+                "\" arbitration=\"" + arbitration + "\" sliceTime=\"" + sliceTime + "\" \" burstSize=\"" + burstSize + "\" />\n";
         return s;
     }
 
@@ -83,7 +87,8 @@ public class HwBus extends HwCommunicationNode {
         return byteDataSize == hwBus.byteDataSize &&
                 pipelineSize == hwBus.pipelineSize &&
                 arbitration == hwBus.arbitration &&
-                sliceTime == hwBus.sliceTime;
+                sliceTime == hwBus.sliceTime &&
+                burstSize == hwBus.burstSize;
     }
 
 

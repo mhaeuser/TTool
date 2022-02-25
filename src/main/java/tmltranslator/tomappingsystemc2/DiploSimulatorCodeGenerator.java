@@ -400,8 +400,8 @@ public class DiploSimulatorCodeGenerator implements IDiploSimulatorCodeGenerator
 
                 for (int i = 0; i < thisBus.pipelineSize; i++) {
                     final String busInstName = namesGen.busInstanceName(thisBus, i);
-                    declaration += "Bus* " + busInstName + " = new Bus(" + node.getID() + ",\"" + namesGen.busName(thisBus, i) + "\",0, 100, "
-                            + thisBus.byteDataSize + ", " + node.clockRatio + ",";
+                    declaration += "Bus* " + busInstName + " = new Bus(" + node.getID() + ",\"" + namesGen.busName(thisBus, i) + "\", 0, " +
+                            ((HwBus) node).burstSize + ", " + thisBus.byteDataSize + ", " + node.clockRatio + ",";
 
                     if (thisBus.arbitration == HwBus.CAN) {
                         declaration += Boolean.TRUE.toString();

@@ -2925,6 +2925,7 @@ public class GTMLModeling {
                     bus.arbitration = busnode.getArbitrationPolicy();
                     bus.clockRatio = busnode.getClockRatio();
                     bus.sliceTime = busnode.getSliceTime();
+                    bus.burstSize = busnode.getBurstSize();
                     bus.privacy = busnode.getPrivacy();
                     listE.addCor(bus, busnode);
                     archi.addHwNode(bus);

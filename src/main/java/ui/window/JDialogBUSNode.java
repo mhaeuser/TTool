@@ -76,7 +76,7 @@ public class JDialogBUSNode extends JDialogBase implements ActionListener  {
     protected TGTextFieldWithHelp nodeName;
 
     // Panel2
-    protected TGTextFieldWithHelp byteDataSize, pipelineSize, clockRatio;
+    protected TGTextFieldWithHelp byteDataSize, pipelineSize, burstSize, clockRatio;
     private TGComboBoxWithHelp<String> arbitrationPolicy, privacy, refAttacks;
     protected TGTextFieldWithHelp sliceTime;
     private Vector<String> refs;
@@ -166,6 +166,12 @@ public class JDialogBUSNode extends JDialogBase implements ActionListener  {
         sliceTime = new TGTextFieldWithHelp(""+node.getSliceTime(), 15);
         panel2.add(sliceTime, c2);
         sliceTime.makeEndHelpButton(helpStrings[0], mgui, mgui.getHelpManager(), panel2, c2);
+
+        c2.gridwidth = 1;
+        panel2.add(new JLabel("Burst size :", SwingConstants.RIGHT), c2);
+        burstSize = new TGTextFieldWithHelp(""+node.getBurstSize(), 15);
+        panel2.add(burstSize, c2);
+        burstSize.makeEndHelpButton(helpStrings[0], mgui, mgui.getHelpManager(), panel2, c2);
 
         c2.gridwidth = 1;
         panel2.add(new JLabel("Clock divider:", SwingConstants.RIGHT), c2);
@@ -259,6 +265,10 @@ public class JDialogBUSNode extends JDialogBase implements ActionListener  {
 
     public String getPipelineSize(){
         return pipelineSize.getText();
+    }
+
+    public String getBurstSize(){
+        return burstSize.getText();
     }
 
     public String getClockRatio(){

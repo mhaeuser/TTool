@@ -91,6 +91,7 @@ public class TMLArchiBUSNode extends TMLArchiCommunicationNode implements Swallo
     private int pipelineSize = HwBus.DEFAULT_PIPELINE_SIZE;
     private int arbitrationPolicy = HwBus.DEFAULT_ARBITRATION;
     private int sliceTime = HwBus.DEFAULT_SLICE_TIME;
+    private int burstSize = HwBus.DEFAULT_BURST_SIZE;
 
     private int privacy = HwBus.BUS_PUBLIC;
 	public String referenceAttack;
@@ -337,6 +338,21 @@ public class TMLArchiBUSNode extends TMLArchiCommunicationNode implements Swallo
             }
         }
 
+        if (dialog.getBurstSize().length() != 0) {
+            try {
+                tmp = burstSize;
+                burstSize = Integer.decode(dialog.getBurstSize()).intValue();
+                if (burstSize <= 0) {
+                    burstSize = tmp;
+                    error = true;
+                    errors += "Burst size  ";
+                }
+            } catch (Exception e) {
+                error = true;
+                errors += "Burst size  ";
+            }
+        }
+
         if (dialog.getClockRatio().length() != 0) {
             try {
                 tmp = clockRatio;
@@ -378,6 +394,7 @@ public class TMLArchiBUSNode extends TMLArchiCommunicationNode implements Swallo
         sb.append(" arbitrationPolicy=\"" + arbitrationPolicy + "\" ");
         sb.append(" sliceTime=\"" + sliceTime + "\" ");
         sb.append(" pipelineSize=\"" + pipelineSize + "\" ");
+        sb.append(" burstSize=\"" + burstSize + "\" ");
         sb.append(" clockRatio=\"" + clockRatio + "\" ");
         sb.append(" privacy=\"" + privacy + "\" ");
         sb.append(" referenceAttack=\"" + referenceAttack + "\" ");
@@ -425,9 +442,14 @@ public class TMLArchiBUSNode extends TMLArchiCommunicationNode implements Swallo
                                 if ((elt.getAttribute("sliceTime") != null) &&  (elt.getAttribute("sliceTime").length() > 0)){
                                     sliceTime = Integer.decode(elt.getAttribute("sliceTime")).intValue();
                                 }
+                                if ((elt.getAttribute("burstSize") != null) &&  (elt.getAttribute("burstSize").length() > 0)){
+                                    burstSize = Integer.decode(elt.getAttribute("burstSize")).intValue();
+                                }
                                 if ((elt.getAttribute("privacy") != null) &&  (elt.getAttribute("privacy").length() > 0)){
                                     privacy = Integer.decode(elt.getAttribute("privacy")).intValue();
                                 }
+
+
                             }
                         }
                     }
@@ -449,6 +471,10 @@ public class TMLArchiBUSNode extends TMLArchiCommunicationNode implements Swallo
 
     public int getSliceTime(){
         return sliceTime;
+    }
+
+    public int getBurstSize(){
+        return burstSize;
     }
 
     public int getArbitrationPolicy(){
@@ -473,6 +499,7 @@ public class TMLArchiBUSNode extends TMLArchiCommunicationNode implements Swallo
             attr += "Arbitration policy = priority based\n";
         }
         attr += "Slice time (in microseconds) = " + sliceTime + "\n";
+        attr += "Burst size  = " + burstSize + "\n";
         attr += "Clock divider = " + clockRatio + "\n";
         return attr;
     }

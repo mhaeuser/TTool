@@ -256,7 +256,7 @@ public class TML2MappingSystemC implements IDiploSimulatorCodeGenerator {
                 //if (tmlmapping.isAUsedHwNode(node)) {
                 HwBus thisBus = (HwBus) node;
                 for (int i = 0; i < thisBus.pipelineSize; i++) {
-                    declaration += "Bus* " + node.getName() + "_" + i + " = new Bus(" + node.getID() + ",\"" + node.getName() + "_" + i + "\",0, 100, " + thisBus.byteDataSize + ", " + node.clockRatio + ",";
+                    declaration += "Bus* " + node.getName() + "_" + i + " = new Bus(" + node.getID() + ",\"" + node.getName() + "_" + i + "\",0," +  thisBus.burstSize + ", " + thisBus.byteDataSize + ", " + node.clockRatio + ",";
                     if (thisBus.arbitration == HwBus.CAN) declaration += "true";
                     else declaration += "false";
                     declaration += ");\naddBus(" + node.getName() + "_" + i + ")" + SCCR;
@@ -429,7 +429,9 @@ public class TML2MappingSystemC implements IDiploSimulatorCodeGenerator {
                     declaration += node.getName() + "_0->setScheduler((WorkloadSource*) new ";
                     if (((HwBus) node).arbitration == HwBus.BASIC_ROUND_ROBIN)
                         //declaration+="RRScheduler(\"" + node.getName() + "_RRSched\", 0, 5, " + (int) Math.ceil(((float)node.clockRatio)/((float)((HwBus)node).byteDataSize)) + ", array(";
-                        declaration += "RRScheduler(\"" + node.getName() + "_RRSched\", 0, " + (tmlmapping.getTMLArchitecture().getMasterClockFrequency() * ((HwBus) node).sliceTime) + ", " + (int) Math.ceil(((float) node.clockRatio) / ((float) ((HwBus) node).byteDataSize)) + ", array(";
+                        declaration += "RRScheduler(\"" + node.getName() + "_RRSched\", 0, " +
+                                (tmlmapping.getTMLArchitecture().getMasterClockFrequency() *
+                                        ((HwBus) node).sliceTime) + ", " + (int) Math.ceil(((float) node.clockRatio) / ((float) ((HwBus) node).byteDataSize)) + ", array(";
                     else
                         declaration += "PrioScheduler(\"" + node.getName() + "_PrioSched\", 0, array(";
                     declaration += numDevices + devices + "), " + numDevices + "))" + SCCR;

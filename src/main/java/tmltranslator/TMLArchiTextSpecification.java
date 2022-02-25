@@ -226,6 +226,7 @@ public class TMLArchiTextSpecification {
                 code += set + "pipelineSize " + bus.pipelineSize + CR;
                 code += set + "arbitration " + bus.arbitration + CR;
                 code += set + "sliceTime " + bus.sliceTime + CR;
+                code += set + "burstSize " + bus.burstSize + CR;
             }
 
 
@@ -778,6 +779,10 @@ public class TMLArchiTextSpecification {
 
                     if (_split[2].toUpperCase().equals("SLICETIME")) {
                         bus.sliceTime = Integer.decode(_split[3]).intValue();
+                    }
+
+                    if (_split[2].toUpperCase().equals("BURSTSIZE")) {
+                        bus.burstSize = Integer.decode(_split[3]).intValue();
                     }
                 }
 

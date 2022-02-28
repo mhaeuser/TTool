@@ -29,7 +29,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 public class MemoryLeakTest extends AbstractTest {
     final String DIR_GEN = "test_diplo_simulator/";
@@ -202,7 +202,7 @@ public class MemoryLeakTest extends AbstractTest {
                     }
                 }
 
-                assertTrue(!errorFound);// no error and memory leak
+                assertFalse(errorFound);// no error and memory leak
 
             } else {
                 //valgrind is not installed, so run test without it
@@ -234,7 +234,7 @@ public class MemoryLeakTest extends AbstractTest {
                 try {
                     graphData = FileUtils.loadFileData(graphFile);
                 } catch (Exception e) {
-                    assertTrue(false);
+                    fail();
                 }
 
                 AUTGraph graph = new AUTGraph();
@@ -242,18 +242,18 @@ public class MemoryLeakTest extends AbstractTest {
 
                 // States and transitions
                 System.out.println("executing: nb states of " + s + " " + graph.getNbOfStates());
-                assertTrue(NB_OF_ML_STATES[i] == graph.getNbOfStates());
+                assertEquals(NB_OF_ML_STATES[i], graph.getNbOfStates());
                 System.out.println("executing: nb transitions of " + s + " " + graph.getNbOfTransitions());
-                assertTrue(NB_OF_ML_TRANSTIONS[i] == graph.getNbOfTransitions());
+                assertEquals(NB_OF_ML_TRANSTIONS[i], graph.getNbOfTransitions());
 
                 // Min and max cycles
                 int minValue = graph.getMinValue("allCPUsFPGAsTerminated");
                 System.out.println("executing: minvalue of " + s + " " + minValue);
-                assertTrue(MIN_ML_CYCLES[i] == minValue);
+                assertEquals(MIN_ML_CYCLES[i], minValue);
 
                 int maxValue = graph.getMaxValue("allCPUsFPGAsTerminated");
                 System.out.println("executing: maxvalue of " + s + " " + maxValue);
-                assertTrue(MAX_ML_CYCLES[i] == maxValue);
+                assertEquals(MAX_ML_CYCLES[i], maxValue);
             }
         }
     }

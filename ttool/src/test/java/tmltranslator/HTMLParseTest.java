@@ -26,8 +26,8 @@ import static org.junit.Assert.*;
 public class HTMLParseTest extends AbstractTest {
     final String DIR_GEN = "test_diplo_simulator/";
     final String [] MODELS_PARSE_HTML = {"parseFPGA_HTML", "parseCPU1_HTML","parseCPU2_HTML"};
-    //final String [] PARSE_FPGA = {"<- idle 471 ->","", "", "", ""};
-    final String [] PARSE_FPGA = {"","", "", "", ""};
+    final String [] PARSE_FPGA = {"<- idle 471 ->","", "", "", ""};
+    //final String [] PARSE_FPGA = {"","", "", "", ""};
     final String [] PARSE_SINGLE_CORE = {"<- idle 366 ->", "<- idle 401 ->", "<- idle 401 ->", "<- idle 401 ->", "<- idle 401 ->"};
     final String [] PARSE_MULTI_CORE = { "", "", "", "", "<- idle 377 ->"};
     final static String EXPECTED_FILE_GET_ALL_TRANS = getBaseResourcesDir() + "tmltranslator/expected/expected_get_all_transactions.txt";

@@ -26,7 +26,7 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 public class RemoveAllTransactionsTests extends AbstractTest {
     final String DIR_GEN = "test_diplo_simulator/";
@@ -63,10 +63,10 @@ public class RemoveAllTransactionsTests extends AbstractTest {
                 spec = FileUtils.loadFileData(f);
             } catch (Exception e) {
                 System.out.println("Exception executing: loading " + s);
-                assertTrue(false);
+                fail();
             }
             System.out.println("executing: testing spec " + s);
-            assertTrue(spec != null);
+            assertNotNull(spec);
             System.out.println("executing: testing parsed " + s);
             boolean parsed = tmts.makeTMLMapping(spec, RESOURCES_DIR);
             assertTrue(parsed);
@@ -77,7 +77,7 @@ public class RemoveAllTransactionsTests extends AbstractTest {
 
             TMLSyntaxChecking syntax = new TMLSyntaxChecking(tmap);
             syntax.checkSyntax();
-            assertTrue(syntax.hasErrors() == 0);
+            assertEquals(0, syntax.hasErrors());
             // Generate SystemC code
             System.out.println("executing: sim code gen for " + s);
             final IDiploSimulatorCodeGenerator tml2systc;
@@ -86,7 +86,7 @@ public class RemoveAllTransactionsTests extends AbstractTest {
             tml2systc = DiploSimulatorFactory.INSTANCE.createCodeGenerator(tmap, al, alTepe);
             tml2systc.setModelName(s);
             String error = tml2systc.generateSystemC(false, true);
-            assertTrue(error == null);
+            assertNull(error);
 
             File directory = new File(SIM_DIR);
             if (!directory.exists()) {
@@ -145,7 +145,7 @@ public class RemoveAllTransactionsTests extends AbstractTest {
 
                 while ((str = proc_in.readLine()) != null) {
                     // TraceManager.addDev( "Sending " + str + " from " + port + " to client..." );
-                    System.out.println("executing: " + str);
+                    //System.out.println("executing: " + str);
                 }
             } catch (Exception e) {
                 // Probably make is not installed
@@ -174,7 +174,7 @@ public class RemoveAllTransactionsTests extends AbstractTest {
                 PrintStream out = new PrintStream(new FileOutputStream(graphPath + ".txt"));
                 while ((str = proc_in.readLine()) != null) {
                     // TraceManager.addDev( "Sending " + str + " from " + port + " to client..." );
-                    System.out.println("executing: " + str);
+                    //System.out.println("executing: " + str);
                     if(str.contains("Info transaction:")){
                         out.append(str + "\n");
                     }
@@ -193,7 +193,7 @@ public class RemoveAllTransactionsTests extends AbstractTest {
 
                 while ((str = proc_in.readLine()) != null) {
                     // TraceManager.addDev( "Sending " + str + " from " + port + " to client..." );
-                    System.out.println("executing: " + str);
+                    //System.out.println("executing: " + str);
                 }
 
             } catch (Exception e) {
@@ -208,7 +208,6 @@ public class RemoveAllTransactionsTests extends AbstractTest {
             assertTrue(file.length() == 0);// check transacList empty or not
 
             BufferedReader reader1 = new BufferedReader(new FileReader(graphPath + "_save.txt"));
-
             BufferedReader reader2 = new BufferedReader(new FileReader(EXPECTED_FILE_REMOVE_ALL_TRANS));
 
             String line1 = reader1.readLine();

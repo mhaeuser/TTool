@@ -48,9 +48,12 @@ package cli;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import java.io.File;
+import java.util.ArrayList;
+
 import common.ConfigurationTTool;
 import common.SpecConfigTTool;
 import graph.AUTGraph;
+import graph.AUTTransition;
 import myutil.Conversion;
 import org.junit.Test;
 import test.AbstractTest;
@@ -224,7 +227,7 @@ public class CLIAvatarModelCheckerTest extends AbstractTest implements Interpret
         AUTGraph graph = new AUTGraph();
         graph.buildGraph(data);
         graph.computeStates();
-        
+
         filePath = getBaseResourcesDir() + PATH_TO_EXPECTED_FILE + "modelchecker_s_expected";
         f = new File(filePath);
         assertTrue(myutil.FileUtils.checkFileForOpen(f));
@@ -253,6 +256,88 @@ public class CLIAvatarModelCheckerTest extends AbstractTest implements Interpret
        }*/
         
         assertTrue(s1.equals(s2));
+    }
+
+    @Test
+    public void testCoffeeMachine_NoTime() {
+        String filePath = getBaseResourcesDir() + PATH_TO_TEST_FILE + "scriptmodelchecker_s_notime";
+        String script;
+
+        outputResult = new StringBuilder();
+
+        File f = new File(filePath);
+        assertTrue(myutil.FileUtils.checkFileForOpen(f));
+
+        script = myutil.FileUtils.loadFileData(f);
+
+        assertTrue(script.length() > 0);
+
+        boolean show = false;
+        Interpreter interpret = new Interpreter(script, (InterpreterOutputInterface)this, show);
+        interpret.interpret();
+
+        // Must now load the graph
+        filePath = "rgmodelchecker_notime.aut";
+        f = new File(filePath);
+        assertTrue(myutil.FileUtils.checkFileForOpen(f));
+        String data = myutil.FileUtils.loadFileData(f);
+
+        assertTrue(data.length() > 0);
+        AUTGraph graph = new AUTGraph();
+        graph.buildGraph(data);
+        graph.computeStates();
+
+        System.out.println("states=" + graph.getNbOfStates() + " transitions=" + graph.getNbOfTransitions());
+
+        ArrayList<AUTTransition> trs = graph.getTransitions();
+        for(AUTTransition tr: trs) {
+            //System.out.println("label:" + tr.transition);
+            assertTrue(tr.transition.endsWith("[0...0]"));
+        }
+    }
+
+    @Test
+    public void testCoffeeMachine_Time() {
+        String filePath = getBaseResourcesDir() + PATH_TO_TEST_FILE + "scriptmodelchecker_s_time";
+        String script;
+
+        outputResult = new StringBuilder();
+
+        File f = new File(filePath);
+        assertTrue(myutil.FileUtils.checkFileForOpen(f));
+
+        script = myutil.FileUtils.loadFileData(f);
+
+        assertTrue(script.length() > 0);
+
+        boolean show = false;
+        Interpreter interpret = new Interpreter(script, (InterpreterOutputInterface)this, show);
+        interpret.interpret();
+
+        // Must now load the graph
+        filePath = "rgmodelchecker_time.aut";
+        f = new File(filePath);
+        assertTrue(myutil.FileUtils.checkFileForOpen(f));
+        String data = myutil.FileUtils.loadFileData(f);
+
+        assertTrue(data.length() > 0);
+        AUTGraph graph = new AUTGraph();
+        graph.buildGraph(data);
+        graph.computeStates();
+
+        System.out.println("states=" + graph.getNbOfStates() + " transitions=" + graph.getNbOfTransitions());
+
+        //At least one state with different time
+        ArrayList<AUTTransition> trs = graph.getTransitions();
+        int cpt = 0;
+        for(AUTTransition tr: trs) {
+            //System.out.println("label:" + tr.transition);
+           if (!tr.transition.endsWith("[0...0]")) {
+               cpt ++;
+           }
+        }
+        System.out.println("Nb of transition with non-zero time: " + cpt);
+        assertTrue(cpt >= 4);
     }
 	
 	@Test

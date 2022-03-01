@@ -94,6 +94,7 @@ public class Action extends Command {
 
 
     private final static String CHECKSYNTAX = "check-syntax";
+    private final static String REMOVE_TIME = "remove-time-operators";
     private final static String DIPLO_INTERACTIVE_SIMULATION = "diplodocus-interactive-simulation";
     private final static String DIPLO_FORMAL_VERIFICATION = "diplodocus-formal-verification";
     private final static String DIPLO_ONETRACE_SIMULATION = "diplodocus-onetrace-simulation";
@@ -491,6 +492,37 @@ public class Action extends Command {
                 }
 
                 interpreter.mgui.checkModelingSyntax(tp, true);
+                return null;
+            }
+        };
+
+
+        // Check syntax
+        Command removeTimeOperators = new Command() {
+            public String getCommand() {
+                return REMOVE_TIME;
+            }
+
+            public String getShortCommand() {
+                return "rto";
+            }
+
+            public String getDescription() {
+                return "Removing time operators from an avatar specification";
+            }
+
+            public String executeCommand(String command, Interpreter interpreter) {
+                if (!interpreter.isTToolStarted()) {
+                    return Interpreter.TTOOL_NOT_STARTED;
+                }
+
+                AvatarSpecification avspec = interpreter.mgui.gtm.getAvatarSpecification();
+
+                if (avspec == null) {
+                    return "No internal avatar specification";
+                }
+
+                avspec.removeAllDelays();
                 return null;
             }
         };
@@ -1477,6 +1509,7 @@ public class Action extends Command {
         addAndSortSubcommand(removeCurrentTab);
 
         addAndSortSubcommand(checkSyntax);
+        addAndSortSubcommand(removeTimeOperators);
         addAndSortSubcommand(generateRGFromAvatar);
         addAndSortSubcommand(diplodocusInteractiveSimulation);
         addAndSortSubcommand(diplodocusFormalVerification);

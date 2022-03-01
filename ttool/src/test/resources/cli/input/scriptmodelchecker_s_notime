@@ -1,0 +1,12 @@
+print dir
+set model resources/test/cli/models/CoffeeMachine_Avatar.xml
+#print The model to be opened is: $model
+action start
+wait 2
+#toto
+action open $model
+wait 4
+action check-syntax
+action remove-time-operators
+action avatar-rg -d -ra -la -s -g rgmodelchecker_notime.aut
+action quit

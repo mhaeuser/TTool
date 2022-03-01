@@ -4997,6 +4997,17 @@ public class MainGUI implements ActionListener, WindowListener, KeyListener, Per
         }
     }
 
+    public void clearVerificationResults() {
+        TDiagramPanel panel = getCurrentTDiagramPanel();
+        if (panel == null) {
+            return;
+        }
+        panel.resetVerificationResults();
+        panel.repaint();
+
+
+    }
+
     public void avatarProVerifVerification() {
         boolean limit = true;
         TraceManager.addDev("AVATAR PROVERIF FV");

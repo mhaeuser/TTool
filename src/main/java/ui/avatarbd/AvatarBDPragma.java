@@ -523,4 +523,9 @@ public class AvatarBDPragma extends TGCScalableWithoutInternalComponent {
             }
         }
     }
+
+    public void resetVerificationResults() {
+        authStrongMap.clear();
+        authWeakMap.clear();
+    }
 }

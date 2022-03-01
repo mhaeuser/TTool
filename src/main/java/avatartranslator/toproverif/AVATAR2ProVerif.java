@@ -233,21 +233,21 @@ public class AVATAR2ProVerif implements AvatarTranslator {
             AvatarAttribute attr = (AvatarAttribute) term;
 
             if (attributeCmp != null) {
-                TraceManager.addDev("Mae Attr name 1");
+                //TraceManager.addDev("Mae Attr name 1");
                 return AVATAR2ProVerif.makeAttrName (attr.getBlock ().getName (), attr.getName (), attributeCmp.get (attr).toString ());
             } else {
-                TraceManager.addDev("Mae Attr name 2");
+                //TraceManager.addDev("Mae Attr name 2");
                 return AVATAR2ProVerif.makeAttrName(attr.getBlock().getName(), attr.getName());
             }
         }
 
         if (term instanceof AvatarConstant) {
             AvatarConstant constant = (AvatarConstant) term;
-            TraceManager.addDev("AvatarConstant");
+            //TraceManager.addDev("AvatarConstant");
 
             try {
                 int i = Integer.parseInt (constant.getName ());
-                TraceManager.addDev("AvatarConstant Integer");
+                //TraceManager.addDev("AvatarConstant Integer");
 
                 if (i <= MAX_INT) {
                     int j;
@@ -259,7 +259,7 @@ public class AVATAR2ProVerif implements AvatarTranslator {
                     sb.append (ZERO);
                     for (; i>0; i--)
                         sb.append (")");
-                    TraceManager.addDev("AvatarConstant Integer Lower: " + sb.toString ());
+                    //TraceManager.addDev("AvatarConstant Integer Lower: " + sb.toString ());
 
                     return sb.toString ();
                 } else {

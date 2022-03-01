@@ -99,6 +99,8 @@ public class TGUIAction extends AbstractAction {
     public static final int ACT_ENHANCE = 160;
     public static final int ACT_TTOOL_CONFIGURATION = 323;
 
+    public static final int ACT_CLEAR_VERIFICATION_RESULT = 558;
+
 
     public static final int TCD_EDIT = 5;
     public static final int TCD_NEW_TCLASS = 6;
@@ -717,7 +719,7 @@ public class TGUIAction extends AbstractAction {
     public static final int SysMLV2_TEXT = 557;
 
 
-    public static final int NB_ACTION = 558; // Last + 1
+    public static final int NB_ACTION = 559; // Last + 1
 
     private static final TAction [] actions = new TAction[NB_ACTION];
 
@@ -845,6 +847,11 @@ public class TGUIAction extends AbstractAction {
         actions[ACT_SAVE_AUT] = new TAction("save-last-rg-aut", "Save last RG (AUT format)",IconManager.imgic24, IconManager.imgic25, "Save last RG (AUT format)", "Save the lastest built RG (AUT Format)", 0);
         actions[ACT_SAVE_AUTPROJ] = new TAction("save-last-rg-autproj", "Save last minimized RG (AUT format)",IconManager.imgic24, IconManager.imgic25, "Save last minimized RG (AUT format)", "Save the lastest minimized RG (AUT Format)", 0);
         actions[ACT_SAVE_AUTMODIFIED] = new TAction("save-last-rg-modified", "Save last modified RG (AUT format)",IconManager.imgic24, IconManager.imgic25, "Save last modified RG (AUT format)", "Save the lastest modified RG (AUT Format)", 0);
+
+        actions[ACT_CLEAR_VERIFICATION_RESULT] = new TAction("clear-verif-result", "Clear verification results",IconManager.imgic150,
+                IconManager.imgic151,
+                "Clear verification results", "Clear verification results", 0);
+
 
         actions[ACT_IMPORT_LIB] = new TAction("import-lib-command", "Import library", IconManager.imgic338, IconManager.imgic339, "Import library",  "Import a TTool library", 'E');
         actions[ACT_EXPORT_LIB] = new TAction("export-lib-command", "Export library", IconManager.imgic340, IconManager.imgic341, "Export library",  "Export a TTool library", 'I');

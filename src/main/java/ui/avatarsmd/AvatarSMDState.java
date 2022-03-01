@@ -195,6 +195,11 @@ public class AvatarSMDState extends TGCScalableWithInternalComponent implements 
         mutexStates = null;
     }
 
+    public void resetVerificationResults() {
+        super.resetVerificationResults();
+        reinitMutualExclusionStates();
+    }
+
 //    @Override
     public void internalDrawing(Graphics g)
     {

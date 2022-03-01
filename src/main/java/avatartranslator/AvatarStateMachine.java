@@ -1998,6 +1998,8 @@ public class AvatarStateMachine extends AvatarElement {
                 if (transition.hasDelay()) {
                     transition.setDelays("0", "0");
                 }
+            } else if (element instanceof AvatarSetTimer) {
+                ((AvatarSetTimer)element).setTimerValue("0");
             }
         }
     }

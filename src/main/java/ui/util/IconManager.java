@@ -75,7 +75,8 @@ public class IconManager {
     public static ImageIcon imgic80, imgic82, imgic84, imgic86, imgic88, imgic89, imgic89_z3;
     public static ImageIcon imgic90, imgic92, imgic94, imgic96, imgic98, imgic99;
 
-    public static ImageIcon imgic142;
+    // Diverse actions
+    public static ImageIcon imgic150, imgic151;
 
 
     // Class diagram
@@ -83,7 +84,7 @@ public class IconManager {
     public static ImageIcon imgic110, imgic112, imgic114, imgic116, imgic118;
     public static ImageIcon imgic120, imgic122, imgic124, imgic126, imgic128, imgic130;
     public static ImageIcon imgic132, imgic134, imgic136, imgic138, imgic140;
-    public static ImageIcon imgic144, imgic146;
+    public static ImageIcon imgic142, imgic144, imgic146;
 
     //Activity Diagram
     public static ImageIcon imgic200, imgic201, imgic202, imgic204, imgic206, imgic208;
@@ -354,6 +355,9 @@ public class IconManager {
     private static String icon142 = "toolbarButtonGraphics/navigation/Home16.gif";
     private static String icon144 = "ZoomInFont24.gif";
     private static String icon146 = "ZoomOutFont24.gif";
+
+    private static String icon150 = "toolbarButtonGraphics/general/removeTrace16.gif";
+    private static String icon151 = "toolbarButtonGraphics/general/removeTrace24.gif";
 
     private static String icon200 = "toolbarButtonGraphics/general/Properties16.gif";
     private static String icon201 = "toolbarButtonGraphics/general/Properties24.gif";
@@ -926,6 +930,9 @@ public class IconManager {
         imgic142 = getIcon(icon142);
         imgic144 = getIcon(icon144);
         imgic146 = getIcon(icon146);
+
+        imgic150 = getIcon(icon150);
+        imgic151 = getIcon(icon151);
 
         imgic200 = getIcon(icon200);
         imgic201 = getIcon(icon201);

@@ -404,4 +404,8 @@ public class AvatarBDSafetyPragma extends TGCScalableWithoutInternalComponent {
             throw new MalformedModelingException();
         }
     }
+
+    public void resetVerificationResults() {
+        verifMap.clear();
+    }
 }

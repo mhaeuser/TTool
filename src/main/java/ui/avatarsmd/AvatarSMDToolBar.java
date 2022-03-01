@@ -101,6 +101,8 @@ public class AvatarSMDToolBar extends TToolBar {
 		mgui.actions[TGUIAction.ACT_TOGGLE_AVATAR_ID].setEnabled(b);
 		
 		mgui.actions[TGUIAction.ACT_MODEL_CHECKING].setEnabled(b);
+
+        mgui.actions[TGUIAction.ACT_CLEAR_VERIFICATION_RESULT].setEnabled(b);
 		
 		mgui.updateZoomInfo();
     }
@@ -208,6 +210,11 @@ public class AvatarSMDToolBar extends TToolBar {
 		this.addSeparator();
 		
 		button = this.add(mgui.actions[TGUIAction.ACT_TOGGLE_AVATAR_ID]);
+        button.addMouseListener(mgui.mouseHandler);
+
+        this.addSeparator();
+
+        button = this.add(mgui.actions[TGUIAction.ACT_CLEAR_VERIFICATION_RESULT]);
         button.addMouseListener(mgui.mouseHandler);
     }
 } // Class

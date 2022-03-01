@@ -2528,6 +2528,12 @@ public abstract class TDiagramPanel extends JPanel implements GenericTree {
         }
     }
 
+    public void resetVerificationResults() {
+        for(TGComponent tgc: getAllComponentList()) {
+            tgc.resetVerificationResults();
+        }
+    }
+
 
     public void cloneComponent(TGComponent _tgc) {
         cloneComponent(_tgc, true);

@@ -103,6 +103,8 @@ public class ActionPerformer {
             mgui.saveLastRGAUTProj();
         } else if (command.equals(mgui.actions[TGUIAction.ACT_SAVE_AUTMODIFIED].getActionCommand())) {
             mgui.saveLastModifiedRG();
+        } else if (command.equals(mgui.actions[TGUIAction.ACT_CLEAR_VERIFICATION_RESULT].getActionCommand())) {
+            mgui.clearVerificationResults();
         } else if (command.equals(mgui.actions[TGUIAction.ACT_EXPORT_LIB].getActionCommand())) {
             mgui.exportLibrary();
         } else if (command.equals(mgui.actions[TGUIAction.ACT_IMPORT_LIB].getActionCommand())) {

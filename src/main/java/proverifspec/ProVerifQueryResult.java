@@ -51,15 +51,13 @@ public class ProVerifQueryResult {
     protected boolean satisfied, proved;
     protected ProVerifResultTrace trace;
 
-    public ProVerifQueryResult(boolean proved, boolean satisfied)
-    {
+    public ProVerifQueryResult(boolean proved, boolean satisfied) {
         this.satisfied = satisfied;
         this.proved = proved;
         this.trace = null;
     }
 
-    public ProVerifQueryResult()
-    {
+    public ProVerifQueryResult() {
         this.proved = true;
         this.satisfied = true;
         this.trace = null;
@@ -75,8 +73,7 @@ public class ProVerifQueryResult {
         return this.satisfied;
     }
 
-    public void setSatisfied(boolean satisfied)
-    {
+    public void setSatisfied(boolean satisfied) {
         this.satisfied = satisfied;
     }
 

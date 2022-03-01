@@ -457,4 +457,8 @@ public class AvatarBDPerformancePragma extends TGCScalableWithoutInternalCompone
             throw new MalformedModelingException();
         }
     }
+
+    public void resetVerificationResults() {
+        verifMap.clear();
+    }
 }

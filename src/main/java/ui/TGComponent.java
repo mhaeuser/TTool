@@ -3505,6 +3505,12 @@ public abstract class TGComponent  extends AbstractCDElement implements /*CDElem
     public void postLoading(int decId) throws MalformedModelingException {
     }
 
+    public void resetVerificationResults() {
+        reachability = ACCESSIBILITY_UNKNOWN;
+        liveness = ACCESSIBILITY_UNKNOWN;
+        mutex = MUTEX_NOT_YET_STUDIED;
+    }
+
     @Override
     public String toString() {
         String s1 = getName();

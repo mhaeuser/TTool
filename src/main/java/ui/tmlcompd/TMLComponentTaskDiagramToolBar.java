@@ -81,6 +81,7 @@ public class TMLComponentTaskDiagramToolBar extends TToolBar {
 		mgui.actions[TGUIAction.TMLCTD_RCOMPONENT].setEnabled(b);
 		mgui.actions[TGUIAction.ACT_TOGGLE_ATTR].setEnabled(b);
 		mgui.actions[TGUIAction.ACT_TOGGLE_DIPLO_ID].setEnabled(b);
+		mgui.actions[TGUIAction.ACT_CLEAR_VERIFICATION_RESULT].setEnabled(b);
 		
 		mgui.actions[TGUIAction.ACT_MODEL_CHECKING].setEnabled(b);
 		mgui.actions[TGUIAction.ACT_ONECLICK_LOTOS_RG].setEnabled(b);
@@ -157,6 +158,11 @@ public class TMLComponentTaskDiagramToolBar extends TToolBar {
 		
 		button = this.add(mgui.actions[TGUIAction.ACT_TOGGLE_DIPLO_ID]);
         button.addMouseListener(mgui.mouseHandler);
+
+		this.addSeparator();
+
+		button = this.add(mgui.actions[TGUIAction.ACT_CLEAR_VERIFICATION_RESULT]);
+		button.addMouseListener(mgui.mouseHandler);
         
     }
     

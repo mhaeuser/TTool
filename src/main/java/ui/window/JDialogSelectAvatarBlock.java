@@ -45,13 +45,7 @@ import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-import java.awt.BorderLayout;
-import java.awt.Container;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.Frame;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Iterator;
@@ -225,6 +219,13 @@ public class JDialogSelectAvatarBlock extends JDialogBase implements ActionListe
         c.add(optimize, c2);
         considerTimingOperatorsBox = new JCheckBox("Take into account time operators");
         considerTimingOperatorsBox.setSelected(considerTimingOperators);
+        considerTimingOperatorsBox.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                checkColorTimeOp();
+            }
+        });
+        checkColorTimeOp();
         c.add(considerTimingOperatorsBox, c2);
         c2.fill = GridBagConstraints.HORIZONTAL;
         c2.gridwidth = 1; //end row
@@ -380,6 +381,17 @@ public class JDialogSelectAvatarBlock extends JDialogBase implements ActionListe
             allIgnored.setEnabled(true);
             closeButton.setEnabled(true);
         }
+    }
+
+    private void checkColorTimeOp() {
+        Color c;
+        if (considerTimingOperatorsBox.isSelected()) {
+            c = Color.black;
+        } else {
+            c = Color.red;
+        }
+
+        considerTimingOperatorsBox.setForeground(c);
     }
 
     public void valueChanged(ListSelectionEvent e) {

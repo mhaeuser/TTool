@@ -88,6 +88,7 @@ public class ActivityDiagram2TMLTranslator {
 												final List<String> removedChannels,
 												final List<String> removedEvents,
 												final List<String> removedRequests,
+												 final boolean considerExecOperators,
 												 final boolean considerTimeOperators)
 	throws MalformedTMLDesignException {
 
@@ -223,7 +224,7 @@ public class ActivityDiagram2TMLTranslator {
 		
 		        } else if (tgc instanceof TMLADExecI) {
 		            tmlexeci = new TMLExecI("execi", tgc);
-		            if (considerTimeOperators) {
+		            if (considerExecOperators) {
 						tmlexeci.setAction(modifyString(((TADExec) tgc).getDelayValue()));
 						tmlexeci.setValue(((TADExec) tgc).getDelayValue());
 					} else {
@@ -237,7 +238,7 @@ public class ActivityDiagram2TMLTranslator {
 		        } else if (tgc instanceof TMLADExecIInterval) {
 		            tmlexecii = new TMLExecIInterval("execi", tgc);
 		            tmlexecii.setValue(tgc.getValue());
-					if (considerTimeOperators) {
+					if (considerExecOperators) {
 						tmlexecii.setMinDelay(modifyString(((TMLADExecIInterval) tgc).getMinDelayValue()));
 						tmlexecii.setMaxDelay(modifyString(((TMLADExecIInterval) tgc).getMaxDelayValue()));
 					} else {
@@ -287,7 +288,7 @@ public class ActivityDiagram2TMLTranslator {
 		
 		        } else if (tgc instanceof TMLADExecC) {
 		            tmlexecc = new TMLExecC("execc", tgc);
-		            if (considerTimeOperators) {
+		            if (considerExecOperators) {
 						tmlexecc.setValue(((TMLADExecC) tgc).getDelayValue());
 						tmlexecc.setAction(modifyString(((TMLADExecC)tgc).getDelayValue()));
 					} else {
@@ -301,7 +302,7 @@ public class ActivityDiagram2TMLTranslator {
 		
 		        } else if (tgc instanceof TMLADExecCInterval) {
 		            tmlexecci = new TMLExecCInterval("execci", tgc);
-		            if (considerTimeOperators) {
+		            if (considerExecOperators) {
 						tmlexecci.setMinDelay(modifyString(((TMLADExecCInterval) tgc).getMinDelayValue()));
 						tmlexecci.setMaxDelay(modifyString(((TMLADExecCInterval) tgc).getMaxDelayValue()));
 					} else {

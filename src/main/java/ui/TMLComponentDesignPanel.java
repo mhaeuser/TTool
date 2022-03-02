@@ -290,6 +290,33 @@ public class TMLComponentDesignPanel extends TURTLEPanel {
         return ns;
     }
 
+    public boolean getConsiderExecOperators() {
+        if (tmlctdp != null) {
+            return tmlctdp.getConsiderExecOperators();
+        }
+        return true;
+    }
+
+    public boolean getConsiderTimingOperators() {
+        if (tmlctdp != null) {
+            return tmlctdp.getConsiderTimingOperators();
+        }
+        return true;
+    }
+
+    public void setConsiderExecOperators(boolean _considerExecOperators) {
+        if (tmlctdp != null) {
+            tmlctdp.setConsiderExecOperators(_considerExecOperators);
+        }
+    }
+
+    public void setConsiderTimingOperators(boolean _considerTimingOperators) {
+        if (tmlctdp != null) {
+            tmlctdp.setConsiderTimingOperators(_considerTimingOperators);
+        }
+    }
+
+
     public String[] getAllOutEvents(String nameOfComponent) {
         return tmlctdp.getAllOutEvents(nameOfComponent);
     }

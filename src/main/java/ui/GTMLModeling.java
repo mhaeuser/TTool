@@ -107,6 +107,7 @@ public class GTMLModeling {
     private boolean putPrefixName = false;
 
     private boolean considerTimeOperators = true;
+    private boolean considerExecOperators = true;
 
     public GTMLModeling(TMLDesignPanel _tmldp, boolean resetList) {
         tmldp = _tmldp;
@@ -153,6 +154,7 @@ public class GTMLModeling {
     }
 
     public void setConsiderTimeOperators(boolean _b) {considerTimeOperators = _b;}
+    public void setConsiderExecOperators(boolean _b) {considerExecOperators = _b;}
 
     public void processAttacker() {
         //
@@ -1693,6 +1695,7 @@ public class GTMLModeling {
                     removedChannels,
                     removedEvents,
                     removedRequests,
+                    considerExecOperators,
                     considerTimeOperators);
 //            generateTaskActivityDiagrams(tmltask);
         }
@@ -2552,7 +2555,7 @@ public class GTMLModeling {
 //    }
 
 
-    public TMLMapping<TGComponent> translateToTMLMapping() {
+    public TMLMapping<TGComponent> translateToTMLMapping(boolean considerExecOperators, boolean considerTimeOperators) {
         tmlm = new TMLModeling<>(true);
         archi = new TMLArchitecture();  //filled by makeArchitecture
         map = new TMLMapping<>(tmlm, archi, false);
@@ -2563,7 +2566,7 @@ public class GTMLModeling {
         //TraceManager.addDev("Making architecture");
         makeArchitecture();     //fills archi
         //TraceManager.addDev("Making TML modeling");
-        if (!makeTMLModeling()) {
+        if (!makeTMLModeling(considerExecOperators, considerTimeOperators)) {
             return null;
         }
         //TraceManager.addDev("Making mapping");
@@ -3491,7 +3494,7 @@ public class GTMLModeling {
         }//End else name does not exist yet
     }   //End of method createSequenceDiagramDataStructure
 
-    private boolean makeTMLModeling() {
+    private boolean makeTMLModeling(boolean considerExecOperators, boolean considerTimeOperators) {
         // Determine all TML Design to be used -> TMLDesignPanels
         List<TMLDesignPanel> panels = new ArrayList<TMLDesignPanel>();
         List<TMLComponentDesignPanel> cpanels = new ArrayList<TMLComponentDesignPanel>();
@@ -3596,6 +3599,8 @@ public class GTMLModeling {
         index = 0;
         for (TMLDesignPanel panel : panels) {
             gtml = new GTMLModeling(panel, false);
+            gtml.setConsiderTimeOperators(considerTimeOperators);
+            gtml.setConsiderExecOperators(considerExecOperators);
             gtml.putPrefixName(true);
             gtml.setTasks(taskss.get(index));
             index++;
@@ -3616,6 +3621,8 @@ public class GTMLModeling {
             for (TMLComponentDesignPanel panel : cpanels) {
                 this.tmlcdp = panel;
                 gtml = new GTMLModeling(panel, false);
+                gtml.setConsiderTimeOperators(considerTimeOperators);
+                gtml.setConsiderExecOperators(considerExecOperators);
                 gtml.setComponents(allcomp);
                 gtml.putPrefixName(true);
                 tmpm = gtml.translateToTMLModeling(true, false);

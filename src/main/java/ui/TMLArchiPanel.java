@@ -143,4 +143,30 @@ public class TMLArchiPanel extends TURTLEPanel {
 
         return tmlap.addRandomTasks(taskNames);
     }
+
+    public boolean getConsiderExecOperators() {
+        if (tmlap != null) {
+            return tmlap.getConsiderExecOperators();
+        }
+        return true;
+    }
+
+    public boolean getConsiderTimingOperators() {
+        if (tmlap != null) {
+            return tmlap.getConsiderTimingOperators();
+        }
+        return true;
+    }
+
+    public void setConsiderExecOperators(boolean _considerExecOperators) {
+        if (tmlap != null) {
+            tmlap.setConsiderExecOperators(_considerExecOperators);
+        }
+    }
+
+    public void setConsiderTimingOperators(boolean _considerTimingOperators) {
+        if (tmlap != null) {
+            tmlap.setConsiderTimingOperators(_considerTimingOperators);
+        }
+    }
 }

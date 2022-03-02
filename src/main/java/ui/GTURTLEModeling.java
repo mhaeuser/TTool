@@ -1547,7 +1547,7 @@ public class GTURTLEModeling {
 
         //Redo syntax checking
         GTMLModeling gtm = new GTMLModeling(newarch, true);
-        map = gtm.translateToTMLMapping();
+        map = gtm.translateToTMLMapping(true, true);
         return map;
     }
 
@@ -1676,7 +1676,7 @@ public class GTURTLEModeling {
         tmap = null;
         tmap = secgen.startThread();
         GTMLModeling gtm = new GTMLModeling(newarch, true);
-        tmap = gtm.translateToTMLMapping();
+        tmap = gtm.translateToTMLMapping(true, true);
         listE = gtm.getCorrespondanceTable();
         if (tmap != null) {
             autoMapKeys();
@@ -8469,7 +8469,7 @@ public class GTURTLEModeling {
 
     public boolean translateTMLComponentDesign(Vector<? extends TGComponent> componentsToTakeIntoAccount, 
                                                TMLComponentDesignPanel tmlcdp, 
-                                               boolean optimize, boolean considerTimeOperators) {
+                                               boolean optimize, boolean considerExecOperators, boolean considerTimeOperators) {
         nullifyTMLModeling();
         //      ArrayList<TMLError> warningsOptimize = new ArrayList<TMLError>();
         warnings = new LinkedList<CheckingError>();
@@ -8479,6 +8479,7 @@ public class GTURTLEModeling {
         gctmlm.putPrefixName(true);
         gctmlm.setComponents(componentsToTakeIntoAccount);
         gctmlm.setConsiderTimeOperators(considerTimeOperators);
+        gctmlm.setConsiderExecOperators(considerExecOperators);
         tmlm = gctmlm.translateToTMLModeling(true);
         //mgui.generateTMLTxt();
         artificialtmap = tmlm.getDefaultMapping();
@@ -8568,27 +8569,27 @@ public class GTURTLEModeling {
 	//     }
 	}*/
 
-    public boolean checkSyntaxTMLMapping(Vector<TGComponent> nodesToTakeIntoAccount, TMLArchiPanel tmlap, boolean optimize) {
+    public boolean checkSyntaxTMLMapping(Vector<TGComponent> nodesToTakeIntoAccount, TMLArchiPanel tmlap, boolean optimize,
+                                         boolean considerExecOperators, boolean _considerTimingOperators) {
         List<TMLError> warningsOptimize = new ArrayList<TMLError>();
         warnings = new LinkedList<CheckingError>();
         mgui.setMode(MainGUI.VIEW_SUGG_DESIGN_KO);
         //TraceManager.addDev("New TML Mapping");
         GTMLModeling gtmlm = new GTMLModeling(tmlap, true);
 
-
         gtmlm.setNodes(nodesToTakeIntoAccount); //simply transforms the parameter from a Vector to LinkedList
         nullifyTMLModeling();
         tmlm = null;
         tm = null;
         tmState = 1;
-        tmap = gtmlm.translateToTMLMapping();
+        tmap = gtmlm.translateToTMLMapping(considerExecOperators, _considerTimingOperators);
 
         listE = gtmlm.getCorrespondanceTable();
 
         checkingErrors = gtmlm.getCheckingErrors();
         warnings = gtmlm.getCheckingWarnings();
 
-        avatarspec = gtmlm.avspec;
+        //avatarspec = gtmlm.avspec;
         if ((checkingErrors != null) && (checkingErrors.size() > 0)) {
             analyzeErrors();
             return false;
@@ -8601,7 +8602,6 @@ public class GTURTLEModeling {
             mgui.resetAllDIPLOIDs();
             listE.useDIPLOIDs();
             mgui.setMode(MainGUI.GEN_DESIGN_OK);
-
 
             return true;
         }

@@ -238,7 +238,7 @@ public class SecurityGeneration implements Runnable {
 
 	public void run(){
 		GTMLModeling gtm = new GTMLModeling(newarch, true);
-		map = gtm.translateToTMLMapping();
+		map = gtm.translateToTMLMapping(true, true);
 		// oldmodel = map.getTMLModeling();
 		Map<TMLTask, HashSet<TMLTask>> toSecure = new HashMap<TMLTask, HashSet<TMLTask>>();
 		Map<TMLTask, HashSet<TMLTask>> toSecureRev = new HashMap<TMLTask, HashSet<TMLTask>>();

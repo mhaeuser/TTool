@@ -39,7 +39,7 @@ public class TestGTURTLEModeling extends AbstractUITest {
         final TMLArchiPanel panel = findArchiPanel( mappingDiagName );
         final Vector<TGComponent> compos = new Vector<TGComponent>( panel.tmlap.getComponentList() );
 
-        assertTrue( mainGUI.gtm.checkSyntaxTMLMapping( compos, panel, true ) );
+        assertTrue( mainGUI.gtm.checkSyntaxTMLMapping( compos, panel, true , true, true) );
 
         final String codeDir = RESOURCES_DIR + mappingDiagName + File.separator + "actual" + File.separator;
         FileUtils.deleteFiles( codeDir );

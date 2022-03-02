@@ -63,6 +63,9 @@ public class TMLArchiDiagramPanel extends TDiagramPanel implements TDPWithAttrib
 
     private int masterClockFrequency = 200; // in MHz
 
+    private boolean considerExecOperators = true;
+    private boolean considerTimingOperators = true;
+
     protected int view = 31;
 
     public  TMLArchiDiagramPanel(MainGUI mgui, TToolBar _ttb) {
@@ -228,6 +231,17 @@ public class TMLArchiDiagramPanel extends TDiagramPanel implements TDPWithAttrib
         String s = " attributes=\"";
         s += getAttributeState();
         s += "\"";
+        if (considerExecOperators) {
+            s += " considerExecOperators=\"true\"";
+        } else {
+            s += " considerExecOperators=\"false\"";
+        }
+
+        if (considerTimingOperators) {
+            s += " considerTimingOperators=\"true\"";
+        } else {
+            s += " considerTimingOperators=\"false\"";
+        }
         return s;
     }
 
@@ -256,6 +270,24 @@ public class TMLArchiDiagramPanel extends TDiagramPanel implements TDPWithAttrib
             s = elt.getAttribute("masterClockFrequency");
             //
             masterClockFrequency = Math.abs(Integer.decode(s).intValue());
+
+            s = elt.getAttribute("considerExecOperators");
+            if (s != null) {
+                if (s.compareTo("false") == 0) {
+                    setConsiderExecOperators(false);
+                } else {
+                    setConsiderExecOperators(true);
+                }
+            }
+            s = elt.getAttribute("considerTimingOperators");
+            if (s != null) {
+                if (s.compareTo("false") == 0) {
+                    setConsiderTimingOperators(false);
+                } else {
+                    setConsiderTimingOperators(true);
+                }
+            }
+
         } catch (Exception e) {
             // Model was saved in an older version of TTool
             //
@@ -676,6 +708,23 @@ public class TMLArchiDiagramPanel extends TDiagramPanel implements TDPWithAttrib
         public String getName() {
             return name;
         }
+    }
+
+
+    public boolean getConsiderExecOperators() {
+        return considerExecOperators;
+    }
+
+    public boolean getConsiderTimingOperators() {
+        return considerTimingOperators;
+    }
+
+    public void setConsiderExecOperators(boolean _considerExecOperators) {
+        considerExecOperators = _considerExecOperators;
+    }
+
+    public void setConsiderTimingOperators(boolean _considerTimingOperators) {
+        considerTimingOperators = _considerTimingOperators;
     }
 
 }//End of class

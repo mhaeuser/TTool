@@ -65,6 +65,9 @@ public class JDialogSelectTMLNodes extends JDialogBase implements ActionListener
     public static Vector<TGComponent> validated, ignored;
     private static boolean optimized = true;
 
+    private boolean considerExecOperators = false;
+    private boolean considerTimingOperators = false;
+
     private int clock;
 
     private Vector<TGComponent> val, ign, back;
@@ -79,16 +82,22 @@ public class JDialogSelectTMLNodes extends JDialogBase implements ActionListener
     private JButton allIgnored;
     protected JCheckBox optimize;
     protected JTextField clockField;
+    private JCheckBox considerExecOperatorsBox;
+    private JCheckBox considerTimingOperatorsBox;
 
     /*
      * Creates new form
      */
-    public JDialogSelectTMLNodes(Frame f, Vector<TGComponent> _back, java.util.List<TGComponent> componentList, String title, int _clock) {
+    public JDialogSelectTMLNodes(Frame f, Vector<TGComponent> _back, java.util.List<TGComponent> componentList, String title, int _clock,
+                                 boolean _considerExecOperators, boolean _considerTimingOperators) {
         super(f, title, true);
 
         back = _back;
 
         clock = _clock;
+
+        considerExecOperators = _considerExecOperators;
+        considerTimingOperators = _considerTimingOperators;
 
         if ((validated == null) || (ignored == null)) {
             val = makeNewVal(componentList);
@@ -246,6 +255,27 @@ public class JDialogSelectTMLNodes extends JDialogBase implements ActionListener
         clockField = new JTextField("" + clock);
         c.add(clockField, c2);
 
+        considerExecOperatorsBox = new JCheckBox("Take into account EXEC operators");
+        considerExecOperatorsBox.setSelected(considerExecOperators);
+        considerExecOperatorsBox.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                checkColorExecOp();
+            }
+        });
+        c.add(considerExecOperatorsBox, c2);
+        checkColorExecOp();
+        considerTimingOperatorsBox = new JCheckBox("Take into account physical time operators");
+        considerTimingOperatorsBox.setSelected(considerTimingOperators);
+        considerTimingOperatorsBox.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                checkColorTimeOp();
+            }
+        });
+        c.add(considerTimingOperatorsBox, c2);
+        checkColorTimeOp();
+        
         c2.fill = GridBagConstraints.HORIZONTAL;
         c2.gridwidth = 1; //end row
         initMainButtons(c2, c, this, false, "Check syntax", "Cancel");
@@ -433,7 +463,37 @@ public class JDialogSelectTMLNodes extends JDialogBase implements ActionListener
         setButtons();
     }
 
+    private void checkColorExecOp() {
+        Color c;
+        if (considerExecOperatorsBox.isSelected()) {
+            c = Color.black;
+        } else {
+            c = Color.red;
+        }
+
+        considerExecOperatorsBox.setForeground(c);
+    }
+
+    private void checkColorTimeOp() {
+        Color c;
+        if (considerTimingOperatorsBox.isSelected()) {
+            c = Color.black;
+        } else {
+            c = Color.red;
+        }
+
+        considerTimingOperatorsBox.setForeground(c);
+    }
+
     public boolean getOptimize() {
         return optimized;
+    }
+
+    public boolean getConsiderExecOperators() {
+        return considerExecOperatorsBox.isSelected();
+    }
+
+    public boolean getConsiderTimingOperators() {
+        return considerTimingOperatorsBox.isSelected();
     }
 }

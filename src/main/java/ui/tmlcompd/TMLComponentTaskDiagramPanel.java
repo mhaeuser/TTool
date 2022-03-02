@@ -41,6 +41,8 @@ package ui.tmlcompd;
 
 import myutil.TraceManager;
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 import ui.*;
 import ui.tmldd.TMLArchiDiagramPanel;
 
@@ -55,6 +57,9 @@ import java.util.*;
  * @version 1.0 10/03/2008
  */
 public class TMLComponentTaskDiagramPanel extends TDiagramPanel implements TDPWithAttributes {
+
+    private boolean considerExecOperators = true;
+    private boolean considerTimingOperators = true;
 
     public TMLComponentTaskDiagramPanel(MainGUI mgui, TToolBar _ttb) {
         super(mgui, _ttb);
@@ -630,6 +635,18 @@ public class TMLComponentTaskDiagramPanel extends TDiagramPanel implements TDPWi
             s += " requests=\"false\"";
         }
 
+        if (considerExecOperators) {
+            s += " considerExecOperators=\"true\"";
+        } else {
+            s += " considerExecOperators=\"false\"";
+        }
+
+        if (considerTimingOperators) {
+            s += " considerTimingOperators=\"true\"";
+        } else {
+            s += " considerTimingOperators=\"false\"";
+        }
+
         return s;
     }
 
@@ -987,6 +1004,22 @@ public class TMLComponentTaskDiagramPanel extends TDiagramPanel implements TDPWi
                 setRequestsVisible(false);
             } else {
                 setRequestsVisible(true);
+            }
+            s = elt.getAttribute("considerExecOperators");
+            if (s != null) {
+                if (s.compareTo("false") == 0) {
+                    setConsiderExecOperators(false);
+                } else {
+                    setConsiderExecOperators(true);
+                }
+            }
+            s = elt.getAttribute("considerTimingOperators");
+            if (s != null) {
+                if (s.compareTo("false") == 0) {
+                    setConsiderTimingOperators(false);
+                } else {
+                    setConsiderTimingOperators(true);
+                }
             }
 
         } catch (Exception e) {
@@ -1864,5 +1897,21 @@ public class TMLComponentTaskDiagramPanel extends TDiagramPanel implements TDPWi
             }
 
         }
+    }
+
+    public boolean getConsiderExecOperators() {
+        return considerExecOperators;
+    }
+
+    public boolean getConsiderTimingOperators() {
+        return considerTimingOperators;
+    }
+
+    public void setConsiderExecOperators(boolean _considerExecOperators) {
+      considerExecOperators = _considerExecOperators;
+    }
+
+    public void setConsiderTimingOperators(boolean _considerTimingOperators) {
+        considerTimingOperators = _considerTimingOperators;
     }
 }

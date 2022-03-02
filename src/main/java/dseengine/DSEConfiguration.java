@@ -1493,7 +1493,7 @@ public class DSEConfiguration implements Runnable  {
 
                 TMLArchiPanel newArch = drawMapping(tmla, "securedMapping"+(cpt-1));
                 GTMLModeling gtml = new GTMLModeling(newArch, true);
-                tmla = gtml.translateToTMLMapping();
+                tmla = gtml.translateToTMLMapping(true, true);
                 //                   tmla.tmlap = tmlap;
                 //              tmlcdp = (TMLComponentDesignPanel) mainGUI.tabs.get(0);
                 //     tmla.setTMLDesignPanel(tmlcdp);

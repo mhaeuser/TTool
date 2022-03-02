@@ -4059,18 +4059,25 @@ public class MainGUI implements ActionListener, WindowListener, KeyListener, Per
             JDialogSelectTMLComponent.validated = tmlcdp.validated;
             JDialogSelectTMLComponent.ignored = tmlcdp.ignored;
             Vector<TGComponent> tmlComponentsToValidate = new Vector<>();
+
+
+
+
             JDialogSelectTMLComponent jdstmlc = new JDialogSelectTMLComponent(frame, tmlComponentsToValidate, tmlcdp.tmlctdp.getComponentList(),
-                    "Choosing TML components to validate", true, true);
+                    "Choosing TML components to validate", true, tmlcdp.getConsiderExecOperators(), tmlcdp.getConsiderTimingOperators());
             if (!automatic) {
                 GraphicLib.centerOnParent(jdstmlc);
                 jdstmlc.setVisible(true); // Blocked until dialog has been closed
             } else {
                 jdstmlc.closeDialog();
             }
+
             if (tmlComponentsToValidate.size() > 0) {
                 tmlcdp.validated = JDialogSelectTMLComponent.validated;
                 tmlcdp.ignored = JDialogSelectTMLComponent.ignored;
-                b = gtm.translateTMLComponentDesign(tmlComponentsToValidate, tmlcdp, jdstmlc.getOptimize(),
+                tmlcdp.setConsiderExecOperators(jdstmlc.getConsiderExecOperators());
+                tmlcdp.setConsiderTimingOperators(jdstmlc.getConsiderTimingOperators());
+                b = gtm.translateTMLComponentDesign(tmlComponentsToValidate, tmlcdp, jdstmlc.getOptimize(), jdstmlc.getConsiderExecOperators(),
                         jdstmlc.getConsiderTimingOperators());
                 expandToWarnings();
                 expandToErrors();
@@ -4171,7 +4178,8 @@ public class MainGUI implements ActionListener, WindowListener, KeyListener, Per
             JDialogSelectTMLNodes.ignored = tmlap.ignored;
             Vector<TGComponent> tmlNodesToValidate = new Vector<TGComponent>();
             JDialogSelectTMLNodes jdstmln = new JDialogSelectTMLNodes(frame, tmlNodesToValidate, tmlap.tmlap.getComponentList(),
-                    "Choosing Nodes to validate", tmlap.tmlap.getMasterClockFrequency());
+                    "Choosing Nodes to validate", tmlap.tmlap.getMasterClockFrequency(), tmlap.getConsiderExecOperators(),
+                    tmlap.getConsiderTimingOperators());
             if (!automatic) {
                 GraphicLib.centerOnParent(jdstmln);
                 jdstmln.setVisible(true); // Blocked until dialog has been closed
@@ -4179,12 +4187,14 @@ public class MainGUI implements ActionListener, WindowListener, KeyListener, Per
                 jdstmln.closeDialog();
             }
             tmlap.tmlap.setMasterClockFrequency(jdstmln.getClock());
-
+            tmlap.setConsiderExecOperators(jdstmln.getConsiderExecOperators());
+            tmlap.setConsiderTimingOperators(jdstmln.getConsiderTimingOperators());
             if (tmlNodesToValidate.size() > 0) {
                 tmlap.validated = JDialogSelectTMLNodes.validated;
                 tmlap.ignored = JDialogSelectTMLNodes.ignored;
                 // TraceManager.addDev("Ready to generate TML mapping!");
-                b = gtm.checkSyntaxTMLMapping(tmlNodesToValidate, tmlap, jdstmln.getOptimize());
+                b = gtm.checkSyntaxTMLMapping(tmlNodesToValidate, tmlap, jdstmln.getOptimize(), jdstmln.getConsiderExecOperators(),
+                        jdstmln.getConsiderTimingOperators()   );
                 expandToWarnings();
                 expandToErrors();
                 if (b) {

@@ -864,8 +864,18 @@ public class TMLActivity extends TMLElement {
 
         for(TMLActivityElement tmlae: elements) {
             if (execOp) {
-                if (tmlae instanceof TMLExecI) {
-                    ((TMLExecI) tmlae).setAction("0");
+                if ((tmlae instanceof TMLExecI) || (tmlae instanceof TMLExecC)) {
+                    ((TMLActivityElementWithAction) tmlae).setAction("0");
+                } else if ((tmlae instanceof TMLExecIInterval) || (tmlae instanceof TMLExecCInterval)) {
+                    ((TMLActivityElementWithIntervalAction) tmlae).setMinDelay("0");
+                    ((TMLActivityElementWithIntervalAction) tmlae).setMaxDelay("0");
+                }
+            }
+
+            if (timeOp) {
+                if (tmlae instanceof TMLDelay) {
+                    ((TMLActivityElementWithIntervalAction) tmlae).setMinDelay("0");
+                    ((TMLActivityElementWithIntervalAction) tmlae).setMaxDelay("0");
                 }
             }
 

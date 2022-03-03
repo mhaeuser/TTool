@@ -57,7 +57,7 @@ public class TestGTMLModeling extends AbstractUITest {
         final GTMLModeling gtmlm = new GTMLModeling(panel, true);
         gtmlm.putPrefixName(true);
 
-        final TMLMapping<TGComponent> model = gtmlm.translateToTMLMapping();
+        final TMLMapping<TGComponent> model = gtmlm.translateToTMLMapping(true, true);
 
         if (!gtmlm.getCheckingErrors().isEmpty()) {
             throw new MalformedTMLDesignException("Errors were found when generating TML model.", gtmlm.getCheckingErrors());

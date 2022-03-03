@@ -1,26 +1,26 @@
 /* Copyright or (C) or Copr. GET / ENST, Telecom-Paris, Ludovic Apvrille
- * 
+ *
  * ludovic.apvrille AT enst.fr
- * 
+ *
  * This software is a computer program whose purpose is to allow the
  * edition of TURTLE analysis, design and deployment diagrams, to
  * allow the generation of RT-LOTOS or Java code from this diagram,
  * and at last to allow the analysis of formal validation traces
  * obtained from external tools, e.g. RTL from LAAS-CNRS and CADP
  * from INRIA Rhone-Alpes.
- * 
+ *
  * This software is governed by the CeCILL  license under French law and
  * abiding by the rules of distribution of free software.  You can  use,
  * modify and/ or redistribute the software under the terms of the CeCILL
  * license as circulated by CEA, CNRS and INRIA at the following URL
  * "http://www.cecill.info".
- * 
+ *
  * As a counterpart to the access to the source code and  rights to copy,
  * modify and redistribute granted by the license, users are provided only
  * with a limited warranty  and the software's author,  the holder of the
  * economic rights,  and the successive licensors  have only  limited
  * liability.
- * 
+ *
  * In this respect, the user's attention is drawn to the risks associated
  * with loading,  using,  modifying and/or developing or reproducing the
  * software by the user in light of its specific status of free software,
@@ -31,15 +31,13 @@
  * requirements in conditions enabling the security of their systems and/or
  * data to be ensured and,  more generally, to use and operate it in the
  * same conditions as regards security.
- * 
+ *
  * The fact that you are presently reading this means that you have had
  * knowledge of the CeCILL license and that you accept its terms.
  */
 
 
 package tmltranslator;
-
-import myutil.TraceManager;
 
 import java.util.*;
 
@@ -83,15 +81,13 @@ public class TMLTask extends TMLElement {
         eventsList = new HashSet<TMLEvent>();
     }
 
-    public void setRequested(boolean _b) {
-        isRequested = _b;
+    public boolean isDaemon() {
+        return isDaemon;
     }
 
     public void setDaemon(boolean _b) {
         isDaemon = _b;
     }
-
-    public boolean isDaemon() {return isDaemon;}
 
     public void setPeriodic(boolean _b, String _periodValue, String _unit) {
         isPeriodic = _b;
@@ -107,19 +103,24 @@ public class TMLTask extends TMLElement {
         return periodValue;
     }
 
-
-    public boolean isPeriodic() {return isPeriodic;}
-
-    public void setPriority(int _priority) {
-        priority = _priority;
+    public boolean isPeriodic() {
+        return isPeriodic;
     }
 
     public int getPriority() {
         return priority;
     }
 
+    public void setPriority(int _priority) {
+        priority = _priority;
+    }
+
     public boolean isRequested() {
         return isRequested;
+    }
+
+    public void setRequested(boolean _b) {
+        isRequested = _b;
     }
 
     public boolean isAttacker() {
@@ -130,12 +131,12 @@ public class TMLTask extends TMLElement {
         isAttacker = a;
     }
 
-    public void setRequest(TMLRequest _request) {
-        request = _request;
-    }
-
     public TMLRequest getRequest() {
         return request;
+    }
+
+    public void setRequest(TMLRequest _request) {
+        request = _request;
     }
 
     public void addAttribute(TMLAttribute _tmla) {
@@ -144,7 +145,7 @@ public class TMLTask extends TMLElement {
 
 
     public void addAttributeIfApplicable(TMLAttribute _tmla) {
-        for(TMLAttribute att: attributes) {
+        for (TMLAttribute att : attributes) {
             if (att.getName().compareTo(_tmla.getName()) == 0) {
                 return;
             }
@@ -546,7 +547,7 @@ public class TMLTask extends TMLElement {
             if (tmlTask.getRequest() != null) return false;
         }
 
-        if(!(new HashSet<>(attributes).equals(new HashSet<>(tmlTask.attributes))))
+        if (!(new HashSet<>(attributes).equals(new HashSet<>(tmlTask.attributes))))
             return false;
         return operationType == tmlTask.operationType &&
                 isDaemon == tmlTask.isDaemon &&
@@ -566,6 +567,11 @@ public class TMLTask extends TMLElement {
                 comp.isTMLEventSetEquals(eventsList, tmlTask.getEventSet());
     }
 
+    public void nullifyDelayOperators(boolean execOp, boolean timeOp) {
+        if (activity != null) {
+            activity.nullifyDelayOperators(execOp, timeOp);
+        }
+    }
 
 
 }

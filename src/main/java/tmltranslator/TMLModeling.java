@@ -37,21 +37,18 @@
  */
 
 
-
-
 package tmltranslator;
 
 import avatartranslator.AvatarAttribute;
 import avatartranslator.AvatarPragmaAuthenticity;
-import avatartranslator.AvatarPragmaSecret;
 import avatartranslator.AvatarPragmaReachability;
+import avatartranslator.AvatarPragmaSecret;
 import myutil.Conversion;
 import myutil.TraceManager;
 import proverifspec.ProVerifOutputAnalyzer;
 import proverifspec.ProVerifQueryAuthResult;
 import proverifspec.ProVerifQueryResult;
 import proverifspec.ProVerifResultTrace;
-//import ui.tmlcompd.TMLCPrimitivePort;
 import ui.TGComponent;
 
 import java.util.*;
@@ -60,31 +57,28 @@ import java.util.*;
 /**
  * Class TMLModeling
  * Creation: 21/11/2005
- * @version 1.0 21/11/2005
+ *
  * @author Ludovic APVRILLE
+ * @version 1.0 21/11/2005
  */
-public class  TMLModeling<E> {
+public class TMLModeling<E> {
     public final String SEP1 = "_S_";
-
+    // Security
+    public List<String> securityPatterns;
+    public List<SecurityPattern> secPatterns;
+    public Map<String, List<String>> secChannelMap;
+    public Map<SecurityPattern, List<TMLTask>> securityTaskMap;
     private List<TMLTask> tasks;
     private List<TMLChannel> channels;
     private List<TMLRequest> requests;
     private List<TMLEvent> events;
     private List<String> pragmas;
-    
     private TMLElement correspondance[]; // Link to graphical components
-
-    // Security
-    public List<String> securityPatterns;
-    public List<SecurityPattern> secPatterns;
     private boolean optimized = false;
-    public Map<String, List<String>> secChannelMap;
-    public Map<SecurityPattern, List<TMLTask>> securityTaskMap;
-    
     private String[] ops = {">", "<", "+", "-", "*", "/", "[", "]", "(", ")", ":", "=", "==", ","};
-    
+
     private Map<E, String> checkedActivities;
-    
+
     private int hashCode;
     private boolean hashCodeComputed = false;
 
@@ -99,23 +93,23 @@ public class  TMLModeling<E> {
         }
     }
 
-    public void addSecurityPattern(SecurityPattern sp){
-        if (!secPatterns.contains(sp)){
+    public void addSecurityPattern(SecurityPattern sp) {
+        if (!secPatterns.contains(sp)) {
             secPatterns.add(sp);
         }
     }
 
-    public void addCheckedActivity(E tgc, String s){
-        checkedActivities.put(tgc,s);
+    public void addCheckedActivity(E tgc, String s) {
+        checkedActivities.put(tgc, s);
     }
 
-    public Map<E, String> getCheckedComps(){
+    public Map<E, String> getCheckedComps() {
         return checkedActivities;
     }
 
-    public SecurityPattern getSecurityPattern(String s){
-        for (SecurityPattern sp:secPatterns){
-            if (sp.name.equals(s)){
+    public SecurityPattern getSecurityPattern(String s) {
+        for (SecurityPattern sp : secPatterns) {
+            if (sp.name.equals(s)) {
                 return sp;
             }
         }
@@ -136,23 +130,24 @@ public class  TMLModeling<E> {
         events = new ArrayList<TMLEvent>();
         requests = new ArrayList<TMLRequest>();
         pragmas = new ArrayList<String>();
-	
-	securityPatterns = new ArrayList<String>();
-	secPatterns = new ArrayList<SecurityPattern>();
 
-	secChannelMap = new HashMap<String, List<String>>();
-	securityTaskMap = new HashMap<SecurityPattern, List<TMLTask>>();
+        securityPatterns = new ArrayList<String>();
+        secPatterns = new ArrayList<SecurityPattern>();
 
-	checkedActivities = new HashMap<>();
+        secChannelMap = new HashMap<String, List<String>>();
+        securityTaskMap = new HashMap<SecurityPattern, List<TMLTask>>();
+
+        checkedActivities = new HashMap<>();
     }
 
     public void addTask(TMLTask task) {
         tasks.add(task);
     }
 
-    public void addPragma(String s){
+    public void addPragma(String s) {
         pragmas.add(s);
     }
+
     public void addChannel(TMLChannel channel) {
         channels.add(channel);
     }
@@ -168,12 +163,14 @@ public class  TMLModeling<E> {
     public boolean checkConsistency() {
         return true;
     }
-    public void removeAllChannels(){
+
+    public void removeAllChannels() {
         channels.clear();
     }
+
     public TMLTask findTMLTask(TMLActivityElement _elt) {
         TMLTask tmp;
-        for(int i=0; i<tasks.size(); i++) {
+        for (int i = 0; i < tasks.size(); i++) {
             tmp = tasks.get(i);
             if (tmp.has(_elt)) {
                 return tmp;
@@ -219,31 +216,31 @@ public class  TMLModeling<E> {
 
     public String tasksToString() {
         String s = "Tasks: ";
-        return s+listToString(tasks) + "\n";
+        return s + listToString(tasks) + "\n";
     }
 
     public String channelsToString() {
         String s = "Channels: ";
-        return s+listToString(channels) + "\n";
+        return s + listToString(channels) + "\n";
     }
 
     public String eventsToString() {
         String s = "Events: ";
-        return s+listToString(events) + "\n";
+        return s + listToString(events) + "\n";
     }
 
     public String requestsToString() {
         String s = "Requests: ";
-        return s+listToString(requests) + "\n";
+        return s + listToString(requests) + "\n";
     }
 
 
-    public String listToString( List<? extends TMLElement> ll) {
-        String s="";
+    public String listToString(List<? extends TMLElement> ll) {
+        String s = "";
         Iterator<? extends TMLElement> iterator = ll.listIterator();
         TMLElement tmle;
 
-        while(iterator.hasNext()) {
+        while (iterator.hasNext()) {
             tmle = iterator.next();
             s += tmle.getName() + " ";
         }
@@ -255,7 +252,7 @@ public class  TMLModeling<E> {
         TMLChannel channel;
         Iterator<TMLChannel> iterator = channels.listIterator();
 
-        while(iterator.hasNext()) {
+        while (iterator.hasNext()) {
             channel = iterator.next();
 
             if (channel.getName().compareTo(_channel.getName()) == 0) {
@@ -270,7 +267,7 @@ public class  TMLModeling<E> {
         TMLChannel channel;
         Iterator<TMLChannel> iterator = channels.listIterator();
 
-        while(iterator.hasNext()) {
+        while (iterator.hasNext()) {
             channel = iterator.next();
 
             if (channel.getName().compareTo(_channel.getName()) == 0) {
@@ -297,7 +294,7 @@ public class  TMLModeling<E> {
         TMLRequest request;
         Iterator<TMLRequest> iterator = requests.listIterator();
 
-        while(iterator.hasNext()) {
+        while (iterator.hasNext()) {
             request = iterator.next();
             if (request != _request) {
                 if (request.getName().compareTo(_request.getName()) == 0) {
@@ -312,7 +309,7 @@ public class  TMLModeling<E> {
         TMLRequest request;
         Iterator<TMLRequest> iterator = requests.listIterator();
 
-        while(iterator.hasNext()) {
+        while (iterator.hasNext()) {
             request = iterator.next();
             //TraceManager.addDev("Request=" +request.getName() + " name=" + name);
             if (request.getName().compareTo(name) == 0) {
@@ -330,7 +327,7 @@ public class  TMLModeling<E> {
 
         Iterator<TMLRequest> iterator = requests.listIterator();
 
-        while(iterator.hasNext()) {
+        while (iterator.hasNext()) {
             request = iterator.next();
 
             if (request.getName().compareTo(_request.getName()) == 0) {
@@ -340,7 +337,7 @@ public class  TMLModeling<E> {
                     return null;
                 }
 
-                for(i=0; i<request.getNbOfParams(); i++) {
+                for (i = 0; i < request.getNbOfParams(); i++) {
                     if (request.getType(i).getType() != _request.getType(i).getType()) {
                         TraceManager.addDev("**** -> Params #" + i + " type");
                         return null;
@@ -362,7 +359,7 @@ public class  TMLModeling<E> {
         TMLEvent event;
         Iterator<TMLEvent> iterator = events.listIterator();
 
-        while(iterator.hasNext()) {
+        while (iterator.hasNext()) {
             event = iterator.next();
 
             if (event.getName().compareTo(_event.getName()) == 0) {
@@ -378,7 +375,7 @@ public class  TMLModeling<E> {
 
         Iterator<TMLEvent> iterator = events.listIterator();
 
-        while(iterator.hasNext()) {
+        while (iterator.hasNext()) {
             event = iterator.next();
             if (event.getName().compareTo(_event.getName()) == 0) {
                 // must verify whether a param is different or not.
@@ -386,7 +383,7 @@ public class  TMLModeling<E> {
                     return true;
                 }
 
-                for(i=0; i<event.getNbOfParams(); i++) {
+                for (i = 0; i < event.getNbOfParams(); i++) {
                     if (event.getType(i).getType() != _event.getType(i).getType()) {
                         return true;
                     }
@@ -408,7 +405,7 @@ public class  TMLModeling<E> {
         TMLTask task;
         Iterator<TMLTask> iterator = tasks.listIterator();
 
-        while(iterator.hasNext()) {
+        while (iterator.hasNext()) {
             task = iterator.next();
 
             if (task.getName().compareTo(_name) == 0) {
@@ -423,15 +420,15 @@ public class  TMLModeling<E> {
             return null;
         }
 
-        String [] list = new String[tasks.size()];
+        String[] list = new String[tasks.size()];
         TMLTask task;
         Iterator<TMLTask> iterator = tasks.listIterator();
         int cpt = 0;
 
-        while(iterator.hasNext()) {
+        while (iterator.hasNext()) {
             task = iterator.next();
             list[cpt] = task.getName() + " (" + task.getID() + ")";
-            cpt ++;
+            cpt++;
         }
         return list;
     }
@@ -441,15 +438,15 @@ public class  TMLModeling<E> {
             return null;
         }
 
-        String [] list = new String[channels.size()];
+        String[] list = new String[channels.size()];
         TMLChannel ch;
         Iterator<TMLChannel> iterator = channels.listIterator();
         int cpt = 0;
 
-        while(iterator.hasNext()) {
+        while (iterator.hasNext()) {
             ch = iterator.next();
             list[cpt] = ch.getName() + " (" + ch.getID() + ")";
-            cpt ++;
+            cpt++;
         }
 
         return list;
@@ -485,7 +482,7 @@ public class  TMLModeling<E> {
         TMLTask task;
         Iterator<TMLTask> iterator = tasks.listIterator();
 
-        while(iterator.hasNext()) {
+        while (iterator.hasNext()) {
             task = iterator.next();
 
             if (task.hasCommand(id)) {
@@ -514,7 +511,7 @@ public class  TMLModeling<E> {
         TMLChannel ch;
         Iterator<TMLChannel> iterator = channels.listIterator();
 
-        while(iterator.hasNext()) {
+        while (iterator.hasNext()) {
             ch = iterator.next();
             if (ch.getName().compareTo(_name) == 0) {
                 return ch;
@@ -528,7 +525,7 @@ public class  TMLModeling<E> {
         TMLChannel ch;
         Iterator<TMLChannel> iterator = channels.listIterator();
 
-        while(iterator.hasNext()) {
+        while (iterator.hasNext()) {
             ch = iterator.next();
             if (ch.getName().endsWith(_name)) {
                 return ch;
@@ -542,7 +539,7 @@ public class  TMLModeling<E> {
         TMLChannel ch;
         Iterator<TMLChannel> iterator = channels.listIterator();
 
-        while(iterator.hasNext()) {
+        while (iterator.hasNext()) {
             ch = iterator.next();
 
             if (ch.hasDestinationPort(_portName) != null) {
@@ -552,12 +549,12 @@ public class  TMLModeling<E> {
 
         return null;
     }
-    
+
     public TMLChannel getChannelByOriginPortName(String _portName) {
         TMLChannel ch;
         Iterator<TMLChannel> iterator = channels.listIterator();
 
-        while(iterator.hasNext()) {
+        while (iterator.hasNext()) {
             ch = iterator.next();
 
             if (ch.hasOriginPort(_portName) != null) {
@@ -572,7 +569,7 @@ public class  TMLModeling<E> {
         TMLEvent evt;
         Iterator<TMLEvent> iterator = events.listIterator();
 
-        while(iterator.hasNext()) {
+        while (iterator.hasNext()) {
             evt = iterator.next();
 
             if (evt.getName().compareTo(_name) == 0) {
@@ -587,7 +584,7 @@ public class  TMLModeling<E> {
         TMLEvent evt;
         Iterator<TMLEvent> iterator = events.listIterator();
 
-        while(iterator.hasNext()) {
+        while (iterator.hasNext()) {
             evt = iterator.next();
             if (evt.getName().endsWith(_name)) {
                 return evt;
@@ -602,7 +599,7 @@ public class  TMLModeling<E> {
         TMLRequest req;
         Iterator<TMLRequest> iterator = requests.listIterator();
 
-        while(iterator.hasNext()) {
+        while (iterator.hasNext()) {
             req = iterator.next();
 
             if (req.getName().endsWith(_name)) {
@@ -618,7 +615,7 @@ public class  TMLModeling<E> {
         TMLRequest req;
         Iterator<TMLRequest> iterator = requests.listIterator();
 
-        while(iterator.hasNext()) {
+        while (iterator.hasNext()) {
             req = iterator.next();
 
             if (req.getName().compareTo(_name) == 0) {
@@ -637,7 +634,7 @@ public class  TMLModeling<E> {
         TMLRequest req;
         Iterator<TMLRequest> iterator = requests.listIterator();
 
-        while(iterator.hasNext()) {
+        while (iterator.hasNext()) {
             req = iterator.next();
 
             if (req.getDestinationTask() == tmlt) {
@@ -652,25 +649,25 @@ public class  TMLModeling<E> {
     public List<TMLElement> getAllElementsWithName(String name) {
         Vector<TMLElement> elts = new Vector<>();
 
-        for(TMLTask task: tasks) {
+        for (TMLTask task : tasks) {
             if (task.getName().compareTo(name) == 0) {
                 elts.add(task);
             }
         }
 
-        for(TMLChannel ch: channels) {
+        for (TMLChannel ch : channels) {
             if (ch.getName().compareTo(name) == 0) {
                 elts.add(ch);
             }
         }
 
-        for(TMLEvent evt: events) {
+        for (TMLEvent evt : events) {
             if (evt.getName().compareTo(name) == 0) {
                 elts.add(evt);
             }
         }
 
-        for(TMLRequest req: requests) {
+        for (TMLRequest req : requests) {
             if (req.getName().compareTo(name) == 0) {
                 elts.add(req);
             }
@@ -683,17 +680,17 @@ public class  TMLModeling<E> {
         return tasks;
     }
 
-	public List<TMLTask> getAttackerTasks(){
-		List<TMLTask> attackers = new ArrayList<TMLTask>();
-		for (TMLTask task: tasks){
-			if (task.isAttacker()){
-				attackers.add(task);
-			}
-		}
-		return attackers;
-	}
-	
-    public List<String> getPragmas(){
+    public List<TMLTask> getAttackerTasks() {
+        List<TMLTask> attackers = new ArrayList<TMLTask>();
+        for (TMLTask task : tasks) {
+            if (task.isAttacker()) {
+                attackers.add(task);
+            }
+        }
+        return attackers;
+    }
+
+    public List<String> getPragmas() {
         return pragmas;
     }
 
@@ -730,31 +727,32 @@ public class  TMLModeling<E> {
         List<TMLChannel> list = new ArrayList<TMLChannel>();
         Iterator<TMLChannel> iterator = getListIteratorChannels();
 
-        while(iterator.hasNext()) {
+        while (iterator.hasNext()) {
             ch = iterator.next();
             if ((ch.getOriginTask() == t) || (ch.getDestinationTask() == t)) {
                 list.add(ch);
             }
-            for (TMLTask task: ch.getOriginTasks()){
-            	if (task == t){
-            		list.add(ch);
-            	}
+            for (TMLTask task : ch.getOriginTasks()) {
+                if (task == t) {
+                    list.add(ch);
+                }
             }
-            for (TMLTask task: ch.getDestinationTasks()){
-            	if (task== t){
-            		list.add(ch);
-            	}
+            for (TMLTask task : ch.getDestinationTasks()) {
+                if (task == t) {
+                    list.add(ch);
+                }
             }
         }
 
         return list;
     }
-    public List<TMLChannel> getChannels(TMLTask originTask, TMLTask destTask){
+
+    public List<TMLChannel> getChannels(TMLTask originTask, TMLTask destTask) {
         TMLChannel ch;
         List<TMLChannel> list = new ArrayList<TMLChannel>();
         Iterator<TMLChannel> iterator = getListIteratorChannels();
 
-        while(iterator.hasNext()) {
+        while (iterator.hasNext()) {
             ch = iterator.next();
 
             if ((ch.getOriginTask() == originTask) && (ch.getDestinationTask() == destTask)) {
@@ -765,12 +763,12 @@ public class  TMLModeling<E> {
         return list;
     }
 
-    public void backtrace(ProVerifOutputAnalyzer pvoa, String mappingName){
+    public void backtrace(ProVerifOutputAnalyzer pvoa, String mappingName) {
         //TraceManager.addDev("Backtracing Confidentiality");
         Map<AvatarPragmaSecret, ProVerifQueryResult> confResults = pvoa.getConfidentialityResults();
 
-        for (AvatarPragmaSecret pragma: confResults.keySet()) {
-        //	System.out.println("pragma "  +pragma);
+        for (AvatarPragmaSecret pragma : confResults.keySet()) {
+            //	System.out.println("pragma "  +pragma);
             ProVerifQueryResult result = confResults.get(pragma);
             if (!result.isProved())
                 continue;
@@ -779,83 +777,83 @@ public class  TMLModeling<E> {
             AvatarAttribute attr = pragma.getArg();
 
 
-            TMLChannel channel = getChannelByShortName(attr.getName().replaceAll("_chData",""));
-            boolean invalidate=false;
-            if (channel==null){
-            	channel = getChannelByOriginPortName(attr.getName().replaceAll("_chData",""));
+            TMLChannel channel = getChannelByShortName(attr.getName().replaceAll("_chData", ""));
+            boolean invalidate = false;
+            if (channel == null) {
+                channel = getChannelByOriginPortName(attr.getName().replaceAll("_chData", ""));
             }
             //If an attribute is confidential because it has never been sent on that channel, do not backtrace that result since it is misleading
-            if (channel!=null){
-            	//Mark the result only if the writechannel operator is reachable
-            	Map<AvatarPragmaReachability, ProVerifQueryResult> reachResults = pvoa.getReachabilityResults();
-            	if (reachResults.size()>0){
-	            	for (AvatarPragmaReachability reachPragma: reachResults.keySet()){
-    	        		if (reachPragma.getState().getName().equals("aftersignalstate_reachannel_"+channel.getName())){
-    	        			if (!reachResults.get(reachPragma).isSatisfied()){
-    	        				invalidate=true;
-    	        			}	
-            			}
-            		}
-            	}
-            	//Next check if there exists a writechannel operator that sends unencrypted data
-            	boolean found=false;
-            	for (TMLTask task: getTasks()){
-            		TMLActivity act = task.getActivityDiagram();
-            		for (TMLActivityElement elem: act.getElements()){
-            			if (elem instanceof TMLWriteChannel){
-            				TMLWriteChannel wr = (TMLWriteChannel) elem;
-            				if(wr.getChannel(0).getName().equals(channel.getName())){
-            					if (wr.securityPattern==null){
-            						found=true;
-            					}
-            				}
-            			}
-            		}
-            	}
-            	if (!found){
-            		invalidate=true;
-            	}
-                for (TMLPortWithSecurityInformation port: channel.ports){
-                    if (port.getCheckConf() && !invalidate){
+            if (channel != null) {
+                //Mark the result only if the writechannel operator is reachable
+                Map<AvatarPragmaReachability, ProVerifQueryResult> reachResults = pvoa.getReachabilityResults();
+                if (reachResults.size() > 0) {
+                    for (AvatarPragmaReachability reachPragma : reachResults.keySet()) {
+                        if (reachPragma.getState().getName().equals("aftersignalstate_reachannel_" + channel.getName())) {
+                            if (!reachResults.get(reachPragma).isSatisfied()) {
+                                invalidate = true;
+                            }
+                        }
+                    }
+                }
+                //Next check if there exists a writechannel operator that sends unencrypted data
+                boolean found = false;
+                for (TMLTask task : getTasks()) {
+                    TMLActivity act = task.getActivityDiagram();
+                    for (TMLActivityElement elem : act.getElements()) {
+                        if (elem instanceof TMLWriteChannel) {
+                            TMLWriteChannel wr = (TMLWriteChannel) elem;
+                            if (wr.getChannel(0).getName().equals(channel.getName())) {
+                                if (wr.securityPattern == null) {
+                                    found = true;
+                                }
+                            }
+                        }
+                    }
+                }
+                if (!found) {
+                    invalidate = true;
+                }
+                for (TMLPortWithSecurityInformation port : channel.ports) {
+                    if (port.getCheckConf() && !invalidate) {
                         port.setConfStatus(r);
                         port.setMappingName(mappingName);
                         //Add Result Trace also
                         ProVerifResultTrace trace = pvoa.getResults().get(pragma).getTrace();
-                        if (trace !=null && port.isOrigin()){
-                        	port.setResultTrace(trace);
-                        	port.setPragmaString(pragma.toString());
+                        if (trace != null && port.isOrigin()) {
+                            port.setResultTrace(trace);
+                            port.setPragmaString(pragma.toString());
                         }
                     }
                 }
             }
-            TMLRequest req = getRequestByName(attr.getName().replaceAll("_reqData",""));
-            if (req !=null){
-                for (TMLPortWithSecurityInformation port: req.ports){
-                    if (port.getCheckConf()){
+            TMLRequest req = getRequestByName(attr.getName().replaceAll("_reqData", ""));
+            if (req != null) {
+                for (TMLPortWithSecurityInformation port : req.ports) {
+                    if (port.getCheckConf()) {
                         port.setConfStatus(r);
                         port.setMappingName(mappingName);
                     }
                 }
             }
-            TMLEvent ev = getEventByName(attr.getName().replaceAll("_eventData",""));
-            if (ev !=null){
-                if (ev.port.checkConf){
-                    ev.port.checkConfStatus=r;
-                    ev.port.mappingName= mappingName;
+            TMLEvent ev = getEventByName(attr.getName().replaceAll("_eventData", ""));
+            if (ev != null) {
+                if (ev.port.checkConf) {
+                    ev.port.checkConfStatus = r;
+                    ev.port.mappingName = mappingName;
                 }
-                if (ev.port2.checkConf){
-                    ev.port2.checkConfStatus=r;
-                    ev.port2.mappingName=mappingName;
+                if (ev.port2.checkConf) {
+                    ev.port2.checkConfStatus = r;
+                    ev.port2.mappingName = mappingName;
                 }
             }
-            
-            List<String> channels=secChannelMap.get(attr.getName());
+
+            List<String> channels = secChannelMap.get(attr.getName());
             if (channels != null) {
-                for (String channelName: channels) {
+                for (String channelName : channels) {
                     channel = getChannelByShortName(channelName);
-                    if (channel!=null){
-                        for (TMLPortWithSecurityInformation port:channel.ports){
-                            if (port.getCheckConf()){
+                    if (channel != null) {
+                        for (TMLPortWithSecurityInformation port : channel.ports) {
+                            if (port.getCheckConf()) {
                                 port.setConfStatus(r);
                                 port.setSecName(attr.getName());
                             }
@@ -867,96 +865,97 @@ public class  TMLModeling<E> {
         }
         //
     }
-	public TGComponent getTGComponent(){
-		return (TGComponent) getTasks().get(0).getReferenceObject();
-	}
+
+    public TGComponent getTGComponent() {
+        return (TGComponent) getTasks().get(0).getReferenceObject();
+    }
 
 
     public void backtraceAuthenticity(ProVerifOutputAnalyzer pvoa, String mappingName) {
         //        TraceManager.addDev("Backtracing Authenticity");
         Map<AvatarPragmaAuthenticity, ProVerifQueryAuthResult> authenticityResults = pvoa.getAuthenticityResults();
-        for (AvatarPragmaAuthenticity pragma: authenticityResults.keySet()) {
+        for (AvatarPragmaAuthenticity pragma : authenticityResults.keySet()) {
             ProVerifQueryAuthResult result = authenticityResults.get(pragma);
             // TODO: deal directly with pragma instead of s
             String s = pragma.getAttrB().getAttribute().getBlock().getName()
-                + "__" + pragma.getAttrB().getAttribute().getName()
-                + "__" + pragma.getAttrB().getState().getName()
-                + " ==> "
-                + pragma.getAttrA().getAttribute().getBlock().getName()
-                + "__" + pragma.getAttrA().getAttribute().getName()
-                + "__" + pragma.getAttrA().getState().getName();
+                    + "__" + pragma.getAttrB().getAttribute().getName()
+                    + "__" + pragma.getAttrB().getState().getName()
+                    + " ==> "
+                    + pragma.getAttrA().getAttribute().getBlock().getName()
+                    + "__" + pragma.getAttrA().getAttribute().getName()
+                    + "__" + pragma.getAttrA().getState().getName();
 
-            if (result.isProved() && !result.isSatisfied()){
+            if (result.isProved() && !result.isSatisfied()) {
                 String signalName = s.toString().split("_chData")[0];
-                signalName = signalName.split("__")[signalName.split("__").length-1];
+                signalName = signalName.split("__")[signalName.split("__").length - 1];
 
                 TMLChannel channel = getChannelByShortName(signalName);
-               
-                if (channel==null){
-                	channel= getChannelByDestinationPortName(signalName);
+
+                if (channel == null) {
+                    channel = getChannelByDestinationPortName(signalName);
                 }
-                if (channel!=null){
-                    for (TMLPortWithSecurityInformation port:channel.ports){
-                        if (port.getCheckAuth()){
+                if (channel != null) {
+                    for (TMLPortWithSecurityInformation port : channel.ports) {
+                        if (port.getCheckAuth()) {
                             port.setStrongAuthStatus(3);
                             port.setMappingName(mappingName);
                             ProVerifResultTrace trace = pvoa.getResults().get(pragma).getTrace();
-                        	if (trace !=null && !port.isOrigin()){
-                        		port.setResultTrace(trace);
-                        		port.setPragmaString(pragma.toString());
-                        	}
+                            if (trace != null && !port.isOrigin()) {
+                                port.setResultTrace(trace);
+                                port.setPragmaString(pragma.toString());
+                            }
                         }
                     }
                 }
                 signalName = s.toString().split("_reqData")[0];
-                for (TMLTask t: getTasks()){
-                    if (signalName.contains(t.getName())){
-                        signalName = signalName.replace(t.getName()+"__","");
+                for (TMLTask t : getTasks()) {
+                    if (signalName.contains(t.getName())) {
+                        signalName = signalName.replace(t.getName() + "__", "");
                     }
                 }
                 TMLRequest req = getRequestByName(signalName);
-                if (req !=null){
-                    for (TMLPortWithSecurityInformation port: req.ports) {
-                        if (port.getCheckAuth()){
+                if (req != null) {
+                    for (TMLPortWithSecurityInformation port : req.ports) {
+                        if (port.getCheckAuth()) {
                             port.setStrongAuthStatus(3);
                             port.setMappingName(mappingName);
                         }
                     }
                 }
                 signalName = s.toString().split("_eventData")[0];
-                for (TMLTask t: getTasks()){
-                    if (signalName.contains(t.getName())){
-                        signalName = signalName.replace(t.getName()+"__","");
+                for (TMLTask t : getTasks()) {
+                    if (signalName.contains(t.getName())) {
+                        signalName = signalName.replace(t.getName() + "__", "");
                     }
                 }
                 TMLEvent ev = getEventByName(signalName);
-                if (ev !=null){
-                    if (ev.port.checkAuth){
-                        ev.port.checkStrongAuthStatus=3;
-                        ev.port2.mappingName= mappingName;
+                if (ev != null) {
+                    if (ev.port.checkAuth) {
+                        ev.port.checkStrongAuthStatus = 3;
+                        ev.port2.mappingName = mappingName;
                     }
-                    if (ev.port2.checkAuth){
-                        ev.port2.checkStrongAuthStatus=3;
-                        ev.port2.mappingName= mappingName;
+                    if (ev.port2.checkAuth) {
+                        ev.port2.checkStrongAuthStatus = 3;
+                        ev.port2.mappingName = mappingName;
                     }
                 }
 
                 signalName = s.split("__decrypt")[0];
                 List<String> channels = secChannelMap.get(signalName);
-                if (channels != null){
-                    for (String channelName:channels){
+                if (channels != null) {
+                    for (String channelName : channels) {
                         channel = getChannelByShortName(channelName);
-                        if (channel != null){
-                            for (TMLPortWithSecurityInformation port: channel.ports){
-                                if (port.getCheckAuth() && port.getCheckStrongAuthStatus() == 1){
+                        if (channel != null) {
+                            for (TMLPortWithSecurityInformation port : channel.ports) {
+                                if (port.getCheckAuth() && port.getCheckStrongAuthStatus() == 1) {
                                     port.setStrongAuthStatus(3);
                                     TraceManager.addDev("not verified " + signalName);
                                     port.setSecName(signalName);
                                     ProVerifResultTrace trace = pvoa.getResults().get(pragma).getTrace();
-                        			if (trace !=null && !port.isOrigin()){
-                        				port.setResultTrace(trace);
-                        				port.setPragmaString(pragma.toString());
-                        			}
+                                    if (trace != null && !port.isOrigin()) {
+                                        port.setResultTrace(trace);
+                                        port.setPragmaString(pragma.toString());
+                                    }
                                 }
                             }
                         }
@@ -967,27 +966,27 @@ public class  TMLModeling<E> {
                 signalName = s.split("__decrypt")[0];
                 signalName = signalName.split("__")[1];
                 channels = secChannelMap.get(signalName);
-                if (channels != null){
-                    for (String channelName: channels){
-                        if (channelName.contains("retData_") || channelName.contains("data_")){
-                            channelName=channelName.replaceAll("retData_","").replaceAll("data_","");
+                if (channels != null) {
+                    for (String channelName : channels) {
+                        if (channelName.contains("retData_") || channelName.contains("data_")) {
+                            channelName = channelName.replaceAll("retData_", "").replaceAll("data_", "");
                             //String header= channelName.split("__retData_")[0];
-                            for (TMLTask t: getTasks()){
-                                if (channelName.contains(t.getName().split("__")[1])){
-                                    channelName = channelName.replace("_"+t.getName().split("__")[1],"");
+                            for (TMLTask t : getTasks()) {
+                                if (channelName.contains(t.getName().split("__")[1])) {
+                                    channelName = channelName.replace("_" + t.getName().split("__")[1], "");
                                 }
                             }
                             channel = getChannelByShortName(channelName);
-                            if (channel!=null){
-                                for (TMLPortWithSecurityInformation port: channel.ports){
+                            if (channel != null) {
+                                for (TMLPortWithSecurityInformation port : channel.ports) {
                                     if (port.getCheckAuth()) {
                                         port.setWeakAuthStatus(3);
                                         port.setSecName(signalName);
                                         ProVerifResultTrace trace = pvoa.getResults().get(pragma).getTrace();
-                        				if (trace !=null && !port.isOrigin()) {
-                        					port.setResultTrace(trace);
-                        					port.setPragmaString(pragma.toString());
-                        				}
+                                        if (trace != null && !port.isOrigin()) {
+                                            port.setResultTrace(trace);
+                                            port.setPragmaString(pragma.toString());
+                                        }
                                     }
                                 }
                             }
@@ -996,109 +995,107 @@ public class  TMLModeling<E> {
                 }
             }
 
-            if (result.isWeakProved() && result.isWeakSatisfied())
-                {
-                    String signalName = s.split("_chData")[0];
-                    signalName = signalName.split("__")[1];
-                    TMLChannel channel = getChannelByShortName(signalName);
-                    if (channel != null){
-                        for (TMLPortWithSecurityInformation port: channel.ports){
-                            if (port.getCheckAuth()){
-                                port.setWeakAuthStatus(2);
-                                port.setMappingName(mappingName);
-                                ProVerifResultTrace trace = pvoa.getResults().get(pragma).getTrace();
-                        		if (trace !=null && !port.isOrigin()){
-                        			port.setResultTrace(trace);
-                        			port.setPragmaString(pragma.toString());
-                        		}
-	                        }
-                        }
-                    }
-                    signalName = s.split("_reqData")[0];
-                    for (TMLTask t: getTasks()){
-                        if (signalName.contains(t.getName())){
-                            signalName = signalName.replace(t.getName()+"__","");
-                        }
-                    }
-                    TMLRequest req = getRequestByName(signalName);
-                    if (req !=null){
-                        for (TMLPortWithSecurityInformation port: req.ports){
-                            if (port.getCheckAuth()){
-                                port.setWeakAuthStatus(2);
-                                port.setMappingName(mappingName);
+            if (result.isWeakProved() && result.isWeakSatisfied()) {
+                String signalName = s.split("_chData")[0];
+                signalName = signalName.split("__")[1];
+                TMLChannel channel = getChannelByShortName(signalName);
+                if (channel != null) {
+                    for (TMLPortWithSecurityInformation port : channel.ports) {
+                        if (port.getCheckAuth()) {
+                            port.setWeakAuthStatus(2);
+                            port.setMappingName(mappingName);
+                            ProVerifResultTrace trace = pvoa.getResults().get(pragma).getTrace();
+                            if (trace != null && !port.isOrigin()) {
+                                port.setResultTrace(trace);
+                                port.setPragmaString(pragma.toString());
                             }
                         }
                     }
-                    signalName = s.split("__eventData")[0];
-                    for (TMLTask t: getTasks()){
-                        if (signalName.contains(t.getName())){
-                            signalName = signalName.replace(t.getName()+"__","");
+                }
+                signalName = s.split("_reqData")[0];
+                for (TMLTask t : getTasks()) {
+                    if (signalName.contains(t.getName())) {
+                        signalName = signalName.replace(t.getName() + "__", "");
+                    }
+                }
+                TMLRequest req = getRequestByName(signalName);
+                if (req != null) {
+                    for (TMLPortWithSecurityInformation port : req.ports) {
+                        if (port.getCheckAuth()) {
+                            port.setWeakAuthStatus(2);
+                            port.setMappingName(mappingName);
                         }
                     }
-                    TMLEvent ev = getEventByName(signalName);
-                    if (ev != null){
-                        if (ev.port.checkAuth){
-                            ev.port.checkWeakAuthStatus=2;
-                            ev.port2.mappingName= mappingName;
-                        }
-                        if (ev.port2.checkAuth){
-                            ev.port2.checkWeakAuthStatus=2;
-                            ev.port2.mappingName= mappingName;
-                        }
+                }
+                signalName = s.split("__eventData")[0];
+                for (TMLTask t : getTasks()) {
+                    if (signalName.contains(t.getName())) {
+                        signalName = signalName.replace(t.getName() + "__", "");
                     }
-                    signalName = s.toString().split("__decrypt")[0];
+                }
+                TMLEvent ev = getEventByName(signalName);
+                if (ev != null) {
+                    if (ev.port.checkAuth) {
+                        ev.port.checkWeakAuthStatus = 2;
+                        ev.port2.mappingName = mappingName;
+                    }
+                    if (ev.port2.checkAuth) {
+                        ev.port2.checkWeakAuthStatus = 2;
+                        ev.port2.mappingName = mappingName;
+                    }
+                }
+                signalName = s.toString().split("__decrypt")[0];
 
                     /*for (TMLTask t: getTasks()){
                       if (signalName.contains(t.getName())){
                       signalName = signalName.replace(t.getName()+"__","");
                       }
                       }*/
-                    signalName = signalName.split("__")[1];
-                    List<String> channels=secChannelMap.get(signalName);
-                    if (channels!=null){
-                        for (String channelName:channels){
-                            channel = getChannelByShortName(channelName);
-                            if (channel!=null){
-                                for (TMLPortWithSecurityInformation port:channel.ports){
-                                    if (port.getCheckAuth()){
-                                        port.setWeakAuthStatus(2);
-                                        port.setSecName(signalName);
-                                        ProVerifResultTrace trace = pvoa.getResults().get(pragma).getTrace();
-                        				if (trace != null && !port.isOrigin()){
-                        					port.setResultTrace(trace);
-                				        	port.setPragmaString(pragma.toString());
- 				                       }
+                signalName = signalName.split("__")[1];
+                List<String> channels = secChannelMap.get(signalName);
+                if (channels != null) {
+                    for (String channelName : channels) {
+                        channel = getChannelByShortName(channelName);
+                        if (channel != null) {
+                            for (TMLPortWithSecurityInformation port : channel.ports) {
+                                if (port.getCheckAuth()) {
+                                    port.setWeakAuthStatus(2);
+                                    port.setSecName(signalName);
+                                    ProVerifResultTrace trace = pvoa.getResults().get(pragma).getTrace();
+                                    if (trace != null && !port.isOrigin()) {
+                                        port.setResultTrace(trace);
+                                        port.setPragmaString(pragma.toString());
                                     }
                                 }
                             }
                         }
                     }
+                }
 
-                    //In case of HSM
-                    signalName = s.split("__decrypt")[0];
-                    signalName = signalName.split("__")[1];
-                    channels = secChannelMap.get(signalName);
-                    if (channels != null){
-                        for (String channelName: channels){
-                            if (channelName.contains("retData_") || channelName.contains("data_")){
-                                channelName=channelName.replaceAll("retData_","").replaceAll("data_","");
-                                //String header= channelName.split("__retData_")[0];
-                                for (TMLTask t: getTasks()){
-                                    if (channelName.contains(t.getName().split("__")[1])){
-                                        channelName = channelName.replace("_"+t.getName().split("__")[1],"");
-                                    }
+                //In case of HSM
+                signalName = s.split("__decrypt")[0];
+                signalName = signalName.split("__")[1];
+                channels = secChannelMap.get(signalName);
+                if (channels != null) {
+                    for (String channelName : channels) {
+                        if (channelName.contains("retData_") || channelName.contains("data_")) {
+                            channelName = channelName.replaceAll("retData_", "").replaceAll("data_", "");
+                            //String header= channelName.split("__retData_")[0];
+                            for (TMLTask t : getTasks()) {
+                                if (channelName.contains(t.getName().split("__")[1])) {
+                                    channelName = channelName.replace("_" + t.getName().split("__")[1], "");
                                 }
-                                channel = getChannelByShortName(channelName);
-                                if (channel!=null){
-                                    for (TMLPortWithSecurityInformation port: channel.ports){
-                                        if (port.getCheckAuth()){
-                                            port.setWeakAuthStatus(2);
-                                            port.setSecName(signalName);
-                                            ProVerifResultTrace trace = pvoa.getResults().get(pragma).getTrace();
-                       						if (trace != null && !port.isOrigin()){
-                        						port.setResultTrace(trace);
-                        						port.setPragmaString(pragma.toString());
-                        					}
+                            }
+                            channel = getChannelByShortName(channelName);
+                            if (channel != null) {
+                                for (TMLPortWithSecurityInformation port : channel.ports) {
+                                    if (port.getCheckAuth()) {
+                                        port.setWeakAuthStatus(2);
+                                        port.setSecName(signalName);
+                                        ProVerifResultTrace trace = pvoa.getResults().get(pragma).getTrace();
+                                        if (trace != null && !port.isOrigin()) {
+                                            port.setResultTrace(trace);
+                                            port.setPragmaString(pragma.toString());
                                         }
                                     }
                                 }
@@ -1106,59 +1103,60 @@ public class  TMLModeling<E> {
                         }
                     }
                 }
+            }
 
             if (result.isProved() && result.isSatisfied()) {
                 String signalName = s.split("_chData")[0];
-                for (TMLTask t: getTasks()){
-                    if (signalName.contains(t.getName())){
-                        signalName = signalName.replace(t.getName()+"__","");
+                for (TMLTask t : getTasks()) {
+                    if (signalName.contains(t.getName())) {
+                        signalName = signalName.replace(t.getName() + "__", "");
                     }
                 }
                 signalName = signalName.split("__")[1];
                 TMLChannel channel = getChannelByShortName(signalName);
-                if (channel!=null){
-                    for (TMLPortWithSecurityInformation port: channel.ports){
+                if (channel != null) {
+                    for (TMLPortWithSecurityInformation port : channel.ports) {
                         if (port.getCheckAuth()) {
                             port.setStrongAuthStatus(2);
                             port.setMappingName(mappingName);
                             ProVerifResultTrace trace = pvoa.getResults().get(pragma).getTrace();
-                        	if (trace !=null && !port.isOrigin()){
-                        		port.setResultTrace(trace);
-                        		port.setPragmaString(pragma.toString());
-                        	}
+                            if (trace != null && !port.isOrigin()) {
+                                port.setResultTrace(trace);
+                                port.setPragmaString(pragma.toString());
+                            }
                         }
                     }
                 }
                 signalName = s.split("_reqData")[0];
-                for (TMLTask t: getTasks()){
-                    if (signalName.contains(t.getName())){
-                        signalName = signalName.replace(t.getName()+"__","");
+                for (TMLTask t : getTasks()) {
+                    if (signalName.contains(t.getName())) {
+                        signalName = signalName.replace(t.getName() + "__", "");
                     }
                 }
                 TMLRequest req = getRequestByName(signalName);
-                if (req !=null){
-                    for (TMLPortWithSecurityInformation port: req.ports){
-                        if (port.getCheckAuth()){
+                if (req != null) {
+                    for (TMLPortWithSecurityInformation port : req.ports) {
+                        if (port.getCheckAuth()) {
                             port.setStrongAuthStatus(2);
                             port.setMappingName(mappingName);
                         }
                     }
                 }
                 signalName = s.split("_eventData")[0];
-                for (TMLTask t: getTasks()){
-                    if (signalName.contains(t.getName())){
-                        signalName = signalName.replace(t.getName()+"__","");
+                for (TMLTask t : getTasks()) {
+                    if (signalName.contains(t.getName())) {
+                        signalName = signalName.replace(t.getName() + "__", "");
                     }
                 }
                 TMLEvent ev = getEventByName(signalName);
-                if (ev !=null){
-                    if (ev.port.checkAuth){
-                        ev.port.checkStrongAuthStatus=2;
-                        ev.port2.mappingName= mappingName;
+                if (ev != null) {
+                    if (ev.port.checkAuth) {
+                        ev.port.checkStrongAuthStatus = 2;
+                        ev.port2.mappingName = mappingName;
                     }
-                    if (ev.port2.checkAuth){
-                        ev.port2.checkStrongAuthStatus=2;
-                        ev.port2.mappingName= mappingName;
+                    if (ev.port2.checkAuth) {
+                        ev.port2.checkStrongAuthStatus = 2;
+                        ev.port2.mappingName = mappingName;
                     }
                 }
 
@@ -1169,23 +1167,23 @@ public class  TMLModeling<E> {
                   }
                   }*/
                 signalName = signalName.split("__")[1];
-             //   TraceManager.addDev("secpattern " + signalName);
+                //   TraceManager.addDev("secpattern " + signalName);
                 List<String> channels = secChannelMap.get(signalName);
-               // TraceManager.addDev("secpattern channels " + channels);
+                // TraceManager.addDev("secpattern channels " + channels);
                 if (channels != null) {
-                    for (String channelName: channels) {
+                    for (String channelName : channels) {
                         channel = getChannelByShortName(channelName);
-                        if (channel!=null){
-                            for (TMLPortWithSecurityInformation port: channel.ports){
-                             //   TraceManager.addDev("adding to port " + channelName);
-                            	if (port.getCheckAuth()){
+                        if (channel != null) {
+                            for (TMLPortWithSecurityInformation port : channel.ports) {
+                                //   TraceManager.addDev("adding to port " + channelName);
+                                if (port.getCheckAuth()) {
                                     port.setStrongAuthStatus(2);
                                     port.setSecName(signalName);
                                     ProVerifResultTrace trace = pvoa.getResults().get(pragma).getTrace();
-                        			if (trace !=null && !port.isOrigin()){
-                        				port.setResultTrace(trace);
-                        				port.setPragmaString(pragma.toString());
-                        			}
+                                    if (trace != null && !port.isOrigin()) {
+                                        port.setResultTrace(trace);
+                                        port.setPragmaString(pragma.toString());
+                                    }
                                 }
                             }
                         }
@@ -1196,28 +1194,28 @@ public class  TMLModeling<E> {
                 //In case of HSM
                 signalName = s.split("__decrypt")[0];
                 signalName = signalName.split("__")[1];
-                channels=secChannelMap.get(signalName);
-                if (channels!=null){
-                    for (String channelName: channels){
-                        if (channelName.contains("retData_") || channelName.contains("data_")){
-                            channelName=channelName.replaceAll("retData_","").replaceAll("data_","");
+                channels = secChannelMap.get(signalName);
+                if (channels != null) {
+                    for (String channelName : channels) {
+                        if (channelName.contains("retData_") || channelName.contains("data_")) {
+                            channelName = channelName.replaceAll("retData_", "").replaceAll("data_", "");
                             //String header= channelName.split("__retData_")[0];
-                            for (TMLTask t: getTasks()){
-                                if (channelName.contains(t.getName().split("__")[1])){
-                                    channelName = channelName.replace("_"+t.getName().split("__")[1],"");
+                            for (TMLTask t : getTasks()) {
+                                if (channelName.contains(t.getName().split("__")[1])) {
+                                    channelName = channelName.replace("_" + t.getName().split("__")[1], "");
                                 }
                             }
                             channel = getChannelByShortName(channelName);
-                            if (channel != null){
-                                for (TMLPortWithSecurityInformation port:channel.ports){
-                                    if (port.getCheckAuth()){
+                            if (channel != null) {
+                                for (TMLPortWithSecurityInformation port : channel.ports) {
+                                    if (port.getCheckAuth()) {
                                         port.setStrongAuthStatus(2);
                                         port.setSecName(signalName);
-                        				ProVerifResultTrace trace = pvoa.getResults().get(pragma).getTrace();
-                        				if (trace !=null && !port.isOrigin()){
-                        					port.setResultTrace(trace);
-                        					port.setPragmaString(pragma.toString());
-                        				}                                        
+                                        ProVerifResultTrace trace = pvoa.getResults().get(pragma).getTrace();
+                                        if (trace != null && !port.isOrigin()) {
+                                            port.setResultTrace(trace);
+                                            port.setPragmaString(pragma.toString());
+                                        }
                                     }
                                 }
                             }
@@ -1231,14 +1229,14 @@ public class  TMLModeling<E> {
 
     public void clearBacktracing() {
 
-        for (TMLChannel channel: getChannels()){
-            for (TMLPortWithSecurityInformation port: channel.ports){
-                if (port.getConfStatus() > 1){
+        for (TMLChannel channel : getChannels()) {
+            for (TMLPortWithSecurityInformation port : channel.ports) {
+                if (port.getConfStatus() > 1) {
                     port.setConfStatus(1);
                     port.setMappingName("???");
                     port.setSecName("");
                 }
-                if (port.getCheckStrongAuthStatus() > 1 || port.getCheckWeakAuthStatus() > 1){
+                if (port.getCheckStrongAuthStatus() > 1 || port.getCheckWeakAuthStatus() > 1) {
                     port.setStrongAuthStatus(1);
                     port.setWeakAuthStatus(1);
                 }
@@ -1247,36 +1245,36 @@ public class  TMLModeling<E> {
             }
         }
 
-        for (TMLRequest req: getRequests()){
-            for (TMLPortWithSecurityInformation port: req.ports) {
-                if (port.getConfStatus() > 1){
+        for (TMLRequest req : getRequests()) {
+            for (TMLPortWithSecurityInformation port : req.ports) {
+                if (port.getConfStatus() > 1) {
                     port.setConfStatus(1);
                     port.setMappingName("???");
                 }
-                if (port.getCheckStrongAuthStatus() > 1 || port.getCheckWeakAuthStatus() > 1){
+                if (port.getCheckStrongAuthStatus() > 1 || port.getCheckWeakAuthStatus() > 1) {
                     port.setStrongAuthStatus(1);
                     port.setWeakAuthStatus(1);
                 }
             }
         }
 
-        for (TMLEvent evt: getEvents()){
-            if (evt.port!=null && evt.port2!=null){
-                if (evt.port.checkConfStatus>1){
-                    evt.port.checkConfStatus=1;
-                    evt.port.mappingName="???";
+        for (TMLEvent evt : getEvents()) {
+            if (evt.port != null && evt.port2 != null) {
+                if (evt.port.checkConfStatus > 1) {
+                    evt.port.checkConfStatus = 1;
+                    evt.port.mappingName = "???";
                 }
-                if (evt.port.checkStrongAuthStatus>1 || evt.port.checkWeakAuthStatus>1){
-                    evt.port.checkStrongAuthStatus=1;
-                    evt.port.checkWeakAuthStatus=1;
+                if (evt.port.checkStrongAuthStatus > 1 || evt.port.checkWeakAuthStatus > 1) {
+                    evt.port.checkStrongAuthStatus = 1;
+                    evt.port.checkWeakAuthStatus = 1;
                 }
-                if (evt.port2.checkConfStatus>1){
-                    evt.port2.checkConfStatus=1;
-                    evt.port2.mappingName="???";
+                if (evt.port2.checkConfStatus > 1) {
+                    evt.port2.checkConfStatus = 1;
+                    evt.port2.mappingName = "???";
                 }
-                if (evt.port2.checkStrongAuthStatus>1 || evt.port2.checkWeakAuthStatus>1){
-                    evt.port2.checkStrongAuthStatus=1;
-                    evt.port2.checkWeakAuthStatus=1;
+                if (evt.port2.checkStrongAuthStatus > 1 || evt.port2.checkWeakAuthStatus > 1) {
+                    evt.port2.checkStrongAuthStatus = 1;
+                    evt.port2.checkWeakAuthStatus = 1;
                 }
             }
         }
@@ -1289,8 +1287,8 @@ public class  TMLModeling<E> {
         List<TMLEvent> list = new ArrayList<TMLEvent>();
         Iterator<TMLEvent> iterator = getListIteratorEvents();
 
-        while(iterator.hasNext()) {
-            evt= iterator.next();
+        while (iterator.hasNext()) {
+            evt = iterator.next();
 
             if ((evt.origin == t) || (evt.destination == t)) {
                 list.add(evt);
@@ -1305,7 +1303,7 @@ public class  TMLModeling<E> {
         List<TMLRequest> list = new ArrayList<TMLRequest>();
         Iterator<TMLRequest> iterator = getListIteratorRequests();
 
-        while(iterator.hasNext()) {
+        while (iterator.hasNext()) {
             request = iterator.next();
 
             if ((request.getDestinationTask() == t) || (request.isAnOriginTask(t))) {
@@ -1323,7 +1321,7 @@ public class  TMLModeling<E> {
         List<TMLRequest> ll = new LinkedList<TMLRequest>();
 
         // Must search each task for SendRequest operator, check the request for destination class
-        Iterator<TMLRequest> iterator= getListIteratorRequests();
+        Iterator<TMLRequest> iterator = getListIteratorRequests();
 
         while (iterator.hasNext()) {
             req = iterator.next();
@@ -1352,7 +1350,7 @@ public class  TMLModeling<E> {
         List<TMLChannel> ll = new LinkedList<TMLChannel>();
 
         // Must search each task for SendRequest operator, check the request for destination class
-        Iterator<TMLChannel> iterator= getListIteratorChannels();
+        Iterator<TMLChannel> iterator = getListIteratorChannels();
 
         while (iterator.hasNext()) {
             chan = iterator.next();
@@ -1437,19 +1435,19 @@ public class  TMLModeling<E> {
     }
 
     public void prefixAllNamesWith(String _prefix) {
-        for(TMLChannel channel: channels) {
+        for (TMLChannel channel : channels) {
             channel.prefixName(_prefix);
         }
 
-        for(TMLEvent evt: events) {
+        for (TMLEvent evt : events) {
             evt.prefixName(_prefix);
         }
 
-        for(TMLRequest req: requests) {
+        for (TMLRequest req : requests) {
             req.prefixName(_prefix);
         }
 
-        for(TMLTask task: tasks) {
+        for (TMLTask task : tasks) {
             task.prefixName(_prefix);
         }
     }
@@ -1467,42 +1465,42 @@ public class  TMLModeling<E> {
     // Elements with same names are not duplicated
     public void advancedMergeWith(TMLModeling<E> tmlm) {
         TraceManager.addDev("**************** Advanced merge!");
-        for(TMLChannel ch: tmlm.getChannels()) {
+        for (TMLChannel ch : tmlm.getChannels()) {
             if (!(hasSameChannelName(ch))) {
                 channels.add(ch);
             }
         }
 
-        for(TMLEvent evt: tmlm.getEvents()) {
+        for (TMLEvent evt : tmlm.getEvents()) {
             if (!(hasSameEventName(evt))) {
                 events.add(evt);
             }
         }
 
-        for(TMLRequest req: tmlm.getRequests()) {
+        for (TMLRequest req : tmlm.getRequests()) {
             if (!(hasSameRequestName(req))) {
                 requests.add(req);
             }
         }
 
-        for(TMLTask task: tmlm.getTasks()) {
+        for (TMLTask task : tmlm.getTasks()) {
             if (getTMLTaskByName(task.getName()) == null) {
 
                 tasks.add(task);
             }
         }
-        for (String s: tmlm.securityPatterns){
+        for (String s : tmlm.securityPatterns) {
             securityPatterns.add(s);
         }
-        for (SecurityPattern sp: tmlm.secPatterns){
-            if (!secPatterns.contains(sp)){
+        for (SecurityPattern sp : tmlm.secPatterns) {
+            if (!secPatterns.contains(sp)) {
                 secPatterns.add(sp);
             }
         }
         securityTaskMap.putAll(tmlm.securityTaskMap);
 
-        for (E tgc: tmlm.getCheckedComps().keySet()){
-            if (!checkedActivities.containsKey(tgc)){
+        for (E tgc : tmlm.getCheckedComps().keySet()) {
+            if (!checkedActivities.containsKey(tgc)) {
                 checkedActivities.put(tgc, tmlm.getCheckedComps().get(tgc));
             }
         }
@@ -1521,9 +1519,9 @@ public class  TMLModeling<E> {
         ArrayList<TMLEvent> tevents = new ArrayList<TMLEvent>();
 
         if (channels.size() > 1) {
-            while(channels.size() > 0) {
+            while (channels.size() > 0) {
                 TMLChannel ch = channels.get(0);
-                for(TMLChannel channel: channels) {
+                for (TMLChannel channel : channels) {
                     if (channel.getName().compareTo(ch.getName()) < 0) {
                         ch = channel;
                     }
@@ -1535,9 +1533,9 @@ public class  TMLModeling<E> {
         }
 
         if (events.size() > 1) {
-            while(events.size() > 0) {
+            while (events.size() > 0) {
                 TMLEvent evt = events.get(0);
-                for(TMLEvent event: events) {
+                for (TMLEvent event : events) {
                     if (event.getName().compareTo(evt.getName()) < 0) {
                         evt = event;
                     }
@@ -1549,9 +1547,9 @@ public class  TMLModeling<E> {
         }
 
         if (requests.size() > 1) {
-            while(requests.size() > 0) {
+            while (requests.size() > 0) {
                 TMLRequest req = requests.get(0);
-                for(TMLRequest request: requests) {
+                for (TMLRequest request : requests) {
                     if (request.getName().compareTo(req.getName()) < 0) {
                         req = request;
                     }
@@ -1563,9 +1561,9 @@ public class  TMLModeling<E> {
         }
 
         if (tasks.size() > 1) {
-            while(tasks.size() > 0) {
+            while (tasks.size() > 0) {
                 TMLTask t = tasks.get(0);
-                for(TMLTask task: tasks) {
+                for (TMLTask task : tasks) {
                     if (task.getName().compareTo(t.getName()) < 0) {
                         t = task;
                     }
@@ -1577,12 +1575,12 @@ public class  TMLModeling<E> {
         }
     }
 
-    public String printSummary( List<TMLError> warnings) {
+    public String printSummary(List<TMLError> warnings) {
         String ret = "Optimization warnings:\n";
         int cpt = 1;
-        for(TMLError error: warnings) {
+        for (TMLError error : warnings) {
             ret += "Warning #" + cpt + " (task " + error.task.getName() + "): " + error.message + "\n";
-            cpt ++;
+            cpt++;
         }
         ret += warnings.size() + " optimization warning(s)\n";
         return ret;
@@ -1594,7 +1592,7 @@ public class  TMLModeling<E> {
         if (!optimized) {
             TraceManager.addDev("Optimizing TML modeling");
             optimized = true;
-            for(TMLTask task: tasks) {
+            for (TMLTask task : tasks) {
                 optimize(task, warnings);
             }
         }
@@ -1609,15 +1607,16 @@ public class  TMLModeling<E> {
     }
 
     /**
-     *  Search for unused or constant variables.
-     *  Ununsed variables are removed from the class.
-     *  Constant variables are also removed from the class, and each time
-     *  they are used, they are replaced by their respective value.
-     * @param task          : TML task {@link TMLTask}
-     * @param activity      : TML activity {@link TMLActivity}
-     * @param warnings      : list of TML errors ({@link TMLError})
+     * Search for unused or constant variables.
+     * Ununsed variables are removed from the class.
+     * Constant variables are also removed from the class, and each time
+     * they are used, they are replaced by their respective value.
+     *
+     * @param task     : TML task {@link TMLTask}
+     * @param activity : TML activity {@link TMLActivity}
+     * @param warnings : list of TML errors ({@link TMLError})
      */
-    public void optimizeVariables(TMLTask task,  TMLActivity activity, List<TMLError> warnings) {
+    public void optimizeVariables(TMLTask task, TMLActivity activity, List<TMLError> warnings) {
         int i;
         int usage;
         TMLAttribute attr;
@@ -1626,7 +1625,7 @@ public class  TMLModeling<E> {
         TMLError error;
 
         //TraceManager.addDev("Analyzing attributes in " + task.getName());
-        for(i=0; i<attributes.size(); i++) {
+        for (i = 0; i < attributes.size(); i++) {
             attr = attributes.get(i);
             //TraceManager.addDev("Analyzing p=" + p.getName() + " i=" + i);
 
@@ -1644,8 +1643,8 @@ public class  TMLModeling<E> {
                         warnings.add(error);
                         //TraceManager.addDev("Attribute " + attr.getName() + " of TML task " + task.getName() + " is never used -> removing it");
                         attributes.remove(i);
-                        i=-1;
-                    } else if (usage ==1) {
+                        i = -1;
+                    } else if (usage == 1) {
                         error = new TMLError(TMLError.WARNING_BEHAVIOR);
                         error.message = "Attribute " + attr.getName() + " of TML task " + task.getName() + " is constant -> putting its value in expression where it is used, and removing it from the task";
                         error.task = task;
@@ -1653,7 +1652,7 @@ public class  TMLModeling<E> {
                         //TraceManager.addDev("Attribute " + attr.getName() + " of TML task " + task.getName() + " is constant -> putting its value in expression where it is used, and removing it from the task");
                         replaceAttributeWithItsValue(task, activity, attr);
                         attributes.remove(i);
-                        i=-1;
+                        i = -1;
                     }
                 }
             }
@@ -1684,16 +1683,16 @@ public class  TMLModeling<E> {
         int usage = 0;
         int index;
         String s, s0, s1;
-        String name = " " + attr.getName() +  " ";
+        String name = " " + attr.getName() + " ";
         //String namebis = attr.getName() +  " ";
         //String nameter = attr.getName();
 
-        for(i=0; i<activity.nElements(); i++) {
+        for (i = 0; i < activity.nElements(); i++) {
             element = activity.get(i);
             //TraceManager.addDev("Before element: " + element + " usage=" + usage);
 
             if (element instanceof TMLActionState) {
-                tmlas = (TMLActionState)element;
+                tmlas = (TMLActionState) element;
                 s = tmlas.getAction().trim();
                 index = s.indexOf('=');
                 if (index != -1) {
@@ -1709,10 +1708,10 @@ public class  TMLModeling<E> {
                         usage = analyzeStringWithParam(s1, name);
                     }
                 }
-            }  else if (element instanceof TMLRandom) {
-                tmlrandom = (TMLRandom)element;
+            } else if (element instanceof TMLRandom) {
+                tmlrandom = (TMLRandom) element;
                 s = tmlrandom.getVariable().trim();
-                s0 =  " " + s.trim() + " ";
+                s0 = " " + s.trim() + " ";
                 if (s0.compareTo(name) == 0) {
                     return 2;
                 }
@@ -1727,8 +1726,8 @@ public class  TMLModeling<E> {
                     usage = analyzeStringWithParam(s1, name);
                 }
 
-            }  else if (element instanceof TMLNotifiedEvent) {
-                tmlaee = (TMLActivityElementEvent)element;
+            } else if (element instanceof TMLNotifiedEvent) {
+                tmlaee = (TMLActivityElementEvent) element;
                 s = " " + tmlaee.getVariable() + " ";
                 index = analyzeStringWithParam(s, name);
                 if (index == 1) {
@@ -1736,7 +1735,7 @@ public class  TMLModeling<E> {
                 }
 
             } else if (element instanceof TMLWaitEvent) {
-                tmlaee = (TMLActivityElementEvent)element;
+                tmlaee = (TMLActivityElementEvent) element;
                 s = " " + tmlaee.getAllParams() + " ";
                 index = analyzeStringWithParam(s, name);
                 if (index == 1) {
@@ -1744,7 +1743,7 @@ public class  TMLModeling<E> {
                 }
 
             } else if (element instanceof TMLForLoop) {
-                tmlloop = (TMLForLoop)element;
+                tmlloop = (TMLForLoop) element;
 
                 s = tmlloop.getInit().trim();
                 index = s.indexOf('=');
@@ -1786,38 +1785,38 @@ public class  TMLModeling<E> {
             } else if (usage == 0) {
 
                 if (element instanceof TMLChoice) {
-                    choice = (TMLChoice)element;
-                    for(j=0; j<choice.getNbGuard(); j++) {
+                    choice = (TMLChoice) element;
+                    for (j = 0; j < choice.getNbGuard(); j++) {
                         if (usage == 0) {
                             usage = analyzeStringWithParam(choice.getGuard(j), name);
                         }
                     }
 
                 } else if (element instanceof TMLActivityElementWithAction) {
-                    tmlaewa = (TMLActivityElementWithAction)element;
+                    tmlaewa = (TMLActivityElementWithAction) element;
                     usage = analyzeStringWithParam(tmlaewa.getAction(), name);
 
                 } else if (element instanceof TMLActivityElementWithIntervalAction) {
-                    tmlint = (TMLActivityElementWithIntervalAction)element;
+                    tmlint = (TMLActivityElementWithIntervalAction) element;
                     usage = analyzeStringWithParam(tmlint.getMinDelay(), name);
                     if (usage == 0) {
                         usage = analyzeStringWithParam(tmlint.getMaxDelay(), name);
                     }
 
                 } else if (element instanceof TMLActivityElementChannel) {
-                    tmlaec = (TMLActivityElementChannel)element;
+                    tmlaec = (TMLActivityElementChannel) element;
                     usage = analyzeStringWithParam(tmlaec.getNbOfSamples(), name);
 
                 } else if (element instanceof TMLSendRequest) {
-                    tmlasr = (TMLSendRequest)element;
-                    for(j=0; j<tmlasr.getNbOfParams(); j++) {
+                    tmlasr = (TMLSendRequest) element;
+                    for (j = 0; j < tmlasr.getNbOfParams(); j++) {
                         if (usage == 0) {
                             usage = analyzeStringWithParam(tmlasr.getParam(j), name);
                         }
                     }
                 } else if (element instanceof TMLSendEvent) {
-                    tmlne = (TMLSendEvent)element;
-                    for(j=0; j<tmlne.getNbOfParams(); j++) {
+                    tmlne = (TMLSendEvent) element;
+                    for (j = 0; j < tmlne.getNbOfParams(); j++) {
                         if (usage == 0) {
                             usage = analyzeStringWithParam(tmlne.getParam(j), name);
                         }
@@ -1864,20 +1863,21 @@ public class  TMLModeling<E> {
         //  String name = " " + attr.getName() +  " ";
         //String namebis = attr.getName() +  " ";
 
-        for(i=0; i<activity.nElements(); i++) {
+        for (i = 0; i < activity.nElements(); i++) {
             element = activity.get(i);
             if (element instanceof TMLActivityElementWithAction) {
-                tmlaewa = (TMLActivityElementWithAction)element;
+                tmlaewa = (TMLActivityElementWithAction) element;
                 tmlaewa.setAction(putAttributeValueInString(tmlaewa.getAction(), attr));
 
-            } if (element instanceof TMLRandom) {
-                tmlrandom = (TMLRandom)element;
+            }
+            if (element instanceof TMLRandom) {
+                tmlrandom = (TMLRandom) element;
                 tmlrandom.setMinValue(putAttributeValueInString(tmlrandom.getMinValue(), attr));
                 tmlrandom.setMaxValue(putAttributeValueInString(tmlrandom.getMaxValue(), attr));
 
             } else if (element instanceof TMLChoice) {
-                choice = (TMLChoice)element;
-                for(j=0; j<choice.getNbGuard(); j++) {
+                choice = (TMLChoice) element;
+                for (j = 0; j < choice.getNbGuard(); j++) {
                     if (choice.getGuard(j) != null) {
                         choice.setGuardAt(j, putAttributeValueInString(choice.getGuard(j), attr));
                     }
@@ -1885,29 +1885,29 @@ public class  TMLModeling<E> {
 
                 //ExecCInterval and ExecIInterval
             } else if (element instanceof TMLActivityElementWithIntervalAction) {
-                tmlint = (TMLActivityElementWithIntervalAction)element;
+                tmlint = (TMLActivityElementWithIntervalAction) element;
                 tmlint.setMinDelay(putAttributeValueInString(tmlint.getMinDelay(), attr));
                 tmlint.setMaxDelay(putAttributeValueInString(tmlint.getMaxDelay(), attr));
 
             } else if (element instanceof TMLForLoop) {
-                tmlloop = (TMLForLoop)element;
+                tmlloop = (TMLForLoop) element;
                 tmlloop.setInit(putAttributeValueInString(tmlloop.getInit(), attr));
                 tmlloop.setCondition(putAttributeValueInString(tmlloop.getCondition(), attr));
                 tmlloop.setIncrement(putAttributeValueInString(tmlloop.getIncrement(), attr));
 
             } else if (element instanceof TMLActivityElementChannel) {
-                tmlaec = (TMLActivityElementChannel)element;
+                tmlaec = (TMLActivityElementChannel) element;
                 tmlaec.setNbOfSamples(putAttributeValueInString(tmlaec.getNbOfSamples(), attr));
 
             } else if (element instanceof TMLActivityElementEvent) {
-                tmlaee = (TMLActivityElementEvent)element;
-                for(j=0; j<tmlaee.getNbOfParams(); j++) {
+                tmlaee = (TMLActivityElementEvent) element;
+                for (j = 0; j < tmlaee.getNbOfParams(); j++) {
                     tmlaee.setParam(putAttributeValueInString(tmlaee.getParam(j), attr), j);
                 }
 
             } else if (element instanceof TMLSendRequest) {
-                tmlasr = (TMLSendRequest)element;
-                for(j=0; j<tmlasr.getNbOfParams(); j++) {
+                tmlasr = (TMLSendRequest) element;
+                for (j = 0; j < tmlasr.getNbOfParams(); j++) {
                     tmlasr.setParam(putAttributeValueInString(tmlasr.getParam(j), attr), j);
                 }
             }
@@ -1929,7 +1929,8 @@ public class  TMLModeling<E> {
 
 
     /**
-     *  Concatenate EXECI and EXEC operations
+     * Concatenate EXECI and EXEC operations
+     *
      * @param activity : TML activity {@link TMLActivity}
      */
     public void optimizeMergeEXECs(TMLActivity activity) {
@@ -1938,13 +1939,13 @@ public class  TMLModeling<E> {
         TMLExecIInterval int0, int1;
         TMLExecCInterval exec0, exec1;
 
-        for(int i=0; i<activity.nElements(); i++) {
+        for (int i = 0; i < activity.nElements(); i++) {
             elt0 = activity.get(i);
             if ((elt0 instanceof TMLExecI) && (elt0.getNbNext() == 1)) {
                 elt1 = elt0.getNextElement(0);
                 if (elt1 instanceof TMLExecI) {
                     // Concate both elements
-                    concateActivityElementWithActions(activity, (TMLActivityElementWithAction)elt0, (TMLActivityElementWithAction)elt1);
+                    concateActivityElementWithActions(activity, (TMLActivityElementWithAction) elt0, (TMLActivityElementWithAction) elt1);
 
                     // We restart from the beginning
                     i = -1;
@@ -1957,9 +1958,9 @@ public class  TMLModeling<E> {
                     setNewNexts(activity, elt0, elt1);
 
                     // We modify the value of elt1
-                    int1 = (TMLExecIInterval)elt1;
-                    int1.setMinDelay(addActions(((TMLActivityElementWithAction)elt0).getAction(), int1.getMinDelay()));
-                    int1.setMaxDelay(addActions(((TMLActivityElementWithAction)elt0).getAction(), int1.getMaxDelay()));
+                    int1 = (TMLExecIInterval) elt1;
+                    int1.setMinDelay(addActions(((TMLActivityElementWithAction) elt0).getAction(), int1.getMinDelay()));
+                    int1.setMaxDelay(addActions(((TMLActivityElementWithAction) elt0).getAction(), int1.getMaxDelay()));
 
                     i = -1;
                 }
@@ -1975,9 +1976,9 @@ public class  TMLModeling<E> {
                     elt0.setNexts(elt1.getNexts());
 
                     // We modify the value of elt0
-                    int1 = (TMLExecIInterval)elt0;
-                    int1.setMinDelay(addActions(((TMLActivityElementWithAction)elt1).getAction(), int1.getMinDelay()));
-                    int1.setMaxDelay(addActions(((TMLActivityElementWithAction)elt1).getAction(), int1.getMaxDelay()));
+                    int1 = (TMLExecIInterval) elt0;
+                    int1.setMinDelay(addActions(((TMLActivityElementWithAction) elt1).getAction(), int1.getMinDelay()));
+                    int1.setMaxDelay(addActions(((TMLActivityElementWithAction) elt1).getAction(), int1.getMaxDelay()));
 
                     i = -1;
                 }
@@ -1990,8 +1991,8 @@ public class  TMLModeling<E> {
                     elt0.setNexts(elt1.getNexts());
 
                     // We modify the value of elt0
-                    int1 = (TMLExecIInterval)elt1;
-                    int0 = (TMLExecIInterval)elt0;
+                    int1 = (TMLExecIInterval) elt1;
+                    int0 = (TMLExecIInterval) elt0;
                     int0.setMinDelay(addActions(int0.getMinDelay(), int1.getMinDelay()));
                     int0.setMaxDelay(addActions(int0.getMaxDelay(), int1.getMaxDelay()));
 
@@ -2001,9 +2002,9 @@ public class  TMLModeling<E> {
 
             if ((elt0 instanceof TMLExecC) && (elt0.getNbNext() == 1)) {
                 elt1 = elt0.getNextElement(0);
-                if (elt1 instanceof TMLExecC && ((TMLExecC)elt1).securityPattern==null) {
+                if (elt1 instanceof TMLExecC && ((TMLExecC) elt1).securityPattern == null) {
                     // Concate both elements
-                    concateActivityElementWithActions(activity, (TMLActivityElementWithAction)elt0, (TMLActivityElementWithAction)elt1);
+                    concateActivityElementWithActions(activity, (TMLActivityElementWithAction) elt0, (TMLActivityElementWithAction) elt1);
 
                     // We restart from the beginning
                     i = -1;
@@ -2017,9 +2018,9 @@ public class  TMLModeling<E> {
                     setNewNexts(activity, elt0, elt1);
 
                     // We modify the value of elt1
-                    exec1 = (TMLExecCInterval)elt1;
-                    exec1.setMinDelay(addActions(((TMLActivityElementWithAction)elt0).getAction(), exec1.getMinDelay()));
-                    exec1.setMaxDelay(addActions(((TMLActivityElementWithAction)elt0).getAction(), exec1.getMaxDelay()));
+                    exec1 = (TMLExecCInterval) elt1;
+                    exec1.setMinDelay(addActions(((TMLActivityElementWithAction) elt0).getAction(), exec1.getMinDelay()));
+                    exec1.setMaxDelay(addActions(((TMLActivityElementWithAction) elt0).getAction(), exec1.getMaxDelay()));
 
                     i = -1;
                 }
@@ -2035,9 +2036,9 @@ public class  TMLModeling<E> {
                     elt0.setNexts(elt1.getNexts());
 
                     // We modify the value of elt0
-                    exec1 = (TMLExecCInterval)elt0;
-                    exec1.setMinDelay(addActions(((TMLActivityElementWithAction)elt1).getAction(), exec1.getMinDelay()));
-                    exec1.setMaxDelay(addActions(((TMLActivityElementWithAction)elt1).getAction(), exec1.getMaxDelay()));
+                    exec1 = (TMLExecCInterval) elt0;
+                    exec1.setMinDelay(addActions(((TMLActivityElementWithAction) elt1).getAction(), exec1.getMinDelay()));
+                    exec1.setMaxDelay(addActions(((TMLActivityElementWithAction) elt1).getAction(), exec1.getMaxDelay()));
 
                     i = -1;
                 }
@@ -2050,8 +2051,8 @@ public class  TMLModeling<E> {
                     elt0.setNexts(elt1.getNexts());
 
                     // We modify the value of elt0
-                    exec1 = (TMLExecCInterval)elt1;
-                    exec0 = (TMLExecCInterval)elt0;
+                    exec1 = (TMLExecCInterval) elt1;
+                    exec0 = (TMLExecCInterval) elt0;
                     exec0.setMinDelay(addActions(exec0.getMinDelay(), exec1.getMinDelay()));
                     exec0.setMaxDelay(addActions(exec0.getMaxDelay(), exec1.getMaxDelay()));
 
@@ -2060,15 +2061,13 @@ public class  TMLModeling<E> {
             }
 
 
-
         }
     }
 
 
-
-
     /**
-     *  Concatenate Delay operations
+     * Concatenate Delay operations
+     *
      * @param activity : TML actvity {@link TMLActivity}
      */
     public void optimizeMergeDELAYSs(TMLActivity activity) {
@@ -2077,13 +2076,13 @@ public class  TMLModeling<E> {
         TMLDelay del0, del1;
 
 
-        for(int i=0; i<activity.nElements(); i++) {
+        for (int i = 0; i < activity.nElements(); i++) {
             elt0 = activity.get(i);
             if ((elt0 instanceof TMLDelay) && (elt0.getNbNext() == 1)) {
                 elt1 = elt0.getNextElement(0);
                 if (elt1 instanceof TMLDelay) {
-                    del1 = (TMLDelay)elt1;
-                    del0 = (TMLDelay)elt0;
+                    del1 = (TMLDelay) elt1;
+                    del0 = (TMLDelay) elt0;
 
                     if (del1.getUnit().equals(del0.getUnit()) && (del1.getActiveDelay() == del0.getActiveDelay())) {
                         // We delete the second i.e. elt1
@@ -2104,14 +2103,14 @@ public class  TMLModeling<E> {
     }
 
     /**
-     *  Replaces periodic task by two tasks and an event
+     * Replaces periodic task by two tasks and an event
      */
     public TMLTask[] removePeriodicTasks() {
         Vector<TMLTask> addedTasks = new Vector<>();
         Vector<TMLTask> allTasks = new Vector<>();
 
 
-        for(TMLTask t: tasks) {
+        for (TMLTask t : tasks) {
             if (t.isPeriodic()) {
 
                 // Create a new Task
@@ -2179,14 +2178,14 @@ public class  TMLModeling<E> {
         }
 
 
-        for(TMLTask t: allTasks) {
+        for (TMLTask t : allTasks) {
             tasks.add(t);
         }
 
         TMLTask[] returnedTasks = new TMLTask[addedTasks.size()];
 
         int cpt;
-        for(cpt=0; cpt<addedTasks.size(); cpt++) {
+        for (cpt = 0; cpt < addedTasks.size(); cpt++) {
             returnedTasks[cpt] = addedTasks.get(cpt);
         }
 
@@ -2194,9 +2193,8 @@ public class  TMLModeling<E> {
     }
 
 
-
     public void removeAllRandomSequences() {
-        for (TMLTask task: tasks) {
+        for (TMLTask task : tasks) {
             task.removeAllRandomSequences();
         }
     }
@@ -2208,7 +2206,7 @@ public class  TMLModeling<E> {
         }
 
         TMLActivityElement elt;
-        for(int i=0; i<activity.nElements(); i++) {
+        for (int i = 0; i < activity.nElements(); i++) {
             elt = activity.get(i);
             if (elt != elt0) {
                 elt.setNewNext(elt0, elt1);
@@ -2239,7 +2237,7 @@ public class  TMLModeling<E> {
     }
 
     public void splitActionStatesWithUnderscoreVariables() {
-        for (TMLTask task: tasks) {
+        for (TMLTask task : tasks) {
             TMLActivity activity = task.getActivityDiagram();
             if (activity != null) {
                 activity.splitActionStatesWithUnderscoreVariables(task);
@@ -2248,7 +2246,7 @@ public class  TMLModeling<E> {
     }
 
     public void splitActionStatesWithDollars() {
-        for (TMLTask task: tasks) {
+        for (TMLTask task : tasks) {
             TMLActivity activity = task.getActivityDiagram();
             if (activity != null) {
                 activity.splitActionStatesWithDollars(task);
@@ -2261,7 +2259,7 @@ public class  TMLModeling<E> {
             return null;
         }
 
-        if (_id <0) {
+        if (_id < 0) {
             return null;
         }
 
@@ -2274,19 +2272,19 @@ public class  TMLModeling<E> {
 
     public int computeMaxID() {
         int max = -1;
-        for(TMLTask task: tasks) {
+        for (TMLTask task : tasks) {
             max = Math.max(max, task.computeMaxID());
         }
 
-        for(TMLChannel channel: channels) {
+        for (TMLChannel channel : channels) {
             max = Math.max(max, channel.getID());
         }
 
-        for(TMLRequest request: requests) {
+        for (TMLRequest request : requests) {
             max = Math.max(max, request.getID());
         }
 
-        for(TMLEvent event: events) {
+        for (TMLEvent event : events) {
             max = Math.max(max, event.getID());
         }
 
@@ -2298,30 +2296,29 @@ public class  TMLModeling<E> {
 
         //TraceManager.addDev("Max ID=" + max);
 
-        correspondance = new TMLElement[max+1];
+        correspondance = new TMLElement[max + 1];
 
-        for(TMLTask task: tasks) {
+        for (TMLTask task : tasks) {
             task.computeCorrespondance(correspondance);
         }
 
-        for(TMLChannel channel: channels) {
+        for (TMLChannel channel : channels) {
             correspondance[channel.getID()] = channel;
         }
 
-        for(TMLRequest request: requests) {
+        for (TMLRequest request : requests) {
             correspondance[request.getID()] = request;
         }
 
-        for(TMLEvent event: events) {
+        for (TMLEvent event : events) {
             correspondance[event.getID()] = event;
         }
     }
 
 
-
     public void printWCETOfTasks() {
         String result = "";
-        for(TMLTask task: tasks) {
+        for (TMLTask task : tasks) {
             result += "\tTask " + task.getTaskName() + ". IComplexity: " + task.getWorstCaseIComplexity() + "\n";
         }
         //TraceManager.addDev("Worst Case I Complexity:\n" + result);
@@ -2329,7 +2326,7 @@ public class  TMLModeling<E> {
 
 
     public void removeForksAndJoins() {
-    
+
         TraceManager.addDev("\n\n**** Remove forks and joins\n");
         //Exception e = new Exception(); e.printStackTrace();
 
@@ -2343,62 +2340,62 @@ public class  TMLModeling<E> {
     public void removeForks() {
         // Create new basic channels and tasks
         ArrayList<TMLChannel> newChannels = new ArrayList<TMLChannel>();
-        for(TMLChannel channel: channels) {
+        for (TMLChannel channel : channels) {
             if (channel.isAForkChannel()) {
                 removeFork(channel, newChannels);
             }
         }
 
-        for(TMLChannel chan: newChannels) {
+        for (TMLChannel chan : newChannels) {
             addChannel(chan);
         }
 
         List<TMLEvent> newEvents = new ArrayList<TMLEvent>();
-        for(TMLEvent event: events) {
+        for (TMLEvent event : events) {
             if (event.isAForkEvent()) {
                 removeForkEvent(event, newEvents);
             }
         }
 
-        for(TMLEvent evt: newEvents) {
+        for (TMLEvent evt : newEvents) {
             addEvent(evt);
         }
     }
 
     public void removeFork(TMLChannel _ch, ArrayList<TMLChannel> _newChannels) {
         int i;
-		ArrayList<TMLTask> originTasks = new ArrayList<TMLTask>();
-		ArrayList<TMLTask> destTasks = new ArrayList<TMLTask>();	
-		for (TMLTask task: _ch.getOriginTasks()){
-			originTasks.add(task);
-		}
-		for (TMLTask task: _ch.getDestinationTasks()){
-			destTasks.add(task);
-		}
+        ArrayList<TMLTask> originTasks = new ArrayList<TMLTask>();
+        ArrayList<TMLTask> destTasks = new ArrayList<TMLTask>();
+        for (TMLTask task : _ch.getOriginTasks()) {
+            originTasks.add(task);
+        }
+        for (TMLTask task : _ch.getDestinationTasks()) {
+            destTasks.add(task);
+        }
         // Create the new task and its activity diagram
         TMLTask forkTask = new TMLTask("FORKTASK" + SEP1 + _ch.getName(), _ch.getReferenceObject(), null);
-		forkTask.setDaemon(true);
+        forkTask.setDaemon(true);
         TMLActivity forkActivity = forkTask.getActivityDiagram();
         addTask(forkTask);
 
         // Create the new (basic) channels. The first branch of the fork is reused, others are created
         int nb = _ch.getDestinationTasks().size();
         TMLChannel[] chans = new TMLChannel[nb];
-        for(i=0; i<nb; i++) {
-            chans[i] = new TMLChannel("FORKCHANNEL" + SEP1  + i + SEP1 + _ch.getName(), _ch.getReferenceObject());
+        for (i = 0; i < nb; i++) {
+            chans[i] = new TMLChannel("FORKCHANNEL" + SEP1 + i + SEP1 + _ch.getName(), _ch.getReferenceObject());
             chans[i].setTasks(forkTask, _ch.getDestinationTasks().get(i));
             chans[i].setPorts(new TMLPort("FORKPORTORIGIN" + SEP1 + i + SEP1 + _ch.getName(), _ch.getReferenceObject()), _ch.getDestinationPorts().get(i));
             chans[i].setType(_ch.getType());
             chans[i].setMax(_ch.getMax());
             chans[i].setSize(_ch.getSize());
-          	chans[i].originalOriginTasks = originTasks;
-			chans[i].originalDestinationTasks = destTasks;
+            chans[i].originalOriginTasks = originTasks;
+            chans[i].originalDestinationTasks = destTasks;
             _newChannels.add(chans[i]);
         }
 
         // Modify the activity diagram of tasks making a read in destination channels
         // Modify the channel of red operators to the new channels!
-        for(i=0; i<nb; i++) {
+        for (i = 0; i < nb; i++) {
             _ch.getDestinationTasks().get(i).replaceReadChannelWith(_ch, chans[i]);
         }
 
@@ -2412,10 +2409,10 @@ public class  TMLModeling<E> {
         _ch.setPorts(_ch.getOriginPorts().get(0), new TMLPort("FORKPORTDESTINATION" + SEP1 + _ch.getName(), _ch.getReferenceObject()));
         _ch.removeComplexInformations();
 
-		//For security generation, provide the orignal tasks
-		_ch.originalOriginTasks = originTasks;
-		_ch.originalDestinationTasks = destTasks;
-		
+        //For security generation, provide the orignal tasks
+        _ch.originalOriginTasks = originTasks;
+        _ch.originalDestinationTasks = destTasks;
+
         // Make the activity diagram of the fork task
         TMLStartState start = new TMLStartState("startOfFork", null);
         forkActivity.setFirst(start);
@@ -2435,9 +2432,9 @@ public class  TMLModeling<E> {
         read.addChannel(_ch);
         read.setNbOfSamples("" + _ch.getNumberOfSamples());
 
-        TMLWriteChannel []writes = new TMLWriteChannel[nb];
+        TMLWriteChannel[] writes = new TMLWriteChannel[nb];
 
-        for(i=0; i<nb; i++) {
+        for (i = 0; i < nb; i++) {
             writes[i] = new TMLWriteChannel("WriteOfFork" + SEP1 + i, null);
             writes[i].addChannel(chans[i]);
             writes[i].setNbOfSamples("" + _ch.getNumberOfSamples());
@@ -2449,11 +2446,11 @@ public class  TMLModeling<E> {
         junction.addNext(stop2);
         read.addNext(writes[0]);
 
-        for(i=0; i<nb-1; i++) {
-            writes[i].addNext(writes[i+1]);
+        for (i = 0; i < nb - 1; i++) {
+            writes[i].addNext(writes[i + 1]);
         }
 
-        writes[nb-1].addNext(stop);
+        writes[nb - 1].addNext(stop);
     }
 
     public void removeForkEvent(TMLEvent _evt, List<TMLEvent> _newEvents) {
@@ -2468,14 +2465,14 @@ public class  TMLModeling<E> {
         int nb = _evt.getDestinationTasks().size();
         TMLEvent[] evts = new TMLEvent[nb];
 
-        for(i=0; i<nb; i++) {
+        for (i = 0; i < nb; i++) {
             evts[i] = new TMLEvent("FORKEVENT" + SEP1 + i + SEP1 + _evt.getName(), _evt.getReferenceObject(), _evt.getMaxSize(), _evt.isBlocking());
             evts[i].setTasks(forkTask, _evt.getDestinationTasks().get(i));
             evts[i].setPorts(new TMLPort("FORKPORTORIGIN" + SEP1 + i + SEP1 + _evt.getName(), _evt.getReferenceObject()), _evt.getDestinationPorts().get(i));
             //evts[i].setType(_evt.getType());
             //evts[i].setMax(_evt.getMax());
             //evts[i].setSize(_evt.getSize());
-            for(j=0; j<_evt.getNbOfParams(); j++) {
+            for (j = 0; j < _evt.getNbOfParams(); j++) {
                 evts[i].addParam(_evt.getType(j));
             }
 
@@ -2484,7 +2481,7 @@ public class  TMLModeling<E> {
 
         // Modify the activity diagram of tasks making a wait in destination events
         // Modify the event of wait operators to the new events
-        for(i=0; i<nb; i++) {
+        for (i = 0; i < nb; i++) {
             _evt.getDestinationTasks().get(i).replaceWaitEventWith(_evt, evts[i]);
         }
 
@@ -2495,7 +2492,7 @@ public class  TMLModeling<E> {
         _evt.removeComplexInformations();
 
         // Adding attributes to the task
-        for(j=0; j<_evt.getNbOfParams(); j++) {
+        for (j = 0; j < _evt.getNbOfParams(); j++) {
             TMLAttribute attr = new TMLAttribute("attr_" + j, _evt.getType(j));
             forkTask.addAttribute(attr);
         }
@@ -2511,23 +2508,23 @@ public class  TMLModeling<E> {
         junction.setInit("fork" + SEP1 + "i=0");
         junction.setCondition("fork" + SEP1 + "i<1");
         junction.setIncrement("fork" + SEP1 + "i=0");
-        TMLAttribute attr = new TMLAttribute("fork" + SEP1 + "i", "fork" + SEP1 +"i", new TMLType(TMLType.NATURAL), "0");
+        TMLAttribute attr = new TMLAttribute("fork" + SEP1 + "i", "fork" + SEP1 + "i", new TMLType(TMLType.NATURAL), "0");
         forkTask.addAttribute(attr);
         forkActivity.addElement(junction);
         TMLWaitEvent read = new TMLWaitEvent("WaitOfFork", null);
         forkActivity.addElement(read);
         read.setEvent(_evt);
 
-        for(j=0; j<_evt.getNbOfParams(); j++) {
+        for (j = 0; j < _evt.getNbOfParams(); j++) {
             read.addParam("attr_" + j);
         }
 
-        TMLSendEvent []writes = new TMLSendEvent[nb];
+        TMLSendEvent[] writes = new TMLSendEvent[nb];
 
-        for(i=0; i<nb; i++) {
+        for (i = 0; i < nb; i++) {
             writes[i] = new TMLSendEvent("WriteEvtOfFork" + SEP1 + i, null);
             writes[i].setEvent(evts[i]);
-            for(j=0; j<_evt.getNbOfParams(); j++) {
+            for (j = 0; j < _evt.getNbOfParams(); j++) {
                 writes[i].addParam("attr_" + j);
             }
             forkActivity.addElement(writes[i]);
@@ -2538,11 +2535,11 @@ public class  TMLModeling<E> {
         junction.addNext(stop2);
         read.addNext(writes[0]);
 
-        for(i=0; i<nb-1; i++) {
-            writes[i].addNext(writes[i+1]);
+        for (i = 0; i < nb - 1; i++) {
+            writes[i].addNext(writes[i + 1]);
         }
 
-        writes[nb-1].addNext(stop);
+        writes[nb - 1].addNext(stop);
     }
 
     // Channels with several origins and one destination
@@ -2552,19 +2549,19 @@ public class  TMLModeling<E> {
     public void removeJoins() {
         // Create new basic channels and tasks
         List<TMLChannel> newChannels = new ArrayList<TMLChannel>();
-        for(TMLChannel channel: channels) {
+        for (TMLChannel channel : channels) {
             if (channel.isAJoinChannel()) {
                 removeJoin(channel, newChannels);
             }
         }
 
-        for(TMLChannel chan: newChannels) {
+        for (TMLChannel chan : newChannels) {
             addChannel(chan);
         }
 
         // Create new basic events and tasks
         ArrayList<TMLEvent> newEvents = new ArrayList<TMLEvent>();
-        for(TMLEvent evt: events) {
+        for (TMLEvent evt : events) {
             //TraceManager.addDev("Event:" + evt);
             if (evt.isAJoinEvent()) {
                 TraceManager.addDev("Removing join of this event");
@@ -2572,7 +2569,7 @@ public class  TMLModeling<E> {
             }
         }
 
-        for(TMLEvent e: newEvents) {
+        for (TMLEvent e : newEvents) {
             addEvent(e);
         }
     }
@@ -2580,24 +2577,24 @@ public class  TMLModeling<E> {
 
     public void removeJoin(TMLChannel _ch, List<TMLChannel> _newChannels) {
         int i;
-    	ArrayList<TMLTask> originTasks = new ArrayList<TMLTask>();
-		ArrayList<TMLTask> destTasks = new ArrayList<TMLTask>();	
-		for (TMLTask task: _ch.getOriginTasks()){
-			originTasks.add(task);
-		}
-		for (TMLTask task: _ch.getDestinationTasks()){
-			destTasks.add(task);
-		}
+        ArrayList<TMLTask> originTasks = new ArrayList<TMLTask>();
+        ArrayList<TMLTask> destTasks = new ArrayList<TMLTask>();
+        for (TMLTask task : _ch.getOriginTasks()) {
+            originTasks.add(task);
+        }
+        for (TMLTask task : _ch.getDestinationTasks()) {
+            destTasks.add(task);
+        }
         // Create the new task and its activity diagram
         TMLTask joinTask = new TMLTask("JOINTASK" + SEP1 + _ch.getName(), _ch.getReferenceObject(), null);
-		joinTask.setDaemon(true);
+        joinTask.setDaemon(true);
         TMLActivity joinActivity = joinTask.getActivityDiagram();
         addTask(joinTask);
 
         // Create the new (basic) channels. The last branch of the join is reused, others are created
         int nb = _ch.getOriginTasks().size();
         TMLChannel[] chans = new TMLChannel[nb];
-        for(i=0; i<nb; i++) {
+        for (i = 0; i < nb; i++) {
             chans[i] = new TMLChannel("JOINCHANNEL" + SEP1 + i + "__" + _ch.getName(), _ch.getReferenceObject());
             chans[i].setTasks(_ch.getOriginTasks().get(i), joinTask);
             chans[i].setPorts(_ch.getOriginPorts().get(i), new TMLPort("JOINPORTDESTINATION" + SEP1 + i + SEP1 + _ch.getName(), _ch.getReferenceObject()));
@@ -2605,13 +2602,13 @@ public class  TMLModeling<E> {
             chans[i].setMax(_ch.getMax());
             chans[i].setSize(_ch.getSize());
             chans[i].originalOriginTasks = originTasks;
-			chans[i].originalDestinationTasks = destTasks;
+            chans[i].originalDestinationTasks = destTasks;
             _newChannels.add(chans[i]);
         }
 
         // Modify the activity diagram of tasks making a write in origin channels
         // Modify the channel of write operators to the new channels!
-        for(i=0; i<nb; i++) {
+        for (i = 0; i < nb; i++) {
             _ch.getOriginTasks().get(i).replaceWriteChannelWith(_ch, chans[i]);
         }
 
@@ -2624,7 +2621,7 @@ public class  TMLModeling<E> {
         _ch.setTasks(joinTask, _ch.getDestinationTasks().get(0));
         _ch.setPorts(new TMLPort("JOINPORTORIGIN" + SEP1 + _ch.getName(), _ch.getReferenceObject()), _ch.getDestinationPorts().get(0));
         _ch.originalOriginTasks = originTasks;
-		_ch.originalDestinationTasks = destTasks;
+        _ch.originalDestinationTasks = destTasks;
         _ch.removeComplexInformations();
 
         // Make the activity diagram of the fork task
@@ -2646,8 +2643,8 @@ public class  TMLModeling<E> {
         write.addChannel(_ch);
         write.setNbOfSamples("" + _ch.getNumberOfSamples());
 
-        TMLReadChannel []reads = new TMLReadChannel[nb];
-        for(i=0; i<nb; i++) {
+        TMLReadChannel[] reads = new TMLReadChannel[nb];
+        for (i = 0; i < nb; i++) {
             reads[i] = new TMLReadChannel("ReadOfJoin" + SEP1 + i, null);
             reads[i].addChannel(chans[i]);
             reads[i].setNbOfSamples("" + _ch.getNumberOfSamples());
@@ -2659,10 +2656,10 @@ public class  TMLModeling<E> {
         junction.addNext(reads[0]);
         junction.addNext(stop2);
         write.addNext(stop);
-        for(i=0; i<nb-1; i++) {
-            reads[i].addNext(reads[i+1]);
+        for (i = 0; i < nb - 1; i++) {
+            reads[i].addNext(reads[i + 1]);
         }
-        reads[nb-1].addNext(write);
+        reads[nb - 1].addNext(write);
     }
 
     public void removeJoinEvent(TMLEvent _evt, List<TMLEvent> _newEvents) {
@@ -2676,12 +2673,12 @@ public class  TMLModeling<E> {
         // Create the new (basic) channels. The last branch of the join is reused, others are created
         int nb = _evt.getOriginTasks().size();
         TMLEvent[] evts = new TMLEvent[nb];
-        for(i=0; i<nb; i++) {
+        for (i = 0; i < nb; i++) {
             evts[i] = new TMLEvent("JOINEVENT" + SEP1 + i + SEP1 + _evt.getName(), _evt.getReferenceObject(), _evt.getMaxSize(), _evt.isBlocking());
             evts[i].setTasks(_evt.getOriginTasks().get(i), joinTask);
             evts[i].setPorts(_evt.getOriginPorts().get(i), new TMLPort("JOINPORTDESTINATION" + SEP1 + i + SEP1 + _evt.getName(), _evt.getReferenceObject()));
 
-            for(j=0; j<_evt.getNbOfParams(); j++) {
+            for (j = 0; j < _evt.getNbOfParams(); j++) {
                 evts[i].addParam(_evt.getType(j));
 
             }
@@ -2691,7 +2688,7 @@ public class  TMLModeling<E> {
 
         // Modify the activity diagram of tasks making a write in origin channels
         // Modify the channel of write operators to the new channels!
-        for(i=0; i<nb; i++) {
+        for (i = 0; i < nb; i++) {
             _evt.getOriginTasks().get(i).replaceSendEventWith(_evt, evts[i]);
         }
 
@@ -2702,7 +2699,7 @@ public class  TMLModeling<E> {
         _evt.removeComplexInformations();
 
         // Adding attributes to the task
-        for(j=0; j<_evt.getNbOfParams(); j++) {
+        for (j = 0; j < _evt.getNbOfParams(); j++) {
             TMLAttribute attr = new TMLAttribute("attr_" + j, _evt.getType(j));
             joinTask.addAttribute(attr);
         }
@@ -2718,25 +2715,25 @@ public class  TMLModeling<E> {
         junction.setInit("join" + SEP1 + "i=0");
         junction.setCondition("join" + SEP1 + "i<1");
         junction.setIncrement("join" + SEP1 + "i=join" + SEP1 + "i");
-        TMLAttribute attr = new TMLAttribute("join" + SEP1 +"i", "join" + SEP1 + "i", new TMLType(TMLType.NATURAL), "0");
+        TMLAttribute attr = new TMLAttribute("join" + SEP1 + "i", "join" + SEP1 + "i", new TMLType(TMLType.NATURAL), "0");
         joinTask.addAttribute(attr);
         joinActivity.addElement(junction);
         TMLSendEvent notify = new TMLSendEvent("NotifyOfJoin", null);
 
-        for(j=0; j<_evt.getNbOfParams(); j++) {
+        for (j = 0; j < _evt.getNbOfParams(); j++) {
             notify.addParam("attr_" + j);
         }
 
         joinActivity.addElement(notify);
         notify.setEvent(_evt);
 
-        TMLWaitEvent []waits = new TMLWaitEvent[nb];
+        TMLWaitEvent[] waits = new TMLWaitEvent[nb];
 
-        for(i=0; i<nb; i++) {
+        for (i = 0; i < nb; i++) {
             waits[i] = new TMLWaitEvent("WaitOfJoin" + SEP1 + i, null);
             waits[i].setEvent(evts[i]);
 
-            for(j=0; j<_evt.getNbOfParams(); j++) {
+            for (j = 0; j < _evt.getNbOfParams(); j++) {
                 waits[i].addParam("attr_" + j);
             }
 
@@ -2749,38 +2746,44 @@ public class  TMLModeling<E> {
         junction.addNext(stop2);
         notify.addNext(stop);
 
-        for(i=0; i<nb-1; i++) {
-            waits[i].addNext(waits[i+1]);
+        for (i = 0; i < nb - 1; i++) {
+            waits[i].addNext(waits[i + 1]);
         }
 
-        waits[nb-1].addNext(notify);
+        waits[nb - 1].addNext(notify);
     }
 
     public void removeEmptyInfiniteLoop() {
-        for(TMLTask task: tasks) {
+        for (TMLTask task : tasks) {
             task.removeEmptyInfiniteLoop();
         }
     }
 
     public String toXML() {
-	String s = "<TMLMODELING>\n";
-	for (TMLTask t: tasks) {
-	    s += t.toXML();
-	}
-	for(String p: pragmas) {
-	    s += "<PRAGMA value=\"" + p + "\" />\n";
+        String s = "<TMLMODELING>\n";
+        for (TMLTask t : tasks) {
+            s += t.toXML();
+        }
+        for (String p : pragmas) {
+            s += "<PRAGMA value=\"" + p + "\" />\n";
+        }
+        for (TMLChannel c : channels) {
+            s += c.toXML();
+        }
+        for (TMLRequest r : requests) {
+            s += r.toXML();
+        }
+        for (TMLEvent e : events) {
+            s += e.toXML();
+        }
+        s += "</TMLMODELING>\n";
+        return s;
     }
-	for (TMLChannel c: channels) {
-	    s += c.toXML();
-	}
-	for (TMLRequest r: requests) {
-	    s += r.toXML();
-	}
-	for (TMLEvent e: events) {
-	    s += e.toXML();
-	}
-	s += "</TMLMODELING>\n";
-	return s;
+
+    public void nullifyOperators(boolean execOp, boolean timeOp) {
+        for (TMLTask task: tasks) {
+            task.nullifyDelayOperators(execOp, timeOp);
+        }
     }
 
     public boolean equalSpec(Object o) {
@@ -2788,34 +2791,33 @@ public class  TMLModeling<E> {
         if (o == null || getClass() != o.getClass()) return false;
         TMLModeling<?> that = (TMLModeling<?>) o;
 
-        if(!isTaskListEquals(tasks, that.tasks))
+        if (!isTaskListEquals(tasks, that.tasks))
             return false;
 
-        if(!isRequestListEquals(requests, that.requests))
+        if (!isRequestListEquals(requests, that.requests))
             return false;
 
-        if(!isEventListEquals(events, that.events))
+        if (!isEventListEquals(events, that.events))
             return false;
 
-        if(!isChannelListEquals(channels, that.channels))
+        if (!isChannelListEquals(channels, that.channels))
             return false;
 
-        if(!isSecurityPatternListEquals(secPatterns, that.secPatterns))
+        if (!isSecurityPatternListEquals(secPatterns, that.secPatterns))
             return false;
 
         return (new HashSet<>(securityPatterns).equals(new HashSet<>(that.securityPatterns)));
     }
 
 
-    public  boolean isTaskListEquals(List<TMLTask> list1, List<TMLTask> list2){
+    public boolean isTaskListEquals(List<TMLTask> list1, List<TMLTask> list2) {
         if (list1 == null && list2 == null) {
             return true;
         }
         //Only one of them is null
-        else if(list1 == null || list2 == null) {
+        else if (list1 == null || list2 == null) {
             return false;
-        }
-        else if(list1.size() != list2.size()) {
+        } else if (list1.size() != list2.size()) {
             return false;
         }
 
@@ -2829,22 +2831,21 @@ public class  TMLModeling<E> {
         boolean test;
 
         for (int i = 0; i < list1.size(); i++) {
-            test =  list1.get(i).equalSpec(list2.get(i));
+            test = list1.get(i).equalSpec(list2.get(i));
             if (!test) return false;
         }
 
         return true;
     }
 
-    public  boolean isRequestListEquals(List<TMLRequest> list1, List<TMLRequest> list2){
+    public boolean isRequestListEquals(List<TMLRequest> list1, List<TMLRequest> list2) {
         if (list1 == null && list2 == null) {
             return true;
         }
         //Only one of them is null
-        else if(list1 == null || list2 == null) {
+        else if (list1 == null || list2 == null) {
             return false;
-        }
-        else if(list1.size() != list2.size()) {
+        } else if (list1.size() != list2.size()) {
             return false;
         }
 
@@ -2858,7 +2859,7 @@ public class  TMLModeling<E> {
         boolean test;
 
         for (int i = 0; i < list1.size(); i++) {
-            test =  list1.get(i).equalSpec(list2.get(i));
+            test = list1.get(i).equalSpec(list2.get(i));
             if (!test) return false;
         }
 
@@ -2866,15 +2867,14 @@ public class  TMLModeling<E> {
     }
 
 
-    public  boolean isChannelListEquals(List<TMLChannel> list1, List<TMLChannel> list2){
+    public boolean isChannelListEquals(List<TMLChannel> list1, List<TMLChannel> list2) {
         if (list1 == null && list2 == null) {
             return true;
         }
         //Only one of them is null
-        else if(list1 == null || list2 == null) {
+        else if (list1 == null || list2 == null) {
             return false;
-        }
-        else if(list1.size() != list2.size()) {
+        } else if (list1.size() != list2.size()) {
             return false;
         }
 
@@ -2888,14 +2888,14 @@ public class  TMLModeling<E> {
         boolean test;
 
         for (int i = 0; i < list1.size(); i++) {
-            test =  list1.get(i).equalSpec(list2.get(i));
+            test = list1.get(i).equalSpec(list2.get(i));
             if (!test) return false;
         }
 
         return true;
     }
 
-    public  boolean isEventListEquals(List<TMLEvent> list1, List<TMLEvent> list2) {
+    public boolean isEventListEquals(List<TMLEvent> list1, List<TMLEvent> list2) {
         if (list1 == null && list2 == null) {
             return true;
         }

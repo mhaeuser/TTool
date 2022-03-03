@@ -859,4 +859,16 @@ public class TMLActivity extends TMLElement {
         }
         return  comp.isTMLActivityEltListEquals(elements, tmlActivity.getElements());
     }
+
+    public void nullifyDelayOperators(boolean execOp, boolean timeOp) {
+
+        for(TMLActivityElement tmlae: elements) {
+            if (execOp) {
+                if (tmlae instanceof TMLExecI) {
+                    ((TMLExecI) tmlae).setAction("0");
+                }
+            }
+
+        }
+    }
 }

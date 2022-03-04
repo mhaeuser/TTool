@@ -1,0 +1,14 @@
+TMLSPEC
+    #include "nullifytest.tml"
+ENDTMLSPEC
+
+TMLARCHI
+    #include "nullifytest.tarchi"
+ENDTMLARCHI
+
+TMLMAPPING
+    MAP CPU0 Application__ExecTask
+    SET Application__ExecTask priority 0
+    MAP CPU0 Application__DelayTask
+    SET Application__DelayTask priority 0
+ENDTMLMAPPING

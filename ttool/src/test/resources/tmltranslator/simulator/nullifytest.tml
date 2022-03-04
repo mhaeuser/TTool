@@ -1,0 +1,30 @@
+// TML Application - FORMAT 0.2
+// Application: /Users/ludovicapvrille/TTool/modeling/DIPLODOCUS/testNoExecDelayOperators.xml
+// Generated: Fri Mar 04 09:23:26 CET 2022
+
+// PRAGMAS
+
+// Channels
+
+// Events
+EVENT Application__evt__Application__evt() NIB 8 Application__DelayTask Application__DelayTask
+
+// Requests
+
+TASK Application__DelayTask
+    TASKOP
+    //Local variables
+    
+    //Behavior
+    DELAY 100 ns isActiveDelay false
+    NOTIFY Application__evt__Application__evt
+ENDTASK
+
+TASK Application__ExecTask
+    TASKOP
+    //Local variables
+    
+    //Behavior
+    EXECI 10
+ENDTASK
+

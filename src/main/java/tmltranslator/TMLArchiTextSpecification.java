@@ -78,7 +78,7 @@ public class TMLArchiTextSpecification {
             "maxConsecutiveIdleCycles", "reconfigurationTime", "execiTime", "execcTime", "scheduling", "clockDivider"};
     private String linkparameters[] = {"bus", "node", "priority"};
     private String hwaparameters[] = {"byteDataSize", "execiTime", "execcTime", "clockDivider"};
-    private String busparameters[] = {"byteDataSize", "pipelineSize", "arbitration", "sliceTime", "clockDivider"};
+    private String busparameters[] = {"byteDataSize", "pipelineSize", "arbitration", "sliceTime", "clockDivider", "burstsize"};
     private String bridgeparameters[] = {"bufferByteSize", "clockDivider"};
     private String memoryparameters[] = {"byteDataSize", "clockDivider"};
     private String nocparameters[] = {"bufferbytesize", "nocSize", "clockdivider"};

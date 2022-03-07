@@ -866,6 +866,7 @@ public class TMLActivity extends TMLElement {
             if (execOp) {
                 if ((tmlae instanceof TMLExecI) || (tmlae instanceof TMLExecC)) {
                     ((TMLActivityElementWithAction) tmlae).setAction("0");
+
                 } else if ((tmlae instanceof TMLExecIInterval) || (tmlae instanceof TMLExecCInterval)) {
                     ((TMLActivityElementWithIntervalAction) tmlae).setMinDelay("0");
                     ((TMLActivityElementWithIntervalAction) tmlae).setMaxDelay("0");

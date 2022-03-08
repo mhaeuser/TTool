@@ -56,6 +56,7 @@ TMLTime RRPrioScheduler::schedule(TMLTime iEndSchedule){
 	WorkloadSource *aSourcePast=0, *aSourceFuture=0;
 	//, *aScheduledSource=0;
 	bool aSameTaskFound=false;
+//std::cerr << "Enter Schedule ";
 	if (_lastSource!=0){
 		//aScheduledSource=_lastSource;
 		_lastSource->schedule(iEndSchedule);
@@ -72,9 +73,11 @@ TMLTime RRPrioScheduler::schedule(TMLTime iEndSchedule){
 			}
 		}
 	}
+//std::cerr << aSameTaskFound;
 	if (!aSameTaskFound){
 		//std::cout << _name << ": Second if\n";
 		Priority aHighestPrioPast=-1;
+		Priority aHighestPrioFuture=-1;
 		
 		for(WorkloadList::iterator i=_workloadList.begin(); i != _workloadList.end(); ++i){
 			//std::cout << "Loop\n";
@@ -88,12 +91,24 @@ TMLTime RRPrioScheduler::schedule(TMLTime iEndSchedule){
 				
 			if (aTempTrans != 0 && aTempTrans->getVirtualLength() != 0) {
 				aRunnableTime = aTempTrans->getRunnableTime();
+				if(aRunnableTime<=iEndSchedule){
                 //get tranasaction with highest priority and shortest runable time
-                if ((*i)->getPriority() < aHighestPrioPast || ((*i)->getPriority() == aHighestPrioPast && aRunnableTime < aLowestRunnableTimePast)) {
-                    aHighestPrioPast = (*i)->getPriority();
-                    aLowestRunnableTimePast = aRunnableTime;
-                    aSourcePast = *i;
-                }
+                			if ((*i)->getPriority() < aHighestPrioPast || ((*i)->getPriority() == aHighestPrioPast && aRunnableTime < aLowestRunnableTimePast)) {
+                				aHighestPrioPast = (*i)->getPriority();
+                				aLowestRunnableTimePast = aRunnableTime;
+                				aSourcePast = *i;
+                			}
+                		}
+                		else if ( aRunnableTime < aLowestRunnableTimeFuture) {
+                			aHighestPrioFuture = (*i)->getPriority();
+                			aLowestRunnableTimeFuture = aRunnableTime;
+                			aSourceFuture = *i;
+                		}
+                		else if ( aRunnableTime == aLowestRunnableTimeFuture && (*i)->getPriority() < aHighestPrioFuture) {
+                			aHighestPrioFuture = (*i)->getPriority();
+                			aSourceFuture = *i;
+                		}
+
 			}
 		}
 	}

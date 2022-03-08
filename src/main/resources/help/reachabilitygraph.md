@@ -1,5 +1,9 @@
 # Reachability graphs
 
+## What is a reachability graph?
+A reachability graph (RG) represents all possible execution paths and states of a system. Here, a reachability graph is produced from an Avatar design.
+To be generated, the graph generator considers all possibles transitions from states of states machine, independently from the probabilities attached to transitions between the states of state machines. Said differently, the graph generator considers all possible transitions between states of states machines. So, even transitions with low probability are in the RG.
+
 ## How to generate a reachability graph?
  Reachability Graphs can be created by using the internal model-checker of TTool.
 This video on formal verification  details the steps to generate a RG: https://www.youtube.com/watch?v=8IYJ1UDUbvQ

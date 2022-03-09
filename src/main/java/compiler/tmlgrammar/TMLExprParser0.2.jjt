@@ -141,8 +141,6 @@ TOKEN : /* OPERATORS */
 TOKEN : /* FUNCTIONS */
 {
 < NOT: "not" >
-| < MIN: "min" >
-| < MAX: "max" > 
 | < DIV: "div" >
 | < MOD: "mod" >
 }

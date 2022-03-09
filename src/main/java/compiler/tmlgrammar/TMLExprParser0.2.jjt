@@ -271,6 +271,8 @@ void NatExtendedExpression() :
 {
   LParen() NatExtendedExpression() RParen() [NatOperatorExtendedExpression()]
 |
+  NatFunction2() [NatOperatorExtendedExpression()]
+|
   NaturalLiteral() [NatOperatorExtendedExpression()]
 |
   NatId() [NatOperatorExtendedExpression()]
@@ -297,6 +299,22 @@ void BoolId() #BOOL_ID:
 }
 
 
+void NatFunction2() :
+{}
+{
+  NatFunc2() LParen() NatExtendedExpression() "," NatExtendedExpression() RParen()
+|
+  QueueNatFunc() 
+}
+
+
+void NatFunc2() #NAT_FUNC:
+{Token t;}
+{
+ (t = <MIN>
+| 
+ t = <MAX>) {jjtThis.setInfo(""+t.kind,t.image);}
+}
 
 void QueueNatFunc() #NAT_QUEUE_NAT_FUNC :
 {Token t;}

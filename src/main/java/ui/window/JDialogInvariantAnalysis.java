@@ -43,6 +43,8 @@ package ui.window;
 
 import avatartranslator.AvatarBlock;
 import avatartranslator.AvatarSpecification;
+import help.HelpEntry;
+import help.HelpManager;
 import myutil.*;
 import tpndescription.TPN;
 import ui.*;
@@ -56,6 +58,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.BitSet;
 
 
@@ -92,6 +96,10 @@ public class JDialogInvariantAnalysis extends JDialog implements ActionListener,
     protected JButton stop;
     protected JButton close;
     protected JCheckBox ignoreInvariants, computeAllMutualExclusions;
+
+    protected JMenuBar menuBar;
+    protected JMenu help;
+    protected JPopupMenu helpPopup;
     
     
     private Thread t;
@@ -127,6 +135,31 @@ public class JDialogInvariantAnalysis extends JDialog implements ActionListener,
         setFont(new Font("Helvetica", Font.PLAIN, 14));
         Font f = new Font("Courrier", Font.BOLD, 12);
         c.setLayout(new BorderLayout());
+
+        // Help
+        menuBar = new JMenuBar();
+        menuBar.setComponentOrientation(ComponentOrientation.RIGHT_TO_LEFT);
+        help = new JMenu("?");
+        help.setPreferredSize(new Dimension(30, 30));
+        help.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                help();
+            }
+        });
+        menuBar.add(help);
+        setJMenuBar(menuBar);
+        helpPopup = new JPopupMenu();
+        helpPopup.add(new JLabel(IconManager.imgic7009));
+        helpPopup.setPreferredSize(new Dimension(600, 900));
+
+        helpPopup.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("ESCAPE"), "closeJlabel");
+        helpPopup.getActionMap().put("closeJlabel", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                helpPopup.setVisible(false);
+            }
+        });
         
         // Issue #41 Ordering of tabbed panes 
         jp1 = GraphicLib.createTabbedPane();//new JTabbedPane();
@@ -878,6 +911,17 @@ public class JDialogInvariantAnalysis extends JDialog implements ActionListener,
     		getGlassPane().setVisible(false);
     		break;
     	}
+    }
+
+    public void help() {
+        if (mgui == null) {
+            TraceManager.addDev("Null mgui");
+        }
+
+        HelpManager hm = mgui.getHelpManager();
+        HelpEntry he = hm.getHelpEntryWithHTMLFile("invariants.html");
+        mgui.openHelpFrame(he);
+
     }
     
     public boolean hasToContinue() {

@@ -91,6 +91,8 @@ public:
 	\return Returns true if scheduling of device has been performed
 	*/
 	virtual void truncateAndAddNextTransAt(TMLTime iTime)=0;
+	//$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+	virtual void truncateNextTrans(TMLTime iTime)=0;
 	//virtual TMLTime truncateNextTransAt(TMLTime iTime)=0;
 	///Adds a new bus master to the internal list
 	/**

@@ -114,7 +114,20 @@ TMLTransaction* SingleCoreCPU::getNextTransaction(){
       aResult = aTempMaster->accessGranted();
       //std::cout << "5" << std::endl;
     }
-    return (aResult)?_nextTransaction:0;
+    if (aResult){
+    	    if (_nextTransaction->getChannel()->isLastMaster(_nextTransaction) && _nextTransaction->getTransType()==BUS_TRANS_NoLength){
+    	    	    _nextTransaction->setLength(0);
+    	    	    aTempMaster = getMasterForBus(_nextTransaction->getChannel()->getFirstMaster(_nextTransaction));
+    	    	    while (aTempMaster!=_masterNextTransaction){
+    	    	    	    aTempMaster->getNextBus()->calcLength();
+    	    	            aTempMaster =_nextTransaction->getChannel()->getNextMaster(_nextTransaction);
+    	    	    }
+    	    	    _masterNextTransaction->getNextBus()->calcLength();
+    	    	    _nextTransaction->setTransType(BUS_TRANS_Length);
+    	    }
+    	    return _nextTransaction;
+    } else 
+    	    return 0;
   }
 #else
   return _nextTransaction;
@@ -133,6 +146,7 @@ void SingleCoreCPU::calcStartTimeLength(TMLTime iTimeSlice){
   if (aChannel==0) {
     //std::cout << "no channel " << std::endl;
     _masterNextTransaction=0;
+    _nextTransaction->setTransType(NOCOMM_TRANS);
   } else {
     //std::cout << "get bus " << std::endl;
     _masterNextTransaction= getMasterForBus(aChannel->getFirstMaster(_nextTransaction));
@@ -141,8 +155,10 @@ void SingleCoreCPU::calcStartTimeLength(TMLTime iTimeSlice){
       //std::cout << "before register transaction at bus " << _masterNextTransaction->toString() << std::endl;
       _masterNextTransaction->registerTransaction(_nextTransaction);
       //std::cout << "Transaction registered at bus " << _masterNextTransaction->toString() << std::endl;
+      _nextTransaction->setTransType(BUS_TRANS_NoLength);
     } else {
       //std::cout << "                          NO MASTER NEXT TRANSACTION " << std::endl;
+      _nextTransaction->setTransType(CHANNEL_TRANS);
     }
   }
 #endif
@@ -166,7 +182,11 @@ void SingleCoreCPU::calcStartTimeLength(TMLTime iTimeSlice){
     //calculate length of transaction
     //if (_nextTransaction->getOperationLength()!=-1){
     if (iTimeSlice!=0){
-      _nextTransaction->setVirtualLength(max(min(_nextTransaction->getVirtualLength(), (TMLLength)(iTimeSlice / timeExec)), (TMLTime)1));
+      //_nextTransaction->setVirtualLength(max(min(_nextTransaction->getVirtualLength(), (TMLLength)(iTimeSlice / timeExec)), (TMLTime)1));
+      float nb_ExecF = iTimeSlice /timeExec; //must not be 0
+      TMLLength nb_ExecI = (TMLLength) nb_ExecF;
+      if(nb_ExecI<nb_ExecF) nb_ExecI++;
+      _nextTransaction->setVirtualLength(min(_nextTransaction->getVirtualLength(), nb_ExecI));
     }
     _nextTransaction->setLength(_nextTransaction->getVirtualLength() * timeExec);
 
@@ -184,6 +204,9 @@ void SingleCoreCPU::calcStartTimeLength(TMLTime iTimeSlice){
   } else {
     _nextTransaction->setIdlePenalty(0);
   }
+  if (_nextTransaction->getTransType()==BUS_TRANS_NoLength){
+  	  _nextTransaction->setStartTime(_nextTransaction->getStartTime()+_nextTransaction->getPenalties());
+  }
 #endif
 }
 
@@ -195,29 +218,32 @@ void SingleCoreCPU::truncateAndAddNextTransAt(TMLTime iTime){
   //return truncateNextTransAt(iTime);
   //not a problem if scheduling does not take place at time when transaction is actually truncated, tested
   //std::cout << "CPU:truncateAndAddNextTransAt " << _name << "time: +++++++++++++++++++++" << iTime << "\n";
-  TMLTime aTimeSlice = _scheduler->schedule(iTime);
-  //_schedulingNeeded=false;  05/05/11
-  TMLTransaction* aNewTransaction =_scheduler->getNextTransaction(iTime);
-  //std::cout << "before if\n";
+  if(false){
+     if (_nextTransaction->getTransType()==NOCOMM_TRANS){
+  	  TMLTime aTimeSlice = _scheduler->schedule(iTime);
+  	  //_schedulingNeeded=false;  05/05/11
+  	  TMLTransaction* aNewTransaction =_scheduler->getNextTransaction(iTime);
+  	  //std::cout << "before if\n";
 
-  //_scheduler->transWasScheduled(this); //NEW  was in if before 05/05/11
+  	  //_scheduler->transWasScheduled(this); //NEW  was in if before 05/05/11
 
-  if (aNewTransaction!=_nextTransaction){
-    //std::cout << "in if\n";
-    if (truncateNextTransAt(iTime)!=0) addTransaction(0);
-    //if (_nextTransaction!=0 && truncateNextTransAt(iTime)!=0) addTransaction(); //NEW!!!!
-    if (_nextTransaction!=0 && _masterNextTransaction!=0) _masterNextTransaction->registerTransaction(0);
-    _nextTransaction = aNewTransaction;
-    if (_nextTransaction!=0) calcStartTimeLength(aTimeSlice);
-  }
+  	  if (aNewTransaction!=_nextTransaction){
+  	  	  //std::cout << "in if\n";
+  	  	  if (truncateNextTransAt(iTime)!=0) addTransaction(0);
+  	  	  //if (_nextTransaction!=0 && truncateNextTransAt(iTime)!=0) addTransaction(); //NEW!!!!
+  	  	  //if (_nextTransaction!=0 && _masterNextTransaction!=0) _masterNextTransaction->registerTransaction(0);
+  	  	  _nextTransaction = aNewTransaction;
+  	  	  if (_nextTransaction!=0) calcStartTimeLength(aTimeSlice);
+  	  }
   //std::cout << "CPU:schedule END " << _name << "+++++++++++++++++++++++++++++++++\n";
+     }
+  } else
+  	 truncateNextTrans(iTime);
 }
 
 TMLTime SingleCoreCPU::truncateNextTransAt(TMLTime iTime){
 
-
   if (_masterNextTransaction==0) { // EXECI or EXECC
-
     float timeExec = _timePerExeci;
      if( (_nextTransaction->getCommand() != 0) && (_nextTransaction->getCommand()->getExecType() == 1) ) {
 
@@ -240,13 +266,21 @@ TMLTime SingleCoreCPU::truncateNextTransAt(TMLTime iTime){
 #endif
     } else{
       aNewDuration-=aStaticPenalty;
-      _nextTransaction->setVirtualLength(max((TMLTime)(aNewDuration / timeExec),(TMLTime)1));
+      //_nextTransaction->setVirtualLength(max((TMLTime)(aNewDuration / timeExec),(TMLTime)1));
+      float nb_ExecF = aNewDuration /timeExec; //must not be 0
+      TMLLength nb_ExecI = (TMLLength) nb_ExecF;
+      if(nb_ExecI<nb_ExecF) nb_ExecI++;
+      _nextTransaction->setVirtualLength(max(nb_ExecI,(TMLTime)1));
       _nextTransaction->setLength(_nextTransaction->getVirtualLength() * timeExec);
     }
 #else
     if (iTime <= _nextTransaction->getStartTime()) return 0;  //before: <=
     TMLTime aNewDuration = iTime - _nextTransaction->getStartTime();
-    _nextTransaction->setVirtualLength(max((TMLTime)(aNewDuration / timeExec), (TMLTime)1));
+    //_nextTransaction->setVirtualLength(max((TMLTime)(aNewDuration / timeExec), (TMLTime)1));
+    float nb_ExecF = aNewDuration /timeExec; //must not be 0
+    TMLLength nb_ExecI = (TMLLength) nb_ExecF;
+    if(nb_ExecI<nb_ExecF) nb_ExecI++;
+    _nextTransaction->setVirtualLength(max(nb_ExecI,(TMLTime)1));
     _nextTransaction->setLength(_nextTransaction->getVirtualLength() * timeExec);
 #endif
 #ifdef DEBUG_CPU
@@ -256,6 +290,106 @@ TMLTime SingleCoreCPU::truncateNextTransAt(TMLTime iTime){
   }
   return _nextTransaction->getOverallLength();
 }
+
+void SingleCoreCPU::truncateNextTrans(TMLTime iTime){ // called with _nextTransaction !=0
+  TMLTime aTimeSlice=_scheduler->schedule(iTime);
+  TMLTransaction* aNewTransaction =_scheduler->getNextTransaction(iTime);
+  if (aNewTransaction!=_nextTransaction){ // then aNewTransaction should not be 0
+  	  
+#ifdef DEBUG_CPU
+  	std::cout<<"cpu truncnextTrans"<<std::endl;
+#endif
+       	if (_masterNextTransaction!=0){ // truncate bus transaction
+           _nextTransaction->setTransType(BUS_TRANS_NoLength);
+       	   if (_nextTransaction->getStartTime() >= iTime){
+       	   	   _nextTransaction->setVirtualLength(1);
+       	   	   return;
+       	   }
+       	   BusMaster* aTempMaster = getMasterForBus(_nextTransaction->getChannel()->getFirstMaster(_nextTransaction));
+           unsigned int nb_granted=0;
+           bool aResult = aTempMaster->accessGranted();
+	   while(aResult){
+         	    nb_granted++;
+	            if (aTempMaster == _masterNextTransaction)
+	            	    break;
+           	    aTempMaster =_nextTransaction->getChannel()->getNextMaster(_nextTransaction);
+           	    aResult = aTempMaster->accessGranted();
+           }
+           if (!aResult){
+           	   while(aTempMaster !=_masterNextTransaction)
+           	   	   aTempMaster =_nextTransaction->getChannel()->getNextMaster(_nextTransaction);
+       	   	   _nextTransaction->setVirtualLength(1);
+       	   	   return;
+       	   }
+       	   aTempMaster =_nextTransaction->getChannel()->getNextMaster(_nextTransaction);
+           while(aTempMaster!=0 && aResult){
+          	    nb_granted++;
+          	    aTempMaster->registerTransaction(_nextTransaction);
+           	    aResult = aTempMaster->accessGranted();
+           	    aTempMaster =_nextTransaction->getChannel()->getNextMaster(_nextTransaction);           	   
+           }
+           if (!aResult){
+           	   _masterNextTransaction=aTempMaster;
+           	   _nextTransaction->setVirtualLength(1);
+       	   	   return;
+       	   }
+       	   // from here, access has been granted, nb_granted is correct and StartTime > iTime remains true
+       	   unsigned int i;
+      	   aTempMaster = getMasterForBus(_nextTransaction->getChannel()->getFirstMaster(_nextTransaction));
+           for(i=0;i<nb_granted;i++){
+           	    aTempMaster->getNextBus()->calcStartTimeLength(iTime - _nextTransaction->getStartTime());
+           	    aTempMaster =_nextTransaction->getChannel()->getNextMaster(_nextTransaction);
+           }
+
+        }else{ // truncate non-bus transaction
+
+             if (iTime <= _nextTransaction->getStartTime()){  //static delay
+             	     _nextTransaction = aNewTransaction;
+             	     if (_nextTransaction!=0) calcStartTimeLength(aTimeSlice); // useless test?
+             	     return;
+             }
+             float timeExec = _timePerExeci;
+             if( (_nextTransaction->getCommand() != 0) && (_nextTransaction->getCommand()->getExecType() == 1) ) {
+             	     timeExec = _timePerExecc;
+             }
+         	 
+#ifdef PENALTIES_ENABLED
+             TMLTime aNewDuration = iTime - _nextTransaction->getStartTime();
+             TMLTime aStaticPenalty = _nextTransaction->getIdlePenalty() + _nextTransaction->getTaskSwitchingPenalty();
+             if (aNewDuration<=aStaticPenalty){
+               _nextTransaction->setLength(timeExec);
+               _nextTransaction->setVirtualLength(1);
+#ifdef DEBUG_CPU
+               std::cout << "CPU:truncateNTA: transaction truncated\n";
+#endif
+             } else{
+               aNewDuration-=aStaticPenalty;
+               //_nextTransaction->setVirtualLength(max((TMLTime)(aNewDuration / timeExec),(TMLTime)1));
+               float nb_ExecF = aNewDuration /timeExec; //must not be 0
+               TMLLength nb_ExecI = (TMLLength) nb_ExecF;
+               if(nb_ExecI<nb_ExecF) nb_ExecI++;
+               _nextTransaction->setVirtualLength(max(nb_ExecI,(TMLTime)1));
+               _nextTransaction->setLength(_nextTransaction->getVirtualLength() * timeExec);
+             }
+#else
+             //if (iTime <= _nextTransaction->getStartTime()) return 0;  //before: <=
+             TMLTime aNewDuration = iTime - _nextTransaction->getStartTime();
+             //_nextTransaction->setVirtualLength(max((TMLTime)(aNewDuration / timeExec), (TMLTime)1));
+             float nb_ExecF = aNewDuration /timeExec; //must not be 0
+             TMLLength nb_ExecI = (TMLLength) nb_ExecF;
+             if(nb_ExecI<nb_ExecF) nb_ExecI++;
+             _nextTransaction->setVirtualLength(max(nb_ExecI,(TMLTime)1));
+             _nextTransaction->setLength(_nextTransaction->getVirtualLength() * timeExec);
+#endif
+#ifdef DEBUG_CPU
+             std::cout << "aNewDuration: " << aNewDuration << std::endl;
+             std::cout << "CPU:truncateNTA: ### cut transaction at " << _nextTransaction->getVirtualLength() << std::endl;
+#endif
+        }
+     }
+}
+
+
 
 bool SingleCoreCPU::addTransaction(TMLTransaction* iTransToBeAdded){
 #ifdef DEBUG_CPU

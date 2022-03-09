@@ -158,9 +158,13 @@ class TMLTransaction {
   /**
      \return End time
   */
-  inline TMLTime getEndTime() const{
+  inline TMLTime getEndTime() const {
 #ifdef PENALTIES_ENABLED
-    return _startTime  + _length + _idlePenalty + _taskSwitchingPenalty;
+    if (_transType <= CHANNEL_TRANS){
+    	    return _startTime  + _length + _idlePenalty + _taskSwitchingPenalty;
+    } else {
+    	    return _startTime  + _length;
+    }
 #else
     return _startTime  + _length;
 #endif
@@ -263,6 +267,8 @@ class TMLTransaction {
   void toXMLByTask(std::ostringstream& glob, int deviceID, std::string deviceName, ID uniqueID, std::string taskName) const;
   // Params of the transaction
   std::string lastParams;
+  inline void setTransType(unsigned short int i) {_transType=i;}
+  inline unsigned short int getTransType() {return _transType;}
 
 
  protected:
@@ -282,6 +288,8 @@ class TMLTransaction {
   vcdTransVisState _transVcdOutputState;
   //state of transaction for VCD output
   bool _endState;
+  ///kind of transaction (among NOCOMM_TRANS, CHANNEL_TRANS, BUS_TRANS_NoLength, BUS_TRANS_Length)
+  unsigned short int _transType;
 
   ///previous end time for the cpu VCD output
  // unsigned int _previousTransEndTime;

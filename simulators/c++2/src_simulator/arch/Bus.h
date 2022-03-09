@@ -125,12 +125,17 @@ public:
 	inline void streamStateXML(std::ostream& s) const {streamBenchmarks(s);}
 	std::istream& readObject(std::istream &is);
 	std::ostream& writeObject(std::ostream &os);
-protected:
-	///Calculates the start time and the length of the next transaction
+	///Calculates the start time and the virtual length of the next transaction
 	/**
 	\param iTimeSlice Bus time slice granted by the scheduler
 	*/
 	void calcStartTimeLength(TMLTime iTimeSlice) const;
+	///Calculates the  length of the next transaction wrt virtual length
+	/**
+	\param iTimeSlice Bus time slice granted by the scheduler
+	*/
+	void calcLength() const;
+protected:
 	///Size of an atomic bus transaction
 	TMLLength _burstSize;
 	///Dirty flag of the current scheduling decision

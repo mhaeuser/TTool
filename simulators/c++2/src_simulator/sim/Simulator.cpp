@@ -1022,7 +1022,6 @@ bool Simulator::simulate(TMLTransaction*& oLastTrans){
 #endif
 	commandLET=transLET->getCommand();
 
-
 	if(transLET!=0 && transLET->getCommand()->getTask()->getIsDaemon()==true){
 	  if(transLET->getStartTime() >= deviceLET->getSimulatedTime()){
 	    if(_simComp->getNonDaemonTaskList().empty()){
@@ -1099,7 +1098,7 @@ bool Simulator::simulate(TMLTransaction*& oLastTrans){
 		  std::cout << "kernel:simulate: dependent task has a current transaction and is not blocked any more" << std::endl;
 #endif
 
-		  depNextTrans=depCPU->getNextTransaction();
+		  depNextTrans=depCPU->SchedulableDevice::getNextTransaction();
 		  if (depNextTrans!=0){
 #ifdef DEBUG_KERNEL
 		    std::cout << "kernel:simulate: transaction scheduled on dependent CPU" << std::endl;
@@ -1205,7 +1204,6 @@ bool Simulator::simulate(TMLTransaction*& oLastTrans){
 #ifdef DEBUG_SIMULATE
       std::cout<<"task is !!!!!"<<oLastTrans->toString()<<std::endl;
 #endif
-
       transLET=getTransLowestEndTime(deviceLET);
   }
 

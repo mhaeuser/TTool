@@ -209,7 +209,8 @@ public:
 #endif
 		return os;
 	}
-
+	//$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+	inline SchedulableCommDevice* getNextBus() {return _nextBus;}
 protected:
 	///Sorts the bus list by ascending finish times of the last scheduled transaction
 	void sortBusList(){

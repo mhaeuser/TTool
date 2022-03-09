@@ -68,6 +68,8 @@ public:
 	bool ChannelBasedPrio(){return _channelBasedPrio;}
 	///Destructor
 	virtual ~SchedulableCommDevice(){}
+	virtual void calcStartTimeLength(TMLTime iTimeSlice) const=0;
+	virtual void calcLength() const=0;
 protected:
 	///Flag indicating whether bus master based or channel based priorities are used to arbitrate the bus
 	bool _channelBasedPrio;

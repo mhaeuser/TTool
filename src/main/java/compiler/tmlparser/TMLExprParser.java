@@ -249,8 +249,8 @@ public class TMLExprParser/*@bgen(jjtree)*/implements TMLExprParserTreeConstants
         break;
       case FIRST:
       case LAST:
-      case MIN:
-      case MAX:
+ //     case MIN:
+ //     case MAX:
         NatFunction2();
         switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
         case PLUS:
@@ -376,7 +376,7 @@ public class TMLExprParser/*@bgen(jjtree)*/implements TMLExprParserTreeConstants
   jjtree.openNodeScope(jjtn000);
     try {
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-      case MIN:
+ /*     case MIN:
       case MAX:
         NatFunc2();
         LParen();
@@ -384,7 +384,7 @@ public class TMLExprParser/*@bgen(jjtree)*/implements TMLExprParserTreeConstants
         jj_consume_token(COMMA);
         NatExtendedExpression();
         RParen();
-        break;
+        break;*/
       case FIRST:
       case LAST:
         QueueNatFunc();

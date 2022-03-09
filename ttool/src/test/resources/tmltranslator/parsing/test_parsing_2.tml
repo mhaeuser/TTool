@@ -1,0 +1,38 @@
+// TML Application - FORMAT 0.2
+// Application: /Users/ludovicapvrille/TTool/modeling/DIPLODOCUS/testMinMax.xml
+// Generated: Wed Mar 09 17:19:45 CET 2022
+
+// PRAGMAS
+
+// Channels
+
+// Events
+EVENT Application_withLoop_cloned__myEvent__Application_withLoop_cloned__myEvent(int) NIB 8 Application_withLoop_cloned__Input Application_withLoop_cloned__Output
+
+// Requests
+
+TASK Application_withLoop_cloned__Input
+    TASKOP
+    //Local variables
+    int n
+    int m
+    
+    //Behavior
+    FOR( ; ; )
+        n=min(n+1)
+        NOTIFY Application_withLoop_cloned__myEvent__Application_withLoop_cloned__myEvent n
+    ENDFOR
+ENDTASK
+
+TASK Application_withLoop_cloned__Output
+    TASKOP
+    //Local variables
+    int n
+    
+    //Behavior
+    FOR( ; ; )
+        WAIT Application_withLoop_cloned__myEvent__Application_withLoop_cloned__myEvent n
+        n= max(2,3) + min (5, 8)
+    ENDFOR
+ENDTASK
+

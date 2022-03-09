@@ -232,28 +232,28 @@ public class TMLSyntaxChecking {
 
         for(TMLTask task: tmlm.getTasks()) {
             elts = tmlm.getAllElementsWithName(task.getName());
-            if (elts.size() > 1) {
+            if ((elts != null) && (elts.size() > 1)) {
                 addError(null, null, DUPLICATE_NAMES + ": invalid task name " + task.getName(), TMLError.ERROR_STRUCTURE);
             }
         }
 
         for(TMLChannel ch: tmlm.getChannels()) {
             elts = tmlm.getAllElementsWithName(ch.getName());
-            if (elts.size() > 1) {
+            if ((elts != null) && (elts.size() > 1)) {
                 addError(null, null, DUPLICATE_NAMES + ": invalid channel name " + ch.getName(), TMLError.ERROR_STRUCTURE);
             }
         }
 
         for(TMLEvent evt: tmlm.getEvents()) {
             elts = tmlm.getAllElementsWithName(evt.getName());
-            if (elts.size() > 1) {
+            if ((elts != null) && (elts.size() > 1)) {
                 addError(null, null, DUPLICATE_NAMES + ": invalid event name " + evt.getName(), TMLError.ERROR_STRUCTURE);
             }
         }
 
         for(TMLRequest req: tmlm.getRequests()) {
             elts = tmlm.getAllElementsWithName(req.getName());
-            if (elts.size() > 1) {
+            if ((elts != null) && (elts.size() > 1)) {
                 addError(null, null, DUPLICATE_NAMES + ": invalid request name " + req.getName(), TMLError.ERROR_STRUCTURE);
             }
         }

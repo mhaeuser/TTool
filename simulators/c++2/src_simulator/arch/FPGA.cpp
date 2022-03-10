@@ -212,7 +212,7 @@ TMLTime FPGA::truncateNextTransAt(TMLTime iTime){
 std::cout<<"fpga truncateNextTransAt"<<std::endl;
   if (_masterNextTransaction==0){
     if (iTime <= _nextTransaction->getStartTime()) return 0;  //before: <=
-    float timeExec = _cyclesPerExeci;
+    unsigned int timeExec = _cyclesPerExeci;
      //std::cout << "CPU: EXECI or EXECC??" << "\n";
     if( (_nextTransaction->getCommand() != 0) && (_nextTransaction->getCommand()->getExecType() == 1) ) {
       //std::cout << "CPU: EXECC" << "\n";
@@ -285,7 +285,7 @@ std::cout<<"fpga addTransaction"<<std::endl;
           }
     }
     unsigned int _tempReconfigNumber = _reconfigNumber - _highestRank;
-    float timeExec = _cyclesPerExeci;
+    unsigned int timeExec = _cyclesPerExeci;
      //std::cout << "CPU: EXECI or EXECC??" << "\n";
     if( (_nextTransaction->getCommand() != 0) && (_nextTransaction->getCommand()->getExecType() == 1) ) {
       //std::cout << "CPU: EXECC" << "\n";

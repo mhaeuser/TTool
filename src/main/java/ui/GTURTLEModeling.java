@@ -9016,6 +9016,9 @@ public class GTURTLEModeling {
         }
     }
 
+
+
+
     public void drawPanel(AvatarSpecification avspec, AvatarDesignPanel adp) {
         //
 

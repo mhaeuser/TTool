@@ -197,6 +197,8 @@ public class ActionPerformer {
             mgui.interactiveSimulationSystemC();
         } else if (command.equals(mgui.actions[TGUIAction.ACT_GEN_TMLTXT].getActionCommand())) {
             mgui.generateTMLTxt();
+        } else if (command.equals(mgui.actions[TGUIAction.ACT_LOAD_TMLTXT].getActionCommand())) {
+            mgui.loadAndDrawTMLTxt();
         } else if (command.equals(mgui.actions[TGUIAction.ACT_GEN_CCODE].getActionCommand())) {
             mgui.generateCCode();
         } else if (command.equals(mgui.actions[TGUIAction.ACT_GEN_DESIGN].getActionCommand())) {

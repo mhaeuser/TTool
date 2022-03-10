@@ -67,6 +67,8 @@ public class FileUtils extends org.apache.commons.io.FileUtils {
     public final static String svg = "svg";
     public final static String pdf = "pdf";
     public final static String csv = "csv";
+    public final static String tml = "tml";
+    public final static String tmap = "tmap";
 
 
     public static String getExtension(File f) {

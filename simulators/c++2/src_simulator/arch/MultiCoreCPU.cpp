@@ -226,7 +226,7 @@ std::cout << "CPU:calcSTL: scheduling decision of CPU " << _name << ": " << _nex
     if (iTimeSlice!=0){
       _nextTransaction->setVirtualLength(max(min(_nextTransaction->getVirtualLength(), (TMLLength)(ceil(iTimeSlice / timeExec))), (TMLTime)1));
     }
-    _nextTransaction->setLength(ceil(_nextTransaction->getVirtualLength() * timeExec));
+    _nextTransaction->setLength(round(_nextTransaction->getVirtualLength() * timeExec));
 
 #ifdef BUS_ENABLED
   }
@@ -301,13 +301,13 @@ TMLTime MultiCoreCPU::truncateNextTransAt(TMLTime iTime){
     }else{
       aNewDuration-=aStaticPenalty;
       _nextTransaction->setVirtualLength(max((TMLTime)(ceil(aNewDuration / timeExec)),(TMLTime)1));
-      _nextTransaction->setLength(ceil(_nextTransaction->getVirtualLength() * timeExec));
+      _nextTransaction->setLength(round(_nextTransaction->getVirtualLength() * timeExec));
     }
 #else
     if (iTime <= _nextTransaction->getStartTime()) return 0;  //before
     TMLTime aNewDuration = iTime - _nextTransaction->getStartTime();
     _nextTransaction->setVirtualLength(max((TMLTime)(ceil(aNewDuration / timeExec)), (TMLTime)1));
-    _nextTransaction->setLength(ceil(_nextTransaction->getVirtualLength() * timeExec));
+    _nextTransaction->setLength(round(_nextTransaction->getVirtualLength() * timeExec));
 #endif
 #ifdef DEBUG_CPU
     std::cout << "aNewDuration: " << aNewDuration << std::endl;
@@ -391,13 +391,13 @@ void MultiCoreCPU::truncateNextTrans(TMLTime iTime){ // called with _nextTransac
              } else{
                aNewDuration-=aStaticPenalty;
                _nextTransaction->setVirtualLength(max((TMLTime)(ceil(aNewDuration / timeExec)),(TMLTime)1));
-               _nextTransaction->setLength(ceil(_nextTransaction->getVirtualLength() * timeExec));
+               _nextTransaction->setLength(round(_nextTransaction->getVirtualLength() * timeExec));
              }
 #else
              //if (iTime <= _nextTransaction->getStartTime()) return 0;  //before: <=
              TMLTime aNewDuration = iTime - _nextTransaction->getStartTime();
              _nextTransaction->setVirtualLength(max((TMLTime)(ceil(aNewDuration / timeExec)), (TMLTime)1));
-             _nextTransaction->setLength(ceil(_nextTransaction->getVirtualLength() * timeExec));
+             _nextTransaction->setLength(round(_nextTransaction->getVirtualLength() * timeExec));
 #endif
 #ifdef DEBUG_CPU
              std::cout << "aNewDuration: " << aNewDuration << std::endl;

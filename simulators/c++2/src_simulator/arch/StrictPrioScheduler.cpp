@@ -52,65 +52,59 @@ TMLTime StrictPrioScheduler::schedule(TMLTime iEndSchedule){
 	TaskList::iterator i;
 	//std::cout << _name << ": Schedule called \n";
 	TMLTransaction *anOldTransaction=_nextTransaction, *aTempTrans, *isDelayTrans;
-	TMLTime aLowestRunnableTimeFuture=-1,aRunnableTime, aLowestRunnableTimePast=-1;
+	TMLTime aLowestRunnableTimeFuture=-1,aRunnableTime, aLowestRunnableTimePast=-1, oTimeSlice;
+	Priority aHighestPrioPast=-1, aHighestPrioFuture=-1;
+	//WorkloadSource* anOldSource=_lastSource;
+	
 	WorkloadSource *aSourcePast=0, *aSourceFuture=0;
-	//, *aScheduledSource=0;
 	bool aSameTaskFound=false;
 	if (_lastSource!=0){
-		//aScheduledSource=_lastSource;
 		_lastSource->schedule(iEndSchedule);
 		if (_lastSource->getNextTransaction(iEndSchedule)!=0 && _lastSource->getNextTransaction(iEndSchedule)->getVirtualLength()!=0){
-			//if (anOldTransaction==0 || _lastSource->getNextTransaction(iEndSchedule)==anOldTransaction || _timeSlice >=_elapsedTime +  anOldTransaction->getBranchingPenalty() + anOldTransaction->getOperationLength() + _minSliceSize){
 			isDelayTrans = _lastSource->getNextTransaction(iEndSchedule);
             if((!(isDelayTrans->getCommand()->getActiveDelay()) && isDelayTrans->getCommand()->isDelayTransaction())){
                  aSameTaskFound=false;
             }else if (anOldTransaction==0 || _lastSource->getNextTransaction(iEndSchedule)==anOldTransaction || _timeSlice >=_elapsedTime + anOldTransaction->getOperationLength() + _minSliceSize){
 				if (anOldTransaction != 0)
 				    std::cout << "Select same task, remaining: " << _timeSlice - anOldTransaction->getOperationLength() << "\n";
+				aSameTaskFound=true; // here, _lastSource->getNextTransaction(iEndSchedule) must not be in the future
 				aSourcePast=_lastSource;
-				aSameTaskFound=true;
+				aHighestPrioPast=_lastSource->getPriority();
 			}
 		}
 	}
-	if (!aSameTaskFound){
-		//std::cout << _name << ": Second if\n";
-		Priority aHighestPrioPast=-1;
-		
-		for(WorkloadList::iterator i=_workloadList.begin(); i != _workloadList.end(); ++i){
-			//std::cout << "Loop\n";
-			//if (*i!=aScheduledSource)
-			 (*i)->schedule(iEndSchedule);
-			//std::cout << _name << " schedules, before getCurrTransaction " << std::endl;
-			aTempTrans=(*i)->getNextTransaction(iEndSchedule);
-			//std::cout << "after getCurrTransaction " << std::endl;
-			
-			//if ((*i)->getPriority()<aHighestPrioPast){
-				
-			if (aTempTrans != 0 && aTempTrans->getVirtualLength() != 0) {
-				aRunnableTime = aTempTrans->getRunnableTime();
-                //get tranasaction with highest priority and shortest runable time
-                if ((*i)->getPriority() < aHighestPrioPast || ((*i)->getPriority() == aHighestPrioPast && aRunnableTime < aLowestRunnableTimePast)) {
-                    aHighestPrioPast = (*i)->getPriority();
-                    aLowestRunnableTimePast = aRunnableTime;
-                    aSourcePast = *i;
-                }
+	for(WorkloadList::iterator i=_workloadList.begin(); i != _workloadList.end(); ++i){
+		(*i)->schedule(iEndSchedule);
+		aTempTrans=(*i)->getNextTransaction(iEndSchedule);
+		if (aTempTrans != 0 && aTempTrans->getVirtualLength() != 0) {
+			aRunnableTime = aTempTrans->getRunnableTime();
+			if (aRunnableTime<=iEndSchedule){
+				if ((*i)->getPriority() < aHighestPrioPast || ((*i)->getPriority() == aHighestPrioPast && aRunnableTime < aLowestRunnableTimePast && !aSameTaskFound)) {
+					aHighestPrioPast = (*i)->getPriority();
+					aLowestRunnableTimePast = aRunnableTime;
+					aSourcePast = *i;
+				}
+			}
+			else {
+				if ( aRunnableTime < aLowestRunnableTimeFuture || (aRunnableTime == aLowestRunnableTimeFuture && (*i)->getPriority() < aHighestPrioFuture)) {
+					aHighestPrioFuture = (*i)->getPriority();
+					aLowestRunnableTimeFuture = aRunnableTime;
+					aSourceFuture = *i;
+			}
 			}
 		}
 	}
 	if (aSourcePast==0){
 		_nextTransaction=(aSourceFuture==0)? 0 : aSourceFuture->getNextTransaction(iEndSchedule);
-		_lastSource=aSourceFuture;
-	}else{
+		_lastSource=aSourceFuture;		
+	}else{  aSameTaskFound &= (_lastSource==aSourcePast);
 		_nextTransaction=aSourcePast->getNextTransaction(iEndSchedule);
 		_lastSource=aSourcePast;
 	}
 	if (aSameTaskFound){
-		//std::cout << _name << ": Same source found " << _lastSource->toString() << "\n";
-		//if (_nextTransaction!=anOldTransaction){
 		if (_nextTransaction!=anOldTransaction && anOldTransaction!=0){
-			//std::cout << _name << ": Elapsed time increased by " << anOldTransaction->getBranchingPenalty() + anOldTransaction->getOperationLength() << "\n";
-			//_elapsedTime +=  anOldTransaction->getBranchingPenalty() + anOldTransaction->getOperationLength();
 			_elapsedTime +=  anOldTransaction->getOperationLength();
+			oTimeSlice = _timeSlice-_elapsedTime;
 		}
 		//std::cout << "Not crashed\n" ;
 	}else{
@@ -118,13 +112,15 @@ TMLTime StrictPrioScheduler::schedule(TMLTime iEndSchedule){
 			//std::cout << _name << ": No source found\n";
 		//else
 			//std::cout << _name << ": New  source found " << _lastSource->toString() << "\n";
-		 _elapsedTime=0;
+		 oTimeSlice= _timeSlice;
 	}
+	if (_lastSource==aSourcePast && aSourceFuture!=0)
+		 	 oTimeSlice = min(oTimeSlice,aLowestRunnableTimeFuture-iEndSchedule);
 	//if (_nextTransaction!=0){
 	//	_nextTransaction->setLength(min(_nextTransaction->getOperationLength(), _timeSlice-_elapsedTime));
-	//}
+	//}                                                                                                
 	//std::cout << "End schedule\n" ;
-	return _timeSlice-_elapsedTime;
+	return oTimeSlice;
 }
 
 //TMLTransaction* StrictPrioScheduler::getNextTransaction(TMLTime iEndSchedule) const{

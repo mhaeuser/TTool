@@ -112,7 +112,20 @@ TMLTransaction* FPGA::getNextTransaction(){
 #ifdef DEBUG_FPGA
     if(_nextTransaction)std::cout<<"haha1"<<_nextTransaction->toString()<<std::endl;
 #endif
-    return (aResult)?_nextTransaction:0;
+    if (aResult){
+    	    if (_nextTransaction->getChannel()->isLastMaster(_nextTransaction) && _nextTransaction->getTransType()==BUS_TRANS_NoLength){
+    	    	    _nextTransaction->setLength(0);
+    	    	    aTempMaster = getMasterForBus(_nextTransaction->getChannel()->getFirstMaster(_nextTransaction));
+    	    	    while (aTempMaster!=_masterNextTransaction){
+    	    	    	    aTempMaster->getNextBus()->calcLength();
+    	    	            aTempMaster =_nextTransaction->getChannel()->getNextMaster(_nextTransaction);
+    	    	    }
+    	    	    _masterNextTransaction->getNextBus()->calcLength();
+    	    	    _nextTransaction->setTransType(BUS_TRANS_Length);
+    	    }
+    	    return _nextTransaction;
+    } else 
+    	    return 0;
   }
 #else
   if(_nextTransaction)std::cout<<"haha2"<<_nextTransaction->toString()<<std::endl;
@@ -132,14 +145,17 @@ void FPGA::calcStartTimeLength(){
   TMLChannel* aChannel=_nextTransaction->getCommand()->getChannel(0);
   if (aChannel==0) {
     _masterNextTransaction=0;
+    _nextTransaction->setTransType(NOCOMM_TRANS);
   } else {
     _masterNextTransaction= getMasterForBus(aChannel->getFirstMaster(_nextTransaction));
     if (_masterNextTransaction!=0){
       std::cout << "before register transaction at bus " << _masterNextTransaction->toString() << std::endl;
       _masterNextTransaction->registerTransaction(_nextTransaction);
       std::cout << "Transaction registered at bus " << _masterNextTransaction->toString() << std::endl;
+      _nextTransaction->setTransType(BUS_TRANS_NoLength);
     } else {
       std::cout << "                          NO MASTER NEXT TRANSACTION " << std::endl;
+      _nextTransaction->setTransType(CHANNEL_TRANS);
     }
   }
 #endif
@@ -174,18 +190,20 @@ std::cout<<"fpga truncateAndAddNextTransAt"<<std::endl;
   //std::cout << "CPU:truncateAndAddNextTransAt " << _name << "time: +++++++++++++++++++++" << iTime << "\n";
 //  TMLTime aTimeSlice = _scheduler->schedule(iTime);
   //_schedulingNeeded=false;  05/05/11
-  TMLTransaction* aNewTransaction =_scheduler->getNextTransaction(iTime);
-  //std::cout << "before if\n";
+  if (_nextTransaction->getTransType()==NOCOMM_TRANS){
+    TMLTransaction* aNewTransaction =_scheduler->getNextTransaction(iTime);
+    //std::cout << "before if\n";
 
-  //_scheduler->transWasScheduled(this); //NEW  was in if before 05/05/11
+    //_scheduler->transWasScheduled(this); //NEW  was in if before 05/05/11
 
-  if (aNewTransaction!=_nextTransaction){
-    //std::cout << "in if\n";
-    if (truncateNextTransAt(iTime)!=0) addTransaction(0);
-    //if (_nextTransaction!=0 && truncateNextTransAt(iTime)!=0) addTransaction(); //NEW!!!!
-    if (_nextTransaction!=0 && _masterNextTransaction!=0) _masterNextTransaction->registerTransaction(0);
-    _nextTransaction = aNewTransaction;
-    if (_nextTransaction!=0) calcStartTimeLength();
+    if (aNewTransaction!=_nextTransaction){
+      //std::cout << "in if\n";
+      if (truncateNextTransAt(iTime)!=0) addTransaction(0);
+      //if (_nextTransaction!=0 && truncateNextTransAt(iTime)!=0) addTransaction(); //NEW!!!!
+      if (_nextTransaction!=0 && _masterNextTransaction!=0) _masterNextTransaction->registerTransaction(0);
+      _nextTransaction = aNewTransaction;
+      if (_nextTransaction!=0) calcStartTimeLength();
+    }
   }
   //std::cout << "CPU:schedule END " << _name << "+++++++++++++++++++++++++++++++++\n";
 }
@@ -194,7 +212,7 @@ TMLTime FPGA::truncateNextTransAt(TMLTime iTime){
 std::cout<<"fpga truncateNextTransAt"<<std::endl;
   if (_masterNextTransaction==0){
     if (iTime <= _nextTransaction->getStartTime()) return 0;  //before: <=
-    float timeExec = _cyclesPerExeci;
+    unsigned int timeExec = _cyclesPerExeci;
      //std::cout << "CPU: EXECI or EXECC??" << "\n";
     if( (_nextTransaction->getCommand() != 0) && (_nextTransaction->getCommand()->getExecType() == 1) ) {
       //std::cout << "CPU: EXECC" << "\n";
@@ -267,7 +285,7 @@ std::cout<<"fpga addTransaction"<<std::endl;
           }
     }
     unsigned int _tempReconfigNumber = _reconfigNumber - _highestRank;
-    float timeExec = _cyclesPerExeci;
+    unsigned int timeExec = _cyclesPerExeci;
      //std::cout << "CPU: EXECI or EXECC??" << "\n";
     if( (_nextTransaction->getCommand() != 0) && (_nextTransaction->getCommand()->getExecType() == 1) ) {
       //std::cout << "CPU: EXECC" << "\n";

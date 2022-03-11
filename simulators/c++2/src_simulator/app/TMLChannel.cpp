@@ -65,6 +65,17 @@ BusMaster* TMLChannel::getNextMaster(TMLTransaction* iTrans){
     return _masters[_readTransCurrHop];
   }
 }
+bool TMLChannel::isLastMaster(TMLTransaction* iTrans){ 
+  //if (iTrans->getCommand()->getTask()==_writeTask){
+  if (iTrans==_writeTrans){
+    if (_writeTransCurrHop+1>0 && (_masters[_writeTransCurrHop+1]->getBus()==_masters[_writeTransCurrHop]->getBus() || _slaves[_writeTransCurrHop]==0)) return true; //NEW!!!
+    return false;
+  }else{
+    //if (_readTransCurrHop<_numberOfHops-1 && _masters[_readTransCurrHop]->getBus()==_masters[_readTransCurrHop+1]->getBus()) return 0;
+    if (_readTransCurrHop<_numberOfHops && _masters[_readTransCurrHop-1]->getBus()==_masters[_readTransCurrHop]->getBus()) return true;
+    return false;
+  }
+}
 
 BusMaster* TMLChannel::getFirstMaster(TMLTransaction* iTrans){
   //std::cout<<"get First master"<<std::endl;

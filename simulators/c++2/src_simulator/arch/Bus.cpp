@@ -71,7 +71,7 @@ void Bus::schedule(){
 	if (_nextTransaction!=0){
 		//_scheduler->transWasScheduled();
 		//Sets the virtual length of the transaction (number of execution units already carried out by previous transactions)
-		_nextTransaction->setVirtualLength(min(_nextTransaction->getVirtualLength(), _burstSize));
+                _nextTransaction->setVirtualLength(min(_nextTransaction->getVirtualLength(), _burstSize));
 		calcStartTimeLength(aTimeSlice);
 	}
 	_schedulingNeeded=false;
@@ -111,30 +111,32 @@ bool Bus::addTransaction(TMLTransaction* iTransToBeAdded){
 	return true;
 }
 
-//Calculates the start time and the length of the next transaction
+//Calculates the start time and the virtual length of the next transaction
 void Bus::calcStartTimeLength(TMLTime iTimeSlice) const{
   TMLTime tmp1 = static_cast<TMLTime>(_endSchedule);
-  TMLTime tmp2  = static_cast<TMLTime>(_nextTransaction->getPenalties());
-  TMLTime tmp3 = static_cast<TMLTime>(_nextTransaction->getStartTime());
-  //std::cout << "BUS   ------------- tmp1:" << tmp1 << " tmp2:" << tmp2 << " tmp3:" << tmp3 << "\n";
-//  if (tmp1 < tmp2) { tmp1 = tmp2;}
+  TMLTime tmp2 = static_cast<TMLTime>(_nextTransaction->getStartTime());
   
   
   //_nextTransaction->setStartTime(max(tmp1+tmp2, tmp3));
-  _nextTransaction->setStartTime(max(tmp1+tmp2, tmp3));
-	
-	//if (_nextTransaction->getOperationLength()!=-1){
-	if (iTimeSlice!=0){
-		_nextTransaction->setVirtualLength(max(min(_nextTransaction->getVirtualLength(), iTimeSlice *_busWidth/_timePerSample),(TMLTime)1));
-	}
+  _nextTransaction->setStartTime(max(tmp1, tmp2));
+  if (iTimeSlice!=0){
+	_nextTransaction->setVirtualLength(max(min(_nextTransaction->getVirtualLength(), iTimeSlice *_busWidth/_timePerSample),(TMLTime)1));
+  }
+	// 07/03/2022, for the moment CalcTransactionLength function of slaves do nothing 
+	//Slave* aSlave = _nextTransaction->getChannel()->getNextSlave(_nextTransaction);
+	//if (aSlave!=0) aSlave->CalcTransactionLength(_nextTransaction);
+}
+
+//Calculates the length of the next transaction w.r.t the virtual length
+void Bus::calcLength() const{
 	TMLTime aLength = _nextTransaction->getVirtualLength();
 	
 	aLength = (aLength%_busWidth == 0)? (aLength/_busWidth)*_timePerSample : (aLength/_busWidth + 1)*_timePerSample;
 	_nextTransaction->setLength(max(aLength, _nextTransaction->getOperationLength()));
-	//_nextTransaction->setLength(aLength);  //TODO: this is not correct if speed of buses differ, max should be taken
 
-	Slave* aSlave = _nextTransaction->getChannel()->getNextSlave(_nextTransaction);
-	if (aSlave!=0) aSlave->CalcTransactionLength(_nextTransaction);
+	// 07/03/2022, for the moment CalcTransactionLength function of slaves do nothing 
+	//Slave* aSlave = _nextTransaction->getChannel()->getNextSlave(_nextTransaction);
+	//if (aSlave!=0) aSlave->CalcTransactionLength(_nextTransaction);
 }
 
 std::string Bus::toShortString() const{

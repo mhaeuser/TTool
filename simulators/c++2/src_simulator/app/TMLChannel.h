@@ -107,6 +107,12 @@ public:
 	\return Pointer to the task
 	*/
 	virtual TMLTask* getBlockedWriteTask()const=0;
+	///test if the current communication master on which the given transaction is conveyed is the last one
+	/**
+	\param iTrans Transaction
+	\return boolean
+	*/
+	bool isLastMaster(TMLTransaction* iTrans);
 	///Returns the next communication master on which the given transaction is conveyed
 	/**
 	\param iTrans Transaction

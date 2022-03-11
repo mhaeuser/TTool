@@ -136,6 +136,10 @@ protected:
 	\param iTime Indicates at what time the transaction should be truncated
 	*/
 	TMLTime truncateNextTransAt(TMLTime iTime);
+	/**
+	\param iTime Indicates at what time the transaction should be truncated
+	*/
+	void truncateNextTrans(TMLTime iTime);
 	///Calculates the start time and the length of the next transaction
 	/**
 	\param iTimeSlice CPU Time slice granted by the scheduler

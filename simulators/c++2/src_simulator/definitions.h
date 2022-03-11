@@ -140,6 +140,14 @@ using std::max;
 #define RUNNABLE 1
 #define SUSPENDED 0
 
+// Kinds of transactions
+#define NOCOMM_TRANS 0
+#define CHANNEL_TRANS 1
+#define BUS_TRANS_NoLength 2
+// length has not been computed
+#define BUS_TRANS_Length 3
+// length has been computed
+
 #define INT_MSB (1 << (sizeof(unsigned int)*8-1))
 
 //XML Tags

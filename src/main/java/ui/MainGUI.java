@@ -5386,7 +5386,7 @@ public class MainGUI implements ActionListener, WindowListener, KeyListener, Per
     public void loadAndDrawTMLTxt() {
         File tmlfile;
 
-        int returnVal = jfctml.showDialog(frame, "Load TML / TMAP Specification (Text format)");
+        int returnVal = jfctml.showDialog(frame, "Load TML Specification (Text format)");
         if (returnVal != JFileChooser.APPROVE_OPTION) {
             return;
         }

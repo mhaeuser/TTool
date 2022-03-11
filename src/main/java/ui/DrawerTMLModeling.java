@@ -41,6 +41,7 @@ package ui;
 import avatartranslator.*;
 import myutil.TraceManager;
 import tmltranslator.TMLModeling;
+import tmltranslator.TMLSyntaxChecking;
 import ui.avatarbd.*;
 import ui.avatarsmd.AvatarSMDPanel;
 
@@ -59,12 +60,33 @@ import java.util.Vector;
  */
 public class DrawerTMLModeling  {
 
+    private boolean hasError;
+
     public DrawerTMLModeling() {
 
     }
 
+    // Not thread-safe
     public  void drawTMLModelingPanel(TMLModeling tmlspec, TMLComponentDesignPanel panel) {
         TraceManager.addDev("Drawing TML spec");
+
+        hasError = false;
+
+        if (tmlspec == null) {
+            hasError = true;
+            return;
+        }
+
+        TMLSyntaxChecking syntax = new TMLSyntaxChecking(tmlspec);
+        syntax.checkSyntax();
+        if (syntax.hasErrors() > 0) {
+            hasError = true;
+            return;
+        }
+
+        
+
+
     }
 
 

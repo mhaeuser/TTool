@@ -32,8 +32,8 @@ public class DiplodocusDelayPenaltyEnableTests extends AbstractTest {
     //model for Delay task with penalties
     private static final int [] NB_Of_DELAY_STATES_PENALTIES = {42, 42, 42, 42, 32, 32};
     private static final int [] NB_Of_DELAY_TRANSTIONS_PENALTIES = {41, 41, 41, 41, 31, 31};
-    private static final int [] MIN_DELAY_CYCLES_PENALTIES = {2570, 2570, 2640, 2640, 2010, 2320};
-    private static final int [] MAX_DELAY_CYCLES_PENALTIES = {2570, 2570, 2640, 2640, 2010, 2320};
+    private static final int [] MIN_DELAY_CYCLES_PENALTIES = {2580, 2580, 2650, 2650, 2010, 2320};
+    private static final int [] MAX_DELAY_CYCLES_PENALTIES = {2580, 2580, 2650, 2650, 2010, 2320};
 
     private static final String CPP_DIR = "../../../../simulators/c++2/";
     private String SIM_DIR;
@@ -203,11 +203,11 @@ public class DiplodocusDelayPenaltyEnableTests extends AbstractTest {
 
             // Min and max cycles
             int minValue = graph.getMinValue("allCPUsFPGAsTerminated");
-            System.out.println("executing: minvalue of " + s + " " + minValue);
+            System.out.println("executing: minvalue of " + s + " " + minValue + "; Compare with:" + MIN_DELAY_CYCLES_PENALTIES[i] );
             assertTrue(MIN_DELAY_CYCLES_PENALTIES[i] == minValue);
 
             int maxValue = graph.getMaxValue("allCPUsFPGAsTerminated");
-            System.out.println("executing: maxvalue of " + s + " " + maxValue);
+            System.out.println("executing: maxvalue of " + s + " " + maxValue + "; Compare with:" + MAX_DELAY_CYCLES_PENALTIES[i]);
             assertTrue(MAX_DELAY_CYCLES_PENALTIES[i] == maxValue);
         }
     }

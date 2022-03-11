@@ -34,8 +34,8 @@ public class DiplodocusSimulatorTest extends AbstractTest {
     final String [] MODELS_DAEMON = {"daemontest1", "daemontest2"};
     final int [] NB_Of_DAEMON_STATES = {5, 108};
     final int [] NB_Of_DAEMON_TRANSTIONS = {4, 107};
-    final int [] MIN_DAEMON_CYCLES = {26, 3030};
-    final int [] MAX_DAEMON_CYCLES = {26, 3030};
+    final int [] MIN_DAEMON_CYCLES = {26, 3079};
+    final int [] MAX_DAEMON_CYCLES = {26, 3079};
 
     // model for Daemon Run To Next Breakpoint
     final String MODELS_DAEMON_RTNB = "testDaemon";
@@ -380,11 +380,11 @@ public class DiplodocusSimulatorTest extends AbstractTest {
 
             // Min and max cycles
             int minValue = graph.getMinValue("allCPUsFPGAsTerminated");
-            System.out.println("executing: minvalue of " + s + " " + minValue);
+            System.out.println("executing: minvalue of " + s + " " + minValue + " Expected: " + MIN_DAEMON_CYCLES[i]);
             assertTrue(MIN_DAEMON_CYCLES[i] == minValue);
 
             int maxValue = graph.getMaxValue("allCPUsFPGAsTerminated");
-            System.out.println("executing: maxvalue of " + s + " " + maxValue);
+            System.out.println("executing: maxvalue of " + s + " " + maxValue + " Expected: " + MAX_DAEMON_CYCLES[i]);
             assertTrue(MAX_DAEMON_CYCLES[i] == maxValue);
         }
     }

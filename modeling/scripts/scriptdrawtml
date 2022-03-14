@@ -8,3 +8,4 @@ action open $model
 wait 4
 action diplodocus-load-tml $tmlspec
 action diplodocus-draw-tml $tmlspec
+wait 120

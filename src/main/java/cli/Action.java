@@ -872,7 +872,7 @@ public class Action extends Command {
             }
         };
 
-        
+
 
         // PANEL manipulation
         Command selectPanel = new Command() {

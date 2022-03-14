@@ -1018,6 +1018,10 @@
          return isOrigin;
      }
 
+     public void setIsOrigin(boolean _isOrigin) {
+         isOrigin = _isOrigin;
+     }
+
      public int getNbMaxAttribute() {
          return nbMaxAttribute;
      }

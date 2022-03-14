@@ -256,11 +256,11 @@ public class DrawerTMLModeling  {
         }
 
         // Adding ports to tasks
-        TMLCChannelOutPort p1 = addPort(c1, evt.getName(),TMLCPrimitivePort.TML_PORT_EVENT, panel );
+        TMLCChannelOutPort p1 = addPort(c1, evt.getName(),TMLCPrimitivePort.TML_PORT_EVENT, true, panel );
         if (p1 == null) {
             return false;
         }
-        TMLCChannelOutPort p2 = addPort(c2, evt.getName(),TMLCPrimitivePort.TML_PORT_EVENT, panel );
+        TMLCChannelOutPort p2 = addPort(c2, evt.getName(),TMLCPrimitivePort.TML_PORT_EVENT, false, panel );
         if (p2 == null) {
             return false;
         }
@@ -271,12 +271,12 @@ public class DrawerTMLModeling  {
         return true;
     }
 
-    private TMLCChannelOutPort addPort(TGComponent tgc, String name, int portType, TMLComponentDesignPanel panel) {
+    private TMLCChannelOutPort addPort(TGComponent tgc, String name, int portType, boolean isOrigin, TMLComponentDesignPanel panel) {
         int myX = tgc.getX() + tgc.getWidth() / 2;
         int myY = tgc.getY() + tgc.getHeight() / 2;
         int myType = TGComponentManager.TMLCTD_COPORT;
-        //TraceManager.addDev("Adding port");
-        TGComponent tgcPort = TGComponentManager.addComponent(myX, myY, myType, panel.tmlctdp);
+
+
 
         TMLCChannelOutPort comp = new TMLCChannelOutPort(myX, myY, panel.tmlctdp.getMinX(),
                 panel.tmlctdp.getMaxX(), panel.tmlctdp.getMinY(), panel.tmlctdp.getMaxY(),
@@ -285,6 +285,7 @@ public class DrawerTMLModeling  {
 
         comp.setPortName(name);
         comp.setPortType(portType);
+        comp.setIsOrigin(isOrigin);
 
         if (tgc instanceof SwallowTGComponent) {
             ((SwallowTGComponent)tgc).addSwallowedTGComponent(comp, myX, myY);

@@ -5408,25 +5408,23 @@ public class MainGUI implements ActionListener, WindowListener, KeyListener, Per
 
     }
 
+    public TMLTextSpecification loadTMLTxt(String fileName) {
+        String content = loadFile(new File(fileName));
 
-    // Returns null if failed
-    // Otherwise the file content
-    public String loadTMLTxt() {
+        // Get TML Modeling from content
+        TMLTextSpecification ts = new TMLTextSpecification(fileName);
+        boolean b = ts.makeTMLModeling(content);
 
-        File tmlfile;
-
-        int returnVal = jfctml.showDialog(frame, "Load TML / TMAP Specification (Text format)");
-        if (returnVal != JFileChooser.APPROVE_OPTION) {
+        if (!b) {
+            TraceManager.addDev("Error in loaded spec");
             return null;
         }
 
-        tmlfile = jfctml.getSelectedFile();
-        tmlfile = FileUtils.addFileExtensionIfMissing(tmlfile, TMLFilter.getExtension());
 
-
-
-        return loadFile(tmlfile);
+        return ts;
     }
+
+
 
     public String generateCCode() {
 
@@ -6959,6 +6957,10 @@ public class MainGUI implements ActionListener, WindowListener, KeyListener, Per
     public void setTMLArchitectureDiagramName(int indexDesign, String name) {
         TURTLEPanel tp = tabs.elementAt(indexDesign);
         tp.tabbedPane.setTitleAt(0, name);
+    }
+
+    public void setTMLModeling(TMLModeling _tmlm) {
+
     }
 
     public void setAADName(int indexDesign, String name) {

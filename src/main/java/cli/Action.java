@@ -55,6 +55,7 @@ import myutil.PluginManager;
 import myutil.TraceManager;
 import tmltranslator.TMLMapping;
 import tmltranslator.TMLModeling;
+import tmltranslator.TMLTextSpecification;
 import ui.MainGUI;
 import ui.avatarinteractivesimulation.AvatarInteractiveSimulationActions;
 import ui.avatarinteractivesimulation.JFrameAvatarInteractiveSimulation;
@@ -102,6 +103,8 @@ public class Action extends Command {
     private final static String DIPLO_GENERATE_XML = "diplodocus-generate-xml";
     private final static String DIPLO_UPPAAL = "diplodocus-uppaal";
     private final static String DIPLO_REMOVE_NOC = "diplodocus-remove-noc";
+    private final static String DIPLO_LOAD_TML = "diplodocus-load-tml";
+    private final static String DIPLO_DRAW_TML = "diplodocus-draw-tml";
 
 
     private final static String NAVIGATE_PANEL_TO_LEFT = "navigate-panel-to-left";
@@ -121,6 +124,7 @@ public class Action extends Command {
 
 
     private AvatarSpecificationSimulation ass;
+    private TMLModeling tmlm;
 
     public Action() {
 
@@ -796,10 +800,79 @@ public class Action extends Command {
             }
         };
 
+        // Diplodocus load TML
+        Command diplodocusLoadTML = new Command() {
+            public String getCommand() {
+                return DIPLO_LOAD_TML;
+            }
+
+            public String getShortCommand() {
+                return "dltml";
+            }
+
+            public String getDescription() {
+                return "Load a textual TML specification";
+            }
+
+            public String executeCommand(String command, Interpreter interpreter) {
+                if (!interpreter.isTToolStarted()) {
+                    return Interpreter.TTOOL_NOT_STARTED;
+                }
+
+                String[] commands = command.split(" ");
+                if (commands.length < 1) {
+                    return Interpreter.BAD;
+                }
+
+                TMLTextSpecification ts = interpreter.mgui.loadTMLTxt(commands[0]);
+
+                if (ts == null) {
+                    return "Fail to load TML specification";
+                }
+
+                if (ts.getErrors().size() > 0) {
+                    return "TML specification has errors";
+                }
 
 
+                tmlm = ts.getTMLModeling();
+
+                return null;
+            }
+        };
+
+        // Diplodocus draw TML
+        Command diplodocusDrawTML = new Command() {
+            public String getCommand() {
+                return DIPLO_DRAW_TML;
+            }
+
+            public String getShortCommand() {
+                return "ddtml";
+            }
+
+            public String getDescription() {
+                return "Draw a TML specification";
+            }
+
+            public String executeCommand(String command, Interpreter interpreter) {
+                if (!interpreter.isTToolStarted()) {
+                    return Interpreter.TTOOL_NOT_STARTED;
+                }
+
+                String[] commands = command.split(" ");
+                if (commands.length < 1) {
+                    return Interpreter.BAD;
+                }
 
 
+                interpreter.mgui.drawTMLSpecification(tmlm, commands[0]);
+
+                return null;
+            }
+        };
+
+        
 
         // PANEL manipulation
         Command selectPanel = new Command() {
@@ -1518,6 +1591,8 @@ public class Action extends Command {
         addAndSortSubcommand(diplodocusGenerateXML);
         addAndSortSubcommand(diplodocusUPPAAL);
         addAndSortSubcommand(diplodocusRemoveNoC);
+        addAndSortSubcommand(diplodocusLoadTML);
+        addAndSortSubcommand(diplodocusDrawTML);
         addAndSortSubcommand(movePanelToTheLeftPanel);
         addAndSortSubcommand(movePanelToTheRightPanel);
         addAndSortSubcommand(selectPanel);

@@ -6,5 +6,5 @@ action start
 wait 2
 action open $model
 wait 4
-action load-tml $tmlspec
-action draw-tml
+action diplodocus-load-tml $tmlspec
+action diplodocus-draw-tml $tmlspec

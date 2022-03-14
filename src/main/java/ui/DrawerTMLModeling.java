@@ -38,18 +38,17 @@
 
 package ui;
 
-import avatartranslator.*;
 import myutil.TraceManager;
-import tmltranslator.TMLModeling;
-import tmltranslator.TMLSyntaxChecking;
-import ui.avatarbd.*;
-import ui.avatarsmd.AvatarSMDPanel;
+import tmltranslator.*;
 
-import java.awt.*;
-import java.util.ArrayList;
+import ui.tmlcompd.TMLCPrimitiveComponent;
+
+
 import java.util.HashMap;
-import java.util.Map;
-import java.util.Vector;
+
+
+import static java.lang.Math.cos;
+import static java.lang.Math.sin;
 
 /**
  * Class DrawerTMLModeling
@@ -60,7 +59,15 @@ import java.util.Vector;
  */
 public class DrawerTMLModeling  {
 
+    private final static int RADIUS = 400;
+    private final static int XCENTER = 500;
+    private final static int YCENTER = 500;
+
+
     private boolean hasError;
+    private HashMap<TMLTask, TMLCPrimitiveComponent> taskMap;
+
+
 
     public DrawerTMLModeling() {
 
@@ -84,9 +91,57 @@ public class DrawerTMLModeling  {
             return;
         }
 
-        
+        makeTasks(tmlspec, panel);
 
 
+    }
+
+    private boolean makeTasks(TMLModeling tmlspec, TMLComponentDesignPanel panel) {
+        int taskID = 0;
+        int nbOfTasks =  tmlspec.getTasks().size();
+        for(Object task: tmlspec.getTasks()) {
+            if (task instanceof TMLTask) {
+                boolean ret = addTask((TMLTask) task, taskID, nbOfTasks, panel);
+                if (!ret) return false;
+                taskID ++;
+            }
+        }
+        panel.tmlctdp.repaint();
+        return true;
+    }
+
+    private boolean addTask(TMLTask task, int id, int nbOfTasks, TMLComponentDesignPanel panel) {
+        int myX = (int)(XCENTER + RADIUS * cos(360/nbOfTasks*id));
+        int myY = (int)(YCENTER + RADIUS * sin(360/nbOfTasks*id));
+        int myType = TGComponentManager.TMLCTD_PCOMPONENT;
+
+        TraceManager.addDev("myX=" + myX + " myY=" + myY);
+
+        TGComponent tgc = TGComponentManager.addComponent(myX, myY, myType, panel.tmlctdp);
+        if (tgc == null) {
+            return false;
+        }
+        panel.tmlctdp.addBuiltComponent(tgc);
+
+        TraceManager.addDev("Width=" + tgc.getWidth());
+
+        TMLCPrimitiveComponent comp = (TMLCPrimitiveComponent) tgc;
+        panel.tmlctdp.renamePrimitiveComponent(comp.getValue(), task.getTaskName());
+        comp.setValue(task.getTaskName());
+
+        for(TMLAttribute attr: task.getAttributes()) {
+            TAttribute ta;
+            if (attr.getType().getType() == TMLType.NATURAL) {
+                ta = new TAttribute(TAttribute.PRIVATE, attr.getName(), attr.getInitialValue(), TAttribute.NATURAL);
+            } else if (attr.getType().getType() == TMLType.BOOLEAN) {
+                ta = new TAttribute(TAttribute.PRIVATE, attr.getName(), attr.getInitialValue(), TAttribute.BOOLEAN);
+            } else {
+                ta = new TAttribute(TAttribute.PRIVATE, attr.getName(), attr.getInitialValue(), attr.getType().getTypeOther());
+            }
+            comp.getAttributeList().add(ta);
+        }
+
+        return true;
     }
 
 

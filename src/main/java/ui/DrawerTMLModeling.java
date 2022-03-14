@@ -42,8 +42,10 @@ import myutil.TraceManager;
 import tmltranslator.*;
 
 import ui.tmlcompd.TMLCPrimitiveComponent;
+import ui.tmlcompd.TMLCPrimitivePort;
 
 
+import java.awt.*;
 import java.util.HashMap;
 
 
@@ -61,7 +63,7 @@ public class DrawerTMLModeling  {
 
     private final static int RADIUS = 400;
     private final static int XCENTER = 500;
-    private final static int YCENTER = 500;
+    private final static int YCENTER = 350;
 
 
     private boolean hasError;
@@ -76,6 +78,8 @@ public class DrawerTMLModeling  {
     // Not thread-safe
     public  void drawTMLModelingPanel(TMLModeling tmlspec, TMLComponentDesignPanel panel) {
         TraceManager.addDev("Drawing TML spec");
+
+        taskMap = new HashMap<>();
 
         hasError = false;
 
@@ -92,6 +96,9 @@ public class DrawerTMLModeling  {
         }
 
         makeTasks(tmlspec, panel);
+        makeChannels(tmlspec, panel);
+
+        panel.tmlctdp.repaint();
 
 
     }
@@ -111,8 +118,8 @@ public class DrawerTMLModeling  {
     }
 
     private boolean addTask(TMLTask task, int id, int nbOfTasks, TMLComponentDesignPanel panel) {
-        int myX = (int)(XCENTER + RADIUS * cos(360/nbOfTasks*id));
-        int myY = (int)(YCENTER + RADIUS * sin(360/nbOfTasks*id));
+        int myX = (int)(XCENTER + RADIUS * cos(2*Math.PI/nbOfTasks*id));
+        int myY = (int)(YCENTER + RADIUS * sin(2*Math.PI/nbOfTasks*id));
         int myType = TGComponentManager.TMLCTD_PCOMPONENT;
 
         TraceManager.addDev("myX=" + myX + " myY=" + myY);
@@ -121,13 +128,12 @@ public class DrawerTMLModeling  {
         if (tgc == null) {
             return false;
         }
+        TMLCPrimitiveComponent comp = (TMLCPrimitiveComponent) tgc;
+        tgc.setValue(task.getName());
         panel.tmlctdp.addBuiltComponent(tgc);
 
         TraceManager.addDev("Width=" + tgc.getWidth());
-
-        TMLCPrimitiveComponent comp = (TMLCPrimitiveComponent) tgc;
-        panel.tmlctdp.renamePrimitiveComponent(comp.getValue(), task.getTaskName());
-        comp.setValue(task.getTaskName());
+        //panel.tmlctdp.renamePrimitiveComponent(comp.getValue(), task.getTaskName());
 
         for(TMLAttribute attr: task.getAttributes()) {
             TAttribute ta;
@@ -141,8 +147,53 @@ public class DrawerTMLModeling  {
             comp.getAttributeList().add(ta);
         }
 
+        taskMap.put(task, comp);
+
         return true;
     }
+
+    private boolean makeChannels(TMLModeling tmlspec, TMLComponentDesignPanel panel) {
+
+        for(Object o: tmlspec.getChannels()) {
+            if (o instanceof TMLChannel) {
+                boolean ret = addChannel((TMLChannel) o, panel);
+                if (!ret) return false;
+            }
+        }
+
+        return true;
+    }
+
+    // Assumes 1 to 1 channel
+    private boolean addChannel(TMLChannel chan, TMLComponentDesignPanel panel) {
+        TMLTask task1 = chan.getOriginTask();
+        TMLTask task2 = chan.getDestinationTask();
+
+        if ((task1 == null) || (task2 == null)) {
+            return false;
+        }
+
+        TMLCPrimitiveComponent c1 = taskMap.get(task1);
+        TMLCPrimitiveComponent c2 = taskMap.get(task2);
+
+        if ((c1 == null) || (c2 == null)) {
+            return false;
+        }
+
+        // Adding ports to tasks
+        //TMLCPrimitivePort p = new TMLCPrimitivePort();
+
+        // Setting the characteristics
+        // Connecting the ports
+
+
+
+
+        return true;
+    }
+
+
+
 
 
 

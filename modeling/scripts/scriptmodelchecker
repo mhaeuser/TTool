@@ -1,5 +1,5 @@
 set model ./../modeling/AVATAR/CoffeeMachine_Avatar.xml
-#print The model to be opened is: $model
+print var model
 action start
 wait 2
 #toto

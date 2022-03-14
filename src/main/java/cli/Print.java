@@ -129,6 +129,7 @@ public class Print extends Command  {
                 return null;
             }
         };
+
         Command dir = new Command() {
             public String getCommand() { return DIR; }
             public String getShortCommand() { return "d"; }
@@ -142,6 +143,7 @@ public class Print extends Command  {
                 return null;
             }
         };
+
         Command var = new Command() {
             public String getCommand() { return VAR; }
             public String getShortCommand() { return "v"; }

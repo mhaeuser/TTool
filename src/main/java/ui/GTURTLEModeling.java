@@ -2720,9 +2720,6 @@ public class GTURTLEModeling {
         return tmlm;
     }
 
-    public void setTMLModeling(TMLModeling tmlm) {
-        this.tmlm = tmlm;
-    }
 
     public TML2Avatar getTML2Avatar() {
         return t2a;

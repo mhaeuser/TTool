@@ -42,6 +42,8 @@ import myutil.TraceManager;
 import org.apache.batik.anim.timing.Trace;
 import tmltranslator.*;
 
+import ui.tmlcompd.TMLCChannelOutPort;
+import ui.tmlcompd.TMLCPortConnector;
 import ui.tmlcompd.TMLCPrimitiveComponent;
 import ui.tmlcompd.TMLCPrimitivePort;
 
@@ -67,13 +69,15 @@ public class DrawerTMLModeling  {
     private final static int YCENTER = 350;
 
 
+    private MainGUI mgui;
     private boolean hasError;
     private HashMap<TMLTask, TMLCPrimitiveComponent> taskMap;
 
 
 
-    public DrawerTMLModeling() {
 
+    public DrawerTMLModeling(MainGUI _mgui) {
+        mgui = _mgui;
     }
 
     // Not thread-safe
@@ -105,6 +109,7 @@ public class DrawerTMLModeling  {
         TraceManager.addDev("Adding events");
         makeEvents(tmlspec, panel);
 
+        TraceManager.addDev("All done");
         panel.tmlctdp.repaint();
 
 
@@ -115,7 +120,7 @@ public class DrawerTMLModeling  {
         int nbOfTasks =  tmlspec.getTasks().size();
         for(Object task: tmlspec.getTasks()) {
             if (task instanceof TMLTask) {
-                boolean ret = addTask((TMLTask) task, taskID, nbOfTasks, panel);
+                boolean ret = addTask((TMLTask) task, taskID, nbOfTasks, panel, taskID == 0);
                 if (!ret) return false;
                 taskID ++;
             }
@@ -124,25 +129,21 @@ public class DrawerTMLModeling  {
         return true;
     }
 
-    private boolean addTask(TMLTask task, int id, int nbOfTasks, TMLComponentDesignPanel panel) {
+    private boolean addTask(TMLTask task, int id, int nbOfTasks, TMLComponentDesignPanel panel, boolean setDiagramName) {
         int myX = (int)(XCENTER + RADIUS * cos(2*Math.PI/nbOfTasks*id));
         int myY = (int)(YCENTER + RADIUS * sin(2*Math.PI/nbOfTasks*id));
         int myType = TGComponentManager.TMLCTD_PCOMPONENT;
 
-        TraceManager.addDev("myX=" + myX + " myY=" + myY);
+        TraceManager.addDev("myX=" + myX + " myY=" + myY + " Adding built component");
 
-        /*TGComponent tgc = TGComponentManager.addComponent(myX, myY, myType, panel.tmlctdp);
-        if (tgc == null) {
-            return false;
-        }*/
+
         TMLCPrimitiveComponent comp = new TMLCPrimitiveComponent(myX, myY, panel.tmlctdp.getMinX(),
                 panel.tmlctdp.getMaxX(), panel.tmlctdp.getMinY(), panel.tmlctdp.getMaxY(),
-                true, null, panel.tmlctdp);
-        comp.setValue(task.getName());
+                true, null, panel.tmlctdp, task.getTaskName());
+        // Adding a built component
         panel.tmlctdp.addBuiltComponent(comp);
 
         TraceManager.addDev("Width=" + comp.getWidth());
-        //panel.tmlctdp.renamePrimitiveComponent(comp.getValue(), task.getTaskName());
 
         for(TMLAttribute attr: task.getAttributes()) {
             TAttribute ta;
@@ -157,6 +158,17 @@ public class DrawerTMLModeling  {
         }
 
         taskMap.put(task, comp);
+        if (setDiagramName) {
+            String longName = task.getName();
+            int index = longName.indexOf("__");
+            if (index > 0) {
+                int indexTab = mgui.getIndexOfPanel(panel);
+                TraceManager.addDev("Found panel at index:" + indexTab + " ; renaming to " + longName.substring(0, index));
+                if (indexTab > -1) {
+                   mgui.renameTab(indexTab, longName.substring(0, index));
+                }
+            }
+        }
 
         return true;
     }
@@ -175,7 +187,7 @@ public class DrawerTMLModeling  {
 
     private boolean makeEvents(TMLModeling tmlspec, TMLComponentDesignPanel panel) {
 
-        for(Object o: tmlspec.getChannels()) {
+        for(Object o: tmlspec.getEvents()) {
             if (o instanceof TMLEvent) {
                 boolean ret = addEvent((TMLEvent) o, panel);
                 if (!ret) return false;
@@ -244,29 +256,56 @@ public class DrawerTMLModeling  {
         }
 
         // Adding ports to tasks
-        int myX = c1.getX() + c1.getWidth() / 2;
-        int myY = c1.getY() + c2.getWidth() / 2;
-        int myType = TGComponentManager.TMLCTD_COPORT;
-        TraceManager.addDev("Adding port");
-        TGComponent tgc = TGComponentManager.addComponent(myX, myY, myType, panel.tmlctdp);
-
-        if (tgc == null) {
+        TMLCChannelOutPort p1 = addPort(c1, evt.getName(),TMLCPrimitivePort.TML_PORT_EVENT, panel );
+        if (p1 == null) {
             return false;
         }
-        TMLCPrimitivePort comp = (TMLCPrimitivePort) tgc;
-        comp.setPortName(evt.getName());
-        panel.tmlctdp.addBuiltComponent(tgc);
+        TMLCChannelOutPort p2 = addPort(c2, evt.getName(),TMLCPrimitivePort.TML_PORT_EVENT, panel );
+        if (p2 == null) {
+            return false;
+        }
 
-
-        // Setting the characteristics
         // Connecting the ports
-
-
-
+        addPortConnector(p1, p2, panel);
 
         return true;
     }
 
+    private TMLCChannelOutPort addPort(TGComponent tgc, String name, int portType, TMLComponentDesignPanel panel) {
+        int myX = tgc.getX() + tgc.getWidth() / 2;
+        int myY = tgc.getY() + tgc.getHeight() / 2;
+        int myType = TGComponentManager.TMLCTD_COPORT;
+        //TraceManager.addDev("Adding port");
+        TGComponent tgcPort = TGComponentManager.addComponent(myX, myY, myType, panel.tmlctdp);
+
+        TMLCChannelOutPort comp = new TMLCChannelOutPort(myX, myY, panel.tmlctdp.getMinX(),
+                panel.tmlctdp.getMaxX(), panel.tmlctdp.getMinY(), panel.tmlctdp.getMaxY(),
+                true, null, panel.tmlctdp);
+
+
+        comp.setPortName(name);
+        comp.setPortType(portType);
+
+        if (tgc instanceof SwallowTGComponent) {
+            ((SwallowTGComponent)tgc).addSwallowedTGComponent(comp, myX, myY);
+            return comp;
+        }
+        return null;
+    }
+
+    private boolean addPortConnector(TMLCChannelOutPort p1, TMLCChannelOutPort p2, TMLComponentDesignPanel panel) {
+        int myX = p1.getX() + p1.getWidth() / 2;
+        int myY = p1.getY() + p1.getHeight() / 2;
+        p1.getTGConnectingPointAtIndex(0).setFree(false);
+        p2.getTGConnectingPointAtIndex(0).setFree(false);
+        TMLCPortConnector conn = new TMLCPortConnector(myX, myY, panel.tmlctdp.getMinX(),
+                panel.tmlctdp.getMaxX(), panel.tmlctdp.getMinY(), panel.tmlctdp.getMaxY(),
+                true, null, panel.tmlctdp, p1.getTGConnectingPointAtIndex(0), p2.getTGConnectingPointAtIndex(0), null);
+
+        panel.tmlctdp.addBuiltConnector(conn);
+
+        return true;
+    }
 
 
 

@@ -3147,6 +3147,11 @@ public abstract class TDiagramPanel extends JPanel implements GenericTree {
 
 
     private String findGoodName(String name, NameChecker checker) {
+
+        if (this.isNameUnique(name, checker))
+            return name;
+
+
         // index >= 0 catch overflows
         for (int index = 0; index >= 0; index++) {
             String tryName = name + index;

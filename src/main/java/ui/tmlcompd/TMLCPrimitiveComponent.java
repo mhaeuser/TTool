@@ -102,6 +102,16 @@ public class TMLCPrimitiveComponent extends TGCScalableWithInternalComponent imp
 
     public TMLCPrimitiveComponent(int _x, int _y, int _minX, int _maxX, int _minY, int _maxY, boolean _pos, TGComponent _father, TDiagramPanel _tdp) {
         super(_x, _y, _minX, _maxX, _minY, _maxY, _pos, _father, _tdp);
+        init("TMLComp");
+    }
+
+    public TMLCPrimitiveComponent(int _x, int _y, int _minX, int _maxX, int _minY, int _maxY, boolean _pos, TGComponent _father, TDiagramPanel _tdp,
+                                  String initialName) {
+        super(_x, _y, _minX, _maxX, _minY, _maxY, _pos, _father, _tdp);
+        init(initialName);
+    }
+
+    private void init(String initialName) {
 
         // Issue #31
         //minWidth = 1;
@@ -129,7 +139,7 @@ public class TMLCPrimitiveComponent extends TGCScalableWithInternalComponent imp
         removable = true;
         userResizable = true;
 
-        value = tdp.findTMLPrimitiveComponentName("TMLComp_");
+        value = tdp.findTMLPrimitiveComponentName(initialName);
         oldValue = value;
         setName("Primitive component");
 
@@ -139,6 +149,8 @@ public class TMLCPrimitiveComponent extends TGCScalableWithInternalComponent imp
 
         actionOnAdd();
     }
+
+
 
     /*private Color choosingColor() {
         if (ColorManager.TML_COMPOSITE_COMPONENT == Color.white)

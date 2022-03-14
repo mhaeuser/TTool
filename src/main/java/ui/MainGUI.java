@@ -1878,7 +1878,7 @@ public class MainGUI implements ActionListener, WindowListener, KeyListener, Per
         TraceManager.addDev("Draw TML Spec 2");
         TMLComponentDesignPanel tmlcdp = (TMLComponentDesignPanel) (tabs.elementAt(index));
         TraceManager.addDev("Draw TML Spec 3");
-        DrawerTMLModeling drawer = new DrawerTMLModeling();
+        DrawerTMLModeling drawer = new DrawerTMLModeling(this);
         drawer.drawTMLModelingPanel(tmlm, tmlcdp);
         TraceManager.addDev("Draw TML Spec 4");
     }
@@ -8341,6 +8341,10 @@ public class MainGUI implements ActionListener, WindowListener, KeyListener, Per
         }
     }
 
+    public void renameTab(int index, String newName) {
+        mainTabbedPane.setTitleAt(index, newName);
+    }
+
     public void deleteTab(TDiagramPanel tdp) {
         // TraceManager.addDev("Delete");
 
@@ -8823,6 +8827,7 @@ public class MainGUI implements ActionListener, WindowListener, KeyListener, Per
         }
 
     }
+
 
     public void renameDeployment(String oldName, String newName) {
         TURTLEPanel tp;

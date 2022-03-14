@@ -107,6 +107,11 @@ public abstract class TGConnector extends TGCScalableWithInternalComponent {
     }
     
     protected void initPoints( final Vector<Point> _listPoint ) {
+        if (_listPoint == null) {
+            nbInternalTGComponent = 0;
+            tgcomponent = new TGComponent[0];
+            return;
+        }
         nbInternalTGComponent = _listPoint.size();
         tgcomponent = new TGComponent[nbInternalTGComponent];
 

@@ -71,6 +71,11 @@
  public abstract class TMLCPrimitivePort extends TGCScalableWithInternalComponent implements SwallowedTGComponent, LinkedReference, WithAttributes,
          TMLPortWithSecurityInformation {
 
+     public final static int TML_PORT_CHANNEL = 0;
+     public final static int TML_PORT_EVENT = 1;
+     public final static int TML_PORT_REQUEST = 2;
+
+
      public static int NOCHECK = 0;
      public static int TOCHECK = 1;
      public static int CHECKED_CONF = 2;
@@ -975,6 +980,11 @@
      public int getPortType() {
          return typep;
      }
+
+     public void setPortType(int _typeP) {
+         typep = _typeP;
+     }
+
 
      public String getPortTypeName() {
          switch (typep) {

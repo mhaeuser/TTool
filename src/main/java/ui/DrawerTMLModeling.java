@@ -38,6 +38,7 @@
 
 package ui;
 
+import myutil.GraphicLib;
 import myutil.TraceManager;
 import org.apache.batik.anim.timing.Trace;
 import tmltranslator.*;
@@ -209,6 +210,20 @@ public class DrawerTMLModeling  {
         check(c1 != null, "No component corresponding to task " + task1.getName());
         check(c2 != null, "No component corresponding to task " + task1.getName());
 
+        // Adding ports to tasks
+        Point p = computePoint(c1, c2);
+        TMLCChannelOutPort p1 = addPort(c1, chan.getName(), TMLCPrimitivePort.TML_PORT_CHANNEL, true, chan.isLossy(), chan.getLossPercentage(),
+                chan.getMaxNbOfLoss(), chan.isInfinite(), chan.isBlockingAtOrigin(), chan.getMax(), chan.getSize(), null,
+                panel, p );
+        check(p1 != null, "No free port available for setting output event " + chan.getName());
+        p = computePoint(c2, c1);
+        TMLCChannelOutPort p2 = addPort(c2, chan.getName(), TMLCPrimitivePort.TML_PORT_CHANNEL, false, chan.isLossy(), chan.getLossPercentage(),
+                chan.getMaxNbOfLoss(), chan.isInfinite(), chan.isBlockingAtDestination(), chan.getMax(), chan.getSize(), null,
+                panel, p );
+        check(p2 != null, "No free port available for setting input event " + chan.getName());
+
+        // Connecting the ports
+        addPortConnector(p1, p2, panel);
 
     }
 
@@ -229,9 +244,17 @@ public class DrawerTMLModeling  {
         check(c2 != null, "No component corresponding to task " + task1.getName());
 
         // Adding ports to tasks
-        TMLCChannelOutPort p1 = addPort(c1, evt.getName(),TMLCPrimitivePort.TML_PORT_EVENT, true, panel );
+
+        Point p = computePoint(c1, c2);
+        TMLCChannelOutPort p1 = addPort(c1, evt.getName(), TMLCPrimitivePort.TML_PORT_EVENT, true, evt.isLossy(), evt.getLossPercentage(),
+               evt.getMaxNbOfLoss(), evt.isInfinite(), evt.isBlockingAtOrigin(), evt.getMaxSize(), 1, evt.getParams(),
+                panel, p );
         check(p1 != null, "No free port available for setting output event " + evt.getName());
-        TMLCChannelOutPort p2 = addPort(c2, evt.getName(),TMLCPrimitivePort.TML_PORT_EVENT, false, panel );
+
+        p = computePoint(c2, c1);
+        TMLCChannelOutPort p2 = addPort(c2, evt.getName(), TMLCPrimitivePort.TML_PORT_EVENT, false, evt.isLossy(), evt.getLossPercentage(),
+                       evt.getMaxNbOfLoss(), evt.isInfinite(), evt.isBlockingAtDestination(), evt.getMaxSize(), 1, evt.getParams(),
+                panel, p );
         check(p2 != null, "No free port available for setting input event " + evt.getName());
 
         // Connecting the ports
@@ -239,22 +262,53 @@ public class DrawerTMLModeling  {
 
     }
 
-    private TMLCChannelOutPort addPort(TGComponent tgc, String name, int portType, boolean isOrigin, TMLComponentDesignPanel panel) {
-        int myX = tgc.getX() + tgc.getWidth() / 2;
-        int myY = tgc.getY() + tgc.getHeight() / 2;
-        int myType = TGComponentManager.TMLCTD_COPORT;
+    private TMLCChannelOutPort addPort(TGComponent tgc, String name, int portType, boolean isOrigin, boolean isLossy,
+                                       int lossPercentage, int maxNbOfLoss,
+                                       boolean isInfinite, boolean isBlocking, int maxSamples, int widthSamples,
+                                       java.util.Vector<tmltranslator.TMLType> params,
+                                       TMLComponentDesignPanel panel, Point p) {
 
-        TMLCChannelOutPort comp = new TMLCChannelOutPort(myX, myY, panel.tmlctdp.getMinX(),
+        if (p == null) {
+            p = new Point (tgc.getX() + tgc.getWidth()/2, tgc.getY() + tgc.getHeight()/2);
+        }
+
+
+
+        TMLCChannelOutPort comp = new TMLCChannelOutPort(p.x, p.y, panel.tmlctdp.getMinX(),
                 panel.tmlctdp.getMaxX(), panel.tmlctdp.getMinY(), panel.tmlctdp.getMaxY(),
                 true, null, panel.tmlctdp);
 
 
         comp.setPortName(name);
+        // Extra correct name, depending on whether it is the sender or the receiver
+        String[] splitName = name.split("__");
+        if (splitName.length > 3) {
+            if (isOrigin) {
+                comp.setCommName(splitName[1]);
+            } else {
+                comp.setCommName(splitName[3]);
+            }
+        } else if (splitName.length > 1){
+            comp.setCommName(splitName[1]);
+        } else {
+            comp.setCommName(name);
+        }
+
         comp.setPortType(portType);
         comp.setIsOrigin(isOrigin);
+        comp.setLoss(isLossy, maxNbOfLoss, lossPercentage);
+        comp.setMainSemantics(isInfinite, isBlocking, maxSamples, widthSamples);
+        if (params != null) {
+            int cpt = 0;
+            for(TMLType type: params) {
+                TType t = new TType(type.getType(), type.getTypeOther());
+                comp.setParam(cpt, t);
+                cpt ++;
+            }
+        }
 
         if (tgc instanceof SwallowTGComponent) {
-            ((SwallowTGComponent)tgc).addSwallowedTGComponent(comp, myX, myY);
+            ((SwallowTGComponent)tgc).addSwallowedTGComponent(comp, p.x, p.y);
             return comp;
         }
 
@@ -271,6 +325,12 @@ public class DrawerTMLModeling  {
                 true, null, panel.tmlctdp, p1.getTGConnectingPointAtIndex(0), p2.getTGConnectingPointAtIndex(0), null);
 
         panel.tmlctdp.addBuiltConnector(conn);
+    }
+
+    private Point computePoint(TGComponent c1, TGComponent c2) {
+        return GraphicLib.intersectionRectangleSegment(c1.getX(), c1.getY(), c1.getWidth(), c1.getHeight(),
+                c1.getX()+c1.getWidth()/2, c1.getY() + c1.getHeight()/2,
+                c2.getX()+c2.getWidth()/2, c2.getY() + c2.getHeight()/2);
     }
 
 

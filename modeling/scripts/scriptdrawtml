@@ -1,5 +1,5 @@
 set model ./../modeling/scripts/TMLModel.xml
-set tmlspec ./../modeling/scripts/inputoutput.tml
+set tmlspec ./../modeling/scripts/sc.tml
 print var model
 print var tmlspec
 action start

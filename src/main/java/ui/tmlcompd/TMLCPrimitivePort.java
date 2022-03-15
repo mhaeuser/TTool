@@ -104,8 +104,10 @@
      protected TType list[];
      protected int maxSamples = 8;
      protected int widthSamples = 4;
+
      protected boolean isFinite = false;
      protected boolean isBlocking = true;
+
      protected int oldTypep = typep;
      //Authenticity lock parameters
      protected int authlockwidth = (int) (16 * tdp.getZoom());
@@ -907,6 +909,10 @@
          return commName;
      }
 
+     public void setCommName(String _commName) {
+         commName = _commName;
+     }
+
      public void setPortName(String s) {
          for (TURTLEPanel tp : tdp.getMainGUI().tabs) {
              for (TDiagramPanel t : tp.getPanels()) {
@@ -997,6 +1003,7 @@
                  return "Request";
          }
      }
+
 
      public boolean isBlocking() {
          return isBlocking;
@@ -1116,6 +1123,21 @@
      public boolean isLossy() {
          return isLossy && isOrigin;
      }
+
+     public void setLoss(boolean _isLossy, int _maxNbOfLoss, int _lossPercentage) {
+         isLossy = _isLossy;
+         lossPercentage = _lossPercentage;
+         maxNbOfLoss = _maxNbOfLoss;
+     }
+
+     public void setMainSemantics(boolean _isInfinite, boolean _isBlocking, int _maxSamples, int _widthSamples) {
+         isFinite = !_isInfinite;
+        isBlocking = _isBlocking;
+        maxSamples = _maxSamples;
+        widthSamples = _widthSamples;
+     }
+
+
 
      public int getLossPercentage() {
          return lossPercentage;

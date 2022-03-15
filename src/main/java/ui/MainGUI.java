@@ -1868,7 +1868,7 @@ public class MainGUI implements ActionListener, WindowListener, KeyListener, Per
         TraceManager.addDev("Draw Spec 4");
     }
 
-    public void drawTMLSpecification(TMLModeling tmlm, String title) {
+    public void drawTMLSpecification(TMLModeling tmlm, String title) throws MalformedTMLDesignException {
         DateFormat dateFormat = new SimpleDateFormat("_yyyyMMdd_HHmmss");
         Date date = new Date();
         String dateAndTime = dateFormat.format(date);
@@ -5404,7 +5404,12 @@ public class MainGUI implements ActionListener, WindowListener, KeyListener, Per
             return;
         }
 
-        drawTMLSpecification(ts.getTMLModeling(), tmlfile.getName());
+        try {
+            drawTMLSpecification(ts.getTMLModeling(), tmlfile.getName());
+        } catch (MalformedTMLDesignException e) {
+            TraceManager.addDev("Error in drawing spec: " + e.getMessage());
+            status.setText("ERROR: " + e.getMessage());
+        }
 
     }
 

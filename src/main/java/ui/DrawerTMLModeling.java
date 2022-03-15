@@ -80,8 +80,14 @@ public class DrawerTMLModeling  {
         mgui = _mgui;
     }
 
+    private void check(boolean condition, String text) throws MalformedTMLDesignException {
+        if (!condition) {
+            throw new MalformedTMLDesignException(text);
+        }
+    }
+
     // Not thread-safe
-    public  void drawTMLModelingPanel(TMLModeling tmlspec, TMLComponentDesignPanel panel) {
+    public  void drawTMLModelingPanel(TMLModeling tmlspec, TMLComponentDesignPanel panel) throws MalformedTMLDesignException{
         TraceManager.addDev("Drawing TML spec");
 
         taskMap = new HashMap<>();
@@ -115,21 +121,18 @@ public class DrawerTMLModeling  {
 
     }
 
-    private boolean makeTasks(TMLModeling tmlspec, TMLComponentDesignPanel panel) {
+    private void makeTasks(TMLModeling tmlspec, TMLComponentDesignPanel panel) {
         int taskID = 0;
         int nbOfTasks =  tmlspec.getTasks().size();
         for(Object task: tmlspec.getTasks()) {
             if (task instanceof TMLTask) {
-                boolean ret = addTask((TMLTask) task, taskID, nbOfTasks, panel, taskID == 0);
-                if (!ret) return false;
+                addTask((TMLTask) task, taskID, nbOfTasks, panel, taskID == 0);
                 taskID ++;
             }
         }
-        panel.tmlctdp.repaint();
-        return true;
     }
 
-    private boolean addTask(TMLTask task, int id, int nbOfTasks, TMLComponentDesignPanel panel, boolean setDiagramName) {
+    private void addTask(TMLTask task, int id, int nbOfTasks, TMLComponentDesignPanel panel, boolean setDiagramName) {
         int myX = (int)(XCENTER + RADIUS * cos(2*Math.PI/nbOfTasks*id));
         int myY = (int)(YCENTER + RADIUS * sin(2*Math.PI/nbOfTasks*id));
         int myType = TGComponentManager.TMLCTD_PCOMPONENT;
@@ -170,113 +173,76 @@ public class DrawerTMLModeling  {
             }
         }
 
-        return true;
     }
 
-    private boolean makeChannels(TMLModeling tmlspec, TMLComponentDesignPanel panel) {
+    private void makeChannels(TMLModeling tmlspec, TMLComponentDesignPanel panel) throws MalformedTMLDesignException {
 
         for(Object o: tmlspec.getChannels()) {
             if (o instanceof TMLChannel) {
-                boolean ret = addChannel((TMLChannel) o, panel);
-                if (!ret) return false;
+                addChannel((TMLChannel) o, panel);
             }
         }
-
-        return true;
     }
 
-    private boolean makeEvents(TMLModeling tmlspec, TMLComponentDesignPanel panel) {
+    private void makeEvents(TMLModeling tmlspec, TMLComponentDesignPanel panel) throws MalformedTMLDesignException {
 
         for(Object o: tmlspec.getEvents()) {
             if (o instanceof TMLEvent) {
-                boolean ret = addEvent((TMLEvent) o, panel);
-                if (!ret) return false;
+                addEvent((TMLEvent) o, panel);
             }
         }
-
-        return true;
     }
 
     // Assumes 1 to 1 channel
-    private boolean addChannel(TMLChannel chan, TMLComponentDesignPanel panel) {
+    private void addChannel(TMLChannel chan, TMLComponentDesignPanel panel) throws MalformedTMLDesignException {
         TraceManager.addDev("Adding channel " + chan.getName());
 
         TMLTask task1 = chan.getOriginTask();
         TMLTask task2 = chan.getDestinationTask();
 
-        if ((task1 == null) || (task2 == null)) {
-            return false;
-        }
+        check(task1 != null, "Invalid origin task for channel " + chan.getName());
+        check(task2 != null, "Invalid destination task for channel " + chan.getName());
 
         TMLCPrimitiveComponent c1 = taskMap.get(task1);
         TMLCPrimitiveComponent c2 = taskMap.get(task2);
 
-        if ((c1 == null) || (c2 == null)) {
-            return false;
-        }
-
-        // Adding ports to tasks
-        int myX = c1.getX() + c1.getWidth() / 2;
-        int myY = c1.getY() + c2.getWidth() / 2;
-        int myType = TGComponentManager.TMLCTD_COPORT;
-        TraceManager.addDev("Adding port");
-        TGComponent tgc = TGComponentManager.addComponent(myX, myY, myType, panel.tmlctdp);
-
-        if (tgc == null) {
-            return false;
-        }
-        TMLCPrimitivePort comp = (TMLCPrimitivePort) tgc;
-        comp.setPortName(chan.getName());
-        panel.tmlctdp.addBuiltComponent(tgc);
+        check(c1 != null, "No component corresponding to task " + task1.getName());
+        check(c2 != null, "No component corresponding to task " + task1.getName());
 
 
-        // Setting the characteristics
-        // Connecting the ports
-
-
-        return true;
     }
 
     // Assumes 1 to 1 event
-    private boolean addEvent(TMLEvent evt, TMLComponentDesignPanel panel) {
+    private void addEvent(TMLEvent evt, TMLComponentDesignPanel panel) throws MalformedTMLDesignException {
         TraceManager.addDev("Adding event " + evt.getName());
 
         TMLTask task1 = evt.getOriginTask();
         TMLTask task2 = evt.getDestinationTask();
 
-        if ((task1 == null) || (task2 == null)) {
-            return false;
-        }
+        check(task1 != null, "Invalid origin task for channel " + evt.getName());
+        check(task2 != null, "Invalid destination task for channel " + evt.getName());
 
         TMLCPrimitiveComponent c1 = taskMap.get(task1);
         TMLCPrimitiveComponent c2 = taskMap.get(task2);
 
-        if ((c1 == null) || (c2 == null)) {
-            return false;
-        }
+        check(c1 != null, "No component corresponding to task " + task1.getName());
+        check(c2 != null, "No component corresponding to task " + task1.getName());
 
         // Adding ports to tasks
         TMLCChannelOutPort p1 = addPort(c1, evt.getName(),TMLCPrimitivePort.TML_PORT_EVENT, true, panel );
-        if (p1 == null) {
-            return false;
-        }
+        check(p1 != null, "No free port available for setting output event " + evt.getName());
         TMLCChannelOutPort p2 = addPort(c2, evt.getName(),TMLCPrimitivePort.TML_PORT_EVENT, false, panel );
-        if (p2 == null) {
-            return false;
-        }
+        check(p2 != null, "No free port available for setting input event " + evt.getName());
 
         // Connecting the ports
         addPortConnector(p1, p2, panel);
 
-        return true;
     }
 
     private TMLCChannelOutPort addPort(TGComponent tgc, String name, int portType, boolean isOrigin, TMLComponentDesignPanel panel) {
         int myX = tgc.getX() + tgc.getWidth() / 2;
         int myY = tgc.getY() + tgc.getHeight() / 2;
         int myType = TGComponentManager.TMLCTD_COPORT;
-
-
 
         TMLCChannelOutPort comp = new TMLCChannelOutPort(myX, myY, panel.tmlctdp.getMinX(),
                 panel.tmlctdp.getMaxX(), panel.tmlctdp.getMinY(), panel.tmlctdp.getMaxY(),
@@ -291,10 +257,11 @@ public class DrawerTMLModeling  {
             ((SwallowTGComponent)tgc).addSwallowedTGComponent(comp, myX, myY);
             return comp;
         }
+
         return null;
     }
 
-    private boolean addPortConnector(TMLCChannelOutPort p1, TMLCChannelOutPort p2, TMLComponentDesignPanel panel) {
+    private void addPortConnector(TMLCChannelOutPort p1, TMLCChannelOutPort p2, TMLComponentDesignPanel panel) {
         int myX = p1.getX() + p1.getWidth() / 2;
         int myY = p1.getY() + p1.getHeight() / 2;
         p1.getTGConnectingPointAtIndex(0).setFree(false);
@@ -304,8 +271,6 @@ public class DrawerTMLModeling  {
                 true, null, panel.tmlctdp, p1.getTGConnectingPointAtIndex(0), p2.getTGConnectingPointAtIndex(0), null);
 
         panel.tmlctdp.addBuiltConnector(conn);
-
-        return true;
     }
 
 

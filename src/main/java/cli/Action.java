@@ -865,8 +865,13 @@ public class Action extends Command {
                     return Interpreter.BAD;
                 }
 
+                try {
+                    interpreter.mgui.drawTMLSpecification(tmlm, commands[0]);
+                } catch (MalformedTMLDesignException e) {
+                    TraceManager.addDev("Exception in drawing spec: " + e.getMessage());
+                    return e.getMessage();
+                }
 
-                interpreter.mgui.drawTMLSpecification(tmlm, commands[0]);
 
                 return null;
             }

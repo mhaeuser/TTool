@@ -16,7 +16,6 @@ import static org.junit.Assert.*;
 public class TDiagramPanelCloneTest extends AbstractUITest {
 
 
-
     private final static String [] EXPECTED_FILES = {"expected_spec1.tml", "expected_spec2.tml", "expected_spec3.tml", "expected_spec4.tml"};
     private final static String [] COMP_NAMES = {"CompositeComp1", "CompositeComp2", "PrimitiveComp5", "PrimitiveComp6"};
 

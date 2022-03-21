@@ -1,11 +1,15 @@
 set model ./../modeling/scripts/TMLModel.xml
-set tmlspec ./../modeling/scripts/sc.tml
+set tmlspec1 ./../modeling/scripts/sc.tml
+set tmlspec2 ./../modeling/scripts/comms.tml
 print var model
 print var tmlspec
 action start
 wait 2
 action open $model
 wait 4
-action diplodocus-load-tml $tmlspec
-action diplodocus-draw-tml $tmlspec
+action diplodocus-load-tml $tmlspec1
+action diplodocus-draw-tml $tmlspec1
+wait 2
+action diplodocus-load-tml $tmlspec2
+action diplodocus-draw-tml $tmlspec2
 wait 120

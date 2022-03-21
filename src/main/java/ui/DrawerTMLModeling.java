@@ -67,7 +67,7 @@ public class DrawerTMLModeling  {
 
     private final static int RADIUS = 400;
     private final static int XCENTER = 500;
-    private final static int YCENTER = 350;
+    private final static int YCENTER = 450;
 
 
     private MainGUI mgui;
@@ -115,6 +115,8 @@ public class DrawerTMLModeling  {
         panel.tmlctdp.repaint();
         TraceManager.addDev("Adding events");
         makeEvents(tmlspec, panel);
+        TraceManager.addDev("Adding requests");
+        makeRequests(tmlspec, panel);
 
         TraceManager.addDev("All done");
         panel.tmlctdp.repaint();
@@ -194,6 +196,15 @@ public class DrawerTMLModeling  {
         }
     }
 
+    private void makeRequests(TMLModeling tmlspec, TMLComponentDesignPanel panel) throws MalformedTMLDesignException {
+
+        for(Object o: tmlspec.getRequests()) {
+            if (o instanceof TMLRequest) {
+                addRequest((TMLRequest) o, panel);
+            }
+        }
+    }
+
     // Assumes 1 to 1 channel
     private void addChannel(TMLChannel chan, TMLComponentDesignPanel panel) throws MalformedTMLDesignException {
         TraceManager.addDev("Adding channel " + chan.getName());
@@ -208,7 +219,7 @@ public class DrawerTMLModeling  {
         TMLCPrimitiveComponent c2 = taskMap.get(task2);
 
         check(c1 != null, "No component corresponding to task " + task1.getName());
-        check(c2 != null, "No component corresponding to task " + task1.getName());
+        check(c2 != null, "No component corresponding to task " + task2.getName());
 
         // Adding ports to tasks
         Point p = computePoint(c1, c2);
@@ -234,14 +245,14 @@ public class DrawerTMLModeling  {
         TMLTask task1 = evt.getOriginTask();
         TMLTask task2 = evt.getDestinationTask();
 
-        check(task1 != null, "Invalid origin task for channel " + evt.getName());
-        check(task2 != null, "Invalid destination task for channel " + evt.getName());
+        check(task1 != null, "Invalid origin task for event " + evt.getName());
+        check(task2 != null, "Invalid destination task for event " + evt.getName());
 
         TMLCPrimitiveComponent c1 = taskMap.get(task1);
         TMLCPrimitiveComponent c2 = taskMap.get(task2);
 
         check(c1 != null, "No component corresponding to task " + task1.getName());
-        check(c2 != null, "No component corresponding to task " + task1.getName());
+        check(c2 != null, "No component corresponding to task " + task2.getName());
 
         // Adding ports to tasks
 
@@ -259,6 +270,47 @@ public class DrawerTMLModeling  {
 
         // Connecting the ports
         addPortConnector(p1, p2, panel);
+
+    }
+
+    // Assumes n to 1 requests
+    private void addRequest(TMLRequest req, TMLComponentDesignPanel panel) throws MalformedTMLDesignException {
+        TraceManager.addDev("Adding request " + req.getName());
+
+        if (req.getOriginTasks().size() == 0) {
+            throw new MalformedTMLDesignException("No origin request for request " + req.getName());
+        }
+
+        TMLCChannelOutPort p2 = null;
+        TMLTask task2 = req.getDestinationTask();
+        check(task2 != null, "Invalid destination task for channel " + req.getName());
+        TMLCPrimitiveComponent c2 = taskMap.get(task2);
+        check(c2 != null, "No component corresponding to task " + task2.getName());
+
+        for(TMLTask task1: req.getOriginTasks()) {
+
+            check(task1 != null, "Invalid origin task for request " + req.getName());
+            TMLCPrimitiveComponent c1 = taskMap.get(task1);
+            check(c1 != null, "No component corresponding to task " + task1.getName());
+
+            // Adding ports to tasks
+            Point p = computePoint(c1, c2);
+            TMLCChannelOutPort p1 = addPort(c1, req.getName(), TMLCPrimitivePort.TML_PORT_REQUEST, true, req.isLossy(), req.getLossPercentage(),
+                    req.getMaxNbOfLoss(), true, req.isBlockingAtOrigin(), 8, 1, req.getParams(),
+                    panel, p);
+            check(p1 != null, "No free port available for setting output request " + req.getName());
+
+            p = computePoint(c2, c1);
+            if (p2 == null) {
+                p2 = addPort(c2, req.getName(), TMLCPrimitivePort.TML_PORT_REQUEST, false, req.isLossy(), req.getLossPercentage(),
+                        req.getMaxNbOfLoss(), true, req.isBlockingAtDestination(), 8, 1, req.getParams(),
+                        panel, p);
+                check(p2 != null, "No free port available for setting input request " + req.getName());
+            }
+
+            // Connecting the ports
+            addPortConnector(p1, p2, panel);
+        }
 
     }
 
@@ -328,9 +380,14 @@ public class DrawerTMLModeling  {
     }
 
     private Point computePoint(TGComponent c1, TGComponent c2) {
+        int randomX1 = (int)(Math.random() * Math.min(c1.getWidth(), c2.getWidth()));
+        int randomY1 = (int)(Math.random() * Math.min(c1.getHeight(), c2.getHeight()));
+        int randomX2 = (int)(Math.random() * Math.min(c1.getWidth(), c2.getWidth()));
+        int randomY2 = (int)(Math.random() * Math.min(c1.getHeight(), c2.getHeight()));
+        //TraceManager.addDev("Random X1= " + randomX1 + " Y1 = " + randomY1);
         return GraphicLib.intersectionRectangleSegment(c1.getX(), c1.getY(), c1.getWidth(), c1.getHeight(),
-                c1.getX()+c1.getWidth()/2, c1.getY() + c1.getHeight()/2,
-                c2.getX()+c2.getWidth()/2, c2.getY() + c2.getHeight()/2);
+                c1.getX()+randomX1, c1.getY() + randomY1,
+                c2.getX()+randomX2, c2.getY() + randomY2);
     }
 
 

@@ -98,6 +98,10 @@ public abstract class TMLActivityElement extends TMLElement {
         nexts.removeElementAt(index);
     }
 
+    public void removeNext(TMLActivityElement _tmlae) {
+        nexts.remove(_tmlae);
+    }
+
     public Vector<TMLActivityElement> getNexts() {
         return nexts;
     }

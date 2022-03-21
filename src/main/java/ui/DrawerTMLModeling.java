@@ -43,6 +43,7 @@ import myutil.TraceManager;
 import org.apache.batik.anim.timing.Trace;
 import tmltranslator.*;
 
+import ui.tmlad.*;
 import ui.tmlcompd.TMLCChannelOutPort;
 import ui.tmlcompd.TMLCPortConnector;
 import ui.tmlcompd.TMLCPrimitiveComponent;
@@ -68,6 +69,8 @@ public class DrawerTMLModeling  {
     private final static int RADIUS = 400;
     private final static int XCENTER = 500;
     private final static int YCENTER = 450;
+
+    private final static int DEC_COMP_Y = 50;
 
 
     private MainGUI mgui;
@@ -100,6 +103,7 @@ public class DrawerTMLModeling  {
             return;
         }
 
+
         TMLSyntaxChecking syntax = new TMLSyntaxChecking(tmlspec);
         syntax.checkSyntax();
         if (syntax.hasErrors() > 0) {
@@ -118,6 +122,11 @@ public class DrawerTMLModeling  {
         TraceManager.addDev("Adding requests");
         makeRequests(tmlspec, panel);
 
+        TraceManager.addDev("Making the behaviour of tasks");
+        for(TMLTask t: taskMap.keySet()) {
+            makeBehaviour(t, panel);
+        }
+
         TraceManager.addDev("All done");
         panel.tmlctdp.repaint();
 
@@ -129,6 +138,7 @@ public class DrawerTMLModeling  {
         int nbOfTasks =  tmlspec.getTasks().size();
         for(Object task: tmlspec.getTasks()) {
             if (task instanceof TMLTask) {
+                tmlspec.optimizeSequences(((TMLTask) task).getActivityDiagram());
                 addTask((TMLTask) task, taskID, nbOfTasks, panel, taskID == 0);
                 taskID ++;
             }
@@ -164,6 +174,7 @@ public class DrawerTMLModeling  {
         }
 
         taskMap.put(task, comp);
+
         if (setDiagramName) {
             String longName = task.getName();
             int index = longName.indexOf("__");
@@ -388,6 +399,117 @@ public class DrawerTMLModeling  {
         return GraphicLib.intersectionRectangleSegment(c1.getX(), c1.getY(), c1.getWidth(), c1.getHeight(),
                 c1.getX()+randomX1, c1.getY() + randomY1,
                 c2.getX()+randomX2, c2.getY() + randomY2);
+    }
+
+    // Behaviour
+    private void makeBehaviour(TMLTask t, TMLComponentDesignPanel panel) throws MalformedTMLDesignException {
+        TMLCPrimitiveComponent comp = taskMap.get(t);
+        check(comp != null, "No component corresponding to task " + t.getName());
+
+        // We need to find the corresponding Panel
+        TraceManager.addDev("Looking for panel:" + comp.getValue());
+        TMLActivityDiagramPanel activityPanel = panel.getTMLActivityDiagramPanel(comp.getValue());
+        check(activityPanel != null, "No activity panel to draw " + comp.getValue());
+        check(t.getActivityDiagram() != null, "No activity diagram in task " + t.getName());
+
+        drawBehaviour(t, t.getActivityDiagram(), comp, activityPanel);
+
+        activityPanel.repaint();
+    }
+
+    private void drawBehaviour(TMLTask t, TMLActivity activity, TMLCPrimitiveComponent comp,
+                               TMLActivityDiagramPanel activityPanel)
+            throws MalformedTMLDesignException {
+
+        // We check the activity diagram on both side (task, component)
+        check(activity.getFirst() instanceof TMLStartState,
+                "The activity diagram shall start with a start state in task " + t.getName());
+        check(activityPanel.getAllComponentList().size() == 1,
+                "The activity diagram shall contain exactly one component for component " + comp.getValue());
+        TGComponent first = activityPanel.getAllComponentList().get(0);
+        check(first instanceof TMLADStartState,
+                "The activity diagram shall contain exactly one start state for component " + comp.getValue());
+
+        drawRecursiveBehaviour(t, activity, activity.getFirst(), comp, first, activityPanel);
+    }
+
+    private void drawRecursiveBehaviour(TMLTask t, TMLActivity activity, TMLActivityElement firstTML, TMLCPrimitiveComponent comp,
+                               TGComponent firstGUI, TMLActivityDiagramPanel activityPanel)
+            throws MalformedTMLDesignException {
+        // The current element is assumed to be drawn. So, we consider all the next of the current one.
+
+        for(TMLActivityElement nextTML: firstTML.getNexts()) {
+            // We create the corresponding element, and we handle the next one of the current of this loop
+            TGComponent newOne = createGUIComponentFromTMLComponent(nextTML, firstGUI, comp, activityPanel);
+            if (newOne != null) {
+                // Add component to panel, and then connect it to the previous component if possible
+                activityPanel.addBuiltComponent(newOne);
+                connectComponents(firstGUI, newOne, activityPanel);
+                drawRecursiveBehaviour(t, activity, nextTML, comp, newOne, activityPanel);
+            }
+        }
+    }
+
+    private TGComponent createGUIComponentFromTMLComponent(TMLActivityElement elt, TGComponent firstGUI, TMLCPrimitiveComponent comp,
+                                                           TMLActivityDiagramPanel activityPanel)
+            throws MalformedTMLDesignException {
+
+        TraceManager.addDev("Current first elt:" + elt);
+
+        if (elt instanceof TMLActionState) {
+            TMLADActionState actionState = new TMLADActionState(firstGUI.getX(), firstGUI.getY()+DEC_COMP_Y, activityPanel.getMinX(),
+                    activityPanel.getMaxX(), activityPanel.getMinY(), activityPanel.getMaxY(), true, null, activityPanel);
+            actionState.setValue( ((TMLActionState)elt).getAction());
+            return actionState;
+
+        } else if (elt instanceof TMLStopState) {
+            TMLADStopState stopState = new TMLADStopState(firstGUI.getX(), firstGUI.getY()+DEC_COMP_Y, activityPanel.getMinX(),
+                    activityPanel.getMaxX(), activityPanel.getMinY(), activityPanel.getMaxY(), true, null, activityPanel);
+            return stopState;
+
+        } else if (elt instanceof TMLSequence) {
+            TMLADSequence sequence = new TMLADSequence(firstGUI.getX(), firstGUI.getY()+DEC_COMP_Y, activityPanel.getMinX(),
+                    activityPanel.getMaxX(), activityPanel.getMinY(), activityPanel.getMaxY(), true, null, activityPanel);
+            return sequence;
+
+        } else if (elt instanceof TMLChoice) {
+            TMLChoice ch = (TMLChoice) elt;
+            check( ch.getNbGuard() < 4, "Too many guards in a choice in component " + comp.getValue() + "/" + ch.customExtraToXML());
+
+            TMLADChoice choice = new TMLADChoice(firstGUI.getX(), firstGUI.getY()+DEC_COMP_Y, activityPanel.getMinX(),
+                    activityPanel.getMaxX(), activityPanel.getMinY(), activityPanel.getMaxY(), true, null, activityPanel);
+            for(int i=0; i<ch.getNbGuard(); i++) {
+                choice.setGuard(i, ch.getGuard(i));
+            }
+            return choice;
+
+        }
+
+
+
+
+        return null;
+    }
+
+    private void connectComponents(TGComponent tgc1, TGComponent tgc2,  TMLActivityDiagramPanel activityPanel) throws MalformedTMLDesignException {
+        TGConnectingPoint p1 = tgc1.findFirstFreeTGConnectingPoint(true, false);
+        check(p1 != null,
+                "No Free connecting point for component of type " + tgc1.getClass().getName());
+
+        TGConnectingPoint p2 = tgc2.findFirstFreeTGConnectingPoint(false, true);
+        check(p2 != null,
+                "No Free connecting point for component of type " + tgc2.getClass().getName());
+
+        TGConnectorTMLAD connector = new TGConnectorTMLAD(p1.getX(), p1.getY(), activityPanel.getMinX(),
+                activityPanel.getMaxX(), activityPanel.getMinY(), activityPanel.getMaxY(), true, null, activityPanel, p1, p2,
+                null);
+        p1.setFree(false);
+        p2.setFree(false);
+        activityPanel.addBuiltConnector(connector);
+
+        int diffX = p1.getX() - p2.getX();
+        tgc1.setCd(tgc1.getX() - diffX, tgc1.getY());
+
     }
 
 

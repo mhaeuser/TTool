@@ -63,7 +63,8 @@ import ui.ad.TADActionState;
  * @version 1.0 21/11/2005
  * @author Ludovic APVRILLE
  */
-public class TMLADActionState extends TADActionState/* Issue #69 TGCOneLineText */implements PreJavaCode, PostJavaCode, CheckableAccessibility, CheckableLatency, EmbeddedComment, AllowedBreakpoint, BasicErrorHighlight {
+public class TMLADActionState extends TADActionState/* Issue #69 TGCOneLineText */implements PreJavaCode, PostJavaCode, CheckableAccessibility,
+        CheckableLatency, EmbeddedComment, AllowedBreakpoint, BasicErrorHighlight {
 
 	// Issue #31
 //    protected int lineLength = 5;
@@ -75,24 +76,7 @@ public class TMLADActionState extends TADActionState/* Issue #69 TGCOneLineText 
     
     public TMLADActionState(int _x, int _y, int _minX, int _maxX, int _minY, int _maxY, boolean _pos, TGComponent _father, TDiagramPanel _tdp)  {
         super(_x, _y, _minX, _maxX, _minY, _maxY, _pos, _father, _tdp);
-//        
-//        width = 30;
-//        height = 20;
-//        minWidth = 30;
-//        
-//        nbConnectingPoint = 2;
-//        connectingPoint = new TGConnectingPoint[2];
-//        connectingPoint[0] = new TGConnectingPointTMLAD(this, 0, -lineLength, true, false, 0.5, 0.0);
-//        connectingPoint[1] = new TGConnectingPointTMLAD(this, 0, lineLength, false, true, 0.5, 1.0);
-//        
-//        moveable = true;
-//        editable = true;
-//        removable = true;
-//        
-//        value = "action";
-//        name = "action state";
-//        
-//        myImageIcon = IconManager.imgic204;
+
     }
     
     @Override

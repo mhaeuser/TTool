@@ -1604,6 +1604,7 @@ public class TMLModeling<E> {
         optimizeVariables(task, activity, warnings);
         optimizeMergeEXECs(activity);
         optimizeMergeDELAYSs(activity);
+        optimizeSequences(activity);
     }
 
     /**
@@ -2061,6 +2062,55 @@ public class TMLModeling<E> {
             }
 
 
+        }
+    }
+
+    /**
+     * Removes useless sequences i.e. sequences with only one next, and we remove all next with only one stop
+     *
+     * @param activity : TML actvity {@link TMLActivity}
+     */
+    public void optimizeSequences(TMLActivity activity) {
+        TMLActivityElement elt0;
+        ArrayList<TMLActivityElement> toBeRemoved = new ArrayList<>();
+        ArrayList<TMLActivityElement> toBeRemovedLocal = new ArrayList<>();
+
+        for (int i = 0; i < activity.nElements(); i++) {
+            elt0 = activity.get(i);
+            if (elt0 instanceof TMLSequence) {
+                toBeRemovedLocal.clear();
+                int cpt = 0;
+                for(TMLActivityElement next: elt0.getNexts()) {
+                    if (next instanceof TMLStopState) {
+                        toBeRemoved.add(next);
+                        toBeRemovedLocal.add(next);
+                    }
+                    cpt ++;
+                }
+
+                for(TMLActivityElement elt: toBeRemovedLocal) {
+                    elt0.removeNext(elt);
+                }
+
+            }
+        }
+        for(TMLActivityElement elt: toBeRemoved) {
+            activity.removeElement(elt);
+        }
+
+        toBeRemoved.clear();
+        for (int i = 0; i < activity.nElements(); i++) {
+            elt0 = activity.get(i);
+            if ((elt0 instanceof TMLSequence) && (elt0.getNexts().size() == 1)) {
+                // We must find the predecessor of elt0
+                // We link it to the next of elt0
+                // We then remove the TMLSequence
+                activity.replaceAllNext(elt0, elt0.getNextElement(0));
+                toBeRemoved.add(elt0);
+            }
+        }
+        for(TMLActivityElement elt: toBeRemoved) {
+            activity.removeElement(elt);
         }
     }
 

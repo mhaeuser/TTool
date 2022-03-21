@@ -59,7 +59,6 @@ import java.util.List;
 public class TADChoice extends TADComponentWithSubcomponents implements FatherDependencyDrawingInterface {
 
 	public static final String EMPTY_GUARD_TEXT = "[ ]";
-    
 	private static final String TRUE_GUARD_TEXT = "[ true ]";
 
 	//protected int lineLength = 10;
@@ -128,6 +127,14 @@ public class TADChoice extends TADComponentWithSubcomponents implements FatherDe
         tgc.setValue( EMPTY_GUARD_TEXT );
         tgc.setName("guard 3");
         tgcomponent[ 2 ] = tgc;
+    }
+
+    public void setGuard(int index, String g) {
+        if ((index < 0) || (index > 2)) {
+            return;
+        }
+        tgcomponent[index].setValue(g);
+
     }
     
     @Override

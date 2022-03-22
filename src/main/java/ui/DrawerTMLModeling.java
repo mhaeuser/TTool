@@ -566,6 +566,11 @@ public class DrawerTMLModeling  {
             random.setOptions(randomT.getVariable(), randomT.getMinValue(), randomT.getMaxValue(), randomT.getFunctionId());
 
             return random;
+
+        } else if (elt instanceof TMLRandomSequence) {
+            TMLADUnorderedSequence us = new TMLADUnorderedSequence(firstGUI.getX(), firstGUI.getY()+getYDep(), activityPanel.getMinX(),
+                    activityPanel.getMaxX(), activityPanel.getMinY(), activityPanel.getMaxY(), true, null, activityPanel);
+            return us;
             
         }
 

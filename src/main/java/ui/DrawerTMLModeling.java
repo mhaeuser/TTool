@@ -344,7 +344,8 @@ public class DrawerTMLModeling  {
 
         comp.setPortName(name);
         // Extra correct name, depending on whether it is the sender or the receiver
-        String[] splitName = name.split("__");
+        comp.setCommName(getSplitName(name, isOrigin));
+        /*String[] splitName = name.split("__");
         if (splitName.length > 3) {
             if (isOrigin) {
                 comp.setCommName(splitName[1]);
@@ -355,7 +356,7 @@ public class DrawerTMLModeling  {
             comp.setCommName(splitName[1]);
         } else {
             comp.setCommName(name);
-        }
+        }*/
 
         comp.setPortType(portType);
         comp.setIsOrigin(isOrigin);
@@ -553,7 +554,7 @@ public class DrawerTMLModeling  {
             TMLADNotifiedEvent notified = new TMLADNotifiedEvent(firstGUI.getX(), firstGUI.getY()+getYDep(), activityPanel.getMinX(),
                 activityPanel.getMaxX(), activityPanel.getMinY(), activityPanel.getMaxY(), true, null, activityPanel);
 
-            notified.setEventName(notifiedT.getEvent().getName());
+            notified.setEventName(getSplitName(notifiedT.getEvent().getName(), false));
             notified.setResult(notifiedT.getVariable());
             return notified;
         }
@@ -592,6 +593,20 @@ public class DrawerTMLModeling  {
         //tgc1.setCd(tgc1.getX() + diffX, tgc1.getY());
         tgc2.forceMove(diffX, 0);
 
+    }
+
+    private String getSplitName(String compoundName, boolean isOrigin) {
+        String[] splitName = compoundName.split("__");
+        if (splitName.length > 3) {
+            if (isOrigin) {
+                return splitName[1];
+            } else {
+                return splitName[3];
+            }
+        } else if (splitName.length > 1){
+           return splitName[1];
+        }
+        return compoundName;
     }
 
 

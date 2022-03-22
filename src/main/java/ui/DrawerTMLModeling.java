@@ -571,7 +571,16 @@ public class DrawerTMLModeling  {
             TMLADUnorderedSequence us = new TMLADUnorderedSequence(firstGUI.getX(), firstGUI.getY()+getYDep(), activityPanel.getMinX(),
                     activityPanel.getMaxX(), activityPanel.getMinY(), activityPanel.getMaxY(), true, null, activityPanel);
             return us;
-            
+
+        } else if (elt instanceof TMLReadChannel) {
+            TMLReadChannel readT = (TMLReadChannel)elt;
+            TMLADReadChannel read = new TMLADReadChannel(firstGUI.getX(), firstGUI.getY()+getYDep(), activityPanel.getMinX(),
+                    activityPanel.getMaxX(), activityPanel.getMinY(), activityPanel.getMaxY(), true, null, activityPanel);
+
+            read.setChannelName(getSplitName(readT.getChannel(0).getName(), false));
+            read.setSamples(readT.getNbOfSamples());
+            return read;
+
         }
 
 

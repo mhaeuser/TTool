@@ -508,7 +508,8 @@ public class DrawerTMLModeling  {
         activityPanel.addBuiltConnector(connector);
 
         int diffX = p1.getX() - p2.getX();
-        tgc1.setCd(tgc1.getX() - diffX, tgc1.getY());
+        //tgc1.setCd(tgc1.getX() + diffX, tgc1.getY());
+        tgc2.forceMove(diffX, 0);
 
     }
 

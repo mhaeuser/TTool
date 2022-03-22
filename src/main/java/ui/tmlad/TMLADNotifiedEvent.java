@@ -177,6 +177,11 @@ public class TMLADNotifiedEvent extends TADComponentWithoutSubcomponents/* Issue
         eventName = _name;
         makeValue();
     }
+
+    public void setResult(String _name) {
+        result = _name;
+        makeValue();
+    }
     
     public String getVariable() {
         return result;
@@ -202,7 +207,7 @@ public class TMLADNotifiedEvent extends TADComponentWithoutSubcomponents/* Issue
 
         if (jdms.hasBeenSet() && (jdms.hasValidString(0))) {
            eventName = jdms.getString(0);
-          result = jdms.getString(1);
+           result = jdms.getString(1);
            
            makeValue();
            return true;

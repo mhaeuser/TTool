@@ -226,6 +226,13 @@ public class TMLADForLoop extends TADForLoop /* Issue #69 TGCWithoutInternalComp
         return increment;
     }
 
+    public void setOptions(String _init, String _condition, String _increment) {
+        init = _init;
+        condition = _condition;
+        increment = _increment;
+        makeValue();
+    }
+
     @Override
     protected String translateExtraParam() {
         StringBuffer sb = new StringBuffer("<extraparam>\n");

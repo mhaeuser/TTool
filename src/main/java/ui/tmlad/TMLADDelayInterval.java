@@ -167,6 +167,14 @@ public class TMLADDelayInterval extends TADComponentWithSubcomponents /* Issue #
 
     public boolean getActiveDelayEnableValue(){return  ((TGCTimeDelay)tgcomponent[0]).getActiveDelay(); }
 
+    public void setActiveDelayEnable(boolean active) {
+        ((TGCTimeDelay)tgcomponent[0]).setActiveDelay(active);
+    }
+
+    public void setUnit(String unit) {
+        ((TGCTimeDelay)tgcomponent[0]).setUnit(unit);
+    }
+
     @Override
     public int getType() {
         return TGComponentManager.TMLAD_INTERVAL_DELAY;

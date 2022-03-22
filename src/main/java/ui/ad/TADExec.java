@@ -86,8 +86,6 @@ public abstract class TADExec extends TADComponentWithSubcomponents implements E
         connectingPoint[1] = createConnectingPoint(this, 0, + lineLength, false, true, 0.5, 1.0);
 
         initScaling( 10, 30 );
-//        ilength = 10;
-//        lineLength1 = 2;
         textX = width + scale( 5 );
         textY = height/2 + scale( 5 );
         

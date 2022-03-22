@@ -647,13 +647,37 @@ public class ActivityDiagram2TMLTranslator {
 		                    ((BasicErrorHighlight)tgc).setStateAction(ErrorHighlight.UNKNOWN);
 		                }
 		            } else {
-		                event.setNotified(true);
-		                tmlnotifiedevent = new TMLNotifiedEvent("notified event", tgc);
-		                tmlnotifiedevent.setEvent(event);
-		                tmlnotifiedevent.setVariable(modifyString(((TMLADNotifiedEvent)tgc).getVariable()));
-		                activity.addElement(tmlnotifiedevent);
-		                ((BasicErrorHighlight)tgc).setStateAction(ErrorHighlight.OK);
-		                corrTgElement.addCor(tmlnotifiedevent, tgc);
+						// We have to check that the variable is a valid (natural) attribute
+						String variable = ((TMLADNotifiedEvent)tgc).getVariable();
+						TMLAttribute t = tmltask.getAttributeByName(variable);
+						if (t == null) {
+							UICheckingError ce = new UICheckingError(CheckingError.BEHAVIOR_ERROR, ((TMLADNotifiedEvent)tgc).getVariable() + " is an " +
+									"undeclared attribute");
+							ce.setTDiagramPanel(tadp);
+							ce.setTGComponent(tgc);
+							checkingErrors.add(ce);
+							((BasicErrorHighlight)tgc).setStateAction(ErrorHighlight.UNKNOWN);
+						} else {
+							if (!t.isNat()) {
+								UICheckingError ce = new UICheckingError(CheckingError.BEHAVIOR_ERROR, ((TMLADNotifiedEvent)tgc).getVariable() + " is an " +
+										" attribute of the wrong type. Should be a Natural");
+								ce.setTDiagramPanel(tadp);
+								ce.setTGComponent(tgc);
+								checkingErrors.add(ce);
+								((BasicErrorHighlight)tgc).setStateAction(ErrorHighlight.UNKNOWN);
+							} else {
+
+								event.setNotified(true);
+								tmlnotifiedevent = new TMLNotifiedEvent("notified event", tgc);
+								tmlnotifiedevent.setEvent(event);
+
+
+								tmlnotifiedevent.setVariable(modifyString(((TMLADNotifiedEvent) tgc).getVariable()));
+								activity.addElement(tmlnotifiedevent);
+								((BasicErrorHighlight) tgc).setStateAction(ErrorHighlight.OK);
+								corrTgElement.addCor(tmlnotifiedevent, tgc);
+							}
+						}
 		            }
 		
 		        } else if (tgc instanceof TMLADWaitEvent) {

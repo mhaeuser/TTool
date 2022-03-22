@@ -70,7 +70,7 @@ public class DrawerTMLModeling  {
     private final static int XCENTER = 500;
     private final static int YCENTER = 450;
 
-    private final static int DEC_COMP_Y = 50;
+    private final static int DEC_COMP_Y = 45;
 
 
     private MainGUI mgui;
@@ -457,18 +457,18 @@ public class DrawerTMLModeling  {
         TraceManager.addDev("Current first elt:" + elt);
 
         if (elt instanceof TMLActionState) {
-            TMLADActionState actionState = new TMLADActionState(firstGUI.getX(), firstGUI.getY()+DEC_COMP_Y, activityPanel.getMinX(),
+            TMLADActionState actionState = new TMLADActionState(firstGUI.getX(), firstGUI.getY()+getYDep(), activityPanel.getMinX(),
                     activityPanel.getMaxX(), activityPanel.getMinY(), activityPanel.getMaxY(), true, null, activityPanel);
             actionState.setValue( ((TMLActionState)elt).getAction());
             return actionState;
 
         } else if (elt instanceof TMLStopState) {
-            TMLADStopState stopState = new TMLADStopState(firstGUI.getX(), firstGUI.getY()+DEC_COMP_Y, activityPanel.getMinX(),
+            TMLADStopState stopState = new TMLADStopState(firstGUI.getX(), firstGUI.getY()+getYDep(), activityPanel.getMinX(),
                     activityPanel.getMaxX(), activityPanel.getMinY(), activityPanel.getMaxY(), true, null, activityPanel);
             return stopState;
 
         } else if (elt instanceof TMLSequence) {
-            TMLADSequence sequence = new TMLADSequence(firstGUI.getX(), firstGUI.getY()+DEC_COMP_Y, activityPanel.getMinX(),
+            TMLADSequence sequence = new TMLADSequence(firstGUI.getX(), firstGUI.getY()+getYDep(), activityPanel.getMinX(),
                     activityPanel.getMaxX(), activityPanel.getMinY(), activityPanel.getMaxY(), true, null, activityPanel);
             return sequence;
 
@@ -476,19 +476,100 @@ public class DrawerTMLModeling  {
             TMLChoice ch = (TMLChoice) elt;
             check( ch.getNbGuard() < 4, "Too many guards in a choice in component " + comp.getValue() + "/" + ch.customExtraToXML());
 
-            TMLADChoice choice = new TMLADChoice(firstGUI.getX(), firstGUI.getY()+DEC_COMP_Y, activityPanel.getMinX(),
+            TMLADChoice choice = new TMLADChoice(firstGUI.getX(), firstGUI.getY()+getYDep(), activityPanel.getMinX(),
                     activityPanel.getMaxX(), activityPanel.getMinY(), activityPanel.getMaxY(), true, null, activityPanel);
             for(int i=0; i<ch.getNbGuard(); i++) {
                 choice.setGuard(i, ch.getGuard(i));
             }
             return choice;
 
+        } else if (elt instanceof TMLDelay) {
+            TMLDelay de = (TMLDelay) elt;
+
+            if (de.getMinDelay().compareTo(de.getMaxDelay()) == 0) {
+                TMLADDelay delay = new TMLADDelay(firstGUI.getX(), firstGUI.getY()+getYDep(), activityPanel.getMinX(),
+                        activityPanel.getMaxX(), activityPanel.getMinY(), activityPanel.getMaxY(), true, null, activityPanel);
+                delay.setDelayValue(de.getMinDelay());
+                delay.setUnit(de.getUnit());
+                delay.setActiveDelayEnable(de.getActiveDelay());
+                return delay;
+            } else {
+                TMLADDelayInterval delay = new TMLADDelayInterval(firstGUI.getX(), firstGUI.getY()+getYDep(), activityPanel.getMinX(),
+                        activityPanel.getMaxX(), activityPanel.getMinY(), activityPanel.getMaxY(), true, null, activityPanel);
+                delay.setMinValue(de.getMinDelay());
+                delay.setMaxValue(de.getMaxDelay());
+                delay.setUnit(de.getUnit());
+                delay.setActiveDelayEnable(de.getActiveDelay());
+                return delay;
+            }
+
+        } else if (elt instanceof TMLExecC) {
+            TMLExecC execc = (TMLExecC) elt;
+
+            TMLADExecC exec = new TMLADExecC(firstGUI.getX(), firstGUI.getY()+getYDep(), activityPanel.getMinX(),
+                    activityPanel.getMaxX(), activityPanel.getMinY(), activityPanel.getMaxY(), true, null, activityPanel);
+
+            exec.setDelayValue(execc.getAction());
+            return exec;
+
+        }  else if (elt instanceof TMLExecCInterval) {
+            TMLExecCInterval execc = (TMLExecCInterval) elt;
+
+            TMLADExecCInterval exec = new TMLADExecCInterval(firstGUI.getX(), firstGUI.getY()+getYDep(), activityPanel.getMinX(),
+                activityPanel.getMaxX(), activityPanel.getMinY(), activityPanel.getMaxY(), true, null, activityPanel);
+
+            exec.setMinValue(execc.getMinDelay());
+            exec.setMaxValue(execc.getMaxDelay());
+            return exec;
+        } else if (elt instanceof TMLExecI) {
+            TMLExecI execc = (TMLExecI) elt;
+
+            TMLADExecI exec = new TMLADExecI(firstGUI.getX(), firstGUI.getY()+getYDep(), activityPanel.getMinX(),
+                    activityPanel.getMaxX(), activityPanel.getMinY(), activityPanel.getMaxY(), true, null, activityPanel);
+
+            exec.setDelayValue(execc.getAction());
+            return exec;
+
+        }  else if (elt instanceof TMLExecIInterval) {
+            TMLExecIInterval execc = (TMLExecIInterval) elt;
+
+            TMLADExecIInterval exec = new TMLADExecIInterval(firstGUI.getX(), firstGUI.getY()+getYDep(), activityPanel.getMinX(),
+                    activityPanel.getMaxX(), activityPanel.getMinY(), activityPanel.getMaxY(), true, null, activityPanel);
+
+            exec.setMinValue(execc.getMinDelay());
+            exec.setMaxValue(execc.getMaxDelay());
+            return exec;
+
+        } else if (elt instanceof TMLForLoop) {
+            TMLForLoop loopT = (TMLForLoop)elt;
+            TMLADForLoop loop = new TMLADForLoop(firstGUI.getX(), firstGUI.getY()+getYDep(), activityPanel.getMinX(),
+                    activityPanel.getMaxX(), activityPanel.getMinY(), activityPanel.getMaxY(), true, null, activityPanel);
+
+            loop.setOptions(loopT.getInit(), loopT.getCondition(), loopT.getIncrement());
+            return loop;
+
+        } else if (elt instanceof TMLNotifiedEvent) {
+            TMLNotifiedEvent notifiedT = (TMLNotifiedEvent)elt;
+            TMLADNotifiedEvent notified = new TMLADNotifiedEvent(firstGUI.getX(), firstGUI.getY()+getYDep(), activityPanel.getMinX(),
+                activityPanel.getMaxX(), activityPanel.getMinY(), activityPanel.getMaxY(), true, null, activityPanel);
+
+            notified.setEventName(notifiedT.getEvent().getName());
+            notified.setResult(notifiedT.getVariable());
+            return notified;
         }
 
 
 
 
+
+
+        //throw new MalformedTMLDesignException("Unsupported TML component:" + elt);
+
         return null;
+    }
+
+    private int getYDep() {
+        return DEC_COMP_Y + (int)(Math.random()*DEC_COMP_Y/2);
     }
 
     private void connectComponents(TGComponent tgc1, TGComponent tgc2,  TMLActivityDiagramPanel activityPanel) throws MalformedTMLDesignException {

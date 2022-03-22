@@ -204,6 +204,7 @@ public class TGCTimeDelay extends TGCWithoutInternalComponent{
 	
 	public void setUnit(String _unit) {
 		unit = _unit;
+        makeValue();
 	}
 	
 	public String getUnit() {

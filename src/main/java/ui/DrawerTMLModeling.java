@@ -557,6 +557,16 @@ public class DrawerTMLModeling  {
             notified.setEventName(getSplitName(notifiedT.getEvent().getName(), false));
             notified.setResult(notifiedT.getVariable());
             return notified;
+
+        } else if (elt instanceof TMLRandom) {
+            TMLRandom randomT = (TMLRandom)elt;
+            TMLADRandom random = new TMLADRandom(firstGUI.getX(), firstGUI.getY()+getYDep(), activityPanel.getMinX(),
+                    activityPanel.getMaxX(), activityPanel.getMinY(), activityPanel.getMaxY(), true, null, activityPanel);
+
+            random.setOptions(randomT.getVariable(), randomT.getMinValue(), randomT.getMaxValue(), randomT.getFunctionId());
+
+            return random;
+            
         }
 
 

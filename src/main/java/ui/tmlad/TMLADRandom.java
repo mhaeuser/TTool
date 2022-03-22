@@ -229,6 +229,14 @@ public class TMLADRandom extends TADComponentWithoutSubcomponents/* Issue #69 TG
         return functionId;
     }
 
+    public void setOptions(String _variable, String _minValue, String _maxValue, int _functionId) {
+        variable = _variable;
+        minValue = _minValue;
+        maxValue = _maxValue;
+        functionId = _functionId;
+        makeValue();
+    }
+
     @Override
     protected String translateExtraParam() {
         StringBuffer sb = new StringBuffer("<extraparam>\n");

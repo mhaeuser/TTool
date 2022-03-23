@@ -581,6 +581,29 @@ public class DrawerTMLModeling  {
             read.setSamples(readT.getNbOfSamples());
             return read;
 
+        } else if (elt instanceof TMLSelectEvt) {
+            TMLADSelectEvt selectEvt = new TMLADSelectEvt(firstGUI.getX(), firstGUI.getY()+getYDep(), activityPanel.getMinX(),
+                    activityPanel.getMaxX(), activityPanel.getMinY(), activityPanel.getMaxY(), true, null, activityPanel);
+            return selectEvt;
+
+        } else if (elt instanceof TMLSendEvent) {
+            TMLSendEvent sendT = (TMLSendEvent)elt;
+            TMLADSendEvent send = new TMLADSendEvent(firstGUI.getX(), firstGUI.getY()+getYDep(), activityPanel.getMinX(),
+                    activityPanel.getMaxX(), activityPanel.getMinY(), activityPanel.getMaxY(), true, null, activityPanel);
+
+            send.setEventName(getSplitName(sendT.getEvent().getName(), true));
+            send.setParams(sendT.getVectorAllParams());
+            return send;
+
+        } else if (elt instanceof TMLSendRequest) {
+            TMLSendRequest sendT = (TMLSendRequest)elt;
+            TMLADSendRequest send = new TMLADSendRequest(firstGUI.getX(), firstGUI.getY()+getYDep(), activityPanel.getMinX(),
+                    activityPanel.getMaxX(), activityPanel.getMinY(), activityPanel.getMaxY(), true, null, activityPanel);
+
+            send.setRequestName(getSplitName(sendT.getRequest().getName(), true));
+            send.setParams(sendT.getVectorAllParams());
+            return send;
+
         }
 
 

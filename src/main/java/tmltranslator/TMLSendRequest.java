@@ -74,6 +74,10 @@ public class TMLSendRequest extends TMLActivityElement  {
         datas.add(_param);
     }
 
+    public Vector<String> getVectorAllParams() {
+        return datas;
+    }
+
     public int getNbOfParams() {
         return datas.size();
     }

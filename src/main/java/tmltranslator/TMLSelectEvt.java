@@ -49,7 +49,7 @@ package tmltranslator;
  * @version 1.0 06/04/2007
  * @author Ludovic APVRILLE
  */
-public class TMLSelectEvt extends TMLActivityElement{
+public class TMLSelectEvt extends TMLActivityElement {
 
     public TMLSelectEvt(String _name, Object _referenceObject) {
         super(_name, _referenceObject);

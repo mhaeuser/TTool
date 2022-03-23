@@ -43,6 +43,7 @@ import java.awt.Graphics;
 import java.awt.geom.Line2D;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Vector;
 
 import javax.swing.JFrame;
 
@@ -259,6 +260,14 @@ public class TMLADSendEvent extends TADComponentWithoutSubcomponents implements 
 
     public String getParamValue(int i) {
         return params[i];
+    }
+
+    public void setParams(Vector<String> datas) {
+        nParam = Math.min(nbOfParams(), datas.size());
+        for(int i=0; i<nParam; i++) {
+           params[i] = datas.get(i);
+        }
+        makeValue();
     }
 
     public int nbOfParams() {

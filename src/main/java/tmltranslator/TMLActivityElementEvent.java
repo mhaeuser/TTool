@@ -112,6 +112,10 @@ public abstract class TMLActivityElementEvent extends TMLActivityElement {
         datas.setElementAt(_param, _index);
     }
 
+    public Vector<String> getVectorAllParams() {
+        return datas;
+    }
+
     public String getAllParams() {
         return getAllParams(",");
     }

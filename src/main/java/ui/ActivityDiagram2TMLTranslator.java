@@ -648,7 +648,7 @@ public class ActivityDiagram2TMLTranslator {
 		                }
 		            } else {
 						// We have to check that the variable is a valid (natural) attribute
-						String variable = ((TMLADNotifiedEvent)tgc).getVariable();
+						String variable = modifyString(((TMLADNotifiedEvent)tgc).getVariable());
 						TMLAttribute t = tmltask.getAttributeByName(variable);
 						if (t == null) {
 							UICheckingError ce = new UICheckingError(CheckingError.BEHAVIOR_ERROR, ((TMLADNotifiedEvent)tgc).getVariable() + " is an " +

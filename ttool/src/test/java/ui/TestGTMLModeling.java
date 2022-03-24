@@ -247,7 +247,8 @@ public class TestGTMLModeling extends AbstractUITest {
         try {
             testTranslateToTMLModelingDisableSmartCardProtocol("InterfaceDevice", "ChoiceLeft", 1218);
         } catch (final MalformedTMLDesignException ex) {
-            assertTrue("TML modeling translation did not generate the expected '" + UICheckingError.MESSAGE_CHOICE_BOTH_STOCHASTIC_DETERMINISTIC + "' error!", ex.getErrors().size() == 1);
+            assertTrue("TML modeling translation did not generate the expected '" +
+                    UICheckingError.MESSAGE_CHOICE_BOTH_STOCHASTIC_DETERMINISTIC + "' error!", ex.getErrors().size() == 1);
 
             assertEquals(UICheckingError.MESSAGE_CHOICE_BOTH_STOCHASTIC_DETERMINISTIC, ex.getErrors().get(0).toString());
         }

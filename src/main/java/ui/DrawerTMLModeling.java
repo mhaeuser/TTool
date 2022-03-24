@@ -72,6 +72,8 @@ public class DrawerTMLModeling  {
 
     private final static int DEC_COMP_Y = 45;
 
+    private final static int LOOP_X = 150;
+
 
     private MainGUI mgui;
     private boolean hasError;
@@ -604,16 +606,25 @@ public class DrawerTMLModeling  {
             send.setParams(sendT.getVectorAllParams());
             return send;
 
+        } else if (elt instanceof TMLWaitEvent) {
+            TMLWaitEvent waitT = (TMLWaitEvent) elt;
+            TMLADWaitEvent wait = new TMLADWaitEvent(firstGUI.getX(), firstGUI.getY() + getYDep(), activityPanel.getMinX(),
+                    activityPanel.getMaxX(), activityPanel.getMinY(), activityPanel.getMaxY(), true, null, activityPanel);
+
+            wait.setEventName(getSplitName(waitT.getEvent().getName(), true));
+            wait.setParams(waitT.getVectorAllParams());
+            return wait;
+        } else if (elt instanceof TMLWriteChannel) {
+            TMLWriteChannel writeT = (TMLWriteChannel)elt;
+            TMLADWriteChannel write = new TMLADWriteChannel(firstGUI.getX(), firstGUI.getY()+getYDep(), activityPanel.getMinX(),
+                    activityPanel.getMaxX(), activityPanel.getMinY(), activityPanel.getMaxY(), true, null, activityPanel);
+
+            write.setChannelName(getSplitName(writeT.getChannel(0).getName(), false));
+            write.setSamples(writeT.getNbOfSamples());
+            return write;
         }
 
-
-
-
-
-
-        //throw new MalformedTMLDesignException("Unsupported TML component:" + elt);
-
-        return null;
+        throw new MalformedTMLDesignException("Unsupported TML component:" + elt);
     }
 
     private int getYDep() {
@@ -639,6 +650,13 @@ public class DrawerTMLModeling  {
         int diffX = p1.getX() - p2.getX();
         //tgc1.setCd(tgc1.getX() + diffX, tgc1.getY());
         tgc2.forceMove(diffX, 0);
+
+        if (tgc1 instanceof TMLADForLoop) {
+            TGConnectingPoint p = tgc1.findFirstFreeTGConnectingPoint(true, false);
+            if (p != null) {
+                tgc2.forceMove(LOOP_X, 0);
+            }
+        }
 
     }
 

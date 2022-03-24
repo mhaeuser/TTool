@@ -54,6 +54,7 @@ import java.awt.Graphics;
 import java.awt.geom.Line2D;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Vector;
 
 /**
    * Class TMLADWaitEvent
@@ -237,6 +238,14 @@ public class TMLADWaitEvent extends TADComponentWithoutSubcomponents/* Issue #69
 
     public void setEventName(String _name) {
         eventName = _name;
+        makeValue();
+    }
+
+    public void setParams(Vector<String> datas) {
+        nParam = Math.min(nbOfParams(), datas.size());
+        for(int i=0; i<nParam; i++) {
+            params[i] = datas.get(i);
+        }
         makeValue();
     }
 

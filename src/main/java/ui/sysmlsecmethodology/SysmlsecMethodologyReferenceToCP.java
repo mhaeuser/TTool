@@ -62,7 +62,7 @@ public class SysmlsecMethodologyReferenceToCP extends SysmlsecMethodologyDiagram
 
 
         typeOfReference = CP_VIEW;
-
+        makeValue();
         addTGConnectingPointsCommentTop();
     }
 

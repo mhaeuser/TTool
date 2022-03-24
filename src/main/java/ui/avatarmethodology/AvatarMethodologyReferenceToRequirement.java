@@ -61,6 +61,7 @@ public class AvatarMethodologyReferenceToRequirement extends AvatarMethodologyDi
 		initScaling(200, 70);
 
         typeOfReference = REQUIREMENT;
+        makeValue();
         
         addTGConnectingPointsCommentTop();    
         

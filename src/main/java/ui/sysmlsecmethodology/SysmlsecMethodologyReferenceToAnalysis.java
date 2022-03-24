@@ -61,7 +61,7 @@ public class SysmlsecMethodologyReferenceToAnalysis extends SysmlsecMethodologyD
         initScaling(200, 70);
 
         typeOfReference = ANALYSIS;
-
+        makeValue();
         addTGConnectingPointsCommentTop();
 
     }

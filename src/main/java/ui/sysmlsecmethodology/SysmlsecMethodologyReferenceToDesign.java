@@ -61,7 +61,7 @@ public class SysmlsecMethodologyReferenceToDesign extends SysmlsecMethodologyDia
 
 
         typeOfReference = DESIGN;
-
+        makeValue();
         addTGConnectingPointsCommentTop();
 
     }

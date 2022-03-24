@@ -65,6 +65,7 @@ public class DiplodocusMethodologyDiagramReferenceToCP extends DiplodocusMethodo
         connectingPoint[0] = new DiplodocusMethodologyConnectingPoint(this, 0, 0, false, true, 0.5, 1.0, TGConnectingPoint.WEST);
 
         typeOfReference = CP;
+        makeValue();
 
         addTGConnectingPointsCommentTop();
 

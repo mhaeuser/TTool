@@ -62,7 +62,7 @@ public class SysmlsecMethodologyReferenceToArchitecture extends SysmlsecMethodol
 
 
         typeOfReference = ARCHITECTURE_VIEW;
-
+        makeValue();
         addTGConnectingPointsCommentTop();
 
     }

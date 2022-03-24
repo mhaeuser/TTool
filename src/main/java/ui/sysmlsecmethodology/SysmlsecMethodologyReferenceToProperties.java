@@ -62,7 +62,7 @@ public class SysmlsecMethodologyReferenceToProperties extends SysmlsecMethodolog
 
 
         typeOfReference = PROPERTY;
-
+        makeValue();
         addTGConnectingPointsCommentTop();
 
     }

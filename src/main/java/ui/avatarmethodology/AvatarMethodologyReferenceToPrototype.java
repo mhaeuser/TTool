@@ -61,6 +61,7 @@ public class AvatarMethodologyReferenceToPrototype extends AvatarMethodologyDiag
         initScaling(300, 70);
 
         typeOfReference = PROTOTYPING;
+        makeValue();
 
         addTGConnectingPointsCommentTop();
 

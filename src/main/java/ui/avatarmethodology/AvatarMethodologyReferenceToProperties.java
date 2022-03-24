@@ -61,6 +61,7 @@ public class AvatarMethodologyReferenceToProperties extends AvatarMethodologyDia
 		initScaling(180, 70);
 
         typeOfReference = PROPERTY;
+        makeValue();
         
         addTGConnectingPointsCommentTop();    
         

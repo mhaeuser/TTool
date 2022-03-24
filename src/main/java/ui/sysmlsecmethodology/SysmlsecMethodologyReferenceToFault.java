@@ -62,7 +62,7 @@ public class SysmlsecMethodologyReferenceToFault extends SysmlsecMethodologyDiag
         initScaling(200, 70);
 
         typeOfReference = FAULT;
-
+        makeValue();
         addTGConnectingPointsCommentTop();
 
     }

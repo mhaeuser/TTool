@@ -65,6 +65,7 @@ public class DiplodocusMethodologyDiagramReferenceToArchitecture extends Diplodo
         connectingPoint[0] = new DiplodocusMethodologyConnectingPoint(this, 0, 0, false, true, 0.5, 1.0, TGConnectingPoint.WEST);
 
         typeOfReference = ARCHITECTURE;
+        makeValue();
 
         addTGConnectingPointsCommentTop();
 

@@ -61,7 +61,7 @@ public class SysmlsecMethodologyReferenceToPrototype extends SysmlsecMethodology
         initScaling(200, 70);
 
         typeOfReference = PROTOTYPING;
-
+        makeValue();
         addTGConnectingPointsCommentTop();
 
     }

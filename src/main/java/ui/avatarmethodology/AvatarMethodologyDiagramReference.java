@@ -111,7 +111,8 @@ public abstract class AvatarMethodologyDiagramReference extends TGCScalableWithI
         minWidth = 10;
         minHeight = lineLength;
 
-        value = TYPE_STR[typeOfReference];
+
+        makeValue();
         
         initScaling(200, 120);
         // Issue #31
@@ -161,6 +162,10 @@ public abstract class AvatarMethodologyDiagramReference extends TGCScalableWithI
 
 
         actionOnAdd();
+    }
+
+    public void makeValue() {
+        value = TYPE_STR[typeOfReference];
     }
 
     /**

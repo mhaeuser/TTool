@@ -64,7 +64,7 @@ public class SysmlsecMethodologyReferenceToMapping extends SysmlsecMethodologyDi
 
 
         typeOfReference = MAPPING_VIEW;
-
+        makeValue();
         addTGConnectingPointsCommentTop();
 
     }

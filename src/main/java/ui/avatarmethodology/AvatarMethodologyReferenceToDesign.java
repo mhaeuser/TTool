@@ -61,6 +61,7 @@ public class AvatarMethodologyReferenceToDesign extends AvatarMethodologyDiagram
 		initScaling(300, 70);
 
         typeOfReference = DESIGN;
+		makeValue();
         
         addTGConnectingPointsCommentTop();    
         

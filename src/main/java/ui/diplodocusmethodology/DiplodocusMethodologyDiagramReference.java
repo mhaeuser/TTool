@@ -111,7 +111,7 @@ public abstract class DiplodocusMethodologyDiagramReference extends TGCScalableW
 
         addTGConnectingPointsCommentTop();
 
-        value = TYPE_STR[typeOfReference];
+       makeValue();
 
         nbInternalTGComponent = 0;
         //tgcomponent = new TGComponent[nbInternalTGComponent];
@@ -132,6 +132,10 @@ public abstract class DiplodocusMethodologyDiagramReference extends TGCScalableW
         myImageIcon = IconManager.imgic5006;
 
         actionOnAdd();
+    }
+
+    public void makeValue() {
+        value = TYPE_STR[typeOfReference];;
     }
 
     @Override

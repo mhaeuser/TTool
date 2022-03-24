@@ -61,6 +61,7 @@ public class AvatarMethodologyReferenceToAnalysis extends AvatarMethodologyDiagr
 		initScaling(200, 70);
 
         typeOfReference = ANALYSIS;
+        makeValue();
         
         addTGConnectingPointsCommentTop();    
         

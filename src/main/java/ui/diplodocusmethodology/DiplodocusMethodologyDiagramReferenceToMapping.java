@@ -69,6 +69,7 @@ public class DiplodocusMethodologyDiagramReferenceToMapping extends DiplodocusMe
         connectingPoint[2] = new DiplodocusMethodologyConnectingPoint(this, 0, 0, false, true, 0.5, 0.0, TGConnectingPoint.WEST);
 
         typeOfReference = MAPPING;
+        makeValue();
 
         addTGConnectingPointsCommentTop();
 

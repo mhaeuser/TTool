@@ -61,7 +61,7 @@ public class SysmlsecMethodologyReferenceToAttack extends SysmlsecMethodologyDia
         initScaling(200, 70);
 
         typeOfReference = ATTACK;
-
+        makeValue();
         addTGConnectingPointsCommentTop();
 
     }

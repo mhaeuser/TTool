@@ -63,7 +63,7 @@ public class SysmlsecMethodologyReferenceToApplication extends SysmlsecMethodolo
         initScaling(200, 70);
 
         typeOfReference = FUNCTIONAL_VIEW;
-
+        makeValue();
         addTGConnectingPointsCommentTop();
 
     }

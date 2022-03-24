@@ -62,7 +62,7 @@ public class SysmlsecMethodologyReferenceToAssumptions extends SysmlsecMethodolo
 
 
         typeOfReference = ASSUMPTIONS;
-
+        makeValue();
         addTGConnectingPointsCommentTop();
 
     }

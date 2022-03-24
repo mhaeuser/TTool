@@ -145,26 +145,17 @@ public abstract class SysmlsecMethodologyDiagramReference extends TGCScalableWit
 
         nbInternalTGComponent = 0;
 
-        value = TYPE_STR[typeOfReference];
-        //tgcomponent = new TGComponent[nbInternalTGComponent];
-
-        //int h = 1;
-        //TAttributeRequirement tgc0;
-        //tgc0 = new TAttributeRequirement(x, y+height+h, 0, 0, height + h, height+h, true, this, _tdp);
-        //tgcomponent[0] = tgc0;
-
         moveable = true;
         editable = true;
         removable = true;
         userResizable = true;
         multieditable = true;
 
-
-
         oldValue = value;
 
         myImageIcon = IconManager.imgic5006;
 
+        makeValue();
 
         actionOnAdd();
     }
@@ -324,8 +315,10 @@ public abstract class SysmlsecMethodologyDiagramReference extends TGCScalableWit
     public boolean editOnDoubleClick(JFrame frame, int _x, int _y) {
         addDiagramReference(frame);
         return true;
+    }
 
-
+    public void makeValue() {
+        value = TYPE_STR[typeOfReference];
     }
 
 

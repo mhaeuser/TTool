@@ -587,7 +587,12 @@ public class MappedSystemCTask {
                     idString = String.valueOf(currElem.getID());
                 }
                 hcode += "TMLDelayCommand " + cmdName + SCCR;
-                initCommand += "," + cmdName + "(" + idString + ",this,"+ delayLen +",(ActionFuncPointer)&" + reference + "::" + cmdName + "_func, " + getFormattedLiveVarStr(currElem) + ", " + delay.getActiveDelay() + ")" + CR;
+                initCommand += "," + cmdName + "(" + idString + ",this,1,(ActionFuncPointer)&" + reference + "::" + cmdName +
+                               "_func," +
+                               " " + getFormattedLiveVarStr(currElem) + ", " + delay.getActiveDelay() + ")" + CR;
+                //initCommand += "," + cmdName + "(" + idString + ",this,"+ delayLen +",(ActionFuncPointer)&" + reference + "::" + cmdName +
+                 //       "_func," +
+                 //       " " + getFormattedLiveVarStr(currElem) + ", " + delay.getActiveDelay() + ")" + CR;
                 nextCommand = cmdName + ".setNextCommand(array(1,(TMLCommand*)" + makeCommands(currElem.getNextElement(0), false, retElement, null) + "));\n";
                 functions += "TMLTime " + reference + "::" + cmdName + "_func(){\n#ifdef ADD_COMMENTS\naddComment(new Comment" +
                         "(_endLastTransaction,0," + commentNum + "));\n#endif\n" + modifyString(addSemicolonIfNecessary(action)) + CR;

@@ -74,10 +74,10 @@ public class AvatarSMDSendSignal extends AvatarSMDBasicCanBeDisabledComponent /*
 
 	private ConcurrentHashMap<String, String> latencyVals;
 
-	protected int latencyX=30;
-	protected int latencyY=25;
-	protected int textWidth=10;
-	protected int textHeight=20;
+	protected int latencyX = 30;
+	protected int latencyY = 25;
+	protected int textWidth = 10;
+	protected int textHeight = 20;
 
     protected int stateOfError = 0; // Not yet checked
 

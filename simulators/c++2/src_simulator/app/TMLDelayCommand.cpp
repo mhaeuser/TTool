@@ -68,7 +68,7 @@ TMLCommand* TMLDelayCommand::prepareNextTransaction(){
 	}
 
 	if (_progress==0){
-	  (_task->*_actionFunc)();
+	  _length = (_task->*_actionFunc)();
 //    _execTimes++;  this will recognize delay transaction one more time so remove it
     		if (_length==0){
     			//std::cout << "ExeciCommand len==0 " << std::endl;
@@ -98,6 +98,7 @@ std::string TMLDelayCommand::toString() const{
         outp << ": IdleDL in "  << TMLCommand::toString();
     return outp.str();
 }
+
 std::string TMLDelayCommand::toShortString() const{
 	std::ostringstream outp;
     if(_isActiveDelay)

@@ -684,7 +684,7 @@ typedef std::deque<Parameter* > ParamQueue;
 ///Type of member function pointer used to indicate a function encapsulating a condition (for TMLChoiceCommand)
 typedef unsigned int (TMLTask::*CondFuncPointer) ();
 ///Type of member function pointer used to indicate a function encapsulating an action (for TMLActionCommand)
-typedef void (TMLTask::*ActionFuncPointer) ();
+typedef int (TMLTask::*ActionFuncPointer) ();
 ///Type of member function pointer used to indicate a function encapsulating a condition (for TMLChoiceCommand)
 typedef TMLTime (TMLTask::*LengthFuncPointer) ();
 ///Type of pointer to indicate a function encapsulating a TEPE condition

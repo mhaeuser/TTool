@@ -47,7 +47,7 @@ TMLDelayCommand::TMLDelayCommand(ID iID, TMLTask* iTask,TMLLength iStatLength, A
 	if (!isActiveDelay){
 	    _isActiveDelay = false;
 	}else {
-	    _length = iStatLength;
+	  //_length = iStatLength;
 	    _isActiveDelay = true;
 	}
 	_type=ACT;

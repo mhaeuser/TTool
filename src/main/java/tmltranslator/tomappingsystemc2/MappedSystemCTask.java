@@ -561,7 +561,7 @@ public class MappedSystemCTask {
                         //action += "_endLastTransaction+=tmpDelayxy;"; // Take all delay totally idle for x units of time
                         action += "return tmpDelayxy;";
                     } else {
-                        action += "_endLastTransaction+=0;\nreturn 1;"; //consumes cycles
+                        action += "_endLastTransaction+=tmpDelayxy;\nreturn 1;"; //consumes cycles
                     }
 
                     delayLen = delay.getMaxDelay() + "*" + masterClockFreq + delay.getMasterClockFactor();
@@ -571,7 +571,7 @@ public class MappedSystemCTask {
                         //action += "_endLastTransaction+= myrand(tmpDelayxx,tmpDelayxy)"; // Take all delay totally idle for x units of time
                         action += "return myrand(tmpDelayxx,tmpDelayxy)";
                     } else {
-                        action += "_endLastTransaction+=0;\nreturn 1;"; //consumes cycles
+                        action += "_endLastTransaction+=tmpDelayxy;\nreturn 1;"; //consumes cycles
                     }
                     java.util.Random r = new  java.util.Random();
                     delayLen = String.valueOf(r.nextInt(Integer.valueOf(delay.getMaxDelay())-Integer.valueOf(delay.getMinDelay())) + Integer.valueOf(delay.getMinDelay())) + "*" + masterClockFreq + delay.getMasterClockFactor();

@@ -566,7 +566,7 @@ public class FullTML2Avatar {
                     ar.setSizeOfFIFO(channel.getSize());
                     ar.setBlocking(false);
                 } else {
-                    //Create new block, hope for best
+                    // Create new block, hope for best
                     if (mc) {
                         fifo = createFifo(channel.getName());
                         ar = new AvatarRelation(channel.getName() + "_OUT", taskBlockMap.get(channel.getOriginTask()), fifo, channel
@@ -583,32 +583,6 @@ public class FullTML2Avatar {
                 List<AvatarSignal> sig2 = new ArrayList<AvatarSignal>();
                 sig2.add(signalOutMap.get(channel.getName()));
 
-                /*for (AvatarSignal sig : signals) {
-                    if (sig.getInOut() == AvatarSignal.IN) {
-                        String name = sig.getName();
-                        if (name.equals(getName(channel.getName()))) {
-                            //			sig1.add(sig);
-                        }
-                    }
-                }
-                //Find out signal
-                for (AvatarSignal sig : signals) {
-                    if (sig.getInOut() == AvatarSignal.OUT) {
-                        String name = sig.getName();
-                        if (name.equals(channel.getOriginPort().getName())) {
-                            //				sig2.add(sig);
-                        }
-                    }
-                }*/
-                //TraceManager.addDev("size " + sig1.size() + " " + sig2.size());
-
-                /*if (sig1.size() == 0) {
-                    sig1.add(new AvatarSignal(getName(channel.getName()), AvatarSignal.IN, null));
-                }
-
-                if (sig2.size() == 0) {
-                    sig2.add(new AvatarSignal(getName(channel.getName()), AvatarSignal.OUT, null));
-                }*/
 
                 if (sig1.size() == 1 && sig2.size() == 1) {
 
@@ -1958,6 +1932,7 @@ public class FullTML2Avatar {
         afterWrite.addNext(root);
 
         avspec.addBlock(fifo);
+
         return fifo;
     }
 

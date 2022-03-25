@@ -9127,21 +9127,6 @@ public class GTURTLEModeling {
             String bl1 = ar.block1.getName();
             String bl2 = ar.block2.getName();
 
-            /*TraceManager.addDev("bl1=" + bl1 + " bl2=" + bl2);
-
-            AvatarBDBlock ab1 = blockMap.get(bl1);
-            AvatarBDBlock ab2 = blockMap.get(bl2);
-
-            if (ab1 == null) {
-                TraceManager.addDev("Null ab1 block");
-                break;
-            }
-
-            if (ab2 == null) {
-                TraceManager.addDev("Null ab2 block");
-                break;
-            }*/
-
             bl1 = getLastKeyword(bl1);
             bl2 = getLastKeyword(bl2);
 
@@ -9154,7 +9139,7 @@ public class GTURTLEModeling {
             p2.setFree(false);
 
             if (bl2.equals(bl1)) {
-                //Add 2 point so the connection looks square
+                // Add 2 point so the connection looks square
                 Point p = new Point(p1.getX(), p1.getY() - 10);
                 points.add(p);
                 p = new Point(p2.getX(), p2.getY() - 10);

@@ -511,10 +511,13 @@ public class AvatarSpecification extends AvatarElement {
 
     private int removeFIFO(AvatarRelation _ar, int _sizeOfInfiniteFifo, List<AvatarRelation> _oldOnes, List<AvatarRelation> _newOnes, int FIFO_ID) {
         for (int i = 0; i < _ar.nbOfSignals(); i++) {
+            TraceManager.addDev("FIFO for AR: " + _ar.getBlock1().getName() + " --> " + _ar.getBlock2().getName());
             if (_ar.getSignal1(i).isIn()) {
-                FIFO_ID = removeFIFO(_ar, _ar.getSignal2(i), _ar.getSignal1(i), _sizeOfInfiniteFifo, _oldOnes, _newOnes, FIFO_ID);
+                FIFO_ID = removeFIFO(_ar, _ar.getSignal2(i), _ar.getSignal1(i), _sizeOfInfiniteFifo, _oldOnes, _newOnes, FIFO_ID, _ar.block2,
+                        _ar.block1);
             } else {
-                FIFO_ID = removeFIFO(_ar, _ar.getSignal1(i), _ar.getSignal2(i), _sizeOfInfiniteFifo, _oldOnes, _newOnes, FIFO_ID);
+                FIFO_ID = removeFIFO(_ar, _ar.getSignal1(i), _ar.getSignal2(i), _sizeOfInfiniteFifo, _oldOnes, _newOnes, FIFO_ID, _ar.block1,
+                        _ar.block2);
             }
         }
         _oldOnes.add(_ar);
@@ -522,22 +525,25 @@ public class AvatarSpecification extends AvatarElement {
     }
 
     private int removeFIFO(AvatarRelation _ar, AvatarSignal _sig1, AvatarSignal _sig2, int _sizeOfInfiniteFifo, List<AvatarRelation> _oldOnes,
-                           List<AvatarRelation> _newOnes, int FIFO_ID) {
+                           List<AvatarRelation> _newOnes, int FIFO_ID, AvatarBlock block1, AvatarBlock block2) {
         // We create the new block, and the new relation towards the new block
         String nameOfBlock = "FIFO_" + _sig1.getName() + "_" + _sig2.getName() + "_" + FIFO_ID;
-        AvatarBlock fifoBlock = AvatarBlockTemplate.getFifoBlock(nameOfBlock, this, _ar, _ar.getReferenceObject(), _sig1, _sig2, _sizeOfInfiniteFifo, FIFO_ID);
+        AvatarBlock fifoBlock = AvatarBlockTemplate.getFifoBlock(nameOfBlock, this, _ar, _ar.getReferenceObject(), _sig1, _sig2,
+                _sizeOfInfiniteFifo, FIFO_ID);
         blocks.add(fifoBlock);
 
         // We now need to create the new relation
-        AvatarRelation newAR1 = new AvatarRelation("FIFO_write_" + FIFO_ID, _ar.block1, fifoBlock, _ar.getReferenceObject());
+        AvatarRelation newAR1 = new AvatarRelation("FIFO_write_" + FIFO_ID, block1, fifoBlock, _ar.getReferenceObject());
         newAR1.setAsynchronous(false);
         newAR1.setPrivate(_ar.isPrivate());
+        TraceManager.addDev("FIFO. Connecting " + _sig1.getName() + " to write of FIFO " + fifoBlock.getName());
         newAR1.addSignals(_sig1, fifoBlock.getSignalByName("write"));
         _newOnes.add(newAR1);
 
-        AvatarRelation newAR2 = new AvatarRelation("FIFO_read_" + FIFO_ID, fifoBlock, _ar.block2, _ar.getReferenceObject());
+        AvatarRelation newAR2 = new AvatarRelation("FIFO_read_" + FIFO_ID, fifoBlock, block2, _ar.getReferenceObject());
         newAR2.setAsynchronous(false);
         newAR2.setPrivate(_ar.isPrivate());
+        TraceManager.addDev("FIFO. Connecting FIFO " + fifoBlock.getName() + " read to " + _sig2.getName());
         newAR2.addSignals(fifoBlock.getSignalByName("read"), _sig2);
         _newOnes.add(newAR2);
 
@@ -545,21 +551,22 @@ public class AvatarSpecification extends AvatarElement {
 
 
         AvatarSignal queryS = new AvatarSignal("query_FIFO_read_" + FIFO_ID, AvatarSignal.IN, _sig2.getReferenceObject());
-        _ar.block2.addSignal(queryS);
+        block2.addSignal(queryS);
         AvatarAttribute queryA = new  AvatarAttribute("queryA", AvatarType.INTEGER, null, _sig2.getReferenceObject());
         queryS.addParameter(queryA);
 
-        AvatarRelation newAR3 = new AvatarRelation("FIFO_query_" + FIFO_ID, fifoBlock, _ar.block2, _ar.getReferenceObject());
+        AvatarRelation newAR3 = new AvatarRelation("FIFO_query_" + FIFO_ID, fifoBlock, block2, _ar.getReferenceObject());
         newAR3.setAsynchronous(false);
         newAR3.setPrivate(_ar.isPrivate());
-        newAR2.addSignals(fifoBlock.getSignalByName("query"), queryS);
+        newAR3.addSignals(fifoBlock.getSignalByName("query"), queryS);
         _newOnes.add(newAR3);
 
         // Replace query in block2 for _sig2 by readOnSignal with signal queryS. Use the same attribute as before
-        _ar.block2.replaceQueriesWithReadSignal(_sig2, queryS);
+        block2.replaceQueriesWithReadSignal(_sig2, queryS);
 
 
         FIFO_ID++;
+
         return FIFO_ID;
     }
 

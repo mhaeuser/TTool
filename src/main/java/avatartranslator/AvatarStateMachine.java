@@ -465,7 +465,6 @@ public class AvatarStateMachine extends AvatarElement {
 
                     id++;
                 }
-
             }
         }
         
@@ -1905,6 +1904,65 @@ public class AvatarStateMachine extends AvatarElement {
             }
             removeEmptyTransitions(block, _canOptimize);
         }
+    }
+
+    // groups together transitions to avoid extra states
+    public void groupUselessTransitions(AvatarBlock _block) {
+        ArrayList<AvatarState> toBeRemoved = new ArrayList<>();
+        AvatarTransition atBefore, atAfter;
+
+        for (AvatarStateMachineElement elt : elements) {
+            if (elt instanceof AvatarState) {
+                if ((elt.nexts.size() == 1) && (getPreviousElementsOf(elt).size() == 1)) {
+                    // We need to check that the follower is only a transition with an action
+                    AvatarStateMachineElement follower = elt.nexts.get(0);
+                    if ((follower instanceof AvatarTransition) && (follower.nexts.size() == 1)) {
+                        if (follower.nexts.get(0) instanceof AvatarState) {
+
+                            AvatarStateMachineElement previous = getPreviousElementsOf(elt).get(0);
+                            if (previous instanceof AvatarTransition) {
+                                toBeRemoved.add((AvatarState)elt);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        for(AvatarState st: toBeRemoved) {
+            atBefore = (AvatarTransition) (getPreviousElementsOf(st).get(0));
+            atAfter = (AvatarTransition) (st.nexts.get(0));
+
+            // Adding guard, delays and actions from after to before
+            if (atAfter.getGuard().isGuarded()) {
+                if (atBefore.getGuard().isGuarded()) {
+                    atBefore.setGuard("[(" + atAfter.getGuard() + ") && (" + atBefore.getGuard() + ")]");
+                } else {
+                    atBefore.setGuard(atAfter.getGuard());
+                }
+            }
+
+            if (atAfter.hasDelay()) {
+                if (atBefore.hasDelay()) {
+                    atBefore.setDelays( atAfter.getMinDelay() + "+" + atBefore.getMinDelay(),
+                            atAfter.getMaxDelay() + "+" + atBefore.getMaxDelay());
+
+                }
+            }
+
+           for(AvatarAction a: atAfter.getActions()) {
+               atBefore.addAction(a);
+           }
+
+
+            // Updating links
+            atBefore.nexts.clear();
+            atBefore.nexts.add(atAfter.getNext(0));
+
+            // Removing state and next transition
+            elements.remove(atAfter);
+            elements.remove(st);
+        }
+
     }
 
     public int getIndexOfStartState() {

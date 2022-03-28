@@ -2388,11 +2388,13 @@ public class TMLModeling<E> {
     // Add a task at sending side
     // Channel is transformed into something else ...
     public void removeForks() {
+        int id = 0;
         // Create new basic channels and tasks
         ArrayList<TMLChannel> newChannels = new ArrayList<TMLChannel>();
         for (TMLChannel channel : channels) {
             if (channel.isAForkChannel()) {
-                removeFork(channel, newChannels);
+                removeFork(channel, newChannels, id);
+                id ++;
             }
         }
 
@@ -2400,10 +2402,12 @@ public class TMLModeling<E> {
             addChannel(chan);
         }
 
+        id = 0;
         List<TMLEvent> newEvents = new ArrayList<TMLEvent>();
         for (TMLEvent event : events) {
             if (event.isAForkEvent()) {
-                removeForkEvent(event, newEvents);
+                removeForkEvent(event, newEvents, id);
+                id ++;
             }
         }
 
@@ -2412,7 +2416,7 @@ public class TMLModeling<E> {
         }
     }
 
-    public void removeFork(TMLChannel _ch, ArrayList<TMLChannel> _newChannels) {
+    public void removeFork(TMLChannel _ch, ArrayList<TMLChannel> _newChannels, int id) {
         int i;
         ArrayList<TMLTask> originTasks = new ArrayList<TMLTask>();
         ArrayList<TMLTask> destTasks = new ArrayList<TMLTask>();
@@ -2423,7 +2427,7 @@ public class TMLModeling<E> {
             destTasks.add(task);
         }
         // Create the new task and its activity diagram
-        TMLTask forkTask = new TMLTask("FORKTASK" + SEP1 + _ch.getName(), _ch.getReferenceObject(), null);
+        TMLTask forkTask = new TMLTask(_ch.getOriginTasks().get(0).getName() + "_FORKCH_" + id, _ch.getReferenceObject(), null);
         forkTask.setDaemon(true);
         TMLActivity forkActivity = forkTask.getActivityDiagram();
         addTask(forkTask);
@@ -2432,9 +2436,10 @@ public class TMLModeling<E> {
         int nb = _ch.getDestinationTasks().size();
         TMLChannel[] chans = new TMLChannel[nb];
         for (i = 0; i < nb; i++) {
-            chans[i] = new TMLChannel("FORKCHANNEL" + SEP1 + i + SEP1 + _ch.getName(), _ch.getReferenceObject());
+            chans[i] = new TMLChannel("forkch" + id + "_out_" + i, _ch.getReferenceObject());
             chans[i].setTasks(forkTask, _ch.getDestinationTasks().get(i));
-            chans[i].setPorts(new TMLPort("FORKPORTORIGIN" + SEP1 + i + SEP1 + _ch.getName(), _ch.getReferenceObject()), _ch.getDestinationPorts().get(i));
+            chans[i].setPorts(new TMLPort("forkchport" + id + "_out_" + i, _ch.getReferenceObject()),
+                    _ch.getDestinationPorts().get(i));
             chans[i].setType(_ch.getType());
             chans[i].setMax(_ch.getMax());
             chans[i].setSize(_ch.getSize());
@@ -2503,11 +2508,12 @@ public class TMLModeling<E> {
         writes[nb - 1].addNext(stop);
     }
 
-    public void removeForkEvent(TMLEvent _evt, List<TMLEvent> _newEvents) {
+    public void removeForkEvent(TMLEvent _evt, List<TMLEvent> _newEvents, int id) {
         int i, j;
 
         // Create the new task and its activity diagram
-        TMLTask forkTask = new TMLTask("FORKTASK" + SEP1 + "EVT" + SEP1 + _evt.getName(), _evt.getReferenceObject(), null);
+        TMLTask forkTask = new TMLTask(_evt.getOriginTasks().get(0).getName() + "_FORKEVT_" + id,
+                _evt.getReferenceObject(), null);
         TMLActivity forkActivity = forkTask.getActivityDiagram();
         addTask(forkTask);
 
@@ -2516,9 +2522,10 @@ public class TMLModeling<E> {
         TMLEvent[] evts = new TMLEvent[nb];
 
         for (i = 0; i < nb; i++) {
-            evts[i] = new TMLEvent("FORKEVENT" + SEP1 + i + SEP1 + _evt.getName(), _evt.getReferenceObject(), _evt.getMaxSize(), _evt.isBlocking());
+            evts[i] = new TMLEvent("forkch" + id + "_out_" + i, _evt.getReferenceObject(), _evt.getMaxSize(), _evt.isBlocking());
             evts[i].setTasks(forkTask, _evt.getDestinationTasks().get(i));
-            evts[i].setPorts(new TMLPort("FORKPORTORIGIN" + SEP1 + i + SEP1 + _evt.getName(), _evt.getReferenceObject()), _evt.getDestinationPorts().get(i));
+            evts[i].setPorts(new TMLPort("forkchport" + id + "_out_" + i,
+                    _evt.getReferenceObject()), _evt.getDestinationPorts().get(i));
             //evts[i].setType(_evt.getType());
             //evts[i].setMax(_evt.getMax());
             //evts[i].setSize(_evt.getSize());
@@ -2598,10 +2605,12 @@ public class TMLModeling<E> {
     // Same for events.
     public void removeJoins() {
         // Create new basic channels and tasks
+        int id = 0;
         List<TMLChannel> newChannels = new ArrayList<TMLChannel>();
         for (TMLChannel channel : channels) {
             if (channel.isAJoinChannel()) {
-                removeJoin(channel, newChannels);
+                removeJoin(channel, newChannels, id);
+                id ++;
             }
         }
 
@@ -2611,11 +2620,13 @@ public class TMLModeling<E> {
 
         // Create new basic events and tasks
         ArrayList<TMLEvent> newEvents = new ArrayList<TMLEvent>();
+        id = 0;
         for (TMLEvent evt : events) {
             //TraceManager.addDev("Event:" + evt);
             if (evt.isAJoinEvent()) {
                 TraceManager.addDev("Removing join of this event");
-                removeJoinEvent(evt, newEvents);
+                removeJoinEvent(evt, newEvents, id);
+                id ++;
             }
         }
 
@@ -2625,7 +2636,7 @@ public class TMLModeling<E> {
     }
 
 
-    public void removeJoin(TMLChannel _ch, List<TMLChannel> _newChannels) {
+    public void removeJoin(TMLChannel _ch, List<TMLChannel> _newChannels, int id) {
         int i;
         ArrayList<TMLTask> originTasks = new ArrayList<TMLTask>();
         ArrayList<TMLTask> destTasks = new ArrayList<TMLTask>();
@@ -2636,7 +2647,7 @@ public class TMLModeling<E> {
             destTasks.add(task);
         }
         // Create the new task and its activity diagram
-        TMLTask joinTask = new TMLTask("JOINTASK" + SEP1 + _ch.getName(), _ch.getReferenceObject(), null);
+        TMLTask joinTask = new TMLTask(_ch.getDestinationTasks().get(0).getName()+ "_JOINCH_" + id, _ch.getReferenceObject(), null);
         joinTask.setDaemon(true);
         TMLActivity joinActivity = joinTask.getActivityDiagram();
         addTask(joinTask);
@@ -2645,9 +2656,9 @@ public class TMLModeling<E> {
         int nb = _ch.getOriginTasks().size();
         TMLChannel[] chans = new TMLChannel[nb];
         for (i = 0; i < nb; i++) {
-            chans[i] = new TMLChannel("JOINCHANNEL" + SEP1 + i + "__" + _ch.getName(), _ch.getReferenceObject());
+            chans[i] = new TMLChannel("joinch" + id + "_out_" + i, _ch.getReferenceObject());
             chans[i].setTasks(_ch.getOriginTasks().get(i), joinTask);
-            chans[i].setPorts(_ch.getOriginPorts().get(i), new TMLPort("JOINPORTDESTINATION" + SEP1 + i + SEP1 + _ch.getName(), _ch.getReferenceObject()));
+            chans[i].setPorts(_ch.getOriginPorts().get(i), new TMLPort("joinchport" + id + "_out_" + i, _ch.getReferenceObject()));
             chans[i].setType(_ch.getType());
             chans[i].setMax(_ch.getMax());
             chans[i].setSize(_ch.getSize());
@@ -2712,11 +2723,11 @@ public class TMLModeling<E> {
         reads[nb - 1].addNext(write);
     }
 
-    public void removeJoinEvent(TMLEvent _evt, List<TMLEvent> _newEvents) {
+    public void removeJoinEvent(TMLEvent _evt, List<TMLEvent> _newEvents, int id) {
         int i, j;
 
         // Create the new task and its activity diagram
-        TMLTask joinTask = new TMLTask("JOINTASK" + SEP1 + "EVT" + SEP1 + _evt.getName(), _evt.getReferenceObject(), null);
+        TMLTask joinTask = new TMLTask(_evt.getDestinationTasks().get(0).getName()+ "_JOINEVT_" + id, _evt.getReferenceObject(), null);
         TMLActivity joinActivity = joinTask.getActivityDiagram();
         addTask(joinTask);
 
@@ -2724,9 +2735,10 @@ public class TMLModeling<E> {
         int nb = _evt.getOriginTasks().size();
         TMLEvent[] evts = new TMLEvent[nb];
         for (i = 0; i < nb; i++) {
-            evts[i] = new TMLEvent("JOINEVENT" + SEP1 + i + SEP1 + _evt.getName(), _evt.getReferenceObject(), _evt.getMaxSize(), _evt.isBlocking());
+            evts[i] = new TMLEvent("joinevt" + id + "_out_" + i, _evt.getReferenceObject(),
+                    _evt.getMaxSize(), _evt.isBlocking());
             evts[i].setTasks(_evt.getOriginTasks().get(i), joinTask);
-            evts[i].setPorts(_evt.getOriginPorts().get(i), new TMLPort("JOINPORTDESTINATION" + SEP1 + i + SEP1 + _evt.getName(), _evt.getReferenceObject()));
+            evts[i].setPorts(_evt.getOriginPorts().get(i), new TMLPort("joinevtport" + id + "_out_" + i, _evt.getReferenceObject()));
 
             for (j = 0; j < _evt.getNbOfParams(); j++) {
                 evts[i].addParam(_evt.getType(j));

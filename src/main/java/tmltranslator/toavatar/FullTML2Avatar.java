@@ -771,6 +771,8 @@ public class FullTML2Avatar {
         tmlmodel.secChannelMap = secChannelMap;
 
 //			System.out.println("avatar spec\n" +avspec);
+        avspec.removeEmptyTransitions(true);
+        avspec.groupUselessTransitions();
         return avspec;
     }
 

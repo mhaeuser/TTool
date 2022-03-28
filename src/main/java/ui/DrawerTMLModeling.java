@@ -457,7 +457,7 @@ public class DrawerTMLModeling  {
                                                            TMLActivityDiagramPanel activityPanel)
             throws MalformedTMLDesignException {
 
-        TraceManager.addDev("Current first elt:" + elt);
+        //TraceManager.addDev("Current first elt:" + elt);
 
         if (elt instanceof TMLActionState) {
             TMLADActionState actionState = new TMLADActionState(firstGUI.getX(), firstGUI.getY()+getYDep(), activityPanel.getMinX(),

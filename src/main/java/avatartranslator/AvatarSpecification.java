@@ -507,6 +507,7 @@ public class AvatarSpecification extends AvatarElement {
         for (AvatarRelation ar : newOnes) {
             relations.add(ar);
         }
+
     }
 
     private int removeFIFO(AvatarRelation _ar, int _sizeOfInfiniteFifo, List<AvatarRelation> _oldOnes, List<AvatarRelation> _newOnes, int FIFO_ID) {
@@ -530,6 +531,7 @@ public class AvatarSpecification extends AvatarElement {
         String nameOfBlock = "FIFO_" + _sig1.getName() + "_" + _sig2.getName() + "_" + FIFO_ID;
         AvatarBlock fifoBlock = AvatarBlockTemplate.getFifoBlock(nameOfBlock, this, _ar, _ar.getReferenceObject(), _sig1, _sig2,
                 _sizeOfInfiniteFifo, FIFO_ID);
+        //fifoBlock.getStateMachine().groupUselessTransitions(fifoBlock);
         blocks.add(fifoBlock);
 
         // We now need to create the new relation
@@ -690,6 +692,15 @@ public class AvatarSpecification extends AvatarElement {
                 asm.removeEmptyTransitions(block, _canOptimize);
         }
     }
+
+    public void groupUselessTransitions() {
+        for (AvatarBlock block : this.blocks) {
+            AvatarStateMachine asm = block.getStateMachine();
+            if (asm != null)
+                asm.groupUselessTransitions(block);
+        }
+    }
+
 
     public void makeRobustness() {
         //TraceManager.addDev("Make robustness");

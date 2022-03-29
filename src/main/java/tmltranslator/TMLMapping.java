@@ -112,6 +112,7 @@ public class TMLMapping<E> {
             DIPLOElement.resetID();
         }
     }
+
     //
     // public TMLMapping( TMLModeling _tmlm, TMLArchitecture _tmla, TMLCP _tmlcp,
     // boolean reset ) {
@@ -176,6 +177,8 @@ public class TMLMapping<E> {
     }
 
     public void makeMinimumMapping() {
+        TraceManager.addDev("MAKE minimum mapping");
+
         HwCPU cpu;
         HwMemory mem;
         HwBus bus;
@@ -198,14 +201,53 @@ public class TMLMapping<E> {
             cpu.branchingPredictionPenalty = 0;
             cpu.execiTime = 1;
             tmla.addHwNode(cpu);
-
-            // tasks
-            iterator = tmlm.getTasks().listIterator();
-            while (iterator.hasNext()) {
-                t = iterator.next();
-                addTaskToHwExecutionNode(t, cpu);
-            }
         }
+
+        // Checking that all tasks are mapped
+        iterator = tmlm.getTasks().listIterator();
+        while (iterator.hasNext()) {
+            t = iterator.next();
+            // is t already mapped?
+            if (!isTaskMapped(t)) {
+                // Finding a HwCPU to map this task
+                // If name starts with "FORK" or "JOIN", it is added to the same CPU as the corresponding channel
+                // Otherwise, we take the first HwCPU
+                boolean mapped = false;
+                if (t.getName().startsWith("FORK")) {
+                    TMLChannel chToMe = tmlm.getChannelToMe(t);
+                    if (chToMe != null) {
+                        TMLTask other = chToMe.getOriginTask();
+                        if (other != null) {
+                            HwExecutionNode node = getHwNodeByTask(other);
+                            if (node != null) {
+                                addTaskToHwExecutionNode(t, node);
+                                mapped = true;
+                            }
+                        }
+                    }
+                }  else if (t.getName().startsWith("JOIN")) {
+                    TMLChannel chFromMe = tmlm.getChannelFromMe(t);
+                    if (chFromMe != null) {
+                        TMLTask other = chFromMe.getDestinationTask();
+                        if (other != null) {
+                            HwExecutionNode node = getHwNodeByTask(other);
+                            if (node != null) {
+                                addTaskToHwExecutionNode(t, node);
+                                mapped = true;
+                            }
+                        }
+                    }
+                }
+
+                if (!mapped) {
+                    TraceManager.addDev("Adding task " + t.getName() + " to Node " +  tmla.getFirstCPU().getName());
+                    addTaskToHwExecutionNode(t, tmla.getFirstCPU());
+                }
+
+            }
+
+        }
+
 
         if (!tmla.hasBus()) {
             bus = new HwBus("defaultBus");
@@ -716,7 +758,7 @@ public class TMLMapping<E> {
         return list;
     }
 
-    public HwNode getHwNodeByTask(TMLTask cmpTask) {
+    public HwExecutionNode getHwNodeByTask(TMLTask cmpTask) {
         int i = 0;
         for (TMLTask task:mappedtasks) {
             if (task == cmpTask)

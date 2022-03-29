@@ -141,6 +141,7 @@ public class TMLModeling<E> {
     }
 
     public void addTask(TMLTask task) {
+        TraceManager.addDev("ADDING task: "+ task.getName());
         tasks.add(task);
     }
 
@@ -2656,9 +2657,9 @@ public class TMLModeling<E> {
         int nb = _ch.getOriginTasks().size();
         TMLChannel[] chans = new TMLChannel[nb];
         for (i = 0; i < nb; i++) {
-            chans[i] = new TMLChannel("joinch" + id + "_out_" + i, _ch.getReferenceObject());
+            chans[i] = new TMLChannel("joinch" + id + "_in_" + i, _ch.getReferenceObject());
             chans[i].setTasks(_ch.getOriginTasks().get(i), joinTask);
-            chans[i].setPorts(_ch.getOriginPorts().get(i), new TMLPort("joinchport" + id + "_out_" + i, _ch.getReferenceObject()));
+            chans[i].setPorts(_ch.getOriginPorts().get(i), new TMLPort("joinchport" + id + "_in_" + i, _ch.getReferenceObject()));
             chans[i].setType(_ch.getType());
             chans[i].setMax(_ch.getMax());
             chans[i].setSize(_ch.getSize());

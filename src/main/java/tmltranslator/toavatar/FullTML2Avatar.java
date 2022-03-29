@@ -183,6 +183,7 @@ public class FullTML2Avatar {
             AvatarBlock bDest = taskBlockMap.get(request.getDestinationTask());
             AvatarRelation ar = new AvatarRelation(request.getName(), top,
                     taskBlockMap.get(request.getDestinationTask()), request.getReferenceObject());
+            ar.setPrivate(true);
 
             AvatarSignal sigReqOut = new AvatarSignal(bDest.getName() + "_" + getLastName(request.getName()), ui.AvatarSignal.OUT, request
                     .getReferenceObject
@@ -559,12 +560,14 @@ public class FullTML2Avatar {
                     ar.setAsynchronous(true);
                     ar.setSizeOfFIFO(channel.getSize());
                     ar.setBlocking(true);
+                    ar.setPrivate(true);
                 } else if (channel.getType() == TMLChannel.BRNBW) {
                     ar = new AvatarRelation(channel.getName(), taskBlockMap.get(channel.getOriginTask()), taskBlockMap.get(channel
                             .getDestinationTask()), channel.getReferenceObject());
                     ar.setAsynchronous(true);
                     ar.setSizeOfFIFO(channel.getSize());
                     ar.setBlocking(false);
+                    ar.setPrivate(true);
                 } else {
                     // Create new block, hope for best
                     if (mc) {
@@ -572,6 +575,7 @@ public class FullTML2Avatar {
                         ar = new AvatarRelation(channel.getName() + "_OUT", taskBlockMap.get(channel.getOriginTask()), fifo, channel
                                 .getReferenceObject());
                         ar.setAsynchronous(false);
+                        ar.setPrivate(true);
                     }
                 }
 
@@ -600,6 +604,7 @@ public class FullTML2Avatar {
                         ar2.addSignals(write, sig1.get(0));
                         //		System.out.println("Set " + sig2.get(0) + " and write");
                         ar2.setAsynchronous(false);
+                        ar.setPrivate(true);
 
                         avspec.addRelation(ar2);
 
@@ -615,6 +620,7 @@ public class FullTML2Avatar {
                         top.addSignal(s1);
                         top.addSignal(s2);
                         relation.addSignals(s2, s1);
+                        relation.setPrivate(true);
                         avspec.addRelation(relation);
                         //	System.out.println("Failure to match signals for TMLChannel "+ channel.getName());
                     }
@@ -630,6 +636,7 @@ public class FullTML2Avatar {
                 top.addSignal(s1);
                 top.addSignal(s2);
                 relation.addSignals(s2, s1);
+                relation.setPrivate(true);
                 avspec.addRelation(relation);
                 for (TMLTask t1 : channel.getOriginTasks()) {
                     for (TMLTask t2 : channel.getDestinationTasks()) {
@@ -685,6 +692,7 @@ public class FullTML2Avatar {
             AvatarRelation ar = new AvatarRelation(event.getName(), taskBlockMap.get(event.getOriginTask()), taskBlockMap.get(event.getDestinationTask()),
                     event.getReferenceObject());
             ar.setAsynchronous(true);
+            ar.setPrivate(true);
 
 
             AvatarSignal sigOut = signalOutMap.get(event.getName());

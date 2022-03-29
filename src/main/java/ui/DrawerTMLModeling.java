@@ -611,7 +611,7 @@ public class DrawerTMLModeling  {
             TMLADWaitEvent wait = new TMLADWaitEvent(firstGUI.getX(), firstGUI.getY() + getYDep(), activityPanel.getMinX(),
                     activityPanel.getMaxX(), activityPanel.getMinY(), activityPanel.getMaxY(), true, null, activityPanel);
 
-            wait.setEventName(getSplitName(waitT.getEvent().getName(), true));
+            wait.setEventName(getSplitName(waitT.getEvent().getName(), false));
             wait.setParams(waitT.getVectorAllParams());
             return wait;
         } else if (elt instanceof TMLWriteChannel) {
@@ -619,7 +619,7 @@ public class DrawerTMLModeling  {
             TMLADWriteChannel write = new TMLADWriteChannel(firstGUI.getX(), firstGUI.getY()+getYDep(), activityPanel.getMinX(),
                     activityPanel.getMaxX(), activityPanel.getMinY(), activityPanel.getMaxY(), true, null, activityPanel);
 
-            write.setChannelName(getSplitName(writeT.getChannel(0).getName(), false));
+            write.setChannelName(getSplitName(writeT.getChannel(0).getName(), true));
             write.setSamples(writeT.getNbOfSamples());
             return write;
         }

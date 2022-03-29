@@ -128,6 +128,11 @@ public class TMLRequest extends TMLCommunicationElement {
         return (originTasks.contains(_task));
     }
 
+    public boolean isDestinationTask(TMLTask _task) {
+        return (destinationTask == _task);
+    }
+
+
     public List<TMLTask> getOriginTasks() {
         return originTasks;
     }

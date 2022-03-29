@@ -67,7 +67,6 @@ public class TMLChannel extends TMLCommunicationElement {
 
 
     public TMLPortWithSecurityInformation port;
-    //public TMLCPrimitivePort port2;
     public ArrayList<TMLPortWithSecurityInformation> ports;
 
     // Used on for 1 -> 1 channel
@@ -522,7 +521,7 @@ public class TMLChannel extends TMLCommunicationElement {
         if (isBasicChannel()) {
             s += TAB2 + "Origin task: " + originTask.getName() + CR;
             if (originPort != null) {
-                s += TAB2 + "Destination port: " + originPort.getName() + CR;
+                s += TAB2 + "Origin port: " + originPort.getName() + CR;
             }
             s += TAB2 + "Destination task: " + destinationTask.getName() + CR;
             if (destinationPort != null) {

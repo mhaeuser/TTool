@@ -85,12 +85,11 @@ public class DiploSimulatorCodeGenerator implements IDiploSimulatorCodeGenerator
     private final NamesGenerationHelper namesGen;
 
     public DiploSimulatorCodeGenerator(TMLModeling<?> _tmlm) {
-        this(_tmlm.getDefaultMapping());
+        this(new TMLMapping<>(_tmlm, null, false));
 
         tmlmodeling = _tmlm;
-        tmlmodeling.removeForksAndJoins();
-        tmlmodeling.removePeriodicTasks();
-        // tmlmapping = tmlmodeling.getDefaultMapping();
+
+
         // tepeTranslator = new SystemCTEPE(new ArrayList<TEPE>(), this);
     }
 
@@ -121,7 +120,9 @@ public class DiploSimulatorCodeGenerator implements IDiploSimulatorCodeGenerator
         tmlmapping.handleCPs();
         tmlmapping.removeForksAndJoins();
         tmlmapping.removePeriodicTasks();
+
         tmlmapping.makeMinimumMapping();
+
         tepeTranslator = new SystemCTEPE(_tepes, this);
         namesGen = NamesGenerationHelper.INSTANCE;
     }
@@ -517,8 +518,8 @@ public class DiploSimulatorCodeGenerator implements IDiploSimulatorCodeGenerator
                     param = "";
                 }
 
-                // TraceManager.addDev("\nDetermining routing of " + channel.getName() + ":");
-                // TraceManager.addDev(channel.toString());
+                TraceManager.addDev("\nDetermining routing of " + channel.getName() + ":");
+                TraceManager.addDev(channel.toString());
 
                 String ret = determineRouting(tmlmapping.getHwNodeOf(channel.getOriginTask()), tmlmapping.getHwNodeOf(channel.getDestinationTask()),
                         elem);
@@ -925,12 +926,11 @@ public class DiploSimulatorCodeGenerator implements IDiploSimulatorCodeGenerator
                 commNodes.add((HwCommunicationNode) node);
             }
         }
-        // if( startNode == null ) {
-        // TraceManager.addDev( "NULL REFERENCE" );
-        // }
-        // else {
-        // //TraceManager.addDev( "startNode: " + startNode.getName() );
-        // }
+        if( startNode == null ) {
+            TraceManager.addDev( "NULL REFERENCE" );
+        } else {
+            TraceManager.addDev( "startNode: " + startNode.getName() );
+        }
 
         HwMemory memory = getMemConnectedToBusChannelMapped(commNodes, null, commElemToRoute);
 
@@ -944,7 +944,7 @@ public class DiploSimulatorCodeGenerator implements IDiploSimulatorCodeGenerator
             // + memory.getName());
 
             if (!exploreBuses(0, commNodes, path, startNode, memory, commElemToRoute)) {
-                TraceManager.addDev("NO route to " + memory.getName() + " found!!!!!!!!!!!!!!!!!!!!!!!!!!");
+                TraceManager.addDev("1. NO route to " + memory.getName() + " found!!!!!!!!!!!!!!!!!!!!!!!!!!");
             }
 
             path.add(memory);
@@ -985,8 +985,8 @@ public class DiploSimulatorCodeGenerator implements IDiploSimulatorCodeGenerator
 
         // first called with Maping:getCommunicationNodes
         List<HwCommunicationNode> nodesToExplore;
-        // TraceManager.addDev("No of comm nodes " + commNodes.size());
-        // TraceManager.addDev("startNode=" + startNode);
+        TraceManager.addDev("No of comm nodes " + commNodes.size());
+        TraceManager.addDev("startNode=" + startNode);
         boolean busExploreMode = ((depth & 1) == 0);
 
         if (busExploreMode) {
@@ -1040,6 +1040,8 @@ public class DiploSimulatorCodeGenerator implements IDiploSimulatorCodeGenerator
             // if (memory!=null) path.remove(memory);
             commNodes.add(currNode);
         }
+
+        TraceManager.addDev("Returning false");
         return false;
     }
 
@@ -1148,7 +1150,7 @@ public class DiploSimulatorCodeGenerator implements IDiploSimulatorCodeGenerator
             // + memory.getName());
 
             if (!exploreBuses(0, commNodes, path, startNode, memory, commElemToRoute)) {
-                TraceManager.addDev("NO route to " + memory.getName() + " found!!!!!!!!!!!!!!!!!!!!!!!!!!");
+                TraceManager.addDev("2. NO route to " + memory.getName() + " found!!!!!!!!!!!!!!!!!!!!!!!!!!");
             }
 
             path.add(memory);

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<TURTLEGMODELING version="1.0beta" ANIMATE_INTERACTIVE_SIMULATION="true" ACTIVATE_PENALTIES="true" UPDATE_INFORMATION_DIPLO_SIM="true" ANIMATE_WITH_INFO_DIPLO_SIM="true" OPEN_DIAG_DIPLO_SIM="false" LAST_SELECTED_MAIN_TAB="9" LAST_SELECTED_SUB_TAB="0">
+<TURTLEGMODELING version="1.0beta" ANIMATE_INTERACTIVE_SIMULATION="true" ACTIVATE_PENALTIES="true" UPDATE_INFORMATION_DIPLO_SIM="true" ANIMATE_WITH_INFO_DIPLO_SIM="true" OPEN_DIAG_DIPLO_SIM="false" LAST_SELECTED_MAIN_TAB="7" LAST_SELECTED_SUB_TAB="0">
 
 <Modeling type="Diplodocus Methodology" nameTab="DIPLODOCUS_Methodology" >
 <DiplodocusMethodologyDiagramPanel name="DIPLODOCUS_Methodology" minX="10" maxX="2500" minY="10" maxY="1500" zoom="1.0" >
@@ -3413,7 +3413,7 @@ processing tasks
 
 <TMLActivityDiagramPanel name="F_Sink" minX="10" maxX="1400" minY="10" maxY="900" zoom="1.0" >
 <COMPONENT type="1001" id="1072" index="0" uid="78624642-62fc-4d0a-904f-00ef5289c8c6" >
-<cdparam x="396" y="355" />
+<cdparam x="397" y="353" />
 <sizeparam width="20" height="20" minWidth="1" minHeight="1" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <hidden value="false" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
@@ -3422,7 +3422,7 @@ processing tasks
 </COMPONENT>
 
 <COMPONENT type="1007" id="1075" index="1" uid="7b11333a-9f83-445b-9734-ef3f623df19a" >
-<cdparam x="324" y="265" />
+<cdparam x="325" y="264" />
 <sizeparam width="165" height="20" minWidth="30" minHeight="1" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <hidden value="false" />
 <enabled value="true" />
@@ -3480,15 +3480,15 @@ processing tasks
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector" value="null" />
 <P1  x="407" y="212" id="1079" />
-<P2  x="406" y="260" id="1073" />
+<P2  x="407" y="259" id="1073" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
 <CONNECTOR type="115" id="1085" index="6" uid="4a73849d-2705-4d3e-beff-21560d3dd882" >
 <cdparam x="406" y="290" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector" value="null" />
-<P1  x="406" y="290" id="1074" />
-<P2  x="406" y="350" id="1071" />
+<P1  x="407" y="289" id="1074" />
+<P2  x="407" y="348" id="1071" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
 <CONNECTOR type="115" id="1086" index="7" uid="a169eacc-2376-460f-b3ab-a3d34b1dfe5e" >

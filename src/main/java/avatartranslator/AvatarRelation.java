@@ -138,13 +138,15 @@ public class AvatarRelation extends AvatarElement {
     }
 
     public int getSizeOfFIFO() {
+        if (sizeOfFIFO == -1) {
+            return Integer.MAX_VALUE;
+        }
         return sizeOfFIFO;
     }
 
     public boolean isBlocking() {
         return blocking;
     }
-
 
 
     public void addSignals(AvatarSignal _sig1, AvatarSignal _sig2)   {

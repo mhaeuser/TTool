@@ -2439,7 +2439,7 @@ public class TMLModeling<E> {
         for (i = 0; i < nb; i++) {
             chans[i] = new TMLChannel("forkch" + id + "_out_" + i, _ch.getReferenceObject());
             chans[i].setTasks(forkTask, _ch.getDestinationTasks().get(i));
-            chans[i].setPorts(new TMLPort("forkchport" + id + "_out_" + i, _ch.getReferenceObject()),
+            chans[i].setPorts(new TMLPort("forkch" + id + "_out_" + i, _ch.getReferenceObject()),
                     _ch.getDestinationPorts().get(i));
             chans[i].setType(_ch.getType());
             chans[i].setMax(_ch.getMax());
@@ -2463,7 +2463,7 @@ public class TMLModeling<E> {
         // Transform the original channel into a basic channel
         _ch.setTasks(_ch.getOriginTasks().get(0), forkTask);
         //_ch.setPorts(_ch.getOriginPorts().get(0), new TMLPort("FORKPORTDESTINATION" + SEP1 + _ch.getName(), _ch.getReferenceObject()));
-        _ch.setPorts(_ch.getOriginPorts().get(0), new TMLPort("forkport" + id + "_in", _ch.getReferenceObject()));
+        _ch.setPorts(_ch.getOriginPorts().get(0), new TMLPort("forkch" + id + "_in", _ch.getReferenceObject()));
         _ch.removeComplexInformations();
 
         //For security generation, provide the orignal tasks
@@ -2526,7 +2526,7 @@ public class TMLModeling<E> {
         for (i = 0; i < nb; i++) {
             evts[i] = new TMLEvent("forkch" + id + "_out_" + i, _evt.getReferenceObject(), _evt.getMaxSize(), _evt.isBlocking());
             evts[i].setTasks(forkTask, _evt.getDestinationTasks().get(i));
-            evts[i].setPorts(new TMLPort("forkchport" + id + "_out_" + i,
+            evts[i].setPorts(new TMLPort("forkevt" + id + "_out_" + i,
                     _evt.getReferenceObject()), _evt.getDestinationPorts().get(i));
             //evts[i].setType(_evt.getType());
             //evts[i].setMax(_evt.getMax());
@@ -2547,7 +2547,7 @@ public class TMLModeling<E> {
 
         // Transform the original event into a basic event
         _evt.setTasks(_evt.getOriginTasks().get(0), forkTask);
-        _evt.setPorts(_evt.getOriginPorts().get(0), new TMLPort("FORKPORTDESTINATION" + SEP1 + _evt.getName(), _evt.getReferenceObject()));
+        _evt.setPorts(_evt.getOriginPorts().get(0), new TMLPort("forkevt_" + id + "_in", _evt.getReferenceObject()));
         _evt.removeComplexInformations();
 
         // Adding attributes to the task
@@ -2660,7 +2660,7 @@ public class TMLModeling<E> {
         for (i = 0; i < nb; i++) {
             chans[i] = new TMLChannel("joinch" + id + "_in_" + i, _ch.getReferenceObject());
             chans[i].setTasks(_ch.getOriginTasks().get(i), joinTask);
-            chans[i].setPorts(_ch.getOriginPorts().get(i), new TMLPort("joinchport" + id + "_in_" + i, _ch.getReferenceObject()));
+            chans[i].setPorts(_ch.getOriginPorts().get(i), new TMLPort("joinch" + id + "_in_" + i, _ch.getReferenceObject()));
             chans[i].setType(_ch.getType());
             chans[i].setMax(_ch.getMax());
             chans[i].setSize(_ch.getSize());
@@ -2682,7 +2682,7 @@ public class TMLModeling<E> {
 
         // Transform the original channel into a basic channel
         _ch.setTasks(joinTask, _ch.getDestinationTasks().get(0));
-        _ch.setPorts(new TMLPort("JOINPORTORIGIN" + SEP1 + _ch.getName(), _ch.getReferenceObject()), _ch.getDestinationPorts().get(0));
+        _ch.setPorts(new TMLPort("joinch_" + id + "_out", _ch.getReferenceObject()), _ch.getDestinationPorts().get(0));
         _ch.originalOriginTasks = originTasks;
         _ch.originalDestinationTasks = destTasks;
         _ch.removeComplexInformations();
@@ -2737,14 +2737,13 @@ public class TMLModeling<E> {
         int nb = _evt.getOriginTasks().size();
         TMLEvent[] evts = new TMLEvent[nb];
         for (i = 0; i < nb; i++) {
-            evts[i] = new TMLEvent("joinevt" + id + "_out_" + i, _evt.getReferenceObject(),
+            evts[i] = new TMLEvent("joinevt" + id + "_in_" + i, _evt.getReferenceObject(),
                     _evt.getMaxSize(), _evt.isBlocking());
             evts[i].setTasks(_evt.getOriginTasks().get(i), joinTask);
-            evts[i].setPorts(_evt.getOriginPorts().get(i), new TMLPort("joinevtport" + id + "_out_" + i, _evt.getReferenceObject()));
+            evts[i].setPorts(_evt.getOriginPorts().get(i), new TMLPort("joinevt" + id + "_in_" + i, _evt.getReferenceObject()));
 
             for (j = 0; j < _evt.getNbOfParams(); j++) {
                 evts[i].addParam(_evt.getType(j));
-
             }
 
             _newEvents.add(evts[i]);
@@ -2759,7 +2758,7 @@ public class TMLModeling<E> {
 
         // Transform the original channel into a basic channel
         _evt.setTasks(joinTask, _evt.getDestinationTasks().get(0));
-        _evt.setPorts(new TMLPort("JOINPORTORIGIN" + SEP1 + _evt.getName(), _evt.getReferenceObject()), _evt.getDestinationPorts().get(0));
+        _evt.setPorts(new TMLPort("joinevt_" + id + "_out", _evt.getReferenceObject()), _evt.getDestinationPorts().get(0));
         _evt.removeComplexInformations();
 
         // Adding attributes to the task

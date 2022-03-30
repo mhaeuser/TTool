@@ -454,6 +454,7 @@ public class AvatarStateMachine extends AvatarElement {
                     AvatarTransition tr = (AvatarTransition) elt.getNext(0);
                     // We create an intermediate state
                     AvatarState state = new AvatarState("IntermediateState4__" + id, elt.getReferenceObject());
+                    state.setCommit(true);
                     toAdd.add(state);
                     AvatarTransition at1 = new AvatarTransition(_block, "TransitionForIntermediateState4__" + id, elt.getReferenceObject());
                     toAdd.add(at1);
@@ -493,6 +494,7 @@ public class AvatarStateMachine extends AvatarElement {
                         if ((!(previous instanceof AvatarStateElement)) && (next instanceof AvatarStateElement)) {
                             // We create an intermediate state
                             AvatarState state = new AvatarState("IntermediateState1__" + id, elt.getReferenceObject());
+                            state.setCommit(true);
                             toAdd.add(state);
                             AvatarTransition at1 = new AvatarTransition(_block, "TransitionForIntermediateState1__" + id, elt.getReferenceObject());
                             toAdd.add(at1);
@@ -579,6 +581,7 @@ public class AvatarStateMachine extends AvatarElement {
                     if (!(next instanceof AvatarState)) {
                         // We create an intermediate state
                         AvatarState state = new AvatarState("IntermediateState3__" + id, elt.getReferenceObject());
+                        state.setCommit(true);
                         toAdd.add(state);
                         AvatarTransition at1 = new AvatarTransition(_block, "TransitionForIntermediateState3__" + id, elt.getReferenceObject());
                         toAdd.add(at1);
@@ -610,6 +613,7 @@ public class AvatarStateMachine extends AvatarElement {
                     if (!(previous instanceof AvatarStateElement)) {
                         // We create an intermediate state
                         AvatarState state = new AvatarState("IntermediateState__" + id, elt.getReferenceObject());
+                        state.setCommit(true);
                         toAdd.add(state);
                         AvatarTransition at1 = new AvatarTransition(_block, "TransitionForIntermediateState__" + id, elt.getReferenceObject());
                         toAdd.add(at1);

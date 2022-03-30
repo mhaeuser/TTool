@@ -141,7 +141,7 @@ public class TMLModeling<E> {
     }
 
     public void addTask(TMLTask task) {
-        TraceManager.addDev("ADDING task: "+ task.getName());
+        //TraceManager.addDev("ADDING task: "+ task.getName());
         tasks.add(task);
     }
 
@@ -2462,7 +2462,8 @@ public class TMLModeling<E> {
 
         // Transform the original channel into a basic channel
         _ch.setTasks(_ch.getOriginTasks().get(0), forkTask);
-        _ch.setPorts(_ch.getOriginPorts().get(0), new TMLPort("FORKPORTDESTINATION" + SEP1 + _ch.getName(), _ch.getReferenceObject()));
+        //_ch.setPorts(_ch.getOriginPorts().get(0), new TMLPort("FORKPORTDESTINATION" + SEP1 + _ch.getName(), _ch.getReferenceObject()));
+        _ch.setPorts(_ch.getOriginPorts().get(0), new TMLPort("forkport" + id + "_in", _ch.getReferenceObject()));
         _ch.removeComplexInformations();
 
         //For security generation, provide the orignal tasks

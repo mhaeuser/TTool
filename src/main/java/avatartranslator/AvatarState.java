@@ -50,6 +50,7 @@ public class AvatarState extends AvatarStateElement {
     private boolean hidden; // i.e, not present in the original state machine
     public int stateID; // to be used by code generator to more efficiently keep track of states.
     private boolean checkLatency;
+    private boolean commit = false; // Not used currently
 
     public AvatarState(String _name, Object _referenceObject) {
         super(_name, _referenceObject);
@@ -75,6 +76,14 @@ public class AvatarState extends AvatarStateElement {
 
     public boolean isHidden() {
         return hidden;
+    }
+
+    public void setCommit(boolean _commit) {
+        commit = _commit;
+    }
+
+    public boolean isCommit() {
+        return commit;
     }
 
     public String getNiceName() {

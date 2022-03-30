@@ -240,7 +240,7 @@ public class TMLMapping<E> {
                 }
 
                 if (!mapped) {
-                    TraceManager.addDev("Adding task " + t.getName() + " to Node " +  tmla.getFirstCPU().getName());
+                    //TraceManager.addDev("Adding task " + t.getName() + " to Node " +  tmla.getFirstCPU().getName());
                     addTaskToHwExecutionNode(t, tmla.getFirstCPU());
                 }
 

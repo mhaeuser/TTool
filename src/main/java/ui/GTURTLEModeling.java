@@ -9118,9 +9118,9 @@ public class GTURTLEModeling {
             }
         }
 
-        for(String s: blockMap.keySet()) {
-            TraceManager.addDev("Key:" + s);
-        }
+        //for(String s: blockMap.keySet()) {
+        //    TraceManager.addDev("Key:" + s);
+        //}
 
 
         for (AvatarRelation ar : avspec.getRelations()) {

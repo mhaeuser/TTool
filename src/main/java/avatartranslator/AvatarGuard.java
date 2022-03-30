@@ -124,13 +124,13 @@ public abstract class AvatarGuard {
                         indexLParen = sane.length();
 
                     for (String delim: new String[]{"and", "or", "&&", "||", "&", "|"}) {
-                        TraceManager.addDev("Working on delim: " + delim);
+                        //TraceManager.addDev("Working on delim: " + delim);
                         int indexBinaryOp = sane.substring(0, indexLParen).indexOf(delim, indexRParen + 1);
                         if (indexBinaryOp != -1) {
-                            TraceManager.addDev("Found delim!");
+                            //TraceManager.addDev("Found delim!");
                             first = AvatarGuard.createFromString(block, sane.substring(0, indexBinaryOp));
                             AvatarGuard second = AvatarGuard.createFromString(block, sane.substring(indexBinaryOp + delim.length()));
-                            TraceManager.addDev("First=" + first + "\nSecond=" + second);
+                            //TraceManager.addDev("First=" + first + "\nSecond=" + second);
                             if (first instanceof AvatarComposedGuard && second instanceof AvatarComposedGuard)
                                 return new AvatarBinaryGuard((AvatarComposedGuard) first, (AvatarComposedGuard) second, delim);
                             TraceManager.addDev("Binary guard " + sane + "does not contain 2 guards");
@@ -139,13 +139,13 @@ public abstract class AvatarGuard {
                     }
 
                     for (String delim : new String[]{"==", "!=", "<=", ">=", "<", ">"}) {
-                        TraceManager.addDev("Working on delim: " + delim);
+                        //TraceManager.addDev("Working on delim: " + delim);
                         int indexBinaryOp = sane.substring(0, indexLParen).indexOf(delim, indexRParen + 1);
                         if (indexBinaryOp != -1) {
-                            TraceManager.addDev("Found delim!");
+                            //TraceManager.addDev("Found delim!");
                             AvatarTerm firstTerm = AvatarTerm.createFromString(block, sane.substring(0, indexBinaryOp));
                             AvatarTerm secondTerm = AvatarTerm.createFromString(block, sane.substring(indexBinaryOp + delim.length()));
-                            TraceManager.addDev("First term=" + firstTerm + "\nSecond term=" + secondTerm);
+                            //TraceManager.addDev("First term=" + firstTerm + "\nSecond term=" + secondTerm);
                             if (secondTerm != null && firstTerm != null)
                                 return new AvatarSimpleGuardDuo(firstTerm, secondTerm, delim);
                             return new AvatarGuardEmpty();

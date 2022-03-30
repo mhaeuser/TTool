@@ -119,13 +119,13 @@ public class FullTML2Avatar {
 
 
         for (TMLChannel chan : tmlmodel.getChannels()) {
-            //System.out.println("chan " + chan);
+            //TraceManager.addDev("chan " + chan);
             TMLTask task = chan.getOriginTask();
             TMLTask task2 = chan.getDestinationTask();
 
-            if (chan.getName().contains("fork__") || chan.getName().contains("FORKCHANNEL")) {
+            /*if (chan.getName().contains("fork__") || chan.getName().contains("FORKCHANNEL")) {
                 chan.setName(chan.getName().replaceAll("__", ""));
-            }
+            }*/
         }
 
         //Only set the loop limit if it's a number
@@ -283,7 +283,9 @@ public class FullTML2Avatar {
 
             //Add all signals
             for (TMLChannel chan : tmlmodel.getChannels(task)) {
+
                 if (chan.hasOriginTask(task)) {
+                    TraceManager.addDev("Handling channel: " + chan.getName() + " -> sig: " + chan.getOriginPort().getName() + "_out");
                     AvatarSignal sig = new AvatarSignal(chan.getOriginPort().getName() + "_out", AvatarSignal.OUT, chan.getReferenceObject());
 
                     block.addSignal(sig);
@@ -298,6 +300,7 @@ public class FullTML2Avatar {
                 }
 
                 if (chan.hasDestinationTask(task)) {
+                    TraceManager.addDev("Handling channel: " + chan.getName() + " -> sig: " + chan.getDestinationPort().getName() + "_out");
                     AvatarSignal sig = new AvatarSignal(chan.getDestinationPort().getName() + "_in", AvatarSignal.IN, chan.getReferenceObject());
                     block.addSignal(sig);
                     signals.add(sig);

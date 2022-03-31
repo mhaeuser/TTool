@@ -1121,30 +1121,39 @@ public class JDialogAvatarModelChecker extends javax.swing.JFrame implements Act
             TraceManager.addDev("Overall time: " + (timeEnd - timeBeg) + " ms");
 
             if (saveGraphAUT.isSelected()) {
-                graphAUT = amc.toAUT();
-                graphMode = GRAPH_OK;
-                //TraceManager.addDev("graph AUT=\n" + graph);
-
-                String autfile;
-                if (graphPath.getText().indexOf("$") != -1) {
-                    autfile = Conversion.replaceAllChar(graphPath.getText(), '$', dateAndTime);
-                } else {
-                    autfile = graphPath.getText();
+                boolean success = false;
+                try {
+                    graphAUT = amc.toAUT();
+                    success = true;
+                } catch (OutOfMemoryError e) {
+                    jta.append("Out of memory: graph is **too** large to be saved in AUT format\n");
                 }
 
-                try {
-                    RG rg = new RG(autfile);
-                    rg.data = graphAUT;
-                    rg.fileName = autfile;
-                    rg.nbOfStates = amc.getNbOfStates();
-                    rg.nbOfTransitions = amc.getNbOfLinks();
-                    File f = new File(autfile);
-                    rg.name = f.getName();
-                    mgui.addRG(rg);
-                    FileUtils.saveFile(autfile, graphAUT);
-                    jta.append("\nGraph saved in " + autfile + "\n");
-                } catch (Exception e) {
-                    jta.append("\nGraph could not be saved in " + autfile + "\n");
+                if (success) {
+                    graphMode = GRAPH_OK;
+                    //TraceManager.addDev("graph AUT=\n" + graph);
+
+                    String autfile;
+                    if (graphPath.getText().indexOf("$") != -1) {
+                        autfile = Conversion.replaceAllChar(graphPath.getText(), '$', dateAndTime);
+                    } else {
+                        autfile = graphPath.getText();
+                    }
+
+                    try {
+                        RG rg = new RG(autfile);
+                        rg.data = graphAUT;
+                        rg.fileName = autfile;
+                        rg.nbOfStates = amc.getNbOfStates();
+                        rg.nbOfTransitions = amc.getNbOfLinks();
+                        File f = new File(autfile);
+                        rg.name = f.getName();
+                        mgui.addRG(rg);
+                        FileUtils.saveFile(autfile, graphAUT);
+                        jta.append("\nGraph saved in " + autfile + "\n");
+                    } catch (Exception e) {
+                        jta.append("\nGraph could not be saved in " + autfile + "\n");
+                    }
                 }
             }
             if (saveGraphDot.isSelected()) {

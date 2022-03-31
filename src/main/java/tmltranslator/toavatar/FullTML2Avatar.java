@@ -178,7 +178,7 @@ public class FullTML2Avatar {
 
 
         for (TMLRequest request : tmlmodel.getRequests()) {
-            TraceManager.addDev("Handling request: " + request.getName());
+            //TraceManager.addDev("Handling request: " + request.getName());
 
             AvatarBlock bDest = taskBlockMap.get(request.getDestinationTask());
             AvatarRelation ar = new AvatarRelation(request.getName(), top,
@@ -290,8 +290,9 @@ public class FullTML2Avatar {
 
                     block.addSignal(sig);
                     signals.add(sig);
-                    AvatarAttribute channelData = new AvatarAttribute(chan.getOriginPort().getName() + "_chData", AvatarType.INTEGER, block, null);
-                    if (block.getAvatarAttributeWithName(chan.getOriginPort().getName() + "_chData") == null) {
+                    AvatarAttribute channelData = new AvatarAttribute(reworkStringName(chan.getOriginPort().getName() + "_chData"),
+                            AvatarType.INTEGER, block, null);
+                    if (block.getAvatarAttributeWithName(reworkStringName(chan.getOriginPort().getName() + "_chData")) == null) {
                         block.addAttribute(channelData);
                     }
                     //sig.addParameter(channelData);
@@ -301,12 +302,14 @@ public class FullTML2Avatar {
 
                 if (chan.hasDestinationTask(task)) {
                     //TraceManager.addDev("Handling channel: " + chan.getName() + " -> sig: " + chan.getDestinationPort().getName() + "_out");
-                    AvatarSignal sig = new AvatarSignal(chan.getDestinationPort().getName() + "_in", AvatarSignal.IN, chan.getReferenceObject());
+                    AvatarSignal sig = new AvatarSignal(reworkStringName(chan.getDestinationPort().getName() + "_in"), AvatarSignal.IN,
+                            chan.getReferenceObject());
                     block.addSignal(sig);
                     signals.add(sig);
                     signalInMap.put(chan.getName(), sig);
-                    AvatarAttribute channelData = new AvatarAttribute(getName(chan.getName()) + "_chData", AvatarType.INTEGER, block, null);
-                    if (block.getAvatarAttributeWithName(getName(chan.getName()) + "_chData") == null) {
+                    AvatarAttribute channelData = new AvatarAttribute(reworkStringName(getName(chan.getDestinationPort().getName()) + "_chData"), AvatarType.INTEGER,
+                            block, null);
+                    if (block.getAvatarAttributeWithName(reworkStringName(getName(chan.getDestinationPort().getName()) + "_chData")) == null) {
                         block.addAttribute(channelData);
                     }
                     //sig.addParameter(channelData);
@@ -315,10 +318,10 @@ public class FullTML2Avatar {
 
             // Add all events
             for (TMLEvent evt : tmlmodel.getEvents(task)) {
-                TraceManager.addDev("Handling evt: " + evt.getName() + " in task " + task.getName());
+                //TraceManager.addDev("Handling evt: " + evt.getName() + " in task " + task.getName());
                 if (evt.hasOriginTask(task)) {
                     String name = getNameReworked(evt.getName(), 1) + "_out";
-                    TraceManager.addDev("Adding OUT evt:" + name);
+                    //TraceManager.addDev("Adding OUT evt:" + name);
                     AvatarSignal sig = block.addSignalIfApplicable(name, AvatarSignal.OUT, evt.getReferenceObject());
                     signalOutMap.put(evt.getName(), sig);
 
@@ -334,7 +337,7 @@ public class FullTML2Avatar {
 
                 if (evt.hasDestinationTask(task)) {
                     String name = getNameReworked(evt.getName(), 3) + "_in";
-                    TraceManager.addDev("Adding IN evt:" + name);
+                    //TraceManager.addDev("Adding IN evt:" + name);
                     AvatarSignal sig = block.addSignalIfApplicable(name, AvatarSignal.IN, evt.getReferenceObject());
                     signalInMap.put(evt.getName(), sig);
 
@@ -553,7 +556,7 @@ public class FullTML2Avatar {
             // We assume one to one because fork and join have been removed
 
             if (channel.isBasicChannel()) {
-                TraceManager.addDev("Checking channel " + channel.getName());
+                //TraceManager.addDev("Checking channel " + channel.getName());
                 AvatarRelation ar = null;
 
 
@@ -594,7 +597,7 @@ public class FullTML2Avatar {
                 if (sig1.size() == 1 && sig2.size() == 1) {
 
                     if (channel.getType() == TMLChannel.NBRNBW && mc) {
-                        TraceManager.addDev("NBRNBW channel!!");
+                        //TraceManager.addDev("NBRNBW channel!!");
                         AvatarSignal read = fifo.getSignalByName("readSignal");
                         AvatarSignal write = fifo.getSignalByName("writeSignal");
 
@@ -685,9 +688,8 @@ public class FullTML2Avatar {
 
         for (TMLEvent event : tmlmodel.getEvents()) {
 
-            TraceManager.addDev("Handling Event:" + event.getName() + " 1:" + taskBlockMap.get(event.getOriginTask()).getName() + " 2:" + taskBlockMap
-                    .get
-                            (event.getDestinationTask()).getName());
+            //TraceManager.addDev("Handling Event:" + event.getName() + " 1:" + taskBlockMap.get(event.getOriginTask()).getName() + " 2:" +
+            // taskBlockMap.get(event.getDestinationTask()).getName());
 
             // For each event, we create a FIFO, and so a double relation
 
@@ -702,7 +704,7 @@ public class FullTML2Avatar {
             AvatarSignal sigIn = signalInMap.get(event.getName());
             ar.addSignals(sigOut, sigIn);
 
-            TraceManager.addDev("Relation for event " + event.getName() + " sigout:" + sigOut.getSignalName() + " sigin:" + sigIn.getSignalName());
+            //TraceManager.addDev("Relation for event " + event.getName() + " sigout:" + sigOut.getSignalName() + " sigin:" + sigIn.getSignalName());
 
             //AvatarSignal sigNotified = signalInMap.get(event.getName() + NOTIFIED);
             //ar.addSignals(sigOut, sigIn);
@@ -878,7 +880,7 @@ public class FullTML2Avatar {
             AvatarTransition signalTran = new AvatarTransition(block, "__after_signalstate_" + ae.getName() + "_" + req.getName(), ae.getReferenceObject());
             sig = signalRequest.get(req);
 
-            TraceManager.addDev("Found sig=" + sig.getSignalName());
+            //TraceManager.addDev("Found sig=" + sig.getSignalName());
 
             /*if (!signalOutMap.containsKey(req.getName())) {
                 sig = new AvatarSignal(getName(req.getName()+"_out"), AvatarSignal.OUT, req.getReferenceObject());
@@ -891,13 +893,13 @@ public class FullTML2Avatar {
 
             AvatarActionOnSignal as = new AvatarActionOnSignal(ae.getName(), sig, ae.getReferenceObject());
 
-            TraceManager.addDev("Send request in block " + block.getName() + " nb of params:" + sr.getNbOfParams());
+            //TraceManager.addDev("Send request in block " + block.getName() + " nb of params:" + sr.getNbOfParams());
 
             for (int i = 0; i < sr.getNbOfParams(); i++) {
 
                 if (block.getAvatarAttributeWithName(sr.getParam(i)) == null) {
                     //Throw Error
-                    TraceManager.addDev("Missing Attribute " + sr.getParam(i));
+                    //TraceManager.addDev("Missing Attribute " + sr.getParam(i));
                     as.addValue("tmp");
                 } else {
                     //	Add parameter to signal and actiononsignal
@@ -1079,7 +1081,7 @@ public class FullTML2Avatar {
             if (ae instanceof TMLSendEvent) {
 
                 AvatarSignal sig = signalOutMap.get(evt.getName());
-                TraceManager.addDev("sig=" + sig);
+                //TraceManager.addDev("sig=" + sig);
 
                 AvatarActionOnSignal as = new AvatarActionOnSignal(ae.getName(), sig, ae.getReferenceObject());
                 for (int i = 0; i < aee.getNbOfParams(); i++) {
@@ -1097,9 +1099,9 @@ public class FullTML2Avatar {
 
 
             } else if (ae instanceof TMLWaitEvent) {
-                TraceManager.addDev("Looking for IN evt: " + evt.getName());
+                //TraceManager.addDev("Looking for IN evt: " + evt.getName());
                 AvatarSignal sig = signalInMap.get(evt.getName());
-                TraceManager.addDev("sig=" + sig);
+                //TraceManager.addDev("sig=" + sig);
 
                 AvatarActionOnSignal as = new AvatarActionOnSignal(ae.getName(), sig, ae.getReferenceObject());
                 for (int i = 0; i < aee.getNbOfParams(); i++) {
@@ -1136,16 +1138,16 @@ public class FullTML2Avatar {
                 elementList.add(tran);
 
             } else {
-                TraceManager.addDev("Class: " + ae.getClass() +  " ae=" + ae.toString());
+                //TraceManager.addDev("Class: " + ae.getClass() +  " ae=" + ae.toString());
                 //Notify Event: we use a query signal
                 AvatarSignal sig = signalInMap.get(evt.getName());
 
                 String param = ((TMLActivityElementEvent)ae).getVariable();
                 AvatarAttribute at = block.getAvatarAttributeWithName(param);
                 if (at == null) {
-                    at = new AvatarAttribute(param, AvatarType.INTEGER, block, ae.getReferenceObject());
+                    at = new AvatarAttribute(reworkStringName(param), AvatarType.INTEGER, block, ae.getReferenceObject());
                 }
-                TraceManager.addDev("sig=" + sig);
+                //TraceManager.addDev("sig=" + sig);
                 AvatarQueryOnSignal aqos = new AvatarQueryOnSignal(ae.getName(), sig, at, ae.getReferenceObject());
 
                 tran = new AvatarTransition(block, "__after_" + ae.getName(), ae.getReferenceObject());
@@ -1594,8 +1596,8 @@ public class FullTML2Avatar {
             TMLChannel ch = aec.getChannel(0);
             AvatarSignal sig;
 
-            String nv = getName(ch.getName()) + "_chData";
-            block.addIntAttributeIfApplicable(nv);
+            //String nv = getName(ch.getName()) + "_chData";
+
 
             boolean checkAcc = false;
             if (ae.getReferenceObject() != null) {
@@ -1617,11 +1619,16 @@ public class FullTML2Avatar {
             AvatarTransition signalTranInit = new AvatarTransition(block, "_init_signalstate_" + ae.getName() + "_" + ch.getName(), ae
                     .getReferenceObject());
 
+            String nameCh;
             if (ae instanceof TMLReadChannel) {
                 sig = signalInMap.get(ch.getName());
+                nameCh = ch.getDestinationPort().getName();
             } else {
                 sig = signalOutMap.get(ch.getName());
+                nameCh = ch.getOriginPort().getName();
             }
+            nameCh = reworkStringName(nameCh + "_chData");
+            block.addIntAttributeIfApplicable(nameCh);
 
             if (sig == null) {
                 TraceManager.addDev("NULL signal for ch=" + ch.getName());
@@ -1639,13 +1646,13 @@ public class FullTML2Avatar {
             elementList.add(signalTran);
 
             signalState.addNext(signalTranInit);
-            signalTranInit.addAction(ch.getName() + "_chData = 0");
+            signalTranInit.addAction(nameCh + " = 0");
             signalTranInit.addNext(signalStateIntermediate);
             signalStateIntermediate.addNext(signalTran);
-            signalTran.setGuard(ch.getName() + "_chData < (" + aec.getNbOfSamples() + ")");
+            signalTran.setGuard(nameCh + "< (" + aec.getNbOfSamples() + ")");
             signalTran.addNext(as);
             as.addNext(signalTranBefore);
-            signalTranBefore.addAction(ch.getName() + "_chData = " + ch.getName() + "_chData + 1 ");
+            signalTranBefore.addAction(nameCh + " = " + nameCh + " + 1 ");
             signalTranBefore.addNext(signalStateIntermediate);
 
             signalStateIntermediate.addNext(tran);
@@ -1673,7 +1680,7 @@ public class FullTML2Avatar {
                 //transition to first element of loop
                 tran = new AvatarTransition(block, "loop_increment__" + ae.getName(), ae.getReferenceObject());
                 //Set default loop limit guard
-                tran.setGuard(AvatarGuard.createFromString(block, "loop_index != " + loopLimit));
+                tran.setGuard(reworkStringName(AvatarGuard.createFromString(block, "loop_index != " + loopLimit).toString()));
                 //tran.addAction(AvatarTerm.createActionFromString(block, "loop_index = loop_index + 1"));
                 tran.addNext(elements.get(0));
                 as.addNext(tran);
@@ -1737,7 +1744,7 @@ public class FullTML2Avatar {
                 //transition to first element of loop
                 tran = new AvatarTransition(block, "loop_increment__" + ae.getName(), ae.getReferenceObject());
                 //Set default loop limit guard
-                tran.setGuard(AvatarGuard.createFromString(block, loop.getCondition()));
+                tran.setGuard(reworkStringName( AvatarGuard.createFromString(block, loop.getCondition()).toString())) ;
                 /*AvatarGuard guard = */
                 //AvatarGuard.createFromString(block, loop.getCondition());
                 //tran.addAction(AvatarTerm.createActionFromString(block, loop.getIncrement()));
@@ -1783,7 +1790,7 @@ public class FullTML2Avatar {
             TMLChoice c = (TMLChoice) ae;
             for (int i = 0; i < c.getNbGuard(); i++) {
                 tran = new AvatarTransition(block, "__after_" + ae.getName() + "_" + i, ae.getReferenceObject());
-                tran.setGuard(c.getGuard(i));
+                tran.setGuard(reworkStringName(c.getGuard(i)));
                 as.addNext(tran);
                 List<AvatarStateMachineElement> nexts = translateState(ae.getNextElement(i), block);
                 if (nexts.size() > 0) {

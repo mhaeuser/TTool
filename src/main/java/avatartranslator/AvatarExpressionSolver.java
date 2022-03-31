@@ -42,6 +42,7 @@ import java.util.HashMap;
 import java.util.Map;
 import avatartranslator.modelchecker.SpecificationBlock;
 import avatartranslator.modelchecker.SpecificationState;
+import myutil.TraceManager;
 
 /**
  * Class AvatarExpressionSolver
@@ -79,7 +80,9 @@ public class AvatarExpressionSolver {
     }
     
     public AvatarExpressionSolver(String expression) {
+        //TraceManager.addDev("Making from expression");
         this.expression = expression.trim();
+        removeUselessBrackets();
         replaceOperators();
         left = null;
         right = null;
@@ -865,11 +868,35 @@ public class AvatarExpressionSolver {
     }
     
     private void removeUselessBrackets() {
+        //TraceManager.addDev("Removing first / final brackets");
         while (expression.startsWith("(") && expression.endsWith(")")) {
             if (getClosingBracket(1) == expression.length() - 1) {
                 expression = expression.substring(1, expression.length() - 1).trim();
             } else {
                 break;
+            }
+        }
+
+        //TraceManager.addDev("Removing dual brackets");
+        // Removing duplicate brackets
+        // typically ((x)) -> (x)
+        // Parse expression step by step, search for "((" schemes and look for corresponding brackets
+        for(int i=0; i<expression.length()-2; i++) {
+            String s1 = expression.substring(i, i+1);
+            if (s1.startsWith("(")) {
+                String s2 = expression.substring(i+1, i+2);
+                if (s2.startsWith("(")) {
+                    //TraceManager.addDev("Found dual at i=" + i);
+                    int index1 = getClosingBracket(i+1);
+                    int index2 = getClosingBracket(i+2);
+                    //TraceManager.addDev("Found dual at i=" + i + " index1=" + index1 + " index2=" + index2 + " expr=" + expression);
+                    if (index1 == index2+1) {
+                        // Two following brackets. We can remove one of them
+                       //TraceManager.addDev("old expression:" + expression);
+                       expression = expression.substring(0, i+1) + expression.substring(i+2, index2) + expression.substring(index1);
+                       //TraceManager.addDev("new expression:" + expression);
+                    }
+                }
             }
         }
     }

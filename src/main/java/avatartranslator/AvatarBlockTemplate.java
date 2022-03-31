@@ -211,7 +211,7 @@ public class AvatarBlockTemplate {
         ab.addAttribute(size);
 
         AvatarAttribute maxSize = new AvatarAttribute("maxSize", AvatarType.INTEGER, ab, _referenceRelation);
-        TraceManager.addDev("*********************************** Size of FIFO=" + _sizeOfFifo);
+        //TraceManager.addDev("*********************************** Size of FIFO=" + _sizeOfFifo);
         maxSize.setInitialValue("" + _sizeOfFifo);
         ab.addAttribute(maxSize);
 
@@ -386,7 +386,7 @@ public class AvatarBlockTemplate {
         ab.addAttribute(size);
 
         AvatarAttribute maxSize = new AvatarAttribute("maxSize", AvatarType.INTEGER, ab, _referenceRelation);
-        TraceManager.addDev("*********************************** Size of FIFO=" + _sizeOfFifo);
+        //TraceManager.addDev("*********************************** Size of FIFO=" + _sizeOfFifo);
         maxSize.setInitialValue("" + _sizeOfFifo);
         ab.addAttribute(maxSize);
 
@@ -929,7 +929,7 @@ public class AvatarBlockTemplate {
             at = makeAvatarEmptyTransitionBetween(ab, asm, mainState, newStepRead, _refB);
             at = makeAvatarEmptyTransitionBetween(ab, asm, newStepRead, mainState, _refB);
         }
-        TraceManager.addDev("Done");
+        //TraceManager.addDev("Done");
 
 
 
@@ -1088,7 +1088,7 @@ public class AvatarBlockTemplate {
         setDR.addParameter(attDR);
         ab.addSignal(setDR);
 
-        TraceManager.addDev("Main block: 1" );
+        //TraceManager.addDev("Main block: 1" );
 
         // Attributes
         AvatarAttribute nbHWTasks = new AvatarAttribute("nbHWTasks", AvatarType.INTEGER, ab, _refB);
@@ -1319,7 +1319,7 @@ public class AvatarBlockTemplate {
             at.addAction("remainHW = remainHW - " + hwSizes.get(cpt));
             at.addAction("delayDR = false");
             at.setDelays("1", "1");
-            TraceManager.addDev("Main block: 1.3" );
+            //TraceManager.addDev("Main block: 1.3" );
             cpt ++;
         }
 
@@ -1342,7 +1342,7 @@ public class AvatarBlockTemplate {
             at = makeAvatarEmptyTransitionBetween(ab, asm, blockNonSelected, deactivateHWWrite, _refB);
             at = makeAvatarEmptyTransitionBetween(ab, asm, deactivateHWWrite, blockNonSelected, _refB);
         }
-        TraceManager.addDev("Main block: 1.5" );
+        //TraceManager.addDev("Main block: 1.5" );
 
         // startDR state
         AvatarState startDR = new AvatarState("startDR", _refB);

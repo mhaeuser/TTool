@@ -49,6 +49,7 @@ package avatartranslator;
 import static org.junit.Assert.*;
 import static org.junit.Assert.assertTrue;
 
+import myutil.TraceManager;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -61,7 +62,6 @@ public class AvatarExpressionTest {
     private AvatarBlock block1, block2;
     
     public AvatarExpressionTest() {
-        
     }
     
     @Before
@@ -106,6 +106,7 @@ public class AvatarExpressionTest {
     
     @Test
     public void testImmediate() {
+        TraceManager.addDev("Testing AvatarExpressionTest.testImmediate");
         AvatarExpressionSolver e1 = new AvatarExpressionSolver("10 + 15 >= 20");
         assertTrue(e1.buildExpression());
         assertTrue(e1.getReturnType() == AvatarExpressionSolver.IMMEDIATE_BOOL);
@@ -121,6 +122,11 @@ public class AvatarExpressionTest {
         AvatarExpressionSolver e3 = new AvatarExpressionSolver("not(-10 / 2 - 15 * 2 + 1 == -(60 - 26))");
         assertTrue(e3.buildExpression());
         assertTrue(e3.getReturnType() == AvatarExpressionSolver.IMMEDIATE_BOOL);
+
+        TraceManager.addDev("Testing AvatarExpressionTest.testImmediate.e3bis");
+        AvatarExpressionSolver e3bis = new AvatarExpressionSolver("not((false))");
+        assertTrue(e3bis.buildExpression());
+        assertTrue(e3bis.getReturnType() == AvatarExpressionSolver.IMMEDIATE_BOOL);
 
         AvatarExpressionSolver e4 = new AvatarExpressionSolver("1 && 0 >= 1 || 0");
         assertFalse(e4.buildExpression());

@@ -268,11 +268,11 @@ public class AvatarSpecification extends AvatarElement {
     public String toString() {
         //Thread.currentThread().dumpStack();
         StringBuffer sb = new StringBuffer("Blocks:\n");
-        TraceManager.addDev("TS Block");
+        //TraceManager.addDev("TS Block");
         for (AvatarBlock block : blocks) {
             sb.append("*** " + block.toString() + "\n");
         }
-        TraceManager.addDev("TS Relations");
+        //TraceManager.addDev("TS Relations");
         sb.append("\nRelations:\n");
         for (AvatarRelation relation : relations) {
             sb.append("Relation:" + relation.toString() + "\n");
@@ -285,7 +285,7 @@ public class AvatarSpecification extends AvatarElement {
             sb.append("Constant:" + constant.toString() + "\n");
         }
 
-        TraceManager.addDev("TS All done");
+        //TraceManager.addDev("TS All done");
 
         return sb.toString();
     }
@@ -512,7 +512,7 @@ public class AvatarSpecification extends AvatarElement {
 
     private int removeFIFO(AvatarRelation _ar, int _sizeOfInfiniteFifo, List<AvatarRelation> _oldOnes, List<AvatarRelation> _newOnes, int FIFO_ID) {
         for (int i = 0; i < _ar.nbOfSignals(); i++) {
-            TraceManager.addDev("FIFO for AR: " + _ar.getBlock1().getName() + " --> " + _ar.getBlock2().getName());
+            //TraceManager.addDev("FIFO for AR: " + _ar.getBlock1().getName() + " --> " + _ar.getBlock2().getName());
             if (_ar.getSignal1(i).isIn()) {
                 FIFO_ID = removeFIFO(_ar, _ar.getSignal2(i), _ar.getSignal1(i), _sizeOfInfiniteFifo, _oldOnes, _newOnes, FIFO_ID, _ar.block2,
                         _ar.block1);
@@ -538,14 +538,14 @@ public class AvatarSpecification extends AvatarElement {
         AvatarRelation newAR1 = new AvatarRelation("FIFO_write_" + FIFO_ID, block1, fifoBlock, _ar.getReferenceObject());
         newAR1.setAsynchronous(false);
         newAR1.setPrivate(_ar.isPrivate());
-        TraceManager.addDev("FIFO. Connecting " + _sig1.getName() + " to write of FIFO " + fifoBlock.getName());
+        //TraceManager.addDev("FIFO. Connecting " + _sig1.getName() + " to write of FIFO " + fifoBlock.getName());
         newAR1.addSignals(_sig1, fifoBlock.getSignalByName("write"));
         _newOnes.add(newAR1);
 
         AvatarRelation newAR2 = new AvatarRelation("FIFO_read_" + FIFO_ID, fifoBlock, block2, _ar.getReferenceObject());
         newAR2.setAsynchronous(false);
         newAR2.setPrivate(_ar.isPrivate());
-        TraceManager.addDev("FIFO. Connecting FIFO " + fifoBlock.getName() + " read to " + _sig2.getName());
+        //TraceManager.addDev("FIFO. Connecting FIFO " + fifoBlock.getName() + " read to " + _sig2.getName());
         newAR2.addSignals(fifoBlock.getSignalByName("read"), _sig2);
         _newOnes.add(newAR2);
 
@@ -960,7 +960,7 @@ public class AvatarSpecification extends AvatarElement {
 
         // We have to update the state machines according to the graph
         for(AvatarBlock block: blocks) {
-            TraceManager.addDev("Handling block " + block.getName());
+            //TraceManager.addDev("Handling block " + block.getName());
             AvatarStateMachine asm = block.getStateMachine();
             // We first check if the start is still in the graph
             // If not, the state machine is empty: we just create a stop, and that's it

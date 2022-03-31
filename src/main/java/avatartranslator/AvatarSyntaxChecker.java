@@ -262,14 +262,14 @@ public class AvatarSyntaxChecker  {
             act = Conversion.putVariableValueInString(AvatarSpecification.ops, act, aa.getName(), aa.getDefaultInitialValue());
         }
 
-        TraceManager.addDev("Testing guard expr=" + act);
+        //TraceManager.addDev("Testing guard expr=" + act);
 
         AvatarExpressionSolver e1 = new AvatarExpressionSolver(act);
 
         if (e1.buildExpression()) {
-            TraceManager.addDev("Build ok. guard expr=" + act);
+            //TraceManager.addDev("Build ok. guard expr=" + act);
 
-            TraceManager.addDev("Testing evaluation. guard expr=" + act);
+            //TraceManager.addDev("Testing evaluation. guard expr=" + act);
 
             if (e1.getReturnType() != AvatarExpressionSolver.IMMEDIATE_BOOL) {
                 return -1;

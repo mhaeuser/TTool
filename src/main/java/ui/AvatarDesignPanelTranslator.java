@@ -2356,12 +2356,13 @@ public class AvatarDesignPanelTranslator {
                 || (toCheck.equalsIgnoreCase("else"))) {
             error = 0;
         } else {
-            TraceManager.addDev("Testing valid guard: " + toCheck);
+            //TraceManager.addDev("Testing valid guard: " + toCheck);
             error = AvatarSyntaxChecker.isAValidGuard(block.getAvatarSpecification(), block, toCheck);
-            TraceManager.addDev("guard Error? " + error);
+            //TraceManager.addDev("guard Error? " + error);
         }
 
         if (error < 0) {
+            TraceManager.addDev("guard error: " + toCheck);
             makeError(error, connector.tdp, block, connector, "transition guard", toCheck);
         } else {
             final AvatarGuard guard = AvatarGuard.createFromString(block, toCheck);

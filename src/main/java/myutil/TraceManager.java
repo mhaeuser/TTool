@@ -48,6 +48,8 @@ package myutil;
  * @author Ludovic APVRILLE
  */
 public class TraceManager {
+
+    public final static int SIZE_DEBUG_CLASS = 55;
 	
     public final static int TO_CONSOLE = 0;
     public final static int TO_FILE = 1;
@@ -61,7 +63,7 @@ public class TraceManager {
     public static void addDev(String res) {
         switch(devPolicy) {
             case TO_CONSOLE:
-                System.out.println(res);
+                System.out.println(String.format("%1$-" + SIZE_DEBUG_CLASS + "s", "[" + getCallerClassName() + "] ") + res);
                 break;
             case TO_DEVNULL:
                 break;
@@ -104,4 +106,17 @@ public class TraceManager {
     public static void addError( final Throwable error ) {
     	addError( null, error );
     }
+
+    public static String getCallerClassName() {
+        StackTraceElement[] stElements = Thread.currentThread().getStackTrace();
+        for (int i=1; i<stElements.length; i++) {
+            StackTraceElement ste = stElements[i];
+            if (!ste.getClassName().equals(TraceManager.class.getName()) && ste.getClassName().indexOf("java.lang.Thread")!=0) {
+                return ste.getClassName();
+            }
+        }
+        return null;
+    }
+
+
 } // Class TraceManager

@@ -203,6 +203,8 @@ public class AvatarGuardTests {
     public void testUnaryGuardCreation(){
         res= AvatarGuard.createFromString(A, "not(test)");
         assertTrue(res instanceof AvatarUnaryGuard);
+        res= AvatarGuard.createFromString(A, "not((test))");
+        assertTrue(res instanceof AvatarUnaryGuard);
         res= AvatarGuard.createFromString(A, "not(test==test2)");
         assertTrue(res instanceof AvatarUnaryGuard);
         res= AvatarGuard.createFromString(A, "not(key1==key2)");

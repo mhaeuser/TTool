@@ -64,7 +64,7 @@ public class AvatarBlockTemplate {
           ab.addAttribute(aa2);*/
         AvatarAttribute aa = new AvatarAttribute("value", AvatarType.INTEGER, ab, _referenceBlock);
         ab.addAttribute(aa);
-        /*AvatarAttribute aa1 = new AvatarAttribute("__value", AvatarType.INTEGER, _referenceBlock);
+        /*AvatarAttribute aa1 = new AvatarAttribute("_value", AvatarType.INTEGER, _referenceBlock);
           ab.addAttribute(aa1);*/
 
         AvatarSignal set = new AvatarSignal("set", AvatarSignal.IN, _referenceBlock);
@@ -182,7 +182,7 @@ public class AvatarBlockTemplate {
         for (AvatarAttribute aa : _sig1.getListOfAttributes()) {
             for (int i = 0; i < _sizeOfFifo; i++) {
                 AvatarAttribute newA = aa.advancedClone(null);
-                newA.setName("arg__" + aa.getName() + "__" + i);
+                newA.setName("arg_" + aa.getName() + "_" + i);
                 ab.addAttribute(newA);
             }
         }
@@ -191,7 +191,7 @@ public class AvatarBlockTemplate {
         if (_ar.isLossy()) {
             for (AvatarAttribute aa : _sig1.getListOfAttributes()) {
                 AvatarAttribute newL = aa.advancedClone(null);
-                newL.setName("loss__" + aa.getName());
+                newL.setName("loss_" + aa.getName());
                 ab.addAttribute(newL);
             }
         }
@@ -200,7 +200,7 @@ public class AvatarBlockTemplate {
         if (!(_ar.isBlocking())) {
             for (AvatarAttribute aa : _sig1.getListOfAttributes()) {
                 AvatarAttribute newL = aa.advancedClone(null);
-                newL.setName("bucket__" + aa.getName());
+                newL.setName("bucket_" + aa.getName());
                 ab.addAttribute(newL);
             }
         }
@@ -253,9 +253,9 @@ public class AvatarBlockTemplate {
         at.addAction("head=0");
 
         for (int i = 0; i < _sizeOfFifo; i++) {
-            AvatarActionOnSignal aaos_write = new AvatarActionOnSignal("write__" + i, write, _referenceRelation);
+            AvatarActionOnSignal aaos_write = new AvatarActionOnSignal("write_" + i, write, _referenceRelation);
             for (AvatarAttribute aa : _sig1.getListOfAttributes()) {
-                aaos_write.addValue("arg__" + aa.getName() + "__" + i);
+                aaos_write.addValue("arg_" + aa.getName() + "_" + i);
             }
             asm.addElement(aaos_write);
             at = makeAvatarEmptyTransitionBetween(ab, asm, main, aaos_write, _referenceRelation);
@@ -267,9 +267,9 @@ public class AvatarBlockTemplate {
         }
         // if is lossy, can write, and does not store this nor increase the fifo size
         if (_ar.isLossy()) {
-            AvatarActionOnSignal aaos_write_loss = new AvatarActionOnSignal("writeloss__", write, _referenceRelation);
+            AvatarActionOnSignal aaos_write_loss = new AvatarActionOnSignal("writeloss_", write, _referenceRelation);
             for (AvatarAttribute aa : _sig1.getListOfAttributes()) {
-                aaos_write_loss.addValue("loss__" + aa.getName());
+                aaos_write_loss.addValue("loss_" + aa.getName());
             }
             asm.addElement(aaos_write_loss);
             at = makeAvatarEmptyTransitionBetween(ab, asm, main, aaos_write_loss, _referenceRelation);
@@ -280,9 +280,9 @@ public class AvatarBlockTemplate {
         /// If maxSize has been reached
         // If it is blocking, then, the new message is written but not added
         if (!(_ar.isBlocking())) {
-            AvatarActionOnSignal aaos_write_bucket = new AvatarActionOnSignal("writebucket__", write, _referenceRelation);
+            AvatarActionOnSignal aaos_write_bucket = new AvatarActionOnSignal("writebucket_", write, _referenceRelation);
             for (AvatarAttribute aa : _sig1.getListOfAttributes()) {
-                aaos_write_bucket.addValue("bucket__" + aa.getName());
+                aaos_write_bucket.addValue("bucket_" + aa.getName());
             }
             asm.addElement(aaos_write_bucket);
             at = makeAvatarEmptyTransitionBetween(ab, asm, main, aaos_write_bucket, _referenceRelation);
@@ -299,9 +299,9 @@ public class AvatarBlockTemplate {
         at.setGuard("[tail==maxSize]");
         at.addAction("tail=0");
         for (int i = 0; i < _sizeOfFifo; i++) {
-            AvatarActionOnSignal aaos_read = new AvatarActionOnSignal("read__" + i, read, _referenceRelation);
+            AvatarActionOnSignal aaos_read = new AvatarActionOnSignal("read_" + i, read, _referenceRelation);
             for (AvatarAttribute aa : _sig1.getListOfAttributes()) {
-                aaos_read.addValue("arg__" + aa.getName() + "__" + i);
+                aaos_read.addValue("arg_" + aa.getName() + "_" + i);
             }
             asm.addElement(aaos_read);
             at = makeAvatarEmptyTransitionBetween(ab, asm, main, aaos_read, _referenceRelation);
@@ -357,7 +357,7 @@ public class AvatarBlockTemplate {
         for (AvatarAttribute aa : _sig1.getListOfAttributes()) {
             for (int i = 0; i < _sizeOfFifo; i++) {
                 AvatarAttribute newA = aa.advancedClone(null);
-                newA.setName("arg__" + aa.getName() + "__" + i);
+                newA.setName("arg_" + aa.getName() + "_" + i);
                 ab.addAttribute(newA);
             }
         }
@@ -366,7 +366,7 @@ public class AvatarBlockTemplate {
         if (_ar.isLossy()) {
             for (AvatarAttribute aa : _sig1.getListOfAttributes()) {
                 AvatarAttribute newL = aa.advancedClone(null);
-                newL.setName("loss__" + aa.getName());
+                newL.setName("loss_" + aa.getName());
                 ab.addAttribute(newL);
             }
         }
@@ -375,7 +375,7 @@ public class AvatarBlockTemplate {
         if (!(_ar.isBlocking())) {
             for (AvatarAttribute aa : _sig1.getListOfAttributes()) {
                 AvatarAttribute newL = aa.advancedClone(null);
-                newL.setName("bucket__" + aa.getName());
+                newL.setName("bucket_" + aa.getName());
                 ab.addAttribute(newL);
             }
         }
@@ -428,9 +428,9 @@ public class AvatarBlockTemplate {
         at.addAction("head=0");
 
         for (int i = 0; i < _sizeOfFifo; i++) {
-            AvatarActionOnSignal aaos_write = new AvatarActionOnSignal("write__" + i, write, _referenceRelation);
+            AvatarActionOnSignal aaos_write = new AvatarActionOnSignal("write_" + i, write, _referenceRelation);
             for (AvatarAttribute aa : _sig1.getListOfAttributes()) {
-                aaos_write.addValue("arg__" + aa.getName() + "__" + i);
+                aaos_write.addValue("arg_" + aa.getName() + "_" + i);
             }
             asm.addElement(aaos_write);
             at = makeAvatarEmptyTransitionBetween(ab, asm, main, aaos_write, _referenceRelation);
@@ -442,9 +442,9 @@ public class AvatarBlockTemplate {
         }
         // if is lossy, can write, and does not store this nor increase the fifo size
         if (_ar.isLossy()) {
-            AvatarActionOnSignal aaos_write_loss = new AvatarActionOnSignal("writeloss__", write, _referenceRelation);
+            AvatarActionOnSignal aaos_write_loss = new AvatarActionOnSignal("writeloss_", write, _referenceRelation);
             for (AvatarAttribute aa : _sig1.getListOfAttributes()) {
-                aaos_write_loss.addValue("loss__" + aa.getName());
+                aaos_write_loss.addValue("loss_" + aa.getName());
             }
             asm.addElement(aaos_write_loss);
             at = makeAvatarEmptyTransitionBetween(ab, asm, main, aaos_write_loss, _referenceRelation);
@@ -454,9 +454,9 @@ public class AvatarBlockTemplate {
 
         // If it is non blocking, then, the new message is written but not added
         if (!(_ar.isBlocking())) {
-            AvatarActionOnSignal aaos_write_bucket = new AvatarActionOnSignal("writebucket__", write, _referenceRelation);
+            AvatarActionOnSignal aaos_write_bucket = new AvatarActionOnSignal("writebucket_", write, _referenceRelation);
             for (AvatarAttribute aa : _sig1.getListOfAttributes()) {
-                aaos_write_bucket.addValue("bucket__" + aa.getName());
+                aaos_write_bucket.addValue("bucket_" + aa.getName());
             }
             asm.addElement(aaos_write_bucket);
             at = makeAvatarEmptyTransitionBetween(ab, asm, main, aaos_write_bucket, _referenceRelation);
@@ -473,9 +473,9 @@ public class AvatarBlockTemplate {
         at.setGuard("[tail==maxSize]");
         at.addAction("tail=0");
         for (int i = 0; i < _sizeOfFifo; i++) {
-            AvatarActionOnSignal aaos_read = new AvatarActionOnSignal("read__" + i, read, _referenceRelation);
+            AvatarActionOnSignal aaos_read = new AvatarActionOnSignal("read_" + i, read, _referenceRelation);
             for (AvatarAttribute aa : _sig1.getListOfAttributes()) {
-                aaos_read.addValue("arg__" + aa.getName() + "__" + i);
+                aaos_read.addValue("arg_" + aa.getName() + "_" + i);
             }
             asm.addElement(aaos_read);
             at = makeAvatarEmptyTransitionBetween(ab, asm, main, aaos_read, _referenceRelation);
@@ -570,7 +570,7 @@ public class AvatarBlockTemplate {
 
             // Wait for being unblocked
             for (AvatarSignal as : unblokedBySigs) {
-                AvatarActionOnSignal aaosRead = new AvatarActionOnSignal("read__" + as.getSignalName(), as, _refB);
+                AvatarActionOnSignal aaosRead = new AvatarActionOnSignal("read_" + as.getSignalName(), as, _refB);
                 asm.addElement(aaosRead);
                 at = makeAvatarEmptyTransitionBetween(ab, asm, waitForUnblock, aaosRead, _refB);
                 at = makeAvatarEmptyTransitionBetween(ab, asm, aaosRead, waitForUnblock, _refB);
@@ -582,7 +582,7 @@ public class AvatarBlockTemplate {
             at.setGuard("nbOfUnblocks == " + unblokedBySigs.size());
         } else if (unblokedBySigs.size() == 1){
             AvatarSignal as = unblokedBySigs.get(0);
-            AvatarActionOnSignal aaosRead = new AvatarActionOnSignal("read__" + as.getSignalName(), as, _refB);
+            AvatarActionOnSignal aaosRead = new AvatarActionOnSignal("read_" + as.getSignalName(), as, _refB);
             asm.addElement(aaosRead);
             at = makeAvatarEmptyTransitionBetween(ab, asm, ass, aaosRead, _refB);
             at = makeAvatarEmptyTransitionBetween(ab, asm, aaosRead, mainState, _refB);
@@ -628,7 +628,7 @@ public class AvatarBlockTemplate {
         AvatarStateMachineElement previous = unblockingState;
         // Adding all unblocking signals
         for(AvatarSignal as: unblokingBySigs) {
-            AvatarActionOnSignal aaosWrite = new AvatarActionOnSignal("write__" + as.getSignalName(), as, _refB);
+            AvatarActionOnSignal aaosWrite = new AvatarActionOnSignal("write_" + as.getSignalName(), as, _refB);
             asm.addElement(aaosWrite);
             at = makeAvatarEmptyTransitionBetween(ab, asm, previous, aaosWrite, _refB);
             previous = aaosWrite;
@@ -722,7 +722,7 @@ public class AvatarBlockTemplate {
 
             // Wait for being unblocked
             for (AvatarSignal as : unblokedBySigs) {
-                AvatarActionOnSignal aaosRead = new AvatarActionOnSignal("read__" + as.getSignalName(), as, _refB);
+                AvatarActionOnSignal aaosRead = new AvatarActionOnSignal("read_" + as.getSignalName(), as, _refB);
                 asm.addElement(aaosRead);
                 at = makeAvatarEmptyTransitionBetween(ab, asm, waitForUnblock, aaosRead, _refB);
                 at = makeAvatarEmptyTransitionBetween(ab, asm, aaosRead, waitForUnblock, _refB);
@@ -734,7 +734,7 @@ public class AvatarBlockTemplate {
             at.setGuard("nbOfUnblocks == " + unblokedBySigs.size());
         } else if (unblokedBySigs.size() == 1){
             AvatarSignal as = unblokedBySigs.get(0);
-            AvatarActionOnSignal aaosRead = new AvatarActionOnSignal("read__" + as.getSignalName(), as, _refB);
+            AvatarActionOnSignal aaosRead = new AvatarActionOnSignal("read_" + as.getSignalName(), as, _refB);
             asm.addElement(aaosRead);
             at = makeAvatarEmptyTransitionBetween(ab, asm, ass, aaosRead, _refB);
             at = makeAvatarEmptyTransitionBetween(ab, asm, aaosRead, mainState, _refB);
@@ -746,7 +746,7 @@ public class AvatarBlockTemplate {
         // Wait for being unblocked
         /*AvatarStateMachineElement previous = ass;
         for(AvatarSignal as: unblokedBySigs) {
-            AvatarActionOnSignal aaosRead = new AvatarActionOnSignal("read__" + as.getSignalName(), as, _refB);
+            AvatarActionOnSignal aaosRead = new AvatarActionOnSignal("read_" + as.getSignalName(), as, _refB);
             asm.addElement(aaosRead);
             at = makeAvatarEmptyTransitionBetween(ab, asm, previous, aaosRead, _refB);
             previous = aaosRead;
@@ -800,7 +800,7 @@ public class AvatarBlockTemplate {
         AvatarStateMachineElement previous = unblockingState;
         // Adding all unblocking signals
         for(AvatarSignal as: unblokingBySigs) {
-            AvatarActionOnSignal aaosWrite = new AvatarActionOnSignal("write__" + as.getSignalName(), as, _refB);
+            AvatarActionOnSignal aaosWrite = new AvatarActionOnSignal("write_" + as.getSignalName(), as, _refB);
             asm.addElement(aaosWrite);
             at = makeAvatarEmptyTransitionBetween(ab, asm, previous, aaosWrite, _refB);
             previous = aaosWrite;

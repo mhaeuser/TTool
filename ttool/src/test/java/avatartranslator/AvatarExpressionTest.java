@@ -123,10 +123,8 @@ public class AvatarExpressionTest {
         assertTrue(e3.buildExpression());
         assertTrue(e3.getReturnType() == AvatarExpressionSolver.IMMEDIATE_BOOL);
 
-        TraceManager.addDev("Testing AvatarExpressionTest.testImmediate.e3bis");
-        AvatarExpressionSolver e3bis = new AvatarExpressionSolver("not((false))");
-        assertTrue(e3bis.buildExpression());
-        assertTrue(e3bis.getReturnType() == AvatarExpressionSolver.IMMEDIATE_BOOL);
+        //TraceManager.addDev("Testing AvatarExpressionTest.testImmediate.e3bis");
+
 
         AvatarExpressionSolver e4 = new AvatarExpressionSolver("1 && 0 >= 1 || 0");
         assertFalse(e4.buildExpression());
@@ -154,13 +152,14 @@ public class AvatarExpressionTest {
 
         AvatarExpressionSolver e10 = new AvatarExpressionSolver("true && 0 >= 1 || false");
         assertTrue(e10.buildExpression());
+        assertEquals(AvatarExpressionSolver.IMMEDIATE_BOOL, e10.getReturnType());
 
         AvatarExpressionSolver e11 = new AvatarExpressionSolver("8/2*(2+2)");
         assertTrue(e11.buildExpression());
 
         AvatarExpressionSolver e12 = new AvatarExpressionSolver("not(!(not(true)))");
         assertTrue(e12.buildExpression());
-        assertTrue(e12.getReturnType() == AvatarExpressionSolver.IMMEDIATE_BOOL);
+        assertEquals(AvatarExpressionSolver.IMMEDIATE_BOOL, e12.getReturnType());
 
         AvatarExpressionSolver e13 = new AvatarExpressionSolver("!(not(true))");
         assertTrue(e13.buildExpression());
@@ -175,18 +174,33 @@ public class AvatarExpressionTest {
         assertTrue(e14.buildExpression());
         assertTrue(e14.getReturnType() == AvatarExpressionSolver.IMMEDIATE_INT);
 
-        assertTrue(e1.getResult() == 1);
-        assertTrue(e2.getResult() == 1);
-        assertTrue(e3.getResult() == 0);
-        assertTrue(e5.getResult() == 1);
-        assertTrue(e9.getResult() == 1);
-        assertTrue(e10.getResult() == 0);
-        assertTrue(e11.getResult() == 16);
-        assertTrue(e12.getResult() == 0);
-        assertTrue(e13.getResult() == 1);
+        // Testing extra parenthesis
+        AvatarExpressionSolver e15 = new AvatarExpressionSolver("not((false))");
+        assertTrue(e15.buildExpression());
+        assertTrue(e15.getReturnType() == AvatarExpressionSolver.IMMEDIATE_BOOL);
 
-        assertTrue(e14.getResult() == 5);
+        AvatarExpressionSolver e16 = new AvatarExpressionSolver("(((10 + ((15)))) >= (((20))))");
+        assertTrue(e16.buildExpression());
+        assertTrue(e16.getReturnType() == AvatarExpressionSolver.IMMEDIATE_BOOL);
 
+        AvatarExpressionSolver e17 = new AvatarExpressionSolver("((true)) && (((((0 >= 1))))) || not((not(false)))");
+        assertTrue(e17.buildExpression());
+        assertEquals(AvatarExpressionSolver.IMMEDIATE_BOOL, e17.getReturnType());
+
+
+        assertEquals(1, e1.getResult());
+        assertEquals(1, e2.getResult());
+        assertEquals(0, e3.getResult());
+        assertEquals(1, e5.getResult());
+        assertEquals(1, e9.getResult());
+        assertEquals(0, e10.getResult());
+        assertEquals(16, e11.getResult());
+        assertEquals(0, e12.getResult());
+        assertEquals(1, e13.getResult());
+        assertEquals(5, e14.getResult());
+        assertEquals(1, e15.getResult());
+        assertEquals(1, e16.getResult());
+        assertEquals(0, e17.getResult());
 
 
     }

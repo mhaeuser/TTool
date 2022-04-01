@@ -44,10 +44,7 @@ import org.apache.batik.anim.timing.Trace;
 import tmltranslator.*;
 
 import ui.tmlad.*;
-import ui.tmlcompd.TMLCChannelOutPort;
-import ui.tmlcompd.TMLCPortConnector;
-import ui.tmlcompd.TMLCPrimitiveComponent;
-import ui.tmlcompd.TMLCPrimitivePort;
+import ui.tmlcompd.*;
 
 
 import java.awt.*;
@@ -113,6 +110,8 @@ public class DrawerTMLModeling  {
             return;
         }
 
+        makePragmas(tmlspec, panel);
+
         TraceManager.addDev("Adding tasks");
         makeTasks(tmlspec, panel);
         panel.tmlctdp.repaint();
@@ -135,6 +134,27 @@ public class DrawerTMLModeling  {
 
     }
 
+    private void makePragmas(TMLModeling tmlspec, TMLComponentDesignPanel panel) {
+        TraceManager.addDev("The spec has " + tmlspec.getPragmas().size() + " pragmas");
+
+        if (tmlspec.getPragmas().size() == 0) {
+            return;
+        }
+
+        TMLPragma prag = new TMLPragma(60, 60, panel.tmlctdp.getMinX(),
+                panel.tmlctdp.getMaxX(), panel.tmlctdp.getMinY(), panel.tmlctdp.getMaxY(),
+                true, null, panel.tmlctdp);
+        panel.tmlctdp.addBuiltComponent(prag);
+
+        String value = "";
+        for(Object p: tmlspec.getPragmas()) {
+            value += (String)p + " ";
+        }
+
+        prag.setValue(value);
+        prag.makeValue();
+    }
+
     private void makeTasks(TMLModeling tmlspec, TMLComponentDesignPanel panel) {
         int taskID = 0;
         int nbOfTasks =  tmlspec.getTasks().size();
@@ -152,7 +172,7 @@ public class DrawerTMLModeling  {
         int myY = (int)(YCENTER + RADIUS * sin(2*Math.PI/nbOfTasks*id));
         int myType = TGComponentManager.TMLCTD_PCOMPONENT;
 
-        TraceManager.addDev("myX=" + myX + " myY=" + myY + " Adding built component");
+        //TraceManager.addDev("myX=" + myX + " myY=" + myY + " Adding built component");
 
 
         TMLCPrimitiveComponent comp = new TMLCPrimitiveComponent(myX, myY, panel.tmlctdp.getMinX(),
@@ -161,7 +181,7 @@ public class DrawerTMLModeling  {
         // Adding a built component
         panel.tmlctdp.addBuiltComponent(comp);
 
-        TraceManager.addDev("Width=" + comp.getWidth());
+        //TraceManager.addDev("Width=" + comp.getWidth());
 
         for(TMLAttribute attr: task.getAttributes()) {
             TAttribute ta;

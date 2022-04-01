@@ -63,16 +63,20 @@ import java.util.*;
  */
 public class TMLModeling<E> {
     public final String SEP1 = "_S_";
+
     // Security
     public List<String> securityPatterns;
     public List<SecurityPattern> secPatterns;
     public Map<String, List<String>> secChannelMap;
     public Map<SecurityPattern, List<TMLTask>> securityTaskMap;
+
+    // Tasks and communication
     private List<TMLTask> tasks;
     private List<TMLChannel> channels;
     private List<TMLRequest> requests;
     private List<TMLEvent> events;
     private List<String> pragmas;
+
     private TMLElement correspondance[]; // Link to graphical components
     private boolean optimized = false;
     private String[] ops = {">", "<", "+", "-", "*", "/", "[", "]", "(", ")", ":", "=", "==", ","};

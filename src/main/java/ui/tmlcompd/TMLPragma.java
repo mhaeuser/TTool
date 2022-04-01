@@ -225,7 +225,7 @@ public class TMLPragma extends TGCScalableWithoutInternalComponent {
 
     }
 
-    private void makeValue() {
+    public void makeValue() {
         values = Conversion.wrapText(value);
         properties.clear();
         for (String s : values) {

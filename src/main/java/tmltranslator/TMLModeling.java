@@ -2524,7 +2524,7 @@ public class TMLModeling<E> {
         TMLEvent[] evts = new TMLEvent[nb];
 
         for (i = 0; i < nb; i++) {
-            evts[i] = new TMLEvent("forkch" + id + "_out_" + i, _evt.getReferenceObject(), _evt.getMaxSize(), _evt.isBlocking());
+            evts[i] = new TMLEvent("forkevt" + id + "_out_" + i, _evt.getReferenceObject(), _evt.getMaxSize(), _evt.isBlocking());
             evts[i].setTasks(forkTask, _evt.getDestinationTasks().get(i));
             evts[i].setPorts(new TMLPort("forkevt" + id + "_out_" + i,
                     _evt.getReferenceObject()), _evt.getDestinationPorts().get(i));

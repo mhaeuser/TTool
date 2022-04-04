@@ -38,6 +38,7 @@
 
 package ui.window;
 
+import myutil.TraceManager;
 import ui.util.IconManager;
 
 import javax.swing.*;
@@ -150,16 +151,20 @@ public class JDialogTMLPragma extends JDialogBase implements ActionListener {
             if (!popupMenu.isVisible()) {
                 return false;
             }
+
             if (list.getSelectedValue() != null) {
+                //TraceManager.addDev("Selection value: " + list.getSelectedValue() + " subWord:" + subWord);
                 try {
-                    final String selectedSuggestion = (list.getSelectedValue()).substring(subWord.length());
+                    final String selectedSuggestion = list.getSelectedValue();
                     textarea.getDocument().insertString(insertionPosition, selectedSuggestion, null);
                     return true;
                 } catch (BadLocationException e1) {
-                    e1.printStackTrace();
+                    TraceManager.addDev("BadLocationException: " + e1.getMessage());
                 }
-                hideSuggestion();
+
             }
+
+            hideSuggestion();
             return false;
         }
 
@@ -188,13 +193,7 @@ public class JDialogTMLPragma extends JDialogBase implements ActionListener {
     private SuggestionPanel suggestion;
 
     protected void showSuggestionLater() {
-        SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                showSuggestion();
-            }
-
-        });
+        SwingUtilities.invokeLater(() -> showSuggestion());
     }
 
     protected void showSuggestion() {
@@ -210,7 +209,8 @@ public class JDialogTMLPragma extends JDialogBase implements ActionListener {
         String text = textarea.getText();
         int start = Math.max(0, position - 1);
         while (start > 0) {
-            if (!text.substring(start, start + 1).equals("(") && !text.substring(start, start + 1).equals(")") && !text.substring(start, start + 1).equals(",")) {
+            if (!text.substring(start, start + 1).equals("(") && !text.substring(start, start + 1).equals(")") &&
+                    !text.substring(start, start + 1).equals(",")) {
                 start--;
             } else {
                 start++;

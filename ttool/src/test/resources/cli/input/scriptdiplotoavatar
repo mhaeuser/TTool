@@ -5,15 +5,24 @@ action start
 wait 2
 #toto
 action open $model
+action select-panel AppParallel
 wait 4
 action check-syntax
+wait 1
 action avatar-rg -g rgmodelchecker_diplo_0.aut
-navigate-panel-to-right
+wait 1
+action select-panel AppSimple
+wait 1
 action check-syntax
+wait 1
 action avatar-rg -g rgmodelchecker_diplo_1.aut
-navigate-panel-to-right
+wait 1
+action sp AppElse
+wait 1
 action check-syntax
+wait 1
 action avatar-rg -g rgmodelchecker_diplo_2.aut
+wait 1
 action quit
-action quit
+
 

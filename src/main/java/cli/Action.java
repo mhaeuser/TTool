@@ -107,12 +107,10 @@ public class Action extends Command {
     private final static String DIPLO_DRAW_TML = "diplodocus-draw-tml";
 
 
-    private final static String NAVIGATE_PANEL_TO_LEFT = "navigate-panel-to-left";
-    private final static String NAVIGATE_PANEL_TO_RIGHT = "navigate-panel-to-right";
+    private final static String NAVIGATE_PANEL_TO_LEFT = "move-current-panel-to-left";
+    private final static String NAVIGATE_PANEL_TO_RIGHT = "move-current-panel-to-right";
 
     private final static String SELECT_PANEL = "select-panel";
-
-
 
     private final static String AVATAR_RG_GENERATION = "avatar-rg";
     private final static String AVATAR_UPPAAL_VALIDATE = "avatar-rg-validate";
@@ -496,6 +494,21 @@ public class Action extends Command {
                 }
 
                 interpreter.mgui.checkModelingSyntax(tp, true);
+
+                if (tp instanceof TMLComponentDesignPanel) {
+                    TMLModeling tmlm = interpreter.mgui.gtm.getTMLModeling();
+                    if (tmlm != null) {
+                        boolean ret = interpreter.mgui.gtm.generateFullAvatarFromTML();
+                        if (!ret) {
+                            return Interpreter.AVATAR_NO_SPEC;
+                        }
+                        AvatarSpecification avspec = interpreter.mgui.gtm.getAvatarSpecification();
+                        avspec.removeElseGuards();
+                    } else {
+                        return Interpreter.TML_NO_SPEC;
+                    }
+                }
+
                 return null;
             }
         };
@@ -916,11 +929,11 @@ public class Action extends Command {
             }
 
             public String getShortCommand() {
-                return "nptf";
+                return "mcptl";
             }
 
             public String getDescription() {
-                return "Select the edition panel on the left";
+                return "Move current panel to the left";
             }
 
             public String executeCommand(String command, Interpreter interpreter) {
@@ -940,19 +953,17 @@ public class Action extends Command {
             }
 
             public String getShortCommand() {
-                return "nptl";
+                return "mcptr";
             }
 
             public String getDescription() {
-                return "Select the edition panel on the right";
+                return "Move current panel to the right";
             }
 
             public String executeCommand(String command, Interpreter interpreter) {
                 if (!interpreter.isTToolStarted()) {
                     return Interpreter.TTOOL_NOT_STARTED;
                 }
-
-
 
                 interpreter.mgui.requestMoveRightTab(interpreter.mgui.getCurrentJTabbedPane().getSelectedIndex());
 
@@ -1014,7 +1025,8 @@ public class Action extends Command {
                 String counterPathAUT = "";
 
                 AvatarSpecification avspec = interpreter.mgui.gtm.getAvatarSpecification();
-                if(avspec == null) {
+
+                /*if(avspec == null) {
                     TMLModeling tmlm = interpreter.mgui.gtm.getTMLModeling();
                     if (tmlm != null) {
                         boolean ret = interpreter.mgui.gtm.generateFullAvatarFromTML();
@@ -1026,7 +1038,9 @@ public class Action extends Command {
                     } else {
                         return Interpreter.AVATAR_NO_SPEC;
                     }
-                }
+                }*/
+
+                //TraceManager.addDev("Specification: " + avspec.toString());
 
                 AvatarModelChecker amc = new AvatarModelChecker(avspec);
                 amc.setIgnoreEmptyTransitions(true);

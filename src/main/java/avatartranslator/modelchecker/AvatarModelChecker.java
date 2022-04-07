@@ -1227,7 +1227,7 @@ public class AvatarModelChecker implements Runnable, myutil.Graph {
                 if ((AvatarTransition.isActionType(tr.getType()) && (tr.clockMin == tr.clockMax) && (tr.clockMin == 0)) ||
                         tr.getType() == AvatarTransition.TYPE_EMPTY) {
                     // Must look for possible transitions from the same state
-                    if (!(tr.fromStateWithMoreThanOneTransition) || onlyOnetimeSameBlockTransition(tr, transitions)) {
+                    if (!(tr.fromStateWithMoreThanOneTransition) /*|| onlyOnetimeSameBlockTransition(tr, transitions)*/) {
                         st = tr;
                         if (ignoreInternalStates) { // New behavior
                             computeAllInternalStatesFrom(_ss, st);

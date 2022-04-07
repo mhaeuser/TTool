@@ -2917,7 +2917,7 @@
 <MainCode value="}"/>
 <Optimized value="true" />
 <considerTimingOperators value="true" />
-<Validated value="" />
+<Validated value="Block1;Block0;Block;" />
 <Ignored value="" />
 
 <CONNECTOR type="5002" id="1480" index="0" uid="1af3c954-8366-4172-b898-254ca7efa1b5" >

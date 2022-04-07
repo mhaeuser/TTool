@@ -1184,8 +1184,7 @@ public class AvatarModelChecker implements Runnable, myutil.Graph {
 
             for (AvatarStateMachineElement elt : ase.getNexts()) {
                 if (elt instanceof AvatarTransition) {
-                    handleAvatarTransition((AvatarTransition) elt, block, sb, cpt, transitions,
-                            ase.getNexts().size() > 1);
+                    handleAvatarTransition((AvatarTransition) elt, block, sb, cpt, transitions, ase.getNexts().size() > 1);
                 }
             }
 
@@ -1224,10 +1223,9 @@ public class AvatarModelChecker implements Runnable, myutil.Graph {
             SpecificationTransition st = null;
             // See whether there is at least one transition with an immediate internal action with no alternative in the same block
             for (SpecificationTransition tr : transitions) {
-                if ((AvatarTransition.isActionType(tr.getType()) && (tr.clockMin == tr.clockMax) && (tr.clockMin == 0)) ||
-                        tr.getType() == AvatarTransition.TYPE_EMPTY) {
+                if ((AvatarTransition.isActionType(tr.getType()) && (tr.clockMin == tr.clockMax) && (tr.clockMin == 0)) || tr.getType() == AvatarTransition.TYPE_EMPTY) {
                     // Must look for possible transitions from the same state
-                    if (!(tr.fromStateWithMoreThanOneTransition) /*|| onlyOnetimeSameBlockTransition(tr, transitions)*/) {
+                    if (!(tr.fromStateWithMoreThanOneTransition)) {
                         st = tr;
                         if (ignoreInternalStates) { // New behavior
                             computeAllInternalStatesFrom(_ss, st);
@@ -1389,20 +1387,6 @@ public class AvatarModelChecker implements Runnable, myutil.Graph {
         mustStop();
     }
 
-    private boolean onlyOnetimeSameBlockTransition(SpecificationTransition st, ArrayList<SpecificationTransition> transitions ) {
-        
-        AvatarStateMachineOwner block = st.transitions[0].getBlock();
-        for(SpecificationTransition specTr: transitions) {
-            if (specTr != st) {
-                if (specTr.transitions[0].getBlock() == block) {
-                    //TraceManager.addDev("Return false in onlyOnetimeSameBlockTransition");
-                    return false;
-                }
-            }
-        }
-        //TraceManager.addDev("Return true in onlyOnetimeSameBlockTransition");
-        return true;
-    }
 
     private void computeAllInternalStatesFrom(SpecificationState _ss, SpecificationTransition st) {
         SpecificationState newState = _ss.advancedClone();
@@ -1702,8 +1686,7 @@ public class AvatarModelChecker implements Runnable, myutil.Graph {
         //return evaluateBoolExpression(s, _block, _sb);
     }
 
-    private void handleAvatarTransition(AvatarTransition _at, AvatarBlock _block, SpecificationBlock _sb, int _indexOfBlock,
-                                        ArrayList<SpecificationTransition> _transitionsToAdd, boolean _fromStateWithMoreThanOneTransition) {
+    private void handleAvatarTransition(AvatarTransition _at, AvatarBlock _block, SpecificationBlock _sb, int _indexOfBlock, ArrayList<SpecificationTransition> _transitionsToAdd, boolean _fromStateWithMoreThanOneTransition) {
         if (_at.type == AvatarTransition.UNDEFINED) {
             return;
         }

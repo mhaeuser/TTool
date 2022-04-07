@@ -63,9 +63,10 @@ public class CLIDiploToAvatarTest extends AbstractTest implements InterpreterOut
     private final static String PATH_TO_EXPECTED_FILE = "cli/expected/";
     private StringBuilder outputResult;
 
-    private final int[] statesInfo = {430, 102, 102};
+    private final int[] statesInfo = {5285, 350, 350};
+    private final int[] transitionsInfo = {13903, 649, 649};
+
     private final int[] statesMinimizeInfo = {63, 21, 21};
-    private final int[] transitionsInfo = {499, 111, 111};
     private final int[] transitionsMinimizeInfo = {132, 30, 30};
 
 	
@@ -122,6 +123,7 @@ public class CLIDiploToAvatarTest extends AbstractTest implements InterpreterOut
             graph.computeStates();
 
             System.out.println("i=" + i + "/ RG states=" + graph.getNbOfStates() + " transitions=" + graph.getNbOfTransitions());
+
 
             assertTrue(graph.getNbOfStates() == statesInfo[i]);
             assertTrue(graph.getNbOfTransitions() == transitionsInfo[i]);

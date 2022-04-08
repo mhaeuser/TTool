@@ -121,17 +121,17 @@ void init_signals()	{
 	sig[cwl_ch_out].f = false;
 	sig[cwl_ch_out].pBuff = (FEP_BUFFER_TYPE*) &buff_cwl_ch_out;
 
-	sig[JOINPORTORIGIN_S_Zigbee_TX__cwpQ_ch_out__sink_ch_in__cwpI_ch_out].f = false;
-	sig[JOINPORTORIGIN_S_Zigbee_TX__cwpQ_ch_out__sink_ch_in__cwpI_ch_out].pBuff = /* USER TO DO */;
+	sig[joinch_0_out].f = false;
+	sig[joinch_0_out].pBuff = /* USER TO DO */;
 
 	sig[symbol2ChipSeq_ch_out].f = false;
 	sig[symbol2ChipSeq_ch_out].pBuff = (MAPPER_BUFFER_TYPE*) &buff_symbol2ChipSeq_ch_out;
 
-	sig[FORKPORTORIGIN_S_0_S_Zigbee_TX__cwl_ch_out__cwpQ_ch_in__cwpI_ch_in].f = false;
-	sig[FORKPORTORIGIN_S_0_S_Zigbee_TX__cwl_ch_out__cwpQ_ch_in__cwpI_ch_in].pBuff = /* USER TO DO */;
+	sig[forkch0_out_0].f = false;
+	sig[forkch0_out_0].pBuff = /* USER TO DO */;
 
-	sig[FORKPORTORIGIN_S_1_S_Zigbee_TX__cwl_ch_out__cwpQ_ch_in__cwpI_ch_in].f = false;
-	sig[FORKPORTORIGIN_S_1_S_Zigbee_TX__cwl_ch_out__cwpQ_ch_in__cwpI_ch_in].pBuff = /* USER TO DO */;
+	sig[forkch0_out_1].f = false;
+	sig[forkch0_out_1].pBuff = /* USER TO DO */;
 
 	sig[cwpQ_ch_out].f = false;
 	sig[cwpQ_ch_out].pBuff = (FEP_BUFFER_TYPE*) &buff_cwpQ_ch_out;
@@ -145,8 +145,8 @@ void init_signals()	{
 	sig[chip2octet_ch_out_CP].f = false;
 	sig[chip2octet_ch_out_CP].pBuff = (INTERLEAVER_BUFFER_TYPE*) &buff_chip2octet_ch_out;
 
-	sig[JOINPORTORIGIN_S_Zigbee_TX__cwpQ_ch_out__sink_ch_in__cwpI_ch_out_CP].f = false;
-	sig[JOINPORTORIGIN_S_Zigbee_TX__cwpQ_ch_out__sink_ch_in__cwpI_ch_out_CP].pBuff = /* USER TO DO */;
+	sig[joinch_0_out_CP].f = false;
+	sig[joinch_0_out_CP].pBuff = /* USER TO DO */;
 
 	sig[Source_ch_out_CP].f = false;
 	sig[Source_ch_out_CP].pBuff = (MM_BUFFER_TYPE*) &buff_Source_ch_out;

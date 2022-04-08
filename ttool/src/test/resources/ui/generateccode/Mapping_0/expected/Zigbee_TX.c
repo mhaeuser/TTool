@@ -62,7 +62,7 @@ int op_F_Symbol2ChipSeq()	{
 int op_F_Sink()	{
 
 	int status = 0;
-	sig[JOINPORTORIGIN_S_Zigbee_TX__cwpI_ch_out__cwpQ_ch_out__sink_ch_in_CP].f = false;
+	sig[joinch_0_out_CP].f = false;
 	adaif_wait(&X_Sink_ctx);
 	status = adaif_wait(&X_Sink_ctx);
 	sig[sink_ch_in].f = true;
@@ -87,12 +87,12 @@ int op_F_CWL()	{
 int op_F_CWP_Q()	{
 
 	int status = 0;
-	sig[FORKPORTORIGIN_S_0_S_Zigbee_TX__cwl_ch_out__cwpQ_ch_in__cwpI_ch_in].f = false;
+	sig[forkch0_out_0].f = false;
 	/*firm instruction*/
-	fep_set_l(&X_CWP_Q_ctx, ((FEP_BUFFER_TYPE*)sig[FORKPORTORIGIN_S_0_S_Zigbee_TX__cwl_ch_out__cwpQ_ch_in__cwpI_ch_in].pBuff)->num_samples);
-	fep_set_qx(&X_CWP_Q_ctx, ((FEP_BUFFER_TYPE*)sig[FORKPORTORIGIN_S_0_S_Zigbee_TX__cwl_ch_out__cwpQ_ch_in__cwpI_ch_in].pBuff)->bank);
-	fep_set_bx(&X_CWP_Q_ctx, ((FEP_BUFFER_TYPE*)sig[FORKPORTORIGIN_S_0_S_Zigbee_TX__cwl_ch_out__cwpQ_ch_in__cwpI_ch_in].pBuff)->base_address);
-	fep_set_tx(&X_CWP_Q_ctx, ((FEP_BUFFER_TYPE*)sig[FORKPORTORIGIN_S_0_S_Zigbee_TX__cwl_ch_out__cwpQ_ch_in__cwpI_ch_in].pBuff)->data_type);
+	fep_set_l(&X_CWP_Q_ctx, ((FEP_BUFFER_TYPE*)sig[forkch0_out_0].pBuff)->num_samples);
+	fep_set_qx(&X_CWP_Q_ctx, ((FEP_BUFFER_TYPE*)sig[forkch0_out_0].pBuff)->bank);
+	fep_set_bx(&X_CWP_Q_ctx, ((FEP_BUFFER_TYPE*)sig[forkch0_out_0].pBuff)->base_address);
+	fep_set_tx(&X_CWP_Q_ctx, ((FEP_BUFFER_TYPE*)sig[forkch0_out_0].pBuff)->data_type);
 	/*start execution*/
 	status = fep_do(&X_CWP_Q_ctx);
 	sig[cwpQ_ch_out].f = true;
@@ -102,12 +102,12 @@ int op_F_CWP_Q()	{
 int op_F_CWP_I()	{
 
 	int status = 0;
-	sig[FORKPORTORIGIN_S_1_S_Zigbee_TX__cwl_ch_out__cwpQ_ch_in__cwpI_ch_in].f = false;
+	sig[forkch0_out_1].f = false;
 	/*firm instruction*/
-	fep_set_l(&X_CWP_I_ctx, ((FEP_BUFFER_TYPE*)sig[FORKPORTORIGIN_S_1_S_Zigbee_TX__cwl_ch_out__cwpQ_ch_in__cwpI_ch_in].pBuff)->num_samples);
-	fep_set_qx(&X_CWP_I_ctx, ((FEP_BUFFER_TYPE*)sig[FORKPORTORIGIN_S_1_S_Zigbee_TX__cwl_ch_out__cwpQ_ch_in__cwpI_ch_in].pBuff)->bank);
-	fep_set_bx(&X_CWP_I_ctx, ((FEP_BUFFER_TYPE*)sig[FORKPORTORIGIN_S_1_S_Zigbee_TX__cwl_ch_out__cwpQ_ch_in__cwpI_ch_in].pBuff)->base_address);
-	fep_set_tx(&X_CWP_I_ctx, ((FEP_BUFFER_TYPE*)sig[FORKPORTORIGIN_S_1_S_Zigbee_TX__cwl_ch_out__cwpQ_ch_in__cwpI_ch_in].pBuff)->data_type);
+	fep_set_l(&X_CWP_I_ctx, ((FEP_BUFFER_TYPE*)sig[forkch0_out_1].pBuff)->num_samples);
+	fep_set_qx(&X_CWP_I_ctx, ((FEP_BUFFER_TYPE*)sig[forkch0_out_1].pBuff)->bank);
+	fep_set_bx(&X_CWP_I_ctx, ((FEP_BUFFER_TYPE*)sig[forkch0_out_1].pBuff)->base_address);
+	fep_set_tx(&X_CWP_I_ctx, ((FEP_BUFFER_TYPE*)sig[forkch0_out_1].pBuff)->data_type);
 	/*start execution*/
 	status = fep_do(&X_CWP_I_ctx);
 	sig[cwpI_ch_out].f = true;
@@ -140,10 +140,10 @@ int op_CP_Chip2Octet_CWL()	{
 
 int op_CP_sink()	{
 	int status = 0;
-	sig[ JOINPORTORIGIN_S_Zigbee_TX__cwpI_ch_out__cwpQ_ch_out__sink_ch_in ].f = false;
+	sig[ joinch_0_out ].f = false;
 	embb_mem2ip((EMBB_CONTEXT *)&CP_sink_ctx_0, (uintptr_t) fep_mss, 0/* USER TO DO */, 0/* USER TO DO */ );
 	embb_mem2ip((EMBB_CONTEXT *)&CP_sink_ctx_1, (uintptr_t) fep_mss, 0/* USER TO DO */, 0/* USER TO DO */ );
-	sig[ JOINPORTORIGIN_S_Zigbee_TX__cwpI_ch_out__cwpQ_ch_out__sink_ch_in_CP ].f = true;
+	sig[ joinch_0_out_CP ].f = true;
 	return status;
 }
 
@@ -182,7 +182,7 @@ bool fr_F_Symbol2ChipSeq( void )	{
 }
 
 bool fr_F_Sink( void )	{
-	return (( sig[ JOINPORTORIGIN_S_Zigbee_TX__cwpI_ch_out__cwpQ_ch_out__sink_ch_in_CP ].f ));
+	return (( sig[ joinch_0_out_CP ].f ));
 }
 
 bool fr_F_CWL( void )	{
@@ -190,11 +190,11 @@ bool fr_F_CWL( void )	{
 }
 
 bool fr_F_CWP_Q( void )	{
-	return (( sig[ FORKPORTORIGIN_S_0_S_Zigbee_TX__cwl_ch_out__cwpQ_ch_in__cwpI_ch_in ].f ) && ( !sig[ cwpQ_ch_out ].f ));
+	return (( sig[ forkch0_out_0 ].f ) && ( !sig[ cwpQ_ch_out ].f ));
 }
 
 bool fr_F_CWP_I( void )	{
-	return (( sig[ FORKPORTORIGIN_S_1_S_Zigbee_TX__cwl_ch_out__cwpQ_ch_in__cwpI_ch_in ].f ) && ( !sig[ cwpI_ch_out ].f ));
+	return (( sig[ forkch0_out_1 ].f ) && ( !sig[ cwpI_ch_out ].f ));
 }
 
 bool fr_F_Chip2Octet( void )	{
@@ -212,7 +212,7 @@ bool fr_CP_Chip2Octet_CWL( void )	{
 }
 
 bool fr_CP_sink( void )	{
-	return ( ( sig[ JOINPORTORIGIN_S_Zigbee_TX__cwpI_ch_out__cwpQ_ch_out__sink_ch_in ].f ) &&( !sig[ JOINPORTORIGIN_S_Zigbee_TX__cwpI_ch_out__cwpQ_ch_out__sink_ch_in_CP ].f ) );
+	return ( ( sig[ joinch_0_out ].f ) &&( !sig[ joinch_0_out_CP ].f ) );
 }
 
 bool fr_CP_Source_to_Bits2Symbol( void )	{

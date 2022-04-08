@@ -53,7 +53,7 @@ public class TestGTURTLEModeling extends AbstractUITest {
             } catch (Exception ignored) {
             }*/
             try {
-                final IComparisonReport difference = textComparator.compare( new File( codeDir ), new File( codeDirExpected ) );
+                final IComparisonReport difference = textComparator.compare( new File( codeDirExpected ), new File( codeDir ) );
 
                 if ( difference.containsDiff() ) {
                     difference.print();
@@ -70,18 +70,18 @@ public class TestGTURTLEModeling extends AbstractUITest {
         }
     }
 
-    @Test
+    /*@Test
     public void testGenerateCCodeMapping0() {
         testGenerateCCode( "Mapping_0" );
-    }
+    }*/
 
     @Test
     public void testGenerateCCodeMapping1() {
         testGenerateCCode( "Mapping_1" );
     }
 
-    @Test
+    /*@Test
     public void testGenerateCCodeMapping2() {
         testGenerateCCode( "Mapping_2" );
-    }
+    }*/
 }

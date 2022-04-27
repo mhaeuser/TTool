@@ -48,14 +48,29 @@ TMLbrnbwChannel::TMLbrnbwChannel(ID iID, std::string iName, unsigned int iWidth,
 void TMLbrnbwChannel::testWrite(TMLTransaction* iTrans){
 	_nbToWrite=iTrans->getVirtualLength();
 	_writeTrans=iTrans;
-	setTransactionLength();
+
+	if (_nbToRead<=_content){
+		_writeTrans->setVirtualLength(_nbToWrite);
+		_underflow=false;
+	}else{
+		_writeTrans->setVirtualLength(min(_nbToRead-_content,_nbToWrite));
+		_underflow=true;
+	}
 }
 
 void TMLbrnbwChannel::testRead(TMLTransaction* iTrans){
 	//std::cout << "brnbw test read."<< std::endl;
 	_nbToRead=iTrans->getVirtualLength();
 	_readTrans=iTrans;
-	setTransactionLength();
+        _readTrans->setVirtualLength(min(_content,_nbToRead));
+        if (_writeTrans!=0 && _nbToRead > _content){
+            unsigned int aLength=_nbToRead-_content;
+            if (aLength < _writeTrans->getVirtualLength()){
+     	       _writeTrans->setVirtualLength(aLength);
+     	       _writeTrans->setTransType(BUS_TRANS_NoLength);
+     	       _underflow=true;
+     	    }
+         }
 }
 
 void TMLbrnbwChannel::write(){
@@ -78,7 +93,11 @@ void TMLbrnbwChannel::write(){
 #ifdef LOSS_ENABLED
 	}
 #endif	
-	if (_readTrans!=0 && _readTrans->getVirtualLength()==0) _readTrans->setRunnableTime(_writeTrans->getEndTime());
+	if (_readTrans!=0 && _readTrans->getVirtualLength()==0){
+		_readTrans->setRunnableTime(_writeTrans->getEndTime());
+		_readTrans->setVirtualLength(min(_content,_nbToRead));
+		_overflow=false;
+	}
 	_nbToWrite=0;
 	//FOR_EACH_TRANSLISTENER (*i)->transExecuted(_writeTrans);
 #ifdef LISTENERS_ENABLED
@@ -99,7 +118,6 @@ bool TMLbrnbwChannel::read(){
 		NOTIFY_READ_TRANS_EXECUTED(_readTrans);
 #endif
 		_readTrans=0;
-		setTransactionLength();
 		return true;
 	}
 }

@@ -79,6 +79,7 @@ public class TMLSyntaxChecking {
 
     private final String INVALID_NB_OF_GUARD = "The number of guards is not equal to the number of next elements";
 
+    private final String AT_LEAST_ONE_MEMORY_PER_CHANNEL = "Channel must be mapped to one memory";
     private final String TOO_MANY_MEMORIES = "Channel is mapped on more than one memory";
     private final String INVALID_CHANNEL_PATH = "Channel path is invalid";
     private final String INVALID_BUS_PATH = "Bus path is invalid for channel"; // Should be a warning only
@@ -790,7 +791,10 @@ public class TMLSyntaxChecking {
         while (channelIt.hasNext()) {
             TMLChannel ch = channelIt.next();
             int n = mapping.getNbOfMemoriesOfChannel(ch);
-            if (n > 1) {
+            if (n == 0) {
+                // Too few memories
+                addError(null, null, AT_LEAST_ONE_MEMORY_PER_CHANNEL + ": " + ch.getName(), TMLError.ERROR_STRUCTURE);
+            } else if (n > 1) {
                 // Too many memories
                 String s = mapping.getStringOfMemoriesOfChannel(ch);
                 addError(null, null, TOO_MANY_MEMORIES + ": " + ch.getName() + " mapped in " + s, TMLError.ERROR_STRUCTURE);

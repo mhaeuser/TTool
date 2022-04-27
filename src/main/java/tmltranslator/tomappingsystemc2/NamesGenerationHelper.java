@@ -423,6 +423,9 @@ public class NamesGenerationHelper {
     String busMasterName(final HwNode element,
                          final int indexCore,
                          final HwBus linkBus) {
+        if ((element == null) || (linkBus == null)) {
+            return "error";
+        }
         return element.getName() + indexSuffix(indexCore) + "_" + linkBus.getName() + "_Master";
     }
 

@@ -79,6 +79,7 @@ public class TMLSyntaxChecking {
 
     private final String INVALID_NB_OF_GUARD = "The number of guards is not equal to the number of next elements";
 
+    private final String ONE_BUS_PER_MEMORY = "Each memory must be connected to exactly one bus";
     private final String AT_LEAST_ONE_MEMORY_PER_CHANNEL = "Channel must be mapped to one memory";
     private final String TOO_MANY_MEMORIES = "Channel is mapped on more than one memory";
     private final String INVALID_CHANNEL_PATH = "Channel path is invalid";
@@ -138,6 +139,7 @@ public class TMLSyntaxChecking {
 
         // Mapping or architecture
         if (mapping != null) {
+            checkMemoryConnections();
             checkMemoriesOfChannels();
             checkPathToMemory();
             checkPathValidity();
@@ -782,6 +784,31 @@ public class TMLSyntaxChecking {
         }
         return ret;
     }
+
+    public void checkMemoryConnections() {
+        if (mapping == null) {
+            return;
+        }
+
+        TMLArchitecture tmlArchitecture = mapping.getTMLArchitecture();
+        if (tmlArchitecture == null) {
+            return;
+        }
+
+        for(HwNode node: tmlArchitecture.getMemories()) {
+            int cpt = 0;
+            for(HwLink link: tmlArchitecture.getHwLinks()) {
+                if (link.hwnode == node) {
+                    cpt ++;
+                    if (cpt > 1) {
+                        addError(null, null, ONE_BUS_PER_MEMORY + ": " + node.getName(), TMLError.ERROR_STRUCTURE);
+                        break;
+                    }
+                }
+            }
+        }
+    }
+
 
 
     // Mapping

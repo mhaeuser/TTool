@@ -92,7 +92,7 @@ public class DiplodocusSimulatorTest extends AbstractTest {
 
             assertTrue(syntax.hasErrors() == 0);
 
-            // Generate SystemC code
+            // Generate C code
             System.out.println("executing: sim code gen for " + s);
             final IDiploSimulatorCodeGenerator tml2systc;
             List<EBRDD> al = new ArrayList<EBRDD>();

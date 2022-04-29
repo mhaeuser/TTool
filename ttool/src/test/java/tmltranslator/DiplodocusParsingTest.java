@@ -24,8 +24,8 @@ import static org.junit.Assert.*;
 
 public class DiplodocusParsingTest extends AbstractTest {
 
-    final String [] MODELS = {"test_parsing_1", "test_parsing_2"};
-    final boolean [] EXPECTED_RESULTS_SYNTAX_CHECKING_OK = {true, false};
+    private final String [] MODELS = {"test_parsing_1", "test_parsing_2"};
+    private final boolean [] EXPECTED_RESULTS_SYNTAX_CHECKING_OK = {true, false};
 
 
     @BeforeClass

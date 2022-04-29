@@ -38,6 +38,8 @@
 
 package avatartranslator;
 
+import myutil.TraceManager;
+
 import java.util.Map;
 
 /**
@@ -73,6 +75,8 @@ public class AvatarBinaryGuard extends AvatarComposedGuard {
     public String getAsString (AvatarSyntaxTranslator translator) {
         return this.guardA.getAsString (translator) + translator.translateBinaryOp (this.binaryOp) + this.guardB.getAsString (translator);
     }
+
+
 
     @Override
     public AvatarBinaryGuard clone () {

@@ -98,4 +98,28 @@ public class AvatarSimpleGuardDuo extends AvatarSimpleGuard {
             this.termB.replaceAttributes (attributesMapping);
         }
     }
+
+    public AvatarComposedGuard getOpposite () {
+        //return new AvatarUnaryGuard ("not", "(", ")", this);
+
+        // If guard is a binary guard, we take its opposite
+
+        String op = "";
+        if (binaryOp == "==") {
+            op = "!=";
+        } else if (binaryOp == "!=") {
+            op = "==";
+        }
+
+        if (op == null) {
+            // Otherwise, general case:
+            return new AvatarUnaryGuard("", "(", ") == false", this);
+        }
+
+        AvatarSimpleGuardDuo g = this.clone();
+        g.binaryOp = op;
+
+        return g;
+
+    }
 }

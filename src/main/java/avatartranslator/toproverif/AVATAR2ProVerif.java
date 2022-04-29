@@ -352,16 +352,18 @@ public class AVATAR2ProVerif implements AvatarTranslator {
     // -> transformed into a = b, a <> b, g1 && g2, g1 || g2
     // Returns nulls otherwise
     private static String translateGuard (AvatarGuard _guard, Map<AvatarAttribute, Integer> attributeCmp) {
-        TraceManager.addDev(_guard.toString());
-        if (_guard == null || _guard instanceof AvatarGuardEmpty)
+        TraceManager.addDev("Handling Guard:" + _guard.toString());
+        if (_guard == null || _guard instanceof AvatarGuardEmpty) {
+            TraceManager.addDev("Null or empty guard");
             return null;
+        }
 
         if (_guard instanceof AvatarGuardElse)
             // TODO: warning
             return null;
 
         if (_guard instanceof AvatarSimpleGuardMono) {
-            //TraceManager.addDev("SimpleGuardMono:" + _guard);
+            TraceManager.addDev("SimpleGuardMono:" + _guard);
             String term = AVATAR2ProVerif.translateTerm (((AvatarSimpleGuardMono) _guard).getTerm (), attributeCmp);
             //TraceManager.addDev("guard/ term=" + term);
             if (term != null)
@@ -371,7 +373,7 @@ public class AVATAR2ProVerif implements AvatarTranslator {
         }
 
         if (_guard instanceof AvatarSimpleGuardDuo) {
-            //TraceManager.addDev("SimpleGuardDuo");
+            TraceManager.addDev("SimpleGuardDuo");
             String delim = null;
             String termA = AVATAR2ProVerif.translateTerm (((AvatarSimpleGuardDuo) _guard).getTermA (), attributeCmp);
             String termB = AVATAR2ProVerif.translateTerm (((AvatarSimpleGuardDuo) _guard).getTermB (), attributeCmp);
@@ -392,7 +394,7 @@ public class AVATAR2ProVerif implements AvatarTranslator {
         }
 
         if (_guard instanceof AvatarUnaryGuard) {
-            //TraceManager.addDev("UnaryGuard");
+            TraceManager.addDev("UnaryGuard");
             String unary = ((AvatarUnaryGuard) _guard).getUnaryOp ();
             AvatarGuard guard = ((AvatarUnaryGuard) _guard).getGuard ();
 
@@ -406,6 +408,8 @@ public class AVATAR2ProVerif implements AvatarTranslator {
 
             String guardProV = AVATAR2ProVerif.translateGuard (guard, attributeCmp);
 
+
+
             if (beforeProV != null && guardProV != null)
                 return beforeProV + guardProV + afterProV;
 
@@ -413,7 +417,7 @@ public class AVATAR2ProVerif implements AvatarTranslator {
         }
 
         if (_guard instanceof AvatarBinaryGuard) {
-            //TraceManager.addDev("BinaryGuard");
+            TraceManager.addDev("BinaryGuard");
             String delim = ((AvatarBinaryGuard) _guard).getBinaryOp ();
             AvatarGuard guardA = ((AvatarBinaryGuard) _guard).getGuardA ();
             AvatarGuard guardB = ((AvatarBinaryGuard) _guard).getGuardB ();
@@ -433,7 +437,7 @@ public class AVATAR2ProVerif implements AvatarTranslator {
         }
 
         if (_guard instanceof AvatarConstantGuard) {
-            //TraceManager.addDev("ConstantGuard");
+            TraceManager.addDev("ConstantGuard");
             AvatarConstantGuard constant = (AvatarConstantGuard) _guard;
             if (constant.getConstant () == AvatarConstant.TRUE)
                 return "TRUE";
@@ -441,6 +445,7 @@ public class AVATAR2ProVerif implements AvatarTranslator {
                 return "FALSE";
         }
 
+        TraceManager.addDev("No valid guard found");
         return null;
     }
 
@@ -1367,8 +1372,8 @@ public class AVATAR2ProVerif implements AvatarTranslator {
                 AvatarAttributeState attrB = ((AvatarPragmaAuthenticity) pragma).getAttrB ();
                 if (attrA.getAttribute ().getBlock () ==  arg.block && attrA.getState ().getName ().equals (_asme.getName ())) {
                     TraceManager.addDev ("DEBUG: " + attrA.getAttribute ());
-                    TraceManager.addDev ("DEBUG: " + attrA.getAttribute ().getBlock ());
-                    TraceManager.addDev ("DEBUG: " + arg.attributeCmp.get (attrA.getAttribute()));
+                    //TraceManager.addDev ("DEBUG: " + attrA.getAttribute ().getBlock ());
+                    //TraceManager.addDev ("DEBUG: " + arg.attributeCmp.get (attrA.getAttribute()));
                     String sp = "authenticity" + ATTR_DELIM + AVATAR2ProVerif.makeAttrName (attrA.getAttribute ().getBlock ().getName (), attrA.getAttribute ().getName (), _asme.getName ()) + " (" + AVATAR2ProVerif.makeAttrName (attrA.getAttribute ().getBlock ().getName (), attrA.getAttribute ().getName (), arg.attributeCmp.get (attrA.getAttribute ()).toString ()) + ")";
                     if (!authenticityEvents.contains (sp)) {
                         authenticityEvents.add (sp);

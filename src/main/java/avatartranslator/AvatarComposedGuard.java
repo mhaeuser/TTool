@@ -38,6 +38,8 @@
 
 package avatartranslator;
 
+import myutil.TraceManager;
+
 /**
    * Class AvatarComposedGuard
    * Creation: 16/09/2015
@@ -47,7 +49,8 @@ package avatartranslator;
 public abstract class AvatarComposedGuard extends AvatarGuard {
     
 	public AvatarComposedGuard getOpposite () {
-        //return new AvatarUnaryGuard ("not", "(", ")", this);
+
+        // Otherwise, general case:
         return new AvatarUnaryGuard ("", "(", ") == false", this);
     }
 

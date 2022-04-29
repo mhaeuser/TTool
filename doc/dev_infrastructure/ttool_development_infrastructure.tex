@@ -972,7 +972,7 @@ paths.
 
 \subsection{Directories}
 
-Tests are currently located in:
+From the main directory of the TTool's git, tests are located in:
 \begin{verbatim}
 ttool/src/
 \end{verbatim}
@@ -984,7 +984,7 @@ ttool/src/java
 \end{verbatim}
 There, tests testing the graphical user interface are located in the \textit{ui/} subdirectory, those testing avatar aspects are in \textit{avatartranslator/}, \ldots
 \begin{itemize}
-\item The resources, for instances input files are in:
+\item Resources used by the tests (input models, graphs, images, etc.) are stored in:
 \end{itemize}
 \begin{verbatim}
 ttool/src/resources
@@ -1000,15 +1000,15 @@ This file contains methods annotated with the "@Test" pragma. This means that wh
 \begin{verbatim}
 gradle test -i --tests myutil.BoolExpressionEvaluatorTest
 \end{verbatim}
-\item Note the \textit{assertTrue()} and\textit{ assertFalse()} calls used to check a given assertion.  For instance, if\textit{ assertTrue(b)} is called and b evals to false, then the test is considered as failed.
+\item \textit{assertTrue()} and\textit{ assertFalse()} calls are used to check for a given assertion.  For instance, if \textit{ assertTrue(b)} is called and b evals to false, then the test is considered as failed.
 \end{enumerate}
 
 \subsubsection{Example \# 2: test using a resource as input}
 
 \begin{enumerate}
-\item Open the file \textit{ttool/src/test/java/tmltranslator/DiplodocusParsingTest.java}
+\item Open the file \textit{ttool/src/test/java/tmltranslator/DiplodocusParsingTest.java}\\
 Basically, the test opens models and check their syntax, and compare the result of this syntax checking with the expected one.
-\item The base directory in which input models are stored is first defined:
+\item First, the base directory in which input models are stored is defined as follows:
 \begin{verbatim}
 RESOURCES_DIR = getBaseResourcesDir() + "/tmltranslator/parsing/";
 \end{verbatim}
@@ -1016,22 +1016,23 @@ It means that input files are stored in:
 \begin{verbatim}
 ttool/src/test/resources/tmltranslator/parsing/
 \end{verbatim}
-\item The names of the files to be loaded is given in a static attribute:
+\item The names of the input files to be loaded is given in a static attribute:
 \begin{verbatim}
 private final String [] MODELS = {"test_parsing_1", "test_parsing_2"};
 \end{verbatim}
 \item The expected results of the syntax checking is stored in a static array:
 \begin{verbatim}
 private final boolean [] 
-	EXPECTED_RESULTS_SYNTAX_CHECKING_OK = {true, false};
+    EXPECTED_RESULTS_SYNTAX_CHECKING_OK = {true, false};
 \end{verbatim}
 \end{enumerate}
 
 
 \subsubsection{Example \# 3: test of the graphical user interface}
 \begin{enumerate}
-\item Open the file \textit{ttool/src/test/java/ui/TestAvatarDesignPanelTranslator.java}
-Basically, the test opens an input graphical Avatar model and generates an intermediate Avatar specification.
+\item Open the file \textit{ttool/src/test/java/ui/TestAvatarDesignPanelTranslator.java}\\
+Basically, the test opens the main window of TTool,  then opens an Avatar model and finally generates an intermediate Avatar specification.
+
 \item The test inherits from \textit{AbstractUITest} which constructor creates the main TTool window. This class also features functions to load models, to locate a given view or a given component, e.g.:
 
 \begin{verbatim}
@@ -1073,11 +1074,11 @@ final AvatarSpecification spec = translateDiagramToAvatar( tabName );
 
 
 \subsubsection{Example \# 4: test of the command line interface}
-Tests evaluating the command line interface do no really enter commands in an interactive way. in fact, they execute a TTool script and test if the outputs of this execution are as expected.
+Tests evaluating the command line interface do no really enter commands in an interactive way. In fact, they execute a TTool script and test if the outputs of this execution are as expected.
 
 \begin{enumerate}
-\item Open the file \textit{ttool/src/test/java/cli/CLIModelTest.java}
-Basically, this tests executes a script called "scriptmodel". Basically, this scripts opens a model and saves it under a new name.
+\item Open the file \textit{ttool/src/test/java/cli/CLIModelTest.java}\\
+Basically, this tests executes a script called "scriptmodel". This script opens a model and saves it under a new name.
 \begin{verbatim}
 String filePath = getBaseResourcesDir() + 
     PATH_TO_TEST_FILE + "scriptmodel";
@@ -1092,41 +1093,41 @@ makeDir.mkdir();
 ...
 \end{verbatim}
 
-\item It creates the command line interpreter, and asks this interpreter to run on the input script:
+\item Then, it creates the command line interpreter, and asks this interpreter to run the input script:
 \begin{verbatim}
 Interpreter interpret = new Interpreter(script, 
     (InterpreterOutputInterface)this, show);
 interpret.interpret();
 \end{verbatim}
 
-\item It checks if the file was correctly saved, by checking if the file contains a plausible number of bytes(since the TTool XML format evolves all the time, we cannot check for a precise number of bytes).
+\item Finally, it checks if the file was correctly saved, by checking if the file contains a plausible number of bytes (since the TTool XML format frequently evolves, we cannot check for a precise number of bytes).
 
 \begin{verbatim}
 f = new File(getBaseResourcesDir() + NEW_MODEL_FILE);
-        assertTrue(myutil.FileUtils.checkFileForOpen(f));
-        String data = myutil.FileUtils.loadFileData(f);
+assertTrue(myutil.FileUtils.checkFileForOpen(f));
+String data = myutil.FileUtils.loadFileData(f);
 
-        assertTrue(data.length() > 0);
-        assertTrue (f.length() > 100);
-        assertTrue (f.length() < 500);
+assertTrue(data.length() > 0);
+assertTrue (f.length() > 100);
+assertTrue (f.length() < 500);
 \end{verbatim}
 
 \end{enumerate}
 
 \subsubsection{Example \# 5: test of the C++ simulator}
-Tests on the C++ simulator are also started from JUnit. Usually, there, the idea is to generate the C++ simulation environment from a TTool model, and then to check that the outputs of the execution of the simulation is as expected.
+Testing  the C++ simulator of TTool also relies on JUnit. There, the idea is to generate the C++ simulation environment from a TTool model, and then to check that the outputs of the execution of the simulation is as expected.
 
 \begin{enumerate}
 \item Open the test file \textit{ttool/src/test/java/tmltranslator/DiplodocusSimulatorTest.java}\\
 
-\item The test function testSimulationGraph iterates over input models:
+\item The test function \textit{testSimulationGraph} iterates over input models:
 
 \begin{verbatim}
 for(int i=0; i<MODELS.length; i++) {
 ...
 \end{verbatim}
 
-\item The test loads the model under test
+\item The test loads the model under test:
 
 \begin{verbatim}
 File f = new File(RESOURCES_DIR + s + ".tmap");
@@ -1134,7 +1135,7 @@ File f = new File(RESOURCES_DIR + s + ".tmap");
 spec = FileUtils.loadFileData(f);
 \end{verbatim}
 
-\item Then, the test parses the \textit{spec} String in order to build the corresponding mapping specification
+\item Then, the test parses the \textit{spec} String in order to build the corresponding mapping specification:
 \begin{verbatim}
 boolean parsed = tmts.makeTMLMapping(spec, RESOURCES_DIR);
 assertTrue(parsed);
@@ -1148,7 +1149,7 @@ syntax.checkSyntax();
 assertTrue(syntax.hasErrors() == 0);
 \end{verbatim}
 
-\item The test then generates the corresponding C code
+\item The test then generates the corresponding C code:
 \begin{verbatim}
 tml2systc = DiploSimulatorFactory.
     INSTANCE.createCodeGenerator(tmap, al, alTepe);
@@ -1174,7 +1175,7 @@ params[3] = graphPath;
 proc = Runtime.getRuntime().exec(params);
 \end{verbatim}
 
-\item Simulation results (e.g., a reachability graph) can finally be gathered and compared with the existing ones
+\item Simulation results (e.g., a reachability graph) can finally be gathered and compared with the expected ones:
 \begin{verbatim}
 // Loading graph data
 graphData = FileUtils.loadFileData(graphFile);

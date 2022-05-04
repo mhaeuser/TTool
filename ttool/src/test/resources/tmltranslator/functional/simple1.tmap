@@ -1,0 +1,12 @@
+TMLSPEC
+    #include "simple1.tml"
+ENDTMLSPEC
+
+TMLARCHI
+    #include "simple1.tarchi"
+ENDTMLARCHI
+
+TMLMAPPING
+    MAP CPU0 Application__C1
+    SET Application__C1 priority 0
+ENDTMLMAPPING

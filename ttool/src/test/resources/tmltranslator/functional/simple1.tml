@@ -1,0 +1,27 @@
+// TML Application - FORMAT 0.2
+// Application: /Users/ludovicapvrille/TTool/modeling/DIPLODOCUS/testFunctional.xml
+// Generated: Wed May 04 17:30:44 CEST 2022
+
+// PRAGMAS
+
+// Channels
+
+// Events
+
+// Requests
+
+TASK Application__C1
+    TASKOP
+    //Local variables
+    
+    //Behavior
+    RAND
+        CASERAND 50
+            EXECI 20
+        ENDCASERAND
+        CASERAND 50
+            EXECI 10
+        ENDCASERAND
+    ENDRAND
+ENDTASK
+

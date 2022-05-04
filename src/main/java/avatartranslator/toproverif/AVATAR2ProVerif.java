@@ -446,6 +446,9 @@ public class AVATAR2ProVerif implements AvatarTranslator {
         }
 
         TraceManager.addDev("No valid guard found");
+
+
+
         return null;
     }
 
@@ -833,7 +836,8 @@ public class AVATAR2ProVerif implements AvatarTranslator {
 
                         // If there is a public key in the middle, ignore it
                         if (privateK != null) {
-                            UICheckingError ce = new UICheckingError(CheckingError.BEHAVIOR_ERROR, "When defining equality between public keys, the first to appear in the pragma should be the one belonging to the block that owns the private key.");
+                            UICheckingError ce = new UICheckingError(CheckingError.BEHAVIOR_ERROR, "When defining equality between public keys, " +
+                                    "the first to appear in the pragma should be the one belonging to the block that owns the private key.");
                             ce.setTDiagramPanel(((AvatarDesignPanel)(this.avspec.getReferenceObject())).getAvatarBDPanel());
                             ce.setTGComponent((TGComponent)pragma.getReferenceObject ());
                             warnings.add(ce);
@@ -1203,9 +1207,11 @@ public class AVATAR2ProVerif implements AvatarTranslator {
                 TraceManager.addDev("|    |    transition is guarded by " + tmp);
                 _lastInstr = _lastInstr.setNextInstr (new ProVerifProcITE (tmp));
             } else {
-                TraceManager.addDev ("!!!       Guard: " + _asme.getGuard() + " in block " + arg.block.getName() + " is not supported. Replacing by an empty guard");
+                TraceManager.addDev ("!!!       Guard: " + _asme.getGuard() + " in block " + arg.block.getName() + " is not supported. " +
+                        "Replacing by an empty guard");
                 UICheckingError ce = new UICheckingError(CheckingError.BEHAVIOR_ERROR,
-                        SEC_TRANS + "Guard: " + _asme.getGuard() + " in block " + arg.block.getName() + " is not supported. Replacing by an empty " +
+                        SEC_TRANS + "Guard: " + _asme.getGuard() + " in block " + arg.block.getName() + " is not supported. " +
+                                "Replacing by an empty " +
                         "guard");
                 //ce.setTDiagramPanel(((AvatarDesignPanel)(avspec.getReferenceObject())).getAvatarSMDPanel(arg.block.getName()));
                 ce.setTGComponent((TGComponent)(_asme.getReferenceObject()));

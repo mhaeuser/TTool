@@ -3637,9 +3637,10 @@ public class MainGUI implements ActionListener, WindowListener, KeyListener, Per
     }
 
     public void aboutVersion() {
-        JFrameBasicText jft = new JFrameBasicText("About TTool ...", DefaultText.getAboutText(), IconManager.imgic324);
+        JFrameBasicText jft = new JFrameBasicText("About TTool ...", DefaultText.getAboutText(),
+                new ImageIcon(IconManager.imgic324.getImage().getScaledInstance(650, 415,  java.awt.Image.SCALE_SMOOTH)));
         jft.setIconImage(IconManager.img8);
-        GraphicLib.centerOnParent(jft, 740, 800);
+        GraphicLib.centerOnParent(jft, 700, 800);
         jft.setVisible(true);
 
     }

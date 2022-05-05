@@ -613,6 +613,8 @@ public class JMenuBarTurtle extends JMenuBar {
         menuItem.addMouseListener(mgui.mouseHandler);
         menuItem = vAndV.add(mgui.actions[TGUIAction.ACT_AVATAR_FV_UPPAAL]);
         menuItem.setName("V&V Avatar UPPAAL");
+        menuItem = vAndV.add(mgui.actions[TGUIAction.ACT_AVATAR_MODEL_CHECKER]);
+        menuItem.setName("Internal model-checker");
         menuItem.addMouseListener(mgui.mouseHandler);
         menuItem = vAndV.add(mgui.actions[TGUIAction.ACT_AVATAR_FV_PROVERIF]);
         menuItem.setName("V&V ProVerif");
@@ -620,14 +622,6 @@ public class JMenuBarTurtle extends JMenuBar {
         menuItem = vAndV.add(mgui.actions[TGUIAction.ACT_AVATAR_FV_STATICANALYSIS]);
         menuItem.setName("V&V Avatar Static Analysis");
         menuItem.addMouseListener(mgui.mouseHandler);
-
-        /*
-         * vAndV.addSeparator(); menuItem =
-         * vAndV.add(mgui.actions[TGUIAction.ACT_DEADLOCK_SEEKER_AUT]);
-         * menuItem.addMouseListener(mgui.mouseHandler); menuItem =
-         * vAndV.add(mgui.actions[TGUIAction.ACT_DEADLOCK_SEEKER_SAVED_AUT]);
-         * menuItem.addMouseListener(mgui.mouseHandler);
-         */
 
         // Code generation
 

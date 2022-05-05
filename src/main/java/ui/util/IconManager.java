@@ -415,7 +415,7 @@ public class IconManager {
     private static String icon322 = "toolbarButtonGraphics/general/TipOfTheDay16.gif";
     private static String icon323 = "toolbarButtonGraphics/general/TipOfTheDay24.gif";
 
-    private static String icon324 = "starting_logo.gif";
+    private static String icon324 = "starting_logo.png";
 
     private static String icon330 = "toolbarButtonGraphics/general/Cut16.gif";
     private static String icon331 = "toolbarButtonGraphics/general/Cut24.gif";

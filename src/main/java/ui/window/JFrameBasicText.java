@@ -121,6 +121,9 @@ public class JFrameBasicText extends JFrame implements ActionListener {
         
 		if ( imgic != null ) {
 	        JButton button2 = new JButton(imgic);
+			button2.setBorderPainted(false);
+			button2.setFocusPainted(false);
+			button2.setContentAreaFilled(false);
 	        jp = new JPanel();
 			jp.add(button2);
 	        framePanel.add(jp, BorderLayout.NORTH);

@@ -3642,9 +3642,7 @@ public class MainGUI implements ActionListener, WindowListener, KeyListener, Per
         jft.setIconImage(IconManager.img8);
         GraphicLib.centerOnParent(jft, 700, 800);
         jft.setVisible(true);
-
     }
-
 
     public void aboutPlugins() {
         JFramePluginText jft = new JFramePluginText("Plugins", IconManager.imgic324);

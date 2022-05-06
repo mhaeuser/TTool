@@ -73,5 +73,6 @@ public class Main {
         }
         System.out.println("Server side of the launcher\nVersion: " + RshServer.VERSION);
         (new RshServer()).startServer();
+
     }
 }

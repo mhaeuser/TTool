@@ -72,7 +72,7 @@ public class DefaultText {
         sb.append("TTool version " + getFullVersion() + "\n");
         sb.append("Copyright IMT - Telecom Paris / Ludovic Apvrille \n");
         sb.append("\nContact: ludovic.apvrille@telecom-paris.fr\n");
-        sb.append("\nProgrammers\n\tTelecom ParisTech: Ludovic Apvrille, Dominique Blouin, Fabien Tessier, \n\t" +
+        sb.append("\nProgrammers\n\tTelecom Paris: Ludovic Apvrille, Dominique Blouin, Fabien Tessier, \n\t" +
                 "Daniel Knorreck, Florian Lugou, Letitia Li\n\tMaysam Zoor\n\tMinh Hiep Pham, Levan Truong\n");
         sb.append("\n\tNokia: Andrea Enrici\n");
         sb.append("\n\tLIP6: Daniela Genius\n");

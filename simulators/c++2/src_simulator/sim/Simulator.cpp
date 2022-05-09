@@ -2069,8 +2069,8 @@ void Simulator::decodeCommand(std::string iCmd, std::ostream& iXmlOutStream){
     case 3: //XML
       aGlobMsg << TAG_MSGo << "Schedule output in XML format" << TAG_MSGc << std::endl;
       schedule2XML(anEntityMsg,aStrParam);
-    case 4: {//timeline diagram
-      aGlobMsg << TAG_MSGo << "Schedule output in HTML format" << TAG_MSGc << std::endl;
+    case 4: {// Timeline diagram
+      aGlobMsg << TAG_MSGo << "Schedule output in timeline format" << TAG_MSGc << std::endl;
       std::ostringstream timelineContent;
       int temp = 0;
       aInpStream >> temp;

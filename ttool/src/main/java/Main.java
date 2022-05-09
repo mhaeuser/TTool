@@ -48,6 +48,7 @@
 
 import cli.Interpreter;
 import cli.InterpreterOutputInterface;
+import com.microsoft.z3.Version;
 import common.ConfigurationTTool;
 import common.SpecConfigTTool;
 import launcher.RTLLauncher;
@@ -128,6 +129,19 @@ public class Main implements ActionListener, InterpreterOutputInterface{
 
 
         // Starting window
+
+        // Checking Java version
+        if (splashFrame != null) {
+            splashFrame.setMessage("Checking Java version");
+        }
+
+        String s = Version.getFullVersion().toLowerCase();
+        if (s.contains("openjdk")) {
+            System.out.println("** WARNING: you seem to use openjdk as the Java Virtual Machine**.\n " +
+                    "The use of openjdk is strongly discouraged since several graphical bugs have been reported");
+        }
+
+
         // setting default language
         if (splashFrame != null) {
             splashFrame.setMessage("Setting language");

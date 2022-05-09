@@ -51,7 +51,7 @@ double CPU::averageLoad (unsigned int n) const{
       _maxEndTime=max(_maxEndTime,_endTime);
     }
   }
-  std::cout<<"max end time is "<<_maxEndTime<<std::endl;
+  //std::cout<<"max end time is "<<_maxEndTime<<std::endl;
   for( TransactionList::const_iterator i = _transactList.begin(); i != _transactList.end(); ++i ) {
     if( (*i)->getTransactCoreNumber() == n ){
       _averageLoad += (*i)->getEndTime() - (*i)->getStartTime();
@@ -200,8 +200,8 @@ std::map<TMLTask*, std::string> CPU::HWTIMELINE2HTML(std::ostringstream& myfile,
             }
         }
         for( TransactionList::const_iterator i = _transactListClone.begin(); i != _transactListClone.end(); ++i ) {
-          std::cout<<"get transaction core number is: "<<(*i)->getTransactCoreNumber()<<std::endl;
-          std::cout<<"time : "<<_cycleTime<<std::endl;
+          //std::cout<<"get transaction core number is: "<<(*i)->getTransactCoreNumber()<<std::endl;
+          //std::cout<<"time : "<<_cycleTime<<std::endl;
           //std::cout << "CPU:calcSTL: html of CPU " << _name << ": " << (*i)->toString() << std::endl;
           if( (*i)->getTransactCoreNumber() == this->_cycleTime ){
         TMLTransaction* aCurrTrans = *i;
@@ -279,9 +279,18 @@ std::map<TMLTask*, std::string> CPU::HWTIMELINE2HTML(std::ostringstream& myfile,
         // Issue #4
         TMLTask* task = aCurrTrans->getCommand()->getTask();
         const std::string cellClass = determineHTMLCellClass( taskCellClasses, task, nextCellClassIndex );
-        std::string aCurrTransName=aCurrTrans->toShortString();
-        unsigned int indexTrans=aCurrTransName.find_first_of(":");
-        std::string aCurrContent=aCurrTransName.substr(indexTrans+1,2);
+        std::string aCurrTransName = aCurrTrans->toShortString();
+        unsigned int indexTrans = aCurrTransName.find_first_of(":");
+	std::string aNextCont = aCurrTransName.substr(indexTrans+2,3);
+	std::string aCurrContent;
+	std::string a = "a";
+	//std::cout << "aNextCont:" << aNextCont<< ": " << a << std::endl;
+	if (aNextCont[1] == a[0]) {
+	  aCurrContent=aCurrTransName.substr(indexTrans+1,3);
+	} else {
+	  aCurrContent=aCurrTransName.substr(indexTrans+1,2);
+	}
+	
         if(!(!(aCurrTrans->getCommand()->getActiveDelay()) && aCurrTrans->getCommand()->isDelayTransaction())){
           if (isScalable && endTimeOfCore >= MIN_RESIZE_THRESHOLD && aLength > MIN_RESIZE_TRANS){
               int tempLength = 0;
@@ -388,8 +397,8 @@ void CPU::HW2HTML(std::ofstream& myfile) const {
     }
 
     for( TransactionList::const_iterator i = _transactList.begin(); i != _transactList.end(); ++i ) {
-      std::cout<<"get transaction core number is: "<<(*i)->getTransactCoreNumber()<<std::endl;
-      std::cout<<"time : "<<_cycleTime<<std::endl;
+      //std::cout<<"get transaction core number is: "<<(*i)->getTransactCoreNumber()<<std::endl;
+      //std::cout<<"time : "<<_cycleTime<<std::endl;
       //std::cout << "CPU:calcSTL: html of CPU " << _name << ": " << (*i)->toString() << std::endl;
       if( (*i)->getTransactCoreNumber() == this->_cycleTime ){
 	TMLTransaction* aCurrTrans = *i;
@@ -533,8 +542,8 @@ void CPU::schedule2HTML(std::ofstream& myfile) const {
             }
     }
     for( TransactionList::const_iterator i = _transactList.begin(); i != _transactList.end(); ++i ) {
-      std::cout<<"get transaction core number is: "<<(*i)->getTransactCoreNumber()<<std::endl;
-      std::cout<<"time : "<<_cycleTime<<std::endl;
+      //std::cout<<"get transaction core number is: "<<(*i)->getTransactCoreNumber()<<std::endl;
+      //std::cout<<"time : "<<_cycleTime<<std::endl;
       //std::cout << "CPU:calcSTL: html of CPU " << _name << ": " << (*i)->toString() << std::endl;
       if( (*i)->getTransactCoreNumber() == this->_cycleTime ){
 	TMLTransaction* aCurrTrans = *i;

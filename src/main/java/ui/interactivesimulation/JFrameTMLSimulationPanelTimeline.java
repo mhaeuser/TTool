@@ -92,27 +92,23 @@ public class JFrameTMLSimulationPanelTimeline extends JFrame implements ActionLi
         JComboBox comboBoxUpdateView = new JComboBox<String>(zoomFactor);
         comboBoxUpdateView.setSelectedIndex(2);
 
-        comboBoxUpdateView.addActionListener(new ActionListener() {
-
-            @Override
-            public void actionPerformed(ActionEvent event) {
-                try {
-                    zoomIndex = (String) comboBoxUpdateView.getSelectedItem();
-                } catch (Exception e) {
-                    //TraceManager.addDev(nbOfTransactions.getText());
-                    //TraceManager.addDev("Invalid default transaction");
-                    zoomIndex = "100%";
-                }
-                sdpanel.getDocument().putProperty("ZOOM_FACTOR", Double.parseDouble(zoomIndex.replace("%",""))/100);
-                TraceManager.addDev("Scale: " + Double.parseDouble(zoomIndex.replace("%",""))/100);
-                if (filePath.length() < 10000) {
-                    sdpanel.setText(filePath);
-                    sdpanel.setCaretPosition(0);
-                    jsp.getVerticalScrollBar().setValue(0);
-                    jsp.getHorizontalScrollBar().setValue(0);
-                }
-                jsp.repaint();
+        comboBoxUpdateView.addActionListener(event -> {
+            try {
+                zoomIndex = (String) comboBoxUpdateView.getSelectedItem();
+            } catch (Exception e) {
+                //TraceManager.addDev(nbOfTransactions.getText());
+                //TraceManager.addDev("Invalid default transaction");
+                zoomIndex = "100%";
             }
+            sdpanel.getDocument().putProperty("ZOOM_FACTOR", Double.parseDouble(zoomIndex.replace("%",""))/100);
+            TraceManager.addDev("Scale: " + Double.parseDouble(zoomIndex.replace("%",""))/100);
+            if (filePath.length() < 10000) {
+                sdpanel.setText(filePath);
+                sdpanel.setCaretPosition(0);
+                jsp.getVerticalScrollBar().setValue(0);
+                jsp.getHorizontalScrollBar().setValue(0);
+            }
+            jsp.repaint();
         });
         northPanel.add(comboBoxUpdateView);
 

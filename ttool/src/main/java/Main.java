@@ -140,7 +140,7 @@ public class Main implements ActionListener, InterpreterOutputInterface{
         //System.out.println("Full version:" + s);
         if (!s.contains("oracle")) {
             System.out.println("** WARNING: you seem to use a Java Virtual Machine not provided by Oracle **.\n " +
-                    "The use of, e.g., openjdk is strongly discouraged since several graphical bugs have been reported");
+                    "The use of, e.g., openjdk is strongly discouraged since several graphical bugs have been reported\n");
         }
 
 

@@ -135,8 +135,7 @@ public class Main implements ActionListener, InterpreterOutputInterface{
             splashFrame.setMessage("Checking Java version");
         }
 
-        String s =  System.getProperty("java.vendor");
-        //String s = Version.getFullVersion().toLowerCase();
+        String s =  System.getProperty("java.vendor").toLowerCase();
         //System.out.println("Full version:" + s);
         if (!s.contains("oracle")) {
             System.out.println("** WARNING: you seem to use a Java Virtual Machine not provided by Oracle **.\n " +

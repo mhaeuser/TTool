@@ -135,11 +135,13 @@ public class Main implements ActionListener, InterpreterOutputInterface{
             splashFrame.setMessage("Checking Java version");
         }
 
-        /*String s = Version.getFullVersion().toLowerCase();
-        if (s.contains("openjdk")) {
-            System.out.println("** WARNING: you seem to use openjdk as the Java Virtual Machine**.\n " +
-                    "The use of openjdk is strongly discouraged since several graphical bugs have been reported");
-        }*/
+        String s =  System.getProperty("java.vendor");
+        //String s = Version.getFullVersion().toLowerCase();
+        //System.out.println("Full version:" + s);
+        if (!s.contains("oracle")) {
+            System.out.println("** WARNING: you seem to use a Java Virtual Machine not provided by Oracle **.\n " +
+                    "The use of, e.g., openjdk is strongly discouraged since several graphical bugs have been reported");
+        }
 
 
         // setting default language

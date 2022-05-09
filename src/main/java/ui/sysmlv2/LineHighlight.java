@@ -45,6 +45,7 @@ import javax.swing.event.CaretListener;
 import javax.swing.text.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.geom.Rectangle2D;
 
 /**
  * Class LineHighlight
@@ -54,7 +55,7 @@ import java.awt.event.*;
  * @author Ludovic APVRILLE
  * @version 1.0 15/07/2021
  */
-class LineHighlight extends DefaultHighlighter.DefaultHighlightPainter implements
+public class LineHighlight extends DefaultHighlighter.DefaultHighlightPainter implements
         CaretListener, MouseListener, MouseMotionListener, KeyListener {
     private JTextComponent component;
     private DefaultHighlighter highlighter;
@@ -78,13 +79,25 @@ class LineHighlight extends DefaultHighlighter.DefaultHighlightPainter implement
         //  Initially highlight the first line
         addHighlight(0);
     }
+    
+    public static Rectangle Rectangle2DtoRectangle(Rectangle2D r2d) {
+        if (r2d == null) {
+            return null;
+        }
+        if (r2d instanceof Rectangle) {
+            return (Rectangle) r2d;
+        } else {
+            return new Rectangle((int) r2d.getX(), (int) r2d.getY(),
+                    (int) r2d.getWidth(), (int) r2d.getHeight());
+        }
+    }
 
     //"paintLayer" overrides the corresponding method of the class "DefaultHighlightPainter"
     public Shape paintLayer(Graphics g, int offs0, int offs1, Shape bounds,
                             JTextComponent c, View view) {
         try {
             // Only use the first offset to get the line to highlight
-            Rectangle r = c.modelToView(offs0);
+            Rectangle r = Rectangle2DtoRectangle(c.modelToView2D(offs0));
             r.x = 0;
             r.width = c.getSize().width;
             // --- render ---

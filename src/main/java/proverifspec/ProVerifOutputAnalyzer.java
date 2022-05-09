@@ -151,7 +151,7 @@ public class ProVerifOutputAnalyzer {
                 if (isInTrace && (str.startsWith("A more detailed") || str.startsWith("Could not find")))
                 {
                     isInTrace = false;
-                    resultTrace.finalize();
+                    resultTrace.finalizeMethod();
                     continue;
                 }
                 else if (!isInTrace && str.startsWith("1. "))

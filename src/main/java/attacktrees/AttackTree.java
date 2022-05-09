@@ -202,7 +202,7 @@ public class AttackTree extends AttackElement {
 
         for (AttackerPopulation ap: populations) {
             double d = ap.getTotalAttackers(this);
-            ret.add(new Double(d/ap.getTotalPopulation()));
+            ret.add(Double.valueOf(d/ap.getTotalPopulation()));
         }
 
         return ret;

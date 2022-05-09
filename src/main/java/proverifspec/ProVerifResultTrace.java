@@ -567,7 +567,7 @@ public class ProVerifResultTrace {
         TraceManager.addDev("[DEBUG] unmatch: " + str);
     }
 
-    public void finalize()
+    public void finalizeMethod()
     {
         this.finalizeStep();
     }

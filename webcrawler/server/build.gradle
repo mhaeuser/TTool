@@ -14,23 +14,24 @@ sourceSets {
 dependencies {
     compileOnly name: 'commons-codec-1.10'
     compileOnly name: 'jsoup-1.8.1'
-    compile name: 'commons-io-2.5'
-    compile name: 'derbyclient-10.9.1.0'
-    compile name: 'derbynet'
-    compile name: 'dom4j-1.6.1'
-    compile name: 'derby'
-    compile name: 'JavaPlot'
-    compile name: 'jaxen-1.1.6'
-    compile name: 'opencloud'
+    implementation name: 'commons-io-2.5'
+    implementation name: 'derbyclient-10.9.1.0'
+    implementation name: 'derbynet'
+    implementation name: 'dom4j-1.6.1'
+    implementation name: 'derby'
+    implementation name: 'JavaPlot'
+    implementation name: 'jaxen-1.1.6'
+    implementation name: 'opencloud'
     compileOnly name: 'jna-3.3.0'
-    compile name: 'commons-math3-3.6.1'
-    compile name: 'jfreechart-1.6.0'
+    implementation name: 'commons-math3-3.6.1'
+    implementation name: 'jfreechart-1.6.0'
 }
 
 jar {
   manifest {
+    project.configurations.getByName("implementation").setCanBeResolved(true)
     attributes(
-      'Class-Path': configurations.compile.collect { it.getName() }.join(' '),
+      'Class-Path': configurations.implementation.collect { it.getName() }.join(' '),
       'Main-Class': 'web.crawler.Server'
     )
   }

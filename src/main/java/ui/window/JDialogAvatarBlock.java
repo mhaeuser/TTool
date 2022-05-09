@@ -143,12 +143,12 @@ public class JDialogAvatarBlock extends JDialogBase implements ActionListener, L
 
 
         if (methodsPar == null) {
-            methodsPar = new LinkedList<AvatarMethod>();
+            methodsPar = new LinkedList<>();
             hasMethods = false;
         }
 
         if (signalsPar == null) {
-            signalsPar = new LinkedList<AvatarSignal>();
+            signalsPar = new LinkedList<>();
             hasSignals = false;
         }
 
@@ -164,9 +164,9 @@ public class JDialogAvatarBlock extends JDialogBase implements ActionListener, L
         this.attrib = attrib;
         tab = _tab;
 
-        attributes = new LinkedList<TAttribute>();
-        methods = new LinkedList<AvatarMethod>();
-        signals = new LinkedList<AvatarSignal>();
+        attributes = new LinkedList<>();
+        methods = new LinkedList<>();
+        signals = new LinkedList<>();
 
         for (TAttribute attr : this.attributesPar)
             this.attributes.add(attr.makeClone());
@@ -538,11 +538,10 @@ public class JDialogAvatarBlock extends JDialogBase implements ActionListener, L
         // guard
         c7.weighty = 1.0;
         c7.weightx = 1.0;
-        c7.gridwidth = 1;
         c7.gridheight = 1;
         c7.fill = GridBagConstraints.BOTH;
         c7.gridwidth = GridBagConstraints.REMAINDER;
-        c7.gridheight = 1;
+
 
         panelCode.add(new JLabel("Global code of application:"), c7);
         jtaMainCode = new JTextArea();
@@ -591,7 +590,6 @@ public class JDialogAvatarBlock extends JDialogBase implements ActionListener, L
         c8.weightx = 1.0;
         c8.fill = GridBagConstraints.BOTH;
         panelAttr.add(panel1, c8);
-        c8.gridwidth = GridBagConstraints.REMAINDER; //end row
         //c.add(tabbedPane, c0);
 
         c8.gridwidth = 1;
@@ -609,8 +607,6 @@ public class JDialogAvatarBlock extends JDialogBase implements ActionListener, L
             c9.weightx = 1.0;
             c9.fill = GridBagConstraints.BOTH;
             panelMethod.add(panel3, c9);
-            c9.gridwidth = GridBagConstraints.REMAINDER; //end row
-            //c.add(tabbedPane, c0);
 
             c9.gridwidth = 1;
             c9.gridheight = 10;
@@ -627,8 +623,6 @@ public class JDialogAvatarBlock extends JDialogBase implements ActionListener, L
             c10.weightx = 1.0;
             c10.fill = GridBagConstraints.BOTH;
             panelSignal.add(panel5, c10);
-            c10.gridwidth = GridBagConstraints.REMAINDER; //end row
-            //c.add(tabbedPane, c0);
 
             c10.gridwidth = 1;
             c10.gridheight = 10;
@@ -643,16 +637,8 @@ public class JDialogAvatarBlock extends JDialogBase implements ActionListener, L
 
         tabbedPane.setSelectedIndex(tab);
 
-        //c.add(panel1, c0);
-        //c.add(panel2, c0);
-
-        c0.gridwidth = 1;
-        c0.gridheight = 10;
         c0.weighty = 1.0;
         c0.weightx = 1.0;
-        c0.gridwidth = GridBagConstraints.REMAINDER; //end row
-        //c.add(tabbedPane, c0);
-
         c0.gridwidth = 1;
         c0.gridheight = 1;
         c0.fill = GridBagConstraints.HORIZONTAL;
@@ -667,7 +653,7 @@ public class JDialogAvatarBlock extends JDialogBase implements ActionListener, L
 
     public void actionPerformed(ActionEvent evt) {
         if (evt.getSource() == typeBox) {
-            boolean b = initValues.get(typeBox.getSelectedIndex()).booleanValue();
+            boolean b = initValues.get(typeBox.getSelectedIndex());
             initialValue.setEnabled(b);
             return;
         }
@@ -714,12 +700,12 @@ public class JDialogAvatarBlock extends JDialogBase implements ActionListener, L
     }
 
     public void addType(String s) {
-        initValues.add(new Boolean(true));
+        initValues.add(Boolean.TRUE);
         typeBox.addItem(s);
     }
 
     public void addType(String s, boolean b) {
-        initValues.add(new Boolean(b));
+        initValues.add(b);
         typeBox.addItem(s);
     }
 
@@ -749,6 +735,7 @@ public class JDialogAvatarBlock extends JDialogBase implements ActionListener, L
 
         if (s.length() > 0) {
             if ((TAttribute.isAValidId(s, checkKeyword, checkUPPAALKeyword, checkJavaKeyword)) && (TAttribute.notIn(s, forbidden))) {
+                assert o1 != null;
                 int i = TAttribute.getAccess(o1.toString());
                 int j = TAttribute.getAvatarType(o2.toString());
 

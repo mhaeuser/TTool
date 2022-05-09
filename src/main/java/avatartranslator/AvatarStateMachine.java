@@ -379,10 +379,10 @@ public class AvatarStateMachine extends AvatarElement {
             Integer name = simplifiedElements.get(root);
             if (name == null) {
                 if (root == this.startState)
-                    simplifiedElements.put(root, new Integer(0));
+                    simplifiedElements.put(root, Integer.valueOf(0));
                 else {
                     counter++;
-                    simplifiedElements.put(root, new Integer(counter));
+                    simplifiedElements.put(root, Integer.valueOf(counter));
                 }
             }
         } else {

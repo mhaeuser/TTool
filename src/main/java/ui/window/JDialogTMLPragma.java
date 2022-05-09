@@ -40,6 +40,7 @@ package ui.window;
 
 import myutil.TraceManager;
 import ui.util.IconManager;
+import ui.sysmlv2.*;
 
 import javax.swing.*;
 import javax.swing.text.BadLocationException;
@@ -201,7 +202,7 @@ public class JDialogTMLPragma extends JDialogBase implements ActionListener {
         final int position = textarea.getCaretPosition();
         Point location;
         try {
-            location = textarea.modelToView(position).getLocation();
+            location = LineHighlight.Rectangle2DtoRectangle(textarea.modelToView2D(position)).getLocation();
         } catch (BadLocationException e2) {
             e2.printStackTrace();
             return;

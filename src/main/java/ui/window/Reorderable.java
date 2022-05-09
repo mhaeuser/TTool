@@ -40,16 +40,6 @@
 package ui.window;
 
 
-
-import javax.activation.ActivationDataFlavor;
-import javax.activation.DataHandler;
-import javax.swing.*;
-import java.awt.*;
-import java.awt.datatransfer.DataFlavor;
-import java.awt.datatransfer.Transferable;
-import java.awt.dnd.DragSource;
-
-
 /**
  * Interface Reorderable
  * Moving rows (from StackOverflow)

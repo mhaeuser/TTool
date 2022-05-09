@@ -218,11 +218,11 @@ public class AUTGraph implements myutil.Graph {
                     s1 = s.substring(s.indexOf(',') + 1, s.length());
                     s1 = s1.substring(0, s1.indexOf(','));
                     s1 = Conversion.removeFirstSpaces(s1);
-                    nbTransition = new Integer(s1).intValue();
+                    nbTransition = Integer.valueOf(s1).intValue();
                     s2 = s.substring(s.indexOf(",") + 1, s.indexOf(')'));
                     s2 = s2.substring(s2.indexOf(",") + 1, s2.length());
                     s2 = Conversion.removeFirstSpaces(s2);
-                    nbState = new Integer(s2).intValue();
+                    nbState = Integer.valueOf(s2).intValue();
                     break;
                 }
             }
@@ -1202,11 +1202,11 @@ public class AUTGraph implements myutil.Graph {
             if (st.isInitial()) {
 
                 //@SuppressWarnings("unchecked")
-                mapOfStates.put(st, new Integer(0));
+                mapOfStates.put(st, Integer.valueOf(0));
             } else {
 
                 //@SuppressWarnings("unchecked")
-                mapOfStates.put(st, new Integer(cpt));
+                mapOfStates.put(st, Integer.valueOf(cpt));
                 cpt++;
             }
         }
@@ -1316,7 +1316,7 @@ public class AUTGraph implements myutil.Graph {
             b0.addState(st);
         }
         b0.computeHash();
-        allBlocks.put(new Integer(b0.hashValue), b0);
+        allBlocks.put(Integer.valueOf(b0.hashValue), b0);
 
 
         AUTBlock b0Test = new AUTBlock();
@@ -1325,7 +1325,7 @@ public class AUTGraph implements myutil.Graph {
         }
         b0Test.computeHash();
 
-        AUTBlock B0Ret = allBlocks.get(new Integer(b0Test.hashValue));
+        AUTBlock B0Ret = allBlocks.get(Integer.valueOf(b0Test.hashValue));
         if (B0Ret == null) {
             //TraceManager.addDev("ERROR: hash not working for blocks");
         } else {

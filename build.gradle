@@ -12,7 +12,7 @@ ext {
 
 subprojects {
     apply plugin: 'java'
-    sourceCompatibility = 1.8
+    sourceCompatibility = 1.11
     // version =
 
     sourceSets {
@@ -38,7 +38,8 @@ subprojects {
     libsDirName = "${rootProject.absPath}/build"
 
     task copyRuntimeLibs(type: Copy) {
-        from configurations.runtime
+        project.configurations.getByName("runtimeOnly").setCanBeResolved(true)
+        from configurations.implementation
         from 'runtime'
         into "${rootProject.absPath}/build"
     }

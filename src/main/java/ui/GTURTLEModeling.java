@@ -5147,7 +5147,7 @@ public class GTURTLEModeling {
             //TraceManager.addDev("got zooms");
             if (zoomS != null) {
                 //TraceManager.addDev("Zoom found:" + zoomS);
-                double zoomV = new Double(zoomS);
+                double zoomV = Double.valueOf(zoomS);
                 if (zoomV != 0)
                     return zoomDiag/zoomV;
 

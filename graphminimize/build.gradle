@@ -33,8 +33,9 @@ dependencies {
 
 jar {
   manifest {
+    project.configurations.getByName("implementation").setCanBeResolved(true)
     attributes(
-      'Class-Path': configurations.compile.collect { it.getName() }.join(' '),
+      'Class-Path': configurations.implementation.collect { it.getName() }.join(' '),
       'Main-Class': 'GraphMinimize'
     )
   }

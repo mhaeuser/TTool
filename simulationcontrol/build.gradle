@@ -13,13 +13,14 @@ sourceSets {
 }
 
 dependencies {
-    compile name: 'jsoup-1.8.1'
+    implementation name: 'jsoup-1.8.1'
 }
 
 jar {
   manifest {
+    project.configurations.getByName("implementation").setCanBeResolved(true)
     attributes(
-      'Class-Path': configurations.compile.collect { it.getName() }.join(' '),
+      'Class-Path': configurations.implementation.collect { it.getName() }.join(' '),
       'Main-Class': 'RemoteSimulationControl'
     )
   }

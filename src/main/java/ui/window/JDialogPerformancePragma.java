@@ -39,6 +39,7 @@
 package ui.window;
 
 import ui.util.IconManager;
+import ui.sysmlv2.*;
 
 import javax.swing.*;
 import javax.swing.text.BadLocationException;
@@ -217,7 +218,7 @@ public class JDialogPerformancePragma extends JDialogBase implements ActionListe
         final int position = textarea.getCaretPosition();
         Point location;
         try {
-            location = textarea.modelToView(position).getLocation();
+            location = LineHighlight.Rectangle2DtoRectangle(textarea.modelToView2D(position)).getLocation();
         } catch (BadLocationException e2) {
             e2.printStackTrace();
             return;

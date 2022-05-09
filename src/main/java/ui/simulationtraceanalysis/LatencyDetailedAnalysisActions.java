@@ -99,7 +99,7 @@ public class LatencyDetailedAnalysisActions extends AbstractAction {
         putValue(Action.LONG_DESCRIPTION, actions[id].LONG_DESCRIPTION);
         // putValue(Action.MNEMONIC_KEY, new Integer(actions[id].MNEMONIC_KEY));
         if (actions[id].MNEMONIC_KEY != 0) {
-            putValue(Action.ACCELERATOR_KEY, KeyStroke.getKeyStroke(actions[id].MNEMONIC_KEY, java.awt.event.InputEvent.CTRL_MASK));
+            putValue(Action.ACCELERATOR_KEY, KeyStroke.getKeyStroke(actions[id].MNEMONIC_KEY, java.awt.event.InputEvent.CTRL_DOWN_MASK));
         }
         putValue(Action.ACTION_COMMAND_KEY, actions[id].ACTION_COMMAND_KEY);
     }

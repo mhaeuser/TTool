@@ -757,7 +757,7 @@ public class TGUIAction extends AbstractAction {
         //putValue(Action.MNEMONIC_KEY, new Integer(actions[id].MNEMONIC_KEY));
         if (actions[id].MNEMONIC_KEY != 0) {
             if (actions[id].hasControl) {
-                putValue(Action.ACCELERATOR_KEY, KeyStroke.getKeyStroke(actions[id].KEY, java.awt.event.InputEvent.CTRL_MASK));
+                putValue(Action.ACCELERATOR_KEY, KeyStroke.getKeyStroke(actions[id].KEY, java.awt.event.InputEvent.CTRL_DOWN_MASK));
             } else {
                 if ((actions[id].MNEMONIC_KEY >= 37 && actions[id].MNEMONIC_KEY <= 40) || actions[id].MNEMONIC_KEY == KeyEvent.VK_DELETE) //handling for arrow and delete keys
                     putValue(Action.ACCELERATOR_KEY, KeyStroke.getKeyStroke(actions[id].MNEMONIC_KEY, 0));
@@ -791,7 +791,7 @@ public class TGUIAction extends AbstractAction {
         //putValue(Action.MNEMONIC_KEY, new Integer(actions[id].MNEMONIC_KEY));
         if (actions[id].MNEMONIC_KEY != 0) {
             if (actions[id].hasControl) {
-                putValue(Action.ACCELERATOR_KEY, KeyStroke.getKeyStroke(actions[id].KEY, java.awt.event.InputEvent.CTRL_MASK));
+                putValue(Action.ACCELERATOR_KEY, KeyStroke.getKeyStroke(actions[id].KEY, java.awt.event.InputEvent.CTRL_DOWN_MASK));
             } else {
                 if ((actions[id].MNEMONIC_KEY >= 37 && actions[id].MNEMONIC_KEY <= 40) || actions[id].MNEMONIC_KEY == KeyEvent.VK_DELETE) //handling for arrow and delete keys
                     putValue(Action.ACCELERATOR_KEY, KeyStroke.getKeyStroke(actions[id].MNEMONIC_KEY, 0));

@@ -324,7 +324,7 @@ public class JPanelForEdition extends JPanel implements ActionListener, Document
         int index = Math.max(0, _index - 1);
         jtp.setCaretPosition(Math.min(index, jtp.getDocument().getLength()));
         try {
-            Rectangle mRectangle2 = jtp.modelToView(index);
+            Rectangle mRectangle2 = LineHighlight.Rectangle2DtoRectangle(jtp.modelToView2D(index));
             Rectangle mRectangle3 = new Rectangle(mRectangle2.x, mRectangle2.y, mRectangle2.width, jtp.getVisibleRect().height);
             jtp.scrollRectToVisible(mRectangle3);
         } catch (Exception e) {
@@ -368,7 +368,7 @@ public class JPanelForEdition extends JPanel implements ActionListener, Document
             //setText(ls.getText());
             jtp.setCaretPosition(0);
             try {
-                Rectangle mRectangle2 = jtp.modelToView(0);
+                Rectangle mRectangle2 = LineHighlight.Rectangle2DtoRectangle(jtp.modelToView2D(0));
                 Rectangle mRectangle3 = new Rectangle(mRectangle2.x, mRectangle2.y, mRectangle2.width, jtp.getVisibleRect().height);
                 jtp.scrollRectToVisible(mRectangle3);
             } catch (Exception e) {

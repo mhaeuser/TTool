@@ -532,7 +532,7 @@ public class AVATAR2ProVerif implements AvatarTranslator {
         for(AvatarBlock block: blocks) {
             Map<AvatarStateMachineElement, Integer> simplifiedElements = block.getStateMachine ().getSimplifiedElements ();
             if (simplifiedElements.get (block.getStateMachine ().getStartState ()) == null)
-                simplifiedElements.put (block.getStateMachine ().getStartState (), new Integer (0));
+                simplifiedElements.put (block.getStateMachine ().getStartState (), Integer.valueOf(0));
 
             for (AvatarStateMachineElement asme: simplifiedElements.keySet ())
                 this.spec.addDeclaration (new ProVerifVar        ("call" + ATTR_DELIM + block.getName() + ATTR_DELIM + simplifiedElements.get (asme), "bitstring", true));
@@ -976,7 +976,7 @@ public class AVATAR2ProVerif implements AvatarTranslator {
         // Generate a new process for every simplified element of the block's state machine
         Map<AvatarStateMachineElement, Integer> simplifiedElements = ab.getStateMachine ().getSimplifiedElements ();
         if (simplifiedElements.get (ab.getStateMachine ().getStartState ()) == null)
-            simplifiedElements.put (ab.getStateMachine ().getStartState (), new Integer (0));
+            simplifiedElements.put (ab.getStateMachine ().getStartState (), Integer.valueOf(0));
 
         for (AvatarStateMachineElement asme: simplifiedElements.keySet ())
             if (asme != null) {

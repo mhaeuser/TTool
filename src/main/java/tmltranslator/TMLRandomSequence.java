@@ -55,11 +55,11 @@ public class TMLRandomSequence extends TMLActivityElement {
 
     public TMLRandomSequence(String _name, Object _referenceObject) {
         super(_name, _referenceObject);
-        indexes = new Vector<Integer>();
+        indexes = new Vector<>();
     }
 
     public void addIndex(int index) {
-        indexes.add(new Integer(index));
+        indexes.add(index);
     }
 
     public void sortNexts() {
@@ -78,7 +78,7 @@ public class TMLRandomSequence extends TMLActivityElement {
         int i;
 
         while (indexes.size() > 0) {
-            i0 = new Integer(1000);
+            i0 = 1000;
             index = -1;
             for (i = 0; i < indexes.size(); i++) {
                 if (indexes.elementAt(i).compareTo(i0) < 0) {

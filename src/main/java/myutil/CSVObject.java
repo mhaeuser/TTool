@@ -202,7 +202,7 @@ public class CSVObject  {
        ArrayList<Integer> list = new ArrayList<>();
        for (int i = 0; i < ints.length; i++) {
            try {
-               list.add(new Integer(ints[i]));
+               list.add(Integer.valueOf(ints[i]));
            } catch (NumberFormatException nfe) {
 
            }

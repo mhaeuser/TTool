@@ -9,6 +9,7 @@ import ui.MainGUI;
 import ui.TDiagramPanel;
 import ui.TGComponent;
 import ui.TGState;
+import ui.sysmlv2.*;
 
 import javax.swing.*;
 import javax.swing.text.AttributeSet;
@@ -19,6 +20,7 @@ import javax.swing.text.html.HTML;
 import javax.swing.text.html.HTMLDocument;
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.geom.Point2D;
 import java.io.File;
 import java.io.FileWriter;
 import java.util.HashMap;
@@ -243,7 +245,7 @@ public class JFrameTMLSimulationPanelTimeline extends JFrame implements ActionLi
             public String getToolTipText(MouseEvent evt) {
                 toolTipText = null;
                 // viewToModel will be Deprecated. replaced by viewToModel2D(JTextComponent, Point2D, Position.Bias[]) in java 9
-                int pos = viewToModel(evt.getPoint());
+                int pos = viewToModel2D((Point2D)evt.getPoint());
                 if (pos >= 0) {
                     HTMLDocument hdoc = (HTMLDocument) sdpanel.getDocument();
                     javax.swing.text.Element e = hdoc.getCharacterElement(pos);
@@ -270,7 +272,7 @@ public class JFrameTMLSimulationPanelTimeline extends JFrame implements ActionLi
                         int drawPoint = 0;
                         try {
                             // modelToView will be Deprecated. replaced by  modelToView2D(JTextComponent, int, Position.Bias) in java 9
-                            drawPoint = modelToView(Y_AXIS_START).y;
+                            drawPoint = LineHighlight.Rectangle2DtoRectangle(modelToView2D(Y_AXIS_START)).y;
                         } catch (BadLocationException e) {
                             drawPoint = 130;
                         }
@@ -280,12 +282,12 @@ public class JFrameTMLSimulationPanelTimeline extends JFrame implements ActionLi
                     }
 
                     // viewToModel will be Deprecated. replaced by viewToModel2D(JTextComponent, Point2D, Position.Bias[]) in java 9
-                    int pos = viewToModel(new Point(X,Y));
+                    int pos = viewToModel2D((Point2D)new Point(X,Y));
                     if (pos >= 0) {
 
                         try {
                             // modelToView will be Deprecated. replaced by  modelToView2D(JTextComponent, int, Position.Bias) in java 9
-                            if (timeMarkedPosition.keySet().contains(pos) && Math.abs(modelToView(pos).x - X) < 3) {
+                            if (timeMarkedPosition.keySet().contains(pos) && Math.abs(LineHighlight.Rectangle2DtoRectangle(modelToView2D(pos)).x - X) < 3) {
                                 g2.drawString("Time: " + timeMarkedPosition.get(pos), X, Y);
                                 g2.dispose();
                             } else if (!timeMarkedPosition.keySet().contains(pos)) {
@@ -301,7 +303,7 @@ public class JFrameTMLSimulationPanelTimeline extends JFrame implements ActionLi
 
                                 if (timeMarkedPosition.keySet().contains(postStart) && timeMarkedPosition.keySet().contains(postEnd) && timeMarkedPosition.get(postStart) < timeMarkedPosition.get(postEnd)) {
                                     // modelToView will be Deprecated. replaced by  modelToView2D(JTextComponent, int, Position.Bias) in java 9
-                                    int value = timeMarkedPosition.get(postStart) + (int)(((float)(timeMarkedPosition.get(postEnd) - timeMarkedPosition.get(postStart))/(modelToView(postEnd).x - modelToView(postStart).x)) * (X - modelToView(postStart).x));
+                                    int value = timeMarkedPosition.get(postStart) + (int)(((float)(timeMarkedPosition.get(postEnd) - timeMarkedPosition.get(postStart))/(LineHighlight.Rectangle2DtoRectangle(modelToView2D(postEnd)).x - LineHighlight.Rectangle2DtoRectangle(modelToView2D(postStart)).x)) * (X - LineHighlight.Rectangle2DtoRectangle(modelToView2D(postStart)).x));
                                     g2.drawString("Time: " + value, X, Y);
                                     g2.dispose();
                                 }

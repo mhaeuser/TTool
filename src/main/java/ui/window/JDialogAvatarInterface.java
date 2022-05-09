@@ -713,12 +713,12 @@ public class JDialogAvatarInterface extends JDialogBase implements ActionListene
     }
 
     public void addType(String s) {
-        initValues.add(new Boolean(true));
+        initValues.add(Boolean.valueOf(true));
         typeBox.addItem(s);
     }
 
     public void addType(String s, boolean b) {
-        initValues.add(new Boolean(b));
+        initValues.add(Boolean.valueOf(b));
         typeBox.addItem(s);
     }
 

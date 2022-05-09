@@ -135,11 +135,11 @@ public class Main implements ActionListener, InterpreterOutputInterface{
             splashFrame.setMessage("Checking Java version");
         }
 
-        String s = Version.getFullVersion().toLowerCase();
+        /*String s = Version.getFullVersion().toLowerCase();
         if (s.contains("openjdk")) {
             System.out.println("** WARNING: you seem to use openjdk as the Java Virtual Machine**.\n " +
                     "The use of openjdk is strongly discouraged since several graphical bugs have been reported");
-        }
+        }*/
 
 
         // setting default language

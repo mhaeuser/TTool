@@ -39,7 +39,7 @@
 
 package remotesimulation;
 
-import myutil.TraceManager;
+//import myutil.TraceManager;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -48,7 +48,7 @@ import org.jsoup.select.Elements;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-import java.util.Arrays;
+
 
 
 /**
@@ -145,14 +145,14 @@ public class CommandParser {
         int cpt = 0;
 
         String cmds[] = cmd.split(" ");
-        TraceManager.addDev("cmd " + cmd + " has " + cmds.length + " elements | commandList size:" + commandList.size());
+        //TraceManager.addDev("cmd " + cmd + " has " + cmds.length + " elements | commandList size:" + commandList.size());
 
         for (SimulationCommand sc : commandList) {
             // Same command name?
             //TraceManager.addDev("Testing command:" + sc.userCommand + " alias:" + sc.alias);
             if (sc.userCommand.equals(cmds[0]) || sc.alias.equals(cmds[0])) {
-                TraceManager.addDev("Command is valid:" + cmds[0] + ". Now testing parameters. Expected parameters (min/max):" +
-                        sc.getMinNumberOfParameters() + "/" + sc.getMaxNumberOfParameters() + "; size of user parameters: " + (cmds.length-1));
+                //TraceManager.addDev("Command is valid:" + cmds[0] + ". Now testing parameters. Expected parameters (min/max):" +
+                 //       sc.getMinNumberOfParameters() + "/" + sc.getMaxNumberOfParameters() + "; size of user parameters: " + (cmds.length-1));
                 // Compatible arguments?
                 if (sc.areParametersCompatible(cmds)) {
                     index = cpt;

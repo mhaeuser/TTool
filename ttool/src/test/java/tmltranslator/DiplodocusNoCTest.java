@@ -90,6 +90,8 @@ public class DiplodocusNoCTest extends AbstractTest {
         TMLSyntaxChecking syntax = new TMLSyntaxChecking(tmap);
         syntax.checkSyntax();
 
+
+
         assertEquals(syntax.hasErrors(), 0);
 
         // Check if models contain the expected nb of NoCs

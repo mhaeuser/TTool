@@ -782,10 +782,10 @@ public class TranslatedRouter<E> {
         tmla.makeHwLink(busNIOUT, memNIOUT);
 
         // We must connect this mem out to the main bridge
-        // To so so, we create a bus
+        // To do so, we create a bus
         HwBus busOUTToMainBridge = new HwBus("busOUTToMainBridge" + getPositionNaming());
         tmla.addHwNode(busOUTToMainBridge);
-        tmla.makeHwLink(busOUTToMainBridge, memNIOUT);
+        tmla.makeHwLink(busOUTToMainBridge, busNIOUT);
         tmla.makeHwLink(busOUTToMainBridge, mainBridge);
 
         // fake task on CPU

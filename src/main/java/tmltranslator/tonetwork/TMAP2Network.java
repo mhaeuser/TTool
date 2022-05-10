@@ -203,6 +203,9 @@ public class TMAP2Network<E>  {
             - Channels must be mapped on at least one route to be taken into account
          */
     public String removeAllRouterNodes() {
+
+        TraceManager.addDev("\n** Removing all routers **\n");
+
         int i, j;
 
         //TMLModeling<E> tmlm = new TMLModeling<>();
@@ -281,7 +284,8 @@ public class TMAP2Network<E>  {
                 }
             }
         }
-        // the NoC is fully mapped. Let's print it!
+
+        // The NoC is fully mapped. Let's print it!
         TraceManager.addDev("\nNoc:\n" + noc.toString() + "\n\n");
 
 
@@ -290,6 +294,7 @@ public class TMAP2Network<E>  {
         // then, we map to the local memory only channels between tasks on the same CPU
         // Other tasks, i.e. communicating thu the NoC, are put in a special list
         tmlmapping.emptyCommunicationMapping();
+
         List<TMLChannel> channelsCommunicatingViaNoc = new ArrayList<>();
         List<tmltranslator.TMLChannel> allChannels = tmlm.getChannels();
         for(TMLChannel chan: allChannels) {
@@ -302,6 +307,7 @@ public class TMAP2Network<E>  {
                 HwNode mem = tmla.getHwNodeByName(originNode.getName() + "__mem");
                 if (bus != null ) tmlmapping.addCommToHwCommNode(chan, (HwCommunicationNode)bus);
                 if (mem != null ) tmlmapping.addCommToHwCommNode(chan, (HwCommunicationNode)mem);
+
             } else {
                 channelsCommunicatingViaNoc.add(chan);
             }

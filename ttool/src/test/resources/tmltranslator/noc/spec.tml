@@ -1,6 +1,8 @@
-// TML Application - FORMAT 0.1
-// Application: /Users/ludovicapvrille/TTool/modeling/ISAE/noc_test_vcs_periodic.xml
-// Generated: Tue Jul 23 22:14:38 CEST 2019
+// TML Application - FORMAT 0.2
+// Application: /Users/ludovicapvrille/TTool/modeling/test/noc_test_series.xml
+// Generated: Tue May 10 18:13:22 CEST 2022
+
+// PRAGMAS
 
 // Channels
 CHANNEL noc_2x2_3flows__tx0_0__noc_2x2_3flows__rx0_0 BRBW 4 8 OUT noc_2x2_3flows__FunctionSend0_0 IN noc_2x2_3flows__FunctionReceive0_0

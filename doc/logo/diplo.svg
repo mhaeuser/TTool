@@ -16,8 +16,8 @@
    version="1.1"
    id="svg8"
    inkscape:version="0.92.5 (2060ec1f9f, 2020-04-08)"
-   sodipodi:docname="diplodocus-v3.svg"
-   inkscape:export-filename="/home/axelle/diplo.png"
+   sodipodi:docname="diplo.svg"
+   inkscape:export-filename="/Users/ludovicapvrille/TTool/doc/logo/diplo.png"
    inkscape:export-xdpi="96"
    inkscape:export-ydpi="96">
   <defs
@@ -73,15 +73,15 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="0.65053825"
-     inkscape:cx="568.01802"
+     inkscape:cx="259.27377"
      inkscape:cy="469.86592"
      inkscape:document-units="mm"
      inkscape:current-layer="layer1"
      showgrid="false"
-     inkscape:window-width="1277"
-     inkscape:window-height="939"
-     inkscape:window-x="79"
-     inkscape:window-y="33"
+     inkscape:window-width="1668"
+     inkscape:window-height="1126"
+     inkscape:window-x="130"
+     inkscape:window-y="75"
      inkscape:window-maximized="0"
      showguides="false"
      inkscape:snap-global="false" />
@@ -93,7 +93,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -271,16 +271,6 @@
        inkscape:label="ongle de pied AR1"
        inkscape:transform-center-x="-0.71898164"
        inkscape:transform-center-y="4.1700189" />
-    <text
-       xml:space="preserve"
-       style="font-style:normal;font-weight:normal;font-size:22.57777786px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#88a900;fill-opacity:0.85098039;stroke:none;stroke-width:0.32661852"
-       id="text1019"
-       inkscape:label="texte TTool"
-       transform="translate(-1.0583334,-3.7041668)"><textPath
-         xlink:href="#path853"
-         id="textPath858"><tspan
-   style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:22.57777786px;font-family:'Bakso Sapi';-inkscape-font-specification:'Bakso Sapi';fill:#88a900;fill-opacity:0.85098039;stroke-width:0.32661852"
-   id="tspan1017">TTool</tspan></textPath></text>
     <path
        style="display:none;fill:none;stroke:#000000;stroke-width:0.39086673px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
        d="m 106.71946,183.22447 c 27.13569,27.56714 42.3854,29.36886 92.41915,30.77024 l -0.87916,2.01313"
@@ -291,7 +281,7 @@
     <flowRoot
        xml:space="preserve"
        id="flowRoot875"
-       style="font-style:normal;font-weight:normal;font-size:40px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;display:none;fill:#000000;fill-opacity:1;stroke:none"><flowRegion
+       style="font-style:normal;font-weight:normal;font-size:40px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;display:inline;fill:#000000;fill-opacity:1;stroke:none"><flowRegion
          id="flowRegion877"><rect
            id="rect879"
            width="227.50392"
@@ -300,7 +290,7 @@
            y="170.37079" /></flowRegion><flowPara
          id="flowPara881" /></flowRoot>    <text
        xml:space="preserve"
-       style="font-style:normal;font-weight:normal;font-size:10.58333302px;line-height:0.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;display:none;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332"
+       style="font-style:normal;font-weight:normal;font-size:10.58333302px;line-height:0.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;display:inline;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332"
        x="33.935688"
        y="159.81929"
        id="text1833"><tspan
@@ -313,7 +303,8 @@
        id="g938"
        transform="matrix(0.01981533,0,0,-0.02141647,231.72021,202.5143)"
        style="display:inline"
-       inkscape:label="logo Telecom Paris">
+       inkscape:label="logo Telecom Paris"
+       sodipodi:insensitive="true">
       <path
          d="m 431.91,446.832 c -66.562,45.789 -102.433,70.238 -136.082,95.238 -16.199,-26.75 -25.519,-58.121 -25.519,-91.672 0,-60.859 30.675,-114.527 77.41,-146.437 19.461,38.359 45.633,81.098 84.191,142.871"
          style="fill:#231f20;fill-opacity:1;fill-rule:nonzero;stroke:none"
@@ -637,7 +628,7 @@
     </g>
     <text
        xml:space="preserve"
-       style="font-style:normal;font-weight:normal;font-size:7.76111126px;line-height:1;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;display:inline;fill:#7f9f00;fill-opacity:1;stroke:none;stroke-width:0.26458332;"
+       style="font-style:normal;font-weight:normal;font-size:7.76111126px;line-height:1;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;display:inline;fill:#7f9f00;fill-opacity:1;stroke:none;stroke-width:0.26458332"
        x="251.39268"
        y="116.9683"
        id="text1849"
@@ -646,16 +637,26 @@
          id="tspan1847"
          x="251.39268"
          y="116.9683"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'Bakso Sapi';-inkscape-font-specification:'Bakso Sapi';text-align:center;text-anchor:middle;fill:#7f9f00;fill-opacity:1;stroke-width:0.26458332;">An open source</tspan><tspan
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'Bakso Sapi';-inkscape-font-specification:'Bakso Sapi';text-align:center;text-anchor:middle;fill:#7f9f00;fill-opacity:1;stroke-width:0.26458332">An open source</tspan><tspan
          sodipodi:role="line"
          x="252.36282"
          y="125.19326"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'Bakso Sapi';-inkscape-font-specification:'Bakso Sapi';text-align:center;text-anchor:middle;fill:#7f9f00;fill-opacity:1;stroke-width:0.26458332;"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'Bakso Sapi';-inkscape-font-specification:'Bakso Sapi';text-align:center;text-anchor:middle;fill:#7f9f00;fill-opacity:1;stroke-width:0.26458332"
          id="tspan1851">toolkit </tspan><tspan
          sodipodi:role="line"
          x="251.39268"
          y="133.41821"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'Bakso Sapi';-inkscape-font-specification:'Bakso Sapi';text-align:center;text-anchor:middle;fill:#7f9f00;fill-opacity:1;stroke-width:0.26458332;"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'Bakso Sapi';-inkscape-font-specification:'Bakso Sapi';text-align:center;text-anchor:middle;fill:#7f9f00;fill-opacity:1;stroke-width:0.26458332"
          id="tspan1853">provided by:</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:22.57777786px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;display:inline;fill:#88a900;fill-opacity:0.85098039;stroke:none;stroke-width:0.32661852"
+       id="text1019"
+       inkscape:label="texte TTool"
+       transform="translate(-1.0583334,-3.7041668)"><textPath
+         xlink:href="#path853"
+         id="textPath858"><tspan
+   style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:22.57777786px;font-family:'Bakso Sapi';-inkscape-font-specification:'Bakso Sapi';fill:#88a900;fill-opacity:0.85098039;stroke-width:0.32661852"
+   id="tspan1017">TTool</tspan></textPath></text>
   </g>
 </svg>

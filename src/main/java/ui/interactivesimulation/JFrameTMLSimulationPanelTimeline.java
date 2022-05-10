@@ -284,7 +284,6 @@ public class JFrameTMLSimulationPanelTimeline extends JFrame implements ActionLi
                     // viewToModel will be Deprecated. replaced by viewToModel2D(JTextComponent, Point2D, Position.Bias[]) in java 9
                     int pos = viewToModel2D((Point2D)new Point(X,Y));
                     if (pos >= 0) {
-
                         try {
                             // modelToView will be Deprecated. replaced by  modelToView2D(JTextComponent, int, Position.Bias) in java 9
                             if (timeMarkedPosition.keySet().contains(pos) && Math.abs(LineHighlight.Rectangle2DtoRectangle(modelToView2D(pos)).x - X) < 3) {

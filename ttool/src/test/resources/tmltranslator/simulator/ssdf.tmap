@@ -27,4 +27,22 @@ TMLMAPPING
     SET FORKTASK_S_EVT_S_Application__evtToT3T5__evtToT3__evtToT5 priority 0
     MAP FPGA1 JOINTASK_S_Application__chFromT4__chFromT5__chtoDst
     SET JOINTASK_S_Application__chFromT4__chFromT5__chtoDst priority 0
+    MAP Memory0 Application__chFromT4__chFromT5__chtoDst
+    MAP Bus0 Application__chFromT4__chFromT5__chtoDst
+    MAP Memory0 Application__chToT1
+    MAP Bus0 Application__chToT1
+     MAP Memory0 Application__chToT2
+    MAP Bus0 Application__chToT2
+    MAP Memory0 Application__chToT3T5__chToT3__chToT5
+    MAP Bus0 Application__chToT3T5__chToT3__chToT5
+    MAP Memory0 Application__chToT4
+    MAP Bus0 Application__chToT4
+    MAP Memory0 FORKCHANNEL_S_0_S_Application__chToT3T5__chToT3__chToT5
+    MAP Bus0 FORKCHANNEL_S_0_S_Application__chToT3T5__chToT3__chToT5
+    MAP Memory0 FORKCHANNEL_S_1_S_Application__chToT3T5__chToT3__chToT5
+    MAP Bus0 FORKCHANNEL_S_1_S_Application__chToT3T5__chToT3__chToT5
+    MAP Memory0 JOINCHANNEL_S_0__Application__chFromT4__chFromT5__chtoDst
+    MAP Bus0 JOINCHANNEL_S_0__Application__chFromT4__chFromT5__chtoDst
+    MAP Memory0 JOINCHANNEL_S_1__Application__chFromT4__chFromT5__chtoDst
+    MAP Bus0 JOINCHANNEL_S_1__Application__chFromT4__chFromT5__chtoDst
 ENDTMLMAPPING

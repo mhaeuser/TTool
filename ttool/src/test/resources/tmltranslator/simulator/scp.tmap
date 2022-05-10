@@ -17,4 +17,18 @@ TMLMAPPING
     SET AppC__TCPIP priority 0
     MAP HWA0 AppC__Timer
     SET AppC__Timer priority 0
+    MAP Memory0 AppC__fromAtoT
+    MAP Bus0 AppC__fromAtoT
+    MAP Memory0 AppC__fromDtoSC
+    MAP Bus0 AppC__fromDtoSC
+    MAP Memory0 AppC__fromPtoT
+    MAP Bus0 AppC__fromPtoT
+    MAP Memory0 AppC__fromSCtoD
+    MAP Bus0 AppC__fromSCtoD
+    MAP Memory0 AppC__fromTtoA
+    MAP Bus0 AppC__fromTtoA
+    MAP Memory0 AppC__fromTtoP
+    MAP Bus0 AppC__fromTtoP
+    MAP Memory0 AppC__temp
+    MAP Bus0 AppC__temp
 ENDTMLMAPPING

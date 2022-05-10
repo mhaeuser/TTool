@@ -5,6 +5,7 @@
     <option name="MAIN_CLASS_NAME" value="Main" />
     <module name="ttool" />
     <option name="PROGRAM_PARAMETERS" value="-debug -proverif -experimental -config bin/config.xml" />
+    <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/bin" />
     <method v="2">
       <option name="Make" enabled="true" />
       <option name="BuildArtifacts" enabled="true">

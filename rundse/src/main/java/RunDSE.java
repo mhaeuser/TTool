@@ -63,9 +63,9 @@ public class RunDSE  {
 	
 	
 	public static void printCopyright() {
-		System.out.println("RunDSE: (C) Institut Telecom / Telecom ParisTech, Ludovic Apvrille, Ludovic.Apvrille@telecom-paristech.fr");
+		System.out.println("RunDSE: (C) Institut Mines Telecom / Telecom Paris, Ludovic Apvrille, Ludovic.Apvrille@telecom-paris.fr");
 		System.out.println("RunDSE is released under a CECILL License. See http://www.cecill.info/index.en.html");
-		System.out.println("For more information on TTool related technologies, please consult http://ttool.telecom-paristech.fr");
+		System.out.println("For more information on TTool related technologies, please consult https://ttool.telecom-paris.fr");
 		
 		System.out.println("Enjoy!!!\n");
 	}

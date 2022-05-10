@@ -70,7 +70,7 @@ make git		Update the build number.
 
 
 Please report bugs or suggestions of improvements to:
-  ttool.telecom-paristech.fr/support.html
+  ttool.telecom-paris.fr/support.html
 endef
 export HELP_message
 

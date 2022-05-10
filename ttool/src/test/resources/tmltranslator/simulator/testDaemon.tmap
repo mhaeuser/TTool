@@ -13,4 +13,6 @@ TMLMAPPING
     SET FVWithRequest__Periodic priority 0
     MAP CPU0 FVWithRequest__AnotherTask
     SET FVWithRequest__AnotherTask priority 0
+    MAP Memory0 FVWithRequest__comm1__FVWithRequest__comm
+    MAP Bus0 FVWithRequest__comm1__FVWithRequest__comm
 ENDTMLMAPPING

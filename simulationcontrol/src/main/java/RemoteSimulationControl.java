@@ -68,10 +68,10 @@ public class RemoteSimulationControl extends Thread  {
 	}
 	
 	public static void printCopyright() {
-		System.out.println("RemoteSimulationControl: (C) GET/ENST, Ludovic Apvrille, Ludovic.Apvrille@enst.fr");
+		System.out.println("RemoteSimulationControl: (C) Institut Mines Telecom / Telecom Paris, Ludovic Apvrille, Ludovic.Apvrille@telecom-paris.fr");
 		System.out.println("RemoteSimulationControl is released under a CECILL License. See http://www.cecill.info/index.en.html");
-		System.out.println("For more information on TTool related technologies, please consult http://labsoc.comelec.enst.fr/turtle/ttoolindex.html");
-		
+		System.out.println("For more information on TTool related technologies, please consult https://ttool.telecom-paris.fr");
+
 		System.out.println("Enjoy!!!\n");
 	}
 	

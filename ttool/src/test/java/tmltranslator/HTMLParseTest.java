@@ -26,10 +26,10 @@ import static org.junit.Assert.*;
 public class HTMLParseTest extends AbstractTest {
     final String DIR_GEN = "test_diplo_simulator/";
     final String [] MODELS_PARSE_HTML = {"parseFPGA_HTML", "parseCPU1_HTML","parseCPU2_HTML"};
-    final String [] PARSE_FPGA = {"<- idle 471 ->","", "", "", ""};
+    final String [] PARSE_FPGA = {"<- idle 451 ->","", "", "", ""};
     //final String [] PARSE_FPGA = {"","", "", "", ""};
-    final String [] PARSE_SINGLE_CORE = {"<- idle 366 ->", "<- idle 401 ->", "<- idle 401 ->", "<- idle 401 ->", "<- idle 401 ->"};
-    final String [] PARSE_MULTI_CORE = { "", "", "", "", "<- idle 377 ->"};
+    final String [] PARSE_SINGLE_CORE = {"<- idle 381 ->", "<- idle 401 ->", "<- idle 401 ->", "<- idle 401 ->", "<- idle 401 ->"};
+    final String [] PARSE_MULTI_CORE = { "", "", "", "<- idle 389 ->", "<- idle 401 ->"};
     final static String EXPECTED_FILE_GET_ALL_TRANS = getBaseResourcesDir() + "tmltranslator/expected/expected_get_all_transactions.txt";
     private String SIM_DIR;
 
@@ -213,7 +213,7 @@ public class HTMLParseTest extends AbstractTest {
                     break;
                 default:
                     for (int j = 0; j < 5; j++) {
-                        System.out.println("MULTI_CORE " + s + ": " + div.get(j).text());
+                        System.out.println("MULTI_CORE " + s + ": " + div.get(j).text() + " ; expecting: " + PARSE_MULTI_CORE[j]);
                         assertTrue(PARSE_MULTI_CORE[j].equals(div.get(j).text()));
                     }
                     break;

@@ -82,6 +82,15 @@ public class HelpServerTest extends AbstractTest {
 
             TMLSyntaxChecking syntax = new TMLSyntaxChecking(tmap);
             syntax.checkSyntax();
+
+            if (syntax.hasErrors() != 0) {
+                for (TMLError error: syntax.getErrors()) {
+                    System.out.println("Error: " + error.toString());
+                }
+
+            }
+
+
             assertTrue(syntax.hasErrors() == 0);
             // Generate SystemC code
             System.out.println("executing: sim code gen for " + s);

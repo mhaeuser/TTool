@@ -56,9 +56,9 @@ import java.io.File;
 public class GraphMinimize {
 
     public static void printCopyright() {
-        System.out.println("GraphMinimize: (C) Telecom ParisTech, Ludovic APVRILLE ludovic.apvrille, andrea.enrici@telecom-paristech.fr");
+        System.out.println("GraphMinimize: (C) Telecom Paris, Ludovic APVRILLE, Andrea ENRICI. ludovic.apvrille@telecom-paris.fr");
         System.out.println("GraphMinimize is released under a CECILL License. See http://www.cecill.info/index.en.html");
-        System.out.println("For more information on TTool related technologies, please consult http://ttool.telecom-paristech.fr/");
+        System.out.println("For more information on TTool related technologies, please consult http://ttool.telecom-paris.fr/");
         System.out.println("Enjoy!!!\n");
     }
 

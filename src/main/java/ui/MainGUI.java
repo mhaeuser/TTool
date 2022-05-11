@@ -54,6 +54,7 @@ import myutilsvg.SVGGeneration;
 import org.xml.sax.SAXException;
 import proverifspec.ProVerifOutputAnalyzer;
 import tmltranslator.TMLMapping;
+import tmltranslator.TMLMappingTextSpecification;
 import tmltranslator.TMLModeling;
 import tmltranslator.TMLTextSpecification;
 import tmltranslator.simulation.SimulationTransaction;
@@ -485,7 +486,7 @@ public class MainGUI implements ActionListener, WindowListener, KeyListener, Per
         jfclib.setFileFilter(filterLib);
 
         TMLFilter tmlFilterLib = new TMLFilter();
-        jfctml.setFileFilter(tmlFilterLib);
+        jfctml.setFileFilter( new FileNameExtensionFilter("Select TML or TMAP Files","tml","tmap"));
         //jfctml.setFileFilter(new FileNameExtensionFilter("Select TML/TMAP Files","tml","tmap"));
 
         TImgFilter filterImg = new TImgFilter();
@@ -5385,29 +5386,59 @@ public class MainGUI implements ActionListener, WindowListener, KeyListener, Per
     public void loadAndDrawTMLTxt() {
         File tmlfile;
 
-        int returnVal = jfctml.showDialog(frame, "Load TML Specification (Text format)");
+        int returnVal = jfctml.showDialog(frame, "Load TML / TMAP Specification (Text format)");
         if (returnVal != JFileChooser.APPROVE_OPTION) {
             return;
         }
 
         tmlfile = jfctml.getSelectedFile();
-        tmlfile = FileUtils.addFileExtensionIfMissing(tmlfile, TMLFilter.getExtension());
+        //tmlfile = FileUtils.addFileExtensionIfMissing(tmlfile, TMLFilter.getExtension());
         String content = loadFile(tmlfile);
 
-        // Get TML Modeling from content
-        TMLTextSpecification ts = new TMLTextSpecification(tmlfile.getName());
-        boolean b = ts.makeTMLModeling(content);
 
-        if (!b) {
-            TraceManager.addDev("Error in loaded spec");
-            return;
-        }
+        // tml or tmap?
+        if (tmlfile.getName().endsWith("tml")) {
 
-        try {
-            drawTMLSpecification(ts.getTMLModeling(), tmlfile.getName());
-        } catch (MalformedTMLDesignException e) {
-            TraceManager.addDev("Error in drawing spec: " + e.getMessage());
-            status.setText("ERROR: " + e.getMessage());
+
+            // Get TML Modeling from content
+            TMLTextSpecification ts = new TMLTextSpecification(tmlfile.getName());
+            boolean b = ts.makeTMLModeling(content);
+
+            if (!b) {
+                TraceManager.addDev("Error in loaded spec");
+                return;
+            }
+
+            try {
+                drawTMLSpecification(ts.getTMLModeling(), tmlfile.getName());
+            } catch (MalformedTMLDesignException e) {
+                TraceManager.addDev("Error in drawing spec: " + e.getMessage());
+                status.setText("ERROR: " + e.getMessage());
+            }
+
+        } else {
+            // TMAP file
+            TraceManager.addDev("Handling TMAP file: " + tmlfile.getName());
+            TMLMappingTextSpecification ts = new TMLMappingTextSpecification(tmlfile.getName());
+            boolean b = ts.makeTMLMapping(content, tmlfile.getParent() +  File.separator);
+
+            if (!b) {
+                TraceManager.addDev("Error in loaded spec");
+                return;
+            }
+
+
+            TraceManager.addDev("Now drawing TML spec");
+            TMLMapping tmap = ts.getTMLMapping();
+
+            try {
+                drawTMLSpecification(tmap.getTMLModeling(), tmlfile.getName());
+            } catch (MalformedTMLDesignException e) {
+                TraceManager.addDev("Error in drawing spec: " + e.getMessage());
+                status.setText("ERROR: " + e.getMessage());
+            }
+
+
         }
 
     }
@@ -5423,7 +5454,6 @@ public class MainGUI implements ActionListener, WindowListener, KeyListener, Per
             TraceManager.addDev("Error in loaded spec");
             return null;
         }
-
 
         return ts;
     }

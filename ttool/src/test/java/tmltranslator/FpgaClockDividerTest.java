@@ -36,8 +36,8 @@ public class FpgaClockDividerTest extends AbstractTest {
     private String SIM_DIR;
     private final int [] NB_OF_FCD_STATES = {21};
     private final int [] NB_OF_FCD_TRANSTIONS = {20};
-    private final int [] MIN_FCD_CYCLES = {230};
-    private final int [] MAX_FCD_CYCLES = {230};
+    private final int [] MIN_FCD_CYCLES = {128};
+    private final int [] MAX_FCD_CYCLES = {128};
     private static String CPP_DIR = "../../../../simulators/c++2/";
     private static String mappingName = "ArchitectureSimple";
 
@@ -203,11 +203,11 @@ public class FpgaClockDividerTest extends AbstractTest {
 
             // Min and max cycles
             int minValue = graph.getMinValue("allCPUsFPGAsTerminated");
-            System.out.println("executing: minvalue of " + s + " " + minValue);
+            System.out.println("executing: minvalue of " + s + " " + minValue + " expecting: " + MIN_FCD_CYCLES[i]);
             assertTrue(MIN_FCD_CYCLES[i] == minValue);
 
             int maxValue = graph.getMaxValue("allCPUsFPGAsTerminated");
-            System.out.println("executing: maxvalue of " + s + " " + maxValue);
+            System.out.println("executing: maxvalue of " + s + " " + maxValue + " expecting:" + MAX_FCD_CYCLES[i]);
             assertTrue(MAX_FCD_CYCLES[i] == maxValue);
         }
     }

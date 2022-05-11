@@ -382,9 +382,8 @@ public class TMLMappingTextSpecification<E> {
     public boolean makeTMLMapping(String _spec, String path) {
 
         DIPLOElement.resetID();
-
         spec = _spec;
-        //tmlmap = new TMLMappingodeling();
+
         errors = new ArrayList<TMLTXTError>();
         warnings = new ArrayList<TMLTXTError>();
 
@@ -858,10 +857,11 @@ public class TMLMappingTextSpecification<E> {
                         split = s1.split("\\s");
                         if (split.length > 0) {
                             if ((split[0].equals("#include")) && (split.length == 2)) {
+                                TraceManager.addDev("Include found: " + s);
                                 s1 = split[1];
                                 if ((s1.charAt(0) == '\"') && (s1.charAt(s1.length() - 1) == '\"')) {
                                     s1 = s1.substring(1, s1.length() - 1).trim();
-                                    //TraceManager.addDev("Loading file:" + path + s1);
+                                    TraceManager.addDev("Loading file:" + path + s1);
                                     try {
                                         content = FileUtils.loadFile(path + s1);
                                         output += content + CR;
@@ -885,6 +885,8 @@ public class TMLMappingTextSpecification<E> {
             TraceManager.addDev("Exception when reading specification: " + e.getMessage());
             addError(0, lineNb, 0, "Exception when reading specification", null);
         }
+
+        TraceManager.addDev("New output=" + output);
 
         return output;
     }

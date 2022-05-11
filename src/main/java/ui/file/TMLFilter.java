@@ -54,11 +54,7 @@ import java.io.File;
  */
 public class TMLFilter extends FileFilter {
 
-//Accept all directories and  xml files
     public boolean accept(File f) {
-        if (f.isDirectory()) {
-            return true;
-        }
 
         String extension = FileUtils.getExtension(f);
         if (extension != null) {
@@ -69,7 +65,7 @@ public class TMLFilter extends FileFilter {
     }
     
     public String getDescription() {
-        return "TML / TMAP";
+        return "TML";
     }
     
     public static String getExtension() {

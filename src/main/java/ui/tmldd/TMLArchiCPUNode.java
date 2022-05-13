@@ -618,55 +618,93 @@ public class TMLArchiCPUNode extends TMLArchiNode implements SwallowTGComponent,
     public int getNbOfCores() {
         return nbOfCores;
     }
+    public void setNbOfCore(int _nbOfCores) {
+        nbOfCores = _nbOfCores;
+    }
 
     public int getByteDataSize() {
         return byteDataSize;
+    }
+    public void setByteDataSize(int _byteDateSize) {
+        byteDataSize = _byteDateSize;
     }
 
     public int getPipelineSize() {
         return pipelineSize;
     }
+    public void setPipelineSize(int _pipelineSize) {
+        pipelineSize = _pipelineSize;
+    }
 
     public int getGoIdleTime() {
         return goIdleTime;
+    }
+    public void setGoIdleTime(int _goIdleTime) {
+        goIdleTime = _goIdleTime;
     }
 
     public int getMaxConsecutiveIdleCycles() {
         return maxConsecutiveIdleCycles;
     }
+    public void setMaxConsecutiveIdleCycles(int _maxConsecutiveIdleCycles) {
+         maxConsecutiveIdleCycles = _maxConsecutiveIdleCycles;
+    }
 
     public int getExeciTime() {
         return execiTime;
+    }
+    public void setExeciTime(int _execiTime) {
+        execiTime = _execiTime;
     }
 
     public int getExeccTime() {
         return execcTime;
     }
+    public void setExeccTime(int _execcTime) {
+        execcTime = _execcTime;
+    }
 
     public int getTaskSwitchingTime() {
         return taskSwitchingTime;
+    }
+    public void setTaskSwitchingTime(int _taskSwitchingTime) {
+        taskSwitchingTime = _taskSwitchingTime;
     }
 
     public int getBranchingPredictionPenalty() {
         return branchingPredictionPenalty;
     }
+    public void setBranchingPredictionPenalty(int _branchingPredictionPenalty) {
+        branchingPredictionPenalty = _branchingPredictionPenalty;
+    }
 
     public int getCacheMiss() {
         return cacheMiss;
+    }
+    public void setCacheMiss(int _cacheMiss) {
+        cacheMiss = _cacheMiss;
     }
 
     public int getSchedulingPolicy() {
         return schedulingPolicy;
     }
+    public void setSchedulingPolicy(int _schedulingPolicy) {
+        schedulingPolicy = _schedulingPolicy;
+    }
 
     public int getSliceTime() {
         return sliceTime;
+    }
+    public void setSliceTime(int _sliceTime) {
+        sliceTime = _sliceTime;
     }
 
     public int getEncryption() {
         return encryption;
     }
-
+    public void setEncryption(int _encryption) {
+        encryption = _encryption;
+    }
     public String getOperation() {
         return operation;
     }

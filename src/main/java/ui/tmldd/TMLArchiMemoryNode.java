@@ -385,10 +385,24 @@ public class TMLArchiMemoryNode extends TMLArchiCommunicationNode implements Swa
     public int getByteDataSize(){
         return byteDataSize;
     }
+    public void setByteDataSize(int _byteDataSize){
+        byteDataSize = _byteDataSize;
+    }
 
     public int getMemorySize(){
         return memorySize;
     }
+    public void setMemorySize(int _memorySize){
+        memorySize = _memorySize;
+    }
+
+    public int getBufferType() {
+        return bufferType;
+    }
+    public void setBufferType(int _bufferType) {
+        bufferType = _bufferType;
+    }
+
 
     @Override
     public String getAttributes() {
@@ -404,7 +418,5 @@ public class TMLArchiMemoryNode extends TMLArchiCommunicationNode implements Swa
         return STORAGE;
     }
 
-    public int getBufferType() {
-        return bufferType;
-    }
+
 }

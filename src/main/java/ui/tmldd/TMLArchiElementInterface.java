@@ -44,7 +44,7 @@ package ui.tmldd;
 
 /**
    * Class TMLArchiElementInterface
-   * Interface of  an architecture element
+   * Interface of an architecture element
    * Creation: 12/09/2016
    * @version 1.0 12/09/2016
    * @author Ludovic APVRILLE

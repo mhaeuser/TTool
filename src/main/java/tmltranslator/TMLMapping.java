@@ -177,7 +177,7 @@ public class TMLMapping<E> {
     }
 
     public void makeMinimumMapping() {
-        TraceManager.addDev("MAKE minimum mapping");
+        TraceManager.addDev("Make minimum mapping");
 
         HwCPU cpu;
         HwMemory mem;
@@ -248,12 +248,17 @@ public class TMLMapping<E> {
 
         }
 
+        if (!tmla.hasMemory()) {
+            mem = new HwMemory("defaultMemory");
+            tmla.addHwNode(mem);
+        } else {
+            mem = tmla.getFirstMemory();
+        }
+
 
         if (!tmla.hasBus()) {
             bus = new HwBus("defaultBus");
-            mem = new HwMemory("defaultMemory");
             tmla.addHwNode(bus);
-            tmla.addHwNode(mem);
             // Connect all possible nodes to that bus
             cpt = 0;
             for (HwNode node:tmla.getHwNodes()) {
@@ -266,7 +271,7 @@ public class TMLMapping<E> {
                 }
             }
 
-            // Add all channels on that bus
+            // Add all channels on that bus and to that memory
             Iterator<TMLChannel> channelIt = tmlm.getChannels().iterator();
 
             while (channelIt.hasNext()) {
@@ -286,13 +291,16 @@ public class TMLMapping<E> {
 
         makeAutomata();
 
+        // Checking that all channels are mapped to at least on memory
         Iterator<TMLChannel> channelIt = tmlm.getChannels().iterator();
         while (channelIt.hasNext()) {
             ch = channelIt.next();
-            mem = getMemoryOfChannel(ch);
+            HwMemory memD = getMemoryOfChannel(ch);
 
-            if (mem == null) {
-
+            if (memD == null) {
+                if (tmla.getMemories().size() == 1) {
+                    addCommToHwCommNode(ch, mem);
+                }
             }
             // TraceManager.addDev("Memory of channel " + ch + " is " + mem);
         }

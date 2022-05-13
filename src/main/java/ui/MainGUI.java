@@ -53,10 +53,7 @@ import myutil.*;
 import myutilsvg.SVGGeneration;
 import org.xml.sax.SAXException;
 import proverifspec.ProVerifOutputAnalyzer;
-import tmltranslator.TMLMapping;
-import tmltranslator.TMLMappingTextSpecification;
-import tmltranslator.TMLModeling;
-import tmltranslator.TMLTextSpecification;
+import tmltranslator.*;
 import tmltranslator.simulation.SimulationTransaction;
 import translator.CheckingError;
 import translator.MasterGateManager;
@@ -1882,6 +1879,21 @@ public class MainGUI implements ActionListener, WindowListener, KeyListener, Per
         DrawerTMLModeling drawer = new DrawerTMLModeling(this);
         drawer.drawTMLModelingPanel(tmlm, tmlcdp);
         TraceManager.addDev("Draw TML Spec 4");
+    }
+
+    public void drawTMAPSpecification(TMLMapping tmap, String title) throws MalformedTMLDesignException {
+        DateFormat dateFormat = new SimpleDateFormat("_yyyyMMdd_HHmmss");
+        Date date = new Date();
+        String dateAndTime = dateFormat.format(date);
+        String tabName = title + "_" + dateAndTime;
+        TraceManager.addDev("Draw TMAP Spec 1");
+        int index = createTMLArchitecture(tabName + "_Mapping");
+        TraceManager.addDev("Draw TMAP Spec 2");
+        TMLArchiPanel tmlap = (TMLArchiPanel) (tabs.elementAt(index));
+        TraceManager.addDev("to Draw TMAP Spec 4");
+        DrawerTMAPModeling drawer = new DrawerTMAPModeling(this);
+        drawer.drawTMAPModelingPanel(tmap, tmlap);
+        TraceManager.addDev("Draw TMAP Spec 4");
     }
 
     // Creates the status bar.
@@ -5399,13 +5411,12 @@ public class MainGUI implements ActionListener, WindowListener, KeyListener, Per
         // tml or tmap?
         if (tmlfile.getName().endsWith("tml")) {
 
-
             // Get TML Modeling from content
             TMLTextSpecification ts = new TMLTextSpecification(tmlfile.getName());
             boolean b = ts.makeTMLModeling(content);
 
             if (!b) {
-                TraceManager.addDev("Error in loaded spec");
+                TraceManager.addDev("Error in loaded tml spec");
                 return;
             }
 
@@ -5423,7 +5434,8 @@ public class MainGUI implements ActionListener, WindowListener, KeyListener, Per
             boolean b = ts.makeTMLMapping(content, tmlfile.getParent() +  File.separator);
 
             if (!b) {
-                TraceManager.addDev("Error in loaded spec");
+                TraceManager.addDev("Error in loaded tmap spec:\n" + ts.printErrors());
+
                 return;
             }
 
@@ -5433,6 +5445,8 @@ public class MainGUI implements ActionListener, WindowListener, KeyListener, Per
 
             try {
                 drawTMLSpecification(tmap.getTMLModeling(), tmlfile.getName());
+                TraceManager.addDev("Drawing TMAP spec");
+                drawTMAPSpecification(tmap, tmlfile.getName());
             } catch (MalformedTMLDesignException e) {
                 TraceManager.addDev("Error in drawing spec: " + e.getMessage());
                 status.setText("ERROR: " + e.getMessage());

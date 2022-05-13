@@ -549,41 +549,73 @@ public class TMLArchiFPGANode extends TMLArchiNode implements SwallowTGComponent
     public int getCapacity() {
         return capacity;
     }
+    public void setCapacity(int _capacity) {
+        capacity = _capacity;
+    }
+
 
     public int getByteDataSize() {
         return byteDataSize;
+    }
+    public void setByteDataSize(int _byteDateSize) {
+        byteDataSize = _byteDateSize;
     }
 
     public int getReconfigurationTime() {
         return reconfigurationTime;
     }
+    public void setReconfigurationTime(int _reconfigurationTime) {
+        reconfigurationTime = _reconfigurationTime;
+    }
 
     public int getGoIdleTime() {
         return goIdleTime;
+    }
+    public void setGoIdleTime(int _goIdleTime) {
+        goIdleTime = _goIdleTime;
     }
 
     public int getMaxConsecutiveIdleCycles() {
         return maxConsecutiveIdleCycles;
     }
+    public void setMaxConsecutiveIdleCycles(int _maxConsecutiveIdleCycles) {
+        maxConsecutiveIdleCycles = _maxConsecutiveIdleCycles;
+    }
+
 
     public int getExeciTime() {
         return execiTime;
+    }
+    public void setExeciTime(int _execiTime) {
+        execiTime = _execiTime;
     }
 
     public int getExeccTime() {
         return execcTime;
     }
+    public void setExeccTime(int _execcTime) {
+        execcTime = _execcTime;
+    }
 
     public int getMappingPenalty() {
         return mappingPenalty;
+    }
+    public void setMappingPenalty(int _mappingPenalty) {
+        mappingPenalty = _mappingPenalty;
     }
 
     public String getOperation() {
         return operation;
     }
+    public void setOperation(String _operation) {
+        operation = _operation;
+    }
 
     public String getScheduling() {
         return scheduling;
+    }
+    public void setScheduling(String _scheduling) {
+        scheduling = _scheduling;
     }
 
     @Override

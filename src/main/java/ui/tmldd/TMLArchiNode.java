@@ -107,6 +107,7 @@ public abstract class TMLArchiNode extends TGCWithInternalComponent implements S
     public int getClockRatio(){
         return clockRatio;
     }
+    public void setClockRatio(int _clockRatio) { clockRatio = _clockRatio;}
 
     public ArchUnitMEC getMECType()     {
         return MECType;

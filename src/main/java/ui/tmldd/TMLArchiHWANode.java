@@ -440,13 +440,22 @@ public class TMLArchiHWANode extends TMLArchiNode implements SwallowTGComponent,
     public int getByteDataSize() {
         return byteDataSize;
     }
+    public void setByteDataSize(int _byteDateSize) {
+        byteDataSize = _byteDateSize;
+    }
 
     public int getExeciTime() {
         return execiTime;
     }
+    public void setExeciTime(int _execiTime) {
+        execiTime = _execiTime;
+    }
 
     public int getExeccTime() {
         return execcTime;
+    }
+    public void setExeccTime(int _execcTime) {
+        execcTime = _execcTime;
     }
 
     public String getOperation() {

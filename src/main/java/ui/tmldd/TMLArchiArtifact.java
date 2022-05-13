@@ -1,26 +1,26 @@
 /* Copyright or (C) or Copr. GET / ENST, Telecom-Paris, Ludovic Apvrille
- * 
+ *
  * ludovic.apvrille AT enst.fr
- * 
+ *
  * This software is a computer program whose purpose is to allow the
  * edition of TURTLE analysis, design and deployment diagrams, to
  * allow the generation of RT-LOTOS or Java code from this diagram,
  * and at last to allow the analysis of formal validation traces
  * obtained from external tools, e.g. RTL from LAAS-CNRS and CADP
  * from INRIA Rhone-Alpes.
- * 
+ *
  * This software is governed by the CeCILL  license under French law and
  * abiding by the rules of distribution of free software.  You can  use,
  * modify and/ or redistribute the software under the terms of the CeCILL
  * license as circulated by CEA, CNRS and INRIA at the following URL
  * "http://www.cecill.info".
- * 
+ *
  * As a counterpart to the access to the source code and  rights to copy,
  * modify and redistribute granted by the license, users are provided only
  * with a limited warranty  and the software's author,  the holder of the
  * economic rights,  and the successive licensors  have only  limited
  * liability.
- * 
+ *
  * In this respect, the user's attention is drawn to the risks associated
  * with loading,  using,  modifying and/or developing or reproducing the
  * software by the user in light of its specific status of free software,
@@ -31,7 +31,7 @@
  * requirements in conditions enabling the security of their systems and/or
  * data to be ensured and,  more generally, to use and operate it in the
  * same conditions as regards security.
- * 
+ *
  * The fact that you are presently reading this means that you have had
  * knowledge of the CeCILL license and that you accept its terms.
  */
@@ -60,11 +60,11 @@ import java.awt.*;
  */
 public class TMLArchiArtifact extends TGCWithoutInternalComponent implements SwallowedTGComponent, WithAttributes, TMLArchiTaskInterface {
 
-	// Issue #31
-	private static final int SPACE = 5;
-	private static final int CRAN = 5;
-	private static final int FILE_X = 20;
-	private static final int FILE_Y = 25;
+    // Issue #31
+    private static final int SPACE = 5;
+    private static final int CRAN = 5;
+    private static final int FILE_X = 20;
+    private static final int FILE_Y = 25;
 //    protected int lineLength = 5;
 //    protected int textX =  5;
 //    protected int textY =  15;
@@ -73,29 +73,26 @@ public class TMLArchiArtifact extends TGCWithoutInternalComponent implements Swa
 //    protected int fileX = 20;
 //    protected int fileY = 25;
 //    protected int cran = 5;
-
+    public String status = "";
+    public String lastTransaction = "";
     protected String oldValue = "";
     protected String referenceTaskName = "referenceToTask";
     protected String taskName = "name";
     protected int priority = 0; // Between 0 and 10
     //protected String operation = "";
     protected String operationMEC = "VOID";
-
     private ArchUnitMEC fatherArchUnitMECType = new CpuMEC();
 
-    public String status="";
-    public String lastTransaction="";
-    
-    public TMLArchiArtifact(int _x, int _y, int _minX, int _maxX, int _minY, int _maxY, boolean _pos, TGComponent _father, TDiagramPanel _tdp)  {
+    public TMLArchiArtifact(int _x, int _y, int _minX, int _maxX, int _minY, int _maxY, boolean _pos, TGComponent _father, TDiagramPanel _tdp) {
         super(_x, _y, _minX, _maxX, _minY, _maxY, _pos, _father, _tdp);
 
         // Issue #31
-		textX = 5;
+        textX = 5;
         textY = 15;
 //        width = 100;
 //        height = 40;
         minWidth = 100;
-        initScaling( 100, 40 );
+        initScaling(100, 40);
 
         nbConnectingPoint = 0;
         addTGConnectingPointsComment();
@@ -115,20 +112,24 @@ public class TMLArchiArtifact extends TGCWithoutInternalComponent implements Swa
 
     @Override
     public boolean isHidden() {
-		//TraceManager.addDev("Archi task artifact: Am I hidden?" + getValue());
-		boolean ret = false;
-		if (tdp != null) {
-		    if (tdp instanceof TMLArchiDiagramPanel) {
-			ret = !(((TMLArchiDiagramPanel)(tdp)).inCurrentView(this));
-			
-		    }
-		}
-		//TraceManager.addDev("Hidden? -> " + ret);
-		return ret;
+        //TraceManager.addDev("Archi task artifact: Am I hidden?" + getValue());
+        boolean ret = false;
+        if (tdp != null) {
+            if (tdp instanceof TMLArchiDiagramPanel) {
+                ret = !(((TMLArchiDiagramPanel) (tdp)).inCurrentView(this));
+
+            }
+        }
+        //TraceManager.addDev("Hidden? -> " + ret);
+        return ret;
     }
 
     public int getPriority() {
         return priority;
+    }
+
+    public void setPriority(int _priority) {
+        priority = _priority;
     }
 
     /*public String getOperation() {
@@ -159,26 +160,26 @@ public class TMLArchiArtifact extends TGCWithoutInternalComponent implements Swa
         g.setColor(c);
 
         // Issue #31
-        final int space = scale( SPACE );
-        final int marginFileX = scale( SPACE + FILE_X );
-        final int marginFileY = scale( SPACE + FILE_Y );
-        final int marginCran = scale( SPACE + CRAN );
-        
-        g.drawLine(x+width- marginFileX /*space-fileX*/, y + space, x+width- marginFileX /*space-fileX*/, y+ marginFileY/*space+fileY*/);
-        g.drawLine(x+width- marginFileX/*space-fileX*/, y + space, x+width-marginCran/*space-cran*/, y+space);
-        g.drawLine(x+width-marginCran/*space-cran*/, y+space, x+width-space, y+ marginCran/*space + cran*/);
-        g.drawLine(x+width-space, y+ marginCran/*space + cran*/, x+width-space, y+ marginFileY/*space+fileY*/);
-        g.drawLine(x+width-space, y+ marginFileY/*space+fileY*/, x+width-marginFileX/*space-fileX*/, y+ marginFileY/*space+fileY*/);
-        g.drawLine(x+width- marginCran /*space-cran*/, y+space, x+width- marginCran/*space-cran*/, y+ marginCran/*space+cran*/);
-        g.drawLine(x+width- marginCran/*space-cran*/, y+ marginCran/*space+cran*/, x + width-space, y+marginCran /*space+cran*/);
-        drawSingleString(g,value, x + textX , y + textY);
+        final int space = scale(SPACE);
+        final int marginFileX = scale(SPACE + FILE_X);
+        final int marginFileY = scale(SPACE + FILE_Y);
+        final int marginCran = scale(SPACE + CRAN);
+
+        g.drawLine(x + width - marginFileX /*space-fileX*/, y + space, x + width - marginFileX /*space-fileX*/, y + marginFileY/*space+fileY*/);
+        g.drawLine(x + width - marginFileX/*space-fileX*/, y + space, x + width - marginCran/*space-cran*/, y + space);
+        g.drawLine(x + width - marginCran/*space-cran*/, y + space, x + width - space, y + marginCran/*space + cran*/);
+        g.drawLine(x + width - space, y + marginCran/*space + cran*/, x + width - space, y + marginFileY/*space+fileY*/);
+        g.drawLine(x + width - space, y + marginFileY/*space+fileY*/, x + width - marginFileX/*space-fileX*/, y + marginFileY/*space+fileY*/);
+        g.drawLine(x + width - marginCran /*space-cran*/, y + space, x + width - marginCran/*space-cran*/, y + marginCran/*space+cran*/);
+        g.drawLine(x + width - marginCran/*space-cran*/, y + marginCran/*space+cran*/, x + width - space, y + marginCran /*space+cran*/);
+        drawSingleString(g, value, x + textX, y + textY);
     }
 
     public void setValue(String val, Graphics g) {
         oldValue = value;
-        int w  = g.getFontMetrics().stringWidth(value);
-        
-        final int marginFileX = scale( SPACE + FILE_X );
+        int w = g.getFontMetrics().stringWidth(value);
+
+        final int marginFileX = scale(SPACE + FILE_X);
         int w1 = Math.max(minWidth, w + 2 * textX + marginFileX/*fileX + space*/);
 
         //
@@ -207,9 +208,9 @@ public class TMLArchiArtifact extends TGCWithoutInternalComponent implements Swa
             fatherArchUnitMECType = ((TMLArchiNode) father).getMECType();
         }
         JDialogTMLTaskArtifact dialog = new JDialogTMLTaskArtifact(frame, "Setting artifact attributes", this, operationMEC, fatherArchUnitMECType);
-    //    dialog.setSize(400, 350);
+        //    dialog.setSize(400, 350);
         GraphicLib.centerOnParent(dialog, 400, 350);
-        dialog.setVisible( true ); // blocked until dialog has been closed
+        dialog.setVisible(true); // blocked until dialog has been closed
         operationMEC = dialog.getOperation();
 
         if (!dialog.isRegularClose()) {
@@ -269,27 +270,27 @@ public class TMLArchiArtifact extends TGCWithoutInternalComponent implements Swa
     @Override
     protected String translateExtraParam() {
         StringBuffer sb = new StringBuffer("<extraparam>\n");
-        sb.append( "<info value=\"" + value + "\" taskName=\"" + taskName + "\" referenceTaskName=\"" );
-        sb.append( referenceTaskName );
-        sb.append( "\" priority=\"" );
-        sb.append( priority );
-        sb.append( "\" operationMEC=\"" );
-        sb.append( operationMEC );
-        sb.append( "\" fatherComponentMECType=\"" + fatherArchUnitMECType.getIndex() );
-        sb.append( "\" />\n" );
-        sb.append( "</extraparam>\n" );
+        sb.append("<info value=\"" + value + "\" taskName=\"" + taskName + "\" referenceTaskName=\"");
+        sb.append(referenceTaskName);
+        sb.append("\" priority=\"");
+        sb.append(priority);
+        sb.append("\" operationMEC=\"");
+        sb.append(operationMEC);
+        sb.append("\" fatherComponentMECType=\"" + fatherArchUnitMECType.getIndex());
+        sb.append("\" />\n");
+        sb.append("</extraparam>\n");
         return new String(sb);
     }
 
     @Override
-    public void loadExtraParam(NodeList nl, int decX, int decY, int decId) throws MalformedModelingException{
+    public void loadExtraParam(NodeList nl, int decX, int decY, int decId) throws MalformedModelingException {
         //
         try {
 
             NodeList nli;
             Node n1, n2;
             Element elt;
-         //   int t1id;
+            //   int t1id;
             String svalue = null, sname = null, sreferenceTask = null;
             String prio;
 
@@ -330,7 +331,7 @@ public class TMLArchiArtifact extends TGCWithoutInternalComponent implements Swa
                             if (svalue != null) {
                                 value = svalue;
                             }
-                            if (sname != null){
+                            if (sname != null) {
                                 taskName = sname;
                             }
                             if (sreferenceTask != null) {
@@ -342,7 +343,7 @@ public class TMLArchiArtifact extends TGCWithoutInternalComponent implements Swa
             }
 
         } catch (Exception e) {
-            throw new MalformedModelingException( e );
+            throw new MalformedModelingException(e);
         }
         makeFullValue();
     }
@@ -359,15 +360,17 @@ public class TMLArchiArtifact extends TGCWithoutInternalComponent implements Swa
         referenceTaskName = _referenceTaskName;
         makeFullValue();
     }
-    public void setFullName(String _taskName, String _referenceTaskName){
-        taskName= _taskName;
-        referenceTaskName=_referenceTaskName;
+
+    public void setFullName(String _taskName, String _referenceTaskName) {
+        taskName = _taskName;
+        referenceTaskName = _referenceTaskName;
         makeFullValue();
     }
+
     public String getTaskName() {
         return taskName;
     }
-    
+
     public void setTaskName(String s) {
         taskName = s;
     }
@@ -380,45 +383,40 @@ public class TMLArchiArtifact extends TGCWithoutInternalComponent implements Swa
         return operationMEC;
     }
 
-    public int getOperationType()       {
-        if( fatherArchUnitMECType instanceof FepMEC )   {
-            if( operationMEC.equals( "CWM" ) )     {
+    public void setOperation(String _operation) {
+        operationMEC = _operation;
+    }
+
+    public int getOperationType() {
+        if (fatherArchUnitMECType instanceof FepMEC) {
+            if (operationMEC.equals("CWM")) {
                 return FepOperationMEC.CWM_MEC;
-            }
-            else if( operationMEC.equals( "CWL" ) )        {
+            } else if (operationMEC.equals("CWL")) {
                 //TraceManager.addDev( "Operation: " + operation + " returns " + FepOperationMEC.CwlMEC );
                 return FepOperationMEC.CWL_MEC;
-            }
-            else if( operationMEC.equals( "CWA" ) )        {
+            } else if (operationMEC.equals("CWA")) {
                 //TraceManager.addDev( "Operation: " + operation + " returns " + FepOperationMEC.CwaMEC );
                 return FepOperationMEC.CWA_MEC;
-            }
-            else if( operationMEC.equals( "CWP" ) )        {
+            } else if (operationMEC.equals("CWP")) {
                 //TraceManager.addDev( "Operation: " + operation + " returns " + FepOperationMEC.CwpMEC );
                 return FepOperationMEC.CWP_MEC;
-            }
-            else if( operationMEC.equals( "FFT" ) )        {
+            } else if (operationMEC.equals("FFT")) {
                 //TraceManager.addDev( "Operation: " + operation + " returns " + FepOperationMEC.FftMEC );
                 return FepOperationMEC.FFT_MEC;
-            }
-            else if( operationMEC.equals( "SUM" ) )        {
+            } else if (operationMEC.equals("SUM")) {
                 //TraceManager.addDev( "Operation: " + operation + " returns " + FepOperationMEC.SumMEC );
                 return FepOperationMEC.SUM_MEC;
             }
-        }
-        else if( fatherArchUnitMECType instanceof MapperMEC )   {
+        } else if (fatherArchUnitMECType instanceof MapperMEC) {
             //TraceManager.addDev( "Operation: " + operation + " returns " + OperationMEC.MappOperationMEC );
             return OperationMEC.MAPP_OPERATION_MEC;
-        }
-        else if( fatherArchUnitMECType instanceof InterleaverMEC        )       {
+        } else if (fatherArchUnitMECType instanceof InterleaverMEC) {
             //TraceManager.addDev( "Operation: " + operation + " returns " + OperationMEC.IntlOperationMEC );
             return OperationMEC.INTL_OPERATION_MEC;
-        }
-        else if( fatherArchUnitMECType instanceof AdaifMEC )    {
+        } else if (fatherArchUnitMECType instanceof AdaifMEC) {
             //TraceManager.addDev( "Operation: " + operation + " returns " + OperationMEC.AdaifOperationMEC );
             return OperationMEC.ADAIF_OPERATION_MEC;
-        }
-        else if( fatherArchUnitMECType instanceof CpuMEC )      {
+        } else if (fatherArchUnitMECType instanceof CpuMEC) {
             //TraceManager.addDev( "Operation: " + operation + " returns " + OperationMEC.CpuOperationMEC );
             return OperationMEC.CPU_OPERATION_MEC;
         }

@@ -2223,6 +2223,16 @@ public abstract class TGComponent  extends AbstractCDElement implements /*CDElem
         }
     }
 
+    public int nbOfFreeTGConnectingPoint() {
+        int cpt = 0;
+        for (int i = 0; i < nbConnectingPoint; i++) {
+            if (connectingPoint[i].isFree()) {
+                cpt ++;
+            }
+        }
+        return cpt;
+    }
+
     public TGConnectingPoint closerFreeTGConnectingPoint(int x, int y) {
         TGConnectingPoint currentCloser = null;
         TGConnectingPoint currentp;
@@ -2245,10 +2255,10 @@ public abstract class TGComponent  extends AbstractCDElement implements /*CDElem
             }
         }
 
-        //compare currentcloser to my points.
+        // Compare current closer to my points.
         for (i = 0; i < nbConnectingPoint; i++) {
             currentp = connectingPoint[i];
-            if ((currentp != null) && (currentp.isFree())) {
+            if ( ( currentp != null) && (currentp.isFree() ) ) {
                 if (currentCloser == null) {
                     currentCloser = currentp;
                 } else {
@@ -2276,6 +2286,40 @@ public abstract class TGComponent  extends AbstractCDElement implements /*CDElem
             }
             currentp = connectingPoint[i];
             if ((currentp != null) && (currentp.isFree()) && (currentp.isIn() == in) && (currentp.isOut() == out)) {
+                if (currentCloser == null) {
+                    currentCloser = currentp;
+                    ref = i;
+                } else {
+                    d1 = Point2D.distanceSq(currentp.getX(), currentp.getY(), x, y);
+                    d2 = Point2D.distanceSq(currentCloser.getX(), currentCloser.getY(), x, y);
+                    if (d1 < d2) {
+                        currentCloser = currentp;
+                        ref = i;
+                    }
+                }
+            }
+        }
+        if (currentCloser != null) {
+            connectingPoint[ref].setFree(false);
+            return connectingPoint[ref];
+        }
+        return currentCloser;
+    }
+
+    public TGConnectingPoint closerFreeTGConnectingPointCompatibility(int x, int y, boolean out, boolean in, int compatibility) {
+        TGConnectingPoint currentCloser = null;
+        TGConnectingPoint currentp;
+        double d1, d2;
+        int i;
+        int ref = 0;
+        //compare currentcloser to my points.
+        for (i = 0; i < nbConnectingPoint; i++) {
+            if (connectingPoint[i] instanceof TGConnectingPointComment) {
+                continue;
+            }
+            currentp = connectingPoint[i];
+            if ((currentp != null) && (currentp.isFree()) && (currentp.isIn() == in) && (currentp.isOut() == out) &&
+                    currentp.isCompatibleWith(compatibility) ) {
                 if (currentCloser == null) {
                     currentCloser = currentp;
                     ref = i;

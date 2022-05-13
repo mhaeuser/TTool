@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<TURTLEGMODELING version="1.0beta" ANIMATE_INTERACTIVE_SIMULATION="true" ACTIVATE_PENALTIES="true" UPDATE_INFORMATION_DIPLO_SIM="true" ANIMATE_WITH_INFO_DIPLO_SIM="true" OPEN_DIAG_DIPLO_SIM="false" LAST_SELECTED_MAIN_TAB="0" LAST_SELECTED_SUB_TAB="2">
+<TURTLEGMODELING version="1.0beta" ANIMATE_INTERACTIVE_SIMULATION="true" ACTIVATE_PENALTIES="true" UPDATE_INFORMATION_DIPLO_SIM="true" ANIMATE_WITH_INFO_DIPLO_SIM="true" OPEN_DIAG_DIPLO_SIM="false" LAST_SELECTED_MAIN_TAB="3" LAST_SELECTED_SUB_TAB="0">
 
 <Modeling type="TML Component Design" nameTab="AppC" tabs="TML Component Task Diagram$Application$TCPIP$Timer$InterfaceDevice$SmartCard" >
 <TMLComponentTaskDiagramPanel name="TML Component Task Diagram" minX="0" maxX="2724" minY="0" maxY="916" channels="true" events="true" requests="true" considerExecOperators="true" considerTimingOperators="true" zoom="1.0000000000000018" >
@@ -2486,7 +2486,7 @@
 </SUBCOMPONENT>
 <SUBCOMPONENT type="-1" id="474" index="358" uid="1fe5d2e4-894b-4c92-aeeb-f8e9c328c824" >
 <father id="479" num="2" />
-<cdparam x="306" y="616" />
+<cdparam x="312" y="616" />
 <sizeparam width="116" height="15" minWidth="10" minHeight="1" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <hidden value="false" />
 <enabled value="true" />
@@ -2746,7 +2746,7 @@
 </COMPONENT>
 
 <COMPONENT type="1001" id="551" index="49" uid="71de86e8-6825-4234-bd32-30f8994a77f8" >
-<cdparam x="319" y="614" />
+<cdparam x="345" y="663" />
 <sizeparam width="20" height="20" minWidth="1" minHeight="1" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <hidden value="false" />
 <cdrectangleparam minX="10" maxX="2900" minY="10" maxY="1900" />
@@ -4468,7 +4468,7 @@ On prend b=1 comme exemple
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="600" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from choice to stop state" value="null" />
 <P1  x="329" y="579" id="477" />
-<P2  x="329" y="609" id="550" />
+<P2  x="355" y="658" id="550" />
 <AutomaticDrawing  data="true" />
 </CONNECTOR>
 <CONNECTOR type="115" id="1068" index="185" uid="36b1e5f5-7ef0-42b7-b18d-ba43d7bf55eb" >
@@ -5693,7 +5693,7 @@ On prend b=1 comme exemple
 
 <COMPONENT type="301" id="1260" index="9" uid="efa68893-2531-4600-8e89-a73485f7cffa" >
 <cdparam x="453" y="214" />
-<sizeparam width="105" height="15" minWidth="50" minHeight="20" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
+<sizeparam width="105" height="20" minWidth="50" minHeight="20" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <hidden value="false" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="UML Note" value="data exchange
@@ -7160,8 +7160,8 @@ the smart card and the terminal
 <Modeling type="TML Architecture" nameTab="Mapping3" >
 <TMLArchiDiagramPanel name="DIPLODOCUS architecture and mapping Diagram" minX="10" maxX="1400" minY="10" maxY="900" attributes="0" considerExecOperators="true" considerTimingOperators="true" masterClockFrequency="200" zoom="1.0" >
 <COMPONENT type="1105" id="1746" index="0" uid="b246b90f-5bcf-40a2-9b50-9001b85188fc" >
-<cdparam x="309" y="358" />
-<sizeparam width="189" height="131" minWidth="100" minHeight="50" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
+<cdparam x="269" y="372" />
+<sizeparam width="268" height="182" minWidth="100" minHeight="50" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <hidden value="false" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="Memory0" value="name" />
@@ -7450,7 +7450,7 @@ the smart card and the terminal
 <cdparam x="402" y="367" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="1000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from Memory0 to Bus0" value="{info}" />
-<P1  x="403" y="358" id="1723" />
+<P1  x="403" y="372" id="1723" />
 <P2  x="403" y="319" id="1753" />
 <AutomaticDrawing  data="true" />
 <extraparam>

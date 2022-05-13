@@ -1724,6 +1724,8 @@ public class GTMLModeling {
         //TraceManager.addDev("Making mapping");
         makeMapping();  //fills map
 
+        map.makeMinimumMapping();
+
         TMLSyntaxChecking syntax = new TMLSyntaxChecking(map, true);
         syntax.checkSyntax();
 

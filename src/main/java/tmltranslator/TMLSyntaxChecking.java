@@ -85,6 +85,7 @@ public class TMLSyntaxChecking {
     private final String INVALID_CHANNEL_PATH = "Channel path is invalid";
     private final String INVALID_BUS_PATH = "Bus path is invalid for channel"; // Should be a warning only
     private final String INVALID_ROUTING = "No possible routing for channel"; // Should be a warning only
+    private final String LINK_ISSUE = "All components must be linked to a bus or be a bus";
 
     private final String DUPLICATE_PATH_TO_BUS = "Path to bus is duplicated"; // Should be a warning only
     private final String ONLY_ONE_NOC = "Only one NoC can be used"; // Should be a warning only
@@ -146,8 +147,10 @@ public class TMLSyntaxChecking {
             checkNonDuplicatePathToBuses();
             checkOneNOC();
             checkRouting();
+            //TraceManager.addDev("Checking link bus");
+            checkLinkBuses();
 
-            // Check that if their is a memory for a channel, the memory is connected to the path
+            // Check that if there is a memory for a channel, the memory is connected to the path
         }
 
     }
@@ -866,7 +869,7 @@ public class TMLSyntaxChecking {
     }
 
     private void checkPathToMemoryFromAllHwCommNode(TMLChannel ch) {
-        TraceManager.addDev("Checking checkPathToMemoryFromAllHwCommNode");
+        //TraceManager.addDev("Checking checkPathToMemoryFromAllHwCommNode");
         HwMemory mem = mapping.getMemoryOfChannel(ch);
         if (mem != null) {
             for (HwCommunicationNode origin : mapping.getAllCommunicationNodesOfChannel(ch)) {
@@ -920,7 +923,8 @@ public class TMLSyntaxChecking {
                 newList.add(link.hwnode);
                 map.put(link.bus, newList);
             } else if (list.contains(link.hwnode)) {
-                addErrorByReference(null, null, null, DUPLICATE_PATH_TO_BUS + ": from " + link.hwnode.getName() + " to " + link.bus.getName(), TMLError.ERROR_STRUCTURE);
+                addErrorByReference(null, null, null, DUPLICATE_PATH_TO_BUS + ": from " + link.hwnode.getName() + " to "
+                        + link.bus.getName(), TMLError.ERROR_STRUCTURE);
             } else {
                 list.add(link.hwnode);
             }
@@ -929,7 +933,7 @@ public class TMLSyntaxChecking {
 
 
     private void checkOneNOC() {
-        TraceManager.addDev("Checking NOC Nodes");
+        //TraceManager.addDev("Checking NOC Nodes");
         int nb = mapping.getNbOfNoCs();
 
         if (nb > 1) {
@@ -947,6 +951,27 @@ public class TMLSyntaxChecking {
             if (s == null) {
                 addError(ch.getOriginTask(), null, INVALID_ROUTING + ": " + ch.getName() + " between " + ch.getOriginTask().getName() + " and " +
                         ch.getDestinationTask().getName(), TMLError.ERROR_STRUCTURE);
+            }
+        }
+    }
+
+    private void checkLinkBuses() {
+        for(HwNode node: mapping.getArch().getHwNodes()) {
+            if (!((node instanceof HwBus) || (node instanceof HwNoC))) { // Not a bus
+                // It must have one link to a bus
+                //TraceManager.addDev("Working with node=" + node.getName());
+                boolean hasALink = false;
+                for(HwLink link: mapping.getArch().getHwLinks()) {
+                    if (link.hwnode == node) {
+                        //TraceManager.addDev("Link found from " + node.getName() + " to bus " + link.bus.getName());
+                        hasALink = true;
+                        break;
+                    }
+                }
+                if (!hasALink) {
+                    addError(null, null, LINK_ISSUE + ": " + node.getName() + " has not link to a bus"  , TMLError.ERROR_STRUCTURE);
+                }
+
             }
         }
     }

@@ -317,6 +317,9 @@ public class TMLArchiBridgeNode extends TMLArchiCommunicationNode implements Swa
     public int getBufferByteDataSize(){
         return bufferByteDataSize;
     }
+    public void setBufferByteDataSize(int _bufferByteDataSize) {
+        bufferByteDataSize = _bufferByteDataSize;
+    }
 
     @Override
     public String getAttributes() {

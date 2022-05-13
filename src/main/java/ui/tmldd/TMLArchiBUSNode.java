@@ -465,21 +465,30 @@ public class TMLArchiBUSNode extends TMLArchiCommunicationNode implements Swallo
         return byteDataSize;
     }
 
+    public void setDataSize(int _byteDataSize) { byteDataSize = _byteDataSize;}
+
     public int getPipelineSize(){
         return pipelineSize;
     }
 
+    public void setPipelineSize(int _pipelineSize) { pipelineSize = _pipelineSize;}
+
     public int getSliceTime(){
         return sliceTime;
     }
+    public void setSliceTime(int _sliceTime) { sliceTime = _sliceTime;}
 
     public int getBurstSize(){
         return burstSize;
     }
+    public void setBurstSize(int _burstSize) { burstSize = _burstSize;}
 
     public int getArbitrationPolicy(){
         return arbitrationPolicy;
     }
+    public void setArbitrationPolicy(int _arbitrationPolicy) { arbitrationPolicy = _arbitrationPolicy;}
+
+
     public int getPrivacy(){
         return privacy;
     }

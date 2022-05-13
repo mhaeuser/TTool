@@ -929,7 +929,7 @@ public class DiploSimulatorCodeGenerator implements IDiploSimulatorCodeGenerator
         if( startNode == null ) {
             TraceManager.addDev( "NULL REFERENCE" );
         } else {
-            TraceManager.addDev( "startNode: " + startNode.getName() );
+            //TraceManager.addDev( "startNode: " + startNode.getName() );
         }
 
         HwMemory memory = getMemConnectedToBusChannelMapped(commNodes, null, commElemToRoute);
@@ -985,8 +985,8 @@ public class DiploSimulatorCodeGenerator implements IDiploSimulatorCodeGenerator
 
         // first called with Maping:getCommunicationNodes
         List<HwCommunicationNode> nodesToExplore;
-        TraceManager.addDev("No of comm nodes " + commNodes.size());
-        TraceManager.addDev("startNode=" + startNode);
+        //TraceManager.addDev("No of comm nodes " + commNodes.size());
+        //TraceManager.addDev("startNode=" + startNode);
         boolean busExploreMode = ((depth & 1) == 0);
 
         if (busExploreMode) {
@@ -1041,7 +1041,7 @@ public class DiploSimulatorCodeGenerator implements IDiploSimulatorCodeGenerator
             commNodes.add(currNode);
         }
 
-        TraceManager.addDev("Returning false");
+        //TraceManager.addDev("Returning false");
         return false;
     }
 

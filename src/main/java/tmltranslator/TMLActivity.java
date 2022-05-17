@@ -843,6 +843,30 @@ public class TMLActivity extends TMLElement {
     }
 
 
+    public void addStopAfterElementsWithNoNext() {
+        List<TMLActivityElement> newStop = new LinkedList<>();
+
+        for (TMLActivityElement elt : elements) {
+            if (! ((elt instanceof TMLStopState) || (elt instanceof TMLChoice)))  {
+                if (elt.getNbNext() == 0) {
+                    TMLStopState ss = new TMLStopState("stopMissing", elt.getReferenceObject());
+                    elt.addNext(ss);
+                    newStop.add(ss);
+                }
+
+                if (elt instanceof TMLForLoop) {
+                    if (elt.getNbNext() < 2) {
+                        TMLStopState ss = new TMLStopState("stopMissing", elt.getReferenceObject());
+                        elt.addNext(ss);
+                        newStop.add(ss);
+                    }
+                }
+
+            }
+        }
+
+        elements.addAll(newStop);
+    }
 
 
 
@@ -882,4 +906,6 @@ public class TMLActivity extends TMLElement {
 
         }
     }
+
+
 }

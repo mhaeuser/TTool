@@ -50,6 +50,7 @@ import proverifspec.ProVerifQueryAuthResult;
 import proverifspec.ProVerifQueryResult;
 import proverifspec.ProVerifResultTrace;
 import ui.TGComponent;
+import ui.tmlad.TMLADStopState;
 
 import java.util.*;
 
@@ -2080,17 +2081,21 @@ public class TMLModeling<E> {
         ArrayList<TMLActivityElement> toBeRemoved = new ArrayList<>();
         ArrayList<TMLActivityElement> toBeRemovedLocal = new ArrayList<>();
 
+
+
         for (int i = 0; i < activity.nElements(); i++) {
             elt0 = activity.get(i);
             if (elt0 instanceof TMLSequence) {
                 toBeRemovedLocal.clear();
                 int cpt = 0;
-                for(TMLActivityElement next: elt0.getNexts()) {
-                    if (next instanceof TMLStopState) {
-                        toBeRemoved.add(next);
-                        toBeRemovedLocal.add(next);
+                if (elt0.getNbNext() > 1) {
+                    for (TMLActivityElement next : elt0.getNexts()) {
+                        if (next instanceof TMLStopState) {
+                            toBeRemoved.add(next);
+                            toBeRemovedLocal.add(next);
+                        }
+                        cpt++;
                     }
-                    cpt ++;
                 }
 
                 for(TMLActivityElement elt: toBeRemovedLocal) {
@@ -2117,6 +2122,30 @@ public class TMLModeling<E> {
         for(TMLActivityElement elt: toBeRemoved) {
             activity.removeElement(elt);
         }
+
+        toBeRemoved.clear();
+        ArrayList<TMLActivityElement> toBeAdded = new ArrayList<>();
+        // We now remove sequences with no  next and replace them by a Stop
+        for (int i = 0; i < activity.nElements(); i++) {
+            elt0 = activity.get(i);
+            if (elt0 instanceof TMLSequence) {
+                if (elt0.getNbNext() == 0) {
+                    TMLStopState newStop = new TMLStopState("OldSequence", elt0.getReferenceObject());
+                    toBeAdded.add(newStop);
+                    toBeRemoved.add(elt0);
+                    activity.replaceAllNext(elt0, newStop);
+                }
+            }
+        }
+
+        for(TMLActivityElement elt: toBeAdded) {
+            activity.addElement(elt);
+        }
+        for(TMLActivityElement elt: toBeRemoved) {
+            activity.removeElement(elt);
+        }
+
+
     }
 
 

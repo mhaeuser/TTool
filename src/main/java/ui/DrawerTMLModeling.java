@@ -454,6 +454,7 @@ public class DrawerTMLModeling  {
                 "The activity diagram shall contain exactly one start state for component " + comp.getValue());
 
         drawRecursiveBehaviour(t, activity, activity.getFirst(), comp, first, activityPanel);
+        activity.addStopAfterElementsWithNoNext();
     }
 
     private void drawRecursiveBehaviour(TMLTask t, TMLActivity activity, TMLActivityElement firstTML, TMLCPrimitiveComponent comp,

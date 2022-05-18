@@ -2199,4 +2199,50 @@ public class AvatarStateMachine extends AvatarElement {
         return;
     }
 
+    // Returns the list of elements non reachabable from the start state
+    public List<AvatarStateMachineElement> getUnusedElements() {
+        if (startState == null) {
+            return null;
+        }
+
+        List<AvatarStateMachineElement> elts = new LinkedList<>();
+
+        HashSet<AvatarStateMachineElement> found = new HashSet<>();
+        findAvatarElements(startState, found);
+
+        for(AvatarStateMachineElement asme: elements) {
+            if (!(found.contains(asme))) {
+                elts.add(asme);
+            }
+        }
+
+        return elts;
+    }
+
+    private void findAvatarElements(AvatarStateMachineElement first, HashSet<AvatarStateMachineElement> found) {
+        if (found.contains(first)) {
+            return;
+        }
+
+        found.add(first);
+
+        if (first instanceof AvatarState) {
+            // Find all internal start states of this state
+            for(AvatarStateMachineElement internal: elements) {
+                if (internal instanceof AvatarStartState) {
+                if (internal.getState() == first) {
+                    findAvatarElements(internal, found);
+                }
+                }
+            }
+        }
+
+
+        for(AvatarStateMachineElement asme: first.getNexts()) {
+            findAvatarElements(asme, found);
+
+
+        }
+    }
+
 }

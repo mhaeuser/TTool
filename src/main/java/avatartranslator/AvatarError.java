@@ -58,7 +58,8 @@ public class AvatarError {
                     "No signal of that name in block",
                     "State machine must terminate with a (stop) state",
                     "ASM operator has not next operator",
-                    "Empty state machine"
+                    "Empty state machine",
+                    "Unused elements in state machine"
             };
 
 

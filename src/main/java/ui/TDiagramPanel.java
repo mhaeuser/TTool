@@ -679,7 +679,7 @@ public abstract class TDiagramPanel extends JPanel implements GenericTree {
         sb.append(tgc.saveInXML());
         sb.append("\n");
         sb.append(getXMLCloneTail());
-        TraceManager.addDev("sb=\n" + sb);
+        //TraceManager.addDev("sb=\n" + sb);
         return sb;
     }
 
@@ -714,7 +714,7 @@ public abstract class TDiagramPanel extends JPanel implements GenericTree {
             cpt ++;
         }
         if (cloneEvenIfNonNullFather) {
-            TraceManager.addDev("sb=\n" + sb);
+            //TraceManager.addDev("sb=\n" + sb);
         }
         return sb;
     }

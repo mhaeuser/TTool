@@ -38,7 +38,6 @@
 
 package ui;
 
-import attacktrees.Attack;
 import attacktrees.AttackTree;
 import attacktrees.AttackerPopulation;
 import avatartranslator.*;
@@ -9026,7 +9025,7 @@ public class GTURTLEModeling {
 
         // Check Errors in AVSPEC
         TraceManager.addDev("Checking syntax of avatar spec.");
-        ArrayList<AvatarError> list = AvatarSyntaxChecker.checkSyntax(avspec);
+        ArrayList<AvatarError> list = AvatarSyntaxChecker.checkSyntaxErrors(avspec);
         for (AvatarError error : list) {
             TraceManager.addDev("Error: " + error.toString());
         }
@@ -9239,7 +9238,7 @@ public class GTURTLEModeling {
 
         // Check Errors in AVSPEC
         TraceManager.addDev("Checking syntax of avatar spec.");
-        ArrayList<AvatarError> list = AvatarSyntaxChecker.checkSyntax(avspec);
+        ArrayList<AvatarError> list = AvatarSyntaxChecker.checkSyntaxErrors(avspec);
         for (AvatarError error : list) {
             TraceManager.addDev("Error: " + error.toString());
         }

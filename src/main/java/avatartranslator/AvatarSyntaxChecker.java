@@ -40,6 +40,7 @@ package avatartranslator;
 
 import java.io.StringReader;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 import compiler.tmlparser.ParseException;
@@ -61,11 +62,13 @@ import myutil.TraceManager;
  */
 public class AvatarSyntaxChecker  {
 
+    private final static int UNUSED_ELEMENT = 10;
+
     public AvatarSyntaxChecker() {
     }
 
 
-    public static ArrayList<AvatarError> checkSyntax(AvatarSpecification avspec) {
+    public static ArrayList<AvatarError> checkSyntaxErrors(AvatarSpecification avspec) {
         ArrayList<AvatarError> errors = new ArrayList<>();
 
         errors.addAll(checkNextASMSpec(avspec));
@@ -74,6 +77,47 @@ public class AvatarSyntaxChecker  {
 
         return errors;
     }
+
+    public static ArrayList<AvatarError> checkSyntaxWarnings(AvatarSpecification avspec) {
+        ArrayList<AvatarError> warnings = new ArrayList<>();
+
+        warnings.addAll(checkIsolatedElements(avspec));
+
+        return warnings;
+    }
+
+    public static ArrayList<AvatarError> checkIsolatedElements(AvatarSpecification avspec) {
+        ArrayList<AvatarError> warnings = new ArrayList<>();
+
+        for(AvatarBlock ab: avspec.getListOfBlocks()) {
+            warnings.addAll(checkIsolatedElements(avspec, ab));
+        }
+
+        return warnings;
+    }
+
+    public static ArrayList<AvatarError> checkIsolatedElements(AvatarSpecification avspec, AvatarBlock ab) {
+        ArrayList<AvatarError> warnings = new ArrayList<>();
+
+        AvatarStateMachine asm = ab.getStateMachine();
+        if (asm == null) {
+            return warnings;
+        }
+
+        List<AvatarStateMachineElement> unused = asm.getUnusedElements();
+        if (unused != null) {
+            for(AvatarStateMachineElement asme: unused) {
+                AvatarError warning = new AvatarError(avspec);
+                warning.firstAvatarElement = asme;
+                warning.secondAvatarElement = ab;
+                warning.error = UNUSED_ELEMENT;
+                warnings.add(warning);
+            }
+        }
+
+        return warnings;
+    }
+
 
     public static ArrayList<AvatarError> checkNextASMSpec(AvatarSpecification avspec) {
         ArrayList<AvatarError> errors = new ArrayList<>();

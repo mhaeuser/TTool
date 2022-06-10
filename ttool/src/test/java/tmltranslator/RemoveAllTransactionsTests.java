@@ -32,8 +32,8 @@ public class RemoveAllTransactionsTests extends AbstractTest {
     final String DIR_GEN = "test_diplo_simulator/";
     final String [] MODELS_PARSE_HTML = {"parseFPGA_HTML"};
     final static String EXPECTED_FILE_REMOVE_ALL_TRANS = getBaseResourcesDir() + "tmltranslator/expected/expected_remove_all_trans.txt";
-    final int [] FULL_DATA_TRANSACTION = {20, 19, 476, 476};
-    final int [] REMOVE_DATA_TRANSACTION = {8, 7, 476, 476};
+    final int [] FULL_DATA_TRANSACTION = {21, 20, 456, 456};
+    final int [] REMOVE_DATA_TRANSACTION = {9, 8, 456, 456};
     private String SIM_DIR;
     @BeforeClass
     public static void setUpBeforeClass() throws Exception {
@@ -207,6 +207,9 @@ public class RemoveAllTransactionsTests extends AbstractTest {
             File file = new File(graphPath + ".txt");
             assertTrue(file.length() == 0);// check transacList empty or not
 
+
+            System.out.println("Comparing " + graphPath + "_save.txt" + " with " + EXPECTED_FILE_REMOVE_ALL_TRANS);
+
             BufferedReader reader1 = new BufferedReader(new FileReader(graphPath + "_save.txt"));
             BufferedReader reader2 = new BufferedReader(new FileReader(EXPECTED_FILE_REMOVE_ALL_TRANS));
 
@@ -256,17 +259,17 @@ public class RemoveAllTransactionsTests extends AbstractTest {
             graph.buildGraph(graphData);
             // States and transitions
             System.out.println("executing: nb states of " + s + " " + graph.getNbOfStates());
-            assertTrue(FULL_DATA_TRANSACTION[0] == graph.getNbOfStates());
             System.out.println("executing: nb transitions of " + s + " " + graph.getNbOfTransitions());
-            assertTrue(FULL_DATA_TRANSACTION[1] == graph.getNbOfTransitions());
 
             // Min and max cycles
             int minValue = graph.getMinValue("allCPUsFPGAsTerminated");
             System.out.println("executing: minvalue of " + s + " " + minValue);
-            assertTrue(FULL_DATA_TRANSACTION[2] == minValue);
-
             int maxValue = graph.getMaxValue("allCPUsFPGAsTerminated");
             System.out.println("executing: maxvalue of " + s + " " + maxValue);
+
+            assertTrue(FULL_DATA_TRANSACTION[0] == graph.getNbOfStates());
+            assertTrue(FULL_DATA_TRANSACTION[2] == minValue);
+            assertTrue(FULL_DATA_TRANSACTION[1] == graph.getNbOfTransitions());
             assertTrue(FULL_DATA_TRANSACTION[3] == maxValue);
 
             //Remove trans check
@@ -282,17 +285,17 @@ public class RemoveAllTransactionsTests extends AbstractTest {
             graph.buildGraph(graphData);
             // States and transitions
             System.out.println("executing: nb states of remove transactions " + s + " " + graph.getNbOfStates());
-            assertTrue(REMOVE_DATA_TRANSACTION[0] == graph.getNbOfStates());
             System.out.println("executing: nb transitions of remove transactions " + s + " " + graph.getNbOfTransitions());
-            assertTrue(REMOVE_DATA_TRANSACTION[1] == graph.getNbOfTransitions());
 
             // Min and max cycles
             minValue = graph.getMinValue("allCPUsFPGAsTerminated");
             System.out.println("executing: minvalue of remove transactions " + s + " " + minValue);
-            assertTrue(REMOVE_DATA_TRANSACTION[2] == minValue);
 
             maxValue = graph.getMaxValue("allCPUsFPGAsTerminated");
             System.out.println("executing: maxvalue of remove transactions " + s + " " + maxValue);
+            assertTrue(REMOVE_DATA_TRANSACTION[0] == graph.getNbOfStates());
+            assertTrue(REMOVE_DATA_TRANSACTION[1] == graph.getNbOfTransitions());
+            assertTrue(REMOVE_DATA_TRANSACTION[2] == minValue);
             assertTrue(REMOVE_DATA_TRANSACTION[3] == maxValue);
         }
     }

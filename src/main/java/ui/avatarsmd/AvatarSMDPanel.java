@@ -87,7 +87,7 @@ public class AvatarSMDPanel extends TDiagramPanel implements TDPWithAttributes {
     
     @Override
     public String getXMLHead() {
-        return "<AVATARStateMachineDiagramPanel name=\"" + name + "\"" + sizeParam() + " >";
+        return "<AVATARStateMachineDiagramPanel name=\"" + name + "\"" + sizeParam() + zoomParam() + " >";
     }
     
     @Override
@@ -97,7 +97,8 @@ public class AvatarSMDPanel extends TDiagramPanel implements TDPWithAttributes {
     
     @Override
     public String getXMLSelectedHead() {
-        return "<AVATARStateMachineDiagramPanelCopy name=\"" + name + "\" xSel=\"" + xSel + "\" ySel=\"" + ySel + "\" widthSel=\"" + widthSel + "\" heightSel=\"" + heightSel +
+        return "<AVATARStateMachineDiagramPanelCopy name=\"" + name + "\" xSel=\"" + xSel + "\" ySel=\"" + ySel + "\" widthSel=\"" + widthSel +
+                "\" heightSel=\"" + heightSel +
                 "\"" + zoomParam()  + ">";
     }
     

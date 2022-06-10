@@ -33,7 +33,7 @@ public class RunToNextBreakpointMaxTransTest extends AbstractTest {
     final String DIR_GEN = "test_diplo_simulator/";
     final String [] MODELS_RTNBP_MAX_TRANS = {"rtnbmt"};
     private String SIM_DIR;
-    final String [] SIM_TIME_TRANS = {"Simulated time: 1 time units.", "Simulated time: 2 time units.", "Simulated time: 2002 time units."};
+    final String [] SIM_TIME_TRANS = {"Simulated time: 1 time units.", "Simulated time: 2 time units.", "Simulated time: 1996 time units."};
     static String CPP_DIR = "../../../../simulators/c++2/";
     static String mappingName = "ArchitectureSimple";
     private TMLArchiDiagramPanel currTdp;
@@ -183,8 +183,9 @@ public class RunToNextBreakpointMaxTransTest extends AbstractTest {
             }
 
             for (int j = 0; j < arr.size(); j++) {
+                System.out.println("check string at " + j + " :pass, content = " + arr.get(j));
                 assertTrue(arr.get(j).equals(SIM_TIME_TRANS[j]));
-                TraceManager.addDev("check string at " + j + " :pass, content = " + arr.get(j));
+
             }
 
             TraceManager.addDev("Test Done!");

@@ -13,4 +13,6 @@ TMLMAPPING
     SET ApplicationSimple__T2 priority 0
     MAP CPU0 ApplicationSimple__T1
     SET ApplicationSimple__T1 priority 0
+    MAP Memory0 ApplicationSimple__chToT1
+    MAP Memory0 ApplicationSimple__chToT2
 ENDTMLMAPPING

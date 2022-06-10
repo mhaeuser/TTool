@@ -177,8 +177,8 @@ public class RunUntilChannelAccessTest extends AbstractTest {
 
             // Compare results with expected ones
             // Must load the graph
+            System.out.println("Reding file: " + graphPath + ".txt to be compared with " + EXPECTED_FILE_RUCA);
             BufferedReader reader1 = new BufferedReader(new FileReader(graphPath + ".txt"));
-
             BufferedReader reader2 = new BufferedReader(new FileReader(EXPECTED_FILE_RUCA));
 
             String line1 = reader1.readLine();
@@ -204,12 +204,12 @@ public class RunUntilChannelAccessTest extends AbstractTest {
 
             if (areEqual) {
                 System.out.println("Two files have same content.");
-                assertTrue(areEqual);
+
             } else {
                 System.out.println("Two files have different content. They differ at line " + lineNum);
                 System.out.println("File1 has " + line1 + " and File2 has " + line2 + " at line " + lineNum);
-                assertTrue(areEqual);
             }
+            assertTrue(areEqual);
             reader1.close();
             reader2.close();
         }

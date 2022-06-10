@@ -17,4 +17,11 @@ TMLMAPPING
     SET AppC__SmartCard priority 0
     MAP FPGA0 AppC__TCPIP
     SET AppC__TCPIP priority 0
+    MAP Memory0 AppC__fromAtoT
+    MAP Memory0 AppC__fromDtoSC
+    MAP Memory0 AppC__fromPtoT
+    MAP Memory0 AppC__fromSCtoD
+    MAP Memory0 AppC__fromTtoA
+    MAP Memory0 AppC__fromTtoP
+    MAP Memory0 AppC__temp
 ENDTMLMAPPING

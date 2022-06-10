@@ -33,8 +33,8 @@ public class MulticoreHangingTest extends AbstractTest {
     private String SIM_DIR;
     final int [] NB_OF_MH_STATES = {21};
     final int [] NB_OF_MH_TRANSTIONS = {20};
-    final int [] MIN_MH_CYCLES = {125};
-    final int [] MAX_MH_CYCLES = {125};
+    final int [] MIN_MH_CYCLES = {65};
+    final int [] MAX_MH_CYCLES = {65};
     static String CPP_DIR = "../../../../simulators/c++2/";
     static String mappingName = "ArchitectureSimple";
     private TMLArchiDiagramPanel currTdp;
@@ -194,17 +194,17 @@ public class MulticoreHangingTest extends AbstractTest {
 
             // States and transitions
             System.out.println("executing: nb states of " + s + " " + graph.getNbOfStates());
-            assertTrue(NB_OF_MH_STATES[i] == graph.getNbOfStates());
             System.out.println("executing: nb transitions of " + s + " " + graph.getNbOfTransitions());
-            assertTrue(NB_OF_MH_TRANSTIONS[i] == graph.getNbOfTransitions());
 
             // Min and max cycles
             int minValue = graph.getMinValue("allCPUsFPGAsTerminated");
             System.out.println("executing: minvalue of " + s + " " + minValue);
-            assertTrue(MIN_MH_CYCLES[i] == minValue);
-
             int maxValue = graph.getMaxValue("allCPUsFPGAsTerminated");
             System.out.println("executing: maxvalue of " + s + " " + maxValue);
+
+            assertTrue(NB_OF_MH_STATES[i] == graph.getNbOfStates());
+            assertTrue(NB_OF_MH_TRANSTIONS[i] == graph.getNbOfTransitions());
+            assertTrue(MIN_MH_CYCLES[i] == minValue);
             assertTrue(MAX_MH_CYCLES[i] == maxValue);
         }
     }

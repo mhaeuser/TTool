@@ -35,10 +35,10 @@ public class MemoryLeakTest extends AbstractTest {
     final String DIR_GEN = "test_diplo_simulator/";
     final String [] MODELS_MEMORY_LEAK = {"fpga_reconfig5", "fpga_reconfig6"};
     private String SIM_DIR;
-    final int [] NB_OF_ML_STATES = {20, 20};
-    final int [] NB_OF_ML_TRANSTIONS = {19, 19};
-    final int [] MIN_ML_CYCLES = {75, 76};
-    final int [] MAX_ML_CYCLES = {75, 76};
+    final int [] NB_OF_ML_STATES = {21, 21};
+    final int [] NB_OF_ML_TRANSTIONS = {20, 20};
+    final int [] MIN_ML_CYCLES = {55, 56};
+    final int [] MAX_ML_CYCLES = {55, 56};
     static String CPP_DIR = "../../../../simulators/c++2/";
     static String valgrindVersionCmd = "valgrind --version";
     static String valgrindExecCmd = "valgrind --leak-check=full --log-file=";
@@ -86,7 +86,18 @@ public class MemoryLeakTest extends AbstractTest {
 
             TMLSyntaxChecking syntax = new TMLSyntaxChecking(tmap);
             syntax.checkSyntax();
+
+            if (syntax.hasErrors() > 0) {
+                for (TMLError error: syntax.getErrors()) {
+                    System.out.println("Error: " + error.toString());
+                }
+
+            }
+
             assertTrue(syntax.hasErrors() == 0);
+
+
+
             // Generate SystemC code
             System.out.println("executing: sim code gen for " + s);
             final IDiploSimulatorCodeGenerator tml2systc;

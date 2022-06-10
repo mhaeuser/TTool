@@ -27,11 +27,12 @@ public class DiplodocusFPGAReconfigurationTests extends AbstractTest {
 
     private static final String DIR_GEN = "test_diplo_simulator/";
     // test for reconfiguration of FPGA
-    private static final String [] MODELS_FPGA_RECONFIG = {"fpga_reconfig1", "fpga_reconfig2", "fpga_reconfig3", "fpga_reconfig4", "fpga_reconfig5", "fpga_reconfig6"};
-    private static final int [] NB_Of_FPGA_STATES = {20, 20, 20, 20, 20, 20};
-    private static final int [] NB_Of_FPGA_TRANSTIONS = {19, 19, 19, 19, 19, 19};
-    private static final int [] MIN_FPGA_CYCLES = {90, 83, 77, 70, 75, 76};
-    private static final int [] MAX_FPGA_CYCLES = {90, 83, 77, 70, 75, 76};
+    private static final String [] MODELS_FPGA_RECONFIG = {"fpga_reconfig1", "fpga_reconfig2", "fpga_reconfig3", "fpga_reconfig4",
+            "fpga_reconfig5", "fpga_reconfig6"};
+    private static final int [] NB_Of_FPGA_STATES =     {21, 21, 21, 21, 21, 21};
+    private static final int [] NB_Of_FPGA_TRANSTIONS = {20, 20, 20, 20, 20, 20};
+    private static final int [] MIN_FPGA_CYCLES =       {70, 63, 57, 56, 55, 56};
+    private static final int [] MAX_FPGA_CYCLES =       {70, 63, 57, 56, 55, 56};
 
     private static final String CPP_DIR = "../../../../simulators/c++2/";
     private String SIM_DIR;
@@ -79,6 +80,15 @@ public class DiplodocusFPGAReconfigurationTests extends AbstractTest {
 
             TMLSyntaxChecking syntax = new TMLSyntaxChecking(tmap);
             syntax.checkSyntax();
+
+            if (syntax.hasErrors() > 0) {
+                for (TMLError error: syntax.getErrors()) {
+                    System.out.println("Error: " + error.toString());
+                }
+
+            }
+
+
             assertTrue(syntax.hasErrors() == 0);
             // Generate SystemC code
             System.out.println("executing: sim code gen for " + s);
@@ -196,17 +206,19 @@ public class DiplodocusFPGAReconfigurationTests extends AbstractTest {
 
             // States and transitions
             System.out.println("executing: nb states of " + s + " " + graph.getNbOfStates());
-            assertTrue(NB_Of_FPGA_STATES[i] == graph.getNbOfStates());
             System.out.println("executing: nb transitions of " + s + " " + graph.getNbOfTransitions());
-            assertTrue(NB_Of_FPGA_TRANSTIONS[i] == graph.getNbOfTransitions());
 
             // Min and max cycles
             int minValue = graph.getMinValue("allCPUsFPGAsTerminated");
             System.out.println("executing: minvalue of " + s + " " + minValue);
-            assertTrue(MIN_FPGA_CYCLES[i] == minValue);
 
             int maxValue = graph.getMaxValue("allCPUsFPGAsTerminated");
             System.out.println("executing: maxvalue of " + s + " " + maxValue);
+
+            // Asserting graph values
+            assertTrue(MIN_FPGA_CYCLES[i] == minValue);
+            assertTrue(NB_Of_FPGA_STATES[i] == graph.getNbOfStates());
+            assertTrue(NB_Of_FPGA_TRANSTIONS[i] == graph.getNbOfTransitions());
             assertTrue(MAX_FPGA_CYCLES[i] == maxValue);
         }
     }

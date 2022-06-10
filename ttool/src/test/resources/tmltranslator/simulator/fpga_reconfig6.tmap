@@ -17,4 +17,5 @@ TMLMAPPING
     SET Application__Task3 priority 0
     MAP FPGA0 Application__Task4
     SET Application__Task4 priority 0
+    MAP Memory0  Application__ch
 ENDTMLMAPPING

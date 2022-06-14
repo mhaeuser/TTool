@@ -19,7 +19,6 @@ RUN apt-get update; apt-get install -y wget
 RUN cd /tmp \
 	&& apt-get update \
 	&& apt-get install -y wget \
-	&& mkdir -p $JAVA_HOME \
 	&& apt-get install -y openjdk-11-jre
 
 # Add java to path

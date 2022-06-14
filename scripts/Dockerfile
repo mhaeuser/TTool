@@ -4,7 +4,7 @@ FROM debian:latest
 MAINTAINER Ludovic Apvrille <ludovic.apvrille@telecom-paris.fr>
 RUN apt-get clean
 RUN apt-get update
-RUN apt-get -y install apt-utils
+RUN apt-get -y install dialog apt-utils
 RUN apt-get -y install make git-core python3
 RUN update-alternatives --install /usr/bin/python \
   python /usr/bin/python3 2
@@ -47,13 +47,10 @@ RUN set -o errexit -o nounset \
     && apt-get install --yes --no-install-recommends \
         unzip \
         wget \
-        \
         bzr \
         git \
         git-lfs \
-        mercurial \
         openssh-client \
-        subversion \
     && rm --recursive --force /var/lib/apt/lists/* \
     \
     && echo "Testing VCSes" \

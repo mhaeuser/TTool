@@ -7,7 +7,7 @@ RUN apt-get update
 RUN apt-get -y install dialog apt-utils
 RUN apt-get -y install make git-core python3
   
-RUN apt-get install build-essential -y --no-install-recommends
+RUN apt-get install build-essential -y
 
 RUN apt-get update; apt-get install -y wget
 
@@ -15,8 +15,6 @@ RUN apt-get update; apt-get install -y wget
 # Downloading oracle jdk -> extract it -> cleanup -> add app user & group
 # You can use USER called 'app' for your application
 RUN cd /tmp \
-	&& apt-get update \
-	&& apt-get install -y wget \
 	&& apt-get install -y openjdk-11-jre
 
 # Add java to path

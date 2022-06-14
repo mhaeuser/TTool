@@ -189,11 +189,7 @@ public class TimelineDiagramTest extends AbstractTest {
                     }
                     running = analyzeServerAnswer(line);
                 }
-                System.out.println(ssxml);
-                File file = new File(EXPECTED_FILE_GENERATED_TIMELINE);
-                String content = FileUtils.readFileToString(file, StandardCharsets.UTF_8);
-                assertTrue(content.equals(ssxml));
-                System.out.println("Test done");
+
                 if (rc != null) {
                     try {
                         rc.send("0");
@@ -203,6 +199,30 @@ public class TimelineDiagramTest extends AbstractTest {
                     }
                     rc = null;
                 }
+
+                ssxml = ssxml.trim();
+                System.out.println(ssxml);
+                File file = new File(EXPECTED_FILE_GENERATED_TIMELINE);
+                String content = FileUtils.readFileToString(file, StandardCharsets.UTF_8).trim();
+
+                ssxml = ssxml.replaceAll(" +", "");
+                content = content.replaceAll(" +", "");
+                ssxml = ssxml.replaceAll("\r\n", "");
+                content = content.replaceAll("\r\n", "");
+
+
+                TraceManager.addDev("Length content:" + content.length() + " ssxml:" + ssxml.length());
+
+                for(int j=0; j<Math.min(content.length(), ssxml.length())- 1; j++) {
+                    if (content.substring(j, j+1).compareTo(ssxml.substring(j, j+1)) != 0) {
+                        System.out.println("content vs ssxml @ "  + j + ": " + content.substring(j, j+1) + " vs " + ssxml.substring(j, j+1));
+                    }
+                }
+
+                assertTrue(content.equals(ssxml));
+
+
+                System.out.println("Test done");
             } catch (Exception e) {
                 e.printStackTrace();
             }

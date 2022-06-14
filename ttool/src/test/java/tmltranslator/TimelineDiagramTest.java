@@ -179,7 +179,7 @@ public class TimelineDiagramTest extends AbstractTest {
                 Thread.sleep(5);
                 toServer("7 4 ApplicationSimple__Src,ApplicationSimple__T1,ApplicationSimple__T2 1 0 100000000", rc);
                 Thread.sleep(5);
-                
+
                 while (running) {
                     String line = null;
                     try {
@@ -212,7 +212,7 @@ public class TimelineDiagramTest extends AbstractTest {
                 content = content.replaceAll("\r\n", "");
 
 
-                TraceManager.addDev("Length content:" + content.length() + " ssxml:" + ssxml.length());
+                //TraceManager.addDev("Length content:" + content.length() + " ssxml:" + ssxml.length());
 
                 for(int j=0; j<Math.min(content.length(), ssxml.length())- 1; j++) {
                     if (content.substring(j, j+1).compareTo(ssxml.substring(j, j+1)) != 0) {

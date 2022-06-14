@@ -6,8 +6,6 @@ RUN apt-get clean
 RUN apt-get update
 RUN apt-get -y install dialog apt-utils
 RUN apt-get -y install make git-core python3
-RUN update-alternatives --install /usr/bin/python \
-  python /usr/bin/python3 2
   
 RUN apt-get install build-essential -y --no-install-recommends
 
@@ -77,25 +75,6 @@ RUN set -o errexit -o nounset \
     \
     && echo "Testing Gradle installation" \
     && gradle --version
-
-
-RUN apt-get update \
-    && apt-get install --yes --no-install-recommends \
-        fontconfig \
-        unzip \
-        wget \
-        \
-        bzr \
-        git \
-        git-lfs \
-&& echo "Testing VCSes" \
-    && which bzr \
-    && which git \
-    && which git-lfs
-
-RUN apt-get update \
-    && apt-get install --yes --no-install-recommends \
-        openssh-client
 
 
 RUN rm -rf /var/lib/apt/lists/*

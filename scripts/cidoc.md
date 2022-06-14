@@ -1,6 +1,6 @@
 - create a .gitlab-ci.yml at the root of the gitlab
 
-- create en eval script
+- create an eval script
 
 - create a docker file
 

@@ -179,6 +179,7 @@ public class TimelineDiagramTest extends AbstractTest {
                 Thread.sleep(5);
                 toServer("7 4 ApplicationSimple__Src,ApplicationSimple__T1,ApplicationSimple__T2 1 0 100000000", rc);
                 Thread.sleep(5);
+                
                 while (running) {
                     String line = null;
                     try {

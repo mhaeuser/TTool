@@ -143,7 +143,7 @@ public class TimelineDiagramTest extends AbstractTest {
                 }
             }
 
-            System.out.println("executing: " + "make -C " + SIM_DIR);
+            //System.out.println("executing: " + "make -C " + SIM_DIR);
 
             try {
                 proc = Runtime.getRuntime().exec("make -C " + SIM_DIR + "");
@@ -210,7 +210,6 @@ public class TimelineDiagramTest extends AbstractTest {
                 content = content.replaceAll(" +", "");
                 ssxml = ssxml.replaceAll("\r\n", "");
                 content = content.replaceAll("\r\n", "");
-
 
                 //TraceManager.addDev("Length content:" + content.length() + " ssxml:" + ssxml.length());
 

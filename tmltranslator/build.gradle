@@ -17,6 +17,7 @@ dependencies {
     implementation name: 'commons-io-2.5'
     compileOnly name: 'jsoup-1.8.1'
     compileOnly name: 'gs-core-2.0'
+    compileOnly name: 'gs-algo-2.0'
      compileOnly name: 'gs-ui-swing-2.0'
     implementation name: 'json-java'
 

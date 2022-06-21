@@ -16,6 +16,7 @@ sourceSets {
 
 dependencies {
     implementation name: 'gs-core-2.0'
+    implementation name: 'gs-algo-2.0'
     implementation name: 'gs-ui-swing-2.0'
     implementation name: 'commons-io-2.5'
     compileOnly name: 'commons-codec-1.10'
@@ -24,6 +25,7 @@ dependencies {
     compileOnly name: 'jna-3.3.0'
     implementation name: 'commons-math3-3.6.1'
     implementation name: 'jfreechart-1.6.0'
+    implementation name: 'batik-all-1.14'
 }
 
 jar {

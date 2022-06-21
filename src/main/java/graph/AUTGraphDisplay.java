@@ -42,22 +42,30 @@ package graph;
 import common.ConfigurationTTool;
 import common.SpecConfigTTool;
 import myutil.TraceManager;
+import org.apache.batik.anim.timing.Trace;
+import org.graphstream.algorithm.Toolkit;
 import org.graphstream.graph.Edge;
 import org.graphstream.graph.Node;
 import org.graphstream.graph.implementations.AbstractEdge;
 import org.graphstream.graph.implementations.MultiGraph;
 import org.graphstream.graph.implementations.MultiNode;
+import org.graphstream.stream.ProxyPipe;
 import org.graphstream.ui.geom.Point2;
 import org.graphstream.ui.geom.Point3;
 import org.graphstream.ui.swing.SwingGraphRenderer;
 import org.graphstream.ui.swing_viewer.DefaultView;
 import org.graphstream.ui.swing_viewer.SwingViewer;
+import org.graphstream.ui.graphicGraph.GraphicElement;
+import org.graphstream.ui.view.View;
 import org.graphstream.ui.swing_viewer.ViewPanel;
 import org.graphstream.ui.view.View;
+import org.graphstream.algorithm.Toolkit.*;
 import org.graphstream.ui.view.Viewer;
 import org.graphstream.ui.view.ViewerListener;
 import org.graphstream.ui.view.ViewerPipe;
 import org.graphstream.ui.view.camera.Camera;
+import org.graphstream.ui.view.util.InteractiveElement;
+import ui.MainGUI;
 import ui.file.PNGFilter;
 import ui.util.IconManager;
 
@@ -65,9 +73,11 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.logging.Logger;
 
@@ -112,10 +122,10 @@ public class AUTGraphDisplay implements MouseListener, ViewerListener, Runnable 
             "sprite { shape: circle; fill-mode: gradient-radial; fill-color: #FFF8, #FFF0; }";
 
 
-
     public AUTGraphDisplay(AUTGraph _graph, boolean _exitOnClose) {
         graph = _graph;
         exitOnClose = _exitOnClose;
+        System.setProperty("org.graphstream.ui", "swing");
     }
 
 
@@ -131,7 +141,7 @@ public class AUTGraphDisplay implements MouseListener, ViewerListener, Runnable 
         } catch (Exception e) {
         }
 
-        System.setProperty("org.graphstream.ui.renderer", "org.graphstream.ui.j2dviewer.J2DGraphRenderer");
+        //System.setProperty("org.graphstream.ui.renderer", "org.graphstream.ui.j2dviewer.J2DGraphRenderer");
 
         vGraph = new MultiGraph("TTool graph");
         if ((ConfigurationTTool.RGStyleSheet != null) && (ConfigurationTTool.RGStyleSheet.trim().length() > 0)) {
@@ -154,14 +164,14 @@ public class AUTGraphDisplay implements MouseListener, ViewerListener, Runnable 
             if (state.info == null) {
                 node.setAttribute("ui.label", "" + state.id);
             } else {
-                node.setAttribute("ui.label", "" + state.id + "/" + state.info );
+                node.setAttribute("ui.label", "" + state.id + "/" + state.info);
             }
 
             if (state.getNbOutTransitions() == 0) {
                 node.setAttribute("ui.class", "deadlock");
             }
 
-            if ((cpt ==0) || (state.isOrigin)) {
+            if ((cpt == 0) || (state.isOrigin)) {
                 node.setAttribute("ui.class", "init");
                 firstNode = node;
             }
@@ -195,14 +205,17 @@ public class AUTGraphDisplay implements MouseListener, ViewerListener, Runnable 
         //viewer = new Viewer(vGraph, Viewer.ThreadingModel.GRAPH_IN_SWING_THREAD);
 
         viewer = new SwingViewer(vGraph, Viewer.ThreadingModel.GRAPH_IN_ANOTHER_THREAD);
+        viewer.enableXYZfeedback(true);
+
 
         //SwingUtilities.invokeLater(new InitializeApplication(viewer, vGraph));
         viewer.enableAutoLayout();
         //View   vi = viewer.addDefaultView(true);
+        //vi.addMouseListener(this);
+
 
         //viewer.setCloseFramePolicy(Viewer.CloseFramePolicy.CLOSE_VIEWER);
         bf = new BasicFrame(this, viewer, vGraph, graph, edges, exitOnClose);
-        //vi.addMouseListener(this);
 
 
         loop = true;
@@ -234,17 +247,20 @@ public class AUTGraphDisplay implements MouseListener, ViewerListener, Runnable 
         // our thread
 
         int cpt = 0;
-        ViewerPipe pipeIn = viewer.newViewerPipe();
-        pipeIn.addSink(vGraph);
-        pipeIn.addViewerListener(this);
-
+        //ViewerPipe pipeIn = viewer.newViewerPipe();
+        ProxyPipe pipe = viewer.newViewerPipe();
+        pipe.addAttributeSink(vGraph);
+        //pipeIn.addSink(vGraph);
+        //pipeIn.addViewerListener(this);
 
 
         while (loop) {
             try {
-                pipeIn.blockingPump(50);
+                //TraceManager.addDev("pumping in first thread");
+                Thread.sleep(100);
+                pipe.pump();
             } catch (Exception e) {
-
+                TraceManager.addDev("pumping exception: " + e.getMessage());
             }
 
 
@@ -256,35 +272,10 @@ public class AUTGraphDisplay implements MouseListener, ViewerListener, Runnable 
                 }
             }
             //TraceManager.addDev("bf.updateMe");
-            bf.updateMe();
+            if (bf != null)
+                bf.updateMe();
         }
 
-
-        //TraceManager.addDev("Starting loop:" + cpt);
-        /*while (loop) {
-            try {
-                //TraceManager.addDev("beg of loop:" + cpt);
-                fromViewer.blockingPump(); // or fromViewer.blockingPump(); in the nightly builds
-            } catch (Exception e) {//TraceManager.addDev("Exception in pump:" + e);
-            }
-
-            if (vGraph.hasAttribute("ui.viewClosed")) {
-                //TraceManager.addDev("View was closed");
-                loop = false;
-                if (exitOnClose) {
-                    System.exit(1);
-                }
-            } */
-
-        // here your simulation code.
-        //TraceManager.addDev("End of loop" + cpt);
-        //cpt ++;
-
-        // You do not necessarily need to use a loop, this is only an example.
-        // as long as you call pump() before using the graph. pump() is non
-        // blocking.  If you only use the loop to look at event, use blockingPump()
-        // to avoid 100% CPU usage. The blockingPump() method is only available from
-        // the nightly builds.
     }
 
 
@@ -309,8 +300,6 @@ public class AUTGraphDisplay implements MouseListener, ViewerListener, Runnable 
             System.exit(1);
         }
     }
-
-
 
 
     public void mousePressed(MouseEvent e) {
@@ -341,73 +330,10 @@ public class AUTGraphDisplay implements MouseListener, ViewerListener, Runnable 
         TraceManager.addDev("Mouse over: " + id);
     }
 
-
     public void mouseLeft(java.lang.String id) {
         TraceManager.addDev("Mouse over: " + id);
     }
 
-
-class InitializeApplication extends JFrame implements Runnable {
-    private static final long serialVersionUID = -804177406404724792L;
-    protected MultiGraph vGraph;
-    protected SwingViewer viewer;
-    protected AUTGraph graph;
-    protected Node firstNode;
-
-
-    public InitializeApplication(SwingViewer viewer, MultiGraph vGraph, AUTGraph autgraph) {
-        this.viewer = viewer;
-        this.vGraph = vGraph;
-        this.graph = autgraph;
-    }
-
-    public void run() {
-        int cpt = 0;
-        Node node;
-        Edge edge;
-        for (AUTState state : graph.getStates()) {
-            node = vGraph.addNode("" + state.id);
-            node.setAttribute("ui.label", "" + state.id);
-            if (state.getNbOutTransitions() == 0) {
-                node.setAttribute("ui.class", "deadlock");
-            }
-            if (cpt == 0) {
-                node.setAttribute("ui.class", "init");
-                firstNode = node;
-            }
-            cpt++;
-        }
-        cpt = 0;
-        // We must merge the transitions with the same starting and ending state
-        HashSet<AUTTransition> transitionsMet = new HashSet<>();
-        for (AUTTransition transition : graph.getTransitions()) {
-            edge = vGraph.addEdge("" + cpt, "" + transition.origin, "" + transition.destination, true);
-
-            transitionsMet.add(transition);
-            edge = vGraph.addEdge("" + cpt, "" + transition.origin, "" + transition.destination, true);
-                /*TraceManager.addDev("Transition=" + transition.transition);
-                  String tmp = Conversion.replaceAllChar(transition.transition, '(', "$");
-                  tmp = Conversion.replaceAllChar(tmp, ')', "$");
-                  TraceManager.addDev("Transition=" + tmp);*/
-            edge.setAttribute("ui.label", transition.transition);
-            edge.setAttribute("ui.class", "classic");
-            if (!(transition.transition.startsWith("i("))) {
-                edge.setAttribute("ui.class", "external");
-            }
-            cpt++;
-
-        }
-
-        viewer.enableAutoLayout();
-        DefaultView dv = new DefaultView(viewer, "Graph", new SwingGraphRenderer());
-        //ViewPanel vp = viewer.addDefaultView(true, new SwingGraphRenderer());
-        add(dv, BorderLayout.CENTER);
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setSize(800, 600);
-        setVisible(true);
-    }
-
-}
 
 class BasicFrame extends JFrame implements ActionListener {
     protected MultiGraph vGraph;
@@ -420,10 +346,13 @@ class BasicFrame extends JFrame implements ActionListener {
     protected JButton screenshot;
     protected JButton fontPlus, fontMinus;
     protected JButton resetView;
+    protected JCheckBox autoLayout;
     protected JCheckBox internalActions;
     protected JCheckBox readActions;
     protected JCheckBox higherQuality, antialiasing;
     protected JLabel help, info;
+
+    public AffineTransform transform;
 
     protected MouseEvent last;
 
@@ -432,42 +361,21 @@ class BasicFrame extends JFrame implements ActionListener {
     private AUTGraphDisplay autD;
 
     private DefaultView dv;
+    private Node selectedNode;
 
 
     public BasicFrame(AUTGraphDisplay autD, SwingViewer viewer, MultiGraph vGraph, AUTGraph autgraph, ArrayList<Edge> _edges,
-                      boolean _exitOnClose) {
+                      boolean _exitOnClose)  {
         this.autD = autD;
         this.viewer = viewer;
         this.vGraph = vGraph;
         this.graph = autgraph;
-        //cam = viewer.getDefaultView().getCamera();
-
-
-        //viewer.enableAutoLayout();
-        /*view.getCamera().setViewPercent(1);
-        ((Component) view).addMouseWheelListener(new MouseWheelListener() {
-            @Override
-            public void mouseWheelMoved(MouseWheelEvent e) {
-                e.consume();
-                int i = e.getWheelRotation();
-                double factor = Math.pow(1.25, i);
-                Camera cam = view.getCamera();
-                double zoom = cam.getViewPercent() * factor;
-                Point2 pxCenter  = cam.transformGuToPx(cam.getViewCenter().x, cam.getViewCenter().y, 0);
-                Point3 guClicked = cam.transformPxToGu(e.getX(), e.getY());
-                double newRatioPx2Gu = cam.getMetrics().ratioPx2Gu/factor;
-                double x = guClicked.x + (pxCenter.x - e.getX())/newRatioPx2Gu;
-                double y = guClicked.y - (pxCenter.y - e.getY())/newRatioPx2Gu;
-                cam.setViewCenter(x, y, 0);
-                cam.setViewPercent(zoom);
-            }
-        });*/
-
 
 
         edges = _edges;
         exitOnClose = _exitOnClose;
         makeComponents();
+
         if (exitOnClose) {
             setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         }
@@ -476,7 +384,7 @@ class BasicFrame extends JFrame implements ActionListener {
 
 
     public void processDrag(MouseEvent event) {
-        if (last != null) {
+        /*if (last != null) {
             Camera camera = dv.getCamera();
             Point3 p1 = camera.getViewCenter();
             Point3 p2 = camera.transformGuToPx(p1.x,p1.y,0);
@@ -488,44 +396,30 @@ class BasicFrame extends JFrame implements ActionListener {
             Point3 p3= camera.transformPxToGu(p2.x,p2.y);
             camera.setViewCenter(p3.x,p3.y, 0);
         }
-        last=event;
+        last=event;*/
     }
 
     public void resetDrag() {
-        this.last=null;
+        //this.last=null;
     }
 
+
     public void makeComponents() {
+
+
+
         dv = new DefaultView(viewer, "Graph", new SwingGraphRenderer());
 
-        ((Component) dv).addMouseWheelListener(new MouseWheelListener() {
-            @Override
-            public void mouseWheelMoved(MouseWheelEvent e) {
-                e.consume();
-                int i = e.getWheelRotation();
-                double factor = Math.pow(1.25, i);
-                Camera cam = dv.getCamera();
-                double zoom = cam.getViewPercent() * factor;
-                Point2 pxCenter  = cam.transformGuToPx(cam.getViewCenter().x, cam.getViewCenter().y, 0);
-                Point3 guClicked = cam.transformPxToGu(e.getX(), e.getY());
-                double newRatioPx2Gu = cam.getMetrics().ratioPx2Gu/factor;
-                double x = guClicked.x + (pxCenter.x - e.getX())/newRatioPx2Gu;
-                double y = guClicked.y - (pxCenter.y - e.getY())/newRatioPx2Gu;
-                cam.setViewCenter(x, y, 0);
-                cam.setViewPercent(zoom);
-                updateMe();
-            }
-        });
-
-        /*MouseListener[] listeners = dv.getMouseListeners();
+        MouseListener[] listeners = dv.getMouseListeners();
         for(MouseListener l: listeners) {
             dv.removeMouseListener(l);
         }
 
         MouseMotionListener[] mL = dv.getMouseMotionListeners();
         for(MouseMotionListener l: mL) {
-            dv.removeMouseMotionListener(l);
-        }*/
+            //dv.removeMouseMotionListener(l);
+        }
+
 
         dv.addKeyListener(new KeyListener() {
             @Override
@@ -540,14 +434,28 @@ class BasicFrame extends JFrame implements ActionListener {
 
             @Override
             public void keyReleased(KeyEvent e) {
+
+                TraceManager.addDev("Key event:" + e.getKeyCode());
                 updateMe();
             }
         });
 
-        /*dv.addMouseMotionListener(new MouseMotionListener() {
+        dv.addMouseMotionListener(new MouseMotionListener() {
 
             @Override
             public void mouseDragged(MouseEvent e) {
+                //TraceManager.addDev("Dragged!");
+                if (selectedNode != null) {
+                    double diffX = 1;
+                    double diffY = 1;
+                    if (transform != null) {
+                        diffX = transform.getScaleX();
+                        diffY = transform.getScaleY();
+                    }
+                    Point3 p = dv.getCamera().transformPxToGu(e.getX()*diffX, e.getY()*diffY);
+                    selectedNode.setAttribute("x", p.x);
+                    selectedNode.setAttribute("y", p.y);
+                }
                 processDrag(e);
             }
 
@@ -560,17 +468,39 @@ class BasicFrame extends JFrame implements ActionListener {
         dv.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
-
+                //TraceManager.addDev("Mouse clicked!");
             }
 
             @Override
             public void mousePressed(MouseEvent e) {
+
+
+                Graphics2D g = (Graphics2D) dv.getGraphics ();
+                transform =  g.getFontRenderContext ().getTransform ();
+                TraceManager.addDev("Affine transform = " + transform);
+
+
+                //setAutoLayout(false);
+                //viewer.disableAutoLayout();
+                TraceManager.addDev("Mouse pressed!");
+
+                Node node = findNodeAt(e.getX(), e.getY());
+                if (node != null) {
+                    TraceManager.addDev("Mouse pressed at node: " + node.getId());
+                    selectedNode = node;
+                } else {
+                    TraceManager.addDev("Mouse pressed not on a node");
+                }
+
                 resetDrag();
+
             }
 
             @Override
             public void mouseReleased(MouseEvent e) {
-
+                TraceManager.addDev("Mouse released!");
+                selectedNode = null;
+                //viewer.enableAutoLayout();
             }
 
             @Override
@@ -582,10 +512,15 @@ class BasicFrame extends JFrame implements ActionListener {
             public void mouseExited(MouseEvent e) {
 
             }
-        });*/
+        });
 
 
-        //viewerPanel = viewer.addDefaultView(false);
+        //Graphics g = dv.getGraphics();
+        //TraceManager.addDev("Transform:" + ((Graphics2D)g).getTransform());
+        //TraceManager.addDev("scale:" + System.getProperty("sun.java2d.uiScale"));
+
+
+
         add(dv, BorderLayout.CENTER);
 
         //add(viewer, BorderLayout.CENTER );
@@ -599,8 +534,11 @@ class BasicFrame extends JFrame implements ActionListener {
         fontMinus.addActionListener(this);
         resetView = new JButton("Reset view");
         resetView.addActionListener(this);
+        autoLayout = new JCheckBox("Auto layout", true);
+        autoLayout.addActionListener(this);
         close.addActionListener(this);
         help = new JLabel("Zoom with mouse wheel or PageUp/PageDown, move with cursor keys");
+        help = new JLabel("click on a node and drag it to move it");
         info = new JLabel("Graph: " + graph.getNbOfStates() + " states, " + graph.getNbOfTransitions() + " transitions");
         internalActions = new JCheckBox("Display internal actions", true);
         internalActions.addActionListener(this);
@@ -628,6 +566,9 @@ class BasicFrame extends JFrame implements ActionListener {
         jp01.add(readActions);
         jp01.add(higherQuality);
         jp01.add(antialiasing);
+        if (MainGUI.experimentalOn) {
+            jp01.add(autoLayout);
+        }
         jp01.add(fontMinus);
         jp01.add(fontPlus);
         jp01.add(resetView);
@@ -667,6 +608,12 @@ class BasicFrame extends JFrame implements ActionListener {
         } else if (evt.getSource() == resetView) {
             dv.getCamera().resetView();
             updateMe();
+        } else if (evt.getSource() == autoLayout) {
+            if (autoLayout.isSelected()) {
+                viewer.enableAutoLayout();
+            } else {
+                viewer.disableAutoLayout();
+            }
         }
     }
 
@@ -701,21 +648,6 @@ class BasicFrame extends JFrame implements ActionListener {
     public void fontPlus() {
         setTextSize(1);
 
-
-
-
-        /*if (edges == null) {
-            return;
-        }
-
-
-
-
-        int cpt = 0;
-        for (AUTTransition transition : graph.getTransitions()) {
-            TraceManager.addDev("Attribute of edge:" + edges.get(cpt).getAttribute("text-size"));
-            cpt++;
-        }*/
     }
 
     public void fontMinus() {
@@ -794,23 +726,8 @@ class BasicFrame extends JFrame implements ActionListener {
         File pngFile = jfcggraph.getSelectedFile();
         TraceManager.addDev("Making the screenshot in " + pngFile.getAbsolutePath());
 
-
-        //vGraph.addAttribute("ui.screenshot", pngFile.getAbsolutePath());
-        //vGraph.addAttribute("ui.screenshot", "/homes/apvrille/tmp/toto.png");
-
         takeScreenshot(dv, pngFile);
 
-            /*FileSinkImages pic = new FileSinkImages(OutputType.PNG, Resolutions.UXGA);
-            //pic.setQuality();
-            //pic.setLayoutPolicy(LayoutPolicy.COMPUTED_FULLY_AT_NEW_IMAGE);
-            pic.setLayoutPolicy(LayoutPolicy.COMPUTED_IN_LAYOUT_RUNNER);
-            try {
-                pic.writeAll(vGraph, pngFile.getAbsolutePath());
-            } catch (IOException e) {
-                TraceManager.addDev("Capture could not be performed: " + e.getMessage());
-            }*/
-
-        //vGraph.addAttribute("ui.screenshot", "/tmp/toto.png");
         TraceManager.addDev("Screenshot performed");
     }
 
@@ -866,13 +783,6 @@ class BasicFrame extends JFrame implements ActionListener {
     }
 
 
-        /*public void updateCameraView() {
-            Camera camera = controller.getPanel().getCamera();
-            cameraAutoFitView.setSelected(autoFit);
-            viewCenterX.setText(camera.getViewCenter().x+"");
-            viewCenterY.setText(camera.getViewCenter().y+"");
-            scale.setText(camera.getViewPercent()+"");
-        }*/
 
     public synchronized void manageAntialiasing() {
         //viewer.disableAutoLayout();
@@ -892,6 +802,40 @@ class BasicFrame extends JFrame implements ActionListener {
         //TraceManager.addDev("updateMe");
         dv.repaint();
     }
+
+    public Node findNodeAt(int x, int y) {
+        for( int i=0; i<vGraph.getNodeCount(); i++) {
+            TraceManager.addDev("index:" + i);
+            Node node = vGraph.getNode(i);
+            if (node != null) {
+                double pos[] = Toolkit.nodePosition(node);
+                if (pos != null) {
+                    //TraceManager.addDev("pos of Node " + node.getId() + " is " + pos[0] + "," + pos[1]);
+                    Point3 position = dv.getCamera().transformGuToPx(pos[0], pos[1], 0);
+                    TraceManager.addDev("Coordinate = " + position + " vs mouse : " + x + "," + y);
+                    double diffX = 1;
+                    double diffY = 1;
+                    if (transform != null) {
+                        diffX = transform.getScaleX();
+                        diffY = transform.getScaleY();
+                    }
+                    if ((Math.abs(position.x - diffX*x) < 10) && (Math.abs(position.y - diffY*y) < 10)) {
+                        return node;
+                    }
+                } else {
+                    TraceManager.addDev("Null pos");
+                }
+            }
+        }
+
+        return null;
+    }
+
+    /*public void setAutoLayout(boolean auto) {
+        autoLayout.setSelected(auto);
+    }*/
+
+
 
 
 } // Basic Frame

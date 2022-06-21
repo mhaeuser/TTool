@@ -251,7 +251,7 @@ public class JFrameDataElementStatistics extends JFrame implements ActionListene
         dataset.addSeries(title, de.data, 100);
 
         JFreeChart histogram = ChartFactory.createHistogram("Histogram: " + de.toString(),
-                de.toString(), "Frequency", dataset);
+                de.toString(), "Frequency", dataset, PlotOrientation.HORIZONTAL, true, true, true);
 
         XYPlot plot = (XYPlot) histogram.getPlot();
         plot.setDomainPannable(true);
@@ -588,7 +588,7 @@ public class JFrameDataElementStatistics extends JFrame implements ActionListene
         plot.setDomainGridlinePaint(Color.white);
         plot.setRangeGridlinePaint(Color.white);
         plot.setForegroundAlpha(0.66f);
-        plot.setAxisOffset(new RectangleInsets(5, 5, 5, 5));
+        plot.setAxisOffset(new org.jfree.ui.RectangleInsets(5, 5, 5, 5));
         JFreeChart chart = new JFreeChart("XYBlockChartDemo3", plot);
         chart.removeLegend();
         chart.setBackgroundPaint(Color.white);
@@ -599,8 +599,8 @@ public class JFrameDataElementStatistics extends JFrame implements ActionListene
         scaleAxis.setGridBandsVisible(false);
         PaintScaleLegend psl = new PaintScaleLegend(paintScale, scaleAxis);
         psl.setAxisOffset(5.0);
-        psl.setPosition(RectangleEdge.BOTTOM);
-        psl.setMargin(new RectangleInsets(5, 5, 5, 5));
+        psl.setPosition(org.jfree.ui.RectangleEdge.BOTTOM);
+        psl.setMargin(new org.jfree.ui.RectangleInsets(5, 5, 5, 5));
         chart.addSubtitle(psl);
         return chart;
     }

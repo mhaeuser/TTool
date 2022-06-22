@@ -412,36 +412,7 @@ public class AUTGraphDisplay implements MouseListener, ViewerListener, Runnable 
                 dv.removeKeyListener(k);
             }
 
-            dv.setShortcutManager(new ShortcutManager() {
-
-                private View view;
-
-                @Override
-                public void init(GraphicGraph graph, View view) {
-                    this.view = view;
-                    ((Component)view).addKeyListener(this);
-                }
-
-                @Override
-                public void release() {
-                    view.removeKeyListener(this);
-                }
-
-                @Override
-                public void keyPressed(KeyEvent e) {
-                    System.out.println("keyPressed!");
-                }
-
-                @Override
-                public void keyReleased(KeyEvent e) {
-                    System.out.println("keyReleased!");
-                }
-
-                @Override
-                public void keyTyped(KeyEvent e) {
-                    System.out.println("keyTyped!");
-                }
-            });
+            
 
             /*((Component) dv).addKeyListener(new KeyListener() {
                 @Override

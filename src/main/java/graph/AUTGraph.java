@@ -510,12 +510,17 @@ public class AUTGraph implements myutil.Graph {
         }
     }
 
-    public void display() {
-        display(false);
+
+    public void display(boolean forceAutoLayout) {
+        display(false, forceAutoLayout);
     }
 
-    public void display(boolean exitOnClose) {
-        AUTGraphDisplay display = new AUTGraphDisplay(this, exitOnClose);
+    public void display() {
+        display(false, true);
+    }
+
+    public void display(boolean exitOnClose, boolean forceAutoLayout) {
+        AUTGraphDisplay display = new AUTGraphDisplay(this, exitOnClose, forceAutoLayout);
         display.display();
     }
 

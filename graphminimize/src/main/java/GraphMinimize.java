@@ -156,7 +156,7 @@ public class GraphMinimize {
         graph.minimizeTau(hasTauOnly(args));
 
 
-        graph.display(true);
+        graph.display(true, false);
     }
 
 } // Class GraphShow

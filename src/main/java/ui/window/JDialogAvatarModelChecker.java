@@ -770,7 +770,7 @@ public class JDialogAvatarModelChecker extends javax.swing.JFrame implements Act
         if (graphAUT != null) {
             AUTGraph rg = new AUTGraph();
             rg.buildGraph(graphAUT);
-            rg.display();
+            rg.display(!MainGUI.experimentalOn);
         }
     }
 

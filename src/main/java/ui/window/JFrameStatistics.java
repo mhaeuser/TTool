@@ -45,6 +45,7 @@ import automata.Transition;
 import common.SpecConfigTTool;
 import graph.AUTGraph;
 import myutil.*;
+import ui.MainGUI;
 import ui.StoppableGUIElement;
 import ui.ThreadGUIElement;
 import ui.file.AUTFileFilter;
@@ -569,12 +570,12 @@ public class JFrameStatistics extends JFrame implements ActionListener, Stoppabl
         } else if (evt.getSource() == savePathL) {
             saveAutomata(lastLongestAutomata);
         } else if (evt.getSource() == showGraph) {
-            graph.display();
+            graph.display(!MainGUI.experimentalOn);
         }
     }
 
     public void displayGraph() {
-        graph.display();
+        graph.display(!MainGUI.experimentalOn);
     }
 
     private void saveAutomata(Automata aut) {

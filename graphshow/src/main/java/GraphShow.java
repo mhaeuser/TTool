@@ -137,7 +137,7 @@ public class GraphShow  {
 
 	 System.out.println("Graph has " + graph.getNbOfStates() + " states and " + graph.getNbOfTransitions() + " transitions.");
 
-	 graph.display(true);
+	 graph.display(true, false);
 
 
     }

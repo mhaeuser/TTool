@@ -40,7 +40,7 @@
 -- requirements requirements satified satisfy derivereqt
 -- avatarsoftwaredesign software_design avatar blocks software design
 --- avatarbd avatar_block_diagram design software blocks
----- avatarsafetypragmas safety_properties safety properties pragmas ctl
+---- avatarsafetypragmas safety_properties safety properties pragmas ctl pragma property
 --- reachabilitygraph reachability_graph reachability graph display show nodes edges node edge
 --- invariants invariant invariant petri net mutual exclusion safety verification
 --- avatarsimulation avatar_simulation interactive statistics

@@ -47,6 +47,7 @@ import org.graphstream.graph.Edge;
 import org.graphstream.graph.Node;
 import org.graphstream.graph.implementations.MultiGraph;
 import org.graphstream.stream.ProxyPipe;
+import org.graphstream.ui.geom.Point2;
 import org.graphstream.ui.geom.Point3;
 import org.graphstream.ui.graphicGraph.GraphicGraph;
 import org.graphstream.ui.swing.SwingGraphRenderer;
@@ -412,7 +413,7 @@ public class AUTGraphDisplay implements MouseListener, ViewerListener, Runnable 
                 dv.removeKeyListener(k);
             }
 
-            
+
 
             /*((Component) dv).addKeyListener(new KeyListener() {
                 @Override
@@ -511,16 +512,16 @@ public class AUTGraphDisplay implements MouseListener, ViewerListener, Runnable 
             });
 
 
-            ((Component) dv).addMouseWheelListener(new MouseWheelListener() {
+            /*((Component) dv).addMouseWheelListener(new MouseWheelListener() {
                 @Override
                 public void mouseWheelMoved(MouseWheelEvent e) {
                     e.consume();
                     int i = e.getWheelRotation();
                     TraceManager.addDev("Wheel rotation:" + i);
-                    double factor = Math.pow(1.01, i);
+                    double factor = Math.pow(1.02, i);
                     Camera cam = dv.getCamera();
                     double zoom = cam.getViewPercent() * factor;
-                /*Point2 pxCenter  = cam.transformGuToPx(cam.getViewCenter().x, cam.getViewCenter().y, 0);
+                Point2 pxCenter  = cam.transformGuToPx(cam.getViewCenter().x, cam.getViewCenter().y, 0);
                 double diffX = 1;
                 double diffY = 1;
                 if (transform != null) {
@@ -532,10 +533,10 @@ public class AUTGraphDisplay implements MouseListener, ViewerListener, Runnable 
                 double newRatioPx2Gu = cam.getMetrics().ratioPx2Gu/factor;
                 double x = guClicked.x + (pxCenter.x - e.getX())/newRatioPx2Gu;
                 double y = guClicked.y - (pxCenter.y - e.getY())/newRatioPx2Gu;
-                cam.setViewCenter(x, y, 0);*/
+                cam.setViewCenter(x, y, 0);
                     cam.setViewPercent(zoom);
                 }
-            });
+            });*/
 
 
             //Graphics g = dv.getGraphics();

@@ -167,18 +167,19 @@ public class AvatarActionOnSignal extends AvatarStateMachineElement {
     		TraceManager.addDev("Null signal" + " res=" + s);
     		return s;
     	}
+
     	if (getName() == null) {
     		TraceManager.addDev("Null name");
     	}
 
-    	return getName() + ":" + getSignal().getName();
+    	return getNiceName();
     }
 
     public String getNiceName() {
         if (signal.isIn()) {
-            return "Receiving signal " + signal.getName();
+            return "Receiving signal \"" + signal.getName() + "\"";
         } else {
-            return "Sending signal " + signal.getName();
+            return "Sending signal \"" + signal.getName() + "\"";
         }
     }
 

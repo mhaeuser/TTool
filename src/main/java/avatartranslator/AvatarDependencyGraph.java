@@ -74,7 +74,7 @@ public class AvatarDependencyGraph {
         return graph.getFirstStateWithReference(_ae);
     }
 
-    public void buildGraph(AvatarSpecification _avspec) {
+    public void buildGraph(AvatarSpecification _avspec, boolean withID) {
         graph = new AUTGraph();
         id = 0;
 
@@ -87,7 +87,7 @@ public class AvatarDependencyGraph {
             AvatarStartState ass = asm.getStartState();
 
             // Make general structure
-            makeDependencyGraphForAvatarElement(ass, null, null, states, transitions);
+            makeDependencyGraphForAvatarElement(ass, null, null, states, transitions, withID);
         }
 
         ArrayList<AUTState> newStates = new ArrayList<>();
@@ -239,7 +239,7 @@ public class AvatarDependencyGraph {
     private AUTState makeDependencyGraphForAvatarElement(AvatarStateMachineElement _elt,
                                                          AUTState _previousS, AvatarStateMachineElement _previousE,
                                                          ArrayList<AUTState> _states,
-                                                         ArrayList<AUTTransition> _transitions) {
+                                                         ArrayList<AUTTransition> _transitions, boolean withID) {
         if (_elt == null) {
             return null;
         }
@@ -247,7 +247,11 @@ public class AvatarDependencyGraph {
         AUTState state = new AUTState(id);
         _states.add(state);
         state.referenceObject = _elt;
-        state.info = _elt.toStringExtendedID();
+        if (withID) {
+            state.info = _elt.toStringExtendedID();
+        } else {
+            state.info = _elt.getExtendedName();
+        }
 
         //putState(_elt, state);
 
@@ -280,7 +284,7 @@ public class AvatarDependencyGraph {
                 state.addOutTransition(tr);
                 stateN.addInTransition(tr);
             } else {
-                makeDependencyGraphForAvatarElement(eltN, state, _elt, _states, _transitions);
+                makeDependencyGraphForAvatarElement(eltN, state, _elt, _states, _transitions, withID);
             }
         }
         return state;

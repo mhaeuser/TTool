@@ -861,8 +861,12 @@ public class AvatarSpecification extends AvatarElement {
     }
 
     public AvatarDependencyGraph makeDependencyGraph() {
+        return makeDependencyGraph(true);
+    }
+
+    public AvatarDependencyGraph makeDependencyGraph(boolean withID) {
         AvatarDependencyGraph adg = new AvatarDependencyGraph();
-        adg.buildGraph(this);
+        adg.buildGraph(this, withID);
         return adg;
     }
 

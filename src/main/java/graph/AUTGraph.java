@@ -164,7 +164,7 @@ public class AUTGraph implements myutil.Graph {
         String tmpE = input.substring(indexE + 1, indexQ - 1);
         String tmpQ = input.substring(indexQ + 1, indexP);
 
-        TraceManager.addDev("tmpE=" + tmpE + " tmpQ=" + tmpQ);
+        //TraceManager.addDev("tmpE=" + tmpE + " tmpQ=" + tmpQ);
 
         if (tmpE.compareTo(tmpQ) != 0) {
             return input;

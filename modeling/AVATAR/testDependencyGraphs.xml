@@ -1858,11 +1858,11 @@ Double-click to edit
 </COMPONENT>
 <SUBCOMPONENT type="5000" id="957" index="3" uid="08f5deac-ff7e-424d-9124-5dd57f0a2ebe" >
 <father id="1039" num="0" />
-<cdparam x="366" y="66" />
-<sizeparam width="79" height="71" minWidth="5" minHeight="2" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
+<cdparam x="279" y="67" />
+<sizeparam width="83" height="71" minWidth="5" minHeight="2" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <hidden value="false" />
-<cdrectangleparam minX="0" maxX="97" minY="0" maxY="45" />
-<infoparam name="Block0" value="Instance2" />
+<cdrectangleparam minX="0" maxX="93" minY="0" maxY="45" />
+<infoparam name="Block0" value="Instance1" />
 <TGConnectingPoint num="0" id="917" />
 <TGConnectingPoint num="1" id="918" />
 <TGConnectingPoint num="2" id="919" />
@@ -1910,11 +1910,11 @@ Double-click to edit
 </SUBCOMPONENT>
 <SUBCOMPONENT type="5000" id="998" index="4" uid="08f5deac-ff7e-424d-9124-5dd57f0a2ebe" >
 <father id="1039" num="1" />
-<cdparam x="279" y="67" />
-<sizeparam width="83" height="71" minWidth="5" minHeight="2" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
+<cdparam x="366" y="66" />
+<sizeparam width="79" height="71" minWidth="5" minHeight="2" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <hidden value="false" />
-<cdrectangleparam minX="0" maxX="93" minY="0" maxY="45" />
-<infoparam name="Block0" value="Instance1" />
+<cdrectangleparam minX="0" maxX="97" minY="0" maxY="45" />
+<infoparam name="Block0" value="Instance2" />
 <TGConnectingPoint num="0" id="958" />
 <TGConnectingPoint num="1" id="959" />
 <TGConnectingPoint num="2" id="960" />
@@ -2929,13 +2929,13 @@ Double-click to edit
 <Signal value="in answer()" attached="true" />
 </extraparam>
 </COMPONENT>
-<SUBCOMPONENT type="5000" id="1508" index="4" uid="38090441-87bf-4259-b51d-053be523a93e" >
+<SUBCOMPONENT type="5000" id="1508" index="4" uid="1f2ca3b6-69b5-4809-9120-4e63b74dd9d9" >
 <father id="1590" num="0" />
-<cdparam x="571" y="228" />
-<sizeparam width="150" height="92" minWidth="5" minHeight="2" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
+<cdparam x="412" y="230" />
+<sizeparam width="141" height="88" minWidth="5" minHeight="2" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <hidden value="false" />
-<cdrectangleparam minX="0" maxX="206" minY="0" maxY="154" />
-<infoparam name="Block0" value="Client2" />
+<cdrectangleparam minX="0" maxX="215" minY="0" maxY="158" />
+<infoparam name="Block0" value="Client1" />
 <TGConnectingPoint num="0" id="1468" />
 <TGConnectingPoint num="1" id="1469" />
 <TGConnectingPoint num="2" id="1470" />
@@ -2981,13 +2981,13 @@ Double-click to edit
 <CryptoBlock value="false" />
 </extraparam>
 </SUBCOMPONENT>
-<SUBCOMPONENT type="5000" id="1549" index="5" uid="1f2ca3b6-69b5-4809-9120-4e63b74dd9d9" >
+<SUBCOMPONENT type="5000" id="1549" index="5" uid="38090441-87bf-4259-b51d-053be523a93e" >
 <father id="1590" num="1" />
-<cdparam x="412" y="230" />
-<sizeparam width="141" height="88" minWidth="5" minHeight="2" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
+<cdparam x="571" y="228" />
+<sizeparam width="150" height="92" minWidth="5" minHeight="2" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <hidden value="false" />
-<cdrectangleparam minX="0" maxX="215" minY="0" maxY="158" />
-<infoparam name="Block0" value="Client1" />
+<cdrectangleparam minX="0" maxX="206" minY="0" maxY="154" />
+<infoparam name="Block0" value="Client2" />
 <TGConnectingPoint num="0" id="1509" />
 <TGConnectingPoint num="1" id="1510" />
 <TGConnectingPoint num="2" id="1511" />
@@ -3909,8 +3909,8 @@ Double-click to edit
 <infoparam name="connector" value="" />
 <TGConnectingPoint num="0" id="1977" />
 <TGConnectingPoint num="1" id="1978" />
-<P1  x="921" y="357" id="1988" />
-<P2  x="1023" y="392" id="2028" />
+<P1  x="921" y="357" id="2029" />
+<P2  x="1023" y="392" id="1987" />
 <Point x="921" y="391" />
 <AutomaticDrawing  data="true" />
 <extraparam>
@@ -3993,13 +3993,13 @@ Double-click to edit
 <Signal value="in value()" attached="true" />
 </extraparam>
 </COMPONENT>
-<SUBCOMPONENT type="5000" id="2022" index="5" uid="b9daba4a-7b74-4e52-8bd9-b5bc9df56d86" >
+<SUBCOMPONENT type="5000" id="2022" index="5" uid="1c21ee3a-d0b2-4f9a-92bf-e9341f5daaa1" >
 <father id="2104" num="0" />
-<cdparam x="830" y="238" />
-<sizeparam width="183" height="119" minWidth="5" minHeight="2" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
+<cdparam x="1023" y="234" />
+<sizeparam width="143" height="158" minWidth="5" minHeight="2" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <hidden value="false" />
-<cdrectangleparam minX="0" maxX="181" minY="0" maxY="134" />
-<infoparam name="Block" value="Filter" />
+<cdrectangleparam minX="0" maxX="221" minY="0" maxY="95" />
+<infoparam name="Block" value="center1" />
 <TGConnectingPoint num="0" id="1982" />
 <TGConnectingPoint num="1" id="1983" />
 <TGConnectingPoint num="2" id="1984" />
@@ -4043,16 +4043,16 @@ Double-click to edit
 <extraparam>
 <blockType data="block" color="-4072719" />
 <CryptoBlock value="false" />
-<Signal value="out query()" attached="true" />
+<Signal value="in query()" attached="true" />
 </extraparam>
 </SUBCOMPONENT>
-<SUBCOMPONENT type="5000" id="2063" index="6" uid="1c21ee3a-d0b2-4f9a-92bf-e9341f5daaa1" >
+<SUBCOMPONENT type="5000" id="2063" index="6" uid="b9daba4a-7b74-4e52-8bd9-b5bc9df56d86" >
 <father id="2104" num="1" />
-<cdparam x="1023" y="234" />
-<sizeparam width="143" height="158" minWidth="5" minHeight="2" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
+<cdparam x="830" y="238" />
+<sizeparam width="183" height="119" minWidth="5" minHeight="2" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <hidden value="false" />
-<cdrectangleparam minX="0" maxX="221" minY="0" maxY="95" />
-<infoparam name="Block" value="center1" />
+<cdrectangleparam minX="0" maxX="181" minY="0" maxY="134" />
+<infoparam name="Block" value="Filter" />
 <TGConnectingPoint num="0" id="2023" />
 <TGConnectingPoint num="1" id="2024" />
 <TGConnectingPoint num="2" id="2025" />
@@ -4096,7 +4096,7 @@ Double-click to edit
 <extraparam>
 <blockType data="block" color="-4072719" />
 <CryptoBlock value="false" />
-<Signal value="in query()" attached="true" />
+<Signal value="out query()" attached="true" />
 </extraparam>
 </SUBCOMPONENT>
 
@@ -4152,13 +4152,13 @@ Double-click to edit
 <Signal value="out value()" attached="true" />
 </extraparam>
 </COMPONENT>
-<SUBCOMPONENT type="5000" id="2145" index="7" uid="d32fb600-eac8-4ee5-aa40-e223c4804bf6" >
+<SUBCOMPONENT type="5000" id="2145" index="7" uid="b0f72ee8-81dc-4a55-b945-936ed82b727e" >
 <father id="2227" num="0" />
-<cdparam x="424" y="232" />
-<sizeparam width="168" height="117" minWidth="5" minHeight="2" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
+<cdparam x="252" y="231" />
+<sizeparam width="157" height="119" minWidth="5" minHeight="2" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <hidden value="false" />
-<cdrectangleparam minX="0" maxX="214" minY="0" maxY="159" />
-<infoparam name="Block" value="Sensor2" />
+<cdrectangleparam minX="0" maxX="225" minY="0" maxY="157" />
+<infoparam name="Block" value="Sensor1" />
 <TGConnectingPoint num="0" id="2105" />
 <TGConnectingPoint num="1" id="2106" />
 <TGConnectingPoint num="2" id="2107" />
@@ -4204,13 +4204,13 @@ Double-click to edit
 <CryptoBlock value="false" />
 </extraparam>
 </SUBCOMPONENT>
-<SUBCOMPONENT type="5000" id="2186" index="8" uid="b0f72ee8-81dc-4a55-b945-936ed82b727e" >
+<SUBCOMPONENT type="5000" id="2186" index="8" uid="d32fb600-eac8-4ee5-aa40-e223c4804bf6" >
 <father id="2227" num="1" />
-<cdparam x="252" y="231" />
-<sizeparam width="157" height="119" minWidth="5" minHeight="2" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
+<cdparam x="424" y="232" />
+<sizeparam width="168" height="117" minWidth="5" minHeight="2" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <hidden value="false" />
-<cdrectangleparam minX="0" maxX="225" minY="0" maxY="157" />
-<infoparam name="Block" value="Sensor1" />
+<cdrectangleparam minX="0" maxX="214" minY="0" maxY="159" />
+<infoparam name="Block" value="Sensor2" />
 <TGConnectingPoint num="0" id="2146" />
 <TGConnectingPoint num="1" id="2147" />
 <TGConnectingPoint num="2" id="2148" />

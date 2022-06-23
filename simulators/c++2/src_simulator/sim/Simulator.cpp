@@ -2300,6 +2300,43 @@ void Simulator::decodeCommand(std::string iCmd, std::ostream& iXmlOutStream){
     removeOldTransaction(aParam2);
     std::cout << "End remove list of transactions." << std::endl;
     break;
+  case 27: {//Save status in file x
+    std::cout << "Save status in file x." << std::endl;
+    aInpStream >> aStrParam;
+    std::ofstream statusFile (aStrParam.c_str());
+    if (statusFile.is_open()){
+        if (_busy){
+            statusFile << SIM_BUSY;
+        }else{
+	    if (_simTerm){
+                statusFile << MSG_SIMENDED ;
+
+	    }else{
+                statusFile << SIM_READY;
+            }
+            aGlobMsg << TAG_MSGo << "Status written to file " << aStrParam << TAG_MSGc << std::endl;
+        }
+    }else{
+        aGlobMsg << TAG_MSGo << MSG_FILEERR << aStrParam << TAG_MSGc << std::endl;
+        anErrorCode=4;
+    }
+    std::cout << "End Save status in file x." << std::endl;
+    break;
+  }
+  case 28: {//Save time in file x
+    std::cout << "Save time in file x." << std::endl;
+    aInpStream >> aStrParam;
+    std::ofstream timeFile (aStrParam.c_str());
+    if (timeFile.is_open()){
+        timeFile << SchedulableDevice::getSimulatedTime();
+        aGlobMsg << TAG_MSGo << "Time written to file " << aStrParam << TAG_MSGc << std::endl;
+    }else{
+        aGlobMsg << TAG_MSGo << MSG_FILEERR << aStrParam << TAG_MSGc << std::endl;
+        anErrorCode=4;
+    }
+    std::cout << "End Save time in file x." << std::endl;
+    break;
+  }
   default:
     anEntityMsg << TAG_MSGo << MSG_CMDNFOUND<< TAG_MSGc << std::endl;
     anErrorCode=3;

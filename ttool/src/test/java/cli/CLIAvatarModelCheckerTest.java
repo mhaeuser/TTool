@@ -242,13 +242,13 @@ public class CLIAvatarModelCheckerTest extends AbstractTest implements Interpret
         String s1 = expectedOutput.trim();
         String s2 = outputResult.toString().trim();
 
-
         System.out.println("TEST expected=\t>" + s1 + "<\nTEST output:\t>" + s2 + "<");
-
 
         // Rework string
         s1 = reworkStringForComparison(s1);
         s2 = reworkStringForComparison(s2);
+
+        System.out.println("TEST expected=\t>" + s1 + "<\nTEST output:\t>" + s2 + "<");
 
        /*for(int i=0; i<s1.length(); i++) {
            System.out.println(i + "\t" + s1.substring(i, i+1) + " " + s2.substring(i, i+1));

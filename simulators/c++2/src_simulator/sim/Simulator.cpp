@@ -2307,16 +2307,16 @@ void Simulator::decodeCommand(std::string iCmd, std::ostream& iXmlOutStream){
     if (statusFile.is_open()){
         if (_busy){
             statusFile << SIM_BUSY;
-        }else{
+        } else {
 	    if (_simTerm){
                 statusFile << MSG_SIMENDED ;
 
-	    }else{
+	    } else {
                 statusFile << SIM_READY;
             }
             aGlobMsg << TAG_MSGo << "Status written to file " << aStrParam << TAG_MSGc << std::endl;
         }
-    }else{
+    } else {
         aGlobMsg << TAG_MSGo << MSG_FILEERR << aStrParam << TAG_MSGc << std::endl;
         anErrorCode=4;
     }
@@ -2330,7 +2330,7 @@ void Simulator::decodeCommand(std::string iCmd, std::ostream& iXmlOutStream){
     if (timeFile.is_open()){
         timeFile << SchedulableDevice::getSimulatedTime();
         aGlobMsg << TAG_MSGo << "Time written to file " << aStrParam << TAG_MSGc << std::endl;
-    }else{
+    } else {
         aGlobMsg << TAG_MSGo << MSG_FILEERR << aStrParam << TAG_MSGc << std::endl;
         anErrorCode=4;
     }

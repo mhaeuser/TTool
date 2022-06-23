@@ -59,7 +59,8 @@ public class TMLCPLibArtifact extends TMLElement {
     private List<String> bufferParameters;
 
 
-    public TMLCPLibArtifact(String _name, Object _referenceObject, String _taskName, String _portName, String _memoryName, int _priority, List<String> _bufferParameters ) {
+    public TMLCPLibArtifact(String _name, Object _referenceObject, String _taskName, String _portName, String _memoryName, int _priority,
+                            List<String> _bufferParameters ) {
         super( _name, _referenceObject );
         taskName = _taskName;
         portName = _portName;

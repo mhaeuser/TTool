@@ -197,7 +197,13 @@ public class CLIAvatarModelCheckerTest extends AbstractTest implements Interpret
         System.out.println("states=" + graph.getNbOfStates() + " transitions=" + graph.getNbOfTransitions());
         assertTrue(graph.getNbOfStates() == 14);
         assertTrue(graph.getNbOfTransitions() == 16);
-        assertEquals(expectedOutput, outputResult.toString());
+
+        System.out.println("\nExpected:>" + expectedOutput + "<");
+        System.out.println("\nObtained:>" + outputResult.toString() + "<");
+
+        String s1 = reworkStringForComparison(expectedOutput);
+        String s2 = reworkStringForComparison(outputResult.toString());
+        assertEquals(s1, s2);
     }
 	
 	@Test
@@ -248,7 +254,7 @@ public class CLIAvatarModelCheckerTest extends AbstractTest implements Interpret
         s1 = reworkStringForComparison(s1);
         s2 = reworkStringForComparison(s2);
 
-        System.out.println("TEST expected=\t>" + s1 + "<\nTEST output:\t>" + s2 + "<");
+        //System.out.println("TEST expected=\t>" + s1 + "<\nTEST output:\t>" + s2 + "<");
 
        /*for(int i=0; i<s1.length(); i++) {
            System.out.println(i + "\t" + s1.substring(i, i+1) + " " + s2.substring(i, i+1));

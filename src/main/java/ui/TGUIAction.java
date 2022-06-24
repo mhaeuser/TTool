@@ -719,8 +719,12 @@ public class TGUIAction extends AbstractAction {
     // SysMLV2
     public static final int SysMLV2_TEXT = 557;
 
+    // GRAPH
+    public static final int GD_VERTEX = 560;
+    public static final int GD_EDGE_CONNECTOR = 561;
 
-    public static final int NB_ACTION = 560; // Last + 1
+
+    public static final int NB_ACTION = 562; // Last + 1
 
     private static final TAction [] actions = new TAction[NB_ACTION];
 
@@ -1401,6 +1405,16 @@ public class TGUIAction extends AbstractAction {
         actions[ABD_PORT_CONNECTOR] = new TAction("abd-port-connector", "Add a composition connector between blocks", IconManager.imgic5004, IconManager.imgic5004, "Port connector", "Add a port link between blocks of the currently opened AVATAR Block Diagram", 0);
         actions[ABD_LIBRARYFUNCTION] = new TAction("abd-libraryfunction", "Add a library function", IconManager.imgic5070, IconManager.imgic5000, "Library Function", "Add a Library Function to the currently opened AVATAR Block Diagram", 0);
         actions[ABD_CRYPTOLIBRARYFUNCTION] = new TAction("abd-cryptolibraryfunction", "Add a crypto library function", IconManager.imgic5070, IconManager.imgic5000, "Crypto library function", "Add a Crypto Library Function to the currently opened AVATAR Block Diagram", 0);
+
+
+        // Graph
+        actions[GD_VERTEX] = new TAction("add-gd-vertex", "Add vertex", IconManager.imgic222, IconManager.imgic222,
+                "Vertex", "Add a vertex " +
+                 "to " +
+                "the currently opened graph", 0);
+        actions[GD_EDGE_CONNECTOR] = new TAction("add-gd-connector", "Connect two vertices", IconManager.imgic202, IconManager.imgic202,
+                "Connect two vertices", "Connect two vertices of the currently opened graph", 0);
+
 
         // AVATAR State Machine Diagrams
         actions[ASMD_EDIT] = new TAction("edit-asmd-diagram", "Edit AVATAR state machine diagram", IconManager.imgic100, IconManager.imgic101, "Edit AVATAR state machine diagram", "Make it possible to edit the currently opened AVATAR state machine diagram", 0);

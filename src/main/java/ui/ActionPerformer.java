@@ -382,7 +382,13 @@ public class ActionPerformer {
         } else if (command.equals(mgui.actions[TGUIAction.AVATAR_FIREWALL].getActionCommand())) {
             mgui.actionOnButton(TGComponentManager.COMPONENT, TGComponentManager.AVATAR_FIREWALL);
 
-            // AVATAR SMD
+            // Graph
+        } else if (command.equals(mgui.actions[TGUIAction.GD_VERTEX].getActionCommand())) {
+            mgui.actionOnButton(TGComponentManager.COMPONENT, TGComponentManager.GRAPHD_VERTEX);
+        } else if (command.equals(mgui.actions[TGUIAction.GD_EDGE_CONNECTOR].getActionCommand())) {
+            mgui.actionOnButton(TGComponentManager.CONNECTOR, TGComponentManager.GRAPHD_EDGE_CONNECTOR);
+
+        // AVATAR SMD
         } else if (command.equals(mgui.actions[TGUIAction.ASMD_EDIT].getActionCommand())) {
             mgui.actionOnButton(TGComponentManager.EDIT, -1);
         } else if (command.equals(mgui.actions[TGUIAction.ASMD_START].getActionCommand())) {

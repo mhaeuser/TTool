@@ -76,6 +76,7 @@ import ui.ebrdd.EBRDDPanel;
 import ui.eln.ELNDiagramPanel;
 import ui.file.*;
 import ui.ftd.FaultTreeDiagramPanel;
+import ui.graphd.GraphDPanel;
 import ui.interactivesimulation.JFrameInteractiveSimulation;
 import ui.iod.InteractionOverviewDiagramPanel;
 import ui.networkmodelloader.JDialogLoadingNetworkModel;
@@ -1138,6 +1139,7 @@ public class MainGUI implements ActionListener, WindowListener, KeyListener, Per
         return addSysmlsecMethodologyPanel(name, index, addDefaultElements, 0);
     }
 
+
     // Types: 0: sysml-sec ; 1: avatar ; 2: diplodocus
     private int addSysmlsecMethodologyPanel(String name, int index, boolean addDefaultElements, int type) {
         if (index == -1) {
@@ -1178,6 +1180,23 @@ public class MainGUI implements ActionListener, WindowListener, KeyListener, Per
             dp.initElements();
         }
         // ystem.out.println("Design added");
+        return index;
+    }
+
+    private int addGraphPanel(String name, int index) {
+        if (index == -1) {
+            index = tabs.size();
+        }
+        TraceManager.addDev("New graph panel");
+        GraphPanel gp = new GraphPanel(this);
+        tabs.add(index, gp);
+        mainTabbedPane.add(gp.tabbedPane, index);
+        mainTabbedPane.setToolTipTextAt(index, "");
+        mainTabbedPane.setTitleAt(index, name);
+        mainTabbedPane.setIconAt(index, IconManager.imgic99);
+
+        gp.init();
+
         return index;
     }
 
@@ -1607,6 +1626,12 @@ public class MainGUI implements ActionListener, WindowListener, KeyListener, Per
 
     public int createAvatarRequirement(String name) {
         int index = addAvatarRequirementPanel(name, -1);
+        mainTabbedPane.setSelectedIndex(index);
+        return index;
+    }
+
+    public int createGraph(String name) {
+        int index = addGraphPanel(name, -1);
         mainTabbedPane.setSelectedIndex(index);
         return index;
     }
@@ -2232,6 +2257,13 @@ public class MainGUI implements ActionListener, WindowListener, KeyListener, Per
         mainTabbedPane.setSelectedIndex(tabs.size() - 1);
         // paneAction(null);
         // frame.repaint();
+    }
+
+    public void newGraph() {
+        addGraphPanel("Graph", -1);
+        // ((TURTLEPanel)tabs.elementAt(0)).tabbedPane.setSelectedIndex(0);
+        // mainTabbedPane.setSelectedIndex(0);
+        mainTabbedPane.setSelectedIndex(tabs.size() - 1);
     }
 
     public void newRequirement() {
@@ -7630,12 +7662,26 @@ public class MainGUI implements ActionListener, WindowListener, KeyListener, Per
         return createAvatarRD(tabs.elementAt(index), s);
     }
 
+    public boolean createGraphD(int index, String s) {
+        return createGraphD(tabs.elementAt(index), s);
+    }
+
     public boolean createAvatarRD(TURTLEPanel tp, String s) {
         if (!(tp instanceof AvatarRequirementPanel)) {
             return false;
         }
 
         ((AvatarRequirementPanel) tp).addAvatarRD(s);
+        setPanelMode();
+        return true;
+    }
+
+    public boolean createGraphD(TURTLEPanel tp, String s) {
+        if (!(tp instanceof GraphPanel)) {
+            return false;
+        }
+
+        ((GraphPanel) tp).addGraphDiagram(s);
         setPanelMode();
         return true;
     }
@@ -7732,6 +7778,16 @@ public class MainGUI implements ActionListener, WindowListener, KeyListener, Per
         }
 
         ((RequirementPanel) tp).addRequirementDiagram(s);
+        setPanelMode();
+        return true;
+    }
+
+    public boolean createGraph(TURTLEPanel tp, String s) {
+        if (!(tp instanceof GraphPanel)) {
+            return false;
+        }
+
+        ((GraphPanel) tp).addGraphDiagram(s);
         setPanelMode();
         return true;
     }
@@ -7839,9 +7895,21 @@ public class MainGUI implements ActionListener, WindowListener, KeyListener, Per
         return getAvatarRDPanel(tp, indexTab, s);
     }
 
+    public GraphDPanel getGraphDPanel(int index, int indexTab, String s) {
+        TURTLEPanel tp = tabs.elementAt(index);
+        return getGraphDPanel(tp, indexTab, s);
+    }
+
     public AvatarRDPanel getAvatarRDPanel(TURTLEPanel tp, int indexTab, String s) {
         if (tp.tabbedPane.getTitleAt(indexTab).equals(s)) {
             return (AvatarRDPanel) (tp.panelAt(indexTab));
+        }
+        return null;
+    }
+
+    public GraphDPanel getGraphDPanel(TURTLEPanel tp, int indexTab, String s) {
+        if (tp.tabbedPane.getTitleAt(indexTab).equals(s)) {
+            return (GraphDPanel) (tp.panelAt(indexTab));
         }
         return null;
     }
@@ -9797,7 +9865,7 @@ public class MainGUI implements ActionListener, WindowListener, KeyListener, Per
         private JMenuItem rename, remove, moveRight, moveLeft, newDesign, newAnalysis, newDeployment, newRequirement/* , newTMLDesign */,
                 newTMLComponentDesign, newTMLArchi, newProactiveDesign, newTURTLEOSDesign, newNCDesign, sort, clone, newAttackTree, newFaultTree,
                 newAVATARBD, newAVATARRequirement, newMAD, newTMLCP, newTMLMethodo, newAvatarMethodo, newAVATARDD, newSysmlsecMethodo, newSysCAMS,
-                newELN, newVerificationProperty, clearVerificationInformation, newMethodo;
+                newELN, newVerificationProperty, clearVerificationInformation, newMethodo, graph;
         private JMenuItem newAVATARAnalysis;
         private Action listener = new AbstractAction() {
 
@@ -9900,6 +9968,8 @@ public class MainGUI implements ActionListener, WindowListener, KeyListener, Per
                     mgui.newVerificationPropertyPanel();
                 } else if (e.getSource() == clearVerificationInformation) {
                     mgui.clearBacktracing();
+                } else if (e.getSource() == graph) {
+                    mgui.newGraph();
                 }
             }
         };
@@ -9974,6 +10044,7 @@ public class MainGUI implements ActionListener, WindowListener, KeyListener, Per
             newSysmlsecMethodo = createMenuItem("New SysML-Sec Methodology");
             newVerificationProperty = createMenuItem("New Verification Tracking");
             clearVerificationInformation = createMenuItem("Clear Verification Backtracing");
+            graph = createMenuItem("New graph");
 
             menu = new JPopupMenu("Views");
             menu.add(moveLeft);
@@ -10078,6 +10149,8 @@ public class MainGUI implements ActionListener, WindowListener, KeyListener, Per
 
             menu.addSeparator();
             menu.add(clearVerificationInformation);
+
+            menu.add(graph);
 
         }
 

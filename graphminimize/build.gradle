@@ -23,7 +23,7 @@ dependencies {
     compileOnly name: 'gs-core-2.0'
     compileOnly name: 'gs-algo-2.0'
     compileOnly name: 'gs-ui-swing-2.0'
-    compileOnly name: 'commons-io-2.5'
+    implementation name: 'commons-io-2.5'
     compileOnly name: 'commons-codec-1.10'
     compileOnly name: 'jsoup-1.8.1'
     compileOnly name: 'jautomata-core'

@@ -1856,65 +1856,13 @@ Double-click to edit
 <Signal value="out answer()" attached="true" />
 </extraparam>
 </COMPONENT>
-<SUBCOMPONENT type="5000" id="957" index="3" uid="08f5deac-ff7e-424d-9124-5dd57f0a2ebe" >
+<SUBCOMPONENT type="5000" id="998" index="3" uid="08f5deac-ff7e-424d-9124-5dd57f0a2ebe" >
 <father id="1039" num="0" />
 <cdparam x="279" y="67" />
 <sizeparam width="83" height="71" minWidth="5" minHeight="2" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <hidden value="false" />
 <cdrectangleparam minX="0" maxX="93" minY="0" maxY="45" />
 <infoparam name="Block0" value="Instance1" />
-<TGConnectingPoint num="0" id="917" />
-<TGConnectingPoint num="1" id="918" />
-<TGConnectingPoint num="2" id="919" />
-<TGConnectingPoint num="3" id="920" />
-<TGConnectingPoint num="4" id="921" />
-<TGConnectingPoint num="5" id="922" />
-<TGConnectingPoint num="6" id="923" />
-<TGConnectingPoint num="7" id="924" />
-<TGConnectingPoint num="8" id="925" />
-<TGConnectingPoint num="9" id="926" />
-<TGConnectingPoint num="10" id="927" />
-<TGConnectingPoint num="11" id="928" />
-<TGConnectingPoint num="12" id="929" />
-<TGConnectingPoint num="13" id="930" />
-<TGConnectingPoint num="14" id="931" />
-<TGConnectingPoint num="15" id="932" />
-<TGConnectingPoint num="16" id="933" />
-<TGConnectingPoint num="17" id="934" />
-<TGConnectingPoint num="18" id="935" />
-<TGConnectingPoint num="19" id="936" />
-<TGConnectingPoint num="20" id="937" />
-<TGConnectingPoint num="21" id="938" />
-<TGConnectingPoint num="22" id="939" />
-<TGConnectingPoint num="23" id="940" />
-<TGConnectingPoint num="24" id="941" />
-<TGConnectingPoint num="25" id="942" />
-<TGConnectingPoint num="26" id="943" />
-<TGConnectingPoint num="27" id="944" />
-<TGConnectingPoint num="28" id="945" />
-<TGConnectingPoint num="29" id="946" />
-<TGConnectingPoint num="30" id="947" />
-<TGConnectingPoint num="31" id="948" />
-<TGConnectingPoint num="32" id="949" />
-<TGConnectingPoint num="33" id="950" />
-<TGConnectingPoint num="34" id="951" />
-<TGConnectingPoint num="35" id="952" />
-<TGConnectingPoint num="36" id="953" />
-<TGConnectingPoint num="37" id="954" />
-<TGConnectingPoint num="38" id="955" />
-<TGConnectingPoint num="39" id="956" />
-<extraparam>
-<blockType data="block" color="-4072719" />
-<CryptoBlock value="false" />
-</extraparam>
-</SUBCOMPONENT>
-<SUBCOMPONENT type="5000" id="998" index="4" uid="08f5deac-ff7e-424d-9124-5dd57f0a2ebe" >
-<father id="1039" num="1" />
-<cdparam x="366" y="66" />
-<sizeparam width="79" height="71" minWidth="5" minHeight="2" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
-<hidden value="false" />
-<cdrectangleparam minX="0" maxX="97" minY="0" maxY="45" />
-<infoparam name="Block0" value="Instance2" />
 <TGConnectingPoint num="0" id="958" />
 <TGConnectingPoint num="1" id="959" />
 <TGConnectingPoint num="2" id="960" />
@@ -1955,6 +1903,58 @@ Double-click to edit
 <TGConnectingPoint num="37" id="995" />
 <TGConnectingPoint num="38" id="996" />
 <TGConnectingPoint num="39" id="997" />
+<extraparam>
+<blockType data="block" color="-4072719" />
+<CryptoBlock value="false" />
+</extraparam>
+</SUBCOMPONENT>
+<SUBCOMPONENT type="5000" id="957" index="4" uid="08f5deac-ff7e-424d-9124-5dd57f0a2ebe" >
+<father id="1039" num="1" />
+<cdparam x="366" y="66" />
+<sizeparam width="79" height="71" minWidth="5" minHeight="2" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
+<hidden value="false" />
+<cdrectangleparam minX="0" maxX="97" minY="0" maxY="45" />
+<infoparam name="Block0" value="Instance2" />
+<TGConnectingPoint num="0" id="917" />
+<TGConnectingPoint num="1" id="918" />
+<TGConnectingPoint num="2" id="919" />
+<TGConnectingPoint num="3" id="920" />
+<TGConnectingPoint num="4" id="921" />
+<TGConnectingPoint num="5" id="922" />
+<TGConnectingPoint num="6" id="923" />
+<TGConnectingPoint num="7" id="924" />
+<TGConnectingPoint num="8" id="925" />
+<TGConnectingPoint num="9" id="926" />
+<TGConnectingPoint num="10" id="927" />
+<TGConnectingPoint num="11" id="928" />
+<TGConnectingPoint num="12" id="929" />
+<TGConnectingPoint num="13" id="930" />
+<TGConnectingPoint num="14" id="931" />
+<TGConnectingPoint num="15" id="932" />
+<TGConnectingPoint num="16" id="933" />
+<TGConnectingPoint num="17" id="934" />
+<TGConnectingPoint num="18" id="935" />
+<TGConnectingPoint num="19" id="936" />
+<TGConnectingPoint num="20" id="937" />
+<TGConnectingPoint num="21" id="938" />
+<TGConnectingPoint num="22" id="939" />
+<TGConnectingPoint num="23" id="940" />
+<TGConnectingPoint num="24" id="941" />
+<TGConnectingPoint num="25" id="942" />
+<TGConnectingPoint num="26" id="943" />
+<TGConnectingPoint num="27" id="944" />
+<TGConnectingPoint num="28" id="945" />
+<TGConnectingPoint num="29" id="946" />
+<TGConnectingPoint num="30" id="947" />
+<TGConnectingPoint num="31" id="948" />
+<TGConnectingPoint num="32" id="949" />
+<TGConnectingPoint num="33" id="950" />
+<TGConnectingPoint num="34" id="951" />
+<TGConnectingPoint num="35" id="952" />
+<TGConnectingPoint num="36" id="953" />
+<TGConnectingPoint num="37" id="954" />
+<TGConnectingPoint num="38" id="955" />
+<TGConnectingPoint num="39" id="956" />
 <extraparam>
 <blockType data="block" color="-4072719" />
 <CryptoBlock value="false" />
@@ -2929,65 +2929,13 @@ Double-click to edit
 <Signal value="in answer()" attached="true" />
 </extraparam>
 </COMPONENT>
-<SUBCOMPONENT type="5000" id="1508" index="4" uid="1f2ca3b6-69b5-4809-9120-4e63b74dd9d9" >
+<SUBCOMPONENT type="5000" id="1549" index="4" uid="1f2ca3b6-69b5-4809-9120-4e63b74dd9d9" >
 <father id="1590" num="0" />
 <cdparam x="412" y="230" />
 <sizeparam width="141" height="88" minWidth="5" minHeight="2" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <hidden value="false" />
 <cdrectangleparam minX="0" maxX="215" minY="0" maxY="158" />
 <infoparam name="Block0" value="Client1" />
-<TGConnectingPoint num="0" id="1468" />
-<TGConnectingPoint num="1" id="1469" />
-<TGConnectingPoint num="2" id="1470" />
-<TGConnectingPoint num="3" id="1471" />
-<TGConnectingPoint num="4" id="1472" />
-<TGConnectingPoint num="5" id="1473" />
-<TGConnectingPoint num="6" id="1474" />
-<TGConnectingPoint num="7" id="1475" />
-<TGConnectingPoint num="8" id="1476" />
-<TGConnectingPoint num="9" id="1477" />
-<TGConnectingPoint num="10" id="1478" />
-<TGConnectingPoint num="11" id="1479" />
-<TGConnectingPoint num="12" id="1480" />
-<TGConnectingPoint num="13" id="1481" />
-<TGConnectingPoint num="14" id="1482" />
-<TGConnectingPoint num="15" id="1483" />
-<TGConnectingPoint num="16" id="1484" />
-<TGConnectingPoint num="17" id="1485" />
-<TGConnectingPoint num="18" id="1486" />
-<TGConnectingPoint num="19" id="1487" />
-<TGConnectingPoint num="20" id="1488" />
-<TGConnectingPoint num="21" id="1489" />
-<TGConnectingPoint num="22" id="1490" />
-<TGConnectingPoint num="23" id="1491" />
-<TGConnectingPoint num="24" id="1492" />
-<TGConnectingPoint num="25" id="1493" />
-<TGConnectingPoint num="26" id="1494" />
-<TGConnectingPoint num="27" id="1495" />
-<TGConnectingPoint num="28" id="1496" />
-<TGConnectingPoint num="29" id="1497" />
-<TGConnectingPoint num="30" id="1498" />
-<TGConnectingPoint num="31" id="1499" />
-<TGConnectingPoint num="32" id="1500" />
-<TGConnectingPoint num="33" id="1501" />
-<TGConnectingPoint num="34" id="1502" />
-<TGConnectingPoint num="35" id="1503" />
-<TGConnectingPoint num="36" id="1504" />
-<TGConnectingPoint num="37" id="1505" />
-<TGConnectingPoint num="38" id="1506" />
-<TGConnectingPoint num="39" id="1507" />
-<extraparam>
-<blockType data="block" color="-4072719" />
-<CryptoBlock value="false" />
-</extraparam>
-</SUBCOMPONENT>
-<SUBCOMPONENT type="5000" id="1549" index="5" uid="38090441-87bf-4259-b51d-053be523a93e" >
-<father id="1590" num="1" />
-<cdparam x="571" y="228" />
-<sizeparam width="150" height="92" minWidth="5" minHeight="2" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
-<hidden value="false" />
-<cdrectangleparam minX="0" maxX="206" minY="0" maxY="154" />
-<infoparam name="Block0" value="Client2" />
 <TGConnectingPoint num="0" id="1509" />
 <TGConnectingPoint num="1" id="1510" />
 <TGConnectingPoint num="2" id="1511" />
@@ -3028,6 +2976,58 @@ Double-click to edit
 <TGConnectingPoint num="37" id="1546" />
 <TGConnectingPoint num="38" id="1547" />
 <TGConnectingPoint num="39" id="1548" />
+<extraparam>
+<blockType data="block" color="-4072719" />
+<CryptoBlock value="false" />
+</extraparam>
+</SUBCOMPONENT>
+<SUBCOMPONENT type="5000" id="1508" index="5" uid="38090441-87bf-4259-b51d-053be523a93e" >
+<father id="1590" num="1" />
+<cdparam x="571" y="228" />
+<sizeparam width="150" height="92" minWidth="5" minHeight="2" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
+<hidden value="false" />
+<cdrectangleparam minX="0" maxX="206" minY="0" maxY="154" />
+<infoparam name="Block0" value="Client2" />
+<TGConnectingPoint num="0" id="1468" />
+<TGConnectingPoint num="1" id="1469" />
+<TGConnectingPoint num="2" id="1470" />
+<TGConnectingPoint num="3" id="1471" />
+<TGConnectingPoint num="4" id="1472" />
+<TGConnectingPoint num="5" id="1473" />
+<TGConnectingPoint num="6" id="1474" />
+<TGConnectingPoint num="7" id="1475" />
+<TGConnectingPoint num="8" id="1476" />
+<TGConnectingPoint num="9" id="1477" />
+<TGConnectingPoint num="10" id="1478" />
+<TGConnectingPoint num="11" id="1479" />
+<TGConnectingPoint num="12" id="1480" />
+<TGConnectingPoint num="13" id="1481" />
+<TGConnectingPoint num="14" id="1482" />
+<TGConnectingPoint num="15" id="1483" />
+<TGConnectingPoint num="16" id="1484" />
+<TGConnectingPoint num="17" id="1485" />
+<TGConnectingPoint num="18" id="1486" />
+<TGConnectingPoint num="19" id="1487" />
+<TGConnectingPoint num="20" id="1488" />
+<TGConnectingPoint num="21" id="1489" />
+<TGConnectingPoint num="22" id="1490" />
+<TGConnectingPoint num="23" id="1491" />
+<TGConnectingPoint num="24" id="1492" />
+<TGConnectingPoint num="25" id="1493" />
+<TGConnectingPoint num="26" id="1494" />
+<TGConnectingPoint num="27" id="1495" />
+<TGConnectingPoint num="28" id="1496" />
+<TGConnectingPoint num="29" id="1497" />
+<TGConnectingPoint num="30" id="1498" />
+<TGConnectingPoint num="31" id="1499" />
+<TGConnectingPoint num="32" id="1500" />
+<TGConnectingPoint num="33" id="1501" />
+<TGConnectingPoint num="34" id="1502" />
+<TGConnectingPoint num="35" id="1503" />
+<TGConnectingPoint num="36" id="1504" />
+<TGConnectingPoint num="37" id="1505" />
+<TGConnectingPoint num="38" id="1506" />
+<TGConnectingPoint num="39" id="1507" />
 <extraparam>
 <blockType data="block" color="-4072719" />
 <CryptoBlock value="false" />
@@ -3909,8 +3909,8 @@ Double-click to edit
 <infoparam name="connector" value="" />
 <TGConnectingPoint num="0" id="1977" />
 <TGConnectingPoint num="1" id="1978" />
-<P1  x="921" y="357" id="2029" />
-<P2  x="1023" y="392" id="1987" />
+<P1  x="921" y="357" id="1988" />
+<P2  x="1023" y="392" id="2028" />
 <Point x="921" y="391" />
 <AutomaticDrawing  data="true" />
 <extraparam>
@@ -3993,66 +3993,13 @@ Double-click to edit
 <Signal value="in value()" attached="true" />
 </extraparam>
 </COMPONENT>
-<SUBCOMPONENT type="5000" id="2022" index="5" uid="1c21ee3a-d0b2-4f9a-92bf-e9341f5daaa1" >
+<SUBCOMPONENT type="5000" id="2063" index="5" uid="1c21ee3a-d0b2-4f9a-92bf-e9341f5daaa1" >
 <father id="2104" num="0" />
 <cdparam x="1023" y="234" />
 <sizeparam width="143" height="158" minWidth="5" minHeight="2" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <hidden value="false" />
 <cdrectangleparam minX="0" maxX="221" minY="0" maxY="95" />
 <infoparam name="Block" value="center1" />
-<TGConnectingPoint num="0" id="1982" />
-<TGConnectingPoint num="1" id="1983" />
-<TGConnectingPoint num="2" id="1984" />
-<TGConnectingPoint num="3" id="1985" />
-<TGConnectingPoint num="4" id="1986" />
-<TGConnectingPoint num="5" id="1987" />
-<TGConnectingPoint num="6" id="1988" />
-<TGConnectingPoint num="7" id="1989" />
-<TGConnectingPoint num="8" id="1990" />
-<TGConnectingPoint num="9" id="1991" />
-<TGConnectingPoint num="10" id="1992" />
-<TGConnectingPoint num="11" id="1993" />
-<TGConnectingPoint num="12" id="1994" />
-<TGConnectingPoint num="13" id="1995" />
-<TGConnectingPoint num="14" id="1996" />
-<TGConnectingPoint num="15" id="1997" />
-<TGConnectingPoint num="16" id="1998" />
-<TGConnectingPoint num="17" id="1999" />
-<TGConnectingPoint num="18" id="2000" />
-<TGConnectingPoint num="19" id="2001" />
-<TGConnectingPoint num="20" id="2002" />
-<TGConnectingPoint num="21" id="2003" />
-<TGConnectingPoint num="22" id="2004" />
-<TGConnectingPoint num="23" id="2005" />
-<TGConnectingPoint num="24" id="2006" />
-<TGConnectingPoint num="25" id="2007" />
-<TGConnectingPoint num="26" id="2008" />
-<TGConnectingPoint num="27" id="2009" />
-<TGConnectingPoint num="28" id="2010" />
-<TGConnectingPoint num="29" id="2011" />
-<TGConnectingPoint num="30" id="2012" />
-<TGConnectingPoint num="31" id="2013" />
-<TGConnectingPoint num="32" id="2014" />
-<TGConnectingPoint num="33" id="2015" />
-<TGConnectingPoint num="34" id="2016" />
-<TGConnectingPoint num="35" id="2017" />
-<TGConnectingPoint num="36" id="2018" />
-<TGConnectingPoint num="37" id="2019" />
-<TGConnectingPoint num="38" id="2020" />
-<TGConnectingPoint num="39" id="2021" />
-<extraparam>
-<blockType data="block" color="-4072719" />
-<CryptoBlock value="false" />
-<Signal value="in query()" attached="true" />
-</extraparam>
-</SUBCOMPONENT>
-<SUBCOMPONENT type="5000" id="2063" index="6" uid="b9daba4a-7b74-4e52-8bd9-b5bc9df56d86" >
-<father id="2104" num="1" />
-<cdparam x="830" y="238" />
-<sizeparam width="183" height="119" minWidth="5" minHeight="2" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
-<hidden value="false" />
-<cdrectangleparam minX="0" maxX="181" minY="0" maxY="134" />
-<infoparam name="Block" value="Filter" />
 <TGConnectingPoint num="0" id="2023" />
 <TGConnectingPoint num="1" id="2024" />
 <TGConnectingPoint num="2" id="2025" />
@@ -4093,6 +4040,59 @@ Double-click to edit
 <TGConnectingPoint num="37" id="2060" />
 <TGConnectingPoint num="38" id="2061" />
 <TGConnectingPoint num="39" id="2062" />
+<extraparam>
+<blockType data="block" color="-4072719" />
+<CryptoBlock value="false" />
+<Signal value="in query()" attached="true" />
+</extraparam>
+</SUBCOMPONENT>
+<SUBCOMPONENT type="5000" id="2022" index="6" uid="b9daba4a-7b74-4e52-8bd9-b5bc9df56d86" >
+<father id="2104" num="1" />
+<cdparam x="830" y="238" />
+<sizeparam width="183" height="119" minWidth="5" minHeight="2" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
+<hidden value="false" />
+<cdrectangleparam minX="0" maxX="181" minY="0" maxY="134" />
+<infoparam name="Block" value="Filter" />
+<TGConnectingPoint num="0" id="1982" />
+<TGConnectingPoint num="1" id="1983" />
+<TGConnectingPoint num="2" id="1984" />
+<TGConnectingPoint num="3" id="1985" />
+<TGConnectingPoint num="4" id="1986" />
+<TGConnectingPoint num="5" id="1987" />
+<TGConnectingPoint num="6" id="1988" />
+<TGConnectingPoint num="7" id="1989" />
+<TGConnectingPoint num="8" id="1990" />
+<TGConnectingPoint num="9" id="1991" />
+<TGConnectingPoint num="10" id="1992" />
+<TGConnectingPoint num="11" id="1993" />
+<TGConnectingPoint num="12" id="1994" />
+<TGConnectingPoint num="13" id="1995" />
+<TGConnectingPoint num="14" id="1996" />
+<TGConnectingPoint num="15" id="1997" />
+<TGConnectingPoint num="16" id="1998" />
+<TGConnectingPoint num="17" id="1999" />
+<TGConnectingPoint num="18" id="2000" />
+<TGConnectingPoint num="19" id="2001" />
+<TGConnectingPoint num="20" id="2002" />
+<TGConnectingPoint num="21" id="2003" />
+<TGConnectingPoint num="22" id="2004" />
+<TGConnectingPoint num="23" id="2005" />
+<TGConnectingPoint num="24" id="2006" />
+<TGConnectingPoint num="25" id="2007" />
+<TGConnectingPoint num="26" id="2008" />
+<TGConnectingPoint num="27" id="2009" />
+<TGConnectingPoint num="28" id="2010" />
+<TGConnectingPoint num="29" id="2011" />
+<TGConnectingPoint num="30" id="2012" />
+<TGConnectingPoint num="31" id="2013" />
+<TGConnectingPoint num="32" id="2014" />
+<TGConnectingPoint num="33" id="2015" />
+<TGConnectingPoint num="34" id="2016" />
+<TGConnectingPoint num="35" id="2017" />
+<TGConnectingPoint num="36" id="2018" />
+<TGConnectingPoint num="37" id="2019" />
+<TGConnectingPoint num="38" id="2020" />
+<TGConnectingPoint num="39" id="2021" />
 <extraparam>
 <blockType data="block" color="-4072719" />
 <CryptoBlock value="false" />
@@ -4152,65 +4152,13 @@ Double-click to edit
 <Signal value="out value()" attached="true" />
 </extraparam>
 </COMPONENT>
-<SUBCOMPONENT type="5000" id="2145" index="7" uid="b0f72ee8-81dc-4a55-b945-936ed82b727e" >
+<SUBCOMPONENT type="5000" id="2186" index="7" uid="b0f72ee8-81dc-4a55-b945-936ed82b727e" >
 <father id="2227" num="0" />
 <cdparam x="252" y="231" />
 <sizeparam width="157" height="119" minWidth="5" minHeight="2" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <hidden value="false" />
 <cdrectangleparam minX="0" maxX="225" minY="0" maxY="157" />
 <infoparam name="Block" value="Sensor1" />
-<TGConnectingPoint num="0" id="2105" />
-<TGConnectingPoint num="1" id="2106" />
-<TGConnectingPoint num="2" id="2107" />
-<TGConnectingPoint num="3" id="2108" />
-<TGConnectingPoint num="4" id="2109" />
-<TGConnectingPoint num="5" id="2110" />
-<TGConnectingPoint num="6" id="2111" />
-<TGConnectingPoint num="7" id="2112" />
-<TGConnectingPoint num="8" id="2113" />
-<TGConnectingPoint num="9" id="2114" />
-<TGConnectingPoint num="10" id="2115" />
-<TGConnectingPoint num="11" id="2116" />
-<TGConnectingPoint num="12" id="2117" />
-<TGConnectingPoint num="13" id="2118" />
-<TGConnectingPoint num="14" id="2119" />
-<TGConnectingPoint num="15" id="2120" />
-<TGConnectingPoint num="16" id="2121" />
-<TGConnectingPoint num="17" id="2122" />
-<TGConnectingPoint num="18" id="2123" />
-<TGConnectingPoint num="19" id="2124" />
-<TGConnectingPoint num="20" id="2125" />
-<TGConnectingPoint num="21" id="2126" />
-<TGConnectingPoint num="22" id="2127" />
-<TGConnectingPoint num="23" id="2128" />
-<TGConnectingPoint num="24" id="2129" />
-<TGConnectingPoint num="25" id="2130" />
-<TGConnectingPoint num="26" id="2131" />
-<TGConnectingPoint num="27" id="2132" />
-<TGConnectingPoint num="28" id="2133" />
-<TGConnectingPoint num="29" id="2134" />
-<TGConnectingPoint num="30" id="2135" />
-<TGConnectingPoint num="31" id="2136" />
-<TGConnectingPoint num="32" id="2137" />
-<TGConnectingPoint num="33" id="2138" />
-<TGConnectingPoint num="34" id="2139" />
-<TGConnectingPoint num="35" id="2140" />
-<TGConnectingPoint num="36" id="2141" />
-<TGConnectingPoint num="37" id="2142" />
-<TGConnectingPoint num="38" id="2143" />
-<TGConnectingPoint num="39" id="2144" />
-<extraparam>
-<blockType data="block" color="-4072719" />
-<CryptoBlock value="false" />
-</extraparam>
-</SUBCOMPONENT>
-<SUBCOMPONENT type="5000" id="2186" index="8" uid="d32fb600-eac8-4ee5-aa40-e223c4804bf6" >
-<father id="2227" num="1" />
-<cdparam x="424" y="232" />
-<sizeparam width="168" height="117" minWidth="5" minHeight="2" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
-<hidden value="false" />
-<cdrectangleparam minX="0" maxX="214" minY="0" maxY="159" />
-<infoparam name="Block" value="Sensor2" />
 <TGConnectingPoint num="0" id="2146" />
 <TGConnectingPoint num="1" id="2147" />
 <TGConnectingPoint num="2" id="2148" />
@@ -4251,6 +4199,58 @@ Double-click to edit
 <TGConnectingPoint num="37" id="2183" />
 <TGConnectingPoint num="38" id="2184" />
 <TGConnectingPoint num="39" id="2185" />
+<extraparam>
+<blockType data="block" color="-4072719" />
+<CryptoBlock value="false" />
+</extraparam>
+</SUBCOMPONENT>
+<SUBCOMPONENT type="5000" id="2145" index="8" uid="d32fb600-eac8-4ee5-aa40-e223c4804bf6" >
+<father id="2227" num="1" />
+<cdparam x="424" y="232" />
+<sizeparam width="168" height="117" minWidth="5" minHeight="2" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
+<hidden value="false" />
+<cdrectangleparam minX="0" maxX="214" minY="0" maxY="159" />
+<infoparam name="Block" value="Sensor2" />
+<TGConnectingPoint num="0" id="2105" />
+<TGConnectingPoint num="1" id="2106" />
+<TGConnectingPoint num="2" id="2107" />
+<TGConnectingPoint num="3" id="2108" />
+<TGConnectingPoint num="4" id="2109" />
+<TGConnectingPoint num="5" id="2110" />
+<TGConnectingPoint num="6" id="2111" />
+<TGConnectingPoint num="7" id="2112" />
+<TGConnectingPoint num="8" id="2113" />
+<TGConnectingPoint num="9" id="2114" />
+<TGConnectingPoint num="10" id="2115" />
+<TGConnectingPoint num="11" id="2116" />
+<TGConnectingPoint num="12" id="2117" />
+<TGConnectingPoint num="13" id="2118" />
+<TGConnectingPoint num="14" id="2119" />
+<TGConnectingPoint num="15" id="2120" />
+<TGConnectingPoint num="16" id="2121" />
+<TGConnectingPoint num="17" id="2122" />
+<TGConnectingPoint num="18" id="2123" />
+<TGConnectingPoint num="19" id="2124" />
+<TGConnectingPoint num="20" id="2125" />
+<TGConnectingPoint num="21" id="2126" />
+<TGConnectingPoint num="22" id="2127" />
+<TGConnectingPoint num="23" id="2128" />
+<TGConnectingPoint num="24" id="2129" />
+<TGConnectingPoint num="25" id="2130" />
+<TGConnectingPoint num="26" id="2131" />
+<TGConnectingPoint num="27" id="2132" />
+<TGConnectingPoint num="28" id="2133" />
+<TGConnectingPoint num="29" id="2134" />
+<TGConnectingPoint num="30" id="2135" />
+<TGConnectingPoint num="31" id="2136" />
+<TGConnectingPoint num="32" id="2137" />
+<TGConnectingPoint num="33" id="2138" />
+<TGConnectingPoint num="34" id="2139" />
+<TGConnectingPoint num="35" id="2140" />
+<TGConnectingPoint num="36" id="2141" />
+<TGConnectingPoint num="37" id="2142" />
+<TGConnectingPoint num="38" id="2143" />
+<TGConnectingPoint num="39" id="2144" />
 <extraparam>
 <blockType data="block" color="-4072719" />
 <CryptoBlock value="false" />

@@ -41,14 +41,31 @@ package avatartranslator.mutation;
 import avatartranslator.*;
 
 /**
- * Interface RmMutation
- * Creation: 23/06/2022
+ * Class SignalMutation
+ * Creation: 24/06/2022
  *
  * @author Léon FRENOT
- * @version 1.0 23/06/2022
+ * @version 1.0 24/06/2022
  */
-public interface RmMutation {
 
-    AvatarElement findElement(AvatarSpecification _avspec);
+public abstract class SignalMutation extends MethodMutation {
+    
+    private int inout;
+    
+    public final static int IN = AvatarSignal.IN;
+    public final static int OUT = AvatarSignal.OUT;
 
+    public void setInOut(int _inout) {
+        inout = _inout;
+    }
+
+    public int getInOut() {
+        return inout;
+    }
+
+    @Override
+    public AvatarSignal findElement(AvatarSpecification _avspec) {
+        AvatarBlock block = getBlock(_avspec);
+        return block.getAvatarSignalWithName(getName());
+    }
 }

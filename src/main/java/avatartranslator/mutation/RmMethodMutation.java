@@ -39,16 +39,33 @@
 package avatartranslator.mutation;
 
 import avatartranslator.*;
+import java.util.List;
+
+import myutil.TraceManager;
 
 /**
- * Interface RmMutation
- * Creation: 23/06/2022
+ * Class RmMethodMutation
+ * Creation: 24/06/2022
  *
  * @author Léon FRENOT
- * @version 1.0 23/06/2022
+ * @version 1.0 24/06/2022
  */
-public interface RmMutation {
+public class RmMethodMutation extends MethodMutation implements RmMutation {
 
-    AvatarElement findElement(AvatarSpecification _avspec);
+    public RmMethodMutation(String _name, String _blockName) {
+        setName(_name);
+        setBlockName(_blockName);
+        initParameters();
+    }
 
+    public void apply(AvatarSpecification _avspec) {
+        AvatarBlock block = getBlock(_avspec);
+        List<AvatarMethod> meth = block.getMethods();
+        AvatarMethod am = findElement(_avspec);
+        if(am == null) {
+            TraceManager.addDev("Methode inexistante");
+            return;
+        }
+        if(!meth.remove(am)) TraceManager.addDev("Methode dans un super-bloc");
+    }
 }

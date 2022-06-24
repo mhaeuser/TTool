@@ -41,14 +41,43 @@ package avatartranslator.mutation;
 import avatartranslator.*;
 
 /**
- * Interface RmMutation
- * Creation: 23/06/2022
+ * Class AddMethodMutation
+ * Creation: 24/06/2022
  *
  * @author Léon FRENOT
- * @version 1.0 23/06/2022
+ * @version 1.0 24/06/2022
  */
-public interface RmMutation {
+public class AddMethodMutation extends MethodMutation implements AddMutation {
 
-    AvatarElement findElement(AvatarSpecification _avspec);
+    public AddMethodMutation(String _name, String _blockName, boolean _imp) {
+        setName(_name);
+        setBlockName(_blockName);
+        initParameters();
+        setImplementationProvided(_imp);
+    }
 
+    public AddMethodMutation(String _name, String _blockName) {
+       this(_name, _blockName, false);
+    }
+
+    public AvatarMethod createElement(AvatarSpecification _avspec) {
+        AvatarBlock block = getBlock(_avspec);
+        AvatarMethod am = new AvatarMethod(getName(), null);
+        for(String s : getReturnParameters()) {
+            AvatarAttribute aa = new AvatarAttribute("", AvatarType.getType(s), block, null);
+            am.addReturnParameter(aa);
+        }
+        for(String[] s : getParameters()) {
+            AvatarAttribute aa = new AvatarAttribute(s[1], AvatarType.getType(s[0]), block, null);
+            am.addParameter(aa);
+        }
+        am.setImplementationProvided(isImplementationProvided());
+        return am;
+    }
+
+    public void apply(AvatarSpecification _avspec) {
+        AvatarMethod am = createElement(_avspec);
+        AvatarBlock block = getBlock(_avspec);
+        block.addMethod(am);
+    }
 }

@@ -39,16 +39,66 @@
 package avatartranslator.mutation;
 
 import avatartranslator.*;
+import java.util.List;
+import java.util.LinkedList;
 
 /**
- * Interface RmMutation
- * Creation: 23/06/2022
+ * Class MethodMutation
+ * Creation: 24/06/2022
  *
  * @author Léon FRENOT
- * @version 1.0 23/06/2022
+ * @version 1.0 24/06/2022
  */
-public interface RmMutation {
 
-    AvatarElement findElement(AvatarSpecification _avspec);
+public abstract class MethodMutation extends BlockStructMutation {
 
+    private String name;
+
+    private boolean implementationProvided;
+
+    protected List<String> returnParameters;
+
+    protected List<String[]> parameters;
+
+    public void setName(String _name) {
+        name = _name;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void initParameters() {
+        returnParameters = new LinkedList<>();
+        parameters = new LinkedList<>();
+    }
+
+    public void addReturnParameter(String _returnParameter) {
+        returnParameters.add(_returnParameter);
+    }
+
+    public List<String> getReturnParameters() {
+        return returnParameters;
+    }
+
+    public void addParameter(String[] _parameter) {
+        parameters.add(_parameter);
+    }
+
+    public List<String[]> getParameters() {
+        return parameters;
+    }
+
+    public void setImplementationProvided(boolean _imp) {
+        implementationProvided = _imp;
+    }
+
+    public boolean isImplementationProvided() {
+        return implementationProvided;
+    }
+
+    public AvatarMethod findElement(AvatarSpecification _avspec) {
+        AvatarBlock block = getBlock(_avspec);
+        return block.getAvatarMethodWithName(getName());
+    }
 }

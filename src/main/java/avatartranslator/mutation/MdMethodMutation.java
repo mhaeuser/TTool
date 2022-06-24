@@ -39,57 +39,78 @@
 package avatartranslator.mutation;
 
 import avatartranslator.*;
-import java.util.List;
+
+import myutil.TraceManager;
 
 /**
- * Class AttributeMutation
- * Creation: 23/06/2022
+ * Class MdMethodMutation
+ * Creation: 24/06/2022
  *
  * @author Léon FRENOT
- * @version 1.0 23/06/2022
+ * @version 1.0 24/06/2022
  */
-public abstract class AttributeMutation extends BlockStructMutation {
+public class MdMethodMutation extends MethodMutation implements MdMutation {
+    
+    private boolean implementationChanged = false;
+    private boolean returnParametersChanged = false;
+    private boolean parametersChanged = false;
 
-    private String type;
-
-    private String name;
-
-    private String initialValue;
-
-    private Boolean hasInitialValue = false;
-
-    public void setName(String _name) {
-        name = _name;
+    public MdMethodMutation(String _name, String _blockName) {
+        setName(_name);
+        setBlockName(_blockName);
+        initParameters();
     }
 
-    public String getName() {
-        return name;
+    public MdMethodMutation(String _name, String _blockName, boolean _imp) {
+        this(_name, _blockName);
+        setImplementationProvided(_imp);
     }
 
-    public void setType(String _type) {
-        type = _type;
+    @Override
+    public void addReturnParameter(String _returnParameter) {
+        returnParametersChanged = true;
+        super.addReturnParameter(_returnParameter);
     }
 
-    public AvatarType getType() {
-        return AvatarType.getType(type);
+    @Override
+    public void addParameter(String[] _parameter) {
+        parametersChanged = true;
+        super.addParameter(_parameter);
     }
 
-    public void setInitialValue(String _initialValue) {
-        hasInitialValue = true;
-        initialValue = _initialValue;
+    @Override
+    public void setImplementationProvided(boolean _imp) {
+        implementationChanged = true;
+        super.setImplementationProvided(_imp);
     }
 
-    public Boolean hasInitialValue() {
-        return hasInitialValue;
-    }
-
-    public String getInitialValue() {
-        if(hasInitialValue()) return initialValue;
-        return null;
-    }
-
-    public AvatarAttribute findElement(AvatarSpecification _avspec) {
+    public void apply(AvatarSpecification _avspec) {
         AvatarBlock block = getBlock(_avspec);
-        return block.getAvatarAttributeWithName(getName());
+        AvatarMethod am = findElement(_avspec);
+
+        if(am == null) {
+            TraceManager.addDev("Methode inexistante");
+            return;
+        }
+
+        if(implementationChanged) {
+            am.setImplementationProvided(isImplementationProvided());
+        }
+
+        if(returnParametersChanged) {
+            am.removeReturnAttributes();
+            for(String s : getReturnParameters()) {
+                AvatarAttribute aa = new AvatarAttribute("", AvatarType.getType(s), block, null);
+                am.addReturnParameter(aa);
+            }
+        }
+
+        if(parametersChanged) {
+            am.removeAttributes();
+            for(String[] s : getParameters()) {
+                AvatarAttribute aa = new AvatarAttribute(s[1], AvatarType.getType(s[0]), block, null);
+                am.addParameter(aa);
+            }
+        }
     }
 }

@@ -41,14 +41,34 @@ package avatartranslator.mutation;
 import avatartranslator.*;
 
 /**
- * Interface RmMutation
- * Creation: 23/06/2022
+ * Class AddSignalMutation
+ * Creation: 24/06/2022
  *
  * @author Léon FRENOT
- * @version 1.0 23/06/2022
+ * @version 1.0 24/06/2022
  */
-public interface RmMutation {
+public class AddSignalMutation extends SignalMutation implements AddMutation {
 
-    AvatarElement findElement(AvatarSpecification _avspec);
+    public AddSignalMutation(String _name, String _blockName, int _inout) {
+        setName(_name);
+        setBlockName(_blockName);
+        setInOut(_inout);
+        initParameters();
+    }
+    
+    public AvatarSignal createElement(AvatarSpecification _avspec) {
+        AvatarBlock block = getBlock(_avspec);
+        AvatarSignal as = new AvatarSignal(getName(), getInOut(), null);
+        for(String[] s : getParameters()) {
+            AvatarAttribute aa = new AvatarAttribute(s[1], AvatarType.getType(s[0]), block, null);
+            as.addParameter(aa);
+        }
+        return as;
+    }
 
+    public void apply(AvatarSpecification _avspec) {
+        AvatarSignal as = createElement(_avspec);
+        AvatarBlock block = getBlock(_avspec);
+        block.addSignal(as);
+    }
 }

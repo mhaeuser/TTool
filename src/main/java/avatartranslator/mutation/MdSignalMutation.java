@@ -40,15 +40,64 @@ package avatartranslator.mutation;
 
 import avatartranslator.*;
 
+import myutil.TraceManager;
+
 /**
- * Interface RmMutation
- * Creation: 23/06/2022
+ * Class MdSignalMutation
+ * Creation: 24/06/2022
  *
  * @author Léon FRENOT
- * @version 1.0 23/06/2022
+ * @version 1.0 24/06/2022
  */
-public interface RmMutation {
+public class MdSignalMutation extends SignalMutation implements MdMutation{
 
-    AvatarElement findElement(AvatarSpecification _avspec);
+    private boolean inoutChanged = false;
+    private boolean parametersChanged = false;
 
+    public MdSignalMutation(String _name, String _blockName) {
+        setName(_name);
+        setBlockName(_blockName);
+        initParameters();
+    }
+
+    public MdSignalMutation(String _name, String _blockName, int _inout) {
+        this(_name, _blockName);
+        setInOut(_inout);
+    }
+
+    @Override
+    public void addParameter(String[] _parameter) {
+        parametersChanged = true;
+        super.addParameter(_parameter);
+    }
+
+    @Override
+    public void setInOut(int _inout) {
+        inoutChanged = true;
+        super.setInOut(_inout);
+    }
+
+    public void apply(AvatarSpecification _avspec) {
+        
+        AvatarBlock block = getBlock(_avspec);
+        AvatarSignal as = findElement(_avspec);
+
+        if(as == null) {
+            TraceManager.addDev("Signal Inexistant");
+            return;
+        }
+
+        if(parametersChanged) {
+            as.removeAttributes();
+            for(String[] s : getParameters()) {
+                AvatarAttribute aa = new AvatarAttribute(s[1], AvatarType.getType(s[0]), block, null);
+                as.addParameter(aa);
+            }
+        }
+
+        if(inoutChanged) {
+            as.setInOut(getInOut());
+        }
+    }
+    
 }

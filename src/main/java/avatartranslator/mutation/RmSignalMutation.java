@@ -39,16 +39,33 @@
 package avatartranslator.mutation;
 
 import avatartranslator.*;
+import java.util.List;
+
+import myutil.TraceManager;
 
 /**
- * Interface RmMutation
- * Creation: 23/06/2022
+ * Class RmSignalMutation
+ * Creation: 24/06/2022
  *
  * @author Léon FRENOT
- * @version 1.0 23/06/2022
+ * @version 1.0 24/06/2022
  */
-public interface RmMutation {
+public class RmSignalMutation extends SignalMutation implements RmMutation {
+    
+    public RmSignalMutation(String _name, String _blockName) {
+        setName(_name);
+        setBlockName(_blockName);
+        initParameters();
+    }
 
-    AvatarElement findElement(AvatarSpecification _avspec);
-
+    public void apply(AvatarSpecification _avspec) {
+        AvatarBlock block = getBlock(_avspec);
+        List<AvatarSignal> sign = block.getSignals();
+        AvatarSignal as = findElement(_avspec);
+        if(as == null) {
+            TraceManager.addDev("Signal inexistant");
+            return;
+        }
+        if(!sign.remove(as)) TraceManager.addDev("Signal dans un super-bloc");
+    }
 }

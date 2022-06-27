@@ -84,11 +84,11 @@ public abstract class AttributeMutation extends BlockStructMutation {
     }
 
     public String getInitialValue() {
-        if(hasInitialValue()) return initialValue;
+        if (hasInitialValue()) return initialValue;
         return null;
     }
 
-    public AvatarAttribute findElement(AvatarSpecification _avspec) {
+    public AvatarAttribute getElement(AvatarSpecification _avspec) {
         AvatarBlock block = getBlock(_avspec);
         return block.getAvatarAttributeWithName(getName());
     }

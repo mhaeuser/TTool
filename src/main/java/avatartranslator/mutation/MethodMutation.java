@@ -97,7 +97,7 @@ public abstract class MethodMutation extends BlockStructMutation {
         return implementationProvided;
     }
 
-    public AvatarMethod findElement(AvatarSpecification _avspec) {
+    public AvatarMethod getElement(AvatarSpecification _avspec) {
         AvatarBlock block = getBlock(_avspec);
         return block.getAvatarMethodWithName(getName());
     }

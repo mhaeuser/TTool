@@ -49,7 +49,7 @@ import myutil.TraceManager;
  * @author Léon FRENOT
  * @version 1.0 24/06/2022
  */
-public class MdSignalMutation extends SignalMutation implements MdMutation{
+public class MdSignalMutation extends SignalMutation implements MdMutation {
 
     private boolean inoutChanged = false;
     private boolean parametersChanged = false;
@@ -80,22 +80,22 @@ public class MdSignalMutation extends SignalMutation implements MdMutation{
     public void apply(AvatarSpecification _avspec) {
         
         AvatarBlock block = getBlock(_avspec);
-        AvatarSignal as = findElement(_avspec);
+        AvatarSignal as = getElement(_avspec);
 
-        if(as == null) {
-            TraceManager.addDev("Signal Inexistant");
+        if (as == null) {
+            TraceManager.addDev("Unknown Signal");
             return;
         }
 
-        if(parametersChanged) {
+        if (parametersChanged) {
             as.removeAttributes();
-            for(String[] s : getParameters()) {
+            for (String[] s : getParameters()) {
                 AvatarAttribute aa = new AvatarAttribute(s[1], AvatarType.getType(s[0]), block, null);
                 as.addParameter(aa);
             }
         }
 
-        if(inoutChanged) {
+        if (inoutChanged) {
             as.setInOut(getInOut());
         }
     }

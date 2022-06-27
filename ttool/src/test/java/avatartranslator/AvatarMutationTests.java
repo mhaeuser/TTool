@@ -237,6 +237,114 @@ public class AvatarMutationTests {
 
         assertTrue(block.getSignals().get(0).getListOfAttributes().size() == 1);
         TraceManager.addDev(block.getSignals().get(0).toString());
+    }
 
+    @Test
+    public void testAddState() {
+        assertTrue(block.getStateMachine().getNbOfStatesElement() == 0);
+        StateMutation mutation = new AddStateMutation("state0", "block");
+        mutation.apply(as);
+        assertTrue(block.getStateMachine().getNbOfStatesElement() == 1);
+    }
+
+    public void add2States() {
+        testAddState();
+        StateMutation mutation0 = new AddStateMutation("state1", "block");
+        mutation0.apply(as);
+    }
+
+    @Test
+    public void testRmState() {
+        add2States();
+        assertTrue(block.getStateMachine().getNbOfStatesElement() == 2);
+        StateMutation mutation = new RmStateMutation("state0", "block");
+        mutation.apply(as);
+        assertTrue(block.getStateMachine().getNbOfStatesElement() == 1);
+        assertTrue(block.getStateMachine().getState(0).getName().equals("state1"));
+    }
+
+    @Test
+    public void testAddTransition() {
+        add2States();
+        TransitionMutation mutation0 = new AddTransitionMutation("block");
+        mutation0.setFromWithName("state0");
+        mutation0.setToWithName("state1");
+        mutation0.apply(as);
+        assertTrue(block.getStateMachine().getState(0).getNexts().size()==1);
+        TransitionMutation mutation = new AddTransitionMutation("block");
+        mutation.setFromWithName("state0");
+        mutation.setToWithName("state1");
+        mutation.setName("trans");
+        mutation.setProbability(0.5);
+        mutation.setGuard("x > 1");
+        mutation.setDelays("0", "5");
+        mutation.setDelayDistributionLaw(4, "1", "6");
+        mutation.setComputes("12", "42");
+        mutation.addAction("x = 1");
+        mutation.apply(as);
+        AvatarTransition trans = mutation.getElement(as);
+        assertTrue(trans.getName().equals("trans"));
+        assertTrue(trans.getGuard() != null);
+        assertTrue(trans.getProbability() == 0.5);
+        assertTrue(trans.getNbOfAction() == 1);
+        assertTrue(trans.getMinDelay().equals("0"));
+        assertTrue(trans.getMaxDelay().equals("5"));
+        assertTrue(trans.getDelayDistributionLaw() == 4);
+        assertTrue(trans.getDelayExtra1().equals("1"));
+        assertTrue(trans.getDelayExtra2().equals("6"));
+        assertTrue(trans.getMinCompute().equals("12"));
+        assertTrue(trans.getMaxCompute().equals("42"));
+        TraceManager.addDev(trans.toString());
+    }
+
+    public void add2Trans() {
+        add2States();
+        TransitionMutation mutation0 = new AddTransitionMutation("block");
+        mutation0.setFromWithName("state0");
+        mutation0.setToWithName("state1");
+        mutation0.apply(as);
+        TransitionMutation mutation = new AddTransitionMutation("block");
+        mutation.setFromWithName("state0");
+        mutation.setToWithName("state1");
+        mutation.setName("trans");
+        mutation.setProbability(0.5);
+        mutation.setGuard("x > 1");
+        mutation.setDelays("0", "5");
+        mutation.setDelayDistributionLaw(4, "1", "6");
+        mutation.setComputes("12", "42");
+        mutation.addAction("x = 1");
+        mutation.apply(as);
+    }
+
+    @Test
+    public void testRmMutation() {
+        add2Trans();
+        //TraceManager.addDev(block.getStateMachine().getState(0).toString());
+        TransitionMutation mutation = new RmTransitionMutation("block");
+        mutation.setName("trans");
+        mutation.apply(as);
+        assertTrue(block.getStateMachine().getState(0).getNexts().size()==1);
+        mutation = new RmTransitionMutation("block");
+        mutation.setFromWithName("state0");
+        mutation.setToWithName("state1");
+        //TraceManager.addDev(block.getStateMachine().getState(0).toString());
+        mutation.apply(as);
+        //TraceManager.addDev(block.getStateMachine().getState(0).toString());
+        assertTrue(block.getStateMachine().getState(0).getNexts().size()==0);
+    }
+
+    @Test
+    public void testMdMutation() {
+        add2Trans();
+        MdTransitionMutation mutation = new MdTransitionMutation("block");
+        mutation.setCurrentNoActions();
+        mutation.addAction("x = x + 2");
+        mutation.setCurrentFromWithName("state0");
+        mutation.setCurrentToWithName("state1");
+        AvatarTransition trans = mutation.getElement(as);
+        assertTrue(trans.getNbOfAction() == 0);
+        mutation.apply(as);
+        assertTrue(trans.getNbOfAction() == 1);
+        TraceManager.addDev(trans.toString());
     }
 }

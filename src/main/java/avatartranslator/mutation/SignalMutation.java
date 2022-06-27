@@ -64,7 +64,7 @@ public abstract class SignalMutation extends MethodMutation {
     }
 
     @Override
-    public AvatarSignal findElement(AvatarSpecification _avspec) {
+    public AvatarSignal getElement(AvatarSpecification _avspec) {
         AvatarBlock block = getBlock(_avspec);
         return block.getAvatarSignalWithName(getName());
     }

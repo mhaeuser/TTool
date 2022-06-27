@@ -60,7 +60,7 @@ public class AddAttributeMutation extends AttributeMutation implements AddMutati
         AvatarType type = getType();
         AvatarBlock block = getBlock(_avspec);
         AvatarAttribute aa = new AvatarAttribute(getName(), type, block, null);
-        if(hasInitialValue()) aa.setInitialValue(getInitialValue());
+        if (hasInitialValue()) aa.setInitialValue(getInitialValue());
         return aa;
     }
 

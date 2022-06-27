@@ -61,11 +61,11 @@ public class RmSignalMutation extends SignalMutation implements RmMutation {
     public void apply(AvatarSpecification _avspec) {
         AvatarBlock block = getBlock(_avspec);
         List<AvatarSignal> sign = block.getSignals();
-        AvatarSignal as = findElement(_avspec);
-        if(as == null) {
-            TraceManager.addDev("Signal inexistant");
+        AvatarSignal as = getElement(_avspec);
+        if (as == null) {
+            TraceManager.addDev("Unknown Signal");
             return;
         }
-        if(!sign.remove(as)) TraceManager.addDev("Signal dans un super-bloc");
+        if (!sign.remove(as)) TraceManager.addDev("Signal is from a super-bloc");
     }
 }

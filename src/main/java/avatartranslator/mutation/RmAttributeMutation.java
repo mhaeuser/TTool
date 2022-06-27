@@ -60,9 +60,9 @@ public class RmAttributeMutation extends AttributeMutation implements RmMutation
     public void apply(AvatarSpecification _avspec) {
         AvatarBlock block = getBlock(_avspec);
         List<AvatarAttribute> attr = block.getAttributes();
-        AvatarAttribute aa = findElement(_avspec);
-        if(aa == null) {
-            TraceManager.addDev("Attribut inexistant");
+        AvatarAttribute aa = getElement(_avspec);
+        if (aa == null) {
+            TraceManager.addDev("Unknown Attribute");
             return;
         }
         attr.remove(aa);

@@ -41,14 +41,36 @@ package avatartranslator.mutation;
 import avatartranslator.*;
 
 /**
- * Interface MdMutation
- * Creation: 23/06/2022
+ * Class AddStateMutation
+ * Creation: 27/06/2022
  *
  * @author Léon FRENOT
- * @version 1.0 23/06/2022
+ * @version 1.0 27/06/2022
  */
-public interface MdMutation {
 
-    AvatarElement getElement(AvatarSpecification _avspec);
+public class AddStateMutation extends StateMutation implements AddMutation {
 
+    public AddStateMutation(String _name, String _blockName) {
+        setName(_name);
+        setBlockName(_blockName);
+    }
+
+    //todo : add Graphical referenceObject
+    private boolean isGraphical = false;
+    
+    public AvatarState createElement() {
+        AvatarState state = new AvatarState(getName(), null);
+        return state;
+
+    }
+
+    public AvatarState createElement(AvatarSpecification _avspec) {
+        return createElement();
+    }
+
+    public void apply(AvatarSpecification _avspec) {
+        AvatarStateMachine asm = getAvatarStateMachine(_avspec);
+        AvatarState state = createElement();
+        asm.addElement(state);
+    }
 }

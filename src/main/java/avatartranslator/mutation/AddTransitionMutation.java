@@ -40,15 +40,60 @@ package avatartranslator.mutation;
 
 import avatartranslator.*;
 
+import java.util.List;
+
 /**
- * Interface MdMutation
- * Creation: 23/06/2022
+ * Class AddTransitionMutation
+ * Creation: 27/06/2022
  *
  * @author Léon FRENOT
- * @version 1.0 23/06/2022
+ * @version 1.0 27/06/2022
  */
-public interface MdMutation {
 
-    AvatarElement getElement(AvatarSpecification _avspec);
+public class AddTransitionMutation extends TransitionMutation implements AddMutation {
+
+    boolean isGraphical = false;
+
+    public AddTransitionMutation(String _blockName) {
+        setBlockName(_blockName);
+        initActions();
+    }
+    
+    //todo : add Graphical referenceObject
+    public AvatarTransition createElement(AvatarSpecification _avspec) {
+        AvatarBlock block = getBlock(_avspec);
+        AvatarTransition trans = new AvatarTransition(block, getName(), null);
+        if (isProbabilitySet()) {
+            trans.setProbability(getProbability());
+        }
+        if (isGuardSet()) {
+            trans.setGuard(getGuard());
+        }
+        if (areDelaysSet()) {
+            trans.setDelays(getMinDelay(), getMaxDelay());
+        }
+        if (isDelayDistributionLawSet()) {
+            trans.setDistributionLaw(getDelayDistributionLaw(), getDelayExtra1(), getDelayExtra2());
+        }
+        if (areComputesSet()) {
+            trans.setComputes(getMinCompute(), getMaxCompute());
+        }
+        List<String> actions = getActions();
+        for (String action : actions) {
+            trans.addAction(action);
+        }
+        return trans;
+    }
+
+    public void apply(AvatarSpecification _avspec) {
+        AvatarStateMachine asm = getAvatarStateMachine(_avspec);
+        AvatarTransition trans = createElement(_avspec);
+        AvatarStateMachineElement fromElement = getFromElement(_avspec);
+        AvatarStateMachineElement toElement = getToElement(_avspec);
+
+        asm.addElement(trans);
+        fromElement.addNext(trans);
+        trans.addNext(toElement);
+    }
 
 }

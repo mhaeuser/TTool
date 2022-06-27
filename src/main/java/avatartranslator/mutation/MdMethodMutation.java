@@ -86,28 +86,28 @@ public class MdMethodMutation extends MethodMutation implements MdMutation {
 
     public void apply(AvatarSpecification _avspec) {
         AvatarBlock block = getBlock(_avspec);
-        AvatarMethod am = findElement(_avspec);
+        AvatarMethod am = getElement(_avspec);
 
-        if(am == null) {
-            TraceManager.addDev("Methode inexistante");
+        if (am == null) {
+            TraceManager.addDev("Unknown Method");
             return;
         }
 
-        if(implementationChanged) {
+        if (implementationChanged) {
             am.setImplementationProvided(isImplementationProvided());
         }
 
-        if(returnParametersChanged) {
+        if (returnParametersChanged) {
             am.removeReturnAttributes();
-            for(String s : getReturnParameters()) {
+            for (String s : getReturnParameters()) {
                 AvatarAttribute aa = new AvatarAttribute("", AvatarType.getType(s), block, null);
                 am.addReturnParameter(aa);
             }
         }
 
-        if(parametersChanged) {
+        if (parametersChanged) {
             am.removeAttributes();
-            for(String[] s : getParameters()) {
+            for (String[] s : getParameters()) {
                 AvatarAttribute aa = new AvatarAttribute(s[1], AvatarType.getType(s[0]), block, null);
                 am.addParameter(aa);
             }

@@ -39,16 +39,32 @@
 package avatartranslator.mutation;
 
 import avatartranslator.*;
+//import myutil.TraceManager;
 
 /**
- * Interface MdMutation
- * Creation: 23/06/2022
+ * Class RmTransitionMutation
+ * Creation: 27/06/2022
  *
  * @author Léon FRENOT
- * @version 1.0 23/06/2022
+ * @version 1.0 27/06/2022
  */
-public interface MdMutation {
+public class RmTransitionMutation extends TransitionMutation implements RmMutation {
+    
+    public RmTransitionMutation(String _blockName) {
+        setBlockName(_blockName);
+        initActions();
+    }
 
-    AvatarElement getElement(AvatarSpecification _avspec);
+    public void apply(AvatarSpecification _avspec) {
+        AvatarTransition trans = getElement(_avspec);
+        AvatarStateMachine asm = getAvatarStateMachine(_avspec);
+        AvatarStateMachineElement fromElement = getFromElement(_avspec);
+        //TraceManager.addDev(fromElement.toString());
+        //TraceManager.addDev(String.valueOf(trans == null));
+
+        fromElement.removeNext(trans);
+        asm.removeElement(trans);
+
+    }
 
 }

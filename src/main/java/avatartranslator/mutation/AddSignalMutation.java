@@ -59,7 +59,7 @@ public class AddSignalMutation extends SignalMutation implements AddMutation {
     public AvatarSignal createElement(AvatarSpecification _avspec) {
         AvatarBlock block = getBlock(_avspec);
         AvatarSignal as = new AvatarSignal(getName(), getInOut(), null);
-        for(String[] s : getParameters()) {
+        for (String[] s : getParameters()) {
             AvatarAttribute aa = new AvatarAttribute(s[1], AvatarType.getType(s[0]), block, null);
             as.addParameter(aa);
         }

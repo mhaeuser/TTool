@@ -61,11 +61,11 @@ public class RmMethodMutation extends MethodMutation implements RmMutation {
     public void apply(AvatarSpecification _avspec) {
         AvatarBlock block = getBlock(_avspec);
         List<AvatarMethod> meth = block.getMethods();
-        AvatarMethod am = findElement(_avspec);
-        if(am == null) {
-            TraceManager.addDev("Methode inexistante");
+        AvatarMethod am = getElement(_avspec);
+        if (am == null) {
+            TraceManager.addDev("Unknown Method");
             return;
         }
-        if(!meth.remove(am)) TraceManager.addDev("Methode dans un super-bloc");
+        if (!meth.remove(am)) TraceManager.addDev("Method is from a super-bloc");
     }
 }

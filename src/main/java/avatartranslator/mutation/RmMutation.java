@@ -49,6 +49,6 @@ import avatartranslator.*;
  */
 public interface RmMutation {
 
-    AvatarElement findElement(AvatarSpecification _avspec);
+    AvatarElement getElement(AvatarSpecification _avspec);
 
 }

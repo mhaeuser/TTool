@@ -58,9 +58,9 @@ public class MdAttributeMutation extends AttributeMutation implements MdMutation
     }
 
     public void apply(AvatarSpecification _avspec) {
-        AvatarAttribute aa = findElement(_avspec);
-        if(aa == null) {
-            TraceManager.addDev("Attribut inexistant");
+        AvatarAttribute aa = getElement(_avspec);
+        if (aa == null) {
+            TraceManager.addDev("Unknown Attribute");
             return;
         }
         aa.setInitialValue(this.getInitialValue());

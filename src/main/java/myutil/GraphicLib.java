@@ -41,8 +41,9 @@ package myutil;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.geom.Line2D;
-import java.util.Vector;
+import java.awt.geom.*;
+import java.util.*;
+import java.util.List;
 
 
 /**
@@ -669,4 +670,145 @@ public final class GraphicLib {
         final JTabbedPane pane = new JTabbedPane(JTabbedPane.TOP);
         return pane;
     }
+
+    public static String segmentValue(double[] seg) {
+        String s = "[";
+        if (seg != null) {
+
+            for (int i = 0; i < seg.length; i++) {
+                if (i > 0) {
+                    s += ",";
+                }
+                s+= seg[i];
+            }
+        }
+        s+= "]";
+        return s;
+
+    }
+
+    public static double distance(final Point2D p, final Shape s,
+                                  final double eps) {
+        if (s.contains(p))
+            return 0;
+        final PathIterator pi = s.getPathIterator(null, eps);
+        final Line2D line = new Line2D.Double();
+        double bestDistSq = Double.POSITIVE_INFINITY;
+        double firstX = Double.NaN;
+        double firstY = Double.NaN;
+        double lastX = Double.NaN;
+        double lastY = Double.NaN;
+        final double coords[] = new double[6];
+        while (!pi.isDone()) {
+            final boolean validLine;
+            switch (pi.currentSegment(coords)) {
+                case PathIterator.SEG_MOVETO:
+                    lastX = coords[0];/*from ww  w  .  j  a va2s.co  m*/
+                    lastY = coords[1];
+                    firstX = lastX;
+                    firstY = lastY;
+                    validLine = false;
+                    break;
+                case PathIterator.SEG_LINETO: {
+                    final double x = coords[0];
+                    final double y = coords[1];
+                    line.setLine(lastX, lastY, x, y);
+                    lastX = x;
+                    lastY = y;
+                    validLine = true;
+                    break;
+                }
+                case PathIterator.SEG_CLOSE:
+                    line.setLine(lastX, lastY, firstX, firstY);
+                    validLine = true;
+                    break;
+                default:
+                    throw new AssertionError();
+            }
+            if (validLine) {
+                final double distSq = line.ptSegDistSq(p);
+                if (distSq < bestDistSq) {
+                    bestDistSq = distSq;
+                }
+            }
+            pi.next();
+        }
+        return Math.sqrt(bestDistSq);
+    }
+
+
+    /* Determine circle center based on square angle */
+    public static Point getCircleCenter(int x1, int y1, int x2, int y2) {
+        double q = Math.sqrt((x2-x1)*(x2-x1) + (y2-y1)*(y2-y1));
+        double x3 = (x1+x2)/2;
+        double y3 = (y1+y2)/2;
+        double r = Math.sqrt(q*q/2);
+
+        return new Point((int)(x3 + Math.sqrt(r*r-(q*q))*(x1-x2)/q), (int)(y3 + Math.sqrt(r*r-(q*q))*(y1-y2)/q));
+
+    }
+
+
+    /* Draws an arc between (x1,y1) and (x2,y2) considering the circle center (xCenter, yCenter)
+    *
+     */
+    public static void drawArc(int x1, int y1, int x2, int y2, int xCenter, int yCenter, Graphics g) {
+        double r = Math.sqrt((x1-xCenter)*(x1-xCenter) + (y1-yCenter)*(y1-yCenter));
+        double x = x1-r;
+        double y = y1-r;
+        double width = 2*r;
+        double height = 2*r;
+        int startAngle = (int) (180/Math.PI*Math.atan2(y1-yCenter, x1-xCenter));
+        int endAngle = (int) (180/Math.PI*Math.atan2(y2-yCenter, x2-xCenter));
+        g.drawArc((int)x, (int)y, (int)width, (int)height, startAngle, endAngle);
+    }
+
+
+    public static Point2D intersectionP(Point2D p1, Point2D p2, Point2D center,
+                                   double radius, boolean isSegment) throws NoninvertibleTransformException {
+        List<Point2D> list = intersection(p1, p2, center, radius, isSegment);
+        if ((list == null) || (list.size() < 1)) {
+            return null;
+        }
+
+        return  list.get(0);
+    }
+
+
+    public static List<Point2D> intersection(Point2D p1, Point2D p2, Point2D center,
+                                             double radius, boolean isSegment) throws NoninvertibleTransformException {
+        List<Point2D> result = new ArrayList<>();
+        double dx = p2.getX() - p1.getX();
+        double dy = p2.getY() - p1.getY();
+        AffineTransform trans = AffineTransform.getRotateInstance(dx, dy);
+        trans.invert();
+        trans.translate(-center.getX(), -center.getY());
+        Point2D p1a = trans.transform(p1, null);
+        Point2D p2a = trans.transform(p2, null);
+        double y = p1a.getY();
+        double minX = Math.min(p1a.getX(), p2a.getX());
+        double maxX = Math.max(p1a.getX(), p2a.getX());
+        if (y == radius || y == -radius) {
+            if (!isSegment || (0 <= maxX && 0 >= minX)) {
+                p1a.setLocation(0, y);
+                trans.inverseTransform(p1a, p1a);
+                result.add(p1a);
+            }
+        } else if (y < radius && y > -radius) {
+            double x = Math.sqrt(radius * radius - y * y);
+            if (!isSegment || (-x <= maxX && -x >= minX)) {
+                p1a.setLocation(-x, y);
+                trans.inverseTransform(p1a, p1a);
+                result.add(p1a);
+            }
+            if (!isSegment || (x <= maxX && x >= minX)) {
+                p2a.setLocation(x, y);
+                trans.inverseTransform(p2a, p2a);
+                result.add(p2a);
+            }
+        }
+        return result;
+    }
+
+
 }

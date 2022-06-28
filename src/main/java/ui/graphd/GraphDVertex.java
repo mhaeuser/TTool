@@ -64,9 +64,9 @@ public class GraphDVertex extends TGCScalableOneLineText implements ColorCustomi
     public GraphDVertex(int _x, int _y, int _minX, int _maxX, int _minY, int _maxY, boolean _pos, TGComponent _father, TDiagramPanel _tdp)  {
         super(_x, _y, _minX, _maxX, _minY, _maxY, _pos, _father, _tdp);
 
-        width = 50;// (int)(30 * tdp.getZoom());
-        height = 50; //(int)(70 * tdp.getZoom());
-        initScaling(50, 50);
+        width = 35;
+        height = 35;
+        initScaling(width, height);
 	
                
         nbConnectingPoint = 24;
@@ -81,7 +81,7 @@ public class GraphDVertex extends TGCScalableOneLineText implements ColorCustomi
         editable = true;
         removable = true;
         
-        value = "Vertex";
+        value = "0";
         name = "vertex";
         
         myImageIcon = IconManager.imgic600;
@@ -90,17 +90,24 @@ public class GraphDVertex extends TGCScalableOneLineText implements ColorCustomi
     public void internalDrawing(Graphics g) {
         //g.drawRoundRect(x - width/2, y, width, height, arc, arc);
         Color c = g.getColor();
-        g.setColor(getMainColor());
+        g.setColor(getCurrentColor());
         g.fillOval(x, y, width, height);
         g.setColor(c);
         g.drawOval(x, y, width, height);
+
+        // Vertex name
+        FontMetrics fm = g.getFontMetrics();
+        w = fm.stringWidth(value);
+        h = fm.getAscent() - fm.getDescent() - fm.getLeading();
+        drawSingleString(g, value, getCenter(g, value), this.y + this.height/2 + h/2);
+
     }
     
     public TGComponent isOnMe(int _x, int _y) {
         if (GraphicLib.isInRectangle(_x, _y, x, y, width, height)) {
             return this;
         }
-        if (GraphicLib.isInRectangle(_x, _y, x + width / 2 - w / 2, y +height - h, w, h)) {
+        if (GraphicLib.isInRectangle(_x, _y, x + width / 2 - w / 2, y + height/2 - h/2, w, h)) {
             return this;
         }
         return null;

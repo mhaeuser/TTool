@@ -39,32 +39,54 @@
 package avatartranslator.mutation;
 
 import avatartranslator.*;
+//import myutil.TraceManager;
 
 /**
- * Class SignalMutation
- * Creation: 24/06/2022
+ * Class ActionMutation
+ * Creation: 28/06/2022
  *
  * @author Léon FRENOT
- * @version 1.0 24/06/2022
+ * @version 1.0 28/06/2022
  */
 
-public abstract class SignalMutation extends MethodMutation {
+public abstract class ActionMutation extends TransitionMutation {
+
+    private String actionString;
+
+    private int index = -1;
+
+    public String getActionString() {
+        return actionString;
+    }
+
+    public int getIndex() {
+        return index;
+    }
+
+    public int getIndex(AvatarSpecification _avspec) {
+        if (index == -1)
+            index = getIndexFromString(_avspec);
+        return index;
+    }
+
+    public int getIndexFromString(AvatarSpecification _avspec) {
+        AvatarTransition trans = super.getElement(_avspec);
+        AvatarBlock block = getBlock(_avspec);
+        int len = trans.getNbOfAction();
+        for (int i = 0; i < len; i++) {
+            if(trans.getAction(i).toString().equals(AvatarTerm.createFromString(block, getActionString()).toString())) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    public void setActionString(String _actionString) {
+        actionString = _actionString;
+    }
+
+    public void setIndex(int _index) {
+        index = _index;
+    }
     
-    private int inout;
-    
-    public final static int IN = AvatarSignal.IN;
-    public final static int OUT = AvatarSignal.OUT;
-
-    public void setInOut(int _inout) {
-        inout = _inout;
-    }
-
-    public int getInOut() {
-        return inout;
-    }
-
-    @Override
-    public AvatarSignal getElement(AvatarSpecification _avspec) {
-        return getSignal(_avspec, getName());
-    }
 }

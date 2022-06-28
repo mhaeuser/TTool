@@ -41,30 +41,68 @@ package avatartranslator.mutation;
 import avatartranslator.*;
 
 /**
- * Class SignalMutation
- * Creation: 24/06/2022
+ * Class MdRandomMutation
+ * Creation: 28/06/2022
  *
  * @author Léon FRENOT
- * @version 1.0 24/06/2022
+ * @version 1.0 28/06/2022
  */
 
-public abstract class SignalMutation extends MethodMutation {
-    
-    private int inout;
-    
-    public final static int IN = AvatarSignal.IN;
-    public final static int OUT = AvatarSignal.OUT;
+public class MdActionOnSignalMutation extends ActionOnSignalMutation implements MdMutation {
 
-    public void setInOut(int _inout) {
-        inout = _inout;
-    }
+    private ActionOnSignalMutation current;
 
-    public int getInOut() {
-        return inout;
+    private boolean signalNameChanged = false;
+
+    public MdActionOnSignalMutation(String _signalName, String _block) {
+        setSignalName(_signalName);
+        setBlockName(_block);
+        initValues();
+        current = new RmActionOnSignalMutation(_signalName, _block);
     }
 
     @Override
-    public AvatarSignal getElement(AvatarSpecification _avspec) {
-        return getSignal(_avspec, getName());
+    public void setName(String _name) {
+        current.setName(_name);
+        super.setName(_name);
+    }
+
+    public void setCurrentSignalName(String _signalName) {
+        current.setSignalName(_signalName);
+        signalNameChanged = true;
+    }
+
+    public void setCurrentUUID(String _uuid) {
+        current.setUUID(_uuid);
+    }
+
+    public void noCurrentValues() {
+        current.noValues();
+    }
+
+    public void addCurrentValue(String _value) {
+        current.addValue(_value);
+    }
+
+    public void setCurrentCheckLatency(boolean b) {
+        current.setCheckLatency(b);
+    }
+
+    public void apply(AvatarSpecification _avspec) {
+        AvatarActionOnSignal aaos = current.getElement(_avspec);
+
+        if(signalNameChanged) {
+            AvatarSignal signal = getSignal(_avspec, this.getSignalName());
+            aaos.setSignal(signal);
+        }
+
+        if (isCheckLatencySet())
+            aaos.setCheckLatency(this.getCheckLatency());
+        
+        if (areValuesSet()) {
+            aaos.removeAllValues();
+            for (String s : this.getValues())
+                aaos.addValue(s);
+        }
     }
 }

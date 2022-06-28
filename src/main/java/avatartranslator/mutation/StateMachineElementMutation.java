@@ -40,31 +40,47 @@ package avatartranslator.mutation;
 
 import avatartranslator.*;
 
+import java.util.List;
+import java.util.UUID;
+
 /**
- * Class SignalMutation
- * Creation: 24/06/2022
+ * Class AvatarStateMachineElementMutation
+ * Creation: 27/06/2022
  *
  * @author Léon FRENOT
- * @version 1.0 24/06/2022
+ * @version 1.0 27/06/2022
  */
 
-public abstract class SignalMutation extends MethodMutation {
-    
-    private int inout;
-    
-    public final static int IN = AvatarSignal.IN;
-    public final static int OUT = AvatarSignal.OUT;
+public abstract class StateMachineElementMutation extends BlockStructMutation {
 
-    public void setInOut(int _inout) {
-        inout = _inout;
+    public static final int UNDEFINED_TYPE = -1;
+    public static final int NAME_TYPE = 0;
+    public static final int UUID_TYPE = 1;
+    
+    public AvatarStateMachine getAvatarStateMachine(AvatarSpecification _avspec) {
+        AvatarBlock block = getBlock(_avspec);
+        return block.getStateMachine();
     }
 
-    public int getInOut() {
-        return inout;
-    }
-
-    @Override
-    public AvatarSignal getElement(AvatarSpecification _avspec) {
-        return getSignal(_avspec, getName());
+    public AvatarStateMachineElement getElement(AvatarSpecification _avspec, int _type, String _name) {
+        AvatarStateMachine asm = getAvatarStateMachine(_avspec);
+        List<AvatarStateMachineElement> elts = asm.getListOfElements();
+        switch(_type) {
+            case NAME_TYPE:
+                for (AvatarStateMachineElement elt : elts) {
+                    if (elt.getName().equals(_name)) return elt;
+                }
+                return null;
+            case UUID_TYPE:
+                for (AvatarStateMachineElement elt : elts) {
+                    UUID eltUUID = elt.getUUID();
+                    UUID uuid = UUID.fromString(_name);
+                    if (eltUUID != null) {
+                        if (eltUUID.equals(uuid)) return elt;
+                    }
+                }
+                return null;
+        }
+        return null;
     }
 }

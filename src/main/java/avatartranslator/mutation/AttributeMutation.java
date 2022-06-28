@@ -39,7 +39,6 @@
 package avatartranslator.mutation;
 
 import avatartranslator.*;
-import java.util.List;
 
 /**
  * Class AttributeMutation
@@ -89,7 +88,6 @@ public abstract class AttributeMutation extends BlockStructMutation {
     }
 
     public AvatarAttribute getElement(AvatarSpecification _avspec) {
-        AvatarBlock block = getBlock(_avspec);
-        return block.getAvatarAttributeWithName(getName());
+        return getAttribute(_avspec, getName());
     }
 }

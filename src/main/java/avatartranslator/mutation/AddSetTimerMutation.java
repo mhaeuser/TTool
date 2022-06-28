@@ -41,30 +41,35 @@ package avatartranslator.mutation;
 import avatartranslator.*;
 
 /**
- * Class SignalMutation
- * Creation: 24/06/2022
+ * Class AddSetTimerMutation
+ * Creation: 28/06/2022
  *
  * @author Léon FRENOT
- * @version 1.0 24/06/2022
+ * @version 1.0 28/06/2022
  */
+public class AddSetTimerMutation extends SetTimerMutation implements AddMutation {
 
-public abstract class SignalMutation extends MethodMutation {
-    
-    private int inout;
-    
-    public final static int IN = AvatarSignal.IN;
-    public final static int OUT = AvatarSignal.OUT;
+    private boolean isGraphical = false;
 
-    public void setInOut(int _inout) {
-        inout = _inout;
+    public AddSetTimerMutation(String _timerName, String _timerValue, String _block) {
+        setTimerName(_timerName);
+        setTimerValue(_timerValue);
+        setBlockName(_block);
     }
 
-    public int getInOut() {
-        return inout;
+    //todo : graphique
+    public AvatarSetTimer createElement(AvatarSpecification _avspec) {
+        AvatarSetTimer elt = new AvatarSetTimer(getName(), null);
+        AvatarAttribute timer = getAttribute(_avspec, getTimerName());
+        elt.setTimer(timer);
+        elt.setTimerValue(getTimerValue());
+        return elt;
     }
 
-    @Override
-    public AvatarSignal getElement(AvatarSpecification _avspec) {
-        return getSignal(_avspec, getName());
+    public void apply(AvatarSpecification _avspec) {
+        AvatarSetTimer elt = createElement(_avspec);
+        AvatarStateMachine asm = getAvatarStateMachine(_avspec);
+        asm.addElement(elt);
     }
+
 }

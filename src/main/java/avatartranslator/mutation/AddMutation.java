@@ -49,6 +49,6 @@ import avatartranslator.*;
  */
 public interface AddMutation {
 
-    AvatarElement createElement(AvatarSpecification _avspec);
+    Object createElement(AvatarSpecification _avspec);
 
 }

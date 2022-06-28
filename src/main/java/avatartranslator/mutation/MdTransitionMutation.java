@@ -126,9 +126,9 @@ public class MdTransitionMutation extends TransitionMutation implements MdMutati
     @Override
     public AvatarTransition getElement(AvatarSpecification _avspec) {
         try {
-            return super.getElement(_avspec);
-        } catch (Exception e) {
             return current.getElement(_avspec);
+        } catch (Exception e) {
+            return super.getElement(_avspec);
         }
     }
 

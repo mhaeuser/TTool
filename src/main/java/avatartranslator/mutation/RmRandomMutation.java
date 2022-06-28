@@ -41,30 +41,24 @@ package avatartranslator.mutation;
 import avatartranslator.*;
 
 /**
- * Class SignalMutation
- * Creation: 24/06/2022
+ * Class RmRandomMutation
+ * Creation: 28/06/2022
  *
  * @author Léon FRENOT
- * @version 1.0 24/06/2022
+ * @version 1.0 28/06/2022
  */
 
-public abstract class SignalMutation extends MethodMutation {
-    
-    private int inout;
-    
-    public final static int IN = AvatarSignal.IN;
-    public final static int OUT = AvatarSignal.OUT;
+public class RmRandomMutation extends RandomMutation implements RmMutation {
 
-    public void setInOut(int _inout) {
-        inout = _inout;
+    public RmRandomMutation(String _variable, String _blockName) {
+        setBlockName(_blockName);
+        setVariable(_variable);
     }
 
-    public int getInOut() {
-        return inout;
+    public void apply(AvatarSpecification _avspec) {
+        AvatarStateMachine asm = getAvatarStateMachine(_avspec);
+        AvatarRandom rand = getElement(_avspec);
+        asm.removeElement(rand);
     }
 
-    @Override
-    public AvatarSignal getElement(AvatarSpecification _avspec) {
-        return getSignal(_avspec, getName());
-    }
 }

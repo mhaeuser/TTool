@@ -41,30 +41,47 @@ package avatartranslator.mutation;
 import avatartranslator.*;
 
 /**
- * Class SignalMutation
- * Creation: 24/06/2022
+ * Class MdSetTimerMutation
+ * Creation: 28/06/2022
  *
  * @author Léon FRENOT
- * @version 1.0 24/06/2022
+ * @version 1.0 28/06/2022
  */
+public class MdSetTimerMutation extends SetTimerMutation implements MdMutation {
 
-public abstract class SignalMutation extends MethodMutation {
-    
-    private int inout;
-    
-    public final static int IN = AvatarSignal.IN;
-    public final static int OUT = AvatarSignal.OUT;
+    private String newTimerName;
+    private boolean newTimerNameSet = false;
 
-    public void setInOut(int _inout) {
-        inout = _inout;
+    private boolean newTimerValueSet = false;
+    
+    public MdSetTimerMutation(String _timerName, String _newTimerName, String _timerValue, String _block) {
+        setTimerName(_timerName);
+        setBlockName(_block);
+        setTimerValue(_timerValue);
+        setNewTimerName(_newTimerName);
     }
 
-    public int getInOut() {
-        return inout;
+    public MdSetTimerMutation(String _timerName, String _block) {
+        setTimerName(_timerName);
+        setBlockName(_block);
+    }
+
+    public void setNewTimerName(String _newTimerName) {
+        newTimerName = _newTimerName;
+        newTimerNameSet = true;
     }
 
     @Override
-    public AvatarSignal getElement(AvatarSpecification _avspec) {
-        return getSignal(_avspec, getName());
+    public void setTimerValue(String _timerValue) {
+        super.setTimerValue(_timerValue);
+        newTimerValueSet = true;
+    }
+    
+
+    public void apply(AvatarSpecification _avspec) {
+        AvatarSetTimer elt = getElement(_avspec);
+        AvatarAttribute newTimer = getAttribute(_avspec, newTimerName);
+        if (newTimerNameSet) elt.setTimer(newTimer);
+        if (newTimerValueSet) elt.setTimerValue(getTimerValue());
     }
 }

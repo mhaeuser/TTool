@@ -41,30 +41,23 @@ package avatartranslator.mutation;
 import avatartranslator.*;
 
 /**
- * Class SignalMutation
- * Creation: 24/06/2022
+ * Class RmSetTimerMutation
+ * Creation: 28/06/2022
  *
  * @author Léon FRENOT
- * @version 1.0 24/06/2022
+ * @version 1.0 28/06/2022
  */
+public class RmSetTimerMutation extends SetTimerMutation implements RmMutation {
 
-public abstract class SignalMutation extends MethodMutation {
+    public RmSetTimerMutation(String _timerName, String _block) {
+        setTimerName(_timerName);
+        setBlockName(_block);
+    }
+
+    public void apply(AvatarSpecification _avspec) {
+        AvatarSetTimer elt = getElement(_avspec);
+        AvatarStateMachine asm = getAvatarStateMachine(_avspec);
+        asm.removeElement(elt);
+    }
     
-    private int inout;
-    
-    public final static int IN = AvatarSignal.IN;
-    public final static int OUT = AvatarSignal.OUT;
-
-    public void setInOut(int _inout) {
-        inout = _inout;
-    }
-
-    public int getInOut() {
-        return inout;
-    }
-
-    @Override
-    public AvatarSignal getElement(AvatarSpecification _avspec) {
-        return getSignal(_avspec, getName());
-    }
 }

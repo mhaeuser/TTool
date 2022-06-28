@@ -41,30 +41,25 @@ package avatartranslator.mutation;
 import avatartranslator.*;
 
 /**
- * Class SignalMutation
- * Creation: 24/06/2022
+ * Class MdExpireTimerMutation
+ * Creation: 28/06/2022
  *
  * @author Léon FRENOT
- * @version 1.0 24/06/2022
+ * @version 1.0 28/06/2022
  */
+public class MdExpireTimerMutation extends ExpireTimerMutation implements MdMutation {
 
-public abstract class SignalMutation extends MethodMutation {
+    private String newTimerName;
     
-    private int inout;
-    
-    public final static int IN = AvatarSignal.IN;
-    public final static int OUT = AvatarSignal.OUT;
-
-    public void setInOut(int _inout) {
-        inout = _inout;
+    public MdExpireTimerMutation(String _timerName, String _newTimerName, String _block) {
+        setTimerName(_timerName);
+        setBlockName(_block);
+        newTimerName = _newTimerName;
     }
 
-    public int getInOut() {
-        return inout;
-    }
-
-    @Override
-    public AvatarSignal getElement(AvatarSpecification _avspec) {
-        return getSignal(_avspec, getName());
+    public void apply(AvatarSpecification _avspec) {
+        AvatarExpireTimer elt = getElement(_avspec);
+        AvatarAttribute newTimer = getAttribute(_avspec, newTimerName);
+        elt.setTimer(newTimer);
     }
 }

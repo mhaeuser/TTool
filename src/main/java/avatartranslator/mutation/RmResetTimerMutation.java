@@ -40,47 +40,24 @@ package avatartranslator.mutation;
 
 import avatartranslator.*;
 
-import java.util.List;
-import java.util.UUID;
-
 /**
- * Class ASMMutation
- * Creation: 27/06/2022
+ * Class RmResetTimerMutation
+ * Creation: 28/06/2022
  *
  * @author Léon FRENOT
- * @version 1.0 27/06/2022
+ * @version 1.0 28/06/2022
  */
+public class RmResetTimerMutation extends ResetTimerMutation implements RmMutation {
 
-public abstract class AvatarStateMachineElementMutation extends BlockStructMutation {
-
-    public static final int UNDEFINED_TYPE = -1;
-    public static final int NAME_TYPE = 0;
-    public static final int UUID_TYPE = 1;
-    
-    public AvatarStateMachine getAvatarStateMachine(AvatarSpecification _avspec) {
-        AvatarBlock block = getBlock(_avspec);
-        return block.getStateMachine();
+    public RmResetTimerMutation(String _timerName, String _block) {
+        setTimerName(_timerName);
+        setBlockName(_block);
     }
 
-    public AvatarStateMachineElement getElement(AvatarSpecification _avspec, int _type, String _name) {
+    public void apply(AvatarSpecification _avspec) {
+        AvatarResetTimer elt = getElement(_avspec);
         AvatarStateMachine asm = getAvatarStateMachine(_avspec);
-        List<AvatarStateMachineElement> elts = asm.getListOfElements();
-        switch(_type) {
-            case NAME_TYPE:
-                for (AvatarStateMachineElement elt : elts) {
-                    if (elt.getName().equals(_name)) return elt;
-                }
-                return null;
-            case UUID_TYPE:
-                for (AvatarStateMachineElement elt : elts) {
-                    UUID eltUUID = elt.getUUID();
-                    UUID uuid = UUID.fromString(_name);
-                    if (eltUUID != null) {
-                        if (eltUUID.equals(uuid)) return elt;
-                    }
-                }
-                return null;
-        }
-        return null;
+        asm.removeElement(elt);
     }
+    
 }

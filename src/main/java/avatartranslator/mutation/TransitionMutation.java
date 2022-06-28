@@ -52,7 +52,7 @@ import java.util.List;
  * @version 1.0 27/06/2022
  */
 
-public abstract class TransitionMutation extends AvatarStateMachineElementMutation {
+public abstract class TransitionMutation extends StateMachineElementMutation {
     
     private String fromString;
     private String toString;
@@ -315,16 +315,14 @@ public abstract class TransitionMutation extends AvatarStateMachineElementMutati
                         if (trans.getDelayDistributionLaw() == this.getDelayDistributionLaw()) {
                             if (trans.getDelayExtra1().equals("") || trans.getDelayExtra1().equals(this.getDelayExtra1())) {
                                 flag = (trans.getDelayExtra2().equals("") || trans.getDelayExtra2().equals(this.getDelayExtra2()));
-                            }
-                            else flag = false;
-                        }
-                        else flag = false;
+                            } else flag = false;
+                        } else flag = false;
                     }
 
                     if (flag && areComputesSet()) 
-                        if (trans.getMinCompute().equals(this.getMinCompute()))
+                        if (trans.getMinCompute().equals(this.getMinCompute())) {
                             flag = trans.getMaxCompute().equals(this.getMaxCompute());
-                        else flag = false;
+                        } else flag = false;
 
                     if (flag && areActionsSet()) {
                         int len = trans.getNbOfAction();
@@ -335,7 +333,7 @@ public abstract class TransitionMutation extends AvatarStateMachineElementMutati
                         }
                     }
 
-                    if (flag) return (AvatarTransition)elt;
+                    if (flag) return trans;
                 }
             }
             return null;

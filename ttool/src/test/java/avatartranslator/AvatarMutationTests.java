@@ -197,6 +197,19 @@ public class AvatarMutationTests {
         TraceManager.addDev(block.getSignals().get(1).toString());
     }
 
+    public void addSignal() {
+        SignalMutation mutation = new AddSignalMutation("cin", "block", SignalMutation.IN);
+        String[] tmp = {"int", "x"};
+        String[] tmp2 = {"bool", "y"};
+        mutation.addParameter(tmp);
+        mutation.addParameter(tmp2);
+
+        SignalMutation mutation2 = new AddSignalMutation("cout", "block", SignalMutation.OUT);
+
+        mutation.apply(as);
+        mutation2.apply(as);
+    }
+
     @Test
     public void testRmSignal() {
         SignalMutation mutation = new AddSignalMutation("cin", "block", SignalMutation.IN);
@@ -264,7 +277,7 @@ public class AvatarMutationTests {
     }
 
     @Test
-    public void testAddTransition() {
+    public void testAddTransition1() {
         add2States();
         TransitionMutation mutation0 = new AddTransitionMutation("block");
         mutation0.setFromWithName("state0");
@@ -297,6 +310,18 @@ public class AvatarMutationTests {
         TraceManager.addDev(trans.toString());
     }
 
+    @Test
+    public void testAddTransition2() {
+        testAddActionOnSignal();
+        add2States();
+        AddTransitionMutation mutation = new AddTransitionMutation("block");
+        mutation.setFromWithName("state0");
+        mutation.setToWithName("aaos");
+        mutation.apply(as);
+        AvatarTransition trans = mutation.getElement(as);
+        TraceManager.addDev(trans.toString());
+    }
+
     public void add2Trans() {
         add2States();
         TransitionMutation mutation0 = new AddTransitionMutation("block");
@@ -317,7 +342,7 @@ public class AvatarMutationTests {
     }
 
     @Test
-    public void testRmMutation() {
+    public void testRmTransition() {
         add2Trans();
         //TraceManager.addDev(block.getStateMachine().getState(0).toString());
         TransitionMutation mutation = new RmTransitionMutation("block");
@@ -334,7 +359,7 @@ public class AvatarMutationTests {
     }
 
     @Test
-    public void testMdMutation() {
+    public void testMdTransition() {
         add2Trans();
         MdTransitionMutation mutation = new MdTransitionMutation("block");
         mutation.setCurrentNoActions();
@@ -346,5 +371,54 @@ public class AvatarMutationTests {
         mutation.apply(as);
         assertTrue(trans.getNbOfAction() == 1);
         TraceManager.addDev(trans.toString());
+    }
+
+    @Test
+    public void testAddActionOnSignal() {
+        addSignal();
+        AddActionOnSignalMutation mutation = new AddActionOnSignalMutation("cin", "block");
+        mutation.setName("aaos");
+        mutation.apply(as);
+        AvatarStateMachine asm = block.getStateMachine();
+        assertTrue(asm.isSignalUsed(block.getSignalByName("cin")));
+    }
+
+    public void AddActionOnSignal() {
+        addSignal();
+        AddActionOnSignalMutation mutation = new AddActionOnSignalMutation("cin", "block");
+        mutation.setName("aaos");
+        mutation.apply(as);
+    }
+
+    @Test
+    public void testRmActionOnSignal1() {
+        AddActionOnSignal();
+        RmActionOnSignalMutation mutation = new RmActionOnSignalMutation("cin", "block");
+        mutation.apply(as);
+        AvatarStateMachine asm = block.getStateMachine();
+        assertFalse(asm.isSignalUsed(block.getSignalByName("cin")));
+    }
+    
+    @Test
+    public void testRmActionOnSignal2() {
+        AddActionOnSignal();
+        RmActionOnSignalMutation mutation = new RmActionOnSignalMutation("", "block");
+        mutation.setName("aaos");
+        mutation.apply(as);
+        AvatarStateMachine asm = block.getStateMachine();
+        assertFalse(asm.isSignalUsed(block.getSignalByName("cin")));
+    }
+
+    @Test
+    public void testMdActionOnSignal() {
+        AvatarStateMachine asm = block.getStateMachine();
+        AddActionOnSignal();
+        MdActionOnSignalMutation mutation = new MdActionOnSignalMutation("cout", "block");
+        mutation.setName("aaos");
+        mutation.setCurrentSignalName("cin");
+        assertFalse(asm.isSignalUsed(block.getSignalByName("cout")));
+        mutation.apply(as);
+        assertFalse(asm.isSignalUsed(block.getSignalByName("cin")));
+        assertTrue(asm.isSignalUsed(block.getSignalByName("cout")));
     }
 }

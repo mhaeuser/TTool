@@ -41,30 +41,39 @@ package avatartranslator.mutation;
 import avatartranslator.*;
 
 /**
- * Class SignalMutation
- * Creation: 24/06/2022
+ * Class AddRandomMutation
+ * Creation: 28/06/2022
  *
  * @author Léon FRENOT
- * @version 1.0 24/06/2022
+ * @version 1.0 28/06/2022
  */
 
-public abstract class SignalMutation extends MethodMutation {
+public class AddRandomMutation extends RandomMutation implements AddMutation {
+
+    boolean isGraphical = false;
+
+    public AddRandomMutation(String _variable, String _blockName) {
+        setBlockName(_blockName);
+        setVariable(_variable);
+    }
     
-    private int inout;
-    
-    public final static int IN = AvatarSignal.IN;
-    public final static int OUT = AvatarSignal.OUT;
-
-    public void setInOut(int _inout) {
-        inout = _inout;
+    //todo : add Graphical referenceObject
+    public AvatarRandom createElement(AvatarSpecification _avspec) {
+        AvatarRandom rand = new AvatarRandom(getName(), null);
+        rand.setVariable(getVariable());
+        if(areValuesSet()) rand.setValues(getMinValue(), getMaxValue());
+        if(isFunctionSet()) {
+            rand.setFunctionId(getFunctionId());
+            rand.setExtraAttribute1(getExtraAttribute1());
+            rand.setExtraAttribute2(getExtraAttribute2());
+        }
+        return rand;
     }
 
-    public int getInOut() {
-        return inout;
+    public void apply(AvatarSpecification _avspec) {
+        AvatarStateMachine asm = getAvatarStateMachine(_avspec);
+        AvatarRandom rand = createElement(_avspec);
+        asm.addElement(rand);
     }
 
-    @Override
-    public AvatarSignal getElement(AvatarSpecification _avspec) {
-        return getSignal(_avspec, getName());
-    }
 }

@@ -48,7 +48,7 @@ import avatartranslator.*;
  * @version 1.0 27/06/2022
  */
 
-public abstract class StateMutation extends AvatarStateMachineElementMutation {
+public abstract class StateMutation extends StateMachineElementMutation {
     private String name;
 
     public void setName(String _name) {

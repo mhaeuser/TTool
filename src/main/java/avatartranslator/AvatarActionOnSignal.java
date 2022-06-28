@@ -198,4 +198,12 @@ public class AvatarActionOnSignal extends AvatarStateMachineElement {
     public void translate (AvatarTranslator translator, Object arg) {
         translator.translateActionOnSignal (this, arg);
     }
+
+    public void removeAllValues() {
+        values = new LinkedList<String>();
+    }
+
+    public void setSignal(AvatarSignal _signal) {
+		signal = _signal;
+    }
 }

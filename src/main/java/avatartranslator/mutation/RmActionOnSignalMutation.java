@@ -39,32 +39,30 @@
 package avatartranslator.mutation;
 
 import avatartranslator.*;
+import myutil.TraceManager;
 
 /**
- * Class SignalMutation
- * Creation: 24/06/2022
+ * Class MdRandomMutation
+ * Creation: 28/06/2022
  *
  * @author Léon FRENOT
- * @version 1.0 24/06/2022
+ * @version 1.0 28/06/2022
  */
 
-public abstract class SignalMutation extends MethodMutation {
+
+public class RmActionOnSignalMutation extends ActionOnSignalMutation implements RmMutation {
+
+    public RmActionOnSignalMutation(String _signalName, String _block) {
+        setSignalName(_signalName);
+        setBlockName(_block);
+        initValues();
+    }
+
+    public void apply(AvatarSpecification _avspec) {
+        AvatarStateMachine asm = getAvatarStateMachine(_avspec);
+        AvatarActionOnSignal aaos = getElement(_avspec);
+        TraceManager.addDev(aaos.toString());
+        asm.removeElement(aaos);
+    }
     
-    private int inout;
-    
-    public final static int IN = AvatarSignal.IN;
-    public final static int OUT = AvatarSignal.OUT;
-
-    public void setInOut(int _inout) {
-        inout = _inout;
-    }
-
-    public int getInOut() {
-        return inout;
-    }
-
-    @Override
-    public AvatarSignal getElement(AvatarSpecification _avspec) {
-        return getSignal(_avspec, getName());
-    }
 }

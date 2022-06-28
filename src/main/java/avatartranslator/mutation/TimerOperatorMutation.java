@@ -41,30 +41,52 @@ package avatartranslator.mutation;
 import avatartranslator.*;
 
 /**
- * Class SignalMutation
- * Creation: 24/06/2022
+ * Class TimerOperatorMutation
+ * Creation: 28/06/2022
  *
  * @author Léon FRENOT
- * @version 1.0 24/06/2022
+ * @version 1.0 28/06/2022
  */
 
-public abstract class SignalMutation extends MethodMutation {
+public abstract class TimerOperatorMutation extends StateMachineElementMutation {
+
+    private String timerName;
+    private String name = "";
+    private int nameType = UNDEFINED_TYPE;
     
-    private int inout;
+    public String getTimerName() {
+        return timerName;
+    }
+
+    public void setTimerName(String _name) {
+        timerName = _name;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public boolean isNameSet() {
+        return nameType != UNDEFINED_TYPE;
+    }
+
+    public void setName(String _name) {
+        name = _name;
+        nameType = NAME_TYPE;
+    }
+
+    public void setUUID(String _name) {
+        name = _name;
+        nameType = UUID_TYPE;
+    }
+
+    public AvatarAttribute getAttribute(AvatarSpecification _avspec, String _timerName) {
+        AvatarBlock block = getBlock(_avspec);
+        return block.getAvatarAttributeWithName(_timerName);
+    }
     
-    public final static int IN = AvatarSignal.IN;
-    public final static int OUT = AvatarSignal.OUT;
-
-    public void setInOut(int _inout) {
-        inout = _inout;
+    public AvatarTimerOperator getElement(AvatarSpecification _avspec) {
+        return (AvatarTimerOperator)getElement(_avspec, nameType, name);
     }
-
-    public int getInOut() {
-        return inout;
-    }
-
-    @Override
-    public AvatarSignal getElement(AvatarSpecification _avspec) {
-        return getSignal(_avspec, getName());
-    }
+    
 }

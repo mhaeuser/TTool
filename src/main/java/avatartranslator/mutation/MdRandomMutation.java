@@ -41,30 +41,68 @@ package avatartranslator.mutation;
 import avatartranslator.*;
 
 /**
- * Class SignalMutation
- * Creation: 24/06/2022
+ * Class MdRandomMutation
+ * Creation: 28/06/2022
  *
  * @author Léon FRENOT
- * @version 1.0 24/06/2022
+ * @version 1.0 28/06/2022
  */
 
-public abstract class SignalMutation extends MethodMutation {
-    
-    private int inout;
-    
-    public final static int IN = AvatarSignal.IN;
-    public final static int OUT = AvatarSignal.OUT;
+public class MdRandomMutation extends RandomMutation implements MdMutation {
 
-    public void setInOut(int _inout) {
-        inout = _inout;
+    private RandomMutation current;
+
+    private boolean variableNameChange = false;
+
+    public MdRandomMutation(String _variable, String _blockName) {
+        setBlockName(_blockName);
+        setVariable(_variable);
+        current = new RmRandomMutation(_variable, _blockName);
     }
 
-    public int getInOut() {
-        return inout;
+    public void setCurrentVariable(String _variable) {
+        current.setVariable(_variable);
+        variableNameChange = true;
+    }
+
+    public void setCurrentValues(String _minValue, String _maxValue) {
+        current.setValues(_minValue, _maxValue);
+    }
+
+    public void setCurrentFunction(int _functionId) {
+        current.setFunction(_functionId);
+    }
+
+    public void setCurrentFunction(int _functionId, String _extraAttribute) {
+        current.setFunction(_functionId, _extraAttribute);
+    }
+
+    public void setCurrentFunction(int _functionId, String _extraAttribute1, String _extraAttribute2) {
+        current.setFunction(_functionId, _extraAttribute1, _extraAttribute2);
     }
 
     @Override
-    public AvatarSignal getElement(AvatarSpecification _avspec) {
-        return getSignal(_avspec, getName());
+    public AvatarRandom getElement(AvatarSpecification _avspec) {
+        try {
+            return current.getElement(_avspec);
+        } catch (Exception e) {
+            return super.getElement(_avspec);
+        }
+    }
+
+    public void apply(AvatarSpecification _avspec) {
+        AvatarRandom rand = current.getElement(_avspec);
+
+        if (variableNameChange)
+            rand.setVariable(this.getVariable());
+
+        if (areValuesSet())
+            rand.setValues(this.getMinValue(), this.getMaxValue());
+
+        if (isFunctionSet()) {
+            rand.setFunctionId(this.getFunctionId());
+            rand.setExtraAttribute1(this.getExtraAttribute1());
+            rand.setExtraAttribute2(this.getExtraAttribute2());
+        }
     }
 }

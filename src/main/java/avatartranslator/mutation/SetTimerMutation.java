@@ -40,31 +40,41 @@ package avatartranslator.mutation;
 
 import avatartranslator.*;
 
+import java.util.List;
+
 /**
- * Class SignalMutation
- * Creation: 24/06/2022
+ * Class SetTimerMutation
+ * Creation: 28/06/2022
  *
  * @author Léon FRENOT
- * @version 1.0 24/06/2022
+ * @version 1.0 28/06/2022
  */
+public abstract class SetTimerMutation extends TimerOperatorMutation {
 
-public abstract class SignalMutation extends MethodMutation {
-    
-    private int inout;
-    
-    public final static int IN = AvatarSignal.IN;
-    public final static int OUT = AvatarSignal.OUT;
+    private String timerValue;
 
-    public void setInOut(int _inout) {
-        inout = _inout;
+    public String getTimerValue() {
+        return timerValue;
     }
 
-    public int getInOut() {
-        return inout;
+    public void setTimerValue(String _timerValue) {
+        timerValue = _timerValue;
     }
 
     @Override
-    public AvatarSignal getElement(AvatarSpecification _avspec) {
-        return getSignal(_avspec, getName());
+    public AvatarSetTimer getElement(AvatarSpecification _avspec) {
+        if (isNameSet())
+            return (AvatarSetTimer)super.getElement(_avspec);
+        AvatarStateMachine asm = getAvatarStateMachine(_avspec);
+        List<AvatarStateMachineElement> elms = asm.getListOfElements();
+        for (AvatarStateMachineElement elm : elms) {
+            if (elm instanceof AvatarSetTimer) {
+                AvatarSetTimer tmp = (AvatarSetTimer)elm;
+                if (tmp.getTimer().getName().equals(this.getTimerName())) {
+                    return tmp;
+                }
+            }
+        }
+        return null;
     }
 }

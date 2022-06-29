@@ -125,6 +125,10 @@ public class ActionPerformer {
             mgui.zoomMore();
         } else if (command.equals(mgui.actions[TGUIAction.ACT_ZOOM_LESS].getActionCommand())) {
             mgui.zoomLess();
+        } else if (command.equals(mgui.actions[TGUIAction.ACT_UP_FONT].getActionCommand())) {
+            mgui.fontUp();
+        } else if (command.equals(mgui.actions[TGUIAction.ACT_DOWN_FONT].getActionCommand())) {
+            mgui.fontDown();
         } else if (command.equals(mgui.actions[TGUIAction.ACT_BACKWARD].getActionCommand())) {
             mgui.backward();
         } else if (command.equals(mgui.actions[TGUIAction.ACT_FORWARD].getActionCommand())) {

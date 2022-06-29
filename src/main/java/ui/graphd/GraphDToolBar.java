@@ -76,6 +76,11 @@ public class GraphDToolBar extends TToolBar {
         mgui.actions[TGUIAction.GD_VERTEX].setEnabled(b);
         mgui.actions[TGUIAction.GD_EDGE_CONNECTOR].setEnabled(b);
 
+        mgui.actions[TGUIAction.ACT_ENHANCE].setEnabled(b);
+
+        mgui.actions[TGUIAction.ACT_DOWN_FONT].setEnabled(b);
+        mgui.actions[TGUIAction.ACT_UP_FONT].setEnabled(b);
+
         mgui.actions[TGUIAction.ACT_MODEL_CHECKING].setEnabled(!b);
     }
     
@@ -104,10 +109,23 @@ public class GraphDToolBar extends TToolBar {
 
         button = this.add(mgui.actions[TGUIAction.GD_EDGE_CONNECTOR]);
         button.addMouseListener(mgui.mouseHandler);
-		
 
+        this.addSeparator();
+        this.addSeparator();
+        this.addSeparator();
 
-		
+        button = this.add(mgui.actions[TGUIAction.ACT_DOWN_FONT]);
+        button.addMouseListener(mgui.mouseHandler);
+
+        button = this.add(mgui.actions[TGUIAction.ACT_UP_FONT]);
+        button.addMouseListener(mgui.mouseHandler);
+
+        this.addSeparator();
+        this.addSeparator();
+
+        button = this.add(mgui.actions[TGUIAction.ACT_ENHANCE]);
+        button.addMouseListener(mgui.mouseHandler);
+
 		
     }
     

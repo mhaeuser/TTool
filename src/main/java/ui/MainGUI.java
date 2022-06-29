@@ -2259,6 +2259,27 @@ public class MainGUI implements ActionListener, WindowListener, KeyListener, Per
         // frame.repaint();
     }
 
+
+    public void displayGraphAUTAsDiagram(AUTGraph graph) {
+        int index = createGraph("Graph");
+        createGraphD(index, "AUT graph");
+        GraphPanel gp = (GraphPanel)(getTURTLEPanel(index));
+
+        gp.gdp.makeGraphAUT(graph);
+    }
+
+    public void displayGraphRGAsDiagram(String name, RG rg) {
+        int index = createGraph("name");
+        createGraphD(index, "graph");
+        GraphPanel gp = (GraphPanel)(getTURTLEPanel(index));
+
+        AUTGraph graph = new AUTGraph();
+        graph.buildGraph(rg.data);
+
+        gp.gdp.makeGraphAUT(graph);
+
+    }
+
     public void newGraph() {
         addGraphPanel("Graph", -1);
         // ((TURTLEPanel)tabs.elementAt(0)).tabbedPane.setSelectedIndex(0);
@@ -3613,12 +3634,30 @@ public class MainGUI implements ActionListener, WindowListener, KeyListener, Per
         zoom(0.8);
     }
 
+    public void fontUp() {
+        font(1.1);
+    }
+
+    public void fontDown() {
+        font(0.9);
+    }
+
     public void zoom(double multFactor) {
         TDiagramPanel tdp = getCurrentTDiagramPanel();
         tdp.setZoom(tdp.getZoom() * multFactor);
         // tdp.updateComponentsAfterZoom();
         updateZoomInfo();
     }
+
+    public void font(double multFactor) {
+        TDiagramPanel tdp = getCurrentTDiagramPanel();
+        tdp.setFontModifier(tdp.getFontModifier() * multFactor);
+        tdp.repaint();
+        changeMade(tdp, TDiagramPanel.CHANGE_VALUE_COMPONENT);
+        // tdp.updateComponentsAfterZoom();
+    }
+
+
 
     public void updateZoomInfo() {
         String s = "";

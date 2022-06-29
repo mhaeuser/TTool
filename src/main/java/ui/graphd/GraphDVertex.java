@@ -133,6 +133,6 @@ public class GraphDVertex extends TGCScalableOneLineText implements ColorCustomi
 
     // Color management
     public Color getMainColor() {
-        return Color.GRAY;
+        return Color.LIGHT_GRAY;
     }
 }

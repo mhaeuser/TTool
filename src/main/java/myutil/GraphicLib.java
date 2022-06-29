@@ -810,5 +810,19 @@ public final class GraphicLib {
         return result;
     }
 
+    public static Point makeFurther(Point p1, Point p2, double percentage /* *100 */) {
+        double deltaX = (p2.getX() - p1.getX()) / 100;
+        double deltaY = (p2.getY() - p1.getY()) / 100;
+
+        return new Point( (int)(p1.getX() - percentage*deltaX), (int)(p1.getY() - percentage*deltaY) );
+    }
+
+    public static Point makeCloser(Point p1, Point p2, double percentage /* *100 */) {
+        double deltaX = (p2.getX() - p1.getX()) / 100;
+        double deltaY = (p2.getY() - p1.getY()) / 100;
+
+        return new Point( (int)(p1.getX() + percentage*deltaX), (int)(p1.getY() + percentage*deltaY) );
+    }
+
 
 }

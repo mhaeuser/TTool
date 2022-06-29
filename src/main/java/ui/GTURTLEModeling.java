@@ -6262,6 +6262,11 @@ public class GTURTLEModeling {
                 tdp.forceZoom(zoom);
                 mgui.updateZoomInfo();
             }
+            double fontModifier = Double.parseDouble(elt.getAttribute("fontModifier"));
+            if (fontModifier != 0) {
+                TraceManager.addDev("Found fontModifier=" + fontModifier);
+                tdp.setFontModifier(fontModifier);
+            }
         } catch (Exception e) {
             // Model was saved in an older version of TTool
         }
@@ -7028,6 +7033,7 @@ public class GTURTLEModeling {
     public void loadDiagramInformation(Element elt, TDiagramPanel tdp) throws MalformedModelingException {
         int x, y;
         double zoom = 0;
+        double fontModifier = 1.0;
         try {
             x = Integer.decode(elt.getAttribute("minX"));
             tdp.setMinX(x);
@@ -7042,6 +7048,11 @@ public class GTURTLEModeling {
             if (zoom != 0) {
                 tdp.forceZoom(zoom);
                 mgui.updateZoomInfo();
+            }
+            fontModifier = Double.parseDouble(elt.getAttribute("fontModifier"));
+            if (fontModifier != 0) {
+                TraceManager.addDev("Found fontModifier=" + fontModifier);
+                tdp.setFontModifier(fontModifier);
             }
         } catch (Exception e) {
             // Model was saved in an older version of TTool

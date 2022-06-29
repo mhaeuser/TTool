@@ -89,6 +89,9 @@ public class TGUIAction extends AbstractAction {
     public static final int ACT_SAVE_AUTPROJ = 68;
     public static final int ACT_SAVE_AUTMODIFIED = 232;
 
+    public static final int ACT_UP_FONT = 562;
+    public static final int ACT_DOWN_FONT = 563;
+
     public static final int ACT_TURTLE_WEBSITE = 117;
     public static final int ACT_TURTLE_DOCUMENTATION = 118;
     public static final int ACT_DIPLODOCUS_DOCUMENTATION = 242;
@@ -724,7 +727,9 @@ public class TGUIAction extends AbstractAction {
     public static final int GD_EDGE_CONNECTOR = 561;
 
 
-    public static final int NB_ACTION = 562; // Last + 1
+
+
+    public static final int NB_ACTION = 564; // Last + 1
 
     private static final TAction [] actions = new TAction[NB_ACTION];
 
@@ -870,6 +875,11 @@ public class TGUIAction extends AbstractAction {
         actions[ACT_ZOOM_MORE] = new TAction("zoommore-command", "Zoom +", IconManager.imgic316, IconManager.imgic317, "Zoom +", "Zoom +", '0');
         actions[ACT_ZOOM_LESS] = new TAction("zoomless-command", "Zoom -", IconManager.imgic314, IconManager.imgic315, "Zoom -", "Zoom -", '0');
         actions[ACT_SHOW_ZOOM] = new TAction("showzoom-command", "100%", null, null, "Zoom value", "Zoom value", '0');
+
+
+        actions[ACT_UP_FONT] = new TAction("fontmore-command", "F +", IconManager.imgic78, IconManager.imgic78Big, "F +", "F +", '0');
+        actions[ACT_DOWN_FONT] = new TAction("fontless-command", "F -", IconManager.imgic79, IconManager.imgic79, "F -", "F -", '0');
+
 
         actions[ACT_BACKWARD] = new TAction("backward-command", "Undo",IconManager.imgic40, IconManager.imgic41, "Undo", "One operation before", 'Z', true);
         actions[ACT_FORWARD] = new TAction("forward-command", "Redo", IconManager.imgic42, IconManager.imgic43, "Redo", "One operation ahead", 'Y', true);

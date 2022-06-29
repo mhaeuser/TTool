@@ -41,6 +41,7 @@
 
 package ui;
 
+import graph.AUTGraph;
 import myutil.GraphicLib;
 import ui.ebrdd.EBRDDPanel;
 import ui.ebrdd.EBRDDToolBar;
@@ -165,6 +166,9 @@ public class GraphPanel extends TURTLEPanel {
     public boolean isGraphEnabled() {
         return true;
     }
+
+
+
 
 
 

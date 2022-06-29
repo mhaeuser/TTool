@@ -39,8 +39,12 @@
 
 package ui.graphd;
 
+import myutil.Conversion;
 import myutil.GraphicLib;
 import myutil.TraceManager;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 import ui.*;
 import ui.util.IconManager;
 
@@ -65,6 +69,8 @@ public class GraphDEdgeConnector extends TGConnector implements ColorCustomizabl
 
     protected int arrowLength = 10;
     protected int widthValue, heightValue;
+    protected int xWidthValue = 0;
+    protected int yWidthValue = 0;
 
     private boolean circle = false;
     private int xCenter, yCenter;
@@ -92,17 +98,25 @@ public class GraphDEdgeConnector extends TGConnector implements ColorCustomizabl
     protected void internalDrawing(Graphics g) {
 
         if (p1.getX() == p2.getX() && (p2.getY() == p1.getY())) {
+            Color c = g.getColor();
             drawLastSegment(g, p1.getX(), p1.getY(), p2.getX(), p2.getY());
+            if ((getState() == TGState.POINTER_ON_ME) || (getState() == TGState.POINTED) || (getState() == TGState.MOVING)) {
+                ColorManager.setColor(g, state, 0, isEnabled());
+            } else {
+                g.setColor(getCurrentColor());
+            }
+            g.setColor(c);
         } else {
             super.internalDrawing(g);
         }
+
+
     }
 
     @Override
     protected void drawLastSegment(Graphics g, int x1, int y1, int x2, int y2) {
 
         try {
-
 
 
             // Connecting points have the same location
@@ -114,41 +128,41 @@ public class GraphDEdgeConnector extends TGConnector implements ColorCustomizabl
                 }
 
                 if (randomB == 0) {
-                    randomB = Math.toRadians(Math.random()*50 + 50);
+                    randomB = Math.toRadians(Math.random() * 50 + 50);
                 }
 
                 circle = true;
 
                 // Computing center using the randomA
 
-                TraceManager.addDev("RandomA = " + Math.toDegrees(randomA));
+                //TraceManager.addDev("RandomA = " + Math.toDegrees(randomA));
 
-                radiusCircle = p1.getFather().getWidth()/2;
+                radiusCircle = p1.getFather().getWidth() / 2;
 
-                xCenter = (int)(x1 + Math.cos(randomA) * radiusCircle);
-                yCenter = (int)(y1 + Math.sin(randomA) * radiusCircle);
+                xCenter = (int) (x1 + Math.cos(randomA) * radiusCircle);
+                yCenter = (int) (y1 + Math.sin(randomA) * radiusCircle);
 
-                g.drawOval(xCenter-3, yCenter - 3, 6, 6);
+                g.drawOval(xCenter - 3, yCenter - 3, 6, 6);
 
                 // We have to compute intermediate points
                 // point i 1: obtained from (x1, y1) to center, continuing on radius * 3
-                xi1 = x1  + (xCenter-x1) * 6;
-                yi1 = y1 + (yCenter-y1) * 6;
+                xi1 = x1 + (xCenter - x1) * 6;
+                yi1 = y1 + (yCenter - y1) * 6;
 
-                xi2 = (int)(xCenter + (xi1-xCenter)*Math.cos(randomB) - (yi1-yCenter)*Math.sin(randomB));
-                yi2 = (int)(yCenter + (xi1-xCenter)*Math.sin(randomB) + (yi1-yCenter)*Math.cos(randomB));
+                xi2 = (int) (xCenter + (xi1 - xCenter) * Math.cos(randomB) - (yi1 - yCenter) * Math.sin(randomB));
+                yi2 = (int) (yCenter + (xi1 - xCenter) * Math.sin(randomB) + (yi1 - yCenter) * Math.cos(randomB));
 
-                g.drawOval(xCenter-3, yCenter - 3, 6, 6);
-                Color c = g.getColor();
-                g.setColor(getCurrentColor());
+                g.drawOval(xCenter - 3, yCenter - 3, 6, 6);
+
                 GraphicLib.arrowWithLine(g, 1, 1, 10, xi1, yi1, xCenter, yCenter, false);
-                g.drawLine(xi1,yi1, xi2, yi2);
-                g.drawLine(xCenter,yCenter, xi2, yi2);
+                g.drawLine(xi1, yi1, xi2, yi2);
+                g.drawLine(xCenter, yCenter, xi2, yi2);
 
-                g.setColor(c);
-
-                g.drawString(value, (xi1 + xi2) / 2 - widthValue / 2, (yi1 + yi2) / 2 - 5);
-
+                widthValue = g.getFontMetrics().stringWidth(value);
+                heightValue = g.getFontMetrics().getHeight();
+                xWidthValue = (xi1 + xi2) / 2 - widthValue / 2;
+                yWidthValue = (yi1 + yi2) / 2 - g.getFontMetrics().getDescent();
+                g.drawString(value, xWidthValue, (yi1 + yi2) / 2 - 5);
 
 
             } else {
@@ -201,23 +215,22 @@ public class GraphDEdgeConnector extends TGConnector implements ColorCustomizabl
                 ((Graphics2D) g).draw(curve);
                 */
 
-                Color c = g.getColor();
-                g.setColor(getCurrentColor());
+
                 GraphicLib.arrowWithLine(g, 1, 1, 10, x1, y1, x2, y2, false);
-                g.setColor(c);
+
 
                 if (!tdp.isScaled()) {
                     widthValue = g.getFontMetrics().stringWidth(value);
                     heightValue = g.getFontMetrics().getHeight();
-
+                    xWidthValue = (x1 + x2) / 2 - widthValue / 2;
+                    yWidthValue = (y1 + y2) / 2 - g.getFontMetrics().getDescent();
                     g.drawString(value, (x1 + x2) / 2 - widthValue / 2, (y1 + y2) / 2 - 5);
-
-
                 }
 
 
             }
 
+            //g.drawRect(xWidthValue, yWidthValue - heightValue, widthValue, heightValue);
 
             //g.drawOval((int) x3, (int) y3, 10, 10);
 
@@ -245,14 +258,9 @@ public class GraphDEdgeConnector extends TGConnector implements ColorCustomizabl
 
             GraphicLib.drawArc(x1, y1, x2, y2, p.x, p.y, g);*/
 
-        } catch (
-                Exception e) {
-
+        } catch (Exception e) {
             GraphicLib.arrowWithLine(g, 1, 1, 10, x1, y1, x2, y2, false);
-
         }
-
-
 
 
     }
@@ -315,35 +323,82 @@ public class GraphDEdgeConnector extends TGConnector implements ColorCustomizabl
         }
 
         if (circle) {
-            if ((int)(Line2D.ptSegDistSq(xCenter, yCenter, xi1, yi1, x1, y1)) < distanceSelected) {
+            if ((int) (Line2D.ptSegDistSq(xCenter, yCenter, xi1, yi1, x1, y1)) < distanceSelected) {
                 return this;
             }
-            if ((int)(Line2D.ptSegDistSq(xCenter, yCenter, xi2, yi2, x1, y1)) < distanceSelected) {
+            if ((int) (Line2D.ptSegDistSq(xCenter, yCenter, xi2, yi2, x1, y1)) < distanceSelected) {
                 return this;
             }
-            if ((int)(Line2D.ptSegDistSq(xi2, yi2, xi1, yi1, x1, y1)) < distanceSelected) {
-                return this;
-            }
-            if (GraphicLib.isInRectangle(x1, y1, (xi1 + xi2) / 2 - widthValue / 2, (yi1 + yi2) / 2 - 5 - heightValue,
-                    widthValue, heightValue)) {
+            if ((int) (Line2D.ptSegDistSq(xi2, yi2, xi1, yi1, x1, y1)) < distanceSelected) {
                 return this;
             }
 
 
-        } else {
+        }
 
-            //
-            if (GraphicLib.isInRectangle(x1, y1, ((p1.getX() + p2.getX()) / 2) - widthValue / 2, ((p1.getY() + p2.getY()) / 2) - 5 - heightValue,
-                    widthValue, heightValue)) {
-                return this;
-            }
+        //
+        if (GraphicLib.isInRectangle(x1, y1, xWidthValue, yWidthValue - heightValue,
+                widthValue, heightValue)) {
+            return this;
         }
 
 
-
-
-
         return null;
+    }
+
+
+    @Override
+    protected String translateExtraParam() {
+        StringBuffer sb = new StringBuffer("<extraparam>\n");
+        sb.append("<trans randomA=\"");
+        sb.append(randomA);
+        sb.append("\" randomB=\"");
+        sb.append(randomB);
+        sb.append("\" />\n");
+        sb.append("</extraparam>\n");
+        return new String(sb);
+    }
+
+    @Override
+    public void loadExtraParam(NodeList nl, int decX, int decY, int decId) throws MalformedModelingException {
+
+
+        try {
+            NodeList nli;
+            Node n1, n2;
+            Element elt;
+            String typeOther;
+            String id, valueAtt;
+            String tmp;
+
+
+
+            //TraceManager.addDev("LEP Begin Block  = " + this + " trace=");
+            //Thread.currentThread().dumpStack();
+
+            for (int i = 0; i < nl.getLength(); i++) {
+                n1 = nl.item(i);
+                //
+                if (n1.getNodeType() == Node.ELEMENT_NODE) {
+                    nli = n1.getChildNodes();
+                    for (int j = 0; j < nli.getLength(); j++) {
+                        n2 = nli.item(j);
+                        //
+                        if (n2.getNodeType() == Node.ELEMENT_NODE) {
+                            elt = (Element) n2;
+
+                            if (elt.getTagName().equals("trans")) {
+                                randomA = Double.valueOf(elt.getAttribute("randomA"));
+                                randomB = Double.valueOf(elt.getAttribute("randomB"));
+                            }
+
+                        }
+                    }
+                }
+            }
+        } catch (Exception e) {
+            throw new MalformedModelingException();
+        }
     }
 
 

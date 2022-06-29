@@ -51,36 +51,39 @@ import java.util.UUID;
  * @version 1.0 27/06/2022
  */
 
-public abstract class StateMachineElementMutation extends BlockStructMutation {
+public abstract class StateMachineElementMutation extends BlockStructMutation implements UnnamedElementMutation {
 
-    public static final int UNDEFINED_TYPE = -1;
-    public static final int NAME_TYPE = 0;
-    public static final int UUID_TYPE = 1;
-    
     public AvatarStateMachine getAvatarStateMachine(AvatarSpecification _avspec) {
         AvatarBlock block = getBlock(_avspec);
         return block.getStateMachine();
     }
 
-    public AvatarStateMachineElement getElement(AvatarSpecification _avspec, int _type, String _name) {
+    public AvatarStateMachineElement getElementFromName(AvatarSpecification _avspec, String _name) {
         AvatarStateMachine asm = getAvatarStateMachine(_avspec);
         List<AvatarStateMachineElement> elts = asm.getListOfElements();
-        switch(_type) {
-            case NAME_TYPE:
-                for (AvatarStateMachineElement elt : elts) {
-                    if (elt.getName().equals(_name)) return elt;
-                }
-                return null;
-            case UUID_TYPE:
-                for (AvatarStateMachineElement elt : elts) {
-                    UUID eltUUID = elt.getUUID();
-                    UUID uuid = UUID.fromString(_name);
-                    if (eltUUID != null) {
-                        if (eltUUID.equals(uuid)) return elt;
-                    }
-                }
-                return null;
+        for (AvatarStateMachineElement elt : elts) {
+            if (elt.getName().equals(_name)) return elt;
         }
+        return null;
+    }
+
+    public AvatarStateMachineElement getElementFromUUID(AvatarSpecification _avspec, String _uuid) {
+        AvatarStateMachine asm = getAvatarStateMachine(_avspec);
+        List<AvatarStateMachineElement> elts = asm.getListOfElements();
+        for (AvatarStateMachineElement elt : elts) {
+            UUID eltUUID = elt.getUUID();
+            UUID uuid = UUID.fromString(_uuid);
+            if (eltUUID != null) {
+                if (eltUUID.equals(uuid)) return elt;
+            }
+        }
+        return null;
+
+    }
+
+    public AvatarStateMachineElement getElement(AvatarSpecification _avspec, int _type, String _name) {
+        if (_type == NAME_TYPE) return getElementFromName(_avspec, _name);
+        if (_type == UUID_TYPE) return getElementFromUUID(_avspec, _name);
         return null;
     }
 }

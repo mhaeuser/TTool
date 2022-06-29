@@ -39,60 +39,85 @@
 package avatartranslator.mutation;
 
 import avatartranslator.*;
-//import myutil.TraceManager;
 
 /**
- * Class ActionMutation
- * Creation: 28/06/2022
+ * Class MdRelationMutation
+ * Creation: 29/06/2022
  *
  * @author Léon FRENOT
- * @version 1.0 28/06/2022
+ * @version 1.0 29/06/2022
  */
-
-public abstract class ActionMutation extends TransitionMutation {
-
-    private String actionString;
-
-    private int index = -1;
-
-    public String getActionString() {
-        return actionString;
+public class MdRelationMutation extends RelationMutation implements MdMutation {
+    
+    private RelationMutation current;
+    
+    public MdRelationMutation(String _block1, String _block2) {
+        setBlocks(_block1, _block2);
+        current = new RmRelationMutation(_block1, _block2);
     }
 
-    public int getIndex() {
-        return index;
+    @Override
+    public void setName(String _name) {
+        current.setName(_name);
+        super.setName(_name);
     }
 
-    public int getIndex(AvatarSpecification _avspec) {
-        if (index == -1)
-            index = getIndexFromString(_avspec);
-        return index;
+    @Override
+    public void setUUID(String _uuid) {
+        current.setUUID(_uuid);
+        super.setUUID(_uuid);
     }
 
-    public int getIndexFromString(AvatarSpecification _avspec) {
-        AvatarTransition trans = super.getElement(_avspec);
-        AvatarBlock block = getBlock(_avspec);
-        int len = trans.getNbOfAction();
-        for (int i = 0; i < len; i++) {
-            if(trans.getAction(i).toString().equals(AvatarTerm.createFromString(block, getActionString()).toString())) {
-                return i;
-            }
-        }
-        return -1;
+    public void setCurrentBlocking(boolean b) {
+        current.setBlocking(b);
     }
 
-    public void setActionString(String _actionString) {
-        actionString = _actionString;
+    public void setCurrentAsynchronous(boolean b) {
+        current.setAsynchronous(b);
     }
 
-    public void setIndex(int _index) {
-        index = _index;
+    public void setCurrentAMS(boolean b) {
+        current.setAMS(b);
     }
 
-    public AvatarAction createAction(AvatarSpecification _avspec) {
-        AvatarBlock block = getBlock(_avspec);
-        AvatarAction action = AvatarTerm.createActionFromString(block, getActionString());
-        return action;
+    public void setCurrentPrivate(boolean b) {
+        current.setPrivate(b);
+    }
+
+    public void setCurrentBroadcast(boolean b) {
+        current.setBroadcast(b);
+    }
+
+    public void setCurrentLossy(boolean b) {
+        current.setLossy(b);
+    }
+
+    public void setCurrentSizeOfFIFO(int _sizeOfFIFO) {
+        current.setSizeOfFIFO(_sizeOfFIFO);
+    }
+
+    public void setCurrentId(int _id) {
+        current.setId(_id);
+    }
+
+    public void apply(AvatarSpecification _avspec) {
+        AvatarRelation relation = current.getElement(_avspec);
+
+        if (this.blockingSet()) relation.setBlocking(this.isBlocking());
+
+        if (this.asynchronousSet()) relation.setAsynchronous(this.isAsynchronous());
+
+        if (this.AMSSet()) relation.setAMS(this.isAMS());
+
+        if (this.privateSet()) relation.setPrivate(this.isPrivate());
+
+        if (this.broadcastSet()) relation.setBroadcast(this.isBroadcast());
+
+        if (this.lossySet()) relation.setLossy(this.isLossy());
+
+        if (this.sizeOfFIFOSet()) relation.setSizeOfFIFO(this.getSizeOfFIFO());
+
+        if (this.idSet()) relation.setId(this.getId());
     }
     
 }

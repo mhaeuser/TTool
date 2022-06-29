@@ -39,60 +39,47 @@
 package avatartranslator.mutation;
 
 import avatartranslator.*;
-//import myutil.TraceManager;
 
 /**
- * Class ActionMutation
- * Creation: 28/06/2022
+ * Class AddRelationMutation
+ * Creation: 29/06/2022
  *
  * @author Léon FRENOT
- * @version 1.0 28/06/2022
+ * @version 1.0 29/06/2022
  */
+public class AddRelationMutation extends RelationMutation implements AddMutation {
 
-public abstract class ActionMutation extends TransitionMutation {
+    private boolean isGraphic = false;
 
-    private String actionString;
-
-    private int index = -1;
-
-    public String getActionString() {
-        return actionString;
-    }
-
-    public int getIndex() {
-        return index;
-    }
-
-    public int getIndex(AvatarSpecification _avspec) {
-        if (index == -1)
-            index = getIndexFromString(_avspec);
-        return index;
-    }
-
-    public int getIndexFromString(AvatarSpecification _avspec) {
-        AvatarTransition trans = super.getElement(_avspec);
-        AvatarBlock block = getBlock(_avspec);
-        int len = trans.getNbOfAction();
-        for (int i = 0; i < len; i++) {
-            if(trans.getAction(i).toString().equals(AvatarTerm.createFromString(block, getActionString()).toString())) {
-                return i;
-            }
-        }
-        return -1;
-    }
-
-    public void setActionString(String _actionString) {
-        actionString = _actionString;
-    }
-
-    public void setIndex(int _index) {
-        index = _index;
-    }
-
-    public AvatarAction createAction(AvatarSpecification _avspec) {
-        AvatarBlock block = getBlock(_avspec);
-        AvatarAction action = AvatarTerm.createActionFromString(block, getActionString());
-        return action;
+    public AddRelationMutation(String _block1, String _block2) {
+        setBlocks(_block1, _block2);
     }
     
+    //todo : graphic
+    public AvatarRelation createElement(AvatarSpecification _avspec) {
+        AvatarRelation relation = new AvatarRelation(getName(), getBlock1(_avspec), getBlock2(_avspec), null);
+
+        if (this.blockingSet()) relation.setBlocking(this.isBlocking());
+
+        if (this.asynchronousSet()) relation.setAsynchronous(this.isAsynchronous());
+
+        if (this.AMSSet()) relation.setAMS(this.isAMS());
+
+        if (this.privateSet()) relation.setPrivate(this.isPrivate());
+
+        if (this.broadcastSet()) relation.setBroadcast(this.isBroadcast());
+
+        if (this.lossySet()) relation.setLossy(this.isLossy());
+
+        if (this.sizeOfFIFOSet()) relation.setSizeOfFIFO(this.getSizeOfFIFO());
+
+        if (this.idSet()) relation.setId(this.getId());
+
+        return relation;
+    }
+
+    public void apply(AvatarSpecification _avspec) {
+        AvatarRelation relation = createElement(_avspec);
+        _avspec.addRelation(relation);
+    }
 }

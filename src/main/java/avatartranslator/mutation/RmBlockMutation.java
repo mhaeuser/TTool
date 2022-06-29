@@ -38,61 +38,30 @@
 
 package avatartranslator.mutation;
 
-import avatartranslator.*;
-//import myutil.TraceManager;
+import java.util.List;
 
+import avatartranslator.*;
 /**
- * Class ActionMutation
- * Creation: 28/06/2022
+ * Class RmBlockMutation
+ * Creation: 29/06/2022
  *
  * @author Léon FRENOT
- * @version 1.0 28/06/2022
+ * @version 1.0 29/06/2022
  */
 
-public abstract class ActionMutation extends TransitionMutation {
-
-    private String actionString;
-
-    private int index = -1;
-
-    public String getActionString() {
-        return actionString;
-    }
-
-    public int getIndex() {
-        return index;
-    }
-
-    public int getIndex(AvatarSpecification _avspec) {
-        if (index == -1)
-            index = getIndexFromString(_avspec);
-        return index;
-    }
-
-    public int getIndexFromString(AvatarSpecification _avspec) {
-        AvatarTransition trans = super.getElement(_avspec);
-        AvatarBlock block = getBlock(_avspec);
-        int len = trans.getNbOfAction();
-        for (int i = 0; i < len; i++) {
-            if(trans.getAction(i).toString().equals(AvatarTerm.createFromString(block, getActionString()).toString())) {
-                return i;
-            }
-        }
-        return -1;
-    }
-
-    public void setActionString(String _actionString) {
-        actionString = _actionString;
-    }
-
-    public void setIndex(int _index) {
-        index = _index;
-    }
-
-    public AvatarAction createAction(AvatarSpecification _avspec) {
-        AvatarBlock block = getBlock(_avspec);
-        AvatarAction action = AvatarTerm.createActionFromString(block, getActionString());
-        return action;
-    }
+public class RmBlockMutation extends BlockStructMutation implements RmMutation {
     
+    public RmBlockMutation(String _blockName) {
+        setBlockName(_blockName);
+    }
+
+    public AvatarBlock getElement(AvatarSpecification _avspec) {
+        return getBlock(_avspec);
+    }
+
+    public void apply(AvatarSpecification _avspec) {
+        AvatarBlock block = getElement(_avspec);
+        List<AvatarBlock> blocks = _avspec.getListOfBlocks();
+        blocks.remove(block);
+    }
 }

@@ -39,60 +39,48 @@
 package avatartranslator.mutation;
 
 import avatartranslator.*;
-//import myutil.TraceManager;
 
 /**
- * Class ActionMutation
- * Creation: 28/06/2022
+ * Class AssociationMutation
+ * Creation: 29/06/2022
  *
  * @author Léon FRENOT
- * @version 1.0 28/06/2022
+ * @version 1.0 29/06/2022
  */
+public abstract class AssociationMutation extends RelationMutation {
 
-public abstract class ActionMutation extends TransitionMutation {
+    private String signal1;
+    private String signal2;
 
-    private String actionString;
-
-    private int index = -1;
-
-    public String getActionString() {
-        return actionString;
-    }
-
-    public int getIndex() {
-        return index;
-    }
-
-    public int getIndex(AvatarSpecification _avspec) {
-        if (index == -1)
-            index = getIndexFromString(_avspec);
-        return index;
-    }
-
-    public int getIndexFromString(AvatarSpecification _avspec) {
-        AvatarTransition trans = super.getElement(_avspec);
-        AvatarBlock block = getBlock(_avspec);
-        int len = trans.getNbOfAction();
-        for (int i = 0; i < len; i++) {
-            if(trans.getAction(i).toString().equals(AvatarTerm.createFromString(block, getActionString()).toString())) {
-                return i;
-            }
+    public AvatarSignal getSignal(AvatarSpecification _avspec, String _signal) {
+        AvatarBlock block = getBlock1(_avspec);
+        AvatarSignal signal = block.getSignalByName(_signal);
+        if (signal == null) {
+            block = getBlock2(_avspec);
+            signal = block.getSignalByName(_signal);
         }
-        return -1;
+        return signal;
     }
 
-    public void setActionString(String _actionString) {
-        actionString = _actionString;
+    public String getSignal1() {
+        return signal1;
     }
 
-    public void setIndex(int _index) {
-        index = _index;
+    public AvatarSignal getSignal1(AvatarSpecification _avspec) {
+        return getSignal(_avspec, getSignal1());
     }
 
-    public AvatarAction createAction(AvatarSpecification _avspec) {
-        AvatarBlock block = getBlock(_avspec);
-        AvatarAction action = AvatarTerm.createActionFromString(block, getActionString());
-        return action;
+    public String getSignal2() {
+        return signal2;
     }
-    
+
+    public AvatarSignal getSignal2(AvatarSpecification _avspec) {
+        return getSignal(_avspec, getSignal2());
+    }
+
+    public void setSignals(String _signal1, String _signal2) {
+        signal1 = _signal1;
+        signal2 = _signal2;
+    }
+
 }

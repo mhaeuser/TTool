@@ -38,61 +38,27 @@
 
 package avatartranslator.mutation;
 
+import java.util.List;
+
 import avatartranslator.*;
-//import myutil.TraceManager;
 
 /**
- * Class ActionMutation
- * Creation: 28/06/2022
+ * Class RmRelationMutation
+ * Creation: 29/06/2022
  *
  * @author Léon FRENOT
- * @version 1.0 28/06/2022
+ * @version 1.0 29/06/2022
  */
+public class RmRelationMutation extends RelationMutation implements RmMutation {
 
-public abstract class ActionMutation extends TransitionMutation {
-
-    private String actionString;
-
-    private int index = -1;
-
-    public String getActionString() {
-        return actionString;
+    public RmRelationMutation(String _block1, String _block2) {
+        setBlocks(_block1, _block2);
     }
 
-    public int getIndex() {
-        return index;
-    }
-
-    public int getIndex(AvatarSpecification _avspec) {
-        if (index == -1)
-            index = getIndexFromString(_avspec);
-        return index;
-    }
-
-    public int getIndexFromString(AvatarSpecification _avspec) {
-        AvatarTransition trans = super.getElement(_avspec);
-        AvatarBlock block = getBlock(_avspec);
-        int len = trans.getNbOfAction();
-        for (int i = 0; i < len; i++) {
-            if(trans.getAction(i).toString().equals(AvatarTerm.createFromString(block, getActionString()).toString())) {
-                return i;
-            }
-        }
-        return -1;
-    }
-
-    public void setActionString(String _actionString) {
-        actionString = _actionString;
-    }
-
-    public void setIndex(int _index) {
-        index = _index;
-    }
-
-    public AvatarAction createAction(AvatarSpecification _avspec) {
-        AvatarBlock block = getBlock(_avspec);
-        AvatarAction action = AvatarTerm.createActionFromString(block, getActionString());
-        return action;
+    public void apply(AvatarSpecification _avspec) {
+        AvatarRelation relation = getElement(_avspec);
+        List<AvatarRelation> relations = _avspec.getRelations();
+        relations.remove(relation);
     }
     
 }

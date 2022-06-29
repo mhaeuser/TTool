@@ -49,5 +49,9 @@ import avatartranslator.*;
  */
 public abstract class AvatarMutation {
 
+    public AvatarBlock getBlock(AvatarSpecification _avspec, String _block) {
+        return _avspec.getBlockWithName(_block);
+    }
+
     public abstract void apply(AvatarSpecification _avspec);
 }

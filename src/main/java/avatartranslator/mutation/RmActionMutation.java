@@ -38,61 +38,49 @@
 
 package avatartranslator.mutation;
 
+import java.util.List;
+
 import avatartranslator.*;
 //import myutil.TraceManager;
 
 /**
- * Class ActionMutation
+ * Class RmActionMutation
  * Creation: 28/06/2022
  *
  * @author Léon FRENOT
  * @version 1.0 28/06/2022
  */
 
-public abstract class ActionMutation extends TransitionMutation {
-
-    private String actionString;
-
-    private int index = -1;
-
-    public String getActionString() {
-        return actionString;
+public class RmActionMutation extends ActionMutation implements RmMutation {
+    
+    public RmActionMutation(String _blockName, String _actionString) {
+        setBlockName(_blockName);
+        setActionString(_actionString);
+        initActions();
     }
 
-    public int getIndex() {
-        return index;
+    public RmActionMutation(String _blockName, int _index) {
+        setBlockName(_blockName);
+        setIndex(_index);
+        initActions();
     }
 
-    public int getIndex(AvatarSpecification _avspec) {
-        if (index == -1)
-            index = getIndexFromString(_avspec);
-        return index;
-    }
+    public void apply(AvatarSpecification _avspec) {
+        AvatarTransition transition = getElement(_avspec);
 
-    public int getIndexFromString(AvatarSpecification _avspec) {
-        AvatarTransition trans = super.getElement(_avspec);
-        AvatarBlock block = getBlock(_avspec);
-        int len = trans.getNbOfAction();
-        for (int i = 0; i < len; i++) {
-            if(trans.getAction(i).toString().equals(AvatarTerm.createFromString(block, getActionString()).toString())) {
-                return i;
+        List<AvatarAction> actions = transition.getActions();
+
+        if(getIndex() != -1) {
+            actions.remove(getIndex());
+            return;
+        }
+
+        AvatarAction action = createAction(_avspec);
+        for(AvatarAction tmp_action : actions) {
+            if(action.toString().equals(tmp_action.toString())) {
+                actions.remove(tmp_action);
+                return;
             }
         }
-        return -1;
     }
-
-    public void setActionString(String _actionString) {
-        actionString = _actionString;
-    }
-
-    public void setIndex(int _index) {
-        index = _index;
-    }
-
-    public AvatarAction createAction(AvatarSpecification _avspec) {
-        AvatarBlock block = getBlock(_avspec);
-        AvatarAction action = AvatarTerm.createActionFromString(block, getActionString());
-        return action;
-    }
-    
 }

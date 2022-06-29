@@ -58,6 +58,10 @@ public abstract class BlockStructMutation extends AvatarMutation {
         return _avspec.getBlockWithName(blockName);
     }
 
+    public String getBlockName() {
+        return blockName;
+    }
+
     public AvatarAttribute getAttribute(AvatarSpecification _avspec, String _name) {
         AvatarBlock block = getBlock(_avspec);
         return block.getAvatarAttributeWithName(_name);

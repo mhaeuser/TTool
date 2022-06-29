@@ -41,6 +41,7 @@ package avatartranslator.mutation;
 import java.util.List;
 
 import avatartranslator.*;
+import myutil.TraceManager;
 
 /**
  * Class RandomMutation
@@ -149,12 +150,14 @@ public abstract class RandomMutation extends StateMachineElementMutation {
 
     public AvatarRandom getElement(AvatarSpecification _avspec) {
         if (!isNameSet()) {
+            //TraceManager.addDev("name not set");
             AvatarStateMachine asm = getAvatarStateMachine(_avspec);
             List<AvatarStateMachineElement> elts =  asm.getListOfElements();
             for (AvatarStateMachineElement elt : elts) {
                 if (elt instanceof AvatarRandom) {
                     AvatarRandom rnd = (AvatarRandom)elt;
-                    boolean flag = rnd.getVariable().equals(this.getName());
+                    //TraceManager.addDev(rnd.getNiceName());
+                    boolean flag = rnd.getVariable().equals(this.getVariable());
                     if (this.areValuesSet()) {
                         if (this.getMinValue().equals(rnd.getMinValue())) {
                             flag = this.getMaxValue().equals(rnd.getMaxValue());
@@ -176,5 +179,4 @@ public abstract class RandomMutation extends StateMachineElementMutation {
         if (element != null && element instanceof AvatarRandom) return (AvatarRandom)element;
         return null;
     }
-
 }

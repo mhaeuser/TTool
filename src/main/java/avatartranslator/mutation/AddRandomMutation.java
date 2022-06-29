@@ -53,8 +53,8 @@ public class AddRandomMutation extends RandomMutation implements AddMutation {
     boolean isGraphical = false;
 
     public AddRandomMutation(String _variable, String _blockName) {
-        setBlockName(_blockName);
         setVariable(_variable);
+        setBlockName(_blockName);
     }
     
     //todo : add Graphical referenceObject

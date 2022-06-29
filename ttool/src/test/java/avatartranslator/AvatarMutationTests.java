@@ -254,7 +254,6 @@ public class AvatarMutationTests {
 
     @Test
     public void testAddState() {
-        assertTrue(block.getStateMachine().getNbOfStatesElement() == 0);
         StateMutation mutation = new AddStateMutation("state0", "block");
         mutation.apply(as);
         assertTrue(block.getStateMachine().getNbOfStatesElement() == 1);
@@ -275,15 +274,14 @@ public class AvatarMutationTests {
         assertTrue(block.getStateMachine().getNbOfStatesElement() == 1);
         assertTrue(block.getStateMachine().getState(0).getName().equals("state1"));
     }
+    
 
-    @Test
-    public void testAddTransition1() {
+    public AvatarTransition add2Trans() {
         add2States();
         TransitionMutation mutation0 = new AddTransitionMutation("block");
         mutation0.setFromWithName("state0");
         mutation0.setToWithName("state1");
         mutation0.apply(as);
-        assertTrue(block.getStateMachine().getState(0).getNexts().size()==1);
         TransitionMutation mutation = new AddTransitionMutation("block");
         mutation.setFromWithName("state0");
         mutation.setToWithName("state1");
@@ -295,7 +293,12 @@ public class AvatarMutationTests {
         mutation.setComputes("12", "42");
         mutation.addAction("x = 1");
         mutation.apply(as);
-        AvatarTransition trans = mutation.getElement(as);
+        return mutation.getElement(as);
+    }
+
+    @Test
+    public void testAddTransition1() {
+        AvatarTransition trans = add2Trans();
         assertTrue(trans.getName().equals("trans"));
         assertTrue(trans.getGuard() != null);
         assertTrue(trans.getProbability() == 0.5);
@@ -320,25 +323,6 @@ public class AvatarMutationTests {
         mutation.apply(as);
         AvatarTransition trans = mutation.getElement(as);
         TraceManager.addDev(trans.toString());
-    }
-
-    public void add2Trans() {
-        add2States();
-        TransitionMutation mutation0 = new AddTransitionMutation("block");
-        mutation0.setFromWithName("state0");
-        mutation0.setToWithName("state1");
-        mutation0.apply(as);
-        TransitionMutation mutation = new AddTransitionMutation("block");
-        mutation.setFromWithName("state0");
-        mutation.setToWithName("state1");
-        mutation.setName("trans");
-        mutation.setProbability(0.5);
-        mutation.setGuard("x > 1");
-        mutation.setDelays("0", "5");
-        mutation.setDelayDistributionLaw(4, "1", "6");
-        mutation.setComputes("12", "42");
-        mutation.addAction("x = 1");
-        mutation.apply(as);
     }
 
     @Test
@@ -373,21 +357,18 @@ public class AvatarMutationTests {
         TraceManager.addDev(trans.toString());
     }
 
-    @Test
-    public void testAddActionOnSignal() {
-        addSignal();
-        AddActionOnSignalMutation mutation = new AddActionOnSignalMutation("cin", "block");
-        mutation.setName("aaos");
-        mutation.apply(as);
-        AvatarStateMachine asm = block.getStateMachine();
-        assertTrue(asm.isSignalUsed(block.getSignalByName("cin")));
-    }
-
     public void AddActionOnSignal() {
         addSignal();
         AddActionOnSignalMutation mutation = new AddActionOnSignalMutation("cin", "block");
         mutation.setName("aaos");
         mutation.apply(as);
+    }
+
+    @Test
+    public void testAddActionOnSignal() {
+        AddActionOnSignal();
+        AvatarStateMachine asm = block.getStateMachine();
+        assertTrue(asm.isSignalUsed(block.getSignalByName("cin")));
     }
 
     @Test
@@ -420,5 +401,142 @@ public class AvatarMutationTests {
         mutation.apply(as);
         assertFalse(asm.isSignalUsed(block.getSignalByName("cin")));
         assertTrue(asm.isSignalUsed(block.getSignalByName("cout")));
+    }
+
+    public AvatarRandom addRandom() {
+        AddRandomMutation mutation = new AddRandomMutation("x", "block");
+        mutation.setName("rand");
+        mutation.setValues("5", "15");
+        mutation.apply(as);
+        return mutation.getElement(as);
+    }
+
+    @Test
+    public void testAddRandom() {
+        AvatarRandom rand = addRandom();
+        assertTrue(rand.getVariable().equals("x"));
+        TraceManager.addDev(rand.getNiceName());
+    }
+
+    @Test
+    public void testRmRandom() {
+        AddRandomMutation mutation0 = new AddRandomMutation("x", "block");
+        mutation0.setValues("-5", "10");
+        mutation0.apply(as);
+        addRandom();
+        RmRandomMutation mutation = new RmRandomMutation("x", "block");
+        mutation.setValues("5", "10");
+        mutation.apply(as);
+        assertTrue(mutation0.getElement(as) != null);
+    }
+
+    @Test
+    public void testMdRandom() {
+        AvatarRandom rand = addRandom();
+        MdRandomMutation mutation = new MdRandomMutation("y", "block");
+        mutation.setCurrentVariable("x");
+        mutation.apply(as);
+        assertTrue(rand.getVariable().equals("y"));
+    }
+
+    public AvatarSetTimer addSetTimer() {
+        AvatarAttribute timer = new AvatarAttribute("timer", AvatarType.TIMER, block, null);
+        block.addAttribute(timer);
+        AddSetTimerMutation mutation = new AddSetTimerMutation("timer", "10", "block");
+        mutation.apply(as);
+        return mutation.getElement(as);
+    }
+
+    @Test
+    public void testAddSetTimer() {
+        AvatarSetTimer set = addSetTimer();
+        assertTrue(set != null);
+        TraceManager.addDev(set.getTimer().toString());
+    }
+
+    @Test
+    public void testRmSetTimer() {
+        addSetTimer();
+        RmSetTimerMutation mutation = new RmSetTimerMutation("timer", "block");
+        assertFalse(mutation.getElement(as) == null);
+        mutation.apply(as);
+        assertTrue(mutation.getElement(as) == null);
+    }
+
+    @Test
+    public void testMdSetTimer() {
+        AvatarSetTimer timer = addSetTimer();
+        MdSetTimerMutation mutation = new MdSetTimerMutation("timer", "block");
+        mutation.setTimerValue("15");
+        mutation.apply(as);
+        assertTrue(timer.getTimerValue().equals("15"));
+    }
+
+    public AvatarResetTimer addResetTimer() {
+        AvatarAttribute timer = new AvatarAttribute("timer", AvatarType.TIMER, block, null);
+        block.addAttribute(timer);
+        AddResetTimerMutation mutation = new AddResetTimerMutation("timer", "block");
+        mutation.apply(as);
+        return mutation.getElement(as);
+    }
+
+    @Test
+    public void testAddResetTimer() {
+        AvatarResetTimer set = addResetTimer();
+        assertTrue(set != null);
+        TraceManager.addDev(set.getTimer().toString());
+    }
+
+    @Test
+    public void testRmResetTimer() {
+        addResetTimer();
+        RmResetTimerMutation mutation = new RmResetTimerMutation("timer", "block");
+        assertFalse(mutation.getElement(as) == null);
+        mutation.apply(as);
+        assertTrue(mutation.getElement(as) == null);
+    }
+
+    @Test
+    public void testMdResetTimer() {
+        AvatarResetTimer timer = addResetTimer();
+        AvatarAttribute timer2 = new AvatarAttribute("timer2", AvatarType.TIMER, block, null);
+        block.addAttribute(timer2);
+        MdResetTimerMutation mutation = new MdResetTimerMutation("timer", "timer2", "block");
+        mutation.apply(as);
+        assertTrue(timer.getTimer().getName().equals("timer2"));
+    }
+
+    public AvatarExpireTimer addExpireTimer() {
+        AvatarAttribute timer = new AvatarAttribute("timer", AvatarType.TIMER, block, null);
+        block.addAttribute(timer);
+        AddExpireTimerMutation mutation = new AddExpireTimerMutation("timer", "block");
+        mutation.apply(as);
+        return mutation.getElement(as);
+    }
+
+    @Test
+    public void testAddExpireTimer() {
+        AvatarExpireTimer set = addExpireTimer();
+        assertTrue(set != null);
+        TraceManager.addDev(set.getTimer().toString());
+    }
+
+    @Test
+    public void testRmExpireTimer() {
+        addExpireTimer();
+        RmExpireTimerMutation mutation = new RmExpireTimerMutation("timer", "block");
+        assertFalse(mutation.getElement(as) == null);
+        mutation.apply(as);
+        assertTrue(mutation.getElement(as) == null);
+    }
+
+    @Test
+    public void testMdExpireTimer() {
+        AvatarExpireTimer timer = addExpireTimer();
+        AvatarAttribute timer2 = new AvatarAttribute("timer2", AvatarType.TIMER, block, null);
+        block.addAttribute(timer2);
+        MdExpireTimerMutation mutation = new MdExpireTimerMutation("timer", "timer2", "block");
+        mutation.apply(as);
+        assertTrue(timer.getTimer().getName().equals("timer2"));
     }
 }

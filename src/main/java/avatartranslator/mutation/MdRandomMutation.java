@@ -39,6 +39,7 @@
 package avatartranslator.mutation;
 
 import avatartranslator.*;
+import myutil.TraceManager;
 
 /**
  * Class MdRandomMutation

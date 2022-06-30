@@ -104,6 +104,10 @@ public class IconManager {
     public static ImageIcon imgic410, imgic412, imgic414, imgic416, imgic418;
     public static ImageIcon imgic420, imgic422, imgic424, imgic426;
 
+
+    // Graph
+    public static ImageIcon imgic450, imgic452;
+
     public static ImageIcon imgic500, imgic502, imgic504, imgic506, imgic508, imgic510;
     public static ImageIcon imgic512, imgic514, imgic516, imgic518, imgic520, imgic522, imgic524;
 
@@ -452,6 +456,10 @@ public class IconManager {
     private static String icon422 = "referencetocp.gif";
     private static String icon424 = "referencetoarch.gif";
     private static String icon426 = "referencetomapping.gif";
+
+    // Graph
+    private static String icon450 = "graphaut.gif";
+    private static String icon452 = "graphedge.gif";
 
 
 
@@ -1007,7 +1015,8 @@ public class IconManager {
         imgic424 = getIcon(icon424);
         imgic426 = getIcon(icon426);
 
-
+        imgic450 = getIcon(icon450);
+        imgic452 = getIcon(icon452);
 
         imgic500 = getIcon(icon500);
         imgic502 = getIcon(icon502);

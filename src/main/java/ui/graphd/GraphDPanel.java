@@ -239,7 +239,7 @@ public class GraphDPanel extends TDiagramPanel implements TDPWithAttributes, Run
 
         }
 
-        autoUpdate();
+        //autoUpdate();
 
 
     }
@@ -385,6 +385,12 @@ public class GraphDPanel extends TDiagramPanel implements TDPWithAttributes, Run
                             energy += energyTmp * energyTmp * energyTmp * energyTmp * energyTmp * energyTmp;
                         }
 
+                        // Last, the closer to the center, the better it is
+                        Point mid = new Point((getMinX() + getMaxX())/2, (getMinY() + getMaxY())/2);
+                        energyTmp = new Point(tgc1.getX(), tgc1.getY()).distance(mid);
+                        energy += energyTmp;
+                        energyTmp = new Point(tgc2.getX(), tgc2.getY()).distance(mid);
+                        energy += energyTmp;
 
                     }
                 }
@@ -409,12 +415,12 @@ public class GraphDPanel extends TDiagramPanel implements TDPWithAttributes, Run
         tgc1.setMoveCd(x, y);
 
         x = (int) (tgc2.getX() + INC * deltaX);
-        x = Math.min(x, getMaxX());
-        x = Math.max(x, getMinX());
+        x = Math.min(x, getMaxX()-50);
+        x = Math.max(x, getMinX()+50);
 
         y = (int) (tgc2.getY() + INC * deltaY);
-        y = Math.min(y, getMaxY());
-        y = Math.max(y, getMinY());
+        y = Math.min(y, getMaxY()-50);
+        y = Math.max(y, getMinY()+50);
 
         tgc2.setMoveCd(x, y);
 

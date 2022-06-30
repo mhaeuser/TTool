@@ -1418,7 +1418,7 @@ public class TGUIAction extends AbstractAction {
 
 
         // Graph
-        actions[GD_VERTEX] = new TAction("add-gd-vertex", "Add vertex", IconManager.imgic222, IconManager.imgic222,
+        actions[GD_VERTEX] = new TAction("add-gd-vertex", "Add vertex", IconManager.imgic452, IconManager.imgic452,
                 "Vertex", "Add a vertex " +
                  "to " +
                 "the currently opened graph", 0);

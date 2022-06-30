@@ -62,6 +62,7 @@ import ui.dd.TDeploymentDiagramPanel;
 import ui.diplodocusmethodology.DiplodocusMethodologyDiagramPanel;
 import ui.ebrdd.EBRDDPanel;
 import graph.RG;
+import ui.graphd.GraphDPanel;
 import ui.iod.InteractionOverviewDiagramPanel;
 import ui.ncdd.NCDiagramPanel;
 import ui.osad.TURTLEOSActivityDiagramPanel;
@@ -343,7 +344,16 @@ public class DiagramTreeRenderer extends DefaultTreeCellRenderer  {
 
          } else if (value instanceof HelpEntry) {
             setIcon(IconManager.imgic32);
-            setToolTipText(((HelpEntry)value).getToolTip());
+            setToolTipText(((HelpEntry) value).getToolTip());
+
+        }   else if (value instanceof GraphDPanel) {
+            setIcon(IconManager.imgic450);
+            setToolTipText("Graphs");
+
+        }   else if (value instanceof GraphPanel) {
+                setIcon(IconManager.imgic450);
+                setToolTipText("Panel for graphs");
+
 
         } else {
             setToolTipText(null);

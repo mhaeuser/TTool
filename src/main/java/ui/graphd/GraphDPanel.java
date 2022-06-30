@@ -378,14 +378,16 @@ public class GraphDPanel extends TDiagramPanel implements TDPWithAttributes, Run
                             energy += energyTmp;
                         }
 
-                        // We must also ensure that two states are not overlapping
+                        // We must also ensure that two states do not overlap
                         double overlap = tgc1.distance(tgc2);
-                        if (overlap < tgc1.getWidth() * 3) {
-                            energyTmp = (tgc1.getWidth() * 3) - tgc1.distance(tgc2);
+                        if (overlap < tgc1.getWidth() * 4) {
+                            makeFurther((GraphDVertex)tgc1, (GraphDVertex) tgc2, INC);
+                            energyTmp = (tgc1.getWidth() * 4) - tgc1.distance(tgc2);
                             energy += energyTmp * energyTmp * energyTmp * energyTmp * energyTmp * energyTmp;
                         }
 
                         // Last, the closer to the center, the better it is
+
                         Point mid = new Point((getMinX() + getMaxX())/2, (getMinY() + getMaxY())/2);
                         energyTmp = new Point(tgc1.getX(), tgc1.getY()).distance(mid);
                         energy += energyTmp;

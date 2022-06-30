@@ -459,7 +459,7 @@ public class IconManager {
 
     // Graph
     private static String icon450 = "graphaut.gif";
-    private static String icon452 = "graphedge.gif";
+    private static String icon452 = "graphvertex.gif";
 
 
 

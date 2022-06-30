@@ -412,6 +412,10 @@ public class GraphDEdgeConnector extends TGConnector implements ColorCustomizabl
         return Color.BLACK;
     }
 
+    public ImageIcon getImageIcon() {
+        return IconManager.imgic202;
+    }
+
 }
 
 

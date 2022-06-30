@@ -45,6 +45,7 @@ import myutil.GraphicLib;
 import ui.*;
 import ui.util.IconManager;
 
+import javax.swing.*;
 import java.awt.*;
 
 /**
@@ -60,33 +61,33 @@ public class GraphDVertex extends TGCScalableOneLineText implements ColorCustomi
     protected int textY =  15;
     protected int arc = 5;*/
     protected int w, h; //w1;
-    
-    public GraphDVertex(int _x, int _y, int _minX, int _maxX, int _minY, int _maxY, boolean _pos, TGComponent _father, TDiagramPanel _tdp)  {
+
+    public GraphDVertex(int _x, int _y, int _minX, int _maxX, int _minY, int _maxY, boolean _pos, TGComponent _father, TDiagramPanel _tdp) {
         super(_x, _y, _minX, _maxX, _minY, _maxY, _pos, _father, _tdp);
 
         width = 35;
         height = 35;
         initScaling(width, height);
-	
-               
+
+
         nbConnectingPoint = 24;
         connectingPoint = new TGConnectingPoint[nbConnectingPoint];
         int i;
-        for(int j=0; j<24; j ++) {
+        for (int j = 0; j < 24; j++) {
             connectingPoint[j] = new GraphDConnectingPoint(this, 0, 0, true, true, 0.5, 0.5);
         }
         addTGConnectingPointsComment();
-        
+
         moveable = true;
         editable = true;
         removable = true;
-        
+
         value = "0";
         name = "vertex";
-        
+
         myImageIcon = IconManager.imgic600;
     }
-    
+
     public void internalDrawing(Graphics g) {
         //g.drawRoundRect(x - width/2, y, width, height, arc, arc);
         Color c = g.getColor();
@@ -99,15 +100,15 @@ public class GraphDVertex extends TGCScalableOneLineText implements ColorCustomi
         FontMetrics fm = g.getFontMetrics();
         w = fm.stringWidth(value);
         h = fm.getAscent() - fm.getDescent() - fm.getLeading();
-        drawSingleString(g, value, getCenter(g, value), this.y + this.height/2 + h/2);
+        drawSingleString(g, value, getCenter(g, value), this.y + this.height / 2 + h / 2);
 
     }
-    
+
     public TGComponent isOnMe(int _x, int _y) {
         if (GraphicLib.isInRectangle(_x, _y, x, y, width, height)) {
             return this;
         }
-        if (GraphicLib.isInRectangle(_x, _y, x + width / 2 - w / 2, y + height/2 - h/2, w, h)) {
+        if (GraphicLib.isInRectangle(_x, _y, x + width / 2 - w / 2, y + height / 2 - h / 2, w, h)) {
             return this;
         }
         return null;
@@ -125,8 +126,8 @@ public class GraphDVertex extends TGCScalableOneLineText implements ColorCustomi
     public String getActorName() {
         return value;
     }*/
-    
-    
+
+
     public int getType() {
         return TGComponentManager.GRAPHD_VERTEX;
     }
@@ -134,5 +135,9 @@ public class GraphDVertex extends TGCScalableOneLineText implements ColorCustomi
     // Color management
     public Color getMainColor() {
         return Color.LIGHT_GRAY;
+    }
+
+    public ImageIcon getImageIcon() {
+        return IconManager.imgic452;
     }
 }

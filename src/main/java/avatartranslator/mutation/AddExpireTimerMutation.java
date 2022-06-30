@@ -52,9 +52,12 @@ public class AddExpireTimerMutation extends ExpireTimerMutation implements AddMu
 
     private boolean isGraphical = false;
 
-    public AddExpireTimerMutation(String _timerName, String _block) {
-        setTimerName(_timerName);
-        setBlockName(_block);
+    public AddExpireTimerMutation(String _blockName, String _timerName) {
+        super(_blockName, _timerName);
+    }
+
+    public AddExpireTimerMutation(String _blockName, String _name, String _timerName) {
+        super(_blockName, _name, NAME_TYPE, _timerName);
     }
 
     //todo : graphique

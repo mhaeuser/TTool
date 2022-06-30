@@ -50,9 +50,12 @@ import avatartranslator.*;
  */
 public class RmTransitionMutation extends TransitionMutation implements RmMutation {
     
-    public RmTransitionMutation(String _blockName) {
-        setBlockName(_blockName);
-        initActions();
+    public RmTransitionMutation(String _blockName, String _fromString, int _fromType, String _toString, int _toType) {
+        super(_blockName, _fromString, _fromType, _toString, _toType);
+    }
+
+    public RmTransitionMutation(String _blockName, String _transitionString, int _transitionType) {
+        super(_blockName, _transitionString, _transitionType);
     }
 
     public void apply(AvatarSpecification _avspec) {

@@ -39,43 +39,26 @@
 package avatartranslator.mutation;
 
 import avatartranslator.*;
+
 /**
- * Class BlockStructMutation
- * Creation: 23/06/2022
+ * Class NoneRelationMutation
+ * Creation: 29/06/2022
  *
  * @author Léon FRENOT
- * @version 1.0 23/06/2022
+ * @version 1.0 29/06/2022
  */
-public abstract class BlockStructMutation extends AvatarMutation {
+public class NoneRelationMutation extends RelationMutation {
 
-    private String blockName;
-
-    public void setBlockName(String _blockName) {
-        blockName = _blockName;
+    public NoneRelationMutation(String _block1, String _block2) {
+        super(_block1, _block2);
     }
 
-    public AvatarBlock getBlock(AvatarSpecification _avspec) {
-        return _avspec.getBlockWithName(blockName);
+    public NoneRelationMutation(String _relationString, int _relationType) {
+        super(_relationString, _relationType);
     }
 
-    public String getBlockName() {
-        return blockName;
+    public void apply(AvatarSpecification _avspec) {
+        return;
     }
-
-    public AvatarAttribute getAttribute(AvatarSpecification _avspec, String _name) {
-        AvatarBlock block = getBlock(_avspec);
-        return block.getAvatarAttributeWithName(_name);
-    }
-
-    public AvatarMethod getMethod(AvatarSpecification _avspec, String _name) {
-        AvatarBlock block = getBlock(_avspec);
-        return block.getAvatarMethodWithName(_name);
-    }
-
-    public AvatarSignal getSignal(AvatarSpecification _avspec, String _name) {
-        AvatarBlock block = getBlock(_avspec);
-        return block.getAvatarSignalWithName(_name);
-    }
-
     
 }

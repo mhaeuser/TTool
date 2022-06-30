@@ -52,10 +52,23 @@ import java.util.LinkedList;
  * @version 1.0 27/06/2022
  */
 
-public abstract class ActionOnSignalMutation extends StateMachineElementMutation {
+public abstract class ActionOnSignalMutation extends UnnamedStateMachineElementMutation {
 
-    private String name = "";
-    private int nameType = UNDEFINED_TYPE;
+    protected ActionOnSignalMutation(String _blockName, String _signalName) {
+        super(_blockName);
+        setSignalName(_signalName);
+        initValues();
+    }
+
+    protected ActionOnSignalMutation(String _blockName, String _name, int _nameType) {
+        super(_blockName, _name, _nameType);
+        initValues();
+    }
+
+    protected ActionOnSignalMutation(String _blockName, String _name, int _nameType, String _signalName) {
+        this(_blockName, _name, _nameType);
+        setSignalName(_signalName);
+    }
 
     private String signalName;
 
@@ -65,45 +78,23 @@ public abstract class ActionOnSignalMutation extends StateMachineElementMutation
 	private boolean checkLatency;
     private boolean checkLatencySet = false;
 
-    public String getName() {
-        return name;
-    }
-
-    public boolean isNameSet() {
-        return nameType != UNDEFINED_TYPE;
-    }
-
-    public int getNameType() {
-        return nameType;
-    }
-
-    public void setName(String _name) {
-        name = _name;
-        nameType = NAME_TYPE;
-    }
-
-    public void setUUID(String _uuid) {
-        name = _uuid;
-        nameType = UUID_TYPE;
-    }
-
-    public String getSignalName() {
+    protected String getSignalName() {
         return signalName;
     }
 
-    public void setSignalName(String _signalName) {
+    private void setSignalName(String _signalName) {
         signalName = _signalName;
     }
 
-    public List<String> getValues() {
+    protected List<String> getValues() {
         return values;
     }
 
-    public String getValue(int i) {
+    protected String getValue(int i) {
         return values.get(i);
     }
 
-    public boolean areValuesSet() {
+    protected boolean areValuesSet() {
         return valuesSet;
     }
 
@@ -117,15 +108,15 @@ public abstract class ActionOnSignalMutation extends StateMachineElementMutation
         valuesSet = true;
     }
 
-    public void initValues() {
+    private void initValues() {
         values = new LinkedList<>();
     }
 
-    public boolean getCheckLatency() {
+    protected boolean getCheckLatency() {
         return checkLatency;
     }
 
-    public boolean isCheckLatencySet() {
+    protected boolean isCheckLatencySet() {
         return checkLatencySet;
     }
 
@@ -134,6 +125,7 @@ public abstract class ActionOnSignalMutation extends StateMachineElementMutation
         checkLatencySet = true;
     }
 
+    @Override
     public AvatarActionOnSignal getElement(AvatarSpecification _avspec) {
         if (!isNameSet()) {
             //TraceManager.addDev("name not set");
@@ -161,9 +153,8 @@ public abstract class ActionOnSignalMutation extends StateMachineElementMutation
             }
             return null;
         }
-        AvatarStateMachineElement element = getElement(_avspec, getNameType(), getName());
+        AvatarStateMachineElement element = super.getElement(_avspec);
         if (element != null && element instanceof AvatarActionOnSignal) return (AvatarActionOnSignal)element;
         return null;
     }
-
 }

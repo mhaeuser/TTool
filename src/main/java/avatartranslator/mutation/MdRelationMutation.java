@@ -52,20 +52,13 @@ public class MdRelationMutation extends RelationMutation implements MdMutation {
     private RelationMutation current;
     
     public MdRelationMutation(String _block1, String _block2) {
-        setBlocks(_block1, _block2);
-        current = new RmRelationMutation(_block1, _block2);
+        super(_block1, _block2);
+        current = new NoneRelationMutation(_block1, _block2);
     }
 
-    @Override
-    public void setName(String _name) {
-        current.setName(_name);
-        super.setName(_name);
-    }
-
-    @Override
-    public void setUUID(String _uuid) {
-        current.setUUID(_uuid);
-        super.setUUID(_uuid);
+    public MdRelationMutation(String _relationString, int _relationType) {
+        super(_relationString, _relationType);
+        current = new NoneRelationMutation(_relationString, _relationType);
     }
 
     public void setCurrentBlocking(boolean b) {

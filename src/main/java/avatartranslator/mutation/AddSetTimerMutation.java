@@ -51,10 +51,12 @@ public class AddSetTimerMutation extends SetTimerMutation implements AddMutation
 
     private boolean isGraphical = false;
 
-    public AddSetTimerMutation(String _timerName, String _timerValue, String _block) {
-        setTimerName(_timerName);
-        setTimerValue(_timerValue);
-        setBlockName(_block);
+    public AddSetTimerMutation(String _blockName, String _timerName, String _timerValue) {
+        super(_blockName, _timerName, _timerValue);
+    }
+
+    public AddSetTimerMutation(String _blockName, String _name, String _timerName, String _timerValue) {
+        super(_blockName, _name, NAME_TYPE, _timerName, _timerValue);
     }
 
     //todo : graphique

@@ -51,10 +51,9 @@ import myutil.TraceManager;
  */
 public class MdAttributeMutation extends AttributeMutation implements MdMutation {
 
-    public MdAttributeMutation(String _name, String _initialValue, String _blockName) {
-        setName(_name);
+    public MdAttributeMutation(String _blockName, String _attributeName, String _initialValue){
+        super(_blockName, _attributeName);
         setInitialValue(_initialValue);
-        setBlockName(_blockName);
     }
 
     public void apply(AvatarSpecification _avspec) {

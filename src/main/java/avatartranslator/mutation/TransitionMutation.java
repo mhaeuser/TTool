@@ -52,15 +52,33 @@ import java.util.List;
  * @version 1.0 27/06/2022
  */
 
-public abstract class TransitionMutation extends StateMachineElementMutation {
+public abstract class TransitionMutation extends UnnamedStateMachineElementMutation {
+
+    protected TransitionMutation(String _blockName, String _fromString, int _fromType, String _toString, int _toType) {
+        super(_blockName);
+        setFrom(_fromString, _fromType);
+        setTo(_toString, _toType);
+        initActions();
+    }
+
+    protected TransitionMutation(String _blockName, String _transitionString, int _transitionType) {
+        super(_blockName);
+        setTransition(_transitionString, _transitionType);
+        initActions();
+    }
+
+    protected TransitionMutation(String _blockName, String _fromString, int _fromType, String _toString, int _toType, String _transitionString, int _transitionType) {
+        this(_blockName, _fromString, _fromType, _toString, _toType);
+        setTransition(_transitionString, _transitionType);
+    }
     
     private String fromString;
     private String toString;
-    private String nameString;
+    private String transitionString;
 
     private int fromType = UNDEFINED_TYPE;
     private int toType = UNDEFINED_TYPE;
-    private int nameType = UNDEFINED_TYPE;
+    private int transitionType = UNDEFINED_TYPE;
 
     private double probability;
     private boolean probabilitySet = false;
@@ -81,32 +99,27 @@ public abstract class TransitionMutation extends StateMachineElementMutation {
     private List<String> actions; // actions on variable, or method call
     private boolean actionsSet = false;
 
-    private void setFrom(String _name) {
-        fromString = _name;
+    private void setFrom(String _fromString) {
+        fromString = _fromString;
     }
 
-    public void setFromWithName(String _name) {
-        setFrom(_name);
-        fromType = NAME_TYPE;
+    private void setFrom(String _fromString, int _fromType) {
+        setFrom(_fromString);
+        fromType = _fromType;
     }
 
-    public void setFromWithUUID(String _uuid) {
-        setFrom(_uuid);
-        fromType = UUID_TYPE;
-    }
-
-    public String getFrom() {
+    protected String getFrom() {
         return fromString;
     }
 
-    public AvatarStateMachineElement getFromElement(AvatarSpecification _avspec) {
+    protected AvatarStateMachineElement getFromElement(AvatarSpecification _avspec) {
         if (isFromSet()) return getElement(_avspec, fromType, fromString);
         AvatarTransition trans = getElement(_avspec);
         AvatarStateMachine asm = getAvatarStateMachine(_avspec);
         return asm.getElementsLeadingTo(trans).get(0);
     }
 
-    public boolean isFromSet() {
+    protected boolean isFromSet() {
         return fromType!=UNDEFINED_TYPE;
     }
 
@@ -114,43 +127,41 @@ public abstract class TransitionMutation extends StateMachineElementMutation {
         toString = _name;
     }
 
-    public void setToWithName(String _name) {
-        setTo(_name);
-        toType = NAME_TYPE;
-    }
-
-    public void setToWithUUID(String _uuid) {
-        setTo(_uuid);
-        toType = UUID_TYPE;
+    private void setTo(String _toString, int _toType) {
+        setTo(_toString);
+        fromType = _toType;
     }
     
-    public String getTo() {
+    protected String getTo() {
         return toString;
     }
 
-    public AvatarStateMachineElement getToElement(AvatarSpecification _avspec) {
+    protected AvatarStateMachineElement getToElement(AvatarSpecification _avspec) {
         if (isToSet()) return getElement(_avspec, toType, toString);
         AvatarTransition trans = getElement(_avspec);
         return trans.getNext(0);
     }
 
-    public boolean isToSet() {
+    protected boolean isToSet() {
         return toType!=UNDEFINED_TYPE;
     }
 
-    public void setName(String _name) {
-        nameString = _name;
-        nameType = NAME_TYPE;
+    private void setTransition(String _transitionString) {
+        transitionString = _transitionString;
     }
 
-    public void setUUID(String _uuid) {
-        nameString = _uuid;
-        nameType = UUID_TYPE;
+    private void setTransition(String _transitionString, int _transitionType) {
+        setTransition(_transitionString);
+        transitionType = _transitionType;
     }
 
-    public String getName() {
-        if (nameType == UNDEFINED_TYPE) return "undefined";
-        return nameString;
+    protected String getTransition() {
+        if (transitionType == UNDEFINED_TYPE) return "undefined";
+        return transitionString;
+    }
+
+    protected boolean isTransitionSet() {
+        return transitionType != UNDEFINED_TYPE;
     }
 
     public void setProbability(double _probability) {
@@ -158,11 +169,11 @@ public abstract class TransitionMutation extends StateMachineElementMutation {
         probabilitySet = true;
     }
 
-    public boolean isProbabilitySet() {
+    protected boolean isProbabilitySet() {
         return probabilitySet;
     }
 
-    public double getProbability() {
+    protected double getProbability() {
         return probability;
     }
 
@@ -171,15 +182,15 @@ public abstract class TransitionMutation extends StateMachineElementMutation {
         guardSet = true;
     }
 
-    public boolean isGuardSet() {
+    protected boolean isGuardSet() {
         return guardSet;
     }
 
-    public String getGuard() {
+    protected String getGuard() {
         return guard;
     }
 
-    public AvatarGuard getAvatarGuard(AvatarSpecification _avspec) {
+    protected AvatarGuard getAvatarGuard(AvatarSpecification _avspec) {
         return AvatarGuard.createFromString(getBlock(_avspec), getGuard());
     }
 
@@ -189,35 +200,35 @@ public abstract class TransitionMutation extends StateMachineElementMutation {
         delaysSet = true;
     }
 
-    public boolean areDelaysSet() {
+    protected boolean areDelaysSet() {
         return delaysSet;
     }
 
-    public String getMinDelay() {
+    protected String getMinDelay() {
         return minDelay;
     }
 
-    public String getMaxDelay() {
+    protected String getMaxDelay() {
         if (maxDelay.trim().length() == 0) {
             return getMinDelay();
         }
         return maxDelay;
     }
 
-    public void setDelayExtra(String _delayExtra) {
+    protected void setDelayExtra(String _delayExtra) {
         delayExtra1 = _delayExtra;
     }
 
-    public void setDelayExtras(String _delayExtra1, String _delayExtra2) {
+    protected void setDelayExtras(String _delayExtra1, String _delayExtra2) {
         setDelayExtra(_delayExtra1);
         delayExtra2 = _delayExtra2;
     }
 
-    public String getDelayExtra1() {
+    protected String getDelayExtra1() {
         return delayExtra1;
     }
 
-    public String getDelayExtra2() {
+    protected String getDelayExtra2() {
         return delayExtra2;
     }
 
@@ -225,17 +236,22 @@ public abstract class TransitionMutation extends StateMachineElementMutation {
         delayDistributionLaw = _law;
         delayDistributionLawSet = true;
     }
+    
+    public void setDelayDistributionLaw(int _law, String _delayExtra1) {
+        setDelayDistributionLaw(_law);
+        setDelayExtra(_delayExtra1);
+    }
 
     public void setDelayDistributionLaw(int _law, String _delayExtra1, String _delayExtra2) {
         setDelayDistributionLaw(_law);
         setDelayExtras(_delayExtra1, _delayExtra2);
     }
 
-    public boolean isDelayDistributionLawSet() {
+    protected boolean isDelayDistributionLawSet() {
         return delayDistributionLawSet;
     }
 
-    public int getDelayDistributionLaw() {
+    protected int getDelayDistributionLaw() {
         return delayDistributionLaw;
     }
 
@@ -245,22 +261,22 @@ public abstract class TransitionMutation extends StateMachineElementMutation {
         computesSet = true;
     }
 
-    public boolean areComputesSet() {
+    protected boolean areComputesSet() {
         return computesSet;
     }
 
-    public String getMinCompute() {
+    protected String getMinCompute() {
         return minCompute;
     }
 
-    public String getMaxCompute() {
+    protected String getMaxCompute() {
         if (maxCompute.trim().length() == 0) {
             return getMinCompute();
         }
         return maxCompute;
     }
 
-    public void initActions() {
+    private void initActions() {
         actions = new LinkedList<>();
     }
 
@@ -274,21 +290,21 @@ public abstract class TransitionMutation extends StateMachineElementMutation {
         actionsSet = true;
     }
 
-    public boolean areActionsSet() {
+    protected boolean areActionsSet() {
         return actionsSet;
     }
 
-    public List<String> getActions() {
+    protected List<String> getActions() {
         return actions;
     }
 
-    public String getAction(int _index) {
+    protected String getAction(int _index) {
         return getActions().get(_index);
     }
 
     public AvatarTransition getElement(AvatarSpecification _avspec) {
         //TraceManager.addDev(String.valueOf(nameType));
-        if (nameType == UNDEFINED_TYPE) {
+        if (transitionType == UNDEFINED_TYPE) {
             AvatarStateMachineElement fromElement = getElement(_avspec, fromType, fromString);
             //TraceManager.addDev(fromElement.toString());
             AvatarStateMachineElement toElement = getElement(_avspec, toType, toString);
@@ -338,7 +354,7 @@ public abstract class TransitionMutation extends StateMachineElementMutation {
             }
             return null;
         }
-        AvatarStateMachineElement element = getElement(_avspec, nameType, nameString);
+        AvatarStateMachineElement element = getElement(_avspec, transitionType, transitionString);
         if (element != null && element instanceof AvatarTransition) return (AvatarTransition)element;
         return null;
     }

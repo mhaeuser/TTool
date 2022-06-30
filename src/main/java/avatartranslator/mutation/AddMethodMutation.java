@@ -49,20 +49,17 @@ import avatartranslator.*;
  */
 public class AddMethodMutation extends MethodMutation implements AddMutation {
 
-    public AddMethodMutation(String _name, String _blockName, boolean _imp) {
-        setName(_name);
-        setBlockName(_blockName);
-        initParameters();
-        setImplementationProvided(_imp);
+    public AddMethodMutation(String _blockName, String _methodName, boolean _imp) {
+        super(_blockName, _methodName, _imp);
     }
 
-    public AddMethodMutation(String _name, String _blockName) {
-       this(_name, _blockName, false);
+    public AddMethodMutation(String _blockName, String _methodName) {
+        super(_blockName, _methodName);
     }
 
     public AvatarMethod createElement(AvatarSpecification _avspec) {
         AvatarBlock block = getBlock(_avspec);
-        AvatarMethod am = new AvatarMethod(getName(), null);
+        AvatarMethod am = new AvatarMethod(getMethodName(), null);
         for (String s : getReturnParameters()) {
             AvatarAttribute aa = new AvatarAttribute("", AvatarType.getType(s), block, null);
             am.addReturnParameter(aa);

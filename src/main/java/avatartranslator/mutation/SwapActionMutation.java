@@ -54,28 +54,32 @@ import avatartranslator.*;
 
 public class SwapActionMutation extends ActionMutation implements MdMutation {
 
-    private int maxIndex;
+    private int index2;
 
-    public SwapActionMutation(String _blockName, int _index1, int _index2) {
-        int minIndex = Math.min(_index1, _index2);
-        int maxIndex = Math.max(_index1, _index2);
+    public SwapActionMutation(String _blockName, String _fromString, int _fromType, String _toString, int _toType, int _index1, int _index2) {
+        super(_blockName, _fromString, _fromType, _toString, _toType, _index1);
+        index2 = _index2;
+    }
 
-        setBlockName(_blockName);
-        setIndex(minIndex);
-        this.maxIndex = maxIndex;
-        initActions();
+    public SwapActionMutation(String _blockName, String _transitionString, int _transitionType, int _index1, int _index2) {
+        super(_blockName, _transitionString, _transitionType, _index1);
+        index2 = _index2;
     }
 
     public void apply(AvatarSpecification _avspec) {
         AvatarTransition transition = getElement(_avspec);
         List<AvatarAction> actions = transition.getActions();
-        AvatarAction action1 = actions.get(getIndex());
+
+        int minIndex = Math.min(getIndex(), index2);
+        int maxIndex = Math.max(getIndex(), index2);
+
+        AvatarAction action1 = actions.get(minIndex);
         AvatarAction action2 = actions.get(maxIndex);
 
-        actions.remove(getIndex());
+        actions.remove(minIndex);
         actions.remove(maxIndex);
 
-        actions.add(getIndex(), action2);
+        actions.add(minIndex, action2);
         actions.add(maxIndex, action1);
     }
 }

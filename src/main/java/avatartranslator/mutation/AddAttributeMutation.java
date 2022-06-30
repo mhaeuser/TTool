@@ -50,10 +50,12 @@ import avatartranslator.*;
  */
 public class AddAttributeMutation extends AttributeMutation implements AddMutation {
 
-    public AddAttributeMutation(String _name, String _type, String _blockName) {
-        setType(_type);
-        setName(_name);
-        setBlockName(_blockName);
+    public AddAttributeMutation(String _blockName, String _attributeName, String _attributeType) {
+        super(_blockName, _attributeName, _attributeType);
+    }
+
+    public AddAttributeMutation(String _blockName, String _attributeName, String _attributeType, String _initialValue) {
+        super(_blockName, _attributeName, _attributeType, _initialValue);
     }
 
     public AvatarAttribute createElement(AvatarSpecification _avspec) {

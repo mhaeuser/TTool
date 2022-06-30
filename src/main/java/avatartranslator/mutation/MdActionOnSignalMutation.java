@@ -39,9 +39,10 @@
 package avatartranslator.mutation;
 
 import avatartranslator.*;
+import myutil.TraceManager;
 
 /**
- * Class MdRandomMutation
+ * Class MdActionOnSignalMutation
  * Creation: 28/06/2022
  *
  * @author Léon FRENOT
@@ -54,26 +55,26 @@ public class MdActionOnSignalMutation extends ActionOnSignalMutation implements 
 
     private boolean signalNameChanged = false;
 
-    public MdActionOnSignalMutation(String _signalName, String _block) {
-        setSignalName(_signalName);
-        setBlockName(_block);
-        initValues();
-        current = new RmActionOnSignalMutation(_signalName, _block);
+    public MdActionOnSignalMutation(String _blockName, String _signalName) {
+        super(_blockName, _signalName);
+        current = new NoneActionOnSignalMutation(_blockName, _signalName);
     }
 
-    @Override
-    public void setName(String _name) {
-        current.setName(_name);
-        super.setName(_name);
-    }
-
-    public void setCurrentSignalName(String _signalName) {
-        current.setSignalName(_signalName);
+    public MdActionOnSignalMutation(String _blockName, String _signalName, String _newSignalName) {
+        super(_blockName, _newSignalName);
+        current = new NoneActionOnSignalMutation(_blockName, _signalName);
         signalNameChanged = true;
     }
+    
+    public MdActionOnSignalMutation(String _blockName, String _name, int _nameType) {
+        super(_blockName, _name, _nameType);
+        current = new NoneActionOnSignalMutation(_blockName, _name, _nameType);
+    }
 
-    public void setCurrentUUID(String _uuid) {
-        current.setUUID(_uuid);
+    public MdActionOnSignalMutation(String _blockName, String _name, int _nameType, String _newSignalName) {
+        super(_blockName, _newSignalName);
+        current = new NoneActionOnSignalMutation(_blockName, _name, _nameType);
+        signalNameChanged = true;
     }
 
     public void noCurrentValues() {
@@ -88,8 +89,14 @@ public class MdActionOnSignalMutation extends ActionOnSignalMutation implements 
         current.setCheckLatency(b);
     }
 
+    @Override
     public void apply(AvatarSpecification _avspec) {
         AvatarActionOnSignal aaos = current.getElement(_avspec);
+
+        if(aaos == null) {
+            TraceManager.addDev("unknown ActionOnSignal");
+            return;
+        }
 
         if(signalNameChanged) {
             AvatarSignal signal = getSignal(_avspec, this.getSignalName());

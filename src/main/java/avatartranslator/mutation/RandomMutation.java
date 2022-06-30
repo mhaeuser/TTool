@@ -51,12 +51,23 @@ import myutil.TraceManager;
  * @version 1.0 27/06/2022
  */
 
-public abstract class RandomMutation extends StateMachineElementMutation {
-    
-    private String name = "";
-    private int nameType = UNDEFINED_TYPE;
+public abstract class RandomMutation extends UnnamedStateMachineElementMutation {
 
-    private String variable;
+    protected RandomMutation(String _blockName, String _attributeName) {
+        super(_blockName);
+        setAttributeName(_attributeName);
+    }
+
+    protected RandomMutation(String _blockName, String _name, int _nameType) {
+        super(_blockName, _name, _nameType);
+    }
+
+    protected RandomMutation(String _blockName, String _name, int _nameType, String _attributeName) {
+        super(_blockName, _name, _nameType);
+        setAttributeName(_attributeName);
+    }
+
+    private String attributeName;
 
     private String minValue;
     private String maxValue;
@@ -69,45 +80,23 @@ public abstract class RandomMutation extends StateMachineElementMutation {
 
     private boolean functionSet = false;
 
-    public String getName() {
-        return name;
+    protected String getAttributeName() {
+        return attributeName;
     }
 
-    public boolean isNameSet() {
-        return nameType != UNDEFINED_TYPE;
+    private void setAttributeName(String _variable) {
+        attributeName = _variable;
     }
 
-    public int getNameType() {
-        return nameType;
-    }
-
-    public void setName(String _name) {
-        name = _name;
-        nameType = NAME_TYPE;
-    }
-
-    public void setUUID(String _uuid) {
-        name = _uuid;
-        nameType = UUID_TYPE;
-    }
-
-    public String getVariable() {
-        return variable;
-    }
-
-    public void setVariable(String _variable) {
-        variable = _variable;
-    }
-
-    public String getMinValue() {
+    protected String getMinValue() {
         return minValue;
     }
 
-    public String getMaxValue() {
+    protected String getMaxValue() {
         return maxValue;
     }
 
-    public boolean areValuesSet() {
+    protected boolean areValuesSet() {
         return valuesSet;
     }
 
@@ -117,19 +106,19 @@ public abstract class RandomMutation extends StateMachineElementMutation {
         valuesSet = true;
     }
 
-    public int getFunctionId() {
+    protected int getFunctionId() {
         return functionId;
     }
 
-    public String getExtraAttribute1() {
+    protected String getExtraAttribute1() {
         return extraAttribute1;
     }
 
-    public String getExtraAttribute2() {
+    protected String getExtraAttribute2() {
         return extraAttribute2;
     }
 
-    public boolean isFunctionSet() {
+    protected boolean isFunctionSet() {
         return functionSet;
     }
 
@@ -148,6 +137,7 @@ public abstract class RandomMutation extends StateMachineElementMutation {
         extraAttribute2 = _extraAttribute2;
     }
 
+    @Override
     public AvatarRandom getElement(AvatarSpecification _avspec) {
         if (!isNameSet()) {
             //TraceManager.addDev("name not set");
@@ -157,7 +147,7 @@ public abstract class RandomMutation extends StateMachineElementMutation {
                 if (elt instanceof AvatarRandom) {
                     AvatarRandom rnd = (AvatarRandom)elt;
                     //TraceManager.addDev(rnd.getNiceName());
-                    boolean flag = rnd.getVariable().equals(this.getVariable());
+                    boolean flag = rnd.getVariable().equals(this.getAttributeName());
                     if (this.areValuesSet()) {
                         if (this.getMinValue().equals(rnd.getMinValue())) {
                             flag = this.getMaxValue().equals(rnd.getMaxValue());
@@ -175,7 +165,7 @@ public abstract class RandomMutation extends StateMachineElementMutation {
             }
             return null;
         }
-        AvatarStateMachineElement element = getElement(_avspec, nameType, name);
+        AvatarStateMachineElement element = super.getElement(_avspec);
         if (element != null && element instanceof AvatarRandom) return (AvatarRandom)element;
         return null;
     }

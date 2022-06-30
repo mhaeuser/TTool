@@ -53,8 +53,18 @@ import avatartranslator.*;
  */
 public abstract class RelationMutation extends AvatarMutation implements UnnamedElementMutation {
 
-    private String name = "";
-    private int nameType = UNDEFINED_TYPE;
+    protected RelationMutation(String _block1, String _block2) {
+        super();
+        setBlocks(_block1, _block2);
+    }
+
+    protected RelationMutation(String _relationString, int _relationType) {
+        super();
+        setName(_relationString, _relationType);
+    }
+
+    private String relationString = "";
+    private int relationStringType = UNDEFINED_TYPE;
     
     private String block1, block2;
 
@@ -67,54 +77,49 @@ public abstract class RelationMutation extends AvatarMutation implements Unnamed
     private int id = 0;//DG
     private boolean idSet = false;
 
-    public String getName() {
-        return name;
+    protected String getName() {
+        return relationString;
     }
 
-    public boolean isNameSet() {
-        return nameType != UNDEFINED_TYPE;
+    protected boolean isNameSet() {
+        return relationStringType != UNDEFINED_TYPE;
     }
 
-    public int getNameType() {
-        return nameType;
+    protected int getRelationStringType() {
+        return relationStringType;
     }
 
-    public void setName(String _name) {
-        name = _name;
-        nameType = NAME_TYPE;
+    private void setName(String _relationString, int _relationType) {
+        relationString = _relationString;
+        relationStringType = _relationType;
     }
 
-    public void setUUID(String _uuid) {
-        name = _uuid;
-        nameType = UUID_TYPE;
-    }
-
-    public String getBlock1() {
+    protected String getBlock1() {
         return block1;
     }
 
-    public AvatarBlock getBlock1(AvatarSpecification _avspec) {
+    protected AvatarBlock getBlock1(AvatarSpecification _avspec) {
         return getBlock(_avspec, getBlock1());
     }
 
-    public String getBlock2() {
+    protected String getBlock2() {
         return block2;
     }
 
-    public AvatarBlock getBlock2(AvatarSpecification _avspec) {
+    protected AvatarBlock getBlock2(AvatarSpecification _avspec) {
         return getBlock(_avspec, getBlock2());
     }
 
-    public void setBlocks(String _block1, String _block2) {
+    private void setBlocks(String _block1, String _block2) {
         block1 = _block1;
         block2 = _block2;
     }
 
-    public boolean isBlocking() {
+    protected boolean isBlocking() {
         return blocking;
     }
 
-    public boolean blockingSet() {
+    protected boolean blockingSet() {
         return blockingSet;
     }
 
@@ -123,11 +128,11 @@ public abstract class RelationMutation extends AvatarMutation implements Unnamed
         blockingSet = true;
     }
 
-    public boolean isAsynchronous() {
+    protected boolean isAsynchronous() {
         return asynchronous;
     }
 
-    public boolean asynchronousSet() {
+    protected boolean asynchronousSet() {
         return asynchronousSet;
     }
 
@@ -136,11 +141,11 @@ public abstract class RelationMutation extends AvatarMutation implements Unnamed
         asynchronousSet = true;
     }
 
-    public boolean isAMS() {
+    protected boolean isAMS() {
         return ams;
     }
 
-    public boolean AMSSet() {
+    protected boolean AMSSet() {
         return amsSet;
     }
 
@@ -149,11 +154,11 @@ public abstract class RelationMutation extends AvatarMutation implements Unnamed
         amsSet = true;
     }
 
-    public boolean isPrivate() {
+    protected boolean isPrivate() {
         return isPrivate;
     }
 
-    public boolean privateSet() {
+    protected boolean privateSet() {
         return isPrivateSet;
     }
 
@@ -162,11 +167,11 @@ public abstract class RelationMutation extends AvatarMutation implements Unnamed
         isPrivateSet = true;
     }
 
-    public boolean isBroadcast() {
+    protected boolean isBroadcast() {
         return isBroadcast;
     }
 
-    public boolean broadcastSet() {
+    protected boolean broadcastSet() {
         return isBroadcastSet;
     }
 
@@ -175,11 +180,11 @@ public abstract class RelationMutation extends AvatarMutation implements Unnamed
         isBroadcastSet = true;
     }
 
-    public boolean isLossy() {
+    protected boolean isLossy() {
         return isLossy;
     }
 
-    public boolean lossySet() {
+    protected boolean lossySet() {
         return isLossySet;
     }
 
@@ -188,11 +193,11 @@ public abstract class RelationMutation extends AvatarMutation implements Unnamed
         isLossySet = true;
     }
 
-    public int getSizeOfFIFO() {
+    protected int getSizeOfFIFO() {
         return sizeOfFIFO;
     }
 
-    public boolean sizeOfFIFOSet() {
+    protected boolean sizeOfFIFOSet() {
         return sizeOfFIFOSet;
     }
 
@@ -201,11 +206,11 @@ public abstract class RelationMutation extends AvatarMutation implements Unnamed
         sizeOfFIFOSet = true;
     }
 
-    public int getId() {
+    protected int getId() {
         return id;
     }
 
-    public boolean idSet() {
+    protected boolean idSet() {
         return idSet;
     }
 
@@ -214,7 +219,7 @@ public abstract class RelationMutation extends AvatarMutation implements Unnamed
         idSet = true;
     }
 
-    public AvatarRelation getElementFromName(AvatarSpecification _avspec, String _name) {
+    private AvatarRelation getElementFromName(AvatarSpecification _avspec, String _name) {
         List<AvatarRelation> relations = _avspec.getRelations();
         for (AvatarRelation rel : relations) {
             if (rel.getName().equals(_name)) return rel;
@@ -222,7 +227,7 @@ public abstract class RelationMutation extends AvatarMutation implements Unnamed
         return null;
     }
 
-    public AvatarRelation getElementFromUUID(AvatarSpecification _avspec, String _uuid) {
+    private AvatarRelation getElementFromUUID(AvatarSpecification _avspec, String _uuid) {
         List<AvatarRelation> relations = _avspec.getRelations();
         for (AvatarRelation rel : relations) {
             UUID relUUID = rel.getUUID();
@@ -268,6 +273,6 @@ public abstract class RelationMutation extends AvatarMutation implements Unnamed
             }
             return null;
         }
-        return getElement(_avspec, getNameType(), getName());
+        return getElement(_avspec, getRelationStringType(), getName());
     }
 }

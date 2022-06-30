@@ -53,17 +53,28 @@ public class MdRandomMutation extends RandomMutation implements MdMutation {
 
     private RandomMutation current;
 
-    private boolean variableNameChange = false;
+    private boolean attributeNameChange = false;
 
-    public MdRandomMutation(String _variable, String _blockName) {
-        setBlockName(_blockName);
-        setVariable(_variable);
-        current = new RmRandomMutation(_variable, _blockName);
+    public MdRandomMutation(String _blockName, String _attributeName) {
+        super(_blockName, _attributeName);
+        current = new MdRandomMutation(_blockName, _attributeName);
     }
 
-    public void setCurrentVariable(String _variable) {
-        current.setVariable(_variable);
-        variableNameChange = true;
+    public MdRandomMutation(String _blockName, String _attributeName, String _newAttributeName) {
+        super(_blockName, _newAttributeName);
+        current = new MdRandomMutation(_blockName, _attributeName);
+        attributeNameChange = true;
+    }
+    
+    public MdRandomMutation(String _blockName, String _name, int _nameType) {
+        super(_blockName, _name, _nameType);
+        current = new MdRandomMutation(_blockName, _name, _nameType);
+    }
+
+    public MdRandomMutation(String _blockName, String _name, int _nameType, String _newAttributeName) {
+        super(_blockName, _newAttributeName);
+        current = new MdRandomMutation(_blockName, _name, _nameType);
+        attributeNameChange = true;
     }
 
     public void setCurrentValues(String _minValue, String _maxValue) {
@@ -84,18 +95,25 @@ public class MdRandomMutation extends RandomMutation implements MdMutation {
 
     @Override
     public AvatarRandom getElement(AvatarSpecification _avspec) {
+        AvatarRandom random = null;
         try {
-            return current.getElement(_avspec);
+            random = current.getElement(_avspec);
         } catch (Exception e) {
-            return super.getElement(_avspec);
         }
+        if (random == null) random = super.getElement(_avspec);
+        return random;
     }
 
     public void apply(AvatarSpecification _avspec) {
         AvatarRandom rand = current.getElement(_avspec);
 
-        if (variableNameChange)
-            rand.setVariable(this.getVariable());
+        if(rand == null) {
+            TraceManager.addDev("Unknown random operator");
+            return;
+        }
+
+        if (attributeNameChange)
+            rand.setVariable(this.getAttributeName());
 
         if (areValuesSet())
             rand.setValues(this.getMinValue(), this.getMaxValue());

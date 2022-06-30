@@ -39,6 +39,7 @@
 package avatartranslator.mutation;
 
 import avatartranslator.*;
+import myutil.TraceManager;
 
 /**
  * Class RmRandomMutation
@@ -50,14 +51,23 @@ import avatartranslator.*;
 
 public class RmRandomMutation extends RandomMutation implements RmMutation {
 
-    public RmRandomMutation(String _variable, String _blockName) {
-        setBlockName(_blockName);
-        setVariable(_variable);
+    public RmRandomMutation(String _blockName, String _attributeName) {
+        super(_blockName, _attributeName);
+    }
+
+    public RmRandomMutation(String _blockName, String _name, int _nameType) {
+        super(_blockName, _name, _nameType);
     }
 
     public void apply(AvatarSpecification _avspec) {
         AvatarStateMachine asm = getAvatarStateMachine(_avspec);
         AvatarRandom rand = getElement(_avspec);
+
+        if(rand == null) {
+            TraceManager.addDev("unknown random operator");
+            return;
+        }
+
         asm.removeElement(rand);
     }
 

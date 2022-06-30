@@ -54,9 +54,12 @@ public class AddTransitionMutation extends TransitionMutation implements AddMuta
 
     boolean isGraphical = false;
 
-    public AddTransitionMutation(String _blockName) {
-        setBlockName(_blockName);
-        initActions();
+    public AddTransitionMutation(String _blockName, String _fromString, int _fromType, String _toString, int _toType) {
+        super(_blockName, _fromString, _fromType, _toString, _toType);
+    }
+
+    public AddTransitionMutation(String _blockName, String _fromString, int _fromType, String _toString, int _toType, String _transitionName) {
+        super(_blockName, _fromString, _fromType, _toString, _toType, _transitionName, NAME_TYPE);
     }
     
     //todo : add Graphical referenceObject

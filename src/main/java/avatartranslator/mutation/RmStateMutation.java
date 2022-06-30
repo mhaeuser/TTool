@@ -39,6 +39,7 @@
 package avatartranslator.mutation;
 
 import avatartranslator.*;
+import myutil.TraceManager;
 
 /**
  * Class RmStateMutation
@@ -50,14 +51,14 @@ import avatartranslator.*;
 
 public class RmStateMutation extends StateMutation implements RmMutation {
     
-    public RmStateMutation(String _name, String _blockName) {
-        setName(_name);
-        setBlockName(_blockName);
+    public RmStateMutation(String _blockName, String _stateName) {
+        super(_blockName, _stateName);
     }
 
     public void apply(AvatarSpecification _avspec) {
         AvatarState state = getElement(_avspec);
         AvatarStateMachine asm = getAvatarStateMachine(_avspec);
+        if (state == null) TraceManager.addDev("unknown state");
         asm.removeElement(state);
     }
 }

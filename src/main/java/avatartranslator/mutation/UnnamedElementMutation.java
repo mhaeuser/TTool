@@ -38,8 +38,6 @@
 
 package avatartranslator.mutation;
 
-import java.util.List;
-
 import avatartranslator.*;
 
 /**

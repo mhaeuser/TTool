@@ -49,10 +49,20 @@ import avatartranslator.*;
  */
 public abstract class AssociationMutation extends RelationMutation {
 
+    protected AssociationMutation(String _block1, String _block2, String _signal1, String _signal2) {
+        super(_block1, _block2);
+        setSignals(_signal1, _signal2);
+    }
+
+    public AssociationMutation(String _relationString, int _relationType, String _signal1, String _signal2) {
+        super(_relationString, _relationType);
+        setSignals(_signal1, _signal2);
+    }
+
     private String signal1;
     private String signal2;
 
-    public AvatarSignal getSignal(AvatarSpecification _avspec, String _signal) {
+    protected AvatarSignal getSignal(AvatarSpecification _avspec, String _signal) {
         AvatarBlock block = getBlock1(_avspec);
         AvatarSignal signal = block.getSignalByName(_signal);
         if (signal == null) {
@@ -62,23 +72,23 @@ public abstract class AssociationMutation extends RelationMutation {
         return signal;
     }
 
-    public String getSignal1() {
+    protected String getSignal1() {
         return signal1;
     }
 
-    public AvatarSignal getSignal1(AvatarSpecification _avspec) {
+    protected AvatarSignal getSignal1(AvatarSpecification _avspec) {
         return getSignal(_avspec, getSignal1());
     }
 
-    public String getSignal2() {
+    protected String getSignal2() {
         return signal2;
     }
 
-    public AvatarSignal getSignal2(AvatarSpecification _avspec) {
+    protected AvatarSignal getSignal2(AvatarSpecification _avspec) {
         return getSignal(_avspec, getSignal2());
     }
 
-    public void setSignals(String _signal1, String _signal2) {
+    private void setSignals(String _signal1, String _signal2) {
         signal1 = _signal1;
         signal2 = _signal2;
     }

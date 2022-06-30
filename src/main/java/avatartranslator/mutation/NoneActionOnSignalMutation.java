@@ -40,56 +40,33 @@ package avatartranslator.mutation;
 
 import avatartranslator.*;
 
+//import myutil.TraceManager;
+
 /**
- * Class MdSetTimerMutation
- * Creation: 28/06/2022
+ * Class NoneActionOnSignalMutation
+ * Creation: 30/06/2022
  *
  * @author Léon FRENOT
- * @version 1.0 28/06/2022
+ * @version 1.0 30/06/2022
  */
-public class MdSetTimerMutation extends SetTimerMutation implements MdMutation {
 
-    private String newTimerName;
-    private boolean newTimerNameSet = false;
+public class NoneActionOnSignalMutation extends ActionOnSignalMutation {
 
-    private String newTimerValue;
-    private boolean newTimerValueSet = false;
-    
-    public MdSetTimerMutation(String _blockName, String _timerName, String _timerValue, String _newTimerValue) {
-        super(_blockName, _timerName, _timerValue);
-        setNewTimerValue(_newTimerValue);
+    protected NoneActionOnSignalMutation(String _blockName, String _signalName) {
+        super(_blockName, _signalName);
     }
 
-    public MdSetTimerMutation(String _blockName, String _name, int _nameType, String _newTimerValue) {
+    protected NoneActionOnSignalMutation(String _blockName, String _name, int _nameType) {
         super(_blockName, _name, _nameType);
-        setNewTimerValue(_newTimerValue);
     }
 
-    public MdSetTimerMutation(String _blockName, String _timerName, String _timerValue, String _newTimerName, String _newTimerValue) {
-        super(_blockName, _timerName, _timerValue);
-        setNewTimer(_newTimerName, _newTimerValue);
-    }
-
-    public MdSetTimerMutation(String _blockName, String _name, int _nameType, String _newTimerName, String _newTimerValue) {
-        super(_blockName, _name, _nameType);
-        setNewTimer(_newTimerName, _newTimerValue);
-    }
-
-    private void setNewTimerValue(String _newTimerValue) {
-        newTimerValue = _newTimerValue;
-        newTimerNameSet = true;
-    }
-
-    private void setNewTimer(String _newTimerName, String _newTimerValue) {
-        setNewTimerValue(_newTimerValue);
-        newTimerName = _newTimerName;
-        newTimerNameSet = true;
+    protected NoneActionOnSignalMutation(String _blockName, String _name, int _nameType, String _signalName) {
+        super(_blockName, _name, _nameType, _signalName);
     }
 
     public void apply(AvatarSpecification _avspec) {
-        AvatarSetTimer elt = getElement(_avspec);
-        AvatarAttribute newTimer = getAttribute(_avspec, newTimerName);
-        if (newTimerNameSet) elt.setTimer(newTimer);
-        if (newTimerValueSet) elt.setTimerValue(newTimerValue);
+        return;
     }
+
+    
 }

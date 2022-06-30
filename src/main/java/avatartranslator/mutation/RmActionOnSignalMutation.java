@@ -52,17 +52,23 @@ import myutil.TraceManager;
 
 public class RmActionOnSignalMutation extends ActionOnSignalMutation implements RmMutation {
 
-    public RmActionOnSignalMutation(String _signalName, String _block) {
-        setSignalName(_signalName);
-        setBlockName(_block);
-        initValues();
+    public RmActionOnSignalMutation(String _blockName, String _signalName) {
+        super(_blockName, _signalName);
     }
 
+    public RmActionOnSignalMutation(String _blockName, String _name, int _nameType) {
+        super(_blockName, _name, _nameType);
+    }
+
+    @Override
     public void apply(AvatarSpecification _avspec) {
         AvatarStateMachine asm = getAvatarStateMachine(_avspec);
         AvatarActionOnSignal aaos = getElement(_avspec);
-        TraceManager.addDev(aaos.toString());
+        if (aaos == null) {
+            TraceManager.addDev("unknown ActionOnSignal");
+            return;
+        }
         asm.removeElement(aaos);
     }
-    
+
 }

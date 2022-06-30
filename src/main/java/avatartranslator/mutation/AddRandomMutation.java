@@ -52,15 +52,18 @@ public class AddRandomMutation extends RandomMutation implements AddMutation {
 
     boolean isGraphical = false;
 
-    public AddRandomMutation(String _variable, String _blockName) {
-        setVariable(_variable);
-        setBlockName(_blockName);
+    public AddRandomMutation(String _blockName, String _attributeName) {
+        super(_blockName, _attributeName);
+    }
+
+    public AddRandomMutation(String _blockName, String _name, String _attributeName) {
+        super(_blockName, _name, NAME_TYPE, _attributeName);
     }
     
     //todo : add Graphical referenceObject
     public AvatarRandom createElement(AvatarSpecification _avspec) {
         AvatarRandom rand = new AvatarRandom(getName(), null);
-        rand.setVariable(getVariable());
+        rand.setVariable(getAttributeName());
         if(areValuesSet()) rand.setValues(getMinValue(), getMaxValue());
         if(isFunctionSet()) {
             rand.setFunctionId(getFunctionId());

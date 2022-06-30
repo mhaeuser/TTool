@@ -49,9 +49,12 @@ import avatartranslator.*;
  */
 public class RmSetTimerMutation extends SetTimerMutation implements RmMutation {
 
-    public RmSetTimerMutation(String _timerName, String _block) {
-        setTimerName(_timerName);
-        setBlockName(_block);
+    public RmSetTimerMutation(String _blockName, String _timerName, String _timerValue) {
+        super(_blockName, _timerName, _timerValue);
+    }
+
+    public RmSetTimerMutation(String _blockName, String _name, int _nameType) {
+        super(_blockName, _name, _nameType);
     }
 
     public void apply(AvatarSpecification _avspec) {

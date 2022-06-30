@@ -53,15 +53,20 @@ import avatartranslator.*;
 
 public class AddActionMutation extends ActionMutation implements AddMutation {
 
-    public AddActionMutation(String _blockName, String _actionString) {
-        setBlockName(_blockName);
-        setActionString(_actionString);
-        initActions();
+    public AddActionMutation(String _blockName, String _fromString, int _fromType, String _toString, int _toType, String _actionString) {
+        super(_blockName, _fromString, _fromType, _toString, _toType, _actionString);
     }
 
-    public AddActionMutation(String _blockName, String _actionString, int _index) {
-        this(_blockName, _actionString);
-        setIndex(_index);
+    public AddActionMutation(String _blockName, String _fromString, int _fromType, String _toString, int _toType, String _actionString, int _index) {
+        super(_blockName, _fromString, _fromType, _toString, _toType, _actionString, _index);
+    }
+
+    public AddActionMutation(String _blockName, String _transitionString, int _transitionType, String _actionString) {
+        super(_blockName, _transitionString, _transitionType, _actionString);
+    }
+
+    public AddActionMutation(String _blockName, String _transitionString, int _transitionType, String _actionString, int _index) {
+        super(_blockName, _transitionString, _transitionType, _actionString, _index);
     }
 
     public AvatarElement createElement(AvatarSpecification _avspec) {

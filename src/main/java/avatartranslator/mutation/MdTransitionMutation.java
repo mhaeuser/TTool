@@ -53,34 +53,24 @@ public class MdTransitionMutation extends TransitionMutation implements MdMutati
     
     private TransitionMutation current;
     
-    public MdTransitionMutation(String _blockName) {
-        setBlockName(_blockName);
-        initActions();
-        current = new RmTransitionMutation(_blockName);
+    public MdTransitionMutation(String _blockName, String _fromString, int _fromType, String _toString, int _toType) {
+        super(_blockName, _fromString, _fromType, _toString, _toType);
+        current = new NoneTransitionMutation(_blockName, _fromString, _fromType, _toString, _toType);
     }
 
-    public void setCurrentFromWithName(String _name) {
-        current.setFromWithName(_name);
+    public MdTransitionMutation(String _blockName, String _transitionString, int _transitionType) {
+        super(_blockName, _transitionString, _transitionType);
+        current = new NoneTransitionMutation(_blockName, _transitionString, _transitionType);
     }
 
-    public void setCurrentFromWithUUID(String _uuid) {
-        current.setFromWithUUID(_uuid);
+    public MdTransitionMutation(String _blockName, String _currentFromString, int _currentFromType, String _currentToString, int _currentToType, String _newFromString, int _newFromType, String _newToString, int _newToType) {
+        super(_blockName, _newFromString, _newFromType, _newToString, _newToType);
+        current = new NoneTransitionMutation(_blockName, _currentFromString, _currentFromType, _currentToString, _currentToType);
     }
 
-    public void setCurrentToWithName(String _name) {
-        current.setToWithName(_name);
-    }
-
-    public void setCurrentToWithUUID(String _uuid) {
-        current.setToWithUUID(_uuid);
-    }
-
-    public void setCurrentName(String _name) {
-        current.setName(_name);
-    }
-
-    public void setCurrentUUID(String _uuid) {
-        current.setUUID(_uuid);
+    public MdTransitionMutation(String _blockName, String _transitionString, int _transitionType, String _newFromString, int _newFromType, String _newToString, int _newToType) {
+        super(_blockName, _newFromString, _newFromType, _newToString, _newToType);
+        current = new NoneTransitionMutation(_blockName, _transitionString, _transitionType);
     }
 
     public void setCurrentProbablility(double _probability) {

@@ -52,7 +52,7 @@ public class AddRelationMutation extends RelationMutation implements AddMutation
     private boolean isGraphic = false;
 
     public AddRelationMutation(String _block1, String _block2) {
-        setBlocks(_block1, _block2);
+        super(_block1, _block2);
     }
     
     //todo : graphic

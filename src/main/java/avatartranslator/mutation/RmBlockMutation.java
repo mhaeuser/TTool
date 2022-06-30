@@ -41,6 +41,8 @@ package avatartranslator.mutation;
 import java.util.List;
 
 import avatartranslator.*;
+import myutil.TraceManager;
+
 /**
  * Class RmBlockMutation
  * Creation: 29/06/2022
@@ -48,11 +50,10 @@ import avatartranslator.*;
  * @author Léon FRENOT
  * @version 1.0 29/06/2022
  */
-
-public class RmBlockMutation extends BlockStructMutation implements RmMutation {
+public class RmBlockMutation extends BlockElementMutation implements RmMutation {
     
     public RmBlockMutation(String _blockName) {
-        setBlockName(_blockName);
+        super(_blockName);
     }
 
     public AvatarBlock getElement(AvatarSpecification _avspec) {
@@ -62,6 +63,6 @@ public class RmBlockMutation extends BlockStructMutation implements RmMutation {
     public void apply(AvatarSpecification _avspec) {
         AvatarBlock block = getElement(_avspec);
         List<AvatarBlock> blocks = _avspec.getListOfBlocks();
-        blocks.remove(block);
+        if(!blocks.remove(block)) TraceManager.addDev("unknown block");
     }
 }

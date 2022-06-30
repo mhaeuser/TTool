@@ -48,45 +48,34 @@ import avatartranslator.*;
  * @version 1.0 28/06/2022
  */
 
-public abstract class TimerOperatorMutation extends StateMachineElementMutation {
+public abstract class TimerOperatorMutation extends UnnamedStateMachineElementMutation {
+
+    protected TimerOperatorMutation(String _blockName, String _timerName) {
+        super(_blockName);
+        setTimerName(_timerName);
+    }
+
+    protected TimerOperatorMutation(String _blockName, String _name, int _nameType) {
+        super(_blockName, _name, _nameType);
+    }
+
+    protected TimerOperatorMutation(String _blockName, String _name, int _nameType, String _timerName) {
+        this(_blockName, _name, _nameType);
+        setTimerName(_timerName);
+    }
 
     private String timerName;
-    private String name = "";
-    private int nameType = UNDEFINED_TYPE;
     
-    public String getTimerName() {
+    protected String getTimerName() {
         return timerName;
     }
 
-    public void setTimerName(String _name) {
+    private void setTimerName(String _name) {
         timerName = _name;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public boolean isNameSet() {
-        return nameType != UNDEFINED_TYPE;
-    }
-
-    public void setName(String _name) {
-        name = _name;
-        nameType = NAME_TYPE;
-    }
-
-    public void setUUID(String _name) {
-        name = _name;
-        nameType = UUID_TYPE;
-    }
-
-    public AvatarAttribute getAttribute(AvatarSpecification _avspec, String _timerName) {
-        AvatarBlock block = getBlock(_avspec);
-        return block.getAvatarAttributeWithName(_timerName);
     }
     
     public AvatarTimerOperator getElement(AvatarSpecification _avspec) {
-        return (AvatarTimerOperator)getElement(_avspec, nameType, name);
+        return (AvatarTimerOperator)super.getElement(_avspec);
     }
     
 }

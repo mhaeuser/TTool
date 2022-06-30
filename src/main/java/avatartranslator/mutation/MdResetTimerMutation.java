@@ -51,9 +51,13 @@ public class MdResetTimerMutation extends ResetTimerMutation implements MdMutati
 
     private String newTimerName;
     
-    public MdResetTimerMutation(String _timerName, String _newTimerName, String _block) {
-        setTimerName(_timerName);
-        setBlockName(_block);
+    public MdResetTimerMutation(String _blockName, String _currentTimerName, String _newTimerName) {
+        super(_blockName, _currentTimerName);
+        newTimerName = _newTimerName;
+    }
+
+    public MdResetTimerMutation(String _blockName, String _name, int _nameType, String _timerName, String _newTimerName) {
+        super(_blockName, _name, _nameType, _timerName);
         newTimerName = _newTimerName;
     }
 

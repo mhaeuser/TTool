@@ -51,6 +51,18 @@ import java.util.List;
  */
 public abstract class ResetTimerMutation extends TimerOperatorMutation {
 
+    protected ResetTimerMutation(String _blockName, String _timerName) {
+        super(_blockName, _timerName);
+    }
+
+    protected ResetTimerMutation(String _blockName, String _name, int _nameType) {
+        super(_blockName, _name, _nameType);
+    }
+
+    protected ResetTimerMutation(String _blockName, String _name, int _nameType, String _timerName) {
+        super(_blockName, _name, _nameType, _timerName);
+    }
+
     @Override
     public AvatarResetTimer getElement(AvatarSpecification _avspec) {
         if (isNameSet())

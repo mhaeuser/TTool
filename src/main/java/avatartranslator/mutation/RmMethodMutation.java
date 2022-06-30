@@ -52,10 +52,8 @@ import myutil.TraceManager;
  */
 public class RmMethodMutation extends MethodMutation implements RmMutation {
 
-    public RmMethodMutation(String _name, String _blockName) {
-        setName(_name);
-        setBlockName(_blockName);
-        initParameters();
+    public RmMethodMutation(String _blockName, String _methodName) {
+        super(_blockName, _methodName);
     }
 
     public void apply(AvatarSpecification _avspec) {

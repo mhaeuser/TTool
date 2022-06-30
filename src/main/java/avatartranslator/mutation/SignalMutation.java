@@ -49,22 +49,35 @@ import avatartranslator.*;
  */
 
 public abstract class SignalMutation extends MethodMutation {
+
+    protected SignalMutation(String _blockName, String _signalName) {
+        super(_blockName, _signalName);
+    }
+
+    protected SignalMutation(String _blockName, String _signalName, int _inout) {
+        super(_blockName, _signalName);
+        setInOut(_inout);
+    }
     
     private int inout;
     
     public final static int IN = AvatarSignal.IN;
     public final static int OUT = AvatarSignal.OUT;
 
-    public void setInOut(int _inout) {
+    protected String getSignalName() {
+        return getMethodName();
+    }
+
+    protected void setInOut(int _inout) {
         inout = _inout;
     }
 
-    public int getInOut() {
+    protected int getInOut() {
         return inout;
     }
 
     @Override
     public AvatarSignal getElement(AvatarSpecification _avspec) {
-        return getSignal(_avspec, getName());
+        return getSignal(_avspec, getMethodName());
     }
 }

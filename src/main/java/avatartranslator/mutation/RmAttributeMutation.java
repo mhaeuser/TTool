@@ -52,9 +52,8 @@ import myutil.TraceManager;
  */
 public class RmAttributeMutation extends AttributeMutation implements RmMutation {
 
-    public RmAttributeMutation(String _name, String _blockName) {
-        setName(_name);
-        setBlockName(_blockName);
+    public RmAttributeMutation(String _blockName, String _attributeName) {
+        super(_blockName, _attributeName);
     }
 
     public void apply(AvatarSpecification _avspec) {
@@ -65,6 +64,6 @@ public class RmAttributeMutation extends AttributeMutation implements RmMutation
             TraceManager.addDev("Unknown Attribute");
             return;
         }
-        attr.remove(aa);
+        if (!attr.remove(aa)) TraceManager.addDev("Attribute is from a super-bloc");
     }
 }

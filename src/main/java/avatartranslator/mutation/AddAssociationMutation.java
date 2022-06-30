@@ -50,8 +50,11 @@ import avatartranslator.*;
 public class AddAssociationMutation extends AssociationMutation implements AddMutation{
 
     public AddAssociationMutation(String _block1, String _block2, String _signal1, String _signal2) {
-        setBlocks(_block1, _block2);
-        setSignals(_signal1, _signal2);
+        super(_block1, _block2, _signal1, _signal2);
+    }
+
+    public AddAssociationMutation(String _relationString, int _relationType, String _signal1, String _signal2) {
+        super(_relationString, _relationType, _signal1, _signal2);
     }
 
     public AvatarElement createElement(AvatarSpecification _avspec) {

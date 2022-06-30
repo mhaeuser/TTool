@@ -47,33 +47,50 @@ import avatartranslator.*;
  * @author Léon FRENOT
  * @version 1.0 23/06/2022
  */
-public abstract class AttributeMutation extends BlockStructMutation {
+public abstract class AttributeMutation extends BlockElementMutation {
 
-    private String type;
+    public AttributeMutation(String _blockName, String _attributeName) {
+        super(_blockName);
+        setAttributeName(_attributeName);
 
-    private String name;
+    }
+
+    public AttributeMutation(String _blockName, String _attributeName, String _attributeType) {
+        super(_blockName);
+        setAttributeName(_attributeName);
+        setAttributeType(_attributeType);
+    }
+
+    public AttributeMutation(String _blockName, String _attributeName, String _attributeType, String _initialValue) {
+        this(_blockName, _attributeName, _attributeType);
+        setInitialValue(_initialValue);
+    }
+
+    private String attributeType;
+
+    private String attributeName;
 
     private String initialValue;
 
     private Boolean hasInitialValue = false;
 
-    public void setName(String _name) {
-        name = _name;
+    protected void setAttributeName(String _name) {
+        attributeName = _name;
     }
 
     public String getName() {
-        return name;
+        return attributeName;
     }
 
-    public void setType(String _type) {
-        type = _type;
+    protected void setAttributeType(String _type) {
+        attributeType = _type;
     }
 
     public AvatarType getType() {
-        return AvatarType.getType(type);
+        return AvatarType.getType(attributeType);
     }
 
-    public void setInitialValue(String _initialValue) {
+    protected void setInitialValue(String _initialValue) {
         hasInitialValue = true;
         initialValue = _initialValue;
     }

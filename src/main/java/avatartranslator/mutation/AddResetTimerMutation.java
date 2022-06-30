@@ -51,9 +51,12 @@ public class AddResetTimerMutation extends ResetTimerMutation implements AddMuta
 
     private boolean isGraphical = false;
 
-    public AddResetTimerMutation(String _timerName, String _block) {
-        setTimerName(_timerName);
-        setBlockName(_block);
+    public AddResetTimerMutation(String _blockName, String _timerName) {
+        super(_blockName, _timerName);
+    }
+
+    public AddResetTimerMutation(String _blockName, String _name, String _timerName) {
+        super(_blockName, _name, NAME_TYPE, _timerName);
     }
 
     //todo : graphique

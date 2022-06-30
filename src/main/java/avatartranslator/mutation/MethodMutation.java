@@ -50,9 +50,20 @@ import java.util.LinkedList;
  * @version 1.0 24/06/2022
  */
 
-public abstract class MethodMutation extends BlockStructMutation {
+public abstract class MethodMutation extends BlockElementMutation {
 
-    private String name;
+    protected MethodMutation(String _blockName, String _methodName, boolean _imp) {
+        super(_blockName);
+        setMethodName(_methodName);
+        initParameters();
+        setImplementationProvided(_imp);
+    }
+
+    protected MethodMutation(String _blockName, String _methodName) {
+        this(_blockName, _methodName, false);
+    }
+
+    private String methodName;
 
     private boolean implementationProvided;
 
@@ -60,15 +71,15 @@ public abstract class MethodMutation extends BlockStructMutation {
 
     protected List<String[]> parameters;
 
-    public void setName(String _name) {
-        name = _name;
+    private void setMethodName(String _methodName) {
+        methodName = _methodName;
     }
 
-    public String getName() {
-        return name;
+    protected String getMethodName() {
+        return methodName;
     }
 
-    public void initParameters() {
+    private void initParameters() {
         returnParameters = new LinkedList<>();
         parameters = new LinkedList<>();
     }
@@ -77,7 +88,7 @@ public abstract class MethodMutation extends BlockStructMutation {
         returnParameters.add(_returnParameter);
     }
 
-    public List<String> getReturnParameters() {
+    protected List<String> getReturnParameters() {
         return returnParameters;
     }
 
@@ -85,19 +96,24 @@ public abstract class MethodMutation extends BlockStructMutation {
         parameters.add(_parameter);
     }
 
-    public List<String[]> getParameters() {
+    public void addParameter(String _attributeName, String _attributeType) {
+        String[] parameter = {_attributeName, _attributeType};
+        addParameter(parameter);
+    }
+
+    protected List<String[]> getParameters() {
         return parameters;
     }
 
-    public void setImplementationProvided(boolean _imp) {
+    protected void setImplementationProvided(boolean _imp) {
         implementationProvided = _imp;
     }
 
-    public boolean isImplementationProvided() {
+    protected boolean isImplementationProvided() {
         return implementationProvided;
     }
 
     public AvatarMethod getElement(AvatarSpecification _avspec) {
-        return getMethod(_avspec, getName());
+        return getMethod(_avspec, getMethodName());
     }
 }

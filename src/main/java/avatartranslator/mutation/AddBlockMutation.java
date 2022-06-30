@@ -47,12 +47,12 @@ import avatartranslator.*;
  * @version 1.0 23/06/2022
  */
 
-public class AddBlockMutation extends BlockStructMutation implements AddMutation {
+public class AddBlockMutation extends BlockElementMutation implements AddMutation {
 
     private boolean isGraphical = false;
     
     public AddBlockMutation(String _blockName) {
-        setBlockName(_blockName);
+        super(_blockName);
     }
 
     //todo : graphic

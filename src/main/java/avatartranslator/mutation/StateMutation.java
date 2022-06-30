@@ -49,19 +49,25 @@ import avatartranslator.*;
  */
 
 public abstract class StateMutation extends StateMachineElementMutation {
-    private String name;
 
-    public void setName(String _name) {
-        name = _name;
+    protected StateMutation(String _blockName, String _stateName) {
+        super(_blockName);
+        setStateName(_stateName);
     }
 
-    public String getName() {
-        return name;
+    private String stateName;
+
+    private void setStateName(String _stateName) {
+        stateName = _stateName;
+    }
+
+    public String getStateName() {
+        return stateName;
     }
 
     public AvatarState getElement(AvatarSpecification _avspec) {
         AvatarStateMachine asm = getAvatarStateMachine(_avspec);
-        AvatarState state = asm.getStateWithName(getName());
+        AvatarState state = asm.getStateWithName(getStateName());
         return state;
     }
     

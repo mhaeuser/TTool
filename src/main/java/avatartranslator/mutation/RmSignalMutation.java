@@ -52,10 +52,8 @@ import myutil.TraceManager;
  */
 public class RmSignalMutation extends SignalMutation implements RmMutation {
     
-    public RmSignalMutation(String _name, String _blockName) {
-        setName(_name);
-        setBlockName(_blockName);
-        initParameters();
+    public RmSignalMutation(String _blockName, String _signalName) {
+        super(_blockName, _signalName);
     }
 
     public void apply(AvatarSpecification _avspec) {

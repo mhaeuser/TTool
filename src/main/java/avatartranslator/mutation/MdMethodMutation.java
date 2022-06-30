@@ -38,6 +38,8 @@
 
 package avatartranslator.mutation;
 
+import java.util.List;
+
 import avatartranslator.*;
 
 import myutil.TraceManager;
@@ -55,10 +57,8 @@ public class MdMethodMutation extends MethodMutation implements MdMutation {
     private boolean returnParametersChanged = false;
     private boolean parametersChanged = false;
 
-    public MdMethodMutation(String _name, String _blockName) {
-        setName(_name);
-        setBlockName(_blockName);
-        initParameters();
+    public MdMethodMutation(String _blockName, String _methodName) {
+        super(_blockName, _methodName);
     }
 
     public MdMethodMutation(String _name, String _blockName, boolean _imp) {
@@ -79,7 +79,7 @@ public class MdMethodMutation extends MethodMutation implements MdMutation {
     }
 
     @Override
-    public void setImplementationProvided(boolean _imp) {
+    protected void setImplementationProvided(boolean _imp) {
         implementationChanged = true;
         super.setImplementationProvided(_imp);
     }
@@ -90,6 +90,12 @@ public class MdMethodMutation extends MethodMutation implements MdMutation {
 
         if (am == null) {
             TraceManager.addDev("Unknown Method");
+            return;
+        }
+
+        List<AvatarMethod> meth = block.getMethods();
+        if (!meth.contains(am)) {
+            TraceManager.addDev("Method is from a super-bloc");
             return;
         }
 

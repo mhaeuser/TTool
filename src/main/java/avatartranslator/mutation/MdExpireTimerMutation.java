@@ -51,9 +51,13 @@ public class MdExpireTimerMutation extends ExpireTimerMutation implements MdMuta
 
     private String newTimerName;
     
-    public MdExpireTimerMutation(String _timerName, String _newTimerName, String _block) {
-        setTimerName(_timerName);
-        setBlockName(_block);
+    public MdExpireTimerMutation(String _blockName, String _currentTimerName, String _newTimerName) {
+        super(_blockName, _currentTimerName);
+        newTimerName = _newTimerName;
+    }
+
+    public MdExpireTimerMutation(String _blockName, String _name, int _nameType, String _timerName, String _newTimerName) {
+        super(_blockName, _name, _nameType, _timerName);
         newTimerName = _newTimerName;
     }
 

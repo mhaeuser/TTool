@@ -38,6 +38,8 @@
 
 package avatartranslator.mutation;
 
+import java.util.List;
+
 import avatartranslator.*;
 
 import myutil.TraceManager;
@@ -54,10 +56,8 @@ public class MdSignalMutation extends SignalMutation implements MdMutation {
     private boolean inoutChanged = false;
     private boolean parametersChanged = false;
 
-    public MdSignalMutation(String _name, String _blockName) {
-        setName(_name);
-        setBlockName(_blockName);
-        initParameters();
+    public MdSignalMutation(String _blockName, String _signalName) {
+        super(_blockName, _signalName);
     }
 
     public MdSignalMutation(String _name, String _blockName, int _inout) {
@@ -72,7 +72,7 @@ public class MdSignalMutation extends SignalMutation implements MdMutation {
     }
 
     @Override
-    public void setInOut(int _inout) {
+    protected void setInOut(int _inout) {
         inoutChanged = true;
         super.setInOut(_inout);
     }
@@ -85,6 +85,13 @@ public class MdSignalMutation extends SignalMutation implements MdMutation {
         if (as == null) {
             TraceManager.addDev("Unknown Signal");
             return;
+        }
+
+        List<AvatarSignal> sign = block.getSignals();
+        if(!sign.contains(as)) {
+            TraceManager.addDev("Signal is from a super-bloc");
+            return;
+
         }
 
         if (parametersChanged) {

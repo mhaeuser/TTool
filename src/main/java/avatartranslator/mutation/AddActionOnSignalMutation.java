@@ -51,10 +51,12 @@ public class AddActionOnSignalMutation extends ActionOnSignalMutation implements
 
     private boolean isGraphical = false;
 
-    public AddActionOnSignalMutation(String _signalName, String _block) {
-        setSignalName(_signalName);
-        setBlockName(_block);
-        initValues();
+    public AddActionOnSignalMutation(String _blockName, String _signalName) {
+        super(_blockName, _signalName);
+    }
+
+    public AddActionOnSignalMutation(String _blockName, String _name, String _signalName) {
+        super(_blockName, _name, NAME_TYPE, _signalName);
     }
 
     //todo : graphique
@@ -70,7 +72,8 @@ public class AddActionOnSignalMutation extends ActionOnSignalMutation implements
 
         return aaos;
     }
-
+    
+    @Override
     public void apply(AvatarSpecification _avspec) {
         AvatarActionOnSignal aaos = createElement(_avspec);
         AvatarStateMachine asm = getAvatarStateMachine(_avspec);

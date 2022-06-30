@@ -52,17 +52,21 @@ import avatartranslator.*;
  */
 
 public class RmActionMutation extends ActionMutation implements RmMutation {
-    
-    public RmActionMutation(String _blockName, String _actionString) {
-        setBlockName(_blockName);
-        setActionString(_actionString);
-        initActions();
+
+    public RmActionMutation(String _blockName, String _fromString, int _fromType, String _toString, int _toType, String _actionString) {
+        super(_blockName, _fromString, _fromType, _toString, _toType, _actionString);
     }
 
-    public RmActionMutation(String _blockName, int _index) {
-        setBlockName(_blockName);
-        setIndex(_index);
-        initActions();
+    public RmActionMutation(String _blockName, String _fromString, int _fromType, String _toString, int _toType, int _index) {
+        super(_blockName, _fromString, _fromType, _toString, _toType, _index);
+    }
+
+    public RmActionMutation(String _blockName, String _transitionString, int _transitionType, String _actionString) {
+        super(_blockName, _transitionString, _transitionType, _actionString);
+    }
+
+    public RmActionMutation(String _blockName, String _transitionString, int _transitionType, int _index) {
+        super(_blockName, _transitionString, _transitionType, _index);
     }
 
     public void apply(AvatarSpecification _avspec) {

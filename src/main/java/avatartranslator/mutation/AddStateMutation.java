@@ -50,16 +50,15 @@ import avatartranslator.*;
 
 public class AddStateMutation extends StateMutation implements AddMutation {
 
-    public AddStateMutation(String _name, String _blockName) {
-        setName(_name);
-        setBlockName(_blockName);
+    public AddStateMutation(String _blockName, String _stateName) {
+        super(_blockName, _stateName);
     }
 
     //todo : add Graphical referenceObject
     private boolean isGraphical = false;
     
     public AvatarState createElement() {
-        AvatarState state = new AvatarState(getName(), null);
+        AvatarState state = new AvatarState(getStateName(), null);
         return state;
 
     }

@@ -41,55 +41,81 @@ package avatartranslator.mutation;
 import avatartranslator.*;
 
 import java.util.List;
+import java.util.UUID;
 
 /**
- * Class SetTimerMutation
- * Creation: 28/06/2022
+ * Class OperatorMutation
+ * Creation: 30/06/2022
  *
  * @author Léon FRENOT
- * @version 1.0 28/06/2022
+ * @version 1.0 30/06/2022
  */
-public abstract class SetTimerMutation extends TimerOperatorMutation {
 
-    private String timerValue;
+public abstract class UnnamedStateMachineElementMutation extends StateMachineElementMutation implements UnnamedElementMutation {
 
-    protected SetTimerMutation(String _blockName, String _timerName, String _timerValue) {
-        super(_blockName, _timerName);
-        timerValue = _timerValue;
+    protected UnnamedStateMachineElementMutation(String _blockName) {
+        super(_blockName);
     }
 
-    protected SetTimerMutation(String _blockName, String _name, int _nameType) {
-        super(_blockName, _name, _nameType);
+    protected UnnamedStateMachineElementMutation(String _blockName, String _name, int _nameType) {
+        super(_blockName);
+        setName(_name, _nameType);
     }
 
-    protected SetTimerMutation(String _blockName, String _name, int _nameType, String _timerValue) {
-        super(_blockName, _name, _nameType);
-        timerValue = _timerValue;
+    private String name = "";
+    private int nameType = UNDEFINED_TYPE;
+
+    protected String getName() {
+        return name;
     }
 
-    protected SetTimerMutation(String _blockName, String _name, int _nameType, String _timerName, String _timerValue) {
-        super(_blockName, _name, _nameType, _timerName);
-        timerValue = _timerValue;
+    protected boolean isNameSet() {
+        return nameType != UNDEFINED_TYPE;
     }
 
-    protected String getTimerValue() {
-        return timerValue;
+    protected int getNameType() {
+        return nameType;
     }
 
-    @Override
-    public AvatarSetTimer getElement(AvatarSpecification _avspec) {
-        if (isNameSet())
-            return (AvatarSetTimer)super.getElement(_avspec);
+    private void setName(String _name) {
+        name = _name;
+    }
+
+    private void setName(String _name, int _nameType) {
+        setName(_name);
+        nameType = _nameType;
+    }
+
+    private AvatarStateMachineElement getElementFromName(AvatarSpecification _avspec, String _name) {
         AvatarStateMachine asm = getAvatarStateMachine(_avspec);
-        List<AvatarStateMachineElement> elms = asm.getListOfElements();
-        for (AvatarStateMachineElement elm : elms) {
-            if (elm instanceof AvatarSetTimer) {
-                AvatarSetTimer tmp = (AvatarSetTimer)elm;
-                if (tmp.getTimer().getName().equals(this.getTimerName()) && tmp.getTimerValue().equals(this.getTimerValue())) {
-                    return tmp;
-                }
+        List<AvatarStateMachineElement> elts = asm.getListOfElements();
+        for (AvatarStateMachineElement elt : elts) {
+            if (elt.getName().equals(_name)) return elt;
+        }
+        return null;
+    }
+
+    private AvatarStateMachineElement getElementFromUUID(AvatarSpecification _avspec, String _uuid) {
+        AvatarStateMachine asm = getAvatarStateMachine(_avspec);
+        List<AvatarStateMachineElement> elts = asm.getListOfElements();
+        for (AvatarStateMachineElement elt : elts) {
+            UUID eltUUID = elt.getUUID();
+            UUID uuid = UUID.fromString(_uuid);
+            if (eltUUID != null) {
+                if (eltUUID.equals(uuid)) return elt;
             }
         }
         return null;
     }
+
+    public AvatarStateMachineElement getElement(AvatarSpecification _avspec, int _type, String _name) {
+        if (_type == NAME_TYPE) return getElementFromName(_avspec, _name);
+        if (_type == UUID_TYPE) return getElementFromUUID(_avspec, _name);
+        return null;
+    }
+
+    public AvatarStateMachineElement getElement(AvatarSpecification _avspec) {
+        return getElement(_avspec, getNameType(), getName());
+    }
+
 }

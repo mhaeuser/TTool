@@ -51,41 +51,71 @@ import avatartranslator.*;
 
 public abstract class ActionMutation extends TransitionMutation {
 
+    public ActionMutation(String _blockName, String _fromString, int _fromType, String _toString, int _toType, String _actionString) {
+        super(_blockName, _fromString, _fromType, _toString, _toType);
+        setActionString(_actionString);
+    }
+
+    public ActionMutation(String _blockName, String _fromString, int _fromType, String _toString, int _toType, int _index) {
+        super(_blockName, _fromString, _fromType, _toString, _toType);
+        setIndex(_index);
+    }
+
+    public ActionMutation(String _blockName, String _fromString, int _fromType, String _toString, int _toType, String _actionString, int _index) {
+        this(_blockName, _fromString, _fromType, _toString, _toType, _actionString);
+        setIndex(_index);
+    }
+
+    public ActionMutation(String _blockName, String _transitionString, int _transitionType, String _actionString) {
+        super(_blockName, _transitionString, _transitionType);
+        setActionString(_actionString);
+    }
+
+    public ActionMutation(String _blockName, String _transitionString, int _transitionType, int _index) {
+        super(_blockName, _transitionString, _transitionType);
+        setIndex(_index);
+    }
+
+    public ActionMutation(String _blockName, String _transitionString, int _transitionType, String _actionString, int _index) {
+        this(_blockName, _transitionString, _transitionType, _actionString);
+        setIndex(_index);
+    }
+
     private String actionString;
 
     private int index = -1;
 
-    public String getActionString() {
+    protected String getActionString() {
         return actionString;
     }
 
-    public int getIndex() {
+    protected int getIndex() {
         return index;
     }
 
-    public int getIndex(AvatarSpecification _avspec) {
+    protected int getIndex(AvatarSpecification _avspec) {
         if (index == -1)
             index = getIndexFromString(_avspec);
         return index;
     }
 
-    public int getIndexFromString(AvatarSpecification _avspec) {
+    protected int getIndexFromString(AvatarSpecification _avspec) {
         AvatarTransition trans = super.getElement(_avspec);
         AvatarBlock block = getBlock(_avspec);
         int len = trans.getNbOfAction();
         for (int i = 0; i < len; i++) {
-            if(trans.getAction(i).toString().equals(AvatarTerm.createFromString(block, getActionString()).toString())) {
+            if (trans.getAction(i).toString().equals(AvatarTerm.createFromString(block, getActionString()).toString())) {
                 return i;
             }
         }
         return -1;
     }
 
-    public void setActionString(String _actionString) {
+    private void setActionString(String _actionString) {
         actionString = _actionString;
     }
 
-    public void setIndex(int _index) {
+    private void setIndex(int _index) {
         index = _index;
     }
 

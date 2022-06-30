@@ -52,7 +52,11 @@ import avatartranslator.*;
 public class RmRelationMutation extends RelationMutation implements RmMutation {
 
     public RmRelationMutation(String _block1, String _block2) {
-        setBlocks(_block1, _block2);
+        super(_block1, _block2);
+    }
+
+    public RmRelationMutation(String _relationString, int _relationType) {
+        super(_relationString, _relationType);
     }
 
     public void apply(AvatarSpecification _avspec) {

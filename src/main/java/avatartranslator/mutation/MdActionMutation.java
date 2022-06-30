@@ -53,11 +53,12 @@ import avatartranslator.*;
 
 public class MdActionMutation extends ActionMutation implements MdMutation {
 
-    public MdActionMutation(String _blockName, String _actionString, int _index) {
-        setBlockName(_blockName);
-        setActionString(_actionString);
-        setIndex(_index);
-        initActions();
+    public MdActionMutation(String _blockName, String _fromString, int _fromType, String _toString, int _toType, String _actionString, int _index) {
+        super(_blockName, _fromString, _fromType, _toString, _toType, _actionString, _index);
+    }
+
+    public MdActionMutation(String _blockName, String _transitionString, int _transitionType, String _actionString, int _index) {
+        super(_blockName, _transitionString, _transitionType, _actionString, _index);
     }
 
     public void apply(AvatarSpecification _avspec) {

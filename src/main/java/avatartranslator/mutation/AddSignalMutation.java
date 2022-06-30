@@ -49,16 +49,13 @@ import avatartranslator.*;
  */
 public class AddSignalMutation extends SignalMutation implements AddMutation {
 
-    public AddSignalMutation(String _name, String _blockName, int _inout) {
-        setName(_name);
-        setBlockName(_blockName);
-        setInOut(_inout);
-        initParameters();
+    public AddSignalMutation(String _blockName, String _signalName, int _inout) {
+        super(_blockName, _signalName, _inout);
     }
     
     public AvatarSignal createElement(AvatarSpecification _avspec) {
         AvatarBlock block = getBlock(_avspec);
-        AvatarSignal as = new AvatarSignal(getName(), getInOut(), null);
+        AvatarSignal as = new AvatarSignal(getSignalName(), getInOut(), null);
         for (String[] s : getParameters()) {
             AvatarAttribute aa = new AvatarAttribute(s[1], AvatarType.getType(s[0]), block, null);
             as.addParameter(aa);

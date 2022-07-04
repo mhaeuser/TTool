@@ -940,6 +940,18 @@ public class AvatarSpecification extends AvatarElement {
             }
         }
 
+        // If a block has a father in toBeRemoved, then keep the father, and the father of the father, etc.
+        for(AvatarBlock block: blocks) {
+            AvatarBlock bl = block.getFather();
+            while(bl != null) {
+                if (toBeRemoved.contains(bl)) {
+                    toBeRemoved.remove(bl);
+                }
+                bl = bl.getFather();
+             }
+        }
+
+
         blocks.removeAll(toBeRemoved);
     }
 

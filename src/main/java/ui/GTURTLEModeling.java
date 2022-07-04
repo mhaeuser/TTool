@@ -9003,27 +9003,32 @@ public class GTURTLEModeling {
         int ydiff = 50;
         //int num = asme.nbOfNexts();
         if (!(asme instanceof AvatarTransition)) {
-            for (AvatarStateMachineElement el : asme.getNexts()) {
-                if (!(el instanceof AvatarTransition)) {
+            //TraceManager.addDev("element asme: " + asme.toString());
+            if (asme.getNexts() != null) {
+                for (AvatarStateMachineElement el : asme.getNexts()) {
+                    if (!(el instanceof AvatarTransition)) {
 
+                    }
                 }
             }
         }
-        for (AvatarStateMachineElement el : asme.getNexts()) {
-            if (el instanceof AvatarTransition) {
-                tranSourceMap.put((AvatarTransition) el, tgcomp);
-            } else {
-                if (asme instanceof AvatarTransition) {
-                    AvatarTransition t = (AvatarTransition) asme;
-                    tranDestMap.put(t, el);
+        if (asme.getNexts() != null) {
+            for (AvatarStateMachineElement el : asme.getNexts()) {
+                if (el instanceof AvatarTransition) {
+                    tranSourceMap.put((AvatarTransition) el, tgcomp);
+                } else {
+                    if (asme instanceof AvatarTransition) {
+                        AvatarTransition t = (AvatarTransition) asme;
+                        tranDestMap.put(t, el);
+                    }
                 }
+                if (!SMDMap.containsKey(el)) {
+                    addStates(el, x + diff * i, y + ydiff, smp, bl, SMDMap, locMap, tranDestMap, tranSourceMap);
+                }
+                i++;
             }
-            if (!SMDMap.containsKey(el)) {
-                addStates(el, x + diff * i, y + ydiff, smp, bl, SMDMap, locMap, tranDestMap, tranSourceMap);
-            }
-            i++;
+            return;
         }
-        return;
     }
 
     public void drawBlockProperties(AvatarBlock ab, AvatarBDBlock bl) {
@@ -9203,39 +9208,53 @@ public class GTURTLEModeling {
 
             Vector<Point> points = new Vector<Point>();
 
-            TGConnectingPoint p1 = blockMap.get(bl1).findFirstFreeTGConnectingPoint(true, true);
-            p1.setFree(false);
 
-            TGConnectingPoint p2 = blockMap.get(bl2).findFirstFreeTGConnectingPoint(true, true);
-            p2.setFree(false);
 
-            if (bl2.equals(bl1)) {
-                // Add 2 point so the connection looks square
-                Point p = new Point(p1.getX(), p1.getY() - 10);
-                points.add(p);
-                p = new Point(p2.getX(), p2.getY() - 10);
-                points.add(p);
+            TraceManager.addDev("bl1:" + bl1 + " bl2:" + bl2);
+
+            // Printing blockMap
+            for(String s: blockMap.keySet()) {
+                AvatarBDBlock block = blockMap.get(s);
+                TraceManager.addDev("String s:" + s + " / Block : " + block.getBlockName());
             }
-            AvatarBDPortConnector conn = new AvatarBDPortConnector(0, 0, 0, 0, 0, 0, true, null, abd, p1, p2, points);
-            abd.addComponent(conn, 0, 0, false, true);
-            conn.setAsynchronous(ar.isAsynchronous());
-            conn.setSynchronous(!ar.isAsynchronous());
-            conn.setAMS(false);
-            conn.setBlocking(ar.isBlocking());
-            conn.setPrivate(ar.isPrivate());
-            conn.setSizeOfFIFO(ar.getSizeOfFIFO());
 
-            for (int indexSig = 0; indexSig < ar.getSignals1().size(); indexSig++) {
 
-                //TraceManager.addDev("Adding signal 1: " + ar.getSignal1(i).toString() + " of block " + ar.block1.getName());
-                conn.addSignal(ar.getSignal1(indexSig).toString(), ar.getSignal1(indexSig).getInOut() == 0, ar.block1.getName().contains(bl1));
-                //TraceManager.addDev("Adding signal 2:" + ar.getSignal2(i).toString() + " of block " + ar.block2.getName());
-                conn.addSignal(ar.getSignal2(indexSig).toString(), ar.getSignal2(indexSig).getInOut() == 0, !ar.block2.getName().contains(bl2));
+            if ((blockMap.get(bl1) != null) && (blockMap.get(bl2) != null)) {
+                TraceManager.addDev("Handling blocks");
+                TGConnectingPoint p1 = blockMap.get(bl1).findFirstFreeTGConnectingPoint(true, true);
+                p1.setFree(false);
+
+                TGConnectingPoint p2 = blockMap.get(bl2).findFirstFreeTGConnectingPoint(true, true);
+                p2.setFree(false);
+
+                if (bl2.equals(bl1)) {
+                    // Add 2 point so the connection looks square
+                    Point p = new Point(p1.getX(), p1.getY() - 10);
+                    points.add(p);
+                    p = new Point(p2.getX(), p2.getY() - 10);
+                    points.add(p);
+                }
+                AvatarBDPortConnector conn = new AvatarBDPortConnector(0, 0, 0, 0, 0, 0, true, null, abd, p1, p2, points);
+                abd.addComponent(conn, 0, 0, false, true);
+                conn.setAsynchronous(ar.isAsynchronous());
+                conn.setSynchronous(!ar.isAsynchronous());
+                conn.setAMS(false);
+                conn.setBlocking(ar.isBlocking());
+                conn.setPrivate(ar.isPrivate());
+                conn.setSizeOfFIFO(ar.getSizeOfFIFO());
+
+                for (int indexSig = 0; indexSig < ar.getSignals1().size(); indexSig++) {
+
+                    //TraceManager.addDev("Adding signal 1: " + ar.getSignal1(i).toString() + " of block " + ar.block1.getName());
+                    conn.addSignal(ar.getSignal1(indexSig).toString(), ar.getSignal1(indexSig).getInOut() == 0, ar.block1.getName().contains(bl1));
+                    //TraceManager.addDev("Adding signal 2:" + ar.getSignal2(i).toString() + " of block " + ar.block2.getName());
+                    conn.addSignal(ar.getSignal2(indexSig).toString(), ar.getSignal2(indexSig).getInOut() == 0, !ar.block2.getName().contains(bl2));
+
+                    conn.updateAllSignals();
+                }
 
                 conn.updateAllSignals();
             }
-
-            conn.updateAllSignals();
         }
 
         ypos += 100;

@@ -1248,7 +1248,7 @@ public class JDialogAvatarModelChecker extends javax.swing.JFrame implements Act
         }
         hasDependencyGraph.add(_tgc);
         if (generateDependencyGraphEltSelected) {
-            TraceManager.addDev("Generating dependency graph for component:" + _tgc.toString());
+            //TraceManager.addDev("Generating dependency graph for component:" + _tgc.toString());
             AvatarSpecification specNew = spec.advancedClone();
             
             long time1 = System.currentTimeMillis();
@@ -1267,6 +1267,9 @@ public class JDialogAvatarModelChecker extends javax.swing.JFrame implements Act
             specNew.reduceFromDependencyGraph(clonedG);
             long time2 = System.currentTimeMillis();
             TraceManager.addDev("Time to generate reduced spec:" + (time2-time1));
+
+            TraceManager.addDev("New spec: " + specNew);
+
             mgui.drawAvatarSpecification(specNew);
 
         }

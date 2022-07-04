@@ -223,7 +223,7 @@ public class AvatarDependencyGraph {
         }
 
         // Optimization: remove states representing empty transitions
-        ArrayList<AUTState> toBeRemoved = new ArrayList<>();
+        /*ArrayList<AUTState> toBeRemoved = new ArrayList<>();
         for(AUTState state: states) {
             //TraceManager.addDev("Testing " + state.referenceObject.toString());
             if (state.referenceObject instanceof AvatarTransition) {
@@ -283,7 +283,7 @@ public class AvatarDependencyGraph {
                 }
             }
             cpt ++;
-        }
+        }*/
 
         cpt = 0;
         for(AUTState state: states) {

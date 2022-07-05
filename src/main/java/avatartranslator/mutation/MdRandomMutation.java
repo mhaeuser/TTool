@@ -57,23 +57,23 @@ public class MdRandomMutation extends RandomMutation implements MdMutation {
 
     public MdRandomMutation(String _blockName, String _attributeName) {
         super(_blockName, _attributeName);
-        current = new MdRandomMutation(_blockName, _attributeName);
+        current = new NoneRandomMutation(_blockName, _attributeName);
     }
 
     public MdRandomMutation(String _blockName, String _attributeName, String _newAttributeName) {
         super(_blockName, _newAttributeName);
-        current = new MdRandomMutation(_blockName, _attributeName);
+        current = new NoneRandomMutation(_blockName, _attributeName);
         attributeNameChange = true;
     }
     
     public MdRandomMutation(String _blockName, String _name, int _nameType) {
         super(_blockName, _name, _nameType);
-        current = new MdRandomMutation(_blockName, _name, _nameType);
+        current = new NoneRandomMutation(_blockName, _name, _nameType);
     }
 
     public MdRandomMutation(String _blockName, String _name, int _nameType, String _newAttributeName) {
         super(_blockName, _newAttributeName);
-        current = new MdRandomMutation(_blockName, _name, _nameType);
+        current = new NoneRandomMutation(_blockName, _name, _nameType);
         attributeNameChange = true;
     }
 

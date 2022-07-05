@@ -72,5 +72,10 @@ public class AvatarSetTimer extends AvatarTimerOperator {
 	public String getNiceName() {
 		return "Setting of timer " + getName();
 	}
+
+	@Override
+	public String toString() {
+        return toString(getTimerValue());
+    }
 	
 }

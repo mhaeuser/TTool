@@ -55,6 +55,10 @@ public class AddBlockMutation extends BlockElementMutation implements AddMutatio
         super(_blockName);
     }
 
+    public AvatarBlock getElement(AvatarSpecification _avspec) {
+        return getBlock(_avspec);
+    }
+
     //todo : graphic
     public AvatarBlock createElement(AvatarSpecification _avspec) {
         AvatarBlock block = new AvatarBlock(getBlockName(), _avspec, null);

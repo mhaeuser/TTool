@@ -39,6 +39,7 @@
 package avatartranslator.mutation;
 
 import avatartranslator.*;
+//import myutil.TraceManager;
 
 import java.util.List;
 import java.util.UUID;
@@ -57,6 +58,11 @@ public abstract class UnnamedStateMachineElementMutation extends StateMachineEle
         super(_blockName);
     }
 
+    protected UnnamedStateMachineElementMutation(String _blockName, String _name) {
+        super(_blockName);
+        setName(_name);
+    }
+
     protected UnnamedStateMachineElementMutation(String _blockName, String _name, int _nameType) {
         super(_blockName);
         setName(_name, _nameType);
@@ -64,6 +70,22 @@ public abstract class UnnamedStateMachineElementMutation extends StateMachineEle
 
     private String name = "";
     private int nameType = UNDEFINED_TYPE;
+
+    protected boolean isUUID(String _name) {
+        try {
+            UUID.fromString(_name);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    protected int UUIDType(String _name) {
+        if(isUUID(_name)) {
+            return UUID_TYPE;
+        }
+        return NAME_TYPE;
+    }
 
     protected String getName() {
         return name;
@@ -79,6 +101,7 @@ public abstract class UnnamedStateMachineElementMutation extends StateMachineEle
 
     private void setName(String _name) {
         name = _name;
+        nameType = UUIDType(_name);
     }
 
     private void setName(String _name, int _nameType) {
@@ -90,6 +113,7 @@ public abstract class UnnamedStateMachineElementMutation extends StateMachineEle
         AvatarStateMachine asm = getAvatarStateMachine(_avspec);
         List<AvatarStateMachineElement> elts = asm.getListOfElements();
         for (AvatarStateMachineElement elt : elts) {
+            //TraceManager.addDev(elt.toString());
             if (elt.getName().equals(_name)) return elt;
         }
         return null;

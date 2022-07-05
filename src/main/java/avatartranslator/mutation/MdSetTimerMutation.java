@@ -39,6 +39,7 @@
 package avatartranslator.mutation;
 
 import avatartranslator.*;
+//import myutil.TraceManager;
 
 /**
  * Class MdSetTimerMutation
@@ -76,8 +77,9 @@ public class MdSetTimerMutation extends SetTimerMutation implements MdMutation {
     }
 
     private void setNewTimerValue(String _newTimerValue) {
+        //TraceManager.addDev("setNewTimerValue");
         newTimerValue = _newTimerValue;
-        newTimerNameSet = true;
+        newTimerValueSet = true;
     }
 
     private void setNewTimer(String _newTimerName, String _newTimerValue) {
@@ -88,8 +90,13 @@ public class MdSetTimerMutation extends SetTimerMutation implements MdMutation {
 
     public void apply(AvatarSpecification _avspec) {
         AvatarSetTimer elt = getElement(_avspec);
-        AvatarAttribute newTimer = getAttribute(_avspec, newTimerName);
-        if (newTimerNameSet) elt.setTimer(newTimer);
+        //TraceManager.addDev(elt.toString());
+        if (newTimerNameSet) {
+            AvatarAttribute newTimer = getAttribute(_avspec, newTimerName);
+            elt.setTimer(newTimer);
+        }
+        //TraceManager.addDev(String.valueOf(newTimerValueSet));
+        //TraceManager.addDev(String.valueOf(newTimerValue));
         if (newTimerValueSet) elt.setTimerValue(newTimerValue);
     }
 }

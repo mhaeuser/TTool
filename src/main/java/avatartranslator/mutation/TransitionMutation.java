@@ -62,23 +62,21 @@ public abstract class TransitionMutation extends UnnamedStateMachineElementMutat
     }
 
     protected TransitionMutation(String _blockName, String _transitionString, int _transitionType) {
-        super(_blockName);
-        setTransition(_transitionString, _transitionType);
+        super(_blockName, _transitionString, _transitionType);
         initActions();
     }
 
     protected TransitionMutation(String _blockName, String _fromString, int _fromType, String _toString, int _toType, String _transitionString, int _transitionType) {
-        this(_blockName, _fromString, _fromType, _toString, _toType);
-        setTransition(_transitionString, _transitionType);
+        this(_blockName, _transitionString, _transitionType);
+        setFrom(_fromString, _fromType);
+        setTo(_toString, _toType);
     }
     
     private String fromString;
     private String toString;
-    private String transitionString;
 
     private int fromType = UNDEFINED_TYPE;
     private int toType = UNDEFINED_TYPE;
-    private int transitionType = UNDEFINED_TYPE;
 
     private double probability;
     private boolean probabilitySet = false;
@@ -129,7 +127,7 @@ public abstract class TransitionMutation extends UnnamedStateMachineElementMutat
 
     private void setTo(String _toString, int _toType) {
         setTo(_toString);
-        fromType = _toType;
+        toType = _toType;
     }
     
     protected String getTo() {
@@ -144,24 +142,6 @@ public abstract class TransitionMutation extends UnnamedStateMachineElementMutat
 
     protected boolean isToSet() {
         return toType!=UNDEFINED_TYPE;
-    }
-
-    private void setTransition(String _transitionString) {
-        transitionString = _transitionString;
-    }
-
-    private void setTransition(String _transitionString, int _transitionType) {
-        setTransition(_transitionString);
-        transitionType = _transitionType;
-    }
-
-    protected String getTransition() {
-        if (transitionType == UNDEFINED_TYPE) return "undefined";
-        return transitionString;
-    }
-
-    protected boolean isTransitionSet() {
-        return transitionType != UNDEFINED_TYPE;
     }
 
     public void setProbability(double _probability) {
@@ -303,8 +283,8 @@ public abstract class TransitionMutation extends UnnamedStateMachineElementMutat
     }
 
     public AvatarTransition getElement(AvatarSpecification _avspec) {
-        //TraceManager.addDev(String.valueOf(nameType));
-        if (transitionType == UNDEFINED_TYPE) {
+        //TraceManager.addDev(String.valueOf(isNameSet()));
+        if (!isNameSet()) {
             AvatarStateMachineElement fromElement = getElement(_avspec, fromType, fromString);
             //TraceManager.addDev(fromElement.toString());
             AvatarStateMachineElement toElement = getElement(_avspec, toType, toString);
@@ -354,7 +334,9 @@ public abstract class TransitionMutation extends UnnamedStateMachineElementMutat
             }
             return null;
         }
-        AvatarStateMachineElement element = getElement(_avspec, transitionType, transitionString);
+        //TraceManager.addDev("ping");
+        AvatarStateMachineElement element = getElement(_avspec, getNameType(), getName());
+        //TraceManager.addDev(element.toString());
         if (element != null && element instanceof AvatarTransition) return (AvatarTransition)element;
         return null;
     }

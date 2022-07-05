@@ -55,7 +55,7 @@ public class AddActionOnSignalMutation extends ActionOnSignalMutation implements
         super(_blockName, _signalName);
     }
 
-    public AddActionOnSignalMutation(String _blockName, String _name, String _signalName) {
+    public AddActionOnSignalMutation(String _blockName, String _signalName, String _name) {
         super(_blockName, _name, NAME_TYPE, _signalName);
     }
 

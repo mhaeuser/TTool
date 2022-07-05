@@ -54,6 +54,10 @@ public class AddRelationMutation extends RelationMutation implements AddMutation
     public AddRelationMutation(String _block1, String _block2) {
         super(_block1, _block2);
     }
+
+    public AddRelationMutation(String _block1, String _block2, String _name) {
+        super(_block1, _block2, _name);
+    }
     
     //todo : graphic
     public AvatarRelation createElement(AvatarSpecification _avspec) {

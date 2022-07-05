@@ -76,8 +76,8 @@ public class SwapActionMutation extends ActionMutation implements MdMutation {
         AvatarAction action1 = actions.get(minIndex);
         AvatarAction action2 = actions.get(maxIndex);
 
-        actions.remove(minIndex);
         actions.remove(maxIndex);
+        actions.remove(minIndex);
 
         actions.add(minIndex, action2);
         actions.add(maxIndex, action1);

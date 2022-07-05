@@ -53,7 +53,7 @@ public class RmResetTimerMutation extends ResetTimerMutation implements RmMutati
         super(_blockName, _timerName);
     }
 
-    public RmResetTimerMutation(String _blockName, String _name, int _nameType, String _timerName) {
+    public RmResetTimerMutation(String _blockName, String _timerName, String _name, int _nameType) {
         super(_blockName, _name, _nameType, _timerName);
     }
 

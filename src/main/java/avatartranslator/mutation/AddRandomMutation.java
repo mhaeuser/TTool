@@ -56,7 +56,7 @@ public class AddRandomMutation extends RandomMutation implements AddMutation {
         super(_blockName, _attributeName);
     }
 
-    public AddRandomMutation(String _blockName, String _name, String _attributeName) {
+    public AddRandomMutation(String _blockName, String _attributeName, String _name) {
         super(_blockName, _name, NAME_TYPE, _attributeName);
     }
     

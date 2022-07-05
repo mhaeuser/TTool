@@ -54,7 +54,7 @@ public abstract class AssociationMutation extends RelationMutation {
         setSignals(_signal1, _signal2);
     }
 
-    public AssociationMutation(String _relationString, int _relationType, String _signal1, String _signal2) {
+    protected AssociationMutation(String _relationString, int _relationType, String _signal1, String _signal2) {
         super(_relationString, _relationType);
         setSignals(_signal1, _signal2);
     }

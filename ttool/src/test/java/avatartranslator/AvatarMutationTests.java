@@ -59,6 +59,9 @@ public class AvatarMutationTests {
 
     private AvatarSpecification as;
     private AvatarBlock block;
+    public static final int UNDEFINED_TYPE = -1;
+    public static final int NAME_TYPE = 0;
+    public static final int UUID_TYPE = 1;
 
     @Before
     public void test() {
@@ -73,48 +76,42 @@ public class AvatarMutationTests {
 
     @Test
     public void testAddAttribute() {
-        AddAttributeMutation mutation = new AddAttributeMutation("y", "bool", "block");
-        assertTrue(mutation.getType() == AvatarType.BOOLEAN);
-        assertTrue(mutation.getName().equals("y"));
-        assertTrue(mutation.getBlock(as) == block);
-
-        AttributeMutation mutation2 = new AddAttributeMutation("z", "int", "block");
-        mutation2.setInitialValue("5");
+        AddAttributeMutation mutation = new AddAttributeMutation("block", "y", "bool");
+        AttributeMutation mutation2 = new AddAttributeMutation("block", "z", "int", "5");
         mutation.apply(as);
         mutation2.apply(as);
         assertTrue(block.getAttributes().size() == 3);
         AvatarAttribute attr1 = block.getAttribute(1);
         AvatarAttribute attr2 = block.getAttribute(2);
+        assertTrue(attr1.isBool());
+        assertTrue(attr2.isInt());
         assertTrue(attr2.getInitialValueInInt() == 5);
     }
-
     @Test
     public void testRmAttribute() {
-        AttributeMutation mutation = new RmAttributeMutation("x", "block");
+        AttributeMutation mutation = new RmAttributeMutation("block", "x");
         mutation.apply(as);
         assertTrue(block.getAttributes().size() == 0);
-        AttributeMutation mutation2 = new RmAttributeMutation("x", "block");
+        AttributeMutation mutation2 = new RmAttributeMutation("block", "x");
         mutation.apply(as);
     }
 
     @Test
     public void testMdAttribute() {
         assertTrue(block.getAttribute(0).getInitialValue().equals("10"));
-        AttributeMutation mutation = new MdAttributeMutation("x", "42", "block");
+        AttributeMutation mutation = new MdAttributeMutation("block", "x", "42");
         mutation.apply(as);
         assertTrue(block.getAttribute(0).getInitialValue().equals("42"));
     }
 
     @Test
     public void testAddMethod() {
-        MethodMutation mutation = new AddMethodMutation("f", "block");
-        String[] tmp = {"int", "x"};
-        String[] tmp2 = {"bool", "y"};
+        MethodMutation mutation = new AddMethodMutation("block", "f");
         mutation.addReturnParameter("int");
         mutation.addReturnParameter("bool");
-        mutation.addParameter(tmp);
+        mutation.addParameter("int", "x");
 
-        MethodMutation mutation2 = new AddMethodMutation("g", "block", true);
+        MethodMutation mutation2 = new AddMethodMutation("block", "g", true);
         mutation2.addReturnParameter("int");
 
         mutation.apply(as);
@@ -122,8 +119,8 @@ public class AvatarMutationTests {
 
         assertTrue(block.getMethods().size() == 2);
 
-        AvatarMethod meth = block.getMethods().get(0);
-        AvatarMethod meth2 = block.getMethods().get(1);
+        AvatarMethod meth = mutation.getElement(as);
+        AvatarMethod meth2 = mutation2.getElement(as);
 
         assertTrue(meth.getName().equals("f"));
         TraceManager.addDev(meth.toString());
@@ -132,15 +129,14 @@ public class AvatarMutationTests {
 
     @Test
     public void testRmMethod() {
-        MethodMutation mutation = new AddMethodMutation("f", "block");
-        String[] tmp = {"int", "x"};
-        String[] tmp2 = {"bool", "y"};
+        MethodMutation mutation = new AddMethodMutation("block", "f");
         mutation.addReturnParameter("int");
         mutation.addReturnParameter("bool");
-        mutation.addParameter(tmp);
+        mutation.addParameter("int", "x");
         mutation.apply(as);
+        assertTrue(block.getMethods().size() == 1);
 
-        MethodMutation mutation2 = new RmMethodMutation("f", "block");
+        MethodMutation mutation2 = new RmMethodMutation("block", "f");
         mutation2.apply(as);
 
         
@@ -149,15 +145,13 @@ public class AvatarMutationTests {
 
     @Test
     public void testMdMethod() {
-        MethodMutation mutation = new AddMethodMutation("f", "block");
-        String[] tmp = {"int", "x"};
-        String[] tmp2 = {"bool", "y"};
+        MethodMutation mutation = new AddMethodMutation("block", "f");
         mutation.addReturnParameter("int");
         mutation.addReturnParameter("bool");
-        mutation.addParameter(tmp);
+        mutation.addParameter("int", "x");
         mutation.apply(as);
 
-        MethodMutation mutation2 = new MdMethodMutation("f", "block", true);
+        MethodMutation mutation2 = new MdMethodMutation("block", "f", true);
         mutation2.apply(as);
 
         AvatarMethod meth = block.getMethods().get(0);
@@ -166,9 +160,9 @@ public class AvatarMutationTests {
         assertTrue(meth.getListOfReturnAttributes().size() == 2);
         TraceManager.addDev(meth.toString());
 
-        mutation2 = new MdMethodMutation("f", "block");
+        mutation2 = new MdMethodMutation("block", "f");
         mutation2.addReturnParameter("int");
-        mutation2.addParameter(tmp2);
+        mutation2.addParameter("bool", "y");
         mutation2.apply(as);
 
         meth = block.getMethods().get(0);
@@ -178,18 +172,20 @@ public class AvatarMutationTests {
         TraceManager.addDev(meth.toString());
     }
 
-    @Test
-    public void testAddSignal() {
-        SignalMutation mutation = new AddSignalMutation("cin", "block", SignalMutation.IN);
-        String[] tmp = {"int", "x"};
-        String[] tmp2 = {"bool", "y"};
-        mutation.addParameter(tmp);
-        mutation.addParameter(tmp2);
+    public void addSignal() {
+        SignalMutation mutation = new AddSignalMutation("block", "cin", SignalMutation.IN);
+        mutation.addParameter("int", "x");
+        mutation.addParameter("bool", "y");
 
-        SignalMutation mutation2 = new AddSignalMutation("cout", "block", SignalMutation.OUT);
+        SignalMutation mutation2 = new AddSignalMutation("block", "cout", SignalMutation.OUT);
 
         mutation.apply(as);
         mutation2.apply(as);
+    }
+
+    @Test
+    public void testAddSignal() {
+        addSignal();
 
         assertTrue(block.getSignals().size() == 2);
 
@@ -197,55 +193,28 @@ public class AvatarMutationTests {
         TraceManager.addDev(block.getSignals().get(1).toString());
     }
 
-    public void addSignal() {
-        SignalMutation mutation = new AddSignalMutation("cin", "block", SignalMutation.IN);
-        String[] tmp = {"int", "x"};
-        String[] tmp2 = {"bool", "y"};
-        mutation.addParameter(tmp);
-        mutation.addParameter(tmp2);
-
-        SignalMutation mutation2 = new AddSignalMutation("cout", "block", SignalMutation.OUT);
-
-        mutation.apply(as);
-        mutation2.apply(as);
-    }
-
     @Test
     public void testRmSignal() {
-        SignalMutation mutation = new AddSignalMutation("cin", "block", SignalMutation.IN);
-        String[] tmp = {"int", "x"};
-        String[] tmp2 = {"bool", "y"};
-        mutation.addParameter(tmp);
-        mutation.addParameter(tmp2);
-        mutation.apply(as);
-        
-        assertTrue(block.getSignals().size() == 1);
+        addSignal();
 
-        SignalMutation mutation2 = new RmSignalMutation("cin", "block");
+        SignalMutation mutation2 = new RmSignalMutation("block", "cin");
         mutation2.apply(as);
 
-        assertTrue(block.getSignals().size() == 0);
+        assertTrue(block.getSignals().size() == 1);
 
     }
 
     @Test
     public void testMdSignal() {
-        SignalMutation mutation = new AddSignalMutation("cin", "block", SignalMutation.IN);
-        String[] tmp = {"int", "x"};
-        String[] tmp2 = {"bool", "y"};
-        mutation.addParameter(tmp);
-        mutation.addParameter(tmp2);
-        mutation.apply(as);
-        
-        assertTrue(block.getSignals().size() == 1);
+        addSignal();
 
-        SignalMutation mutation2 = new MdSignalMutation("cin", "block", SignalMutation.OUT);
+        SignalMutation mutation2 = new MdSignalMutation("block", "cin", SignalMutation.OUT);
         mutation2.apply(as);
 
         assertTrue(block.getSignals().get(0).getInOut() == SignalMutation.OUT);
 
-        SignalMutation mutation3 = new MdSignalMutation("cin", "block");
-        mutation3.addParameter(tmp);
+        SignalMutation mutation3 = new MdSignalMutation("block", "cin");
+        mutation3.addParameter("int", "x");
         mutation3.apply(as);
 
         assertTrue(block.getSignals().get(0).getListOfAttributes().size() == 1);
@@ -254,14 +223,14 @@ public class AvatarMutationTests {
 
     @Test
     public void testAddState() {
-        StateMutation mutation = new AddStateMutation("state0", "block");
+        StateMutation mutation = new AddStateMutation("block", "state0");
         mutation.apply(as);
         assertTrue(block.getStateMachine().getNbOfStatesElement() == 1);
     }
 
     public void add2States() {
         testAddState();
-        StateMutation mutation0 = new AddStateMutation("state1", "block");
+        StateMutation mutation0 = new AddStateMutation("block", "state1");
         mutation0.apply(as);
     }
 
@@ -269,7 +238,7 @@ public class AvatarMutationTests {
     public void testRmState() {
         add2States();
         assertTrue(block.getStateMachine().getNbOfStatesElement() == 2);
-        StateMutation mutation = new RmStateMutation("state0", "block");
+        StateMutation mutation = new RmStateMutation("block", "state0");
         mutation.apply(as);
         assertTrue(block.getStateMachine().getNbOfStatesElement() == 1);
         assertTrue(block.getStateMachine().getState(0).getName().equals("state1"));
@@ -278,14 +247,9 @@ public class AvatarMutationTests {
 
     public AvatarTransition add2Trans() {
         add2States();
-        TransitionMutation mutation0 = new AddTransitionMutation("block");
-        mutation0.setFromWithName("state0");
-        mutation0.setToWithName("state1");
+        TransitionMutation mutation0 = new AddTransitionMutation("block", "state0", NAME_TYPE, "state1", NAME_TYPE);
         mutation0.apply(as);
-        TransitionMutation mutation = new AddTransitionMutation("block");
-        mutation.setFromWithName("state0");
-        mutation.setToWithName("state1");
-        mutation.setName("trans");
+        TransitionMutation mutation = new AddTransitionMutation("block", "state0", NAME_TYPE, "state1", NAME_TYPE, "trans");
         mutation.setProbability(0.5);
         mutation.setGuard("x > 1");
         mutation.setDelays("0", "5");
@@ -293,7 +257,10 @@ public class AvatarMutationTests {
         mutation.setComputes("12", "42");
         mutation.addAction("x = 1");
         mutation.apply(as);
-        return mutation.getElement(as);
+        TraceManager.addDev(block.getStateMachine().getState(0).toString());
+        AvatarTransition trans = mutation.getElement(as);
+        TraceManager.addDev(trans.toString());
+        return trans;
     }
 
     @Test
@@ -315,11 +282,9 @@ public class AvatarMutationTests {
 
     @Test
     public void testAddTransition2() {
-        testAddActionOnSignal();
+        addActionOnSignal();
         add2States();
-        AddTransitionMutation mutation = new AddTransitionMutation("block");
-        mutation.setFromWithName("state0");
-        mutation.setToWithName("aaos");
+        AddTransitionMutation mutation = new AddTransitionMutation("block", "state0", NAME_TYPE, "aaos", NAME_TYPE);
         mutation.apply(as);
         AvatarTransition trans = mutation.getElement(as);
         TraceManager.addDev(trans.toString());
@@ -329,13 +294,10 @@ public class AvatarMutationTests {
     public void testRmTransition() {
         add2Trans();
         //TraceManager.addDev(block.getStateMachine().getState(0).toString());
-        TransitionMutation mutation = new RmTransitionMutation("block");
-        mutation.setName("trans");
+        TransitionMutation mutation = new RmTransitionMutation("block", "trans", NAME_TYPE);
         mutation.apply(as);
         assertTrue(block.getStateMachine().getState(0).getNexts().size()==1);
-        mutation = new RmTransitionMutation("block");
-        mutation.setFromWithName("state0");
-        mutation.setToWithName("state1");
+        mutation = new RmTransitionMutation("block", "state0", NAME_TYPE, "state1", NAME_TYPE);
         //TraceManager.addDev(block.getStateMachine().getState(0).toString());
         mutation.apply(as);
         //TraceManager.addDev(block.getStateMachine().getState(0).toString());
@@ -345,11 +307,9 @@ public class AvatarMutationTests {
     @Test
     public void testMdTransition() {
         add2Trans();
-        MdTransitionMutation mutation = new MdTransitionMutation("block");
+        MdTransitionMutation mutation = new MdTransitionMutation("block", "state0", NAME_TYPE, "state1", NAME_TYPE);
         mutation.setCurrentNoActions();
         mutation.addAction("x = x + 2");
-        mutation.setCurrentFromWithName("state0");
-        mutation.setCurrentToWithName("state1");
         AvatarTransition trans = mutation.getElement(as);
         assertTrue(trans.getNbOfAction() == 0);
         mutation.apply(as);
@@ -357,24 +317,23 @@ public class AvatarMutationTests {
         TraceManager.addDev(trans.toString());
     }
 
-    public void AddActionOnSignal() {
+    public void addActionOnSignal() {
         addSignal();
-        AddActionOnSignalMutation mutation = new AddActionOnSignalMutation("cin", "block");
-        mutation.setName("aaos");
+        AddActionOnSignalMutation mutation = new AddActionOnSignalMutation("block", "cin", "aaos");
         mutation.apply(as);
     }
 
     @Test
     public void testAddActionOnSignal() {
-        AddActionOnSignal();
+        addActionOnSignal();
         AvatarStateMachine asm = block.getStateMachine();
         assertTrue(asm.isSignalUsed(block.getSignalByName("cin")));
     }
 
     @Test
     public void testRmActionOnSignal1() {
-        AddActionOnSignal();
-        RmActionOnSignalMutation mutation = new RmActionOnSignalMutation("cin", "block");
+        addActionOnSignal();
+        RmActionOnSignalMutation mutation = new RmActionOnSignalMutation("block", "cin");
         mutation.apply(as);
         AvatarStateMachine asm = block.getStateMachine();
         assertFalse(asm.isSignalUsed(block.getSignalByName("cin")));
@@ -382,9 +341,8 @@ public class AvatarMutationTests {
     
     @Test
     public void testRmActionOnSignal2() {
-        AddActionOnSignal();
-        RmActionOnSignalMutation mutation = new RmActionOnSignalMutation("", "block");
-        mutation.setName("aaos");
+        addActionOnSignal();
+        RmActionOnSignalMutation mutation = new RmActionOnSignalMutation("block", "aaos", NAME_TYPE);
         mutation.apply(as);
         AvatarStateMachine asm = block.getStateMachine();
         assertFalse(asm.isSignalUsed(block.getSignalByName("cin")));
@@ -393,10 +351,8 @@ public class AvatarMutationTests {
     @Test
     public void testMdActionOnSignal() {
         AvatarStateMachine asm = block.getStateMachine();
-        AddActionOnSignal();
-        MdActionOnSignalMutation mutation = new MdActionOnSignalMutation("cout", "block");
-        mutation.setName("aaos");
-        mutation.setCurrentSignalName("cin");
+        addActionOnSignal();
+        MdActionOnSignalMutation mutation = new MdActionOnSignalMutation("block", "aaos", NAME_TYPE, "cout");
         assertFalse(asm.isSignalUsed(block.getSignalByName("cout")));
         mutation.apply(as);
         assertFalse(asm.isSignalUsed(block.getSignalByName("cin")));
@@ -404,8 +360,7 @@ public class AvatarMutationTests {
     }
 
     public AvatarRandom addRandom() {
-        AddRandomMutation mutation = new AddRandomMutation("x", "block");
-        mutation.setName("rand");
+        AddRandomMutation mutation = new AddRandomMutation("block", "x", "rand");
         mutation.setValues("5", "15");
         mutation.apply(as);
         return mutation.getElement(as);
@@ -420,11 +375,11 @@ public class AvatarMutationTests {
 
     @Test
     public void testRmRandom() {
-        AddRandomMutation mutation0 = new AddRandomMutation("x", "block");
+        AddRandomMutation mutation0 = new AddRandomMutation("block", "x");
         mutation0.setValues("-5", "10");
         mutation0.apply(as);
         addRandom();
-        RmRandomMutation mutation = new RmRandomMutation("x", "block");
+        RmRandomMutation mutation = new RmRandomMutation("block", "x");
         mutation.setValues("5", "10");
         mutation.apply(as);
         assertTrue(mutation0.getElement(as) != null);
@@ -433,8 +388,7 @@ public class AvatarMutationTests {
     @Test
     public void testMdRandom() {
         AvatarRandom rand = addRandom();
-        MdRandomMutation mutation = new MdRandomMutation("y", "block");
-        mutation.setCurrentVariable("x");
+        MdRandomMutation mutation = new MdRandomMutation("block", "x", "y");
         mutation.apply(as);
         assertTrue(rand.getVariable().equals("y"));
     }
@@ -442,7 +396,7 @@ public class AvatarMutationTests {
     public AvatarSetTimer addSetTimer() {
         AvatarAttribute timer = new AvatarAttribute("timer", AvatarType.TIMER, block, null);
         block.addAttribute(timer);
-        AddSetTimerMutation mutation = new AddSetTimerMutation("timer", "10", "block");
+        AddSetTimerMutation mutation = new AddSetTimerMutation("block", "timer", "10");
         mutation.apply(as);
         return mutation.getElement(as);
     }
@@ -457,7 +411,8 @@ public class AvatarMutationTests {
     @Test
     public void testRmSetTimer() {
         addSetTimer();
-        RmSetTimerMutation mutation = new RmSetTimerMutation("timer", "block");
+        RmSetTimerMutation mutation = new RmSetTimerMutation("block", "timer", "10");
+        TraceManager.addDev(mutation.getElement(as).toString());
         assertFalse(mutation.getElement(as) == null);
         mutation.apply(as);
         assertTrue(mutation.getElement(as) == null);
@@ -466,16 +421,16 @@ public class AvatarMutationTests {
     @Test
     public void testMdSetTimer() {
         AvatarSetTimer timer = addSetTimer();
-        MdSetTimerMutation mutation = new MdSetTimerMutation("timer", "block");
-        mutation.setTimerValue("15");
+        MdSetTimerMutation mutation = new MdSetTimerMutation("block", "timer", "10", "15");
         mutation.apply(as);
+        TraceManager.addDev(timer.getTimerValue());
         assertTrue(timer.getTimerValue().equals("15"));
     }
 
     public AvatarResetTimer addResetTimer() {
         AvatarAttribute timer = new AvatarAttribute("timer", AvatarType.TIMER, block, null);
         block.addAttribute(timer);
-        AddResetTimerMutation mutation = new AddResetTimerMutation("timer", "block");
+        AddResetTimerMutation mutation = new AddResetTimerMutation("block", "timer");
         mutation.apply(as);
         return mutation.getElement(as);
     }
@@ -490,7 +445,7 @@ public class AvatarMutationTests {
     @Test
     public void testRmResetTimer() {
         addResetTimer();
-        RmResetTimerMutation mutation = new RmResetTimerMutation("timer", "block");
+        RmResetTimerMutation mutation = new RmResetTimerMutation("block", "timer");
         assertFalse(mutation.getElement(as) == null);
         mutation.apply(as);
         assertTrue(mutation.getElement(as) == null);
@@ -501,7 +456,7 @@ public class AvatarMutationTests {
         AvatarResetTimer timer = addResetTimer();
         AvatarAttribute timer2 = new AvatarAttribute("timer2", AvatarType.TIMER, block, null);
         block.addAttribute(timer2);
-        MdResetTimerMutation mutation = new MdResetTimerMutation("timer", "timer2", "block");
+        MdResetTimerMutation mutation = new MdResetTimerMutation("block", "timer", "timer2");
         mutation.apply(as);
         assertTrue(timer.getTimer().getName().equals("timer2"));
     }
@@ -509,7 +464,7 @@ public class AvatarMutationTests {
     public AvatarExpireTimer addExpireTimer() {
         AvatarAttribute timer = new AvatarAttribute("timer", AvatarType.TIMER, block, null);
         block.addAttribute(timer);
-        AddExpireTimerMutation mutation = new AddExpireTimerMutation("timer", "block");
+        AddExpireTimerMutation mutation = new AddExpireTimerMutation("block", "timer");
         mutation.apply(as);
         return mutation.getElement(as);
     }
@@ -524,7 +479,7 @@ public class AvatarMutationTests {
     @Test
     public void testRmExpireTimer() {
         addExpireTimer();
-        RmExpireTimerMutation mutation = new RmExpireTimerMutation("timer", "block");
+        RmExpireTimerMutation mutation = new RmExpireTimerMutation("block", "timer");
         assertFalse(mutation.getElement(as) == null);
         mutation.apply(as);
         assertTrue(mutation.getElement(as) == null);
@@ -535,8 +490,146 @@ public class AvatarMutationTests {
         AvatarExpireTimer timer = addExpireTimer();
         AvatarAttribute timer2 = new AvatarAttribute("timer2", AvatarType.TIMER, block, null);
         block.addAttribute(timer2);
-        MdExpireTimerMutation mutation = new MdExpireTimerMutation("timer", "timer2", "block");
+        MdExpireTimerMutation mutation = new MdExpireTimerMutation("block", "timer", "timer2");
         mutation.apply(as);
         assertTrue(timer.getTimer().getName().equals("timer2"));
     }
+
+    public AvatarBlock addBlock() {
+        AddBlockMutation mutation = new AddBlockMutation("block0");
+        mutation.apply(as);
+        return mutation.getElement(as);
+    }
+
+    @Test
+    public void testAddBlock() {
+        AvatarBlock block0 = addBlock();
+        assertTrue(block0 != null);
+        assertTrue(block0.getName().equals("block0"));
+    }
+
+    @Test
+    public void testRmBlock() {
+        addBlock();
+        assertTrue(as.getListOfBlocks().size() == 2);
+        RmBlockMutation mutation = new RmBlockMutation("block0");
+        mutation.apply(as);
+        assertTrue(as.getListOfBlocks().size() == 1);
+    }
+
+    public void attachParent() {
+        addBlock();
+        AttachParentMutation mutation = new AttachParentMutation("block0", "block");
+        mutation.apply(as);
+    }
+
+    @Test
+    public void testAttachParent() {
+        attachParent();
+        assertTrue(block.getFather().getName().equals("block0"));
+    }
+
+    @Test
+    public void testDetachParent() {
+        attachParent();
+        DetachParentMutation mutation = new DetachParentMutation("block");
+        mutation.apply(as);
+        assertTrue(block.getFather() == null);
+    }
+
+    public AvatarRelation addRelation() {
+        addBlock();
+        AddRelationMutation mutation = new AddRelationMutation("block", "block0", "relation");
+        mutation.apply(as);
+        return mutation.getElement(as);
+    }
+
+    @Test
+    public void testAddRelation() {
+        assertTrue(as.getRelations().size() == 0);
+        addRelation();
+        assertTrue(as.getRelations().size() == 1);
+    }
+
+    @Test
+    public void testRmRelation() {
+        addRelation();
+        RmRelationMutation mutation = new RmRelationMutation("block", "block0");
+        mutation.apply(as);
+        assertTrue(as.getRelations().size() == 0);
+    }
+
+    @Test
+    public void testMdRelation() {
+        AvatarRelation relation = addRelation();
+        MdRelationMutation mutation = new MdRelationMutation("block", "block0");
+        mutation.setAMS(true);
+        assertFalse(relation.isAMS());
+        mutation.apply(as);
+        assertTrue(relation.isAMS());
+    }
+
+    public AvatarRelation addAssociation() {
+        AvatarRelation relation = addRelation();
+        addSignal();
+        SignalMutation mutation0 = new AddSignalMutation("block0", "cin0", SignalMutation.IN);
+        mutation0.apply(as);
+        RelationMutation mutation = new AddAssociationMutation("block", "block0", "cout", "cin0");
+        mutation.apply(as);
+        return relation;
+    }
+
+    @Test
+    public void testAddAssociation() {
+        AvatarRelation relation = addAssociation();
+        assertTrue(relation.nbOfSignals() == 1);
+    }
+
+    @Test
+    public void testRmAssociation() {
+        AvatarRelation relation = addAssociation();
+        RelationMutation mutation = new RmAssociationMutation("block", "block0", "cout", "cin0");
+        mutation.apply(as);
+        assertTrue(relation.nbOfSignals() == 0);
+    }
+
+    public AvatarTransition add2Actions() {
+        AvatarTransition trans = add2Trans();
+        ActionMutation mutation = new AddActionMutation("block", "trans", NAME_TYPE, "x = x + 2");
+        mutation.apply(as);
+        return trans;
+    }
+
+    @Test
+    public void testAddAction() {
+        AvatarTransition trans = add2Actions();
+        assertTrue(trans.getNbOfAction() == 2);
+        TraceManager.addDev(trans.toString());
+    }
+
+    @Test
+    public void testRmAction() {
+        AvatarTransition trans = add2Actions();
+        ActionMutation mutation = new RmActionMutation("block", "trans", NAME_TYPE, 1);
+        mutation.apply(as);
+        assertTrue(trans.getNbOfAction() == 1);
+        TraceManager.addDev(trans.toString());
+    }
+
+    @Test
+    public void testMdAction() {
+        AvatarTransition trans = add2Actions();
+        ActionMutation mutation = new MdActionMutation("block", "trans", NAME_TYPE, "x = -3", 0);
+        mutation.apply(as);
+        TraceManager.addDev(trans.toString());
+    }
+
+    @Test
+    public void testSwapAction() {
+        AvatarTransition trans = add2Actions();
+        ActionMutation mutation = new SwapActionMutation("block", "trans", NAME_TYPE, 1, 0);
+        mutation.apply(as);
+        TraceManager.addDev(trans.toString());
+    }
+
 }

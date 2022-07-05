@@ -57,6 +57,10 @@ public abstract class RelationMutation extends AvatarMutation implements Unnamed
         super();
         setBlocks(_block1, _block2);
     }
+    protected RelationMutation(String _block1, String _block2, String _name) {
+        this(_block1, _block2);
+        setName(_name, NAME_TYPE);
+    }
 
     protected RelationMutation(String _relationString, int _relationType) {
         super();

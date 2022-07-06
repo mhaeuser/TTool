@@ -82,5 +82,17 @@ public abstract class BlockElementMutation extends AvatarMutation {
         return block.getAvatarSignalWithName(_name);
     }
 
-    
+    public static BlockElementMutation createFromString(String toParse) {
+        String[] tokens = toParse.toUpperCase().split(" ");
+        switch (tokens[0]) {
+            case "ADD":
+                return AddBlockMutation.createFromString(toParse);
+            case "RM":
+            case "REMOVE":
+                return RmBlockMutation.createFromString(toParse);
+            default:
+                break;
+        }
+        return null;
+    }
 }

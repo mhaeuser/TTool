@@ -64,4 +64,13 @@ public class MdAttributeMutation extends AttributeMutation implements MdMutation
         }
         aa.setInitialValue(this.getInitialValue());
     }
+
+    public static MdAttributeMutation createFromString(String toParse) {
+        String[] tokens = toParse.split(" ");
+        String _attributeName = tokens[2];
+        String _blockName = tokens[5];
+        String _initialValue = tokens[tokens.length - 1];
+        MdAttributeMutation mutation = new MdAttributeMutation(_blockName, _attributeName, _initialValue);
+        return mutation;
+    }
 }

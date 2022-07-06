@@ -49,11 +49,59 @@ import avatartranslator.*;
  */
 public abstract class AvatarMutation {
 
-    protected AvatarMutation() {}
+    protected AvatarMutation() {
+        super();
+    }
 
-    protected AvatarBlock getBlock(AvatarSpecification _avspec, String _block) {
-        return _avspec.getBlockWithName(_block);
+    protected AvatarBlock getBlock(AvatarSpecification _avspec, String _blockName) {
+        return _avspec.getBlockWithName(_blockName);
     }
 
     public abstract void apply(AvatarSpecification _avspec);
+
+    public static AvatarMutation createFromString(String toParse) {
+        toParse = toParse.trim();
+        String[] tokens = toParse.toUpperCase().split(" ");
+        if(tokens.length < 2) return null;
+        switch (tokens[0]) {
+            case "ATTACH":
+                return AttachParentMutation.createFromString(toParse);
+            case "DETACH":
+                return DetachParentMutation.createFromString(toParse);
+            case "NAME":
+                return NameMutation.createFromString(toParse);
+            default:
+                break;
+        }
+        switch (tokens[1]) {
+            case "BLOCK":
+                return BlockElementMutation.createFromString(toParse);
+            case "ATTRIBUTE":
+                return AttributeMutation.createFromString(toParse);
+            case "METHOD":
+                return MethodMutation.createFromString(toParse);
+            case "SIGNAL":
+            case "INPUT":
+            case "OUTPUT":
+                return SignalMutation.createFromString(toParse);
+            case "STATE":
+                return StateMutation.createFromString(toParse);
+            case "ACTION":
+                if(tokens[2].equals("ON")) return ActionOnSignalMutation.createFromString(toParse);
+                return ActionMutation.createFromString(toParse);
+            case "RANDOM":
+                return RandomMutation.createFromString(toParse);
+            case "SET":
+                return SetTimerMutation.createFromString(toParse);
+            case "RESET":
+                return ResetTimerMutation.createFromString(toParse);
+            case "EXPIRE":
+                return ExpireTimerMutation.createFromString(toParse);
+            case "TRANSITION":
+                return TransitionMutation.createFromString(toParse);
+            default:
+                break;
+        }
+        return null;
+    }
 }

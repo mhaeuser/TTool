@@ -92,12 +92,16 @@ public abstract class MethodMutation extends BlockElementMutation {
         return returnParameters;
     }
 
+    public void setParameters(List<String[]> _parameters) {
+        parameters = _parameters;
+    }
+
     public void addParameter(String[] _parameter) {
         parameters.add(_parameter);
     }
 
-    public void addParameter(String _attributeName, String _attributeType) {
-        String[] parameter = {_attributeName, _attributeType};
+    public void addParameter(String _attributeType, String _attributeName) {
+        String[] parameter = { _attributeType, _attributeName};
         addParameter(parameter);
     }
 
@@ -115,5 +119,34 @@ public abstract class MethodMutation extends BlockElementMutation {
 
     public AvatarMethod getElement(AvatarSpecification _avspec) {
         return getMethod(_avspec, getMethodName());
+    }
+
+    protected static List<String[]> parseParameters(String toParse) {
+        List<String[]> output = new LinkedList<>();
+        if (toParse.indexOf('(') == -1) return output;
+        String s = toParse.substring(toParse.indexOf('('), toParse.indexOf(')'));
+        String[] tokens = s.split(" ");
+        for(int i = 0; i < tokens.length; i+=2) {
+            String[] tmp = {tokens[i], tokens[i+1]};
+            output.add(tmp.clone());
+        }
+        return output;
+    }
+
+    public static MethodMutation createFromString(String toParse) {
+        String[] tokens = toParse.toUpperCase().split(" ");
+        switch (tokens[0]) {
+            case "ADD":
+                return AddMethodMutation.createFromString(toParse);
+            case "RM":
+            case "REMOVE":
+                return RmMethodMutation.createFromString(toParse);
+            case "MD":
+            case "MODIFY":
+                return MdMethodMutation.createFromString(toParse);
+            default:
+                break;
+        }
+        return null;
     }
 }

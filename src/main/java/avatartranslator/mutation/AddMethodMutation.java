@@ -38,6 +38,8 @@
 
 package avatartranslator.mutation;
 
+import java.util.List;
+
 import avatartranslator.*;
 
 /**
@@ -54,7 +56,7 @@ public class AddMethodMutation extends MethodMutation implements AddMutation {
     }
 
     public AddMethodMutation(String _blockName, String _methodName) {
-        super(_blockName, _methodName);
+        this(_blockName, _methodName, false);
     }
 
     public AvatarMethod createElement(AvatarSpecification _avspec) {
@@ -65,7 +67,7 @@ public class AddMethodMutation extends MethodMutation implements AddMutation {
             am.addReturnParameter(aa);
         }
         for (String[] s : getParameters()) {
-            AvatarAttribute aa = new AvatarAttribute(s[1], AvatarType.getType(s[0]), block, null);
+            AvatarAttribute aa = new AvatarAttribute(s[0], AvatarType.getType(s[1]), block, null);
             am.addParameter(aa);
         }
         am.setImplementationProvided(isImplementationProvided());
@@ -76,5 +78,44 @@ public class AddMethodMutation extends MethodMutation implements AddMutation {
         AvatarMethod am = createElement(_avspec);
         AvatarBlock block = getBlock(_avspec);
         block.addMethod(am);
+    }
+
+    public static AddMethodMutation createFromString(String toParse) {
+        AddMethodMutation mutation = null;
+        String _returnParameter;
+        String _methodName;
+        String _blockName;
+
+        List<String[]> _parameters = parseParameters(toParse);
+        String[] tokens = toParse.split(" ");
+
+        boolean _imp = false;
+        switch (tokens[tokens.length - 2].toUpperCase()) {
+            case "WITH":
+                _imp = true;
+            case "WITHOUT":
+                _blockName = tokens[tokens.length - 3];
+                break;
+            default:
+                _blockName = tokens[tokens.length - 1];
+                break;
+        }
+
+        String s = toParse.substring(toParse.indexOf(' ')+1);
+        s = s.substring(s.indexOf(' '), s.indexOf('('));
+        tokens = s.split(" ");
+        if (tokens.length == 1) {
+            _methodName = tokens[0];
+            mutation = new AddMethodMutation(_blockName, _methodName, _imp);
+        } else {
+            _returnParameter = tokens[0];
+            _methodName = tokens[1];
+            mutation = new AddMethodMutation(_blockName, _methodName, _imp);
+            mutation.addReturnParameter(_returnParameter);
+        }
+
+        mutation.setParameters(_parameters);
+
+        return mutation;
     }
 }

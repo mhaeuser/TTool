@@ -80,4 +80,21 @@ public abstract class SignalMutation extends MethodMutation {
     public AvatarSignal getElement(AvatarSpecification _avspec) {
         return getSignal(_avspec, getMethodName());
     }
+
+    public static SignalMutation createFromString(String toParse) {
+        String[] tokens = toParse.toUpperCase().split(" ");
+        switch (tokens[0]) {
+            case "ADD":
+                return AddSignalMutation.createFromString(toParse);
+            case "RM":
+            case "REMOVE":
+                return RmSignalMutation.createFromString(toParse);
+            case "MD":
+            case "MODIFY":
+                return MdSignalMutation.createFromString(toParse);
+            default:
+                break;
+        }
+        return null;
+    }
 }

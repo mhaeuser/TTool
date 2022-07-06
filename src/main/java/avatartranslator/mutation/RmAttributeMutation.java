@@ -66,4 +66,12 @@ public class RmAttributeMutation extends AttributeMutation implements RmMutation
         }
         if (!attr.remove(aa)) TraceManager.addDev("Attribute is from a super-bloc");
     }
+
+    public static RmAttributeMutation createFromString(String toParse) {
+        String[] tokens = toParse.split(" ");
+        String _attributeName = tokens[2];
+        String _blockName = tokens[tokens.length - 1];
+        RmAttributeMutation mutation = new RmAttributeMutation(_blockName, _attributeName);
+        return mutation;
+    }
 }

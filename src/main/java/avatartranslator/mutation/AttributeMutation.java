@@ -107,4 +107,21 @@ public abstract class AttributeMutation extends BlockElementMutation {
     public AvatarAttribute getElement(AvatarSpecification _avspec) {
         return getAttribute(_avspec, getName());
     }
+    
+    public static AttributeMutation createFromString(String toParse) {
+        String[] tokens = toParse.toUpperCase().split(" ");
+        switch (tokens[0]) {
+            case "ADD":
+                return AddAttributeMutation.createFromString(toParse);
+            case "RM":
+            case "REMOVE":
+                return RmAttributeMutation.createFromString(toParse);
+            case "MD":
+            case "MODIFY":
+                return MdAttributeMutation.createFromString(toParse);
+            default:
+                break;
+        }
+        return null;
+    }
 }

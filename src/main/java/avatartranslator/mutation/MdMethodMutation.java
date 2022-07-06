@@ -73,6 +73,12 @@ public class MdMethodMutation extends MethodMutation implements MdMutation {
     }
 
     @Override
+    public void setParameters(List<String[]> _parameters) {
+        parametersChanged = true;
+        super.setParameters(_parameters);
+    }
+
+    @Override
     public void addParameter(String[] _parameter) {
         parametersChanged = true;
         super.addParameter(_parameter);
@@ -114,9 +120,44 @@ public class MdMethodMutation extends MethodMutation implements MdMutation {
         if (parametersChanged) {
             am.removeAttributes();
             for (String[] s : getParameters()) {
-                AvatarAttribute aa = new AvatarAttribute(s[1], AvatarType.getType(s[0]), block, null);
+                AvatarAttribute aa = new AvatarAttribute(s[0], AvatarType.getType(s[1]), block, null);
                 am.addParameter(aa);
             }
         }
+    }
+
+    public static MdMethodMutation createFromString(String toParse) {
+        String _returnParameter = "";
+
+        List<String[]> _parameters = parseParameters(toParse);
+        String[] tokens = toParse.split(" ");
+        String _methodName = tokens[2];
+        String _blockName = tokens[5];
+
+        MdMethodMutation mutation = new MdMethodMutation(_blockName, _methodName);
+
+        boolean _imp = false;
+
+        switch (tokens[6].toUpperCase()) {
+            case "TO":
+                if (tokens[7].indexOf('(') == -1) _returnParameter = tokens[7];
+                mutation.setParameters(_parameters);
+                mutation.addReturnParameter(_returnParameter);
+                if (tokens[tokens.length - 1].toUpperCase().equals("CODE")) {
+                    _imp = (tokens[tokens.length - 2].toUpperCase().equals("WITH"));
+                    mutation.setImplementationProvided(_imp);
+                }
+                break;
+
+            case "WITH":
+                _imp = true;
+            case "WITHOUT":
+                mutation.setImplementationProvided(_imp);
+                break;
+
+            default:
+                break;
+        }
+        return mutation;
     }
 }

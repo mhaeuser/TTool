@@ -66,4 +66,12 @@ public class RmSignalMutation extends SignalMutation implements RmMutation {
         }
         if (!sign.remove(as)) TraceManager.addDev("Signal is from a super-bloc");
     }
+
+    public static RmSignalMutation createFromString(String toParse) {
+        String[] tokens = toParse.split(" ");
+        String _signalName = tokens[2];
+        String _blockName = tokens[tokens.length -1];
+        RmSignalMutation mutation = new RmSignalMutation(_blockName, _signalName);
+        return mutation;
+    }
 }

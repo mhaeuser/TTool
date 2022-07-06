@@ -66,4 +66,12 @@ public class RmMethodMutation extends MethodMutation implements RmMutation {
         }
         if (!meth.remove(am)) TraceManager.addDev("Method is from a super-bloc");
     }
+
+    public static RmMethodMutation createFromString(String toParse) {
+        String[] tokens = toParse.split(" ");
+        String _methodName = tokens[2];
+        String _blockName = tokens[tokens.length -1];
+        RmMethodMutation mutation = new RmMethodMutation(_blockName, _methodName);
+        return mutation;
+    }
 }

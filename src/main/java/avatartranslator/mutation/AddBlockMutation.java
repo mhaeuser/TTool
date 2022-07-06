@@ -69,4 +69,10 @@ public class AddBlockMutation extends BlockElementMutation implements AddMutatio
         AvatarBlock block = createElement(_avspec);
         _avspec.addBlock(block);
     }
+    
+    public static AddBlockMutation createFromString(String toParse) {
+        String[] tokens = toParse.split(" ");
+        AddBlockMutation mutation = new AddBlockMutation(tokens[2]);
+        return mutation;
+    }
 }

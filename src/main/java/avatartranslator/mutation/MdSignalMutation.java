@@ -60,10 +60,17 @@ public class MdSignalMutation extends SignalMutation implements MdMutation {
         super(_blockName, _signalName);
     }
 
-    public MdSignalMutation(String _name, String _blockName, int _inout) {
-        this(_name, _blockName);
+    public MdSignalMutation(String _blockName, String _signalName, int _inout) {
+        this(_blockName, _signalName);
         setInOut(_inout);
     }
+
+    @Override
+    public void setParameters(List<String[]> _parameters) {
+        parametersChanged = true;
+        super.setParameters(_parameters);
+    }
+
 
     @Override
     public void addParameter(String[] _parameter) {
@@ -105,6 +112,37 @@ public class MdSignalMutation extends SignalMutation implements MdMutation {
         if (inoutChanged) {
             as.setInOut(getInOut());
         }
+    }
+
+    public static MdSignalMutation createFromString(String toParse) {
+        MdSignalMutation mutation;
+
+        String[] tokens = toParse.split(" ");
+        String _signalName = tokens[2];
+        String _blockName = tokens[5];
+
+        if (tokens[6].toUpperCase().equals("TO")) {
+            int _inout = 0;
+            switch (tokens[7].toUpperCase()) {
+                case "IN":
+                case "INPUT":
+                    _inout = AvatarSignal.IN;
+                    break;
+                case "OUT":
+                case "OUTPUT":
+                    _inout = AvatarSignal.OUT;
+                    break;
+                default:
+                    break;
+            }
+            mutation = new MdSignalMutation(_blockName, _signalName, _inout);
+        } else {
+            mutation = new MdSignalMutation(_blockName, _signalName);
+        }
+        if (tokens[tokens.length -1 ].contains(")")) {
+            mutation.setParameters(parseParameters(toParse));
+        }
+        return mutation;
     }
     
 }

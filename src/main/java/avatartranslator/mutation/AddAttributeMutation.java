@@ -72,4 +72,18 @@ public class AddAttributeMutation extends AttributeMutation implements AddMutati
         block.addAttribute(aa);
     }
 
+    public static AddAttributeMutation createFromString(String toParse) {
+        AddAttributeMutation mutation = null;
+        String[] tokens = toParse.split(" ");
+        String _attributeType = tokens[2];
+        String _attributeName = tokens[3];
+        String _blockName = tokens[tokens.length-1];
+        if (tokens[4].equals("=")) {
+            String _initialValue = tokens[5];
+            mutation = new AddAttributeMutation(_blockName, _attributeName, _attributeType, _initialValue);
+        } else {
+            mutation = new AddAttributeMutation(_blockName, _attributeName, _attributeType);
+        }
+        return mutation;
+    }
 }

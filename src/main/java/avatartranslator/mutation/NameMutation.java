@@ -39,36 +39,60 @@
 package avatartranslator.mutation;
 
 import java.util.List;
+import java.util.UUID;
 
 import avatartranslator.*;
-import myutil.TraceManager;
 
 /**
- * Class RmBlockMutation
- * Creation: 29/06/2022
+ * Class NameMutation
+ * Creation: 06/07/2022
  *
  * @author Léon FRENOT
- * @version 1.0 29/06/2022
+ * @version 1.0 06/07/2022
  */
-public class RmBlockMutation extends BlockElementMutation implements RmMutation {
-    
-    public RmBlockMutation(String _blockName) {
-        super(_blockName);
+
+public class NameMutation extends AvatarMutation {
+
+    public NameMutation(String _uuid, String _name, String _blockName) {
+        super();
+        uuid = _uuid;
+        name = _name;
+        blockName = _blockName;
     }
 
-    public AvatarBlock getElement(AvatarSpecification _avspec) {
-        return getBlock(_avspec);
+    public NameMutation(String _uuid, String _name) {
+        this(_uuid, _name, null);
     }
+
+    private String uuid;
+    private String name;
+    private String blockName;
 
     public void apply(AvatarSpecification _avspec) {
-        AvatarBlock block = getElement(_avspec);
-        List<AvatarBlock> blocks = _avspec.getListOfBlocks();
-        if(!blocks.remove(block)) TraceManager.addDev("unknown block");
+        if (blockName == null) {
+            List<AvatarRelation> elts = _avspec.getRelations();
+            for(AvatarRelation elt : elts) {
+                if(elt.getUUID().equals(UUID.fromString(uuid))) {
+                    elt.setName(name);
+                    return;
+                }
+            }
+        } else {
+            AvatarBlock block = getBlock(_avspec, blockName);
+            AvatarStateMachine asm = block.getStateMachine();
+            List<AvatarStateMachineElement> elts = asm.getListOfElements();
+            for(AvatarStateMachineElement elt : elts) {
+                if(elt.getUUID() != null && elt.getUUID().equals(UUID.fromString(uuid))) {
+                    elt.setName(name);
+                    return;
+                }
+            }
+        }
     }
 
-    public static RmBlockMutation createFromString(String toParse) {
+    public static NameMutation createFromString(String toParse) {
         String[] tokens = toParse.split(" ");
-        RmBlockMutation mutation = new RmBlockMutation(tokens[2]);
+        NameMutation mutation = new NameMutation(tokens[1], tokens[2]);
         return mutation;
     }
 }

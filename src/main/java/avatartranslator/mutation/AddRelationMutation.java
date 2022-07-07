@@ -36,46 +36,54 @@
  * knowledge of the CeCILL license and that you accept its terms.
  */
 
+package avatartranslator.mutation;
 
-
-
-package avatartranslator;
+import avatartranslator.*;
 
 /**
- * Class AvatarSetTimer
- * Creation: 15/07/2010
- * @version 1.0 15/07/2010
- * @author Ludovic APVRILLE
+ * Class AddRelationMutation
+ * Creation: 29/06/2022
+ *
+ * @author Léon FRENOT
+ * @version 1.0 29/06/2022
  */
-public class AvatarSetTimer extends AvatarTimerOperator {
-	protected String setValue;
-	
-    public AvatarSetTimer(String _name, Object _referenceObject) {
-        super(_name, _referenceObject);
-    }
-	
-	public void setTimerValue(String _setValue) {
-		setValue = _setValue;
-	}
-	
-	public String  getTimerValue() {
-		return setValue;
-	}
-	
-	public AvatarStateMachineElement basicCloneMe(AvatarStateMachineOwner _block) {
-		AvatarSetTimer ast = new AvatarSetTimer(getName(), getReferenceObject());
-		ast.setTimer(getTimer());
-		ast.setTimerValue(getTimerValue());
-		return ast;
-	}
-	
-	public String getNiceName() {
-		return "Setting of timer " + getName();
-	}
+public class AddRelationMutation extends RelationMutation implements AddMutation {
 
-	@Override
-	public String toString() {
-        return toString(getTimerValue());
+    private boolean isGraphic = false;
+
+    public AddRelationMutation(String _block1, String _block2) {
+        super(_block1, _block2);
     }
-	
+
+    public AddRelationMutation(String _block1, String _block2, String _name) {
+        super(_block1, _block2, _name);
+    }
+    
+    //todo : graphic
+    public AvatarRelation createElement(AvatarSpecification _avspec) {
+        AvatarRelation relation = new AvatarRelation(getName(), getBlock1(_avspec), getBlock2(_avspec), null);
+
+        if (this.blockingSet()) relation.setBlocking(this.isBlocking());
+
+        if (this.asynchronousSet()) relation.setAsynchronous(this.isAsynchronous());
+
+        if (this.AMSSet()) relation.setAMS(this.isAMS());
+
+        if (this.privateSet()) relation.setPrivate(this.isPrivate());
+
+        if (this.broadcastSet()) relation.setBroadcast(this.isBroadcast());
+
+        if (this.lossySet()) relation.setLossy(this.isLossy());
+
+        if (this.sizeOfFIFOSet()) relation.setSizeOfFIFO(this.getSizeOfFIFO());
+
+        if (this.idSet()) relation.setId(this.getId());
+
+        return relation;
+    }
+
+    public void apply(AvatarSpecification _avspec) {
+        AvatarRelation relation = createElement(_avspec);
+        _avspec.addRelation(relation);
+    }
 }

@@ -36,46 +36,37 @@
  * knowledge of the CeCILL license and that you accept its terms.
  */
 
+package avatartranslator.mutation;
 
+import java.util.List;
 
-
-package avatartranslator;
+import avatartranslator.*;
+//import myutil.TraceManager;
 
 /**
- * Class AvatarSetTimer
- * Creation: 15/07/2010
- * @version 1.0 15/07/2010
- * @author Ludovic APVRILLE
+ * Class MdActionMutation
+ * Creation: 28/06/2022
+ *
+ * @author Léon FRENOT
+ * @version 1.0 28/06/2022
  */
-public class AvatarSetTimer extends AvatarTimerOperator {
-	protected String setValue;
-	
-    public AvatarSetTimer(String _name, Object _referenceObject) {
-        super(_name, _referenceObject);
-    }
-	
-	public void setTimerValue(String _setValue) {
-		setValue = _setValue;
-	}
-	
-	public String  getTimerValue() {
-		return setValue;
-	}
-	
-	public AvatarStateMachineElement basicCloneMe(AvatarStateMachineOwner _block) {
-		AvatarSetTimer ast = new AvatarSetTimer(getName(), getReferenceObject());
-		ast.setTimer(getTimer());
-		ast.setTimerValue(getTimerValue());
-		return ast;
-	}
-	
-	public String getNiceName() {
-		return "Setting of timer " + getName();
-	}
 
-	@Override
-	public String toString() {
-        return toString(getTimerValue());
+public class MdActionMutation extends ActionMutation implements MdMutation {
+
+    public MdActionMutation(String _blockName, String _fromString, int _fromType, String _toString, int _toType, String _actionString, int _index) {
+        super(_blockName, _fromString, _fromType, _toString, _toType, _actionString, _index);
     }
-	
+
+    public MdActionMutation(String _blockName, String _transitionString, int _transitionType, String _actionString, int _index) {
+        super(_blockName, _transitionString, _transitionType, _actionString, _index);
+    }
+
+    public void apply(AvatarSpecification _avspec) {
+        AvatarTransition transition = getElement(_avspec);
+        List<AvatarAction> actions = transition.getActions();
+        AvatarAction action = createAction(_avspec);
+
+        actions.remove(getIndex());
+        actions.add(getIndex(), action);
+    }
 }

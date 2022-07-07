@@ -36,46 +36,54 @@
  * knowledge of the CeCILL license and that you accept its terms.
  */
 
+package avatartranslator.mutation;
 
+import avatartranslator.*;
 
-
-package avatartranslator;
 
 /**
- * Class AvatarSetTimer
- * Creation: 15/07/2010
- * @version 1.0 15/07/2010
- * @author Ludovic APVRILLE
+ * Class AddAttributeMutation
+ * Creation: 23/06/2022
+ *
+ * @author Léon FRENOT
+ * @version 1.0 23/06/2022
  */
-public class AvatarSetTimer extends AvatarTimerOperator {
-	protected String setValue;
-	
-    public AvatarSetTimer(String _name, Object _referenceObject) {
-        super(_name, _referenceObject);
-    }
-	
-	public void setTimerValue(String _setValue) {
-		setValue = _setValue;
-	}
-	
-	public String  getTimerValue() {
-		return setValue;
-	}
-	
-	public AvatarStateMachineElement basicCloneMe(AvatarStateMachineOwner _block) {
-		AvatarSetTimer ast = new AvatarSetTimer(getName(), getReferenceObject());
-		ast.setTimer(getTimer());
-		ast.setTimerValue(getTimerValue());
-		return ast;
-	}
-	
-	public String getNiceName() {
-		return "Setting of timer " + getName();
-	}
+public class AddAttributeMutation extends AttributeMutation implements AddMutation {
 
-	@Override
-	public String toString() {
-        return toString(getTimerValue());
+    public AddAttributeMutation(String _blockName, String _attributeName, String _attributeType) {
+        super(_blockName, _attributeName, _attributeType);
     }
-	
+
+    public AddAttributeMutation(String _blockName, String _attributeName, String _attributeType, String _initialValue) {
+        super(_blockName, _attributeName, _attributeType, _initialValue);
+    }
+
+    public AvatarAttribute createElement(AvatarSpecification _avspec) {
+        AvatarType type = getType();
+        AvatarBlock block = getBlock(_avspec);
+        AvatarAttribute aa = new AvatarAttribute(getName(), type, block, null);
+        if (hasInitialValue()) aa.setInitialValue(getInitialValue());
+        return aa;
+    }
+
+    public void apply(AvatarSpecification _avspec) {
+        AvatarAttribute aa = createElement(_avspec);
+        AvatarBlock block = getBlock(_avspec);
+        block.addAttribute(aa);
+    }
+
+    public static AddAttributeMutation createFromString(String toParse) {
+        AddAttributeMutation mutation = null;
+        String[] tokens = toParse.split(" ");
+        String _attributeType = tokens[2];
+        String _attributeName = tokens[3];
+        String _blockName = tokens[tokens.length-1];
+        if (tokens[4].equals("=")) {
+            String _initialValue = tokens[5];
+            mutation = new AddAttributeMutation(_blockName, _attributeName, _attributeType, _initialValue);
+        } else {
+            mutation = new AddAttributeMutation(_blockName, _attributeName, _attributeType);
+        }
+        return mutation;
+    }
 }

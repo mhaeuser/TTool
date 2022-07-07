@@ -36,46 +36,55 @@
  * knowledge of the CeCILL license and that you accept its terms.
  */
 
+package avatartranslator.mutation;
 
+import java.util.List;
 
-
-package avatartranslator;
+import avatartranslator.*;
+//import myutil.TraceManager;
 
 /**
- * Class AvatarSetTimer
- * Creation: 15/07/2010
- * @version 1.0 15/07/2010
- * @author Ludovic APVRILLE
+ * Class RmActionMutation
+ * Creation: 28/06/2022
+ *
+ * @author Léon FRENOT
+ * @version 1.0 28/06/2022
  */
-public class AvatarSetTimer extends AvatarTimerOperator {
-	protected String setValue;
-	
-    public AvatarSetTimer(String _name, Object _referenceObject) {
-        super(_name, _referenceObject);
-    }
-	
-	public void setTimerValue(String _setValue) {
-		setValue = _setValue;
-	}
-	
-	public String  getTimerValue() {
-		return setValue;
-	}
-	
-	public AvatarStateMachineElement basicCloneMe(AvatarStateMachineOwner _block) {
-		AvatarSetTimer ast = new AvatarSetTimer(getName(), getReferenceObject());
-		ast.setTimer(getTimer());
-		ast.setTimerValue(getTimerValue());
-		return ast;
-	}
-	
-	public String getNiceName() {
-		return "Setting of timer " + getName();
-	}
 
-	@Override
-	public String toString() {
-        return toString(getTimerValue());
+public class RmActionMutation extends ActionMutation implements RmMutation {
+
+    public RmActionMutation(String _blockName, String _fromString, int _fromType, String _toString, int _toType, String _actionString) {
+        super(_blockName, _fromString, _fromType, _toString, _toType, _actionString);
     }
-	
+
+    public RmActionMutation(String _blockName, String _fromString, int _fromType, String _toString, int _toType, int _index) {
+        super(_blockName, _fromString, _fromType, _toString, _toType, _index);
+    }
+
+    public RmActionMutation(String _blockName, String _transitionString, int _transitionType, String _actionString) {
+        super(_blockName, _transitionString, _transitionType, _actionString);
+    }
+
+    public RmActionMutation(String _blockName, String _transitionString, int _transitionType, int _index) {
+        super(_blockName, _transitionString, _transitionType, _index);
+    }
+
+    public void apply(AvatarSpecification _avspec) {
+        AvatarTransition transition = getElement(_avspec);
+
+        List<AvatarAction> actions = transition.getActions();
+
+        if(getIndex() != -1) {
+            actions.remove(getIndex());
+            return;
+        }
+
+        AvatarAction action = createAction(_avspec);
+        for(AvatarAction tmp_action : actions) {
+            if(action.toString().equals(tmp_action.toString())) {
+                actions.remove(tmp_action);
+                return;
+            }
+        }
+    }
 }

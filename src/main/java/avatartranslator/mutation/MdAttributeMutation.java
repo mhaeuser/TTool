@@ -36,46 +36,41 @@
  * knowledge of the CeCILL license and that you accept its terms.
  */
 
+package avatartranslator.mutation;
 
+import avatartranslator.*;
 
-
-package avatartranslator;
+import myutil.TraceManager;
 
 /**
- * Class AvatarSetTimer
- * Creation: 15/07/2010
- * @version 1.0 15/07/2010
- * @author Ludovic APVRILLE
+ * Class MdAttributeMutation
+ * Creation: 23/06/2022
+ *
+ * @author Léon FRENOT
+ * @version 1.0 23/06/2022
  */
-public class AvatarSetTimer extends AvatarTimerOperator {
-	protected String setValue;
-	
-    public AvatarSetTimer(String _name, Object _referenceObject) {
-        super(_name, _referenceObject);
-    }
-	
-	public void setTimerValue(String _setValue) {
-		setValue = _setValue;
-	}
-	
-	public String  getTimerValue() {
-		return setValue;
-	}
-	
-	public AvatarStateMachineElement basicCloneMe(AvatarStateMachineOwner _block) {
-		AvatarSetTimer ast = new AvatarSetTimer(getName(), getReferenceObject());
-		ast.setTimer(getTimer());
-		ast.setTimerValue(getTimerValue());
-		return ast;
-	}
-	
-	public String getNiceName() {
-		return "Setting of timer " + getName();
-	}
+public class MdAttributeMutation extends AttributeMutation implements MdMutation {
 
-	@Override
-	public String toString() {
-        return toString(getTimerValue());
+    public MdAttributeMutation(String _blockName, String _attributeName, String _initialValue){
+        super(_blockName, _attributeName);
+        setInitialValue(_initialValue);
     }
-	
+
+    public void apply(AvatarSpecification _avspec) {
+        AvatarAttribute aa = getElement(_avspec);
+        if (aa == null) {
+            TraceManager.addDev("Unknown Attribute");
+            return;
+        }
+        aa.setInitialValue(this.getInitialValue());
+    }
+
+    public static MdAttributeMutation createFromString(String toParse) {
+        String[] tokens = toParse.split(" ");
+        String _attributeName = tokens[2];
+        String _blockName = tokens[5];
+        String _initialValue = tokens[tokens.length - 1];
+        MdAttributeMutation mutation = new MdAttributeMutation(_blockName, _attributeName, _initialValue);
+        return mutation;
+    }
 }

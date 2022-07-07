@@ -36,46 +36,43 @@
  * knowledge of the CeCILL license and that you accept its terms.
  */
 
+package avatartranslator.mutation;
 
-
-
-package avatartranslator;
-
+import avatartranslator.*;
 /**
- * Class AvatarSetTimer
- * Creation: 15/07/2010
- * @version 1.0 15/07/2010
- * @author Ludovic APVRILLE
+ * Class AddBlockMutation
+ * Creation: 23/06/2022
+ *
+ * @author Léon FRENOT
+ * @version 1.0 23/06/2022
  */
-public class AvatarSetTimer extends AvatarTimerOperator {
-	protected String setValue;
-	
-    public AvatarSetTimer(String _name, Object _referenceObject) {
-        super(_name, _referenceObject);
-    }
-	
-	public void setTimerValue(String _setValue) {
-		setValue = _setValue;
-	}
-	
-	public String  getTimerValue() {
-		return setValue;
-	}
-	
-	public AvatarStateMachineElement basicCloneMe(AvatarStateMachineOwner _block) {
-		AvatarSetTimer ast = new AvatarSetTimer(getName(), getReferenceObject());
-		ast.setTimer(getTimer());
-		ast.setTimerValue(getTimerValue());
-		return ast;
-	}
-	
-	public String getNiceName() {
-		return "Setting of timer " + getName();
-	}
 
-	@Override
-	public String toString() {
-        return toString(getTimerValue());
+public class AddBlockMutation extends BlockElementMutation implements AddMutation {
+
+    private boolean isGraphical = false;
+    
+    public AddBlockMutation(String _blockName) {
+        super(_blockName);
     }
-	
+
+    public AvatarBlock getElement(AvatarSpecification _avspec) {
+        return getBlock(_avspec);
+    }
+
+    //todo : graphic
+    public AvatarBlock createElement(AvatarSpecification _avspec) {
+        AvatarBlock block = new AvatarBlock(getBlockName(), _avspec, null);
+        return block;
+    }
+
+    public void apply(AvatarSpecification _avspec) {
+        AvatarBlock block = createElement(_avspec);
+        _avspec.addBlock(block);
+    }
+    
+    public static AddBlockMutation createFromString(String toParse) {
+        String[] tokens = toParse.split(" ");
+        AddBlockMutation mutation = new AddBlockMutation(tokens[2]);
+        return mutation;
+    }
 }

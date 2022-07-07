@@ -36,46 +36,47 @@
  * knowledge of the CeCILL license and that you accept its terms.
  */
 
+package avatartranslator.mutation;
 
+import avatartranslator.*;
 
-
-package avatartranslator;
+import java.util.List;
 
 /**
- * Class AvatarSetTimer
- * Creation: 15/07/2010
- * @version 1.0 15/07/2010
- * @author Ludovic APVRILLE
+ * Class ResetTimerMutation
+ * Creation: 28/06/2022
+ *
+ * @author Léon FRENOT
+ * @version 1.0 28/06/2022
  */
-public class AvatarSetTimer extends AvatarTimerOperator {
-	protected String setValue;
-	
-    public AvatarSetTimer(String _name, Object _referenceObject) {
-        super(_name, _referenceObject);
-    }
-	
-	public void setTimerValue(String _setValue) {
-		setValue = _setValue;
-	}
-	
-	public String  getTimerValue() {
-		return setValue;
-	}
-	
-	public AvatarStateMachineElement basicCloneMe(AvatarStateMachineOwner _block) {
-		AvatarSetTimer ast = new AvatarSetTimer(getName(), getReferenceObject());
-		ast.setTimer(getTimer());
-		ast.setTimerValue(getTimerValue());
-		return ast;
-	}
-	
-	public String getNiceName() {
-		return "Setting of timer " + getName();
-	}
+public abstract class ResetTimerMutation extends TimerOperatorMutation {
 
-	@Override
-	public String toString() {
-        return toString(getTimerValue());
+    protected ResetTimerMutation(String _blockName, String _timerName) {
+        super(_blockName, _timerName);
     }
-	
+
+    protected ResetTimerMutation(String _blockName, String _name, int _nameType) {
+        super(_blockName, _name, _nameType);
+    }
+
+    protected ResetTimerMutation(String _blockName, String _name, int _nameType, String _timerName) {
+        super(_blockName, _name, _nameType, _timerName);
+    }
+
+    @Override
+    public AvatarResetTimer getElement(AvatarSpecification _avspec) {
+        if (isNameSet())
+            return (AvatarResetTimer)super.getElement(_avspec);
+        AvatarStateMachine asm = getAvatarStateMachine(_avspec);
+        List<AvatarStateMachineElement> elms = asm.getListOfElements();
+        for (AvatarStateMachineElement elm : elms) {
+            if (elm instanceof AvatarResetTimer) {
+                AvatarResetTimer tmp = (AvatarResetTimer)elm;
+                if (tmp.getTimer().getName().equals(this.getTimerName())) {
+                    return tmp;
+                }
+            }
+        }
+        return null;
+    }
 }

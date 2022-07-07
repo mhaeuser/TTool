@@ -36,46 +36,34 @@
  * knowledge of the CeCILL license and that you accept its terms.
  */
 
+package avatartranslator.mutation;
 
-
-
-package avatartranslator;
+import avatartranslator.*;
 
 /**
- * Class AvatarSetTimer
- * Creation: 15/07/2010
- * @version 1.0 15/07/2010
- * @author Ludovic APVRILLE
+ * Class MdResetTimerMutation
+ * Creation: 28/06/2022
+ *
+ * @author Léon FRENOT
+ * @version 1.0 28/06/2022
  */
-public class AvatarSetTimer extends AvatarTimerOperator {
-	protected String setValue;
-	
-    public AvatarSetTimer(String _name, Object _referenceObject) {
-        super(_name, _referenceObject);
-    }
-	
-	public void setTimerValue(String _setValue) {
-		setValue = _setValue;
-	}
-	
-	public String  getTimerValue() {
-		return setValue;
-	}
-	
-	public AvatarStateMachineElement basicCloneMe(AvatarStateMachineOwner _block) {
-		AvatarSetTimer ast = new AvatarSetTimer(getName(), getReferenceObject());
-		ast.setTimer(getTimer());
-		ast.setTimerValue(getTimerValue());
-		return ast;
-	}
-	
-	public String getNiceName() {
-		return "Setting of timer " + getName();
-	}
+public class MdResetTimerMutation extends ResetTimerMutation implements MdMutation {
 
-	@Override
-	public String toString() {
-        return toString(getTimerValue());
+    private String newTimerName;
+    
+    public MdResetTimerMutation(String _blockName, String _currentTimerName, String _newTimerName) {
+        super(_blockName, _currentTimerName);
+        newTimerName = _newTimerName;
     }
-	
+
+    public MdResetTimerMutation(String _blockName, String _name, int _nameType, String _timerName, String _newTimerName) {
+        super(_blockName, _name, _nameType, _timerName);
+        newTimerName = _newTimerName;
+    }
+
+    public void apply(AvatarSpecification _avspec) {
+        AvatarResetTimer elt = getElement(_avspec);
+        AvatarAttribute newTimer = getAttribute(_avspec, newTimerName);
+        elt.setTimer(newTimer);
+    }
 }

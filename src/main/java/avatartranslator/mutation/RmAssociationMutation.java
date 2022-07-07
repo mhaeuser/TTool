@@ -36,46 +36,30 @@
  * knowledge of the CeCILL license and that you accept its terms.
  */
 
+package avatartranslator.mutation;
 
-
-
-package avatartranslator;
+import avatartranslator.*;
 
 /**
- * Class AvatarSetTimer
- * Creation: 15/07/2010
- * @version 1.0 15/07/2010
- * @author Ludovic APVRILLE
+ * Class RmAssociationMutation
+ * Creation: 29/06/2022
+ *
+ * @author Léon FRENOT
+ * @version 1.0 29/06/2022
  */
-public class AvatarSetTimer extends AvatarTimerOperator {
-	protected String setValue;
-	
-    public AvatarSetTimer(String _name, Object _referenceObject) {
-        super(_name, _referenceObject);
-    }
-	
-	public void setTimerValue(String _setValue) {
-		setValue = _setValue;
-	}
-	
-	public String  getTimerValue() {
-		return setValue;
-	}
-	
-	public AvatarStateMachineElement basicCloneMe(AvatarStateMachineOwner _block) {
-		AvatarSetTimer ast = new AvatarSetTimer(getName(), getReferenceObject());
-		ast.setTimer(getTimer());
-		ast.setTimerValue(getTimerValue());
-		return ast;
-	}
-	
-	public String getNiceName() {
-		return "Setting of timer " + getName();
-	}
+public class RmAssociationMutation extends AssociationMutation implements RmMutation {
 
-	@Override
-	public String toString() {
-        return toString(getTimerValue());
+    public RmAssociationMutation(String _block1, String _block2, String _signal1, String _signal2) {
+        super(_block1, _block2, _signal1, _signal2);
     }
-	
+
+    public RmAssociationMutation(String _relationString, int _relationType, String _signal1, String _signal2) {
+        super(_relationString, _relationType, _signal1, _signal2);
+    }
+
+    public void apply(AvatarSpecification _avspec) {
+        AvatarRelation relation = getElement(_avspec);
+        relation.removeAssociation(getSignal1(_avspec), getSignal2(_avspec));
+    }
+    
 }

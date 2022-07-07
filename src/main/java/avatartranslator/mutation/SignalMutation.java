@@ -36,46 +36,65 @@
  * knowledge of the CeCILL license and that you accept its terms.
  */
 
+package avatartranslator.mutation;
 
-
-
-package avatartranslator;
+import avatartranslator.*;
 
 /**
- * Class AvatarSetTimer
- * Creation: 15/07/2010
- * @version 1.0 15/07/2010
- * @author Ludovic APVRILLE
+ * Class SignalMutation
+ * Creation: 24/06/2022
+ *
+ * @author Léon FRENOT
+ * @version 1.0 24/06/2022
  */
-public class AvatarSetTimer extends AvatarTimerOperator {
-	protected String setValue;
-	
-    public AvatarSetTimer(String _name, Object _referenceObject) {
-        super(_name, _referenceObject);
-    }
-	
-	public void setTimerValue(String _setValue) {
-		setValue = _setValue;
-	}
-	
-	public String  getTimerValue() {
-		return setValue;
-	}
-	
-	public AvatarStateMachineElement basicCloneMe(AvatarStateMachineOwner _block) {
-		AvatarSetTimer ast = new AvatarSetTimer(getName(), getReferenceObject());
-		ast.setTimer(getTimer());
-		ast.setTimerValue(getTimerValue());
-		return ast;
-	}
-	
-	public String getNiceName() {
-		return "Setting of timer " + getName();
-	}
 
-	@Override
-	public String toString() {
-        return toString(getTimerValue());
+public abstract class SignalMutation extends MethodMutation {
+
+    protected SignalMutation(String _blockName, String _signalName) {
+        super(_blockName, _signalName);
     }
-	
+
+    protected SignalMutation(String _blockName, String _signalName, int _inout) {
+        super(_blockName, _signalName);
+        setInOut(_inout);
+    }
+    
+    private int inout;
+    
+    public final static int IN = AvatarSignal.IN;
+    public final static int OUT = AvatarSignal.OUT;
+
+    protected String getSignalName() {
+        return getMethodName();
+    }
+
+    protected void setInOut(int _inout) {
+        inout = _inout;
+    }
+
+    protected int getInOut() {
+        return inout;
+    }
+
+    @Override
+    public AvatarSignal getElement(AvatarSpecification _avspec) {
+        return getSignal(_avspec, getMethodName());
+    }
+
+    public static SignalMutation createFromString(String toParse) {
+        String[] tokens = toParse.toUpperCase().split(" ");
+        switch (tokens[0]) {
+            case "ADD":
+                return AddSignalMutation.createFromString(toParse);
+            case "RM":
+            case "REMOVE":
+                return RmSignalMutation.createFromString(toParse);
+            case "MD":
+            case "MODIFY":
+                return MdSignalMutation.createFromString(toParse);
+            default:
+                break;
+        }
+        return null;
+    }
 }

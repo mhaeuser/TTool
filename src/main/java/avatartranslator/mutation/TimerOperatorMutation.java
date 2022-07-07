@@ -36,46 +36,46 @@
  * knowledge of the CeCILL license and that you accept its terms.
  */
 
+package avatartranslator.mutation;
 
-
-
-package avatartranslator;
+import avatartranslator.*;
 
 /**
- * Class AvatarSetTimer
- * Creation: 15/07/2010
- * @version 1.0 15/07/2010
- * @author Ludovic APVRILLE
+ * Class TimerOperatorMutation
+ * Creation: 28/06/2022
+ *
+ * @author Léon FRENOT
+ * @version 1.0 28/06/2022
  */
-public class AvatarSetTimer extends AvatarTimerOperator {
-	protected String setValue;
-	
-    public AvatarSetTimer(String _name, Object _referenceObject) {
-        super(_name, _referenceObject);
-    }
-	
-	public void setTimerValue(String _setValue) {
-		setValue = _setValue;
-	}
-	
-	public String  getTimerValue() {
-		return setValue;
-	}
-	
-	public AvatarStateMachineElement basicCloneMe(AvatarStateMachineOwner _block) {
-		AvatarSetTimer ast = new AvatarSetTimer(getName(), getReferenceObject());
-		ast.setTimer(getTimer());
-		ast.setTimerValue(getTimerValue());
-		return ast;
-	}
-	
-	public String getNiceName() {
-		return "Setting of timer " + getName();
-	}
 
-	@Override
-	public String toString() {
-        return toString(getTimerValue());
+public abstract class TimerOperatorMutation extends UnnamedStateMachineElementMutation {
+
+    protected TimerOperatorMutation(String _blockName, String _timerName) {
+        super(_blockName);
+        setTimerName(_timerName);
     }
-	
+
+    protected TimerOperatorMutation(String _blockName, String _name, int _nameType) {
+        super(_blockName, _name, _nameType);
+    }
+
+    protected TimerOperatorMutation(String _blockName, String _name, int _nameType, String _timerName) {
+        this(_blockName, _name, _nameType);
+        setTimerName(_timerName);
+    }
+
+    private String timerName;
+    
+    protected String getTimerName() {
+        return timerName;
+    }
+
+    private void setTimerName(String _name) {
+        timerName = _name;
+    }
+    
+    public AvatarTimerOperator getElement(AvatarSpecification _avspec) {
+        return (AvatarTimerOperator)super.getElement(_avspec);
+    }
+    
 }

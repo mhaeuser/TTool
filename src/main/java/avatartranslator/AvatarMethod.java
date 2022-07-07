@@ -82,8 +82,16 @@ public class AvatarMethod extends AvatarElement {
         return parameters;
     }
 
+    public void removeAttributes() {
+        parameters = new LinkedList<AvatarAttribute>();
+    }
+
     public List<AvatarAttribute> getListOfReturnAttributes() {
         return returnParameters;
+    }
+
+    public void removeReturnAttributes() {
+        returnParameters = new LinkedList<AvatarAttribute>();
     }
 
     public static boolean isAValidMethodName(String _method) {

@@ -36,46 +36,35 @@
  * knowledge of the CeCILL license and that you accept its terms.
  */
 
+package avatartranslator.mutation;
 
-
-
-package avatartranslator;
+import avatartranslator.*;
 
 /**
- * Class AvatarSetTimer
- * Creation: 15/07/2010
- * @version 1.0 15/07/2010
- * @author Ludovic APVRILLE
+ * Class AttachParentMutation
+ * Creation: 01/07/2022
+ *
+ * @author Léon FRENOT
+ * @version 1.0 01/07/2022
  */
-public class AvatarSetTimer extends AvatarTimerOperator {
-	protected String setValue;
-	
-    public AvatarSetTimer(String _name, Object _referenceObject) {
-        super(_name, _referenceObject);
-    }
-	
-	public void setTimerValue(String _setValue) {
-		setValue = _setValue;
-	}
-	
-	public String  getTimerValue() {
-		return setValue;
-	}
-	
-	public AvatarStateMachineElement basicCloneMe(AvatarStateMachineOwner _block) {
-		AvatarSetTimer ast = new AvatarSetTimer(getName(), getReferenceObject());
-		ast.setTimer(getTimer());
-		ast.setTimerValue(getTimerValue());
-		return ast;
-	}
-	
-	public String getNiceName() {
-		return "Setting of timer " + getName();
-	}
 
-	@Override
-	public String toString() {
-        return toString(getTimerValue());
+public class AttachParentMutation extends ParentMutation {
+    
+    public AttachParentMutation(String parentBlock, String childBlock) {
+        super(parentBlock, childBlock);
     }
-	
+
+    public void apply(AvatarSpecification _avspec) {
+        AvatarBlock parentBlock = getParentBlock(_avspec);
+
+        AvatarBlock childBlock = getChildBlock(_avspec);
+
+        childBlock.setFather(parentBlock);
+    }
+
+    public static AttachParentMutation createFromString(String toParse) {
+        String[] tokens = toParse.split(" ");
+        AttachParentMutation mutation = new AttachParentMutation(tokens[tokens.length - 1], tokens[1]);
+        return mutation;
+    }
 }

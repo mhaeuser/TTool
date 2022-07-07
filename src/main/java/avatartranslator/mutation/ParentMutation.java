@@ -36,46 +36,41 @@
  * knowledge of the CeCILL license and that you accept its terms.
  */
 
+package avatartranslator.mutation;
 
-
-
-package avatartranslator;
+import avatartranslator.*;
 
 /**
- * Class AvatarSetTimer
- * Creation: 15/07/2010
- * @version 1.0 15/07/2010
- * @author Ludovic APVRILLE
+ * Class ParentMutation
+ * Creation: 01/07/2022
+ *
+ * @author Léon FRENOT
+ * @version 1.0 01/07/2022
  */
-public class AvatarSetTimer extends AvatarTimerOperator {
-	protected String setValue;
-	
-    public AvatarSetTimer(String _name, Object _referenceObject) {
-        super(_name, _referenceObject);
-    }
-	
-	public void setTimerValue(String _setValue) {
-		setValue = _setValue;
-	}
-	
-	public String  getTimerValue() {
-		return setValue;
-	}
-	
-	public AvatarStateMachineElement basicCloneMe(AvatarStateMachineOwner _block) {
-		AvatarSetTimer ast = new AvatarSetTimer(getName(), getReferenceObject());
-		ast.setTimer(getTimer());
-		ast.setTimerValue(getTimerValue());
-		return ast;
-	}
-	
-	public String getNiceName() {
-		return "Setting of timer " + getName();
-	}
 
-	@Override
-	public String toString() {
-        return toString(getTimerValue());
+public abstract class ParentMutation extends AvatarMutation {
+
+    protected ParentMutation(String _parentBlock, String _childBlock) {
+        super();
+        parentBlock = _parentBlock;
+        childBlock = _childBlock;
     }
-	
+
+    private String parentBlock, childBlock;
+
+    protected String getParentBlock() {
+        return parentBlock;
+    }
+
+    protected AvatarBlock getParentBlock(AvatarSpecification _avspec) {
+        return getBlock(_avspec, getParentBlock());
+    }
+
+    protected String getChildBlock() {
+        return childBlock;
+    }
+
+    protected AvatarBlock getChildBlock(AvatarSpecification _avspec) {
+        return getBlock(_avspec, getChildBlock());
+    }
 }

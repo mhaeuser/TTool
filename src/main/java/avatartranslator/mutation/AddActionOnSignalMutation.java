@@ -36,46 +36,48 @@
  * knowledge of the CeCILL license and that you accept its terms.
  */
 
+package avatartranslator.mutation;
 
-
-
-package avatartranslator;
+import avatartranslator.*;
 
 /**
- * Class AvatarSetTimer
- * Creation: 15/07/2010
- * @version 1.0 15/07/2010
- * @author Ludovic APVRILLE
+ * Class AddActionOnSignalMutation
+ * Creation: 28/06/2022
+ *
+ * @author Léon FRENOT
+ * @version 1.0 28/06/2022
  */
-public class AvatarSetTimer extends AvatarTimerOperator {
-	protected String setValue;
-	
-    public AvatarSetTimer(String _name, Object _referenceObject) {
-        super(_name, _referenceObject);
-    }
-	
-	public void setTimerValue(String _setValue) {
-		setValue = _setValue;
-	}
-	
-	public String  getTimerValue() {
-		return setValue;
-	}
-	
-	public AvatarStateMachineElement basicCloneMe(AvatarStateMachineOwner _block) {
-		AvatarSetTimer ast = new AvatarSetTimer(getName(), getReferenceObject());
-		ast.setTimer(getTimer());
-		ast.setTimerValue(getTimerValue());
-		return ast;
-	}
-	
-	public String getNiceName() {
-		return "Setting of timer " + getName();
-	}
+public class AddActionOnSignalMutation extends ActionOnSignalMutation implements AddMutation {
 
-	@Override
-	public String toString() {
-        return toString(getTimerValue());
+    private boolean isGraphical = false;
+
+    public AddActionOnSignalMutation(String _blockName, String _signalName) {
+        super(_blockName, _signalName);
     }
-	
+
+    public AddActionOnSignalMutation(String _blockName, String _signalName, String _name) {
+        super(_blockName, _name, NAME_TYPE, _signalName);
+    }
+
+    //todo : graphique
+    public AvatarActionOnSignal createElement(AvatarSpecification _avspec) {
+        AvatarSignal signal = getSignal(_avspec, getSignalName());
+        AvatarActionOnSignal aaos = new AvatarActionOnSignal(getName(), signal, null);
+        
+        if (isCheckLatencySet())
+            aaos.setCheckLatency(this.getCheckLatency());
+
+        for (String s : this.getValues())
+            aaos.addValue(s);
+
+        return aaos;
+    }
+    
+    @Override
+    public void apply(AvatarSpecification _avspec) {
+        AvatarActionOnSignal aaos = createElement(_avspec);
+        AvatarStateMachine asm = getAvatarStateMachine(_avspec);
+        asm.addElement(aaos);
+    }
+
 }

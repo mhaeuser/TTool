@@ -36,46 +36,47 @@
  * knowledge of the CeCILL license and that you accept its terms.
  */
 
+package avatartranslator.mutation;
 
-
-
-package avatartranslator;
+import avatartranslator.*;
 
 /**
- * Class AvatarSetTimer
- * Creation: 15/07/2010
- * @version 1.0 15/07/2010
- * @author Ludovic APVRILLE
+ * Class AddRandomMutation
+ * Creation: 28/06/2022
+ *
+ * @author Léon FRENOT
+ * @version 1.0 28/06/2022
  */
-public class AvatarSetTimer extends AvatarTimerOperator {
-	protected String setValue;
-	
-    public AvatarSetTimer(String _name, Object _referenceObject) {
-        super(_name, _referenceObject);
-    }
-	
-	public void setTimerValue(String _setValue) {
-		setValue = _setValue;
-	}
-	
-	public String  getTimerValue() {
-		return setValue;
-	}
-	
-	public AvatarStateMachineElement basicCloneMe(AvatarStateMachineOwner _block) {
-		AvatarSetTimer ast = new AvatarSetTimer(getName(), getReferenceObject());
-		ast.setTimer(getTimer());
-		ast.setTimerValue(getTimerValue());
-		return ast;
-	}
-	
-	public String getNiceName() {
-		return "Setting of timer " + getName();
-	}
 
-	@Override
-	public String toString() {
-        return toString(getTimerValue());
+public class AddRandomMutation extends RandomMutation implements AddMutation {
+
+    boolean isGraphical = false;
+
+    public AddRandomMutation(String _blockName, String _attributeName) {
+        super(_blockName, _attributeName);
     }
-	
+
+    public AddRandomMutation(String _blockName, String _attributeName, String _name) {
+        super(_blockName, _name, NAME_TYPE, _attributeName);
+    }
+    
+    //todo : add Graphical referenceObject
+    public AvatarRandom createElement(AvatarSpecification _avspec) {
+        AvatarRandom rand = new AvatarRandom(getName(), null);
+        rand.setVariable(getAttributeName());
+        if(areValuesSet()) rand.setValues(getMinValue(), getMaxValue());
+        if(isFunctionSet()) {
+            rand.setFunctionId(getFunctionId());
+            rand.setExtraAttribute1(getExtraAttribute1());
+            rand.setExtraAttribute2(getExtraAttribute2());
+        }
+        return rand;
+    }
+
+    public void apply(AvatarSpecification _avspec) {
+        AvatarStateMachine asm = getAvatarStateMachine(_avspec);
+        AvatarRandom rand = createElement(_avspec);
+        asm.addElement(rand);
+    }
+
 }

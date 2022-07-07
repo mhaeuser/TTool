@@ -36,46 +36,37 @@
  * knowledge of the CeCILL license and that you accept its terms.
  */
 
+package avatartranslator.mutation;
 
+import avatartranslator.*;
 
-
-package avatartranslator;
+//import myutil.TraceManager;
 
 /**
- * Class AvatarSetTimer
- * Creation: 15/07/2010
- * @version 1.0 15/07/2010
- * @author Ludovic APVRILLE
+ * Class NoneActionOnSignalMutation
+ * Creation: 30/06/2022
+ *
+ * @author Léon FRENOT
+ * @version 1.0 30/06/2022
  */
-public class AvatarSetTimer extends AvatarTimerOperator {
-	protected String setValue;
-	
-    public AvatarSetTimer(String _name, Object _referenceObject) {
-        super(_name, _referenceObject);
-    }
-	
-	public void setTimerValue(String _setValue) {
-		setValue = _setValue;
-	}
-	
-	public String  getTimerValue() {
-		return setValue;
-	}
-	
-	public AvatarStateMachineElement basicCloneMe(AvatarStateMachineOwner _block) {
-		AvatarSetTimer ast = new AvatarSetTimer(getName(), getReferenceObject());
-		ast.setTimer(getTimer());
-		ast.setTimerValue(getTimerValue());
-		return ast;
-	}
-	
-	public String getNiceName() {
-		return "Setting of timer " + getName();
-	}
 
-	@Override
-	public String toString() {
-        return toString(getTimerValue());
+public class NoneActionOnSignalMutation extends ActionOnSignalMutation {
+
+    protected NoneActionOnSignalMutation(String _blockName, String _signalName) {
+        super(_blockName, _signalName);
     }
-	
+
+    protected NoneActionOnSignalMutation(String _blockName, String _name, int _nameType) {
+        super(_blockName, _name, _nameType);
+    }
+
+    protected NoneActionOnSignalMutation(String _blockName, String _name, int _nameType, String _signalName) {
+        super(_blockName, _name, _nameType, _signalName);
+    }
+
+    public void apply(AvatarSpecification _avspec) {
+        return;
+    }
+
+    
 }

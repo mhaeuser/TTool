@@ -36,46 +36,42 @@
  * knowledge of the CeCILL license and that you accept its terms.
  */
 
+ package avatartranslator.mutation;
 
+import avatartranslator.*;
+import java.util.List;
 
-
-package avatartranslator;
+import myutil.TraceManager;
 
 /**
- * Class AvatarSetTimer
- * Creation: 15/07/2010
- * @version 1.0 15/07/2010
- * @author Ludovic APVRILLE
+ * Class RmAttributeMutation
+ * Creation: 23/06/2022
+ *
+ * @author Léon FRENOT
+ * @version 1.0 23/06/2022
  */
-public class AvatarSetTimer extends AvatarTimerOperator {
-	protected String setValue;
-	
-    public AvatarSetTimer(String _name, Object _referenceObject) {
-        super(_name, _referenceObject);
-    }
-	
-	public void setTimerValue(String _setValue) {
-		setValue = _setValue;
-	}
-	
-	public String  getTimerValue() {
-		return setValue;
-	}
-	
-	public AvatarStateMachineElement basicCloneMe(AvatarStateMachineOwner _block) {
-		AvatarSetTimer ast = new AvatarSetTimer(getName(), getReferenceObject());
-		ast.setTimer(getTimer());
-		ast.setTimerValue(getTimerValue());
-		return ast;
-	}
-	
-	public String getNiceName() {
-		return "Setting of timer " + getName();
-	}
+public class RmAttributeMutation extends AttributeMutation implements RmMutation {
 
-	@Override
-	public String toString() {
-        return toString(getTimerValue());
+    public RmAttributeMutation(String _blockName, String _attributeName) {
+        super(_blockName, _attributeName);
     }
-	
+
+    public void apply(AvatarSpecification _avspec) {
+        AvatarBlock block = getBlock(_avspec);
+        List<AvatarAttribute> attr = block.getAttributes();
+        AvatarAttribute aa = getElement(_avspec);
+        if (aa == null) {
+            TraceManager.addDev("Unknown Attribute");
+            return;
+        }
+        if (!attr.remove(aa)) TraceManager.addDev("Attribute is from a super-bloc");
+    }
+
+    public static RmAttributeMutation createFromString(String toParse) {
+        String[] tokens = toParse.split(" ");
+        String _attributeName = tokens[2];
+        String _blockName = tokens[tokens.length - 1];
+        RmAttributeMutation mutation = new RmAttributeMutation(_blockName, _attributeName);
+        return mutation;
+    }
 }

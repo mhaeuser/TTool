@@ -36,46 +36,63 @@
  * knowledge of the CeCILL license and that you accept its terms.
  */
 
+package avatartranslator.mutation;
 
-
-
-package avatartranslator;
-
+import avatartranslator.*;
 /**
- * Class AvatarSetTimer
- * Creation: 15/07/2010
- * @version 1.0 15/07/2010
- * @author Ludovic APVRILLE
+ * Class BlockStructMutation
+ * Creation: 23/06/2022
+ *
+ * @author Léon FRENOT
+ * @version 1.0 23/06/2022
  */
-public class AvatarSetTimer extends AvatarTimerOperator {
-	protected String setValue;
-	
-    public AvatarSetTimer(String _name, Object _referenceObject) {
-        super(_name, _referenceObject);
-    }
-	
-	public void setTimerValue(String _setValue) {
-		setValue = _setValue;
-	}
-	
-	public String  getTimerValue() {
-		return setValue;
-	}
-	
-	public AvatarStateMachineElement basicCloneMe(AvatarStateMachineOwner _block) {
-		AvatarSetTimer ast = new AvatarSetTimer(getName(), getReferenceObject());
-		ast.setTimer(getTimer());
-		ast.setTimerValue(getTimerValue());
-		return ast;
-	}
-	
-	public String getNiceName() {
-		return "Setting of timer " + getName();
-	}
+public abstract class BlockElementMutation extends AvatarMutation {
 
-	@Override
-	public String toString() {
-        return toString(getTimerValue());
+    private String blockName;
+
+    protected BlockElementMutation(String _blockName) {
+        super();
+        setBlockName(_blockName);
     }
-	
+
+    private void setBlockName(String _blockName) {
+        blockName = _blockName;
+    }
+
+    protected AvatarBlock getBlock(AvatarSpecification _avspec) {
+        return _avspec.getBlockWithName(blockName);
+    }
+
+    protected String getBlockName() {
+        return blockName;
+    }
+
+    protected AvatarAttribute getAttribute(AvatarSpecification _avspec, String _name) {
+        AvatarBlock block = getBlock(_avspec);
+        return block.getAvatarAttributeWithName(_name);
+    }
+
+    protected AvatarMethod getMethod(AvatarSpecification _avspec, String _name) {
+        AvatarBlock block = getBlock(_avspec);
+        return block.getAvatarMethodWithName(_name);
+    }
+
+    protected AvatarSignal getSignal(AvatarSpecification _avspec, String _name) {
+        AvatarBlock block = getBlock(_avspec);
+        return block.getAvatarSignalWithName(_name);
+    }
+
+    public static BlockElementMutation createFromString(String toParse) {
+        String[] tokens = toParse.toUpperCase().split(" ");
+        switch (tokens[0]) {
+            case "ADD":
+                return AddBlockMutation.createFromString(toParse);
+            case "RM":
+            case "REMOVE":
+                return RmBlockMutation.createFromString(toParse);
+            default:
+                break;
+        }
+        return null;
+    }
 }

@@ -36,46 +36,71 @@
  * knowledge of the CeCILL license and that you accept its terms.
  */
 
+package avatartranslator.mutation;
 
+import java.util.List;
 
-
-package avatartranslator;
+import avatartranslator.*;
 
 /**
- * Class AvatarSetTimer
- * Creation: 15/07/2010
- * @version 1.0 15/07/2010
- * @author Ludovic APVRILLE
+ * Class AddSignalMutation
+ * Creation: 24/06/2022
+ *
+ * @author Léon FRENOT
+ * @version 1.0 24/06/2022
  */
-public class AvatarSetTimer extends AvatarTimerOperator {
-	protected String setValue;
-	
-    public AvatarSetTimer(String _name, Object _referenceObject) {
-        super(_name, _referenceObject);
-    }
-	
-	public void setTimerValue(String _setValue) {
-		setValue = _setValue;
-	}
-	
-	public String  getTimerValue() {
-		return setValue;
-	}
-	
-	public AvatarStateMachineElement basicCloneMe(AvatarStateMachineOwner _block) {
-		AvatarSetTimer ast = new AvatarSetTimer(getName(), getReferenceObject());
-		ast.setTimer(getTimer());
-		ast.setTimerValue(getTimerValue());
-		return ast;
-	}
-	
-	public String getNiceName() {
-		return "Setting of timer " + getName();
-	}
+public class AddSignalMutation extends SignalMutation implements AddMutation {
 
-	@Override
-	public String toString() {
-        return toString(getTimerValue());
+    public AddSignalMutation(String _blockName, String _signalName, int _inout) {
+        super(_blockName, _signalName, _inout);
     }
-	
+    
+    public AvatarSignal createElement(AvatarSpecification _avspec) {
+        AvatarBlock block = getBlock(_avspec);
+        AvatarSignal as = new AvatarSignal(getSignalName(), getInOut(), null);
+        for (String[] s : getParameters()) {
+            AvatarAttribute aa = new AvatarAttribute(s[1], AvatarType.getType(s[0]), block, null);
+            as.addParameter(aa);
+        }
+        return as;
+    }
+
+    public void apply(AvatarSpecification _avspec) {
+        AvatarSignal as = createElement(_avspec);
+        AvatarBlock block = getBlock(_avspec);
+        block.addSignal(as);
+    }
+
+    public static AddSignalMutation createFromString(String toParse) {
+        AddSignalMutation mutation = null;
+        String _signalName;
+        String _blockName;
+        int _inout = 0;
+
+        List<String[]> _parameters = parseParameters(toParse);
+        String[] tokens = toParse.split(" ");
+
+        switch (tokens[1].toUpperCase()) {
+            case "IN":
+            case "INPUT":
+                _inout = AvatarSignal.IN;
+                break;
+            case "OUT":
+            case "OUTPUT":
+                _inout = AvatarSignal.OUT;
+                break;
+            default:
+                break;
+        }
+
+        _signalName = tokens[3];
+
+        _blockName = tokens[tokens.length - 1];
+
+        mutation = new AddSignalMutation(_blockName, _signalName, _inout);
+
+        mutation.setParameters(_parameters);
+
+        return mutation;
+    }
 }

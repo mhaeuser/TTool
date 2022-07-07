@@ -36,46 +36,39 @@
  * knowledge of the CeCILL license and that you accept its terms.
  */
 
+package avatartranslator.mutation;
 
-
-
-package avatartranslator;
+import avatartranslator.*;
 
 /**
- * Class AvatarSetTimer
- * Creation: 15/07/2010
- * @version 1.0 15/07/2010
- * @author Ludovic APVRILLE
+ * Class StateMutation
+ * Creation: 27/06/2022
+ *
+ * @author Léon FRENOT
+ * @version 1.0 27/06/2022
  */
-public class AvatarSetTimer extends AvatarTimerOperator {
-	protected String setValue;
-	
-    public AvatarSetTimer(String _name, Object _referenceObject) {
-        super(_name, _referenceObject);
-    }
-	
-	public void setTimerValue(String _setValue) {
-		setValue = _setValue;
-	}
-	
-	public String  getTimerValue() {
-		return setValue;
-	}
-	
-	public AvatarStateMachineElement basicCloneMe(AvatarStateMachineOwner _block) {
-		AvatarSetTimer ast = new AvatarSetTimer(getName(), getReferenceObject());
-		ast.setTimer(getTimer());
-		ast.setTimerValue(getTimerValue());
-		return ast;
-	}
-	
-	public String getNiceName() {
-		return "Setting of timer " + getName();
-	}
 
-	@Override
-	public String toString() {
-        return toString(getTimerValue());
+public abstract class StateMutation extends StateMachineElementMutation {
+
+    protected StateMutation(String _blockName, String _stateName) {
+        super(_blockName);
+        setStateName(_stateName);
     }
-	
+
+    private String stateName;
+
+    private void setStateName(String _stateName) {
+        stateName = _stateName;
+    }
+
+    public String getStateName() {
+        return stateName;
+    }
+
+    public AvatarState getElement(AvatarSpecification _avspec) {
+        AvatarStateMachine asm = getAvatarStateMachine(_avspec);
+        AvatarState state = asm.getStateWithName(getStateName());
+        return state;
+    }
+    
 }

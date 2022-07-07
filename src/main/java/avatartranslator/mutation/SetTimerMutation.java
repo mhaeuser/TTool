@@ -36,46 +36,60 @@
  * knowledge of the CeCILL license and that you accept its terms.
  */
 
+package avatartranslator.mutation;
 
+import avatartranslator.*;
 
-
-package avatartranslator;
+import java.util.List;
 
 /**
- * Class AvatarSetTimer
- * Creation: 15/07/2010
- * @version 1.0 15/07/2010
- * @author Ludovic APVRILLE
+ * Class SetTimerMutation
+ * Creation: 28/06/2022
+ *
+ * @author Léon FRENOT
+ * @version 1.0 28/06/2022
  */
-public class AvatarSetTimer extends AvatarTimerOperator {
-	protected String setValue;
-	
-    public AvatarSetTimer(String _name, Object _referenceObject) {
-        super(_name, _referenceObject);
-    }
-	
-	public void setTimerValue(String _setValue) {
-		setValue = _setValue;
-	}
-	
-	public String  getTimerValue() {
-		return setValue;
-	}
-	
-	public AvatarStateMachineElement basicCloneMe(AvatarStateMachineOwner _block) {
-		AvatarSetTimer ast = new AvatarSetTimer(getName(), getReferenceObject());
-		ast.setTimer(getTimer());
-		ast.setTimerValue(getTimerValue());
-		return ast;
-	}
-	
-	public String getNiceName() {
-		return "Setting of timer " + getName();
-	}
+public abstract class SetTimerMutation extends TimerOperatorMutation {
 
-	@Override
-	public String toString() {
-        return toString(getTimerValue());
+    private String timerValue;
+
+    protected SetTimerMutation(String _blockName, String _timerName, String _timerValue) {
+        super(_blockName, _timerName);
+        timerValue = _timerValue;
     }
-	
+
+    protected SetTimerMutation(String _blockName, String _name, int _nameType) {
+        super(_blockName, _name, _nameType);
+    }
+
+    protected SetTimerMutation(String _blockName, String _name, int _nameType, String _timerValue) {
+        super(_blockName, _name, _nameType);
+        timerValue = _timerValue;
+    }
+
+    protected SetTimerMutation(String _blockName, String _name, int _nameType, String _timerName, String _timerValue) {
+        super(_blockName, _name, _nameType, _timerName);
+        timerValue = _timerValue;
+    }
+
+    protected String getTimerValue() {
+        return timerValue;
+    }
+
+    @Override
+    public AvatarSetTimer getElement(AvatarSpecification _avspec) {
+        if (isNameSet())
+            return (AvatarSetTimer)super.getElement(_avspec);
+        AvatarStateMachine asm = getAvatarStateMachine(_avspec);
+        List<AvatarStateMachineElement> elms = asm.getListOfElements();
+        for (AvatarStateMachineElement elm : elms) {
+            if (elm instanceof AvatarSetTimer) {
+                AvatarSetTimer tmp = (AvatarSetTimer)elm;
+                if (tmp.getTimer().getName().equals(this.getTimerName()) && tmp.getTimerValue().equals(this.getTimerValue())) {
+                    return tmp;
+                }
+            }
+        }
+        return null;
+    }
 }

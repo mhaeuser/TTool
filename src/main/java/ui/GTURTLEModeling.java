@@ -9210,17 +9210,17 @@ public class GTURTLEModeling {
 
 
 
-            TraceManager.addDev("bl1:" + bl1 + " bl2:" + bl2);
+            //TraceManager.addDev("bl1:" + bl1 + " bl2:" + bl2);
 
             // Printing blockMap
-            for(String s: blockMap.keySet()) {
+            /*for(String s: blockMap.keySet()) {
                 AvatarBDBlock block = blockMap.get(s);
                 TraceManager.addDev("String s:" + s + " / Block : " + block.getBlockName());
-            }
+            }*/
 
 
             if ((blockMap.get(bl1) != null) && (blockMap.get(bl2) != null)) {
-                TraceManager.addDev("Handling blocks");
+                //TraceManager.addDev("Handling blocks");
                 TGConnectingPoint p1 = blockMap.get(bl1).findFirstFreeTGConnectingPoint(true, true);
                 p1.setFree(false);
 

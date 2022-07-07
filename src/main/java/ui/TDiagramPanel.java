@@ -1035,7 +1035,8 @@ public abstract class TDiagramPanel extends JPanel implements GenericTree {
                 //TraceManager.addDev("Swallowed component !");
                 SwallowTGComponent stgc = findSwallowTGComponent(x, y, tgc);
                 if (stgc != null) {
-                    TraceManager.addDev("Found father " + ((TGComponent)stgc).getClass().toString() + " component that can swallow added component " + tgc.getValue());
+                    //TraceManager.addDev("Found father " + ((TGComponent)stgc).getClass().toString() +
+                     //       " component that can swallow added component " + tgc.getValue());
                     if (stgc.addSwallowedTGComponent(tgc, x, y)) {
                         tgc.wasSwallowed();
                         ret = true;

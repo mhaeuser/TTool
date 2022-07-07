@@ -87,7 +87,7 @@ public class AvatarDependencyGraph {
             AvatarStartState ass = asm.getStartState();
 
             // Make general structure
-            makeDependencyGraphForAvatarElement(ass, null, null, states, transitions, withID);
+            makeDependencyGraphForAvatarElement(block, ass, null, null, states, transitions, withID);
         }
 
         ArrayList<AUTState> newStates = new ArrayList<>();
@@ -217,13 +217,13 @@ public class AvatarDependencyGraph {
         }
 
         int cpt = 0;
-        for(AUTState state: states) {
+        /*for(AUTState state: states) {
             TraceManager.addDev("" + cpt + ": state " + state.id + " / " + state.info + " / " + state);
             cpt ++;
-        }
+        }*/
 
         // Optimization: remove states representing empty transitions
-        /*ArrayList<AUTState> toBeRemoved = new ArrayList<>();
+        ArrayList<AUTState> toBeRemoved = new ArrayList<>();
         for(AUTState state: states) {
             //TraceManager.addDev("Testing " + state.referenceObject.toString());
             if (state.referenceObject instanceof AvatarTransition) {
@@ -283,13 +283,13 @@ public class AvatarDependencyGraph {
                 }
             }
             cpt ++;
-        }*/
+        }
 
         cpt = 0;
-        for(AUTState state: states) {
+        /*for(AUTState state: states) {
             TraceManager.addDev("" + cpt + ": state " + state.id + " / " + state.info + " / " + state);
             cpt ++;
-        }
+        }*/
 
 
 
@@ -313,7 +313,7 @@ public class AvatarDependencyGraph {
         }
     }*/
 
-    private AUTState makeDependencyGraphForAvatarElement(AvatarStateMachineElement _elt,
+    private AUTState makeDependencyGraphForAvatarElement(AvatarBlock bl, AvatarStateMachineElement _elt,
                                                          AUTState _previousS, AvatarStateMachineElement _previousE,
                                                          ArrayList<AUTState> _states,
                                                          ArrayList<AUTTransition> _transitions, boolean withID) {
@@ -327,7 +327,7 @@ public class AvatarDependencyGraph {
         if (withID) {
             state.info = _elt.toStringExtendedID();
         } else {
-            state.info = _elt.getExtendedName();
+            state.info = bl.getName() + " / " + _elt.getExtendedName();
         }
 
         //putState(_elt, state);
@@ -361,7 +361,7 @@ public class AvatarDependencyGraph {
                 state.addOutTransition(tr);
                 stateN.addInTransition(tr);
             } else {
-                makeDependencyGraphForAvatarElement(eltN, state, _elt, _states, _transitions, withID);
+                makeDependencyGraphForAvatarElement(bl, eltN, state, _elt, _states, _transitions, withID);
             }
         }
         return state;

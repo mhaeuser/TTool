@@ -280,7 +280,7 @@ public class GraphDEdgeConnector extends TGConnector implements ColorCustomizabl
                 "setting message name", JOptionPane.PLAIN_MESSAGE, IconManager.imgic100,
                 null,
                 getValue());
-        if ((s != null) && (s.length() > 0)) {
+        if (s != null) {
             setValue(s);
             return true;
         }

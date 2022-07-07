@@ -1251,24 +1251,26 @@ public class JDialogAvatarModelChecker extends javax.swing.JFrame implements Act
             //TraceManager.addDev("Generating dependency graph for component:" + _tgc.toString());
             AvatarSpecification specNew = spec.advancedClone();
             
-            long time1 = System.currentTimeMillis();
+            //long time1 = System.currentTimeMillis();
             AvatarDependencyGraph adg = specNew.makeDependencyGraph();
-
+            long time1 = System.currentTimeMillis();
             ArrayList<AvatarElement> elts = new ArrayList<>();
             elts.add((AvatarElement)_o);
             AvatarDependencyGraph clonedG = adg.reduceGraphBefore(elts);
-            RG rg = new RG("Dependency Graph of " + _tgc.toString() + "/" + _tgc.getAVATARID() + ".");
+            /*RG rg = new RG("Dependency Graph of " + _tgc.toString() + "/" + _tgc.getAVATARID() + ".");
             rg.graph = clonedG.getGraph();
             rg.nbOfStates = rg.graph.getNbOfStates();
             rg.nbOfTransitions = rg.graph.getNbOfTransitions();
-            mgui.addRG(rg);
+            mgui.addRG(rg);*/
 
             // Computing reduced specification
+
             specNew.reduceFromDependencyGraph(clonedG);
             long time2 = System.currentTimeMillis();
+
             TraceManager.addDev("Time to generate reduced spec:" + (time2-time1));
 
-            TraceManager.addDev("New spec: " + specNew);
+            //TraceManager.addDev("New spec: " + specNew);
 
             mgui.drawAvatarSpecification(specNew);
 

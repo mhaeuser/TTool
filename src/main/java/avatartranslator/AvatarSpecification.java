@@ -982,7 +982,7 @@ public class AvatarSpecification extends AvatarElement {
             // If not, the state machine is empty: we just create a stop, and that's it
             AvatarStartState ass = asm.getStartState();
             if (_adg.getFirstStateWithReference(ass) == null) {
-                TraceManager.addDev("No start state in " + block.getName());
+                //TraceManager.addDev("No start state in " + block.getName());
                 asm.makeBasicSM(block);
                 block.clearAttributes();
             } else {
@@ -992,7 +992,7 @@ public class AvatarSpecification extends AvatarElement {
                 // Then, we redo a valid ASM i.e. all elements with no nexts (apart from states)
                 // are given a stop state after
 
-                TraceManager.addDev("Reducing state machine of " + block.getName());
+                //TraceManager.addDev("Reducing state machine of " + block.getName());
 
                 ArrayList<AvatarElement> toRemove = new ArrayList<>();
                 for(AvatarStateMachineElement asme: asm.getListOfElements()) {
@@ -1001,9 +1001,9 @@ public class AvatarSpecification extends AvatarElement {
                     }
 
                 }
-                TraceManager.addDev("To remove size: " + toRemove.size() + " size of ASM: " + asm.getListOfElements().size());
+                //TraceManager.addDev("To remove size: " + toRemove.size() + " size of ASM: " + asm.getListOfElements().size());
                 asm.getListOfElements().removeAll(toRemove);
-                TraceManager.addDev("Removed. New size of ASM: " + asm.getListOfElements().size());
+                //TraceManager.addDev("Removed. New size of ASM: " + asm.getListOfElements().size());
                 asm.makeCorrect(block);
             }
         }

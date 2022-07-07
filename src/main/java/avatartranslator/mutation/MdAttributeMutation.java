@@ -66,10 +66,18 @@ public class MdAttributeMutation extends AttributeMutation implements MdMutation
     }
 
     public static MdAttributeMutation createFromString(String toParse) {
-        String[] tokens = toParse.split(" ");
-        String _attributeName = tokens[2];
-        String _blockName = tokens[5];
-        String _initialValue = tokens[tokens.length - 1];
+        String[] tokens = MutationParser.tokenise(toParse);
+        int index = MutationParser.indexOf(tokens, "ATTRIBUTE");
+        
+
+        String _attributeName = tokens[index + 1];
+        
+        index = MutationParser.indexOf(tokens, "BLOCK");
+        String _blockName = tokens[index + 1];
+
+        index = MutationParser.indexOf(tokens, "TO");
+        String _initialValue = tokens[index + 1];
+
         MdAttributeMutation mutation = new MdAttributeMutation(_blockName, _attributeName, _initialValue);
         return mutation;
     }

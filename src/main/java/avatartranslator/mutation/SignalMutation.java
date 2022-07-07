@@ -82,8 +82,7 @@ public abstract class SignalMutation extends MethodMutation {
     }
 
     public static SignalMutation createFromString(String toParse) {
-        String[] tokens = toParse.toUpperCase().split(" ");
-        switch (tokens[0]) {
+        switch (MutationParser.findMutationToken(toParse)) {
             case "ADD":
                 return AddSignalMutation.createFromString(toParse);
             case "RM":

@@ -68,9 +68,14 @@ public class RmMethodMutation extends MethodMutation implements RmMutation {
     }
 
     public static RmMethodMutation createFromString(String toParse) {
-        String[] tokens = toParse.split(" ");
-        String _methodName = tokens[2];
-        String _blockName = tokens[tokens.length -1];
+        String[] tokens = MutationParser.tokenise(toParse);
+        int index = MutationParser.indexOf(tokens, "METHOD");
+
+        String _methodName = tokens[index + 1];
+        
+        index = MutationParser.indexOf(tokens, "BLOCK");
+        String _blockName = tokens[index + 1];
+        
         RmMethodMutation mutation = new RmMethodMutation(_blockName, _methodName);
         return mutation;
     }

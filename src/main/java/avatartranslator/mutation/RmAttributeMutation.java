@@ -68,9 +68,14 @@ public class RmAttributeMutation extends AttributeMutation implements RmMutation
     }
 
     public static RmAttributeMutation createFromString(String toParse) {
-        String[] tokens = toParse.split(" ");
-        String _attributeName = tokens[2];
-        String _blockName = tokens[tokens.length - 1];
+        String[] tokens = MutationParser.tokenise(toParse);
+        int index = MutationParser.indexOf(tokens, "ATTRIBUTE");
+
+        String _attributeName = tokens[index + 1];
+        
+        index = MutationParser.indexOf(tokens, "BLOCK");
+        String _blockName = tokens[index + 1];
+        
         RmAttributeMutation mutation = new RmAttributeMutation(_blockName, _attributeName);
         return mutation;
     }

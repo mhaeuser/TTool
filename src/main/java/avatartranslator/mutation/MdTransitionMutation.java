@@ -93,11 +93,15 @@ public class MdTransitionMutation extends TransitionMutation implements MdMutati
         current.setDelayExtras(_delayExtra1, _delayExtra2);
     }
 
-    public void setCurrentDelayDistributionLaw(int _law) {
+    public void setCurrentDelayDistributionLaw(String _law) {
         current.setDelayDistributionLaw(_law);
     }
 
-    public void setCurrentDelayDistributionLaw(int _law, String _delayExtra1, String _delayExtra2) {
+    public void setCurrentDelayDistributionLaw(String _law, String _delayExtra1) {
+        current.setDelayDistributionLaw(_law, _delayExtra1);
+    }
+
+    public void setCurrentDelayDistributionLaw(String _law, String _delayExtra1, String _delayExtra2) {
         current.setDelayDistributionLaw(_law, _delayExtra1, _delayExtra2);
     }
 

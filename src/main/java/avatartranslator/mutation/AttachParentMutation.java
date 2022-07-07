@@ -63,8 +63,14 @@ public class AttachParentMutation extends ParentMutation {
     }
 
     public static AttachParentMutation createFromString(String toParse) {
-        String[] tokens = toParse.split(" ");
-        AttachParentMutation mutation = new AttachParentMutation(tokens[tokens.length - 1], tokens[1]);
+        String[] tokens = MutationParser.tokenise(toParse);
+        int index = MutationParser.indexOf(tokens, "ATTACH");
+        String childBlock = tokens[index + 1];
+
+        index = MutationParser.indexOf(tokens, "TO");
+        String parentBlock = tokens[index + 1];
+
+        AttachParentMutation mutation = new AttachParentMutation(parentBlock, childBlock);
         return mutation;
     }
 }

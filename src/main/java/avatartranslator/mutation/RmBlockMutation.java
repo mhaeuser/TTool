@@ -67,8 +67,11 @@ public class RmBlockMutation extends BlockElementMutation implements RmMutation 
     }
 
     public static RmBlockMutation createFromString(String toParse) {
-        String[] tokens = toParse.split(" ");
-        RmBlockMutation mutation = new RmBlockMutation(tokens[2]);
+        String[] tokens = MutationParser.tokenise(toParse);
+        int index = MutationParser.indexOf(tokens, "BLOCK");
+        String _blockName = tokens[index + 1];
+
+        RmBlockMutation mutation = new RmBlockMutation(_blockName);
         return mutation;
     }
 }

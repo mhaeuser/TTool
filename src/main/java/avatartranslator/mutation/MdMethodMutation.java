@@ -67,6 +67,12 @@ public class MdMethodMutation extends MethodMutation implements MdMutation {
     }
 
     @Override
+    public void setReturnParameters(List<String> _returnParameters) {
+        returnParametersChanged = true;
+        super.setReturnParameters(_returnParameters);
+    }
+
+    @Override
     public void addReturnParameter(String _returnParameter) {
         returnParametersChanged = true;
         super.addReturnParameter(_returnParameter);
@@ -120,44 +126,38 @@ public class MdMethodMutation extends MethodMutation implements MdMutation {
         if (parametersChanged) {
             am.removeAttributes();
             for (String[] s : getParameters()) {
-                AvatarAttribute aa = new AvatarAttribute(s[0], AvatarType.getType(s[1]), block, null);
+                AvatarAttribute aa = new AvatarAttribute(s[1], AvatarType.getType(s[0]), block, null);
                 am.addParameter(aa);
             }
         }
     }
 
     public static MdMethodMutation createFromString(String toParse) {
-        String _returnParameter = "";
 
-        List<String[]> _parameters = parseParameters(toParse);
-        String[] tokens = toParse.split(" ");
-        String _methodName = tokens[2];
-        String _blockName = tokens[5];
+        String[] tokens = MutationParser.tokenise(toParse);
+
+        int index = MutationParser.indexOf(tokens, "METHOD");
+        String _methodName = tokens[index + 1];
+        
+        index = MutationParser.indexOf(tokens, "BLOCK");
+        String _blockName = tokens[index + 1];
 
         MdMethodMutation mutation = new MdMethodMutation(_blockName, _methodName);
 
-        boolean _imp = false;
+        if (MutationParser.isTokenIn(tokens, "TO")) {
+            List<String> _returnParameters = parseReturnParameters(toParse, "TO");
 
-        switch (tokens[6].toUpperCase()) {
-            case "TO":
-                if (tokens[7].indexOf('(') == -1) _returnParameter = tokens[7];
-                mutation.setParameters(_parameters);
-                mutation.addReturnParameter(_returnParameter);
-                if (tokens[tokens.length - 1].toUpperCase().equals("CODE")) {
-                    _imp = (tokens[tokens.length - 2].toUpperCase().equals("WITH"));
-                    mutation.setImplementationProvided(_imp);
-                }
-                break;
+            mutation.setReturnParameters(_returnParameters);
 
-            case "WITH":
-                _imp = true;
-            case "WITHOUT":
-                mutation.setImplementationProvided(_imp);
-                break;
+            List<String[]> _parameters = parseParameters(toParse, "TO");
 
-            default:
-                break;
+            mutation.setParameters(_parameters);
         }
+
+        if (MutationParser.isTokenIn(tokens, "CODE")) {
+            mutation.setImplementationProvided(MutationParser.isTokenIn(tokens, "WITH"));
+        }
+
         return mutation;
     }
 }

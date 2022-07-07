@@ -39,6 +39,7 @@
 package avatartranslator.mutation;
 
 import avatartranslator.*;
+import myutil.TraceManager;
 
 
 /**
@@ -73,17 +74,33 @@ public class AddAttributeMutation extends AttributeMutation implements AddMutati
     }
 
     public static AddAttributeMutation createFromString(String toParse) {
+
+        TraceManager.addDev("AddAttribute");
+
         AddAttributeMutation mutation = null;
-        String[] tokens = toParse.split(" ");
-        String _attributeType = tokens[2];
-        String _attributeName = tokens[3];
-        String _blockName = tokens[tokens.length-1];
-        if (tokens[4].equals("=")) {
-            String _initialValue = tokens[5];
+        String[] tokens = MutationParser.tokenise(toParse);
+
+        TraceManager.addDev(MutationParser.tokensToString(tokens));
+
+        int index = MutationParser.indexOf(tokens, "ATTRIBUTE");
+
+        TraceManager.addDev(String.valueOf(index));
+
+        String _attributeType = tokens[index + 1];
+        String _attributeName = tokens[index + 2];
+
+        index = MutationParser.indexOf(tokens, "BLOCK");
+        String _blockName = tokens[index + 1];
+
+        index = MutationParser.indexOf(tokens,  "=");
+
+        if (index != -1) {
+            String _initialValue = tokens[index + 1];
             mutation = new AddAttributeMutation(_blockName, _attributeName, _attributeType, _initialValue);
         } else {
             mutation = new AddAttributeMutation(_blockName, _attributeName, _attributeType);
         }
+        
         return mutation;
     }
 }

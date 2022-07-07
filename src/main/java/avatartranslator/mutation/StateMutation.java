@@ -70,5 +70,18 @@ public abstract class StateMutation extends StateMachineElementMutation {
         AvatarState state = asm.getStateWithName(getStateName());
         return state;
     }
+
+    public static StateMutation createFromString(String toParse) {
+        switch (MutationParser.findMutationToken(toParse)) {
+            case "ADD":
+                return AddStateMutation.createFromString(toParse);
+            case "RM":
+            case "REMOVE":
+                return RmStateMutation.createFromString(toParse);
+            default:
+                break;
+        }
+        return null;
+    }
     
 }

@@ -52,6 +52,16 @@ import java.util.LinkedList;
 
 public abstract class MethodMutation extends BlockElementMutation {
 
+    protected MethodMutation(String _blockName, String _methodName, List<String> _returnParameters, List<String[]> _parameters, boolean _imp) {
+        this(_blockName, _methodName, _imp);
+        setParameters(_parameters);
+        setReturnParameters(_returnParameters);
+    }
+
+    protected MethodMutation(String _blockName, String _methodName, List<String> _returnParameters, List<String[]> _parameters) {
+        this(_blockName, _methodName, _returnParameters, _parameters, false);
+    }
+
     protected MethodMutation(String _blockName, String _methodName, boolean _imp) {
         super(_blockName);
         setMethodName(_methodName);
@@ -82,6 +92,10 @@ public abstract class MethodMutation extends BlockElementMutation {
     private void initParameters() {
         returnParameters = new LinkedList<>();
         parameters = new LinkedList<>();
+    }
+
+    public void setReturnParameters(List<String> _returnParameters) {
+        returnParameters = _returnParameters;
     }
 
     public void addReturnParameter(String _returnParameter) {
@@ -121,21 +135,64 @@ public abstract class MethodMutation extends BlockElementMutation {
         return getMethod(_avspec, getMethodName());
     }
 
-    protected static List<String[]> parseParameters(String toParse) {
-        List<String[]> output = new LinkedList<>();
-        if (toParse.indexOf('(') == -1) return output;
-        String s = toParse.substring(toParse.indexOf('('), toParse.indexOf(')'));
-        String[] tokens = s.split(" ");
-        for(int i = 0; i < tokens.length; i+=2) {
-            String[] tmp = {tokens[i], tokens[i+1]};
-            output.add(tmp.clone());
+    protected static List<String> parseReturnParameters(String toParse, String token) {
+        List<String> output = new LinkedList<>();
+        String[] tokens =  MutationParser.tokenise(toParse);
+
+        int index = MutationParser.indexOf(tokens, token);
+        index++;
+        if (tokens[index].equals("(")) {
+            int endIndex = MutationParser.indexOf(index, tokens, ")");
+            for (int i = index + 1; i < endIndex ; i += 2) {
+                output.add(tokens[i]);
+            }
+        } else {
+            output.add(tokens[index]);
         }
         return output;
     }
 
+    protected static List<String[]> parseParameters(String toParse, int index) {
+        List<String[]> output = new LinkedList<>();
+        String[] tokens =  MutationParser.tokenise(toParse);
+
+        index = MutationParser.indexOf(index, tokens, "(");
+
+        if (toParse.indexOf('(') == -1) return output;
+
+        int endIndex = MutationParser.indexOf(index, tokens, ")");
+        
+        for(int i = index + 1; i < endIndex; i += 3) {
+            String[] tmp = {tokens[i], tokens[i+1]};
+            output.add(tmp.clone());
+        }
+
+        return output;
+    }
+
+
+
+    protected static List<String[]> parseParameters(String toParse, String token) {
+        
+        String[] tokens =  MutationParser.tokenise(toParse);
+
+        int index = MutationParser.indexOf(tokens, token);
+        return parseParameters(toParse, index+1);
+    }
+
+    protected static String parseMethodName(String toParse) {
+
+        String[] tokens =  MutationParser.tokenise(toParse);
+
+        int index = MutationParser.indexOf(tokens, "METHOD");
+        index = MutationParser.indexOf(index+2, tokens, "(");
+
+        return tokens[index - 1];
+
+    }
+
     public static MethodMutation createFromString(String toParse) {
-        String[] tokens = toParse.toUpperCase().split(" ");
-        switch (tokens[0]) {
+        switch (MutationParser.findMutationToken(toParse)) {
             case "ADD":
                 return AddMethodMutation.createFromString(toParse);
             case "RM":

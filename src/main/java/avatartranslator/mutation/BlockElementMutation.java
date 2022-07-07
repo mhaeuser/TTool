@@ -83,8 +83,7 @@ public abstract class BlockElementMutation extends AvatarMutation {
     }
 
     public static BlockElementMutation createFromString(String toParse) {
-        String[] tokens = toParse.toUpperCase().split(" ");
-        switch (tokens[0]) {
+        switch (MutationParser.findMutationToken(toParse)) {
             case "ADD":
                 return AddBlockMutation.createFromString(toParse);
             case "RM":

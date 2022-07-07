@@ -228,7 +228,7 @@ public class AvatarMutationTests {
         assertTrue(block.getStateMachine().getNbOfStatesElement() == 1);
     }
 
-    public void add2States() {
+    public void addStates() {
         testAddState();
         StateMutation mutation0 = new AddStateMutation("block", "state1");
         mutation0.apply(as);
@@ -236,7 +236,7 @@ public class AvatarMutationTests {
 
     @Test
     public void testRmState() {
-        add2States();
+        addStates();
         assertTrue(block.getStateMachine().getNbOfStatesElement() == 2);
         StateMutation mutation = new RmStateMutation("block", "state0");
         mutation.apply(as);
@@ -245,15 +245,15 @@ public class AvatarMutationTests {
     }
     
 
-    public AvatarTransition add2Trans() {
-        add2States();
+    public AvatarTransition addTransitions() {
+        addStates();
         TransitionMutation mutation0 = new AddTransitionMutation("block", "state0", NAME_TYPE, "state1", NAME_TYPE);
         mutation0.apply(as);
         TransitionMutation mutation = new AddTransitionMutation("block", "state0", NAME_TYPE, "state1", NAME_TYPE, "trans");
         mutation.setProbability(0.5);
         mutation.setGuard("x > 1");
         mutation.setDelays("0", "5");
-        mutation.setDelayDistributionLaw(4, "1", "6");
+        mutation.setDelayDistributionLaw("4", "1", "6");
         mutation.setComputes("12", "42");
         mutation.addAction("x = 1");
         mutation.apply(as);
@@ -265,7 +265,7 @@ public class AvatarMutationTests {
 
     @Test
     public void testAddTransition1() {
-        AvatarTransition trans = add2Trans();
+        AvatarTransition trans = addTransitions();
         assertTrue(trans.getName().equals("trans"));
         assertTrue(trans.getGuard() != null);
         assertTrue(trans.getProbability() == 0.5);
@@ -283,7 +283,7 @@ public class AvatarMutationTests {
     @Test
     public void testAddTransition2() {
         addActionOnSignal();
-        add2States();
+        addStates();
         AddTransitionMutation mutation = new AddTransitionMutation("block", "state0", NAME_TYPE, "aaos", NAME_TYPE);
         mutation.apply(as);
         AvatarTransition trans = mutation.getElement(as);
@@ -292,7 +292,7 @@ public class AvatarMutationTests {
 
     @Test
     public void testRmTransition() {
-        add2Trans();
+        addTransitions();
         //TraceManager.addDev(block.getStateMachine().getState(0).toString());
         TransitionMutation mutation = new RmTransitionMutation("block", "trans", NAME_TYPE);
         mutation.apply(as);
@@ -306,7 +306,7 @@ public class AvatarMutationTests {
 
     @Test
     public void testMdTransition() {
-        add2Trans();
+        addTransitions();
         MdTransitionMutation mutation = new MdTransitionMutation("block", "state0", NAME_TYPE, "state1", NAME_TYPE);
         mutation.setCurrentNoActions();
         mutation.addAction("x = x + 2");
@@ -594,7 +594,7 @@ public class AvatarMutationTests {
     }
 
     public AvatarTransition add2Actions() {
-        AvatarTransition trans = add2Trans();
+        AvatarTransition trans = addTransitions();
         ActionMutation mutation = new AddActionMutation("block", "trans", NAME_TYPE, "x = x + 2");
         mutation.apply(as);
         return trans;
@@ -631,5 +631,4 @@ public class AvatarMutationTests {
         mutation.apply(as);
         TraceManager.addDev(trans.toString());
     }
-
 }

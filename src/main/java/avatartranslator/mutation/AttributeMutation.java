@@ -39,6 +39,7 @@
 package avatartranslator.mutation;
 
 import avatartranslator.*;
+import myutil.TraceManager;
 
 /**
  * Class AttributeMutation
@@ -109,8 +110,9 @@ public abstract class AttributeMutation extends BlockElementMutation {
     }
     
     public static AttributeMutation createFromString(String toParse) {
-        String[] tokens = toParse.toUpperCase().split(" ");
-        switch (tokens[0]) {
+        
+        TraceManager.addDev("Attribute");
+        switch (MutationParser.findMutationToken(toParse)) {
             case "ADD":
                 return AddAttributeMutation.createFromString(toParse);
             case "RM":

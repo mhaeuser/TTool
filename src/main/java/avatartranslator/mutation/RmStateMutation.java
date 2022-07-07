@@ -61,4 +61,19 @@ public class RmStateMutation extends StateMutation implements RmMutation {
         if (state == null) TraceManager.addDev("unknown state");
         asm.removeElement(state);
     }
+
+    public static RmStateMutation createFromString(String toParse) {
+        String[] tokens = MutationParser.tokenise(toParse);
+
+        int index = MutationParser.indexOf(tokens, "STATE");
+        String _stateName = tokens[index + 1];
+        TraceManager.addDev(_stateName);
+
+        index = MutationParser.indexOf(tokens, "BLOCK");
+        String _blockName = tokens[index + 1];
+        TraceManager.addDev(_blockName);
+
+        RmStateMutation mutation = new RmStateMutation(_blockName, _stateName);
+        return mutation;
+    }
 }

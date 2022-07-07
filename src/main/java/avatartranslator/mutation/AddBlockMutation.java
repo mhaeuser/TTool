@@ -71,8 +71,11 @@ public class AddBlockMutation extends BlockElementMutation implements AddMutatio
     }
     
     public static AddBlockMutation createFromString(String toParse) {
-        String[] tokens = toParse.split(" ");
-        AddBlockMutation mutation = new AddBlockMutation(tokens[2]);
+        String[] tokens = MutationParser.tokenise(toParse);
+        int index = MutationParser.indexOf(tokens, "BLOCK");
+        String _blockName = tokens[index + 1];
+
+        AddBlockMutation mutation = new AddBlockMutation(_blockName);
         return mutation;
     }
 }

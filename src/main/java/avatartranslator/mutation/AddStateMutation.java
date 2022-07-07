@@ -72,4 +72,17 @@ public class AddStateMutation extends StateMutation implements AddMutation {
         AvatarState state = createElement();
         asm.addElement(state);
     }
+
+    public static AddStateMutation createFromString(String toParse) {
+        String[] tokens = MutationParser.tokenise(toParse);
+
+        int index = MutationParser.indexOf(tokens, "STATE");
+        String _stateName = tokens[index + 1];
+
+        index = MutationParser.indexOf(tokens, "BLOCK");
+        String _blockName = tokens[index + 1];
+
+        AddStateMutation mutation = new AddStateMutation(_blockName, _stateName);
+        return mutation;
+    }
 }

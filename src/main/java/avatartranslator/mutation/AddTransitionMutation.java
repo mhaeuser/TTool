@@ -99,4 +99,74 @@ public class AddTransitionMutation extends TransitionMutation implements AddMuta
         trans.addNext(toElement);
     }
 
+    public static AddTransitionMutation createFromString(String toParse) {
+
+        AddTransitionMutation mutation = null;
+
+        String[] tokens = MutationParser.tokenise(toParse);
+
+        int index = MutationParser.indexOf(tokens, "BLOCK");
+
+        String _blockName = tokens[index + 1];
+
+        index = MutationParser.indexOf(tokens, "FROM");
+        String _fromString = tokens[index + 1];
+        int _fromType = MutationParser.isUUID(_fromString) ? UUID_TYPE : NAME_TYPE;
+
+        index = MutationParser.indexOf(tokens, "TO");
+        String _toString = tokens[index + 1];
+        int _toType = MutationParser.isUUID(_toString) ? UUID_TYPE : NAME_TYPE;
+
+
+        index = MutationParser.indexOf(tokens, "TRANSITION");
+        if (index + 1 != MutationParser.indexOf(tokens, "FROM")) {
+            String _transitionName = tokens[index + 1];
+            mutation = new AddTransitionMutation(_blockName, _fromString, _fromType, _toString, _toType, _transitionName);
+        } else {
+            mutation = new AddTransitionMutation(_blockName, _fromString, _fromType, _toString, _toType);
+        }
+
+        if (toParse.contains("[")) {
+            String _guard = parseGuard(toParse);
+            mutation.setGuard(_guard);
+        }
+
+        if (MutationParser.isTokenIn(tokens, "AFTER")) {
+            String[] _minMaxDelay = parseMinMax(toParse);
+            mutation.setDelays(_minMaxDelay);
+
+            String _law = parseLaw(toParse);
+            String[] _extras = parseExtras(toParse);
+
+            switch (_extras.length) {
+                case 0:
+                    mutation.setDelayDistributionLaw(_law);
+                    break;
+                case 1:
+                    mutation.setDelayDistributionLaw(_law, _extras[0]);
+                    break;
+                default:
+                    mutation.setDelayDistributionLaw(_law, _extras[0], _extras[1]);
+            }
+        }
+
+        if (toParse.contains("\"")) {
+            String[] _actions = parseActions(toParse);
+
+            mutation.setActions(_actions);
+        }
+
+        if (MutationParser.isTokenIn(tokens, "PROBABILITY")) {
+            String _probability = parseProbability(toParse);
+            mutation.setProbability(_probability);
+        }
+
+        if (MutationParser.isTokenIn(tokens, "COMPUTES")) {
+            String[] _minMaxComputes = parseComputes(toParse);
+            mutation.setComputes(_minMaxComputes);
+        }
+        
+        return mutation;
+    }
+
 }

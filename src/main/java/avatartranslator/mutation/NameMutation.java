@@ -77,6 +77,16 @@ public class NameMutation extends AvatarMutation {
                     return;
                 }
             }
+            for (AvatarBlock block : _avspec.getListOfBlocks()) {
+                AvatarStateMachine asm = block.getStateMachine();
+                List<AvatarStateMachineElement> asmElts = asm.getListOfElements();
+                for(AvatarStateMachineElement elt : asmElts) {
+                    if(elt.getUUID() != null && elt.getUUID().equals(UUID.fromString(uuid))) {
+                        elt.setName(name);
+                        return;
+                    }
+            }
+            }
         } else {
             AvatarBlock block = getBlock(_avspec, blockName);
             AvatarStateMachine asm = block.getStateMachine();
@@ -91,8 +101,16 @@ public class NameMutation extends AvatarMutation {
     }
 
     public static NameMutation createFromString(String toParse) {
-        String[] tokens = toParse.split(" ");
-        NameMutation mutation = new NameMutation(tokens[1], tokens[2]);
-        return mutation;
+        String[] tokens = MutationParser.tokenise(toParse);
+        
+        String _uuid = tokens[1];
+        String _name = tokens[2];
+
+        int index = MutationParser.indexOf(tokens, "BLOCK");
+        if (index != -1) {
+            String _blockName = tokens[index + 1];
+            return new NameMutation(_uuid, _name, _blockName);
+        }
+        return new NameMutation(_uuid, _name);
     }
 }

@@ -68,10 +68,17 @@ public class RmSignalMutation extends SignalMutation implements RmMutation {
     }
 
     public static RmSignalMutation createFromString(String toParse) {
-        String[] tokens = toParse.split(" ");
-        String _signalName = tokens[2];
-        String _blockName = tokens[tokens.length -1];
-        RmSignalMutation mutation = new RmSignalMutation(_blockName, _signalName);
+        String[] tokens = MutationParser.tokenise(toParse);
+        int index = MutationParser.indexOf(tokens, "SIGNAL");
+
+        String _methodName = tokens[index + 1];
+        
+        index = MutationParser.indexOf(tokens, "BLOCK");
+        String _blockName = tokens[index + 1];
+        
+        RmSignalMutation mutation = new RmSignalMutation(_blockName, _methodName);
         return mutation;
     }
+
+    
 }

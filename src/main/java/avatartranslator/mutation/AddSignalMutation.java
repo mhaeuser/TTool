@@ -72,15 +72,11 @@ public class AddSignalMutation extends SignalMutation implements AddMutation {
     }
 
     public static AddSignalMutation createFromString(String toParse) {
-        AddSignalMutation mutation = null;
-        String _signalName;
-        String _blockName;
-        int _inout = 0;
 
-        List<String[]> _parameters = parseParameters(toParse);
-        String[] tokens = toParse.split(" ");
+        String[] tokens = MutationParser.tokenise(toParse);
 
-        switch (tokens[1].toUpperCase()) {
+        int _inout;
+        switch (MutationParser.findInOutToken(toParse)) {
             case "IN":
             case "INPUT":
                 _inout = AvatarSignal.IN;
@@ -90,14 +86,19 @@ public class AddSignalMutation extends SignalMutation implements AddMutation {
                 _inout = AvatarSignal.OUT;
                 break;
             default:
+                _inout = 0;
                 break;
         }
 
-        _signalName = tokens[3];
+        int index = MutationParser.indexOf(tokens, "SIGNAL");
+        String _signalName = tokens[index + 1];
+        
+        List<String[]> _parameters = parseParameters(toParse, "SIGNAL");
 
-        _blockName = tokens[tokens.length - 1];
+        index = MutationParser.indexOf(tokens, "BLOCK");
+        String _blockName = tokens[index + 1];
 
-        mutation = new AddSignalMutation(_blockName, _signalName, _inout);
+        AddSignalMutation mutation = new AddSignalMutation(_blockName, _signalName, _inout);
 
         mutation.setParameters(_parameters);
 

@@ -62,8 +62,9 @@ public class DetachParentMutation extends ParentMutation {
     }
     
     public static DetachParentMutation createFromString(String toParse) {
-        String[] tokens = toParse.split(" ");
-        DetachParentMutation mutation = new DetachParentMutation(tokens[1]);
+        String[] tokens = MutationParser.tokenise(toParse);
+        String childBlock = tokens[1];
+        DetachParentMutation mutation = new DetachParentMutation(childBlock);
         return mutation;
     }
 }

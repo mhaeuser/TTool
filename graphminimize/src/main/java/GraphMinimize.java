@@ -39,7 +39,6 @@
 
 
 import graph.AUTGraph;
-import myutil.FileUtils;
 import myutil.TraceManager;
 
 import java.io.File;
@@ -107,12 +106,12 @@ public class GraphMinimize {
 
         File inputFile = new File(_inputFile);
         try {
-            if (!FileUtils.checkFileForOpen(inputFile)) {
+            if (myutil.FileUtils.checkFileForOpen(inputFile)) {
                 System.out.println("Cannot read file: " + _inputFile);
                 return null;
             }
 
-            return FileUtils.loadFileData(inputFile);
+            return myutil.FileUtils.loadFileData(inputFile);
 
         } catch (Exception e) {
             System.out.println("Exception: " + e.getMessage());

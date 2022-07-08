@@ -107,6 +107,7 @@ import ui.diplodocusmethodology.DiplodocusMethodologyDiagramPanel;
 import ui.ebrdd.EBRDDPanel;
 import ui.eln.ELNDiagramPanel;
 import ui.ftd.FaultTreeDiagramPanel;
+import ui.graphd.GraphDPanel;
 import ui.iod.InteractionOverviewDiagramPanel;
 import ui.ncdd.NCDiagramPanel;
 import ui.osad.TURTLEOSActivityDiagramPanel;
@@ -140,8 +141,8 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import java.awt.*;
 import java.io.*;
-import java.util.*;
 import java.util.List;
+import java.util.*;
 
 // AVATAR
 // AVATAR
@@ -161,9 +162,18 @@ public class GTURTLEModeling {
 
     //Added by Solange
 
+    public final static int RT_LOTOS = 0;
+    public final static int LOTOS = 1;
+    public final static int AUT = 2;
+    public final static int TPN = 3;
+    public final static int MATRIX = 4;
+    public final static int UPPAAL = 5;
+    public final static int PROVERIF = 6;
+    private static int graphId = 0;
+    private final MainGUI mgui;
     public GProactiveDesign gpdtemp;
-
-
+    List<TGConnectorInfo> pendingConnectors;
+    boolean hasCrypto = false;
     //
     private Vector<TURTLEPanel> panels; /* analysis, design, deployment, tml design */
     private TURTLEModeling tm;
@@ -173,7 +183,6 @@ public class GTURTLEModeling {
     private AVATAR2ProVerif avatar2proverif;
     private boolean optimizeAvatar;
     private int tmState; // 0:generated, 1: to be generated from mapping, 2: to be generated from TML modeling
-
     private TMLModeling<TGComponent> tmlm;
     private TMLMapping<TGComponent> artificialtmap;
     private TMLMapping<TGComponent> tmap;
@@ -181,21 +190,15 @@ public class GTURTLEModeling {
     private TML2Avatar t2a;
     private RequirementModeling rm;
     private NCStructure ncs;
-    private final MainGUI mgui;
     private CorrespondanceTGElement listE;
     private String rtlotos;
-
     private EBRDD ebrdd;
-
     private UPPAALSpec uppaal;
     private RelationTIFUPPAAL uppaalTIFTable;
     private RelationTMLUPPAAL uppaalTMLTable;
-
     private ProVerifSpec proverif;
-
     private AVATAR2TPN avatar2tpn;
     private TPN tpnFromAvatar;
-
     private String tpn;
     private String sim;
     private String dta;
@@ -204,60 +207,36 @@ public class GTURTLEModeling {
     private String rgdot;
     private String rgaut;
     private String rgautdot;
+    //  private int nbSuggestedAnalysis;
+    //  private int nbTPN;
     private String rgautproj;
     private String rgautprojdot;
     private String tlsa;
     private String tlsadot;
-
     private List<SimulationTrace> simulationTraces;
     private List<RG> graphs;
     private GraphTree gt;
     private SimulationTraceTree stt;
-
     private int nbRTLOTOS;
     private int nbSuggestedDesign;
-    //  private int nbSuggestedAnalysis;
-    //  private int nbTPN;
-
     //private ValidationDataTree vdt;
     private SearchTree st;
     private SyntaxAnalysisTree mcvdt;
     private InvariantDataTree idt;
     private HelpTree ht;
-
     private List<CheckingError> checkingErrors;
     private List<CheckingError> warnings;
-
     private List<Invariant> invariants;
-
-    List<TGConnectorInfo> pendingConnectors;
-
     private Vector<String> savedOperations;
     private Vector<Point> savedPanels;
     private int nbMaxSavedOperations = 10;
     private int pointerOperation;
-
     private DocumentBuilderFactory dbf;
     private DocumentBuilder db;
     private Document docCopy;
-
     private int decX, decY, decId;
-
-    private static int graphId = 0;
-
     private int languageID;
-    public final static int RT_LOTOS = 0;
-    public final static int LOTOS = 1;
-    public final static int AUT = 2;
-    public final static int TPN = 3;
-    public final static int MATRIX = 4;
-    public final static int UPPAAL = 5;
-    public final static int PROVERIF = 6;
-
     private boolean undoRunning = false;
-
-
-    boolean hasCrypto = false;
     //private Charset chset1, chset2;
 
     public GTURTLEModeling(MainGUI _mgui, Vector<TURTLEPanel> _panels) {
@@ -291,6 +270,71 @@ public class GTURTLEModeling {
 		  }
 
 		  chset1 = Charset.forName("UTF-8");*/
+    }
+
+    public static String showGGraph(String ggraph) {
+        if (ggraph != null) {
+            return runDOTTY(ggraph);
+        }
+        return null;
+    }
+
+    public static String runDOTTY(String data) {
+        String fileName = "graph" + graphId + ".dot";
+        graphId++;
+
+        RemoteExecutionThread ret = new RemoteExecutionThread(ConfigurationTTool.DOTTYHost, fileName, data, ConfigurationTTool.DOTTYPath + " " + fileName);
+        ret.start();
+
+        return null;
+    }
+
+    public static String getCaesarHost() {
+        return ConfigurationTTool.AldebaranHost;
+    }
+
+    public static String getHostAldebaran() {
+        return ConfigurationTTool.AldebaranHost;
+    }
+
+    public static String getPathAldebaran() {
+        return ConfigurationTTool.AldebaranPath;
+    }
+
+    public static String getPathBcgio() {
+        return ConfigurationTTool.BcgioPath;
+    }
+
+    public static String getPathBisimulator() {
+        return ConfigurationTTool.BisimulatorPath;
+    }
+
+    // SAVING AND LOADING IN XML
+    public static String transformString(String s) {
+        if (s != null) {
+            s = Conversion.replaceAllChar(s, '&', "&amp;");
+            s = Conversion.replaceAllChar(s, '<', "&lt;");
+            s = Conversion.replaceAllChar(s, '>', "&gt;");
+            s = Conversion.replaceAllChar(s, '"', "&quot;");
+            s = Conversion.replaceAllChar(s, '\'', "&apos;");
+        }
+        return s;
+    }
+
+    public static String encodeString(String s) {
+        return s;
+    }
+
+    public static String decodeString(String s) throws MalformedModelingException {
+        if (s == null)
+            return s;
+        byte b[] = null;
+        try {
+            b = s.getBytes("UTF-8");
+            return new String(b);
+        } catch (Exception e) {
+            throw new MalformedModelingException();
+        }
     }
 
     public int getLanguageID() {
@@ -329,6 +373,12 @@ public class GTURTLEModeling {
 
     }
 
+	/*public void mergeChoices(boolean nonDeterministic) {
+	  if (tm != null) {
+	  tm.mergeChoices(nonDeterministic);
+	  }
+	  }*/
+
     public void removeSimulationTrace(SimulationTrace oldTrace) {
         //TraceManager.addDev("Adding new graph " + newGraph);
         simulationTraces.remove(oldTrace);
@@ -348,11 +398,9 @@ public class GTURTLEModeling {
         graphs.remove(oldGraph);
     }
 
-
     public List<Invariant> getInvariants() {
         return invariants;
     }
-
 
     public void addInvariant(Invariant _inv) {
         invariants.add(_inv);
@@ -362,7 +410,6 @@ public class GTURTLEModeling {
     public void clearInvariants() {
         invariants.clear();
     }
-
 
     public String saveTIF() {
         if (tm == null) {
@@ -412,12 +459,6 @@ public class GTURTLEModeling {
         }
         return ret;
     }
-
-	/*public void mergeChoices(boolean nonDeterministic) {
-	  if (tm != null) {
-	  tm.mergeChoices(nonDeterministic);
-	  }
-	  }*/
 
     public NCStructure getNCS() {
         return ncs;
@@ -536,7 +577,6 @@ public class GTURTLEModeling {
         }
         return false;
     }
-
 
     public boolean generateTMLTxt(String _title) {
 
@@ -686,7 +726,7 @@ public class GTURTLEModeling {
         try {
             avatar2uppaal.saveInFile(_path);
             timeEnd = System.currentTimeMillis();
-            TraceManager.addDev("Total time toUPPAAL: " + (timeEnd-timeBeg) + " ms");
+            TraceManager.addDev("Total time toUPPAAL: " + (timeEnd - timeBeg) + " ms");
             return true;
         } catch (FileException fe) {
             TraceManager.addError("Exception: " + fe.getMessage());
@@ -874,7 +914,6 @@ public class GTURTLEModeling {
         }
         return false;
     }
-
 
     public boolean pathExists(TMLMapping<TGComponent> map, HwBridge firewallNode, TMLTask t1) {
         //System.out.println("Checking path " + firewallNode.getName() + t1.getName());
@@ -1550,12 +1589,6 @@ public class GTURTLEModeling {
         return map;
     }
 
-    @SuppressWarnings("unchecked")
-    public void setTMLMapping(TMLMapping tmap) {
-        this.tmap = tmap;
-    }
-
-
     public HashMap<String, HashSet<String>> getCPUTaskMap() {
         HashMap<String, HashSet<String>> cpuTaskMap = new HashMap<String, HashSet<String>>();
         if (tmap == null) {
@@ -1610,7 +1643,6 @@ public class GTURTLEModeling {
         return true;
     }
 
-
     public TMLMapping<TGComponent> autoSecure(MainGUI gui, boolean autoConf, boolean autoWeakAuth, boolean autoStrongAuth) {
         //TODO add more options
         //
@@ -1663,6 +1695,24 @@ public class GTURTLEModeling {
                 new HashMap<String, java.util.List<String>>());
     }
 
+	/*IntMatrix im = tpnFromAvatar.getIncidenceMatrix();
+	  TraceManager.addDev("Farkas computing on " + im.toString());
+	  im.Farkas();
+	  TraceManager.addDev("Farkas done:" + im.toString());
+
+
+
+	  languageID = TPN;
+	//uppaalTable = tml2uppaal.getRelationTIFUPPAAL(_debug);
+	return true;
+	/*try {
+	avatar2tpn.saveInFile(_path);
+	TraceManager.addDev("Specification generated in " + _path);
+	return true;
+	} catch (FileException fe) {
+	TraceManager.addError("Exception: " + fe.getMessage());
+	return false;
+	}*/
 
     public TMLMapping<TGComponent> autoSecure(MainGUI gui, String name, TMLMapping<TGComponent> map, TMLArchiPanel newarch, String encComp,
                                               String overhead, String decComp, boolean autoConf, boolean autoWeakAuth, boolean autoStrongAuth,
@@ -1682,7 +1732,6 @@ public class GTURTLEModeling {
         }
         return tmap;
     }
-
 
     public boolean securePath(TMLMapping<TGComponent> map, TMLTask t1, TMLTask t2) {
         //Check if a path between two tasks is secure
@@ -1949,7 +1998,6 @@ public class GTURTLEModeling {
         }
     }
 
-
     public boolean generateRandomMapping(String[] tasks, String architectureName, String mappingName) {
 
         TraceManager.addDev("Getting panel");
@@ -2066,26 +2114,6 @@ public class GTURTLEModeling {
         languageID = TPN;
         return tpnFromAvatar;
     }
-
-	/*IntMatrix im = tpnFromAvatar.getIncidenceMatrix();
-	  TraceManager.addDev("Farkas computing on " + im.toString());
-	  im.Farkas();
-	  TraceManager.addDev("Farkas done:" + im.toString());
-
-
-
-	  languageID = TPN;
-	//uppaalTable = tml2uppaal.getRelationTIFUPPAAL(_debug);
-	return true;
-	/*try {
-	avatar2tpn.saveInFile(_path);
-	TraceManager.addDev("Specification generated in " + _path);
-	return true;
-	} catch (FileException fe) {
-	TraceManager.addError("Exception: " + fe.getMessage());
-	return false;
-	}*/
-
 
     public ArrayList<TGComponentAndUPPAALQuery> getUPPAALQueries() {
         return getUPPAALQueries(mgui.getCurrentTURTLEPanel());
@@ -2254,7 +2282,6 @@ public class GTURTLEModeling {
 
     }
 
-
     public void saveSIM(File f) {
         if ((sim != null) && (f != null)) {
             saveInFile(f, sim);
@@ -2321,40 +2348,6 @@ public class GTURTLEModeling {
         }
     }
 
-    public void modifyMinimizedGraph() {
-		/*AUTMappingGraph graph = new AUTMappingGraph();
-		  TraceManager.addDev("Building graph");
-		  graph.buildGraph(rgautproj);
-		  TraceManager.addDev("Renaming transitions");
-		  graph.renameTransitions();
-		  TraceManager.addDev("Merging transitions 23/4=" + (23/4) + "23%4="  + (23%4));
-		  graph.mergeWriteTransitions();
-		  graph.mergeReadTransitions();
-		  graph.removeInternalTransitions();
-		  TraceManager.addDev("Printing graph:\n" + graph.toAUTStringFormat());
-		  TraceManager.addDev("Splitting transitions");
-		  graph.splitTransitions();
-		  modifiedaut = graph.toAUTStringFormat();
-		  TraceManager.addDev("Printing graph:\n" + modifiedaut);
-		  TraceManager.addDev("Translation in DOT format");
-
-		// AUT  2 dot
-		String fileName = "graph";
-		try {
-		RshClient rshc = new RshClient(getHostAldebaran());
-		int id = rshc.getId();
-		fileName = FileUtils.addBeforeFileExtension(fileName, "_" + id);
-		String data = rgautproj;
-		rshc.sendFileData(fileName + ".aut", data);
-		String cmd1 = getPathBcgio() + " -aldebaran " + fileName + ".aut" + " -graphviz " + fileName + ".dot";
-		data = processCmd(rshc, cmd1);
-		data = rshc.getFileData(fileName + ".dot");
-		modifiedautdot = data;
-		TraceManager.addDev("All done");
-		} catch (LauncherException le) {
-		TraceManager.addDev("Error: conversion failed");
-		}*/
-    }
 
     protected String processCmd(RshClient rshc, String cmd) throws LauncherException {
         rshc.setCmd(cmd);
@@ -2413,23 +2406,6 @@ public class GTURTLEModeling {
         if (rgaut != null) {
             return runDOTTY(rgautprojdot);
         }
-        return null;
-    }
-
-    public static String showGGraph(String ggraph) {
-        if (ggraph != null) {
-            return runDOTTY(ggraph);
-        }
-        return null;
-    }
-
-    public static String runDOTTY(String data) {
-        String fileName = "graph" + graphId + ".dot";
-        graphId++;
-
-        RemoteExecutionThread ret = new RemoteExecutionThread(ConfigurationTTool.DOTTYHost, fileName, data, ConfigurationTTool.DOTTYPath + " " + fileName);
-        ret.start();
-
         return null;
     }
 
@@ -2599,6 +2575,8 @@ public class GTURTLEModeling {
         //mgui.setMode(MainGUI.TLSADOT_OK);
     }
 
+    // Configuration
+
     public void setTLSADOT(String data) {
         tlsadot = data;
         mgui.setMode(MainGUI.TLSADOT_OK);
@@ -2632,8 +2610,6 @@ public class GTURTLEModeling {
         mgui.setMode(MainGUI.RGAUTPROJDOT_OK);
     }
 
-    // Configuration
-
     public String getPathRTL() {
         return ConfigurationTTool.RTLPath;
     }
@@ -2662,26 +2638,6 @@ public class GTURTLEModeling {
         return ConfigurationTTool.RTLHost;
     }
 
-    public static String getCaesarHost() {
-        return ConfigurationTTool.AldebaranHost;
-    }
-
-    public static String getHostAldebaran() {
-        return ConfigurationTTool.AldebaranHost;
-    }
-
-    public static String getPathAldebaran() {
-        return ConfigurationTTool.AldebaranPath;
-    }
-
-    public static String getPathBcgio() {
-        return ConfigurationTTool.BcgioPath;
-    }
-
-    public static String getPathBisimulator() {
-        return ConfigurationTTool.BisimulatorPath;
-    }
-
     public String getPathBcgmerge() {
         return ConfigurationTTool.BcgmergePath;
     }
@@ -2706,7 +2662,6 @@ public class GTURTLEModeling {
         return ConfigurationTTool.UPPAALVerifierHost;
     }
 
-
     public TURTLEModeling getTURTLEModeling() {
         return tm;
     }
@@ -2719,7 +2674,6 @@ public class GTURTLEModeling {
         return tmlm;
     }
 
-
     public TML2Avatar getTML2Avatar() {
         return t2a;
     }
@@ -2730,6 +2684,11 @@ public class GTURTLEModeling {
 
     public TMLMapping<TGComponent> getTMLMapping() {
         return tmap;
+    }
+
+    @SuppressWarnings("unchecked")
+    public void setTMLMapping(TMLMapping tmap) {
+        this.tmap = tmap;
     }
 
     public UPPAALSpec getLastUPPAALSpecification() {
@@ -2799,6 +2758,8 @@ public class GTURTLEModeling {
         return mgui.getTitle();
     }
 
+    // Projection management
+
     public int getChildCount() {
         return panels.size() + 6;
     }
@@ -2851,8 +2812,6 @@ public class GTURTLEModeling {
 
         return panels.size() + 5;
     }
-
-    // Projection management
 
     public MasterGateManager getNewMasterGateManager() {
         return new MasterGateManager(tm);
@@ -3089,7 +3048,6 @@ public class GTURTLEModeling {
         return new String(result);
     }
 
-
     public boolean belongTo(GroupOfGates gog, Vector<TClassAndGateDS> gates) {
         int i, j;
         TClassAndGateDS tcg;
@@ -3118,6 +3076,8 @@ public class GTURTLEModeling {
         return s.substring(0, index1 - 1) + "i" + s.substring(index2 + 2, s.length());
     }
 
+    // UNDO MANAGEMENT
+
     public String makeAction(String s, String actionName) {
         int index1, index2;
         index1 = s.indexOf("i(");
@@ -3132,8 +3092,6 @@ public class GTURTLEModeling {
     public boolean isUndoEnable() {
         return !undoRunning;
     }
-
-    // UNDO MANAGEMENT
 
     // This function is not be performed when executing an undo
     // if variable undoRunnin has been set to true
@@ -3247,7 +3205,6 @@ public class GTURTLEModeling {
         }
     }
 
-
     public void forward() {
         if ((pointerOperation < 0) || (pointerOperation > savedOperations.size() - 2)) {
             return;
@@ -3278,7 +3235,6 @@ public class GTURTLEModeling {
         selectBackwardMode();
         undoRunning = false;
     }
-
 
     // BUILDING A TURTLE MODELING AND CHECKING IT
     public boolean checkTURTLEModeling(List<TClassInterface> tclasses, DesignPanel dp, boolean overideSyntaxChecking) {
@@ -3476,7 +3432,6 @@ public class GTURTLEModeling {
 
     }
 
-
     // Returns the number of states found
     // Returns -1 in case of error
     public int computeMutexStatesWith(AvatarSMDState state) {
@@ -3514,7 +3469,6 @@ public class GTURTLEModeling {
         return list.size();
 
     }
-
 
     public void computeAllMutualExclusions() {
         TURTLEPanel tp = mgui.getCurrentTURTLEPanel();
@@ -3594,35 +3548,6 @@ public class GTURTLEModeling {
 
     public List<CheckingError> getCheckingWarnings() {
         return warnings;
-    }
-
-
-    // SAVING AND LOADING IN XML
-    public static String transformString(String s) {
-        if (s != null) {
-            s = Conversion.replaceAllChar(s, '&', "&amp;");
-            s = Conversion.replaceAllChar(s, '<', "&lt;");
-            s = Conversion.replaceAllChar(s, '>', "&gt;");
-            s = Conversion.replaceAllChar(s, '"', "&quot;");
-            s = Conversion.replaceAllChar(s, '\'', "&apos;");
-        }
-        return s;
-    }
-
-    public static String encodeString(String s) {
-        return s;
-    }
-
-    public static String decodeString(String s) throws MalformedModelingException {
-        if (s == null)
-            return s;
-        byte b[] = null;
-        try {
-            b = s.getBytes("UTF-8");
-            return new String(b);
-        } catch (Exception e) {
-            throw new MalformedModelingException();
-        }
     }
 
     public String mergeTURTLEGModeling(String modeling1, String modeling2) {
@@ -4002,7 +3927,9 @@ public class GTURTLEModeling {
                 nl = doc.getElementsByTagName("TClassDiagramPanelCopy");
                 docCopy = doc;
 
-                if (nl == null) { return; }
+                if (nl == null) {
+                    return;
+                }
 
                 double zoomRatio = getZoomFromXMLNodeList(nl, tdp.getZoom());
 
@@ -4013,8 +3940,8 @@ public class GTURTLEModeling {
                     if (adn.getNodeType() == Node.ELEMENT_NODE) {
                         elt = (Element) adn;
 
-                        decX = (int)(_decX - X + X / zoomRatio);
-                        decY = (int)(_decY - Y  + Y / zoomRatio);
+                        decX = (int) (_decX - X + X / zoomRatio);
+                        decY = (int) (_decY - Y + Y / zoomRatio);
 
                         tcdp.loadExtraParameters(elt);
 
@@ -4039,7 +3966,9 @@ public class GTURTLEModeling {
             } else if (tdp instanceof TActivityDiagramPanel) {
                 //TraceManager.addDev("TActivityDiagramPanel copy");
                 nl = doc.getElementsByTagName("TActivityDiagramPanelCopy");
-                if (nl == null) { return; }
+                if (nl == null) {
+                    return;
+                }
 
                 double zoomRatio = getZoomFromXMLNodeList(nl, tdp.getZoom());
                 TActivityDiagramPanel tadp = (TActivityDiagramPanel) tdp;
@@ -4049,8 +3978,8 @@ public class GTURTLEModeling {
                     if (adn.getNodeType() == Node.ELEMENT_NODE) {
                         elt = (Element) adn;
 
-                        decX = (int)(_decX - X + X / zoomRatio);
-                        decY = (int)(_decY - Y  + Y / zoomRatio);
+                        decX = (int) (_decX - X + X / zoomRatio);
+                        decY = (int) (_decY - Y + Y / zoomRatio);
 
                         tadp.loadExtraParameters(elt);
 
@@ -4070,7 +3999,9 @@ public class GTURTLEModeling {
                 }
             } else if (tdp instanceof InteractionOverviewDiagramPanel) {
                 nl = doc.getElementsByTagName("InteractionOverviewDiagramPanelCopy");
-                if (nl == null) { return; }
+                if (nl == null) {
+                    return;
+                }
 
                 double zoomRatio = getZoomFromXMLNodeList(nl, tdp.getZoom());
                 InteractionOverviewDiagramPanel iodp = (InteractionOverviewDiagramPanel) tdp;
@@ -4080,8 +4011,8 @@ public class GTURTLEModeling {
                     if (adn.getNodeType() == Node.ELEMENT_NODE) {
                         elt = (Element) adn;
 
-                        decX = (int)(_decX - X + X / zoomRatio);
-                        decY = (int)(_decY - Y  + Y / zoomRatio);
+                        decX = (int) (_decX - X + X / zoomRatio);
+                        decY = (int) (_decY - Y + Y / zoomRatio);
 
                         //TraceManager.addDev("Activity diagram : " + iodp.getName() + " components");
                         ArrayList<TGComponent> list = makeXMLComponents(elt.getElementsByTagName("COMPONENT"), iodp, keepUUID, zoomRatio);
@@ -4100,7 +4031,9 @@ public class GTURTLEModeling {
             } else if (tdp instanceof ui.sd.SequenceDiagramPanel) {
                 //TraceManager.addDev("Sequence diagram!");
                 nl = doc.getElementsByTagName("SequenceDiagramPanelCopy");
-                if (nl == null) { return; }
+                if (nl == null) {
+                    return;
+                }
 
                 double zoomRatio = getZoomFromXMLNodeList(nl, tdp.getZoom());
                 ui.sd.SequenceDiagramPanel sdp = (ui.sd.SequenceDiagramPanel) tdp;
@@ -4110,8 +4043,8 @@ public class GTURTLEModeling {
                     if (adn.getNodeType() == Node.ELEMENT_NODE) {
                         elt = (Element) adn;
 
-                        decX = (int)(_decX - X + X / zoomRatio);
-                        decY = (int)(_decY - Y  + Y / zoomRatio);
+                        decX = (int) (_decX - X + X / zoomRatio);
+                        decY = (int) (_decY - Y + Y / zoomRatio);
 
                         //TraceManager.addDev("Sequence diagram: " + sdp.getName() + " components");
                         ArrayList<TGComponent> list = makeXMLComponents(elt.getElementsByTagName("COMPONENT"), sdp, keepUUID, zoomRatio);
@@ -4133,7 +4066,9 @@ public class GTURTLEModeling {
 
                 TraceManager.addDev("\n3. X=" + X);
 
-                if (nl == null) { return; }
+                if (nl == null) {
+                    return;
+                }
 
                 TraceManager.addDev("\n get Zoom");
                 double zoomRatio = getZoomFromXMLNodeList(nl, tdp.getZoom());
@@ -4144,14 +4079,13 @@ public class GTURTLEModeling {
                 TraceManager.addDev("\n4. X=" + X);
 
 
-
                 for (i = 0; i < nl.getLength(); i++) {
                     adn = nl.item(i);
                     if (adn.getNodeType() == Node.ELEMENT_NODE) {
                         elt = (Element) adn;
 
-                        decX = (int)(_decX - X + X / zoomRatio);
-                        decY = (int)(_decY - Y  + Y / zoomRatio);
+                        decX = (int) (_decX - X + X / zoomRatio);
+                        decY = (int) (_decY - Y + Y / zoomRatio);
 
                         TraceManager.addDev("Sequence diagram: " + sdp.getName() + " components");
                         ArrayList<TGComponent> list = makeXMLComponents(elt.getElementsByTagName("COMPONENT"), sdp, keepUUID, zoomRatio);
@@ -4171,7 +4105,9 @@ public class GTURTLEModeling {
             } else if (tdp instanceof UseCaseDiagramPanel) {
                 nl = doc.getElementsByTagName("UseCaseDiagramPanelCopy");
 
-                if (nl == null) { return; }
+                if (nl == null) {
+                    return;
+                }
 
                 double zoomRatio = getZoomFromXMLNodeList(nl, tdp.getZoom());
                 UseCaseDiagramPanel ucdp = (UseCaseDiagramPanel) tdp;
@@ -4181,8 +4117,8 @@ public class GTURTLEModeling {
                     if (adn.getNodeType() == Node.ELEMENT_NODE) {
                         elt = (Element) adn;
 
-                        decX = (int)(_decX - X + X / zoomRatio);
-                        decY = (int)(_decY - Y  + Y / zoomRatio);
+                        decX = (int) (_decX - X + X / zoomRatio);
+                        decY = (int) (_decY - Y + Y / zoomRatio);
 
                         //TraceManager.addDev("Activity diagram : " + sdp.getName() + " components");
                         ArrayList<TGComponent> list = makeXMLComponents(elt.getElementsByTagName("COMPONENT"), ucdp, keepUUID, zoomRatio);
@@ -4201,7 +4137,9 @@ public class GTURTLEModeling {
             } else if (tdp instanceof TDeploymentDiagramPanel) {
                 nl = doc.getElementsByTagName("TDeploymentDiagramPanelCopy");
 
-                if (nl == null) { return; }
+                if (nl == null) {
+                    return;
+                }
 
                 double zoomRatio = getZoomFromXMLNodeList(nl, tdp.getZoom());
                 TDeploymentDiagramPanel tddp = (TDeploymentDiagramPanel) tdp;
@@ -4211,8 +4149,8 @@ public class GTURTLEModeling {
                     if (adn.getNodeType() == Node.ELEMENT_NODE) {
                         elt = (Element) adn;
 
-                        decX = (int)(_decX - X + X / zoomRatio);
-                        decY = (int)(_decY - Y  + Y / zoomRatio);
+                        decX = (int) (_decX - X + X / zoomRatio);
+                        decY = (int) (_decY - Y + Y / zoomRatio);
 
                         //TraceManager.addDev("Activity diagram : " + sdp.getName() + " components");
                         ArrayList<TGComponent> list = makeXMLComponents(elt.getElementsByTagName("COMPONENT"), tddp, keepUUID, zoomRatio);
@@ -4243,8 +4181,8 @@ public class GTURTLEModeling {
                     if (adn.getNodeType() == Node.ELEMENT_NODE) {
                         elt = (Element) adn;
 
-                        decX = (int)(_decX - X + X / zoomRatio);
-                        decY = (int)(_decY - Y  + Y / zoomRatio);
+                        decX = (int) (_decX - X + X / zoomRatio);
+                        decY = (int) (_decY - Y + Y / zoomRatio);
 
                         //TraceManager.addDev("Activity diagram : " + sdp.getName() + " components");
                         ArrayList<TGComponent> list = makeXMLComponents(elt.getElementsByTagName("COMPONENT"), ncdp, keepUUID, zoomRatio);
@@ -4263,7 +4201,9 @@ public class GTURTLEModeling {
             } else if (tdp instanceof RequirementDiagramPanel) {
                 nl = doc.getElementsByTagName("TRequirementDiagramPanelCopy");
                 docCopy = doc;
-                if (nl == null) { return; }
+                if (nl == null) {
+                    return;
+                }
 
                 double zoomRatio = getZoomFromXMLNodeList(nl, tdp.getZoom());
                 RequirementDiagramPanel rdp = (RequirementDiagramPanel) tdp;
@@ -4273,8 +4213,8 @@ public class GTURTLEModeling {
                     if (adn.getNodeType() == Node.ELEMENT_NODE) {
                         elt = (Element) adn;
 
-                        decX = (int)(_decX - X + X / zoomRatio);
-                        decY = (int)(_decY - Y  + Y / zoomRatio);
+                        decX = (int) (_decX - X + X / zoomRatio);
+                        decY = (int) (_decY - Y + Y / zoomRatio);
 
                         ArrayList<TGComponent> list = makeXMLComponents(elt.getElementsByTagName("COMPONENT"), rdp, keepUUID, zoomRatio);
                         list.addAll(makeXMLConnectors(elt.getElementsByTagName("CONNECTOR"), rdp, keepUUID));
@@ -4290,7 +4230,9 @@ public class GTURTLEModeling {
                 nl = doc.getElementsByTagName("EBRDDPanelCopy");
                 docCopy = doc;
 
-                if (nl == null) { return; }
+                if (nl == null) {
+                    return;
+                }
 
                 double zoomRatio = getZoomFromXMLNodeList(nl, tdp.getZoom());
                 EBRDDPanel ebrddp = (EBRDDPanel) tdp;
@@ -4300,10 +4242,10 @@ public class GTURTLEModeling {
                     if (adn.getNodeType() == Node.ELEMENT_NODE) {
                         elt = (Element) adn;
 
-                        decX = (int)(_decX - X + X / zoomRatio);
-                        decY = (int)(_decY - Y  + Y / zoomRatio);
+                        decX = (int) (_decX - X + X / zoomRatio);
+                        decY = (int) (_decY - Y + Y / zoomRatio);
 
-                        ArrayList<TGComponent> list =  makeXMLComponents(elt.getElementsByTagName("COMPONENT"), ebrddp, keepUUID, zoomRatio);
+                        ArrayList<TGComponent> list = makeXMLComponents(elt.getElementsByTagName("COMPONENT"), ebrddp, keepUUID, zoomRatio);
                         list.addAll(makeXMLConnectors(elt.getElementsByTagName("CONNECTOR"), ebrddp, keepUUID));
                         makeXMLComponents(elt.getElementsByTagName("SUBCOMPONENT"), ebrddp, keepUUID, zoomRatio);
                         connectConnectorsToRealPoints(ebrddp);
@@ -4312,10 +4254,39 @@ public class GTURTLEModeling {
                         makePostLoading(ebrddp, beginIndex);
                     }
                 }
+            } else if (tdp instanceof GraphDPanel) {
+                nl = doc.getElementsByTagName("GraphDPanelCopy");
+                docCopy = doc;
+                if (nl == null) {
+                    return;
+                }
+
+                double zoomRatio = getZoomFromXMLNodeList(nl, tdp.getZoom());
+                GraphDPanel gp = (GraphDPanel) tdp;
+
+                for (i = 0; i < nl.getLength(); i++) {
+                    adn = nl.item(i);
+                    if (adn.getNodeType() == Node.ELEMENT_NODE) {
+                        elt = (Element) adn;
+
+                        decX = (int) (_decX - X + X / zoomRatio);
+                        decY = (int) (_decY - Y + Y / zoomRatio);
+
+                        ArrayList<TGComponent> list = makeXMLComponents(elt.getElementsByTagName("COMPONENT"), gp, keepUUID, zoomRatio);
+                        list.addAll(makeXMLConnectors(elt.getElementsByTagName("CONNECTOR"), gp, keepUUID));
+                        makeXMLComponents(elt.getElementsByTagName("SUBCOMPONENT"), gp, keepUUID, zoomRatio);
+                        connectConnectorsToRealPoints(gp);
+                        TGScalableComponent.applyRawScaleToComponents(list, zoomRatio);
+                        gp.structureChanged();
+                        makePostLoading(gp, beginIndex);
+                    }
+                }
             } else if (tdp instanceof AttackTreeDiagramPanel) {
                 nl = doc.getElementsByTagName("AttackTreeDiagramPanelCopy");
                 docCopy = doc;
-                if (nl == null) { return; }
+                if (nl == null) {
+                    return;
+                }
 
                 double zoomRatio = getZoomFromXMLNodeList(nl, tdp.getZoom());
                 AttackTreeDiagramPanel atdp = (AttackTreeDiagramPanel) tdp;
@@ -4325,10 +4296,10 @@ public class GTURTLEModeling {
                     if (adn.getNodeType() == Node.ELEMENT_NODE) {
                         elt = (Element) adn;
 
-                        decX = (int)(_decX - X + X / zoomRatio);
-                        decY = (int)(_decY - Y  + Y / zoomRatio);
+                        decX = (int) (_decX - X + X / zoomRatio);
+                        decY = (int) (_decY - Y + Y / zoomRatio);
 
-                        ArrayList<TGComponent> list =  makeXMLComponents(elt.getElementsByTagName("COMPONENT"), atdp, keepUUID, zoomRatio);
+                        ArrayList<TGComponent> list = makeXMLComponents(elt.getElementsByTagName("COMPONENT"), atdp, keepUUID, zoomRatio);
                         list.addAll(makeXMLConnectors(elt.getElementsByTagName("CONNECTOR"), atdp, keepUUID));
                         makeXMLComponents(elt.getElementsByTagName("SUBCOMPONENT"), atdp, keepUUID, zoomRatio);
                         connectConnectorsToRealPoints(atdp);
@@ -4341,7 +4312,9 @@ public class GTURTLEModeling {
             } else if (tdp instanceof FaultTreeDiagramPanel) {
                 nl = doc.getElementsByTagName("FaultTreeDiagramPanelCopy");
                 docCopy = doc;
-                if (nl == null) { return; }
+                if (nl == null) {
+                    return;
+                }
 
                 double zoomRatio = getZoomFromXMLNodeList(nl, tdp.getZoom());
                 FaultTreeDiagramPanel ftdp = (FaultTreeDiagramPanel) tdp;
@@ -4351,10 +4324,10 @@ public class GTURTLEModeling {
                     if (adn.getNodeType() == Node.ELEMENT_NODE) {
                         elt = (Element) adn;
 
-                        decX = (int)(_decX - X + X / zoomRatio);
-                        decY = (int)(_decY - Y  + Y / zoomRatio);
+                        decX = (int) (_decX - X + X / zoomRatio);
+                        decY = (int) (_decY - Y + Y / zoomRatio);
 
-                        ArrayList<TGComponent> list =  makeXMLComponents(elt.getElementsByTagName("COMPONENT"), ftdp, keepUUID, zoomRatio);
+                        ArrayList<TGComponent> list = makeXMLComponents(elt.getElementsByTagName("COMPONENT"), ftdp, keepUUID, zoomRatio);
                         list.addAll(makeXMLConnectors(elt.getElementsByTagName("CONNECTOR"), ftdp, keepUUID));
                         makeXMLComponents(elt.getElementsByTagName("SUBCOMPONENT"), ftdp, keepUUID, zoomRatio);
                         connectConnectorsToRealPoints(ftdp);
@@ -4367,7 +4340,9 @@ public class GTURTLEModeling {
                 nl = doc.getElementsByTagName("TMLTaskDiagramPanelCopy");
                 docCopy = doc;
 
-                if (nl == null) { return; }
+                if (nl == null) {
+                    return;
+                }
 
                 double zoomRatio = getZoomFromXMLNodeList(nl, tdp.getZoom());
                 TMLTaskDiagramPanel tmltdp = (TMLTaskDiagramPanel) tdp;
@@ -4377,8 +4352,8 @@ public class GTURTLEModeling {
                     if (adn.getNodeType() == Node.ELEMENT_NODE) {
                         elt = (Element) adn;
 
-                        decX = (int)(_decX - X + X / zoomRatio);
-                        decY = (int)(_decY - Y  + Y / zoomRatio);
+                        decX = (int) (_decX - X + X / zoomRatio);
+                        decY = (int) (_decY - Y + Y / zoomRatio);
 
                         tmltdp.loadExtraParameters(elt);
 
@@ -4403,7 +4378,9 @@ public class GTURTLEModeling {
                 nl = doc.getElementsByTagName("DiplodocusMethodologyDiagramPanelCopy");
                 docCopy = doc;
 
-                if (nl == null) { return; }
+                if (nl == null) {
+                    return;
+                }
 
                 double zoomRatio = getZoomFromXMLNodeList(nl, tdp.getZoom());
                 DiplodocusMethodologyDiagramPanel tmltdp = (DiplodocusMethodologyDiagramPanel) tdp;
@@ -4413,13 +4390,13 @@ public class GTURTLEModeling {
                     if (adn.getNodeType() == Node.ELEMENT_NODE) {
                         elt = (Element) adn;
 
-                        decX = (int)(_decX - X + X / zoomRatio);
-                        decY = (int)(_decY - Y  + Y / zoomRatio);
+                        decX = (int) (_decX - X + X / zoomRatio);
+                        decY = (int) (_decY - Y + Y / zoomRatio);
 
                         tmltdp.loadExtraParameters(elt);
 
                         //TraceManager.addDev("TML task diagram : " + tmltdp.getName() + " components");
-                        ArrayList<TGComponent> list =  makeXMLComponents(elt.getElementsByTagName("COMPONENT"), tmltdp, keepUUID, zoomRatio);
+                        ArrayList<TGComponent> list = makeXMLComponents(elt.getElementsByTagName("COMPONENT"), tmltdp, keepUUID, zoomRatio);
                         //TraceManager.addDev("Toto 3");
                         makePostProcessing(tmltdp);
                         //TraceManager.addDev("TML task diagram : " + tmltdp.getName() + " connectors");
@@ -4440,7 +4417,9 @@ public class GTURTLEModeling {
             } else if (tdp instanceof AvatarMethodologyDiagramPanel) {
                 nl = doc.getElementsByTagName("AvatarMethodologyDiagramPanelCopy");
                 docCopy = doc;
-                if (nl == null) { return; }
+                if (nl == null) {
+                    return;
+                }
 
                 double zoomRatio = getZoomFromXMLNodeList(nl, tdp.getZoom());
                 AvatarMethodologyDiagramPanel amdp = (AvatarMethodologyDiagramPanel) tdp;
@@ -4450,8 +4429,8 @@ public class GTURTLEModeling {
                     if (adn.getNodeType() == Node.ELEMENT_NODE) {
                         elt = (Element) adn;
 
-                        decX = (int)(_decX - X + X / zoomRatio);
-                        decY = (int)(_decY - Y  + Y / zoomRatio);
+                        decX = (int) (_decX - X + X / zoomRatio);
+                        decY = (int) (_decY - Y + Y / zoomRatio);
 
                         amdp.loadExtraParameters(elt);
 
@@ -4475,7 +4454,9 @@ public class GTURTLEModeling {
             } else if (tdp instanceof SysmlsecMethodologyDiagramPanel) {
                 nl = doc.getElementsByTagName("SysmlsecMethodologyDiagramPanelCopy");
                 docCopy = doc;
-                if (nl == null) { return; }
+                if (nl == null) {
+                    return;
+                }
 
                 double zoomRatio = getZoomFromXMLNodeList(nl, tdp.getZoom());
                 SysmlsecMethodologyDiagramPanel amdp = (SysmlsecMethodologyDiagramPanel) tdp;
@@ -4485,8 +4466,8 @@ public class GTURTLEModeling {
                     if (adn.getNodeType() == Node.ELEMENT_NODE) {
                         elt = (Element) adn;
 
-                        decX = (int)(_decX - X + X / zoomRatio);
-                        decY = (int)(_decY - Y  + Y / zoomRatio);
+                        decX = (int) (_decX - X + X / zoomRatio);
+                        decY = (int) (_decY - Y + Y / zoomRatio);
 
                         amdp.loadExtraParameters(elt);
 
@@ -4510,7 +4491,9 @@ public class GTURTLEModeling {
             } else if (tdp instanceof TMLComponentTaskDiagramPanel) {
                 nl = doc.getElementsByTagName("TMLComponentTaskDiagramPanelCopy");
                 docCopy = doc;
-                if (nl == null) { return; }
+                if (nl == null) {
+                    return;
+                }
 
                 double zoomRatio = getZoomFromXMLNodeList(nl, tdp.getZoom());
                 TMLComponentTaskDiagramPanel tmlctdp = (TMLComponentTaskDiagramPanel) tdp;
@@ -4520,13 +4503,13 @@ public class GTURTLEModeling {
                     if (adn.getNodeType() == Node.ELEMENT_NODE) {
                         elt = (Element) adn;
 
-                        decX = (int)(_decX - X + X / zoomRatio);
-                        decY = (int)(_decY - Y  + Y / zoomRatio);
+                        decX = (int) (_decX - X + X / zoomRatio);
+                        decY = (int) (_decY - Y + Y / zoomRatio);
 
                         tmlctdp.loadExtraParameters(elt);
 
                         //TraceManager.addDev("TML task diagram : " + tmltdp.getName() + " components");
-                        ArrayList<TGComponent> list =  makeXMLComponents(elt.getElementsByTagName("COMPONENT"), tmlctdp, keepUUID, zoomRatio);
+                        ArrayList<TGComponent> list = makeXMLComponents(elt.getElementsByTagName("COMPONENT"), tmlctdp, keepUUID, zoomRatio);
                         //TraceManager.addDev("Toto 3");
                         makePostProcessing(tmlctdp);
                         //TraceManager.addDev("TML task diagram : " + tmltdp.getName() + " connectors");
@@ -4547,7 +4530,9 @@ public class GTURTLEModeling {
                 tmlctdp.updatePorts();
             } else if (tdp instanceof TMLActivityDiagramPanel) {
                 nl = doc.getElementsByTagName("TMLActivityDiagramPanelCopy");
-                if (nl == null) { return; }
+                if (nl == null) {
+                    return;
+                }
 
                 double zoomRatio = getZoomFromXMLNodeList(nl, tdp.getZoom());
                 TMLActivityDiagramPanel tmladp = (TMLActivityDiagramPanel) tdp;
@@ -4557,8 +4542,8 @@ public class GTURTLEModeling {
                     if (adn.getNodeType() == Node.ELEMENT_NODE) {
                         elt = (Element) adn;
 
-                        decX = (int)(_decX - X + X / zoomRatio);
-                        decY = (int)(_decY - Y  + Y / zoomRatio);
+                        decX = (int) (_decX - X + X / zoomRatio);
+                        decY = (int) (_decY - Y + Y / zoomRatio);
 
                         //TraceManager.addDev("Activity diagram : " + tmladp.getName() + " components");
                         ArrayList<TGComponent> list = makeXMLComponents(elt.getElementsByTagName("COMPONENT"), tmladp, keepUUID, zoomRatio);
@@ -4577,7 +4562,9 @@ public class GTURTLEModeling {
             } else if (tdp instanceof TMLCPPanel) {
                 nl = doc.getElementsByTagName("CommunicationPatternDiagramPanelCopy");
                 docCopy = doc;
-                if (nl == null) { return; }
+                if (nl == null) {
+                    return;
+                }
 
                 double zoomRatio = getZoomFromXMLNodeList(nl, tdp.getZoom());
                 TMLCPPanel tmlcpp = (TMLCPPanel) tdp;
@@ -4587,11 +4574,11 @@ public class GTURTLEModeling {
                     if (adn.getNodeType() == Node.ELEMENT_NODE) {
                         elt = (Element) adn;
 
-                        decX = (int)(_decX - X + X / zoomRatio);
-                        decY = (int)(_decY - Y  + Y / zoomRatio);
+                        decX = (int) (_decX - X + X / zoomRatio);
+                        decY = (int) (_decY - Y + Y / zoomRatio);
 
                         //TraceManager.addDev("TML task diagram : " + tmltdp.getName() + " components");
-                        ArrayList<TGComponent> list =  makeXMLComponents(elt.getElementsByTagName("COMPONENT"), tmlcpp, keepUUID, zoomRatio);
+                        ArrayList<TGComponent> list = makeXMLComponents(elt.getElementsByTagName("COMPONENT"), tmlcpp, keepUUID, zoomRatio);
                         //TraceManager.addDev("Toto 3");
                         makePostProcessing(tmlcpp);
                         //TraceManager.addDev("TML task diagram : " + tmltdp.getName() + " connectors");
@@ -4610,7 +4597,9 @@ public class GTURTLEModeling {
             } else if (tdp instanceof TMLSDPanel) {
                 nl = doc.getElementsByTagName("TMLSDPanelCopy");
                 docCopy = doc;
-                if (nl == null) { return; }
+                if (nl == null) {
+                    return;
+                }
 
                 double zoomRatio = getZoomFromXMLNodeList(nl, tdp.getZoom());
                 TMLSDPanel tmlsdp = (TMLSDPanel) tdp;
@@ -4620,11 +4609,11 @@ public class GTURTLEModeling {
                     if (adn.getNodeType() == Node.ELEMENT_NODE) {
                         elt = (Element) adn;
 
-                        decX = (int)(_decX - X + X / zoomRatio);
-                        decY = (int)(_decY - Y  + Y / zoomRatio);
+                        decX = (int) (_decX - X + X / zoomRatio);
+                        decY = (int) (_decY - Y + Y / zoomRatio);
 
                         //TraceManager.addDev("TML task diagram : " + tmltdp.getName() + " components");
-                        ArrayList<TGComponent> list =  makeXMLComponents(elt.getElementsByTagName("COMPONENT"), tmlsdp, keepUUID, zoomRatio);
+                        ArrayList<TGComponent> list = makeXMLComponents(elt.getElementsByTagName("COMPONENT"), tmlsdp, keepUUID, zoomRatio);
                         //TraceManager.addDev("Toto 3");
                         makePostProcessing(tmlsdp);
                         //TraceManager.addDev("TML task diagram : " + tmltdp.getName() + " connectors");
@@ -4643,7 +4632,9 @@ public class GTURTLEModeling {
             } else if (tdp instanceof TMLArchiDiagramPanel) {
                 nl = doc.getElementsByTagName("TMLArchiDiagramPanelCopy");
                 docCopy = doc;
-                if (nl == null) { return; }
+                if (nl == null) {
+                    return;
+                }
 
                 double zoomRatio = getZoomFromXMLNodeList(nl, tdp.getZoom());
                 TMLArchiDiagramPanel tmadp = (TMLArchiDiagramPanel) tdp;
@@ -4653,13 +4644,13 @@ public class GTURTLEModeling {
                     if (adn.getNodeType() == Node.ELEMENT_NODE) {
                         elt = (Element) adn;
 
-                        decX = (int)(_decX - X + X / zoomRatio);
-                        decY = (int)(_decY - Y  + Y / zoomRatio);
+                        decX = (int) (_decX - X + X / zoomRatio);
+                        decY = (int) (_decY - Y + Y / zoomRatio);
 
                         tmadp.loadExtraParameters(elt);
 
                         //TraceManager.addDev("TML task diagram : " + tmltdp.getName() + " components");
-                        ArrayList<TGComponent> list =  makeXMLComponents(elt.getElementsByTagName("COMPONENT"), tmadp, keepUUID, zoomRatio);
+                        ArrayList<TGComponent> list = makeXMLComponents(elt.getElementsByTagName("COMPONENT"), tmadp, keepUUID, zoomRatio);
                         //TraceManager.addDev("Toto 3");
                         makePostProcessing(tmadp);
                         //TraceManager.addDev("TML task diagram : " + tmltdp.getName() + " connectors");
@@ -4678,7 +4669,9 @@ public class GTURTLEModeling {
             } else if (tdp instanceof TURTLEOSClassDiagramPanel) {
                 nl = doc.getElementsByTagName("TURTLEOSClassDiagramPanelCopy");
                 docCopy = doc;
-                if (nl == null) { return; }
+                if (nl == null) {
+                    return;
+                }
 
                 double zoomRatio = getZoomFromXMLNodeList(nl, tdp.getZoom());
                 TURTLEOSClassDiagramPanel toscdp = (TURTLEOSClassDiagramPanel) tdp;
@@ -4688,11 +4681,11 @@ public class GTURTLEModeling {
                     if (adn.getNodeType() == Node.ELEMENT_NODE) {
                         elt = (Element) adn;
 
-                        decX = (int)(_decX - X + X / zoomRatio);
-                        decY = (int)(_decY - Y  + Y / zoomRatio);
+                        decX = (int) (_decX - X + X / zoomRatio);
+                        decY = (int) (_decY - Y + Y / zoomRatio);
 
                         //TraceManager.addDev("TURTLEOS task diagram : " + toscdp.getName() + " components");
-                        ArrayList<TGComponent> list =   makeXMLComponents(elt.getElementsByTagName("COMPONENT"), toscdp, keepUUID, zoomRatio);
+                        ArrayList<TGComponent> list = makeXMLComponents(elt.getElementsByTagName("COMPONENT"), toscdp, keepUUID, zoomRatio);
                         //TraceManager.addDev("Toto 3");
                         makePostProcessing(toscdp);
                         //TraceManager.addDev("TURTLEOS task diagram : " + toscdp.getName() + " connectors");
@@ -4710,7 +4703,9 @@ public class GTURTLEModeling {
                 }
             } else if (tdp instanceof TURTLEOSActivityDiagramPanel) {
                 nl = doc.getElementsByTagName("TURTLEOSActivityDiagramPanelCopy");
-                if (nl == null) { return; }
+                if (nl == null) {
+                    return;
+                }
 
                 double zoomRatio = getZoomFromXMLNodeList(nl, tdp.getZoom());
                 TURTLEOSActivityDiagramPanel tosadp = (TURTLEOSActivityDiagramPanel) tdp;
@@ -4720,11 +4715,11 @@ public class GTURTLEModeling {
                     if (adn.getNodeType() == Node.ELEMENT_NODE) {
                         elt = (Element) adn;
 
-                        decX = (int)(_decX - X + X / zoomRatio);
-                        decY = (int)(_decY - Y  + Y / zoomRatio);
+                        decX = (int) (_decX - X + X / zoomRatio);
+                        decY = (int) (_decY - Y + Y / zoomRatio);
 
                         //TraceManager.addDev("Activity diagram : " + tadp.getName() + " components");
-                        ArrayList<TGComponent> list =  makeXMLComponents(elt.getElementsByTagName("COMPONENT"), tosadp, keepUUID, zoomRatio);
+                        ArrayList<TGComponent> list = makeXMLComponents(elt.getElementsByTagName("COMPONENT"), tosadp, keepUUID, zoomRatio);
                         //TraceManager.addDev("Activity diagram : " + tadp.getName() + " connectors");
                         list.addAll(makeXMLConnectors(elt.getElementsByTagName("CONNECTOR"), tosadp, keepUUID));
                         //TraceManager.addDev("Activity diagram : " + tadp.getName() + " subcomponents");
@@ -4762,7 +4757,7 @@ public class GTURTLEModeling {
                         //pcsdp.loadExtraParameters(elt);
                         //TraceManager.addDev("Toto 2");
                         //TraceManager.addDev("TML task diagram : " + tmltdp.getName() + " components");
-                        ArrayList<TGComponent> list =  makeXMLComponents(elt.getElementsByTagName("COMPONENT"), pcsdp, keepUUID, zoomRatio);
+                        ArrayList<TGComponent> list = makeXMLComponents(elt.getElementsByTagName("COMPONENT"), pcsdp, keepUUID, zoomRatio);
                         //TraceManager.addDev("Toto 3");
                         makePostProcessing(pcsdp);
                         //TraceManager.addDev("TML task diagram : " + tmltdp.getName() + " connectors");
@@ -4780,7 +4775,9 @@ public class GTURTLEModeling {
                 }
                 // Added by Solange
                 nl = doc.getElementsByTagName("ProactiveSMDPanel");
-                if (nl == null) { return; }
+                if (nl == null) {
+                    return;
+                }
                 String name = "";
                 ProactiveSMDPanel psmdp;
                 for (i = 0; i < nl.getLength(); i++) //Erased cuenta++ by Solange at the end condition of the for
@@ -4796,12 +4793,12 @@ public class GTURTLEModeling {
                             throw new MalformedModelingException();
                         }
 
-                        decX = (int)(_decX - X + X / zoomRatio);
-                        decY = (int)(_decY - Y  + Y / zoomRatio);
+                        decX = (int) (_decX - X + X / zoomRatio);
+                        decY = (int) (_decY - Y + Y / zoomRatio);
 
                         //tmladp.loadExtraParameters(elt);
                         //TraceManager.addDev("Activity diagram : " + tadp.getName() + " components");
-                        ArrayList<TGComponent> list =  makeXMLComponents(elt.getElementsByTagName("COMPONENT"), psmdp, keepUUID, zoomRatio);
+                        ArrayList<TGComponent> list = makeXMLComponents(elt.getElementsByTagName("COMPONENT"), psmdp, keepUUID, zoomRatio);
                         //TraceManager.addDev("Activity diagram : " + tadp.getName() + " connectors");
                         list.addAll(makeXMLConnectors(elt.getElementsByTagName("CONNECTOR"), psmdp, keepUUID));
                         //TraceManager.addDev("Activity diagram : " + tadp.getName() + " subcomponents");
@@ -4819,7 +4816,9 @@ public class GTURTLEModeling {
                 //Changed by Solange, before it was like the first line
                 //nl = doc.getElementsByTagName("ProactiveSMDPanelCopy");
                 nl = doc.getElementsByTagName("ProactiveSMDPanelCopy");
-                if (nl == null) { return; }
+                if (nl == null) {
+                    return;
+                }
 
                 double zoomRatio = getZoomFromXMLNodeList(nl, tdp.getZoom());
                 ProactiveSMDPanel psmdp = (ProactiveSMDPanel) tdp;
@@ -4829,11 +4828,11 @@ public class GTURTLEModeling {
                     if (adn.getNodeType() == Node.ELEMENT_NODE) {
                         elt = (Element) adn;
 
-                        decX = (int)(_decX - X + X / zoomRatio);
-                        decY = (int)(_decY - Y  + Y / zoomRatio);
+                        decX = (int) (_decX - X + X / zoomRatio);
+                        decY = (int) (_decY - Y + Y / zoomRatio);
 
                         //TraceManager.addDev("Activity diagram : " + tadp.getName() + " components");
-                        ArrayList<TGComponent> list =  makeXMLComponents(elt.getElementsByTagName("COMPONENT"), psmdp, keepUUID, zoomRatio);
+                        ArrayList<TGComponent> list = makeXMLComponents(elt.getElementsByTagName("COMPONENT"), psmdp, keepUUID, zoomRatio);
                         //TraceManager.addDev("Activity diagram : " + tadp.getName() + " connectors");
                         list.addAll(makeXMLConnectors(elt.getElementsByTagName("CONNECTOR"), psmdp, keepUUID));
                         //TraceManager.addDev("Activity diagram : " + tadp.getName() + " subcomponents");
@@ -4852,7 +4851,9 @@ public class GTURTLEModeling {
                 nl = doc.getElementsByTagName("AVATARBlockDiagramPanelCopy");
                 docCopy = doc;
 
-                if (nl == null) { return; }
+                if (nl == null) {
+                    return;
+                }
 
                 double zoomRatio = getZoomFromXMLNodeList(nl, tdp.getZoom());
                 AvatarBDPanel abdp = (AvatarBDPanel) tdp;
@@ -4862,13 +4863,13 @@ public class GTURTLEModeling {
                     if (adn.getNodeType() == Node.ELEMENT_NODE) {
                         elt = (Element) adn;
 
-                        decX = (int)(_decX - X + X / zoomRatio);
-                        decY = (int)(_decY - Y  + Y / zoomRatio);
+                        decX = (int) (_decX - X + X / zoomRatio);
+                        decY = (int) (_decY - Y + Y / zoomRatio);
 
                         abdp.loadExtraParameters(elt);
 
                         //TraceManager.addDev("TML task diagram : " + tmltdp.getName() + " components");
-                        ArrayList<TGComponent> list =  makeXMLComponents(elt.getElementsByTagName("COMPONENT"), abdp, keepUUID, zoomRatio);
+                        ArrayList<TGComponent> list = makeXMLComponents(elt.getElementsByTagName("COMPONENT"), abdp, keepUUID, zoomRatio);
                         //TraceManager.addDev("Toto 3");
                         makePostProcessing(abdp);
                         //TraceManager.addDev("TML task diagram : " + tmltdp.getName() + " connectors");
@@ -4889,7 +4890,9 @@ public class GTURTLEModeling {
             } else if (tdp instanceof ADDDiagramPanel) {
                 nl = doc.getElementsByTagName("ADDDiagramPanelCopy");
                 docCopy = doc;
-                if (nl == null) { return; }
+                if (nl == null) {
+                    return;
+                }
 
                 double zoomRatio = getZoomFromXMLNodeList(nl, tdp.getZoom());
                 ADDDiagramPanel addp = (ADDDiagramPanel) tdp;
@@ -4899,16 +4902,18 @@ public class GTURTLEModeling {
                     if (adn.getNodeType() == Node.ELEMENT_NODE) {
                         elt = (Element) adn;
 
-                        if (addp == null) { throw new MalformedModelingException(); }
+                        if (addp == null) {
+                            throw new MalformedModelingException();
+                        }
 
-                        decX = (int)(_decX - X + X / zoomRatio);
-                        decY = (int)(_decY - Y  + Y / zoomRatio);
+                        decX = (int) (_decX - X + X / zoomRatio);
+                        decY = (int) (_decY - Y + Y / zoomRatio);
 
                         addp.loadExtraParameters(elt);
 
 
                         //TraceManager.addDev("TML task diagram : " + tmltdp.getName() + " components");
-                        ArrayList<TGComponent> list =  makeXMLComponents(elt.getElementsByTagName("COMPONENT"), addp, keepUUID, zoomRatio);
+                        ArrayList<TGComponent> list = makeXMLComponents(elt.getElementsByTagName("COMPONENT"), addp, keepUUID, zoomRatio);
                         //TraceManager.addDev("Toto 3");
                         makePostProcessing(addp);
                         //TraceManager.addDev("TML task diagram : " + tmltdp.getName() + " connectors");
@@ -4927,7 +4932,9 @@ public class GTURTLEModeling {
 
             } else if (tdp instanceof AvatarSMDPanel) {
                 nl = doc.getElementsByTagName("AVATARStateMachineDiagramPanelCopy");
-                if (nl == null) { return; }
+                if (nl == null) {
+                    return;
+                }
 
                 double zoomRatio = getZoomFromXMLNodeList(nl, tdp.getZoom());
                 AvatarSMDPanel asmdp = (AvatarSMDPanel) tdp;
@@ -4937,11 +4944,11 @@ public class GTURTLEModeling {
                     if (adn.getNodeType() == Node.ELEMENT_NODE) {
                         elt = (Element) adn;
 
-                        decX = (int)(_decX - X + X / zoomRatio);
-                        decY = (int)(_decY - Y  + Y / zoomRatio);
+                        decX = (int) (_decX - X + X / zoomRatio);
+                        decY = (int) (_decY - Y + Y / zoomRatio);
 
                         //TraceManager.addDev("Activity diagram : " + tmladp.getName() + " components");
-                        ArrayList<TGComponent> list =  makeXMLComponents(elt.getElementsByTagName("COMPONENT"), asmdp, keepUUID, zoomRatio);
+                        ArrayList<TGComponent> list = makeXMLComponents(elt.getElementsByTagName("COMPONENT"), asmdp, keepUUID, zoomRatio);
                         //TraceManager.addDev("Activity diagram : " + tmladp.getName() + " connectors");
                         list.addAll(makeXMLConnectors(elt.getElementsByTagName("CONNECTOR"), asmdp, keepUUID));
                         //TraceManager.addDev("Activity diagram : " + tmladp.getName() + " subcomponents");
@@ -4956,7 +4963,9 @@ public class GTURTLEModeling {
                 }
             } else if (tdp instanceof ELNDiagramPanel) {
                 nl = doc.getElementsByTagName("ELNDiagramPanelCopy");
-                if (nl == null) { return; }
+                if (nl == null) {
+                    return;
+                }
 
                 double zoomRatio = getZoomFromXMLNodeList(nl, tdp.getZoom());
                 ELNDiagramPanel elndp = (ELNDiagramPanel) tdp;
@@ -4965,12 +4974,14 @@ public class GTURTLEModeling {
                     adn = nl.item(i);
                     if (adn.getNodeType() == Node.ELEMENT_NODE) {
                         elt = (Element) adn;
-                        if (elndp == null) { throw new MalformedModelingException(); }
+                        if (elndp == null) {
+                            throw new MalformedModelingException();
+                        }
 
-                        decX = (int)(_decX - X + X / zoomRatio);
-                        decY = (int)(_decY - Y  + Y / zoomRatio);
+                        decX = (int) (_decX - X + X / zoomRatio);
+                        decY = (int) (_decY - Y + Y / zoomRatio);
 
-                        ArrayList<TGComponent> list =  makeXMLComponents(elt.getElementsByTagName("COMPONENT"), elndp, keepUUID, zoomRatio);
+                        ArrayList<TGComponent> list = makeXMLComponents(elt.getElementsByTagName("COMPONENT"), elndp, keepUUID, zoomRatio);
                         list.addAll(makeXMLConnectors(elt.getElementsByTagName("CONNECTOR"), elndp, keepUUID));
                         makeXMLComponents(elt.getElementsByTagName("SUBCOMPONENT"), elndp, keepUUID, zoomRatio);
                         connectConnectorsToRealPoints(elndp);
@@ -4981,7 +4992,9 @@ public class GTURTLEModeling {
                 }
             } else if (tdp instanceof AvatarADPanel) {
                 nl = doc.getElementsByTagName("AvatarADPanelCopy");
-                if (nl == null) { return; }
+                if (nl == null) {
+                    return;
+                }
 
                 double zoomRatio = getZoomFromXMLNodeList(nl, tdp.getZoom());
                 AvatarADPanel aadp = (AvatarADPanel) tdp;
@@ -4991,9 +5004,11 @@ public class GTURTLEModeling {
                     if (adn.getNodeType() == Node.ELEMENT_NODE) {
                         elt = (Element) adn;
 
-                        if (aadp == null) { throw new MalformedModelingException(); }
-                        decX = (int)(_decX - X + X / zoomRatio);
-                        decY = (int)(_decY - Y  + Y / zoomRatio);
+                        if (aadp == null) {
+                            throw new MalformedModelingException();
+                        }
+                        decX = (int) (_decX - X + X / zoomRatio);
+                        decY = (int) (_decY - Y + Y / zoomRatio);
 
                         ArrayList<TGComponent> list = makeXMLComponents(elt.getElementsByTagName("COMPONENT"), aadp, keepUUID, zoomRatio);
                         list.addAll(makeXMLConnectors(elt.getElementsByTagName("CONNECTOR"), aadp, keepUUID));
@@ -5008,7 +5023,9 @@ public class GTURTLEModeling {
 
             } else if (tdp instanceof AvatarRDPanel) {
                 nl = doc.getElementsByTagName("AvatarRDPanelCopy");
-                if (nl == null) { return; }
+                if (nl == null) {
+                    return;
+                }
 
                 double zoomRatio = getZoomFromXMLNodeList(nl, tdp.getZoom());
                 AvatarRDPanel ardp = (AvatarRDPanel) tdp;
@@ -5018,8 +5035,8 @@ public class GTURTLEModeling {
                     if (adn.getNodeType() == Node.ELEMENT_NODE) {
                         elt = (Element) adn;
 
-                        decX = (int)(_decX - X + X / zoomRatio);
-                        decY = (int)(_decY - Y  + Y / zoomRatio);
+                        decX = (int) (_decX - X + X / zoomRatio);
+                        decY = (int) (_decY - Y + Y / zoomRatio);
 
                         ArrayList<TGComponent> list = makeXMLComponents(elt.getElementsByTagName("COMPONENT"), ardp, keepUUID, zoomRatio);
                         list.addAll(makeXMLConnectors(elt.getElementsByTagName("CONNECTOR"), ardp, keepUUID));
@@ -5033,7 +5050,9 @@ public class GTURTLEModeling {
 
             } else if (tdp instanceof AvatarMADPanel) {
                 nl = doc.getElementsByTagName("AvatarMADPanelCopy");
-                if (nl == null) { return; }
+                if (nl == null) {
+                    return;
+                }
 
                 double zoomRatio = getZoomFromXMLNodeList(nl, tdp.getZoom());
                 AvatarMADPanel amadp = (AvatarMADPanel) tdp;
@@ -5043,10 +5062,10 @@ public class GTURTLEModeling {
                     if (adn.getNodeType() == Node.ELEMENT_NODE) {
                         elt = (Element) adn;
 
-                        decX = (int)(_decX - X + X / zoomRatio);
-                        decY = (int)(_decY - Y  + Y / zoomRatio);
+                        decX = (int) (_decX - X + X / zoomRatio);
+                        decY = (int) (_decY - Y + Y / zoomRatio);
 
-                        ArrayList<TGComponent> list =  makeXMLComponents(elt.getElementsByTagName("COMPONENT"), amadp, keepUUID, zoomRatio);
+                        ArrayList<TGComponent> list = makeXMLComponents(elt.getElementsByTagName("COMPONENT"), amadp, keepUUID, zoomRatio);
                         list.addAll(makeXMLConnectors(elt.getElementsByTagName("CONNECTOR"), amadp, keepUUID));
                         makeXMLComponents(elt.getElementsByTagName("SUBCOMPONENT"), amadp, keepUUID, zoomRatio);
                         connectConnectorsToRealPoints(amadp);
@@ -5058,7 +5077,9 @@ public class GTURTLEModeling {
 
             } else if (tdp instanceof AvatarPDPanel) {
                 nl = doc.getElementsByTagName("AvatarPDPanelCopy");
-                if (nl == null) { return; }
+                if (nl == null) {
+                    return;
+                }
 
                 double zoomRatio = getZoomFromXMLNodeList(nl, tdp.getZoom());
                 AvatarPDPanel apdp = (AvatarPDPanel) tdp;
@@ -5068,8 +5089,8 @@ public class GTURTLEModeling {
                     if (adn.getNodeType() == Node.ELEMENT_NODE) {
                         elt = (Element) adn;
 
-                        decX = (int)(_decX - X + X / zoomRatio);
-                        decY = (int)(_decY - Y  + Y / zoomRatio);
+                        decX = (int) (_decX - X + X / zoomRatio);
+                        decY = (int) (_decY - Y + Y / zoomRatio);
 
 
                         ArrayList<TGComponent> list = makeXMLComponents(elt.getElementsByTagName("COMPONENT"), apdp, keepUUID, zoomRatio);
@@ -5084,7 +5105,9 @@ public class GTURTLEModeling {
 
             } else if (tdp instanceof AvatarCDPanel) {
                 nl = doc.getElementsByTagName("AvatarCDPanelCopy");
-                if (nl == null) { return; }
+                if (nl == null) {
+                    return;
+                }
 
                 double zoomRatio = getZoomFromXMLNodeList(nl, tdp.getZoom());
                 AvatarCDPanel acdp = (AvatarCDPanel) tdp;
@@ -5094,8 +5117,8 @@ public class GTURTLEModeling {
                     if (adn.getNodeType() == Node.ELEMENT_NODE) {
                         elt = (Element) adn;
 
-                        decX = (int)(_decX - X + X / zoomRatio);
-                        decY = (int)(_decY - Y  + Y / zoomRatio);
+                        decX = (int) (_decX - X + X / zoomRatio);
+                        decY = (int) (_decY - Y + Y / zoomRatio);
 
                         ArrayList<TGComponent> list = makeXMLComponents(elt.getElementsByTagName("COMPONENT"), acdp, keepUUID, zoomRatio);
                         list.addAll(makeXMLConnectors(elt.getElementsByTagName("CONNECTOR"), acdp, keepUUID));
@@ -5110,21 +5133,15 @@ public class GTURTLEModeling {
 
 
         } catch (
-                NumberFormatException nfe)
-
-        {
+                NumberFormatException nfe) {
             TraceManager.addError("Loading 400 " + nfe.getMessage());
             throw new MalformedModelingException();
         } catch (
-                IOException e)
-
-        {
+                IOException e) {
             TraceManager.addError("Loading 600 " + e.getMessage());
             throw new MalformedModelingException();
         } catch (
-                SAXException saxe)
-
-        {
+                SAXException saxe) {
             TraceManager.addError("Loading 601 " + saxe.getMessage());
             throw new MalformedModelingException();
         }
@@ -5148,15 +5165,15 @@ public class GTURTLEModeling {
                 //TraceManager.addDev("Zoom found:" + zoomS);
                 double zoomV = Double.valueOf(zoomS);
                 if (zoomV != 0)
-                    return zoomDiag/zoomV;
+                    return zoomDiag / zoomV;
 
             }
-        } catch (Exception e) {}
+        } catch (Exception e) {
+        }
 
         //TraceManager.addDev("Returning 1");
         return 1;
     }
-
 
 
     public void loadModeling(Node node, boolean keepUUID) throws MalformedModelingException, SAXException {
@@ -5174,6 +5191,8 @@ public class GTURTLEModeling {
         } else if (type.compareTo("Avatar Analysis") == 0) {
             loadAvatarAnalysis(node, keepUUID);
 
+        } else if (type.compareTo("Graph") == 0) {
+            loadGraph(node, keepUUID);
 
             // TURTLE
         } else if (type.compareTo("Design") == 0) {
@@ -5544,6 +5563,33 @@ public class GTURTLEModeling {
                     cpt_req++;
                 } else if (elt.getTagName().compareTo("AvatarPDPanel") == 0) {
                     loadAvatarPD(elt, indexReq, cpt_req, keepUUID);
+                    cpt_req++;
+                }
+            }
+        }
+    }
+
+    public void loadGraph(Node node, boolean keepUUID) throws MalformedModelingException, SAXException {
+        Element elt = (Element) node;
+        String nameTab;
+        NodeList diagramNl;
+        int indexReq;
+        int cpt_req = 0;
+
+
+        nameTab = elt.getAttribute("nameTab");
+
+        indexReq = mgui.createGraph(nameTab);
+
+        diagramNl = node.getChildNodes();
+
+        for (int j = 0; j < diagramNl.getLength(); j++) {
+            //TraceManager.addDev("Deployment nodes: " + j);
+            node = diagramNl.item(j);
+            if (node.getNodeType() == Node.ELEMENT_NODE) {
+                elt = (Element) node;
+                if (elt.getTagName().compareTo("GraphDPanel") == 0) {
+                    loadGraphD(elt, indexReq, cpt_req, keepUUID);
                     cpt_req++;
                 }
             }
@@ -6216,6 +6262,11 @@ public class GTURTLEModeling {
                 tdp.forceZoom(zoom);
                 mgui.updateZoomInfo();
             }
+            double fontModifier = Double.parseDouble(elt.getAttribute("fontModifier"));
+            if (fontModifier != 0) {
+                TraceManager.addDev("Found fontModifier=" + fontModifier);
+                tdp.setFontModifier(fontModifier);
+            }
         } catch (Exception e) {
             // Model was saved in an older version of TTool
         }
@@ -6370,6 +6421,23 @@ public class GTURTLEModeling {
 
 
         TDiagramPanel tdp = mgui.getAvatarRDPanel(indexAnalysis, indexTab, name);
+
+        if (tdp == null) {
+            throw new MalformedModelingException();
+        }
+        tdp.removeAll();
+
+        loadDiagram(elt, tdp, keepUUID);
+    }
+
+    public void loadGraphD(Element elt, int indexAnalysis, int indexTab, boolean keepUUID) throws MalformedModelingException, SAXException {
+        String name;
+
+        name = elt.getAttribute("name");
+        mgui.createGraphD(indexAnalysis, name);
+
+
+        TDiagramPanel tdp = mgui.getGraphDPanel(indexAnalysis, indexTab, name);
 
         if (tdp == null) {
             throw new MalformedModelingException();
@@ -6965,6 +7033,7 @@ public class GTURTLEModeling {
     public void loadDiagramInformation(Element elt, TDiagramPanel tdp) throws MalformedModelingException {
         int x, y;
         double zoom = 0;
+        double fontModifier = 1.0;
         try {
             x = Integer.decode(elt.getAttribute("minX"));
             tdp.setMinX(x);
@@ -6979,6 +7048,11 @@ public class GTURTLEModeling {
             if (zoom != 0) {
                 tdp.forceZoom(zoom);
                 mgui.updateZoomInfo();
+            }
+            fontModifier = Double.parseDouble(elt.getAttribute("fontModifier"));
+            if (fontModifier != 0) {
+                TraceManager.addDev("Found fontModifier=" + fontModifier);
+                tdp.setFontModifier(fontModifier);
             }
         } catch (Exception e) {
             // Model was saved in an older version of TTool
@@ -7246,12 +7320,12 @@ public class GTURTLEModeling {
                 // We need to order components
                 //TraceManager.addDev("Ordering components");
                 ArrayList<IndexedTGComponent> comps = new ArrayList<IndexedTGComponent>(list.size());
-                for(TGComponent tgcL: list) {
+                for (TGComponent tgcL : list) {
                     comps.add(new IndexedTGComponent(tgcL.getIndexU(), tgcL));
                 }
                 Collections.sort(comps);
                 tdp.removeAll();
-                for(IndexedTGComponent iTgc: comps) {
+                for (IndexedTGComponent iTgc : comps) {
                     tdp.addComponent(iTgc.tgc);
                 }
             }
@@ -7266,12 +7340,13 @@ public class GTURTLEModeling {
 
         //TraceManager.addDev("Post loading of diagram " + tdp.toString() + " achieved");
     }
+
     public void makeXMLComponents(NodeList nl, TDiagramPanel tdp, boolean keepUUID) throws SAXException, MalformedModelingException {
         makeXMLComponents(nl, tdp, keepUUID, 1);
     }
 
     public ArrayList<TGComponent> makeXMLComponents(NodeList nl, TDiagramPanel tdp, boolean keepUUID, double zoomV) throws SAXException,
-    MalformedModelingException {
+            MalformedModelingException {
         Node n;
         //Element elt;
         TGComponent tgc;
@@ -7417,20 +7492,20 @@ public class GTURTLEModeling {
                     if (elt.getTagName().equals("cdparam")) {
                         //TraceManager.addDev("XMLComp decX=" + decX );
                         //TraceManager.addDev("XMLComp decY=" + decY );
-                        myX = Integer.decode(elt.getAttribute("x"))  + decX;
-                        myY = Integer.decode(elt.getAttribute("y"))  + decY;
+                        myX = Integer.decode(elt.getAttribute("x")) + decX;
+                        myY = Integer.decode(elt.getAttribute("y")) + decY;
                         //TraceManager.addDev("myX=" + myX);
                     } else if (elt.getTagName().equals("sizeparam")) {
-                        myWidth = (int)(Integer.decode(elt.getAttribute("width")) );
-                        myHeight = (int)(Integer.decode(elt.getAttribute("height")) );
-                        myMinWidth = (int)(Integer.decode(elt.getAttribute("minWidth")) );
+                        myWidth = (int) (Integer.decode(elt.getAttribute("width")));
+                        myHeight = (int) (Integer.decode(elt.getAttribute("height")));
+                        myMinWidth = (int) (Integer.decode(elt.getAttribute("minWidth")));
                         if (myMinWidth < 1) {
                             myMinWidth = 1;
                         }
                         if (myWidth < myMinWidth) {
                             myWidth = myMinWidth;
                         }
-                        myMinHeight = (int)(Integer.decode(elt.getAttribute("minHeight")));
+                        myMinHeight = (int) (Integer.decode(elt.getAttribute("minHeight")));
                         if (myMinHeight < 1) {
                             myMinHeight = 1;
                         }
@@ -7495,7 +7570,6 @@ public class GTURTLEModeling {
 
             //TraceManager.addDev("Making TGComponent of type " + myType + " and of name " + myName);
             //TGComponent is ready to be built
-
 
 
             // Do the scaling here?
@@ -8322,7 +8396,7 @@ public class GTURTLEModeling {
         }
 
         TraceManager.addDev("Attacker populations:\n");
-        for(AttackerPopulation ap: att.getAttackTree().getAttackerPopulation()) {
+        for (AttackerPopulation ap : att.getAttackTree().getAttackerPopulation()) {
             TraceManager.addDev("Population:\n" + ap.toString() + "\n");
         }
 
@@ -8467,8 +8541,8 @@ public class GTURTLEModeling {
         return v;
     }
 
-    public boolean translateTMLComponentDesign(Vector<? extends TGComponent> componentsToTakeIntoAccount, 
-                                               TMLComponentDesignPanel tmlcdp, 
+    public boolean translateTMLComponentDesign(Vector<? extends TGComponent> componentsToTakeIntoAccount,
+                                               TMLComponentDesignPanel tmlcdp,
                                                boolean optimize, boolean considerExecOperators, boolean considerTimeOperators) {
         nullifyTMLModeling();
         //      ArrayList<TMLError> warningsOptimize = new ArrayList<TMLError>();
@@ -8929,27 +9003,32 @@ public class GTURTLEModeling {
         int ydiff = 50;
         //int num = asme.nbOfNexts();
         if (!(asme instanceof AvatarTransition)) {
-            for (AvatarStateMachineElement el : asme.getNexts()) {
-                if (!(el instanceof AvatarTransition)) {
+            //TraceManager.addDev("element asme: " + asme.toString());
+            if (asme.getNexts() != null) {
+                for (AvatarStateMachineElement el : asme.getNexts()) {
+                    if (!(el instanceof AvatarTransition)) {
 
+                    }
                 }
             }
         }
-        for (AvatarStateMachineElement el : asme.getNexts()) {
-            if (el instanceof AvatarTransition) {
-                tranSourceMap.put((AvatarTransition) el, tgcomp);
-            } else {
-                if (asme instanceof AvatarTransition) {
-                    AvatarTransition t = (AvatarTransition) asme;
-                    tranDestMap.put(t, el);
+        if (asme.getNexts() != null) {
+            for (AvatarStateMachineElement el : asme.getNexts()) {
+                if (el instanceof AvatarTransition) {
+                    tranSourceMap.put((AvatarTransition) el, tgcomp);
+                } else {
+                    if (asme instanceof AvatarTransition) {
+                        AvatarTransition t = (AvatarTransition) asme;
+                        tranDestMap.put(t, el);
+                    }
                 }
+                if (!SMDMap.containsKey(el)) {
+                    addStates(el, x + diff * i, y + ydiff, smp, bl, SMDMap, locMap, tranDestMap, tranSourceMap);
+                }
+                i++;
             }
-            if (!SMDMap.containsKey(el)) {
-                addStates(el, x + diff * i, y + ydiff, smp, bl, SMDMap, locMap, tranDestMap, tranSourceMap);
-            }
-            i++;
+            return;
         }
-        return;
     }
 
     public void drawBlockProperties(AvatarBlock ab, AvatarBDBlock bl) {
@@ -9015,8 +9094,6 @@ public class GTURTLEModeling {
             bl.addMethodIfApplicable(method.toString().replaceAll(" = 0", ""));
         }
     }
-
-
 
 
     public void drawPanel(AvatarSpecification avspec, AvatarDesignPanel adp) {
@@ -9131,39 +9208,53 @@ public class GTURTLEModeling {
 
             Vector<Point> points = new Vector<Point>();
 
-            TGConnectingPoint p1 = blockMap.get(bl1).findFirstFreeTGConnectingPoint(true, true);
-            p1.setFree(false);
 
-            TGConnectingPoint p2 = blockMap.get(bl2).findFirstFreeTGConnectingPoint(true, true);
-            p2.setFree(false);
 
-            if (bl2.equals(bl1)) {
-                // Add 2 point so the connection looks square
-                Point p = new Point(p1.getX(), p1.getY() - 10);
-                points.add(p);
-                p = new Point(p2.getX(), p2.getY() - 10);
-                points.add(p);
-            }
-            AvatarBDPortConnector conn = new AvatarBDPortConnector(0, 0, 0, 0, 0, 0, true, null, abd, p1, p2, points);
-            abd.addComponent(conn, 0, 0, false, true);
-            conn.setAsynchronous(ar.isAsynchronous());
-            conn.setSynchronous(!ar.isAsynchronous());
-            conn.setAMS(false);
-            conn.setBlocking(ar.isBlocking());
-            conn.setPrivate(ar.isPrivate());
-            conn.setSizeOfFIFO(ar.getSizeOfFIFO());
+            //TraceManager.addDev("bl1:" + bl1 + " bl2:" + bl2);
 
-            for (int indexSig = 0; indexSig < ar.getSignals1().size(); indexSig++) {
+            // Printing blockMap
+            /*for(String s: blockMap.keySet()) {
+                AvatarBDBlock block = blockMap.get(s);
+                TraceManager.addDev("String s:" + s + " / Block : " + block.getBlockName());
+            }*/
 
-                //TraceManager.addDev("Adding signal 1: " + ar.getSignal1(i).toString() + " of block " + ar.block1.getName());
-                conn.addSignal(ar.getSignal1(indexSig).toString(), ar.getSignal1(indexSig).getInOut() == 0, ar.block1.getName().contains(bl1));
-                //TraceManager.addDev("Adding signal 2:" + ar.getSignal2(i).toString() + " of block " + ar.block2.getName());
-                conn.addSignal(ar.getSignal2(indexSig).toString(), ar.getSignal2(indexSig).getInOut() == 0, !ar.block2.getName().contains(bl2));
+
+            if ((blockMap.get(bl1) != null) && (blockMap.get(bl2) != null)) {
+                //TraceManager.addDev("Handling blocks");
+                TGConnectingPoint p1 = blockMap.get(bl1).findFirstFreeTGConnectingPoint(true, true);
+                p1.setFree(false);
+
+                TGConnectingPoint p2 = blockMap.get(bl2).findFirstFreeTGConnectingPoint(true, true);
+                p2.setFree(false);
+
+                if (bl2.equals(bl1)) {
+                    // Add 2 point so the connection looks square
+                    Point p = new Point(p1.getX(), p1.getY() - 10);
+                    points.add(p);
+                    p = new Point(p2.getX(), p2.getY() - 10);
+                    points.add(p);
+                }
+                AvatarBDPortConnector conn = new AvatarBDPortConnector(0, 0, 0, 0, 0, 0, true, null, abd, p1, p2, points);
+                abd.addComponent(conn, 0, 0, false, true);
+                conn.setAsynchronous(ar.isAsynchronous());
+                conn.setSynchronous(!ar.isAsynchronous());
+                conn.setAMS(false);
+                conn.setBlocking(ar.isBlocking());
+                conn.setPrivate(ar.isPrivate());
+                conn.setSizeOfFIFO(ar.getSizeOfFIFO());
+
+                for (int indexSig = 0; indexSig < ar.getSignals1().size(); indexSig++) {
+
+                    //TraceManager.addDev("Adding signal 1: " + ar.getSignal1(i).toString() + " of block " + ar.block1.getName());
+                    conn.addSignal(ar.getSignal1(indexSig).toString(), ar.getSignal1(indexSig).getInOut() == 0, ar.block1.getName().contains(bl1));
+                    //TraceManager.addDev("Adding signal 2:" + ar.getSignal2(i).toString() + " of block " + ar.block2.getName());
+                    conn.addSignal(ar.getSignal2(indexSig).toString(), ar.getSignal2(indexSig).getInOut() == 0, !ar.block2.getName().contains(bl2));
+
+                    conn.updateAllSignals();
+                }
 
                 conn.updateAllSignals();
             }
-
-            conn.updateAllSignals();
         }
 
         ypos += 100;
@@ -9175,9 +9266,7 @@ public class GTURTLEModeling {
         String s = "";
         // int i=0;
         for (
-                AvatarPragma p : avspec.getPragmas())
-
-        {
+                AvatarPragma p : avspec.getPragmas()) {
 
             //    arr[i] = p.getName();
             String t = "";
@@ -9209,7 +9298,7 @@ public class GTURTLEModeling {
 
         xpos = 50;
         ypos += 200;
-        if (hasCrypto)  {
+        if (hasCrypto) {
             AvatarBDDataType message = new AvatarBDDataType(xpos, ypos, xpos, xpos * 2, ypos, ypos * 2, false, null, abd);
             message.setValue("Message");
 

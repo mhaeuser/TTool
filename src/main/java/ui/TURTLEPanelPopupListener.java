@@ -65,7 +65,7 @@ public class TURTLEPanelPopupListener extends MouseAdapter /* popup menus onto t
     protected MainGUI mgui;
 
     private JMenuItem rename, remove, moveRight, moveLeft, sort, newucd, newsd, newsdzv, newsdfromucd, newreq,
-            newebrdd, newprosmd, newavatarrd, newavatarpd, newavatarcd, newavatarad, newavatarmad, newsyscams, neweln;
+            newebrdd, newprosmd, newavatarrd, newavatarpd, newavatarcd, newavatarad, newavatarmad, newsyscams, neweln, newgraph;
     private JMenuItem newatd, newftd;
 
     public TURTLEPanelPopupListener(TURTLEPanel _tp, MainGUI _mgui) {
@@ -122,6 +122,7 @@ public class TURTLEPanelPopupListener extends MouseAdapter /* popup menus onto t
         newavatarmad = createMenuItem("New AVATAR Modeling Assumptions Diagram");
         newsyscams = createMenuItem("New SystemC-AMS Diagram");
         neweln = createMenuItem("New ELN Diagram");
+        newgraph = createMenuItem("New graph");
 
         menu = new JPopupMenu("TURTLE panel");
         menu.add(moveLeft);
@@ -163,6 +164,10 @@ public class TURTLEPanelPopupListener extends MouseAdapter /* popup menus onto t
             menu.add(newsyscams);
             menu.add(neweln);
         }
+
+        menu.addSeparator();
+        menu.add(newgraph);
+
     }
 
     private JMenuItem createMenuItem(String s) {
@@ -227,6 +232,7 @@ public class TURTLEPanelPopupListener extends MouseAdapter /* popup menus onto t
         newavatarmad.setEnabled(tp.isAvatarMADEnabled());
         newsyscams.setEnabled(tp.isSystemCAMSEnabled());
         neweln.setEnabled(tp.isELNEnabled());
+        newgraph.setEnabled(tp.isGraphEnabled());
     }
 
     private Action listener = new AbstractAction() {
@@ -297,6 +303,9 @@ public class TURTLEPanelPopupListener extends MouseAdapter /* popup menus onto t
                 mgui.changeMade(null, -1);
             } else if (e.getSource() == neweln) {
                 mgui.createELN(tp, "ELN Diagram");
+                mgui.changeMade(null, -1);
+            } else if (e.getSource() == newgraph) {
+                mgui.createGraphD(tp, "Graph");
                 mgui.changeMade(null, -1);
             }
         }

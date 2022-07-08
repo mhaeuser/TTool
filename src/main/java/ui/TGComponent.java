@@ -3784,5 +3784,10 @@ public abstract class TGComponent  extends AbstractCDElement implements /*CDElem
         return tgctmp == mainTgc;
     }
 
+    public double distance(TGComponent tgc2) {
+        return Math.sqrt(Math.pow(tgc2.getX() - getX(), 2) + Math.pow(tgc2.getY() - getY(), 2));
+    }
+
+
 
 }

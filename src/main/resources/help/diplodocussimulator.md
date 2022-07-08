@@ -91,4 +91,6 @@ set-variable | sv | 5 | Set the value of a variable | [Type: 1] task ID | [Type:
 stop | stop | 15 | Stops the currently running simulation | -  | -  | -  | -  | - 
 write-in-channel | wic | 6 | Writes y samples / events to channel / event x | [Type: 1] Channel ID | [Type: 2] Nb of samples | -  | -  | - 
 add-virtual-signals | avs | 1 16 | Send virtual events to channel | [Type: 2] Channel name | [Type: 2] Nb of samples | [Type: 2] value of samples | -  | - 
+save-status-in-file | ssif | 27 | Saves the current status into a file | [Type: 2] File name | -  | -  | -  | - 
+save-time-in-file | stf | 28 | Saves the current time into a file | [Type: 2] File name | -  | -  | -  | - 
 

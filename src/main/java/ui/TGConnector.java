@@ -210,7 +210,9 @@ public abstract class TGConnector extends TGCScalableWithInternalComponent {
         TGComponent p3, p4;
 
         Color c = g.getColor();
-        if (getCurrentColor() != null) {
+        if ((getState() == TGState.POINTER_ON_ME) || (getState() == TGState.POINTED) || (getState() == TGState.MOVING)) {
+            ColorManager.setColor( g, state, 0, isEnabled() );
+        } else {
             g.setColor(getCurrentColor());
         }
 

@@ -165,6 +165,8 @@ public abstract class TDiagramPanel extends JPanel implements GenericTree {
     private double zoom = 1.0;
     //   private boolean zoomed = false;
 
+    private double fontModifier = 1.0;
+
     private boolean draw;
 
     // Issue #14 point 10: Always use the current graphics
@@ -303,12 +305,16 @@ public abstract class TDiagramPanel extends JPanel implements GenericTree {
         return zoom;
     }
 
+    public double getFontModifier() {
+        return fontModifier;
+    }
+
     /*public int getFontSize() {
       return (int)(Math.round(7.5*zoom+4.5));
       }*/
 
     public int getFontSize() {
-        return (int) (Math.round(12 * zoom));
+        return (int) (Math.round(12 * zoom * fontModifier));
     }
 
     private FontMetrics savedFontMetrics = null;
@@ -321,6 +327,10 @@ public abstract class TDiagramPanel extends JPanel implements GenericTree {
 
     public void forceZoom(double _zoom) {
         zoom = _zoom;
+    }
+
+    public void setFontModifier(double _fontModifier) {
+        fontModifier = _fontModifier;
     }
 
     public void setZoom(double _zoom) {
@@ -1025,7 +1035,8 @@ public abstract class TDiagramPanel extends JPanel implements GenericTree {
                 //TraceManager.addDev("Swallowed component !");
                 SwallowTGComponent stgc = findSwallowTGComponent(x, y, tgc);
                 if (stgc != null) {
-                    TraceManager.addDev("Found father " + ((TGComponent)stgc).getClass().toString() + " component that can swallow added component " + tgc.getValue());
+                    //TraceManager.addDev("Found father " + ((TGComponent)stgc).getClass().toString() +
+                     //       " component that can swallow added component " + tgc.getValue());
                     if (stgc.addSwallowedTGComponent(tgc, x, y)) {
                         tgc.wasSwallowed();
                         ret = true;
@@ -2692,6 +2703,11 @@ public abstract class TDiagramPanel extends JPanel implements GenericTree {
 
     public String zoomParam() {
         String s = " zoom=\"" + getZoom() + "\"";
+        return s;
+    }
+
+    public String fontModifierParam() {
+        String s = " fontModifier=\"" + getFontModifier() + "\"";
         return s;
     }
 

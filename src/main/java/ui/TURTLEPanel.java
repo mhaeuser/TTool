@@ -438,6 +438,10 @@ public abstract class TURTLEPanel implements GenericTree, DraggableTabbedPaneCal
         return false;
     }
 
+    public boolean isGraphEnabled() {
+        return false;
+    }
+
     public MainGUI getMainGUI() {
         return mgui;
     }

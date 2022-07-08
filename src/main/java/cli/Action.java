@@ -45,6 +45,7 @@ import avatartranslator.modelchecker.AvatarModelChecker;
 import avatartranslator.modelchecker.CounterexampleQueryReport;
 import avatartranslator.modelchecker.SpecificationActionLoop;
 import avatartranslator.modelcheckervalidator.ModelCheckerValidator;
+import avatartranslator.mutation.AvatarMutation;
 import common.ConfigurationTTool;
 import common.SpecConfigTTool;
 import graph.RG;
@@ -112,6 +113,9 @@ public class Action extends Command {
 
     private final static String SELECT_PANEL = "select-panel";
 
+    private final static String AVATAR_MUTATION = "avatar-mutation";
+    private final static String AVATAR_DRAW = "avatar-draw";
+    private final static String AVATAR_PRINT = "avatar-draw";
     private final static String AVATAR_RG_GENERATION = "avatar-rg";
     private final static String AVATAR_UPPAAL_VALIDATE = "avatar-rg-validate";
     private final static String AVATAR_SIMULATION_TO_BRK = "avatar-simulation-to-brk";
@@ -971,6 +975,135 @@ public class Action extends Command {
             }
         };
 
+        Command makeMutationFromAvatar = new Command() {
+            public String getCommand() {
+                return AVATAR_MUTATION;
+            }
+
+            public String getShortCommand() {
+                return "am";
+            }
+
+            public String getDescription() {
+                return "Perform a mutation on an AVATAR spec";
+            }
+
+            public String getUsage() {
+                return "[MUTATION]\n";
+            }
+
+            public String getExample() {
+                return "am rm transition in block0 from state0 to state1";
+            }
+
+            public String executeCommand(String command, Interpreter interpreter) {
+
+                if (!interpreter.isTToolStarted()) {
+                    return Interpreter.TTOOL_NOT_STARTED;
+                }
+
+                String[] commands = command.split(" ");
+                if (commands.length < 1) {
+                    return Interpreter.BAD;
+                }
+
+                AvatarSpecification spec = interpreter.mgui.gtm.getAvatarSpecification();
+
+                if (spec == null) {
+                    return "No AVATAR specification";
+                }
+
+                AvatarMutation am = AvatarMutation.createFromString(command);
+                if (am != null) {
+                    am.apply(spec);
+                }
+
+                return null;
+            }
+        };
+
+        Command printAvatarSpec = new Command() {
+            public String getCommand() {
+                return AVATAR_PRINT;
+            }
+
+            public String getShortCommand() {
+                return "ap";
+            }
+
+            public String getDescription() {
+                return "Print in text format an Avatar Specification";
+            }
+
+            public String getUsage() {
+                return "\n";
+            }
+
+            public String getExample() {
+                return "ap";
+            }
+
+            public String executeCommand(String command, Interpreter interpreter) {
+
+                if (!interpreter.isTToolStarted()) {
+                    return Interpreter.TTOOL_NOT_STARTED;
+                }
+
+
+                AvatarSpecification spec = interpreter.mgui.gtm.getAvatarSpecification();
+
+                if (spec == null) {
+                    return "No AVATAR specification";
+                }
+
+                System.out.println(spec);
+
+                return null;
+            }
+        };
+
+        Command drawAvatarSpec = new Command() {
+            public String getCommand() {
+                return AVATAR_DRAW;
+            }
+
+            public String getShortCommand() {
+                return "ad";
+            }
+
+            public String getDescription() {
+                return "Draw the current avatar specification";
+            }
+
+            public String getUsage() {
+                return "\n";
+            }
+
+            public String getExample() {
+                return "ad";
+            }
+
+            public String executeCommand(String command, Interpreter interpreter) {
+
+                if (!interpreter.isTToolStarted()) {
+                    return Interpreter.TTOOL_NOT_STARTED;
+                }
+
+
+                AvatarSpecification spec = interpreter.mgui.gtm.getAvatarSpecification();
+
+                if (spec == null) {
+                    return "No AVATAR specification";
+                }
+
+                interpreter.mgui.drawAvatarSpecification(spec);
+
+                return null;
+            }
+        };
+
+
+
         Command generateRGFromAvatar = new Command() {
             public String getCommand() {
                 return AVATAR_RG_GENERATION;
@@ -1616,6 +1749,10 @@ public class Action extends Command {
         addAndSortSubcommand(movePanelToTheRightPanel);
         addAndSortSubcommand(selectPanel);
         addAndSortSubcommand(compareUppaal);
+
+        addAndSortSubcommand(printAvatarSpec);
+        addAndSortSubcommand(makeMutationFromAvatar);
+        addAndSortSubcommand(drawAvatarSpec);
         addAndSortSubcommand(avatarSimulationToBrk);
         addAndSortSubcommand(avatarSimulationSelectTrace);
         addAndSortSubcommand(avatarSimulationOpenWindow);

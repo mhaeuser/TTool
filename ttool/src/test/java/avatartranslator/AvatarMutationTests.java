@@ -593,7 +593,7 @@ public class AvatarMutationTests {
         assertTrue(relation.nbOfSignals() == 0);
     }
 
-    public AvatarTransition add2Actions() {
+    public AvatarTransition addActions() {
         AvatarTransition trans = addTransitions();
         ActionMutation mutation = new AddActionMutation("block", "trans", NAME_TYPE, "x = x + 2");
         mutation.apply(as);
@@ -602,14 +602,14 @@ public class AvatarMutationTests {
 
     @Test
     public void testAddAction() {
-        AvatarTransition trans = add2Actions();
+        AvatarTransition trans = addActions();
         assertTrue(trans.getNbOfAction() == 2);
         TraceManager.addDev(trans.toString());
     }
 
     @Test
     public void testRmAction() {
-        AvatarTransition trans = add2Actions();
+        AvatarTransition trans = addActions();
         ActionMutation mutation = new RmActionMutation("block", "trans", NAME_TYPE, 1);
         mutation.apply(as);
         assertTrue(trans.getNbOfAction() == 1);
@@ -618,7 +618,7 @@ public class AvatarMutationTests {
 
     @Test
     public void testMdAction() {
-        AvatarTransition trans = add2Actions();
+        AvatarTransition trans = addActions();
         ActionMutation mutation = new MdActionMutation("block", "trans", NAME_TYPE, "x = -3", 0);
         mutation.apply(as);
         TraceManager.addDev(trans.toString());
@@ -626,7 +626,7 @@ public class AvatarMutationTests {
 
     @Test
     public void testSwapAction() {
-        AvatarTransition trans = add2Actions();
+        AvatarTransition trans = addActions();
         ActionMutation mutation = new SwapActionMutation("block", "trans", NAME_TYPE, 1, 0);
         mutation.apply(as);
         TraceManager.addDev(trans.toString());

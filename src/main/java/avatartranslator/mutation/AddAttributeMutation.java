@@ -89,7 +89,7 @@ public class AddAttributeMutation extends AttributeMutation implements AddMutati
         String _attributeType = tokens[index + 1];
         String _attributeName = tokens[index + 2];
 
-        index = MutationParser.indexOf(tokens, "BLOCK");
+        index = MutationParser.indexOf(tokens, "IN");
         String _blockName = tokens[index + 1];
 
         index = MutationParser.indexOf(tokens,  "=");

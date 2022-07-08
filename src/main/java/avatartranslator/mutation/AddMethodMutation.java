@@ -102,7 +102,7 @@ public class AddMethodMutation extends MethodMutation implements AddMutation {
             TraceManager.addDev(MutationParser.tokensToString(parameter));
         }
 
-        int index = MutationParser.indexOf(tokens, "BLOCK");
+        int index = MutationParser.indexOf(tokens, "IN");
         String _blockName = tokens[index + 1];
         
         if (MutationParser.isTokenIn(tokens, "CODE")) {

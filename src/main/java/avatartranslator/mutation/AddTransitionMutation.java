@@ -39,6 +39,7 @@
 package avatartranslator.mutation;
 
 import avatartranslator.*;
+import myutil.TraceManager;
 
 import java.util.List;
 
@@ -105,25 +106,24 @@ public class AddTransitionMutation extends TransitionMutation implements AddMuta
 
         String[] tokens = MutationParser.tokenise(toParse);
 
-        int index = MutationParser.indexOf(tokens, "BLOCK");
-
+        int index = MutationParser.indexOf(tokens, "IN");
         String _blockName = tokens[index + 1];
 
         index = MutationParser.indexOf(tokens, "FROM");
         String _fromString = tokens[index + 1];
-        int _fromType = MutationParser.isUUID(_fromString) ? UUID_TYPE : NAME_TYPE;
+        int _fromType = MutationParser.UUIDType(_fromString);
 
         index = MutationParser.indexOf(tokens, "TO");
         String _toString = tokens[index + 1];
-        int _toType = MutationParser.isUUID(_toString) ? UUID_TYPE : NAME_TYPE;
-
+        int _toType = MutationParser.UUIDType(_toString);
 
         index = MutationParser.indexOf(tokens, "TRANSITION");
-        if (index + 1 != MutationParser.indexOf(tokens, "FROM")) {
+        TraceManager.addDev(tokens[index+1] + " " + MutationParser.isToken(tokens[index+1]));
+        if (MutationParser.isToken(tokens[index+1])) {
+            mutation = new AddTransitionMutation(_blockName, _fromString, _fromType, _toString, _toType);
+        } else {
             String _transitionName = tokens[index + 1];
             mutation = new AddTransitionMutation(_blockName, _fromString, _fromType, _toString, _toType, _transitionName);
-        } else {
-            mutation = new AddTransitionMutation(_blockName, _fromString, _fromType, _toString, _toType);
         }
 
         if (toParse.contains("[")) {

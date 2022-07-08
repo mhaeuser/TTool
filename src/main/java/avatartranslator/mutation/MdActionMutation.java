@@ -69,4 +69,51 @@ public class MdActionMutation extends ActionMutation implements MdMutation {
         actions.remove(getIndex());
         actions.add(getIndex(), action);
     }
+
+    public static MdActionMutation createFromString(String toParse) {
+
+        MdActionMutation mutation = null;
+
+        String[] tokens = MutationParser.tokenise(toParse);
+
+        String _fromString = null;
+        int _fromType = -1;
+
+        String _toString = null;
+        int _toType = -1;
+
+        String _transitionString = null;
+        int _transitionType = -1;
+
+        int _index = -1;
+
+        int index = MutationParser.indexOf(tokens, "AT");
+        _index = Integer.parseInt(tokens[index + 1]);
+
+        index = MutationParser.indexOf(tokens, "IN");
+        String _blockName = tokens[index + 1];
+
+        String _actionString = parseAction(toParse);
+
+        index = MutationParser.indexOf(tokens, "FROM");
+        if (index != -1) {
+            _fromString = tokens[index + 1];
+            _fromType = MutationParser.UUIDType(_fromString);
+            index = MutationParser.indexOf(tokens, "TO");
+            _toString = tokens[index + 1];
+            _toType = MutationParser.UUIDType(_toString);
+        } else {
+            index = MutationParser.indexOf(tokens, "TRANSITION");
+            _transitionString = tokens[index + 1];
+            _transitionType = MutationParser.UUIDType(_transitionString);
+        }
+
+        if (_transitionString == null) {
+            mutation = new MdActionMutation(_blockName, _fromString, _fromType, _toString, _toType, _actionString, _index);
+        } else {
+            mutation = new MdActionMutation(_blockName, _transitionString, _transitionType, _actionString, _index);
+        }
+
+        return mutation;
+    }
 }

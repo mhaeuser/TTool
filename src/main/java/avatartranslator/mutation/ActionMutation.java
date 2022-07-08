@@ -124,5 +124,30 @@ public abstract class ActionMutation extends TransitionMutation {
         AvatarAction action = AvatarTerm.createActionFromString(block, getActionString());
         return action;
     }
+
+    public static String parseAction(String toParse) {
+        int beginIndex = toParse.indexOf('\"') + 1;
+        int endIndex = toParse.indexOf('\"', beginIndex);
+
+        return toParse.substring(beginIndex, endIndex);
+    }
+
+    public static ActionMutation createFromString(String toParse) {
+        switch (MutationParser.findMutationToken(toParse)) {
+            case "ADD":
+                return AddActionMutation.createFromString(toParse);
+            case "RM":
+            case "REMOVE":
+                return RmActionMutation.createFromString(toParse);
+            case "MD":
+            case "MODIFY":
+                return MdActionMutation.createFromString(toParse);
+            case "SWAP":
+                return SwapActionMutation.createFromString(toParse);
+            default:
+                break;
+        }
+        return null;
+    }
     
 }

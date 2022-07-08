@@ -40,6 +40,7 @@ package avatartranslator.mutation;
 
 import avatartranslator.*;
 //import myutil.TraceManager;
+import myutil.TraceManager;
 
 /**
  * Class RmTransitionMutation
@@ -67,7 +68,74 @@ public class RmTransitionMutation extends TransitionMutation implements RmMutati
 
         fromElement.removeNext(trans);
         asm.removeElement(trans);
-
     }
 
+    public static RmTransitionMutation createFromString(String toParse) {
+        
+        String[] tokens = MutationParser.tokenise(toParse);
+
+        int index = MutationParser.indexOf(tokens, "IN");
+        String _blockName = tokens[index + 1];
+        
+        int index0 = MutationParser.indexOf(tokens, "TRANSITION");
+
+        if (!MutationParser.isToken(tokens[index0 + 1])) {
+            String _transitionString = tokens[index0 + 1];
+            int _transitionType = MutationParser.UUIDType(_transitionString);
+            return new RmTransitionMutation(_blockName, _transitionString, _transitionType);
+        }
+
+        index = MutationParser.indexOf(index, tokens, "FROM");
+        String _fromString = tokens[index + 1];
+        int _fromType = MutationParser.UUIDType(_fromString);
+
+        index = MutationParser.indexOf(tokens, "TO");
+        String _toString = tokens[index + 1];
+        int _toType = MutationParser.UUIDType(_toString);
+
+        RmTransitionMutation mutation = new RmTransitionMutation(_blockName, _fromString, _fromType, _toString, _toType);
+
+        if (toParse.contains("[")) {
+            String _guard = parseGuard(toParse);
+            mutation.setGuard(_guard);
+        }
+
+        if (MutationParser.isTokenIn(tokens, "AFTER")) {
+            String[] _minMaxDelay = parseMinMax(toParse);
+            mutation.setDelays(_minMaxDelay);
+
+            String _law = parseLaw(toParse);
+            String[] _extras = parseExtras(toParse);
+
+            switch (_extras.length) {
+                case 0:
+                    mutation.setDelayDistributionLaw(_law);
+                    break;
+                case 1:
+                    mutation.setDelayDistributionLaw(_law, _extras[0]);
+                    break;
+                default:
+                    mutation.setDelayDistributionLaw(_law, _extras[0], _extras[1]);
+            }
+        }
+
+        if (toParse.contains("\"")) {
+            String[] _actions = parseActions(toParse);
+
+            mutation.setActions(_actions);
+        }
+
+        if (MutationParser.isTokenIn(tokens, "PROBABILITY")) {
+            TraceManager.addDev("setCurrentProbability");
+            String _probability = parseProbability(toParse);
+            mutation.setProbability(_probability);
+        }
+
+        if (MutationParser.isTokenIn(tokens, "COMPUTES")) {
+            String[] _minMaxComputes = parseComputes(toParse);
+            mutation.setComputes(_minMaxComputes);
+        }
+        
+        return mutation;
+    }
 }

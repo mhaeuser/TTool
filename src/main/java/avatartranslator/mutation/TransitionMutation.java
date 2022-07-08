@@ -39,7 +39,7 @@
 package avatartranslator.mutation;
 
 import avatartranslator.*;
-import myutil.TraceManager;
+//import myutil.TraceManager;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -111,6 +111,7 @@ public abstract class TransitionMutation extends UnnamedStateMachineElementMutat
     }
 
     protected AvatarStateMachineElement getFromElement(AvatarSpecification _avspec) {
+        //TraceManager.addDev("is From Set : "  + String.valueOf(isFromSet()));
         if (isFromSet()) return getElement(_avspec, fromType, fromString);
         AvatarTransition trans = getElement(_avspec);
         AvatarStateMachine asm = getAvatarStateMachine(_avspec);
@@ -307,7 +308,7 @@ public abstract class TransitionMutation extends UnnamedStateMachineElementMutat
     }
 
     public AvatarTransition getElement(AvatarSpecification _avspec) {
-        TraceManager.addDev(String.valueOf(isNameSet()));
+        //TraceManager.addDev("isNameSet" + String.valueOf(isNameSet()));
         if (!isNameSet()) {
             AvatarStateMachineElement fromElement = getElement(_avspec, fromType, fromString);
             //TraceManager.addDev(fromElement.toString());
@@ -319,17 +320,24 @@ public abstract class TransitionMutation extends UnnamedStateMachineElementMutat
                 if (elt instanceof AvatarTransition) {
                     AvatarTransition trans = (AvatarTransition)elt;
                     boolean flag = trans.hasNext(toElement);
+                    //TraceManager.addDev("hasNext " + flag);
 
                     if (flag && isProbabilitySet()) 
                         flag = (trans.getProbability() == this.getProbability());
 
+                    //TraceManager.addDev("isProbabilitySet " + flag);
+
                     if (flag && isGuardSet())
-                        flag = (trans.getGuard().equals(this.getAvatarGuard(_avspec)));
+                        flag = (trans.getGuard().toString().equals(this.getAvatarGuard(_avspec).toString()));
+
+                    //TraceManager.addDev("isGuardSet " + flag);
 
                     if (flag && areDelaysSet())
                         if (trans.getMinDelay().equals(this.getMinDelay()))
                             flag = trans.getMaxDelay().equals(this.getMaxDelay());
                         else flag = false;
+                    
+                    //TraceManager.addDev("areDelaysSet " + flag);
 
                     if (flag && isDelayDistributionLawSet()) {
                         if (trans.getDelayDistributionLaw() == this.getDelayDistributionLaw()) {
@@ -339,19 +347,25 @@ public abstract class TransitionMutation extends UnnamedStateMachineElementMutat
                         } else flag = false;
                     }
 
+                    //TraceManager.addDev("isDelayDistributionLawSet " + flag);
+
                     if (flag && areComputesSet()) 
                         if (trans.getMinCompute().equals(this.getMinCompute())) {
                             flag = trans.getMaxCompute().equals(this.getMaxCompute());
                         } else flag = false;
 
+                    //TraceManager.addDev("areComputesSet " + flag);
+
                     if (flag && areActionsSet()) {
                         int len = trans.getNbOfAction();
-                        if ( len == this.getActions().size()) {
+                        if (len == this.getActions().size()) {
                             for (int i = 0; flag && i < len; i++) {
-                                flag = (trans.getAction(i).toString() == AvatarTerm.createActionFromString(getBlock(_avspec), this.getAction(i)).toString());
+                                flag = (trans.getAction(i).toString().equals(AvatarTerm.createActionFromString(getBlock(_avspec), this.getAction(i)).toString()));
                             }
-                        }
+                        } else flag = false;
                     }
+
+                    //TraceManager.addDev("areActionsSet " + flag);
 
                     if (flag) return trans;
                 }
@@ -420,11 +434,18 @@ public abstract class TransitionMutation extends UnnamedStateMachineElementMutat
     }
 
     public static String[] parseActions(String toParse) {
-        int beginIndex = toParse.indexOf('\"');
-        beginIndex++;
+        int beginIndex = toParse.indexOf('\"') + 1;
         int endIndex = toParse.indexOf('\"', beginIndex);
+        //TraceManager.addDev(String.valueOf(beginIndex) + " " + String.valueOf(endIndex));
+
+        if (beginIndex == endIndex) {
+            String[] out = {};
+            return out;
+        }
 
         String _toParse = toParse.substring(beginIndex, endIndex);
+
+        //TraceManager.addDev("actions to parse : " + _toParse);
 
         return MutationParser.tokenise(_toParse, ";");
     }

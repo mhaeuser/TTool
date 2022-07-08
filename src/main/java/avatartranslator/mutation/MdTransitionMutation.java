@@ -73,12 +73,20 @@ public class MdTransitionMutation extends TransitionMutation implements MdMutati
         current = new NoneTransitionMutation(_blockName, _transitionString, _transitionType);
     }
 
+    public void setCurrentProbability(String _probability) {
+        current.setProbability(_probability);
+    }
+
     public void setCurrentProbablility(double _probability) {
         current.setProbability(_probability);
     }
 
     public void setCurrentGuard(String _guard) {
         current.setGuard(_guard);
+    }
+
+    public void setCurrentDelays(String[] _minMaxDelays) {
+        current.setDelays(_minMaxDelays);
     }
 
     public void setCurrentDelays(String _minDelay, String _maxDelay) {
@@ -105,8 +113,16 @@ public class MdTransitionMutation extends TransitionMutation implements MdMutati
         current.setDelayDistributionLaw(_law, _delayExtra1, _delayExtra2);
     }
 
+    public void setCurrentComputes(String[] _minMaxComputes) {
+        current.setComputes(_minMaxComputes);
+    }
+
     public void setCurrentComputes(String _minCompute, String _maxCompute) {
         current.setComputes(_minCompute, _maxCompute);
+    }
+
+    public void setCurrentActions(String[] _actions) {
+        current.setActions(_actions);
     }
 
     public void addCurrentAction(String _action) {
@@ -164,5 +180,118 @@ public class MdTransitionMutation extends TransitionMutation implements MdMutati
                 trans.addAction(action);
             }
         }
+    }
+
+    public static MdTransitionMutation createFromString(String toParse) {
+
+        MdTransitionMutation mutation = null;
+
+        String[] tokens = MutationParser.tokenise(toParse);
+
+        int index = MutationParser.indexOf(tokens, "IN");
+        String _blockName = tokens[index + 1];
+        
+        int index0 = MutationParser.indexOf(tokens, "TRANSITION");
+
+        if (MutationParser.isToken(tokens[index0 + 1])) {
+            index = MutationParser.indexOf(index, tokens, "FROM");
+            String _fromString = tokens[index + 1];
+            int _fromType = MutationParser.UUIDType(_fromString);
+
+            index0 = MutationParser.indexOf(tokens, "TO");
+            String _toString = tokens[index0 + 1];
+            int _toType = MutationParser.UUIDType(_toString);
+
+            mutation = new MdTransitionMutation(_blockName, _fromString, _fromType, _toString, _toType);
+        } else {
+            String _transitionString = tokens[index0 + 1];
+            int _transitionType = MutationParser.UUIDType(_transitionString);
+            mutation = new MdTransitionMutation(_blockName, _transitionString, _transitionType);
+        }
+
+        if (toParse.contains("[")) {
+            String _guard = parseGuard(toParse);
+            mutation.setCurrentGuard(_guard);
+        }
+
+        if (MutationParser.isTokenIn(tokens, "AFTER")) {
+            String[] _minMaxDelay = parseMinMax(toParse);
+            mutation.setCurrentDelays(_minMaxDelay);
+
+            String _law = parseLaw(toParse);
+            String[] _extras = parseExtras(toParse);
+
+            switch (_extras.length) {
+                case 0:
+                    mutation.setDelayDistributionLaw(_law);
+                    break;
+                case 1:
+                    mutation.setDelayDistributionLaw(_law, _extras[0]);
+                    break;
+                default:
+                    mutation.setDelayDistributionLaw(_law, _extras[0], _extras[1]);
+            }
+        }
+
+        if (toParse.contains("\"")) {
+            String[] _actions = parseActions(toParse);
+
+            mutation.setCurrentActions(_actions);
+        }
+
+        if (MutationParser.isTokenIn(tokens, "PROBABILITY")) {
+            String _probability = parseProbability(toParse);
+            mutation.setCurrentProbability(_probability);
+        }
+
+        if (MutationParser.isTokenIn(tokens, "COMPUTES")) {
+            String[] _minMaxComputes = parseComputes(toParse);
+            mutation.setCurrentComputes(_minMaxComputes);
+        }
+
+        index0 = MutationParser.indexOf(index0 + 1, tokens, "TO");
+        String newParse = MutationParser.concatenate(index0, tokens);
+
+        if (newParse.contains("[")) {
+            String _guard = parseGuard(newParse);
+            mutation.setGuard(_guard);
+        }
+
+        if (MutationParser.isTokenIn(tokens, "AFTER")) {
+            String[] _minMaxDelay = parseMinMax(newParse);
+            mutation.setDelays(_minMaxDelay);
+
+            String _law = parseLaw(newParse);
+            String[] _extras = parseExtras(newParse);
+
+            switch (_extras.length) {
+                case 0:
+                    mutation.setDelayDistributionLaw(_law);
+                    break;
+                case 1:
+                    mutation.setDelayDistributionLaw(_law, _extras[0]);
+                    break;
+                default:
+                    mutation.setDelayDistributionLaw(_law, _extras[0], _extras[1]);
+            }
+        }
+
+        if (newParse.contains("\"")) {
+            String[] _actions = parseActions(newParse);
+
+            mutation.setActions(_actions);
+        }
+
+        if (MutationParser.isTokenIn(tokens, "PROBABILITY")) {
+            String _probability = parseProbability(newParse);
+            mutation.setProbability(_probability);
+        }
+
+        if (MutationParser.isTokenIn(tokens, "COMPUTES")) {
+            String[] _minMaxComputes = parseComputes(newParse);
+            mutation.setComputes(_minMaxComputes);
+        }
+
+        return mutation;
     }
 }

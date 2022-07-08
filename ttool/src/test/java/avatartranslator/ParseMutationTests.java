@@ -76,8 +76,8 @@ public class ParseMutationTests {
 
     @Test
     public void createFromStringAddAttribute() {
-        AvatarMutation mutation = AvatarMutation.createFromString("add attribute bool y to block block");
-        AvatarMutation mutation2 = AvatarMutation.createFromString("add attribute int z = 5 to block block");
+        AvatarMutation mutation = AvatarMutation.createFromString("add attribute bool y in block");
+        AvatarMutation mutation2 = AvatarMutation.createFromString("add attribute int z = 5 in block");
         mutation.apply(as);
         assertTrue(block.getAttributes().size() == 2);
         AvatarAttribute attr1 = block.getAttribute(1);
@@ -94,7 +94,7 @@ public class ParseMutationTests {
 
     @Test
     public void createFromStringRmAttribute() {
-        AvatarMutation mutation = AvatarMutation.createFromString("remove attribute x from block block");
+        AvatarMutation mutation = AvatarMutation.createFromString("remove attribute x in block");
         mutation.apply(as);
         assertTrue(block.getAttributes().size() == 0);
     }
@@ -102,16 +102,16 @@ public class ParseMutationTests {
     @Test
     public void createFromStringMdAttribute() {
         assertTrue(block.getAttribute(0).getInitialValue().equals("10"));
-        AvatarMutation mutation = AvatarMutation.createFromString("md attribute x from block block to 42");
+        AvatarMutation mutation = AvatarMutation.createFromString("md attribute x in block to 42");
         mutation.apply(as);
         assertTrue(block.getAttribute(0).getInitialValue().equals("42"));
     }
 
     @Test
     public void createFromStringAddMethod() {
-        AvatarMutation mutation = AvatarMutation.createFromString("add method (int, bool) f(int x) to block block");
+        AvatarMutation mutation = AvatarMutation.createFromString("add method (int, bool) f(int x) in block");
 
-        AvatarMutation mutation2 = AvatarMutation.createFromString("add method int g() to block block with code");
+        AvatarMutation mutation2 = AvatarMutation.createFromString("add method int g() in block with code");
 
         mutation.apply(as);
         mutation2.apply(as);
@@ -128,10 +128,10 @@ public class ParseMutationTests {
 
     @Test
     public void createFromStringRmMethod() {
-        AvatarMutation mutation = AvatarMutation.createFromString("add method (int, bool) f(int x) to block block");
+        AvatarMutation mutation = AvatarMutation.createFromString("add method (int, bool) f(int x) in block");
         mutation.apply(as);
 
-        mutation = AvatarMutation.createFromString("rm method f from block block");
+        mutation = AvatarMutation.createFromString("rm method f in block");
         mutation.apply(as);
 
         assertTrue(block.getMethods().size() == 0);
@@ -139,10 +139,10 @@ public class ParseMutationTests {
 
     @Test
     public void createFromStringMdMethod() {
-        AvatarMutation mutation = AvatarMutation.createFromString("add method (int, bool) f(int x) to block block");
+        AvatarMutation mutation = AvatarMutation.createFromString("add method (int, bool) f(int x) in block");
         mutation.apply(as);
 
-        mutation = AvatarMutation.createFromString("modify method f from block block with code");
+        mutation = AvatarMutation.createFromString("modify method f in block with code");
         mutation.apply(as);
 
         AvatarMethod meth = block.getMethods().get(0);
@@ -151,7 +151,7 @@ public class ParseMutationTests {
         assertTrue(meth.getListOfReturnAttributes().size() == 2);
         TraceManager.addDev(meth.toString());
 
-        mutation = AvatarMutation.createFromString("md method f from block block to int f(bool y)");
+        mutation = AvatarMutation.createFromString("md method f in block to int f(bool y)");
         mutation.apply(as);
 
         meth = block.getMethods().get(0);
@@ -162,10 +162,10 @@ public class ParseMutationTests {
     }
 
     public void addSignal() {
-        AvatarMutation mutation = AvatarMutation.createFromString("add input signal cin(int x, bool y) to block block");
+        AvatarMutation mutation = AvatarMutation.createFromString("add input signal cin(int x, bool y) in block");
         mutation.apply(as);
 
-        mutation = AvatarMutation.createFromString("add output signal cout() to block block");
+        mutation = AvatarMutation.createFromString("add output signal cout() in block");
         mutation.apply(as);
 
     }
@@ -184,7 +184,7 @@ public class ParseMutationTests {
     public void createFromStringRmSignal() {
         addSignal();
 
-        AvatarMutation mutation = AvatarMutation.createFromString("rm signal cin from block block");
+        AvatarMutation mutation = AvatarMutation.createFromString("rm signal cin in block");
         mutation.apply(as);
         
         assertTrue(block.getSignals().size() == 1);
@@ -194,12 +194,12 @@ public class ParseMutationTests {
     public void createFromStringMdSignal() {
         addSignal();
 
-        AvatarMutation mutation = AvatarMutation.createFromString("md signal cin from block block to output");
+        AvatarMutation mutation = AvatarMutation.createFromString("md signal cin in block to output");
         mutation.apply(as);
 
         assertTrue(block.getSignals().get(0).getInOut() == SignalMutation.OUT);
 
-        mutation = AvatarMutation.createFromString("md signal cin from block block to (int x)");
+        mutation = AvatarMutation.createFromString("md signal cin in block to (int x)");
         mutation.apply(as);
 
         assertTrue(block.getSignals().get(0).getListOfAttributes().size() == 1);
@@ -249,9 +249,9 @@ public class ParseMutationTests {
     }
 
     public void addStates() {
-        AvatarMutation mutation = AvatarMutation.createFromString("add state state0 to block block");
+        AvatarMutation mutation = AvatarMutation.createFromString("add state state0 in block");
         mutation.apply(as);
-        mutation = AvatarMutation.createFromString("add state state1 to block block");
+        mutation = AvatarMutation.createFromString("add state state1 in block");
         mutation.apply(as);
     }
 
@@ -264,7 +264,7 @@ public class ParseMutationTests {
     @Test
     public void createFromStringRmState() {
         addStates();
-        AvatarMutation mutation = AvatarMutation.createFromString("rm state state0 from block block");
+        AvatarMutation mutation = AvatarMutation.createFromString("rm state state0 in block");
         mutation.apply(as);
         assertTrue(block.getStateMachine().getNbOfStatesElement() == 1);
         assertTrue(block.getStateMachine().getState(0).getName().equals("state1"));
@@ -272,9 +272,9 @@ public class ParseMutationTests {
 
     public AvatarTransition addTransitions() {
         addStates();
-        AvatarMutation mutation = AvatarMutation.createFromString("add transition from state0 to state1 to block block");
+        AvatarMutation mutation = AvatarMutation.createFromString("add transition in block from state0 to state1");
         mutation.apply(as);
-        TransitionMutation mutation1 = AddTransitionMutation.createFromString("add transition trans from state0 to state1 to block block with [x > 1] and after(0, 5) e^(1, 6) and \"x = 1\" and probability 0.5 and computes (12, 42)");
+        TransitionMutation mutation1 = AddTransitionMutation.createFromString("add transition trans in block from state0 to state1 with [x > 1] and after(0, 5) e^(1, 6) and \"x = 1\" and probability 0.5 and computes (12, 42)");
         mutation1.apply(as);
         AvatarTransition trans = mutation1.getElement(as);
         return trans;
@@ -283,6 +283,8 @@ public class ParseMutationTests {
     @Test
     public void createFromStringAddTransition1() {
         AvatarTransition trans = addTransitions();
+        assertTrue(block.getStateMachine().getState(0).getNexts().size()==2);
+        TraceManager.addDev(trans.getName());
         assertTrue(trans.getName().equals("trans"));
         assertTrue(trans.getGuard() != null);
         assertTrue(trans.getProbability() == 0.5);
@@ -296,6 +298,136 @@ public class ParseMutationTests {
         assertTrue(trans.getMaxCompute().equals("42"));
         TraceManager.addDev(block.getStateMachine().getState(0).toString());
         TraceManager.addDev(trans.toString());
+    }
 
+    @Test
+    public void createFromStringRmTransition1() {
+        addTransitions();
+        AvatarMutation mutation = AvatarMutation.createFromString("rm transition trans in block");
+        mutation.apply(as);
+        assertTrue(block.getStateMachine().getState(0).getNexts().size()==1);
+        mutation = AvatarMutation.createFromString("rm transition in block from state0 to state1");
+        mutation.apply(as);
+        assertTrue(block.getStateMachine().getState(0).getNexts().size()==0);
+    }
+
+    @Test
+    public void createFromStringRmTransition2() {
+        addTransitions();
+        TransitionMutation mutation = TransitionMutation.createFromString("rm transition in block from state0 to state1 with [x > 1] and after(0, 5) e^(1, 6) and \"x = 1\" and probability 0.5 and computes (12, 42)");
+        /*TraceManager.addDev(block.getStateMachine().getState(0).toString());
+        TraceManager.addDev(block.getStateMachine().getState(0).getNexts().get(0).toString());
+        TraceManager.addDev(block.getStateMachine().getState(0).getNexts().get(1).toString());*/
+        AvatarTransition trans = mutation.getElement(as);
+        TraceManager.addDev(trans.toString());
+        mutation.apply(as);
+        assertTrue(block.getStateMachine().getState(0).getNexts().size()==1);
+        TraceManager.addDev(block.getStateMachine().getState(0).getNexts().get(0).toString());
+    }
+
+    @Test
+    public void createFromStringMdTransition() {
+        addTransitions();
+        TransitionMutation mutation = TransitionMutation.createFromString("md transition in block from state0 to state1 with \"\" to \"x = x+2\"");
+        AvatarTransition trans = mutation.getElement(as);
+        assertTrue(trans.getNbOfAction() == 0);
+        TraceManager.addDev(trans.toString());
+        mutation.apply(as);
+        assertTrue(trans.getNbOfAction() == 1);
+        TraceManager.addDev(trans.toString());
+    }
+
+    public void addActionOnSignal() {
+        addSignal();
+        AvatarMutation mutation = AvatarMutation.createFromString("add action on signal aaos in block with cin(x, y)");
+        mutation.apply(as);
+    }
+
+    @Test
+    public void createFromStringAddActionOnSignal() {
+        addActionOnSignal();
+        AvatarStateMachine asm = block.getStateMachine();
+        TraceManager.addDev("" + asm.getListOfElements().size());
+        TraceManager.addDev("" + asm.getListOfElements().get(0).toString());
+        assertTrue(asm.isSignalUsed(block.getSignalByName("cin")));
+    }
+
+    @Test
+    public void createFromStringRmActionOnSignal1() {
+        addActionOnSignal();
+        AvatarMutation mutation = AvatarMutation.createFromString("rm action on signal in block with cin");
+        mutation.apply(as);
+        AvatarStateMachine asm = block.getStateMachine();
+        assertFalse(asm.isSignalUsed(block.getSignalByName("cin")));
+    }
+
+    @Test
+    public void createFromStringRmActionOnSignal2() {
+        addActionOnSignal();
+        AvatarMutation mutation = AvatarMutation.createFromString("rm action on signal aaos in block");
+        mutation.apply(as);
+        AvatarStateMachine asm = block.getStateMachine();
+        assertFalse(asm.isSignalUsed(block.getSignalByName("cin")));
+    }
+
+    @Test
+    public void createFromStringMdActionOnSignal() {
+        addActionOnSignal();
+        AvatarMutation mutation = AvatarMutation.createFromString("md action on signal aaos in block to cout()");
+        AvatarStateMachine asm = block.getStateMachine();
+        assertFalse(asm.isSignalUsed(block.getSignalByName("cout")));
+        mutation.apply(as);
+        assertFalse(asm.isSignalUsed(block.getSignalByName("cin")));
+        assertTrue(asm.isSignalUsed(block.getSignalByName("cout")));
+    }
+
+    public AvatarTransition addActions() {
+        AvatarTransition trans = addTransitions();
+        AvatarMutation mutation = AvatarMutation.createFromString("add action \"x = x+2\" in block transition trans");
+        mutation.apply(as);
+        return trans;
+    }
+
+    @Test
+    public void createFromStringAddAction() {
+        AvatarTransition trans = addActions();
+        assertTrue(trans.getNbOfAction() == 2);
+        TraceManager.addDev(trans.toString());
+    }
+
+    @Test
+    public void createFromStringRmAction1() {
+        AvatarTransition trans = addActions();
+        AvatarMutation mutation = AvatarMutation.createFromString("rm action at 1 in block transition trans");
+        mutation.apply(as);
+        assertTrue(trans.getNbOfAction() == 1);
+        TraceManager.addDev(trans.toString());
+    }
+
+    @Test
+    public void createFromStringRmAction2() {
+        AvatarTransition trans = addActions();
+        AvatarMutation mutation = AvatarMutation.createFromString("rm transition in block from state0 to state1 with []");
+        mutation.apply(as);
+        mutation = AvatarMutation.createFromString("rm action at 1 in block transition from state0 to state1");
+        mutation.apply(as);
+        assertTrue(trans.getNbOfAction() == 1);
+        TraceManager.addDev(trans.toString());
+    }
+
+    @Test
+    public void createFromStringMdAction() {
+        AvatarTransition trans = addActions();
+        AvatarMutation mutation = AvatarMutation.createFromString("md action at 0 in block transition trans to \"x=-3\"");
+        mutation.apply(as);
+        TraceManager.addDev(trans.toString());
+    }
+
+    @Test
+    public void createFromStringSwapAction() {
+        AvatarTransition trans = addActions();
+        AvatarMutation mutation = AvatarMutation.createFromString("swap action at 0 and at 1 in block transition trans");
+        mutation.apply(as);
+        TraceManager.addDev(trans.toString());
     }
 }

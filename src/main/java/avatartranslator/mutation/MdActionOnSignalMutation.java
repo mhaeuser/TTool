@@ -112,4 +112,76 @@ public class MdActionOnSignalMutation extends ActionOnSignalMutation implements 
                 aaos.addValue(s);
         }
     }
+
+    public static MdActionOnSignalMutation createFromString(String toParse) {
+
+        MdActionOnSignalMutation mutation = null;
+        String[] tokens = MutationParser.tokenise(toParse);
+
+        int index = MutationParser.indexOf(tokens, "IN");
+        String _blockName = tokens[index + 1];
+
+        String _name = null;
+        int _nameType = -1;
+
+        String _signalName = null;
+
+        String _newSignalName = null;
+
+        String[] _values = null;
+
+        index = MutationParser.indexOf(tokens, "SIGNAL");
+        if (!MutationParser.isToken(tokens[index + 1])) {
+            _name = tokens[index + 1];
+            _nameType = MutationParser.UUIDType(_name);
+        } else {
+            index = MutationParser.indexOf(tokens, "WITH");
+            _signalName = tokens[index + 1];
+        }
+
+        index = MutationParser.indexOf(tokens, "TO");
+        if (!MutationParser.isToken(tokens[index + 1])) {
+            _newSignalName = tokens[index + 1];
+            _values = parseValues(toParse);
+
+            if (_name == null) {
+                mutation = new MdActionOnSignalMutation(_blockName, _signalName, _newSignalName);
+            } else {
+                mutation = new MdActionOnSignalMutation(_blockName, _name, _nameType, _newSignalName);
+            }
+            mutation.setValues(_values);
+        } else {
+            if (_name == null) {
+                mutation = new MdActionOnSignalMutation(_blockName, _signalName);
+            } else {
+                mutation = new MdActionOnSignalMutation(_blockName, _name, _nameType);
+            }
+        }
+
+        int index0 = MutationParser.indexOf(tokens, "CHECK");
+        if (index0 != -1) {
+            if (index0 < index) {
+                if (tokens[index0 - 1].toUpperCase().equals("NO")) {
+                    mutation.setCurrentCheckLatency(false);
+                } else {
+                    mutation.setCurrentCheckLatency(true);
+                }
+                index0 = MutationParser.indexOf(index0 + 1, tokens, "CHECK");
+                if (index0 != -1) {
+                    if (tokens[index0 - 1].toUpperCase().equals("NO")) {
+                        mutation.setCheckLatency(false);
+                    } else {
+                        mutation.setCheckLatency(true);
+                    }
+                }
+            } else {
+                if (tokens[index0 - 1].toUpperCase().equals("NO")) {
+                    mutation.setCheckLatency(false);
+                } else {
+                    mutation.setCheckLatency(true);
+                }
+            }
+        }
+        return mutation;        
+    }
 }

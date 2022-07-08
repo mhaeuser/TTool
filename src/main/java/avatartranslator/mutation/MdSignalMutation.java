@@ -122,7 +122,7 @@ public class MdSignalMutation extends SignalMutation implements MdMutation {
         int index = MutationParser.indexOf(tokens, "SIGNAL");
         String _signalName = tokens[index + 1];
 
-        index = MutationParser.indexOf(tokens, "BLOCK");
+        index = MutationParser.indexOf(tokens, "IN");
         String _blockName = tokens[index + 1];
 
         MdSignalMutation mutation = new MdSignalMutation(_blockName, _signalName);

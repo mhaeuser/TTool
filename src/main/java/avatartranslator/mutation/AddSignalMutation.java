@@ -95,7 +95,7 @@ public class AddSignalMutation extends SignalMutation implements AddMutation {
         
         List<String[]> _parameters = parseParameters(toParse, "SIGNAL");
 
-        index = MutationParser.indexOf(tokens, "BLOCK");
+        index = MutationParser.indexOf(tokens, "IN");
         String _blockName = tokens[index + 1];
 
         AddSignalMutation mutation = new AddSignalMutation(_blockName, _signalName, _inout);

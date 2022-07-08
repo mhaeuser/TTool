@@ -83,4 +83,61 @@ public class AddActionMutation extends ActionMutation implements AddMutation {
         List<AvatarAction> actions = transition.getActions();
         actions.add(getIndex(), action);
     }
+
+    public static AddActionMutation createFromString(String toParse) {
+
+        AddActionMutation mutation = null;
+        String[] tokens = MutationParser.tokenise(toParse);
+
+        String _fromString = null;
+        int _fromType = -1;
+
+        String _toString = null;
+        int _toType = -1;
+
+        String _transitionString = null;
+        int _transitionType = -1;
+
+        int _index = -1;
+
+        String _actionString = parseAction(toParse);
+
+        int index = MutationParser.indexOf(tokens, "IN");
+        String _blockName = tokens[index + 1];
+
+
+        index = MutationParser.indexOf(tokens, "FROM");
+        if (index != -1) {
+            _fromString = tokens[index + 1];
+            _fromType = MutationParser.UUIDType(_fromString);
+            index = MutationParser.indexOf(tokens, "TO");
+            _toString = tokens[index + 1];
+            _toType = MutationParser.UUIDType(_toString);
+        } else {
+            index = MutationParser.indexOf(tokens, "TRANSITION");
+            _transitionString = tokens[index + 1];
+            _transitionType = MutationParser.UUIDType(_transitionString);
+        }
+
+        index = MutationParser.indexOf(tokens, "AT");
+        if (index != -1) {
+            _index = Integer.parseInt(tokens[index + 1]);
+        }
+
+        if (_transitionString == null) {
+            if (_index == -1) {
+                mutation = new AddActionMutation(_blockName, _fromString, _fromType, _toString, _toType, _actionString);
+            } else {
+                mutation = new AddActionMutation(_blockName, _fromString, _fromType, _toString, _toType, _actionString, _index);
+            }
+        } else {
+            if (_index == -1) {
+                mutation = new AddActionMutation(_blockName, _transitionString, _transitionType, _actionString);
+            } else {
+                mutation = new AddActionMutation(_blockName, _transitionString, _transitionType, _actionString, _index);
+            }
+        }
+
+        return mutation;
+    }
 }

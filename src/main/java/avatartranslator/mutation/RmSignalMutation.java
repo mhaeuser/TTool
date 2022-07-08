@@ -73,7 +73,7 @@ public class RmSignalMutation extends SignalMutation implements RmMutation {
 
         String _methodName = tokens[index + 1];
         
-        index = MutationParser.indexOf(tokens, "BLOCK");
+        index = MutationParser.indexOf(tokens, "IN");
         String _blockName = tokens[index + 1];
         
         RmSignalMutation mutation = new RmSignalMutation(_blockName, _methodName);

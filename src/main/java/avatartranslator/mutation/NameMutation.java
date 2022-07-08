@@ -106,7 +106,7 @@ public class NameMutation extends AvatarMutation {
         String _uuid = tokens[1];
         String _name = tokens[2];
 
-        int index = MutationParser.indexOf(tokens, "BLOCK");
+        int index = MutationParser.indexOf(tokens, "IN");
         if (index != -1) {
             String _blockName = tokens[index + 1];
             return new NameMutation(_uuid, _name, _blockName);

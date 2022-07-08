@@ -73,7 +73,7 @@ public class RmMethodMutation extends MethodMutation implements RmMutation {
 
         String _methodName = tokens[index + 1];
         
-        index = MutationParser.indexOf(tokens, "BLOCK");
+        index = MutationParser.indexOf(tokens, "IN");
         String _blockName = tokens[index + 1];
         
         RmMethodMutation mutation = new RmMethodMutation(_blockName, _methodName);

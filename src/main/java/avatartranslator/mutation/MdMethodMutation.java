@@ -139,7 +139,7 @@ public class MdMethodMutation extends MethodMutation implements MdMutation {
         int index = MutationParser.indexOf(tokens, "METHOD");
         String _methodName = tokens[index + 1];
         
-        index = MutationParser.indexOf(tokens, "BLOCK");
+        index = MutationParser.indexOf(tokens, "IN");
         String _blockName = tokens[index + 1];
 
         MdMethodMutation mutation = new MdMethodMutation(_blockName, _methodName);

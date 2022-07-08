@@ -87,4 +87,50 @@ public class RmActionMutation extends ActionMutation implements RmMutation {
             }
         }
     }
+
+    public static RmActionMutation createFromString(String toParse) {
+
+        RmActionMutation mutation = null;
+
+        String[] tokens = MutationParser.tokenise(toParse);
+
+        String _fromString = null;
+        int _fromType = -1;
+
+        String _toString = null;
+        int _toType = -1;
+
+        String _transitionString = null;
+        int _transitionType = -1;
+
+        int _index = -1;
+
+        int index = MutationParser.indexOf(tokens, "AT");
+        _index = Integer.parseInt(tokens[index + 1]);
+
+        index = MutationParser.indexOf(tokens, "IN");
+        String _blockName = tokens[index + 1];
+
+
+        index = MutationParser.indexOf(tokens, "FROM");
+        if (index != -1) {
+            _fromString = tokens[index + 1];
+            _fromType = MutationParser.UUIDType(_fromString);
+            index = MutationParser.indexOf(tokens, "TO");
+            _toString = tokens[index + 1];
+            _toType = MutationParser.UUIDType(_toString);
+        } else {
+            index = MutationParser.indexOf(tokens, "TRANSITION");
+            _transitionString = tokens[index + 1];
+            _transitionType = MutationParser.UUIDType(_transitionString);
+        }
+
+        if (_transitionString == null) {
+            mutation = new RmActionMutation(_blockName, _fromString, _fromType, _toString, _toType, _index);
+        } else {
+            mutation = new RmActionMutation(_blockName, _transitionString, _transitionType, _index);
+        }
+
+        return mutation;
+    }
 }

@@ -69,7 +69,7 @@ public class RmStateMutation extends StateMutation implements RmMutation {
         String _stateName = tokens[index + 1];
         TraceManager.addDev(_stateName);
 
-        index = MutationParser.indexOf(tokens, "BLOCK");
+        index = MutationParser.indexOf(tokens, "IN");
         String _blockName = tokens[index + 1];
         TraceManager.addDev(_blockName);
 

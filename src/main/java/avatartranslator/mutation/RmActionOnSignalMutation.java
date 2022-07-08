@@ -71,4 +71,41 @@ public class RmActionOnSignalMutation extends ActionOnSignalMutation implements 
         asm.removeElement(aaos);
     }
 
+    public static RmActionOnSignalMutation createFromString(String toParse) {
+
+        RmActionOnSignalMutation mutation = null;
+        String[] tokens = MutationParser.tokenise(toParse);
+
+        int index = MutationParser.indexOf(tokens, "IN");
+        String _blockName = tokens[index + 1];
+
+        index = MutationParser.indexOf(tokens, "SIGNAL");
+        if (!MutationParser.isToken(tokens[index+1])) {
+            String _name = tokens[index + 1];
+            int _nameType = MutationParser.UUIDType(_name);
+            mutation = new RmActionOnSignalMutation(_blockName, _name, _nameType);
+            return mutation;
+        }
+
+        index = MutationParser.indexOf(tokens, "WITH");
+        String _signalName = tokens[index + 1];
+
+        mutation = new RmActionOnSignalMutation(_blockName, _signalName);
+
+        String[] _values = parseValues(toParse);
+        mutation.setValues(_values);
+
+        
+        index = MutationParser.indexOf(tokens, "CHECK");
+        if (index != -1) {
+            if (tokens[index - 1].toUpperCase().equals("NO")) {
+                mutation.setCheckLatency(false);
+            } else {
+                mutation.setCheckLatency(true);
+            }
+        }
+
+        return mutation;
+    }
+
 }

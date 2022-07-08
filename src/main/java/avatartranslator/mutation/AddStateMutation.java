@@ -79,7 +79,7 @@ public class AddStateMutation extends StateMutation implements AddMutation {
         int index = MutationParser.indexOf(tokens, "STATE");
         String _stateName = tokens[index + 1];
 
-        index = MutationParser.indexOf(tokens, "BLOCK");
+        index = MutationParser.indexOf(tokens, "IN");
         String _blockName = tokens[index + 1];
 
         AddStateMutation mutation = new AddStateMutation(_blockName, _stateName);

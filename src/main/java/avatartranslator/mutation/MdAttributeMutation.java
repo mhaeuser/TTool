@@ -72,7 +72,7 @@ public class MdAttributeMutation extends AttributeMutation implements MdMutation
 
         String _attributeName = tokens[index + 1];
         
-        index = MutationParser.indexOf(tokens, "BLOCK");
+        index = MutationParser.indexOf(tokens, "IN");
         String _blockName = tokens[index + 1];
 
         index = MutationParser.indexOf(tokens, "TO");

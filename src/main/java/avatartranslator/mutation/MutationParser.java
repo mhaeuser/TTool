@@ -40,8 +40,6 @@ package avatartranslator.mutation;
 
 import java.util.UUID;
 
-import myutil.TraceManager;
-
 //import myutil.TraceManager;
 
 /**
@@ -55,8 +53,21 @@ import myutil.TraceManager;
 public interface MutationParser {
 
     public static final String[] MUTATION_TOKENS = {"ADD", "RM", "REMOVE", "MD", "MODIFY", "SWAP", "ATTACH", "DETACH", "SWAP"};
-    public static final String[] ELEMENT_TOKENS = {"ATTRIBUTE", "METHOD", "SIGNAL", "INPUT", "OUTPUT", "STATE", "ACTION", "RANDOM", "SET", "RESET", "EXPIRE", "TRANSITION", "BLOCK"};
+    public static final String[] ELEMENT_TOKENS = {"ATTRIBUTE", "METHOD", "INPUT", "OUTPUT", "STATE", "ACTION", "RANDOM", "SET", "RESET", "EXPIRE", "TRANSITION", "RELATION", "ASSOCIATION", "SIGNAL", "BLOCK"};
     public static final String[] INOUT_TOKENS = {"IN", "INPUT", "OUT", "OUTPUT"};
+    public static final String[] KEYWORD_TOKENS = {"IN", "FROM", "TO", "WITH", "AND", "LATENCY", "AT"};
+
+    public static final int UNDEFINED_TYPE = -1;
+    public static final int NAME_TYPE = 0;
+    public static final int UUID_TYPE = 1;
+
+    public static boolean isToken(String str) {
+        if (findMutationToken(str).length() > 0) return true;
+        if (findElementToken(str).length() > 0) return true;
+        if (findInOutToken(str).length() > 0) return true;
+        if (findKeywordToken(str).length() > 0) return true;
+        return false;
+    }
 
     public static String tokensToString(String[] tokens) {
         int len = tokens.length;
@@ -104,8 +115,12 @@ public interface MutationParser {
         return indexOf(0, arr, token);
     }
 
+    public static boolean isTokenIn(int index, String[] arr, String token) {
+        return indexOf(index, arr, token) != -1;
+    }
+
     public static boolean isTokenIn(String[] arr, String token) {
-        return indexOf(arr, token) != -1;
+        return isTokenIn(0, arr, token);
     }
 
     public static boolean isTokenIn(String s, String token) {
@@ -139,6 +154,21 @@ public interface MutationParser {
         return findToken(str, INOUT_TOKENS);
     }
 
+    public static String findKeywordToken(String[] arr) {
+        return findToken(arr, KEYWORD_TOKENS);
+    }
+
+    public static String findKeywordToken(String str) {
+        return findToken(str, KEYWORD_TOKENS);
+    }
+
+    public static int UUIDType(String _name) {
+        if(isUUID(_name)) {
+            return UUID_TYPE;
+        }
+        return NAME_TYPE;
+    }
+
     public static boolean isUUID(String str) {
         try {
             UUID.fromString(str);
@@ -146,6 +176,18 @@ public interface MutationParser {
         } catch (Exception e) {
             return false;
         }
+    }
+
+    public static String concatenate(int startIndex, int endIndex, String[] arr) {
+        String out = arr[startIndex];
+        for(int i = startIndex + 1; i < endIndex && i < arr.length; i++) {
+            out += " " + arr[i];
+        }
+        return out;
+    }
+
+    public static String concatenate(int startIndex, String[] arr) {
+        return concatenate(startIndex, arr.length, arr);
     }
 
 }

@@ -73,7 +73,7 @@ public class RmAttributeMutation extends AttributeMutation implements RmMutation
 
         String _attributeName = tokens[index + 1];
         
-        index = MutationParser.indexOf(tokens, "BLOCK");
+        index = MutationParser.indexOf(tokens, "IN");
         String _blockName = tokens[index + 1];
         
         RmAttributeMutation mutation = new RmAttributeMutation(_blockName, _attributeName);

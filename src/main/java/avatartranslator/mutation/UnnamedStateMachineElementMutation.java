@@ -71,22 +71,6 @@ public abstract class UnnamedStateMachineElementMutation extends StateMachineEle
     private String name = "";
     private int nameType = UNDEFINED_TYPE;
 
-    protected boolean isUUID(String _name) {
-        try {
-            UUID.fromString(_name);
-            return true;
-        } catch (Exception e) {
-            return false;
-        }
-    }
-
-    protected int UUIDType(String _name) {
-        if(isUUID(_name)) {
-            return UUID_TYPE;
-        }
-        return NAME_TYPE;
-    }
-
     protected String getName() {
         return name;
     }
@@ -101,7 +85,7 @@ public abstract class UnnamedStateMachineElementMutation extends StateMachineEle
 
     private void setName(String _name) {
         name = _name;
-        nameType = UUIDType(_name);
+        nameType = MutationParser.UUIDType(_name);
     }
 
     private void setName(String _name, int _nameType) {

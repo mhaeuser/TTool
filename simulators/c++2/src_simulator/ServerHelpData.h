@@ -534,6 +534,28 @@ Not defined: &lt;unknow param&gt;</code></pre> \n\
 <td style=\"text-align: center;\">-</td> \n\
 <td style=\"text-align: center;\">-</td> \n\
 </tr> \n\
+<tr class=\"odd\"> \n\
+<td style=\"text-align: center;\">save-status-in-file</td> \n\
+<td style=\"text-align: center;\">ssif</td> \n\
+<td style=\"text-align: center;\">27</td> \n\
+<td style=\"text-align: center;\">Saves the current status into a file</td> \n\
+<td style=\"text-align: center;\">[Type: 2] File name</td> \n\
+<td style=\"text-align: center;\">-</td> \n\
+<td style=\"text-align: center;\">-</td> \n\
+<td style=\"text-align: center;\">-</td> \n\
+<td style=\"text-align: center;\">-</td> \n\
+</tr> \n\
+<tr class=\"even\"> \n\
+<td style=\"text-align: center;\">save-time-in-file</td> \n\
+<td style=\"text-align: center;\">stf</td> \n\
+<td style=\"text-align: center;\">28</td> \n\
+<td style=\"text-align: center;\">Saves the current time into a file</td> \n\
+<td style=\"text-align: center;\">[Type: 2] File name</td> \n\
+<td style=\"text-align: center;\">-</td> \n\
+<td style=\"text-align: center;\">-</td> \n\
+<td style=\"text-align: center;\">-</td> \n\
+<td style=\"text-align: center;\">-</td> \n\
+</tr> \n\
 </tbody> \n\
 </table> \n\
 </body> \n\

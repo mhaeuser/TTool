@@ -97,6 +97,7 @@ public class JDiagramTree extends javax.swing.JTree implements ActionListener, M
 
     protected JMenuItem jmiAnalyze;
     protected JMenuItem jmiShow;
+    protected JMenuItem jmiShowAsDiagram;
     protected JMenuItem jmiMinimize;
     protected JMenuItem jmiRefusalGraph;
     protected JMenuItem jmiRemove;
@@ -243,6 +244,8 @@ public class JDiagramTree extends javax.swing.JTree implements ActionListener, M
                 jmiAnalyze.addActionListener(this);
                 jmiShow = new JMenuItem("Show");
                 jmiShow.addActionListener(this);
+                jmiShowAsDiagram = new JMenuItem("Show as a diagram");
+                jmiShowAsDiagram.addActionListener(this);
                 jmiMinimize = new JMenuItem("Minimize");
                 jmiMinimize.addActionListener(this);
                 jmiRefusalGraph = new JMenuItem("Make Test Sequences");
@@ -251,8 +254,10 @@ public class JDiagramTree extends javax.swing.JTree implements ActionListener, M
                 jmiRemove.addActionListener(this);
                 jmiShowInFinder = new JMenuItem("Show in File Explorer");
                 jmiShowInFinder.addActionListener(this);
+
                 popupTree.add(jmiAnalyze);
                 popupTree.add(jmiShow);
+                popupTree.add(jmiShowAsDiagram);
                 popupTree.add(jmiMinimize);
                 popupTree.add(jmiRefusalGraph);
                 popupTree.addSeparator();
@@ -523,6 +528,14 @@ public class JDiagramTree extends javax.swing.JTree implements ActionListener, M
                     } else {
                         mgui.displayAUTFromRG(selectedRG.name, selectedRG);
                     }
+
+            } else if (ae.getSource() == jmiShowAsDiagram) {
+
+                if (selectedRG.graph != null) {
+                    mgui.displayGraphAUTAsDiagram(selectedRG.graph);
+                } else {
+                    mgui.displayGraphRGAsDiagram(selectedRG.name, selectedRG);
+                }
 
             } else if (ae.getSource() == jmiRemove) {
                 if (selectedRG != null) {

@@ -1724,35 +1724,7 @@ public class GTMLModeling {
         //TraceManager.addDev("Making mapping");
         makeMapping();  //fills map
 
-        map.makeMinimumMapping();
 
-        TMLSyntaxChecking syntax = new TMLSyntaxChecking(map, true);
-        syntax.checkSyntax();
-
-        int type;
-        TGComponent tgc;
-
-        if (syntax.hasErrors() > 0) {
-            for (TMLError error : syntax.getErrors()) {
-                //TraceManager.addDev("Adding checking error");
-                if (error.type == TMLError.ERROR_STRUCTURE) {
-                    type = CheckingError.STRUCTURE_ERROR;
-                } else {
-                    type = CheckingError.BEHAVIOR_ERROR;
-                }
-                tgc = listE.getTG(error.element);
-                if (tgc != null) {
-                    UICheckingError ce = new UICheckingError(type, error.message);
-                    ce.setTDiagramPanel(tgc.getTDiagramPanel());
-                    ce.setTGComponent(tgc);
-                    checkingErrors.add(ce);
-                } else {
-                    TMLCheckingError ce = new TMLCheckingError(type, error.message);
-                    ce.setTMLTask(error.task);
-                    checkingErrors.add(ce);
-                }
-            }
-        }
 
 
         processAttackerScenario();
@@ -1760,6 +1732,40 @@ public class GTMLModeling {
         //  map.securityPatterns.addAll(securityPatterns.keySet());
         //TraceManager.addDev("Making TMLCPLib");
         makeTMLCPLib();
+
+        map.makeMinimumMapping();
+
+        if (map.getMappedTMLCPLibs().size() == 0) {
+            TMLSyntaxChecking syntax = new TMLSyntaxChecking(map, true);
+            syntax.checkSyntax();
+
+            int type;
+            TGComponent tgc;
+
+            if (syntax.hasErrors() > 0) {
+                for (TMLError error : syntax.getErrors()) {
+                    //TraceManager.addDev("Adding checking error");
+                    if (error.type == TMLError.ERROR_STRUCTURE) {
+                        type = CheckingError.STRUCTURE_ERROR;
+                    } else {
+                        type = CheckingError.BEHAVIOR_ERROR;
+                    }
+                    tgc = listE.getTG(error.element);
+                    if (tgc != null) {
+                        UICheckingError ce = new UICheckingError(type, error.message);
+                        ce.setTDiagramPanel(tgc.getTDiagramPanel());
+                        ce.setTGComponent(tgc);
+                        checkingErrors.add(ce);
+                    } else {
+                        TMLCheckingError ce = new TMLCheckingError(type, error.message);
+                        ce.setTMLTask(error.task);
+                        checkingErrors.add(ce);
+                    }
+                }
+            }
+        }
+
+
 
         //TraceManager.addDev("<--- TML modeling:");
         //TraceManager.addDev("TML: " + tmlm.toString());
@@ -2946,7 +2952,8 @@ public class GTMLModeling {
 
                     // Handling mapped artifacts
                     for (TMLArchiPortArtifact artifact : cp.getPortArtifactList()) {
-                        TMLCPLibArtifact arti = new TMLCPLibArtifact(artifact.getName(), artifact, artifact.getValue(), artifact.getPortName(), artifact.getMappedMemory(), artifact.getPriority(), artifact.getBufferParameters());
+                        TMLCPLibArtifact arti = new TMLCPLibArtifact(artifact.getName(), artifact, artifact.getValue(), artifact.getPortName(),
+                                artifact.getMappedMemory(), artifact.getPriority(), artifact.getBufferParameters());
                         tmlcplib.addArtifact(arti);
                         //TraceManager.addDev("Adding CP artifact:" + arti);
                     }

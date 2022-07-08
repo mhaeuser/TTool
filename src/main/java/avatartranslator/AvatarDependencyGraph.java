@@ -74,7 +74,7 @@ public class AvatarDependencyGraph {
         return graph.getFirstStateWithReference(_ae);
     }
 
-    public void buildGraph(AvatarSpecification _avspec) {
+    public void buildGraph(AvatarSpecification _avspec, boolean withID) {
         graph = new AUTGraph();
         id = 0;
 
@@ -87,7 +87,7 @@ public class AvatarDependencyGraph {
             AvatarStartState ass = asm.getStartState();
 
             // Make general structure
-            makeDependencyGraphForAvatarElement(ass, null, null, states, transitions);
+            makeDependencyGraphForAvatarElement(block, ass, null, null, states, transitions, withID);
         }
 
         ArrayList<AUTState> newStates = new ArrayList<>();
@@ -216,6 +216,83 @@ public class AvatarDependencyGraph {
             states.add(state);
         }
 
+        int cpt = 0;
+        /*for(AUTState state: states) {
+            TraceManager.addDev("" + cpt + ": state " + state.id + " / " + state.info + " / " + state);
+            cpt ++;
+        }*/
+
+        // Optimization: remove states representing empty transitions
+        ArrayList<AUTState> toBeRemoved = new ArrayList<>();
+        for(AUTState state: states) {
+            //TraceManager.addDev("Testing " + state.referenceObject.toString());
+            if (state.referenceObject instanceof AvatarTransition) {
+                AvatarTransition at = (AvatarTransition) state.referenceObject;
+                //TraceManager.addDev("Found  transition ID: " + at.getID());
+                if (at.isEmpty()) {
+                    //TraceManager.addDev("Found empty transition ID: " + at.getID());
+                    if (!at.isGuarded()) {
+                        //TraceManager.addDev("Not guarded ID: " + at.getID());
+                        if (at.getNexts().size() > 0) {
+
+                            if (state.outTransitions.size() == 1) {
+                                // State can be removed
+
+                                // We can update the transitions
+                                // We assume that there is only one out transition
+
+                                toBeRemoved.add(state);
+
+                                int destination = state.outTransitions.get(0).destination;
+                                transitions.remove(state.outTransitions.get(0));
+                                AUTState stateDest = states.get(destination);
+                                stateDest.removeInTransition(state.outTransitions.get(0));
+                                for (AUTTransition atPrev : state.inTransitions) {
+                                    atPrev.destination = destination;
+                                    stateDest.inTransitions.add(atPrev);
+                                }
+                                state.outTransitions.clear();
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+
+        for(AUTState state: toBeRemoved) {
+            states.remove(state);
+        }
+
+
+
+        // We update all ids;
+        cpt = 0;
+        for(AUTState state: states) {
+            if (cpt != state.id) {
+                // We now have to compact state ids
+                // We place the last state at index position
+                // We  accordingly modify transitions
+                // Nothing to do if state index is already at last position
+                state.id = cpt;
+                for(AUTTransition atIn: state.inTransitions) {
+                    atIn.destination = cpt;
+                }
+                for(AUTTransition atOut: state.outTransitions) {
+                    atOut.origin = cpt;
+                }
+            }
+            cpt ++;
+        }
+
+        cpt = 0;
+        /*for(AUTState state: states) {
+            TraceManager.addDev("" + cpt + ": state " + state.id + " / " + state.info + " / " + state);
+            cpt ++;
+        }*/
+
+
+
 
         // Rework Avatar Actions on Signals if multiple, synchros for the same AAOS
 
@@ -236,10 +313,10 @@ public class AvatarDependencyGraph {
         }
     }*/
 
-    private AUTState makeDependencyGraphForAvatarElement(AvatarStateMachineElement _elt,
+    private AUTState makeDependencyGraphForAvatarElement(AvatarBlock bl, AvatarStateMachineElement _elt,
                                                          AUTState _previousS, AvatarStateMachineElement _previousE,
                                                          ArrayList<AUTState> _states,
-                                                         ArrayList<AUTTransition> _transitions) {
+                                                         ArrayList<AUTTransition> _transitions, boolean withID) {
         if (_elt == null) {
             return null;
         }
@@ -247,7 +324,11 @@ public class AvatarDependencyGraph {
         AUTState state = new AUTState(id);
         _states.add(state);
         state.referenceObject = _elt;
-        state.info = _elt.toStringExtendedID();
+        if (withID) {
+            state.info = _elt.toStringExtendedID();
+        } else {
+            state.info = bl.getName() + " / " + _elt.getExtendedName();
+        }
 
         //putState(_elt, state);
 
@@ -280,7 +361,7 @@ public class AvatarDependencyGraph {
                 state.addOutTransition(tr);
                 stateN.addInTransition(tr);
             } else {
-                makeDependencyGraphForAvatarElement(eltN, state, _elt, _states, _transitions);
+                makeDependencyGraphForAvatarElement(bl, eltN, state, _elt, _states, _transitions, withID);
             }
         }
         return state;

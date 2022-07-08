@@ -67,6 +67,8 @@ import ui.eln.sca_eln_sca_tdf.ELNComponentCurrentSourceTDF;
 import ui.eln.sca_eln_sca_tdf.ELNComponentVoltageSinkTDF;
 import ui.eln.sca_eln_sca_tdf.ELNComponentVoltageSourceTDF;
 import ui.ftd.*;
+import ui.graphd.GraphDEdgeConnector;
+import ui.graphd.GraphDVertex;
 import ui.iod.*;
 import ui.ncdd.*;
 import ui.osad.*;
@@ -441,6 +443,10 @@ public class TGComponentManager {
     public static final int AVATARBD_CRYPTOLIBRARYFUNCTION = 5006;
     public static final int AVATARBD_AMS_INTERFACE = 5008;
 
+    // GRAPH -> starts at 5050
+    public static final int GRAPHD_VERTEX = 5050;
+    public static final int GRAPHD_EDGE_CONNECTOR = 5051;
+
     // AVATAR SMD -> starts at 5100
     public static final int AVATARSMD_START_STATE = 5100;
     public static final int AVATARSMD_STOP_STATE = 5101;
@@ -614,6 +620,9 @@ public class TGComponentManager {
             case AVATARBD_CRYPTOLIBRARYFUNCTION:
                 tgc = new AvatarBDLibraryFunction(x, y, tdp.getMinX(), tdp.getMaxX(), tdp.getMinY(), tdp.getMaxY(), false, null, tdp);
                 ((AvatarBDLibraryFunction) tgc).addCryptoElements();
+                break;
+            case GRAPHD_VERTEX:
+                tgc = new GraphDVertex(x, y, tdp.getMinX(), tdp.getMaxX(), tdp.getMinY(), tdp.getMaxY(), false, null, tdp);
                 break;
             case AVATARSMD_START_STATE:
                 tgc = new AvatarSMDStartState(x, y, tdp.getMinX(), tdp.getMaxX(), tdp.getMinY(), tdp.getMaxY(), false, null, tdp);
@@ -1618,6 +1627,11 @@ public class TGComponentManager {
         } else if (tgc instanceof AvatarBDLibraryFunction) {
             return AVATARBD_LIBRARYFUNCTION;
 
+            //Graph
+        } else if (tgc instanceof GraphDVertex) {
+            return GRAPHD_VERTEX;
+        } else if (tgc instanceof GraphDEdgeConnector) {
+                return GRAPHD_EDGE_CONNECTOR;
 
             // AVATAR SMD
         } else if (tgc instanceof AvatarSMDStartState) {
@@ -2432,7 +2446,12 @@ public class TGComponentManager {
                 tgc = new AvatarBDPortConnector(x, y, tdp.getMinX(), tdp.getMaxX(), tdp.getMinY(), tdp.getMaxY(), false, null, tdp, p1, p2, listPoint);
                 break;
 
-            // AVATAR SMD
+                // Graph
+            case GRAPHD_EDGE_CONNECTOR:
+                tgc = new GraphDEdgeConnector(x, y, tdp.getMinX(), tdp.getMaxX(), tdp.getMinY(), tdp.getMaxY(), false, null, tdp, p1, p2, listPoint);
+                break;
+
+                // AVATAR SMD
             case AVATARSMD_CONNECTOR:
                 tgc = new AvatarSMDConnector(x, y, tdp.getMinX(), tdp.getMaxX(), tdp.getMinY(), tdp.getMaxY(), false, null, tdp, p1, p2, listPoint);
                 break;

@@ -820,6 +820,7 @@ public class TMLSyntaxChecking {
         Iterator<TMLChannel> channelIt = tmlm.getChannels().iterator();
         while (channelIt.hasNext()) {
             TMLChannel ch = channelIt.next();
+            TraceManager.addDev("Checking mapping of channel:" + ch.getName());
             int n = mapping.getNbOfMemoriesOfChannel(ch);
             if (n == 0) {
                 // Too few memories

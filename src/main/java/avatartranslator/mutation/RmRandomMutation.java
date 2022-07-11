@@ -71,4 +71,47 @@ public class RmRandomMutation extends RandomMutation implements RmMutation {
         asm.removeElement(rand);
     }
 
+    public static RmRandomMutation createFromString(String toParse) {
+
+        RmRandomMutation mutation = null;
+        String[] tokens = MutationParser.tokenise(toParse);
+
+        int index = MutationParser.indexOf(tokens, "IN");
+        String _blockName = tokens[index + 1];
+
+        index = MutationParser.indexOf(tokens, "RANDOM");
+        if (!MutationParser.isToken(tokens[index+1])) {
+            String _name = tokens[index + 1];
+            int _nameType = MutationParser.UUIDType(_name);
+            mutation = new RmRandomMutation(_blockName, _name, _nameType);
+            return mutation;
+        }
+
+        index = MutationParser.indexOf(tokens, "WITH");
+        String _attributeName = tokens[index + 1];
+
+        mutation = new RmRandomMutation(_blockName, _attributeName);
+
+        index = MutationParser.indexOf(tokens, "(");
+
+        if (index != -1) {
+            String[] _values = parseMinMax(tokens);
+            String _law = parseLaw(tokens);
+            String[] _extras = parseExtras(tokens);
+            mutation.setValues(_values);
+            switch (_extras.length) {
+                case 0:
+                    mutation.setFunction(_law);
+                    break;
+                case 1:
+                    mutation.setFunction(_law, _extras[0]);
+                    break;
+                default:
+                    mutation.setFunction(_law, _extras[0], _extras[1]);
+            }
+        }
+
+        return mutation;
+    }
+
 }

@@ -399,6 +399,7 @@ public abstract class TransitionMutation extends UnnamedStateMachineElementMutat
 
         int index = MutationParser.indexOf(tokens, "AFTER");
 
+        if (tokens.length <= index + 6 || tokens[index + 6].toUpperCase().equals("AND")) return "";
         return tokens[index + 6];
     }
 

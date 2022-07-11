@@ -79,4 +79,20 @@ public abstract class ExpireTimerMutation extends TimerOperatorMutation {
         }
         return null;
     }
+
+    public static ExpireTimerMutation createFromString(String toParse) {
+        switch (MutationParser.findMutationToken(toParse)) {
+        case "ADD":
+            return AddExpireTimerMutation.createFromString(toParse);
+        case "RM":
+        case "REMOVE":
+            return RmExpireTimerMutation.createFromString(toParse);
+        case "MD":
+        case "MODIFY":
+            return MdExpireTimerMutation.createFromString(toParse);
+        default:
+            break;
+        }
+        return null;
+    }
 }

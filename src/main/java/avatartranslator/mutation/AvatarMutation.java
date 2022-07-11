@@ -101,10 +101,10 @@ public abstract class AvatarMutation {
                 return ResetTimerMutation.createFromString(toParse);
             case "EXPIRE":
                 return ExpireTimerMutation.createFromString(toParse);
-            case "RELATION":
+            case "LINK":
                 return RelationMutation.createFromString(toParse);
-            case "ASSOCIATION":
-                return AssociationMutation.createFromString(toParse);
+            case "CONNECTION":
+                return ConnectionMutation.createFromString(toParse);
             default:
                 break;
         }

@@ -569,26 +569,26 @@ public class AvatarMutationTests {
         assertTrue(relation.isAMS());
     }
 
-    public AvatarRelation addAssociation() {
+    public AvatarRelation addConnection() {
         AvatarRelation relation = addRelation();
         addSignal();
         SignalMutation mutation0 = new AddSignalMutation("block0", "cin0", SignalMutation.IN);
         mutation0.apply(as);
-        RelationMutation mutation = new AddAssociationMutation("block", "block0", "cout", "cin0");
+        RelationMutation mutation = new AddConnectionMutation("block", "block0", "cout", "cin0");
         mutation.apply(as);
         return relation;
     }
 
     @Test
-    public void testAddAssociation() {
-        AvatarRelation relation = addAssociation();
+    public void testAddConnection() {
+        AvatarRelation relation = addConnection();
         assertTrue(relation.nbOfSignals() == 1);
     }
 
     @Test
-    public void testRmAssociation() {
-        AvatarRelation relation = addAssociation();
-        RelationMutation mutation = new RmAssociationMutation("block", "block0", "cout", "cin0");
+    public void testRmConnection() {
+        AvatarRelation relation = addConnection();
+        RelationMutation mutation = new RmConnectionMutation("block", "block0", "cout", "cin0");
         mutation.apply(as);
         assertTrue(relation.nbOfSignals() == 0);
     }

@@ -86,4 +86,70 @@ public class AddRelationMutation extends RelationMutation implements AddMutation
         AvatarRelation relation = createElement(_avspec);
         _avspec.addRelation(relation);
     }
+
+    public static AddRelationMutation createFromString(String toParse) {
+
+        AddRelationMutation mutation = null;
+        String[] tokens = MutationParser.tokenise(toParse);
+
+        int index = MutationParser.indexOf(tokens, "BETWEEN");
+        String _block1 = tokens[index + 1];
+        String _block2 = tokens[index + 3];
+
+
+        index = MutationParser.indexOf(tokens, "LINK");
+        if (tokens.length <= index + 1 || MutationParser.isToken(tokens[index+1])) {
+            mutation = new AddRelationMutation(_block1, _block2);
+        } else {
+            String _name = tokens[index + 1];
+            mutation = new AddRelationMutation(_block1, _block2, _name);
+        }
+
+        switch (MutationParser.findPublicToken(tokens)) {
+            case "PUBLIC":
+                mutation.setPrivate(false);
+                break;
+            case "PRIVATE":
+                mutation.setPrivate(true);
+                break;
+            default:
+                break;
+        }
+
+        switch (MutationParser.findSynchToken(tokens)) {
+            case "SYNCHRONOUS":
+            case "SYNCH":
+                mutation.setAsynchronous(false);
+                break;
+            case "ASYNCHRONOUS":
+            case "ASYNCH":
+                mutation.setAsynchronous(true);
+                break;
+            default:
+                break;
+        }
+
+        if (MutationParser.isTokenIn(tokens, "AMS")) {
+            mutation.setAMS(true);
+        }
+
+        if (MutationParser.isTokenIn(tokens, "LOSSY")) {
+            mutation.setLossy(true);
+        }
+
+        if (MutationParser.isTokenIn(tokens, "BLOCKING")) {
+            mutation.setBlocking(true);
+        }
+
+        if (MutationParser.isTokenIn(tokens, "BROADCAST")) {
+            mutation.setBroadcast(true);
+        }
+
+        index = MutationParser.indexOf(tokens, "MAXFIFO");
+        if (index != -1) {
+            mutation.setSizeOfFIFO(tokens[index + 2]);
+        }
+
+        return mutation;
+    }
 }

@@ -53,14 +53,36 @@ public class RmResetTimerMutation extends ResetTimerMutation implements RmMutati
         super(_blockName, _timerName);
     }
 
-    public RmResetTimerMutation(String _blockName, String _timerName, String _name, int _nameType) {
-        super(_blockName, _name, _nameType, _timerName);
+    public RmResetTimerMutation(String _blockName, String _name, int _nameType) {
+        super(_blockName, _name, _nameType);
     }
 
     public void apply(AvatarSpecification _avspec) {
         AvatarResetTimer elt = getElement(_avspec);
         AvatarStateMachine asm = getAvatarStateMachine(_avspec);
         asm.removeElement(elt);
+    }
+
+    public static RmResetTimerMutation createFromString(String toParse) {
+        RmResetTimerMutation mutation = null;
+        String[] tokens = MutationParser.tokenise(toParse);
+
+        int index = MutationParser.indexOf(tokens, "IN");
+        String _blockName = tokens[index + 1];
+
+        index = MutationParser.indexOf(tokens, "TIMER");
+        if (MutationParser.isToken(tokens[index+1])) {
+            index = MutationParser.indexOf(tokens, "WITH");
+            String _timerName = tokens[index + 1];
+            
+            mutation = new RmResetTimerMutation(_blockName, _timerName);
+        } else {
+            String _name = tokens[index + 1];
+            int _nameType = MutationParser.UUIDType(_name);
+            mutation = new RmResetTimerMutation(_blockName, _name, _nameType);
+        }
+
+        return mutation;
     }
     
 }

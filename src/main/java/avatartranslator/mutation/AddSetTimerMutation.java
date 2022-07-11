@@ -74,4 +74,29 @@ public class AddSetTimerMutation extends SetTimerMutation implements AddMutation
         asm.addElement(elt);
     }
 
+    public static AddSetTimerMutation createFromString(String toParse) {
+
+        AddSetTimerMutation mutation = null;
+        String[] tokens = MutationParser.tokenise(toParse);
+
+        int index = MutationParser.indexOf(tokens, "IN");
+        String _blockName = tokens[index + 1];
+
+        index = MutationParser.indexOf(tokens, "WITH");
+        String _timerName = tokens[index + 1];
+
+        index = MutationParser.indexOf(tokens, "AT");
+        String _timerValue = tokens[index + 1];
+
+        index = MutationParser.indexOf(tokens, "TIMER");
+        if (MutationParser.isToken(tokens[index+1])) {
+            mutation = new AddSetTimerMutation(_blockName, _timerName, _timerValue);
+        } else {
+            String _name = tokens[index + 1];
+            mutation = new AddSetTimerMutation(_blockName, _name, _timerName, _timerValue);
+        }
+
+        return mutation;
+    }
+
 }

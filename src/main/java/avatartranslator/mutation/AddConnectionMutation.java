@@ -38,54 +38,63 @@
 
 package avatartranslator.mutation;
 
-import java.util.List;
-
 import avatartranslator.*;
 
 /**
- * Class RmRelationMutation
+ * Class AddAssociationMutation
  * Creation: 29/06/2022
  *
  * @author Léon FRENOT
  * @version 1.0 29/06/2022
  */
-public class RmRelationMutation extends RelationMutation implements RmMutation {
+public class AddConnectionMutation extends ConnectionMutation implements AddMutation{
 
-    public RmRelationMutation(String _block1, String _block2) {
-        super(_block1, _block2);
+    public AddConnectionMutation(String _block1, String _block2, String _signal1, String _signal2) {
+        super(_block1, _block2, _signal1, _signal2);
     }
 
-    public RmRelationMutation(String _relationString, int _relationType) {
-        super(_relationString, _relationType);
+    public AddConnectionMutation(String _relationString, int _relationType, String _signal1, String _signal2) {
+        super(_relationString, _relationType, _signal1, _signal2);
+    }
+
+    public AvatarElement createElement(AvatarSpecification _avspec) {
+        return null;
     }
 
     public void apply(AvatarSpecification _avspec) {
         AvatarRelation relation = getElement(_avspec);
-        List<AvatarRelation> relations = _avspec.getRelations();
-        relations.remove(relation);
+        relation.addSignals(getSignal1(_avspec), getSignal2(_avspec));
     }
 
-    public static RmRelationMutation createFromString(String toParse) {
+    public static AddConnectionMutation createFromString(String toParse) {
 
-        RmRelationMutation mutation = null;
+        AddConnectionMutation mutation = null;
         String[] tokens = MutationParser.tokenise(toParse);
 
-        int index = MutationParser.indexOf(tokens, "BETWEEN");
-        String _block1 = tokens[index + 1];
-        String _block2 = tokens[index + 3];
-
-        boolean b;
-
-
-        index = MutationParser.indexOf(tokens, "LINK");
-        if (tokens.length <= index + 1 || MutationParser.isToken(tokens[index+1])) {
-            mutation = new RmRelationMutation(_block1, _block2);
-        } else {
-            String _name = tokens[index + 1];
-            int _nameType = MutationParser.UUIDType(_name);
-            mutation = new RmRelationMutation(_name, _nameType);
+        int index = MutationParser.indexOf(tokens, "LINK");
+        if (index != -1 && index + 1 < tokens.length && !MutationParser.isToken(tokens[index + 1])) {
+            String _relationString = tokens[index + 1];
+            int _relationType = MutationParser.UUIDType(_relationString);
+            index = MutationParser.indexOf(tokens, "FROM");
+            String _signal1 = tokens[index + 1];
+            index = MutationParser.indexOf(tokens, "TO");
+            String _signal2 = tokens[index + 1];
+            mutation = new AddConnectionMutation(_relationString, _relationType, _signal1, _signal2);
             return mutation;
         }
+        
+        index = MutationParser.indexOf(tokens, "FROM");
+        String _signal1 = tokens[index + 1];
+        index = MutationParser.indexOf(index, tokens, "IN");
+        String _block1 = tokens[index + 1];
+        index = MutationParser.indexOf(index, tokens, "TO");
+        String _signal2 = tokens[index + 1];
+        index = MutationParser.indexOf(index, tokens, "IN");
+        String _block2 = tokens[index + 1];
+
+        mutation = new AddConnectionMutation(_block1, _block2, _signal1, _signal2);
+
+        boolean b;
 
         switch (MutationParser.findPublicToken(tokens)) {
             case "PUBLIC":
@@ -135,8 +144,8 @@ public class RmRelationMutation extends RelationMutation implements RmMutation {
         if (index != -1) {
             mutation.setSizeOfFIFO(tokens[index + 2]);
         }
-        
+
         return mutation;
     }
-    
+
 }

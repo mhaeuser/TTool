@@ -79,4 +79,20 @@ public abstract class ResetTimerMutation extends TimerOperatorMutation {
         }
         return null;
     }
+
+    public static ResetTimerMutation createFromString(String toParse) {
+        switch (MutationParser.findMutationToken(toParse)) {
+        case "ADD":
+            return AddResetTimerMutation.createFromString(toParse);
+        case "RM":
+        case "REMOVE":
+            return RmResetTimerMutation.createFromString(toParse);
+        case "MD":
+        case "MODIFY":
+            return MdResetTimerMutation.createFromString(toParse);
+        default:
+            break;
+        }
+        return null;
+    }
 }

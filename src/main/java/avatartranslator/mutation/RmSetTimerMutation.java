@@ -62,5 +62,29 @@ public class RmSetTimerMutation extends SetTimerMutation implements RmMutation {
         AvatarStateMachine asm = getAvatarStateMachine(_avspec);
         asm.removeElement(elt);
     }
+
+    public static RmSetTimerMutation createFromString(String toParse) {
+        RmSetTimerMutation mutation = null;
+        String[] tokens = MutationParser.tokenise(toParse);
+
+        int index = MutationParser.indexOf(tokens, "IN");
+        String _blockName = tokens[index + 1];
+
+        index = MutationParser.indexOf(tokens, "TIMER");
+        if (MutationParser.isToken(tokens[index+1])) {
+            index = MutationParser.indexOf(tokens, "WITH");
+            String _timerName = tokens[index + 1];
+
+            index = MutationParser.indexOf(tokens, "AT");
+            String _timerValue = tokens[index + 1];
+            mutation = new RmSetTimerMutation(_blockName, _timerName, _timerValue);
+        } else {
+            String _name = tokens[index + 1];
+            int _nameType = MutationParser.UUIDType(_name);
+            mutation = new RmSetTimerMutation(_blockName, _name, _nameType);
+        }
+
+        return mutation;
+    }
     
 }

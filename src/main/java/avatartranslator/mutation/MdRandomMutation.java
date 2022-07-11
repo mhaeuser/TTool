@@ -77,19 +77,23 @@ public class MdRandomMutation extends RandomMutation implements MdMutation {
         attributeNameChange = true;
     }
 
+    public void setCurrentValues(String[] _minMaxValues) {
+        current.setValues(_minMaxValues);
+    }
+
     public void setCurrentValues(String _minValue, String _maxValue) {
         current.setValues(_minValue, _maxValue);
     }
 
-    public void setCurrentFunction(int _functionId) {
+    public void setCurrentFunction(String _functionId) {
         current.setFunction(_functionId);
     }
 
-    public void setCurrentFunction(int _functionId, String _extraAttribute) {
+    public void setCurrentFunction(String _functionId, String _extraAttribute) {
         current.setFunction(_functionId, _extraAttribute);
     }
 
-    public void setCurrentFunction(int _functionId, String _extraAttribute1, String _extraAttribute2) {
+    public void setCurrentFunction(String _functionId, String _extraAttribute1, String _extraAttribute2) {
         current.setFunction(_functionId, _extraAttribute1, _extraAttribute2);
     }
 
@@ -123,5 +127,93 @@ public class MdRandomMutation extends RandomMutation implements MdMutation {
             rand.setExtraAttribute1(this.getExtraAttribute1());
             rand.setExtraAttribute2(this.getExtraAttribute2());
         }
+    }
+
+    public static MdRandomMutation createFromString(String toParse) {
+
+        MdRandomMutation mutation = null;
+        String[] tokens = MutationParser.tokenise(toParse);
+
+        int index = MutationParser.indexOf(tokens, "IN");
+        String _blockName = tokens[index + 1];
+
+        String _attributeName = null;
+        String[] _currentValues = null;
+        String _currentLaw = null;
+        String[] _currentExtras = null;
+        String _newAttributeName = null;
+        String[] _newValues = null;
+        String _newLaw = null;
+        String[] _newExtras = null;
+
+        String _name = null;
+        int _nameType = -1;
+
+        int toIndex = MutationParser.indexOf(tokens, "TO");
+
+        index = MutationParser.indexOf(tokens, "RANDOM");
+        if (MutationParser.isToken(tokens[index+1])) {
+            index = MutationParser.indexOf(tokens, "WITH");
+            _attributeName = tokens[index + 1];
+            index = MutationParser.indexOf(tokens, "(");
+            if (index < toIndex) {
+                _currentValues = parseMinMax(tokens);
+                _currentLaw = parseLaw(tokens);
+                _currentExtras = parseExtras(tokens);
+            }
+        } else {
+            _name = tokens[index + 1];
+            _nameType = MutationParser.UUIDType(_name);
+        }
+
+        index = toIndex;
+        if (!MutationParser.isToken(tokens[index + 1])) {
+            _newAttributeName = tokens[index + 1];
+            if (_name == null) {
+                mutation = new MdRandomMutation(_blockName, _attributeName, _newAttributeName);
+            } else {
+                mutation = new MdRandomMutation(_blockName, _name, _nameType, _newAttributeName);
+            }
+        } else {
+            if (_name == null) {
+                mutation = new MdRandomMutation(_blockName, _attributeName);
+            } else {
+                mutation = new MdRandomMutation(_blockName, _name, _nameType);
+            }
+        }
+
+        if (_currentValues != null) {
+            mutation.setCurrentValues(_currentValues);
+        switch (_currentExtras.length) {
+            case 0:
+                mutation.setCurrentFunction(_currentLaw);
+                break;
+            case 1:
+                mutation.setCurrentFunction(_currentLaw, _currentExtras[0]);
+                break;
+            default:
+                mutation.setCurrentFunction(_currentLaw, _currentExtras[0], _currentExtras[1]);
+            }
+        }
+
+        index = MutationParser.indexOf(toIndex, tokens, "(");
+        if (index != -1) {
+            _newValues = parseMinMax(tokens);
+            _newLaw = parseLaw(tokens);
+            _newExtras = parseExtras(tokens);
+            mutation.setValues(_newValues);
+            switch (_newExtras.length) {
+                case 0:
+                    mutation.setFunction(_newLaw);
+                    break;
+                case 1:
+                    mutation.setFunction(_newLaw, _newExtras[0]);
+                    break;
+                default:
+                    mutation.setFunction(_newLaw, _newExtras[0], _newExtras[1]);
+            }
+        }
+
+        return mutation;
     }
 }

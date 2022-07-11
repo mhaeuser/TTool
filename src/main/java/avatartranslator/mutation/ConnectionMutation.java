@@ -41,20 +41,20 @@ package avatartranslator.mutation;
 import avatartranslator.*;
 
 /**
- * Class AssociationMutation
+ * Class ConnectionMutation
  * Creation: 29/06/2022
  *
  * @author Léon FRENOT
  * @version 1.0 29/06/2022
  */
-public abstract class AssociationMutation extends RelationMutation {
+public abstract class ConnectionMutation extends RelationMutation {
 
-    protected AssociationMutation(String _block1, String _block2, String _signal1, String _signal2) {
+    protected ConnectionMutation(String _block1, String _block2, String _signal1, String _signal2) {
         super(_block1, _block2);
         setSignals(_signal1, _signal2);
     }
 
-    protected AssociationMutation(String _relationString, int _relationType, String _signal1, String _signal2) {
+    protected ConnectionMutation(String _relationString, int _relationType, String _signal1, String _signal2) {
         super(_relationString, _relationType);
         setSignals(_signal1, _signal2);
     }
@@ -91,6 +91,19 @@ public abstract class AssociationMutation extends RelationMutation {
     private void setSignals(String _signal1, String _signal2) {
         signal1 = _signal1;
         signal2 = _signal2;
+    }
+
+    public static ConnectionMutation createFromString(String toParse) {
+        switch (MutationParser.findMutationToken(toParse)) {
+            case "ADD":
+                return AddConnectionMutation.createFromString(toParse);
+            case "RM":
+            case "REMOVE":
+                return RmConnectionMutation.createFromString(toParse);
+            default:
+                break;
+        }
+        return null;
     }
 
 }

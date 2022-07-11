@@ -205,6 +205,10 @@ public abstract class RelationMutation extends AvatarMutation implements Unnamed
         return sizeOfFIFOSet;
     }
 
+    public void setSizeOfFIFO(String _sizeOfFIFO) {
+        setSizeOfFIFO(Integer.parseInt(_sizeOfFIFO));
+    }
+
     public void setSizeOfFIFO(int _sizeOfFIFO) {
         sizeOfFIFO = _sizeOfFIFO;
         sizeOfFIFOSet = true;
@@ -278,5 +282,21 @@ public abstract class RelationMutation extends AvatarMutation implements Unnamed
             return null;
         }
         return getElement(_avspec, getRelationStringType(), getName());
+    }
+
+    public static RelationMutation createFromString(String toParse) {
+        switch (MutationParser.findMutationToken(toParse)) {
+        case "ADD":
+            return AddRelationMutation.createFromString(toParse);
+        case "RM":
+        case "REMOVE":
+            return RmRelationMutation.createFromString(toParse);
+        case "MD":
+        case "MODIFY":
+            return MdRelationMutation.createFromString(toParse);
+        default:
+            break;
+        }
+        return null;
     }
 }

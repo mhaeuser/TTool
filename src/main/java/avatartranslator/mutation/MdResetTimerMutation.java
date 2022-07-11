@@ -56,8 +56,8 @@ public class MdResetTimerMutation extends ResetTimerMutation implements MdMutati
         newTimerName = _newTimerName;
     }
 
-    public MdResetTimerMutation(String _blockName, String _name, int _nameType, String _timerName, String _newTimerName) {
-        super(_blockName, _name, _nameType, _timerName);
+    public MdResetTimerMutation(String _blockName, String _name, int _nameType, String _newTimerName) {
+        super(_blockName, _name, _nameType);
         newTimerName = _newTimerName;
     }
 
@@ -65,5 +65,28 @@ public class MdResetTimerMutation extends ResetTimerMutation implements MdMutati
         AvatarResetTimer elt = getElement(_avspec);
         AvatarAttribute newTimer = getAttribute(_avspec, newTimerName);
         elt.setTimer(newTimer);
+    }
+
+    public static MdResetTimerMutation createFromString(String toParse) {
+        MdResetTimerMutation mutation = null;
+        String[] tokens = MutationParser.tokenise(toParse);
+
+        int index = MutationParser.indexOf(tokens, "IN");
+        String _blockName = tokens[index + 1];
+
+        index = MutationParser.indexOf(tokens, "TO");
+        String _newTimerName = tokens[index + 1];
+
+        index = MutationParser.indexOf(tokens, "TIMER");
+        if (MutationParser.isToken(tokens[index+1])) {
+            index = MutationParser.indexOf(tokens, "WITH");
+            String _timerName = tokens[index + 1];
+            mutation = new MdResetTimerMutation(_blockName, _timerName, _newTimerName);
+        } else {
+            String _name = tokens[index + 1];
+            int _nameType = MutationParser.UUIDType(_name);
+            mutation = new MdResetTimerMutation(_blockName, _name, _nameType, _newTimerName);
+        }
+        return mutation;
     }
 }

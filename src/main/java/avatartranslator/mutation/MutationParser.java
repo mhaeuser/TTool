@@ -53,9 +53,11 @@ import java.util.UUID;
 public interface MutationParser {
 
     public static final String[] MUTATION_TOKENS = {"ADD", "RM", "REMOVE", "MD", "MODIFY", "SWAP", "ATTACH", "DETACH", "SWAP"};
-    public static final String[] ELEMENT_TOKENS = {"ATTRIBUTE", "METHOD", "INPUT", "OUTPUT", "STATE", "ACTION", "RANDOM", "SET", "RESET", "EXPIRE", "TRANSITION", "RELATION", "ASSOCIATION", "SIGNAL", "BLOCK"};
+    public static final String[] ELEMENT_TOKENS = {"ATTRIBUTE", "METHOD", "INPUT", "OUTPUT", "STATE", "ACTION", "RANDOM", "SET", "RESET", "EXPIRE", "TRANSITION", "CONNECTION", "LINK", "SIGNAL", "BLOCK"};
     public static final String[] INOUT_TOKENS = {"IN", "INPUT", "OUT", "OUTPUT"};
-    public static final String[] KEYWORD_TOKENS = {"IN", "FROM", "TO", "WITH", "AND", "LATENCY", "AT"};
+    public static final String[] KEYWORD_TOKENS = {"IN", "FROM", "TO", "WITH", "AND", "LATENCY", "AT", "BETWEEN"};
+    public static final String[] PUBLIC_TOKENS = {"PUBLIC", "PRIVATE"};
+    public static final String[] SYNCH_TOKENS = {"SYNCHRONOUS", "SYNCH", "ASYNCHRONOUS", "ASYNCH"};
 
     public static final int UNDEFINED_TYPE = -1;
     public static final int NAME_TYPE = 0;
@@ -160,6 +162,22 @@ public interface MutationParser {
 
     public static String findKeywordToken(String str) {
         return findToken(str, KEYWORD_TOKENS);
+    }
+
+    public static String findPublicToken(String[] arr) {
+        return findToken(arr, PUBLIC_TOKENS);
+    }
+
+    public static String findPublicToken(String str) {
+        return findToken(str, PUBLIC_TOKENS);
+    }
+
+    public static String findSynchToken(String[] arr) {
+        return findToken(arr, SYNCH_TOKENS);
+    }
+
+    public static String findSynchToken(String str) {
+        return findToken(str, SYNCH_TOKENS);
     }
 
     public static int UUIDType(String _name) {

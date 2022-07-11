@@ -74,4 +74,26 @@ public class AddExpireTimerMutation extends ExpireTimerMutation implements AddMu
         asm.addElement(elt);
     }
 
+    public static AddExpireTimerMutation createFromString(String toParse) {
+
+        AddExpireTimerMutation mutation = null;
+        String[] tokens = MutationParser.tokenise(toParse);
+
+        int index = MutationParser.indexOf(tokens, "IN");
+        String _blockName = tokens[index + 1];
+
+        index = MutationParser.indexOf(tokens, "WITH");
+        String _timerName = tokens[index + 1];
+
+        index = MutationParser.indexOf(tokens, "TIMER");
+        if (MutationParser.isToken(tokens[index+1])) {
+            mutation = new AddExpireTimerMutation(_blockName, _timerName);
+        } else {
+            String _name = tokens[index + 1];
+            mutation = new AddExpireTimerMutation(_blockName, _name, _timerName);
+        }
+
+        return mutation;
+    }
+
 }

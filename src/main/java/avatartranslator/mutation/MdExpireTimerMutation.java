@@ -56,8 +56,8 @@ public class MdExpireTimerMutation extends ExpireTimerMutation implements MdMuta
         newTimerName = _newTimerName;
     }
 
-    public MdExpireTimerMutation(String _blockName, String _name, int _nameType, String _timerName, String _newTimerName) {
-        super(_blockName, _name, _nameType, _timerName);
+    public MdExpireTimerMutation(String _blockName, String _name, int _nameType, String _newTimerName) {
+        super(_blockName, _name, _nameType);
         newTimerName = _newTimerName;
     }
 
@@ -65,5 +65,28 @@ public class MdExpireTimerMutation extends ExpireTimerMutation implements MdMuta
         AvatarExpireTimer elt = getElement(_avspec);
         AvatarAttribute newTimer = getAttribute(_avspec, newTimerName);
         elt.setTimer(newTimer);
+    }
+
+    public static MdExpireTimerMutation createFromString(String toParse) {
+        MdExpireTimerMutation mutation = null;
+        String[] tokens = MutationParser.tokenise(toParse);
+
+        int index = MutationParser.indexOf(tokens, "IN");
+        String _blockName = tokens[index + 1];
+
+        index = MutationParser.indexOf(tokens, "TO");
+        String _newTimerName = tokens[index + 1];
+
+        index = MutationParser.indexOf(tokens, "TIMER");
+        if (MutationParser.isToken(tokens[index+1])) {
+            index = MutationParser.indexOf(tokens, "WITH");
+            String _timerName = tokens[index + 1];
+            mutation = new MdExpireTimerMutation(_blockName, _timerName, _newTimerName);
+        } else {
+            String _name = tokens[index + 1];
+            int _nameType = MutationParser.UUIDType(_name);
+            mutation = new MdExpireTimerMutation(_blockName, _name, _nameType, _newTimerName);
+        }
+        return mutation;
     }
 }

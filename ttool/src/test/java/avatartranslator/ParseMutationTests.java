@@ -430,4 +430,195 @@ public class ParseMutationTests {
         mutation.apply(as);
         TraceManager.addDev(trans.toString());
     }
+
+    public AvatarRandom addRandom() {
+        RandomMutation mutation = RandomMutation.createFromString("add random rand in block with x (5, 15)");
+        mutation.apply(as);
+        return mutation.getElement(as);
+    }
+
+    @Test
+    public void createFromStringAddRandom() {
+        AvatarRandom rand = addRandom();
+        assertTrue(rand.getVariable().equals("x"));
+        TraceManager.addDev(rand.getNiceName());
+    }
+
+    @Test
+    public void createFromStringRmRandom() {
+        RandomMutation mutation0 = RandomMutation.createFromString("add random in block with x (-5, 10)");
+        mutation0.apply(as);
+        addRandom();
+        AvatarMutation mutation = AvatarMutation.createFromString("rm random in block with x (5, 10)");
+        mutation.apply(as);
+        assertTrue(mutation0.getElement(as) != null);
+    }
+
+    @Test
+    public void createFromStringMdRandom() {
+        AvatarRandom rand = addRandom();
+        AvatarMutation mutation = AvatarMutation.createFromString("md random rand in block to y");
+        mutation.apply(as);
+        assertTrue(rand.getVariable().equals("y"));
+    }
+
+    public AvatarSetTimer addSetTimer() {
+        AvatarMutation.createFromString("add attribute timer timer in block").apply(as);
+        SetTimerMutation mutation = SetTimerMutation.createFromString("add set timer in block with timer at 10");
+        mutation.apply(as);
+        return mutation.getElement(as);
+    }
+
+    @Test
+    public void createFromStringAddSetTimer() {
+        AvatarSetTimer set = addSetTimer();
+        assertTrue(set != null);
+        TraceManager.addDev(set.getTimer().toString());
+    }
+
+    @Test
+    public void createFromStringRmSetTimer() {
+        addSetTimer();
+        SetTimerMutation mutation = SetTimerMutation.createFromString("rm set timer in block with timer at 10");
+        assertFalse(mutation.getElement(as) == null);
+        TraceManager.addDev(mutation.getElement(as).toString());
+        mutation.apply(as);
+        assertTrue(mutation.getElement(as) == null);
+    }
+
+    @Test
+    public void createFromStringMdSetTimer() {
+        AvatarSetTimer timer = addSetTimer();
+        AvatarMutation mutation = AvatarMutation.createFromString("md set timer in block with timer at 10 to timer at 15");
+        mutation.apply(as);
+        TraceManager.addDev(timer.getTimerValue());
+        assertTrue(timer.getTimerValue().equals("15"));
+        
+    }
+
+    public AvatarResetTimer addResetTimer() {
+        AvatarMutation.createFromString("add attribute timer timer in block").apply(as);
+        ResetTimerMutation mutation = ResetTimerMutation.createFromString("add reset timer in block with timer");
+        mutation.apply(as);
+        return mutation.getElement(as);
+    }
+
+    @Test
+    public void createFromStringAddResetTimer() {
+        AvatarResetTimer set = addResetTimer();
+        assertTrue(set != null);
+        TraceManager.addDev(set.getTimer().toString());
+    }
+
+    @Test
+    public void createFromStringRmResetTimer() {
+        addResetTimer();
+        ResetTimerMutation mutation = ResetTimerMutation.createFromString("rm reset timer in block with timer");
+        assertFalse(mutation.getElement(as) == null);
+        mutation.apply(as);
+        assertTrue(mutation.getElement(as) == null);
+    }
+
+    @Test
+    public void createFromStringMdResetTimer() {
+        AvatarResetTimer timer = addResetTimer();
+        AvatarMutation.createFromString("add attribute timer timer2 in block").apply(as);
+        AvatarMutation mutation = AvatarMutation.createFromString("md reset timer in block with timer to timer2");
+        mutation.apply(as);
+        assertTrue(timer.getTimer().getName().equals("timer2"));
+    }
+
+    public AvatarExpireTimer addExpireTimer() {
+        AvatarMutation.createFromString("add attribute timer timer in block").apply(as);
+        ExpireTimerMutation mutation = ExpireTimerMutation.createFromString("add expire timer in block with timer");
+        mutation.apply(as);
+        return mutation.getElement(as);
+    }
+
+    @Test
+    public void createFromStringAddExpireTimer() {
+        AvatarExpireTimer set = addExpireTimer();
+        assertTrue(set != null);
+        TraceManager.addDev(set.getTimer().toString());
+    }
+
+    @Test
+    public void createFromStringRmExpireTimer() {
+        addExpireTimer();
+        ExpireTimerMutation mutation = ExpireTimerMutation.createFromString("rm expire timer in block with timer");
+        assertFalse(mutation.getElement(as) == null);
+        mutation.apply(as);
+        assertTrue(mutation.getElement(as) == null);
+    }
+
+    @Test
+    public void createFromStringMdExpireTimer() {
+        AvatarExpireTimer timer = addExpireTimer();
+        AvatarMutation.createFromString("add attribute timer timer2 in block").apply(as);
+        AvatarMutation mutation = AvatarMutation.createFromString("md expire timer in block with timer to timer2");
+        mutation.apply(as);
+        assertTrue(timer.getTimer().getName().equals("timer2"));
+    }
+
+    public AvatarRelation addRelation() {
+        addBlock();
+        RelationMutation mutation = RelationMutation.createFromString("add public AMS blocking lossy broadcast link maxFIFO = 20 between block and block0");
+        mutation.apply(as);
+        return mutation.getElement(as);
+    }
+
+    @Test
+    public void createFromStringAddRelation() {
+        assertTrue(as.getRelations().size() == 0);
+        AvatarRelation relation = addRelation();
+        assertTrue(as.getRelations().size() == 1);
+        assertTrue(relation.isAMS());
+        assertFalse(relation.isPrivate());
+        assertTrue(relation.isBlocking());
+        assertTrue(relation.isLossy());
+        assertTrue(relation.isBroadcast());
+        assertTrue(relation.getSizeOfFIFO() == 20);
+    }
+
+    @Test
+    public void createFromStringRmRelation() {
+        addRelation();
+        AvatarMutation mutation = AvatarMutation.createFromString("rm link between block and block0");
+        mutation.apply(as);
+        assertTrue(as.getRelations().size() == 0);
+    }
+
+    @Test
+    public void createFromStringMdRelation() {
+        AvatarRelation relation = addRelation();
+        AvatarMutation mutation = AvatarMutation.createFromString("md link between block and block0 to no AMS");
+        assertTrue(relation.isAMS());
+        mutation.apply(as);
+        assertFalse(relation.isAMS());
+    }
+
+    public AvatarRelation addConnection() {
+        AvatarRelation relation = addRelation();
+        addSignal();
+        AvatarMutation mutation = AvatarMutation.createFromString("add input signal cin0() in block0");
+        mutation.apply(as);
+        mutation = AvatarMutation.createFromString("add connection from cout in block to cin0 in block0");
+        mutation.apply(as);
+        return relation;
+    }
+
+    @Test
+    public void createFromStringAddConnection() {
+        AvatarRelation relation = addConnection();
+        assertTrue(relation.nbOfSignals() == 1);
+    }
+
+    @Test
+    public void createFromStringRmConnection() {
+        AvatarRelation relation = addConnection();
+        AvatarMutation mutation = AvatarMutation.createFromString("rm connection from cout in block to cin0 in block0");
+        mutation.apply(as);
+        assertTrue(relation.nbOfSignals() == 0);
+
+    }
 }

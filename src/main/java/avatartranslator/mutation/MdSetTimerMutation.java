@@ -99,4 +99,33 @@ public class MdSetTimerMutation extends SetTimerMutation implements MdMutation {
         //TraceManager.addDev(String.valueOf(newTimerValue));
         if (newTimerValueSet) elt.setTimerValue(newTimerValue);
     }
+
+    public static MdSetTimerMutation createFromString(String toParse) {
+        MdSetTimerMutation mutation = null;
+        String[] tokens = MutationParser.tokenise(toParse);
+
+        int index = MutationParser.indexOf(tokens, "IN");
+        String _blockName = tokens[index + 1];
+
+        index = MutationParser.indexOf(tokens, "TO");
+        String _newTimerName = tokens[index + 1];
+
+        index = MutationParser.indexOf(index, tokens, "AT");
+        String _newTimerValue = tokens[index + 1];
+
+        index = MutationParser.indexOf(tokens, "TIMER");
+        if (MutationParser.isToken(tokens[index+1])) {
+            index = MutationParser.indexOf(tokens, "WITH");
+            String _timerName = tokens[index + 1];
+
+            index = MutationParser.indexOf(tokens, "AT");
+            String _timerValue = tokens[index + 1];
+            mutation = new MdSetTimerMutation(_blockName, _timerName, _timerValue, _newTimerName, _newTimerValue);
+        } else {
+            String _name = tokens[index + 1];
+            int _nameType = MutationParser.UUIDType(_name);
+            mutation = new MdSetTimerMutation(_blockName, _name, _nameType, _newTimerName, _newTimerValue);
+        }
+        return mutation;
+    }
 }

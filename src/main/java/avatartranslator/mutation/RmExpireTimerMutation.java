@@ -53,14 +53,36 @@ public class RmExpireTimerMutation extends ExpireTimerMutation implements RmMuta
         super(_blockName, _timerName);
     }
 
-    public RmExpireTimerMutation(String _blockName, String _name, int _nameType, String _timerName) {
-        super(_blockName, _name, _nameType, _timerName);
+    public RmExpireTimerMutation(String _blockName, String _name, int _nameType) {
+        super(_blockName, _name, _nameType);
     }
 
     public void apply(AvatarSpecification _avspec) {
         AvatarExpireTimer elt = getElement(_avspec);
         AvatarStateMachine asm = getAvatarStateMachine(_avspec);
         asm.removeElement(elt);
+    }
+
+    public static RmExpireTimerMutation createFromString(String toParse) {
+        RmExpireTimerMutation mutation = null;
+        String[] tokens = MutationParser.tokenise(toParse);
+
+        int index = MutationParser.indexOf(tokens, "IN");
+        String _blockName = tokens[index + 1];
+
+        index = MutationParser.indexOf(tokens, "TIMER");
+        if (MutationParser.isToken(tokens[index+1])) {
+            index = MutationParser.indexOf(tokens, "WITH");
+            String _timerName = tokens[index + 1];
+            
+            mutation = new RmExpireTimerMutation(_blockName, _timerName);
+        } else {
+            String _name = tokens[index + 1];
+            int _nameType = MutationParser.UUIDType(_name);
+            mutation = new RmExpireTimerMutation(_blockName, _name, _nameType);
+        }
+
+        return mutation;
     }
     
 }

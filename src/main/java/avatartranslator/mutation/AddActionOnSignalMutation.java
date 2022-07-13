@@ -39,7 +39,6 @@
 package avatartranslator.mutation;
 
 import avatartranslator.*;
-import myutil.TraceManager;
 
 /**
  * Class AddActionOnSignalMutation
@@ -50,8 +49,6 @@ import myutil.TraceManager;
  */
 public class AddActionOnSignalMutation extends ActionOnSignalMutation implements AddMutation {
 
-    private boolean isGraphical = false;
-
     public AddActionOnSignalMutation(String _blockName, String _signalName) {
         super(_blockName, _signalName);
     }
@@ -60,9 +57,7 @@ public class AddActionOnSignalMutation extends ActionOnSignalMutation implements
         super(_blockName, _name, NAME_TYPE, _signalName);
     }
 
-    //todo : graphique
-    public AvatarActionOnSignal createElement(AvatarSpecification _avspec) {
-        TraceManager.addDev("createActionOnSignal Signalname : " + getSignalName());
+    public AvatarActionOnSignal createElement(AvatarSpecification _avspec) throws ApplyMutationException {
         AvatarSignal signal = getSignal(_avspec, getSignalName());
         AvatarActionOnSignal aaos = new AvatarActionOnSignal(getName(), signal, null);
         
@@ -75,26 +70,31 @@ public class AddActionOnSignalMutation extends ActionOnSignalMutation implements
         return aaos;
     }
     
-    @Override
-    public void apply(AvatarSpecification _avspec) {
+    public void apply(AvatarSpecification _avspec) throws ApplyMutationException {
         AvatarActionOnSignal aaos = createElement(_avspec);
         AvatarStateMachine asm = getAvatarStateMachine(_avspec);
         asm.addElement(aaos);
     }
 
-    public static AddActionOnSignalMutation createFromString(String toParse) {
+    public static AddActionOnSignalMutation createFromString(String toParse) throws ParseMutationException {
 
         AddActionOnSignalMutation mutation = null;
         String[] tokens = MutationParser.tokenise(toParse);
 
         int index = MutationParser.indexOf(tokens, "IN");
+        if (tokens.length == index + 1 || index == -1) {
+            throw new ParseMutationException("block name", "in blockName");
+        }
         String _blockName = tokens[index + 1];
 
         index = MutationParser.indexOf(tokens, "WITH");
+        if (tokens.length == index + 1 || index == -1) {
+            throw new ParseMutationException("signal name", "with signalName");
+        }
         String _signalName = tokens[index + 1];
         
         index = MutationParser.indexOf(tokens, "SIGNAL");
-        if (MutationParser.isToken(tokens[index+1])) {
+        if (tokens.length == index + 1 || MutationParser.isToken(tokens[index+1])) {
             mutation = new AddActionOnSignalMutation(_blockName, _signalName);
         } else {
             String _name = tokens[index + 1];

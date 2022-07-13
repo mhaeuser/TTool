@@ -85,21 +85,21 @@ public class MdSignalMutation extends SignalMutation implements MdMutation {
         super.setInOut(_inout);
     }
 
-    public void apply(AvatarSpecification _avspec) {
+    public void apply(AvatarSpecification _avspec) throws ApplyMutationException {
         
         AvatarBlock block = getBlock(_avspec);
+        if (block == null) {
+            throw new MissingBlockException(getBlockName());
+        }
+        
         AvatarSignal as = getElement(_avspec);
-
         if (as == null) {
-            TraceManager.addDev("Unknown Signal");
-            return;
+            throw new ApplyMutationException("Signal" + getSignalName() + "is not in block " + getBlockName());
         }
 
         List<AvatarSignal> sign = block.getSignals();
         if(!sign.contains(as)) {
-            TraceManager.addDev("Signal is from a super-bloc");
-            return;
-
+            throw new ApplyMutationException("Signal " + getSignalName() + " is in a super-bloc of " + getBlockName());
         }
 
         if (parametersChanged) {
@@ -115,22 +115,26 @@ public class MdSignalMutation extends SignalMutation implements MdMutation {
         }
     }
 
-    public static MdSignalMutation createFromString(String toParse) {
+    public static MdSignalMutation createFromString(String toParse) throws ParseMutationException {
 
         String[] tokens = MutationParser.tokenise(toParse);
 
         int index = MutationParser.indexOf(tokens, "SIGNAL");
+        if (tokens.length == index + 1) {
+            throw new ParseMutationException("signal name", "signal signalName");
+        }
         String _signalName = tokens[index + 1];
 
         index = MutationParser.indexOf(tokens, "IN");
+        if (tokens.length == index + 1 || index == -1) {
+            throw new ParseMutationException("block name", "in blockName");
+        }
         String _blockName = tokens[index + 1];
 
         MdSignalMutation mutation = new MdSignalMutation(_blockName, _signalName);
 
         index = MutationParser.indexOf(tokens, "TO");
-        TraceManager.addDev(MutationParser.tokensToString(tokens));
-        TraceManager.addDev(String.valueOf(index));
-
+        
         String[] arr = Arrays.copyOfRange(tokens, index, tokens.length);
         TraceManager.addDev(MutationParser.tokensToString(arr));
 

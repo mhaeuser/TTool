@@ -134,7 +134,7 @@ public class MdTransitionMutation extends TransitionMutation implements MdMutati
     }
 
     @Override
-    public AvatarTransition getElement(AvatarSpecification _avspec) {
+    public AvatarTransition getElement(AvatarSpecification _avspec) throws ApplyMutationException {
         try {
             return current.getElement(_avspec);
         } catch (Exception e) {
@@ -142,7 +142,7 @@ public class MdTransitionMutation extends TransitionMutation implements MdMutati
         }
     }
 
-    public void apply(AvatarSpecification _avspec) {
+    public void apply(AvatarSpecification _avspec) throws ApplyMutationException {
         AvatarTransition trans = current.getElement(_avspec);
         
         if (this.isFromSet()) {
@@ -182,23 +182,35 @@ public class MdTransitionMutation extends TransitionMutation implements MdMutati
         }
     }
 
-    public static MdTransitionMutation createFromString(String toParse) {
+    public static MdTransitionMutation createFromString(String toParse) throws ParseMutationException {
 
         MdTransitionMutation mutation = null;
 
         String[] tokens = MutationParser.tokenise(toParse);
 
         int index = MutationParser.indexOf(tokens, "IN");
+        if (tokens.length == index + 1 || index == -1) {
+            throw new ParseMutationException("block name", "in blockName");
+        }
         String _blockName = tokens[index + 1];
         
         int index0 = MutationParser.indexOf(tokens, "TRANSITION");
-
+        if (tokens.length == index0 + 1) {
+            throw new ParseMutationException("transition description", "transition transitionDescription");
+        }
         if (MutationParser.isToken(tokens[index0 + 1])) {
+
             index = MutationParser.indexOf(index, tokens, "FROM");
+            if (tokens.length == index + 1 || index == -1) {
+                throw new ParseMutationException("from element name", "from fromElementName");
+            }
             String _fromString = tokens[index + 1];
             int _fromType = MutationParser.UUIDType(_fromString);
 
             index0 = MutationParser.indexOf(tokens, "TO");
+            if (tokens.length == index + 1 || index == -1) {
+                throw new ParseMutationException("to element name", "to toElementName");
+            }
             String _toString = tokens[index0 + 1];
             int _toType = MutationParser.UUIDType(_toString);
 
@@ -221,16 +233,7 @@ public class MdTransitionMutation extends TransitionMutation implements MdMutati
             String _law = parseLaw(toParse);
             String[] _extras = parseExtras(toParse);
 
-            switch (_extras.length) {
-                case 0:
-                    mutation.setDelayDistributionLaw(_law);
-                    break;
-                case 1:
-                    mutation.setDelayDistributionLaw(_law, _extras[0]);
-                    break;
-                default:
-                    mutation.setDelayDistributionLaw(_law, _extras[0], _extras[1]);
-            }
+            mutation.setDelayDistributionLaw(_law, _extras);
         }
 
         if (toParse.contains("\"")) {
@@ -250,6 +253,10 @@ public class MdTransitionMutation extends TransitionMutation implements MdMutati
         }
 
         index0 = MutationParser.indexOf(index0 + 1, tokens, "TO");
+        if (index0 == -1 || tokens.length == index0 + 1) {
+            throw new ParseMutationException("new transition parameters", "to newTransitionParameters");
+        }
+
         String newParse = MutationParser.concatenate(index0, tokens);
 
         if (newParse.contains("[")) {
@@ -264,16 +271,7 @@ public class MdTransitionMutation extends TransitionMutation implements MdMutati
             String _law = parseLaw(newParse);
             String[] _extras = parseExtras(newParse);
 
-            switch (_extras.length) {
-                case 0:
-                    mutation.setDelayDistributionLaw(_law);
-                    break;
-                case 1:
-                    mutation.setDelayDistributionLaw(_law, _extras[0]);
-                    break;
-                default:
-                    mutation.setDelayDistributionLaw(_law, _extras[0], _extras[1]);
-            }
+            mutation.setDelayDistributionLaw(_law, _extras);
         }
 
         if (newParse.contains("\"")) {

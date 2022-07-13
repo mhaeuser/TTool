@@ -93,13 +93,13 @@ public abstract class ActionMutation extends TransitionMutation {
         return index;
     }
 
-    protected int getIndex(AvatarSpecification _avspec) {
+    protected int getIndex(AvatarSpecification _avspec) throws ApplyMutationException {
         if (index == -1)
             index = getIndexFromString(_avspec);
         return index;
     }
 
-    protected int getIndexFromString(AvatarSpecification _avspec) {
+    protected int getIndexFromString(AvatarSpecification _avspec) throws ApplyMutationException {
         AvatarTransition trans = super.getElement(_avspec);
         AvatarBlock block = getBlock(_avspec);
         int len = trans.getNbOfAction();
@@ -119,20 +119,25 @@ public abstract class ActionMutation extends TransitionMutation {
         index = _index;
     }
 
-    public AvatarAction createAction(AvatarSpecification _avspec) {
+    public AvatarAction createAction(AvatarSpecification _avspec) throws ApplyMutationException {
         AvatarBlock block = getBlock(_avspec);
+        if (block == null) {
+            throw new MissingBlockException(getBlockName());
+        }
         AvatarAction action = AvatarTerm.createActionFromString(block, getActionString());
         return action;
     }
 
-    public static String parseAction(String toParse) {
+    public static String parseAction(String toParse) throws ParseMutationException {
         int beginIndex = toParse.indexOf('\"') + 1;
         int endIndex = toParse.indexOf('\"', beginIndex);
-
+        if (beginIndex == 0 || endIndex == -1) {
+            throw new ParseMutationException("action", "\"actionString\"");
+        }
         return toParse.substring(beginIndex, endIndex);
     }
 
-    public static ActionMutation createFromString(String toParse) {
+    public static ActionMutation createFromString(String toParse) throws ParseMutationException {
         switch (MutationParser.findMutationToken(toParse)) {
             case "ADD":
                 return AddActionMutation.createFromString(toParse);

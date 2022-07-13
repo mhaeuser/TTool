@@ -39,7 +39,7 @@
 package avatartranslator.mutation;
 
 import avatartranslator.*;
-import myutil.TraceManager;
+//import myutil.TraceManager;
 
 /**
  * Class AvatarMutation
@@ -58,13 +58,12 @@ public abstract class AvatarMutation {
         return _avspec.getBlockWithName(_blockName);
     }
 
-    public abstract void apply(AvatarSpecification _avspec);
+    public abstract void apply(AvatarSpecification _avspec) throws ApplyMutationException;
 
-    public static AvatarMutation createFromString(String toParse) {
-        
-        TraceManager.addDev("Avatar");
+    public static AvatarMutation createFromString(String toParse) throws ParseMutationException {
+        //TraceManager.addDev("Avatar");
         toParse = toParse.trim();
-        TraceManager.addDev(MutationParser.findElementToken(toParse));
+        //TraceManager.addDev(MutationParser.findElementToken(toParse));
         switch (MutationParser.findMutationToken(toParse)) {
             case "ATTACH":
                 return AttachParentMutation.createFromString(toParse);

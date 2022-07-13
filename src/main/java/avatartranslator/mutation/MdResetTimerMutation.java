@@ -61,28 +61,46 @@ public class MdResetTimerMutation extends ResetTimerMutation implements MdMutati
         newTimerName = _newTimerName;
     }
 
-    public void apply(AvatarSpecification _avspec) {
+    public void apply(AvatarSpecification _avspec) throws ApplyMutationException {
         AvatarResetTimer elt = getElement(_avspec);
+        if (elt == null) {
+            throw new ApplyMutationException("no such set timer in block " + getBlockName());
+        }
         AvatarAttribute newTimer = getAttribute(_avspec, newTimerName);
+        if (newTimer == null) {
+            throw new ApplyMutationException("No timer named " + newTimerName + " in block " + getBlockName());
+        }
         elt.setTimer(newTimer);
     }
 
-    public static MdResetTimerMutation createFromString(String toParse) {
+    public static MdResetTimerMutation createFromString(String toParse) throws ParseMutationException {
         MdResetTimerMutation mutation = null;
         String[] tokens = MutationParser.tokenise(toParse);
 
         int index = MutationParser.indexOf(tokens, "IN");
+        if (tokens.length == index + 1 || index == -1) {
+            throw new ParseMutationException("block name", "in blockName");
+        }
         String _blockName = tokens[index + 1];
 
         index = MutationParser.indexOf(tokens, "TO");
+        if (tokens.length == index + 1 || index == -1) {
+            throw new ParseMutationException("new timer name", "to newTimerName at newInitialValue");
+        }
         String _newTimerName = tokens[index + 1];
 
         index = MutationParser.indexOf(tokens, "TIMER");
-        if (MutationParser.isToken(tokens[index+1])) {
+        if (tokens.length == index + 1 || MutationParser.isToken(tokens[index+1])) {
             index = MutationParser.indexOf(tokens, "WITH");
+            if (tokens.length == index + 1 || index == -1) {
+                throw new ParseMutationException("timer name", "with timerName");
+            }
             String _timerName = tokens[index + 1];
             mutation = new MdResetTimerMutation(_blockName, _timerName, _newTimerName);
         } else {
+            if (tokens.length == index + 1) {
+                throw new ParseMutationException("reset timer name", "reset timer resetTimerName");
+            }
             String _name = tokens[index + 1];
             int _nameType = MutationParser.UUIDType(_name);
             mutation = new MdResetTimerMutation(_blockName, _name, _nameType, _newTimerName);

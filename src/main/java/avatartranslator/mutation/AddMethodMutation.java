@@ -41,7 +41,7 @@ package avatartranslator.mutation;
 import java.util.List;
 
 import avatartranslator.*;
-import myutil.TraceManager;
+//import myutil.TraceManager;
 
 /**
  * Class AddMethodMutation
@@ -68,8 +68,19 @@ public class AddMethodMutation extends MethodMutation implements AddMutation {
         super(_blockName, _methodName);
     }
 
-    public AvatarMethod createElement(AvatarSpecification _avspec) {
+    public AvatarMethod createElement(AvatarSpecification _avspec) throws ApplyMutationException {
+
         AvatarBlock block = getBlock(_avspec);
+        if (block == null) {
+            throw new MissingBlockException(getBlockName());
+        }
+
+        for (AvatarMethod am : block.getMethods()) {
+            if (am.getName().equals(this.getMethodName())) {
+                throw new ApplyMutationException("Method " + getMethodName() + " already exists in block " + getBlockName());
+            }
+        }
+
         AvatarMethod am = new AvatarMethod(getMethodName(), null);
         for (String s : getReturnParameters()) {
             AvatarAttribute aa = new AvatarAttribute("", AvatarType.getType(s), block, null);
@@ -83,26 +94,29 @@ public class AddMethodMutation extends MethodMutation implements AddMutation {
         return am;
     }
 
-    public void apply(AvatarSpecification _avspec) {
+    public void apply(AvatarSpecification _avspec) throws ApplyMutationException {
         AvatarMethod am = createElement(_avspec);
         AvatarBlock block = getBlock(_avspec);
         block.addMethod(am);
     }
 
-    public static AddMethodMutation createFromString(String toParse) {
+    public static AddMethodMutation createFromString(String toParse) throws ParseMutationException {
         String[] tokens = MutationParser.tokenise(toParse);
         
         List<String> _returnParameters = parseReturnParameters(toParse, "METHOD");
 
         String _methodName = parseMethodName(toParse);
 
-        List<String[]> _parameters = parseParameters(toParse, "METHOD");
+        List<String[]> _parameters = parseParameters(toParse, _methodName.toUpperCase());
 
-        for (String[] parameter : _parameters) {
+        /*for (String[] parameter : _parameters) {
             TraceManager.addDev(MutationParser.tokensToString(parameter));
-        }
+        }*/
 
         int index = MutationParser.indexOf(tokens, "IN");
+        if (tokens.length == index + 1 || index == -1) {
+            throw new ParseMutationException("block name", "in blockName");
+        }
         String _blockName = tokens[index + 1];
         
         if (MutationParser.isTokenIn(tokens, "CODE")) {

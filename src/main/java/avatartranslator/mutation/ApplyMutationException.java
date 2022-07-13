@@ -37,63 +37,23 @@
  */
 
 package avatartranslator.mutation;
-
-import avatartranslator.*;
+  
 /**
- * Class AddBlockMutation
- * Creation: 23/06/2022
+ * Class ApplyMutationException
+ * Creation: 12/07/2022
  *
  * @author Léon FRENOT
- * @version 1.0 23/06/2022
+ * @version 1.0 12/07/2022
  */
 
-public class AddBlockMutation extends BlockElementMutation implements AddMutation {
+public class ApplyMutationException extends MutationException {
     
-    public AddBlockMutation(String _blockName) {
-        super(_blockName);
+    public ApplyMutationException(String message) {
+        super(message);
     }
 
-    public AvatarBlock getElement(AvatarSpecification _avspec) {
-        return getBlock(_avspec);
+    public static String missingBlock(String blockName) {
+        return "Block " + blockName + " doesn't exist";
     }
 
-    //todo : graphic
-    public AvatarBlock createElement(AvatarSpecification _avspec) throws ApplyMutationException {
-
-        for (AvatarBlock block : _avspec.getListOfBlocks()) {
-            if (block.getName().equals(getBlockName())) {
-                throw new ApplyMutationException("Block " + getBlockName() + " already exists");
-            }
-        }
-
-        AvatarBlock block = new AvatarBlock(getBlockName(), _avspec, null);
-        return block;
-    }
-
-    public void apply(AvatarSpecification _avspec) throws ApplyMutationException {
-        AvatarBlock block = createElement(_avspec);
-        _avspec.addBlock(block);
-
-        AvatarStartState start = new AvatarStartState("start", null);
-
-        AvatarStateMachine asm = block.getStateMachine();
-
-        asm.addElement(start);
-        asm.setStartState(start);
-    }
-    
-    public static AddBlockMutation createFromString(String toParse) throws ParseMutationException {
-        String[] tokens = MutationParser.tokenise(toParse);
-        int index = MutationParser.indexOf(tokens, "BLOCK");
-
-        if (tokens.length == index + 1) {
-            throw new ParseMutationException("Block name missing [add block blockName]");
-        }
-
-        String _blockName = tokens[index + 1];
-
-        AddBlockMutation mutation = new AddBlockMutation(_blockName);
-
-        return mutation;
-    }
 }

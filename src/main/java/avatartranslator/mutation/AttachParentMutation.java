@@ -54,20 +54,34 @@ public class AttachParentMutation extends ParentMutation {
         super(parentBlock, childBlock);
     }
 
-    public void apply(AvatarSpecification _avspec) {
+    public void apply(AvatarSpecification _avspec) throws ApplyMutationException {
         AvatarBlock parentBlock = getParentBlock(_avspec);
+        if (parentBlock == null) {
+            throw new MissingBlockException("Parent Block", getParentBlock());
+        }
 
         AvatarBlock childBlock = getChildBlock(_avspec);
+        if (childBlock == null) {
+            throw new MissingBlockException("Child Block", getChildBlock());
+        }
 
         childBlock.setFather(parentBlock);
     }
 
-    public static AttachParentMutation createFromString(String toParse) {
+    public static AttachParentMutation createFromString(String toParse) throws ParseMutationException {
+
         String[] tokens = MutationParser.tokenise(toParse);
+
         int index = MutationParser.indexOf(tokens, "ATTACH");
+        if (index == -1 || index + 1 == tokens.length) {
+            throw new ParseMutationException("Missing child block's name [attach childBlockName]");
+        }
         String childBlock = tokens[index + 1];
 
         index = MutationParser.indexOf(tokens, "TO");
+        if (index == -1 || index + 1 == tokens.length) {
+            throw new ParseMutationException("Missing parent block's name [to parentBlockName]");
+        }
         String parentBlock = tokens[index + 1];
 
         AttachParentMutation mutation = new AttachParentMutation(parentBlock, childBlock);

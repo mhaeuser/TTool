@@ -49,8 +49,6 @@ import avatartranslator.*;
  */
 public class AddRelationMutation extends RelationMutation implements AddMutation {
 
-    private boolean isGraphic = false;
-
     public AddRelationMutation(String _block1, String _block2) {
         super(_block1, _block2);
     }
@@ -59,8 +57,7 @@ public class AddRelationMutation extends RelationMutation implements AddMutation
         super(_block1, _block2, _name);
     }
     
-    //todo : graphic
-    public AvatarRelation createElement(AvatarSpecification _avspec) {
+    public AvatarRelation createElement(AvatarSpecification _avspec) throws ApplyMutationException {
         AvatarRelation relation = new AvatarRelation(getName(), getBlock1(_avspec), getBlock2(_avspec), null);
 
         if (this.blockingSet()) relation.setBlocking(this.isBlocking());
@@ -82,17 +79,20 @@ public class AddRelationMutation extends RelationMutation implements AddMutation
         return relation;
     }
 
-    public void apply(AvatarSpecification _avspec) {
+    public void apply(AvatarSpecification _avspec) throws ApplyMutationException {
         AvatarRelation relation = createElement(_avspec);
         _avspec.addRelation(relation);
     }
 
-    public static AddRelationMutation createFromString(String toParse) {
+    public static AddRelationMutation createFromString(String toParse) throws ParseMutationException {
 
         AddRelationMutation mutation = null;
         String[] tokens = MutationParser.tokenise(toParse);
 
         int index = MutationParser.indexOf(tokens, "BETWEEN");
+        if (tokens.length <= index + 3) {
+            throw new ParseMutationException("block names", "between block1Name and block2Name");
+        }
         String _block1 = tokens[index + 1];
         String _block2 = tokens[index + 3];
 
@@ -146,7 +146,7 @@ public class AddRelationMutation extends RelationMutation implements AddMutation
         }
 
         index = MutationParser.indexOf(tokens, "MAXFIFO");
-        if (index != -1) {
+        if (index != -1 && tokens.length > index + 2) {
             mutation.setSizeOfFIFO(tokens[index + 2]);
         }
 

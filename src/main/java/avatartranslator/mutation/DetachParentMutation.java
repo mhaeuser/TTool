@@ -54,15 +54,21 @@ public class DetachParentMutation extends ParentMutation {
         super("", childBlock);
     }
 
-    public void apply(AvatarSpecification _avspec) {
+    public void apply(AvatarSpecification _avspec) throws ApplyMutationException {
 
         AvatarBlock childBlock = getChildBlock(_avspec);
+        if (childBlock == null) {
+            throw new MissingBlockException("Block", getChildBlock());
+        }
 
         childBlock.setFather(null);
     }
     
-    public static DetachParentMutation createFromString(String toParse) {
+    public static DetachParentMutation createFromString(String toParse) throws ParseMutationException {
         String[] tokens = MutationParser.tokenise(toParse);
+        if (tokens.length == 1) {
+            throw new ParseMutationException("Missing block's name [detach blockName]");
+        }
         String childBlock = tokens[1];
         DetachParentMutation mutation = new DetachParentMutation(childBlock);
         return mutation;

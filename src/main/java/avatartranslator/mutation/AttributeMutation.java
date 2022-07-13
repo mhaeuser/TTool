@@ -105,11 +105,11 @@ public abstract class AttributeMutation extends BlockElementMutation {
         return null;
     }
 
-    public AvatarAttribute getElement(AvatarSpecification _avspec) {
+    public AvatarAttribute getElement(AvatarSpecification _avspec) throws ApplyMutationException {
         return getAttribute(_avspec, getName());
     }
     
-    public static AttributeMutation createFromString(String toParse) {
+    public static AttributeMutation createFromString(String toParse) throws ParseMutationException {
         
         TraceManager.addDev("Attribute");
         switch (MutationParser.findMutationToken(toParse)) {

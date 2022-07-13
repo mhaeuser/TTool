@@ -102,16 +102,24 @@ public abstract class RelationMutation extends AvatarMutation implements Unnamed
         return block1;
     }
 
-    protected AvatarBlock getBlock1(AvatarSpecification _avspec) {
-        return getBlock(_avspec, getBlock1());
+    protected AvatarBlock getBlock1(AvatarSpecification _avspec) throws ApplyMutationException {
+        AvatarBlock block = getBlock(_avspec, getBlock1());
+        if (block == null) {
+            throw new MissingBlockException("block 1", getBlock1());
+        }
+        return block;
     }
 
     protected String getBlock2() {
         return block2;
     }
 
-    protected AvatarBlock getBlock2(AvatarSpecification _avspec) {
-        return getBlock(_avspec, getBlock2());
+    protected AvatarBlock getBlock2(AvatarSpecification _avspec) throws ApplyMutationException {
+        AvatarBlock block = getBlock(_avspec, getBlock2());
+        if (block == null) {
+            throw new MissingBlockException("block 2", getBlock2());
+        }
+        return block;
     }
 
     private void setBlocks(String _block1, String _block2) {
@@ -284,7 +292,7 @@ public abstract class RelationMutation extends AvatarMutation implements Unnamed
         return getElement(_avspec, getRelationStringType(), getName());
     }
 
-    public static RelationMutation createFromString(String toParse) {
+    public static RelationMutation createFromString(String toParse) throws ParseMutationException {
         switch (MutationParser.findMutationToken(toParse)) {
         case "ADD":
             return AddRelationMutation.createFromString(toParse);

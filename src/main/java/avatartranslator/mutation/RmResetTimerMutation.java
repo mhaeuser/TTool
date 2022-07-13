@@ -57,26 +57,38 @@ public class RmResetTimerMutation extends ResetTimerMutation implements RmMutati
         super(_blockName, _name, _nameType);
     }
 
-    public void apply(AvatarSpecification _avspec) {
+    public void apply(AvatarSpecification _avspec) throws ApplyMutationException {
         AvatarResetTimer elt = getElement(_avspec);
+        if (elt == null) {
+            throw new ApplyMutationException("no such reset timer in block " + getBlockName());
+        }
         AvatarStateMachine asm = getAvatarStateMachine(_avspec);
         asm.removeElement(elt);
     }
 
-    public static RmResetTimerMutation createFromString(String toParse) {
+    public static RmResetTimerMutation createFromString(String toParse) throws ParseMutationException {
         RmResetTimerMutation mutation = null;
         String[] tokens = MutationParser.tokenise(toParse);
 
         int index = MutationParser.indexOf(tokens, "IN");
+        if (tokens.length == index + 1 || index == -1) {
+            throw new ParseMutationException("block name", "in blockName");
+        }
         String _blockName = tokens[index + 1];
 
         index = MutationParser.indexOf(tokens, "TIMER");
-        if (MutationParser.isToken(tokens[index+1])) {
+        if (tokens.length == index + 1 || MutationParser.isToken(tokens[index+1])) {
             index = MutationParser.indexOf(tokens, "WITH");
+            if (tokens.length == index + 1 || index == -1) {
+                throw new ParseMutationException("timer name", "with timerName");
+            }
             String _timerName = tokens[index + 1];
             
             mutation = new RmResetTimerMutation(_blockName, _timerName);
         } else {
+            if (tokens.length == index + 1) {
+                throw new ParseMutationException("reset timer name", "reset timer resetTimerName");
+            }
             String _name = tokens[index + 1];
             int _nameType = MutationParser.UUIDType(_name);
             mutation = new RmResetTimerMutation(_blockName, _name, _nameType);

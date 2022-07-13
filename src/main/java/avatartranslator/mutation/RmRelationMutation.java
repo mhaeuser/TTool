@@ -59,18 +59,21 @@ public class RmRelationMutation extends RelationMutation implements RmMutation {
         super(_relationString, _relationType);
     }
 
-    public void apply(AvatarSpecification _avspec) {
+    public void apply(AvatarSpecification _avspec) throws ApplyMutationException {
         AvatarRelation relation = getElement(_avspec);
         List<AvatarRelation> relations = _avspec.getRelations();
         relations.remove(relation);
     }
 
-    public static RmRelationMutation createFromString(String toParse) {
+    public static RmRelationMutation createFromString(String toParse) throws ParseMutationException {
 
         RmRelationMutation mutation = null;
         String[] tokens = MutationParser.tokenise(toParse);
 
         int index = MutationParser.indexOf(tokens, "BETWEEN");
+        if (tokens.length <= index + 3) {
+            throw new ParseMutationException("block names", "between block1Name and block2Name");
+        }
         String _block1 = tokens[index + 1];
         String _block2 = tokens[index + 3];
 
@@ -132,7 +135,7 @@ public class RmRelationMutation extends RelationMutation implements RmMutation {
         }
 
         index = MutationParser.indexOf(tokens, "MAXFIFO");
-        if (index != -1) {
+        if (index != -1 && tokens.length > index + 2) {
             mutation.setSizeOfFIFO(tokens[index + 2]);
         }
         

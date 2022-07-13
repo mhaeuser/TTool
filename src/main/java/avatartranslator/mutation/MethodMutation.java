@@ -131,18 +131,29 @@ public abstract class MethodMutation extends BlockElementMutation {
         return implementationProvided;
     }
 
-    public AvatarMethod getElement(AvatarSpecification _avspec) {
+    public AvatarMethod getElement(AvatarSpecification _avspec) throws ApplyMutationException {
         return getMethod(_avspec, getMethodName());
     }
 
-    protected static List<String> parseReturnParameters(String toParse, String token) {
+    protected static List<String> parseReturnParameters(String toParse, String token) throws ParseMutationException {
+        ParseMutationException e = new ParseMutationException("method type(s)", token + " parameterType] or [" + token + " (parameterType, parameterType, ...)");
+        
+
         List<String> output = new LinkedList<>();
         String[] tokens =  MutationParser.tokenise(toParse);
 
         int index = MutationParser.indexOf(tokens, token);
         index++;
+
+        if(tokens.length == index) {
+            throw e;
+        }
+
         if (tokens[index].equals("(")) {
             int endIndex = MutationParser.indexOf(index, tokens, ")");
+            if (endIndex == -1) {
+                throw e;
+            }
             for (int i = index + 1; i < endIndex ; i += 2) {
                 output.add(tokens[i]);
             }
@@ -152,13 +163,13 @@ public abstract class MethodMutation extends BlockElementMutation {
         return output;
     }
 
-    protected static List<String[]> parseParameters(String toParse, int index) {
+    protected static List<String[]> parseParameters(String toParse, int index) throws ParseMutationException {
         List<String[]> output = new LinkedList<>();
+        if (toParse.indexOf('(') == -1) return output;
+
         String[] tokens =  MutationParser.tokenise(toParse);
 
         index = MutationParser.indexOf(index, tokens, "(");
-
-        if (toParse.indexOf('(') == -1) return output;
 
         int endIndex = MutationParser.indexOf(index, tokens, ")");
         
@@ -166,13 +177,10 @@ public abstract class MethodMutation extends BlockElementMutation {
             String[] tmp = {tokens[i], tokens[i+1]};
             output.add(tmp.clone());
         }
-
         return output;
     }
 
-
-
-    protected static List<String[]> parseParameters(String toParse, String token) {
+    protected static List<String[]> parseParameters(String toParse, String token) throws ParseMutationException {
         
         String[] tokens =  MutationParser.tokenise(toParse);
 
@@ -180,18 +188,35 @@ public abstract class MethodMutation extends BlockElementMutation {
         return parseParameters(toParse, index+1);
     }
 
-    protected static String parseMethodName(String toParse) {
+    protected static String parseMethodName(String toParse) throws ParseMutationException {
 
         String[] tokens =  MutationParser.tokenise(toParse);
 
         int index = MutationParser.indexOf(tokens, "METHOD");
-        index = MutationParser.indexOf(index+2, tokens, "(");
 
-        return tokens[index - 1];
+        if (tokens.length == index + 1) {
+            throw new ParseMutationException("method definition", "method methodDefinition");
+        }
+
+        String syntax;
+
+        if (tokens[index + 1].equals("(")) {
+            index = MutationParser.indexOf(index+1, tokens, ")");
+            syntax = "method (methodTypes) methodName";
+        } else {
+            index++;
+            syntax = "method methodType methodName";
+        }
+
+        if (tokens.length == index + 1) {
+            throw new ParseMutationException("method definition", syntax);
+        }
+
+        return tokens[index + 1];
 
     }
 
-    public static MethodMutation createFromString(String toParse) {
+    public static MethodMutation createFromString(String toParse) throws ParseMutationException {
         switch (MutationParser.findMutationToken(toParse)) {
             case "ADD":
                 return AddMethodMutation.createFromString(toParse);

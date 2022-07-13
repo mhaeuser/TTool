@@ -62,12 +62,15 @@ public abstract class ConnectionMutation extends RelationMutation {
     private String signal1;
     private String signal2;
 
-    protected AvatarSignal getSignal(AvatarSpecification _avspec, String _signal) {
+    protected AvatarSignal getSignal(AvatarSpecification _avspec, String _signal) throws ApplyMutationException {
         AvatarBlock block = getBlock1(_avspec);
         AvatarSignal signal = block.getSignalByName(_signal);
         if (signal == null) {
             block = getBlock2(_avspec);
             signal = block.getSignalByName(_signal);
+        }
+        if (signal == null) {
+            throw new ApplyMutationException("no signal named " + _signal + " in blocks " + getBlock1() + " and " + getBlock2());
         }
         return signal;
     }
@@ -76,7 +79,7 @@ public abstract class ConnectionMutation extends RelationMutation {
         return signal1;
     }
 
-    protected AvatarSignal getSignal1(AvatarSpecification _avspec) {
+    protected AvatarSignal getSignal1(AvatarSpecification _avspec) throws ApplyMutationException {
         return getSignal(_avspec, getSignal1());
     }
 
@@ -84,7 +87,7 @@ public abstract class ConnectionMutation extends RelationMutation {
         return signal2;
     }
 
-    protected AvatarSignal getSignal2(AvatarSpecification _avspec) {
+    protected AvatarSignal getSignal2(AvatarSpecification _avspec) throws ApplyMutationException {
         return getSignal(_avspec, getSignal2());
     }
 
@@ -93,7 +96,7 @@ public abstract class ConnectionMutation extends RelationMutation {
         signal2 = _signal2;
     }
 
-    public static ConnectionMutation createFromString(String toParse) {
+    public static ConnectionMutation createFromString(String toParse) throws ParseMutationException {
         switch (MutationParser.findMutationToken(toParse)) {
             case "ADD":
                 return AddConnectionMutation.createFromString(toParse);

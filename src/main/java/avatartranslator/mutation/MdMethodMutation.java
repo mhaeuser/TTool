@@ -42,7 +42,7 @@ import java.util.List;
 
 import avatartranslator.*;
 
-import myutil.TraceManager;
+//import myutil.TraceManager;
 
 /**
  * Class MdMethodMutation
@@ -96,19 +96,21 @@ public class MdMethodMutation extends MethodMutation implements MdMutation {
         super.setImplementationProvided(_imp);
     }
 
-    public void apply(AvatarSpecification _avspec) {
-        AvatarBlock block = getBlock(_avspec);
-        AvatarMethod am = getElement(_avspec);
+    public void apply(AvatarSpecification _avspec) throws ApplyMutationException {
 
+        AvatarBlock block = getBlock(_avspec);
+        if (block == null) {
+            throw new MissingBlockException(getBlockName());
+        }
+
+        AvatarMethod am = getElement(_avspec);
         if (am == null) {
-            TraceManager.addDev("Unknown Method");
-            return;
+            throw new ApplyMutationException("Method" + getMethodName() + "is not in block " + getBlockName());
         }
 
         List<AvatarMethod> meth = block.getMethods();
         if (!meth.contains(am)) {
-            TraceManager.addDev("Method is from a super-bloc");
-            return;
+            throw new ApplyMutationException("Method " + getMethodName() + " is in a super-bloc of " + getBlockName());
         }
 
         if (implementationChanged) {
@@ -132,14 +134,20 @@ public class MdMethodMutation extends MethodMutation implements MdMutation {
         }
     }
 
-    public static MdMethodMutation createFromString(String toParse) {
+    public static MdMethodMutation createFromString(String toParse) throws ParseMutationException {
 
         String[] tokens = MutationParser.tokenise(toParse);
 
         int index = MutationParser.indexOf(tokens, "METHOD");
+        if (tokens.length == index + 1) {
+            throw new ParseMutationException("method name", "method methodName");
+        }
         String _methodName = tokens[index + 1];
         
         index = MutationParser.indexOf(tokens, "IN");
+        if (tokens.length == index + 1 || index == -1) {
+            throw new ParseMutationException("block name", "in blockName");
+        }
         String _blockName = tokens[index + 1];
 
         MdMethodMutation mutation = new MdMethodMutation(_blockName, _methodName);

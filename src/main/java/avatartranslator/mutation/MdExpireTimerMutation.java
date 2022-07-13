@@ -61,28 +61,46 @@ public class MdExpireTimerMutation extends ExpireTimerMutation implements MdMuta
         newTimerName = _newTimerName;
     }
 
-    public void apply(AvatarSpecification _avspec) {
+    public void apply(AvatarSpecification _avspec) throws ApplyMutationException {
         AvatarExpireTimer elt = getElement(_avspec);
+        if (elt == null) {
+            throw new ApplyMutationException("no such expire timer in block " + getBlockName());
+        }
         AvatarAttribute newTimer = getAttribute(_avspec, newTimerName);
+        if (newTimer == null) {
+            throw new ApplyMutationException("No timer named " + newTimerName + " in block " + getBlockName());
+        }
         elt.setTimer(newTimer);
     }
 
-    public static MdExpireTimerMutation createFromString(String toParse) {
+    public static MdExpireTimerMutation createFromString(String toParse) throws ParseMutationException {
         MdExpireTimerMutation mutation = null;
         String[] tokens = MutationParser.tokenise(toParse);
 
         int index = MutationParser.indexOf(tokens, "IN");
+        if (tokens.length == index + 1 || index == -1) {
+            throw new ParseMutationException("block name", "in blockName");
+        }
         String _blockName = tokens[index + 1];
 
         index = MutationParser.indexOf(tokens, "TO");
+        if (tokens.length == index + 1 || index == -1) {
+            throw new ParseMutationException("new timer name", "to newTimerName at newInitialValue");
+        }
         String _newTimerName = tokens[index + 1];
 
         index = MutationParser.indexOf(tokens, "TIMER");
-        if (MutationParser.isToken(tokens[index+1])) {
+        if (tokens.length == index + 1 || MutationParser.isToken(tokens[index+1])) {
             index = MutationParser.indexOf(tokens, "WITH");
+            if (tokens.length == index + 1 || index == -1) {
+                throw new ParseMutationException("timer name", "with timerName");
+            }
             String _timerName = tokens[index + 1];
             mutation = new MdExpireTimerMutation(_blockName, _timerName, _newTimerName);
         } else {
+            if (tokens.length == index + 1) {
+                throw new ParseMutationException("expire timer name", "expire timer expireTimerName");
+            }
             String _name = tokens[index + 1];
             int _nameType = MutationParser.UUIDType(_name);
             mutation = new MdExpireTimerMutation(_blockName, _name, _nameType, _newTimerName);

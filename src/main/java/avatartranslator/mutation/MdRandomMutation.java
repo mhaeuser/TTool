@@ -39,7 +39,6 @@
 package avatartranslator.mutation;
 
 import avatartranslator.*;
-import myutil.TraceManager;
 
 /**
  * Class MdRandomMutation
@@ -85,20 +84,24 @@ public class MdRandomMutation extends RandomMutation implements MdMutation {
         current.setValues(_minValue, _maxValue);
     }
 
-    public void setCurrentFunction(String _functionId) {
-        current.setFunction(_functionId);
+    public void setCurrentFunction(String _law, String[] _extras) {
+        current.setFunction(_law, _extras);
     }
 
-    public void setCurrentFunction(String _functionId, String _extraAttribute) {
-        current.setFunction(_functionId, _extraAttribute);
+    public void setCurrentFunction(String _law) {
+        current.setFunction(_law);
     }
 
-    public void setCurrentFunction(String _functionId, String _extraAttribute1, String _extraAttribute2) {
-        current.setFunction(_functionId, _extraAttribute1, _extraAttribute2);
+    public void setCurrentFunction(String _law, String _extraAttribute) {
+        current.setFunction(_law, _extraAttribute);
+    }
+
+    public void setCurrentFunction(String _law, String _extraAttribute1, String _extraAttribute2) {
+        current.setFunction(_law, _extraAttribute1, _extraAttribute2);
     }
 
     @Override
-    public AvatarRandom getElement(AvatarSpecification _avspec) {
+    public AvatarRandom getElement(AvatarSpecification _avspec) throws ApplyMutationException {
         AvatarRandom random = null;
         try {
             random = current.getElement(_avspec);
@@ -108,12 +111,11 @@ public class MdRandomMutation extends RandomMutation implements MdMutation {
         return random;
     }
 
-    public void apply(AvatarSpecification _avspec) {
+    public void apply(AvatarSpecification _avspec) throws ApplyMutationException {
         AvatarRandom rand = current.getElement(_avspec);
 
         if(rand == null) {
-            TraceManager.addDev("Unknown random operator");
-            return;
+            throw new ApplyMutationException("no such random in block " + getBlockName());
         }
 
         if (attributeNameChange)
@@ -129,7 +131,7 @@ public class MdRandomMutation extends RandomMutation implements MdMutation {
         }
     }
 
-    public static MdRandomMutation createFromString(String toParse) {
+    public static MdRandomMutation createFromString(String toParse) throws ParseMutationException {
 
         MdRandomMutation mutation = null;
         String[] tokens = MutationParser.tokenise(toParse);
@@ -150,13 +152,23 @@ public class MdRandomMutation extends RandomMutation implements MdMutation {
         int _nameType = -1;
 
         int toIndex = MutationParser.indexOf(tokens, "TO");
+        if (toIndex == -1) {
+            throw new ParseMutationException("new options", "to newOptions");
+        }
 
         index = MutationParser.indexOf(tokens, "RANDOM");
+        if (tokens.length == index + 1) {
+            throw new ParseMutationException("random description", "random randomName] or [random with attributeName");
+        }
+
         if (MutationParser.isToken(tokens[index+1])) {
             index = MutationParser.indexOf(tokens, "WITH");
+            if (tokens.length == index + 1 || index == -1) {
+                throw new ParseMutationException("random description", "random randomName] or [random with attributeName");
+            }
             _attributeName = tokens[index + 1];
             index = MutationParser.indexOf(tokens, "(");
-            if (index < toIndex) {
+            if (index != -1 && index < toIndex) {
                 _currentValues = parseMinMax(tokens);
                 _currentLaw = parseLaw(tokens);
                 _currentExtras = parseExtras(tokens);
@@ -167,7 +179,7 @@ public class MdRandomMutation extends RandomMutation implements MdMutation {
         }
 
         index = toIndex;
-        if (!MutationParser.isToken(tokens[index + 1])) {
+        if (tokens.length > index + 1 && !MutationParser.isToken(tokens[index + 1])) {
             _newAttributeName = tokens[index + 1];
             if (_name == null) {
                 mutation = new MdRandomMutation(_blockName, _attributeName, _newAttributeName);
@@ -184,16 +196,7 @@ public class MdRandomMutation extends RandomMutation implements MdMutation {
 
         if (_currentValues != null) {
             mutation.setCurrentValues(_currentValues);
-        switch (_currentExtras.length) {
-            case 0:
-                mutation.setCurrentFunction(_currentLaw);
-                break;
-            case 1:
-                mutation.setCurrentFunction(_currentLaw, _currentExtras[0]);
-                break;
-            default:
-                mutation.setCurrentFunction(_currentLaw, _currentExtras[0], _currentExtras[1]);
-            }
+            mutation.setCurrentFunction(_currentLaw, _currentExtras);
         }
 
         index = MutationParser.indexOf(toIndex, tokens, "(");
@@ -202,16 +205,7 @@ public class MdRandomMutation extends RandomMutation implements MdMutation {
             _newLaw = parseLaw(tokens);
             _newExtras = parseExtras(tokens);
             mutation.setValues(_newValues);
-            switch (_newExtras.length) {
-                case 0:
-                    mutation.setFunction(_newLaw);
-                    break;
-                case 1:
-                    mutation.setFunction(_newLaw, _newExtras[0]);
-                    break;
-                default:
-                    mutation.setFunction(_newLaw, _newExtras[0], _newExtras[1]);
-            }
+            mutation.setFunction(_newLaw, _newExtras);
         }
 
         return mutation;

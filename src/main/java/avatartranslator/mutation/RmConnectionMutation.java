@@ -57,12 +57,15 @@ public class RmConnectionMutation extends ConnectionMutation implements RmMutati
         super(_relationString, _relationType, _signal1, _signal2);
     }
 
-    public void apply(AvatarSpecification _avspec) {
+    public void apply(AvatarSpecification _avspec) throws ApplyMutationException {
         AvatarRelation relation = getElement(_avspec);
+        if (relation == null) {
+            throw new ApplyMutationException("no such relation");
+        }
         relation.removeAssociation(getSignal1(_avspec), getSignal2(_avspec));
     }
 
-    public static RmConnectionMutation createFromString(String toParse) {
+    public static RmConnectionMutation createFromString(String toParse) throws ParseMutationException {
 
         RmConnectionMutation mutation = null;
         String[] tokens = MutationParser.tokenise(toParse);
@@ -72,20 +75,38 @@ public class RmConnectionMutation extends ConnectionMutation implements RmMutati
             String _relationString = tokens[index + 1];
             int _relationType = MutationParser.UUIDType(_relationString);
             index = MutationParser.indexOf(tokens, "FROM");
+            if (tokens.length == index + 1 || index == -1) {
+                throw new ParseMutationException("from output signal name", "from fromOutputSignalName");
+            }
             String _signal1 = tokens[index + 1];
             index = MutationParser.indexOf(tokens, "TO");
+            if (tokens.length == index + 1 || index == -1) {
+                throw new ParseMutationException("to input signal name", "to toInputSignalName");
+            }
             String _signal2 = tokens[index + 1];
             mutation = new RmConnectionMutation(_relationString, _relationType, _signal1, _signal2);
             return mutation;
         }
         
         index = MutationParser.indexOf(tokens, "FROM");
+        if (tokens.length == index + 1 || index == -1) {
+            throw new ParseMutationException("from output signal name", "from fromOutputSignalName in fromBlockName");
+        }
         String _signal1 = tokens[index + 1];
         index = MutationParser.indexOf(index, tokens, "IN");
+        if (tokens.length == index + 1 || index == -1) {
+            throw new ParseMutationException("from block name", "from fromOutputSignalName in fromBlockName");
+        }
         String _block1 = tokens[index + 1];
         index = MutationParser.indexOf(index, tokens, "TO");
+        if (tokens.length == index + 1 || index == -1) {
+            throw new ParseMutationException("to input signal name", "to toInputSignalName in toBlockName");
+        }
         String _signal2 = tokens[index + 1];
         index = MutationParser.indexOf(index, tokens, "IN");
+        if (tokens.length == index + 1 || index == -1) {
+            throw new ParseMutationException("to block name", "to toInputSignalName in toBlockName");
+        }
         String _block2 = tokens[index + 1];
 
         mutation = new RmConnectionMutation(_block1, _block2, _signal1, _signal2);
@@ -137,7 +158,7 @@ public class RmConnectionMutation extends ConnectionMutation implements RmMutati
         }
 
         index = MutationParser.indexOf(tokens, "MAXFIFO");
-        if (index != -1) {
+        if (index != -1 && tokens.length > index + 2) {
             mutation.setSizeOfFIFO(tokens[index + 2]);
         }
 

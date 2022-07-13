@@ -59,25 +59,35 @@ public class RmTransitionMutation extends TransitionMutation implements RmMutati
         super(_blockName, _transitionString, _transitionType);
     }
 
-    public void apply(AvatarSpecification _avspec) {
+    public void apply(AvatarSpecification _avspec) throws ApplyMutationException {
         AvatarTransition trans = getElement(_avspec);
+        if (trans == null) {
+            throw new ApplyMutationException("no such transition in block " + getBlockName());
+        }
         AvatarStateMachine asm = getAvatarStateMachine(_avspec);
         AvatarStateMachineElement fromElement = getFromElement(_avspec);
-        //TraceManager.addDev(fromElement.toString());
-        //TraceManager.addDev(String.valueOf(trans == null));
+        if (fromElement == null) {
+            throw new ApplyMutationException("From element " + getFrom() + " doesn't exist in block " + getBlockName());
+        }
 
         fromElement.removeNext(trans);
         asm.removeElement(trans);
     }
 
-    public static RmTransitionMutation createFromString(String toParse) {
+    public static RmTransitionMutation createFromString(String toParse) throws ParseMutationException {
         
         String[] tokens = MutationParser.tokenise(toParse);
 
         int index = MutationParser.indexOf(tokens, "IN");
+        if (tokens.length == index + 1 || index == -1) {
+            throw new ParseMutationException("block name", "in blockName");
+        }
         String _blockName = tokens[index + 1];
         
         int index0 = MutationParser.indexOf(tokens, "TRANSITION");
+        if (tokens.length == index0 + 1) {
+            throw new ParseMutationException("transition description", "transition transitionDescription");
+        }
 
         if (!MutationParser.isToken(tokens[index0 + 1])) {
             String _transitionString = tokens[index0 + 1];
@@ -86,10 +96,16 @@ public class RmTransitionMutation extends TransitionMutation implements RmMutati
         }
 
         index = MutationParser.indexOf(index, tokens, "FROM");
+        if (tokens.length == index + 1 || index == -1) {
+            throw new ParseMutationException("from element name", "from fromElementName");
+        }
         String _fromString = tokens[index + 1];
         int _fromType = MutationParser.UUIDType(_fromString);
 
         index = MutationParser.indexOf(tokens, "TO");
+        if (tokens.length == index + 1 || index == -1) {
+            throw new ParseMutationException("to element name", "to toElementName");
+        }
         String _toString = tokens[index + 1];
         int _toType = MutationParser.UUIDType(_toString);
 
@@ -107,16 +123,7 @@ public class RmTransitionMutation extends TransitionMutation implements RmMutati
             String _law = parseLaw(toParse);
             String[] _extras = parseExtras(toParse);
 
-            switch (_extras.length) {
-                case 0:
-                    mutation.setDelayDistributionLaw(_law);
-                    break;
-                case 1:
-                    mutation.setDelayDistributionLaw(_law, _extras[0]);
-                    break;
-                default:
-                    mutation.setDelayDistributionLaw(_law, _extras[0], _extras[1]);
-            }
+            mutation.setDelayDistributionLaw(_law, _extras);
         }
 
         if (toParse.contains("\"")) {

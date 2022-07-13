@@ -73,7 +73,7 @@ public class AddActionMutation extends ActionMutation implements AddMutation {
         return null;
     }
 
-    public void apply(AvatarSpecification _avspec) {
+    public void apply(AvatarSpecification _avspec) throws ApplyMutationException {
         AvatarAction action = createAction(_avspec);
         AvatarTransition transition = getElement(_avspec);
         if(getIndex() == -1) {
@@ -84,7 +84,7 @@ public class AddActionMutation extends ActionMutation implements AddMutation {
         actions.add(getIndex(), action);
     }
 
-    public static AddActionMutation createFromString(String toParse) {
+    public static AddActionMutation createFromString(String toParse) throws ParseMutationException {
 
         AddActionMutation mutation = null;
         String[] tokens = MutationParser.tokenise(toParse);
@@ -103,24 +103,34 @@ public class AddActionMutation extends ActionMutation implements AddMutation {
         String _actionString = parseAction(toParse);
 
         int index = MutationParser.indexOf(tokens, "IN");
+        if (tokens.length == index + 1 || index == -1) {
+            throw new ParseMutationException("block name", "in blockName");
+        }
         String _blockName = tokens[index + 1];
 
 
         index = MutationParser.indexOf(tokens, "FROM");
-        if (index != -1) {
+        if (index != -1 && tokens.length > index + 1) {
             _fromString = tokens[index + 1];
             _fromType = MutationParser.UUIDType(_fromString);
+
             index = MutationParser.indexOf(tokens, "TO");
+            if (index == -1 || tokens.length == index+1) {
+                throw new ParseMutationException("to element name", "to toElementName");
+            }
             _toString = tokens[index + 1];
             _toType = MutationParser.UUIDType(_toString);
         } else {
             index = MutationParser.indexOf(tokens, "TRANSITION");
+            if (tokens.length == index + 1) {
+                throw new ParseMutationException("transition description", "transition transitionName] or [from fromElement to toElement");
+            }
             _transitionString = tokens[index + 1];
             _transitionType = MutationParser.UUIDType(_transitionString);
         }
 
         index = MutationParser.indexOf(tokens, "AT");
-        if (index != -1) {
+        if (index != -1 && tokens.length > index + 1) {
             _index = Integer.parseInt(tokens[index + 1]);
         }
 

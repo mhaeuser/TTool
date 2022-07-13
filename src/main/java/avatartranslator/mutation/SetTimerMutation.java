@@ -77,7 +77,7 @@ public abstract class SetTimerMutation extends TimerOperatorMutation {
     }
 
     @Override
-    public AvatarSetTimer getElement(AvatarSpecification _avspec) {
+    public AvatarSetTimer getElement(AvatarSpecification _avspec) throws ApplyMutationException {
         if (isNameSet())
             return (AvatarSetTimer)super.getElement(_avspec);
         AvatarStateMachine asm = getAvatarStateMachine(_avspec);
@@ -93,7 +93,7 @@ public abstract class SetTimerMutation extends TimerOperatorMutation {
         return null;
     }
 
-    public static SetTimerMutation createFromString(String toParse) {
+    public static SetTimerMutation createFromString(String toParse) throws ParseMutationException {
         switch (MutationParser.findMutationToken(toParse)) {
         case "ADD":
             return AddSetTimerMutation.createFromString(toParse);

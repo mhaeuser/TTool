@@ -54,8 +54,12 @@ public abstract class StateMachineElementMutation extends BlockElementMutation {
         super(_blockName);
     }
 
-    protected AvatarStateMachine getAvatarStateMachine(AvatarSpecification _avspec) {
+    protected AvatarStateMachine getAvatarStateMachine(AvatarSpecification _avspec) throws ApplyMutationException {
         AvatarBlock block = getBlock(_avspec);
+        if (block == null) {
+            throw new MissingBlockException(getBlockName());
+        }
+
         return block.getStateMachine();
     }
 }

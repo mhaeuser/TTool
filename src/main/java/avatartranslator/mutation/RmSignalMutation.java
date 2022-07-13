@@ -41,7 +41,7 @@ package avatartranslator.mutation;
 import avatartranslator.*;
 import java.util.List;
 
-import myutil.TraceManager;
+//import myutil.TraceManager;
 
 /**
  * Class RmSignalMutation
@@ -56,27 +56,38 @@ public class RmSignalMutation extends SignalMutation implements RmMutation {
         super(_blockName, _signalName);
     }
 
-    public void apply(AvatarSpecification _avspec) {
+    public void apply(AvatarSpecification _avspec) throws ApplyMutationException {
+
         AvatarBlock block = getBlock(_avspec);
+        if (block == null) {
+            throw new MissingBlockException(getBlockName());
+        }
+
         List<AvatarSignal> sign = block.getSignals();
         AvatarSignal as = getElement(_avspec);
         if (as == null) {
-            TraceManager.addDev("Unknown Signal");
-            return;
+            throw new ApplyMutationException("Signal" + getSignalName() + "is not in block " + getBlockName());
         }
-        if (!sign.remove(as)) TraceManager.addDev("Signal is from a super-bloc");
+        if (!sign.remove(as)) 
+            throw new ApplyMutationException("Signal " + getSignalName() + " is in a super-bloc of " + getBlockName());
     }
 
-    public static RmSignalMutation createFromString(String toParse) {
+    public static RmSignalMutation createFromString(String toParse) throws ParseMutationException {
         String[] tokens = MutationParser.tokenise(toParse);
-        int index = MutationParser.indexOf(tokens, "SIGNAL");
 
-        String _methodName = tokens[index + 1];
+        int index = MutationParser.indexOf(tokens, "SIGNAL");
+        if (tokens.length == index + 1) {
+            throw new ParseMutationException("signal name", "signal signalName");
+        }
+        String _signalName = tokens[index + 1];
         
         index = MutationParser.indexOf(tokens, "IN");
+        if (tokens.length == index + 1 || index == -1) {
+            throw new ParseMutationException("block name", "in blockName");
+        }
         String _blockName = tokens[index + 1];
         
-        RmSignalMutation mutation = new RmSignalMutation(_blockName, _methodName);
+        RmSignalMutation mutation = new RmSignalMutation(_blockName, _signalName);
         return mutation;
     }
 

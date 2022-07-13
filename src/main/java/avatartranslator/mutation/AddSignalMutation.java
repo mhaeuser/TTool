@@ -55,8 +55,19 @@ public class AddSignalMutation extends SignalMutation implements AddMutation {
         super(_blockName, _signalName, _inout);
     }
     
-    public AvatarSignal createElement(AvatarSpecification _avspec) {
+    public AvatarSignal createElement(AvatarSpecification _avspec) throws ApplyMutationException {
+
         AvatarBlock block = getBlock(_avspec);
+        if (block == null) {
+            throw new MissingBlockException(getBlockName());
+        }
+
+        for (AvatarSignal as : block.getSignals()) {
+            if (as.getName().equals(this.getSignalName())) {
+                throw new ApplyMutationException("Signal " + getSignalName() + " already exists in block " + getBlockName());
+            }
+        }
+
         AvatarSignal as = new AvatarSignal(getSignalName(), getInOut(), null);
         for (String[] s : getParameters()) {
             AvatarAttribute aa = new AvatarAttribute(s[1], AvatarType.getType(s[0]), block, null);
@@ -65,13 +76,13 @@ public class AddSignalMutation extends SignalMutation implements AddMutation {
         return as;
     }
 
-    public void apply(AvatarSpecification _avspec) {
+    public void apply(AvatarSpecification _avspec) throws ApplyMutationException {
         AvatarSignal as = createElement(_avspec);
         AvatarBlock block = getBlock(_avspec);
         block.addSignal(as);
     }
 
-    public static AddSignalMutation createFromString(String toParse) {
+    public static AddSignalMutation createFromString(String toParse) throws ParseMutationException {
 
         String[] tokens = MutationParser.tokenise(toParse);
 
@@ -91,11 +102,17 @@ public class AddSignalMutation extends SignalMutation implements AddMutation {
         }
 
         int index = MutationParser.indexOf(tokens, "SIGNAL");
+        if (tokens.length == index + 1) {
+            throw new ParseMutationException("signal name", "signal signalName");
+        }
         String _signalName = tokens[index + 1];
         
         List<String[]> _parameters = parseParameters(toParse, "SIGNAL");
 
         index = MutationParser.indexOf(tokens, "IN");
+        if (tokens.length == index + 1 || index == -1) {
+            throw new ParseMutationException("block name", "in blockName");
+        }
         String _blockName = tokens[index + 1];
 
         AddSignalMutation mutation = new AddSignalMutation(_blockName, _signalName, _inout);

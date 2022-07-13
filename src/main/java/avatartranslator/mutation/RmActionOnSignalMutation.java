@@ -39,7 +39,6 @@
 package avatartranslator.mutation;
 
 import avatartranslator.*;
-import myutil.TraceManager;
 
 /**
  * Class MdRandomMutation
@@ -60,27 +59,28 @@ public class RmActionOnSignalMutation extends ActionOnSignalMutation implements 
         super(_blockName, _name, _nameType);
     }
 
-    @Override
-    public void apply(AvatarSpecification _avspec) {
+    public void apply(AvatarSpecification _avspec) throws ApplyMutationException {
         AvatarStateMachine asm = getAvatarStateMachine(_avspec);
         AvatarActionOnSignal aaos = getElement(_avspec);
         if (aaos == null) {
-            TraceManager.addDev("unknown ActionOnSignal");
-            return;
+            throw new ApplyMutationException("no such action on signal in block " + getBlockName());
         }
         asm.removeElement(aaos);
     }
 
-    public static RmActionOnSignalMutation createFromString(String toParse) {
+    public static RmActionOnSignalMutation createFromString(String toParse) throws ParseMutationException {
 
         RmActionOnSignalMutation mutation = null;
         String[] tokens = MutationParser.tokenise(toParse);
 
         int index = MutationParser.indexOf(tokens, "IN");
+        if (tokens.length == index + 1 || index == -1) {
+            throw new ParseMutationException("block name", "in blockName");
+        }
         String _blockName = tokens[index + 1];
 
         index = MutationParser.indexOf(tokens, "SIGNAL");
-        if (!MutationParser.isToken(tokens[index+1])) {
+        if (tokens.length > index + 1 && !MutationParser.isToken(tokens[index+1])) {
             String _name = tokens[index + 1];
             int _nameType = MutationParser.UUIDType(_name);
             mutation = new RmActionOnSignalMutation(_blockName, _name, _nameType);
@@ -88,6 +88,9 @@ public class RmActionOnSignalMutation extends ActionOnSignalMutation implements 
         }
 
         index = MutationParser.indexOf(tokens, "WITH");
+        if (tokens.length == index + 1 || index == -1) {
+            throw new ParseMutationException("signal name", "with signalName");
+        }
         String _signalName = tokens[index + 1];
 
         mutation = new RmActionOnSignalMutation(_blockName, _signalName);

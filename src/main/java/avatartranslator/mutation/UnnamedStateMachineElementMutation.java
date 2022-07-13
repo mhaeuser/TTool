@@ -93,7 +93,7 @@ public abstract class UnnamedStateMachineElementMutation extends StateMachineEle
         nameType = _nameType;
     }
 
-    private AvatarStateMachineElement getElementFromName(AvatarSpecification _avspec, String _name) {
+    private AvatarStateMachineElement getElementFromName(AvatarSpecification _avspec, String _name) throws ApplyMutationException {
         AvatarStateMachine asm = getAvatarStateMachine(_avspec);
         List<AvatarStateMachineElement> elts = asm.getListOfElements();
         for (AvatarStateMachineElement elt : elts) {
@@ -103,7 +103,7 @@ public abstract class UnnamedStateMachineElementMutation extends StateMachineEle
         return null;
     }
 
-    private AvatarStateMachineElement getElementFromUUID(AvatarSpecification _avspec, String _uuid) {
+    private AvatarStateMachineElement getElementFromUUID(AvatarSpecification _avspec, String _uuid) throws ApplyMutationException {
         AvatarStateMachine asm = getAvatarStateMachine(_avspec);
         List<AvatarStateMachineElement> elts = asm.getListOfElements();
         for (AvatarStateMachineElement elt : elts) {
@@ -116,13 +116,13 @@ public abstract class UnnamedStateMachineElementMutation extends StateMachineEle
         return null;
     }
 
-    public AvatarStateMachineElement getElement(AvatarSpecification _avspec, int _type, String _name) {
+    public AvatarStateMachineElement getElement(AvatarSpecification _avspec, int _type, String _name) throws ApplyMutationException {
         if (_type == NAME_TYPE) return getElementFromName(_avspec, _name);
         if (_type == UUID_TYPE) return getElementFromUUID(_avspec, _name);
         return null;
     }
 
-    public AvatarStateMachineElement getElement(AvatarSpecification _avspec) {
+    public AvatarStateMachineElement getElement(AvatarSpecification _avspec) throws ApplyMutationException {
         return getElement(_avspec, getNameType(), getName());
     }
 

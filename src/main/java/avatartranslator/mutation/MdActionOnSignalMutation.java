@@ -39,7 +39,6 @@
 package avatartranslator.mutation;
 
 import avatartranslator.*;
-import myutil.TraceManager;
 
 /**
  * Class MdActionOnSignalMutation
@@ -89,17 +88,18 @@ public class MdActionOnSignalMutation extends ActionOnSignalMutation implements 
         current.setCheckLatency(b);
     }
 
-    @Override
-    public void apply(AvatarSpecification _avspec) {
+    public void apply(AvatarSpecification _avspec) throws ApplyMutationException {
         AvatarActionOnSignal aaos = current.getElement(_avspec);
 
         if(aaos == null) {
-            TraceManager.addDev("unknown ActionOnSignal");
-            return;
+            throw new ApplyMutationException("no such action on signal in block " + getBlockName());
         }
 
         if(signalNameChanged) {
             AvatarSignal signal = getSignal(_avspec, this.getSignalName());
+            if (signal == null) {
+                throw new ApplyMutationException("no signal named " + getSignalName() + " in block " + getBlockName());
+            }
             aaos.setSignal(signal);
         }
 
@@ -113,12 +113,15 @@ public class MdActionOnSignalMutation extends ActionOnSignalMutation implements 
         }
     }
 
-    public static MdActionOnSignalMutation createFromString(String toParse) {
+    public static MdActionOnSignalMutation createFromString(String toParse) throws ParseMutationException {
 
         MdActionOnSignalMutation mutation = null;
         String[] tokens = MutationParser.tokenise(toParse);
 
         int index = MutationParser.indexOf(tokens, "IN");
+        if (tokens.length == index + 1 || index == -1) {
+            throw new ParseMutationException("block name", "in blockName");
+        }
         String _blockName = tokens[index + 1];
 
         String _name = null;
@@ -131,7 +134,7 @@ public class MdActionOnSignalMutation extends ActionOnSignalMutation implements 
         String[] _values = null;
 
         index = MutationParser.indexOf(tokens, "SIGNAL");
-        if (!MutationParser.isToken(tokens[index + 1])) {
+        if (tokens.length > index + 1 && !MutationParser.isToken(tokens[index + 1])) {
             _name = tokens[index + 1];
             _nameType = MutationParser.UUIDType(_name);
         } else {
@@ -140,7 +143,7 @@ public class MdActionOnSignalMutation extends ActionOnSignalMutation implements 
         }
 
         index = MutationParser.indexOf(tokens, "TO");
-        if (!MutationParser.isToken(tokens[index + 1])) {
+        if (tokens.length > index + 1 && !MutationParser.isToken(tokens[index + 1])) {
             _newSignalName = tokens[index + 1];
             _values = parseValues(toParse);
 
@@ -159,7 +162,7 @@ public class MdActionOnSignalMutation extends ActionOnSignalMutation implements 
         }
 
         int index0 = MutationParser.indexOf(tokens, "CHECK");
-        if (index0 != -1) {
+        if (tokens.length > index + 1 && index0 != -1) {
             if (index0 < index) {
                 if (tokens[index0 - 1].toUpperCase().equals("NO")) {
                     mutation.setCurrentCheckLatency(false);

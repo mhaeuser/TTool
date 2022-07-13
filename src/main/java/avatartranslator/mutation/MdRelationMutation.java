@@ -98,8 +98,12 @@ public class MdRelationMutation extends RelationMutation implements MdMutation {
         current.setId(_id);
     }
 
-    public void apply(AvatarSpecification _avspec) {
+    public void apply(AvatarSpecification _avspec) throws ApplyMutationException {
         AvatarRelation relation = current.getElement(_avspec);
+
+        if (relation == null) {
+            throw new ApplyMutationException("no such relation");
+        }
 
         if (this.blockingSet()) relation.setBlocking(this.isBlocking());
 
@@ -118,12 +122,15 @@ public class MdRelationMutation extends RelationMutation implements MdMutation {
         if (this.idSet()) relation.setId(this.getId());
     }
 
-    public static MdRelationMutation createFromString(String toParse) {
+    public static MdRelationMutation createFromString(String toParse) throws ParseMutationException {
 
         MdRelationMutation mutation = null;
         String[] tokens = MutationParser.tokenise(toParse);
 
         int index = MutationParser.indexOf(tokens, "BETWEEN");
+        if (tokens.length <= index + 3) {
+            throw new ParseMutationException("block names", "between block1Name and block2Name");
+        }
         String _block1 = tokens[index + 1];
         String _block2 = tokens[index + 3];
 
@@ -138,6 +145,9 @@ public class MdRelationMutation extends RelationMutation implements MdMutation {
         }
 
         int toIndex = MutationParser.indexOf(tokens, "TO");
+        if (toIndex == -1) {
+            throw new ParseMutationException("new relation options", "to newRelationOptions");
+        }
         boolean b;
 
         index = MutationParser.indexOf(tokens, "PUBLIC");
@@ -282,14 +292,17 @@ public class MdRelationMutation extends RelationMutation implements MdMutation {
         }
 
         index = MutationParser.indexOf(tokens, "MAXFIFO");
-        if (index != -1) {
+        if (index != -1 && tokens.length > index + 2) {
             if (index < toIndex) {
                 mutation.setCurrentSizeOfFIFO(tokens[index + 2]);
                 index = MutationParser.indexOf(index, tokens, "MAXFIFO");
-                if (index != -1) {
+                if (index != -1 && tokens.length > index + 2) {
                     mutation.setSizeOfFIFO(tokens[index + 2]);
                 }
             } else {
+                if (tokens.length <= index + 2) {
+                    throw new ParseMutationException("max FIFO size", "maxFIFO = maxFIFOSize");
+                }
                 mutation.setSizeOfFIFO(tokens[index + 2]);
             }
         }

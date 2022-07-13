@@ -41,7 +41,7 @@
 import avatartranslator.*;
 import java.util.List;
 
-import myutil.TraceManager;
+//import myutil.TraceManager;
 
 /**
  * Class RmAttributeMutation
@@ -56,24 +56,33 @@ public class RmAttributeMutation extends AttributeMutation implements RmMutation
         super(_blockName, _attributeName);
     }
 
-    public void apply(AvatarSpecification _avspec) {
+    public void apply(AvatarSpecification _avspec) throws ApplyMutationException {
         AvatarBlock block = getBlock(_avspec);
+        if (block == null) {
+            throw new MissingBlockException(getBlockName());
+        }
+
         List<AvatarAttribute> attr = block.getAttributes();
         AvatarAttribute aa = getElement(_avspec);
         if (aa == null) {
-            TraceManager.addDev("Unknown Attribute");
-            return;
+            throw new ApplyMutationException("Attribute" + getName() + "is not in block " + getBlockName());
         }
-        if (!attr.remove(aa)) TraceManager.addDev("Attribute is from a super-bloc");
+        if (!attr.remove(aa)) throw new ApplyMutationException("Attribute " + getName() + " is in a super-bloc of " + getBlockName());
     }
 
-    public static RmAttributeMutation createFromString(String toParse) {
+    public static RmAttributeMutation createFromString(String toParse) throws ParseMutationException {
         String[] tokens = MutationParser.tokenise(toParse);
-        int index = MutationParser.indexOf(tokens, "ATTRIBUTE");
 
+        int index = MutationParser.indexOf(tokens, "ATTRIBUTE");
+        if (tokens.length == index + 1) {
+            throw new ParseMutationException("attribute name", "rm attribute attributeName");
+        }
         String _attributeName = tokens[index + 1];
         
         index = MutationParser.indexOf(tokens, "IN");
+        if (tokens.length == index + 1 || index == -1) {
+            throw new ParseMutationException("block name", "in blockName");
+        }
         String _blockName = tokens[index + 1];
         
         RmAttributeMutation mutation = new RmAttributeMutation(_blockName, _attributeName);

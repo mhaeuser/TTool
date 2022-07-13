@@ -77,11 +77,11 @@ public abstract class SignalMutation extends MethodMutation {
     }
 
     @Override
-    public AvatarSignal getElement(AvatarSpecification _avspec) {
+    public AvatarSignal getElement(AvatarSpecification _avspec) throws ApplyMutationException {
         return getSignal(_avspec, getMethodName());
     }
 
-    public static SignalMutation createFromString(String toParse) {
+    public static SignalMutation createFromString(String toParse) throws ParseMutationException {
         switch (MutationParser.findMutationToken(toParse)) {
             case "ADD":
                 return AddSignalMutation.createFromString(toParse);

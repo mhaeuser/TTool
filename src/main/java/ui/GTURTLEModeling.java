@@ -9007,7 +9007,10 @@ public class GTURTLEModeling {
             if (asme.getNexts() != null) {
                 for (AvatarStateMachineElement el : asme.getNexts()) {
                     if (!(el instanceof AvatarTransition)) {
-
+                        if ((asme.getReferenceObject() != null) && (asme.getReferenceObject() instanceof  CDElement)) {
+                            CDElement cd = (CDElement)asme.getReferenceObject();
+                            tgcomp.setCd(cd.getX(), cd.getY());
+                        }
                     }
                 }
             }

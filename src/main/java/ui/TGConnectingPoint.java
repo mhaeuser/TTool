@@ -208,6 +208,12 @@ public class TGConnectingPoint extends AbstractCDElement /*implements CDElement*
         this.x = x;
         this.y = y;
     }
+
+    @Override
+    public void setUserResize(int desired_x, int desired_y, int desired_width, int desired_height) {
+        setCd(desired_x, desired_y);
+    }
+
     @Override
     public int getX() {
         if (container != null) {

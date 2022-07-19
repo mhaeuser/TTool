@@ -9160,8 +9160,14 @@ public class GTURTLEModeling {
                 if (blockLevelMap.get(ab) == level) {
                     if (level == 0) {
                         AvatarBDBlock bl = new AvatarBDBlock(xpos, ypos, abd.getMinX(), abd.getMaxX(), abd.getMinY(), abd.getMaxY(), false, null, abd);
-                        abd.addComponent(bl, xpos, ypos, false, true);
-                        bl.resize(100 * blockSizeMap.get(ab) + 100, 100 + (maxLevel - level) * 50);
+                        if ((ab.getReferenceObject() != null) && (ab.getReferenceObject() instanceof CDElement)) {
+                            CDElement cd = (CDElement) ab.getReferenceObject();
+                            bl.setUserResize(cd.getX(), cd.getY(), cd.getWidth(), cd.getHeight());
+                            abd.addComponent(bl, cd.getX(), cd.getY(), false, true);
+                        } else {
+                            abd.addComponent(bl, xpos, ypos, false, true);
+                            bl.resize(100 * blockSizeMap.get(ab) + 100, 100 + (maxLevel - level) * 50);
+                        }
                         drawBlockProperties(ab, bl);
                         AvatarSMDPanel smp = adp.getAvatarSMDPanel(bl.getValue());
                         buildStateMachine(ab, bl, smp);
@@ -9176,7 +9182,16 @@ public class GTURTLEModeling {
                             //
                             continue;
                         }
-                        AvatarBDBlock bl = new AvatarBDBlock(father.getX() + blockIncMap.get(ab.getFather()), father.getY() + 10, abd.getMinX(), abd.getMaxX(), abd.getMinY(), abd.getMaxY(), false, father, abd);
+                        AvatarBDBlock bl = new AvatarBDBlock(father.getX() + blockIncMap.get(ab.getFather()), father.getY() + 10,
+                                abd.getMinX(), abd.getMaxX(), abd.getMinY(), abd.getMaxY(), false, father, abd);
+                        if ((ab.getReferenceObject() != null) && (ab.getReferenceObject() instanceof CDElement)) {
+                            CDElement cd = (CDElement) ab.getReferenceObject();
+                            bl.setUserResize(cd.getX(), cd.getY(), cd.getWidth(), cd.getHeight());
+                            abd.addComponent(bl, cd.getX(), cd.getY(), false, true);
+                        } else {
+                            abd.addComponent(bl, xpos, ypos, false, true);
+                            bl.resize(100 * blockSizeMap.get(ab) + 100, 100 + (maxLevel - level) * 50);
+                        }
                         abd.addComponent(bl, father.getX() + blockIncMap.get(ab.getFather()), father.getY() + 10, false, true);
                         int size = 100;
                         if (blockSizeMap.containsKey(ab)) {

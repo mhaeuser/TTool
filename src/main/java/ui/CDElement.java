@@ -50,6 +50,7 @@ public interface CDElement {
 	int getWidth();
 	int getHeight();
 	String getName();
+	void setUserResize(int desired_x, int desired_y, int desired_width, int desired_height);
 
 	// Issue #69
 	void acceptForward( ICDElementVisitor visitor );

@@ -40,6 +40,7 @@ package avatartranslator.mutation;
 
 import avatartranslator.*;
 //import myutil.TraceManager;
+import myutil.TraceManager;
 
 /**
  * Class RmTransitionMutation
@@ -58,16 +59,90 @@ public class RmTransitionMutation extends TransitionMutation implements RmMutati
         super(_blockName, _transitionString, _transitionType);
     }
 
-    public void apply(AvatarSpecification _avspec) {
+    public void apply(AvatarSpecification _avspec) throws ApplyMutationException {
         AvatarTransition trans = getElement(_avspec);
+        if (trans == null) {
+            throw new ApplyMutationException("no such transition in block " + getBlockName());
+        }
         AvatarStateMachine asm = getAvatarStateMachine(_avspec);
         AvatarStateMachineElement fromElement = getFromElement(_avspec);
-        //TraceManager.addDev(fromElement.toString());
-        //TraceManager.addDev(String.valueOf(trans == null));
+        if (fromElement == null) {
+            throw new ApplyMutationException("From element " + getFrom() + " doesn't exist in block " + getBlockName());
+        }
 
         fromElement.removeNext(trans);
         asm.removeElement(trans);
-
     }
 
+    public static RmTransitionMutation createFromString(String toParse) throws ParseMutationException {
+        
+        String[] tokens = MutationParser.tokenise(toParse);
+
+        int index = MutationParser.indexOf(tokens, "IN");
+        if (tokens.length == index + 1 || index == -1) {
+            throw new ParseMutationException("block name", "in blockName");
+        }
+        String _blockName = tokens[index + 1];
+        
+        int index0 = MutationParser.indexOf(tokens, "TRANSITION");
+        if (tokens.length == index0 + 1) {
+            throw new ParseMutationException("transition description", "transition transitionDescription");
+        }
+
+        if (!MutationParser.isToken(tokens[index0 + 1])) {
+            String _transitionString = tokens[index0 + 1];
+            int _transitionType = MutationParser.UUIDType(_transitionString);
+            return new RmTransitionMutation(_blockName, _transitionString, _transitionType);
+        }
+
+        index = MutationParser.indexOf(index, tokens, "FROM");
+        if (tokens.length == index + 1 || index == -1) {
+            throw new ParseMutationException("from element name", "from fromElementName");
+        }
+        String _fromString = tokens[index + 1];
+        int _fromType = MutationParser.UUIDType(_fromString);
+
+        index = MutationParser.indexOf(tokens, "TO");
+        if (tokens.length == index + 1 || index == -1) {
+            throw new ParseMutationException("to element name", "to toElementName");
+        }
+        String _toString = tokens[index + 1];
+        int _toType = MutationParser.UUIDType(_toString);
+
+        RmTransitionMutation mutation = new RmTransitionMutation(_blockName, _fromString, _fromType, _toString, _toType);
+
+        if (toParse.contains("[")) {
+            String _guard = parseGuard(toParse);
+            mutation.setGuard(_guard);
+        }
+
+        if (MutationParser.isTokenIn(tokens, "AFTER")) {
+            String[] _minMaxDelay = parseMinMax(toParse);
+            mutation.setDelays(_minMaxDelay);
+
+            String _law = parseLaw(toParse);
+            String[] _extras = parseExtras(toParse);
+
+            mutation.setDelayDistributionLaw(_law, _extras);
+        }
+
+        if (toParse.contains("\"")) {
+            String[] _actions = parseActions(toParse);
+
+            mutation.setActions(_actions);
+        }
+
+        if (MutationParser.isTokenIn(tokens, "PROBABILITY")) {
+            TraceManager.addDev("setCurrentProbability");
+            String _probability = parseProbability(toParse);
+            mutation.setProbability(_probability);
+        }
+
+        if (MutationParser.isTokenIn(tokens, "COMPUTES")) {
+            String[] _minMaxComputes = parseComputes(toParse);
+            mutation.setComputes(_minMaxComputes);
+        }
+        
+        return mutation;
+    }
 }

@@ -41,25 +41,72 @@ package avatartranslator.mutation;
 import avatartranslator.*;
 
 /**
- * Class RmAssociationMutation
+ * Class ConnectionMutation
  * Creation: 29/06/2022
  *
  * @author Léon FRENOT
  * @version 1.0 29/06/2022
  */
-public class RmAssociationMutation extends AssociationMutation implements RmMutation {
+public abstract class ConnectionMutation extends RelationMutation {
 
-    public RmAssociationMutation(String _block1, String _block2, String _signal1, String _signal2) {
-        super(_block1, _block2, _signal1, _signal2);
+    protected ConnectionMutation(String _block1, String _block2, String _signal1, String _signal2) {
+        super(_block1, _block2);
+        setSignals(_signal1, _signal2);
     }
 
-    public RmAssociationMutation(String _relationString, int _relationType, String _signal1, String _signal2) {
-        super(_relationString, _relationType, _signal1, _signal2);
+    protected ConnectionMutation(String _relationString, int _relationType, String _signal1, String _signal2) {
+        super(_relationString, _relationType);
+        setSignals(_signal1, _signal2);
     }
 
-    public void apply(AvatarSpecification _avspec) {
-        AvatarRelation relation = getElement(_avspec);
-        relation.removeAssociation(getSignal1(_avspec), getSignal2(_avspec));
+    private String signal1;
+    private String signal2;
+
+    protected AvatarSignal getSignal(AvatarSpecification _avspec, String _signal) throws ApplyMutationException {
+        AvatarBlock block = getBlock1(_avspec);
+        AvatarSignal signal = block.getSignalByName(_signal);
+        if (signal == null) {
+            block = getBlock2(_avspec);
+            signal = block.getSignalByName(_signal);
+        }
+        if (signal == null) {
+            throw new ApplyMutationException("no signal named " + _signal + " in blocks " + getBlock1() + " and " + getBlock2());
+        }
+        return signal;
     }
-    
+
+    protected String getSignal1() {
+        return signal1;
+    }
+
+    protected AvatarSignal getSignal1(AvatarSpecification _avspec) throws ApplyMutationException {
+        return getSignal(_avspec, getSignal1());
+    }
+
+    protected String getSignal2() {
+        return signal2;
+    }
+
+    protected AvatarSignal getSignal2(AvatarSpecification _avspec) throws ApplyMutationException {
+        return getSignal(_avspec, getSignal2());
+    }
+
+    private void setSignals(String _signal1, String _signal2) {
+        signal1 = _signal1;
+        signal2 = _signal2;
+    }
+
+    public static ConnectionMutation createFromString(String toParse) throws ParseMutationException {
+        switch (MutationParser.findMutationToken(toParse)) {
+            case "ADD":
+                return AddConnectionMutation.createFromString(toParse);
+            case "RM":
+            case "REMOVE":
+                return RmConnectionMutation.createFromString(toParse);
+            default:
+                break;
+        }
+        return null;
+    }
+
 }

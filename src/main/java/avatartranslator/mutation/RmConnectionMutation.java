@@ -41,69 +41,77 @@ package avatartranslator.mutation;
 import avatartranslator.*;
 
 /**
- * Class AddRelationMutation
+ * Class RmAssociationMutation
  * Creation: 29/06/2022
  *
  * @author Léon FRENOT
  * @version 1.0 29/06/2022
  */
-public class AddRelationMutation extends RelationMutation implements AddMutation {
+public class RmConnectionMutation extends ConnectionMutation implements RmMutation {
 
-    public AddRelationMutation(String _block1, String _block2) {
-        super(_block1, _block2);
+    public RmConnectionMutation(String _block1, String _block2, String _signal1, String _signal2) {
+        super(_block1, _block2, _signal1, _signal2);
     }
 
-    public AddRelationMutation(String _block1, String _block2, String _name) {
-        super(_block1, _block2, _name);
-    }
-    
-    public AvatarRelation createElement(AvatarSpecification _avspec) throws ApplyMutationException {
-        AvatarRelation relation = new AvatarRelation(getName(), getBlock1(_avspec), getBlock2(_avspec), null);
-
-        if (this.blockingSet()) relation.setBlocking(this.isBlocking());
-
-        if (this.asynchronousSet()) relation.setAsynchronous(this.isAsynchronous());
-
-        if (this.AMSSet()) relation.setAMS(this.isAMS());
-
-        if (this.privateSet()) relation.setPrivate(this.isPrivate());
-
-        if (this.broadcastSet()) relation.setBroadcast(this.isBroadcast());
-
-        if (this.lossySet()) relation.setLossy(this.isLossy());
-
-        if (this.sizeOfFIFOSet()) relation.setSizeOfFIFO(this.getSizeOfFIFO());
-
-        if (this.idSet()) relation.setId(this.getId());
-
-        return relation;
+    public RmConnectionMutation(String _relationString, int _relationType, String _signal1, String _signal2) {
+        super(_relationString, _relationType, _signal1, _signal2);
     }
 
     public void apply(AvatarSpecification _avspec) throws ApplyMutationException {
-        AvatarRelation relation = createElement(_avspec);
-        _avspec.addRelation(relation);
+        AvatarRelation relation = getElement(_avspec);
+        if (relation == null) {
+            throw new ApplyMutationException("no such relation");
+        }
+        relation.removeAssociation(getSignal1(_avspec), getSignal2(_avspec));
     }
 
-    public static AddRelationMutation createFromString(String toParse) throws ParseMutationException {
+    public static RmConnectionMutation createFromString(String toParse) throws ParseMutationException {
 
-        AddRelationMutation mutation = null;
+        RmConnectionMutation mutation = null;
         String[] tokens = MutationParser.tokenise(toParse);
 
-        int index = MutationParser.indexOf(tokens, "BETWEEN");
-        if (tokens.length <= index + 3) {
-            throw new ParseMutationException("block names", "between block1Name and block2Name");
+        int index = MutationParser.indexOf(tokens, "LINK");
+        if (index + 1 < tokens.length && !MutationParser.isToken(tokens[index + 1])) {
+            String _relationString = tokens[index + 1];
+            int _relationType = MutationParser.UUIDType(_relationString);
+            index = MutationParser.indexOf(tokens, "FROM");
+            if (tokens.length == index + 1 || index == -1) {
+                throw new ParseMutationException("from output signal name", "from fromOutputSignalName");
+            }
+            String _signal1 = tokens[index + 1];
+            index = MutationParser.indexOf(tokens, "TO");
+            if (tokens.length == index + 1 || index == -1) {
+                throw new ParseMutationException("to input signal name", "to toInputSignalName");
+            }
+            String _signal2 = tokens[index + 1];
+            mutation = new RmConnectionMutation(_relationString, _relationType, _signal1, _signal2);
+            return mutation;
+        }
+        
+        index = MutationParser.indexOf(tokens, "FROM");
+        if (tokens.length == index + 1 || index == -1) {
+            throw new ParseMutationException("from output signal name", "from fromOutputSignalName in fromBlockName");
+        }
+        String _signal1 = tokens[index + 1];
+        index = MutationParser.indexOf(index, tokens, "IN");
+        if (tokens.length == index + 1 || index == -1) {
+            throw new ParseMutationException("from block name", "from fromOutputSignalName in fromBlockName");
         }
         String _block1 = tokens[index + 1];
-        String _block2 = tokens[index + 3];
-
-
-        index = MutationParser.indexOf(tokens, "LINK");
-        if (tokens.length <= index + 1 || MutationParser.isToken(tokens[index+1])) {
-            mutation = new AddRelationMutation(_block1, _block2);
-        } else {
-            String _name = tokens[index + 1];
-            mutation = new AddRelationMutation(_block1, _block2, _name);
+        index = MutationParser.indexOf(index, tokens, "TO");
+        if (tokens.length == index + 1 || index == -1) {
+            throw new ParseMutationException("to input signal name", "to toInputSignalName in toBlockName");
         }
+        String _signal2 = tokens[index + 1];
+        index = MutationParser.indexOf(index, tokens, "IN");
+        if (tokens.length == index + 1 || index == -1) {
+            throw new ParseMutationException("to block name", "to toInputSignalName in toBlockName");
+        }
+        String _block2 = tokens[index + 1];
+
+        mutation = new RmConnectionMutation(_block1, _block2, _signal1, _signal2);
+
+        boolean b;
 
         switch (MutationParser.findPublicToken(tokens)) {
             case "PUBLIC":
@@ -130,19 +138,23 @@ public class AddRelationMutation extends RelationMutation implements AddMutation
         }
 
         if (MutationParser.isTokenIn(tokens, "AMS")) {
-            mutation.setAMS(true);
+            b = !tokens[index - 1].equals("NO");
+            mutation.setAMS(b);
         }
 
         if (MutationParser.isTokenIn(tokens, "LOSSY")) {
-            mutation.setLossy(true);
+            b = !tokens[index - 1].equals("NO");
+            mutation.setLossy(b);
         }
 
         if (MutationParser.isTokenIn(tokens, "BLOCKING")) {
-            mutation.setBlocking(true);
+            b = !tokens[index - 1].equals("NO");
+            mutation.setBlocking(b);
         }
 
         if (MutationParser.isTokenIn(tokens, "BROADCAST")) {
-            mutation.setBroadcast(true);
+            b = !tokens[index - 1].equals("NO");
+            mutation.setBroadcast(b);
         }
 
         index = MutationParser.indexOf(tokens, "MAXFIFO");
@@ -152,4 +164,5 @@ public class AddRelationMutation extends RelationMutation implements AddMutation
 
         return mutation;
     }
+    
 }

@@ -49,8 +49,6 @@ import avatartranslator.*;
  */
 public class AddSetTimerMutation extends SetTimerMutation implements AddMutation {
 
-    private boolean isGraphical = false;
-
     public AddSetTimerMutation(String _blockName, String _timerName, String _timerValue) {
         super(_blockName, _timerName, _timerValue);
     }
@@ -60,18 +58,59 @@ public class AddSetTimerMutation extends SetTimerMutation implements AddMutation
     }
 
     //todo : graphique
-    public AvatarSetTimer createElement(AvatarSpecification _avspec) {
+    public AvatarSetTimer createElement(AvatarSpecification _avspec) throws ApplyMutationException {
         AvatarSetTimer elt = new AvatarSetTimer(getName(), null);
         AvatarAttribute timer = getAttribute(_avspec, getTimerName());
+        if (timer == null) {
+            throw new ApplyMutationException("No timer named " + getTimerName() + " in block " + getBlockName());
+        }
+
         elt.setTimer(timer);
         elt.setTimerValue(getTimerValue());
         return elt;
     }
 
-    public void apply(AvatarSpecification _avspec) {
+    public void apply(AvatarSpecification _avspec) throws ApplyMutationException {
         AvatarSetTimer elt = createElement(_avspec);
         AvatarStateMachine asm = getAvatarStateMachine(_avspec);
         asm.addElement(elt);
+    }
+
+    public static AddSetTimerMutation createFromString(String toParse) throws ParseMutationException {
+
+        AddSetTimerMutation mutation = null;
+        String[] tokens = MutationParser.tokenise(toParse);
+
+        int index = MutationParser.indexOf(tokens, "IN");
+        if (tokens.length == index + 1 || index == -1) {
+            throw new ParseMutationException("block name", "in blockName");
+        }
+        String _blockName = tokens[index + 1];
+
+        index = MutationParser.indexOf(tokens, "WITH");
+        if (tokens.length == index + 1 || index == -1) {
+            throw new ParseMutationException("timer name", "with timerName");
+        }
+        String _timerName = tokens[index + 1];
+
+        index = MutationParser.indexOf(tokens, "AT");
+        if (tokens.length == index + 1 || index == -1) {
+            throw new ParseMutationException("initial value", "at initialValue");
+        }
+        String _timerValue = tokens[index + 1];
+
+        index = MutationParser.indexOf(tokens, "TIMER");
+        if (tokens.length > index + 1 && MutationParser.isToken(tokens[index+1])) {
+            mutation = new AddSetTimerMutation(_blockName, _timerName, _timerValue);
+        } else {
+            if (tokens.length == index + 1) {
+                throw new ParseMutationException("set timer name", "set timer setTimerName");
+            }
+            String _name = tokens[index + 1];
+            mutation = new AddSetTimerMutation(_blockName, _name, _timerName, _timerValue);
+        }
+
+        return mutation;
     }
 
 }

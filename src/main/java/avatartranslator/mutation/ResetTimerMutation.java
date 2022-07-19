@@ -64,7 +64,7 @@ public abstract class ResetTimerMutation extends TimerOperatorMutation {
     }
 
     @Override
-    public AvatarResetTimer getElement(AvatarSpecification _avspec) {
+    public AvatarResetTimer getElement(AvatarSpecification _avspec) throws ApplyMutationException {
         if (isNameSet())
             return (AvatarResetTimer)super.getElement(_avspec);
         AvatarStateMachine asm = getAvatarStateMachine(_avspec);
@@ -76,6 +76,22 @@ public abstract class ResetTimerMutation extends TimerOperatorMutation {
                     return tmp;
                 }
             }
+        }
+        return null;
+    }
+
+    public static ResetTimerMutation createFromString(String toParse) throws ParseMutationException {
+        switch (MutationParser.findMutationToken(toParse)) {
+        case "ADD":
+            return AddResetTimerMutation.createFromString(toParse);
+        case "RM":
+        case "REMOVE":
+            return RmResetTimerMutation.createFromString(toParse);
+        case "MD":
+        case "MODIFY":
+            return MdResetTimerMutation.createFromString(toParse);
+        default:
+            break;
         }
         return null;
     }

@@ -39,7 +39,7 @@
 package avatartranslator.mutation;
 
 import avatartranslator.*;
-
+//import myutil.TraceManager;
 
 /**
  * Class AddAttributeMutation
@@ -58,32 +58,65 @@ public class AddAttributeMutation extends AttributeMutation implements AddMutati
         super(_blockName, _attributeName, _attributeType, _initialValue);
     }
 
-    public AvatarAttribute createElement(AvatarSpecification _avspec) {
+    public AvatarAttribute createElement(AvatarSpecification _avspec) throws ApplyMutationException {
         AvatarType type = getType();
+
         AvatarBlock block = getBlock(_avspec);
+        if (block == null) {
+            throw new MissingBlockException(getBlockName());
+        }
+
+        for (AvatarAttribute aa : block.getAttributes()) {
+            if (aa.getName() == this.getName()) {
+                throw new ApplyMutationException("Attribute " + this.getName() + " alrady exists in block " + getBlockName());
+            }
+        }
+
         AvatarAttribute aa = new AvatarAttribute(getName(), type, block, null);
         if (hasInitialValue()) aa.setInitialValue(getInitialValue());
         return aa;
     }
 
-    public void apply(AvatarSpecification _avspec) {
+    public void apply(AvatarSpecification _avspec) throws ApplyMutationException {
         AvatarAttribute aa = createElement(_avspec);
         AvatarBlock block = getBlock(_avspec);
         block.addAttribute(aa);
     }
 
-    public static AddAttributeMutation createFromString(String toParse) {
+    public static AddAttributeMutation createFromString(String toParse) throws ParseMutationException {
+
+        //TraceManager.addDev("AddAttribute");
+
         AddAttributeMutation mutation = null;
-        String[] tokens = toParse.split(" ");
-        String _attributeType = tokens[2];
-        String _attributeName = tokens[3];
-        String _blockName = tokens[tokens.length-1];
-        if (tokens[4].equals("=")) {
-            String _initialValue = tokens[5];
+        String[] tokens = MutationParser.tokenise(toParse);
+
+        //TraceManager.addDev(MutationParser.tokensToString(tokens));
+
+        int index = MutationParser.indexOf(tokens, "ATTRIBUTE");
+        if (tokens.length <= index + 2) {
+            throw new ParseMutationException("Missing attribute arguments [add attribute attributeType attributeName]");
+        }
+        String _attributeType = tokens[index + 1];
+        String _attributeName = tokens[index + 2];
+
+        index = MutationParser.indexOf(tokens, "IN");
+        if (tokens.length == index + 1 || index == -1) {
+            throw new ParseMutationException("Missing block name [in blockName]");
+        }
+        String _blockName = tokens[index + 1];
+
+        index = MutationParser.indexOf(tokens,  "=");
+
+        if (index != -1) {
+            if (tokens.length == index + 1) {
+                throw new ParseMutationException("Missing attribute initial value [ = initialValue]");
+            }
+            String _initialValue = tokens[index + 1];
             mutation = new AddAttributeMutation(_blockName, _attributeName, _attributeType, _initialValue);
         } else {
             mutation = new AddAttributeMutation(_blockName, _attributeName, _attributeType);
         }
+        
         return mutation;
     }
 }

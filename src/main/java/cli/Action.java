@@ -45,7 +45,9 @@ import avatartranslator.modelchecker.AvatarModelChecker;
 import avatartranslator.modelchecker.CounterexampleQueryReport;
 import avatartranslator.modelchecker.SpecificationActionLoop;
 import avatartranslator.modelcheckervalidator.ModelCheckerValidator;
+import avatartranslator.mutation.ApplyMutationException;
 import avatartranslator.mutation.AvatarMutation;
+import avatartranslator.mutation.ParseMutationException;
 import common.ConfigurationTTool;
 import common.SpecConfigTTool;
 import graph.RG;
@@ -1013,9 +1015,17 @@ public class Action extends Command {
                     return "No AVATAR specification";
                 }
 
-                AvatarMutation am = AvatarMutation.createFromString(command);
-                if (am != null) {
-                    am.apply(spec);
+                try {
+                    AvatarMutation am = AvatarMutation.createFromString(command);
+                    if (am != null) {
+                        am.apply(spec);
+                    }
+                } catch (ParseMutationException e) {
+                    TraceManager.addDev("Exception in parsing mutation: " + e.getMessage());
+                    return e.getMessage();
+                } catch (ApplyMutationException e) {
+                    TraceManager.addDev("Exception in applying mutation: " + e.getMessage());
+                    return e.getMessage();
                 }
 
                 return null;

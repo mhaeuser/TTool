@@ -39,6 +39,7 @@
 package avatartranslator.mutation;
 
 import avatartranslator.*;
+import myutil.TraceManager;
 
 /**
  * Class MdRelationMutation
@@ -85,6 +86,10 @@ public class MdRelationMutation extends RelationMutation implements MdMutation {
         current.setLossy(b);
     }
 
+    public void setCurrentSizeOfFIFO(String _sizeOfFIFO) {
+        current.setSizeOfFIFO(_sizeOfFIFO);
+    }
+
     public void setCurrentSizeOfFIFO(int _sizeOfFIFO) {
         current.setSizeOfFIFO(_sizeOfFIFO);
     }
@@ -93,8 +98,12 @@ public class MdRelationMutation extends RelationMutation implements MdMutation {
         current.setId(_id);
     }
 
-    public void apply(AvatarSpecification _avspec) {
+    public void apply(AvatarSpecification _avspec) throws ApplyMutationException {
         AvatarRelation relation = current.getElement(_avspec);
+
+        if (relation == null) {
+            throw new ApplyMutationException("no such relation");
+        }
 
         if (this.blockingSet()) relation.setBlocking(this.isBlocking());
 
@@ -111,6 +120,194 @@ public class MdRelationMutation extends RelationMutation implements MdMutation {
         if (this.sizeOfFIFOSet()) relation.setSizeOfFIFO(this.getSizeOfFIFO());
 
         if (this.idSet()) relation.setId(this.getId());
+    }
+
+    public static MdRelationMutation createFromString(String toParse) throws ParseMutationException {
+
+        MdRelationMutation mutation = null;
+        String[] tokens = MutationParser.tokenise(toParse);
+
+        int index = MutationParser.indexOf(tokens, "BETWEEN");
+        if (tokens.length <= index + 3) {
+            throw new ParseMutationException("block names", "between block1Name and block2Name");
+        }
+        String _block1 = tokens[index + 1];
+        String _block2 = tokens[index + 3];
+
+
+        index = MutationParser.indexOf(tokens, "LINK");
+        if (tokens.length <= index + 1 || MutationParser.isToken(tokens[index+1])) {
+            mutation = new MdRelationMutation(_block1, _block2);
+        } else {
+            String _name = tokens[index + 1];
+            int _nameType = MutationParser.UUIDType(_name);
+            mutation = new MdRelationMutation(_name, _nameType);
+        }
+
+        int toIndex = MutationParser.indexOf(tokens, "TO");
+        if (toIndex == -1) {
+            throw new ParseMutationException("new relation options", "to newRelationOptions");
+        }
+        boolean b;
+
+        index = MutationParser.indexOf(tokens, "PUBLIC");
+        if (index != -1) {
+            if (index < toIndex) {
+                mutation.setCurrentPrivate(false);
+                index = MutationParser.indexOf(index, tokens, "PUBLIC");
+                if (index != -1) {
+                    mutation.setPrivate(false);
+                }
+            } else {
+                mutation.setPrivate(false);
+            }
+        }
+
+        index = MutationParser.indexOf(tokens, "PRIVATE");
+        if (index != -1) {
+            if (index < toIndex) {
+                mutation.setCurrentPrivate(true);
+                index = MutationParser.indexOf(index, tokens, "PRIVATE");
+                if (index != -1) {
+                    mutation.setPrivate(true);
+                }
+            } else {
+                mutation.setPrivate(true);
+            }
+        }
+
+        index = MutationParser.indexOf(tokens, "SYNCHRONOUS");
+        if (index != -1) {
+            if (index < toIndex) {
+                mutation.setCurrentPrivate(false);
+                index = MutationParser.indexOf(index, tokens, "SYNCHRONOUS");
+                if (index != -1) {
+                    mutation.setPrivate(false);
+                }
+            } else {
+                mutation.setPrivate(false);
+            }
+        } 
+
+        index = MutationParser.indexOf(tokens, "SYNCH");
+        if (index != -1) {
+            if (index < toIndex) {
+                mutation.setCurrentPrivate(false);
+                index = MutationParser.indexOf(index, tokens, "SYNCH");
+                if (index != -1) {
+                    mutation.setPrivate(false);
+                }
+            } else {
+                mutation.setPrivate(false);
+            }
+        } 
+
+        index = MutationParser.indexOf(tokens, "ASYNCHRONOUS");
+        if (index != -1) {
+            if (index < toIndex) {
+                mutation.setCurrentPrivate(true);
+                index = MutationParser.indexOf(index, tokens, "ASYNCHRONOUS");
+                if (index != -1) {
+                    mutation.setPrivate(true);
+                }
+            } else {
+                mutation.setPrivate(true);
+            }
+        } 
+
+        index = MutationParser.indexOf(tokens, "ASYNCH");
+        if (index != -1) {
+            if (index < toIndex) {
+                mutation.setCurrentPrivate(true);
+                index = MutationParser.indexOf(index, tokens, "ASYNCH");
+                if (index != -1) {
+                    mutation.setPrivate(true);
+                }
+            } else {
+                mutation.setPrivate(true);
+            }
+        }
+
+        index = MutationParser.indexOf(tokens, "AMS");
+        if (index != -1) {
+            b = !tokens[index - 1].toUpperCase().equals("NO");
+            TraceManager.addDev("AMS : " + b + " " + (index < toIndex));
+            if (index < toIndex) {
+                mutation.setCurrentAMS(b);
+                index = MutationParser.indexOf(index, tokens, "AMS");
+                if (index != -1) {
+                    b = !tokens[index - 1].toUpperCase().equals("NO");
+                    mutation.setAMS(b);
+                }
+            } else {
+                b = !tokens[index - 1].toUpperCase().equals("NO");
+                TraceManager.addDev("setAMS " + b);
+                mutation.setAMS(b);
+            }
+        }
+
+        index = MutationParser.indexOf(tokens, "LOSSY");
+        if (index != -1) {
+            b = !tokens[index - 1].toUpperCase().equals("NO");
+            if (index < toIndex) {
+                mutation.setCurrentLossy(b);
+                index = MutationParser.indexOf(index, tokens, "LOSSY");
+                if (index != -1) {
+                    b = !tokens[index - 1].toUpperCase().equals("NO");
+                    mutation.setLossy(b);
+                }
+            } else {
+                mutation.setLossy(b);
+            }
+        }
+
+        index = MutationParser.indexOf(tokens, "BLOCKING");
+        if (index != -1) {
+            b = !tokens[index - 1].toUpperCase().equals("NO");
+            if (index < toIndex) {
+                mutation.setCurrentBlocking(b);
+                index = MutationParser.indexOf(index, tokens, "BLOCKING");
+                if (index != -1) {
+                    b = !tokens[index - 1].toUpperCase().equals("NO");
+                    mutation.setBlocking(b);
+                }
+            } else {
+                mutation.setBlocking(b);
+            }
+        }
+
+        index = MutationParser.indexOf(tokens, "BROADCAST");
+        if (index != -1) {
+            b = !tokens[index - 1].toUpperCase().equals("NO");
+            if (index < toIndex) {
+                mutation.setCurrentBroadcast(b);
+                index = MutationParser.indexOf(index, tokens, "BROADCAST");
+                if (index != -1) {
+                    b = !tokens[index - 1].toUpperCase().equals("NO");
+                    mutation.setBroadcast(b);
+                }
+            } else {
+                mutation.setBroadcast(b);
+            }
+        }
+
+        index = MutationParser.indexOf(tokens, "MAXFIFO");
+        if (index != -1 && tokens.length > index + 2) {
+            if (index < toIndex) {
+                mutation.setCurrentSizeOfFIFO(tokens[index + 2]);
+                index = MutationParser.indexOf(index, tokens, "MAXFIFO");
+                if (index != -1 && tokens.length > index + 2) {
+                    mutation.setSizeOfFIFO(tokens[index + 2]);
+                }
+            } else {
+                if (tokens.length <= index + 2) {
+                    throw new ParseMutationException("max FIFO size", "maxFIFO = maxFIFOSize");
+                }
+                mutation.setSizeOfFIFO(tokens[index + 2]);
+            }
+        }
+        
+        return mutation;
     }
     
 }

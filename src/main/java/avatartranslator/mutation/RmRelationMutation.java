@@ -59,10 +59,87 @@ public class RmRelationMutation extends RelationMutation implements RmMutation {
         super(_relationString, _relationType);
     }
 
-    public void apply(AvatarSpecification _avspec) {
+    public void apply(AvatarSpecification _avspec) throws ApplyMutationException {
         AvatarRelation relation = getElement(_avspec);
         List<AvatarRelation> relations = _avspec.getRelations();
         relations.remove(relation);
+    }
+
+    public static RmRelationMutation createFromString(String toParse) throws ParseMutationException {
+
+        RmRelationMutation mutation = null;
+        String[] tokens = MutationParser.tokenise(toParse);
+
+        int index = MutationParser.indexOf(tokens, "BETWEEN");
+        if (tokens.length <= index + 3) {
+            throw new ParseMutationException("block names", "between block1Name and block2Name");
+        }
+        String _block1 = tokens[index + 1];
+        String _block2 = tokens[index + 3];
+
+        boolean b;
+
+
+        index = MutationParser.indexOf(tokens, "LINK");
+        if (tokens.length <= index + 1 || MutationParser.isToken(tokens[index+1])) {
+            mutation = new RmRelationMutation(_block1, _block2);
+        } else {
+            String _name = tokens[index + 1];
+            int _nameType = MutationParser.UUIDType(_name);
+            mutation = new RmRelationMutation(_name, _nameType);
+            return mutation;
+        }
+
+        switch (MutationParser.findPublicToken(tokens)) {
+            case "PUBLIC":
+                mutation.setPrivate(false);
+                break;
+            case "PRIVATE":
+                mutation.setPrivate(true);
+                break;
+            default:
+                break;
+        }
+
+        switch (MutationParser.findSynchToken(tokens)) {
+            case "SYNCHRONOUS":
+            case "SYNCH":
+                mutation.setAsynchronous(false);
+                break;
+            case "ASYNCHRONOUS":
+            case "ASYNCH":
+                mutation.setAsynchronous(true);
+                break;
+            default:
+                break;
+        }
+
+        if (MutationParser.isTokenIn(tokens, "AMS")) {
+            b = !tokens[index - 1].equals("NO");
+            mutation.setAMS(b);
+        }
+
+        if (MutationParser.isTokenIn(tokens, "LOSSY")) {
+            b = !tokens[index - 1].equals("NO");
+            mutation.setLossy(b);
+        }
+
+        if (MutationParser.isTokenIn(tokens, "BLOCKING")) {
+            b = !tokens[index - 1].equals("NO");
+            mutation.setBlocking(b);
+        }
+
+        if (MutationParser.isTokenIn(tokens, "BROADCAST")) {
+            b = !tokens[index - 1].equals("NO");
+            mutation.setBroadcast(b);
+        }
+
+        index = MutationParser.indexOf(tokens, "MAXFIFO");
+        if (index != -1 && tokens.length > index + 2) {
+            mutation.setSizeOfFIFO(tokens[index + 2]);
+        }
+        
+        return mutation;
     }
     
 }

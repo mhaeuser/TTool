@@ -40,8 +40,6 @@ package avatartranslator.mutation;
 
 import avatartranslator.*;
 
-import myutil.TraceManager;
-
 /**
  * Class MdAttributeMutation
  * Creation: 23/06/2022
@@ -56,20 +54,35 @@ public class MdAttributeMutation extends AttributeMutation implements MdMutation
         setInitialValue(_initialValue);
     }
 
-    public void apply(AvatarSpecification _avspec) {
+    public void apply(AvatarSpecification _avspec) throws ApplyMutationException {
         AvatarAttribute aa = getElement(_avspec);
         if (aa == null) {
-            TraceManager.addDev("Unknown Attribute");
-            return;
+            throw new ApplyMutationException("attribute " + getName() + " is not in block " + getBlockName());
         }
         aa.setInitialValue(this.getInitialValue());
     }
 
-    public static MdAttributeMutation createFromString(String toParse) {
-        String[] tokens = toParse.split(" ");
-        String _attributeName = tokens[2];
-        String _blockName = tokens[5];
-        String _initialValue = tokens[tokens.length - 1];
+    public static MdAttributeMutation createFromString(String toParse) throws ParseMutationException {
+        String[] tokens = MutationParser.tokenise(toParse);
+
+        int index = MutationParser.indexOf(tokens, "ATTRIBUTE");
+        if (tokens.length == index + 1) {
+            throw new ParseMutationException("attribute name", "md attribute attributeName");
+        }
+        String _attributeName = tokens[index + 1];
+        
+        index = MutationParser.indexOf(tokens, "IN");
+        if (tokens.length == index + 1 || index == -1) {
+            throw new ParseMutationException("block name", "in blockName");
+        }
+        String _blockName = tokens[index + 1];
+
+        index = MutationParser.indexOf(tokens, "TO");
+        if (tokens.length == index + 1 || index == -1) {
+            throw new ParseMutationException("new inital value", "to initialValue");
+        }
+        String _initialValue = tokens[index + 1];
+
         MdAttributeMutation mutation = new MdAttributeMutation(_blockName, _attributeName, _initialValue);
         return mutation;
     }

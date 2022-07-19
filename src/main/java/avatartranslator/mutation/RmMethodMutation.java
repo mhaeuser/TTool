@@ -41,7 +41,7 @@ package avatartranslator.mutation;
 import avatartranslator.*;
 import java.util.List;
 
-import myutil.TraceManager;
+//import myutil.TraceManager;
 
 /**
  * Class RmMethodMutation
@@ -56,21 +56,37 @@ public class RmMethodMutation extends MethodMutation implements RmMutation {
         super(_blockName, _methodName);
     }
 
-    public void apply(AvatarSpecification _avspec) {
+    public void apply(AvatarSpecification _avspec) throws ApplyMutationException {
+
         AvatarBlock block = getBlock(_avspec);
+        if (block == null) {
+            throw new MissingBlockException(getBlockName());
+        }
+
         List<AvatarMethod> meth = block.getMethods();
         AvatarMethod am = getElement(_avspec);
         if (am == null) {
-            TraceManager.addDev("Unknown Method");
-            return;
+            throw new ApplyMutationException("Method " + getMethodName() + " is not in block " + getBlockName());
         }
-        if (!meth.remove(am)) TraceManager.addDev("Method is from a super-bloc");
+        if (!meth.remove(am))
+            throw new ApplyMutationException("Method " + getMethodName() + " is in a super-bloc of " + getBlockName());
     }
 
-    public static RmMethodMutation createFromString(String toParse) {
-        String[] tokens = toParse.split(" ");
-        String _methodName = tokens[2];
-        String _blockName = tokens[tokens.length -1];
+    public static RmMethodMutation createFromString(String toParse) throws ParseMutationException {
+        String[] tokens = MutationParser.tokenise(toParse);
+
+        int index = MutationParser.indexOf(tokens, "METHOD");
+        if (tokens.length == index + 1) {
+            throw new ParseMutationException("method name", "method methodName");
+        }
+        String _methodName = tokens[index + 1];
+        
+        index = MutationParser.indexOf(tokens, "IN");
+        if (tokens.length == index + 1 || index == -1) {
+            throw new ParseMutationException("block name", "in blockName");
+        }
+        String _blockName = tokens[index + 1];
+        
         RmMethodMutation mutation = new RmMethodMutation(_blockName, _methodName);
         return mutation;
     }

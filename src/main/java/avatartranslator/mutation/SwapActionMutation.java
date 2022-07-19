@@ -66,7 +66,7 @@ public class SwapActionMutation extends ActionMutation implements MdMutation {
         index2 = _index2;
     }
 
-    public void apply(AvatarSpecification _avspec) {
+    public void apply(AvatarSpecification _avspec) throws ApplyMutationException {
         AvatarTransition transition = getElement(_avspec);
         List<AvatarAction> actions = transition.getActions();
 
@@ -81,5 +81,68 @@ public class SwapActionMutation extends ActionMutation implements MdMutation {
 
         actions.add(minIndex, action2);
         actions.add(maxIndex, action1);
+    }
+
+    public static SwapActionMutation createFromString(String toParse) throws ParseMutationException {
+
+        SwapActionMutation mutation = null;
+
+        String[] tokens = MutationParser.tokenise(toParse);
+
+        String _fromString = null;
+        int _fromType = -1;
+
+        String _toString = null;
+        int _toType = -1;
+
+        String _transitionString = null;
+        int _transitionType = -1;
+
+        int index = MutationParser.indexOf(tokens, "AT");
+        if (index == -1 || tokens.length == index + 1) {
+            throw new ParseMutationException("first action index", "at firstActionIndex and at secondActionIndex");
+        }
+        int _index1 = Integer.parseInt(tokens[index + 1]);
+
+        index = MutationParser.indexOf(index+1, tokens, "AT");
+        if (index == -1 || tokens.length == index + 1) {
+            throw new ParseMutationException("second action index", "at firstActionIndex and at secondActionIndex");
+        }
+        int _index2 = Integer.parseInt(tokens[index + 1]);
+
+        index = MutationParser.indexOf(tokens, "IN");
+        if (tokens.length == index + 1 || index == -1) {
+            throw new ParseMutationException("block name", "in blockName");
+        }
+        String _blockName = tokens[index + 1];
+
+
+        index = MutationParser.indexOf(tokens, "FROM");
+        if (index != -1) {
+            _fromString = tokens[index + 1];
+            _fromType = MutationParser.UUIDType(_fromString);
+
+            index = MutationParser.indexOf(tokens, "TO");
+            if (index == -1 || tokens.length == index+1) {
+                throw new ParseMutationException("to element name", "to toElementName");
+            }
+            _toString = tokens[index + 1];
+            _toType = MutationParser.UUIDType(_toString);
+        } else {
+            index = MutationParser.indexOf(tokens, "TRANSITION");
+            if (tokens.length == index + 1) {
+                throw new ParseMutationException("transition description", "transition transitionName] or [from fromElement to toElement");
+            }
+            _transitionString = tokens[index + 1];
+            _transitionType = MutationParser.UUIDType(_transitionString);
+        }
+
+        if (_transitionString == null) {
+            mutation = new SwapActionMutation(_blockName, _fromString, _fromType, _toString, _toType, _index1, _index2);
+        } else {
+            mutation = new SwapActionMutation(_blockName, _transitionString, _transitionType, _index1, _index2);
+        }
+
+        return mutation;
     }
 }

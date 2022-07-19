@@ -53,9 +53,6 @@ public class AddStateMutation extends StateMutation implements AddMutation {
     public AddStateMutation(String _blockName, String _stateName) {
         super(_blockName, _stateName);
     }
-
-    //todo : add Graphical referenceObject
-    private boolean isGraphical = false;
     
     public AvatarState createElement() {
         AvatarState state = new AvatarState(getStateName(), null);
@@ -67,9 +64,37 @@ public class AddStateMutation extends StateMutation implements AddMutation {
         return createElement();
     }
 
-    public void apply(AvatarSpecification _avspec) {
+    public void apply(AvatarSpecification _avspec) throws ApplyMutationException {
         AvatarStateMachine asm = getAvatarStateMachine(_avspec);
+
+        for (AvatarStateMachineElement asme : asm.getListOfElements()) {
+            if (asme instanceof AvatarState) {
+                if (asme.getName().equals(getStateName())) {
+                    throw new ApplyMutationException("State " + getStateName() + " already exists in block " + getBlockName());
+                }
+            }
+        }
+
         AvatarState state = createElement();
         asm.addElement(state);
+    }
+
+    public static AddStateMutation createFromString(String toParse) throws ParseMutationException {
+        String[] tokens = MutationParser.tokenise(toParse);
+
+        int index = MutationParser.indexOf(tokens, "STATE");
+        if (tokens.length == index + 1) {
+            throw new ParseMutationException("state name", "add state stateName");
+        }
+        String _stateName = tokens[index + 1];
+
+        index = MutationParser.indexOf(tokens, "IN");
+        if (tokens.length == index + 1 || index == -1) {
+            throw new ParseMutationException("block name", "in blockName");
+        }
+        String _blockName = tokens[index + 1];
+
+        AddStateMutation mutation = new AddStateMutation(_blockName, _stateName);
+        return mutation;
     }
 }

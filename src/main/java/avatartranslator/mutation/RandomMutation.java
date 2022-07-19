@@ -41,7 +41,7 @@ package avatartranslator.mutation;
 import java.util.List;
 
 import avatartranslator.*;
-import myutil.TraceManager;
+//import myutil.TraceManager;
 
 /**
  * Class RandomMutation
@@ -100,6 +100,10 @@ public abstract class RandomMutation extends UnnamedStateMachineElementMutation 
         return valuesSet;
     }
 
+    public void setValues(String[] _minMaxValues) {
+        setValues(_minMaxValues[0], _minMaxValues[1]);
+    }
+
     public void setValues(String _minValue, String _maxValue) {
         minValue = _minValue;
         maxValue = _maxValue;
@@ -122,31 +126,45 @@ public abstract class RandomMutation extends UnnamedStateMachineElementMutation 
         return functionSet;
     }
 
-    public void setFunction(int _functionId) {
-        functionId = _functionId;
+    public void setFunction(String _law, String[] _extras) {
+        switch (_extras.length) {
+            case 0:
+                setFunction(_law);
+                break;
+            case 1:
+                setFunction(_law, _extras[0]);
+                break;
+            default:
+                setFunction(_law, _extras[0], _extras[1]);
+        }
+    }
+
+    public void setFunction(String _law) {
+        int law = MutationParser.indexOf(AvatarTransition.DISTRIBUTION_LAWS, _law);
+        if (law == -1) law = MutationParser.indexOf(AvatarTransition.DISTRIBUTION_LAWS_SHORT, _law);
+        if (law == -1) law = 0;
+        functionId = law;
         functionSet = true;
     }
 
-    public void setFunction(int _functionId, String _extraAttribute) {
+    public void setFunction(String _functionId, String _extraAttribute) {
         setFunction(_functionId);
         extraAttribute1 = _extraAttribute;
     }
 
-    public void setFunction(int _functionId, String _extraAttribute1, String _extraAttribute2) {
+    public void setFunction(String _functionId, String _extraAttribute1, String _extraAttribute2) {
         setFunction(_functionId, _extraAttribute1);
         extraAttribute2 = _extraAttribute2;
     }
 
     @Override
-    public AvatarRandom getElement(AvatarSpecification _avspec) {
+    public AvatarRandom getElement(AvatarSpecification _avspec) throws ApplyMutationException {
         if (!isNameSet()) {
-            //TraceManager.addDev("name not set");
             AvatarStateMachine asm = getAvatarStateMachine(_avspec);
             List<AvatarStateMachineElement> elts =  asm.getListOfElements();
             for (AvatarStateMachineElement elt : elts) {
                 if (elt instanceof AvatarRandom) {
                     AvatarRandom rnd = (AvatarRandom)elt;
-                    //TraceManager.addDev(rnd.getNiceName());
                     boolean flag = rnd.getVariable().equals(this.getAttributeName());
                     if (this.areValuesSet()) {
                         if (this.getMinValue().equals(rnd.getMinValue())) {
@@ -166,7 +184,94 @@ public abstract class RandomMutation extends UnnamedStateMachineElementMutation 
             return null;
         }
         AvatarStateMachineElement element = super.getElement(_avspec);
-        if (element != null && element instanceof AvatarRandom) return (AvatarRandom)element;
+        if (element == null) {
+            throw new ApplyMutationException("No random named " + getName() + "in block " + getBlockName());
+        }
+        if (element instanceof AvatarRandom) {
+            return (AvatarRandom)element;
+        }
+        throw new ApplyMutationException("Element " + getName() + " in block " + getBlockName() + " is not a random");
+    }
+
+    public static String[] parseMinMax(int index, String[] tokens) throws ParseMutationException {
+
+        index = MutationParser.indexOf(index, tokens, "(");
+
+        if (tokens.length <= index + 3) {
+            throw new ParseMutationException("min max", "after (min, max)");
+        }
+
+        String[] out = {tokens[index + 1], tokens[index + 3]};
+        return out;
+    }
+
+    public static String[] parseMinMax(String[] tokens) throws ParseMutationException {
+        return parseMinMax(0, tokens);
+    }
+    
+
+    public static String parseLaw(int index, String[] tokens) {
+    
+        index = MutationParser.indexOf(index, tokens, "(");
+    
+        if (tokens.length <= index + 5 || tokens[index+5].toUpperCase().equals("TO")) return "";
+        return tokens[index + 5];
+    }
+
+    public static String parseLaw(String[] tokens) {
+        return parseLaw(0, tokens);
+    }
+
+
+    public static String[] parseExtras(String[] tokens) {
+        return parseExtras(0, tokens);
+    }
+
+    public static String[] parseExtras(int index, String[] tokens) {
+
+        String[] out0 = {};
+        String[] out1 = {""};
+        String[] out2 = {"", ""};
+        String[] out;
+
+        index = MutationParser.indexOf(index, tokens, ")");
+
+        index = MutationParser.indexOf(index, tokens, "(");
+
+        if (index == -1) return out0;
+
+        int indexEnd = MutationParser.indexOf(index, tokens, ")");
+        if (indexEnd == -1) return out0;
+        switch (indexEnd - index) {
+            case 1:
+                out = out0;
+                break;
+            case 2:
+                out = out1;
+                out[0] = tokens[index + 1];
+                break;
+            default:
+                out = out2;
+                out[0] = tokens[index + 1];
+                out[1] = tokens[index + 3];
+                break;
+        }
+        return out;
+    }
+
+    public static RandomMutation createFromString(String toParse) throws ParseMutationException {
+        switch (MutationParser.findMutationToken(toParse)) {
+            case "ADD":
+                return AddRandomMutation.createFromString(toParse);
+            case "RM":
+            case "REMOVE":
+                return RmRandomMutation.createFromString(toParse);
+            case "MD":
+            case "MODIFY":
+                return MdRandomMutation.createFromString(toParse);
+            default:
+                break;
+        }
         return null;
     }
 }

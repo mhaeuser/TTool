@@ -42,7 +42,7 @@ import java.util.List;
 
 import avatartranslator.*;
 
-import myutil.TraceManager;
+//import myutil.TraceManager;
 
 /**
  * Class MdMethodMutation
@@ -64,6 +64,12 @@ public class MdMethodMutation extends MethodMutation implements MdMutation {
     public MdMethodMutation(String _name, String _blockName, boolean _imp) {
         this(_name, _blockName);
         setImplementationProvided(_imp);
+    }
+
+    @Override
+    public void setReturnParameters(List<String> _returnParameters) {
+        returnParametersChanged = true;
+        super.setReturnParameters(_returnParameters);
     }
 
     @Override
@@ -90,19 +96,21 @@ public class MdMethodMutation extends MethodMutation implements MdMutation {
         super.setImplementationProvided(_imp);
     }
 
-    public void apply(AvatarSpecification _avspec) {
-        AvatarBlock block = getBlock(_avspec);
-        AvatarMethod am = getElement(_avspec);
+    public void apply(AvatarSpecification _avspec) throws ApplyMutationException {
 
+        AvatarBlock block = getBlock(_avspec);
+        if (block == null) {
+            throw new MissingBlockException(getBlockName());
+        }
+
+        AvatarMethod am = getElement(_avspec);
         if (am == null) {
-            TraceManager.addDev("Unknown Method");
-            return;
+            throw new ApplyMutationException("Method" + getMethodName() + "is not in block " + getBlockName());
         }
 
         List<AvatarMethod> meth = block.getMethods();
         if (!meth.contains(am)) {
-            TraceManager.addDev("Method is from a super-bloc");
-            return;
+            throw new ApplyMutationException("Method " + getMethodName() + " is in a super-bloc of " + getBlockName());
         }
 
         if (implementationChanged) {
@@ -120,44 +128,44 @@ public class MdMethodMutation extends MethodMutation implements MdMutation {
         if (parametersChanged) {
             am.removeAttributes();
             for (String[] s : getParameters()) {
-                AvatarAttribute aa = new AvatarAttribute(s[0], AvatarType.getType(s[1]), block, null);
+                AvatarAttribute aa = new AvatarAttribute(s[1], AvatarType.getType(s[0]), block, null);
                 am.addParameter(aa);
             }
         }
     }
 
-    public static MdMethodMutation createFromString(String toParse) {
-        String _returnParameter = "";
+    public static MdMethodMutation createFromString(String toParse) throws ParseMutationException {
 
-        List<String[]> _parameters = parseParameters(toParse);
-        String[] tokens = toParse.split(" ");
-        String _methodName = tokens[2];
-        String _blockName = tokens[5];
+        String[] tokens = MutationParser.tokenise(toParse);
+
+        int index = MutationParser.indexOf(tokens, "METHOD");
+        if (tokens.length == index + 1) {
+            throw new ParseMutationException("method name", "method methodName");
+        }
+        String _methodName = tokens[index + 1];
+        
+        index = MutationParser.indexOf(tokens, "IN");
+        if (tokens.length == index + 1 || index == -1) {
+            throw new ParseMutationException("block name", "in blockName");
+        }
+        String _blockName = tokens[index + 1];
 
         MdMethodMutation mutation = new MdMethodMutation(_blockName, _methodName);
 
-        boolean _imp = false;
+        if (MutationParser.isTokenIn(tokens, "TO")) {
+            List<String> _returnParameters = parseReturnParameters(toParse, "TO");
 
-        switch (tokens[6].toUpperCase()) {
-            case "TO":
-                if (tokens[7].indexOf('(') == -1) _returnParameter = tokens[7];
-                mutation.setParameters(_parameters);
-                mutation.addReturnParameter(_returnParameter);
-                if (tokens[tokens.length - 1].toUpperCase().equals("CODE")) {
-                    _imp = (tokens[tokens.length - 2].toUpperCase().equals("WITH"));
-                    mutation.setImplementationProvided(_imp);
-                }
-                break;
+            mutation.setReturnParameters(_returnParameters);
 
-            case "WITH":
-                _imp = true;
-            case "WITHOUT":
-                mutation.setImplementationProvided(_imp);
-                break;
+            List<String[]> _parameters = parseParameters(toParse, "TO");
 
-            default:
-                break;
+            mutation.setParameters(_parameters);
         }
+
+        if (MutationParser.isTokenIn(tokens, "CODE")) {
+            mutation.setImplementationProvided(MutationParser.isTokenIn(tokens, "WITH"));
+        }
+
         return mutation;
     }
 }

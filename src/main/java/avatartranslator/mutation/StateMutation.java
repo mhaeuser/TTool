@@ -65,10 +65,23 @@ public abstract class StateMutation extends StateMachineElementMutation {
         return stateName;
     }
 
-    public AvatarState getElement(AvatarSpecification _avspec) {
+    public AvatarState getElement(AvatarSpecification _avspec) throws ApplyMutationException {
         AvatarStateMachine asm = getAvatarStateMachine(_avspec);
         AvatarState state = asm.getStateWithName(getStateName());
         return state;
+    }
+
+    public static StateMutation createFromString(String toParse) throws ParseMutationException {
+        switch (MutationParser.findMutationToken(toParse)) {
+            case "ADD":
+                return AddStateMutation.createFromString(toParse);
+            case "RM":
+            case "REMOVE":
+                return RmStateMutation.createFromString(toParse);
+            default:
+                break;
+        }
+        return null;
     }
     
 }

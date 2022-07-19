@@ -37,60 +37,23 @@
  */
 
 package avatartranslator.mutation;
-
-import avatartranslator.*;
-
+  
 /**
- * Class AssociationMutation
- * Creation: 29/06/2022
+ * Class ApplyMutationException
+ * Creation: 12/07/2022
  *
  * @author Léon FRENOT
- * @version 1.0 29/06/2022
+ * @version 1.0 12/07/2022
  */
-public abstract class AssociationMutation extends RelationMutation {
 
-    protected AssociationMutation(String _block1, String _block2, String _signal1, String _signal2) {
-        super(_block1, _block2);
-        setSignals(_signal1, _signal2);
+public class ApplyMutationException extends MutationException {
+    
+    public ApplyMutationException(String message) {
+        super(message);
     }
 
-    protected AssociationMutation(String _relationString, int _relationType, String _signal1, String _signal2) {
-        super(_relationString, _relationType);
-        setSignals(_signal1, _signal2);
-    }
-
-    private String signal1;
-    private String signal2;
-
-    protected AvatarSignal getSignal(AvatarSpecification _avspec, String _signal) {
-        AvatarBlock block = getBlock1(_avspec);
-        AvatarSignal signal = block.getSignalByName(_signal);
-        if (signal == null) {
-            block = getBlock2(_avspec);
-            signal = block.getSignalByName(_signal);
-        }
-        return signal;
-    }
-
-    protected String getSignal1() {
-        return signal1;
-    }
-
-    protected AvatarSignal getSignal1(AvatarSpecification _avspec) {
-        return getSignal(_avspec, getSignal1());
-    }
-
-    protected String getSignal2() {
-        return signal2;
-    }
-
-    protected AvatarSignal getSignal2(AvatarSpecification _avspec) {
-        return getSignal(_avspec, getSignal2());
-    }
-
-    private void setSignals(String _signal1, String _signal2) {
-        signal1 = _signal1;
-        signal2 = _signal2;
+    public static String missingBlock(String blockName) {
+        return "Block " + blockName + " doesn't exist";
     }
 
 }

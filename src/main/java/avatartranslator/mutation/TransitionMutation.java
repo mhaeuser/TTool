@@ -110,7 +110,8 @@ public abstract class TransitionMutation extends UnnamedStateMachineElementMutat
         return fromString;
     }
 
-    protected AvatarStateMachineElement getFromElement(AvatarSpecification _avspec) {
+    protected AvatarStateMachineElement getFromElement(AvatarSpecification _avspec) throws ApplyMutationException {
+        //TraceManager.addDev("is From Set : "  + String.valueOf(isFromSet()));
         if (isFromSet()) return getElement(_avspec, fromType, fromString);
         AvatarTransition trans = getElement(_avspec);
         AvatarStateMachine asm = getAvatarStateMachine(_avspec);
@@ -134,7 +135,7 @@ public abstract class TransitionMutation extends UnnamedStateMachineElementMutat
         return toString;
     }
 
-    protected AvatarStateMachineElement getToElement(AvatarSpecification _avspec) {
+    protected AvatarStateMachineElement getToElement(AvatarSpecification _avspec) throws ApplyMutationException {
         if (isToSet()) return getElement(_avspec, toType, toString);
         AvatarTransition trans = getElement(_avspec);
         return trans.getNext(0);
@@ -142,6 +143,11 @@ public abstract class TransitionMutation extends UnnamedStateMachineElementMutat
 
     protected boolean isToSet() {
         return toType!=UNDEFINED_TYPE;
+    }
+
+    public void setProbability(String _probability) {
+        double tmp = Double.parseDouble(_probability);
+        setProbability(tmp);
     }
 
     public void setProbability(double _probability) {
@@ -172,6 +178,10 @@ public abstract class TransitionMutation extends UnnamedStateMachineElementMutat
 
     protected AvatarGuard getAvatarGuard(AvatarSpecification _avspec) {
         return AvatarGuard.createFromString(getBlock(_avspec), getGuard());
+    }
+
+    public void setDelays(String[] _minMaxDelay) {
+        setDelays(_minMaxDelay[0], _minMaxDelay[1]);
     }
 
     public void setDelays(String _minDelay, String _maxDelay) {
@@ -212,17 +222,33 @@ public abstract class TransitionMutation extends UnnamedStateMachineElementMutat
         return delayExtra2;
     }
 
-    public void setDelayDistributionLaw(int _law) {
-        delayDistributionLaw = _law;
+    public void setDelayDistributionLaw(String _law, String[] _extras) {
+        switch (_extras.length) {
+            case 0:
+                setDelayDistributionLaw(_law);
+                break;
+            case 1:
+                setDelayDistributionLaw(_law, _extras[0]);
+                break;
+            default:
+                setDelayDistributionLaw(_law, _extras[0], _extras[1]);
+        }
+    }
+
+    public void setDelayDistributionLaw(String _law) {
+        int law = MutationParser.indexOf(AvatarTransition.DISTRIBUTION_LAWS, _law);
+        if (law == -1) law = MutationParser.indexOf(AvatarTransition.DISTRIBUTION_LAWS_SHORT, _law);
+        if (law == -1) law = 0;
+        delayDistributionLaw = law;
         delayDistributionLawSet = true;
     }
     
-    public void setDelayDistributionLaw(int _law, String _delayExtra1) {
+    public void setDelayDistributionLaw(String _law, String _delayExtra1) {
         setDelayDistributionLaw(_law);
         setDelayExtra(_delayExtra1);
     }
 
-    public void setDelayDistributionLaw(int _law, String _delayExtra1, String _delayExtra2) {
+    public void setDelayDistributionLaw(String _law, String _delayExtra1, String _delayExtra2) {
         setDelayDistributionLaw(_law);
         setDelayExtras(_delayExtra1, _delayExtra2);
     }
@@ -239,6 +265,10 @@ public abstract class TransitionMutation extends UnnamedStateMachineElementMutat
         minCompute = _minCompute;
         maxCompute = _maxCompute;
         computesSet = true;
+    }
+
+    public void setComputes(String[] _minMaxComputes) {
+        setComputes(_minMaxComputes[0], _minMaxComputes[1]);
     }
 
     protected boolean areComputesSet() {
@@ -258,6 +288,14 @@ public abstract class TransitionMutation extends UnnamedStateMachineElementMutat
 
     private void initActions() {
         actions = new LinkedList<>();
+    }
+
+    public void setActions(String[] _actions) {
+        initActions();
+        for(String action : _actions) {
+            actions.add(action);
+        }
+        actionsSet = true;
     }
 
     public void addAction(String _action) {
@@ -282,16 +320,18 @@ public abstract class TransitionMutation extends UnnamedStateMachineElementMutat
         return getActions().get(_index);
     }
 
-    public AvatarTransition getElement(AvatarSpecification _avspec) {
-        //TraceManager.addDev(String.valueOf(isNameSet()));
+    public AvatarTransition getElement(AvatarSpecification _avspec) throws ApplyMutationException {
         if (!isNameSet()) {
             AvatarStateMachineElement fromElement = getElement(_avspec, fromType, fromString);
-            //TraceManager.addDev(fromElement.toString());
+            if (fromElement == null) {
+                throw new ApplyMutationException("From element " + getFrom() + " doesn't exist in block " + getBlockName());
+            }
             AvatarStateMachineElement toElement = getElement(_avspec, toType, toString);
-            //TraceManager.addDev(toElement.toString());
+            if (toElement == null) {
+                throw new ApplyMutationException("To element " + getTo() + " doesn't exist in block " + getBlockName());
+            }
             List<AvatarStateMachineElement> fromNexts = fromElement.getNexts();
             for (AvatarStateMachineElement elt : fromNexts) {
-                //TraceManager.addDev(elt.toString());
                 if (elt instanceof AvatarTransition) {
                     AvatarTransition trans = (AvatarTransition)elt;
                     boolean flag = trans.hasNext(toElement);
@@ -299,13 +339,16 @@ public abstract class TransitionMutation extends UnnamedStateMachineElementMutat
                     if (flag && isProbabilitySet()) 
                         flag = (trans.getProbability() == this.getProbability());
 
+
                     if (flag && isGuardSet())
-                        flag = (trans.getGuard().equals(this.getAvatarGuard(_avspec)));
+                        flag = (trans.getGuard().toString().equals(this.getAvatarGuard(_avspec).toString()));
+
 
                     if (flag && areDelaysSet())
                         if (trans.getMinDelay().equals(this.getMinDelay()))
                             flag = trans.getMaxDelay().equals(this.getMaxDelay());
                         else flag = false;
+                    
 
                     if (flag && isDelayDistributionLawSet()) {
                         if (trans.getDelayDistributionLaw() == this.getDelayDistributionLaw()) {
@@ -322,11 +365,11 @@ public abstract class TransitionMutation extends UnnamedStateMachineElementMutat
 
                     if (flag && areActionsSet()) {
                         int len = trans.getNbOfAction();
-                        if ( len == this.getActions().size()) {
+                        if (len == this.getActions().size()) {
                             for (int i = 0; flag && i < len; i++) {
-                                flag = (trans.getAction(i).toString() == AvatarTerm.createActionFromString(getBlock(_avspec), this.getAction(i)).toString());
+                                flag = (trans.getAction(i).toString().equals(AvatarTerm.createActionFromString(getBlock(_avspec), this.getAction(i)).toString()));
                             }
-                        }
+                        } else flag = false;
                     }
 
                     if (flag) return trans;
@@ -336,8 +379,149 @@ public abstract class TransitionMutation extends UnnamedStateMachineElementMutat
         }
         //TraceManager.addDev("ping");
         AvatarStateMachineElement element = getElement(_avspec, getNameType(), getName());
-        //TraceManager.addDev(element.toString());
-        if (element != null && element instanceof AvatarTransition) return (AvatarTransition)element;
+        if (element == null) {
+            throw new ApplyMutationException("No transition named " + getName() + "in block " + getBlockName());
+        }
+        if (element instanceof AvatarTransition) {
+            return (AvatarTransition)element;
+        }
+        throw new ApplyMutationException("Element " + getName() + " in block " + getBlockName() + " is not a transition");
+    }
+
+    public static String parseGuard(String toParse) throws ParseMutationException {
+        int beginIndex = toParse.indexOf('[');
+        int endIndex = toParse.indexOf(']');
+
+        if (endIndex == -1) {
+            throw new ParseMutationException("end of guard", "[guardString]");
+        }
+
+        return toParse.substring(beginIndex+1, endIndex);
+    }
+
+    public static String[] parseMinMax(String toParse) throws ParseMutationException {
+        String[] tokens = MutationParser.tokenise(toParse);
+
+        int index = MutationParser.indexOf(tokens, "AFTER");
+
+        if (tokens.length <= index + 4) {
+            throw new ParseMutationException("min max", "after (min, max)");
+        }
+
+        String[] out = {tokens[index + 2], tokens[index + 4]};
+        return out;
+    }
+
+    public static String parseLaw(String toParse) {
+        String[] tokens = MutationParser.tokenise(toParse);
+
+        int index = MutationParser.indexOf(tokens, "AFTER");
+
+        if (tokens.length <= index + 6 || tokens[index + 6].toUpperCase().equals("AND")) return "";
+        return tokens[index + 6];
+    }
+
+    public static String[] parseExtras(String toParse) throws ParseMutationException {
+
+        String[] out0 = {};
+        String[] out1 = {""};
+        String[] out2 = {"", ""};
+        String[] out;
+
+        String[] tokens = MutationParser.tokenise(toParse);
+
+        int index = MutationParser.indexOf(tokens, ")");
+
+        index = MutationParser.indexOf(index, tokens, "(");
+
+        if (index == -1) return out0;
+
+        int indexEnd = MutationParser.indexOf(index, tokens, ")");
+
+        if (indexEnd == -1) return out0;
+
+        switch (indexEnd - index) {
+            case 1:
+                out = out0;
+                break;
+            case 2:
+                out = out1;
+                out[0] = tokens[index + 1];
+                break;
+            default:
+                out = out2;
+                out[0] = tokens[index + 1];
+                out[1] = tokens[index + 3];
+                break;
+        }
+        return out;
+    }
+
+    public static String[] parseActions(String toParse) throws ParseMutationException {
+        int beginIndex = toParse.indexOf('\"') + 1;
+
+        if (toParse.length() == beginIndex) {
+            throw new ParseMutationException("end of action(s)", "\"actionString; actionString;...\"");
+        }
+
+        int endIndex = toParse.indexOf('\"', beginIndex);
+        //TraceManager.addDev(String.valueOf(beginIndex) + " " + String.valueOf(endIndex));
+
+        if (endIndex == -1) {
+            throw new ParseMutationException("end of action(s)", "\"actionString; actionString;...\"");
+        }
+
+        if (beginIndex == endIndex) {
+            String[] out = {};
+            return out;
+        }
+
+        String _toParse = toParse.substring(beginIndex, endIndex);
+
+        //TraceManager.addDev("actions to parse : " + _toParse);
+
+        return MutationParser.tokenise(_toParse, ";");
+    }
+
+    public static String parseProbability(String toParse) throws ParseMutationException {
+        String[] tokens = MutationParser.tokenise(toParse);
+
+        int index = MutationParser.indexOf(tokens, "PROBABILITY");
+
+        if (tokens.length == index + 1) {
+            throw new ParseMutationException("probability value", "probability probabilityValue");
+        }
+
+        return tokens[index + 1];
+    }
+
+    public static String[] parseComputes(String toParse) throws ParseMutationException {
+        
+        String[] tokens = MutationParser.tokenise(toParse);
+
+        int index = MutationParser.indexOf(tokens, "COMPUTES");
+
+        if (tokens.length <= index + 4) {
+            throw new ParseMutationException("compute min max", "computes (min, max)");
+        }
+
+        String[] out = {tokens[index + 2], tokens[index + 4]};
+        return out;
+    }
+    
+    public static TransitionMutation createFromString(String toParse) throws ParseMutationException {
+        switch (MutationParser.findMutationToken(toParse)) {
+            case "ADD":
+                return AddTransitionMutation.createFromString(toParse);
+            case "RM":
+            case "REMOVE":
+                return RmTransitionMutation.createFromString(toParse);
+            case "MD":
+            case "MODIFY":
+                return MdTransitionMutation.createFromString(toParse);
+            default:
+                break;
+        }
         return null;
     }
 }

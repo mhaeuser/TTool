@@ -50,8 +50,6 @@ import avatartranslator.*;
 
 public class AddRandomMutation extends RandomMutation implements AddMutation {
 
-    boolean isGraphical = false;
-
     public AddRandomMutation(String _blockName, String _attributeName) {
         super(_blockName, _attributeName);
     }
@@ -61,7 +59,7 @@ public class AddRandomMutation extends RandomMutation implements AddMutation {
     }
     
     //todo : add Graphical referenceObject
-    public AvatarRandom createElement(AvatarSpecification _avspec) {
+    public AvatarRandom createElement(AvatarSpecification _avspec) throws ApplyMutationException {
         AvatarRandom rand = new AvatarRandom(getName(), null);
         rand.setVariable(getAttributeName());
         if(areValuesSet()) rand.setValues(getMinValue(), getMaxValue());
@@ -73,10 +71,46 @@ public class AddRandomMutation extends RandomMutation implements AddMutation {
         return rand;
     }
 
-    public void apply(AvatarSpecification _avspec) {
+    public void apply(AvatarSpecification _avspec) throws ApplyMutationException {
         AvatarStateMachine asm = getAvatarStateMachine(_avspec);
         AvatarRandom rand = createElement(_avspec);
         asm.addElement(rand);
     }
 
+    public static AddRandomMutation createFromString(String toParse) throws ParseMutationException {
+
+        AddRandomMutation mutation = null;
+        String[] tokens = MutationParser.tokenise(toParse);
+
+        int index = MutationParser.indexOf(tokens, "IN");
+        if (tokens.length == index + 1 || index == -1) {
+            throw new ParseMutationException("block name", "in blockName");
+        }
+        String _blockName = tokens[index + 1];
+
+        index = MutationParser.indexOf(tokens, "WITH");
+        if (tokens.length == index + 1 || index == -1) {
+            throw new ParseMutationException("attibute name", "with attributeName");
+        }
+        String _attributeName = tokens[index + 1];
+
+        String[] _values = parseMinMax(tokens);
+        String _law = parseLaw(tokens);
+        String[] _extras = parseExtras(tokens);
+
+        index = MutationParser.indexOf(tokens, "RANDOM");
+        if (tokens.length == index + 1 || MutationParser.isToken(tokens[index+1])) {
+            mutation = new AddRandomMutation(_blockName, _attributeName);
+        } else {
+            String _name = tokens[index + 1];
+            mutation = new AddRandomMutation(_blockName, _attributeName, _name);
+        }
+
+        mutation.setValues(_values);
+        
+        mutation.setFunction(_law, _extras);
+
+        return mutation;
+        
+    }
 }

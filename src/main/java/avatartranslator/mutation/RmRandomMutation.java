@@ -39,7 +39,6 @@
 package avatartranslator.mutation;
 
 import avatartranslator.*;
-import myutil.TraceManager;
 
 /**
  * Class RmRandomMutation
@@ -59,16 +58,55 @@ public class RmRandomMutation extends RandomMutation implements RmMutation {
         super(_blockName, _name, _nameType);
     }
 
-    public void apply(AvatarSpecification _avspec) {
+    public void apply(AvatarSpecification _avspec) throws ApplyMutationException {
         AvatarStateMachine asm = getAvatarStateMachine(_avspec);
         AvatarRandom rand = getElement(_avspec);
 
         if(rand == null) {
-            TraceManager.addDev("unknown random operator");
-            return;
+            throw new ApplyMutationException("no such random in block " + getBlockName());
         }
 
         asm.removeElement(rand);
+    }
+
+    public static RmRandomMutation createFromString(String toParse) throws ParseMutationException {
+
+        RmRandomMutation mutation = null;
+        String[] tokens = MutationParser.tokenise(toParse);
+
+        int index = MutationParser.indexOf(tokens, "IN");
+        if (tokens.length == index + 1 || index == -1) {
+            throw new ParseMutationException("block name", "in blockName");
+        }
+        String _blockName = tokens[index + 1];
+
+        index = MutationParser.indexOf(tokens, "RANDOM");
+        if (tokens.length > index + 1 && !MutationParser.isToken(tokens[index+1])) {
+            String _name = tokens[index + 1];
+            int _nameType = MutationParser.UUIDType(_name);
+            mutation = new RmRandomMutation(_blockName, _name, _nameType);
+            return mutation;
+        }
+
+        index = MutationParser.indexOf(tokens, "WITH");
+        if (tokens.length == index + 1 || index == -1) {
+            throw new ParseMutationException("attibute name", "with attributeName");
+        }
+        String _attributeName = tokens[index + 1];
+
+        mutation = new RmRandomMutation(_blockName, _attributeName);
+
+        index = MutationParser.indexOf(tokens, "(");
+
+        if (index != -1) {
+            String[] _values = parseMinMax(tokens);
+            String _law = parseLaw(tokens);
+            String[] _extras = parseExtras(tokens);
+            mutation.setValues(_values);
+            mutation.setFunction(_law, _extras);
+        }
+
+        return mutation;
     }
 
 }

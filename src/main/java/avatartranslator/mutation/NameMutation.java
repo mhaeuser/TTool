@@ -53,36 +53,56 @@ import avatartranslator.*;
 
 public class NameMutation extends AvatarMutation {
 
-    public NameMutation(String _uuid, String _name, String _blockName) {
+    public NameMutation(String _uuid, String _name, String _blockName) throws ParseMutationException {
         super();
-        uuid = _uuid;
+
+        try {
+            uuid = UUID.fromString(_uuid);
+        } catch (Exception e) {
+            throw new ParseMutationException("uuid is not a valid UUID");
+        }
         name = _name;
         blockName = _blockName;
     }
 
-    public NameMutation(String _uuid, String _name) {
+    public NameMutation(String _uuid, String _name) throws ParseMutationException {
         this(_uuid, _name, null);
     }
 
-    private String uuid;
+    private UUID uuid;
     private String name;
     private String blockName;
 
-    public void apply(AvatarSpecification _avspec) {
+    public void apply(AvatarSpecification _avspec) throws ApplyMutationException {
         if (blockName == null) {
             List<AvatarRelation> elts = _avspec.getRelations();
             for(AvatarRelation elt : elts) {
-                if(elt.getUUID().equals(UUID.fromString(uuid))) {
+                if(elt.getUUID().equals(uuid)) {
                     elt.setName(name);
                     return;
                 }
             }
+            for (AvatarBlock block : _avspec.getListOfBlocks()) {
+                AvatarStateMachine asm = block.getStateMachine();
+                List<AvatarStateMachineElement> asmElts = asm.getListOfElements();
+                for(AvatarStateMachineElement elt : asmElts) {
+                    if(elt.getUUID() != null && elt.getUUID().equals(uuid)) {
+                        elt.setName(name);
+                        return;
+                    }
+            }
+            }
         } else {
             AvatarBlock block = getBlock(_avspec, blockName);
+
+            if (block == null) {
+                throw new MissingBlockException("Block", blockName);
+            }
+
             AvatarStateMachine asm = block.getStateMachine();
             List<AvatarStateMachineElement> elts = asm.getListOfElements();
             for(AvatarStateMachineElement elt : elts) {
-                if(elt.getUUID() != null && elt.getUUID().equals(UUID.fromString(uuid))) {
+                if(elt.getUUID() != null && elt.getUUID().equals(uuid)) {
                     elt.setName(name);
                     return;
                 }
@@ -90,9 +110,24 @@ public class NameMutation extends AvatarMutation {
         }
     }
 
-    public static NameMutation createFromString(String toParse) {
-        String[] tokens = toParse.split(" ");
-        NameMutation mutation = new NameMutation(tokens[1], tokens[2]);
-        return mutation;
+    public static NameMutation createFromString(String toParse) throws ParseMutationException {
+        String[] tokens = MutationParser.tokenise(toParse);
+
+        if (tokens.length < 3) {
+            throw new ParseMutationException("Missing arguments [name uuid name (in blockName)]");
+        }
+        
+        String _uuid = tokens[1];
+        String _name = tokens[2];
+
+        int index = MutationParser.indexOf(tokens, "IN");
+        if (index != -1) {
+            if (tokens.length == index) {
+                throw new ParseMutationException("Missing block name [in blockName]");
+            }
+            String _blockName = tokens[index + 1];
+            return new NameMutation(_uuid, _name, _blockName);
+        }
+        return new NameMutation(_uuid, _name);
     }
 }

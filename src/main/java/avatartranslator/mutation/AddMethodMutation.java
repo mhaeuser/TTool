@@ -41,6 +41,7 @@ package avatartranslator.mutation;
 import java.util.List;
 
 import avatartranslator.*;
+//import myutil.TraceManager;
 
 /**
  * Class AddMethodMutation
@@ -51,71 +52,78 @@ import avatartranslator.*;
  */
 public class AddMethodMutation extends MethodMutation implements AddMutation {
 
+    public AddMethodMutation(String _blockName, String _methodName, List<String> _returnParameters, List<String[]> _parameters, boolean _imp) {
+        super(_blockName, _methodName, _returnParameters, _parameters, _imp);
+    }
+
+    public AddMethodMutation(String _blockName, String _methodName, List<String> _returnParameters, List<String[]> _parameters) {
+        super(_blockName, _methodName, _returnParameters, _parameters);
+    }
+
     public AddMethodMutation(String _blockName, String _methodName, boolean _imp) {
         super(_blockName, _methodName, _imp);
     }
 
     public AddMethodMutation(String _blockName, String _methodName) {
-        this(_blockName, _methodName, false);
+        super(_blockName, _methodName);
     }
 
-    public AvatarMethod createElement(AvatarSpecification _avspec) {
+    public AvatarMethod createElement(AvatarSpecification _avspec) throws ApplyMutationException {
+
         AvatarBlock block = getBlock(_avspec);
+        if (block == null) {
+            throw new MissingBlockException(getBlockName());
+        }
+
+        for (AvatarMethod am : block.getMethods()) {
+            if (am.getName().equals(this.getMethodName())) {
+                throw new ApplyMutationException("Method " + getMethodName() + " already exists in block " + getBlockName());
+            }
+        }
+
         AvatarMethod am = new AvatarMethod(getMethodName(), null);
         for (String s : getReturnParameters()) {
             AvatarAttribute aa = new AvatarAttribute("", AvatarType.getType(s), block, null);
             am.addReturnParameter(aa);
         }
         for (String[] s : getParameters()) {
-            AvatarAttribute aa = new AvatarAttribute(s[0], AvatarType.getType(s[1]), block, null);
+            AvatarAttribute aa = new AvatarAttribute(s[1], AvatarType.getType(s[0]), block, null);
             am.addParameter(aa);
         }
         am.setImplementationProvided(isImplementationProvided());
         return am;
     }
 
-    public void apply(AvatarSpecification _avspec) {
+    public void apply(AvatarSpecification _avspec) throws ApplyMutationException {
         AvatarMethod am = createElement(_avspec);
         AvatarBlock block = getBlock(_avspec);
         block.addMethod(am);
     }
 
-    public static AddMethodMutation createFromString(String toParse) {
-        AddMethodMutation mutation = null;
-        String _returnParameter;
-        String _methodName;
-        String _blockName;
+    public static AddMethodMutation createFromString(String toParse) throws ParseMutationException {
+        String[] tokens = MutationParser.tokenise(toParse);
+        
+        List<String> _returnParameters = parseReturnParameters(toParse, "METHOD");
 
-        List<String[]> _parameters = parseParameters(toParse);
-        String[] tokens = toParse.split(" ");
+        String _methodName = parseMethodName(toParse);
 
-        boolean _imp = false;
-        switch (tokens[tokens.length - 2].toUpperCase()) {
-            case "WITH":
-                _imp = true;
-            case "WITHOUT":
-                _blockName = tokens[tokens.length - 3];
-                break;
-            default:
-                _blockName = tokens[tokens.length - 1];
-                break;
+        List<String[]> _parameters = parseParameters(toParse, _methodName.toUpperCase());
+
+        /*for (String[] parameter : _parameters) {
+            TraceManager.addDev(MutationParser.tokensToString(parameter));
+        }*/
+
+        int index = MutationParser.indexOf(tokens, "IN");
+        if (tokens.length == index + 1 || index == -1) {
+            throw new ParseMutationException("block name", "in blockName");
         }
-
-        String s = toParse.substring(toParse.indexOf(' ')+1);
-        s = s.substring(s.indexOf(' '), s.indexOf('('));
-        tokens = s.split(" ");
-        if (tokens.length == 1) {
-            _methodName = tokens[0];
-            mutation = new AddMethodMutation(_blockName, _methodName, _imp);
+        String _blockName = tokens[index + 1];
+        
+        if (MutationParser.isTokenIn(tokens, "CODE")) {
+            boolean _imp = MutationParser.isTokenIn(tokens, "WITH");
+            return new AddMethodMutation(_blockName, _methodName, _returnParameters, _parameters, _imp);
         } else {
-            _returnParameter = tokens[0];
-            _methodName = tokens[1];
-            mutation = new AddMethodMutation(_blockName, _methodName, _imp);
-            mutation.addReturnParameter(_returnParameter);
+            return new AddMethodMutation(_blockName, _methodName, _returnParameters, _parameters);
         }
-
-        mutation.setParameters(_parameters);
-
-        return mutation;
     }
 }

@@ -55,10 +55,28 @@ public class RmStateMutation extends StateMutation implements RmMutation {
         super(_blockName, _stateName);
     }
 
-    public void apply(AvatarSpecification _avspec) {
+    public void apply(AvatarSpecification _avspec) throws ApplyMutationException {
         AvatarState state = getElement(_avspec);
         AvatarStateMachine asm = getAvatarStateMachine(_avspec);
-        if (state == null) TraceManager.addDev("unknown state");
         asm.removeElement(state);
+    }
+
+    public static RmStateMutation createFromString(String toParse) throws ParseMutationException {
+        String[] tokens = MutationParser.tokenise(toParse);
+
+        int index = MutationParser.indexOf(tokens, "STATE");
+        if (tokens.length == index + 1) {
+            throw new ParseMutationException("state name", "add state stateName");
+        }
+        String _stateName = tokens[index + 1];
+
+        index = MutationParser.indexOf(tokens, "IN");
+        if (tokens.length == index + 1 || index == -1) {
+            throw new ParseMutationException("block name", "in blockName");
+        }
+        String _blockName = tokens[index + 1];
+
+        RmStateMutation mutation = new RmStateMutation(_blockName, _stateName);
+        return mutation;
     }
 }

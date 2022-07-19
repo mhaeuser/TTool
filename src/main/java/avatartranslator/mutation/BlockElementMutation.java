@@ -67,24 +67,33 @@ public abstract class BlockElementMutation extends AvatarMutation {
         return blockName;
     }
 
-    protected AvatarAttribute getAttribute(AvatarSpecification _avspec, String _name) {
+    protected AvatarAttribute getAttribute(AvatarSpecification _avspec, String _name) throws ApplyMutationException {
         AvatarBlock block = getBlock(_avspec);
+        if (block == null) {
+            throw new MissingBlockException(blockName);
+        }
         return block.getAvatarAttributeWithName(_name);
     }
 
-    protected AvatarMethod getMethod(AvatarSpecification _avspec, String _name) {
+    protected AvatarMethod getMethod(AvatarSpecification _avspec, String _name) throws ApplyMutationException {
         AvatarBlock block = getBlock(_avspec);
+        if (block == null) {
+            throw new MissingBlockException(getBlockName());
+        }
         return block.getAvatarMethodWithName(_name);
     }
 
-    protected AvatarSignal getSignal(AvatarSpecification _avspec, String _name) {
+    protected AvatarSignal getSignal(AvatarSpecification _avspec, String _name) throws ApplyMutationException {
         AvatarBlock block = getBlock(_avspec);
+        if (block == null) {
+            throw new MissingBlockException(getBlockName());
+        }
+
         return block.getAvatarSignalWithName(_name);
     }
 
-    public static BlockElementMutation createFromString(String toParse) {
-        String[] tokens = toParse.toUpperCase().split(" ");
-        switch (tokens[0]) {
+    public static BlockElementMutation createFromString(String toParse) throws ParseMutationException {
+        switch (MutationParser.findMutationToken(toParse)) {
             case "ADD":
                 return AddBlockMutation.createFromString(toParse);
             case "RM":

@@ -39,6 +39,7 @@
 package avatartranslator.mutation;
 
 import avatartranslator.*;
+import myutil.TraceManager;
 
 /**
  * Class AttributeMutation
@@ -104,13 +105,14 @@ public abstract class AttributeMutation extends BlockElementMutation {
         return null;
     }
 
-    public AvatarAttribute getElement(AvatarSpecification _avspec) {
+    public AvatarAttribute getElement(AvatarSpecification _avspec) throws ApplyMutationException {
         return getAttribute(_avspec, getName());
     }
     
-    public static AttributeMutation createFromString(String toParse) {
-        String[] tokens = toParse.toUpperCase().split(" ");
-        switch (tokens[0]) {
+    public static AttributeMutation createFromString(String toParse) throws ParseMutationException {
+        
+        TraceManager.addDev("Attribute");
+        switch (MutationParser.findMutationToken(toParse)) {
             case "ADD":
                 return AddAttributeMutation.createFromString(toParse);
             case "RM":

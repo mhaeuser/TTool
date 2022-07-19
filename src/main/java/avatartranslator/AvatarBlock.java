@@ -859,7 +859,7 @@ public class AvatarBlock extends AvatarElement implements AvatarStateMachineOwne
 
 
     public void removeUselessAttributes() {
-        AvatarTransition at;
+        //AvatarTransition at;
         List<AvatarAttribute> toBeRemoved = new LinkedList<AvatarAttribute>();
 
 

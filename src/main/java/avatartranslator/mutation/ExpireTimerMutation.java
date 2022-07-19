@@ -64,7 +64,7 @@ public abstract class ExpireTimerMutation extends TimerOperatorMutation {
     }
 
     @Override
-    public AvatarExpireTimer getElement(AvatarSpecification _avspec) {
+    public AvatarExpireTimer getElement(AvatarSpecification _avspec) throws ApplyMutationException {
         if (isNameSet())
             return (AvatarExpireTimer)super.getElement(_avspec);
         AvatarStateMachine asm = getAvatarStateMachine(_avspec);
@@ -76,6 +76,22 @@ public abstract class ExpireTimerMutation extends TimerOperatorMutation {
                     return tmp;
                 }
             }
+        }
+        return null;
+    }
+
+    public static ExpireTimerMutation createFromString(String toParse) throws ParseMutationException {
+        switch (MutationParser.findMutationToken(toParse)) {
+        case "ADD":
+            return AddExpireTimerMutation.createFromString(toParse);
+        case "RM":
+        case "REMOVE":
+            return RmExpireTimerMutation.createFromString(toParse);
+        case "MD":
+        case "MODIFY":
+            return MdExpireTimerMutation.createFromString(toParse);
+        default:
+            break;
         }
         return null;
     }

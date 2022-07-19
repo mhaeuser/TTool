@@ -39,6 +39,7 @@
 package avatartranslator.mutation;
 
 import avatartranslator.*;
+//import myutil.TraceManager;
 
 /**
  * Class AvatarMutation
@@ -57,13 +58,13 @@ public abstract class AvatarMutation {
         return _avspec.getBlockWithName(_blockName);
     }
 
-    public abstract void apply(AvatarSpecification _avspec);
+    public abstract void apply(AvatarSpecification _avspec) throws ApplyMutationException;
 
-    public static AvatarMutation createFromString(String toParse) {
+    public static AvatarMutation createFromString(String toParse) throws ParseMutationException {
+        //TraceManager.addDev("Avatar");
         toParse = toParse.trim();
-        String[] tokens = toParse.toUpperCase().split(" ");
-        if(tokens.length < 2) return null;
-        switch (tokens[0]) {
+        //TraceManager.addDev(MutationParser.findElementToken(toParse));
+        switch (MutationParser.findMutationToken(toParse)) {
             case "ATTACH":
                 return AttachParentMutation.createFromString(toParse);
             case "DETACH":
@@ -73,7 +74,7 @@ public abstract class AvatarMutation {
             default:
                 break;
         }
-        switch (tokens[1]) {
+        switch (MutationParser.findElementToken(toParse)) {
             case "BLOCK":
                 return BlockElementMutation.createFromString(toParse);
             case "ATTRIBUTE":
@@ -86,8 +87,10 @@ public abstract class AvatarMutation {
                 return SignalMutation.createFromString(toParse);
             case "STATE":
                 return StateMutation.createFromString(toParse);
+            case "TRANSITION":
+                return TransitionMutation.createFromString(toParse);
             case "ACTION":
-                if(tokens[2].equals("ON")) return ActionOnSignalMutation.createFromString(toParse);
+                if(MutationParser.isTokenIn(toParse, "ON")) return ActionOnSignalMutation.createFromString(toParse);
                 return ActionMutation.createFromString(toParse);
             case "RANDOM":
                 return RandomMutation.createFromString(toParse);
@@ -97,8 +100,10 @@ public abstract class AvatarMutation {
                 return ResetTimerMutation.createFromString(toParse);
             case "EXPIRE":
                 return ExpireTimerMutation.createFromString(toParse);
-            case "TRANSITION":
-                return TransitionMutation.createFromString(toParse);
+            case "LINK":
+                return RelationMutation.createFromString(toParse);
+            case "CONNECTION":
+                return ConnectionMutation.createFromString(toParse);
             default:
                 break;
         }

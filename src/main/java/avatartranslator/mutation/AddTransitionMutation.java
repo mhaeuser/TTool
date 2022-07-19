@@ -51,9 +51,6 @@ import java.util.List;
  */
 
 public class AddTransitionMutation extends TransitionMutation implements AddMutation {
-
-    boolean isGraphical = false;
-
     public AddTransitionMutation(String _blockName, String _fromString, int _fromType, String _toString, int _toType) {
         super(_blockName, _fromString, _fromType, _toString, _toType);
     }
@@ -62,9 +59,21 @@ public class AddTransitionMutation extends TransitionMutation implements AddMuta
         super(_blockName, _fromString, _fromType, _toString, _toType, _transitionName, NAME_TYPE);
     }
     
-    //todo : add Graphical referenceObject
-    public AvatarTransition createElement(AvatarSpecification _avspec) {
+    public AvatarTransition createElement(AvatarSpecification _avspec) throws ApplyMutationException {
         AvatarBlock block = getBlock(_avspec);
+        if (block == null) {
+            throw new MissingBlockException(getBlockName());
+        }
+        if (getName().length() > 0) {
+            for (AvatarStateMachineElement asme : block.getStateMachine().getListOfElements()) {
+                if (asme instanceof AvatarTransition) {
+                    if (asme.getName().equals(getName())) {
+                        throw new ApplyMutationException("Transition " + getName() + " already exists in block " + getBlockName());
+                    }
+                }
+            }
+        }
+        
         AvatarTransition trans = new AvatarTransition(block, getName(), null);
         if (isProbabilitySet()) {
             trans.setProbability(getProbability());
@@ -88,15 +97,89 @@ public class AddTransitionMutation extends TransitionMutation implements AddMuta
         return trans;
     }
 
-    public void apply(AvatarSpecification _avspec) {
+    public void apply(AvatarSpecification _avspec) throws ApplyMutationException {
         AvatarStateMachine asm = getAvatarStateMachine(_avspec);
         AvatarTransition trans = createElement(_avspec);
         AvatarStateMachineElement fromElement = getFromElement(_avspec);
+        if (fromElement == null) {
+            throw new ApplyMutationException("From element " + getFrom() + " doesn't exist in block " + getBlockName());
+        }
         AvatarStateMachineElement toElement = getToElement(_avspec);
+        if (toElement == null) {
+            throw new ApplyMutationException("To element " + getTo() + " doesn't exist in block " + getBlockName());
+        }
 
         asm.addElement(trans);
         fromElement.addNext(trans);
         trans.addNext(toElement);
+    }
+
+    public static AddTransitionMutation createFromString(String toParse) throws ParseMutationException {
+
+        AddTransitionMutation mutation = null;
+
+        String[] tokens = MutationParser.tokenise(toParse);
+
+        int index = MutationParser.indexOf(tokens, "IN");
+        if (tokens.length == index + 1 || index == -1) {
+            throw new ParseMutationException("block name", "in blockName");
+        }
+        String _blockName = tokens[index + 1];
+
+        index = MutationParser.indexOf(tokens, "FROM");
+        if (tokens.length == index + 1 || index == -1) {
+            throw new ParseMutationException("from element name", "from fromElementName");
+        }
+        String _fromString = tokens[index + 1];
+        int _fromType = MutationParser.UUIDType(_fromString);
+
+        index = MutationParser.indexOf(tokens, "TO");
+        if (tokens.length == index + 1 || index == -1) {
+            throw new ParseMutationException("to element name", "to toElementName");
+        }
+        String _toString = tokens[index + 1];
+        int _toType = MutationParser.UUIDType(_toString);
+
+        index = MutationParser.indexOf(tokens, "TRANSITION");
+        if (tokens.length == index + 1 || MutationParser.isToken(tokens[index+1])) {
+            mutation = new AddTransitionMutation(_blockName, _fromString, _fromType, _toString, _toType);
+        } else {
+            String _transitionName = tokens[index + 1];
+            mutation = new AddTransitionMutation(_blockName, _fromString, _fromType, _toString, _toType, _transitionName);
+        }
+
+        if (toParse.contains("[")) {
+            String _guard = parseGuard(toParse);
+            mutation.setGuard(_guard);
+        }
+
+        if (MutationParser.isTokenIn(tokens, "AFTER")) {
+            String[] _minMaxDelay = parseMinMax(toParse);
+            mutation.setDelays(_minMaxDelay);
+
+            String _law = parseLaw(toParse);
+            String[] _extras = parseExtras(toParse);
+
+            mutation.setDelayDistributionLaw(_law, _extras);
+        }
+
+        if (toParse.contains("\"")) {
+            String[] _actions = parseActions(toParse);
+
+            mutation.setActions(_actions);
+        }
+
+        if (MutationParser.isTokenIn(tokens, "PROBABILITY")) {
+            String _probability = parseProbability(toParse);
+            mutation.setProbability(_probability);
+        }
+
+        if (MutationParser.isTokenIn(tokens, "COMPUTES")) {
+            String[] _minMaxComputes = parseComputes(toParse);
+            mutation.setComputes(_minMaxComputes);
+        }
+        
+        return mutation;
     }
 
 }

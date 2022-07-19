@@ -37,33 +37,22 @@
  */
 
 package avatartranslator.mutation;
-
-import avatartranslator.*;
-
+  
 /**
- * Class AddAssociationMutation
- * Creation: 29/06/2022
+ * Class MissingBlockException
+ * Creation: 12/07/2022
  *
  * @author Léon FRENOT
- * @version 1.0 29/06/2022
+ * @version 1.0 12/07/2022
  */
-public class AddAssociationMutation extends AssociationMutation implements AddMutation{
 
-    public AddAssociationMutation(String _block1, String _block2, String _signal1, String _signal2) {
-        super(_block1, _block2, _signal1, _signal2);
+public class MissingBlockException extends ApplyMutationException {
+
+    public MissingBlockException(String blockType, String blockName) {
+        super(blockType + " " + blockName + " doesn't exist");
     }
 
-    public AddAssociationMutation(String _relationString, int _relationType, String _signal1, String _signal2) {
-        super(_relationString, _relationType, _signal1, _signal2);
+    public MissingBlockException(String blockName) {
+        this("Block", blockName);
     }
-
-    public AvatarElement createElement(AvatarSpecification _avspec) {
-        return null;
-    }
-
-    public void apply(AvatarSpecification _avspec) {
-        AvatarRelation relation = getElement(_avspec);
-        relation.addSignals(getSignal1(_avspec), getSignal2(_avspec));
-    }
-
 }

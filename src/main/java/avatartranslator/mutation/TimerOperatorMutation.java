@@ -74,7 +74,7 @@ public abstract class TimerOperatorMutation extends UnnamedStateMachineElementMu
         timerName = _name;
     }
     
-    public AvatarTimerOperator getElement(AvatarSpecification _avspec) {
+    public AvatarTimerOperator getElement(AvatarSpecification _avspec) throws ApplyMutationException {
         return (AvatarTimerOperator)super.getElement(_avspec);
     }
     

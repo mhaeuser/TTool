@@ -77,7 +77,7 @@ public abstract class SetTimerMutation extends TimerOperatorMutation {
     }
 
     @Override
-    public AvatarSetTimer getElement(AvatarSpecification _avspec) {
+    public AvatarSetTimer getElement(AvatarSpecification _avspec) throws ApplyMutationException {
         if (isNameSet())
             return (AvatarSetTimer)super.getElement(_avspec);
         AvatarStateMachine asm = getAvatarStateMachine(_avspec);
@@ -89,6 +89,22 @@ public abstract class SetTimerMutation extends TimerOperatorMutation {
                     return tmp;
                 }
             }
+        }
+        return null;
+    }
+
+    public static SetTimerMutation createFromString(String toParse) throws ParseMutationException {
+        switch (MutationParser.findMutationToken(toParse)) {
+        case "ADD":
+            return AddSetTimerMutation.createFromString(toParse);
+        case "RM":
+        case "REMOVE":
+            return RmSetTimerMutation.createFromString(toParse);
+        case "MD":
+        case "MODIFY":
+            return MdSetTimerMutation.createFromString(toParse);
+        default:
+            break;
         }
         return null;
     }

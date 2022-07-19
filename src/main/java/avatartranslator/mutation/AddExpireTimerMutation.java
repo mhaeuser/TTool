@@ -40,7 +40,6 @@ package avatartranslator.mutation;
 
 import avatartranslator.*;
 
-
 /**
  * Class AddExpireTimerMutation
  * Creation: 28/06/2022
@@ -50,8 +49,6 @@ import avatartranslator.*;
  */
 public class AddExpireTimerMutation extends ExpireTimerMutation implements AddMutation {
 
-    private boolean isGraphical = false;
-
     public AddExpireTimerMutation(String _blockName, String _timerName) {
         super(_blockName, _timerName);
     }
@@ -60,18 +57,51 @@ public class AddExpireTimerMutation extends ExpireTimerMutation implements AddMu
         super(_blockName, _name, NAME_TYPE, _timerName);
     }
 
-    //todo : graphique
-    public AvatarExpireTimer createElement(AvatarSpecification _avspec) {
+    public AvatarExpireTimer createElement(AvatarSpecification _avspec) throws ApplyMutationException {
         AvatarExpireTimer elt = new AvatarExpireTimer(getName(), null);
         AvatarAttribute timer = getAttribute(_avspec, getTimerName());
+        if (timer == null) {
+            throw new ApplyMutationException("No timer named " + getTimerName() + " in block " + getBlockName());
+        }
         elt.setTimer(timer);
         return elt;
     }
 
-    public void apply(AvatarSpecification _avspec) {
+    public void apply(AvatarSpecification _avspec) throws ApplyMutationException {
         AvatarExpireTimer elt = createElement(_avspec);
         AvatarStateMachine asm = getAvatarStateMachine(_avspec);
         asm.addElement(elt);
+    }
+
+    public static AddExpireTimerMutation createFromString(String toParse) throws ParseMutationException {
+
+        AddExpireTimerMutation mutation = null;
+        String[] tokens = MutationParser.tokenise(toParse);
+
+        int index = MutationParser.indexOf(tokens, "IN");
+        if (tokens.length == index + 1 || index == -1) {
+            throw new ParseMutationException("block name", "in blockName");
+        }
+        String _blockName = tokens[index + 1];
+
+        index = MutationParser.indexOf(tokens, "WITH");
+        if (tokens.length == index + 1 || index == -1) {
+            throw new ParseMutationException("timer name", "with timerName");
+        }
+        String _timerName = tokens[index + 1];
+
+        index = MutationParser.indexOf(tokens, "TIMER");
+        if (tokens.length > index + 1 && MutationParser.isToken(tokens[index+1])) {
+            mutation = new AddExpireTimerMutation(_blockName, _timerName);
+        } else {
+            if (tokens.length == index + 1) {
+                throw new ParseMutationException("expire timer name", "expire timer expireTimerName");
+            }
+            String _name = tokens[index + 1];
+            mutation = new AddExpireTimerMutation(_blockName, _name, _timerName);
+        }
+
+        return mutation;
     }
 
 }

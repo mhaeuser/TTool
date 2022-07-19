@@ -54,5 +54,5 @@ public interface UnnamedElementMutation {
     public static final int NAME_TYPE = 0;
     public static final int UUID_TYPE = 1;
     
-    public AvatarElement getElement(AvatarSpecification _avspec, int _type, String _name);
+    public AvatarElement getElement(AvatarSpecification _avspec, int _type, String _name) throws ApplyMutationException;
 }

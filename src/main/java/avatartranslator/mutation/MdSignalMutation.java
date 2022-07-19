@@ -38,6 +38,7 @@
 
 package avatartranslator.mutation;
 
+import java.util.Arrays;
 import java.util.List;
 
 import avatartranslator.*;
@@ -84,21 +85,21 @@ public class MdSignalMutation extends SignalMutation implements MdMutation {
         super.setInOut(_inout);
     }
 
-    public void apply(AvatarSpecification _avspec) {
+    public void apply(AvatarSpecification _avspec) throws ApplyMutationException {
         
         AvatarBlock block = getBlock(_avspec);
+        if (block == null) {
+            throw new MissingBlockException(getBlockName());
+        }
+        
         AvatarSignal as = getElement(_avspec);
-
         if (as == null) {
-            TraceManager.addDev("Unknown Signal");
-            return;
+            throw new ApplyMutationException("Signal" + getSignalName() + "is not in block " + getBlockName());
         }
 
         List<AvatarSignal> sign = block.getSignals();
         if(!sign.contains(as)) {
-            TraceManager.addDev("Signal is from a super-bloc");
-            return;
-
+            throw new ApplyMutationException("Signal " + getSignalName() + " is in a super-bloc of " + getBlockName());
         }
 
         if (parametersChanged) {
@@ -114,35 +115,46 @@ public class MdSignalMutation extends SignalMutation implements MdMutation {
         }
     }
 
-    public static MdSignalMutation createFromString(String toParse) {
-        MdSignalMutation mutation;
+    public static MdSignalMutation createFromString(String toParse) throws ParseMutationException {
 
-        String[] tokens = toParse.split(" ");
-        String _signalName = tokens[2];
-        String _blockName = tokens[5];
+        String[] tokens = MutationParser.tokenise(toParse);
 
-        if (tokens[6].toUpperCase().equals("TO")) {
-            int _inout = 0;
-            switch (tokens[7].toUpperCase()) {
-                case "IN":
-                case "INPUT":
-                    _inout = AvatarSignal.IN;
-                    break;
-                case "OUT":
-                case "OUTPUT":
-                    _inout = AvatarSignal.OUT;
-                    break;
-                default:
-                    break;
-            }
-            mutation = new MdSignalMutation(_blockName, _signalName, _inout);
-        } else {
-            mutation = new MdSignalMutation(_blockName, _signalName);
+        int index = MutationParser.indexOf(tokens, "SIGNAL");
+        if (tokens.length == index + 1) {
+            throw new ParseMutationException("signal name", "signal signalName");
         }
-        if (tokens[tokens.length -1 ].contains(")")) {
-            mutation.setParameters(parseParameters(toParse));
+        String _signalName = tokens[index + 1];
+
+        index = MutationParser.indexOf(tokens, "IN");
+        if (tokens.length == index + 1 || index == -1) {
+            throw new ParseMutationException("block name", "in blockName");
         }
+        String _blockName = tokens[index + 1];
+
+        MdSignalMutation mutation = new MdSignalMutation(_blockName, _signalName);
+
+        index = MutationParser.indexOf(tokens, "TO");
+        
+        String[] arr = Arrays.copyOfRange(tokens, index, tokens.length);
+        TraceManager.addDev(MutationParser.tokensToString(arr));
+
+        switch (MutationParser.findInOutToken(arr)) {
+            case "IN":
+            case "INPUT":
+                mutation.setInOut(AvatarSignal.IN);
+                break;
+            case "OUT":
+            case "OUTPUT":
+                mutation.setInOut(AvatarSignal.OUT);
+                break;
+            default:
+                break;
+        }
+
+        if (MutationParser.isTokenIn(arr, "(")) {
+            mutation.setParameters(parseParameters(toParse, 0));
+        }
+
         return mutation;
     }
-    
 }

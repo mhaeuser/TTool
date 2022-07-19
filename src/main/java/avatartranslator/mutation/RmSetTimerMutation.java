@@ -57,10 +57,50 @@ public class RmSetTimerMutation extends SetTimerMutation implements RmMutation {
         super(_blockName, _name, _nameType);
     }
 
-    public void apply(AvatarSpecification _avspec) {
+    public void apply(AvatarSpecification _avspec) throws ApplyMutationException {
         AvatarSetTimer elt = getElement(_avspec);
+        if (elt == null) {
+            throw new ApplyMutationException("no such set timer in block " + getBlockName());
+        }
+        
         AvatarStateMachine asm = getAvatarStateMachine(_avspec);
         asm.removeElement(elt);
+    }
+
+    public static RmSetTimerMutation createFromString(String toParse) throws ParseMutationException {
+        RmSetTimerMutation mutation = null;
+        String[] tokens = MutationParser.tokenise(toParse);
+
+        int index = MutationParser.indexOf(tokens, "IN");
+        if (tokens.length == index + 1 || index == -1) {
+            throw new ParseMutationException("block name", "in blockName");
+        }
+        String _blockName = tokens[index + 1];
+
+        index = MutationParser.indexOf(tokens, "TIMER");
+        if (tokens.length == index + 1 || MutationParser.isToken(tokens[index+1])) {
+            index = MutationParser.indexOf(tokens, "WITH");
+            if (tokens.length == index + 1 || index == -1) {
+                throw new ParseMutationException("timer name", "with timerName");
+            }
+            String _timerName = tokens[index + 1];
+
+            index = MutationParser.indexOf(tokens, "AT");
+            if (tokens.length == index + 1 || index == -1) {
+                throw new ParseMutationException("initial value", "at initialValue");
+            }
+            String _timerValue = tokens[index + 1];
+            mutation = new RmSetTimerMutation(_blockName, _timerName, _timerValue);
+        } else {
+            if (tokens.length == index + 1) {
+                throw new ParseMutationException("set timer name", "set timer setTimerName");
+            }
+            String _name = tokens[index + 1];
+            int _nameType = MutationParser.UUIDType(_name);
+            mutation = new RmSetTimerMutation(_blockName, _name, _nameType);
+        }
+
+        return mutation;
     }
     
 }

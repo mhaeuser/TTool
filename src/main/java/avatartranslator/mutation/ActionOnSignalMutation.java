@@ -39,10 +39,9 @@
 package avatartranslator.mutation;
 
 import java.util.List;
+import java.util.LinkedList;
 
 import avatartranslator.*;
-import java.util.LinkedList;
-//import myutil.TraceManager;
 
 /**
  * Class ActionOnSignalMutation
@@ -103,6 +102,16 @@ public abstract class ActionOnSignalMutation extends UnnamedStateMachineElementM
         valuesSet = true;
     }
 
+    public void setValues(String[] _values) {
+        if (_values == null) return;
+
+        initValues();
+        valuesSet = true;
+        for (int i = 0; i < _values.length; i++) {
+            values.add(_values[i]);
+        }
+    }
+
     public void addValue(String _value) {
         values.add(_value);
         valuesSet = true;
@@ -126,9 +135,8 @@ public abstract class ActionOnSignalMutation extends UnnamedStateMachineElementM
     }
 
     @Override
-    public AvatarActionOnSignal getElement(AvatarSpecification _avspec) {
+    public AvatarActionOnSignal getElement(AvatarSpecification _avspec) throws ApplyMutationException{
         if (!isNameSet()) {
-            //TraceManager.addDev("name not set");
             AvatarStateMachine asm = getAvatarStateMachine(_avspec);
             List<AvatarStateMachineElement> elts =  asm.getListOfElements();
             for (AvatarStateMachineElement elt : elts) {
@@ -154,7 +162,42 @@ public abstract class ActionOnSignalMutation extends UnnamedStateMachineElementM
             return null;
         }
         AvatarStateMachineElement element = super.getElement(_avspec);
-        if (element != null && element instanceof AvatarActionOnSignal) return (AvatarActionOnSignal)element;
+        if (element == null) {
+            throw new ApplyMutationException("No action on signal named " + getName() + "in block " + getBlockName());
+        }
+        if (element instanceof AvatarActionOnSignal) {
+            return (AvatarActionOnSignal)element;
+        }
+        throw new ApplyMutationException("Element " + getName() + " in block " + getBlockName() + " is not an action on signal");
+    }
+
+    public static String[] parseValues(String toParse) {
+        int beginIndex = toParse.indexOf('(');
+        if (beginIndex == -1) {
+            return null;
+        }
+        int endIndex = toParse.indexOf(')');
+        if (beginIndex + 1 == endIndex) {
+            String[] out = {};
+            return out;
+        }
+        String _toParse = toParse.substring(beginIndex+1, endIndex);
+        return MutationParser.tokenise(_toParse, ",");
+    }
+
+    public static ActionOnSignalMutation createFromString(String toParse) throws ParseMutationException {
+        switch (MutationParser.findMutationToken(toParse)) {
+            case "ADD":
+                return AddActionOnSignalMutation.createFromString(toParse);
+            case "RM":
+            case "REMOVE":
+                return RmActionOnSignalMutation.createFromString(toParse);
+            case "MD":
+            case "MODIFY":
+                return MdActionOnSignalMutation.createFromString(toParse);
+            default:
+                break;
+        }
         return null;
     }
 }

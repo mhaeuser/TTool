@@ -51,6 +51,8 @@ Ludovic Apvrille, Renaud Pacalet
 #include <LogConstraint.h>
 #include <sys/types.h>
 #include <unistd.h>
+#include <random>
+#include <iostream>
 
 TMLTime SchedulableDevice::_simulatedTime=0;
 TMLTime SchedulableDevice::_nonDaemonSimulatedTime=0;
@@ -63,17 +65,16 @@ const unsigned int LogConstraint::_transTableLog[20]={0, 20, 52, 0, 16, 16, 10, 
 //template<class T,int size> MemPool<SizedParameter<T,size> > SizedParameter<T, size>::memPool(BLOCK_SIZE_PARAM);
 
 int myrand(int n1, int n2){
-	static bool firstTime = true;
-	if(firstTime){
-		srand(time(NULL));
-		firstTime = false;
-	}
-	n2++;
-	int r = (n1 + (int)(((float)(n2 - n1))*rand()/(RAND_MAX + 1.0)));
-	//std::cout << "random number: " << r << std::endl;
-	//return (n1 + (int)(((float)(n2 - n1))*rand()/(RAND_MAX + 1.0)));
-	return r;
-	//return n1 + rand()/(RAND_MAX/(n2-n1+1));
+
+  std::random_device rd;
+  std::mt19937 mt(rd());
+  n2++;
+  std::uniform_real_distribution<double> dist(n1, n2);
+  
+  int r = (int)(dist(mt));
+  //int r = (n1 + (int)(((float)(n2 - n1))*rand()/(RAND_MAX + 1.0)));
+  std::cout << "random number: " << r << std::endl;
+  return r;
 }
 
 long getTimeDiff(struct timeval& begin, struct timeval& end){

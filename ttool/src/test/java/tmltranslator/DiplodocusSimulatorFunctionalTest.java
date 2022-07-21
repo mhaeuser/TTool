@@ -19,6 +19,8 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 
 import static org.junit.Assert.*;
@@ -68,7 +70,7 @@ public class DiplodocusSimulatorFunctionalTest extends AbstractTest {
     }
 
 
-    @Test
+    //@Test
     public void testSimulationGraph() throws Exception {
         for(int i=0; i<TMAP_MODELS.length; i++) {
             String s = TMAP_MODELS[i];
@@ -217,22 +219,118 @@ public class DiplodocusSimulatorFunctionalTest extends AbstractTest {
             for(int j=0; j<EXPECTED_TRACES[i].length; j++) {
                 String currentFileName = RESOURCES_DIR + EXPECTED_TRACES[i][j];
                 System.out.println("executing: loading golden model: " + currentFileName);
-                String goldenModel = FileUtils.loadFile(currentFileName);
-                goldenModel = Conversion.replaceAllChar(goldenModel, ' ', "");
-                if (goldenModel.compareTo(traceFileS) != 0) {
+                String goldenModel = FileUtils.loadFile(currentFileName).trim();
+                goldenModel = Conversion.replaceAllString(goldenModel.trim(), "  ", " ");
+                traceFileS = Conversion.replaceAllString(traceFileS.trim(), "  ", " ");
+
+                //goldenModel = Conversion.replaceAllChar(goldenModel,   ' ', "");
+                boolean equal = areTracesEqual(goldenModel, traceFileS);
+                if (equal) {
                     found = true;
                     break;
                 }
             }
 
             if (found) {
-                System.out.println("Test TMAP_MODELS[i]: KO");
-            } else {
                 System.out.println("Test TMAP_MODELS[i]: OK");
+            } else {
+                System.out.println("Test TMAP_MODELS[i]: KO");
             }
-            assertFalse(found);
+
+            assertTrue(found);
         }
 
+    }
+
+    @Test
+    public void testTraceEqual() throws Exception {
+        boolean b1 = areTracesEqual("coucou ID:3 progress", "coucou ID:34 progress");
+        assertTrue(b1);
+        boolean b2 = areTracesEqual("coucou ID=3 progress", "coucou ID=34 progress");
+        assertFalse(b2);
+        boolean b3 = areTracesEqual("coucou ID:3 progress ID:3 p", "coucou ID:34 progress ID:35 p");
+        assertFalse(b3);
+        boolean b4 = areTracesEqual("coucou ID:3 progress ID:3 p", "coucou ID:34 progress ID:34 p");
+        assertTrue(b4);
+        boolean b5 = areTracesEqual("coucou ID:3 progress ID:12 p", "coucou ID:34 progress ID:34 p");
+        assertFalse(b5);
+        boolean b6 = areTracesEqual("coucou ID:3 progress ID:12 p", "coucou ID:34 progress ID:35 p");
+        assertTrue(b6);
+    }
+
+    private boolean areTracesEqual(String s1, String s2) {
+        HashMap<Integer, Integer> mapOfIDs = new HashMap<>();
+
+        int cpt1=0, cpt2=0;
+        while( (cpt1<s1.length()) && (cpt2<s2.length()) ) {
+            System.out.println("cpt1=" + cpt1 + " cpt2=" + cpt2);
+            String ts1 = s1.substring(cpt1);
+            if (ts1.startsWith("ID:")) {
+                System.out.println("Testing ID " + ts1);
+                String ts2 = s2.substring(cpt2);
+                if (ts2.startsWith("ID:")) {
+
+                    // We must extract the number
+                    int index1 = ts1.indexOf(" ");
+                    int index2 = ts2.indexOf(" ");
+                    if ( (index1 == -1) || (index2 == -1)) {
+                        return false;
+                    }
+
+                    String tts1 = ts1.substring(3, index1);
+                    String tts2 = ts2.substring(3, index2);
+
+                    try {
+                        Integer i1 = Integer.valueOf(tts1);
+                        Integer i2 = Integer.valueOf(tts2);
+
+                        System.out.println("Found IDs: " + i1 + ", " + i2);
+
+                        Integer i3 = mapOfIDs.get(i1);
+                        if (i3 == null) {
+                            System.out.println("Not in map:" + i1);
+                            mapOfIDs.put(i1, i2);
+                        } else {
+                            System.out.println("Already in map:" + i1 + " with " + i3);
+                            if (Integer.compare(i3, i2) != 0) {
+                                return false;
+                            }
+                        }
+                        cpt1 += 3 + tts1.length();
+                        cpt2 += 3 + tts2.length();
+
+                    } catch (Exception e) {
+                        return false;
+                    }
+
+
+                } else {
+                    return false;
+                }
+
+            } else {
+                if (s1.charAt(cpt1) != s2.charAt(cpt2)) {
+                    return false;
+                }
+                cpt1 ++;
+                cpt2 ++;
+            }
+        }
+
+        // Testing that one destination ID corresponds to only one origin ID
+        Object [] ints = mapOfIDs.values().toArray();
+        for (int i=0; i<ints.length-1; i++) {
+            for (int j=i+1; j<ints.length; j++) {
+                Integer i1 = (Integer)ints[i];
+                Integer i2 = (Integer)ints[j];
+                if (Integer.compare(i1, i2) == 0) {
+                    System.out.println("i1=i2=" + i1);
+                    return false;
+                }
+            }
+        }
+
+        return true;
     }
 
 

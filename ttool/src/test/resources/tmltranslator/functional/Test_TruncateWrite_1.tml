@@ -1,0 +1,49 @@
+// TML Application - FORMAT 0.2
+// Application: Test_TruncateWrite_1.xml
+// Generated: Tue Jul 12 15:20:23 CEST 2022
+
+// PRAGMAS
+
+// Channels
+CHANNEL Application__a BRBW 1 100 OUT Application__T1a IN Application__T2a
+VCCHANNEL Application__a 0
+CHANNEL Application__b BRBW 1 150 OUT Application__T2b IN Application__T3b
+VCCHANNEL Application__b 0
+
+// Events
+
+// Requests
+
+TASK Application__T1a
+    TASKOP
+    //Local variables
+    
+    //Behavior
+    WRITE Application__a 10
+ENDTASK
+
+TASK Application__T2a
+    TASKOP
+    //Local variables
+    
+    //Behavior
+    READ Application__a 10
+ENDTASK
+
+TASK Application__T2b
+    TASKOP
+    //Local variables
+    
+    //Behavior
+    WRITE Application__b 80
+ENDTASK
+
+TASK Application__T3b
+    TASKOP
+    //Local variables
+    
+    //Behavior
+    READ Application__b 80
+    EXECI 20
+ENDTASK
+

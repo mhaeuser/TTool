@@ -7,6 +7,6 @@ TMLARCHI
 ENDTMLARCHI
 
 TMLMAPPING
-    MAP CPU0 Application__C1
+    MAP X Application__C1
     SET Application__C1 priority 0
 ENDTMLMAPPING

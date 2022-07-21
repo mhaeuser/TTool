@@ -1,0 +1,16 @@
+========= Scheduling for device: X3_1 =========
+Application__T3b: Read 80,Application__b t:80 l:80 (vl:80) params: Ch: Application__b
+Application__T3b: Execi 20 t:160 l:22 (vl:20) params:
+========= Scheduling for device: X2_1 =========
+Application__T2b: Write 80,Application__b t:0 l:80 (vl:80) params: Ch: Application__b
+Application__T2a: Read 10,Application__a t:100 l:10 (vl:10) params: Ch: Application__a
+========= Scheduling for device: X1_1 =========
+Application__T1a: Write 10,Application__a t:0 l:10 (vl:10) params: Ch: Application__a
+========= Scheduling for device: Ba_0 =========
+Application__T1a: Write 10,Application__a t:0 l:10 (vl:10) params: Ch: Application__a
+Application__T2a: Read 10,Application__a t:100 l:10 (vl:10) params: Ch: Application__a
+========= Scheduling for device: Bb2_0 =========
+Application__T2b: Write 80,Application__b t:0 l:80 (vl:80) params: Ch: Application__b
+Application__T3b: Read 80,Application__b t:80 l:80 (vl:80) params: Ch: Application__b
+========= Scheduling for device: Bb1_0 =========
+Application__T2b: Write 80,Application__b t:0 l:80 (vl:80) params: Ch: Application__b

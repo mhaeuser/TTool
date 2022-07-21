@@ -1,0 +1,161 @@
+// Master clock frequency - in MHz
+MASTERCLOCKFREQUENCY 200
+
+NODE MEMORY M1
+SET M1 byteDataSize 4
+SET M1 clockDivider 1
+
+NODE MEMORY M0
+SET M0 byteDataSize 4
+SET M0 clockDivider 1
+
+NODE BRIDGE BR
+SET BR bufferByteSize 4
+SET BR clockDivider 1
+
+NODE BUS Bb
+SET Bb byteDataSize 1
+SET Bb pipelineSize 1
+SET Bb arbitration 0
+SET Bb sliceTime 10000
+SET Bb burstSize 100
+SET Bb clockDivider 1
+
+NODE BUS Ba
+SET Ba byteDataSize 1
+SET Ba pipelineSize 1
+SET Ba arbitration 1
+SET Ba sliceTime 10000
+SET Ba burstSize 100
+SET Ba clockDivider 1
+
+NODE CPU X0T
+SET X0T nbOfCores 1
+SET X0T byteDataSize 4
+SET X0T pipelineSize 5
+SET X0T goIdleTime 10
+SET X0T maxConsecutiveIdleCycles 10
+SET X0T taskSwitchingTime 20
+SET X0T branchingPredictionPenalty 2
+SET X0T cacheMiss 5
+SET X0T schedulingPolicy 0
+SET X0T sliceTime 10000
+SET X0T execiTime 1
+SET X0T execcTime 1
+SET X0T clockDivider 1
+
+NODE CPU X2T
+SET X2T nbOfCores 1
+SET X2T byteDataSize 4
+SET X2T pipelineSize 5
+SET X2T goIdleTime 10
+SET X2T maxConsecutiveIdleCycles 10
+SET X2T taskSwitchingTime 20
+SET X2T branchingPredictionPenalty 2
+SET X2T cacheMiss 5
+SET X2T schedulingPolicy 0
+SET X2T sliceTime 10000
+SET X2T execiTime 1
+SET X2T execcTime 1
+SET X2T clockDivider 1
+
+NODE CPU X0S
+SET X0S nbOfCores 1
+SET X0S byteDataSize 4
+SET X0S pipelineSize 5
+SET X0S goIdleTime 10
+SET X0S maxConsecutiveIdleCycles 10
+SET X0S taskSwitchingTime 20
+SET X0S branchingPredictionPenalty 2
+SET X0S cacheMiss 5
+SET X0S schedulingPolicy 0
+SET X0S sliceTime 10000
+SET X0S execiTime 1
+SET X0S execcTime 1
+SET X0S clockDivider 1
+
+NODE CPU X1S
+SET X1S nbOfCores 1
+SET X1S byteDataSize 4
+SET X1S pipelineSize 5
+SET X1S goIdleTime 10
+SET X1S maxConsecutiveIdleCycles 10
+SET X1S taskSwitchingTime 20
+SET X1S branchingPredictionPenalty 2
+SET X1S cacheMiss 5
+SET X1S schedulingPolicy 0
+SET X1S sliceTime 10000
+SET X1S execiTime 1
+SET X1S execcTime 1
+SET X1S clockDivider 1
+
+NODE CPU X2S
+SET X2S nbOfCores 1
+SET X2S byteDataSize 4
+SET X2S pipelineSize 5
+SET X2S goIdleTime 10
+SET X2S maxConsecutiveIdleCycles 10
+SET X2S taskSwitchingTime 20
+SET X2S branchingPredictionPenalty 2
+SET X2S cacheMiss 5
+SET X2S schedulingPolicy 0
+SET X2S sliceTime 10000
+SET X2S execiTime 1
+SET X2S execcTime 1
+SET X2S clockDivider 1
+
+NODE CPU X1T
+SET X1T nbOfCores 1
+SET X1T byteDataSize 4
+SET X1T pipelineSize 5
+SET X1T goIdleTime 10
+SET X1T maxConsecutiveIdleCycles 10
+SET X1T taskSwitchingTime 20
+SET X1T branchingPredictionPenalty 2
+SET X1T cacheMiss 5
+SET X1T schedulingPolicy 0
+SET X1T sliceTime 10000
+SET X1T execiTime 1
+SET X1T execcTime 1
+SET X1T clockDivider 1
+
+NODE LINK link_X2T_to_Bb
+SET link_X2T_to_Bb node X2T
+SET link_X2T_to_Bb bus Bb
+SET link_X2T_to_Bb priority 1
+NODE LINK link_X2S_to_Bb
+SET link_X2S_to_Bb node X2S
+SET link_X2S_to_Bb bus Bb
+SET link_X2S_to_Bb priority 1
+NODE LINK link_M0_to_Bb
+SET link_M0_to_Bb node M0
+SET link_M0_to_Bb bus Bb
+SET link_M0_to_Bb priority 0
+NODE LINK link_X0T_to_Bb
+SET link_X0T_to_Bb node X0T
+SET link_X0T_to_Bb bus Bb
+SET link_X0T_to_Bb priority 0
+NODE LINK link_X1T_to_Ba
+SET link_X1T_to_Ba node X1T
+SET link_X1T_to_Ba bus Ba
+SET link_X1T_to_Ba priority 0
+NODE LINK link_M1_to_Ba
+SET link_M1_to_Ba node M1
+SET link_M1_to_Ba bus Ba
+SET link_M1_to_Ba priority 0
+NODE LINK link_X1S_to_Ba
+SET link_X1S_to_Ba node X1S
+SET link_X1S_to_Ba bus Ba
+SET link_X1S_to_Ba priority 0
+NODE LINK link_BR_to_Bb
+SET link_BR_to_Bb node BR
+SET link_BR_to_Bb bus Bb
+SET link_BR_to_Bb priority 0
+NODE LINK link_BR_to_Ba
+SET link_BR_to_Ba node BR
+SET link_BR_to_Ba bus Ba
+SET link_BR_to_Ba priority 0
+NODE LINK link_X0S_to_Ba
+SET link_X0S_to_Ba node X0S
+SET link_X0S_to_Ba bus Ba
+SET link_X0S_to_Ba priority 1

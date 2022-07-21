@@ -1,0 +1,14 @@
+TMLSPEC
+    #include "Test_delay_param.tml"
+ENDTMLSPEC
+
+TMLARCHI
+    #include "Test_delay_param.tarchi"
+ENDTMLARCHI
+
+TMLMAPPING
+    MAP X1 Application__T
+    SET Application__T priority 0
+    MAP X0 Application__S
+    SET Application__S priority 0
+ENDTMLMAPPING

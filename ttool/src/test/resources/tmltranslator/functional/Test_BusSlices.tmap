@@ -1,0 +1,28 @@
+TMLSPEC
+    #include "Test_BusSlices.tml"
+ENDTMLSPEC
+
+TMLARCHI
+    #include "Test_BusSlices.tarchi"
+ENDTMLARCHI
+
+TMLMAPPING
+    MAP X1b Application__T1b
+    SET Application__T1b priority 0
+    MAP X2b Application__T2b
+    SET Application__T2b priority 0
+    MAP X3b Application__T3b
+    SET Application__T3b priority 0
+    MAP X1a Application__T1a
+    SET Application__T1a priority 0
+    MAP X2a Application__T2a
+    SET Application__T2a priority 0
+    MAP X3a Application__T3a
+    SET Application__T3a priority 0
+    MAP Mem1 Application__c1
+    SET Application__c1 priority 0
+    MAP Mem2 Application__c2
+    SET Application__c2 priority 0
+    MAP Mem3 Application__c3
+    SET Application__c3 priority 0
+ENDTMLMAPPING

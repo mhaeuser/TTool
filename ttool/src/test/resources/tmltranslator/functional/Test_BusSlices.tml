@@ -1,0 +1,63 @@
+// TML Application - FORMAT 0.2
+// Application: Test_BusSlices.xml
+// Generated: Tue Jul 12 14:50:42 CEST 2022
+
+// PRAGMAS
+
+// Channels
+CHANNEL Application__c1 BRBW 1 1000 OUT Application__T1a IN Application__T1b
+VCCHANNEL Application__c1 0
+CHANNEL Application__c2 BRBW 1 1000 OUT Application__T2a IN Application__T2b
+VCCHANNEL Application__c2 0
+CHANNEL Application__c3 BRBW 1 1000 OUT Application__T3a IN Application__T3b
+VCCHANNEL Application__c3 0
+
+// Events
+
+// Requests
+
+TASK Application__T1a
+    TASKOP
+    //Local variables
+    
+    //Behavior
+    WRITE Application__c1 200
+ENDTASK
+
+TASK Application__T1b
+    TASKOP
+    //Local variables
+    
+    //Behavior
+ENDTASK
+
+TASK Application__T2a
+    TASKOP
+    //Local variables
+    
+    //Behavior
+    WRITE Application__c2 120
+ENDTASK
+
+TASK Application__T2b
+    TASKOP
+    //Local variables
+    
+    //Behavior
+ENDTASK
+
+TASK Application__T3a
+    TASKOP
+    //Local variables
+    
+    //Behavior
+    WRITE Application__c3 230
+ENDTASK
+
+TASK Application__T3b
+    TASKOP
+    //Local variables
+    
+    //Behavior
+ENDTASK
+

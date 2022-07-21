@@ -1,0 +1,225 @@
+// Master clock frequency - in MHz
+MASTERCLOCKFREQUENCY 100
+
+NODE MEMORY Mem1
+SET Mem1 byteDataSize 4
+SET Mem1 clockDivider 1
+
+NODE MEMORY Mem2
+SET Mem2 byteDataSize 4
+SET Mem2 clockDivider 1
+
+NODE MEMORY Mem3
+SET Mem3 byteDataSize 4
+SET Mem3 clockDivider 1
+
+NODE BRIDGE Br1
+SET Br1 bufferByteSize 4
+SET Br1 clockDivider 1
+
+NODE BRIDGE Br2
+SET Br2 bufferByteSize 4
+SET Br2 clockDivider 1
+
+NODE BRIDGE Br3
+SET Br3 bufferByteSize 4
+SET Br3 clockDivider 1
+
+NODE BUS B1b
+SET B1b byteDataSize 1
+SET B1b pipelineSize 1
+SET B1b arbitration 0
+SET B1b sliceTime 10
+SET B1b burstSize 400
+SET B1b clockDivider 1
+
+NODE BUS B2b
+SET B2b byteDataSize 1
+SET B2b pipelineSize 1
+SET B2b arbitration 0
+SET B2b sliceTime 1
+SET B2b burstSize 50
+SET B2b clockDivider 1
+
+NODE BUS B3b
+SET B3b byteDataSize 1
+SET B3b pipelineSize 1
+SET B3b arbitration 0
+SET B3b sliceTime 1
+SET B3b burstSize 400
+SET B3b clockDivider 1
+
+NODE CPU X1b
+SET X1b nbOfCores 1
+SET X1b byteDataSize 4
+SET X1b pipelineSize 5
+SET X1b goIdleTime 10
+SET X1b maxConsecutiveIdleCycles 10
+SET X1b taskSwitchingTime 20
+SET X1b branchingPredictionPenalty 2
+SET X1b cacheMiss 5
+SET X1b schedulingPolicy 0
+SET X1b sliceTime 10000
+SET X1b execiTime 1
+SET X1b execcTime 1
+SET X1b clockDivider 1
+
+NODE CPU X2b
+SET X2b nbOfCores 1
+SET X2b byteDataSize 4
+SET X2b pipelineSize 5
+SET X2b goIdleTime 10
+SET X2b maxConsecutiveIdleCycles 10
+SET X2b taskSwitchingTime 20
+SET X2b branchingPredictionPenalty 2
+SET X2b cacheMiss 5
+SET X2b schedulingPolicy 0
+SET X2b sliceTime 10000
+SET X2b execiTime 1
+SET X2b execcTime 1
+SET X2b clockDivider 1
+
+NODE CPU X3b
+SET X3b nbOfCores 1
+SET X3b byteDataSize 4
+SET X3b pipelineSize 5
+SET X3b goIdleTime 10
+SET X3b maxConsecutiveIdleCycles 10
+SET X3b taskSwitchingTime 20
+SET X3b branchingPredictionPenalty 2
+SET X3b cacheMiss 5
+SET X3b schedulingPolicy 0
+SET X3b sliceTime 10000
+SET X3b execiTime 1
+SET X3b execcTime 1
+SET X3b clockDivider 1
+
+NODE CPU X1a
+SET X1a nbOfCores 1
+SET X1a byteDataSize 4
+SET X1a pipelineSize 5
+SET X1a goIdleTime 10
+SET X1a maxConsecutiveIdleCycles 10
+SET X1a taskSwitchingTime 20
+SET X1a branchingPredictionPenalty 2
+SET X1a cacheMiss 5
+SET X1a schedulingPolicy 0
+SET X1a sliceTime 10000
+SET X1a execiTime 1
+SET X1a execcTime 1
+SET X1a clockDivider 1
+
+NODE CPU X2a
+SET X2a nbOfCores 1
+SET X2a byteDataSize 4
+SET X2a pipelineSize 5
+SET X2a goIdleTime 10
+SET X2a maxConsecutiveIdleCycles 10
+SET X2a taskSwitchingTime 20
+SET X2a branchingPredictionPenalty 2
+SET X2a cacheMiss 5
+SET X2a schedulingPolicy 0
+SET X2a sliceTime 10000
+SET X2a execiTime 1
+SET X2a execcTime 1
+SET X2a clockDivider 1
+
+NODE CPU X3a
+SET X3a nbOfCores 1
+SET X3a byteDataSize 4
+SET X3a pipelineSize 5
+SET X3a goIdleTime 10
+SET X3a maxConsecutiveIdleCycles 10
+SET X3a taskSwitchingTime 20
+SET X3a branchingPredictionPenalty 2
+SET X3a cacheMiss 5
+SET X3a schedulingPolicy 0
+SET X3a sliceTime 10000
+SET X3a execiTime 1
+SET X3a execcTime 1
+SET X3a clockDivider 1
+
+NODE BUS B1a
+SET B1a byteDataSize 1
+SET B1a pipelineSize 1
+SET B1a arbitration 0
+SET B1a sliceTime 10
+SET B1a burstSize 400
+SET B1a clockDivider 1
+
+NODE BUS B2a
+SET B2a byteDataSize 1
+SET B2a pipelineSize 1
+SET B2a arbitration 0
+SET B2a sliceTime 10
+SET B2a burstSize 400
+SET B2a clockDivider 1
+
+NODE BUS B3a
+SET B3a byteDataSize 1
+SET B3a pipelineSize 1
+SET B3a arbitration 0
+SET B3a sliceTime 10
+SET B3a burstSize 400
+SET B3a clockDivider 1
+
+NODE LINK link_Mem1_to_B1b
+SET link_Mem1_to_B1b node Mem1
+SET link_Mem1_to_B1b bus B1b
+SET link_Mem1_to_B1b priority 0
+NODE LINK link_Mem2_to_B2b
+SET link_Mem2_to_B2b node Mem2
+SET link_Mem2_to_B2b bus B2b
+SET link_Mem2_to_B2b priority 0
+NODE LINK link_Mem3_to_B3b
+SET link_Mem3_to_B3b node Mem3
+SET link_Mem3_to_B3b bus B3b
+SET link_Mem3_to_B3b priority 0
+NODE LINK link_X1b_to_B1b
+SET link_X1b_to_B1b node X1b
+SET link_X1b_to_B1b bus B1b
+SET link_X1b_to_B1b priority 0
+NODE LINK link_X2b_to_B2b
+SET link_X2b_to_B2b node X2b
+SET link_X2b_to_B2b bus B2b
+SET link_X2b_to_B2b priority 0
+NODE LINK link_X3b_to_B3b
+SET link_X3b_to_B3b node X3b
+SET link_X3b_to_B3b bus B3b
+SET link_X3b_to_B3b priority 0
+NODE LINK link_Br1_to_B1b
+SET link_Br1_to_B1b node Br1
+SET link_Br1_to_B1b bus B1b
+SET link_Br1_to_B1b priority 0
+NODE LINK link_Br2_to_B2b
+SET link_Br2_to_B2b node Br2
+SET link_Br2_to_B2b bus B2b
+SET link_Br2_to_B2b priority 0
+NODE LINK link_Br3_to_B3b
+SET link_Br3_to_B3b node Br3
+SET link_Br3_to_B3b bus B3b
+SET link_Br3_to_B3b priority 0
+NODE LINK link_Br1_to_B1a
+SET link_Br1_to_B1a node Br1
+SET link_Br1_to_B1a bus B1a
+SET link_Br1_to_B1a priority 0
+NODE LINK link_Br2_to_B2a
+SET link_Br2_to_B2a node Br2
+SET link_Br2_to_B2a bus B2a
+SET link_Br2_to_B2a priority 0
+NODE LINK link_Br3_to_B3a
+SET link_Br3_to_B3a node Br3
+SET link_Br3_to_B3a bus B3a
+SET link_Br3_to_B3a priority 0
+NODE LINK link_X1a_to_B1a
+SET link_X1a_to_B1a node X1a
+SET link_X1a_to_B1a bus B1a
+SET link_X1a_to_B1a priority 0
+NODE LINK link_X2a_to_B2a
+SET link_X2a_to_B2a node X2a
+SET link_X2a_to_B2a bus B2a
+SET link_X2a_to_B2a priority 0
+NODE LINK link_X3a_to_B3a
+SET link_X3a_to_B3a node X3a
+SET link_X3a_to_B3a bus B3a
+SET link_X3a_to_B3a priority 0

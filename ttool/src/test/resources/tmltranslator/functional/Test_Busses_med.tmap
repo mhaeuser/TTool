@@ -1,0 +1,28 @@
+TMLSPEC
+    #include "Test_Busses_med.tml"
+ENDTMLSPEC
+
+TMLARCHI
+    #include "Test_Busses_med.tarchi"
+ENDTMLARCHI
+
+TMLMAPPING
+    MAP X0T Application__TOT
+    SET Application__TOT priority 0
+    MAP X2T Application__T2T
+    SET Application__T2T priority 0
+    MAP X0S Application__T0S
+    SET Application__T0S priority 0
+    MAP X1S Application__T1S
+    SET Application__T1S priority 0
+    MAP X2S Application__T2S
+    SET Application__T2S priority 0
+    MAP X1T Application__T1T
+    SET Application__T1T priority 0
+    MAP M1 Application__c1
+    SET Application__c1 priority 0
+    MAP M0 Application__c0
+    SET Application__c0 priority 0
+    MAP M0 Application__c2
+    SET Application__c2 priority 0
+ENDTMLMAPPING

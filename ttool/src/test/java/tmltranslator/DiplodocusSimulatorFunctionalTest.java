@@ -25,8 +25,29 @@ import static org.junit.Assert.*;
 
 public class DiplodocusSimulatorFunctionalTest extends AbstractTest {
 
-    private final String [] TMAP_MODELS = {"simple1"};
-    private final String[] [] EXPECTED_TRACES = { {"simple1_out1.txt", "simple1_out2.txt"} };
+
+    private final String [] TMAP_MODELS = {
+            "simple1",
+            "PrioScheds_basic",
+            "Test_Busses_med",
+            "Test_BusSlices",
+            "Test_delay_param",
+            "Test_TruncateExe",
+            "Test_TruncateWrite_0",
+            "Test_TruncateWrite_1",
+            "Test_TruncateWrite_2",
+    };
+    private final String[] [] EXPECTED_TRACES = {
+            {"simple1_out1.txt", "simple1_out2.txt"},
+            {"PrioScheds_basic_out.txt"},
+            {"Test_Busses_med_out.txt"},
+            {"Test_BusSlices_out.txt"},
+            {"Test_delay_param_out.txt"},
+            {"Test_TruncateExe_out.txt"},
+            {"Test_TruncateWrite_0_out.txt"},
+            {"Test_TruncateWrite_1_out.txt"},
+            {"Test_TruncateWrite_2_out.txt"}
+    };
 
     final String DIR_GEN = "test_diplo_functional_simulator/";
     private String SIM_DIR;
@@ -198,14 +219,18 @@ public class DiplodocusSimulatorFunctionalTest extends AbstractTest {
                 System.out.println("executing: loading golden model: " + currentFileName);
                 String goldenModel = FileUtils.loadFile(currentFileName);
                 goldenModel = Conversion.replaceAllChar(goldenModel, ' ', "");
-                if (goldenModel.compareTo(traceFileS) == 0) {
+                if (goldenModel.compareTo(traceFileS) != 0) {
                     found = true;
                     break;
                 }
             }
 
+            if (found) {
+                System.out.println("Test TMAP_MODELS[i]: KO");
+            } else {
+                System.out.println("Test TMAP_MODELS[i]: OK");
+            }
             assertFalse(found);
-
         }
 
     }

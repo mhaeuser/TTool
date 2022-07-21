@@ -1,0 +1,66 @@
+// TML Application - FORMAT 0.2
+// Application: Test_Busses_med.xml
+// Generated: Tue Jul 12 14:35:20 CEST 2022
+
+// PRAGMAS
+
+// Channels
+CHANNEL Application__c0 BRBW 1 100 OUT Application__T0S IN Application__TOT
+VCCHANNEL Application__c0 0
+CHANNEL Application__c1 BRBW 1 100 OUT Application__T1S IN Application__T1T
+VCCHANNEL Application__c1 0
+CHANNEL Application__c2 BRBW 1 100 OUT Application__T2S IN Application__T2T
+VCCHANNEL Application__c2 0
+
+// Events
+
+// Requests
+
+TASK Application__T0S
+    TASKOP
+    //Local variables
+    
+    //Behavior
+    WRITE Application__c0 15
+ENDTASK
+
+TASK Application__T1S
+    TASKOP
+    //Local variables
+    
+    //Behavior
+    WRITE Application__c1 10
+ENDTASK
+
+TASK Application__T1T
+    TASKOP
+    //Local variables
+    
+    //Behavior
+    READ Application__c1 10
+ENDTASK
+
+TASK Application__T2S
+    TASKOP
+    //Local variables
+    
+    //Behavior
+    WRITE Application__c2 40
+ENDTASK
+
+TASK Application__T2T
+    TASKOP
+    //Local variables
+    
+    //Behavior
+    READ Application__c2 40
+ENDTASK
+
+TASK Application__TOT
+    TASKOP
+    //Local variables
+    
+    //Behavior
+    READ Application__c0 15
+ENDTASK
+

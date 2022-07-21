@@ -1,3 +1,3 @@
-========= Scheduling for device: CPU_1 =========
+========= Scheduling for device: X_1 =========
 Application__C1: Execi 20 t:0 l:22 (vl:20) params:
-========= Scheduling for device: Bus_0 =========
+========= Scheduling for device: B_0 =========

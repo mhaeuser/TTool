@@ -1,0 +1,48 @@
+// TML Application - FORMAT 0.2
+// Application: PrioScheds_basic.xml
+// Generated: Tue Jul 12 14:20:48 CEST 2022
+
+// PRAGMAS
+
+// Channels
+
+// Events
+
+// Requests
+
+TASK Application__T0
+    TASKOP
+    //Local variables
+    
+    //Behavior
+    EXECI 5
+    DELAY 5 us isActiveDelay false
+    EXECI 15
+ENDTASK
+
+TASK Application__T1
+    TASKOP
+    //Local variables
+    
+    //Behavior
+    EXECI 5
+    DELAY 5 us isActiveDelay false
+    EXECI 15
+ENDTASK
+
+TASK Application__U0
+    TASKOP
+    //Local variables
+    
+    //Behavior
+    DELAY 15 us isActiveDelay true
+ENDTASK
+
+TASK Application__U1
+    TASKOP
+    //Local variables
+    
+    //Behavior
+    DELAY 15 us isActiveDelay true
+ENDTASK
+

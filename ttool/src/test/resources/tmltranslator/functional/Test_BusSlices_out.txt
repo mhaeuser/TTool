@@ -1,0 +1,33 @@
+========= Scheduling for device: X1b_1 =========
+========= Scheduling for device: X2b_1 =========
+========= Scheduling for device: X3b_1 =========
+========= Scheduling for device: X1a_1 =========
+Application__T1a: Write 200,Application__c1 t:0 l:200 (vl:200) params: Ch: Application__c1
+========= Scheduling for device: X2a_1 =========
+Application__T2a: Write 120,Application__c2 t:0 l:50 (vl:50) params: Ch: Application__c2
+Application__T2a: Write 120,Application__c2 t:50 l:50 (vl:50) params: Ch: Application__c2
+Application__T2a: Write 120,Application__c2 t:100 l:20 (vl:20) params: Ch: Application__c2
+========= Scheduling for device: X3a_1 =========
+Application__T3a: Write 230,Application__c3 t:0 l:100 (vl:100) params: Ch: Application__c3
+Application__T3a: Write 230,Application__c3 t:100 l:100 (vl:100) params: Ch: Application__c3
+Application__T3a: Write 230,Application__c3 t:200 l:30 (vl:30) params: Ch: Application__c3
+========= Scheduling for device: B1b_0 =========
+Application__T1a: Write 200,Application__c1 t:0 l:200 (vl:200) params: Ch: Application__c1
+========= Scheduling for device: B2b_0 =========
+Application__T2a: Write 120,Application__c2 t:0 l:50 (vl:50) params: Ch: Application__c2
+Application__T2a: Write 120,Application__c2 t:50 l:50 (vl:50) params: Ch: Application__c2
+Application__T2a: Write 120,Application__c2 t:100 l:20 (vl:20) params: Ch: Application__c2
+========= Scheduling for device: B3b_0 =========
+Application__T3a: Write 230,Application__c3 t:0 l:100 (vl:100) params: Ch: Application__c3
+Application__T3a: Write 230,Application__c3 t:100 l:100 (vl:100) params: Ch: Application__c3
+Application__T3a: Write 230,Application__c3 t:200 l:30 (vl:30) params: Ch: Application__c3
+========= Scheduling for device: B1a_0 =========
+Application__T1a: Write 200,Application__c1 t:0 l:200 (vl:200) params: Ch: Application__c1
+========= Scheduling for device: B2a_0 =========
+Application__T2a: Write 120,Application__c2 t:0 l:50 (vl:50) params: Ch: Application__c2
+Application__T2a: Write 120,Application__c2 t:50 l:50 (vl:50) params: Ch: Application__c2
+Application__T2a: Write 120,Application__c2 t:100 l:20 (vl:20) params: Ch: Application__c2
+========= Scheduling for device: B3a_0 =========
+Application__T3a: Write 230,Application__c3 t:0 l:100 (vl:100) params: Ch: Application__c3
+Application__T3a: Write 230,Application__c3 t:100 l:100 (vl:100) params: Ch: Application__c3
+Application__T3a: Write 230,Application__c3 t:200 l:30 (vl:30) params: Ch: Application__c3

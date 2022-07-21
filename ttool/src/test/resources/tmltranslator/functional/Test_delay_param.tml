@@ -1,0 +1,33 @@
+// TML Application - FORMAT 0.2
+// Application: Test_delay_param.xml
+// Generated: Tue Jul 12 14:56:11 CEST 2022
+
+// PRAGMAS
+
+// Channels
+
+// Events
+EVENT Application__e__Application__e(int) NIB 8 Application__S Application__T
+
+// Requests
+
+TASK Application__S
+    TASKOP
+    //Local variables
+    
+    //Behavior
+    NOTIFY Application__e__Application__e 3
+ENDTASK
+
+TASK Application__T
+    TASKOP
+    //Local variables
+    int x
+    
+    //Behavior
+    WAIT Application__e__Application__e x
+    DELAY 4*x us isActiveDelay false
+    DELAY 2*x us isActiveDelay true
+    EXECI 5
+ENDTASK
+

@@ -1,0 +1,18 @@
+TMLSPEC
+    #include "PrioScheds_basic.tml"
+ENDTMLSPEC
+
+TMLARCHI
+    #include "PrioScheds_basic.tarchi"
+ENDTMLARCHI
+
+TMLMAPPING
+    MAP CPU0 Application__T0
+    SET Application__T0 priority 0
+    MAP CPU0 Application__U0
+    SET Application__U0 priority 1
+    MAP CPU1 Application__T1
+    SET Application__T1 priority 0
+    MAP CPU1 Application__U1
+    SET Application__U1 priority 1
+ENDTMLMAPPING

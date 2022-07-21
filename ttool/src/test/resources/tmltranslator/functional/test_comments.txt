@@ -1,0 +1,52 @@
+===========================
+test PrioScheds_basic:
+
+tests in parallel 2 kinds of scheduler (same test in both case).
+2 tasks T and U, T prior.
+
+ * T0,U0, RRPrioScheduler: Verify that U0 executes when T0 in static delay 
+   and that U executes after T's time slice.
+
+ * T1,U1, StrictPrioScheduler. Here, T1 preempts U1 as soon as its static 
+   delay terminates.
+
+===========================
+test Test_TruncateExe:
+Task T2a (a blocking read) on CPU X2 is made runnable when task T1a (a write) 
+terminates. At this moment the Exe of T2b is truncated, as T2a is more prior. 
+
+===========================
+test Test_TruncateWrite_0:
+Task T2a (a blocking read) on CPU X2 is made runnable when task T1a (a write) 
+terminates. But it does not preempt T2b (bus transactions are not truncated) 
+which has began. Thus T2a executes after T2b.
+
+===========================
+test Test_TruncateWrite_1:
+similar to TruncateWrite_med0 with one more bridge
+
+===========================
+test Test_TruncateWrite_2:
+Task T2a (a blocking read) on CPU X2 is made runnable when task T1a (a write) 
+terminates. But it does not preempt T2b (bus transactions are not truncated) 
+because T2b has began although it is waiting for bus (as prior T4c uses Bb). 
+Thus T2a executes after T2b. Other transactions respect priorities.
+
+===========================
+test Test_delay_param:
+Verifies that dynamic/static delay are well executed w.r.t. a duration
+specified by an expression.
+
+===========================
+test Test_Busses_med:
+tests a diversified bus architecture, with bus cheduling and concurrency.
+
+===========================
+test Test_BussesSlices: 
+3 write applications in parallel on similar architecture.
+- A1: writes 200 in one transaction as transaction size is under limits
+- A2: writes 120 in 3 transactions (50-50-20) due to a burst-size=50 limit
+  on bus B2b
+- A3: writes 230 in 3 transactions (100-100-30) due to slice-time=1ms limit
+  on bus B2b (test is simulated at 100Mhz)
+

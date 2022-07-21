@@ -1,0 +1,28 @@
+TMLSPEC
+    #include "Test_TruncateWrite_2.tml"
+ENDTMLSPEC
+
+TMLARCHI
+    #include "Test_TruncateWrite_2.tarchi"
+ENDTMLARCHI
+
+TMLMAPPING
+    MAP X5 Application__T5c
+    SET Application__T5c priority 0
+    MAP X4 Application__T4c
+    SET Application__T4c priority 0
+    MAP X3 Application__T3b
+    SET Application__T3b priority 0
+    MAP X2 Application__T2b
+    SET Application__T2b priority 1
+    MAP X2 Application__T2a
+    SET Application__T2a priority 0
+    MAP X1 Application__T1a
+    SET Application__T1a priority 0
+    MAP Mb Application__c
+    SET Application__c priority 0
+    MAP Mb Application__b
+    SET Application__b priority 0
+    MAP Ma Application__a
+    SET Application__a priority 0
+ENDTMLMAPPING

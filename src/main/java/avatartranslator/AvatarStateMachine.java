@@ -143,6 +143,7 @@ public class AvatarStateMachine extends AvatarElement {
      */
     public void makeCorrect(AvatarStateMachineOwner owner) {
         if (startState == null) {
+            TraceManager.addDev("Null start state");
             makeBasicSM(owner);
             return;
         }
@@ -152,6 +153,7 @@ public class AvatarStateMachine extends AvatarElement {
             ArrayList<AvatarStateMachineElement> removedNext = new ArrayList<>();
             for(AvatarStateMachineElement nextElt: asme.getNexts()) {
                 if (!(getListOfElements().contains(nextElt))) {
+                    TraceManager.addDev("Removing: " + nextElt);
                     removedNext.add(nextElt);
                 }
             }
@@ -198,6 +200,7 @@ public class AvatarStateMachine extends AvatarElement {
         ArrayList<AvatarElement> toRemove = new ArrayList<>();
         for(AvatarStateMachineElement asme: getListOfElements()) {
            if (!(reachable.contains(asme))) {
+               TraceManager.addDev("Not reachable: " + asme);
                toRemove.add(asme);
            }
         }

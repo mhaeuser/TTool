@@ -9279,7 +9279,7 @@ public class GTURTLEModeling {
 
 
         //Add Pragmas
-        AvatarBDPragma pragma = new AvatarBDPragma(xpos, ypos, xpos, xpos * 2, ypos, ypos * 2, false, null, abd);
+        /*AvatarBDPragma pragma = new AvatarBDPragma(xpos, ypos, xpos, xpos * 2, ypos, ypos * 2, false, null, abd);
         //  String[] arr = new String[avspec.getPragmas().size()];
         String s = "";
         // int i=0;
@@ -9315,7 +9315,7 @@ public class GTURTLEModeling {
         //Add message and key datatype if there is a cryptoblock
 
         xpos = 50;
-        ypos += 200;
+        ypos += 200;*/
         if (hasCrypto) {
             AvatarBDDataType message = new AvatarBDDataType(xpos, ypos, xpos, xpos * 2, ypos, ypos * 2, false, null, abd);
             message.setValue("Message");

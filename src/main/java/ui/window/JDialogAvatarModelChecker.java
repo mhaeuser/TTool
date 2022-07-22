@@ -1257,11 +1257,13 @@ public class JDialogAvatarModelChecker extends javax.swing.JFrame implements Act
             ArrayList<AvatarElement> elts = new ArrayList<>();
             elts.add((AvatarElement)_o);
             AvatarDependencyGraph clonedG = adg.reduceGraphBefore(elts);
-            /*RG rg = new RG("Dependency Graph of " + _tgc.toString() + "/" + _tgc.getAVATARID() + ".");
+
+
+            RG rg = new RG("Dependency Graph of " + _tgc.toString() + "/" + _tgc.getAVATARID() + ".");
             rg.graph = clonedG.getGraph();
             rg.nbOfStates = rg.graph.getNbOfStates();
             rg.nbOfTransitions = rg.graph.getNbOfTransitions();
-            mgui.addRG(rg);*/
+            mgui.addRG(rg);
 
             // Computing reduced specification
 
@@ -1273,6 +1275,8 @@ public class JDialogAvatarModelChecker extends javax.swing.JFrame implements Act
             //TraceManager.addDev("New spec: " + specNew);
 
             mgui.drawAvatarSpecification(specNew);
+
+            // Add reduced dependency graph
 
         }
 
@@ -1286,6 +1290,8 @@ public class JDialogAvatarModelChecker extends javax.swing.JFrame implements Act
             ArrayList<AvatarElement> elts = new ArrayList<>();
             elts.add((AvatarElement)_o);
             AvatarDependencyGraph clonedG = adg.reduceGraphBefore(elts);
+
+            //TraceManager.addDev("Adding reduced Dependency graph for " + _tgc.toString());
             RG rg = new RG("Dependency Graph of " + _tgc.toString() + "/" + _tgc.getAVATARID() + ".");
             rg.graph = clonedG.getGraph();
             rg.nbOfStates = rg.graph.getNbOfStates();

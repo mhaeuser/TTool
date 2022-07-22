@@ -265,7 +265,6 @@ public class AvatarDependencyGraph {
         }
 
 
-
         // We update all ids;
         cpt = 0;
         for(AUTState state: states) {

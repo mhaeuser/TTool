@@ -66,9 +66,14 @@ const unsigned int LogConstraint::_transTableLog[20]={0, 20, 52, 0, 16, 16, 10, 
 
 int myrand(int n1, int n2){
 
-  srand (time(NULL));
+  static bool init = false;
+  if (init == false) {
+      srand (time(NULL));
+      init = true;
+      rand();
+    }
 
-  
+ 
   //std::random_device rd;
   //std::mt19937 mt(rd());
   //n2++;
@@ -76,7 +81,9 @@ int myrand(int n1, int n2){
   
   //int r = (int)(dist(mt));
   int r = (n1 + (int)(((float)(n2 - n1))*rand()/(RAND_MAX + 1.0)));
-  std::cout << "random number: " << r << std::endl;
+  std::cout << "random number 1: " << r << std::endl;
+  //r = (n1 + (int)(((float)(n2 - n1))*rand()/(RAND_MAX + 1.0)));
+  //std::cout << "random number 2: " << r << std::endl;
   return r;
 }
 

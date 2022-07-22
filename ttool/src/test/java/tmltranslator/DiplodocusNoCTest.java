@@ -226,7 +226,7 @@ public class DiplodocusNoCTest extends AbstractTest {
             }
         } catch (Exception e) {
             // Probably make is not installed
-            System.out.println("FAILED: executing simulation");
+            System.out.println("FAILED: executing simulation: " + e.getMessage());
             assertTrue(false);
             return;
         }

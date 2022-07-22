@@ -1684,7 +1684,7 @@ public class AvatarModelChecker implements Runnable, myutil.Graph {
 
         boolean guardResult = (_at.getGuardSolver().getResult(_sb) == 0) ?  false : true;
 
-        TraceManager.addDev("Guard=" + _at.getGuard() + " -> " + guardResult);
+        //TraceManager.addDev("Guard=" + _at.getGuard() + " -> " + guardResult);
 
         return guardResult;
         //return evaluateBoolExpression(s, _block, _sb);

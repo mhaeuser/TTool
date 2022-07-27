@@ -1,0 +1,1263 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   version="1.1"
+   id="svg2"
+   inkscape:version="0.48.4 r9939"
+   width="1300.36"
+   height="1200"
+   sodipodi:docname="2ndSolution.svg">
+  <metadata
+     id="metadata108">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs106">
+    <marker
+       inkscape:stockid="Arrow1Lend"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="Arrow1Lend"
+       style="overflow:visible">
+      <path
+         id="path4891"
+         d="M 0,0 5,-5 -12.5,0 5,5 0,0 z"
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt"
+         transform="matrix(-0.8,0,0,-0.8,-10,0)"
+         inkscape:connector-curvature="0" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow2Lend"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="Arrow2Lend"
+       style="overflow:visible">
+      <path
+         id="path4909"
+         style="fill-rule:evenodd;stroke-width:0.625;stroke-linejoin:round"
+         d="M 8.7185878,4.0337352 -2.2072895,0.01601326 8.7185884,-4.0017078 c -1.7454984,2.3720609 -1.7354408,5.6174519 -6e-7,8.035443 z"
+         transform="matrix(-1.1,0,0,-1.1,-1.1,0)"
+         inkscape:connector-curvature="0" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow1Lstart"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="Arrow1Lstart"
+       style="overflow:visible">
+      <path
+         id="path4888"
+         d="M 0,0 5,-5 -12.5,0 5,5 0,0 z"
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt"
+         transform="matrix(0.8,0,0,0.8,10,0)"
+         inkscape:connector-curvature="0" />
+    </marker>
+  </defs>
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="1366"
+     inkscape:window-height="709"
+     id="namedview104"
+     showgrid="false"
+     height="744.09px"
+     inkscape:zoom="0.6342957"
+     inkscape:cx="799.5952"
+     inkscape:cy="298.44881"
+     inkscape:window-x="0"
+     inkscape:window-y="27"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg2" />
+  <rect
+     style="fill:none;stroke:#000000;stroke-width:1"
+     x="267.03931"
+     y="184.43481"
+     width="146"
+     height="118"
+     id="rect3429" />
+  <rect
+     style="fill:#c9f3bc"
+     x="268.03931"
+     y="185.43481"
+     width="144"
+     height="116"
+     id="rect3431" />
+  <text
+     x="275.03931"
+     y="215.43481"
+     style="font-size:14px;font-family:Dialog"
+     id="text3433">
+    <tspan
+       style="font-size:26px"
+       id="tspan3166">consumer</tspan>
+  </text>
+  <rect
+     style="fill:none;stroke:#000000;stroke-width:1"
+     x="254.03928"
+     y="235.43481"
+     width="26"
+     height="26"
+     id="rect3435" />
+  <rect
+     style="fill:#68e5ff"
+     x="255.03928"
+     y="236.43481"
+     width="24"
+     height="24"
+     id="rect3437" />
+  <polygon
+     style="fill:none;stroke:#000000;stroke-width:1"
+     points="734,287 734,307 754,297 "
+     id="polygon3439"
+     transform="translate(-476.96067,-48.56516)" />
+  <polygon
+     style="fill:#000000"
+     points="734,287 734,307 754,297 "
+     id="polygon3441"
+     transform="translate(-476.96067,-48.56516)" />
+  <rect
+     style="fill:none;stroke:#000000;stroke-width:1"
+     x="16.039322"
+     y="185.43481"
+     width="146"
+     height="118"
+     id="rect3461" />
+  <rect
+     style="fill:#c9f3bc"
+     x="17.039322"
+     y="186.43481"
+     width="144"
+     height="116"
+     id="rect3463" />
+  <text
+     x="29.544144"
+     y="216.69553"
+     style="font-size:14px;font-family:Dialog"
+     id="text3465">
+    <tspan
+       style="font-size:26px"
+       id="tspan3164">producer</tspan>
+  </text>
+  <rect
+     style="fill:none;stroke:#000000;stroke-width:1"
+     x="149.03929"
+     y="235.43481"
+     width="26"
+     height="26"
+     id="rect3467" />
+  <rect
+     style="fill:#68e5ff"
+     x="150.03929"
+     y="236.43481"
+     width="24"
+     height="24"
+     id="rect3469" />
+  <polygon
+     style="fill:none;stroke:#000000;stroke-width:1"
+     points="629,287 629,307 649,297 "
+     id="polygon3471"
+     transform="translate(-476.96067,-48.56516)" />
+  <polygon
+     style="fill:#000000"
+     points="629,287 629,307 649,297 "
+     id="polygon3473"
+     transform="translate(-476.96067,-48.56516)" />
+  <text
+     x="204.03929"
+     y="236.43481"
+     style="font-size:12px;font-family:Dialog"
+     id="text3513">
+    <tspan
+       style="font-size:26px"
+       id="tspan3170">r1</tspan>
+  </text>
+  <line
+     style="fill:none;stroke:#000000;stroke-width:2.5;stroke-miterlimit:4;stroke-dasharray:none"
+     x1="175.03929"
+     y1="248.43481"
+     x2="254.03928"
+     y2="248.43481"
+     id="line3515" />
+  <flowRoot
+     xml:space="preserve"
+     id="flowRoot3595"
+     style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+     transform="translate(0,455.90965)"><flowRegion
+       id="flowRegion3597"><rect
+         id="rect3599"
+         width="1092.5504"
+         height="261.70758"
+         x="-52.026207"
+         y="483.95898" /></flowRegion><flowPara
+       id="flowPara3601" /></flowRoot>  <text
+     x="42.777283"
+     y="369.02869"
+     style="font-size:14px;font-family:Dialog"
+     id="text3465-8">
+    <tspan
+       style="font-size:32px"
+       id="tspan3160">(1) application model</tspan>
+  </text>
+  <rect
+     style="fill:none;stroke:#000000;stroke-width:1"
+     x="561.38953"
+     y="1004.89"
+     width="146"
+     height="118"
+     id="rect3429-2" />
+  <rect
+     style="fill:#c9f3bc"
+     x="562.38953"
+     y="1005.89"
+     width="144"
+     height="116"
+     id="rect3431-7" />
+  <rect
+     style="fill:none;stroke:#000000;stroke-width:1"
+     x="548.38947"
+     y="1055.89"
+     width="26"
+     height="26"
+     id="rect3435-3" />
+  <rect
+     style="fill:#68e5ff"
+     x="549.38947"
+     y="1056.89"
+     width="24"
+     height="24"
+     id="rect3437-2" />
+  <polygon
+     style="fill:none;stroke:#000000;stroke-width:1"
+     points="734,307 754,297 734,287 "
+     id="polygon3439-2"
+     transform="translate(-182.61044,771.88994)" />
+  <polygon
+     style="fill:#000000"
+     points="734,307 754,297 734,287 "
+     id="polygon3441-6"
+     transform="translate(-182.61044,771.88994)" />
+  <rect
+     style="fill:none;stroke:#000000;stroke-width:1"
+     x="230.38954"
+     y="1005.89"
+     width="146"
+     height="118"
+     id="rect3461-6" />
+  <rect
+     style="fill:#c9f3bc"
+     x="231.38954"
+     y="1006.89"
+     width="144"
+     height="116"
+     id="rect3463-8" />
+  <text
+     x="244.38953"
+     y="984.89001"
+     style="font-size:14px;font-family:Dialog"
+     id="text3465-0">
+    <tspan
+       style="font-size:26px"
+       id="tspan3164-5">producer</tspan>
+  </text>
+  <rect
+     style="fill:none;stroke:#000000;stroke-width:1"
+     x="363.3895"
+     y="1055.89"
+     width="26"
+     height="26"
+     id="rect3467-7" />
+  <rect
+     style="fill:#68e5ff"
+     x="364.3895"
+     y="1056.89"
+     width="24"
+     height="24"
+     id="rect3469-4" />
+  <polygon
+     style="fill:none;stroke:#000000;stroke-width:1"
+     points="649,297 629,287 629,307 "
+     id="polygon3471-0"
+     transform="translate(-262.61044,771.88994)" />
+  <polygon
+     style="fill:#000000"
+     points="649,297 629,287 629,307 "
+     id="polygon3473-7"
+     transform="translate(-262.61044,771.88994)" />
+  <text
+     x="457.07935"
+     y="1056.89"
+     style="font-size:12px;font-family:Dialog"
+     id="text3513-5">
+    <tspan
+       style="font-size:26px"
+       id="tspan3170-5">r2</tspan>
+  </text>
+  <line
+     style="fill:none;stroke:#000000;stroke-width:2.5;stroke-miterlimit:4;stroke-dasharray:none"
+     x1="389.88766"
+     y1="1068.8899"
+     x2="547.59882"
+     y2="1068.8899"
+     id="line3515-1" />
+  <rect
+     style="fill:none;stroke:#000000;stroke-width:1"
+     x="913.94922"
+     y="1005.39"
+     width="146"
+     height="118"
+     id="rect3429-2-7" />
+  <rect
+     style="fill:#c9f3bc"
+     x="914.94922"
+     y="1006.39"
+     width="144"
+     height="116"
+     id="rect3431-7-8" />
+  <text
+     x="921.94922"
+     y="984.39001"
+     style="font-size:14px;font-family:Dialog"
+     id="text3433-9-3">
+    <tspan
+       style="font-size:26px"
+       id="tspan3166-7-9">consumer</tspan>
+  </text>
+  <rect
+     style="fill:none;stroke:#000000;stroke-width:1"
+     x="900.9491"
+     y="1056.39"
+     width="26"
+     height="26"
+     id="rect3435-3-5" />
+  <rect
+     style="fill:#68e5ff"
+     x="901.9491"
+     y="1057.39"
+     width="24"
+     height="24"
+     id="rect3437-2-0" />
+  <polygon
+     style="fill:none;stroke:#000000;stroke-width:1"
+     points="754,297 734,287 734,307 "
+     id="polygon3439-2-5"
+     transform="translate(169.9492,772.38994)" />
+  <polygon
+     style="fill:#000000"
+     points="754,297 734,287 734,307 "
+     id="polygon3441-6-5"
+     transform="translate(169.9492,772.38994)" />
+  <rect
+     style="fill:none;stroke:#000000;stroke-width:1"
+     x="697.94904"
+     y="1056.39"
+     width="26"
+     height="26"
+     id="rect3467-7-0" />
+  <rect
+     style="fill:#68e5ff"
+     x="698.94904"
+     y="1057.39"
+     width="24"
+     height="24"
+     id="rect3469-4-4" />
+  <polygon
+     style="fill:none;stroke:#000000;stroke-width:1"
+     points="629,307 649,297 629,287 "
+     id="polygon3471-0-0"
+     transform="translate(71.949196,772.38994)" />
+  <polygon
+     style="fill:#000000"
+     points="629,307 649,297 629,287 "
+     id="polygon3473-7-1"
+     transform="translate(71.949196,772.38994)" />
+  <text
+     x="799.99988"
+     y="1057.39"
+     style="font-size:12px;font-family:Dialog"
+     id="text3513-5-1">
+    <tspan
+       style="font-size:26px"
+       id="tspan3170-5-4">r3</tspan>
+  </text>
+  <line
+     style="fill:none;stroke:#000000;stroke-width:2.5;stroke-miterlimit:4;stroke-dasharray:none"
+     x1="724.56116"
+     y1="1069.3899"
+     x2="900.99591"
+     y2="1069.3899"
+     id="line3515-1-2" />
+  <text
+     x="582.3894"
+     y="983.79858"
+     style="font-size:14px;font-family:Dialog"
+     id="text3433-9-1">
+    <tspan
+       style="font-size:26px"
+       id="tspan3166-7-5">transfer</tspan>
+  </text>
+  <text
+     x="383.94305"
+     y="1188.6199"
+     style="font-size:14px;font-family:Dialog"
+     id="text3465-8-4">
+    <tspan
+       style="font-size:32px"
+       id="tspan3160-2">(3.2) mismatch-specific model</tspan>
+    <tspan
+       style="font-size:32px"
+       id="tspan4695" />
+    <tspan
+       style="font-size:32px"
+       id="tspan4697" />
+    <tspan
+       style="font-size:32px"
+       id="tspan4699" />
+    <tspan
+       style="font-size:32px"
+       id="tspan4701" />
+  </text>
+  <text
+     x="740.06976"
+     y="484.70053"
+     style="font-size:14px;font-family:Dialog"
+     id="text3465-8-4-7">
+    <tspan
+       style="font-size:32px"
+       id="tspan3160-2-6">(2) architecture model</tspan>
+  </text>
+  <rect
+     style="fill:none;stroke:#000000;stroke-width:1"
+     x="584.27789"
+     y="89.488892"
+     width="173"
+     height="116"
+     id="rect3700" />
+  <line
+     style="fill:none;stroke:#000000;stroke-width:1"
+     x1="584.27789"
+     y1="89.488892"
+     x2="586.27789"
+     y2="86.488892"
+     id="line3702" />
+  <line
+     style="fill:none;stroke:#000000;stroke-width:1"
+     x1="757.27789"
+     y1="89.488892"
+     x2="759.27789"
+     y2="86.488892"
+     id="line3704" />
+  <line
+     style="fill:none;stroke:#000000;stroke-width:1"
+     x1="586.27789"
+     y1="86.488892"
+     x2="759.27789"
+     y2="86.488892"
+     id="line3706" />
+  <line
+     style="fill:none;stroke:#000000;stroke-width:1"
+     x1="757.27789"
+     y1="205.48889"
+     x2="759.27789"
+     y2="202.48889"
+     id="line3708" />
+  <line
+     style="fill:none;stroke:#000000;stroke-width:1"
+     x1="759.27789"
+     y1="86.488892"
+     x2="759.27789"
+     y2="202.48889"
+     id="line3710" />
+  <rect
+     style="fill:#acead3"
+     x="585.27789"
+     y="90.488892"
+     width="171"
+     height="114"
+     id="rect3712" />
+  <text
+     x="591.35931"
+     y="115.52475"
+     style="font-size:12px;font-family:Dialog"
+     id="text3714">
+    <tspan
+       id="tspan6272"
+       style="font-size:20px">&lt;&lt;MEMORY&gt;&gt;</tspan>
+  </text>
+  <text
+     x="607.74689"
+     y="163.63235"
+     style="font-size:12px;font-family:Dialog"
+     id="text3716">
+    <tspan
+       id="tspan6258"
+       style="font-size:26px">Memory1</tspan>
+  </text>
+  <rect
+     style="fill:none;stroke:#000000;stroke-width:1"
+     x="1113.278"
+     y="303.48889"
+     width="173"
+     height="116"
+     id="rect3718" />
+  <line
+     style="fill:none;stroke:#000000;stroke-width:1"
+     x1="1113.278"
+     y1="303.48889"
+     x2="1115.278"
+     y2="300.48889"
+     id="line3720" />
+  <line
+     style="fill:none;stroke:#000000;stroke-width:1"
+     x1="1286.278"
+     y1="303.48889"
+     x2="1288.278"
+     y2="300.48889"
+     id="line3722" />
+  <line
+     style="fill:none;stroke:#000000;stroke-width:1"
+     x1="1115.278"
+     y1="300.48889"
+     x2="1288.278"
+     y2="300.48889"
+     id="line3724" />
+  <line
+     style="fill:none;stroke:#000000;stroke-width:1"
+     x1="1286.278"
+     y1="419.48889"
+     x2="1288.278"
+     y2="416.48889"
+     id="line3726" />
+  <line
+     style="fill:none;stroke:#000000;stroke-width:1"
+     x1="1288.278"
+     y1="300.48889"
+     x2="1288.278"
+     y2="416.48889"
+     id="line3728" />
+  <rect
+     style="fill:#acead3"
+     x="1114.278"
+     y="304.48889"
+     width="171"
+     height="114"
+     id="rect3730" />
+  <text
+     x="1121.9359"
+     y="331.10132"
+     style="font-size:12px;font-family:Dialog"
+     id="text3732">
+    <tspan
+       id="tspan6274"
+       style="font-size:20px">&lt;&lt;MEMORY&gt;&gt;</tspan>
+  </text>
+  <text
+     x="1143.0531"
+     y="371.32617"
+     style="font-size:12px;font-family:Dialog"
+     id="text3734">
+    <tspan
+       id="tspan6266"
+       style="font-size:26px">Memory2</tspan>
+  </text>
+  <rect
+     style="fill:none;stroke:#000000;stroke-width:1"
+     x="1109.278"
+     y="183.48889"
+     width="178"
+     height="84"
+     id="rect3736" />
+  <line
+     style="fill:none;stroke:#000000;stroke-width:1"
+     x1="1109.278"
+     y1="183.48889"
+     x2="1111.278"
+     y2="180.48889"
+     id="line3738" />
+  <line
+     style="fill:none;stroke:#000000;stroke-width:1"
+     x1="1287.278"
+     y1="183.48889"
+     x2="1289.278"
+     y2="180.48889"
+     id="line3740" />
+  <line
+     style="fill:none;stroke:#000000;stroke-width:1"
+     x1="1111.278"
+     y1="180.48889"
+     x2="1289.278"
+     y2="180.48889"
+     id="line3742" />
+  <line
+     style="fill:none;stroke:#000000;stroke-width:1"
+     x1="1287.278"
+     y1="267.48889"
+     x2="1289.278"
+     y2="264.48889"
+     id="line3744" />
+  <line
+     style="fill:none;stroke:#000000;stroke-width:1"
+     x1="1289.278"
+     y1="180.48889"
+     x2="1289.278"
+     y2="264.48889"
+     id="line3746" />
+  <rect
+     style="fill:#acead3"
+     x="1110.278"
+     y="184.48889"
+     width="176"
+     height="82"
+     id="rect3748" />
+  <text
+     x="1145.9717"
+     y="207.94821"
+     style="font-size:12px;font-family:Dialog"
+     id="text3750">
+    <tspan
+       id="tspan6284"
+       style="font-size:20px">&lt;&lt;DMA&gt;&gt;</tspan>
+  </text>
+  <text
+     x="1163.8186"
+     y="249.74957"
+     style="font-size:12px;font-family:Dialog"
+     id="text3752">
+    <tspan
+       id="tspan6268"
+       style="font-size:26px">DMA1</tspan>
+  </text>
+  <rect
+     style="fill:none;stroke:#000000;stroke-width:1"
+     x="803.27789"
+     y="122.48889"
+     width="250"
+     height="50"
+     id="rect3754" />
+  <line
+     style="fill:none;stroke:#000000;stroke-width:1"
+     x1="803.27789"
+     y1="122.48889"
+     x2="805.27789"
+     y2="119.48889"
+     id="line3756" />
+  <line
+     style="fill:none;stroke:#000000;stroke-width:1"
+     x1="1053.278"
+     y1="122.48889"
+     x2="1055.278"
+     y2="119.48889"
+     id="line3758" />
+  <line
+     style="fill:none;stroke:#000000;stroke-width:1"
+     x1="805.27789"
+     y1="119.48889"
+     x2="1055.278"
+     y2="119.48889"
+     id="line3760" />
+  <line
+     style="fill:none;stroke:#000000;stroke-width:1"
+     x1="1053.278"
+     y1="172.48889"
+     x2="1055.278"
+     y2="169.48889"
+     id="line3762" />
+  <line
+     style="fill:none;stroke:#000000;stroke-width:1"
+     x1="1055.278"
+     y1="119.48889"
+     x2="1055.278"
+     y2="169.48889"
+     id="line3764" />
+  <rect
+     style="fill:#d7bc80"
+     x="804.27789"
+     y="123.48889"
+     width="248"
+     height="48"
+     id="rect3766" />
+  <text
+     x="819.90961"
+     y="155.25443"
+     style="font-size:12px;font-family:Dialog"
+     id="text3768">
+    <tspan
+       id="tspan6282"
+       style="font-size:20px">&lt;&lt;BUS&gt;&gt;</tspan>
+  </text>
+  <text
+     x="958.42139"
+     y="155.64203"
+     style="font-size:12px;font-family:Dialog"
+     id="text3770">
+    <tspan
+       id="tspan6260"
+       style="font-size:26px">Bus1</tspan>
+  </text>
+  <rect
+     style="fill:none;stroke:#000000;stroke-width:1"
+     x="803.27789"
+     y="341.48889"
+     width="250"
+     height="50"
+     id="rect3772" />
+  <line
+     style="fill:none;stroke:#000000;stroke-width:1"
+     x1="803.27789"
+     y1="341.48889"
+     x2="805.27789"
+     y2="338.48889"
+     id="line3774" />
+  <line
+     style="fill:none;stroke:#000000;stroke-width:1"
+     x1="1053.278"
+     y1="341.48889"
+     x2="1055.278"
+     y2="338.48889"
+     id="line3776" />
+  <line
+     style="fill:none;stroke:#000000;stroke-width:1"
+     x1="805.27789"
+     y1="338.48889"
+     x2="1055.278"
+     y2="338.48889"
+     id="line3778" />
+  <line
+     style="fill:none;stroke:#000000;stroke-width:1"
+     x1="1053.278"
+     y1="391.48889"
+     x2="1055.278"
+     y2="388.48889"
+     id="line3780" />
+  <line
+     style="fill:none;stroke:#000000;stroke-width:1"
+     x1="1055.278"
+     y1="338.48889"
+     x2="1055.278"
+     y2="388.48889"
+     id="line3782" />
+  <rect
+     style="fill:#d7bc80"
+     x="804.27789"
+     y="342.48889"
+     width="248"
+     height="48"
+     id="rect3784" />
+  <text
+     x="824.63928"
+     y="375.40747"
+     style="font-size:12px;font-family:Dialog"
+     id="text3786">
+    <tspan
+       id="tspan6276"
+       style="font-size:20px">&lt;&lt;BUS&gt;&gt;</tspan>
+  </text>
+  <text
+     x="964.72754"
+     y="374.64197"
+     style="font-size:12px;font-family:Dialog"
+     id="text3788">
+    <tspan
+       id="tspan6264"
+       style="font-size:26px">Bus2</tspan>
+  </text>
+  <rect
+     style="fill:none;stroke:#000000;stroke-width:1"
+     x="832.27789"
+     y="220.48889"
+     width="193"
+     height="80"
+     id="rect3790" />
+  <line
+     style="fill:none;stroke:#000000;stroke-width:1"
+     x1="832.27789"
+     y1="220.48889"
+     x2="834.27789"
+     y2="217.48889"
+     id="line3792" />
+  <line
+     style="fill:none;stroke:#000000;stroke-width:1"
+     x1="1025.278"
+     y1="220.48889"
+     x2="1027.278"
+     y2="217.48889"
+     id="line3794" />
+  <line
+     style="fill:none;stroke:#000000;stroke-width:1"
+     x1="834.27789"
+     y1="217.48889"
+     x2="1027.278"
+     y2="217.48889"
+     id="line3796" />
+  <line
+     style="fill:none;stroke:#000000;stroke-width:1"
+     x1="1025.278"
+     y1="300.48889"
+     x2="1027.278"
+     y2="297.48889"
+     id="line3798" />
+  <line
+     style="fill:none;stroke:#000000;stroke-width:1"
+     x1="1027.278"
+     y1="217.48889"
+     x2="1027.278"
+     y2="297.48889"
+     id="line3800" />
+  <rect
+     style="fill:#d7a648"
+     x="833.27789"
+     y="221.48889"
+     width="191"
+     height="78"
+     id="rect3802" />
+  <text
+     x="856.51239"
+     y="243.37164"
+     style="font-size:12px;font-family:Dialog"
+     id="text3804">
+    <tspan
+       id="tspan6280"
+       style="font-size:20px">&lt;&lt;BRIDGE&gt;&gt;</tspan>
+  </text>
+  <text
+     x="877.4765"
+     y="283.59647"
+     style="font-size:12px;font-family:Dialog"
+     id="text3806">
+    <tspan
+       id="tspan6262"
+       style="font-size:26px">Bridge</tspan>
+  </text>
+  <rect
+     style="fill:none;stroke:#000000;stroke-width:1"
+     x="1114.278"
+     y="21.488892"
+     width="162"
+     height="135"
+     id="rect3808" />
+  <line
+     style="fill:none;stroke:#000000;stroke-width:1"
+     x1="1114.278"
+     y1="21.488892"
+     x2="1116.278"
+     y2="18.488892"
+     id="line3810" />
+  <line
+     style="fill:none;stroke:#000000;stroke-width:1"
+     x1="1276.278"
+     y1="21.488892"
+     x2="1278.278"
+     y2="18.488892"
+     id="line3812" />
+  <line
+     style="fill:none;stroke:#000000;stroke-width:1"
+     x1="1116.278"
+     y1="18.488892"
+     x2="1278.278"
+     y2="18.488892"
+     id="line3814" />
+  <line
+     style="fill:none;stroke:#000000;stroke-width:1"
+     x1="1276.278"
+     y1="156.48889"
+     x2="1278.278"
+     y2="153.48889"
+     id="line3816" />
+  <line
+     style="fill:none;stroke:#000000;stroke-width:1"
+     x1="1278.278"
+     y1="18.488892"
+     x2="1278.278"
+     y2="153.48889"
+     id="line3818" />
+  <rect
+     style="fill:#90c9d3"
+     x="1115.278"
+     y="22.488892"
+     width="160"
+     height="133"
+     id="rect3820" />
+  <text
+     x="1136.6655"
+     y="60.137177"
+     style="font-size:12px;font-family:Dialog"
+     id="text3822">
+    <tspan
+       id="tspan6286"
+       style="font-size:20px">&lt;&lt;DSP&gt;&gt;</tspan>
+  </text>
+  <text
+     x="1160.089"
+     y="112.97443"
+     style="font-size:12px;font-family:Dialog"
+     id="text3824">
+    <tspan
+       id="tspan6270"
+       style="font-size:26px">DSP1</tspan>
+  </text>
+  <rect
+     style="fill:none;stroke:#000000;stroke-width:1"
+     x="586.27789"
+     y="274.48889"
+     width="181"
+     height="143"
+     id="rect3826" />
+  <line
+     style="fill:none;stroke:#000000;stroke-width:1"
+     x1="586.27789"
+     y1="274.48889"
+     x2="588.27789"
+     y2="271.48889"
+     id="line3828" />
+  <line
+     style="fill:none;stroke:#000000;stroke-width:1"
+     x1="767.27789"
+     y1="274.48889"
+     x2="769.27789"
+     y2="271.48889"
+     id="line3830" />
+  <line
+     style="fill:none;stroke:#000000;stroke-width:1"
+     x1="588.27789"
+     y1="271.48889"
+     x2="769.27789"
+     y2="271.48889"
+     id="line3832" />
+  <line
+     style="fill:none;stroke:#000000;stroke-width:1"
+     x1="767.27789"
+     y1="417.48889"
+     x2="769.27789"
+     y2="414.48889"
+     id="line3834" />
+  <line
+     style="fill:none;stroke:#000000;stroke-width:1"
+     x1="769.27789"
+     y1="271.48889"
+     x2="769.27789"
+     y2="414.48889"
+     id="line3836" />
+  <rect
+     style="fill:#c6ebf9"
+     x="587.27789"
+     y="275.48889"
+     width="179"
+     height="141"
+     id="rect3838" />
+  <text
+     x="621.51239"
+     y="303.67786"
+     style="font-size:12px;font-family:Dialog"
+     id="text3840">
+    <tspan
+       id="tspan6278"
+       style="font-size:20px">&lt;&lt;CPU&gt;&gt;</tspan>
+  </text>
+  <text
+     x="643.35931"
+     y="358.09167"
+     style="font-size:12px;font-family:Dialog"
+     id="text3842">
+    <tspan
+       id="tspan6256"
+       style="font-size:26px">CPU1</tspan>
+  </text>
+  <line
+     style="fill:none;stroke:#000000;stroke-width:2.5;stroke-miterlimit:4;stroke-dasharray:none"
+     x1="928.27789"
+     y1="300.48889"
+     x2="928.27789"
+     y2="341.48889"
+     id="line3844" />
+  <line
+     style="fill:none;stroke:#000000;stroke-width:2.5;stroke-miterlimit:4;stroke-dasharray:none"
+     x1="928.27789"
+     y1="220.48889"
+     x2="928.27789"
+     y2="172.48889"
+     id="line3846" />
+  <line
+     style="fill:none;stroke:#000000;stroke-width:2.5;stroke-miterlimit:4;stroke-dasharray:none"
+     x1="757.27789"
+     y1="147.48889"
+     x2="803.27789"
+     y2="147.48889"
+     id="line3848" />
+  <line
+     style="fill:none;stroke:#000000;stroke-width:2.5;stroke-miterlimit:4;stroke-dasharray:none"
+     x1="1114.278"
+     y1="122.48889"
+     x2="1053.278"
+     y2="122.48889"
+     id="line3850" />
+  <line
+     style="fill:none;stroke:#000000;stroke-width:2.5;stroke-miterlimit:4;stroke-dasharray:none"
+     x1="1109.1497"
+     y1="183.93402"
+     x2="1053.0797"
+     y2="172.29071"
+     id="line3852" />
+  <line
+     style="fill:none;stroke:#000000;stroke-width:2.5;stroke-miterlimit:4;stroke-dasharray:none"
+     x1="1109.4899"
+     y1="268.31058"
+     x2="1055.0745"
+     y2="340.74243"
+     id="line3854" />
+  <line
+     style="fill:none;stroke:#000000;stroke-width:2.5;stroke-miterlimit:4;stroke-dasharray:none"
+     x1="1112.4727"
+     y1="366.62195"
+     x2="1052.411"
+     y2="366.66705"
+     id="line3858" />
+  <rect
+     style="fill:none;stroke:#000000;stroke-width:1"
+     x="859.1015"
+     y="618.09985"
+     width="146"
+     height="118"
+     id="rect3429-2-8" />
+  <rect
+     style="fill:#c9f3bc"
+     x="860.1015"
+     y="619.09985"
+     width="144"
+     height="116"
+     id="rect3431-7-5" />
+  <rect
+     style="fill:none;stroke:#000000;stroke-width:1"
+     x="846.10144"
+     y="669.09991"
+     width="26"
+     height="26"
+     id="rect3435-3-7" />
+  <rect
+     style="fill:#68e5ff"
+     x="847.10144"
+     y="670.09991"
+     width="24"
+     height="24"
+     id="rect3437-2-01" />
+  <polygon
+     style="fill:none;stroke:#000000;stroke-width:1"
+     points="754,297 734,287 734,307 "
+     id="polygon3439-2-7"
+     transform="translate(115.10157,385.09986)" />
+  <polygon
+     style="fill:#000000"
+     points="754,297 734,287 734,307 "
+     id="polygon3441-6-0"
+     transform="translate(115.10157,385.09986)" />
+  <rect
+     style="fill:none;stroke:#000000;stroke-width:1"
+     x="294.10156"
+     y="619.09985"
+     width="146"
+     height="118"
+     id="rect3461-6-9" />
+  <rect
+     style="fill:#c9f3bc"
+     x="295.10156"
+     y="620.09985"
+     width="144"
+     height="116"
+     id="rect3463-8-7" />
+  <text
+     x="308.10153"
+     y="598.09991"
+     style="font-size:14px;font-family:Dialog"
+     id="text3465-0-2">
+    <tspan
+       style="font-size:26px"
+       id="tspan3164-5-1">producer</tspan>
+  </text>
+  <rect
+     style="fill:none;stroke:#000000;stroke-width:1"
+     x="427.1015"
+     y="669.09991"
+     width="26"
+     height="26"
+     id="rect3467-7-1" />
+  <rect
+     style="fill:#68e5ff"
+     x="428.1015"
+     y="670.09991"
+     width="24"
+     height="24"
+     id="rect3469-4-7" />
+  <polygon
+     style="fill:none;stroke:#000000;stroke-width:1"
+     points="629,287 629,307 649,297 "
+     id="polygon3471-0-4"
+     transform="translate(-198.89843,385.09986)" />
+  <polygon
+     style="fill:#000000"
+     points="629,287 629,307 649,297 "
+     id="polygon3473-7-4"
+     transform="translate(-198.89843,385.09986)" />
+  <text
+     x="624.77209"
+     y="665.37024"
+     style="font-size:12px;font-family:Dialog"
+     id="text3513-5-8">
+    <tspan
+       style="font-size:26px"
+       id="tspan3170-5-8">r1</tspan>
+  </text>
+  <line
+     style="fill:none;stroke:#000000;stroke-width:2;stroke-miterlimit:4;stroke-dasharray:none"
+     x1="454.85376"
+     y1="682.09991"
+     x2="845.75116"
+     y2="682.09991"
+     id="line3515-1-3" />
+  <text
+     x="866.10138"
+     y="601.00854"
+     style="font-size:14px;font-family:Dialog"
+     id="text3433-9-1-9">
+    <tspan
+       style="font-size:26px"
+       id="tspan3166-7-5-2">consumer</tspan>
+  </text>
+  <text
+     x="473.71985"
+     y="817.05463"
+     style="font-size:14px;font-family:Dialog"
+     id="text3465-8-4-3">
+    <tspan
+       style="font-size:32px"
+       id="tspan3160-2-65">(3.1) mapping model</tspan>
+  </text>
+  <line
+     style="fill:none;stroke:#000000;stroke-width:2.5;stroke-miterlimit:4;stroke-dasharray:none"
+     x1="804.26532"
+     y1="368.20654"
+     x2="766.47443"
+     y2="368.27667"
+     id="line3858-5" />
+  <text
+     xml:space="preserve"
+     style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+     x="312.69983"
+     y="689.13019"
+     id="text3979"
+     sodipodi:linespacing="125%"><tspan
+       sodipodi:role="line"
+       id="tspan3981"
+       x="312.69983"
+       y="689.13019"
+       style="font-size:32px;font-style:normal;font-weight:bold;-inkscape-font-specification:Sans Bold">DSP1</tspan></text>
+  <text
+     xml:space="preserve"
+     style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+     x="893.80109"
+     y="691.86023"
+     id="text3979-8"
+     sodipodi:linespacing="125%"><tspan
+       sodipodi:role="line"
+       id="tspan3981-1"
+       x="893.80109"
+       y="691.86023"
+       style="font-size:32px;font-style:normal;font-weight:bold;-inkscape-font-specification:Sans Bold">CPU1</tspan></text>
+  <text
+     xml:space="preserve"
+     style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+     x="470.75925"
+     y="729.13892"
+     id="text3979-0"
+     sodipodi:linespacing="125%"><tspan
+       sodipodi:role="line"
+       id="tspan3981-3"
+       x="470.75925"
+       y="729.13892"
+       style="font-size:32px;font-style:normal;font-weight:bold;-inkscape-font-specification:Sans Bold">Bus1 - DMA1 - Bus2</tspan></text>
+  <text
+     xml:space="preserve"
+     style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+     x="249.89151"
+     y="1074.6443"
+     id="text3979-2"
+     sodipodi:linespacing="125%"><tspan
+       sodipodi:role="line"
+       id="tspan3981-9"
+       x="249.89151"
+       y="1074.6443"
+       style="font-size:32px;font-style:normal;font-weight:bold;-inkscape-font-specification:Sans Bold">DSP1</tspan></text>
+  <text
+     xml:space="preserve"
+     style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+     x="583.93152"
+     y="1077.7974"
+     id="text3979-4"
+     sodipodi:linespacing="125%"><tspan
+       sodipodi:role="line"
+       id="tspan3981-30"
+       x="583.93152"
+       y="1077.7974"
+       style="font-size:32px;font-style:normal;font-weight:bold;-inkscape-font-specification:Sans Bold">DMA1</tspan></text>
+  <text
+     xml:space="preserve"
+     style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+     x="944.46667"
+     y="1079.6802"
+     id="text3979-82"
+     sodipodi:linespacing="125%"><tspan
+       sodipodi:role="line"
+       id="tspan3981-33"
+       x="944.46667"
+       y="1079.6802"
+       style="font-size:32px;font-style:normal;font-weight:bold;-inkscape-font-specification:Sans Bold">CPU1</tspan></text>
+  <text
+     xml:space="preserve"
+     style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+     x="427.35773"
+     y="1124.3188"
+     id="text3979-46"
+     sodipodi:linespacing="125%"><tspan
+       sodipodi:role="line"
+       id="tspan3981-2"
+       x="427.35773"
+       y="1124.3188"
+       style="font-size:32px;font-style:normal;font-weight:bold;-inkscape-font-specification:Sans Bold">Bus1</tspan></text>
+  <text
+     xml:space="preserve"
+     style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+     x="769.16327"
+     y="1122.436"
+     id="text3979-04"
+     sodipodi:linespacing="125%"><tspan
+       sodipodi:role="line"
+       id="tspan3981-14"
+       x="769.16327"
+       y="1122.436"
+       style="font-size:32px;font-style:normal;font-weight:bold;-inkscape-font-specification:Sans Bold">Bus2</tspan></text>
+  <path
+     style="fill:none;stroke:#000000;stroke-width:2.12170124;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:2.12170115, 2.12170115;stroke-dashoffset:0;marker-start:none;marker-end:url(#Arrow2Lend)"
+     d="m 638.76856,838.51903 -1.10613,103.68124"
+     id="path3187"
+     inkscape:connector-curvature="0" />
+</svg>

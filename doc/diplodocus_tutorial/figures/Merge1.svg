@@ -1,0 +1,616 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   version="1.1"
+   id="svg2"
+   inkscape:version="0.91 r13725"
+   width="1060"
+   height="300"
+   sodipodi:docname="Merge1.svg">
+  <metadata
+     id="metadata126">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs124">
+    <marker
+       inkscape:isstock="true"
+       style="overflow:visible;"
+       id="marker4523"
+       refX="0.0"
+       refY="0.0"
+       orient="auto"
+       inkscape:stockid="Arrow2Lend">
+      <path
+         transform="scale(1.1) rotate(180) translate(1,0)"
+         d="M 8.7185878,4.0337352 L -2.2072895,0.016013256 L 8.7185884,-4.0017078 C 6.9730900,-1.6296469 6.9831476,1.6157441 8.7185878,4.0337352 z "
+         style="fill-rule:evenodd;stroke-width:0.625;stroke-linejoin:round;stroke:#000000;stroke-opacity:1;fill:#000000;fill-opacity:1"
+         id="path4525" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow2Lend"
+       orient="auto"
+       refY="0.0"
+       refX="0.0"
+       id="Arrow2Lend"
+       style="overflow:visible;"
+       inkscape:isstock="true"
+       inkscape:collect="always">
+      <path
+         id="path4256"
+         style="fill-rule:evenodd;stroke-width:0.625;stroke-linejoin:round;stroke:#000000;stroke-opacity:1;fill:#000000;fill-opacity:1"
+         d="M 8.7185878,4.0337352 L -2.2072895,0.016013256 L 8.7185884,-4.0017078 C 6.9730900,-1.6296469 6.9831476,1.6157441 8.7185878,4.0337352 z "
+         transform="scale(1.1) rotate(180) translate(1,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow1Lend"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="Arrow1Lend"
+       style="overflow:visible">
+      <path
+         id="path3950"
+         d="M 0,0 5,-5 -12.5,0 5,5 0,0 Z"
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt"
+         transform="matrix(-0.8,0,0,-0.8,-10,0)"
+         inkscape:connector-curvature="0" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow1Lstart"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="Arrow1Lstart"
+       style="overflow:visible">
+      <path
+         id="path3947"
+         d="M 0,0 5,-5 -12.5,0 5,5 0,0 Z"
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt"
+         transform="matrix(0.8,0,0,0.8,10,0)"
+         inkscape:connector-curvature="0" />
+    </marker>
+  </defs>
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="1295"
+     inkscape:window-height="640"
+     id="namedview122"
+     showgrid="false"
+     inkscape:zoom="0.8970296"
+     inkscape:cx="494.90725"
+     inkscape:cy="145.28038"
+     inkscape:window-x="65"
+     inkscape:window-y="24"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg2" />
+  <line
+     x1="91.25827"
+     y1="158.56062"
+     x2="91.25827"
+     y2="187.39615"
+     id="line4"
+     style="fill:none;stroke:#000000;stroke-width:0.89999998;stroke-miterlimit:4;stroke-dasharray:none" />
+  <polygon
+     points="261,284 256,275 265,275 "
+     id="polygon6"
+     transform="translate(-169.74174,-96.439295)"
+     style="fill:#000000" />
+  <polygon
+     points="261,284 256,275 265,275 "
+     id="polygon8"
+     transform="translate(-169.74174,-96.439295)"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="91.25827"
+     y1="93.560638"
+     x2="91.25827"
+     y2="128.56062"
+     id="line10"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <polygon
+     points="265,200 261,209 256,200 "
+     id="polygon12"
+     transform="translate(-169.74174,-80.439295)"
+     style="fill:#000000" />
+  <polygon
+     points="265,200 261,209 256,200 "
+     id="polygon14"
+     transform="translate(-169.74174,-80.439295)"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="91.25827"
+     y1="4.5607147"
+     x2="91.25827"
+     y2="48.560699"
+     id="line16"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <polygon
+     points="265,120 261,129 256,120 "
+     id="polygon18"
+     transform="translate(-169.74174,-80.439295)"
+     style="fill:#000000" />
+  <polygon
+     points="265,120 261,129 256,120 "
+     id="polygon20"
+     transform="translate(-169.74174,-80.439295)"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <circle
+     cx="91.258263"
+     cy="11.560707"
+     id="ellipse22"
+     style="fill:#000000"
+     r="7" />
+  <line
+     x1="91.25827"
+     y1="21.560715"
+     x2="91.25827"
+     y2="26.560715"
+     id="line24"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <rect
+     x="30.258255"
+     y="54.560699"
+     width="124"
+     height="35"
+     id="rect26"
+     style="fill:none;stroke:#68e5ff;stroke-width:1" />
+  <rect
+     x="29.258255"
+     y="53.560699"
+     width="124"
+     height="35"
+     id="rect28"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="91.25827"
+     y1="53.560699"
+     x2="91.25827"
+     y2="48.560699"
+     id="line30"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="91.25827"
+     y1="88.560638"
+     x2="91.25827"
+     y2="93.560638"
+     id="line32"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <text
+     x="38.258255"
+     y="81.560638"
+     style="font-size:12px;font-family:Dialog"
+     id="text34">ConfigureTransfer</text>
+  <text
+     x="32.258255"
+     y="65.560699"
+     style="font-size:12px;font-family:Dialog"
+     id="text36">sd</text>
+  <line
+     x1="29.258255"
+     y1="68.560638"
+     x2="44.258255"
+     y2="68.560638"
+     id="line38"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="54.258263"
+     y1="53.560699"
+     x2="54.258263"
+     y2="61.560699"
+     id="line40"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="44.258255"
+     y1="68.560638"
+     x2="54.258263"
+     y2="61.560699"
+     id="line42"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <rect
+     x="9.2800674"
+     y="133.58243"
+     width="179.00606"
+     height="19.95639"
+     rx="5.4575019"
+     ry="4.9890976"
+     id="rect44"
+     style="fill:none;stroke:#000000;stroke-width:1.04360926" />
+  <line
+     x1="91.25827"
+     y1="133.56062"
+     x2="91.25827"
+     y2="128.56062"
+     id="line46"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="91.25827"
+     y1="153.56062"
+     x2="91.25827"
+     y2="158.56062"
+     id="line48"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <text
+     x="37.258263"
+     y="148.56062"
+     style="font-size:12px;font-family:Dialog"
+     id="text52">for(i=counter; i&gt;0; i-- )</text>
+  <rect
+     x="30.258255"
+     y="193.56061"
+     width="124"
+     height="35"
+     id="rect54"
+     style="fill:none;stroke:#68e5ff;stroke-width:1" />
+  <rect
+     x="29.258255"
+     y="192.56061"
+     width="124"
+     height="35"
+     id="rect56"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="91.25827"
+     y1="192.56061"
+     x2="91.25827"
+     y2="187.56061"
+     id="line58"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="91.25827"
+     y1="227.56061"
+     x2="91.25827"
+     y2="232.56061"
+     id="line60"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <text
+     x="38.258255"
+     y="220.56061"
+     style="font-size:12px;font-family:Dialog"
+     id="text62">TerminateTransfer</text>
+  <text
+     x="32.258255"
+     y="204.56061"
+     style="font-size:12px;font-family:Dialog"
+     id="text64">sd</text>
+  <line
+     x1="29.258255"
+     y1="207.56061"
+     x2="44.258255"
+     y2="207.56061"
+     id="line66"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="54.258263"
+     y1="192.56061"
+     x2="54.258263"
+     y2="200.56061"
+     id="line68"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="44.258255"
+     y1="207.56061"
+     x2="54.258263"
+     y2="200.56061"
+     id="line70"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <circle
+     cx="91.258263"
+     cy="286.5607"
+     id="ellipse72"
+     style="fill:#000000"
+     r="8" />
+  <circle
+     cx="91.258263"
+     cy="286.5607"
+     id="ellipse74"
+     style="fill:none;stroke:#000000;stroke-width:1"
+     r="10" />
+  <line
+     x1="91.25827"
+     y1="276.56061"
+     x2="91.25827"
+     y2="271.56061"
+     id="line76"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="91.25827"
+     y1="232.56061"
+     x2="91.25827"
+     y2="271.56061"
+     id="line78"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <polygon
+     points="261,368 256,359 265,359 "
+     id="polygon80"
+     transform="translate(-169.74174,-96.439295)"
+     style="fill:#000000" />
+  <polygon
+     points="261,368 256,359 265,359 "
+     id="polygon82"
+     transform="translate(-169.74174,-96.439295)"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <rect
+     x="224.25827"
+     y="193.56062"
+     width="124"
+     height="35"
+     id="rect84"
+     style="fill:none;stroke:#68e5ff;stroke-width:1" />
+  <rect
+     x="223.25827"
+     y="192.56062"
+     width="124"
+     height="35"
+     id="rect86"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="285.25827"
+     y1="192.56062"
+     x2="285.25827"
+     y2="187.56062"
+     id="line88"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="285.25827"
+     y1="227.56061"
+     x2="285.25827"
+     y2="232.56061"
+     id="line90"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <text
+     x="244.25827"
+     y="218.56061"
+     style="font-size:12px;font-family:Dialog"
+     id="text92">TransferCycle</text>
+  <text
+     x="226.25827"
+     y="204.56061"
+     style="font-size:12px;font-family:Dialog"
+     id="text94">sd</text>
+  <line
+     x1="223.25827"
+     y1="207.56061"
+     x2="238.25827"
+     y2="207.56061"
+     id="line96"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="248.25827"
+     y1="192.56062"
+     x2="248.25827"
+     y2="200.56061"
+     id="line98"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="238.25827"
+     y1="207.56061"
+     x2="248.25827"
+     y2="200.56061"
+     id="line100"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="188.24135"
+     y1="147.56062"
+     x2="285.32486"
+     y2="147.56062"
+     id="line102"
+     style="fill:none;stroke:#000000;stroke-width:0.93099999;stroke-miterlimit:4;stroke-dasharray:none" />
+  <line
+     x1="285.25827"
+     y1="147.56062"
+     x2="285.25827"
+     y2="187.56062"
+     id="line104"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <polygon
+     points="459,259 455,268 450,259 "
+     id="polygon106"
+     transform="translate(-169.74174,-80.439295)"
+     style="fill:#000000" />
+  <polygon
+     points="459,259 455,268 450,259 "
+     id="polygon108"
+     transform="translate(-169.74174,-80.439295)"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <circle
+     cx="285.25827"
+     cy="276.5607"
+     id="ellipse110"
+     style="fill:#000000"
+     r="8" />
+  <circle
+     cx="285.25827"
+     cy="276.5607"
+     id="ellipse112"
+     style="fill:none;stroke:#000000;stroke-width:1"
+     r="10" />
+  <line
+     x1="285.25827"
+     y1="266.56061"
+     x2="285.25827"
+     y2="261.56061"
+     id="line114"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="285.25827"
+     y1="232.56061"
+     x2="285.25827"
+     y2="261.56061"
+     id="line116"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <polygon
+     points="459,333 455,342 450,333 "
+     id="polygon118"
+     transform="translate(-169.74174,-80.439295)"
+     style="fill:#000000" />
+  <polygon
+     points="459,333 455,342 450,333 "
+     id="polygon120"
+     transform="translate(-169.74174,-80.439295)"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="475.80783"
+     y1="109.14194"
+     x2="694.80786"
+     y2="109.14194"
+     id="line4-6"
+     style="fill:none;stroke:#000000;stroke-width:1;marker-end:url(#marker4523)" />
+  <text
+     x="485.80783"
+     y="98.141937"
+     style="font-size:12px;font-family:Dialog"
+     id="text10">
+    <tspan
+       style="font-size:14px"
+       id="tspan3429">TransferRequest( dataToTransfer, sourceAddress, destinationAddress)</tspan>
+  </text>
+  <line
+     x1="694.80786"
+     y1="139.14194"
+     x2="919.80786"
+     y2="139.14194"
+     id="line12"
+     style="fill:none;stroke:#000000;stroke-width:1;marker-end:url(#Arrow2Lend)" />
+  <text
+     x="485.80783"
+     y="128.14194"
+     style="font-size:12px;font-family:Dialog"
+     id="text18">
+    <tspan
+       style="font-size:14px"
+       id="tspan3431">TransferRequest( dataToTransfer, sourceAddress, destinationAddress)</tspan>
+  </text>
+  <text
+     x="429.80783"
+     y="60.141937"
+     style="font-size:12px;font-family:Dialog"
+     id="text20">
+    <tspan
+       style="font-size:14px"
+       id="tspan3425">CPU_Controller</tspan>
+  </text>
+  <line
+     x1="429.80783"
+     y1="67.141937"
+     x2="521.80786"
+     y2="67.141937"
+     id="line22"
+     style="fill:none;stroke:#000000;stroke-width:1;marker-end:" />
+  <line
+     x1="475.58017"
+     y1="68.914284"
+     x2="475.58017"
+     y2="217.09586"
+     id="line24-7"
+     style="fill:none;stroke:#000000;stroke-width:1;stroke-miterlimit:4;stroke-dasharray:none;marker-end:" />
+  <text
+     x="872.80786"
+     y="60.141937"
+     style="font-size:12px;font-family:Dialog"
+     id="text26">
+    <tspan
+       style="font-size:14px"
+       id="tspan3433">DMA_Controller</tspan>
+  </text>
+  <line
+     x1="872.80786"
+     y1="67.141937"
+     x2="966.80786"
+     y2="67.141937"
+     id="line28"
+     style="fill:none;stroke:#000000;stroke-width:1;marker-end:" />
+  <line
+     x1="920.03552"
+     y1="68.914284"
+     x2="920.03552"
+     y2="217.09586"
+     id="line30-3"
+     style="fill:none;stroke:#000000;stroke-width:1;stroke-miterlimit:4;stroke-dasharray:none;marker-end:" />
+  <text
+     x="634.80786"
+     y="60.141937"
+     style="font-size:12px;font-family:Dialog"
+     id="text36-2">
+    <tspan
+       style="font-size:14px"
+       id="tspan3427">TransferInstance_1</tspan>
+  </text>
+  <line
+     x1="634.80786"
+     y1="67.141937"
+     x2="754.80786"
+     y2="67.141937"
+     id="line38-6"
+     style="fill:none;stroke:#000000;stroke-width:1;marker-end:" />
+  <line
+     x1="694.80481"
+     y1="68.914284"
+     x2="694.80481"
+     y2="217.09586"
+     id="line40-5"
+     style="fill:none;stroke:#000000;stroke-width:1;stroke-miterlimit:4;stroke-dasharray:none;marker-end:" />
+  <text
+     xml:space="preserve"
+     style="font-style:italic;font-weight:normal;font-size:40px;line-height:125%;font-family:Sans;-inkscape-font-specification:'Sans Italic';letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none"
+     x="167.25168"
+     y="22.185379"
+     id="text4939"
+     sodipodi:linespacing="125%"><tspan
+       sodipodi:role="line"
+       id="tspan4941"
+       x="167.25168"
+       y="22.185379"
+       style="font-style:normal;font-size:24px;-inkscape-font-specification:Sans">(a)</tspan></text>
+  <text
+     xml:space="preserve"
+     style="font-style:italic;font-weight:normal;font-size:40px;line-height:125%;font-family:Sans;-inkscape-font-specification:'Sans Italic';letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none"
+     x="677.2959"
+     y="22.134872"
+     id="text4939-1"
+     sodipodi:linespacing="125%"><tspan
+       sodipodi:role="line"
+       id="tspan4941-6"
+       x="677.2959"
+       y="22.134872"
+       style="font-style:normal;font-size:24px;-inkscape-font-specification:Sans">(b)</tspan></text>
+  <rect
+     x="842.06183"
+     y="170.13342"
+     width="191.7905"
+     height="19.920732"
+     rx="5.847271"
+     ry="4.9801831"
+     id="rect44-4"
+     style="fill:none;stroke:#000000;stroke-width:1.07926786" />
+  <text
+     x="848.02222"
+     y="185.0938"
+     style="font-size:12px;font-family:Dialog"
+     id="text52-4">
+    <tspan
+       style="font-size:14px"
+       id="tspan3096">counter = dataToTransfer</tspan>
+  </text>
+</svg>

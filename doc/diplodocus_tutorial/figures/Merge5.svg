@@ -1,0 +1,393 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   version="1.1"
+   id="svg2"
+   inkscape:version="0.48.4 r9939"
+   width="1050.09"
+   height="480.35999"
+   sodipodi:docname="Merge5.svg">
+  <metadata
+     id="metadata90">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs88">
+    <marker
+       inkscape:stockid="Arrow2Lend"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="Arrow2Lend"
+       style="overflow:visible">
+      <path
+         id="path4320"
+         style="fill-rule:evenodd;stroke-width:0.625;stroke-linejoin:round"
+         d="M 8.7185878,4.0337352 -2.2072895,0.01601326 8.7185884,-4.0017078 c -1.7454984,2.3720609 -1.7354408,5.6174519 -6e-7,8.035443 z"
+         transform="matrix(-1.1,0,0,-1.1,-1.1,0)"
+         inkscape:connector-curvature="0" />
+    </marker>
+    <marker
+       style="overflow:visible"
+       id="Arrow1Lstart"
+       refX="0"
+       refY="0"
+       orient="auto"
+       inkscape:stockid="Arrow1Lstart">
+      <path
+         transform="matrix(0.8,0,0,0.8,10,0)"
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt"
+         d="M 0,0 5,-5 -12.5,0 5,5 0,0 z"
+         id="path3770"
+         inkscape:connector-curvature="0" />
+    </marker>
+    <marker
+       style="overflow:visible"
+       id="Arrow2Lend-4"
+       refX="0"
+       refY="0"
+       orient="auto"
+       inkscape:stockid="Arrow2Lend">
+      <path
+         transform="matrix(-1.1,0,0,-1.1,-1.1,0)"
+         d="M 8.7185878,4.0337352 -2.2072895,0.01601326 8.7185884,-4.0017078 c -1.7454984,2.3720609 -1.7354408,5.6174519 -6e-7,8.035443 z"
+         style="fill-rule:evenodd;stroke-width:0.625;stroke-linejoin:round"
+         id="path3791"
+         inkscape:connector-curvature="0" />
+    </marker>
+  </defs>
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="1366"
+     inkscape:window-height="709"
+     id="namedview86"
+     showgrid="false"
+     inkscape:zoom="0.6342957"
+     inkscape:cx="608.14345"
+     inkscape:cy="115.95812"
+     inkscape:window-x="0"
+     inkscape:window-y="27"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg2" />
+  <line
+     x1="90.194252"
+     y1="144.51465"
+     x2="321.19424"
+     y2="144.51465"
+     id="line4"
+     style="fill:none;stroke:#000000;stroke-width:1;marker-end:url(#Arrow2Lend)" />
+  <text
+     x="116.19425"
+     y="133.51468"
+     style="font-size:12px;font-family:Dialog"
+     id="text10">
+    <tspan
+       style="font-size:14px"
+       id="tspan3040">Read( sourceAddress, size )</tspan>
+  </text>
+  <line
+     x1="321.19424"
+     y1="174.51465"
+     x2="572.19427"
+     y2="174.51465"
+     id="line12"
+     style="fill:none;stroke:#000000;stroke-width:1;marker-end:url(#Arrow2Lend)" />
+  <text
+     x="357.19424"
+     y="163.51465"
+     style="font-size:12px;font-family:Dialog"
+     id="text18">
+    <tspan
+       style="font-size:14px"
+       id="tspan3038">Read( sourceAddress, size )</tspan>
+  </text>
+  <line
+     x1="90.194252"
+     y1="218.51465"
+     x2="747.19427"
+     y2="218.51465"
+     id="line36"
+     style="fill:none;stroke:#000000;stroke-width:1;marker-end:url(#Arrow2Lend)" />
+  <text
+     x="333.19424"
+     y="207.51465"
+     style="font-size:12px;font-family:Dialog"
+     id="text42">
+    <tspan
+       style="font-size:14px"
+       id="tspan3034">Write( destinationAddress, size )</tspan>
+  </text>
+  <line
+     x1="747.19427"
+     y1="248.51462"
+     x2="958.19427"
+     y2="248.51462"
+     id="line44"
+     style="fill:none;stroke:#000000;stroke-width:1;marker-end:url(#Arrow2Lend)" />
+  <text
+     x="755.19427"
+     y="237.51468"
+     style="font-size:12px;font-family:Dialog"
+     id="text50">
+    <tspan
+       style="font-size:14px"
+       id="tspan3032">Write( destinationAddress, size )</tspan>
+  </text>
+  <text
+     x="43.194248"
+     y="73.514648"
+     style="font-size:12px;font-family:Dialog"
+     id="text52">
+    <tspan
+       style="font-size:14px"
+       id="tspan3022">DMA_Controller</tspan>
+  </text>
+  <line
+     x1="43.194248"
+     y1="82.514648"
+     x2="137.19424"
+     y2="82.514648"
+     id="line54"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="90.194252"
+     y1="84.206253"
+     x2="90.194252"
+     y2="290.00775"
+     id="line56"
+     style="fill:none;stroke:#000000;stroke-width:0.64156306" />
+  <rect
+     x="10.266798"
+     y="252.22241"
+     width="190.0211"
+     height="22.21973"
+     rx="5.9012766"
+     ry="5.5549326"
+     id="rect58"
+     style="fill:none;stroke:#000000;stroke-width:1.14509726" />
+  <text
+     x="19.53632"
+     y="268.72635"
+     style="font-size:12px;font-family:Dialog"
+     id="text60">
+    <tspan
+       style="font-size:14px"
+       id="tspan3044">counter = counter - size</tspan>
+  </text>
+  <text
+     x="519.19427"
+     y="73.514648"
+     style="font-size:12px;font-family:Dialog"
+     id="text62">
+    <tspan
+       style="font-size:14px"
+       id="tspan3026">SOURCE_Storage</tspan>
+  </text>
+  <line
+     x1="519.19427"
+     y1="82.514648"
+     x2="625.19427"
+     y2="82.514648"
+     id="line64"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="572.19427"
+     y1="84.223572"
+     x2="572.19427"
+     y2="293.14352"
+     id="line66"
+     style="fill:none;stroke:#000000;stroke-width:0.64640552" />
+  <text
+     x="261.19424"
+     y="73.514648"
+     style="font-size:12px;font-family:Dialog"
+     id="text68">
+    <tspan
+       style="font-size:14px"
+       id="tspan3024">TransferInstance_2</tspan>
+  </text>
+  <line
+     x1="261.19424"
+     y1="82.514648"
+     x2="381.19424"
+     y2="82.514648"
+     id="line70"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="321.19424"
+     y1="84.218849"
+     x2="321.19424"
+     y2="288.41861"
+     id="line72"
+     style="fill:none;stroke:#000000;stroke-width:0.63906151" />
+  <text
+     x="687.19427"
+     y="73.514648"
+     style="font-size:12px;font-family:Dialog"
+     id="text74">
+    <tspan
+       style="font-size:14px"
+       id="tspan3028">TransferInstance_3</tspan>
+  </text>
+  <line
+     x1="687.19427"
+     y1="82.514648"
+     x2="807.19427"
+     y2="82.514648"
+     id="line76"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="747.19427"
+     y1="84.231438"
+     x2="747.19427"
+     y2="301.01843"
+     id="line78"
+     style="fill:none;stroke:#000000;stroke-width:0.65846348" />
+  <text
+     x="890.19427"
+     y="73.514648"
+     style="font-size:12px;font-family:Dialog"
+     id="text80">
+    <tspan
+       style="font-size:14px"
+       id="tspan3030">DESTINATION_Storage</tspan>
+  </text>
+  <line
+     x1="890.19427"
+     y1="82.514648"
+     x2="1026.1942"
+     y2="82.514648"
+     id="line82"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="958.19427"
+     y1="84.240883"
+     x2="958.19427"
+     y2="310.46829"
+     id="line84"
+     style="fill:none;stroke:#000000;stroke-width:0.67264771" />
+  <text
+     x="519.65503"
+     y="35.49551"
+     style="font-size:12px;font-family:Dialog"
+     id="text68-7">
+    <tspan
+       style="font-size:24px"
+       id="tspan3024-2">(a)</tspan>
+  </text>
+  <g
+     id="g3142"
+     transform="translate(260.27261,335.68737)">
+    <line
+       style="fill:none;stroke:#000000;stroke-width:1;marker-start:none;marker-end:url(#Arrow2Lend)"
+       id="line4-0"
+       y2="73.492203"
+       x2="279.13037"
+       y1="73.492203"
+       x1="504.13031" />
+    <text
+       id="text10-7"
+       style="font-size:12px;font-family:Dialog"
+       y="68.492264"
+       x="315.13037">TransferTerminated()</text>
+    <line
+       style="fill:none;stroke:#000000;stroke-width:1;marker-end:url(#Arrow2Lend)"
+       id="line12-6"
+       y2="103.49232"
+       x2="60.130341"
+       y1="103.49232"
+       x1="279.13037" />
+    <text
+       id="text18-4"
+       style="font-size:12px;font-family:Dialog"
+       y="98.492317"
+       x="93.130341">TransferTerminated()</text>
+    <text
+       id="text20"
+       style="font-size:12px;font-family:Dialog"
+       y="34.492264"
+       x="14.130348">CPU_Controller</text>
+    <line
+       style="fill:none;stroke:#000000;stroke-width:1"
+       id="line22"
+       y2="41.492264"
+       x2="106.13034"
+       y1="41.492264"
+       x1="14.130348" />
+    <line
+       style="fill:none;stroke:#000000;stroke-width:1"
+       id="line24"
+       y2="543.49243"
+       x2="60.130341"
+       y1="43.492264"
+       x1="60.130341" />
+    <text
+       id="text26"
+       style="font-size:12px;font-family:Dialog"
+       y="34.492264"
+       x="457.13037">DMA_Controller</text>
+    <line
+       style="fill:none;stroke:#000000;stroke-width:1"
+       id="line28"
+       y2="41.492264"
+       x2="551.13031"
+       y1="41.492264"
+       x1="457.13037" />
+    <line
+       style="fill:none;stroke:#000000;stroke-width:1"
+       id="line30"
+       y2="543.49243"
+       x2="504.13031"
+       y1="43.492264"
+       x1="504.13031" />
+    <text
+       id="text32"
+       style="font-size:12px;font-family:Dialog"
+       y="34.492264"
+       x="219.13034">TransferInstance_4</text>
+    <line
+       style="fill:none;stroke:#000000;stroke-width:1"
+       id="line34"
+       y2="41.492264"
+       x2="339.13037"
+       y1="41.492264"
+       x1="219.13034" />
+    <line
+       style="fill:none;stroke:#000000;stroke-width:1"
+       id="line36-8"
+       y2="543.49243"
+       x2="279.13037"
+       y1="43.492264"
+       x1="279.13037" />
+  </g>
+  <text
+     x="519.65503"
+     y="336.47504"
+     style="font-size:12px;font-family:Dialog"
+     id="text68-7-7">
+    <tspan
+       style="font-size:24px"
+       id="tspan3024-2-3">(b)</tspan>
+  </text>
+</svg>

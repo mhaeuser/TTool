@@ -1,0 +1,2029 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   version="1.1"
+   id="svg2"
+   inkscape:version="0.48.4 r9939"
+   width="1300"
+   height="750"
+   sodipodi:docname="Architecture_Excerpt.svg">
+  <metadata
+     id="metadata548">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs546" />
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="1366"
+     inkscape:window-height="709"
+     id="namedview544"
+     showgrid="false"
+     height="844.09px"
+     inkscape:zoom="1.7940592"
+     inkscape:cx="947.9493"
+     inkscape:cy="342.40475"
+     inkscape:window-x="0"
+     inkscape:window-y="27"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg2" />
+  <line
+     x1="238.61578"
+     y1="176.63779"
+     x2="272.61578"
+     y2="176.63779"
+     id="line4"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="586.61578"
+     y1="151.63779"
+     x2="459.61578"
+     y2="151.63779"
+     id="line6"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="583.61578"
+     y1="201.63779"
+     x2="522.61578"
+     y2="201.63779"
+     id="line8"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="397.61578"
+     y1="296.63779"
+     x2="397.61578"
+     y2="201.63779"
+     id="line10"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="1077.6157"
+     y1="283.63779"
+     x2="1077.6157"
+     y2="332.63779"
+     id="line12"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="1077.6157"
+     y1="434.63782"
+     x2="1077.6157"
+     y2="382.63779"
+     id="line14"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="517.61578"
+     y1="432.63782"
+     x2="517.61578"
+     y2="382.63779"
+     id="line16"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="375.61578"
+     y1="537.63782"
+     x2="430.61578"
+     y2="537.63782"
+     id="line18"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="569.61578"
+     y1="604.63782"
+     x2="569.61578"
+     y2="562.63782"
+     id="line20"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="680.61578"
+     y1="537.63782"
+     x2="616.61578"
+     y2="537.63782"
+     id="line22"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="755.61578"
+     y1="487.63782"
+     x2="755.61578"
+     y2="382.63779"
+     id="line24"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="517.61578"
+     y1="483.63782"
+     x2="523.61578"
+     y2="512.63782"
+     id="line26"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="892.61578"
+     y1="357.63779"
+     x2="952.61578"
+     y2="357.63779"
+     id="line28"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="397.61578"
+     y1="245.63779"
+     x2="398.61578"
+     y2="332.63779"
+     id="line30"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="733.61578"
+     y1="301.63779"
+     x2="755.61578"
+     y2="332.63779"
+     id="line32"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="792.61578"
+     y1="357.63779"
+     x2="755.61578"
+     y2="357.63779"
+     id="line34"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <rect
+     x="918.61578"
+     y="648.63782"
+     width="315"
+     height="85"
+     id="rect36"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="918.61578"
+     y1="648.63782"
+     x2="920.61578"
+     y2="645.63782"
+     id="line38"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="1233.6158"
+     y1="648.63782"
+     x2="1235.6158"
+     y2="645.63782"
+     id="line40"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="920.61578"
+     y1="645.63782"
+     x2="1235.6158"
+     y2="645.63782"
+     id="line42"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="1233.6158"
+     y1="733.63782"
+     x2="1235.6158"
+     y2="730.63782"
+     id="line44"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="1235.6158"
+     y1="645.63782"
+     x2="1235.6158"
+     y2="730.63782"
+     id="line46"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <rect
+     x="919.61578"
+     y="649.63782"
+     width="313"
+     height="83"
+     id="rect48"
+     style="fill:#d7bc80" />
+  <text
+     x="1047.6157"
+     y="663.63782"
+     style="font-size:12px;font-family:Dialog"
+     id="text50">&lt;&lt;CP&gt;&gt;</text>
+  <text
+     x="922.61578"
+     y="678.63782"
+     style="font-size:12px;font-family:Dialog"
+     id="text52">CP_Symbol2ChipSeq_Chips2Octet::DMA_transfer</text>
+  <rect
+     x="996.61578"
+     y="686.63782"
+     width="212"
+     height="40"
+     id="rect54"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="1183.6158"
+     y1="691.63782"
+     x2="1183.6158"
+     y2="716.63782"
+     id="line56"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="1183.6158"
+     y1="691.63782"
+     x2="1198.6158"
+     y2="691.63782"
+     id="line58"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="1198.6158"
+     y1="691.63782"
+     x2="1203.6158"
+     y2="696.63782"
+     id="line60"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="1203.6158"
+     y1="696.63782"
+     x2="1203.6158"
+     y2="716.63782"
+     id="line62"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="1203.6158"
+     y1="716.63782"
+     x2="1183.6158"
+     y2="716.63782"
+     id="line64"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="1198.6158"
+     y1="691.63782"
+     x2="1198.6158"
+     y2="696.63782"
+     id="line66"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="1198.6158"
+     y1="696.63782"
+     x2="1203.6158"
+     y2="696.63782"
+     id="line68"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <text
+     x="1001.6158"
+     y="701.63782"
+     style="font-size:12px;font-family:Dialog"
+     id="text70">Zigbee_TX::chip2octet_ch_in</text>
+  <text
+     x="1001.6158"
+     y="721.63782"
+     style="font-size:12px;font-family:Dialog"
+     id="text72">port</text>
+  <rect
+     x="272.61578"
+     y="151.63779"
+     width="250"
+     height="50"
+     id="rect74"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="272.61578"
+     y1="151.63779"
+     x2="274.61578"
+     y2="148.63779"
+     id="line76"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="522.61578"
+     y1="151.63779"
+     x2="524.61578"
+     y2="148.63779"
+     id="line78"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="274.61578"
+     y1="148.63779"
+     x2="524.61578"
+     y2="148.63779"
+     id="line80"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="522.61578"
+     y1="201.63779"
+     x2="524.61578"
+     y2="198.63779"
+     id="line82"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="524.61578"
+     y1="148.63779"
+     x2="524.61578"
+     y2="198.63779"
+     id="line84"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <rect
+     x="273.61578"
+     y="152.63779"
+     width="248"
+     height="48"
+     id="rect86"
+     style="fill:#d7bc80" />
+  <text
+     x="354.61578"
+     y="166.63779"
+     style="font-size:12px;font-family:Dialog"
+     id="text88">&lt;&lt;BUS-RR&gt;&gt;</text>
+  <text
+     x="349.61578"
+     y="181.63779"
+     style="font-size:12px;font-family:Dialog"
+     id="text90">MAPPER_Bus</text>
+  <rect
+     x="19.615784"
+     y="117.63779"
+     width="219"
+     height="119"
+     id="rect92"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="19.615784"
+     y1="117.63779"
+     x2="21.615791"
+     y2="114.63779"
+     id="line94"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="238.61578"
+     y1="117.63779"
+     x2="240.61578"
+     y2="114.63779"
+     id="line96"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="21.615791"
+     y1="114.63779"
+     x2="240.61578"
+     y2="114.63779"
+     id="line98"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="238.61578"
+     y1="236.63779"
+     x2="240.61578"
+     y2="233.63779"
+     id="line100"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="240.61578"
+     y1="114.63779"
+     x2="240.61578"
+     y2="233.63779"
+     id="line102"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <rect
+     x="20.615791"
+     y="118.63779"
+     width="217"
+     height="117"
+     id="rect104"
+     style="fill:#c6ebf9" />
+  <text
+     x="85.615791"
+     y="132.63779"
+     style="font-size:12px;font-family:Dialog"
+     id="text106">&lt;&lt;CPURR&gt;&gt;</text>
+  <text
+     x="80.615791"
+     y="147.63779"
+     style="font-size:12px;font-family:Dialog"
+     id="text108">MAPPER_PSS</text>
+  <rect
+     x="15.615784"
+     y="164.63779"
+     width="223"
+     height="40"
+     id="rect110"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <rect
+     x="16.615784"
+     y="165.63779"
+     width="221"
+     height="38"
+     id="rect112"
+     style="fill:#c6e3f9" />
+  <line
+     x1="213.61578"
+     y1="169.63779"
+     x2="213.61578"
+     y2="194.63779"
+     id="line114"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="213.61578"
+     y1="169.63779"
+     x2="228.61578"
+     y2="169.63779"
+     id="line116"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="228.61578"
+     y1="169.63779"
+     x2="233.61578"
+     y2="174.63779"
+     id="line118"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="233.61578"
+     y1="174.63779"
+     x2="233.61578"
+     y2="194.63779"
+     id="line120"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="233.61578"
+     y1="194.63779"
+     x2="213.61578"
+     y2="194.63779"
+     id="line122"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="228.61578"
+     y1="169.63779"
+     x2="228.61578"
+     y2="174.63779"
+     id="line124"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="228.61578"
+     y1="174.63779"
+     x2="233.61578"
+     y2="174.63779"
+     id="line126"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <text
+     x="20.615791"
+     y="179.63779"
+     style="font-size:12px;font-family:Dialog"
+     id="text128">Zigbee_TX::X_Symbol2ChipSeq</text>
+  <rect
+     x="586.61578"
+     y="26.637787"
+     width="194"
+     height="125"
+     id="rect130"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="586.61578"
+     y1="26.637787"
+     x2="588.61578"
+     y2="23.637787"
+     id="line132"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="780.61578"
+     y1="26.637787"
+     x2="782.61578"
+     y2="23.637787"
+     id="line134"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="588.61578"
+     y1="23.637787"
+     x2="782.61578"
+     y2="23.637787"
+     id="line136"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="780.61578"
+     y1="151.63779"
+     x2="782.61578"
+     y2="148.63779"
+     id="line138"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="782.61578"
+     y1="23.637787"
+     x2="782.61578"
+     y2="148.63779"
+     id="line140"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <rect
+     x="587.61578"
+     y="27.637787"
+     width="192"
+     height="123"
+     id="rect142"
+     style="fill:#acead3" />
+  <text
+     x="635.61578"
+     y="41.637787"
+     style="font-size:12px;font-family:Dialog"
+     id="text144">&lt;&lt;MEMORY&gt;&gt;</text>
+  <text
+     x="635.61578"
+     y="56.637787"
+     style="font-size:12px;font-family:Dialog"
+     id="text146">MAPPER_MSS</text>
+  <rect
+     x="347.61578"
+     y="245.63779"
+     width="100"
+     height="51"
+     id="rect148"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="347.61578"
+     y1="245.63779"
+     x2="349.61578"
+     y2="242.63779"
+     id="line150"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="447.61578"
+     y1="245.63779"
+     x2="449.61578"
+     y2="242.63779"
+     id="line152"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="349.61578"
+     y1="242.63779"
+     x2="449.61578"
+     y2="242.63779"
+     id="line154"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="447.61578"
+     y1="296.63779"
+     x2="449.61578"
+     y2="293.63779"
+     id="line156"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="449.61578"
+     y1="242.63779"
+     x2="449.61578"
+     y2="293.63779"
+     id="line158"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <rect
+     x="348.61578"
+     y="246.63779"
+     width="98"
+     height="49"
+     id="rect160"
+     style="fill:#d7a648" />
+  <text
+     x="354.61578"
+     y="260.63779"
+     style="font-size:12px;font-family:Dialog"
+     id="text162">&lt;&lt;BRIDGE&gt;&gt;</text>
+  <text
+     x="345.61578"
+     y="275.63779"
+     style="font-size:12px;font-family:Dialog"
+     id="text164">MAPPER_Bridge</text>
+  <rect
+     x="583.61578"
+     y="201.63779"
+     width="150"
+     height="100"
+     id="rect166"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="583.61578"
+     y1="201.63779"
+     x2="585.61578"
+     y2="198.63779"
+     id="line168"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="733.61578"
+     y1="201.63779"
+     x2="735.61578"
+     y2="198.63779"
+     id="line170"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="585.61578"
+     y1="198.63779"
+     x2="735.61578"
+     y2="198.63779"
+     id="line172"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="733.61578"
+     y1="301.63779"
+     x2="735.61578"
+     y2="298.63779"
+     id="line174"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="735.61578"
+     y1="198.63779"
+     x2="735.61578"
+     y2="298.63779"
+     id="line176"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <rect
+     x="584.61578"
+     y="202.63779"
+     width="148"
+     height="98"
+     id="rect178"
+     style="fill:#c6ebf9" />
+  <text
+     x="615.61578"
+     y="216.63779"
+     style="font-size:12px;font-family:Dialog"
+     id="text180">&lt;&lt;CPURR&gt;&gt;</text>
+  <text
+     x="610.61578"
+     y="231.63779"
+     style="font-size:12px;font-family:Dialog"
+     id="text182">MAPPER_DMA</text>
+  <rect
+     x="430.61578"
+     y="512.63782"
+     width="186"
+     height="50"
+     id="rect184"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="430.61578"
+     y1="512.63782"
+     x2="432.61578"
+     y2="509.63782"
+     id="line186"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="616.61578"
+     y1="512.63782"
+     x2="618.61578"
+     y2="509.63782"
+     id="line188"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="432.61578"
+     y1="509.63782"
+     x2="618.61578"
+     y2="509.63782"
+     id="line190"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="616.61578"
+     y1="562.63782"
+     x2="618.61578"
+     y2="559.63782"
+     id="line192"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="618.61578"
+     y1="509.63782"
+     x2="618.61578"
+     y2="559.63782"
+     id="line194"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <rect
+     x="431.61578"
+     y="513.63782"
+     width="184"
+     height="48"
+     id="rect196"
+     style="fill:#d7bc80" />
+  <text
+     x="480.61578"
+     y="527.63782"
+     style="font-size:12px;font-family:Dialog"
+     id="text198">&lt;&lt;BUS-RR&gt;&gt;</text>
+  <text
+     x="489.61578"
+     y="542.63782"
+     style="font-size:12px;font-family:Dialog"
+     id="text200">INTL_Bus</text>
+  <rect
+     x="169.61578"
+     y="473.63782"
+     width="206"
+     height="129"
+     id="rect202"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="169.61578"
+     y1="473.63782"
+     x2="171.61578"
+     y2="470.63782"
+     id="line204"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="375.61578"
+     y1="473.63782"
+     x2="377.61578"
+     y2="470.63782"
+     id="line206"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="171.61578"
+     y1="470.63782"
+     x2="377.61578"
+     y2="470.63782"
+     id="line208"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="375.61578"
+     y1="602.63782"
+     x2="377.61578"
+     y2="599.63782"
+     id="line210"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="377.61578"
+     y1="470.63782"
+     x2="377.61578"
+     y2="599.63782"
+     id="line212"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <rect
+     x="170.61578"
+     y="474.63782"
+     width="204"
+     height="127"
+     id="rect214"
+     style="fill:#c6ebf9" />
+  <text
+     x="229.61578"
+     y="488.63782"
+     style="font-size:12px;font-family:Dialog"
+     id="text216">&lt;&lt;CPURR&gt;&gt;</text>
+  <text
+     x="238.61578"
+     y="503.63782"
+     style="font-size:12px;font-family:Dialog"
+     id="text218">INTL_PSS</text>
+  <rect
+     x="169.61578"
+     y="528.63782"
+     width="206"
+     height="40"
+     id="rect220"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <rect
+     x="170.61578"
+     y="529.63782"
+     width="204"
+     height="38"
+     id="rect222"
+     style="fill:#c6e3f9" />
+  <line
+     x1="350.61578"
+     y1="533.63782"
+     x2="350.61578"
+     y2="558.63782"
+     id="line224"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="350.61578"
+     y1="533.63782"
+     x2="365.61578"
+     y2="533.63782"
+     id="line226"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="365.61578"
+     y1="533.63782"
+     x2="370.61578"
+     y2="538.63782"
+     id="line228"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="370.61578"
+     y1="538.63782"
+     x2="370.61578"
+     y2="558.63782"
+     id="line230"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="370.61578"
+     y1="558.63782"
+     x2="350.61578"
+     y2="558.63782"
+     id="line232"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="365.61578"
+     y1="533.63782"
+     x2="365.61578"
+     y2="538.63782"
+     id="line234"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="365.61578"
+     y1="538.63782"
+     x2="370.61578"
+     y2="538.63782"
+     id="line236"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <text
+     x="174.61578"
+     y="543.63782"
+     style="font-size:12px;font-family:Dialog"
+     id="text238">Zigbee_TX::X_Chip_to_Octet</text>
+  <rect
+     x="468.61578"
+     y="604.63782"
+     width="202"
+     height="127"
+     id="rect240"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="468.61578"
+     y1="604.63782"
+     x2="470.61578"
+     y2="601.63782"
+     id="line242"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="670.61578"
+     y1="604.63782"
+     x2="672.61578"
+     y2="601.63782"
+     id="line244"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="470.61578"
+     y1="601.63782"
+     x2="672.61578"
+     y2="601.63782"
+     id="line246"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="670.61578"
+     y1="731.63782"
+     x2="672.61578"
+     y2="728.63782"
+     id="line248"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="672.61578"
+     y1="601.63782"
+     x2="672.61578"
+     y2="728.63782"
+     id="line250"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <rect
+     x="469.61578"
+     y="605.63782"
+     width="200"
+     height="125"
+     id="rect252"
+     style="fill:#acead3" />
+  <text
+     x="521.61578"
+     y="619.63782"
+     style="font-size:12px;font-family:Dialog"
+     id="text254">&lt;&lt;MEMORY&gt;&gt;</text>
+  <text
+     x="535.61578"
+     y="634.63782"
+     style="font-size:12px;font-family:Dialog"
+     id="text256">INTL_MSS</text>
+  <rect
+     x="467.61578"
+     y="432.63782"
+     width="100"
+     height="51"
+     id="rect258"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="467.61578"
+     y1="432.63782"
+     x2="469.61578"
+     y2="429.63782"
+     id="line260"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="567.61578"
+     y1="432.63782"
+     x2="569.61578"
+     y2="429.63782"
+     id="line262"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="469.61578"
+     y1="429.63782"
+     x2="569.61578"
+     y2="429.63782"
+     id="line264"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="567.61578"
+     y1="483.63782"
+     x2="569.61578"
+     y2="480.63782"
+     id="line266"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="569.61578"
+     y1="429.63782"
+     x2="569.61578"
+     y2="480.63782"
+     id="line268"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <rect
+     x="468.61578"
+     y="433.63782"
+     width="98"
+     height="49"
+     id="rect270"
+     style="fill:#d7a648" />
+  <text
+     x="474.61578"
+     y="447.63782"
+     style="font-size:12px;font-family:Dialog"
+     id="text272">&lt;&lt;BRIDGE&gt;&gt;</text>
+  <text
+     x="479.61578"
+     y="462.63782"
+     style="font-size:12px;font-family:Dialog"
+     id="text274">INTL_Bridge</text>
+  <rect
+     x="279.61578"
+     y="332.63779"
+     width="476"
+     height="50"
+     id="rect276"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="279.61578"
+     y1="332.63779"
+     x2="281.61578"
+     y2="329.63779"
+     id="line278"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="755.61578"
+     y1="332.63779"
+     x2="757.61578"
+     y2="329.63779"
+     id="line280"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="281.61578"
+     y1="329.63779"
+     x2="757.61578"
+     y2="329.63779"
+     id="line282"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="755.61578"
+     y1="382.63779"
+     x2="757.61578"
+     y2="379.63779"
+     id="line284"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="757.61578"
+     y1="329.63779"
+     x2="757.61578"
+     y2="379.63779"
+     id="line286"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <rect
+     x="280.61578"
+     y="333.63779"
+     width="474"
+     height="48"
+     id="rect288"
+     style="fill:#d7bc80" />
+  <text
+     x="474.61578"
+     y="347.63779"
+     style="font-size:12px;font-family:Dialog"
+     id="text290">&lt;&lt;BUS-RR&gt;&gt;</text>
+  <text
+     x="488.61578"
+     y="362.63779"
+     style="font-size:12px;font-family:Dialog"
+     id="text292">Crossbar</text>
+  <rect
+     x="792.61578"
+     y="307.63779"
+     width="100"
+     height="100"
+     id="rect294"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="792.61578"
+     y1="307.63779"
+     x2="794.61578"
+     y2="304.63779"
+     id="line296"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="892.61578"
+     y1="307.63779"
+     x2="894.61578"
+     y2="304.63779"
+     id="line298"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="794.61578"
+     y1="304.63779"
+     x2="894.61578"
+     y2="304.63779"
+     id="line300"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="892.61578"
+     y1="407.63779"
+     x2="894.61578"
+     y2="404.63779"
+     id="line302"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="894.61578"
+     y1="304.63779"
+     x2="894.61578"
+     y2="404.63779"
+     id="line304"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <rect
+     x="793.61578"
+     y="308.63779"
+     width="98"
+     height="98"
+     id="rect306"
+     style="fill:#d7a648" />
+  <text
+     x="799.61578"
+     y="322.63779"
+     style="font-size:12px;font-family:Dialog"
+     id="text308">&lt;&lt;BRIDGE&gt;&gt;</text>
+  <text
+     x="808.61578"
+     y="337.63779"
+     style="font-size:12px;font-family:Dialog"
+     id="text310">MainBridge</text>
+  <rect
+     x="952.61578"
+     y="332.63779"
+     width="250"
+     height="50"
+     id="rect312"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="952.61578"
+     y1="332.63779"
+     x2="954.61578"
+     y2="329.63779"
+     id="line314"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="1202.6158"
+     y1="332.63779"
+     x2="1204.6158"
+     y2="329.63779"
+     id="line316"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="954.61578"
+     y1="329.63779"
+     x2="1204.6158"
+     y2="329.63779"
+     id="line318"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="1202.6158"
+     y1="382.63779"
+     x2="1204.6158"
+     y2="379.63779"
+     id="line320"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="1204.6158"
+     y1="329.63779"
+     x2="1204.6158"
+     y2="379.63779"
+     id="line322"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <rect
+     x="953.61578"
+     y="333.63779"
+     width="248"
+     height="48"
+     id="rect324"
+     style="fill:#d7bc80" />
+  <text
+     x="1034.6157"
+     y="347.63779"
+     style="font-size:12px;font-family:Dialog"
+     id="text326">&lt;&lt;BUS-RR&gt;&gt;</text>
+  <text
+     x="1048.6157"
+     y="362.63779"
+     style="font-size:12px;font-family:Dialog"
+     id="text328">MainBus</text>
+  <rect
+     x="869.61578"
+     y="36.637787"
+     width="417"
+     height="247"
+     id="rect330"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="869.61578"
+     y1="36.637787"
+     x2="871.61578"
+     y2="33.637787"
+     id="line332"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="1286.6158"
+     y1="36.637787"
+     x2="1288.6158"
+     y2="33.637787"
+     id="line334"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="871.61578"
+     y1="33.637787"
+     x2="1288.6158"
+     y2="33.637787"
+     id="line336"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="1286.6158"
+     y1="283.63779"
+     x2="1288.6158"
+     y2="280.63779"
+     id="line338"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="1288.6158"
+     y1="33.637787"
+     x2="1288.6158"
+     y2="280.63779"
+     id="line340"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <rect
+     x="870.61578"
+     y="37.637787"
+     width="415"
+     height="245"
+     id="rect342"
+     style="fill:#c6ebf9" />
+  <text
+     x="1034.6157"
+     y="51.637787"
+     style="font-size:12px;font-family:Dialog"
+     id="text344">&lt;&lt;CPURR&gt;&gt;</text>
+  <text
+     x="1049.6157"
+     y="66.637787"
+     style="font-size:12px;font-family:Dialog"
+     id="text346">MainCPU</text>
+  <rect
+     x="884.61578"
+     y="76.637787"
+     width="164"
+     height="40"
+     id="rect348"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <rect
+     x="885.61578"
+     y="77.637787"
+     width="162"
+     height="38"
+     id="rect350"
+     style="fill:#c6e3f9" />
+  <line
+     x1="1023.6158"
+     y1="81.637787"
+     x2="1023.6158"
+     y2="106.63779"
+     id="line352"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="1023.6158"
+     y1="81.637787"
+     x2="1038.6157"
+     y2="81.637787"
+     id="line354"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="1038.6157"
+     y1="81.637787"
+     x2="1043.6157"
+     y2="86.637787"
+     id="line356"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="1043.6157"
+     y1="86.637787"
+     x2="1043.6157"
+     y2="106.63779"
+     id="line358"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="1043.6157"
+     y1="106.63779"
+     x2="1023.6158"
+     y2="106.63779"
+     id="line360"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="1038.6157"
+     y1="81.637787"
+     x2="1038.6157"
+     y2="86.637787"
+     id="line362"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="1038.6157"
+     y1="86.637787"
+     x2="1043.6157"
+     y2="86.637787"
+     id="line364"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <text
+     x="889.61578"
+     y="91.637787"
+     style="font-size:12px;font-family:Dialog"
+     id="text366">Zigbee_TX::F_Source</text>
+  <rect
+     x="885.61578"
+     y="128.63779"
+     width="164"
+     height="40"
+     id="rect368"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <rect
+     x="886.61578"
+     y="129.63779"
+     width="162"
+     height="38"
+     id="rect370"
+     style="fill:#c6e3f9" />
+  <line
+     x1="1024.6157"
+     y1="133.63779"
+     x2="1024.6157"
+     y2="158.63779"
+     id="line372"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="1024.6157"
+     y1="133.63779"
+     x2="1039.6157"
+     y2="133.63779"
+     id="line374"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="1039.6157"
+     y1="133.63779"
+     x2="1044.6157"
+     y2="138.63779"
+     id="line376"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="1044.6157"
+     y1="138.63779"
+     x2="1044.6157"
+     y2="158.63779"
+     id="line378"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="1044.6157"
+     y1="158.63779"
+     x2="1024.6157"
+     y2="158.63779"
+     id="line380"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="1039.6157"
+     y1="133.63779"
+     x2="1039.6157"
+     y2="138.63779"
+     id="line382"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="1039.6157"
+     y1="138.63779"
+     x2="1044.6157"
+     y2="138.63779"
+     id="line384"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <text
+     x="890.61578"
+     y="143.63779"
+     style="font-size:12px;font-family:Dialog"
+     id="text386">Zigbee_TX::X_Source</text>
+  <rect
+     x="885.61578"
+     y="180.63779"
+     width="223"
+     height="40"
+     id="rect388"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <rect
+     x="886.61578"
+     y="181.63779"
+     width="221"
+     height="38"
+     id="rect390"
+     style="fill:#c6e3f9" />
+  <line
+     x1="1083.6157"
+     y1="185.63779"
+     x2="1083.6157"
+     y2="210.63779"
+     id="line392"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="1083.6157"
+     y1="185.63779"
+     x2="1098.6157"
+     y2="185.63779"
+     id="line394"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="1098.6157"
+     y1="185.63779"
+     x2="1103.6157"
+     y2="190.63779"
+     id="line396"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="1103.6157"
+     y1="190.63779"
+     x2="1103.6157"
+     y2="210.63779"
+     id="line398"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="1103.6157"
+     y1="210.63779"
+     x2="1083.6157"
+     y2="210.63779"
+     id="line400"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="1098.6157"
+     y1="185.63779"
+     x2="1098.6157"
+     y2="190.63779"
+     id="line402"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="1098.6157"
+     y1="190.63779"
+     x2="1103.6157"
+     y2="190.63779"
+     id="line404"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <text
+     x="890.61578"
+     y="195.63779"
+     style="font-size:12px;font-family:Dialog"
+     id="text406">Zigbee_TX::F_Symbol2ChipSeq</text>
+  <rect
+     x="884.61578"
+     y="231.63779"
+     width="206"
+     height="40"
+     id="rect408"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <rect
+     x="885.61578"
+     y="232.63779"
+     width="204"
+     height="38"
+     id="rect410"
+     style="fill:#c6e3f9" />
+  <line
+     x1="1065.6157"
+     y1="236.63779"
+     x2="1065.6157"
+     y2="261.63779"
+     id="line412"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="1065.6157"
+     y1="236.63779"
+     x2="1080.6157"
+     y2="236.63779"
+     id="line414"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="1080.6157"
+     y1="236.63779"
+     x2="1085.6157"
+     y2="241.63779"
+     id="line416"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="1085.6157"
+     y1="241.63779"
+     x2="1085.6157"
+     y2="261.63779"
+     id="line418"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="1085.6157"
+     y1="261.63779"
+     x2="1065.6157"
+     y2="261.63779"
+     id="line420"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="1080.6157"
+     y1="236.63779"
+     x2="1080.6157"
+     y2="241.63779"
+     id="line422"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="1080.6157"
+     y1="241.63779"
+     x2="1085.6157"
+     y2="241.63779"
+     id="line424"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <text
+     x="889.61578"
+     y="246.63779"
+     style="font-size:12px;font-family:Dialog"
+     id="text426">Zigbee_TX::F_Chip_to_Octet</text>
+  <rect
+     x="1127.6157"
+     y="128.63779"
+     width="146"
+     height="40"
+     id="rect428"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <rect
+     x="1128.6157"
+     y="129.63779"
+     width="144"
+     height="38"
+     id="rect430"
+     style="fill:#c6e3f9" />
+  <line
+     x1="1248.6158"
+     y1="133.63779"
+     x2="1248.6158"
+     y2="158.63779"
+     id="line432"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="1248.6158"
+     y1="133.63779"
+     x2="1263.6158"
+     y2="133.63779"
+     id="line434"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="1263.6158"
+     y1="133.63779"
+     x2="1268.6158"
+     y2="138.63779"
+     id="line436"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="1268.6158"
+     y1="138.63779"
+     x2="1268.6158"
+     y2="158.63779"
+     id="line438"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="1268.6158"
+     y1="158.63779"
+     x2="1248.6158"
+     y2="158.63779"
+     id="line440"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="1263.6158"
+     y1="133.63779"
+     x2="1263.6158"
+     y2="138.63779"
+     id="line442"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="1263.6158"
+     y1="138.63779"
+     x2="1268.6158"
+     y2="138.63779"
+     id="line444"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <text
+     x="1132.6157"
+     y="143.63779"
+     style="font-size:12px;font-family:Dialog"
+     id="text446">Zigbee_TX::F_Sink</text>
+  <rect
+     x="1127.6157"
+     y="77.637787"
+     width="145"
+     height="40"
+     id="rect448"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <rect
+     x="1128.6157"
+     y="78.637787"
+     width="143"
+     height="38"
+     id="rect450"
+     style="fill:#c6e3f9" />
+  <line
+     x1="1247.6158"
+     y1="82.637787"
+     x2="1247.6158"
+     y2="107.63779"
+     id="line452"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="1247.6158"
+     y1="82.637787"
+     x2="1262.6158"
+     y2="82.637787"
+     id="line454"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="1262.6158"
+     y1="82.637787"
+     x2="1267.6158"
+     y2="87.637787"
+     id="line456"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="1267.6158"
+     y1="87.637787"
+     x2="1267.6158"
+     y2="107.63779"
+     id="line458"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="1267.6158"
+     y1="107.63779"
+     x2="1247.6158"
+     y2="107.63779"
+     id="line460"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="1262.6158"
+     y1="82.637787"
+     x2="1262.6158"
+     y2="87.637787"
+     id="line462"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="1262.6158"
+     y1="87.637787"
+     x2="1267.6158"
+     y2="87.637787"
+     id="line464"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <text
+     x="1132.6157"
+     y="92.637787"
+     style="font-size:12px;font-family:Dialog"
+     id="text466">Zigbee_TX::F_CWL</text>
+  <rect
+     x="1118.6157"
+     y="181.63779"
+     width="162"
+     height="40"
+     id="rect468"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <rect
+     x="1119.6157"
+     y="182.63779"
+     width="160"
+     height="38"
+     id="rect470"
+     style="fill:#c6e3f9" />
+  <line
+     x1="1255.6158"
+     y1="186.63779"
+     x2="1255.6158"
+     y2="211.63779"
+     id="line472"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="1255.6158"
+     y1="186.63779"
+     x2="1270.6158"
+     y2="186.63779"
+     id="line474"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="1270.6158"
+     y1="186.63779"
+     x2="1275.6158"
+     y2="191.63779"
+     id="line476"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="1275.6158"
+     y1="191.63779"
+     x2="1275.6158"
+     y2="211.63779"
+     id="line478"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="1275.6158"
+     y1="211.63779"
+     x2="1255.6158"
+     y2="211.63779"
+     id="line480"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="1270.6158"
+     y1="186.63779"
+     x2="1270.6158"
+     y2="191.63779"
+     id="line482"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="1270.6158"
+     y1="191.63779"
+     x2="1275.6158"
+     y2="191.63779"
+     id="line484"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <text
+     x="1123.6157"
+     y="196.63779"
+     style="font-size:12px;font-family:Dialog"
+     id="text486">Zigbee_TX::F_CWP_Q</text>
+  <rect
+     x="1116.6157"
+     y="233.63779"
+     width="156"
+     height="40"
+     id="rect488"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <rect
+     x="1117.6157"
+     y="234.63779"
+     width="154"
+     height="38"
+     id="rect490"
+     style="fill:#c6e3f9" />
+  <line
+     x1="1247.6158"
+     y1="238.63779"
+     x2="1247.6158"
+     y2="263.63779"
+     id="line492"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="1247.6158"
+     y1="238.63779"
+     x2="1262.6158"
+     y2="238.63779"
+     id="line494"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="1262.6158"
+     y1="238.63779"
+     x2="1267.6158"
+     y2="243.63779"
+     id="line496"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="1267.6158"
+     y1="243.63779"
+     x2="1267.6158"
+     y2="263.63779"
+     id="line498"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="1267.6158"
+     y1="263.63779"
+     x2="1247.6158"
+     y2="263.63779"
+     id="line500"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="1262.6158"
+     y1="238.63779"
+     x2="1262.6158"
+     y2="243.63779"
+     id="line502"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="1262.6158"
+     y1="243.63779"
+     x2="1267.6158"
+     y2="243.63779"
+     id="line504"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <text
+     x="1121.6157"
+     y="248.63779"
+     style="font-size:12px;font-family:Dialog"
+     id="text506">Zigbee_TX::F_CWP_I</text>
+  <rect
+     x="969.61578"
+     y="434.63782"
+     width="216"
+     height="140"
+     id="rect508"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="969.61578"
+     y1="434.63782"
+     x2="971.61578"
+     y2="431.63782"
+     id="line510"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="1185.6158"
+     y1="434.63782"
+     x2="1187.6158"
+     y2="431.63782"
+     id="line512"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="971.61578"
+     y1="431.63782"
+     x2="1187.6158"
+     y2="431.63782"
+     id="line514"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="1185.6158"
+     y1="574.63782"
+     x2="1187.6158"
+     y2="571.63782"
+     id="line516"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="1187.6158"
+     y1="431.63782"
+     x2="1187.6158"
+     y2="571.63782"
+     id="line518"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <rect
+     x="970.61578"
+     y="435.63782"
+     width="214"
+     height="138"
+     id="rect520"
+     style="fill:#acead3" />
+  <text
+     x="1029.6157"
+     y="449.63782"
+     style="font-size:12px;font-family:Dialog"
+     id="text522">&lt;&lt;MEMORY&gt;&gt;</text>
+  <text
+     x="1034.6157"
+     y="464.63782"
+     style="font-size:12px;font-family:Dialog"
+     id="text524">MainMemory</text>
+  <rect
+     x="680.61578"
+     y="487.63782"
+     width="150"
+     height="100"
+     id="rect526"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="680.61578"
+     y1="487.63782"
+     x2="682.61578"
+     y2="484.63782"
+     id="line528"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="830.61578"
+     y1="487.63782"
+     x2="832.61578"
+     y2="484.63782"
+     id="line530"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="682.61578"
+     y1="484.63782"
+     x2="832.61578"
+     y2="484.63782"
+     id="line532"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="830.61578"
+     y1="587.63782"
+     x2="832.61578"
+     y2="584.63782"
+     id="line534"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="832.61578"
+     y1="484.63782"
+     x2="832.61578"
+     y2="584.63782"
+     id="line536"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <rect
+     x="681.61578"
+     y="488.63782"
+     width="148"
+     height="98"
+     id="rect538"
+     style="fill:#c6ebf9" />
+  <text
+     x="712.61578"
+     y="502.63782"
+     style="font-size:12px;font-family:Dialog"
+     id="text540">&lt;&lt;CPURR&gt;&gt;</text>
+  <text
+     x="721.61578"
+     y="517.63782"
+     style="font-size:12px;font-family:Dialog"
+     id="text542">INTL_DMA</text>
+  <text
+     xml:space="preserve"
+     style="font-size:40px;font-style:italic;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Sans Italic"
+     x="1103.5863"
+     y="379.51035"
+     id="text3376"
+     sodipodi:linespacing="125%"><tspan
+       sodipodi:role="line"
+       id="tspan3378"
+       x="1103.5863"
+       y="379.51035"
+       style="font-size:14px;font-style:normal;font-weight:bold;-inkscape-font-specification:Sans Bold">CP02.Transfer_instance1</tspan><tspan
+       sodipodi:role="line"
+       x="1103.5863"
+       y="394.51035"
+       id="tspan3380"
+       style="font-size:14px;font-style:normal;font-weight:bold;-inkscape-font-specification:Sans Bold">CP02.Transfer_instance4</tspan></text>
+  <text
+     xml:space="preserve"
+     style="font-size:40px;font-style:italic;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Sans Italic"
+     x="770.23077"
+     y="398.80215"
+     id="text3376-0"
+     sodipodi:linespacing="125%"><tspan
+       sodipodi:role="line"
+       id="tspan3378-9"
+       x="770.23077"
+       y="398.80215"
+       style="font-size:14px;font-style:normal;font-weight:bold;-inkscape-font-specification:Sans Bold">CP02.Transfer_instance1</tspan><tspan
+       sodipodi:role="line"
+       x="770.23077"
+       y="413.80215"
+       id="tspan3380-4"
+       style="font-size:14px;font-style:normal;font-weight:bold;-inkscape-font-specification:Sans Bold">CP02.Transfer_instance4</tspan></text>
+  <text
+     xml:space="preserve"
+     style="font-size:40px;font-style:italic;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Sans Italic"
+     x="237.35628"
+     y="365.69458"
+     id="text3376-2"
+     sodipodi:linespacing="125%"><tspan
+       sodipodi:role="line"
+       id="tspan3378-0"
+       x="237.35628"
+       y="365.69458"
+       style="font-size:14px;font-style:normal;font-weight:bold;-inkscape-font-specification:Sans Bold">CP02.Transfer_instance1</tspan><tspan
+       sodipodi:role="line"
+       x="237.35628"
+       y="380.69458"
+       id="tspan3380-3"
+       style="font-size:14px;font-style:normal;font-weight:bold;-inkscape-font-specification:Sans Bold">CP02.Transfer_instance3</tspan><tspan
+       sodipodi:role="line"
+       x="237.35628"
+       y="395.69458"
+       style="font-size:14px;font-style:normal;font-weight:bold;-inkscape-font-specification:Sans Bold"
+       id="tspan3417">CP02.Transfer_instance4</tspan></text>
+  <text
+     xml:space="preserve"
+     style="font-size:40px;font-style:italic;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Sans Italic"
+     x="153.2451"
+     y="271.48422"
+     id="text3376-2-1"
+     sodipodi:linespacing="125%"><tspan
+       sodipodi:role="line"
+       id="tspan3378-0-8"
+       x="153.2451"
+       y="271.48422"
+       style="font-size:14px;font-style:normal;font-weight:bold;-inkscape-font-specification:Sans Bold">CP02.Transfer_instance1</tspan><tspan
+       sodipodi:role="line"
+       x="153.2451"
+       y="288.98422"
+       id="tspan3380-3-6"
+       style="font-size:14px;font-style:normal;font-weight:bold;-inkscape-font-specification:Sans Bold">CP02.Transfer_instance3</tspan><tspan
+       sodipodi:role="line"
+       x="153.2451"
+       y="306.48422"
+       style="font-size:14px;font-style:normal;font-weight:bold;-inkscape-font-specification:Sans Bold"
+       id="tspan3417-3">CP02.Transfer_instance4</tspan></text>
+  <text
+     xml:space="preserve"
+     style="font-size:40px;font-style:italic;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Sans Italic"
+     x="300.65274"
+     y="82.298027"
+     id="text3376-2-0"
+     sodipodi:linespacing="125%"><tspan
+       sodipodi:role="line"
+       id="tspan3378-0-9"
+       x="300.65274"
+       y="82.298027"
+       style="font-size:14px;font-style:normal;font-weight:bold;-inkscape-font-specification:Sans Bold">CP02.Transfer_instance1</tspan><tspan
+       sodipodi:role="line"
+       x="300.65274"
+       y="99.798027"
+       id="tspan3380-3-2"
+       style="font-size:14px;font-style:normal;font-weight:bold;-inkscape-font-specification:Sans Bold">CP02.Transfer_instance2</tspan><tspan
+       sodipodi:role="line"
+       x="300.65274"
+       y="117.29802"
+       style="font-size:14px;font-style:normal;font-weight:bold;-inkscape-font-specification:Sans Bold"
+       id="tspan3417-7">CP02.Transfer_instance3</tspan><tspan
+       sodipodi:role="line"
+       x="300.65274"
+       y="134.79803"
+       style="font-size:14px;font-style:normal;font-weight:bold;-inkscape-font-specification:Sans Bold"
+       id="tspan3484">CP02.Transfer_instance4</tspan></text>
+  <text
+     xml:space="preserve"
+     style="font-size:40px;font-style:italic;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Sans Italic"
+     x="1013.9567"
+     y="22.006296"
+     id="text3376-7"
+     sodipodi:linespacing="125%"><tspan
+       sodipodi:role="line"
+       x="1013.9567"
+       y="22.006296"
+       id="tspan3380-9"
+       style="font-size:14px;font-style:normal;font-weight:bold;-inkscape-font-specification:Sans Bold">CP02.CPU_Controller</tspan></text>
+  <text
+     xml:space="preserve"
+     style="font-size:40px;font-style:italic;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Sans Italic"
+     x="593.42163"
+     y="113.06354"
+     id="text3376-7-4"
+     sodipodi:linespacing="125%"><tspan
+       sodipodi:role="line"
+       x="593.42163"
+       y="113.06354"
+       id="tspan3380-9-7"
+       style="font-size:14px;font-style:normal;font-weight:bold;-inkscape-font-specification:Sans Bold">CP02.Src_Storage_instance</tspan></text>
+  <text
+     xml:space="preserve"
+     style="font-size:40px;font-style:italic;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Sans Italic"
+     x="488.42493"
+     y="680.62219"
+     id="text3376-7-4-7"
+     sodipodi:linespacing="125%"><tspan
+       sodipodi:role="line"
+       x="488.42493"
+       y="680.62219"
+       id="tspan3380-9-7-8"
+       style="font-size:14px;font-style:normal;font-weight:bold;-inkscape-font-specification:Sans Bold">CP02.Dst_Storage_instance</tspan></text>
+  <text
+     xml:space="preserve"
+     style="font-size:40px;font-style:italic;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Sans Italic"
+     x="598.78357"
+     y="187.16148"
+     id="text3376-7-4-5"
+     sodipodi:linespacing="125%"><tspan
+       sodipodi:role="line"
+       x="598.78357"
+       y="187.16148"
+       id="tspan3380-9-7-81"
+       style="font-size:14px;font-style:normal;font-weight:bold;-inkscape-font-specification:Sans Bold">CP02.DMA_Controller</tspan></text>
+  <text
+     xml:space="preserve"
+     style="font-size:40px;font-style:italic;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Sans Italic"
+     x="518.97839"
+     y="481.97665"
+     id="text3376-7-4-5-1"
+     sodipodi:linespacing="125%"><tspan
+       sodipodi:role="line"
+       x="518.97839"
+       y="481.97665"
+       id="tspan3380-9-7-81-9"
+       style="font-size:14px;font-style:normal;font-weight:bold;-inkscape-font-specification:Sans Bold">CP02.Transfer_instance3</tspan></text>
+  <text
+     xml:space="preserve"
+     style="font-size:40px;font-style:italic;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Sans Italic"
+     x="399.30374"
+     y="565.53394"
+     id="text3376-7-4-5-1-7"
+     sodipodi:linespacing="125%"><tspan
+       sodipodi:role="line"
+       x="399.30374"
+       y="565.53394"
+       id="tspan3380-9-7-81-9-7"
+       style="font-size:14px;font-style:normal;font-weight:bold;-inkscape-font-specification:Sans Bold">CP02.Transfer_instance3</tspan></text>
+</svg>

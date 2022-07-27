@@ -1,0 +1,521 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   version="1.1"
+   id="svg2"
+   inkscape:version="0.48.4 r9939"
+   width="742.35999"
+   height="364.09"
+   sodipodi:docname="CPL3_part1.svg">
+  <metadata
+     id="metadata158">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs156" />
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="1366"
+     inkscape:window-height="709"
+     id="namedview154"
+     showgrid="false"
+     width="752.36px"
+     inkscape:zoom="1.2685914"
+     inkscape:cx="396.89105"
+     inkscape:cy="197.73484"
+     inkscape:window-x="0"
+     inkscape:window-y="27"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg2" />
+  <text
+     x="164.91313"
+     y="19.665535"
+     style="font-size:12px;font-family:Dialog"
+     id="text4">BRIDGE</text>
+  <line
+     x1="164.91313"
+     y1="20.665535"
+     x2="208.91313"
+     y2="20.665535"
+     id="line6"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="186.58662"
+     y1="20.571121"
+     x2="186.58662"
+     y2="553.39203"
+     id="line8"
+     style="fill:none;stroke:#000000;stroke-width:1.03229928" />
+  <text
+     x="270.91312"
+     y="19.665535"
+     style="font-size:12px;font-family:Dialog"
+     id="text10">Interconnect</text>
+  <line
+     x1="270.91312"
+     y1="20.665535"
+     x2="350.91312"
+     y2="20.665535"
+     id="line12"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="310.58661"
+     y1="20.940781"
+     x2="310.58661"
+     y2="553.39227"
+     id="line14"
+     style="fill:none;stroke:#000000;stroke-width:1.03194129" />
+  <text
+     x="412.91312"
+     y="19.665535"
+     style="font-size:12px;font-family:Dialog"
+     id="text16">AXI</text>
+  <line
+     x1="412.91312"
+     y1="20.665535"
+     x2="430.91312"
+     y2="20.665535"
+     id="line18"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="421.58658"
+     y1="20.743904"
+     x2="421.58658"
+     y2="553.39209"
+     id="line20"
+     style="fill:none;stroke:#000000;stroke-width:1.03213191" />
+  <text
+     x="95.341377"
+     y="19.386848"
+     style="font-size:12px;font-family:Dialog"
+     id="text22">mainCPU</text>
+  <line
+     x1="95.341377"
+     y1="20.386848"
+     x2="149.34138"
+     y2="20.386848"
+     id="line24"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="121.53391"
+     y1="20.19883"
+     x2="121.53391"
+     y2="554.96649"
+     id="line26"
+     style="fill:none;stroke:#000000;stroke-width:1.14676952" />
+  <text
+     x="7.8490233"
+     y="19.400856"
+     style="font-size:12px;font-family:Dialog"
+     id="text28">FEP_MSS</text>
+  <line
+     x1="8.2431574"
+     y1="21.780334"
+     x2="62.243141"
+     y2="21.780334"
+     id="line30"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="31.648676"
+     y1="21.869331"
+     x2="31.648676"
+     y2="554.9682"
+     id="line32"
+     style="fill:none;stroke:#000000;stroke-width:1.03256845" />
+  <text
+     x="501.91312"
+     y="19.665535"
+     style="font-size:12px;font-family:Dialog"
+     id="text34">FEPdma</text>
+  <line
+     x1="501.91312"
+     y1="20.665535"
+     x2="551.91315"
+     y2="20.665535"
+     id="line36"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="526.38953"
+     y1="20.738014"
+     x2="526.38953"
+     y2="554.39795"
+     id="line38"
+     style="fill:none;stroke:#000000;stroke-width:0.80334169" />
+  <text
+     x="681.91315"
+     y="19.665535"
+     style="font-size:12px;font-family:Dialog"
+     id="text40">FEPbus</text>
+  <line
+     x1="681.91315"
+     y1="20.665535"
+     x2="727.91315"
+     y2="20.665535"
+     id="line42"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="704.58661"
+     y1="20.744301"
+     x2="704.58661"
+     y2="547.39172"
+     id="line44"
+     style="fill:none;stroke:#000000;stroke-width:1.03251529" />
+  <line
+     x1="121.37226"
+     y1="73.42469"
+     x2="421.67178"
+     y2="73.42469"
+     id="line46"
+     style="fill:none;stroke:#000000;stroke-width:0.9108001" />
+  <line
+     x1="421.58658"
+     y1="73.42469"
+     x2="412.58658"
+     y2="77.42469"
+     id="line48"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="421.58658"
+     y1="73.42469"
+     x2="412.58658"
+     y2="68.42469"
+     id="line50"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <text
+     x="137.00041"
+     y="67.636421"
+     style="font-size:12px;font-family:Dialog"
+     id="text52">TransferRequest(Id, SIZE, FEP_MSS, FEP_MSS)</text>
+  <line
+     x1="421.58658"
+     y1="93.424713"
+     x2="186.58662"
+     y2="93.424713"
+     id="line54"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <polygon
+     points="475,99 467,95 475,90 "
+     id="polygon56"
+     style="fill:#000000"
+     transform="translate(-280.41339,-1.5752793)" />
+  <polygon
+     points="475,99 467,95 475,90 "
+     id="polygon58"
+     style="fill:none;stroke:#000000;stroke-width:1"
+     transform="translate(-280.41339,-1.5752793)" />
+  <text
+     x="199.58662"
+     y="88.424713"
+     style="font-size:12px;font-family:Dialog"
+     id="text60">TransferRequest(Id, ..., FEP_MSS)</text>
+  <line
+     x1="186.58662"
+     y1="113.42471"
+     x2="310.58661"
+     y2="113.42471"
+     id="line62"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <polygon
+     points="582,110 591,115 582,119 "
+     id="polygon64"
+     style="fill:#000000"
+     transform="translate(-280.41339,-1.5752793)" />
+  <polygon
+     points="582,110 591,115 582,119 "
+     id="polygon66"
+     style="fill:none;stroke:#000000;stroke-width:1"
+     transform="translate(-280.41339,-1.5752793)" />
+  <text
+     x="144.58662"
+     y="108.42471"
+     style="font-size:12px;font-family:Dialog"
+     id="text68">TransferRequest(Id, ..., FEP_MSS)</text>
+  <line
+     x1="310.58661"
+     y1="133.42468"
+     x2="526.58661"
+     y2="133.42468"
+     id="line70"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <polygon
+     points="798,130 807,135 798,139 "
+     id="polygon72"
+     style="fill:#000000"
+     transform="translate(-280.41339,-1.5752793)" />
+  <polygon
+     points="798,130 807,135 798,139 "
+     id="polygon74"
+     style="fill:none;stroke:#000000;stroke-width:1"
+     transform="translate(-280.41339,-1.5752793)" />
+  <text
+     x="314.58658"
+     y="130.09686"
+     style="font-size:12px;font-family:Dialog"
+     id="text76">TransferRequest(Id, ..., FEP_MSS)</text>
+  <line
+     x1="704.63043"
+     y1="173.42468"
+     x2="33.181374"
+     y2="173.42468"
+     id="line86"
+     style="fill:none;stroke:#000000;stroke-width:0.95514131" />
+  <polygon
+     points="249,175 257,170 257,179 "
+     id="polygon88"
+     style="fill:#000000"
+     transform="translate(-216.03424,-1.5752793)" />
+  <polygon
+     points="249,175 257,170 257,179 "
+     id="polygon90"
+     style="fill:none;stroke:#000000;stroke-width:1"
+     transform="translate(-216.56304,-1.5752793)" />
+  <text
+     x="244.99611"
+     y="167.30994"
+     style="font-size:12px;font-family:Dialog"
+     id="text92">Read(data_size)</text>
+  <line
+     x1="32.08654"
+     y1="193.42468"
+     x2="704.6297"
+     y2="193.42468"
+     id="line94"
+     style="fill:none;stroke:#000000;stroke-width:0.95591915" />
+  <polygon
+     points="976,190 985,195 976,199 "
+     id="polygon96"
+     style="fill:#000000"
+     transform="translate(-280.41339,-1.5752793)" />
+  <polygon
+     points="976,190 985,195 976,199 "
+     id="polygon98"
+     style="fill:none;stroke:#000000;stroke-width:1"
+     transform="translate(-280.41339,-1.5752793)" />
+  <text
+     x="291.58661"
+     y="188.42468"
+     style="font-size:12px;font-family:Dialog"
+     id="text100">Transfer(data_size)</text>
+  <line
+     x1="704.58661"
+     y1="213.42468"
+     x2="526.58661"
+     y2="213.42468"
+     id="line102"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <polygon
+     points="815,219 807,215 815,210 "
+     id="polygon104"
+     style="fill:#000000"
+     transform="translate(-280.41339,-1.5752793)" />
+  <polygon
+     points="815,219 807,215 815,210 "
+     id="polygon106"
+     style="fill:none;stroke:#000000;stroke-width:1"
+     transform="translate(-280.41339,-1.5752793)" />
+  <text
+     x="570.58661"
+     y="208.42468"
+     style="font-size:12px;font-family:Dialog"
+     id="text108">Transfer(data_size)</text>
+  <rect
+     x="450.84814"
+     y="244.42468"
+     width="191"
+     height="20"
+     rx="5"
+     ry="5"
+     id="rect110"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <text
+     x="457.58655"
+     y="259.42468"
+     style="font-size:12px;font-family:Dialog"
+     id="text112">transferred_size += data_size</text>
+  <line
+     x1="526.58661"
+     y1="235.42468"
+     x2="704.58661"
+     y2="235.42468"
+     id="line114"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <polygon
+     points="976,269 976,260 985,265 "
+     id="polygon116"
+     style="fill:#000000"
+     transform="translate(-280.41339,-29.575279)" />
+  <polygon
+     points="976,269 976,260 985,265 "
+     id="polygon118"
+     style="fill:none;stroke:#000000;stroke-width:1"
+     transform="translate(-280.41339,-29.575279)" />
+  <text
+     x="548.58661"
+     y="230.42468"
+     style="font-size:12px;font-family:Dialog"
+     id="text120">Write(data_size)</text>
+  <line
+     x1="526.58661"
+     y1="293.42468"
+     x2="310.58661"
+     y2="293.42468"
+     id="line122"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <polygon
+     points="599,299 591,295 599,290 "
+     id="polygon124"
+     style="fill:#000000"
+     transform="translate(-280.41339,-1.5752793)" />
+  <polygon
+     points="599,299 591,295 599,290 "
+     id="polygon126"
+     style="fill:none;stroke:#000000;stroke-width:1"
+     transform="translate(-280.41339,-1.5752793)" />
+  <text
+     x="322.10977"
+     y="286.7525"
+     style="font-size:12px;font-family:Dialog"
+     id="text128">TransferDone(Id)</text>
+  <line
+     x1="310.58661"
+     y1="313.42468"
+     x2="186.58662"
+     y2="313.42468"
+     id="line130"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <polygon
+     points="475,319 467,315 475,310 "
+     id="polygon132"
+     style="fill:#000000"
+     transform="translate(-280.41339,-1.5752793)" />
+  <polygon
+     points="475,319 467,315 475,310 "
+     id="polygon134"
+     style="fill:none;stroke:#000000;stroke-width:1"
+     transform="translate(-280.41339,-1.5752793)" />
+  <text
+     x="200.6032"
+     y="308.42468"
+     style="font-size:12px;font-family:Dialog"
+     id="text136">TransferDone(Id)</text>
+  <line
+     x1="186.58662"
+     y1="333.42471"
+     x2="421.58658"
+     y2="333.42471"
+     id="line138"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <polygon
+     points="693,330 702,335 693,339 "
+     id="polygon140"
+     style="fill:#000000"
+     transform="translate(-280.41339,-1.5752793)" />
+  <polygon
+     points="693,330 702,335 693,339 "
+     id="polygon142"
+     style="fill:none;stroke:#000000;stroke-width:1"
+     transform="translate(-280.41339,-1.5752793)" />
+  <text
+     x="250.58662"
+     y="328.42468"
+     style="font-size:12px;font-family:Dialog"
+     id="text144">TransferDone(Id)</text>
+  <line
+     x1="421.67355"
+     y1="353.42471"
+     x2="122.42649"
+     y2="353.42471"
+     id="line146"
+     style="fill:none;stroke:#000000;stroke-width:0.90920269" />
+  <polygon
+     points="340,355 348,350 348,359 "
+     id="polygon148"
+     style="fill:#000000"
+     transform="translate(-217.70643,-1.2965793)" />
+  <polygon
+     points="340,355 348,350 348,359 "
+     id="polygon150"
+     style="fill:none;stroke:#000000;stroke-width:1"
+     transform="translate(-217.70643,-1.5752793)" />
+  <text
+     x="193.16057"
+     y="348.42471"
+     style="font-size:12px;font-family:Dialog"
+     id="text152">TransferDone(Id)</text>
+  <rect
+     x="53.724815"
+     y="34.116951"
+     width="127.63583"
+     height="20.178886"
+     rx="3.3412521"
+     ry="5.0447216"
+     id="rect110-6"
+     style="fill:none;stroke:#000000;stroke-width:0.82111353" />
+  <text
+     x="56.470451"
+     y="48.091621"
+     style="font-size:12px;font-family:Dialog"
+     id="text112-5">transferred_size = 0</text>
+  <line
+     x1="6.8110747"
+     y1="272.80847"
+     x2="730.29626"
+     y2="272.80847"
+     id="line94-2"
+     style="fill:none;stroke:#000000;stroke-width:0.99146163" />
+  <line
+     x1="6.9605193"
+     y1="142.0993"
+     x2="730.3136"
+     y2="142.0993"
+     id="line94-2-3"
+     style="fill:none;stroke:#000000;stroke-width:0.99137115" />
+  <line
+     x1="7.1457"
+     y1="142.32112"
+     x2="7.1457"
+     y2="272.7417"
+     id="line32-3"
+     style="fill:none;stroke:#000000;stroke-width:0.51072621" />
+  <line
+     x1="729.77655"
+     y1="141.81665"
+     x2="729.77655"
+     y2="273.4151"
+     id="line32-3-0"
+     style="fill:none;stroke:#000000;stroke-width:0.51302719" />
+  <rect
+     x="7.2497592"
+     y="142.13652"
+     width="211.7509"
+     height="19.948437"
+     rx="5.5432172"
+     ry="4.9871092"
+     id="rect110-6-5"
+     style="fill:none;stroke:#000000;stroke-width:1.05156326" />
+  <text
+     x="9.8801699"
+     y="155.99597"
+     style="font-size:12px;font-family:Dialog"
+     id="text112-5-6">LOOP ( transferred_size &lt;= SIZE )</text>
+</svg>

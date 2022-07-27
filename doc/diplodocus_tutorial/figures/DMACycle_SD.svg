@@ -1,0 +1,37 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="917" height="555" viewbox="25 5 892 550">
+<line  x1="84" y1="99" x2="254" y2="99" stroke="#000000" stroke-width="1" fill="none"/>
+<line  x1="254" y1="99" x2="245" y2="103" stroke="#000000" stroke-width="1" fill="none"/>
+<line  x1="254" y1="99" x2="245" y2="94" stroke="#000000" stroke-width="1" fill="none"/>
+<text  x="86" y="94" style="font-size:12; font-family:SansSerif.plain; fill=#000000">Read(sourceAddress, size)</text>
+<line  x1="254" y1="129" x2="459" y2="129" stroke="#000000" stroke-width="1" fill="none"/>
+<line  x1="459" y1="129" x2="450" y2="133" stroke="#000000" stroke-width="1" fill="none"/>
+<line  x1="459" y1="129" x2="450" y2="124" stroke="#000000" stroke-width="1" fill="none"/>
+<text  x="273" y="124" style="font-size:12; font-family:SansSerif.plain; fill=#000000">Read(sourceAddress, size)</text>
+<line  x1="84" y1="159" x2="629" y2="159" stroke="#000000" stroke-width="1" fill="none"/>
+<line  x1="629" y1="159" x2="620" y2="163" stroke="#000000" stroke-width="1" fill="none"/>
+<line  x1="629" y1="159" x2="620" y2="154" stroke="#000000" stroke-width="1" fill="none"/>
+<text  x="259" y="154" style="font-size:12; font-family:SansSerif.plain; fill=#000000">Write(destinationAddress, size)</text>
+<line  x1="629" y1="189" x2="837" y2="189" stroke="#000000" stroke-width="1" fill="none"/>
+<line  x1="837" y1="189" x2="828" y2="193" stroke="#000000" stroke-width="1" fill="none"/>
+<line  x1="837" y1="189" x2="828" y2="184" stroke="#000000" stroke-width="1" fill="none"/>
+<text  x="636" y="184" style="font-size:12; font-family:SansSerif.plain; fill=#000000">Write(destinationAddress, size)</text>
+<text  x="30" y="36" style="font-size:12; font-family:SansSerif.plain; fill=#000000">DMA_Controller_1</text>
+<line  x1="30" y1="37" x2="138" y2="37" stroke="#000000" stroke-width="1" fill="none"/>
+<line  x1="84" y1="39" x2="84" y2="539" stroke="#000000" stroke-width="1" fill="none"/>
+<rect  x="11" y="183" width="146" height="20" rx="5" ry="5" fill="none" stroke="#000000" stroke-width="1"/>
+<text  x="16" y="198" style="font-size:12; font-family:SansSerif.plain; fill=#000000">counter = counter - 1</text>
+<text  x="384" y="36" style="font-size:12; font-family:SansSerif.plain; fill=#000000">Src_Storage_Instance_1</text>
+<line  x1="384" y1="37" x2="534" y2="37" stroke="#000000" stroke-width="1" fill="none"/>
+<line  x1="459" y1="39" x2="459" y2="539" stroke="#000000" stroke-width="1" fill="none"/>
+<text  x="191" y="36" style="font-size:12; font-family:SansSerif.plain; fill=#000000">Transfer_Instance_2</text>
+<line  x1="191" y1="37" x2="317" y2="37" stroke="#000000" stroke-width="1" fill="none"/>
+<line  x1="254" y1="39" x2="254" y2="540" stroke="#000000" stroke-width="1" fill="none"/>
+<text  x="566" y="36" style="font-size:12; font-family:SansSerif.plain; fill=#000000">Transfer_Instance_3</text>
+<line  x1="566" y1="37" x2="692" y2="37" stroke="#000000" stroke-width="1" fill="none"/>
+<line  x1="629" y1="39" x2="629" y2="539" stroke="#000000" stroke-width="1" fill="none"/>
+<text  x="762" y="36" style="font-size:12; font-family:SansSerif.plain; fill=#000000">Dst_Storage_Instance_1</text>
+<line  x1="762" y1="37" x2="912" y2="37" stroke="#000000" stroke-width="1" fill="none"/>
+<line  x1="837" y1="39" x2="837" y2="539" stroke="#000000" stroke-width="1" fill="none"/>
+</svg>

@@ -1,0 +1,3335 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   version="1.1"
+   width="1712"
+   height="570"
+   viewbox="5 5 1707 565"
+   id="svg2"
+   inkscape:version="0.91 r13725"
+   sodipodi:docname="ZigbeeAppMapp.svg">
+  <metadata
+     id="metadata902">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs900" />
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="1855"
+     inkscape:window-height="1056"
+     id="namedview898"
+     showgrid="false"
+     inkscape:zoom="0.72577804"
+     inkscape:cx="877.6788"
+     inkscape:cy="280"
+     inkscape:window-x="65"
+     inkscape:window-y="24"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg2" />
+  <rect
+     x="1186"
+     y="17"
+     width="214"
+     height="280"
+     fill="none"
+     stroke="#000000"
+     stroke-width="1"
+     id="rect4" />
+  <rect
+     x="1187"
+     y="18"
+     width="212"
+     height="278"
+     fill="#fbfcc8"
+     id="rect6" />
+  <text
+     x="1262"
+     y="52"
+     style="font-size:20; font-family:SansSerif.plain; fill=#000000"
+     id="text8">CWP_I</text>
+  <rect
+     x="1387"
+     y="249"
+     width="26"
+     height="26"
+     fill="none"
+     stroke="#000000"
+     stroke-width="1"
+     id="rect10" />
+  <rect
+     x="1388"
+     y="250"
+     width="24"
+     height="24"
+     fill="#d8bbf9"
+     id="rect12" />
+  <polygon
+     points="1387,262 1413,262 "
+     fill="none"
+     stroke="#000000"
+     stroke-width="1"
+     id="polygon14" />
+  <rect
+     x="1173"
+     y="110"
+     width="26"
+     height="26"
+     fill="none"
+     stroke="#000000"
+     stroke-width="1"
+     id="rect16" />
+  <rect
+     x="1174"
+     y="111"
+     width="24"
+     height="24"
+     fill="#68e5ff"
+     id="rect18" />
+  <polygon
+     points="1173,123 1199,123 "
+     fill="none"
+     stroke="#000000"
+     stroke-width="1"
+     id="polygon20" />
+  <rect
+     x="1173"
+     y="249"
+     width="26"
+     height="26"
+     fill="none"
+     stroke="#000000"
+     stroke-width="1"
+     id="rect22" />
+  <rect
+     x="1174"
+     y="250"
+     width="24"
+     height="24"
+     fill="#d8bbf9"
+     id="rect24" />
+  <polygon
+     points="1173,262 1199,262 "
+     fill="none"
+     stroke="#000000"
+     stroke-width="1"
+     id="polygon26" />
+  <rect
+     x="1220"
+     y="62"
+     width="144"
+     height="96"
+     fill="none"
+     stroke="#000000"
+     stroke-width="1"
+     id="rect28" />
+  <rect
+     x="1221"
+     y="63"
+     width="142"
+     height="94"
+     fill="#c9f3b2"
+     id="rect30" />
+  <text
+     x="1263"
+     y="91"
+     style="font-size:14; font-family:SansSerif.plain; fill=#000000"
+     id="text32">X_CWP_I</text>
+  <text
+     x="1235"
+     y="120"
+     style="font-size:12; font-family:SansSerif.plain; fill=#000000"
+     id="text34">+ size : Natural;</text>
+  <rect
+     x="1351"
+     y="111"
+     width="25"
+     height="25"
+     fill="#68e5ff"
+     id="rect36" />
+  <rect
+     x="1351"
+     y="111"
+     width="26"
+     height="26"
+     fill="none"
+     stroke="#000000"
+     stroke-width="1"
+     id="rect38" />
+  <polygon
+     points="1354,114 1354,134 1374,124 "
+     fill="none"
+     stroke="#000000"
+     stroke-width="1"
+     id="polygon40" />
+  <polygon
+     points="1354,114 1354,134 1374,124 "
+     fill="#000000"
+     id="polygon42" />
+  <line
+     x1="1374"
+     y1="134"
+     x2="1374"
+     y2="114"
+     stroke="#000000"
+     stroke-width="1"
+     fill="none"
+     id="line44" />
+  <rect
+     x="1207"
+     y="110"
+     width="25"
+     height="25"
+     fill="#68e5ff"
+     id="rect46" />
+  <rect
+     x="1207"
+     y="110"
+     width="26"
+     height="26"
+     fill="none"
+     stroke="#000000"
+     stroke-width="1"
+     id="rect48" />
+  <polygon
+     points="1210,113 1210,133 1230,123 "
+     fill="none"
+     stroke="#000000"
+     stroke-width="1"
+     id="polygon50" />
+  <polygon
+     points="1210,113 1210,133 1230,123 "
+     fill="#000000"
+     id="polygon52" />
+  <line
+     x1="1230"
+     y1="133"
+     x2="1230"
+     y2="113"
+     stroke="#000000"
+     stroke-width="1"
+     fill="none"
+     id="line54" />
+  <rect
+     x="1244"
+     y="145"
+     width="25"
+     height="25"
+     fill="#c4a67a"
+     id="rect56" />
+  <rect
+     x="1244"
+     y="145"
+     width="26"
+     height="26"
+     fill="none"
+     stroke="#000000"
+     stroke-width="1"
+     id="rect58" />
+  <polygon
+     points="1247,168 1267,168 1257,148 "
+     fill="none"
+     stroke="#000000"
+     stroke-width="1"
+     id="polygon60" />
+  <polygon
+     points="1247,168 1267,168 1257,148 "
+     fill="#000000"
+     id="polygon62" />
+  <line
+     x1="1267"
+     y1="148"
+     x2="1247"
+     y2="148"
+     stroke="#000000"
+     stroke-width="1"
+     fill="none"
+     id="line64" />
+  <text
+     x="1244"
+     y="144"
+     style="font-size:8; font-family:SansSerif.plain; fill=#000000"
+     id="text66">cwpI_req</text>
+  <rect
+     x="1222"
+     y="194"
+     width="143"
+     height="86"
+     fill="none"
+     stroke="#000000"
+     stroke-width="1"
+     id="rect68" />
+  <rect
+     x="1223"
+     y="195"
+     width="141"
+     height="84"
+     fill="#c9f3b2"
+     id="rect70" />
+  <text
+     x="1265"
+     y="223"
+     style="font-size:14; font-family:SansSerif.plain; fill=#000000"
+     id="text72">F_CWP_I</text>
+  <text
+     x="1237"
+     y="252"
+     style="font-size:12; font-family:SansSerif.plain; fill=#000000"
+     id="text74">+ size : Natural;</text>
+  <rect
+     x="1352"
+     y="249"
+     width="25"
+     height="25"
+     fill="#d8bbf9"
+     id="rect76" />
+  <rect
+     x="1352"
+     y="249"
+     width="26"
+     height="26"
+     fill="none"
+     stroke="#000000"
+     stroke-width="1"
+     id="rect78" />
+  <polygon
+     points="1355,252 1355,272 1375,262 "
+     fill="none"
+     stroke="#000000"
+     stroke-width="1"
+     id="polygon80" />
+  <polygon
+     points="1355,252 1355,272 1375,262 "
+     fill="#000000"
+     id="polygon82" />
+  <rect
+     x="1209"
+     y="249"
+     width="25"
+     height="25"
+     fill="#d8bbf9"
+     id="rect84" />
+  <rect
+     x="1209"
+     y="249"
+     width="26"
+     height="26"
+     fill="none"
+     stroke="#000000"
+     stroke-width="1"
+     id="rect86" />
+  <polygon
+     points="1212,252 1212,272 1232,262 "
+     fill="none"
+     stroke="#000000"
+     stroke-width="1"
+     id="polygon88" />
+  <polygon
+     points="1212,252 1212,272 1232,262 "
+     fill="#000000"
+     id="polygon90" />
+  <line
+     x1="1232"
+     y1="272"
+     x2="1232"
+     y2="252"
+     stroke="#000000"
+     stroke-width="1"
+     fill="none"
+     id="line92" />
+  <rect
+     x="1320"
+     y="181"
+     width="25"
+     height="25"
+     fill="#c4a67a"
+     id="rect94" />
+  <rect
+     x="1320"
+     y="181"
+     width="26"
+     height="26"
+     fill="none"
+     stroke="#000000"
+     stroke-width="1"
+     id="rect96" />
+  <polygon
+     points="1323,204 1343,204 1333,184 "
+     fill="none"
+     stroke="#000000"
+     stroke-width="1"
+     id="polygon98" />
+  <polygon
+     points="1323,204 1343,204 1333,184 "
+     fill="#000000"
+     id="polygon100" />
+  <text
+     x="1320"
+     y="180"
+     style="font-size:8; font-family:SansSerif.plain; fill=#000000"
+     id="text102">cwpI_req</text>
+  <rect
+     x="1387"
+     y="111"
+     width="26"
+     height="26"
+     fill="none"
+     stroke="#000000"
+     stroke-width="1"
+     id="rect104" />
+  <rect
+     x="1388"
+     y="112"
+     width="24"
+     height="24"
+     fill="#68e5ff"
+     id="rect106" />
+  <polygon
+     points="1387,124 1413,124 "
+     fill="none"
+     stroke="#000000"
+     stroke-width="1"
+     id="polygon108" />
+  <rect
+     x="1186"
+     y="309"
+     width="211"
+     height="254"
+     fill="none"
+     stroke="#000000"
+     stroke-width="1"
+     id="rect110" />
+  <rect
+     x="1187"
+     y="310"
+     width="209"
+     height="252"
+     fill="#fbfcc8"
+     id="rect112" />
+  <text
+     x="1255"
+     y="344"
+     style="font-size:20; font-family:SansSerif.plain; fill=#000000"
+     id="text114">CWP_Q</text>
+  <rect
+     x="1384"
+     y="380"
+     width="26"
+     height="26"
+     fill="none"
+     stroke="#000000"
+     stroke-width="1"
+     id="rect116" />
+  <rect
+     x="1385"
+     y="381"
+     width="24"
+     height="24"
+     fill="#68e5ff"
+     id="rect118" />
+  <polygon
+     points="1384,393 1410,393 "
+     fill="none"
+     stroke="#000000"
+     stroke-width="1"
+     id="polygon120" />
+  <rect
+     x="1384"
+     y="510"
+     width="26"
+     height="26"
+     fill="none"
+     stroke="#000000"
+     stroke-width="1"
+     id="rect122" />
+  <rect
+     x="1385"
+     y="511"
+     width="24"
+     height="24"
+     fill="#d8bbf9"
+     id="rect124" />
+  <polygon
+     points="1384,523 1410,523 "
+     fill="none"
+     stroke="#000000"
+     stroke-width="1"
+     id="polygon126" />
+  <rect
+     x="1173"
+     y="487"
+     width="26"
+     height="26"
+     fill="none"
+     stroke="#000000"
+     stroke-width="1"
+     id="rect128" />
+  <rect
+     x="1174"
+     y="488"
+     width="24"
+     height="24"
+     fill="#d8bbf9"
+     id="rect130" />
+  <polygon
+     points="1173,500 1199,500 "
+     fill="none"
+     stroke="#000000"
+     stroke-width="1"
+     id="polygon132" />
+  <rect
+     x="1220"
+     y="353"
+     width="144"
+     height="84"
+     fill="none"
+     stroke="#000000"
+     stroke-width="1"
+     id="rect134" />
+  <rect
+     x="1221"
+     y="354"
+     width="142"
+     height="82"
+     fill="#c9f3b2"
+     id="rect136" />
+  <text
+     x="1259"
+     y="382"
+     style="font-size:14; font-family:SansSerif.plain; fill=#000000"
+     id="text138">X_CWP_Q</text>
+  <text
+     x="1235"
+     y="411"
+     style="font-size:12; font-family:SansSerif.plain; fill=#000000"
+     id="text140">+ size : Natural;</text>
+  <rect
+     x="1351"
+     y="380"
+     width="25"
+     height="25"
+     fill="#68e5ff"
+     id="rect142" />
+  <rect
+     x="1351"
+     y="380"
+     width="26"
+     height="26"
+     fill="none"
+     stroke="#000000"
+     stroke-width="1"
+     id="rect144" />
+  <polygon
+     points="1354,383 1354,403 1374,393 "
+     fill="none"
+     stroke="#000000"
+     stroke-width="1"
+     id="polygon146" />
+  <polygon
+     points="1354,383 1354,403 1374,393 "
+     fill="#000000"
+     id="polygon148" />
+  <line
+     x1="1374"
+     y1="403"
+     x2="1374"
+     y2="383"
+     stroke="#000000"
+     stroke-width="1"
+     fill="none"
+     id="line150" />
+  <rect
+     x="1207"
+     y="375"
+     width="25"
+     height="25"
+     fill="#68e5ff"
+     id="rect152" />
+  <rect
+     x="1207"
+     y="375"
+     width="26"
+     height="26"
+     fill="none"
+     stroke="#000000"
+     stroke-width="1"
+     id="rect154" />
+  <polygon
+     points="1210,378 1210,398 1230,388 "
+     fill="none"
+     stroke="#000000"
+     stroke-width="1"
+     id="polygon156" />
+  <polygon
+     points="1210,378 1210,398 1230,388 "
+     fill="#000000"
+     id="polygon158" />
+  <line
+     x1="1230"
+     y1="398"
+     x2="1230"
+     y2="378"
+     stroke="#000000"
+     stroke-width="1"
+     fill="none"
+     id="line160" />
+  <rect
+     x="1236"
+     y="424"
+     width="25"
+     height="25"
+     fill="#c4a67a"
+     id="rect162" />
+  <rect
+     x="1236"
+     y="424"
+     width="26"
+     height="26"
+     fill="none"
+     stroke="#000000"
+     stroke-width="1"
+     id="rect164" />
+  <polygon
+     points="1239,447 1259,447 1249,427 "
+     fill="none"
+     stroke="#000000"
+     stroke-width="1"
+     id="polygon166" />
+  <polygon
+     points="1239,447 1259,447 1249,427 "
+     fill="#000000"
+     id="polygon168" />
+  <line
+     x1="1259"
+     y1="427"
+     x2="1239"
+     y2="427"
+     stroke="#000000"
+     stroke-width="1"
+     fill="none"
+     id="line170" />
+  <rect
+     x="1224"
+     y="471"
+     width="138"
+     height="82"
+     fill="none"
+     stroke="#000000"
+     stroke-width="1"
+     id="rect172" />
+  <rect
+     x="1225"
+     y="472"
+     width="136"
+     height="80"
+     fill="#c9f3b2"
+     id="rect174" />
+  <text
+     x="1260"
+     y="500"
+     style="font-size:14; font-family:SansSerif.plain; fill=#000000"
+     id="text176">F_CWP_Q</text>
+  <text
+     x="1239"
+     y="529"
+     style="font-size:12; font-family:SansSerif.plain; fill=#000000"
+     id="text178">+ size : Natural;</text>
+  <rect
+     x="1349"
+     y="510"
+     width="25"
+     height="25"
+     fill="#d8bbf9"
+     id="rect180" />
+  <rect
+     x="1349"
+     y="510"
+     width="26"
+     height="26"
+     fill="none"
+     stroke="#000000"
+     stroke-width="1"
+     id="rect182" />
+  <polygon
+     points="1352,513 1352,533 1372,523 "
+     fill="none"
+     stroke="#000000"
+     stroke-width="1"
+     id="polygon184" />
+  <polygon
+     points="1352,513 1352,533 1372,523 "
+     fill="#000000"
+     id="polygon186" />
+  <rect
+     x="1211"
+     y="487"
+     width="25"
+     height="25"
+     fill="#d8bbf9"
+     id="rect188" />
+  <rect
+     x="1211"
+     y="487"
+     width="26"
+     height="26"
+     fill="none"
+     stroke="#000000"
+     stroke-width="1"
+     id="rect190" />
+  <polygon
+     points="1214,490 1214,510 1234,500 "
+     fill="none"
+     stroke="#000000"
+     stroke-width="1"
+     id="polygon192" />
+  <polygon
+     points="1214,490 1214,510 1234,500 "
+     fill="#000000"
+     id="polygon194" />
+  <line
+     x1="1234"
+     y1="510"
+     x2="1234"
+     y2="490"
+     stroke="#000000"
+     stroke-width="1"
+     fill="none"
+     id="line196" />
+  <rect
+     x="1322"
+     y="458"
+     width="25"
+     height="25"
+     fill="#c4a67a"
+     id="rect198" />
+  <rect
+     x="1322"
+     y="458"
+     width="26"
+     height="26"
+     fill="none"
+     stroke="#000000"
+     stroke-width="1"
+     id="rect200" />
+  <polygon
+     points="1325,481 1345,481 1335,461 "
+     fill="none"
+     stroke="#000000"
+     stroke-width="1"
+     id="polygon202" />
+  <polygon
+     points="1325,481 1345,481 1335,461 "
+     fill="#000000"
+     id="polygon204" />
+  <rect
+     x="1173"
+     y="375"
+     width="26"
+     height="26"
+     fill="none"
+     stroke="#000000"
+     stroke-width="1"
+     id="rect206" />
+  <rect
+     x="1174"
+     y="376"
+     width="24"
+     height="24"
+     fill="#68e5ff"
+     id="rect208" />
+  <polygon
+     points="1173,388 1199,388 "
+     fill="none"
+     stroke="#000000"
+     stroke-width="1"
+     id="polygon210" />
+  <rect
+     x="1494"
+     y="155"
+     width="208"
+     height="282"
+     fill="none"
+     stroke="#000000"
+     stroke-width="1"
+     id="rect212" />
+  <rect
+     x="1495"
+     y="156"
+     width="206"
+     height="280"
+     fill="#fbfcc8"
+     id="rect214" />
+  <text
+     x="1576"
+     y="190"
+     style="font-size:20; font-family:SansSerif.plain; fill=#000000"
+     id="text216">Sink</text>
+  <rect
+     x="1481"
+     y="237"
+     width="26"
+     height="26"
+     fill="none"
+     stroke="#000000"
+     stroke-width="1"
+     id="rect218" />
+  <rect
+     x="1482"
+     y="238"
+     width="24"
+     height="24"
+     fill="#68e5ff"
+     id="rect220" />
+  <polygon
+     points="1481,250 1507,250 "
+     fill="none"
+     stroke="#000000"
+     stroke-width="1"
+     id="polygon222" />
+  <rect
+     x="1481"
+     y="397"
+     width="26"
+     height="26"
+     fill="none"
+     stroke="#000000"
+     stroke-width="1"
+     id="rect224" />
+  <rect
+     x="1482"
+     y="398"
+     width="24"
+     height="24"
+     fill="#d8bbf9"
+     id="rect226" />
+  <polygon
+     points="1481,410 1507,410 "
+     fill="none"
+     stroke="#000000"
+     stroke-width="1"
+     id="polygon228" />
+  <rect
+     x="1481"
+     y="341"
+     width="26"
+     height="26"
+     fill="none"
+     stroke="#000000"
+     stroke-width="1"
+     id="rect230" />
+  <rect
+     x="1482"
+     y="342"
+     width="24"
+     height="24"
+     fill="#d8bbf9"
+     id="rect232" />
+  <polygon
+     points="1481,354 1507,354 "
+     fill="none"
+     stroke="#000000"
+     stroke-width="1"
+     id="polygon234" />
+  <rect
+     x="1535"
+     y="205"
+     width="148"
+     height="86"
+     fill="none"
+     stroke="#000000"
+     stroke-width="1"
+     id="rect236" />
+  <rect
+     x="1536"
+     y="206"
+     width="146"
+     height="84"
+     fill="#c9f3b2"
+     id="rect238" />
+  <text
+     x="1586"
+     y="234"
+     style="font-size:14; font-family:SansSerif.plain; fill=#000000"
+     id="text240">X_Sink</text>
+  <text
+     x="1550"
+     y="263"
+     style="font-size:12; font-family:SansSerif.plain; fill=#000000"
+     id="text242">+ size : Natural;</text>
+  <rect
+     x="1522"
+     y="237"
+     width="25"
+     height="25"
+     fill="#68e5ff"
+     id="rect244" />
+  <rect
+     x="1522"
+     y="237"
+     width="26"
+     height="26"
+     fill="none"
+     stroke="#000000"
+     stroke-width="1"
+     id="rect246" />
+  <polygon
+     points="1525,240 1525,260 1545,250 "
+     fill="none"
+     stroke="#000000"
+     stroke-width="1"
+     id="polygon248" />
+  <polygon
+     points="1525,240 1525,260 1545,250 "
+     fill="#000000"
+     id="polygon250" />
+  <line
+     x1="1545"
+     y1="260"
+     x2="1545"
+     y2="240"
+     stroke="#000000"
+     stroke-width="1"
+     fill="none"
+     id="line252" />
+  <rect
+     x="1549"
+     y="278"
+     width="25"
+     height="25"
+     fill="#c4a67a"
+     id="rect254" />
+  <rect
+     x="1549"
+     y="278"
+     width="26"
+     height="26"
+     fill="none"
+     stroke="#000000"
+     stroke-width="1"
+     id="rect256" />
+  <polygon
+     points="1552,301 1572,301 1562,281 "
+     fill="none"
+     stroke="#000000"
+     stroke-width="1"
+     id="polygon258" />
+  <polygon
+     points="1552,301 1572,301 1562,281 "
+     fill="#000000"
+     id="polygon260" />
+  <line
+     x1="1572"
+     y1="281"
+     x2="1552"
+     y2="281"
+     stroke="#000000"
+     stroke-width="1"
+     fill="none"
+     id="line262" />
+  <text
+     x="1549"
+     y="277"
+     style="font-size:8; font-family:SansSerif.plain; fill=#000000"
+     id="text264">sink_req</text>
+  <rect
+     x="1536"
+     y="331"
+     width="153"
+     height="94"
+     fill="none"
+     stroke="#000000"
+     stroke-width="1"
+     id="rect266" />
+  <rect
+     x="1537"
+     y="332"
+     width="151"
+     height="92"
+     fill="#c9f3b2"
+     id="rect268" />
+  <text
+     x="1590"
+     y="360"
+     style="font-size:14; font-family:SansSerif.plain; fill=#000000"
+     id="text270">F_Sink</text>
+  <text
+     x="1551"
+     y="389"
+     style="font-size:12; font-family:SansSerif.plain; fill=#000000"
+     id="text272">+ size : Natural;</text>
+  <text
+     x="1551"
+     y="403"
+     style="font-size:12; font-family:SansSerif.plain; fill=#000000"
+     id="text274">+ size_1 : Natural;</text>
+  <rect
+     x="1523"
+     y="341"
+     width="25"
+     height="25"
+     fill="#d8bbf9"
+     id="rect276" />
+  <rect
+     x="1523"
+     y="341"
+     width="26"
+     height="26"
+     fill="none"
+     stroke="#000000"
+     stroke-width="1"
+     id="rect278" />
+  <polygon
+     points="1526,344 1526,364 1546,354 "
+     fill="none"
+     stroke="#000000"
+     stroke-width="1"
+     id="polygon280" />
+  <polygon
+     points="1526,344 1526,364 1546,354 "
+     fill="#000000"
+     id="polygon282" />
+  <line
+     x1="1546"
+     y1="364"
+     x2="1546"
+     y2="344"
+     stroke="#000000"
+     stroke-width="1"
+     fill="none"
+     id="line284" />
+  <rect
+     x="1644"
+     y="318"
+     width="25"
+     height="25"
+     fill="#c4a67a"
+     id="rect286" />
+  <rect
+     x="1644"
+     y="318"
+     width="26"
+     height="26"
+     fill="none"
+     stroke="#000000"
+     stroke-width="1"
+     id="rect288" />
+  <polygon
+     points="1647,341 1667,341 1657,321 "
+     fill="none"
+     stroke="#000000"
+     stroke-width="1"
+     id="polygon290" />
+  <polygon
+     points="1647,341 1667,341 1657,321 "
+     fill="#000000"
+     id="polygon292" />
+  <text
+     x="1644"
+     y="317"
+     style="font-size:8; font-family:SansSerif.plain; fill=#000000"
+     id="text294">sink_req</text>
+  <rect
+     x="1523"
+     y="397"
+     width="25"
+     height="25"
+     fill="#d8bbf9"
+     id="rect296" />
+  <rect
+     x="1523"
+     y="397"
+     width="26"
+     height="26"
+     fill="none"
+     stroke="#000000"
+     stroke-width="1"
+     id="rect298" />
+  <polygon
+     points="1526,400 1526,420 1546,410 "
+     fill="none"
+     stroke="#000000"
+     stroke-width="1"
+     id="polygon300" />
+  <polygon
+     points="1526,400 1526,420 1546,410 "
+     fill="#000000"
+     id="polygon302" />
+  <line
+     x1="1546"
+     y1="420"
+     x2="1546"
+     y2="400"
+     stroke="#000000"
+     stroke-width="1"
+     fill="none"
+     id="line304" />
+  <rect
+     x="838"
+     y="154"
+     width="208"
+     height="281"
+     fill="none"
+     stroke="#000000"
+     stroke-width="1"
+     id="rect306" />
+  <rect
+     x="839"
+     y="155"
+     width="206"
+     height="279"
+     fill="#fbfcc8"
+     id="rect308" />
+  <text
+     x="919"
+     y="189"
+     style="font-size:20; font-family:SansSerif.plain; fill=#000000"
+     id="text310">CWL</text>
+  <rect
+     x="1033"
+     y="363"
+     width="26"
+     height="26"
+     fill="none"
+     stroke="#000000"
+     stroke-width="1"
+     id="rect312" />
+  <rect
+     x="1034"
+     y="364"
+     width="24"
+     height="24"
+     fill="#d8bbf9"
+     id="rect314" />
+  <polygon
+     points="1033,376 1059,376 "
+     fill="none"
+     stroke="#000000"
+     stroke-width="1"
+     id="polygon316" />
+  <rect
+     x="1033"
+     y="395"
+     width="26"
+     height="26"
+     fill="none"
+     stroke="#000000"
+     stroke-width="1"
+     id="rect318" />
+  <rect
+     x="1034"
+     y="396"
+     width="24"
+     height="24"
+     fill="#d8bbf9"
+     id="rect320" />
+  <polygon
+     points="1033,408 1059,408 "
+     fill="none"
+     stroke="#000000"
+     stroke-width="1"
+     id="polygon322" />
+  <rect
+     x="876"
+     y="202"
+     width="134"
+     height="96"
+     fill="none"
+     stroke="#000000"
+     stroke-width="1"
+     id="rect324" />
+  <rect
+     x="877"
+     y="203"
+     width="132"
+     height="94"
+     fill="#c9f3b2"
+     id="rect326" />
+  <text
+     x="920"
+     y="231"
+     style="font-size:14; font-family:SansSerif.plain; fill=#000000"
+     id="text328">X_CWL</text>
+  <text
+     x="891"
+     y="260"
+     style="font-size:12; font-family:SansSerif.plain; fill=#000000"
+     id="text330">+ size : Natural;</text>
+  <rect
+     x="863"
+     y="248"
+     width="25"
+     height="25"
+     fill="#68e5ff"
+     id="rect332" />
+  <rect
+     x="863"
+     y="248"
+     width="26"
+     height="26"
+     fill="none"
+     stroke="#000000"
+     stroke-width="1"
+     id="rect334" />
+  <polygon
+     points="866,251 866,271 886,261 "
+     fill="none"
+     stroke="#000000"
+     stroke-width="1"
+     id="polygon336" />
+  <polygon
+     points="866,251 866,271 886,261 "
+     fill="#000000"
+     id="polygon338" />
+  <line
+     x1="886"
+     y1="271"
+     x2="886"
+     y2="251"
+     stroke="#000000"
+     stroke-width="1"
+     fill="none"
+     id="line340" />
+  <text
+     x="863"
+     y="247"
+     style="font-size:8; font-family:SansSerif.plain; fill=#000000"
+     id="text342">cwl_ch_in</text>
+  <rect
+     x="997"
+     y="230"
+     width="25"
+     height="25"
+     fill="#68e5ff"
+     id="rect344" />
+  <rect
+     x="997"
+     y="230"
+     width="26"
+     height="26"
+     fill="none"
+     stroke="#000000"
+     stroke-width="1"
+     id="rect346" />
+  <polygon
+     points="1000,233 1000,253 1020,243 "
+     fill="none"
+     stroke="#000000"
+     stroke-width="1"
+     id="polygon348" />
+  <polygon
+     points="1000,233 1000,253 1020,243 "
+     fill="#000000"
+     id="polygon350" />
+  <line
+     x1="1020"
+     y1="253"
+     x2="1020"
+     y2="233"
+     stroke="#000000"
+     stroke-width="1"
+     fill="none"
+     id="line352" />
+  <rect
+     x="899"
+     y="285"
+     width="25"
+     height="25"
+     fill="#c4a67a"
+     id="rect354" />
+  <rect
+     x="899"
+     y="285"
+     width="26"
+     height="26"
+     fill="none"
+     stroke="#000000"
+     stroke-width="1"
+     id="rect356" />
+  <polygon
+     points="902,308 922,308 912,288 "
+     fill="none"
+     stroke="#000000"
+     stroke-width="1"
+     id="polygon358" />
+  <polygon
+     points="902,308 922,308 912,288 "
+     fill="#000000"
+     id="polygon360" />
+  <line
+     x1="922"
+     y1="288"
+     x2="902"
+     y2="288"
+     stroke="#000000"
+     stroke-width="1"
+     fill="none"
+     id="line362" />
+  <text
+     x="899"
+     y="284"
+     style="font-size:8; font-family:SansSerif.plain; fill=#000000"
+     id="text364">cwl_req</text>
+  <rect
+     x="874"
+     y="334"
+     width="134"
+     height="92"
+     fill="none"
+     stroke="#000000"
+     stroke-width="1"
+     id="rect366" />
+  <rect
+     x="875"
+     y="335"
+     width="132"
+     height="90"
+     fill="#c9f3b2"
+     id="rect368" />
+  <text
+     x="918"
+     y="363"
+     style="font-size:14; font-family:SansSerif.plain; fill=#000000"
+     id="text370">F_CWL</text>
+  <text
+     x="889"
+     y="392"
+     style="font-size:12; font-family:SansSerif.plain; fill=#000000"
+     id="text372">+ size : Natural;</text>
+  <rect
+     x="861"
+     y="374"
+     width="25"
+     height="25"
+     fill="#d8bbf9"
+     id="rect374" />
+  <rect
+     x="861"
+     y="374"
+     width="26"
+     height="26"
+     fill="none"
+     stroke="#000000"
+     stroke-width="1"
+     id="rect376" />
+  <polygon
+     points="864,377 864,397 884,387 "
+     fill="none"
+     stroke="#000000"
+     stroke-width="1"
+     id="polygon378" />
+  <polygon
+     points="864,377 864,397 884,387 "
+     fill="#000000"
+     id="polygon380" />
+  <line
+     x1="884"
+     y1="397"
+     x2="884"
+     y2="377"
+     stroke="#000000"
+     stroke-width="1"
+     fill="none"
+     id="line382" />
+  <rect
+     x="995"
+     y="363"
+     width="25"
+     height="25"
+     fill="#d8bbf9"
+     id="rect384" />
+  <rect
+     x="995"
+     y="363"
+     width="26"
+     height="26"
+     fill="none"
+     stroke="#000000"
+     stroke-width="1"
+     id="rect386" />
+  <polygon
+     points="998,366 998,386 1018,376 "
+     fill="none"
+     stroke="#000000"
+     stroke-width="1"
+     id="polygon388" />
+  <polygon
+     points="998,366 998,386 1018,376 "
+     fill="#000000"
+     id="polygon390" />
+  <rect
+     x="976"
+     y="321"
+     width="25"
+     height="25"
+     fill="#c4a67a"
+     id="rect392" />
+  <rect
+     x="976"
+     y="321"
+     width="26"
+     height="26"
+     fill="none"
+     stroke="#000000"
+     stroke-width="1"
+     id="rect394" />
+  <polygon
+     points="979,344 999,344 989,324 "
+     fill="none"
+     stroke="#000000"
+     stroke-width="1"
+     id="polygon396" />
+  <polygon
+     points="979,344 999,344 989,324 "
+     fill="#000000"
+     id="polygon398" />
+  <text
+     x="976"
+     y="320"
+     style="font-size:8; font-family:SansSerif.plain; fill=#000000"
+     id="text400">cwl_req</text>
+  <rect
+     x="995"
+     y="395"
+     width="25"
+     height="25"
+     fill="#d8bbf9"
+     id="rect402" />
+  <rect
+     x="995"
+     y="395"
+     width="26"
+     height="26"
+     fill="none"
+     stroke="#000000"
+     stroke-width="1"
+     id="rect404" />
+  <polygon
+     points="998,398 998,418 1018,408 "
+     fill="none"
+     stroke="#000000"
+     stroke-width="1"
+     id="polygon406" />
+  <polygon
+     points="998,398 998,418 1018,408 "
+     fill="#000000"
+     id="polygon408" />
+  <rect
+     x="825"
+     y="248"
+     width="26"
+     height="26"
+     fill="none"
+     stroke="#000000"
+     stroke-width="1"
+     id="rect410" />
+  <rect
+     x="826"
+     y="249"
+     width="24"
+     height="24"
+     fill="#68e5ff"
+     id="rect412" />
+  <polygon
+     points="825,261 851,261 "
+     fill="none"
+     stroke="#000000"
+     stroke-width="1"
+     id="polygon414" />
+  <rect
+     x="825"
+     y="374"
+     width="26"
+     height="26"
+     fill="none"
+     stroke="#000000"
+     stroke-width="1"
+     id="rect416" />
+  <rect
+     x="826"
+     y="375"
+     width="24"
+     height="24"
+     fill="#d8bbf9"
+     id="rect418" />
+  <polygon
+     points="825,387 851,387 "
+     fill="none"
+     stroke="#000000"
+     stroke-width="1"
+     id="polygon420" />
+  <rect
+     x="1033"
+     y="230"
+     width="26"
+     height="26"
+     fill="none"
+     stroke="#000000"
+     stroke-width="1"
+     id="rect422" />
+  <rect
+     x="1034"
+     y="231"
+     width="24"
+     height="24"
+     fill="#68e5ff"
+     id="rect424" />
+  <polygon
+     points="1033,243 1059,243 "
+     fill="none"
+     stroke="#000000"
+     stroke-width="1"
+     id="polygon426" />
+  <rect
+     x="555"
+     y="168"
+     width="244"
+     height="262"
+     fill="none"
+     stroke="#000000"
+     stroke-width="1"
+     id="rect428" />
+  <rect
+     x="556"
+     y="169"
+     width="242"
+     height="260"
+     id="rect430"
+     fill="#fbfcc8" />
+  <text
+     x="620"
+     y="203"
+     style="font-size:20; font-family:SansSerif.plain; fill=#000000"
+     id="text432">Chip2Octet</text>
+  <rect
+     x="542"
+     y="373"
+     width="26"
+     height="26"
+     id="rect434"
+     stroke-width="1"
+     stroke="#000000"
+     fill="none" />
+  <rect
+     x="543"
+     y="374"
+     width="24"
+     height="24"
+     fill="#d8bbf9"
+     id="rect436" />
+  <polygon
+     points="542,386 568,386 "
+     fill="none"
+     stroke="#000000"
+     stroke-width="1"
+     id="polygon438" />
+  <rect
+     x="542"
+     y="256"
+     width="26"
+     height="26"
+     fill="none"
+     stroke="#000000"
+     stroke-width="1"
+     id="rect440" />
+  <rect
+     x="543"
+     y="257"
+     width="24"
+     height="24"
+     fill="#68e5ff"
+     id="rect442" />
+  <polygon
+     points="542,269 568,269 "
+     fill="none"
+     stroke="#000000"
+     stroke-width="1"
+     id="polygon444" />
+  <rect
+     x="598"
+     y="214"
+     width="156"
+     height="85"
+     fill="none"
+     stroke="#000000"
+     stroke-width="1"
+     id="rect446" />
+  <rect
+     x="599"
+     y="215"
+     width="154"
+     height="83"
+     fill="#c9f3b2"
+     id="rect448" />
+  <text
+     x="629"
+     y="243"
+     style="font-size:14; font-family:SansSerif.plain; fill=#000000"
+     id="text450">X_Chip2Octet</text>
+  <text
+     x="613"
+     y="272"
+     style="font-size:12; font-family:SansSerif.plain; fill=#000000"
+     id="text452">+ size : Natural;</text>
+  <rect
+     x="741"
+     y="248"
+     width="25"
+     height="25"
+     fill="#68e5ff"
+     id="rect454" />
+  <rect
+     x="741"
+     y="248"
+     width="26"
+     height="26"
+     fill="none"
+     stroke="#000000"
+     stroke-width="1"
+     id="rect456" />
+  <polygon
+     points="744,251 744,271 764,261 "
+     fill="none"
+     stroke="#000000"
+     stroke-width="1"
+     id="polygon458" />
+  <polygon
+     points="744,251 744,271 764,261 "
+     fill="#000000"
+     id="polygon460" />
+  <line
+     x1="764"
+     y1="271"
+     x2="764"
+     y2="251"
+     stroke="#000000"
+     stroke-width="1"
+     fill="none"
+     id="line462" />
+  <rect
+     x="585"
+     y="256"
+     width="25"
+     height="25"
+     fill="#68e5ff"
+     id="rect464" />
+  <rect
+     x="585"
+     y="256"
+     width="26"
+     height="26"
+     fill="none"
+     stroke="#000000"
+     stroke-width="1"
+     id="rect466" />
+  <polygon
+     points="588,259 588,279 608,269 "
+     fill="none"
+     stroke="#000000"
+     stroke-width="1"
+     id="polygon468" />
+  <polygon
+     points="588,259 588,279 608,269 "
+     fill="#000000"
+     id="polygon470" />
+  <line
+     x1="608"
+     y1="279"
+     x2="608"
+     y2="259"
+     stroke="#000000"
+     stroke-width="1"
+     fill="none"
+     id="line472" />
+  <rect
+     x="626"
+     y="286"
+     width="25"
+     height="25"
+     fill="#c4a67a"
+     id="rect474" />
+  <rect
+     x="626"
+     y="286"
+     width="26"
+     height="26"
+     fill="none"
+     stroke="#000000"
+     stroke-width="1"
+     id="rect476" />
+  <polygon
+     points="629,309 649,309 639,289 "
+     fill="none"
+     stroke="#000000"
+     stroke-width="1"
+     id="polygon478" />
+  <polygon
+     points="629,309 649,309 639,289 "
+     fill="#000000"
+     id="polygon480" />
+  <line
+     x1="649"
+     y1="289"
+     x2="629"
+     y2="289"
+     stroke="#000000"
+     stroke-width="1"
+     fill="none"
+     id="line482" />
+  <rect
+     x="597"
+     y="340"
+     width="159"
+     height="73"
+     fill="none"
+     stroke="#000000"
+     stroke-width="1"
+     id="rect484" />
+  <rect
+     x="598"
+     y="341"
+     width="157"
+     height="71"
+     fill="#c9f3b2"
+     id="rect486" />
+  <text
+     x="630"
+     y="369"
+     style="font-size:14; font-family:SansSerif.plain; fill=#000000"
+     id="text488">F_Chip2Octet</text>
+  <rect
+     x="743"
+     y="374"
+     width="25"
+     height="25"
+     fill="#d8bbf9"
+     id="rect490" />
+  <rect
+     x="743"
+     y="374"
+     width="26"
+     height="26"
+     fill="none"
+     stroke="#000000"
+     stroke-width="1"
+     id="rect492" />
+  <polygon
+     points="746,377 746,397 766,387 "
+     fill="none"
+     stroke="#000000"
+     stroke-width="1"
+     id="polygon494" />
+  <polygon
+     points="746,377 746,397 766,387 "
+     fill="#000000"
+     id="polygon496" />
+  <rect
+     x="584"
+     y="373"
+     width="25"
+     height="25"
+     fill="#d8bbf9"
+     id="rect498" />
+  <rect
+     x="584"
+     y="373"
+     width="26"
+     height="26"
+     fill="none"
+     stroke="#000000"
+     stroke-width="1"
+     id="rect500" />
+  <polygon
+     points="587,376 587,396 607,386 "
+     fill="none"
+     stroke="#000000"
+     stroke-width="1"
+     id="polygon502" />
+  <polygon
+     points="587,376 587,396 607,386 "
+     fill="#000000"
+     id="polygon504" />
+  <line
+     x1="607"
+     y1="396"
+     x2="607"
+     y2="376"
+     stroke="#000000"
+     stroke-width="1"
+     fill="none"
+     id="line506" />
+  <rect
+     x="716"
+     y="327"
+     width="25"
+     height="25"
+     fill="#c4a67a"
+     id="rect508" />
+  <rect
+     x="716"
+     y="327"
+     width="26"
+     height="26"
+     fill="none"
+     stroke="#000000"
+     stroke-width="1"
+     id="rect510" />
+  <polygon
+     points="719,350 739,350 729,330 "
+     fill="none"
+     stroke="#000000"
+     stroke-width="1"
+     id="polygon512" />
+  <polygon
+     points="719,350 739,350 729,330 "
+     fill="#000000"
+     id="polygon514" />
+  <rect
+     x="786"
+     y="248"
+     width="26"
+     height="26"
+     fill="none"
+     stroke="#000000"
+     stroke-width="1"
+     id="rect516" />
+  <rect
+     x="787"
+     y="249"
+     width="24"
+     height="24"
+     fill="#68e5ff"
+     id="rect518" />
+  <polygon
+     points="786,261 812,261 "
+     fill="none"
+     stroke="#000000"
+     stroke-width="1"
+     id="polygon520" />
+  <rect
+     x="786"
+     y="374"
+     width="26"
+     height="26"
+     fill="none"
+     stroke="#000000"
+     stroke-width="1"
+     id="rect522" />
+  <rect
+     x="787"
+     y="375"
+     width="24"
+     height="24"
+     fill="#d8bbf9"
+     id="rect524" />
+  <polygon
+     points="786,387 812,387 "
+     fill="none"
+     stroke="#000000"
+     stroke-width="1"
+     id="polygon526" />
+  <rect
+     x="275"
+     y="165"
+     width="241"
+     height="259"
+     fill="none"
+     stroke="#000000"
+     stroke-width="1"
+     id="rect528" />
+  <rect
+     x="276"
+     y="166"
+     width="239"
+     height="257"
+     id="rect530"
+     fill="#fbfcc8" />
+  <text
+     x="309"
+     y="200"
+     style="font-size:20; font-family:SansSerif.plain; fill=#000000"
+     id="text532">Symbol2ChipSeq</text>
+  <rect
+     x="503"
+     y="373"
+     width="26"
+     height="26"
+     fill="none"
+     stroke="#000000"
+     stroke-width="1"
+     id="rect534" />
+  <rect
+     x="504"
+     y="374"
+     width="24"
+     height="24"
+     fill="#d8bbf9"
+     id="rect536" />
+  <polygon
+     points="503,386 529,386 "
+     fill="none"
+     stroke="#000000"
+     stroke-width="1"
+     id="polygon538" />
+  <rect
+     x="503"
+     y="256"
+     width="26"
+     height="26"
+     fill="none"
+     stroke="#000000"
+     stroke-width="1"
+     id="rect540" />
+  <rect
+     x="504"
+     y="257"
+     width="24"
+     height="24"
+     fill="#68e5ff"
+     id="rect542" />
+  <polygon
+     points="503,269 529,269 "
+     fill="none"
+     stroke="#000000"
+     stroke-width="1"
+     id="polygon544" />
+  <rect
+     x="317"
+     y="208"
+     width="156"
+     height="82"
+     fill="none"
+     stroke="#000000"
+     stroke-width="1"
+     id="rect546" />
+  <rect
+     x="318"
+     y="209"
+     width="154"
+     height="80"
+     fill="#c9f3b2"
+     id="rect548" />
+  <text
+     x="333"
+     y="234"
+     style="font-size:11; font-family:SansSerif.plain; fill=#000000"
+     id="text550">X_Symbol2ChipSeq</text>
+  <text
+     x="332"
+     y="260"
+     style="font-size:9; font-family:SansSerif.plain; fill=#000000"
+     id="text552">+ size : Natural;</text>
+  <rect
+     x="460"
+     y="256"
+     width="25"
+     height="25"
+     fill="#68e5ff"
+     id="rect554" />
+  <rect
+     x="460"
+     y="256"
+     width="26"
+     height="26"
+     fill="none"
+     stroke="#000000"
+     stroke-width="1"
+     id="rect556" />
+  <polygon
+     points="463,259 463,279 483,269 "
+     fill="none"
+     stroke="#000000"
+     stroke-width="1"
+     id="polygon558" />
+  <polygon
+     points="463,259 463,279 483,269 "
+     fill="#000000"
+     id="polygon560" />
+  <line
+     x1="483"
+     y1="279"
+     x2="483"
+     y2="259"
+     stroke="#000000"
+     stroke-width="1"
+     fill="none"
+     id="line562" />
+  <rect
+     x="304"
+     y="245"
+     width="25"
+     height="25"
+     fill="#68e5ff"
+     id="rect564" />
+  <rect
+     x="304"
+     y="245"
+     width="26"
+     height="26"
+     fill="none"
+     stroke="#000000"
+     stroke-width="1"
+     id="rect566" />
+  <polygon
+     points="307,248 307,268 327,258 "
+     fill="none"
+     stroke="#000000"
+     stroke-width="1"
+     id="polygon568" />
+  <polygon
+     points="307,248 307,268 327,258 "
+     fill="#000000"
+     id="polygon570" />
+  <line
+     x1="327"
+     y1="268"
+     x2="327"
+     y2="248"
+     stroke="#000000"
+     stroke-width="1"
+     fill="none"
+     id="line572" />
+  <rect
+     x="337"
+     y="277"
+     width="25"
+     height="25"
+     fill="#c4a67a"
+     id="rect574" />
+  <rect
+     x="337"
+     y="277"
+     width="26"
+     height="26"
+     fill="none"
+     stroke="#000000"
+     stroke-width="1"
+     id="rect576" />
+  <polygon
+     points="340,300 360,300 350,280 "
+     fill="none"
+     stroke="#000000"
+     stroke-width="1"
+     id="polygon578" />
+  <polygon
+     points="340,300 360,300 350,280 "
+     fill="#000000"
+     id="polygon580" />
+  <line
+     x1="360"
+     y1="280"
+     x2="340"
+     y2="280"
+     stroke="#000000"
+     stroke-width="1"
+     fill="none"
+     id="line582" />
+  <rect
+     x="316"
+     y="332"
+     width="154"
+     height="81"
+     fill="none"
+     stroke="#000000"
+     stroke-width="1"
+     id="rect584" />
+  <rect
+     x="317"
+     y="333"
+     width="152"
+     height="79"
+     fill="#c9f3b2"
+     id="rect586" />
+  <text
+     x="332"
+     y="358"
+     style="font-size:11; font-family:SansSerif.plain; fill=#000000"
+     id="text588">F_Symbol2ChipSeq</text>
+  <text
+     x="331"
+     y="384"
+     style="font-size:9; font-family:SansSerif.plain; fill=#000000"
+     id="text590">+ size : Natural;</text>
+  <rect
+     x="457"
+     y="373"
+     width="25"
+     height="25"
+     fill="#d8bbf9"
+     id="rect592" />
+  <rect
+     x="457"
+     y="373"
+     width="26"
+     height="26"
+     fill="none"
+     stroke="#000000"
+     stroke-width="1"
+     id="rect594" />
+  <polygon
+     points="460,376 460,396 480,386 "
+     fill="none"
+     stroke="#000000"
+     stroke-width="1"
+     id="polygon596" />
+  <polygon
+     points="460,376 460,396 480,386 "
+     fill="#000000"
+     id="polygon598" />
+  <rect
+     x="303"
+     y="368"
+     width="25"
+     height="25"
+     fill="#d8bbf9"
+     id="rect600" />
+  <rect
+     x="303"
+     y="368"
+     width="26"
+     height="26"
+     fill="none"
+     stroke="#000000"
+     stroke-width="1"
+     id="rect602" />
+  <polygon
+     points="306,371 306,391 326,381 "
+     fill="none"
+     stroke="#000000"
+     stroke-width="1"
+     id="polygon604" />
+  <polygon
+     points="306,371 306,391 326,381 "
+     fill="#000000"
+     id="polygon606" />
+  <line
+     x1="326"
+     y1="391"
+     x2="326"
+     y2="371"
+     stroke="#000000"
+     stroke-width="1"
+     fill="none"
+     id="line608" />
+  <rect
+     x="429"
+     y="319"
+     width="25"
+     height="25"
+     fill="#c4a67a"
+     id="rect610" />
+  <rect
+     x="429"
+     y="319"
+     width="26"
+     height="26"
+     fill="none"
+     stroke="#000000"
+     stroke-width="1"
+     id="rect612" />
+  <polygon
+     points="432,342 452,342 442,322 "
+     fill="none"
+     stroke="#000000"
+     stroke-width="1"
+     id="polygon614" />
+  <polygon
+     points="432,342 452,342 442,322 "
+     fill="#000000"
+     id="polygon616" />
+  <rect
+     x="262"
+     y="245"
+     width="26"
+     height="26"
+     fill="none"
+     stroke="#000000"
+     stroke-width="1"
+     id="rect618" />
+  <rect
+     x="263"
+     y="246"
+     width="24"
+     height="24"
+     fill="#68e5ff"
+     id="rect620" />
+  <polygon
+     points="262,258 288,258 "
+     fill="none"
+     stroke="#000000"
+     stroke-width="1"
+     id="polygon622" />
+  <rect
+     x="262"
+     y="368"
+     width="26"
+     height="26"
+     fill="none"
+     stroke="#000000"
+     stroke-width="1"
+     id="rect624" />
+  <rect
+     x="263"
+     y="369"
+     width="24"
+     height="24"
+     fill="#d8bbf9"
+     id="rect626" />
+  <polygon
+     points="262,381 288,381 "
+     fill="none"
+     stroke="#000000"
+     stroke-width="1"
+     id="polygon628" />
+  <rect
+     x="0"
+     y="164"
+     width="231"
+     height="254"
+     fill="none"
+     stroke="#000000"
+     stroke-width="1"
+     id="rect630" />
+  <rect
+     x="1"
+     y="165"
+     width="229"
+     height="252"
+     id="rect632"
+     fill="#fbfcc8" />
+  <text
+     x="81"
+     y="199"
+     style="font-size:20; font-family:SansSerif.plain; fill=#000000"
+     id="text634">Source</text>
+  <rect
+     x="218"
+     y="245"
+     width="26"
+     height="26"
+     fill="none"
+     stroke="#000000"
+     stroke-width="1"
+     id="rect636" />
+  <rect
+     x="219"
+     y="246"
+     width="24"
+     height="24"
+     fill="#68e5ff"
+     id="rect638" />
+  <polygon
+     points="218,258 244,258 "
+     fill="none"
+     stroke="#000000"
+     stroke-width="1"
+     id="polygon640" />
+  <rect
+     x="18"
+     y="208"
+     width="136"
+     height="81"
+     fill="none"
+     stroke="#000000"
+     stroke-width="1"
+     id="rect642" />
+  <rect
+     x="19"
+     y="209"
+     width="134"
+     height="79"
+     fill="#c9f3b2"
+     id="rect644" />
+  <text
+     x="53"
+     y="237"
+     style="font-size:14; font-family:SansSerif.plain; fill=#000000"
+     id="text646">X_Source</text>
+  <text
+     x="33"
+     y="266"
+     style="font-size:12; font-family:SansSerif.plain; fill=#000000"
+     id="text648">+ size : Natural;</text>
+  <rect
+     x="141"
+     y="245"
+     width="25"
+     height="25"
+     fill="#68e5ff"
+     id="rect650" />
+  <rect
+     x="141"
+     y="245"
+     width="26"
+     height="26"
+     fill="none"
+     stroke="#000000"
+     stroke-width="1"
+     id="rect652" />
+  <polygon
+     points="144,248 144,268 164,258 "
+     fill="none"
+     stroke="#000000"
+     stroke-width="1"
+     id="polygon654" />
+  <polygon
+     points="144,248 144,268 164,258 "
+     fill="#000000"
+     id="polygon656" />
+  <line
+     x1="164"
+     y1="268"
+     x2="164"
+     y2="248"
+     stroke="#000000"
+     stroke-width="1"
+     fill="none"
+     id="line658" />
+  <rect
+     x="40"
+     y="276"
+     width="25"
+     height="25"
+     fill="#c4a67a"
+     id="rect660" />
+  <rect
+     x="40"
+     y="276"
+     width="26"
+     height="26"
+     fill="none"
+     stroke="#000000"
+     stroke-width="1"
+     id="rect662" />
+  <polygon
+     points="43,299 63,299 53,279 "
+     fill="none"
+     stroke="#000000"
+     stroke-width="1"
+     id="polygon664" />
+  <polygon
+     points="43,299 63,299 53,279 "
+     fill="#000000"
+     id="polygon666" />
+  <line
+     x1="63"
+     y1="279"
+     x2="43"
+     y2="279"
+     stroke="#000000"
+     stroke-width="1"
+     fill="none"
+     id="line668" />
+  <rect
+     x="2"
+     y="333"
+     width="185"
+     height="74"
+     fill="none"
+     stroke="#000000"
+     stroke-width="1"
+     id="rect670" />
+  <rect
+     x="3"
+     y="334"
+     width="183"
+     height="72"
+     fill="#c9f3b2"
+     id="rect672" />
+  <text
+     x="62"
+     y="362"
+     style="font-size:14; font-family:SansSerif.plain; fill=#000000"
+     id="text674">F_Source</text>
+  <text
+     x="17"
+     y="391"
+     style="font-size:12; font-family:SansSerif.plain; fill=#000000"
+     id="text676">+ size = 127 : Natural;</text>
+  <rect
+     x="174"
+     y="368"
+     width="25"
+     height="25"
+     fill="#d8bbf9"
+     id="rect678" />
+  <rect
+     x="174"
+     y="368"
+     width="26"
+     height="26"
+     fill="none"
+     stroke="#000000"
+     stroke-width="1"
+     id="rect680" />
+  <polygon
+     points="177,371 177,391 197,381 "
+     fill="none"
+     stroke="#000000"
+     stroke-width="1"
+     id="polygon682" />
+  <polygon
+     points="177,371 177,391 197,381 "
+     fill="#000000"
+     id="polygon684" />
+  <rect
+     x="95"
+     y="320"
+     width="25"
+     height="25"
+     fill="#c4a67a"
+     id="rect686" />
+  <rect
+     x="95"
+     y="320"
+     width="26"
+     height="26"
+     fill="none"
+     stroke="#000000"
+     stroke-width="1"
+     id="rect688" />
+  <polygon
+     points="98,343 118,343 108,323 "
+     fill="none"
+     stroke="#000000"
+     stroke-width="1"
+     id="polygon690" />
+  <polygon
+     points="98,343 118,343 108,323 "
+     fill="#000000"
+     id="polygon692" />
+  <rect
+     x="218"
+     y="368"
+     width="26"
+     height="26"
+     fill="none"
+     stroke="#000000"
+     stroke-width="1"
+     id="rect694" />
+  <rect
+     x="219"
+     y="369"
+     width="24"
+     height="24"
+     fill="#d8bbf9"
+     id="rect696" />
+  <polygon
+     points="218,381 244,381 "
+     fill="none"
+     stroke="#000000"
+     stroke-width="1"
+     id="polygon698" />
+  <ellipse
+     cx="1128"
+     cy="243"
+     rx="11"
+     ry="11"
+     fill="#68e5ff"
+     id="ellipse700" />
+  <ellipse
+     cx="1128"
+     cy="243"
+     rx="11"
+     ry="11"
+     fill="none"
+     stroke="#000000"
+     stroke-width="1"
+     id="ellipse702" />
+  <line
+     x1="1117"
+     y1="243"
+     x2="1128"
+     y2="243"
+     stroke="#000000"
+     stroke-width="1"
+     fill="none"
+     id="line704" />
+  <line
+     x1="1128"
+     y1="243"
+     x2="1139"
+     y2="243"
+     stroke="#000000"
+     stroke-width="1"
+     fill="none"
+     id="line706" />
+  <line
+     x1="1139"
+     y1="243"
+     x2="1134"
+     y2="245"
+     stroke="#000000"
+     stroke-width="1"
+     fill="none"
+     id="line708" />
+  <line
+     x1="1139"
+     y1="243"
+     x2="1134"
+     y2="240"
+     stroke="#000000"
+     stroke-width="1"
+     fill="none"
+     id="line710" />
+  <line
+     x1="1128"
+     y1="243"
+     x2="1133"
+     y2="233"
+     stroke="#000000"
+     stroke-width="1"
+     fill="none"
+     id="line712" />
+  <line
+     x1="1133"
+     y1="233"
+     x2="1133"
+     y2="237"
+     stroke="#000000"
+     stroke-width="1"
+     fill="none"
+     id="line714" />
+  <line
+     x1="1133"
+     y1="233"
+     x2="1128"
+     y2="235"
+     stroke="#000000"
+     stroke-width="1"
+     fill="none"
+     id="line716" />
+  <line
+     x1="1128"
+     y1="243"
+     x2="1133"
+     y2="252"
+     stroke="#000000"
+     stroke-width="1"
+     fill="none"
+     id="line718" />
+  <line
+     x1="1133"
+     y1="252"
+     x2="1128"
+     y2="249"
+     stroke="#000000"
+     stroke-width="1"
+     fill="none"
+     id="line720" />
+  <line
+     x1="1133"
+     y1="252"
+     x2="1133"
+     y2="247"
+     stroke="#000000"
+     stroke-width="1"
+     fill="none"
+     id="line722" />
+  <ellipse
+     cx="1452"
+     cy="250"
+     rx="11"
+     ry="11"
+     fill="#68e5ff"
+     id="ellipse724" />
+  <ellipse
+     cx="1452"
+     cy="250"
+     rx="11"
+     ry="11"
+     fill="none"
+     stroke="#000000"
+     stroke-width="1"
+     id="ellipse726" />
+  <line
+     x1="1441"
+     y1="250"
+     x2="1452"
+     y2="250"
+     stroke="#000000"
+     stroke-width="1"
+     fill="none"
+     id="line728" />
+  <line
+     x1="1446"
+     y1="240"
+     x2="1452"
+     y2="250"
+     stroke="#000000"
+     stroke-width="1"
+     fill="none"
+     id="line730" />
+  <line
+     x1="1446"
+     y1="259"
+     x2="1452"
+     y2="250"
+     stroke="#000000"
+     stroke-width="1"
+     fill="none"
+     id="line732" />
+  <line
+     x1="1452"
+     y1="250"
+     x2="1463"
+     y2="250"
+     stroke="#000000"
+     stroke-width="1"
+     fill="none"
+     id="line734" />
+  <line
+     x1="1463"
+     y1="250"
+     x2="1458"
+     y2="252"
+     stroke="#000000"
+     stroke-width="1"
+     fill="none"
+     id="line736" />
+  <line
+     x1="1463"
+     y1="250"
+     x2="1458"
+     y2="247"
+     stroke="#000000"
+     stroke-width="1"
+     fill="none"
+     id="line738" />
+  <line
+     x1="18"
+     y1="45"
+     x2="255"
+     y2="45"
+     stroke="#000000"
+     stroke-width="1"
+     fill="none"
+     id="line740" />
+  <line
+     x1="18"
+     y1="45"
+     x2="18"
+     y2="96"
+     stroke="#000000"
+     stroke-width="1"
+     fill="none"
+     id="line742" />
+  <line
+     x1="18"
+     y1="96"
+     x2="240"
+     y2="96"
+     stroke="#000000"
+     stroke-width="1"
+     fill="none"
+     id="line744" />
+  <line
+     x1="255"
+     y1="45"
+     x2="255"
+     y2="81"
+     stroke="#000000"
+     stroke-width="1"
+     fill="none"
+     id="line746" />
+  <polygon
+     points="19,46 255,46 255,81 240,96 19,96 "
+     fill="#adbeea"
+     id="polygon748" />
+  <polygon
+     points="255,81 251,84 245,83 240,96 "
+     fill="none"
+     stroke="#000000"
+     stroke-width="1"
+     id="polygon750" />
+  <polygon
+     points="255,81 251,84 245,83 240,96 "
+     fill="#495a86"
+     id="polygon752" />
+  <text
+     x="19"
+     y="59"
+     style="font-size:12; font-family:SansSerif.plain; fill=#000000"
+     id="text754">In this model THE PARAMETER SIZE</text>
+  <text
+     x="19"
+     y="71"
+     style="font-size:12; font-family:SansSerif.plain; fill=#000000"
+     id="text756">IS NOT MODIFIED according to the</text>
+  <text
+     x="19"
+     y="83"
+     style="font-size:12; font-family:SansSerif.plain; fill=#000000"
+     id="text758">operations performed by the</text>
+  <text
+     x="19"
+     y="95"
+     style="font-size:12; font-family:SansSerif.plain; fill=#000000"
+     id="text760">processing tasks</text>
+  <text
+     x="45"
+     y="311"
+     style="font-size:12; font-family:SansSerif.italic; font-style=italic; fill=#000000"
+     id="text762">source_req</text>
+  <line
+     x1="108"
+     y1="320"
+     x2="53"
+     y2="302"
+     stroke="#000000"
+     stroke-width="1"
+     fill="none"
+     id="line764" />
+  <text
+     x="357"
+     y="311"
+     style="font-size:12; font-family:SansSerif.italic; font-style=italic; fill=#000000"
+     id="text766">bit2chip_req</text>
+  <line
+     x1="442"
+     y1="319"
+     x2="350"
+     y2="303"
+     stroke="#000000"
+     stroke-width="1"
+     fill="none"
+     id="line768" />
+  <text
+     x="637"
+     y="319"
+     style="font-size:12; font-family:SansSerif.italic; font-style=italic; fill=#000000"
+     id="text770">chip2octet_req</text>
+  <line
+     x1="729"
+     y1="327"
+     x2="639"
+     y2="312"
+     stroke="#000000"
+     stroke-width="1"
+     fill="none"
+     id="line772" />
+  <text
+     x="927"
+     y="316"
+     style="font-size:12; font-family:SansSerif.italic; font-style=italic; fill=#000000"
+     id="text774">cwl_req</text>
+  <line
+     x1="989"
+     y1="321"
+     x2="912"
+     y2="311"
+     stroke="#000000"
+     stroke-width="1"
+     fill="none"
+     id="line776" />
+  <text
+     x="1262"
+     y="454"
+     style="font-size:12; font-family:SansSerif.italic; font-style=italic; fill=#000000"
+     id="text778">cwpQ_req</text>
+  <line
+     x1="1335"
+     y1="458"
+     x2="1249"
+     y2="450"
+     stroke="#000000"
+     stroke-width="1"
+     fill="none"
+     id="line780" />
+  <text
+     x="1268"
+     y="176"
+     style="font-size:12; font-family:SansSerif.italic; font-style=italic; fill=#000000"
+     id="text782">cwpI_req</text>
+  <line
+     x1="1333"
+     y1="181"
+     x2="1257"
+     y2="171"
+     stroke="#000000"
+     stroke-width="1"
+     fill="none"
+     id="line784" />
+  <text
+     x="1583"
+     y="311"
+     style="font-size:12; font-family:SansSerif.italic; font-style=italic; fill=#000000"
+     id="text786">sink_req</text>
+  <line
+     x1="1657"
+     y1="318"
+     x2="1562"
+     y2="304"
+     stroke="#000000"
+     stroke-width="1"
+     fill="none"
+     id="line788" />
+  <line
+     x1="1199"
+     y1="123"
+     x2="1207"
+     y2="123"
+     stroke="#000000"
+     stroke-width="1"
+     fill="none"
+     id="line790" />
+  <line
+     x1="1133"
+     y1="234"
+     x2="1133"
+     y2="123"
+     stroke="#000000"
+     stroke-width="1"
+     fill="none"
+     id="line792" />
+  <line
+     x1="1133"
+     y1="123"
+     x2="1173"
+     y2="123"
+     stroke="#000000"
+     stroke-width="1"
+     fill="none"
+     id="line794" />
+  <line
+     x1="1199"
+     y1="262"
+     x2="1209"
+     y2="262"
+     stroke="#000000"
+     stroke-width="1"
+     fill="none"
+     id="line796" />
+  <line
+     x1="167"
+     y1="258"
+     x2="218"
+     y2="258"
+     stroke="#000000"
+     stroke-width="1"
+     fill="none"
+     id="line798" />
+  <line
+     x1="244"
+     y1="258"
+     x2="262"
+     y2="258"
+     stroke="#000000"
+     stroke-width="1"
+     fill="none"
+     id="line800" />
+  <line
+     x1="288"
+     y1="258"
+     x2="304"
+     y2="258"
+     stroke="#000000"
+     stroke-width="1"
+     fill="none"
+     id="line802" />
+  <line
+     x1="200"
+     y1="381"
+     x2="218"
+     y2="381"
+     stroke="#000000"
+     stroke-width="1"
+     fill="none"
+     id="line804" />
+  <line
+     x1="244"
+     y1="381"
+     x2="262"
+     y2="381"
+     stroke="#000000"
+     stroke-width="1"
+     fill="none"
+     id="line806" />
+  <line
+     x1="288"
+     y1="381"
+     x2="303"
+     y2="381"
+     stroke="#000000"
+     stroke-width="1"
+     fill="none"
+     id="line808" />
+  <line
+     x1="486"
+     y1="269"
+     x2="503"
+     y2="269"
+     stroke="#000000"
+     stroke-width="1"
+     fill="none"
+     id="line810" />
+  <line
+     x1="529"
+     y1="269"
+     x2="542"
+     y2="269"
+     stroke="#000000"
+     stroke-width="1"
+     fill="none"
+     id="line812" />
+  <line
+     x1="568"
+     y1="269"
+     x2="585"
+     y2="269"
+     stroke="#000000"
+     stroke-width="1"
+     fill="none"
+     id="line814" />
+  <line
+     x1="483"
+     y1="386"
+     x2="503"
+     y2="386"
+     stroke="#000000"
+     stroke-width="1"
+     fill="none"
+     id="line816" />
+  <line
+     x1="529"
+     y1="386"
+     x2="542"
+     y2="386"
+     stroke="#000000"
+     stroke-width="1"
+     fill="none"
+     id="line818" />
+  <line
+     x1="568"
+     y1="386"
+     x2="584"
+     y2="386"
+     stroke="#000000"
+     stroke-width="1"
+     fill="none"
+     id="line820" />
+  <line
+     x1="767"
+     y1="261"
+     x2="786"
+     y2="261"
+     stroke="#000000"
+     stroke-width="1"
+     fill="none"
+     id="line822" />
+  <line
+     x1="812"
+     y1="261"
+     x2="825"
+     y2="261"
+     stroke="#000000"
+     stroke-width="1"
+     fill="none"
+     id="line824" />
+  <line
+     x1="851"
+     y1="261"
+     x2="863"
+     y2="261"
+     stroke="#000000"
+     stroke-width="1"
+     fill="none"
+     id="line826" />
+  <line
+     x1="769"
+     y1="387"
+     x2="786"
+     y2="387"
+     stroke="#000000"
+     stroke-width="1"
+     fill="none"
+     id="line828" />
+  <line
+     x1="812"
+     y1="387"
+     x2="825"
+     y2="387"
+     stroke="#000000"
+     stroke-width="1"
+     fill="none"
+     id="line830" />
+  <line
+     x1="851"
+     y1="387"
+     x2="861"
+     y2="387"
+     stroke="#000000"
+     stroke-width="1"
+     fill="none"
+     id="line832" />
+  <line
+     x1="1021"
+     y1="408"
+     x2="1033"
+     y2="408"
+     stroke="#000000"
+     stroke-width="1"
+     fill="none"
+     id="line834" />
+  <line
+     x1="1059"
+     y1="408"
+     x2="1101"
+     y2="408"
+     stroke="#000000"
+     stroke-width="1"
+     fill="none"
+     id="line836" />
+  <line
+     x1="1101"
+     y1="408"
+     x2="1101"
+     y2="500"
+     stroke="#000000"
+     stroke-width="1"
+     fill="none"
+     id="line838" />
+  <line
+     x1="1101"
+     y1="500"
+     x2="1173"
+     y2="500"
+     stroke="#000000"
+     stroke-width="1"
+     fill="none"
+     id="line840" />
+  <line
+     x1="1199"
+     y1="500"
+     x2="1211"
+     y2="500"
+     stroke="#000000"
+     stroke-width="1"
+     fill="none"
+     id="line842" />
+  <line
+     x1="1021"
+     y1="376"
+     x2="1033"
+     y2="376"
+     stroke="#000000"
+     stroke-width="1"
+     fill="none"
+     id="line844" />
+  <line
+     x1="1059"
+     y1="376"
+     x2="1103"
+     y2="376"
+     stroke="#000000"
+     stroke-width="1"
+     fill="none"
+     id="line846" />
+  <line
+     x1="1103"
+     y1="376"
+     x2="1103"
+     y2="262"
+     stroke="#000000"
+     stroke-width="1"
+     fill="none"
+     id="line848" />
+  <line
+     x1="1103"
+     y1="262"
+     x2="1173"
+     y2="262"
+     stroke="#000000"
+     stroke-width="1"
+     fill="none"
+     id="line850" />
+  <line
+     x1="1023"
+     y1="243"
+     x2="1033"
+     y2="243"
+     stroke="#000000"
+     stroke-width="1"
+     fill="none"
+     id="line852" />
+  <line
+     x1="1059"
+     y1="243"
+     x2="1117"
+     y2="243"
+     stroke="#000000"
+     stroke-width="1"
+     fill="none"
+     id="line854" />
+  <line
+     x1="1133"
+     y1="251"
+     x2="1133"
+     y2="388"
+     stroke="#000000"
+     stroke-width="1"
+     fill="none"
+     id="line856" />
+  <line
+     x1="1133"
+     y1="388"
+     x2="1173"
+     y2="388"
+     stroke="#000000"
+     stroke-width="1"
+     fill="none"
+     id="line858" />
+  <line
+     x1="1199"
+     y1="388"
+     x2="1207"
+     y2="388"
+     stroke="#000000"
+     stroke-width="1"
+     fill="none"
+     id="line860" />
+  <line
+     x1="1377"
+     y1="124"
+     x2="1387"
+     y2="124"
+     stroke="#000000"
+     stroke-width="1"
+     fill="none"
+     id="line862" />
+  <line
+     x1="1413"
+     y1="124"
+     x2="1446"
+     y2="124"
+     stroke="#000000"
+     stroke-width="1"
+     fill="none"
+     id="line864" />
+  <line
+     x1="1446"
+     y1="124"
+     x2="1446"
+     y2="241"
+     stroke="#000000"
+     stroke-width="1"
+     fill="none"
+     id="line866" />
+  <line
+     x1="1378"
+     y1="262"
+     x2="1387"
+     y2="262"
+     stroke="#000000"
+     stroke-width="1"
+     fill="none"
+     id="line868" />
+  <line
+     x1="1413"
+     y1="262"
+     x2="1430"
+     y2="262"
+     stroke="#000000"
+     stroke-width="1"
+     fill="none"
+     id="line870" />
+  <line
+     x1="1430"
+     y1="262"
+     x2="1430"
+     y2="354"
+     stroke="#000000"
+     stroke-width="1"
+     fill="none"
+     id="line872" />
+  <line
+     x1="1430"
+     y1="354"
+     x2="1481"
+     y2="354"
+     stroke="#000000"
+     stroke-width="1"
+     fill="none"
+     id="line874" />
+  <line
+     x1="1507"
+     y1="354"
+     x2="1523"
+     y2="354"
+     stroke="#000000"
+     stroke-width="1"
+     fill="none"
+     id="line876" />
+  <line
+     x1="1375"
+     y1="523"
+     x2="1384"
+     y2="523"
+     stroke="#000000"
+     stroke-width="1"
+     fill="none"
+     id="line878" />
+  <line
+     x1="1410"
+     y1="523"
+     x2="1432"
+     y2="523"
+     stroke="#000000"
+     stroke-width="1"
+     fill="none"
+     id="line880" />
+  <line
+     x1="1432"
+     y1="523"
+     x2="1432"
+     y2="410"
+     stroke="#000000"
+     stroke-width="1"
+     fill="none"
+     id="line882" />
+  <line
+     x1="1432"
+     y1="410"
+     x2="1481"
+     y2="410"
+     stroke="#000000"
+     stroke-width="1"
+     fill="none"
+     id="line884" />
+  <line
+     x1="1507"
+     y1="410"
+     x2="1523"
+     y2="410"
+     stroke="#000000"
+     stroke-width="1"
+     fill="none"
+     id="line886" />
+  <line
+     x1="1463"
+     y1="250"
+     x2="1481"
+     y2="250"
+     stroke="#000000"
+     stroke-width="1"
+     fill="none"
+     id="line888" />
+  <line
+     x1="1507"
+     y1="250"
+     x2="1522"
+     y2="250"
+     stroke="#000000"
+     stroke-width="1"
+     fill="none"
+     id="line890" />
+  <line
+     x1="1377"
+     y1="393"
+     x2="1384"
+     y2="393"
+     stroke="#000000"
+     stroke-width="1"
+     fill="none"
+     id="line892" />
+  <line
+     x1="1410"
+     y1="393"
+     x2="1446"
+     y2="393"
+     stroke="#000000"
+     stroke-width="1"
+     fill="none"
+     id="line894" />
+  <line
+     x1="1446"
+     y1="393"
+     x2="1446"
+     y2="258"
+     stroke="#000000"
+     stroke-width="1"
+     fill="none"
+     id="line896" />
+  <flowRoot
+     xml:space="preserve"
+     id="flowRoot5077"
+     style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:22.5px;line-height:125%;font-family:sans-serif;-inkscape-font-specification:'sans-serif Bold';letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+     transform="matrix(0.32764384,-0.94480131,0.94480131,0.32764384,-5.451829,774.91876)"><flowRegion
+       id="flowRegion5079"><rect
+         id="rect5081"
+         width="347.27136"
+         height="54.92448"
+         x="457.44012"
+         y="42.290451"
+         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:22.5px;font-family:sans-serif;-inkscape-font-specification:'sans-serif Bold'"
+         ry="17.935328" /></flowRegion><flowPara
+       id="flowPara5083">CP01: CPU Memory Copy</flowPara></flowRoot>  <flowRoot
+     xml:space="preserve"
+     id="flowRoot5077-3"
+     style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:22.5px;line-height:125%;font-family:sans-serif;-inkscape-font-specification:'sans-serif Bold';letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+     transform="matrix(0.32764384,-0.94480131,0.94480131,0.32764384,286.43313,778.40823)"><flowRegion
+       id="flowRegion5079-5"><rect
+         id="rect5081-6"
+         width="347.27136"
+         height="54.92448"
+         x="457.44012"
+         y="42.290451"
+         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:22.5px;font-family:sans-serif;-inkscape-font-specification:'sans-serif Bold'"
+         ry="17.935328" /></flowRegion><flowPara
+       id="flowPara5083-2">CP02: DMA Transfer</flowPara></flowRoot>  <flowRoot
+     xml:space="preserve"
+     id="flowRoot5077-3-9"
+     style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:22.5px;line-height:125%;font-family:sans-serif;-inkscape-font-specification:'sans-serif Bold';letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+     transform="matrix(0.32764384,-0.94480131,0.94480131,0.32764384,573.07821,777.98159)"><flowRegion
+       id="flowRegion5079-5-1"><rect
+         id="rect5081-6-2"
+         width="347.27136"
+         height="54.92448"
+         x="457.44012"
+         y="42.290451"
+         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:22.5px;font-family:sans-serif;-inkscape-font-specification:'sans-serif Bold'"
+         ry="17.935328" /></flowRegion><flowPara
+       id="flowPara5083-2-7">CP03: DMA Transfer</flowPara></flowRoot>  <flowRoot
+     xml:space="preserve"
+     id="flowRoot5077-3-9-0"
+     style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:22.5px;line-height:125%;font-family:sans-serif;-inkscape-font-specification:'sans-serif Bold';letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+     transform="matrix(0.32764384,-0.94480131,0.94480131,0.32764384,1237.0879,736.55845)"><flowRegion
+       id="flowRegion5079-5-1-9"><rect
+         id="rect5081-6-2-3"
+         width="463.0459"
+         height="43.942104"
+         x="439.21524"
+         y="48.610584"
+         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:22.5px;font-family:sans-serif;-inkscape-font-specification:'sans-serif Bold'"
+         ry="16.85832" /></flowRegion><flowPara
+       id="flowPara5083-2-7-6">CP04: Double DMA Transfer</flowPara></flowRoot>  <flowRoot
+     xml:space="preserve"
+     id="flowRoot5759"
+     style="fill:black;stroke:none;stroke-opacity:1;stroke-width:1px;stroke-linejoin:miter;stroke-linecap:butt;fill-opacity:1;font-family:sans-serif;font-style:normal;font-weight:normal;font-size:40px;line-height:125%;letter-spacing:0px;word-spacing:0px"><flowRegion
+       id="flowRegion5761"><rect
+         id="rect5763"
+         width="0"
+         height="60.624596"
+         x="1563.839"
+         y="-36.245953" /></flowRegion><flowPara
+       id="flowPara5765"></flowPara></flowRoot></svg>

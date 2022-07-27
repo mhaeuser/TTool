@@ -1,0 +1,598 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   version="1.1"
+   id="svg2"
+   inkscape:version="0.48.4 r9939"
+   width="530"
+   height="482.35999"
+   sodipodi:docname="XDMAmapper.svg">
+  <metadata
+     id="metadata168">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs166" />
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="1366"
+     inkscape:window-height="709"
+     id="namedview164"
+     showgrid="false"
+     inkscape:zoom="0.89702957"
+     inkscape:cx="372.04724"
+     inkscape:cy="258.63138"
+     inkscape:window-x="0"
+     inkscape:window-y="27"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg2" />
+  <line
+     x1="188.4194"
+     y1="170.998"
+     x2="188.4194"
+     y2="204.99799"
+     id="line4"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <polygon
+     points="402,261 398,270 393,261 "
+     id="polygon6"
+     transform="translate(-209.58061,-65.001983)"
+     style="fill:#000000" />
+  <polygon
+     points="402,261 398,270 393,261 "
+     id="polygon8"
+     transform="translate(-209.58061,-65.001983)"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="188.4194"
+     y1="96.998001"
+     x2="188.4194"
+     y2="140.99799"
+     id="line10"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <polygon
+     points="402,197 398,206 393,197 "
+     id="polygon12"
+     transform="translate(-209.58061,-65.001983)"
+     style="fill:#000000" />
+  <polygon
+     points="402,197 398,206 393,197 "
+     id="polygon14"
+     transform="translate(-209.58061,-65.001983)"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="356.4194"
+     y1="410.99786"
+     x2="356.4194"
+     y2="452.99792"
+     id="line16"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <polygon
+     points="570,509 566,518 561,509 "
+     id="polygon18"
+     transform="translate(-209.58061,-65.001983)"
+     style="fill:#000000" />
+  <polygon
+     points="570,509 566,518 561,509 "
+     id="polygon20"
+     transform="translate(-209.58061,-65.001983)"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="188.4194"
+     y1="28.997999"
+     x2="188.4194"
+     y2="66.998001"
+     id="line22"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <polygon
+     points="402,123 398,132 393,123 "
+     id="polygon24"
+     transform="translate(-209.58061,-65.001983)"
+     style="fill:#000000" />
+  <polygon
+     points="402,123 398,132 393,123 "
+     id="polygon26"
+     transform="translate(-209.58061,-65.001983)"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="356.4194"
+     y1="339.99786"
+     x2="356.4194"
+     y2="380.99786"
+     id="line28"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <polygon
+     points="570,437 566,446 561,437 "
+     id="polygon30"
+     transform="translate(-209.58061,-65.001983)"
+     style="fill:#000000" />
+  <polygon
+     points="570,437 566,446 561,437 "
+     id="polygon32"
+     transform="translate(-209.58061,-65.001983)"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="356.4194"
+     y1="248.99799"
+     x2="356.4194"
+     y2="299.99786"
+     id="line34"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <polygon
+     points="570,356 566,365 561,356 "
+     id="polygon36"
+     transform="translate(-209.58061,-65.001983)"
+     style="fill:#000000" />
+  <polygon
+     points="570,356 566,365 561,356 "
+     id="polygon38"
+     transform="translate(-209.58061,-65.001983)"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="369.4194"
+     y1="159.998"
+     x2="356.4194"
+     y2="159.998"
+     id="line40"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="356.4194"
+     y1="159.998"
+     x2="356.4194"
+     y2="218.99799"
+     id="line42"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <polygon
+     points="570,275 566,284 561,275 "
+     id="polygon44"
+     transform="translate(-209.58061,-65.001983)"
+     style="fill:#000000" />
+  <polygon
+     points="570,275 566,284 561,275 "
+     id="polygon46"
+     transform="translate(-209.58061,-65.001983)"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <ellipse
+     cx="398"
+     cy="81"
+     rx="7"
+     ry="7"
+     id="ellipse48"
+     sodipodi:cx="398"
+     sodipodi:cy="81"
+     sodipodi:rx="7"
+     sodipodi:ry="7"
+     transform="translate(-209.58061,-65.001983)"
+     style="fill:#000000" />
+  <line
+     x1="188.4194"
+     y1="23.997999"
+     x2="188.4194"
+     y2="28.997999"
+     id="line50"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <rect
+     x="108.4194"
+     y="71.998001"
+     width="160"
+     height="20"
+     rx="5"
+     ry="5"
+     id="rect52"
+     style="fill:#c4a67a" />
+  <rect
+     x="107.4194"
+     y="70.998001"
+     width="160"
+     height="20"
+     rx="5"
+     ry="5"
+     id="rect54"
+     style="fill:none;stroke:#c4a67a;stroke-width:1" />
+  <rect
+     x="108.4194"
+     y="71.998001"
+     width="160"
+     height="20"
+     rx="5"
+     ry="5"
+     id="rect56"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="188.4194"
+     y1="71.998001"
+     x2="188.4194"
+     y2="66.998001"
+     id="line58"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="188.4194"
+     y1="91.998001"
+     x2="188.4194"
+     y2="96.998001"
+     id="line60"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <text
+     x="114.4194"
+     y="84.998001"
+     style="font-size:12px;font-family:Dialog"
+     id="text62">getReqArg (flow_size_in)</text>
+  <polygon
+     points="716,461 706,471 417,471 417,451 706,451 "
+     id="polygon64"
+     transform="translate(-209.58061,-65.001983)"
+     style="fill:#68e5ff" />
+  <line
+     x1="356.4194"
+     y1="385.99786"
+     x2="356.4194"
+     y2="380.99786"
+     id="line66"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="356.4194"
+     y1="405.99786"
+     x2="356.4194"
+     y2="410.99786"
+     id="line68"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="208.4194"
+     y1="386.99786"
+     x2="497.4194"
+     y2="386.99786"
+     id="line70"
+     style="fill:none;stroke:#68e5ff;stroke-width:1" />
+  <line
+     x1="208.4194"
+     y1="406.99786"
+     x2="497.4194"
+     y2="406.99786"
+     id="line72"
+     style="fill:none;stroke:#68e5ff;stroke-width:1" />
+  <line
+     x1="208.4194"
+     y1="386.99786"
+     x2="208.4194"
+     y2="406.99786"
+     id="line74"
+     style="fill:none;stroke:#68e5ff;stroke-width:1" />
+  <line
+     x1="497.4194"
+     y1="386.99786"
+     x2="507.4194"
+     y2="396.99786"
+     id="line76"
+     style="fill:none;stroke:#68e5ff;stroke-width:1" />
+  <line
+     x1="497.4194"
+     y1="406.99786"
+     x2="507.4194"
+     y2="396.99786"
+     id="line78"
+     style="fill:none;stroke:#68e5ff;stroke-width:1" />
+  <line
+     x1="207.4194"
+     y1="385.99786"
+     x2="496.4194"
+     y2="385.99786"
+     id="line80"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="207.4194"
+     y1="405.99786"
+     x2="496.4194"
+     y2="405.99786"
+     id="line82"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="207.4194"
+     y1="385.99786"
+     x2="207.4194"
+     y2="405.99786"
+     id="line84"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="496.4194"
+     y1="385.99786"
+     x2="506.4194"
+     y2="395.99786"
+     id="line86"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="496.4194"
+     y1="405.99786"
+     x2="506.4194"
+     y2="395.99786"
+     id="line88"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <text
+     x="207.4194"
+     y="379.99786"
+     style="font-size:12px;font-family:Dialog"
+     id="text90">chl</text>
+  <text
+     x="215.4194"
+     y="400.99786"
+     style="font-size:12px;font-family:Dialog"
+     id="text92">DMAmapper_ch_out(DMAmapperTransfer_size)</text>
+  <ellipse
+     cx="566"
+     cy="533"
+     rx="8"
+     ry="8"
+     id="ellipse94"
+     sodipodi:cx="566"
+     sodipodi:cy="533"
+     sodipodi:rx="8"
+     sodipodi:ry="8"
+     transform="translate(-209.58061,-65.001983)"
+     style="fill:#000000" />
+  <ellipse
+     cx="566"
+     cy="533"
+     rx="10"
+     ry="10"
+     id="ellipse96"
+     sodipodi:cx="566"
+     sodipodi:cy="533"
+     sodipodi:rx="10"
+     sodipodi:ry="10"
+     transform="translate(-209.58061,-65.001983)"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="356.4194"
+     y1="457.99792"
+     x2="356.4194"
+     y2="452.99792"
+     id="line98"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <rect
+     x="351.4194"
+     y="304.99786"
+     width="9"
+     height="29"
+     id="rect100"
+     style="fill:#c7f369" />
+  <rect
+     x="351.4194"
+     y="304.99786"
+     width="10"
+     height="30"
+     id="rect102"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="356.4194"
+     y1="304.99786"
+     x2="356.4194"
+     y2="299.99786"
+     id="line104"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="356.4194"
+     y1="334.99786"
+     x2="356.4194"
+     y2="339.99786"
+     id="line106"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="354.4194"
+     y1="314.99786"
+     x2="358.4194"
+     y2="314.99786"
+     id="line108"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="354.4194"
+     y1="324.99786"
+     x2="358.4194"
+     y2="324.99786"
+     id="line110"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="356.4194"
+     y1="314.99786"
+     x2="356.4194"
+     y2="324.99786"
+     id="line112"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <text
+     x="366.4194"
+     y="324.99786"
+     style="font-size:12px;font-family:Dialog"
+     id="text114">DMAmapperTransfer_size</text>
+  <polygon
+     points="713,309 420,309 430,299 420,289 713,289 "
+     id="polygon116"
+     transform="translate(-209.58061,-65.001983)"
+     style="fill:#68e5ff" />
+  <line
+     x1="356.4194"
+     y1="223.99799"
+     x2="356.4194"
+     y2="218.99799"
+     id="line118"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="356.4194"
+     y1="243.99799"
+     x2="356.4194"
+     y2="248.99799"
+     id="line120"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="211.4194"
+     y1="224.99799"
+     x2="504.4194"
+     y2="224.99799"
+     id="line122"
+     style="fill:none;stroke:#68e5ff;stroke-width:1" />
+  <line
+     x1="504.4194"
+     y1="224.99799"
+     x2="504.4194"
+     y2="244.99799"
+     id="line124"
+     style="fill:none;stroke:#68e5ff;stroke-width:1" />
+  <line
+     x1="211.4194"
+     y1="244.99799"
+     x2="504.4194"
+     y2="244.99799"
+     id="line126"
+     style="fill:none;stroke:#68e5ff;stroke-width:1" />
+  <line
+     x1="211.4194"
+     y1="224.99799"
+     x2="221.4194"
+     y2="234.99799"
+     id="line128"
+     style="fill:none;stroke:#68e5ff;stroke-width:1" />
+  <line
+     x1="211.4194"
+     y1="244.99799"
+     x2="221.4194"
+     y2="234.99799"
+     id="line130"
+     style="fill:none;stroke:#68e5ff;stroke-width:1" />
+  <line
+     x1="210.4194"
+     y1="223.99799"
+     x2="503.4194"
+     y2="223.99799"
+     id="line132"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="503.4194"
+     y1="223.99799"
+     x2="503.4194"
+     y2="243.99799"
+     id="line134"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="210.4194"
+     y1="243.99799"
+     x2="503.4194"
+     y2="243.99799"
+     id="line136"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="210.4194"
+     y1="223.99799"
+     x2="220.4194"
+     y2="233.99799"
+     id="line138"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="210.4194"
+     y1="243.99799"
+     x2="220.4194"
+     y2="233.99799"
+     id="line140"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <text
+     x="209.4194"
+     y="217.99799"
+     style="font-size:12px;font-family:Dialog"
+     id="text142">chl</text>
+  <text
+     x="222.4194"
+     y="238.99799"
+     style="font-size:12px;font-family:Dialog"
+     id="text144">DMAmapper_ch_in(DMAmapperTransfer_size)</text>
+  <rect
+     x="8.4193954"
+     y="145.99799"
+     width="361"
+     height="20"
+     rx="5"
+     ry="5"
+     id="rect146"
+     style="fill:#c7f369" />
+  <rect
+     x="8.4193954"
+     y="145.99799"
+     width="361"
+     height="20"
+     rx="5"
+     ry="5"
+     id="rect148"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="188.4194"
+     y1="145.99799"
+     x2="188.4194"
+     y2="140.99799"
+     id="line150"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="188.4194"
+     y1="165.998"
+     x2="188.4194"
+     y2="170.998"
+     id="line152"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="369.4194"
+     y1="155.99799"
+     x2="374.4194"
+     y2="155.99799"
+     id="line154"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <text
+     x="17.419395"
+     y="158.998"
+     style="font-size:12px;font-family:Dialog"
+     id="text156">for(i=0;i&lt;(flow_size_in/DMAmapperTransfer_size);i = i+1)</text>
+  <ellipse
+     cx="398"
+     cy="285"
+     rx="8"
+     ry="8"
+     id="ellipse158"
+     sodipodi:cx="398"
+     sodipodi:cy="285"
+     sodipodi:rx="8"
+     sodipodi:ry="8"
+     transform="translate(-209.58061,-65.001983)"
+     style="fill:#000000" />
+  <ellipse
+     cx="398"
+     cy="285"
+     rx="10"
+     ry="10"
+     id="ellipse160"
+     sodipodi:cx="398"
+     sodipodi:cy="285"
+     sodipodi:rx="10"
+     sodipodi:ry="10"
+     transform="translate(-209.58061,-65.001983)"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="188.4194"
+     y1="209.99799"
+     x2="188.4194"
+     y2="204.99799"
+     id="line162"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+</svg>

@@ -1,0 +1,23 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1">
+<line  x1="232" y1="116" x2="491" y2="116" stroke="#000000" stroke-width="1" fill="none"/>
+<line  x1="491" y1="116" x2="482" y2="120" stroke="#000000" stroke-width="1" fill="none"/>
+<line  x1="491" y1="116" x2="482" y2="111" stroke="#000000" stroke-width="1" fill="none"/>
+<text  x="264" y="111" style="font-size:12; font-family:Dialog.plain; fill=#000000">Write(destinationAddress, size)</text>
+<line  x1="491" y1="146" x2="725" y2="146" stroke="#000000" stroke-width="1" fill="none"/>
+<line  x1="725" y1="146" x2="716" y2="150" stroke="#000000" stroke-width="1" fill="none"/>
+<line  x1="725" y1="146" x2="716" y2="141" stroke="#000000" stroke-width="1" fill="none"/>
+<text  x="511" y="141" style="font-size:12; font-family:Dialog.plain; fill=#000000">Write(destinationAddress, size)</text>
+<text  x="186" y="83" style="font-size:12; font-family:Dialog.plain; fill=#000000">CPU_Controller</text>
+<line  x1="186" y1="84" x2="278" y2="84" stroke="#000000" stroke-width="1" fill="none"/>
+<line  x1="232" y1="86" x2="232" y2="586" stroke="#000000" stroke-width="1" fill="none"/>
+<rect  x="100" y="159" width="265" height="20" rx="5" ry="5" fill="none" stroke="#000000" stroke-width="1"/>
+<text  x="88" y="174" style="font-size:12; font-family:Dialog.plain; fill=#000000">samplesToStore = samplesToStore - size</text>
+<text  x="438" y="83" style="font-size:12; font-family:Dialog.plain; fill=#000000">TransferInstance</text>
+<line  x1="438" y1="84" x2="544" y2="84" stroke="#000000" stroke-width="1" fill="none"/>
+<line  x1="491" y1="86" x2="491" y2="586" stroke="#000000" stroke-width="1" fill="none"/>
+<text  x="657" y="83" style="font-size:12; font-family:Dialog.plain; fill=#000000">DESTINATION_Storage</text>
+<line  x1="657" y1="84" x2="793" y2="84" stroke="#000000" stroke-width="1" fill="none"/>
+<line  x1="725" y1="86" x2="725" y2="586" stroke="#000000" stroke-width="1" fill="none"/>
+</svg>

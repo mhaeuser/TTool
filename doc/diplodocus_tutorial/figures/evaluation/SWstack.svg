@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="484.09"
+   height="480"
+   id="svg2"
+   version="1.1"
+   inkscape:version="0.48.4 r9939"
+   sodipodi:docname="New document 1">
+  <defs
+     id="defs4" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.49497475"
+     inkscape:cx="359.5461"
+     inkscape:cy="479.49959"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     inkscape:window-width="1366"
+     inkscape:window-height="709"
+     inkscape:window-x="0"
+     inkscape:window-y="27"
+     inkscape:window-maximized="1" />
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(0,-572.36213)">
+    <rect
+       style="fill:none;stroke:#010000;stroke-width:2;stroke-linecap:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+       id="rect2985"
+       width="451.42856"
+       height="82.85714"
+       x="16.85714"
+       y="959.79077" />
+    <text
+       xml:space="preserve"
+       style="font-size:40px;font-style:italic;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Sans Italic"
+       x="67.543198"
+       y="1009.5601"
+       id="text3755"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan3757"
+         x="67.543198"
+         y="1009.5601"
+         style="font-size:28px;font-style:normal;-inkscape-font-specification:Sans">App. processor hardware</tspan></text>
+    <rect
+       style="fill:#f7bb00;fill-opacity:1;stroke:#010000;stroke-width:2;stroke-linecap:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+       id="rect2985-8"
+       width="451.42856"
+       height="82.85714"
+       x="16.809013"
+       y="875.89075" />
+    <text
+       xml:space="preserve"
+       style="font-size:40px;font-style:italic;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Sans Italic"
+       x="35.495071"
+       y="925.66003"
+       id="text3755-1"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan3757-7"
+         x="35.495071"
+         y="925.66003"
+         style="font-size:28px;font-style:normal;-inkscape-font-specification:Sans">Board Support Package (BSP)</tspan></text>
+    <rect
+       style="fill:#04e000;fill-opacity:1;stroke:#010000;stroke-width:2;stroke-linecap:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+       id="rect2985-8-1"
+       width="451.42856"
+       height="82.85714"
+       x="16.857147"
+       y="793.7193" />
+    <text
+       xml:space="preserve"
+       style="font-size:40px;font-style:italic;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Sans Italic"
+       x="77.543198"
+       y="843.48859"
+       id="text3755-1-2"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan3757-7-8"
+         x="77.543198"
+         y="843.48859"
+         style="font-size:28px;font-style:normal;-inkscape-font-specification:Sans">Operating System (OS)</tspan></text>
+    <rect
+       style="fill:#c344ff;fill-opacity:1;stroke:#010000;stroke-width:2;stroke-linecap:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+       id="rect2985-8-1-1"
+       width="451.42856"
+       height="82.85714"
+       x="16.900482"
+       y="710.9668" />
+    <text
+       xml:space="preserve"
+       style="font-size:40px;font-style:italic;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Sans Italic"
+       x="153.58653"
+       y="760.73602"
+       id="text3755-1-2-9"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan3757-7-8-3"
+         x="153.58653"
+         y="760.73602"
+         style="font-size:28px;font-style:normal;-inkscape-font-specification:Sans">Middleware</tspan></text>
+    <rect
+       style="fill:#04c3ff;fill-opacity:1;stroke:#010000;stroke-width:2;stroke-linecap:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+       id="rect3831"
+       width="150"
+       height="125.71429"
+       x="16.857147"
+       y="585.505" />
+    <rect
+       style="fill:#04c3ff;fill-opacity:1;stroke:#010000;stroke-width:2;stroke-linecap:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+       id="rect3831-1"
+       width="150"
+       height="125.71429"
+       x="166.14284"
+       y="585.505" />
+    <rect
+       style="fill:#04c3ff;fill-opacity:1;stroke:#010000;stroke-width:2.00936437;stroke-linecap:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+       id="rect3831-7"
+       width="151.4192"
+       height="125.70493"
+       x="316.86182"
+       y="585.5097" />
+    <text
+       xml:space="preserve"
+       style="font-size:40px;font-style:italic;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Sans Italic"
+       x="48.675369"
+       y="656.34363"
+       id="text3755-1-2-9-5"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan3757-7-8-3-6"
+         x="48.675369"
+         y="656.34363"
+         style="font-size:28px;font-style:normal;-inkscape-font-specification:Sans">App. 1</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:40px;font-style:italic;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Sans Italic"
+       x="199.8324"
+       y="654.20923"
+       id="text3755-1-2-9-5-9"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan3757-7-8-3-6-5"
+         x="199.8324"
+         y="654.20923"
+         style="font-size:28px;font-style:normal;-inkscape-font-specification:Sans">App...</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:40px;font-style:italic;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Sans Italic"
+       x="343.77911"
+       y="652.18896"
+       id="text3755-1-2-9-5-6"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan3757-7-8-3-6-3"
+         x="343.77911"
+         y="652.18896"
+         style="font-size:28px;font-style:normal;-inkscape-font-specification:Sans">App. n</tspan></text>
+  </g>
+</svg>

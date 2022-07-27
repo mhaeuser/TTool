@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   version="1.1"
+   id="svg2"
+   inkscape:version="0.48.4 r9939"
+   width="744.09448"
+   height="270.35999"
+   sodipodi:docname="CPforDMA1.svg">
+  <metadata
+     id="metadata90">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs88" />
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="1366"
+     inkscape:window-height="709"
+     id="namedview86"
+     showgrid="false"
+     inkscape:zoom="1.2685914"
+     inkscape:cx="453.25148"
+     inkscape:cy="147.80867"
+     inkscape:window-x="0"
+     inkscape:window-y="27"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg2" />
+  <line
+     x1="159.38759"
+     y1="146.50818"
+     x2="378.3876"
+     y2="146.50818"
+     id="line4"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="378.3876"
+     y1="146.50818"
+     x2="369.3876"
+     y2="150.50818"
+     id="line6"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="378.3876"
+     y1="146.50818"
+     x2="369.3876"
+     y2="141.50818"
+     id="line8"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <text
+     x="147.38759"
+     y="141.50818"
+     style="font-size:12px;font-family:Dialog"
+     id="text10">TransferRequest(bytesToTransfer, ID1)</text>
+  <line
+     x1="378.3876"
+     y1="176.50816"
+     x2="603.38757"
+     y2="176.50816"
+     id="line12"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="603.38757"
+     y1="176.50816"
+     x2="594.38757"
+     y2="180.50816"
+     id="line14"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="603.38757"
+     y1="176.50816"
+     x2="594.38757"
+     y2="171.50818"
+     id="line16"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <text
+     x="369.3876"
+     y="171.50818"
+     style="font-size:12px;font-family:Dialog"
+     id="text18">TransferRequest(bytesToTransfer, ID1)</text>
+  <text
+     x="113.38758"
+     y="37.508179"
+     style="font-size:12px;font-family:Dialog"
+     id="text20">CPU_Controller</text>
+  <line
+     x1="113.38758"
+     y1="44.508179"
+     x2="205.38759"
+     y2="44.508179"
+     id="line22"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="159.38759"
+     y1="46.508179"
+     x2="159.38759"
+     y2="546.50818"
+     id="line24"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <rect
+     x="106.38758"
+     y="95.508179"
+     width="106"
+     height="20"
+     rx="5"
+     ry="5"
+     id="rect26"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <text
+     x="115.38758"
+     y="110.50818"
+     style="font-size:12px;font-family:Dialog"
+     id="text28">ID1 = transfer1</text>
+  <rect
+     x="83.387581"
+     y="66.508179"
+     width="153"
+     height="20"
+     rx="5"
+     ry="5"
+     id="rect30"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <text
+     x="92.387581"
+     y="81.508179"
+     style="font-size:12px;font-family:Dialog"
+     id="text32">bytesToTransfer = 256</text>
+  <text
+     x="556.38757"
+     y="37.508179"
+     style="font-size:12px;font-family:Dialog"
+     id="text34">DMA_Controller</text>
+  <line
+     x1="556.38757"
+     y1="44.508179"
+     x2="650.38757"
+     y2="44.508179"
+     id="line36"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="603.38757"
+     y1="46.508179"
+     x2="603.38757"
+     y2="546.50818"
+     id="line38"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <rect
+     x="514.38757"
+     y="232.50815"
+     width="178"
+     height="20"
+     rx="5"
+     ry="5"
+     id="rect40"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <text
+     x="524.38757"
+     y="245.50819"
+     style="font-size:12px;font-family:Dialog"
+     id="text42">counter = bytesToTransfer</text>
+  <text
+     x="318.3876"
+     y="37.508179"
+     style="font-size:12px;font-family:Dialog"
+     id="text44">TransferInstance_1</text>
+  <line
+     x1="318.3876"
+     y1="44.508179"
+     x2="438.3876"
+     y2="44.508179"
+     id="line46"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="378.3876"
+     y1="46.508179"
+     x2="378.3876"
+     y2="546.50818"
+     id="line48"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+</svg>

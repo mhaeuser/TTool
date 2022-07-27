@@ -1,0 +1,534 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   version="1.1"
+   id="svg2"
+   inkscape:version="0.48.4 r9939"
+   width="470"
+   height="380.35999"
+   sodipodi:docname="DSP_BlockDiagram.svg">
+  <metadata
+     id="metadata226">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs224" />
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="1366"
+     inkscape:window-height="709"
+     id="namedview222"
+     showgrid="false"
+     inkscape:zoom="0.6342957"
+     inkscape:cx="514.69317"
+     inkscape:cy="217.18827"
+     inkscape:window-x="0"
+     inkscape:window-y="27"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg2" />
+  <rect
+     style="fill:none;stroke:#000000;stroke-width:1"
+     x="39.465469"
+     y="174.87239"
+     width="391"
+     height="50"
+     id="rect3599" />
+  <line
+     style="fill:none;stroke:#000000;stroke-width:1"
+     x1="39.465469"
+     y1="174.87239"
+     x2="41.465469"
+     y2="171.87239"
+     id="line3601" />
+  <line
+     style="fill:none;stroke:#000000;stroke-width:1"
+     x1="430.46539"
+     y1="174.87239"
+     x2="432.46539"
+     y2="171.87239"
+     id="line3603" />
+  <line
+     style="fill:none;stroke:#000000;stroke-width:1"
+     x1="41.465469"
+     y1="171.87239"
+     x2="432.46539"
+     y2="171.87239"
+     id="line3605" />
+  <line
+     style="fill:none;stroke:#000000;stroke-width:1"
+     x1="430.46539"
+     y1="224.87238"
+     x2="432.46539"
+     y2="221.87238"
+     id="line3607" />
+  <line
+     style="fill:none;stroke:#000000;stroke-width:1"
+     x1="432.46539"
+     y1="171.87239"
+     x2="432.46539"
+     y2="221.87238"
+     id="line3609" />
+  <rect
+     style="fill:#d7bc80"
+     x="40.465469"
+     y="175.87239"
+     width="389"
+     height="48"
+     id="rect3611" />
+  <text
+     x="208.20271"
+     y="212.6759"
+     style="font-size:12px;font-family:Dialog"
+     id="text3615">
+    <tspan
+       id="tspan3231"
+       style="font-size:16px">DSPBus</tspan>
+  </text>
+  <rect
+     style="fill:none;stroke:#000000;stroke-width:1"
+     x="39.465469"
+     y="320.87231"
+     width="391"
+     height="50"
+     id="rect3617" />
+  <line
+     style="fill:none;stroke:#000000;stroke-width:1"
+     x1="39.465469"
+     y1="320.87231"
+     x2="41.465469"
+     y2="317.87231"
+     id="line3619" />
+  <line
+     style="fill:none;stroke:#000000;stroke-width:1"
+     x1="430.46539"
+     y1="320.87231"
+     x2="432.46539"
+     y2="317.87231"
+     id="line3621" />
+  <line
+     style="fill:none;stroke:#000000;stroke-width:1"
+     x1="41.465469"
+     y1="317.87231"
+     x2="432.46539"
+     y2="317.87231"
+     id="line3623" />
+  <line
+     style="fill:none;stroke:#000000;stroke-width:1"
+     x1="430.46539"
+     y1="370.87231"
+     x2="432.46539"
+     y2="367.87231"
+     id="line3625" />
+  <line
+     style="fill:none;stroke:#000000;stroke-width:1"
+     x1="432.46539"
+     y1="317.87231"
+     x2="432.46539"
+     y2="367.87231"
+     id="line3627" />
+  <rect
+     style="fill:#d7bc80"
+     x="40.465469"
+     y="321.87231"
+     width="389"
+     height="48"
+     id="rect3629" />
+  <text
+     x="220.46541"
+     y="363.13501"
+     style="font-size:12px;font-family:Dialog"
+     id="text3633">
+    <tspan
+       id="tspan3223"
+       style="font-size:16px">Crossbar</tspan>
+  </text>
+  <rect
+     style="fill:none;stroke:#000000;stroke-width:1"
+     x="358.21356"
+     y="43.358505"
+     width="100"
+     height="100"
+     id="rect3635" />
+  <line
+     style="fill:none;stroke:#000000;stroke-width:1"
+     x1="358.21356"
+     y1="43.358505"
+     x2="360.21356"
+     y2="40.358505"
+     id="line3637" />
+  <line
+     style="fill:none;stroke:#000000;stroke-width:1"
+     x1="458.21356"
+     y1="43.358505"
+     x2="460.21356"
+     y2="40.358505"
+     id="line3639" />
+  <line
+     style="fill:none;stroke:#000000;stroke-width:1"
+     x1="360.21356"
+     y1="40.358505"
+     x2="460.21356"
+     y2="40.358505"
+     id="line3641" />
+  <line
+     style="fill:none;stroke:#000000;stroke-width:1"
+     x1="458.21356"
+     y1="143.35851"
+     x2="460.21356"
+     y2="140.35851"
+     id="line3643" />
+  <line
+     style="fill:none;stroke:#000000;stroke-width:1"
+     x1="460.21356"
+     y1="40.358505"
+     x2="460.21356"
+     y2="140.35851"
+     id="line3645" />
+  <rect
+     style="fill:#90c9d3"
+     x="359.21356"
+     y="44.358505"
+     width="98"
+     height="98"
+     id="rect3647" />
+  <text
+     x="383.8692"
+     y="92.309937"
+     style="font-size:12px;font-family:Dialog"
+     id="text3651">
+    <tspan
+       id="tspan3243"
+       style="font-size:16px">DSP µC</tspan>
+  </text>
+  <rect
+     style="fill:none;stroke:#000000;stroke-width:1"
+     x="187.68721"
+     y="43.568405"
+     width="150"
+     height="100"
+     id="rect3653" />
+  <line
+     style="fill:none;stroke:#000000;stroke-width:1"
+     x1="187.68721"
+     y1="43.568405"
+     x2="189.68721"
+     y2="40.568405"
+     id="line3655" />
+  <line
+     style="fill:none;stroke:#000000;stroke-width:1"
+     x1="337.68707"
+     y1="43.568405"
+     x2="339.68707"
+     y2="40.568405"
+     id="line3657" />
+  <line
+     style="fill:none;stroke:#000000;stroke-width:1"
+     x1="189.68721"
+     y1="40.568405"
+     x2="339.68707"
+     y2="40.568405"
+     id="line3659" />
+  <line
+     style="fill:none;stroke:#000000;stroke-width:1"
+     x1="337.68707"
+     y1="143.56841"
+     x2="339.68707"
+     y2="140.56841"
+     id="line3661" />
+  <line
+     style="fill:none;stroke:#000000;stroke-width:1"
+     x1="339.68707"
+     y1="40.568405"
+     x2="339.68707"
+     y2="140.56841"
+     id="line3663" />
+  <rect
+     style="fill:#c6ebf9"
+     x="188.68721"
+     y="44.568405"
+     width="148"
+     height="98"
+     id="rect3665" />
+  <text
+     x="233.08003"
+     y="85.831085"
+     style="font-size:12px;font-family:Dialog"
+     id="text3669">
+    <tspan
+       id="tspan3247"
+       style="font-size:16px">DSP PSS</tspan>
+  </text>
+  <rect
+     style="fill:none;stroke:#000000;stroke-width:1"
+     x="17.465469"
+     y="24.872452"
+     width="152"
+     height="119"
+     id="rect3671" />
+  <line
+     style="fill:none;stroke:#000000;stroke-width:1"
+     x1="17.465469"
+     y1="24.872452"
+     x2="19.465469"
+     y2="21.872452"
+     id="line3673" />
+  <line
+     style="fill:none;stroke:#000000;stroke-width:1"
+     x1="169.46541"
+     y1="24.872452"
+     x2="171.46541"
+     y2="21.872452"
+     id="line3675" />
+  <line
+     style="fill:none;stroke:#000000;stroke-width:1"
+     x1="19.465469"
+     y1="21.872452"
+     x2="171.46541"
+     y2="21.872452"
+     id="line3677" />
+  <line
+     style="fill:none;stroke:#000000;stroke-width:1"
+     x1="169.46541"
+     y1="143.87245"
+     x2="171.46541"
+     y2="140.87245"
+     id="line3679" />
+  <line
+     style="fill:none;stroke:#000000;stroke-width:1"
+     x1="171.46541"
+     y1="21.872452"
+     x2="171.46541"
+     y2="140.87245"
+     id="line3681" />
+  <rect
+     style="fill:#acead3"
+     x="18.465469"
+     y="25.872452"
+     width="150"
+     height="117"
+     id="rect3683" />
+  <text
+     x="42.513992"
+     y="71.594299"
+     style="font-size:12px;font-family:Dialog"
+     id="text3687">
+    <tspan
+       id="tspan3235"
+       style="font-size:16px">DSP MSS</tspan>
+  </text>
+  <rect
+     style="fill:none;stroke:#000000;stroke-width:1"
+     x="311.82965"
+     y="246.00816"
+     width="100"
+     height="50"
+     id="rect3689" />
+  <line
+     style="fill:none;stroke:#000000;stroke-width:1"
+     x1="311.82965"
+     y1="246.00816"
+     x2="313.82965"
+     y2="243.00816"
+     id="line3691" />
+  <line
+     style="fill:none;stroke:#000000;stroke-width:1"
+     x1="411.82965"
+     y1="246.00816"
+     x2="413.82965"
+     y2="243.00816"
+     id="line3693" />
+  <line
+     style="fill:none;stroke:#000000;stroke-width:1"
+     x1="313.82965"
+     y1="243.00816"
+     x2="413.82965"
+     y2="243.00816"
+     id="line3695" />
+  <line
+     style="fill:none;stroke:#000000;stroke-width:1"
+     x1="411.82965"
+     y1="296.00806"
+     x2="413.82965"
+     y2="293.00812"
+     id="line3697" />
+  <line
+     style="fill:none;stroke:#000000;stroke-width:1"
+     x1="413.82965"
+     y1="243.00816"
+     x2="413.82965"
+     y2="293.00812"
+     id="line3699" />
+  <rect
+     style="fill:#acead3"
+     x="312.82965"
+     y="247.00816"
+     width="98"
+     height="48"
+     id="rect3701" />
+  <text
+     x="324.56696"
+     y="286.0412"
+     style="font-size:12px;font-family:Dialog"
+     id="text3705">
+    <tspan
+       id="tspan3241"
+       style="font-size:16px">DSPdma</tspan>
+  </text>
+  <rect
+     style="fill:none;stroke:#000000;stroke-width:1"
+     x="86.465347"
+     y="252.87236"
+     width="100"
+     height="35"
+     id="rect3707" />
+  <line
+     style="fill:none;stroke:#000000;stroke-width:1"
+     x1="86.465347"
+     y1="252.87236"
+     x2="88.465347"
+     y2="249.87236"
+     id="line3709" />
+  <line
+     style="fill:none;stroke:#000000;stroke-width:1"
+     x1="186.46541"
+     y1="252.87236"
+     x2="188.46541"
+     y2="249.87236"
+     id="line3711" />
+  <line
+     style="fill:none;stroke:#000000;stroke-width:1"
+     x1="88.465347"
+     y1="249.87236"
+     x2="188.46541"
+     y2="249.87236"
+     id="line3713" />
+  <line
+     style="fill:none;stroke:#000000;stroke-width:1"
+     x1="186.46541"
+     y1="287.87231"
+     x2="188.46541"
+     y2="284.87231"
+     id="line3715" />
+  <line
+     style="fill:none;stroke:#000000;stroke-width:1"
+     x1="188.46541"
+     y1="249.87236"
+     x2="188.46541"
+     y2="284.87231"
+     id="line3717" />
+  <rect
+     style="fill:#d7a648"
+     x="87.465347"
+     y="253.87236"
+     width="98"
+     height="33"
+     id="rect3719" />
+  <text
+     x="950.6048"
+     y="217.58545"
+     style="font-size:12px;font-family:Dialog"
+     id="text3721">
+    <tspan
+       id="tspan3229"
+       style="font-size:16px" />
+  </text>
+  <text
+     x="95.465347"
+     y="282.87231"
+     style="font-size:12px;font-family:Dialog"
+     id="text3723">
+    <tspan
+       id="tspan3227"
+       style="font-size:16px">DSPBridge</tspan>
+  </text>
+  <line
+     style="fill:none;stroke:#000000;stroke-width:1"
+     x1="136.46535"
+     y1="252.87236"
+     x2="136.46535"
+     y2="224.87238"
+     id="line3733" />
+  <line
+     style="fill:none;stroke:#000000;stroke-width:1"
+     x1="136.46535"
+     y1="287.87231"
+     x2="136.46535"
+     y2="320.87231"
+     id="line3735" />
+  <line
+     style="fill:none;stroke:#000000;stroke-width:0.7953788"
+     x1="361.41046"
+     y1="242.92863"
+     x2="361.41046"
+     y2="225.21515"
+     id="line3733-0" />
+  <line
+     style="fill:none;stroke:#000000;stroke-width:1"
+     x1="90.107498"
+     y1="171.85109"
+     x2="90.107498"
+     y2="143.85121"
+     id="line3733-3" />
+  <line
+     style="fill:none;stroke:#000000;stroke-width:1"
+     x1="263.12958"
+     y1="172.0807"
+     x2="263.12958"
+     y2="144.08076"
+     id="line3733-3-1" />
+  <line
+     style="fill:none;stroke:#000000;stroke-width:1"
+     x1="406.34698"
+     y1="171.52327"
+     x2="406.34698"
+     y2="143.52336"
+     id="line3733-3-1-4" />
+  <text
+     x="35.992447"
+     y="103.05621"
+     style="font-size:12px;font-family:Dialog"
+     id="text3687-7">
+    <tspan
+       id="tspan3235-3"
+       style="font-size:16px">DSPmemory</tspan>
+  </text>
+  <text
+     x="383.99103"
+     y="131.4084"
+     style="font-size:12px;font-family:Dialog"
+     id="text3651-6">
+    <tspan
+       id="tspan3243-5"
+       style="font-size:16px">DSP</tspan>
+  </text>
+  <text
+     x="230.36079"
+     y="109.36241"
+     style="font-size:12px;font-family:Dialog"
+     id="text3669-2">
+    <tspan
+       id="tspan3247-9"
+       style="font-size:16px">DSPcpu</tspan>
+  </text>
+</svg>

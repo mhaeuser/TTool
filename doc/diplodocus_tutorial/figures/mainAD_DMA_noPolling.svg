@@ -1,0 +1,76 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="588" height="417" viewbox="5 56 583 361">
+<line  x1="189" y1="85" x2="189" y2="124" stroke="#000000" stroke-width="1" fill="none"/>
+<polygon  points="189,124 184,115 193,115 " fill="#000000"/>
+<polygon  points="189,124 184,115 193,115 " fill="none" stroke="#000000" stroke-width="1"/>
+<line  x1="189" y1="169" x2="189" y2="215" stroke="#000000" stroke-width="1" fill="none"/>
+<polygon  points="189,215 184,206 193,206 " fill="#000000"/>
+<polygon  points="189,215 184,206 193,206 " fill="none" stroke="#000000" stroke-width="1"/>
+<line  x1="189" y1="245" x2="189" y2="294" stroke="#000000" stroke-width="1" fill="none"/>
+<polygon  points="189,294 184,285 193,285 " fill="#000000"/>
+<polygon  points="189,294 184,285 193,285 " fill="none" stroke="#000000" stroke-width="1"/>
+<line  x1="271" y1="234" x2="391" y2="234" stroke="#000000" stroke-width="1" fill="none"/>
+<line  x1="391" y1="234" x2="391" y2="295" stroke="#000000" stroke-width="1" fill="none"/>
+<polygon  points="391,295 386,286 395,286 " fill="#000000"/>
+<polygon  points="391,295 386,286 395,286 " fill="none" stroke="#000000" stroke-width="1"/>
+<line  x1="391" y1="340" x2="391" y2="387" stroke="#000000" stroke-width="1" fill="none"/>
+<polygon  points="391,387 386,378 395,378 " fill="#000000"/>
+<polygon  points="391,387 386,378 395,378 " fill="none" stroke="#000000" stroke-width="1"/>
+<line  x1="189" y1="339" x2="189" y2="369" stroke="#000000" stroke-width="1" fill="none"/>
+<polygon  points="189,369 184,360 193,360 " fill="#000000"/>
+<polygon  points="189,369 184,360 193,360 " fill="none" stroke="#000000" stroke-width="1"/>
+<ellipse  cx="189" cy="72" rx="7" ry="7" fill="#000000"/>
+<line  x1="189" y1="80" x2="189" y2="85" stroke="#000000" stroke-width="1" fill="none"/>
+<rect  x="128" y="130" width="124" height="35" fill="none" stroke="#68e5ff" stroke-width="1"/>
+<rect  x="127" y="129" width="124" height="35" fill="none" stroke="#000000" stroke-width="1"/>
+<line  x1="189" y1="129" x2="189" y2="124" stroke="#000000" stroke-width="1" fill="none"/>
+<line  x1="189" y1="164" x2="189" y2="169" stroke="#000000" stroke-width="1" fill="none"/>
+<text  x="132" y="159" style="font-size:12; font-family:SansSerif.plain; fill=#000000">ConfigureDMA_SD</text>
+<text  x="130" y="141" style="font-size:12; font-family:SansSerif.plain; fill=#000000">sd</text>
+<line  x1="127" y1="144" x2="142" y2="144" stroke="#000000" stroke-width="1" fill="none"/>
+<line  x1="152" y1="129" x2="152" y2="137" stroke="#000000" stroke-width="1" fill="none"/>
+<line  x1="142" y1="144" x2="152" y2="137" stroke="#000000" stroke-width="1" fill="none"/>
+<rect  x="128" y="300" width="124" height="35" fill="none" stroke="#68e5ff" stroke-width="1"/>
+<rect  x="127" y="299" width="124" height="35" fill="none" stroke="#000000" stroke-width="1"/>
+<line  x1="189" y1="299" x2="189" y2="294" stroke="#000000" stroke-width="1" fill="none"/>
+<line  x1="189" y1="334" x2="189" y2="339" stroke="#000000" stroke-width="1" fill="none"/>
+<text  x="132" y="329" style="font-size:12; font-family:SansSerif.plain; fill=#000000">TerminateDMA_SD</text>
+<text  x="130" y="311" style="font-size:12; font-family:SansSerif.plain; fill=#000000">sd</text>
+<line  x1="127" y1="314" x2="142" y2="314" stroke="#000000" stroke-width="1" fill="none"/>
+<line  x1="152" y1="299" x2="152" y2="307" stroke="#000000" stroke-width="1" fill="none"/>
+<line  x1="142" y1="314" x2="152" y2="307" stroke="#000000" stroke-width="1" fill="none"/>
+<rect  x="330" y="301" width="124" height="35" fill="none" stroke="#68e5ff" stroke-width="1"/>
+<rect  x="329" y="300" width="124" height="35" fill="none" stroke="#000000" stroke-width="1"/>
+<line  x1="391" y1="300" x2="391" y2="295" stroke="#000000" stroke-width="1" fill="none"/>
+<line  x1="391" y1="335" x2="391" y2="340" stroke="#000000" stroke-width="1" fill="none"/>
+<text  x="334" y="330" style="font-size:12; font-family:SansSerif.plain; fill=#000000">DMACycle_SD</text>
+<text  x="332" y="312" style="font-size:12; font-family:SansSerif.plain; fill=#000000">sd</text>
+<line  x1="329" y1="315" x2="344" y2="315" stroke="#000000" stroke-width="1" fill="none"/>
+<line  x1="354" y1="300" x2="354" y2="308" stroke="#000000" stroke-width="1" fill="none"/>
+<line  x1="344" y1="315" x2="354" y2="308" stroke="#000000" stroke-width="1" fill="none"/>
+<ellipse  cx="189" cy="384" rx="8" ry="8" fill="#000000"/>
+<ellipse  cx="189" cy="384" rx="10" ry="10" fill="none" stroke="#000000" stroke-width="1"/>
+<line  x1="189" y1="374" x2="189" y2="369" stroke="#000000" stroke-width="1" fill="none"/>
+<line  x1="270" y1="67" x2="583" y2="67" stroke="#000000" stroke-width="1" fill="none"/>
+<line  x1="270" y1="67" x2="270" y2="142" stroke="#000000" stroke-width="1" fill="none"/>
+<line  x1="270" y1="142" x2="568" y2="142" stroke="#000000" stroke-width="1" fill="none"/>
+<line  x1="583" y1="67" x2="583" y2="127" stroke="#000000" stroke-width="1" fill="none"/>
+<polygon  points="271,68 583,68 583,127 568,142 271,142 " fill="#adbeea"/>
+<polygon  points="583,127 579,130 573,129 568,142 " fill="none" stroke="#000000" stroke-width="1"/>
+<polygon  points="583,127 579,130 573,129 568,142 " fill="#495a86"/>
+<text  x="271" y="81" style="font-size:12; font-family:SansSerif.plain; fill=#000000">Some parameters are mapping dependent:</text>
+<text  x="271" y="93" style="font-size:12; font-family:SansSerif.plain; fill=#000000">- counter (depends on the application)</text>
+<text  x="271" y="105" style="font-size:12; font-family:SansSerif.plain; fill=#000000">- the source and destination addresses</text>
+<text  x="271" y="117" style="font-size:12; font-family:SansSerif.plain; fill=#000000"></text>
+<text  x="271" y="129" style="font-size:12; font-family:SansSerif.plain; fill=#000000">This model supposes that the DMA informs the</text>
+<text  x="271" y="141" style="font-size:12; font-family:SansSerif.plain; fill=#000000">CPU via interrupts (no polling messages)</text>
+<rect  x="107" y="220" width="164" height="20" rx="5" ry="5" fill="none" stroke="#000000" stroke-width="1"/>
+<line  x1="189" y1="220" x2="189" y2="215" stroke="#000000" stroke-width="1" fill="none"/>
+<line  x1="189" y1="240" x2="189" y2="245" stroke="#000000" stroke-width="1" fill="none"/>
+<line  x1="271" y1="230" x2="276" y2="230" stroke="#000000" stroke-width="1" fill="none"/>
+<text  x="112" y="235" style="font-size:12; font-family:SansSerif.plain; fill=#000000">for(i=counter;i&gt;0;i = i-1)</text>
+<ellipse  cx="391" cy="402" rx="8" ry="8" fill="#000000"/>
+<ellipse  cx="391" cy="402" rx="10" ry="10" fill="none" stroke="#000000" stroke-width="1"/>
+<line  x1="391" y1="392" x2="391" y2="387" stroke="#000000" stroke-width="1" fill="none"/>
+</svg>

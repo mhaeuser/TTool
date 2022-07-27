@@ -1,0 +1,21 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="931" height="561" viewbox="5 6 926 555">
+<line  x1="63" y1="96" x2="471" y2="96" stroke="#000000" stroke-width="1" fill="none"/>
+<line  x1="471" y1="96" x2="462" y2="100" stroke="#000000" stroke-width="1" fill="none"/>
+<line  x1="471" y1="96" x2="462" y2="91" stroke="#000000" stroke-width="1" fill="none"/>
+<text  x="70" y="91" style="font-size:12; font-family:SansSerif.plain; fill=#000000">TransferRequest(counter, sourceAddress, destinationAddress)</text>
+<line  x1="471" y1="126" x2="872" y2="126" stroke="#000000" stroke-width="1" fill="none"/>
+<line  x1="872" y1="126" x2="863" y2="130" stroke="#000000" stroke-width="1" fill="none"/>
+<line  x1="872" y1="126" x2="863" y2="121" stroke="#000000" stroke-width="1" fill="none"/>
+<text  x="474" y="121" style="font-size:12; font-family:SansSerif.plain; fill=#000000">TransferRequest(counter, sourceAddress, destinationAddress)</text>
+<text  x="10" y="53" style="font-size:12; font-family:SansSerif.plain; fill=#000000">CPU_Controller_1</text>
+<line  x1="10" y1="54" x2="116" y2="54" stroke="#000000" stroke-width="1" fill="none"/>
+<line  x1="63" y1="56" x2="63" y2="556" stroke="#000000" stroke-width="1" fill="none"/>
+<text  x="818" y="53" style="font-size:12; font-family:SansSerif.plain; fill=#000000">DMA_Controller_1</text>
+<line  x1="818" y1="54" x2="926" y2="54" stroke="#000000" stroke-width="1" fill="none"/>
+<line  x1="872" y1="56" x2="872" y2="556" stroke="#000000" stroke-width="1" fill="none"/>
+<text  x="408" y="53" style="font-size:12; font-family:SansSerif.plain; fill=#000000">Transfer_Instance_1</text>
+<line  x1="408" y1="54" x2="534" y2="54" stroke="#000000" stroke-width="1" fill="none"/>
+<line  x1="471" y1="56" x2="471" y2="556" stroke="#000000" stroke-width="1" fill="none"/>
+</svg>

@@ -1,0 +1,33 @@
+\begin{picture}(0,0)%
+\includegraphics{figures/EMBB_interleaver.pdf}%
+\end{picture}%
+\setlength{\unitlength}{4144sp}%
+%
+\begingroup\makeatletter\ifx\SetFigFont\undefined%
+\gdef\SetFigFont#1#2#3#4#5{%
+  \reset@font\fontsize{#1}{#2pt}%
+  \fontfamily{#3}\fontseries{#4}\fontshape{#5}%
+  \selectfont}%
+\fi\endgroup%
+\begin{picture}(6512,3495)(1201,-2641)
+\put(4186,-916){\makebox(0,0)[lb]{\smash{{\SetFigFont{12}{14.4}{\sfdefault}{\mddefault}{\updefault}{\color[rgb]{0,0,0}x..x}%
+}}}}
+\put(6346,-691){\makebox(0,0)[lb]{\smash{{\SetFigFont{10}{12.0}{\sfdefault}{\mddefault}{\updefault}{\color[rgb]{0,0,0}0..00}%
+}}}}
+\put(2251,-106){\makebox(0,0)[lb]{\smash{{\SetFigFont{12}{14.4}{\rmdefault}{\mddefault}{\updefault}{\color[rgb]{0,0,0}$\pi\_s1(i)$}%
+}}}}
+\put(2206,-601){\makebox(0,0)[lb]{\smash{{\SetFigFont{12}{14.4}{\rmdefault}{\mddefault}{\updefault}{\color[rgb]{0,0,0}$\pi\_s2(j)$}%
+}}}}
+\put(1711,-1996){\makebox(0,0)[lb]{\smash{{\SetFigFont{12}{14.4}{\rmdefault}{\mddefault}{\updefault}{\color[rgb]{0,0,0}$h$}%
+}}}}
+\put(1711,-646){\makebox(0,0)[lb]{\smash{{\SetFigFont{12}{14.4}{\rmdefault}{\mddefault}{\updefault}{\color[rgb]{0,0,0}$j$}%
+}}}}
+\put(1711,-106){\makebox(0,0)[lb]{\smash{{\SetFigFont{12}{14.4}{\rmdefault}{\mddefault}{\updefault}{\color[rgb]{0,0,0}$i$}%
+}}}}
+\put(5941,-106){\makebox(0,0)[lb]{\smash{{\SetFigFont{12}{14.4}{\rmdefault}{\mddefault}{\updefault}{\color[rgb]{0,0,0}$i$}%
+}}}}
+\put(5941,-646){\makebox(0,0)[lb]{\smash{{\SetFigFont{12}{14.4}{\rmdefault}{\mddefault}{\updefault}{\color[rgb]{0,0,0}$j$}%
+}}}}
+\put(2206,-1996){\makebox(0,0)[lb]{\smash{{\SetFigFont{12}{14.4}{\rmdefault}{\mddefault}{\updefault}{\color[rgb]{0,0,0}$\pi\_s3(h)$}%
+}}}}
+\end{picture}%

@@ -1,0 +1,3365 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   version="1.1"
+   id="svg2"
+   inkscape:version="0.48.4 r9939"
+   width="3150"
+   height="950"
+   sodipodi:docname="ZigbeeTX.svg">
+  <metadata
+     id="metadata1398">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs1396" />
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="1366"
+     inkscape:window-height="709"
+     id="namedview1394"
+     showgrid="false"
+     inkscape:zoom="0.89702958"
+     inkscape:cx="2528.4738"
+     inkscape:cy="418.5274"
+     inkscape:window-x="0"
+     inkscape:window-y="27"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg2" />
+  <rect
+     x="1622"
+     y="362.0043"
+     width="250"
+     height="323"
+     id="rect60"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <rect
+     x="1623"
+     y="363.0043"
+     width="248"
+     height="321"
+     id="rect62"
+     style="fill:#fbfcc8" />
+  <text
+     x="1696"
+     y="393.8512"
+     style="font-size:20px;font-family:Dialog"
+     id="text64">
+    <tspan
+       style="font-size:24px"
+       id="tspan3559">TX_Fork</tspan>
+  </text>
+  <rect
+     x="1859"
+     y="482.0043"
+     width="26"
+     height="26"
+     id="rect66"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <rect
+     x="1860"
+     y="483.0043"
+     width="24"
+     height="24"
+     id="rect68"
+     style="fill:#68e5ff" />
+  <polygon
+     points="1859,419 1885,419 "
+     id="polygon70"
+     style="fill:none;stroke:#000000;stroke-width:1"
+     transform="translate(0,76.004292)" />
+  <rect
+     x="1859"
+     y="632.00427"
+     width="26"
+     height="26"
+     id="rect72"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <rect
+     x="1860"
+     y="633.00427"
+     width="24"
+     height="24"
+     id="rect74"
+     style="fill:#d8bbf9" />
+  <polygon
+     points="1859,569 1885,569 "
+     id="polygon76"
+     style="fill:none;stroke:#000000;stroke-width:1"
+     transform="translate(0,76.004292)" />
+  <rect
+     x="1859"
+     y="566.00427"
+     width="26"
+     height="26"
+     id="rect78"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <rect
+     x="1860"
+     y="567.00427"
+     width="24"
+     height="24"
+     id="rect80"
+     style="fill:#d8bbf9" />
+  <polygon
+     points="1859,503 1885,503 "
+     id="polygon82"
+     style="fill:none;stroke:#000000;stroke-width:1"
+     transform="translate(0,76.004292)" />
+  <rect
+     x="1859"
+     y="427.0043"
+     width="26"
+     height="26"
+     id="rect84"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <rect
+     x="1860"
+     y="428.0043"
+     width="24"
+     height="24"
+     id="rect86"
+     style="fill:#68e5ff" />
+  <polygon
+     points="1859,364 1885,364 "
+     id="polygon88"
+     style="fill:none;stroke:#000000;stroke-width:1"
+     transform="translate(0,76.004292)" />
+  <rect
+     x="1671"
+     y="410.0043"
+     width="135"
+     height="101"
+     id="rect90"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <rect
+     x="1672"
+     y="411.0043"
+     width="133"
+     height="99"
+     id="rect92"
+     style="fill:#c9f3b2" />
+  <text
+     x="1703.4978"
+     y="467.38223"
+     style="font-size:14px;font-family:Dialog"
+     id="text94">X_TXChFork</text>
+  <rect
+     x="1658"
+     y="449.0043"
+     width="25"
+     height="25"
+     id="rect98"
+     style="fill:#68e5ff" />
+  <rect
+     x="1658"
+     y="449.0043"
+     width="26"
+     height="26"
+     id="rect100"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <polygon
+     points="1661,396 1681,386 1661,376 "
+     id="polygon102"
+     style="fill:none;stroke:#000000;stroke-width:1"
+     transform="translate(0,76.004292)" />
+  <polygon
+     points="1661,396 1681,386 1661,376 "
+     id="polygon104"
+     style="fill:#000000"
+     transform="translate(0,76.004292)" />
+  <line
+     x1="1681"
+     y1="472.0043"
+     x2="1681"
+     y2="452.0043"
+     id="line106"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <rect
+     x="1793"
+     y="427.0043"
+     width="25"
+     height="25"
+     id="rect110"
+     style="fill:#68e5ff" />
+  <rect
+     x="1793"
+     y="427.0043"
+     width="26"
+     height="26"
+     id="rect112"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <polygon
+     points="1796,374 1816,364 1796,354 "
+     id="polygon114"
+     style="fill:none;stroke:#000000;stroke-width:1"
+     transform="translate(0,76.004292)" />
+  <polygon
+     points="1796,374 1816,364 1796,354 "
+     id="polygon116"
+     style="fill:#000000"
+     transform="translate(0,76.004292)" />
+  <rect
+     x="1793"
+     y="482.0043"
+     width="25"
+     height="25"
+     id="rect120"
+     style="fill:#68e5ff" />
+  <rect
+     x="1793"
+     y="482.0043"
+     width="26"
+     height="26"
+     id="rect122"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <polygon
+     points="1796,429 1816,419 1796,409 "
+     id="polygon124"
+     style="fill:none;stroke:#000000;stroke-width:1"
+     transform="translate(0,76.004292)" />
+  <polygon
+     points="1796,429 1816,419 1796,409 "
+     id="polygon126"
+     style="fill:#000000"
+     transform="translate(0,76.004292)" />
+  <rect
+     x="1688"
+     y="498.0043"
+     width="25"
+     height="25"
+     id="rect130"
+     style="fill:#c4a67a" />
+  <rect
+     x="1688"
+     y="498.0043"
+     width="26"
+     height="26"
+     id="rect132"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <polygon
+     points="1711,445 1701,425 1691,445 "
+     id="polygon134"
+     style="fill:none;stroke:#000000;stroke-width:1"
+     transform="translate(0,76.004292)" />
+  <polygon
+     points="1711,445 1701,425 1691,445 "
+     id="polygon136"
+     style="fill:#000000"
+     transform="translate(0,76.004292)" />
+  <line
+     x1="1711"
+     y1="501.0043"
+     x2="1691"
+     y2="501.0043"
+     id="line138"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <rect
+     x="1683"
+     y="562.00427"
+     width="135"
+     height="101"
+     id="rect142"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <rect
+     x="1684"
+     y="563.00427"
+     width="133"
+     height="99"
+     id="rect144"
+     style="fill:#c9f3b2" />
+  <text
+     x="1712.4799"
+     y="618.59393"
+     style="font-size:14px;font-family:Dialog"
+     id="text146">F_TXEvtFork</text>
+  <rect
+     x="1670"
+     y="601.00427"
+     width="25"
+     height="25"
+     id="rect150"
+     style="fill:#d8bbf9" />
+  <rect
+     x="1670"
+     y="601.00427"
+     width="26"
+     height="26"
+     id="rect152"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <polygon
+     points="1673,548 1693,538 1673,528 "
+     id="polygon154"
+     style="fill:none;stroke:#000000;stroke-width:1"
+     transform="translate(0,76.004292)" />
+  <polygon
+     points="1673,548 1693,538 1673,528 "
+     id="polygon156"
+     style="fill:#000000"
+     transform="translate(0,76.004292)" />
+  <line
+     x1="1693"
+     y1="624.00427"
+     x2="1693"
+     y2="604.00427"
+     id="line158"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <rect
+     x="1805"
+     y="632.00427"
+     width="25"
+     height="25"
+     id="rect162"
+     style="fill:#d8bbf9" />
+  <rect
+     x="1805"
+     y="632.00427"
+     width="26"
+     height="26"
+     id="rect164"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <polygon
+     points="1808,579 1828,569 1808,559 "
+     id="polygon166"
+     style="fill:none;stroke:#000000;stroke-width:1"
+     transform="translate(0,76.004292)" />
+  <polygon
+     points="1808,579 1828,569 1808,559 "
+     id="polygon168"
+     style="fill:#000000"
+     transform="translate(0,76.004292)" />
+  <rect
+     x="1805"
+     y="566.00427"
+     width="25"
+     height="25"
+     id="rect172"
+     style="fill:#d8bbf9" />
+  <rect
+     x="1805"
+     y="566.00427"
+     width="26"
+     height="26"
+     id="rect174"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <polygon
+     points="1808,513 1828,503 1808,493 "
+     id="polygon176"
+     style="fill:none;stroke:#000000;stroke-width:1"
+     transform="translate(0,76.004292)" />
+  <polygon
+     points="1808,513 1828,503 1808,493 "
+     id="polygon178"
+     style="fill:#000000"
+     transform="translate(0,76.004292)" />
+  <rect
+     x="1738"
+     y="549.00427"
+     width="25"
+     height="25"
+     id="rect182"
+     style="fill:#c4a67a" />
+  <rect
+     x="1738"
+     y="549.00427"
+     width="26"
+     height="26"
+     id="rect184"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <polygon
+     points="1761,496 1751,476 1741,496 "
+     id="polygon186"
+     style="fill:none;stroke:#000000;stroke-width:1"
+     transform="translate(0,76.004292)" />
+  <polygon
+     points="1761,496 1751,476 1741,496 "
+     id="polygon188"
+     style="fill:#000000"
+     transform="translate(0,76.004292)" />
+  <rect
+     x="1609"
+     y="595.00427"
+     width="26"
+     height="26"
+     id="rect192"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <rect
+     x="1610"
+     y="596.00427"
+     width="24"
+     height="24"
+     id="rect194"
+     style="fill:#d8bbf9" />
+  <polygon
+     points="1609,532 1635,532 "
+     id="polygon196"
+     style="fill:none;stroke:#000000;stroke-width:1"
+     transform="translate(0,76.004292)" />
+  <rect
+     x="1609"
+     y="441.0043"
+     width="26"
+     height="26"
+     id="rect198"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <rect
+     x="1610"
+     y="442.0043"
+     width="24"
+     height="24"
+     id="rect200"
+     style="fill:#68e5ff" />
+  <polygon
+     points="1609,378 1635,378 "
+     id="polygon202"
+     style="fill:none;stroke:#000000;stroke-width:1"
+     transform="translate(0,76.004292)" />
+  <rect
+     x="2498"
+     y="360.0043"
+     width="250"
+     height="323"
+     id="rect204"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <rect
+     x="2499"
+     y="361.0043"
+     width="248"
+     height="321"
+     id="rect206"
+     style="fill:#fbfcc8" />
+  <text
+     x="2580"
+     y="395.0043"
+     style="font-size:20px;font-family:Dialog"
+     id="text208">
+    <tspan
+       style="font-size:24px"
+       id="tspan3565">TX_Join</tspan>
+  </text>
+  <rect
+     x="2485"
+     y="559.00427"
+     width="26"
+     height="26"
+     id="rect210"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <rect
+     x="2486"
+     y="560.00427"
+     width="24"
+     height="24"
+     id="rect212"
+     style="fill:#d8bbf9" />
+  <polygon
+     points="2485,496 2511,496 "
+     id="polygon214"
+     style="fill:none;stroke:#000000;stroke-width:1"
+     transform="translate(0,76.004292)" />
+  <rect
+     x="2485"
+     y="426.0043"
+     width="26"
+     height="26"
+     id="rect216"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <rect
+     x="2486"
+     y="427.0043"
+     width="24"
+     height="24"
+     id="rect218"
+     style="fill:#68e5ff" />
+  <polygon
+     points="2485,363 2511,363 "
+     id="polygon220"
+     style="fill:none;stroke:#000000;stroke-width:1"
+     transform="translate(0,76.004292)" />
+  <rect
+     x="2735"
+     y="447.0043"
+     width="26"
+     height="26"
+     id="rect222"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <rect
+     x="2736"
+     y="448.0043"
+     width="24"
+     height="24"
+     id="rect224"
+     style="fill:#68e5ff" />
+  <polygon
+     points="2735,384 2761,384 "
+     id="polygon226"
+     style="fill:none;stroke:#000000;stroke-width:1"
+     transform="translate(0,76.004292)" />
+  <rect
+     x="2735"
+     y="600.00427"
+     width="26"
+     height="26"
+     id="rect228"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <rect
+     x="2736"
+     y="601.00427"
+     width="24"
+     height="24"
+     id="rect230"
+     style="fill:#d8bbf9" />
+  <polygon
+     points="2735,537 2761,537 "
+     id="polygon232"
+     style="fill:none;stroke:#000000;stroke-width:1"
+     transform="translate(0,76.004292)" />
+  <rect
+     x="2557"
+     y="409.0043"
+     width="135"
+     height="101"
+     id="rect234"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <rect
+     x="2558"
+     y="410.0043"
+     width="133"
+     height="99"
+     id="rect236"
+     style="fill:#c9f3b2" />
+  <text
+     x="2584.5769"
+     y="464.80569"
+     style="font-size:14px;font-family:Dialog"
+     id="text238">X_TXChJoin</text>
+  <rect
+     x="2544"
+     y="472.0043"
+     width="25"
+     height="25"
+     id="rect242"
+     style="fill:#68e5ff" />
+  <rect
+     x="2544"
+     y="472.0043"
+     width="26"
+     height="26"
+     id="rect244"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <polygon
+     points="2547,419 2567,409 2547,399 "
+     id="polygon246"
+     style="fill:none;stroke:#000000;stroke-width:1"
+     transform="translate(0,76.004292)" />
+  <polygon
+     points="2547,419 2567,409 2547,399 "
+     id="polygon248"
+     style="fill:#000000"
+     transform="translate(0,76.004292)" />
+  <line
+     x1="2567"
+     y1="495.0043"
+     x2="2567"
+     y2="475.0043"
+     id="line250"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <rect
+     x="2574"
+     y="497.0043"
+     width="25"
+     height="25"
+     id="rect254"
+     style="fill:#c4a67a" />
+  <rect
+     x="2574"
+     y="497.0043"
+     width="26"
+     height="26"
+     id="rect256"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <polygon
+     points="2597,444 2587,424 2577,444 "
+     id="polygon258"
+     style="fill:none;stroke:#000000;stroke-width:1"
+     transform="translate(0,76.004292)" />
+  <polygon
+     points="2597,444 2587,424 2577,444 "
+     id="polygon260"
+     style="fill:#000000"
+     transform="translate(0,76.004292)" />
+  <line
+     x1="2597"
+     y1="500.0043"
+     x2="2577"
+     y2="500.0043"
+     id="line262"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <rect
+     x="2679"
+     y="447.0043"
+     width="25"
+     height="25"
+     id="rect266"
+     style="fill:#68e5ff" />
+  <rect
+     x="2679"
+     y="447.0043"
+     width="26"
+     height="26"
+     id="rect268"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <polygon
+     points="2682,394 2702,384 2682,374 "
+     id="polygon270"
+     style="fill:none;stroke:#000000;stroke-width:1"
+     transform="translate(0,76.004292)" />
+  <polygon
+     points="2682,394 2702,384 2682,374 "
+     id="polygon272"
+     style="fill:#000000"
+     transform="translate(0,76.004292)" />
+  <rect
+     x="2544"
+     y="426.0043"
+     width="25"
+     height="25"
+     id="rect276"
+     style="fill:#68e5ff" />
+  <rect
+     x="2544"
+     y="426.0043"
+     width="26"
+     height="26"
+     id="rect278"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <polygon
+     points="2547,373 2567,363 2547,353 "
+     id="polygon280"
+     style="fill:none;stroke:#000000;stroke-width:1"
+     transform="translate(0,76.004292)" />
+  <polygon
+     points="2547,373 2567,363 2547,353 "
+     id="polygon282"
+     style="fill:#000000"
+     transform="translate(0,76.004292)" />
+  <line
+     x1="2567"
+     y1="449.0043"
+     x2="2567"
+     y2="429.0043"
+     id="line284"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <rect
+     x="2485"
+     y="472.0043"
+     width="26"
+     height="26"
+     id="rect288"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <rect
+     x="2486"
+     y="473.0043"
+     width="24"
+     height="24"
+     id="rect290"
+     style="fill:#68e5ff" />
+  <polygon
+     points="2485,409 2511,409 "
+     id="polygon292"
+     style="fill:none;stroke:#000000;stroke-width:1"
+     transform="translate(0,76.004292)" />
+  <rect
+     x="2485"
+     y="627.00427"
+     width="26"
+     height="26"
+     id="rect294"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <rect
+     x="2486"
+     y="628.00427"
+     width="24"
+     height="24"
+     id="rect296"
+     style="fill:#d8bbf9" />
+  <polygon
+     points="2485,564 2511,564 "
+     id="polygon298"
+     style="fill:none;stroke:#000000;stroke-width:1"
+     transform="translate(0,76.004292)" />
+  <rect
+     x="2559"
+     y="560.00427"
+     width="135"
+     height="101"
+     id="rect300"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <rect
+     x="2560"
+     y="561.00427"
+     width="133"
+     height="99"
+     id="rect302"
+     style="fill:#c9f3b2" />
+  <text
+     x="2583.4238"
+     y="614.5556"
+     style="font-size:14px;font-family:Dialog"
+     id="text304">F_TXEvtJoin</text>
+  <rect
+     x="2546"
+     y="627.00427"
+     width="25"
+     height="25"
+     id="rect308"
+     style="fill:#d8bbf9" />
+  <rect
+     x="2546"
+     y="627.00427"
+     width="26"
+     height="26"
+     id="rect310"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <polygon
+     points="2549,574 2569,564 2549,554 "
+     id="polygon312"
+     style="fill:none;stroke:#000000;stroke-width:1"
+     transform="translate(0,76.004292)" />
+  <polygon
+     points="2549,574 2569,564 2549,554 "
+     id="polygon314"
+     style="fill:#000000"
+     transform="translate(0,76.004292)" />
+  <line
+     x1="2569"
+     y1="650.00427"
+     x2="2569"
+     y2="630.00427"
+     id="line316"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <rect
+     x="2614"
+     y="547.00427"
+     width="25"
+     height="25"
+     id="rect320"
+     style="fill:#c4a67a" />
+  <rect
+     x="2614"
+     y="547.00427"
+     width="26"
+     height="26"
+     id="rect322"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <polygon
+     points="2637,494 2627,474 2617,494 "
+     id="polygon324"
+     style="fill:none;stroke:#000000;stroke-width:1"
+     transform="translate(0,76.004292)" />
+  <polygon
+     points="2637,494 2627,474 2617,494 "
+     id="polygon326"
+     style="fill:#000000"
+     transform="translate(0,76.004292)" />
+  <rect
+     x="2546"
+     y="559.00427"
+     width="25"
+     height="25"
+     id="rect330"
+     style="fill:#d8bbf9" />
+  <rect
+     x="2546"
+     y="559.00427"
+     width="26"
+     height="26"
+     id="rect332"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <polygon
+     points="2549,506 2569,496 2549,486 "
+     id="polygon334"
+     style="fill:none;stroke:#000000;stroke-width:1"
+     transform="translate(0,76.004292)" />
+  <polygon
+     points="2549,506 2569,496 2549,486 "
+     id="polygon336"
+     style="fill:#000000"
+     transform="translate(0,76.004292)" />
+  <line
+     x1="2569"
+     y1="582.00427"
+     x2="2569"
+     y2="562.00427"
+     id="line338"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <rect
+     x="2681"
+     y="600.00427"
+     width="25"
+     height="25"
+     id="rect342"
+     style="fill:#d8bbf9" />
+  <rect
+     x="2681"
+     y="600.00427"
+     width="26"
+     height="26"
+     id="rect344"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <polygon
+     points="2684,547 2704,537 2684,527 "
+     id="polygon346"
+     style="fill:none;stroke:#000000;stroke-width:1"
+     transform="translate(0,76.004292)" />
+  <polygon
+     points="2684,547 2704,537 2684,527 "
+     id="polygon348"
+     style="fill:#000000"
+     transform="translate(0,76.004292)" />
+  <rect
+     x="1975"
+     y="99.004288"
+     width="290"
+     height="320"
+     id="rect352"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <rect
+     x="1976"
+     y="100.00429"
+     width="288"
+     height="318"
+     id="rect354"
+     style="fill:#fbfcc8" />
+  <text
+     x="2058.4233"
+     y="130.06291"
+     style="font-size:20px;font-family:Dialog"
+     id="text356">
+    <tspan
+       style="font-size:24px"
+       id="tspan3563">TX_CWP_I</tspan>
+  </text>
+  <rect
+     x="2040"
+     y="299.0043"
+     width="157"
+     height="113"
+     id="rect358"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <rect
+     x="2041"
+     y="300.0043"
+     width="155"
+     height="111"
+     id="rect360"
+     style="fill:#c9f3b2" />
+  <text
+     x="2078.0718"
+     y="361.11188"
+     style="font-size:14px;font-family:Dialog"
+     id="text362">F_TXCWP_I</text>
+  <rect
+     x="2157"
+     y="286.0043"
+     width="25"
+     height="25"
+     id="rect370"
+     style="fill:#c4a67a" />
+  <rect
+     x="2157"
+     y="286.0043"
+     width="26"
+     height="26"
+     id="rect372"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <polygon
+     points="2180,233 2170,213 2160,233 "
+     id="polygon374"
+     style="fill:none;stroke:#000000;stroke-width:1"
+     transform="translate(0,76.004292)" />
+  <polygon
+     points="2180,233 2170,213 2160,233 "
+     id="polygon376"
+     style="fill:#000000"
+     transform="translate(0,76.004292)" />
+  <rect
+     x="2027"
+     y="324.0043"
+     width="25"
+     height="25"
+     id="rect380"
+     style="fill:#d8bbf9" />
+  <rect
+     x="2027"
+     y="324.0043"
+     width="26"
+     height="26"
+     id="rect382"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <polygon
+     points="2030,271 2050,261 2030,251 "
+     id="polygon384"
+     style="fill:none;stroke:#000000;stroke-width:1"
+     transform="translate(0,76.004292)" />
+  <polygon
+     points="2030,271 2050,261 2030,251 "
+     id="polygon386"
+     style="fill:#000000"
+     transform="translate(0,76.004292)" />
+  <line
+     x1="2050"
+     y1="347.0043"
+     x2="2050"
+     y2="327.0043"
+     id="line388"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <rect
+     x="2184"
+     y="349.0043"
+     width="25"
+     height="25"
+     id="rect392"
+     style="fill:#d8bbf9" />
+  <rect
+     x="2184"
+     y="349.0043"
+     width="26"
+     height="26"
+     id="rect394"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <polygon
+     points="2187,296 2207,286 2187,276 "
+     id="polygon396"
+     style="fill:none;stroke:#000000;stroke-width:1"
+     transform="translate(0,76.004292)" />
+  <polygon
+     points="2187,296 2207,286 2187,276 "
+     id="polygon398"
+     style="fill:#000000"
+     transform="translate(0,76.004292)" />
+  <rect
+     x="2039"
+     y="144.00429"
+     width="151"
+     height="110"
+     id="rect402"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <rect
+     x="2040"
+     y="145.00429"
+     width="149"
+     height="108"
+     id="rect404"
+     style="fill:#c9f3b2" />
+  <text
+     x="2069.189"
+     y="200.59395"
+     style="font-size:14px;font-family:Dialog"
+     id="text406">X_TXCWP_I</text>
+  <rect
+     x="2067"
+     y="241.00429"
+     width="25"
+     height="25"
+     id="rect414"
+     style="fill:#c4a67a" />
+  <rect
+     x="2067"
+     y="241.00429"
+     width="26"
+     height="26"
+     id="rect416"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <polygon
+     points="2090,188 2080,168 2070,188 "
+     id="polygon418"
+     style="fill:none;stroke:#000000;stroke-width:1"
+     transform="translate(0,76.004292)" />
+  <polygon
+     points="2090,188 2080,168 2070,188 "
+     id="polygon420"
+     style="fill:#000000"
+     transform="translate(0,76.004292)" />
+  <line
+     x1="2090"
+     y1="244.00429"
+     x2="2070"
+     y2="244.00429"
+     id="line422"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <rect
+     x="2026"
+     y="181.00429"
+     width="25"
+     height="25"
+     id="rect426"
+     style="fill:#68e5ff" />
+  <rect
+     x="2026"
+     y="181.00429"
+     width="26"
+     height="26"
+     id="rect428"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <polygon
+     points="2029,128 2049,118 2029,108 "
+     id="polygon430"
+     style="fill:none;stroke:#000000;stroke-width:1"
+     transform="translate(0,76.004292)" />
+  <polygon
+     points="2029,128 2049,118 2029,108 "
+     id="polygon432"
+     style="fill:#000000"
+     transform="translate(0,76.004292)" />
+  <line
+     x1="2049"
+     y1="204.00429"
+     x2="2049"
+     y2="184.00429"
+     id="line434"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <rect
+     x="2177"
+     y="187.00429"
+     width="25"
+     height="25"
+     id="rect438"
+     style="fill:#68e5ff" />
+  <rect
+     x="2177"
+     y="187.00429"
+     width="26"
+     height="26"
+     id="rect440"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <polygon
+     points="2180,134 2200,124 2180,114 "
+     id="polygon442"
+     style="fill:none;stroke:#000000;stroke-width:1"
+     transform="translate(0,76.004292)" />
+  <polygon
+     points="2180,134 2200,124 2180,114 "
+     id="polygon444"
+     style="fill:#000000"
+     transform="translate(0,76.004292)" />
+  <rect
+     x="1962"
+     y="324.0043"
+     width="26"
+     height="26"
+     id="rect448"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <rect
+     x="1963"
+     y="325.0043"
+     width="24"
+     height="24"
+     id="rect450"
+     style="fill:#d8bbf9" />
+  <polygon
+     points="1962,261 1988,261 "
+     id="polygon452"
+     style="fill:none;stroke:#000000;stroke-width:1"
+     transform="translate(0,76.004292)" />
+  <rect
+     x="1962"
+     y="181.00429"
+     width="26"
+     height="26"
+     id="rect454"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <rect
+     x="1963"
+     y="182.00429"
+     width="24"
+     height="24"
+     id="rect456"
+     style="fill:#68e5ff" />
+  <polygon
+     points="1962,118 1988,118 "
+     id="polygon458"
+     style="fill:none;stroke:#000000;stroke-width:1"
+     transform="translate(0,76.004292)" />
+  <rect
+     x="2252"
+     y="349.0043"
+     width="26"
+     height="26"
+     id="rect460"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <rect
+     x="2253"
+     y="350.0043"
+     width="24"
+     height="24"
+     id="rect462"
+     style="fill:#d8bbf9" />
+  <polygon
+     points="2252,286 2278,286 "
+     id="polygon464"
+     style="fill:none;stroke:#000000;stroke-width:1"
+     transform="translate(0,76.004292)" />
+  <rect
+     x="2252"
+     y="187.00429"
+     width="26"
+     height="26"
+     id="rect466"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <rect
+     x="2253"
+     y="188.00429"
+     width="24"
+     height="24"
+     id="rect468"
+     style="fill:#68e5ff" />
+  <polygon
+     points="2252,124 2278,124 "
+     id="polygon470"
+     style="fill:none;stroke:#000000;stroke-width:1"
+     transform="translate(0,76.004292)" />
+  <rect
+     x="2020"
+     y="605.00427"
+     width="290"
+     height="320"
+     id="rect472"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <rect
+     x="2021"
+     y="606.00427"
+     width="288"
+     height="318"
+     id="rect474"
+     style="fill:#fbfcc8" />
+  <text
+     x="2097"
+     y="640.00427"
+     style="font-size:20px;font-family:Dialog"
+     id="text476">
+    <tspan
+       style="font-size:24px"
+       id="tspan3561">TX_CWP_Q</tspan>
+  </text>
+  <rect
+     x="2092"
+     y="805.00427"
+     width="149"
+     height="108"
+     id="rect478"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <rect
+     x="2093"
+     y="806.00427"
+     width="147"
+     height="106"
+     id="rect480"
+     style="fill:#c9f3b2" />
+  <text
+     x="2123.7656"
+     y="863.95874"
+     style="font-size:14px;font-family:Dialog"
+     id="text482">F_TXCWP_Q</text>
+  <rect
+     x="2201"
+     y="792.00427"
+     width="25"
+     height="25"
+     id="rect490"
+     style="fill:#c4a67a" />
+  <rect
+     x="2201"
+     y="792.00427"
+     width="26"
+     height="26"
+     id="rect492"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <polygon
+     points="2224,739 2214,719 2204,739 "
+     id="polygon494"
+     style="fill:none;stroke:#000000;stroke-width:1"
+     transform="translate(0,76.004292)" />
+  <polygon
+     points="2224,739 2214,719 2204,739 "
+     id="polygon496"
+     style="fill:#000000"
+     transform="translate(0,76.004292)" />
+  <rect
+     x="2079"
+     y="846.00427"
+     width="25"
+     height="25"
+     id="rect500"
+     style="fill:#d8bbf9" />
+  <rect
+     x="2079"
+     y="846.00427"
+     width="26"
+     height="26"
+     id="rect502"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <polygon
+     points="2082,793 2102,783 2082,773 "
+     id="polygon504"
+     style="fill:none;stroke:#000000;stroke-width:1"
+     transform="translate(0,76.004292)" />
+  <polygon
+     points="2082,793 2102,783 2082,773 "
+     id="polygon506"
+     style="fill:#000000"
+     transform="translate(0,76.004292)" />
+  <line
+     x1="2102"
+     y1="869.00427"
+     x2="2102"
+     y2="849.00427"
+     id="line508"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <rect
+     x="2228"
+     y="850.00427"
+     width="25"
+     height="25"
+     id="rect512"
+     style="fill:#d8bbf9" />
+  <rect
+     x="2228"
+     y="850.00427"
+     width="26"
+     height="26"
+     id="rect514"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <polygon
+     points="2231,797 2251,787 2231,777 "
+     id="polygon516"
+     style="fill:none;stroke:#000000;stroke-width:1"
+     transform="translate(0,76.004292)" />
+  <polygon
+     points="2231,797 2251,787 2231,777 "
+     id="polygon518"
+     style="fill:#000000"
+     transform="translate(0,76.004292)" />
+  <rect
+     x="2090"
+     y="653.00427"
+     width="144"
+     height="107"
+     id="rect522"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <rect
+     x="2091"
+     y="654.00427"
+     width="142"
+     height="105"
+     id="rect524"
+     style="fill:#c9f3b2" />
+  <text
+     x="2118.6123"
+     y="713.53528"
+     style="font-size:14px;font-family:Dialog"
+     id="text526">X_TXCWP_Q</text>
+  <rect
+     x="2106"
+     y="747.00427"
+     width="25"
+     height="25"
+     id="rect534"
+     style="fill:#c4a67a" />
+  <rect
+     x="2106"
+     y="747.00427"
+     width="26"
+     height="26"
+     id="rect536"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <polygon
+     points="2129,694 2119,674 2109,694 "
+     id="polygon538"
+     style="fill:none;stroke:#000000;stroke-width:1"
+     transform="translate(0,76.004292)" />
+  <polygon
+     points="2129,694 2119,674 2109,694 "
+     id="polygon540"
+     style="fill:#000000"
+     transform="translate(0,76.004292)" />
+  <line
+     x1="2129"
+     y1="750.00427"
+     x2="2109"
+     y2="750.00427"
+     id="line542"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <rect
+     x="2077"
+     y="690.00427"
+     width="25"
+     height="25"
+     id="rect546"
+     style="fill:#68e5ff" />
+  <rect
+     x="2077"
+     y="690.00427"
+     width="26"
+     height="26"
+     id="rect548"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <polygon
+     points="2080,637 2100,627 2080,617 "
+     id="polygon550"
+     style="fill:none;stroke:#000000;stroke-width:1"
+     transform="translate(0,76.004292)" />
+  <polygon
+     points="2080,637 2100,627 2080,617 "
+     id="polygon552"
+     style="fill:#000000"
+     transform="translate(0,76.004292)" />
+  <line
+     x1="2100"
+     y1="713.00427"
+     x2="2100"
+     y2="693.00427"
+     id="line554"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <rect
+     x="2221"
+     y="695.00427"
+     width="25"
+     height="25"
+     id="rect558"
+     style="fill:#68e5ff" />
+  <rect
+     x="2221"
+     y="695.00427"
+     width="26"
+     height="26"
+     id="rect560"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <polygon
+     points="2224,642 2244,632 2224,622 "
+     id="polygon562"
+     style="fill:none;stroke:#000000;stroke-width:1"
+     transform="translate(0,76.004292)" />
+  <polygon
+     points="2224,642 2244,632 2224,622 "
+     id="polygon564"
+     style="fill:#000000"
+     transform="translate(0,76.004292)" />
+  <rect
+     x="2007"
+     y="846.00427"
+     width="26"
+     height="26"
+     id="rect568"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <rect
+     x="2008"
+     y="847.00427"
+     width="24"
+     height="24"
+     id="rect570"
+     style="fill:#d8bbf9" />
+  <polygon
+     points="2007,783 2033,783 "
+     id="polygon572"
+     style="fill:none;stroke:#000000;stroke-width:1"
+     transform="translate(0,76.004292)" />
+  <rect
+     x="2007"
+     y="690.00427"
+     width="26"
+     height="26"
+     id="rect574"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <rect
+     x="2008"
+     y="691.00427"
+     width="24"
+     height="24"
+     id="rect576"
+     style="fill:#68e5ff" />
+  <polygon
+     points="2007,627 2033,627 "
+     id="polygon578"
+     style="fill:none;stroke:#000000;stroke-width:1"
+     transform="translate(0,76.004292)" />
+  <rect
+     x="2297"
+     y="850.00427"
+     width="26"
+     height="26"
+     id="rect580"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <rect
+     x="2298"
+     y="851.00427"
+     width="24"
+     height="24"
+     id="rect582"
+     style="fill:#d8bbf9" />
+  <polygon
+     points="2297,787 2323,787 "
+     id="polygon584"
+     style="fill:none;stroke:#000000;stroke-width:1"
+     transform="translate(0,76.004292)" />
+  <rect
+     x="2297"
+     y="695.00427"
+     width="26"
+     height="26"
+     id="rect586"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <rect
+     x="2298"
+     y="696.00427"
+     width="24"
+     height="24"
+     id="rect588"
+     style="fill:#68e5ff" />
+  <polygon
+     points="2297,632 2323,632 "
+     id="polygon590"
+     style="fill:none;stroke:#000000;stroke-width:1"
+     transform="translate(0,76.004292)" />
+  <rect
+     x="2870"
+     y="359.0043"
+     width="257"
+     height="320"
+     id="rect592"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <rect
+     x="2871"
+     y="360.0043"
+     width="255"
+     height="318"
+     id="rect594"
+     style="fill:#fbfcc8" />
+  <text
+     x="2965.1304"
+     y="390.8512"
+     style="font-size:20px;font-family:Dialog"
+     id="text596">
+    <tspan
+       style="font-size:24px"
+       id="tspan3567">TX_sink</tspan>
+  </text>
+  <rect
+     x="2936"
+     y="558.00427"
+     width="157"
+     height="113"
+     id="rect598"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <rect
+     x="2937"
+     y="559.00427"
+     width="155"
+     height="111"
+     id="rect600"
+     style="fill:#c9f3b2" />
+  <text
+     x="2976.4365"
+     y="616.17047"
+     style="font-size:14px;font-family:Dialog"
+     id="text602">F_TXsink</text>
+  <rect
+     x="3054"
+     y="545.00427"
+     width="25"
+     height="25"
+     id="rect606"
+     style="fill:#c4a67a" />
+  <rect
+     x="3054"
+     y="545.00427"
+     width="26"
+     height="26"
+     id="rect608"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <polygon
+     points="3077,492 3067,472 3057,492 "
+     id="polygon610"
+     style="fill:none;stroke:#000000;stroke-width:1"
+     transform="translate(0,76.004292)" />
+  <polygon
+     points="3077,492 3067,472 3057,492 "
+     id="polygon612"
+     style="fill:#000000"
+     transform="translate(0,76.004292)" />
+  <rect
+     x="2923"
+     y="600.00427"
+     width="25"
+     height="25"
+     id="rect616"
+     style="fill:#d8bbf9" />
+  <rect
+     x="2923"
+     y="600.00427"
+     width="26"
+     height="26"
+     id="rect618"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <polygon
+     points="2926,547 2946,537 2926,527 "
+     id="polygon620"
+     style="fill:none;stroke:#000000;stroke-width:1"
+     transform="translate(0,76.004292)" />
+  <polygon
+     points="2926,547 2946,537 2926,527 "
+     id="polygon622"
+     style="fill:#000000"
+     transform="translate(0,76.004292)" />
+  <line
+     x1="2946"
+     y1="623.00427"
+     x2="2946"
+     y2="603.00427"
+     id="line624"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <rect
+     x="2936"
+     y="405.0043"
+     width="158"
+     height="109"
+     id="rect628"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <rect
+     x="2937"
+     y="406.0043"
+     width="156"
+     height="107"
+     id="rect630"
+     style="fill:#c9f3b2" />
+  <text
+     x="2972.4951"
+     y="463.9588"
+     style="font-size:14px;font-family:Dialog"
+     id="text632">X_TXsink</text>
+  <rect
+     x="2959"
+     y="501.0043"
+     width="25"
+     height="25"
+     id="rect636"
+     style="fill:#c4a67a" />
+  <rect
+     x="2959"
+     y="501.0043"
+     width="26"
+     height="26"
+     id="rect638"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <polygon
+     points="2982,448 2972,428 2962,448 "
+     id="polygon640"
+     style="fill:none;stroke:#000000;stroke-width:1"
+     transform="translate(0,76.004292)" />
+  <polygon
+     points="2982,448 2972,428 2962,448 "
+     id="polygon642"
+     style="fill:#000000"
+     transform="translate(0,76.004292)" />
+  <line
+     x1="2982"
+     y1="504.0043"
+     x2="2962"
+     y2="504.0043"
+     id="line644"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <rect
+     x="2923"
+     y="447.0043"
+     width="25"
+     height="25"
+     id="rect648"
+     style="fill:#68e5ff" />
+  <rect
+     x="2923"
+     y="447.0043"
+     width="26"
+     height="26"
+     id="rect650"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <polygon
+     points="2926,394 2946,384 2926,374 "
+     id="polygon652"
+     style="fill:none;stroke:#000000;stroke-width:1"
+     transform="translate(0,76.004292)" />
+  <polygon
+     points="2926,394 2946,384 2926,374 "
+     id="polygon654"
+     style="fill:#000000"
+     transform="translate(0,76.004292)" />
+  <line
+     x1="2946"
+     y1="470.0043"
+     x2="2946"
+     y2="450.0043"
+     id="line656"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <rect
+     x="2857"
+     y="600.00427"
+     width="26"
+     height="26"
+     id="rect660"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <rect
+     x="2858"
+     y="601.00427"
+     width="24"
+     height="24"
+     id="rect662"
+     style="fill:#d8bbf9" />
+  <polygon
+     points="2857,537 2883,537 "
+     id="polygon664"
+     style="fill:none;stroke:#000000;stroke-width:1"
+     transform="translate(0,76.004292)" />
+  <rect
+     x="2857"
+     y="447.0043"
+     width="26"
+     height="26"
+     id="rect666"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <rect
+     x="2858"
+     y="448.0043"
+     width="24"
+     height="24"
+     id="rect668"
+     style="fill:#68e5ff" />
+  <polygon
+     points="2857,384 2883,384 "
+     id="polygon670"
+     style="fill:none;stroke:#000000;stroke-width:1"
+     transform="translate(0,76.004292)" />
+  <rect
+     x="1254"
+     y="355.0043"
+     width="290"
+     height="320"
+     id="rect672"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <rect
+     x="1255"
+     y="356.0043"
+     width="288"
+     height="318"
+     id="rect674"
+     style="fill:#fbfcc8" />
+  <text
+     x="1347.2117"
+     y="386.8512"
+     style="font-size:20px;font-family:Dialog"
+     id="text676">
+    <tspan
+       style="font-size:24px"
+       id="tspan3557">TX_CWL</tspan>
+  </text>
+  <rect
+     x="1321"
+     y="546.00427"
+     width="157"
+     height="113"
+     id="rect678"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <rect
+     x="1322"
+     y="547.00427"
+     width="155"
+     height="111"
+     id="rect680"
+     style="fill:#c9f3b2" />
+  <text
+     x="1369.329"
+     y="610.67755"
+     style="font-size:14px;font-family:Dialog"
+     id="text682">F_TXCWL</text>
+  <rect
+     x="1442"
+     y="533.00427"
+     width="25"
+     height="25"
+     id="rect690"
+     style="fill:#c4a67a" />
+  <rect
+     x="1442"
+     y="533.00427"
+     width="26"
+     height="26"
+     id="rect692"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <polygon
+     points="1465,480 1455,460 1445,480 "
+     id="polygon694"
+     style="fill:none;stroke:#000000;stroke-width:1"
+     transform="translate(0,76.004292)" />
+  <polygon
+     points="1465,480 1455,460 1445,480 "
+     id="polygon696"
+     style="fill:#000000"
+     transform="translate(0,76.004292)" />
+  <rect
+     x="1465"
+     y="595.00427"
+     width="25"
+     height="25"
+     id="rect700"
+     style="fill:#d8bbf9" />
+  <rect
+     x="1465"
+     y="595.00427"
+     width="26"
+     height="26"
+     id="rect702"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <polygon
+     points="1468,542 1488,532 1468,522 "
+     id="polygon704"
+     style="fill:none;stroke:#000000;stroke-width:1"
+     transform="translate(0,76.004292)" />
+  <polygon
+     points="1468,542 1488,532 1468,522 "
+     id="polygon706"
+     style="fill:#000000"
+     transform="translate(0,76.004292)" />
+  <rect
+     x="1308"
+     y="595.00427"
+     width="25"
+     height="25"
+     id="rect710"
+     style="fill:#d8bbf9" />
+  <rect
+     x="1308"
+     y="595.00427"
+     width="26"
+     height="26"
+     id="rect712"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <polygon
+     points="1311,542 1331,532 1311,522 "
+     id="polygon714"
+     style="fill:none;stroke:#000000;stroke-width:1"
+     transform="translate(0,76.004292)" />
+  <polygon
+     points="1311,542 1331,532 1311,522 "
+     id="polygon716"
+     style="fill:#000000"
+     transform="translate(0,76.004292)" />
+  <line
+     x1="1331"
+     y1="618.00427"
+     x2="1331"
+     y2="598.00427"
+     id="line718"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <rect
+     x="1325"
+     y="403.0043"
+     width="145"
+     height="105"
+     id="rect722"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <rect
+     x="1326"
+     y="404.0043"
+     width="143"
+     height="103"
+     id="rect724"
+     style="fill:#c9f3b2" />
+  <text
+     x="1368.8698"
+     y="464.33322"
+     style="font-size:14px;font-family:Dialog"
+     id="text726">X_TXCWL</text>
+  <rect
+     x="1346"
+     y="495.0043"
+     width="25"
+     height="25"
+     id="rect734"
+     style="fill:#c4a67a" />
+  <rect
+     x="1346"
+     y="495.0043"
+     width="26"
+     height="26"
+     id="rect736"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <polygon
+     points="1369,442 1359,422 1349,442 "
+     id="polygon738"
+     style="fill:none;stroke:#000000;stroke-width:1"
+     transform="translate(0,76.004292)" />
+  <polygon
+     points="1369,442 1359,422 1349,442 "
+     id="polygon740"
+     style="fill:#000000"
+     transform="translate(0,76.004292)" />
+  <line
+     x1="1369"
+     y1="498.0043"
+     x2="1349"
+     y2="498.0043"
+     id="line742"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <rect
+     x="1457"
+     y="441.0043"
+     width="25"
+     height="25"
+     id="rect746"
+     style="fill:#68e5ff" />
+  <rect
+     x="1457"
+     y="441.0043"
+     width="26"
+     height="26"
+     id="rect748"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <polygon
+     points="1460,388 1480,378 1460,368 "
+     id="polygon750"
+     style="fill:none;stroke:#000000;stroke-width:1"
+     transform="translate(0,76.004292)" />
+  <polygon
+     points="1460,388 1480,378 1460,368 "
+     id="polygon752"
+     style="fill:#000000"
+     transform="translate(0,76.004292)" />
+  <rect
+     x="1312"
+     y="447.0043"
+     width="25"
+     height="25"
+     id="rect756"
+     style="fill:#68e5ff" />
+  <rect
+     x="1312"
+     y="447.0043"
+     width="26"
+     height="26"
+     id="rect758"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <polygon
+     points="1315,394 1335,384 1315,374 "
+     id="polygon760"
+     style="fill:none;stroke:#000000;stroke-width:1"
+     transform="translate(0,76.004292)" />
+  <polygon
+     points="1315,394 1335,384 1315,374 "
+     id="polygon762"
+     style="fill:#000000"
+     transform="translate(0,76.004292)" />
+  <line
+     x1="1335"
+     y1="470.0043"
+     x2="1335"
+     y2="450.0043"
+     id="line764"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <rect
+     x="1241"
+     y="595.00427"
+     width="26"
+     height="26"
+     id="rect768"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <rect
+     x="1242"
+     y="596.00427"
+     width="24"
+     height="24"
+     id="rect770"
+     style="fill:#d8bbf9" />
+  <polygon
+     points="1241,532 1267,532 "
+     id="polygon772"
+     style="fill:none;stroke:#000000;stroke-width:1"
+     transform="translate(0,76.004292)" />
+  <rect
+     x="1241"
+     y="447.0043"
+     width="26"
+     height="26"
+     id="rect774"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <rect
+     x="1242"
+     y="448.0043"
+     width="24"
+     height="24"
+     id="rect776"
+     style="fill:#68e5ff" />
+  <polygon
+     points="1241,384 1267,384 "
+     id="polygon778"
+     style="fill:none;stroke:#000000;stroke-width:1"
+     transform="translate(0,76.004292)" />
+  <rect
+     x="1531"
+     y="441.0043"
+     width="26"
+     height="26"
+     id="rect780"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <rect
+     x="1532"
+     y="442.0043"
+     width="24"
+     height="24"
+     id="rect782"
+     style="fill:#68e5ff" />
+  <polygon
+     points="1531,378 1557,378 "
+     id="polygon784"
+     style="fill:none;stroke:#000000;stroke-width:1"
+     transform="translate(0,76.004292)" />
+  <rect
+     x="1531"
+     y="595.00427"
+     width="26"
+     height="26"
+     id="rect786"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <rect
+     x="1532"
+     y="596.00427"
+     width="24"
+     height="24"
+     id="rect788"
+     style="fill:#d8bbf9" />
+  <polygon
+     points="1531,532 1557,532 "
+     id="polygon790"
+     style="fill:none;stroke:#000000;stroke-width:1"
+     transform="translate(0,76.004292)" />
+  <rect
+     x="840"
+     y="354.0043"
+     width="290"
+     height="320"
+     id="rect792"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <rect
+     x="841"
+     y="355.0043"
+     width="288"
+     height="318"
+     id="rect794"
+     style="fill:#fbfcc8" />
+  <text
+     x="885.48206"
+     y="385.8512"
+     style="font-size:20px;font-family:Dialog"
+     id="text796">
+    <tspan
+       style="font-size:24px"
+       id="tspan3555">TX_Chips2Octet</tspan>
+  </text>
+  <rect
+     x="907"
+     y="545.00427"
+     width="157"
+     height="113"
+     id="rect798"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <rect
+     x="908"
+     y="546.00427"
+     width="155"
+     height="111"
+     id="rect800"
+     style="fill:#c9f3b2" />
+  <text
+     x="930.09448"
+     y="605.32361"
+     style="font-size:13px;font-family:Dialog"
+     id="text802">F_TXChips2Octet</text>
+  <rect
+     x="1028"
+     y="532.00427"
+     width="25"
+     height="25"
+     id="rect810"
+     style="fill:#c4a67a" />
+  <rect
+     x="1028"
+     y="532.00427"
+     width="26"
+     height="26"
+     id="rect812"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <polygon
+     points="1051,479 1041,459 1031,479 "
+     id="polygon814"
+     style="fill:none;stroke:#000000;stroke-width:1"
+     transform="translate(0,76.004292)" />
+  <polygon
+     points="1051,479 1041,459 1031,479 "
+     id="polygon816"
+     style="fill:#000000"
+     transform="translate(0,76.004292)" />
+  <rect
+     x="894"
+     y="588.00427"
+     width="25"
+     height="25"
+     id="rect820"
+     style="fill:#d8bbf9" />
+  <rect
+     x="894"
+     y="588.00427"
+     width="26"
+     height="26"
+     id="rect822"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <polygon
+     points="897,535 917,525 897,515 "
+     id="polygon824"
+     style="fill:none;stroke:#000000;stroke-width:1"
+     transform="translate(0,76.004292)" />
+  <polygon
+     points="897,535 917,525 897,515 "
+     id="polygon826"
+     style="fill:#000000"
+     transform="translate(0,76.004292)" />
+  <line
+     x1="917"
+     y1="611.00427"
+     x2="917"
+     y2="591.00427"
+     id="line828"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <rect
+     x="1051"
+     y="595.00427"
+     width="25"
+     height="25"
+     id="rect832"
+     style="fill:#d8bbf9" />
+  <rect
+     x="1051"
+     y="595.00427"
+     width="26"
+     height="26"
+     id="rect834"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <polygon
+     points="1054,542 1074,532 1054,522 "
+     id="polygon836"
+     style="fill:none;stroke:#000000;stroke-width:1"
+     transform="translate(0,76.004292)" />
+  <polygon
+     points="1054,542 1074,532 1054,522 "
+     id="polygon838"
+     style="fill:#000000"
+     transform="translate(0,76.004292)" />
+  <rect
+     x="903"
+     y="400.0043"
+     width="158"
+     height="104"
+     id="rect842"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <rect
+     x="904"
+     y="401.0043"
+     width="156"
+     height="102"
+     id="rect844"
+     style="fill:#c9f3b2" />
+  <text
+     x="927.67102"
+     y="454.80569"
+     style="font-size:13px;font-family:Dialog"
+     id="text846">X_TXChips2Octet</text>
+  <rect
+     x="928"
+     y="491.0043"
+     width="25"
+     height="25"
+     id="rect854"
+     style="fill:#c4a67a" />
+  <rect
+     x="928"
+     y="491.0043"
+     width="26"
+     height="26"
+     id="rect856"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <polygon
+     points="951,438 941,418 931,438 "
+     id="polygon858"
+     style="fill:none;stroke:#000000;stroke-width:1"
+     transform="translate(0,76.004292)" />
+  <polygon
+     points="951,438 941,418 931,438 "
+     id="polygon860"
+     style="fill:#000000"
+     transform="translate(0,76.004292)" />
+  <line
+     x1="951"
+     y1="494.0043"
+     x2="931"
+     y2="494.0043"
+     id="line862"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <rect
+     x="890"
+     y="447.0043"
+     width="25"
+     height="25"
+     id="rect866"
+     style="fill:#68e5ff" />
+  <rect
+     x="890"
+     y="447.0043"
+     width="26"
+     height="26"
+     id="rect868"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <polygon
+     points="893,394 913,384 893,374 "
+     id="polygon870"
+     style="fill:none;stroke:#000000;stroke-width:1"
+     transform="translate(0,76.004292)" />
+  <polygon
+     points="893,394 913,384 893,374 "
+     id="polygon872"
+     style="fill:#000000"
+     transform="translate(0,76.004292)" />
+  <line
+     x1="913"
+     y1="470.0043"
+     x2="913"
+     y2="450.0043"
+     id="line874"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <rect
+     x="1048"
+     y="447.0043"
+     width="25"
+     height="25"
+     id="rect878"
+     style="fill:#68e5ff" />
+  <rect
+     x="1048"
+     y="447.0043"
+     width="26"
+     height="26"
+     id="rect880"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <polygon
+     points="1051,394 1071,384 1051,374 "
+     id="polygon882"
+     style="fill:none;stroke:#000000;stroke-width:1"
+     transform="translate(0,76.004292)" />
+  <polygon
+     points="1051,394 1071,384 1051,374 "
+     id="polygon884"
+     style="fill:#000000"
+     transform="translate(0,76.004292)" />
+  <rect
+     x="827"
+     y="447.0043"
+     width="26"
+     height="26"
+     id="rect888"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <rect
+     x="828"
+     y="448.0043"
+     width="24"
+     height="24"
+     id="rect890"
+     style="fill:#68e5ff" />
+  <polygon
+     points="827,384 853,384 "
+     id="polygon892"
+     style="fill:none;stroke:#000000;stroke-width:1"
+     transform="translate(0,76.004292)" />
+  <rect
+     x="827"
+     y="588.00427"
+     width="26"
+     height="26"
+     id="rect894"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <rect
+     x="828"
+     y="589.00427"
+     width="24"
+     height="24"
+     id="rect896"
+     style="fill:#d8bbf9" />
+  <polygon
+     points="827,525 853,525 "
+     id="polygon898"
+     style="fill:none;stroke:#000000;stroke-width:1"
+     transform="translate(0,76.004292)" />
+  <rect
+     x="1117"
+     y="447.0043"
+     width="26"
+     height="26"
+     id="rect900"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <rect
+     x="1118"
+     y="448.0043"
+     width="24"
+     height="24"
+     id="rect902"
+     style="fill:#68e5ff" />
+  <polygon
+     points="1117,384 1143,384 "
+     id="polygon904"
+     style="fill:none;stroke:#000000;stroke-width:1"
+     transform="translate(0,76.004292)" />
+  <rect
+     x="1117"
+     y="595.00427"
+     width="26"
+     height="26"
+     id="rect906"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <rect
+     x="1118"
+     y="596.00427"
+     width="24"
+     height="24"
+     id="rect908"
+     style="fill:#d8bbf9" />
+  <polygon
+     points="1117,532 1143,532 "
+     id="polygon910"
+     style="fill:none;stroke:#000000;stroke-width:1"
+     transform="translate(0,76.004292)" />
+  <rect
+     x="420"
+     y="349.0043"
+     width="290"
+     height="320"
+     id="rect912"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <rect
+     x="421"
+     y="350.0043"
+     width="288"
+     height="318"
+     id="rect914"
+     style="fill:#fbfcc8" />
+  <text
+     x="436"
+     y="384.0043"
+     style="font-size:20px;font-family:Dialog"
+     id="text916">
+    <tspan
+       style="font-size:24px"
+       id="tspan3553">TX_Symbol2ChipSeq</tspan>
+  </text>
+  <rect
+     x="491"
+     y="544.00427"
+     width="157"
+     height="113"
+     id="rect918"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <rect
+     x="492"
+     y="545.00427"
+     width="155"
+     height="111"
+     id="rect920"
+     style="fill:#c9f3b2" />
+  <text
+     x="512.51794"
+     y="603.68842"
+     style="font-size:10px;font-family:Dialog"
+     id="text922">F_TXSymbol2ChipSeq</text>
+  <rect
+     x="617"
+     y="531.00427"
+     width="25"
+     height="25"
+     id="rect932"
+     style="fill:#c4a67a" />
+  <rect
+     x="617"
+     y="531.00427"
+     width="26"
+     height="26"
+     id="rect934"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <polygon
+     points="640,478 630,458 620,478 "
+     id="polygon936"
+     style="fill:none;stroke:#000000;stroke-width:1"
+     transform="translate(0,76.004292)" />
+  <polygon
+     points="640,478 630,458 620,478 "
+     id="polygon938"
+     style="fill:#000000"
+     transform="translate(0,76.004292)" />
+  <rect
+     x="478"
+     y="588.00427"
+     width="25"
+     height="25"
+     id="rect942"
+     style="fill:#d8bbf9" />
+  <rect
+     x="478"
+     y="588.00427"
+     width="26"
+     height="26"
+     id="rect944"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <polygon
+     points="481,535 501,525 481,515 "
+     id="polygon946"
+     style="fill:none;stroke:#000000;stroke-width:1"
+     transform="translate(0,76.004292)" />
+  <polygon
+     points="481,535 501,525 481,515 "
+     id="polygon948"
+     style="fill:#000000"
+     transform="translate(0,76.004292)" />
+  <line
+     x1="501"
+     y1="611.00427"
+     x2="501"
+     y2="591.00427"
+     id="line950"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <rect
+     x="635"
+     y="588.00427"
+     width="25"
+     height="25"
+     id="rect954"
+     style="fill:#d8bbf9" />
+  <rect
+     x="635"
+     y="588.00427"
+     width="26"
+     height="26"
+     id="rect956"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <polygon
+     points="638,535 658,525 638,515 "
+     id="polygon958"
+     style="fill:none;stroke:#000000;stroke-width:1"
+     transform="translate(0,76.004292)" />
+  <polygon
+     points="638,535 658,525 638,515 "
+     id="polygon960"
+     style="fill:#000000"
+     transform="translate(0,76.004292)" />
+  <rect
+     x="489"
+     y="401.0043"
+     width="158"
+     height="108"
+     id="rect964"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <rect
+     x="490"
+     y="402.0043"
+     width="156"
+     height="106"
+     id="rect966"
+     style="fill:#c9f3b2" />
+  <text
+     x="515.24756"
+     y="453.59396"
+     style="font-size:10px;font-family:Dialog"
+     id="text968">X_TXSymbol2ChipSeq</text>
+  <rect
+     x="510"
+     y="496.0043"
+     width="25"
+     height="25"
+     id="rect978"
+     style="fill:#c4a67a" />
+  <rect
+     x="510"
+     y="496.0043"
+     width="26"
+     height="26"
+     id="rect980"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <polygon
+     points="533,443 523,423 513,443 "
+     id="polygon982"
+     style="fill:none;stroke:#000000;stroke-width:1"
+     transform="translate(0,76.004292)" />
+  <polygon
+     points="533,443 523,423 513,443 "
+     id="polygon984"
+     style="fill:#000000"
+     transform="translate(0,76.004292)" />
+  <line
+     x1="533"
+     y1="499.0043"
+     x2="513"
+     y2="499.0043"
+     id="line986"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <rect
+     x="476"
+     y="437.0043"
+     width="25"
+     height="25"
+     id="rect990"
+     style="fill:#68e5ff" />
+  <rect
+     x="476"
+     y="437.0043"
+     width="26"
+     height="26"
+     id="rect992"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <polygon
+     points="479,384 499,374 479,364 "
+     id="polygon994"
+     style="fill:none;stroke:#000000;stroke-width:1"
+     transform="translate(0,76.004292)" />
+  <polygon
+     points="479,384 499,374 479,364 "
+     id="polygon996"
+     style="fill:#000000"
+     transform="translate(0,76.004292)" />
+  <line
+     x1="499"
+     y1="460.0043"
+     x2="499"
+     y2="440.0043"
+     id="line998"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <rect
+     x="634"
+     y="447.0043"
+     width="25"
+     height="25"
+     id="rect1002"
+     style="fill:#68e5ff" />
+  <rect
+     x="634"
+     y="447.0043"
+     width="26"
+     height="26"
+     id="rect1004"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <polygon
+     points="637,394 657,384 637,374 "
+     id="polygon1006"
+     style="fill:none;stroke:#000000;stroke-width:1"
+     transform="translate(0,76.004292)" />
+  <polygon
+     points="637,394 657,384 637,374 "
+     id="polygon1008"
+     style="fill:#000000"
+     transform="translate(0,76.004292)" />
+  <rect
+     x="407"
+     y="588.00427"
+     width="26"
+     height="26"
+     id="rect1012"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <rect
+     x="408"
+     y="589.00427"
+     width="24"
+     height="24"
+     id="rect1014"
+     style="fill:#d8bbf9" />
+  <polygon
+     points="407,525 433,525 "
+     id="polygon1016"
+     style="fill:none;stroke:#000000;stroke-width:1"
+     transform="translate(0,76.004292)" />
+  <rect
+     x="407"
+     y="437.0043"
+     width="26"
+     height="26"
+     id="rect1018"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <rect
+     x="408"
+     y="438.0043"
+     width="24"
+     height="24"
+     id="rect1020"
+     style="fill:#68e5ff" />
+  <polygon
+     points="407,374 433,374 "
+     id="polygon1022"
+     style="fill:none;stroke:#000000;stroke-width:1"
+     transform="translate(0,76.004292)" />
+  <rect
+     x="697"
+     y="588.00427"
+     width="26"
+     height="26"
+     id="rect1024"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <rect
+     x="698"
+     y="589.00427"
+     width="24"
+     height="24"
+     id="rect1026"
+     style="fill:#d8bbf9" />
+  <polygon
+     points="697,525 723,525 "
+     id="polygon1028"
+     style="fill:none;stroke:#000000;stroke-width:1"
+     transform="translate(0,76.004292)" />
+  <rect
+     x="697"
+     y="447.0043"
+     width="26"
+     height="26"
+     id="rect1030"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <rect
+     x="698"
+     y="448.0043"
+     width="24"
+     height="24"
+     id="rect1032"
+     style="fill:#68e5ff" />
+  <polygon
+     points="697,384 723,384 "
+     id="polygon1034"
+     style="fill:none;stroke:#000000;stroke-width:1"
+     transform="translate(0,76.004292)" />
+  <rect
+     x="32"
+     y="347.0043"
+     width="290"
+     height="320"
+     id="rect1036"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <rect
+     x="33"
+     y="348.0043"
+     width="288"
+     height="318"
+     id="rect1038"
+     style="fill:#fbfcc8" />
+  <text
+     x="106.63517"
+     y="380.42776"
+     style="font-size:20px;font-family:Dialog"
+     id="text1040">
+    <tspan
+       style="font-size:24px"
+       id="tspan3551">TX_source</tspan>
+  </text>
+  <rect
+     x="50"
+     y="547.00427"
+     width="226"
+     height="107"
+     id="rect1042"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <rect
+     x="51"
+     y="548.00427"
+     width="224"
+     height="105"
+     id="rect1044"
+     style="fill:#c9f3b2" />
+  <text
+     x="128.56689"
+     y="606.74701"
+     style="font-size:14px;font-family:Dialog"
+     id="text1046">F_TXsource</text>
+  <rect
+     x="160"
+     y="534.00427"
+     width="25"
+     height="25"
+     id="rect1050"
+     style="fill:#c4a67a" />
+  <rect
+     x="160"
+     y="534.00427"
+     width="26"
+     height="26"
+     id="rect1052"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <polygon
+     points="183,481 173,461 163,481 "
+     id="polygon1054"
+     style="fill:none;stroke:#000000;stroke-width:1"
+     transform="translate(0,76.004292)" />
+  <polygon
+     points="183,481 173,461 163,481 "
+     id="polygon1056"
+     style="fill:#000000"
+     transform="translate(0,76.004292)" />
+  <rect
+     x="263"
+     y="588.00427"
+     width="25"
+     height="25"
+     id="rect1060"
+     style="fill:#d8bbf9" />
+  <rect
+     x="263"
+     y="588.00427"
+     width="26"
+     height="26"
+     id="rect1062"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <polygon
+     points="266,535 286,525 266,515 "
+     id="polygon1064"
+     style="fill:none;stroke:#000000;stroke-width:1"
+     transform="translate(0,76.004292)" />
+  <polygon
+     points="266,535 286,525 266,515 "
+     id="polygon1066"
+     style="fill:#000000"
+     transform="translate(0,76.004292)" />
+  <rect
+     x="55"
+     y="396.0043"
+     width="197"
+     height="103"
+     id="rect1070"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <rect
+     x="56"
+     y="397.0043"
+     width="195"
+     height="101"
+     id="rect1072"
+     style="fill:#c9f3b2" />
+  <text
+     x="105.68414"
+     y="444.71121"
+     style="font-size:14px;font-family:Dialog"
+     id="text1074">X_TXsource</text>
+  <rect
+     x="90"
+     y="486.0043"
+     width="25"
+     height="25"
+     id="rect1078"
+     style="fill:#c4a67a" />
+  <rect
+     x="90"
+     y="486.0043"
+     width="26"
+     height="26"
+     id="rect1080"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <polygon
+     points="113,433 103,413 93,433 "
+     id="polygon1082"
+     style="fill:none;stroke:#000000;stroke-width:1"
+     transform="translate(0,76.004292)" />
+  <polygon
+     points="113,433 103,413 93,433 "
+     id="polygon1084"
+     style="fill:#000000"
+     transform="translate(0,76.004292)" />
+  <line
+     x1="113"
+     y1="489.0043"
+     x2="93"
+     y2="489.0043"
+     id="line1086"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <rect
+     x="239"
+     y="437.0043"
+     width="25"
+     height="25"
+     id="rect1090"
+     style="fill:#68e5ff" />
+  <rect
+     x="239"
+     y="437.0043"
+     width="26"
+     height="26"
+     id="rect1092"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <polygon
+     points="242,384 262,374 242,364 "
+     id="polygon1094"
+     style="fill:none;stroke:#000000;stroke-width:1"
+     transform="translate(0,76.004292)" />
+  <polygon
+     points="242,384 262,374 242,364 "
+     id="polygon1096"
+     style="fill:#000000"
+     transform="translate(0,76.004292)" />
+  <rect
+     x="309"
+     y="437.0043"
+     width="26"
+     height="26"
+     id="rect1100"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <rect
+     x="310"
+     y="438.0043"
+     width="24"
+     height="24"
+     id="rect1102"
+     style="fill:#68e5ff" />
+  <polygon
+     points="309,374 335,374 "
+     id="polygon1104"
+     style="fill:none;stroke:#000000;stroke-width:1"
+     transform="translate(0,76.004292)" />
+  <rect
+     x="309"
+     y="588.00427"
+     width="26"
+     height="26"
+     id="rect1106"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <rect
+     x="310"
+     y="589.00427"
+     width="24"
+     height="24"
+     id="rect1108"
+     style="fill:#d8bbf9" />
+  <polygon
+     points="309,525 335,525 "
+     id="polygon1110"
+     style="fill:none;stroke:#000000;stroke-width:1"
+     transform="translate(0,76.004292)" />
+  <text
+     x="66.058624"
+     y="531.67529"
+     style="font-size:12px;font-family:Dialog"
+     id="text1218">source_req</text>
+  <line
+     x1="173"
+     y1="534.00427"
+     x2="103"
+     y2="512.00427"
+     id="line1220"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <text
+     x="450.46896"
+     y="536.25183"
+     style="font-size:12px;font-family:Dialog"
+     id="text1222">bits2symbol_req</text>
+  <line
+     x1="630"
+     y1="531.00427"
+     x2="523"
+     y2="522.00427"
+     id="line1224"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <text
+     x="863.10413"
+     y="534.25183"
+     style="font-size:12px;font-family:Dialog"
+     id="text1226">chips2octet_req</text>
+  <line
+     x1="1041"
+     y1="532.00427"
+     x2="941"
+     y2="517.00427"
+     id="line1228"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <text
+     x="1304.8793"
+     y="536.04016"
+     style="font-size:12px;font-family:Dialog"
+     id="text1230">cwl_req</text>
+  <line
+     x1="1455"
+     y1="533.00427"
+     x2="1359"
+     y2="521.00427"
+     id="line1232"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <text
+     x="2102.2703"
+     y="795.40497"
+     style="font-size:12px;font-family:Dialog"
+     id="text1234">cwpQ_req</text>
+  <line
+     x1="2214"
+     y1="792.00427"
+     x2="2119"
+     y2="773.00427"
+     id="line1236"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <text
+     x="2062.1758"
+     y="285.46362"
+     style="font-size:12px;font-family:Dialog"
+     id="text1238">cwpI_req</text>
+  <line
+     x1="2170"
+     y1="286.0043"
+     x2="2080"
+     y2="267.0043"
+     id="line1240"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <text
+     x="2949.8696"
+     y="546.25183"
+     style="font-size:12px;font-family:Dialog"
+     id="text1242">sink_req</text>
+  <line
+     x1="3067"
+     y1="545.00427"
+     x2="2972"
+     y2="527.00427"
+     id="line1244"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="1988"
+     y1="194.00429"
+     x2="2026"
+     y2="194.00429"
+     id="line1246"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="1988"
+     y1="337.0043"
+     x2="2027"
+     y2="337.0043"
+     id="line1248"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="265"
+     y1="450.0043"
+     x2="309"
+     y2="450.0043"
+     id="line1250"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="289"
+     y1="601.00427"
+     x2="309"
+     y2="601.00427"
+     id="line1252"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="335"
+     y1="450.0043"
+     x2="407"
+     y2="450.0043"
+     id="line1254"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="335"
+     y1="601.00427"
+     x2="407"
+     y2="601.00427"
+     id="line1256"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="433"
+     y1="450.0043"
+     x2="476"
+     y2="450.0043"
+     id="line1258"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="433"
+     y1="601.00427"
+     x2="478"
+     y2="601.00427"
+     id="line1260"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="660"
+     y1="460.0043"
+     x2="697"
+     y2="460.0043"
+     id="line1262"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="661"
+     y1="601.00427"
+     x2="697"
+     y2="601.00427"
+     id="line1264"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="723"
+     y1="460.0043"
+     x2="827"
+     y2="460.0043"
+     id="line1266"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="723"
+     y1="601.00427"
+     x2="827"
+     y2="601.00427"
+     id="line1268"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="853"
+     y1="460.0043"
+     x2="890"
+     y2="460.0043"
+     id="line1270"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="853"
+     y1="601.00427"
+     x2="894"
+     y2="601.00427"
+     id="line1272"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="1074"
+     y1="460.0043"
+     x2="1117"
+     y2="460.0043"
+     id="line1274"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="1143"
+     y1="460.0043"
+     x2="1241"
+     y2="460.0043"
+     id="line1276"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="1267"
+     y1="460.0043"
+     x2="1312"
+     y2="460.0043"
+     id="line1278"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="1077"
+     y1="608.00427"
+     x2="1117"
+     y2="608.00427"
+     id="line1280"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="1143"
+     y1="608.00427"
+     x2="1241"
+     y2="608.00427"
+     id="line1282"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="1267"
+     y1="608.00427"
+     x2="1308"
+     y2="608.00427"
+     id="line1284"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="1483"
+     y1="454.0043"
+     x2="1531"
+     y2="454.0043"
+     id="line1286"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="1491"
+     y1="608.00427"
+     x2="1531"
+     y2="608.00427"
+     id="line1288"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="2203"
+     y1="200.00429"
+     x2="2252"
+     y2="200.00429"
+     id="line1290"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="2210"
+     y1="362.0043"
+     x2="2252"
+     y2="362.0043"
+     id="line1292"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="2883"
+     y1="460.0043"
+     x2="2923"
+     y2="460.0043"
+     id="line1294"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="2883"
+     y1="613.00427"
+     x2="2923"
+     y2="613.00427"
+     id="line1296"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="2247"
+     y1="708.00427"
+     x2="2297"
+     y2="708.00427"
+     id="line1298"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="2033"
+     y1="859.00427"
+     x2="2079"
+     y2="859.00427"
+     id="line1300"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="2033"
+     y1="703.00427"
+     x2="2077"
+     y2="703.00427"
+     id="line1302"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="2254"
+     y1="863.00427"
+     x2="2297"
+     y2="863.00427"
+     id="line1304"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="1557"
+     y1="454.0043"
+     x2="1609"
+     y2="454.0043"
+     id="line1306"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="1557"
+     y1="608.00427"
+     x2="1609"
+     y2="608.00427"
+     id="line1308"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="1635"
+     y1="454.0043"
+     x2="1658"
+     y2="462.0043"
+     id="line1310"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="1635"
+     y1="608.00427"
+     x2="1670"
+     y2="614.00427"
+     id="line1312"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <text
+     x="1665.658"
+     y="547.82843"
+     style="font-size:12px;font-family:Dialog"
+     id="text1314">fork_req</text>
+  <line
+     x1="1751"
+     y1="549.00427"
+     x2="1701"
+     y2="524.00427"
+     id="line1316"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="2761"
+     y1="460.0043"
+     x2="2857"
+     y2="460.0043"
+     id="line1318"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="2761"
+     y1="613.00427"
+     x2="2857"
+     y2="613.00427"
+     id="line1320"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="2705"
+     y1="460.0043"
+     x2="2735"
+     y2="460.0043"
+     id="line1322"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="2707"
+     y1="613.00427"
+     x2="2735"
+     y2="613.00427"
+     id="line1324"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="2511"
+     y1="439.0043"
+     x2="2544"
+     y2="439.0043"
+     id="line1326"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="2511"
+     y1="485.0043"
+     x2="2544"
+     y2="485.0043"
+     id="line1328"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="2511"
+     y1="640.00427"
+     x2="2546"
+     y2="640.00427"
+     id="line1330"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="2511"
+     y1="572.00427"
+     x2="2546"
+     y2="572.00427"
+     id="line1332"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="1819"
+     y1="440.0043"
+     x2="1859"
+     y2="440.0043"
+     id="line1334"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="1831"
+     y1="579.00427"
+     x2="1859"
+     y2="579.00427"
+     id="line1336"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="1831"
+     y1="645.00427"
+     x2="1859"
+     y2="645.00427"
+     id="line1338"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="1819"
+     y1="495.0043"
+     x2="1859"
+     y2="495.0043"
+     id="line1340"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="1885"
+     y1="440.0043"
+     x2="1924"
+     y2="440.0043"
+     id="line1342"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="1924"
+     y1="440.0043"
+     x2="1924"
+     y2="194.00429"
+     id="line1344"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="1924"
+     y1="194.00429"
+     x2="1962"
+     y2="194.00429"
+     id="line1346"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="1885"
+     y1="495.0043"
+     x2="1968"
+     y2="495.0043"
+     id="line1348"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="1968"
+     y1="495.0043"
+     x2="1968"
+     y2="703.00427"
+     id="line1350"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="1968"
+     y1="703.00427"
+     x2="2007"
+     y2="703.00427"
+     id="line1352"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="1885"
+     y1="645.00427"
+     x2="1917"
+     y2="645.00427"
+     id="line1354"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="1917"
+     y1="645.00427"
+     x2="1917"
+     y2="859.00427"
+     id="line1356"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="1917"
+     y1="859.00427"
+     x2="2007"
+     y2="859.00427"
+     id="line1358"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="2323"
+     y1="863.00427"
+     x2="2410"
+     y2="863.00427"
+     id="line1360"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="2410"
+     y1="863.00427"
+     x2="2410"
+     y2="640.00427"
+     id="line1362"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="2410"
+     y1="640.00427"
+     x2="2485"
+     y2="640.00427"
+     id="line1364"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="2278"
+     y1="362.0043"
+     x2="2354"
+     y2="362.0043"
+     id="line1366"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="2354"
+     y1="362.0043"
+     x2="2354"
+     y2="572.00427"
+     id="line1368"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="2354"
+     y1="572.00427"
+     x2="2485"
+     y2="572.00427"
+     id="line1370"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="2323"
+     y1="708.00427"
+     x2="2395"
+     y2="708.00427"
+     id="line1372"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="2395"
+     y1="708.00427"
+     x2="2395"
+     y2="485.0043"
+     id="line1374"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="2395"
+     y1="485.0043"
+     x2="2485"
+     y2="485.0043"
+     id="line1376"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="2278"
+     y1="200.00429"
+     x2="2402"
+     y2="200.00429"
+     id="line1378"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="2402"
+     y1="200.00429"
+     x2="2402"
+     y2="439.0043"
+     id="line1380"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="2402"
+     y1="439.0043"
+     x2="2485"
+     y2="439.0043"
+     id="line1382"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="1885"
+     y1="579.00427"
+     x2="1940"
+     y2="579.00427"
+     id="line1384"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="1940"
+     y1="579.00427"
+     x2="1940"
+     y2="337.0043"
+     id="line1386"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="1940"
+     y1="337.0043"
+     x2="1962"
+     y2="337.0043"
+     id="line1388"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <text
+     x="2539.5635"
+     y="543.67529"
+     style="font-size:12px;font-family:Dialog"
+     id="text1390">join_req</text>
+  <line
+     x1="2627"
+     y1="547.00427"
+     x2="2587"
+     y2="523.00427"
+     id="line1392"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+</svg>

@@ -1,0 +1,612 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   version="1.1"
+   id="svg2"
+   inkscape:version="0.48.4 r9939"
+   width="1180.36"
+   height="484.09"
+   sodipodi:docname="SD_ADAIFMapped.svg">
+  <metadata
+     id="metadata156">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs154" />
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="1366"
+     inkscape:window-height="709"
+     id="namedview152"
+     showgrid="false"
+     width="1252.36px"
+     inkscape:zoom="0.89702957"
+     inkscape:cx="644.7093"
+     inkscape:cy="247.69562"
+     inkscape:window-x="0"
+     inkscape:window-y="27"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg2" />
+  <line
+     x1="823.91864"
+     y1="80.374687"
+     x2="663.91864"
+     y2="80.374687"
+     id="line4"
+     style="fill:none;stroke:#000000;stroke-width:1.875;stroke-miterlimit:4;stroke-dasharray:none" />
+  <line
+     x1="663.91864"
+     y1="80.374687"
+     x2="671.91864"
+     y2="75.374695"
+     id="line6"
+     style="fill:none;stroke:#000000;stroke-width:1.875;stroke-miterlimit:4;stroke-dasharray:none" />
+  <line
+     x1="663.91864"
+     y1="80.374687"
+     x2="671.91864"
+     y2="84.374687"
+     id="line8"
+     style="fill:none;stroke:#000000;stroke-width:1.875;stroke-miterlimit:4;stroke-dasharray:none" />
+  <text
+     x="635.91864"
+     y="71.374695"
+     style="font-size:12px;font-family:Dialog"
+     id="text10">
+    <tspan
+       style="font-size:16px"
+       id="tspan3149">Read( ADAIFEMmemory, 1 sample )</tspan>
+  </text>
+  <line
+     x1="64.918617"
+     y1="232.37469"
+     x2="188.91861"
+     y2="232.37469"
+     id="line12"
+     style="fill:none;stroke:#000000;stroke-width:1.875;stroke-miterlimit:4;stroke-dasharray:none" />
+  <line
+     x1="188.91861"
+     y1="232.37469"
+     x2="179.91861"
+     y2="236.37469"
+     id="line14"
+     style="fill:none;stroke:#000000;stroke-width:1.875;stroke-miterlimit:4;stroke-dasharray:none" />
+  <line
+     x1="188.91861"
+     y1="232.37469"
+     x2="179.91861"
+     y2="227.37469"
+     id="line16"
+     style="fill:none;stroke:#000000;stroke-width:1.875;stroke-miterlimit:4;stroke-dasharray:none" />
+  <text
+     x="40.918625"
+     y="223.37469"
+     style="font-size:12px;font-family:Dialog"
+     id="text18">
+    <tspan
+       style="font-size:16px"
+       id="tspan3159">Transfer( FEPdma, 1 sample )</tspan>
+  </text>
+  <line
+     x1="823.91864"
+     y1="428.37473"
+     x2="953.91858"
+     y2="428.37473"
+     id="line20"
+     style="fill:none;stroke:#000000;stroke-width:1.875;stroke-miterlimit:4;stroke-dasharray:none" />
+  <line
+     x1="953.91858"
+     y1="428.37473"
+     x2="944.91864"
+     y2="432.37473"
+     id="line22"
+     style="fill:none;stroke:#000000;stroke-width:1.875;stroke-miterlimit:4;stroke-dasharray:none" />
+  <text
+     x="795.91864"
+     y="419.37473"
+     style="font-size:12px;font-family:Dialog"
+     id="text26">
+    <tspan
+       style="font-size:16px"
+       id="tspan3171">Write( FEPmemory, 1 sample )</tspan>
+  </text>
+  <line
+     x1="953.91858"
+     y1="428.37473"
+     x2="944.91864"
+     y2="423.37473"
+     id="line24"
+     style="fill:none;stroke:#000000;stroke-width:1.875;stroke-miterlimit:4;stroke-dasharray:none" />
+  <line
+     x1="953.91858"
+     y1="458.37473"
+     x2="1089.9187"
+     y2="458.37473"
+     id="line28"
+     style="fill:none;stroke:#000000;stroke-width:1.875;stroke-miterlimit:4;stroke-dasharray:none" />
+  <line
+     x1="1089.9187"
+     y1="458.37473"
+     x2="1080.9187"
+     y2="462.37473"
+     id="line30"
+     style="fill:none;stroke:#000000;stroke-width:1.875;stroke-miterlimit:4;stroke-dasharray:none" />
+  <line
+     x1="1089.9187"
+     y1="458.37473"
+     x2="1080.9187"
+     y2="453.37473"
+     id="line32"
+     style="fill:none;stroke:#000000;stroke-width:1.875;stroke-miterlimit:4;stroke-dasharray:none" />
+  <text
+     x="928.91864"
+     y="449.37473"
+     style="font-size:12px;font-family:Dialog"
+     id="text34">
+    <tspan
+       style="font-size:16px"
+       id="tspan3173">Write( FEPmemory, 1 sample )</tspan>
+  </text>
+  <line
+     x1="663.91864"
+     y1="110.37469"
+     x2="465.91858"
+     y2="110.37469"
+     id="line36"
+     style="fill:none;stroke:#000000;stroke-width:1.875;stroke-miterlimit:4;stroke-dasharray:none" />
+  <line
+     x1="465.91858"
+     y1="110.37469"
+     x2="473.91858"
+     y2="105.37469"
+     id="line38"
+     style="fill:none;stroke:#000000;stroke-width:1.875;stroke-miterlimit:4;stroke-dasharray:none" />
+  <line
+     x1="465.91858"
+     y1="110.37469"
+     x2="473.91858"
+     y2="114.37469"
+     id="line40"
+     style="fill:none;stroke:#000000;stroke-width:1.875;stroke-miterlimit:4;stroke-dasharray:none" />
+  <text
+     x="450.91861"
+     y="101.37469"
+     style="font-size:12px;font-family:Dialog"
+     id="text42">
+    <tspan
+       style="font-size:16px"
+       id="tspan3151">Read( ADAIFEMmemory, 1 sample )</tspan>
+  </text>
+  <line
+     x1="465.91858"
+     y1="140.37469"
+     x2="308.91861"
+     y2="140.37469"
+     id="line44"
+     style="fill:none;stroke:#000000;stroke-width:1.875;stroke-miterlimit:4;stroke-dasharray:none" />
+  <line
+     x1="308.91861"
+     y1="140.37469"
+     x2="316.91861"
+     y2="135.37469"
+     id="line46"
+     style="fill:none;stroke:#000000;stroke-width:1.875;stroke-miterlimit:4;stroke-dasharray:none" />
+  <line
+     x1="308.91861"
+     y1="140.37469"
+     x2="316.91861"
+     y2="144.37469"
+     id="line48"
+     style="fill:none;stroke:#000000;stroke-width:1.875;stroke-miterlimit:4;stroke-dasharray:none" />
+  <text
+     x="273.34467"
+     y="130.5386"
+     style="font-size:12px;font-family:Dialog"
+     id="text50">
+    <tspan
+       style="font-size:16px"
+       id="tspan3153">Read( ADAIFEMmemory, 1 sample )</tspan>
+  </text>
+  <line
+     x1="308.91861"
+     y1="170.37469"
+     x2="188.91861"
+     y2="170.37469"
+     id="line52"
+     style="fill:none;stroke:#000000;stroke-width:1.875;stroke-miterlimit:4;stroke-dasharray:none" />
+  <line
+     x1="188.91861"
+     y1="170.37469"
+     x2="196.91861"
+     y2="165.37469"
+     id="line54"
+     style="fill:none;stroke:#000000;stroke-width:1.875;stroke-miterlimit:4;stroke-dasharray:none" />
+  <line
+     x1="188.91861"
+     y1="170.37469"
+     x2="196.91861"
+     y2="174.37469"
+     id="line56"
+     style="fill:none;stroke:#000000;stroke-width:1.875;stroke-miterlimit:4;stroke-dasharray:none" />
+  <text
+     x="140.91861"
+     y="161.37469"
+     style="font-size:12px;font-family:Dialog"
+     id="text58">
+    <tspan
+       style="font-size:16px"
+       id="tspan3155">Read( ADAIFEMmemory, 1 sample )</tspan>
+  </text>
+  <line
+     x1="188.91861"
+     y1="200.37469"
+     x2="64.918617"
+     y2="200.37469"
+     id="line60"
+     style="fill:none;stroke:#000000;stroke-width:1.875;stroke-miterlimit:4;stroke-dasharray:none" />
+  <line
+     x1="64.918617"
+     y1="200.37469"
+     x2="72.918617"
+     y2="195.37469"
+     id="line62"
+     style="fill:none;stroke:#000000;stroke-width:1.875;stroke-miterlimit:4;stroke-dasharray:none" />
+  <line
+     x1="64.918617"
+     y1="200.37469"
+     x2="72.918617"
+     y2="204.37469"
+     id="line64"
+     style="fill:none;stroke:#000000;stroke-width:1.875;stroke-miterlimit:4;stroke-dasharray:none" />
+  <text
+     x="18.918625"
+     y="191.37469"
+     style="font-size:12px;font-family:Dialog"
+     id="text66">
+    <tspan
+       style="font-size:16px"
+       id="tspan3157">Read( ADAIFEMmemory, 1 sample )</tspan>
+  </text>
+  <line
+     x1="188.91861"
+     y1="264.37469"
+     x2="308.91861"
+     y2="264.37469"
+     id="line68"
+     style="fill:none;stroke:#000000;stroke-width:1.875;stroke-miterlimit:4;stroke-dasharray:none" />
+  <line
+     x1="308.91861"
+     y1="264.37469"
+     x2="299.91861"
+     y2="268.37469"
+     id="line70"
+     style="fill:none;stroke:#000000;stroke-width:1.875;stroke-miterlimit:4;stroke-dasharray:none" />
+  <line
+     x1="308.91861"
+     y1="264.37469"
+     x2="299.91861"
+     y2="259.37469"
+     id="line72"
+     style="fill:none;stroke:#000000;stroke-width:1.875;stroke-miterlimit:4;stroke-dasharray:none" />
+  <text
+     x="156.91861"
+     y="255.37469"
+     style="font-size:12px;font-family:Dialog"
+     id="text74">
+    <tspan
+       style="font-size:16px"
+       id="tspan3161">Transfer( FEPdma, 1 sample )</tspan>
+  </text>
+  <line
+     x1="308.91861"
+     y1="294.37473"
+     x2="465.91858"
+     y2="294.37473"
+     id="line76"
+     style="fill:none;stroke:#000000;stroke-width:1.875;stroke-miterlimit:4;stroke-dasharray:none" />
+  <line
+     x1="465.91858"
+     y1="294.37473"
+     x2="456.91861"
+     y2="298.37473"
+     id="line78"
+     style="fill:none;stroke:#000000;stroke-width:1.875;stroke-miterlimit:4;stroke-dasharray:none" />
+  <line
+     x1="465.91858"
+     y1="294.37473"
+     x2="456.91861"
+     y2="289.37469"
+     id="line80"
+     style="fill:none;stroke:#000000;stroke-width:1.875;stroke-miterlimit:4;stroke-dasharray:none" />
+  <text
+     x="294.91861"
+     y="285.37469"
+     style="font-size:12px;font-family:Dialog"
+     id="text82">
+    <tspan
+       style="font-size:16px"
+       id="tspan3163">Transfer( FEPdma, 1 sample )</tspan>
+  </text>
+  <line
+     x1="465.91858"
+     y1="324.37473"
+     x2="663.91864"
+     y2="324.37473"
+     id="line84"
+     style="fill:none;stroke:#000000;stroke-width:1.875;stroke-miterlimit:4;stroke-dasharray:none" />
+  <line
+     x1="663.91864"
+     y1="324.37473"
+     x2="654.91864"
+     y2="328.37473"
+     id="line86"
+     style="fill:none;stroke:#000000;stroke-width:1.875;stroke-miterlimit:4;stroke-dasharray:none" />
+  <line
+     x1="663.91864"
+     y1="324.37473"
+     x2="654.91864"
+     y2="319.37473"
+     id="line88"
+     style="fill:none;stroke:#000000;stroke-width:1.875;stroke-miterlimit:4;stroke-dasharray:none" />
+  <text
+     x="472.91858"
+     y="315.37473"
+     style="font-size:12px;font-family:Dialog"
+     id="text90">
+    <tspan
+       style="font-size:16px"
+       id="tspan3165">Transfer( FEPdma, 1 sample )</tspan>
+  </text>
+  <line
+     x1="663.91864"
+     y1="356.37473"
+     x2="823.91864"
+     y2="356.37473"
+     id="line92"
+     style="fill:none;stroke:#000000;stroke-width:1.875;stroke-miterlimit:4;stroke-dasharray:none" />
+  <line
+     x1="823.91864"
+     y1="356.37473"
+     x2="814.91864"
+     y2="360.37473"
+     id="line94"
+     style="fill:none;stroke:#000000;stroke-width:1.875;stroke-miterlimit:4;stroke-dasharray:none" />
+  <line
+     x1="823.91864"
+     y1="356.37473"
+     x2="814.91864"
+     y2="351.37473"
+     id="line96"
+     style="fill:none;stroke:#000000;stroke-width:1.875;stroke-miterlimit:4;stroke-dasharray:none" />
+  <text
+     x="651.91864"
+     y="347.37473"
+     style="font-size:12px;font-family:Dialog"
+     id="text98">
+    <tspan
+       style="font-size:16px"
+       id="tspan3167">Transfer( FEPdma, 1 sample )</tspan>
+  </text>
+  <text
+     x="262.91861"
+     y="37.374714"
+     style="font-size:12px;font-family:Dialog"
+     id="text100">
+    <tspan
+       style="font-size:16px"
+       id="tspan3137">ADAIFbridge</tspan>
+  </text>
+  <line
+     x1="262.91861"
+     y1="42.374714"
+     x2="354.91861"
+     y2="42.374714"
+     id="line102"
+     style="fill:none;stroke:#000000;stroke-width:1.875;stroke-miterlimit:4;stroke-dasharray:none" />
+  <line
+     x1="308.93884"
+     y1="43.42696"
+     x2="308.93884"
+     y2="467.08011"
+     id="line104"
+     style="fill:none;stroke:#000000;stroke-width:1.91925943;stroke-miterlimit:4;stroke-dasharray:none" />
+  <text
+     x="150.91861"
+     y="37.374714"
+     style="font-size:12px;font-family:Dialog"
+     id="text106">
+    <tspan
+       style="font-size:16px"
+       id="tspan3135">ADAIFbus</tspan>
+  </text>
+  <line
+     x1="150.91861"
+     y1="42.374714"
+     x2="226.91861"
+     y2="42.374714"
+     id="line108"
+     style="fill:none;stroke:#000000;stroke-width:1.875;stroke-miterlimit:4;stroke-dasharray:none" />
+  <line
+     x1="188.96327"
+     y1="43.42696"
+     x2="188.96327"
+     y2="469.39511"
+     id="line110"
+     style="fill:none;stroke:#000000;stroke-width:1.91925943;stroke-miterlimit:4;stroke-dasharray:none" />
+  <text
+     x="437.91861"
+     y="37.374714"
+     style="font-size:12px;font-family:Dialog"
+     id="text112">
+    <tspan
+       style="font-size:16px"
+       id="tspan3139">Crossbar</tspan>
+  </text>
+  <line
+     x1="437.91861"
+     y1="42.374714"
+     x2="493.91864"
+     y2="42.374714"
+     id="line114"
+     style="fill:none;stroke:#000000;stroke-width:1.875;stroke-miterlimit:4;stroke-dasharray:none" />
+  <line
+     x1="465.90686"
+     y1="43.42696"
+     x2="465.90686"
+     y2="467.08011"
+     id="line116"
+     style="fill:none;stroke:#000000;stroke-width:1.91925943;stroke-miterlimit:4;stroke-dasharray:none" />
+  <text
+     x="640.91864"
+     y="37.374714"
+     style="font-size:12px;font-family:Dialog"
+     id="text118">
+    <tspan
+       style="font-size:16px"
+       id="tspan3141">FEPbus</tspan>
+  </text>
+  <line
+     x1="640.91864"
+     y1="42.374714"
+     x2="686.91864"
+     y2="42.374714"
+     id="line120"
+     style="fill:none;stroke:#000000;stroke-width:1.875;stroke-miterlimit:4;stroke-dasharray:none" />
+  <line
+     x1="663.92877"
+     y1="43.423023"
+     x2="663.92877"
+     y2="463.58536"
+     id="line122"
+     style="fill:none;stroke:#000000;stroke-width:1.91135979;stroke-miterlimit:4;stroke-dasharray:none" />
+  <text
+     x="1053.9187"
+     y="37.374714"
+     style="font-size:12px;font-family:Dialog"
+     id="text124">
+    <tspan
+       style="font-size:16px"
+       id="tspan3147">FEPmemory</tspan>
+  </text>
+  <line
+     x1="1053.9187"
+     y1="42.374714"
+     x2="1125.9187"
+     y2="42.374714"
+     id="line126"
+     style="fill:none;stroke:#000000;stroke-width:1.875;stroke-miterlimit:4;stroke-dasharray:none" />
+  <line
+     x1="1089.8528"
+     y1="43.423023"
+     x2="1089.8528"
+     y2="470.47324"
+     id="line128"
+     style="fill:none;stroke:#000000;stroke-width:1.91135979;stroke-miterlimit:4;stroke-dasharray:none" />
+  <text
+     x="930.91864"
+     y="37.374714"
+     style="font-size:12px;font-family:Dialog"
+     id="text130">
+    <tspan
+       style="font-size:16px"
+       id="tspan3145">FEPbus</tspan>
+  </text>
+  <line
+     x1="930.91864"
+     y1="42.374714"
+     x2="976.91858"
+     y2="42.374714"
+     id="line132"
+     style="fill:none;stroke:#000000;stroke-width:1.875;stroke-miterlimit:4;stroke-dasharray:none" />
+  <line
+     x1="953.87689"
+     y1="43.423023"
+     x2="953.87689"
+     y2="469.32523"
+     id="line134"
+     style="fill:none;stroke:#000000;stroke-width:1.91135979;stroke-miterlimit:4;stroke-dasharray:none" />
+  <text
+     x="13.918625"
+     y="37.374714"
+     style="font-size:12px;font-family:Dialog"
+     id="text136">
+    <tspan
+       style="font-size:16px"
+       id="tspan3133">ADAIFmemory</tspan>
+  </text>
+  <line
+     x1="13.918625"
+     y1="42.374714"
+     x2="115.91861"
+     y2="42.374714"
+     id="line138"
+     style="fill:none;stroke:#000000;stroke-width:1.875;stroke-miterlimit:4;stroke-dasharray:none" />
+  <line
+     x1="64.988533"
+     y1="43.42696"
+     x2="64.988533"
+     y2="465.92252"
+     id="line140"
+     style="fill:none;stroke:#000000;stroke-width:1.91925943;stroke-miterlimit:4;stroke-dasharray:none" />
+  <text
+     x="798.91864"
+     y="37.374714"
+     style="font-size:12px;font-family:Dialog"
+     id="text142">
+    <tspan
+       style="font-size:16px"
+       id="tspan3143">FEPdma</tspan>
+  </text>
+  <line
+     x1="798.91864"
+     y1="42.374714"
+     x2="848.91864"
+     y2="42.374714"
+     id="line144"
+     style="fill:none;stroke:#000000;stroke-width:1.875;stroke-miterlimit:4;stroke-dasharray:none" />
+  <line
+     x1="823.90015"
+     y1="43.423023"
+     x2="823.90015"
+     y2="462.43729"
+     id="line146"
+     style="fill:none;stroke:#000000;stroke-width:1.91135979;stroke-miterlimit:4;stroke-dasharray:none" />
+  <rect
+     x="709.64856"
+     y="370.59695"
+     width="243.58974"
+     height="25.129465"
+     rx="6.0897431"
+     ry="6.2823663"
+     id="rect148"
+     style="fill:none;stroke:#000000;stroke-width:2.31948948;stroke-miterlimit:4;stroke-dasharray:none" />
+  <text
+     x="713.91864"
+     y="389.37473"
+     style="font-size:12px;font-family:Dialog"
+     id="text150">
+    <tspan
+       style="font-size:16px"
+       id="tspan3169">counterFEP = counterFEP - 1</tspan>
+  </text>
+</svg>

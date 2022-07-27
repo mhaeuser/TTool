@@ -1,0 +1,539 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   version="1.1"
+   id="svg2"
+   inkscape:version="0.48.4 r9939"
+   width="770.35999"
+   height="380.09"
+   sodipodi:docname="CPL3_DATEpart2.svg">
+  <metadata
+     id="metadata176">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs174" />
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="1366"
+     inkscape:window-height="709"
+     id="namedview172"
+     showgrid="false"
+     width="1252.36px"
+     inkscape:zoom="1.2685914"
+     inkscape:cx="379.46431"
+     inkscape:cy="173.30995"
+     inkscape:window-x="0"
+     inkscape:window-y="27"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg2" />
+  <line
+     x1="262.0943"
+     y1="170.37393"
+     x2="55.310505"
+     y2="170.37393"
+     id="line20"
+     style="fill:none;stroke:#000000;stroke-width:0.78101319" />
+  <polygon
+     points="78,430 70,426 78,421 "
+     id="polygon22"
+     style="fill:#000000"
+     transform="translate(-13.532369,-255.71525)" />
+  <polygon
+     points="78,430 70,426 78,421 "
+     id="polygon24"
+     style="fill:none;stroke:#000000;stroke-width:1"
+     transform="translate(-14.089759,-255.55124)" />
+  <text
+     x="77.888428"
+     y="162.75021"
+     style="font-size:12px;font-family:Dialog"
+     id="text26">
+    <tspan
+       style="font-size:14px"
+       id="tspan3124">Copy(data_size)</tspan>
+  </text>
+  <line
+     x1="55.085606"
+     y1="198.37396"
+     x2="262.08136"
+     y2="198.37396"
+     id="line28"
+     style="fill:none;stroke:#000000;stroke-width:0.78141338" />
+  <polygon
+     points="400,460 400,451 409,456 "
+     id="polygon30"
+     style="fill:#000000"
+     transform="translate(-147.14513,-257.19888)" />
+  <polygon
+     points="400,460 400,451 409,456 "
+     id="polygon32"
+     style="fill:none;stroke:#000000;stroke-width:1"
+     transform="translate(-147.11132,-257.62607)" />
+  <text
+     x="58.359055"
+     y="189.76935"
+     style="font-size:12px;font-family:Dialog"
+     id="text34">
+    <tspan
+       style="font-size:14px"
+       id="tspan3126">Transfer(data_size)</tspan>
+  </text>
+  <line
+     x1="263.66895"
+     y1="143.40836"
+     x2="375.59167"
+     y2="143.40836"
+     id="line36"
+     style="fill:none;stroke:#000000;stroke-width:0.9424839" />
+  <text
+     x="300.56088"
+     y="135.94919"
+     style="font-size:12px;font-family:Dialog"
+     id="text42">
+    <tspan
+       style="font-size:14px"
+       id="tspan3114">Copy(data_size)</tspan>
+  </text>
+  <line
+     x1="375.5004"
+     y1="247.60297"
+     x2="502.01935"
+     y2="247.60297"
+     id="line44"
+     style="fill:none;stroke:#000000;stroke-width:0.57251137" />
+  <polygon
+     points="786,490 786,481 795,486 "
+     id="polygon46"
+     style="fill:#000000"
+     transform="translate(-293.04378,-237.96986)" />
+  <text
+     x="378.83957"
+     y="240.60297"
+     style="font-size:12px;font-family:Dialog"
+     id="text50">
+    <tspan
+       style="font-size:14px"
+       id="tspan3122">Write(data_size)</tspan>
+  </text>
+  <line
+     x1="648.87311"
+     y1="273.29681"
+     x2="501.59637"
+     y2="273.29681"
+     id="line52"
+     style="fill:none;stroke:#000000;stroke-width:1.0009408" />
+  <text
+     x="510.36548"
+     y="262.43207"
+     style="font-size:12px;font-family:Dialog"
+     id="text58">
+    <tspan
+       style="font-size:14px"
+       id="tspan3128">Transfer(data_size)</tspan>
+  </text>
+  <line
+     x1="375.90546"
+     y1="349.76526"
+     x2="502.10757"
+     y2="349.76526"
+     id="line84"
+     style="fill:none;stroke:#000000;stroke-width:0.53314072" />
+  <polygon
+     points="966,696 957,700 957,691 "
+     id="polygon86"
+     style="fill:#000000"
+     transform="translate(-463.8834,-345.95611)" />
+  <polygon
+     points="957,691 966,696 957,700 "
+     id="polygon88"
+     style="fill:none;stroke:#000000;stroke-width:1"
+     transform="translate(-464.1621,-345.9561)" />
+  <text
+     x="388.28217"
+     y="342.76526"
+     style="font-size:12px;font-family:Dialog"
+     id="text90">
+    <tspan
+       style="font-size:14px"
+       id="tspan3140">CopyDone(ID)</tspan>
+  </text>
+  <line
+     x1="500.65204"
+     y1="370.28958"
+     x2="154.66006"
+     y2="370.28958"
+     id="line92"
+     style="fill:none;stroke:#000000;stroke-width:0.65478122" />
+  <polygon
+     points="167,730 159,726 167,721 "
+     id="polygon94"
+     style="fill:#000000"
+     transform="translate(-3.0398993,-356.2893)" />
+  <polygon
+     points="159,726 167,721 167,730 "
+     id="polygon96"
+     style="fill:none;stroke:#000000;stroke-width:1"
+     transform="translate(-3.2369593,-355.90759)" />
+  <text
+     x="268.03662"
+     y="364.73221"
+     style="font-size:12px;font-family:Dialog"
+     id="text98">
+    <tspan
+       style="font-size:14px"
+       id="tspan3144">CopyDone(ID)</tspan>
+  </text>
+  <line
+     x1="154.30247"
+     y1="78.16037"
+     x2="502.13303"
+     y2="78.16037"
+     id="line100"
+     style="fill:none;stroke:#000000;stroke-width:0.6565187" />
+  <text
+     x="248.2822"
+     y="69.717751"
+     style="font-size:12px;font-family:Dialog"
+     id="text106">
+    <tspan
+       style="font-size:14px"
+       id="tspan3110">CopyRequest(ID, SIZE, FEPbank1, mainMemory)</tspan>
+  </text>
+  <line
+     x1="501.94449"
+     y1="106.91319"
+     x2="375.742"
+     y2="106.91319"
+     id="line108"
+     style="fill:none;stroke:#000000;stroke-width:0.53314149" />
+  <polygon
+     points="522,326 530,321 530,330 "
+     id="polygon110"
+     style="fill:#000000"
+     transform="translate(-145.88109,-219.48097)" />
+  <polygon
+     points="530,321 530,330 522,326 "
+     id="polygon112"
+     style="fill:none;stroke:#000000;stroke-width:1"
+     transform="translate(-145.88109,-219.08683)" />
+  <text
+     x="386.21899"
+     y="98.999603"
+     style="font-size:12px;font-family:Dialog"
+     id="text114">
+    <tspan
+       style="font-size:14px"
+       id="tspan3112">CopyRequest(ID, SIZE, FEPbank1, mainMemory)</tspan>
+  </text>
+  <text
+     x="473.72479"
+     y="28.281826"
+     style="font-size:12px;font-family:Dialog"
+     id="text128">
+    <tspan
+       style="font-size:14px"
+       id="tspan3098">mainBus</tspan>
+  </text>
+  <line
+     x1="470.71085"
+     y1="31.281826"
+     x2="538.25665"
+     y2="31.281826"
+     id="line130"
+     style="fill:none;stroke:#000000;stroke-width:0.91887021" />
+  <line
+     x1="501.72479"
+     y1="33.281826"
+     x2="501.72479"
+     y2="763.28192"
+     id="line132"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <text
+     x="601.72479"
+     y="28.281826"
+     style="font-size:12px;font-family:Dialog"
+     id="text134">
+    <tspan
+       style="font-size:14px"
+       id="tspan3100">mainMemory</tspan>
+  </text>
+  <line
+     x1="600.98175"
+     y1="31.281826"
+     x2="697.25616"
+     y2="31.281826"
+     id="line136"
+     style="fill:none;stroke:#000000;stroke-width:1.68273604" />
+  <line
+     x1="648.72479"
+     y1="33.281826"
+     x2="648.72479"
+     y2="775.28192"
+     id="line138"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <text
+     x="337.72479"
+     y="28.281826"
+     style="font-size:12px;font-family:Dialog"
+     id="text140">
+    <tspan
+       style="font-size:14px"
+       id="tspan3096">BridgeDMA</tspan>
+  </text>
+  <line
+     x1="336.51831"
+     y1="31.281826"
+     x2="418.87268"
+     y2="31.281826"
+     id="line142"
+     style="fill:none;stroke:#000000;stroke-width:1.21268857" />
+  <line
+     x1="375.72479"
+     y1="33.281826"
+     x2="375.72479"
+     y2="765.28192"
+     id="line144"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <rect
+     x="322.00043"
+     y="292.81186"
+     width="187.84332"
+     height="19.940994"
+     rx="5.6240516"
+     ry="4.9852486"
+     id="rect146"
+     style="fill:none;stroke:#000000;stroke-width:1.05900514" />
+  <text
+     x="325.67627"
+     y="306.11017"
+     style="font-size:12px;font-family:Dialog"
+     id="text148">
+    <tspan
+       style="font-size:14px"
+       id="tspan3134">copied_size += data_size</tspan>
+  </text>
+  <text
+     x="233.72479"
+     y="28.281826"
+     style="font-size:12px;font-family:Dialog"
+     id="text150">
+    <tspan
+       style="font-size:14px"
+       id="tspan3094">Crossbar</tspan>
+  </text>
+  <line
+     x1="232.04817"
+     y1="31.281826"
+     x2="298.13107"
+     y2="31.281826"
+     id="line152"
+     style="fill:none;stroke:#000000;stroke-width:1.19857585" />
+  <line
+     x1="262.72479"
+     y1="33.281826"
+     x2="262.72479"
+     y2="773.28192"
+     id="line154"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <text
+     x="123.22029"
+     y="28.281826"
+     style="font-size:12px;font-family:Dialog"
+     id="text156">
+    <tspan
+       style="font-size:14px"
+       id="tspan3092">mainCPU</tspan>
+  </text>
+  <line
+     x1="122.19796"
+     y1="31.281826"
+     x2="187.42502"
+     y2="31.281826"
+     id="line158"
+     style="fill:none;stroke:#000000;stroke-width:1.09904921" />
+  <line
+     x1="154.22028"
+     y1="33.281826"
+     x2="154.22028"
+     y2="781.28192"
+     id="line160"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <rect
+     x="100.4959"
+     y="46.288101"
+     width="120.34174"
+     height="19.94105"
+     rx="5.623446"
+     ry="4.9852624"
+     id="rect162"
+     style="fill:none;stroke:#000000;stroke-width:1.05894959" />
+  <text
+     x="104.15517"
+     y="59.586414"
+     style="font-size:12px;font-family:Dialog"
+     id="text164">
+    <tspan
+       style="font-size:14px"
+       id="tspan3106">copied_size = 0</tspan>
+  </text>
+  <text
+     x="24.824635"
+     y="28.906826"
+     style="font-size:12px;font-family:Dialog"
+     id="text166">
+    <tspan
+       style="font-size:14px"
+       id="tspan3090">FEPbank1</tspan>
+  </text>
+  <line
+     x1="23.068901"
+     y1="31.906826"
+     x2="94.492432"
+     y2="31.906826"
+     id="line168"
+     style="fill:none;stroke:#000000;stroke-width:1.15006876" />
+  <line
+     x1="55.824635"
+     y1="33.906826"
+     x2="55.824635"
+     y2="787.90692"
+     id="line170"
+     style="fill:none;stroke:#000000;stroke-width:1" />
+  <line
+     x1="747.19"
+     y1="119.2599"
+     x2="13.314469"
+     y2="119.2599"
+     id="line92-5"
+     style="fill:none;stroke:#000000;stroke-width:1.554;stroke-miterlimit:4;stroke-dasharray:none" />
+  <line
+     x1="746.91907"
+     y1="325.02264"
+     x2="14.075703"
+     y2="325.02264"
+     id="line92-5-4"
+     style="fill:none;stroke:#000000;stroke-width:1.553;stroke-miterlimit:4;stroke-dasharray:none" />
+  <line
+     x1="14.158726"
+     y1="118.43236"
+     x2="14.158726"
+     y2="325.37418"
+     id="line170-0"
+     style="fill:none;stroke:#000000;stroke-width:1.524;stroke-miterlimit:4;stroke-dasharray:none" />
+  <rect
+     x="14.697207"
+     y="119.48804"
+     width="210.84293"
+     height="19.610012"
+     rx="9.8524733"
+     ry="4.902503"
+     id="rect162-9"
+     style="fill:none;stroke:#000000;stroke-width:1.38998961" />
+  <text
+     x="20.977924"
+     y="132.89954"
+     style="font-size:12px;font-family:Dialog"
+     id="text164-2">
+    <tspan
+       style="font-size:14px"
+       id="tspan3116">LOOP ( copied_size &lt;= SIZE )</tspan>
+  </text>
+  <line
+     x1="746.47656"
+     y1="119.57518"
+     x2="746.47656"
+     y2="325.40485"
+     id="line170-0-3"
+     style="fill:none;stroke:#000000;stroke-width:1.522;stroke-miterlimit:4;stroke-dasharray:none" />
+  <g
+     id="g4220"
+     transform="translate(66.68558,666.64091)">
+    <line
+       style="fill:none;stroke:#000000;stroke-width:1"
+       id="line42"
+       y2="-584.68756"
+       x2="426.66479"
+       y1="-588.68756"
+       x1="435.66479" />
+    <line
+       style="fill:none;stroke:#000000;stroke-width:1"
+       id="line44-8"
+       y2="-593.68756"
+       x2="426.66479"
+       y1="-588.68756"
+       x1="435.66479" />
+  </g>
+  <polygon
+     points="417,400 409,396 417,391 "
+     id="polygon16-4"
+     style="fill:none;stroke:#000000;stroke-width:1"
+     transform="translate(-146.11,-253.01345)" />
+  <polygon
+     points="417,391 417,400 409,396 "
+     id="polygon14-0"
+     style="fill:#000000"
+     transform="translate(-145.82,-252.92862)" />
+  <line
+     x1="263.20459"
+     y1="222.06784"
+     x2="375.12732"
+     y2="222.06784"
+     id="line36-2"
+     style="fill:none;stroke:#000000;stroke-width:0.9424839" />
+  <text
+     x="272.09656"
+     y="210.60867"
+     style="font-size:12px;font-family:Dialog"
+     id="text42-2">
+    <tspan
+       style="font-size:14px"
+       id="tspan3114-7">Transfer(data_size)</tspan>
+  </text>
+  <polygon
+     points="786,481 795,486 786,490 "
+     id="polygon48-4"
+     style="fill:none;stroke:#000000;stroke-width:1"
+     transform="translate(-419.55379,-263.77552)" />
+  <polygon
+     points="786,481 795,486 786,490 "
+     id="polygon46-6-1"
+     style="fill:#000000"
+     transform="translate(-419.81448,-264.03932)" />
+  <polygon
+     points="795,486 786,490 786,481 "
+     id="polygon48-7"
+     style="fill:none;stroke:#000000;stroke-width:1"
+     transform="translate(-292.70379,-237.77862)" />
+  <polygon
+     points="795,486 786,490 786,481 "
+     id="polygon48-9"
+     style="fill:none;stroke:#000000;stroke-width:1"
+     transform="translate(-146.98722,-213.18596)" />
+  <polygon
+     points="786,481 795,486 786,490 "
+     id="polygon46-6-16"
+     style="fill:#000000"
+     transform="translate(-146.70853,-212.90726)" />
+</svg>

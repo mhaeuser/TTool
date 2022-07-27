@@ -1,0 +1,75 @@
+\begin{picture}(0,0)%
+\includegraphics{/home/enrici/embb/trunk/baseband/docs/andreae/SoSyM_2014/figures/ips_ip_shell}%
+\end{picture}%
+\setlength{\unitlength}{4144sp}%
+%
+\begingroup\makeatletter\ifx\SetFigFont\undefined%
+\gdef\SetFigFont#1#2#3#4#5{%
+  \reset@font\fontsize{#1}{#2pt}%
+  \fontfamily{#3}\fontseries{#4}\fontshape{#5}%
+  \selectfont}%
+\fi\endgroup%
+\begin{picture}(6452,5045)(-1487,-5084)
+\put(-134,-1951){\makebox(0,0)[rb]{\smash{{\SetFigFont{8}{9.6}{\familydefault}{\mddefault}{\updefault}{\color[rgb]{0,0,0}Control and}%
+}}}}
+\put(-134,-2101){\makebox(0,0)[rb]{\smash{{\SetFigFont{8}{9.6}{\familydefault}{\mddefault}{\updefault}{\color[rgb]{0,0,0}status registers}%
+}}}}
+\put(1666,-3886){\makebox(0,0)[b]{\smash{{\SetFigFont{8}{9.6}{\familydefault}{\mddefault}{\updefault}{\color[rgb]{0,0,0}AVCI initiator}%
+}}}}
+\put(1666,-4021){\makebox(0,0)[b]{\smash{{\SetFigFont{8}{9.6}{\familydefault}{\mddefault}{\updefault}{\color[rgb]{0,0,0}interface}%
+}}}}
+\put(676,-3886){\makebox(0,0)[b]{\smash{{\SetFigFont{8}{9.6}{\familydefault}{\mddefault}{\updefault}{\color[rgb]{0,0,0}AVCI target}%
+}}}}
+\put(676,-4021){\makebox(0,0)[b]{\smash{{\SetFigFont{8}{9.6}{\familydefault}{\mddefault}{\updefault}{\color[rgb]{0,0,0}interface}%
+}}}}
+\put(4366,-2026){\makebox(0,0)[lb]{\smash{{\SetFigFont{8}{9.6}{\familydefault}{\mddefault}{\updefault}{\color[rgb]{0,0,0}Micro-}%
+}}}}
+\put(4366,-2176){\makebox(0,0)[lb]{\smash{{\SetFigFont{8}{9.6}{\familydefault}{\mddefault}{\updefault}{\color[rgb]{0,0,0}controller}%
+}}}}
+\put(4366,-1366){\makebox(0,0)[lb]{\smash{{\SetFigFont{8}{9.6}{\familydefault}{\mddefault}{\updefault}{\color[rgb]{0,0,0}Micro-}%
+}}}}
+\put(4366,-1516){\makebox(0,0)[lb]{\smash{{\SetFigFont{8}{9.6}{\familydefault}{\mddefault}{\updefault}{\color[rgb]{0,0,0}controller}%
+}}}}
+\put(4366,-1666){\makebox(0,0)[lb]{\smash{{\SetFigFont{8}{9.6}{\familydefault}{\mddefault}{\updefault}{\color[rgb]{0,0,0}memory}%
+}}}}
+\put(4381,-2611){\makebox(0,0)[lb]{\smash{{\SetFigFont{8}{9.6}{\familydefault}{\mddefault}{\updefault}{\color[rgb]{0,0,0}Direct}%
+}}}}
+\put(4381,-2761){\makebox(0,0)[lb]{\smash{{\SetFigFont{8}{9.6}{\familydefault}{\mddefault}{\updefault}{\color[rgb]{0,0,0}memory}%
+}}}}
+\put(4381,-2911){\makebox(0,0)[lb]{\smash{{\SetFigFont{8}{9.6}{\familydefault}{\mddefault}{\updefault}{\color[rgb]{0,0,0}access}%
+}}}}
+\put(4381,-3061){\makebox(0,0)[lb]{\smash{{\SetFigFont{8}{9.6}{\familydefault}{\mddefault}{\updefault}{\color[rgb]{0,0,0}engine}%
+}}}}
+\put(2386,-2536){\makebox(0,0)[b]{\smash{{\SetFigFont{8}{9.6}{\familydefault}{\mddefault}{\updefault}{\color[rgb]{0,0,0}64}%
+}}}}
+\put(676,-2626){\makebox(0,0)[b]{\smash{{\SetFigFont{8}{9.6}{\familydefault}{\mddefault}{\updefault}{\color[rgb]{0,0,0}VIA}%
+}}}}
+\put(1666,-2086){\makebox(0,0)[b]{\smash{{\SetFigFont{8}{9.6}{\familydefault}{\mddefault}{\updefault}{\color[rgb]{0,0,0}DMA}%
+}}}}
+\put(1666,-1816){\makebox(0,0)[b]{\smash{{\SetFigFont{8}{9.6}{\familydefault}{\mddefault}{\updefault}{\color[rgb]{0,0,0}UC}%
+}}}}
+\put(1666,-1276){\makebox(0,0)[b]{\smash{{\SetFigFont{8}{9.6}{\familydefault}{\mddefault}{\updefault}{\color[rgb]{0,0,0}UCA}%
+}}}}
+\put(2386,-1996){\makebox(0,0)[b]{\smash{{\SetFigFont{8}{9.6}{\familydefault}{\mddefault}{\updefault}{\color[rgb]{0,0,0}64}%
+}}}}
+\put(676,-1321){\makebox(0,0)[b]{\smash{{\SetFigFont{8}{9.6}{\familydefault}{\mddefault}{\updefault}{\color[rgb]{0,0,0}CTRL}%
+}}}}
+\put(2431,-1186){\makebox(0,0)[b]{\smash{{\SetFigFont{8}{9.6}{\familydefault}{\mddefault}{\updefault}{\color[rgb]{0,0,0}8}%
+}}}}
+\put(-134,-2626){\makebox(0,0)[rb]{\smash{{\SetFigFont{8}{9.6}{\familydefault}{\mddefault}{\updefault}{\color[rgb]{0,0,0}Arbiter}%
+}}}}
+\put(-224,-1276){\makebox(0,0)[rb]{\smash{{\SetFigFont{8}{9.6}{\familydefault}{\mddefault}{\updefault}{\color[rgb]{0,0,0}Interrupts}%
+}}}}
+\put(-134,-2896){\makebox(0,0)[rb]{\smash{{\SetFigFont{8}{9.6}{\familydefault}{\mddefault}{\updefault}{\color[rgb]{0,0,0}AVCI requests FIFO}%
+}}}}
+\put(-134,-3301){\makebox(0,0)[rb]{\smash{{\SetFigFont{8}{9.6}{\familydefault}{\mddefault}{\updefault}{\color[rgb]{0,0,0} AVCI responses FIFO}%
+}}}}
+\put(-314,-286){\makebox(0,0)[rb]{\smash{{\SetFigFont{12}{14.4}{\familydefault}{\mddefault}{\updefault}{\color[rgb]{0,0,0}DSP unit}%
+}}}}
+\put(3466,-4156){\makebox(0,0)[b]{\smash{{\SetFigFont{12}{14.4}{\familydefault}{\mddefault}{\updefault}{\color[rgb]{0,0,0}64 bits AVCI crossbar}%
+}}}}
+\put(-134,-916){\makebox(0,0)[rb]{\smash{{\SetFigFont{8}{9.6}{\familydefault}{\mddefault}{\updefault}{\color[rgb]{0,0,0}Arbiter}%
+}}}}
+\put(3466,-1546){\makebox(0,0)[b]{\smash{{\SetFigFont{8}{9.6}{\familydefault}{\mddefault}{\updefault}{\color[rgb]{0,0,0}UC memory}%
+}}}}
+\end{picture}%

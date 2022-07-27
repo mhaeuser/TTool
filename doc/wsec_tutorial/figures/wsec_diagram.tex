@@ -1,0 +1,84 @@
+\definecolor{tptred}{RGB}{191,18,56} 
+\definecolor{tptbrown}{RGB}{109,80,71}
+\begin{tikzpicture}[scale=.6, every node/.style={scale=.6}]
+	\tikzstyle{avatarnode}=[rectangle,thick,draw,rounded corners=4pt,minimum width=2.5cm,text width=3.5cm,text centered,fill=white]
+	\tikzstyle{avatar2ndnode}=[rectangle,thick,draw,rounded corners=4pt,minimum width=2.5cm,text width=3.5cm,text centered,fill=gray!40]
+	\tikzstyle{assessment}=[chamfered rectangle,thick,draw,minimum width=2.5cm,text width=3.5cm,text centered,fill=gray!80]
+	\tikzstyle{diplodocusnode}=[rectangle,thick,draw,rounded corners=4pt,minimum width=2.5cm,text width=3.5cm,text centered,fill=white]
+	\tikzstyle{diplodocus2ndnode}=[rectangle,thick,draw,rounded corners=4pt,minimum width=2.5cm,text width=3.5cm,text centered,fill=gray!40]
+	\tikzstyle{attackpatchnode}=[rectangle,thick,draw,minimum width=2.5cm,text width=3.5cm,text centered,fill=white]
+	\tikzstyle{arrow}=[->,thick,rounded corners=4pt]
+	\tikzstyle{arrowd}=[->,thick,decorate,decoration={snake,amplitude=1pt,segment length=1.5mm,post length=1mm}]
+	\tikzstyle{arrowpv}=[->,thick,dashed,decorate,decoration={snake,amplitude=1.5pt,segment length=5mm,post length=1mm}]
+	\tikzstyle{arrowsim}=[->,thick,dotted,decorate,decoration={snake,amplitude=1.5pt,segment length=5mm,post length=1mm}]
+	\tikzstyle{arrowfeedback}=[->,thick,dotted,rounded corners=4pt]
+
+	\node[diplodocusnode,copy shadow,fill=tptred!25] (diplodocus) at (0,0) {\large{Components models\\(\textbf{HW/SW partitioning})}};
+	\node[attackpatchnode] (attackpatch) at (4.5,0) {\large{Attack scenarios + Countermeasures description}};
+	\node[avatarnode,copy shadow,fill=tptbrown!25] (avatar) at (9,0) {\large{System model\\+ \emph{all test scenarios}\\(\textbf{High-level design})}};
+
+	\node[diplodocus2ndnode,double copy shadow,fill=tptred!50] (diplodocusmutant) at (7.5,-10) {\large{Components models\\+ Attacks\\+ Countermeasures}};
+
+	\node[assessment,fill=tptred!75] (diplodocusregression) at (15,1) {\large{Regression assessment\\(w.r.t. performance)}};
+	\node[assessment,fill=tptred!75] (diplodocussecurity) at (15,-1) {\large{Security assessment}};
+
+
+	\node[avatar2ndnode,double copy shadow,fill=tptbrown!50] (avatarpatched) at (15.75,-5) {\large{System model\\+ Countermeasures\\+ \emph{all test scenarios}}};
+	\node[avatar2ndnode,double copy shadow,fill=tptbrown!50] (avatarattacked) at (15.75,-7.5) {\large{System model\\+ Attacks\\+ \emph{relevant test sc.}}};
+	\node[avatar2ndnode,text opacity=0,fill=tptbrown!50] (avatarattackedpatchedshadow) at (16.15,-9.6) {\large{System model\\+ Attacks\\+ Countermeasures\\+ \emph{relevant test sc.}}};
+	\node[avatar2ndnode,double copy shadow,fill=tptbrown!50] (avatarattackedpatched) at (15.75,-10) {\large{System model\\+ Attacks\\+ Countermeasures\\+ \emph{relevant test sc.}}};
+
+	\node[assessment,fill=tptbrown!75] (avatarregression) at (22.5,1) {\large{Regression assessment\\(w.r.t. safety)}};
+	\node[assessment,fill=tptbrown!75] (avatarefficiency) at (22.5,-1) {\large{Efficiency assessment\\(w.r.t. safety)}};
+
+
+
+	\draw[arrow,color=tptbrown] (avatar.south) -- (avatarpatched.west);
+	\draw[arrow,color=tptbrown] (avatar.south) -- (avatarattacked.west);
+	\draw[arrow,color=tptbrown,shorten >=7pt] (avatarattacked.south) -- (avatarattackedpatched.north) ;
+
+	\draw[->,thick,decorate,decoration={snake,amplitude=1pt,segment length=1.5mm,post length=1mm,pre length=4mm},shorten <=10pt,color=tptbrown] (avatarpatched.east) -- (avatarregression.west);
+	\draw[->,thick,decorate,decoration={snake,amplitude=1pt,segment length=1.5mm,post length=1mm,pre length=4mm},shorten <=10pt,color=tptbrown] (avatarattacked.east) -- (avatarefficiency.west);
+	\draw[->,thick,decorate,decoration={snake,amplitude=1pt,segment length=1.5mm,post length=1mm,pre length=7mm},shorten <=19pt,color=tptbrown] (avatarattackedpatched.east) -- (avatarefficiency.south west);
+
+
+
+	
+	\draw[arrow,color=tptred,shorten >=6pt] (diplodocus.south) -- (diplodocusmutant.north);
+	\draw[->,thick,dotted,decorate,decoration={snake,amplitude=1.5pt,segment length=5mm,pre length=3mm,post length=1mm},shorten <=6pt,color=tptred] (diplodocusmutant.north) -- (diplodocusregression.west);
+	\draw[->,thick,dashed,decorate,decoration={snake,amplitude=1.5pt,segment length=5mm,pre length=3mm,post length=1mm},shorten <=6pt,color=tptred] (diplodocusmutant.north) -- (diplodocussecurity.west);
+
+	\node[align=left] (arrowcaption) at (1.8,-11.5) {\large{: Model mutation}};
+	\node[align=left] (arrowsimcaption) at (4.05,-12) {\large{: Simulation (with TTool internal simulator)}};
+	\node[align=left] (arrowpvcaption) at (14.66,-11.5) {\large{: Model-checking (with ProVerif)}};
+	\node[align=left] (arrowdcaption) at (16.47,-12) {\large{: Model-checking (with TTool internal model-checker)}};
+	\node[align=left] (arrowfeedbackcaption) at (6.42,-12.5) {\large{: Feedback to components, system, countermeasures and attacks models}};
+	\draw[arrow] (-1.5,-11.5) -- (arrowcaption);
+	\draw[arrowsim] (-1.5,-12) -- (arrowsimcaption);
+	\draw[arrowpv] (10,-11.5) -- (arrowpvcaption);
+	\draw[arrowd] (10,-12) -- (arrowdcaption);
+	\draw[arrowfeedback] (-1.5,-12.5) -- (arrowfeedbackcaption);
+
+	\draw[-,thick,dashed,shorten <=2pt] (diplodocus) -- (attackpatch);
+	\draw[-,thick,dashed,shorten <=2pt] (avatar) -- (attackpatch);
+
+
+	\draw[decorate,decoration={brace,raise=.25cm},thick] (diplodocusregression.north) -- (avatarregression.north)node[above,pos=.5,text width=10cm,text centered]{};
+	\draw[arrowfeedback,shorten >=2pt] (18.75,2.4) -- (18.75,2.75) -| (avatar.north);
+	\draw[arrowfeedback] (18.75,2.4) -- (18.75,3.25) -| (attackpatch.north);
+	\draw[arrowfeedback,shorten >=2pt] (18.75,2.4) -- (18.75,3.75) -| (diplodocus.north);
+
+	\begin{pgfonlayer}{background}
+	\filldraw[color=gray!25,opacity=0.5] (diplodocusmutant.west) -- (diplodocusregression.west) -- (diplodocusregression.south east) -- (diplodocusmutant.south east);
+	\filldraw[color=gray!12.5] (diplodocus.east) -- (diplodocusmutant.south east) -- (diplodocusmutant.south west) -- (diplodocus.south west) -- (diplodocus.west);
+	\filldraw[color=gray!25,opacity=0.5] (avatar.east) -- (avatarpatched.north west) -- (avatarpatched.north) -- (avatarattackedpatched.south) -- (avatarattackedpatched.south west) -- (avatar.south west) -- (avatar.west);
+	\filldraw[color=gray!12.5] (avatarpatched.north east) -- (avatarregression.west) -- (avatarregression.south east) -- (avatarattackedpatched.south east) -- (avatarattackedpatched.north) -- (avatarpatched.south);
+	\end{pgfonlayer}
+
+
+	\node[circle,thick,fill=white,draw] at (-2.5,0) {\huge{\textbf{1}}};
+	\node[circle,thick,fill=white,draw] at (11.5,-7.5) {\huge{\textbf{2}}};
+	\node[circle,thick,fill=white,draw] at (18.75,0) {\huge{\textbf{3}}};
+	\node[circle,thick,fill=white,draw] at (11.5,3.25) {\huge{\textbf{4}}};
+
+\end{tikzpicture}

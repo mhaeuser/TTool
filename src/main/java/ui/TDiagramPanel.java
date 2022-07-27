@@ -133,7 +133,7 @@ public abstract class TDiagramPanel extends JPanel implements GenericTree {
     protected int popupX, popupY;
     protected JMenuItem remove, edit, clone, bringFront, bringBack, makeSquare, setJavaCode, removeJavaCode, setInternalComment,
             removeInternalComment, attach, detach, hide, unhide, search, enableDisable, setAsCryptoBlock, setAsRegularBlock,
-            setMainColor, setDefaultColor, tosysmlv2;
+            setMainColor, setDefaultColor, tosysmlv2, setAsNew;
     protected JMenuItem checkAccessibility, checkInvariant, checkMasterMutex, checkLatency;
     protected JMenuItem gotoReference;
     protected JMenuItem showProVerifTrace;
@@ -1570,6 +1570,7 @@ public abstract class TDiagramPanel extends JPanel implements GenericTree {
         componentMenu.add(showProVerifTrace);
         componentMenu.add(checkMasterMutex);
         componentMenu.add(breakpoint);
+        componentMenu.add(setAsNew);
 
         //author: huytruong
         componentMenu.add(search);
@@ -1697,6 +1698,9 @@ public abstract class TDiagramPanel extends JPanel implements GenericTree {
 
         search = new JMenuItem("External Search");
         search.addActionListener(menuAL);
+
+        setAsNew = new JMenuItem("Set as new");
+        setAsNew.addActionListener(menuAL);
 
         // Diagram Menu
 
@@ -2058,6 +2062,14 @@ public abstract class TDiagramPanel extends JPanel implements GenericTree {
         }
         //--
 
+
+        if (e.getSource() == setAsNew) {
+            setAsNew(componentPopup);
+            mgui.changeMade(this, MOVE_COMPONENT);
+            repaint();
+            return;
+        }
+
         if (e.getSource() == upX) {
             increaseDiagramWidth();
 //            maxX += increment;
@@ -2153,6 +2165,12 @@ public abstract class TDiagramPanel extends JPanel implements GenericTree {
             buildDiagramPopupMenu();
             setDiagramPopupMenu();
             diagramMenu.show(this, x, y);
+        }
+    }
+
+    private void setAsNew(TGComponent tgc) {
+        if (tgc != null) {
+            tgc.setAsNew(!tgc.isNew());
         }
     }
 

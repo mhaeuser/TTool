@@ -40,6 +40,7 @@
 
 package ui;
 
+import avatartranslator.ElementWithNew;
 import avatartranslator.ElementWithUUID;
 import myutil.Conversion;
 import myutil.GenericTree;
@@ -78,7 +79,7 @@ import java.util.*;
  * @version 1.0 21/12/2003
  */
 
-public abstract class TGComponent  extends AbstractCDElement implements /*CDElement,*/ GenericTree, ElementWithUUID {
+public abstract class TGComponent  extends AbstractCDElement implements /*CDElement,*/ GenericTree, ElementWithUUID, ElementWithNew {
 
     protected final static String XML_HEAD = "<COMPONENT type=\"";
     protected final static String XML_ID = "\" id=\"";
@@ -194,6 +195,9 @@ public abstract class TGComponent  extends AbstractCDElement implements /*CDElem
 
     // internal comments
     protected String internalComment = null;
+
+    // mutations
+    protected boolean isNew = false;
 
 
     protected boolean accessibility;
@@ -1085,6 +1089,8 @@ public abstract class TGComponent  extends AbstractCDElement implements /*CDElem
   
         Font font = new Font(Font.SANS_SERIF, Font.PLAIN, this.tdp.getFontSize());
         g.setFont(font);
+
+
         internalDrawing(g);
         g.setFont(font);
         repaint = false;
@@ -1114,6 +1120,13 @@ public abstract class TGComponent  extends AbstractCDElement implements /*CDElem
               g.drawLine(x+width-2, y+2, x+width-6, y+6);
               g.drawLine(x+width-6, y+2, x+width-2, y+6);
               GraphicLib.setNormalStroke(g);*/
+        }
+
+        if (isNew) {
+            Color tmp = g.getColor();
+            g.setColor(ColorManager.NEW);
+            g.drawString("N", x + 5, y - 5);
+            g.setColor(tmp);
         }
 
         if (invariant) {
@@ -3293,6 +3306,7 @@ public abstract class TGComponent  extends AbstractCDElement implements /*CDElem
         sb.append(translateCDRectangleParam());
         sb.append(translateNameValue());
         sb.append(translateCustomData());
+        sb.append(translateNew());
         sb.append(translateConnectingPoints());
         sb.append(translateJavaCode());
         sb.append(translateInternalComment());
@@ -3412,6 +3426,10 @@ public abstract class TGComponent  extends AbstractCDElement implements /*CDElem
             return s + "\" />\n";
         }
         return "";
+    }
+
+    protected String translateNew() {
+           return "<new d=\"" + isNew + "\" />\n";
     }
 
     protected String translateJavaCode() {
@@ -3585,6 +3603,14 @@ public abstract class TGComponent  extends AbstractCDElement implements /*CDElem
     public void setCurrentColor(Color _c) {
         //TraceManager.addDev("Setting current color to: " + _c);
         currentMainColor = _c;
+    }
+
+    public boolean isNew() {
+        return isNew;
+    }
+
+    public void setAsNew(boolean _isNew) {
+        isNew = _isNew;
     }
 
 

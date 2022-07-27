@@ -267,12 +267,16 @@ public abstract class TGConnector extends TGCScalableWithInternalComponent {
     public void setP1(TGConnectingPoint p) {
         //TraceManager.addDev("Setting p1");
         p1 = p;
-        p1.setReferenceToConnector(this);
+        if (p1 != null) {
+            p1.setReferenceToConnector(this);
+        }
     }
 
     public void setP2(TGConnectingPoint p) {
         p2 = p;
-        p2.setReferenceToConnector(this);
+        if (p2 != null) {
+            p2.setReferenceToConnector(this);
+        }
     }
 
     public boolean isP1(CDElement cd) {

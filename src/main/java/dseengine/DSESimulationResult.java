@@ -746,26 +746,45 @@ public class DSESimulationResult {
     }
 
     public double getAverageSimulationDuration() {
+        if (sdwr == null) {
+           return -1.0;
+        }
         return sdwr.averageDuration;
     }
 
     public double getAverageCycleDuration() {
+        if (sdwr == null) {
+            return -1.0;
+        }
         return cdwr.averageDuration;
     }
 
     public long getMaxSimulationDuration() {
+        if (sdwr == null) {
+            return -1;
+        }
         return sdwr.maxDuration;
     }
 
     public long getMaxCycleDuration() {
+        if (sdwr == null) {
+            return -1;
+        }
         return cdwr.maxDuration;
     }
 
     public long getMinSimulationDuration() {
+        if (sdwr == null) {
+            return -1;
+        }
         return sdwr.minDuration;
     }
 
     public long getMinCycleDuration() {
+        if (sdwr == null) {
+            return -1;
+        }
+
         return cdwr.minDuration;
     }
 

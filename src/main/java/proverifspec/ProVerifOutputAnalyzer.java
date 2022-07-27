@@ -112,8 +112,7 @@ public class ProVerifOutputAnalyzer {
         this.listeners.remove(listener);
     }
 
-    private void notifyListeners()
-    {
+    private void notifyListeners() {
         for (ProVerifOutputListener listener: this.listeners)
             listener.proVerifOutputChanged();
     }
@@ -148,31 +147,25 @@ public class ProVerifOutputAnalyzer {
 
                 Matcher m = procPattern.matcher(str);
 
-                if (isInTrace && (str.startsWith("A more detailed") || str.startsWith("Could not find")))
-                {
+                if (isInTrace && (str.startsWith("A more detailed") || str.startsWith("Could not find"))) {
                     isInTrace = false;
                     resultTrace.finalizeMethod();
                     continue;
-                }
-                else if (!isInTrace && str.startsWith("1. "))
-                {
+                } else if (!isInTrace && str.startsWith("1. ")) {
                     isInTrace = true;
                 }
 
                 // Found a trace step
-                if (isInTrace)
-                {
+                if (isInTrace) {
                     resultTrace.addTraceStep(str);
                 }
 
-                else if (m.matches())
-                {
+                else if (m.matches()) {
                     proverifProcess.add(m.group(1));
                 }
 
                 // Found a line with a RESULT
-                else if (str.startsWith("RESULT "))
-                {
+                else if (str.startsWith("RESULT "))  {
                     // Remove 'RESULT ' at the begining
                     str = str.substring(7);
                     
@@ -180,15 +173,13 @@ public class ProVerifOutputAnalyzer {
                     ProVerifQueryResult result = new ProVerifQueryResult(true, true);
 
                     // This concerns an enteringState event
-                    if (str.startsWith(isTyped ? typedEvent : untypedEvent))
-                    {
+                    if (str.startsWith(isTyped ? typedEvent : untypedEvent)) {
                         str = str.substring((isTyped ? typedEvent : untypedEvent).length());
                         String stateName = null;
 
                         previousAuthPragma = null;
 
-                        if (isTyped)
-                        {
+                        if (isTyped) {
                             if (str.contains(typedTrue))
                             {
                                 result.setSatisfied(false);
@@ -205,9 +196,7 @@ public class ProVerifOutputAnalyzer {
                                 result.setTrace(resultTrace);
                                 stateName = str.split(Pattern.quote(typedCannotBeProved))[0];
                             }
-                        }
-                        else
-                        {
+                        } else {
                             stateName = str.split("\\(")[0];
                             if (str.contains(untypedTrue))
                             {
@@ -225,48 +214,45 @@ public class ProVerifOutputAnalyzer {
                         }
 
                         AvatarPragmaReachability reachabilityPragma = this.getAvatarPragmaReachabilityFromString(stateName);
-                        if (reachabilityPragma != null)
-                        {
+                        if (reachabilityPragma != null) {
                             this.results.put(reachabilityPragma, result);
                             this.notifyListeners();
                         }
                     }
 
                     // This concerns a confidentiality check
-                    else if (str.contains(isTyped ? typedSecret : untypedSecret))
-                    {
+                    else if (str.contains(isTyped ? typedSecret : untypedSecret)) {
+                        TraceManager.addDev("Confidentiality of: " + str);
                         String attributeName = str.substring((isTyped ? typedSecret : untypedSecret).length()).split("\\[")[0];
 
                         previousAuthPragma = null;
 
-                        if (str.contains(isTyped ? typedFalse : untypedFalse))
-                        {
+                        if (str.contains(isTyped ? typedFalse : untypedFalse)) {
+                            TraceManager.addDev("Confidentiality: false");
                             result.setTrace(resultTrace);
                             result.setSatisfied(false);
                         }
-                        else if (str.contains(isTyped ? typedCannotBeProved : untypedCannotBeProved))
-                        {
+                        else if (str.contains(isTyped ? typedCannotBeProved : untypedCannotBeProved)) {
+                            TraceManager.addDev("Confidentiality: cannot be proved");
                             result.setTrace(resultTrace);
                             result.setProved(false);
                         }
 
                         AvatarAttribute attribute = this.getAvatarAttributeFromString(attributeName);
-                        if (attribute != null)
-                        {
-                            for (AvatarPragma pragma: pragmas)
-                            {
-                                if (pragma instanceof AvatarPragmaSecret)
-                                {
-
+                        if (attribute != null) {
+                            TraceManager.addDev("Confidentiality attribute is non null: " + attribute.toString());
+                            for (AvatarPragma pragma: pragmas) {
+                                if (pragma instanceof AvatarPragmaSecret) {
                                     String trueName = this.avatar2proverif.getTrueName(((AvatarPragmaSecret) pragma).getArg());
-                                    
-                                    if (trueName != null && trueName.equals(attributeName))
-                                    {
+                                    if (trueName != null && trueName.equals(attributeName)) {
+                                        TraceManager.addDev("Pragma: " + pragma.toString());
                                         this.results.put(pragma, result);
                                         this.notifyListeners();
                                     }
                                 }
                             }
+                        } else {
+                            TraceManager.addDev("Confidentiality attribute is NULL: " + attributeName);
                         }
                     }
 
@@ -331,18 +317,14 @@ public class ProVerifOutputAnalyzer {
                             state2 = this.getAvatarStateFromString(tmp[0] + AVATAR2ProVerif.ATTR_DELIM + tmp[2]);
                         }
 
-                        if (attribute1 != null && attribute2 != null && state1 != null && state2 != null)
-                        {
-                            for (AvatarPragma pragma: pragmas)
-                            {
-                                if (pragma instanceof AvatarPragmaAuthenticity)
-                                {
+                        if (attribute1 != null && attribute2 != null && state1 != null && state2 != null) {
+                            for (AvatarPragma pragma: pragmas) {
+                                if (pragma instanceof AvatarPragmaAuthenticity) {
                                     AvatarPragmaAuthenticity pragmaAuth = (AvatarPragmaAuthenticity) pragma;
                                     if (pragmaAuth.getAttrA().getState() == state2
                                             && pragmaAuth.getAttrA().getAttribute() == attribute2
                                             && pragmaAuth.getAttrB().getState() == state1
-                                            && pragmaAuth.getAttrB().getAttribute() == attribute1)
-                                    {
+                                            && pragmaAuth.getAttrB().getAttribute() == attribute1) {
                                         this.results.put(pragma, result);
                                         this.notifyListeners();
                                         break;
@@ -352,9 +334,8 @@ public class ProVerifOutputAnalyzer {
                         }
                     }
 
-                    // This concerns a satsified weak authenticity check
-                    else if (str.contains(isTyped ? typedWeakAuth : untypedWeakAuth))
-                    {
+                    // This concerns a satisfied weak authenticity check
+                    else if (str.contains(isTyped ? typedWeakAuth : untypedWeakAuth)) {
 
                         if (previousAuthPragma != null)
                         {
@@ -365,8 +346,7 @@ public class ProVerifOutputAnalyzer {
                     }
 
                     // This concerns a failed weak authenticity check
-                    else if (str.contains(isTyped ? typedWeakNonAuth : untypedWeakNonAuth))
-                    {
+                    else if (str.contains(isTyped ? typedWeakNonAuth : untypedWeakNonAuth)) {
 
                         if (previousAuthPragma != null)
                         {
@@ -407,8 +387,7 @@ public class ProVerifOutputAnalyzer {
         }
     }
 
-    private AvatarAttribute getAvatarAttributeFromString(String name)
-    {
+    private AvatarAttribute getAvatarAttributeFromString(String name) {
         String[] tmp = name.split(AVATAR2ProVerif.ATTR_DELIM);
         if (tmp.length != 2)
             return null;
@@ -420,8 +399,7 @@ public class ProVerifOutputAnalyzer {
         return block.getAvatarAttributeWithName(tmp[1]);
     }
 
-    private AvatarPragmaReachability getAvatarPragmaReachabilityFromString(String name)
-    {
+    private AvatarPragmaReachability getAvatarPragmaReachabilityFromString(String name) {
         String[] tmp = name.split(AVATAR2ProVerif.ATTR_DELIM);
         if (tmp.length != 2)
             return null;
@@ -437,8 +415,7 @@ public class ProVerifOutputAnalyzer {
         return new AvatarPragmaReachability("reachability" + AVATAR2ProVerif.ATTR_DELIM + name, null, block, state);
     }
 
-    private AvatarState getAvatarStateFromString(String name)
-    {
+    private AvatarState getAvatarStateFromString(String name) {
         String[] tmp = name.split(AVATAR2ProVerif.ATTR_DELIM);
         if (tmp.length != 2)
             return null;
@@ -457,8 +434,7 @@ public class ProVerifOutputAnalyzer {
         return this.results;
     }
 
-    public Map<AvatarPragmaSecret, ProVerifQueryResult> getConfidentialityResults()
-    {
+    public Map<AvatarPragmaSecret, ProVerifQueryResult> getConfidentialityResults() {
         if (this.results == null)
             return null;
 
@@ -475,8 +451,7 @@ public class ProVerifOutputAnalyzer {
         return resultMap;
     }
 
-    public Map<AvatarPragmaReachability, ProVerifQueryResult> getReachabilityResults()
-    {
+    public Map<AvatarPragmaReachability, ProVerifQueryResult> getReachabilityResults() {
         if (this.results == null)
             return null;
 
@@ -493,8 +468,7 @@ public class ProVerifOutputAnalyzer {
         return resultMap;
     }
 
-    public Map<AvatarPragmaAuthenticity, ProVerifQueryAuthResult> getAuthenticityResults()
-    {
+    public Map<AvatarPragmaAuthenticity, ProVerifQueryAuthResult> getAuthenticityResults() {
         if (this.results == null)
             return null;
 

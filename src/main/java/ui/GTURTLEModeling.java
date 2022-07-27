@@ -2047,9 +2047,7 @@ public class GTURTLEModeling {
 
     public boolean generateProVerifFromAVATAR(String _path, int _stateReachability, boolean _typed, boolean allowPrivateChannelDuplication, String loopLimit) {
         //
-        if (avatarspec != null) {
-            //use avspec
-        } else if (tmap != null) {
+       if (tmap != null) {
             t2a = new TML2Avatar(tmap, false, true);
             avatarspec = t2a.generateAvatarSpec(loopLimit);
             if (mgui.isExperimentalOn()) {

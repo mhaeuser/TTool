@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<TURTLEGMODELING version="1.0beta" ANIMATE_INTERACTIVE_SIMULATION="true" ACTIVATE_PENALTIES="true" UPDATE_INFORMATION_DIPLO_SIM="true" ANIMATE_WITH_INFO_DIPLO_SIM="true" OPEN_DIAG_DIPLO_SIM="false" LAST_SELECTED_MAIN_TAB="2" LAST_SELECTED_SUB_TAB="0">
+<TURTLEGMODELING version="1.0beta" ANIMATE_INTERACTIVE_SIMULATION="true" ACTIVATE_PENALTIES="true" UPDATE_INFORMATION_DIPLO_SIM="true" ANIMATE_WITH_INFO_DIPLO_SIM="true" OPEN_DIAG_DIPLO_SIM="false" LAST_SELECTED_MAIN_TAB="0" LAST_SELECTED_SUB_TAB="0">
 
 <Modeling type="AVATAR Design" nameTab="Example" tabs="Block Diagram$System$Alice$Bob" >
 <AVATARBlockDiagramPanel name="Block Diagram" minX="10" maxX="1400" minY="10" maxY="900" zoom="1.0" >
@@ -170,13 +170,13 @@
 <Signal value="out chout(Message msg)" attached="true" />
 </extraparam>
 </COMPONENT>
-<SUBCOMPONENT type="5000" id="82" index="7" uid="a1c44cc9-9334-4d03-8988-e402248c1447" >
+<SUBCOMPONENT type="5000" id="82" index="7" uid="32384080-e86a-41de-b441-4f6ae88f1cbe" >
 <father id="164" num="0" />
-<cdparam x="263" y="233" />
-<sizeparam width="139" height="126" minWidth="5" minHeight="2" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
+<cdparam x="36" y="233" />
+<sizeparam width="215" height="126" minWidth="5" minHeight="2" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <hidden value="false" />
-<cdrectangleparam minX="0" maxX="299" minY="0" maxY="93" />
-<infoparam name="Block0" value="Bob" />
+<cdrectangleparam minX="0" maxX="223" minY="0" maxY="93" />
+<infoparam name="Block0" value="Alice" />
 <TGConnectingPoint num="0" id="42" />
 <TGConnectingPoint num="1" id="43" />
 <TGConnectingPoint num="2" id="44" />
@@ -220,10 +220,10 @@
 <extraparam>
 <blockType data="cryptoblock" color="-4072719" />
 <CryptoBlock value="true" />
+<Attribute access="0" id="secretData" value="" type="8" typeOther="" />
 <Attribute access="0" id="m" value="" type="5" typeOther="Message" />
-<Attribute access="0" id="m2" value="" type="5" typeOther="Message" />
+<Attribute access="0" id="m1" value="" type="5" typeOther="Message" />
 <Attribute access="0" id="sk" value="" type="5" typeOther="Key" />
-<Attribute access="0" id="receivedData" value="" type="8" typeOther="" />
 <Method value="Message encrypt(Message msg, Key k)" />
 <Method value="Message decrypt(Message msg, Key k)" />
 <Method value="Message sencrypt(Message msg, Key k)" />
@@ -248,13 +248,13 @@
 <Method value="Message hash(Message msg)" />
 </extraparam>
 </SUBCOMPONENT>
-<SUBCOMPONENT type="5000" id="123" index="8" uid="32384080-e86a-41de-b441-4f6ae88f1cbe" >
+<SUBCOMPONENT type="5000" id="123" index="8" uid="a1c44cc9-9334-4d03-8988-e402248c1447" >
 <father id="164" num="1" />
-<cdparam x="36" y="233" />
-<sizeparam width="215" height="126" minWidth="5" minHeight="2" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
+<cdparam x="263" y="233" />
+<sizeparam width="139" height="126" minWidth="5" minHeight="2" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <hidden value="false" />
-<cdrectangleparam minX="0" maxX="223" minY="0" maxY="93" />
-<infoparam name="Block0" value="Alice" />
+<cdrectangleparam minX="0" maxX="299" minY="0" maxY="93" />
+<infoparam name="Block0" value="Bob" />
 <TGConnectingPoint num="0" id="83" />
 <TGConnectingPoint num="1" id="84" />
 <TGConnectingPoint num="2" id="85" />
@@ -298,10 +298,10 @@
 <extraparam>
 <blockType data="cryptoblock" color="-4072719" />
 <CryptoBlock value="true" />
-<Attribute access="0" id="secretData" value="" type="8" typeOther="" />
 <Attribute access="0" id="m" value="" type="5" typeOther="Message" />
-<Attribute access="0" id="m1" value="" type="5" typeOther="Message" />
+<Attribute access="0" id="m2" value="" type="5" typeOther="Message" />
 <Attribute access="0" id="sk" value="" type="5" typeOther="Key" />
+<Attribute access="0" id="receivedData" value="" type="8" typeOther="" />
 <Method value="Message encrypt(Message msg, Key k)" />
 <Method value="Message decrypt(Message msg, Key k)" />
 <Method value="Message sencrypt(Message msg, Key k)" />
@@ -330,7 +330,7 @@
 
 </AVATARBlockDiagramPanel>
 
-<AVATARStateMachineDiagramPanel name="System" minX="10" maxX="1400" minY="10" maxY="900" >
+<AVATARStateMachineDiagramPanel name="System" minX="10" maxX="1400" minY="10" maxY="900" zoom="1.0" >
 <COMPONENT type="5100" id="166" index="0" uid="a0925a50-0bd2-4287-9a2e-8e4a88ffc8ec" >
 <cdparam x="400" y="50" />
 <sizeparam width="15" height="15" minWidth="1" minHeight="1" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
@@ -343,7 +343,7 @@
 
 </AVATARStateMachineDiagramPanel>
 
-<AVATARStateMachineDiagramPanel name="Alice" minX="10" maxX="1400" minY="10" maxY="900" >
+<AVATARStateMachineDiagramPanel name="Alice" minX="10" maxX="1400" minY="10" maxY="900" zoom="1.0" >
 <CONNECTOR type="5102" id="173" index="0" uid="3c79ec25-70e2-45c6-90de-c2c5c8dee80b" >
 <cdparam x="407" y="310" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
@@ -800,7 +800,7 @@
 
 </AVATARStateMachineDiagramPanel>
 
-<AVATARStateMachineDiagramPanel name="Bob" minX="10" maxX="1400" minY="10" maxY="900" >
+<AVATARStateMachineDiagramPanel name="Bob" minX="10" maxX="1400" minY="10" maxY="900" zoom="1.0" >
 <CONNECTOR type="5102" id="442" index="0" uid="2093fd68-e5a8-4300-870b-a98ff405412a" >
 <cdparam x="416" y="379" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="1000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
@@ -1342,7 +1342,7 @@
 <MainCode value="}"/>
 <Optimized value="true" />
 <considerTimingOperators value="true" />
-<Validated value="System;Alice;Bob;" />
+<Validated value="" />
 <Ignored value="" />
 
 <CONNECTOR type="5002" id="781" index="0" uid="04cf395e-e1ee-41be-9e4a-649d5fdce7f9" >
@@ -1506,13 +1506,13 @@
 <Signal value="out chout(Message msg)" attached="true" />
 </extraparam>
 </COMPONENT>
-<SUBCOMPONENT type="5000" id="857" index="7" uid="e802e723-57b4-4734-af20-cddadacc10e6" >
+<SUBCOMPONENT type="5000" id="857" index="7" uid="cc150a1e-1348-4fa4-98a9-3a612b6184cc" >
 <father id="939" num="0" />
-<cdparam x="36" y="233" />
-<sizeparam width="215" height="126" minWidth="5" minHeight="2" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
+<cdparam x="263" y="233" />
+<sizeparam width="139" height="126" minWidth="5" minHeight="2" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <hidden value="false" />
-<cdrectangleparam minX="0" maxX="223" minY="0" maxY="93" />
-<infoparam name="Block0" value="Alice" />
+<cdrectangleparam minX="0" maxX="299" minY="0" maxY="93" />
+<infoparam name="Block0" value="Bob" />
 <TGConnectingPoint num="0" id="817" />
 <TGConnectingPoint num="1" id="818" />
 <TGConnectingPoint num="2" id="819" />
@@ -1556,13 +1556,13 @@
 <extraparam>
 <blockType data="cryptoblock" color="-4072719" />
 <CryptoBlock value="true" />
-<Attribute access="0" id="secretData" value="" type="8" typeOther="" />
 <Attribute access="0" id="m" value="" type="5" typeOther="Message" />
-<Attribute access="0" id="m1" value="" type="5" typeOther="Message" />
+<Attribute access="0" id="m2" value="" type="5" typeOther="Message" />
 <Attribute access="0" id="sk" value="" type="5" typeOther="Key" />
-<Attribute access="0" id="pubK" value="" type="5" typeOther="Key" />
+<Attribute access="0" id="receivedData" value="" type="8" typeOther="" />
 <Attribute access="0" id="privK" value="" type="5" typeOther="Key" />
-<Attribute access="0" id="bobPubK" value="" type="5" typeOther="Key" />
+<Attribute access="0" id="pubK" value="" type="5" typeOther="Key" />
+<Attribute access="0" id="alicePubK" value="" type="5" typeOther="Key" />
 <Method value="Message encrypt(Message msg, Key k)" />
 <Method value="Message decrypt(Message msg, Key k)" />
 <Method value="Message sencrypt(Message msg, Key k)" />
@@ -1587,13 +1587,13 @@
 <Method value="Message hash(Message msg)" />
 </extraparam>
 </SUBCOMPONENT>
-<SUBCOMPONENT type="5000" id="898" index="8" uid="cc150a1e-1348-4fa4-98a9-3a612b6184cc" >
+<SUBCOMPONENT type="5000" id="898" index="8" uid="e802e723-57b4-4734-af20-cddadacc10e6" >
 <father id="939" num="1" />
-<cdparam x="263" y="233" />
-<sizeparam width="139" height="126" minWidth="5" minHeight="2" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
+<cdparam x="36" y="233" />
+<sizeparam width="215" height="126" minWidth="5" minHeight="2" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <hidden value="false" />
-<cdrectangleparam minX="0" maxX="299" minY="0" maxY="93" />
-<infoparam name="Block0" value="Bob" />
+<cdrectangleparam minX="0" maxX="223" minY="0" maxY="93" />
+<infoparam name="Block0" value="Alice" />
 <TGConnectingPoint num="0" id="858" />
 <TGConnectingPoint num="1" id="859" />
 <TGConnectingPoint num="2" id="860" />
@@ -1637,13 +1637,13 @@
 <extraparam>
 <blockType data="cryptoblock" color="-4072719" />
 <CryptoBlock value="true" />
+<Attribute access="0" id="secretData" value="" type="8" typeOther="" />
 <Attribute access="0" id="m" value="" type="5" typeOther="Message" />
-<Attribute access="0" id="m2" value="" type="5" typeOther="Message" />
+<Attribute access="0" id="m1" value="" type="5" typeOther="Message" />
 <Attribute access="0" id="sk" value="" type="5" typeOther="Key" />
-<Attribute access="0" id="receivedData" value="" type="8" typeOther="" />
-<Attribute access="0" id="privK" value="" type="5" typeOther="Key" />
 <Attribute access="0" id="pubK" value="" type="5" typeOther="Key" />
-<Attribute access="0" id="alicePubK" value="" type="5" typeOther="Key" />
+<Attribute access="0" id="privK" value="" type="5" typeOther="Key" />
+<Attribute access="0" id="bobPubK" value="" type="5" typeOther="Key" />
 <Method value="Message encrypt(Message msg, Key k)" />
 <Method value="Message decrypt(Message msg, Key k)" />
 <Method value="Message sencrypt(Message msg, Key k)" />
@@ -1672,7 +1672,7 @@
 
 </AVATARBlockDiagramPanel>
 
-<AVATARStateMachineDiagramPanel name="System" minX="10" maxX="1400" minY="10" maxY="900" >
+<AVATARStateMachineDiagramPanel name="System" minX="10" maxX="1400" minY="10" maxY="900" zoom="1.0" >
 <COMPONENT type="5100" id="941" index="0" uid="f1ab80ad-4a92-4500-9a3b-fcf0b3c4b63e" >
 <cdparam x="400" y="50" />
 <sizeparam width="15" height="15" minWidth="1" minHeight="1" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
@@ -1685,7 +1685,7 @@
 
 </AVATARStateMachineDiagramPanel>
 
-<AVATARStateMachineDiagramPanel name="Bob" minX="10" maxX="1400" minY="10" maxY="900" >
+<AVATARStateMachineDiagramPanel name="Bob" minX="10" maxX="1400" minY="10" maxY="900" zoom="1.0" >
 <CONNECTOR type="5102" id="948" index="0" uid="6743571d-b9c1-4558-b1e8-f57dc2554fa6" >
 <cdparam x="418" y="632" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="1000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
@@ -2555,7 +2555,7 @@
 
 </AVATARStateMachineDiagramPanel>
 
-<AVATARStateMachineDiagramPanel name="Alice" minX="10" maxX="1400" minY="10" maxY="900" >
+<AVATARStateMachineDiagramPanel name="Alice" minX="10" maxX="1400" minY="10" maxY="900" zoom="1.0" >
 <CONNECTOR type="5102" id="1484" index="0" uid="370d8ae6-1c4d-408a-8adf-01ff5f6e5b35" >
 <cdparam x="411" y="567" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
@@ -3362,7 +3362,7 @@
 <MainCode value="}"/>
 <Optimized value="true" />
 <considerTimingOperators value="true" />
-<Validated value="System;CA;Alice;Bob;" />
+<Validated value="" />
 <Ignored value="" />
 
 <CONNECTOR type="5002" id="1948" index="0" uid="7a6e9dbc-0dbd-40e4-8038-05098e6c4bd1" >
@@ -3538,13 +3538,13 @@
 <Signal value="out chout(Message msg)" attached="true" />
 </extraparam>
 </COMPONENT>
-<SUBCOMPONENT type="5000" id="2024" index="7" uid="f24348ab-6d4a-40e6-a942-342d6222b23f" >
+<SUBCOMPONENT type="5000" id="2024" index="7" uid="7a040a26-feb9-4e9a-a609-908679df2a0b" >
 <father id="2147" num="0" />
-<cdparam x="263" y="108" />
-<sizeparam width="139" height="126" minWidth="5" minHeight="2" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
+<cdparam x="115" y="249" />
+<sizeparam width="261" height="83" minWidth="5" minHeight="2" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <hidden value="false" />
-<cdrectangleparam minX="0" maxX="299" minY="0" maxY="218" />
-<infoparam name="Block0" value="Bob" />
+<cdrectangleparam minX="0" maxX="177" minY="0" maxY="261" />
+<infoparam name="Block0" value="CA" />
 <TGConnectingPoint num="0" id="1984" />
 <TGConnectingPoint num="1" id="1985" />
 <TGConnectingPoint num="2" id="1986" />
@@ -3588,30 +3588,18 @@
 <extraparam>
 <blockType data="cryptoblock" color="-4072719" />
 <CryptoBlock value="true" />
-<Attribute access="0" id="m" value="" type="5" typeOther="Message" />
-<Attribute access="0" id="m2" value="" type="5" typeOther="Message" />
-<Attribute access="0" id="sk" value="" type="5" typeOther="Key" />
-<Attribute access="0" id="receivedData" value="" type="8" typeOther="" />
 <Attribute access="0" id="privK" value="" type="5" typeOther="Key" />
 <Attribute access="0" id="pubK" value="" type="5" typeOther="Key" />
 <Attribute access="0" id="alicePubK" value="" type="5" typeOther="Key" />
-<Attribute access="0" id="CAPubK" value="" type="5" typeOther="Key" />
+<Attribute access="0" id="bobPubK" value="" type="5" typeOther="Key" />
 <Attribute access="0" id="aliceID" value="" type="8" typeOther="" />
+<Attribute access="0" id="bobID" value="" type="8" typeOther="" />
+<Attribute access="0" id="m" value="" type="5" typeOther="Message" />
+<Attribute access="0" id="newK" value="" type="5" typeOther="Key" />
+<Attribute access="0" id="newCert" value="" type="5" typeOther="Message" />
 <Attribute access="0" id="m1" value="" type="5" typeOther="Message" />
-<Attribute access="0" id="sig" value="" type="5" typeOther="Message" />
-<Attribute access="0" id="certOK" value="" type="4" typeOther="" />
-<Method value="Message encrypt(Message msg, Key k)" />
-<Method value="Message decrypt(Message msg, Key k)" />
-<Method value="Message sencrypt(Message msg, Key k)" />
-<Method value="Message sdecrypt(Message msg, Key k)" />
-<Method value="Message MAC(Message msg, Key k)" />
-<Method value="bool verifyMAC(Message msg, Key k, Message macmsg)" />
-<Method value="Message concat2(Message msg1, Message msg2)" />
-<Method value="Message concat3(Message msg1, Message msg2, Message msg3)" />
-<Method value="Message concat4(Message msg1, Message msg2, Message msg3, Message msg4)" />
-<Method value="get2(Message msg, Message msg1, Message msg2)" />
-<Method value="get3(Message msg, Message msg1, Message msg2, Message msg3)" />
-<Method value="get4(Message msg, Message msg1, Message msg2, Message msg3, Message msg4)" />
+<Attribute access="0" id="m2" value="" type="5" typeOther="Message" />
+<Attribute access="0" id="newID" value="" type="8" typeOther="" />
 <Method value="Message aencrypt(Message msg, Key k)" />
 <Method value="Message adecrypt(Message msg, Key k)" />
 <Method value="Key pk(Key k)" />
@@ -3620,8 +3608,18 @@
 <Method value="Message cert(Key k, Message msg)" />
 <Method value="bool verifyCert(Message cert, Key k)" />
 <Method value="Key getpk(Message cert)" />
+<Method value="Message sencrypt(Message msg, Key k)" />
+<Method value="Message sdecrypt(Message msg, Key k)" />
 <Method value="Key DH(Key pubK, Key privK)" />
 <Method value="Message hash(Message msg)" />
+<Method value="Message MAC(Message msg, Key k)" />
+<Method value="bool verifyMAC(Message msg, Key k, Message macmsg)" />
+<Method value="Message concat2(Message msg1, Message msg2)" />
+<Method value="Message concat3(Message msg1, Message msg2, Message msg3)" />
+<Method value="Message concat4(Message msg1, Message msg2, Message msg3, Message msg4)" />
+<Method value="get2(Message msg, Message msg1, Message msg2)" />
+<Method value="get3(Message msg, Message msg1, Message msg2, Message msg3)" />
+<Method value="get4(Message msg, Message msg1, Message msg2, Message msg3, Message msg4)" />
 </extraparam>
 </SUBCOMPONENT>
 <SUBCOMPONENT type="5000" id="2065" index="8" uid="52a07889-a0b4-45e9-a97a-a5a5e144d49b" >
@@ -3710,13 +3708,13 @@
 <Method value="Message hash(Message msg)" />
 </extraparam>
 </SUBCOMPONENT>
-<SUBCOMPONENT type="5000" id="2106" index="9" uid="7a040a26-feb9-4e9a-a609-908679df2a0b" >
+<SUBCOMPONENT type="5000" id="2106" index="9" uid="f24348ab-6d4a-40e6-a942-342d6222b23f" >
 <father id="2147" num="2" />
-<cdparam x="115" y="249" />
-<sizeparam width="261" height="83" minWidth="5" minHeight="2" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
+<cdparam x="263" y="108" />
+<sizeparam width="139" height="126" minWidth="5" minHeight="2" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <hidden value="false" />
-<cdrectangleparam minX="0" maxX="177" minY="0" maxY="261" />
-<infoparam name="Block0" value="CA" />
+<cdrectangleparam minX="0" maxX="299" minY="0" maxY="218" />
+<infoparam name="Block0" value="Bob" />
 <TGConnectingPoint num="0" id="2066" />
 <TGConnectingPoint num="1" id="2067" />
 <TGConnectingPoint num="2" id="2068" />
@@ -3760,30 +3758,22 @@
 <extraparam>
 <blockType data="cryptoblock" color="-4072719" />
 <CryptoBlock value="true" />
+<Attribute access="0" id="m" value="" type="5" typeOther="Message" />
+<Attribute access="0" id="m2" value="" type="5" typeOther="Message" />
+<Attribute access="0" id="sk" value="" type="5" typeOther="Key" />
+<Attribute access="0" id="receivedData" value="" type="8" typeOther="" />
 <Attribute access="0" id="privK" value="" type="5" typeOther="Key" />
 <Attribute access="0" id="pubK" value="" type="5" typeOther="Key" />
 <Attribute access="0" id="alicePubK" value="" type="5" typeOther="Key" />
-<Attribute access="0" id="bobPubK" value="" type="5" typeOther="Key" />
+<Attribute access="0" id="CAPubK" value="" type="5" typeOther="Key" />
 <Attribute access="0" id="aliceID" value="" type="8" typeOther="" />
-<Attribute access="0" id="bobID" value="" type="8" typeOther="" />
-<Attribute access="0" id="m" value="" type="5" typeOther="Message" />
-<Attribute access="0" id="newK" value="" type="5" typeOther="Key" />
-<Attribute access="0" id="newCert" value="" type="5" typeOther="Message" />
 <Attribute access="0" id="m1" value="" type="5" typeOther="Message" />
-<Attribute access="0" id="m2" value="" type="5" typeOther="Message" />
-<Attribute access="0" id="newID" value="" type="8" typeOther="" />
-<Method value="Message aencrypt(Message msg, Key k)" />
-<Method value="Message adecrypt(Message msg, Key k)" />
-<Method value="Key pk(Key k)" />
-<Method value="Message sign(Message msg, Key k)" />
-<Method value="bool verifySign(Message msg1, Message sig, Key k)" />
-<Method value="Message cert(Key k, Message msg)" />
-<Method value="bool verifyCert(Message cert, Key k)" />
-<Method value="Key getpk(Message cert)" />
+<Attribute access="0" id="sig" value="" type="5" typeOther="Message" />
+<Attribute access="0" id="certOK" value="" type="4" typeOther="" />
+<Method value="Message encrypt(Message msg, Key k)" />
+<Method value="Message decrypt(Message msg, Key k)" />
 <Method value="Message sencrypt(Message msg, Key k)" />
 <Method value="Message sdecrypt(Message msg, Key k)" />
-<Method value="Key DH(Key pubK, Key privK)" />
-<Method value="Message hash(Message msg)" />
 <Method value="Message MAC(Message msg, Key k)" />
 <Method value="bool verifyMAC(Message msg, Key k, Message macmsg)" />
 <Method value="Message concat2(Message msg1, Message msg2)" />
@@ -3792,13 +3782,23 @@
 <Method value="get2(Message msg, Message msg1, Message msg2)" />
 <Method value="get3(Message msg, Message msg1, Message msg2, Message msg3)" />
 <Method value="get4(Message msg, Message msg1, Message msg2, Message msg3, Message msg4)" />
+<Method value="Message aencrypt(Message msg, Key k)" />
+<Method value="Message adecrypt(Message msg, Key k)" />
+<Method value="Key pk(Key k)" />
+<Method value="Message sign(Message msg, Key k)" />
+<Method value="bool verifySign(Message msg1, Message sig, Key k)" />
+<Method value="Message cert(Key k, Message msg)" />
+<Method value="bool verifyCert(Message cert, Key k)" />
+<Method value="Key getpk(Message cert)" />
+<Method value="Key DH(Key pubK, Key privK)" />
+<Method value="Message hash(Message msg)" />
 </extraparam>
 </SUBCOMPONENT>
 
 
 </AVATARBlockDiagramPanel>
 
-<AVATARStateMachineDiagramPanel name="System" minX="10" maxX="1400" minY="10" maxY="900" >
+<AVATARStateMachineDiagramPanel name="System" minX="10" maxX="1400" minY="10" maxY="900" zoom="1.0" >
 <COMPONENT type="5100" id="2149" index="0" uid="f616c80f-32a9-437d-a505-ed8f7a7ab4e6" >
 <cdparam x="400" y="50" />
 <sizeparam width="15" height="15" minWidth="1" minHeight="1" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
@@ -3811,7 +3811,7 @@
 
 </AVATARStateMachineDiagramPanel>
 
-<AVATARStateMachineDiagramPanel name="CA" minX="10" maxX="2500" minY="10" maxY="1500" >
+<AVATARStateMachineDiagramPanel name="CA" minX="10" maxX="2500" minY="10" maxY="1500" zoom="1.0" >
 <CONNECTOR type="5102" id="2160" index="0" uid="02aecba8-0752-4a5d-b095-367acaec4137" >
 <cdparam x="331" y="296" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
@@ -4534,7 +4534,7 @@
 
 </AVATARStateMachineDiagramPanel>
 
-<AVATARStateMachineDiagramPanel name="Alice" minX="10" maxX="1400" minY="10" maxY="900" >
+<AVATARStateMachineDiagramPanel name="Alice" minX="10" maxX="1400" minY="10" maxY="900" zoom="1.0" >
 <CONNECTOR type="5102" id="2442" index="0" uid="a8a09122-7a18-4e88-a81c-37f86e8d805a" >
 <cdparam x="608" y="388" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
@@ -5396,7 +5396,7 @@
 
 </AVATARStateMachineDiagramPanel>
 
-<AVATARStateMachineDiagramPanel name="Bob" minX="10" maxX="1400" minY="10" maxY="900" >
+<AVATARStateMachineDiagramPanel name="Bob" minX="10" maxX="1400" minY="10" maxY="900" zoom="1.0" >
 <CONNECTOR type="5102" id="2969" index="0" uid="83e638e1-4f1b-463a-951a-ed1b11db467e" >
 <cdparam x="407" y="70" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />

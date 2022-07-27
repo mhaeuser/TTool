@@ -4771,7 +4771,9 @@ public class MainGUI implements ActionListener, WindowListener, KeyListener, Per
             AvatarDesignPanel adp = (AvatarDesignPanel) tp;
             adp.modelBacktracingProVerif(pvoa);
             getCurrentTDiagramPanel().repaint();
+
         } else if (tp instanceof TMLArchiPanel) {
+            TraceManager.addDev("Backtracing to TMLArchiPanel (" +  getTabName(tp) + ")");
             /*
              * for (int i=0; i<tabs.size(); i++){ tp = (TURTLEPanel)(tabs.elementAt(i)); if
              * (tp instanceof TMLComponentDesignPanel) {
@@ -4781,7 +4783,9 @@ public class MainGUI implements ActionListener, WindowListener, KeyListener, Per
             gtm.getTMLMapping().getTMLModeling().backtrace(pvoa, getTabName(tp));
             gtm.getTML2Avatar().backtraceReachability(pvoa.getReachabilityResults());
             gtm.getTMLMapping().getTMLModeling().backtraceAuthenticity(pvoa, getTabName(tp));
+
         } else if (tp instanceof TMLComponentDesignPanel) {
+            TraceManager.addDev("Backtracing to TMLComponentDesignPanel");
             gtm.getTMLMapping().getTMLModeling().clearBacktracing();
             gtm.getTMLMapping().getTMLModeling().backtrace(pvoa, "Default Mapping");
             gtm.getTML2Avatar().backtraceReachability(pvoa.getReachabilityResults());

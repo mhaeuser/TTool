@@ -774,14 +774,15 @@ public class TMLModeling<E> {
         Map<AvatarPragmaSecret, ProVerifQueryResult> confResults = pvoa.getConfidentialityResults();
 
         for (AvatarPragmaSecret pragma : confResults.keySet()) {
-            //	System.out.println("pragma "  +pragma);
+            //TraceManager.addDev("pragma "  + pragma);
             ProVerifQueryResult result = confResults.get(pragma);
+            //TraceManager.addDev("pragma "  + pragma + " / result proved:" + result.isProved() + " result satisfied:" + result.isSatisfied());
             if (!result.isProved())
                 continue;
             int r = result.isSatisfied() ? 2 : 3;
 
-            AvatarAttribute attr = pragma.getArg();
 
+            AvatarAttribute attr = pragma.getArg();
 
             TMLChannel channel = getChannelByShortName(attr.getName().replaceAll("_chData", ""));
             boolean invalidate = false;
@@ -796,12 +797,13 @@ public class TMLModeling<E> {
                     for (AvatarPragmaReachability reachPragma : reachResults.keySet()) {
                         if (reachPragma.getState().getName().equals("aftersignalstate_reachannel_" + channel.getName())) {
                             if (!reachResults.get(reachPragma).isSatisfied()) {
-                                invalidate = true;
+                                TraceManager.addDev("invalidate = true ");
+                                        invalidate = true;
                             }
                         }
                     }
                 }
-                //Next check if there exists a writechannel operator that sends unencrypted data
+                // Next check if there exists a writechannel operator that sends unencrypted data
                 boolean found = false;
                 for (TMLTask task : getTasks()) {
                     TMLActivity act = task.getActivityDiagram();
@@ -817,6 +819,7 @@ public class TMLModeling<E> {
                     }
                 }
                 if (!found) {
+                    //TraceManager.addDev("not found, invalidate = true ");
                     invalidate = true;
                 }
                 for (TMLPortWithSecurityInformation port : channel.ports) {
@@ -831,6 +834,8 @@ public class TMLModeling<E> {
                         }
                     }
                 }
+            } else {
+                //TraceManager.addDev("Null channel for backtracing Confidentiality");
             }
             TMLRequest req = getRequestByName(attr.getName().replaceAll("_reqData", ""));
             if (req != null) {
@@ -853,9 +858,11 @@ public class TMLModeling<E> {
                 }
             }
 
+            //TraceManager.addDev("Attribute name to find channels: " + attr.getName());
             List<String> channels = secChannelMap.get(attr.getName());
             if (channels != null) {
                 for (String channelName : channels) {
+                    //TraceManager.addDev("Handling channel " + channelName);
                     channel = getChannelByShortName(channelName);
                     if (channel != null) {
                         for (TMLPortWithSecurityInformation port : channel.ports) {

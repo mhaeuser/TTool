@@ -1572,6 +1572,7 @@ void Simulator::decodeCommand(std::string iCmd, std::ostream& iXmlOutStream){
       std::cout << "End Run for x time units." << std::endl;
       break;
     case 7: {//Explore Tree
+      #ifndef PENALTIES_ENABLED
       //for (int i=0; i<RECUR_DEPTH; i++) leafsForLevel[i]=0;
       std::cout << "Explore tree." << std::endl;
       _commandCoverage=100; _branchCoverage=100;
@@ -1642,6 +1643,10 @@ void Simulator::decodeCommand(std::string iCmd, std::ostream& iXmlOutStream){
       //anErrorCode=1;
       std::cout << "** Longest runtime: " << _longRunTime << ", shortest runtime: " << _shortRunTime << " **\n";
       std::cout << "End Explore tree." << std::endl;
+       #endif
+      #ifdef PENALTIES_ENABLED
+      std::cout << "Cannot explore tree since penalties are enabled." << std::endl;
+      #endif
       break;
     }
     case 8:{//Run to next transfer on bus x

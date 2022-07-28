@@ -34,8 +34,8 @@ public class DiplodocusSimulatorTest extends AbstractTest {
     final String [] MODELS_DAEMON = {"daemontest1", "daemontest2"};
     final int [] NB_Of_DAEMON_STATES = {8, 114};
     final int [] NB_Of_DAEMON_TRANSTIONS = {7, 113};
-    final int [] MIN_DAEMON_CYCLES = {101, 2469};
-    final int [] MAX_DAEMON_CYCLES = {101, 2469};
+    final int [] MIN_DAEMON_CYCLES = {101, 501};
+    final int [] MAX_DAEMON_CYCLES = {101, 501};
 
     // model for Daemon Run To Next Breakpoint
     final String MODELS_DAEMON_RTNB = "testDaemon";

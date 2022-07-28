@@ -38,6 +38,7 @@
 
 package ui.avatarsmd;
 
+import avatartranslator.ElementWithNew;
 import myutil.GraphicLib;
 import ui.*;
 import ui.util.IconManager;
@@ -55,7 +56,7 @@ import java.util.Vector;
  * @author Ludovic APVRILLE
  * @version 1.0 06/04/2010
  */
-public class AvatarSMDConnector extends TGConnectorWithCommentConnectionPoints implements WithAttributes {
+public class AvatarSMDConnector extends TGConnectorWithCommentConnectionPoints implements WithAttributes, ElementWithNew {
     protected int arrowLength = 10;
     //protected AvatarSMDTransitionInfo myTransitionInfo;
 

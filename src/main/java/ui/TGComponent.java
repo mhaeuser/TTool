@@ -40,34 +40,31 @@
 
 package ui;
 
-import avatartranslator.ElementWithNew;
 import avatartranslator.ElementWithUUID;
 import myutil.Conversion;
 import myutil.GenericTree;
 import myutil.GraphicLib;
 import myutil.TraceManager;
-import tmltranslator.simulation.SimulationTransaction;
-
 import org.w3c.dom.NodeList;
-
+import tmltranslator.simulation.SimulationTransaction;
 import ui.procsd.ProCSDComponent;
 import ui.procsd.ProCSDPort;
 import ui.tmlad.TMLActivityDiagramPanel;
 import ui.tmlcd.TMLTaskDiagramPanel;
 import ui.tmlcompd.TMLCPrimitiveComponent;
 import ui.tmlcompd.TMLComponentTaskDiagramPanel;
-import ui.tmldd.*;
+import ui.tmldd.TMLArchiArtifact;
+import ui.tmldd.TMLArchiDiagramPanel;
+import ui.tmldd.TMLArchiElementWithArtifactList;
+import ui.tmldd.TMLArchiFirewallNode;
 import ui.util.IconManager;
 
 import javax.swing.*;
-
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.Point;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Point2D;
+import java.util.List;
 import java.util.*;
 
 /**
@@ -79,7 +76,7 @@ import java.util.*;
  * @version 1.0 21/12/2003
  */
 
-public abstract class TGComponent  extends AbstractCDElement implements /*CDElement,*/ GenericTree, ElementWithUUID, ElementWithNew {
+public abstract class TGComponent extends AbstractCDElement implements /*CDElement,*/ GenericTree, ElementWithUUID {
 
     protected final static String XML_HEAD = "<COMPONENT type=\"";
     protected final static String XML_ID = "\" id=\"";
@@ -516,11 +513,11 @@ public abstract class TGComponent  extends AbstractCDElement implements /*CDElem
     public List<TGComponent> getAllCheckableInvariant() {
         List<TGComponent> list = new LinkedList<TGComponent>();
         getAllCheckableInvariant(list);
-        
+
         return list;
     }
 
-    public void getAllCheckableInvariant( List<TGComponent> _list) {
+    public void getAllCheckableInvariant(List<TGComponent> _list) {
         if (invariant) {
             _list.add(this);
         }
@@ -1049,44 +1046,48 @@ public abstract class TGComponent  extends AbstractCDElement implements /*CDElem
 
     /**
      * Issue #31
+     *
      * @return
      */
     protected int getReachabilityMargin() {
-    	return 18;
+        return 18;
     }
 
     /**
      * Issue #31
+     *
      * @return
      */
     protected int getLivenessMargin() {
-    	return 10;
+        return 10;
     }
 
     /**
      * Issue #31
+     *
      * @return
      */
     protected int getUnknownMargin() {
-    	return 2;
+        return 2;
     }
 
     /**
      * Issue #31
+     *
      * @return
      */
     protected int getExclusionMargin() {
-    	return 12;
+        return 12;
     }
 
     public void draw(Graphics g) {
         RunningInfo ri;
         LoadInfo li;
-        
+
         // Issue #69: Disabling of components
-        ColorManager.setColor(g, state, 0, isEnabled() );
+        ColorManager.setColor(g, state, 0, isEnabled());
 //        ColorManager.setColor(g, state, 0);
-  
+
         Font font = new Font(Font.SANS_SERIF, Font.PLAIN, this.tdp.getFontSize());
         g.setFont(font);
 
@@ -1123,10 +1124,7 @@ public abstract class TGComponent  extends AbstractCDElement implements /*CDElem
         }
 
         if (isNew) {
-            Color tmp = g.getColor();
-            g.setColor(ColorManager.NEW);
-            g.drawString("N", x + 5, y - 5);
-            g.setColor(tmp);
+            drawNewSymbol(g);
         }
 
         if (invariant) {
@@ -1134,7 +1132,7 @@ public abstract class TGComponent  extends AbstractCDElement implements /*CDElem
             //GraphicLib.setMediumStroke(g);
             // Issue #31
             final int exclusionMargin = getExclusionMargin();
-            
+
             if (mutex == MUTEX_NOT_YET_STUDIED) {
                 g.drawString("mutual exclusion?", x + width + 1, y - exclusionMargin /* Issue #31 12*/);
             } else if (mutex == MUTEX_UNKNOWN) {
@@ -1304,9 +1302,9 @@ public abstract class TGComponent  extends AbstractCDElement implements /*CDElem
         } else if (TDiagramPanel.DIPLO_ID_ON) {
             drawDiploID(g);
         } else if (TDiagramPanel.AVATAR_ID_ON) {
-        	drawAVATARID(g);
+            drawAVATARID(g);
         } else if (TDiagramPanel.TEPE_ID_ON) {
-        		drawTEPEID(g);
+            drawTEPEID(g);
         } else {
             runningStatus = "";
             transactions.clear();
@@ -1367,6 +1365,13 @@ public abstract class TGComponent  extends AbstractCDElement implements /*CDElem
                 }
             }
         }
+    }
+
+    public void drawNewSymbol(Graphics g) {
+        Color tmp = g.getColor();
+        g.setColor(ColorManager.NEW);
+        g.drawString("N", x + 5, y - 5);
+        g.setColor(tmp);
     }
 
     public void drawWithAttributes(Graphics g) {
@@ -1623,7 +1628,7 @@ public abstract class TGComponent  extends AbstractCDElement implements /*CDElem
                 tgcomponent[i].draw(g);
                 tgcomponent[i].setHidden(false);
             } else {
-            	tgcomponent[i].setHidden(true);
+                tgcomponent[i].setHidden(true);
             }
         }
     }
@@ -2240,7 +2245,7 @@ public abstract class TGComponent  extends AbstractCDElement implements /*CDElem
         int cpt = 0;
         for (int i = 0; i < nbConnectingPoint; i++) {
             if (connectingPoint[i].isFree()) {
-                cpt ++;
+                cpt++;
             }
         }
         return cpt;
@@ -2271,7 +2276,7 @@ public abstract class TGComponent  extends AbstractCDElement implements /*CDElem
         // Compare current closer to my points.
         for (i = 0; i < nbConnectingPoint; i++) {
             currentp = connectingPoint[i];
-            if ( ( currentp != null) && (currentp.isFree() ) ) {
+            if ((currentp != null) && (currentp.isFree())) {
                 if (currentCloser == null) {
                     currentCloser = currentp;
                 } else {
@@ -2332,7 +2337,7 @@ public abstract class TGComponent  extends AbstractCDElement implements /*CDElem
             }
             currentp = connectingPoint[i];
             if ((currentp != null) && (currentp.isFree()) && (currentp.isIn() == in) && (currentp.isOut() == out) &&
-                    currentp.isCompatibleWith(compatibility) ) {
+                    currentp.isCompatibleWith(compatibility)) {
                 if (currentCloser == null) {
                     currentCloser = currentp;
                     ref = i;
@@ -2449,15 +2454,14 @@ public abstract class TGComponent  extends AbstractCDElement implements /*CDElem
     }
 
 
-
     public double getZoomFactor() {
-    	if ( tdp == null ) {
-    		return 1.0;
-    	}
-    	
-    	return tdp.getZoom();
+        if (tdp == null) {
+            return 1.0;
+        }
+
+        return tdp.getZoom();
     }
-    
+
     public int getXZoom() {
         if (tdp == null) {
             return x;
@@ -2662,11 +2666,11 @@ public abstract class TGComponent  extends AbstractCDElement implements /*CDElem
         return indexU;
     }
 
-    public int compareTo(TGComponent tgc){
+    public int compareTo(TGComponent tgc) {
         return indexU - tgc.getIndexU();
     }
 
-        public void setIndexU(int _indexU) {
+    public void setIndexU(int _indexU) {
         indexU = _indexU;
     }
 
@@ -2761,13 +2765,12 @@ public abstract class TGComponent  extends AbstractCDElement implements /*CDElem
         // if it has a father, check that it is in its authorized area first
         if (father != null && drawingZoneRelativeToFather) {
             targetX = Math.min(maxX + father.getX(), Math.max(minX + father.getX(), targetX));
-        }
-        else {
-        	
-        	// Issue #174: Use the diagram min and max sizes when the component is not contained
-        	final int minVal = Math.max( targetX, tdp.getMinX() );
-        	final int maxVal = Math.min( targetX, tdp.getMaxX() - width );
-        	targetX = x > targetX ? Math.max( minVal, maxVal ) : Math.min( minVal, maxVal );
+        } else {
+
+            // Issue #174: Use the diagram min and max sizes when the component is not contained
+            final int minVal = Math.max(targetX, tdp.getMinX());
+            final int maxVal = Math.min(targetX, tdp.getMaxX() - width);
+            targetX = x > targetX ? Math.max(minVal, maxVal) : Math.min(minVal, maxVal);
 //            if (x > targetX)
 //                targetX = Math.max(Math.max(targetX, minX), Math.min(targetX, maxX - width));
 //            else
@@ -2793,13 +2796,12 @@ public abstract class TGComponent  extends AbstractCDElement implements /*CDElem
         // if it has a father, check that it is in its authorized area first
         if ((father != null) && (drawingZoneRelativeToFather)) {
             targetY = Math.min(maxY + father.getY(), Math.max(minY + father.getY(), targetY));
-        }
-        else {
-        	
-        	// Issue #174: Use the diagram min and max sizes when the component is not contained
-        	final int minVal = Math.max( targetY, tdp.getMinY() );
-        	final int maxVal = Math.min( targetY, tdp.getMaxY() - height );
-        	targetY = y > targetY ? Math.max( minVal, maxVal ) : Math.min( minVal, maxVal );
+        } else {
+
+            // Issue #174: Use the diagram min and max sizes when the component is not contained
+            final int minVal = Math.max(targetY, tdp.getMinY());
+            final int maxVal = Math.min(targetY, tdp.getMaxY() - height);
+            targetY = y > targetY ? Math.max(minVal, maxVal) : Math.min(minVal, maxVal);
 //            if (y > targetY)
 //                targetY = Math.max(Math.max(targetY, minY), Math.min(targetY, maxY - height));
 //            else
@@ -2936,14 +2938,11 @@ public abstract class TGComponent  extends AbstractCDElement implements /*CDElem
     }
 
 
-
     public void setValueWithChange(String v) {
         value = v;
         tdp.actionOnValueChanged(this);
         repaint = true;
     }
-
-
 
 
     /**
@@ -3040,10 +3039,10 @@ public abstract class TGComponent  extends AbstractCDElement implements /*CDElem
     /**
      * Highlight the selected component
      *
+     * @param frame :   Unused
+     * @param x     :   X position
+     * @param y     :   Y position
      * @author Fabien Tessier
-     * @param frame     :   Unused
-     * @param x         :   X position
-     * @param y         :   Y position
      */
     public final void singleClick(JFrame frame, int x, int y) {
         isSelect = true;
@@ -3094,7 +3093,7 @@ public abstract class TGComponent  extends AbstractCDElement implements /*CDElem
 
 
     public boolean removeAllInternalComponents() {
-        for(TGComponent tgc: tgcomponent) {
+        for (TGComponent tgc : tgcomponent) {
             tgc.actionOnRemove();
             tdp.actionOnRemove(tgc);
         }
@@ -3299,8 +3298,8 @@ public abstract class TGComponent  extends AbstractCDElement implements /*CDElem
         sb.append(translateHidden());
 
         // Issue #69
-        if ( canBeDisabled() ) {
-        //if (this instanceof CanBeDisabled) {
+        if (canBeDisabled()) {
+            //if (this instanceof CanBeDisabled) {
             sb.append(translateEnabled());
         }
         sb.append(translateCDRectangleParam());
@@ -3429,7 +3428,7 @@ public abstract class TGComponent  extends AbstractCDElement implements /*CDElem
     }
 
     protected String translateNew() {
-           return "<new d=\"" + isNew + "\" />\n";
+        return "<new d=\"" + isNew + "\" />\n";
     }
 
     protected String translateJavaCode() {
@@ -3530,7 +3529,7 @@ public abstract class TGComponent  extends AbstractCDElement implements /*CDElem
 
     public int getNbOfOccupiedPoints(boolean out) {
         int cpt = 0;
-        for(TGConnectingPoint pt: connectingPoint) {
+        for (TGConnectingPoint pt : connectingPoint) {
             TGConnector connector = pt.getReferenceToConnector();
             TGConnectingPoint cp;
             if (connector != null) {
@@ -3589,7 +3588,7 @@ public abstract class TGComponent  extends AbstractCDElement implements /*CDElem
         }
 
         if (this instanceof ColorCustomizable) {
-            return ((ColorCustomizable)(this)).getMainColor();
+            return ((ColorCustomizable) (this)).getMainColor();
         }
 
         return null;
@@ -3666,133 +3665,138 @@ public abstract class TGComponent  extends AbstractCDElement implements /*CDElem
     public void clickSelect(boolean b) {
         isSelect = b;
     }
-    
+
     /**
      * Issue #69
+     *
      * @param point :   connecting point
-     * @return      :   Connector
+     * @return :   Connector
      */
-    public TGConnector getConnectorConnectedTo( final TGConnectingPoint point ) {
-    	return tdp.getConnectorConnectedTo( point );
-    }
-    
-    /**
-     * Issue #69
-     * @return  :   List of connectors
-     */
-    public List<TGConnector> getConnectors() {
-    	return tdp.getConnectors();
-    }
-    
-    /**
-     * Issue #69
-     * @return  :   List of connectors
-     */
-    public List<TGConnector> getInputConnectors() {
-    	final List<TGConnector> connectors = new ArrayList<TGConnector>();
-    	final List<TGConnectingPoint> points = Arrays.asList( getConnectingPoints() );
-    	
-    	for ( final TGConnector connector : getConnectors() ) {
-    		if ( points.contains( connector.getTGConnectingPointP2() ) ) {
-    			connectors.add( connector );
-    		}
-    	}
-    	
-    	return connectors;
-    }
-    
-    /**
-     * Issue #69
-     * @return  :   List of output connectors
-     */
-    public List<TGConnector> getOutputConnectors() {
-    	final List<TGConnector> connectors = new ArrayList<TGConnector>();
-    	final List<TGConnectingPoint> points = Arrays.asList( getConnectingPoints() );
-    	
-    	for ( final TGConnector connector : getConnectors() ) {
-    		if ( points.contains( connector.getTGConnectingPointP1() ) ) {
-    			connectors.add( connector );
-    		}
-    	}
-    	
-    	return connectors;
+    public TGConnector getConnectorConnectedTo(final TGConnectingPoint point) {
+        return tdp.getConnectorConnectedTo(point);
     }
 
-	/**
-	 * Issue #69
-	 * @return  :   Array of connecting points
-	 */
-	public TGConnectingPoint[] getConnectingPoints() {
-		return connectingPoint;
-	}
-	
+    /**
+     * Issue #69
+     *
+     * @return :   List of connectors
+     */
+    public List<TGConnector> getConnectors() {
+        return tdp.getConnectors();
+    }
+
+    /**
+     * Issue #69
+     *
+     * @return :   List of connectors
+     */
+    public List<TGConnector> getInputConnectors() {
+        final List<TGConnector> connectors = new ArrayList<TGConnector>();
+        final List<TGConnectingPoint> points = Arrays.asList(getConnectingPoints());
+
+        for (final TGConnector connector : getConnectors()) {
+            if (points.contains(connector.getTGConnectingPointP2())) {
+                connectors.add(connector);
+            }
+        }
+
+        return connectors;
+    }
+
+    /**
+     * Issue #69
+     *
+     * @return :   List of output connectors
+     */
+    public List<TGConnector> getOutputConnectors() {
+        final List<TGConnector> connectors = new ArrayList<TGConnector>();
+        final List<TGConnectingPoint> points = Arrays.asList(getConnectingPoints());
+
+        for (final TGConnector connector : getConnectors()) {
+            if (points.contains(connector.getTGConnectingPointP1())) {
+                connectors.add(connector);
+            }
+        }
+
+        return connectors;
+    }
+
+    /**
+     * Issue #69
+     *
+     * @return :   Array of connecting points
+     */
+    public TGConnectingPoint[] getConnectingPoints() {
+        return connectingPoint;
+    }
+
     /* Issue #69
      * (non-Javadoc)
      * @see ui.CDElement#acceptForward(ui.ICDElementVisitor)
      */
     @Override
-	public void acceptForward( final ICDElementVisitor visitor ) {
-		if ( visitor.visit( this ) ) {
-			if ( tgcomponent !=  null ) {
-				for ( final TGComponent subCompo : tgcomponent ) {
-					subCompo.acceptForward( visitor );
-				}
-			}
-			
-			if ( connectingPoint !=  null ) {
-				for ( final TGConnectingPoint point : connectingPoint ) {
-					final TGConnector connector = getConnectorConnectedTo( point );
-					
-					if ( connector != null && point == connector.getTGConnectingPointP1() ) {
-						point.acceptForward( visitor );
-					}
-				}
-			}
-		}
-	}
-	
+    public void acceptForward(final ICDElementVisitor visitor) {
+        if (visitor.visit(this)) {
+            if (tgcomponent != null) {
+                for (final TGComponent subCompo : tgcomponent) {
+                    subCompo.acceptForward(visitor);
+                }
+            }
+
+            if (connectingPoint != null) {
+                for (final TGConnectingPoint point : connectingPoint) {
+                    final TGConnector connector = getConnectorConnectedTo(point);
+
+                    if (connector != null && point == connector.getTGConnectingPointP1()) {
+                        point.acceptForward(visitor);
+                    }
+                }
+            }
+        }
+    }
+
     /* Issue #69
      * (non-Javadoc)
      * @see ui.CDElement#acceptBackward(ui.ICDElementVisitor)
      */
     @Override
-	public void acceptBackward( final ICDElementVisitor visitor ) {
-		if ( visitor.visit( this ) ) {
-			if ( tgcomponent !=  null ) {
-				for ( final TGComponent subCompo : tgcomponent ) {
-					subCompo.acceptBackward( visitor );
-				}
-			}
-			
-			if ( connectingPoint !=  null ) {
-				for ( final TGConnectingPoint point : connectingPoint ) {
-					final TGConnector connector = getConnectorConnectedTo( point );
-					
-					if ( connector != null && point == connector.getTGConnectingPointP2() ) {
-						point.acceptBackward( visitor );
-					}
-				}
-			}
-		}
-	}
-    
-    public void renameTab(String s) {
-    	TURTLEPanel tp = this.tdp.tp;
-    	for (TDiagramPanel tdpTmp: tp.panels) {
-    		if (tdpTmp.name.equals(name)) {
-    	    	if (!tp.nameInUse(s)) {
-    	            tp.tabbedPane.setTitleAt(tp.getIndexOfChild(tdpTmp), s);
-    	            tp.panels.elementAt(tp.getIndexOfChild(tdpTmp)).setName(s);
-    	            tp.mgui.changeMade(null, -1);
-    	        }
-    			break;
-    		}
-    	}
+    public void acceptBackward(final ICDElementVisitor visitor) {
+        if (visitor.visit(this)) {
+            if (tgcomponent != null) {
+                for (final TGComponent subCompo : tgcomponent) {
+                    subCompo.acceptBackward(visitor);
+                }
+            }
+
+            if (connectingPoint != null) {
+                for (final TGConnectingPoint point : connectingPoint) {
+                    final TGConnector connector = getConnectorConnectedTo(point);
+
+                    if (connector != null && point == connector.getTGConnectingPointP2()) {
+                        point.acceptBackward(visitor);
+                    }
+                }
+            }
+        }
     }
-    
-   public boolean nameUsed(String s) {
-    	return this.tdp.tp.refNameUsed(s);
-   }
+
+    public void renameTab(String s) {
+        TURTLEPanel tp = this.tdp.tp;
+        for (TDiagramPanel tdpTmp : tp.panels) {
+            if (tdpTmp.name.equals(name)) {
+                if (!tp.nameInUse(s)) {
+                    tp.tabbedPane.setTitleAt(tp.getIndexOfChild(tdpTmp), s);
+                    tp.panels.elementAt(tp.getIndexOfChild(tdpTmp)).setName(s);
+                    tp.mgui.changeMade(null, -1);
+                }
+                break;
+            }
+        }
+    }
+
+    public boolean nameUsed(String s) {
+        return this.tdp.tp.refNameUsed(s);
+    }
 
     /* #issue 82
      * added by Minh Hiep
@@ -3804,7 +3808,7 @@ public abstract class TGComponent  extends AbstractCDElement implements /*CDElem
         } else {
             tgctmp = father;
         }
-        while(tgctmp != null && tgctmp != mainTgc) {
+        while (tgctmp != null && tgctmp != mainTgc) {
             tgctmp = tgctmp.getFather();
         }
         return tgctmp == mainTgc;
@@ -3813,7 +3817,6 @@ public abstract class TGComponent  extends AbstractCDElement implements /*CDElem
     public double distance(TGComponent tgc2) {
         return Math.sqrt(Math.pow(tgc2.getX() - getX(), 2) + Math.pow(tgc2.getY() - getY(), 2));
     }
-
 
 
 }

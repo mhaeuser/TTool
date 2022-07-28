@@ -38,6 +38,7 @@
 
 package ui.avatarsmd;
 
+import avatartranslator.ElementWithNew;
 import ui.*;
 
 /**
@@ -47,7 +48,7 @@ import ui.*;
  * @version 1.0 13/04/2010
  * @author Ludovic APVRILLE
  */
-public abstract class AvatarSMDBasicComponent extends TGCWithoutInternalComponent implements SwallowedTGComponent {
+public abstract class AvatarSMDBasicComponent extends TGCWithoutInternalComponent implements SwallowedTGComponent, ElementWithNew {
     //private int lineLength = 5;
     
     public AvatarSMDBasicComponent(int _x, int _y, int _minX, int _maxX, int _minY, int _maxY, boolean _pos, TGComponent _father, TDiagramPanel _tdp)  {

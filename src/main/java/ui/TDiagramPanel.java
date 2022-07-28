@@ -38,8 +38,12 @@
 
 package ui;
 
-import myutil.*;
-import myutilsvg.*;
+import avatartranslator.ElementWithNew;
+import myutil.GenericTree;
+import myutil.GraphicLib;
+import myutil.TraceManager;
+import myutilsvg.SVGGeneration;
+import myutilsvg.SVGGraphics;
 import ui.atd.ATDAttack;
 import ui.atd.ATDBlock;
 import ui.avatarad.AvatarADActivity;
@@ -49,18 +53,29 @@ import ui.avatarmad.AvatarMADAssumption;
 import ui.avatarrd.AvatarRDRequirement;
 import ui.avatarsmd.AvatarSMDState;
 import ui.cd.*;
-import ui.ftd.FTDFault;
-import ui.eln.*;
+import ui.eln.ELNCluster;
+import ui.eln.ELNModule;
+import ui.eln.ELNNodeRef;
 import ui.eln.sca_eln.*;
-import ui.eln.sca_eln_sca_de.*;
-import ui.eln.sca_eln_sca_tdf.*;
-import ui.syscams.*;
+import ui.eln.sca_eln_sca_de.ELNComponentCurrentSinkDE;
+import ui.eln.sca_eln_sca_de.ELNComponentCurrentSourceDE;
+import ui.eln.sca_eln_sca_de.ELNComponentVoltageSinkDE;
+import ui.eln.sca_eln_sca_de.ELNComponentVoltageSourceDE;
+import ui.eln.sca_eln_sca_tdf.ELNComponentCurrentSinkTDF;
+import ui.eln.sca_eln_sca_tdf.ELNComponentCurrentSourceTDF;
+import ui.eln.sca_eln_sca_tdf.ELNComponentVoltageSinkTDF;
+import ui.eln.sca_eln_sca_tdf.ELNComponentVoltageSourceTDF;
+import ui.ftd.FTDFault;
 import ui.ncdd.NCEqNode;
 import ui.ncdd.NCRouteArtifact;
 import ui.ncdd.NCSwitchNode;
 import ui.ncdd.NCTrafficArtifact;
 import ui.oscd.TOSClass;
 import ui.req.Requirement;
+import ui.syscams.SysCAMSBlockDE;
+import ui.syscams.SysCAMSBlockTDF;
+import ui.syscams.SysCAMSClock;
+import ui.syscams.SysCAMSCompositeComponent;
 import ui.tmlcd.TMLTaskOperator;
 import ui.tmlcompd.TMLCCompositeComponent;
 import ui.tmlcompd.TMLCPrimitiveComponent;
@@ -75,8 +90,8 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
-import java.util.*;
 import java.util.List;
+import java.util.*;
 
 // AVATAR
 
@@ -355,12 +370,12 @@ public abstract class TDiagramPanel extends JPanel implements GenericTree {
         final int maxYPrev = maxY;
         maxX = (int) Math.round(zoomChange * maxX);
         maxY = (int) Math.round(zoomChange * maxY);
-     
+
         // Issue #174: Also updated the minLimit to be consistent with 
         final int minLimitPrev = minLimit;
         minLimit = (int) Math.round(zoomChange * minLimit);
 
-        if (maxXPrev != maxX || maxYPrev != maxY || minLimitPrev != minLimit ) {
+        if (maxXPrev != maxX || maxYPrev != maxY || minLimitPrev != minLimit) {
             mgui.changeMade(this, DIAGRAM_RESIZED);
             updateSize();
         }
@@ -405,7 +420,6 @@ public abstract class TDiagramPanel extends JPanel implements GenericTree {
     }
 
 
-
     public void setInternalCommentVisible(int mode) {
         internalCommentVisible = mode;
     }
@@ -440,7 +454,7 @@ public abstract class TDiagramPanel extends JPanel implements GenericTree {
     }
 
     public TGComponent findComponentWithUUID(UUID _uid) {
-        for(TGComponent tgc: getAllComponentList()) {
+        for (TGComponent tgc : getAllComponentList()) {
             if (tgc.getUUID().equals(_uid)) {
                 return tgc;
             }
@@ -707,21 +721,21 @@ public abstract class TDiagramPanel extends JPanel implements GenericTree {
 
         int cpt = 0;
         for (TGComponent tgc : this.getAllComponentList()) {
-        //for (TGComponent tgc : this.componentList) {
+            //for (TGComponent tgc : this.componentList) {
             tgc.setIndexU(cpt);
             if ((selected == false) || (tgc.isSelected())) {
-               if((tgc.getFather() == null) || (cloneEvenIfNonNullFather)) {
-                   //TraceManager.addDev("Cloning:" + tgc);
-                   s = tgc.saveInXML(true, cloneEvenIfNonNullFather);
-                   //TraceManager.addDev("Saving component in xml:" + s);
-                   if (s == null) {
-                       return null;
-                   }
-                   sb.append(s);
-                   sb.append("\n");
-               }
+                if ((tgc.getFather() == null) || (cloneEvenIfNonNullFather)) {
+                    //TraceManager.addDev("Cloning:" + tgc);
+                    s = tgc.saveInXML(true, cloneEvenIfNonNullFather);
+                    //TraceManager.addDev("Saving component in xml:" + s);
+                    if (s == null) {
+                        return null;
+                    }
+                    sb.append(s);
+                    sb.append("\n");
+                }
             }
-            cpt ++;
+            cpt++;
         }
         if (cloneEvenIfNonNullFather) {
             //TraceManager.addDev("sb=\n" + sb);
@@ -792,9 +806,6 @@ public abstract class TDiagramPanel extends JPanel implements GenericTree {
 
         return info;
     }
-
-
-
 
 
     //author:huytruong
@@ -997,7 +1008,6 @@ public abstract class TDiagramPanel extends JPanel implements GenericTree {
     }
 
 
-
     public TGConnectingPoint getSelectedTGConnectingPoint() {
         return selectedConnectingPoint;
     }
@@ -1036,7 +1046,7 @@ public abstract class TDiagramPanel extends JPanel implements GenericTree {
                 SwallowTGComponent stgc = findSwallowTGComponent(x, y, tgc);
                 if (stgc != null) {
                     //TraceManager.addDev("Found father " + ((TGComponent)stgc).getClass().toString() +
-                     //       " component that can swallow added component " + tgc.getValue());
+                    //       " component that can swallow added component " + tgc.getValue());
                     if (stgc.addSwallowedTGComponent(tgc, x, y)) {
                         tgc.wasSwallowed();
                         ret = true;
@@ -1088,7 +1098,7 @@ public abstract class TDiagramPanel extends JPanel implements GenericTree {
 
     public HashSet<String> getCategories() {
         HashSet<String> classes = new HashSet<>();
-        for(TGComponent tgc: getAllComponentList()) {
+        for (TGComponent tgc : getAllComponentList()) {
             classes.add(tgc.getClass().toString());
         }
         return classes;
@@ -1096,7 +1106,7 @@ public abstract class TDiagramPanel extends JPanel implements GenericTree {
 
     public ArrayList<TGComponent> getAllElementsOfCategories(List<String> categories) {
         ArrayList<TGComponent> comps = new ArrayList<>();
-        for(TGComponent tgc: getAllComponentList()) {
+        for (TGComponent tgc : getAllComponentList()) {
             if (categories.contains(tgc.getClass().toString())) {
                 comps.add(tgc);
             }
@@ -1256,10 +1266,10 @@ public abstract class TDiagramPanel extends JPanel implements GenericTree {
 
     // Multi-select
     public void setSelectingComponents(int x, int y) {
-    	
-    	// Issue #174: Diagram min and max values are scaled as the zoom is computed so should not be scaled again
-        x = Math.min( Math.max( minLimit, x ), maxX );
-        y = Math.min( Math.max( minLimit, y ), maxY );
+
+        // Issue #174: Diagram min and max values are scaled as the zoom is computed so should not be scaled again
+        x = Math.min(Math.max(minLimit, x), maxX);
+        y = Math.min(Math.max(minLimit, y), maxY);
 //        x = Math.min(Math.max((int) (Math.floor(minLimit * zoom)), x), (int) (Math.ceil(maxX * zoom)));
 //        y = Math.min(Math.max((int) (Math.floor(minLimit * zoom)), y), (int) (Math.ceil(maxY * zoom)));
         //        x = Math.min(Math.max(minLimit*zoom, x), maxX*zoom);
@@ -1379,14 +1389,14 @@ public abstract class TDiagramPanel extends JPanel implements GenericTree {
         int oldY = ySel;
         xSel = x;
         ySel = y;
-        
+
         for (TGComponent tgc : this.componentList) {
             if (tgc.isSelected()) {
-                if ((xSel - oldX != 0 ) || (ySel - oldY != 0 )) {
+                if ((xSel - oldX != 0) || (ySel - oldY != 0)) {
                     /*TraceManager.addDev("" + tgc + " is selected oldX=" + xSel +
                             " oldY=" + oldY + " xSel=" + xSel + " ySel=" + ySel);*/
                 }
-                
+
                 tgc.forceMove(xSel - oldX, ySel - oldY);
             }
         }
@@ -1459,7 +1469,7 @@ public abstract class TDiagramPanel extends JPanel implements GenericTree {
     public Vector<TMLCPrimitiveComponent> selectedCPrimitiveComponent() {
         Vector<TMLCPrimitiveComponent> v = null;
 
-        for (TGComponent tgc : this.getAllComponentList()){
+        for (TGComponent tgc : this.getAllComponentList()) {
             if (tgc.isSelected()) {
                 if (tgc instanceof TMLCPrimitiveComponent) {
                     if (v == null)
@@ -1570,7 +1580,9 @@ public abstract class TDiagramPanel extends JPanel implements GenericTree {
         componentMenu.add(showProVerifTrace);
         componentMenu.add(checkMasterMutex);
         componentMenu.add(breakpoint);
-        componentMenu.add(setAsNew);
+        if (componentPopup instanceof ElementWithNew) {
+            componentMenu.add(setAsNew);
+        }
 
         //author: huytruong
         componentMenu.add(search);
@@ -1692,8 +1704,8 @@ public abstract class TDiagramPanel extends JPanel implements GenericTree {
 
         gotoReference = new JMenuItem("Go to reference");
         gotoReference.addActionListener(menuAL);
-        
-        showProVerifTrace= new JMenuItem("Show ProVerif Trace");
+
+        showProVerifTrace = new JMenuItem("Show ProVerif Trace");
         showProVerifTrace.addActionListener(menuAL);
 
         search = new JMenuItem("External Search");
@@ -1833,9 +1845,9 @@ public abstract class TDiagramPanel extends JPanel implements GenericTree {
         }
 
         if (e.getSource() == enableDisable) {
-            
-        	// Issue #69
-        	componentPopup.setEnabled( !componentPopup.isEnabled( true ) );
+
+            // Issue #69
+            componentPopup.setEnabled(!componentPopup.isEnabled(true));
 //            componentPopup.setEnabled(!componentPopup.isEnabled());
             getGUI().changeMade(this, CHANGE_VALUE_COMPONENT);
             repaint();
@@ -2005,19 +2017,17 @@ public abstract class TDiagramPanel extends JPanel implements GenericTree {
 
             }
         }
-        
+
         if (e.getSource() == showProVerifTrace) {
-        	if (componentPopup instanceof TMLCPrimitivePort){
-        		((TMLCPrimitivePort) componentPopup).showTrace();
-        	}
-        	else if (componentPopup instanceof AvatarBDBlock){
-        		((AvatarBDBlock) componentPopup).showTrace(currentY);
-        	}
-        	else if (componentPopup instanceof AvatarBDPragma){
-        		((AvatarBDPragma) componentPopup).showTrace(currentY);
-        	}
+            if (componentPopup instanceof TMLCPrimitivePort) {
+                ((TMLCPrimitivePort) componentPopup).showTrace();
+            } else if (componentPopup instanceof AvatarBDBlock) {
+                ((AvatarBDBlock) componentPopup).showTrace(currentY);
+            } else if (componentPopup instanceof AvatarBDPragma) {
+                ((AvatarBDPragma) componentPopup).showTrace(currentY);
+            }
         }
-        
+
         if (e.getSource() == checkMasterMutex) {
 
             if (componentPopup instanceof CheckableInvariant) {
@@ -2208,7 +2218,7 @@ public abstract class TDiagramPanel extends JPanel implements GenericTree {
 
 
         // Issue #69
-        enableDisable.setEnabled( componentPointed.canBeDisabled() );
+        enableDisable.setEnabled(componentPointed.canBeDisabled());
 //        if (componentPointed instanceof CanBeDisabled) {
 //            /*if (componentPointed.hasFather()) {
 //              clone.setEnabled(false);
@@ -2298,14 +2308,13 @@ public abstract class TDiagramPanel extends JPanel implements GenericTree {
             gotoReference.setEnabled(false);
 
         }
-        
-        if (componentPointed instanceof TMLCPrimitivePort || componentPointed instanceof AvatarBDBlock || componentPointed instanceof AvatarBDPragma){
-        	showProVerifTrace.setEnabled(true);
+
+        if (componentPointed instanceof TMLCPrimitivePort || componentPointed instanceof AvatarBDBlock || componentPointed instanceof AvatarBDPragma) {
+            showProVerifTrace.setEnabled(true);
         } else {
-        	showProVerifTrace.setEnabled(false);
+            showProVerifTrace.setEnabled(false);
         }
 
-        
 
         if (componentPointed instanceof CheckableInvariant) {
             checkInvariant.setEnabled(true);
@@ -2384,12 +2393,12 @@ public abstract class TDiagramPanel extends JPanel implements GenericTree {
             removeAllSelectedComponents();
         } else if (componentPointed != null) {
             //TraceManager.addDev("make DELETE POINTED component=" + componentPointed.getName() + " removable?" + componentPointed.isRemovable());
-            if(!componentPointed.isRemovable()) {
+            if (!componentPointed.isRemovable()) {
                 return;
             }
 
-                //TraceManager.addDev("make DELETE REMOVABLE");
-                removeComponent(componentPointed);
+            //TraceManager.addDev("make DELETE REMOVABLE");
+            removeComponent(componentPointed);
 
         } else {
             return;
@@ -2559,7 +2568,7 @@ public abstract class TDiagramPanel extends JPanel implements GenericTree {
     }
 
     public void resetVerificationResults() {
-        for(TGComponent tgc: getAllComponentList()) {
+        for (TGComponent tgc : getAllComponentList()) {
             tgc.resetVerificationResults();
         }
     }
@@ -2578,18 +2587,18 @@ public abstract class TDiagramPanel extends JPanel implements GenericTree {
 
         Vector<TGComponent> connectorList = new Vector<>();
         TGComponent c1, c2;
-        boolean b1,b2;
+        boolean b1, b2;
 
         _tgc.select(true);
 
         //list of connectors within the composite component
-        for(TGComponent tgc : this.getComponentList()) {
-            if(tgc instanceof TGConnector) {
+        for (TGComponent tgc : this.getComponentList()) {
+            if (tgc instanceof TGConnector) {
                 c1 = getComponentToWhichBelongs(((TGConnector) tgc).getTGConnectingPointP1());
                 c2 = getComponentToWhichBelongs(((TGConnector) tgc).getTGConnectingPointP2());
                 b1 = c1.isInHierarchy(_tgc);
                 b2 = c2.isInHierarchy(_tgc);
-                if(b1 && b2){
+                if (b1 && b2) {
                     tgc.select(true);
                     connectorList.add(tgc);
                 }
@@ -2600,7 +2609,7 @@ public abstract class TDiagramPanel extends JPanel implements GenericTree {
         //TraceManager.addDev(clone);
 
         _tgc.select(false);
-        for(int i = 0; i < connectorList.size(); i++){
+        for (int i = 0; i < connectorList.size(); i++) {
             connectorList.get(i).select(false);
         }
 
@@ -2614,7 +2623,7 @@ public abstract class TDiagramPanel extends JPanel implements GenericTree {
         }
 
         bringToBack(_tgc.getTopFather());
-        for (int i = 0; i < componentList.size(); i ++){
+        for (int i = 0; i < componentList.size(); i++) {
             if (componentList.get(i) instanceof TGConnector) {
                 TGComponent t = componentList.get(i);
                 bringToFront(t);
@@ -2652,12 +2661,12 @@ public abstract class TDiagramPanel extends JPanel implements GenericTree {
     }
 
     public int getMinX() {
-    	return minLimit; // Issue #174: The minLimit is updated after each zoom so no need to rescale it with the zoom factor
+        return minLimit; // Issue #174: The minLimit is updated after each zoom so no need to rescale it with the zoom factor
         //return (int) Math.floor(minLimit * zoom);
     }
 
     public int getMinY() {
-    	return minLimit; // Issue #174: The minLimit is updated after each zoom so no need to rescale it with the zoom factor
+        return minLimit; // Issue #174: The minLimit is updated after each zoom so no need to rescale it with the zoom factor
 //        return (int) Math.floor(minLimit * zoom);
         //return minLimit*zoom;
     }
@@ -2711,7 +2720,7 @@ public abstract class TDiagramPanel extends JPanel implements GenericTree {
     }
 
     public String sizeParam() {
-    	// Issue #174: The size of components saved in the XML file are the scaled one so to be consistent, also store the scaled diagram dimensions
+        // Issue #174: The size of components saved in the XML file are the scaled one so to be consistent, also store the scaled diagram dimensions
         String s = " minX=\"" + getMinX()/*getRawMinX()*/ + "\"";
         s += " maxX=\"" + getMaxX() /*getRawMaxX()*/ + "\"";
         s += " minY=\"" + getMinY() /*getRawMinY()*/ + "\"";
@@ -2809,16 +2818,16 @@ public abstract class TDiagramPanel extends JPanel implements GenericTree {
         }
         return null;
     }
-    
+
     public List<TGConnector> getConnectors() {
-    	final List<TGConnector> connectors = new ArrayList<TGConnector>();
- 
-        for( final TGComponent compo : componentList ) {
-        	if ( compo instanceof TGConnector ) {
-        		connectors.add( (TGConnector) compo );
-        	}
+        final List<TGConnector> connectors = new ArrayList<TGConnector>();
+
+        for (final TGComponent compo : componentList) {
+            if (compo instanceof TGConnector) {
+                connectors.add((TGConnector) compo);
+            }
         }
-        
+
         return connectors;
     }
 
@@ -2850,7 +2859,7 @@ public abstract class TDiagramPanel extends JPanel implements GenericTree {
         }
     }
 
-    public void getAllCheckedTGComponent( List<TGComponent> _list) {
+    public void getAllCheckedTGComponent(List<TGComponent> _list) {
         for (TGComponent tgc : this.componentList)
             if (tgc.hasCheckedAccessibility())
                 _list.addAll(tgc.getAllCheckedAccessibility());
@@ -2859,7 +2868,7 @@ public abstract class TDiagramPanel extends JPanel implements GenericTree {
     public void getAllCheckableTGComponent(List<TGComponent> _list) {
         for (TGComponent tgc : this.componentList) {
             //if (tgc instanceof CheckableAccessibility) {
-                _list.addAll(tgc.getAllCheckableAccessibility());
+            _list.addAll(tgc.getAllCheckableAccessibility());
             //}
 
             //tgc.getAllCheckableTGComponent(_list);
@@ -2904,7 +2913,7 @@ public abstract class TDiagramPanel extends JPanel implements GenericTree {
                     || (o instanceof TMLTaskInterface && this.checkTMLTaskInterface((TMLTaskInterface) o, name))
                     || (o instanceof SysCAMSBlockTDF && this.checkSysCAMSBlockTDFComponent((SysCAMSBlockTDF) o, name))
                     || (o instanceof SysCAMSBlockDE && this.checkSysCAMSBlockDEComponent((SysCAMSBlockDE) o, name))
-		    || (o instanceof SysCAMSClock && this.checkSysCAMSClockComponent((SysCAMSClock) o, name))
+                    || (o instanceof SysCAMSClock && this.checkSysCAMSClockComponent((SysCAMSClock) o, name))
                     || (o instanceof SysCAMSCompositeComponent && this.checkSysCAMSCompositeComponent((SysCAMSCompositeComponent) o, name))
                     || (o instanceof ELNCluster && this.checkELNCluster((ELNCluster) o, name))
                     || (o instanceof ELNModule && this.checkELNModule((ELNModule) o, name))
@@ -2915,7 +2924,7 @@ public abstract class TDiagramPanel extends JPanel implements GenericTree {
                     || (o instanceof ELNComponentVoltageControlledVoltageSource && this.checkELNComponentVoltageControlledVoltageSource((ELNComponentVoltageControlledVoltageSource) o, name))
                     || (o instanceof ELNComponentVoltageControlledCurrentSource && this.checkELNComponentVoltageControlledCurrentSource((ELNComponentVoltageControlledCurrentSource) o, name))
                     || (o instanceof ELNComponentIdealTransformer && this.checkELNComponentIdealTransformer((ELNComponentIdealTransformer) o, name))
-                    || (o instanceof ELNComponentTransmissionLine && this.checkELNComponentTransmissionLine ((ELNComponentTransmissionLine) o, name))
+                    || (o instanceof ELNComponentTransmissionLine && this.checkELNComponentTransmissionLine((ELNComponentTransmissionLine) o, name))
                     || (o instanceof ELNComponentIndependentVoltageSource && this.checkELNComponentIndependentVoltageSource((ELNComponentIndependentVoltageSource) o, name))
                     || (o instanceof ELNComponentIndependentCurrentSource && this.checkELNComponentIndependentCurrentSource((ELNComponentIndependentCurrentSource) o, name))
                     || (o instanceof ELNComponentCurrentSinkTDF && this.checkELNComponentCurrentSinkTDF((ELNComponentCurrentSinkTDF) o, name))
@@ -2930,9 +2939,9 @@ public abstract class TDiagramPanel extends JPanel implements GenericTree {
                     || (o instanceof ATDAttack && this.checkATDAttack((ATDAttack) o, name))
                     || (o instanceof FTDFault && this.checkFTDFault((FTDFault) o, name))
                     || (o instanceof AvatarBDBlock && this.checkAvatarBDBlock((AvatarBDBlock) o, name))
-		 || (o instanceof AvatarBDInterface && this.checkAvatarBDInterface((AvatarBDInterface) o, name))
+                    || (o instanceof AvatarBDInterface && this.checkAvatarBDInterface((AvatarBDInterface) o, name))
                     || (o instanceof AvatarCDBlock && this.checkAvatarCDBlock((AvatarCDBlock) o, name))
-                    || (o instanceof AvatarSMDState && this.checkAvatarSMDState((AvatarSMDState) o, name))		   
+                    || (o instanceof AvatarSMDState && this.checkAvatarSMDState((AvatarSMDState) o, name))
                     || (o instanceof AvatarADActivity && this.checkAvatarADActivity((AvatarADActivity) o, name))
                     || (o instanceof AvatarMADAssumption && this.checkAvatarMADAssumption((AvatarMADAssumption) o, name))
                     || (o instanceof AvatarRDRequirement && this.checkAvatarRDRequirement((AvatarRDRequirement) o, name))
@@ -2979,107 +2988,107 @@ public abstract class TDiagramPanel extends JPanel implements GenericTree {
         public boolean checkTMLTaskInterface(TMLTaskInterface o, String name) {
             return false;
         }
-        
+
         public boolean checkSysCAMSBlockTDFComponent(SysCAMSBlockTDF o, String name) {
-      		return false;
-        }
-        
-        public boolean checkSysCAMSBlockDEComponent(SysCAMSBlockDE o, String name) {
-        	return false;
+            return false;
         }
 
-	 public boolean checkSysCAMSClockComponent(SysCAMSClock o, String name) {
-        	return false;
+        public boolean checkSysCAMSBlockDEComponent(SysCAMSBlockDE o, String name) {
+            return false;
         }
-        
+
+        public boolean checkSysCAMSClockComponent(SysCAMSClock o, String name) {
+            return false;
+        }
+
         public boolean checkSysCAMSCompositeComponent(SysCAMSCompositeComponent o, String name) {
-        	return false;
+            return false;
         }
 
         public boolean checkELNCluster(ELNCluster o, String name) {
-        	return false;
+            return false;
         }
-        
+
         public boolean checkELNModule(ELNModule o, String name) {
-        	return false;
+            return false;
         }
-        
+
         public boolean checkELNComponentNodeRef(ELNNodeRef o, String name) {
-        	return false;
+            return false;
         }
-        
+
         public boolean checkELNComponentResistor(ELNComponentResistor o, String name) {
-        	return false;
+            return false;
         }
-        
+
         public boolean checkELNComponentCapacitor(ELNComponentCapacitor o, String name) {
-        	return false;
+            return false;
         }
-        
+
         public boolean checkELNComponentInductor(ELNComponentInductor o, String name) {
-        	return false;
+            return false;
         }
-        
+
         public boolean checkELNComponentVoltageControlledVoltageSource(ELNComponentVoltageControlledVoltageSource o, String name) {
-        	return false;
+            return false;
         }
-        
+
         public boolean checkELNComponentVoltageControlledCurrentSource(ELNComponentVoltageControlledCurrentSource o, String name) {
-        	return false;
+            return false;
         }
-        
+
         public boolean checkELNComponentIdealTransformer(ELNComponentIdealTransformer o, String name) {
-        	return false;
+            return false;
         }
-        
+
         public boolean checkELNComponentTransmissionLine(ELNComponentTransmissionLine o, String name) {
-        	return false;
+            return false;
         }
-        
+
         public boolean checkELNComponentIndependentVoltageSource(ELNComponentIndependentVoltageSource o, String name) {
-        	return false;
+            return false;
         }
-        
+
         public boolean checkELNComponentIndependentCurrentSource(ELNComponentIndependentCurrentSource o, String name) {
-        	return false;
+            return false;
         }
-        
+
         public boolean checkELNComponentCurrentSinkTDF(ELNComponentCurrentSinkTDF o, String name) {
-        	return false;
+            return false;
         }
-        
+
         public boolean checkELNComponentCurrentSourceTDF(ELNComponentCurrentSourceTDF o, String name) {
-        	return false;
+            return false;
         }
-        
+
         public boolean checkELNComponentVoltageSinkTDF(ELNComponentVoltageSinkTDF o, String name) {
-        	return false;
+            return false;
         }
-        
+
         public boolean checkELNComponentVoltageSourceTDF(ELNComponentVoltageSourceTDF o, String name) {
-        	return false;
+            return false;
         }
-        
+
         public boolean checkELNComponentCurrentSinkDE(ELNComponentCurrentSinkDE o, String name) {
-        	return false;
+            return false;
         }
-        
+
         public boolean checkELNComponentCurrentSourceDE(ELNComponentCurrentSourceDE o, String name) {
-        	return false;
+            return false;
         }
-        
+
         public boolean checkELNComponentVoltageSinkDE(ELNComponentVoltageSinkDE o, String name) {
-        	return false;
+            return false;
         }
-        
+
         public boolean checkELNComponentVoltageSourceDE(ELNComponentVoltageSourceDE o, String name) {
-        	return false;
+            return false;
         }
 
         public boolean checkATDBlock(ATDBlock o, String name) {
             return false;
         }
-        
+
         public boolean checkATDAttack(ATDAttack o, String name) {
             return false;
         }
@@ -3092,7 +3101,7 @@ public abstract class TDiagramPanel extends JPanel implements GenericTree {
             return false;
         }
 
-	 public boolean checkAvatarBDInterface(AvatarBDInterface o, String name) {
+        public boolean checkAvatarBDInterface(AvatarBDInterface o, String name) {
             return false;
         }
 
@@ -3102,7 +3111,7 @@ public abstract class TDiagramPanel extends JPanel implements GenericTree {
 
         public boolean checkAvatarSMDState(AvatarSMDState o, String name) {
             return false;
-        }	
+        }
 
         public boolean checkAvatarADActivity(AvatarADActivity o, String name) {
             return false;
@@ -3134,7 +3143,7 @@ public abstract class TDiagramPanel extends JPanel implements GenericTree {
 
         //#issue 82
         public boolean checkCPrimitivePort(TMLCPrimitivePort o, String name) {
-            return  false;
+            return false;
         }
 
     }
@@ -3147,11 +3156,11 @@ public abstract class TDiagramPanel extends JPanel implements GenericTree {
     }
 
     //#issue 82
-    private Vector<TMLCPrimitivePort> getPortList () {
+    private Vector<TMLCPrimitivePort> getPortList() {
         Vector<TMLCPrimitivePort> portList = new Vector<>();
         //create list of ports
         for (TGComponent o : componentList) {
-            if (o instanceof  TGConnector) {
+            if (o instanceof TGConnector) {
                 if (this.getComponentToWhichBelongs(((TGConnector) o).getTGConnectingPointP1()) instanceof TMLCPrimitivePort) {
                     TMLCPrimitivePort c1 = (TMLCPrimitivePort) getComponentToWhichBelongs(((TGConnector) o).getTGConnectingPointP1());
                     portList.add(c1);
@@ -3168,7 +3177,7 @@ public abstract class TDiagramPanel extends JPanel implements GenericTree {
     }
 
     //#issue 82
-    private  boolean isPortNameUnique (String name, NameChecker checker) {
+    private boolean isPortNameUnique(String name, NameChecker checker) {
         Vector<TMLCPrimitivePort> portList = getPortList();
         //TraceManager.addDev("port list size : " + portList.size());
         for (int i = 0; i < portList.size(); i++) {
@@ -3178,7 +3187,6 @@ public abstract class TDiagramPanel extends JPanel implements GenericTree {
         }
         return true;
     }
-
 
 
     private String findGoodName(String name, NameChecker checker) {
@@ -3262,7 +3270,7 @@ public abstract class TDiagramPanel extends JPanel implements GenericTree {
         return this.findGoodPortName(name, new NameChecker() {
             public boolean checkCPrimitivePort(TMLCPrimitivePort o, String name) {
                 //TraceManager.addDev("in CheckCPrimitivePort : port value " + o.getValue());
-                return  o.getValue().equals(name);
+                return o.getValue().equals(name);
             }
         });
     }
@@ -3280,104 +3288,123 @@ public abstract class TDiagramPanel extends JPanel implements GenericTree {
     }
 
     public String findSysCAMSPrimitiveComponentName(String name) {
-    	return this.findGoodName(name, new NameChecker() {
-    		public boolean checkSysCAMSBlockTDFComponent(SysCAMSBlockTDF o, String name) {		  
-    			return o.getValue().equals(name);
-    		}
-    		
-    		public boolean checkSysCAMSBlockDEComponent(SysCAMSBlockDE o, String name) {
-    			return o.getValue().equals(name);
-    		}
+        return this.findGoodName(name, new NameChecker() {
+            public boolean checkSysCAMSBlockTDFComponent(SysCAMSBlockTDF o, String name) {
+                return o.getValue().equals(name);
+            }
 
-		public boolean checkSysCAMSClockComponent(SysCAMSClock o, String name) {//System.out.println("@@@@@@@ Clock Name :" + o.getValue());
-		    // if(o.getValue().equals(name)){System.out.println("@@@@@@@OK");}else{System.out.println("@@@@@@@KO");}
-    			return o.getValue().equals(name);
-    		}
-    		
-    		public boolean checkSysCAMSCompositeComponent(SysCAMSCompositeComponent o, String name) {
-    			for (int i = 0; i < o.getNbInternalTGComponent(); i++)
-    				if (this.isNameAlreadyTaken(o.getInternalTGComponent(i), name))
-    					return true;
-    			return false;
-    		}
-    	});
+            public boolean checkSysCAMSBlockDEComponent(SysCAMSBlockDE o, String name) {
+                return o.getValue().equals(name);
+            }
+
+            public boolean checkSysCAMSClockComponent(SysCAMSClock o, String name) {//System.out.println("@@@@@@@ Clock Name :" + o.getValue());
+                // if(o.getValue().equals(name)){System.out.println("@@@@@@@OK");}else{System.out.println("@@@@@@@KO");}
+                return o.getValue().equals(name);
+            }
+
+            public boolean checkSysCAMSCompositeComponent(SysCAMSCompositeComponent o, String name) {
+                for (int i = 0; i < o.getNbInternalTGComponent(); i++)
+                    if (this.isNameAlreadyTaken(o.getInternalTGComponent(i), name))
+                        return true;
+                return false;
+            }
+        });
     }
 
     public String findELNComponentName(String name) {
-    	return this.findGoodName(name, new NameChecker() {
-    		public boolean checkELNComponentNodeRef(ELNNodeRef o, String name) {
-    			return o.getValue().equals(name);
-    		}
-    		public boolean checkELNComponentResistor(ELNComponentResistor o, String name) {
-    			return o.getValue().equals(name);
-    		}
-    		public boolean checkELNComponentCapacitor(ELNComponentCapacitor o, String name) {
-    			return o.getValue().equals(name);
-    		}
-    		public boolean checkELNComponentInductor(ELNComponentInductor o, String name) {
-    			return o.getValue().equals(name);
-    		}
-    		public boolean checkELNComponentVoltageControlledVoltageSource(ELNComponentVoltageControlledVoltageSource o, String name) {
-    			return o.getValue().equals(name);
-    		}
-    		public boolean checkELNComponentVoltageControlledCurrentSource(ELNComponentVoltageControlledCurrentSource o, String name) {
-    			return o.getValue().equals(name);
-    		}
-    		public boolean checkELNComponentIdealTransformer(ELNComponentIdealTransformer o, String name) {
-    			return o.getValue().equals(name);
-    		}
-    		public boolean checkELNComponentTransmissionLine(ELNComponentTransmissionLine o, String name) {
-    			return o.getValue().equals(name);
-    		}
-    		public boolean checkELNComponentIndependentVoltageSource(ELNComponentIndependentVoltageSource o, String name) {
-    			return o.getValue().equals(name);
-    		}
-    		public boolean checkELNComponentIndependentCurrentSource(ELNComponentIndependentCurrentSource o, String name) {
-    			return o.getValue().equals(name);
-    		}
-    		public boolean checkELNComponentCurrentSinkTDF(ELNComponentCurrentSinkTDF o, String name) {
-    			return o.getValue().equals(name);
-    		}
-    		public boolean checkELNComponentCurrentSourceTDF(ELNComponentCurrentSourceTDF o, String name) {
-    			return o.getValue().equals(name);
-    		}
-    		public boolean checkELNComponentVoltageSinkTDF(ELNComponentVoltageSinkTDF o, String name) {
-    			return o.getValue().equals(name);
-    		}
-    		public boolean checkELNComponentVoltageSourceTDF(ELNComponentVoltageSourceTDF o, String name) {
-    			return o.getValue().equals(name);
-    		}
-    		public boolean checkELNComponentCurrentSinkDE(ELNComponentCurrentSinkDE o, String name) {
-    			return o.getValue().equals(name);
-    		}
-    		public boolean checkELNComponentCurrentSourceDE(ELNComponentCurrentSourceDE o, String name) {
-    			return o.getValue().equals(name);
-    		}
-    		public boolean checkELNComponentVoltageSinkDE(ELNComponentVoltageSinkDE o, String name) {
-    			return o.getValue().equals(name);
-    		}
-    		public boolean checkELNComponentVoltageSourceDE(ELNComponentVoltageSourceDE o, String name) {
-    			return o.getValue().equals(name);
-    		}
-    		public boolean checkELNModule(ELNModule o, String name) {
-    			if (o.getValue().equals(name))
-    				return true;
-    			for (int i = 0; i < o.getNbInternalTGComponent(); i++)
-    				if (this.isNameAlreadyTaken(o.getInternalTGComponent(i), name))
-    					return true;
-    			return false;
-    		}
-    		public boolean checkELNCluster(ELNCluster o, String name) {
-    			if (o.getValue().equals(name))
-    				return true;
-    			for (int i = 0; i < o.getNbInternalTGComponent(); i++)
-    				if (this.isNameAlreadyTaken(o.getInternalTGComponent(i), name))
-    					return true;
-    			return false;
-    		}
-    	});
+        return this.findGoodName(name, new NameChecker() {
+            public boolean checkELNComponentNodeRef(ELNNodeRef o, String name) {
+                return o.getValue().equals(name);
+            }
+
+            public boolean checkELNComponentResistor(ELNComponentResistor o, String name) {
+                return o.getValue().equals(name);
+            }
+
+            public boolean checkELNComponentCapacitor(ELNComponentCapacitor o, String name) {
+                return o.getValue().equals(name);
+            }
+
+            public boolean checkELNComponentInductor(ELNComponentInductor o, String name) {
+                return o.getValue().equals(name);
+            }
+
+            public boolean checkELNComponentVoltageControlledVoltageSource(ELNComponentVoltageControlledVoltageSource o, String name) {
+                return o.getValue().equals(name);
+            }
+
+            public boolean checkELNComponentVoltageControlledCurrentSource(ELNComponentVoltageControlledCurrentSource o, String name) {
+                return o.getValue().equals(name);
+            }
+
+            public boolean checkELNComponentIdealTransformer(ELNComponentIdealTransformer o, String name) {
+                return o.getValue().equals(name);
+            }
+
+            public boolean checkELNComponentTransmissionLine(ELNComponentTransmissionLine o, String name) {
+                return o.getValue().equals(name);
+            }
+
+            public boolean checkELNComponentIndependentVoltageSource(ELNComponentIndependentVoltageSource o, String name) {
+                return o.getValue().equals(name);
+            }
+
+            public boolean checkELNComponentIndependentCurrentSource(ELNComponentIndependentCurrentSource o, String name) {
+                return o.getValue().equals(name);
+            }
+
+            public boolean checkELNComponentCurrentSinkTDF(ELNComponentCurrentSinkTDF o, String name) {
+                return o.getValue().equals(name);
+            }
+
+            public boolean checkELNComponentCurrentSourceTDF(ELNComponentCurrentSourceTDF o, String name) {
+                return o.getValue().equals(name);
+            }
+
+            public boolean checkELNComponentVoltageSinkTDF(ELNComponentVoltageSinkTDF o, String name) {
+                return o.getValue().equals(name);
+            }
+
+            public boolean checkELNComponentVoltageSourceTDF(ELNComponentVoltageSourceTDF o, String name) {
+                return o.getValue().equals(name);
+            }
+
+            public boolean checkELNComponentCurrentSinkDE(ELNComponentCurrentSinkDE o, String name) {
+                return o.getValue().equals(name);
+            }
+
+            public boolean checkELNComponentCurrentSourceDE(ELNComponentCurrentSourceDE o, String name) {
+                return o.getValue().equals(name);
+            }
+
+            public boolean checkELNComponentVoltageSinkDE(ELNComponentVoltageSinkDE o, String name) {
+                return o.getValue().equals(name);
+            }
+
+            public boolean checkELNComponentVoltageSourceDE(ELNComponentVoltageSourceDE o, String name) {
+                return o.getValue().equals(name);
+            }
+
+            public boolean checkELNModule(ELNModule o, String name) {
+                if (o.getValue().equals(name))
+                    return true;
+                for (int i = 0; i < o.getNbInternalTGComponent(); i++)
+                    if (this.isNameAlreadyTaken(o.getInternalTGComponent(i), name))
+                        return true;
+                return false;
+            }
+
+            public boolean checkELNCluster(ELNCluster o, String name) {
+                if (o.getValue().equals(name))
+                    return true;
+                for (int i = 0; i < o.getNbInternalTGComponent(); i++)
+                    if (this.isNameAlreadyTaken(o.getInternalTGComponent(i), name))
+                        return true;
+                return false;
+            }
+        });
     }
-    
+
     public String findAttackName(String name) {
         return this.findGoodName(name, new NameChecker() {
             public boolean checkATDAttack(ATDAttack o, String name) {
@@ -3393,7 +3420,7 @@ public abstract class TDiagramPanel extends JPanel implements GenericTree {
             }
         });
     }
-    
+
     public String findBlockName(String name) {
         return this.findGoodName(name, new NameChecker() {
             public boolean checkATDBlock(ATDBlock o, String name) {
@@ -3403,7 +3430,7 @@ public abstract class TDiagramPanel extends JPanel implements GenericTree {
     }
 
     //ajoute DG
-    
+
     public String findAvatarBDInterfaceName(String name) {
         return this.findGoodName(name, new NameChecker() {
             public boolean checkAvatarBDInterface(AvatarBDInterface o, String name) {
@@ -3423,7 +3450,7 @@ public abstract class TDiagramPanel extends JPanel implements GenericTree {
     }
 
     // fin ajoute
-    
+
     public String findAvatarBDBlockName(String name) {
         return this.findGoodName(name, new NameChecker() {
             public boolean checkAvatarBDBlock(AvatarBDBlock o, String name) {
@@ -3471,7 +3498,7 @@ public abstract class TDiagramPanel extends JPanel implements GenericTree {
             }
         });
     }
-    
+
     public String findAvatarADActivityName(String name) {
         return this.findGoodName(name, new NameChecker() {
             public boolean checkAvatarADActivity(AvatarADActivity o, String name) {
@@ -4019,7 +4046,6 @@ public abstract class TDiagramPanel extends JPanel implements GenericTree {
     }
 
 
-
     public void autoAdjust() {
         for (TGComponent tgc : this.componentList)
             if (tgc instanceof TGAutoAdjust)
@@ -4193,7 +4219,7 @@ public abstract class TDiagramPanel extends JPanel implements GenericTree {
 
         overcomeShowing = true;
         SVGGeneration gen = new SVGGeneration();
-        String ret =  gen.getSVGString(this, getRealMaxX()+10, getRealMaxY()+10);
+        String ret = gen.getSVGString(this, getRealMaxX() + 10, getRealMaxY() + 10);
         overcomeShowing = false;
         return ret;
     }
@@ -4369,13 +4395,13 @@ public abstract class TDiagramPanel extends JPanel implements GenericTree {
         return false;
     }
 
-	public TDiagramMouseManager getTdmm() {
-		return tdmm;
-	}
+    public TDiagramMouseManager getTdmm() {
+        return tdmm;
+    }
 
-	public void setTdmm(TDiagramMouseManager tdmm) {
-		this.tdmm = tdmm;
-	}
+    public void setTdmm(TDiagramMouseManager tdmm) {
+        this.tdmm = tdmm;
+    }
 }
 
 

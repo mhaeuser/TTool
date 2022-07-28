@@ -39,6 +39,7 @@
 
 package ui.graphd;
 
+import avatartranslator.ElementWithNew;
 import myutil.Conversion;
 import myutil.GraphicLib;
 import myutil.TraceManager;
@@ -116,6 +117,21 @@ public class GraphDEdgeConnector extends TGConnector implements ColorCustomizabl
     @Override
     protected void drawLastSegment(Graphics g, int x1, int y1, int x2, int y2) {
 
+        Color tmpColor = g.getColor();
+
+        if (p1.getFather() != null && p1.getFather() instanceof ElementWithNew) {
+            if (((ElementWithNew)(p1.getFather())).isNew()) {
+                g.setColor(ColorManager.NEW);
+            }
+        }
+
+        if (p2.getFather() != null && p2.getFather() instanceof ElementWithNew) {
+            if (((ElementWithNew)(p2.getFather())).isNew()) {
+                g.setColor(ColorManager.NEW);
+            }
+
+        }
+
         try {
 
 
@@ -133,7 +149,7 @@ public class GraphDEdgeConnector extends TGConnector implements ColorCustomizabl
 
                 circle = true;
 
-                // Computing center using the randomA
+
 
                 //TraceManager.addDev("RandomA = " + Math.toDegrees(randomA));
 
@@ -171,17 +187,6 @@ public class GraphDEdgeConnector extends TGConnector implements ColorCustomizabl
                 Point px1 = new Point(x1, y1);
                 Point px2 = new Point(x2, y2);
 
-            /*Point2D center = new Point(p1.getFather().getX() + p1.getFather().getWidth() / 2,
-                    p1.getFather().getY() + p1.getFather().getWidth() / 2);
-            double radius = p1.getFather().getWidth() / 2;
-
-            g.drawOval(x1 - 3, y1 - 3, 6, 6);
-
-            Point2D p1p = GraphicLib.intersectionP(px1, px2, center, radius, true);
-            if (p1p != null) {
-                x1 = (int) (p1p.getX());
-                y1 = (int) (p1p.getY());
-            }*/
 
                 double radius = p2.getFather().getWidth() / 2;
                 Point2D center = new Point(p2.getFather().getX() + p2.getFather().getWidth() / 2,
@@ -192,28 +197,6 @@ public class GraphDEdgeConnector extends TGConnector implements ColorCustomizabl
                     x2 = (int) (p2p.getX());
                     y2 = (int) (p2p.getY());
                 }
-
-                //g.drawOval(x1 - 3, y1 - 3, 6, 6);
-                //g.drawOval(x2 - 3, y2 - 3, 6, 6);
-
-
-
-
-
-                /*if (x1 < x2) {
-                    x3 = x2 - 30;
-                } else {
-                    x3 = x2 + 30;
-                }
-
-                if (y1 < y2) {
-                    y3 = y2 - 30;
-                } else {
-                    y3 = y2 + 30;
-                }
-                curve = new QuadCurve2D.Float(x1, y1, x3, y3, x2, y2);
-                ((Graphics2D) g).draw(curve);
-                */
 
 
                 GraphicLib.arrowWithLine(g, 1, 1, 10, x1, y1, x2, y2, false);
@@ -230,39 +213,12 @@ public class GraphDEdgeConnector extends TGConnector implements ColorCustomizabl
 
             }
 
-            //g.drawRect(xWidthValue, yWidthValue - heightValue, widthValue, heightValue);
-
-            //g.drawOval((int) x3, (int) y3, 10, 10);
-
-            /*path = new Path2D.Double(Path2D.WIND_NON_ZERO);
-            path.moveTo(x1, y1);
-
-
-
-            double firstAngle = Math.atan((x3 - x1) / (y3 - y1));
-            double radius = new Point(x1, y1).distance(new Point(x2, y2)) / 2;
-
-            double dist = randomD  * radius;
-            double angle = randomA * 70 + 10 + firstAngle;
-
-            x3 = x3 + dist * Math.cos(angle);
-            y3 = y3 + dist * Math.cos(angle);
-
-            path.curveTo(x1, y1, x3, y3, x2, y2);
-
-            ((Graphics2D) g).draw(path);*/
-
-            /*Point p = GraphicLib.getCircleCenter(x1, y1, x2, y2);
-
-            g.drawOval(p.x, p.y, 10, 10);
-
-            GraphicLib.drawArc(x1, y1, x2, y2, p.x, p.y, g);*/
 
         } catch (Exception e) {
             GraphicLib.arrowWithLine(g, 1, 1, 10, x1, y1, x2, y2, false);
         }
 
-
+       g.setColor(tmpColor);
     }
 
     public void specificActionAfterAdd() {

@@ -1333,7 +1333,7 @@ ServerIF* Simulator::run(int iLen, char ** iArgs){
   //  std::cout << "Running in command line mode.\n";
   _replyToServer = false;
 
-  #ifdef PENALTIES_ENABLED
+  #ifndef PENALTIES_ENABLED
   aArgString =getArgs("-explo", "file", iLen, iArgs);
   if (!aArgString.empty()) {
     std::string command = "1 7 100 100 " + graphName;

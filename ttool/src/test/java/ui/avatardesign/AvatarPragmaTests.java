@@ -43,7 +43,7 @@
  * @see
  */
 
-package avatartranslator;
+package ui.avatardesign;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -59,6 +59,7 @@ import org.junit.Test;
 import ui.TAttribute;
 import ui.avatarbd.AvatarBDPanel;
 import ui.avatarbd.AvatarBDPragma;
+import avatartranslator.*;
 
 public class AvatarPragmaTests {	
 	List<AvatarPragma> res;

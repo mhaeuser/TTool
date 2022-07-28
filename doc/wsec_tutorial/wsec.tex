@@ -11,8 +11,8 @@
 \newcommand{\cmark}{\textcolor{green}{\textbf{\ding{51}}}}
 \newcommand{\xmark}{\textcolor{red}{\textbf{\ding{55}}}}	
 
-\author{Ludovic \textsc{Apvrille}, Bastien \textsc{Sultan}
-	\thanks{\{ludovic.apvrille, bastien.sultan\}@telecom-paris.fr}}
+\author{Bastien \textsc{Sultan}, Ludovic \textsc{Apvrille}
+	\thanks{\{bastien.sultan, ludovic.apvrille\}@telecom-paris.fr}}
 \affil{\emph{Télécom Paris}\\\emph{LabSoC Research Group}\\\emph{450, route des Chappes, F-06410 Biot}}
 \title{\textbf{A tutorial on W-Sec}\\---\\A formal model-based method for assessing the impact of countermeasures}
 \date{}
@@ -28,9 +28,9 @@
 %---------------------------------------------------------------------------------------------------------------------------
 \section{Summary}
 
-This document provides a tutorial on W-Sec, a method dedicated to quantify the (positive or negative) impacts of security countermeasures deployed on cyber-physical systems. The tutorial uses models of an autonomous rovers swarm, designed in the context of the EU H2020 SPARTA project: the SPARTA deliverable~\cite{d51} describes in Sect.~2.1.2.2 the modeled rovers. In this case-study, a rover acts as a leader while the others act as followers: the leader periodically sends its speed values or emergency brake orders to the followers so that they can adapt their own speed consequently.
+This document provides a tutorial on W-Sec, a method dedicated to quantify the (positive or negative) impacts of security countermeasures deployed on cyber-physical systems. The tutorial uses models of an autonomous swarm of rovers, designed in the context of the EU H2020 SPARTA project: the SPARTA deliverable~\cite{d51} describes in Sect.~2.1.2.2 the modeled rovers. In this case-study, a rover acts as a leader while the others act as followers: the leader periodically sends its speed values or emergency brake orders to the followers so that they can adapt their own speed consequently.
 
-Both W-Sec and this autonomous rovers swarm case-study have been introduced in a paper presented at the 10\textsuperscript{th} ModelsWard conference~\cite{wsec}.
+Both W-Sec and this autonomous rovers swarm case-study have been introduced in a paper presented at the 10\textsuperscript{th} Modelsward conference~\cite{wsec}.
 
 
 \tableofcontents
@@ -63,7 +63,10 @@ Once TTool and ProVerif have been installed, you can now configure your TTool ve
 %---------------------------------------------------------------------------------------------------------------------------
 \section{Prerequisiste}
 
-Knowledge of TTool and AVATAR \& DIPLODOCUS SysML profiles should greatly facilitate your understanding of this tutorial. You can find an exhaustive documentation and tutorials on AVATAR in this page: \url{https://ttool.telecom-paris.fr/avatar.html}. In addition, you will find a complete tutorial on DIPLODOCUS by following this link: \url{https://ttool.telecom-paris.fr/docs/Tutorial.pdf}.
+Knowledge of TTool and AVATAR \& DIPLODOCUS SysML profiles should greatly facilitate your understanding of this tutorial. 
+You can find an exhaustive documentation and tutorials on AVATAR in this page: \url{https://ttool.telecom-paris.fr/avatar.html}. 
+This page contains links to videos on how to make a first model and how to simulate and verify a model.
+In addition, you will find a complete tutorial on DIPLODOCUS by following this link: \url{https://ttool.telecom-paris.fr/docs/Tutorial.pdf}.
 
 
 
@@ -84,11 +87,11 @@ W-Sec is a four-stage method (see figure.~\ref{fig:method}). Its first stage is 
 	\item The DIPLODOCUS view is used to model the system's components\footnote{A \emph{component} is any equipment of the system, e.g. a network switch, a programmable logic controller, a computer, etc.} from a low-level hardware and software perspective. One DIPLODOCUS model is built per component we want to study.
 \end{itemize}
 
-Its second stage is a \textbf{mutation stage}, where the models are modified in order to enrich them with (i) the countermeasures we want to assess and (ii) the attack scenarios we want to protect the system from.
+Its second stage is a \textbf{mutation stage}, where the models are modified in order to enrich them with (i) the (safety and security) countermeasures we want to assess and (ii) the attack scenarios we want to protect the system from.
 
 Its third stage is a \textbf{verification stage}, where we assess the impacts of the modeled countermeasures thanks to formal verification and simulation.
 
-Last, its fourth stage is an \textbf{enrichment stage}, where the models of the system are enriched with the chosen countermeasure, if a countermeasure is chosen to be deployed.
+Last, its fourth stage is an \textbf{enrichment stage}, where the models of the system are enriched with the chosen countermeasure, if a countermeasure is finally chosen to be deployed.
 
 
 %---------------------------------------------------------------------------------------------------------------------------
@@ -100,12 +103,12 @@ The first W-Sec stage is a modeling stage. As said previously, W-Sec uses two mo
 
 \subsubsection{The model}
 
-The models designed in this view target capturing high-level architectural and behavioral (discrete and, if applicable, continuous) aspects of the system. \textbf{wsec\_avatar.xml} contains AVATAR models of the swarm: open this model in TTool and click on the tab ``\textbf{Nominal}''. You should now see the model depicted in figure~\ref{fig:avatarmodel}.
+The models designed in this view target capturing high-level architectural and behavioral (discrete and, if applicable, continuous) aspects of the system. The \textbf{wsec\_avatar.xml} file contains AVATAR models of the swarm: open this model in TTool and click on the tab ``\textbf{Nominal}''. You should now see the model depicted in figure~\ref{fig:avatarmodel}.
 
 \begin{figure}
 	\centering
 	\includegraphics{figures/avatarmodel.pdf}
-	\caption{AVATAR model of the swarm}
+	\caption{System view of the swarm using AVATAR}
 	\label{fig:avatarmodel}
 \end{figure}
 
@@ -118,12 +121,14 @@ Here, each of the three rovers is modeled thanks to three blocks: \texttt{Rover$
 	\label{fig:opensmd}
 \end{figure}
 
-Now, open the \texttt{Rover} library state-machine diagram by double-clicking on the turtle in the upper right corner of the block (see figure~\ref{fig:opensmd}). The four states prefixed with the letter ``F'' model the discrete behavior of the rover when acting as a follower (see figure~\ref{fig:roversmd}). This state-machine diagram illustrates the modeling approach of the AVATAR view: we consider only the high-level behavior of the algorithms. Here, for instance, we don't model the computations of the PID controller used for speed control: we directly consider that the rover's speed is equal to the received setpoint.
+Now, open the state machine diagram of the \texttt{Rover}'s $<<$library$>>$  by double-clicking on the blue turtle in the upper right corner of the block (see figure~\ref{fig:opensmd}). Alternatively, you can open the state machine diagram either on clicking on its corresponding tab, or on selecting it in the main tree on the left of the TTool's window. 
+
+In this state machine, the four states prefixed with the letter ``F'' model the discrete behavior of the rover when acting as a follower (see figure~\ref{fig:roversmd}). This state machine diagram illustrates the modeling approach of the AVATAR view: we consider only the high-level behavior of the algorithms. Here, for instance, we don't model the computations of the PID controller used for speed control: we directly consider that the rover's speed is equal to the received setpoint.
 
 \begin{figure}
 	\centering
 	\includegraphics[scale=.6]{figures/roverfsm.pdf}
-	\caption{Excerpt of the state-machine diagram of the \texttt{Rover} library}
+	\caption{Excerpt of the state machine diagram of the \texttt{Rover} library}
 	\label{fig:roversmd}
 \end{figure}
 
@@ -134,11 +139,11 @@ You should also notice, in the upper left corner of the Block Diagram, a pink bo
 A[] Environment2.gap>0
 A[] Environment3.gap>0
 \end{verbatim}
-Indeed, in W-Sec, we verify the safety aspects in the AVATAR view: once the model has been designed in the modeling stage, we define the safety properties we want the system to comply with. Here, these two formulas express the following safety properties: (i) the gap ahead of rover$_2$ is always positive and (ii) the gap ahead of rover$_3$ is always positive. In other terms, these two properties are satisfied iff no crash occurs in the swarm. Note that we can express safety properties with CTL* formulas but also by right-clicking on the desired state in a state-machine diagram and selecting ``check for reachability/liveness''.
+Indeed, in W-Sec, we verify the safety aspects in the AVATAR view: once the model has been designed in the modeling stage, we define the safety properties we want the system to comply with. Here, these two formulas express the following safety properties: (i) the gap ahead of rover$_2$ is always positive and (ii) the gap ahead of rover$_3$ is always positive. In other terms, these two properties are satisfied iff no crash occurs in the swarm. Note that we can express safety properties with CTL* formulas but also by right-clicking on the desired state in a state machine diagram and selecting ``check for reachability/liveness''.
 
 \subsubsection{About functional scenarios}
 
-You certainly have noticed that \textbf{wsec\_avatar.xml} has several tabs: for instance, \textbf{Nominal} and \textbf{Nominal\_Deceleration}. Indeed, we usually want to assess the countermeasures impacts according to different functional scenarios. Basically, two models modeling two different functional scenarios have slight variations (for instance, different initial values of a given variable, an additional state and transitions in a state-machine diagram, etc.). Therefore, we need several AVATAR models for modeling the different desired functional scenarios. Here, the both models correspond to the following scenarios: (i) the leader runs at a constant speed and (ii) the leader decelerates.
+You certainly have noticed that \textbf{wsec\_avatar.xml} has several tabs: for instance, \textbf{Nominal} and \textbf{Nominal\_Deceleration}. Indeed, we usually want to assess the countermeasures impacts according to different functional scenarios. Basically, two models modeling two different functional scenarios have slight variations (for instance, different initial values of a given variable, an additional state and transitions in a state machine diagram, etc.). Therefore, we need several AVATAR models for modeling the different desired functional scenarios. Here, the both models correspond to the following scenarios: (i) the leader runs at a constant speed and (ii) the leader decelerates.
 
 
 \subsection{DIPLODOCUS view: a component-level modeling}
@@ -147,7 +152,7 @@ The DIPLODOCUS view is used for modeling the low-level hardware and software asp
 
 \subsubsection{The application model}
 
-Open in TTool \textbf{wsec\_diplodocus.xml} and click on the \textbf{NoCountermeasureNoAttack} tab. You should now see the component task diagram of the application model of a follower (without any countermeasure). Like the state-machine diagram excerpt depicted in figure~\ref{fig:roversmd}, this application model models the discrete component of the follower. Explore its structure and the activity diagrams of its tasks: you can notice the difference in the modeling approach between AVATAR and DIPLODOCUS views, with a far more fine-grained modeling in the DIPLODOCUS view.
+Open in TTool \textbf{wsec\_diplodocus.xml} and click on the \textbf{NoCountermeasureNoAttack} tab. You should now see the component task diagram of the application model of a follower (without any countermeasure). Like the state machine diagram excerpt depicted in figure~\ref{fig:roversmd}, this application model models the discrete component of the follower. Explore its structure and the activity diagrams of its tasks: you can notice the difference in the modeling approach between AVATAR and DIPLODOCUS views, with a far more fine-grained modeling in the DIPLODOCUS view.
 
 You may have noticed that the arithmetic aspects of the algorithms modeled in the activity diagrams are only modeled with complexity operators: for instance, open the activity diagram of the \texttt{SpeedController} task by double-clicking on the icon in the upper right corner of the task. This activity diagrams models an iterative task that:
 \begin{enumerate}
@@ -204,11 +209,11 @@ The second W-Sec stage is a mutation stage, where the models designed in the fir
 
 At the end of the first stage, we have $n$ AVATAR models, $n$ being the number of modeled functional scenarios. We denote with $A_i$ this set of models.
 
-For each countermeasure, we first apply a mutation to each element of $A_i$ to enrich it with the countermeasure model. We denote with $A_c$ the resulting set of models. For instance, open \textbf{wsec\_avatar.xml} in TTool. You can notice two tabs named \textbf{MAC} and \textbf{MAC\_Deceleration}. These tabs contain the models of the system enriched with a cryptographic countermeasure, in the context of the two functional scenarios we study. Here, $A_i$ = \{\textbf{Nominal}, \textbf{Nominal\_Deceleration}\} and $A_c$ = \{\textbf{MAC}, \textbf{MAC\_Deceleration}\}. Now, open the \texttt{Rover} library's state-machine diagram: you can see that the signal \texttt{inputMessage} now carries a new parameter (\texttt{messageCheck}, modeling the MAC\footnote{\textbf{M}essage \textbf{a}uthentication \textbf{c}ode.}) and that a new state \texttt{FCheckingMAC} has been added. As you can notice, the two transistions that lead to this new state perform a verification of the MAC value: if it is right, the content of the message is taken into account, else, the content of the message is replaced with the content of the last legitimate message the rover has received.
+For each countermeasure, we first apply a mutation to each element of $A_i$ to enrich it with the countermeasure model. We denote with $A_c$ the resulting set of models. For instance, open \textbf{wsec\_avatar.xml} in TTool. You can notice two tabs named \textbf{MAC} and \textbf{MAC\_Deceleration}. These tabs contain the models of the system enriched with a cryptographic countermeasure, in the context of the two functional scenarios we study. Here, $A_i$ = \{\textbf{Nominal}, \textbf{Nominal\_Deceleration}\} and $A_c$ = \{\textbf{MAC}, \textbf{MAC\_Deceleration}\}. Now, open the \texttt{Rover} library's state machine diagram: you can see that the signal \texttt{inputMessage} now carries a new parameter (\texttt{messageCheck}, modeling the MAC\footnote{\textbf{M}essage \textbf{a}uthentication \textbf{c}ode.}) and that a new state \texttt{FCheckingMAC} has been added. As you can notice, the two transistions that lead to this new state perform a verification of the MAC value: if it is right, the content of the message is taken into account, else, the content of the message is replaced with the content of the last legitimate message the rover has received.
 
 Then for each attack, we apply a mutation to each element of $A_c$ modeling the system in the context of a functional scenario where the attack can occur, to enrich it with the attack model. We denote with $A_{c a}$ the resulting set of models. In our example, the attack can occur in the both functional scenarios. Therefore, you can find in \textbf{wsec\_avatar.xml} two tabs named \textbf{MAC\_Attack1} and \textbf{MAC\_Attack1\_Deceleration}. In our example, $A_{c a}$ = \{\textbf{MAC\_Attack1}, \textbf{MAC\_Attack1\_Deceleration}\}.
 
-In addition, we also apply for each attack a mutation to each element of $A_i$ modeling the system in the context of a functional scenario where the attack can occur, to enrich it with the attack model. We denote with $A_a$ the resulting set of models. As explained above, in our case study the attack can occur in the both functional scenarios. Therefore $A_a$ = \{\textbf{Nominal\_Attack1}, \textbf{Nominal\_Attack1\_Deceleration}\} (see the two tabs in \textbf{wsec\_avatar.xml}). In the \textbf{Nominal\_Attack1} tab, open the state-machine diagram of the \texttt{Network} block. You can notice that a new state, named \texttt{interceptingLeaderMessage}, has been added. The transitions leading to this state model the action of the attacker replacing a speed update message with a malicious message containing a higher speed value.
+In addition, we also apply for each attack a mutation to each element of $A_i$ modeling the system in the context of a functional scenario where the attack can occur, to enrich it with the attack model. We denote with $A_a$ the resulting set of models. As explained above, in our case study the attack can occur in the both functional scenarios. Therefore $A_a$ = \{\textbf{Nominal\_Attack1}, \textbf{Nominal\_Attack1\_Deceleration}\} (see the two tabs in \textbf{wsec\_avatar.xml}). In the \textbf{Nominal\_Attack1} tab, open the state machine diagram of the \texttt{Network} block. You can notice that a new state, named \texttt{interceptingLeaderMessage}, has been added. The transitions leading to this state model the action of the attacker replacing a speed update message with a malicious message containing a higher speed value.
 
 
 \subsection{DIPLODOCUS mutations}

@@ -121,46 +121,46 @@ Here, each of the three rovers is modeled thanks to three blocks: \texttt{Rover$
 	\label{fig:opensmd}
 \end{figure}
 
-Now, open the state machine diagram of the \texttt{Rover}'s $<<$library$>>$  by double-clicking on the blue turtle in the upper right corner of the block (see figure~\ref{fig:opensmd}). Alternatively, you can open the state machine diagram either on clicking on its corresponding tab, or on selecting it in the main tree on the left of the TTool's window. 
+Now, open the state machine diagram of the \texttt{Rover}'s $<<$library$>>$  by double-clicking on the blue turtle in the upper right corner of the block (see Figure~\ref{fig:opensmd}). Alternatively, you can open the state machine diagram either on clicking on its corresponding tab, or on selecting it in the main tree on the left of the TTool's window. 
 
-In this state machine, the four states prefixed with the letter ``F'' model the discrete behavior of the rover when acting as a follower (see figure~\ref{fig:roversmd}). This state machine diagram illustrates the modeling approach of the AVATAR view: we consider only the high-level behavior of the algorithms. Here, for instance, we don't model the computations of the PID controller used for speed control: we directly consider that the rover's speed is equal to the received setpoint.
+In this state machine, the four states prefixed with the letter ``F'' model the discrete behavior of the rover when acting as a follower (see Figure~\ref{fig:roversmd}). This state machine diagram illustrates the modeling approach of the AVATAR view: we consider only the high-level behavior of the algorithms. Here, for instance, we don't model the computations of the PID controller used for speed control: we directly consider that the rover's speed is equal to the received setpoint.
 
 \begin{figure}
 	\centering
 	\includegraphics[scale=.6]{figures/roverfsm.pdf}
-	\caption{Excerpt of the state machine diagram of the \texttt{Rover} library}
+	\caption{Excerpt of the state machine diagram of the \texttt{Rover} $<<$library$>>$}
 	\label{fig:roversmd}
 \end{figure}
 
-\subsubsection{The safety properties}
+\subsubsection{Safety properties}
 
 You should also notice, in the upper left corner of the Block Diagram, a pink box with two CTL* formulas:
 \begin{verbatim}
 A[] Environment2.gap>0
 A[] Environment3.gap>0
 \end{verbatim}
-Indeed, in W-Sec, we verify the safety aspects in the AVATAR view: once the model has been designed in the modeling stage, we define the safety properties we want the system to comply with. Here, these two formulas express the following safety properties: (i) the gap ahead of rover$_2$ is always positive and (ii) the gap ahead of rover$_3$ is always positive. In other terms, these two properties are satisfied iff no crash occurs in the swarm. Note that we can express safety properties with CTL* formulas but also by right-clicking on the desired state in a state machine diagram and selecting ``check for reachability/liveness''.
+Indeed, in W-Sec, we verify the safety aspects in the AVATAR view: once the model has been designed in the modeling stage, we define the safety properties we want the system to comply with. Here, these two formulas express the following safety properties: (i) the gap ahead of rover$_2$ is always positive and (ii) the gap ahead of rover$_3$ is always positive. In other terms, we assume that these two properties are satisfied iff no crash occurs in the swarm. Note that we can express safety properties with CTL* formulas but also by right-clicking on the desired state in a state machine diagram and selecting ``check for reachability/liveness''.
 
 \subsubsection{About functional scenarios}
 
-You certainly have noticed that \textbf{wsec\_avatar.xml} has several tabs: for instance, \textbf{Nominal} and \textbf{Nominal\_Deceleration}. Indeed, we usually want to assess the countermeasures impacts according to different functional scenarios. Basically, two models modeling two different functional scenarios have slight variations (for instance, different initial values of a given variable, an additional state and transitions in a state machine diagram, etc.). Therefore, we need several AVATAR models for modeling the different desired functional scenarios. Here, the both models correspond to the following scenarios: (i) the leader runs at a constant speed and (ii) the leader decelerates.
+You certainly have noticed that \textbf{wsec\_avatar.xml} has several tabs: for instance, \textbf{Nominal} and \textbf{Nominal\_Deceleration}. Indeed, we usually want to assess the countermeasures impacts according to different functional scenarios. Basically, two models capturing two different functional scenarios have slight variations (for instance, different initial values of a given variable, one additional state and several transitions in a state machine diagram, etc.). Therefore, we need several AVATAR models for modeling the different desired functional scenarios. Here, models correspond respectively to the following scenarios: (i) the leader runs at a constant speed and (ii) the leader decelerates.
 
 
 \subsection{DIPLODOCUS view: a component-level modeling}
 
-The DIPLODOCUS view is used for modeling the low-level hardware and software aspects of the system's components. Here, the system consists of three components that are the three rovers. Since the attack scenarios and the countermeasures we evaluate in this case-stuy target the rovers acting as followers, the DIPLODOCUS model of this case-study is a follower model.
+The DIPLODOCUS view is used for modeling the low-level hardware and software aspects of the system's components. Here, the system consists of three components that are the three rovers. Since the attack scenarios and the countermeasures we evaluate in this case-study target the rovers acting as followers, the DIPLODOCUS model of this case-study is a follower model.
 
 \subsubsection{The application model}
 
-Open in TTool \textbf{wsec\_diplodocus.xml} and click on the \textbf{NoCountermeasureNoAttack} tab. You should now see the component task diagram of the application model of a follower (without any countermeasure). Like the state machine diagram excerpt depicted in figure~\ref{fig:roversmd}, this application model models the discrete component of the follower. Explore its structure and the activity diagrams of its tasks: you can notice the difference in the modeling approach between AVATAR and DIPLODOCUS views, with a far more fine-grained modeling in the DIPLODOCUS view.
+Open in TTool \textbf{wsec\_diplodocus.xml} and click on the \textbf{NoCountermeasureNoAttack} tab. You should now see the component task diagram of the application model of a follower (without any countermeasure). Like the state machine diagram excerpt depicted in Figure~\ref{fig:roversmd}, this application model captures the discrete component of the follower. Explore its structure and the activity diagrams of its tasks: you can notice the difference in the modeling approach between AVATAR and DIPLODOCUS views, with a far more fine-grained modeling in the DIPLODOCUS view.
 
-You may have noticed that the arithmetic aspects of the algorithms modeled in the activity diagrams are only modeled with complexity operators: for instance, open the activity diagram of the \texttt{SpeedController} task by double-clicking on the icon in the upper right corner of the task. This activity diagrams models an iterative task that:
+You may have noticed that the arithmetic aspects of the algorithms modeled in the activity diagrams are only expressed with complexity operators: for instance, open the activity diagram of the \texttt{SpeedController} task by double-clicking on the icon in the upper right corner of the task. This activity diagrams models an iterative task that:
 \begin{enumerate}
 	\item reads the incoming data
 	\item performs the computation of the motor command
 	\item writes the output data.
 \end{enumerate}
-The computation of the command is modeled with a complexity operator depicting 11 operations on integers. Indeed, the actual algorithm implements a PID controller\footnote{PID controller = \textbf{p}roportional, \textbf{i}ntegral and \textbf{d}erivative controller. It is a controller that computes the command from (i) a setpoint, (ii) three predefined proportional, integral and derivative gains, and (iii) the error between the value of the regulated parameter and the setpoint, the integral of this error and the derivative of this error.}. Therefore, it requires 11 arithmetic operations and variable affectations: 3 subtractions for computing the error, its integral and its derivative, 3 multiplications for multiplying the error terms with the relevant gains, 2 additions for adding the three gain $\times$ error terms, and 3 variable affectations. This complexity operator illustrates the modeling approach in DIPLODOCUS: we consider the complexity of the algorithms, and not the values of their outputs.
+The computation of the command is modeled with a complexity operator depicting 11 operations on integers. Indeed, the actual algorithm implements a PID controller\footnote{PID controller = \textbf{p}roportional, \textbf{i}ntegral and \textbf{d}erivative controller. It is a controller that computes the command from (i) a setpoint, (ii) three predefined proportional, integral and derivative gains, and (iii) the error between the value of the regulated parameter and the setpoint, the integral of this error and the derivative of this error.}. Therefore, it requires 11 arithmetic operations and variable affectations: 3 subtractions for computing the error, its integral and its derivative, 3 multiplications for multiplying the error terms with the relevant gains, 2 additions for adding the three gain $\times$ error terms, and 3 variable affectations. This complexity operator illustrates the modeling approach in DIPLODOCUS: we consider the complexity of the algorithms, the control related to these algorithms (e.g. exchanges of events), the exchange of a quanitity of data, but not the values which are exchanged nor the ones which are produced by algorithms.
 
 \subsubsection{The hardware model}
 
@@ -172,7 +172,7 @@ The computation of the command is modeled with a complexity operator depicting 1
 	\label{fig:roverarchitecture}
 \end{figure}
 
-Click now on the \textbf{RoverHardware} tab. You should see the model depicted in figure~\ref{fig:roverarchitecture}. It models the hardware platform of the follower: several components are linked to a \texttt{Raspberry\_Bus} modeling the Raspberry Pi board main bus. The set of components prefixed with \texttt{BCM2837} models the Broadcom 2837 SoC acting as the ``core'' of the Raspberry Pi: the driving algorithms will run on the CPU \texttt{BCM2837\_CPU}. On the left, four components are prefixed with \texttt{SensorsSet}: they model the sensors of the rover. Here, we see the sensors as a \{microcontroller, memory\} set: the microcontroller generates the sensors' data, and the memory models a data buffer. You can notice the same modeling strategy for the actuators on the left (components prefixed with \texttt{ServoSteering} and \texttt{DCMotor} respectively).
+Click now on the \textbf{RoverHardware} tab. You should see the model depicted in Figure~\ref{fig:roverarchitecture}. It represents the hardware platform of the follower: several components are linked to a \texttt{Raspberry\_Bus} modeling the Raspberry Pi board main bus. The set of components prefixed with \texttt{BCM2837} models the Broadcom 2837 SoC acting as the ``core'' of the Raspberry Pi: the driving algorithms will run on the CPU \texttt{BCM2837\_CPU}. On the left, four components are prefixed with \texttt{SensorsSet}: they model the sensors of the rover. Here, we see the sensors as a \{microcontroller, memory\} set: the microcontroller generates the sensors' data, and the memory models a data buffer. You can notice the same modeling strategy for the actuators on the left (components prefixed with \texttt{ServoSteering} and \texttt{DCMotor} respectively).
 
 You will also notice a set of components connected to \texttt{WiFi\_Bus}. These components provide simple models of the leader and the attacker's machine. Indeed, since the leader sends/receives messages to/from the follower we model here, we must model its external logical interfaces (task \texttt{LeaderSocket} in the application model): these interfaces have then to be mapped on hardware component, therefore we need to provide a simple model of the leader. In the same way, the attack tasks that will be added in the application model at W-Sec's next stage must run on hardware components.
 
@@ -184,7 +184,7 @@ You will also notice a set of components connected to \texttt{WiFi\_Bus}. These 
 	\caption{Excerpt of the mapping model}
 	\label{fig:rovermapping}
 \end{figure}
-Open the \textbf{NoCountermeasureMapping} tab. You now see that all the tasks and the data channels modeled in the \textbf{NoCountermeasure} application model are now allocated to execution nodes (here, CPUs) and memories. Data channels can be mapped on several communication nodes (buses and bridges): for instance, click on the channel \texttt{NoCountermeasure::fromSAtoDT} mapped on \texttt{BCM2837\_RAM} (see figure~\ref{fig:rovermapping}). You should notice red dotted lines: these lines indicate on which communication nodes the channel is mapped, i.e., on which buses and bridges the data conveyed on this channel will transit.
+Open the \textbf{NoCountermeasureMapping} tab. You should now see that all the tasks and the data channels modeled in the \textbf{NoCountermeasure} application model are now allocated to execution nodes (here, CPUs) and memories. Data channels can be mapped on several communication nodes (buses and bridges): for instance, click on the channel \texttt{NoCountermeasure::fromSAtoDT} mapped on \texttt{BCM2837\_RAM} (see figure~\ref{fig:rovermapping}). You should notice red dotted lines: these lines indicate on which communication nodes the channel is mapped, i.e., on which buses and bridges the data conveyed on this channel will transit.
 
 From this mapping view we can now perform model verification (model-checking and simulation).
 
@@ -218,7 +218,7 @@ In addition, we also apply for each attack a mutation to each element of $A_i$ m
 
 \subsection{DIPLODOCUS mutations}
 
-The DIPLODOCUS models are also enriched with the countermeasure and attack models. At the end of the first W-Sec stage, $n$ DIPLODOCUS models were designed, $n$ being the number of modeled components. We denote with $D_i$ the set of these models. For each countermeasure, we apply a mutation to each element of $D_i$ modeling a component that is targeted by the countermeasure. Then, if needed, we apply to each of these mutant models a new mutation that enrich them with the attack model triggering the countermeasure\footnote{Indeed, depending on how it is modeled, the countermeasure may need an external ``stimulus'' to be triggered and, therefore, be taken into account in the performance evaluation.}. We denote with $D_{a c}$ the set of these models. In that case, we also apply to each model of $D_i$ mutations that enrich it with the relevant attack(s). We denote with $D_a$ the set of resulting models. For instance, open \textbf{wsec\_diplodocus.xml} in TTool. In our example, $D_a = \{\langle \textbf{NoCountermeasure}, \textbf{NoCountermeasureMapping} \rangle\}$, and $D_{a c} = \{\langle \textbf{MAC}, \textbf{MACMapping} \rangle\}$.
+The DIPLODOCUS models are also enriched with the countermeasure and attack models. At the end of the first W-Sec stage, $n$ DIPLODOCUS models were designed, $n$ being the number of modeled components. We denote with $D_i$ the set of these models. For each countermeasure, we apply a mutation to each element of $D_i$ modeling a component that is targeted by the countermeasure. Then, if needed, we apply to each of these mutant models a new mutation that enriches them with the attack model triggering the countermeasure~\footnote{Indeed, depending on how it is modeled, the countermeasure may need an external ``stimulus'' to be triggered and, therefore, be taken into account in the performance evaluation.}. We denote with $D_{a c}$ the set of these models. In that case, we also apply to each model of $D_i$ mutations that enriches it with the relevant attack(s). We denote with $D_a$ the set of resulting models. For instance, open \textbf{wsec\_diplodocus.xml} in TTool. In our example, $D_a = \{\langle \textbf{NoCountermeasure}, \textbf{NoCountermeasureMapping} \rangle\}$, and $D_{a c} = \{\langle \textbf{MAC}, \textbf{MACMapping} \rangle\}$.
 
 \begin{figure}
 	\centering
@@ -234,7 +234,7 @@ The DIPLODOCUS models are also enriched with the countermeasure and attack model
 	\label{fig:socketmac}
 \end{figure}
 
-Now, open the \textbf{MAC} tab and then the activity diagram of the \texttt{LeaderSocket} task. You can notice that an encrypt (MAC) operator has been added before the write in channel operator (see figure~\ref{fig:leadersocketmac}). Open now the \texttt{Socket} task: the corresponding decrypt operator has been added (see figure~\ref{fig:socketmac}). In the \textbf{MACMapping} tab, you will also notice that a cryptographic key has been mapped to the \texttt{BCM2837\_RAM} and \texttt{Leader\_RAM} memories. The mutation modeling the MAC countermeasure in DIPLODOCUS consists in mapping a key to two memories in the mapping model and in adding two encryption/decryption operators in the application model.
+Now, open the \textbf{MAC} tab and then the activity diagram of the \texttt{LeaderSocket} task. You can notice that an encrypt (MAC) operator has been added before the write in channel operator (see Figure~\ref{fig:leadersocketmac}). Open now the \texttt{Socket} task: the corresponding decrypt operator has been added (see Figure~\ref{fig:socketmac}). In the \textbf{MACMapping} tab, you will also notice that a cryptographic key has been mapped to the \texttt{BCM2837\_RAM} and \texttt{Leader\_RAM} memories. The mutation modeling the MAC countermeasure in DIPLODOCUS consists in mapping a key to two memories in the mapping model and in adding two encryption/decryption operators in the application model.
 
 
 %---------------------------------------------------------------------------------------------------------------------------
@@ -251,7 +251,7 @@ The third W-Sec stage consists in:
 
 \subsubsection{Security verification}
 
-This stage consists in verifying the models of $D_a$ and $D_{a c}$ against the security properties, and then to compare the model checking results in order to observe the security properties each countermeasure enables to recover (positive impact) or makes unreachable (negative impact).
+This stage consists in verifying the models of $D_a$ and $D_{a c}$ against the security properties, and then to compare the model checking results in order to tobserve the security properties each countermeasure enables to recover (positive impact) or makes unreachable (negative impact).
 
 Open \textbf{wsec\_diplodocus.xml} in TTool, and open the \textbf{NoCountermeasureMapping} tab. Perform the syntax analysis, then click on the \textbf{Security verification (ProVerif)} button. Set the \textbf{Compute state reachability} field to \textbf{none}, then click on \textbf{start}. The textbox should provide a \emph{Non Satisfied Authenticity} result for the assessed channel. You can also now click on the \textbf{NoCountermeasure} tab: in the component task diagram, you should notice that the lock linked to the \texttt{fromLSocToSoc} port of the \texttt{Socket} task is red. This backtracing indicates that neither the weak nor the strong authenticity properties are verified on this channel. Click now on the \texttt{MACMapping} tab, and launch the security verification. You should now get a \emph{Satisfied Weak Authenticity} result for the same channel, and the ``W'' part of the lock in the component task diagram under the \textbf{MAC} tab should now be green. This indicates that the channel is protected in integrity (weak authenticity) but not in strong authenticity, since replay attacks can still be led.
 
@@ -259,11 +259,11 @@ Here, the results indicate that the assessed countermeasure provides a net gain 
 
 \subsubsection{Peformance verification}
 
-DIPLODOCUS models are used to perform another kind of analysis. Indeed, we need to evaluate the performance impact (i.e., the computational overhead) of the countermeasures on the targeted components. This is done thanks to the internal TTool simulator, after the selection of relevant breakpoints that enable, for each component, to measure the time it needs to execute one loop of its embedded algorithm.
+DIPLODOCUS models can be used to perform another kind of analysis. Indeed, we need to evaluate the performance impact (i.e., the computational overhead) of the countermeasures on the targeted components. This is done thanks to the internal TTool simulator, after the selection of relevant breakpoints that enable, for each component, to measure the time it needs to execute one (or several) loop(s) of its embedded algorithm.
 
 Open the \textbf{NoCountermeasure} tab, and the activity diagram of the \texttt{Socket} task. You can notice that a breakpoint has been placed at the \texttt{fromLSocToSoc} read-in-channel operator. Indeed, we consider that one loop of the driving algorithm of the rover starts at the reception of an update from the leader. Open now the activity diagram of the \texttt{MotorsOutput} task: the second breakpoint has been placed on the \texttt{fromSCtoMO} read-in-channel operator. This message reception indeed occurs each time that a driving control loop ends (the actuators commands have been computed and are now sent to the actuators). Our performance verification here will then measure \textbf{the time the rover needs to compute actuators commands from the moment it receives an update from the leader}.
 
-Now, click on the \textbf{NoCountermeasureMapping} tab and, after performing a syntax analysis, click on the \textbf{Generate code for simulation} button. Generate code, compile, and then launch the simulator. Connect to simulator, and then click on the \textbf{Run simulation} button. The simulator reachs the first breakpoint: it should indicate that 84 cycles and 70 ns were needed. Click again on the \textbf{Run simulation} button: the second breakpoint is reached after 223 cycles and 194 ns. Thus, a loop of the algorithm takes $194 - 70 = 124$ ns. Perform then the same steps for the \textbf{MACMapping} model. You should notice that a loop of the algorithm now takes $1732 - 805 = 927$ ns. This is an important \textbf{relative} variation, but in fact the computational overhead is still acceptable since it is smaller than the rover's sensors acquisition rate (the next iteration of the driving algorithm needs to wait for the next sensors values).
+Now, click on the \textbf{NoCountermeasureMapping} tab and, after performing a syntax analysis, click on the \textbf{Generate code for simulation} button. Generate code, compile, and then launch the simulator. Connect to simulator, and then click on the \textbf{Run simulation} button. The simulator reaches the first breakpoint: it should indicate that 84 cycles and 70 ns were needed. Click again on the \textbf{Run simulation} button: the second breakpoint is reached after 223 cycles and 194 ns. Thus, a loop of the algorithm takes $194 - 70 = 124$ ns. Perform then the same steps for the \textbf{MACMapping} model. You should notice that a loop of the algorithm now takes $1732 - 805 = 927$ ns. This is an important \textbf{relative} variation, but in fact the computational overhead is still acceptable since it is smaller than the rover's sensors acquisition rate (the next iteration of the driving algorithm needs to wait for the next sensors values).
 
 Note that if the performance assessment for a given countermeasure shows that the output of the algorithms could be modified, it may be necessary to perform a new series of mutations on the AVATAR models modeling the system with this countermeasure deployed.
 
@@ -278,7 +278,7 @@ Open \textbf{wsec\_avatar.xml} in TTool, and go to the \textbf{Nominal} tab. Aft
 
 \cmark~\verb|A[] Environment2.gap > 0|
 
-\cmark~\verb|A[] Environment3.gap > 0|.
+\cmark~\verb|A[] Environment3.gap > 0|
 
 
 \subsubsection{Verifying the $A_c$ models}
@@ -287,9 +287,9 @@ Perform the safety verification for the \textbf{MAC} and \textbf{MAC\_Decelerati
 
 \cmark~\verb|A[] Environment2.gap > 0|
 
-\cmark~\verb|A[] Environment3.gap > 0|.
+\cmark~\verb|A[] Environment3.gap > 0|
 
-That means that the MAC countermeasure does not leads to a safety regression with respect to the considered properties.F
+That means that the MAC countermeasure does not leads to a safety regression with respect to the considered properties.
 
 
 \subsubsection{Verifying the $A_a$ models}
@@ -298,25 +298,25 @@ Now, the safety verification for the \textbf{Nominal\_Attack1} and \textbf{Nomin
 
 \xmark~\verb|A[] Environment2.gap > 0|
 
-\xmark~\verb|A[] Environment3.gap > 0|.
+\xmark~\verb|A[] Environment3.gap > 0|
 
-In other terms, on the initial system, the attack leads to a regression on the both considered safety properties.
+In other terms, on the initial system, the attack leads to a regression for both considered safety properties.
 
 \subsubsection{Verifying the $A_{c a}$ models}
 
-You can now launch the safety verification for the \textbf{MAC\_Attack1} model. You obtain these results:
+You can now launch the safety verification for the \textbf{MAC\_Attack1} model. You should obtain these results:
 
 \cmark~\verb|A[] Environment2.gap > 0|
 
-\cmark~\verb|A[] Environment3.gap > 0|.
+\cmark~\verb|A[] Environment3.gap > 0|
 
 In the first functional scenario, the MAC countermeasure thus enables the mitigation of the attack. Now, perform the verification for \textbf{MAC\_Attack1\_Deceleration}. The verifyer gives the following results:
 
 \xmark~\verb|A[] Environment2.gap > 0|
 
-\xmark~\verb|A[] Environment3.gap > 0|.
+\xmark~\verb|A[] Environment3.gap > 0|
 
-The countermeasure can't avoid a crash of the swarm if the leader decelerates when an attack occurs.
+The countermeasure can't avoid a crash of the swarm if the leader decelerates when an attack occurs.\\
 
 At the end of this third W-Sec stage, an assessment of the countermeasures with respect to safety, security and performance aspects are thus provided. In this tutorial we evaluate only one countermeasure and one attack scenario: if you want to see how the method can help ranking countermeasures on the basis of exhaustive results, the paper introducing W-Sec~\cite{wsec} provides a full analysis of five countermeasures, four attack scenarios and four functional scenarios on this rover swarm case-study.
 
@@ -332,7 +332,7 @@ Depending on the countermeasure(s) that is(are) chosen to be deployed at the end
 %---------------------------------------------------------------------------------------------------------------------------
 \section{Conclusion}
 
-This document provides a tutorial on W-Sec, a TTool-based formal method dedicated to provide a comprehensive impact assessment of security countermeasures. The practical aspects of the method are set to evolve: the stage 2 and part of the stage 1, that currently require a full human intervention, will be automated in the future.
+This document provides a tutorial on W-Sec, a TTool-based formal method dedicated to provide a comprehensive impact assessment of security countermeasures. The practical aspects of the method are meant to evolve: the stage 2 and part of the stage 1, that currently require a full human intervention, will be automated in the future.
 
 
 

@@ -275,7 +275,10 @@ unsigned int TMLCommand::getCmdCoverage(){
 	if ((*i)->_execTimes>0) aCoveredCmds++; //else std::cout << "Not covered: " << (*i)->toShortString() << "\n";
 }
       //std::cout << "Total no of commands: " << _instanceList.size() << "\n";
-return aCoveredCmds * 100 / _instanceList.size();
+  if (_instanceList.size() > 0) {
+    return aCoveredCmds * 100 / _instanceList.size();
+  }
+  return 100;
 }
 
 unsigned int TMLCommand::getBranchCoverage(){

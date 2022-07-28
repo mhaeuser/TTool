@@ -1238,7 +1238,7 @@ const std::string Simulator::getArgs(const std::string& iComp, const std::string
 }
 
 void Simulator::printHelp(){
-  std::cout <<  "\n************************** Command line arguments *************************\n"
+  std::cout <<  "\n************************** Command line arguments ******************************************\n"
     "-gpath                 specify path for graph output\n"
     "-server                launch simulator in server mode\n"
     "-helpserver            print all available commands\n"
@@ -1250,11 +1250,11 @@ void Simulator::printHelp(){
     "-ovcd ofile            simulate and write traces to ofile in vcd format\n"
     "-ograph ofile          simulate and write traces to ofile in aut format\n"
     "-gname ofile           name of the file WITHOUT extension storing the reachability graph\n"
-    "-explo                 generate the reachability graph                 \n"
+    "-explo                 generate the reachability graph  (penalties must be deactivated) \n"
     "-cmd \'c1 p1 p2;c2\'     execute commands c1 with parameters p1 and p2 and c2\n"
     "-oxml ofile            xml reply is written to ofile, in case the -cmd option is used\n"
     "-signals ofile         generates signals from declared file \n"
-    "***************************************************************************\n\n";
+    "********************************************************************************************\n\n";
 }
 
 void Simulator::run(){
@@ -1293,12 +1293,12 @@ std::vector<std::string> readFromFile(std::string& filename){
     return parameters;
 }
 
-template < typename T > std::string to_string( const T& n )
-    {
+template < typename T > std::string to_string( const T& n ) {
         std::ostringstream stm ;
         stm << n ;
         return stm.str() ;
-    }
+}
+
 int countLineNumber(std::string& filename){
     int number_of_lines = 0;
     std::string line;
@@ -1310,6 +1310,7 @@ int countLineNumber(std::string& filename){
     std::cout << "Number of lines in text file: " << number_of_lines << std::endl;
     return number_of_lines;
 }
+
 ServerIF* Simulator::run(int iLen, char ** iArgs){
   std::string aArgString;
   std::string graphName = "";
@@ -1332,12 +1333,14 @@ ServerIF* Simulator::run(int iLen, char ** iArgs){
   //  std::cout << "Running in command line mode.\n";
   _replyToServer = false;
 
+  #ifdef PENALTIES_ENABLED
   aArgString =getArgs("-explo", "file", iLen, iArgs);
   if (!aArgString.empty()) {
     std::string command = "1 7 100 100 " + graphName;
     std::cout << "Just analyzed explo 1->" + aArgString + "<- with command: " + command + "\n";
     decodeCommand(command);
   }
+  #endif
 
   aArgString=getArgs("-signals", "signals.txt", iLen, iArgs);
   if (!aArgString.empty()) {

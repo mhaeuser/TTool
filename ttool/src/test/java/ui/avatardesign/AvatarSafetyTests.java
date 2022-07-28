@@ -42,7 +42,7 @@
  * @author Letitia LI
  */
 
-package avatartranslator;
+package ui.avatardesign;
 //I am adding safety tests because Ludovic said to
 
 import org.junit.Test;
@@ -54,6 +54,7 @@ import java.util.ArrayList;
 
 import ui.*;
 import ui.avatarbd.*;
+import avatartranslator.*;
 
 public class AvatarSafetyTests {
 

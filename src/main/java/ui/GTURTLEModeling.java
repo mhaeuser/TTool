@@ -8524,19 +8524,13 @@ public class GTURTLEModeling {
 
         if ((checkingErrors != null) && (checkingErrors.size() > 0)) {
             analyzeErrors();
-
             return false;
         } else {
-            //                  if (optimize) {
-            //                          warningsOptimize = tmlm.optimize();
-            //                  }
-
             tmState = 2;
             mgui.resetAllDIPLOIDs();
             listE.useDIPLOIDs();
             return true;
             //TraceManager.addDev("tm generated:");
-            //tm.print();
         }
     }
 
@@ -8675,6 +8669,8 @@ public class GTURTLEModeling {
         checkingErrors = gtmlm.getCheckingErrors();
         warnings = gtmlm.getCheckingWarnings();
 
+        TraceManager.addDev("Warnings: " + warnings.size());
+
         //avatarspec = gtmlm.avspec;
         if ((checkingErrors != null) && (checkingErrors.size() > 0)) {
             analyzeErrors();
@@ -8685,6 +8681,7 @@ public class GTURTLEModeling {
                 warningsOptimize = tmap.optimize();
             }
             warnings.addAll(convertToCheckingErrorTMLErrors(warningsOptimize, tmlap.tmlap));
+            TraceManager.addDev("Warnings after optimize: " + warnings.size());
             mgui.resetAllDIPLOIDs();
             listE.useDIPLOIDs();
             mgui.setMode(MainGUI.GEN_DESIGN_OK);

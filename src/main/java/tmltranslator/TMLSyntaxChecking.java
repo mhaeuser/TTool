@@ -90,6 +90,8 @@ public class TMLSyntaxChecking {
     private final String DUPLICATE_PATH_TO_BUS = "Path to bus is duplicated"; // Should be a warning only
     private final String ONLY_ONE_NOC = "Only one NoC can be used"; // Should be a warning only
 
+    private final String AT_LEAST_ONE_TASK = "Mapping has no task"; // Should be a warning only
+
 
     private ArrayList<TMLError> errors;
     private ArrayList<TMLError> warnings;
@@ -136,6 +138,8 @@ public class TMLSyntaxChecking {
             //added by minh hiep
             checkAValidPortName();
 
+
+
         }
 
         // Mapping or architecture
@@ -149,6 +153,9 @@ public class TMLSyntaxChecking {
             checkRouting();
             //TraceManager.addDev("Checking link bus");
             checkLinkBuses();
+
+            // Check at least one task is mapped
+            checkAtLeastOneTask();
 
             // Check that if there is a memory for a channel, the memory is connected to the path
         }
@@ -199,6 +206,19 @@ public class TMLSyntaxChecking {
             error.referenceObject = elt.getReferenceObject();
         }
         errors.add(error);
+    }
+
+    public void addWarning(TMLTask t, TMLActivityElement elt, String message, int type) {
+        TMLError error = new TMLError(type);
+        error.message = message;
+        error.task = t;
+        error.element = elt;
+        if (t != null) {
+            error.referenceObject = t.getReferenceObject();
+        } else if (elt!= null) {
+            error.referenceObject = elt.getReferenceObject();
+        }
+        warnings.add(error);
     }
 
 
@@ -266,6 +286,9 @@ public class TMLSyntaxChecking {
 
 
     }
+
+
+
 
     //added by minh hiep
     public void checkAValidPortName() {
@@ -974,6 +997,17 @@ public class TMLSyntaxChecking {
                 }
 
             }
+        }
+    }
+
+    public void checkAtLeastOneTask() {
+        int nbOfTasks = mapping.getMappedTasks().size();
+
+        TraceManager.addDev("Nb of tasks: " + nbOfTasks);
+
+        if (nbOfTasks == 0) {
+            TraceManager.addDev("Adding a warning: " + AT_LEAST_ONE_TASK);
+            addWarning(null, null, AT_LEAST_ONE_TASK, TMLError.ERROR_STRUCTURE);
         }
     }
 

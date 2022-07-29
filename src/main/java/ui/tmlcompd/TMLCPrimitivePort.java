@@ -83,17 +83,23 @@
      public boolean isOrigin = true;
      public int typep = 0;
      public String commName;
+
+
+
      //Security Verification
 
      public int checkConfStatus;
      public int checkSecConfStatus;
      public String secName = "";
+
      public int checkWeakAuthStatus;
      public int checkStrongAuthStatus;
      public boolean checkConf;
      public boolean checkAuth;
      public String mappingName = "???";
      public int verification;
+
+
      public String oldName;
      protected Color myColor;
      protected int orientation;

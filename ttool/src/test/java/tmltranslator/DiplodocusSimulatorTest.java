@@ -34,8 +34,8 @@ public class DiplodocusSimulatorTest extends AbstractTest {
     final String [] MODELS_DAEMON = {"daemontest1", "daemontest2"};
     final int [] NB_Of_DAEMON_STATES = {8, 114};
     final int [] NB_Of_DAEMON_TRANSTIONS = {7, 113};
-    final int [] MIN_DAEMON_CYCLES = {101, 2469};
-    final int [] MAX_DAEMON_CYCLES = {101, 2469};
+    final int [] MIN_DAEMON_CYCLES = {101, 501};
+    final int [] MAX_DAEMON_CYCLES = {101, 501};
 
     // model for Daemon Run To Next Breakpoint
     final String MODELS_DAEMON_RTNB = "testDaemon";
@@ -209,18 +209,18 @@ public class DiplodocusSimulatorTest extends AbstractTest {
             graph.buildGraph(graphData);
 
             // States and transitions
-            System.out.println("executing: nb of states " + graph.getNbOfStates() + " expecting:" + NB_Of_STATES[i]);
+            System.out.println(MODELS[i] + ": executing: nb of states " + graph.getNbOfStates() + " expecting:" + NB_Of_STATES[i]);
             assertTrue(NB_Of_STATES[i] == graph.getNbOfStates());
-            System.out.println("executing: nb of transitions " + graph.getNbOfTransitions() + " expecting:" + NB_Of_TRANSTIONS[i]);
+            System.out.println(MODELS[i] + "executing: nb of transitions " + graph.getNbOfTransitions() + " expecting:" + NB_Of_TRANSTIONS[i]);
             assertTrue(NB_Of_TRANSTIONS[i] == graph.getNbOfTransitions());
 
             // Min and max cycles
             int minValue = graph.getMinValue("allCPUsFPGAsTerminated");
-            System.out.println("executing: minvalue " + minValue + " expecting:" + MIN_CYCLES[i]);
+            System.out.println(MODELS[i] + "executing: minvalue " + minValue + " expecting:" + MIN_CYCLES[i]);
             assertTrue(MIN_CYCLES[i] == minValue);
 
             int maxValue = graph.getMaxValue("allCPUsFPGAsTerminated");
-            System.out.println("executing: maxvalue " + maxValue + " expecting: " + MAX_CYCLES[i]);
+            System.out.println(MODELS[i] + "executing: maxvalue " + maxValue + " expecting: " + MAX_CYCLES[i]);
             assertTrue(MAX_CYCLES[i] == maxValue);
 
         }
@@ -291,7 +291,7 @@ public class DiplodocusSimulatorTest extends AbstractTest {
             String str;
             boolean mustRecompileAll;
             Penalties penalty = new Penalties(SIM_DIR + File.separator + "src_simulator");
-            int changed = penalty.handlePenalties(true);
+            int changed = penalty.handlePenalties(false);
 
             if (changed == 1) {
                 mustRecompileAll = true;

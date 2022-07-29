@@ -76,6 +76,7 @@ public class ColorManager {
     public static Color SELECTED_ELEMENT = Color.green;
     public static final Color MOVING_0 = Color.magenta;
     public static final Color ADDING_0 = Color.lightGray;
+    public static final Color NEW = new Color(163, 5, 253, 200);
 
     //public static final Color POINTED_0 = Color.orange;
     //public static final Color POINTED_0 = new Color(231, 132, 19);

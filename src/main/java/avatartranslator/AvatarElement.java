@@ -57,6 +57,7 @@ public class AvatarElement {
     protected Object referenceObject;
     protected Vector<Object> otherReferenceObjects;
     private int myID;
+    protected boolean isNew;
 
     public AvatarElement(String _name, Object _referenceObject) {
         myID=++ID;
@@ -144,5 +145,15 @@ public class AvatarElement {
     	for(Object o: otherReferenceObjects) {
     		ae.addReferenceObject(o);
     	}
+    }
+
+    public boolean isNew() {
+        if (referenceObject == null) {
+            return false;
+        }
+        if (referenceObject instanceof ElementWithNew) {
+            return ((ElementWithNew)(referenceObject)).isNew();
+        }
+        return false;
     }
 }

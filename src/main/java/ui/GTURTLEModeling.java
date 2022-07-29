@@ -2047,9 +2047,7 @@ public class GTURTLEModeling {
 
     public boolean generateProVerifFromAVATAR(String _path, int _stateReachability, boolean _typed, boolean allowPrivateChannelDuplication, String loopLimit) {
         //
-        if (avatarspec != null) {
-            //use avspec
-        } else if (tmap != null) {
+       if (tmap != null) {
             t2a = new TML2Avatar(tmap, false, true);
             avatarspec = t2a.generateAvatarSpec(loopLimit);
             if (mgui.isExperimentalOn()) {
@@ -7483,6 +7481,7 @@ public class GTURTLEModeling {
             boolean hidden = false;
             boolean masterMutex = false;
             boolean enable = true;
+            boolean isNewSet = false;
 
 
             for (i = 0; i < nl.getLength(); i++) {
@@ -7524,6 +7523,11 @@ public class GTURTLEModeling {
                         myValue = elt.getAttribute("value");
                     } else if (elt.getTagName().equals("custom")) {
                         customData = elt.getAttribute("data");
+                    } else if (elt.getTagName().equals("new")) {
+                        String tmpN = elt.getAttribute("d");
+                        if (tmpN.trim().toLowerCase().compareTo("true") == 0) {
+                            isNewSet = true;
+                        }
                     } else if (elt.getTagName().equals("hidden")) {
                         hidden = elt.getAttribute("value").equals("true");
                     } else if (elt.getTagName().equals("enabled")) {
@@ -7653,6 +7657,7 @@ public class GTURTLEModeling {
                 tgc.setCurrentColor(color);
             }
 
+            tgc.setAsNew(isNewSet);
 
             if (referenceId != -1) {
                 referenceId += decId;
@@ -8070,6 +8075,7 @@ public class GTURTLEModeling {
 
             boolean colorFound = false;
             int color = -1;
+            boolean isNewSet = false;
 
             for (i = 0; i < nl.getLength(); i++) {
                 n = nl.item(i);
@@ -8121,6 +8127,11 @@ public class GTURTLEModeling {
                         //TraceManager.addDev("set to true");
                         automaticDrawing = elt.getAttribute("data").compareTo("true") == 0;
                         //automaticDrawing = Boolean.getBoolean(elt.getAttribute("data"));
+                    } else if (elt.getTagName().equals("new")) {
+                        String tmpN = elt.getAttribute("d");
+                        if (tmpN.trim().toLowerCase().compareTo("true") == 0) {
+                            isNewSet = true;
+                        }
                     } else if (elt.getTagName().equals("color")) {
                         color = Integer.decode(elt.getAttribute("value"));
                         colorFound = true;
@@ -8156,6 +8167,7 @@ public class GTURTLEModeling {
 
 
             tgco.forceId(myId);
+            tgco.setAsNew(isNewSet);
 
             if ((uid != null) && (keepUUID)) {
                 tgco.forceUUID(uid);
@@ -8512,19 +8524,13 @@ public class GTURTLEModeling {
 
         if ((checkingErrors != null) && (checkingErrors.size() > 0)) {
             analyzeErrors();
-
             return false;
         } else {
-            //                  if (optimize) {
-            //                          warningsOptimize = tmlm.optimize();
-            //                  }
-
             tmState = 2;
             mgui.resetAllDIPLOIDs();
             listE.useDIPLOIDs();
             return true;
             //TraceManager.addDev("tm generated:");
-            //tm.print();
         }
     }
 
@@ -8663,6 +8669,8 @@ public class GTURTLEModeling {
         checkingErrors = gtmlm.getCheckingErrors();
         warnings = gtmlm.getCheckingWarnings();
 
+        TraceManager.addDev("Warnings: " + warnings.size());
+
         //avatarspec = gtmlm.avspec;
         if ((checkingErrors != null) && (checkingErrors.size() > 0)) {
             analyzeErrors();
@@ -8673,6 +8681,7 @@ public class GTURTLEModeling {
                 warningsOptimize = tmap.optimize();
             }
             warnings.addAll(convertToCheckingErrorTMLErrors(warningsOptimize, tmlap.tmlap));
+            TraceManager.addDev("Warnings after optimize: " + warnings.size());
             mgui.resetAllDIPLOIDs();
             listE.useDIPLOIDs();
             mgui.setMode(MainGUI.GEN_DESIGN_OK);

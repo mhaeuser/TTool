@@ -191,6 +191,7 @@ public class GraphDPanel extends TDiagramPanel implements TDPWithAttributes, Run
             if (v1 == null) {
                 v1 = makeVertex(angle, xc, yc, radius, initAngle, cptStates, st.id, st.info,
                         st.inTransitions.size() > 0, st.outTransitions.size() > 0);
+
                 map.put(st, v1);
                 cptStates++;
             }
@@ -260,8 +261,17 @@ public class GraphDPanel extends TDiagramPanel implements TDPWithAttributes, Run
         if (info == null) {
             dv.setValue("" + index);
         } else {
+            info = info.trim();
+            if (info.endsWith("(New)")) {
+                dv.setAsNew(true);
+                info = info.substring(0, info.length()-5);
+            } else {
+                dv.setAsNew(false);
+            }
             dv.setValue("" + index + " / " + info);
         }
+
+
 
         // Setting colors
         // Green for out states only

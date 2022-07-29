@@ -1715,9 +1715,9 @@ public class GTMLModeling {
         warnings = new LinkedList<CheckingError>();
         //listE = new CorrespondanceTGElement();
 
-        //TraceManager.addDev("Making architecture");
+        TraceManager.addDev("Making architecture");
         makeArchitecture();     //fills archi
-        //TraceManager.addDev("Making TML modeling");
+        TraceManager.addDev("Making TML modeling");
         if (!makeTMLModeling(considerExecOperators, considerTimeOperators)) {
             return null;
         }
@@ -1736,6 +1736,7 @@ public class GTMLModeling {
         map.makeMinimumMapping();
 
         if (map.getMappedTMLCPLibs().size() == 0) {
+            TraceManager.addDev("Checking syntax of mapping");
             TMLSyntaxChecking syntax = new TMLSyntaxChecking(map, true);
             syntax.checkSyntax();
 
@@ -1760,6 +1761,29 @@ public class GTMLModeling {
                         TMLCheckingError ce = new TMLCheckingError(type, error.message);
                         ce.setTMLTask(error.task);
                         checkingErrors.add(ce);
+                    }
+                }
+            }
+
+
+            if (syntax.hasWarnings() > 0) {
+                for (TMLError error : syntax.getWarnings()) {
+                    //TraceManager.addDev("Adding checking error");
+                    if (error.type == TMLError.ERROR_STRUCTURE) {
+                        type = CheckingError.STRUCTURE_ERROR;
+                    } else {
+                        type = CheckingError.BEHAVIOR_ERROR;
+                    }
+                    tgc = listE.getTG(error.element);
+                    if (tgc != null) {
+                        UICheckingError ce = new UICheckingError(type, error.message);
+                        ce.setTDiagramPanel(tgc.getTDiagramPanel());
+                        ce.setTGComponent(tgc);
+                        warnings.add(ce);
+                    } else {
+                        TMLCheckingError ce = new TMLCheckingError(type, error.message);
+                        ce.setTMLTask(error.task);
+                        warnings.add(ce);
                     }
                 }
             }

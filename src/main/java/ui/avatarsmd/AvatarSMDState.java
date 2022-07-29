@@ -38,6 +38,7 @@
 
 package ui.avatarsmd;
 
+import avatartranslator.ElementWithNew;
 import myutil.Conversion;
 import myutil.GraphicLib;
 import org.w3c.dom.Element;
@@ -65,7 +66,8 @@ import java.util.Vector;
    * @author Ludovic APVRILLE
  */
 public class AvatarSMDState extends TGCScalableWithInternalComponent implements AllowedBreakpoint, CheckableAccessibility, CheckableLatency,
-        CheckableInvariant, SwallowTGComponent, SwallowedTGComponent, PartOfInvariant, PartOfHighInvariant, WithAttributes, ColorCustomizable {
+        CheckableInvariant, SwallowTGComponent, SwallowedTGComponent, PartOfInvariant, PartOfHighInvariant, WithAttributes, ColorCustomizable,
+        ElementWithNew {
     //private static String GLOBAL_CODE_INFO = "(global code)";
     private static String ENTRY_CODE_INFO = "(entry code)";
 

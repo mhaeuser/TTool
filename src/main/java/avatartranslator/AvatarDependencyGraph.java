@@ -329,6 +329,12 @@ public class AvatarDependencyGraph {
             state.info = bl.getName() + " / " + _elt.getExtendedName();
         }
 
+        if (_elt.referenceObject instanceof ElementWithNew) {
+            if ( ((ElementWithNew)(_elt.referenceObject)).isNew()) {
+                state.info += " (New)";
+            }
+        }
+
         //putState(_elt, state);
 
         //fromStates.put(state, _elt);

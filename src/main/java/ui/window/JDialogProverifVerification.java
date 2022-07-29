@@ -121,7 +121,8 @@ import ui.util.IconManager;
  * @version 1.0 19/02/2017
  */
 
-public class JDialogProverifVerification extends JDialog implements ActionListener, ListSelectionListener, MouseListener, Runnable, MasterProcessInterface, ProVerifOutputListener {
+public class JDialogProverifVerification extends JDialog implements ActionListener, ListSelectionListener, MouseListener, Runnable,
+        MasterProcessInterface, ProVerifOutputListener {
 
     private static final Insets insets = new Insets(0, 0, 0, 0);
     private static final Insets WEST_INSETS = new Insets(0, 0, 0, 0);
@@ -1048,6 +1049,9 @@ public class JDialogProverifVerification extends JDialog implements ActionListen
 
     @Override
     public void proVerifOutputChanged() {
+
+        //TraceManager.addDev("Proverif output changed");
+
         JLabel label;
         this.jta.removeAll();
 

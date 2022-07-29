@@ -84,7 +84,7 @@ In addition, you will find a complete tutorial on DIPLODOCUS by following this l
 W-Sec is a four-stage method (see figure.~\ref{fig:method}). Its first stage is an \textbf{initial modeling stage}, where the system is modeled using the AVATAR and the DIPLODOCUS view:
 \begin{itemize}
 	\item The AVATAR view is used to model the system from a high-level architecture and behavior perspective.
-	\item The DIPLODOCUS view is used to model the system's components\footnote{A \emph{component} is any equipment of the system, e.g. a network switch, a programmable logic controller, a computer, etc.} from a low-level hardware and software perspective. One DIPLODOCUS model is built per component we want to study.
+	\item The DIPLODOCUS view is used to model the system's components\footnote{A \emph{component} is any equipment of the system, e.g. a network switch, a programmable logic controller, a computer, etc.} from a low-level hardware and software perspective. Note that all the system's components are not necessarily modeled: some of them may not be affected by the countermeasures. Therefore, one DIPLODOCUS model is built only per relevant component.
 \end{itemize}
 
 Its second stage is a \textbf{mutation stage}, where the models are modified in order to enrich them with (i) the (safety and security) countermeasures we want to assess and (ii) the attack scenarios we want to protect the system from.
@@ -103,7 +103,11 @@ The first W-Sec stage is a modeling stage. As said previously, W-Sec uses two mo
 
 \subsubsection{The model}
 
+<<<<<<< HEAD
+The models designed in this view target capturing high-level architectural and behavioral (discrete and, if applicable, continuous) aspects of the system. The \textbf{wsec\_avatar.xml} file contains AVATAR models of the swarm: open this model in TTool and click on the tab ``\textbf{Nominal}''. You should now see the model depicted in Figure~\ref{fig:avatarmodel}.
+=======
 The models designed in this view target capturing high-level architectural and behavioral (discrete and, if applicable, continuous) aspects of the system. The \textbf{wsec\_avatar.xml} file contains AVATAR models of the swarm: open this model in TTool and click on the tab ``\textbf{Nominal}''. You should now see the model depicted in figure~\ref{fig:avatarmodel}.
+>>>>>>> 0b03fe39b9868a7cfd3932c22d781ecb466c14c0
 
 \begin{figure}
 	\centering
@@ -153,8 +157,20 @@ The DIPLODOCUS view is used for modeling the low-level hardware and software asp
 \subsubsection{The application model}
 
 Open in TTool \textbf{wsec\_diplodocus.xml} and click on the \textbf{NoCountermeasureNoAttack} tab. You should now see the component task diagram of the application model of a follower (without any countermeasure). Like the state machine diagram excerpt depicted in Figure~\ref{fig:roversmd}, this application model captures the discrete component of the follower. Explore its structure and the activity diagrams of its tasks: you can notice the difference in the modeling approach between AVATAR and DIPLODOCUS views, with a far more fine-grained modeling in the DIPLODOCUS view.
+<<<<<<< HEAD
+
+\begin{figure}
+	\centering
+	\includegraphics[width=.75\textwidth]{figures/execi.pdf}
+	\caption{\texttt{SpeedController} task's activity diagram}
+	\label{fig:ad}
+\end{figure}
+
+You may have noticed that the arithmetic aspects of the algorithms modeled in the activity diagrams are only expressed with complexity operators: for instance, open the activity diagram of the \texttt{SpeedController} task by double-clicking on the icon in the upper right corner of the task. This activity diagram (see Figure~\ref{fig:ad}) models an iterative task that:
+=======
 
 You may have noticed that the arithmetic aspects of the algorithms modeled in the activity diagrams are only expressed with complexity operators: for instance, open the activity diagram of the \texttt{SpeedController} task by double-clicking on the icon in the upper right corner of the task. This activity diagrams models an iterative task that:
+>>>>>>> 0b03fe39b9868a7cfd3932c22d781ecb466c14c0
 \begin{enumerate}
 	\item reads the incoming data
 	\item performs the computation of the motor command
@@ -184,11 +200,22 @@ You will also notice a set of components connected to \texttt{WiFi\_Bus}. These 
 	\caption{Excerpt of the mapping model}
 	\label{fig:rovermapping}
 \end{figure}
+<<<<<<< HEAD
+Open the \textbf{NoCountermeasureMapping} tab. You should now see that all the tasks and the data channels modeled in the \textbf{NoCountermeasure} application model are now allocated to execution nodes (here, CPUs) and memories. Data channels can be mapped on several communication nodes (buses and bridges): for instance, click on the channel \texttt{NoCountermeasure::fromSAtoDT} mapped on \texttt{BCM2837\_RAM} (see Figure~\ref{fig:rovermapping}). You should notice red dotted lines: these lines indicate on which communication nodes the channel is mapped, i.e., on which buses and bridges the data conveyed on this channel will transit.
+=======
 Open the \textbf{NoCountermeasureMapping} tab. You should now see that all the tasks and the data channels modeled in the \textbf{NoCountermeasure} application model are now allocated to execution nodes (here, CPUs) and memories. Data channels can be mapped on several communication nodes (buses and bridges): for instance, click on the channel \texttt{NoCountermeasure::fromSAtoDT} mapped on \texttt{BCM2837\_RAM} (see figure~\ref{fig:rovermapping}). You should notice red dotted lines: these lines indicate on which communication nodes the channel is mapped, i.e., on which buses and bridges the data conveyed on this channel will transit.
+>>>>>>> 0b03fe39b9868a7cfd3932c22d781ecb466c14c0
 
 From this mapping view we can now perform model verification (model-checking and simulation).
 
 \subsubsection{The security properties}
+
+\begin{figure}
+	\centering
+	\includegraphics[width=.75\textwidth]{figures/lock.pdf}
+	\caption{A port with security verification enabled}
+	\label{fig:lock}
+\end{figure}
 
 As in the AVATAR view for the safety properties, we can directly express the desired security properties in the DIPLODOCUS view. Here, security properties refer to \emph{data} security properties: we can check for each data channel if the data will keep, provided that a Dolev-Yao~\cite{dolevyao} attacker eavesdrops the buses, their:
 \begin{enumerate}
@@ -196,7 +223,7 @@ As in the AVATAR view for the safety properties, we can directly express the des
 	\item integrity (weak authenticity)
 	\item integrity and authenticity on origin (strong authenticity).
 \end{enumerate}
-Open the \textbf{NoCountermeasure} tab and look at the channel \texttt{fromLSocToSoc} between the \texttt{Leader\_Socket} and \texttt{Socket} tasks. You will notice a grey lock: this lock means that the weak and strong authenticity properties for this channel will be checked at the security verification stage. Click now on the port of this channel on the \texttt{Leader\_Socket} task's side. In the dialog box, you can select the option ``Check Confidentiality'': that will also enable the confidentiality verification for this channel at the security verification stage.
+Open the \textbf{NoCountermeasure} tab and look at the channel \texttt{fromLSocToSoc} between the \texttt{Leader\_Socket} and \texttt{Socket} tasks. You will notice a grey lock (see Figure~\ref{fig:lock}): this lock means that the weak and strong authenticity properties for this channel will be checked at the security verification stage. Click now on the port of this channel on the \texttt{Leader\_Socket} task's side. In the dialog box, you can select the option ``Check Confidentiality'': that will also enable the confidentiality verification for this channel at the security verification stage.
 
 
 
@@ -251,7 +278,11 @@ The third W-Sec stage consists in:
 
 \subsubsection{Security verification}
 
+<<<<<<< HEAD
+This stage consists in verifying the models of $D_a$ and $D_{a c}$ against the security properties, and then to compare the model checking results. This comparison enables to observe the security properties that are preserved thanks to the countermeasure (positive impact), and the security properties that are no longer verified due to the countermeasure (negative impact).
+=======
 This stage consists in verifying the models of $D_a$ and $D_{a c}$ against the security properties, and then to compare the model checking results in order to tobserve the security properties each countermeasure enables to recover (positive impact) or makes unreachable (negative impact).
+>>>>>>> 0b03fe39b9868a7cfd3932c22d781ecb466c14c0
 
 Open \textbf{wsec\_diplodocus.xml} in TTool, and open the \textbf{NoCountermeasureMapping} tab. Perform the syntax analysis, then click on the \textbf{Security verification (ProVerif)} button. Set the \textbf{Compute state reachability} field to \textbf{none}, then click on \textbf{start}. The textbox should provide a \emph{Non Satisfied Authenticity} result for the assessed channel. You can also now click on the \textbf{NoCountermeasure} tab: in the component task diagram, you should notice that the lock linked to the \texttt{fromLSocToSoc} port of the \texttt{Socket} task is red. This backtracing indicates that neither the weak nor the strong authenticity properties are verified on this channel. Click now on the \texttt{MACMapping} tab, and launch the security verification. You should now get a \emph{Satisfied Weak Authenticity} result for the same channel, and the ``W'' part of the lock in the component task diagram under the \textbf{MAC} tab should now be green. This indicates that the channel is protected in integrity (weak authenticity) but not in strong authenticity, since replay attacks can still be led.
 

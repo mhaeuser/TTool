@@ -83,20 +83,25 @@ public:
       	\param iTrans Pointer to the read transaction
 	*/
 	virtual void testRead(TMLTransaction* iTrans)=0;
+
 	///Performs the write operation
 	virtual void write()=0;
+
 	///Performs the read operation
 	virtual bool read()=0;
+
 	///Stores a pointer to the tasks which performs read operation on the channel
 	/**
 	\param iReadTask Pointer to the task
 	*/
 	inline void setBlockedReadTask(TMLTask* iReadTask) {_readTask=iReadTask;}
+
 	///Returns a pointer to the tasks which performs read operation on the channel
 	/**
 	\return Pointer to the task
 	*/
 	virtual TMLTask* getBlockedReadTask() const=0;
+
 	///Stores a pointer to the tasks which performs write operation on the channel
 	/**
 	\param iWriteTask Pointer to the task
@@ -107,18 +112,21 @@ public:
 	\return Pointer to the task
 	*/
 	virtual TMLTask* getBlockedWriteTask()const=0;
+
 	///test if the current communication master on which the given transaction is conveyed is the last one
 	/**
 	\param iTrans Transaction
 	\return boolean
 	*/
 	bool isLastMaster(TMLTransaction* iTrans);
+
 	///Returns the next communication master on which the given transaction is conveyed
 	/**
 	\param iTrans Transaction
 	\return Pointer to the communication master
 	*/
 	BusMaster* getNextMaster(TMLTransaction* iTrans);
+
 	///Returns the first communication master on which the given transaction is conveyed
 	/**
 	\param iTrans Transaction
@@ -131,6 +139,7 @@ public:
 	\return Pointer to the slave
 	*/
 	Slave* getNextSlave(TMLTransaction* iTrans) const;
+
 	//Returns the number of buses on which the channel is mapped
 	//\return Number of buses
 	//unsigned int getNumberOfHops() const;
@@ -139,6 +148,7 @@ public:
 	\return Detailed string representation
 	*/
 	virtual std::string toString() const =0;
+
 	///Returns a short string representation of the channel
 	/**
 	\return Short string representation
@@ -152,48 +162,61 @@ public:
       	\return Unique ID
     	*/ 
 	inline ID getID() const {return _ID;}
+
+
 	///Inserts samples into the channel
 	/**
 	\param iNbOfSamples Number of samples to insert
 	\param iParam Parameter to insert
-      	\return Returns true if successful
-    	*/ 
+    \return Returns true if successful
+    */ 
 	inline virtual TMLLength insertSamples(TMLLength iNbOfSamples, Parameter* iParam) {return iNbOfSamples;}
+
+
+
+
 	///Writes XML information about the component to a stream
 	/**
       	\param s Reference to an output stream
 	*/
 	inline virtual void streamStateXML(std::ostream& s) const {}
+
 	///Returns the number of samples stored in the channel
    	/**
       	\return Content of the channel
 	*/
 	inline virtual TMLLength getContent()  const {return 0;}
+
 	///Returns a flag indicating if a channel overflow has been encoutered
 	/**
 	\return Channel overflow flag
 	*/
 	inline virtual bool getOverflow() const {return false;}
+
 	///Returns a flag indicating if a channel underflow has been encoutered
 	/**
 	\return Channel underflow flag
 	*/
 	inline virtual bool getUnderflow() const {return false;}
+	
 	///Returns the hash value for the current task state
 	/**
 	\param iHash Hash algorithm object
 	*/
 	virtual void getStateHash(HashAlgo* iHash) const =0;
+
 	///Returns the priority of the channel
 	/**
 	\return Hash Value
 	*/
 	inline Priority getPriority() {return _priority;}
+
 	///Returns the width of the channel
 	/**
 	\return Channel width
 	*/
 	inline unsigned int getWidth() {return _width;}
+
 	///Returns the width of the channel
 	/**
 	\param iTask Reference to reading or writing task
@@ -205,30 +228,43 @@ public:
 protected:
 	///ID of channel
 	ID _ID;
+
 	///Name of the channel
 	std::string _name;
+
 	///Channel size
 	unsigned int _width;	
+
 	///Pointer to the tasks which performs read operation on the channel
 	TMLTask* _readTask;
+
 	///Pointer to the tasks which performs write operation on the channel
 	TMLTask* _writeTask;
+
 	///Pointer to the transaction which attempts to write in the channel
 	TMLTransaction* _writeTrans;
+
 	///Pointer to the transaction which attempts to read the channel
 	TMLTransaction* _readTrans;
+
 	///Number of Buses/Slave devices on which the channel is mapped
 	unsigned int _numberOfHops;
+
 	///List of buses on which the channel is mapped
 	BusMaster** _masters;
+
 	///List of slaves on which the channel is mapped
 	Slave** _slaves;
+
 	///Keeps track of the current Hop of a write Transaction
 	unsigned int _writeTransCurrHop;
+
 	///Keeps track of the current Hop of a read Transaction
 	unsigned int _readTransCurrHop;
+
 	///channel priority
 	Priority _priority;
+
 	///Flag indicating if read or write commands for that channel are still reachable
 	unsigned char _significance;
 };

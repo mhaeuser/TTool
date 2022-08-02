@@ -971,8 +971,8 @@ bool Simulator::channelImpactsCommand(TMLChannel* iCh, TMLCommand* iCmd){
 }
 
 bool Simulator::simulate(TMLTransaction*& oLastTrans){
-  TMLTransaction* depTransaction,*depNextTrans,*transLET;
-  TMLCommand* commandLET,*depCommand,*depNextCommand;
+  TMLTransaction* depTransaction, *depNextTrans, *transLET;
+  TMLCommand* commandLET, *depCommand, *depNextCommand;
   TMLTask* depTask;
   SchedulableDevice* deviceLET;
   CPU* depCPU;
@@ -986,6 +986,7 @@ bool Simulator::simulate(TMLTransaction*& oLastTrans){
 #ifdef DEBUG_KERNEL
   std::cout << "kernel:simulate: first schedule" << std::endl;
 #endif
+
   _simComp->setStopFlag(false,"");
   for(TaskList::const_iterator i=_simComp->getTaskList().begin(); i!=_simComp->getTaskList().end();i++){
     if ((*i)->getCurrCommand()!=0) (*i)->getCurrCommand()->prepare(true);
@@ -1784,10 +1785,12 @@ void Simulator::decodeCommand(std::string iCmd, std::ostream& iXmlOutStream){
       if (aChannel==0){
         aGlobMsg << TAG_MSGo << MSG_CMPNFOUND << TAG_MSGc << std::endl;
         anErrorCode=2;
+        std::cout << "\nChannel/event not found: " << channelName << std::endl;
       } else {
         aInpStream >> aParam1;
         TMLEventChannel* anEventChannel = dynamic_cast<TMLEventChannel*>(aChannel);
         if (anEventChannel==0){
+          std::cout << "\nInserting in Channel: " << channelName << " of " << aParam1 << ";" << std::endl;
           aChannel->insertSamples(aParam1, 0);
         } else {
           //Parameter<ParamType> anInsertParam((dynamic_cast<TMLEventChannel*>(aChannel))->getParamNo());
@@ -1822,7 +1825,7 @@ void Simulator::decodeCommand(std::string iCmd, std::ostream& iXmlOutStream){
       std::cout << "End virtual signals." << std::endl;
       break;
     }
-    case 17:{//Run until write operation on channel x is performed
+    case 17:{ // Run until write operation on channel x is performed
       std::cout << "Run until write operation on channel x is performed." << std::endl;
       aInpStream >> aStrParam;
       //ListenerSubject<TransactionListener>* aSubject= static_cast<ListenerSubject<TransactionListener>* > (_simComp->getChannelByName(aStrParam));
@@ -1831,15 +1834,15 @@ void Simulator::decodeCommand(std::string iCmd, std::ostream& iXmlOutStream){
       if (aChannel!=0){
         //_currCmdListener=new RunTillTransOnDevice(_simComp, aSubject);
         aGlobMsg << TAG_MSGo << "Created listener on Channel " << aStrParam << TAG_MSGc << std::endl;
-        _simTerm=runToChannelWriteTrans(aChannel, oLastTrans);
-      }else{
+        _simTerm = runToChannelWriteTrans(aChannel, oLastTrans);
+      } else {
         aGlobMsg << TAG_MSGo << MSG_CMPNFOUND << TAG_MSGc << std::endl;
         anErrorCode=2;
       }
       std::cout << "End Run until write operation on channel x is performed." << std::endl;
       break;
     }
-    case 18:{//Run until read operation on channel x is performed
+    case 18:{ // Run until read operation on channel x is performed
       std::cout << "Run until read operation on channel x is performed." << std::endl;
       aInpStream >> aStrParam;
       //ListenerSubject<TransactionListener>* aSubject= static_cast<ListenerSubject<TransactionListener>* > (_simComp->getChannelByName(aStrParam));
@@ -1849,7 +1852,7 @@ void Simulator::decodeCommand(std::string iCmd, std::ostream& iXmlOutStream){
         //_currCmdListener=new RunTillTransOnDevice(_simComp, aSubject);
         aGlobMsg << TAG_MSGo << "Created listener on Channel " << aStrParam << TAG_MSGc << std::endl;
         _simTerm=runToChannelReadTrans(aChannel, oLastTrans);
-      }else{
+      } else {
         aGlobMsg << TAG_MSGo << MSG_CMPNFOUND << TAG_MSGc << std::endl;
         anErrorCode=2;
       }
@@ -2399,7 +2402,7 @@ bool Simulator::runXTransactions(unsigned int iTrans, TMLTransaction*& oLastTran
 
 bool Simulator::runXCommands(unsigned int iCmds, TMLTransaction*& oLastTrans){
   RunXCommands aListener(_simComp,iCmds);
-  bool test=simulate(oLastTrans);
+  bool test = simulate(oLastTrans);
   if (test) std::cout << "Simulate returned end" << std::endl;
   return test;
 }

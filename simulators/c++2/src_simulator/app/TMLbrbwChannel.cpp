@@ -161,7 +161,11 @@ void TMLbrbwChannel::setTransactionLength() const{
       //std::cout << _name << ": set write trans len, with read trans, len = " << _writeTrans->getVirtualLength() << std::endl;
     }
   }
-  if (_readTrans!=0){
+
+  if (_readTrans!= 0) {
+
+    //std::cout << _name << ": read trans " << " nbtoRead:" << _nbToRead << " _content:" << _content << " vlength:" << _readTrans->getVirtualLength() << std::endl;
+
     if (_nbToWrite==0){
       _readTrans->setVirtualLength(min(_content,_nbToRead));
       _overflow=false;
@@ -193,9 +197,11 @@ TMLLength TMLbrbwChannel::insertSamples(TMLLength iNbOfSamples, Parameter* iPara
   if (iNbOfSamples==0){
     _content=0;
     aNbToInsert=0;
-  }else{
-    aNbToInsert=min(iNbOfSamples, _length-_content);
-    iNbOfSamples+=aNbToInsert;
+  } else{
+    aNbToInsert = min(iNbOfSamples, _length-_content);
+    iNbOfSamples += aNbToInsert;
+    _content += aNbToInsert;
+    std::cout << "\nInserting in Channel: " << aNbToInsert << ";" << std::endl;
   }
   setTransactionLength();
   return aNbToInsert;

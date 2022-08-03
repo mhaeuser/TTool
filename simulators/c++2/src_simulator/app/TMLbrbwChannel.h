@@ -53,7 +53,7 @@ public:
 	///Constructor
     	/**
 	\param iID ID of channel
-      	\param iName Name of the channel
+    \param iName Name of the channel
 	\param iWidth Channel width
 	\param iNumberOfHops Number of buses on which the channel is mapped
 	\param iMasters Pointers to the masters which the channel is connected to

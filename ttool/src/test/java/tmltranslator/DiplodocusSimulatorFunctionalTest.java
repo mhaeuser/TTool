@@ -70,7 +70,7 @@ public class DiplodocusSimulatorFunctionalTest extends AbstractTest {
     }
 
 
-    //@Test
+    @Test
     public void testSimulationGraph() throws Exception {
         for(int i=0; i<TMAP_MODELS.length; i++) {
             String s = TMAP_MODELS[i];
@@ -140,13 +140,15 @@ public class DiplodocusSimulatorFunctionalTest extends AbstractTest {
             String str;
             boolean mustRecompileAll;
             Penalties penalty = new Penalties(SIM_DIR + File.separator + "src_simulator");
-            int changed = penalty.handlePenalties(false);
+            //int changed = penalty.handlePenalties(false);
+            int changed = penalty.handlePenalties(true);
 
             if (changed == 1) {
                 mustRecompileAll = true;
             } else {
                 mustRecompileAll = false;
             }
+                mustRecompileAll = true;
 
             if (mustRecompileAll) {
                 System.out.println("executing: " + "make -C " + SIM_DIR + " clean");
@@ -213,10 +215,10 @@ public class DiplodocusSimulatorFunctionalTest extends AbstractTest {
             // Must load the file, and compare it with the possible outputs
 
             String traceFileS = FileUtils.loadFile(TMAP_MODELS[i] + "_out.txt");
-            traceFileS = Conversion.replaceAllChar(traceFileS, ' ', "");
-
+            //traceFileS = Conversion.replaceAllChar(traceFileS, ' ', "");
+            int j;
             boolean found = false;
-            for(int j=0; j<EXPECTED_TRACES[i].length; j++) {
+            for( j=0; j<EXPECTED_TRACES[i].length; j++) {
                 String currentFileName = RESOURCES_DIR + EXPECTED_TRACES[i][j];
                 System.out.println("executing: loading golden model: " + currentFileName);
                 String goldenModel = FileUtils.loadFile(currentFileName).trim();
@@ -232,9 +234,9 @@ public class DiplodocusSimulatorFunctionalTest extends AbstractTest {
             }
 
             if (found) {
-                System.out.println("Test TMAP_MODELS[i]: OK");
+                System.out.println("** Test " + TMAP_MODELS[i] + ": OK ** (with " + RESOURCES_DIR + EXPECTED_TRACES[i][j] +")");
             } else {
-                System.out.println("Test TMAP_MODELS[i]: KO");
+                System.out.println("** Test " + TMAP_MODELS[i] + ": KO ** (with all references)");
             }
 
             assertTrue(found);
@@ -242,20 +244,32 @@ public class DiplodocusSimulatorFunctionalTest extends AbstractTest {
 
     }
 
-    @Test
+    //@Test
     public void testTraceEqual() throws Exception {
-        boolean b1 = areTracesEqual("coucou ID:3 progress", "coucou ID:34 progress");
+        System.out.println("- Test testTraceEqual, b1 True");
+	boolean b1 = areTracesEqual("coucou ID:3 progress", "coucou ID:34 progress");
         assertTrue(b1);
+        System.out.println("- Test testTraceEqual, b2 False");
         boolean b2 = areTracesEqual("coucou ID=3 progress", "coucou ID=34 progress");
         assertFalse(b2);
+        System.out.println("- Test testTraceEqual, b False3");
         boolean b3 = areTracesEqual("coucou ID:3 progress ID:3 p", "coucou ID:34 progress ID:35 p");
         assertFalse(b3);
+        System.out.println("- Test testTraceEqual, b4 True");
         boolean b4 = areTracesEqual("coucou ID:3 progress ID:3 p", "coucou ID:34 progress ID:34 p");
         assertTrue(b4);
+        System.out.println("- Test testTraceEqual, b5 False");
         boolean b5 = areTracesEqual("coucou ID:3 progress ID:12 p", "coucou ID:34 progress ID:34 p");
         assertFalse(b5);
+        System.out.println("- Test testTraceEqual, b6 True");
         boolean b6 = areTracesEqual("coucou ID:3 progress ID:12 p", "coucou ID:34 progress ID:35 p");
         assertTrue(b6);
+        System.out.println("- Test testTraceEqual, b7 False");
+        boolean b7 = areTracesEqual("coucou ID:3 progress ID:12 p", "coucou ID:34 progres ID:35 p");
+        assertFalse(b7);
+        System.out.println("- Test testTraceEqual, b8 False");
+        boolean b8 = areTracesEqual("coucou ID:3 progress ID:12 p", "coucou ID:34 progress p");
+        assertFalse(b8);
     }
 
     private boolean areTracesEqual(String s1, String s2) {
@@ -263,10 +277,11 @@ public class DiplodocusSimulatorFunctionalTest extends AbstractTest {
 
         int cpt1=0, cpt2=0;
         while( (cpt1<s1.length()) && (cpt2<s2.length()) ) {
-            System.out.println("cpt1=" + cpt1 + " cpt2=" + cpt2);
+            //System.out.println("cpt1=" + cpt1 + " cpt2=" + cpt2);
             String ts1 = s1.substring(cpt1);
             if (ts1.startsWith("ID:")) {
-                System.out.println("Testing ID " + ts1);
+                //System.out.println("Testing ID " + ts1);
+                System.out.println("cpt1=" + cpt1 + " cpt2=" + cpt2 + " Testing ID ");
                 String ts2 = s2.substring(cpt2);
                 if (ts2.startsWith("ID:")) {
 
@@ -274,6 +289,7 @@ public class DiplodocusSimulatorFunctionalTest extends AbstractTest {
                     int index1 = ts1.indexOf(" ");
                     int index2 = ts2.indexOf(" ");
                     if ( (index1 == -1) || (index2 == -1)) {
+			System.out.println("** !! ** Fail at cpt1=" + cpt1 + " cpt2=" + cpt2);
                         return false;
                     }
 
@@ -293,6 +309,7 @@ public class DiplodocusSimulatorFunctionalTest extends AbstractTest {
                         } else {
                             System.out.println("Already in map:" + i1 + " with " + i3);
                             if (Integer.compare(i3, i2) != 0) {
+				System.out.println("** !! ** Fail at cpt1=" + cpt1 + " cpt2=" + cpt2);
                                 return false;
                             }
                         }
@@ -300,17 +317,20 @@ public class DiplodocusSimulatorFunctionalTest extends AbstractTest {
                         cpt2 += 3 + tts2.length();
 
                     } catch (Exception e) {
+			System.out.println("** !! ** Fail around cpt1=" + cpt1 + " cpt2=" + cpt2);
                         return false;
                     }
 
 
                 } else {
-                    return false;
+                    System.out.println("** !! ** Fail at cpt1=" + cpt1 + " cpt2=" + cpt2);
+		    return false;
                 }
 
             } else {
                 if (s1.charAt(cpt1) != s2.charAt(cpt2)) {
-                    return false;
+                    System.out.println("** !! ** Fail at cpt1=" + cpt1 + " cpt2=" + cpt2);
+		    return false;
                 }
                 cpt1 ++;
                 cpt2 ++;
@@ -325,7 +345,8 @@ public class DiplodocusSimulatorFunctionalTest extends AbstractTest {
                 Integer i2 = (Integer)ints[j];
                 if (Integer.compare(i1, i2) == 0) {
                     System.out.println("i1=i2=" + i1);
-                    return false;
+                    System.out.println("** !! ** Fail: ID renaming is not injective");
+		    return false;
                 }
             }
         }

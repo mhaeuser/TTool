@@ -202,6 +202,7 @@ TMLLength TMLbrbwChannel::insertSamples(TMLLength iNbOfSamples, Parameter* iPara
     iNbOfSamples += aNbToInsert;
     _content += aNbToInsert;
     std::cout << "\nInserting in Channel: " << aNbToInsert << ";" << std::endl;
+    std::cout << "\n_content: " << _content << ";" << std::endl;
   }
   setTransactionLength();
   return aNbToInsert;

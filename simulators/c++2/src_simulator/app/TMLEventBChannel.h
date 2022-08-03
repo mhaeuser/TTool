@@ -227,8 +227,12 @@ public:
 			for (TMLLength i=0; i<iNbOfSamples; i++) this->_paramQueue.push_back(iParam);
 		} 
 		if (this->_readTrans!=0) this->_readTrans->setVirtualLength((this->_content>0)?WAIT_SEND_VLEN:0);
+		
 		return aNbToInsert;
 	}
+
+
+
 	protected:
 		void readNextEvents(){
 		//std::cout << "vv" << std::endl;

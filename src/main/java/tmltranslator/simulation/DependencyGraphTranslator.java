@@ -37,42 +37,8 @@
  */
 package tmltranslator.simulation;
 
-import java.awt.Container;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.Writer;
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map.Entry;
-import java.util.Random;
-import java.util.Vector;
-import javax.imageio.ImageIO;
-import javax.swing.JFrame;
-import javax.swing.JScrollPane;
-import javax.swing.SwingWorker;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.parsers.SAXParser;
-import javax.xml.parsers.SAXParserFactory;
-import javax.xml.transform.OutputKeys;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerConfigurationException;
-import javax.xml.transform.TransformerException;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.TransformerFactoryConfigurationError;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
+import com.mxgraph.layout.hierarchical.mxHierarchicalLayout;
+import com.mxgraph.swing.mxGraphComponent;
 import org.jgrapht.Graph;
 import org.jgrapht.GraphPath;
 import org.jgrapht.Graphs;
@@ -81,54 +47,27 @@ import org.jgrapht.alg.shortestpath.DijkstraShortestPath;
 import org.jgrapht.ext.JGraphXAdapter;
 import org.jgrapht.graph.DefaultDirectedGraph;
 import org.jgrapht.graph.DefaultEdge;
-import org.jgrapht.io.ComponentNameProvider;
-import org.jgrapht.io.EdgeProvider;
-import org.jgrapht.io.ExportException;
-import org.jgrapht.io.GraphMLExporter;
-import org.jgrapht.io.GraphMLImporter;
-import org.jgrapht.io.ImportException;
-import org.jgrapht.io.VertexProvider;
+import org.jgrapht.io.*;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.xml.sax.SAXException;
-import com.mxgraph.layout.hierarchical.mxHierarchicalLayout;
-import com.mxgraph.swing.mxGraphComponent;
-import tmltranslator.DIPLOElement;
-import tmltranslator.HwA;
-import tmltranslator.HwCommunicationNode;
-import tmltranslator.HwLink;
-import tmltranslator.HwNode;
-import tmltranslator.TMLActionState;
-import tmltranslator.TMLActivity;
-import tmltranslator.TMLActivityElement;
-import tmltranslator.TMLAttribute;
-import tmltranslator.TMLChannel;
-import tmltranslator.TMLChoice;
-import tmltranslator.TMLDelay;
-import tmltranslator.TMLElement;
-import tmltranslator.TMLEvent;
-import tmltranslator.TMLExecC;
-import tmltranslator.TMLExecCInterval;
-import tmltranslator.TMLExecI;
-import tmltranslator.TMLExecIInterval;
-import tmltranslator.TMLForLoop;
-import tmltranslator.TMLMapping;
-import tmltranslator.TMLNotifiedEvent;
-import tmltranslator.TMLRandom;
-import tmltranslator.TMLRandomSequence;
-import tmltranslator.TMLReadChannel;
-import tmltranslator.TMLRequest;
-import tmltranslator.TMLSelectEvt;
-import tmltranslator.TMLSendEvent;
-import tmltranslator.TMLSendRequest;
-import tmltranslator.TMLSequence;
-import tmltranslator.TMLStartState;
-import tmltranslator.TMLStopState;
-import tmltranslator.TMLTask;
-import tmltranslator.TMLWaitEvent;
-import tmltranslator.TMLWriteChannel;
+import tmltranslator.*;
 import tmltranslator.tomappingsystemc2.DiploSimulatorCodeGenerator;
+
+import javax.imageio.ImageIO;
+import javax.swing.*;
+import javax.xml.parsers.*;
+import javax.xml.transform.*;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.*;
+import java.math.BigDecimal;
+import java.util.List;
+import java.util.*;
+import java.util.Map.Entry;
 
 /**
  * Class DirectedGraphTranslator: this class generate the directed graph
@@ -139,51 +78,6 @@ import tmltranslator.tomappingsystemc2.DiploSimulatorCodeGenerator;
  * @author Maysam Zoor
  */
 public class DependencyGraphTranslator extends SwingWorker {
-    private TMLTask taskAc;
-    private TMLActivity activity;
-    private int nodeNbProgressBar = 0;
-    private TMLActivityElement currentElement;
-    private Graph<Vertex, DefaultEdge> g;
-    private final List<HwLink> links;
-    private final TMLMapping tmap;
-    private final HashMap<String, String> addedEdges = new HashMap<String, String>();
-    private final Vector<String> allLatencyTasks = new Vector<String>();
-    private static JScrollPane scrollPane = new JScrollPane();
-    private final HashMap<String, String> nameIDTaskList = new HashMap<String, String>();
-    private final HashMap<String, ArrayList<String>> channelPaths = new HashMap<String, ArrayList<String>>();
-    private Object[][] dataByTask = null;
-    private Object[][] dataByTaskMinMax = null;
-    private HashMap<Integer, Vector<SimulationTransaction>> dataByTaskR = new HashMap<Integer, Vector<SimulationTransaction>>();
-    private HashMap<Integer, Vector<SimulationTransaction>> mandatoryOptionalSimT = new HashMap<Integer, Vector<SimulationTransaction>>();
-    private HashMap<Integer, List<SimulationTransaction>> dataBydelayedTasks = new HashMap<Integer, List<SimulationTransaction>>();
-    private HashMap<Integer, HashMap<String, ArrayList<ArrayList<Integer>>>> timeDelayedPerRow = new HashMap<Integer, HashMap<String, ArrayList<ArrayList<Integer>>>>();
-    private HashMap<Integer, HashMap<String, ArrayList<ArrayList<Integer>>>> timeDelayedPerRowMinMax = new HashMap<Integer, HashMap<String, ArrayList<ArrayList<Integer>>>>();
-    private List<Integer> times1 = new ArrayList<Integer>();
-    private List<Integer> times2 = new ArrayList<Integer>();
-    private Vector<SimulationTransaction> transFile;
-    private String idTask1;
-    private String idTask2;
-    private String task2DeviceName = "";
-    private String task1DeviceName = "";
-    private String task2CoreNbr = "";
-    private String task1CoreNbr = "";
-    private ArrayList<String> devicesToBeConsidered = new ArrayList<String>();
-    private Vector<SimulationTransaction> relatedsimTraces = new Vector<SimulationTransaction>();
-    private Vector<SimulationTransaction> delayDueTosimTraces = new Vector<SimulationTransaction>();
-    private Vector<SimulationTransaction> mandatoryOptional = new Vector<SimulationTransaction>();
-    private HashMap<String, ArrayList<SimulationTransaction>> relatedsimTraceswithTaint = new HashMap<String, ArrayList<SimulationTransaction>>();
-    private int nbOfNodes = 0;
-    private List<String> usedLabels = new ArrayList<String>();
-    private List<String> warnings = new ArrayList<String>();
-    private List<String> errors = new ArrayList<String>();
-    private static Random random = new Random();
-    private String taintLabel = "";
-    private int opCount;
-    private String taskStartName = "";
-    private List<SimulationTransaction> onPath = new ArrayList<SimulationTransaction>();
-    private List<SimulationTransaction> offPath = new ArrayList<SimulationTransaction>();
-    private List<SimulationTransaction> offPathDelay = new ArrayList<SimulationTransaction>();
-    private final HashMap<String, Integer> allChannels = new HashMap<String, Integer>();
     private static final String MODEL_AS_GRAPH = "The SysML Model As Dependency Graph";
     private static final String SELECT_EVENT_PARAM = "SelectEvent params:";
     private static final String SELECT_EVENT = "SelectEvent";
@@ -251,7 +145,52 @@ public class DependencyGraphTranslator extends SwingWorker {
     private static final String CHAR_LOWER = "abcdefghijklmnopqrstuvwxyz";
     private static final String CHAR_UPPER = CHAR_LOWER.toUpperCase();
     private static final String DATA = CHAR_LOWER + CHAR_UPPER;
+    private static JScrollPane scrollPane = new JScrollPane();
+    private static Random random = new Random();
+    private final List<HwLink> links;
+    private final TMLMapping tmap;
+    private final HashMap<String, String> addedEdges = new HashMap<String, String>();
+    private final Vector<String> allLatencyTasks = new Vector<String>();
+    private final HashMap<String, String> nameIDTaskList = new HashMap<String, String>();
+    private final HashMap<String, ArrayList<String>> channelPaths = new HashMap<String, ArrayList<String>>();
+    private final HashMap<String, Integer> allChannels = new HashMap<String, Integer>();
     private final JFrame frame = new JFrame(MODEL_AS_GRAPH);
+    private TMLTask taskAc;
+    private TMLActivity activity;
+    private int nodeNbProgressBar = 0;
+    private TMLActivityElement currentElement;
+    private Graph<Vertex, DefaultEdge> g;
+    private Object[][] dataByTask = null;
+    private Object[][] dataByTaskMinMax = null;
+    private HashMap<Integer, Vector<SimulationTransaction>> dataByTaskR = new HashMap<Integer, Vector<SimulationTransaction>>();
+    private HashMap<Integer, Vector<SimulationTransaction>> mandatoryOptionalSimT = new HashMap<Integer, Vector<SimulationTransaction>>();
+    private HashMap<Integer, List<SimulationTransaction>> dataBydelayedTasks = new HashMap<Integer, List<SimulationTransaction>>();
+    private HashMap<Integer, HashMap<String, ArrayList<ArrayList<Integer>>>> timeDelayedPerRow = new HashMap<Integer, HashMap<String, ArrayList<ArrayList<Integer>>>>();
+    private HashMap<Integer, HashMap<String, ArrayList<ArrayList<Integer>>>> timeDelayedPerRowMinMax = new HashMap<Integer, HashMap<String, ArrayList<ArrayList<Integer>>>>();
+    private List<Integer> times1 = new ArrayList<Integer>();
+    private List<Integer> times2 = new ArrayList<Integer>();
+    private Vector<SimulationTransaction> transFile;
+    private String idTask1;
+    private String idTask2;
+    private String task2DeviceName = "";
+    private String task1DeviceName = "";
+    private String task2CoreNbr = "";
+    private String task1CoreNbr = "";
+    private ArrayList<String> devicesToBeConsidered = new ArrayList<String>();
+    private Vector<SimulationTransaction> relatedsimTraces = new Vector<SimulationTransaction>();
+    private Vector<SimulationTransaction> delayDueTosimTraces = new Vector<SimulationTransaction>();
+    private Vector<SimulationTransaction> mandatoryOptional = new Vector<SimulationTransaction>();
+    private HashMap<String, ArrayList<SimulationTransaction>> relatedsimTraceswithTaint = new HashMap<String, ArrayList<SimulationTransaction>>();
+    private int nbOfNodes = 0;
+    private List<String> usedLabels = new ArrayList<String>();
+    private List<String> warnings = new ArrayList<String>();
+    private List<String> errors = new ArrayList<String>();
+    private String taintLabel = "";
+    private int opCount;
+    private String taskStartName = "";
+    private List<SimulationTransaction> onPath = new ArrayList<SimulationTransaction>();
+    private List<SimulationTransaction> offPath = new ArrayList<SimulationTransaction>();
+    private List<SimulationTransaction> offPathDelay = new ArrayList<SimulationTransaction>();
     private DependencyGraphRelations dependencyGraphRelations = new DependencyGraphRelations();
 
     @SuppressWarnings("deprecation")
@@ -263,6 +202,15 @@ public class DependencyGraphTranslator extends SwingWorker {
                 + tmap.getArch().getMemories().size() + tmap.getArch().getCPUs().size();
         expectedNumberofVertex();
         // DrawDirectedGraph();
+    }
+
+    public static boolean isNumeric(String strNum) {
+        try {
+            double d = Double.parseDouble(strNum);
+        } catch (NumberFormatException | NullPointerException nfe) {
+            return false;
+        }
+        return true;
     }
 
     // The main function to add the vertices and edges according to the model
@@ -1641,7 +1589,7 @@ public class DependencyGraphTranslator extends SwingWorker {
         if (!(activity.getPrevious(currentElement) instanceof TMLSequence)) {
             g.addEdge(getvertex(preEventName), getvertex(taskEndName));
         }
-        @SuppressWarnings({ "unchecked", "rawtypes" })
+        @SuppressWarnings({"unchecked", "rawtypes"})
         AllDirectedPaths<Vertex, DefaultEdge> allPaths = new AllDirectedPaths<Vertex, DefaultEdge>(g);
         if (dependencyGraphRelations.getOrderedSequenceList().size() > 0) {
             int noForLoop = 0;
@@ -1672,7 +1620,7 @@ public class DependencyGraphTranslator extends SwingWorker {
                                                 if ((path.get(i).getVertexList().contains(getvertex(forloopListEntry.getValue().get(0)))
                                                         && getvertex(forloopListEntry.getValue().get(0)).getName() != sequenceListEntry.getKey())
                                                         || path.get(i).getVertexList().contains(getvertex(
-                                                                sequenceListEntry.getValue().get(sequenceListEntry.getValue().size() - 1)))) {
+                                                        sequenceListEntry.getValue().get(sequenceListEntry.getValue().size() - 1)))) {
                                                     noForLoop++;
                                                 }
                                             }
@@ -1712,7 +1660,7 @@ public class DependencyGraphTranslator extends SwingWorker {
                                                                     .getOrderedSequenceList().entrySet()) {
                                                                 if (!adjacentsequenceListEntryValue.getKey().equals(sequenceListEntry.getKey())
                                                                         && !adjacentsequenceListEntryValue.getKey()
-                                                                                .equals(othersequenceListEntryValue.getKey())) {
+                                                                        .equals(othersequenceListEntryValue.getKey())) {
                                                                     if (path.get(i).getVertexList()
                                                                             .contains(getvertex(adjacentsequenceListEntryValue.getKey()))) {
                                                                         connectedSeq++;
@@ -1954,7 +1902,7 @@ public class DependencyGraphTranslator extends SwingWorker {
 
     // save graph in .graphml format
     public void exportGraph(String filename) throws ExportException, IOException {
-        @SuppressWarnings({ "rawtypes", "unchecked" })
+        @SuppressWarnings({"rawtypes", "unchecked"})
         GraphMLExporter<String, DefaultEdge> gmlExporter = new GraphMLExporter();
         ComponentNameProvider<Vertex> vertexIDProvider = new ComponentNameProvider<Vertex>() {
             @Override
@@ -1963,8 +1911,8 @@ public class DependencyGraphTranslator extends SwingWorker {
                 for (Vertex v : g.vertexSet()) {
                     if (v.getName().equals(Vertex.getName())) {
                         name = Vertex.getName().toString().replaceAll("\\s+", "");
-                        name = Vertex.getName().replaceAll("\\(", "\\u0028");
-                        name = Vertex.getName().replaceAll("\\)", "\\u0029");
+                        name = name.replaceAll("\\(", "\\u0028");
+                        name = name.replaceAll("\\)", "\\u0029");
                         return name;
                     }
                 }
@@ -2023,19 +1971,10 @@ public class DependencyGraphTranslator extends SwingWorker {
         return allLatencyTasks;
     }
 
-    public static boolean isNumeric(String strNum) {
-        try {
-            double d = Double.parseDouble(strNum);
-        } catch (NumberFormatException | NullPointerException nfe) {
-            return false;
-        }
-        return true;
-    }
-
     // fill the main table of the latency frame by checking all the delay times
     // between the selected tasks
     public Object[][] latencyDetailedAnalysis(String task12ID, String task22ID, Vector<SimulationTransaction> transFile1, Boolean taint,
-            Boolean considerAddedRules) {
+                                              Boolean considerAddedRules) {
         try {
             for (Vertex v : g.vertexSet()) {
                 v.setLabel(new ArrayList<String>());
@@ -2243,38 +2182,38 @@ public class DependencyGraphTranslator extends SwingWorker {
                              * if (Graphs.vertexHasPredecessors(g, getvertex(tasknameCheckID))) { for
                              * (vertex previousV : Graphs.predecessorListOf(g, getvertex(tasknameCheckID)))
                              * { if (previousV.getType() == vertex.TYPE_CHOICE) {
-                             * 
+                             *
                              * for (Entry<vertex, List<vertex>> vChoice : allChoiceValues.entrySet()) {
-                             * 
+                             *
                              * if (previousV.equals(vChoice.getKey())) {
-                             * 
+                             *
                              * if (previousV.getLabel().contains(labelToaAddtoV)) {
-                             * 
+                             *
                              * for (vertex cVertex : allChoiceValues.get(vChoice.getKey())) {
-                             * 
+                             *
                              * if (!cVertex.equals(getvertex(tasknameCheckID))) {
-                             * 
+                             *
                              * if (cVertex.getLabel().contains(labelToaAddtoV)) {
                              * cVertex.getLabel().remove(labelToaAddtoV);
-                             * 
+                             *
                              * }
-                             * 
+                             *
                              * if (cVertex.getMaxTaintFixedNumber().containsKey(labelToaAddtoV)) {
                              * cVertex.getMaxTaintFixedNumber().remove(labelToaAddtoV);
-                             * 
+                             *
                              * }
-                             * 
+                             *
                              * if (cVertex.getTaintConsideredNumber().containsKey(labelToaAddtoV)) {
                              * cVertex.getTaintConsideredNumber().remove(labelToaAddtoV);
-                             * 
+                             *
                              * } } }
-                             * 
+                             *
                              * }
-                             * 
+                             *
                              * }
-                             * 
+                             *
                              * }
-                             * 
+                             *
                              * } } }
                              */
                             if (v.getType() == Vertex.getTypeChannel() || v.getType() == Vertex.TYPE_TRANSACTION) {
@@ -2438,7 +2377,7 @@ public class DependencyGraphTranslator extends SwingWorker {
                                     getvertex(task22));
                             if (taskname.equals(task12) || (hasLabelAstask12 && taskname.equals(task22))
                                     || (hasLabelAstask12 && (pathExistsTestwithTask1 != null && pathExistsTestwithTask1.getLength() > 0
-                                            || pathExistsTestwithTask2 != null && pathExistsTestwithTask2.getLength() > 0))) {
+                                    || pathExistsTestwithTask2 != null && pathExistsTestwithTask2.getLength() > 0))) {
                                 if (taskname.equals(task22)) {
                                     if (Task2TaintedTraces.containsKey(taintLabel)) {
                                         Task2TaintedTraces.get(taintLabel).add(st.endTime);
@@ -3266,9 +3205,9 @@ public class DependencyGraphTranslator extends SwingWorker {
                      * (subFor.getMaxTaintFixedNumber().get(label) != subV.getTaintFixedNumber()) {
                      * subFor.getMaxTaintFixedNumber().put(label,
                      * subFor.getMaxTaintFixedNumber().get(label) * subV.getTaintFixedNumber()); }
-                     * 
+                     *
                      * }
-                     * 
+                     *
                      * }
                      */
                     if (!subFor.getLabel().contains(label)) {
@@ -3293,10 +3232,10 @@ public class DependencyGraphTranslator extends SwingWorker {
              * (subV.getMaxTaintFixedNumber().get(label) != i) { //
              * subV.getMaxTaintFixedNumber().put(label, //
              * subV.getMaxTaintFixedNumber().get(label) * i * subV.getTaintFixedNumber());
-             * 
+             *
              * subV.getMaxTaintFixedNumber().put(label,
              * subV.getMaxTaintFixedNumber().get(label) * i); } }
-             * 
+             *
              * }
              */
             if (!subV.getLabel().contains(label)) {
@@ -3314,7 +3253,7 @@ public class DependencyGraphTranslator extends SwingWorker {
                          * (vFor0.getMaxTaintFixedNumber().get(label) != subV.getTaintFixedNumber()) {
                          * vFor0.getMaxTaintFixedNumber().put(label,
                          * vFor0.getMaxTaintFixedNumber().get(label) * subV.getTaintFixedNumber()); } }
-                         * 
+                         *
                          * }
                          */
                         if (!vFor0.getLabel().contains(label)) {
@@ -3336,11 +3275,11 @@ public class DependencyGraphTranslator extends SwingWorker {
                         /*
                          * if (vFor1.getLabel().contains(label)) { if
                          * (vFor1.getMaxTaintFixedNumber().containsKey(label)) {
-                         * 
+                         *
                          * if (vFor1.getMaxTaintFixedNumber().get(label) != max) {
                          * vFor1.getMaxTaintFixedNumber().put(label,
                          * vFor1.getMaxTaintFixedNumber().get(label) * max); } }
-                         * 
+                         *
                          * }
                          */
                         if (!vFor1.getLabel().contains(label)) {
@@ -3367,7 +3306,7 @@ public class DependencyGraphTranslator extends SwingWorker {
              * subV.getMaxTaintFixedNumber().put(label,
              * subV.getMaxTaintFixedNumber().get(label) * i * subV.getTaintFixedNumber()); }
              * }
-             * 
+             *
              * }
              */
             if (!subV.getLabel().contains(label)) {
@@ -3587,7 +3526,7 @@ public class DependencyGraphTranslator extends SwingWorker {
              * subV.getMaxTaintFixedNumber().put(label,
              * subV.getMaxTaintFixedNumber().put(label, i * subV.getTaintFixedNumber())); }
              * }
-             * 
+             *
              * }
              */
             if (!subV.getLabel().contains(label)) {
@@ -3628,7 +3567,7 @@ public class DependencyGraphTranslator extends SwingWorker {
              * subV.getMaxTaintFixedNumber().put(label,
              * subV.getMaxTaintFixedNumber().put(label, i * subV.getTaintFixedNumber())); }
              * }
-             * 
+             *
              * }
              */
             if (!subV.getLabel().contains(label)) {

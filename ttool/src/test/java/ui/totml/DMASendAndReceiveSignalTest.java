@@ -8,11 +8,13 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import req.ebrdd.EBRDD;
 import tepe.TEPE;
+import tmltranslator.TMLError;
 import tmltranslator.TMLMapping;
 import tmltranslator.TMLSyntaxChecking;
 import tmltranslator.tomappingsystemc2.DiploSimulatorFactory;
 import tmltranslator.tomappingsystemc2.IDiploSimulatorCodeGenerator;
 import tmltranslator.tomappingsystemc2.Penalties;
+import translator.CheckingError;
 import ui.AbstractUITest;
 import ui.TDiagramPanel;
 import ui.TMLArchiPanel;
@@ -68,9 +70,20 @@ public class DMASendAndReceiveSignalTest extends AbstractUITest {
 
             mainGUI.checkModelingSyntax(true);
             TMLMapping tmap = mainGUI.gtm.getTMLMapping();
-            TMLSyntaxChecking syntax = new TMLSyntaxChecking(tmap);
+
+            List<CheckingError> errors = mainGUI.getCheckingErrors();
+            assertTrue(errors.size() == 0);
+
+            /*TMLSyntaxChecking syntax = new TMLSyntaxChecking(tmap);
             syntax.checkSyntax();
-            assertTrue(syntax.hasErrors() == 0);
+
+            for(TMLError error: syntax.getErrors()) {
+                System.out.println("Error: " + error.toString());
+            }
+
+            assertTrue(syntax.hasErrors() == 0);*/
+
+
             // Generate SystemC code
             System.out.println("executing: sim code gen for " + s);
             final IDiploSimulatorCodeGenerator tml2systc;

@@ -121,23 +121,14 @@ void init_signals()	{
 	sig[cwl_ch_out].f = false;
 	sig[cwl_ch_out].pBuff = (FEP_BUFFER_TYPE*) &buff_cwl_ch_out;
 
-	sig[joinch_0_out].f = false;
-	sig[joinch_0_out].pBuff = /* USER TO DO */;
-
-	sig[symbol2ChipSeq_ch_out].f = false;
-	sig[symbol2ChipSeq_ch_out].pBuff = (MAPPER_BUFFER_TYPE*) &buff_symbol2ChipSeq_ch_out;
-
-	sig[forkch0_out_0].f = false;
-	sig[forkch0_out_0].pBuff = /* USER TO DO */;
-
-	sig[forkch0_out_1].f = false;
-	sig[forkch0_out_1].pBuff = /* USER TO DO */;
-
 	sig[cwpQ_ch_out].f = false;
 	sig[cwpQ_ch_out].pBuff = (FEP_BUFFER_TYPE*) &buff_cwpQ_ch_out;
 
 	sig[cwpI_ch_out].f = false;
 	sig[cwpI_ch_out].pBuff = (FEP_BUFFER_TYPE*) &buff_cwpI_ch_out;
+
+	sig[symbol2ChipSeq_ch_out].f = false;
+	sig[symbol2ChipSeq_ch_out].pBuff = (MAPPER_BUFFER_TYPE*) &buff_symbol2ChipSeq_ch_out;
 
 	sig[symbol2ChipSeq_ch_out_CP].f = false;
 	sig[symbol2ChipSeq_ch_out_CP].pBuff = (MAPPER_BUFFER_TYPE*) &buff_symbol2ChipSeq_ch_out;
@@ -145,8 +136,11 @@ void init_signals()	{
 	sig[chip2octet_ch_out_CP].f = false;
 	sig[chip2octet_ch_out_CP].pBuff = (INTERLEAVER_BUFFER_TYPE*) &buff_chip2octet_ch_out;
 
-	sig[joinch_0_out_CP].f = false;
-	sig[joinch_0_out_CP].pBuff = /* USER TO DO */;
+	sig[cwpQ_ch_out_CP].f = false;
+	sig[cwpQ_ch_out_CP].pBuff = (FEP_BUFFER_TYPE*) &buff_cwpQ_ch_out;
+
+	sig[cwpI_ch_out_CP].f = false;
+	sig[cwpI_ch_out_CP].pBuff = (FEP_BUFFER_TYPE*) &buff_cwpI_ch_out;
 
 	sig[Source_ch_out_CP].f = false;
 	sig[Source_ch_out_CP].pBuff = (MM_BUFFER_TYPE*) &buff_Source_ch_out;

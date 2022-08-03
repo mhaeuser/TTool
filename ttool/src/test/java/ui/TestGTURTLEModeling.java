@@ -46,6 +46,8 @@ public class TestGTURTLEModeling extends AbstractUITest {
 
         final String codeDirExpected = RESOURCES_DIR + mappingDiagName + File.separator + "expected" + File.separator;
 
+
+
         for( String compilerOption: codeGenOptions )    {
         	mainGUI.gtm.generateCCode( codeDir, compilerOption );
             /*try {
@@ -53,7 +55,11 @@ public class TestGTURTLEModeling extends AbstractUITest {
             } catch (Exception ignored) {
             }*/
             try {
-                final IComparisonReport difference = textComparator.compare( new File( codeDirExpected ), new File( codeDir ) );
+                File expected = new File( codeDirExpected );
+                File newFile = new File( codeDir );
+                final IComparisonReport difference = textComparator.compare( expected, newFile );
+
+                System.out.println("Difference between " + expected.getName() + " and " + newFile.getName());
 
                 if ( difference.containsDiff() ) {
                     difference.print();

@@ -527,12 +527,15 @@ void Simulator::timeline2HTML(std::string& iTracetaskList, std::ostringstream& m
            << "<tr><th></th><th class=\"notfirst\"></th></tr>"
            << "<div class = \"clear\"></div>";
     myfile << "<table><tr><td width=\"170px\" style=\"max-width: unset;min-width: 170px;border-style: none none none none;\"></td><td class=\"notlast\"></td><td class=\"notlast\"></td>";
+    
     for( std::map<TMLTask*, std::string>::iterator taskColIt = taskCellClasses.begin(); taskColIt != taskCellClasses.end(); ++taskColIt ) {
         TMLTask* task = (*taskColIt).first;
         // Unset the default td max-width of 5px. For some reason setting the max-with on a specific t style does not work
         myfile << "<td class=\"" << taskCellClasses[ task ] << "\"></td><td style=\"max-width: unset;min-width: 170px;\">" << task->toString() << "</td><td class=\"space\"></td>";
     }
+
     myfile << "</tr><tr><td width=\"170px\" style=\"max-width: unset;min-width: 170px;border-style: none none none none;\"></td><td class=\"notlast\"></td><td class=\"notlast\"></td>";
+    
     for( std::map<TMLTask*, std::string>::iterator taskColIt = taskCellClasses.begin(); taskColIt != taskCellClasses.end(); ++taskColIt ) {
         TMLTask* task = (*taskColIt).first;
         std::string str = getTaskCellStatus(task->getState());

@@ -209,7 +209,7 @@ public class JDialogCPUNode extends JDialogBase implements ActionListener  {
         //issue 183
         c2.weighty = 1.0;
         c2.weightx = 1.0;
-        panel2.add(new JLabel("Data size (in byte):"), c2);
+        panel2.add(new JLabel("Data size (in bytes):"), c2);
         //c2.gridwidth = GridBagConstraints.REMAINDER; //end row
         byteDataSize = new TGTextFieldWithHelp(""+node.getByteDataSize(), 15);
         panel2.add(byteDataSize, c2);

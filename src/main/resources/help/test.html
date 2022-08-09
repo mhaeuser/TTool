@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>TTool help</title>
+  <link rel="stylesheet" href="help.css">
+  <style>
+    html {
+      line-height: 1.5;
+      font-family: Georgia, serif;
+      font-size: 20px;
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      word-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 1em;
+      }
+    }
+    @media print {
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      font-family: Menlo, Monaco, 'Lucida Console', Consolas, monospace;
+      font-size: 85%;
+      margin: 0;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      background-color: #1a1a1a;
+      border: none;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+</head>
+<body>
+<h1 id="requirements">Requirements</h1>
+<p>Requirements can be captured in SysML Requirement Diagrams.</p>
+<h2 id="requirement-node">Requirement node</h2>
+<h2 id="relations-between-requirements">Relations between requirements</h2>
+<h3 id="composition">Composition</h3>
+<p>A composition <img src="file:../ui/util/reqcomp.gif" alt="syntax checking icon" /> links a high-level requirements “r” to requirements that are supposed to compose “r”.</p>
+<h3 id="refine">Refine</h3>
+<p>A refine relation <img src="file:../ui/util/reqref.gif" alt="syntax checking icon" /> expresses a requirement which gives more details (e.g., more concrete values, or more concrete model elements) to a requirement.</p>
+<h3 id="derivereqt">DeriveReqt</h3>
+<p>A DereiveReqt relation <img src="file:../ui/util/reqder.gif" alt="syntax checking icon" /> builds a requirement from other requirements (i.e. it is derived from other requirements). This relation is particularly used when a requirement expresses required techincal aspects from non technical requirements.</p>
+<h2 id="security-requirements">Security requirements</h2>
+<p>Security requirements in TTool can be made explicit, with e.g. “confidentiality”, “integrity”, etc. The following definitions make these terms more explicit.</p>
+<h3 id="privacy">Privacy</h3>
+<p>Privacy is guaranteed if the <strong>relation</strong> between an <strong>entity</strong> and a <strong>set of information</strong> is confidential.</p>
+<p>An example: <em>In a social network, for non administrator users, the user of a message shall not be linkable to that message but two messages sent by the same user shall be linkable to each other</em>.</p>
+<h3 id="confidentiality">Confidentiality</h3>
+<p>Confidentiality is satisfied when authorized <strong>entities</strong> are the only ones that can know a given <strong>quantum of information</strong>.</p>
+<p>Examples: - <em>The content of Messages sent from A to B shall be known only by A and B</em> - <em>The state of a state machine shall be known only by its execution engine</em></p>
+<h3 id="section"></h3>
+</body>
+</html>

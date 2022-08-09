@@ -63,19 +63,19 @@ import tmltranslator.simulation.PlanArrays;
  * Class JFrameLatencyDetailedPopup: this class opens the frame showing the
  * details of the latency per selected row
  * 
- * 23/09/2019
+ * 23/09/2019, updated on 05/08/2022
  *
- * @author Maysam Zoor
+ * @author Maysam Zoor, Ludovic Apvrille
  */
 public class JFrameLatencyDetailedPopup extends JFrame implements TableModelListener {
     private String[] columnByTaskNames = new String[5];
     private String[] columnByHWNames = new String[5];
     private JScrollPane scrollPane12, scrollPane13, scrollPane14;
-    private static JTable taskNames, hardwareNames;
+    //private static JTable taskNames, hardwareNames;
     private Object[][] dataDetailedByTask;
-    private List<String> onPathBehavior = new ArrayList<String>();
-    private List<String> offPathBehavior = new ArrayList<String>();
-    private List<String> offPathBehaviorCausingDelay = new ArrayList<String>();
+    //private List<String> onPathBehavior = new ArrayList<String>();
+    //private List<String> offPathBehavior = new ArrayList<String>();
+    //private List<String> offPathBehaviorCausingDelay = new ArrayList<String>();
     // private Thread t, t1;
     private Object[][] dataHWDelayByTask;
     private static final String TRANSACTION_LIST = "Transaction List ";
@@ -87,10 +87,7 @@ public class JFrameLatencyDetailedPopup extends JFrame implements TableModelList
     private static final String TASKS_ON_SAME_DEVICE = "Tasks on the Same Device ";
     private static final String NON_MANDATORY_TRANSACTIONS = "Non-Mandatory Transactions";
     private static final String NON_MAND_NO_CONT_TRAN = "Non-Mandatory Transactions No-Contention";
-    private static final String DEVICE_NAME = "Device Name";
-    private static final String ZERO = "0";
     private static final String NON_MAND_CONT_TRAN = "Non-Mandatory Transactions Causing Contention";
-    private static final String TABLE_LENGED = "Table Lenged: ";
 
     public JFrameLatencyDetailedPopup(DependencyGraphTranslator dgraph, int row, boolean firstTable, Boolean taint,
             LatencyAnalysisParallelAlgorithms th, boolean visible) throws InterruptedException {
@@ -271,40 +268,41 @@ public class JFrameLatencyDetailedPopup extends JFrame implements TableModelList
         c01.gridwidth = 1;
         c01.gridx = 0;
         c01.gridy = 0;
-        JLabel pBarLabel0 = new JLabel(TABLE_LENGED);
-        JPanel lengedpanel = new JPanel(gridbag01);
-        lengedpanel.add(pBarLabel0, c01);
-        c01.gridx = 2;
+        //JLabel pBarLabel0 = new JLabel(TABLE_LEGEND);
+        JPanel legendpanel = new JPanel(gridbag01);
+        //lengedpanel.add(pBarLabel0, c01);
+        c01.gridwidth = GridBagConstraints.REMAINDER;
+        c01.gridx = 1;
         c01.gridy = 0;
         JLabel pBarLabel = new JLabel(MANDATORY_TRANSACTIONS, JLabel.RIGHT);
-        lengedpanel.add(pBarLabel, c01);
+        legendpanel.add(pBarLabel, c01);
         c01.gridx = 1;
         c01.gridy = 0;
         JLabel pBarLabel2 = new JLabel("    ", JLabel.LEFT);
         pBarLabel2.setOpaque(true);
         pBarLabel2.setBackground(Color.GREEN);
-        lengedpanel.add(pBarLabel2, c01);
+        legendpanel.add(pBarLabel2, c01);
         c01.gridx = 4;
         c01.gridy = 0;
         JLabel pBarLabel3 = new JLabel(NON_MAND_CONT_TRAN, JLabel.RIGHT);
-        lengedpanel.add(pBarLabel3, c01);
+        legendpanel.add(pBarLabel3, c01);
         c01.gridx = 3;
         c01.gridy = 0;
         JLabel pBarLabel4 = new JLabel("    ", JLabel.LEFT);
         pBarLabel4.setOpaque(true);
         pBarLabel4.setBackground(Color.RED);
-        lengedpanel.add(pBarLabel4, c01);
+        legendpanel.add(pBarLabel4, c01);
         c01.gridx = 6;
         c01.gridy = 0;
         JLabel pBarLabel5 = new JLabel(NON_MAND_NO_CONT_TRAN, JLabel.RIGHT);
-        lengedpanel.add(pBarLabel5, c01);
+        legendpanel.add(pBarLabel5, c01);
         c01.gridx = 5;
         c01.gridy = 0;
         JLabel pBarLabel6 = new JLabel("    ", JLabel.LEFT);
         pBarLabel6.setOpaque(true);
         pBarLabel6.setBackground(Color.ORANGE);
-        lengedpanel.add(pBarLabel6, c01);
-        this.add(lengedpanel);
+        legendpanel.add(pBarLabel6, c01);
+        this.add(legendpanel);
         this.pack();
         this.setVisible(visible);
     }

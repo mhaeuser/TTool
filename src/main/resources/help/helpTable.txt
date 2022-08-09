@@ -36,6 +36,7 @@
 ---taskmapping taskmapping tasks mapping
 ---communicationmapping communicationmapping communication mapping
 --- diplodocussimulator diplodocus_simulator simulator diplodocus server command
+--- plan plan precise latency analysis diplodocus simulator
 - avatar avatar software embedded systems safety security
 -- requirements requirements satified satisfy derivereqt
 -- avatarsoftwaredesign software_design avatar blocks software design

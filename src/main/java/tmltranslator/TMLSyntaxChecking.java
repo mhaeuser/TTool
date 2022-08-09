@@ -847,7 +847,7 @@ public class TMLSyntaxChecking {
             int n = mapping.getNbOfMemoriesOfChannel(ch);
             if (n == 0) {
                 // Too few memories
-                addError(null, null, AT_LEAST_ONE_MEMORY_PER_CHANNEL + ": " + ch.getName(), TMLError.ERROR_STRUCTURE);
+                addWarning(null, null, AT_LEAST_ONE_MEMORY_PER_CHANNEL + ": " + ch.getName(), TMLError.ERROR_STRUCTURE);
             } else if (n > 1) {
                 // Too many memories
                 String s = mapping.getStringOfMemoriesOfChannel(ch);

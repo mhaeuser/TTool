@@ -207,3 +207,60 @@ TMLLength TMLbrbwChannel::insertSamples(TMLLength iNbOfSamples, Parameter* iPara
   setTransactionLength();
   return aNbToInsert;
 }
+
+TMLLength TMLbrbwChannel::writeSamples(TMLLength iNbOfSamples, Parameter* iParam){
+  TMLLength aNbToInsert = iNbOfSamples;  
+  
+  #ifdef LOSS_ENABLED
+  if (_maxNbOfLosses > _nbOfLosses){
+    TMLLength aLostBytes = iNbOfSamples * _lossRate + _lossRemainder;
+    _lossRemainder = aLostBytes % 100;
+    aLostBytes = min(aLostBytes/100, _maxNbOfLosses - _nbOfLosses);
+    _content += aNbToInsert - aLostBytes;
+    _nbOfLosses +=  aLostBytes;
+  } else {
+#endif
+    	_content+=aNbToInsert;
+#ifdef LOSS_ENABLED
+  }
+#endif
+  if (_readTrans!=0 && _readTrans->getVirtualLength()==0){
+  	  _readTrans->setRunnableTime(_writeTrans->getEndTime());
+          _readTrans->setVirtualLength(min(_content,_nbToRead));
+          _overflow=false;
+  }
+  _nbToWrite=0;
+  //FOR_EACH_TRANSLISTENER (*i)->transExecuted(_writeTrans);
+#ifdef LISTENERS_ENABLED
+  NOTIFY_WRITE_TRANS_EXECUTED(_writeTrans);
+#endif
+  _writeTrans=0;
+  
+
+  std::cout << "\nWriting in brbw Channel: " << aNbToInsert << ";" << std::endl;
+  std::cout << "\n_content: " << _content << ";" << std::endl;
+  return aNbToInsert;
+}
+
+
+TMLLength TMLbrbwChannel::readSamples(TMLLength iNbOfSamples, Parameter* iParam){
+    TMLLength aNbToInsert = iNbOfSamples;  
+    if (_content<aNbToInsert){
+    	aNbToInsert=0;
+    	return aNbToInsert;
+  } else {
+    _content-=aNbToInsert;
+    _nbToRead=0;
+    if (_writeTrans!=0 && _writeTrans->getVirtualLength()==0){
+    	    _writeTrans->setRunnableTime(_readTrans->getEndTime());
+            _writeTrans->setVirtualLength(min(_length-_content,_nbToWrite));
+            _underflow=false;
+    }
+    //FOR_EACH_TRANSLISTENER (*i)->transExecuted(_readTrans);
+#ifdef LISTENERS_ENABLED
+    NOTIFY_READ_TRANS_EXECUTED(_readTrans);
+#endif
+    _readTrans=0;
+    return aNbToInsert;
+  }
+}

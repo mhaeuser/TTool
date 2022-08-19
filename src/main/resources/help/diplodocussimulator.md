@@ -89,8 +89,10 @@ save-trace-in-file | stif | 7 | Saves the current trace of the simulation in a V
 show-timeline-trace | stlt | 7 4 | Show the current timeline diagram trace in HTML format | [Type: 2] Task List | [Type: 1] Scale idle time: 0 -> no, 1 -> yes | [Type: 2] Start Time  | [Type: 2] End Time  | - 
 set-variable | sv | 5 | Set the value of a variable | [Type: 1] task ID | [Type: 1] variable ID | [Type: 1] variable value | -  | - 
 stop | stop | 15 | Stops the currently running simulation | -  | -  | -  | -  | - 
-write-in-channel | wic | 6 | Writes y samples / events to channel / event x | [Type: 1] Channel ID | [Type: 2] Nb of samples | -  | -  | - 
+write-in-channel | wic | 6 | Writes y samples / events to channel / event x | [Type: 2] Channel ID or Channel name | [Type: 2] Nb of samples | -  | -  | - 
 add-virtual-signals | avs | 1 16 | Send virtual events to channel | [Type: 2] Channel name | [Type: 2] Nb of samples | [Type: 2] value of samples | -  | - 
 save-status-in-file | ssif | 27 | Saves the current status into a file | [Type: 2] File name | -  | -  | -  | - 
 save-time-in-file | stf | 28 | Saves the current time into a file | [Type: 2] File name | -  | -  | -  | - 
+write-samples-in-channel | wsic | 29 | Writes y samples from channel x | [Type: 2] Channel ID or Channel name | [Type: 2] Nb of samples | -  | -  | - 
+read-from-channel | rfc | 30 | Reads y samples from channel x | [Type: 2] Channel ID or Channel name | [Type: 2] Nb of samples | -  | -  | - 
 

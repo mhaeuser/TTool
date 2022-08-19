@@ -231,7 +231,77 @@ public:
 		return aNbToInsert;
 	}
 
+	TMLLength writeSamples(TMLLength iNbOfSamples, Parameter* iParam){
+  		TMLLength aNbToInsert = iNbOfSamples; 
 
+	#ifdef LOSS_ENABLED
+		if (this->_maxNbOfLosses > this->_nbOfLosses && this->_lossRate!=0 && myrand(0,99) < this->_lossRate){
+			this->_nbOfLosses++;
+		}else{
+	#endif
+			
+			if (aNbToInsert>0){		
+				this->_content+=aNbToInsert;
+				iParam = this->_writeTrans->getCommand()->setParams(0);
+				for (TMLLength i=0; i<aNbToInsert; i++) this->_paramQueue.push_back(iParam);
+	#ifdef STATE_HASH_ENABLED
+				iParam->getStateHash(& this->_stateHash);  //new in if
+	#endif
+			}
+			if (this->_readTrans!=0 && this->_readTrans->getVirtualLength()==0){
+				this->_readTrans->setRunnableTime(this->_writeTrans->getEndTime());
+				this->_readTrans->setChannel(this);
+				this->_readTrans->setVirtualLength(WAIT_SEND_VLEN);
+			}
+	#ifdef LOSS_ENABLED
+		}
+	#endif
+	#ifdef LISTENERS_ENABLED
+		NOTIFY_WRITE_TRANS_EXECUTED(this->_writeTrans);
+	#endif
+		this->_writeTrans=0; //TEST 
+  
+  		std::cout << "\nWriting in EventB Channel: " << aNbToInsert << ";" << std::endl;
+  		std::cout << "\n_content: " << this->_content << ";" << std::endl;
+  		return aNbToInsert;
+	}
+
+
+	TMLLength readSamples(TMLLength iNbOfSamples, Parameter* iParam){
+    		TMLLength aNbToInsert = iNbOfSamples;  
+    		
+    		if (this->_content<1){
+    			aNbToInsert = 0;
+			return aNbToInsert;
+		}else{
+			if (this->_content==0 && _sourceIsFile) readNextEvents();
+			if (aNbToInsert>0 && this->_content>=iNbOfSamples){
+				this->_content-=aNbToInsert;
+				for (TMLLength i=0; i<aNbToInsert; i++){
+					this->_readTrans->getCommand()->setParams(this->_paramQueue.front());
+					delete dynamic_cast<SizedParameter<T,paramNo>*>(this->_paramQueue.front());
+					this->_paramQueue.pop_front();  //NEW
+				}
+			}else if (aNbToInsert>0 && this->_content<iNbOfSamples){
+				aNbToInsert = this->_content;
+				this->_content=0;
+				for (TMLLength i=0; i<aNbToInsert; i++){
+					this->_readTrans->getCommand()->setParams(this->_paramQueue.front());
+					delete dynamic_cast<SizedParameter<T,paramNo>*>(this->_paramQueue.front());
+					this->_paramQueue.pop_front();  //NEW
+				}
+			}
+	#ifdef STATE_HASH_ENABLED
+			this->_hashValid = false;
+	#endif
+			
+	#ifdef LISTENERS_ENABLED
+			NOTIFY_READ_TRANS_EXECUTED(this->_readTrans);
+	#endif
+			this->_readTrans=0;
+			return aNbToInsert;
+		}
+	}
 
 	protected:
 		void readNextEvents(){

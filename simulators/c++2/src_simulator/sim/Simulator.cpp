@@ -981,7 +981,7 @@ bool Simulator::simulate(TMLTransaction*& oLastTrans){
   CPU* depCPU;
   FPGA* depFPGA;
 
-  bool isFinish=true;
+  bool isFinish=false;
 //  bool isHanging = false;
 //  long countMaxTrans = 0;
 
@@ -1014,8 +1014,9 @@ bool Simulator::simulate(TMLTransaction*& oLastTrans){
 #endif
 
 
-  if( transLET !=0 && _simComp->getStopFlag())
-    isFinish=false;
+  if( transLET ==0 && _simComp->getStopFlag()){
+    isFinish=true;
+  }
 
   while ( transLET!=0 && !_simComp->getStopFlag()){
 #ifdef DEBUG_SIMULATE
@@ -1032,6 +1033,9 @@ bool Simulator::simulate(TMLTransaction*& oLastTrans){
 	      isFinish = true;
 	      break;
 	      }
+      //   else{
+      //   isFinish = false;
+      // }
 	    int cnt = 0;
         int cnt1 = 0;
 	    for(TaskList::const_iterator i=_simComp->getNonDaemonTaskList().begin(); i != _simComp->getNonDaemonTaskList().end(); ++i){
@@ -1048,8 +1052,6 @@ bool Simulator::simulate(TMLTransaction*& oLastTrans){
 	    }
 	  }
 	}
-	else
-	  isFinish=false;
 
 
 #ifdef DEBUG_SIMULATE
@@ -1214,7 +1216,6 @@ bool Simulator::simulate(TMLTransaction*& oLastTrans){
   bool aSimCompleted = ( transLET==0  && !_simComp->getStoppedOnAction());
   if(isFinish==true)
     aSimCompleted = true;
-
 
   if (aSimCompleted){
 #ifdef LISTENERS_ENABLED
@@ -2511,7 +2512,7 @@ void Simulator::exploreTree(unsigned int iDepth, ID iPrevID, std::ofstream& iAUT
     std::cout << "run to next done" << std::endl;
     aRandomCmd = _simComp->getCurrentRandomCmd();
     //std::cout << "Random command:" << aRandomCmd <<std::endl;
-  }while (!aSimTerminated && aRandomCmd==0 && _simComp->wasKnownStateReached()==0);
+  }while (_simComp->getStopFlag()==false && !aSimTerminated && aRandomCmd==0 && _simComp->wasKnownStateReached()==0);
 #ifdef EXPLOGRAPH_ENABLED
   std::cout << "Explo graph AUT" << std::endl;
   aLastID = schedule2GraphAUT(iAUTFile, iPrevID,oTransCounter);

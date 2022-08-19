@@ -172,9 +172,20 @@ public:
     */ 
 	inline virtual TMLLength insertSamples(TMLLength iNbOfSamples, Parameter* iParam) {return iNbOfSamples;}
 
+	///Writes samples into the channel
+	/**
+	\param iNbOfSamples Number of samples to write
+	\param iParam Parameter to write
+    */ 
+	inline virtual TMLLength writeSamples(TMLLength iNbOfSamples, Parameter* iParam) {return iNbOfSamples;}
 
-
-
+	///Reads samples from the channel
+	/**
+	\param iNbOfSamples Number of samples to read
+	\param iParam Parameter to read
+    */ 
+	inline virtual TMLLength readSamples(TMLLength iNbOfSamples, Parameter* iParam) {return iNbOfSamples;}
+	
 	///Writes XML information about the component to a stream
 	/**
       	\param s Reference to an output stream

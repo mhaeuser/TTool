@@ -41,6 +41,8 @@ package avatartranslator.mutation;
 import avatartranslator.*;
 import myutil.TraceManager;
 
+import java.util.List;
+
 /**
  * Class RmStateMutation
  * Creation: 27/06/2022
@@ -58,6 +60,18 @@ public class RmStateMutation extends StateMutation implements RmMutation {
     public void apply(AvatarSpecification _avspec) throws ApplyMutationException {
         AvatarState state = getElement(_avspec);
         AvatarStateMachine asm = getAvatarStateMachine(_avspec);
+        List<AvatarStateMachineElement> elements = asm.getListOfElements();
+        for (AvatarStateMachineElement element : elements) {
+            if (element.getNexts().contains(state)){
+                for (AvatarStateMachineElement element2 : elements) {
+                    if (element2.getNexts().contains(element)){
+                        element2.removeNext(element);
+                    }
+                }
+                asm.removeElement(element);
+            }
+        }
+        state.removeAllNexts();
         asm.removeElement(state);
     }
 

@@ -40,6 +40,9 @@ package avatartranslator.mutation;
 
 import avatartranslator.*;
 
+import java.util.LinkedList;
+import java.util.List;
+
 /**
  * Class MdRandomMutation
  * Creation: 28/06/2022
@@ -64,6 +67,25 @@ public class RmActionOnSignalMutation extends ActionOnSignalMutation implements 
         AvatarActionOnSignal aaos = getElement(_avspec);
         if (aaos == null) {
             throw new ApplyMutationException("no such action on signal in block " + getBlockName());
+        }
+        List<AvatarStateMachineElement> asmElements = asm.getListOfElements();
+        List<AvatarStateMachineElement> asmElementsToRemove = new LinkedList<>();
+        //adding to the asmElementsToRemove list the transitions leading to the action on signal operator
+        for (AvatarStateMachineElement element : asmElements) {
+            if (element.getNexts().contains(aaos)) {
+                for (AvatarStateMachineElement element2 : asmElements) {
+                    if (element2.getNexts().contains(element)) {
+                        element2.removeNext(element);
+                    }
+                }
+                asmElementsToRemove.add(element);
+            }
+            //adding to the asmElementsToRemove list the transitions starting from the action on signal operator
+            asmElementsToRemove.addAll(aaos.getNexts());
+        }
+        //removing the incoming and outgoing transitions from the Avatar specification
+        for (AvatarStateMachineElement element : asmElementsToRemove){
+            asm.removeElement(element);
         }
         asm.removeElement(aaos);
     }

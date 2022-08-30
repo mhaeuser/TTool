@@ -63,6 +63,7 @@ public class RmStateMutation extends StateMutation implements RmMutation {
         AvatarStateMachine asm = getAvatarStateMachine(_avspec);
         List<AvatarStateMachineElement> asmElements = asm.getListOfElements();
         List<AvatarStateMachineElement> asmElementsToRemove = new LinkedList<>();
+        //adding to the asmElementsToRemove list the transitions leading to the state
         for (AvatarStateMachineElement element : asmElements) {
             if (element.getNexts().contains(state)) {
                 for (AvatarStateMachineElement element2 : asmElements) {
@@ -72,13 +73,10 @@ public class RmStateMutation extends StateMutation implements RmMutation {
                 }
                 asmElementsToRemove.add(element);
             }
-            if (element == state) {
-                for (AvatarStateMachineElement element3 : state.getNexts()) {
-                    asmElementsToRemove.add(element3);
-                }
-            }
+            //adding to the asmElementsToRemove list the transitions starting from the state
+            asmElementsToRemove.addAll(state.getNexts());
         }
-        System.out.println(asmElementsToRemove.toString());
+        //removing the incoming and outgoing transitions from the Avatar specification
         for (AvatarStateMachineElement element : asmElementsToRemove){
             asm.removeElement(element);
         }

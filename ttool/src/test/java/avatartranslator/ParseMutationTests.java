@@ -53,6 +53,8 @@ import org.junit.Test;
 
 import avatartranslator.*;
 import avatartranslator.mutation.*;
+
+import java.util.ArrayList;
 import java.util.List;
 
 public class ParseMutationTests {
@@ -265,10 +267,20 @@ public class ParseMutationTests {
     @Test
     public void createFromStringRmState() throws ParseMutationException, ApplyMutationException {
         addStates();
-        AvatarMutation mutation = AvatarMutation.createFromString("rm state state0 in block");
+        AvatarMutation mutation = AvatarMutation.createFromString("add transition in block from state1 to state0");
         mutation.apply(as);
-        assertTrue(block.getStateMachine().getNbOfStatesElement() == 1);
-        assertTrue(block.getStateMachine().getState(0).getName().equals("state1"));
+        mutation = AvatarMutation.createFromString("add transition in block from state0 to state1");
+        mutation.apply(as);
+        mutation = AvatarMutation.createFromString("rm state state0 in block");
+        AvatarStateMachine asm = block.getStateMachine();
+        List<AvatarStateMachineElement> transitions = asm.getElementsLeadingTo(asm.getStateWithName("state0"));
+        transitions.addAll(asm.getStateWithName("state0").getNexts());
+        mutation.apply(as);
+        for (AvatarStateMachineElement transition : transitions){
+            assertFalse(asm.getListOfElements().contains(transition));
+        }
+        assertTrue(asm.getNbOfStatesElement() == 1);
+        assertTrue(asm.getState(0).getName().equals("state1"));
     }
 
     public AvatarTransition addTransitions() throws ParseMutationException, ApplyMutationException {
@@ -356,18 +368,56 @@ public class ParseMutationTests {
     @Test
     public void createFromStringRmActionOnSignal1() throws ParseMutationException, ApplyMutationException {
         addActionOnSignal();
-        AvatarMutation mutation = AvatarMutation.createFromString("rm action on signal in block with cin");
+        addStates();
+        AvatarMutation mutation = AvatarMutation.createFromString("add transition in block from state0 to aaos");
         mutation.apply(as);
+        mutation = AvatarMutation.createFromString("add transition in block from aaos to state1");
+        mutation.apply(as);
+        mutation = AvatarMutation.createFromString("rm action on signal in block with cin");
         AvatarStateMachine asm = block.getStateMachine();
+        List<AvatarStateMachineElement> elements = asm.getListOfElements();
+        List<AvatarStateMachineElement> transitions = new ArrayList<>();
+        for (AvatarStateMachineElement element :elements){
+            if (element instanceof AvatarActionOnSignal){
+                if (((AvatarActionOnSignal) element).getSignal().equals(block.getSignalByName("cin"))){
+                    transitions = asm.getElementsLeadingTo(element);
+                    transitions.addAll(element.getNexts());
+                    break;
+                }
+            }
+        }
+        mutation.apply(as);
+        for (AvatarStateMachineElement transition : transitions){
+            assertFalse(asm.getListOfElements().contains(transition));
+        }
         assertFalse(asm.isSignalUsed(block.getSignalByName("cin")));
     }
 
     @Test
     public void createFromStringRmActionOnSignal2() throws ParseMutationException, ApplyMutationException {
         addActionOnSignal();
-        AvatarMutation mutation = AvatarMutation.createFromString("rm action on signal aaos in block");
+        addStates();
+        AvatarMutation mutation = AvatarMutation.createFromString("add transition in block from state0 to aaos");
         mutation.apply(as);
+        mutation = AvatarMutation.createFromString("add transition in block from aaos to state1");
+        mutation.apply(as);
+        mutation = AvatarMutation.createFromString("rm action on signal aaos in block");
         AvatarStateMachine asm = block.getStateMachine();
+        List<AvatarStateMachineElement> elements = asm.getListOfElements();
+        List<AvatarStateMachineElement> transitions = new ArrayList<>();
+        for (AvatarStateMachineElement element :elements){
+            if (element instanceof AvatarActionOnSignal){
+                if (((AvatarActionOnSignal) element).getSignal().equals(block.getSignalByName("cin"))){
+                    transitions = asm.getElementsLeadingTo(element);
+                    transitions.addAll(element.getNexts());
+                    break;
+                }
+            }
+        }
+        mutation.apply(as);
+        for (AvatarStateMachineElement transition : transitions){
+            assertFalse(asm.getListOfElements().contains(transition));
+        }
         assertFalse(asm.isSignalUsed(block.getSignalByName("cin")));
     }
 

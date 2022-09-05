@@ -41,6 +41,9 @@ package avatartranslator.mutation;
 import avatartranslator.*;
 import myutil.TraceManager;
 
+import java.util.LinkedList;
+import java.util.List;
+
 /**
  * Class RmStateMutation
  * Creation: 27/06/2022
@@ -58,6 +61,25 @@ public class RmStateMutation extends StateMutation implements RmMutation {
     public void apply(AvatarSpecification _avspec) throws ApplyMutationException {
         AvatarState state = getElement(_avspec);
         AvatarStateMachine asm = getAvatarStateMachine(_avspec);
+        List<AvatarStateMachineElement> asmElements = asm.getListOfElements();
+        List<AvatarStateMachineElement> asmElementsToRemove = new LinkedList<>();
+        //adding to the asmElementsToRemove list the transitions leading to the state
+        for (AvatarStateMachineElement element : asmElements) {
+            if (element.getNexts().contains(state)) {
+                for (AvatarStateMachineElement element2 : asmElements) {
+                    if (element2.getNexts().contains(element)) {
+                        element2.removeNext(element);
+                    }
+                }
+                asmElementsToRemove.add(element);
+            }
+            //adding to the asmElementsToRemove list the transitions starting from the state
+            asmElementsToRemove.addAll(state.getNexts());
+        }
+        //removing the incoming and outgoing transitions from the Avatar specification
+        for (AvatarStateMachineElement element : asmElementsToRemove){
+            asm.removeElement(element);
+        }
         asm.removeElement(state);
     }
 

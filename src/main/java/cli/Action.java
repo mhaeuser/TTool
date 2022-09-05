@@ -69,6 +69,9 @@ import ui.*;
 import javax.swing.*;
 import java.awt.*;
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -116,6 +119,7 @@ public class Action extends Command {
     private final static String SELECT_PANEL = "select-panel";
 
     private final static String AVATAR_MUTATION = "avatar-mutation";
+    private final static String AVATAR_MUTATION_BATCH = "avatar-mutation-batch";
     private final static String AVATAR_DRAW = "avatar-draw";
     private final static String AVATAR_PRINT = "avatar-draw";
     private final static String AVATAR_RG_GENERATION = "avatar-rg";
@@ -1032,6 +1036,76 @@ public class Action extends Command {
             }
         };
 
+
+        Command makeMutationBatchFromAvatar = new Command() {
+            public String getCommand() {
+                return AVATAR_MUTATION_BATCH;
+            }
+
+            public String getShortCommand() {
+                return "amb";
+            }
+
+            public String getDescription() {
+                return "Perform a series of mutations on an AVATAR spec";
+            }
+
+            public String getUsage() {
+                return "[MUTATION]\n";
+            }
+
+            public String getExample() {
+                return "amb path_to_command_file";
+            }
+
+            public String executeCommand(String command, Interpreter interpreter) {
+
+                if (!interpreter.isTToolStarted()) {
+                    return Interpreter.TTOOL_NOT_STARTED;
+                }
+
+                String[] commands = command.split(" ");
+                if (commands.length < 1) {
+                    return Interpreter.BAD;
+                }
+
+                AvatarSpecification spec = interpreter.mgui.gtm.getAvatarSpecification();
+
+                if (spec == null) {
+                    return "No AVATAR specification";
+                }
+
+                List<String> mutationList = null;
+                try {
+                    mutationList = Files.readAllLines(new File(command).toPath());
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+
+                for (String mutationCommand:mutationList){
+                    try {
+                        AvatarMutation am = AvatarMutation.createFromString(mutationCommand);
+                        if (am != null) {
+                            am.apply(spec);
+                        }
+                    } catch (ParseMutationException e) {
+                        TraceManager.addDev("Exception in parsing mutation: " + e.getMessage());
+                        return e.getMessage();
+                    } catch (ApplyMutationException e) {
+                        TraceManager.addDev("Exception in applying mutation: " + e.getMessage());
+                        return e.getMessage();
+                    }
+                }
+
+                return null;
+            }
+        };
+
+
+
+
+
+
         Command printAvatarSpec = new Command() {
             public String getCommand() {
                 return AVATAR_PRINT;
@@ -1762,6 +1836,7 @@ public class Action extends Command {
 
         addAndSortSubcommand(printAvatarSpec);
         addAndSortSubcommand(makeMutationFromAvatar);
+        addAndSortSubcommand(makeMutationBatchFromAvatar);
         addAndSortSubcommand(drawAvatarSpec);
         addAndSortSubcommand(avatarSimulationToBrk);
         addAndSortSubcommand(avatarSimulationSelectTrace);

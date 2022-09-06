@@ -40,6 +40,8 @@ package avatartranslator.mutation;
 
 import avatartranslator.*;
 
+import java.util.List;
+
 /**
  * Class AddAssociationMutation
  * Creation: 29/06/2022
@@ -66,7 +68,12 @@ public class AddConnectionMutation extends ConnectionMutation implements AddMuta
         if (relation == null) {
             throw new ApplyMutationException("no such relation");
         }
-        relation.addSignals(getSignal1(_avspec), getSignal2(_avspec));
+        if (relation.getBlock1() == getBlock2(_avspec) && relation.getBlock2() == getBlock1(_avspec)){
+            relation.addSignals(getSignal2(_avspec), getSignal1(_avspec));
+        }
+        else {
+            relation.addSignals(getSignal1(_avspec), getSignal2(_avspec));
+        }
     }
 
     public static AddConnectionMutation createFromString(String toParse) throws ParseMutationException {

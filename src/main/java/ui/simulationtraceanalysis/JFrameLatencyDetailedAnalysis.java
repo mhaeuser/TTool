@@ -510,6 +510,8 @@ public class JFrameLatencyDetailedAnalysis extends JFrame implements ActionListe
 
     protected void generateDirectedGraph(TMLMapping<TGComponent> tmap, List<TMLComponentDesignPanel> cpanels) {
         try {
+
+            long timeStart = System.currentTimeMillis();
             dgraph = new DependencyGraphTranslator(tmap);
             tc.setDgraph(dgraph);
             pbar.setMaximum(dgraph.getNodeNbProgressBar());
@@ -531,8 +533,9 @@ public class JFrameLatencyDetailedAnalysis extends JFrame implements ActionListe
                 }
             });
             dgraph.DrawDirectedGraph();
+            long timeEnd = System.currentTimeMillis();
             jta.append("A directed graph with " + dgraph.getGraphsize() + " vertices and " + dgraph.getGraphEdgeSet()
-                    + " edges has been successfully generated.\n");
+                    + " edges has been successfully generated.\nThe computation took " + (timeEnd-timeStart) + " ms\n");
             // buttonSaveDGraph.setEnabled(true);
             if (dgraph.getWarnings().size() > 0) {
                 jta.append("Warnings: \n ");
@@ -700,8 +703,10 @@ public class JFrameLatencyDetailedAnalysis extends JFrame implements ActionListe
         } else if (command.equals(actions[LatencyDetailedAnalysisActions.ACT_CHECK_PATH].getActionCommand())) {
             String task1 = tasksDropDownCombo1.getSelectedItem().toString();
             String task2 = tasksDropDownCombo2.getSelectedItem().toString();
+            long timeStart = System.currentTimeMillis();
             String message = dgraph.checkPath(task1, task2);
-            jta.append(message + " :" + task1 + " and " + task2 + ".\n");
+            long timeEnd = System.currentTimeMillis();
+            jta.append(message + " :" + task1 + " and " + task2 + ".\nThe computation took " + (timeEnd-timeStart) + " ms\n");
         } else if (command.equals(actions[LatencyDetailedAnalysisActions.ACT_ADD_RULE].getActionCommand())) {
             String node1 = tasksDropDownCombo3.getSelectedItem().toString();
             String node2 = tasksDropDownCombo4.getSelectedItem().toString();
@@ -858,6 +863,7 @@ public class JFrameLatencyDetailedAnalysis extends JFrame implements ActionListe
     }
 
     protected void preciselatencyAnalysis(int row1) throws InterruptedException {
+
         tc.getT().join();
         Boolean taint = taintFirstOp.isSelected();
         int selectedIndex = resultTab.getSelectedIndex();
@@ -912,6 +918,7 @@ public class JFrameLatencyDetailedAnalysis extends JFrame implements ActionListe
 
     protected void latencyDetailedAnalysis() {
         try {
+            long timeStart = System.currentTimeMillis();
             preciseAnalysisbutton.setEnabled(false);
             String task1 = tasksDropDownCombo1.getSelectedItem().toString();
             String task2 = tasksDropDownCombo2.getSelectedItem().toString();
@@ -986,7 +993,9 @@ public class JFrameLatencyDetailedAnalysis extends JFrame implements ActionListe
             scrollPane11.revalidate();
             scrollPane11.repaint();
             // scrollPane11.setVisible(true);
-            jta.append("Latency has been computed...Please refer to the tables in the Latency Analysis section for the results.\n");
+            long timeEnd = System.currentTimeMillis();
+            jta.append("Latency has been computed...Please refer to the tables in the Latency Analysis section for the results.\n The computation " +
+                    "took " + (timeEnd - timeStart) + " ms\n");
             latencybutton.setEnabled(true);
             this.pack();
             this.setVisible(true);
@@ -1044,6 +1053,10 @@ public class JFrameLatencyDetailedAnalysis extends JFrame implements ActionListe
 
     public Vector<String> getCheckedTransactions() {
         return checkedTransactions;
+    }
+
+    public void preciseLatencyCompute(String text, long computationTime) {
+        jta.append("The computation of " + text +  " took " + computationTime + " ms\n");
     }
 
     @Override

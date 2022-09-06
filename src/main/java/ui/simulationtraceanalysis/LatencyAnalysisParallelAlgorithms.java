@@ -43,8 +43,11 @@ public class LatencyAnalysisParallelAlgorithms implements Runnable {
         if (algorithmId == 1) {
             jFrameLDA.generateDirectedGraph(tmap, cpanels);
         } else if (algorithmId == 2) {
+            long timeStart = System.currentTimeMillis();
             dataDetailedByTask = dgraph.getTaskByRowDetails(row);
             dataMandatoryOptional = dgraph.getMandatoryOptionalByRow(row);
+            long timeEnd = System.currentTimeMillis();
+            jFrameLDA.preciseLatencyCompute("precise latency analysis", timeEnd - timeStart);
         } else if (algorithmId == 3) {
             dataDetailedByTask = dgraph.getTaskByRowDetailsMinMaxTaint(row);
         } else if (algorithmId == 4) {

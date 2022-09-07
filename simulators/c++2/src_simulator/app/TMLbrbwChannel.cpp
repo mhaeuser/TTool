@@ -225,7 +225,7 @@ TMLLength TMLbrbwChannel::writeSamples(TMLLength iNbOfSamples, Parameter* iParam
   }
 #endif
   if (_readTrans!=0 && _readTrans->getVirtualLength()==0){
-  	  _readTrans->setRunnableTime(_writeTrans->getEndTime());
+  	  //_readTrans->setRunnableTime(_writeTrans->getEndTime());
           _readTrans->setVirtualLength(min(_content,_nbToRead));
           _overflow=false;
   }
@@ -244,17 +244,17 @@ TMLLength TMLbrbwChannel::writeSamples(TMLLength iNbOfSamples, Parameter* iParam
 
 
 TMLLength TMLbrbwChannel::readSamples(TMLLength iNbOfSamples, Parameter* iParam){
-    TMLLength aNbToInsert = iNbOfSamples;  
-    if (_content<aNbToInsert){
-    	aNbToInsert=0;
-    	return aNbToInsert;
+  TMLLength aNbToInsert = iNbOfSamples;  
+  if (_content<aNbToInsert){
+    aNbToInsert=0;
+    return aNbToInsert;
   } else {
     _content-=aNbToInsert;
     _nbToRead=0;
     if (_writeTrans!=0 && _writeTrans->getVirtualLength()==0){
-    	    _writeTrans->setRunnableTime(_readTrans->getEndTime());
-            _writeTrans->setVirtualLength(min(_length-_content,_nbToWrite));
-            _underflow=false;
+    	//_writeTrans->setRunnableTime(_readTrans->getEndTime());
+      _writeTrans->setVirtualLength(min(_length-_content,_nbToWrite));
+      _underflow=false;
     }
     //FOR_EACH_TRANSLISTENER (*i)->transExecuted(_readTrans);
 #ifdef LISTENERS_ENABLED

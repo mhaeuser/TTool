@@ -62,7 +62,12 @@ public class RmConnectionMutation extends ConnectionMutation implements RmMutati
         if (relation == null) {
             throw new ApplyMutationException("no such relation");
         }
-        relation.removeAssociation(getSignal1(_avspec), getSignal2(_avspec));
+        if (relation.getBlock1() == getBlock2(_avspec) && relation.getBlock2() == getBlock1(_avspec)){
+            relation.removeAssociation(getSignal2(_avspec), getSignal1(_avspec));
+        }
+        else {
+            relation.removeAssociation(getSignal1(_avspec), getSignal2(_avspec));
+        }
     }
 
     public static RmConnectionMutation createFromString(String toParse) throws ParseMutationException {

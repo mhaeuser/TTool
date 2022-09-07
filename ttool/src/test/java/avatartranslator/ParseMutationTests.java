@@ -166,7 +166,6 @@ public class ParseMutationTests {
     public void addSignal() throws ParseMutationException, ApplyMutationException {
         AvatarMutation mutation = AvatarMutation.createFromString("add input signal cin(int x, bool y) in block");
         mutation.apply(as);
-
         mutation = AvatarMutation.createFromString("add output signal cout() in block");
         mutation.apply(as);
 
@@ -180,6 +179,10 @@ public class ParseMutationTests {
 
         TraceManager.addDev(block.getSignals().get(0).toString());
         TraceManager.addDev(block.getSignals().get(1).toString());
+
+        AvatarMutation mutation = AvatarMutation.createFromString("add output signal outSig() in block");
+        mutation.apply(as);
+        assertTrue(as.getBlockWithName("block").getSignalByName("outSig").isOut());
     }
 
     @Test
@@ -653,6 +656,12 @@ public class ParseMutationTests {
         addSignal();
         AvatarMutation mutation = AvatarMutation.createFromString("add input signal cin0() in block0");
         mutation.apply(as);
+        mutation = AvatarMutation.createFromString("add output signal bout() in block");
+        mutation.apply(as);
+        mutation = AvatarMutation.createFromString("add input signal b0in() in block0");
+        mutation.apply(as);
+        mutation = AvatarMutation.createFromString("add connection from bout in block to b0in in block0");
+        mutation.apply(as);
         mutation = AvatarMutation.createFromString("add connection from cout in block to cin0 in block0");
         mutation.apply(as);
         return relation;
@@ -661,7 +670,7 @@ public class ParseMutationTests {
     @Test
     public void createFromStringAddConnection() throws ParseMutationException, ApplyMutationException {
         AvatarRelation relation = addConnection();
-        assertTrue(relation.nbOfSignals() == 1);
+        assertEquals(relation.nbOfSignals(), 2);
     }
 
     @Test
@@ -669,7 +678,13 @@ public class ParseMutationTests {
         AvatarRelation relation = addConnection();
         AvatarMutation mutation = AvatarMutation.createFromString("rm connection from cout in block to cin0 in block0");
         mutation.apply(as);
-        assertTrue(relation.nbOfSignals() == 0);
+        assertEquals(relation.nbOfSignals(),1);
+        assertFalse(relation.getSignals1().contains(as.getBlockWithName("block").getSignalByName("cout")));
+        assertFalse(relation.getSignals2().contains(as.getBlockWithName("block0").getSignalByName("cin0")));
+
+        mutation = AvatarMutation.createFromString("rm connection from bout in block to b0in in block0");
+        mutation.apply(as);
+        assertEquals(relation.nbOfSignals(), 0);
     }
 
     @Test

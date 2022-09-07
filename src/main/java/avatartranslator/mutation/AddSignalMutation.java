@@ -88,11 +88,9 @@ public class AddSignalMutation extends SignalMutation implements AddMutation {
 
         int _inout;
         switch (MutationParser.findInOutToken(toParse)) {
-            case "IN":
             case "INPUT":
                 _inout = AvatarSignal.IN;
                 break;
-            case "OUT":
             case "OUTPUT":
                 _inout = AvatarSignal.OUT;
                 break;

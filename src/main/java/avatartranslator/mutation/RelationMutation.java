@@ -269,6 +269,8 @@ public abstract class RelationMutation extends AvatarMutation implements Unnamed
 
                 flag = flag && relation.getBlock2().getName().equals(this.getBlock2());
 
+                flag = flag || (relation.getBlock1().getName().equals(this.getBlock2()) && relation.getBlock2().getName().equals(this.getBlock1()));
+
                 if (flag && blockingSet()) flag = (relation.isBlocking() == this.isBlocking());
 
                 if (flag && asynchronousSet()) flag = (relation.isAsynchronous() == this.isAsynchronous());

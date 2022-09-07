@@ -54,7 +54,7 @@ public interface MutationParser {
 
     public static final String[] MUTATION_TOKENS = {"ADD", "RM", "REMOVE", "MD", "MODIFY", "SWAP", "ATTACH", "DETACH", "SWAP"};
     public static final String[] ELEMENT_TOKENS = {"ATTRIBUTE", "METHOD", "INPUT", "OUTPUT", "STATE", "ACTION", "RANDOM", "SET", "RESET", "EXPIRE", "TRANSITION", "CONNECTION", "LINK", "SIGNAL", "BLOCK"};
-    public static final String[] INOUT_TOKENS = {"IN", "INPUT", "OUT", "OUTPUT"};
+    public static final String[] INOUT_TOKENS = {"INPUT", "OUTPUT"};
     public static final String[] KEYWORD_TOKENS = {"IN", "FROM", "TO", "WITH", "AND", "LATENCY", "AT", "BETWEEN"};
     public static final String[] PUBLIC_TOKENS = {"PUBLIC", "PRIVATE"};
     public static final String[] SYNCH_TOKENS = {"SYNCHRONOUS", "SYNCH", "ASYNCHRONOUS", "ASYNCH"};

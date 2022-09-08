@@ -72,7 +72,6 @@ public:
 	inline TMLTask* getBlockedWriteTask() const {return 0;}
 	std::string toString() const;
 	virtual TMLLength insertSamples(TMLLength iNbOfSamples, Parameter* iParam);
-	virtual TMLLength writeSamples(TMLLength iNbOfSamples, Parameter* iParam);
 	virtual TMLLength readSamples(TMLLength iNbOfSamples, Parameter* iParam);
 protected:
 	///Determines the virtual length of read and write transactions based on the state of the channel

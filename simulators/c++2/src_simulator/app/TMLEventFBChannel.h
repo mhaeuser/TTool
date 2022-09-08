@@ -176,41 +176,6 @@ public:
 		return aNbToInsert;
 	}
 	
-	TMLLength writeSamples(TMLLength iNbOfSamples, Parameter* iParam){
-  		TMLLength aNbToInsert = iNbOfSamples; 
-  
-  	#ifdef LOSS_ENABLED
-	  	if (this->_maxNbOfLosses > this->_nbOfLosses && this->_lossRate!=0 && (unsigned int)myrand(0,99) < this->_lossRate){
-			this->_nbOfLosses++;
-		} else {
-	#endif
-			
-			if (aNbToInsert>0){
-				this->_content+=aNbToInsert;
-				for (TMLLength i=0; i<aNbToInsert; i++) this->_paramQueue.push_back(iParam);
-	#ifdef STATE_HASH_ENABLED
-				iParam->getStateHash(& this->_stateHash);   //NEW in if
-	#endif
-			}
-			if (this->_readTrans!=0 && this->_readTrans->getVirtualLength()==0){
-				this->_readTrans->setRunnableTime(this->_writeTrans->getEndTime());
-				this->_readTrans->setChannel(this);
-				this->_readTrans->setVirtualLength(WAIT_SEND_VLEN);
-			}
-	#ifdef LOSS_ENABLED
-		}
-	#endif	
-		
-	#ifdef LISTENERS_ENABLED
-		NOTIFY_WRITE_TRANS_EXECUTED(this->_writeTrans);
-	#endif
-		this->_writeTrans=0; //TEST 
-  
-  		std::cout << "\nWriting in EventFB Channel: " << aNbToInsert << ";" << std::endl;
-  		std::cout << "\n_content: " << this->_content << ";" << std::endl;
-  		return aNbToInsert;
-	}
-
 
 	TMLLength readSamples(TMLLength iNbOfSamples, Parameter* iParam){
     		TMLLength aNbToInsert = iNbOfSamples;  

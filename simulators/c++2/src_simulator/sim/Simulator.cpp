@@ -2356,33 +2356,7 @@ void Simulator::decodeCommand(std::string iCmd, std::ostream& iXmlOutStream){
     std::cout << "End Save time in file x." << std::endl;
     break;
   }
-  case 29: { //write x samples from channel y
-    std::cout << "write x samples from channel y." << std::endl;
-    aInpStream >> aStrParam;
-    std::string channelName = aStrParam;
-    if (channelName[0]<'0' || channelName[0]>'9'){
-    	channelName =_simComp->getChannelList(aStrParam);
-    }
-    TMLChannel* aChannel = _simComp->getChannelByName(channelName);
-    if (aChannel==0){
-      aGlobMsg << TAG_MSGo << MSG_CMPNFOUND << TAG_MSGc << std::endl;
-      anErrorCode=2;
-    } else {
-      aInpStream >> aParam1;
-      TMLEventChannel* anEventChannel = dynamic_cast<TMLEventChannel*>(aChannel);
-      if (anEventChannel==0){
-        aChannel->writeSamples(aParam1, 0);
-      } else {
-        Parameter* anInsertParam = anEventChannel->buildParameter();
-        aInpStream >> anInsertParam;
-        aChannel->writeSamples(aParam1, anInsertParam);
-      }
-      aGlobMsg << TAG_MSGo << "Write data from channel." << TAG_MSGc << std::endl;
-    }
-    std::cout << "End Write x samples from channel y." << std::endl;
-    break;
-  }
-  case 30: { //Read x samples from channel y
+  case 29: { //Read x samples from channel y
     std::cout << "Read x samples from channel y." << std::endl;
     aInpStream >> aStrParam;
     std::string channelName = aStrParam;

@@ -172,12 +172,6 @@ public:
     */ 
 	inline virtual TMLLength insertSamples(TMLLength iNbOfSamples, Parameter* iParam) {return iNbOfSamples;}
 
-	///Writes samples into the channel
-	/**
-	\param iNbOfSamples Number of samples to write
-	\param iParam Parameter to write
-    */ 
-	inline virtual TMLLength writeSamples(TMLLength iNbOfSamples, Parameter* iParam) {return iNbOfSamples;}
 
 	///Reads samples from the channel
 	/**

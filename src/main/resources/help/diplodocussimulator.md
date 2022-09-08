@@ -93,6 +93,5 @@ write-in-channel | wic | 6 | Writes y samples / events to channel / event x | [T
 add-virtual-signals | avs | 1 16 | Send virtual events to channel | [Type: 2] Channel name | [Type: 2] Nb of samples | [Type: 2] value of samples | -  | - 
 save-status-in-file | ssif | 27 | Saves the current status into a file | [Type: 2] File name | -  | -  | -  | - 
 save-time-in-file | stf | 28 | Saves the current time into a file | [Type: 2] File name | -  | -  | -  | - 
-write-samples-in-channel | wsic | 29 | Writes y samples from channel x | [Type: 2] Channel ID or Channel name | [Type: 2] Nb of samples | -  | -  | - 
-read-from-channel | rfc | 30 | Reads y samples from channel x | [Type: 2] Channel ID or Channel name | [Type: 2] Nb of samples | -  | -  | - 
+read-from-channel | rfc | 29 | Reads y samples from channel x | [Type: 2] Channel ID or Channel name | [Type: 2] Nb of samples | -  | -  | - 
 

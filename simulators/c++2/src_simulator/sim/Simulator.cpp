@@ -981,7 +981,7 @@ bool Simulator::simulate(TMLTransaction*& oLastTrans){
   CPU* depCPU;
   FPGA* depFPGA;
 
-  bool isFinish=true;
+  bool isFinish=false;
 //  bool isHanging = false;
 //  long countMaxTrans = 0;
 
@@ -1014,8 +1014,9 @@ bool Simulator::simulate(TMLTransaction*& oLastTrans){
 #endif
 
 
-  if( transLET !=0 && _simComp->getStopFlag())
-    isFinish=false;
+  if( transLET ==0 && _simComp->getStopFlag()){
+    isFinish=true;
+  }
 
   while ( transLET!=0 && !_simComp->getStopFlag()){
 #ifdef DEBUG_SIMULATE
@@ -1032,6 +1033,9 @@ bool Simulator::simulate(TMLTransaction*& oLastTrans){
 	      isFinish = true;
 	      break;
 	      }
+      //   else{
+      //   isFinish = false;
+      // }
 	    int cnt = 0;
         int cnt1 = 0;
 	    for(TaskList::const_iterator i=_simComp->getNonDaemonTaskList().begin(); i != _simComp->getNonDaemonTaskList().end(); ++i){
@@ -1048,8 +1052,6 @@ bool Simulator::simulate(TMLTransaction*& oLastTrans){
 	    }
 	  }
 	}
-	else
-	  isFinish=false;
 
 
 #ifdef DEBUG_SIMULATE
@@ -1214,7 +1216,6 @@ bool Simulator::simulate(TMLTransaction*& oLastTrans){
   bool aSimCompleted = ( transLET==0  && !_simComp->getStoppedOnAction());
   if(isFinish==true)
     aSimCompleted = true;
-
 
   if (aSimCompleted){
 #ifdef LISTENERS_ENABLED
@@ -2041,7 +2042,11 @@ void Simulator::decodeCommand(std::string iCmd, std::ostream& iXmlOutStream){
     //aGlobMsg << TAG_MSGo << MSG_CMDNIMPL << TAG_MSGc << std::endl;
     //anErrorCode=1;
     aInpStream >> aStrParam;
-    TMLChannel* aChannel = _simComp->getChannelByName(aStrParam);
+    std::string channelName = aStrParam;
+    if (channelName[0]<'0' || channelName[0]>'9'){
+    	channelName =_simComp->getChannelList(aStrParam);
+    }
+    TMLChannel* aChannel = _simComp->getChannelByName(channelName);
     if (aChannel==0){
       aGlobMsg << TAG_MSGo << MSG_CMPNFOUND << TAG_MSGc << std::endl;
       anErrorCode=2;
@@ -2351,6 +2356,32 @@ void Simulator::decodeCommand(std::string iCmd, std::ostream& iXmlOutStream){
     std::cout << "End Save time in file x." << std::endl;
     break;
   }
+  case 29: { //Read x samples from channel y
+    std::cout << "Read x samples from channel y." << std::endl;
+    aInpStream >> aStrParam;
+    std::string channelName = aStrParam;
+    if (channelName[0]<'0' || channelName[0]>'9'){
+    	channelName =_simComp->getChannelList(aStrParam);
+    }
+    TMLChannel* aChannel = _simComp->getChannelByName(channelName);
+    if (aChannel==0){
+      aGlobMsg << TAG_MSGo << MSG_CMPNFOUND << TAG_MSGc << std::endl;
+      anErrorCode=2;
+    } else {
+      aInpStream >> aParam1;
+      TMLEventChannel* anEventChannel = dynamic_cast<TMLEventChannel*>(aChannel);
+      if (anEventChannel==0){
+        aChannel->readSamples(aParam1, 0);
+      } else {
+        Parameter* anInsertParam = anEventChannel->buildParameter();
+        aInpStream >> anInsertParam;
+        aChannel->readSamples(aParam1, anInsertParam);
+      }
+      aGlobMsg << TAG_MSGo << "Read data from channel." << TAG_MSGc << std::endl;
+    }
+    std::cout << "End Read x samples from channel y." << std::endl;
+    break;
+  }
   default:
     anEntityMsg << TAG_MSGo << MSG_CMDNFOUND<< TAG_MSGc << std::endl;
     anErrorCode=3;
@@ -2511,7 +2542,7 @@ void Simulator::exploreTree(unsigned int iDepth, ID iPrevID, std::ofstream& iAUT
     std::cout << "run to next done" << std::endl;
     aRandomCmd = _simComp->getCurrentRandomCmd();
     //std::cout << "Random command:" << aRandomCmd <<std::endl;
-  }while (!aSimTerminated && aRandomCmd==0 && _simComp->wasKnownStateReached()==0);
+  }while (_simComp->getStopFlag()==false && !aSimTerminated && aRandomCmd==0 && _simComp->wasKnownStateReached()==0);
 #ifdef EXPLOGRAPH_ENABLED
   std::cout << "Explo graph AUT" << std::endl;
   aLastID = schedule2GraphAUT(iAUTFile, iPrevID,oTransCounter);

@@ -207,3 +207,26 @@ TMLLength TMLbrbwChannel::insertSamples(TMLLength iNbOfSamples, Parameter* iPara
   setTransactionLength();
   return aNbToInsert;
 }
+
+
+TMLLength TMLbrbwChannel::readSamples(TMLLength iNbOfSamples, Parameter* iParam){
+  TMLLength aNbToInsert = iNbOfSamples;  
+  if (_content<aNbToInsert){
+    aNbToInsert=0;
+    return aNbToInsert;
+  } else {
+    _content-=aNbToInsert;
+    _nbToRead=0;
+    if (_writeTrans!=0 && _writeTrans->getVirtualLength()==0){
+    	//_writeTrans->setRunnableTime(_readTrans->getEndTime());
+      _writeTrans->setVirtualLength(min(_length-_content,_nbToWrite));
+      _underflow=false;
+    }
+    //FOR_EACH_TRANSLISTENER (*i)->transExecuted(_readTrans);
+#ifdef LISTENERS_ENABLED
+    NOTIFY_READ_TRANS_EXECUTED(_readTrans);
+#endif
+    _readTrans=0;
+    return aNbToInsert;
+  }
+}

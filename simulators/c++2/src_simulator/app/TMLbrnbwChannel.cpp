@@ -167,3 +167,21 @@ TMLLength TMLbrnbwChannel::insertSamples(TMLLength iNbOfSamples, Parameter* iPar
 	return aNbToInsert;
 }
 
+
+TMLLength TMLbrnbwChannel::readSamples(TMLLength iNbOfSamples, Parameter* iParam){
+    TMLLength aNbToInsert = iNbOfSamples;  
+	if (_content<aNbToInsert){
+		aNbToInsert = 0; 
+		return aNbToInsert;
+	}else{
+		_content-=aNbToInsert;
+		_nbToRead=0;
+		//FOR_EACH_TRANSLISTENER (*i)->transExecuted(_readTrans);
+#ifdef LISTENERS_ENABLED
+		NOTIFY_READ_TRANS_EXECUTED(_readTrans);
+#endif
+		_readTrans=0;
+		return aNbToInsert;
+	}
+}
+

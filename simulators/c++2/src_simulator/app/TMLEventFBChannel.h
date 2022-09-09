@@ -175,6 +175,47 @@ public:
 		if (this->_readTrans!=0) this->_readTrans->setVirtualLength((this->_content>0)?WAIT_SEND_VLEN:0);
 		return aNbToInsert;
 	}
+	
+
+	TMLLength readSamples(TMLLength iNbOfSamples, Parameter* iParam){
+    		TMLLength aNbToInsert = iNbOfSamples;  
+    		
+    		if (this->_content<1){
+    			aNbToInsert = 0;
+			return aNbToInsert;
+		}else{
+			if (aNbToInsert>0 && this->_content>=aNbToInsert){
+				this->_content-=aNbToInsert;
+				for (TMLLength i=0; i<aNbToInsert; i++){
+					this->_readTrans->getCommand()->setParams(this->_paramQueue.front());
+					delete dynamic_cast<SizedParameter<T,paramNo>*>(this->_paramQueue.front());
+					this->_paramQueue.pop_front();  //NEW
+				}
+			}else if (aNbToInsert>0 && this->_content<aNbToInsert){
+				aNbToInsert = this->_content;
+				for (TMLLength i=0; i<aNbToInsert; i++){
+					this->_readTrans->getCommand()->setParams(this->_paramQueue.front());
+					delete dynamic_cast<SizedParameter<T,paramNo>*>(this->_paramQueue.front());
+					this->_paramQueue.pop_front();  //NEW
+				}
+				this->_content=0;
+
+			}
+	#ifdef STATE_HASH_ENABLED
+			this->_hashValid = false;
+	#endif
+			if (this->_writeTrans!=0 && this->_writeTrans->getVirtualLength()==0){
+				//this->_writeTrans->setRunnableTime(this->_readTrans->getEndTime());
+				this->_writeTrans->setChannel(this);
+				this->_writeTrans->setVirtualLength(WAIT_SEND_VLEN);
+			}
+	#ifdef LISTENERS_ENABLED	
+			NOTIFY_READ_TRANS_EXECUTED(this->_readTrans);
+	#endif
+			this->_readTrans=0;
+			return aNbToInsert;
+		}
+	}
 protected:
 	///Length of the channel
 	TMLLength _length;

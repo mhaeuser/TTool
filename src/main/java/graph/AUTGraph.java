@@ -1751,7 +1751,7 @@ public class AUTGraph implements myutil.Graph {
     }
 
     public int getMaxValue(String nameOfTransition) {
-        int maxValue = -1;
+        int maxValue = 0;
         //System.out.println("executing. min value");
         for (AUTTransition tr : transitions) {
             //System.out.println("executing. Dealing with " + tr.transition);

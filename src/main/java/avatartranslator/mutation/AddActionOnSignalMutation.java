@@ -40,6 +40,8 @@ package avatartranslator.mutation;
 
 import avatartranslator.*;
 
+import java.util.ArrayList;
+
 /**
  * Class AddActionOnSignalMutation
  * Creation: 28/06/2022
@@ -102,7 +104,16 @@ public class AddActionOnSignalMutation extends ActionOnSignalMutation implements
         }
 
         String[] _values = parseValues(toParse);
-        mutation.setValues(_values);
+        //Provisional workaround for parsing actions on signal with several parameters
+        int i = 0;
+        ArrayList<String> buffer = new ArrayList<String>();
+        for (String value : _values){
+            if (i%2 == 0){
+                buffer.add(value);
+            }
+            i++;
+        }
+        mutation.setValues(buffer.toArray(new String[buffer.size()]));
 
         index = MutationParser.indexOf(tokens, "CHECK");
         if (index != -1) {

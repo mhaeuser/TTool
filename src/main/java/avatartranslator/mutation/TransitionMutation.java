@@ -41,6 +41,7 @@ package avatartranslator.mutation;
 import avatartranslator.*;
 //import myutil.TraceManager;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -480,7 +481,17 @@ public abstract class TransitionMutation extends UnnamedStateMachineElementMutat
 
         //TraceManager.addDev("actions to parse : " + _toParse);
 
-        return MutationParser.tokenise(_toParse, ";");
+        //Provisional workaround for parsing transitions with several actions
+        String[] parsed = MutationParser.tokenise(_toParse, "|");
+        int i = 0;
+        ArrayList<String> buffer = new ArrayList<String>();
+        for (String string : parsed){
+            if (i%2 == 0){
+                buffer.add(string);
+            }
+            i++;
+        }
+        return buffer.toArray(new String[buffer.size()]);
     }
 
     public static String parseProbability(String toParse) throws ParseMutationException {

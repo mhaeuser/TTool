@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<TURTLEGMODELING version="1.0beta" ANIMATE_INTERACTIVE_SIMULATION="true" ACTIVATE_PENALTIES="false" UPDATE_INFORMATION_DIPLO_SIM="false" ANIMATE_WITH_INFO_DIPLO_SIM="true" OPEN_DIAG_DIPLO_SIM="false" LAST_SELECTED_MAIN_TAB="9" LAST_SELECTED_SUB_TAB="0">
+<TURTLEGMODELING version="1.0beta" ANIMATE_INTERACTIVE_SIMULATION="true" ACTIVATE_PENALTIES="false" UPDATE_INFORMATION_DIPLO_SIM="false" ANIMATE_WITH_INFO_DIPLO_SIM="true" OPEN_DIAG_DIPLO_SIM="false" LAST_SELECTED_MAIN_TAB="10" LAST_SELECTED_SUB_TAB="0">
 
 <Modeling type="Diplodocus Methodology" nameTab="DIPLODOCUS_Methodology" >
 <DiplodocusMethodologyDiagramPanel name="DIPLODOCUS_Methodology" minX="10" maxX="2500" minY="10" maxY="1500" zoom="1.0" >
@@ -2731,12 +2731,12 @@ processing tasks
 </COMPONENT>
 
 <COMPONENT type="1011" id="925" index="3" uid="957e2944-2aac-4efa-877e-0eaf21e83c07" >
-<cdparam x="370" y="116" />
-<sizeparam width="75" height="20" minWidth="30" minHeight="1" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
+<cdparam x="362" y="116" />
+<sizeparam width="91" height="20" minWidth="30" minHeight="1" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <hidden value="false" />
 <enabled value="true" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
-<infoparam name="action state" value="size = 1" />
+<infoparam name="action state" value="size = 10000" />
 <new d="false" />
 <TGConnectingPoint num="0" id="923" />
 <TGConnectingPoint num="1" id="924" />
@@ -16654,6 +16654,1665 @@ sequence diagram.
 <infoparam name="connector" value="{info}" />
 <P1  x="868" y="981" id="7405" />
 <P2  x="907" y="925" id="7443" />
+<AutomaticDrawing  data="true" />
+<new d="false" />
+<extraparam>
+<info priority="0" />
+<spy value="false" />
+</extraparam>
+</CONNECTOR>
+
+</TMLArchiDiagramPanel>
+
+</Modeling>
+
+
+
+
+<Modeling type="TML Architecture" nameTab="MappingNoCP" >
+<TMLArchiDiagramPanel name="DIPLODOCUS architecture and mapping Diagram" minX="10" maxX="1900" minY="10" maxY="1900" attributes="0" considerExecOperators="true" considerTimingOperators="true" masterClockFrequency="200" zoom="1.0" >
+<COMPONENT type="1100" id="7578" index="0" uid="8ff8f0b1-2168-48a0-8c01-b8c1f4cd2050" >
+<cdparam x="560" y="807" />
+<sizeparam width="150" height="100" minWidth="150" minHeight="100" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
+<hidden value="false" />
+<cdrectangleparam minX="10" maxX="1900" minY="10" maxY="1900" />
+<infoparam name="INTL_DMA" value="name" />
+<new d="false" />
+<TGConnectingPoint num="0" id="7554" />
+<TGConnectingPoint num="1" id="7555" />
+<TGConnectingPoint num="2" id="7556" />
+<TGConnectingPoint num="3" id="7557" />
+<TGConnectingPoint num="4" id="7558" />
+<TGConnectingPoint num="5" id="7559" />
+<TGConnectingPoint num="6" id="7560" />
+<TGConnectingPoint num="7" id="7561" />
+<TGConnectingPoint num="8" id="7562" />
+<TGConnectingPoint num="9" id="7563" />
+<TGConnectingPoint num="10" id="7564" />
+<TGConnectingPoint num="11" id="7565" />
+<TGConnectingPoint num="12" id="7566" />
+<TGConnectingPoint num="13" id="7567" />
+<TGConnectingPoint num="14" id="7568" />
+<TGConnectingPoint num="15" id="7569" />
+<TGConnectingPoint num="16" id="7570" />
+<TGConnectingPoint num="17" id="7571" />
+<TGConnectingPoint num="18" id="7572" />
+<TGConnectingPoint num="19" id="7573" />
+<TGConnectingPoint num="20" id="7574" />
+<TGConnectingPoint num="21" id="7575" />
+<TGConnectingPoint num="22" id="7576" />
+<TGConnectingPoint num="23" id="7577" />
+<extraparam>
+<info stereotype="CPURR" nodeName="INTL_DMA" />
+<attributes nbOfCores="1" byteDataSize="4"  schedulingPolicy="0"  sliceTime="10000"  goIdleTime="10"  maxConsecutiveIdleCycles="10"  pipelineSize="5"  taskSwitchingTime="20"  branchingPredictionPenalty="2"  cacheMiss="5" execiTime="1" execcTime="1" clockRatio="1" operation="" MECType="0" encryption="0"/>
+</extraparam>
+</COMPONENT>
+
+<COMPONENT type="1100" id="7603" index="1" uid="ae73961b-8776-4872-82a8-01647cba25c4" >
+<cdparam x="543" y="422" />
+<sizeparam width="150" height="100" minWidth="150" minHeight="100" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
+<hidden value="false" />
+<cdrectangleparam minX="10" maxX="1900" minY="10" maxY="1900" />
+<infoparam name="ADAIF_DMA" value="name" />
+<new d="false" />
+<TGConnectingPoint num="0" id="7579" />
+<TGConnectingPoint num="1" id="7580" />
+<TGConnectingPoint num="2" id="7581" />
+<TGConnectingPoint num="3" id="7582" />
+<TGConnectingPoint num="4" id="7583" />
+<TGConnectingPoint num="5" id="7584" />
+<TGConnectingPoint num="6" id="7585" />
+<TGConnectingPoint num="7" id="7586" />
+<TGConnectingPoint num="8" id="7587" />
+<TGConnectingPoint num="9" id="7588" />
+<TGConnectingPoint num="10" id="7589" />
+<TGConnectingPoint num="11" id="7590" />
+<TGConnectingPoint num="12" id="7591" />
+<TGConnectingPoint num="13" id="7592" />
+<TGConnectingPoint num="14" id="7593" />
+<TGConnectingPoint num="15" id="7594" />
+<TGConnectingPoint num="16" id="7595" />
+<TGConnectingPoint num="17" id="7596" />
+<TGConnectingPoint num="18" id="7597" />
+<TGConnectingPoint num="19" id="7598" />
+<TGConnectingPoint num="20" id="7599" />
+<TGConnectingPoint num="21" id="7600" />
+<TGConnectingPoint num="22" id="7601" />
+<TGConnectingPoint num="23" id="7602" />
+<extraparam>
+<info stereotype="CPURR" nodeName="ADAIF_DMA" />
+<attributes nbOfCores="1" byteDataSize="4"  schedulingPolicy="0"  sliceTime="10000"  goIdleTime="10"  maxConsecutiveIdleCycles="10"  pipelineSize="5"  taskSwitchingTime="20"  branchingPredictionPenalty="2"  cacheMiss="5" execiTime="1" execcTime="1" clockRatio="1" operation="" MECType="0" encryption="0"/>
+</extraparam>
+</COMPONENT>
+
+<COMPONENT type="1105" id="7628" index="2" uid="0848355a-44d6-4c2b-a796-bd19081a609c" >
+<cdparam x="354" y="243" />
+<sizeparam width="200" height="152" minWidth="100" minHeight="35" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
+<hidden value="false" />
+<cdrectangleparam minX="10" maxX="1900" minY="10" maxY="1900" />
+<infoparam name="ADAIF_MSS" value="name" />
+<new d="false" />
+<TGConnectingPoint num="0" id="7604" />
+<TGConnectingPoint num="1" id="7605" />
+<TGConnectingPoint num="2" id="7606" />
+<TGConnectingPoint num="3" id="7607" />
+<TGConnectingPoint num="4" id="7608" />
+<TGConnectingPoint num="5" id="7609" />
+<TGConnectingPoint num="6" id="7610" />
+<TGConnectingPoint num="7" id="7611" />
+<TGConnectingPoint num="8" id="7612" />
+<TGConnectingPoint num="9" id="7613" />
+<TGConnectingPoint num="10" id="7614" />
+<TGConnectingPoint num="11" id="7615" />
+<TGConnectingPoint num="12" id="7616" />
+<TGConnectingPoint num="13" id="7617" />
+<TGConnectingPoint num="14" id="7618" />
+<TGConnectingPoint num="15" id="7619" />
+<TGConnectingPoint num="16" id="7620" />
+<TGConnectingPoint num="17" id="7621" />
+<TGConnectingPoint num="18" id="7622" />
+<TGConnectingPoint num="19" id="7623" />
+<TGConnectingPoint num="20" id="7624" />
+<TGConnectingPoint num="21" id="7625" />
+<TGConnectingPoint num="22" id="7626" />
+<TGConnectingPoint num="23" id="7627" />
+<extraparam>
+<info stereotype="MEMORY" nodeName="ADAIF_MSS" />
+<attributes byteDataSize="4"  memorySize="1024"  clockRatio="1"  bufferType="2" />
+</extraparam>
+</COMPONENT>
+<SUBCOMPONENT type="1103" id="8433" index="53" uid="4fe9c7fa-8682-4640-bb3a-5c7b8df3ffcd" >
+<father id="7628" num="0" />
+<cdparam x="305" y="308" />
+<sizeparam width="249" height="40" minWidth="75" minHeight="0" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
+<hidden value="false" />
+<cdrectangleparam minX="0" maxX="-49" minY="0" maxY="112" />
+<infoparam name="TGComponent" value="Zigbee_TX::cwpQ_ch_out__sink_ch_in" />
+<new d="false" />
+<TGConnectingPoint num="0" id="8434" />
+<TGConnectingPoint num="1" id="8435" />
+<TGConnectingPoint num="2" id="8436" />
+<TGConnectingPoint num="3" id="8437" />
+<TGConnectingPoint num="4" id="8438" />
+<TGConnectingPoint num="5" id="8439" />
+<TGConnectingPoint num="6" id="8440" />
+<TGConnectingPoint num="7" id="8441" />
+<extraparam>
+<info value="Zigbee_TX::cwpQ_ch_out__sink_ch_in" communicationName="cwpQ_ch_out__sink_ch_in" referenceCommunicationName="Zigbee_TX" mappedElements="" priority="0" typeName="channel" />
+</extraparam>
+</SUBCOMPONENT>
+
+<COMPONENT type="1100" id="7662" index="3" uid="3be70dff-0b78-46f9-a17c-1aadfaf9a965" >
+<cdparam x="29" y="214" />
+<sizeparam width="252" height="181" minWidth="150" minHeight="100" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
+<hidden value="false" />
+<cdrectangleparam minX="10" maxX="1900" minY="10" maxY="1900" />
+<infoparam name="ADAIF_PSS" value="name" />
+<new d="false" />
+<TGConnectingPoint num="0" id="7638" />
+<TGConnectingPoint num="1" id="7639" />
+<TGConnectingPoint num="2" id="7640" />
+<TGConnectingPoint num="3" id="7641" />
+<TGConnectingPoint num="4" id="7642" />
+<TGConnectingPoint num="5" id="7643" />
+<TGConnectingPoint num="6" id="7644" />
+<TGConnectingPoint num="7" id="7645" />
+<TGConnectingPoint num="8" id="7646" />
+<TGConnectingPoint num="9" id="7647" />
+<TGConnectingPoint num="10" id="7648" />
+<TGConnectingPoint num="11" id="7649" />
+<TGConnectingPoint num="12" id="7650" />
+<TGConnectingPoint num="13" id="7651" />
+<TGConnectingPoint num="14" id="7652" />
+<TGConnectingPoint num="15" id="7653" />
+<TGConnectingPoint num="16" id="7654" />
+<TGConnectingPoint num="17" id="7655" />
+<TGConnectingPoint num="18" id="7656" />
+<TGConnectingPoint num="19" id="7657" />
+<TGConnectingPoint num="20" id="7658" />
+<TGConnectingPoint num="21" id="7659" />
+<TGConnectingPoint num="22" id="7660" />
+<TGConnectingPoint num="23" id="7661" />
+<extraparam>
+<info stereotype="CPURR" nodeName="ADAIF_PSS" />
+<attributes nbOfCores="1" byteDataSize="4"  schedulingPolicy="0"  sliceTime="10000"  goIdleTime="10"  maxConsecutiveIdleCycles="10"  pipelineSize="5"  taskSwitchingTime="20"  branchingPredictionPenalty="2"  cacheMiss="5" execiTime="1" execcTime="1" clockRatio="1" operation="" MECType="4" encryption="0"/>
+</extraparam>
+</COMPONENT>
+<SUBCOMPONENT type="1101" id="7637" index="54" uid="5f6d38f7-8d93-4a46-a958-9ab96ecdc910" >
+<father id="7662" num="0" />
+<cdparam x="48" y="314" />
+<sizeparam width="141" height="40" minWidth="75" minHeight="1" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
+<hidden value="false" />
+<cdrectangleparam minX="0" maxX="111" minY="0" maxY="141" />
+<infoparam name="TGComponent" value="Zigbee_TX::X_Sink" />
+<new d="false" />
+<TGConnectingPoint num="0" id="7629" />
+<TGConnectingPoint num="1" id="7630" />
+<TGConnectingPoint num="2" id="7631" />
+<TGConnectingPoint num="3" id="7632" />
+<TGConnectingPoint num="4" id="7633" />
+<TGConnectingPoint num="5" id="7634" />
+<TGConnectingPoint num="6" id="7635" />
+<TGConnectingPoint num="7" id="7636" />
+<extraparam>
+<info value="Zigbee_TX::X_Sink" taskName="X_Sink" referenceTaskName="Zigbee_TX" priority="0" operationMEC="Adaif operation" fatherComponentMECType="4" />
+</extraparam>
+</SUBCOMPONENT>
+
+<COMPONENT type="1106" id="7687" index="4" uid="d7dde2e3-58e2-49ed-9618-202ab29cd542" >
+<cdparam x="306" y="545" />
+<sizeparam width="100" height="35" minWidth="100" minHeight="35" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
+<hidden value="false" />
+<cdrectangleparam minX="10" maxX="1900" minY="10" maxY="1900" />
+<infoparam name="ADAIF_Bridge" value="name" />
+<new d="false" />
+<TGConnectingPoint num="0" id="7663" />
+<TGConnectingPoint num="1" id="7664" />
+<TGConnectingPoint num="2" id="7665" />
+<TGConnectingPoint num="3" id="7666" />
+<TGConnectingPoint num="4" id="7667" />
+<TGConnectingPoint num="5" id="7668" />
+<TGConnectingPoint num="6" id="7669" />
+<TGConnectingPoint num="7" id="7670" />
+<TGConnectingPoint num="8" id="7671" />
+<TGConnectingPoint num="9" id="7672" />
+<TGConnectingPoint num="10" id="7673" />
+<TGConnectingPoint num="11" id="7674" />
+<TGConnectingPoint num="12" id="7675" />
+<TGConnectingPoint num="13" id="7676" />
+<TGConnectingPoint num="14" id="7677" />
+<TGConnectingPoint num="15" id="7678" />
+<TGConnectingPoint num="16" id="7679" />
+<TGConnectingPoint num="17" id="7680" />
+<TGConnectingPoint num="18" id="7681" />
+<TGConnectingPoint num="19" id="7682" />
+<TGConnectingPoint num="20" id="7683" />
+<TGConnectingPoint num="21" id="7684" />
+<TGConnectingPoint num="22" id="7685" />
+<TGConnectingPoint num="23" id="7686" />
+<extraparam>
+<info stereotype="BRIDGE" nodeName="ADAIF_Bridge" />
+<attributes bufferByteDataSize="4"  clockRatio="1" />
+</extraparam>
+</COMPONENT>
+
+<COMPONENT type="1105" id="7712" index="5" uid="56ead8ea-b462-4e4f-ab09-1a5e71457121" >
+<cdparam x="1544" y="737" />
+<sizeparam width="216" height="140" minWidth="100" minHeight="35" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
+<hidden value="false" />
+<cdrectangleparam minX="10" maxX="1900" minY="10" maxY="1900" />
+<infoparam name="MainMemory" value="name" />
+<new d="false" />
+<TGConnectingPoint num="0" id="7688" />
+<TGConnectingPoint num="1" id="7689" />
+<TGConnectingPoint num="2" id="7690" />
+<TGConnectingPoint num="3" id="7691" />
+<TGConnectingPoint num="4" id="7692" />
+<TGConnectingPoint num="5" id="7693" />
+<TGConnectingPoint num="6" id="7694" />
+<TGConnectingPoint num="7" id="7695" />
+<TGConnectingPoint num="8" id="7696" />
+<TGConnectingPoint num="9" id="7697" />
+<TGConnectingPoint num="10" id="7698" />
+<TGConnectingPoint num="11" id="7699" />
+<TGConnectingPoint num="12" id="7700" />
+<TGConnectingPoint num="13" id="7701" />
+<TGConnectingPoint num="14" id="7702" />
+<TGConnectingPoint num="15" id="7703" />
+<TGConnectingPoint num="16" id="7704" />
+<TGConnectingPoint num="17" id="7705" />
+<TGConnectingPoint num="18" id="7706" />
+<TGConnectingPoint num="19" id="7707" />
+<TGConnectingPoint num="20" id="7708" />
+<TGConnectingPoint num="21" id="7709" />
+<TGConnectingPoint num="22" id="7710" />
+<TGConnectingPoint num="23" id="7711" />
+<extraparam>
+<info stereotype="MEMORY" nodeName="MainMemory" />
+<attributes byteDataSize="4"  memorySize="1024"  clockRatio="1"  bufferType="4" />
+</extraparam>
+</COMPONENT>
+
+<COMPONENT type="1100" id="7809" index="6" uid="45634cfc-ed24-4c1a-b408-f6b81bbefcd0" >
+<cdparam x="1444" y="293" />
+<sizeparam width="417" height="293" minWidth="150" minHeight="100" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
+<hidden value="false" />
+<cdrectangleparam minX="10" maxX="1900" minY="10" maxY="1900" />
+<infoparam name="MainCPU" value="name" />
+<new d="false" />
+<TGConnectingPoint num="0" id="7785" />
+<TGConnectingPoint num="1" id="7786" />
+<TGConnectingPoint num="2" id="7787" />
+<TGConnectingPoint num="3" id="7788" />
+<TGConnectingPoint num="4" id="7789" />
+<TGConnectingPoint num="5" id="7790" />
+<TGConnectingPoint num="6" id="7791" />
+<TGConnectingPoint num="7" id="7792" />
+<TGConnectingPoint num="8" id="7793" />
+<TGConnectingPoint num="9" id="7794" />
+<TGConnectingPoint num="10" id="7795" />
+<TGConnectingPoint num="11" id="7796" />
+<TGConnectingPoint num="12" id="7797" />
+<TGConnectingPoint num="13" id="7798" />
+<TGConnectingPoint num="14" id="7799" />
+<TGConnectingPoint num="15" id="7800" />
+<TGConnectingPoint num="16" id="7801" />
+<TGConnectingPoint num="17" id="7802" />
+<TGConnectingPoint num="18" id="7803" />
+<TGConnectingPoint num="19" id="7804" />
+<TGConnectingPoint num="20" id="7805" />
+<TGConnectingPoint num="21" id="7806" />
+<TGConnectingPoint num="22" id="7807" />
+<TGConnectingPoint num="23" id="7808" />
+<extraparam>
+<info stereotype="CPURR" nodeName="MainCPU" />
+<attributes nbOfCores="1" byteDataSize="4"  schedulingPolicy="0"  sliceTime="10000"  goIdleTime="10"  maxConsecutiveIdleCycles="10"  pipelineSize="5"  taskSwitchingTime="20"  branchingPredictionPenalty="2"  cacheMiss="5" execiTime="1" execcTime="1" clockRatio="1" operation="" MECType="0" encryption="0"/>
+</extraparam>
+</COMPONENT>
+<SUBCOMPONENT type="1101" id="7721" index="55" uid="9442742e-69da-423e-9f06-6a5f91d3102e" >
+<father id="7809" num="0" />
+<cdparam x="1465" y="339" />
+<sizeparam width="154" height="40" minWidth="75" minHeight="1" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
+<hidden value="false" />
+<cdrectangleparam minX="0" maxX="263" minY="0" maxY="253" />
+<infoparam name="TGComponent" value="Zigbee_TX::F_Source" />
+<new d="false" />
+<TGConnectingPoint num="0" id="7713" />
+<TGConnectingPoint num="1" id="7714" />
+<TGConnectingPoint num="2" id="7715" />
+<TGConnectingPoint num="3" id="7716" />
+<TGConnectingPoint num="4" id="7717" />
+<TGConnectingPoint num="5" id="7718" />
+<TGConnectingPoint num="6" id="7719" />
+<TGConnectingPoint num="7" id="7720" />
+<extraparam>
+<info value="Zigbee_TX::F_Source" taskName="F_Source" referenceTaskName="Zigbee_TX" priority="0" operationMEC="F_Source" fatherComponentMECType="0" />
+</extraparam>
+</SUBCOMPONENT>
+<SUBCOMPONENT type="1101" id="7730" index="56" uid="b2700cf4-0d18-47e3-85f8-efbe667484bb" >
+<father id="7809" num="1" />
+<cdparam x="1466" y="395" />
+<sizeparam width="156" height="40" minWidth="75" minHeight="1" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
+<hidden value="false" />
+<cdrectangleparam minX="0" maxX="261" minY="0" maxY="253" />
+<infoparam name="TGComponent" value="Zigbee_TX::X_Source" />
+<new d="false" />
+<TGConnectingPoint num="0" id="7722" />
+<TGConnectingPoint num="1" id="7723" />
+<TGConnectingPoint num="2" id="7724" />
+<TGConnectingPoint num="3" id="7725" />
+<TGConnectingPoint num="4" id="7726" />
+<TGConnectingPoint num="5" id="7727" />
+<TGConnectingPoint num="6" id="7728" />
+<TGConnectingPoint num="7" id="7729" />
+<extraparam>
+<info value="Zigbee_TX::X_Source" taskName="X_Source" referenceTaskName="Zigbee_TX" priority="0" operationMEC="X_Source" fatherComponentMECType="0" />
+</extraparam>
+</SUBCOMPONENT>
+<SUBCOMPONENT type="1101" id="7739" index="57" uid="c12e46ed-2736-49e3-b4d6-f398ff7f6555" >
+<father id="7809" num="2" />
+<cdparam x="1466" y="456" />
+<sizeparam width="212" height="40" minWidth="75" minHeight="1" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
+<hidden value="false" />
+<cdrectangleparam minX="0" maxX="205" minY="0" maxY="253" />
+<infoparam name="TGComponent" value="Zigbee_TX::F_Symbol2ChipSeq" />
+<new d="false" />
+<TGConnectingPoint num="0" id="7731" />
+<TGConnectingPoint num="1" id="7732" />
+<TGConnectingPoint num="2" id="7733" />
+<TGConnectingPoint num="3" id="7734" />
+<TGConnectingPoint num="4" id="7735" />
+<TGConnectingPoint num="5" id="7736" />
+<TGConnectingPoint num="6" id="7737" />
+<TGConnectingPoint num="7" id="7738" />
+<extraparam>
+<info value="Zigbee_TX::F_Symbol2ChipSeq" taskName="F_Symbol2ChipSeq" referenceTaskName="Zigbee_TX" priority="0" operationMEC="F_Symbol2ChipSeq" fatherComponentMECType="0" />
+</extraparam>
+</SUBCOMPONENT>
+<SUBCOMPONENT type="1101" id="7748" index="58" uid="9844385d-c260-40a3-afe1-2a914f6eabf5" >
+<father id="7809" num="3" />
+<cdparam x="1466" y="518" />
+<sizeparam width="180" height="40" minWidth="75" minHeight="1" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
+<hidden value="false" />
+<cdrectangleparam minX="0" maxX="237" minY="0" maxY="253" />
+<infoparam name="TGComponent" value="Zigbee_TX::F_Chip2Octet" />
+<new d="false" />
+<TGConnectingPoint num="0" id="7740" />
+<TGConnectingPoint num="1" id="7741" />
+<TGConnectingPoint num="2" id="7742" />
+<TGConnectingPoint num="3" id="7743" />
+<TGConnectingPoint num="4" id="7744" />
+<TGConnectingPoint num="5" id="7745" />
+<TGConnectingPoint num="6" id="7746" />
+<TGConnectingPoint num="7" id="7747" />
+<extraparam>
+<info value="Zigbee_TX::F_Chip2Octet" taskName="F_Chip2Octet" referenceTaskName="Zigbee_TX" priority="0" operationMEC="F_Chip2Octet" fatherComponentMECType="0" />
+</extraparam>
+</SUBCOMPONENT>
+<SUBCOMPONENT type="1101" id="7757" index="59" uid="db312088-57c2-467c-95e5-cf9b9ad2e3ee" >
+<father id="7809" num="4" />
+<cdparam x="1688" y="405" />
+<sizeparam width="139" height="40" minWidth="75" minHeight="1" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
+<hidden value="false" />
+<cdrectangleparam minX="0" maxX="278" minY="0" maxY="253" />
+<infoparam name="TGComponent" value="Zigbee_TX::F_Sink" />
+<new d="false" />
+<TGConnectingPoint num="0" id="7749" />
+<TGConnectingPoint num="1" id="7750" />
+<TGConnectingPoint num="2" id="7751" />
+<TGConnectingPoint num="3" id="7752" />
+<TGConnectingPoint num="4" id="7753" />
+<TGConnectingPoint num="5" id="7754" />
+<TGConnectingPoint num="6" id="7755" />
+<TGConnectingPoint num="7" id="7756" />
+<extraparam>
+<info value="Zigbee_TX::F_Sink" taskName="F_Sink" referenceTaskName="Zigbee_TX" priority="0" operationMEC="F_Sink" fatherComponentMECType="0" />
+</extraparam>
+</SUBCOMPONENT>
+<SUBCOMPONENT type="1101" id="7766" index="60" uid="f0f36b27-dabb-4fe5-91b1-676381f603c2" >
+<father id="7809" num="5" />
+<cdparam x="1691" y="345" />
+<sizeparam width="140" height="40" minWidth="75" minHeight="1" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
+<hidden value="false" />
+<cdrectangleparam minX="0" maxX="277" minY="0" maxY="253" />
+<infoparam name="TGComponent" value="Zigbee_TX::F_CWL" />
+<new d="false" />
+<TGConnectingPoint num="0" id="7758" />
+<TGConnectingPoint num="1" id="7759" />
+<TGConnectingPoint num="2" id="7760" />
+<TGConnectingPoint num="3" id="7761" />
+<TGConnectingPoint num="4" id="7762" />
+<TGConnectingPoint num="5" id="7763" />
+<TGConnectingPoint num="6" id="7764" />
+<TGConnectingPoint num="7" id="7765" />
+<extraparam>
+<info value="Zigbee_TX::F_CWL" taskName="F_CWL" referenceTaskName="Zigbee_TX" priority="0" operationMEC="F_CWL" fatherComponentMECType="0" />
+</extraparam>
+</SUBCOMPONENT>
+<SUBCOMPONENT type="1101" id="7775" index="61" uid="8a88c1d3-e489-4f1e-8452-344dae8cd0f5" >
+<father id="7809" num="6" />
+<cdparam x="1685" y="459" />
+<sizeparam width="156" height="40" minWidth="75" minHeight="1" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
+<hidden value="false" />
+<cdrectangleparam minX="0" maxX="261" minY="0" maxY="253" />
+<infoparam name="TGComponent" value="Zigbee_TX::F_CWP_Q" />
+<new d="false" />
+<TGConnectingPoint num="0" id="7767" />
+<TGConnectingPoint num="1" id="7768" />
+<TGConnectingPoint num="2" id="7769" />
+<TGConnectingPoint num="3" id="7770" />
+<TGConnectingPoint num="4" id="7771" />
+<TGConnectingPoint num="5" id="7772" />
+<TGConnectingPoint num="6" id="7773" />
+<TGConnectingPoint num="7" id="7774" />
+<extraparam>
+<info value="Zigbee_TX::F_CWP_Q" taskName="F_CWP_Q" referenceTaskName="Zigbee_TX" priority="0" operationMEC="F_CWP_Q" fatherComponentMECType="0" />
+</extraparam>
+</SUBCOMPONENT>
+<SUBCOMPONENT type="1101" id="7784" index="62" uid="bf3e725b-e30e-4135-a59d-8ddff47d3aae" >
+<father id="7809" num="7" />
+<cdparam x="1686" y="522" />
+<sizeparam width="150" height="40" minWidth="75" minHeight="1" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
+<hidden value="false" />
+<cdrectangleparam minX="0" maxX="267" minY="0" maxY="253" />
+<infoparam name="TGComponent" value="Zigbee_TX::F_CWP_I" />
+<new d="false" />
+<TGConnectingPoint num="0" id="7776" />
+<TGConnectingPoint num="1" id="7777" />
+<TGConnectingPoint num="2" id="7778" />
+<TGConnectingPoint num="3" id="7779" />
+<TGConnectingPoint num="4" id="7780" />
+<TGConnectingPoint num="5" id="7781" />
+<TGConnectingPoint num="6" id="7782" />
+<TGConnectingPoint num="7" id="7783" />
+<extraparam>
+<info value="Zigbee_TX::F_CWP_I" taskName="F_CWP_I" referenceTaskName="Zigbee_TX" priority="0" operationMEC="F_CWP_I" fatherComponentMECType="0" />
+</extraparam>
+</SUBCOMPONENT>
+
+<COMPONENT type="1102" id="7834" index="7" uid="a0f0a6aa-ec3b-4868-a798-334019ecd0bd" >
+<cdparam x="1527" y="635" />
+<sizeparam width="250" height="50" minWidth="100" minHeight="50" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
+<hidden value="false" />
+<cdrectangleparam minX="10" maxX="1900" minY="10" maxY="1900" />
+<infoparam name="MainBus" value="name" />
+<new d="false" />
+<TGConnectingPoint num="0" id="7810" />
+<TGConnectingPoint num="1" id="7811" />
+<TGConnectingPoint num="2" id="7812" />
+<TGConnectingPoint num="3" id="7813" />
+<TGConnectingPoint num="4" id="7814" />
+<TGConnectingPoint num="5" id="7815" />
+<TGConnectingPoint num="6" id="7816" />
+<TGConnectingPoint num="7" id="7817" />
+<TGConnectingPoint num="8" id="7818" />
+<TGConnectingPoint num="9" id="7819" />
+<TGConnectingPoint num="10" id="7820" />
+<TGConnectingPoint num="11" id="7821" />
+<TGConnectingPoint num="12" id="7822" />
+<TGConnectingPoint num="13" id="7823" />
+<TGConnectingPoint num="14" id="7824" />
+<TGConnectingPoint num="15" id="7825" />
+<TGConnectingPoint num="16" id="7826" />
+<TGConnectingPoint num="17" id="7827" />
+<TGConnectingPoint num="18" id="7828" />
+<TGConnectingPoint num="19" id="7829" />
+<TGConnectingPoint num="20" id="7830" />
+<TGConnectingPoint num="21" id="7831" />
+<TGConnectingPoint num="22" id="7832" />
+<TGConnectingPoint num="23" id="7833" />
+<extraparam>
+<info stereotype="BUS-RR" nodeName="MainBus" />
+<attributes byteDataSize="4"  arbitrationPolicy="0"  sliceTime="10000"  pipelineSize="1"  burstSize="100"  clockRatio="1"  privacy="0"  referenceAttack="" />
+</extraparam>
+</COMPONENT>
+
+<COMPONENT type="1106" id="7859" index="8" uid="833b4370-fc5d-49bd-a7c5-ee751080f5e9" >
+<cdparam x="1367" y="610" />
+<sizeparam width="100" height="100" minWidth="100" minHeight="35" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
+<hidden value="false" />
+<cdrectangleparam minX="10" maxX="1900" minY="10" maxY="1900" />
+<infoparam name="MainBridge" value="name" />
+<new d="false" />
+<TGConnectingPoint num="0" id="7835" />
+<TGConnectingPoint num="1" id="7836" />
+<TGConnectingPoint num="2" id="7837" />
+<TGConnectingPoint num="3" id="7838" />
+<TGConnectingPoint num="4" id="7839" />
+<TGConnectingPoint num="5" id="7840" />
+<TGConnectingPoint num="6" id="7841" />
+<TGConnectingPoint num="7" id="7842" />
+<TGConnectingPoint num="8" id="7843" />
+<TGConnectingPoint num="9" id="7844" />
+<TGConnectingPoint num="10" id="7845" />
+<TGConnectingPoint num="11" id="7846" />
+<TGConnectingPoint num="12" id="7847" />
+<TGConnectingPoint num="13" id="7848" />
+<TGConnectingPoint num="14" id="7849" />
+<TGConnectingPoint num="15" id="7850" />
+<TGConnectingPoint num="16" id="7851" />
+<TGConnectingPoint num="17" id="7852" />
+<TGConnectingPoint num="18" id="7853" />
+<TGConnectingPoint num="19" id="7854" />
+<TGConnectingPoint num="20" id="7855" />
+<TGConnectingPoint num="21" id="7856" />
+<TGConnectingPoint num="22" id="7857" />
+<TGConnectingPoint num="23" id="7858" />
+<extraparam>
+<info stereotype="BRIDGE" nodeName="MainBridge" />
+<attributes bufferByteDataSize="4"  clockRatio="1" />
+</extraparam>
+</COMPONENT>
+
+<COMPONENT type="1102" id="7884" index="9" uid="464ecad9-fec7-4c23-b88c-74f3fd802990" >
+<cdparam x="231" y="635" />
+<sizeparam width="845" height="50" minWidth="100" minHeight="50" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
+<hidden value="false" />
+<cdrectangleparam minX="10" maxX="1900" minY="10" maxY="1900" />
+<infoparam name="Crossbar" value="name" />
+<new d="false" />
+<TGConnectingPoint num="0" id="7860" />
+<TGConnectingPoint num="1" id="7861" />
+<TGConnectingPoint num="2" id="7862" />
+<TGConnectingPoint num="3" id="7863" />
+<TGConnectingPoint num="4" id="7864" />
+<TGConnectingPoint num="5" id="7865" />
+<TGConnectingPoint num="6" id="7866" />
+<TGConnectingPoint num="7" id="7867" />
+<TGConnectingPoint num="8" id="7868" />
+<TGConnectingPoint num="9" id="7869" />
+<TGConnectingPoint num="10" id="7870" />
+<TGConnectingPoint num="11" id="7871" />
+<TGConnectingPoint num="12" id="7872" />
+<TGConnectingPoint num="13" id="7873" />
+<TGConnectingPoint num="14" id="7874" />
+<TGConnectingPoint num="15" id="7875" />
+<TGConnectingPoint num="16" id="7876" />
+<TGConnectingPoint num="17" id="7877" />
+<TGConnectingPoint num="18" id="7878" />
+<TGConnectingPoint num="19" id="7879" />
+<TGConnectingPoint num="20" id="7880" />
+<TGConnectingPoint num="21" id="7881" />
+<TGConnectingPoint num="22" id="7882" />
+<TGConnectingPoint num="23" id="7883" />
+<extraparam>
+<info stereotype="BUS-RR" nodeName="Crossbar" />
+<attributes byteDataSize="4"  arbitrationPolicy="0"  sliceTime="10000"  pipelineSize="1"  burstSize="100"  clockRatio="1"  privacy="0"  referenceAttack="" />
+</extraparam>
+</COMPONENT>
+
+<COMPONENT type="1106" id="7909" index="10" uid="a636ad91-86a7-41d2-9038-7400ee9c8377" >
+<cdparam x="306" y="737" />
+<sizeparam width="100" height="51" minWidth="100" minHeight="50" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
+<hidden value="false" />
+<cdrectangleparam minX="10" maxX="1900" minY="10" maxY="1900" />
+<infoparam name="INTL_Bridge" value="name" />
+<new d="false" />
+<TGConnectingPoint num="0" id="7885" />
+<TGConnectingPoint num="1" id="7886" />
+<TGConnectingPoint num="2" id="7887" />
+<TGConnectingPoint num="3" id="7888" />
+<TGConnectingPoint num="4" id="7889" />
+<TGConnectingPoint num="5" id="7890" />
+<TGConnectingPoint num="6" id="7891" />
+<TGConnectingPoint num="7" id="7892" />
+<TGConnectingPoint num="8" id="7893" />
+<TGConnectingPoint num="9" id="7894" />
+<TGConnectingPoint num="10" id="7895" />
+<TGConnectingPoint num="11" id="7896" />
+<TGConnectingPoint num="12" id="7897" />
+<TGConnectingPoint num="13" id="7898" />
+<TGConnectingPoint num="14" id="7899" />
+<TGConnectingPoint num="15" id="7900" />
+<TGConnectingPoint num="16" id="7901" />
+<TGConnectingPoint num="17" id="7902" />
+<TGConnectingPoint num="18" id="7903" />
+<TGConnectingPoint num="19" id="7904" />
+<TGConnectingPoint num="20" id="7905" />
+<TGConnectingPoint num="21" id="7906" />
+<TGConnectingPoint num="22" id="7907" />
+<TGConnectingPoint num="23" id="7908" />
+<extraparam>
+<info stereotype="BRIDGE" nodeName="INTL_Bridge" />
+<attributes bufferByteDataSize="4"  clockRatio="1" />
+</extraparam>
+</COMPONENT>
+
+<COMPONENT type="1105" id="7934" index="11" uid="345f9801-b150-4a39-af54-1137afed0372" >
+<cdparam x="376" y="949" />
+<sizeparam width="331" height="135" minWidth="100" minHeight="35" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
+<hidden value="false" />
+<cdrectangleparam minX="10" maxX="1900" minY="10" maxY="1900" />
+<infoparam name="INTL_MSS" value="name" />
+<new d="false" />
+<TGConnectingPoint num="0" id="7910" />
+<TGConnectingPoint num="1" id="7911" />
+<TGConnectingPoint num="2" id="7912" />
+<TGConnectingPoint num="3" id="7913" />
+<TGConnectingPoint num="4" id="7914" />
+<TGConnectingPoint num="5" id="7915" />
+<TGConnectingPoint num="6" id="7916" />
+<TGConnectingPoint num="7" id="7917" />
+<TGConnectingPoint num="8" id="7918" />
+<TGConnectingPoint num="9" id="7919" />
+<TGConnectingPoint num="10" id="7920" />
+<TGConnectingPoint num="11" id="7921" />
+<TGConnectingPoint num="12" id="7922" />
+<TGConnectingPoint num="13" id="7923" />
+<TGConnectingPoint num="14" id="7924" />
+<TGConnectingPoint num="15" id="7925" />
+<TGConnectingPoint num="16" id="7926" />
+<TGConnectingPoint num="17" id="7927" />
+<TGConnectingPoint num="18" id="7928" />
+<TGConnectingPoint num="19" id="7929" />
+<TGConnectingPoint num="20" id="7930" />
+<TGConnectingPoint num="21" id="7931" />
+<TGConnectingPoint num="22" id="7932" />
+<TGConnectingPoint num="23" id="7933" />
+<extraparam>
+<info stereotype="MEMORY" nodeName="INTL_MSS" />
+<attributes byteDataSize="4"  memorySize="1024"  clockRatio="1"  bufferType="3" />
+</extraparam>
+</COMPONENT>
+<SUBCOMPONENT type="1103" id="8415" index="63" uid="0afeb098-8b2a-4756-8302-123536a4b8d8" >
+<father id="7934" num="0" />
+<cdparam x="357" y="1005" />
+<sizeparam width="350" height="40" minWidth="75" minHeight="0" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
+<hidden value="false" />
+<cdrectangleparam minX="0" maxX="-19" minY="0" maxY="95" />
+<infoparam name="TGComponent" value="Zigbee_TX::symbol2ChipSeq_ch_out__chip2octet_ch_in" />
+<new d="false" />
+<TGConnectingPoint num="0" id="8416" />
+<TGConnectingPoint num="1" id="8417" />
+<TGConnectingPoint num="2" id="8418" />
+<TGConnectingPoint num="3" id="8419" />
+<TGConnectingPoint num="4" id="8420" />
+<TGConnectingPoint num="5" id="8421" />
+<TGConnectingPoint num="6" id="8422" />
+<TGConnectingPoint num="7" id="8423" />
+<extraparam>
+<info value="Zigbee_TX::symbol2ChipSeq_ch_out__chip2octet_ch_in" communicationName="symbol2ChipSeq_ch_out__chip2octet_ch_in" referenceCommunicationName="Zigbee_TX" mappedElements="" priority="0" typeName="channel" />
+</extraparam>
+</SUBCOMPONENT>
+
+<COMPONENT type="1100" id="7968" index="12" uid="0c5679d1-ba47-4fda-bfb4-309aac94bcd9" >
+<cdparam x="91" y="938" />
+<sizeparam width="234" height="140" minWidth="150" minHeight="100" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
+<hidden value="false" />
+<cdrectangleparam minX="10" maxX="1900" minY="10" maxY="1900" />
+<infoparam name="INTL_PSS" value="name" />
+<new d="false" />
+<TGConnectingPoint num="0" id="7944" />
+<TGConnectingPoint num="1" id="7945" />
+<TGConnectingPoint num="2" id="7946" />
+<TGConnectingPoint num="3" id="7947" />
+<TGConnectingPoint num="4" id="7948" />
+<TGConnectingPoint num="5" id="7949" />
+<TGConnectingPoint num="6" id="7950" />
+<TGConnectingPoint num="7" id="7951" />
+<TGConnectingPoint num="8" id="7952" />
+<TGConnectingPoint num="9" id="7953" />
+<TGConnectingPoint num="10" id="7954" />
+<TGConnectingPoint num="11" id="7955" />
+<TGConnectingPoint num="12" id="7956" />
+<TGConnectingPoint num="13" id="7957" />
+<TGConnectingPoint num="14" id="7958" />
+<TGConnectingPoint num="15" id="7959" />
+<TGConnectingPoint num="16" id="7960" />
+<TGConnectingPoint num="17" id="7961" />
+<TGConnectingPoint num="18" id="7962" />
+<TGConnectingPoint num="19" id="7963" />
+<TGConnectingPoint num="20" id="7964" />
+<TGConnectingPoint num="21" id="7965" />
+<TGConnectingPoint num="22" id="7966" />
+<TGConnectingPoint num="23" id="7967" />
+<extraparam>
+<info stereotype="CPURR" nodeName="INTL_PSS" />
+<attributes nbOfCores="1" byteDataSize="4"  schedulingPolicy="0"  sliceTime="10000"  goIdleTime="10"  maxConsecutiveIdleCycles="10"  pipelineSize="5"  taskSwitchingTime="20"  branchingPredictionPenalty="2"  cacheMiss="5" execiTime="1" execcTime="1" clockRatio="1" operation="" MECType="2" encryption="0"/>
+</extraparam>
+</COMPONENT>
+<SUBCOMPONENT type="1101" id="7943" index="64" uid="d403ed44-bf6f-4152-a980-d7f5de7c0fc9" >
+<father id="7968" num="0" />
+<cdparam x="105" y="993" />
+<sizeparam width="182" height="40" minWidth="75" minHeight="1" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
+<hidden value="false" />
+<cdrectangleparam minX="0" maxX="52" minY="0" maxY="100" />
+<infoparam name="TGComponent" value="Zigbee_TX::X_Chip2Octet" />
+<new d="false" />
+<TGConnectingPoint num="0" id="7935" />
+<TGConnectingPoint num="1" id="7936" />
+<TGConnectingPoint num="2" id="7937" />
+<TGConnectingPoint num="3" id="7938" />
+<TGConnectingPoint num="4" id="7939" />
+<TGConnectingPoint num="5" id="7940" />
+<TGConnectingPoint num="6" id="7941" />
+<TGConnectingPoint num="7" id="7942" />
+<extraparam>
+<info value="Zigbee_TX::X_Chip2Octet" taskName="X_Chip2Octet" referenceTaskName="Zigbee_TX" priority="0" operationMEC="Interleaver operation" fatherComponentMECType="2" />
+</extraparam>
+</SUBCOMPONENT>
+
+<COMPONENT type="1102" id="7993" index="13" uid="407ee422-3487-4d3f-93c5-a0917afc465e" >
+<cdparam x="231" y="832" />
+<sizeparam width="250" height="50" minWidth="100" minHeight="50" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
+<hidden value="false" />
+<cdrectangleparam minX="10" maxX="1900" minY="10" maxY="1900" />
+<infoparam name="INTL_Bus" value="name" />
+<new d="false" />
+<TGConnectingPoint num="0" id="7969" />
+<TGConnectingPoint num="1" id="7970" />
+<TGConnectingPoint num="2" id="7971" />
+<TGConnectingPoint num="3" id="7972" />
+<TGConnectingPoint num="4" id="7973" />
+<TGConnectingPoint num="5" id="7974" />
+<TGConnectingPoint num="6" id="7975" />
+<TGConnectingPoint num="7" id="7976" />
+<TGConnectingPoint num="8" id="7977" />
+<TGConnectingPoint num="9" id="7978" />
+<TGConnectingPoint num="10" id="7979" />
+<TGConnectingPoint num="11" id="7980" />
+<TGConnectingPoint num="12" id="7981" />
+<TGConnectingPoint num="13" id="7982" />
+<TGConnectingPoint num="14" id="7983" />
+<TGConnectingPoint num="15" id="7984" />
+<TGConnectingPoint num="16" id="7985" />
+<TGConnectingPoint num="17" id="7986" />
+<TGConnectingPoint num="18" id="7987" />
+<TGConnectingPoint num="19" id="7988" />
+<TGConnectingPoint num="20" id="7989" />
+<TGConnectingPoint num="21" id="7990" />
+<TGConnectingPoint num="22" id="7991" />
+<TGConnectingPoint num="23" id="7992" />
+<extraparam>
+<info stereotype="BUS-RR" nodeName="INTL_Bus" />
+<attributes byteDataSize="4"  arbitrationPolicy="0"  sliceTime="10000"  pipelineSize="1"  burstSize="100"  clockRatio="1"  privacy="0"  referenceAttack="" />
+</extraparam>
+</COMPONENT>
+
+<COMPONENT type="1102" id="8018" index="14" uid="b1fa58ed-3b94-4126-8967-80f7ea079c16" >
+<cdparam x="231" y="447" />
+<sizeparam width="250" height="50" minWidth="100" minHeight="50" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
+<hidden value="false" />
+<cdrectangleparam minX="10" maxX="1900" minY="10" maxY="1900" />
+<infoparam name="ADAIF_Bus" value="name" />
+<new d="false" />
+<TGConnectingPoint num="0" id="7994" />
+<TGConnectingPoint num="1" id="7995" />
+<TGConnectingPoint num="2" id="7996" />
+<TGConnectingPoint num="3" id="7997" />
+<TGConnectingPoint num="4" id="7998" />
+<TGConnectingPoint num="5" id="7999" />
+<TGConnectingPoint num="6" id="8000" />
+<TGConnectingPoint num="7" id="8001" />
+<TGConnectingPoint num="8" id="8002" />
+<TGConnectingPoint num="9" id="8003" />
+<TGConnectingPoint num="10" id="8004" />
+<TGConnectingPoint num="11" id="8005" />
+<TGConnectingPoint num="12" id="8006" />
+<TGConnectingPoint num="13" id="8007" />
+<TGConnectingPoint num="14" id="8008" />
+<TGConnectingPoint num="15" id="8009" />
+<TGConnectingPoint num="16" id="8010" />
+<TGConnectingPoint num="17" id="8011" />
+<TGConnectingPoint num="18" id="8012" />
+<TGConnectingPoint num="19" id="8013" />
+<TGConnectingPoint num="20" id="8014" />
+<TGConnectingPoint num="21" id="8015" />
+<TGConnectingPoint num="22" id="8016" />
+<TGConnectingPoint num="23" id="8017" />
+<extraparam>
+<info stereotype="BUS-RR" nodeName="ADAIF_Bus" />
+<attributes byteDataSize="4"  arbitrationPolicy="0"  sliceTime="10000"  pipelineSize="1"  burstSize="100"  clockRatio="1"  privacy="0"  referenceAttack="" />
+</extraparam>
+</COMPONENT>
+
+<COMPONENT type="1100" id="8043" index="15" uid="d064caf5-3df0-4a36-b28f-a789a65f8d88" >
+<cdparam x="1147" y="408" />
+<sizeparam width="150" height="100" minWidth="150" minHeight="100" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
+<hidden value="false" />
+<cdrectangleparam minX="10" maxX="1900" minY="10" maxY="1900" />
+<infoparam name="FEP_DMA" value="name" />
+<new d="false" />
+<TGConnectingPoint num="0" id="8019" />
+<TGConnectingPoint num="1" id="8020" />
+<TGConnectingPoint num="2" id="8021" />
+<TGConnectingPoint num="3" id="8022" />
+<TGConnectingPoint num="4" id="8023" />
+<TGConnectingPoint num="5" id="8024" />
+<TGConnectingPoint num="6" id="8025" />
+<TGConnectingPoint num="7" id="8026" />
+<TGConnectingPoint num="8" id="8027" />
+<TGConnectingPoint num="9" id="8028" />
+<TGConnectingPoint num="10" id="8029" />
+<TGConnectingPoint num="11" id="8030" />
+<TGConnectingPoint num="12" id="8031" />
+<TGConnectingPoint num="13" id="8032" />
+<TGConnectingPoint num="14" id="8033" />
+<TGConnectingPoint num="15" id="8034" />
+<TGConnectingPoint num="16" id="8035" />
+<TGConnectingPoint num="17" id="8036" />
+<TGConnectingPoint num="18" id="8037" />
+<TGConnectingPoint num="19" id="8038" />
+<TGConnectingPoint num="20" id="8039" />
+<TGConnectingPoint num="21" id="8040" />
+<TGConnectingPoint num="22" id="8041" />
+<TGConnectingPoint num="23" id="8042" />
+<extraparam>
+<info stereotype="CPURR" nodeName="FEP_DMA" />
+<attributes nbOfCores="1" byteDataSize="4"  schedulingPolicy="0"  sliceTime="10000"  goIdleTime="10"  maxConsecutiveIdleCycles="10"  pipelineSize="5"  taskSwitchingTime="20"  branchingPredictionPenalty="2"  cacheMiss="5" execiTime="1" execcTime="1" clockRatio="1" operation="" MECType="0" encryption="0"/>
+</extraparam>
+</COMPONENT>
+
+<COMPONENT type="1105" id="8068" index="16" uid="780d0463-b983-4f14-aef7-2bb52b154612" >
+<cdparam x="895" y="193" />
+<sizeparam width="255" height="183" minWidth="100" minHeight="35" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
+<hidden value="false" />
+<cdrectangleparam minX="10" maxX="1900" minY="10" maxY="1900" />
+<infoparam name="FEP_MSS" value="name" />
+<new d="false" />
+<TGConnectingPoint num="0" id="8044" />
+<TGConnectingPoint num="1" id="8045" />
+<TGConnectingPoint num="2" id="8046" />
+<TGConnectingPoint num="3" id="8047" />
+<TGConnectingPoint num="4" id="8048" />
+<TGConnectingPoint num="5" id="8049" />
+<TGConnectingPoint num="6" id="8050" />
+<TGConnectingPoint num="7" id="8051" />
+<TGConnectingPoint num="8" id="8052" />
+<TGConnectingPoint num="9" id="8053" />
+<TGConnectingPoint num="10" id="8054" />
+<TGConnectingPoint num="11" id="8055" />
+<TGConnectingPoint num="12" id="8056" />
+<TGConnectingPoint num="13" id="8057" />
+<TGConnectingPoint num="14" id="8058" />
+<TGConnectingPoint num="15" id="8059" />
+<TGConnectingPoint num="16" id="8060" />
+<TGConnectingPoint num="17" id="8061" />
+<TGConnectingPoint num="18" id="8062" />
+<TGConnectingPoint num="19" id="8063" />
+<TGConnectingPoint num="20" id="8064" />
+<TGConnectingPoint num="21" id="8065" />
+<TGConnectingPoint num="22" id="8066" />
+<TGConnectingPoint num="23" id="8067" />
+<extraparam>
+<info stereotype="MEMORY" nodeName="FEP_MSS" />
+<attributes byteDataSize="4"  memorySize="1024"  clockRatio="1"  bufferType="0" />
+</extraparam>
+</COMPONENT>
+<SUBCOMPONENT type="1103" id="8424" index="65" uid="22707383-c084-446d-a0fb-257bc1b89ecc" >
+<father id="8068" num="0" />
+<cdparam x="878" y="256" />
+<sizeparam width="272" height="40" minWidth="75" minHeight="0" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
+<hidden value="false" />
+<cdrectangleparam minX="0" maxX="-17" minY="0" maxY="143" />
+<infoparam name="TGComponent" value="Zigbee_TX::chip2octet_ch_out__cwl_ch_in" />
+<new d="false" />
+<TGConnectingPoint num="0" id="8425" />
+<TGConnectingPoint num="1" id="8426" />
+<TGConnectingPoint num="2" id="8427" />
+<TGConnectingPoint num="3" id="8428" />
+<TGConnectingPoint num="4" id="8429" />
+<TGConnectingPoint num="5" id="8430" />
+<TGConnectingPoint num="6" id="8431" />
+<TGConnectingPoint num="7" id="8432" />
+<extraparam>
+<info value="Zigbee_TX::chip2octet_ch_out__cwl_ch_in" communicationName="chip2octet_ch_out__cwl_ch_in" referenceCommunicationName="Zigbee_TX" mappedElements="" priority="0" typeName="channel" />
+</extraparam>
+</SUBCOMPONENT>
+
+<COMPONENT type="1100" id="8120" index="17" uid="e14d1045-32ce-43f3-85b1-0de5c32709c2" >
+<cdparam x="619" y="199" />
+<sizeparam width="238" height="185" minWidth="150" minHeight="100" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
+<hidden value="false" />
+<cdrectangleparam minX="10" maxX="1900" minY="10" maxY="1900" />
+<infoparam name="FEP_PSS" value="name" />
+<new d="false" />
+<TGConnectingPoint num="0" id="8096" />
+<TGConnectingPoint num="1" id="8097" />
+<TGConnectingPoint num="2" id="8098" />
+<TGConnectingPoint num="3" id="8099" />
+<TGConnectingPoint num="4" id="8100" />
+<TGConnectingPoint num="5" id="8101" />
+<TGConnectingPoint num="6" id="8102" />
+<TGConnectingPoint num="7" id="8103" />
+<TGConnectingPoint num="8" id="8104" />
+<TGConnectingPoint num="9" id="8105" />
+<TGConnectingPoint num="10" id="8106" />
+<TGConnectingPoint num="11" id="8107" />
+<TGConnectingPoint num="12" id="8108" />
+<TGConnectingPoint num="13" id="8109" />
+<TGConnectingPoint num="14" id="8110" />
+<TGConnectingPoint num="15" id="8111" />
+<TGConnectingPoint num="16" id="8112" />
+<TGConnectingPoint num="17" id="8113" />
+<TGConnectingPoint num="18" id="8114" />
+<TGConnectingPoint num="19" id="8115" />
+<TGConnectingPoint num="20" id="8116" />
+<TGConnectingPoint num="21" id="8117" />
+<TGConnectingPoint num="22" id="8118" />
+<TGConnectingPoint num="23" id="8119" />
+<extraparam>
+<info stereotype="CPURR" nodeName="FEP_PSS" />
+<attributes nbOfCores="1" byteDataSize="4"  schedulingPolicy="0"  sliceTime="10000"  goIdleTime="10"  maxConsecutiveIdleCycles="10"  pipelineSize="5"  taskSwitchingTime="20"  branchingPredictionPenalty="2"  cacheMiss="5" execiTime="2" execcTime="1" clockRatio="1" operation="" MECType="1" encryption="0"/>
+</extraparam>
+</COMPONENT>
+<SUBCOMPONENT type="1101" id="8077" index="66" uid="75a8f3c9-16e8-4f98-8ee7-332413294108" >
+<father id="8120" num="0" />
+<cdparam x="671" y="289" />
+<sizeparam width="152" height="40" minWidth="75" minHeight="1" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
+<hidden value="false" />
+<cdrectangleparam minX="0" maxX="86" minY="0" maxY="145" />
+<infoparam name="TGComponent" value="Zigbee_TX::X_CWP_I" />
+<new d="false" />
+<TGConnectingPoint num="0" id="8069" />
+<TGConnectingPoint num="1" id="8070" />
+<TGConnectingPoint num="2" id="8071" />
+<TGConnectingPoint num="3" id="8072" />
+<TGConnectingPoint num="4" id="8073" />
+<TGConnectingPoint num="5" id="8074" />
+<TGConnectingPoint num="6" id="8075" />
+<TGConnectingPoint num="7" id="8076" />
+<extraparam>
+<info value="Zigbee_TX::X_CWP_I" taskName="X_CWP_I" referenceTaskName="Zigbee_TX" priority="0" operationMEC="CWP" fatherComponentMECType="1" />
+</extraparam>
+</SUBCOMPONENT>
+<SUBCOMPONENT type="1101" id="8086" index="67" uid="1e9dc3a9-65ca-49e9-80cb-00e149c3fa02" >
+<father id="8120" num="1" />
+<cdparam x="640" y="335" />
+<sizeparam width="158" height="40" minWidth="75" minHeight="1" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
+<hidden value="false" />
+<cdrectangleparam minX="0" maxX="80" minY="0" maxY="145" />
+<infoparam name="TGComponent" value="Zigbee_TX::X_CWP_Q" />
+<new d="false" />
+<TGConnectingPoint num="0" id="8078" />
+<TGConnectingPoint num="1" id="8079" />
+<TGConnectingPoint num="2" id="8080" />
+<TGConnectingPoint num="3" id="8081" />
+<TGConnectingPoint num="4" id="8082" />
+<TGConnectingPoint num="5" id="8083" />
+<TGConnectingPoint num="6" id="8084" />
+<TGConnectingPoint num="7" id="8085" />
+<extraparam>
+<info value="Zigbee_TX::X_CWP_Q" taskName="X_CWP_Q" referenceTaskName="Zigbee_TX" priority="0" operationMEC="CWP" fatherComponentMECType="1" />
+</extraparam>
+</SUBCOMPONENT>
+<SUBCOMPONENT type="1101" id="8095" index="68" uid="b91f432f-d14a-42ca-9e5d-52d2280b1990" >
+<father id="8120" num="2" />
+<cdparam x="639" y="239" />
+<sizeparam width="142" height="40" minWidth="75" minHeight="1" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
+<hidden value="false" />
+<cdrectangleparam minX="0" maxX="96" minY="0" maxY="145" />
+<infoparam name="TGComponent" value="Zigbee_TX::X_CWL" />
+<new d="false" />
+<TGConnectingPoint num="0" id="8087" />
+<TGConnectingPoint num="1" id="8088" />
+<TGConnectingPoint num="2" id="8089" />
+<TGConnectingPoint num="3" id="8090" />
+<TGConnectingPoint num="4" id="8091" />
+<TGConnectingPoint num="5" id="8092" />
+<TGConnectingPoint num="6" id="8093" />
+<TGConnectingPoint num="7" id="8094" />
+<extraparam>
+<info value="Zigbee_TX::X_CWL" taskName="X_CWL" referenceTaskName="Zigbee_TX" priority="0" operationMEC="CWL" fatherComponentMECType="1" />
+</extraparam>
+</SUBCOMPONENT>
+
+<COMPONENT type="1106" id="8145" index="18" uid="9eb67ae4-24ed-467f-b400-64eb4ab73339" >
+<cdparam x="910" y="531" />
+<sizeparam width="100" height="35" minWidth="100" minHeight="35" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
+<hidden value="false" />
+<cdrectangleparam minX="10" maxX="1900" minY="10" maxY="1900" />
+<infoparam name="FEP_Bridge" value="name" />
+<new d="false" />
+<TGConnectingPoint num="0" id="8121" />
+<TGConnectingPoint num="1" id="8122" />
+<TGConnectingPoint num="2" id="8123" />
+<TGConnectingPoint num="3" id="8124" />
+<TGConnectingPoint num="4" id="8125" />
+<TGConnectingPoint num="5" id="8126" />
+<TGConnectingPoint num="6" id="8127" />
+<TGConnectingPoint num="7" id="8128" />
+<TGConnectingPoint num="8" id="8129" />
+<TGConnectingPoint num="9" id="8130" />
+<TGConnectingPoint num="10" id="8131" />
+<TGConnectingPoint num="11" id="8132" />
+<TGConnectingPoint num="12" id="8133" />
+<TGConnectingPoint num="13" id="8134" />
+<TGConnectingPoint num="14" id="8135" />
+<TGConnectingPoint num="15" id="8136" />
+<TGConnectingPoint num="16" id="8137" />
+<TGConnectingPoint num="17" id="8138" />
+<TGConnectingPoint num="18" id="8139" />
+<TGConnectingPoint num="19" id="8140" />
+<TGConnectingPoint num="20" id="8141" />
+<TGConnectingPoint num="21" id="8142" />
+<TGConnectingPoint num="22" id="8143" />
+<TGConnectingPoint num="23" id="8144" />
+<extraparam>
+<info stereotype="BRIDGE" nodeName="FEP_Bridge" />
+<attributes bufferByteDataSize="4"  clockRatio="1" />
+</extraparam>
+</COMPONENT>
+
+<COMPONENT type="1102" id="8170" index="19" uid="2467b1db-7bd0-4eae-b5c3-91329aabf5f2" >
+<cdparam x="835" y="433" />
+<sizeparam width="250" height="50" minWidth="100" minHeight="50" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
+<hidden value="false" />
+<cdrectangleparam minX="10" maxX="1900" minY="10" maxY="1900" />
+<infoparam name="FEP_Bus" value="name" />
+<new d="false" />
+<TGConnectingPoint num="0" id="8146" />
+<TGConnectingPoint num="1" id="8147" />
+<TGConnectingPoint num="2" id="8148" />
+<TGConnectingPoint num="3" id="8149" />
+<TGConnectingPoint num="4" id="8150" />
+<TGConnectingPoint num="5" id="8151" />
+<TGConnectingPoint num="6" id="8152" />
+<TGConnectingPoint num="7" id="8153" />
+<TGConnectingPoint num="8" id="8154" />
+<TGConnectingPoint num="9" id="8155" />
+<TGConnectingPoint num="10" id="8156" />
+<TGConnectingPoint num="11" id="8157" />
+<TGConnectingPoint num="12" id="8158" />
+<TGConnectingPoint num="13" id="8159" />
+<TGConnectingPoint num="14" id="8160" />
+<TGConnectingPoint num="15" id="8161" />
+<TGConnectingPoint num="16" id="8162" />
+<TGConnectingPoint num="17" id="8163" />
+<TGConnectingPoint num="18" id="8164" />
+<TGConnectingPoint num="19" id="8165" />
+<TGConnectingPoint num="20" id="8166" />
+<TGConnectingPoint num="21" id="8167" />
+<TGConnectingPoint num="22" id="8168" />
+<TGConnectingPoint num="23" id="8169" />
+<extraparam>
+<info stereotype="BUS-RR" nodeName="FEP_Bus" />
+<attributes byteDataSize="4"  arbitrationPolicy="0"  sliceTime="10000"  pipelineSize="1"  burstSize="100"  clockRatio="1"  privacy="0"  referenceAttack="" />
+</extraparam>
+</COMPONENT>
+
+<COMPONENT type="1100" id="8195" index="20" uid="9b79b347-84e8-4443-ba69-aef2df61f256" >
+<cdparam x="1174" y="850" />
+<sizeparam width="150" height="100" minWidth="150" minHeight="100" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
+<hidden value="false" />
+<cdrectangleparam minX="10" maxX="1900" minY="10" maxY="1900" />
+<infoparam name="MAPPER_DMA" value="name" />
+<new d="false" />
+<TGConnectingPoint num="0" id="8171" />
+<TGConnectingPoint num="1" id="8172" />
+<TGConnectingPoint num="2" id="8173" />
+<TGConnectingPoint num="3" id="8174" />
+<TGConnectingPoint num="4" id="8175" />
+<TGConnectingPoint num="5" id="8176" />
+<TGConnectingPoint num="6" id="8177" />
+<TGConnectingPoint num="7" id="8178" />
+<TGConnectingPoint num="8" id="8179" />
+<TGConnectingPoint num="9" id="8180" />
+<TGConnectingPoint num="10" id="8181" />
+<TGConnectingPoint num="11" id="8182" />
+<TGConnectingPoint num="12" id="8183" />
+<TGConnectingPoint num="13" id="8184" />
+<TGConnectingPoint num="14" id="8185" />
+<TGConnectingPoint num="15" id="8186" />
+<TGConnectingPoint num="16" id="8187" />
+<TGConnectingPoint num="17" id="8188" />
+<TGConnectingPoint num="18" id="8189" />
+<TGConnectingPoint num="19" id="8190" />
+<TGConnectingPoint num="20" id="8191" />
+<TGConnectingPoint num="21" id="8192" />
+<TGConnectingPoint num="22" id="8193" />
+<TGConnectingPoint num="23" id="8194" />
+<extraparam>
+<info stereotype="CPURR" nodeName="MAPPER_DMA" />
+<attributes nbOfCores="1" byteDataSize="4"  schedulingPolicy="0"  sliceTime="10000"  goIdleTime="10"  maxConsecutiveIdleCycles="10"  pipelineSize="5"  taskSwitchingTime="20"  branchingPredictionPenalty="2"  cacheMiss="5" execiTime="1" execcTime="1" clockRatio="1" operation="" MECType="0" encryption="0"/>
+</extraparam>
+</COMPONENT>
+
+<COMPONENT type="1106" id="8220" index="21" uid="992da58b-7d9a-4b51-ac37-829b2b1553b8" >
+<cdparam x="920" y="780" />
+<sizeparam width="100" height="51" minWidth="100" minHeight="50" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
+<hidden value="false" />
+<cdrectangleparam minX="10" maxX="1900" minY="10" maxY="1900" />
+<infoparam name="MAPPER_Bridge" value="name" />
+<new d="false" />
+<TGConnectingPoint num="0" id="8196" />
+<TGConnectingPoint num="1" id="8197" />
+<TGConnectingPoint num="2" id="8198" />
+<TGConnectingPoint num="3" id="8199" />
+<TGConnectingPoint num="4" id="8200" />
+<TGConnectingPoint num="5" id="8201" />
+<TGConnectingPoint num="6" id="8202" />
+<TGConnectingPoint num="7" id="8203" />
+<TGConnectingPoint num="8" id="8204" />
+<TGConnectingPoint num="9" id="8205" />
+<TGConnectingPoint num="10" id="8206" />
+<TGConnectingPoint num="11" id="8207" />
+<TGConnectingPoint num="12" id="8208" />
+<TGConnectingPoint num="13" id="8209" />
+<TGConnectingPoint num="14" id="8210" />
+<TGConnectingPoint num="15" id="8211" />
+<TGConnectingPoint num="16" id="8212" />
+<TGConnectingPoint num="17" id="8213" />
+<TGConnectingPoint num="18" id="8214" />
+<TGConnectingPoint num="19" id="8215" />
+<TGConnectingPoint num="20" id="8216" />
+<TGConnectingPoint num="21" id="8217" />
+<TGConnectingPoint num="22" id="8218" />
+<TGConnectingPoint num="23" id="8219" />
+<extraparam>
+<info stereotype="BRIDGE" nodeName="MAPPER_Bridge" />
+<attributes bufferByteDataSize="4"  clockRatio="1" />
+</extraparam>
+</COMPONENT>
+
+<COMPONENT type="1105" id="8245" index="22" uid="1a4646be-3ab9-4bf2-8891-05eefeb00a14" >
+<cdparam x="1043" y="960" />
+<sizeparam width="463" height="143" minWidth="100" minHeight="35" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
+<hidden value="false" />
+<cdrectangleparam minX="10" maxX="1900" minY="10" maxY="1900" />
+<infoparam name="MAPPER_MSS" value="name" />
+<new d="false" />
+<TGConnectingPoint num="0" id="8221" />
+<TGConnectingPoint num="1" id="8222" />
+<TGConnectingPoint num="2" id="8223" />
+<TGConnectingPoint num="3" id="8224" />
+<TGConnectingPoint num="4" id="8225" />
+<TGConnectingPoint num="5" id="8226" />
+<TGConnectingPoint num="6" id="8227" />
+<TGConnectingPoint num="7" id="8228" />
+<TGConnectingPoint num="8" id="8229" />
+<TGConnectingPoint num="9" id="8230" />
+<TGConnectingPoint num="10" id="8231" />
+<TGConnectingPoint num="11" id="8232" />
+<TGConnectingPoint num="12" id="8233" />
+<TGConnectingPoint num="13" id="8234" />
+<TGConnectingPoint num="14" id="8235" />
+<TGConnectingPoint num="15" id="8236" />
+<TGConnectingPoint num="16" id="8237" />
+<TGConnectingPoint num="17" id="8238" />
+<TGConnectingPoint num="18" id="8239" />
+<TGConnectingPoint num="19" id="8240" />
+<TGConnectingPoint num="20" id="8241" />
+<TGConnectingPoint num="21" id="8242" />
+<TGConnectingPoint num="22" id="8243" />
+<TGConnectingPoint num="23" id="8244" />
+<extraparam>
+<info stereotype="MEMORY" nodeName="MAPPER_MSS" />
+<attributes byteDataSize="4"  memorySize="1024"  clockRatio="1"  bufferType="1" />
+</extraparam>
+</COMPONENT>
+<SUBCOMPONENT type="1103" id="8406" index="69" uid="db44a725-16ac-4327-b449-6d582edaa209" >
+<father id="8245" num="0" />
+<cdparam x="1080" y="1019" />
+<sizeparam width="328" height="40" minWidth="75" minHeight="0" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
+<hidden value="false" />
+<cdrectangleparam minX="0" maxX="135" minY="0" maxY="103" />
+<infoparam name="TGComponent" value="Zigbee_TX::Source_ch_out__symbol2ChipSeq_ch_in" />
+<new d="false" />
+<TGConnectingPoint num="0" id="8407" />
+<TGConnectingPoint num="1" id="8408" />
+<TGConnectingPoint num="2" id="8409" />
+<TGConnectingPoint num="3" id="8410" />
+<TGConnectingPoint num="4" id="8411" />
+<TGConnectingPoint num="5" id="8412" />
+<TGConnectingPoint num="6" id="8413" />
+<TGConnectingPoint num="7" id="8414" />
+<extraparam>
+<info value="Zigbee_TX::Source_ch_out__symbol2ChipSeq_ch_in" communicationName="Source_ch_out__symbol2ChipSeq_ch_in" referenceCommunicationName="Zigbee_TX" mappedElements="" priority="0" typeName="channel" />
+</extraparam>
+</SUBCOMPONENT>
+
+<COMPONENT type="1100" id="8279" index="23" uid="8fac45b8-c442-40ae-a993-0ee5ad6ee4ba" >
+<cdparam x="759" y="981" />
+<sizeparam width="219" height="158" minWidth="150" minHeight="100" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
+<hidden value="false" />
+<cdrectangleparam minX="10" maxX="1900" minY="10" maxY="1900" />
+<infoparam name="MAPPER_PSS" value="name" />
+<new d="false" />
+<TGConnectingPoint num="0" id="8255" />
+<TGConnectingPoint num="1" id="8256" />
+<TGConnectingPoint num="2" id="8257" />
+<TGConnectingPoint num="3" id="8258" />
+<TGConnectingPoint num="4" id="8259" />
+<TGConnectingPoint num="5" id="8260" />
+<TGConnectingPoint num="6" id="8261" />
+<TGConnectingPoint num="7" id="8262" />
+<TGConnectingPoint num="8" id="8263" />
+<TGConnectingPoint num="9" id="8264" />
+<TGConnectingPoint num="10" id="8265" />
+<TGConnectingPoint num="11" id="8266" />
+<TGConnectingPoint num="12" id="8267" />
+<TGConnectingPoint num="13" id="8268" />
+<TGConnectingPoint num="14" id="8269" />
+<TGConnectingPoint num="15" id="8270" />
+<TGConnectingPoint num="16" id="8271" />
+<TGConnectingPoint num="17" id="8272" />
+<TGConnectingPoint num="18" id="8273" />
+<TGConnectingPoint num="19" id="8274" />
+<TGConnectingPoint num="20" id="8275" />
+<TGConnectingPoint num="21" id="8276" />
+<TGConnectingPoint num="22" id="8277" />
+<TGConnectingPoint num="23" id="8278" />
+<extraparam>
+<info stereotype="CPURR" nodeName="MAPPER_PSS" />
+<attributes nbOfCores="1" byteDataSize="4"  schedulingPolicy="0"  sliceTime="10000"  goIdleTime="10"  maxConsecutiveIdleCycles="10"  pipelineSize="5"  taskSwitchingTime="20"  branchingPredictionPenalty="2"  cacheMiss="5" execiTime="1" execcTime="1" clockRatio="1" operation="" MECType="3" encryption="0"/>
+</extraparam>
+</COMPONENT>
+<SUBCOMPONENT type="1101" id="8254" index="70" uid="34c1934a-86f7-4214-94b0-a30d5d4fdb1d" >
+<father id="8279" num="0" />
+<cdparam x="759" y="1028" />
+<sizeparam width="214" height="40" minWidth="75" minHeight="1" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
+<hidden value="false" />
+<cdrectangleparam minX="0" maxX="5" minY="0" maxY="118" />
+<infoparam name="TGComponent" value="Zigbee_TX::X_Symbol2ChipSeq" />
+<new d="false" />
+<TGConnectingPoint num="0" id="8246" />
+<TGConnectingPoint num="1" id="8247" />
+<TGConnectingPoint num="2" id="8248" />
+<TGConnectingPoint num="3" id="8249" />
+<TGConnectingPoint num="4" id="8250" />
+<TGConnectingPoint num="5" id="8251" />
+<TGConnectingPoint num="6" id="8252" />
+<TGConnectingPoint num="7" id="8253" />
+<extraparam>
+<info value="Zigbee_TX::X_Symbol2ChipSeq" taskName="X_Symbol2ChipSeq" referenceTaskName="Zigbee_TX" priority="0" operationMEC="Mapper operation" fatherComponentMECType="3" />
+</extraparam>
+</SUBCOMPONENT>
+
+<COMPONENT type="1102" id="8304" index="24" uid="390073e1-4bf1-4b99-830c-284cc823a0f9" >
+<cdparam x="845" y="875" />
+<sizeparam width="250" height="50" minWidth="100" minHeight="50" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
+<hidden value="false" />
+<cdrectangleparam minX="10" maxX="1900" minY="10" maxY="1900" />
+<infoparam name="MAPPER_Bus" value="name" />
+<new d="false" />
+<TGConnectingPoint num="0" id="8280" />
+<TGConnectingPoint num="1" id="8281" />
+<TGConnectingPoint num="2" id="8282" />
+<TGConnectingPoint num="3" id="8283" />
+<TGConnectingPoint num="4" id="8284" />
+<TGConnectingPoint num="5" id="8285" />
+<TGConnectingPoint num="6" id="8286" />
+<TGConnectingPoint num="7" id="8287" />
+<TGConnectingPoint num="8" id="8288" />
+<TGConnectingPoint num="9" id="8289" />
+<TGConnectingPoint num="10" id="8290" />
+<TGConnectingPoint num="11" id="8291" />
+<TGConnectingPoint num="12" id="8292" />
+<TGConnectingPoint num="13" id="8293" />
+<TGConnectingPoint num="14" id="8294" />
+<TGConnectingPoint num="15" id="8295" />
+<TGConnectingPoint num="16" id="8296" />
+<TGConnectingPoint num="17" id="8297" />
+<TGConnectingPoint num="18" id="8298" />
+<TGConnectingPoint num="19" id="8299" />
+<TGConnectingPoint num="20" id="8300" />
+<TGConnectingPoint num="21" id="8301" />
+<TGConnectingPoint num="22" id="8302" />
+<TGConnectingPoint num="23" id="8303" />
+<extraparam>
+<info stereotype="BUS-RR" nodeName="MAPPER_Bus" />
+<attributes byteDataSize="4"  arbitrationPolicy="0"  sliceTime="10000"  pipelineSize="1"  burstSize="100"  clockRatio="1"  privacy="0"  referenceAttack="" />
+</extraparam>
+</COMPONENT>
+
+<CONNECTOR type="125" id="8377" index="25" uid="c7dcad44-5b15-403f-8561-4fd13dc2026f" >
+<cdparam x="1367" y="660" />
+<sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
+<infoparam name="connector" value="{info}" />
+<P1  x="1367" y="660" id="7838" />
+<P2  x="1076" y="660" id="7864" />
+<AutomaticDrawing  data="true" />
+<new d="false" />
+<extraparam>
+<info priority="0" />
+<spy value="false" />
+</extraparam>
+</CONNECTOR>
+<CONNECTOR type="125" id="8378" index="26" uid="ea66371c-42b6-4241-b14e-0d4ea68ab559" >
+<cdparam x="1147" y="508" />
+<sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
+<infoparam name="connector" value="{info}" />
+<P1  x="1147" y="508" id="8024" />
+<P2  x="1076" y="635" id="7862" />
+<AutomaticDrawing  data="true" />
+<new d="false" />
+<extraparam>
+<info priority="0" />
+<spy value="false" />
+</extraparam>
+</CONNECTOR>
+<CONNECTOR type="125" id="8379" index="27" uid="031f2e53-02b3-47c5-8527-e3d938a38d55" >
+<cdparam x="1298" y="875" />
+<sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
+<infoparam name="connector" value="{info}" />
+<P1  x="1249" y="850" id="8172" />
+<P2  x="1076" y="685" id="7867" />
+<AutomaticDrawing  data="true" />
+<new d="false" />
+<extraparam>
+<info priority="0" />
+<spy value="false" />
+</extraparam>
+</CONNECTOR>
+<CONNECTOR type="125" id="8380" index="28" uid="bf40307b-17ac-4927-949c-bd795e68d234" >
+<cdparam x="1019" y="805" />
+<sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
+<infoparam name="connector" value="{info}" />
+<P1  x="970" y="780" id="8197" />
+<P2  x="864" y="685" id="7875" />
+<AutomaticDrawing  data="true" />
+<new d="false" />
+<extraparam>
+<info priority="0" />
+<spy value="false" />
+</extraparam>
+</CONNECTOR>
+<CONNECTOR type="125" id="8381" index="29" uid="734b71bc-018b-4406-a5c3-c5dd5490981b" >
+<cdparam x="1004" y="531" />
+<sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
+<infoparam name="connector" value="{info}" />
+<P1  x="960" y="566" id="8127" />
+<P2  x="864" y="635" id="7869" />
+<AutomaticDrawing  data="true" />
+<new d="false" />
+<extraparam>
+<info priority="0" />
+<spy value="false" />
+</extraparam>
+</CONNECTOR>
+<CONNECTOR type="125" id="8382" index="30" uid="80af2688-8b2e-4596-a187-3f2f1ed00e16" >
+<cdparam x="1185" y="660" />
+<sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
+<infoparam name="connector" value="{info}" />
+<P1  x="1467" y="660" id="7839" />
+<P2  x="1527" y="660" id="7813" />
+<AutomaticDrawing  data="true" />
+<new d="false" />
+<extraparam>
+<info priority="0" />
+<spy value="false" />
+</extraparam>
+</CONNECTOR>
+<CONNECTOR type="125" id="8383" index="31" uid="a28bf4f0-bc21-4c61-b149-296c4f6729a5" >
+<cdparam x="356" y="788" />
+<sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
+<infoparam name="connector" value="{info}" />
+<P1  x="356" y="788" id="7891" />
+<P2  x="356" y="832" id="7970" />
+<AutomaticDrawing  data="true" />
+<new d="false" />
+<extraparam>
+<info priority="0" />
+<spy value="false" />
+</extraparam>
+</CONNECTOR>
+<CONNECTOR type="125" id="8384" index="32" uid="0de9363a-de07-4cc7-8bdd-542a6551535f" >
+<cdparam x="554" y="806" />
+<sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
+<infoparam name="connector" value="{info}" />
+<P1  x="560" y="807" id="7554" />
+<P2  x="442" y="685" id="7874" />
+<AutomaticDrawing  data="true" />
+<new d="false" />
+<extraparam>
+<info priority="0" />
+<spy value="false" />
+</extraparam>
+</CONNECTOR>
+<CONNECTOR type="125" id="8385" index="33" uid="0f011138-181b-481d-86cf-0061821abfc5" >
+<cdparam x="559" y="863" />
+<sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
+<infoparam name="connector" value="{info}" />
+<P1  x="560" y="857" id="7557" />
+<P2  x="481" y="857" id="7973" />
+<AutomaticDrawing  data="true" />
+<new d="false" />
+<extraparam>
+<info priority="0" />
+<spy value="false" />
+</extraparam>
+</CONNECTOR>
+<CONNECTOR type="125" id="8386" index="34" uid="398e2a9e-8bad-48e3-bc43-47bdbbf159a6" >
+<cdparam x="586" y="970" />
+<sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
+<infoparam name="connector" value="{info}" />
+<P1  x="541" y="949" id="7911" />
+<P2  x="418" y="882" id="7984" />
+<AutomaticDrawing  data="true" />
+<new d="false" />
+<extraparam>
+<info priority="0" />
+<spy value="false" />
+</extraparam>
+</CONNECTOR>
+<CONNECTOR type="125" id="8387" index="35" uid="3e5cb0b0-d25a-4ece-91e4-52b52c892999" >
+<cdparam x="165" y="927" />
+<sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
+<infoparam name="connector" value="{info}" />
+<P1  x="208" y="938" id="7945" />
+<P2  x="293" y="882" id="7983" />
+<AutomaticDrawing  data="true" />
+<new d="false" />
+<extraparam>
+<info priority="0" />
+<spy value="false" />
+</extraparam>
+</CONNECTOR>
+<CONNECTOR type="125" id="8388" index="36" uid="32993ecf-7920-4c91-aed4-bf0bd6f8b610" >
+<cdparam x="355" y="576" />
+<sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
+<infoparam name="connector" value="{info}" />
+<P1  x="356" y="580" id="7669" />
+<P2  x="231" y="635" id="7860" />
+<AutomaticDrawing  data="true" />
+<new d="false" />
+<extraparam>
+<info priority="0" />
+<spy value="false" />
+</extraparam>
+</CONNECTOR>
+<CONNECTOR type="125" id="8389" index="37" uid="a21d174e-cca3-4293-b286-90a0c6cff6a7" >
+<cdparam x="355" y="541" />
+<sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
+<infoparam name="connector" value="{info}" />
+<P1  x="356" y="545" id="7664" />
+<P2  x="356" y="497" id="8000" />
+<AutomaticDrawing  data="true" />
+<new d="false" />
+<extraparam>
+<info priority="0" />
+<spy value="false" />
+</extraparam>
+</CONNECTOR>
+<CONNECTOR type="125" id="8390" index="38" uid="bd223dd0-b8fc-4240-86f7-bbc5ae5d1000" >
+<cdparam x="543" y="522" />
+<sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
+<infoparam name="connector" value="{info}" />
+<P1  x="543" y="522" id="7584" />
+<P2  x="442" y="635" id="7868" />
+<AutomaticDrawing  data="true" />
+<new d="false" />
+<extraparam>
+<info priority="0" />
+<spy value="false" />
+</extraparam>
+</CONNECTOR>
+<CONNECTOR type="125" id="8391" index="39" uid="2d76f67c-4cbc-4639-b706-6fbcbde2d13e" >
+<cdparam x="536" y="475" />
+<sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
+<infoparam name="connector" value="{info}" />
+<P1  x="543" y="472" id="7582" />
+<P2  x="481" y="472" id="7998" />
+<AutomaticDrawing  data="true" />
+<new d="false" />
+<extraparam>
+<info priority="0" />
+<spy value="false" />
+</extraparam>
+</CONNECTOR>
+<CONNECTOR type="125" id="8392" index="40" uid="8c886fc0-8064-4953-990e-dd1fd7491b7e" >
+<cdparam x="549" y="337" />
+<sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
+<infoparam name="connector" value="{info}" />
+<P1  x="454" y="395" id="7610" />
+<P2  x="418" y="447" id="8003" />
+<AutomaticDrawing  data="true" />
+<new d="false" />
+<extraparam>
+<info priority="0" />
+<spy value="false" />
+</extraparam>
+</CONNECTOR>
+<CONNECTOR type="125" id="8393" index="41" uid="4537e5b0-0a48-4765-8859-db81b655b53b" >
+<cdparam x="155" y="323" />
+<sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
+<infoparam name="connector" value="{info}" />
+<P1  x="155" y="395" id="7644" />
+<P2  x="293" y="447" id="8002" />
+<AutomaticDrawing  data="true" />
+<new d="false" />
+<extraparam>
+<info priority="0" />
+<spy value="false" />
+</extraparam>
+</CONNECTOR>
+<CONNECTOR type="125" id="8394" index="42" uid="4d26109e-8abd-4889-91db-877dacddc021" >
+<cdparam x="357" y="778" />
+<sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
+<infoparam name="connector" value="{info}" />
+<P1  x="356" y="737" id="7886" />
+<P2  x="231" y="685" id="7865" />
+<AutomaticDrawing  data="true" />
+<new d="false" />
+<extraparam>
+<info priority="0" />
+<spy value="false" />
+</extraparam>
+</CONNECTOR>
+<CONNECTOR type="125" id="8395" index="43" uid="1e51f8d2-46aa-46ae-bb4b-3e82e813ed2f" >
+<cdparam x="1654" y="758" />
+<sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
+<infoparam name="connector" value="{info}" />
+<P1  x="1652" y="737" id="7689" />
+<P2  x="1652" y="685" id="7816" />
+<AutomaticDrawing  data="true" />
+<new d="false" />
+<extraparam>
+<info priority="0" />
+<spy value="false" />
+</extraparam>
+</CONNECTOR>
+<CONNECTOR type="125" id="8396" index="44" uid="ed2b5087-ab35-474e-b670-8efc3bd08e4e" >
+<cdparam x="1651" y="573" />
+<sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
+<infoparam name="connector" value="{info}" />
+<P1  x="1652" y="586" id="7791" />
+<P2  x="1652" y="635" id="7811" />
+<AutomaticDrawing  data="true" />
+<new d="false" />
+<extraparam>
+<info priority="0" />
+<spy value="false" />
+</extraparam>
+</CONNECTOR>
+<CONNECTOR type="125" id="8397" index="45" uid="6f59c8f0-e684-41f6-8011-1a8100d72ad0" >
+<cdparam x="959" y="527" />
+<sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
+<infoparam name="connector" value="{info}" />
+<P1  x="960" y="531" id="8122" />
+<P2  x="960" y="483" id="8152" />
+<AutomaticDrawing  data="true" />
+<new d="false" />
+<extraparam>
+<info priority="0" />
+<spy value="false" />
+</extraparam>
+</CONNECTOR>
+<CONNECTOR type="125" id="8398" index="46" uid="0eb90ee4-a6b5-41d8-8dcd-d7c183da0d44" >
+<cdparam x="1140" y="461" />
+<sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
+<infoparam name="connector" value="{info}" />
+<P1  x="1147" y="458" id="8022" />
+<P2  x="1085" y="458" id="8150" />
+<AutomaticDrawing  data="true" />
+<new d="false" />
+<extraparam>
+<info priority="0" />
+<spy value="false" />
+</extraparam>
+</CONNECTOR>
+<CONNECTOR type="125" id="8399" index="47" uid="afd2aaf2-20c7-418a-b878-d3a8f200c76d" >
+<cdparam x="1189" y="374" />
+<sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
+<infoparam name="connector" value="{info}" />
+<P1  x="1022" y="376" id="8050" />
+<P2  x="1022" y="433" id="8155" />
+<AutomaticDrawing  data="true" />
+<new d="false" />
+<extraparam>
+<info priority="0" />
+<spy value="false" />
+</extraparam>
+</CONNECTOR>
+<CONNECTOR type="125" id="8400" index="48" uid="bd13837b-6764-4661-b655-77ffd4d56a55" >
+<cdparam x="795" y="360" />
+<sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
+<infoparam name="connector" value="{info}" />
+<P1  x="738" y="384" id="8102" />
+<P2  x="897" y="433" id="8154" />
+<AutomaticDrawing  data="true" />
+<new d="false" />
+<extraparam>
+<info priority="0" />
+<spy value="false" />
+</extraparam>
+</CONNECTOR>
+<CONNECTOR type="125" id="8401" index="49" uid="17cd240b-eb0e-437e-bd6a-a76f504057f3" >
+<cdparam x="970" y="831" />
+<sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
+<infoparam name="connector" value="{info}" />
+<P1  x="970" y="831" id="8202" />
+<P2  x="970" y="875" id="8281" />
+<AutomaticDrawing  data="true" />
+<new d="false" />
+<extraparam>
+<info priority="0" />
+<spy value="false" />
+</extraparam>
+</CONNECTOR>
+<CONNECTOR type="125" id="8402" index="50" uid="90cce55e-ff1d-4d63-b561-a3f4076bd712" >
+<cdparam x="1173" y="906" />
+<sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
+<infoparam name="connector" value="{info}" />
+<P1  x="1174" y="900" id="8174" />
+<P2  x="1095" y="900" id="8284" />
+<AutomaticDrawing  data="true" />
+<new d="false" />
+<extraparam>
+<info priority="0" />
+<spy value="false" />
+</extraparam>
+</CONNECTOR>
+<CONNECTOR type="125" id="8403" index="51" uid="aa64b30b-092f-4c97-aca4-fa49e02c1b45" >
+<cdparam x="1200" y="1013" />
+<sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
+<infoparam name="connector" value="{info}" />
+<P1  x="1274" y="960" id="8222" />
+<P2  x="1032" y="925" id="8295" />
+<AutomaticDrawing  data="true" />
+<new d="false" />
+<extraparam>
+<info priority="0" />
+<spy value="false" />
+</extraparam>
+</CONNECTOR>
+<CONNECTOR type="125" id="8404" index="52" uid="a004f3ca-7df2-4b1a-94f3-395f3fadce0a" >
+<cdparam x="779" y="970" />
+<sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
+<infoparam name="connector" value="{info}" />
+<P1  x="868" y="981" id="8256" />
+<P2  x="907" y="925" id="8294" />
 <AutomaticDrawing  data="true" />
 <new d="false" />
 <extraparam>

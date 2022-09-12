@@ -213,6 +213,10 @@ public class AUTState implements Comparable<AUTState> {
         inTransitions.remove(_tr);
     }
 
+    public void removeOutTransition(AUTTransition _tr) {
+        outTransitions.remove(_tr);
+    }
+
 
     public void createTransitionsButNotDuplicate(LinkedList<AUTTransition> _newTransitions, ArrayList<AUTState> _states, ArrayList<AUTTransition> _transitions) {
         for (AUTTransition tr : _newTransitions) {

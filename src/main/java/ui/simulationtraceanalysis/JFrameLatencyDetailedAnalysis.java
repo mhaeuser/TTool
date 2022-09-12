@@ -563,8 +563,8 @@ public class JFrameLatencyDetailedAnalysis extends JFrame implements ActionListe
             this.revalidate();
             this.repaint();
         } catch (Exception e) {
-            jta.append("An error has occurred.\n");
-            jta.append(e.getMessage() + ".\n");
+            jta.append("Graph generation failed.\n");
+            jta.append(e.getClass() + "/" + e.getMessage() + ".\n");
             // buttonSaveDGraph.setEnabled(false);
             buttonShowDGraph.setEnabled(false);
         }
@@ -925,13 +925,17 @@ public class JFrameLatencyDetailedAnalysis extends JFrame implements ActionListe
             Object[][] tableData = null;
             Boolean taint = taintFirstOp.isSelected();
             Boolean considerAddedRules = considerRules.isSelected();
+            long timeStart1 = System.currentTimeMillis();
             try {
                 tableData = dgraph.latencyDetailedAnalysis(task1, task2, transFile1, taint, considerAddedRules);
             } catch (Exception e) {
-                jta.append("An error has occurred.\n");
+                jta.append("An error has occurred during latency analysis.\n");
                 jta.append(e.getMessage() + ".\n");
                 e.getStackTrace()[0].getLineNumber();
             }
+            long timeEnd1 = System.currentTimeMillis();
+            jta.append("The computation of latencies " +
+                    "took " + (timeEnd1 - timeStart1) + " ms\n");
             table11.removeAll();
             DefaultTableModel tableModel = new DefaultTableModel(tableData, columnNames) {
                 @Override
@@ -994,7 +998,8 @@ public class JFrameLatencyDetailedAnalysis extends JFrame implements ActionListe
             scrollPane11.repaint();
             // scrollPane11.setVisible(true);
             long timeEnd = System.currentTimeMillis();
-            jta.append("Latency has been computed...Please refer to the tables in the Latency Analysis section for the results.\n The computation " +
+            jta.append("Latency has been computed and displayed...Please refer to the tables in the Latency Analysis section for the results.\n " +
+                    "The overall computation " +
                     "took " + (timeEnd - timeStart) + " ms\n");
             latencybutton.setEnabled(true);
             this.pack();

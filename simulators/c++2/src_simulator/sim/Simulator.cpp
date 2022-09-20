@@ -1256,7 +1256,7 @@ void Simulator::printHelp(){
     "-ograph ofile          simulate and write traces to ofile in aut format\n"
     "-gname ofile           name of the file WITHOUT extension storing the reachability graph\n"
     "-explo                 generate the reachability graph  (penalties must be deactivated) \n"
-    "-cmd \'c1 p1 p2;c2\'     execute commands c1 with parameters p1 and p2 and c2\n"
+    "-cmd \'c1 p1 p2;c2\'   execute command c1 with parameters p1 and p2, and then command c2\n"
     "-oxml ofile            xml reply is written to ofile, in case the -cmd option is used\n"
     "-signals ofile         generates signals from declared file \n"
     "********************************************************************************************\n\n";
@@ -1339,13 +1339,24 @@ ServerIF* Simulator::run(int iLen, char ** iArgs){
   _replyToServer = false;
 
   #ifndef PENALTIES_ENABLED
-  aArgString =getArgs("-explo", "file", iLen, iArgs);
+  //std::cout << "analyzing -explo option: PENALTIES ENABLED\n";
+  aArgString = getArgs("-explo", "file", iLen, iArgs);
   if (!aArgString.empty()) {
     std::string command = "1 7 100 100 " + graphName;
     std::cout << "Just analyzed explo 1->" + aArgString + "<- with command: " + command + "\n";
     decodeCommand(command);
   }
   #endif
+
+   #ifdef PENALTIES_ENABLED
+   aArgString = getArgs("-explo", "file", iLen, iArgs);
+  if (!aArgString.empty()) {
+    std::cout << "-explo option is not supported with PENALTIES ENABLED\n";
+    std::cout << " -> aborting\n";
+    exit(1);
+  }
+
+   #endif
 
   aArgString=getArgs("-signals", "signals.txt", iLen, iArgs);
   if (!aArgString.empty()) {

@@ -1678,7 +1678,7 @@ public class AvatarDesignPanelTranslator {
                     ((ui.AvatarSignal) atas.getReferenceObject()).attachedToARelation = false;
                 }
                 //TraceManager.addDev("Spec:" + _as.toString());
-                throw new CheckingError(CheckingError.BEHAVIOR_ERROR, "Signal used for sending in " + asmdss.getValue() + " is not connected to a channel");
+                throw new CheckingError(CheckingError.BEHAVIOR_ERROR, "Signal used for sending " + asmdss.getValue() + " is not connected to a channel");
             }
             if (atas.getReferenceObject() instanceof ui.AvatarSignal) {
                 //TraceManager.addDev("Send/ Setting as attached " + atas);
@@ -1984,7 +1984,7 @@ public class AvatarDesignPanelTranslator {
                     //TraceManager.addDev("Receive/ Setting as attached " + atas);
                     ((ui.AvatarSignal) atas.getReferenceObject()).attachedToARelation = false;
                 }
-                throw new CheckingError(CheckingError.BEHAVIOR_ERROR, "Signal used for receiving in " + asmdrs.getValue() + " is not connected to a channel");
+                throw new CheckingError(CheckingError.BEHAVIOR_ERROR, "Signal used for receiving " + asmdrs.getValue() + " is not connected to a channel");
             }
             if (atas.getReferenceObject() instanceof ui.AvatarSignal) {
                 //TraceManager.addDev("Receive/ Setting as attached " + atas);
@@ -2133,13 +2133,13 @@ public class AvatarDesignPanelTranslator {
                     //TraceManager.addDev("Receive/ Setting as attached " + atas);
                     ((ui.AvatarSignal) atas.getReferenceObject()).attachedToARelation = false;
                 }
-                throw new CheckingError(CheckingError.BEHAVIOR_ERROR, "Signal used for receiving in " + asmdquery.getValue() +
+                throw new CheckingError(CheckingError.BEHAVIOR_ERROR, "Signal used for receiving " + asmdquery.getValue() +
                         " is not connected to a channel");
             }
 
             // Check that the relation is asynchronous
             if (!(ar.isAsynchronous())) {
-                throw new CheckingError(CheckingError.BEHAVIOR_ERROR, "Signal used for receiving in " + asmdquery.getValue() +
+                throw new CheckingError(CheckingError.BEHAVIOR_ERROR, "Signal used for receiving " + asmdquery.getValue() +
                         " is not connected to an asynchronous channel");
             }
 

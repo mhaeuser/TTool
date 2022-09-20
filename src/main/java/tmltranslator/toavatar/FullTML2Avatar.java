@@ -285,7 +285,7 @@ public class FullTML2Avatar {
             for (TMLChannel chan : tmlmodel.getChannels(task)) {
 
                 if (chan.hasOriginTask(task)) {
-                    //TraceManager.addDev("Handling channel: " + chan.getName() + " -> sig: " + chan.getOriginPort().getName() + "_out");
+                    TraceManager.addDev("Handling channel: " + chan.getName() + " -> sig: " + chan.getOriginPort().getName() + "_out");
                     AvatarSignal sig = new AvatarSignal(chan.getOriginPort().getName() + "_out", AvatarSignal.OUT, chan.getReferenceObject());
 
                     block.addSignal(sig);
@@ -301,7 +301,7 @@ public class FullTML2Avatar {
                 }
 
                 if (chan.hasDestinationTask(task)) {
-                    //TraceManager.addDev("Handling channel: " + chan.getName() + " -> sig: " + chan.getDestinationPort().getName() + "_out");
+                    TraceManager.addDev("Handling channel: " + chan.getName() + " -> sig: " + chan.getDestinationPort().getName() + "_in");
                     AvatarSignal sig = new AvatarSignal(reworkStringName(chan.getDestinationPort().getName() + "_in"), AvatarSignal.IN,
                             chan.getReferenceObject());
                     block.addSignal(sig);

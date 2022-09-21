@@ -9064,6 +9064,8 @@ public class GTURTLEModeling {
 
         bl.setValueWithChange(ab.getName().split("__")[ab.getName().split("__").length - 1]);
 
+        TraceManager.addDev("Setting name of block: " + bl.getBlockName());
+
         for (AvatarAttribute attr : ab.getAttributes()) {
             int type = 5;
             if (attr.getType() == AvatarType.BOOLEAN) {
@@ -9110,8 +9112,6 @@ public class GTURTLEModeling {
 
     public void drawPanel(AvatarSpecification avspec, AvatarDesignPanel adp) {
         //
-
-
         // Check Errors in AVSPEC
         TraceManager.addDev("Checking syntax of avatar spec.");
         ArrayList<AvatarError> list = AvatarSyntaxChecker.checkSyntaxErrors(avspec);
@@ -9136,9 +9136,9 @@ public class GTURTLEModeling {
         int xpos = 10;
         int ypos = 40;
 
-        //Create blocks recursively, starting from top level ones with no father
-        //Lowest level blocks should be 100x100, next should be 100x(number of children*100+50)...etc,
-        //Find level #, 0 refers to no father, etc
+        // Create blocks recursively, starting from top level ones with no father
+        // Lowest level blocks should be 100x100, next should be 100x(number of children*100+50)...etc,
+        // Find level #, 0 refers to no father, etc
         Map<AvatarBlock, Integer> blockLevelMap = new HashMap<AvatarBlock, Integer>();
         Map<AvatarBlock, Integer> blockSizeMap = new HashMap<AvatarBlock, Integer>();
         Map<AvatarBlock, Integer> blockIncMap = new HashMap<AvatarBlock, Integer>();
@@ -9171,6 +9171,7 @@ public class GTURTLEModeling {
             for (AvatarBlock ab : avspec.getListOfBlocks()) {
                 if (blockLevelMap.get(ab) == level) {
                     if (level == 0) {
+                        TraceManager.addDev("New block at level 0");
                         AvatarBDBlock bl = new AvatarBDBlock(xpos, ypos, abd.getMinX(), abd.getMaxX(), abd.getMinY(), abd.getMaxY(), false, null, abd);
                         if ((ab.getReferenceObject() != null) && (ab.getReferenceObject() instanceof CDElement)) {
                             CDElement cd = (CDElement) ab.getReferenceObject();
@@ -9187,9 +9188,9 @@ public class GTURTLEModeling {
                         blockMap.put(bl.getValue().split("__")[bl.getValue().split("__").length - 1], bl);
                         xpos += 100 * blockSizeMap.get(ab) + 200;
                     } else {
-
+                        TraceManager.addDev("New block at level " + level);
                         AvatarBDBlock father = blockMap.get(ab.getFather().getName().split("__")[ab.getFather().getName().split("__").length - 1]);
-                        //
+                        TraceManager.addDev("Father name: " + father.getBlockName());
                         if (father == null) {
                             //
                             continue;
@@ -9204,7 +9205,7 @@ public class GTURTLEModeling {
                             abd.addComponent(bl, xpos, ypos, false, true);
                             bl.resize(100 * blockSizeMap.get(ab) + 100, 100 + (maxLevel - level) * 50);
                         }
-                        abd.addComponent(bl, father.getX() + blockIncMap.get(ab.getFather()), father.getY() + 10, false, true);
+                        //abd.addComponent(bl, father.getX() + blockIncMap.get(ab.getFather()), father.getY() + 10, false, true);
                         int size = 100;
                         if (blockSizeMap.containsKey(ab)) {
                             size = 100 * blockSizeMap.get(ab) + 50;

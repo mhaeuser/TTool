@@ -180,7 +180,7 @@ ID Simulator::schedule2GraphAUT(std::ostream& iAUTFile, ID iStartState, unsigned
   for(CPUList::const_iterator i=_simComp->getCPUList().begin(); i != _simComp->getCPUList().end(); ++i){
       aTrans = (*i)->getTransactions1By1(true);
       if (aTrans!=0) {
-	aQueue.push(aTrans);
+	      aQueue.push(aTrans);
       }
   }
   for(FPGAList::const_iterator i=_simComp->getFPGAList().begin(); i != _simComp->getFPGAList().end(); ++i){
@@ -205,12 +205,12 @@ ID Simulator::schedule2GraphAUT(std::ostream& iAUTFile, ID iStartState, unsigned
     //std::cout << "(" << aStartState<< "," << "\"i(" << aCPU->toString() << "__" << aTopElement->getCommand()->getTask()->toString() << "__" << aTopElement->getCommand()->getCommandStr();
     if(aCPU){
       if(aCPU->getAmoutOfCore()>1){
-	iAUTFile << "(" << aStartState << "," << "\"i(" << aCPU->toString() << "_core_" << aTopElement->getTransactCoreNumber() << "__" << aTopElement->getCommand()->getTask()->toString() << "__" << aTopElement->getCommand()->getCommandStr() << "_Endtime<" << aTopElement->getEndTime() << ">";
-	std::cout << "(" << aStartState << "," << "\"i(" << aCPU->toString() << "_core_" << aTopElement->getTransactCoreNumber() << "__" << aTopElement->getCommand()->getTask()->toString() << "__" << aTopElement->getCommand()->getCommandStr();
+	    iAUTFile << "(" << aStartState << "," << "\"i(" << aCPU->toString() << "_core_" << aTopElement->getTransactCoreNumber() << "__" << aTopElement->getCommand()->getTask()->toString() << "__" << aTopElement->getCommand()->getCommandStr() << "_Endtime<" << aTopElement->getEndTime() << ">";
+	    std::cout << "(" << aStartState << "," << "\"i(" << aCPU->toString() << "_core_" << aTopElement->getTransactCoreNumber() << "__" << aTopElement->getCommand()->getTask()->toString() << "__" << aTopElement->getCommand()->getCommandStr();
       }
       else {
-	iAUTFile << "(" << aStartState << "," << "\"i(" << aCPU->toString() << "__" << aTopElement->getCommand()->getTask()->toString() << "__" << aTopElement->getCommand()->getCommandStr() << "_Endtime<" << aTopElement->getEndTime() << ">";
-	std::cout << "(" << aStartState << "," << "\"i(" << aCPU->toString() << "__" << aTopElement->getCommand()->getTask()->toString() << "__" << aTopElement->getCommand()->getCommandStr();
+	      iAUTFile << "(" << aStartState << "," << "\"i(" << aCPU->toString() << "__" << aTopElement->getCommand()->getTask()->toString() << "__" << aTopElement->getCommand()->getCommandStr() << "_Endtime<" << aTopElement->getEndTime() << ">";
+	      std::cout << "(" << aStartState << "," << "\"i(" << aCPU->toString() << "__" << aTopElement->getCommand()->getTask()->toString() << "__" << aTopElement->getCommand()->getCommandStr();
       }
     }
     else if(aFPGA){
@@ -278,7 +278,7 @@ ID Simulator::schedule2GraphDOT(std::ostream& iDOTFile, std::ostream& iAUTFile, 
 }
 
 void Simulator::schedule2Graph(std::string& iTraceFileName) const{
-  std::cout<<"schedule graph"<<std::endl;
+  std::cout<<"Saving graph"<<std::endl;
   struct timeval aBegin,aEnd;
   gettimeofday(&aBegin,NULL);
   std::ofstream myfile (iTraceFileName.c_str());
@@ -316,11 +316,12 @@ void Simulator::schedule2Graph(std::string& iTraceFileName) const{
     myfile << "des (0, " << aTransitionNo+1 << ", " << aTransitionNo+2 << ")\n";
     myfile <<  aOutp.str() << "(" << aTransitionNo << ",\"i(exit)\", " << aTransitionNo+1 << ")\n";
     myfile.close();
+    gettimeofday(&aEnd,NULL);
+    std::cout << "The Graph output took " << getTimeDiff(aBegin,aEnd) << "usec. File: " << iTraceFileName << std::endl;
   }
   else
     std::cout << "Unable to open Graph output file" << std::endl;
-  gettimeofday(&aEnd,NULL);
-  std::cout << "The Graph output took " << getTimeDiff(aBegin,aEnd) << "usec. File: " << iTraceFileName << std::endl;
+  
 }
 
 void Simulator::schedule2TXT(std::string& iTraceFileName) const{

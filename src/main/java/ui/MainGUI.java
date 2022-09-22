@@ -1881,7 +1881,7 @@ public class MainGUI implements ActionListener, WindowListener, KeyListener, Per
         DateFormat dateFormat = new SimpleDateFormat("_yyyyMMdd_HHmmss");
         Date date = new Date();
         String dateAndTime = dateFormat.format(date);
-        String tabName = "DrawnDesign_" + dateAndTime;
+        String tabName = "Design_" + dateAndTime;
         TraceManager.addDev("Draw Spec 1");
         int index = createAvatarDesign(tabName);
         TraceManager.addDev("Draw Spec 2");

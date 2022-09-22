@@ -6397,11 +6397,11 @@ public class GTURTLEModeling {
         String name;
 
         name = elt.getAttribute("name");
-        //TraceManager.addDev("Loading SMD of:" + name);
+        TraceManager.addDev("Loading SMD of:" + name + " at index " + indexDesign);
         AvatarSMDPanel asmdp = mgui.getAvatarSMDPanel(indexDesign, name);
 
         if (asmdp == null) {
-            throw new MalformedModelingException();
+            throw new MalformedModelingException("avatar SMD Panel named " + name + " could not be found");
         }
 
         asmdp.removeAll();
@@ -9197,15 +9197,15 @@ public class GTURTLEModeling {
                         }
                         AvatarBDBlock bl = new AvatarBDBlock(father.getX() + blockIncMap.get(ab.getFather()), father.getY() + 10,
                                 abd.getMinX(), abd.getMaxX(), abd.getMinY(), abd.getMaxY(), false, father, abd);
-                        if ((ab.getReferenceObject() != null) && (ab.getReferenceObject() instanceof CDElement)) {
+                        /*if ((ab.getReferenceObject() != null) && (ab.getReferenceObject() instanceof CDElement)) {
                             CDElement cd = (CDElement) ab.getReferenceObject();
                             bl.setUserResize(cd.getX(), cd.getY(), cd.getWidth(), cd.getHeight());
                             abd.addComponent(bl, cd.getX(), cd.getY(), false, true);
-                        } else {
-                            abd.addComponent(bl, xpos, ypos, false, true);
-                            bl.resize(100 * blockSizeMap.get(ab) + 100, 100 + (maxLevel - level) * 50);
-                        }
-                        //abd.addComponent(bl, father.getX() + blockIncMap.get(ab.getFather()), father.getY() + 10, false, true);
+                        } else {*/
+                            //abd.addComponent(bl, xpos, ypos, false, true);
+                            //bl.resize(100 * blockSizeMap.get(ab) + 100, 100 + (maxLevel - level) * 50);
+                        //}
+                        abd.addComponent(bl, father.getX() + blockIncMap.get(ab.getFather()), father.getY() + 10, false, true);
                         int size = 100;
                         if (blockSizeMap.containsKey(ab)) {
                             size = 100 * blockSizeMap.get(ab) + 50;

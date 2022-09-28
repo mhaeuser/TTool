@@ -90,6 +90,18 @@ std::string TMLTransaction::toShortString() const{
   return outp.str();
 }
 
+std::string TMLTransaction::toLongString() const{
+  std::ostringstream outp;
+  if (_command==0)
+    outp << "System State ID: " <<  _virtualLength;
+  else{
+    outp << _command->toShortString() << " t:" << _startTime << " l:" << _length << " (vl:"<<  _virtualLength << ")" << " params:" << lastParams << 
+    " to/from idle penalty: " << getIdlePenalty()  << " scheduling penalty: " << getTaskSwitchingPenalty() ;
+    if (_channel!=0) outp << " Ch: " << _channel->toShortString();
+  }
+  return outp.str();
+}
+
 
 void TMLTransaction::toXML(std::ostringstream& glob, int deviceID, std::string deviceName, ID uniqueID) const {
   if (_command==0) {

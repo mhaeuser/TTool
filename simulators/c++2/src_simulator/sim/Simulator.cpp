@@ -484,9 +484,11 @@ void Simulator::timeline2HTML(std::string& iTracetaskList, std::ostringstream& m
     for(CPUList::const_iterator i=_simComp->getCPUList().begin(); i != _simComp->getCPUList().end(); ++i){
         for(unsigned int j = 0; j < (*i)->getAmoutOfCore(); j++) {
             taskCellClasses = (*i)->HWTIMELINE2HTML(myfileTemp, taskCellClasses, taskCellClasses.size(), iTracetaskList, isScalable, start, end);
+             
             if((*i)->getMaxScale() > maxScale) {
                 maxScale = (*i)->getMaxScale();
             }
+            std::cout << "CPU " << (*i)->toString() <<  " maxScale:" <<maxScale << std::endl;
             (*i)->setCycleTime((*i)->getCycleTime()+1);
         }
 //        if((*i)->getAmoutOfCore() == 1)

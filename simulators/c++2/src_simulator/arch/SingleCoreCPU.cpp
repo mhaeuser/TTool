@@ -576,7 +576,8 @@ std::string SingleCoreCPU::toShortString() const{
 void SingleCoreCPU::schedule2TXT(std::ofstream& myfile) const{
   myfile << "========= Scheduling for device: "<< _name << " =========\n" ;
   for(TransactionList::const_iterator i=_transactList.begin(); i != _transactList.end(); ++i){
-    myfile << (*i)->toShortString() << std::endl;
+    //myfile << (*i)->toShortString() << std::endl;
+    myfile << (*i)->toLongString() << std::endl;
   }
 }
 

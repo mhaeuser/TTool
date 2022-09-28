@@ -577,6 +577,9 @@ std::string MultiCoreCPU::toShortString() const{
 
 
 void MultiCoreCPU::schedule2HTML(std::ofstream& myfile) const{
+
+std::cout << std::endl << "---- Multicore HTML ----- " << std::endl;
+
   TMLTime aCurrTime=0;
   TMLTransaction* aCurrTrans;
   unsigned int aBlanks,aLength,aColor;
@@ -588,7 +591,9 @@ void MultiCoreCPU::schedule2HTML(std::ofstream& myfile) const{
   std::vector<unsigned int> listScale;
   std::vector<unsigned int> listScaleTime;
   listScale.push_back(0);
+  std::cout << "ListScale: " << 0 << '\n';
   listScaleTime.push_back(0);
+  std::cout << "ListScaleTime: " << 0 << '\n';
   bool changeCssClass = false;
   TMLTransaction* checkLastTime = _transactList.back();
   for(TransactionList::const_iterator i=_transactList.begin(); i != _transactList.end(); ++i){
@@ -609,9 +614,11 @@ void MultiCoreCPU::schedule2HTML(std::ofstream& myfile) const{
     if ( aBlanks >= 0 && (!(aCurrTrans->getCommand()->getActiveDelay()) && aCurrTrans->getCommand()->isDelayTransaction()) ){
 
         listScale.push_back(aBlanks+1);
+        std::cout << "ListScale: " << (aBlanks+1) << '\n';
         tempString << tempBlanks+1;
 	    if(aCurrTrans->getStartTime()+1 > listScaleTime.back()){
             listScaleTime.push_back(aCurrTrans->getStartTime()+1);
+            std::cout << "ListScaleTime: " << (aCurrTrans->getStartTime()+1) << '\n';
         }
         if (isBlankTooBig){
             myfile << "<td colspan=\""<< aBlanks+1 <<"\" title=\"idle time\" class=\"not\">" << "<- idle " + tempString.str() + " ->" << "</td>\n";
@@ -621,9 +628,11 @@ void MultiCoreCPU::schedule2HTML(std::ofstream& myfile) const{
     }
     else if (aBlanks>0){
       listScale.push_back(aBlanks);
+      std::cout << "listScale: " <<  aBlanks << std::endl;
       tempString << tempBlanks;
 	  if(aCurrTrans->getStartTime() > listScaleTime.back()){
           listScaleTime.push_back(aCurrTrans->getStartTime());
+          std::cout << "listScaleTime. Pushing trans start time: " << aCurrTrans->getStartTime() << std::endl;
       }
       if (isBlankTooBig){
           myfile << "<td colspan=\""<< aBlanks <<"\" title=\"idle time\" class=\"not\">" << "<- idle " + tempString.str() + " ->" << "</td>\n";
@@ -638,23 +647,24 @@ void MultiCoreCPU::schedule2HTML(std::ofstream& myfile) const{
     aLength=aCurrTrans->getPenalties();
 
     if (aLength!=0){
-      listScaleTime.push_back(listScaleTime.back()+aLength);
+      //listScaleTime.push_back(listScaleTime.back()+aLength);
       if(checkLastTime->getEndTime() >= 250 && aLength >10){
           tempReduce += aLength - 10;
           aLength = 10;
       }
+       std::cout << "listScale. Pushing length: " <<  aLength << std::endl;
       listScale.push_back(aLength);
       if (aLength==1){
         //myfile << "<td title=\""<< aCurrTrans->toShortString() << "\" class=\"t15\"></td>\n";
         //myfile << "<td title=\" idle:" << aCurrTrans->getIdlePenalty() << " switch:" << aCurrTrans->getTaskSwitchingPenalty() << " bran:" << aCurrTrans->getBranchingPenalty() << "\" class=\"t15\"></td>\n";
         myfile << "<td title=\" idle:" << aCurrTrans->getIdlePenalty() << " switching penalty:" << aCurrTrans->getTaskSwitchingPenalty() << "\" class=\"t15\"></td>\n";
-      }else{
+      } else{
         //myfile << "<td colspan=\"" << aLength << "\" title=\" idle:" << aCurrTrans->getIdlePenalty() << " switch:" << aCurrTrans->getTaskSwitchingPenalty() << " bran:" << aCurrTrans->getBranchingPenalty() << "\" class=\"t15\"></td>\n";
         myfile << "<td colspan=\"" << aLength << "\" title=\" idle:" << aCurrTrans->getIdlePenalty() << " switching penalty:" << aCurrTrans->getTaskSwitchingPenalty() << "\" class=\"t15\"></td>\n";
       }
     }
-    aLength=aCurrTrans->getOperationLength();
-    aColor=aCurrTrans->getCommand()->getTask()->getInstanceNo() & 15;
+    aLength = aCurrTrans->getOperationLength();
+    aColor = aCurrTrans->getCommand()->getTask()->getInstanceNo() & 15;
     if(!(!(aCurrTrans->getCommand()->getActiveDelay()) && aCurrTrans->getCommand()->isDelayTransaction())){
       if(checkLastTime->getEndTime() >= 250 && aLength >10){
         tempReduce += aLength - 10;
@@ -666,11 +676,15 @@ void MultiCoreCPU::schedule2HTML(std::ofstream& myfile) const{
         myfile << "<td colspan=\"" << aLength << "\" title=\"" << aCurrTrans->toShortString() << "\" class=\"t"<< aColor <<"\"></td>\n";
 
       listScale.push_back(aLength);
+      std::cout << "listScale. Pushing updated length (operations): " <<  aLength << std::endl;
+
       if(aCurrTrans->getStartTime() > listScaleTime.back()){
          listScaleTime.push_back(aCurrTrans->getStartTime());
+         std::cout << "listScaleTime. Pushing : " <<  (aCurrTrans->getStartTime()) << std::endl;
       }
       if(aCurrTrans->getEndTime() > listScaleTime.back()){
         listScaleTime.push_back(aCurrTrans->getEndTime());
+        std::cout << "listScaleTime. Pushing : " <<  (aCurrTrans->getEndTime()) << std::endl;
       }
     }
 
@@ -741,7 +755,8 @@ void MultiCoreCPU::schedule2HTML(std::ofstream& myfile) const{
 void MultiCoreCPU::schedule2TXT(std::ofstream& myfile) const{
   myfile << "========= Scheduling for device: "<< _name << " =========\n" ;
   for(TransactionList::const_iterator i=_transactList.begin(); i != _transactList.end(); ++i){
-    myfile << (*i)->toShortString() << std::endl;
+    //myfile << (*i)->toShortString() << std::endl;
+    myfile << (*i)->toLongString() << std::endl;
   }
 }
 

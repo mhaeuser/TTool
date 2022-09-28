@@ -1627,30 +1627,32 @@ public class JFrameInteractiveSimulation extends JFrame implements ActionListene
         //Make a popup to select which tasks
         Vector<String> tmlComponentsToValidate = new Vector<String>();
         List<String> tasks = new ArrayList<String>();
-        for (TMLTask task : tmap.getTMLModeling().getTasks()) {
-            tasks.add(task.getName());
-        }
-        JDialogSelectTasks jdstmlc = new JDialogSelectTasks(f, tmlComponentsToValidate, tasks, "Select tasks to show in trace");
-        GraphicLib.centerOnParent(jdstmlc);
-        jdstmlc.setVisible(true);
-        listOfTaskToShowInTimeLine = "";
-        for (String taskname : tmlComponentsToValidate) {
-            listOfTaskToShowInTimeLine += taskname + ",";
-        }
-        isScalable = jdstmlc.getScaleIdleTime();
-
-        if (!listOfTaskToShowInTimeLine.equals("")) {
-            tmlSimPanelTimeline = new JFrameTMLSimulationPanelTimeline(new Frame(), mgui, this, "Show Trace - Timeline", timelineParam);
-            tmlSimPanelTimeline.setCheckBoxSelectedTimePeriod(jdstmlc.getSelectedTimePeriod());
-            if (jdstmlc.getSelectedTimePeriod()) {
-                tmlSimPanelTimeline.setStartTime(jdstmlc.getStartTime());
-                tmlSimPanelTimeline.setEndTime(jdstmlc.getEndTime());
+        if ((tmap != null) && (tmap.getTMLModeling() != null)) {
+            for (TMLTask task : tmap.getTMLModeling().getTasks()) {
+                tasks.add(task.getName());
             }
-            tmlSimPanelTimeline.setParam(paramMainCommand.getText().trim());
-            tmlSimPanelTimeline.setVisible(true);
-            updateTimelineTrace();
+            JDialogSelectTasks jdstmlc = new JDialogSelectTasks(f, tmlComponentsToValidate, tasks, "Select tasks to show in trace");
+            GraphicLib.centerOnParent(jdstmlc);
+            jdstmlc.setVisible(true);
+            listOfTaskToShowInTimeLine = "";
+            for (String taskname : tmlComponentsToValidate) {
+                listOfTaskToShowInTimeLine += taskname + ",";
+            }
+            isScalable = jdstmlc.getScaleIdleTime();
+
+            if (!listOfTaskToShowInTimeLine.equals("")) {
+                tmlSimPanelTimeline = new JFrameTMLSimulationPanelTimeline(new Frame(), mgui, this, "Show Trace - Timeline", timelineParam);
+                tmlSimPanelTimeline.setCheckBoxSelectedTimePeriod(jdstmlc.getSelectedTimePeriod());
+                if (jdstmlc.getSelectedTimePeriod()) {
+                    tmlSimPanelTimeline.setStartTime(jdstmlc.getStartTime());
+                    tmlSimPanelTimeline.setEndTime(jdstmlc.getEndTime());
+                }
+                tmlSimPanelTimeline.setParam(paramMainCommand.getText().trim());
+                tmlSimPanelTimeline.setVisible(true);
+                updateTimelineTrace();
+            }
+            buttonShowTraceTimeline.setEnabled(true);
         }
-        buttonShowTraceTimeline.setEnabled(true);
     }
 	
 	public void writeArchitectureSimTrace(){
@@ -3667,10 +3669,14 @@ public class JFrameInteractiveSimulation extends JFrame implements ActionListene
             viewRG();
         } else if (command.equals(actions[InteractiveSimulationActions.ACT_REFRESH].getActionCommand())) {
             resetSimTrace();
-        } else if (command.equals(actions[InteractiveSimulationActions.ACT_SHOW_TRACE].getActionCommand())) {
-			writeSimTrace();
-		} else if (command.equals(actions[InteractiveSimulationActions.ACT_SHOW_TRACE_TIMELINE].getActionCommand())) {
-            writeSimTraceTimeline();
+        }
+
+        if (tmap != null) {
+            if (command.equals(actions[InteractiveSimulationActions.ACT_SHOW_TRACE].getActionCommand())) {
+                writeSimTrace();
+            } else if (command.equals(actions[InteractiveSimulationActions.ACT_SHOW_TRACE_TIMELINE].getActionCommand())) {
+                writeSimTraceTimeline();
+            }
         }
     }
 

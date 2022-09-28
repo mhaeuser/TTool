@@ -227,10 +227,17 @@ class TMLTransaction {
   std::string printEnd() const;
   std::string toString() const;
   ///Returns a short string representation of the transaction
+
   /**
      \return Short string representation
   */
   std::string toShortString() const;
+
+/**
+     \return Long string representation
+  */
+  std::string toLongString() const;
+
   ///Set channel on which data was conveyed
   /**
      \param iChannel Pointer to a channel

@@ -186,6 +186,11 @@ void CPU::schedule2XML(std::ostringstream &glob, std::ofstream &myfile) const
 }
 std::map<TMLTask *, std::string> CPU::HWTIMELINE2HTML(std::ostringstream &myfile, std::map<TMLTask *, std::string> taskCellClasses, unsigned int nextCellClassIndex, std::string &iTracetaskList, bool isScalable, double start, double end)
 {
+
+
+std::cout << std::endl << "---- CPU HTML ----- " << std::endl;
+
+
   TransactionList _transactListClone;
   std::string taskList = iTracetaskList.c_str();
   maxScale = 0;
@@ -212,26 +217,34 @@ std::map<TMLTask *, std::string> CPU::HWTIMELINE2HTML(std::ostringstream &myfile
     std::vector<unsigned int> listScale;
     std::vector<unsigned int> listScaleTime;
     listScale.push_back(0);
+    std::cout << "ListScale: " << 0 << std::endl;
     listScaleTime.push_back(0);
+    std::cout << "ListScaleTime: " << 0 << std::endl;
     bool changeCssClass = false;
     unsigned int endTimeOfCore = 0;
-    for (int j = _transactListClone.size() - 1; j >= 0; j--)
-    {
-      if (_transactListClone[j]->getTransactCoreNumber() == this->_cycleTime)
-      {
+
+
+
+
+    for (int j = _transactListClone.size() - 1; j >= 0; j--) {
+      if (_transactListClone[j]->getTransactCoreNumber() == this->_cycleTime) {
         endTimeOfCore = _transactListClone[j]->getEndTime();
         break;
       }
     }
-    for (TransactionList::const_iterator i = _transactListClone.begin(); i != _transactListClone.end(); ++i)
-    {
+    for (TransactionList::const_iterator i = _transactListClone.begin(); i != _transactListClone.end(); ++i) {
       // std::cout<<"get transaction core number is: "<<(*i)->getTransactCoreNumber()<<std::endl;
       // std::cout<<"time : "<<_cycleTime<<std::endl;
       // std::cout << "CPU:calcSTL: html of CPU " << _name << ": " << (*i)->toString() << std::endl;
-      if ((*i)->getTransactCoreNumber() == this->_cycleTime)
-      {
+      if ((*i)->getTransactCoreNumber() == this->_cycleTime) {
+
         TMLTransaction *aCurrTrans = *i;
-        unsigned int aBlanks = aCurrTrans->getStartTime() - aCurrTime;
+
+        unsigned int penLength = aCurrTrans->getPenalties();
+        unsigned long beg = aCurrTrans->getStartTime() - penLength;
+
+        
+        unsigned int aBlanks = beg - aCurrTime;
         bool isBlankTooBig = false;
         std::ostringstream tempString;
         int tempBlanks;
@@ -250,12 +263,18 @@ std::map<TMLTask *, std::string> CPU::HWTIMELINE2HTML(std::ostringstream &myfile
           isBlankTooBig = true;
           changeCssClass = true;
         }
+
+
+        
+
         if (aBlanks >= 0 && (!(aCurrTrans->getCommand()->getActiveDelay()) && aCurrTrans->getCommand()->isDelayTransaction()))
         {
           listScale.push_back(aBlanks + 1);
+          std::cout << "ListScale: " <<  (aBlanks + 1) << std::endl;
           tempString << tempBlanks + 1;
-          if (aCurrTrans->getStartTime() + 1 > listScaleTime.back()) {
-            listScaleTime.push_back(aCurrTrans->getStartTime() + 1);
+          if (beg + 1 > listScaleTime.back()) {
+            listScaleTime.push_back(beg + 1);
+            std::cout << "ListScaleTime: (start time  + 1) " <<  (beg + 1) << std::endl;
           }
           if (isBlankTooBig) {
             myfile << "<td colspan=\"" << aBlanks + 1 << "\" title=\"idle time\" class=\"not\">"
@@ -271,9 +290,11 @@ std::map<TMLTask *, std::string> CPU::HWTIMELINE2HTML(std::ostringstream &myfile
         }
         else if (aBlanks > 0) {
           listScale.push_back(aBlanks);
+          
           tempString << tempBlanks;
-          if (aCurrTrans->getStartTime() > listScaleTime.back()) {
-            listScaleTime.push_back(aCurrTrans->getStartTime());
+          if (beg > listScaleTime.back()) {
+            listScaleTime.push_back(beg);
+            std::cout << "ListScaleTime: (start time 1)" <<  (beg) << std::endl;
           }
           if (isBlankTooBig) {
             myfile << "<td colspan=\"" << aBlanks << "\" title=\"idle time\" class=\"not\">"
@@ -289,7 +310,10 @@ std::map<TMLTask *, std::string> CPU::HWTIMELINE2HTML(std::ostringstream &myfile
         unsigned int aLength = aCurrTrans->getPenalties();
         if (aLength != 0)
         {
-          listScaleTime.push_back(listScaleTime.back() + aLength);
+          long tempL = listScaleTime.back() + aLength;
+          listScaleTime.push_back(tempL);
+          std::cout << "ListScaleTime: (back+length)" <<  tempL << std::endl;
+
           if (isScalable && endTimeOfCore >= MIN_RESIZE_THRESHOLD && aLength > MIN_RESIZE_TRANS) {
             int tempLength = 0;
             if (aLength > 100000) {
@@ -307,6 +331,8 @@ std::map<TMLTask *, std::string> CPU::HWTIMELINE2HTML(std::ostringstream &myfile
             aLength = tempLength;
           }
           listScale.push_back(aLength);
+          std::cout << "ListScale: (length)" << aLength << std::endl;
+        
           std::ostringstream title;
           title << "idle:" << aCurrTrans->getIdlePenalty() << " switching penalty:" << aCurrTrans->getTaskSwitchingPenalty();
           myfile << "<td colspan=\"" << aLength << "\" title=\"" << title.str() << "\" class=\"not\"></td>";
@@ -359,13 +385,16 @@ std::map<TMLTask *, std::string> CPU::HWTIMELINE2HTML(std::ostringstream &myfile
           myfile << "<td colspan=\"" << aLength << "\" title=\"" << transName << "\" class=\"" << cellClass << "\">" << aCurrContent << "</td>";
           //          writeHTMLColumn( myfile, aLength, cellClass, aCurrTrans->toShortString(), aCurrContent );
           listScale.push_back(aLength);
+          std::cout << "ListScale: (length)" << aLength << std::endl;
           if (aCurrTrans->getStartTime() > listScaleTime.back())
           {
             listScaleTime.push_back(aCurrTrans->getStartTime());
+            std::cout << "ListScaleTime: (start time)" << aCurrTrans->getStartTime() << std::endl;
           }
           if (aCurrTrans->getEndTime() > listScaleTime.back())
           {
             listScaleTime.push_back(aCurrTrans->getEndTime());
+             std::cout << "ListScaleTime: (end time)" << aCurrTrans->getEndTime() << std::endl;
           }
         }
         if (aCurrTrans->getCommand()->getTask()->getIsDaemon() == true && aCurrTrans->getEndTime() > _simulatedTime)

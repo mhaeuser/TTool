@@ -1,15 +1,15 @@
 ========= Scheduling for device: X0T_1 =========
-Application__TOT: Read 15,Application__c0 t:95 l:15 (vl:15) params: Ch: Application__c0
+Application__TOT: Read 15,Application__c0 t:95 l:15 (vl:15) params: to/from idle penalty: 0 scheduling penalty: 0 Ch: Application__c0
 ========= Scheduling for device: X2T_1 =========
-Application__T2T: Read 40,Application__c2 t:55 l:40 (vl:40) params: Ch: Application__c2
+Application__T2T: Read 40,Application__c2 t:55 l:40 (vl:40) params: to/from idle penalty: 0 scheduling penalty: 0 Ch: Application__c2
 ========= Scheduling for device: X0S_1 =========
-Application__T0S: Write 15,Application__c0 t:40 l:15 (vl:15) params: Ch: Application__c0
+Application__T0S: Write 15,Application__c0 t:40 l:15 (vl:15) params: to/from idle penalty: 0 scheduling penalty: 0 Ch: Application__c0
 ========= Scheduling for device: X1S_1 =========
-Application__T1S: Write 10,Application__c1 t:0 l:10 (vl:10) params: Ch: Application__c1
+Application__T1S: Write 10,Application__c1 t:0 l:10 (vl:10) params: to/from idle penalty: 0 scheduling penalty: 0 Ch: Application__c1
 ========= Scheduling for device: X2S_1 =========
-Application__T2S: Write 40,Application__c2 t:0 l:40 (vl:40) params: Ch: Application__c2
+Application__T2S: Write 40,Application__c2 t:0 l:40 (vl:40) params: to/from idle penalty: 0 scheduling penalty: 0 Ch: Application__c2
 ========= Scheduling for device: X1T_1 =========
-Application__T1T: Read 10,Application__c1 t:10 l:10 (vl:10) params: Ch: Application__c1
+Application__T1T: Read 10,Application__c1 t:10 l:10 (vl:10) params: to/from idle penalty: 0 scheduling penalty: 0 Ch: Application__c1
 ========= Scheduling for device: Bb_0 =========
 Application__T2S: Write 40,Application__c2 t:0 l:40 (vl:40) params: Ch: Application__c2
 Application__T0S: Write 15,Application__c0 t:40 l:15 (vl:15) params: Ch: Application__c0

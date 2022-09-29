@@ -432,6 +432,10 @@ std::map<TMLTask *, std::string> SchedulableDevice::HWTIMELINE2HTML(std::ostring
           listScaleTime.push_back(beg);
           std::cout << "listScaleTime. Pushing trans start time: " << beg << std::endl;
         }
+        if (aCurrTrans->getStartTime() > listScaleTime.back()){
+          listScaleTime.push_back(aCurrTrans->getStartTime());
+          std::cout << "listScaleTime. Pushing trans end time: " << aCurrTrans->getStartTime() << std::endl;
+        }
         if (isBlankTooBig)
         {
           myfile << "<td colspan=\"" << aBlanks << "\" title=\"idle time\" class=\"not\">"
@@ -455,6 +459,9 @@ std::map<TMLTask *, std::string> SchedulableDevice::HWTIMELINE2HTML(std::ostring
         std::ostringstream title;
         long back = listScaleTime.back() + aLength;
         // listScaleTime.push_back(back);
+        if(aBlanks==0){
+          listScaleTime.push_back(back);
+        }
         std::cout << "SD. listScaleTime. Pushing penalties: " << back << std::endl;
         if (isScalable && checkLastTime->getEndTime() >= MIN_RESIZE_THRESHOLD && aLength > MIN_RESIZE_TRANS)
         {
@@ -625,7 +632,9 @@ void SchedulableDevice::HW2HTML(std::ofstream &myfile) const
       std::cout << "CPU:calcSTL: html of CPU " << _name << ": " << (*i)->toString() << std::endl;
       // if( (*i)->getTransactCoreNumber() == this->_cycleTime ){
       TMLTransaction *aCurrTrans = *i;
-      unsigned int aBlanks = aCurrTrans->getStartTime() - aCurrTime;
+      unsigned int penLength = aCurrTrans->getPenalties();
+      unsigned long beg = aCurrTrans->getStartTime() - penLength;
+      unsigned int aBlanks = beg - aCurrTime;
       bool isBlankTooBig = false;
       std::ostringstream tempString;
       int tempBlanks;
@@ -642,9 +651,9 @@ void SchedulableDevice::HW2HTML(std::ofstream &myfile) const
       {
         listScale.push_back(aBlanks + 1);
         tempString << tempBlanks + 1;
-        if (aCurrTrans->getStartTime() + 1 > listScaleTime.back())
+        if (beg + 1 > listScaleTime.back())
         {
-          listScaleTime.push_back(aCurrTrans->getStartTime() + 1);
+          listScaleTime.push_back(beg + 1);
         }
         if (isBlankTooBig)
         {
@@ -659,8 +668,10 @@ void SchedulableDevice::HW2HTML(std::ofstream &myfile) const
       {
         listScale.push_back(aBlanks);
         tempString << tempBlanks;
-        if (aCurrTrans->getStartTime() > listScaleTime.back())
-        {
+        if (beg > listScaleTime.back()){
+          listScaleTime.push_back(beg);
+        }
+        if (aCurrTrans->getStartTime() > listScaleTime.back()){
           listScaleTime.push_back(aCurrTrans->getStartTime());
         }
         if (isBlankTooBig)
@@ -678,7 +689,10 @@ void SchedulableDevice::HW2HTML(std::ofstream &myfile) const
       if (aLength != 0)
       {
         std::ostringstream title;
-        listScaleTime.push_back(listScaleTime.back() + aLength);
+        long back = listScaleTime.back() + aLength;
+        if(aBlanks==0){
+          listScaleTime.push_back(back);
+        }
         if (checkLastTime->getEndTime() >= 250 && aLength > 10)
         {
           tempReduce += aLength - 10;
@@ -706,9 +720,9 @@ void SchedulableDevice::HW2HTML(std::ofstream &myfile) const
         }
         writeHTMLColumn(myfile, aLength, cellClass, aCurrTrans->toShortString(), aCurrContent);
         listScale.push_back(aLength);
-        if (aCurrTrans->getStartTime() > listScaleTime.back())
+        if (beg > listScaleTime.back())
         {
-          listScaleTime.push_back(aCurrTrans->getStartTime());
+          listScaleTime.push_back(beg);
         }
         if (aCurrTrans->getEndTime() > listScaleTime.back())
         {
@@ -805,7 +819,9 @@ void SchedulableDevice::schedule2HTML(std::ofstream &myfile) const
       std::cout << "CPU:calcSTL: html of CPU " << _name << ": " << (*i)->toString() << std::endl;
       // if( (*i)->getTransactCoreNumber() == this->_cycleTime ){
       TMLTransaction *aCurrTrans = *i;
-      unsigned int aBlanks = aCurrTrans->getStartTime() - aCurrTime;
+      unsigned int penLength = aCurrTrans->getPenalties();
+      unsigned long beg = aCurrTrans->getStartTime() - penLength;
+      unsigned int aBlanks = beg - aCurrTime;
       bool isBlankTooBig = false;
       std::ostringstream tempString;
       int tempBlanks;
@@ -823,9 +839,9 @@ void SchedulableDevice::schedule2HTML(std::ofstream &myfile) const
 
         listScale.push_back(aBlanks + 1);
         tempString << tempBlanks + 1;
-        if (aCurrTrans->getStartTime() + 1 > listScaleTime.back())
+        if (beg + 1 > listScaleTime.back())
         {
-          listScaleTime.push_back(aCurrTrans->getStartTime() + 1);
+          listScaleTime.push_back(beg + 1);
         }
         if (isBlankTooBig)
         {
@@ -840,8 +856,10 @@ void SchedulableDevice::schedule2HTML(std::ofstream &myfile) const
       {
         listScale.push_back(aBlanks);
         tempString << tempBlanks;
-        if (aCurrTrans->getStartTime() > listScaleTime.back())
-        {
+        if (beg > listScaleTime.back()){
+          listScaleTime.push_back(beg);
+        }
+        if (aCurrTrans->getStartTime() > listScaleTime.back()){
           listScaleTime.push_back(aCurrTrans->getStartTime());
         }
         if (isBlankTooBig)
@@ -859,7 +877,10 @@ void SchedulableDevice::schedule2HTML(std::ofstream &myfile) const
       if (aLength != 0)
       {
         std::ostringstream title;
-        listScaleTime.push_back(listScaleTime.back() + aLength);
+        long back = listScaleTime.back() + aLength;
+        if(aBlanks==0){
+          listScaleTime.push_back(back);
+        }
         if (checkLastTime->getEndTime() >= 250 && aLength > 10)
         {
           tempReduce += aLength - 10;
@@ -884,9 +905,9 @@ void SchedulableDevice::schedule2HTML(std::ofstream &myfile) const
         }
         writeHTMLColumn(myfile, aLength, cellClass, aCurrTrans->toShortString());
         listScale.push_back(aLength);
-        if (aCurrTrans->getStartTime() > listScaleTime.back())
+        if (beg > listScaleTime.back())
         {
-          listScaleTime.push_back(aCurrTrans->getStartTime());
+          listScaleTime.push_back(beg);
         }
         if (aCurrTrans->getEndTime() > listScaleTime.back())
         {

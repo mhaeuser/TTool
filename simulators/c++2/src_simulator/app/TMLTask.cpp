@@ -558,85 +558,87 @@ void TMLTask::schedule2HTML(std::ofstream& myfile) const {
     bool changeCssClass = false;
     TMLTransaction* checkLastTime = _transactList.back();
     for( TransactionList::const_iterator i = _transactList.begin(); i != _transactList.end(); ++i ) {
-      
-      //if( (*i)->getTransactCoreNumber() == this->_cycleTime ){
-      TMLTransaction* aCurrTrans = *i;
-      unsigned int aBlanks = aCurrTrans->getStartTime() - aCurrTime;
-    bool isBlankTooBig = false;
-    std::ostringstream tempString;
-    int tempBlanks;
-    if(checkLastTime->getEndTime() >= 250 && aBlanks > 10) {
-        int newBlanks = 10;
-        tempBlanks = aBlanks;
-        tempReduce += aBlanks - newBlanks;
-        aBlanks = newBlanks;
-        isBlankTooBig = true;
-        changeCssClass = true;
-    }
-	if ( aBlanks >= 0 && (!(aCurrTrans->getCommand()->getActiveDelay()) && aCurrTrans->getCommand()->isDelayTransaction()) ){
-	    listScale.push_back(aBlanks+1);
-	    tempString << tempBlanks+1;
-	    if(aCurrTrans->getStartTime()+1 > listScaleTime.back()){
-            listScaleTime.push_back(aCurrTrans->getStartTime()+1);
-        }
-	    if (isBlankTooBig){
-	        writeHTMLColumn( myfile, aBlanks+1, "not", "idle time", "<- idle " + tempString.str() + " ->", false );
-	    } else {
-	        writeHTMLColumn( myfile, aBlanks+1, "not", "idle time" );
-	    }
-	}
-	else if ( aBlanks > 0 ){
-	    listScale.push_back(aBlanks);
-	    tempString << tempBlanks;
-	    if(aCurrTrans->getStartTime() > listScaleTime.back()){
-            listScaleTime.push_back(aCurrTrans->getStartTime());
-        }
-	    if (isBlankTooBig){
-            writeHTMLColumn( myfile, aBlanks, "not", "idle time", "<- idle " + tempString.str() + " ->", false );
-        } else {
-            writeHTMLColumn( myfile, aBlanks, "not", "idle time" );
-        }
-	}
+     	//if( (*i)->getTransactCoreNumber() == this->_cycleTime ){
+    	TMLTransaction* aCurrTrans = *i;
+    	unsigned int penLength = aCurrTrans->getPenalties();
+        unsigned long beg = aCurrTrans->getStartTime() - penLength;
+		unsigned int aBlanks = beg - aCurrTime;
+		bool isBlankTooBig = false;
+		std::ostringstream tempString;
+		int tempBlanks;
+		if(checkLastTime->getEndTime() >= 250 && aBlanks > 10) {
+			int newBlanks = 10;
+			tempBlanks = aBlanks;
+			tempReduce += aBlanks - newBlanks;
+			aBlanks = newBlanks;
+			isBlankTooBig = true;
+			changeCssClass = true;
+		}
+		if ( aBlanks >= 0 && (!(aCurrTrans->getCommand()->getActiveDelay()) && aCurrTrans->getCommand()->isDelayTransaction()) ){
+			listScale.push_back(aBlanks+1);
+			tempString << tempBlanks+1;
+			if (beg + 1 > listScaleTime.back()) {
+            	listScaleTime.push_back(beg + 1);
+         	}
+			if (isBlankTooBig) {
+				writeHTMLColumn( myfile, aBlanks+1, "not", "idle time", "<- idle " + tempString.str() + " ->", false );
+			} else {
+				writeHTMLColumn( myfile, aBlanks+1, "not", "idle time" );
+			}
+		}
+		else if ( aBlanks > 0 ) {
+			listScale.push_back(aBlanks);
+			tempString << tempBlanks;
+			if (beg > listScaleTime.back()) {
+            	listScaleTime.push_back(beg);
+          	}
+			if (isBlankTooBig) {
+				writeHTMLColumn( myfile, aBlanks, "not", "idle time", "<- idle " + tempString.str() + " ->", false );
+			} else {
+				writeHTMLColumn( myfile, aBlanks, "not", "idle time" );
+			}
+		}
 
-      unsigned int aLength = aCurrTrans->getPenalties();
+		unsigned int aLength = aCurrTrans->getPenalties();
 
-      if ( aLength != 0 ) {
-	std::ostringstream title;
-    listScaleTime.push_back(listScaleTime.back()+aLength);
-    if(checkLastTime->getEndTime() >= 250 && aLength > 10){
-      tempReduce += aLength - 10;
-      aLength = 10;
-    }
-    listScale.push_back(aLength);
-	title << "idle:" << aCurrTrans->getIdlePenalty() << " switching penalty:" << aCurrTrans->getTaskSwitchingPenalty();
-	writeHTMLColumn( myfile, aLength, "not", title.str() );
-      }
+		if ( aLength != 0 ) {
+			std::ostringstream title;
+			long tempL = listScaleTime.back() + aLength;
+          	listScaleTime.push_back(tempL);
+			if(checkLastTime->getEndTime() >= 250 && aLength > 10) {
+				tempReduce += aLength - 10;
+				aLength = 10;
+			}
+			listScale.push_back(aLength);
+			title << "idle:" << aCurrTrans->getIdlePenalty() << " switching penalty:" << aCurrTrans->getTaskSwitchingPenalty();
+			writeHTMLColumn( myfile, aLength, "not", title.str());
+		}
 
-      aLength = aCurrTrans->getOperationLength();
+		aLength = aCurrTrans->getOperationLength();
 
-      // Issue #4
-      TMLTask* task = aCurrTrans->getCommand()->getTask();
-      const std::string cellClass = determineHTMLCellClass( taskCellClasses, task, nextCellClassIndex );
-      std::string aCurrTransName=aCurrTrans->toShortString();
-      unsigned int indexTrans=aCurrTransName.find_first_of(":");
-      std::string aCurrContent=aCurrTransName.substr(indexTrans+1,2);
-      if(!(!(aCurrTrans->getCommand()->getActiveDelay()) && aCurrTrans->getCommand()->isDelayTransaction())){
-        if(checkLastTime->getEndTime() >= 250 && aLength > 10){
-          tempReduce += aLength - 10;
-          aLength = 10;
-        }
-        writeHTMLColumn( myfile, aLength, cellClass, aCurrTrans->toShortString(), aCurrContent );
-        listScale.push_back(aLength);
-        if(aCurrTrans->getStartTime() > listScaleTime.back()){
-           listScaleTime.push_back(aCurrTrans->getStartTime());
-        }
-        if(aCurrTrans->getEndTime() > listScaleTime.back()){
-          listScaleTime.push_back(aCurrTrans->getEndTime());
-        }
-      }
+		// Issue #4
+		TMLTask* task = aCurrTrans->getCommand()->getTask();
+		const std::string cellClass = determineHTMLCellClass( taskCellClasses, task, nextCellClassIndex);
+		std::string aCurrTransName=aCurrTrans->toShortString();
+		unsigned int indexTrans=aCurrTransName.find_first_of(":");
+		std::string aCurrContent=aCurrTransName.substr(indexTrans+1,2);
+		if(!(!(aCurrTrans->getCommand()->getActiveDelay()) && aCurrTrans->getCommand()->isDelayTransaction())) {
+			if(checkLastTime->getEndTime() >= 250 && aLength > 10) {
+				tempReduce += aLength - 10;
+				aLength = 10;
+			}
+			writeHTMLColumn( myfile, aLength, cellClass, aCurrTrans->toShortString(), aCurrContent);
+			listScale.push_back(aLength);
+			if(aCurrTrans->getStartTime() > listScaleTime.back()) {
+				listScaleTime.push_back(aCurrTrans->getStartTime());
+			}
+			if(aCurrTrans->getEndTime() > listScaleTime.back()) {
+				listScaleTime.push_back(aCurrTrans->getEndTime());
+			}
+		}
 
-      aCurrTime = aCurrTrans->getEndTime();
-      // }
+		aCurrTime = aCurrTrans->getEndTime();
+		// }
     }
 		
 

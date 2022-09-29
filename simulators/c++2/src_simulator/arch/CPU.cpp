@@ -501,10 +501,11 @@ void CPU::HW2HTML(std::ofstream &myfile) const
       // std::cout<<"get transaction core number is: "<<(*i)->getTransactCoreNumber()<<std::endl;
       // std::cout<<"time : "<<_cycleTime<<std::endl;
       // std::cout << "CPU:calcSTL: html of CPU " << _name << ": " << (*i)->toString() << std::endl;
-      if ((*i)->getTransactCoreNumber() == this->_cycleTime)
-      {
+      if ((*i)->getTransactCoreNumber() == this->_cycleTime) {
         TMLTransaction *aCurrTrans = *i;
-        unsigned int aBlanks = aCurrTrans->getStartTime() - aCurrTime;
+        unsigned int penLength = aCurrTrans->getPenalties();
+        unsigned long beg = aCurrTrans->getStartTime() - penLength;
+        unsigned int aBlanks = beg - aCurrTime;
         bool isBlankTooBig = false;
         std::ostringstream tempString;
         int tempBlanks;
@@ -521,9 +522,8 @@ void CPU::HW2HTML(std::ofstream &myfile) const
         {
           listScale.push_back(aBlanks + 1);
           tempString << tempBlanks + 1;
-          if (aCurrTrans->getStartTime() + 1 > listScaleTime.back())
-          {
-            listScaleTime.push_back(aCurrTrans->getStartTime() + 1);
+          if (beg + 1 > listScaleTime.back()) {
+            listScaleTime.push_back(beg + 1);
           }
           if (isBlankTooBig)
           {
@@ -538,9 +538,8 @@ void CPU::HW2HTML(std::ofstream &myfile) const
         {
           listScale.push_back(aBlanks);
           tempString << tempBlanks;
-          if (aCurrTrans->getStartTime() > listScaleTime.back())
-          {
-            listScaleTime.push_back(aCurrTrans->getStartTime());
+          if (beg > listScaleTime.back()) {
+            listScaleTime.push_back(beg);
           }
           if (isBlankTooBig)
           {
@@ -556,7 +555,8 @@ void CPU::HW2HTML(std::ofstream &myfile) const
 
         if (aLength != 0)
         {
-          listScaleTime.push_back(listScaleTime.back() + aLength);
+          long tempL = listScaleTime.back() + aLength;
+          listScaleTime.push_back(tempL);
           if (endTimeOfCore >= 250 && aLength > 10)
           {
             tempReduce += aLength - 10;
@@ -682,10 +682,11 @@ void CPU::schedule2HTML(std::ofstream &myfile) const
       // std::cout<<"get transaction core number is: "<<(*i)->getTransactCoreNumber()<<std::endl;
       // std::cout<<"time : "<<_cycleTime<<std::endl;
       // std::cout << "CPU:calcSTL: html of CPU " << _name << ": " << (*i)->toString() << std::endl;
-      if ((*i)->getTransactCoreNumber() == this->_cycleTime)
-      {
+      if ((*i)->getTransactCoreNumber() == this->_cycleTime) {
         TMLTransaction *aCurrTrans = *i;
-        unsigned int aBlanks = aCurrTrans->getStartTime() - aCurrTime;
+        unsigned int penLength = aCurrTrans->getPenalties();
+        unsigned long beg = aCurrTrans->getStartTime() - penLength;        
+        unsigned int aBlanks = beg - aCurrTime;
         bool isBlankTooBig = false;
         std::ostringstream tempString;
         int tempBlanks;
@@ -702,9 +703,8 @@ void CPU::schedule2HTML(std::ofstream &myfile) const
         {
           listScale.push_back(aBlanks + 1);
           tempString << tempBlanks + 1;
-          if (aCurrTrans->getStartTime() + 1 > listScaleTime.back())
-          {
-            listScaleTime.push_back(aCurrTrans->getStartTime() + 1);
+          if (beg + 1 > listScaleTime.back()) {
+            listScaleTime.push_back(beg + 1);
           }
           if (isBlankTooBig)
           {
@@ -719,9 +719,8 @@ void CPU::schedule2HTML(std::ofstream &myfile) const
         {
           listScale.push_back(aBlanks);
           tempString << tempBlanks;
-          if (aCurrTrans->getStartTime() > listScaleTime.back())
-          {
-            listScaleTime.push_back(aCurrTrans->getStartTime());
+          if (beg > listScaleTime.back()) {
+            listScaleTime.push_back(beg);
           }
           if (isBlankTooBig)
           {
@@ -738,7 +737,8 @@ void CPU::schedule2HTML(std::ofstream &myfile) const
         if (aLength != 0)
         {
           std::ostringstream title;
-          listScaleTime.push_back(listScaleTime.back() + aLength);
+          long tempL = listScaleTime.back() + aLength;
+          listScaleTime.push_back(tempL);
           if (endTimeOfCore >= 250 && aLength > 10)
           {
             tempReduce += aLength - 10;

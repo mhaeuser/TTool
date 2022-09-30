@@ -822,7 +822,9 @@ std::map<TMLTask *, std::string> FPGA::HWTIMELINE2HTML(std::ostringstream &myfil
           }
         }
 
-        unsigned int aBlanks = aCurrTrans->getStartTime() - aCurrTime;
+        unsigned int penLength = aCurrTrans->getPenalties();
+        unsigned long beg = aCurrTrans->getStartTime() - penLength;
+        unsigned int aBlanks = beg - aCurrTime;
         bool isBlankTooBig = false;
         std::ostringstream tempString, tempReconfigIdle;
         int tempBlanks;
@@ -859,9 +861,8 @@ std::map<TMLTask *, std::string> FPGA::HWTIMELINE2HTML(std::ostringstream &myfil
         {
           listScale.push_back(aBlanks + 1);
           tempString << tempBlanks + 1;
-          if (aCurrTrans->getStartTime() + 1 > listScaleTime.back())
-          {
-            listScaleTime.push_back(aCurrTrans->getStartTime() + 1);
+          if (beg + 1 > listScaleTime.back()) {
+            listScaleTime.push_back(beg + 1);
           }
           if (isBlankTooBig)
           {
@@ -874,13 +875,11 @@ std::map<TMLTask *, std::string> FPGA::HWTIMELINE2HTML(std::ostringstream &myfil
             myfile << "<td colspan=\"" << aBlanks + 1 << "\" title=\"idle time " + tempReconfigIdle.str() + "\" class=\"not\"></td>";
           }
         }
-        else if (aBlanks > 0)
-        {
+        else if (aBlanks > 0) {
           listScale.push_back(aBlanks);
           tempString << tempBlanks;
-          if (aCurrTrans->getStartTime() > listScaleTime.back())
-          {
-            listScaleTime.push_back(aCurrTrans->getStartTime());
+          if (beg > listScaleTime.back()) {
+            listScaleTime.push_back(beg);
           }
           if (isBlankTooBig)
           {
@@ -1058,7 +1057,9 @@ void FPGA::HW2HTML(std::ofstream &myfile)
         std::cout << "in!!" << _htmlCurrTask->toString() << std::endl;
 #endif
         TMLTransaction *aCurrTrans = *i;
-        unsigned int aBlanks = aCurrTrans->getStartTime() - aCurrTime;
+        unsigned int penLength = aCurrTrans->getPenalties();
+        unsigned long beg = aCurrTrans->getStartTime() - penLength;
+        unsigned int aBlanks = beg - aCurrTime;
         bool isBlankTooBig = false;
         std::ostringstream tempString;
         int tempBlanks;
@@ -1075,9 +1076,8 @@ void FPGA::HW2HTML(std::ofstream &myfile)
         {
           listScale.push_back(aBlanks + 1);
           tempString << tempBlanks + 1;
-          if (aCurrTrans->getStartTime() + 1 > listScaleTime.back())
-          {
-            listScaleTime.push_back(aCurrTrans->getStartTime() + 1);
+          if (beg + 1 > listScaleTime.back()) {
+            listScaleTime.push_back(beg + 1);
           }
           if (isBlankTooBig)
           {
@@ -1092,9 +1092,8 @@ void FPGA::HW2HTML(std::ofstream &myfile)
         {
           listScale.push_back(aBlanks);
           tempString << tempBlanks;
-          if (aCurrTrans->getStartTime() > listScaleTime.back())
-          {
-            listScaleTime.push_back(aCurrTrans->getStartTime());
+          if (beg > listScaleTime.back()) {
+            listScaleTime.push_back(beg);
           }
           if (isBlankTooBig)
           {
@@ -1220,7 +1219,9 @@ void FPGA::schedule2HTML(std::ofstream &myfile)
         std::cout << "in!!" << _htmlCurrTask->toString() << std::endl;
 #endif
         TMLTransaction *aCurrTrans = *i;
-        unsigned int aBlanks = aCurrTrans->getStartTime() - aCurrTime;
+        unsigned int penLength = aCurrTrans->getPenalties();
+        unsigned long beg = aCurrTrans->getStartTime() - penLength;        
+        unsigned int aBlanks = beg - aCurrTime;
         // std::cout<<"blank is "<<aBlanks<<std::endl;
         bool isBlankTooBig = false;
         std::ostringstream tempString;
@@ -1239,9 +1240,8 @@ void FPGA::schedule2HTML(std::ofstream &myfile)
         {
           listScale.push_back(aBlanks + 1);
           tempString << tempBlanks + 1;
-          if (aCurrTrans->getStartTime() + 1 > listScaleTime.back())
-          {
-            listScaleTime.push_back(aCurrTrans->getStartTime() + 1);
+          if (beg + 1 > listScaleTime.back()) {
+            listScaleTime.push_back(beg + 1);
           }
           if (isBlankTooBig)
           {
@@ -1256,9 +1256,8 @@ void FPGA::schedule2HTML(std::ofstream &myfile)
         {
           listScale.push_back(aBlanks);
           tempString << tempBlanks;
-          if (aCurrTrans->getStartTime() > listScaleTime.back())
-          {
-            listScaleTime.push_back(aCurrTrans->getStartTime());
+          if (beg > listScaleTime.back()) {
+            listScaleTime.push_back(beg);
           }
           if (isBlankTooBig)
           {

@@ -1,8 +1,8 @@
 ========= Scheduling for device: X1_1 =========
-Application__T: Wait Application__e__Application__e params: t:2 l:1 (vl:1) params:(3(x)) Ch: Application__e__Application__e
-Application__T: IdleDL in Application__T len:1 progress:0 ID:14 t:2403 l:1 (vl:1) params:
-Application__T: Delay in Application__T len:1200 progress:0 ID:12 t:2414 l:1296 (vl:1200) params:
-Application__T: Execi 5 t:3710 l:5 (vl:5) params:
+Application__T: Wait Application__e__Application__e params: t:2 l:1 (vl:1) params:(3(x)) to/from idle penalty: 0 scheduling penalty: 0 Ch: Application__e__Application__e
+Application__T: IdleDL in Application__T len:1 progress:0 ID:12 t:2403 l:1 (vl:1) params: to/from idle penalty: 10 scheduling penalty: 0
+Application__T: Delay in Application__T len:1200 progress:0 ID:13 t:2414 l:1296 (vl:1200) params: to/from idle penalty: 0 scheduling penalty: 0
+Application__T: Execi 5 t:3710 l:5 (vl:5) params: to/from idle penalty: 0 scheduling penalty: 0
 ========= Scheduling for device: X0_1 =========
-Application__S: Send Application__e__Application__e(evtFB) len:8 content:0 params: t:0 l:2 (vl:1) params:(3) Ch: Application__e__Application__e
+Application__S: Send Application__e__Application__e(evtFB) len:8 content:0 params: t:0 l:2 (vl:1) params:(3) to/from idle penalty: 0 scheduling penalty: 0 Ch: Application__e__Application__e
 ========= Scheduling for device: Bus0_0 =========

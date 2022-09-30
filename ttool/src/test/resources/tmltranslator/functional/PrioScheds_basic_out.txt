@@ -1,14 +1,14 @@
 ========= Scheduling for device: CPU0_1 =========
-Application__T0: Execi 5 t:0 l:5 (vl:5) params:
-Application__U0: Delay in Application__U0 len:3000 progress:0 ID:17 t:5 l:2000 (vl:1852) params:
-Application__T0: IdleDL in Application__T0 len:1 progress:0 ID:14 t:2025 l:1 (vl:1) params:
-Application__T0: Execi 15 t:2046 l:16 (vl:15) params:
-Application__U0: Delay in Application__U0 len:3000 progress:0 ID:17 t:2062 l:1240 (vl:1148) params:
+Application__T0: Execi 5 t:0 l:5 (vl:5) params: to/from idle penalty: 0 scheduling penalty: 0
+Application__U0: Delay in Application__U0 len:3000 progress:0 ID:18 t:5 l:2000 (vl:1852) params: to/from idle penalty: 0 scheduling penalty: 20
+Application__T0: IdleDL in Application__T0 len:1 progress:0 ID:5 t:2025 l:1 (vl:1) params: to/from idle penalty: 0 scheduling penalty: 20
+Application__T0: Execi 15 t:2046 l:16 (vl:15) params: to/from idle penalty: 0 scheduling penalty: 0
+Application__U0: Delay in Application__U0 len:3000 progress:0 ID:18 t:2062 l:1240 (vl:1148) params: to/from idle penalty: 0 scheduling penalty: 20
 ========= Scheduling for device: CPU1_1 =========
-Application__T1: Execi 5 t:0 l:5 (vl:5) params:
-Application__U1: Delay in Application__U1 len:3000 progress:0 ID:25 t:5 l:1000 (vl:926) params:
-Application__T1: IdleDL in Application__T1 len:1 progress:0 ID:22 t:1025 l:1 (vl:1) params:
-Application__T1: Execi 15 t:1046 l:16 (vl:15) params:
-Application__U1: Delay in Application__U1 len:3000 progress:0 ID:25 t:1062 l:2000 (vl:1852) params:
-Application__U1: Delay in Application__U1 len:3000 progress:0 ID:25 t:3082 l:240 (vl:222) params:
+Application__T1: Execi 5 t:0 l:5 (vl:5) params: to/from idle penalty: 0 scheduling penalty: 0
+Application__U1: Delay in Application__U1 len:3000 progress:0 ID:23 t:5 l:1000 (vl:926) params: to/from idle penalty: 0 scheduling penalty: 20
+Application__T1: IdleDL in Application__T1 len:1 progress:0 ID:12 t:1025 l:1 (vl:1) params: to/from idle penalty: 0 scheduling penalty: 20
+Application__T1: Execi 15 t:1046 l:16 (vl:15) params: to/from idle penalty: 0 scheduling penalty: 0
+Application__U1: Delay in Application__U1 len:3000 progress:0 ID:23 t:1062 l:2000 (vl:1852) params: to/from idle penalty: 0 scheduling penalty: 20
+Application__U1: Delay in Application__U1 len:3000 progress:0 ID:23 t:3082 l:240 (vl:222) params: to/from idle penalty: 0 scheduling penalty: 0
 ========= Scheduling for device: defaultBus_0 =========

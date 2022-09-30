@@ -1,9 +1,9 @@
 ========= Scheduling for device: X2_1 =========
-Application__T2b: Execi 500 t:0 l:81 (vl:75) params:
-Application__T2a: Read 80,Application__a t:101 l:80 (vl:80) params: Ch: Application__a
-Application__T2b: Execi 500 t:181 l:459 (vl:425) params:
+Application__T2b: Execi 500 t:0 l:81 (vl:75) params: to/from idle penalty: 0 scheduling penalty: 0
+Application__T2a: Read 80,Application__a t:101 l:80 (vl:80) params: to/from idle penalty: 0 scheduling penalty: 20 Ch: Application__a
+Application__T2b: Execi 500 t:181 l:459 (vl:425) params: to/from idle penalty: 0 scheduling penalty: 20
 ========= Scheduling for device: X1_1 =========
-Application__T1a: Write 80,Application__a t:0 l:80 (vl:80) params: Ch: Application__a
+Application__T1a: Write 80,Application__a t:0 l:80 (vl:80) params: to/from idle penalty: 0 scheduling penalty: 0 Ch: Application__a
 ========= Scheduling for device: Ba_0 =========
 Application__T1a: Write 80,Application__a t:0 l:80 (vl:80) params: Ch: Application__a
 Application__T2a: Read 80,Application__a t:101 l:80 (vl:80) params: Ch: Application__a

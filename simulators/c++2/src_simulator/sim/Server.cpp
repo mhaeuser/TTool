@@ -46,20 +46,27 @@ Server::Server():_socketClient(-1){
 	pthread_mutex_init(&_replyMutex, NULL);
 }
 
+Server::Server(std::string iNewPort):_socketClient(-1){
+	_portServer = iNewPort;
+	pthread_mutex_init(&_replyMutex, NULL);
+}
+
 int Server::run(){
 	int aSocketServer=0;	// listen on aSocketServer, client connection on _socketClient
 	struct addrinfo aHints; 		//aHints for getaddrinfo
 	struct addrinfo *aServerInfo;		//information about the server, created by getaddrinfo
 	struct sockaddr_storage aClientAddrInfo;// connector's address information
 	int aRetVal;				//return value for getaddrinfo
+	const char* aPortServer; // port server for getaddrinfo
 
 	memset(&aHints, 0, sizeof aHints);
 	aHints.ai_family = AF_UNSPEC;
 	aHints.ai_socktype = SOCK_STREAM;
 	aHints.ai_flags = AI_PASSIVE; // use my IP
 
+	aPortServer = ((_portServer != ""))? _portServer.c_str(): PORT;
 	//get address information about server: getaddrinfo(hostname, port, hints, result)
-	if ((aRetVal = getaddrinfo(NULL, PORT, &aHints, &aServerInfo)) != 0) {
+	if ((aRetVal = getaddrinfo(NULL, aPortServer, &aHints, &aServerInfo)) != 0) {
 		std::cerr << "getaddrinfo: " << gai_strerror(aRetVal) << std::endl;
 		return 1;
 	}

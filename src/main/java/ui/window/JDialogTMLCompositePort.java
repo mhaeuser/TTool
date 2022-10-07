@@ -677,7 +677,7 @@ public class JDialogTMLCompositePort extends JDialogBase implements ActionListen
             typeList5.setEnabled(false);
             blocking.setEnabled(true);
             finite.setEnabled(false);
-            widthText.setEnabled(true);
+            widthText.setEnabled(origin.getSelectedIndex() == 0); 
             maxText.setEnabled((origin.getSelectedIndex() == 0) && (blocking.getSelectedIndex() == 0));
 
         } else if (index == 1) {

@@ -74,7 +74,7 @@ int main(int len, char ** args) {
 	gettimeofday(&end,NULL);
 //	std::cout << "The preparation took " << getTimeDiff(begin,end) << "usec.\n";
 
-    std::string arr[] = {"-gname", "-gpath", "-server", "-file", "-explo", "-signals", "-helpserver", "-helpcommand", "-help", "-cmd", "-ohtml",
+    std::string arr[] = {"-gname", "-gpath", "-server", "-port", "-file", "-explo", "-signals", "-helpserver", "-helpcommand", "-help", "-cmd", "-ohtml",
     "-otxt", "-ovcd", "-ograph", "-oxml"};
     std::vector<std::string> validCmds(arr, arr + sizeof(arr)/sizeof(arr[0]));
     for (int k = 0; k < len; k++) {

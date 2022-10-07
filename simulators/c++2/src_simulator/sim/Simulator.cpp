@@ -1249,6 +1249,7 @@ void Simulator::printHelp(){
   std::cout <<  "\n************************** Command line arguments ******************************************\n"
     "-gpath                 specify path for graph output\n"
     "-server                launch simulator in server mode\n"
+    "-port                  specify a port in which the simulator will be launched\n"
     "-helpserver            print all available commands\n"
     "-helpcommand cmd       print all information about cmd\n"
     "-file                  read simulation commands from file\n"
@@ -1333,7 +1334,15 @@ ServerIF* Simulator::run(int iLen, char ** iArgs){
     _graphOutPath+="/";
 
   aArgString =getArgs("-server", "server", iLen, iArgs);
-  if (!aArgString.empty()) return new Server();
+  if (!aArgString.empty()) {
+    aArgString =getArgs("-port", "", iLen, iArgs);
+    if (!aArgString.empty()) {
+      return new Server(aArgString);
+    }
+    else {
+      return new Server();
+    }
+  }
 
   aArgString =getArgs("-file", "file", iLen, iArgs);
   if (!aArgString.empty()) return new ServerLocal(aArgString);

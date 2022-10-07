@@ -51,6 +51,7 @@ class Server: public ServerIF{
 public:
 	///Constructor
 	Server();
+	Server(std::string iNewPort);
 	///Run the server
 	int run();
 	void sendReply(std::string iReplyStr);
@@ -68,6 +69,8 @@ protected:
 	void* get_in_addr(struct sockaddr *sa) const;
 	///pointer to synchronization structure
 	int _socketClient;
+	///Defines a specific port
+	std::string _portServer;
 	///Mutex protecting the reply function of the Server
 	pthread_mutex_t _replyMutex;
 };

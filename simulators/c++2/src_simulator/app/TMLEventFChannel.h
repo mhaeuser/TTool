@@ -160,13 +160,28 @@ public:
 			this->_content=0;
 			this->_paramQueue.clear();
 			aNbToInsert=0;
-		}else{
-			aNbToInsert=min(iNbOfSamples, _length-this->_content);
+		} else if (_length-this->_content>0) {
+			aNbToInsert=1;
 			this->_content+=aNbToInsert;
-			for (TMLLength i=0; i<aNbToInsert; i++) this->_paramQueue.push_back(iParam);
+			this->_paramQueue.push_back(iParam);
 		} 
 		if (this->_readTrans!=0) this->_readTrans->setVirtualLength((this->_content>0)?WAIT_SEND_VLEN:0);
 		return aNbToInsert;
+	}
+
+	TMLLength removeSamples(TMLLength iNbOfSamples) {
+		TMLLength aNbToRemove;
+		if (iNbOfSamples==0) {
+			this->_content=0;
+			this->_paramQueue.clear();
+			aNbToRemove=0;
+		} else if (this->_content>0) {
+			aNbToRemove=1;
+			this->_content-=aNbToRemove;
+			this->_paramQueue.front();
+		} 
+		if (this->_readTrans!=0) this->_readTrans->setVirtualLength((this->_content>0)?WAIT_SEND_VLEN:0);
+		return aNbToRemove;
 	}
 	
 	

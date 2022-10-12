@@ -173,6 +173,15 @@ public:
 	inline virtual TMLLength insertSamples(TMLLength iNbOfSamples, Parameter* iParam) {return iNbOfSamples;}
 
 
+	///Removes samples from the channel
+	/**
+	\param iNbOfSamples Number of samples to remove
+    \return Returns true if successful
+    */ 
+	inline virtual TMLLength removeSamples(TMLLength iNbOfSamples) {return iNbOfSamples;}
+
+
+
 	///Reads samples from the channel
 	/**
 	\param iNbOfSamples Number of samples to read

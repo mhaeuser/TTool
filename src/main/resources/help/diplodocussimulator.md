@@ -94,4 +94,4 @@ add-virtual-signals | avs | 1 16 | Send virtual events to channel | [Type: 2] Ch
 save-status-in-file | ssif | 27 | Saves the current status into a file | [Type: 2] File name | -  | -  | -  | - 
 save-time-in-file | stf | 28 | Saves the current time into a file | [Type: 2] File name | -  | -  | -  | - 
 read-from-channel | rfc | 29 | Reads y samples from channel x | [Type: 2] Channel ID or Channel name | [Type: 2] Nb of samples | -  | -  | - 
-
+remove-virtual-signals | rvs | 30 | Remove virtual events from channel | [Type: 2] Event name | [Type: 2] Nb of samples | - | -  | - 

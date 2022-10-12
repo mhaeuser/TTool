@@ -222,16 +222,29 @@ public:
 			this->_paramQueue.clear();
 			aNbToInsert=0;
 		}else{
-			aNbToInsert=iNbOfSamples;
-			this->_content+=iNbOfSamples;
-			for (TMLLength i=0; i<iNbOfSamples; i++) this->_paramQueue.push_back(iParam);
+			aNbToInsert=1;
+			this->_content+=aNbToInsert;
+			this->_paramQueue.push_back(iParam);
 		} 
 		if (this->_readTrans!=0) this->_readTrans->setVirtualLength((this->_content>0)?WAIT_SEND_VLEN:0);
 		
 		return aNbToInsert;
 	}
 
-
+	TMLLength removeSamples(TMLLength iNbOfSamples) {
+		TMLLength aNbToRemove;
+		if (iNbOfSamples==0) {
+			this->_content=0;
+			this->_paramQueue.clear();
+			aNbToRemove=0;
+		} else if (this->_content > 0) {
+			aNbToRemove=1;
+			this->_content-=aNbToRemove;
+			this->_paramQueue.front();
+		} 
+		if (this->_readTrans!=0) this->_readTrans->setVirtualLength((this->_content>0)?WAIT_SEND_VLEN:0);
+		return aNbToRemove;
+	}
 
 	TMLLength readSamples(TMLLength iNbOfSamples, Parameter* iParam){
     		TMLLength aNbToInsert = iNbOfSamples;  

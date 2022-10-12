@@ -167,6 +167,18 @@ TMLLength TMLbrnbwChannel::insertSamples(TMLLength iNbOfSamples, Parameter* iPar
 	return aNbToInsert;
 }
 
+TMLLength TMLbrnbwChannel::removeSamples(TMLLength iNbOfSamples){
+	TMLLength aNbToInsert;
+	if (iNbOfSamples==0){
+		_content=0;
+		aNbToInsert=0;
+	}else{
+		_content-=iNbOfSamples;
+		aNbToInsert=iNbOfSamples;
+	}
+	setTransactionLength();
+	return aNbToInsert;
+}
 
 TMLLength TMLbrnbwChannel::readSamples(TMLLength iNbOfSamples, Parameter* iParam){
     TMLLength aNbToInsert = iNbOfSamples;  

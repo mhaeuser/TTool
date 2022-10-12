@@ -2405,6 +2405,52 @@ void Simulator::decodeCommand(std::string iCmd, std::ostream& iXmlOutStream){
     std::cout << "End Read x samples from channel y." << std::endl;
     break;
   }
+  case 30: {
+      std::cout << "\nRemove virtual signals." << std::endl;
+      aInpStream >> aStrParam;
+      std::string channelName =_simComp->getChannelList(aStrParam);
+      TMLChannel* aChannel = _simComp->getChannelByName(channelName);
+      if (aChannel==0){
+        aGlobMsg << TAG_MSGo << MSG_CMPNFOUND << TAG_MSGc << std::endl;
+        anErrorCode=2;
+        std::cout << "\nChannel/event not found: " << channelName << std::endl;
+      } else {
+        aInpStream >> aParam1;
+        TMLEventChannel* anEventChannel = dynamic_cast<TMLEventChannel*>(aChannel);
+        if (anEventChannel==0){
+          std::cout << "\nRemoving in Channel: " << channelName << " of " << aParam1 << ";" << std::endl;
+          aChannel->removeSamples(aParam1);
+        } else {
+          //Parameter<ParamType> anInsertParam((dynamic_cast<TMLEventChannel*>(aChannel))->getParamNo());
+          std::string str, tempParameter="";
+          aInpStream >> str;
+          while (1) {
+              std::size_t const n = str.find_first_of("0123456789");
+              if(n != std::string::npos){
+                  std::size_t const m = str.find_first_not_of("0123456789", n);
+                  tempParameter += str.substr(n, m != std::string::npos ? m-n : m) + " ";
+                  if(m != std::string::npos)
+                    str = str.substr(m, str.length());
+                  else {
+                    std::cout << "End of parameter." << std::endl;
+                    break;
+                  }
+              }
+              else {
+                  std::cout << "There is no more number in the parameter." << std::endl;
+                  break;
+              }
+          }
+          std::istringstream ss(tempParameter);
+          Parameter* anParam = anEventChannel->buildParameter();
+          ss >> anParam;
+          aChannel->removeSamples(aParam1);
+        }
+        aGlobMsg << TAG_MSGo << "Remove data/event to channel." << TAG_MSGc << std::endl;
+      }
+      std::cout << "End virtual signals." << std::endl;
+      break;
+    }
   default:
     anEntityMsg << TAG_MSGo << MSG_CMDNFOUND<< TAG_MSGc << std::endl;
     anErrorCode=3;

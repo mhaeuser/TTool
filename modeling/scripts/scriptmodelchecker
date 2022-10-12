@@ -6,5 +6,5 @@ wait 2
 action open $model
 wait 4
 action check-syntax
-action avatar-rg rg?.aut
+action avatar-rg -g rg.aut
 action quit

@@ -127,7 +127,17 @@ class TMLTransaction {
      \return length of the transaction
   */
   inline TMLLength getLength() const {return _length;}
+
+  /**
+     \return Short representation of command in current transaction
+  */
+  inline std::string getToShortStringCommand() const {return _toShortString_command;}
   
+   /**
+     \return Detailed representation of command in current transaction
+  */
+  inline std::string getToStringCommand() const {return _toString_command;}
+
   ///Returns the length of all penalties
   /**
      \return Length of penalties
@@ -289,6 +299,10 @@ class TMLTransaction {
   TMLLength _virtualLength;
   ///Pointer to the command the transaction belongs to
   TMLCommand* _command;
+  ///Detailed string representation of the command at the current transaction
+  std::string _toString_command;
+  ///Short string representation of the command at the current transaction
+  std::string _toShortString_command;
   ///Core number of the transaction
   unsigned int _transactCoreNumber;
   ///State variable for the cpu VCD output

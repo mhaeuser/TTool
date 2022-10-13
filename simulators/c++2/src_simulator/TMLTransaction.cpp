@@ -52,6 +52,8 @@ TMLTransaction::TMLTransaction():_runnableTime(0), _startTime(0), _length(0), _v
                                  _idlePenalty(0), _taskSwitchingPenalty(0), //, _branchingPenalty(0),
 #endif
                                  _channel(0),_stateID(0) {
+  _toShortString_command = "";
+  _toString_command = "";
   //std::cout << "**** new TMLTransaction : set starttime=" << _startTime << "\n"; 
   
 }
@@ -61,6 +63,8 @@ TMLTransaction::TMLTransaction(TMLCommand* iCommand, TMLLength iVirtualLength, T
                                                                                                                             _idlePenalty(0), _taskSwitchingPenalty(0), //, _branchingPenalty(0),
 #endif
                                                                                                                             _channel(iChannel),_stateID(0) {
+  _toShortString_command = iCommand->toShortString();
+  _toString_command = iCommand->toString();
   //std::cout << "**** new TMLTransaction : set starttime=" << _startTime << "\n"; 
 }
 
@@ -73,8 +77,8 @@ std::string TMLTransaction::printEnd() const{
 std::string TMLTransaction::toString() const{
   std::ostringstream outp;
   //std::cout << "kernel:transaction: toString" << std::endl;
-  //std::cout << "kernel:transaction: toString" << _command->toString() << std::endl;
-  outp << _command->toString() << std::endl << "Transaction runnable:" << _runnableTime << " len:" << _length << " start:" << _startTime << " vLength:" << _virtualLength << " params:" << lastParams ;
+  //std::cout << "kernel:transaction: toString" << getToStringCommand() << std::endl;
+  outp << getToStringCommand() << std::endl << "Transaction runnable:" << _runnableTime << " len:" << _length << " start:" << _startTime << " vLength:" << _virtualLength << " params:" << lastParams ;
   if (_channel!=0) outp << " Ch: " << _channel->toShortString();
   return outp.str();
 }
@@ -84,7 +88,7 @@ std::string TMLTransaction::toShortString() const{
   if (_command==0)
     outp << "System State ID: " <<  _virtualLength;
   else{
-    outp << _command->toShortString() << " t:" << _startTime << " l:" << _length << " (vl:"<<  _virtualLength << ")" << " params:" << lastParams ;
+    outp << getToShortStringCommand() << " t:" << _startTime << " l:" << _length << " (vl:"<<  _virtualLength << ")" << " params:" << lastParams ;
     if (_channel!=0) outp << " Ch: " << _channel->toShortString();
   }
   return outp.str();
@@ -95,7 +99,7 @@ std::string TMLTransaction::toLongString() const{
   if (_command==0)
     outp << "System State ID: " <<  _virtualLength;
   else{
-    outp << _command->toShortString() << " t:" << _startTime << " l:" << _length << " (vl:"<<  _virtualLength << ")" << " params:" << lastParams << 
+    outp << getToShortStringCommand() << " t:" << _startTime << " l:" << _length << " (vl:"<<  _virtualLength << ")" << " params:" << lastParams << 
     " to/from idle penalty: " << getIdlePenalty()  << " scheduling penalty: " << getTaskSwitchingPenalty() ;
     if (_channel!=0) outp << " Ch: " << _channel->toShortString();
   }
@@ -107,7 +111,7 @@ void TMLTransaction::toXML(std::ostringstream& glob, int deviceID, std::string d
   if (_command==0) {
     glob << TAG_TRANSo << " uniqueid=\"" << uniqueID  << "\" deviceid=\"" << deviceID << "\" devicename=\"" << deviceName << "\" corenumber=\"" << _transactCoreNumber << "\" id=\"" << _command->getID() << "\" runnableTime=\"" << _runnableTime  << "\" command=\"0\"";
   } else {
-    glob << TAG_TRANSo << " uniqueid=\"" << uniqueID  << "\" deviceid=\"" << deviceID << "\" devicename=\"" << deviceName << "\" corenumber=\"" << _transactCoreNumber << "\" command=\"" << _command->toShortString() << "\"";
+    glob << TAG_TRANSo << " uniqueid=\"" << uniqueID  << "\" deviceid=\"" << deviceID << "\" devicename=\"" << deviceName << "\" corenumber=\"" << _transactCoreNumber << "\" command=\"" << getToShortStringCommand() << "\"";
     std::cout << "Info transaction:" <<  " starttime=\"" << _startTime << "\" endtime=\"" << getEndTime() << " length" << _length << "\" virtuallength=" <<  _virtualLength << " getStartTime:" << getStartTime() << "\n"; 
     glob << " starttime=\"" << _startTime << "\" endtime=\"" << getEndTime() << "\" length=\"" << _length << "\" virtuallength=\"" <<  _virtualLength << "\" id=\"" << _command->getID() << "\""<< " runnableTime=\"" << _runnableTime <<  "\"" ;
     if (_channel!=0) glob << " ch=\"" << _channel->toShortString() <<  "\""  ;
@@ -123,8 +127,8 @@ void TMLTransaction::toXMLByTask(std::ostringstream& glob, int deviceID, std::st
     glob << TAG_TRANSo << " uniqueid=\"" << uniqueID  << "\" deviceid=\"" << deviceID << "\" devicename=\"" << deviceName << "\" corenumber=\"" << _transactCoreNumber << "\" id=\"" << _command->getID() << "\" runnableTime=\"" << _runnableTime  << "\" command=\"0\"";
   } else {
     if (_command->getTask()->toString() == taskName){
-        std::cout << "Info transaction:  "<< "\" deviceid=\"" << deviceID << "\" devicename=\"" << deviceName << "\" command=\"" << _command->toShortString() << "\"" << std::endl;
-        glob << TAG_TRANSo << " uniqueid=\"" << uniqueID  << "\" deviceid=\"" << deviceID << "\" devicename=\"" << deviceName << "\" corenumber=\"" << _transactCoreNumber << "\" command=\"" << _command->toShortString() << "\"";
+        std::cout << "Info transaction:  "<< "\" deviceid=\"" << deviceID << "\" devicename=\"" << deviceName << "\" command=\"" << getToShortStringCommand() << "\"" << std::endl;
+        glob << TAG_TRANSo << " uniqueid=\"" << uniqueID  << "\" deviceid=\"" << deviceID << "\" devicename=\"" << deviceName << "\" corenumber=\"" << _transactCoreNumber << "\" command=\"" << getToShortStringCommand() << "\"";
         glob << " starttime=\"" << _startTime << "\" endtime=\"" << getEndTime() << "\" length=\"" << _length << "\" virtuallength=\"" <<  _virtualLength << "\" id=\"" << _command->getID() << "\""<< " runnableTime=\"" << _runnableTime <<  "\"" ;
         if (_channel!=0) glob << " ch=\"" << _channel->toShortString() <<  "\""  ;
     }

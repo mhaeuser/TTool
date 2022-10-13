@@ -208,6 +208,20 @@ TMLLength TMLbrbwChannel::insertSamples(TMLLength iNbOfSamples, Parameter* iPara
   return aNbToInsert;
 }
 
+TMLLength TMLbrbwChannel::removeSamples(TMLLength iNbOfSamples){
+  TMLLength aNbToInsert;
+  if (iNbOfSamples==0){
+    _content=0;
+    aNbToInsert=0;
+  } else{
+    aNbToInsert = min(iNbOfSamples, _content);
+    _content -= aNbToInsert;
+    std::cout << "\nRemoving from Channel: " << aNbToInsert << ";" << std::endl;
+    std::cout << "\n_content: " << _content << ";" << std::endl;
+  }
+  setTransactionLength();
+  return aNbToInsert;
+}
 
 TMLLength TMLbrbwChannel::readSamples(TMLLength iNbOfSamples, Parameter* iParam){
   TMLLength aNbToInsert = iNbOfSamples;  

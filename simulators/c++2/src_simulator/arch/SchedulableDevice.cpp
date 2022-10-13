@@ -632,7 +632,9 @@ void SchedulableDevice::HW2HTML(std::ofstream &myfile) const
       std::cout << "CPU:calcSTL: html of CPU " << _name << ": " << (*i)->toString() << std::endl;
       // if( (*i)->getTransactCoreNumber() == this->_cycleTime ){
       TMLTransaction *aCurrTrans = *i;
-      unsigned int aBlanks = aCurrTrans->getStartTime() - aCurrTime;
+      unsigned int penLength = aCurrTrans->getPenalties();
+      unsigned long beg = aCurrTrans->getStartTime() - penLength;
+      unsigned int aBlanks = beg - aCurrTime;
       bool isBlankTooBig = false;
       std::ostringstream tempString;
       int tempBlanks;

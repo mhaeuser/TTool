@@ -73,7 +73,7 @@ public class TMLMappingTextSpecification<E> {
     private ArrayList<TMLTXTError> errors;
     private ArrayList<TMLTXTError> warnings;
 
-    private String keywords[] = {"MAP", "SET", "TMLMAPPING", "ENDTMLMAPPING", "TMLSPEC", "TMLARCHI", "ENDTMLSPEC", "ENDTMLARCHI"};
+    private static String keywords[] = {"MAP", "SET", "TMLMAPPING", "ENDTMLMAPPING", "TMLSPEC", "TMLARCHI", "ENDTMLSPEC", "ENDTMLARCHI"};
     private String beginArray[] = {"TMLSPEC", "TMLARCHI", "TMLMAPPING"};
     private String endArray[] = {"ENDTMLSPEC", "ENDTMLARCHI", "ENDTMLMAPPING"};
 
@@ -785,7 +785,7 @@ public class TMLMappingTextSpecification<E> {
         return _num.matches("\\d*");
     }
 
-    public boolean checkKeywords(String _id) {
+    public static boolean checkKeywords(String _id) {
         String id = _id.toUpperCase();
         for (int i = 0; i < keywords.length; i++) {
             if (id.compareTo(keywords[i]) == 0) {

@@ -137,7 +137,7 @@ public class TMLArchiBUSNode extends TMLArchiCommunicationNode implements Swallo
         removable = true;
         userResizable = true;
 
-        name = tdp.findNodeName("Bus");
+        name = tdp.findNodeName("Bus0");
         value = "name";
 
         myImageIcon = IconManager.imgic700;
@@ -266,7 +266,8 @@ public class TMLArchiBUSNode extends TMLArchiCommunicationNode implements Swallo
         if (dialog.getNodeName().length() != 0) {
             tmpName = dialog.getNodeName();
             tmpName = tmpName.trim();
-            if (!TAttribute.isAValidId(tmpName, false, false, false)) {
+            if (!TAttribute.isAValidId(tmpName, false, false, false, true,
+                    true)) {
                 error = true;
                 errors += "Name of the node  ";
             } else {

@@ -113,7 +113,7 @@ public class TMLArchiRouterNode extends TMLArchiCommunicationNode implements Swa
         removable = true;
         userResizable = true;
 
-        name = tdp.findNodeName("NoC");
+        name = tdp.findNodeName("NoC0");
         value = "name";
 
         myImageIcon = IconManager.imgic700;
@@ -204,7 +204,8 @@ public class TMLArchiRouterNode extends TMLArchiCommunicationNode implements Swa
         if (dialog.getNodeName().length() != 0) {
             tmpName = dialog.getNodeName();
             tmpName = tmpName.trim();
-            if (!TAttribute.isAValidId(tmpName, false, false, false)) {
+            if (!TAttribute.isAValidId(tmpName, false, false, false,
+                    true, true)) {
                 error = true;
                 errors += "Name of the node  ";
             } else {

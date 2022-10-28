@@ -116,7 +116,7 @@ public class TMLArchiFirewallNode extends TMLArchiCommunicationNode implements S
         removable = true;
         userResizable = true;
         
-        name = tdp.findNodeName("Firewall");
+        name = tdp.findNodeName("Firewall0");
 		value = "name";
         
         myImageIcon = IconManager.imgic700;
@@ -208,7 +208,8 @@ public class TMLArchiFirewallNode extends TMLArchiCommunicationNode implements S
 		if (dialog.getNodeName().length() != 0) {
 			tmpName = dialog.getNodeName();
 			tmpName = tmpName.trim();
-			 if (!TAttribute.isAValidId(tmpName, false, false, false)) {
+			 if (!TAttribute.isAValidId(tmpName, false, false, false, true,
+                     true)) {
                 error = true;
 				errors += "Name of the node  ";
 			 } else {

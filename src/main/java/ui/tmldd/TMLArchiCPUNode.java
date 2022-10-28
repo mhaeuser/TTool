@@ -128,7 +128,7 @@ public class TMLArchiCPUNode extends TMLArchiNode implements SwallowTGComponent,
         removable = true;
         userResizable = true;
 
-        name = tdp.findNodeName("CPU");
+        name = tdp.findNodeName("CPU0");
         value = "name";
 
         myImageIcon = IconManager.imgic700;
@@ -223,7 +223,8 @@ public class TMLArchiCPUNode extends TMLArchiNode implements SwallowTGComponent,
         if (dialog.getNodeName().length() != 0) {
             tmpName = dialog.getNodeName();
             tmpName = tmpName.trim();
-            if (!TAttribute.isAValidId(tmpName, false, false, false)) {
+            if (!TAttribute.isAValidId(tmpName, false, false, false, true,
+                    true)) {
                 error = true;
                 errors += "Name of the node  ";
             } else {

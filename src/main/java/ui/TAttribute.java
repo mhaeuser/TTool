@@ -39,6 +39,8 @@
 
 package ui;
 
+import tmltranslator.TMLArchiTextSpecification;
+import tmltranslator.TMLMappingTextSpecification;
 import tmltranslator.TMLTextSpecification;
 import translator.JKeyword;
 import translator.RTLOTOSKeyword;
@@ -223,10 +225,18 @@ public class TAttribute {
             b5 = true;
         }
 
-        b4 = !((lowerid.equals(getStringType(0).toLowerCase())) || (lowerid.equals(getStringType(1).toLowerCase())) || (lowerid.equals(getStringType(2).toLowerCase())) || (lowerid.equals(getStringType(3).toLowerCase())) || (lowerid.equals(getStringType(4).toLowerCase())));
+        b4 = !((lowerid.equals(getStringType(0).toLowerCase())) || (lowerid.equals(getStringType(1).toLowerCase())) ||
+                (lowerid.equals(getStringType(2).toLowerCase())) || (lowerid.equals(getStringType(3).toLowerCase())) ||
+                (lowerid.equals(getStringType(4).toLowerCase())));
 
         if (checkTMLKeyword) {
             b6 = TMLTextSpecification.checkKeywords(lowerid);
+            if (b6) {
+                b6 = TMLArchiTextSpecification.checkKeywords(lowerid);
+                if (b6) {
+                    b6 = TMLMappingTextSpecification.checkKeywords(lowerid);
+                }
+            }
         } else {
             b6 = true;
         }

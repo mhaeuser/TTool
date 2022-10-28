@@ -70,7 +70,7 @@ public class TMLArchiTextSpecification {
     private ArrayList<TMLTXTError> errors;
     private ArrayList<TMLTXTError> warnings;
 
-    private String keywords[] = {"NODE", "CPU", "FPGA", "SET", "BUS", "LINK", "BRIDGE", "NOC", "MEMORY", "MASTERCLOCKFREQUENCY", "DMA"};
+    private static String keywords[] = {"NODE", "CPU", "FPGA", "SET", "BUS", "LINK", "BRIDGE", "NOC", "MEMORY", "MASTERCLOCKFREQUENCY", "DMA"};
     private String nodetypes[] = {"CPU", "FPGA", "BUS", "LINK", "BRIDGE", "NOC", "MEMORY", "HWA", "DMA"};
     private String cpuparameters[] = {"nbOfCores", "byteDataSize", "pipelineSize", "goIdleTime", "maxConsecutiveIdleCycles", "taskSwitchingTime",
             "branchingPredictionPenalty", "cacheMiss", "schedulingPolicy", "sliceTime", "execiTime", "execcTime", "operation", "clockDivider"};
@@ -1035,7 +1035,7 @@ public class TMLArchiTextSpecification {
         return _num.matches("\\d*");
     }
 
-    public boolean checkKeywords(String _id) {
+    public static boolean checkKeywords(String _id) {
         String id = _id.toUpperCase();
         for (int i = 0; i < keywords.length; i++) {
             if (id.compareTo(keywords[i]) == 0) {
@@ -1083,4 +1083,5 @@ public class TMLArchiTextSpecification {
     private String prepareString(String s) {
         return s.replaceAll("\\s", "");
     }
+
 }

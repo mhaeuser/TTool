@@ -111,7 +111,7 @@ public class TMLArchiCPNode extends TMLArchiCommunicationNode implements Swallow
         removable = true;
         userResizable = true;
 
-        name = tdp.findNodeName("CP");
+        name = tdp.findNodeName("CP0");
         value = name;
 
         myImageIcon = IconManager.imgic700;
@@ -274,7 +274,7 @@ public class TMLArchiCPNode extends TMLArchiCommunicationNode implements Swallow
             tmpName = dialog.getNodeName();
             tmpName = tmpName.trim();
 
-            if( !TAttribute.isAValidId(tmpName, false, false, false) ) {
+            if( !TAttribute.isAValidId(tmpName, false, false, false, true, true) ) {
                 error = true;
                 errors += "Name of the node  ";
             }

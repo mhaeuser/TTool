@@ -111,7 +111,7 @@ public class TMLArchiMemoryNode extends TMLArchiCommunicationNode implements Swa
         removable = true;
         userResizable = true;
 
-        name = tdp.findNodeName("Memory");
+        name = tdp.findNodeName("Memory0");
         value = "name";
 
         myImageIcon = IconManager.imgic700;
@@ -214,7 +214,8 @@ public class TMLArchiMemoryNode extends TMLArchiCommunicationNode implements Swa
         if (dialog.getNodeName().length() != 0) {
             tmpName = dialog.getNodeName();
             tmpName = tmpName.trim();
-            if (!TAttribute.isAValidId(tmpName, false, false, false)) {
+            if (!TAttribute.isAValidId(tmpName, false, false, false, true,
+                    true)) {
                 error = true;
                 errors += "Name of the node  ";
             } else {

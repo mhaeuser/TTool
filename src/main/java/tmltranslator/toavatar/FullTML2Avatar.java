@@ -1807,11 +1807,13 @@ public class FullTML2Avatar {
             //Make many choices
             //TMLSelectEvt c = (TMLSelectEvt) ae;
             for (int i = 0; i < ae.getNbNext(); i++) {
-                tran = new AvatarTransition(block, "__after_" + ae.getName() + "_" + i, ae.getReferenceObject());
-                as.addNext(tran);
+                //tran = new AvatarTransition(block, "__after_" + ae.getName() + "_" + i, ae.getReferenceObject());
+                //as.addNext(tran);
                 List<AvatarStateMachineElement> nexts = translateState(ae.getNextElement(i), block);
-                tran.addNext(nexts.get(0));
-                elementList.add(tran);
+                //tran.addNext(nexts.get(0));
+                //elementList.add(tran);
+                nexts.remove(0);
+                as.addNext(nexts.get(0));
                 elementList.addAll(nexts);
             }
             return elementList;

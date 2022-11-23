@@ -175,9 +175,6 @@ This document describes the structure and meaning of the code of the DIPLODOCUS 
 %$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 %\begin{document}
 %@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-\section*{Notes}
-\cod{\_length} of communication command: number of bytes: TML param * width of channel. becomes virtual length of transaction.
-%@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 \section*{Base Directory \cod{src\_simulator}}
 %===========================================
 \class{Transaction}{}
@@ -200,6 +197,8 @@ This document describes the structure and meaning of the code of the DIPLODOCUS 
 %-----------------------
 \variable{\_transactCoreNumber} core that executes transaction (when multicore CPU).
 %-----------------------
+\variable{\_transType} among \cod{NOCOMM\_TRANS}: transactions without communication, \cod{CHANNEL\_TRANS}: transaction on event channel, \cod{BUS\_TRANS\_NoLength}: data communication on bus where length is not up-to-date, \cod{BUS\_TRANS\_Length}: data communication on bus whith length up-to-date. Initialised in \cod{calcStartTimeLength} of CPUS and finalised (for length) in CPU's \cod{getNextTransaction} (when last bus master of channel is granted).
+%-----------------------
 \method{getStartTimeOperation()} takes penalties into account
 %-----------------------
 \method{getEndTime()} takes penalties into account
@@ -213,7 +212,7 @@ This document describes the structure and meaning of the code of the DIPLODOCUS 
 \class{TMLChannel}{}
 Class for mapped channels.
 %-----------------------
-\variable{\_width} Channel size (in bytes or samples??)
+\variable{\_width} Channel size (in bytes)
 
 %-----------------------
 \variable{\_readTask} tasks which performs read operation on the channel
@@ -228,7 +227,7 @@ Class for mapped channels.
 \variable{\_readTrans} transaction which attempts to read the channel
 
 %-----------------------
-\variable{\_masters} buses on which the channel is mapped. doubble list: from first write master to last one, then from last read master to first one.
+\variable{\_masters} buses on which the channel is mapped. doubble list: from first write master to last one, then from last read master to first one. Thus the last write master is repeated (equal to the last read master because on the same memory), which is used to detect the memory position.
 
 %-----------------------
 \variable{\_slaves} slaves on which the channel is mapped. Respects order of masters.
@@ -240,19 +239,21 @@ Class for mapped channels.
 \variable{\_readTransCurrHop} current Hop (master/slave) of read Transaction
 	
 %-----------------------
-\method{testWrite(iTrans)} Prepares a write operation
+\method{testWrite(iTrans)} Prepares a write operation (depends on channel type)
 
 %-----------------------
-\method{testRead(iTrans)} Prepares a read operation
+\method{testRead(iTrans)} Prepares a read operation (depends on channel type)
 
 %-----------------------
-\method{write()} Performs the write operation
+\method{write()} Performs the write operation (depends on channel type)
 
 %-----------------------
-\method{read()} returns bool. Performs the read operation
+\method{read()} returns bool. Performs the read operation (depends on channel type)
 
 %-----------------------
 \method{getNextMaster(iTrans)} Returns the next communication master on which the given transaction is conveyed. Supposes that \cod{iTrans} is \cod{\_writeTrans} or \cod{\_readTrans}. First increments \cod{\_writeTransCurrHop} or decrements \cod{\_readTransCurrHop}. Returns the newly pointed master.
+%-----------------------
+\method{isLastMaster(iTrans)} Returns true if the current communication master (\cod{xxxCurrHop}) on which the given transaction is conveyed is the last one. Does not modify \cod{xxxCurrHop}.
 
 %-----------------------
 \method{getFirstMaster(iTrans)} Returns the first communication master on which the given transaction is conveyed. Supposes that \cod{iTrans} is \cod{\_writeTrans} or \cod{\_readTrans}. Set (read or write) current hop to this master.
@@ -293,13 +294,11 @@ Blocking read-blocking write. Handling of losses is abstracted.
 \method{testRead(iTrans)} updates \cod{\_nbToRead} and \cod{\_readTrans}. Then calls \cod{setTransaction\-Length}.
 
 %-----------------------
-\method{testwrite} updates \cod{\_nbToRead} and \cod{\_writeTrans}. Then calls \cod{setTransactionLength}.
-
-%-----------------------
 \method{write()} called after \cod{testWrite}, thus number of samples is known and allowed (\cod{\_wri\-te\-Trans}'s virtual length). Updates \cod{\_content} and unblock \cod{\_readTrans} (set its runnable time). Reset (to 0) \cod{\_nbToRead} and \cod{\_nbToWrite}, then calls \cod{setTransactionLength}. Losses are handled here.
 %-----------------------
 \method{read()} called after \cod{testRead}, thus number of samples is known and allowed (\cod{\_read\-Trans}'s virtual length). Returns {\tt false} if \cod{\_content} $<$ \cod{\_readTrans}'s virtual length. Otherwise, returns {\tt true}, updates  \cod{\_content} and unblock \cod{\_writeTrans} (set its runnable time). Reset (to 0) \cod{\_nbToRead} and \cod{\_nbToWrite}, then calls \cod{setTransactionLength}.
-
+%-----------------------
+\method{getBlockedReadTask(),getBlockedWriteTask()}
 %===========================================
 \class{TMLbrnbwChannel}{TMLStateChannel}
 Blocking read-non blocking write. Handling of losses is abstracted.
@@ -311,16 +310,18 @@ Blocking read-non blocking write. Handling of losses is abstracted.
 
 %-----------------------
 \method{read()} called after \cod{testRead}, thus number of samples is known and allowed (\cod{\_read\-Trans}'s virtual length). returns {\tt false} if \cod{\_content} $<$ \cod{\_readTrans}'s virtual length. Returns {\tt false} if \cod{\_content} $<$ \cod{\_readTrans}'s virtual length. Otherwise, returns {\tt true}, updates  \cod{\_content} and reset \cod{\_nbToRead} and \cod{\_nbToWrite}.
+%-----------------------
+\method{getBlockedReadTask(),getBlockedWriteTask()}
 
 %===========================================
 \class{TMLnbrnbwChannel}{TMLChannel}
 Non blocking read-non blocking write
 
 %-----------------------
-\method{testWrite(iTrans), testRead(iTrans)} respectively update \cod{\_readTrans} and \cod{\_wri\-teTrans}.
+\method{testWrite(iTrans), testRead(iTrans)} respectively update \cod{\_wri\-teTrans} and \cod{\_readTrans}.
 
 %-----------------------
-\method{write(iTrans), read(iTrans)} respectively reset (to 0) \cod{\_readTrans} and \cod{\_wri\-te\-Trans}.
+\method{write(iTrans), read(iTrans)} respectively reset (to 0) \cod{\_wri\-te\-Trans} and \cod{\_readTrans}.
 
 %===========================================
 \class{TMLEventChannel}{TMLStateChannel}
@@ -330,6 +331,8 @@ Non blocking read-non blocking write
 \method{{\rm virtual} write(iTrans), write()} \cod{write} calls \cod{write(this)} and resets \cod{\_writeTrans}.
 %-----------------------
 \method{getRequestChannel()} test channel's type. returns bool, default 0.
+%-----------------------
+\method{getBlockedReadTask(),getBlockedWriteTask()}
 
 %===========================================
 \class{TMLEventSizedChannel}{TMLEventChannel}
@@ -359,6 +362,8 @@ Resets \cod{\_writeTrans} (also when channel full). If the channel is full, then
 \method{read} Returns {\tt false} when empty channel. Otherwise decrements \cod{\_content}. Pops parameter from queue and update \cod{\_readTrans}'s command with the poped value.
 %-----------------------
 \method{cancelReadTransaction()} resets \cod{\_readTrans}.
+%-----------------------
+\method{getBlockedReadTask(),getBlockedWriteTask()}
 
 %===========================================
 \class{TMLEventFBChannel}{TMLEventSizedChannel}
@@ -371,6 +376,8 @@ blocking read blocking write (finite FIFO)
 \method{write()} similar to \cod{TMLEventFChannel} but does not check if channel is full.
 %-----------------------
 \method{read()} similar to \cod{TMLEventFChannel} but also awake \cod{\_writeTrans} if relevant (set its runnalbe time, channel and virtual length)
+%-----------------------
+\method{getBlockedReadTask(),getBlockedWriteTask()}
 
 %===========================================
 \class{TMLEventBChannel}{TMLEventSizedChannel}
@@ -383,9 +390,13 @@ blocking read non blocking write channel (infinite FIFO)
 \method{testWrite()} Updates \cod{\_writeTrans} and its virtual length.
 %-----------------------
 \method{read()} Returns {\tt false} if channel is empty. Similar to \cod{TMLEventFChannel}.
+%-----------------------
+\method{getBlockedReadTask(),getBlockedWriteTask()}
 
 %£££££££££££££££££££££££££££££££££££££££££££££££££££££££££££££££££££££
 \subsection*{Tasks}
+Note:
+\cod{\_length} of data communication command: number of bytes: TML param * width of channel. becomes virtual length of transaction.
 
 %===========================================
 \class{TMLCommand}{}
@@ -411,11 +422,11 @@ True if there was a transaction to prepare
 %-----------------------
 \method{getDependentTask(iIndex)} task which could be unblocked by the command
 %-----------------------
-\method{getNextCommands(oNbOfCmd), getNextCommands()} respectively return an array of commands and the first of them. {\tt oNbOfCmd} is the size of the array.
+\method{getNextCommands(oNbOfCmd), getNextCommand()} respectively return an array of commands and the first of them. {\tt oNbOfCmd} is the size of the array.
 %-----------------------
 \method{isDelayTransaction(), getActiveDelay()} check command type, booleans.
 %-----------------------
-\method{prepare(iInit)} {\tt iInit} is only true at the initial call of the method by simulator. If command is terminated initializes next command and \cod{prepare()} it. Otherwise, progrees in command by calling \cod{prepareNext\-Transaction()} which is implemented by subclasses of TMLCommand. Returns the prepared transaction if there is one. Two cases:
+\method{prepare(iInit)} {\tt iInit} is only true at the initial call of the method by simulator (this handles redoundant calls that may occur at this moment). If command is terminated initializes next command and \cod{prepare()} it. Otherwise, progrees in command by calling \cod{prepareNext\-Transaction()} which is implemented by subclasses of TMLCommand. Returns the prepared transaction if there is one. Two cases:
 \begin{itemize}
 	\item \cod{\_length}=\cod{\_progress}, i.e. command is terminated. Change to the next command: reset \cod{\_progress}, 
 	\cod{\_currTransaction} and \cod{\_commandStartTime} and update task's current command. Then prepare new command if not 0, otherwise returns 0.
@@ -424,12 +435,16 @@ True if there was a transaction to prepare
 %-----------------------
 \method{prepareNextTransaction()} {\tt true} if there was a transaction to prepare. Virtual, returns  TMLCommand, default is 0.
 %-----------------------
-\method{execute()} Updates the inner state of the command as well as the state of all dependent objects (channel, bus,...)
+\method{execute()} Updates the inner state of the command as well as the state of all dependent objects (progress, channel, bus,...). Finally calls \cod{prepare}.
 
+\vspace{1.5mm}\noindent
+\includegraphics[width=15.5cm]{images/prepare.pdf}
 
+\vspace{1.5mm}\noindent
+Calling \cod{prepare} runs consecutive commands until finding one that requires a transaction (non null real length), then build the transaction and sets it as current transaction of the task. It is called on all tasks at the beginning of simulation, and then, when a transaction is executed (selected by the simulator loop), on the transaction's command, to prepare the following transaction w.r.t. control flow.
 %===========================================
 \class{Task}{WorkloadSource}
-note: \cod{schedule} does nothing. Instances also comprise command-specific function (such as length computation for example) which are called by command' s \cod{xxx} methods.
+note: \cod{schedule} does nothing. Instances also comprise command-specific function (such as length computation for example) which are called by some command' s methods.
 
 %-----------------------
 \variable{\_priority} priority of the task
@@ -444,12 +459,13 @@ note: \cod{schedule} does nothing. Instances also comprise command-specific func
 %-----------------------
 \variable{\_justStarted} true until the first transaction of a task is executed
 %-----------------------
-\method{addTransaction(iTrans)} Updates \cod{\_endLastTransaction} with {\tt iTrans}'s end time and unsets \cod{\_justStarted}.
+\method{addTransaction(iTrans)} Adds transaction to the transaction list of the command. Updates \cod{\_endLastTransaction} with {\tt iTrans}'s end time and unsets \cod{\_justStarted}.
 %-----------------------
 \method{finished()} Is called when a stop command is encountered. Sets \cod{\_justStarted}.
 %-----------------------
 \method{getNextTransaction(iEndSchedule)} Returns \cod{\_currCommand}'s current transaction
-
+%-----------------------
+\method{getCPU(),getFPGA()}
 %£££££££££££££££££££££££££££££££££££££££££££££££££££££££££££££££££££££
 \subsection*{Commands}
 First, see \cod{TMLCommand} above.
@@ -632,7 +648,7 @@ Base class for components providing workload like tasks and scheduler
 
 %===========================================
 \class{RRScheduler}{WorkloadSource}
-
+Round Robin Scheduler (used for buses and CPUs)
 %----------------------- 
 \variable{\_nextTransaction} Next transaction to be executed
 
@@ -651,6 +667,60 @@ Base class for components providing workload like tasks and scheduler
 %-----------------------
 \method{schedule(iEndSchedule)} updates \cod{\_nextTransaction}(virtual length of new \cod{\_next\-Transaction} is not 0) , \cod{\_lastSource} and \cod{\_elapsedTime}.
 For this, schedules the sources and selects the one whose \cod{\_nextTransaction} has the lowest runnable time.\\ Exception (only if new  \cod{\_lastSource}'s transaction is not a static delay): last source is kept if scheduler's \cod{\_nextTransaction} was 0 (is it possible?) or equal to  new  \cod{\_lastSource}'s transaction, or if time remains in timeslice for \cod{\_lastSource}.
+
+%===========================================
+\class{RRPrioScheduler}{WorkloadSource}
+Round Robin Scheduler with priority (used for CPUs)
+%----------------------- 
+\variable{\_nextTransaction} Next transaction to be executed
+
+%-----------------------
+\variable{\_timeSlice} Time slice which is granted to ressources
+
+%-----------------------
+\variable{\_minSliceSize} Minimum size of a time slice
+
+%-----------------------
+\variable{\_elapsedTime} Consumed portion of a time slice
+
+%-----------------------
+\variable{\_lastSource} Last workload source to which ressource access was granted
+
+%-----------------------
+\method{schedule(iEndSchedule)} Similar to previous one, except that for transactions that are not in the future, priority applies.
+
+%===========================================
+\class{PrioScheduler}{WorkloadSource}
+Scheduler with priority (used for buses)
+%----------------------- 
+\variable{\_nextTransaction} Next transaction to be executed
+
+%-----------------------
+\variable{\_lastSource} Last workload source to which ressource access was granted
+
+%-----------------------
+\method{schedule(iEndSchedule)} Similar to previous one.
+
+%===========================================
+\class{StrictPrioScheduler}{WorkloadSource}
+Scheduler with (preemptive) priority (used for CPUs)
+%----------------------- 
+\variable{\_nextTransaction} Next transaction to be executed
+
+%-----------------------
+\variable{\_timeSlice} Time slice which is granted to ressources
+
+%-----------------------
+\variable{\_minSliceSize} Minimum size of a time slice
+
+%-----------------------
+\variable{\_elapsedTime} Consumed portion of a time slice
+
+%-----------------------
+\variable{\_lastSource} Last workload source to which ressource access was granted
+
+%-----------------------
+\method{schedule(iEndSchedule)} a more prior task always preempts.
 
 %===========================================
 \class{ScedulableDevice}{}
@@ -695,6 +765,9 @@ For this, schedules the sources and selects the one whose \cod{\_nextTransaction
 %-----------------------
 \variable{amountOfCore} Amount of cores
 
+%-----------------------
+\method{virtual truncateAndAddNextTransAt(iTime), truncateNextTrans(iTime)} c.f. \cod{SingleCoreCPU}.
+
 %===========================================
 \class{SingleCoreCPU}{CPU}
 
@@ -711,16 +784,17 @@ For this, schedules the sources and selects the one whose \cod{\_nextTransaction
 \variable{\_nextTransaction} Currently selected transaction (not yet executed).
 
 %-----------------------
-\method{calcStartTimeLength(iTimeSlice)} in \cod{\_nextTransaction}, update start time, length and penalties (round to full cycles when required). In CPU, update \cod{\_masterNextTransac\-tion} (to master of first bus of channel) and register transaction for this master. 
+\method{calcStartTimeLength(iTimeSlice)} in \cod{\_nextTransaction}, update start time, length, penalties (round to full cycles when required) and transType. In CPU, update \cod{\_masterNextTransac\-tion} (to master of first bus of channel, if exists) and register transaction for this master. 
 \begin{itemize}
 \item update start time as the maximum of CPU's \cod{\_endSchedule} and \cod{\_runnableTime} of \cod{\_nextTransaction}.
 \item update length (only if not bus transaction else it is computed elsewhere) as the minimum of \cod{\_nextTransaction}'s virtual length and \cod{iTimeSlice}.
 \item updates \cod{\_taskSwitchingPenalty} and \cod{\_idlePenalty} (for this, compare start time and \cod{\_endSchedule}).
+\item sets \cod{\_transType} to \cod{NOCOMM\_TRANS}, \cod{CHANNEL\_TRANS} or \cod{BUS\_TRANS\_NoLength} depending on wether \cod{\_nextTransaction} is, respectively, "without communication", "with communication but without bus" or "with communication and bus".
 \item updates \cod{\_masterNextTransaction} and registers \cod{\_nextTransaction} for this master if \cod{\_nextTransaction} is communication. 
 \end{itemize}
 
 %-----------------------
-\method{getNextTransaction} returns \cod{\_nextTransaction} except if some master before \cod{\_mas\-terNextTransaction} is not granted. Otherwise returns 0.
+\method{getNextTransaction} returns \cod{\_nextTransaction} except if some master before \cod{\_mas\-terNextTransaction} is not granted. Otherwise returns 0. Moreover, if all buses of a communication transaction have been granted (\cod{\_mas\-terNextTransaction} is the last master of the channel), then the length of the transaction is updated w.r.t. its (up to date) virtual length.
 
 %-----------------------
 \variable{\_masterNextTransaction} Current bus master for \cod{\_nextTransaction} if it is communication transaction, else 0.
@@ -730,7 +804,7 @@ For this, schedules the sources and selects the one whose \cod{\_nextTransaction
 
 If \cod{\_nextTransaction} is communication,
 	\begin{itemize}
-	  \item If next master exists (return false), update \cod{\_masterNextTransaction} and register the transaction for this new master.
+	  \item If next master exists (return false), update \cod{\_masterNextTransaction} to next master and register the transaction for this new master.
 	  \item Otherwise (return true), add \cod{\_nextTransaction} to all relevant masters ans slaves. Update bus contention.
 	\end{itemize}
 If "return true",
@@ -747,11 +821,13 @@ If "return true",
 - call \cod{\_masterNextTransaction->registerTransaction(0)} if relevant (does not change \cod{\_masterNextTransaction} pointer).
 
 %-----------------------
-\method{truncateAndAddNextTransAt(iTime)} called when a transaction may have unblocked a communication transaction on this CPU. Schedule the CPU and if \cod{\_next\-Transaction} have changed, then truncate original one at {\tt iTime}, \cod{addTransaction(0)} and \cod{calcStart\-TimeLength} to update new one.
+\method{truncateAndAddNextTransAt(iTime)} called when the execution of a transaction by the simulator may have unblocked a communication transaction on this CPU. Schedule the CPU and if \cod{\_next\-Transaction} have changed, then truncate original one at {\tt iTime}, \cod{addTransaction(0)} and \cod{calcStart\-TimeLength} to update new one. This is done only if the current \cod{\_nextTransaction} is not a bus transaction.
 
 %-----------------------
-\method{truncateNextTransAt(iTime)} called by \cod{truncateAndAddNextTransAt} to truncate \cod{\_next\-Transaction}. It computes new length of transaction and updates transaction with this length.\\ {\bfseries\textit{Warning (?)}}: this computation seems to consider that \cod{\_nextTransaction}'s command is similar to exec, which is not always true. What append if it is a communication command?
+\method{truncateNextTransAt(iTime)} called by \cod{truncateAndAddNextTransAt} to truncate \cod{\_next\-Transaction}. It computes new length of transaction and updates transaction with this length.
 
+%-----------------------
+\method{truncateNextTrans(iTime)} Makes the same work as \cod{truncateAndAddNext\-TransAt} and \cod{truncateAndAddNextTransAt} together, but also truncates bus transactions when it is relevant. Yet not used (selection of algorithm depends on a test which is always true at the beginning of \cod{truncateAndAddNextTransAt})
 
 %===========================================
 \class{MultiCoreCPU}{ScedulableDevice}
@@ -780,11 +856,12 @@ If "return true",
 \variable{\_nextTransaction} Currently selected transaction (not yet executed).
 
 %-----------------------
-\method{calcStartTimeLength(iTimeSlice)} in \cod{\_nextTransaction}, update start time, length and penalties. In CPU, update \cod{\_masterNextTransaction}. (round to full cycles where required)
+\method{calcStartTimeLength(iTimeSlice)} in \cod{\_nextTransaction}, update start time, length, penalties (round to full cycles when required) and transType. In CPU, update \cod{\_masterNextTransac\-tion} (to master of first bus of channel, if exists) and register transaction for this master. 
 \begin{itemize}
 	\item update start time as the maximum of CPU's \cod{\_endSchedule},\cod{\_nextTransaction}'s \cod{\_runnableTime} and \cod{\_nextTransaction}'s channel's \cod{channelEndTime}.
 	\item update length (only if not bus transaction else it is computed elsewhere) as the minimum of \cod{\_nextTransaction}'s virtual length and \cod{iTimeSlice}.
 	\item updates \cod{\_taskSwitchingPenalty} and \cod{\_idlePenalty} (for this, compare start time and \cod{\_endSchedule}).
+	\item sets \cod{\_transType} to \cod{NOCOMM\_TRANS}, \cod{CHANNEL\_TRANS} or \cod{BUS\_TRANS\_NoLength} depending on wether \cod{\_nextTransaction} is, respectively, "without communication", "with communication but without bus" or "with communication and bus".
 	\item updates \cod{\_masterNextTransaction} and registers \cod{\_nextTransaction} for this master if \cod{\_nextTransaction} is communication. 
 \end{itemize}
 
@@ -797,7 +874,7 @@ If "return true",
 
 If \cod{\_nextTransaction} is communication,
 \begin{itemize}
-	\item If next master exists (return false), update \cod{\_masterNextTransaction} and register the transaction for this new master.
+	\item If next master exists (return false), update \cod{\_masterNextTransaction} to next master and register the transaction for this new master.
 	\item Otherwise (return true), add \cod{\_nextTransaction} to all relevant masters ans slaves. Update bus contention.
 \end{itemize}
 If "return true",
@@ -815,10 +892,14 @@ If "return true",
 - call \cod{\_masterNextTransaction->registerTransaction(0)} if relevant (does not change \cod{\_masterNextTransaction} pointer).
 
 %-----------------------
-\method{truncateAndAddNextTransAt(iTime)} identical to \cod{SingleCoreCPU}.\\ {\bfseries\textit{Warning (?):}} code inside the method seems to be duplicated...
+\method{truncateAndAddNextTransAt(iTime)} identical to \cod{SingleCoreCPU}.
 
 %-----------------------
 \method{truncateNextTransAt(iTime)} identical to \cod{SingleCoreCPU}
+
+%-----------------------
+\method{truncateNextTrans(iTime)} identical to \cod{SingleCoreCPU}
+
 %===========================================
 \class{SchedulableComDevice}{SchedulableDevice}
 
@@ -831,6 +912,11 @@ If "return true",
 %-----------------------
 \variable{\_channelBasedPrio} Flag indicating whether bus master based or channel based priorities are used to arbitrate the bus
 
+%-----------------------
+\method{virtual calcStartTimeLength(iTimeSlice)} Updates start time (may increase but not decrease) and virtual length (may decrease but not increase).
+%-----------------------
+\method{virtual calcLength()} Updates length w.r.t virtual length, i.e. increase (but not decrease) length if relevant.
+
 %===========================================
 \class{Bus}{SchedulableCommDevice}
 
@@ -841,11 +927,13 @@ If "return true",
 \variable{\_schedulingNeeded} Dirty flag of the current scheduling decision. Set by \cod{addTransac\-tion} and \cod{registerTransaction}. Unset by \cod{schedule}.
 
 %-----------------------
-\method{schedule()} Determines the next bus transaction to be executed. For this, call its internal scheduler (\cod{\_scheduler->schedule(\_endSchedule)}), update \cod{\_nextTransaction} and call \cod{calcStartTimeLength} with the obtained time slice. Unset \cod{\_schedulingNeeded}.
+\method{schedule()} Determines the next bus transaction to be executed. For this, call its internal scheduler (\cod{\_scheduler->schedule(\_endSchedule)}), update \cod{\_nextTransaction}, limits its virtual length w.r.t. burst size, and call \cod{calcStartTimeLength} with the obtained time slice. Unset \cod{\_schedulingNeeded}.
 
 %-----------------------
-\method{calcStartTimeLength(iTimeSlice)} Calculates the start time and the length of the next transaction. Start time updated to \cod{\_endschedule}+penalties if greather than current start time. Update length and virtual length taking bus characteristics into account. Increments slave and if new slave exist, then call \cod{\_calcStartTimeLength} of slave.
+\method{calcStartTimeLength(iTimeSlice)} Updates the start time and the virtual length of \cod{\_nextTransaction}. Start time updated to \cod{\_endschedule} if greather than current start time. Update virtual length taking bus characteristics into account (decreases if the computed virtual length is smaller than the current one). Increments slave and if new slave exist, then call \cod{\_calcStartTimeLength} of slave (which does nothing).
 
+%-----------------------
+\method{calcLength(iTimeSlice)} Updates the length of the transaction considering the virtual length and bus caracteristics? The length of \cod{\_nextTransaction} is increased if the computed length is greater than the current one.
 %-----------------------
 \method{addTransaction(iTransToBeAdded)} return {\tt true}. Adds the parameter transaction (supposed to be similar to the transaction determined by the scheduling algorithm?) to the internal list of scheduled transactions. Set \cod{\_endSchedule} to the end time of \cod{\_nextTransaction} and \cod{\_nextTransaction} to 0. Set the \cod{\_schedulingNeeded} flag.
 
@@ -893,6 +981,9 @@ If "return true",
 \method{getBus()} \cod{\_busArray[0]}
 
 %-----------------------
+\method{getNextBus()} returns current value of \cod{\_nextBus} which is always \cod{\_busArray[0]} in current implementation (but may be changed by \cod{accessGranted} when considering multibuses--not implemented).
+
+%-----------------------
 \method{addTransaction(iTransToBeAdded)} Add transaction to \cod{\_nextBus} and set \cod{\_next\-Tran\-saction} to 0.
 
 %@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
@@ -910,41 +1001,48 @@ If "return true",
 \method{simulate(oLastTrans)} call \cod{prepare} on current command (initial one) of each task. Schedule all CPUs (and FPGAs). Run the following main loop untill stop flag or no more transaction on non-daemon task. Return the last executed transaction. The loop:
 \begin{itemize}
 	\item get transaction \cod{T} with lowest end time and its associated device \cod{D}.
-	\item \cod{T->addTransaction(0)}, which may update \cod{\_masterNextTransaction} and return false when \cod{T} is communication. In this case, the loop is terminated. Otherwise, continue with next items. While doing this, the transaction is "executed" and may unblock communication command waiting for data or write space to be available.
+	\item \cod{T->addTransaction(0)}, which may update \cod{\_masterNextTransaction} (to next master) and return false when \cod{T} is communication. In this case, the loop is terminated.\\
+	Otherwise, continue with next items. While doing this, the transaction is "executed" (which prepares its following transaction) and may unblock communication command waiting for data or write space to be available.
 	\item for each task \cod{t} on another CPU (or FPGA) \cod{C} whose current (communication) command may be unblocked by (communication) \cod{T}, if \cod{t} is not the current task of its associated CPU (or FPGA) then
 	\begin{itemize}
 	\item if \cod{C} has no current transaction, then it is scheduled.
-	\item Otherwise \cod{C->truncateAndAddNextTransAt(T->getEndTime())} is called. This schedule \cod{C} and if \cod{C}'s \cod{\_nextTransaction} changes, the original one is truncated at \cod{T}'s end time and added, i.e. it is terminated at the current date.\\
-	{\bfseries\textit{warning (?)}}: I'm not sure that \cod{C}'s \cod{\_nextTransaction} can change as often as expected with the current version of schedulers.
+	\item Otherwise \cod{C->truncateAndAddNextTransAt(T->getEndTime())} is called. This schedule \cod{C} and if \cod{C}'s \cod{\_nextTransaction} changes, the original one is truncated at \cod{T}'s end time and added, i.e. it is terminated at the current date. Currently, bus transactions are not truncated but the algorithm that does this is implemented (\cod{CPU::truncateNextTrans}) and could be made operational by small modifying at the beginning of \cod{CPU::truncateAndAddNextTransAt}.
 	\end{itemize}
 	\item schedule \cod{D}
 \end{itemize}
 
 \section*{Remarks about communication transactions on channels}
 \begin{itemize}
-	\item \cod{Bus}'schedulers call \cod{Bus}'s \cod{calcStartTimeLength} which may modify transaction's end time.
-	\item \cod{Bus}'schedulers are called by \cod{Bus}'s \cod{getNextTransaction} which is called by \cod{BusMas\-ter}'s \cod{getNextTransaction} and \cod{BusMaster}'s \cod{accessGranted}
+	\item As length of a data communication transaction is known late (approximately when the transaction is ready to execute), it may be selected by the simulator loop earlier than it should be (simulated transactions are not always ordered w.r.t. their endTime).
+	\item \cod{Bus}'schedulers are called by \cod{Bus}'s \cod{getNextTransaction} which is called by \cod{BusMas\-ter}'s \cod{getNextTransaction} and \cod{BusMaster}'s \cod{accessGranted}.\\
+	\cod{Bus}'schedulers call \cod{calcStartTimeLength} which updates the virtual length of the transaction but not the length.
 	\item \cod{getNextTransaction} returns \cod{\_nextTRansaction} only if it is not the \cod{\_next\-Trans\-ac\-tion} of one of the busses. Not sure that this method is called anywhere (searched and not found\ldots).
 	\item \cod{accessGranted} is called by CPU's \cod{getNextTransaction} and access is granted if \cod{\_nextTRansaction} is also the \cod{\_nextTransaction} of one of the busses of the master.
 	\item Story of a channel-bus transaction:
 	  \begin{enumerate}
-	  	\item \cod{\textit{Communication}Command}'s \cod{prepareNextTransaction} create the transaction.\\ The transaction is provided  with a runnable time and an initial virtual length which takes channel state into account.
+	  	\item \cod{\textit{Communication}Command}'s \cod{prepareNextTransaction} create the transaction.\\ The transaction is provided  with a runnable time and an initial virtual length which takes channel state into account. All task's initial commands are "prepared" at initialisation, and then, each time a transaction (having an associated command) is executed by the simulator loop, to produce the (control flow relative) following transaction.
 	  	\item transaction is chosen for the first time by the \cod{CPU}'s scheduler in which a call to
-	  	\cod{CPU}'s \cod{calcStartTimeLength} sets \cod{\_masterNextTransaction} to first master and registers the transaction for this master. Here, transaction's end time is 0, as start time and length are initialized to 0 and not modified until this point. And all channel's bus  until \cod{\_masterNextTrans\-action} are (trivially) granted (as there are none).
-	  	\item  Transaction (and \cod{CPU}) is selected by simulator, after verifying that all bus masters until \cod{\_masterNextTransaction} have been granted. Indeed \cod{getLowest\-Transac\-tionEndTime} calls \cod{getNextTransaction} on each CPU and \cod{getNext\-Trans\-action} only select a communication transaction if bus masters before \cod{\_masterNext\-Trans\-action} are granted.
+	  	\cod{CPU}'s \cod{calcStartTimeLength} sets \cod{\_masterNextTransaction} to first master and registers the transaction for this master. At this point, transaction's timings are not set (keep their initial value, 0). And all channel's bus  until \cod{\_masterNextTrans\-action} are (trivially) granted (as there are none).
+	  	\item  Transaction (and \cod{CPU}) is selected by simulator, after verifying that all bus masters until \cod{\_masterNextTransaction} (included) have been granted. Indeed \cod{getLowest\-Transac\-tionEndTime} calls \cod{getNextTransaction} on each CPU and this \cod{getNext\-Trans\-action} only select a data communication transaction if bus masters before \cod{\_masterNext\-Trans\-action} are granted. Verifying that buses are granted invokes their scheduling (if required) which updates the virutal length of the transaction w.r.t. bus constraints. If \cod{\_masterNextTransaction} is the last master of the channel, the virtual length is up to date and thus, the length of the transaction can be computed: it is updated to its final value.(*)
 	  	\item \cod{addTransaction} is called and
 	  	\begin{enumerate}
 	  		\item either \cod{\_masterNextTrransaction} is the last master of the channel and the transaction is executed: the transaction is added to all masters and slaves of the channel. This is the end of the story.
 	  		\item or \cod{\_masterNextTrransaction} is not the last master of the channel. Then \cod{\_masterNextTrransaction} is set to the following one and the transaction is registered for this new master. 
 	  	\end{enumerate}
-	  	\item If the story is not terminated (point (b) above) then, return to possibly after some simulator loop iterations on other CPUs), the transaction is selected again and then point 4 above is executed again. This step verifies that all masters before \cod{\_masterNextTransaction} and at the same time, \cod{\_masterNextTransac\-tion}'s busses are scheduled which may update start time and length of the transaction.
+	  	\item If the story is not terminated (point (b) above) then, return to 3 (possibly after some simulator loop iterations on other CPUs), the transaction is selected again and then point 4 above is executed again. executing point 3 again schedules the new \cod{\_masterNextTrransaction} which may update start time and virtual length (and length if last master) of the transaction.
 	  \end{enumerate}
 
 \end{itemize}
-
+(*) Notice that the length is only known at this moment, thus before this moment the transaction may be selected by \cod{getLowest\-Transac\-tionEndTime}, although its endTime is not the lowest one (it is not a problem(?)).
 \section*{Figures}
 \includegraphics[width=6cm]{images/simulate.pdf}\hspace{5mm}
 \includegraphics[width=9cm]{images/channelTrans.pdf}
+
+\vspace{5mm}
+\includegraphics[width=15.5cm]{images/ClassDiag1.pdf}
+
+\includegraphics[width=15.5cm]{images/busTime.pdf}
+
 
 \end{document}
 

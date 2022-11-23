@@ -294,7 +294,7 @@ public class ActivityDiagram2TMLTranslator {
                     corrTgElement.addCor(tmlforloop, tgc);
 
                 } else if (tgc instanceof TMLADForStaticLoop) {
-                    sl = "loop__" + staticLoopIndex;
+                    sl = "loop_" + staticLoopIndex;
                     tt = new TMLType(TMLType.NATURAL);
                     tmlt = new TMLAttribute(sl, tt);
                     tmlt.initialValue = "0";

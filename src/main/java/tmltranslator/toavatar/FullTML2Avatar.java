@@ -1661,6 +1661,11 @@ public class FullTML2Avatar {
 
         } else if (ae instanceof TMLForLoop) {
             TMLForLoop loop = (TMLForLoop) ae;
+
+            TraceManager.addDev("Handling loop.  init: " + loop.getInit() +
+                    "  condition: " + loop.getCondition() + " increment:" + loop.getIncrement());
+
+
             if (loop.isInfinite()) {
                 //Make initializaton, then choice state with transitions
                 List<AvatarStateMachineElement> elements = translateState(ae.getNextElement(0), block);

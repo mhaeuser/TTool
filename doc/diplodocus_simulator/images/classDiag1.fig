@@ -1,4 +1,4 @@
-#FIG 3.2  Produced by xfig version 3.2.7a
+#FIG 3.2  Produced by xfig version 3.2.8a
 Landscape
 Center
 Metric
@@ -7,6 +7,8 @@ A4
 Single
 -2
 1200 2
+0 32 #dcdcdc
+6 945 990 8715 5130
 6 6210 1170 8715 5040
 2 1 0 1 19 7 50 -1 -1 0.000 0 0 -1 0 0 3
 	 6300 3015 6300 3375 6390 3375
@@ -135,3 +137,9 @@ Single
 4 0 20 50 -1 0 12 0.0000 4 165 840 1125 2835 schedule()\001
 4 0 20 50 -1 0 12 0.0000 4 180 1725 1125 3060 getNextTransaction()\001
 4 0 -1 50 -1 1 11 0.0000 4 165 735 3150 2295 belongs to\001
+-6
+6 1980 630 7560 945
+2 2 0 1 32 32 55 -1 20 0.000 0 0 -1 0 0 5
+	 1980 660 7290 660 7290 930 1980 930 1980 660
+4 0 0 50 -1 0 14 0.0000 4 240 5520 2025 885 Synthetic and simplified view of the global class hierarchy\001
+-6

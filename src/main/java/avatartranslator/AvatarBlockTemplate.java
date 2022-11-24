@@ -151,6 +151,7 @@ public class AvatarBlockTemplate {
         AvatarBlock ab = new AvatarBlock(_name, _avspec, _referenceRelation);
         ab.setName(_name);
 
+
         // Create the read and write signals
         AvatarSignal write = new AvatarSignal("write", AvatarSignal.IN, _referenceRelation);
         AvatarSignal read = new AvatarSignal("read", AvatarSignal.OUT, _referenceRelation);
@@ -159,51 +160,6 @@ public class AvatarBlockTemplate {
         ab.addSignal(write); // corresponds to sig1
         ab.addSignal(read);  // corresponds to sig2
         ab.addSignal(queryS);
-
-
-        // Creating the attributes of the signals
-        // Same attributes for all signals
-        for (AvatarAttribute aa : _sig1.getListOfAttributes()) {
-            write.addParameter(aa.advancedClone(null));
-        }
-        for (AvatarAttribute aa : _sig2.getListOfAttributes()) {
-            read.addParameter(aa.advancedClone(null));
-        }
-
-        AvatarAttribute queryA = new  AvatarAttribute("queryA", AvatarType.INTEGER, ab, _referenceRelation);
-        ab.addAttribute(queryA);
-        queryS.addParameter(queryA.advancedClone(null));
-
-
-
-        // Creating the attributes to support the FIFO
-        // For each parameter, we create an attribute that is similar to the one of e.g. sig1
-        // We duplicate this for the size of the fifo
-        for (AvatarAttribute aa : _sig1.getListOfAttributes()) {
-            for (int i = 0; i < _sizeOfFifo; i++) {
-                AvatarAttribute newA = aa.advancedClone(null);
-                newA.setName("arg_" + aa.getName() + "_" + i);
-                ab.addAttribute(newA);
-            }
-        }
-
-        // If lossy, add corresponding lossy attributes
-        if (_ar.isLossy()) {
-            for (AvatarAttribute aa : _sig1.getListOfAttributes()) {
-                AvatarAttribute newL = aa.advancedClone(null);
-                newL.setName("loss_" + aa.getName());
-                ab.addAttribute(newL);
-            }
-        }
-
-        // If non blocking, then, we need extra attributes
-        if (!(_ar.isBlocking())) {
-            for (AvatarAttribute aa : _sig1.getListOfAttributes()) {
-                AvatarAttribute newL = aa.advancedClone(null);
-                newL.setName("bucket_" + aa.getName());
-                ab.addAttribute(newL);
-            }
-        }
 
         // We create the attribute to manage the FIFO
         AvatarAttribute size = new AvatarAttribute("size", AvatarType.INTEGER, ab, _referenceRelation);
@@ -215,22 +171,16 @@ public class AvatarBlockTemplate {
         maxSize.setInitialValue("" + _sizeOfFifo);
         ab.addAttribute(maxSize);
 
-        // Where we write: the head
-        AvatarAttribute head = new AvatarAttribute("head", AvatarType.INTEGER, ab, _referenceRelation);
-        head.setInitialValue("0");
-        ab.addAttribute(head);
+        // Atrribute for query signal
+        AvatarAttribute queryA = new AvatarAttribute("queryA", AvatarType.INTEGER, ab, _referenceRelation);
+        ab.addAttribute(queryA);
+        queryS.addParameter(queryA.advancedClone(null));
 
-        // Where we read: the tail
-        AvatarAttribute tail = new AvatarAttribute("tail", AvatarType.INTEGER, ab, _referenceRelation);
-        tail.setInitialValue("0");
-        ab.addAttribute(tail);
-
-
-        // Creating the state machine
-        // Don't forget the isLossy
 
         AvatarTransition at;
         AvatarStateMachine asm = ab.getStateMachine();
+
+
 
         // Start state
         AvatarStartState ass = new AvatarStartState("start", _referenceRelation);
@@ -242,73 +192,179 @@ public class AvatarBlockTemplate {
         asm.addElement(main);
         at = makeAvatarEmptyTransitionBetween(ab, asm, ass, main, _referenceRelation);
 
+        // Two cases: signals have paremeters or not
+        // In the first case : simply model
+        // In the second case: complex handling
 
-        // Can write only if fifo is not full only if transition
-        AvatarState testHead = new AvatarState("testHead", _referenceRelation);
-        asm.addElement(testHead);
-        at = makeAvatarEmptyTransitionBetween(ab, asm, testHead, main, _referenceRelation);
-        at.setGuard("[head<maxSize]");
-        at = makeAvatarEmptyTransitionBetween(ab, asm, testHead, main, _referenceRelation);
-        at.setGuard("[head==maxSize]");
-        at.addAction("head=0");
 
-        for (int i = 0; i < _sizeOfFifo; i++) {
-            AvatarActionOnSignal aaos_write = new AvatarActionOnSignal("write_" + i, write, _referenceRelation);
-            for (AvatarAttribute aa : _sig1.getListOfAttributes()) {
-                aaos_write.addValue("arg_" + aa.getName() + "_" + i);
-            }
+
+
+        if ( (_sig1.getListOfAttributes().size() == 0) ) {
+
+            // Write
+            AvatarActionOnSignal aaos_write = new AvatarActionOnSignal("write_elt", write, _referenceRelation);
             asm.addElement(aaos_write);
             at = makeAvatarEmptyTransitionBetween(ab, asm, main, aaos_write, _referenceRelation);
-            at.setGuard("[(size < maxSize) && (head==" + i + ")]");
-            at = makeAvatarEmptyTransitionBetween(ab, asm, aaos_write, testHead, _referenceRelation);
-            at.addAction("head = head + 1");
+            at.setGuard("[(size < maxSize)]");
+            at = makeAvatarEmptyTransitionBetween(ab, asm, aaos_write, main, _referenceRelation);
             at.addAction("size = size + 1");
 
-        }
-        // if is lossy, can write, and does not store this nor increase the fifo size
-        if (_ar.isLossy()) {
-            AvatarActionOnSignal aaos_write_loss = new AvatarActionOnSignal("writeloss_", write, _referenceRelation);
-            for (AvatarAttribute aa : _sig1.getListOfAttributes()) {
-                aaos_write_loss.addValue("loss_" + aa.getName());
+            if (!_ar.isBlocking()) {
+                AvatarActionOnSignal aaos_write_bucket = new AvatarActionOnSignal("write_elt_bucket", write, _referenceRelation);
+                asm.addElement(aaos_write_bucket);
+                at = makeAvatarEmptyTransitionBetween(ab, asm, main, aaos_write_bucket, _referenceRelation);
+                at.setGuard("[(size == maxSize)]");
+                at = makeAvatarEmptyTransitionBetween(ab, asm, aaos_write_bucket, main, _referenceRelation);
             }
-            asm.addElement(aaos_write_loss);
-            at = makeAvatarEmptyTransitionBetween(ab, asm, main, aaos_write_loss, _referenceRelation);
-            at.setGuard("[(size < maxSize)]");
-            at = makeAvatarEmptyTransitionBetween(ab, asm, aaos_write_loss, main, _referenceRelation);
-        }
 
-        /// If maxSize has been reached
-        // If it is blocking, then, the new message is written but not added
-        if (!(_ar.isBlocking())) {
-            AvatarActionOnSignal aaos_write_bucket = new AvatarActionOnSignal("writebucket_", write, _referenceRelation);
-            for (AvatarAttribute aa : _sig1.getListOfAttributes()) {
-                aaos_write_bucket.addValue("bucket_" + aa.getName());
+            if (_ar.isLossy()) {
+                AvatarActionOnSignal aaos_write_loss = new AvatarActionOnSignal("write_elt_loss", write, _referenceRelation);
+                asm.addElement(aaos_write_loss);
+                at = makeAvatarEmptyTransitionBetween(ab, asm, main, aaos_write_loss, _referenceRelation);
+                at.setGuard("[(size < maxSize)]");
+                at = makeAvatarEmptyTransitionBetween(ab, asm, aaos_write_loss, main, _referenceRelation);
             }
-            asm.addElement(aaos_write_bucket);
-            at = makeAvatarEmptyTransitionBetween(ab, asm, main, aaos_write_bucket, _referenceRelation);
-            at.setGuard("[(size == maxSize)]");
-            at = makeAvatarEmptyTransitionBetween(ab, asm, aaos_write_bucket, main, _referenceRelation);
-        }
 
-        // Read
-        AvatarState testTail = new AvatarState("testTail", _referenceRelation);
-        asm.addElement(testTail);
-        at = makeAvatarEmptyTransitionBetween(ab, asm, testTail, main, _referenceRelation);
-        at.setGuard("[tail<maxSize]");
-        at = makeAvatarEmptyTransitionBetween(ab, asm, testTail, main, _referenceRelation);
-        at.setGuard("[tail==maxSize]");
-        at.addAction("tail=0");
-        for (int i = 0; i < _sizeOfFifo; i++) {
-            AvatarActionOnSignal aaos_read = new AvatarActionOnSignal("read_" + i, read, _referenceRelation);
-            for (AvatarAttribute aa : _sig1.getListOfAttributes()) {
-                aaos_read.addValue("arg_" + aa.getName() + "_" + i);
-            }
+            // read
+            AvatarActionOnSignal aaos_read = new AvatarActionOnSignal("read_elt", read, _referenceRelation);
             asm.addElement(aaos_read);
             at = makeAvatarEmptyTransitionBetween(ab, asm, main, aaos_read, _referenceRelation);
-            at.setGuard("[(size > 0) && (tail==" + i + ")]");
-            at = makeAvatarEmptyTransitionBetween(ab, asm, aaos_read, testTail, _referenceRelation);
+            at.setGuard("[(size > 0)]");
+            at = makeAvatarEmptyTransitionBetween(ab, asm, aaos_read, main, _referenceRelation);
+            at.addAction("size = size - 1");
+
+        } else {
+
+            // Creating the attributes of the signals
+            // Same attributes for all signals
+            for (AvatarAttribute aa : _sig1.getListOfAttributes()) {
+                write.addParameter(aa.advancedClone(null));
+            }
+            for (AvatarAttribute aa : _sig2.getListOfAttributes()) {
+                read.addParameter(aa.advancedClone(null));
+            }
+
+            // Creating the attributes to support the FIFO
+            // For each parameter, we create an attribute that is similar to the one of e.g. sig1
+            // We duplicate this for the size of the fifo
+            for (AvatarAttribute aa : _sig1.getListOfAttributes()) {
+                for (int i = 0; i < _sizeOfFifo; i++) {
+                    AvatarAttribute newA = aa.advancedClone(null);
+                    newA.setName("arg_" + aa.getName() + "_" + i);
+                    ab.addAttribute(newA);
+                }
+            }
+
+            // If lossy, add corresponding lossy attributes
+            if (_ar.isLossy()) {
+                for (AvatarAttribute aa : _sig1.getListOfAttributes()) {
+                    AvatarAttribute newL = aa.advancedClone(null);
+                    newL.setName("loss_" + aa.getName());
+                    ab.addAttribute(newL);
+                }
+            }
+
+            // If non blocking, then, we need extra attributes
+            if (!(_ar.isBlocking())) {
+                for (AvatarAttribute aa : _sig1.getListOfAttributes()) {
+                    AvatarAttribute newL = aa.advancedClone(null);
+                    newL.setName("bucket_" + aa.getName());
+                    ab.addAttribute(newL);
+                }
+            }
+
+            // Where we write: the head
+            AvatarAttribute head = new AvatarAttribute("head", AvatarType.INTEGER, ab, _referenceRelation);
+            head.setInitialValue("0");
+            ab.addAttribute(head);
+
+            // Where we read: the tail
+            AvatarAttribute tail = new AvatarAttribute("tail", AvatarType.INTEGER, ab, _referenceRelation);
+            tail.setInitialValue("0");
+            ab.addAttribute(tail);
+
+
+            // Creating the state machine
+            // Don't forget the isLossy
+
+
+            // Can write only if fifo is not full only if transition
+            AvatarState testHead = new AvatarState("testHead", _referenceRelation);
+            asm.addElement(testHead);
+            at = makeAvatarEmptyTransitionBetween(ab, asm, testHead, main, _referenceRelation);
+            at.addAction("head = head + 1");
+            at.addAction("size = size + 1");
+            at.setGuard("[head<(maxSize-1)]");
+            at = makeAvatarEmptyTransitionBetween(ab, asm, testHead, main, _referenceRelation);
+            at.setGuard("[head==(maxSize-1)]");
+            at.addAction("head=0");
+            at.addAction("size = size + 1");
+
+            for (int i = 0; i < _sizeOfFifo; i++) {
+                AvatarActionOnSignal aaos_write = new AvatarActionOnSignal("write_" + i, write, _referenceRelation);
+                for (AvatarAttribute aa : _sig1.getListOfAttributes()) {
+                    aaos_write.addValue("arg_" + aa.getName() + "_" + i);
+                }
+                asm.addElement(aaos_write);
+                at = makeAvatarEmptyTransitionBetween(ab, asm, main, aaos_write, _referenceRelation);
+                at.setGuard("[(size < maxSize) && (head==" + i + ")]");
+                at = makeAvatarEmptyTransitionBetween(ab, asm, aaos_write, testHead, _referenceRelation);
+                //at.addAction("head = head + 1");
+                //at.addAction("size = size + 1");
+
+            }
+            // if is lossy, can write, and does not store this nor increase the fifo size
+            if (_ar.isLossy()) {
+                AvatarActionOnSignal aaos_write_loss = new AvatarActionOnSignal("writeloss_", write, _referenceRelation);
+                for (AvatarAttribute aa : _sig1.getListOfAttributes()) {
+                    aaos_write_loss.addValue("loss_" + aa.getName());
+                }
+                asm.addElement(aaos_write_loss);
+                at = makeAvatarEmptyTransitionBetween(ab, asm, main, aaos_write_loss, _referenceRelation);
+                at.setGuard("[(size < maxSize)]");
+                at = makeAvatarEmptyTransitionBetween(ab, asm, aaos_write_loss, main, _referenceRelation);
+            }
+
+            /// If maxSize has been reached
+            // If it is blocking, then, the new message is written but not added
+            if (!(_ar.isBlocking())) {
+                AvatarActionOnSignal aaos_write_bucket = new AvatarActionOnSignal("writebucket_", write, _referenceRelation);
+                for (AvatarAttribute aa : _sig1.getListOfAttributes()) {
+                    aaos_write_bucket.addValue("bucket_" + aa.getName());
+                }
+                asm.addElement(aaos_write_bucket);
+                at = makeAvatarEmptyTransitionBetween(ab, asm, main, aaos_write_bucket, _referenceRelation);
+                at.setGuard("[(size == maxSize)]");
+                at = makeAvatarEmptyTransitionBetween(ab, asm, aaos_write_bucket, main, _referenceRelation);
+            }
+
+            // Read
+            AvatarState testTail = new AvatarState("testTail", _referenceRelation);
+            asm.addElement(testTail);
+            at = makeAvatarEmptyTransitionBetween(ab, asm, testTail, main, _referenceRelation);
+            at.setGuard("[tail<(maxSize-1)]");
             at.addAction("tail = tail + 1");
             at.addAction("size = size - 1");
+            at = makeAvatarEmptyTransitionBetween(ab, asm, testTail, main, _referenceRelation);
+            at.setGuard("[tail==(maxSize-1)]");
+            at.addAction("tail=0");
+            at.addAction("size = size - 1");
+            for (int i = 0; i < _sizeOfFifo; i++) {
+                AvatarActionOnSignal aaos_read = new AvatarActionOnSignal("read_" + i, read, _referenceRelation);
+                for (AvatarAttribute aa : _sig1.getListOfAttributes()) {
+                    aaos_read.addValue("arg_" + aa.getName() + "_" + i);
+                }
+                asm.addElement(aaos_read);
+                at = makeAvatarEmptyTransitionBetween(ab, asm, main, aaos_read, _referenceRelation);
+                at.setGuard("[(size > 0) && (tail==" + i + ")]");
+                at = makeAvatarEmptyTransitionBetween(ab, asm, aaos_read, testTail, _referenceRelation);
+                //at.addAction("tail = tail + 1");
+                //at.addAction("size = size - 1");
+            }
+
+
+
+            // Complex block is finished!
         }
 
         // Query
@@ -318,7 +374,6 @@ public class AvatarBlockTemplate {
         at = makeAvatarEmptyTransitionBetween(ab, asm, main, aaosQuery, _referenceRelation);
         at = makeAvatarEmptyTransitionBetween(ab, asm, aaosQuery, main, _referenceRelation);
 
-        // Block is finished!
 
         return ab;
     }

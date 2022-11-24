@@ -564,14 +564,14 @@ public class FullTML2Avatar {
                     ar = new AvatarRelation(channel.getName(), taskBlockMap.get(channel.getOriginTask()), taskBlockMap.get(channel
                             .getDestinationTask()), channel.getReferenceObject());
                     ar.setAsynchronous(true);
-                    ar.setSizeOfFIFO(channel.getSize());
+                    ar.setSizeOfFIFO(channel.getMax());
                     ar.setBlocking(true);
                     ar.setPrivate(true);
                 } else if (channel.getType() == TMLChannel.BRNBW) {
                     ar = new AvatarRelation(channel.getName(), taskBlockMap.get(channel.getOriginTask()), taskBlockMap.get(channel
                             .getDestinationTask()), channel.getReferenceObject());
                     ar.setAsynchronous(true);
-                    ar.setSizeOfFIFO(channel.getSize());
+                    ar.setSizeOfFIFO(channel.getMax());
                     ar.setBlocking(false);
                     ar.setPrivate(true);
                 } else {

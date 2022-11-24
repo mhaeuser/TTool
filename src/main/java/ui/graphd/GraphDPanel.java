@@ -289,14 +289,15 @@ public class GraphDPanel extends TDiagramPanel implements TDPWithAttributes, Run
         }
 
         // Blue for comm states
-        if (info.contains("Sending ")) {
-            dv.setCurrentColor(ColorManager.TML_COMPOSITE_COMPONENT);
-        } else if (info.contains("Receiving ")) {
-            dv.setCurrentColor(ColorManager.BUS_BOX);
+        if (info != null) {
+            if (info.contains("Sending ") || info.contains("!")) {
+                dv.setCurrentColor(ColorManager.TML_COMPOSITE_COMPONENT);
+            } else if (info.contains("Receiving ") || info.contains("?")) {
+                dv.setCurrentColor(ColorManager.BUS_BOX);
+            }
         }
 
-
-
+        
         return dv;
     }
 

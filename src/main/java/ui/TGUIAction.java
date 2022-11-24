@@ -1090,7 +1090,7 @@ public class TGUIAction extends AbstractAction {
                 "Add a dependency matrix to the currently opened TTool diagram", 0);
         actions[PRAGMA] = new TAction("pragma", "Security pragmas", IconManager.imgic6000, IconManager.imgic6001,
                 "Security pragmas", "Add security pragmas to the currently opened TTool diagram", 0);
-        actions[SAFETY_PRAGMA] = new TAction("safety_pragma", "Add a safety (UPPAAL) property to a diagram", IconManager.imgic6002, IconManager.imgic6003, "Safety property (UPPAAL)", "Add a safety (UPPAAL) property to the currently opened TTool diagram", 0);
+        actions[SAFETY_PRAGMA] = new TAction("safety_pragma", "Add a safety property to a diagram", IconManager.imgic6002, IconManager.imgic6003, "Safety property", "Add a safety property to the currently opened TTool diagram", 0);
         actions[TML_PRAGMA] = new TAction("tml_pragma", "Add a TML pragma", IconManager.imgic6006, IconManager.imgic6007,"TML pragma", "Add a TML pragma to the currently opened TTool diagram", 0);
         actions[PERFORMANCE_PRAGMA] = new TAction("performance_pragma", "Add a performance property to a diagram", IconManager.imgic6004, IconManager.imgic6005, "Performance property", "Add a performance property to the currently opened TTool diagram", 0);
         actions[AVATAR_FIREWALL] = new TAction("avatar_firewall", "Add an avatar firewall to a diagram", IconManager.imgic7001, IconManager.imgic7001, "Add an avatar firewall", "Add an avatar firewall to the currently opened TTool diagram", 0);

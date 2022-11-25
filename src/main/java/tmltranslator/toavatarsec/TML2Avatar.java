@@ -143,17 +143,17 @@ public class TML2Avatar {
                 complete.add(curr);
             }
 
-            //Find path to secure memory from destination node
-
+            // Find path to secure memory from destination node
 
             for (TMLTask t2 : tmlmodel.getTasks()) {
                 HwExecutionNode node2 =  tmlmap.getHwNodeOf(t2);
                 if (!memory) {
-                    //There is no path to a private memory
+                    // There is no path to a private memory
                     originDestMap.put(t1.getName() + "__" + t2.getName(), channelPublic);
-                } else if (node1 == node2) {
 
+                } else if (node1 == node2) {
                     originDestMap.put(t1.getName() + "__" + t2.getName(), channelPrivate);
+
                 } else {
                     //Navigate architecture for node
 
@@ -1910,16 +1910,22 @@ public class TML2Avatar {
 					}		
 					avspec.addRelation(ar);
 				}*/
+
 				if (channel.isBasicChannel()){
-					//System.out.println("checking channel " + channel.getName());
-					AvatarRelation ar= new AvatarRelation(channel.getName(), taskBlockMap.get(channel.getOriginTask()), taskBlockMap.get(channel.getDestinationTask()), channel.getReferenceObject());
-					LinkedList<HwCommunicationNode> path =tmlmap.findNodesForElement(channel);
-					if (path.size()!=0){
+					//TraceManager.addDev("CHAN checking basic channel " + channel.getName());
+					AvatarRelation ar = new AvatarRelation(channel.getName(), taskBlockMap.get(channel.getOriginTask()),
+                            taskBlockMap.get(channel.getDestinationTask()), channel.getReferenceObject());
+					LinkedList<HwCommunicationNode> path = tmlmap.findNodesForElement(channel);
+                    //TraceManager.addDev("CHAN checking basic channel " + channel.getName() + " path size: " + path.size());
+					if (path.size() !=0 ){
 						ar.setPrivate(true);
-						for (HwCommunicationNode node:path){
-							if (node instanceof HwBus){
-								if (((HwBus) node).privacy ==0){
+						for (HwCommunicationNode node: path){
+                            //TraceManager.addDev("CHAN\t Element of path: " + node.getName());
+                            if (node instanceof HwBus){
+								if ( node.privacy == HwCommunicationNode.BUS_PUBLIC){
 									ar.setPrivate(false);
+                                    //TraceManager.addDev("CHAN\t Set as public: " + channel.getName() + "because of " + node.getName());
+                                    break;
 								}
 							}
 						}

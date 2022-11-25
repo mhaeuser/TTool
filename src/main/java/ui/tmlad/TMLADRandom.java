@@ -95,12 +95,14 @@ public class TMLADRandom extends TADComponentWithoutSubcomponents/* Issue #69 TG
         minValue = "0";
         maxValue = "10";
         functionId = 0;
+        value = "0-10";
 
         myImageIcon = IconManager.imgic912;
     }
 
     private void makeValue() {
         valueRandom = variable + " = RANDOM" + functionId + "(" + minValue + ", " + maxValue + ")";
+        value = minValue + "_" + maxValue ;
     }
 
     @Override

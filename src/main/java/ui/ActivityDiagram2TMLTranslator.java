@@ -132,7 +132,7 @@ public class ActivityDiagram2TMLTranslator {
 
                 } else if (tgc instanceof TMLADRandom) {
                     tmladrandom = (TMLADRandom) tgc;
-                    tmlrandom = new TMLRandom("random" + tmladrandom.getValue(), tgc);
+                    tmlrandom = new TMLRandom("random_" + tmladrandom.getValue() + "_", tgc);
                     tmp = tmladrandom.getVariable();
                     tmp = modifyActionString(tmp);
                     tmlrandom.setVariable(tmp);

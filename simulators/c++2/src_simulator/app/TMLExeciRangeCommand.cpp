@@ -77,9 +77,21 @@ std::string TMLExeciRangeCommand::toString() const{
 	return outp.str();
 }
 
+std::string TMLExeciRangeCommand::toString(TMLLength aLength, TMLLength aProgress) const{
+	std::ostringstream outp;
+	outp << "Execi in " << TMLCommand::toString(aLength, aProgress);
+	return outp.str();
+}
+
 std::string TMLExeciRangeCommand::toShortString() const{
 	std::ostringstream outp;
 	outp << _task->toString() << ": Execi " << _length;
+	return outp.str();
+}
+
+std::string TMLExeciRangeCommand::toShortString(TMLLength aLength, TMLLength aProgress) const{
+	std::ostringstream outp;
+	outp << _task->toString() << ": Execi " << aLength;
 	return outp.str();
 }
 

@@ -131,11 +131,13 @@ public:
 	\return Detailed string representation
 	*/
 	virtual std::string toString() const;
+	virtual std::string toString(TMLLength aLength, TMLLength aProgress) const;
 	///Returns a short string representation of the command
 	/**
 	\return Short string representation
 	*/
 	virtual std::string toShortString() const =0;
+	virtual std::string toShortString(TMLLength aLength, TMLLength aProgress) const =0;
 	///Returns a short string representation of the command type
 	/**
 	\return Short string representation of command type

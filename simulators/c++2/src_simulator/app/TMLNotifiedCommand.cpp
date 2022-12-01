@@ -73,7 +73,19 @@ std::string TMLNotifiedCommand::toString() const{
 	return outp.str();
 }
 
+std::string TMLNotifiedCommand::toString(TMLLength aLength, TMLLength aProgress) const{
+	std::ostringstream outp;
+	outp << "Notified in " << TMLCommand::toString(aLength, aProgress) << " " << _channel->toString();
+	return outp.str();
+}
+
 std::string TMLNotifiedCommand::toShortString() const{
+	std::ostringstream outp;
+	outp << _task->toString() << ": Notified " << _channel->toShortString();
+	return outp.str();
+}
+
+std::string TMLNotifiedCommand::toShortString(TMLLength aLength, TMLLength aProgress) const{
 	std::ostringstream outp;
 	outp << _task->toString() << ": Notified " << _channel->toShortString();
 	return outp.str();

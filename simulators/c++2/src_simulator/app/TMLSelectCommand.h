@@ -67,7 +67,9 @@ public:
 	inline TMLTask* getDependentTask(unsigned int iIndex)const {return _channel[iIndex]->getBlockedWriteTask();}
 	inline ParamFuncPointer getParamFuncPointer() const {return (_paramFuncs==0)?0:_paramFuncs[_indexNextCommand];}
 	std::string toString() const;
+	std::string toString(TMLLength aLength, TMLLength aProgress) const;
 	std::string toShortString() const;
+	std::string toShortString(TMLLength aLength, TMLLength aProgress) const;
 	inline std::string getCommandStr() const {return "sel";}
 	inline Parameter* setParams(Parameter* ioParam) {return (_task->*_paramFuncs[_indexNextCommand])(ioParam);}
 #ifdef ADD_COMMENTS

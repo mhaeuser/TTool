@@ -149,7 +149,19 @@ std::string TMLSelectCommand::toString() const{
 	return outp.str();
 }
 
+std::string TMLSelectCommand::toString(TMLLength aLength, TMLLength aProgress) const{
+	std::ostringstream outp;
+	outp << "SelectEvent in " << TMLCommand::toString(aLength, aProgress) << " " << _channel[_indexNextCommand]->toString();
+	return outp.str();
+}
+
 std::string TMLSelectCommand::toShortString() const{
+	std::ostringstream outp;
+	outp << _task->toString() << ": SelectEvent" << " params:" << lastParams;
+	return outp.str();
+}
+
+std::string TMLSelectCommand::toShortString(TMLLength aLength, TMLLength aProgress) const{
 	std::ostringstream outp;
 	outp << _task->toString() << ": SelectEvent" << " params:" << lastParams;
 	return outp.str();

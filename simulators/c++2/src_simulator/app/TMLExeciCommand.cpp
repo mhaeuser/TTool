@@ -84,12 +84,32 @@ std::string TMLExeciCommand::toString() const{
 	return outp.str();
 }
 
+std::string TMLExeciCommand::toString(TMLLength aLength, TMLLength aProgress) const{
+	std::ostringstream outp;
+	if (_execType == 0) {
+	  outp << "Execi in " << TMLCommand::toString(aLength, aProgress);
+	} else {
+	  outp << "Execc in " << TMLCommand::toString(aLength, aProgress);
+	}
+	return outp.str();
+}
+
 std::string TMLExeciCommand::toShortString() const{
 	std::ostringstream outp;
 	if (_execType == 0) {
 	  outp << _task->toString() << ": Execi " << _length;
 	} else {
 	  outp << _task->toString() << ": Execc " << _length;
+	}
+	return outp.str();
+}
+
+std::string TMLExeciCommand::toShortString(TMLLength aLength, TMLLength aProgress) const{
+	std::ostringstream outp;
+	if (_execType == 0) {
+	  outp << _task->toString() << ": Execi " << aLength;
+	} else {
+	  outp << _task->toString() << ": Execc " << aLength;
 	}
 	return outp.str();
 }

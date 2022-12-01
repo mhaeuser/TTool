@@ -57,11 +57,15 @@ public:
 	\param iCheckpoint Checkpoint Flag
     	*/
 	TMLRandomCommand(ID iID, TMLTask* iTask, RangeFuncPointer iRangeFunc, ParamType* iResultVar, const char* iLiveVarList, bool iCheckpoint);
+	///Destructor
+	virtual ~TMLRandomCommand(){}
 	void execute() {}
 	unsigned int getRandomRange();
 	TMLCommand* prepareNextTransaction();
 	std::string toString() const;
+	std::string toString(TMLLength aLength, TMLLength aProgress) const;
 	inline std::string toShortString() const {return "Random";}
+	inline std::string toShortString(TMLLength aLength, TMLLength aProgress) const {return "Random";}
 	inline std::string getCommandStr() const {return "rnd";}
 protected:
 	///Function returning the rage of enabled branches

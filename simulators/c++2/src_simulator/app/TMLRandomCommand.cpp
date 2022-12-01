@@ -89,3 +89,9 @@ std::string TMLRandomCommand::TMLRandomCommand::toString() const{
 	outp << "Random in " << TMLCommand::toString();
 	return outp.str();
 }
+
+std::string TMLRandomCommand::TMLRandomCommand::toString(TMLLength aLength, TMLLength aProgress) const{
+	std::ostringstream outp;	
+	outp << "Random in " << TMLCommand::toString(aLength, aProgress);
+	return outp.str();
+}

@@ -49,3 +49,9 @@ std::string TMLStopCommand::toString() const{
 	outp << "Stop in " << TMLCommand::toString();
 	return outp.str();
 }
+
+std::string TMLStopCommand::toString(TMLLength aLength, TMLLength aProgress) const{
+	std::ostringstream outp;	
+	outp << "Stop in " << TMLCommand::toString(aLength, aProgress);
+	return outp.str();
+}

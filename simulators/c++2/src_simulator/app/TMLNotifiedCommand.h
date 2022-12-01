@@ -59,10 +59,14 @@ public:
 	\param iCheckpoint Checkpoint Flag
 	*/
 	TMLNotifiedCommand(ID iID, TMLTask* iTask,TMLEventChannel* iChannel,ParamType* iResultVar,const std::string& iResultVarDescr, const char* iLiveVarList, bool iCheckpoint);
+	///Destructor
+	virtual ~TMLNotifiedCommand(){}
 	void execute();
 	inline TMLChannel* getChannel() const {return dynamic_cast<TMLChannel*>(_channel);}
 	std::string toString() const;
+	std::string toString(TMLLength aLength, TMLLength aProgress) const;
 	std::string toShortString() const;
+	std::string toShortString(TMLLength aLength, TMLLength aProgress) const;
 	inline std::string getCommandStr() const {return "notified";}
 #ifdef ADD_COMMENTS
 	std::string getCommentString(Comment* iCom)  const;

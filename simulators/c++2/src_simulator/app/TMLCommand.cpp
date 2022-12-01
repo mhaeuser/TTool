@@ -186,6 +186,12 @@ std::string TMLCommand::toString() const{
   return outp.str();
 }
 
+std::string TMLCommand::toString(TMLLength aLength, TMLLength aProgress) const{
+  std::ostringstream outp;
+  outp << _task->toString() << " len:" << aLength << " progress:" << aProgress << " ID:" << _ID;
+  return outp.str();
+}
+
 void TMLCommand::setBreakpoint(GeneralListener* iBreakp){
   removeBreakpoint();
   _breakpoint=iBreakp;

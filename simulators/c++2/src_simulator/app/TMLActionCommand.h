@@ -58,10 +58,14 @@ public:
 	\param iCheckpoint Checkpoint Flag
     	*/
 	TMLActionCommand(ID iID, TMLTask* iTask, ActionFuncPointer iActionFunc, const char* iLiveVarList, bool iCheckpoint);
+	///Destructor
+	virtual ~TMLActionCommand(){}
 	inline void execute() {}
 	//TMLTask* getDependentTask() const;
 	std::string toString() const;
+	std::string toString(TMLLength aLength, TMLLength aProgress) const;
 	inline std::string toShortString() const {return "Action";}
+	inline std::string toShortString(TMLLength aLength, TMLLength aProgress) const {return "Action";}
 	inline std::string getCommandStr() const {return "act";}
 protected:
 	///Member function pointer to the action function

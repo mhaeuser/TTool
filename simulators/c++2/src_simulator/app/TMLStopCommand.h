@@ -55,9 +55,13 @@ public:
       	\param iTask Pointer to the task the command belongs to
     	*/
 	TMLStopCommand(ID iID, TMLTask* iTask);
+	///Destructor
+	virtual ~TMLStopCommand(){}
 	inline void execute() {}
 	std::string toString() const;
+	std::string toString(TMLLength aLength, TMLLength aProgress) const;
 	inline std::string toShortString() const {return "stp";}
+	inline std::string toShortString(TMLLength aLength, TMLLength aProgress) const {return "stp";}
 	inline std::string getCommandStr() const {return "stp";}
 protected:
 	inline TMLCommand* prepareNextTransaction() {_execTimes++; _task->finished(); return 0;}

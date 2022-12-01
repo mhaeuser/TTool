@@ -74,7 +74,19 @@ std::string TMLRequestCommand::toString() const{
 	return outp.str();
 }
 
+std::string TMLRequestCommand::toString(TMLLength aLength, TMLLength aProgress) const{
+	std::ostringstream outp;
+	outp << "Request in " << TMLCommand::toString(aLength, aProgress) << " " << _channel->toString();
+	return outp.str();
+}
+
 std::string TMLRequestCommand::toShortString() const{
+	std::ostringstream outp;
+	outp << _task->toString() << ": Request " << _channel->toShortString();
+	return outp.str();
+}
+
+std::string TMLRequestCommand::toShortString(TMLLength aLength, TMLLength aProgress) const{
 	std::ostringstream outp;
 	outp << _task->toString() << ": Request " << _channel->toShortString();
 	return outp.str();

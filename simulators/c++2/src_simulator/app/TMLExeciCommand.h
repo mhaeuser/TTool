@@ -59,10 +59,14 @@ public:
 	\param iCheckpoint Checkpoint Flag
     	*/
 	TMLExeciCommand(ID iID, TMLTask* iTask, LengthFuncPointer iLengthFunc, unsigned int iType, TMLLength iStatLength, const char* iLiveVarList, bool iCheckpoint);
+	///Destructor
+	virtual ~TMLExeciCommand(){}
 	void execute();
 	//TMLTask* getDependentTask() const;
 	std::string toString() const;
+	std::string toString(TMLLength aLength, TMLLength aProgress) const;
 	std::string toShortString() const;
+	std::string toShortString(TMLLength aLength, TMLLength aProgress) const;
 	inline std::string getCommandStr() const {return "exe";}
     inline unsigned int getExecType() override {return _execType;}
 protected:

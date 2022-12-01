@@ -91,8 +91,20 @@ std::string TMLWriteMultCommand::toString() const{
 	return outp.str();
 }
 
+std::string TMLWriteMultCommand::toString(TMLLength aLength, TMLLength aProgress) const{
+	std::ostringstream outp;
+	outp << "WriteMult in " << TMLCommand::toString(aLength, aProgress) << " " << _channels[0]->toString();
+	return outp.str();
+}
+
 std::string TMLWriteMultCommand::toShortString() const{
 	std::ostringstream outp;
 	outp << _task->toString() << ": WriteMult" << _length << "," << _channels[0]->toShortString();
+	return outp.str();
+}
+
+std::string TMLWriteMultCommand::toShortString(TMLLength aLength, TMLLength aProgress) const{
+	std::ostringstream outp;
+	outp << _task->toString() << ": WriteMult" << aLength << "," << _channels[0]->toShortString();
 	return outp.str();
 }

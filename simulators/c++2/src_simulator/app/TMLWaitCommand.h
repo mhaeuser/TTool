@@ -59,12 +59,16 @@ public:
 	\param iCheckpoint Checkpoint Flag
 	*/
 	TMLWaitCommand(ID iID, TMLTask* iTask,TMLEventChannel* iChannel, ParamFuncPointer iParamFunc, const char* iLiveVarList, bool iCheckpoint);
+	///Destructor
+	virtual ~TMLWaitCommand(){}
 	void execute();
 	inline TMLChannel* getChannel(unsigned int iIndex) const {return dynamic_cast<TMLChannel*>(_channel);}
 	inline unsigned int getNbOfChannels() const {return 1;}
 	inline TMLTask* getDependentTask(unsigned int iIndex)const {return _channel->getBlockedWriteTask();}
 	std::string toString() const;
+	std::string toString(TMLLength aLength, TMLLength aProgress) const;
 	std::string toShortString() const;
+	std::string toShortString(TMLLength aLength, TMLLength aProgress) const;
 	inline std::string getCommandStr() const {if (_channel->getRequestChannel()) return "waitReq"; else return "wait";}
 	///Sets a parameter data structure according to the parameters of the command
 	/**

@@ -57,6 +57,8 @@ public:
 	\param iCheckpoint Checkpoint Flag
 	*/
 	TMLRandomChoiceCommand(ID iID, TMLTask* iTask, RangeFuncPointer iRangeFunc, unsigned int iNbOfBranches, const char* iLiveVarList, bool iCheckpoint);
+	///Destructor
+	virtual ~TMLRandomChoiceCommand(){}
 	TMLCommand* prepareNextTransaction();
 	inline unsigned int getRandomRange() {return _dynamicRange;}
 protected:

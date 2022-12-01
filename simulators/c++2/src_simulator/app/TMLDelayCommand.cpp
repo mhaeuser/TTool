@@ -99,12 +99,30 @@ std::string TMLDelayCommand::toString() const{
     return outp.str();
 }
 
+std::string TMLDelayCommand::toString(TMLLength aLength, TMLLength aProgress) const{
+	std::ostringstream outp;
+    if(_isActiveDelay)
+        outp << ": Delay in "  << TMLCommand::toString(aLength, aProgress);
+    else
+        outp << ": IdleDL in "  << TMLCommand::toString(aLength, aProgress);
+    return outp.str();
+}
+
 std::string TMLDelayCommand::toShortString() const{
 	std::ostringstream outp;
     if(_isActiveDelay)
         outp << _task->toString() << ": Delay in "  << TMLCommand::toString();
     else
         outp << _task->toString() << ": IdleDL in "  << TMLCommand::toString();
+    return outp.str();
+}
+
+std::string TMLDelayCommand::toShortString(TMLLength aLength, TMLLength aProgress) const{
+	std::ostringstream outp;
+    if(_isActiveDelay)
+        outp << _task->toString() << ": Delay in "  << TMLCommand::toString(aLength, aProgress);
+    else
+        outp << _task->toString() << ": IdleDL in "  << TMLCommand::toString(aLength, aProgress);
     return outp.str();
 }
 

@@ -92,8 +92,20 @@ std::string TMLReadCommand::toString() const{
   return outp.str();
 }
 
+std::string TMLReadCommand::toString(TMLLength aLength, TMLLength aProgress) const{
+  std::ostringstream outp;
+  outp << "Read in " << TMLCommand::toString(aLength, aProgress) << " " <<_channel->toString();
+  return outp.str();
+}
+
 std::string TMLReadCommand::toShortString() const{
   std::ostringstream outp;
   outp << _task->toString() << ": Read " << _length << "," << _channel->toShortString();
+  return outp.str();
+}
+
+std::string TMLReadCommand::toShortString(TMLLength aLength, TMLLength aProgress) const{
+  std::ostringstream outp;
+  outp << _task->toString() << ": Read " << aLength << "," << _channel->toShortString();
   return outp.str();
 }

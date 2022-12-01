@@ -76,3 +76,9 @@ std::string TMLActionCommand::toString() const{
 	outp << "Action in " << TMLCommand::toString();
 	return outp.str();
 }
+
+std::string TMLActionCommand::toString(TMLLength aLength, TMLLength aProgress) const{
+	std::ostringstream outp;	
+	outp << "Action in " << TMLCommand::toString(aLength, aProgress);
+	return outp.str();
+}

@@ -60,12 +60,16 @@ public:
 	\param iStatLength Static length of command if applicable
 	*/
 	TMLWriteMultCommand(ID iID, TMLTask* iTask, LengthFuncPointer iLengthFunc, TMLChannel** iChannels, unsigned int iNbOfChannels, const char* iLiveVarList, bool iCheckpoint, TMLLength iStatLength=1);
+	///Destructor
+	virtual ~TMLWriteMultCommand(){}
 	void execute();
 	inline TMLChannel* getChannel(unsigned int iIndex) const {return _channels[iIndex];}
 	inline unsigned int getNbOfChannels() const {return _nbOfChannels;}
 	inline TMLTask* getDependentTask(unsigned int iIndex)const {return _channels[iIndex]->getBlockedReadTask();}
 	std::string toString() const;
+	std::string toString(TMLLength aLength, TMLLength aProgress) const;
 	std::string toShortString() const;
+	std::string toShortString(TMLLength aLength, TMLLength aProgress) const;
 	inline std::string getCommandStr() const {return "wr";}
 protected:
 	///Pointer to the function returning the length of the command

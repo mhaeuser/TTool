@@ -60,10 +60,14 @@ public:
     virtual bool getActiveDelay() {return _isActiveDelay;}
     virtual bool isDelayTransaction(){return true;}
 	TMLDelayCommand(ID iID, TMLTask* iTask, TMLLength iStatLength, ActionFuncPointer iActionFunc, const char* iLiveVarList, bool iCheckpoint, bool isActiveDelay);
+	///TMLDelayCommand
+	virtual ~TMLDelayCommand(){}
 	void execute();
 	//TMLTask* getDependentTask() const;
 	std::string toString() const;
+	std::string toString(TMLLength aLength, TMLLength aProgress) const;
 	std::string toShortString() const;
+	std::string toShortString(TMLLength aLength, TMLLength aProgress) const;
 	inline std::string getCommandStr() const {return "DL";}
 protected:
 	///Member function pointer to the action function

@@ -58,9 +58,13 @@ public:
 	\param iCheckpoint Checkpoint Flag
     	*/
 	TMLExeciRangeCommand(ID iID, TMLTask* iTask, RangeFuncPointer iRangeFunc, unsigned int iType, const char* iLiveVarList, bool iCheckpoint);
+	///Destructor
+	virtual ~TMLExeciRangeCommand(){}
 	void execute();
 	std::string toString() const;
+	std::string toString(TMLLength aLength, TMLLength aProgress) const;
 	std::string toShortString() const;
+	std::string toShortString(TMLLength aLength, TMLLength aProgress) const;
 	inline std::string getCommandStr() const {return "exe";}
 	unsigned int getRandomRange();
 	void setRandomValue(unsigned int iValue);

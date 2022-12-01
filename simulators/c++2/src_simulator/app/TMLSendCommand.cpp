@@ -76,6 +76,12 @@ std::string TMLSendCommand::toString() const{
 	return outp.str();
 }
 
+std::string TMLSendCommand::toString(TMLLength aLength, TMLLength aProgress) const{
+	std::ostringstream outp;
+	outp << "Send in " << TMLCommand::toString(aLength, aProgress) << " " << _channel->toString() << " params=" << lastParams;
+	return outp.str();
+}
+
 std::string TMLSendCommand::toShortString() const{
   //  std::cout << "TMLSendCommand::short string params:" << lastParams.str() << "\n";
 	std::ostringstream outp;
@@ -83,3 +89,9 @@ std::string TMLSendCommand::toShortString() const{
 	return outp.str();
 }
 
+std::string TMLSendCommand::toShortString(TMLLength aLength, TMLLength aProgress) const{
+  //  std::cout << "TMLSendCommand::short string params:" << lastParams.str() << "\n";
+	std::ostringstream outp;
+	outp << _task->toString() << ": Send " << _channel->toString() << " params:" << lastParams;
+	return outp.str();
+}

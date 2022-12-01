@@ -75,7 +75,19 @@ std::string TMLWaitCommand::toString() const{
 	return outp.str();
 }
 
+std::string TMLWaitCommand::toString(TMLLength aLength, TMLLength aProgress) const{
+	std::ostringstream outp;
+	outp << "Wait in " << TMLCommand::toString(aLength, aProgress) << " " << _channel->toString();
+	return outp.str();
+}
+
 std::string TMLWaitCommand::toShortString() const{
+	std::ostringstream outp;
+	outp << _task->toString() << ": Wait " << _channel->toShortString() << " params:" << lastParams;
+	return outp.str();
+}
+
+std::string TMLWaitCommand::toShortString(TMLLength aLength, TMLLength aProgress) const{
 	std::ostringstream outp;
 	outp << _task->toString() << ": Wait " << _channel->toShortString() << " params:" << lastParams;
 	return outp.str();

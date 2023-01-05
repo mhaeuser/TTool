@@ -880,7 +880,7 @@ void replaceAll(std::string& ioHTML, std::string iSearch, std::string iReplace);
 bool ends_with(std::string const& str, std::string const& suffix);
 
 inline std::string vcdValConvert(unsigned int iVal) {if(iVal==1 || iVal==2) return "1"; else return "0";}
-inline std::string vcdTaskValConvert(unsigned int iVal) {if(iVal==2) return "10"; else if(iVal==1) return "01"; else return "00";}
+inline std::string vcdTaskValConvert(unsigned int iVal) {if(iVal==RUNNING) {return "11";} else if(iVal==RUNNABLE) {return "10";} else if (iVal==SUSPENDED) {return "01";} else {return "00";}}
 std::string vcdTimeConvert(TMLTime iVal);
 int getexename(char* buf, size_t size);
 unsigned int getEnabledBranchNo(int iNo, int iMask);

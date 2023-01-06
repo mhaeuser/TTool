@@ -93,7 +93,7 @@ void SimComponents::addTask(TMLTask* iTask){
 	_vcdList.push_back(dynamic_cast<TraceableDevice*>(iTask));
 	//_serList.push_back(dynamic_cast<Serializable*>(iTask));
 	_taskList.push_back(iTask);
-	if(iTask->getIsDaemon()==false)
+	if(iTask->getIsDaemon() == false)
 	  _nonDaemonTaskList.push_back(iTask);
 	//std::cout << iTask->toString() << std::endl;
 }

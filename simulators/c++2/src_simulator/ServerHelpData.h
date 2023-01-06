@@ -517,7 +517,7 @@ Not defined: &lt;unknow param&gt;</code></pre> \n\
 <td style=\"text-align: center;\">wic</td> \n\
 <td style=\"text-align: center;\">6</td> \n\
 <td style=\"text-align: center;\">Writes y samples / events to channel / event x</td> \n\
-<td style=\"text-align: center;\">[Type: 1] Channel ID</td> \n\
+<td style=\"text-align: center;\">[Type: 2] Channel ID or Channel name</td> \n\
 <td style=\"text-align: center;\">[Type: 2] Nb of samples</td> \n\
 <td style=\"text-align: center;\">-</td> \n\
 <td style=\"text-align: center;\">-</td> \n\
@@ -556,8 +556,33 @@ Not defined: &lt;unknow param&gt;</code></pre> \n\
 <td style=\"text-align: center;\">-</td> \n\
 <td style=\"text-align: center;\">-</td> \n\
 </tr> \n\
+<tr class=\"odd\"> \n\
+<td style=\"text-align: center;\">read-from-channel</td> \n\
+<td style=\"text-align: center;\">rfc</td> \n\
+<td style=\"text-align: center;\">29</td> \n\
+<td style=\"text-align: center;\">Reads y samples from channel x</td> \n\
+<td style=\"text-align: center;\">[Type: 2] Channel ID or Channel name</td> \n\
+<td style=\"text-align: center;\">[Type: 2] Nb of samples</td> \n\
+<td style=\"text-align: center;\">-</td> \n\
+<td style=\"text-align: center;\">-</td> \n\
+<td style=\"text-align: center;\">-</td> \n\
+</tr> \n\
+<tr class=\"even\"> \n\
+<td style=\"text-align: center;\">remove-virtual-signals</td> \n\
+<td style=\"text-align: center;\">rvs</td> \n\
+<td style=\"text-align: center;\">30</td> \n\
+<td style=\"text-align: center;\">Remove virtual events from channel</td> \n\
+<td style=\"text-align: center;\">[Type: 2] Event name</td> \n\
+<td style=\"text-align: center;\">[Type: 2] Nb of samples</td> \n\
+<td style=\"text-align: center;\">-</td> \n\
+<td style=\"text-align: center;\">-</td> \n\
+<td style=\"text-align: center;\">-</td> \n\
+</tr> \n\
 </tbody> \n\
 </table> \n\
+<h2 id=\"simulation-traces\">Simulation traces</h2> \n\
+<h1 id=\"vcd-trace\">VCD trace</h1> \n\
+<p>The VCD trace gives: - The execution of a given core of a CPU (value “1”) or the fact that the core is idle (value “0”) - Transaction on busses: value “1” for a transaction, value “0” for no transaction - State of tasks. Value “11” means RUNNING, value “10” means RUNNABLE, value “01” means SUSPENDED, and value “00” means TERMINATED.</p> \n\
 </body> \n\
 </html> \n\
 "

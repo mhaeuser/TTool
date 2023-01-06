@@ -95,3 +95,12 @@ save-status-in-file | ssif | 27 | Saves the current status into a file | [Type: 
 save-time-in-file | stf | 28 | Saves the current time into a file | [Type: 2] File name | -  | -  | -  | - 
 read-from-channel | rfc | 29 | Reads y samples from channel x | [Type: 2] Channel ID or Channel name | [Type: 2] Nb of samples | -  | -  | - 
 remove-virtual-signals | rvs | 30 | Remove virtual events from channel | [Type: 2] Event name | [Type: 2] Nb of samples | - | -  | - 
+
+
+## Simulation traces
+
+# VCD trace
+The VCD trace gives:
+- The execution of a given core of a CPU (value "1") or the fact that the core is idle (value "0")
+- Transaction on busses: value "1" for a transaction, value "0" for no transaction
+- State of tasks. Value "11" means RUNNING, value "10" means RUNNABLE, value "01" means SUSPENDED, and value "00" means TERMINATED.

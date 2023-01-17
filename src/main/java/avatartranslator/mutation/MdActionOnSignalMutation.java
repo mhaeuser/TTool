@@ -39,6 +39,7 @@
 package avatartranslator.mutation;
 
 import avatartranslator.*;
+import java.util.ArrayList;
 
 /**
  * Class MdActionOnSignalMutation
@@ -152,7 +153,17 @@ public class MdActionOnSignalMutation extends ActionOnSignalMutation implements 
             } else {
                 mutation = new MdActionOnSignalMutation(_blockName, _name, _nameType, _newSignalName);
             }
-            mutation.setValues(_values);
+            //Provisional workaround for parsing actions on signal with several parameters
+            int i = 0;
+            ArrayList<String> buffer = new ArrayList<String>();
+            for (String value : _values){
+                if (i%2 == 0){
+                    buffer.add(value);
+                }
+                i++;
+            }
+        mutation.setValues(buffer.toArray(new String[buffer.size()]));
+
         } else {
             if (_name == null) {
                 mutation = new MdActionOnSignalMutation(_blockName, _signalName);

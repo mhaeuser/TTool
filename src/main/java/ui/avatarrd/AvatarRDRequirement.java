@@ -787,12 +787,16 @@ public class AvatarRDRequirement extends TGCScalableWithInternalComponent implem
     public String toString() {
         String ret = getValue();
 
+        if (ret == null) {
+            ret = "";
+        }
+
         ret += "ID=" + id;
 
         ret += " " + text;
         ret += " criticality=" + criticality;
 
-        if (SIZE_LIMIT > 0) {
+        if ((SIZE_LIMIT > 0) && (ret.length() > SIZE_LIMIT)){
             ret = ret.substring(0, SIZE_LIMIT) + "...";
         }
 

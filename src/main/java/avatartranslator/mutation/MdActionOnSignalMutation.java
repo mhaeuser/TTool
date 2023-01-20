@@ -146,7 +146,7 @@ public class MdActionOnSignalMutation extends ActionOnSignalMutation implements 
         index = MutationParser.indexOf(tokens, "TO");
         if (tokens.length > index + 1 && !MutationParser.isToken(tokens[index + 1])) {
             _newSignalName = tokens[index + 1];
-            _values = parseValues(toParse);
+            _values = parseValues(toParse.substring(toParse.toLowerCase().indexOf(" to ")));
 
             if (_name == null) {
                 mutation = new MdActionOnSignalMutation(_blockName, _signalName, _newSignalName);

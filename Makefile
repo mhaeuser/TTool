@@ -223,9 +223,29 @@ export TTOOL_DOC_HTML 		= $(TTOOL_DOC)/html
 
 DOCFLAGS = -encoding "UTF8" -quiet -J-Xmx512m -classpath $(TTOOL_CLASSPATH) -d $(TTOOL_DOC_HTML)
 
+documentationfor: $(patsubst %,$(TTOOL_SRC)/%,$(GLOBAL_JAVA))
+	@echo "$(PREFIX) Generating Javadoc"
+	echo
+	for p in $^; do \
+		echo $$p ;\
+		$(JAVADOC) $(DOCFLAGS) $$p ;\
+	done
+
+documentationfile: $(patsubst %,$(TTOOL_SRC)/%,$(GLOBAL_JAVA))
+	@echo "$(PREFIX) Generating Javadoc"
+	mkdir -p $(TTOOL_DOC_HTML)
+	rm $(TTOOL_DOC_HTML)/listofclasses.txt
+	for p in $^; do \
+		echo $$p >>  $(TTOOL_DOC_HTML)/listofclasses.txt;\
+	done
+	$(JAVADOC) $(DOCFLAGS) @$(TTOOL_DOC_HTML)/listofclasses.txt
+	@echo "$(PREFIX) Generating Javadoc done"
+
 documentation: $(patsubst %,$(TTOOL_SRC)/%,$(GLOBAL_JAVA))
 	@echo "$(PREFIX) Generating Javadoc"
-	@$(JAVADOC) $(DOCFLAGS) $^
+	echo
+	$(JAVADOC) $(DOCFLAGS) $^
+
 
 # ======================================== 
 # ==========      RELEASES      ========== 

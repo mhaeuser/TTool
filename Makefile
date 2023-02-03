@@ -237,7 +237,7 @@ documentationfile: $(patsubst %,$(TTOOL_SRC)/%,$(GLOBAL_JAVA))
 	@echo "$(PREFIX) Generating Javadoc"
 	mkdir -p $(TTOOL_DOC_HTML)
 	rm -f $(LIST_OF_FILES)
-	for p in $^; do \
+	@@for p in $^; do \
 		echo $$p >>  $(LIST_OF_FILES);\
 	done
 	$(JAVADOC) $(DOCFLAGS) @$(LIST_OF_FILES)

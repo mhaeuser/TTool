@@ -225,6 +225,8 @@ DOCFLAGS = -encoding "UTF8" -quiet -J-Xmx512m -classpath $(TTOOL_CLASSPATH) -d $
 
 LIST_OF_FILES = $(TTOOL_DOC_HTML)/listofclasses.txt
 
+VAR = $(shell find $(TTOOL_SRC) -name '*.java' -print > $(LIST_OF_FILES))
+
 documentationfor: $(patsubst %,$(TTOOL_SRC)/%,$(GLOBAL_JAVA))
 	@echo "$(PREFIX) Generating Javadoc"
 	echo
@@ -233,13 +235,12 @@ documentationfor: $(patsubst %,$(TTOOL_SRC)/%,$(GLOBAL_JAVA))
 		$(JAVADOC) $(DOCFLAGS) $$p ;\
 	done
 
-documentationfile: $(patsubst %,$(TTOOL_SRC)/%,$(GLOBAL_JAVA))
+documentationfile: 
 	@echo "$(PREFIX) Generating Javadoc"
 	mkdir -p $(TTOOL_DOC_HTML)
 	rm -f $(LIST_OF_FILES)
-	@@for p in $^; do \
-		echo $$p >>  $(LIST_OF_FILES);\
-	done
+	echo "" > $(LIST_OF_FILES)
+	find $(TTOOL_SRC) -name '*.java' -print > $(LIST_OF_FILES)
 	$(JAVADOC) $(DOCFLAGS) @$(LIST_OF_FILES)
 	@echo "$(PREFIX) Generating Javadoc done"
 

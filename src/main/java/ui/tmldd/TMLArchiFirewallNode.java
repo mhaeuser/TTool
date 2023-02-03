@@ -59,7 +59,7 @@ import java.util.List;
  * Node. To be used in TML architecture diagrams.
  * Creation: 17/10/2016
  * @version 1.0 17/10/2016
- * @author Letitia LI <3
+ * @author Letitia LI
  */
 public class TMLArchiFirewallNode extends TMLArchiCommunicationNode implements SwallowTGComponent, WithAttributes, TMLArchiSecurityInterface {
 

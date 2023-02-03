@@ -1047,7 +1047,6 @@ public abstract class TGComponent extends AbstractCDElement implements /*CDEleme
     /**
      * Issue #31
      *
-     * @return
      */
     protected int getReachabilityMargin() {
         return 18;
@@ -1056,7 +1055,6 @@ public abstract class TGComponent extends AbstractCDElement implements /*CDEleme
     /**
      * Issue #31
      *
-     * @return
      */
     protected int getLivenessMargin() {
         return 10;
@@ -1065,7 +1063,6 @@ public abstract class TGComponent extends AbstractCDElement implements /*CDEleme
     /**
      * Issue #31
      *
-     * @return
      */
     protected int getUnknownMargin() {
         return 2;
@@ -1074,7 +1071,6 @@ public abstract class TGComponent extends AbstractCDElement implements /*CDEleme
     /**
      * Issue #31
      *
-     * @return
      */
     protected int getExclusionMargin() {
         return 12;

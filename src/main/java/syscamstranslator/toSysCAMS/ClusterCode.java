@@ -50,9 +50,8 @@ import syscamstranslator.*;
  * Class ClusterCode Principal code of a cluster component Creation: 14/05/2018
  * 
  * @version 1.0 14/05/2018
- * @author Irina Kit Yan LEE,
+ * @author Irina Kit Yan LEE, Daniela GENIUS
  * @version 1.1 30/09/2019
- * @modified Daniela GENIUS
  */
 
 public class ClusterCode {

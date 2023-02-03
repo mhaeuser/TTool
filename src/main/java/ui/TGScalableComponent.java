@@ -59,7 +59,7 @@ public abstract class TGScalableComponent extends TGComponent implements Scalabl
      * Verifies that the text is readable if its not it shall not be drawn
      * fontsize 8 is the limit that is set to be "readable". It can be changed
      * @param g
-     * @return
+     * @return whether textSize is greater than 7
      */
     protected boolean isTextReadable(Graphics g) {
     	int textSize = g.getFont().getSize();
@@ -70,7 +70,7 @@ public abstract class TGScalableComponent extends TGComponent implements Scalabl
      * Gets the center of the rectangle/box
      * @param g
      * @param str
-     * @return
+     * @return the center
      */
     protected int getCenter(Graphics g, String str)
     {
@@ -82,10 +82,10 @@ public abstract class TGScalableComponent extends TGComponent implements Scalabl
      * Verifies that the text is small enough to be drawn into the box
      * If The actual box does not have an icon, make sure call the function as following:
      * canTextGoInTheBox(g, fontSize, text, 0);
-     * @param g
-     * @param fontSize
-     * @param text
-     * @param iconSize
+     * @param g the graphics
+     * @param fontSize the size of the font to be used
+     * @param text the text to be displayed
+     * @param iconSize the size of the icon
      * @return a boolean indicating that the txt can or not be drawn
      */
     protected boolean canTextGoInTheBox(Graphics g, int fontSize, String text, int iconSize)
@@ -99,8 +99,8 @@ public abstract class TGScalableComponent extends TGComponent implements Scalabl
     /**
      * Draw a box of two rectangle: one for the title and one for the content of the box
      * lineHeight defines the height of the first box
-     * @param g
-     * @param lineHeight
+     * @param g the graphics to use
+     * @param lineHeight is the current line height
      */
     protected void drawDoubleRectangleBoxType(Graphics g, int lineHeight, Color cbefore, Color cafter)
     {
@@ -117,7 +117,7 @@ public abstract class TGScalableComponent extends TGComponent implements Scalabl
     }
     /**
      * Draw one box without any color filling
-     * @param g
+     * @param g the graphics
      */
     protected void drawSimpleRectangle(Graphics g)
     {
@@ -126,9 +126,9 @@ public abstract class TGScalableComponent extends TGComponent implements Scalabl
     /**
      * used to draw the icon "icon" at position x = x + width - scale(iconsize) - borders
      * and y = y + borders
-     * @param g
-     * @param icon
-     * @param iconSize
+     * @param g the graphics
+     * @param icon the icon
+     * @param iconSize the size of the icon
      */
     protected void drawIcon(Graphics g, Image icon, int iconSize) {
     	if (!isTextReadable(g))
@@ -142,10 +142,11 @@ public abstract class TGScalableComponent extends TGComponent implements Scalabl
     		return;
     	g.drawImage(scale(image), xpos, ypos, null);
     }
+
     /**
      * Draw string if text is readable
-     * @param g
-     * @param s
+     * @param g the graphics used to print the string
+     * @param s the String to be printed
      */
     protected void drawSingleString(Graphics g, String s, int xpos, int ypos)
     {
@@ -157,12 +158,6 @@ public abstract class TGScalableComponent extends TGComponent implements Scalabl
     
     /**
      * Same as drawSingleString
-     * @param g
-     * @param s
-     * @param xpos
-     * @param ypos
-     * @param maxWidth
-     * @param pos
      */
     protected void drawSingleLimitedString(Graphics g, String s, int xpos, int ypos, int maxWidth, int pos)
     {
@@ -173,10 +168,7 @@ public abstract class TGScalableComponent extends TGComponent implements Scalabl
     
     /**
      * draw two string one under another:
-     * 
-     * @param g
-     * @param topText
-     * @param bottomText
+     *
      */
     protected void drawDoubleLimitedString(Graphics g, String topText, String bottomText)
     {
@@ -194,10 +186,7 @@ public abstract class TGScalableComponent extends TGComponent implements Scalabl
     
     /**
      * draw two string one under another:
-     * 
-     * @param g
-     * @param topText
-     * @param bottomText
+     *
      */
     protected void drawDoubleString(Graphics g, String topText, String bottomText)
     {
@@ -216,8 +205,6 @@ public abstract class TGScalableComponent extends TGComponent implements Scalabl
 	
     /**
 	 * Scale from a value and a factor
-	 * @param value
-	 * @param factor
 	 * @return scaling value of param: value and factor
 	 * */
 	public static int scale( 	final int value,
@@ -253,7 +240,6 @@ public abstract class TGScalableComponent extends TGComponent implements Scalabl
 
 	/**
 	 * Scale from a value and the oldScaleFactor previously saved
-	 * @param value
 	 * @return scaling value of param: value and oldScaleFactor
 	 * */
 	protected int scale( final int value ) {
@@ -328,7 +314,7 @@ public abstract class TGScalableComponent extends TGComponent implements Scalabl
 
 	/**
 	 * force a scale to a given ratio
-	 * @param factor
+	 * @param factor the factor of the zoom
 	 * 
 	 * */
 
@@ -508,7 +494,6 @@ public abstract class TGScalableComponent extends TGComponent implements Scalabl
 
     /**
      * Issue #31
-     * @return
      */
     @Override
     protected int getReachabilityMargin() {
@@ -517,7 +502,6 @@ public abstract class TGScalableComponent extends TGComponent implements Scalabl
 
     /**
      * Issue #31
-     * @return
      */
     @Override
     protected int getLivenessMargin() {
@@ -526,7 +510,6 @@ public abstract class TGScalableComponent extends TGComponent implements Scalabl
 
     /**
      * Issue #31
-     * @return
      */
     @Override
     protected int getExclusionMargin() {
@@ -535,7 +518,6 @@ public abstract class TGScalableComponent extends TGComponent implements Scalabl
 
     /**
      * Issue #31
-     * @return
      */
     protected int getUnknownMargin() {
     	return scale( super.getUnknownMargin() );
@@ -543,7 +525,7 @@ public abstract class TGScalableComponent extends TGComponent implements Scalabl
 
     /**
      * Issue #31: Shared this check
-     * @param graphics
+     * @param graphics the graphics used to check for the width
      */
     protected int checkWidth( final Graphics graphics ) {
     	return checkWidth( graphics, value );
@@ -552,8 +534,6 @@ public abstract class TGScalableComponent extends TGComponent implements Scalabl
 	/**
 	 * Issue #31: Check the Width, increase the width in case the actual width is not enough to display the text.
 	 * Used when a component is created
-	 * @param graphics
-	 * @param text
 	 * @return textWidth
 	 * */
     protected int checkWidth( 	final Graphics graphics,
@@ -571,7 +551,6 @@ public abstract class TGScalableComponent extends TGComponent implements Scalabl
     
 	/**
 	 * Scale an image directly
-	 * @param image
 	 * @return the scaled image
 	 * */
     protected Image scale( final Image image ) {
@@ -584,8 +563,6 @@ public abstract class TGScalableComponent extends TGComponent implements Scalabl
     
 	/**
 	 * Scale an image directly with a custom width
-	 * @param image
-	 * @param width
 	 * @return the scaled image
 	 * */
     protected Image scale( 	final Image image,

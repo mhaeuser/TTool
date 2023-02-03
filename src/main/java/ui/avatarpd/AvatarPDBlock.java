@@ -137,15 +137,6 @@ public class AvatarPDBlock extends TGCScalableWithInternalComponent implements S
 		
 		actionOnAdd();
     }
-    /**
-     * will get the position which represent the center of the box
-     * we are drawing. It will use the stringWidth so that the center is 
-     * calculated in function of the string we want to draw.
-     * this function is used in internalDrawing
-     * @param g
-     * @param str
-     * @return
-     */
 
     
     @Override

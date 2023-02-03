@@ -49,7 +49,7 @@ import myutil.*;
  * Creation: 15/07/2021
  * Version 1.0 15/07/2021
  * @author Ludovic APVRILLE
- * @see
+ * @see StyledEditorKit
  */
 public class MyStyledEditorKit extends StyledEditorKit {
 

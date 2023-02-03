@@ -97,7 +97,6 @@ public abstract class TGConnectorWithCommentConnectionPoints extends TGConnector
     }
     /**
      * setP2: destination point
-     * @param TGConnectingPoint p
      */
     @Override
     public void setP2(TGConnectingPoint p) {

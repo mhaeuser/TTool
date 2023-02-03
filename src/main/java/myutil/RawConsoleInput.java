@@ -29,8 +29,7 @@ import java.util.List;
 
 /**
  * A JNA based driver for reading single characters from the console.
- * <p>
- * <p>This class is used for console mode programs.
+ * This class is used for console mode programs.
  * It supports non-blocking reads of single key strokes without echo.
  */
 public class RawConsoleInput {

@@ -180,7 +180,8 @@ public class TML2ProVerif {
     						done.add(curr);
     					}
     				if (path.size() ==0){
-    					TraceManager.addDev("Path does not exist for channel " + channel.getName() + " between Task " + a.getTaskName() + " and Task " + t.getTaskName());
+    					TraceManager.addDev("Path does not exist for channel " + channel.getName() + " between Task " + a.getTaskName() +
+								" and Task " + t.getTaskName());
     					channelMap.put(channel.getName(), channelUnreachable);
     				}
     				else {
@@ -198,7 +199,8 @@ public class TML2ProVerif {
     						}
     					}
     					channelMap.put(channel.getName(), priv);
-    					TraceManager.addDev("Channel "+channel.getName() + " between Task "+ a.getTaskName() + " and Task " + t.getTaskName() + " is " + (priv==1 ? "confidential" : "not confidential"));
+    					TraceManager.addDev("Channel "+channel.getName() + " between Task "+ a.getTaskName() + " and Task " + t.getTaskName()
+								+ " is " + (priv==1 ? "confidential" : "not confidential"));
     				}
     			}
     		}

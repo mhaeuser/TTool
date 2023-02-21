@@ -96,13 +96,12 @@ public class JDialogAvatarSignal extends JDialogBase implements ActionListener  
         signals = _signals;
         currentSignal = _currentSignal;
         isOut = _isOut;
-		reference=_reference;
-		refs=_refs;
+		reference =_reference;
+		refs =_refs;
 
         makeSignals();
 
         initComponents();
-//        myInitComponents();
 
         pack();
     }
@@ -112,14 +111,12 @@ public class JDialogAvatarSignal extends JDialogBase implements ActionListener  
         realSignals = new LinkedList<AvatarSignal> ();
 
         for (AvatarSignal as: signals)
-            if (((as.getInOut() == AvatarSignal.OUT) && (isOut)) ||  ((as.getInOut() == AvatarSignal.IN) && (!isOut))){
+            if ( ((as.getInOut() == AvatarSignal.OUT) && (isOut)) ||  ((as.getInOut() == AvatarSignal.IN) && (!isOut))){
                 showSignals.add(as.toString());
                 realSignals.add(as);
             }
     }
 
-//    private void myInitComponents() {
-//    }
 
     private void initComponents() {
         Container c = getContentPane();
@@ -192,7 +189,6 @@ public class JDialogAvatarSignal extends JDialogBase implements ActionListener  
 
     @Override
     public void	actionPerformed(ActionEvent evt)  {
-        //String command = evt.getActionCommand();
 
         // Compare the action command to the known actions.
         if (evt.getSource() == closeButton)  {

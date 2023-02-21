@@ -48,14 +48,18 @@
 \large
 \centering
 \begin{adjustbox}{width=\textwidth}
-\begin{tabular}{ |p{1.6cm}|p{6.0cm}|p{4.4cm}|p{4.2cm}| }
+\begin{tabular}{ |p{1.6cm}|p{6.0cm}|p{5.4cm}|p{3.8cm}| }
 \hhline{----}
  & \textbf{Document Manager} & \textbf{Contributors}  & \textbf{Checked by}  \\ 
 \hhline{----}
-\textbf{Name}   & Dominique BLOUIN & Ludovic APVRILLE &
-\multirow{2}{*}{Ludovic APVRILLE} \\
+\textbf{Name}   & Ludovic APVRILLE & Ludovic APVRILLE &
+Ludovic APVRILLE \\
 \hhline{--~~}
-\textbf{Contact} & dominique.blouin@telecom-paris.fr & \multirow{2}{*}{Arthur VUAGNIAUX} &  \\ 
+%\textbf{Contact} & ludovic.apvrille@telecom-paris.fr & \multirow{2}{*}{Dominique BLOUIN, Arthur VUAGNIAUX} &  \\ 
+\textbf{Contact} & ludovic.apvrille@telecom-paris.fr &\begin{flushleft}
+Dominique BLOUIN Arthur VUAGNIAUX
+\end{flushleft} &  \\ 
+%& & \multirow{2}{*}{Arthur VUAGNIAUX} &  \\ 
 \hhline{--~~}
 \textbf{Date} & \today & Matteo BERTOLINO &  \\ 
 \hline
@@ -1510,6 +1514,162 @@ However \textbf{do not push your changes ot the repository!} The install.xml is
 configured for Ludovic Apvrille's computer and should stay as is for the
 automatic build of the installer. In order to launch the installer, execute the
 \emph{installer/src/install.exe} file from the \emph{installer/src} directory.
+
+
+
+\section{TTool Saving Format}
+
+\subsection{Projects and models}
+
+TTool support two kinds of opened files:
+\begin{itemize}
+\item \textbf{Project files}. Project files are saved in a directory named \textit{<projectname>.ttool}. The later contains at least two files:
+\begin{itemize}
+\item \textit{project\_config.xml}: contains various configurations such as the lastly opened tab
+\item \textit{<projectname>.xml}: contains a description in XML format of the different panels and diagrams.
+\end{itemize}
+\item \textbf{Model files} \textit{<model>.xml}: contains a description in XML format of the different panels and diagrams
+\end{itemize}
+
+
+\subsection{XML Format of panels and diagrams: main structure}
+
+TTool saves the content of the different panels in XML format. This XML document is structured as follows:
+\lstset{language=XML}
+\begin{itemize}
+\item \textbf{Header}. The document starts with:
+
+\begin{lstlisting}
+<?xml version="1.0" encoding="UTF-8"?>
+\end{lstlisting}
+\item \textbf{Main markup}: \textit{TURTLEGMODELING}. This markup is the main one. Its attributes store the configuration of TTool (e.g., the lastly opened model). For instance:
+\begin{lstlisting}
+<TURTLEGMODELING version="1.0beta" ANIMATE_INTERACTIVE_SIMULATION="false" 
+ACTIVATE_PENALTIES="true" UPDATE_INFORMATION_DIPLO_SIM="false" 
+ANIMATE_WITH_INFO_DIPLO_SIM="true" OPEN_DIAG_DIPLO_SIM="false" 
+LAST_SELECTED_MAIN_TAB="1" LAST_SELECTED_SUB_TAB="0">
+\end{lstlisting}
+
+\item \textbf{Main tabs}. \textit{Modeling} are  markups within \textit{TURTLEGMODELING}. They refer to tabs of the main panel of TTool. For instance: 
+\begin{lstlisting}
+<Modeling type="AVATAR Design" nameTab="BBraunHome" 
+tabs="Block Diagram$User$HomeScreen_Options" >
+\end{lstlisting}
+states that the first tab is of type "AVATAR Design", the name of the tab in TTool is "BBraunHome", and it contains 3 sub tabs named respectively "Block Diagram", "User" and "HomeScreen\_Options".
+
+\item Each \textbf{Diagram} of a tab is then put inside of the corresponding  "Modeling" tab markup. Each diagram type is identified by a specific markup, e.g., \textit{AVATARBlockDiagramPanel}, which is the name of the class of this diagram in TTool's code. For instance:
+\begin{lstlisting}
+<AVATARBlockDiagramPanel name="Block Diagram" 
+minX="10" maxX="2500" minY="10" maxY="1500" zoom="1.0" >
+\end{lstlisting}
+minX, maxX, minY and maxY give the allowed X and Y positions for components and connectors. "zoom" represents the current zoom level of the diagram.
+Extra attributes are sometimes saved by diagrams. For instance, the \textit{AVATARBlockDiagramPanel} diagram saves the following extra attribute:
+\begin{lstlisting}
+<considerTimingOperators value="true" />
+\end{lstlisting}
+After the extra attributes, there is a list of components and connectors of this diagram. This list is ordered according to what is displayed first until what is displayed last in the diagram. What is displayed first corresponds to elements draws in the background , while the last element of the list if the one drawn last, so the one which is in the top foreground.  How components and connectors are saved in explained hereafter.
+\end{itemize}
+
+
+\subsection{XML Format of Components}
+
+A component is identified with the \textit{COMPONENT} markup.  The later contains the following attributes:
+\begin{itemize}
+\item A type defined in \url{https://gitlab.telecom-paris.fr/mbe-tools/TTool/-/blob/master/src/main/java/ui/TGComponentManager.java}
+\item An  \textit{id} corresponding to the rank of its addition in the diagram. First component added tp the diagram gets id 0, then 1, and so on.
+\item Another identifier called  \textit{uid} is expected to be unique across all TTool models. It is computed using "UUID.randomUUID()" in Java.
+\item \textit{cdparam} features the x and y coordinates of the component.
+\item \textit{sizeparam} relates to the size (width, height) of the component.
+\item \textit{hidden} has a value representing whether the component is shown or not.
+\item \textit{cdrectangleparam} is used to give the minimum and maximum coordinates that can be used by this component.
+\item \textit{infoparam} give the name and value of this component, as defined in \url{https://gitlab.telecom-paris.fr/mbe-tools/TTool/-/blob/master/src/main/java/ui/TGComponent.java}
+\item A list of \textit{TGConnectingPoint} is then given. It provides the number and ids of connecting points of the component. Connecting points are used to connect connectors.
+\item  \textit{extraparam} are component-dependent. They  save specific attributes of components, such as "signals" in the component given as example hereafter.
+\end{itemize}
+
+
+\begin{lstlisting}
+<COMPONENT type="5000" id="43" index="1" 
+uid="760d9cca-943e-41a1-9167-bf10c50a5629" >
+<cdparam x="593" y="138" />
+<sizeparam width="250" height="200" minWidth="5" minHeight="2" 
+maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
+<hidden value="false" />
+<cdrectangleparam minX="10" maxX="2500" minY="10" maxY="1500" />
+<infoparam name="Block1" value="HomeScreen_Options" />
+<TGConnectingPoint num="0" id="3" />
+<TGConnectingPoint num="1" id="4" />
+<TGConnectingPoint num="2" id="5" />
+...
+<TGConnectingPoint num="38" id="41" />
+<TGConnectingPoint num="39" id="42" />
+<extraparam>
+<blockType data="block" color="-4072719" />
+<CryptoBlock value="false" />
+<Signal value="in ProgramInfusionOK()" attached="true" />
+<Signal value="in MedSurg()" attached="true" />
+<Signal value="in StdPatientProfile()" attached="true" />
+<Signal value="in AllDrugs()" attached="true" />
+<Signal value="in ABC()" attached="true" />
+<Signal value="in Select400mg()" attached="true" />
+<Signal value="in Continuous()" attached="true" />
+<Signal value="in BasicInfusion()" attached="true" />
+<Signal value="in CancelButton()" attached="true" />
+</extraparam>
+\end{lstlisting}
+
+
+\subsection{XML Format of Connectors}
+
+A connector is identified with the \textit{CONNECTOR} markup.  The later contains the following attributes:
+\begin{itemize}
+\item A type defined in \url{https://gitlab.telecom-paris.fr/mbe-tools/TTool/-/blob/master/src/main/java/ui/TGComponentManager.java}
+\item An  \textit{id} corresponding to the rank of its addition in the diagram. 
+\item Another identifier called  \textit{uid} is expected to be unique across all TTool models. It is computed using "UUID.randomUUID()" in Java.
+\item \textit{cdparam} features the x and y coordinates of the component.
+\item \textit{sizeparam} relates to the size (width, height) of the component.
+\item \textit{infoparam} give the name and value of this connector, as defined in \url{https://gitlab.telecom-paris.fr/mbe-tools/TTool/-/blob/master/src/main/java/ui/TGComponent.java}
+\item A list of \textit{TGConnectingPoint} is then given. It provides the number and ids of connecting points of the component. 
+\item \textit{P1} and \textit{P2} give the coordinates and identifiers of the origin and destination point of the connector, respectively.
+\item \textit{AutomaticDrawing}. If set to true, it means that the connector is automatically drawn.
+\item  \textit{extraparam} are component-dependent. They  save specific attributes of components, such as the connection between signals in the connector given as example hereafter.
+\end{itemize}
+
+\begin{lstlisting}
+<CONNECTOR type="5002" id="2" index="0" 
+uid="a7bc805d-1106-4839-b5fc-149c61c82e2b" >
+<cdparam x="418" y="247" />
+<sizeparam width="0" height="0" minWidth="0" minHeight="0" 
+maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
+<infoparam name="connector" value="" />
+<TGConnectingPoint num="0" id="1" />
+<P1  x="418" y="247" id="48" />
+<P2  x="593" y="238" id="6" />
+<AutomaticDrawing  data="true" />
+<extraparam>
+<isd value="in ProgramInfusionOK()" />
+<isd value="in MedSurg()" />
+<isd value="in StdPatientProfile()" />
+<isd value="in AllDrugs()" />
+<isd value="in ABC()" />
+<isd value="in Select400mg()" />
+<isd value="in Continuous()" />
+<isd value="in BasicInfusion()" />
+<isd value="in CancelButton()" />
+<oso value="out ProgramInfusionOK()" />
+<oso value="out MedSurg()" />
+<oso value="out StdPatientProfile()" />
+<oso value="out AllDrugs()" />
+<oso value="out ABC()" />
+<oso value="out Select400mg()" />
+<oso value="out Continuous()" />
+<oso value="out BasicInfusion()" />
+<oso value="out CancelButton()" />
+<FIFOType asynchronous="false" synchronousCH="true" size="1" blocking="false" private="true" broadcast="false" lossy="false" ams="false" />
+</extraparam>
+</CONNECTOR>
+\end{lstlisting}
+
 
 \section{Adding a Graphical Operator to a Diagram}
 This section addresses the adding of a specific graphical component to a diagram. To better show how to do this, we use the example on how we have added a FPGA component to the DIPLODOCUS deployment diagram. A FPGA is a \textit{computation unit}, just like a CPU, but the steps listed are valid for any kind of graphical component like memories or communication nodes, of for any other diagram of TTool. A few things to remember:

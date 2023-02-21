@@ -4479,13 +4479,21 @@ public class MainGUI implements ActionListener, WindowListener, KeyListener, Per
 
     public List<AvatarSignal> getAllSignals() {
         TURTLEPanel tp = getCurrentTURTLEPanel();
-        String name = getCurrentTDiagramPanel().getName();
-        return this.getAllSignals(tp, name);
+        if (tp != null) {
+            String name = getCurrentTDiagramPanel().getName();
+            return this.getAllSignals(tp, name);
+        } else {
+            return null;
+        }
     }
 
 
     public List<AvatarSignal> getAllSignals(TURTLEPanel tp, String name) {
         if (tp == null) {
+            return null;
+        }
+
+        if (name == null) {
             return null;
         }
 

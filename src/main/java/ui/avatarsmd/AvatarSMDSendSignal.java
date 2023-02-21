@@ -42,6 +42,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Polygon;
 import java.awt.geom.Line2D;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Vector;
@@ -392,7 +393,10 @@ public class AvatarSMDSendSignal extends AvatarSMDBasicCanBeDisabledComponent /*
     @Override
     public boolean editOnDoubleClick(JFrame frame) {
         List<AvatarSignal> signals = tdp.getMGUI().getAllSignals();
-        //TraceManager.addDev("Nb of signals:" + signals.size());
+		//TraceManager.addDev("Nb of signals:" + signals.size());
+		if (signals == null) {
+			signals = new LinkedList<>();
+		}
 		List<TGComponent> comps = tdp.getMGUI().getAllLatencyChecks();
 		
 		Vector<TGComponent> refs = new Vector<TGComponent>();

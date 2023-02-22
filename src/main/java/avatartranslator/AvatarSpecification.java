@@ -67,14 +67,14 @@ public class AvatarSpecification extends AvatarElement {
 
     //private AvatarBroadcast broadcast;
     private String applicationCode;
-    private final List<AvatarPragma> pragmas;
+    private final List<AvatarPragma> pragmas; // Security pragmas
     private final List<String> safetyPragmas;
     private final HashMap<String, String> safetyPragmasRefs;
     private final List<AvatarPragmaLatency> latencyPragmas;
     private final List<AvatarConstant> constants;
     private final boolean robustnessMade = false;
 
-    private Object informationSource; // element from which the spec has been built
+    private Object informationSource; // Element from which the spec has been built
 
 
     public AvatarSpecification(String _name, Object _referenceObject) {

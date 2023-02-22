@@ -374,6 +374,10 @@
          Color c = g.getColor();
          Color c1;
          Color c2;
+
+         //TraceManager.addDev("Drawing port " + getPortName() + ": checkStrongAuthStatus=" + checkStrongAuthStatus);
+         //TraceManager.addDev("Drawing port " + getPortName() + ": checkWeakAuthStatus=" + checkWeakAuthStatus);
+
          switch (checkStrongAuthStatus) {
              case 2:
                  c1 = Color.green;
@@ -1268,10 +1272,12 @@
 
 
      public void setStrongAuthStatus(int _status) {
+         TraceManager.addDev("Port " + getPortName() + ": Strong Auth status set to " + _status );
          checkStrongAuthStatus = _status;
      }
 
      public void setWeakAuthStatus(int _status) {
+         TraceManager.addDev("Port " + getPortName() + ": Weak Auth status set to " + _status );
          checkWeakAuthStatus = _status;
      }
 

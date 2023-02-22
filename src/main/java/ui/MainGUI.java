@@ -4787,17 +4787,21 @@ public class MainGUI implements ActionListener, WindowListener, KeyListener, Per
              * (tp instanceof TMLComponentDesignPanel) {
              * ((TMLComponentDesignPanel)tp).modelBacktracingProVerif(pvoa); } }
              */
-            gtm.getTMLMapping().getTMLModeling().clearBacktracing();
-            gtm.getTMLMapping().getTMLModeling().backtrace(pvoa, getTabName(tp));
-            gtm.getTML2Avatar().backtraceReachability(pvoa.getReachabilityResults());
-            gtm.getTMLMapping().getTMLModeling().backtraceAuthenticity(pvoa, getTabName(tp));
+            if (gtm.getTMLMapping() != null) {
+                gtm.getTMLMapping().getTMLModeling().clearBacktracing();
+                gtm.getTMLMapping().getTMLModeling().backtrace(pvoa, getTabName(tp));
+                gtm.getTML2Avatar().backtraceReachability(pvoa.getReachabilityResults());
+                gtm.getTMLMapping().getTMLModeling().backtraceAuthenticity(pvoa, getTabName(tp));
+            }
 
         } else if (tp instanceof TMLComponentDesignPanel) {
             TraceManager.addDev("Backtracing to TMLComponentDesignPanel");
-            gtm.getTMLMapping().getTMLModeling().clearBacktracing();
-            gtm.getTMLMapping().getTMLModeling().backtrace(pvoa, "Default Mapping");
-            gtm.getTML2Avatar().backtraceReachability(pvoa.getReachabilityResults());
-            gtm.getTMLMapping().getTMLModeling().backtraceAuthenticity(pvoa, "Default Mapping");
+            if (gtm.getTMLMapping() != null) {
+                gtm.getTMLMapping().getTMLModeling().clearBacktracing();
+                gtm.getTMLMapping().getTMLModeling().backtrace(pvoa, "Default Mapping");
+                gtm.getTML2Avatar().backtraceReachability(pvoa.getReachabilityResults());
+                gtm.getTMLMapping().getTMLModeling().backtraceAuthenticity(pvoa, "Default Mapping");
+            }
         }
         return;
     }

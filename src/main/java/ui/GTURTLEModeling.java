@@ -9172,7 +9172,8 @@ public class GTURTLEModeling {
                 if (blockLevelMap.get(ab) == level) {
                     if (level == 0) {
                         TraceManager.addDev("New block at level 0");
-                        AvatarBDBlock bl = new AvatarBDBlock(xpos, ypos, abd.getMinX(), abd.getMaxX(), abd.getMinY(), abd.getMaxY(), false, null, abd);
+                        AvatarBDBlock bl = new AvatarBDBlock(xpos, ypos, abd.getMinX(), abd.getMaxX(), abd.getMinY(), abd.getMaxY(), false,
+                                null, abd);
                         if ((ab.getReferenceObject() != null) && (ab.getReferenceObject() instanceof CDElement)) {
                             CDElement cd = (CDElement) ab.getReferenceObject();
                             bl.setUserResize(cd.getX(), cd.getY(), cd.getWidth(), cd.getHeight());
@@ -9189,7 +9190,8 @@ public class GTURTLEModeling {
                         xpos += 100 * blockSizeMap.get(ab) + 200;
                     } else {
                         TraceManager.addDev("New block at level " + level);
-                        AvatarBDBlock father = blockMap.get(ab.getFather().getName().split("__")[ab.getFather().getName().split("__").length - 1]);
+                        AvatarBDBlock father =
+                                blockMap.get(ab.getFather().getName().split("__")[ab.getFather().getName().split("__").length - 1]);
                         TraceManager.addDev("Father name: " + father.getBlockName());
                         if (father == null) {
                             //
@@ -9289,43 +9291,50 @@ public class GTURTLEModeling {
 
 
         //Add Pragmas
-        /*AvatarBDPragma pragma = new AvatarBDPragma(xpos, ypos, xpos, xpos * 2, ypos, ypos * 2, false, null, abd);
-        //  String[] arr = new String[avspec.getPragmas().size()];
-        String s = "";
-        // int i=0;
-        for (
-                AvatarPragma p : avspec.getPragmas()) {
 
-            //    arr[i] = p.getName();
-            String t = "";
-            String[] split = p.getName().split(" ");
-            if (p.getName().contains("#Confidentiality")) {
-                for (String str : split) {
-                    if (str.contains(".")) {
-                        String tmp = str.split("\\.")[0];
-                        String tmp2 = str.split("\\.")[1];
-                        t = t.concat(tmp.split("__")[tmp.split("__").length - 1] + "." + tmp2.split("__")[tmp2.split("__").length - 1] + " ");
-                    } else {
-                        t = t.concat(str + " ");
+
+        if (avspec.getPragmas().size() > 0) {
+            AvatarBDPragma pragma = new AvatarBDPragma(xpos, ypos, xpos, xpos * 2, ypos, ypos * 2, false, null, abd);
+            //  String[] arr = new String[avspec.getPragmas().size()];
+            String s = "";
+            // int i=0;
+            for (AvatarPragma p : avspec.getPragmas()) {
+
+                //    arr[i] = p.getName();
+                String t = "";
+                String[] split = p.getName().split(" ");
+                if (p.getName().contains("#Confidentiality")) {
+                    for (String str : split) {
+                        if (str.contains(".")) {
+                            String tmp = str.split("\\.")[0];
+                            String tmp2 = str.split("\\.")[1];
+                            t = t.concat(tmp.split("__")[tmp.split("__").length - 1] +
+                                    "." + tmp2.split("__")[tmp2.split("__").length - 1] + " ");
+                        } else {
+                            t = t.concat(str + " ");
+                        }
                     }
+                } else if (p.getName().contains("Authenticity")) {
+                    t = p.getName();
+                } else if (p.getName().contains("Initial")) {
+                    t = p.getName();
+                } else {
+                    t = p.getName();
                 }
-            } else if (p.getName().contains("Authenticity")) {
-                t = p.getName();
-            } else if (p.getName().contains("Initial")) {
-                t = p.getName();
-            } else {
-                t = p.getName();
+                s = s.concat(t + "\n");
+                //  i++;
             }
-            s = s.concat(t + "\n");
-            //  i++;
+            pragma.setValue(s);
+            pragma.makeValue();
+            abd.addComponent(pragma, xpos, ypos, false, true);
         }
-        pragma.setValue(s);
-        pragma.makeValue();
-        abd.addComponent(pragma, xpos, ypos, false, true);
+
+
+
         //Add message and key datatype if there is a cryptoblock
 
         xpos = 50;
-        ypos += 200;*/
+        ypos += 200;
         if (hasCrypto) {
             AvatarBDDataType message = new AvatarBDDataType(xpos, ypos, xpos, xpos * 2, ypos, ypos * 2, false, null, abd);
             message.setValue("Message");

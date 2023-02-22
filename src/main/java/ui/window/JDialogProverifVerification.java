@@ -138,6 +138,8 @@ public class JDialogProverifVerification extends JDialog implements ActionListen
     private static boolean PI_CALCULUS = true;
     private static int LOOP_ITERATION = 1;
 
+    private static boolean DRAW_AVATAR = false;
+
     protected MainGUI mgui;
     private AvatarDesignPanel adp;
 
@@ -181,7 +183,7 @@ public class JDialogProverifVerification extends JDialog implements ActionListen
     // Security generation buttons
     ButtonGroup secGroup;
 
-    protected JCheckBox autoConf, autoWeakAuth, autoStrongAuth, custom, addHSM;
+    protected JCheckBox drawAvatarDesign, autoConf, autoWeakAuth, autoStrongAuth, custom, addHSM;
 	protected JRadioButton autoSec, autoMapKeys;
     protected JTextField encTime, decTime, secOverhead;
     protected JComboBox<String> addtoCPU;
@@ -496,6 +498,8 @@ public class JDialogProverifVerification extends JDialog implements ActionListen
                 GridBagConstraints.BOTH, insets, 0, 0));
         curY++;
 
+
+
         JLabel gen = new JLabel("Generate ProVerif code in: ");
 
         addComponent(jp01, gen, 0, curY, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH);
@@ -552,6 +556,13 @@ public class JDialogProverifVerification extends JDialog implements ActionListen
             addComponent(jp01, new JLabel("Limit on loop iterations:"), 0, curY, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH);
             addComponent(jp01, loopLimit, 1, curY, 2, GridBagConstraints.CENTER, GridBagConstraints.BOTH);
             curY++;
+        }
+
+        if (mgui.isExperimentalOn()) {
+            drawAvatarDesign = new JCheckBox("Draw Avatar model");
+            drawAvatarDesign.setSelected(DRAW_AVATAR);
+            drawAvatarDesign.addActionListener(this);
+            addComponent(jp01, drawAvatarDesign, 2, curY, 2, GridBagConstraints.CENTER, GridBagConstraints.BOTH);
         }
 
         JLabel empty = new JLabel("");
@@ -662,6 +673,11 @@ public class JDialogProverifVerification extends JDialog implements ActionListen
     @Override
     public void actionPerformed(ActionEvent evt) {
         String command = evt.getActionCommand();
+
+        if (evt.getSource() == drawAvatarDesign) {
+            DRAW_AVATAR = drawAvatarDesign.isSelected();
+            return;
+        }
 
         switch (command) {
             case "Start":
@@ -902,16 +918,21 @@ public class JDialogProverifVerification extends JDialog implements ActionListen
                     TraceManager.addDev("FILE EXISTS!!!");
                 }
 
+
+
                 if (!mgui.gtm.generateProVerifFromAVATAR(
                         pathCode,
-                        stateReachabilityAll.isSelected() ? REACHABILITY_ALL : stateReachabilitySelected.isSelected() ? REACHABILITY_SELECTED : REACHABILITY_NONE,
+                        stateReachabilityAll.isSelected() ? REACHABILITY_ALL :
+                                stateReachabilitySelected.isSelected() ? REACHABILITY_SELECTED : REACHABILITY_NONE,
                         typedLanguage.isSelected(),
                         privateChannelDup.isSelected(),
                         loopLimit.getText())
                         ) {
                     throw new ProVerifVerificationException("Could not generate proverif code");
                 }
-                
+
+
+
 
                 String cmd = exe2.getText().trim();
 
@@ -942,6 +963,12 @@ public class JDialogProverifVerification extends JDialog implements ActionListen
                 }*/
 
                 mgui.modelBacktracingProVerif(pvoa);
+
+                if (drawAvatarDesign != null) {
+                    if (drawAvatarDesign.isSelected()) {
+                        mgui.drawAvatarSpecification(mgui.gtm.getAvatarSpecification());
+                    }
+                }
 
                 mode = NOT_STARTED;
 

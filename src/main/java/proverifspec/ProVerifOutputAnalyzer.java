@@ -257,8 +257,7 @@ public class ProVerifOutputAnalyzer {
                     }
 
                     // This concerns a strong authenticity check
-                    else if (str.contains(isTyped ? typedStrongAuth : untypedStrongAuth))
-                    {
+                    else if (str.contains(isTyped ? typedStrongAuth : untypedStrongAuth)) {
                         str = str.substring((isTyped ? typedStrongAuth : untypedStrongAuth).length());
 
                         String attributeStateName1 = null;
@@ -267,8 +266,7 @@ public class ProVerifOutputAnalyzer {
                         previousAuthPragma = new ProVerifQueryAuthResult(true, true);
                         result = previousAuthPragma;
 
-                        if (isTyped)
-                        {
+                        if (isTyped) {
                             attributeStateName1 = str.split("\\(")[0];
                             attributeStateName2 = str.split(Pattern.quote(typedAuthSplit))[1].split("\\(")[0];
                             if (str.contains(typedFalse))
@@ -282,8 +280,7 @@ public class ProVerifOutputAnalyzer {
                                 result.setProved(false);
                             }
                         }
-                        else
-                        {
+                        else {
                             attributeStateName1 = str.split("\\(")[0];
                             attributeStateName2 = str.split(untypedAuthSplit)[1].split("\\(")[0];
                             if (str.contains(untypedFalse))

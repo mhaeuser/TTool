@@ -657,4 +657,13 @@ public class TMLChannel extends TMLCommunicationElement {
                 comp.isPortListEquals(destinationPorts, channel.getDestinationPorts());
     }
 
+
+    public String getSecurityPorts() {
+        String ret = "";
+        for(TMLPortWithSecurityInformation port : ports) {
+            ret += port.toString() + "  ";
+        }
+        return ret;
+    }
+
 }

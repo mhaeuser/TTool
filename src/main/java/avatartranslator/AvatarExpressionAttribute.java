@@ -51,7 +51,7 @@ import avatartranslator.modelchecker.SpecificationState;
  */
 public class AvatarExpressionAttribute implements AvatarExpressionAttributeInterface{
     private AvatarBlock block;
-    private int blockIndex;
+    private int blockIndex; // Similar to the one of the block "block". For performance reason
     private int accessIndex;
     private AvatarStateMachineElement state;
     private String s;

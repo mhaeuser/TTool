@@ -57,6 +57,7 @@ public class AvatarBlock extends AvatarElement implements AvatarStateMachineOwne
     private List<AvatarSignal> signals;
     private AvatarStateMachine asm;
     private AvatarSpecification avspec;
+
     private int blockIndex; //Index of block in the Avatar Specification
 
     private String globalCode;

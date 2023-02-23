@@ -530,7 +530,8 @@ public class TML2Avatar {
                     List<AvatarStateMachineElement> tmp = translateState(ae.getNextElement(i), block);
 
 
-                    AvatarState choiceStateEnd = new AvatarState("seqchoiceend__" + i + "_" + ae.getName().replaceAll(" ", ""), ae.getReferenceObject());
+                    AvatarState choiceStateEnd = new AvatarState("seqchoiceend__" + i + "_" +
+                            ae.getName().replaceAll(" ", ""), ae.getReferenceObject());
                     elementList.add(choiceStateEnd);
 
 
@@ -589,6 +590,7 @@ public class TML2Avatar {
             }
             AvatarState signalState = new AvatarState("signalstate_" + ae.getName().replaceAll(" ", "") + "_" + evt.getName(), ae.getReferenceObject(), checkAcc, checked);
             AvatarTransition signalTran = new AvatarTransition(block, "__after_signalstate_" + ae.getName() + "_" + evt.getName(), ae.getReferenceObject());
+
             if (ae instanceof TMLSendEvent) {
                 AvatarSignal sig;
                 if (!signalOutMap.containsKey(evt.getName())) {
@@ -1087,6 +1089,8 @@ public class TML2Avatar {
             as.addNext(tran);
             elementList.add(as);
             elementList.add(tran);
+
+            // Channels
         } else if (ae instanceof TMLActivityElementChannel) {
             TMLActivityElementChannel aec = (TMLActivityElementChannel) ae;
             TMLChannel ch = aec.getChannel(0);
@@ -1099,15 +1103,21 @@ public class TML2Avatar {
             if (ae.getReferenceObject() != null) {
                 checked = ((TGComponent) ae.getReferenceObject()).hasCheckedAccessibility();
             }
-            AvatarState signalState = new AvatarState("signalstate_" + ae.getName().replaceAll(" ", "") + "_" + ch.getName(), ae.getReferenceObject(), checkAcc, checked);
-            AvatarTransition signalTran = new AvatarTransition(block, "__after_signalstate_" + ae.getName() + "_" + ch.getName(), ae.getReferenceObject());
+            AvatarState signalState = new AvatarState("signalstate_" + ae.getName().replaceAll(" ", "") + "_" +
+                    ch.getName(), ae.getReferenceObject(), checkAcc, checked);
+            AvatarTransition signalTran = new AvatarTransition(block, "__after_signalstate_" + ae.getName() + "_" + ch.getName(),
+                    ae.getReferenceObject());
+
             if (ae instanceof TMLReadChannel) {
-                //Create signal if it does not already exist
+                // Read channel
+                // Create signal if it does not already exist
+                TraceManager.addDev("InMap  Looking for signal: " + ch.getName());
                 if (!signalInMap.containsKey(ch.getName())) {
+                    TraceManager.addDev("Not in InMap. Creating " + getName(ch.getName()));
                     sig = new AvatarSignal(getName(ch.getName()), AvatarSignal.IN, ch.getReferenceObject());
                     signals.add(sig);
-                    signalInMap.put(ch.getName(), sig);
                     block.addSignal(sig);
+                    signalInMap.put(ch.getName(), sig);
                     AvatarAttribute channelData = new AvatarAttribute(getName(ch.getName()) + "_chData", AvatarType.INTEGER, block, null);
                     if (block.getAvatarAttributeWithName(getName(ch.getName()) + "_chData") == null) {
                         block.addAttribute(channelData);
@@ -1116,6 +1126,7 @@ public class TML2Avatar {
                 } else {
                     sig = signalInMap.get(ch.getName());
                 }
+                TraceManager.addDev("InMap sig= " + sig.getSignalName());
                 AvatarActionOnSignal as = new AvatarActionOnSignal(ae.getName(), sig, ae.getReferenceObject());
 
                 if (ae.securityPattern != null) {
@@ -1164,24 +1175,30 @@ public class TML2Avatar {
                 elementList.add(tran);
                 if (ch.checkAuth) {
                     //Add aftersignal state
-                    AvatarState afterSignalState = new AvatarState("aftersignalstate_" + ae.getName().replaceAll(" ", "") + "_" + ch.getName(), ae.getReferenceObject());
+                    AvatarState afterSignalState = new AvatarState("aftersignalstate_" + ae.getName().replaceAll(" ", "") +
+                            "_" + ch.getName(), ae.getReferenceObject());
                     tran.addNext(afterSignalState);
                     tran = new AvatarTransition(block, "__aftersignalstate_" + ae.getName(), ae.getReferenceObject());
                     afterSignalState.addNext(tran);
                     elementList.add(afterSignalState);
                     elementList.add(tran);
                     if (block.getAvatarAttributeWithName(getName(ch.getName()) + "_chData") == null) {
-                        AvatarAttribute channelData = new AvatarAttribute(getName(ch.getName()) + "_chData", AvatarType.INTEGER, block, null);
+                        AvatarAttribute channelData = new AvatarAttribute(getName(ch.getName()) + "_chData", AvatarType.INTEGER, block,
+                                null);
                         block.addAttribute(channelData);
                     }
-                    AvatarAttributeState authDest = new AvatarAttributeState(block.getName() + "." + afterSignalState.getName() + "." + getName(ch.getName()) + "_chData", ae.getReferenceObject(), block.getAvatarAttributeWithName(getName(ch.getName()) + "_chData"), afterSignalState);
+                    AvatarAttributeState authDest = new AvatarAttributeState(block.getName() + "." + afterSignalState.getName() + "." +
+                            getName(ch.getName()) + "_chData", ae.getReferenceObject(), block.getAvatarAttributeWithName(getName(ch.getName())
+                            + "_chData"), afterSignalState);
                     signalAuthDestMap.put(ch.getName(), authDest);
                 }
 
             } else {
-                //WriteChannel
 
+                // Write Channel
+                TraceManager.addDev("OutMap  Looking for signal: " + ch.getName());
                 if (!signalOutMap.containsKey(ch.getName())) {
+                    TraceManager.addDev("Not in OutMap. Creating " + getName(ch.getName()));
                     //Add signal if it does not exist
                     sig = new AvatarSignal(getName(ch.getName()), AvatarSignal.OUT, ch.getReferenceObject());
                     signals.add(sig);
@@ -1195,6 +1212,9 @@ public class TML2Avatar {
                 } else {
                     sig = signalOutMap.get(ch.getName());
                 }
+                TraceManager.addDev("OutMap sig= " + sig.getSignalName());
+
+
                 //Add the confidentiality pragma for this channel data
                 if (ch.checkConf) {
                     if (ch.originalOriginTasks.size() != 0 && ch.getOriginPort().getName().contains("PORTORIGIN")) {
@@ -1234,6 +1254,7 @@ public class TML2Avatar {
                             getName(ch.getName()) + "_chData", ae.getReferenceObject(), block.getAvatarAttributeWithName(getName(ch.getName()) + "_chData"), signalState);
                     signalAuthOriginMap.put(ch.getName(), authOrigin);
                 }
+
                 AvatarActionOnSignal as = new AvatarActionOnSignal(ae.getName(), sig, ae.getReferenceObject());
 
                 if (ae.securityPattern != null) {
@@ -1577,12 +1598,12 @@ public class TML2Avatar {
 			}*/
 
         for (TMLTask task : tasks) {
-
             AvatarBlock block = taskBlockMap.get(task);
             //Add temp variable for unsendable signals
 
             //Add all signals
             for (TMLChannel chan : tmlmodel.getChannels(task)) {
+
                 if (chan.hasOriginTask(task)) {
                     AvatarSignal sig = new AvatarSignal(chan.getOriginPort().getName(), AvatarSignal.OUT, chan.getReferenceObject());
 
@@ -1594,8 +1615,10 @@ public class TML2Avatar {
                     }
                     sig.addParameter(channelData);
                     signalOutMap.put(chan.getName(), sig);
+
                 } else if (chan.hasDestinationTask(task)) {
-                    AvatarSignal sig = new AvatarSignal(getName(chan.getName()), AvatarSignal.IN, chan.getReferenceObject());
+                    //AvatarSignal sig = new AvatarSignal(getName(chan.getName()), AvatarSignal.IN, chan.getReferenceObject());
+                    AvatarSignal sig = new AvatarSignal(chan.getDestinationPort().getName(), AvatarSignal.IN, chan.getReferenceObject());
                     block.addSignal(sig);
                     signals.add(sig);
                     signalInMap.put(chan.getName(), sig);

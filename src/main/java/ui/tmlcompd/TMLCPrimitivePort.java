@@ -1243,7 +1243,9 @@
      }
 
      public void setConfStatus(int _status) {
-         checkConfStatus = _status;
+         if ((_status == TOCHECK) || (_status > checkConfStatus)) {
+             checkConfStatus = _status;
+         }
      }
 
      public boolean getCheckConf() {
@@ -1272,19 +1274,23 @@
 
 
      public void setStrongAuthStatus(int _status) {
-         TraceManager.addDev("Port " + getPortName() + ": Strong Auth status set to " + _status );
-         checkStrongAuthStatus = _status;
+         if ((_status == TOCHECK) || (_status > checkStrongAuthStatus)) {
+             TraceManager.addDev("Port " + getPortName() + ": Strong Auth status set to " + _status );
+             checkStrongAuthStatus = _status;
+         }
      }
 
      public void setWeakAuthStatus(int _status) {
-         TraceManager.addDev("Port " + getPortName() + ": Weak Auth status set to " + _status );
-         checkWeakAuthStatus = _status;
+         if ((_status == TOCHECK) || (_status > checkWeakAuthStatus)) {
+             TraceManager.addDev("Port " + getPortName() + ": Weak Auth status set to " + _status );
+             checkWeakAuthStatus = _status;
+         }
      }
 
      public void resetVerificationResults() {
-         checkStrongAuthStatus = 1;
-         checkWeakAuthStatus = 1;
-         checkConfStatus = 1;
+         checkStrongAuthStatus = TOCHECK;
+         checkWeakAuthStatus = TOCHECK;
+         checkConfStatus = TOCHECK;
          mappingName = "???";
      }
 

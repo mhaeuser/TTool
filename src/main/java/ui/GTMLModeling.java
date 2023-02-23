@@ -308,30 +308,10 @@ public class GTMLModeling {
             TMLSyntaxChecking syntax = new TMLSyntaxChecking(tmlm);
             syntax.checkSyntax();
 
-            int type;
-            TGComponent tgc;
 
-            if (syntax.hasErrors() > 0) {
-                for (TMLError error : syntax.getErrors()) {
-                    //TraceManager.addDev("Adding checking error");
-                    if (error.type == TMLError.ERROR_STRUCTURE) {
-                        type = CheckingError.STRUCTURE_ERROR;
-                    } else {
-                        type = CheckingError.BEHAVIOR_ERROR;
-                    }
 
-                    tgc = listE.getTG(error.element);
-                    if (tgc != null) {
-                        UICheckingError ce = new UICheckingError(type, error.message);
-                        ce.setTDiagramPanel(tgc.getTDiagramPanel());
-                        ce.setTGComponent(tgc);
-                        checkingErrors.add(ce);
-                    } else {
-                        TMLCheckingError ce = new TMLCheckingError(type, error.message);
-                        ce.setTMLTask(error.task);
-                        checkingErrors.add(ce);
-                    }
-                }
+            if ( (syntax.hasErrors() > 0) || (syntax.hasWarnings() > 0) ) {
+                handleErrorsAndWarnings(syntax);
             }
         } else if (tmlcdp != null) {
             if (onlyTakenIntoAccount) {
@@ -394,8 +374,9 @@ public class GTMLModeling {
             //TraceManager.addDev("Checking syntax 2 of TML");
             TMLSyntaxChecking syntax = new TMLSyntaxChecking(tmlm);
             syntax.checkSyntax();
+            handleErrorsAndWarnings(syntax);
 
-            int type;
+            /*int type;
             TGComponent tgc;
 
             if (syntax.hasErrors() > 0) {
@@ -418,7 +399,7 @@ public class GTMLModeling {
                         checkingErrors.add(ce);
                     }
                 }
-            }
+            }*/
         }
 
         return tmlm;
@@ -1740,10 +1721,12 @@ public class GTMLModeling {
             TMLSyntaxChecking syntax = new TMLSyntaxChecking(map, true);
             syntax.checkSyntax();
 
+            handleErrorsAndWarnings(syntax);
+
             int type;
             TGComponent tgc;
 
-            if (syntax.hasErrors() > 0) {
+            /*if (syntax.hasErrors() > 0) {
                 for (TMLError error : syntax.getErrors()) {
                     //TraceManager.addDev("Adding checking error");
                     if (error.type == TMLError.ERROR_STRUCTURE) {
@@ -1768,7 +1751,7 @@ public class GTMLModeling {
 
             if (syntax.hasWarnings() > 0) {
                 for (TMLError error : syntax.getWarnings()) {
-                    //TraceManager.addDev("Adding checking error");
+                    TraceManager.addDev("Adding checking warning: " + error.toString());
                     if (error.type == TMLError.ERROR_STRUCTURE) {
                         type = CheckingError.STRUCTURE_ERROR;
                     } else {
@@ -1786,7 +1769,7 @@ public class GTMLModeling {
                         warnings.add(ce);
                     }
                 }
-            }
+            }*/
         }
 
 
@@ -3204,5 +3187,54 @@ public class GTMLModeling {
         s = s + "__" + _name;
         //TraceManager.addDev("Making name=" + s);
         return s;
+    }
+
+    private void handleErrorsAndWarnings(TMLSyntaxChecking syntax) {
+        int type;
+        TGComponent tgc;
+
+        for (TMLError error : syntax.getErrors()) {
+            //TraceManager.addDev("Adding checking error");
+            if (error.type == TMLError.ERROR_STRUCTURE) {
+                type = CheckingError.STRUCTURE_ERROR;
+            } else {
+                type = CheckingError.BEHAVIOR_ERROR;
+            }
+
+            tgc = listE.getTG(error.element);
+
+            if (tgc != null) {
+                UICheckingError ce = new UICheckingError(type, error.message);
+                ce.setTDiagramPanel(tgc.getTDiagramPanel());
+                ce.setTGComponent(tgc);
+                checkingErrors.add(ce);
+            } else {
+                TMLCheckingError ce = new TMLCheckingError(type, error.message);
+                ce.setTMLTask(error.task);
+                checkingErrors.add(ce);
+            }
+        }
+
+        if (syntax.hasWarnings() > 0) {
+            for (TMLError error : syntax.getWarnings()) {
+                TraceManager.addDev("Adding checking warning: " + error.toString());
+                if (error.type == TMLError.ERROR_STRUCTURE) {
+                    type = CheckingError.STRUCTURE_ERROR;
+                } else {
+                    type = CheckingError.BEHAVIOR_ERROR;
+                }
+                tgc = listE.getTG(error.element);
+                if (tgc != null) {
+                    UICheckingError ce = new UICheckingError(type, error.message);
+                    ce.setTDiagramPanel(tgc.getTDiagramPanel());
+                    ce.setTGComponent(tgc);
+                    warnings.add(ce);
+                } else {
+                    TMLCheckingError ce = new TMLCheckingError(type, error.message);
+                    ce.setTMLTask(error.task);
+                    warnings.add(ce);
+                }
+            }
+        }
     }
 }

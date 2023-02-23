@@ -79,7 +79,7 @@ public class TMLMapping<E> {
 
     // Security
     public boolean firewall = false;
-    public Map<SecurityPattern, List<HwMemory>> mappedSecurity = new HashMap<SecurityPattern, List<HwMemory>>();
+    public Map<SecurityPattern, List<HwMemory>> mappedSecurity = new HashMap<SecurityPattern, List<HwMemory>>(); // Keys
     private List<String[]> pragmas = new ArrayList<String[]>();
 
     // CPs

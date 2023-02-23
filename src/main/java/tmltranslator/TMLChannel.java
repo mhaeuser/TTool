@@ -59,8 +59,8 @@ public class TMLChannel extends TMLCommunicationElement {
     public static final int BRNBW = 1;
     public static final int NBRNBW = 2;
 
-    public boolean checkConf;
-    public boolean checkAuth;
+    public boolean checkConf; // confidentiality is selected for this channel
+    public boolean checkAuth; // authenticity (weak & strong) is selected for this channel
     private int size; // width of the channel i.e. nb of bytes of each sample
     private int type;
     private int max; // Maximum number of samples
@@ -664,6 +664,27 @@ public class TMLChannel extends TMLCommunicationElement {
             ret += port.toString() + "  ";
         }
         return ret;
+    }
+
+    public boolean isCheckAuthChannel() {
+        if (checkAuth) {
+            return true;
+        }
+
+        if ( (port != null) && port.getCheckAuth() ) {
+            return true;
+        }
+
+        if (ports != null) {
+            for (TMLPortWithSecurityInformation p : ports) {
+                if (p.getCheckAuth()) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+
     }
 
 }

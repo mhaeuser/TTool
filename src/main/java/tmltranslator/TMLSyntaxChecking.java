@@ -92,6 +92,11 @@ public class TMLSyntaxChecking {
 
     private final String AT_LEAST_ONE_TASK = "Mapping has no task"; // Should be a warning only
 
+    private final String DUPLICATE_RD_AUTHENTICITY = "Channel with authenticity check shall have only one read operator"; // Warning only
+    private final String DUPLICATE_WR_AUTHENTICITY = "Channel with authenticity check shall have only one write operator"; // Warning only
+
+    private final String SECURITY_PATTERN_NOT_MAPPED = "Security configuration shall be mapped to at least one memory";
+
 
     private ArrayList<TMLError> errors;
     private ArrayList<TMLError> warnings;
@@ -138,7 +143,7 @@ public class TMLSyntaxChecking {
             //added by minh hiep
             checkAValidPortName();
 
-
+            checkOnlyOneReadAndWriteForChannelsWithAuthenticityCheck();
 
         }
 
@@ -158,6 +163,9 @@ public class TMLSyntaxChecking {
             checkAtLeastOneTask();
 
             // Check that if there is a memory for a channel, the memory is connected to the path
+
+            // checking mapping of security pattern
+            checkMappingOfSecurityPattern();
         }
 
     }
@@ -1008,6 +1016,65 @@ public class TMLSyntaxChecking {
         if (nbOfTasks == 0) {
             TraceManager.addDev("Adding a warning: " + AT_LEAST_ONE_TASK);
             addWarning(null, null, AT_LEAST_ONE_TASK, TMLError.ERROR_STRUCTURE);
+        }
+    }
+
+    public void checkOnlyOneReadAndWriteForChannelsWithAuthenticityCheck() {
+        TraceManager.addDev("Checking for auth channels");
+        for(TMLChannel ch: tmlm.getChannels()) {
+            //TraceManager.addDev("Checking for auth channel " + ch.getName());
+            if (ch.isCheckAuthChannel()) {
+                TraceManager.addDev("Channel " + ch.getName() + " has checkAuth. Check for RD/WR");
+                // We have to go through all tasks and rd / write operators
+                int nbOfRead = 0;
+                int nbOfWrite = 0;
+                TMLTask foundTR = null, foundTW = null;
+                TMLReadChannel rc = null;
+                TMLWriteChannel wc = null;
+
+
+                for(TMLTask t: tmlm.getTasks()) {
+                    for(TMLElement elt: t.getActivityDiagram().getElements()) {
+                        if (elt instanceof TMLActivityElementChannel) {
+                            TMLActivityElementChannel aec = (TMLActivityElementChannel)elt;
+                            if (aec.hasChannel(ch)) {
+                                if (aec instanceof TMLReadChannel) {
+                                    TraceManager.addDev("\t found read in Channel " + ch.getName() + " in task " + t.getName());
+                                    nbOfRead ++;
+                                    foundTR = t;
+                                    rc = (TMLReadChannel)aec;
+                                } else {
+                                    TraceManager.addDev("\t found write in Channel " + ch.getName() + " in task " + t.getName());
+                                    nbOfWrite ++;
+                                    foundTW = t;
+                                    wc = (TMLWriteChannel)aec;
+                                }
+                            }
+                        }
+                    }
+                }
+
+                if (nbOfWrite > 1) {
+                    TraceManager.addDev("Adding warning because nbOfWrite > 1");
+                    addWarning(foundTW, wc, DUPLICATE_WR_AUTHENTICITY + ". Channel: " + ch.getName(), TMLError.ERROR_STRUCTURE);
+                }
+
+                if (nbOfRead > 1) {
+                    TraceManager.addDev("Adding warning because nbOfRead > 1");
+                    addWarning(foundTR, rc, DUPLICATE_RD_AUTHENTICITY + ". Channel: " + ch.getName(), TMLError.ERROR_STRUCTURE);
+                }
+            }
+        }
+
+    }
+
+    public void checkMappingOfSecurityPattern() {
+        for(SecurityPattern sp: tmlm.secPatterns) {
+            List<HwMemory> mems = mapping.getMappedMemory(sp);
+            if ( (mems == null) || (mems.size() == 0) ) {
+                addWarning(null, null, SECURITY_PATTERN_NOT_MAPPED + ": " + sp.getName(), TMLError.ERROR_STRUCTURE);
+            }
+
         }
     }
 

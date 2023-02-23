@@ -1609,7 +1609,8 @@ public class TML2Avatar {
 
                     block.addSignal(sig);
                     signals.add(sig);
-                    AvatarAttribute channelData = new AvatarAttribute(chan.getOriginPort().getName() + "_chData", AvatarType.INTEGER, block, null);
+                    AvatarAttribute channelData = new AvatarAttribute(chan.getOriginPort().getName() + "_chData", AvatarType.INTEGER, block,
+                            null);
                     if (block.getAvatarAttributeWithName(chan.getOriginPort().getName() + "_chData") == null) {
                         block.addAttribute(channelData);
                     }
@@ -1622,7 +1623,8 @@ public class TML2Avatar {
                     block.addSignal(sig);
                     signals.add(sig);
                     signalInMap.put(chan.getName(), sig);
-                    AvatarAttribute channelData = new AvatarAttribute(getName(chan.getName()) + "_chData", AvatarType.INTEGER, block, null);
+                    AvatarAttribute channelData = new AvatarAttribute(getName(chan.getName()) + "_chData", AvatarType.INTEGER, block,
+                            null);
                     if (block.getAvatarAttributeWithName(getName(chan.getName()) + "_chData") == null) {
                         block.addAttribute(channelData);
                     }

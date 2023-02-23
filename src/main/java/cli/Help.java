@@ -93,7 +93,8 @@ public class Help extends Command  {
         if (command.trim().length() == 0) {
             String s = "";
             for(Command c: Interpreter.commands) {
-                s += c.getShortCommand() + "\t" + c.getCommand() + "\t" + c.getDescription() + "\n";
+                //s += c.getShortCommand() + "\t" + c.getCommand() + "\t" + c.getDescription() + "\n";
+                s += c.getShortCommand() + "\t" + c.getCommand() + "\n";
             }
             interpreter.print(s);
             TraceManager.addDev("Info on command");

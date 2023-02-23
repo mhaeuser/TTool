@@ -118,24 +118,24 @@ public class Command implements CommandInterface {
     }
 
 
-    public String getHelp(int level) {
+    public String getHelp(int level, boolean printUsage) {
         String dec = getLevelString(level);
-        /*String h = "";
-        h+= getCommand() + " (" + getShortCommand() + "): " + getUsage() + "\n" + getDescription() + "\n";
 
-        for (Command c: subcommands) {
-            h+= "\t" + c.getHelp();
-        }*/
-
-        StringBuffer b = new StringBuffer(dec + "* " + getCommand() + " (" + getShortCommand() + "): " + getUsage() + "\n" + dec + "   " +
-                getDescription() +
-                "\n");
-        if (getExample().length() > 0) {
-            b.append(dec + "Example: " + getExample() + "\n");
+        StringBuffer b = new StringBuffer("\n" + dec + "* " + getCommand() + " (" + getShortCommand() + ")");
+        b.append(": " + getDescription());
+        if (printUsage) {
+            b.append("\n " + dec + getUsage());
+            if (getExample().length() > 0) {
+                b.append("\n"  + dec + "Example: " + getExample());
+            }
+        } else {
+            if ((getUsage().length() + getExample().length()) > 0 ) {
+                b.append( " ...");
+            }
         }
 
-        subcommands.forEach( (c) -> { b.append(c.getHelp(level + 1)); });
 
+        subcommands.forEach( (c) -> { b.append(c.getHelp(level + 1, false)); });
 
         return b.toString();
     }

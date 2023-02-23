@@ -120,7 +120,7 @@ public class Action extends Command {
 
     private final static String AVATAR_MUTATION = "avatar-mutation";
     private final static String AVATAR_MUTATION_BATCH = "avatar-mutation-batch";
-    private final static String AVATAR_DRAW = "avatar-draw";
+    private final static String AVATAR_DRAW = "avatar-print";
     private final static String AVATAR_PRINT = "avatar-draw";
     private final static String AVATAR_RG_GENERATION = "avatar-rg";
     private final static String AVATAR_UPPAAL_VALIDATE = "avatar-rg-validate";
@@ -357,8 +357,11 @@ public class Action extends Command {
             }
 
             public String getDescription() {
-                return "Get the name of the  model under edition TTool. If a variable is provided as argument, the " +
-                        "result is saved into this variable";
+                return "Get the name of the  model under edition TTool";
+            }
+
+            public String getUsage() {
+                return "If a variable is provided as argument, the result is saved into this variable";
             }
 
             public String executeCommand(String command, Interpreter interpreter) {
@@ -708,8 +711,11 @@ public class Action extends Command {
             }
 
             public String getDescription() {
-                return "Generate the XML of a diplodocus model.\n<variable name>: variable in which the " +
-                        "XML specification is saved";
+                return "Generate the XML of a diplodocus model";
+            }
+
+            public String getUsage() {
+                return "<variable name>: variable in which the XML specification is saved";
             }
 
             public String executeCommand(String command, Interpreter interpreter) {
@@ -1123,9 +1129,6 @@ public class Action extends Command {
                 return "\n";
             }
 
-            public String getExample() {
-                return "ap";
-            }
 
             public String executeCommand(String command, Interpreter interpreter) {
 
@@ -1163,9 +1166,6 @@ public class Action extends Command {
                 return "\n";
             }
 
-            public String getExample() {
-                return "ad";
-            }
 
             public String executeCommand(String command, Interpreter interpreter) {
 

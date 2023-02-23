@@ -323,7 +323,7 @@ public class Interpreter implements Runnable, TerminalProviderInterface {
     public String getHelp() {
         StringBuffer buf = new StringBuffer("");
         for (Command c : commands) {
-            buf.append(c.getHelp(0) + "\n");
+            buf.append(c.getHelp(0, true) + "\n");
         }
         return buf.toString();
     }

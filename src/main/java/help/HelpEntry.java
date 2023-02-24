@@ -71,8 +71,11 @@ public class HelpEntry implements GenericTree {
     protected String[] keywords;
 
     protected String pathToHTMLFile;
+    protected String pathToMDFile;
+
     protected String htmlContent;
     protected String htmlContentLowerCase;
+    protected String mdContent;
 
 
     public HelpEntry() {
@@ -90,6 +93,10 @@ public class HelpEntry implements GenericTree {
         return pathToHTMLFile;
     }
 
+    public String getPathToMDFile() {
+        return pathToMDFile;
+    }
+
     // Infos are: file of name, master key, list of keywords
     public boolean fillInfos(String infos) {
         infos = infos.trim();
@@ -102,6 +109,7 @@ public class HelpEntry implements GenericTree {
         }
 
         pathToHTMLFile = splitted[0] + ".html";
+        pathToMDFile = splitted[0] + ".md";
 
         masterKeyword = splitted[1].replaceAll("_", " ");
 
@@ -187,13 +195,35 @@ public class HelpEntry implements GenericTree {
                 htmlContent = filterHTMLContent(htmlContent);
 
             } catch (Exception e) {
-                TraceManager.addDev("Exception when retreiving HTML of " + pathToHTMLFile);
+                TraceManager.addDev("Exception when retrieving HTML of " + pathToHTMLFile);
                 return "";
             }
         }
 
         return htmlContent;
     }
+
+    public String getMDContent() {
+        if (mdContent == null) {
+            try {
+                URL url = HelpManager.getURL(pathToMDFile);
+                URLConnection conn = url.openConnection();
+                BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream(), StandardCharsets.UTF_8));
+                mdContent = reader.lines().collect(Collectors.joining("\n"));
+                //TraceManager.addDev("htmlcontent=" + getHTMLContent());
+
+                //htmlContent = filterHTMLContent(htmlContent);
+
+            } catch (Exception e) {
+                TraceManager.addDev("Exception when retrieving HTML of " + pathToMDFile);
+                return "";
+            }
+        }
+
+        return mdContent;
+    }
+
+
 
     public void setHTMLContent(String HTMLContent) {
         htmlContentLowerCase = HTMLContent;
@@ -238,7 +268,6 @@ public class HelpEntry implements GenericTree {
     }
 
     public String printHierarchy(int n) {
-        String s = getHTMLContent();
         String ret = "";
         for (int i = 0; i < n; i++) {
             ret += "  ";

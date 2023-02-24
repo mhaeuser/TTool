@@ -59,9 +59,9 @@ import java.io.*;
 public class TToolCLI implements InterpreterOutputInterface {
 
     public static void printCopyright() {
-        System.out.println("ttool-cli: (C) Telecom ParisTech, Ludovic APVRILLE ludovic.apvrille");
+        System.out.println("ttool-cli: (C) Telecom Paris, Ludovic APVRILLE ludovic.apvrille@telecom-paris.fr");
         System.out.println("ttool-cli is released under a CECILL License. See http://www.cecill.info/index.en.html");
-        System.out.println("For more information on TTool related technologies, please consult http://ttool.telecom-paristech.fr/");
+        System.out.println("For more information on TTool related technologies, please consult http://ttool.telecom-paris.fr/");
         System.out.println("Enjoy!!!\n");
     }
 

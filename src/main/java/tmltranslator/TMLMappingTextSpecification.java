@@ -73,7 +73,7 @@ public class TMLMappingTextSpecification<E> {
     private ArrayList<TMLTXTError> errors;
     private ArrayList<TMLTXTError> warnings;
 
-    private static String keywords[] = {"MAP", "SET", "TMLMAPPING", "ENDTMLMAPPING", "TMLSPEC", "TMLARCHI", "ENDTMLSPEC", "ENDTMLARCHI"};
+    private static String keywords[] = {"MAP", "MAPSEC", "SET", "TMLMAPPING", "ENDTMLMAPPING", "TMLSPEC", "TMLARCHI", "ENDTMLSPEC", "ENDTMLARCHI"};
     private String beginArray[] = {"TMLSPEC", "TMLARCHI", "TMLMAPPING"};
     private String endArray[] = {"ENDTMLSPEC", "ENDTMLARCHI", "ENDTMLMAPPING"};
 
@@ -107,6 +107,14 @@ public class TMLMappingTextSpecification<E> {
 
     public String getSpec() {
         return spec;
+    }
+
+    public ArrayList<TMLTXTError> getErrors() {
+        return errors;
+    }
+
+    public ArrayList<TMLTXTError> getWarnings() {
+        return warnings;
     }
 
     public String indent(String _toIndent) {
@@ -194,6 +202,7 @@ public class TMLMappingTextSpecification<E> {
         spec += "TMLMAPPING" + CR;
         spec += makeMappingNodes(tmlmap);
         spec += makeMappingCommunicationNodes(tmlmap);
+        spec += makeMappingSecurityPatterns(tmlmap);
         spec += "ENDTMLMAPPING" + CR;
     }
 
@@ -237,6 +246,17 @@ public class TMLMappingTextSpecification<E> {
             }
         }
 
+        return tmp;
+    }
+
+    public String makeMappingSecurityPatterns(TMLMapping<E> tmlmap) {
+        String tmp = "";
+        for(SecurityPattern sp: tmlmap.mappedSecurity.keySet()) {
+            List<HwMemory> mems = tmlmap.mappedSecurity.get(sp);
+            for(HwMemory mem: mems) {
+                tmp += "MAPSEC " + prepareString(mem.getName()) + " " + prepareString(sp.getName()) + CR;
+            }
+        }
         return tmp;
     }
 

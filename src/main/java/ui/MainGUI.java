@@ -5511,7 +5511,13 @@ public class MainGUI implements ActionListener, WindowListener, KeyListener, Per
                 for(Object err: ts.getErrors()) {
                     gtm.addError(err.toString());
                 }
+                expandToWarnings();
+                expandToErrors();
                 return;
+            }
+
+            if (gtm.getCheckingWarnings().size() > 0) {
+                expandToWarnings();
             }
 
             try {
@@ -5527,10 +5533,23 @@ public class MainGUI implements ActionListener, WindowListener, KeyListener, Per
             TMLMappingTextSpecification ts = new TMLMappingTextSpecification(tmlfile.getName());
             boolean b = ts.makeTMLMapping(content, tmlfile.getParent() +  File.separator);
 
+            gtm.emptyWarningsAndErrors();
+            for(Object err: ts.getWarnings()) {
+                gtm.addWarning(err.toString());
+            }
+
             if (!b) {
                 TraceManager.addDev("Error in loaded tmap spec:\n" + ts.printErrors());
-
+                for(Object err: ts.getErrors()) {
+                    gtm.addError(err.toString());
+                }
+                expandToWarnings();
+                expandToErrors();
                 return;
+            }
+
+            if (gtm.getCheckingWarnings().size() > 0) {
+                expandToWarnings();
             }
 
 

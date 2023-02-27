@@ -806,6 +806,9 @@ public class TMLTextSpecification<E> {
                     }
                     SecurityPattern sp = new SecurityPattern(ccName, stringType, _split[6], _split[7], _split[4], _split[5], nonce, "",
                             key);
+                    if (securityPatternMap.get(ccName) == null) {
+                        tmlm.addSecurityPattern(sp);
+                    }
                     securityPatternMap.put(ccName, sp);
                     TraceManager.addDev("Security pattern " + ccName + " added");
                 }

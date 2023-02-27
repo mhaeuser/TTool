@@ -94,7 +94,8 @@ public class TMLTextSpecification<E> {
 
     private Map<String, SecurityPattern> securityPatternMap = new HashMap<String, SecurityPattern>();
 
-    private static String keywords[] = {"BOOL", "INT", "NAT", "CHANNEL", "EVENT", "REQUEST", "LOSSYCHANNEL", "VCCHANNEL",
+    private static String keywords[] = {"BOOL", "INT", "NAT", "CHANNEL", "EVENT", "REQUEST",
+            "LOSSYCHANNEL", "VCCHANNEL", "CONFCHANNEL", "AUTHCHANNEL",
             "LOSSYEVENT", "LOSSYREQUEST", "BRBW", "NBRNBW",
             "BRNBW", "INF", "NIB", "NINB", "TASK", "ENDTASK", "DAEMON", "TASKOP", "IF", "ELSE", "ORIF", "ENDIF", "FOR", "ENDFOR",
             "SELECTEVT", "CASE", "ENDSELECTEVT", "ENDCASE", "WRITE", "READ", "WAIT", "NOTIFY", "NOTIFIED", "NOTIFYREQUEST", "RAND", "CASERAND",
@@ -248,13 +249,7 @@ public class TMLTextSpecification<E> {
                 }
                 sb += SP + "OUT" + SP + ch.getOriginTask().getName() + SP + "IN" + SP + ch.getDestinationTask().getName() + CR;
 
-                if (ch.isLossy()) {
-                    sb += "LOSSYCHANNEL" + SP + ch.getName() + SP + ch.getLossPercentage() + SP + ch.getMaxNbOfLoss() + CR;
-                }
 
-                if (ch.getVC() >= 0) {
-                    sb += "VCCHANNEL" + SP + ch.getName() + SP + ch.getVC() + CR;
-                }
             } else {
                 sb += "CHANNEL" + SP + ch.getName() + SP + TMLChannel.getStringType(ch.getType()) + SP + ch.getSize();
                 if (!ch.isInfinite()) {
@@ -272,18 +267,26 @@ public class TMLTextSpecification<E> {
                 }
                 sb += CR;
 
-
-                if (ch.isLossy()) {
-                    sb += "LOSSYCHANNEL" + SP + ch.getName() + SP + ch.getLossPercentage() + SP + ch.getMaxNbOfLoss() + CR;
                 }
 
-                if (ch.getVC() >= 0) {
-                    sb += "VCCHANNEL" + SP + ch.getName() + SP + ch.getVC() + CR;
-                }
+
+            if (ch.isLossy()) {
+                sb += "LOSSYCHANNEL" + SP + ch.getName() + SP + ch.getLossPercentage() + SP + ch.getMaxNbOfLoss() + CR;
             }
 
+            if (ch.getVC() >= 0) {
+                sb += "VCCHANNEL" + SP + ch.getName() + SP + ch.getVC() + CR;
+            }
 
+            if (ch.isCheckConfChannel()) {
+                sb += "CONFCHANNEL" + SP + ch.getName() + SP + CR;
+            }
+
+            if (ch.isCheckAuthChannel()) {
+                sb += "AUTHCHANNEL" + SP + ch.getName() + SP + CR;
+            }
         }
+
         sb += CR;
 
         sb += "// Events" + CR;
@@ -999,7 +1002,7 @@ public class TMLTextSpecification<E> {
 
         if (isInstruction("VCCHANNEL", _split[0])) {
             if (!inDec) {
-                error = "A ycchannel may not be declared in a non-declaration part of a TML specification";
+                error = "A vcchannel may not be declared in a non-declaration part of a TML specification";
                 addError(0, _lineNb, 0, error);
                 return -1;
             }
@@ -1022,7 +1025,7 @@ public class TMLTextSpecification<E> {
 
             ch = tmlm.getChannelByName(_split[1]);
             if (ch == null) {
-                error = "vc channel not previously declared as a regular channel " + _split[1];
+                error = "vcc channel not previously declared as a regular channel " + _split[1];
                 addError(0, _lineNb, 0, error);
                 return -1;
             }
@@ -1036,6 +1039,62 @@ public class TMLTextSpecification<E> {
 
             ch.setVC(tmp0);
         } // VCCHANNEL
+
+        if (isInstruction("CONFCHANNEL", _split[0])) {
+            if (!inDec) {
+                error = "A confchannel may not be declared in a non-declaration part of a TML specification";
+                addError(0, _lineNb, 0, error);
+                return -1;
+            }
+
+            if (_split.length != 2) {
+                error = "A confchannel must be declared with exactly 1 parameter, and not " + (_split.length - 1);
+                addError(0, _lineNb, 0, error);
+                return -1;
+            }
+
+
+            if (!checkParameter("CONFCHANNEL", _split, 1, 0, _lineNb)) {
+                return -1;
+            }
+
+            ch = tmlm.getChannelByName(_split[1]);
+            if (ch == null) {
+                error = "conf channel not previously declared as a regular channel " + _split[1];
+                addError(0, _lineNb, 0, error);
+                return -1;
+            }
+
+            ch.checkConf = true;
+        } // CONFCHANNEL
+
+        if (isInstruction("AUTHCHANNEL", _split[0])) {
+            if (!inDec) {
+                error = "An authchannel may not be declared in a non-declaration part of a TML specification";
+                addError(0, _lineNb, 0, error);
+                return -1;
+            }
+
+            if (_split.length != 2) {
+                error = "An authchannel must be declared with exactly 1 parameter, and not " + (_split.length - 1);
+                addError(0, _lineNb, 0, error);
+                return -1;
+            }
+
+
+            if (!checkParameter("AUTHCHANNEL", _split, 1, 0, _lineNb)) {
+                return -1;
+            }
+
+            ch = tmlm.getChannelByName(_split[1]);
+            if (ch == null) {
+                error = "auth channel not previously declared as a regular channel " + _split[1];
+                addError(0, _lineNb, 0, error);
+                return -1;
+            }
+
+            ch.checkAuth = true;
+        } // AUTHCHANNEL
 
         // EVENT
         if (isInstruction("EVENT", _split[0])) {

@@ -269,6 +269,17 @@ public class DrawerTMLModeling  {
         // Connecting the ports
         addPortConnector(p1, p2, panel);
 
+        if (chan.checkConf) {
+            p1.checkConf = true;
+            p1.checkConfStatus = TMLCPrimitivePort.TOCHECK;
+        }
+
+        if (chan.checkAuth) {
+            p2.checkAuth = true;
+            p2.checkStrongAuthStatus =  TMLCPrimitivePort.TOCHECK;
+            p2.checkWeakAuthStatus = TMLCPrimitivePort.TOCHECK;
+        }
+
     }
 
     // Assumes 1 to 1 event

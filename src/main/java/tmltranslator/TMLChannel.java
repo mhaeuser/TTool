@@ -40,11 +40,9 @@
 package tmltranslator;
 
 import myutil.TraceManager;
-import ui.tmlcompd.TMLCPrimitivePort;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 /**
  * Class TMLChannel
@@ -61,35 +59,26 @@ public class TMLChannel extends TMLCommunicationElement {
 
     public boolean checkConf; // confidentiality is selected for this channel
     public boolean checkAuth; // authenticity (weak & strong) is selected for this channel
-    private int size; // width of the channel i.e. nb of bytes of each sample
-    private int type;
-    private int max; // Maximum number of samples
-
-
     public TMLPortWithSecurityInformation port;
     public ArrayList<TMLPortWithSecurityInformation> ports;
-
+    public ArrayList<TMLTask> originalOriginTasks = new ArrayList<TMLTask>();
+    public ArrayList<TMLTask> originalDestinationTasks = new ArrayList<TMLTask>();
     // Used on for 1 -> 1 channel
     protected TMLTask originTask, destinationTask;
     protected TMLPort originPort, destinationPort; // Not used by the simulator
-
     // Used for 1 -> many channel, or for many -> 1 channel
     protected ArrayList<TMLTask> originTasks, destinationTasks;
     protected ArrayList<TMLPort> originPorts, destinationPorts;
-
     protected int nbOfSamples = 1; // Represent how many samples are read (join) or written (fork) at once
-
-
+    private int size; // width of the channel i.e. nb of bytes of each sample
+    private int type;
+    private int max; // Maximum number of samples
     private String TAB = "\t";
     private String TAB2 = "\t\t";
     private String CR = "\n";
     private String SP = " ";
     private int priority;
-
     private int vc = 0;
-    
-    public ArrayList<TMLTask> originalOriginTasks = new ArrayList<TMLTask>(); 
-    public ArrayList<TMLTask> originalDestinationTasks = new ArrayList<TMLTask>(); 
     //A reference to the original origin and destination tasks
 
 
@@ -103,6 +92,17 @@ public class TMLChannel extends TMLCommunicationElement {
         checkConf = false;
     }
 
+    public static String getStringType(int type) {
+        switch (type) {
+            case BRBW:
+                return "BRBW";
+            case BRNBW:
+                return "BRNBW";
+            case NBRNBW:
+                return "NBRNBW";
+        }
+        return "unknown type";
+    }
 
     public boolean hasDestinationTask(TMLTask t) {
         if (destinationTask == t) {
@@ -186,19 +186,22 @@ public class TMLChannel extends TMLCommunicationElement {
 
     }
 
+    public int getNumberOfSamples() {
+        return nbOfSamples;
+    }
+
     public void setNumberOfSamples(int nbOfSamples) {
         this.nbOfSamples = nbOfSamples;
     }
 
-    public int getNumberOfSamples() { return nbOfSamples;}
+    public int getVC() {
+        return vc;
+    }
 
     public void setVC(int vc) {
         TraceManager.addDev("Setting VC to " + vc + " for channel " + getName());
         this.vc = vc;
     }
-
-    public int getVC() { return vc;}
-
 
     public TMLTask getDestinationTask(int index) {
         return destinationTasks.get(index);
@@ -280,7 +283,7 @@ public class TMLChannel extends TMLCommunicationElement {
             return null;
         }
 
-        for (TMLPort port :originPorts) {
+        for (TMLPort port : originPorts) {
             //TraceManager.addDev("Dest portm=" + port.getName());
             if (port.getName().compareTo(name) == 0) {
                 //TraceManager.addDev("Foundm");
@@ -292,18 +295,17 @@ public class TMLChannel extends TMLCommunicationElement {
 
     }
 
-
-    // Complex channels
-    public boolean isBasicChannel() {
-        return (originTasks.size() == 0);
-    }
-
     /*public void removeComplexInformation() {
         originTasks = new ArrayList<TMLTask>();
         destinationTasks = new ArrayList<TMLTask>();
         originPorts = new ArrayList<TMLPort>();
         destinationPorts = new ArrayList<TMLPort>();
 	}*/
+
+    // Complex channels
+    public boolean isBasicChannel() {
+        return (originTasks.size() == 0);
+    }
 
     public boolean isBadComplexChannel() {
         if ((originTasks.size() == 1) && (destinationTasks.size() >= 1)) {
@@ -371,19 +373,10 @@ public class TMLChannel extends TMLCommunicationElement {
         destinationPorts = new ArrayList<TMLPort>();
     }
 
-
     // Basic channels
     public void setTasks(TMLTask _origin, TMLTask _destination) {
         originTask = _origin;
         destinationTask = _destination;
-    }
-
-    public void setOriginTask(TMLTask t) {
-        originTask = t;
-    }
-
-    public void setDestinationTask(TMLTask t) {
-        destinationTask = t;
     }
 
     public void setPorts(TMLPort _origin, TMLPort _destination) {
@@ -395,8 +388,16 @@ public class TMLChannel extends TMLCommunicationElement {
         return originTask;
     }
 
+    public void setOriginTask(TMLTask t) {
+        originTask = t;
+    }
+
     public TMLTask getDestinationTask() {
         return destinationTask;
+    }
+
+    public void setDestinationTask(TMLTask t) {
+        destinationTask = t;
     }
 
     public TMLTask getSystemOriginTask() {
@@ -417,7 +418,6 @@ public class TMLChannel extends TMLCommunicationElement {
         return destinationTask;
     }
 
-
     public TMLPort getOriginPort() {
         return originPort;
     }
@@ -426,32 +426,28 @@ public class TMLChannel extends TMLCommunicationElement {
         return destinationPort;
     }
 
-    public void setPriority(int _priority) {
-        priority = _priority;
-    }
-
     public int getPriority() {
         return priority;
     }
 
-    public void setSize(int _size) {
-        size = _size;
+    public void setPriority(int _priority) {
+        priority = _priority;
     }
 
     public int getSize() {
         return size;
     }
 
-    public void setMax(int _max) {
-        max = _max;
+    public void setSize(int _size) {
+        size = _size;
     }
 
     public int getMax() {
         return max;
     }
 
-    public void setType(int _type) {
-        type = _type;
+    public void setMax(int _max) {
+        max = _max;
     }
 
     public void setTypeByName(String _name) {
@@ -471,24 +467,16 @@ public class TMLChannel extends TMLCommunicationElement {
         return type;
     }
 
+    public void setType(int _type) {
+        type = _type;
+    }
+
     public boolean isInfinite() {
         return (type != 0);
     }
 
     public String getNameExtension() {
         return "channel__";
-    }
-
-    public static String getStringType(int type) {
-        switch (type) {
-            case BRBW:
-                return "BRBW";
-            case BRNBW:
-                return "BRNBW";
-            case NBRNBW:
-                return "NBRNBW";
-        }
-        return "unknown type";
     }
 
     public boolean isBlockingAtOrigin() {
@@ -660,10 +648,31 @@ public class TMLChannel extends TMLCommunicationElement {
 
     public String getSecurityPorts() {
         String ret = "";
-        for(TMLPortWithSecurityInformation port : ports) {
+        for (TMLPortWithSecurityInformation port : ports) {
             ret += port.toString() + "  ";
         }
         return ret;
+    }
+
+    public boolean isCheckConfChannel() {
+        if (checkConf) {
+            return true;
+        }
+
+        if ((port != null) && port.getCheckConf()) {
+            return true;
+        }
+
+        if (ports != null) {
+            for (TMLPortWithSecurityInformation p : ports) {
+                if (p.getCheckConf()) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+
     }
 
     public boolean isCheckAuthChannel() {
@@ -671,7 +680,7 @@ public class TMLChannel extends TMLCommunicationElement {
             return true;
         }
 
-        if ( (port != null) && port.getCheckAuth() ) {
+        if ((port != null) && port.getCheckAuth()) {
             return true;
         }
 

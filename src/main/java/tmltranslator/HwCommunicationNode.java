@@ -53,6 +53,8 @@ import java.util.Objects;
 public abstract class HwCommunicationNode extends HwNode  {
     
     // Security
+    public static final String[] BUS_PRIVACY = {"public", "private"};
+
     public static final int BUS_PUBLIC = 0;
     public static final int BUS_PRIVATE = 1;
    

@@ -78,7 +78,7 @@ public class TMLArchiTextSpecification {
             "maxConsecutiveIdleCycles", "reconfigurationTime", "execiTime", "execcTime", "scheduling", "clockDivider"};
     private String linkparameters[] = {"bus", "node", "priority"};
     private String hwaparameters[] = {"byteDataSize", "execiTime", "execcTime", "clockDivider"};
-    private String busparameters[] = {"byteDataSize", "pipelineSize", "arbitration", "sliceTime", "clockDivider", "burstsize"};
+    private String busparameters[] = {"byteDataSize", "pipelineSize", "arbitration", "sliceTime", "clockDivider", "burstsize", "privacy"};
     private String bridgeparameters[] = {"bufferByteSize", "clockDivider"};
     private String memoryparameters[] = {"byteDataSize", "clockDivider"};
     private String nocparameters[] = {"bufferbytesize", "nocSize", "clockdivider"};
@@ -783,6 +783,10 @@ public class TMLArchiTextSpecification {
 
                     if (_split[2].toUpperCase().equals("BURSTSIZE")) {
                         bus.burstSize = Integer.decode(_split[3]).intValue();
+                    }
+
+                    if (_split[2].toUpperCase().equals("PRIVACY")) {
+                        bus.privacy = _split[3].equals("public") ? HwCommunicationNode.BUS_PUBLIC : HwCommunicationNode.BUS_PRIVATE ;
                     }
                 }
 

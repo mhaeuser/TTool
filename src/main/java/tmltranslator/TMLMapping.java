@@ -1977,4 +1977,19 @@ public class TMLMapping<E> {
 
     }
 
+    public void addSecurityPattern(HwMemory _mem, SecurityPattern _sp) {
+        List<HwMemory> mems = mappedSecurity.get(_sp);
+        if (mems == null) {
+            mems = new LinkedList<>();
+            mems.add(_mem);
+            mappedSecurity.put(_sp, mems);
+        } else {
+            mems.add(_mem);
+        }
+    }
+
+    public List<HwMemory> getListBySecurityPattern(SecurityPattern _sp) {
+        return mappedSecurity.get(_sp);
+    }
+
 }

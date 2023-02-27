@@ -5516,7 +5516,7 @@ public class MainGUI implements ActionListener, WindowListener, KeyListener, Per
                 return;
             }
 
-            if (gtm.getCheckingWarnings().size() > 0) {
+            if ((gtm.getCheckingWarnings() != null) && (gtm.getCheckingWarnings().size() > 0)) {
                 expandToWarnings();
             }
 
@@ -5548,7 +5548,7 @@ public class MainGUI implements ActionListener, WindowListener, KeyListener, Per
                 return;
             }
 
-            if (gtm.getCheckingWarnings().size() > 0) {
+            if ((gtm.getCheckingWarnings() != null) && (gtm.getCheckingWarnings().size() > 0)) {
                 expandToWarnings();
             }
 

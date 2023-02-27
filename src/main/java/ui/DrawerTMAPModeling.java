@@ -118,6 +118,8 @@ public class DrawerTMAPModeling {
         makeTaskMapping(tmap, panel.tmlap);
 
         makeChannelMapping(tmap, panel.tmlap);
+
+        makeSecurityMapping(tmap, panel.tmlap);
     }
 
     private void makeBuses(TMLMapping tmap, TMLArchiDiagramPanel panel) throws MalformedTMLDesignException {
@@ -157,8 +159,10 @@ public class DrawerTMAPModeling {
     private void makeOtherComponentsFromLinks(TMLMapping tmap, TMLArchiDiagramPanel panel) throws MalformedTMLDesignException {
         int cpuIndex = 50;
         int memoryIndex = 75;
+        int bridgeIndex = 275;
         final int cpuY = 50;
         final int memY = 550;
+        final int bridgeY = 250;
 
         for (HwLink link : tmap.getArch().getHwLinks()) {
             TGComponent compBus = nodeMap.get(link.bus);
@@ -182,15 +186,17 @@ public class DrawerTMAPModeling {
                     tgc = addMemory((HwMemory) (link.hwnode), link.bus, panel, memoryIndex, memY);
                     memoryIndex += X_SPACE;
                 } else if (link.hwnode instanceof HwBridge) {
-                    tgc = addBridge((HwBridge) (link.hwnode), link.bus, panel, memoryIndex, memY);
-                    memoryIndex += X_SPACE;
+                    //TraceManager.addDev("Checking for bridge: " + link.hwnode.getName());
+                    tgc = addBridge((HwBridge) (link.hwnode), link.bus, panel, bridgeIndex, bridgeY);
+                    bridgeIndex += X_SPACE;
+                }
+                if (tgc != null) {
+                    nodeMap.put(link.hwnode, tgc);
+                    panel.addBuiltComponent(tgc);
                 }
             }
 
             check(tgc != null, "Invalid component: could not be added: " + link.hwnode.getClass().getName() + " is not supported");
-
-            panel.addBuiltComponent(tgc);
-            nodeMap.put(link.hwnode, tgc);
             addLinkConnector(tgc, compBus, panel);
         }
     }
@@ -346,6 +352,29 @@ public class DrawerTMAPModeling {
             }
 
             panel.addComponent(artifact, p.x, p.y, true, true);
+        }
+    }
+
+    @SuppressWarnings("unchecked")
+    private void makeSecurityMapping(TMLMapping tmap, TMLArchiDiagramPanel panel) throws MalformedTMLDesignException {
+        for(Object obj: tmap.mappedSecurity.keySet()) {
+            if (obj instanceof SecurityPattern) {
+                SecurityPattern sp = (SecurityPattern) obj;
+                List<HwMemory> mems = tmap.getListBySecurityPattern(sp);
+                for(HwMemory mem: mems) {
+                    TraceManager.addDev("Found a memory " + mem.getName() + " for security pattern " + sp.getName());
+                    TGComponent tgc = nodeMap.get(mem);
+                    check(tgc != null, "No graphical component corresponding to memory node " + mem.getName());
+                    check(tgc instanceof SwallowTGComponent && tgc instanceof TMLArchiElementInterface,
+                            "Invalid graphical component for task " + mem.getName());
+                    Point p = getRandomCoordinate(tgc);
+                    TMLArchiKey artifact = new TMLArchiKey(p.x, p.y, panel.getMinX(), panel.getMaxX(),
+                            panel.getMinY(), panel.getMaxY(), false, tgc, panel);
+                    artifact.setReferenceKey(sp.getName());
+                    artifact.makeFullValue();
+                    panel.addComponent(artifact, p.x, p.y, true, true);
+                }
+            }
         }
     }
 

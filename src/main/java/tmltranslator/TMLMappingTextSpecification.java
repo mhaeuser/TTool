@@ -1,26 +1,26 @@
 /* Copyright or (C) or Copr. GET / ENST, Telecom-Paris, Ludovic Apvrille
- * 
+ *
  * ludovic.apvrille AT enst.fr
- * 
+ *
  * This software is a computer program whose purpose is to allow the
  * edition of TURTLE analysis, design and deployment diagrams, to
  * allow the generation of RT-LOTOS or Java code from this diagram,
  * and at last to allow the analysis of formal validation traces
  * obtained from external tools, e.g. RTL from LAAS-CNRS and CADP
  * from INRIA Rhone-Alpes.
- * 
+ *
  * This software is governed by the CeCILL  license under French law and
  * abiding by the rules of distribution of free software.  You can  use,
  * modify and/ or redistribute the software under the terms of the CeCILL
  * license as circulated by CEA, CNRS and INRIA at the following URL
  * "http://www.cecill.info".
- * 
+ *
  * As a counterpart to the access to the source code and  rights to copy,
  * modify and redistribute granted by the license, users are provided only
  * with a limited warranty  and the software's author,  the holder of the
  * economic rights,  and the successive licensors  have only  limited
  * liability.
- * 
+ *
  * In this respect, the user's attention is drawn to the risks associated
  * with loading,  using,  modifying and/or developing or reproducing the
  * software by the user in light of its specific status of free software,
@@ -31,7 +31,7 @@
  * requirements in conditions enabling the security of their systems and/or
  * data to be ensured and,  more generally, to use and operate it in the
  * same conditions as regards security.
- * 
+ *
  * The fact that you are presently reading this means that you have had
  * knowledge of the CeCILL license and that you accept its terms.
  */
@@ -63,17 +63,14 @@ public class TMLMappingTextSpecification<E> {
     public final static String SP = " ";
     public final static String CR2 = "\n\n";
     public final static String SC = ";";
-
+    private static String keywords[] = {"MAP", "MAPSEC", "SET", "TMLMAPPING", "ENDTMLMAPPING", "TMLSPEC", "TMLARCHI", "ENDTMLSPEC", "ENDTMLARCHI"};
     private TMLTextSpecification<E> tmlmtxt;
     private TMLArchiTextSpecification tmlatxt;
     private String spec;
     private String title;
-
     private TMLMapping<E> tmlmap;
     private ArrayList<TMLTXTError> errors;
     private ArrayList<TMLTXTError> warnings;
-
-    private static String keywords[] = {"MAP", "MAPSEC", "SET", "TMLMAPPING", "ENDTMLMAPPING", "TMLSPEC", "TMLARCHI", "ENDTMLSPEC", "ENDTMLARCHI"};
     private String beginArray[] = {"TMLSPEC", "TMLARCHI", "TMLMAPPING"};
     private String endArray[] = {"ENDTMLSPEC", "ENDTMLARCHI", "ENDTMLMAPPING"};
 
@@ -82,6 +79,16 @@ public class TMLMappingTextSpecification<E> {
 
     public TMLMappingTextSpecification(String _title) {
         title = _title;
+    }
+
+    public static boolean checkKeywords(String _id) {
+        String id = _id.toUpperCase();
+        for (int i = 0; i < keywords.length; i++) {
+            if (id.compareTo(keywords[i]) == 0) {
+                return false;
+            }
+        }
+        return true;
     }
 
     public void saveFile(String path, String filename) throws FileException {
@@ -251,23 +258,12 @@ public class TMLMappingTextSpecification<E> {
 
     public String makeMappingSecurityPatterns(TMLMapping<E> tmlmap) {
         String tmp = "";
-        for(SecurityPattern sp: tmlmap.mappedSecurity.keySet()) {
+        for (SecurityPattern sp : tmlmap.mappedSecurity.keySet()) {
             List<HwMemory> mems = tmlmap.mappedSecurity.get(sp);
-            for(HwMemory mem: mems) {
+            for (HwMemory mem : mems) {
                 tmp += "MAPSEC " + prepareString(mem.getName()) + " " + prepareString(sp.getName()) + CR;
             }
         }
-        return tmp;
-    }
-
-    public String makeHeader(String _filename) {
-        String tmp = "";
-        tmp += "TMLSPEC" + CR;
-        tmp += "#include \"" + _filename + ".tml\"" + CR;
-        tmp += "ENDTMLSPEC" + CR2;
-        tmp += "TMLARCHI" + CR;
-        tmp += "#include \"" + _filename + ".tarchi\"" + CR;
-        tmp += "ENDTMLARCHI" + CR;
         return tmp;
     }
 
@@ -399,6 +395,17 @@ public class TMLMappingTextSpecification<E> {
       return sb;
       }*/
 
+    public String makeHeader(String _filename) {
+        String tmp = "";
+        tmp += "TMLSPEC" + CR;
+        tmp += "#include \"" + _filename + ".tml\"" + CR;
+        tmp += "ENDTMLSPEC" + CR2;
+        tmp += "TMLARCHI" + CR;
+        tmp += "#include \"" + _filename + ".tarchi\"" + CR;
+        tmp += "ENDTMLARCHI" + CR;
+        return tmp;
+    }
+
     public boolean makeTMLMapping(String _spec, String path) {
 
         DIPLOElement.resetID();
@@ -429,7 +436,6 @@ public class TMLMappingTextSpecification<E> {
 
         return (errors.size() == 0);
     }
-
 
     public TMLModeling<E> makeTMLModeling() {
         TMLTextSpecification<E> t = new TMLTextSpecification<>("from file");
@@ -595,6 +601,13 @@ public class TMLMappingTextSpecification<E> {
         errors.add(error);
     }
 
+    // Type 0: id
+    // Type 1: numeral
+    // Type 3: Task parameter
+    // Type 5: '='
+    // Type 6: attribute value
+    // Type 7: id or numeral
+
     public int analyseInstruction(String _line, int _lineNb, String[] _split) {
         String error;
         //  String params;
@@ -698,6 +711,45 @@ public class TMLMappingTextSpecification<E> {
 
         } // SET
 
+
+        // MAPSEC
+        if (isInstruction("MAPSEC", _split[0])) {
+
+            if (_split.length != 3) {
+                error = "A MAP instruction must be used with 2 parameters, and not " + (_split.length - 1);
+                addError(0, _lineNb, 0, error, _line);
+                return -1;
+            }
+
+            if (!checkParameter("MAP", _split, 1, 0, _lineNb, _line)) {
+                return -1;
+            }
+
+            if (!checkParameter("MAP", _split, 2, 0, _lineNb, _line)) {
+                return -1;
+            }
+
+            hwcommnode = tmlmap.getHwCommunicationNodeByName(_split[1]);
+            if (hwcommnode == null) {
+                error = "No memory named " + _split[1];
+                addError(0, _lineNb, 0, error, _line);
+                return -1;
+            } else if (!(hwcommnode instanceof HwMemory)) {
+                error = "Security pattern should be mapped to a memory only. " + _split[1] + " is not a memory";
+                addError(0, _lineNb, 0, error, _line);
+                return -1;
+            } else {
+                SecurityPattern sp = tmlmap.getSecurityPatternByName(_split[2]);
+                if (sp == null) {
+                    error = "No security configuration named " + _split[2];
+                    addError(0, _lineNb, 0, error, _line);
+                    return -1;
+                }
+                tmlmap.addSecurityPattern((HwMemory) hwcommnode, sp);
+            }
+
+        } // MAPSEC
+
         // Other command
         if ((_split[0].length() > 0) && (!(isInstruction(_split[0])))) {
             error = "Syntax error in mapping information: unrecognized instruction: " + _split[0];
@@ -708,13 +760,6 @@ public class TMLMappingTextSpecification<E> {
 
         return 0;
     }
-
-    // Type 0: id
-    // Type 1: numeral
-    // Type 3: Task parameter
-    // Type 5: '='
-    // Type 6: attribute value
-    // Type 7: id or numeral
 
     public boolean checkParameter(String _inst, String[] _split, int _parameter, int _type, int _lineNb, String _line) {
         boolean err = false;
@@ -803,16 +848,6 @@ public class TMLMappingTextSpecification<E> {
 
     public boolean isANumeral(String _num) {
         return _num.matches("\\d*");
-    }
-
-    public static boolean checkKeywords(String _id) {
-        String id = _id.toUpperCase();
-        for (int i = 0; i < keywords.length; i++) {
-            if (id.compareTo(keywords[i]) == 0) {
-                return false;
-            }
-        }
-        return true;
     }
 
     public boolean isIncluded(String _id, String[] _list) {

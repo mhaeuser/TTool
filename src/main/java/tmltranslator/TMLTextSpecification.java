@@ -75,6 +75,8 @@ public class TMLTextSpecification<E> {
     public final static String HASH = "HASH";
     public final static String ADV = "ADV";
 
+    public final static String EMPTY_KEY_NONCE = "-";
+
 
     private String spec;
     private String title;
@@ -429,7 +431,20 @@ public class TMLTextSpecification<E> {
                 } else {
                     type = ADV;
                 }
-                code = "EXECC" + SP + modifyString(((TMLExecC) elt).getAction()) + SP + elt.securityPattern.name + SP + type + SP + elt.securityPattern.encTime + SP + elt.securityPattern.decTime + SP + elt.securityPattern.overhead + SP + elt.securityPattern.size + SP + elt.securityPattern.nonce + SP + elt.securityPattern.key + CR;
+
+                String nonce = elt.securityPattern.nonce;
+                if (nonce.length() == 0) {
+                    nonce = EMPTY_KEY_NONCE;
+                }
+
+                String key = elt.securityPattern.nonce;
+                if (key.length() == 0) {
+                    key = EMPTY_KEY_NONCE;
+                }
+
+                code = "EXECC" + SP + modifyString(((TMLExecC) elt).getAction()) + SP + elt.securityPattern.name + SP + type + SP +
+                        elt.securityPattern.encTime + SP + elt.securityPattern.decTime + SP + elt.securityPattern.overhead + SP +
+                        elt.securityPattern.size + SP + nonce + SP + key + CR;
             }
             return code + makeBehavior(task, elt.getNextElement(0));
 
@@ -705,7 +720,7 @@ public class TMLTextSpecification<E> {
             while ((s = br.readLine()) != null) {
                 if (s != null) {
                     s = s.trim();
-                    //TraceManager.addDev("s=" + s);
+                    //TraceManager.addDev("line=" + s);
                     s = removeUndesiredWhiteSpaces(s, lineNb);
                     s1 = Conversion.replaceAllString(s, "\t", " ");
                     s1 = Conversion.replaceRecursiveAllString(s1, "  ", " ");
@@ -733,7 +748,7 @@ public class TMLTextSpecification<E> {
             while ((s = br.readLine()) != null) {
                 if (s != null) {
                     s = s.trim();
-                    //TraceManager.addDev("s=" + s);
+                    TraceManager.addDev("line=" + s);
                     s = removeUndesiredWhiteSpaces(s, lineNb);
                     s1 = Conversion.replaceAllString(s, "\t", " ");
                     s1 = Conversion.replaceRecursiveAllString(s1, "  ", " ");
@@ -758,10 +773,13 @@ public class TMLTextSpecification<E> {
 
     public void findSec(String[] _split) {
         if (isInstruction(_split[0], "EXECC")) {
-            if (_split.length > 4) {
-                String ccName = _split[3];
-                String type = _split[4];
+
+            if (_split.length > 9) {
+                TraceManager.addDev("Found EXECC in: " + _split.length + " name=" + _split[2] + " type=" + _split[3]);
+                String ccName = _split[2];
+                String type = _split[3];
                 String stringType = "";
+
                 if (type.equals(AENCRYPT)) {
                     stringType = "Symmetric Encryption";
                 } else if (type.equals(SENCRYPT)) {
@@ -775,9 +793,21 @@ public class TMLTextSpecification<E> {
                 } else if (type.equals(ADV)) {
                     stringType = "Advanced";
                 }
-                if (!stringType.equals("")) {
-                    SecurityPattern sp = new SecurityPattern(ccName, stringType, _split[6], _split[7], _split[4], _split[5], _split[8], "", _split[9]);
+
+                if (stringType.length() > 0) {
+                    TraceManager.addDev("Found security pattern: " + ccName + " with type: " + stringType);
+                    String nonce = _split[8];
+                    if (_split[7].compareTo(EMPTY_KEY_NONCE) == 0) {
+                        nonce = "";
+                    }
+                    String key = _split[9];
+                    if (_split[8].compareTo(EMPTY_KEY_NONCE) == 0) {
+                        key = "";
+                    }
+                    SecurityPattern sp = new SecurityPattern(ccName, stringType, _split[6], _split[7], _split[4], _split[5], nonce, "",
+                            key);
                     securityPatternMap.put(ccName, sp);
+                    TraceManager.addDev("Security pattern " + ccName + " added");
                 }
             }
         }
@@ -2728,19 +2758,27 @@ public class TMLTextSpecification<E> {
             inTask = true;
             inTaskDec = false;
             //     inTaskBehavior = true;
-            if (_split.length > 4) {
+
+            TraceManager.addDev("Found EXECC " + _split);
+
+            if (_split.length == 10) {
                 if (securityPatternMap.containsKey(_split[2])) {
                     //Security operation
+                    TraceManager.addDev("Found security pattern: " + _split[2]);
                     TMLExecC execc = new TMLExecC("execc", null);
                     execc.setAction(_split[1]);
                     execc.securityPattern = securityPatternMap.get(_split[2]);
                     tmlae.addNext(execc);
                     task.getActivityDiagram().addElement(execc);
                     tmlae = execc;
+                } else {
+                    error = "An EXECC with a security configuration must contain a valid security configuration name " + (_split[2]);
+                    addError(0, _lineNb, 0, error);
+                    return -1;
                 }
             } else {
                 if ((_split.length < 2) || (_split.length > 4)) {
-                    error = "An EXECC operation must be declared with 1, 2 parameters, and not " + (_split.length - 1);
+                    error = "An EXECC operation must be declared with 1, 2 or 9 parameters, and not " + (_split.length - 1);
                     addError(0, _lineNb, 0, error);
                     return -1;
                 }

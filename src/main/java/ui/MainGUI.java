@@ -5501,9 +5501,16 @@ public class MainGUI implements ActionListener, WindowListener, KeyListener, Per
             // Get TML Modeling from content
             TMLTextSpecification ts = new TMLTextSpecification(tmlfile.getName());
             boolean b = ts.makeTMLModeling(content);
+            gtm.emptyWarningsAndErrors();
+            for(Object err: ts.getWarnings()) {
+                gtm.addWarning(err.toString());
+            }
 
             if (!b) {
                 TraceManager.addDev("Error in loaded tml spec");
+                for(Object err: ts.getErrors()) {
+                    gtm.addError(err.toString());
+                }
                 return;
             }
 

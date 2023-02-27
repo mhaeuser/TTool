@@ -66,4 +66,11 @@ public class TMLTXTError {
     public TMLTXTError(int _type) {
         type = _type;
     }
+
+    public String toString() {
+        if (lineString != null) {
+            return "line " + lineNb + "(" + lineString.substring(0, 15) + "): " + message;
+        }
+        return "line " + lineNb + ": " + message;
+    }
 }

@@ -1954,6 +1954,27 @@ public class GTURTLEModeling {
         TraceManager.addDev("Mapping finished");
     }
 
+    public void emptyWarningsAndErrors() {
+        warnings = null;
+        checkingErrors = null;
+    }
+
+    public void addWarning(String _message) {
+        if (warnings == null) {
+            warnings = new LinkedList<>();
+        }
+        CheckingError ce = new CheckingError(CheckingError. STRUCTURE_ERROR, _message);
+        warnings.add(ce);
+    }
+
+    public void addError(String _message) {
+        if (checkingErrors == null) {
+            checkingErrors = new LinkedList<>();
+        }
+        CheckingError ce = new CheckingError(CheckingError. STRUCTURE_ERROR, _message);
+        checkingErrors.add(ce);
+    }
+
     public boolean generateFullAvatarFromTML() {
         /*if (tmlm != null && tmap == null) {
             tmap = tmlm.getDefaultMapping();

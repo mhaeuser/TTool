@@ -41,6 +41,7 @@
 package tmltranslator;
 
 import avatartranslator.AvatarState;
+import myutil.TraceManager;
 
 import java.util.Objects;
 
@@ -61,24 +62,29 @@ public class SecurityPattern {
     public String key;
     public String algorithm = "";
 
-    public SecurityPattern(String _name, String _type, String _overhead, String _size, String _enctime, String _dectime, String _nonce, String _formula, String _key) {
+    public SecurityPattern(String _name, String _type, String _overhead, String _size, String _enctime, String _dectime, String _nonce,
+                           String _formula, String _key) {
         this.name = _name;
         this.type = _type;
         this.nonce = _nonce;
         this.formula = _formula;
         this.key = _key;
-        if (!_overhead.equals("")) {
-            this.overhead = Integer.valueOf(_overhead);
-        }
-        if (!_size.equals("")) {
-            this.size = Integer.valueOf(_size);
-        }
-        if (!_dectime.equals("")) {
-            this.decTime = Integer.valueOf(_dectime);
-        }
-        if (!_enctime.equals("")) {
-            this.encTime = Integer.valueOf(_enctime);
-        }
+        try {
+            TraceManager.addDev("overhead=" + _overhead);
+            this.overhead = Integer.parseInt(_overhead);
+        } catch (NumberFormatException e) {}
+        try {
+            TraceManager.addDev("size=" + _size);
+            this.size = Integer.parseInt(_size);
+        } catch (NumberFormatException e) {}
+        try {
+            TraceManager.addDev("decTime=" + _dectime);
+            this.decTime = Integer.parseInt(_dectime);
+        } catch (NumberFormatException e) {}
+        try {
+            TraceManager.addDev("enctime=" + _enctime);
+            this.encTime = Integer.parseInt(_enctime);
+        } catch (NumberFormatException e) {}
     }
 
     public String toXML() {

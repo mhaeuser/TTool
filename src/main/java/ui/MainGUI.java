@@ -5497,7 +5497,6 @@ public class MainGUI implements ActionListener, WindowListener, KeyListener, Per
 
         // tml or tmap?
         if (tmlfile.getName().endsWith("tml")) {
-
             // Get TML Modeling from content
             TMLTextSpecification ts = new TMLTextSpecification(tmlfile.getName());
             boolean b = ts.makeTMLModeling(content);
@@ -5579,6 +5578,22 @@ public class MainGUI implements ActionListener, WindowListener, KeyListener, Per
 
         if (!b) {
             TraceManager.addDev("Error in loaded spec");
+            return null;
+        }
+
+        return ts;
+    }
+
+    public TMLMappingTextSpecification loadTMAPTxt(String fileName) {
+        File file = new File(fileName);
+        String content = loadFile(file);
+
+        // Get TML Modeling from content
+        TMLMappingTextSpecification ts = new TMLMappingTextSpecification(fileName);
+        boolean b = ts.makeTMLMapping(content, file.getParent() + File.separator);
+
+        if (!b) {
+            TraceManager.addDev("Error in loaded spec: " + content);
             return null;
         }
 

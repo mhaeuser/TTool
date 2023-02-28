@@ -98,6 +98,7 @@ public class DrawerTMLModeling  {
         hasError = false;
 
         if (tmlspec == null) {
+            TraceManager.addDev("Null TML spec");
             hasError = true;
             return;
         }

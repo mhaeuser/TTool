@@ -57,6 +57,7 @@ import myutil.FileUtils;
 import myutil.PluginManager;
 import myutil.TraceManager;
 import tmltranslator.TMLMapping;
+import tmltranslator.TMLMappingTextSpecification;
 import tmltranslator.TMLModeling;
 import tmltranslator.TMLTextSpecification;
 import ui.MainGUI;
@@ -110,7 +111,9 @@ public class Action extends Command {
     private final static String DIPLO_UPPAAL = "diplodocus-uppaal";
     private final static String DIPLO_REMOVE_NOC = "diplodocus-remove-noc";
     private final static String DIPLO_LOAD_TML = "diplodocus-load-tml";
+    private final static String DIPLO_LOAD_TMAP = "diplodocus-load-tmap";
     private final static String DIPLO_DRAW_TML = "diplodocus-draw-tml";
+    private final static String DIPLO_DRAW_TMAP = "diplodocus-draw-tmap";
 
 
     private final static String NAVIGATE_PANEL_TO_LEFT = "move-current-panel-to-left";
@@ -133,6 +136,7 @@ public class Action extends Command {
 
     private AvatarSpecificationSimulation ass;
     private TMLModeling tmlm;
+    private TMLMapping tmap;
 
     public Action() {
 
@@ -870,6 +874,48 @@ public class Action extends Command {
             }
         };
 
+        // Diplodocus load TMAP
+        Command diplodocusLoadTMAP = new Command() {
+            public String getCommand() {
+                return DIPLO_LOAD_TMAP;
+            }
+
+            public String getShortCommand() {
+                return "dltmap";
+            }
+
+            public String getDescription() {
+                return "Load a textual TMAP specification";
+            }
+
+            public String executeCommand(String command, Interpreter interpreter) {
+                if (!interpreter.isTToolStarted()) {
+                    return Interpreter.TTOOL_NOT_STARTED;
+                }
+
+                String[] commands = command.split(" ");
+                if (commands.length < 1) {
+                    return Interpreter.BAD;
+                }
+
+                TMLMappingTextSpecification ts = interpreter.mgui.loadTMAPTxt(commands[0]);
+
+                if (ts == null) {
+                    return "Fail to load TMAP specification";
+                }
+
+                if (ts.getErrors().size() > 0) {
+                    return "TMAP specification has errors";
+                }
+
+
+                tmap = ts.getTMLMapping();
+                tmlm = tmap.getTMLModeling();
+
+                return null;
+            }
+        };
+
         // Diplodocus draw TML
         Command diplodocusDrawTML = new Command() {
             public String getCommand() {
@@ -901,6 +947,53 @@ public class Action extends Command {
                     return e.getMessage();
                 }
 
+
+                return null;
+            }
+        };
+
+        // Diplodocus draw TMAP
+        Command diplodocusDrawTMAP = new Command() {
+            public String getCommand() {
+                return DIPLO_DRAW_TMAP;
+            }
+
+            public String getShortCommand() {
+                return "ddtmap";
+            }
+
+            public String getDescription() {
+                return "Draw a TMAP specification";
+            }
+
+            public String executeCommand(String command, Interpreter interpreter) {
+                if (!interpreter.isTToolStarted()) {
+                    return Interpreter.TTOOL_NOT_STARTED;
+                }
+
+                String[] commands = command.split(" ");
+                if (commands.length < 1) {
+                    return Interpreter.BAD;
+                }
+
+                if (tmap == null) {
+                    return interpreter.TMAP_NO_SPEC;
+                }
+
+                tmlm = tmap.getTMLModeling();
+
+                if (tmlm == null) {
+                    return interpreter.TML_NO_SPEC;
+                }
+
+
+                try {
+                    interpreter.mgui.drawTMLSpecification(tmlm, commands[0]);
+                    interpreter.mgui.drawTMAPSpecification(tmap, commands[0]);
+                } catch (MalformedTMLDesignException e) {
+                    TraceManager.addDev("Exception in drawing spec: " + e.getMessage());
+                    return e.getMessage();
+                }
 
                 return null;
             }
@@ -1828,7 +1921,9 @@ public class Action extends Command {
         addAndSortSubcommand(diplodocusUPPAAL);
         addAndSortSubcommand(diplodocusRemoveNoC);
         addAndSortSubcommand(diplodocusLoadTML);
+        addAndSortSubcommand(diplodocusLoadTMAP);
         addAndSortSubcommand(diplodocusDrawTML);
+        addAndSortSubcommand(diplodocusDrawTMAP);
         addAndSortSubcommand(movePanelToTheLeftPanel);
         addAndSortSubcommand(movePanelToTheRightPanel);
         addAndSortSubcommand(selectPanel);

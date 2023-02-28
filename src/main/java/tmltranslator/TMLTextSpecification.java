@@ -748,7 +748,7 @@ public class TMLTextSpecification<E> {
             while ((s = br.readLine()) != null) {
                 if (s != null) {
                     s = s.trim();
-                    TraceManager.addDev("line=" + s);
+                    //TraceManager.addDev("line=" + s);
                     s = removeUndesiredWhiteSpaces(s, lineNb);
                     s1 = Conversion.replaceAllString(s, "\t", " ");
                     s1 = Conversion.replaceRecursiveAllString(s1, "  ", " ");

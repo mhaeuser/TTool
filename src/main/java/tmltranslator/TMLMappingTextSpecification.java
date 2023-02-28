@@ -430,7 +430,7 @@ public class TMLMappingTextSpecification<E> {
 
         tmlmap = new TMLMapping<>(tmlm, tarchi, false);
 
-        TraceManager.addDev("Compiling mapping...");
+        TraceManager.addDev("Making mapping...");
 
         browseCode();
 
@@ -453,7 +453,7 @@ public class TMLMappingTextSpecification<E> {
 
         spectml = spec.substring(index0 + 7, index1);
 
-        TraceManager.addDev("Compiling TML...");
+        //TraceManager.addDev("Making TML: " + spectml);
 
         boolean ret = t.makeTMLModeling(spectml);
         //errors.addAll(t.getErrors());
@@ -472,7 +472,7 @@ public class TMLMappingTextSpecification<E> {
 
         // Import errors and warnings
 
-        String spectml;
+        String spectarchi;
         int index0 = spec.indexOf("TMLARCHI");
         int index1 = spec.indexOf("ENDTMLARCHI");
 
@@ -481,11 +481,11 @@ public class TMLMappingTextSpecification<E> {
             return null;
         }
 
-        spectml = spec.substring(index0 + 8, index1);
+        spectarchi = spec.substring(index0 + 8, index1);
 
-        TraceManager.addDev("Compiling architecture...");
+        //TraceManager.addDev("Making architecture...: " + spectarchi);
 
-        boolean ret = t.makeTMLArchitecture(spectml);
+        boolean ret = t.makeTMLArchitecture(spectarchi);
         //errors.addAll(t.getErrors());
         //warnings.addAll(t.getWarnings());
         TraceManager.addDev(t.printSummary());
@@ -941,7 +941,7 @@ public class TMLMappingTextSpecification<E> {
             addError(0, lineNb, 0, "Exception when reading specification", null);
         }
 
-        TraceManager.addDev("New output=" + output);
+        //TraceManager.addDev("New output=" + output);
 
         return output;
     }

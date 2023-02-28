@@ -77,6 +77,7 @@ public class Interpreter implements Runnable, TerminalProviderInterface {
     public final static String BAD_FILE = "Badly formatted file";
     public final static String AVATAR_NO_SPEC = "No Avatar specification";
     public final static String TML_NO_SPEC = "No TML specification";
+    public final static String TMAP_NO_SPEC = "No TMAP specification";
     public final static String NO_WINDOW = "The targeted window does not exist";
 
 

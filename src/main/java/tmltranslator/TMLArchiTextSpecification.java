@@ -227,6 +227,7 @@ public class TMLArchiTextSpecification {
                 code += set + "arbitration " + bus.arbitration + CR;
                 code += set + "sliceTime " + bus.sliceTime + CR;
                 code += set + "burstSize " + bus.burstSize + CR;
+                code += set + "privacy " + HwCommunicationNode.BUS_PRIVACY[bus.privacy] + CR;
             }
 
 
@@ -757,35 +758,54 @@ public class TMLArchiTextSpecification {
                         return -1;
                     }
 
-                    if (!checkParameter("SET", _split, 3, 1, _lineNb)) {
-                        return -1;
-                    }
+
 
                     if (_split[2].toUpperCase().equals("BYTEDATASIZE")) {
+                        if (!checkParameter("SET", _split, 3, 1, _lineNb)) {
+                            return -1;
+                        }
                         bus.byteDataSize = Integer.decode(_split[3]).intValue();
                     }
 
                     if (_split[2].toUpperCase().equals("PIPELINESIZE")) {
+                        if (!checkParameter("SET", _split, 3, 1, _lineNb)) {
+                            return -1;
+                        }
                         bus.pipelineSize = Integer.decode(_split[3]).intValue();
                     }
 
                     if (_split[2].toUpperCase().equals("ARBITRATION")) {
+                        if (!checkParameter("SET", _split, 3, 1, _lineNb)) {
+                            return -1;
+                        }
                         bus.arbitration = Integer.decode(_split[3]).intValue();
                     }
 
                     if (_split[2].toUpperCase().equals("CLOCKDIVIDER")) {
+                        if (!checkParameter("SET", _split, 3, 1, _lineNb)) {
+                            return -1;
+                        }
                         bus.clockRatio = Integer.decode(_split[3]).intValue();
                     }
 
                     if (_split[2].toUpperCase().equals("SLICETIME")) {
+                        if (!checkParameter("SET", _split, 3, 1, _lineNb)) {
+                            return -1;
+                        }
                         bus.sliceTime = Integer.decode(_split[3]).intValue();
                     }
 
                     if (_split[2].toUpperCase().equals("BURSTSIZE")) {
+                        if (!checkParameter("SET", _split, 3, 1, _lineNb)) {
+                            return -1;
+                        }
                         bus.burstSize = Integer.decode(_split[3]).intValue();
                     }
 
                     if (_split[2].toUpperCase().equals("PRIVACY")) {
+                        if (!checkParameter("SET", _split, 3, 15, _lineNb)) {
+                            return -1;
+                        }
                         bus.privacy = _split[3].equals("public") ? HwCommunicationNode.BUS_PUBLIC : HwCommunicationNode.BUS_PRIVATE ;
                     }
                 }
@@ -999,6 +1019,11 @@ public class TMLArchiTextSpecification {
                     break;
                 case 14:
                     if (!isIncluded(_split[_parameter], nocparameters)) {
+                        err = true;
+                    }
+                    break;
+                case 15:
+                    if (!isIncluded(_split[_parameter], HwCommunicationNode.BUS_PRIVACY)) {
                         err = true;
                     }
                     break;

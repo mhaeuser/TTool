@@ -40,7 +40,7 @@ package myutil.intboolsolver;
 import avatartranslator.*;
 import avatartranslator.modelchecker.SpecificationBlock;
 import avatartranslator.modelchecker.SpecificationState;
-import myutil.intboolsolver.IBSAbstractAttribute;
+
 /**
  * Class AvatarIBSAbstractAttribute
  * Avatar IBS Abstract Attribute implementation
@@ -57,7 +57,7 @@ import myutil.intboolsolver.IBSAbstractAttribute;
 // - AvatarSpecificationState must extend AvatarIBSAbstractAttribute.SpecState
 // - AvatarSpecificationBlock must extend AvatarIBSAbstractAttribute.CompState
 
-public class AvatarIBSAbstractAttribute extends IBSAbstractAttribute {
+public class AvatarIBSAbsAttribute extends IBSAbsAttribute {
 
     // attribute access information
     private AvatarBlock block;
@@ -231,7 +231,7 @@ public class AvatarIBSAbstractAttribute extends IBSAbstractAttribute {
    protected static IBSTypedAttribute make_getTypedAttribute(Spec _spec, String _s) {
 	IBSTypedAttribute a = findAttribute(_spec, _s);
 	if (a == null) {
-	    AvatarIBSAbstractAttribute x = new AvatarIBSAbstractAttribute(); // replaced...
+	    AvatarIBSAbsAttribute x = new AvatarIBSAbsAttribute(); // replaced...
 	    baseInitAttributes(_spec,_s);
 	    switch (x.type) {
 	    case IBSTypedAttribute.None:{
@@ -255,7 +255,7 @@ public class AvatarIBSAbstractAttribute extends IBSAbstractAttribute {
     protected static IBSTypedAttribute make_getTypedAttribute(Comp _comp, String _s) {
 	IBSTypedAttribute a = findAttribute(_comp, _s);
 	if (a == null) {
-	    AvatarIBSAbstractAttribute x = new AvatarIBSAbstractAttribute(); // replaced
+	    AvatarIBSAbsAttribute x = new AvatarIBSAbsAttribute(); // replaced
 	    baseInitAttributes(_comp,_s);
 	    switch (x.type) {
 	    case IBSTypedAttribute.None:{
@@ -279,7 +279,7 @@ public class AvatarIBSAbstractAttribute extends IBSAbstractAttribute {
     protected static IBSTypedAttribute getTypedAttribute(Comp _comp, State _state) {
 	IBSTypedAttribute a = findAttribute(_comp, _state);
 	if (a == null) {
-	    AvatarIBSAbstractAttribute x = new AvatarIBSAbstractAttribute(); // replaced
+	    AvatarIBSAbsAttribute x = new AvatarIBSAbsAttribute(); // replaced
 	    baseInitAttributes(_comp,_state);
 	    switch (x.type) {
 	    case IBSTypedAttribute.None:{
@@ -301,7 +301,7 @@ public class AvatarIBSAbstractAttribute extends IBSAbstractAttribute {
     }
 
     public static boolean instanceOfMe(int type, Object _val) {
-	return (_val instanceof AvatarIBSAbstractAttribute &&
+	return (_val instanceof AvatarIBSAbsAttribute &&
 		_type == type );
     }
 
@@ -326,7 +326,7 @@ public class AvatarIBSAbstractAttribute extends IBSAbstractAttribute {
             IBSTypedAttribute ta = attributesMap.get(ae);
             if (ta.isAttribute()){
 		//might be uninitialized
-		((AvatarIBSAbstractAttribute)(ta.getVal())).linkComp(_spec); 
+		((AvatarIBSAbsAttribute)(ta.getVal())).linkComp(_spec);
 	    }
 	    return ta;
 	}
@@ -343,7 +343,7 @@ public class AvatarIBSAbstractAttribute extends IBSAbstractAttribute {
 	else
 	    ae = getElement(_s, (AvatarSpecification)_spec);
 	if (ae != null){
-	    if (_att.isAttribute() && !(_att.val instanceof AvatarIBSAbstractAttribute))
+	    if (_att.isAttribute() && !(_att.val instanceof AvatarIBSAbsAttribute))
 	        return; // should be an error
             attributesMap.put(ae, _att);
 	}
@@ -369,7 +369,7 @@ public class AvatarIBSAbstractAttribute extends IBSAbstractAttribute {
 	else
 	    ae = getElement(_s, _comp);
 	if (ae != null){
-	    if (_att.isAttribute() && !(_att.val instanceof AvatarIBSAbstractAttribute))
+	    if (_att.isAttribute() && !(_att.val instanceof AvatarIBSAbsAttribute))
 	        return; // should be an error
             attributesMap.put(ae, _att);
 	}
@@ -389,7 +389,7 @@ public class AvatarIBSAbstractAttribute extends IBSAbstractAttribute {
 	     ( _att.isAttribute() &&
 	       ( !(instanceOfMe(_att)) ||
 	         !(_att.isState) ||
-	         _state != (AvatarIBSAbstractAttribute)_att.state
+	         _state != (AvatarIBSAbsAttribute)_att.state
 	       )
 	     )
 	   )
@@ -398,8 +398,8 @@ public class AvatarIBSAbstractAttribute extends IBSAbstractAttribute {
     }
 
     public boolean instanceOfMe(IBSTypedAttribute _att) {
-	return _att.getVal() instanceof AvatarIBSAbstractAttribute &&
-	    _attr.getType() == (AvatarIBSAbstractAttribute).getType();
+	return _att.getVal() instanceof AvatarIBSAbsAttribute &&
+	    _attr.getType() == (AvatarIBSAbsAttribute).getType();
 	    
  
     public int getValue(SpecState _specSt) {

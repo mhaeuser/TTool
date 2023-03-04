@@ -44,74 +44,30 @@
    * @author Sophie Coudert
  */
 
-package intboolsolver;
+package myutil.intboolsolver;
 // import intboolsolver.IBSolver; // usefull in implementations
 
-public interface IBSAttribute {
-    
-    public static class Spec{};
-    public static class Comp{};
-    public static class State{};
-    public static class SpecState{};
-    public static class CompState{};
-
-    public static final class IBSTypedAttribute {
-	public static final int None=0;  // val is null
-	public static final int BoolConst =1;  // val is an Int integer
-	public static final int IntConst  =2;  // val is an Int boolean (0 or 1)
-	public static final int BoolAttr  =3;  // val is a bool IBSAttribute.
-	public static final int IntAttr   =4;  // val is an int IBSAttribute.
-	public static final IBSTypedAttribute NullAttribute =
-	    new IBSTypedAttribute(None,null);
-	                                    
-	private int type = None;
-	private Object val = null;
-	private IBSTypedAttribute(){};
-	public <AT extends IBSAttribute>IBSTypedAttribute(int _type, Object _val){
-	    type = _type; val = _val;
-	    if ( (val == null && type !=None) ||
-		 (type == IntConst && !(val instanceof Integer)) ||
-		 (type == BoolConst && !(val instanceof Integer))||
-		 (type == BoolAttr && !(instanceOfMe(BoolAttr,val))) )
-		; // error case
-	}
-	public int getType(){return type;}
-	public Object getVal(){return val;}
-	public boolean isAttribute(){return (type >= BoolAttr);}
-    }
-    // method to override by subclasses
-    public static boolean instanceOfMe(int type, Object _val) {
-	return (_val instanceof IBSAttribute);
-    }
-    
-    public static void initBuild(Spec _spec){};
-    public static void initBuild(Comp _comp){};
-    public static void initBuild(){};
-
-    public static IBSTypedAttribute getTypedAttribute(Spec _spec, String _s){
-	return IBSTypedAttribute.NullAttribute;
-    }
-    public static IBSTypedAttribute getTypedAttribute(Comp _comp, String _s){
-	return IBSTypedAttribute.NullAttribute;
-    }
-    public static IBSTypedAttribute getTypedAttribute(Comp _comp, State _st){
-	return IBSTypedAttribute.NullAttribute;
-    }
-
+interface IBSAttribute<
+        Spec extends IBSParams.Spec,
+        Comp extends IBSParams.Comp,
+        State extends IBSParams.State,
+        SpecState extends IBSParams.SpecState,
+        CompState extends IBSParams.CompState
+        > {
     // returns a type from IBSolver
     // (i.e. among IMMEDIATE_(BOOL,INT,NO))
-    public int getAttributeType();
+    int getAttributeType();
 
-    public int getValue(SpecState _ss);
-    public int getValue(SpecState _ss, State _st);
-    public int getValue(CompState _cs);
+    int getValue(SpecState _ss);
+    int getValue(SpecState _ss, State _st);
+    int getValue(CompState _cs);
     // for efficiency, to allow low level objects as state
-    public int getValue(Object _quickstate);
-    public void setValue(SpecState _ss, int _val);
-    public void setValue(CompState _cs, int _val);
+    int getValue(Object _quickstate);
+    void setValue(SpecState _ss, int _val);
+    void setValue(CompState _cs, int _val);
     
-   public boolean isState();
-   public void linkComp(Spec _spec);
-   public void linkState();
-   public String toString();
+   boolean isState();
+   void linkComp(Spec _spec);
+   void linkState();
+   String toString();
 }

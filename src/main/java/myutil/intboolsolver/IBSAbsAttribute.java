@@ -36,9 +36,7 @@
  * knowledge of the CeCILL license and that you accept its terms.
  */
 
-package intboolsolver;
-import intboolsolver.IBSolver;
-import intboolsolver.IBSAttribute;
+package myutil.intboolsolver;
 
 /**
  * Class IBSAbstractAttribute
@@ -50,29 +48,19 @@ import intboolsolver.IBSAttribute;
  * @version 0.0 27/02/2023
  */
 
-public class IBSAbstractAttribute implements IBSAttribute{
-    //public static class Spec extends IBSAttribute.Spec;
-    //public static class Comp extends IBSAttribute.Comp;
-    //public static class State extends IBSAttribute.State;
-    //public static class SpecState extends IBSAttribute.SpecState{};
-    //public static class CompState extends IBSAttribute.CompState{};
-
-    // method to override by subclasses, in particular replacing IBSAttribute by the
-    // name of the subclass.
-    public static boolean instanceOfMe(int type, Object _val) {
-	return (_val instanceof IBSAbstractAttribute);
-    }
-
-    // remains to implement
-    public static String getStateName(Comp _comp, State _state){ return ""; }
-
-    // to implement (idea: memory of already searched attributes)
-    public static IBSTypedAttribute findAttribute(Spec _spec, String _s){return null;}
-    public static void addAttribute(Spec _spec, String _s, IBSTypedAttribute _att){}
-    public static IBSTypedAttribute findAttribute(Comp _comp, String _s){return null;}
-    public static void addAttribute(Comp _comp, String _s, IBSTypedAttribute _att){}
-    public static IBSTypedAttribute findAttribute(Comp _comp, State _state){return null;}
-    public static void addAttribute(Comp _comp, State _state, IBSTypedAttribute _att){}
+public class IBSAbsAttribute<
+        Spec extends IBSParams.Spec,
+        Comp extends IBSParams.Comp,
+        State extends IBSParams.State,
+        SpecState extends IBSParams.SpecState,
+        CompState extends IBSParams.CompState
+        > implements IBSAttribute<
+        Spec ,
+        Comp ,
+        State ,
+        SpecState ,
+        CompState
+        >{
 
     // partial implementation: Variable and State attributes
     public State state =null;
@@ -80,7 +68,7 @@ public class IBSAbstractAttribute implements IBSAttribute{
     public boolean isState = false;
     public int type = IBSTypedAttribute.None;
     public static int constantIn = 0; // implementation shortcut.
-    
+        
     /** Subclasses must not define any constructors but provide initialisation functions 
      *  to be called after the default constructor, which is the only one we use,
      *  following the sequence:
@@ -109,21 +97,15 @@ public class IBSAbstractAttribute implements IBSAttribute{
     protected int initAttribute(Spec _spec){return IBSTypedAttribute.None;}
     protected int initAttribute(Comp _comp){return IBSTypedAttribute.None;}
     /** Here, s, isState and state have already been initialized. 
-     *  If returned type is not BoolAttr, post processing sets isState to false
-     *  and state to null.
+     *  Returned type should be BoolAttr.
      */
     protected int initStateAttribute(Comp _comp){return IBSTypedAttribute.BoolAttr;}
 
+    // to implement (cf comment below...
+    // public static IBSTypedAttribute getTypedAttribute(Spec _spec, String _s);
+    // public static IBSTypedAttribute getTypedAttribute(Comp _comp, String _s);
+    // public static IBSTypedAttribute getTypedAttribute(Comp _comp, State _st);
     
-    public static IBSTypedAttribute getTypedAttribute(Spec _spec, String _s){
-	return IBSTypedAttribute.NullAttribute;
-    }
-    public static IBSTypedAttribute getTypedAttribute(Comp _comp, String _s){
-	return IBSTypedAttribute.NullAttribute;
-    }
-    public static IBSTypedAttribute getTypedAttribute(Comp _comp, State _st){
-	return IBSTypedAttribute.NullAttribute;
-    }
     /** Methods getTypedAttribute must be overrided copying the code above in the 
      *  subclass and replacing "SubClassName" by the name  of the subclass. 
      *  Indeed, returning IBSTypedAttribute that contain created instances of the 
@@ -226,6 +208,28 @@ public class IBSAbstractAttribute implements IBSAttribute{
     ----------------------------------------------------------------------------------
     */
 
+    // method to override by subclasses, in particular replacing
+    // IBSAbstractAttribute by the name of the subclass.
+    public static boolean instanceOfMe(int _type, Object _val) {
+	return (_val instanceof IBSAbsAttribute);
+    }
+
+    public static String getStateName(Comp _comp, State _state){ return ""; }
+
+    // remains to implement
+    // public static void initBuild(Spec _spec){};
+    // public static void initBuild(Comp _comp){};
+    // public static void initBuild(){};
+
+
+    // to implement (idea: memory of already searched attributes)
+    public static IBSTypedAttribute findAttribute(Spec _spec, String _s){return null;}
+    public static void addAttribute(Spec _spec, String _s, IBSTypedAttribute _att){}
+    public static IBSTypedAttribute findAttribute(Comp _comp, String _s){return null;}
+    public static void addAttribute(Comp _comp, String _s, IBSTypedAttribute _att){}
+    public static IBSTypedAttribute findAttribute(Comp _comp, State _state){return null;}
+    public static void addAttribute(Comp _comp, State _state, IBSTypedAttribute _att){}
+
     // for the fun (not used by solver).
     // Nothing to do.
     public final int getType(){return type;}
@@ -250,7 +254,7 @@ public class IBSAbstractAttribute implements IBSAttribute{
     public void setValue(CompState _cs, int val){}
     // should not be modified
     // Nothing to do.
-    public final int getValue(SpecState _ss, State _st) {
+    public int getValue(SpecState _ss, State _st) {
         if (isState) {
             return (state == _st) ? 1 : 0;
         }
@@ -290,9 +294,5 @@ public class IBSAbstractAttribute implements IBSAttribute{
         isState = true;
         state = _state;
         type = initStateAttribute(_comp);
-	if (type != IBSTypedAttribute.BoolAttr){
-	    isState = false;
-	    state=null;
-	}
     }
 }

@@ -75,13 +75,6 @@ public class AvatarIBSAbsAttribute extends IBSAbsAttribute<
     private int shift;
     private int mask;
 
-    // handling already covered attributes (memorisation)
-    private static AvatarSpecification findSpec = null;
-    private static AvatarBlock findComp = null;
-    private static String findString = "";
-    private static AvatarElement keyElement;
-    private static Map<AvatarElement, IBSTypedAttribute> attributesMap;   
-
     protected int initAttribute(AvatarSpecification _sp) {
 	AvatarSpecification _spec = (AvatarSpecification) _sp;
 	
@@ -232,189 +225,13 @@ public class AvatarIBSAbsAttribute extends IBSAbsAttribute<
         }
     }
 
-   protected static IBSTypedAttribute getTypedAttribute(AvatarSpecification _spec, String _s) {
-	IBSTypedAttribute a = findAttribute(_spec, _s);
-	if (a == null) {
-	    AvatarIBSAbsAttribute x = new AvatarIBSAbsAttribute(); // replaced...
-	    x.classInitAttribute(_spec,_s);
-	    switch (x.getType()) {
-	    case IBSAttributeTypes.NullAttr:{
-		return IBSTypedAttribute.NullAttribute;
-	    }
-	    case IBSAttributeTypes.BoolConst:
-	    case IBSAttributeTypes.IntConst:{
-	        a = new IBSTypedAttribute(x.type,(Object) Integer.valueOf(x.getConstant()));
-		break;
-	    }
-	    default: {
-		    a = new IBSTypedAttribute(x.type,(Object) x);
-		    
-	    }
-	    }
-	    addAttribute(_spec, _s, a);
-	}
-	return a;
-   }
-
-    protected static IBSTypedAttribute make_getTypedAttribute(AvatarBlock _comp, String _s) {
-	IBSTypedAttribute a = findAttribute(_comp, _s);
-	if (a == null) {
-	    AvatarIBSAbsAttribute x = new AvatarIBSAbsAttribute(); // replaced
-	    x.classInitAttribute(_comp,_s);
-	    switch (x.type) {
-	    case IBSAttributeTypes.NullAttr:{
-		return IBSTypedAttribute.NullAttribute;
-	    }
-	    case IBSAttributeTypes.BoolConst:
-	    case IBSAttributeTypes.IntConst:{
-	        a = new IBSTypedAttribute(x.type,(Object) Integer.valueOf(x.getConstant()));
-		break;
-	    }
-        default: {
-		    a = new IBSTypedAttribute(x.type,(Object) x);
-        }
-	    }
-	    addAttribute(_comp, _s, a);
-	}
-	return a;
-    }
-    
-    protected static IBSTypedAttribute getTypedAttribute(AvatarBlock _comp, AvatarStateMachineElement _state) {
-	IBSTypedAttribute a = findAttribute(_comp, _state);
-	if (a == null) {
-	    AvatarIBSAbsAttribute x = new AvatarIBSAbsAttribute(); // replaced
-	    x.classInitAttribute(_comp,_state);
-	    switch (x.type) {
-	    case IBSAttributeTypes.NullAttr:{
-		return IBSTypedAttribute.NullAttribute;
-	    }
-	    case IBSAttributeTypes.BoolConst:
-	    case IBSAttributeTypes.IntConst:{
-	        a = new IBSTypedAttribute(x.type,(Object) Integer.valueOf(x.getConstant()));
-		break;
-	    }
-	    default: {
-		    a = new IBSTypedAttribute(x.type,(Object) x);
-        }
-	    }
-	    addAttribute(_comp, _state, a);
-	}
-	return a;
-    }
-
-
-    public boolean instanceOfMe(int _type, Object _val) {
-	return (_val instanceof AvatarIBSAbsAttribute &&
-            _type == ((AvatarIBSAbsAttribute)_val).getType());
-    }
-
-    public boolean instanceOfMe(IBSTypedAttribute _ta) {
-        Object v = _ta.getVal();
-	return (v instanceof AvatarIBSAbsAttribute &&
-            _ta.getType() == ((AvatarIBSAbsAttribute)v).getType());
-    }
-
 
 
     public String getStateName(AvatarBlock _comp, AvatarStateMachineElement _state){
 	return ((AvatarStateMachineElement)_state).getName();
     }
 
-    private void initBuild_internal(){
-        if (attributesMap == null) {
-            attributesMap = new HashMap<AvatarElement, IBSTypedAttribute>();
-	}
-    }
-
-    public void initBuild(AvatarSpecification _spec){initBuild_internal();}
-
-    public void initBuild(AvatarBlock _comp){initBuild_internal();}
-
-    protected static IBSTypedAttribute findAttribute(AvatarSpecification _sp, String _s){
-	AvatarSpecification _spec = (AvatarSpecification)_sp;
-	AvatarElement ae = getElement(_s, _spec);
-        if (ae != null && attributesMap.containsKey(ae)) {
-            IBSTypedAttribute ta = attributesMap.get(ae);
-            if (ta.isAttribute()){
-		//might be uninitialized
-		((AvatarIBSAbsAttribute)(ta.getVal())).linkComp(_spec);
-	    }
-	    return ta;
-	}
-	findString = _s;
-	findSpec = _sp;
-	keyElement = ae;
-	return null;
-    }
-    
-    protected static void addAttribute(AvatarSpecification _spec, String _s, IBSTypedAttribute _att){
-	AvatarElement ae;
-	if ( _s == findString && _spec == findSpec )
-	    ae = keyElement;
-	else
-	    ae = getElement(_s, (AvatarSpecification)_spec);
-	if (ae != null){
-	    if (_att.isAttribute() && !(_att.val instanceof AvatarIBSAbsAttribute))
-	        return; // should be an error
-            attributesMap.put(ae, _att);
-	}
-    }
-    
-    protected static IBSTypedAttribute findAttribute(AvatarBlock _cmp, String _s){
-	AvatarBlock _comp = (AvatarBlock)_cmp;
-	AvatarElement ae = getElement(_s, _comp);
-        if (ae != null && attributesMap.containsKey(ae)) {
-            IBSTypedAttribute ta = attributesMap.get(ae);
-	    return ta;
-	}
-	findString = _s;
-	findComp = _cmp;
-	keyElement = ae;
-	return null;
-    }
-
-    protected static void addAttribute(AvatarBlock _comp, String _s, IBSTypedAttribute _att){
-	AvatarElement ae;
-	if ( _s == findString && _comp == findComp )
-	    ae = keyElement;
-	else
-	    ae = getElement(_s, _comp);
-	if (ae != null){
-	    if (_att.isAttribute() && !(_att.val instanceof AvatarIBSAbsAttribute))
-	        return; // should be an error
-            attributesMap.put(ae, _att);
-	}
-    }
-
-    protected static IBSTypedAttribute findAttribute(AvatarBlock _comp, AvatarStateMachineElement _st){
-	AvatarElement _state = (AvatarElement)_st;
-        if (_state != null && attributesMap.containsKey(_state)) {
-            IBSTypedAttribute ta = attributesMap.get(_state);
-	    return ta;
-	}
-	return null;
-    }
-    
-    protected static void addAttribute(AvatarBlock _comp, AvatarStateMachineElement _state, IBSTypedAttribute _att){
-	if ( _att==null ||
-	     ( _att.isAttribute() &&
-	       ( !(instanceOfMe(_att)) ||
-	         !(_att.isState) ||
-	         _state != (AvatarIBSAbsAttribute)_att.state
-	       )
-	     )
-	   )
-	    return; // should be an error
-	attributesMap.put((AvatarElement)_state, _att);
-    }
-
-    public boolean instanceOfMe(IBSTypedAttribute _att) {
-	return _att.getVal() instanceof AvatarIBSAbsAttribute &&
-	    _attr.getType() == (AvatarIBSAbsAttribute).getType();
-	    
- 
-    public int getValue(SpecificationState _specSt) {
-	SpecificationState _ss = (SpecificationState) _specSt;
+    public int getValue(SpecificationState _ss) {
         int value;
         
         if (isState) {
@@ -439,8 +256,7 @@ public class AvatarIBSAbsAttribute extends IBSAbsAttribute<
     }
     
     
-    public int getValue(SpecificationBlock  _compSt) {
-	SpecificationBlock _sb = (SpecificationBlock)_compSt;
+    public int getValue(SpecificationBlock  _sb) {
         int value;
         
         if (isState) {
@@ -483,9 +299,7 @@ public class AvatarIBSAbsAttribute extends IBSAbsAttribute<
         return value;
     }
     
-    public int getValue(SpecificationState _specSt, AvatarStateMachineElement _state) {
-	SpecificationState _ss = (SpecificationState) _SpecSt;
-	AvatarStateMachineElement _asme = (AvatarStateMachineElement) _state; 
+    public int getValue(SpecificationState _ss, AvatarStateMachineElement _asme) {
         int value;
         
         if (isState) {
@@ -502,28 +316,25 @@ public class AvatarIBSAbsAttribute extends IBSAbsAttribute<
         return value;
     }
 
-    public void setValue(SpecificationState _specSt, int _value) {
-	SpecificationState _ss = (SpecificationState) _specSt; 
+    public void setValue(SpecificationState _ss, int _value) {
         if (isState) {
             return;
         }
         
-        _ss.blocks[blockIndex].values[accessIndex] = (_ss.blocks[blockIndex].values[accessIndex] & (~(mask << shift))) | ((value & mask) << shift);
+        _ss.blocks[blockIndex].values[accessIndex] = (_ss.blocks[blockIndex].values[accessIndex] & (~(mask << shift))) | ((_value & mask) << shift);
     }
     
     public void setValue(SpecificationBlock  _sb, int _value) {
-	SpecificationBlock _sb = (SpecificationBlock) _compSt;
         if (isState) {
             return;
         }
-
-        sb.values[accessIndex] = (_sb.values[accessIndex] & (~(mask << shift))) | ((value & mask) << shift);
+        _sb.values[accessIndex] = (_sb.values[accessIndex] & (~(mask << shift))) | ((_value & mask) << shift);
     }
     
     public void linkComp(AvatarSpecification spec) {
         if (blockIndex == -1) {
             //initialize it
-            blockIndex = (AvatarSpecification)spec.getBlockIndex(block);
+            blockIndex = spec.getBlockIndex(block);
         }
     }
 
@@ -536,72 +347,5 @@ public class AvatarIBSAbsAttribute extends IBSAbsAttribute<
             }
         }
     }    
-        
-    public static AvatarElement getElement(String s, AvatarSpecification spec) {
-        //Extract Block and Attribute
-        String[] splitS;
-        String blockString;
-        String fieldString;
-        AvatarBlock block;
-        int blockIndex;
-        
-        if (spec == null) {
-            return null;
-        }
-        
-        if (s.matches(".+\\..+")) {
-            splitS = s.split("\\.");
-            blockString = splitS[0];
-            fieldString = splitS[1];
-        } else {
-            return null;
-        }
-        
-        block = spec.getBlockWithName(blockString);
-        
-        if (block == null) {
-            return null;
-        }
-        
-        blockIndex = spec.getBlockIndex(block);
-        
-        int attributeIndex = block.getIndexOfAvatarAttributeWithName(fieldString);
-        
-        if (attributeIndex == -1) {
-            attributeIndex = block.getIndexOfConstantWithName(fieldString);
-            if (attributeIndex == -1) {
-                // state?
-                return block.getStateMachine().getStateWithName(fieldString);
-            } else {
-                //not created for constants
-                return null;
-            }
-        } else {
-            return block.getAvatarAttributeWithName(fieldString);
-        }
-    }
-    
-    public static AvatarElement getElement(String s, AvatarBlock block) {
-        //Extract Attribute        
-        if (block == null) {
-            return null;
-        }
-        
-        
-        int attributeIndex = block.getIndexOfAvatarAttributeWithName(s);
-        
-        if (attributeIndex == -1) {
-            attributeIndex = block.getIndexOfConstantWithName(s);
-            if (attributeIndex == -1) {
-                // state?
-                return block.getStateMachine().getStateWithName(s);
-            } else {
-                //not created for constants
-                return null;
-            }
-        } else {
-            return block.getAvatarAttributeWithName(s);
-        }
-    }
-    
+
 }

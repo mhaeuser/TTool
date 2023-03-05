@@ -70,6 +70,12 @@ public class IBSolver <
         attC = _c;
         freeIdents   = new HashSet<String>();
     }
+    IBSolver(){
+        freeIdents   = new HashSet<String>();
+    }
+    protected void setAttributeClass(AtC _c){
+        attC = _c;
+    }
     public HashSet<String> getFreeIdents() {
         return freeIdents;
     }

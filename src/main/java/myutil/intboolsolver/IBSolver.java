@@ -52,11 +52,11 @@ import myutil.intboolsolver.IBSAttribute;
  */
 
 public class IBSolver <
-        Spec extends IBSParams.Spec,
-        Comp extends IBSParams.Comp,
-        State extends IBSParams.State,
-        SpecState extends IBSParams.SpecState,
-        CompState extends IBSParams.CompState,
+        Spec extends IBSSpecParam,
+        Comp extends IBSCompParam,
+        State extends IBSStateParam,
+        SpecState extends IBSSpecStateParam,
+        CompState extends IBSCompStateParam,
         ATT extends IBSAttribute<Spec,Comp,State,SpecState,CompState>,
         AtC extends IBSAttributeClass<Spec,Comp,State,SpecState,CompState,ATT>
         > {

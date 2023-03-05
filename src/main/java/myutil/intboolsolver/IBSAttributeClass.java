@@ -1,11 +1,11 @@
 package myutil.intboolsolver;
 
 public class IBSAttributeClass<
-        Spec extends IBSParams.Spec,
-        Comp extends IBSParams.Comp,
-        State extends IBSParams.State,
-        SpecState extends IBSParams.SpecState,
-        CompState extends IBSParams.CompState,
+        Spec extends IBSSpecParam,
+        Comp extends IBSCompParam,
+        State extends IBSStateParam,
+        SpecState extends IBSSpecStateParam,
+        CompState extends IBSCompStateParam,
         Att extends IBSAttribute<Spec,Comp,State,SpecState,CompState>
         > {
      public IBSTypedAttribute getTypedAttribute(Spec _spec, String _s) {

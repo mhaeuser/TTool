@@ -40,6 +40,7 @@ package avatartranslator.modelchecker;
 
 import avatartranslator.AvatarAttribute;
 import avatartranslator.AvatarBlock;
+import myutil.intboolsolver.IBSCompStateParam;
 
 import java.util.Arrays;
 import java.util.List;
@@ -53,7 +54,7 @@ import java.util.Vector;
  * @author Ludovic APVRILLE
  * @version 1.0 31/05/2016
  */
-public class SpecificationBlock {
+public class SpecificationBlock implements IBSCompStateParam {
 
     public static final int HEADER_VALUES = 3;
 

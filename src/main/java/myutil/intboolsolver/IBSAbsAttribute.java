@@ -49,11 +49,11 @@ package myutil.intboolsolver;
  */
 
 public class IBSAbsAttribute<
-        Spec extends IBSParams.Spec,
-        Comp extends IBSParams.Comp,
-        State extends IBSParams.State,
-        SpecState extends IBSParams.SpecState,
-        CompState extends IBSParams.CompState
+        Spec extends IBSSpecParam,
+        Comp extends IBSCompParam,
+        State extends IBSStateParam,
+        SpecState extends IBSSpecStateParam,
+        CompState extends IBSCompStateParam
         > implements IBSAttribute<
         Spec ,
         Comp ,
@@ -63,11 +63,11 @@ public class IBSAbsAttribute<
         >{
 
     // partial implementation: Variable and State attributes
-    public State state =null;
-    public String s = null; 
-    public boolean isState = false;
-    public int type = IBSTypedAttribute.None;
-    public static int constantIn = 0; // implementation shortcut.
+    protected State state =null;
+    protected String s = null;
+    protected boolean isState = false;
+    protected int type = IBSAttributeTypes.NullAttr;
+    protected int constantInt = 0;
         
     /** Subclasses must not define any constructors but provide initialisation functions 
      *  to be called after the default constructor, which is the only one we use,
@@ -94,156 +94,51 @@ public class IBSAbsAttribute<
      *  (IBSTypedAttribute.) None, BoolConst, IntConst, BoolAttr and IntAttr.
      */
     // to implement
-    protected int initAttribute(Spec _spec){return IBSTypedAttribute.None;}
-    protected int initAttribute(Comp _comp){return IBSTypedAttribute.None;}
+    protected int initAttribute(Spec _spec){return IBSAttributeTypes.NullAttr;}
+    protected int initAttribute(Comp _comp){return IBSAttributeTypes.NullAttr;}
     /** Here, s, isState and state have already been initialized. 
      *  Returned type should be BoolAttr.
      */
-    protected int initStateAttribute(Comp _comp){return IBSTypedAttribute.BoolAttr;}
+    protected int initStateAttribute(Comp _comp){return IBSAttributeTypes.BoolAttr;}
 
-    // to implement (cf comment below...
-    // public static IBSTypedAttribute getTypedAttribute(Spec _spec, String _s);
-    // public static IBSTypedAttribute getTypedAttribute(Comp _comp, String _s);
-    // public static IBSTypedAttribute getTypedAttribute(Comp _comp, State _st);
-    
-    /** Methods getTypedAttribute must be overrided copying the code above in the 
-     *  subclass and replacing "SubClassName" by the name  of the subclass. 
-     *  Indeed, returning IBSTypedAttribute that contain created instances of the 
-     *  subclass as val is only possible at the subclass level.
-     */
-    
-    /* for implementating of getTypedAttribute(Spec _spec, String _s), copy the
-     * following code in your subclass, replacing "SUBCLASSNAME" by the name of
-     * the subclass.
-    ----------------------------------------------------------------------------------
-    CODE BEGIN
-    protected static IBSTypedAttribute make_getTypedAttribute(Spec _spec, String _s) {
-	IBSTypedAttribute a = findAttribute(_spec, _s);
-	if (a == null) {
-	    SUBCLASSNAME x = new SUBCLASSNAME(); // replace here
-	    baseInitAttributes(_spec,_s);
-	    switch (x.type) {
-	    case IBSTypedAttribute.None:{
-		return IBSTypedAttribute.NullAttribute;
-	    }
-	    case IBSTypedAttribute.BoolConst:
-	    case IBSTypedAttribute.IntConst:{
-	        a = new IBSTypedAttribute(x.type,(Object) new Int(constantInt));
-		break;
-	    }
-	    others: {
-		a = new IBSTypedAttribute(x.type,(Object) x);
-		    
-	    }
-	    }
-	    addAttribute(_spec, _s, a);
-	}
-	return a;
+
+    // method to override by subclasses, in particular replacing
+    // IBSAbstractAttribute by the name of the subclass.
+    /*
+    public static boolean instanceOfMe(int _type, Object _val) {
+	return (_val instanceof IBSAbsAttribute && _type==(IBSAbsAttribute)_val.getType());
     }
-    CODE END
-    ----------------------------------------------------------------------------------
-    */
-    
-    /* for implementating of getTypedAttribute(Comp _comp, String _s), copy the
-     * following code in your subclass, replacing "SUBCLASSNAME" by the name of
-     * the subclass.
-    ----------------------------------------------------------------------------------
-    CODE BEGIN
-    protected static IBSTypedAttribute make_getTypedAttribute(Comp _comp, String _s) {
-	IBSTypedAttribute a = findAttribute(_comp, _s);
-	if (a == null) {
-	    SUBCLASSNAME x = new SUBCLASSNAME(); // replace here
-	    baseInitAttributes(_comp,_s);
-	    switch (x.type) {
-	    case IBSTypedAttribute.None:{
-		return IBSTypedAttribute.NullAttribute;
-	    }
-	    case IBSTypedAttribute.BoolConst:
-	    case IBSTypedAttribute.IntConst:{
-	        a = new IBSTypedAttribute(x.type,(Object) new Int(constantInt));
-		break;
-	    }
-	    others: {
-		a = new IBSTypedAttribute(x.type,(Object) x);
-		    
-	    }
-	    }
-	    addAttribute(_comp, _s, a);
-	}
-	return a;
-    }
-    CODE END
-    ----------------------------------------------------------------------------------
-    */
-		    
-    /* for implementating of getTypedAttribute(Comp _comp, State _state), copy the
-     * following code in your subclass, replacing "SUBCLASSNAME" by the name of
-     * the subclass.
-    ----------------------------------------------------------------------------------
-    CODE BEGIN
-    protected static IBSTypedAttribute getTypedAttribute(Comp _comp, State _state) {
-	IBSTypedAttribute a = findAttribute(_comp, _state);
-	if (a == null) {
-	    SUBCLASSNAME x = new SUBCLASSNAME(); // replace here
-	    baseInitAttributes(_comp,_state);
-	    switch (x.type) {
-	    case IBSTypedAttribute.None:{
-		return IBSTypedAttribute.NullAttribute;
-	    }
-	    case IBSTypedAttribute.BoolConst:
-	    case IBSTypedAttribute.IntConst:{
-	        a = new IBSTypedAttribute(x.type,(Object) new Int(constantInt));
-		break;
-	    }
-	    others: {
-		a = new IBSTypedAttribute(x.type,(Object) x);
-		    
-	    }
-	    }
-	    addAttribute(_comp, _state, a);
-	}
-	return a;
-    }
-    CODE END
-    ----------------------------------------------------------------------------------
     */
 
     // method to override by subclasses, in particular replacing
     // IBSAbstractAttribute by the name of the subclass.
-    public static boolean instanceOfMe(int _type, Object _val) {
-	return (_val instanceof IBSAbsAttribute);
+    /*
+    public static boolean instanceOfMe(IBSTypedAttribute _ta) {
+        Object v = _ta.getVal();
+	return (v instanceof IBSAbsAttribute && _ta.getType()==(IBSAbsAttribute)v.getType());
     }
-
-    public static String getStateName(Comp _comp, State _state){ return ""; }
-
-    // remains to implement
-    // public static void initBuild(Spec _spec){};
-    // public static void initBuild(Comp _comp){};
-    // public static void initBuild(){};
+     */
 
 
-    // to implement (idea: memory of already searched attributes)
-    public static IBSTypedAttribute findAttribute(Spec _spec, String _s){return null;}
-    public static void addAttribute(Spec _spec, String _s, IBSTypedAttribute _att){}
-    public static IBSTypedAttribute findAttribute(Comp _comp, String _s){return null;}
-    public static void addAttribute(Comp _comp, String _s, IBSTypedAttribute _att){}
-    public static IBSTypedAttribute findAttribute(Comp _comp, State _state){return null;}
-    public static void addAttribute(Comp _comp, State _state, IBSTypedAttribute _att){}
 
-    // for the fun (not used by solver).
+
+
+
     // Nothing to do.
     public final int getType(){return type;}
+    // Nothing to do.
+    public final int getConstant(){return constantInt;}
 
     // for the solver. Returns solver type (IMMEDIATE_(BOOL,INT,NO)).
     // Nothing to do.
     public final int getAttributeType() {
-	switch (type) { 
-	case IBSTypedAttribute.BoolConst:
-	case IBSTypedAttribute.BoolAttr: return IBSolver.IMMEDIATE_BOOL;
-	case IBSTypedAttribute.IntConst:
-	case IBSTypedAttribute.IntAttr: return IBSolver.IMMEDIATE_INT;
-	default: return IBSolver.IMMEDIATE_NO;
-	}
+	    switch (type) {
+	    case IBSAttributeTypes.BoolConst:
+	    case IBSAttributeTypes.BoolAttr: return IBSolver.IMMEDIATE_BOOL;
+	    case IBSAttributeTypes.IntConst:
+	    case IBSAttributeTypes.IntAttr: return IBSolver.IMMEDIATE_INT;
+	    default: return IBSolver.IMMEDIATE_NO;
+	    }
     }
 
     // to implement.
@@ -280,16 +175,23 @@ public class IBSAbsAttribute<
     /* LOCAL IMPLEMENTATION. Not to modify */    
 
     /** The enclosing initialisation functions (local, not to be overriden) */
-    private void baseInitAttribute(Spec _spec, String _s) {
+    void classInitAttribute(Spec _spec, String _s) {
         this.s = _s;
         type = initAttribute(_spec);
     }
-    private void baseInitAttribute(Comp _comp, String _s) {
+    void classInitAttribute(Comp _comp, String _s) {
         this.s = _s;
         type = initAttribute(_comp);
     }
+
+    // to implement
+    // should be static but must be here, as AttributeClassc is not
+    // reacheable at this place (untill all genericity disappear).
+    public String getStateName(Comp _comp, State _state) {
+        return "";
+    }
     //!! for the moment, _comp is useless...
-    private void baseInitAttribute(Comp _comp, State _state) {
+    void classInitAttribute(Comp _comp, State _state) {
         this.s = getStateName(_comp,_state); 
         isState = true;
         state = _state;

@@ -48,11 +48,11 @@ package myutil.intboolsolver;
 // import intboolsolver.IBSolver; // usefull in implementations
 
 interface IBSAttribute<
-        Spec extends IBSParams.Spec,
-        Comp extends IBSParams.Comp,
-        State extends IBSParams.State,
-        SpecState extends IBSParams.SpecState,
-        CompState extends IBSParams.CompState
+        Spec extends IBSSpecParam,
+        Comp extends IBSCompParam,
+        State extends IBSStateParam,
+        SpecState extends IBSSpecStateParam,
+        CompState extends IBSCompStateParam
         > {
     // returns a type from IBSolver
     // (i.e. among IMMEDIATE_(BOOL,INT,NO))

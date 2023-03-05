@@ -40,6 +40,7 @@
 package avatartranslator;
 
 import myutil.TraceManager;
+import myutil.intboolsolver.IBSStateParam;
 import ui.TGComponent;
 
 import java.util.HashMap;
@@ -54,7 +55,7 @@ import java.util.List;
  * @author Ludovic APVRILLE
  * @version 1.0 20/05/2010
  */
-public abstract class AvatarStateMachineElement extends AvatarElement {
+public abstract class AvatarStateMachineElement extends AvatarElement implements IBSStateParam {
 
     protected List<AvatarStateMachineElement> nexts;
     private AvatarState myState;

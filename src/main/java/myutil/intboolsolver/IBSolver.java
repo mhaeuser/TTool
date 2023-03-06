@@ -60,13 +60,13 @@ public class IBSolver <
         ATT extends IBSAttribute<Spec,Comp,State,SpecState,CompState>,
         AtC extends IBSAttributeClass<Spec,Comp,State,SpecState,CompState,ATT>
         > {
-    protected static final int IMMEDIATE_NO = 0;
-    protected static final int IMMEDIATE_INT = 1;
-    protected static final int IMMEDIATE_BOOL = 2;
-    protected  AtC attC; // Attribute Class
+    public static final int IMMEDIATE_NO = 0;
+    public static final int IMMEDIATE_INT = 1;
+    public static final int IMMEDIATE_BOOL = 2;
+    public  AtC attC; // Attribute Class
     private HashSet<String> freeIdents;
 
-    IBSolver(AtC _c){
+    public IBSolver(AtC _c){
         attC = _c;
         freeIdents   = new HashSet<String>();
     }
@@ -801,42 +801,6 @@ public class IBSolver <
             }
         }
 
-    
-    
-    /* supprimable, réécrire les endroits où c'est appelé
-       si on garde, déplacer dans attribut
-
-    public static boolean containsElementAttribute(AvatarElement ae) {
-        if (attributesMap != null) {
-            return attributesMap.containsKey(ae);
-        } else {
-            return false;
-        }
-    }
-
-    public static AvatarExpressionAttribute getElementAttribute(AvatarElement ae) {
-        if (attributesMap != null) {
-            return attributesMap.get(ae);
-        } else {
-            return null;
-        }
-    }
-    
-
-    public static void addElementAttribute(AvatarElement ae, AvatarExpressionAttribute aexa) {
-        if (attributesMap == null) {
-            attributesMap = new HashMap<AvatarElement, AvatarExpressionAttribute>();
-        }
-        attributesMap.put(ae, aexa);
-    }
-    */    
-
-    /* déplacer dans attributs
-    public static void emptyAttributesMap() {
-        attributesMap = new HashMap<AvatarElement, AvatarExpressionAttribute>();
-    }
-    */
-
         private boolean checkIntegrity() {
             int optype, optypel, optyper;
             boolean returnVal;
@@ -1008,74 +972,74 @@ public class IBSolver <
             return optype;
         }
 
-        //!! A Deplacer ailleurs !!!!!!!!!!! methode statique
-        public int indexOfVariable(String expr, String variable) {
-            int index;
-            String tmp = expr;
-            int removed = 0;
-            //System.out.println("\nHandling expr: " + expr);
+    }
+    //!! A Deplacer ailleurs !!!!!!!!!!! methode statique
+    public int indexOfVariable(String expr, String variable) {
+        int index;
+        String tmp = expr;
+        int removed = 0;
+        //System.out.println("\nHandling expr: " + expr);
 
-            while ((index = tmp.indexOf(variable)) > -1) {
-                char c1, c2;
-                if (index > 0) {
-                    c1 = tmp.charAt(index - 1);
-                } else {
-                    c1 = ' ';
+        while ((index = tmp.indexOf(variable)) > -1) {
+            char c1, c2;
+            if (index > 0) {
+                c1 = tmp.charAt(index - 1);
+            } else {
+                c1 = ' ';
+            }
+
+            if (index + variable.length() < tmp.length())
+                c2 = tmp.charAt(index + variable.length());
+            else
+                c2 = ' ';
+
+            //System.out.println("tmp=" + tmp + " c1=" + c1 + " c2=" + c2);
+
+            if (!(Character.isLetterOrDigit(c1) || (c1 == '_'))) {
+                if (!(Character.isLetterOrDigit(c2) || (c2 == '_'))) {
+                    //System.out.println("Found at index=" + index + " returnedIndex=" + (index+removed));
+                    return index + removed;
                 }
-
-                if (index + variable.length() < tmp.length())
-                    c2 = tmp.charAt(index + variable.length());
-                else
-                    c2 = ' ';
-
-                //System.out.println("tmp=" + tmp + " c1=" + c1 + " c2=" + c2);
-
-                if (!(Character.isLetterOrDigit(c1) || (c1 == '_'))) {
-                    if (!(Character.isLetterOrDigit(c2) || (c2 == '_'))) {
-                        //System.out.println("Found at index=" + index + " returnedIndex=" + (index+removed));
-                        return index + removed;
-                    }
-                }
-                tmp = tmp.substring(index + variable.length(), tmp.length());
-                //System.out.println("tmp=" + tmp);
-                removed = index + variable.length();
+            }
+            tmp = tmp.substring(index + variable.length(), tmp.length());
+            //System.out.println("tmp=" + tmp);
+            removed = index + variable.length();
+            if (tmp.length() == 0) {
+                return -1;
+            }
+            // We cut until we find a non alphanumerical character
+            while (Character.isLetterOrDigit(tmp.charAt(0)) || (tmp.charAt(0) == '_')) {
+                tmp = tmp.substring(1, tmp.length());
                 if (tmp.length() == 0) {
                     return -1;
                 }
-                // We cut until we find a non alphanumerical character
-                while (Character.isLetterOrDigit(tmp.charAt(0)) || (tmp.charAt(0) == '_')) {
-                    tmp = tmp.substring(1, tmp.length());
-                    if (tmp.length() == 0) {
-                        return -1;
-                    }
-                    removed++;
-                }
-                //System.out.println("after remove: tmp=" + tmp);
-
+                removed++;
             }
-            return -1;
+            //System.out.println("after remove: tmp=" + tmp);
+
+        }
+        return -1;
+    }
+
+    //!! A Deplacer ailleurs !!!!!!!!!!! methode statique
+    public String replaceVariable(String expr, String oldVariable, String newVariable) {
+        if (oldVariable.compareTo(newVariable) == 0) {
+            return expr;
+        }
+        int index;
+        String tmp = expr;
+
+        while ((index = indexOfVariable(tmp, oldVariable)) > -1) {
+            String tmp1 = "";
+            if (index > 0) {
+                tmp1 = tmp.substring(0, index);
+            }
+            tmp1 += newVariable;
+            tmp1 += tmp.substring(index + oldVariable.length(), tmp.length());
+            tmp = tmp1;
         }
 
-        //!! A Deplacer ailleurs !!!!!!!!!!! methode statique
-        public String replaceVariable(String expr, String oldVariable, String newVariable) {
-            if (oldVariable.compareTo(newVariable) == 0) {
-                return expr;
-            }
-            int index;
-            String tmp = expr;
-
-            while ((index = indexOfVariable(tmp, oldVariable)) > -1) {
-                String tmp1 = "";
-                if (index > 0) {
-                    tmp1 = tmp.substring(0, index);
-                }
-                tmp1 += newVariable;
-                tmp1 += tmp.substring(index + oldVariable.length(), tmp.length());
-                tmp = tmp1;
-            }
-
-            return tmp;
-        }
+        return tmp;
     }
 
 }

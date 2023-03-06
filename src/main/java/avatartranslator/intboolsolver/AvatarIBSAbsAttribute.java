@@ -36,13 +36,13 @@
  * knowledge of the CeCILL license and that you accept its terms.
  */
 
-package myutil.intboolsolver;
+package avatartranslator.intboolsolver;
 import avatartranslator.*;
 import avatartranslator.modelchecker.SpecificationBlock;
 import avatartranslator.modelchecker.SpecificationState;
-import java.util.HashMap;
-import java.util.Map;
-import java.lang.Integer;
+import myutil.intboolsolver.IBSAbsAttribute;
+import myutil.intboolsolver.IBSAttributeTypes;
+
 /**
  * Class AvatarIBSAbstractAttribute
  * Avatar IBS Abstract Attribute implementation
@@ -75,9 +75,8 @@ public class AvatarIBSAbsAttribute extends IBSAbsAttribute<
     private int shift;
     private int mask;
 
-    protected int initAttribute(AvatarSpecification _sp) {
-	AvatarSpecification _spec = (AvatarSpecification) _sp;
-	
+    protected int initAttribute(AvatarSpecification _spec) {
+
         //Extract Block and Attribute
         String[] splitS;
         String blockString;
@@ -146,9 +145,8 @@ public class AvatarIBSAbsAttribute extends IBSAbsAttribute<
     }
     
     
-    protected int initAttribute(AvatarBlock _blk) {
-	AvatarBlock _block = (AvatarBlock)_blk;
-	
+    protected int initAttribute(AvatarBlock _block) {
+
         //Extract Attribute
         if (_block == null) {
             return IBSAttributeTypes.NullAttr;
@@ -228,7 +226,7 @@ public class AvatarIBSAbsAttribute extends IBSAbsAttribute<
 
 
     public String getStateName(AvatarBlock _comp, AvatarStateMachineElement _state){
-	return ((AvatarStateMachineElement)_state).getName();
+	return (_state).getName();
     }
 
     public int getValue(SpecificationState _ss) {

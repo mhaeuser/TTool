@@ -1,6 +1,6 @@
 package myutil.intboolsolver;
 
-class IBSTypedAttribute {
+public class IBSTypedAttribute {
     private Object val = null;
     private int type = IBSAttributeTypes.NullAttr;
     public static final IBSTypedAttribute NullAttribute =

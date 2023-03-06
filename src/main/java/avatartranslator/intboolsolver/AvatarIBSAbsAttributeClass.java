@@ -1,4 +1,4 @@
-package myutil.intboolsolver;
+package avatartranslator.intboolsolver;
 
 import avatartranslator.AvatarBlock;
 import avatartranslator.AvatarElement;
@@ -6,6 +6,9 @@ import avatartranslator.AvatarSpecification;
 import avatartranslator.AvatarStateMachineElement;
 import avatartranslator.modelchecker.SpecificationBlock;
 import avatartranslator.modelchecker.SpecificationState;
+import myutil.intboolsolver.IBSAbsAttributeClass;
+import myutil.intboolsolver.IBSAttributeTypes;
+import myutil.intboolsolver.IBSTypedAttribute;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -17,7 +20,7 @@ public class AvatarIBSAbsAttributeClass extends IBSAbsAttributeClass<
         SpecificationState,
         SpecificationBlock,
         AvatarIBSAbsAttribute
-        >  {
+        > {
     private static Map<AvatarElement, IBSTypedAttribute> attributesMap;
     // handling already covered attributes (memorisation)
     private static AvatarSpecification findSpec = null;
@@ -38,11 +41,11 @@ public class AvatarIBSAbsAttributeClass extends IBSAbsAttributeClass<
                 }
                 case IBSAttributeTypes.BoolConst:
                 case IBSAttributeTypes.IntConst:{
-                    a = new IBSTypedAttribute(x.type,(Object) Integer.valueOf(x.getConstant()));
+                    a = new IBSTypedAttribute(x.getType(),(Object) Integer.valueOf(x.getConstant()));
                     break;
                 }
                 default: {
-                    a = new IBSTypedAttribute(x.type,(Object) x);
+                    a = new IBSTypedAttribute(x.getType(),(Object) x);
 
                 }
             }
@@ -56,17 +59,17 @@ public class AvatarIBSAbsAttributeClass extends IBSAbsAttributeClass<
         if (a == null) {
             AvatarIBSAbsAttribute x = new AvatarIBSAbsAttribute(); // replaced
             x.classInitAttribute(_comp,_s);
-            switch (x.type) {
+            switch (x.getType()) {
                 case IBSAttributeTypes.NullAttr:{
                     return IBSTypedAttribute.NullAttribute;
                 }
                 case IBSAttributeTypes.BoolConst:
                 case IBSAttributeTypes.IntConst:{
-                    a = new IBSTypedAttribute(x.type,(Object) Integer.valueOf(x.getConstant()));
+                    a = new IBSTypedAttribute(x.getType(),(Object) Integer.valueOf(x.getConstant()));
                     break;
                 }
                 default: {
-                    a = new IBSTypedAttribute(x.type,(Object) x);
+                    a = new IBSTypedAttribute(x.getType(),(Object) x);
                 }
             }
             addAttribute(_comp, _s, a);
@@ -79,17 +82,17 @@ public class AvatarIBSAbsAttributeClass extends IBSAbsAttributeClass<
         if (a == null) {
             AvatarIBSAbsAttribute x = new AvatarIBSAbsAttribute(); // replaced
             x.classInitAttribute(_comp,_state);
-            switch (x.type) {
+            switch (x.getType()) {
                 case IBSAttributeTypes.NullAttr:{
                     return IBSTypedAttribute.NullAttribute;
                 }
                 case IBSAttributeTypes.BoolConst:
                 case IBSAttributeTypes.IntConst:{
-                    a = new IBSTypedAttribute(x.type,(Object) Integer.valueOf(x.getConstant()));
+                    a = new IBSTypedAttribute(x.getType(),(Object) Integer.valueOf(x.getConstant()));
                     break;
                 }
                 default: {
-                    a = new IBSTypedAttribute(x.type,(Object) x);
+                    a = new IBSTypedAttribute(x.getType(),(Object) x);
                 }
             }
             addAttribute(_comp, _state, a);
@@ -120,8 +123,7 @@ public class AvatarIBSAbsAttributeClass extends IBSAbsAttributeClass<
 
     public void initBuild(AvatarBlock _comp){initBuild_internal();}
 
-    public IBSTypedAttribute findAttribute(AvatarSpecification _sp, String _s){
-        AvatarSpecification _spec = (AvatarSpecification)_sp;
+    public IBSTypedAttribute findAttribute(AvatarSpecification _spec, String _s){
         AvatarElement ae = getElement(_s, _spec);
         if (ae != null && attributesMap.containsKey(ae)) {
             IBSTypedAttribute ta = attributesMap.get(ae);
@@ -132,7 +134,7 @@ public class AvatarIBSAbsAttributeClass extends IBSAbsAttributeClass<
             return ta;
         }
         findString = _s;
-        findSpec = _sp;
+        findSpec = _spec;
         keyElement = ae;
         return null;
     }
@@ -142,7 +144,7 @@ public class AvatarIBSAbsAttributeClass extends IBSAbsAttributeClass<
         if ( _s == findString && _spec == findSpec )
             ae = keyElement;
         else
-            ae = getElement(_s, (AvatarSpecification)_spec);
+            ae = getElement(_s, _spec);
         if (ae != null){
             if (_att.isAttribute() && !(_att.getVal() instanceof AvatarIBSAbsAttribute))
                 return; // should be an error
@@ -151,7 +153,7 @@ public class AvatarIBSAbsAttributeClass extends IBSAbsAttributeClass<
     }
 
     public IBSTypedAttribute findAttribute(AvatarBlock _cmp, String _s){
-        AvatarBlock _comp = (AvatarBlock)_cmp;
+        AvatarBlock _comp = _cmp;
         AvatarElement ae = getElement(_s, _comp);
         if (ae != null && attributesMap.containsKey(ae)) {
             IBSTypedAttribute ta = attributesMap.get(ae);
@@ -265,4 +267,32 @@ public class AvatarIBSAbsAttributeClass extends IBSAbsAttributeClass<
         }
     }
 
+    /* uniquement pour test */
+
+    public static boolean containsElementAttribute(AvatarElement ae) {
+        if (attributesMap != null) {
+            return attributesMap.containsKey(ae);
+        } else {
+            return false;
+        }
+    }
+
+    public static IBSTypedAttribute getElementAttribute(AvatarElement ae) {
+        if (attributesMap != null) {
+            return attributesMap.get(ae);
+        } else {
+            return null;
+        }
+    }
+
+
+    public static void addElementAttribute(AvatarElement ae, IBSTypedAttribute aexa) {
+        if (attributesMap == null) {
+            attributesMap = new HashMap<AvatarElement, IBSTypedAttribute>();
+        }
+        attributesMap.put(ae, aexa);
+    }
+     public void clearAttributes(){
+        attributesMap = new HashMap<AvatarElement, IBSTypedAttribute>();
+    }
 }

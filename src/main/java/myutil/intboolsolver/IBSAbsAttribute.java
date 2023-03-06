@@ -63,7 +63,7 @@ public class IBSAbsAttribute<
         >{
 
     // partial implementation: Variable and State attributes
-    protected State state =null;
+    public State state =null;
     protected String s = null;
     protected boolean isState = false;
     protected int type = IBSAttributeTypes.NullAttr;
@@ -175,11 +175,11 @@ public class IBSAbsAttribute<
     /* LOCAL IMPLEMENTATION. Not to modify */    
 
     /** The enclosing initialisation functions (local, not to be overriden) */
-    void classInitAttribute(Spec _spec, String _s) {
+    public final void classInitAttribute(Spec _spec, String _s) {
         this.s = _s;
         type = initAttribute(_spec);
     }
-    void classInitAttribute(Comp _comp, String _s) {
+    public final void classInitAttribute(Comp _comp, String _s) {
         this.s = _s;
         type = initAttribute(_comp);
     }
@@ -191,7 +191,7 @@ public class IBSAbsAttribute<
         return "";
     }
     //!! for the moment, _comp is useless...
-    void classInitAttribute(Comp _comp, State _state) {
+    public final void classInitAttribute(Comp _comp, State _state) {
         this.s = getStateName(_comp,_state); 
         isState = true;
         state = _state;

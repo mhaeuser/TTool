@@ -82,6 +82,7 @@ public class IBSolver <
     public void clearFreeIdents() {
         freeIdents   = new HashSet<String>();
     }
+
     public class Expr {
         private Expr left, right;
         private char operator;

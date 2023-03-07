@@ -11,5 +11,4 @@ public class IBSClosedFormulaSolver extends IBSolver <
         IBSClosedFormulaSolver() {
                 super(new IBSClosedFormulaAttributeClass());
         }
-        void main(String[] args) { return;}
 }

@@ -256,7 +256,6 @@ public class IBSolver <
 
             if (!expression.matches("^.+[\\+\\-<>=:;\\$&\\|\\*/].*$")) {
                 // leaf
-                System.out.println("leaf : " + expression );
                 isLeaf = true;
                 checkNegatedNoBrackets();
                 if (expression.equals("true")) {
@@ -297,7 +296,6 @@ public class IBSolver <
                     }
                 }
             }
-            System.out.println("binop : " + expression );
             isLeaf = false;
 
             int index = getOperatorIndex();

@@ -152,6 +152,7 @@ public class AvatarIBSStdAttribute extends IBSStdAttribute<
             return IBSAttributeTypes.NullAttr;
         }
         
+        this.block = _block;
         this.blockIndex = -1; //not initialized
         
         int attributeIndex = block.getIndexOfAvatarAttributeWithName(s);
@@ -160,7 +161,7 @@ public class AvatarIBSStdAttribute extends IBSStdAttribute<
         mask = 0xFFFFFFFF;
         
         if (attributeIndex == -1) {
-            attributeIndex = block.getIndexOfConstantWithName(s);
+            attributeIndex = _block.getIndexOfConstantWithName(s);
             if (attributeIndex == -1) {
                 // state?
                 state = block.getStateMachine().getStateWithName(s);

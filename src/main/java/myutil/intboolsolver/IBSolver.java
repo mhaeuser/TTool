@@ -262,15 +262,15 @@ public class IBSolver <
                 if (expression.equals("true")) {
                     intValue = 1;
                     isImmediateValue = IMMEDIATE_BOOL;
-                    returnVal = true;
+                    return true;
                 } else if (expression.equals("false")) {
                     intValue = 0;
                     isImmediateValue = IMMEDIATE_BOOL;
-                    returnVal = true;
+                    return true;
                 } else if (expression.matches("-?\\d+")) {
                     intValue = Integer.parseInt(expression);
                     isImmediateValue = IMMEDIATE_INT;
-                    returnVal = true;
+                    return true;
                 } else {
                     IBSTypedAttribute att = attC.getTypedAttribute(_comp, expression);
                     switch (att.getType()) {

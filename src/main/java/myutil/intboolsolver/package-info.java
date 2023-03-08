@@ -53,8 +53,8 @@
  *
  * </p>
  * <ul>
- *     <li> {@link myutil.intboolsolver.IBSolverInterface
- *     IBSolverInterface} provides documentation about the functions
+ *     <li> {@link myutil.intboolsolver.IBSolverAPI
+ *     IBSolverAPI} provides documentation about the functions
  *     exported by the solver after it has been instantiated.
  *     </li>
  *     <li> <p>{@link myutil.intboolsolver.IBSolver IBSolver} is the solver
@@ -68,31 +68,31 @@
  *     provide:</b></p>
  *     <ul>
  *         <li> <p>{@code Spec} class, which must implement {@link
- *         myutil.intboolsolver.IBSSpecParam IBSSpecParam}: The class of
+ *         myutil.intboolsolver.IBSParamSpec IBSParamSpec}: The class of
  *         global system specifications, which intuitively associates
  *         leave structures to (spec-dedicated) leave identifiers).</p>
  *         </li>
  *         <li> <p>{@code Comp} class, which <b>must implement</b> {@link
- *         myutil.intboolsolver.IBSCompParam IBSCompParam}: the class
+ *         myutil.intboolsolver.IBSParamComp IBSParamComp}: the class
  *         of system components, which intuitively associates leave
  *         structures to (comp-dedicated) leave identifiers).</p>
  *         </li>
- *         <li> <p>{@code SpecState} class, which <b>must implement</b>
- *         {@link myutil.intboolsolver.IBSSpecStateParam
- *         IBSSpecStateParam}: the class of specification state, which
- *         intuitively associates leaves to int/bool values.</p>
- *         </li>
- *         <li> <p>{@code CompState} class, which <b>must implement</b>
- *         {@link myutil.intboolsolver.IBSCompStateParam
- *         IBSCompStateParam}: the class of component states, which
- *         intuitively associates leaves to int/bool values.</p>
- *         </li>
  *         <li> <p>{@code State} class, which <b>must implement</b>
- *         {@link myutil.intboolsolver.IBSStateParam IBSStateParam}:
+ *         {@link myutil.intboolsolver.IBSParamState IBSParamState}:
  *         a class of states. It is intended to receive state machine
  *         states in provided extensions but can be used another way
  *         (in the provided extensions, there are state leaves that
  *         may be true or false in different contexts...).</p>
+ *         </li>
+ *         <li> <p>{@code SpecState} class, which <b>must implement</b>
+ *         {@link myutil.intboolsolver.IBSParamSpecState
+ *         IBSParamSpecState}: the class of specification state, which
+ *         intuitively associates leaves to int/bool values.</p>
+ *         </li>
+ *         <li> <p>{@code CompState} class, which <b>must implement</b>
+ *         {@link myutil.intboolsolver.IBSParamCompState
+ *         IBSParamCompState}: the class of component states, which
+ *         intuitively associates leaves to int/bool values.</p>
  *         </li>
  *     </ul>
  *     <p><b>WARNING!!</b> A successful instantiation requires that
@@ -100,36 +100,44 @@
  *     {@code SpecState}, {@code CompState} and {@code State}) does
  *     not implement any IBS<i>yyy</i>Param with <i>yyy</i>
  *     &#8800;  <i>xxx</i>.</p>
- *     <p>The structure of leaf expressions is then instantiation
- *     dependent and relies on "attribute" parameters which must
- *     also be provided (themselves parametrized by  the five classes
- *     above) while instantiating. Attribute parameters are decomposed
- *     into two  classes:</p>
+ *     <p>{@link myutil.intboolsolver.IBSParamSpec IBSParamSpec},
+ *     {@link myutil.intboolsolver.IBSParamComp IBSParamComp},
+ *     {@link myutil.intboolsolver.IBSParamState IBSParamState},
+ *     {@link myutil.intboolsolver.IBSParamSpecState IBSParamSpecState}
+ *     and
+ *     {@link myutil.intboolsolver.IBSParamCompState IBSParamCompState}
+ *     can be used as default parameters to instanciate solvers that do
+ *     not implement the corresponding concepts.</p>
+ *     <p>The structure of leaf expressions is  instantiation dependent.
+ *     Thus it is parametrized by "attribute" parameters (themselves
+ *     parametrized by  the five classes above) for which an
+ *     implementation must also be provided in order to instantiate
+ *     {@link myutil.intboolsolver.IBSolver IBSolver}. Attribute
+ *     parameters are decomposed into two classes:</p>
  *     <ul>
- *         <li> <p>an "attribute class" class which contains all the
- *         ("static") methods that do not depend on attribute
- *         instances</p>
- *         </li>
- *         <li> <p>an "attribute class" which allow to create
+ *         <li> <p>an "Attribute" class which allow to create
  *         attribute instances with instance dependent methods.</p>
+ *         </li>
+ *         <li> <p>an "Attribute Class" class which contains all the
+ *         methods that do not depend on attribute instances</p>
  *         </li>
  *     </ul>
  *     </li>
  *     <li><p>{@link myutil.intboolsolver.IBSAttribute
  *     IBSAttribute} is the interface describing the features
- *     to provide in order to instantiate the "attribute" class
+ *     to provide in order to instantiate the "Attribute" class
  *     of {@link myutil.intboolsolver.IBSolver
  *     IBSolver} (features that depend on attribute instances).
  *     <b> implementation must be provides </b>. It can be
- *     implemented using provided extensions.</p>
+ *     implemented directly or using the provided extensions.</p>
  *     </li>
  *     <li><p>{@link myutil.intboolsolver.IBSAttributeClass
  *     IBSAttributeClass} is the interface describing the features
  *     to provide in order to instantiate the "attribute class"
  *     class of {@link myutil.intboolsolver.IBSolver IBSolver}
  *     (features that do not depend on attribute instances).
- *     <b> implementation must be provides </b>. It requires to
- *     instanciate an "attribute" parameter by a class that extends
+ *     <b> implementation must be provided </b>. It requires to
+ *     instanciate an "Attribute" parameter by a class that extends
  *     {@link myutil.intboolsolver.IBSAttribute IBSAttribute},
  *     (with the same {@code Spec}, {@code Comp}, {@code SpecState},
  *     {@code CompState} and {@code State} parameters).
@@ -200,31 +208,31 @@
  * </ul>
  *
  * <hr>
- * <span style="font-size: 120%"> Extension Abstract Attribute </span>
+ * <span style="font-size: 120%"> Extension Standard Attributes </span>
  *  <p> This extension provides a skeleton for a typical
  *  implementation with (boolean) state leaves. It provides a guided
  *  way to implement some methods of
  *  {@link myutil.intboolsolver.IBSAttribute IBSAttribute} and
  *  {@link myutil.intboolsolver.IBSAttributeClass
  *  IBSAttributeClass}</p>
- *  <p> Following the proposed method some partial implementation is
- *  provided. It is sometime provided as code in comments that must
- *  be copied in final instanciation (when genericity disappear).</p>
- *  <p> This extention refines the two abstract class for
+ *  <p> Following the proposed approach, some partial implementation
+ *  is provided. It is sometime provided as code in comments that must
+ *  be copied in final instantiation (when genericity disappear).</p>
+ *  <p> This extension refines the two abstract class for
  *  attributes</p>
  *  <p> Note: the two following classes should be abstract
  *  (future work) making the remaining work to do more clear</p>
  * <ul>
- *     <li><p>{@link myutil.intboolsolver.IBSAbsAttribute
- *     IBSAbsAttribute} implements
+ *     <li><p>{@link myutil.intboolsolver.IBSStdAttribute
+ *     IBSStdAttribute} implements
  *     {@link myutil.intboolsolver.IBSAttribute IBSAttribute}.
  *     To instantiate the solver using this approach, <b>a fully
  *     implemented extension of this class must be provided</b>.
  *     Comments in the file say what remains to implement
  *     (in the futur, abstraction, for automatic checking...).
  *     </li>
- *     <li><p>{@link myutil.intboolsolver.IBSAbsAttributeClass
- *     IBSAbsAttributeClass} implements
+ *     <li><p>{@link myutil.intboolsolver.IBSStdAttributeClass
+ *     IBSStdAttributeClass} implements
  *     {@link myutil.intboolsolver.IBSAttributeClass
  *     IBSAttributeClass}.
  *     To instantiate the solver using this approach, <b>a fully
@@ -236,11 +244,11 @@
  *
  * <p><b>Instantiation summary:</b></p>
  * <p> similar to <a href="#instanciation_sumary"> the previously
- * described process</a>, replacing IBSAttribute by IBSAbsAttribute
- * and IBSAttributeClass by  IBSAbsAttributeClass.</p>
+ * described process</a>, replacing IBSAttribute by IBSStdAttribute
+ * and IBSAttributeClass by  IBSStdAttributeClass.</p>
  *
- * @version 0.0 27/02/2023
+ * @version 0.1 07/03/2023
  *
- * @author Sophie Coudert
+ * @author Sophie Coudert  (rewrite from Alessandro TEMPIA CALVINO)
  */
  package myutil.intboolsolver;

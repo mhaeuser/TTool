@@ -37,14 +37,16 @@
  */
 
 package myutil.intboolsolver;
-
-import java.util.HashMap;
-import java.util.Map;
 import java.util.HashSet;
-import myutil.intboolsolver.IBSAttribute;
+
 /**
- * Class IBSolver
- * Integer/boolean Expression Solver
+ * Class IBSolver implements the generic solver.
+ *
+ * <p>For general information about the solver, see
+ * {@link myutil.intboolsolver package page}.</p>
+ *
+ * <p>For documentation about exported API, see
+ * {@link myutil.intboolsolver.IBSolverAPI IBSolverAPI}</p>
  * Creation: 27/02/2023
  *
  * @author Sophie Coudert (rewrite from Alessandro TEMPIA CALVINO)
@@ -52,11 +54,11 @@ import myutil.intboolsolver.IBSAttribute;
  */
 
 public class IBSolver <
-        Spec extends IBSSpecParam,
-        Comp extends IBSCompParam,
-        State extends IBSStateParam,
-        SpecState extends IBSSpecStateParam,
-        CompState extends IBSCompStateParam,
+        Spec extends IBSParamSpec,
+        Comp extends IBSParamComp,
+        State extends IBSParamState,
+        SpecState extends IBSParamSpecState,
+        CompState extends IBSParamCompState,
         ATT extends IBSAttribute<Spec,Comp,State,SpecState,CompState>,
         AtC extends IBSAttributeClass<Spec,Comp,State,SpecState,CompState,ATT>
         > {

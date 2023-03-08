@@ -13,11 +13,11 @@ public class AvatarIBSAbsSolver extends IBSolver<
         AvatarStateMachineElement,
         SpecificationState,
         SpecificationBlock,
-        AvatarIBSAbsAttribute,
-        AvatarIBSAbsAttributeClass
+        AvatarIBSStdAttribute,
+        AvatarIBSStdAttributeClass
         > {
     public AvatarIBSAbsSolver() {
-        super(new AvatarIBSAbsAttributeClass());
+        super(new AvatarIBSStdAttributeClass());
     }
     void main(String[] args) { return;}
 }

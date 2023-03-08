@@ -40,7 +40,7 @@ package avatartranslator.intboolsolver;
 import avatartranslator.*;
 import avatartranslator.modelchecker.SpecificationBlock;
 import avatartranslator.modelchecker.SpecificationState;
-import myutil.intboolsolver.IBSAbsAttribute;
+import myutil.intboolsolver.IBSStdAttribute;
 import myutil.intboolsolver.IBSAttributeTypes;
 
 /**
@@ -59,7 +59,7 @@ import myutil.intboolsolver.IBSAttributeTypes;
 // - AvatarSpecificationState must extend AvatarIBSAbstractAttribute.SpecificationState
 // - AvatarSpecificationBlock must extend AvatarIBSAbstractAttribute.SpecificationBlock 
 
-public class AvatarIBSAbsAttribute extends IBSAbsAttribute<
+public class AvatarIBSStdAttribute extends IBSStdAttribute<
         AvatarSpecification,
         AvatarBlock,
         AvatarStateMachineElement,

@@ -1,4 +1,4 @@
- /* Copyright or (C) or Copr. GET / ENST, Telecom-Paris, Ludovic Apvrille
+/* Copyright or (C) or Copr. GET / ENST, Telecom-Paris, Ludovic Apvrille
  *
  * ludovic.apvrille AT enst.fr
  *
@@ -35,24 +35,30 @@
  * The fact that you are presently reading this means that you have had
  * knowledge of the CeCILL license and that you accept its terms.
  */
- package myutil.intboolsolver;
-// import intboolsolver.IBSolver; // usefull in implementations
+package myutil.intboolsolver;
 
 /**
-   * Class IBSAttribute
-   * Creation: 27/02/2023
-   * @version 0.0 27/02/2023
-   *
-   * @author Sophie Coudert
+ * Interface IBSAttribute, describing the "dynamic" generic part of open
+ * leaves of {@link myutil.intboolsolver.IBSolver IBSolver}.
+ * Creation: 07/03/2023
+ *
+ *  <p> This interface describes the features required from the
+ *  instances of {@link myutil.intboolsolver.IBSolver IBSolver}
+ *  attributes. Its implementations are intended to instantiate
+ *  the {@code ATT} parameter of the generic
+ *  {@link myutil.intboolsolver.IBSolver IBSolver} </p>
+ *
+ * @version 0.1 07/03/2023
+ * @author Sophie Coudert  (rewrite from Alessandro TEMPIA CALVINO)
  */
 
 
-interface IBSAttribute<
-        Spec extends IBSSpecParam,
-        Comp extends IBSCompParam,
-        State extends IBSStateParam,
-        SpecState extends IBSSpecStateParam,
-        CompState extends IBSCompStateParam
+public interface IBSAttribute<
+        Spec extends IBSParamSpec,
+        Comp extends IBSParamComp,
+        State extends IBSParamState,
+        SpecState extends IBSParamSpecState,
+        CompState extends IBSParamCompState
         > {
     // returns a type from IBSolver
     // (i.e. among IMMEDIATE_(BOOL,INT,NO))

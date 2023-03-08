@@ -1,11 +1,11 @@
 package myutil.intboolsolver;
 
 public class IBSClosedFormulaSolver extends IBSolver <
-        IBSSpecParam,
-        IBSCompParam,
-        IBSStateParam,
-        IBSSpecStateParam,
-        IBSCompStateParam,
+        IBSParamSpec,
+        IBSParamComp,
+        IBSParamState,
+        IBSParamSpecState,
+        IBSParamCompState,
         IBSClosedFormulaAttribute,
         IBSClosedFormulaAttributeClass > {
         IBSClosedFormulaSolver() {

@@ -35,19 +35,24 @@
  * The fact that you are presently reading this means that you have had
  * knowledge of the CeCILL license and that you accept its terms.
  */
+
 package myutil.intboolsolver;
 
 /**
- * The type of results that can be returned when trying to build
- * attributes.
+ * Interface IBSParamCompState, to be implemented by classes intended to
+ * instantiate the {@code CompState} parameter of
+ * {@link myutil.intboolsolver.IBSolver IBSolver}.
  * Creation: 07/03/2023
+ *
+ * <p> The {@code CompState} parameter of
+ * {@link myutil.intboolsolver.IBSolver IBSolver} may be instantiated
+ * by any class without modification, except that the class must implement
+ * this interface and none of the other IBSParamXXX interface.
+ * </p>
+ *
+ * @version 0.1 07/03/2023
  * @author Sophie Coudert
  */
 
-public final class IBSAttributeTypes {
-    public static final int NullAttr =0;  // val is null
-    public static final int BoolConst =1;  // val is an Int integer
-    public static final int IntConst  =2;  // val is an Int boolean (0 or 1)
-    public static final int BoolAttr  =3;  // val is a bool IBSAttribute.
-    public static final int IntAttr   =4;  // val is an int IBSAttribute.
+public interface IBSParamCompState {
 }

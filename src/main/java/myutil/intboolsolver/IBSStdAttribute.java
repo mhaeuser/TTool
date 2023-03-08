@@ -35,25 +35,37 @@
  * The fact that you are presently reading this means that you have had
  * knowledge of the CeCILL license and that you accept its terms.
  */
-
 package myutil.intboolsolver;
+// import intboolsolver.IBSolver; // usefull in implementations
 
 /**
- * Class IBSAbstractAttribute
- * This Class is a documented interface for implementing IBSAttribute.
- * It provides some partial implementation, tools and rules for extention.
- * Creation: 27/02/2023
+ * Class IBSStdAttribute (should be abstract), partially
+ * implementing {@link myutil.intboolsolver.IBSAttribute
+ * IBSAttribute} for systems with states as boolean leaves.
+ * Creation: 07/03/2023
  *
+ * <p> This class (together with
+ * {@link myutil.intboolsolver.IBSStdAttributeClass)
+ * IBSStdAttributeClass}) is a step toward an instantiation
+ * of the solver for systems with states as boolean leaves.</p>
+ * The (very) partial implementation provided here is  sometime
+ * provided as code in comments that must be copied in final
+ * instantiation (when genericity disappear).</p>
+ * <p> To instantiate the solver using this approach, a fully
+ * implemented extension of this class must be provided.
+ * Comments in the file say what remains to implement
+ * (in the futur, abstraction, for automatic checking...).</p>
+ *
+ * @version 0.1 07/03/2023
  * @author Sophie Coudert (rewrite from Alessandro TEMPIA CALVINO)
- * @version 0.0 27/02/2023
  */
 
-public class IBSAbsAttribute<
-        Spec extends IBSSpecParam,
-        Comp extends IBSCompParam,
-        State extends IBSStateParam,
-        SpecState extends IBSSpecStateParam,
-        CompState extends IBSCompStateParam
+public class IBSStdAttribute<
+        Spec extends IBSParamSpec,
+        Comp extends IBSParamComp,
+        State extends IBSParamState,
+        SpecState extends IBSParamSpecState,
+        CompState extends IBSParamCompState
         > implements IBSAttribute<
         Spec ,
         Comp ,

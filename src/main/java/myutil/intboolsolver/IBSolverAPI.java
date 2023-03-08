@@ -37,24 +37,23 @@
  */
 
 package myutil.intboolsolver;
-
 import java.util.HashSet;
 
 /**
- * Class IBSolverInterface
- * Integer/boolean Expression Solver features. For documentation, not for use...
+ * Class IBSolverAPI
+ * Integer/boolean Expression Solver API (exported features). For documentation, not for use...
  * Creation: /03_2023
  *
  * @author Sophie Coudert (rewrite from Alessandro TEMPIA CALVINO)
  * @version 0.0 27/02/2023
  */
 
-public abstract class IBSolverInterface<
-        Spec extends IBSSpecParam,
-        Comp extends IBSCompParam,
-        State extends IBSStateParam,
-        SpecState extends IBSSpecStateParam,
-        CompState extends IBSCompStateParam,
+public abstract class IBSolverAPI<
+        Spec extends IBSParamSpec,
+        Comp extends IBSParamComp,
+        State extends IBSParamState,
+        SpecState extends IBSParamSpecState,
+        CompState extends IBSParamCompState,
         ATT extends IBSAttribute<Spec,Comp,State,SpecState,CompState>,
         AtC extends IBSAttributeClass<Spec,Comp,State,SpecState,CompState,ATT>
         > { 

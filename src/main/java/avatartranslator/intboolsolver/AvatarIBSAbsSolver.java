@@ -19,5 +19,4 @@ public class AvatarIBSAbsSolver extends IBSolver<
     public AvatarIBSAbsSolver() {
         super(new AvatarIBSStdAttributeClass());
     }
-    void main(String[] args) { return;}
 }

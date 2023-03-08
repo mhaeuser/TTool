@@ -45,10 +45,10 @@ package myutil.intboolsolver;
  * Creation: 07/03/2023
  *
  * <p> This class (together with
- * {@link myutil.intboolsolver.IBSStdAttribute)
+ * {@link myutil.intboolsolver.IBSStdAttribute
  * IBSStdAttribute}) is a step toward an instantiation
  * of the solver for systems with states as boolean leaves.</p>
- * The (very) partial implementation provided here is  sometime
+ * <p> The (very) partial implementation provided here is  sometime
  * provided as code in comments that must be copied in final
  * instantiation (when genericity disappear).</p>
  * <p> To instantiate the solver using this approach, a fully

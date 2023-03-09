@@ -53,16 +53,17 @@ package myutil.intboolsolver;
  */
 
 
-public interface IBSAttribute<
+public interface IBSAttribute <
         Spec extends IBSParamSpec,
         Comp extends IBSParamComp,
         State extends IBSParamState,
         SpecState extends IBSParamSpecState,
         CompState extends IBSParamCompState
         > {
-    // returns a type from IBSolver
+    // returns a type from IBSolver (to modify)
     // (i.e. among IMMEDIATE_(BOOL,INT,NO))
     int getAttributeType();
+    static boolean instanceOfMe(Object O) { return true; }
 
     int getValue(SpecState _ss);
     int getValue(SpecState _ss, State _st);

@@ -113,15 +113,15 @@ public class AvatarIBSStdAttributeClass extends IBSStdAttributeClass<
     }
 
 
-    private void initBuild_internal(){
+    public void initBuild(){
         if (attributesMap == null) {
             attributesMap = new HashMap<AvatarElement, IBSTypedAttribute>();
         }
     }
 
-    public void initBuild(AvatarSpecification _spec){initBuild_internal();}
+    public void initBuild(AvatarSpecification _spec){ initBuild(); }
 
-    public void initBuild(AvatarBlock _comp){initBuild_internal();}
+    public void initBuild(AvatarBlock _comp){ initBuild(); }
 
     public IBSTypedAttribute findAttribute(AvatarSpecification _spec, String _s){
         AvatarElement ae = getElement(_s, _spec);

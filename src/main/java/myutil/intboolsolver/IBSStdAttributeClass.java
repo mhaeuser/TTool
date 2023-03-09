@@ -39,7 +39,7 @@
 package myutil.intboolsolver;
 
 /**
- * Class IBSStdAttributeClass (should be abstract), partially
+ * Abstract Class IBSStdAttributeClass, partially
  * implementing {@link myutil.intboolsolver.IBSAttributeClass
  * IBSAttributeClass} for systems with states as boolean leaves.
  * Creation: 07/03/2023
@@ -60,14 +60,14 @@ package myutil.intboolsolver;
  * @author Sophie Coudert (rewrite from Alessandro TEMPIA CALVINO)
  */
 
-public class IBSStdAttributeClass<
+public abstract class IBSStdAttributeClass<
         Spec extends IBSParamSpec,
         Comp extends IBSParamComp,
         State extends IBSParamState,
         SpecState extends IBSParamSpecState,
         CompState extends IBSParamCompState,
         Att extends IBSAttribute<Spec,Comp,State,SpecState,CompState>
-        > extends IBSAttributeClass <
+        > implements IBSAttributeClass <
         Spec ,
         Comp ,
         State ,
@@ -76,9 +76,9 @@ public class IBSStdAttributeClass<
         Att
         > {
     // to implement (cf comment below...
-    // public static IBSTypedAttribute getTypedAttribute(Spec _spec, String _s);
-    // public static IBSTypedAttribute getTypedAttribute(Comp _comp, String _s);
-    // public static IBSTypedAttribute getTypedAttribute(Comp _comp, State _st);
+    // public IBSTypedAttribute getTypedAttribute(Spec _spec, String _s);
+    // public IBSTypedAttribute getTypedAttribute(Comp _comp, String _s);
+    // public IBSTypedAttribute getTypedAttribute(Comp _comp, State _st);
 
     /**
      * Methods getTypedAttribute must be overrided copying the code above in the
@@ -184,18 +184,18 @@ public class IBSStdAttributeClass<
     */
 
     // remains to implement
-    // public static void initBuild(Spec _spec){};
-    // public static void initBuild(Comp _comp){};
-    // public static void initBuild(){};}
+    // public void initBuild(Spec _spec){};
+    // public void initBuild(Comp _comp){};
+    // public void initBuild(){};}
 
     // to implement (idea: memory of already searched attributes)
-    public IBSTypedAttribute findAttribute(Spec _spec, String _s){ return null; }
-    public void addAttribute(Spec _spec, String _s, IBSTypedAttribute _att){}
-    public IBSTypedAttribute findAttribute(Comp _comp, String _s){return null;}
-    public void addAttribute(Comp _comp, String _s, IBSTypedAttribute _att){}
-    public IBSTypedAttribute findAttribute(Comp _comp, State _state){return null;}
-    public void addAttribute(Comp _comp, State _state, IBSTypedAttribute _att){}
+    public abstract IBSTypedAttribute findAttribute(Spec _spec, String _s);
+    public abstract void addAttribute(Spec _spec, String _s, IBSTypedAttribute _att);
+    public abstract IBSTypedAttribute findAttribute(Comp _comp, String _s);
+    public abstract void addAttribute(Comp _comp, String _s, IBSTypedAttribute _att);
+    public abstract IBSTypedAttribute findAttribute(Comp _comp, State _state);
+    public abstract void addAttribute(Comp _comp, State _state, IBSTypedAttribute _att);
     //!! probably function to add to solver...
-    public void clearAttributes(){}
+    public abstract void clearAttributes();
 
 }

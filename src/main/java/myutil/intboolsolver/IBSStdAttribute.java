@@ -60,7 +60,7 @@ package myutil.intboolsolver;
  * @author Sophie Coudert (rewrite from Alessandro TEMPIA CALVINO)
  */
 
-public class IBSStdAttribute<
+public abstract class IBSStdAttribute<
         Spec extends IBSParamSpec,
         Comp extends IBSParamComp,
         State extends IBSParamState,
@@ -106,12 +106,12 @@ public class IBSStdAttribute<
      *  (IBSTypedAttribute.) None, BoolConst, IntConst, BoolAttr and IntAttr.
      */
     // to implement
-    protected int initAttribute(Spec _spec){return IBSAttributeTypes.NullAttr;}
-    protected int initAttribute(Comp _comp){return IBSAttributeTypes.NullAttr;}
+    protected abstract int initAttribute(Spec _spec);
+    protected abstract int initAttribute(Comp _comp);
     /** Here, s, isState and state have already been initialized. 
      *  Returned type should be BoolAttr.
      */
-    protected int initStateAttribute(Comp _comp){return IBSAttributeTypes.BoolAttr;}
+    protected abstract int initStateAttribute(Comp _comp);
 
 
     // method to override by subclasses, in particular replacing
@@ -154,11 +154,11 @@ public class IBSStdAttribute<
     }
 
     // to implement.
-    public int getValue(SpecState _ss){return 0;}
-    public int getValue(CompState sb){return 0;}
-    public int getValue(Object _quickstate){return 0;}
-    public void setValue(SpecState _ss, int val){}
-    public void setValue(CompState _cs, int val){}
+    public abstract int getValue(SpecState _ss);
+    public abstract int getValue(CompState sb);
+    public abstract int getValue(Object _quickstate);
+    public abstract void setValue(SpecState _ss, int val);
+    public abstract void setValue(CompState _cs, int val);
     // should not be modified
     // Nothing to do.
     public int getValue(SpecState _ss, State _st) {
@@ -175,14 +175,18 @@ public class IBSStdAttribute<
     
     // to implement
     // Link component into containing specification
-    public void linkComp(Spec _spec){}
+    public abstract void linkComp(Spec _spec);
     // Link state into containing component
-    public void linkState(){}
+    public abstract void linkState();
     
     // Nothing to do
     public String toString() {
         return s;
     }
+    // to implement
+    // should be static but must be here, as AttributeClassc is not
+    // reacheable at this place (untill all genericity disappear).
+    public abstract String getStateName(Comp _comp, State _state);
     /* **************************************************************** */
     /* LOCAL IMPLEMENTATION. Not to modify */    
 
@@ -196,12 +200,6 @@ public class IBSStdAttribute<
         type = initAttribute(_comp);
     }
 
-    // to implement
-    // should be static but must be here, as AttributeClassc is not
-    // reacheable at this place (untill all genericity disappear).
-    public String getStateName(Comp _comp, State _state) {
-        return "";
-    }
     //!! for the moment, _comp is useless...
     public final void classInitAttribute(Comp _comp, State _state) {
         this.s = getStateName(_comp,_state); 

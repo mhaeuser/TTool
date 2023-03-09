@@ -55,7 +55,7 @@ package myutil.intboolsolver;
  * @author Sophie Coudert  (rewrite from Alessandro TEMPIA CALVINO)
  */
 
-public class IBSAttributeClass<
+public interface IBSAttributeClass<
         Spec extends IBSParamSpec,
         Comp extends IBSParamComp,
         State extends IBSParamState,
@@ -63,16 +63,10 @@ public class IBSAttributeClass<
         CompState extends IBSParamCompState,
         Att extends IBSAttribute<Spec,Comp,State,SpecState,CompState>
         > {
-     public IBSTypedAttribute getTypedAttribute(Spec _spec, String _s) {
-         return IBSTypedAttribute.NullAttribute;
-     }
-     public IBSTypedAttribute getTypedAttribute(Comp _comp, String _s){
-         return IBSTypedAttribute.NullAttribute;
-     }
-     public IBSTypedAttribute getTypedAttribute(Comp _comp, State _st){
-         return IBSTypedAttribute.NullAttribute;
-     }
-     public void initBuild(Spec _spec){}
-     public void initBuild(Comp _comp){}
-     public void initBuild(){}
+     public IBSTypedAttribute getTypedAttribute(Spec _spec, String _s);
+     public IBSTypedAttribute getTypedAttribute(Comp _comp, String _s);
+     public IBSTypedAttribute getTypedAttribute(Comp _comp, State _st);
+     public void initBuild(Spec _spec);
+     public void initBuild(Comp _comp);
+     public void initBuild();
 }

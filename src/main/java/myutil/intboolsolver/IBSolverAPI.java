@@ -213,6 +213,19 @@ public abstract class IBSolverAPI<
          * by _ss.
          */
         public abstract int getResult(SpecState _ss);
+        /**
+         * Evaluate the expression.
+         *
+         * <p> Similar to {@code getResult(SpecState _ss)} but
+         * with a state parameter for specific case. In standard
+         * extension, state leaves are evaluated w.r.t. the state
+         * parameter, rather than specification state.
+         * @param _ss the specification state in which open
+         *            leaves (are expected to) have a value.
+         * @param _st the state parameter
+         * @return the value associated to the expression
+         * by _ss.
+         */
 
         public abstract int getResult(SpecState _ss, State _st);
 
@@ -227,16 +240,65 @@ public abstract class IBSolverAPI<
          * @param _cs the component state in which open
          *            leaves (are expected to) have a value.
          * @return the value associated to the expression
-         * by _cs.
+         * by _ss and _st.
          */
         public abstract int getResult(CompState _cs);
+        /**
+         * Evaluate the expression.
+         *
+         * <p> Can be used for some optimized low level state
+         * parameter like arrays, for example. The real type of
+         * this parameter is instanciation dependent. It is not
+         * a parameter of the generic solver because predefined
+         * low level classes cannot be declared as extension or
+         * implementation of application classes such as our
+         * IBSParamXXX classes. </p>
+         * @param _qs the "quick access" state in which open
+         *            leaves (are expected to) have a value.
+         * @return the value associated to the expression
+         * by _qs.
+         */
 
         public abstract int getResult(Object _qs);
 
+        /**
+         * Usual...
+         */
         public abstract String toString();
+
+        /**
+         * Check whether some leaves of the expression are state
+         * leaves.
+         * @return true if the expression has state leaves. Otherwise, false.
+         * @return true if the expression has state leaves. Otherwise, false.
+         */
         public abstract boolean hasState();
-        public abstract void linkComp(Spec spec);
+
+        /**
+         * links state leaves to their environment (spec, comp) if
+         * it hasn't been done previously for optimisation reasons.
+         * If possible... (leaves must have internal information about
+         * this environment). Too specific, to enhance in the future...
+         */
         public abstract void linkStates();
+        /**
+         * links blocs of attributes to their spec if
+         * it hasn't been done previously.
+         * If relevant... (attributes must have internal information about
+         * these blocks). Too specific, to enhance in the future...
+         */
+        public abstract void linkComp(Spec spec);
+
+        /**
+         * get the type of the expression, among IMMEDIATE_INT,
+         * IMMEDIATE_BOOL and IMMEDIATE_NO.
+         *
+         * <p> Expressions that have been successfully parsed should not
+         * return IMMEDIATE_NO (which denote an undefined type, in
+         * particular for open leaves than have not been typed while parsing..
+         * @return the type of the expression, among IMMEDIATE_INT,
+         * IMMEDIATE_BOOL and IMMEDIATE_NO
+         */
         public abstract int getReturnType();
     }
     //!! Only used in test

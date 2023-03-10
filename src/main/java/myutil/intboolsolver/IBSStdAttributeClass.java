@@ -48,13 +48,19 @@ package myutil.intboolsolver;
  * {@link myutil.intboolsolver.IBSStdAttribute
  * IBSStdAttribute}) is a step toward an instantiation
  * of the solver for systems with states as boolean leaves.</p>
- * <p> The (very) partial implementation provided here is  sometime
- * provided as code in comments that must be copied in final
- * instantiation (when genericity disappear).</p>
  * <p> To instantiate the solver using this approach, a fully
  * implemented extension of this class must be provided.
- * Comments in the file say what remains to implement
- * (in the futur, abstraction, for automatic checking...).</p>
+ * To make instantiation easier, functions that remain abstract are
+ * grouped at the beginning of the code file and commented</p>
+ * <HR>
+ * <p> The proposed implementation allow instances to provides a
+ * mechanism that  memorize attributes that have already
+ * been build. Using this mechanism avoids creating isomorphic
+ * instances of a single attribute.</p>
+ *
+ * <p> To allow the handling of this "memory", some methods must
+ * be implemented, enumerated below. Associated comments below
+ * are guided by this typical implementation semantics.</p>
  *
  * @version 0.1 07/03/2023
  * @author Sophie Coudert (rewrite from Alessandro TEMPIA CALVINO)
@@ -75,6 +81,109 @@ public abstract class IBSStdAttributeClass<
         CompState,
         Att
         > {
+    /**
+     * Pseudo default constructor for Attributes.
+     *
+     * <p> A simple {@code new} for attributes, that cannot be implemented
+     * at the current level (genericity constraints) and must be implemented at
+     * instance level to provide an instance attribute. Thus, it must
+     * be overridden as soon as subclasses of  instance attributes are used.
+     * Trivial implementation:</p>
+     * <PRE>
+     *     public instanceIBSAttribute getNewAttribute() {
+     *         return new instanceIBSAttribute();
+     *     }
+     * </PRE>
+     * @return a new fresh uninitialized instance IBSStdAttribute.
+     */
+    public abstract IBSStdAttribute<Spec,Comp,State,SpecState,CompState> getNewAttribute();
+
+    /**
+     * Initialisation before parsing an expression.
+     *
+     * <p> Automatically called by {@code buildExpression(Spec _spec)} </p>
+     * @param _spec the specification that associates structures to open
+     *             leaves
+     */
+    public abstract void initBuild(Spec _spec);
+    /**
+     * Initialisation before parsing an expression.
+     *
+     * <p> Automatically called by {@code buildExpression(Comp _comp)} </p>
+     * @param _comp the component that associates structures to open
+     *             leaves
+     */
+    public abstract void initBuild(Comp _comp);
+    /**
+     * Initialisation before parsing an expression.
+     *
+     * <p> Automatically called by {@code buildExpression()} </p>
+     */
+    public abstract void initBuild();
+
+    /**
+     * Find a memorized typed attribute or returns null
+     *
+     * <p> Tf the attribute corresponding to _s has been memorized,
+     * it is returned. Otherwise null is returned </p>
+     * @param _spec the specification that associates structures to open
+     *             leaves
+     * @param _s the string that identifies the searched attribute.
+     * @return the found or created typed attribute
+     */
+    public abstract IBSTypedAttribute findAttribute(Spec _spec, String _s);
+
+    /**
+     * Add an attribute to the memorized ones.
+     * @param _spec the specification that associates structures to open
+     *             leaves
+     * @param _s the string that identifies (in _spec) the attribute to add
+     * @param _att the attribute to add
+     */
+    public abstract void addAttribute(Spec _spec, String _s, IBSTypedAttribute _att);
+     /**
+      * Find a memorized typed attribute or returns null
+     *
+     * <p> Tf the attribute corresponding to _s has been memorized,
+     * it is returned. Otherwise null is returned </p>
+     * @param _comp the component that associates structures to open
+     *       leaves
+     * @param _s the string that identifies the searched attribute.
+     * @return the found or created typed attribute
+     */
+   public abstract IBSTypedAttribute findAttribute(Comp _comp, String _s);
+    /**
+     * Add an attribute to the memorized ones.
+     * @param _comp the component that associates structures to open
+     *             leaves
+     * @param _s the string that identifies (in _comp) the attribute to add
+     * @param _att the attribute to add
+     */
+    public abstract void addAttribute(Comp _comp, String _s, IBSTypedAttribute _att);
+    /**
+     * Find a memorized attribute or returns null
+     *
+     * <p> Tf the attribute corresponding to _s has been memorized,
+     * it is returned. Otherwise null is returned </p>
+     * @param _comp the component that associates structures to open
+     *       leaves
+     * @param _state the string that identifies the searched attribute.
+     * @return  the found or created typed attribute.
+     */
+    public abstract IBSTypedAttribute findAttribute(Comp _comp, State _state);
+    /**
+     * Add an attribute to the memorized ones.
+     * @param _comp the component that associates structures to open
+     *             leaves
+     * @param _state the state that identifies (in _comp) the attribute to add
+     * @param _att the attribute to add
+     */
+    public abstract void addAttribute(Comp _comp, State _state, IBSTypedAttribute _att);
+
+    /**
+     * Clear the memorized attributes.
+     */
+    public abstract void clearAttributes();
     // to implement (cf comment below...
     // public IBSTypedAttribute getTypedAttribute(Spec _spec, String _s);
     // public IBSTypedAttribute getTypedAttribute(Comp _comp, String _s);
@@ -183,19 +292,5 @@ public abstract class IBSStdAttributeClass<
     ----------------------------------------------------------------------------------
     */
 
-    // remains to implement
-    // public void initBuild(Spec _spec){};
-    // public void initBuild(Comp _comp){};
-    // public void initBuild(){};}
-
-    // to implement (idea: memory of already searched attributes)
-    public abstract IBSTypedAttribute findAttribute(Spec _spec, String _s);
-    public abstract void addAttribute(Spec _spec, String _s, IBSTypedAttribute _att);
-    public abstract IBSTypedAttribute findAttribute(Comp _comp, String _s);
-    public abstract void addAttribute(Comp _comp, String _s, IBSTypedAttribute _att);
-    public abstract IBSTypedAttribute findAttribute(Comp _comp, State _state);
-    public abstract void addAttribute(Comp _comp, State _state, IBSTypedAttribute _att);
-    //!! probably function to add to solver...
-    public abstract void clearAttributes();
 
 }

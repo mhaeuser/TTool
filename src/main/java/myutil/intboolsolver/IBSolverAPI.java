@@ -301,8 +301,22 @@ public abstract class IBSolverAPI<
          */
         public abstract int getReturnType();
     }
-    //!! Only used in test
+
+    /**
+     * Only used for testing
+     * @param expr
+     * @param variable
+     * @return
+     */
+
     public abstract int indexOfVariable(String expr, String variable);
-    //!! Only used in test
+
+    /**
+     * Only used for testing
+     * @param expr
+     * @param oldVariable
+     * @param newVariable
+     * @return
+     */
     public abstract String replaceVariable(String expr, String oldVariable, String newVariable);
 }

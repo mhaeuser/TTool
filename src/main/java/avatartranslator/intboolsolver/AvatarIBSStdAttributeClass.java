@@ -30,6 +30,8 @@ public class AvatarIBSStdAttributeClass extends IBSStdAttributeClass<
 
     AvatarIBSStdAttributeClass(){}
 
+    public AvatarIBSStdAttribute getNewAttribute() { return new AvatarIBSStdAttribute(); }
+
     public IBSTypedAttribute getTypedAttribute(AvatarSpecification _spec, String _s) {
         IBSTypedAttribute a = findAttribute(_spec, _s);
         if (a == null) {

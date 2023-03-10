@@ -39,22 +39,37 @@ package myutil.intboolsolver;
 // import intboolsolver.IBSolver; // usefull in implementations
 
 /**
- * Class IBSStdAttribute (should be abstract), partially
- * implementing {@link myutil.intboolsolver.IBSAttribute
- * IBSAttribute} for systems with states as boolean leaves.
+ * Abstract Class IBSStdAttribute partially implementing {@link
+ * myutil.intboolsolver.IBSAttribute IBSAttribute} for systems with
+ * states as boolean leaves.
  * Creation: 07/03/2023
  *
  * <p> This class (together with
  * {@link myutil.intboolsolver.IBSStdAttributeClass
- * IBSStdAttributeClass}) is a step toward an instantiation
+ * IBSStdAttributeClass}) is a (little) step toward an instantiation
  * of the solver for systems with states as boolean leaves.</p>
- * <p> The (very) partial implementation provided here is  sometime
- * provided as code in comments that must be copied in final
- * instantiation (when genericity disappear).</p>
  * <p> To instantiate the solver using this approach, a fully
  * implemented extension of this class must be provided.
- * Comments in the file say what remains to implement
- * (in the futur, abstraction, for automatic checking...).</p>
+ * To make instantiation easier, functions that remain abstract are
+ * grouped at the beginning of the code file and commented</p>
+ * <HR>
+ * <p>Subclasses must not export any constructors but provide access to
+ * their default one through {@code public SubClass getNew()}). They also
+ * provide initialisation functions to be called after the default
+ * constructor.</p>
+ * <p> More technically, the creation process of attributes is the following one:</p>
+ * <ul>
+ *     <li> Subclass Default Constructor (subclass provides {@code public
+ *     SubClass getNew()})
+ *     </li>
+ *     <li> IBSStdAttribute initialisation function (implemented here)
+ *     </li>
+ *     <li> Subclass specific initialisation function (subclass provides
+ *     {@code int initAttribute(...)})
+ *     </li>
+ *     <li> IBSStdtAttribute initialisation postprocessing (implemented here)
+ *     </li>
+ * </ul>
  *
  * @version 0.1 07/03/2023
  * @author Sophie Coudert (rewrite from Alessandro TEMPIA CALVINO)
@@ -80,69 +95,83 @@ public abstract class IBSStdAttribute<
     protected boolean isState = false;
     protected int type = IBSAttributeTypes.NullAttr;
     protected int constantInt = 0;
-        
-    /** Subclasses must not define any constructors but provide initialisation functions 
-     *  to be called after the default constructor, which is the only one we use,
-     *  following the sequence:
-     *  - Subclass Default Constructor;
-     *  - IBSAbstractAttribute initialisation function;
-     *  - Subclass initialisation function
-     *  - IBSAbstractAttribute initialisation post processing.
-     *  (implementation at the end of this file)
-     *
-     *  The subclass initialisation functions can use "s", which is set before. 
-     *
-     *  They return the type computed for the attribute, among (IBSTypedAttribute.) None,
-     *  BoolConst, IntConst, BoolAttr, IntAttr.
-     *
-     *  If returned type is BoolConst or IntConst, constantInt should contain the associated 
-     *  constant value.
-     *
-     *  Post processing sets field "type" to this returned value and considers IntConst as
-     *  up-to-date, just after subclass initialisation functions.
-     */
 
-    /** The subclass provided initialisation functions, returning values among 
-     *  (IBSTypedAttribute.) None, BoolConst, IntConst, BoolAttr and IntAttr.
+    /** Subclass specific initialisation functions for attributes.
+     *
+     * <p> Part of attribute initialisation that is specific to instantiation.
+     * Member "s" (attribute string), can be used as it has been set by
+     * IBSStdAttribute  initialisation, which has been called just before.</p>
+     *
+     * <p> The returned value is among  (IBSTypedAttribute.) None, BoolConst,
+     * IntConst, BoolAttr and IntAttr, according to the type of attribute that
+     * has been identified.</p>
+     *
+     *  <p> If the returned type is BoolConst or IntConst, constantInt must contain
+     *  associated constant value when returning (expected by postprocessing)</p>
+     * @param _spec the specification that associates structures to attribute
+     *              strings
+     * @return the type of the identified attribute, among  (IBSTypedAttribute.)
+     * None, BoolConst, IntConst, BoolAttr and IntAttr. (IntConst set if relevant)
      */
     // to implement
     protected abstract int initAttribute(Spec _spec);
+    /** Subclass specific initialisation functions for attributes.
+     *
+     * <p> Part of attribute initialisation that is specific to instantiation.
+     * Member "s" (attribute string), can be used as it has been set by
+     * IBSStdAttribute  initialisation, which has been called just before.</p>
+     *
+     * <p> The returned value is among  (IBSTypedAttribute.) None, BoolConst,
+     * IntConst, BoolAttr and IntAttr, according to the type of attribute that
+     * has been identified.</p>
+     *
+     *  <p> If the returned type is BoolConst or IntConst, constantInt must contain
+     *  associated constant value when returning (expected by postprocessing)</p>
+     * @param _comp the component that associates structures to attribute
+     *              strings
+     * @return the type of the identified attribute, among  (IBSTypedAttribute.)
+     * None, BoolConst, IntConst, BoolAttr and IntAttr. (IntConst set if relevant)
+     */
     protected abstract int initAttribute(Comp _comp);
-    /** Here, s, isState and state have already been initialized. 
-     *  Returned type should be BoolAttr.
+    /** Subclass specific initialisation functions for attributes.
+     *
+     * <p> Part of attribute initialisation that is specific to instantiation.
+     * Members s, isState and state have already been set by IBSStdAttribute
+     * initialisation, which has been called just before.</p>
+     * <p> Returned type should be BoolAttr, or None if the attribute is not
+     * a state attribute (error case).</p>
      */
     protected abstract int initStateAttribute(Comp _comp);
 
-
-    // method to override by subclasses, in particular replacing
-    // IBSAbstractAttribute by the name of the subclass.
-    /*
-    public static boolean instanceOfMe(int _type, Object _val) {
-	return (_val instanceof IBSAbsAttribute && _type==(IBSAbsAttribute)_val.getType());
-    }
-    */
-
-    // method to override by subclasses, in particular replacing
-    // IBSAbstractAttribute by the name of the subclass.
-    /*
-    public static boolean instanceOfMe(IBSTypedAttribute _ta) {
-        Object v = _ta.getVal();
-	return (v instanceof IBSAbsAttribute && _ta.getType()==(IBSAbsAttribute)v.getType());
-    }
+    /**
+     * get the name associated to a state by the instance.
+     *
+     * <p> Note: although this method seems to be in the scope of the static
+     * part of attributes (IBSAttributeClass), it must be here because
+     * it is used here, where AttributeClass cannot be made visible
+     * (genericity limits).</p>
+     * @param _comp the component that associates structures to attribute
+     *              strings
+     * @param _state the state of which we want the name
+     * @return the name associated to _state by _comp
      */
+    public abstract String getStateName(Comp _comp, State _state);
+
+    // Remaining methods to implement are documented in IBSAttribute.
+    public abstract int getValue(SpecState _ss);
+    public abstract int getValue(CompState sb);
+    public abstract int getValue(Object _quickstate);
+    public abstract void setValue(SpecState _ss, int val);
+    public abstract void setValue(CompState _cs, int val);
+
+    public abstract void linkComp(Spec _spec);
+    public abstract void linkState();
 
 
-
-
-
-
-    // Nothing to do.
+    // $$$$$$$$$$$$$$$ implementation, should not be modified $$$$$$$$$$$$$$
     public final int getType(){return type;}
     // Nothing to do.
     public final int getConstant(){return constantInt;}
-
-    // for the solver. Returns solver type (IMMEDIATE_(BOOL,INT,NO)).
-    // Nothing to do.
     public final int getAttributeType() {
 	    switch (type) {
 	    case IBSAttributeTypes.BoolConst:
@@ -152,45 +181,18 @@ public abstract class IBSStdAttribute<
 	    default: return IBSolver.IMMEDIATE_NO;
 	    }
     }
-
-    // to implement.
-    public abstract int getValue(SpecState _ss);
-    public abstract int getValue(CompState sb);
-    public abstract int getValue(Object _quickstate);
-    public abstract void setValue(SpecState _ss, int val);
-    public abstract void setValue(CompState _cs, int val);
-    // should not be modified
-    // Nothing to do.
     public int getValue(SpecState _ss, State _st) {
         if (isState) {
             return (state == _st) ? 1 : 0;
         }
-	return(getValue(_ss));
+	    return(getValue(_ss));
     }
-
-    // Nothing to do
     public boolean isState() {
         return isState;
     }
-    
-    // to implement
-    // Link component into containing specification
-    public abstract void linkComp(Spec _spec);
-    // Link state into containing component
-    public abstract void linkState();
-    
-    // Nothing to do
     public String toString() {
         return s;
     }
-    // to implement
-    // should be static but must be here, as AttributeClassc is not
-    // reacheable at this place (untill all genericity disappear).
-    public abstract String getStateName(Comp _comp, State _state);
-    /* **************************************************************** */
-    /* LOCAL IMPLEMENTATION. Not to modify */    
-
-    /** The enclosing initialisation functions (local, not to be overriden) */
     public final void classInitAttribute(Spec _spec, String _s) {
         this.s = _s;
         type = initAttribute(_spec);
@@ -200,7 +202,7 @@ public abstract class IBSStdAttribute<
         type = initAttribute(_comp);
     }
 
-    //!! for the moment, _comp is useless...
+    //!! for the moment, _comp is useless... Reviser...
     public final void classInitAttribute(Comp _comp, State _state) {
         this.s = getStateName(_comp,_state); 
         isState = true;

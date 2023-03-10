@@ -1,5 +1,10 @@
 package myutil.intboolsolver;
 
+/** most of the methods of this class are implemented because they
+ * are required for instantiation, but not used as no call to
+ * attribute features is required to handle closed formula.
+ */
+
 public class IBSStdClosedFormulaAttributeClass extends IBSStdAttributeClass<
         IBSParamSpec,
         IBSParamComp,
@@ -9,6 +14,11 @@ public class IBSStdClosedFormulaAttributeClass extends IBSStdAttributeClass<
         IBSClosedFormulaAttribute
         > {
     IBSStdClosedFormulaAttributeClass(){}
+
+    public IBSStdClosedFormulaAttribute getNewAttribute() {
+        return null;
+    }
+
     public IBSTypedAttribute getTypedAttribute(IBSParamSpec _spec, String _s) {
         return IBSTypedAttribute.NullAttribute;
     }

@@ -37,7 +37,7 @@
   */
 
 /**
- * Package intboolsolver. A generic parser/evaluator for boolean/integer
+ * Package intboolsolver, a generic parser/evaluator for boolean/integer
  * expressions with open leaves (i.e identifiers).
  * Creation: 27/02/2023.
  *

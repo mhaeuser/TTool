@@ -62,9 +62,8 @@ public interface IBSAttribute <
         > {
     // returns a type from IBSolver (to modify)
     // (i.e. among IMMEDIATE_(BOOL,INT,NO))
+    int getType();
     int getAttributeType();
-    static boolean instanceOfMe(Object O) { return true; }
-
     int getValue(SpecState _ss);
     int getValue(SpecState _ss, State _st);
     int getValue(CompState _cs);
@@ -74,7 +73,17 @@ public interface IBSAttribute <
     void setValue(CompState _cs, int _val);
     
    boolean isState();
-   void linkComp(Spec _spec);
+   /**
+    * links state attributes to their environment (spec, comp).
+    * If possible... (attributes must have internal information about
+    * this environment). Too specific, to enhance in the future...
+    */
    void linkState();
+   /**
+    * links components of attributes to their environment (spec).
+    * If possible... (attributes must have internal information about
+    * their components). Too specific, to enhance in the future...
+    */
+   void linkComp(Spec _spec);
    String toString();
 }

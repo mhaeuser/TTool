@@ -37,7 +37,6 @@
  */
 
 package myutil.intboolsolver;
-import static myutil.intboolsolver.IBSolver.IMMEDIATE_NO;
 
 /**
  * class IBSClosedFormulaAttribute is a complete implementation
@@ -58,7 +57,8 @@ public class IBSClosedFormulaAttribute implements IBSAttribute<
         IBSParamCompState
         > {
     IBSClosedFormulaAttribute(){}
-    public int getAttributeType(){ return IMMEDIATE_NO; }
+    public int getType(){ return IBSAttributeTypes.NullAttr; }
+    public int getAttributeType(){ return IBSolver.IMMEDIATE_NO; }
 
     public int getValue(IBSParamSpecState _ss){ return 0; }
     public int getValue(IBSParamSpecState _ss, IBSParamState _st){ return 0; }

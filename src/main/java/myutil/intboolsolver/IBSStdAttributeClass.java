@@ -184,113 +184,74 @@ public abstract class IBSStdAttributeClass<
      * Clear the memorized attributes.
      */
     public abstract void clearAttributes();
-    // to implement (cf comment below...
-    // public IBSTypedAttribute getTypedAttribute(Spec _spec, String _s);
-    // public IBSTypedAttribute getTypedAttribute(Comp _comp, String _s);
-    // public IBSTypedAttribute getTypedAttribute(Comp _comp, State _st);
 
-    /**
-     * Methods getTypedAttribute must be overrided copying the code above in the
-     * subclass and replacing "SubClassName" by the name  of the subclass.
-     * Indeed, returning IBSTypedAttribute that contain created instances of the
-     * subclass as val is only possible at the subclass level.
-     */
+    public IBSTypedAttribute getTypedAttribute(Spec _spec, String _s) {
+        IBSTypedAttribute a = findAttribute(_spec, _s);
+        if (a == null) {
+            IBSStdAttribute x = getNewAttribute(); // replaced...
+            x.classInitAttribute(_spec,_s);
+            switch (x.getType()) {
+                case IBSAttributeTypes.NullAttr:{
+                    return IBSTypedAttribute.NullAttribute;
+                }
+                case IBSAttributeTypes.BoolConst:
+                case IBSAttributeTypes.IntConst:{
+                    a = new IBSTypedAttribute(x.getType(),(Object) Integer.valueOf(x.getConstant()));
+                    break;
+                }
+                default: {
+                    a = new IBSTypedAttribute(x.getType(),(Object) x);
 
-    /* for implementating of getTypedAttribute(Spec _spec, String _s), copy the
-     * following code in your subclass, replacing "SUBCLASSNAME" by the name of
-     * the subclass.
-    ----------------------------------------------------------------------------------
-    CODE BEGIN
-    protected static IBSTypedAttribute getTypedAttribute(Spec _spec, String _s) {
-	IBSTypedAttribute a = findAttribute(_spec, _s);
-	if (a == null) {
-	    SUBCLASSNAME x = new SUBCLASSNAME(); // replace here
-	    x.classInitAttribute(_spec,_s);
-
-	    switch (x.type) {
-	    case IBSAttributeTypes.NullAttr:{
-		    return IBSTypedAttribute.NullAttribute;
-	    }
-	    case IBSAttributeTypes.BoolConst:
-	    case IBSAttributeTypes.IntConst:{
-	        a = new IBSTypedAttribute(x.type,(Object) new Int(constantInt));
-		    break;
-	    }
-	    default: {
-		a = new IBSTypedAttribute(x.type,(Object) x);
-	    }
-	    }
-	    addAttribute(_spec, _s, a);
-	}
-	return a;
+                }
+            }
+            addAttribute(_spec, _s, a);
+        }
+        return a;
     }
-    CODE END
-    ----------------------------------------------------------------------------------
-    */
 
-    /* for implementating of getTypedAttribute(Comp _comp, String _s), copy the
-     * following code in your subclass, replacing "SUBCLASSNAME" by the name of
-     * the subclass.
-    ----------------------------------------------------------------------------------
-    CODE BEGIN
-    protected static IBSTypedAttribute make_getTypedAttribute(Comp _comp, String _s) {
-	IBSTypedAttribute a = findAttribute(_comp, _s);
-	if (a == null) {
-	    SUBCLASSNAME x = new SUBCLASSNAME(); // replace here
-	    x.classInitAttribute(_comp,_s);
-
-	    switch (x.type) {
-	    case IBSAttributeTypes.NullAttr:{
-		    return IBSTypedAttribute.NullAttribute;
-	    }
-	    case IBSAttributeTypes.BoolConst:
-	    case IBSAttributeTypes.IntConst:{
-	        a = new IBSTypedAttribute(x.type,(Object) new Int(constantInt));
-		    break;
-	    }
-	    default: {
-		a = new IBSTypedAttribute(x.type,(Object) x);
-	    }
-	    }
-	    addAttribute(_comp, _s, a);
-	}
-	return a;
+    public IBSTypedAttribute getTypedAttribute(Comp _comp, String _s) {
+        IBSTypedAttribute a = findAttribute(_comp, _s);
+        if (a == null) {
+            IBSStdAttribute x = getNewAttribute(); // replaced
+            x.classInitAttribute(_comp,_s);
+            switch (x.getType()) {
+                case IBSAttributeTypes.NullAttr:{
+                    return IBSTypedAttribute.NullAttribute;
+                }
+                case IBSAttributeTypes.BoolConst:
+                case IBSAttributeTypes.IntConst:{
+                    a = new IBSTypedAttribute(x.getType(),(Object) Integer.valueOf(x.getConstant()));
+                    break;
+                }
+                default: {
+                    a = new IBSTypedAttribute(x.getType(),(Object) x);
+                }
+            }
+            addAttribute(_comp, _s, a);
+        }
+        return a;
     }
-    CODE END
-    ----------------------------------------------------------------------------------
-    */
 
-    /* for implementating of getTypedAttribute(Comp _comp, State _state), copy the
-     * following code in your subclass, replacing "SUBCLASSNAME" by the name of
-     * the subclass.
-    ----------------------------------------------------------------------------------
-    CODE BEGIN
-    protected static IBSTypedAttribute getTypedAttribute(Comp _comp, State _state) {
-	IBSTypedAttribute a = findAttribute(_comp, _state);
-	if (a == null) {
-	    SUBCLASSNAME x = new SUBCLASSNAME(); // replace here
-	    x.classInitAttribute(_comp,_state);
-
-	    switch (x.type) {
-	    case IBSAttributeTypes.NullAttr:{
-		    return IBSTypedAttribute.NullAttribute;
-	    }
-	    case IBSAttributeTypes.BoolConst:
-	    case IBSAttributeTypes.IntConst:{
-	        a = new IBSTypedAttribute(x.type,(Object) new Int(constantInt));
-		    break;
-	    }
-	    default: {
-		a = new IBSTypedAttribute(x.type,(Object) x);
-	    }
-	    }
-	    addAttribute(_comp, _state, a);
-	}
-	return a;
+    public IBSTypedAttribute getTypedAttribute(Comp _comp, State _state) {
+        IBSTypedAttribute a = findAttribute(_comp, _state);
+        if (a == null) {
+            IBSStdAttribute x = getNewAttribute(); // replaced
+            x.classInitAttribute(_comp,_state);
+            switch (x.getType()) {
+                case IBSAttributeTypes.NullAttr:{
+                    return IBSTypedAttribute.NullAttribute;
+                }
+                case IBSAttributeTypes.BoolConst:
+                case IBSAttributeTypes.IntConst:{
+                    a = new IBSTypedAttribute(x.getType(),(Object) Integer.valueOf(x.getConstant()));
+                    break;
+                }
+                default: {
+                    a = new IBSTypedAttribute(x.getType(),(Object) x);
+                }
+            }
+            addAttribute(_comp, _state, a);
+        }
+        return a;
     }
-    CODE END
-    ----------------------------------------------------------------------------------
-    */
-
-
 }

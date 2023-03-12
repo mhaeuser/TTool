@@ -105,7 +105,7 @@ public class AvatarIBSExpressionTest {
         w2.setInitialValue("-12");
     }
     
-    //@Test
+    @Test
     public void testImmediate() {
         TraceManager.addDev("Testing AvatarExpressionTest.testImmediate");
         AvatarIBSAbsSolver.Expr e1 = solver.new Expr("10 + 15 >= 20");
@@ -206,7 +206,7 @@ public class AvatarIBSExpressionTest {
 
     }
     
-    //@Test
+    @Test
     public void testBlock() {
         SpecificationBlock specBlock = new SpecificationBlock();
         specBlock.init(block1, false, false);

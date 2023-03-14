@@ -102,6 +102,7 @@ public class AvatarBDPanel extends TDiagramPanel {
             this.mgui.setPanelMode ();
             return true;
         } else if (tgc instanceof AvatarBDLibraryFunction) {
+            //TraceManager.addDev(" *** add Avatar function *** name=" + ((AvatarBDLibraryFunction) tgc).getFunctionName ());
             ((AvatarDesignPanel) this.tp).addAvatarStateMachineDiagramPanel(((AvatarBDLibraryFunction) tgc).getFunctionName ());
             this.mgui.setPanelMode ();
             return true;
@@ -172,8 +173,13 @@ public class AvatarBDPanel extends TDiagramPanel {
 
     @Override
     public boolean actionOnValueChanged(TGComponent tgc) {
+        TraceManager.addDev("Action on value changed");
         if (tgc instanceof AvatarBDBlock) {
             //updateAllSignalsOnConnectors();
+            return actionOnDoubleClick(tgc);
+        } else if (tgc instanceof AvatarBDLibraryFunction) {
+            TraceManager.addDev("Renaming tab from " + ((AvatarBDLibraryFunction)tgc).getOldValue() + " to " + tgc.getValue());
+            changeStateMachineTabName( ((AvatarBDLibraryFunction)tgc).getOldValue(), tgc.getValue());
             return actionOnDoubleClick(tgc);
         }
         return false;

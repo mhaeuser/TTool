@@ -149,6 +149,8 @@ public class AvatarBDLibraryFunction extends TGCScalableWithoutInternalComponent
      */
     private LinkedList<AvatarMethod> methods;
 
+    private String oldValue = null;
+
     /**
      * Standard constructor for a library function block.
      *
@@ -193,9 +195,10 @@ public class AvatarBDLibraryFunction extends TGCScalableWithoutInternalComponent
         this.removable = true;
         this.userResizable = true;
 
-
         name = tdp.findAvatarBDBlockName("LibraryFunction");
+        //TraceManager.addDev("Selected name for lib function: " + name);
         setValue(name);
+        oldValue = value;
 
         // Find a new unused name
         /*int i;
@@ -234,6 +237,10 @@ public class AvatarBDLibraryFunction extends TGCScalableWithoutInternalComponent
 
     public String getFunctionName() {
         return this.name;
+    }
+
+    public String getOldValue() {
+        return oldValue;
     }
 
     public String getFullyQualifiedName() {
@@ -611,6 +618,7 @@ public class AvatarBDLibraryFunction extends TGCScalableWithoutInternalComponent
 
         // Click on the name
         if (_y < limitName) {
+            oldValue = value;
             String s = (String) JOptionPane.showInputDialog(frame, "Library Function Name",
                     "setting value", JOptionPane.PLAIN_MESSAGE, IconManager.imgic101,
                     null,
@@ -1086,4 +1094,20 @@ public class AvatarBDLibraryFunction extends TGCScalableWithoutInternalComponent
     public int compareTo(AvatarBDLibraryFunction f) {
         return this.name.compareTo(f.getFunctionName());
     }
+
+    /*@Override
+    public void setValueWithChange(String v) {
+        TraceManager.addDev("Setting value with change to:" + v + " oldValue:" + value + " stack:" + new Throwable().getStackTrace());
+        oldValue = value;
+        value = v;
+        tdp.actionOnValueChanged(this);
+        repaint = true;
+    }
+
+    public void setValue(String v) {
+        TraceManager.addDev("Setting value to:" + v + " oldValue:" + value);
+        oldValue = value;
+        value = v;
+        repaint = true;
+    }*/
 }

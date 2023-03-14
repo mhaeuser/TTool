@@ -1464,6 +1464,22 @@ public abstract class TDiagramPanel extends JPanel implements GenericTree {
         return v;
     }
 
+    public Vector<AvatarBDStateMachineOwner> selectedAvatarBDStateMachineOwner() {
+        Vector<AvatarBDStateMachineOwner> v = null;
+
+        for (TGComponent tgc : this.componentList)
+            if ((tgc.isSelected()) && (tgc instanceof AvatarBDStateMachineOwner)) {
+                if (v == null)
+                    v = new Vector<AvatarBDStateMachineOwner>();
+                v.addElement((AvatarBDStateMachineOwner) tgc);
+                if (tgc instanceof AvatarBDBlock) {
+                    v.addAll(((AvatarBDBlock) tgc).getFullBlockList());
+                }
+            }
+
+        return v;
+    }
+
 
     //issue 186
     public Vector<TMLCPrimitiveComponent> selectedCPrimitiveComponent() {

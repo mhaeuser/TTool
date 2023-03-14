@@ -482,8 +482,11 @@ public class AvatarSMDLibraryFunctionCall extends AvatarSMDBasicCanBeDisabledCom
 
     @Override
     public void postLoading(int decId, TGComponent originComponent) throws MalformedModelingException {
+        // This function is necessary because it may need the main block to have been added first to the diragram
+        // in ordre to retrieve its attributes and signals.
 
-        TraceManager.addDev("Post loading of AvatarSMDLibraryFunctionCall");
+
+        //TraceManager.addDev("Post loading of AvatarSMDLibraryFunctionCall");
 
 
         MainGUI mgui = this.tdp.getMGUI ();
@@ -493,7 +496,7 @@ public class AvatarSMDLibraryFunctionCall extends AvatarSMDBasicCanBeDisabledCom
         boolean error = false ;
 
         for(String s: parametersS) {
-            TraceManager.addDev("Handling parameterS: " + s);
+            //TraceManager.addDev("Handling parameterS: " + s);
             boolean found = false;
             List<TAttribute> listOfAttributes;
             if ( (originComponent != null) && (originComponent instanceof AvatarBDStateMachineOwner)) {
@@ -519,7 +522,7 @@ public class AvatarSMDLibraryFunctionCall extends AvatarSMDBasicCanBeDisabledCom
         parametersS = null;
 
         for(String s: returnAttributesS) {
-            TraceManager.addDev("Handling returnAttributesS: " + s);
+            //TraceManager.addDev("Handling returnAttributesS: " + s);
             boolean found = false;
             List<TAttribute> listOfAttributes;
             if ( (originComponent != null) && (originComponent instanceof AvatarBDStateMachineOwner)) {
@@ -543,11 +546,11 @@ public class AvatarSMDLibraryFunctionCall extends AvatarSMDBasicCanBeDisabledCom
         }
 
         returnAttributesS = null;
-        TraceManager.addDev("returnAttributesS nullified ");
+        //TraceManager.addDev("returnAttributesS nullified ");
 
         if (signalsS != null) {
             for (String s : signalsS) {
-                TraceManager.addDev("Handling signalsS: " + s);
+                //TraceManager.addDev("Handling signalsS: " + s);
                 boolean found = false;
                 List<AvatarSignal> listOfSignals;
                 if ( (originComponent != null) && (originComponent instanceof AvatarBDStateMachineOwner)) {
@@ -556,7 +559,7 @@ public class AvatarSMDLibraryFunctionCall extends AvatarSMDBasicCanBeDisabledCom
                     listOfSignals = mgui.getAllSignals (tp, tdpName);
                 }
                 for (AvatarSignal signal: listOfSignals) {
-                    TraceManager.addDev("Signal: " + signal.getId());
+                    //TraceManager.addDev("Signal: " + signal.getId());
                     if (signal.toString().equals(s)) {
                         this.signals.add(signal);
                         found = true;
@@ -571,12 +574,12 @@ public class AvatarSMDLibraryFunctionCall extends AvatarSMDBasicCanBeDisabledCom
         }
 
         signalsS = null;
-        TraceManager.addDev("signalsS nullified ");
+        //TraceManager.addDev("signalsS nullified ");
 
         if (libraryFunctionS != null) {
-            TraceManager.addDev("Handling AvatarBDLibraryFunction: " + libraryFunctionS);
+            //TraceManager.addDev("Handling AvatarBDLibraryFunction: " + libraryFunctionS);
             for (AvatarBDLibraryFunction func : mgui.getAllLibraryFunctions(tp, tdpName)) {
-                TraceManager.addDev("comparing  " + func.getFullyQualifiedName() + " with " + libraryFunctionS);
+                //TraceManager.addDev("comparing  " + func.getFullyQualifiedName() + " with " + libraryFunctionS);
                 if (func.getFullyQualifiedName().equals(libraryFunctionS)) {
                     this.libraryFunction = func;
                     break;
@@ -587,7 +590,7 @@ public class AvatarSMDLibraryFunctionCall extends AvatarSMDBasicCanBeDisabledCom
                 TraceManager.addDev("ERROR. No library function named: " + libraryFunctionS);
                 error = true;
             } else {
-                TraceManager.addDev("Library function found: " + libraryFunctionS);
+                //TraceManager.addDev("Library function found: " + libraryFunctionS);
             }
         } else {
             TraceManager.addDev("ERROR. No library function defined");
@@ -595,7 +598,7 @@ public class AvatarSMDLibraryFunctionCall extends AvatarSMDBasicCanBeDisabledCom
         }
 
         libraryFunctionS = null;
-        TraceManager.addDev("libraryFunctionS nullified ");
+        //TraceManager.addDev("libraryFunctionS nullified ");
 
 
         if (error) {

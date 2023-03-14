@@ -3742,7 +3742,7 @@ public class GTURTLEModeling {
             }
         }
 
-        final Vector<AvatarBDBlock> blocks = tdp.selectedAvatarBDBlocks();
+        /*final Vector<AvatarBDBlock> blocks = tdp.selectedAvatarBDBlocks();
         if ((blocks != null) && (blocks.size() > 0)) {
             //TraceManager.addDev("Saving TML activity diagram Panel...");
             AvatarBDBlock abdb;
@@ -3752,6 +3752,18 @@ public class GTURTLEModeling {
                 asmdp = mgui.getAvatarSMDPanel(mgui.getCurrentSelectedIndex(), abdb.getBlockName());
                 s.append(asmdp.saveInXML());
 
+            }
+        }*/
+
+        final Vector<AvatarBDStateMachineOwner> blocks = tdp.selectedAvatarBDStateMachineOwner();
+        if ((blocks != null) && (blocks.size() > 0)) {
+            //TraceManager.addDev("Saving TML activity diagram Panel...");
+            AvatarBDStateMachineOwner abdb;
+            AvatarSMDPanel asmdp;
+            for (int i = 0; i < blocks.size(); i++) {
+                abdb = blocks.elementAt(i);
+                asmdp = mgui.getAvatarSMDPanel(mgui.getCurrentSelectedIndex(), abdb.getOwnerName());
+                s.append(asmdp.saveInXML());
             }
         }
 
@@ -3894,7 +3906,7 @@ public class GTURTLEModeling {
 
         s = decodeString(s);
 
-        //TraceManager.addDev("copy=" + s);
+        //TraceManager.addDev("Copy=" + s);
 
         ByteArrayInputStream bais = new ByteArrayInputStream(s.getBytes());
         if ((dbf == null) || (db == null)) {
@@ -7097,7 +7109,7 @@ public class GTURTLEModeling {
             NodeList activityDiagramNl = docCopy.getElementsByTagName("TActivityDiagramPanel");
 
             TraceManager.addDev("Loading activity diagram of " + newValue + "Before : " + oldValue);
-            TraceManager.addDev("" + docCopy);
+            //TraceManager.addDev("" + docCopy);
 
             if (activityDiagramNl == null) {
                 throw new MalformedModelingException();
@@ -7168,13 +7180,16 @@ public class GTURTLEModeling {
         }
     }
 
-    public void loadAvatarSMD(TDiagramPanel tdp, String oldValue, String newValue, boolean keepUUID, TGComponent originComponent) throws MalformedModelingException {
+    public void loadAvatarSMD(TDiagramPanel tdp, String oldValue, String newValue, boolean keepUUID, TGComponent originComponent)
+            throws MalformedModelingException {
         TraceManager.addDev("---> Load SMD of old=" + oldValue + " new=" + newValue);
         try {
+            //TraceManager.addDev("docCopy: " + docCopy);
             NodeList smdNl = docCopy.getElementsByTagName("AVATARStateMachineDiagramPanel");
 
+
             //TraceManager.addDev("Loading state machine diagram of " + newValue + " Before : " + oldValue);
-            //TraceManager.addDev("smdNL: " + smdNl);
+            TraceManager.addDev("smdNL: " + smdNl + " length=" + smdNl.getLength());
 
             if (smdNl == null) {
                 TraceManager.addDev("AVATAR: null doc");
@@ -7193,9 +7208,9 @@ public class GTURTLEModeling {
                 adn = smdNl.item(i);
                 if (adn.getNodeType() == Node.ELEMENT_NODE) {
                     elt = (Element) adn;
-                    // class diagram name
+                    // smd name
                     name = elt.getAttribute("name");
-                    TraceManager.addDev("Name of activity diagram=" + name);
+                    TraceManager.addDev("Name of smd=" + name);
 
                     if (name.equals(oldValue)) {
                         int indexDesign = mgui.getMajorIndexOf(tdp);
@@ -7209,6 +7224,7 @@ public class GTURTLEModeling {
                         TraceManager.addDev("Searching panel: " + newValue);
 
                         if (asmdp == null) {
+                            TraceManager.addDev("ERROR. Panel named " + newValue + " not found");
                             throw new MalformedModelingException();
                         }
 
@@ -7752,6 +7768,7 @@ public class GTURTLEModeling {
                     TraceManager.addDev("Library func");
                     if (tdp.isAlreadyAnAvatarBDBlockName(myValue)) {
                         myValue = tdp.findAvatarBDBlockName(myValue + "_");
+                        TraceManager.addDev("Library func: myValue = " + myValue);
                     }
                 }
 
@@ -7786,10 +7803,10 @@ public class GTURTLEModeling {
                 }
 
 
-                if ((tgc instanceof AvatarBDBlock) && (decId > 0)) {
+                /*if ((tgc instanceof AvatarBDBlock) && (decId > 0)) {
                     TraceManager.addDev("Going to load smd of block " + tgc + " myValue=" + tgc.getValue());
                     loadAvatarSMD(tdp, oldClassName, myValue, keepUUID, tgc);
-                }
+                }*/
 
 
             }
@@ -7813,7 +7830,7 @@ public class GTURTLEModeling {
             //TraceManager.addDev("Extra param ok");
             
             if ((myValue != null) && (!myValue.equals(null))) {
-                if ((tgc instanceof AvatarBDBlock) && (decId > 0)) {
+                if ((tgc instanceof AvatarBDStateMachineOwner) && (decId > 0)) {
                     TraceManager.addDev("Going to load smd of block " + tgc + " myValue=" + tgc.getValue());
                     loadAvatarSMD(tdp, oldClassName, myValue, keepUUID, tgc);
                 }

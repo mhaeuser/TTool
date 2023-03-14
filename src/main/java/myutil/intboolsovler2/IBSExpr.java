@@ -629,24 +629,24 @@ public class IBSExpr <
         }
         public int getPrio() { return prios[biiLt]; }
         public int eval() {
-            boolean b = (isNot?left.eval() >= right.eval():left.eval() < right.eval());
-            return (isNot?(b?0:1):(b?1:0));
+            boolean b = (isNot == (left.eval() >= right.eval()));
+            return (b?1:0);
         }
         public int eval(SpecState _ss) {
-            boolean b = (isNot?left.eval(_ss) >= right.eval(_ss):left.eval(_ss) < right.eval(_ss));
-            return (isNot?(b?0:1):(b?1:0));
+            boolean b = (isNot == (left.eval(_ss) >= right.eval(_ss)));
+            return (b?1:0);
         }
         public int eval(SpecState _ss, State _st) {
-            boolean b = (isNot?left.eval(_ss,_st) >= right.eval(_ss,_st):left.eval(_ss,_st) < right.eval(_ss,_st));
-            return (isNot?(b?0:1):(b?1:0));
+            boolean b = (isNot == (left.eval(_ss, _st) >= right.eval(_ss, _st)));
+            return (b?1:0);
         }
         public int eval(CompState _cs) {
-            boolean b = (isNot?left.eval(_cs) >= right.eval(_cs):left.eval(_cs) < right.eval(_cs));
-            return (isNot?(b?0:1):(b?1:0));
+            boolean b = (isNot == (left.eval(_cs) >= right.eval(_cs)));
+            return (b?1:0);
         }
         public int eval(Object _qs) {
-            boolean b = (isNot?left.eval(_qs) >= right.eval(_qs):left.eval(_qs) < right.eval(_qs));
-            return (isNot?(b?0:1):(b?1:0));
+            boolean b = (isNot == (left.eval(_qs) >= right.eval(_qs)));
+            return (b?1:0);
         }
         public String toString() {
             String l = left.toString();
@@ -665,24 +665,24 @@ public class IBSExpr <
         }
         public int getPrio() { return prios[biiGt]; }
         public int eval() {
-            boolean b = (isNot?left.eval() <= right.eval():left.eval() > right.eval());
-            return (isNot?(b?0:1):(b?1:0));
+            boolean b = (isNot == (left.eval() <= right.eval()));
+            return (b?1:0);
         }
         public int eval(SpecState _ss) {
-            boolean b = (isNot?left.eval(_ss) <= right.eval(_ss):left.eval(_ss) > right.eval(_ss));
-            return (isNot?(b?0:1):(b?1:0));
+            boolean b = (isNot == (left.eval(_ss) <= right.eval(_ss)));
+            return (b?1:0);
         }
         public int eval(SpecState _ss, State _st) {
-            boolean b = (isNot?left.eval(_ss,_st) <= right.eval(_ss,_st):left.eval(_ss,_st) > right.eval(_ss,_st));
-            return (isNot?(b?0:1):(b?1:0));
+            boolean b = (isNot == (left.eval(_ss, _st) <= right.eval(_ss, _st)));
+            return (b?1:0);
         }
         public int eval(CompState _cs) {
-            boolean b = (isNot?left.eval(_cs) <= right.eval(_cs):left.eval(_cs) > right.eval(_cs));
-            return (isNot?(b?0:1):(b?1:0));
+            boolean b = (isNot == (left.eval(_cs) <= right.eval(_cs)));
+            return (b?1:0);
         }
         public int eval(Object _qs) {
-            boolean b = (isNot?left.eval(_qs) <= right.eval(_qs):left.eval(_qs) > right.eval(_qs));
-            return (isNot?(b?0:1):(b?1:0));
+            boolean b = (isNot == (left.eval(_qs) <= right.eval(_qs)));
+            return (b?1:0);
         }
         public String toString() {
             String l = left.toString();
@@ -701,24 +701,24 @@ public class IBSExpr <
         }
         public int getPrio() { return prios[biiLeq]; }
         public int eval() {
-            boolean b = (isNot?left.eval() > right.eval():left.eval() <= right.eval());
-            return (isNot?(b?0:1):(b?1:0));
+            boolean b = (isNot == (left.eval() > right.eval()));
+            return (b?1:0);
         }
         public int eval(SpecState _ss) {
-            boolean b = (isNot?left.eval(_ss) > right.eval(_ss):left.eval(_ss) <= right.eval(_ss));
-            return (isNot?(b?0:1):(b?1:0));
+            boolean b = (isNot == (left.eval(_ss) > right.eval(_ss)));
+            return (b?1:0);
         }
         public int eval(SpecState _ss, State _st) {
-            boolean b = (isNot?left.eval(_ss,_st) > right.eval(_ss,_st):left.eval(_ss,_st) <= right.eval(_ss,_st));
-            return (isNot?(b?0:1):(b?1:0));
+            boolean b = (isNot == (left.eval(_ss, _st) > right.eval(_ss, _st)));
+            return (b?1:0);
         }
         public int eval(CompState _cs) {
-            boolean b = (isNot?left.eval(_cs) > right.eval(_cs):left.eval(_cs) <= right.eval(_cs));
-            return (isNot?(b?0:1):(b?1:0));
+            boolean b = (isNot == (left.eval(_cs) > right.eval(_cs)));
+            return (b?1:0);
         }
         public int eval(Object _qs) {
-            boolean b = (isNot?left.eval(_qs) > right.eval(_qs):left.eval(_qs) <= right.eval(_qs));
-            return (isNot?(b?0:1):(b?1:0));
+            boolean b = (isNot == (left.eval(_qs) > right.eval(_qs)));
+            return (b?1:0);
         }
         public String toString() {
             String l = left.toString();
@@ -737,24 +737,24 @@ public class IBSExpr <
         }
         public int getPrio() { return prios[biiGeq]; }
         public int eval() {
-            boolean b = (isNot?left.eval() < right.eval():left.eval() >= right.eval());
-            return (isNot?(b?0:1):(b?1:0));
+            boolean b = (isNot == (left.eval() < right.eval()));
+            return (b?1:0);
         }
         public int eval(SpecState _ss) {
-            boolean b = (isNot?left.eval(_ss) < right.eval(_ss):left.eval(_ss) >= right.eval(_ss));
-            return (isNot?(b?0:1):(b?1:0));
+            boolean b = (isNot == (left.eval(_ss) < right.eval(_ss)));
+            return (b?1:0);
         }
         public int eval(SpecState _ss, State _st) {
-            boolean b = (isNot?left.eval(_ss,_st) < right.eval(_ss,_st):left.eval(_ss,_st) >= right.eval(_ss,_st));
-            return (isNot?(b?0:1):(b?1:0));
+            boolean b = (isNot == (left.eval(_ss, _st) < right.eval(_ss, _st)));
+            return (b?1:0);
         }
         public int eval(CompState _cs) {
-            boolean b = (isNot?left.eval(_cs) < right.eval(_cs):left.eval(_cs) >= right.eval(_cs));
-            return (isNot?(b?0:1):(b?1:0));
+            boolean b = (isNot == (left.eval(_cs) < right.eval(_cs)));
+            return (b?1:0);
         }
         public int eval(Object _qs) {
-            boolean b = (isNot?left.eval(_qs) < right.eval(_qs):left.eval(_qs) >= right.eval(_qs));
-            return (isNot?(b?0:1):(b?1:0));
+            boolean b = (isNot == (left.eval(_qs) < right.eval(_qs)));
+            return (b?1:0);
         }
         public String toString() {
             String l = left.toString();

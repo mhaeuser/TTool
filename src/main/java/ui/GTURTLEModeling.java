@@ -2706,8 +2706,13 @@ public class GTURTLEModeling {
     }
 
     @SuppressWarnings("unchecked")
-    public void setTMLMapping(TMLMapping tmap) {
-        this.tmap = tmap;
+    public void setTMLMapping(TMLMapping _tmap) {
+        this.tmap = _tmap;
+    }
+
+    @SuppressWarnings("unchecked")
+    public void setTMLModeling(TMLModeling _tmlm) {
+        this.tmlm = _tmlm;
     }
 
     public UPPAALSpec getLastUPPAALSpecification() {
@@ -5506,18 +5511,22 @@ public class GTURTLEModeling {
             node = diagramNl.item(j);
             if (node.getNodeType() == Node.ELEMENT_NODE) {
                 elt = (Element) node;
-                if (elt.getTagName().compareTo("AVATARBlockDiagramPanel") == 0)
-                    // Class diagram
+                if (elt.getTagName().compareTo("AVATARBlockDiagramPanel") == 0) {
+                    // Block diagram
+                    TraceManager.addDev("Load avatar bd panel");
                     loadAvatarBD(elt, indexDesign, keepUUID);
+                }
             }
         }
         for (int j = 0; j < diagramNl.getLength(); j++) {
             node = diagramNl.item(j);
             if (node.getNodeType() == Node.ELEMENT_NODE) {
                 elt = (Element) node;
-                if (elt.getTagName().compareTo("AVATARStateMachineDiagramPanel") == 0)
+                if (elt.getTagName().compareTo("AVATARStateMachineDiagramPanel") == 0) {
                     // Managing activity diagrams
+                    TraceManager.addDev("Load avatar smd panel");
                     loadAvatarSMD(elt, indexDesign, keepUUID);
+                }
             }
         }
 
@@ -7159,8 +7168,8 @@ public class GTURTLEModeling {
         }
     }
 
-    public void loadAvatarSMD(TDiagramPanel tdp, String oldValue, String newValue, boolean keepUUID) throws MalformedModelingException {
-        TraceManager.addDev("---> Load activity diagram of old=" + oldValue + " new=" + newValue);
+    public void loadAvatarSMD(TDiagramPanel tdp, String oldValue, String newValue, boolean keepUUID, TGComponent originComponent) throws MalformedModelingException {
+        TraceManager.addDev("---> Load SMD of old=" + oldValue + " new=" + newValue);
         try {
             NodeList smdNl = docCopy.getElementsByTagName("AVATARStateMachineDiagramPanel");
 
@@ -7224,7 +7233,7 @@ public class GTURTLEModeling {
                         connectConnectorsToRealPoints(asmdp);
                         asmdp.structureChanged();
                         //TraceManager.addDev("Activity diagram : " + tadp.getName() + " post loading");
-                        makePostLoading(asmdp, 0);
+                        makePostLoading(asmdp, 0, originComponent);
                     }
                 }
             }
@@ -7315,8 +7324,11 @@ public class GTURTLEModeling {
             throw new MalformedModelingException();
         }
     }
-
     public void makePostLoading(TDiagramPanel tdp, int beginIndex) throws MalformedModelingException {
+        makePostLoading(tdp, beginIndex, null);
+    }
+
+    public void makePostLoading(TDiagramPanel tdp, int beginIndex, TGComponent originComponent) throws MalformedModelingException {
         TGComponent tgc;
 
         //TraceManager.addDev("Post loading of diagram " + tdp.toString());
@@ -7327,7 +7339,7 @@ public class GTURTLEModeling {
             tgc = list.get(i);
             //TraceManager.addDev(tgc.getName());
             //TraceManager.addDev(tgc.getValue());
-            tgc.makePostLoading(decId);
+            tgc.makePostLoading(decId, originComponent);
         }
 
         // Order components
@@ -7396,6 +7408,7 @@ public class GTURTLEModeling {
                             //TraceManager.addDev("Component added to diagram tgc=" + tgc);
                             tdp.addBuiltComponent(tgc);
                             list.add(tgc);
+
                             /*if ((zoomV != 1) && (tgc instanceof TGScalableComponent)){
                                 ((TGScalableComponent)tgc).forceScale(zoomV);
                                 TraceManager.addDev("myX after =" + tgc.getX());
@@ -7622,6 +7635,7 @@ public class GTURTLEModeling {
                 tgc = father.getInternalTGComponent(fatherNum);
 
                 if (tgc == null) {
+
                     // To be added to its father -> swallow component
                     if (father instanceof SwallowTGComponent) {
                         //TraceManager.addDev("1 Must add the component to its father:");
@@ -7664,7 +7678,11 @@ public class GTURTLEModeling {
                 throw new MalformedModelingException();
             }
 
+
+
             tgc.setIndexU(index);
+
+            //TraceManager.addDev("Going to set name");
 
             if (myName != null) {
                 tgc.setName(myName);
@@ -7692,11 +7710,14 @@ public class GTURTLEModeling {
                 }
             }
 
+            //TraceManager.addDev("Set enable");
             tgc.setEnabled(enable);
 
 			/*if (tgc instanceof TCDTObject) {
 			  TraceManager.addDev("Loading " + myValue);
 			  }*/
+
+
 
             String oldClassName = myValue;
             //TraceManager.addDev("Old class name=" + oldClassName);
@@ -7727,6 +7748,13 @@ public class GTURTLEModeling {
                     }
                 }
 
+                if ((tgc instanceof AvatarBDLibraryFunction) && (decId > 0)) {
+                    TraceManager.addDev("Library func");
+                    if (tdp.isAlreadyAnAvatarBDBlockName(myValue)) {
+                        myValue = tdp.findAvatarBDBlockName(myValue + "_");
+                    }
+                }
+
                 if ((tgc instanceof TMLCPrimitiveComponent) && (decId > 0)) {
                     if (tdp.isAlreadyATMLPrimitiveComponentName(myValue)) {
                         myValue = tdp.findTMLPrimitiveComponentName(myValue + "_");
@@ -7739,15 +7767,12 @@ public class GTURTLEModeling {
                     }
                 }
                 //TraceManager.addDev("myValue=" + myValue);
+
                 tgc.setValueWithChange(myValue);
+
                 //TraceManager.addDev("value done");
                 if ((tgc instanceof TCDTClass) && (decId > 0)) {
                     loadActivityDiagram(tdp, oldClassName, myValue, keepUUID);
-                }
-
-                if ((tgc instanceof AvatarBDBlock) && (decId > 0)) {
-                    //TraceManager.addDev("Going to load ad of task " + oldClassName + " myValue=" + myValue);
-                    loadAvatarSMD(tdp, oldClassName, myValue, keepUUID);
                 }
 
                 if ((tgc instanceof TMLTaskOperator) && (decId > 0)) {
@@ -7759,10 +7784,19 @@ public class GTURTLEModeling {
                     //TraceManager.addDev("Going to load ad of component " + oldClassName + " myValue=" + myValue);
                     loadTMLActivityDiagram(tdp, oldClassName, myValue, keepUUID);
                 }
+
+
+                if ((tgc instanceof AvatarBDBlock) && (decId > 0)) {
+                    TraceManager.addDev("Going to load smd of block " + tgc + " myValue=" + tgc.getValue());
+                    loadAvatarSMD(tdp, oldClassName, myValue, keepUUID, tgc);
+                }
+
+
             }
 
             //TraceManager.addDev("Laoding component with id="+ myId);
             tgc.forceId(myId);
+
 
             if ((uid != null) && (keepUUID)) {
                 //TraceManager.addDev("Forcing UUID");
@@ -7771,6 +7805,20 @@ public class GTURTLEModeling {
                 //TraceManager.addDev("making new UUID");
                 tgc.makeUUID();
             }
+
+            //extra param
+            //TraceManager.addDev("Extra params" + tgc.getClass() + " value: " + tgc.getValue());
+            //TraceManager.addDev("My value = " + tgc.getValue());
+            tgc.loadExtraParam(elt1.getElementsByTagName("extraparam"), decX, decY, decId);
+            //TraceManager.addDev("Extra param ok");
+            
+            if ((myValue != null) && (!myValue.equals(null))) {
+                if ((tgc instanceof AvatarBDBlock) && (decId > 0)) {
+                    TraceManager.addDev("Going to load smd of block " + tgc + " myValue=" + tgc.getValue());
+                    loadAvatarSMD(tdp, oldClassName, myValue, keepUUID, tgc);
+                }
+            }
+
 
             tgc.setLoaded(true);
             tgc.setInternalLoaded(false);
@@ -7817,11 +7865,7 @@ public class GTURTLEModeling {
                 tgc.setBreakpoint(breakpoint);
             }
 
-            //extra param
-            // TraceManager.addDev("Extra params" + tgc.getClass());
-            //TraceManager.addDev("My value = " + tgc.getValue());
-            tgc.loadExtraParam(elt1.getElementsByTagName("extraparam"), decX, decY, decId);
-            //TraceManager.addDev("Extra param ok");
+
 
             //#issue 82
             if ((myValue != null) && (!myValue.equals("null"))) {
@@ -7867,6 +7911,9 @@ public class GTURTLEModeling {
 			/*if (tgc instanceof TCDTObject) {
 			  TraceManager.addDev("getValue " + tgc.getValue());
 			  }*/
+
+            //TraceManager.addDev("All done for component " + tgc.getClass().toString());
+
 
         } catch (Exception e) {
             TraceManager.addError("Exception XML Component " + e.getMessage() + "trace=" + e.getStackTrace());

@@ -4308,6 +4308,8 @@ public abstract class TDiagramPanel extends JPanel implements GenericTree {
             tgc.searchForText(text, elements);
     }
 
+
+
     public MainGUI getMainGUI() { //Ajout CD pour creation d'un panel depuis un block
         return mgui;
     }

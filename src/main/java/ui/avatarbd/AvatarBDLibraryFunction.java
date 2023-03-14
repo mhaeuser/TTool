@@ -61,7 +61,8 @@ import java.util.LinkedList;
  * @author Florian LUGOU
  * @version 1.0 04.08.2016
  */
-public class AvatarBDLibraryFunction extends TGCScalableWithoutInternalComponent implements SwallowedTGComponent, AvatarBDStateMachineOwner, Comparable<AvatarBDLibraryFunction> {
+public class AvatarBDLibraryFunction extends TGCScalableWithoutInternalComponent implements SwallowedTGComponent, AvatarBDStateMachineOwner,
+        Comparable<AvatarBDLibraryFunction> {
 
     /**
      * Stereotype for standard library function.
@@ -192,8 +193,12 @@ public class AvatarBDLibraryFunction extends TGCScalableWithoutInternalComponent
         this.removable = true;
         this.userResizable = true;
 
+
+        name = tdp.findAvatarBDBlockName("LibraryFunction");
+        setValue(name);
+
         // Find a new unused name
-        int i;
+        /*int i;
         for (i = 0; i < 100; i++) {
             String tmpName = "LibraryFunction" + i;
             if (this.tdp.isAvatarBlockNameUnique(tmpName) &&
@@ -205,7 +210,7 @@ public class AvatarBDLibraryFunction extends TGCScalableWithoutInternalComponent
         }
         if (i == 100) {
             // TODO: throw exception
-        }
+        }*/
 
         this.oldScaleFactor = this.tdp.getZoom();
         this.currentFontSize = (int) (AvatarBDLibraryFunction.maxFontSize * this.oldScaleFactor);
@@ -927,6 +932,10 @@ public class AvatarBDLibraryFunction extends TGCScalableWithoutInternalComponent
      */
     public AvatarSMDPanel getAvatarSMDPanel() {
         return ((AvatarDesignPanel) (this.tdp.tp)).getAvatarSMDPanel(this.value);
+    }
+
+    public boolean hasInternalBlockWithName(String name) {
+        return false;
     }
 
     /**

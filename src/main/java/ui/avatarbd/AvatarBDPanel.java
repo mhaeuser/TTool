@@ -530,7 +530,7 @@ public class AvatarBDPanel extends TDiagramPanel {
 
         return v;
     }
-    //ajoute DG 27.02.: Interfcae signals treated as block signals to avoid too many case distinctions - is this possible ?
+    //ajoute DG 27.02.: Interface signals treated as block signals to avoid too many case distinctions - is this possible ?
 
   public List<AvatarSignal> getListOfAvailableSignals(AvatarBDInterface _block) {
         List<AvatarSignal> v = new LinkedList<AvatarSignal> ();

@@ -1177,6 +1177,8 @@ public class AvatarBDBlock extends TGCScalableWithInternalComponent implements S
         String s;
         String tmpGlobalCode = "";
 
+        TraceManager.addDev("Loading attributes of block " + getBlockName());
+
         try {
             NodeList nli;
             Node n1, n2;

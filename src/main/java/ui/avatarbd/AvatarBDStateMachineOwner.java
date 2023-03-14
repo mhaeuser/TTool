@@ -66,4 +66,8 @@ public interface AvatarBDStateMachineOwner {
 
     String getOwnerName();
     AvatarSMDPanel getAvatarSMDPanel();
+
+    String getValue();
+    boolean hasInternalBlockWithName(String name);
+
 }

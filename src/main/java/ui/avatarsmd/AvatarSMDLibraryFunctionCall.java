@@ -39,11 +39,14 @@
 package ui.avatarsmd;
 
 import myutil.GraphicLib;
+import myutil.TraceManager;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import ui.*;
+import ui.avatarbd.AvatarBDBlock;
 import ui.avatarbd.AvatarBDLibraryFunction;
+import ui.avatarbd.AvatarBDStateMachineOwner;
 import ui.util.IconManager;
 import ui.window.JDialogSMDLibraryFunctionCall;
 
@@ -61,12 +64,16 @@ import java.util.List;
 public class AvatarSMDLibraryFunctionCall extends AvatarSMDBasicCanBeDisabledComponent /* Issue #69 TGCScalableWithoutInternalComponent*/ implements BasicErrorHighlight {
     
 	private List<TAttribute> parameters;
+    private List<String> parametersS;
     
 	private List<AvatarSignal> signals;
+    private List<String> signalsS;
     
 	private List<TAttribute> returnAttributes;
+    private List<String>returnAttributesS;
 
     private AvatarBDLibraryFunction libraryFunction;
+    private String libraryFunctionS;
 
     private static int lineLength = 5;
     private static int paddingHorizontal =  5;
@@ -330,6 +337,12 @@ public class AvatarSMDLibraryFunctionCall extends AvatarSMDBasicCanBeDisabledCom
 
     @Override
     public void loadExtraParam (NodeList nl, int decX, int decY, int decId) throws MalformedModelingException {
+        parametersS = new LinkedList<>();
+        returnAttributesS = new LinkedList<>();
+        signals = new LinkedList<>();
+        libraryFunctionS = null;
+
+
         try {
             for(int i=0; i<nl.getLength(); i++) {
                 Node n1 = nl.item(i);
@@ -354,55 +367,65 @@ public class AvatarSMDLibraryFunctionCall extends AvatarSMDBasicCanBeDisabledCom
 
                     switch (elt.getTagName ()) {
                         case "LibraryFunction": {
+
                             if (this.libraryFunction != null) {
                                 throw new MalformedModelingException ();
                             }
 
-                            String name = elt.getAttribute ("name");
-                            if (name.equals ("null"))
+                            String nameOfLib = elt.getAttribute ("name");
+                            TraceManager.addDev("Library function: " + nameOfLib);
+                            if (nameOfLib.equals ("null"))
                                 break;
 
-                            for (AvatarBDLibraryFunction func: mgui.getAllLibraryFunctions (tp, tdpName))
-                                if (func.getFullyQualifiedName ().equals (name)) {
+                            libraryFunctionS = nameOfLib;
+
+                            /*for (AvatarBDLibraryFunction func: mgui.getAllLibraryFunctions (tp, tdpName))
+                                if (func.getFullyQualifiedName ().equals (nameOfLib)) {
                                     this.libraryFunction = func;
                                     break;
                                 }
 
                             if (this.libraryFunction == null) {
+                                TraceManager.addDev("No library function named: " + nameOfLib);
                                 throw new MalformedModelingException ();
-                            }
+                            }*/
                             break;
                         }
 
                         case "Parameter": {
                             String name = elt.getAttribute ("id");
                             if (name.equals ("null")) {
-                                this.parameters.add (null);
                                 break;
+                            } else {
+                                this.parametersS.add(name);
                             }
 
-                            boolean found = false;
-                            for (TAttribute attr: mgui.getAllAttributes (tp, tdpName))
-                                if (attr.getId ().equals (name)) {
-                                    this.parameters.add (attr);
+                            /*boolean found = false;
+                            for (TAttribute attr: mgui.getAllAttributes (tp, tdpName)) {
+                                TraceManager.addDev("Parameter: " + attr.getId());
+                                if (attr.getId().equals(name)) {
+                                    this.parameters.add(attr);
                                     found = true;
                                     break;
                                 }
+                            }
 
                             if (!found) {
+                                TraceManager.addDev("Parameter " + name + " not found in library function ");
                                 throw new MalformedModelingException ();
-                            }
+                            }*/
                             break;
                         }
 
                         case "Signal": {
                             String value = elt.getAttribute ("value");
                             if (value.equals ("null")) {
-                                this.signals.add (null);
                                 break;
+                            } else {
+                                signalsS.add(value);
                             }
 
-                            boolean found = false;
+                            /*boolean found = false;
                             for (AvatarSignal signal: mgui.getAllSignals (tp, tdpName))
                                 if (signal.toString ().equals (value)) {
                                     this.signals.add (signal);
@@ -412,18 +435,19 @@ public class AvatarSMDLibraryFunctionCall extends AvatarSMDBasicCanBeDisabledCom
 
                             if (!found) {
                                 throw new MalformedModelingException ();
-                            }
+                            }*/
                             break;
                         }
 
                         case "ReturnAttribute": {
                             String name = elt.getAttribute ("id");
                             if (name.equals ("null")) {
-                                this.returnAttributes.add (null);
                                 break;
+                            } else {
+                                this.returnAttributesS.add(name);
                             }
 
-                            boolean found = false;
+                            /*boolean found = false;
                             for (TAttribute attr: mgui.getAllAttributes (tp, tdpName))
                                 if (attr.getId ().equals (name)) {
                                     this.returnAttributes.add (attr);
@@ -432,8 +456,9 @@ public class AvatarSMDLibraryFunctionCall extends AvatarSMDBasicCanBeDisabledCom
                                 }
 
                             if (!found) {
+                                TraceManager.addDev("Return attribute " + name + " not found in library function ");
                                 throw new MalformedModelingException ();
-                            }
+                            }*/
                             break;
                         }
                     }
@@ -452,6 +477,131 @@ public class AvatarSMDLibraryFunctionCall extends AvatarSMDBasicCanBeDisabledCom
             //throw new MalformedModelingException ();
         }
 
+
+    }
+
+    @Override
+    public void postLoading(int decId, TGComponent originComponent) throws MalformedModelingException {
+
+        TraceManager.addDev("Post loading of AvatarSMDLibraryFunctionCall");
+
+
+        MainGUI mgui = this.tdp.getMGUI ();
+        TURTLEPanel tp = mgui.getCurrentTURTLEPanel ();
+        String tdpName = this.tdp.getName ();
+
+        boolean error = false ;
+
+        for(String s: parametersS) {
+            TraceManager.addDev("Handling parameterS: " + s);
+            boolean found = false;
+            List<TAttribute> listOfAttributes;
+            if ( (originComponent != null) && (originComponent instanceof AvatarBDStateMachineOwner)) {
+                listOfAttributes = ((AvatarBDStateMachineOwner)originComponent).getAttributeList();
+            } else {
+                listOfAttributes = mgui.getAllAttributes (tp, tdpName);
+            }
+
+            for (TAttribute attr : listOfAttributes) {
+                    //TraceManager.addDev("Parameter: " + attr.getId());
+                if (attr.getId().equals(s)) {
+                    this.parameters.add(attr);
+                    found = true;
+                    break;
+                }
+            }
+
+            if (!found) {
+                TraceManager.addDev("ERROR. Parameter " + s + " not found");
+                error = true;
+            }
+        }
+        parametersS = null;
+
+        for(String s: returnAttributesS) {
+            TraceManager.addDev("Handling returnAttributesS: " + s);
+            boolean found = false;
+            List<TAttribute> listOfAttributes;
+            if ( (originComponent != null) && (originComponent instanceof AvatarBDStateMachineOwner)) {
+                listOfAttributes = ((AvatarBDStateMachineOwner)originComponent).getAttributeList();
+            } else {
+                listOfAttributes = mgui.getAllAttributes (tp, tdpName);
+            }
+            for (TAttribute attr : listOfAttributes) {
+                //TraceManager.addDev("Parameter: " + attr.getId());
+                if (attr.getId().equals(s)) {
+                    this.returnAttributes.add(attr);
+                    found = true;
+                    break;
+                }
+            }
+            if (!found) {
+                TraceManager.addDev("ERROR. Return parameter " + s + " not found");
+                error = true;
+            }
+
+        }
+
+        returnAttributesS = null;
+        TraceManager.addDev("returnAttributesS nullified ");
+
+        if (signalsS != null) {
+            for (String s : signalsS) {
+                TraceManager.addDev("Handling signalsS: " + s);
+                boolean found = false;
+                List<AvatarSignal> listOfSignals;
+                if ( (originComponent != null) && (originComponent instanceof AvatarBDStateMachineOwner)) {
+                    listOfSignals = ((AvatarBDStateMachineOwner)originComponent).getAllSignalList();
+                } else {
+                    listOfSignals = mgui.getAllSignals (tp, tdpName);
+                }
+                for (AvatarSignal signal: listOfSignals) {
+                    TraceManager.addDev("Signal: " + signal.getId());
+                    if (signal.toString().equals(s)) {
+                        this.signals.add(signal);
+                        found = true;
+                        break;
+                    }
+                }
+                if (!found) {
+                    TraceManager.addDev("ERROR. Signal " + s + " not found");
+                    error = true;
+                }
+            }
+        }
+
+        signalsS = null;
+        TraceManager.addDev("signalsS nullified ");
+
+        if (libraryFunctionS != null) {
+            TraceManager.addDev("Handling AvatarBDLibraryFunction: " + libraryFunctionS);
+            for (AvatarBDLibraryFunction func : mgui.getAllLibraryFunctions(tp, tdpName)) {
+                TraceManager.addDev("comparing  " + func.getFullyQualifiedName() + " with " + libraryFunctionS);
+                if (func.getFullyQualifiedName().equals(libraryFunctionS)) {
+                    this.libraryFunction = func;
+                    break;
+                }
+            }
+
+            if (this.libraryFunction == null) {
+                TraceManager.addDev("ERROR. No library function named: " + libraryFunctionS);
+                error = true;
+            } else {
+                TraceManager.addDev("Library function found: " + libraryFunctionS);
+            }
+        } else {
+            TraceManager.addDev("ERROR. No library function defined");
+            error = true;
+        }
+
+        libraryFunctionS = null;
+        TraceManager.addDev("libraryFunctionS nullified ");
+
+
+        if (error) {
+            TraceManager.addDev("Error found in postloading of AvatarSMDLibraryFunctionCall");
+        //    throw new MalformedModelingException ();
+        }
 
     }
 

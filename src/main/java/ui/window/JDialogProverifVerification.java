@@ -136,7 +136,7 @@ public class JDialogProverifVerification extends JDialog implements ActionListen
     private static int REACHABILITY_OPTION = REACHABILITY_ALL;
     private static boolean MSG_DUPLICATION = true;
     private static boolean PI_CALCULUS = true;
-    private static int LOOP_ITERATION = 1;
+    public static int LOOP_ITERATION = 1;
 
     private static boolean DRAW_AVATAR = false;
 
@@ -930,8 +930,6 @@ public class JDialogProverifVerification extends JDialog implements ActionListen
                         ) {
                     throw new ProVerifVerificationException("Could not generate proverif code");
                 }
-
-
 
 
                 String cmd = exe2.getText().trim();

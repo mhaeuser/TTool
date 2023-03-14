@@ -69,7 +69,8 @@ import java.util.List;
  * @author Ludovic APVRILLE
  * @version 1.1 06/04/2010
  */
-public class AvatarBDInterface extends TGCScalableWithInternalComponent implements SwallowTGComponent, SwallowedTGComponent, GenericTree, AvatarBDStateMachineOwner, WithAttributes {
+public class AvatarBDInterface extends TGCScalableWithInternalComponent implements SwallowTGComponent, SwallowedTGComponent, GenericTree,
+        AvatarBDStateMachineOwner, WithAttributes {
 
     private static String GLOBAL_CODE_INFO = "(block code)";
 
@@ -972,6 +973,22 @@ public class AvatarBDInterface extends TGCScalableWithInternalComponent implemen
         ((AvatarBDPanel) tdp).updateAllSignalsOnConnectors();
         rescaled = true;
         return true;
+    }
+
+    public boolean hasInternalBlockWithName(String name) {
+        if (getValue().equals(name)) {
+            return true;
+        }
+        TGComponent tgc;
+        for(int i=0; i<getNbInternalTGComponent(); i++) {
+            tgc = getInternalTGComponent(i);
+            if (tgc instanceof AvatarBDStateMachineOwner) {
+                boolean b = ((AvatarBDStateMachineOwner)tgc).hasInternalBlockWithName(name);
+                if (b)
+                    return b;
+            }
+        }
+        return false;
     }
 
     protected void setJDialogOptions(JDialogAvatarInterface _jdab) {

@@ -22,16 +22,15 @@ public class IBSExpression <
     public BExpr make_biiGt(IExpr _left, IExpr _right) { return null; }
     public BExpr make_biiLeq(IExpr _left, IExpr _right) { return null; }
     public BExpr make_biiGeq(IExpr _left, IExpr _right) { return null; }
-    private IExpr make_iVar(IBSAttributeClass<Spec,Comp,State,SpecState,CompState>.Attribute _v) { return null; }
-    private BExpr make_bVar(IBSAttributeClass<Spec,Comp,State,SpecState,CompState>.Attribute _v) { return null; }
-    private IExpr make_iConst(int _i) { return null; }
-    private BExpr make_bConst(int _i) { return null; }
+    public IExpr make_iVar(IBSAttributeClass<Spec,Comp,State,SpecState,CompState>.Attribute _v) { return null; }
+    public BExpr make_bVar(IBSAttributeClass<Spec,Comp,State,SpecState,CompState>.Attribute _v) { return null; }
+    public IExpr make_iConst(int _i) { return null; }
+    public BExpr make_bConst(int _i) { return null; }
     public IExpr make_iNeg(IExpr _expr) { return null; }
     public BExpr make_bNot(BExpr _expr) { return null; }
     public BExpr make_biExpr(IExpr _expr) { return null; }
 
     public abstract class Expr {
-        public abstract int getPrio();
         public abstract int eval();
         public abstract int eval(SpecState _ss);
         public abstract int eval(SpecState _ss, State _st);

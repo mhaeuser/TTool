@@ -1,12 +1,12 @@
 package myutil.intboolsovler2;
 
-public class IBSExpr <
+public class IBSStdExpression<
         Spec extends IBSParamSpec,
         Comp extends IBSParamComp,
         State extends IBSParamState,
         SpecState extends IBSParamSpecState,
         CompState extends IBSParamCompState
-        > extends IBSExpression{
+        > extends IBSExpression<Spec,Comp,State,SpecState,CompState>{
     protected final int[] prios =        { 2 , 2 , 1 , 1 , 1 , 1  ,  2 ,  3 ,  3 ,  3 ,  3 , 3 , 3 ,  3 ,  3 };
     protected final String[] opString = {"+","-","*","/","%","&&","||","==","==","!=","!=","<",">","<=",">=","-","!"};
     public final int iiiPlus = 0;
@@ -47,10 +47,10 @@ public class IBSExpr <
     public BExpr make_biiGt(IExpr left, IExpr right) { return new BIIGt(left, right); }
     public BExpr make_biiLeq(IExpr left, IExpr right) { return new BIILeq(left, right); }
     public BExpr make_biiGeq(IExpr left, IExpr right) { return new BIIGeq(left, right); }
-    private IExpr make_iVar(IBSAttributeClass<Spec,Comp,State,SpecState,CompState>.Attribute _v) { return new IVar(_v); }
-    private BExpr make_bVar(IBSAttributeClass<Spec,Comp,State,SpecState,CompState>.Attribute _v) { return new BVar(_v); }
-    private IExpr make_iConst(int _i) { return new IConst(_i); }
-    private BExpr make_bConst(int _i) { return new BConst(_i); }
+    public IExpr make_iVar(IBSAttributeClass<Spec,Comp,State,SpecState,CompState>.Attribute _v) { return new IVar(_v); }
+    public BExpr make_bVar(IBSAttributeClass<Spec,Comp,State,SpecState,CompState>.Attribute _v) { return new BVar(_v); }
+    public IExpr make_iConst(int _i) { return new IConst(_i); }
+    public BExpr make_bConst(int _i) { return new BConst(_i); }
     public IExpr make_iNeg(IExpr _expr) throws CloneNotSupportedException { return _expr.negate(); }
     public BExpr make_bNot(BExpr _expr) throws CloneNotSupportedException { return _expr.negate(); }
     public BExpr make_biExpr(IExpr _expr) { return new BIExpr(_expr); }
@@ -167,7 +167,7 @@ public class IBSExpr <
         protected final int type = iConst;
         public final boolean isNeg = false;
         public int constant;
-        public IConst(int _i){ constant = _i; }
+        private IConst(int _i){ constant = _i; }
         public IConst clone() throws CloneNotSupportedException {
             return (IConst) super.clone();
         }

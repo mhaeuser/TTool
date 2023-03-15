@@ -1070,9 +1070,11 @@ public class TMLSyntaxChecking {
 
     public void checkMappingOfSecurityPattern() {
         for(SecurityPattern sp: tmlm.secPatterns) {
-            List<HwMemory> mems = mapping.getMappedMemory(sp);
-            if ( (mems == null) || (mems.size() == 0) ) {
-                addWarning(null, null, SECURITY_PATTERN_NOT_MAPPED + ": " + sp.getName(), TMLError.ERROR_STRUCTURE);
+            if (!(sp.isNonceType())) {
+                List<HwMemory> mems = mapping.getMappedMemory(sp);
+                if ((mems == null) || (mems.size() == 0)) {
+                    addWarning(null, null, SECURITY_PATTERN_NOT_MAPPED + ": " + sp.getName(), TMLError.ERROR_STRUCTURE);
+                }
             }
 
         }

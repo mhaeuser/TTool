@@ -32,7 +32,7 @@ means that the attribute "x" of block "Block1" is always strictly positive.
 
 
 ## E[] properties
-"E" means *on one paths* and "[]" means in *all states*. "E<> p" therefore means that "p" is expected to be satisfied in at least all states of at least one path.
+"E" means *on one paths* and "[]" means in *all states*. "E[] p" therefore means that "p" is expected to be satisfied in all states of at least one path.
 
 <center>
 ![](file:../help/ctleall_small.png)

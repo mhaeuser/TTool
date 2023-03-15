@@ -83,7 +83,7 @@ public class AvatarExpressionAttribute implements AvatarExpressionAttributeInter
         accessIndex = -1;
         shift = 0;
         mask = 0xFFFFFFFF;
-        block = null;
+        this.block = block;
     }
 
     

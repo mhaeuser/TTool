@@ -594,6 +594,23 @@ public class AvatarBDLibraryFunction extends TGCScalableWithoutInternalComponent
     }
 
     @Override
+    public void setValue(String s) {
+        //TraceManager.addDev("Set value lib function");
+        if (s.equals(value)) {
+            return;
+        }
+        value = s;
+        this.name = s;
+    }
+
+    @Override
+    public void setValueWithChange(String v) {
+        super.setValueWithChange(v);
+        name = v;
+    }
+
+
+    @Override
     public TGComponent isOnMe(int x1, int y1) {
 
         if (GraphicLib.isInRectangle(x1, y1, this.x, this.y, this.width, this.height))

@@ -3154,6 +3154,7 @@ public abstract class TDiagramPanel extends JPanel implements GenericTree {
         }
 
         public boolean checkAvatarBDLibraryFunction(AvatarBDLibraryFunction o, String name) {
+            TraceManager.addDev("checkAvatarBDLibraryFunction with func=" + o.getFunctionName() + " vs. " + name);
             return false;
         }
 
@@ -3476,6 +3477,7 @@ public abstract class TDiagramPanel extends JPanel implements GenericTree {
             }
 
             public boolean checkAvatarBDLibraryFunction(AvatarBDLibraryFunction o, String name) {
+                TraceManager.addDev("checkAvatarBDLibraryFunction with func=" + o.getFunctionName() + " vs. " + name);
                 return o.getFunctionName().equals(name);
             }
 

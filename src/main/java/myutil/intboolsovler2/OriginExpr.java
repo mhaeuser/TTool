@@ -118,10 +118,10 @@ public class OriginExpr<
         if (bExpressions.size()<= _left || bExpressions.size() <= _right || bExpressions.get(_left) == null || bExpressions.get(_right) == null)
             return false;
         BExpr e = new BExpr();
-        e.left = bExpressions.get(_left);
-        e.right = bExpressions.get(_right);
+        e.type = BExpr.bbb;
+        e.bleft = bExpressions.get(_left);
+        e.bright = bExpressions.get(_right);
         e.operator = '&';
-        e.isLeaf = false;
         bExpressions.set(_tgt,e);
         return true;
     }
@@ -129,10 +129,10 @@ public class OriginExpr<
         if (bExpressions.size()<= _left || bExpressions.size() <= _right || bExpressions.get(_left) == null || bExpressions.get(_right) == null)
             return false;
         BExpr e = new BExpr();
-        e.left = bExpressions.get(_left);
-        e.right = bExpressions.get(_right);
+        e.type = BExpr.bbb;
+        e.bleft = bExpressions.get(_left);
+        e.bright = bExpressions.get(_right);
         e.operator = '|';
-        e.isLeaf = false;
         bExpressions.set(_tgt,e);
         return true;
     }
@@ -140,10 +140,10 @@ public class OriginExpr<
         if (iExpressions.size()<= _left || iExpressions.size() <= _right || iExpressions.get(_left) == null || iExpressions.get(_right) == null)
             return false;
         BExpr e = new BExpr();
-        e.left = iExpressions.get(_left);
-        e.right = iExpressions.get(_right);
+        e.type = BExpr.bii;
+        e.ileft = iExpressions.get(_left);
+        e.iright = iExpressions.get(_right);
         e.operator = '=';
-        e.isLeaf = false;
         bExpressions.set(_tgt,e);
         return true;
     }
@@ -151,10 +151,10 @@ public class OriginExpr<
         if (bExpressions.size()<= _left || bExpressions.size() <= _right || bExpressions.get(_left) == null || bExpressions.get(_right) == null)
             return false;
         BExpr e = new BExpr();
-        e.left = bExpressions.get(_left);
-        e.right = bExpressions.get(_right);
+        e.type = BExpr.bbb;
+        e.bleft = bExpressions.get(_left);
+        e.bright = bExpressions.get(_right);
         e.operator = '=';
-        e.isLeaf = false;
         bExpressions.set(_tgt,e);
         return true;
     }
@@ -162,10 +162,10 @@ public class OriginExpr<
         if (iExpressions.size()<= _left || iExpressions.size() <= _right || iExpressions.get(_left) == null || iExpressions.get(_right) == null)
             return false;
         BExpr e = new BExpr();
-        e.left = iExpressions.get(_left);
-        e.right = iExpressions.get(_right);
+        e.type = BExpr.bii;
+        e.ileft = iExpressions.get(_left);
+        e.iright = iExpressions.get(_right);
         e.operator = '$';
-        e.isLeaf = false;
         bExpressions.set(_tgt,e);
         return true;
     }
@@ -174,10 +174,10 @@ public class OriginExpr<
         if (bExpressions.size()<= _left || bExpressions.size() <= _right || bExpressions.get(_left) == null || bExpressions.get(_right) == null)
             return false;
         BExpr e = new BExpr();
-        e.left = bExpressions.get(_left);
-        e.right = bExpressions.get(_right);
+        e.type = BExpr.bbb;
+        e.bleft = bExpressions.get(_left);
+        e.bright = bExpressions.get(_right);
         e.operator = '$';
-        e.isLeaf = false;
         bExpressions.set(_tgt,e);
         return true;
     }
@@ -186,10 +186,10 @@ public class OriginExpr<
         if (iExpressions.size()<= _left || iExpressions.size() <= _right || iExpressions.get(_left) == null || iExpressions.get(_right) == null)
             return false;
         BExpr e = new BExpr();
-        e.left = iExpressions.get(_left);
-        e.right = iExpressions.get(_right);
+        e.type = BExpr.bii;
+        e.ileft = iExpressions.get(_left);
+        e.iright = iExpressions.get(_right);
         e.operator = '<';
-        e.isLeaf = false;
         bExpressions.set(_tgt,e);
         return true;
     }
@@ -198,10 +198,10 @@ public class OriginExpr<
         if (iExpressions.size()<= _left || iExpressions.size() <= _right || iExpressions.get(_left) == null || iExpressions.get(_right) == null)
             return false;
         BExpr e = new BExpr();
-        e.left = iExpressions.get(_left);
-        e.right = iExpressions.get(_right);
+        e.type = BExpr.bii;
+        e.ileft = iExpressions.get(_left);
+        e.iright = iExpressions.get(_right);
         e.operator = '>';
-        e.isLeaf = false;
         bExpressions.set(_tgt,e);
         return true;
     }
@@ -210,10 +210,10 @@ public class OriginExpr<
         if (iExpressions.size()<= _left || iExpressions.size() <= _right || iExpressions.get(_left) == null || iExpressions.get(_right) == null)
             return false;
         BExpr e = new BExpr();
-        e.left = iExpressions.get(_left);
-        e.right = iExpressions.get(_right);
+        e.type = BExpr.bii;
+        e.ileft = iExpressions.get(_left);
+        e.iright = iExpressions.get(_right);
         e.operator = ';';
-        e.isLeaf = false;
         bExpressions.set(_tgt,e);
         return true;
     }
@@ -222,14 +222,13 @@ public class OriginExpr<
         if (iExpressions.size()<= _left || iExpressions.size() <= _right || iExpressions.get(_left) == null || iExpressions.get(_right) == null)
             return false;
         BExpr e = new BExpr();
-        e.left = iExpressions.get(_left);
-        e.right = iExpressions.get(_right);
+        e.type = BExpr.bii;
+        e.ileft = iExpressions.get(_left);
+        e.iright = iExpressions.get(_right);
         e.operator = ':';
-        e.isLeaf = false;
         bExpressions.set(_tgt,e);
         return true;
     }
-
     public boolean make_iVar(IBSAttributeClass<Spec,Comp,State,SpecState,CompState>.Attribute _v, int _tgt) {
         if (_v == null || _v.getType() != IBSAttributeClass.IntAttr)
             return false;
@@ -238,11 +237,11 @@ public class OriginExpr<
         iExpressions.set(_tgt, e);
         return true;
     }
-
     public boolean make_bVar(IBSAttributeClass<Spec,Comp,State,SpecState,CompState>.Attribute _v, int _tgt) {
         if (_v == null || _v.getType() != IBSAttributeClass.BoolAttr)
             return false;
         BExpr e = new BExpr();
+        e.type = BExpr.bVar;
         e.leaf = _v;
         bExpressions.set(_tgt, e);
         return true;
@@ -250,20 +249,19 @@ public class OriginExpr<
 
     public boolean make_iConst(int _i, int _tgt) {
         IExpr e = new IExpr();
-        e.isImmediateValue = IMMEDIATE_INT; //0: No; 1: Int; 2: Boolean;
+        e.isImmediateValue = true; //0: No; 1: Int; 2: Boolean;
         e.intValue = _i;
         iExpressions.set(_tgt, e);
         return true;
     }
 
-    public boolean make_bConst(int _i, int _tgt) {
+    public boolean make_bConst(boolean _b, int _tgt) {
         BExpr e = new BExpr();
-        e.isImmediateValue = IMMEDIATE_BOOL; //0: No; 1: Int; 2: Boolean;
-        e.intValue = _i;
+        e.type = BExpr.bCst; //0: No; 1: Int; 2: Boolean;
+        e.boolValue = _b;
         bExpressions.set(_tgt, e);
         return true;
     }
-
     public boolean make_iNeg(int _expr, int _tgt) throws CloneNotSupportedException {
         if (iExpressions.size()<=_expr || iExpressions.get(_expr) == null)
             return false;
@@ -272,33 +270,21 @@ public class OriginExpr<
         iExpressions.set(_tgt, e);
         return true;
     }
-
     public boolean make_bNot(int _expr, int _tgt) throws CloneNotSupportedException {
         if (bExpressions.size()<=_expr || bExpressions.get(_expr) == null)
             return false;
         BExpr e = bExpressions.get(_expr).clone();
-        e.isNot = !iExpressions.get(_expr).isNot;
+        e.isNot = !e.isNot;
         bExpressions.set(_tgt, e);
         return true;
     }
-
     public boolean make_biExpr(int _expr, int _tgt) {
         if (iExpressions.size()<=_expr || iExpressions.get(_expr) == null)
             return false;
         IExpr expr = iExpressions.get(_expr);
         BExpr e = new BExpr();
-        e.left = expr.left;
-        e.right = expr.right;
-        if (expr.isLeaf) {
-            e.isLeaf = true;
-            e.leaf = expr.leaf;
-        } else {
-            e.operator = expr.operator;
-        }
-        if (expr.isImmediateValue == IBSAttributeClass.IntConst) {
-            e.isImmediateValue = IBSAttributeClass.BoolConst;
-            e.intValue = expr.intValue;
-        }
+        e.type = BExpr.bi;
+        e.ileft = expr;
         bExpressions.set(_tgt, e);
         return true;
     }
@@ -324,7 +310,7 @@ public class OriginExpr<
                     throw new Error("eval() on Open Leave");
                 }
             } else {
-                res = getChildrenResult(left.eval(), right.eval(), operator);
+                res = iChildrenResult(left.eval(), right.eval(), operator);
             }
             if (isNegated) {
                 res = -res;
@@ -340,7 +326,7 @@ public class OriginExpr<
                     res = leaf.getValue(_ss);
                 }
             } else {
-                res = getChildrenResult(left.eval(_ss), right.eval(_ss),operator);
+                res = iChildrenResult(left.eval(_ss), right.eval(_ss),operator);
             }
 
             if (isNegated) {
@@ -357,7 +343,7 @@ public class OriginExpr<
                     res = leaf.getValue(_ss, _st);
                 }
             } else {
-                res = getChildrenResult(left.eval(_ss, _st),
+                res = iChildrenResult(left.eval(_ss, _st),
                         right.eval(_ss, _st), operator);
             }
 
@@ -375,7 +361,7 @@ public class OriginExpr<
                     res = leaf.getValue(_cs);
                 }
             } else {
-                res = getChildrenResult(left.eval(_cs), right.eval(_cs),operator);
+                res = iChildrenResult(left.eval(_cs), right.eval(_cs),operator);
             }
 
             if (isNegated) {
@@ -392,7 +378,7 @@ public class OriginExpr<
                     res = leaf.getValue(_qs);
                 }
             } else {
-                res = getChildrenResult(left.eval(_qs), right.eval(_qs),operator);
+                res = iChildrenResult(left.eval(_qs), right.eval(_qs),operator);
             }
 
             if (isNegated) {
@@ -603,6 +589,9 @@ public class OriginExpr<
         }
         public String toString() {
             String retS;
+            String leftString;
+            String rightString;
+            String opString;
             switch (type) {
                 case bCst:
                     if (boolValue)
@@ -616,90 +605,89 @@ public class OriginExpr<
                     if (isNot) retS = "not(" + retS + ")";
                     break;
                 case bii:
-                    res = bChildrenResult(ileft.eval(_qs), iright.eval(_qs), operator);
+                    leftString = ileft.toString();
+                    rightString = iright.toString();
+                    switch (operator) {
+                        case '=':
+                            opString = "==";
+                            break;
+                        case '$':
+                            opString = "!=";
+                            break;
+                        case ':':
+                            opString = ">=";
+                            break;
+                        case ';':
+                            opString = "<=";
+                            break;
+                       default:
+                            opString = "" + operator;
+                            break;
+                    }
+                    retS = "(" + leftString + " " + opString + " " + rightString + ")";
+                    if (isNot)  retS = "not" + retS;
                     break;
                 case bbb:
-                    res = bChildrenResult(bleft.eval(_qs), bright.eval(_qs), operator);
+                    leftString = bleft.toString();
+                    rightString = bright.toString();
+                    switch (operator) {
+                        case '=':
+                            opString = "==";
+                            break;
+                        case '$':
+                            opString = "!=";
+                            break;
+                        case '|':
+                            opString = "||";
+                            break;
+                        case '&':
+                            opString = "&&";
+                            break;
+                        default:
+                            opString = "" + operator;
+                            break;
+                    }
+                    retS = "(" + leftString + " " + opString + " " + rightString + ")";
+                    if (isNot) retS = "not" + retS;
                     break;
                 case bi:
-                    res = ileft.eval(_qs) != 0;
+                    retS = "(" + ileft.toString() + ")";
+                    if (isNot) retS = "not" + retS;
                     break;
                 default: throw new Error("Invalid Boolean Expression Type");
             }
-            if (isLeaf) {
-            } else {
-                String leftString = left.toString();
-                String rightString = right.toString();
-                String opString;
-                switch (operator) {
-                    case '=':
-                        opString = "==";
-                        break;
-                    case '$':
-                        opString = "!=";
-                        break;
-                    case ':':
-                        opString = ">=";
-                        break;
-                    case ';':
-                        opString = "<=";
-                        break;
-                    case '|':
-                        opString = "||";
-                        break;
-                    case '&':
-                        opString = "&&";
-                        break;
-                    default:
-                        opString = "" + operator;
-                        break;
-                }
-                retS = "(" + leftString + " " + opString + " " + rightString + ")";
-                if (isNegated) {
-                    retS = "-" + retS;
-                }
-                if (isNot) {
-                    retS = "not" + retS;
-                }
-            }
-            return retS;
+                    return retS;
         }
         public boolean hasStates() {
             boolean hasStates;
-            if (isLeaf) {
-                if (isImmediateValue == IMMEDIATE_NO) {
-                    return leaf.isState();
-                } else {
-                    return false;
-                }
-            } else {
-                hasStates = left.hasStates();
-                hasStates |= right.hasStates();
-                return hasStates;
+            switch (type) {
+                case bCst: return false;
+                case bVar: return leaf.isState();
+                case bii: return ileft.hasStates() || iright.hasStates();
+                case bbb: return bleft.hasStates() || bright.hasStates();
+                case bi: return ileft.hasStates();
+                default: throw new Error("Invalid Boolean Expression Type");
             }
         }
         public void linkStates() {
-            if (isLeaf) {
-                if (isImmediateValue == IMMEDIATE_NO) {
-                    leaf.linkState();
-                }
-            } else {
-                left.linkStates();
-                right.linkStates();
+            switch (type) {
+                case bVar: leaf.linkState(); break;
+                case bii: ileft.linkStates(); iright.linkStates(); break;
+                case bbb: bleft.linkStates(); bright.linkStates(); break;
+                case bi: ileft.linkStates();  break;
+                default: ;
             }
         }
         public void linkComps(Spec _spec) {
-            if (isLeaf) {
-                if (isImmediateValue == IMMEDIATE_NO) {
-                    leaf.linkComp(_spec);
-                }
-            } else {
-                left.linkComps(_spec);
-                right.linkComps(_spec);
+            switch (type) {
+                case bVar: leaf.linkComp(_spec); break;
+                case bii: ileft.linkComps(_spec); iright.linkComps(_spec); break;
+                case bbb: bleft.linkComps(_spec); bright.linkComps(_spec); break;
+                case bi: ileft.linkComps(_spec);  break;
+                default: ;
             }
         }
     }
-
     private static int iChildrenResult(int leftV, int rightV, char operator) {
         int result;
         switch (operator) {

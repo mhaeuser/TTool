@@ -38,7 +38,11 @@
 
 package myutil.intboolsovler2;
 
+import myutil.TraceManager;
+
 import java.util.HashSet;
+
+import static java.lang.Integer.max;
 
 /**
  * Class IBSolver implements the generic solver.
@@ -61,143 +65,383 @@ public class OriginParser<
         SpecState extends IBSParamSpecState,
         CompState extends IBSParamCompState
         > {
-    public  IBSAttributeClass<Spec,Comp,State,SpecState,CompState> attC; // Attribute Class
-    private HashSet<String> freeIdents;
-    public OriginParser(IBSAttributeClass<Spec,Comp,State,SpecState,CompState> _c){
+    public  IBSAttributeClass<Spec,Comp,State,SpecState,CompState> attC;
+    public  IBSExpressionClass<Spec,Comp,State,SpecState,CompState> exprC;
+    private HashSet<String> badIdents;
+    private boolean syntaxError = false;
+
+    public OriginParser(IBSAttributeClass<Spec,Comp,State,SpecState,CompState> _c,
+                        IBSExpressionClass<Spec,Comp,State,SpecState,CompState> _e){
         attC = _c;
-        freeIdents   = new HashSet<String>();
+        exprC = _e;
+        badIdents = new HashSet<String>();
     }
     public OriginParser(){
-        freeIdents   = new HashSet<String>();
+        badIdents = new HashSet<String>();
     }
     public void setAttributeClass(IBSAttributeClass<Spec,Comp,State,SpecState,CompState> _c){
         attC = _c;
     }
     public IBSAttributeClass<Spec,Comp,State,SpecState,CompState> getAttributeClass(){ return attC; }
-    public HashSet<String> getFreeIdents() {
-        return freeIdents;
+    public void setExpressionClass(IBSExpressionClass<Spec,Comp,State,SpecState,CompState> _c){
+        exprC = _c;
     }
-    public void clearFreeIdents() {
-        freeIdents   = new HashSet<String>();
+    public IBSExpressionClass<Spec,Comp,State,SpecState,CompState> getExpressionClass(){ return exprC; }
+    public HashSet<String> getBadIdents() {
+        return badIdents;
     }
+    public void clearBadIdents() {
+        badIdents.clear();
+    }
+    public boolean syntaxError() { return syntaxError; }
 
-    public IBSExpression<Spec,Comp,State,SpecState,CompState>.IExpr
-    parseInt(Spec _spec, String _s) {
-        freeIdents.clear();
+    public IBSExpressionClass<Spec,Comp,State,SpecState,CompState>.IExpr parseInt(Spec _spec, String _s) {
+        badIdents.clear();
+        syntaxError = false;
         attC.initBuild(_spec);
-        return parseIntRec(_spec,_s);
+        int index = parseIntRec(_spec,_s);
+        if (index >= 0) {
+            IBSExpressionClass<Spec, Comp, State, SpecState, CompState>.IExpr res = exprC.getIExpr(index);
+            exprC.freeInt(index);
+            return res;
+        }
+        if (index == -2) TraceManager.addDev("IBSParser: Int Expression Memory Full");
+        return null;
     }
-    public IBSExpression<Spec,Comp,State,SpecState,CompState>.BExpr
-    parseBool(Spec _spec, String _s) {
-        freeIdents.clear();
+    public IBSExpressionClass<Spec,Comp,State,SpecState,CompState>.BExpr parseBool(Spec _spec, String _s) {
+        badIdents.clear();
+        syntaxError = false;
         attC.initBuild(_spec);
-        return parseBoolRec(_spec,_s);
+        int index = parseBoolRec(_spec,_s);
+        if (index >= 0) {
+            IBSExpressionClass<Spec, Comp, State, SpecState, CompState>.BExpr res = exprC.getBExpr(index);
+            exprC.freeBool(index);
+            return res;
+        }
+        if (index == -2) TraceManager.addDev("IBSParser: Int Expression Memory Full");
+        return null;
     }
-    public IBSExpression<Spec,Comp,State,SpecState,CompState>.IExpr
-    parseInt(Comp _comp, String _s) {
-        freeIdents.clear();
+    public IBSExpressionClass<Spec,Comp,State,SpecState,CompState>.IExpr parseInt(Comp _comp, String _s) {
+        badIdents.clear();
+        syntaxError = false;
         attC.initBuild(_comp);
-        return parseIntRec(_comp,_s);
+        int index = parseIntRec(_comp,_s);
+        if (index >= 0) {
+            IBSExpressionClass<Spec, Comp, State, SpecState, CompState>.IExpr res = exprC.getIExpr(index);
+            exprC.freeInt(index);
+            return res;
+        }
+        if (index == -2) TraceManager.addDev("IBSParser: Int Expression Memory Full");
+        return null;
     }
-    public IBSExpression<Spec,Comp,State,SpecState,CompState>.BExpr
-    parseBool(Comp _comp, String _s) {
-        freeIdents.clear();
+    public IBSExpressionClass<Spec,Comp,State,SpecState,CompState>.BExpr parseBool(Comp _comp, String _s) {
+        badIdents.clear();
+        syntaxError = false;
         attC.initBuild(_comp);
-        return parseBoolRec(_comp,_s);
+        int index = parseBoolRec(_comp,_s);
+        if (index >= 0) {
+            IBSExpressionClass<Spec, Comp, State, SpecState, CompState>.BExpr res = exprC.getBExpr(index);
+            exprC.freeBool(index);
+            return res;
+        }
+        if (index == -2) TraceManager.addDev("IBSParser: Int Expression Memory Full");
+        return null;
     }
-    public IBSExpression<Spec,Comp,State,SpecState,CompState>.IExpr
-    parseInt(String _s) {
-        freeIdents.clear();
+    public IBSExpressionClass<Spec,Comp,State,SpecState,CompState>.IExpr parseInt(String _s) {
+        badIdents.clear();
+        syntaxError = false;
         attC.initBuild();
-        return parseIntRec(_s);
+        int index = parseIntRec(_s);
+        if (index >= 0) {
+            IBSExpressionClass<Spec, Comp, State, SpecState, CompState>.IExpr res = exprC.getIExpr(index);
+            exprC.freeInt(index);
+            return res;
+        }
+        if (index == -2) TraceManager.addDev("IBSParser: Int Expression Memory Full");
+        return null;
     }
-    public IBSExpression<Spec,Comp,State,SpecState,CompState>.BExpr
-    parseBool(String _s) {
-        freeIdents.clear();
+    public IBSExpressionClass<Spec,Comp,State,SpecState,CompState>.BExpr parseBool(String _s) {
+        badIdents.clear();
+        syntaxError = false;
         attC.initBuild();
-        return parseBoolRec(_s);
+        int index = parseBoolRec(_s);
+        if (index >= 0) {
+            IBSExpressionClass<Spec, Comp, State, SpecState, CompState>.BExpr res = exprC.getBExpr(index);
+            exprC.freeBool(index);
+            return res;
+        }
+        if (index == -2) TraceManager.addDev("IBSParser: Int Expression Memory Full");
+        return null;
     }
-    public IBSExpression<Spec,Comp,State,SpecState,CompState>.IExpr
-    intExpr(IBSAttributeClass<Spec,Comp,State,SpecState,CompState>.Attribute _attr) {
-            if (_attr==null || _attr.getType() != IBSAttributeClass.IntAttr)
-                return null;
-            return make_iVar(_attr);
+    public IBSExpressionClass<Spec,Comp,State,SpecState,CompState>.IExpr
+    makeInt(IBSAttributeClass<Spec,Comp,State,SpecState,CompState>.Attribute _attr) {
+        int index = exprC.make_iVar(_attr);
+        if (index >= 0) {
+            IBSExpressionClass<Spec, Comp, State, SpecState, CompState>.IExpr res = exprC.getIExpr(index);
+            exprC.freeInt(index);
+            return res;
+        }
+        if (index == -2) TraceManager.addDev("IBSParser: Int Expression Memory Full");
+        return null;
     }
-
-
-        public boolean buildExpressionRec(Spec _spec) {
-            boolean returnVal;
-
-            removeUselessBrackets();
-            returnVal = checkNot();
-            returnVal &= checkNegated();
-            if (!returnVal) return false;
-
-            if (!expression.matches("^.+[\\+\\-<>=:;\\$&\\|\\*/].*$")) {
-                // leaf
-                isLeaf = true;
-                if (!checkNegatedNoBrackets()) return false;
-                checkNegatedNoBrackets();
-                if (expression.equals("true")) {
-                    intValue = 1;
-                    isImmediateValue = IMMEDIATE_BOOL;
-                    return true;
-                } else if (expression.equals("false")) {
-                    intValue = 0;
-                    isImmediateValue = IMMEDIATE_BOOL;
-                    return true;
-                } else if (expression.matches("-?\\d+")) {
-                    intValue = Integer.parseInt(expression);
-                    isImmediateValue = IMMEDIATE_INT;
-                    return true;
-                } else {
-                    IBSAttributeClass<Spec,Comp,State,SpecState,CompState>.TypedAttribute att =
-                            attC.getTypedAttribute(_spec, expression);
-                    switch (att.getType()) {
-                        case IBSAttributeClass.NullAttr: {
-                            return false;
-                        }
-                        case IBSAttributeClass.BoolConst: {
-                            intValue = att.getConstant();
-                            isImmediateValue = IMMEDIATE_BOOL;
-                            return true;
-                        }
-                        case IBSAttributeClass.IntConst: {
-                            intValue = att.getConstant();
-                            isImmediateValue = IMMEDIATE_INT;
-                            return true;
-                        }
-                        default: {
-                            leaf = att.getAttribute();
-                            return true;
-                        }
-                    }
-                }
-            }
-
-            isLeaf = false;
-
-            int index = getOperatorIndex();
-
-            if (index == -1) {
-                return false;
-            }
-
-            operator = expression.charAt(index);
-
-            //split and recur
-            String leftExpression = expression.substring(0, index).trim();
-            String rightExpression = expression.substring(index + 1, expression.length()).trim();
-
-            left = new Expr(leftExpression);
-            right = new Expr(rightExpression);
-            returnVal = left.buildExpressionRec(_spec);
-            returnVal &= right.buildExpressionRec(_spec);
-
-            return returnVal;
+    public IBSExpressionClass<Spec,Comp,State,SpecState,CompState>.BExpr
+    makeBool(IBSAttributeClass<Spec,Comp,State,SpecState,CompState>.Attribute _attr) {
+        int index = exprC.make_bVar(_attr);
+        if (index >= 0) {
+            IBSExpressionClass<Spec, Comp, State, SpecState, CompState>.BExpr res = exprC.getBExpr(index);
+            exprC.freeBool(index);
+            return res;
+        }
+        if (index == -2) TraceManager.addDev("IBSParser: Int Expression Memory Full");
+        return null;
+    }
+    private class TestedExpr {
+        public boolean test;
+        public String s;
+        TestedExpr(String _s,boolean _b){ s = _s; test = _b; }
+    }
+    public int parseIntRec(Spec _spec, String _s) {
+        if (_s.matches("^.+[<>=:;\\$&\\|].*$")) {
+            syntaxError = true;
+            return -1;
         }
 
-        public boolean buildExpressionRec(Comp _comp) {
+        TestedExpr returnVal;
+        String expression = removeUselessBrackets(_s);
+        boolean isNegated = false;
+
+        returnVal = checkNegated(expression);
+        if(returnVal==null) return -1;
+        expression = returnVal.s;
+        isNegated = (isNegated != returnVal.test);
+
+        if (!expression.matches("^.+[\\+\\-\\*/].*$")) {
+
+            returnVal = checkNegated(expression);
+            if(returnVal==null) return -1;
+            expression = returnVal.s;
+            isNegated = (isNegated != returnVal.test);
+
+            if (expression.matches("-?\\d+"))
+                return exprC.make_iConst(Integer.parseInt(expression));
+            else {
+                IBSAttributeClass<Spec,Comp,State,SpecState,CompState>.TypedAttribute att =
+                        attC.getTypedAttribute(_spec, expression);
+                    switch (att.getType()) {
+                        case IBSAttributeClass.NullAttr:
+                        case IBSAttributeClass.BoolConst: return -1;
+                        case IBSAttributeClass.IntConst:
+                            return exprC.make_iConst(att.getConstant());
+                        default:
+                            return exprC.make_iVar(att.getAttribute());
+                    }
+            }
+        }
+        int index = getOperatorIndex(expression);
+        if (index == -1) return -1;
+
+        String leftExpression = expression.substring(0, index).trim();
+        String rightExpression = expression.substring(index + 1, expression.length()).trim();
+
+        int left  = parseIntRec(_spec,leftExpression);
+        int right = parseIntRec(_spec,rightExpression);
+        if (left<0) {
+            if (right < 0) return max(left, right);
+            exprC.freeInt(right);
+            return left;
+        }
+        switch(expression.charAt(index)) {
+            case '+':
+                return exprC.make_iiiPlus(left, right);
+            case '-':
+                return exprC.make_iiiMinus(left, right);
+            case '*':
+                return exprC.make_iiiMult(left, right);
+            case '/':
+                return exprC.make_iiiDiv(left, right);
+            default: // should not happend
+                syntaxError = true;
+                return -1;
+        }
+    }
+    public int parseIntRec(Comp _comp, String _s) {
+        if (_s.matches("^.+[<>=:;\\$&\\|].*$")) {
+            syntaxError = true;
+            return -1;
+        }
+
+        TestedExpr returnVal;
+        String expression = removeUselessBrackets(_s);
+        boolean isNegated = false;
+
+        returnVal = checkNegated(expression);
+        if(returnVal==null) return -1;
+        expression = returnVal.s;
+        isNegated = (isNegated != returnVal.test);
+
+        if (!expression.matches("^.+[\\+\\-\\*/].*$")) {
+
+            returnVal = checkNegated(expression);
+            if(returnVal==null) return -1;
+            expression = returnVal.s;
+            isNegated = (isNegated != returnVal.test);
+
+            if (expression.matches("-?\\d+"))
+                return exprC.make_iConst(Integer.parseInt(expression));
+            else {
+                IBSAttributeClass<Spec,Comp,State,SpecState,CompState>.TypedAttribute att =
+                        attC.getTypedAttribute(_comp, expression);
+                switch (att.getType()) {
+                    case IBSAttributeClass.NullAttr:
+                    case IBSAttributeClass.BoolConst: return -1;
+                    case IBSAttributeClass.IntConst:
+                        return exprC.make_iConst(att.getConstant());
+                    default:
+                        return exprC.make_iVar(att.getAttribute());
+                }
+            }
+        }
+        int index = getOperatorIndex(expression);
+        if (index == -1) return -1;
+
+        String leftExpression = expression.substring(0, index).trim();
+        String rightExpression = expression.substring(index + 1, expression.length()).trim();
+
+        int left  = parseIntRec(_comp,leftExpression);
+        int right = parseIntRec(_comp,rightExpression);
+        if (left<0) {
+            if (right < 0) return max(left, right);
+            exprC.freeInt(right);
+            return left;
+        }
+        switch(expression.charAt(index)) {
+            case '+':
+                return exprC.make_iiiPlus(left, right);
+            case '-':
+                return exprC.make_iiiMinus(left, right);
+            case '*':
+                return exprC.make_iiiMult(left, right);
+            case '/':
+                return exprC.make_iiiDiv(left, right);
+            default: // should not happend
+                syntaxError = true;
+                return -1;
+        }
+    }
+    public int parseIntRec(String _s) {
+        if (_s.matches("^.+[<>=:;\\$&\\|].*$")) {
+            syntaxError = true;
+            return -1;
+        }
+
+        TestedExpr returnVal;
+        String expression = removeUselessBrackets(_s);
+        boolean isNegated = false;
+
+        returnVal = checkNegated(expression);
+        if(returnVal==null) return -1;
+        expression = returnVal.s;
+        isNegated = (isNegated != returnVal.test);
+
+        if (!expression.matches("^.+[\\+\\-\\*/].*$")) {
+
+            returnVal = checkNegated(expression);
+            if(returnVal==null) return -1;
+            expression = returnVal.s;
+            isNegated = (isNegated != returnVal.test);
+
+            if (expression.matches("-?\\d+"))
+                return exprC.make_iConst(Integer.parseInt(expression));
+            else
+                return -1;
+        }
+        int index = getOperatorIndex(expression);
+        if (index == -1) return -1;
+
+        String leftExpression = expression.substring(0, index).trim();
+        String rightExpression = expression.substring(index + 1, expression.length()).trim();
+
+        int left  = parseIntRec(leftExpression);
+        int right = parseIntRec(rightExpression);
+        if (left<0) {
+            if (right < 0) return max(left, right);
+            exprC.freeInt(right);
+            return left;
+        }
+        switch(expression.charAt(index)) {
+            case '+':
+                return exprC.make_iiiPlus(left, right);
+            case '-':
+                return exprC.make_iiiMinus(left, right);
+            case '*':
+                return exprC.make_iiiMult(left, right);
+            case '/':
+                return exprC.make_iiiDiv(left, right);
+            default: // should not happend
+                syntaxError = true;
+                return -1;
+        }
+    }
+    public int parseBoolRec(Spec _spec, String _s) {
+        TestedExpr returnVal;
+        String expression = removeUselessBrackets(_s);
+        boolean isNegated = false;
+
+        returnVal = checkNegated(expression);
+        if(returnVal==null) return -1;
+        expression = returnVal.s;
+        isNegated = (isNegated != returnVal.test);
+
+        if (!expression.matches("^.+[\\+\\-\\*/].*$")) {
+
+            returnVal = checkNegated(expression);
+            if(returnVal==null) return -1;
+            expression = returnVal.s;
+            isNegated = (isNegated != returnVal.test);
+
+            if (expression.matches("-?\\d+"))
+                return exprC.make_iConst(Integer.parseInt(expression));
+            else {
+                IBSAttributeClass<Spec,Comp,State,SpecState,CompState>.TypedAttribute att =
+                        attC.getTypedAttribute(_spec, expression);
+                switch (att.getType()) {
+                    case IBSAttributeClass.NullAttr:
+                    case IBSAttributeClass.BoolConst: return -1;
+                    case IBSAttributeClass.IntConst:
+                        return exprC.make_iConst(att.getConstant());
+                    default:
+                        return exprC.make_iVar(att.getAttribute());
+                }
+            }
+        }
+        int index = getOperatorIndex(expression);
+        if (index == -1) return -1;
+
+        String leftExpression = expression.substring(0, index).trim();
+        String rightExpression = expression.substring(index + 1, expression.length()).trim();
+
+        int left  = parseIntRec(_spec,leftExpression);
+        int right = parseIntRec(_spec,rightExpression);
+        if (left<0) {
+            if (right < 0) return max(left, right);
+            exprC.freeInt(right);
+            return left;
+        }
+        switch(expression.charAt(index)) {
+            case '+':
+                return exprC.make_iiiPlus(left, right);
+            case '-':
+                return exprC.make_iiiMinus(left, right);
+            case '*':
+                return exprC.make_iiiMult(left, right);
+            case '/':
+                return exprC.make_iiiDiv(left, right);
+            default: // should not happend
+                syntaxError = true;
+                return -1;
+        }
+    }
+    public boolean buildExpressionRec(Comp _comp) {
             boolean returnVal;
 
             removeUselessBrackets();
@@ -335,7 +579,10 @@ public class OriginParser<
             //expression.replaceAll("\\bfalse\\b", "f").trim();
         }
 
-        private boolean checkNot() {
+        private TestedExpr checkNot(String _s) {
+            String expression = _s;
+            boolean isNot = false;
+
             boolean notStart1, notStart2;
 
             notStart1 = expression.startsWith("not(");
@@ -347,63 +594,70 @@ public class OriginParser<
                     int closingIndex = getClosingBracket(4);
 
                     if (closingIndex == -1) {
-                        return false;
+                        syntaxError=true;
+                        return null;
                     }
                     if (closingIndex == expression.length() - 1) {
                         //not(expression)
                         isNot = !isNot;
                         expression = expression.substring(4, expression.length() - 1).trim();
                     } else {
-                        return true;
+                        return new TestedExpr(expression,isNot);
                     }
                 } else if (notStart2) {
                     int closingIndex = getClosingBracket(2);
 
                     if (closingIndex == -1) {
-                        return false;
+                        syntaxError=true;
+                        return null;
                     }
                     if (closingIndex == expression.length() - 1) {
                         //not(expression)
                         isNot = !isNot;
                         expression = expression.substring(2, expression.length() - 1).trim();
                     } else {
-                        return true;
+                        return new TestedExpr(expression,isNot);
                     }
                 }
                 notStart1 = expression.startsWith("not(");
                 notStart2 = expression.startsWith("!(");
             }
-            return true;
+            return new TestedExpr(expression,isNot);
         }
 
-        private boolean checkNegated() {
-            while (expression.startsWith("-(")) {
+    private TestedExpr checkNegated(String _s) {
+        String expression = _s;
+        boolean isNegated = false;
+        while (expression.startsWith("-(")) {
                 //not bracket must be closed in the last char
                 int closingIndex = getClosingBracket(2);
 
                 if (closingIndex == -1) {
-                    return false;
+                    syntaxError = true;
+                    return null;
                 }
                 if (closingIndex == expression.length() - 1) {
                     //-(expression)
                     isNegated = !isNegated;
                     expression = expression.substring(2, expression.length() - 1).trim();
                 } else {
-                    return true;
+                    return new TestedExpr(expression,isNegated);
                 }
             }
-            return true;
+            return new TestedExpr(expression,isNegated);
         }
 
-        private boolean checkNegatedNoBrackets() {
-            if (expression.startsWith("-")) {
-                isNegated = true;
-                expression = expression.substring(1, expression.length()).trim();
-            }
-            return true;
+    private TestedExpr checkNegatedNoBrackets(String _s) {
+        String expression = _s;
+        boolean isNegated = false;
+        if (expression.startsWith("-")) {
+            isNegated = true;
+            expression = expression.substring(1, expression.length()).trim();
         }
+        return new TestedExpr(expression,isNegated);
+    }
 
-        private int getOperatorIndex() {
+        private int getOperatorIndex(String expression) {
             int index;
             // find the last executed operator
             int i, level, priority;
@@ -799,7 +1053,8 @@ public class OriginParser<
             return returnVal;
         }
 
-        private void removeUselessBrackets() {
+        private String removeUselessBrackets(String _s) {
+            String expression = _s;
             //TraceManager.addDev("Removing first / final brackets");
             while (expression.startsWith("(") && expression.endsWith(")")) {
                 if (getClosingBracket(1) == expression.length() - 1) {
@@ -808,7 +1063,6 @@ public class OriginParser<
                     break;
                 }
             }
-
             //TraceManager.addDev("Removing dual brackets");
             // Removing duplicate brackets
             // typically ((x)) -> (x)
@@ -831,6 +1085,7 @@ public class OriginParser<
                     }
                 }
             }
+            return expression;
         }
 
         private int getClosingBracket(int startChar) {

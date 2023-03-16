@@ -39,7 +39,6 @@
 package myutil.intboolsovler2;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 
 /**
  * Class OriginExpr.
@@ -55,240 +54,296 @@ public class OriginExpr<
         State extends IBSParamState,
         SpecState extends IBSParamSpecState,
         CompState extends IBSParamCompState>
-        extends IBSExpression<Spec,Comp,State,SpecState,CompState> {
-    private ArrayList<IExpr> iExpressions = new ArrayList<IExpr>();
-    private ArrayList<BExpr> bExpressions = new ArrayList<BExpr>();
+        extends IBSExpressionClass<Spec,Comp,State,SpecState,CompState> {
+    private ArrayList<IExpr> iExpressions = new ArrayList<IExpr>(nbRegisters);
+    private boolean[] iBusy = new boolean[nbRegisters];
+    private ArrayList<BExpr> bExpressions = new ArrayList<BExpr>(nbRegisters);
+    private boolean[] bBusy = new boolean[nbRegisters];
+    private int findIfree(){
+        int i;
+        for (i = 0; i < nbRegisters; i++) if (!iBusy[i]) break;
+        if (i==nbRegisters) return -1;
+        return i;
+    }
+    private int findBfree(){
+        int i;
+        for (i = 0; i < nbRegisters; i++) if (!bBusy[i]) break;
+        if (i==nbRegisters) return -1;
+        return i;
+    }
+    public void freeInt(int _toFree) {
+        iBusy[_toFree]=false;
+        iExpressions.set(_toFree,null);
+    }
+    public void freeBool(int _toFree) {
+         bBusy[_toFree]=false;
+         bExpressions.set(_toFree,null);
+    }
+    public IExpr getIExpr(int _expr) {
+        if (_expr >= nbRegisters || _expr < 0)
+            return null;
+        else
+            return iExpressions.get(_expr);
+    }
+    public BExpr getBExpr(int _expr) {
+        if (_expr >= nbRegisters || _expr < 0)
+            return null;
+        else
+            return bExpressions.get(_expr);
+    }
 
-    public boolean make_iiiPlus(int _left, int _right, int _tgt) {
+    public int make_iiiPlus(int _left, int _right) {
+        int tgt = findIfree();
         if (iExpressions.size()<= _left || iExpressions.size() <= _right || iExpressions.get(_left) == null || iExpressions.get(_right) == null)
-            return false;
+            return -1;
         IExpr e = new IExpr();
         e.left = iExpressions.get(_left);
         e.right = iExpressions.get(_right);
         e.operator = '+';
         e.isLeaf = false;
-        iExpressions.set(_tgt,e);
-        return true;
+        iExpressions.set(tgt,e);
+        return tgt;
     }
-    public boolean make_iiiMinus(int _left, int _right, int _tgt) {
+    public int make_iiiMinus(int _left, int _right) {
+        int tgt = findIfree();
         if (iExpressions.size()<= _left || iExpressions.size() <= _right || iExpressions.get(_left) == null || iExpressions.get(_right) == null)
-            return false;
+            return -1;
         IExpr e = new IExpr();
         e.left = iExpressions.get(_left);
         e.right = iExpressions.get(_right);
         e.operator = '-';
         e.isLeaf = false;
-        iExpressions.set(_tgt,e);
-        return true;
+        iExpressions.set(tgt,e);
+        return tgt;
     }
-    public boolean make_iiiMult(int _left, int _right, int _tgt) {
+    public int make_iiiMult(int _left, int _right) {
+        int tgt = findIfree();
         if (iExpressions.size()<= _left || iExpressions.size() <= _right || iExpressions.get(_left) == null || iExpressions.get(_right) == null)
-            return false;
+            return -1;
         IExpr e = new IExpr();
         e.left = iExpressions.get(_left);
         e.right = iExpressions.get(_right);
         e.operator = '*';
         e.isLeaf = false;
-        iExpressions.set(_tgt,e);
-        return true;
+        iExpressions.set(tgt,e);
+        return tgt;
     }
-    public boolean make_iiiDiv(int _left, int _right, int _tgt) {
+    public int make_iiiDiv(int _left, int _right) {
+        int tgt = findIfree();
         if (iExpressions.size()<= _left || iExpressions.size() <= _right || iExpressions.get(_left) == null || iExpressions.get(_right) == null)
-            return false;
+            return -1;
         IExpr e = new IExpr();
         e.left = iExpressions.get(_left);
         e.right = iExpressions.get(_right);
         e.operator = '/';
         e.isLeaf = false;
-        iExpressions.set(_tgt,e);
-        return true;
+        iExpressions.set(tgt,e);
+        return tgt;
     }
-    public boolean make_iiiMod(int _left, int _right, int _tgt) {
+    public int make_iiiMod(int _left, int _right) {
+        int tgt = findIfree();
         if (iExpressions.size()<= _left || iExpressions.size() <= _right || iExpressions.get(_left) == null || iExpressions.get(_right) == null)
-            return false;
+            return -1;
         IExpr e = new IExpr();
         e.left = iExpressions.get(_left);
         e.right = iExpressions.get(_right);
         e.operator = '%';
         e.isLeaf = false;
-        iExpressions.set(_tgt,e);
-        return true;
+        iExpressions.set(tgt,e);
+        return tgt;
     }
-    public boolean make_bbbAnd(int _left, int _right, int _tgt) {
+    public int make_bbbAnd(int _left, int _right) {
+        int tgt = findBfree();
         if (bExpressions.size()<= _left || bExpressions.size() <= _right || bExpressions.get(_left) == null || bExpressions.get(_right) == null)
-            return false;
+            return -1;
         BExpr e = new BExpr();
         e.type = BExpr.bbb;
         e.bleft = bExpressions.get(_left);
         e.bright = bExpressions.get(_right);
         e.operator = '&';
-        bExpressions.set(_tgt,e);
-        return true;
+        bExpressions.set(tgt,e);
+        return tgt;
     }
-    public boolean make_bbbOr(int _left, int _right, int _tgt) {
+    public int make_bbbOr(int _left, int _right) {
+        int tgt = findBfree();
         if (bExpressions.size()<= _left || bExpressions.size() <= _right || bExpressions.get(_left) == null || bExpressions.get(_right) == null)
-            return false;
+            return -1;
         BExpr e = new BExpr();
         e.type = BExpr.bbb;
         e.bleft = bExpressions.get(_left);
         e.bright = bExpressions.get(_right);
         e.operator = '|';
-        bExpressions.set(_tgt,e);
-        return true;
+        bExpressions.set(tgt,e);
+        return tgt;
     }
-    public boolean make_biiEq(int _left, int _right, int _tgt) {
+    public int make_biiEq(int _left, int _right) {
+        int tgt = findBfree();
         if (iExpressions.size()<= _left || iExpressions.size() <= _right || iExpressions.get(_left) == null || iExpressions.get(_right) == null)
-            return false;
+            return -1;
         BExpr e = new BExpr();
         e.type = BExpr.bii;
         e.ileft = iExpressions.get(_left);
         e.iright = iExpressions.get(_right);
         e.operator = '=';
-        bExpressions.set(_tgt,e);
-        return true;
+        bExpressions.set(tgt,e);
+        return tgt;
     }
-    public boolean make_bbbEq(int _left, int _right, int _tgt) {
+    public int make_bbbEq(int _left, int _right) {
+        int tgt = findBfree();
         if (bExpressions.size()<= _left || bExpressions.size() <= _right || bExpressions.get(_left) == null || bExpressions.get(_right) == null)
-            return false;
+            return -1;
         BExpr e = new BExpr();
         e.type = BExpr.bbb;
         e.bleft = bExpressions.get(_left);
         e.bright = bExpressions.get(_right);
         e.operator = '=';
-        bExpressions.set(_tgt,e);
-        return true;
+        bExpressions.set(tgt,e);
+        return tgt;
     }
-    public boolean make_biiDif(int _left, int _right, int _tgt) {
+    public int make_biiDif(int _left, int _right) {
+        int tgt = findBfree();
         if (iExpressions.size()<= _left || iExpressions.size() <= _right || iExpressions.get(_left) == null || iExpressions.get(_right) == null)
-            return false;
+            return -1;
         BExpr e = new BExpr();
         e.type = BExpr.bii;
         e.ileft = iExpressions.get(_left);
         e.iright = iExpressions.get(_right);
         e.operator = '$';
-        bExpressions.set(_tgt,e);
-        return true;
+        bExpressions.set(tgt,e);
+        return tgt;
     }
 
-    public boolean make_bbbDif(int _left, int _right, int _tgt) {
+    public int make_bbbDif(int _left, int _right) {
+        int tgt = findBfree();
         if (bExpressions.size()<= _left || bExpressions.size() <= _right || bExpressions.get(_left) == null || bExpressions.get(_right) == null)
-            return false;
+            return -1;
         BExpr e = new BExpr();
         e.type = BExpr.bbb;
         e.bleft = bExpressions.get(_left);
         e.bright = bExpressions.get(_right);
         e.operator = '$';
-        bExpressions.set(_tgt,e);
-        return true;
+        bExpressions.set(tgt,e);
+        return tgt;
     }
 
-    public boolean make_biiLt(int _left, int _right, int _tgt) {
+    public int make_biiLt(int _left, int _right) {
+        int tgt = findBfree();
         if (iExpressions.size()<= _left || iExpressions.size() <= _right || iExpressions.get(_left) == null || iExpressions.get(_right) == null)
-            return false;
+            return -1;
         BExpr e = new BExpr();
         e.type = BExpr.bii;
         e.ileft = iExpressions.get(_left);
         e.iright = iExpressions.get(_right);
         e.operator = '<';
-        bExpressions.set(_tgt,e);
-        return true;
+        bExpressions.set(tgt,e);
+        return tgt;
     }
 
-    public boolean make_biiGt(int _left, int _right, int _tgt) {
+    public int make_biiGt(int _left, int _right) {
+        int tgt = findBfree();
         if (iExpressions.size()<= _left || iExpressions.size() <= _right || iExpressions.get(_left) == null || iExpressions.get(_right) == null)
-            return false;
+            return -1;
         BExpr e = new BExpr();
         e.type = BExpr.bii;
         e.ileft = iExpressions.get(_left);
         e.iright = iExpressions.get(_right);
         e.operator = '>';
-        bExpressions.set(_tgt,e);
-        return true;
+        bExpressions.set(tgt,e);
+        return tgt;
     }
 
-    public boolean make_biiLeq(int _left, int _right, int _tgt) {
+    public int make_biiLeq(int _left, int _right) {
+        int tgt = findBfree();
         if (iExpressions.size()<= _left || iExpressions.size() <= _right || iExpressions.get(_left) == null || iExpressions.get(_right) == null)
-            return false;
+            return -1;
         BExpr e = new BExpr();
         e.type = BExpr.bii;
         e.ileft = iExpressions.get(_left);
         e.iright = iExpressions.get(_right);
         e.operator = ';';
-        bExpressions.set(_tgt,e);
-        return true;
+        bExpressions.set(tgt,e);
+        return tgt;
     }
 
-    public boolean make_biiGeq(int _left, int _right, int _tgt) {
+    public int make_biiGeq(int _left, int _right) {
+        int tgt = findBfree();
         if (iExpressions.size()<= _left || iExpressions.size() <= _right || iExpressions.get(_left) == null || iExpressions.get(_right) == null)
-            return false;
+            return -1;
         BExpr e = new BExpr();
         e.type = BExpr.bii;
         e.ileft = iExpressions.get(_left);
         e.iright = iExpressions.get(_right);
         e.operator = ':';
-        bExpressions.set(_tgt,e);
-        return true;
+        bExpressions.set(tgt,e);
+        return tgt;
     }
-    public boolean make_iVar(IBSAttributeClass<Spec,Comp,State,SpecState,CompState>.Attribute _v, int _tgt) {
+    public int make_iVar(IBSAttributeClass<Spec,Comp,State,SpecState,CompState>.Attribute _v) {
+        int tgt = findIfree();
         if (_v == null || _v.getType() != IBSAttributeClass.IntAttr)
-            return false;
+            return -1;
         IExpr e = new IExpr();
         e.leaf = _v;
-        iExpressions.set(_tgt, e);
-        return true;
+        iExpressions.set(tgt, e);
+        return tgt;
     }
-    public boolean make_bVar(IBSAttributeClass<Spec,Comp,State,SpecState,CompState>.Attribute _v, int _tgt) {
+    public int make_bVar(IBSAttributeClass<Spec,Comp,State,SpecState,CompState>.Attribute _v) {
+        int tgt = findBfree();
         if (_v == null || _v.getType() != IBSAttributeClass.BoolAttr)
-            return false;
+            return -1;
         BExpr e = new BExpr();
         e.type = BExpr.bVar;
         e.leaf = _v;
-        bExpressions.set(_tgt, e);
-        return true;
+        bExpressions.set(tgt, e);
+        return tgt;
     }
 
-    public boolean make_iConst(int _i, int _tgt) {
+    public int make_iConst(int _i) {
+        int tgt = findIfree();
         IExpr e = new IExpr();
         e.isImmediateValue = true; //0: No; 1: Int; 2: Boolean;
         e.intValue = _i;
-        iExpressions.set(_tgt, e);
-        return true;
+        iExpressions.set(tgt, e);
+        return tgt;
     }
 
-    public boolean make_bConst(boolean _b, int _tgt) {
+    public int make_bConst(boolean _b) {
+        int tgt = findBfree();
         BExpr e = new BExpr();
         e.type = BExpr.bCst; //0: No; 1: Int; 2: Boolean;
         e.boolValue = _b;
-        bExpressions.set(_tgt, e);
-        return true;
+        bExpressions.set(tgt, e);
+        return tgt;
     }
-    public boolean make_iNeg(int _expr, int _tgt) throws CloneNotSupportedException {
+    public int make_iNeg(int _expr) throws CloneNotSupportedException {
+        int tgt = findIfree();
         if (iExpressions.size()<=_expr || iExpressions.get(_expr) == null)
-            return false;
+            return -1;
         IExpr e = iExpressions.get(_expr).clone();
         e.isNegated = !iExpressions.get(_expr).isNegated;
-        iExpressions.set(_tgt, e);
-        return true;
+        iExpressions.set(tgt, e);
+        return tgt;
     }
-    public boolean make_bNot(int _expr, int _tgt) throws CloneNotSupportedException {
+    public int make_bNot(int _expr) throws CloneNotSupportedException {
+        int tgt = findBfree();
         if (bExpressions.size()<=_expr || bExpressions.get(_expr) == null)
-            return false;
+            return -1;
         BExpr e = bExpressions.get(_expr).clone();
         e.isNot = !e.isNot;
-        bExpressions.set(_tgt, e);
-        return true;
+        bExpressions.set(tgt, e);
+        return tgt;
     }
-    public boolean make_biExpr(int _expr, int _tgt) {
+    public int make_biExpr(int _expr) {
+        int tgt = findBfree();
         if (iExpressions.size()<=_expr || iExpressions.get(_expr) == null)
-            return false;
+            return -1;
         IExpr expr = iExpressions.get(_expr);
         BExpr e = new BExpr();
         e.type = BExpr.bi;
         e.ileft = expr;
-        bExpressions.set(_tgt, e);
-        return true;
+        bExpressions.set(tgt, e);
+        return tgt;
     }
-    public class IExpr extends IBSExpression<Spec,Comp,State,SpecState,CompState>.IExpr {
+    public class IExpr extends IBSExpressionClass<Spec,Comp,State,SpecState,CompState>.IExpr {
         public IExpr left, right;
         public char operator;
         public boolean isLeaf = true;
@@ -443,7 +498,7 @@ public class OriginExpr<
             }
         }
     }
-    public class BExpr extends IBSExpression<Spec,Comp,State,SpecState,CompState>.BExpr {
+    public class BExpr extends IBSExpressionClass<Spec,Comp,State,SpecState,CompState>.BExpr {
         public static final int bCst = 0;
         public static final int bVar = 1;
         public static final int bii = 2;

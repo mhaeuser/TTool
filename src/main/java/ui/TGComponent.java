@@ -3551,15 +3551,19 @@ public abstract class TGComponent extends AbstractCDElement implements /*CDEleme
         return;
     }
 
-    public final void makePostLoading(int decId) throws MalformedModelingException {
+    public final void makePostLoading(int decId, TGComponent originComponent) throws MalformedModelingException {
         //TraceManager.addDev("Make post loading of " + getName());
-        postLoading(decId);
+        postLoading(decId, originComponent);
         for (int i = 0; i < nbInternalTGComponent; i++) {
-            tgcomponent[i].postLoading(decId);
+            tgcomponent[i].postLoading(decId, originComponent);
         }
     }
 
-    public void postLoading(int decId) throws MalformedModelingException {
+    public final void makePostLoading(int decId) throws MalformedModelingException {
+        makePostLoading(decId, null);
+    }
+
+    public void postLoading(int decId, TGComponent originComponent) throws MalformedModelingException {
     }
 
     public void resetVerificationResults() {

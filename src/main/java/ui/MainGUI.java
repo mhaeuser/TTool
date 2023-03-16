@@ -4450,10 +4450,12 @@ public class MainGUI implements ActionListener, WindowListener, KeyListener, Per
 
     public List<TAttribute> getAllAttributes(TURTLEPanel tp, String name) {
         if (tp == null) {
+            TraceManager.addDev("Null tp");
             return null;
         }
 
         if (!(tp instanceof AvatarDesignPanel)) {
+            TraceManager.addDev("Not an AVATAR Design panel");
             return null;
         }
         AvatarDesignPanel adp = (AvatarDesignPanel) tp;

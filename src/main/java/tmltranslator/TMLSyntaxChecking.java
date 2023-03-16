@@ -81,6 +81,7 @@ public class TMLSyntaxChecking {
 
     private final String ONE_BUS_PER_MEMORY = "Each memory must be connected to exactly one bus";
     private final String AT_LEAST_ONE_MEMORY_PER_CHANNEL = "Channel must be mapped to one memory";
+    private final String AT_LEAST_ONE_BUS_PER_CHANNEL = "Channel must be mapped to at least one bus";
     private final String TOO_MANY_MEMORIES = "Channel is mapped on more than one memory";
     private final String INVALID_CHANNEL_PATH = "Channel path is invalid";
     private final String INVALID_BUS_PATH = "Bus path is invalid for channel"; // Should be a warning only
@@ -151,6 +152,7 @@ public class TMLSyntaxChecking {
         if (mapping != null) {
             checkMemoryConnections();
             checkMemoriesOfChannels();
+            checkBusesOfChannels();
             checkPathToMemory();
             checkPathValidity();
             checkNonDuplicatePathToBuses();
@@ -864,6 +866,20 @@ public class TMLSyntaxChecking {
         }
     }
 
+    public void checkBusesOfChannels() {
+
+        Iterator<TMLChannel> channelIt = tmlm.getChannels().iterator();
+        while (channelIt.hasNext()) {
+            TMLChannel ch = channelIt.next();
+            TraceManager.addDev("Checking mapping of channel:" + ch.getName());
+            int n = mapping.getNbOfBusesOfChannel(ch);
+            if (n == 0) {
+                // Too few buses
+                addWarning(null, null, AT_LEAST_ONE_BUS_PER_CHANNEL + ": " + ch.getName(), TMLError.ERROR_STRUCTURE);
+            }
+        }
+    }
+
     // For each hw element to which a path is mapped
     // We must check that both the reader and the writer
     // can access to that element without going through a CPU
@@ -1070,9 +1086,11 @@ public class TMLSyntaxChecking {
 
     public void checkMappingOfSecurityPattern() {
         for(SecurityPattern sp: tmlm.secPatterns) {
-            List<HwMemory> mems = mapping.getMappedMemory(sp);
-            if ( (mems == null) || (mems.size() == 0) ) {
-                addWarning(null, null, SECURITY_PATTERN_NOT_MAPPED + ": " + sp.getName(), TMLError.ERROR_STRUCTURE);
+            if (!(sp.isNonceType())) {
+                List<HwMemory> mems = mapping.getMappedMemory(sp);
+                if ((mems == null) || (mems.size() == 0)) {
+                    addWarning(null, null, SECURITY_PATTERN_NOT_MAPPED + ": " + sp.getName(), TMLError.ERROR_STRUCTURE);
+                }
             }
 
         }

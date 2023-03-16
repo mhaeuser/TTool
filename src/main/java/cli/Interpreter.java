@@ -74,11 +74,13 @@ public class Interpreter implements Runnable, TerminalProviderInterface {
     public final static String BAD_COMMAND_NAME = "The provided command is invalid";
     public final static String ROBOT_EXCEPTION = "Robot could not be started";
     public final static String BAD_FILE_NAME = "Unvalid file identifier";
+    public final static String BAD_DIRECTORY = "Unvalid directory identifier";
     public final static String BAD_FILE = "Badly formatted file";
     public final static String AVATAR_NO_SPEC = "No Avatar specification";
     public final static String TML_NO_SPEC = "No TML specification";
     public final static String TMAP_NO_SPEC = "No TMAP specification";
     public final static String NO_WINDOW = "The targeted window does not exist";
+    public final static String GEN_FAILED = "code generation failed";
 
 
     private String script;

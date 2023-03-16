@@ -635,6 +635,21 @@ public class TMLMapping<E> {
         return n;
     }
 
+    public int getNbOfBusesOfChannel(TMLChannel _ch) {
+        int n = 0;
+        int cpt = 0;
+        for (TMLElement elt:mappedcommelts) {
+            if (elt == _ch) {
+                HwCommunicationNode node = oncommnodes.get(cpt);
+                if (node instanceof HwBus) {
+                    n++;
+                }
+            }
+            cpt++;
+        }
+        return n;
+    }
+
     public String getStringOfMemoriesOfChannel(TMLChannel _ch) {
         String ret = "";
         int cpt = 0;

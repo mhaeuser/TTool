@@ -43,6 +43,7 @@ package tmltranslator;
 import avatartranslator.AvatarState;
 import myutil.TraceManager;
 
+import java.util.Locale;
 import java.util.Objects;
 
 
@@ -131,6 +132,13 @@ public class SecurityPattern {
                 Objects.equals(key,securityPattern.key) &&
                 Objects.equals(algorithm,securityPattern.algorithm);
 
+    }
+
+    public boolean isNonceType() {
+        if (type == null) {
+            return false;
+        }
+        return type.toLowerCase(Locale.ROOT).equals("nonce");
     }
 
 }

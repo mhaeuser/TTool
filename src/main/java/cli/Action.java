@@ -39,7 +39,7 @@
 
 package cli;
 
-import avatartranslator.AvatarSpecification;
+import avatartranslator.*;
 import avatartranslator.directsimulation.AvatarSpecificationSimulation;
 import avatartranslator.modelchecker.AvatarModelChecker;
 import avatartranslator.modelchecker.CounterexampleQueryReport;
@@ -52,10 +52,16 @@ import common.ConfigurationTTool;
 import common.SpecConfigTTool;
 import graph.RG;
 import launcher.RTLLauncher;
+import launcher.RshClient;
+import launcher.RshClientReader;
 import myutil.Conversion;
 import myutil.FileUtils;
 import myutil.PluginManager;
 import myutil.TraceManager;
+import proverifspec.ProVerifOutputAnalyzer;
+import proverifspec.ProVerifOutputListener;
+import proverifspec.ProVerifQueryAuthResult;
+import proverifspec.ProVerifQueryResult;
 import tmltranslator.TMLMapping;
 import tmltranslator.TMLMappingTextSpecification;
 import tmltranslator.TMLModeling;
@@ -64,6 +70,7 @@ import ui.MainGUI;
 import ui.avatarinteractivesimulation.AvatarInteractiveSimulationActions;
 import ui.avatarinteractivesimulation.JFrameAvatarInteractiveSimulation;
 import ui.util.IconManager;
+import ui.window.JDialogProverifVerification;
 import ui.window.JDialogSystemCGeneration;
 import ui.*;
 
@@ -86,7 +93,7 @@ import java.util.List;
  *
  * @author Ludovic APVRILLE
  */
-public class Action extends Command {
+public class Action extends Command implements ProVerifOutputListener {
     // Action commands
     private final static String NEW = "new";
     private final static String OPEN = "open";
@@ -114,6 +121,7 @@ public class Action extends Command {
     private final static String DIPLO_LOAD_TMAP = "diplodocus-load-tmap";
     private final static String DIPLO_DRAW_TML = "diplodocus-draw-tml";
     private final static String DIPLO_DRAW_TMAP = "diplodocus-draw-tmap";
+    private final static String DIPLO_SEC_PROOF = "diplodocus-sec-proof";
 
 
     private final static String NAVIGATE_PANEL_TO_LEFT = "move-current-panel-to-left";
@@ -137,6 +145,11 @@ public class Action extends Command {
     private AvatarSpecificationSimulation ass;
     private TMLModeling tmlm;
     private TMLMapping tmap;
+
+    private Map<AvatarPragma, ProVerifQueryResult> results;
+    private ProVerifQueryResult result;
+    private StringBuffer buffer;
+    private ProVerifOutputAnalyzer pvoa;
 
     public Action() {
 
@@ -992,6 +1005,82 @@ public class Action extends Command {
                     interpreter.mgui.drawTMAPSpecification(tmap, commands[0]);
                 } catch (MalformedTMLDesignException e) {
                     TraceManager.addDev("Exception in drawing spec: " + e.getMessage());
+                    return e.getMessage();
+                }
+
+                return null;
+            }
+        };
+
+        // Diplodocus security verfication proverif
+        Command diplodocusSecProof = new Command() {
+            public String getCommand() {
+                return DIPLO_SEC_PROOF;
+            }
+
+            public String getShortCommand() {
+                return "dsp";
+            }
+
+            public String getDescription() {
+                return "Perform security verification over a TMAP specification";
+            }
+
+            public String executeCommand(String command, Interpreter interpreter) {
+
+                String[] commands = command.split(" ");
+                if (commands.length < 1) {
+                    return Interpreter.BAD;
+                }
+
+                if (tmap == null) {
+                    if (tmlm == null) {
+                        return interpreter.TML_NO_SPEC;
+                    } else {
+                        interpreter.mgui.gtm.setTMLModeling(tmlm);
+                    }
+                } else {
+                    interpreter.mgui.gtm.setTMLMapping(tmap);
+                }
+
+                try {
+                    String pathCode = SpecConfigTTool.ProVerifCodeDirectory;
+                    SpecConfigTTool.checkAndCreateProverifDir(pathCode);
+                    pathCode += "pvspec";
+                    File testFile = new File(pathCode);
+                    File dir = testFile.getParentFile();
+
+                    if (dir == null || !dir.exists()) {
+                        return Interpreter.BAD_DIRECTORY + ": " + pathCode;
+                    }
+
+                    if (!interpreter.mgui.gtm.generateProVerifFromAVATAR(
+                            pathCode,
+                            JDialogProverifVerification.REACHABILITY_NONE,
+                            false,
+                            false,
+                            ""+JDialogProverifVerification.LOOP_ITERATION)
+                    ) {
+                        return interpreter.GEN_FAILED;
+                    }
+
+                    TraceManager.addDev("Generation ok. Starting ProVerif");
+
+                    String cmd = ConfigurationTTool.ProVerifVerifierPath + " in pitype " + pathCode;
+                    RshClient rshc = new RshClient("localhost");
+                    rshc.setCmd(cmd);
+                    rshc.sendExecuteCommandRequest();
+                    TraceManager.addDev("Execute command started");
+                    RshClientReader reader = rshc.getDataReaderFromProcess();
+
+                    pvoa = interpreter.mgui.gtm.getProVerifOutputAnalyzer();
+                    TraceManager.addDev("Getting analyzer");
+                    pvoa.analyzeOutput(reader, true);
+                    buffer = new StringBuffer();
+                    pvoa.addListener(Action.this);
+
+                } catch (Exception e) {
+                    TraceManager.addDev("Exception during security proof / " + e.getClass() + " / " + e.getMessage());
                     return e.getMessage();
                 }
 
@@ -1924,6 +2013,7 @@ public class Action extends Command {
         addAndSortSubcommand(diplodocusLoadTMAP);
         addAndSortSubcommand(diplodocusDrawTML);
         addAndSortSubcommand(diplodocusDrawTMAP);
+        addAndSortSubcommand(diplodocusSecProof);
         addAndSortSubcommand(movePanelToTheLeftPanel);
         addAndSortSubcommand(movePanelToTheRightPanel);
         addAndSortSubcommand(selectPanel);
@@ -1940,6 +2030,115 @@ public class Action extends Command {
 
         addAndSortSubcommand(generic);
 
+    }
+
+    private class ProVerifResultSection {
+        String title;
+        List<AvatarPragma> results;
+        JList<AvatarPragma> jlist;
+
+        ProVerifResultSection(String title, List<AvatarPragma> results) {
+            this.title = title;
+            this.results = results;
+        }
+    }
+
+    @Override
+    public void proVerifOutputChanged() {
+
+        //TraceManager.addDev("Proverif output changed");
+
+        JLabel label;
+        buffer = new StringBuffer();
+
+        if (pvoa.getErrors().size() != 0) {
+            buffer.append("Errors:\n" );
+            for (String error: pvoa.getErrors()) {
+                buffer.append("\tError: " + error);
+
+            }
+        } else {
+            LinkedList<AvatarPragma> reachableEvents = new LinkedList<>();
+            LinkedList<AvatarPragma> nonReachableEvents = new LinkedList<>();
+            LinkedList<AvatarPragma> secretTerms = new LinkedList<>();
+            LinkedList<AvatarPragma> nonSecretTerms = new LinkedList<>();
+            LinkedList<AvatarPragma> satisfiedStrongAuth = new LinkedList<>();
+            LinkedList<AvatarPragma> satisfiedWeakAuth = new LinkedList<>();
+            LinkedList<AvatarPragma> nonSatisfiedAuth = new LinkedList<>();
+            LinkedList<AvatarPragma> nonProved = new LinkedList<>();
+
+            results = pvoa.getResults();
+
+            //
+
+            for (AvatarPragma pragma : this.results.keySet()) {
+                if (pragma instanceof AvatarPragmaReachability) {
+                    ProVerifQueryResult r = this.results.get(pragma);
+                    if (r.isProved()) {
+                        if (r.isSatisfied())
+                            reachableEvents.add(pragma);
+                        else
+                            nonReachableEvents.add(pragma);
+                    } else
+                        nonProved.add(pragma);
+                } else if (pragma instanceof AvatarPragmaSecret) {
+                    ProVerifQueryResult r = this.results.get(pragma);
+                    if (r.isProved()) {
+                        if (r.isSatisfied())
+                            secretTerms.add(pragma);
+                        else
+                            nonSecretTerms.add(pragma);
+                    } else
+                        nonProved.add(pragma);
+                } else if (pragma instanceof AvatarPragmaAuthenticity) {
+                    ProVerifQueryAuthResult r = (ProVerifQueryAuthResult) this.results.get(pragma);
+                    if (!r.isWeakProved()) {
+                        nonProved.add(pragma);
+                    } else {
+                        if (!r.isProved())
+                            nonProved.add(pragma);
+                        if (r.isProved() && r.isSatisfied())
+                            satisfiedStrongAuth.add(pragma);
+                        else if (r.isWeakSatisfied())
+                            satisfiedWeakAuth.add(pragma);
+                        else
+                            nonSatisfiedAuth.add(pragma);
+                    }
+                }
+            }
+
+            Collection<Action.ProVerifResultSection> sectionsList = new LinkedList<>();
+            Collections.sort(reachableEvents);
+            Collections.sort(nonReachableEvents);
+            Collections.sort(secretTerms);
+            Collections.sort(nonSecretTerms);
+            Collections.sort(satisfiedStrongAuth);
+            Collections.sort(satisfiedWeakAuth);
+            Collections.sort(nonSatisfiedAuth);
+            Collections.sort(nonProved);
+            sectionsList.add(new Action.ProVerifResultSection("Reachable states:", reachableEvents));
+            sectionsList.add(new Action.ProVerifResultSection("Non reachable states:", nonReachableEvents));
+            sectionsList.add(new Action.ProVerifResultSection("Confidential Data:", secretTerms));
+            sectionsList.add(new Action.ProVerifResultSection("Non confidential Data:", nonSecretTerms));
+            sectionsList.add(new Action.ProVerifResultSection("Satisfied Strong Authenticity:", satisfiedStrongAuth));
+            sectionsList.add(new Action.ProVerifResultSection("Satisfied Weak Authenticity:", satisfiedWeakAuth));
+            sectionsList.add(new Action.ProVerifResultSection("Non Satisfied Authenticity:", nonSatisfiedAuth));
+            sectionsList.add(new Action.ProVerifResultSection("Not Proved Queries:", nonProved));
+
+            int y = 0;
+
+            for (Action.ProVerifResultSection section : sectionsList) {
+                if (!section.results.isEmpty()) {
+                    buffer.append(section.title + "\n");
+                    section.jlist = new JList<>(section.results.toArray(new AvatarPragma[0]));
+                    section.jlist.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+                    section.jlist.setAlignmentX(Component.LEFT_ALIGNMENT);
+                    buffer.append("\n" + section.jlist);
+                }
+            }
+        }
+
+        System.out.println(buffer);
     }
 
 }

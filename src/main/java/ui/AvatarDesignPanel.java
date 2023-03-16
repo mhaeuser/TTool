@@ -40,6 +40,7 @@ package ui;
 
 import avatartranslator.*;
 import myutil.GraphicLib;
+import myutil.TraceManager;
 import proverifspec.ProVerifOutputAnalyzer;
 import proverifspec.ProVerifQueryAuthResult;
 import proverifspec.ProVerifQueryResult;
@@ -222,6 +223,7 @@ public class AvatarDesignPanel extends TURTLEPanel {
     }
 
     public List<TAttribute> getAllAttributes(String _name) {
+        TraceManager.addDev("Getting all attributes of " + _name);
         return abdp.getAllAttributesOfBlock(_name);
     }
 

@@ -61,7 +61,8 @@ import java.util.LinkedList;
  * @author Florian LUGOU
  * @version 1.0 04.08.2016
  */
-public class AvatarBDLibraryFunction extends TGCScalableWithoutInternalComponent implements SwallowedTGComponent, AvatarBDStateMachineOwner, Comparable<AvatarBDLibraryFunction> {
+public class AvatarBDLibraryFunction extends TGCScalableWithoutInternalComponent implements SwallowedTGComponent, AvatarBDStateMachineOwner,
+        Comparable<AvatarBDLibraryFunction> {
 
     /**
      * Stereotype for standard library function.
@@ -148,6 +149,8 @@ public class AvatarBDLibraryFunction extends TGCScalableWithoutInternalComponent
      */
     private LinkedList<AvatarMethod> methods;
 
+    private String oldValue = null;
+
     /**
      * Standard constructor for a library function block.
      *
@@ -192,8 +195,13 @@ public class AvatarBDLibraryFunction extends TGCScalableWithoutInternalComponent
         this.removable = true;
         this.userResizable = true;
 
+        name = tdp.findAvatarBDBlockName("LibraryFunction");
+        //TraceManager.addDev("Selected name for lib function: " + name);
+        setValue(name);
+        oldValue = value;
+
         // Find a new unused name
-        int i;
+        /*int i;
         for (i = 0; i < 100; i++) {
             String tmpName = "LibraryFunction" + i;
             if (this.tdp.isAvatarBlockNameUnique(tmpName) &&
@@ -205,7 +213,7 @@ public class AvatarBDLibraryFunction extends TGCScalableWithoutInternalComponent
         }
         if (i == 100) {
             // TODO: throw exception
-        }
+        }*/
 
         this.oldScaleFactor = this.tdp.getZoom();
         this.currentFontSize = (int) (AvatarBDLibraryFunction.maxFontSize * this.oldScaleFactor);
@@ -229,6 +237,10 @@ public class AvatarBDLibraryFunction extends TGCScalableWithoutInternalComponent
 
     public String getFunctionName() {
         return this.name;
+    }
+
+    public String getOldValue() {
+        return oldValue;
     }
 
     public String getFullyQualifiedName() {
@@ -582,6 +594,23 @@ public class AvatarBDLibraryFunction extends TGCScalableWithoutInternalComponent
     }
 
     @Override
+    public void setValue(String s) {
+        //TraceManager.addDev("Set value lib function");
+        if (s.equals(value)) {
+            return;
+        }
+        value = s;
+        this.name = s;
+    }
+
+    @Override
+    public void setValueWithChange(String v) {
+        super.setValueWithChange(v);
+        name = v;
+    }
+
+
+    @Override
     public TGComponent isOnMe(int x1, int y1) {
 
         if (GraphicLib.isInRectangle(x1, y1, this.x, this.y, this.width, this.height))
@@ -606,6 +635,7 @@ public class AvatarBDLibraryFunction extends TGCScalableWithoutInternalComponent
 
         // Click on the name
         if (_y < limitName) {
+            oldValue = value;
             String s = (String) JOptionPane.showInputDialog(frame, "Library Function Name",
                     "setting value", JOptionPane.PLAIN_MESSAGE, IconManager.imgic101,
                     null,
@@ -929,6 +959,10 @@ public class AvatarBDLibraryFunction extends TGCScalableWithoutInternalComponent
         return ((AvatarDesignPanel) (this.tdp.tp)).getAvatarSMDPanel(this.value);
     }
 
+    public boolean hasInternalBlockWithName(String name) {
+        return false;
+    }
+
     /**
      * Removes the cryptographic primitives from the list of methods.
      */
@@ -1077,4 +1111,20 @@ public class AvatarBDLibraryFunction extends TGCScalableWithoutInternalComponent
     public int compareTo(AvatarBDLibraryFunction f) {
         return this.name.compareTo(f.getFunctionName());
     }
+
+    /*@Override
+    public void setValueWithChange(String v) {
+        TraceManager.addDev("Setting value with change to:" + v + " oldValue:" + value + " stack:" + new Throwable().getStackTrace());
+        oldValue = value;
+        value = v;
+        tdp.actionOnValueChanged(this);
+        repaint = true;
+    }
+
+    public void setValue(String v) {
+        TraceManager.addDev("Setting value to:" + v + " oldValue:" + value);
+        oldValue = value;
+        value = v;
+        repaint = true;
+    }*/
 }

@@ -1464,6 +1464,22 @@ public abstract class TDiagramPanel extends JPanel implements GenericTree {
         return v;
     }
 
+    public Vector<AvatarBDStateMachineOwner> selectedAvatarBDStateMachineOwner() {
+        Vector<AvatarBDStateMachineOwner> v = null;
+
+        for (TGComponent tgc : this.componentList)
+            if ((tgc.isSelected()) && (tgc instanceof AvatarBDStateMachineOwner)) {
+                if (v == null)
+                    v = new Vector<AvatarBDStateMachineOwner>();
+                v.addElement((AvatarBDStateMachineOwner) tgc);
+                if (tgc instanceof AvatarBDBlock) {
+                    v.addAll(((AvatarBDBlock) tgc).getFullBlockList());
+                }
+            }
+
+        return v;
+    }
+
 
     //issue 186
     public Vector<TMLCPrimitiveComponent> selectedCPrimitiveComponent() {
@@ -3138,6 +3154,7 @@ public abstract class TDiagramPanel extends JPanel implements GenericTree {
         }
 
         public boolean checkAvatarBDLibraryFunction(AvatarBDLibraryFunction o, String name) {
+            TraceManager.addDev("checkAvatarBDLibraryFunction with func=" + o.getFunctionName() + " vs. " + name);
             return false;
         }
 
@@ -3460,6 +3477,7 @@ public abstract class TDiagramPanel extends JPanel implements GenericTree {
             }
 
             public boolean checkAvatarBDLibraryFunction(AvatarBDLibraryFunction o, String name) {
+                TraceManager.addDev("checkAvatarBDLibraryFunction with func=" + o.getFunctionName() + " vs. " + name);
                 return o.getFunctionName().equals(name);
             }
 
@@ -4307,6 +4325,8 @@ public abstract class TDiagramPanel extends JPanel implements GenericTree {
         for (TGComponent tgc : this.componentList)
             tgc.searchForText(text, elements);
     }
+
+
 
     public MainGUI getMainGUI() { //Ajout CD pour creation d'un panel depuis un block
         return mgui;

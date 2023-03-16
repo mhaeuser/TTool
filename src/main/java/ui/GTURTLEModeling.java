@@ -744,7 +744,10 @@ public class GTURTLEModeling {
     }
 
     public ProVerifOutputAnalyzer getProVerifOutputAnalyzer() {
-        return this.avatar2proverif.getOutputAnalyzer();
+        if (this.avatar2proverif != null) {
+            return this.avatar2proverif.getOutputAnalyzer();
+        }
+        return null;
     }
 
     public boolean generateProVerifFromAVATAR(String _path, int _stateReachability, boolean _typed, boolean allowPrivateChannelDuplication) {

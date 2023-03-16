@@ -127,6 +127,8 @@ public class ProVerifOutputAnalyzer {
         ProVerifResultTrace resultTrace = new ProVerifResultTrace(proverifProcess);
         boolean isInTrace = false;
 
+        boolean notification = false;
+
         this.results = new ConcurrentHashMap<AvatarPragma, ProVerifQueryResult> ();
         this.errors = new LinkedList<String>();
 
@@ -217,6 +219,7 @@ public class ProVerifOutputAnalyzer {
                         if (reachabilityPragma != null) {
                             this.results.put(reachabilityPragma, result);
                             this.notifyListeners();
+                            notification = true;
                         }
                     }
 
@@ -248,6 +251,7 @@ public class ProVerifOutputAnalyzer {
                                         TraceManager.addDev("Pragma: " + pragma.toString());
                                         this.results.put(pragma, result);
                                         this.notifyListeners();
+                                        notification = true;
                                     }
                                 }
                             }
@@ -324,6 +328,7 @@ public class ProVerifOutputAnalyzer {
                                             && pragmaAuth.getAttrB().getAttribute() == attribute1) {
                                         this.results.put(pragma, result);
                                         this.notifyListeners();
+                                        notification = true;
                                         break;
                                     }
                                 }
@@ -338,6 +343,7 @@ public class ProVerifOutputAnalyzer {
                         {
                             previousAuthPragma.setWeakSatisfied(true);
                             this.notifyListeners();
+                            notification = true;
                         }
                         previousAuthPragma = null;
                     }
@@ -349,6 +355,7 @@ public class ProVerifOutputAnalyzer {
                         {
                             previousAuthPragma.setWeakSatisfied(false);
                             this.notifyListeners();
+                            notification = true;
                         }
                         previousAuthPragma = null;
                     }
@@ -376,6 +383,10 @@ public class ProVerifOutputAnalyzer {
                 TraceManager.addDev("Saving trace in file done");
             } catch (Exception e) {
                 TraceManager.addDev("Saving trace in file failed");
+            }
+
+            if (!notification) {
+                this.notifyListeners();
             }
 
 

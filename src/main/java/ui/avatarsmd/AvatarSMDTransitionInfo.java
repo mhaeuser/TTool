@@ -122,7 +122,7 @@ public class AvatarSMDTransitionInfo extends TGCWithoutInternalComponent impleme
 //    protected String[] codeToInclude;
 
     protected int minWidth = 10;
-    protected int minHeight = 10;
+    protected int minHeight = 25;
     protected int h;
     protected boolean userResized = false;
 
@@ -515,7 +515,7 @@ public class AvatarSMDTransitionInfo extends TGCWithoutInternalComponent impleme
 																	getProbability() );
         //JDialogAvatarTransition jdat = new JDialogAvatarTransition(frame, "Setting transition parameters", guard, afterMin, afterMax, computeMin, computeMax, listOfActions, attributes, methods, filesToInclude, codeToInclude, probability);
         //  jdat.setSize(600, 550);
-        GraphicLib.centerOnParent(jdat, 600, 550);
+        GraphicLib.centerOnParent(jdat, 700, 550);
         jdat.setVisible(true); // blocked until dialog has been closed
 
 

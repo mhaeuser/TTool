@@ -124,6 +124,7 @@ public class AvatarSMDTransitionInfo extends TGCWithoutInternalComponent impleme
     protected int minWidth = 10;
     protected int minHeight = 10;
     protected int h;
+    protected boolean userResized = false;
 
     protected int highlightedExpr;
     protected Graphics mygraphics;
@@ -198,23 +199,16 @@ public class AvatarSMDTransitionInfo extends TGCWithoutInternalComponent impleme
         if (TDiagramPanel.AVATAR_ID_ACTIONS == TDiagramPanel.OFF) {
             return;
         }
-
-        if (!tdp.isScaled()) {
-            mygraphics = g;
-        }
         mygraphics = g;
-        int step = h;
-      //  String s;
+
         h = g.getFontMetrics().getHeight();
+        int step = h;
+
         for (int j = 0; j < nbConnectingPoint; j++) {
             connectingPoint[j].setCdY(-h + 1);
         }
 
-//        ColorManager.setColor(g, getState(), 0);
-        // Issue #69
         final int inc = getExpressionTextHeight();
-//        int inc = h;
-
 
         boolean atLeastOneThing = false;
 
@@ -223,8 +217,9 @@ public class AvatarSMDTransitionInfo extends TGCWithoutInternalComponent impleme
 
             final String formattedExpr = guard.toString();
         	final int textWidth = g.getFontMetrics().stringWidth( formattedExpr );
-            
-            if (tdp.isDrawingMain()) {
+
+
+            if (tdp.isDrawingMain() && !userResized) {
                 width = Math.max( textWidth, width );
                 width = Math.max(minWidth, width);
             }
@@ -253,7 +248,7 @@ public class AvatarSMDTransitionInfo extends TGCWithoutInternalComponent impleme
 
             final int textWidth = g.getFontMetrics().stringWidth( formattedExpr);
             
-            if (tdp.isDrawingMain()) {
+            if (tdp.isDrawingMain() && !userResized) {
                 width = Math.max( textWidth, width );
                 width = Math.max(minWidth, width);
             }
@@ -291,7 +286,7 @@ public class AvatarSMDTransitionInfo extends TGCWithoutInternalComponent impleme
             final String formattedExpr = computeDelay.toString();
         	final int textWidth = g.getFontMetrics().stringWidth( formattedExpr );
 
-        	if (tdp.isDrawingMain()) {
+        	if (tdp.isDrawingMain() && !userResized) {
                 width = Math.max( textWidth, width );
                 width = Math.max(minWidth, width);
             }
@@ -313,7 +308,7 @@ public class AvatarSMDTransitionInfo extends TGCWithoutInternalComponent impleme
             final String formattedExpr = probability.toString();
         	final int textWidth = g.getFontMetrics().stringWidth( formattedExpr );
             
-            if (tdp.isDrawingMain()) {
+            if (tdp.isDrawingMain() && !userResized) {
                 width = Math.max( textWidth, width );
                 width = Math.max(minWidth, width);
             }
@@ -347,7 +342,7 @@ public class AvatarSMDTransitionInfo extends TGCWithoutInternalComponent impleme
 	        	final String formattedExpr = action.toString();
 	        	final int textWidth = g.getFontMetrics().stringWidth( formattedExpr );
 	            
-	            if (tdp.isDrawingMain()) {
+	            if (tdp.isDrawingMain() && !userResized) {
 	                width = Math.max( textWidth, width );
 	                width = Math.max( minWidth, width);
 	            }
@@ -371,8 +366,10 @@ public class AvatarSMDTransitionInfo extends TGCWithoutInternalComponent impleme
             height = Math.max(step + 2, minHeight);
         }
 
-        if (!atLeastOneThing) {
-            width = minWidth;
+        if (!userResized) {
+            if (!atLeastOneThing) {
+                width = minWidth;
+            }
         }
 
         //ColorManager.setColor(g, state, 0);
@@ -414,6 +411,23 @@ public class AvatarSMDTransitionInfo extends TGCWithoutInternalComponent impleme
         if ( (TDiagramPanel.AVATAR_ID_ACTIONS == TDiagramPanel.FULL) ||
                 ( (TDiagramPanel.AVATAR_ID_ACTIONS == TDiagramPanel.PARTIAL)  && (state > TGState.NORMAL) )
         ) {
+            final int textWidth = g.getFontMetrics().stringWidth("..");
+            if (textWidth  > width) {
+                str = ".";
+            } else {
+                if (g.getFontMetrics().stringWidth( str ) > width - 2) {
+                    boolean cut = false;
+
+                    while (g.getFontMetrics().stringWidth(str) > width - 2 - textWidth) {
+                        str = str.substring(0, str.length() - 1);
+                        cut = true;
+                    }
+                    if (cut) {
+                        str += "..";
+                        ;
+                    }
+                }
+            }
             g.drawString(str, x, y);
         }
     }
@@ -617,7 +631,11 @@ public class AvatarSMDTransitionInfo extends TGCWithoutInternalComponent impleme
         for( final Expression action : listOfActions ) {
         	sb.append( toXML( "actions", action )  );
         }
-//
+
+        if (userResized) {
+            sb.append("<userResized />\n");
+        }
+
 //        for (int i = 0; i < listOfActions.size(); i++) {
 //            sb.append("<actions value=\"");
 //            sb.append(GTURTLEModeling.transformString(listOfActions.get(i)));
@@ -816,6 +834,10 @@ public class AvatarSMDTransitionInfo extends TGCWithoutInternalComponent impleme
                                     }
                                     //listOfActions.add(s);
                                 }
+                            }
+
+                            if (elt.getTagName().equals("userResized")) {
+                                userResized = true;
                             }
 
                             /*if (elt.getTagName().equals("filesToIncludeLine")) {
@@ -1157,4 +1179,11 @@ public class AvatarSMDTransitionInfo extends TGCWithoutInternalComponent impleme
 			
 		return expressions.get( selectedExpressionIndex );
 	}
+
+    public void actionOnUserResize(int desired_width, int desired_height) {
+        width = Math.max(minWidth, desired_width);
+        //height = desired_height;
+        userResized = true;
+        hasBeenResized();
+    }
 }

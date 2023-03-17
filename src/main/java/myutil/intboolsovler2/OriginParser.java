@@ -99,7 +99,7 @@ public class OriginParser<
         badIdents.clear();
         syntaxError = false;
         attC.initBuild(_spec);
-        int index = parseIntRec(_spec,_s);
+        int index = parseIntRec(_spec,replaceOperators(_s));
         if (index >= 0) {
             IBSExpressionClass<Spec, Comp, State, SpecState, CompState>.IExpr res = exprC.getIExpr(index);
             exprC.freeInt(index);
@@ -112,7 +112,7 @@ public class OriginParser<
         badIdents.clear();
         syntaxError = false;
         attC.initBuild(_spec);
-        int index = parseBoolRec(_spec,_s);
+        int index = parseBoolRec(_spec,replaceOperators(_s));
         if (index >= 0) {
             IBSExpressionClass<Spec, Comp, State, SpecState, CompState>.BExpr res = exprC.getBExpr(index);
             exprC.freeBool(index);
@@ -125,7 +125,7 @@ public class OriginParser<
         badIdents.clear();
         syntaxError = false;
         attC.initBuild(_comp);
-        int index = parseIntRec(_comp,_s);
+        int index = parseIntRec(_comp,replaceOperators(_s));
         if (index >= 0) {
             IBSExpressionClass<Spec, Comp, State, SpecState, CompState>.IExpr res = exprC.getIExpr(index);
             exprC.freeInt(index);
@@ -138,7 +138,7 @@ public class OriginParser<
         badIdents.clear();
         syntaxError = false;
         attC.initBuild(_comp);
-        int index = parseBoolRec(_comp,_s);
+        int index = parseBoolRec(_comp,replaceOperators(_s));
         if (index >= 0) {
             IBSExpressionClass<Spec, Comp, State, SpecState, CompState>.BExpr res = exprC.getBExpr(index);
             exprC.freeBool(index);
@@ -151,7 +151,7 @@ public class OriginParser<
         badIdents.clear();
         syntaxError = false;
         attC.initBuild();
-        int index = parseIntRec(_s);
+        int index = parseIntRec(replaceOperators(_s));
         if (index >= 0) {
             IBSExpressionClass<Spec, Comp, State, SpecState, CompState>.IExpr res = exprC.getIExpr(index);
             exprC.freeInt(index);
@@ -164,7 +164,7 @@ public class OriginParser<
         badIdents.clear();
         syntaxError = false;
         attC.initBuild();
-        int index = parseBoolRec(_s);
+        int index = parseBoolRec(replaceOperators(_s));
         if (index >= 0) {
             IBSExpressionClass<Spec, Comp, State, SpecState, CompState>.BExpr res = exprC.getBExpr(index);
             exprC.freeBool(index);
@@ -217,7 +217,7 @@ public class OriginParser<
 
         if (!expression.matches("^.+[\\+\\-\\*/].*$")) {
 
-            returnVal = checkNegated(expression);
+            returnVal = checkNegatedNoBrackets(expression);
             if(returnVal==null) return -1;
             expression = returnVal.s;
             isNegated = (isNegated != returnVal.test);
@@ -281,7 +281,7 @@ public class OriginParser<
 
         if (!expression.matches("^.+[\\+\\-\\*/].*$")) {
 
-            returnVal = checkNegated(expression);
+            returnVal = checkNegatedNoBrackets(expression);
             if(returnVal==null) return -1;
             expression = returnVal.s;
             isNegated = (isNegated != returnVal.test);
@@ -345,15 +345,17 @@ public class OriginParser<
 
         if (!expression.matches("^.+[\\+\\-\\*/].*$")) {
 
-            returnVal = checkNegated(expression);
+            returnVal = checkNegatedNoBrackets(expression);
             if(returnVal==null) return -1;
             expression = returnVal.s;
             isNegated = (isNegated != returnVal.test);
 
             if (expression.matches("-?\\d+"))
                 return exprC.make_iConst(Integer.parseInt(expression));
-            else
+            else {
+                badIdents.add(expression);
                 return -1;
+            }
         }
         int index = getOperatorIndex(expression);
         if (index == -1) return -1;
@@ -392,181 +394,725 @@ public class OriginParser<
         expression = returnVal.s;
         isNegated = (isNegated != returnVal.test);
 
-        if (!expression.matches("^.+[\\+\\-\\*/].*$")) {
-
-            returnVal = checkNegated(expression);
-            if(returnVal==null) return -1;
+        if (!expression.matches("^.+[\\+\\-<>=:;\\$&\\|\\*/].*$")) {
+            int index, res;
+            returnVal = checkNegatedNoBrackets(expression);
+            if (returnVal == null) return -1;
             expression = returnVal.s;
             isNegated = (isNegated != returnVal.test);
 
-            if (expression.matches("-?\\d+"))
-                return exprC.make_iConst(Integer.parseInt(expression));
-            else {
-                IBSAttributeClass<Spec,Comp,State,SpecState,CompState>.TypedAttribute att =
+            if (expression.equals("true"))
+                return exprC.make_bConst(true);
+            else if (expression.equals("false"))
+                return exprC.make_bConst(true);
+            else if (expression.matches("-?\\d+")) {
+                index = exprC.make_iConst(Integer.parseInt(expression));
+                res = exprC.make_biExpr(index);
+                exprC.freeInt(index);
+                return res;
+            } else {
+                IBSAttributeClass<Spec, Comp, State, SpecState, CompState>.TypedAttribute att =
                         attC.getTypedAttribute(_spec, expression);
                 switch (att.getType()) {
                     case IBSAttributeClass.NullAttr:
-                    case IBSAttributeClass.BoolConst: return -1;
+                        return -1;
+                    case IBSAttributeClass.BoolConst:
+                        return exprC.make_bConst((att.getConstant() == 0 ? true : false));
                     case IBSAttributeClass.IntConst:
-                        return exprC.make_iConst(att.getConstant());
-                    default:
-                        return exprC.make_iVar(att.getAttribute());
+                        index = exprC.make_iConst(att.getConstant());
+                        res = exprC.make_biExpr(index);
+                        exprC.freeInt(index);
+                        return res;
+                    case IBSAttributeClass.BoolAttr:
+                        return exprC.make_bVar(att.getAttribute());
+                    case IBSAttributeClass.IntAttr:
+                        index = exprC.make_iVar(att.getAttribute());
+                        res = exprC.make_biExpr(index);
+                        exprC.freeInt(index);
+                        return res;
+                    default: // should not happen
                 }
             }
         }
+
         int index = getOperatorIndex(expression);
         if (index == -1) return -1;
 
         String leftExpression = expression.substring(0, index).trim();
         String rightExpression = expression.substring(index + 1, expression.length()).trim();
+        int left,right,idx,res;
 
-        int left  = parseIntRec(_spec,leftExpression);
-        int right = parseIntRec(_spec,rightExpression);
-        if (left<0) {
-            if (right < 0) return max(left, right);
-            exprC.freeInt(right);
-            return left;
-        }
         switch(expression.charAt(index)) {
             case '+':
-                return exprC.make_iiiPlus(left, right);
+                left = parseIntRec(_spec,leftExpression);
+                right = parseIntRec(_spec,rightExpression);
+                if (left<0) {
+                    if (right < 0) return max(left, right);
+                    exprC.freeInt(right);
+                    return left;
+                }
+                idx = exprC.make_iiiPlus(left, right);
+                if (idx<0) return idx;
+                res = exprC.make_biExpr(idx);
+                exprC.freeInt(idx);
+                return res;
             case '-':
-                return exprC.make_iiiMinus(left, right);
+                left = parseIntRec(_spec,leftExpression);
+                right = parseIntRec(_spec,rightExpression);
+                if (left<0) {
+                    if (right < 0) return max(left, right);
+                    exprC.freeInt(right);
+                    return left;
+                }
+                idx = exprC.make_iiiMinus(left, right);
+                if (idx<0) return idx;
+                res = exprC.make_biExpr(idx);
+                exprC.freeInt(idx);
+                return res;
             case '*':
-                return exprC.make_iiiMult(left, right);
+                left = parseIntRec(_spec,leftExpression);
+                right = parseIntRec(_spec,rightExpression);
+                if (left<0) {
+                    if (right < 0) return max(left, right);
+                    exprC.freeInt(right);
+                    return left;
+                }
+                idx = exprC.make_iiiMult(left, right);
+                if (idx<0) return idx;
+                res = exprC.make_biExpr(idx);
+                exprC.freeInt(idx);
+                return res;
             case '/':
-                return exprC.make_iiiDiv(left, right);
+                left = parseIntRec(_spec,leftExpression);
+                right = parseIntRec(_spec,rightExpression);
+                if (left<0) {
+                    if (right < 0) return max(left, right);
+                    exprC.freeInt(right);
+                    return left;
+                }
+                idx = exprC.make_iiiDiv(left, right);
+                if (idx<0) return idx;
+                res = exprC.make_biExpr(idx);
+                exprC.freeInt(idx);
+                return res;
+            case '&':
+                left = parseBoolRec(_spec,leftExpression);
+                if (left == -1) {
+                    idx = parseIntRec(_spec, leftExpression);
+                    if (idx >= 0) {
+                        left = exprC.make_biExpr(idx);
+                        exprC.freeInt(idx);
+                    }
+                }
+                right = parseBoolRec(_spec,rightExpression);
+                 if (right == -1) {
+                     idx = parseIntRec(_spec, rightExpression);
+                     if (idx >= 0) {
+                         right = exprC.make_biExpr(idx);
+                         exprC.freeInt(idx);
+                     }
+                 }
+                if (left<0) {
+                    if (right < 0) return max(left, right);
+                    exprC.freeInt(right);
+                    return left;
+                }
+                return exprC.make_bbbAnd(left,right);
+
+            case '|':
+                left = parseBoolRec(_spec,leftExpression);
+                if (left == -1) {
+                    idx = parseIntRec(_spec, leftExpression);
+                    if (idx >= 0) {
+                        left = exprC.make_biExpr(idx);
+                        exprC.freeInt(idx);
+                    }
+                }
+                right = parseBoolRec(_spec,rightExpression);
+                if (right == -1) {
+                    idx = parseIntRec(_spec, rightExpression);
+                    if (idx >= 0) {
+                        right = exprC.make_biExpr(idx);
+                        exprC.freeInt(idx);
+                    }
+                }
+                if (left<0) {
+                    if (right < 0) return max(left, right);
+                    exprC.freeInt(right);
+                    return left;
+                }
+                return exprC.make_bbbOr(left,right);
+
+            case '=':
+                left = parseIntRec(_spec,leftExpression);
+                if (left>0) {
+                    right = parseIntRec(_spec, rightExpression);
+                    if (right == -2) return -2;
+                    if (right == -1) {
+                        right = parseBoolRec(_spec, rightExpression);
+                        if (right < 0) return right;
+                        idx = left;
+                        left = exprC.make_biExpr(idx);
+                        exprC.freeInt(idx);
+                        return exprC.make_bbbEq(left, right);
+                    }
+                    return exprC.make_biiEq(left, right);
+                }
+                if (left==-2) return -2;
+                left = parseBoolRec(_spec,leftExpression);
+                right = parseBoolRec(_spec,rightExpression);
+                if (left<0) {
+                    if (right < 0) return max(left, right);
+                    exprC.freeInt(right);
+                    return left;
+                }
+                return exprC.make_bbbEq(left, right);
+            case '$':
+                left = parseIntRec(_spec,leftExpression);
+                if (left>0) {
+                    right = parseIntRec(_spec, rightExpression);
+                    if (right == -2) return -2;
+                    if (right == -1) {
+                        right = parseBoolRec(_spec, rightExpression);
+                        if (right < 0) return right;
+                        idx = left;
+                        left = exprC.make_biExpr(idx);
+                        exprC.freeInt(idx);
+                        return exprC.make_bbbDif(left, right);
+                    }
+                    return exprC.make_biiDif(left, right);
+                }
+                if (left==-2) return -2;
+                left = parseBoolRec(_spec,leftExpression);
+                right = parseBoolRec(_spec,rightExpression);
+                if (left<0) {
+                    if (right < 0) return max(left, right);
+                    exprC.freeInt(right);
+                    return left;
+                }
+                return exprC.make_bbbDif(left, right);
+            case '<':
+                left = parseIntRec(_spec,leftExpression);
+                right = parseIntRec(_spec, rightExpression);
+                 if (left<0) {
+                    if (right < 0) return max(left, right);
+                    exprC.freeInt(right);
+                    return left;
+                }
+                return exprC.make_biiLt(left,right);
+            case '>':
+                left = parseIntRec(_spec,leftExpression);
+                right = parseIntRec(_spec, rightExpression);
+                if (left<0) {
+                    if (right < 0) return max(left, right);
+                    exprC.freeInt(right);
+                    return left;
+                }
+                return exprC.make_biiGt(left,right);
+            case ';':
+                left = parseIntRec(_spec,leftExpression);
+                right = parseIntRec(_spec, rightExpression);
+                if (left<0) {
+                    if (right < 0) return max(left, right);
+                    exprC.freeInt(right);
+                    return left;
+                }
+                return exprC.make_biiLeq(left,right);
+            case ':':
+                left = parseIntRec(_spec,leftExpression);
+                right = parseIntRec(_spec, rightExpression);
+                if (left<0) {
+                    if (right < 0) return max(left, right);
+                    exprC.freeInt(right);
+                    return left;
+                }
+                return exprC.make_biiGeq(left,right);
+                default: // should not happend
+                syntaxError = true;
+                return -1;
+        }
+    }
+    public int parseBoolRec(Comp _comp, String _s) {
+        TestedExpr returnVal;
+        String expression = removeUselessBrackets(_s);
+        boolean isNegated = false;
+
+        returnVal = checkNegated(expression);
+        if(returnVal==null) return -1;
+        expression = returnVal.s;
+        isNegated = (isNegated != returnVal.test);
+
+        if (!expression.matches("^.+[\\+\\-<>=:;\\$&\\|\\*/].*$")) {
+            int index, res;
+            returnVal = checkNegatedNoBrackets(expression);
+            if (returnVal == null) return -1;
+            expression = returnVal.s;
+            isNegated = (isNegated != returnVal.test);
+
+            if (expression.equals("true"))
+                return exprC.make_bConst(true);
+            else if (expression.equals("false"))
+                return exprC.make_bConst(true);
+            else if (expression.matches("-?\\d+")) {
+                index = exprC.make_iConst(Integer.parseInt(expression));
+                res = exprC.make_biExpr(index);
+                exprC.freeInt(index);
+                return res;
+            } else {
+                IBSAttributeClass<Spec, Comp, State, SpecState, CompState>.TypedAttribute att =
+                        attC.getTypedAttribute(_comp, expression);
+                switch (att.getType()) {
+                    case IBSAttributeClass.NullAttr:
+                        return -1;
+                    case IBSAttributeClass.BoolConst:
+                        return exprC.make_bConst((att.getConstant() == 0 ? true : false));
+                    case IBSAttributeClass.IntConst:
+                        index = exprC.make_iConst(att.getConstant());
+                        res = exprC.make_biExpr(index);
+                        exprC.freeInt(index);
+                        return res;
+                    case IBSAttributeClass.BoolAttr:
+                        return exprC.make_bVar(att.getAttribute());
+                    case IBSAttributeClass.IntAttr:
+                        index = exprC.make_iVar(att.getAttribute());
+                        res = exprC.make_biExpr(index);
+                        exprC.freeInt(index);
+                        return res;
+                    default: // should not happen
+                }
+            }
+        }
+
+        int index = getOperatorIndex(expression);
+        if (index == -1) return -1;
+
+        String leftExpression = expression.substring(0, index).trim();
+        String rightExpression = expression.substring(index + 1, expression.length()).trim();
+        int left,right,idx,res;
+
+        switch(expression.charAt(index)) {
+            case '+':
+                left = parseIntRec(_comp,leftExpression);
+                right = parseIntRec(_comp,rightExpression);
+                if (left<0) {
+                    if (right < 0) return max(left, right);
+                    exprC.freeInt(right);
+                    return left;
+                }
+                idx = exprC.make_iiiPlus(left, right);
+                if (idx<0) return idx;
+                res = exprC.make_biExpr(idx);
+                exprC.freeInt(idx);
+                return res;
+            case '-':
+                left = parseIntRec(_comp,leftExpression);
+                right = parseIntRec(_comp,rightExpression);
+                if (left<0) {
+                    if (right < 0) return max(left, right);
+                    exprC.freeInt(right);
+                    return left;
+                }
+                idx = exprC.make_iiiMinus(left, right);
+                if (idx<0) return idx;
+                res = exprC.make_biExpr(idx);
+                exprC.freeInt(idx);
+                return res;
+            case '*':
+                left = parseIntRec(_comp,leftExpression);
+                right = parseIntRec(_comp,rightExpression);
+                if (left<0) {
+                    if (right < 0) return max(left, right);
+                    exprC.freeInt(right);
+                    return left;
+                }
+                idx = exprC.make_iiiMult(left, right);
+                if (idx<0) return idx;
+                res = exprC.make_biExpr(idx);
+                exprC.freeInt(idx);
+                return res;
+            case '/':
+                left = parseIntRec(_comp,leftExpression);
+                right = parseIntRec(_comp,rightExpression);
+                if (left<0) {
+                    if (right < 0) return max(left, right);
+                    exprC.freeInt(right);
+                    return left;
+                }
+                idx = exprC.make_iiiDiv(left, right);
+                if (idx<0) return idx;
+                res = exprC.make_biExpr(idx);
+                exprC.freeInt(idx);
+                return res;
+            case '&':
+                left = parseBoolRec(_comp,leftExpression);
+                if (left == -1) {
+                    idx = parseIntRec(_comp, leftExpression);
+                    if (idx >= 0) {
+                        left = exprC.make_biExpr(idx);
+                        exprC.freeInt(idx);
+                    }
+                }
+                right = parseBoolRec(_comp,rightExpression);
+                if (right == -1) {
+                    idx = parseIntRec(_comp, rightExpression);
+                    if (idx >= 0) {
+                        right = exprC.make_biExpr(idx);
+                        exprC.freeInt(idx);
+                    }
+                }
+                if (left<0) {
+                    if (right < 0) return max(left, right);
+                    exprC.freeInt(right);
+                    return left;
+                }
+                return exprC.make_bbbAnd(left,right);
+
+            case '|':
+                left = parseBoolRec(_comp,leftExpression);
+                if (left == -1) {
+                    idx = parseIntRec(_comp, leftExpression);
+                    if (idx >= 0) {
+                        left = exprC.make_biExpr(idx);
+                        exprC.freeInt(idx);
+                    }
+                }
+                right = parseBoolRec(_comp,rightExpression);
+                if (right == -1) {
+                    idx = parseIntRec(_comp, rightExpression);
+                    if (idx >= 0) {
+                        right = exprC.make_biExpr(idx);
+                        exprC.freeInt(idx);
+                    }
+                }
+                if (left<0) {
+                    if (right < 0) return max(left, right);
+                    exprC.freeInt(right);
+                    return left;
+                }
+                return exprC.make_bbbOr(left,right);
+
+            case '=':
+                left = parseIntRec(_comp,leftExpression);
+                if (left>0) {
+                    right = parseIntRec(_comp, rightExpression);
+                    if (right == -2) return -2;
+                    if (right == -1) {
+                        right = parseBoolRec(_comp, rightExpression);
+                        if (right < 0) return right;
+                        idx = left;
+                        left = exprC.make_biExpr(idx);
+                        exprC.freeInt(idx);
+                        return exprC.make_bbbEq(left, right);
+                    }
+                    return exprC.make_biiEq(left, right);
+                }
+                if (left==-2) return -2;
+                left = parseBoolRec(_comp,leftExpression);
+                right = parseBoolRec(_comp,rightExpression);
+                if (left<0) {
+                    if (right < 0) return max(left, right);
+                    exprC.freeInt(right);
+                    return left;
+                }
+                return exprC.make_bbbEq(left, right);
+            case '$':
+                left = parseIntRec(_comp,leftExpression);
+                if (left>0) {
+                    right = parseIntRec(_comp, rightExpression);
+                    if (right == -2) return -2;
+                    if (right == -1) {
+                        right = parseBoolRec(_comp, rightExpression);
+                        if (right < 0) return right;
+                        idx = left;
+                        left = exprC.make_biExpr(idx);
+                        exprC.freeInt(idx);
+                        return exprC.make_bbbDif(left, right);
+                    }
+                    return exprC.make_biiDif(left, right);
+                }
+                if (left==-2) return -2;
+                left = parseBoolRec(_comp,leftExpression);
+                right = parseBoolRec(_comp,rightExpression);
+                if (left<0) {
+                    if (right < 0) return max(left, right);
+                    exprC.freeInt(right);
+                    return left;
+                }
+                return exprC.make_bbbDif(left, right);
+            case '<':
+                left = parseIntRec(_comp,leftExpression);
+                right = parseIntRec(_comp, rightExpression);
+                if (left<0) {
+                    if (right < 0) return max(left, right);
+                    exprC.freeInt(right);
+                    return left;
+                }
+                return exprC.make_biiLt(left,right);
+            case '>':
+                left = parseIntRec(_comp,leftExpression);
+                right = parseIntRec(_comp, rightExpression);
+                if (left<0) {
+                    if (right < 0) return max(left, right);
+                    exprC.freeInt(right);
+                    return left;
+                }
+                return exprC.make_biiGt(left,right);
+            case ';':
+                left = parseIntRec(_comp,leftExpression);
+                right = parseIntRec(_comp, rightExpression);
+                if (left<0) {
+                    if (right < 0) return max(left, right);
+                    exprC.freeInt(right);
+                    return left;
+                }
+                return exprC.make_biiLeq(left,right);
+            case ':':
+                left = parseIntRec(_comp,leftExpression);
+                right = parseIntRec(_comp, rightExpression);
+                if (left<0) {
+                    if (right < 0) return max(left, right);
+                    exprC.freeInt(right);
+                    return left;
+                }
+                return exprC.make_biiGeq(left,right);
             default: // should not happend
                 syntaxError = true;
                 return -1;
         }
     }
-    public boolean buildExpressionRec(Comp _comp) {
-            boolean returnVal;
 
-            removeUselessBrackets();
-            returnVal = checkNot();
-            returnVal &= checkNegated();
+    public int parseBoolRec(String _s) {
+        TestedExpr returnVal;
+        String expression = removeUselessBrackets(_s);
+        boolean isNegated = false;
 
-            if (!returnVal) return false;
+        returnVal = checkNegated(expression);
+        if(returnVal==null) return -1;
+        expression = returnVal.s;
+        isNegated = (isNegated != returnVal.test);
 
-            if (!expression.matches("^.+[\\+\\-<>=:;\\$&\\|\\*/].*$")) {
-                // leaf
-                isLeaf = true;
-                checkNegatedNoBrackets();
-                if (expression.equals("true")) {
-                    intValue = 1;
-                    isImmediateValue = IMMEDIATE_BOOL;
-                    return true;
-                } else if (expression.equals("false")) {
-                    intValue = 0;
-                    isImmediateValue = IMMEDIATE_BOOL;
-                    return true;
-                } else if (expression.matches("-?\\d+")) {
-                    intValue = Integer.parseInt(expression);
-                    isImmediateValue = IMMEDIATE_INT;
-                    return true;
-                } else {
-                    IBSAttributeClass<Spec,Comp,State,SpecState,CompState>.TypedAttribute att =
-                            attC.getTypedAttribute(_comp, expression);
-                    switch (att.getType()) {
-                        case IBSAttributeClass.NullAttr: {
-                            return false;
-                        }
-                        case IBSAttributeClass.BoolConst: {
-                            intValue = att.getConstant();
-                            isImmediateValue = IMMEDIATE_BOOL;
-                            return true;
-                        }
-                        case IBSAttributeClass.IntConst: {
-                            intValue = att.getConstant();
-                            isImmediateValue = IMMEDIATE_INT;
-                            return true;
-                        }
-                        default: {
-                            leaf = att.getAttribute();
-                            return true;
-                        }
+        if (!expression.matches("^.+[\\+\\-<>=:;\\$&\\|\\*/].*$")) {
+            int index, res;
+            returnVal = checkNegatedNoBrackets(expression);
+            if (returnVal == null) return -1;
+            expression = returnVal.s;
+            isNegated = (isNegated != returnVal.test);
+
+            if (expression.equals("true"))
+                return exprC.make_bConst(true);
+            else if (expression.equals("false"))
+                return exprC.make_bConst(true);
+            else if (expression.matches("-?\\d+")) {
+                index = exprC.make_iConst(Integer.parseInt(expression));
+                res = exprC.make_biExpr(index);
+                exprC.freeInt(index);
+                return res;
+            } else {
+                badIdents.add(expression);
+                return -1;
+            }
+        }
+
+        int index = getOperatorIndex(expression);
+        if (index == -1) return -1;
+
+        String leftExpression = expression.substring(0, index).trim();
+        String rightExpression = expression.substring(index + 1, expression.length()).trim();
+        int left,right,idx,res;
+
+        switch(expression.charAt(index)) {
+            case '+':
+                left = parseIntRec(leftExpression);
+                right = parseIntRec(rightExpression);
+                if (left<0) {
+                    if (right < 0) return max(left, right);
+                    exprC.freeInt(right);
+                    return left;
+                }
+                idx = exprC.make_iiiPlus(left, right);
+                if (idx<0) return idx;
+                res = exprC.make_biExpr(idx);
+                exprC.freeInt(idx);
+                return res;
+            case '-':
+                left = parseIntRec(leftExpression);
+                right = parseIntRec(rightExpression);
+                if (left<0) {
+                    if (right < 0) return max(left, right);
+                    exprC.freeInt(right);
+                    return left;
+                }
+                idx = exprC.make_iiiMinus(left, right);
+                if (idx<0) return idx;
+                res = exprC.make_biExpr(idx);
+                exprC.freeInt(idx);
+                return res;
+            case '*':
+                left = parseIntRec(leftExpression);
+                right = parseIntRec(rightExpression);
+                if (left<0) {
+                    if (right < 0) return max(left, right);
+                    exprC.freeInt(right);
+                    return left;
+                }
+                idx = exprC.make_iiiMult(left, right);
+                if (idx<0) return idx;
+                res = exprC.make_biExpr(idx);
+                exprC.freeInt(idx);
+                return res;
+            case '/':
+                left = parseIntRec(leftExpression);
+                right = parseIntRec(rightExpression);
+                if (left<0) {
+                    if (right < 0) return max(left, right);
+                    exprC.freeInt(right);
+                    return left;
+                }
+                idx = exprC.make_iiiDiv(left, right);
+                if (idx<0) return idx;
+                res = exprC.make_biExpr(idx);
+                exprC.freeInt(idx);
+                return res;
+            case '&':
+                left = parseBoolRec(leftExpression);
+                if (left == -1) {
+                    idx = parseIntRec(leftExpression);
+                    if (idx >= 0) {
+                        left = exprC.make_biExpr(idx);
+                        exprC.freeInt(idx);
                     }
                 }
-            }
-            isLeaf = false;
-
-            int index = getOperatorIndex();
-
-            if (index == -1) {
-                return false;
-            }
-
-            operator = expression.charAt(index);
-
-            //split and recur
-            String leftExpression = expression.substring(0, index).trim();
-            String rightExpression = expression.substring(index + 1, expression.length()).trim();
-            left = new Expr(leftExpression);
-            right = new Expr(rightExpression);
-            returnVal = left.buildExpressionRec(_comp);
-            returnVal &= right.buildExpressionRec(_comp);
-
-            return returnVal;
-        }
-
-
-        public boolean buildExpressionRec() {
-            boolean returnVal;
-
-            removeUselessBrackets();
-            returnVal = checkNot();
-            returnVal &= checkNegated();
-
-            if (!returnVal) return false;
-
-            if (!expression.matches("^.+[\\+\\-<>=:;\\$&\\|\\*/].*$")) {
-                // leaf
-                isLeaf = true;
-                checkNegatedNoBrackets();
-                if (expression.equals("true")) {
-                    intValue = 1;
-                    isImmediateValue = IMMEDIATE_BOOL;
-                    return true;
-                } else if (expression.equals("false")) {
-                    intValue = 0;
-                    isImmediateValue = IMMEDIATE_BOOL;
-                    return true;
-                } else if (expression.matches("-?\\d+")) {
-                    intValue = Integer.parseInt(expression);
-                    isImmediateValue = IMMEDIATE_INT;
-                    return true;
-                } else {
-                    return false;
+                right = parseBoolRec(rightExpression);
+                if (right == -1) {
+                    idx = parseIntRec(rightExpression);
+                    if (idx >= 0) {
+                        right = exprC.make_biExpr(idx);
+                        exprC.freeInt(idx);
+                    }
                 }
-            }
+                if (left<0) {
+                    if (right < 0) return max(left, right);
+                    exprC.freeInt(right);
+                    return left;
+                }
+                return exprC.make_bbbAnd(left,right);
 
-            isLeaf = false;
+            case '|':
+                left = parseBoolRec(leftExpression);
+                if (left == -1) {
+                    idx = parseIntRec(leftExpression);
+                    if (idx >= 0) {
+                        left = exprC.make_biExpr(idx);
+                        exprC.freeInt(idx);
+                    }
+                }
+                right = parseBoolRec(rightExpression);
+                if (right == -1) {
+                    idx = parseIntRec(rightExpression);
+                    if (idx >= 0) {
+                        right = exprC.make_biExpr(idx);
+                        exprC.freeInt(idx);
+                    }
+                }
+                if (left<0) {
+                    if (right < 0) return max(left, right);
+                    exprC.freeInt(right);
+                    return left;
+                }
+                return exprC.make_bbbOr(left,right);
 
-
-            int index = getOperatorIndex();
-
-            if (index == -1) {
-                return false;
-            }
-
-            operator = expression.charAt(index);
-
-            //split and recur
-            String leftExpression = expression.substring(0, index).trim();
-            String rightExpression = expression.substring(index + 1, expression.length()).trim();
-
-            left = new Expr(leftExpression);
-            right = new Expr(rightExpression);
-
-            returnVal = left.buildExpressionRec();
-            returnVal &= right.buildExpressionRec();
-
-            return returnVal;
+            case '=':
+                left = parseIntRec(leftExpression);
+                if (left>0) {
+                    right = parseIntRec(rightExpression);
+                    if (right == -2) return -2;
+                    if (right == -1) {
+                        right = parseBoolRec(rightExpression);
+                        if (right < 0) return right;
+                        idx = left;
+                        left = exprC.make_biExpr(idx);
+                        exprC.freeInt(idx);
+                        return exprC.make_bbbEq(left, right);
+                    }
+                    return exprC.make_biiEq(left, right);
+                }
+                if (left==-2) return -2;
+                left = parseBoolRec(leftExpression);
+                right = parseBoolRec(rightExpression);
+                if (left<0) {
+                    if (right < 0) return max(left, right);
+                    exprC.freeInt(right);
+                    return left;
+                }
+                return exprC.make_bbbEq(left, right);
+            case '$':
+                left = parseIntRec(leftExpression);
+                if (left>0) {
+                    right = parseIntRec(rightExpression);
+                    if (right == -2) return -2;
+                    if (right == -1) {
+                        right = parseBoolRec(rightExpression);
+                        if (right < 0) return right;
+                        idx = left;
+                        left = exprC.make_biExpr(idx);
+                        exprC.freeInt(idx);
+                        return exprC.make_bbbDif(left, right);
+                    }
+                    return exprC.make_biiDif(left, right);
+                }
+                if (left==-2) return -2;
+                left = parseBoolRec(leftExpression);
+                right = parseBoolRec(rightExpression);
+                if (left<0) {
+                    if (right < 0) return max(left, right);
+                    exprC.freeInt(right);
+                    return left;
+                }
+                return exprC.make_bbbDif(left, right);
+            case '<':
+                left = parseIntRec(leftExpression);
+                right = parseIntRec(rightExpression);
+                if (left<0) {
+                    if (right < 0) return max(left, right);
+                    exprC.freeInt(right);
+                    return left;
+                }
+                return exprC.make_biiLt(left,right);
+            case '>':
+                left = parseIntRec(leftExpression);
+                right = parseIntRec(rightExpression);
+                if (left<0) {
+                    if (right < 0) return max(left, right);
+                    exprC.freeInt(right);
+                    return left;
+                }
+                return exprC.make_biiGt(left,right);
+            case ';':
+                left = parseIntRec(leftExpression);
+                right = parseIntRec(rightExpression);
+                if (left<0) {
+                    if (right < 0) return max(left, right);
+                    exprC.freeInt(right);
+                    return left;
+                }
+                return exprC.make_biiLeq(left,right);
+            case ':':
+                left = parseIntRec(leftExpression);
+                right = parseIntRec(rightExpression);
+                if (left<0) {
+                    if (right < 0) return max(left, right);
+                    exprC.freeInt(right);
+                    return left;
+                }
+                return exprC.make_biiGeq(left,right);
+            default: // should not happend
+                syntaxError = true;
+                return -1;
         }
+    }
 
-        private void replaceOperators() {
+        private String replaceOperators(String _expr) {
+            String expression = _expr;
             expression = expression.replaceAll("\\|\\|", "\\|").trim();
             expression = expression.replaceAll("&&", "&").trim();
             expression = expression.replaceAll("==", "=").trim();
@@ -577,6 +1123,7 @@ public class OriginParser<
             expression = expression.replaceAll("\\band\\b", "&").trim();
             //expression.replaceAll("\\btrue\\b", "t").trim();
             //expression.replaceAll("\\bfalse\\b", "f").trim();
+            return expression;
         }
 
         private TestedExpr checkNot(String _s) {
@@ -591,7 +1138,7 @@ public class OriginParser<
             while (notStart1 || notStart2) {
                 if (notStart1) {
                     //not bracket must be closed in the last char
-                    int closingIndex = getClosingBracket(4);
+                    int closingIndex = getClosingBracket(expression,4);
 
                     if (closingIndex == -1) {
                         syntaxError=true;
@@ -605,7 +1152,7 @@ public class OriginParser<
                         return new TestedExpr(expression,isNot);
                     }
                 } else if (notStart2) {
-                    int closingIndex = getClosingBracket(2);
+                    int closingIndex = getClosingBracket(expression,2);
 
                     if (closingIndex == -1) {
                         syntaxError=true;
@@ -630,7 +1177,7 @@ public class OriginParser<
         boolean isNegated = false;
         while (expression.startsWith("-(")) {
                 //not bracket must be closed in the last char
-                int closingIndex = getClosingBracket(2);
+                int closingIndex = getClosingBracket(expression,2);
 
                 if (closingIndex == -1) {
                     syntaxError = true;
@@ -762,302 +1309,11 @@ public class OriginParser<
             return index;
         }
 
-
-        public int getResult() {
-            int res;
-            if (isLeaf) {
-                if (isImmediateValue != IMMEDIATE_NO) {
-                    res = intValue;
-                } else {
-                    return 0;
-                }
-            } else {
-                res = getChildrenResult(left.getResult(), right.getResult());
-            }
-
-            if (isNot) {
-                res = (res == 0) ? 1 : 0;
-            } else if (isNegated) {
-                res = -res;
-            }
-            return res;
-        }
-
-        public int getResult(SpecState _ss) {
-            int res;
-            if (isLeaf) {
-                if (isImmediateValue != IMMEDIATE_NO) {
-                    res = intValue;
-                } else {
-                    res = leaf.getValue(_ss);
-                }
-            } else {
-                res = getChildrenResult(left.getResult(_ss), right.getResult(_ss));
-            }
-
-            if (isNot) {
-                res = (res == 0) ? 1 : 0;
-            } else if (isNegated) {
-                res = -res;
-            }
-            return res;
-        }
-
-        public int getResult(SpecState _ss, State _st) {
-            int res;
-            if (isLeaf) {
-                if (isImmediateValue != IMMEDIATE_NO) {
-                    res = intValue;
-                } else {
-                    res = leaf.getValue(_ss, _st);
-                }
-            } else {
-                res = getChildrenResult(left.getResult(_ss, _st), right.getResult(_ss, _st));
-            }
-
-            if (isNot) {
-                res = (res == 0) ? 1 : 0;
-            } else if (isNegated) {
-                res = -res;
-            }
-            return res;
-        }
-
-        public int getResult(CompState _cs) {
-            int res;
-            if (isLeaf) {
-                if (isImmediateValue != IMMEDIATE_NO) {
-                    res = intValue;
-                } else {
-                    res = leaf.getValue(_cs);
-                }
-            } else {
-                res = getChildrenResult(left.getResult(_cs), right.getResult(_cs));
-            }
-
-            if (isNot) {
-                res = (res == 0) ? 1 : 0;
-            } else if (isNegated) {
-                res = -res;
-            }
-            return res;
-        }
-
-        public int getResult(Object _qs) {
-            int res;
-            if (isLeaf) {
-                if (isImmediateValue != IMMEDIATE_NO) {
-                    res = intValue;
-                } else {
-                    res = leaf.getValue(_qs);
-                }
-            } else {
-                res = getChildrenResult(left.getResult(_qs), right.getResult(_qs));
-            }
-
-            if (isNot) {
-                res = (res == 0) ? 1 : 0;
-            } else if (isNegated) {
-                res = -res;
-            }
-            return res;
-        }
-
-        private int getChildrenResult(int leftV, int rightV) {
-            int result;
-
-            switch (operator) {
-                case '=':
-                    result = (leftV == rightV) ? 1 : 0;
-                    break;
-                case '$':
-                    result = (leftV != rightV) ? 1 : 0;
-                    break;
-                case '<':
-                    result = (leftV < rightV) ? 1 : 0;
-                    break;
-                case '>':
-                    result = (leftV > rightV) ? 1 : 0;
-                    break;
-                case ':':
-                    result = (leftV >= rightV) ? 1 : 0;
-                    break;
-                case ';':
-                    result = (leftV <= rightV) ? 1 : 0;
-                    break;
-                case '-':
-                    result = leftV - rightV;
-                    break;
-                case '+':
-                    result = leftV + rightV;
-                    break;
-                case '|':
-                    result = (leftV == 0 && rightV == 0) ? 0 : 1;
-                    break;
-                case '/':
-                    result = leftV / rightV;
-                    break;
-                case '*':
-                    result = leftV * rightV;
-                    break;
-                case '&':
-                    result = (leftV == 0 || rightV == 0) ? 0 : 1;
-                    break;
-                default:
-                    //System.out.println("Error in EquationSolver::getResult");
-                    result = 0;
-                    break;
-            }
-            //System.out.println(leftV + " " + operator + " " + rightV + " = " + result);
-            return result;
-        }
-
-        public String toString() {
-            String retS;
-            if (isLeaf) {
-                if (isImmediateValue == IMMEDIATE_NO) {
-                    retS = leaf.toString();
-                } else if (isImmediateValue == IMMEDIATE_INT) {
-                    retS = String.valueOf(intValue);
-                } else {
-                    if (intValue == 0) {
-                        retS = "false";
-                    } else {
-                        retS = "true";
-                    }
-                }
-                if (isNegated) {
-                    retS = "-(" + retS + ")";
-                }
-                if (isNot) {
-                    retS = "not(" + retS + ")";
-                }
-            } else {
-                String leftString = left.toString();
-                String rightString = right.toString();
-                String opString;
-                switch (operator) {
-                    case '=':
-                        opString = "==";
-                        break;
-                    case '$':
-                        opString = "!=";
-                        break;
-                    case ':':
-                        opString = ">=";
-                        break;
-                    case ';':
-                        opString = "<=";
-                        break;
-                    case '|':
-                        opString = "||";
-                        break;
-                    case '&':
-                        opString = "&&";
-                        break;
-                    default:
-                        opString = "" + operator;
-                        break;
-                }
-                retS = "(" + leftString + " " + opString + " " + rightString + ")";
-                if (isNegated) {
-                    retS = "-" + retS;
-                }
-                if (isNot) {
-                    retS = "not" + retS;
-                }
-            }
-            return retS;
-        }
-
-        public boolean hasState() {
-            boolean hasState;
-            if (isLeaf) {
-                if (isImmediateValue == IMMEDIATE_NO) {
-                    return leaf.isState();
-                } else {
-                    return false;
-                }
-            } else {
-                hasState = left.hasState();
-                hasState |= right.hasState();
-                return hasState;
-            }
-        }
-
-        //!! replaces setBlockIndex(AvatarSpecification spec)
-        public void linkComp(Spec spec) {
-            if (isLeaf) {
-                if (isImmediateValue == IMMEDIATE_NO) {
-                    leaf.linkComp(spec);
-                }
-            } else {
-                left.linkComp(spec);
-                right.linkComp(spec);
-            }
-        }
-
-        public void linkStates() {
-            if (isLeaf) {
-                if (isImmediateValue == IMMEDIATE_NO) {
-                    leaf.linkState();
-                }
-            } else {
-                left.linkStates();
-                right.linkStates();
-            }
-        }
-
-        private boolean checkIntegrity() {
-            int optype, optypel, optyper;
-            boolean returnVal;
-
-            if (isLeaf) {
-                if (isNot) {
-                    return getReturnType() == IMMEDIATE_BOOL;
-                } else if (isNegated) {
-                    return getReturnType() == IMMEDIATE_INT;
-                } else {
-                    return true;
-                }
-            }
-
-            optype = getType();
-            optypel = left.getReturnType();
-            optyper = right.getReturnType();
-
-            switch (optype) {
-                case IMMEDIATE_NO:
-                    returnVal = false; //Error
-                    break;
-                case IMMEDIATE_INT:
-                    returnVal = (optypel == IMMEDIATE_INT && optyper == IMMEDIATE_INT) ? true : false;
-                    break;
-                case IMMEDIATE_BOOL:
-                    returnVal = (optypel == IMMEDIATE_BOOL && optyper == IMMEDIATE_BOOL) ? true : false;
-                    break;
-                case 3:
-                    returnVal = (optypel == optyper) ? true : false;
-                    break;
-                default:
-                    returnVal = false;
-            }
-
-            if (returnVal == false) {
-                return false;
-            }
-
-            returnVal = left.checkIntegrity();
-            returnVal &= right.checkIntegrity();
-
-            return returnVal;
-        }
-
         private String removeUselessBrackets(String _s) {
             String expression = _s;
             //TraceManager.addDev("Removing first / final brackets");
             while (expression.startsWith("(") && expression.endsWith(")")) {
-                if (getClosingBracket(1) == expression.length() - 1) {
+                if (getClosingBracket(expression,1) == expression.length() - 1) {
                     expression = expression.substring(1, expression.length() - 1).trim();
                 } else {
                     break;
@@ -1073,8 +1329,8 @@ public class OriginParser<
                     String s2 = expression.substring(i + 1, i + 2);
                     if (s2.startsWith("(")) {
                         //TraceManager.addDev("Found dual at i=" + i);
-                        int index1 = getClosingBracket(i + 1);
-                        int index2 = getClosingBracket(i + 2);
+                        int index1 = getClosingBracket(expression,i + 1);
+                        int index2 = getClosingBracket(expression,i + 2);
                         //TraceManager.addDev("Found dual at i=" + i + " index1=" + index1 + " index2=" + index2 + " expr=" + expression);
                         if (index1 == index2 + 1) {
                             // Two following brackets. We can remove one of them
@@ -1088,7 +1344,7 @@ public class OriginParser<
             return expression;
         }
 
-        private int getClosingBracket(int startChar) {
+        private int getClosingBracket(String expression, int startChar) {
             int level = 0;
             char a;
             for (int i = startChar; i < expression.length(); i++) {
@@ -1105,91 +1361,7 @@ public class OriginParser<
             }
             return -1;
         }
-        public final int getAttributeType(int type) {
-            switch (type) {
-                case IBSAttributeClass.BoolConst:
-                case IBSAttributeClass.BoolAttr: return OriginParser.IMMEDIATE_BOOL;
-                case IBSAttributeClass.IntConst:
-                case IBSAttributeClass.IntAttr: return OriginParser.IMMEDIATE_INT;
-                default: return OriginParser.IMMEDIATE_NO;
-            }
-        }
 
-        private int getType() {
-            int optype;
-
-            if (isLeaf) {
-                if (isImmediateValue == IMMEDIATE_NO) {
-                    return getAttributeType(leaf.getType());
-                } else {
-                    return isImmediateValue;
-                }
-            }
-
-            switch (operator) {
-                case '=':
-                case '$':
-                    optype = 3; //BOTH sides must have the same type
-                    break;
-                case '<':
-                case '>':
-                case ':':
-                case ';':
-                case '-':
-                case '+':
-                case '/':
-                case '*':
-                    optype = IMMEDIATE_INT;
-                    break;
-                case '|':
-                case '&':
-                    optype = IMMEDIATE_BOOL;
-                    break;
-                default:
-                    optype = IMMEDIATE_NO; //ERROR
-                    break;
-            }
-
-            return optype;
-        }
-
-        public int getReturnType() {
-            int optype;
-
-            if (isLeaf) {
-                if (isImmediateValue == IMMEDIATE_NO) {
-                    return getAttributeType(leaf.getType());
-                } else {
-                    return isImmediateValue;
-                }
-            }
-
-            switch (operator) {
-                case '-':
-                case '+':
-                case '/':
-                case '*':
-                    optype = IMMEDIATE_INT;
-                    break;
-                case '|':
-                case '&':
-                case '=':
-                case '$':
-                case '<':
-                case '>':
-                case ':':
-                case ';':
-                    optype = IMMEDIATE_BOOL;
-                    break;
-                default:
-                    optype = IMMEDIATE_NO; //ERROR
-                    break;
-            }
-
-            return optype;
-        }
-
-    }
     //!! A Deplacer ailleurs !!!!!!!!!!! methode statique
     public int indexOfVariable(String expr, String variable) {
         int index;

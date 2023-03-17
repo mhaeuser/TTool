@@ -125,6 +125,8 @@ public class AvatarSMDTransitionInfo extends TGCWithoutInternalComponent impleme
     protected int minHeight = 25;
     protected int h;
     protected boolean userResized = false;
+    protected final int extraTXT = 5;
+
 
     protected int highlightedExpr;
     protected Graphics mygraphics;
@@ -216,7 +218,7 @@ public class AvatarSMDTransitionInfo extends TGCWithoutInternalComponent impleme
             atLeastOneThing = true;
 
             final String formattedExpr = guard.toString();
-        	final int textWidth = g.getFontMetrics().stringWidth( formattedExpr );
+        	final int textWidth = g.getFontMetrics().stringWidth( formattedExpr ) + extraTXT;
 
 
             if (tdp.isDrawingMain() && !userResized) {
@@ -246,7 +248,7 @@ public class AvatarSMDTransitionInfo extends TGCWithoutInternalComponent impleme
             formattedExpr = formattedExpr + " " + law;
             formattedExpr = formattedExpr.trim();
 
-            final int textWidth = g.getFontMetrics().stringWidth( formattedExpr);
+            final int textWidth = g.getFontMetrics().stringWidth( formattedExpr) + extraTXT;
             
             if (tdp.isDrawingMain() && !userResized) {
                 width = Math.max( textWidth, width );
@@ -284,7 +286,7 @@ public class AvatarSMDTransitionInfo extends TGCWithoutInternalComponent impleme
         	atLeastOneThing = true;
             
             final String formattedExpr = computeDelay.toString();
-        	final int textWidth = g.getFontMetrics().stringWidth( formattedExpr );
+        	final int textWidth = g.getFontMetrics().stringWidth( formattedExpr ) + extraTXT ;
 
         	if (tdp.isDrawingMain() && !userResized) {
                 width = Math.max( textWidth, width );
@@ -306,7 +308,7 @@ public class AvatarSMDTransitionInfo extends TGCWithoutInternalComponent impleme
         if ( !probability.isNull() ) {
         	atLeastOneThing = true;
             final String formattedExpr = probability.toString();
-        	final int textWidth = g.getFontMetrics().stringWidth( formattedExpr );
+        	final int textWidth = g.getFontMetrics().stringWidth( formattedExpr ) +  + extraTXT;
             
             if (tdp.isDrawingMain() && !userResized) {
                 width = Math.max( textWidth, width );
@@ -340,7 +342,7 @@ public class AvatarSMDTransitionInfo extends TGCWithoutInternalComponent impleme
 	        	atLeastOneThing = true;
 	        	
 	        	final String formattedExpr = action.toString();
-	        	final int textWidth = g.getFontMetrics().stringWidth( formattedExpr );
+	        	final int textWidth = g.getFontMetrics().stringWidth( formattedExpr ) +  + extraTXT;
 	            
 	            if (tdp.isDrawingMain() && !userResized) {
 	                width = Math.max( textWidth, width );
@@ -411,14 +413,14 @@ public class AvatarSMDTransitionInfo extends TGCWithoutInternalComponent impleme
         if ( (TDiagramPanel.AVATAR_ID_ACTIONS == TDiagramPanel.FULL) ||
                 ( (TDiagramPanel.AVATAR_ID_ACTIONS == TDiagramPanel.PARTIAL)  && (state > TGState.NORMAL) )
         ) {
-            final int textWidth = g.getFontMetrics().stringWidth("..");
+            final int textWidth = g.getFontMetrics().stringWidth("..") +  extraTXT;
             if (textWidth  > width) {
                 str = ".";
             } else {
-                if (g.getFontMetrics().stringWidth( str ) > width - 2) {
+                if (g.getFontMetrics().stringWidth( str ) > width + extraTXT) {
                     boolean cut = false;
 
-                    while (g.getFontMetrics().stringWidth(str) > width - 2 - textWidth) {
+                    while (g.getFontMetrics().stringWidth(str) > width - + extraTXT - textWidth) {
                         str = str.substring(0, str.length() - 1);
                         cut = true;
                     }

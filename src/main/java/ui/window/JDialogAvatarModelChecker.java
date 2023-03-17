@@ -268,17 +268,6 @@ public class JDialogAvatarModelChecker extends javax.swing.JFrame implements Act
         setFont(new Font("Helvetica", Font.PLAIN, 14));
         c.setLayout(new BorderLayout());
 
-        /*helpPopup = new JPopupMenu();
-        helpPopup.add(new JLabel(IconManager.imgic7009));
-        helpPopup.setPreferredSize(new Dimension(600, 900));
-
-        helpPopup.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("ESCAPE"), "closeJlabel");
-        helpPopup.getActionMap().put("closeJlabel", new AbstractAction() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                helpPopup.setVisible(false);
-            }
-        });*/
 
         menuBar = new JMenuBar();
         menuBar.setComponentOrientation(ComponentOrientation.RIGHT_TO_LEFT);

@@ -122,7 +122,7 @@ public class AvatarSMDTransitionInfo extends TGCWithoutInternalComponent impleme
 //    protected String[] codeToInclude;
 
     protected int minWidth = 10;
-    protected int minHeight = 15;
+    protected int minHeight = 10;
     protected int h;
 
     protected int highlightedExpr;
@@ -136,6 +136,7 @@ public class AvatarSMDTransitionInfo extends TGCWithoutInternalComponent impleme
         moveable = true;
         editable = true;
         removable = false;
+        userResizable = true;
 
         guard = new Expression( NULL_GUARD_EXPR, NULL_GUARD_EXPR, null );
         afterDelay = new RangeExpression( NULL_EXPR, NULL_EXPR, NULL_EXPR, "after (%s, %s)", null , "after(%s)");
@@ -202,7 +203,7 @@ public class AvatarSMDTransitionInfo extends TGCWithoutInternalComponent impleme
             mygraphics = g;
         }
         mygraphics = g;
-        int step = 0;
+        int step = h;
       //  String s;
         h = g.getFontMetrics().getHeight();
         for (int j = 0; j < nbConnectingPoint; j++) {
@@ -363,44 +364,11 @@ public class AvatarSMDTransitionInfo extends TGCWithoutInternalComponent impleme
 	            step += inc;
             }
         }
-//        for (int i = 0; i < listOfActions.size(); i++) {
-//            s = listOfActions.get(i);
-//            if (s.length() > 0) {
-//                g.drawString(s, x, y + step);
-//                atLeastOneThing = true;
-//                if (tdp.isDrawingMain()) {
-//                    width = Math.max(g.getFontMetrics().stringWidth(s), width);
-//                    width = Math.max(minWidth, width);
-//                }
-//                step += inc;
-//            }
-//        }
 
-        /*g.setColor(ColorManager.AVATAR_CODE);
-
-          if (hasFilesToInclude()) {
-          atLeastOneThing = true;
-          g.drawString(FILE_INFO, x, y + step);
-          step += inc;
-          if (!tdp.isScaled()) {
-          width = Math.max(g.getFontMetrics().stringWidth(FILE_INFO), width);
-          width = Math.max(minWidth, width);
-          }
-          }
-
-          if (hasCodeToInclude()) {
-          atLeastOneThing = true;
-          g.drawString(CODE_INFO, x, y + step);
-          step += inc;
-          if (!tdp.isScaled()) {
-          width = Math.max(g.getFontMetrics().stringWidth(CODE_INFO), width);
-          width = Math.max(minWidth, width);
-          }
-          }*/
-
+        step -= inc;
 
         if (tdp.isDrawingMain()) {
-            height = Math.max(step, minHeight);
+            height = Math.max(step + 2, minHeight);
         }
 
         if (!atLeastOneThing) {
@@ -408,17 +376,17 @@ public class AvatarSMDTransitionInfo extends TGCWithoutInternalComponent impleme
         }
 
         //ColorManager.setColor(g, state, 0);
-        if ((getState() == TGState.POINTER_ON_ME) || (getState() == TGState.POINTED) || (getState() == TGState.MOVING)) {
+        /*if ((getState() == TGState.POINTER_ON_ME) || (getState() == TGState.POINTED) || (getState() == TGState.MOVING)) {
             ColorManager.setColor( g, state, 0, isEnabled() );
 
-            final Rectangle rectangle = new Rectangle( x - 1, y - h + 2, width + 2, height + 2 );
-            int indexOfPointedExpr = -2;
+            final Rectangle rectangle = new Rectangle( x - 1, y, width + 1, height + 1 );
+            int indexOfPointedExpr = -1;
 
             if ( inc != 0 && isOnMe( tdp.currentX, tdp.currentY ) == this ) {
 
                 final int exprWidth = getWidthExprOfSelectedExpression();
-                indexOfPointedExpr = getPointedExpressionOrder() - 1;
-            	rectangle.y = y + indexOfPointedExpr * inc + 2;
+                indexOfPointedExpr = getPointedExpressionOrder();
+            	rectangle.y = y + indexOfPointedExpr * inc + h;
             	rectangle.width = exprWidth + 2;
             	rectangle.height = inc + 2;
             }
@@ -433,7 +401,13 @@ public class AvatarSMDTransitionInfo extends TGCWithoutInternalComponent impleme
             }
 
             //  g.drawRoundRect(x - 1, y - h + 2, width + 2, height + 2, 5, 5);
+        }*/
+
+        if ((getState() == TGState.POINTER_ON_ME) || (getState() == TGState.POINTED) || (getState() == TGState.MOVING)) {
+            ColorManager.setColor(g, state, 0, isEnabled());
+            g.drawRoundRect(x - 1, y - 1, width + 1, height + 1, 5, 5);
         }
+
     }
 
     private void drawString(Graphics g, String str, int x, int y) {
@@ -472,7 +446,7 @@ public class AvatarSMDTransitionInfo extends TGCWithoutInternalComponent impleme
     private Integer getPointedExpressionOrder() {
         int h = getExpressionTextHeight();
     	if ( h != 0 ) {
-    		return ( tdp.currentY + 10 - y ) / h;
+    		return ( tdp.currentY - y ) / h;
     	}
     	
     	return null;
@@ -480,7 +454,7 @@ public class AvatarSMDTransitionInfo extends TGCWithoutInternalComponent impleme
 
     @Override
     public TGComponent isOnMe(int _x, int _y) {
-        if (GraphicLib.isInRectangle(_x, _y, x, y - h + 2, width, height)) {
+        if (GraphicLib.isInRectangle(_x, _y, x, y, width, height)) {
             return this;
         }
         return null;

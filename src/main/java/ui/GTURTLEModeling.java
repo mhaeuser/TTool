@@ -732,7 +732,6 @@ public class GTURTLEModeling {
             TraceManager.addError("Exception: " + fe.getMessage());
             return false;
         }
-
     }
 
     public AvatarSpecification getAvatarSpecification() {

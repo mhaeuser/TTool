@@ -721,8 +721,8 @@ public class MainGUI implements ActionListener, WindowListener, KeyListener, Per
     public void openHelpFrame(HelpEntry he) {
         if (helpFrame == null) {
             helpFrame = new JFrameHelp("Help", helpManager, he);
-            helpFrame.setVisible(true);
             GraphicLib.centerOnParent(helpFrame, 800, 700);
+            helpFrame.setVisible(true);
             return;
         }
         helpFrame.setHelpEntry(he);

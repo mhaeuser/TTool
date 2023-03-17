@@ -36,7 +36,7 @@
  * knowledge of the CeCILL license and that you accept its terms.
  */
 
-package myutil.intboolsovler2;
+package myutil.intboolsolver2;
 
 /**
  * Interface IBSParamComp, to be implemented by classes intended to

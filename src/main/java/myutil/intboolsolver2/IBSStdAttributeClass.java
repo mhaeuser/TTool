@@ -36,7 +36,7 @@
  * knowledge of the CeCILL license and that you accept its terms.
  */
 
-package myutil.intboolsovler2;
+package myutil.intboolsolver2;
 
 /**
  * Abstract Class IBSStdAttributeClass, partially
@@ -161,13 +161,20 @@ public class IBSStdAttributeClass<
      */
     public String getStateName(Comp _comp, State _state) { return ""; }
 
-
+    /**
+     * Call to default Attribute constructor to override in subclasses.
+     *
+     * <p> Overriding this method in subclasses (with exactly the same code)
+     * allows to obtain instances of the subclasses when getTypedAttribute
+     * is called from these subclasses.</p>
+     * @return a new fresh instance of Attribute (call default constructor)
+     */
+    protected Attribute getAttribute() { return this.new Attribute();}
     // The three following getTypesAttribute methods are fully implemented and do not need to be overriden.
-
     public final IBSStdAttributeClass<Spec,Comp,State,SpecState,CompState>.TypedAttribute getTypedAttribute(Spec _spec, String _s) {
         IBSStdAttributeClass<Spec,Comp,State,SpecState,CompState>.TypedAttribute a = findAttribute(_spec, _s);
         if (a == null) {
-            IBSStdAttributeClass<Spec,Comp,State,SpecState,CompState>.Attribute x = new Attribute(); // replaced...
+            IBSStdAttributeClass<Spec,Comp,State,SpecState,CompState>.Attribute x = getAttribute();
             x.classInitAttribute(_spec,_s);
             switch (x.getType()) {
                 case IBSAttributeClass.NullAttr: {
@@ -196,7 +203,7 @@ public class IBSStdAttributeClass<
     public final IBSStdAttributeClass<Spec,Comp,State,SpecState,CompState>.TypedAttribute getTypedAttribute(Comp _comp, String _s) {
         IBSStdAttributeClass<Spec,Comp,State,SpecState,CompState>.TypedAttribute a = findAttribute(_comp, _s);
         if (a == null) {
-            IBSStdAttributeClass<Spec,Comp,State,SpecState,CompState>.Attribute x = new Attribute(); // replaced...
+            IBSStdAttributeClass<Spec,Comp,State,SpecState,CompState>.Attribute x = getAttribute();
             x.classInitAttribute(_comp,_s);
             switch (x.getType()) {
                 case IBSAttributeClass.NullAttr: {
@@ -225,7 +232,7 @@ public class IBSStdAttributeClass<
     public final IBSStdAttributeClass<Spec,Comp,State,SpecState,CompState>.TypedAttribute getTypedAttribute(Comp _comp, State _state) {
         IBSStdAttributeClass<Spec,Comp,State,SpecState,CompState>.TypedAttribute a = findAttribute(_comp, _state);
         if (a == null) {
-            IBSStdAttributeClass<Spec,Comp,State,SpecState,CompState>.Attribute x = new Attribute(); // replaced...
+            IBSStdAttributeClass<Spec,Comp,State,SpecState,CompState>.Attribute x = getAttribute();
             x.classInitAttribute(_comp,_state);
             switch (x.getType()) {
                 case IBSAttributeClass.NullAttr: {

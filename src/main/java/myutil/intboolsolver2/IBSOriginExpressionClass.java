@@ -36,7 +36,7 @@
  * knowledge of the CeCILL license and that you accept its terms.
  */
 
-package myutil.intboolsovler2;
+package myutil.intboolsolver2;
 
 import java.util.ArrayList;
 
@@ -48,7 +48,7 @@ import java.util.ArrayList;
  * @version 0.0 27/02/2023
  */
 
-public class OriginExpr<
+public class IBSOriginExpressionClass<
         Spec extends IBSParamSpec,
         Comp extends IBSParamComp,
         State extends IBSParamState,

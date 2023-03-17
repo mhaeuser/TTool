@@ -36,18 +36,18 @@
  * knowledge of the CeCILL license and that you accept its terms.
  */
 
-package myutil.intboolsovler2;
+package myutil.intboolsolver2;
 
 /**
- * class IBSStdClosedFormulaSolver is a complete implementation
- * and instantiation of {@link IBSolver
- * IBSolver} for closed Formulas.
+ * class IBSStdClosedFormulaAttributeClass is a complete implementation
+ * and instantiation of {@link IBSStdAttributeClass
+ * IBSStdAttributeClass} for closed Formulas.
  *
  * <p> It is provided for documentation together with
  * {@link IBSStdClosedFormulaAttributeClass
- * IBSStdClosedFormulaAttributeClass} and
- * {@link IBSStdClosedFormulaAttributeClass
- * IBSStdClosedFormulaAttribute}}</p>
+ * IBSStdClosedFormulaAttribute} and
+ * {@link IBSStdClosedFormulaParser
+ * IBSStdClosedFormulaSolver}}</p>
  *
  * <p>These three
  * classes provides the same features as
@@ -55,7 +55,7 @@ package myutil.intboolsovler2;
  * IBSClosedFormulaAttribute},
  * {@link IBSClosedFormulaAttributeClass
  * IBSClosedFormulaAttributeClass} and
- * {@link IBSClosedFormulaSolver
+ * {@link IBSClosedFormulaParser
  * IBSClosedFormulaSolver} (together).</p>
  *
  * Creation: 07/03/2023
@@ -64,13 +64,12 @@ package myutil.intboolsovler2;
  * @author Sophie Coudert
  */
 
-public class IBSStdClosedFormulaSolver extends IBSolver<
+public class IBSStdClosedFormulaAttributeClass extends IBSStdAttributeClass<
         IBSParamSpec,
         IBSParamComp,
         IBSParamState,
         IBSParamSpecState,
-        IBSParamCompState> {
-        IBSStdClosedFormulaSolver() {
-                super(new IBSClosedFormulaAttributeClass());
-        }
+        IBSParamCompState
+        > {
+    IBSStdClosedFormulaAttributeClass(){}
 }

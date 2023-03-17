@@ -55,7 +55,7 @@ import java.util.List;
  * @author Ludovic APVRILLE
  * @version 1.0 20/05/2010
  */
-public abstract class AvatarStateMachineElement extends AvatarElement implements IBSParamState {
+public abstract class AvatarStateMachineElement extends AvatarElement implements IBSParamState, myutil.intboolsolver2.IBSParamState {
 
     protected List<AvatarStateMachineElement> nexts;
     private AvatarState myState;

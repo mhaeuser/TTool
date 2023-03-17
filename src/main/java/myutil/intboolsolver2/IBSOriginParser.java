@@ -36,7 +36,7 @@
  * knowledge of the CeCILL license and that you accept its terms.
  */
 
-package myutil.intboolsovler2;
+package myutil.intboolsolver2;
 
 import myutil.TraceManager;
 
@@ -51,14 +51,14 @@ import static java.lang.Integer.max;
  * {@link myutil.intboolsolver package page}.</p>
  *
  * <p>For documentation about exported API, see
- * {@link OriginParser IBSolverAPI}</p>
+ * {@link IBSOriginParser IBSolverAPI}</p>
  * Creation: 27/02/2023
  *
  * @author Sophie Coudert (rewrite from Alessandro TEMPIA CALVINO)
  * @version 0.0 27/02/2023
  */
 // IBSExpression<Spec,Comp,State,SpecState,CompState>
-public class OriginParser<
+public class IBSOriginParser<
         Spec extends IBSParamSpec,
         Comp extends IBSParamComp,
         State extends IBSParamState,
@@ -70,13 +70,13 @@ public class OriginParser<
     private HashSet<String> badIdents;
     private boolean syntaxError = false;
 
-    public OriginParser(IBSAttributeClass<Spec,Comp,State,SpecState,CompState> _c,
-                        IBSExpressionClass<Spec,Comp,State,SpecState,CompState> _e){
+    public IBSOriginParser(IBSAttributeClass<Spec,Comp,State,SpecState,CompState> _c,
+                           IBSExpressionClass<Spec,Comp,State,SpecState,CompState> _e){
         attC = _c;
         exprC = _e;
         badIdents = new HashSet<String>();
     }
-    public OriginParser(){
+    public IBSOriginParser(){
         badIdents = new HashSet<String>();
     }
     public void setAttributeClass(IBSAttributeClass<Spec,Comp,State,SpecState,CompState> _c){
@@ -229,7 +229,9 @@ public class OriginParser<
                         attC.getTypedAttribute(_spec, expression);
                     switch (att.getType()) {
                         case IBSAttributeClass.NullAttr:
-                        case IBSAttributeClass.BoolConst: return -1;
+                        case IBSAttributeClass.BoolConst:
+                            badIdents.add(expression);
+                            return -1;
                         case IBSAttributeClass.IntConst:
                             return exprC.make_iConst(att.getConstant());
                         default:
@@ -293,7 +295,9 @@ public class OriginParser<
                         attC.getTypedAttribute(_comp, expression);
                 switch (att.getType()) {
                     case IBSAttributeClass.NullAttr:
-                    case IBSAttributeClass.BoolConst: return -1;
+                    case IBSAttributeClass.BoolConst:
+                        badIdents.add(expression);
+                        return -1;
                     case IBSAttributeClass.IntConst:
                         return exprC.make_iConst(att.getConstant());
                     default:
@@ -415,6 +419,7 @@ public class OriginParser<
                         attC.getTypedAttribute(_spec, expression);
                 switch (att.getType()) {
                     case IBSAttributeClass.NullAttr:
+                        badIdents.add(expression);
                         return -1;
                     case IBSAttributeClass.BoolConst:
                         return exprC.make_bConst((att.getConstant() == 0 ? true : false));
@@ -663,6 +668,7 @@ public class OriginParser<
                         attC.getTypedAttribute(_comp, expression);
                 switch (att.getType()) {
                     case IBSAttributeClass.NullAttr:
+                        badIdents.add(expression);
                         return -1;
                     case IBSAttributeClass.BoolConst:
                         return exprC.make_bConst((att.getConstant() == 0 ? true : false));

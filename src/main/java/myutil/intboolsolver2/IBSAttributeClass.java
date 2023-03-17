@@ -36,7 +36,7 @@
  * knowledge of the CeCILL license and that you accept its terms.
  */
 
-package myutil.intboolsovler2;
+package myutil.intboolsolver2;
 
 /**
  * class IBSAttribute (interface), describing the "static" generic part
@@ -68,10 +68,9 @@ public class IBSAttributeClass<
      public static final int BoolAttr  =3;  // val is a bool IBSAttribute.
      public static final int IntAttr   =4;  // val is an int IBSAttribute.
      public final TypedAttribute NullTypedAttribute = new TypedAttribute();
-
      public class TypedAttribute {
-          private Attribute attrVal = null;
-          private int constVal =0;
+          protected Attribute attrVal = null;
+          protected int constVal =0;
           private int type = NullAttr;
           private TypedAttribute(){} //intVal=0; attVal=null; type=NullAttr;
           public TypedAttribute(int i,boolean isbool) {
@@ -131,7 +130,7 @@ public class IBSAttributeClass<
           int getValue(Object _quickstate) { return 0; }
           void setValue(SpecState _ss, int _val) {}
           void setValue(CompState _cs, int _val) {}
-          boolean isState() { return false; }
+          public boolean isState() { return false; }
           /**
            * links state attributes to their environment (spec, comp).
            * If possible... (attributes must have internal information about
@@ -143,7 +142,7 @@ public class IBSAttributeClass<
            * If possible... (attributes must have internal information about
            * their components). Too specific, to enhance in the future...
            */
-          void linkComp(Spec _spec) {}
+          public void linkComp(Spec _spec) {}
           public String toString() { return ""; }
      }
 

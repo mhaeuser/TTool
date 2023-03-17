@@ -36,27 +36,23 @@
  * knowledge of the CeCILL license and that you accept its terms.
  */
 
-package myutil.intboolsovler2;
+package myutil.intboolsolver2;
 
 /**
- * class IBSClosedFormulaSolver is a complete implementation
- * and instantiation of {@link IBSolver
- * IBSolver} for closed Formulas.
- *
- * <p> It can be used as it is.</p>
+ * Interface IBSParamState, to be implemented by classes intended to
+ * instantiate the {@code State} parameter of
+ * {@link IBSolver IBSolver}.
  * Creation: 07/03/2023
  *
+ * <p> The {@code State} parameter of
+ * {@link IBSolver IBSolver} may be instantiated
+ * by any class without modification, except that the class must implement
+ * this interface and none of the other IBSParamXXX interface.
+ * </p>
+ *
  * @version 0.1 07/03/2023
- * @author Sophie Coudert  (rewrite from Alessandro TEMPIA CALVINO)
+ * @author Sophie Coudert
  */
 
-public class IBSClosedFormulaSolver extends IBSolver<
-        IBSParamSpec,
-        IBSParamComp,
-        IBSParamState,
-        IBSParamSpecState,
-        IBSParamCompState> {
-        IBSClosedFormulaSolver() {
-                super(new IBSClosedFormulaAttributeClass());
-        }
+public interface IBSParamState {
 }

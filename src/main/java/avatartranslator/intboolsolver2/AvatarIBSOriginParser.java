@@ -36,18 +36,20 @@
  * knowledge of the CeCILL license and that you accept its terms.
  */
 
-package myutil.intboolsovler2;
+package avatartranslator.intboolsolver2;
+
+import myutil.intboolsolver2.*;
 
 /**
- * class IBSStdClosedFormulaAttributeClass is a complete implementation
- * and instantiation of {@link IBSStdAttributeClass
- * IBSStdAttributeClass} for closed Formulas.
+ * class IBSStdClosedFormulaSolver is a complete implementation
+ * and instantiation of {@link IBSOriginParser
+ * IBSolver} for closed Formulas.
  *
  * <p> It is provided for documentation together with
- * {@link IBSStdClosedFormulaAttribute
- * IBSStdClosedFormulaAttribute} and
- * {@link IBSStdClosedFormulaSolver
- * IBSStdClosedFormulaSolver}}</p>
+ * {@link IBSStdClosedFormulaAttributeClass
+ * IBSStdClosedFormulaAttributeClass} and
+ * {@link IBSStdClosedFormulaAttributeClass
+ * IBSStdClosedFormulaAttribute}}</p>
  *
  * <p>These three
  * classes provides the same features as
@@ -55,7 +57,7 @@ package myutil.intboolsovler2;
  * IBSClosedFormulaAttribute},
  * {@link IBSClosedFormulaAttributeClass
  * IBSClosedFormulaAttributeClass} and
- * {@link IBSClosedFormulaSolver
+ * {@link IBSClosedFormulaParser
  * IBSClosedFormulaSolver} (together).</p>
  *
  * Creation: 07/03/2023
@@ -64,12 +66,13 @@ package myutil.intboolsovler2;
  * @author Sophie Coudert
  */
 
-public class IBSStdClosedFormulaAttributeClass extends IBSStdAttributeClass<
+public class AvatarIBSOriginParser extends IBSOriginParser<
         IBSParamSpec,
         IBSParamComp,
         IBSParamState,
         IBSParamSpecState,
-        IBSParamCompState
-        > {
-    IBSStdClosedFormulaAttributeClass(){}
+        IBSParamCompState> {
+        AvatarIBSOriginParser() {
+                super(new AvatarIBSStdAttributeClass(), new AvatarIBSStdExpressionClass());
+        }
 }

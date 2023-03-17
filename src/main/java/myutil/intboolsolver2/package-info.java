@@ -251,4 +251,4 @@
  *
  * @author Sophie Coudert  (rewrite from Alessandro TEMPIA CALVINO)
  */
- package myutil.intboolsovler2;
+ package myutil.intboolsolver2;

@@ -36,15 +36,15 @@
  * knowledge of the CeCILL license and that you accept its terms.
  */
 
-package myutil.intboolsovler2;
+package myutil.intboolsolver2;
 
 /**
- * Interface IBSParamState, to be implemented by classes intended to
- * instantiate the {@code State} parameter of
+ * Interface IBSParamSpecState, to be implemented by classes intended to
+ * instantiate the {@code SpecState} parameter of
  * {@link IBSolver IBSolver}.
  * Creation: 07/03/2023
  *
- * <p> The {@code State} parameter of
+ * <p> The {@code SpecState} parameter of
  * {@link IBSolver IBSolver} may be instantiated
  * by any class without modification, except that the class must implement
  * this interface and none of the other IBSParamXXX interface.
@@ -53,6 +53,5 @@ package myutil.intboolsovler2;
  * @version 0.1 07/03/2023
  * @author Sophie Coudert
  */
-
-public interface IBSParamState {
+public interface IBSParamSpecState {
 }

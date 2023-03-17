@@ -54,7 +54,7 @@ import java.util.Vector;
  * @author Ludovic APVRILLE
  * @version 1.0 31/05/2016
  */
-public class SpecificationBlock implements IBSParamCompState {
+public class SpecificationBlock implements IBSParamCompState, myutil.intboolsolver2.IBSParamCompState {
 
     public static final int HEADER_VALUES = 3;
 

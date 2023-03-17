@@ -51,7 +51,7 @@ import java.util.*;
  * @author Ludovic APVRILLE
  * @version 1.0 20/05/2010
  */
-public class AvatarSpecification extends AvatarElement implements IBSParamSpec {
+public class AvatarSpecification extends AvatarElement implements IBSParamSpec, myutil.intboolsolver2.IBSParamSpec {
 
     public final static int UPPAAL_MAX_INT = 32767;
 

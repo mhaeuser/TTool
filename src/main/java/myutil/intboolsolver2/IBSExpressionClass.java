@@ -1,4 +1,4 @@
-package myutil.intboolsovler2;
+package myutil.intboolsolver2;
 
 public class IBSExpressionClass<
         Spec extends IBSParamSpec,

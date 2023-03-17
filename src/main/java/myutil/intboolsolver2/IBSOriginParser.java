@@ -57,7 +57,6 @@ import static java.lang.Integer.max;
  * @author Sophie Coudert (rewrite from Alessandro TEMPIA CALVINO)
  * @version 0.0 27/02/2023
  */
-// IBSExpression<Spec,Comp,State,SpecState,CompState>
 public class IBSOriginParser<
         Spec extends IBSParamSpec,
         Comp extends IBSParamComp,

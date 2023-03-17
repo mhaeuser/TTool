@@ -38,6 +38,12 @@
 
 package avatartranslator.intboolsolver2;
 
+import avatartranslator.AvatarBlock;
+import avatartranslator.AvatarSpecification;
+import avatartranslator.AvatarState;
+import avatartranslator.AvatarStateMachineElement;
+import avatartranslator.modelchecker.SpecificationBlock;
+import avatartranslator.modelchecker.SpecificationState;
 import myutil.intboolsolver2.*;
 
 /**
@@ -67,11 +73,11 @@ import myutil.intboolsolver2.*;
  */
 
 public class AvatarIBSStdExpressionClass extends IBSStdExpressionClass<
-        IBSParamSpec,
-        IBSParamComp,
-        IBSParamState,
-        IBSParamSpecState,
-        IBSParamCompState
+        AvatarSpecification,
+        AvatarBlock,
+        AvatarStateMachineElement,
+        SpecificationState,
+        SpecificationBlock
         > {
     AvatarIBSStdExpressionClass(){}
 }

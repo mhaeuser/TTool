@@ -3,11 +3,8 @@ package avatartranslator.intboolsolver2;
 import avatartranslator.*;
 import avatartranslator.modelchecker.SpecificationBlock;
 import avatartranslator.modelchecker.SpecificationState;
-import myutil.intboolsolver.IBSAttributeTypes;
-import myutil.intboolsolver.IBSStdAttribute;
 import myutil.intboolsolver2.IBSAttributeClass;
 import myutil.intboolsolver2.IBSStdAttributeClass;
-import myutil.intboolsolver2.IBSStdExpressionClass;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -201,7 +198,7 @@ public class AvatarIBSStdAttributeClass extends IBSStdAttributeClass<
             String fieldString;
 
             if (_spec == null) {
-                return IBSAttributeTypes.NullAttr;
+                return NullAttr;
             }
 
             if (s.matches(".+\\..+")) {
@@ -209,13 +206,13 @@ public class AvatarIBSStdAttributeClass extends IBSStdAttributeClass<
                 blockString = splitS[0];
                 fieldString = splitS[1];
             } else {
-                return IBSAttributeTypes.NullAttr;
+                return NullAttr;
             }
 
             block = _spec.getBlockWithName(blockString);
 
             if (block == null) {
-                return IBSAttributeTypes.NullAttr;
+                return NullAttr;
             }
 
             blockIndex = _spec.getBlockIndex(block);
@@ -231,16 +228,16 @@ public class AvatarIBSStdAttributeClass extends IBSStdAttributeClass<
                     // state?
                     state = block.getStateMachine().getStateWithName(fieldString);
                     if (state == null) {
-                        return IBSAttributeTypes.NullAttr;
+                        return NullAttr;
                     }
                     isState = true;
                     accessIndex = block.getStateMachine().getIndexOfState((AvatarStateElement) state);
-                    return IBSAttributeTypes.BoolAttr;
+                    return BoolAttr;
                 } else { //constant
                     accessIndex = attributeIndex;
                     AvatarAttribute attr = block.getConstantWithIndex(accessIndex);
                     constantInt = attr.getInitialValueInInt();
-                    return (attr.isBool() ? IBSAttributeTypes.BoolConst : IBSAttributeTypes.IntConst);
+                    return (attr.isBool() ? BoolConst : IntConst);
                 }
             } else {
                 int offset = block.getBooleanOffset();
@@ -267,7 +264,7 @@ public class AvatarIBSStdAttributeClass extends IBSStdAttributeClass<
 
             //Extract Attribute
             if (_block == null) {
-                return IBSAttributeTypes.NullAttr;
+                return NullAttr;
             }
 
             this.block = _block;
@@ -284,16 +281,16 @@ public class AvatarIBSStdAttributeClass extends IBSStdAttributeClass<
                     // state?
                     state = block.getStateMachine().getStateWithName(s);
                     if (state == null) {
-                        return IBSAttributeTypes.NullAttr;
+                        return NullAttr;
                     }
                     isState = true;
                     accessIndex = block.getStateMachine().getIndexOfState((AvatarStateElement) state);
-                    return IBSAttributeTypes.BoolAttr;
+                    return BoolAttr;
                 } else { //constant
                     accessIndex = attributeIndex;
                     AvatarAttribute attr = block.getConstantWithIndex(accessIndex);
                     constantInt = attr.getInitialValueInInt();
-                    return (attr.isBool() ? IBSAttributeTypes.BoolConst : IBSAttributeTypes.IntConst);
+                    return (attr.isBool() ? BoolConst : IntConst);
                 }
             } else {
                 int offset = block.getBooleanOffset();
@@ -320,12 +317,12 @@ public class AvatarIBSStdAttributeClass extends IBSStdAttributeClass<
             shift = 0;
             mask = 0xFFFFFFFF;
             block = null;
-            return IBSAttributeTypes.BoolAttr;
+            return BoolAttr;
         }
 
         private int attributeType() {
             if (isState) { // should not happen
-                return IBSAttributeTypes.BoolAttr;
+                return BoolAttr;
             }
             int offset = block.getBooleanOffset();
             int ratio = block.getAttributeOptRatio();
@@ -333,12 +330,12 @@ public class AvatarIBSStdAttributeClass extends IBSStdAttributeClass<
             if (offset == -1 || (attributeIndex < offset)) {
                 if (block.getAttribute((accessIndex - SpecificationBlock.ATTR_INDEX)).getType()
                         == AvatarType.BOOLEAN) {
-                    return IBSAttributeTypes.BoolAttr;
+                    return BoolAttr;
                 } else {
-                    return IBSAttributeTypes.IntAttr;
+                    return IntAttr;
                 }
             } else {
-                return IBSAttributeTypes.BoolAttr;
+                return BoolAttr;
             }
         }
 

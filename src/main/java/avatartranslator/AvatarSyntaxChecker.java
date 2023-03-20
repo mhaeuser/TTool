@@ -303,7 +303,9 @@ public class AvatarSyntaxChecker  {
         String act = tmp;
 
         for(AvatarAttribute aa: _ab.getAttributes()) {
-            act = Conversion.putVariableValueInString(AvatarSpecification.ops, act, aa.getName(), aa.getDefaultInitialValue());
+            if (aa.getType() != AvatarType.TIMER) {
+                act = Conversion.putVariableValueInString(AvatarSpecification.ops, act, aa.getName(), aa.getDefaultInitialValue());
+            }
         }
 
         //TraceManager.addDev("Testing guard expr=" + act);

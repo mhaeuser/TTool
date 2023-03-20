@@ -7,7 +7,6 @@ public class IBSExpressionClass<
         SpecState extends IBSParamSpecState,
         CompState extends IBSParamCompState
         > {
-    public final int nbRegisters = 32;
     public void freeInt(int _toFree) {}
     public void freeBool(int _toFree) {}
     public IExpr getIExpr(int _expr) { return null; }
@@ -29,6 +28,7 @@ public class IBSExpressionClass<
     public int make_biiGeq(int _left, int _right) { return -1; }
     public int make_iVar(IBSAttributeClass<Spec,Comp,State,SpecState,CompState>.Attribute _v) { return -1; }
     public int make_bVar(IBSAttributeClass<Spec,Comp,State,SpecState,CompState>.Attribute _v) { return -1; }
+    public int make_biVar(IBSAttributeClass<Spec,Comp,State,SpecState,CompState>.Attribute _v) { return -1; }
     public int make_iConst(int _i) { return -1; }
     public int make_bConst(boolean _b) { return -1; }
     public int make_iNeg(int _expr) throws CloneNotSupportedException  { return -1; }

@@ -40,22 +40,21 @@ package avatartranslator.intboolsolver2;
 
 import avatartranslator.AvatarBlock;
 import avatartranslator.AvatarSpecification;
-import avatartranslator.AvatarState;
 import avatartranslator.AvatarStateMachineElement;
 import avatartranslator.modelchecker.SpecificationBlock;
 import avatartranslator.modelchecker.SpecificationState;
 import myutil.intboolsolver2.*;
 
 /**
- * class IBSStdClosedFormulaSolver is a complete implementation
- * and instantiation of {@link IBSOriginParser
- * IBSolver} for closed Formulas.
+ * class IBSStdClosedFormulaAttributeClass is a complete implementation
+ * and instantiation of {@link IBSStdAttributeClass
+ * IBSStdAttributeClass} for closed Formulas.
  *
  * <p> It is provided for documentation together with
  * {@link IBSStdClosedFormulaAttributeClass
- * IBSStdClosedFormulaAttributeClass} and
- * {@link IBSStdClosedFormulaAttributeClass
- * IBSStdClosedFormulaAttribute}}</p>
+ * IBSStdClosedFormulaAttribute} and
+ * {@link AvatarIBSOriginParser
+ * IBSStdClosedFormulaSolver}}</p>
  *
  * <p>These three
  * classes provides the same features as
@@ -72,28 +71,12 @@ import myutil.intboolsolver2.*;
  * @author Sophie Coudert
  */
 
-public class AvatarIBSOriginParser extends IBSOriginParser<
+public class AvatarIBSOriginExpressionClass extends IBSOriginExpressionClass<
         AvatarSpecification,
         AvatarBlock,
         AvatarStateMachineElement,
         SpecificationState,
-        SpecificationBlock> {
-        public AvatarIBSOriginParser() {
-                super(new AvatarIBSStdAttributeClass(),new AvatarIBSStdExpressionClass());
-        }
-        public AvatarIBSOriginParser(
-                IBSAttributeClass<
-                        AvatarSpecification,
-                        AvatarBlock,
-                        AvatarStateMachineElement,
-                        SpecificationState,
-                        SpecificationBlock> _c,
-                IBSExpressionClass<
-                        AvatarSpecification,
-                        AvatarBlock,
-                        AvatarStateMachineElement,
-                        SpecificationState,
-                        SpecificationBlock> _e) {
-                super(_c,_e);
-        }
+        SpecificationBlock
+        > {
+    public AvatarIBSOriginExpressionClass(){}
 }

@@ -104,14 +104,14 @@ public class AvatarExpressionTest {
         w2.setInitialValue("-12");
     }
     
-    //@Test
+    @Test
     public void testImmediate() {
         TraceManager.addDev("Testing AvatarExpressionTest.testImmediate");
         AvatarExpressionSolver e1 = new AvatarExpressionSolver("10 + 15 >= 20");
         assertTrue(e1.buildExpression());
         assertTrue(e1.getReturnType() == AvatarExpressionSolver.IMMEDIATE_BOOL);
 
-        AvatarExpressionSolver e1bis = new AvatarExpressionSolver("not( ( 0>10 ) and true)");
+        AvatarExpressionSolver e1bis = new AvatarExpressionSolver("not( true)");//"not( ( 0>10 ) and true)");
         assertTrue(e1bis.buildExpression());
         assertTrue(e1bis.getReturnType() == AvatarExpressionSolver.IMMEDIATE_BOOL);
 

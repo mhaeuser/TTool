@@ -10,7 +10,7 @@ public class IBSStdExpressionClass<
         CompState extends IBSParamCompState
         > extends IBSExpressionClass<Spec,Comp,State,SpecState,CompState> {
     protected final int[] prios =       { 2 , 2 , 1 , 1 , 1 , 1  ,  2 ,  3 ,  3 ,  3 ,  3 , 3 , 3 ,  3 ,  3 };
-    protected final String[] opString = {"+","-","*","/","%","&&","||","==","==","!=","!=","<",">","<=",">=","-","!"};
+    protected final String[] opString = {"+","-","*","/","%","&&","||","==","==","!=","!=","<",">","<=",">=","-","!","true","false"};
     public final int iiiPlus = 0;
     public final int iiiMinus = 1;
     public final int iiiMult = 2;
@@ -28,243 +28,260 @@ public class IBSStdExpressionClass<
     public final int biiGeq = 14;
     public final int iNeg = 13;
     public final int bNot = 14;
+    public final int btrue = 15;
+    public final int bfalse = 16;
     public final int iVar = 1000; // no associated symbol
     public final int bVar = 1001; // no associated symbol
-    public final int iConst = 1002; // no associated symbol
-    public final int bConst = 1003; // no associated symbol
-    public final int biExpr = 1004; // no associated symbol
-    
-    private ArrayList<IExpr> iExpressions = new ArrayList<IExpr>(nbRegisters);
-    private boolean[] iBusy = new boolean[nbRegisters];
-    private ArrayList<BExpr> bExpressions = new ArrayList<BExpr>(nbRegisters);
-    private boolean[] bBusy = new boolean[nbRegisters];
+    public final int biVar = 1002; // no associated symbol
+    public final int iConst = 1003; // no associated symbol
+    public final int bConst = 1004; // no associated symbol
+    public final int biExpr = 1005; // no associated symbol
+
+    private ArrayList<IExpr> iExpressions = new ArrayList<IExpr>(16);
+    private ArrayList<Boolean> iBusy = new ArrayList<Boolean>(16);
+    private ArrayList<BExpr> bExpressions = new ArrayList<BExpr>(16);
+    private ArrayList<Boolean> bBusy = new ArrayList<Boolean>(16);
+    public IBSStdExpressionClass(){}
     private int findIfree(){
         int i;
-        for (i = 0; i < nbRegisters; i++) if (!iBusy[i]) break;
-        if (i==nbRegisters) return -1;
+        for (i = 0; i < iBusy.size(); i++) if (!iBusy.get(i)) break;
+        if (i==iBusy.size()){
+            iBusy.add(Boolean.FALSE);
+            iExpressions.add(null);
+        }
         return i;
     }
     private int findBfree(){
         int i;
-        for (i = 0; i < nbRegisters; i++) if (!bBusy[i]) break;
-        if (i==nbRegisters) return -1;
+        for (i = 0; i < bBusy.size(); i++) if (!bBusy.get(i)) break;
+        if (i==bBusy.size()){
+            iBusy.add(Boolean.FALSE);
+            bExpressions.add(null);
+        }
         return i;
     }
     public void freeInt(int _toFree) {
-        iBusy[_toFree]=false;
+        iBusy.set(_toFree,Boolean.FALSE);
         iExpressions.set(_toFree,null);
     }
     public void freeBool(int _toFree) {
-        bBusy[_toFree]=false;
+        bBusy.set(_toFree,Boolean.FALSE);
         bExpressions.set(_toFree,null);
     }
-    public int make_iiiPlus(int _left, int _right) {
-        int tgt = findIfree();
-        if ( tgt == -1 ) return -2;
-        if (iExpressions.size()<= _left || iExpressions.size() <= _right || iExpressions.get(_left) == null || iExpressions.get(_right) == null)
-            return -1;
-        iExpressions.set(tgt, new IIIPlus(iExpressions.get(_left), iExpressions.get(_right)));
-        iBusy[tgt]=true;
-        return tgt;
-    }
-    public int make_iiiMinus(int _left, int _right) {
-        int tgt = findIfree();
-        if ( tgt == -1 ) return -2;
-        if (iExpressions.size()<= _left || iExpressions.size() <= _right || iExpressions.get(_left) == null || iExpressions.get(_right) == null)
-            return -1;
-        iExpressions.set(tgt, new IIIMinus(iExpressions.get(_left), iExpressions.get(_right)));
-        iBusy[tgt]=true;
-        return tgt;
-    }
-    public int make_iiiMult(int _left, int _right) {
-        int tgt = findIfree();
-        if ( tgt == -1 ) return -2;
-        if (iExpressions.size()<= _left || iExpressions.size() <= _right || iExpressions.get(_left) == null || iExpressions.get(_right) == null)
-            return -1;
-        iExpressions.set(tgt, new IIIMult(iExpressions.get(_left), iExpressions.get(_right)));
-        iBusy[tgt]=true;
-        return tgt;
-    }
-    public int make_iiiDiv(int _left, int _right) {
-        int tgt = findIfree();
-        if ( tgt == -1 ) return -2;
-        if (iExpressions.size()<= _left || iExpressions.size() <= _right || iExpressions.get(_left) == null || iExpressions.get(_right) == null)
-            return -1;
-        iExpressions.set(tgt, new IIIDiv(iExpressions.get(_left), iExpressions.get(_right)));
-        iBusy[tgt]=true;
-        return tgt;
-    }
-    public int make_iiiMod(int _left, int _right) {
-        int tgt = findIfree();
-        if ( tgt == -1 ) return -2;
-        if (iExpressions.size()<= _left || iExpressions.size() <= _right || iExpressions.get(_left) == null || iExpressions.get(_right) == null)
-            return -1;
-        iExpressions.set(tgt, new IIIMod(iExpressions.get(_left), iExpressions.get(_right)));
-        iBusy[tgt]=true;
-        return tgt;
-    }
-    public int make_bbbAnd(int _left, int _right) {
-        int tgt = findBfree();
-        if ( tgt == -1 ) return -2;
-        if (bExpressions.size()<= _left || bExpressions.size() <= _right || bExpressions.get(_left) == null || bExpressions.get(_right) == null)
-            return -1;
-        bExpressions.set(tgt, new BBBAnd(bExpressions.get(_left), bExpressions.get(_right)));
-        bBusy[tgt]=true;
-        return tgt;
-    }
-    public int make_bbbOr(int _left, int _right) {
-        int tgt = findBfree();
-        if ( tgt == -1 ) return -2;
-        if (bExpressions.size()<= _left || bExpressions.size() <= _right || bExpressions.get(_left) == null || bExpressions.get(_right) == null)
-            return -1;
-        bExpressions.set(tgt, new BBBOr(bExpressions.get(_left), bExpressions.get(_right)));
-        bBusy[tgt]=true;
-        return tgt;
-    }
-    public int make_biiEq(int _left, int _right) {
-        int tgt = findBfree();
-        if ( tgt == -1 ) return -2;
-        if (iExpressions.size()<= _left || iExpressions.size() <= _right || iExpressions.get(_left) == null || iExpressions.get(_right) == null)
-            return -1;
-        bExpressions.set(tgt, new BIIEq(iExpressions.get(_left), iExpressions.get(_right)));
-        bBusy[tgt]=true;
-        return tgt;
-    }
-    public int make_bbbEq(int _left, int _right) {
-        int tgt = findBfree();
-        if ( tgt == -1 ) return -2;
-        if (bExpressions.size()<= _left || bExpressions.size() <= _right || bExpressions.get(_left) == null || bExpressions.get(_right) == null)
-            return -1;
-        bExpressions.set(tgt, new BBBEq(bExpressions.get(_left), bExpressions.get(_right)));
-        bBusy[tgt]=true;
-        return tgt;
-    }
-    public int make_biiDif(int _left, int _right) {
-        int tgt = findBfree();
-        if ( tgt == -1 ) return -2;
-        if (iExpressions.size()<= _left || iExpressions.size() <= _right || iExpressions.get(_left) == null || iExpressions.get(_right) == null)
-            return -1;
-        bExpressions.set(tgt, new BIIDif(iExpressions.get(_left), iExpressions.get(_right)));
-        bBusy[tgt]=true;
-        return tgt;
-    }
-    public int make_bbbDif(int _left, int _right) {
-        int tgt = findBfree();
-        if ( tgt == -1 ) return -2;
-        if (bExpressions.size()<= _left || bExpressions.size() <= _right || bExpressions.get(_left) == null || bExpressions.get(_right) == null)
-            return -1;
-        bExpressions.set(tgt, new BBBDif(bExpressions.get(_left), bExpressions.get(_right)));
-        bBusy[tgt]=true;
-        return tgt;
-    }
-    public int make_biiLt(int _left, int _right) {
-        int tgt = findBfree();
-        if ( tgt == -1 ) return -2;
-        if (iExpressions.size()<= _left || iExpressions.size() <= _right || iExpressions.get(_left) == null || iExpressions.get(_right) == null)
-            return -1;
-        bExpressions.set(tgt, new BIILt(iExpressions.get(_left), iExpressions.get(_right)));
-        bBusy[tgt]=true;
-        return tgt;
-    }
-    public int make_biiGt(int _left, int _right) {
-        int tgt = findBfree();
-        if ( tgt == -1 ) return -2;
-        if (iExpressions.size()<= _left || iExpressions.size() <= _right || iExpressions.get(_left) == null || iExpressions.get(_right) == null)
-            return -1;
-        bExpressions.set(tgt, new BIIGt(iExpressions.get(_left), iExpressions.get(_right)));
-        bBusy[tgt]=true;
-        return tgt;
-    }
-    public int make_biiLeq(int _left, int _right) {
-        int tgt = findBfree();
-        if ( tgt == -1 ) return -2;
-        if (iExpressions.size()<= _left || iExpressions.size() <= _right || iExpressions.get(_left) == null || iExpressions.get(_right) == null)
-            return -1;
-        bExpressions.set(tgt, new BIILeq(iExpressions.get(_left), iExpressions.get(_right)));
-        bBusy[tgt]=true;
-        return tgt;
-    }
-    public int make_biiGeq(int _left, int _right) {
-        int tgt = findBfree();
-        if ( tgt == -1 ) return -2;
-        if (iExpressions.size()<= _left || iExpressions.size() <= _right || iExpressions.get(_left) == null || iExpressions.get(_right) == null)
-            return -1;
-        bExpressions.set(tgt, new BIIGeq(iExpressions.get(_left), iExpressions.get(_right)));
-        bBusy[tgt]=true;
-        return tgt;
-    }
-    public int make_iVar(IBSAttributeClass<Spec,Comp,State,SpecState,CompState>.Attribute _v) {
-        int tgt = findIfree();
-        if ( tgt == -1 ) return -2;
-        if (_v == null || _v.getType() != IBSAttributeClass.IntAttr)
-            return -1;
-        iExpressions.set(tgt, new IVar(_v));
-        iBusy[tgt]=true;
-        return tgt;
-    }
-    public int make_bVar(IBSAttributeClass<Spec,Comp,State,SpecState,CompState>.Attribute _v) {
-        int tgt = findBfree();
-        if ( tgt == -1 ) return -2;
-        if (_v == null || _v.getType() != IBSAttributeClass.BoolAttr)
-            return -1;
-        bExpressions.set(tgt, new BVar(_v));
-        bBusy[tgt]=true;
-        return tgt;
-    }
-    public int make_iConst(int _i) {
-        int tgt = findIfree();
-        if ( tgt == -1 ) return -2;
-        iExpressions.set(tgt, new IConst(_i));
-        iBusy[tgt]=true;
-        return tgt;
-    }
-    public int make_bConst(boolean _b) {
-        int tgt = findBfree();
-        if ( tgt == -1 ) return -2;
-        bExpressions.set(tgt, new BConst(_b));
-        bBusy[tgt]=true;
-        return tgt;
-    }
-    public int make_iNeg(int _expr) throws CloneNotSupportedException {
-        int tgt = findIfree();
-        if ( tgt == -1 ) return -2;
-        if (iExpressions.size()<=_expr || iExpressions.get(_expr) == null)
-            return -1;
-        iExpressions.set(tgt, iExpressions.get(_expr).negate());
-        iBusy[tgt]=true;
-        return tgt;
-    }
-    public int make_bNot(int _expr) throws CloneNotSupportedException {
-        int tgt = findBfree();
-        if ( tgt == -1 ) return -2;
-        if (bExpressions.size()<=_expr || bExpressions.get(_expr) == null)
-            return -1;
-        bExpressions.set(tgt, bExpressions.get(_expr).negate());
-        bBusy[tgt]=true;
-        return tgt;
-    }
-    public int make_biExpr(int _expr) {
-        int tgt = findBfree();
-        if ( tgt == -1 ) return -2;
-        if (iExpressions.size()<=_expr || iExpressions.get(_expr) == null)
-            return -1;
-        bExpressions.set(tgt, new BIExpr(iExpressions.get(_expr)));
-        bBusy[tgt]=true;
-        return tgt;
-    }
     public IExpr getIExpr(int _expr) {
-        if (_expr >= nbRegisters || _expr < 0)
-            return null;
+        if (_expr >= iExpressions.size() || _expr < 0)
+            throw new Error("IBSStdExpressionClass.getIExpr: out of bounds");
         else
             return iExpressions.get(_expr);
     }
     public BExpr getBExpr(int _expr) {
-        if (_expr >= nbRegisters || _expr < 0)
-            return null;
+        if (_expr >= bExpressions.size() || _expr < 0)
+            throw new Error("IBSStdExpressionClass.getBExpr: out of bounds");
         else
             return bExpressions.get(_expr);
     }
-
+    public int make_iiiPlus(int _left, int _right) {
+        int tgt = findIfree();
+        if (iExpressions.size()<= _left || iExpressions.size() <= _right || 0 > _left || 0 > _right ||
+                iExpressions.get(_left) == null || iExpressions.get(_right) == null)
+           throw new Error("IBSStdExpressionClass.make_iiiPlus called on undefined subexpression");
+        iExpressions.set(tgt, new IIIPlus(iExpressions.get(_left), iExpressions.get(_right)));
+        iBusy.set(tgt,Boolean.TRUE);
+        return tgt;
+    }
+    public int make_iiiMinus(int _left, int _right) {
+        int tgt = findIfree();
+        if (iExpressions.size()<= _left || iExpressions.size() <= _right || 0 > _left || 0 > _right ||
+                iExpressions.get(_left) == null || iExpressions.get(_right) == null)
+            throw new Error("IBSStdExpressionClass.make_iiiMinus called on undefined subexpression");
+        iExpressions.set(tgt, new IIIMinus(iExpressions.get(_left), iExpressions.get(_right)));
+        iBusy.set(tgt,Boolean.TRUE);
+        return tgt;
+    }
+    public int make_iiiMult(int _left, int _right) {
+        int tgt = findIfree();
+        if (iExpressions.size()<= _left || iExpressions.size() <= _right || 0 > _left || 0 > _right ||
+                iExpressions.get(_left) == null || iExpressions.get(_right) == null)
+            throw new Error("IBSStdExpressionClass.make_iiiMult called on undefined subexpression");
+        iExpressions.set(tgt, new IIIMult(iExpressions.get(_left), iExpressions.get(_right)));
+        iBusy.set(tgt,Boolean.TRUE);
+        return tgt;
+    }
+    public int make_iiiDiv(int _left, int _right) {
+        int tgt = findIfree();
+        if (iExpressions.size()<= _left || iExpressions.size() <= _right || 0 > _left || 0 > _right ||
+                iExpressions.get(_left) == null || iExpressions.get(_right) == null)
+            throw new Error("IBSStdExpressionClass.make_iiiDiv called on undefined subexpression");
+        iExpressions.set(tgt, new IIIDiv(iExpressions.get(_left), iExpressions.get(_right)));
+        iBusy.set(tgt,Boolean.TRUE);
+        return tgt;
+    }
+    public int make_iiiMod(int _left, int _right) {
+        int tgt = findIfree();
+        if (iExpressions.size()<= _left || iExpressions.size() <= _right || 0 > _left || 0 > _right ||
+                iExpressions.get(_left) == null || iExpressions.get(_right) == null)
+            throw new Error("IBSStdExpressionClass.make_iiiMod called on undefined subexpression");
+        iExpressions.set(tgt, new IIIMod(iExpressions.get(_left), iExpressions.get(_right)));
+        iBusy.set(tgt,Boolean.TRUE);
+        return tgt;
+    }
+    public int make_bbbAnd(int _left, int _right) {
+        int tgt = findBfree();
+        if (bExpressions.size()<= _left || bExpressions.size() <= _right || 0 > _left || 0 > _right ||
+                bExpressions.get(_left) == null || bExpressions.get(_right) == null)
+            throw new Error("IBSStdExpressionClass.make_bbbAnd called on undefined subexpression");
+        bExpressions.set(tgt, new BBBAnd(bExpressions.get(_left), bExpressions.get(_right)));
+        bBusy.set(tgt,Boolean.TRUE);
+        return tgt;
+    }
+    public int make_bbbOr(int _left, int _right) {
+        int tgt = findBfree();
+        if (bExpressions.size()<= _left || bExpressions.size() <= _right || 0 > _left || 0 > _right ||
+                bExpressions.get(_left) == null || bExpressions.get(_right) == null)
+            throw new Error("IBSStdExpressionClass.make_bbbOr called on undefined subexpression");
+        bExpressions.set(tgt, new BBBOr(bExpressions.get(_left), bExpressions.get(_right)));
+        bBusy.set(tgt,Boolean.TRUE);
+        return tgt;
+    }
+    public int make_biiEq(int _left, int _right) {
+        int tgt = findBfree();
+        if (iExpressions.size()<= _left || iExpressions.size() <= _right || iExpressions.get(_left) == null || iExpressions.get(_right) == null)
+            if (iExpressions.size()<= _left || iExpressions.size() <= _right || 0 > _left || 0 > _right ||
+                    iExpressions.get(_left) == null || iExpressions.get(_right) == null)
+                throw new Error("IBSStdExpressionClass.make_biiEq called on undefined subexpression");
+        bExpressions.set(tgt, new BIIEq(iExpressions.get(_left), iExpressions.get(_right)));
+        bBusy.set(tgt,Boolean.TRUE);
+        return tgt;
+    }
+    public int make_bbbEq(int _left, int _right) {
+        int tgt = findBfree();
+        if (bExpressions.size()<= _left || bExpressions.size() <= _right || 0 > _left || 0 > _right ||
+                bExpressions.get(_left) == null || bExpressions.get(_right) == null)
+            throw new Error("IBSStdExpressionClass.make_bbbEq called on undefined subexpression");
+        bExpressions.set(tgt, new BBBEq(bExpressions.get(_left), bExpressions.get(_right)));
+        bBusy.set(tgt,Boolean.TRUE);
+        return tgt;
+    }
+    public int make_biiDif(int _left, int _right) {
+        int tgt = findBfree();
+        if (iExpressions.size()<= _left || iExpressions.size() <= _right || 0 > _left || 0 > _right ||
+                iExpressions.get(_left) == null || iExpressions.get(_right) == null)
+            throw new Error("IBSStdExpressionClass.make_biiDif called on undefined subexpression");
+        bExpressions.set(tgt, new BIIDif(iExpressions.get(_left), iExpressions.get(_right)));
+        bBusy.set(tgt,Boolean.TRUE);
+        return tgt;
+    }
+    public int make_bbbDif(int _left, int _right) {
+        int tgt = findBfree();
+        if (bExpressions.size()<= _left || bExpressions.size() <= _right || 0 > _left || 0 > _right ||
+                bExpressions.get(_left) == null || bExpressions.get(_right) == null)
+            throw new Error("IBSStdExpressionClass.make_bbbDif called on undefined subexpression");
+        bExpressions.set(tgt, new BBBDif(bExpressions.get(_left), bExpressions.get(_right)));
+        bBusy.set(tgt,Boolean.TRUE);
+        return tgt;
+    }
+    public int make_biiLt(int _left, int _right) {
+        int tgt = findBfree();
+        if (iExpressions.size()<= _left || iExpressions.size() <= _right || 0 > _left || 0 > _right ||
+                iExpressions.get(_left) == null || iExpressions.get(_right) == null)
+            throw new Error("IBSStdExpressionClass.make_biiLt called on undefined subexpression");
+        bExpressions.set(tgt, new BIILt(iExpressions.get(_left), iExpressions.get(_right)));
+        bBusy.set(tgt,Boolean.TRUE);
+        return tgt;
+    }
+    public int make_biiGt(int _left, int _right) {
+        int tgt = findBfree();
+        if (iExpressions.size()<= _left || iExpressions.size() <= _right || 0 > _left || 0 > _right ||
+                iExpressions.get(_left) == null || iExpressions.get(_right) == null)
+            throw new Error("IBSStdExpressionClass.make_biiGt called on undefined subexpression");
+        bExpressions.set(tgt, new BIIGt(iExpressions.get(_left), iExpressions.get(_right)));
+        bBusy.set(tgt,Boolean.TRUE);
+        return tgt;
+    }
+    public int make_biiLeq(int _left, int _right) {
+        int tgt = findBfree();
+        if (iExpressions.size()<= _left || iExpressions.size() <= _right || 0 > _left || 0 > _right ||
+                iExpressions.get(_left) == null || iExpressions.get(_right) == null)
+            throw new Error("IBSStdExpressionClass.make_biiLeq called on undefined subexpression");
+        bExpressions.set(tgt, new BIILeq(iExpressions.get(_left), iExpressions.get(_right)));
+        bBusy.set(tgt,Boolean.TRUE);
+        return tgt;
+    }
+    public int make_biiGeq(int _left, int _right) {
+        int tgt = findBfree();
+        if (iExpressions.size()<= _left || iExpressions.size() <= _right || 0 > _left || 0 > _right ||
+                iExpressions.get(_left) == null || iExpressions.get(_right) == null)
+            throw new Error("IBSStdExpressionClass.make_biiGeq called on undefined subexpression");
+        bExpressions.set(tgt, new BIIGeq(iExpressions.get(_left), iExpressions.get(_right)));
+        bBusy.set(tgt,Boolean.TRUE);
+        return tgt;
+    }
+    public int make_iVar(IBSAttributeClass<Spec,Comp,State,SpecState,CompState>.Attribute _v) {
+        int tgt = findIfree();
+        if (_v == null)
+            throw new Error("IBSStdExpressionClass.make_iVar called on null attribute");
+        if (_v.getType() != IBSAttributeClass.IntAttr)
+            return -1;
+        iExpressions.set(tgt, new IVar(_v));
+        iBusy.set(tgt,Boolean.TRUE);
+        return tgt;
+    }
+    public int make_bVar(IBSAttributeClass<Spec,Comp,State,SpecState,CompState>.Attribute _v) {
+        int tgt = findBfree();
+        if (_v == null)
+            throw new Error("IBSStdExpressionClass.make_bVar called on null attribute");
+        if (_v.getType() != IBSAttributeClass.BoolAttr)
+            return -1;
+        bExpressions.set(tgt, new BVar(_v));
+        bBusy.set(tgt,Boolean.TRUE);
+        return tgt;
+    }
+    public int make_biVar(IBSAttributeClass<Spec,Comp,State,SpecState,CompState>.Attribute _v) {
+        int tgt = findBfree();
+        if (_v == null)
+            throw new Error("IBSStdExpressionClass.make_biVar called on null attribute");
+        if (_v.getType() != IBSAttributeClass.IntAttr)
+            return -1;
+        bExpressions.set(tgt, new BIVar(_v));
+        bBusy.set(tgt,Boolean.TRUE);
+        return tgt;
+    }
+    public int make_iConst(int _i) {
+        int tgt = findIfree();
+        iExpressions.set(tgt, new IConst(_i));
+        iBusy.set(tgt,Boolean.TRUE);
+        return tgt;
+    }
+    public int make_bConst(boolean _b) {
+        int tgt = findBfree();
+        bExpressions.set(tgt, new BConst(_b));
+        bBusy.set(tgt,Boolean.TRUE);
+        return tgt;
+    }
+    public int make_iNeg(int _expr) throws CloneNotSupportedException {
+        int tgt = findIfree();
+        if (iExpressions.size()<=_expr || _expr < 0 ||iExpressions.get(_expr) == null)
+            throw new Error("IBSStdExpressionClass.make_iNeg called on undefined subexpression");
+        iExpressions.set(tgt, iExpressions.get(_expr).negate());
+        iBusy.set(tgt,Boolean.TRUE);
+        return tgt;
+    }
+    public int make_bNot(int _expr) throws CloneNotSupportedException {
+        int tgt = findBfree();
+        if (bExpressions.size()<=_expr || _expr < 0 || bExpressions.get(_expr) == null)
+            throw new Error("IBSStdExpressionClass.make_bNot called on undefined subexpression");
+        bExpressions.set(tgt, bExpressions.get(_expr).negate());
+        bBusy.set(tgt,Boolean.TRUE);
+        return tgt;
+    }
+    public int make_biExpr(int _expr) {
+        int tgt = findBfree();
+        if (iExpressions.size()<=_expr || _expr < 0 || iExpressions.get(_expr) == null)
+            throw new Error("IBSStdExpressionClass.make_biExpr called on undefined subexpression");
+        bExpressions.set(tgt, new BIExpr(iExpressions.get(_expr)));
+        bBusy.set(tgt,Boolean.TRUE);
+        return tgt;
+    }
     public abstract class IExpr extends IBSExpressionClass<Spec,Comp,State,SpecState,CompState>.IExpr {
         protected int type;
          public boolean isNeg;
@@ -405,7 +422,7 @@ public class IBSStdExpressionClass<
         public boolean eval(SpecState _ss, State _st) { return (isNot == constant); }
         public boolean eval(CompState _cs) { return (isNot != constant); }
         public boolean eval(Object _qs) { return (isNot != constant); }
-        public String toString() { return ""+constant; }
+        public String toString() { return (constant ? opString[btrue] : opString[bfalse]); }
         public boolean hasStates() { return false; }
         public void linkStates() {}
         public void linkComps(Spec _spec) {}
@@ -455,7 +472,37 @@ public class IBSStdExpressionClass<
         }
         public String toString() {
             if (isNot)
-                return opString[bNot] + var.toString();
+                return opString[bNot] + "(" + var.toString() + ")";
+            return var.toString();
+        }
+        public boolean hasStates() { return var.isState(); }
+        public void linkStates() {var.linkState();}
+        public void linkComps(Spec _spec) {var.linkComp(_spec);}
+    }
+    public class BIVar extends BExpr {
+        protected final int type = biVar;
+        public IBSAttributeClass<Spec,Comp,State,SpecState,CompState>.Attribute var;
+        public BIVar(IBSAttributeClass<Spec,Comp,State,SpecState,CompState>.Attribute _v) { var = _v; }
+        public BVar clone() throws CloneNotSupportedException {
+            return (BVar) super.clone();
+        }
+        public int getPrio(){ return 0; }
+        public boolean eval(){ return false; }
+        public boolean eval(SpecState _ss) {
+            return (isNot == (var.getValue(_ss) == 0));
+        }
+        public boolean eval(SpecState _ss, State _st) {
+            return (isNot == (var.getValue(_ss, _st) == 0));
+        }
+        public boolean eval(CompState _cs) {
+            return (isNot == (var.getValue(_cs) == 0));
+        }
+        public boolean eval(Object _qs) {
+            return (isNot == (var.getValue(_qs) == 0));
+        }
+        public String toString() {
+            if (isNot)
+                return opString[bNot] + "(" + var.toString() + ")";
             return var.toString();
         }
         public boolean hasStates() { return var.isState(); }

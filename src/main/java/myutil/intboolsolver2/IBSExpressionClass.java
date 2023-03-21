@@ -9,6 +9,7 @@ public class IBSExpressionClass<
         > {
     public void freeInt(int _toFree) {}
     public void freeBool(int _toFree) {}
+    public void clear(){}
     public IExpr getIExpr(int _expr) { return null; }
     public BExpr getBExpr(int _expr) { return null; }
     public int make_iiiPlus(int _left, int _right) { return -1; }

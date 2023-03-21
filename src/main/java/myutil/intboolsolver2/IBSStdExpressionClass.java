@@ -42,6 +42,12 @@ public class IBSStdExpressionClass<
     private ArrayList<BExpr> bExpressions = new ArrayList<BExpr>(16);
     private ArrayList<Boolean> bBusy = new ArrayList<Boolean>(16);
     public IBSStdExpressionClass(){}
+    public void clear(){
+        iExpressions.clear();
+        bExpressions.clear();
+        iBusy.clear();
+        bBusy.clear();
+    }
     private int findIfree(){
         int i;
         for (i = 0; i < iBusy.size(); i++) if (!iBusy.get(i)) break;

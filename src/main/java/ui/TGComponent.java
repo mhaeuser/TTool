@@ -41,10 +41,7 @@
 package ui;
 
 import avatartranslator.ElementWithUUID;
-import myutil.Conversion;
-import myutil.GenericTree;
-import myutil.GraphicLib;
-import myutil.TraceManager;
+import myutil.*;
 import org.w3c.dom.NodeList;
 import tmltranslator.simulation.SimulationTransaction;
 import ui.procsd.ProCSDComponent;
@@ -76,7 +73,7 @@ import java.util.*;
  * @version 1.0 21/12/2003
  */
 
-public abstract class TGComponent extends AbstractCDElement implements /*CDElement,*/ GenericTree, ElementWithUUID {
+public abstract class TGComponent extends AbstractCDElement implements /*CDElement,*/ GenericTree, ElementWithUUID, NameChecker.NamedElement {
 
     protected final static String XML_HEAD = "<COMPONENT type=\"";
     protected final static String XML_ID = "\" id=\"";
@@ -2875,6 +2872,12 @@ public abstract class TGComponent extends AbstractCDElement implements /*CDEleme
     public final String getName() {
         return name;
     }
+
+    public String[] getNameExceptions() {
+        return null;
+    }
+
+    public myutil.NameChecker.NamedElement[] getSubNamedElements() { return tgcomponent;}
 
     public void setName(String s) {
         name = s;

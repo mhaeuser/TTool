@@ -43,6 +43,7 @@ import compiler.tmlparser.SimpleNode;
 import compiler.tmlparser.TMLExprParser;
 import compiler.tmlparser.TokenMgrError;
 import myutil.Conversion;
+import myutil.NameChecker;
 import myutil.TraceManager;
 
 import java.io.StringReader;
@@ -126,23 +127,47 @@ public class AvatarSyntaxChecker {
     public static ArrayList<AvatarError> checkNames(AvatarSpecification avspec) {
         ArrayList<AvatarError> warnings = new ArrayList<>();
 
-        for (AvatarBlock ab : avspec.getListOfBlocks()) {
-            warnings.addAll(checkNames(avspec, ab));
+        for(NameChecker.NamedElement ne: avspec.getSubNamedElements()) {
+            warnings.addAll(checkNames(avspec, ne));
         }
 
         return warnings;
     }
 
-    public static ArrayList<AvatarError> checkNames(AvatarSpecification avspec, AvatarBlock ab) {
+    public static ArrayList<AvatarError> checkNames(AvatarSpecification _avspec, NameChecker.NamedElement _ne) {
+
+
         ArrayList<AvatarError> warnings = new ArrayList<>();
 
         // Checking block name
-        if (Conversion.startsWithLowerCase(ab.getName())) {
-            newError(avspec, warnings, ab, null, FIRST_UPPER_CASE);
+        TraceManager.addDev("Checking name: " + _ne.getName());
+        if (_ne instanceof NameChecker.NameStartWithUpperCase) {
+            if (!NameChecker.checkName(_ne)) {
+                newError(_avspec, warnings, (AvatarElement) _ne, null, FIRST_UPPER_CASE);
+            }
+        } else if (_ne instanceof NameChecker.NameStartWithLowerCase) {
+            if (!NameChecker.checkName(_ne)) {
+                newError(_avspec, warnings, (AvatarElement) _ne, null, FIRST_LOWER_CASE);
+            }
+        }
+
+        for(NameChecker.NamedElement sub: _ne.getSubNamedElements()) {
+            TraceManager.addDev("Checking sub name: " + sub.getName());
+
+            if (sub instanceof NameChecker.NameStartWithUpperCase) {
+                if (!NameChecker.checkName(sub)) {
+                    newError(_avspec, warnings, (AvatarElement) _ne, (AvatarElement)sub, FIRST_UPPER_CASE);
+                }
+            } else if (sub instanceof NameChecker.NameStartWithLowerCase) {
+                if (!NameChecker.checkName(sub)) {
+                    newError(_avspec, warnings, (AvatarElement) _ne, (AvatarElement)sub, FIRST_LOWER_CASE);
+                }
+            }
+
         }
 
         // Checking attribute, methods and signal names
-        for (AvatarAttribute aa: ab.getAttributes()) {
+        /*for (AvatarAttribute aa: ab.getAttributes()) {
             if (!Conversion.startsWithLowerCase(aa.getName())) {
                 newError(avspec, warnings, ab, aa, FIRST_LOWER_CASE);
             }
@@ -156,7 +181,7 @@ public class AvatarSyntaxChecker {
             if (!Conversion.startsWithLowerCase(as.getName())) {
                 newError(avspec, warnings, ab, as, FIRST_LOWER_CASE);
             }
-        }
+        }*/
 
 
         return warnings;

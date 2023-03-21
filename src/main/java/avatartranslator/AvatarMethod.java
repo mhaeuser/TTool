@@ -38,6 +38,8 @@
 
 package avatartranslator;
 
+import myutil.NameChecker;
+
 import java.util.LinkedList;
 import java.util.List;
 
@@ -48,7 +50,7 @@ import java.util.List;
  * @version 1.0 08/04/2010
  * @author Ludovic APVRILLE
  */
-public class AvatarMethod extends AvatarElement {
+public class AvatarMethod extends AvatarElement implements NameChecker.NameStartWithLowerCase {
 
     protected boolean implementationProvided;
 

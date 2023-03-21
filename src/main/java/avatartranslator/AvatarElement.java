@@ -38,8 +38,10 @@
 
 package avatartranslator;
 
+import myutil.NameChecker;
 import myutil.TraceManager;
 
+import java.util.List;
 import java.util.UUID;
 import java.util.Vector;
 
@@ -49,7 +51,7 @@ import java.util.Vector;
    * @version 1.0 20/05/2010
    * @author Ludovic APVRILLE
  */
-public class AvatarElement {
+public class AvatarElement implements NameChecker.NamedElement {
 
     private static int ID=0;
 
@@ -106,6 +108,9 @@ public class AvatarElement {
     public String getName() {
         return name;
     }
+
+    public String[] getNameExceptions() { return null;}
+    public myutil.NameChecker.NamedElement[] getSubNamedElements() { return null;}
 
     public Object getReferenceObject() {
         return referenceObject;

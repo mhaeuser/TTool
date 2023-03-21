@@ -7851,11 +7851,12 @@
 </SUBCOMPONENT>
 
 <COMPONENT type="302" id="4278" index="1" uid="029b1805-5bd8-44cc-9fbd-9dfae02d8e94" >
-<cdparam x="529" y="163" />
-<sizeparam width="277" height="54" minWidth="80" minHeight="10" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
+<cdparam x="535" y="149" />
+<sizeparam width="420" height="66" minWidth="80" minHeight="10" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <hidden value="false" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
-<infoparam name="Proverif Pragma" value="#InitialSystemKnowledge Alice.sk Bob.sk
+<infoparam name="Proverif Pragma" value="#Confidentiality Alice.secretData
+#Authenticity Alice.sendingMessage.m Bob.messageDecrypted.m
 " />
 <new d="false" />
 <TGConnectingPoint num="0" id="4262" />
@@ -7875,7 +7876,8 @@
 <TGConnectingPoint num="14" id="4276" />
 <TGConnectingPoint num="15" id="4277" />
 <extraparam>
-<Line value="#InitialSystemKnowledge Alice.sk Bob.sk" />
+<Line value="#Confidentiality Alice.secretData" />
+<Line value="#Authenticity Alice.sendingMessage.m Bob.messageDecrypted.m" />
 </extraparam>
 </COMPONENT>
 
@@ -8025,7 +8027,6 @@
 <blockType data="cryptoblock" color="-4072719" />
 <CryptoBlock value="true" />
 <Attribute access="0" id="m" value="" type="5" typeOther="Message" />
-<Attribute access="0" id="sk" value="" type="5" typeOther="Key" />
 <Attribute access="0" id="receivedData" value="" type="8" typeOther="" />
 <Method value="Message encrypt(Message msg, Key k)" />
 <Method value="Message decrypt(Message msg, Key k)" />
@@ -8104,7 +8105,6 @@
 <CryptoBlock value="true" />
 <Attribute access="0" id="secretData" value="" type="8" typeOther="" />
 <Attribute access="0" id="m" value="" type="5" typeOther="Message" />
-<Attribute access="0" id="sk" value="" type="5" typeOther="Key" />
 <Method value="Message encrypt(Message msg, Key k)" />
 <Method value="Message decrypt(Message msg, Key k)" />
 <Method value="Message sencrypt(Message msg, Key k)" />
@@ -8160,7 +8160,7 @@
 </CONNECTOR><SUBCOMPONENT type="-1" id="4426" index="11" uid="7a2775eb-770e-487d-ba05-121548176731" >
 <father id="4428" num="0" />
 <cdparam x="449" y="353" />
-<sizeparam width="10" height="15" minWidth="1" minHeight="1" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
+<sizeparam width="10" height="25" minWidth="1" minHeight="1" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <hidden value="false" />
 <enabled value="true" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
@@ -8195,7 +8195,7 @@
 </CONNECTOR><SUBCOMPONENT type="-1" id="4433" index="12" uid="8abb1648-de57-438e-bcf4-2ef63367150f" >
 <father id="4435" num="0" />
 <cdparam x="449" y="440" />
-<sizeparam width="10" height="15" minWidth="1" minHeight="1" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
+<sizeparam width="10" height="25" minWidth="1" minHeight="1" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <hidden value="false" />
 <enabled value="true" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
@@ -8230,7 +8230,7 @@
 </CONNECTOR><SUBCOMPONENT type="-1" id="4440" index="13" uid="e5ccdb03-9694-4337-a917-267ad5e738b5" >
 <father id="4442" num="0" />
 <cdparam x="407" y="291" />
-<sizeparam width="10" height="15" minWidth="1" minHeight="1" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
+<sizeparam width="10" height="25" minWidth="1" minHeight="1" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <hidden value="false" />
 <enabled value="true" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
@@ -8265,7 +8265,7 @@
 </CONNECTOR><SUBCOMPONENT type="-1" id="4447" index="14" uid="97226e5e-67e4-4eff-a9e3-fdb15e54f5e8" >
 <father id="4449" num="0" />
 <cdparam x="465" y="153" />
-<sizeparam width="144" height="15" minWidth="1" minHeight="1" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
+<sizeparam width="144" height="25" minWidth="1" minHeight="1" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <hidden value="false" />
 <enabled value="true" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
@@ -8301,7 +8301,7 @@
 </CONNECTOR><SUBCOMPONENT type="-1" id="4454" index="15" uid="3b640d5d-82b0-4d0c-8738-7156d7672224" >
 <father id="4456" num="0" />
 <cdparam x="407" y="110" />
-<sizeparam width="10" height="15" minWidth="1" minHeight="1" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
+<sizeparam width="10" height="25" minWidth="1" minHeight="1" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <hidden value="false" />
 <enabled value="true" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
@@ -8621,18 +8621,18 @@
 
 <AVATARStateMachineDiagramPanel name="Bob" minX="10" maxX="1400" minY="10" maxY="900" zoom="1.0" >
 <CONNECTOR type="5102" id="4697" index="0" uid="890868e4-deab-4a24-a5b5-a7d428ee6071" >
-<cdparam x="416" y="379" />
+<cdparam x="407" y="269" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="1000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from state0 to state0" value="null" />
 <TGConnectingPoint num="0" id="4696" />
-<P1  x="416" y="379" id="4725" />
-<P2  x="420" y="424" id="4793" />
+<P1  x="407" y="269" id="4725" />
+<P2  x="406" y="313" id="4793" />
 <AutomaticDrawing  data="true" />
 <new d="false" />
 </CONNECTOR><SUBCOMPONENT type="-1" id="4695" index="9" uid="e5d4915d-c674-4f3c-adcc-29c5348adc60" >
 <father id="4697" num="0" />
-<cdparam x="434" y="410" />
-<sizeparam width="145" height="15" minWidth="1" minHeight="1" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
+<cdparam x="421" y="282" />
+<sizeparam width="145" height="25" minWidth="1" minHeight="1" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <hidden value="false" />
 <enabled value="true" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
@@ -8662,13 +8662,13 @@
 <infoparam name="connector from Send signal to state0" value="null" />
 <TGConnectingPoint num="0" id="4703" />
 <P1  x="406" y="201" id="4866" />
-<P2  x="416" y="339" id="4720" />
+<P2  x="407" y="229" id="4720" />
 <AutomaticDrawing  data="true" />
 <new d="false" />
 </CONNECTOR><SUBCOMPONENT type="-1" id="4702" index="10" uid="4635a8b0-4efd-4bb1-aaa9-897d96203e1b" >
 <father id="4704" num="0" />
 <cdparam x="406" y="241" />
-<sizeparam width="10" height="15" minWidth="1" minHeight="1" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
+<sizeparam width="10" height="25" minWidth="1" minHeight="1" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <hidden value="false" />
 <enabled value="true" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
@@ -8703,7 +8703,7 @@
 </CONNECTOR><SUBCOMPONENT type="-1" id="4709" index="11" uid="c1fc7778-b738-4947-b211-687651391037" >
 <father id="4711" num="0" />
 <cdparam x="406" y="181" />
-<sizeparam width="10" height="15" minWidth="1" minHeight="1" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
+<sizeparam width="10" height="25" minWidth="1" minHeight="1" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <hidden value="false" />
 <enabled value="true" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
@@ -8738,7 +8738,7 @@
 </CONNECTOR><SUBCOMPONENT type="-1" id="4716" index="12" uid="b5480821-b913-47ee-8935-894c1cb922cb" >
 <father id="4718" num="0" />
 <cdparam x="407" y="110" />
-<sizeparam width="10" height="15" minWidth="1" minHeight="1" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
+<sizeparam width="10" height="25" minWidth="1" minHeight="1" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <hidden value="false" />
 <enabled value="true" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
@@ -8762,7 +8762,7 @@
 </SUBCOMPONENT>
 
 <COMPONENT type="5106" id="4791" index="4" uid="54b9b02e-93f0-4269-97e5-b009a35fbcba" >
-<cdparam x="327" y="339" />
+<cdparam x="318" y="229" />
 <sizeparam width="178" height="40" minWidth="40" minHeight="30" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <hidden value="false" />
 <enabled value="true" />
@@ -8846,7 +8846,7 @@
 </COMPONENT>
 
 <COMPONENT type="5106" id="4864" index="5" uid="6e816852-20a4-49f3-a2ff-b25a9be79602" >
-<cdparam x="350" y="424" />
+<cdparam x="336" y="313" />
 <sizeparam width="140" height="40" minWidth="40" minHeight="30" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <hidden value="false" />
 <enabled value="true" />

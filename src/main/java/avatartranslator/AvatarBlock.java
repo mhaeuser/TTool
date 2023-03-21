@@ -38,6 +38,8 @@
 
 package avatartranslator;
 
+import myutil.NameChecker;
+
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -49,7 +51,7 @@ import java.util.List;
  * @author Ludovic APVRILLE, Raja GATGOUT
  * @version 1.1 01/07/2014
  */
-public class AvatarBlock extends AvatarElement implements AvatarStateMachineOwner {
+public class AvatarBlock extends AvatarElement implements AvatarStateMachineOwner, NameChecker.NameStartWithUpperCase {
 
     private AvatarBlock father;
     private List<AvatarAttribute> attributes;
@@ -935,5 +937,23 @@ public class AvatarBlock extends AvatarElement implements AvatarStateMachineOwne
         av.addGlobalCode(getGlobalCode());
 
         return av;
+    }
+
+    public NameChecker.NamedElement[] getSubNamedElements() {
+        NameChecker.NamedElement[] nes = new NameChecker.NamedElement[attributes.size() + methods.size() + signals.size()];
+        int index = 0;
+        for(AvatarAttribute aa: attributes) {
+            nes[index] = aa;
+            index ++;
+        }
+        for(AvatarMethod am: methods) {
+            nes[index] = am;
+            index ++;
+        }
+        for(AvatarSignal as: signals) {
+            nes[index] = as;
+            index ++;
+        }
+        return nes;
     }
 }

@@ -38,6 +38,7 @@
 
 package avatartranslator;
 
+import myutil.NameChecker;
 import myutil.TraceManager;
 
 import java.util.*;
@@ -1030,7 +1031,16 @@ public class AvatarSpecification extends AvatarElement {
 
         removeEmptyBlocks();
 
+    }
 
+    public NameChecker.NamedElement[] getSubNamedElements() {
+        NameChecker.NamedElement[] lne = new NameChecker.NamedElement[blocks.size()];
+        int index = 0;
+        for(AvatarBlock bl: blocks) {
+            lne[index] = bl;
+            index ++;
+        }
+        return lne;
     }
 
 

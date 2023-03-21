@@ -49,6 +49,8 @@ import avatartranslator.modelchecker.SafetyProperty;
 import avatartranslator.modelchecker.SpecificationActionLoop;
 import avatartranslator.modelchecker.SpecificationReachability;
 import avatartranslator.modelchecker.SpecificationPropertyPhase;
+import help.HelpEntry;
+import help.HelpManager;
 import myutil.*;
 import org.apache.commons.io.FilenameUtils;
 import ui.util.IconManager;
@@ -62,6 +64,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.File;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -204,6 +208,11 @@ public class JDialogAvatarModelChecker extends javax.swing.JFrame implements Act
 
     private HashSet<TGComponent> hasDependencyGraph;
 
+    // Help
+    //protected JPopupMenu helpPopup;
+    protected JMenu help;
+    protected JMenuBar menuBar;
+
 
     /*
      * Creates new form
@@ -258,6 +267,22 @@ public class JDialogAvatarModelChecker extends javax.swing.JFrame implements Act
         Container c = getContentPane();
         setFont(new Font("Helvetica", Font.PLAIN, 14));
         c.setLayout(new BorderLayout());
+
+
+        menuBar = new JMenuBar();
+        menuBar.setComponentOrientation(ComponentOrientation.RIGHT_TO_LEFT);
+        help = new JMenu("?");
+        menuBar.add(help);
+        setJMenuBar(menuBar);
+
+        help.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                help();
+            }
+        });
+
+
         //setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
         // Issue #41 Ordering of tabbed panes 
@@ -551,10 +576,10 @@ public class JDialogAvatarModelChecker extends javax.swing.JFrame implements Act
         
         //Countertrace
         cadvanced.gridwidth = 1;
-        countertraceAUT = new JCheckBox("Generate property AUT graph trace", generateCountertraceAUTSelected);
+        countertraceAUT = new JCheckBox("Generate trace (graph format)", generateCountertraceAUTSelected);
         countertraceAUT.addActionListener(this);
         jpadvanced.add(countertraceAUT, cadvanced);
-        countertrace = new JCheckBox("Generate property text trace", generateCountertraceSelected);
+        countertrace = new JCheckBox("Generate trace (TXT format)", generateCountertraceSelected);
         countertrace.addActionListener(this);
         jpadvanced.add(countertrace, cadvanced);
         cadvanced.gridwidth = GridBagConstraints.REMAINDER;
@@ -1132,7 +1157,7 @@ public class JDialogAvatarModelChecker extends javax.swing.JFrame implements Act
                                 rg.nbOfTransitions = tr.getNbOfTransitions();
                                 rg.name = tr.getQuery() + "_" + dateAndTime;
                                 mgui.addRG(rg);
-                                File f = new File(filename);
+                                //File f = new File(filename);
                                 FileUtils.saveFile(filename, tr.getReport());
                                 jta.append("Counterexample graph trace " + tr.getQuery() + " saved in " + filename + "\n");
                             } catch (Exception e) {
@@ -1604,5 +1629,15 @@ public class JDialogAvatarModelChecker extends javax.swing.JFrame implements Act
             jdamc.updateValues();
         }
 
+    }
+
+    public void help() {
+        if (mgui == null) {
+            TraceManager.addDev("Null mgui");
+        }
+
+        HelpManager hm = mgui.getHelpManager();
+        HelpEntry he = hm.getHelpEntryWithHTMLFile("reachabilitygraph.html");
+        mgui.openHelpFrame(he);
     }
 }

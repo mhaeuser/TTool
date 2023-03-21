@@ -122,8 +122,11 @@ public class AvatarSMDTransitionInfo extends TGCWithoutInternalComponent impleme
 //    protected String[] codeToInclude;
 
     protected int minWidth = 10;
-    protected int minHeight = 15;
+    protected int minHeight = 25;
     protected int h;
+    protected boolean userResized = false;
+    protected final int extraTXT = 5;
+
 
     protected int highlightedExpr;
     protected Graphics mygraphics;
@@ -136,6 +139,7 @@ public class AvatarSMDTransitionInfo extends TGCWithoutInternalComponent impleme
         moveable = true;
         editable = true;
         removable = false;
+        userResizable = true;
 
         guard = new Expression( NULL_GUARD_EXPR, NULL_GUARD_EXPR, null );
         afterDelay = new RangeExpression( NULL_EXPR, NULL_EXPR, NULL_EXPR, "after (%s, %s)", null , "after(%s)");
@@ -197,23 +201,16 @@ public class AvatarSMDTransitionInfo extends TGCWithoutInternalComponent impleme
         if (TDiagramPanel.AVATAR_ID_ACTIONS == TDiagramPanel.OFF) {
             return;
         }
-
-        if (!tdp.isScaled()) {
-            mygraphics = g;
-        }
         mygraphics = g;
-        int step = 0;
-      //  String s;
+
         h = g.getFontMetrics().getHeight();
+        int step = h;
+
         for (int j = 0; j < nbConnectingPoint; j++) {
             connectingPoint[j].setCdY(-h + 1);
         }
 
-//        ColorManager.setColor(g, getState(), 0);
-        // Issue #69
         final int inc = getExpressionTextHeight();
-//        int inc = h;
-
 
         boolean atLeastOneThing = false;
 
@@ -221,9 +218,10 @@ public class AvatarSMDTransitionInfo extends TGCWithoutInternalComponent impleme
             atLeastOneThing = true;
 
             final String formattedExpr = guard.toString();
-        	final int textWidth = g.getFontMetrics().stringWidth( formattedExpr );
-            
-            if (tdp.isDrawingMain()) {
+        	final int textWidth = g.getFontMetrics().stringWidth( formattedExpr ) + extraTXT;
+
+
+            if (tdp.isDrawingMain() && !userResized) {
                 width = Math.max( textWidth, width );
                 width = Math.max(minWidth, width);
             }
@@ -250,9 +248,9 @@ public class AvatarSMDTransitionInfo extends TGCWithoutInternalComponent impleme
             formattedExpr = formattedExpr + " " + law;
             formattedExpr = formattedExpr.trim();
 
-            final int textWidth = g.getFontMetrics().stringWidth( formattedExpr);
+            final int textWidth = g.getFontMetrics().stringWidth( formattedExpr) + extraTXT;
             
-            if (tdp.isDrawingMain()) {
+            if (tdp.isDrawingMain() && !userResized) {
                 width = Math.max( textWidth, width );
                 width = Math.max(minWidth, width);
             }
@@ -288,9 +286,9 @@ public class AvatarSMDTransitionInfo extends TGCWithoutInternalComponent impleme
         	atLeastOneThing = true;
             
             final String formattedExpr = computeDelay.toString();
-        	final int textWidth = g.getFontMetrics().stringWidth( formattedExpr );
+        	final int textWidth = g.getFontMetrics().stringWidth( formattedExpr ) + extraTXT ;
 
-        	if (tdp.isDrawingMain()) {
+        	if (tdp.isDrawingMain() && !userResized) {
                 width = Math.max( textWidth, width );
                 width = Math.max(minWidth, width);
             }
@@ -310,9 +308,9 @@ public class AvatarSMDTransitionInfo extends TGCWithoutInternalComponent impleme
         if ( !probability.isNull() ) {
         	atLeastOneThing = true;
             final String formattedExpr = probability.toString();
-        	final int textWidth = g.getFontMetrics().stringWidth( formattedExpr );
+        	final int textWidth = g.getFontMetrics().stringWidth( formattedExpr ) +  + extraTXT;
             
-            if (tdp.isDrawingMain()) {
+            if (tdp.isDrawingMain() && !userResized) {
                 width = Math.max( textWidth, width );
                 width = Math.max(minWidth, width);
             }
@@ -344,9 +342,9 @@ public class AvatarSMDTransitionInfo extends TGCWithoutInternalComponent impleme
 	        	atLeastOneThing = true;
 	        	
 	        	final String formattedExpr = action.toString();
-	        	final int textWidth = g.getFontMetrics().stringWidth( formattedExpr );
+	        	final int textWidth = g.getFontMetrics().stringWidth( formattedExpr ) +  + extraTXT;
 	            
-	            if (tdp.isDrawingMain()) {
+	            if (tdp.isDrawingMain() && !userResized) {
 	                width = Math.max( textWidth, width );
 	                width = Math.max( minWidth, width);
 	            }
@@ -363,62 +361,31 @@ public class AvatarSMDTransitionInfo extends TGCWithoutInternalComponent impleme
 	            step += inc;
             }
         }
-//        for (int i = 0; i < listOfActions.size(); i++) {
-//            s = listOfActions.get(i);
-//            if (s.length() > 0) {
-//                g.drawString(s, x, y + step);
-//                atLeastOneThing = true;
-//                if (tdp.isDrawingMain()) {
-//                    width = Math.max(g.getFontMetrics().stringWidth(s), width);
-//                    width = Math.max(minWidth, width);
-//                }
-//                step += inc;
-//            }
-//        }
 
-        /*g.setColor(ColorManager.AVATAR_CODE);
-
-          if (hasFilesToInclude()) {
-          atLeastOneThing = true;
-          g.drawString(FILE_INFO, x, y + step);
-          step += inc;
-          if (!tdp.isScaled()) {
-          width = Math.max(g.getFontMetrics().stringWidth(FILE_INFO), width);
-          width = Math.max(minWidth, width);
-          }
-          }
-
-          if (hasCodeToInclude()) {
-          atLeastOneThing = true;
-          g.drawString(CODE_INFO, x, y + step);
-          step += inc;
-          if (!tdp.isScaled()) {
-          width = Math.max(g.getFontMetrics().stringWidth(CODE_INFO), width);
-          width = Math.max(minWidth, width);
-          }
-          }*/
-
+        step -= inc;
 
         if (tdp.isDrawingMain()) {
-            height = Math.max(step, minHeight);
+            height = Math.max(step + 2, minHeight);
         }
 
-        if (!atLeastOneThing) {
-            width = minWidth;
+        if (!userResized) {
+            if (!atLeastOneThing) {
+                width = minWidth;
+            }
         }
 
         //ColorManager.setColor(g, state, 0);
-        if ((getState() == TGState.POINTER_ON_ME) || (getState() == TGState.POINTED) || (getState() == TGState.MOVING)) {
+        /*if ((getState() == TGState.POINTER_ON_ME) || (getState() == TGState.POINTED) || (getState() == TGState.MOVING)) {
             ColorManager.setColor( g, state, 0, isEnabled() );
 
-            final Rectangle rectangle = new Rectangle( x - 1, y - h + 2, width + 2, height + 2 );
-            int indexOfPointedExpr = -2;
+            final Rectangle rectangle = new Rectangle( x - 1, y, width + 1, height + 1 );
+            int indexOfPointedExpr = -1;
 
             if ( inc != 0 && isOnMe( tdp.currentX, tdp.currentY ) == this ) {
 
                 final int exprWidth = getWidthExprOfSelectedExpression();
-                indexOfPointedExpr = getPointedExpressionOrder() - 1;
-            	rectangle.y = y + indexOfPointedExpr * inc + 2;
+                indexOfPointedExpr = getPointedExpressionOrder();
+            	rectangle.y = y + indexOfPointedExpr * inc + h;
             	rectangle.width = exprWidth + 2;
             	rectangle.height = inc + 2;
             }
@@ -433,13 +400,36 @@ public class AvatarSMDTransitionInfo extends TGCWithoutInternalComponent impleme
             }
 
             //  g.drawRoundRect(x - 1, y - h + 2, width + 2, height + 2, 5, 5);
+        }*/
+
+        if ((getState() == TGState.POINTER_ON_ME) || (getState() == TGState.POINTED) || (getState() == TGState.MOVING)) {
+            ColorManager.setColor(g, state, 0, isEnabled());
+            g.drawRoundRect(x - 1, y - 1, width + 1, height + 1, 5, 5);
         }
+
     }
 
     private void drawString(Graphics g, String str, int x, int y) {
         if ( (TDiagramPanel.AVATAR_ID_ACTIONS == TDiagramPanel.FULL) ||
                 ( (TDiagramPanel.AVATAR_ID_ACTIONS == TDiagramPanel.PARTIAL)  && (state > TGState.NORMAL) )
         ) {
+            final int textWidth = g.getFontMetrics().stringWidth("..") +  extraTXT;
+            if (textWidth  > width) {
+                str = ".";
+            } else {
+                if (g.getFontMetrics().stringWidth( str ) > width + extraTXT) {
+                    boolean cut = false;
+
+                    while (g.getFontMetrics().stringWidth(str) > width - + extraTXT - textWidth) {
+                        str = str.substring(0, str.length() - 1);
+                        cut = true;
+                    }
+                    if (cut) {
+                        str += "..";
+                        ;
+                    }
+                }
+            }
             g.drawString(str, x, y);
         }
     }
@@ -472,7 +462,7 @@ public class AvatarSMDTransitionInfo extends TGCWithoutInternalComponent impleme
     private Integer getPointedExpressionOrder() {
         int h = getExpressionTextHeight();
     	if ( h != 0 ) {
-    		return ( tdp.currentY + 10 - y ) / h;
+    		return ( tdp.currentY - y ) / h;
     	}
     	
     	return null;
@@ -480,7 +470,7 @@ public class AvatarSMDTransitionInfo extends TGCWithoutInternalComponent impleme
 
     @Override
     public TGComponent isOnMe(int _x, int _y) {
-        if (GraphicLib.isInRectangle(_x, _y, x, y - h + 2, width, height)) {
+        if (GraphicLib.isInRectangle(_x, _y, x, y, width, height)) {
             return this;
         }
         return null;
@@ -527,7 +517,7 @@ public class AvatarSMDTransitionInfo extends TGCWithoutInternalComponent impleme
 																	getProbability() );
         //JDialogAvatarTransition jdat = new JDialogAvatarTransition(frame, "Setting transition parameters", guard, afterMin, afterMax, computeMin, computeMax, listOfActions, attributes, methods, filesToInclude, codeToInclude, probability);
         //  jdat.setSize(600, 550);
-        GraphicLib.centerOnParent(jdat, 600, 550);
+        GraphicLib.centerOnParent(jdat, 700, 550);
         jdat.setVisible(true); // blocked until dialog has been closed
 
 
@@ -643,7 +633,11 @@ public class AvatarSMDTransitionInfo extends TGCWithoutInternalComponent impleme
         for( final Expression action : listOfActions ) {
         	sb.append( toXML( "actions", action )  );
         }
-//
+
+        if (userResized) {
+            sb.append("<userResized />\n");
+        }
+
 //        for (int i = 0; i < listOfActions.size(); i++) {
 //            sb.append("<actions value=\"");
 //            sb.append(GTURTLEModeling.transformString(listOfActions.get(i)));
@@ -842,6 +836,10 @@ public class AvatarSMDTransitionInfo extends TGCWithoutInternalComponent impleme
                                     }
                                     //listOfActions.add(s);
                                 }
+                            }
+
+                            if (elt.getTagName().equals("userResized")) {
+                                userResized = true;
                             }
 
                             /*if (elt.getTagName().equals("filesToIncludeLine")) {
@@ -1183,4 +1181,11 @@ public class AvatarSMDTransitionInfo extends TGCWithoutInternalComponent impleme
 			
 		return expressions.get( selectedExpressionIndex );
 	}
+
+    public void actionOnUserResize(int desired_width, int desired_height) {
+        width = Math.max(minWidth, desired_width);
+        //height = desired_height;
+        userResized = true;
+        hasBeenResized();
+    }
 }

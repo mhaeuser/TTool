@@ -87,9 +87,9 @@ public abstract class TGComponent extends AbstractCDElement implements /*CDEleme
     protected final static String XML_SUB_HEAD = "<SUBCOMPONENT type=\"";
     protected final static String XML_SUB_TAIL = "</SUBCOMPONENT>\n";
 
-    protected final static int RESIZE = 10;
+    protected final static int RESIZE = 8;
     protected final static int RESIZE_SPACE = 8;
-    protected final static int RESIZE_SPACE2 = 16;
+    protected final static int RESIZE_SPACE2 = 8;
 
     public static final int ACCESSIBILITY_UNKNOWN = 0;
     public static final int ACCESSIBILITY_OK = 1;

@@ -721,8 +721,8 @@ public class MainGUI implements ActionListener, WindowListener, KeyListener, Per
     public void openHelpFrame(HelpEntry he) {
         if (helpFrame == null) {
             helpFrame = new JFrameHelp("Help", helpManager, he);
-            helpFrame.setVisible(true);
             GraphicLib.centerOnParent(helpFrame, 800, 700);
+            helpFrame.setVisible(true);
             return;
         }
         helpFrame.setHelpEntry(he);
@@ -5310,7 +5310,7 @@ public class MainGUI implements ActionListener, WindowListener, KeyListener, Per
         JDialogAvatarModelChecker jmc = new JDialogAvatarModelChecker(frame, this, "Avatar: Model Checking", gtm.getAvatarSpecification(),
                 SpecConfigTTool.TGraphPath, experimentalOn);
         // jmc.setSize(550, 600);
-        GraphicLib.centerOnParent(jmc, 800, 850);
+        GraphicLib.centerOnParent(jmc, 800, 950);
         jmc.setVisible(true);
     }
 

@@ -878,9 +878,11 @@ public class JDialogProverifVerification extends JDialog implements ActionListen
 	                }
 		            if (autoConf.isSelected() || autoWeakAuth.isSelected() || autoStrongAuth.isSelected()) {
                     	if (custom.isSelected()) {
-                    	    map = mgui.gtm.autoSecure(mgui, encCC, secOv, decCC, autoConf.isSelected(), autoWeakAuth.isSelected(), autoStrongAuth.isSelected(), selectedCpuTasks);
+                    	    map = mgui.gtm.autoSecure(mgui, encCC, secOv, decCC, autoConf.isSelected(), autoWeakAuth.isSelected(),
+                                    autoStrongAuth.isSelected(), selectedCpuTasks);
                     	} else {
-                        	map = mgui.gtm.autoSecure(mgui, "100", "0", "100", autoConf.isSelected(), autoWeakAuth.isSelected(), autoStrongAuth.isSelected(), selectedCpuTasks);
+                        	map = mgui.gtm.autoSecure(mgui, "100", "0", "100", autoConf.isSelected(),
+                                    autoWeakAuth.isSelected(), autoStrongAuth.isSelected(), selectedCpuTasks);
                     	}
                 	}
                 } 
@@ -917,7 +919,6 @@ public class JDialogProverifVerification extends JDialog implements ActionListen
                     // FIXME Raise error if modified since last
                     TraceManager.addDev("FILE EXISTS!!!");
                 }
-
 
 
                 if (!mgui.gtm.generateProVerifFromAVATAR(
@@ -1075,7 +1076,7 @@ public class JDialogProverifVerification extends JDialog implements ActionListen
     @Override
     public void proVerifOutputChanged() {
 
-        //TraceManager.addDev("Proverif output changed");
+        //TraceManager.addDev("Proverif output changed: removingAll");
 
         JLabel label;
         this.jta.removeAll();
@@ -1107,7 +1108,11 @@ public class JDialogProverifVerification extends JDialog implements ActionListen
 
             this.results = this.pvoa.getResults();
             
-            //
+            if (this.results.keySet().size() == 0) {
+                label = new JLabel("ERROR: no properties to prove");
+                label.setAlignmentX(Component.LEFT_ALIGNMENT);
+                this.jta.add(label, this.createGbc(0));
+            }
             
             for (AvatarPragma pragma : this.results.keySet()) {
                 if (pragma instanceof AvatarPragmaReachability) {

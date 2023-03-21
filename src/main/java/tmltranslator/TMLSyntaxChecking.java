@@ -145,7 +145,6 @@ public class TMLSyntaxChecking {
             checkAValidPortName();
 
             checkOnlyOneReadAndWriteForChannelsWithAuthenticityCheck();
-
         }
 
         // Mapping or architecture

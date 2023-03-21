@@ -6,6 +6,12 @@ Security verification can be performed either from [DIPLODOCUS mapping diagrams]
 
 The security verification consists in transforming a diagram and its security properties into a ProVerif specification, and then colling ProVerif to check for the satisfaction of security properties. while ProVerif runs, TTool indicates which properties could be proved and backtraces the results to diagrams, using locks next to perperties or elements involved in these properties. A green lock indicates a satisfied property, a greay lock indicates that the property could not be proved, and a red lock indicates that the property could be proved as violated.
 
+## Attacker model
+
+An important point to note: the assumed attacker model is Dolev-Yao, that is a, attacker can retreive messages from public channel, rework messages according to his/her knowledge and inject messages. We also assume that the attack knows about all cryptographic primitives available in TTool. Thus, an attacker can use symetric cryptography, asymetric cryptography, MAC, hash, etc.
+
+**Private channels** cypher data with symetric encryption, i.e., they ensure condifentiality and integrity (also known as weak authenticity), but not (strong) authenticity.
+
 
 
 ## ProVerif installation and configuration
@@ -30,8 +36,10 @@ The path to the ProVerif executable. For instance:
 
 ## Security properties
 
-
-
+Three security properties can be investigated:
+- Confidentiality
+- Integrity (or weak authenticity)
+- (Strong) authenticity
 
 
 ## Investigating verification results

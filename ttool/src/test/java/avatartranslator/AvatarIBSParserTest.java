@@ -116,15 +116,16 @@ public class AvatarIBSParserTest {
 
         AvatarIBSOriginExpressionClass.BExpr e2 = (AvatarIBSOriginExpressionClass.BExpr) parser.parseBool("-10 / 2 - 15 * 2 + 1 == -30 -4");
         assertTrue(e2!=null);
+        AvatarIBSOriginExpressionClass.IExpr a1 =(AvatarIBSOriginExpressionClass.IExpr) parser.parseInt("-10 / 2 - 15 * 2 + 1");
+        AvatarIBSOriginExpressionClass.IExpr a2 =(AvatarIBSOriginExpressionClass.IExpr) parser.parseInt("-30 -4");
 
         AvatarIBSOriginExpressionClass.BExpr e3 = (AvatarIBSOriginExpressionClass.BExpr) parser.parseBool("not(-10 / 2 - 15 * 2 + 1 == -(60 - 26))");
         assertTrue(e3!=null);
 
         //TraceManager.addDev("Testing AvatarExpressionTest.testImmediate.e3bis");
-        
+
         AvatarIBSOriginExpressionClass.BExpr e4 = (AvatarIBSOriginExpressionClass.BExpr) parser.parseBool("0 || -1 >= 0 && 1");
         assertTrue(e4!=null);
-        System.out.println(" TEST " + e4.eval());
 
         AvatarIBSOriginExpressionClass.BExpr e5 = (AvatarIBSOriginExpressionClass.BExpr) parser.parseBool("true and not(false) == !(false or false)");
         assertTrue(e5!=null);
@@ -133,7 +134,7 @@ public class AvatarIBSParserTest {
         assertFalse(e6!=null);
 
         AvatarIBSOriginExpressionClass.BExpr e7 = (AvatarIBSOriginExpressionClass.BExpr) parser.parseBool("not(10)");
-        assertFalse(e7!=null);
+        assertTrue(e7!=null);
 
         AvatarIBSOriginExpressionClass.BExpr e8 = (AvatarIBSOriginExpressionClass.BExpr) parser.parseBool("-(false)");
         assertFalse(e8!=null);
@@ -174,11 +175,12 @@ public class AvatarIBSParserTest {
 
         AvatarIBSOriginExpressionClass.BExpr e17 = (AvatarIBSOriginExpressionClass.BExpr) parser.parseBool("((true)) && (((((0 >= 1))))) || not((not(false)))");
         assertTrue(e17!=null);
-        
+
         assertEquals(true, e1.eval());
         assertEquals(true, e2.eval());
         assertEquals(false, e3.eval());
         assertEquals(true, e5.eval());
+        assertEquals(false, e7.eval());
         assertEquals(true, e9.eval());
         assertEquals(false, e10.eval());
         assertEquals(16, e11.eval());
@@ -188,6 +190,7 @@ public class AvatarIBSParserTest {
         assertEquals(true, e15.eval());
         assertEquals(true, e16.eval());
         assertEquals(false, e17.eval());
+
     }
     
     @Test

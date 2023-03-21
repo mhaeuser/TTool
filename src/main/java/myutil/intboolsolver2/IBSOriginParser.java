@@ -94,10 +94,10 @@ public class IBSOriginParser<
     }
     public boolean syntaxError() { return syntaxError; }
 
-    public IBSExpressionClass<Spec,Comp,State,SpecState,CompState>.IExpr parseInt(Spec _spec, String _s) {
+    public IBSExpressionClass<Spec,Comp,State,SpecState,CompState>.IExpr parseInt(Spec _comp, String _s) {
         badIdents.clear();
-        attC.initBuild(_spec);
-        int index = parseIntRec(_spec,replaceOperators(_s));
+        attC.initBuild(_comp);
+        int index = parseIntRec(_comp,replaceOperators(_s));
         if (index >= 0) {
             IBSExpressionClass<Spec, Comp, State, SpecState, CompState>.IExpr res = exprC.getIExpr(index);
             exprC.freeInt(index);
@@ -106,10 +106,10 @@ public class IBSOriginParser<
         if (index==-1) syntaxError=true; else syntaxError=false;
         return null;
     }
-    public IBSExpressionClass<Spec,Comp,State,SpecState,CompState>.BExpr parseBool(Spec _spec, String _s) {
+    public IBSExpressionClass<Spec,Comp,State,SpecState,CompState>.BExpr parseBool(Spec _comp, String _s) {
         badIdents.clear();
-        attC.initBuild(_spec);
-        int index = parseBoolRec(_spec,replaceOperators(_s));
+        attC.initBuild(_comp);
+        int index = parseBoolRec(_comp,replaceOperators(_s));
         if (index >= 0) {
             IBSExpressionClass<Spec, Comp, State, SpecState, CompState>.BExpr res = exprC.getBExpr(index);
             exprC.freeBool(index);
@@ -193,7 +193,7 @@ public class IBSOriginParser<
         public String s;
         TestedExpr(String _s,boolean _b){ s = _s; test = _b; }
     }
-    public int parseIntRec(Spec _spec, String _s) {
+    public int parseIntRec(Spec _comp, String _s) {
         if (_s.matches("^.+[<>=:;\\$&\\|].*$")) {
             return -1;
         }
@@ -216,11 +216,15 @@ public class IBSOriginParser<
 
             if (expression.equals("true") || expression.equals("false"))
                 return -2;
-            if (expression.matches("-?\\d+"))
+            if (expression.matches("-?\\d+")) {
+                if (isNegated)
+                    return exprC.make_iConst(0 - Integer.parseInt(expression));
                 return exprC.make_iConst(Integer.parseInt(expression));
+            }
             else {
+                int res,idx;
                 IBSAttributeClass<Spec,Comp,State,SpecState,CompState>.TypedAttribute att =
-                        attC.getTypedAttribute(_spec, expression);
+                        attC.getTypedAttribute(_comp, expression);
                     switch (att.getType()) {
                         case IBSAttributeClass.NullAttr:
                             badIdents.add(expression);
@@ -229,32 +233,57 @@ public class IBSOriginParser<
                         case IBSAttributeClass.BoolConst:
                             return -2;
                         case IBSAttributeClass.IntConst:
-                            return exprC.make_iConst(att.getConstant());
+                            res = exprC.make_iConst(att.getConstant());
+                            if (isNegated){
+                                idx=exprC.make_iNeg(res);
+                                exprC.freeInt(res);
+                                return idx;
+                            }
+                            return res;
                         case IBSAttributeClass.IntAttr:
-                            return exprC.make_iVar(att.getAttribute());
+                            res = exprC.make_iVar(att.getAttribute());
+                            if (isNegated){
+                                idx=exprC.make_iNeg(res);
+                                exprC.freeInt(res);
+                                return idx;
+                            }
+                            return res;
                     }
             }
         }
         int index = getOperatorIndex(expression);
         if (index == -1) return -1;
+        int res;
 
         String leftExpression = expression.substring(0, index).trim();
         String rightExpression = expression.substring(index + 1, expression.length()).trim();
 
-        int left  = parseIntRec(_spec,leftExpression);
+        int left  = parseIntRec(_comp,leftExpression);
         if (left < 0) return left;
-        int right = parseIntRec(_spec,rightExpression);
+        int right = parseIntRec(_comp,rightExpression);
         if (right < 0) {exprC.freeInt(left); return right;}
 
         switch(expression.charAt(index)) {
             case '+':
-                return exprC.make_iiiPlus(left, right);
+                res = exprC.make_iiiPlus(left, right);
+                exprC.freeInt(left);
+                exprC.freeInt(right);
+                return res;
             case '-':
-                return exprC.make_iiiMinus(left, right);
+                res = exprC.make_iiiMinus(left, right);
+                exprC.freeInt(left);
+                exprC.freeInt(right);
+                return res;
             case '*':
-                return exprC.make_iiiMult(left, right);
+                res = exprC.make_iiiMult(left, right);
+                exprC.freeInt(left);
+                exprC.freeInt(right);
+                return res;
             case '/':
-                return exprC.make_iiiDiv(left, right);
+                res = exprC.make_iiiDiv(left, right);
+                exprC.freeInt(left);
+                exprC.freeInt(right);
+                return res;
             default: // should not happend
                 throw new Error("IBSOriginParser, parseIntRec: unknown operator");
         }
@@ -282,9 +311,17 @@ public class IBSOriginParser<
 
             if (expression.equals("true") || expression.equals("false"))
                 return -2;
-            if (expression.matches("-?\\d+"))
-                return exprC.make_iConst(Integer.parseInt(expression));
+            if (expression.matches("-?\\d+")) {
+                int res = exprC.make_iConst(Integer.parseInt(expression));
+                if (isNegated) {
+                    int idx = exprC.make_iNeg(res);
+                    exprC.freeInt(res);
+                    return idx;
+                }
+                return res;
+            }
             else {
+                int res,idx;
                 IBSAttributeClass<Spec,Comp,State,SpecState,CompState>.TypedAttribute att =
                         attC.getTypedAttribute(_comp, expression);
                 switch (att.getType()) {
@@ -295,15 +332,27 @@ public class IBSOriginParser<
                     case IBSAttributeClass.BoolConst:
                         return -2;
                     case IBSAttributeClass.IntConst:
-                        return exprC.make_iConst(att.getConstant());
+                        res = exprC.make_iConst(att.getConstant());
+                        if (isNegated){
+                            idx=exprC.make_iNeg(res);
+                            exprC.freeInt(res);
+                            return idx;
+                        }
+                        return res;
                     case IBSAttributeClass.IntAttr:
-                        return exprC.make_iVar(att.getAttribute());
+                        res = exprC.make_iVar(att.getAttribute());
+                        if (isNegated){
+                            idx=exprC.make_iNeg(res);
+                            exprC.freeInt(res);
+                            return idx;
+                        }
+                        return res;
                 }
             }
         }
         int index = getOperatorIndex(expression);
         if (index == -1) return -1;
-
+        int res;
         String leftExpression = expression.substring(0, index).trim();
         String rightExpression = expression.substring(index + 1, expression.length()).trim();
 
@@ -314,13 +363,25 @@ public class IBSOriginParser<
 
         switch(expression.charAt(index)) {
             case '+':
-                return exprC.make_iiiPlus(left, right);
+                res = exprC.make_iiiPlus(left, right);
+                exprC.freeInt(left);
+                exprC.freeInt(right);
+                return res;
             case '-':
-                return exprC.make_iiiMinus(left, right);
+                res = exprC.make_iiiMinus(left, right);
+                exprC.freeInt(left);
+                exprC.freeInt(right);
+                return res;
             case '*':
-                return exprC.make_iiiMult(left, right);
+                res = exprC.make_iiiMult(left, right);
+                exprC.freeInt(left);
+                exprC.freeInt(right);
+                return res;
             case '/':
-                return exprC.make_iiiDiv(left, right);
+                res = exprC.make_iiiDiv(left, right);
+                exprC.freeInt(left);
+                exprC.freeInt(right);
+                return res;
             default: // should not happend
                 throw new Error("IBSOriginParser, parseIntRec: unknown operator");
         }
@@ -348,8 +409,15 @@ public class IBSOriginParser<
             expression = returnVal.s;
             isNegated = (isNegated != returnVal.test);
 
-            if (expression.matches("-?\\d+"))
-                return exprC.make_iConst(Integer.parseInt(expression));
+            if (expression.matches("-?\\d+")) {
+                int res = exprC.make_iConst(Integer.parseInt(expression));
+                if (isNegated) {
+                    int idx = exprC.make_iNeg(res);
+                    exprC.freeInt(res);
+                    return idx;
+                }
+                return res;
+            }
             else {
                 badIdents.add(expression);
                 return -1;
@@ -360,7 +428,7 @@ public class IBSOriginParser<
 
         String leftExpression = expression.substring(0, index).trim();
         String rightExpression = expression.substring(index + 1, expression.length()).trim();
-
+        int res;
         int left  = parseIntRec(leftExpression);
         if (left < 0) return left;
         int right = parseIntRec(rightExpression);
@@ -368,13 +436,25 @@ public class IBSOriginParser<
 
         switch(expression.charAt(index)) {
             case '+':
-                return exprC.make_iiiPlus(left, right);
+                res = exprC.make_iiiPlus(left, right);
+                exprC.freeInt(left);
+                exprC.freeInt(right);
+                return res;
             case '-':
-                return exprC.make_iiiMinus(left, right);
+                res = exprC.make_iiiMinus(left, right);
+                exprC.freeInt(left);
+                exprC.freeInt(right);
+                return res;
             case '*':
-                return exprC.make_iiiMult(left, right);
+                res = exprC.make_iiiMult(left, right);
+                exprC.freeInt(left);
+                exprC.freeInt(right);
+                return res;
             case '/':
-                return exprC.make_iiiDiv(left, right);
+                res = exprC.make_iiiDiv(left, right);
+                exprC.freeInt(left);
+                exprC.freeInt(right);
+                return res;
             default: // should not happend
                 throw new Error("IBSOriginParser, parseIntRec: unknown operator");
         }
@@ -388,19 +468,20 @@ public class IBSOriginParser<
         if(returnVal==null) return -1;
         expression = returnVal.s;
         isNot = (returnVal.test != isNot);
-
+        int res;
         if (!expression.matches("^.+[\\+\\-<>=:;\\$&\\|\\*/].*$")) {
-            int index, res;
             returnVal = checkNegatedNoBrackets(expression);
             if (returnVal == null) return -1;
             expression = returnVal.s;
 
-            if (expression.equals("true"))
-                return exprC.make_bConst(true);
-            else if (expression.equals("false"))
-                return exprC.make_bConst(true);
+            if (expression.equals("true")) {
+                res = exprC.make_bConst(true);
+            }
+            else if (expression.equals("false")) {
+                res= exprC.make_bConst(false);
+            }
             else if (expression.matches("-?\\d+")) {
-                return exprC.make_bConst((Integer.parseInt(expression) != 0));
+                res = exprC.make_bConst((Integer.parseInt(expression) != 0));
             } else {
                 IBSAttributeClass<Spec, Comp, State, SpecState, CompState>.TypedAttribute att =
                         attC.getTypedAttribute(_spec, expression);
@@ -409,210 +490,240 @@ public class IBSOriginParser<
                         badIdents.add(expression);
                         return -1;
                     case IBSAttributeClass.BoolConst:
-                        return exprC.make_bConst(att.getConstant() == 0);
+                        res= exprC.make_bConst(att.getConstant() == 0);
+                        break;
                     case IBSAttributeClass.IntConst:
-                        return exprC.make_bConst(att.getConstant()!=0);
+                        res= exprC.make_bConst(att.getConstant()!=0);
+                        break;
                     case IBSAttributeClass.BoolAttr:
-                        return exprC.make_bVar(att.getAttribute());
+                        res= exprC.make_bVar(att.getAttribute());
+                        break;
                     case IBSAttributeClass.IntAttr:
-                        return exprC.make_biVar(att.getAttribute());
+                        res= exprC.make_biVar(att.getAttribute());
+                    default:
+                        throw new Error ("IBSParser... Cannot happen !?");
                 }
             }
-        }
+        } else {
 
-        int index = getOperatorIndex(expression);
-        if (index == -1) return -1;
+            int index = getOperatorIndex(expression);
+            if (index == -1) return -1;
 
-        String leftExpression = expression.substring(0, index).trim();
-        String rightExpression = expression.substring(index + 1, expression.length()).trim();
-        int left,right,idx,res;
+            String leftExpression = expression.substring(0, index).trim();
+            String rightExpression = expression.substring(index + 1, expression.length()).trim();
+            int left, right, idx;
 
-        switch(expression.charAt(index)) {
-            case '+':
-                left = parseIntRec(_spec,leftExpression);
-                if (left<0) return left;
-                right = parseIntRec(_spec,rightExpression);
-                if (right < 0) {exprC.freeInt(left); return right;}
-                idx = exprC.make_iiiPlus(left, right);
-                res = exprC.make_biExpr(idx);
-                exprC.freeInt(idx);
-                exprC.freeInt(left);
-                exprC.freeInt(right);
-                return res;
-            case '-':
-                left = parseIntRec(_spec,leftExpression);
-                if (left<0) return left;
-                right = parseIntRec(_spec,rightExpression);
-                if (right < 0) {exprC.freeInt(left); return right;}
-                idx = exprC.make_iiiMinus(left, right);
-                res = exprC.make_biExpr(idx);
-                exprC.freeInt(idx);
-                exprC.freeInt(left);
-                exprC.freeInt(right);
-                return res;
-            case '*':
-                left = parseIntRec(_spec,leftExpression);
-                if (left<0) return left;
-                right = parseIntRec(_spec,rightExpression);
-                if (right < 0) {exprC.freeInt(left); return right;}
-                idx = exprC.make_iiiMult(left, right);
-                res = exprC.make_biExpr(idx);
-                exprC.freeInt(idx);
-                exprC.freeInt(left);
-                exprC.freeInt(right);
-                return res;
-            case '/':
-                left = parseIntRec(_spec,leftExpression);
-                if (left<0) return left;
-                right = parseIntRec(_spec,rightExpression);
-                if (right < 0) {exprC.freeInt(left); return right;}
-                idx = exprC.make_iiiDiv(left, right);
-                res = exprC.make_biExpr(idx);
-                exprC.freeInt(idx);
-                exprC.freeInt(left);
-                exprC.freeInt(right);
-                return res;
-            case '&':
-                left = parseBoolRec(_spec,leftExpression);
-                if (left < 0) return left;
-                right = parseBoolRec(_spec,rightExpression);
-                if (right < 0) {
-                    exprC.freeBool(left);
-                    return right;
-                }
-                res=exprC.make_bbbAnd(left,right);
-                exprC.freeBool(left);
-                exprC.freeBool(right);
-                return res;
-
-            case '|':
-                left = parseBoolRec(_spec,leftExpression);
-                if (left < 0) return left;
-                right = parseBoolRec(_spec,rightExpression);
-                if (right < 0) {
-                    exprC.freeBool(left);
-                    return right;
-                }
-                res=exprC.make_bbbOr(left,right);
-                exprC.freeBool(left);
-                exprC.freeBool(right);
-                return res;
-
-            case '=':
-                left = parseIntRec(_spec,leftExpression);
-                if (left>=0) {
+            switch (expression.charAt(index)) {
+                case '+':
+                    left = parseIntRec(_spec, leftExpression);
+                    if (left < 0) return left;
                     right = parseIntRec(_spec, rightExpression);
                     if (right < 0) {
-                        right = parseBoolRec(_spec, rightExpression);
-                        if (right < 0) {exprC.freeInt(left); return right;}
-                        idx = left;
-                        left = exprC.make_biExpr(idx);
-                        exprC.freeInt(idx);
-                        res = exprC.make_bbbEq(left, right);
-                        exprC.freeBool(left);
-                        exprC.freeBool(right);
-                        return res;
+                        exprC.freeInt(left);
+                        return right;
                     }
-                    res = exprC.make_biiEq(left, right);
+                    idx = exprC.make_iiiPlus(left, right);
+                    res = exprC.make_biExpr(idx);
+                    exprC.freeInt(idx);
                     exprC.freeInt(left);
                     exprC.freeInt(right);
-                    return res;
-                }
-                left = parseBoolRec(_spec,leftExpression);
-                if (left<0) return left;
-                right = parseBoolRec(_spec,rightExpression);
-                if(right < 0) {
-                    exprC.freeBool(left);
-                    return right;
-                }
-                res = exprC.make_bbbEq(left, right);
-                exprC.freeBool(left);
-                exprC.freeBool(right);
-                return res;
-
-            case '$':
-                left = parseIntRec(_spec,leftExpression);
-                if (left>=0) {
+                    break;
+                case '-':
+                    left = parseIntRec(_spec, leftExpression);
+                    if (left < 0) return left;
                     right = parseIntRec(_spec, rightExpression);
                     if (right < 0) {
+                        exprC.freeInt(left);
+                        return right;
+                    }
+                    idx = exprC.make_iiiMinus(left, right);
+                    res = exprC.make_biExpr(idx);
+                    exprC.freeInt(idx);
+                    exprC.freeInt(left);
+                    exprC.freeInt(right);
+                    break;
+                case '*':
+                    left = parseIntRec(_spec, leftExpression);
+                    if (left < 0) return left;
+                    right = parseIntRec(_spec, rightExpression);
+                    if (right < 0) {
+                        exprC.freeInt(left);
+                        return right;
+                    }
+                    idx = exprC.make_iiiMult(left, right);
+                    res = exprC.make_biExpr(idx);
+                    exprC.freeInt(idx);
+                    exprC.freeInt(left);
+                    exprC.freeInt(right);
+                    break;
+                case '/':
+                    left = parseIntRec(_spec, leftExpression);
+                    if (left < 0) return left;
+                    right = parseIntRec(_spec, rightExpression);
+                    if (right < 0) {
+                        exprC.freeInt(left);
+                        return right;
+                    }
+                    idx = exprC.make_iiiDiv(left, right);
+                    res = exprC.make_biExpr(idx);
+                    exprC.freeInt(idx);
+                    exprC.freeInt(left);
+                    exprC.freeInt(right);
+                    break;
+                case '&':
+                    left = parseBoolRec(_spec, leftExpression);
+                    if (left < 0) return left;
+                    right = parseBoolRec(_spec, rightExpression);
+                    if (right < 0) {
+                        exprC.freeBool(left);
+                        return right;
+                    }
+                    res = exprC.make_bbbAnd(left, right);
+                    exprC.freeBool(left);
+                    exprC.freeBool(right);
+                    break;
+
+                case '|':
+                    left = parseBoolRec(_spec, leftExpression);
+                    if (left < 0) return left;
+                    right = parseBoolRec(_spec, rightExpression);
+                    if (right < 0) {
+                        exprC.freeBool(left);
+                        return right;
+                    }
+                    res = exprC.make_bbbOr(left, right);
+                    exprC.freeBool(left);
+                    exprC.freeBool(right);
+                    break;
+
+                case '=':
+                    left = parseIntRec(_spec, leftExpression);
+                    if (left >= 0) {
+                        right = parseIntRec(_spec, rightExpression);
+                        if (right < 0) {
+                            right = parseBoolRec(_spec, rightExpression);
+                            if (right < 0) {
+                                exprC.freeInt(left);
+                                return right;
+                            }
+                            idx = left;
+                            left = exprC.make_biExpr(idx);
+                            exprC.freeInt(idx);
+                            res = exprC.make_bbbEq(left, right);
+                            exprC.freeBool(left);
+                            exprC.freeBool(right);
+                            return res;
+                        }
+                        res = exprC.make_biiEq(left, right);
+                        exprC.freeInt(left);
+                        exprC.freeInt(right);
+                        return res;
+                    }
+                    left = parseBoolRec(_spec, leftExpression);
+                    if (left < 0) return left;
+                    right = parseBoolRec(_spec, rightExpression);
+                    if (right < 0) {
+                        exprC.freeBool(left);
+                        return right;
+                    }
+                    res = exprC.make_bbbEq(left, right);
+                    exprC.freeBool(left);
+                    exprC.freeBool(right);
+                    break;
+
+                case '$':
+                    left = parseIntRec(_spec, leftExpression);
+                    if (left >= 0) {
+                        right = parseIntRec(_spec, rightExpression);
+                        if (right < 0) {
+                            right = parseBoolRec(_spec, rightExpression);
+                            if (right < 0) {
+                                exprC.freeInt(left);
+                                return right;
+                            }
+                            idx = left;
+                            left = exprC.make_biExpr(idx);
+                            exprC.freeInt(idx);
+                            res = exprC.make_bbbDif(left, right);
+                            exprC.freeBool(left);
+                            exprC.freeBool(right);
+                        } else {
+                            res = exprC.make_biiDif(left, right);
+                            exprC.freeInt(left);
+                            exprC.freeInt(right);
+                        }
+                    } else {
+                        left = parseBoolRec(_spec, leftExpression);
+                        if (left < 0) return left;
                         right = parseBoolRec(_spec, rightExpression);
-                        if (right < 0) {exprC.freeInt(left); return right;}
-                        idx = left;
-                        left = exprC.make_biExpr(idx);
-                        exprC.freeInt(idx);
+                        if (right < 0) {
+                            exprC.freeBool(left);
+                            return right;
+                        }
                         res = exprC.make_bbbDif(left, right);
                         exprC.freeBool(left);
                         exprC.freeBool(right);
-                        return res;
                     }
-                    res = exprC.make_biiDif(left, right);
+                    break;
+
+                case '<':
+                    left = parseIntRec(_spec, leftExpression);
+                    if (left < 0) return left;
+                    right = parseIntRec(_spec, rightExpression);
+                    if (right < 0) {
+                        exprC.freeInt(left);
+                        return right;
+                    }
+                    res = exprC.make_biiLt(left, right);
                     exprC.freeInt(left);
                     exprC.freeInt(right);
-                    return res;
-                }
-                left = parseBoolRec(_spec,leftExpression);
-                if (left<0) return left;
-                right = parseBoolRec(_spec,rightExpression);
-                if(right < 0) {
-                    exprC.freeBool(left);
-                    return right;
-                }
-                res = exprC.make_bbbDif(left, right);
-                exprC.freeBool(left);
-                exprC.freeBool(right);
-                return res;
-
-            case '<':
-                left = parseIntRec(_spec,leftExpression);
-                if (left<0) return left;
-                right = parseIntRec(_spec, rightExpression);
-                if (right < 0) {
+                    break;
+                case '>':
+                    left = parseIntRec(_spec, leftExpression);
+                    if (left < 0) return left;
+                    right = parseIntRec(_spec, rightExpression);
+                    if (right < 0) {
+                        exprC.freeInt(left);
+                        return right;
+                    }
+                    res = exprC.make_biiGt(left, right);
                     exprC.freeInt(left);
-                    return right;
-                }
-                res = exprC.make_biiLt(left,right);
-                exprC.freeInt(left);
-                exprC.freeInt(right);
-                return res;
-            case '>':
-                left = parseIntRec(_spec,leftExpression);
-                if (left<0) return left;
-                right = parseIntRec(_spec, rightExpression);
-                if (right < 0) {
+                    exprC.freeInt(right);
+                    break;
+                case ';':
+                    left = parseIntRec(_spec, leftExpression);
+                    if (left < 0) return left;
+                    right = parseIntRec(_spec, rightExpression);
+                    if (right < 0) {
+                        exprC.freeInt(left);
+                        return right;
+                    }
+                    res = exprC.make_biiLeq(left, right);
                     exprC.freeInt(left);
-                    return right;
-                }
-                res = exprC.make_biiGt(left,right);
-                exprC.freeInt(left);
-                exprC.freeInt(right);
-                return res;
-            case ';':
-                left = parseIntRec(_spec,leftExpression);
-                if (left<0) return left;
-                right = parseIntRec(_spec, rightExpression);
-                if (right < 0) {
+                    exprC.freeInt(right);
+                    break;
+                case ':':
+                    left = parseIntRec(_spec, leftExpression);
+                    if (left < 0) return left;
+                    right = parseIntRec(_spec, rightExpression);
+                    if (right < 0) {
+                        exprC.freeInt(left);
+                        return right;
+                    }
+                    res = exprC.make_biiGeq(left, right);
                     exprC.freeInt(left);
-                    return right;
-                }
-                res = exprC.make_biiLeq(left,right);
-                exprC.freeInt(left);
-                exprC.freeInt(right);
-                return res;
-            case ':':
-                left = parseIntRec(_spec,leftExpression);
-                if (left<0) return left;
-                right = parseIntRec(_spec, rightExpression);
-                if (right < 0) {
-                    exprC.freeInt(left);
-                    return right;
-                }
-                res = exprC.make_biiGeq(left,right);
-                exprC.freeInt(left);
-                exprC.freeInt(right);
-                return res;
-            default:
-                throw new Error("IBSOriginParser, parseBoolRec: unknown operator");
+                    exprC.freeInt(right);
+                    break;
+                default:
+                    throw new Error("IBSOriginParser, parseBoolRec: unknown operator");
+            }
         }
+        if (isNot) {
+            int idx = exprC.make_bNot(res);
+            exprC.freeBool(res);
+            return idx;
+        }
+        return res;
     }
     public int parseBoolRec(Comp _comp, String _s) {
         TestedExpr returnVal;
@@ -623,18 +734,20 @@ public class IBSOriginParser<
         if(returnVal==null) return -1;
         expression = returnVal.s;
         isNot = (returnVal.test != isNot);
-
+        int res;
         if (!expression.matches("^.+[\\+\\-<>=:;\\$&\\|\\*/].*$")) {
             returnVal = checkNegatedNoBrackets(expression);
             if (returnVal == null) return -1;
             expression = returnVal.s;
 
-            if (expression.equals("true"))
-                return exprC.make_bConst(true);
-            else if (expression.equals("false"))
-                return exprC.make_bConst(true);
+            if (expression.equals("true")) {
+                res = exprC.make_bConst(true);
+            }
+            else if (expression.equals("false")) {
+                res= exprC.make_bConst(false);
+            }
             else if (expression.matches("-?\\d+")) {
-                return exprC.make_bConst((Integer.parseInt(expression) != 0));
+                res = exprC.make_bConst((Integer.parseInt(expression) != 0));
             } else {
                 IBSAttributeClass<Spec, Comp, State, SpecState, CompState>.TypedAttribute att =
                         attC.getTypedAttribute(_comp, expression);
@@ -643,210 +756,240 @@ public class IBSOriginParser<
                         badIdents.add(expression);
                         return -1;
                     case IBSAttributeClass.BoolConst:
-                        return exprC.make_bConst(att.getConstant() == 0);
+                        res= exprC.make_bConst(att.getConstant() == 0);
+                        break;
                     case IBSAttributeClass.IntConst:
-                        return exprC.make_bConst(att.getConstant()!=0);
+                        res= exprC.make_bConst(att.getConstant()!=0);
+                        break;
                     case IBSAttributeClass.BoolAttr:
-                        return exprC.make_bVar(att.getAttribute());
+                        res= exprC.make_bVar(att.getAttribute());
+                        break;
                     case IBSAttributeClass.IntAttr:
-                        return exprC.make_biVar(att.getAttribute());
+                        res= exprC.make_biVar(att.getAttribute());
+                    default:
+                        throw new Error ("IBSParser... Cannot happen !?");
                 }
             }
-        }
+        } else {
 
-        int index = getOperatorIndex(expression);
-        if (index == -1) return -1;
+            int index = getOperatorIndex(expression);
+            if (index == -1) return -1;
 
-        String leftExpression = expression.substring(0, index).trim();
-        String rightExpression = expression.substring(index + 1, expression.length()).trim();
-        int left,right,idx,res;
+            String leftExpression = expression.substring(0, index).trim();
+            String rightExpression = expression.substring(index + 1, expression.length()).trim();
+            int left, right, idx;
 
-        switch(expression.charAt(index)) {
-            case '+':
-                left = parseIntRec(_comp,leftExpression);
-                if (left<0) return left;
-                right = parseIntRec(_comp,rightExpression);
-                if (right < 0) {exprC.freeInt(left); return right;}
-                idx = exprC.make_iiiPlus(left, right);
-                res = exprC.make_biExpr(idx);
-                exprC.freeInt(idx);
-                exprC.freeInt(left);
-                exprC.freeInt(right);
-                return res;
-            case '-':
-                left = parseIntRec(_comp,leftExpression);
-                if (left<0) return left;
-                right = parseIntRec(_comp,rightExpression);
-                if (right < 0) {exprC.freeInt(left); return right;}
-                idx = exprC.make_iiiMinus(left, right);
-                res = exprC.make_biExpr(idx);
-                exprC.freeInt(idx);
-                exprC.freeInt(left);
-                exprC.freeInt(right);
-                return res;
-            case '*':
-                left = parseIntRec(_comp,leftExpression);
-                if (left<0) return left;
-                right = parseIntRec(_comp,rightExpression);
-                if (right < 0) {exprC.freeInt(left); return right;}
-                idx = exprC.make_iiiMult(left, right);
-                res = exprC.make_biExpr(idx);
-                exprC.freeInt(idx);
-                exprC.freeInt(left);
-                exprC.freeInt(right);
-                return res;
-            case '/':
-                left = parseIntRec(_comp,leftExpression);
-                if (left<0) return left;
-                right = parseIntRec(_comp,rightExpression);
-                if (right < 0) {exprC.freeInt(left); return right;}
-                idx = exprC.make_iiiDiv(left, right);
-                res = exprC.make_biExpr(idx);
-                exprC.freeInt(idx);
-                exprC.freeInt(left);
-                exprC.freeInt(right);
-                return res;
-            case '&':
-                left = parseBoolRec(_comp,leftExpression);
-                if (left < 0) return left;
-                right = parseBoolRec(_comp,rightExpression);
-                if (right < 0) {
-                    exprC.freeBool(left);
-                    return right;
-                }
-                res=exprC.make_bbbAnd(left,right);
-                exprC.freeBool(left);
-                exprC.freeBool(right);
-                return res;
-
-            case '|':
-                left = parseBoolRec(_comp,leftExpression);
-                if (left < 0) return left;
-                right = parseBoolRec(_comp,rightExpression);
-                if (right < 0) {
-                    exprC.freeBool(left);
-                    return right;
-                }
-                res=exprC.make_bbbOr(left,right);
-                exprC.freeBool(left);
-                exprC.freeBool(right);
-                return res;
-
-            case '=':
-                left = parseIntRec(_comp,leftExpression);
-                if (left>=0) {
+            switch (expression.charAt(index)) {
+                case '+':
+                    left = parseIntRec(_comp, leftExpression);
+                    if (left < 0) return left;
                     right = parseIntRec(_comp, rightExpression);
                     if (right < 0) {
-                        right = parseBoolRec(_comp, rightExpression);
-                        if (right < 0) {exprC.freeInt(left); return right;}
-                        idx = left;
-                        left = exprC.make_biExpr(idx);
-                        exprC.freeInt(idx);
-                        res = exprC.make_bbbEq(left, right);
-                        exprC.freeBool(left);
-                        exprC.freeBool(right);
-                        return res;
+                        exprC.freeInt(left);
+                        return right;
                     }
-                    res = exprC.make_biiEq(left, right);
+                    idx = exprC.make_iiiPlus(left, right);
+                    res = exprC.make_biExpr(idx);
+                    exprC.freeInt(idx);
                     exprC.freeInt(left);
                     exprC.freeInt(right);
-                    return res;
-                }
-                left = parseBoolRec(_comp,leftExpression);
-                if (left<0) return left;
-                right = parseBoolRec(_comp,rightExpression);
-                if(right < 0) {
-                    exprC.freeBool(left);
-                    return right;
-                }
-                res = exprC.make_bbbEq(left, right);
-                exprC.freeBool(left);
-                exprC.freeBool(right);
-                return res;
-
-            case '$':
-                left = parseIntRec(_comp,leftExpression);
-                if (left>=0) {
+                    break;
+                case '-':
+                    left = parseIntRec(_comp, leftExpression);
+                    if (left < 0) return left;
                     right = parseIntRec(_comp, rightExpression);
                     if (right < 0) {
+                        exprC.freeInt(left);
+                        return right;
+                    }
+                    idx = exprC.make_iiiMinus(left, right);
+                    res = exprC.make_biExpr(idx);
+                    exprC.freeInt(idx);
+                    exprC.freeInt(left);
+                    exprC.freeInt(right);
+                    break;
+                case '*':
+                    left = parseIntRec(_comp, leftExpression);
+                    if (left < 0) return left;
+                    right = parseIntRec(_comp, rightExpression);
+                    if (right < 0) {
+                        exprC.freeInt(left);
+                        return right;
+                    }
+                    idx = exprC.make_iiiMult(left, right);
+                    res = exprC.make_biExpr(idx);
+                    exprC.freeInt(idx);
+                    exprC.freeInt(left);
+                    exprC.freeInt(right);
+                    break;
+                case '/':
+                    left = parseIntRec(_comp, leftExpression);
+                    if (left < 0) return left;
+                    right = parseIntRec(_comp, rightExpression);
+                    if (right < 0) {
+                        exprC.freeInt(left);
+                        return right;
+                    }
+                    idx = exprC.make_iiiDiv(left, right);
+                    res = exprC.make_biExpr(idx);
+                    exprC.freeInt(idx);
+                    exprC.freeInt(left);
+                    exprC.freeInt(right);
+                    break;
+                case '&':
+                    left = parseBoolRec(_comp, leftExpression);
+                    if (left < 0) return left;
+                    right = parseBoolRec(_comp, rightExpression);
+                    if (right < 0) {
+                        exprC.freeBool(left);
+                        return right;
+                    }
+                    res = exprC.make_bbbAnd(left, right);
+                    exprC.freeBool(left);
+                    exprC.freeBool(right);
+                    break;
+
+                case '|':
+                    left = parseBoolRec(_comp, leftExpression);
+                    if (left < 0) return left;
+                    right = parseBoolRec(_comp, rightExpression);
+                    if (right < 0) {
+                        exprC.freeBool(left);
+                        return right;
+                    }
+                    res = exprC.make_bbbOr(left, right);
+                    exprC.freeBool(left);
+                    exprC.freeBool(right);
+                    break;
+
+                case '=':
+                    left = parseIntRec(_comp, leftExpression);
+                    if (left >= 0) {
+                        right = parseIntRec(_comp, rightExpression);
+                        if (right < 0) {
+                            right = parseBoolRec(_comp, rightExpression);
+                            if (right < 0) {
+                                exprC.freeInt(left);
+                                return right;
+                            }
+                            idx = left;
+                            left = exprC.make_biExpr(idx);
+                            exprC.freeInt(idx);
+                            res = exprC.make_bbbEq(left, right);
+                            exprC.freeBool(left);
+                            exprC.freeBool(right);
+                            return res;
+                        }
+                        res = exprC.make_biiEq(left, right);
+                        exprC.freeInt(left);
+                        exprC.freeInt(right);
+                        return res;
+                    }
+                    left = parseBoolRec(_comp, leftExpression);
+                    if (left < 0) return left;
+                    right = parseBoolRec(_comp, rightExpression);
+                    if (right < 0) {
+                        exprC.freeBool(left);
+                        return right;
+                    }
+                    res = exprC.make_bbbEq(left, right);
+                    exprC.freeBool(left);
+                    exprC.freeBool(right);
+                    break;
+
+                case '$':
+                    left = parseIntRec(_comp, leftExpression);
+                    if (left >= 0) {
+                        right = parseIntRec(_comp, rightExpression);
+                        if (right < 0) {
+                            right = parseBoolRec(_comp, rightExpression);
+                            if (right < 0) {
+                                exprC.freeInt(left);
+                                return right;
+                            }
+                            idx = left;
+                            left = exprC.make_biExpr(idx);
+                            exprC.freeInt(idx);
+                            res = exprC.make_bbbDif(left, right);
+                            exprC.freeBool(left);
+                            exprC.freeBool(right);
+                        } else {
+                            res = exprC.make_biiDif(left, right);
+                            exprC.freeInt(left);
+                            exprC.freeInt(right);
+                        }
+                    } else {
+                        left = parseBoolRec(_comp, leftExpression);
+                        if (left < 0) return left;
                         right = parseBoolRec(_comp, rightExpression);
-                        if (right < 0) {exprC.freeInt(left); return right;}
-                        idx = left;
-                        left = exprC.make_biExpr(idx);
-                        exprC.freeInt(idx);
+                        if (right < 0) {
+                            exprC.freeBool(left);
+                            return right;
+                        }
                         res = exprC.make_bbbDif(left, right);
                         exprC.freeBool(left);
                         exprC.freeBool(right);
-                        return res;
                     }
-                    res = exprC.make_biiDif(left, right);
+                    break;
+
+                case '<':
+                    left = parseIntRec(_comp, leftExpression);
+                    if (left < 0) return left;
+                    right = parseIntRec(_comp, rightExpression);
+                    if (right < 0) {
+                        exprC.freeInt(left);
+                        return right;
+                    }
+                    res = exprC.make_biiLt(left, right);
                     exprC.freeInt(left);
                     exprC.freeInt(right);
-                    return res;
-                }
-                left = parseBoolRec(_comp,leftExpression);
-                if (left<0) return left;
-                right = parseBoolRec(_comp,rightExpression);
-                if(right < 0) {
-                    exprC.freeBool(left);
-                    return right;
-                }
-                res = exprC.make_bbbDif(left, right);
-                exprC.freeBool(left);
-                exprC.freeBool(right);
-                return res;
-
-            case '<':
-                left = parseIntRec(_comp,leftExpression);
-                if (left<0) return left;
-                right = parseIntRec(_comp, rightExpression);
-                if (right < 0) {
+                    break;
+                case '>':
+                    left = parseIntRec(_comp, leftExpression);
+                    if (left < 0) return left;
+                    right = parseIntRec(_comp, rightExpression);
+                    if (right < 0) {
+                        exprC.freeInt(left);
+                        return right;
+                    }
+                    res = exprC.make_biiGt(left, right);
                     exprC.freeInt(left);
-                    return right;
-                }
-                res = exprC.make_biiLt(left,right);
-                exprC.freeInt(left);
-                exprC.freeInt(right);
-                return res;
-            case '>':
-                left = parseIntRec(_comp,leftExpression);
-                if (left<0) return left;
-                right = parseIntRec(_comp, rightExpression);
-                if (right < 0) {
+                    exprC.freeInt(right);
+                    break;
+                case ';':
+                    left = parseIntRec(_comp, leftExpression);
+                    if (left < 0) return left;
+                    right = parseIntRec(_comp, rightExpression);
+                    if (right < 0) {
+                        exprC.freeInt(left);
+                        return right;
+                    }
+                    res = exprC.make_biiLeq(left, right);
                     exprC.freeInt(left);
-                    return right;
-                }
-                res = exprC.make_biiGt(left,right);
-                exprC.freeInt(left);
-                exprC.freeInt(right);
-                return res;
-            case ';':
-                left = parseIntRec(_comp,leftExpression);
-                if (left<0) return left;
-                right = parseIntRec(_comp, rightExpression);
-                if (right < 0) {
+                    exprC.freeInt(right);
+                    break;
+                case ':':
+                    left = parseIntRec(_comp, leftExpression);
+                    if (left < 0) return left;
+                    right = parseIntRec(_comp, rightExpression);
+                    if (right < 0) {
+                        exprC.freeInt(left);
+                        return right;
+                    }
+                    res = exprC.make_biiGeq(left, right);
                     exprC.freeInt(left);
-                    return right;
-                }
-                res = exprC.make_biiLeq(left,right);
-                exprC.freeInt(left);
-                exprC.freeInt(right);
-                return res;
-            case ':':
-                left = parseIntRec(_comp,leftExpression);
-                if (left<0) return left;
-                right = parseIntRec(_comp, rightExpression);
-                if (right < 0) {
-                    exprC.freeInt(left);
-                    return right;
-                }
-                res = exprC.make_biiGeq(left,right);
-                exprC.freeInt(left);
-                exprC.freeInt(right);
-                return res;
-            default:
-                throw new Error("IBSOriginParser, parseBoolRec: unknown operator");
+                    exprC.freeInt(right);
+                    break;
+                default:
+                    throw new Error("IBSOriginParser, parseBoolRec: unknown operator");
+            }
         }
+        if (isNot) {
+            int idx = exprC.make_bNot(res);
+            exprC.freeBool(res);
+            return idx;
+        }
+        return res;
     }
 
     public int parseBoolRec(String _s) {
@@ -858,218 +1001,244 @@ public class IBSOriginParser<
         if(returnVal==null) return -1;
         expression = returnVal.s;
         isNot = (returnVal.test != isNot);
-
+        int res;
         if (!expression.matches("^.+[\\+\\-<>=:;\\$&\\|\\*/].*$")) {
-            int index, res;
             returnVal = checkNegatedNoBrackets(expression);
             if (returnVal == null) return -1;
             expression = returnVal.s;
 
-            if (expression.equals("true"))
-                return exprC.make_bConst(true);
-            else if (expression.equals("false"))
-                return exprC.make_bConst(true);
+            if (expression.equals("true")) {
+                res = exprC.make_bConst(true);
+            }
+            else if (expression.equals("false")) {
+                res= exprC.make_bConst(false);
+            }
             else if (expression.matches("-?\\d+")) {
-                return exprC.make_bConst((Integer.parseInt(expression) != 0));
+                res = exprC.make_bConst((Integer.parseInt(expression) != 0));
             } else {
                 badIdents.add(expression);
                 return -1;
             }
-        }
+        } else {
 
-        int index = getOperatorIndex(expression);
-        if (index == -1) return -1;
+            int index = getOperatorIndex(expression);
+            if (index == -1) return -1;
 
-        String leftExpression = expression.substring(0, index).trim();
-        String rightExpression = expression.substring(index + 1, expression.length()).trim();
-        int left,right,idx,res;
+            String leftExpression = expression.substring(0, index).trim();
+            String rightExpression = expression.substring(index + 1, expression.length()).trim();
+            int left, right, idx;
 
-        switch(expression.charAt(index)) {
-            case '+':
-                left = parseIntRec(leftExpression);
-                if (left<0) return left;
-                right = parseIntRec(rightExpression);
-                if (right < 0) {exprC.freeInt(left); return right;}
-                idx = exprC.make_iiiPlus(left, right);
-                res = exprC.make_biExpr(idx);
-                exprC.freeInt(idx);
-                exprC.freeInt(left);
-                exprC.freeInt(right);
-                return res;
-            case '-':
-                left = parseIntRec(leftExpression);
-                if (left<0) return left;
-                right = parseIntRec(rightExpression);
-                if (right < 0) {exprC.freeInt(left); return right;}
-                idx = exprC.make_iiiMinus(left, right);
-                res = exprC.make_biExpr(idx);
-                exprC.freeInt(idx);
-                exprC.freeInt(left);
-                exprC.freeInt(right);
-                return res;
-            case '*':
-                left = parseIntRec(leftExpression);
-                if (left<0) return left;
-                right = parseIntRec(rightExpression);
-                if (right < 0) {exprC.freeInt(left); return right;}
-                idx = exprC.make_iiiMult(left, right);
-                res = exprC.make_biExpr(idx);
-                exprC.freeInt(idx);
-                exprC.freeInt(left);
-                exprC.freeInt(right);
-                return res;
-            case '/':
-                left = parseIntRec(leftExpression);
-                if (left<0) return left;
-                right = parseIntRec(rightExpression);
-                if (right < 0) {exprC.freeInt(left); return right;}
-                idx = exprC.make_iiiDiv(left, right);
-                res = exprC.make_biExpr(idx);
-                exprC.freeInt(idx);
-                exprC.freeInt(left);
-                exprC.freeInt(right);
-                return res;
-            case '&':
-                left = parseBoolRec(leftExpression);
-                if (left < 0) return left;
-                right = parseBoolRec(rightExpression);
-                if (right < 0) {
-                    exprC.freeBool(left);
-                    return right;
-                }
-                res=exprC.make_bbbAnd(left,right);
-                exprC.freeBool(left);
-                exprC.freeBool(right);
-                return res;
-
-            case '|':
-                left = parseBoolRec(leftExpression);
-                if (left < 0) return left;
-                right = parseBoolRec(rightExpression);
-                if (right < 0) {
-                    exprC.freeBool(left);
-                    return right;
-                }
-                res=exprC.make_bbbOr(left,right);
-                exprC.freeBool(left);
-                exprC.freeBool(right);
-                return res;
-
-            case '=':
-                left = parseIntRec(leftExpression);
-                if (left>=0) {
-                    right = parseIntRec(rightExpression);
+            switch (expression.charAt(index)) {
+                case '+':
+                    left = parseIntRec( leftExpression);
+                    if (left < 0) return left;
+                    right = parseIntRec( rightExpression);
                     if (right < 0) {
-                        right = parseBoolRec(rightExpression);
-                        if (right < 0) {exprC.freeInt(left); return right;}
-                        idx = left;
-                        left = exprC.make_biExpr(idx);
-                        exprC.freeInt(idx);
-                        res = exprC.make_bbbEq(left, right);
-                        exprC.freeBool(left);
-                        exprC.freeBool(right);
-                        return res;
+                        exprC.freeInt(left);
+                        return right;
                     }
-                    res = exprC.make_biiEq(left, right);
+                    idx = exprC.make_iiiPlus(left, right);
+                    res = exprC.make_biExpr(idx);
+                    exprC.freeInt(idx);
                     exprC.freeInt(left);
                     exprC.freeInt(right);
-                    return res;
-                }
-                left = parseBoolRec(leftExpression);
-                if (left<0) return left;
-                right = parseBoolRec(rightExpression);
-                if(right < 0) {
-                    exprC.freeBool(left);
-                    return right;
-                }
-                res = exprC.make_bbbEq(left, right);
-                exprC.freeBool(left);
-                exprC.freeBool(right);
-                return res;
-
-            case '$':
-                left = parseIntRec(leftExpression);
-                if (left>=0) {
-                    right = parseIntRec(rightExpression);
+                    break;
+                case '-':
+                    left = parseIntRec( leftExpression);
+                    if (left < 0) return left;
+                    right = parseIntRec( rightExpression);
                     if (right < 0) {
-                        right = parseBoolRec(rightExpression);
-                        if (right < 0) {exprC.freeInt(left); return right;}
-                        idx = left;
-                        left = exprC.make_biExpr(idx);
-                        exprC.freeInt(idx);
+                        exprC.freeInt(left);
+                        return right;
+                    }
+                    idx = exprC.make_iiiMinus(left, right);
+                    res = exprC.make_biExpr(idx);
+                    exprC.freeInt(idx);
+                    exprC.freeInt(left);
+                    exprC.freeInt(right);
+                    break;
+                case '*':
+                    left = parseIntRec( leftExpression);
+                    if (left < 0) return left;
+                    right = parseIntRec( rightExpression);
+                    if (right < 0) {
+                        exprC.freeInt(left);
+                        return right;
+                    }
+                    idx = exprC.make_iiiMult(left, right);
+                    res = exprC.make_biExpr(idx);
+                    exprC.freeInt(idx);
+                    exprC.freeInt(left);
+                    exprC.freeInt(right);
+                    break;
+                case '/':
+                    left = parseIntRec( leftExpression);
+                    if (left < 0) return left;
+                    right = parseIntRec( rightExpression);
+                    if (right < 0) {
+                        exprC.freeInt(left);
+                        return right;
+                    }
+                    idx = exprC.make_iiiDiv(left, right);
+                    res = exprC.make_biExpr(idx);
+                    exprC.freeInt(idx);
+                    exprC.freeInt(left);
+                    exprC.freeInt(right);
+                    break;
+                case '&':
+                    left = parseBoolRec( leftExpression);
+                    if (left < 0) return left;
+                    right = parseBoolRec( rightExpression);
+                    if (right < 0) {
+                        exprC.freeBool(left);
+                        return right;
+                    }
+                    res = exprC.make_bbbAnd(left, right);
+                    exprC.freeBool(left);
+                    exprC.freeBool(right);
+                    break;
+
+                case '|':
+                    left = parseBoolRec( leftExpression);
+                    if (left < 0) return left;
+                    right = parseBoolRec( rightExpression);
+                    if (right < 0) {
+                        exprC.freeBool(left);
+                        return right;
+                    }
+                    res = exprC.make_bbbOr(left, right);
+                    exprC.freeBool(left);
+                    exprC.freeBool(right);
+                    break;
+
+                case '=':
+                    left = parseIntRec( leftExpression);
+                    if (left >= 0) {
+                        right = parseIntRec( rightExpression);
+                        if (right < 0) {
+                            right = parseBoolRec( rightExpression);
+                            if (right < 0) {
+                                exprC.freeInt(left);
+                                return right;
+                            }
+                            idx = left;
+                            left = exprC.make_biExpr(idx);
+                            exprC.freeInt(idx);
+                            res = exprC.make_bbbEq(left, right);
+                            exprC.freeBool(left);
+                            exprC.freeBool(right);
+                            return res;
+                        }
+                        res = exprC.make_biiEq(left, right);
+                        exprC.freeInt(left);
+                        exprC.freeInt(right);
+                        return res;
+                    }
+                    left = parseBoolRec( leftExpression);
+                    if (left < 0) return left;
+                    right = parseBoolRec( rightExpression);
+                    if (right < 0) {
+                        exprC.freeBool(left);
+                        return right;
+                    }
+                    res = exprC.make_bbbEq(left, right);
+                    exprC.freeBool(left);
+                    exprC.freeBool(right);
+                    break;
+
+                case '$':
+                    left = parseIntRec( leftExpression);
+                    if (left >= 0) {
+                        right = parseIntRec( rightExpression);
+                        if (right < 0) {
+                            right = parseBoolRec( rightExpression);
+                            if (right < 0) {
+                                exprC.freeInt(left);
+                                return right;
+                            }
+                            idx = left;
+                            left = exprC.make_biExpr(idx);
+                            exprC.freeInt(idx);
+                            res = exprC.make_bbbDif(left, right);
+                            exprC.freeBool(left);
+                            exprC.freeBool(right);
+                        } else {
+                            res = exprC.make_biiDif(left, right);
+                            exprC.freeInt(left);
+                            exprC.freeInt(right);
+                        }
+                    } else {
+                        left = parseBoolRec( leftExpression);
+                        if (left < 0) return left;
+                        right = parseBoolRec( rightExpression);
+                        if (right < 0) {
+                            exprC.freeBool(left);
+                            return right;
+                        }
                         res = exprC.make_bbbDif(left, right);
                         exprC.freeBool(left);
                         exprC.freeBool(right);
-                        return res;
                     }
-                    res = exprC.make_biiDif(left, right);
+                    break;
+
+                case '<':
+                    left = parseIntRec( leftExpression);
+                    if (left < 0) return left;
+                    right = parseIntRec( rightExpression);
+                    if (right < 0) {
+                        exprC.freeInt(left);
+                        return right;
+                    }
+                    res = exprC.make_biiLt(left, right);
                     exprC.freeInt(left);
                     exprC.freeInt(right);
-                    return res;
-                }
-                left = parseBoolRec(leftExpression);
-                if (left<0) return left;
-                right = parseBoolRec(rightExpression);
-                if(right < 0) {
-                    exprC.freeBool(left);
-                    return right;
-                }
-                res = exprC.make_bbbDif(left, right);
-                exprC.freeBool(left);
-                exprC.freeBool(right);
-                return res;
-
-            case '<':
-                left = parseIntRec(leftExpression);
-                if (left<0) return left;
-                right = parseIntRec(rightExpression);
-                if (right < 0) {
+                    break;
+                case '>':
+                    left = parseIntRec( leftExpression);
+                    if (left < 0) return left;
+                    right = parseIntRec( rightExpression);
+                    if (right < 0) {
+                        exprC.freeInt(left);
+                        return right;
+                    }
+                    res = exprC.make_biiGt(left, right);
                     exprC.freeInt(left);
-                    return right;
-                }
-                res = exprC.make_biiLt(left,right);
-                exprC.freeInt(left);
-                exprC.freeInt(right);
-                return res;
-            case '>':
-                left = parseIntRec(leftExpression);
-                if (left<0) return left;
-                right = parseIntRec(rightExpression);
-                if (right < 0) {
+                    exprC.freeInt(right);
+                    break;
+                case ';':
+                    left = parseIntRec( leftExpression);
+                    if (left < 0) return left;
+                    right = parseIntRec( rightExpression);
+                    if (right < 0) {
+                        exprC.freeInt(left);
+                        return right;
+                    }
+                    res = exprC.make_biiLeq(left, right);
                     exprC.freeInt(left);
-                    return right;
-                }
-                res = exprC.make_biiGt(left,right);
-                exprC.freeInt(left);
-                exprC.freeInt(right);
-                return res;
-            case ';':
-                left = parseIntRec(leftExpression);
-                if (left<0) return left;
-                right = parseIntRec(rightExpression);
-                if (right < 0) {
+                    exprC.freeInt(right);
+                    break;
+                case ':':
+                    left = parseIntRec( leftExpression);
+                    if (left < 0) return left;
+                    right = parseIntRec( rightExpression);
+                    if (right < 0) {
+                        exprC.freeInt(left);
+                        return right;
+                    }
+                    res = exprC.make_biiGeq(left, right);
                     exprC.freeInt(left);
-                    return right;
-                }
-                res = exprC.make_biiLeq(left,right);
-                exprC.freeInt(left);
-                exprC.freeInt(right);
-                return res;
-            case ':':
-                left = parseIntRec(leftExpression);
-                if (left<0) return left;
-                right = parseIntRec(rightExpression);
-                if (right < 0) {
-                    exprC.freeInt(left);
-                    return right;
-                }
-                res = exprC.make_biiGeq(left,right);
-                exprC.freeInt(left);
-                exprC.freeInt(right);
-                return res;
-            default:
-                throw new Error("IBSOriginParser, parseBoolRec: unknown operator");
+                    exprC.freeInt(right);
+                    break;
+                default:
+                    throw new Error("IBSOriginParser, parseBoolRec: unknown operator");
+            }
         }
+        if (isNot) {
+            int idx = exprC.make_bNot(res);
+            exprC.freeBool(res);
+            return idx;
+        }
+        return res;
     }
 
         private String replaceOperators(String _expr) {

@@ -32,14 +32,11 @@ public class IBSExpressionClass<
     public int make_biVar(IBSAttributeClass<Spec,Comp,State,SpecState,CompState>.Attribute _v) { return -1; }
     public int make_iConst(int _i) { return -1; }
     public int make_bConst(boolean _b) { return -1; }
-    public int make_iNeg(int _expr) throws CloneNotSupportedException  { return -1; }
-    public int make_bNot(int _expr)  throws CloneNotSupportedException { return -1; }
+    public int make_iNeg(int _expr) { return -1; }
+    public int make_bNot(int _expr) { return -1; }
     public int make_biExpr(int _expr) { return -1; }
 
-    public abstract class Expr implements Cloneable {
-        public Expr clone() throws CloneNotSupportedException {
-            return (Expr) super.clone();
-        }
+    public abstract class Expr{
         public abstract String toString();
         public abstract boolean hasStates();
         public abstract void linkStates();

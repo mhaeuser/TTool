@@ -79,7 +79,7 @@ public class IBSOriginExpressionClass<
         int i;
         for (i = 0; i < bBusy.size(); i++) if (!bBusy.get(i)) break;
         if (i==bBusy.size()){
-            iBusy.add(Boolean.FALSE);
+            bBusy.add(Boolean.FALSE);
             bExpressions.add(null);
         }
         return i;
@@ -380,23 +380,38 @@ public class IBSOriginExpressionClass<
         bBusy.set(tgt,Boolean.TRUE);
         return tgt;
     }
-    public int make_iNeg(int _expr) throws CloneNotSupportedException {
+    public int make_iNeg(int _expr){
         int tgt = findIfree();
         if (iExpressions.size()<=_expr || _expr < 0 ||iExpressions.get(_expr) == null)
             throw new Error("IBSOriginExpressionClass.make_iNeg called on undefined subexpression");
-        IExpr e = iExpressions.get(_expr).clone();
-        e.isNegated = !iExpressions.get(_expr).isNegated;
-        iExpressions.set(tgt, e);
+        IExpr e = iExpressions.get(_expr);
+        IExpr res = new IExpr();
+        res.isNegated = (e.isImmediateValue?e.isNegated:!e.isNegated);
+        res.left = e.left;
+        res.right= e.right;
+        res.operator = e.operator;
+        res.isLeaf = e.isLeaf;
+        res.isImmediateValue = e.isImmediateValue;
+        res.intValue = (e.isImmediateValue? -e.intValue: e.intValue);
+        iExpressions.set(tgt, res);
         iBusy.set(tgt,Boolean.TRUE);
         return tgt;
     }
-    public int make_bNot(int _expr) throws CloneNotSupportedException {
+    public int make_bNot(int _expr) {
         int tgt = findBfree();
         if (bExpressions.size()<=_expr || _expr < 0 || bExpressions.get(_expr) == null)
             throw new Error("IBSOriginExpressionClass.make_bNot called on undefined subexpression");
-        BExpr e = bExpressions.get(_expr).clone();
-        e.isNot = !e.isNot;
-        bExpressions.set(tgt, e);
+        BExpr e = bExpressions.get(_expr);
+        BExpr res = new BExpr();
+        res.type = e.type;
+        res.bleft = e.bleft;
+        res.bright= e.bright;
+        res.ileft = e.ileft;
+        res.iright= e.iright;
+        res.operator= e.operator;
+        res.isNot = (e.type==BExpr.bCst?e.isNot:!e.isNot);
+        res.boolValue = (e.type==BExpr.bCst?!e.boolValue:e.boolValue);
+        bExpressions.set(tgt, res);
         bBusy.set(tgt,Boolean.TRUE);
         return tgt;
     }
@@ -421,9 +436,6 @@ public class IBSOriginExpressionClass<
         public int intValue = 0;
         public IBSAttributeClass<Spec, Comp, State, SpecState, CompState>.Attribute leaf;
         public IExpr() {
-        }
-        public IExpr clone() throws CloneNotSupportedException {
-            return (IExpr) super.clone();
         }
         public int eval() {
             int res;
@@ -584,9 +596,6 @@ public class IBSOriginExpressionClass<
         public IBSAttributeClass<Spec, Comp, State, SpecState, CompState>.Attribute leaf;
         public BExpr() {
         }
-        public BExpr clone() throws CloneNotSupportedException {
-            return (BExpr) super.clone();
-        }
         public boolean eval() {
             boolean res;
             switch (type) {
@@ -719,9 +728,9 @@ public class IBSOriginExpressionClass<
             switch (type) {
                 case bCst:
                     if (boolValue)
-                        retS = "false";
-                    else
                         retS = "true";
+                    else
+                        retS = "false";
                     if (isNot) retS = "not(" + retS + ")";
                 break;
                 case bVar:

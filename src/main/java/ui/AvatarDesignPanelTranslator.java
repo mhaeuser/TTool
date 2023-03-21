@@ -153,7 +153,20 @@ public class AvatarDesignPanelTranslator {
 
         ArrayList<AvatarError> listW = AvatarSyntaxChecker.checkSyntaxWarnings(as);
         for (AvatarError ar : listW) {
-            UICheckingError ce = new UICheckingError(CheckingError.BEHAVIOR_ERROR, AvatarError.errorStrings[ar.error]);
+            UICheckingError ce;
+            if (ar.firstAvatarElement != null) {
+                if (ar.secondAvatarElement == null) {
+                    ce = new UICheckingError(CheckingError.BEHAVIOR_ERROR,
+                            AvatarError.errorStrings[ar.error] + ": " + ar.firstAvatarElement.getName());
+                } else {
+                    ce = new UICheckingError(CheckingError.BEHAVIOR_ERROR,
+                            AvatarError.errorStrings[ar.error] + ": " +
+                                    ar.firstAvatarElement.getName() + " / " + ar.secondAvatarElement.getName());
+                }
+            } else {
+                ce = new UICheckingError(CheckingError.BEHAVIOR_ERROR,
+                        AvatarError.errorStrings[ar.error]);
+            }
             ce.setTDiagramPanel(adp.getAvatarBDPanel());
             Object o = ar.firstAvatarElement.getReferenceObject();
             if (o instanceof TGComponent) {

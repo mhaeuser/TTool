@@ -59,7 +59,9 @@ public class AvatarError {
                     "State machine must terminate with a (stop) state",
                     "ASM operator has not next operator",
                     "Empty state machine",
-                    "Unused elements in state machine"
+                    "Unused elements in state machine",
+                    "The name should start with an upper case letter",
+                    "The name should start with a lower case letter"
             };
 
 

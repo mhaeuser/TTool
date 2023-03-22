@@ -53,19 +53,19 @@ import java.util.List;
 public class NameChecker {
     public static boolean checkName(NamedElement _ne) {
         if (_ne instanceof NameStartWithUpperCase) {
-            TraceManager.addDev("Must start with upper case or exception");
+            //TraceManager.addDev("Must start with upper case or exception");
             return Conversion.startsWithUpperCase(_ne.getName()) || inException(_ne);
         } else if (_ne instanceof NameStartWithLowerCase) {
-            TraceManager.addDev("Must start with lower case or exception");
+            //TraceManager.addDev("Must start with lower case or exception");
             return Conversion.startsWithLowerCase(_ne.getName()) || inException(_ne);
         }
 
-        TraceManager.addDev("Not concerned");
+        //TraceManager.addDev("Not concerned");
         return true;
     }
 
     public static boolean inException(NamedElement _ne) {
-        TraceManager.addDev("Working on exception");
+        //TraceManager.addDev("Working on exception");
         String[] exceptions = _ne.getNameExceptions();
         if (exceptions == null) {
             TraceManager.addDev("Null excep");
@@ -73,11 +73,11 @@ public class NameChecker {
         }
         for(int i=0; i<exceptions.length; i++) {
             if (exceptions[i].equals(_ne.getName())) {
-                TraceManager.addDev("Found exception");
+                //TraceManager.addDev("Found exception");
                 return true;
             }
         }
-        TraceManager.addDev("No exception found");
+        //TraceManager.addDev("No exception found");
         return false;
     }
 

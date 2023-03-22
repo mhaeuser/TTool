@@ -1882,9 +1882,10 @@ public class MainGUI implements ActionListener, WindowListener, KeyListener, Per
         Date date = new Date();
         String dateAndTime = dateFormat.format(date);
         String tabName = "Design_" + dateAndTime;
+        TraceManager.addDev("Drawing Avatar Spec in " + tabName);
         TraceManager.addDev("Draw Spec 1");
         int index = createAvatarDesign(tabName);
-        TraceManager.addDev("Draw Spec 2");
+        TraceManager.addDev("Draw Spec 2, in tab index=" + index);
         AvatarDesignPanel adp = (AvatarDesignPanel) (tabs.elementAt(index));
         TraceManager.addDev("Draw Spec 3");
         gtm.drawPanel(av, adp);

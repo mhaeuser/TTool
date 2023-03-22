@@ -140,7 +140,7 @@ public class AvatarSyntaxChecker {
         ArrayList<AvatarError> warnings = new ArrayList<>();
 
         // Checking block name
-        TraceManager.addDev("Checking name: " + _ne.getName());
+        //TraceManager.addDev("Checking name: " + _ne.getName());
         if (_ne instanceof NameChecker.NameStartWithUpperCase) {
             if (!NameChecker.checkName(_ne)) {
                 newError(_avspec, warnings, (AvatarElement) _ne, null, FIRST_UPPER_CASE);

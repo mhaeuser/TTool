@@ -382,7 +382,7 @@ public class AvatarBDPragma extends TGCScalableWithoutInternalComponent {
         String oldValue = value;
 
         JDialogPragma jdn = new JDialogPragma(frame, "Setting the security pragmas", value);
-        //jdn.setLocation(200, 150);
+        jdn.setSize(500, 700);
         AvatarBDPanel abdp = (AvatarBDPanel) tdp;
         jdn.blockAttributeMap = abdp.getBlockStrings(true, false, false);
         jdn.blockStateMap = abdp.getBlockStrings(false, true, false);

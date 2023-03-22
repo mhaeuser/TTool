@@ -50,8 +50,11 @@ import avatartranslator.intboolsolver2.AvatarIBSStdExpressionClass;
 import avatartranslator.modelchecker.SpecificationBlock;
 import avatartranslator.modelchecker.SpecificationState;
 import myutil.TraceManager;
+import myutil.intboolsolver2.IBSStdExpressionClass;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.util.ArrayList;
 
 import static org.junit.Assert.*;
 
@@ -310,5 +313,28 @@ public class AvatarIBSParserTest {
         assertTrue(e1.eval(ss) == 17);
         assertTrue(e2.eval(ss));
         assertTrue(e4.eval(ss) == -2);
+
+
+        AvatarIBSOriginExpressionClass.IExpr E = (AvatarIBSOriginExpressionClass.IExpr) parser.parseInt(as,"(block1.x + block2.y) * 5 - (((block1.x + " +
+                "block2.y)) + block2.y) * 3");
+        assertTrue(E!=null);
+        System.out.println(E.eval(ss));
+
+        int i;
+        String s = "(block1.x + block2.y) * 5 - (((block1.x + block2.y)) + block2.y) * ";
+        ArrayList<AvatarIBSOriginExpressionClass.IExpr> arr = new ArrayList<AvatarIBSOriginExpressionClass.IExpr>();
+
+        long t1 =  System.currentTimeMillis();
+        for(i=0;i<1000000;i++){
+            arr.add((AvatarIBSOriginExpressionClass.IExpr) parser.parseInt(as, s+i));}
+
+        long t2 =  System.currentTimeMillis();
+        int e=2;
+        for(i=0;i<1000000;i++) {
+            e += arr.get(i).eval(ss);
+        }
+        long t3 = System.currentTimeMillis();
+        System.out.println(" Duration " + t1 + " " + t2 + " " + t3 + " : " + (t2 - t1) + " , " + (t3 - t2));
+
     }
 }

@@ -359,7 +359,6 @@ public class IBSStdExpressionClass<
     }
     public class IConst extends IExpr {
         private final int type = iConst;
-        private final boolean isNeg = false;
         private final int constant;
         private IConst(int _i){ constant = _i; }
         private IConst(IConst _e){
@@ -369,11 +368,11 @@ public class IBSStdExpressionClass<
             return new IConst(this);
         }
         public int getPrio(){ return 0; }
-        public int eval() { return (isNeg?(constant==0?1:0):constant); }
-        public int eval(SpecState _ss) { return (isNeg?(constant==0?1:0):constant); }
-        public int eval(SpecState _ss, State _st) { return (isNeg?(constant==0?1:0):constant); }
-        public int eval(CompState _cs) { return (isNeg?(constant==0?1:0):constant); }
-        public int eval(Object _qs) { return (isNeg?(constant==0?1:0):constant); }
+        public int eval() { return constant; }
+        public int eval(SpecState _ss) { return constant; }
+        public int eval(SpecState _ss, State _st) { return constant; }
+        public int eval(CompState _cs) { return constant; }
+        public int eval(Object _qs) { return constant; }
         public String toString() { return ""+constant; }
         public boolean hasStates() { return false; }
         public void linkStates() {}

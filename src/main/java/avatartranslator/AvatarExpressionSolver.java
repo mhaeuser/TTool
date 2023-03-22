@@ -572,11 +572,9 @@ public class AvatarExpressionSolver {
             if (isImmediateValue != IMMEDIATE_NO) {
                 res = intValue;
             } else {
-                System.out.println("EVAL " + expression + "  ==>  leaf " + leaf.toString());
                 res = leaf.getValue(ss);
             }
         } else {
-            System.out.println("EVAL " + expression + "  ==>  binop ( " + left.expression + "  ,  " + right.expression + " )");
             res = getChildrenResult(left.getResult(ss), right.getResult(ss));
         }
         

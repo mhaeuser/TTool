@@ -49,12 +49,16 @@ package avatartranslator;
 import static org.junit.Assert.*;
 import static org.junit.Assert.assertTrue;
 
+import avatartranslator.intboolsolver2.AvatarIBSStdExpressionClass;
 import myutil.TraceManager;
+import myutil.intboolsolver2.IBSStdExpressionClass;
 import org.junit.Before;
 import org.junit.Test;
 
 import avatartranslator.modelchecker.SpecificationBlock;
 import avatartranslator.modelchecker.SpecificationState;
+
+import java.util.ArrayList;
 
 public class AvatarExpressionTest {
     
@@ -286,7 +290,7 @@ public class AvatarExpressionTest {
         ss.setInit(as, false);
         AvatarExpressionSolver.emptyAttributesMap();
 
-/*      AvatarExpressionSolver e1 = new AvatarExpressionSolver("block1.x + block2.y");
+        AvatarExpressionSolver e1 = new AvatarExpressionSolver("block1.x + block2.y");
         assertTrue(e1.buildExpression(as));
 
         AvatarExpressionSolver e2 = new AvatarExpressionSolver("-block1.x / block1.y - 15 * block2.z + 1 == -46");
@@ -303,7 +307,7 @@ public class AvatarExpressionTest {
         assertTrue(e1.getResult(ss) == 17);
         assertTrue(e2.getResult(ss) == 1);
         assertTrue(e3.getResult(ss) == 0);
-*/
+
 /* BUG uncomment --------------------------
         AvatarExpressionSolver bug1 = new AvatarExpressionSolver("3 + -2 * 2");
         AvatarExpressionSolver bug2 = new AvatarExpressionSolver("3 - +2 * 2");
@@ -316,7 +320,7 @@ public class AvatarExpressionTest {
         System.out.println("bug3 getResult : " + bug3.getResult(ss));
 */
 
-/*        assertTrue(e4.getResult(ss) == -2);
+        assertTrue(e4.getResult(ss) == -2);
         
         as.removeConstants();
         as.sortAttributes();
@@ -337,5 +341,30 @@ public class AvatarExpressionTest {
         assertTrue(e2.getResult(ss) == 1);
         assertTrue(e3.getResult(ss) == 0);
         assertTrue(e4.getResult(ss) == -2);
-*/    }
+
+        /* for performance comparison
+        AvatarExpressionSolver E = new AvatarExpressionSolver("(block1.x + block2.y) * 5 - (((block1.x + block2.y)) + block2.y) * 3");
+        assertTrue(E.buildExpression(as));
+        System.out.println(E.getResult(ss));
+
+        int i;
+        String s = "(block1.x + block2.y) * 5 - (((block1.x + block2.y)) + block2.y) * ";
+        ArrayList<AvatarExpressionSolver> arr = new ArrayList<AvatarExpressionSolver>();
+
+        long t1 =  System.currentTimeMillis();
+            for(i=0;i<1000000;i++){
+                E = new AvatarExpressionSolver(s+i);
+                E.buildExpression(as);
+            arr.add(E);
+            }
+
+        long t2 =  System.currentTimeMillis();
+        int e=2;
+            for(i=0;i<1000000;i++) {
+            e += arr.get(i).getResult(ss);
+        }
+        long t3 = System.currentTimeMillis();
+        System.out.println(" Duration " + t1 + " " + t2 + " " + t3 + " : " + (t2 - t1) + " , " + (t3 - t2));
+        */
+    }
 }

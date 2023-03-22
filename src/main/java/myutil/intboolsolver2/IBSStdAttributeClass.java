@@ -220,6 +220,7 @@ public class IBSStdAttributeClass<
                 }
                 case IBSAttributeClass.BoolAttr: {
                     a = new TypedAttribute(x, true);
+                    break;
                 }
                 case IBSAttributeClass.IntAttr: {
                     a = new TypedAttribute(x, false);
@@ -242,7 +243,6 @@ public class IBSStdAttributeClass<
                     a = new TypedAttribute(x.getConstant(),true);
                     break;
                 }
-
                 case IBSAttributeClass.IntConst: {
                     a = new TypedAttribute(x.getConstant(),false);
                     break;
@@ -306,14 +306,20 @@ public class IBSStdAttributeClass<
         protected int constantInt = 0;
 
         // TO OVERRIDE, Inherited from IBSAttributeClass.
-        // public abstract int getValue(SpecState _ss);
-        // public abstract int getValue(CompState sb);
-        // public abstract int getValue(Object _quickstate);
-        // public abstract void setValue(SpecState _ss, int val);
-        // public abstract void setValue(CompState _cs, int val);
+        public int getValue(SpecState _ss){
+            return 1;
+        }
+        public  int getValue(CompState sb) {
+            return 1;
+        }
+        public int getValue(Object _qs){
+            return 1;
+        }
+        public void setValue(SpecState _ss, int val){}
+        public void setValue(CompState _cs, int val){}
 
-        // public abstract void linkComp(Spec _spec);
-        // public abstract void linkState();
+        public void linkComp(Spec _spec){}
+        public void linkState(){}
 
         /** Subclass specific initialisation functions for attributes (<b> To override </b>).
          *

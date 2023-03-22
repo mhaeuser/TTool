@@ -193,7 +193,7 @@ public class IBSOriginParser<
         public String s;
         TestedExpr(String _s,boolean _b){ s = _s; test = _b; }
     }
-    public int parseIntRec(Spec _comp, String _s) {
+    public int parseIntRec(Spec _spec, String _s) {
         if (_s.matches("^.+[<>=:;\\$&\\|].*$")) {
             return -1;
         }
@@ -207,6 +207,7 @@ public class IBSOriginParser<
         expression = returnVal.s;
         isNegated = (isNegated != returnVal.test);
 
+        int res;
         if (!expression.matches("^.+[\\+\\-\\*/].*$")) {
 
             returnVal = checkNegatedNoBrackets(expression);
@@ -217,76 +218,74 @@ public class IBSOriginParser<
             if (expression.equals("true") || expression.equals("false"))
                 return -2;
             if (expression.matches("-?\\d+")) {
-                if (isNegated)
-                    return exprC.make_iConst(0 - Integer.parseInt(expression));
-                return exprC.make_iConst(Integer.parseInt(expression));
+                res = exprC.make_iConst(Integer.parseInt(expression));
             }
             else {
-                int res,idx;
                 IBSAttributeClass<Spec,Comp,State,SpecState,CompState>.TypedAttribute att =
-                        attC.getTypedAttribute(_comp, expression);
-                    switch (att.getType()) {
-                        case IBSAttributeClass.NullAttr:
-                            badIdents.add(expression);
-                            return -1;
-                        case IBSAttributeClass.BoolAttr:
-                        case IBSAttributeClass.BoolConst:
-                            return -2;
-                        case IBSAttributeClass.IntConst:
-                            res = exprC.make_iConst(att.getConstant());
-                            if (isNegated){
-                                idx=exprC.make_iNeg(res);
-                                exprC.freeInt(res);
-                                return idx;
-                            }
-                            return res;
-                        case IBSAttributeClass.IntAttr:
-                            res = exprC.make_iVar(att.getAttribute());
-                            if (isNegated){
-                                idx=exprC.make_iNeg(res);
-                                exprC.freeInt(res);
-                                return idx;
-                            }
-                            return res;
-                    }
+                        attC.getTypedAttribute(_spec, expression);
+                switch (att.getType()) {
+                    case IBSAttributeClass.NullAttr:
+                        badIdents.add(expression);
+                        return -1;
+                    case IBSAttributeClass.BoolConst:
+                    case IBSAttributeClass.BoolAttr:
+                        return -2;
+                    case IBSAttributeClass.IntConst:
+                        res = exprC.make_iConst(att.getConstant());
+                        break;
+                    case IBSAttributeClass.IntAttr:
+                        res = exprC.make_iVar(att.getAttribute());
+                        break;
+                    default:
+                        throw new Error("IBSOriginParser, parseIntRec: unknown attribute type");
+                }
+            }
+        } else {
+            int index = getOperatorIndex(expression);
+            if (index == -1) return -1;
+
+            String leftExpression = expression.substring(0, index).trim();
+            String rightExpression = expression.substring(index + 1, expression.length()).trim();
+
+            int left = parseIntRec(_spec, leftExpression);
+            if (left < 0) return left;
+            int right = parseIntRec(_spec, rightExpression);
+            if (right < 0) {
+                exprC.freeInt(left);
+                return right;
+            }
+
+            switch (expression.charAt(index)) {
+                case '+':
+                    res = exprC.make_iiiPlus(left, right);
+                    exprC.freeInt(left);
+                    exprC.freeInt(right);
+                    break;
+                case '-':
+                    res = exprC.make_iiiMinus(left, right);
+                    exprC.freeInt(left);
+                    exprC.freeInt(right);
+                    break;
+                case '*':
+                    res = exprC.make_iiiMult(left, right);
+                    exprC.freeInt(left);
+                    exprC.freeInt(right);
+                    break;
+                case '/':
+                    res = exprC.make_iiiDiv(left, right);
+                    exprC.freeInt(left);
+                    exprC.freeInt(right);
+                    break;
+                default: // should not happend
+                    throw new Error("IBSOriginParser, parseIntRec: unknown operator");
             }
         }
-        int index = getOperatorIndex(expression);
-        if (index == -1) return -1;
-        int res;
-
-        String leftExpression = expression.substring(0, index).trim();
-        String rightExpression = expression.substring(index + 1, expression.length()).trim();
-
-        int left  = parseIntRec(_comp,leftExpression);
-        if (left < 0) return left;
-        int right = parseIntRec(_comp,rightExpression);
-        if (right < 0) {exprC.freeInt(left); return right;}
-
-        switch(expression.charAt(index)) {
-            case '+':
-                res = exprC.make_iiiPlus(left, right);
-                exprC.freeInt(left);
-                exprC.freeInt(right);
-                return res;
-            case '-':
-                res = exprC.make_iiiMinus(left, right);
-                exprC.freeInt(left);
-                exprC.freeInt(right);
-                return res;
-            case '*':
-                res = exprC.make_iiiMult(left, right);
-                exprC.freeInt(left);
-                exprC.freeInt(right);
-                return res;
-            case '/':
-                res = exprC.make_iiiDiv(left, right);
-                exprC.freeInt(left);
-                exprC.freeInt(right);
-                return res;
-            default: // should not happend
-                throw new Error("IBSOriginParser, parseIntRec: unknown operator");
+        if (isNegated) {
+            int idx = exprC.make_iNeg(res);
+            exprC.freeInt(res);
+            return idx;
         }
+        return res;
     }
     public int parseIntRec(Comp _comp, String _s) {
         if (_s.matches("^.+[<>=:;\\$&\\|].*$")) {
@@ -302,6 +301,7 @@ public class IBSOriginParser<
         expression = returnVal.s;
         isNegated = (isNegated != returnVal.test);
 
+        int res;
         if (!expression.matches("^.+[\\+\\-\\*/].*$")) {
 
             returnVal = checkNegatedNoBrackets(expression);
@@ -312,79 +312,74 @@ public class IBSOriginParser<
             if (expression.equals("true") || expression.equals("false"))
                 return -2;
             if (expression.matches("-?\\d+")) {
-                int res = exprC.make_iConst(Integer.parseInt(expression));
-                if (isNegated) {
-                    int idx = exprC.make_iNeg(res);
-                    exprC.freeInt(res);
-                    return idx;
-                }
-                return res;
+                res = exprC.make_iConst(Integer.parseInt(expression));
             }
             else {
-                int res,idx;
                 IBSAttributeClass<Spec,Comp,State,SpecState,CompState>.TypedAttribute att =
                         attC.getTypedAttribute(_comp, expression);
                 switch (att.getType()) {
                     case IBSAttributeClass.NullAttr:
                         badIdents.add(expression);
                         return -1;
-                    case IBSAttributeClass.BoolAttr:
                     case IBSAttributeClass.BoolConst:
+                    case IBSAttributeClass.BoolAttr:
                         return -2;
                     case IBSAttributeClass.IntConst:
                         res = exprC.make_iConst(att.getConstant());
-                        if (isNegated){
-                            idx=exprC.make_iNeg(res);
-                            exprC.freeInt(res);
-                            return idx;
-                        }
-                        return res;
+                        break;
                     case IBSAttributeClass.IntAttr:
                         res = exprC.make_iVar(att.getAttribute());
-                        if (isNegated){
-                            idx=exprC.make_iNeg(res);
-                            exprC.freeInt(res);
-                            return idx;
-                        }
-                        return res;
+                        break;
+                    default:
+                        throw new Error("IBSOriginParser, parseIntRec: unknown attribute type");
                 }
             }
-        }
-        int index = getOperatorIndex(expression);
-        if (index == -1) return -1;
-        int res;
-        String leftExpression = expression.substring(0, index).trim();
-        String rightExpression = expression.substring(index + 1, expression.length()).trim();
+        } else {
+            int index = getOperatorIndex(expression);
+            if (index == -1) return -1;
 
-        int left  = parseIntRec(_comp,leftExpression);
-        if (left < 0) return left;
-        int right = parseIntRec(_comp,rightExpression);
-        if (right < 0) {exprC.freeInt(left); return right;}
+            String leftExpression = expression.substring(0, index).trim();
+            String rightExpression = expression.substring(index + 1, expression.length()).trim();
 
-        switch(expression.charAt(index)) {
-            case '+':
-                res = exprC.make_iiiPlus(left, right);
+            int left = parseIntRec(_comp, leftExpression);
+            if (left < 0) return left;
+            int right = parseIntRec(_comp, rightExpression);
+            if (right < 0) {
                 exprC.freeInt(left);
-                exprC.freeInt(right);
-                return res;
-            case '-':
-                res = exprC.make_iiiMinus(left, right);
-                exprC.freeInt(left);
-                exprC.freeInt(right);
-                return res;
-            case '*':
-                res = exprC.make_iiiMult(left, right);
-                exprC.freeInt(left);
-                exprC.freeInt(right);
-                return res;
-            case '/':
-                res = exprC.make_iiiDiv(left, right);
-                exprC.freeInt(left);
-                exprC.freeInt(right);
-                return res;
-            default: // should not happend
-                throw new Error("IBSOriginParser, parseIntRec: unknown operator");
+                return right;
+            }
+
+            switch (expression.charAt(index)) {
+                case '+':
+                    res = exprC.make_iiiPlus(left, right);
+                    exprC.freeInt(left);
+                    exprC.freeInt(right);
+                    break;
+                case '-':
+                    res = exprC.make_iiiMinus(left, right);
+                    exprC.freeInt(left);
+                    exprC.freeInt(right);
+                    break;
+                case '*':
+                    res = exprC.make_iiiMult(left, right);
+                    exprC.freeInt(left);
+                    exprC.freeInt(right);
+                    break;
+                case '/':
+                    res = exprC.make_iiiDiv(left, right);
+                    exprC.freeInt(left);
+                    exprC.freeInt(right);
+                    break;
+                default: // should not happend
+                    throw new Error("IBSOriginParser, parseIntRec: unknown operator");
+            }
         }
+        if (isNegated) {
+            int idx = exprC.make_iNeg(res);
+            exprC.freeInt(res);
+            return idx;
+        }
+        return res;
     }
     public int parseIntRec(String _s) {
         if (_s.matches("^.+[<>=:;\\$&\\|].*$")) {
@@ -400,8 +395,7 @@ public class IBSOriginParser<
         expression = returnVal.s;
         isNegated = (isNegated != returnVal.test);
 
-        if (expression.equals("true") || expression.equals("false"))
-            return -2;
+        int res;
         if (!expression.matches("^.+[\\+\\-\\*/].*$")) {
 
             returnVal = checkNegatedNoBrackets(expression);
@@ -409,55 +403,61 @@ public class IBSOriginParser<
             expression = returnVal.s;
             isNegated = (isNegated != returnVal.test);
 
+            if (expression.equals("true") || expression.equals("false"))
+                return -2;
             if (expression.matches("-?\\d+")) {
-                int res = exprC.make_iConst(Integer.parseInt(expression));
-                if (isNegated) {
-                    int idx = exprC.make_iNeg(res);
-                    exprC.freeInt(res);
-                    return idx;
-                }
-                return res;
+                res = exprC.make_iConst(Integer.parseInt(expression));
             }
             else {
                 badIdents.add(expression);
                 return -1;
             }
-        }
-        int index = getOperatorIndex(expression);
-        if (index == -1) return -1;
+        } else {
+            int index = getOperatorIndex(expression);
+            if (index == -1) return -1;
 
-        String leftExpression = expression.substring(0, index).trim();
-        String rightExpression = expression.substring(index + 1, expression.length()).trim();
-        int res;
-        int left  = parseIntRec(leftExpression);
-        if (left < 0) return left;
-        int right = parseIntRec(rightExpression);
-        if (right < 0) {exprC.freeInt(left); return right;}
+            String leftExpression = expression.substring(0, index).trim();
+            String rightExpression = expression.substring(index + 1, expression.length()).trim();
 
-        switch(expression.charAt(index)) {
-            case '+':
-                res = exprC.make_iiiPlus(left, right);
+            int left = parseIntRec(leftExpression);
+            if (left < 0) return left;
+            int right = parseIntRec(rightExpression);
+            if (right < 0) {
                 exprC.freeInt(left);
-                exprC.freeInt(right);
-                return res;
-            case '-':
-                res = exprC.make_iiiMinus(left, right);
-                exprC.freeInt(left);
-                exprC.freeInt(right);
-                return res;
-            case '*':
-                res = exprC.make_iiiMult(left, right);
-                exprC.freeInt(left);
-                exprC.freeInt(right);
-                return res;
-            case '/':
-                res = exprC.make_iiiDiv(left, right);
-                exprC.freeInt(left);
-                exprC.freeInt(right);
-                return res;
-            default: // should not happend
-                throw new Error("IBSOriginParser, parseIntRec: unknown operator");
+                return right;
+            }
+
+            switch (expression.charAt(index)) {
+                case '+':
+                    res = exprC.make_iiiPlus(left, right);
+                    exprC.freeInt(left);
+                    exprC.freeInt(right);
+                    break;
+                case '-':
+                    res = exprC.make_iiiMinus(left, right);
+                    exprC.freeInt(left);
+                    exprC.freeInt(right);
+                    break;
+                case '*':
+                    res = exprC.make_iiiMult(left, right);
+                    exprC.freeInt(left);
+                    exprC.freeInt(right);
+                    break;
+                case '/':
+                    res = exprC.make_iiiDiv(left, right);
+                    exprC.freeInt(left);
+                    exprC.freeInt(right);
+                    break;
+                default: // should not happend
+                    throw new Error("IBSOriginParser, parseIntRec: unknown operator");
+            }
         }
+        if (isNegated) {
+            int idx = exprC.make_iNeg(res);
+            exprC.freeInt(res);
+            return idx;
+        }
+        return res;
     }
     public int parseBoolRec(Spec _spec, String _s) {
         TestedExpr returnVal;
@@ -500,8 +500,9 @@ public class IBSOriginParser<
                         break;
                     case IBSAttributeClass.IntAttr:
                         res= exprC.make_biVar(att.getAttribute());
+                        break;
                     default:
-                        throw new Error ("IBSParser... Cannot happen !?");
+                        throw new Error ("IBSParser... Cannot happen !?!  " + att.getType());
                 }
             }
         } else {
@@ -612,23 +613,23 @@ public class IBSOriginParser<
                             res = exprC.make_bbbEq(left, right);
                             exprC.freeBool(left);
                             exprC.freeBool(right);
-                            return res;
+                        } else {
+                            res = exprC.make_biiEq(left, right);
+                            exprC.freeInt(left);
+                            exprC.freeInt(right);
                         }
-                        res = exprC.make_biiEq(left, right);
-                        exprC.freeInt(left);
-                        exprC.freeInt(right);
-                        return res;
-                    }
-                    left = parseBoolRec(_spec, leftExpression);
-                    if (left < 0) return left;
-                    right = parseBoolRec(_spec, rightExpression);
-                    if (right < 0) {
+                    } else {
+                        left = parseBoolRec(_spec, leftExpression);
+                        if (left < 0) return left;
+                        right = parseBoolRec(_spec, rightExpression);
+                        if (right < 0) {
+                            exprC.freeBool(left);
+                            return right;
+                        }
+                        res = exprC.make_bbbEq(left, right);
                         exprC.freeBool(left);
-                        return right;
+                        exprC.freeBool(right);
                     }
-                    res = exprC.make_bbbEq(left, right);
-                    exprC.freeBool(left);
-                    exprC.freeBool(right);
                     break;
 
                 case '$':
@@ -665,6 +666,7 @@ public class IBSOriginParser<
                         exprC.freeBool(right);
                     }
                     break;
+
 
                 case '<':
                     left = parseIntRec(_spec, leftExpression);
@@ -766,8 +768,9 @@ public class IBSOriginParser<
                         break;
                     case IBSAttributeClass.IntAttr:
                         res= exprC.make_biVar(att.getAttribute());
+                        break;
                     default:
-                        throw new Error ("IBSParser... Cannot happen !?");
+                        throw new Error ("IBSParser... Cannot happen !?!  " + att.getType());
                 }
             }
         } else {
@@ -878,23 +881,23 @@ public class IBSOriginParser<
                             res = exprC.make_bbbEq(left, right);
                             exprC.freeBool(left);
                             exprC.freeBool(right);
-                            return res;
+                        } else {
+                            res = exprC.make_biiEq(left, right);
+                            exprC.freeInt(left);
+                            exprC.freeInt(right);
                         }
-                        res = exprC.make_biiEq(left, right);
-                        exprC.freeInt(left);
-                        exprC.freeInt(right);
-                        return res;
-                    }
-                    left = parseBoolRec(_comp, leftExpression);
-                    if (left < 0) return left;
-                    right = parseBoolRec(_comp, rightExpression);
-                    if (right < 0) {
+                    } else {
+                        left = parseBoolRec(_comp, leftExpression);
+                        if (left < 0) return left;
+                        right = parseBoolRec(_comp, rightExpression);
+                        if (right < 0) {
+                            exprC.freeBool(left);
+                            return right;
+                        }
+                        res = exprC.make_bbbEq(left, right);
                         exprC.freeBool(left);
-                        return right;
+                        exprC.freeBool(right);
                     }
-                    res = exprC.make_bbbEq(left, right);
-                    exprC.freeBool(left);
-                    exprC.freeBool(right);
                     break;
 
                 case '$':
@@ -1112,11 +1115,11 @@ public class IBSOriginParser<
                     break;
 
                 case '=':
-                    left = parseIntRec( leftExpression);
+                    left = parseIntRec(leftExpression);
                     if (left >= 0) {
-                        right = parseIntRec( rightExpression);
+                        right = parseIntRec(rightExpression);
                         if (right < 0) {
-                            right = parseBoolRec( rightExpression);
+                            right = parseBoolRec(rightExpression);
                             if (right < 0) {
                                 exprC.freeInt(left);
                                 return right;
@@ -1127,31 +1130,31 @@ public class IBSOriginParser<
                             res = exprC.make_bbbEq(left, right);
                             exprC.freeBool(left);
                             exprC.freeBool(right);
-                            return res;
+                        } else {
+                            res = exprC.make_biiEq(left, right);
+                            exprC.freeInt(left);
+                            exprC.freeInt(right);
                         }
-                        res = exprC.make_biiEq(left, right);
-                        exprC.freeInt(left);
-                        exprC.freeInt(right);
-                        return res;
-                    }
-                    left = parseBoolRec( leftExpression);
-                    if (left < 0) return left;
-                    right = parseBoolRec( rightExpression);
-                    if (right < 0) {
+                    } else {
+                        left = parseBoolRec(leftExpression);
+                        if (left < 0) return left;
+                        right = parseBoolRec(rightExpression);
+                        if (right < 0) {
+                            exprC.freeBool(left);
+                            return right;
+                        }
+                        res = exprC.make_bbbEq(left, right);
                         exprC.freeBool(left);
-                        return right;
+                        exprC.freeBool(right);
                     }
-                    res = exprC.make_bbbEq(left, right);
-                    exprC.freeBool(left);
-                    exprC.freeBool(right);
                     break;
 
                 case '$':
-                    left = parseIntRec( leftExpression);
+                    left = parseIntRec(leftExpression);
                     if (left >= 0) {
-                        right = parseIntRec( rightExpression);
+                        right = parseIntRec(rightExpression);
                         if (right < 0) {
-                            right = parseBoolRec( rightExpression);
+                            right = parseBoolRec(rightExpression);
                             if (right < 0) {
                                 exprC.freeInt(left);
                                 return right;
@@ -1168,9 +1171,9 @@ public class IBSOriginParser<
                             exprC.freeInt(right);
                         }
                     } else {
-                        left = parseBoolRec( leftExpression);
+                        left = parseBoolRec(leftExpression);
                         if (left < 0) return left;
-                        right = parseBoolRec( rightExpression);
+                        right = parseBoolRec(rightExpression);
                         if (right < 0) {
                             exprC.freeBool(left);
                             return right;
@@ -1180,6 +1183,7 @@ public class IBSOriginParser<
                         exprC.freeBool(right);
                     }
                     break;
+
 
                 case '<':
                     left = parseIntRec( leftExpression);

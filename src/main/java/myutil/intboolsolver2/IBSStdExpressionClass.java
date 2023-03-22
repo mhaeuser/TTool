@@ -513,9 +513,7 @@ public class IBSStdExpressionClass<
         public int eval(CompState _cs) {
             return (isNeg?-(left.eval(_cs) + right.eval(_cs)):(left.eval(_cs) + right.eval(_cs)));
         }
-        public int eval(Object _qs){
-            return (isNeg?-(left.eval() + right.eval()):(left.eval() + right.eval()));
-        }
+        public int eval(Object _qs){ return (isNeg?-(left.eval(_qs) + right.eval(_qs)):(left.eval(_qs) + right.eval(_qs))); }
         public String toString() {
             String l = (left.getPrio() > prios[iiiPlus] ? "(" +  left.toString() + ")" : left.toString());
             String r = (right.getPrio() > prios[iiiPlus] ? "(" +  right.toString() + ")" : right.toString());
@@ -546,7 +544,7 @@ public class IBSStdExpressionClass<
             return (isNeg?-(left.eval(_cs) - right.eval(_cs)):(left.eval(_cs) - right.eval(_cs)));
         }
         public int eval(Object _qs){
-            return (isNeg?-(left.eval() - right.eval()):(left.eval() - right.eval()));
+            return (isNeg?-(left.eval(_qs) - right.eval(_qs)):(left.eval(_qs) - right.eval(_qs)));
         }
         public String toString() {
             String l = (left.getPrio() > prios[iiiMinus] ? "(" +  left.toString() + ")" : left.toString());
@@ -578,7 +576,7 @@ public class IBSStdExpressionClass<
             return (isNeg?-(left.eval(_cs) * right.eval(_cs)):(left.eval(_cs) * right.eval(_cs)));
         }
         public int eval(Object _qs){
-            return (isNeg?-(left.eval() * right.eval()):(left.eval() * right.eval()));
+            return (isNeg?-(left.eval(_qs) * right.eval(_qs)):(left.eval(_qs) * right.eval(_qs)));
         }
         public String toString() {
             String l = (left.getPrio() > prios[iiiMult] ? "(" +  left.toString() + ")" : left.toString());
@@ -610,7 +608,7 @@ public class IBSStdExpressionClass<
             return (isNeg?-(left.eval(_cs) / right.eval(_cs)):(left.eval(_cs) / right.eval(_cs)));
         }
         public int eval(Object _qs){
-            return (isNeg?-(left.eval() / right.eval()):(left.eval() / right.eval()));
+            return (isNeg?-(left.eval(_qs) / right.eval(_qs)):(left.eval(_qs) / right.eval(_qs)));
         }
         public String toString() {
             String l = (left.getPrio() > prios[iiiDiv] ? "(" +  left.toString() + ")" : left.toString());
@@ -642,7 +640,7 @@ public class IBSStdExpressionClass<
             return (isNeg?-(left.eval(_cs) % right.eval(_cs)):(left.eval(_cs) % right.eval(_cs)));
         }
         public int eval(Object _qs){
-            return (isNeg?-(left.eval() % right.eval()):(left.eval() % right.eval()));
+            return (isNeg?-(left.eval(_qs) % right.eval(_qs)):(left.eval(_qs) % right.eval(_qs)));
         }
         public String toString() {
             String l = (left.getPrio() > prios[iiiMod] ? "(" +  left.toString() + ")" : left.toString());

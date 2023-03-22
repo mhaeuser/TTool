@@ -393,6 +393,7 @@ public class IBSOriginExpressionClass<
         res.isLeaf = e.isLeaf;
         res.isImmediateValue = e.isImmediateValue;
         res.intValue = (e.isImmediateValue? -e.intValue: e.intValue);
+        res.leaf = e.leaf;
         iExpressions.set(tgt, res);
         iBusy.set(tgt,Boolean.TRUE);
         return tgt;
@@ -494,7 +495,7 @@ public class IBSOriginExpressionClass<
                 if (isImmediateValue) {
                     res = intValue;
                 } else {
-                    res = leaf.getValue(_cs);
+                    res = leaf.getValue(_cs); // BUG JAVA 11 ? System.out.println(leaf.getClass() + "  " + res);
                 }
             } else {
                 res = iChildrenResult(left.eval(_cs), right.eval(_cs),operator);

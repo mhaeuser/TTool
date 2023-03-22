@@ -79,5 +79,5 @@ public class AvatarIBSStdExpressionClass extends IBSStdExpressionClass<
         SpecificationState,
         SpecificationBlock
         > {
-    AvatarIBSStdExpressionClass(){}
+    public AvatarIBSStdExpressionClass(){}
 }

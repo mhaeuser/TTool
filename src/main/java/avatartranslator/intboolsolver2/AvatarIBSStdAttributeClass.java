@@ -107,7 +107,7 @@ public class AvatarIBSStdAttributeClass extends IBSStdAttributeClass<
             return; // should be an error
         attributesMap.put((AvatarElement) _state, _att);
     }
-    protected Attribute getAttribute() { return this.new Attribute();}
+    protected Attribute getAttribute() {return new Attribute();}
     public static AvatarElement getElement(String s, AvatarSpecification spec) {
         //Extract Block and Attribute
         String[] splitS;
@@ -189,7 +189,7 @@ public class AvatarIBSStdAttributeClass extends IBSStdAttributeClass<
         private int accessIndex;
         private int shift;
         private int mask;
-
+        @Override
         protected int initAttribute(AvatarSpecification _spec) {
 
             //Extract Block and Attribute

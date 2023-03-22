@@ -1640,14 +1640,14 @@ public class AvatarBDBlock extends TGCScalableWithInternalComponent implements S
     public void removeCryptoElements() {
         typeStereotype = 0;
 
-        for (String method : AvatarMethod.cryptoMethods)
+        for (String method : avatartranslator.AvatarMethod.cryptoMethods)
             this.removeMethodIfApplicable(method);
     }
 
     public void addCryptoElements() {
         typeStereotype = 1;
 
-        for (String method : AvatarMethod.cryptoMethods)
+        for (String method : avatartranslator.AvatarMethod.cryptoMethods)
             this.addMethodIfApplicable(method);
     }
 

@@ -226,11 +226,12 @@ public class TML2AvatarDP {
     public void translate() {
         TML2Avatar tml2av = new TML2Avatar(tmlmap, mc, security);
         avspec = tml2av.generateAvatarSpec("1");
-        drawPanel();
+        //drawPanel();
         //Create AvatarDesignDiagram
     }
 
     public void drawPanel() {
+        TraceManager.addDev("Drawing Avatar blocks and their state machine  - security aspects");
         if (adp == null) {
             return;
         }

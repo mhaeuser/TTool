@@ -1888,7 +1888,10 @@ public class MainGUI implements ActionListener, WindowListener, KeyListener, Per
         TraceManager.addDev("Draw Spec 2, in tab index=" + index);
         AvatarDesignPanel adp = (AvatarDesignPanel) (tabs.elementAt(index));
         TraceManager.addDev("Draw Spec 3");
+        adp.abdp.drawable = false;
         gtm.drawPanel(av, adp);
+        adp.abdp.drawable = true;
+        adp.abdp.repaint();
         TraceManager.addDev("Draw Spec 4");
     }
 

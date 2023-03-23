@@ -41,6 +41,8 @@
 
 package myutil;
 
+import java.util.Arrays;
+
 /**
  * Class TraceManager
  * Creation: 07/04/2010
@@ -60,10 +62,25 @@ public class TraceManager {
     public static int devPolicy = TO_CONSOLE;
     public static int errPolicy = TO_CONSOLE;
 
+
+
     public static void addDev(String res) {
         switch(devPolicy) {
             case TO_CONSOLE:
                 System.out.println(String.format("%1$-" + SIZE_DEBUG_CLASS + "s", "[" + getCallerClassName() + "] ") + res);
+                break;
+            case TO_DEVNULL:
+                break;
+            default:
+        }
+    }
+
+    public static void addDevStackTrace(String res) {
+        switch(devPolicy) {
+            case TO_CONSOLE:
+                System.out.println(String.format("%1$-" + SIZE_DEBUG_CLASS + "s", "[" + getCallerClassName() + "] ") + res);
+                System.out.println(String.format("%1$-" + SIZE_DEBUG_CLASS + "s", "[" + getCallerClassName() + "] ") +
+                        Arrays.toString(Thread.currentThread().getStackTrace()).replace( ',', '\n' ));
                 break;
             case TO_DEVNULL:
                 break;

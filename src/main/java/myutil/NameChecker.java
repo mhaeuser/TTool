@@ -68,7 +68,7 @@ public class NameChecker {
         //TraceManager.addDev("Working on exception");
         String[] exceptions = _ne.getNameExceptions();
         if (exceptions == null) {
-            TraceManager.addDev("Null excep");
+            //TraceManager.addDev("Null excep");
             return false;
         }
         for(int i=0; i<exceptions.length; i++) {
@@ -81,6 +81,11 @@ public class NameChecker {
         return false;
     }
 
+
+    public interface SystemWithNamedElements {
+        NamedElement[] getNamedElements();
+    }
+
     public interface NamedElement {
         String getName();
         String[] getNameExceptions();
@@ -91,6 +96,10 @@ public class NameChecker {
     }
 
     public interface NameStartWithLowerCase {
+    }
+
+    public interface NameTakenFromValue {
+        String getValue();
     }
 
 

@@ -41,6 +41,7 @@ package ui;
 import avatartranslator.ElementWithNew;
 import myutil.GenericTree;
 import myutil.GraphicLib;
+import myutil.NameChecker;
 import myutil.TraceManager;
 import myutilsvg.SVGGeneration;
 import myutilsvg.SVGGraphics;
@@ -2912,7 +2913,7 @@ public abstract class TDiagramPanel extends JPanel implements GenericTree {
     }
 
     //Tclass
-    private class NameChecker {
+    private class InternalNameChecker {
         public boolean isNameAlreadyTaken(TGComponent o, String name) {
             // Must deal with the case where mutliple the tested component
             // inherit from multiple classes / interfaces.
@@ -3165,7 +3166,7 @@ public abstract class TDiagramPanel extends JPanel implements GenericTree {
 
     }
 
-    private boolean isNameUnique(String name, NameChecker checker) {
+    private boolean isNameUnique(String name, InternalNameChecker checker) {
         for (TGComponent o : this.componentList)
             if (checker.isNameAlreadyTaken(o, name))
                 return false;
@@ -3194,7 +3195,7 @@ public abstract class TDiagramPanel extends JPanel implements GenericTree {
     }
 
     //#issue 82
-    private boolean isPortNameUnique(String name, NameChecker checker) {
+    private boolean isPortNameUnique(String name, InternalNameChecker checker) {
         Vector<TMLCPrimitivePort> portList = getPortList();
         //TraceManager.addDev("port list size : " + portList.size());
         for (int i = 0; i < portList.size(); i++) {
@@ -3206,7 +3207,7 @@ public abstract class TDiagramPanel extends JPanel implements GenericTree {
     }
 
 
-    private String findGoodName(String name, NameChecker checker) {
+    private String findGoodName(String name, InternalNameChecker checker) {
 
         if (this.isNameUnique(name, checker))
             return name;
@@ -3223,7 +3224,7 @@ public abstract class TDiagramPanel extends JPanel implements GenericTree {
     }
 
     //#issue 82
-    private String findGoodPortName(String name, NameChecker checker) {
+    private String findGoodPortName(String name, InternalNameChecker checker) {
         // index >= 0 catch overflows
         for (int index = 0; index >= 0; index++) {
             String tryName = name + index;
@@ -3236,7 +3237,7 @@ public abstract class TDiagramPanel extends JPanel implements GenericTree {
 
 
     public String findTClassName(String name) {
-        return this.findGoodName(name, new NameChecker() {
+        return this.findGoodName(name, new InternalNameChecker() {
             public boolean checkTClassInterface(TClassInterface o, String name) {
                 return o.getClassName().equals(name);
             }
@@ -3248,7 +3249,7 @@ public abstract class TDiagramPanel extends JPanel implements GenericTree {
     }
 
     public String findTOSClassName(String name) {
-        return this.findGoodName(name, new NameChecker() {
+        return this.findGoodName(name, new InternalNameChecker() {
             public boolean checkTOSClass(TOSClass o, String name) {
                 return o.getClassName().equals(name);
             }
@@ -3256,7 +3257,7 @@ public abstract class TDiagramPanel extends JPanel implements GenericTree {
     }
 
     public String findRequirementName(String name) {
-        return this.findGoodName(name, new NameChecker() {
+        return this.findGoodName(name, new InternalNameChecker() {
             public boolean checkRequirement(Requirement o, String name) {
                 return o.getRequirementName().equals(name);
             }
@@ -3264,7 +3265,7 @@ public abstract class TDiagramPanel extends JPanel implements GenericTree {
     }
 
     public String findTMLPrimitiveComponentName(String name) {
-        return this.findGoodName(name, new NameChecker() {
+        return this.findGoodName(name, new InternalNameChecker() {
             public boolean checkTMLCPrimitiveComponent(TMLCPrimitiveComponent o, String name) {
                 return o.getValue().equals(name);
             }
@@ -3284,7 +3285,7 @@ public abstract class TDiagramPanel extends JPanel implements GenericTree {
 
     //#issue 82
     public String findTMLCPrimitivePortName(String name) {
-        return this.findGoodPortName(name, new NameChecker() {
+        return this.findGoodPortName(name, new InternalNameChecker() {
             public boolean checkCPrimitivePort(TMLCPrimitivePort o, String name) {
                 //TraceManager.addDev("in CheckCPrimitivePort : port value " + o.getValue());
                 return o.getValue().equals(name);
@@ -3297,7 +3298,7 @@ public abstract class TDiagramPanel extends JPanel implements GenericTree {
     }
 
     public String findTMLTaskName(String name) {
-        return this.findGoodName(name, new NameChecker() {
+        return this.findGoodName(name, new InternalNameChecker() {
             public boolean checkTMLTaskInterface(TMLTaskInterface o, String name) {
                 return o.getTaskName().equals(name);
             }
@@ -3305,7 +3306,7 @@ public abstract class TDiagramPanel extends JPanel implements GenericTree {
     }
 
     public String findSysCAMSPrimitiveComponentName(String name) {
-        return this.findGoodName(name, new NameChecker() {
+        return this.findGoodName(name, new InternalNameChecker() {
             public boolean checkSysCAMSBlockTDFComponent(SysCAMSBlockTDF o, String name) {
                 return o.getValue().equals(name);
             }
@@ -3329,7 +3330,7 @@ public abstract class TDiagramPanel extends JPanel implements GenericTree {
     }
 
     public String findELNComponentName(String name) {
-        return this.findGoodName(name, new NameChecker() {
+        return this.findGoodName(name, new InternalNameChecker() {
             public boolean checkELNComponentNodeRef(ELNNodeRef o, String name) {
                 return o.getValue().equals(name);
             }
@@ -3423,7 +3424,7 @@ public abstract class TDiagramPanel extends JPanel implements GenericTree {
     }
 
     public String findAttackName(String name) {
-        return this.findGoodName(name, new NameChecker() {
+        return this.findGoodName(name, new InternalNameChecker() {
             public boolean checkATDAttack(ATDAttack o, String name) {
                 return o.getValue().equals(name);
             }
@@ -3431,7 +3432,7 @@ public abstract class TDiagramPanel extends JPanel implements GenericTree {
     }
 
     public String findFaultName(String name) {
-        return this.findGoodName(name, new NameChecker() {
+        return this.findGoodName(name, new InternalNameChecker() {
             public boolean checkFTDFault(FTDFault o, String name) {
                 return o.getValue().equals(name);
             }
@@ -3439,7 +3440,7 @@ public abstract class TDiagramPanel extends JPanel implements GenericTree {
     }
 
     public String findBlockName(String name) {
-        return this.findGoodName(name, new NameChecker() {
+        return this.findGoodName(name, new InternalNameChecker() {
             public boolean checkATDBlock(ATDBlock o, String name) {
                 return o.getName().equals(name);
             }
@@ -3449,7 +3450,7 @@ public abstract class TDiagramPanel extends JPanel implements GenericTree {
     //ajoute DG
 
     public String findAvatarBDInterfaceName(String name) {
-        return this.findGoodName(name, new NameChecker() {
+        return this.findGoodName(name, new InternalNameChecker() {
             public boolean checkAvatarBDInterface(AvatarBDInterface o, String name) {
                 if (o.getValue().equals(name))
                     return true;
@@ -3469,7 +3470,7 @@ public abstract class TDiagramPanel extends JPanel implements GenericTree {
     // fin ajoute
 
     public String findAvatarBDBlockName(String name) {
-        return this.findGoodName(name, new NameChecker() {
+        return this.findGoodName(name, new InternalNameChecker() {
             public boolean checkAvatarBDBlock(AvatarBDBlock o, String name) {
                 if (o.getValue().equals(name))
                     return true;
@@ -3488,7 +3489,7 @@ public abstract class TDiagramPanel extends JPanel implements GenericTree {
     }
 
     public String findAvatarCDBlockName(String name) {
-        return this.findGoodName(name, new NameChecker() {
+        return this.findGoodName(name, new InternalNameChecker() {
             public boolean checkAvatarCDBlock(AvatarCDBlock o, String name) {
                 if (o.getValue().equals(name))
                     return true;
@@ -3508,7 +3509,7 @@ public abstract class TDiagramPanel extends JPanel implements GenericTree {
     }*/
 
     public String findAvatarSMDStateName(String name) {
-        return this.findGoodName(name, new NameChecker() {
+        return this.findGoodName(name, new InternalNameChecker() {
             public boolean checkAvatarSMDState(AvatarSMDState o, String name) {
                 if (o.getValue().equals(name))
                     return true;
@@ -3518,7 +3519,7 @@ public abstract class TDiagramPanel extends JPanel implements GenericTree {
     }
 
     public String findAvatarADActivityName(String name) {
-        return this.findGoodName(name, new NameChecker() {
+        return this.findGoodName(name, new InternalNameChecker() {
             public boolean checkAvatarADActivity(AvatarADActivity o, String name) {
                 if (o.getValue().equals(name))
                     return true;
@@ -3528,7 +3529,7 @@ public abstract class TDiagramPanel extends JPanel implements GenericTree {
     }
 
     public String findAvatarAssumptionName(String name, int start) {
-        return this.findGoodName(name, new NameChecker() {
+        return this.findGoodName(name, new InternalNameChecker() {
             public boolean checkAvatarMADAssumption(AvatarMADAssumption o, String name) {
                 return o.getValue().equals(name);
             }
@@ -3536,7 +3537,7 @@ public abstract class TDiagramPanel extends JPanel implements GenericTree {
     }
 
     public String findAvatarRequirementName(String name, int start) {
-        return this.findGoodName(name, new NameChecker() {
+        return this.findGoodName(name, new InternalNameChecker() {
             public boolean checkAvatarRDRequirement(AvatarRDRequirement o, String name) {
                 return o.getValue().equals(name);
             }
@@ -3569,7 +3570,7 @@ public abstract class TDiagramPanel extends JPanel implements GenericTree {
     }
 
     public String findTObjectName(String name) {
-        return this.findGoodName(name, new NameChecker() {
+        return this.findGoodName(name, new InternalNameChecker() {
             public boolean checkTCDTObject(TCDTObject o, String name) {
                 return o.getObjectName().equals(name);
             }
@@ -3598,7 +3599,7 @@ public abstract class TDiagramPanel extends JPanel implements GenericTree {
     }
 
     public String findNodeName(String name) {
-        return this.findGoodName(name, new NameChecker() {
+        return this.findGoodName(name, new InternalNameChecker() {
             public boolean checkNCEqNode(NCEqNode o, String name) {
                 if (o.getName().equals(name))
                     return true;
@@ -3639,7 +3640,7 @@ public abstract class TDiagramPanel extends JPanel implements GenericTree {
     }
 
     public boolean isAlreadyATMLPrimitiveComponentName(String name) {
-        return !this.isNameUnique(name, new NameChecker() {
+        return !this.isNameUnique(name, new InternalNameChecker() {
             public boolean checkTMLCPrimitiveComponent(TMLCPrimitiveComponent o, String name) {
                 return o.getValue().equals(name);
             }
@@ -3659,7 +3660,7 @@ public abstract class TDiagramPanel extends JPanel implements GenericTree {
 
     //#issue 82;
     public boolean isAlreadyATMLPrimitivePortName(String name) {
-        return !this.isPortNameUnique(name, new NameChecker() {
+        return !this.isPortNameUnique(name, new InternalNameChecker() {
             public boolean checkCPrimitivePort(TMLCPrimitivePort o, String name) {
                 return o.getValue().equals(name);
             }
@@ -3672,7 +3673,7 @@ public abstract class TDiagramPanel extends JPanel implements GenericTree {
     }
 
     public boolean isTClassNameUnique(String name) {
-        return this.isNameUnique(name, new NameChecker() {
+        return this.isNameUnique(name, new InternalNameChecker() {
             public boolean checkTClassInterface(TClassInterface o, String name) {
                 return o.getClassName().equals(name);
             }
@@ -3684,7 +3685,7 @@ public abstract class TDiagramPanel extends JPanel implements GenericTree {
     }
 
     public boolean isTOSClassNameUnique(String name) {
-        return this.isNameUnique(name, new NameChecker() {
+        return this.isNameUnique(name, new InternalNameChecker() {
             public boolean checkTOSClass(TOSClass o, String name) {
                 return o.getClassName().equals(name);
             }
@@ -3692,7 +3693,7 @@ public abstract class TDiagramPanel extends JPanel implements GenericTree {
     }
 
     public boolean isTMLTaskNameUnique(String name) {
-        return this.isNameUnique(name, new NameChecker() {
+        return this.isNameUnique(name, new InternalNameChecker() {
             public boolean checkTMLTaskInterface(TMLTaskInterface o, String name) {
                 return o.getTaskName().equals(name);
             }
@@ -3700,7 +3701,7 @@ public abstract class TDiagramPanel extends JPanel implements GenericTree {
     }
 
     public boolean isBlockNameUnique(String name) {
-        return this.isNameUnique(name, new NameChecker() {
+        return this.isNameUnique(name, new InternalNameChecker() {
             public boolean checkATDBlock(ATDBlock o, String name) {
                 return o.getName().equals(name);
             }
@@ -3715,7 +3716,7 @@ public abstract class TDiagramPanel extends JPanel implements GenericTree {
      * @return true if the name is unique, false otherwise.
      */
     public boolean isAvatarBlockNameUnique(String name) {
-        return this.isNameUnique(name, new NameChecker() {
+        return this.isNameUnique(name, new InternalNameChecker() {
             public boolean checkAvatarBDBlock(AvatarBDBlock o, String name) {
                 if (o.getValue().equals(name))
                     return true;
@@ -3733,7 +3734,7 @@ public abstract class TDiagramPanel extends JPanel implements GenericTree {
     }
 
     public boolean isNCNameUnique(String name) {
-        return this.isNameUnique(name, new NameChecker() {
+        return this.isNameUnique(name, new InternalNameChecker() {
             public boolean checkNCEqNode(NCEqNode o, String name) {
                 if (o.getName().equals(name))
                     return true;
@@ -3758,7 +3759,7 @@ public abstract class TDiagramPanel extends JPanel implements GenericTree {
     }
 
     public boolean isRequirementNameUnique(String name) {
-        return this.isNameUnique(name, new NameChecker() {
+        return this.isNameUnique(name, new InternalNameChecker() {
             public boolean checkRequirement(Requirement o, String name) {
                 return o.getRequirementName().equals(name);
             }
@@ -3767,7 +3768,7 @@ public abstract class TDiagramPanel extends JPanel implements GenericTree {
 
     public boolean isTObjectNameUnique(String name) {
         // FIXME: this is not coherent with findTObjectName !!!
-        return this.isNameUnique(name, new NameChecker() {
+        return this.isNameUnique(name, new InternalNameChecker() {
             public boolean checkTClassInterface(TClassInterface o, String name) {
                 return o.getClassName().equals(name);
             }
@@ -4421,6 +4422,30 @@ public abstract class TDiagramPanel extends JPanel implements GenericTree {
 
     public void setTdmm(TDiagramMouseManager tdmm) {
         this.tdmm = tdmm;
+    }
+
+
+    // Named elements
+    public myutil.NameChecker.NamedElement[] getNamedElements() {
+        int cpt = 0;
+        for(TGComponent tgc: componentList) {
+            if (tgc instanceof myutil.NameChecker.NamedElement) {
+                cpt ++;
+            }
+        }
+        if (cpt == 0) {
+            return null;
+        }
+
+        myutil.NameChecker.NamedElement nes[] = new myutil.NameChecker.NamedElement[cpt];
+        cpt = 0;
+        for(TGComponent tgc: componentList) {
+            if (tgc instanceof myutil.NameChecker.NamedElement) {
+               nes[cpt] = (myutil.NameChecker.NamedElement) tgc;
+               cpt ++;
+            }
+        }
+        return nes;
     }
 }
 

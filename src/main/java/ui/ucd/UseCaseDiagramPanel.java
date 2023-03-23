@@ -41,6 +41,7 @@
 
 package ui.ucd;
 
+import myutil.NameChecker;
 import ui.*;
 
 import java.util.ListIterator;
@@ -52,7 +53,7 @@ import java.util.ListIterator;
    * @version 1.0 18/02/2005
    * @author Ludovic APVRILLE
  */
-public class UseCaseDiagramPanel extends TDiagramPanel {
+public class UseCaseDiagramPanel extends TDiagramPanel implements NameChecker.SystemWithNamedElements {
 
     public  UseCaseDiagramPanel(MainGUI mgui, TToolBar _ttb) {
         super(mgui, _ttb);

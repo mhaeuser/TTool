@@ -2870,6 +2870,9 @@ public abstract class TGComponent extends AbstractCDElement implements /*CDEleme
     }
 
     public final String getName() {
+        if (this instanceof NameChecker.NameTakenFromValue) {
+            return value;
+        }
         return name;
     }
 

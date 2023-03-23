@@ -136,7 +136,6 @@ public class AvatarSyntaxChecker {
 
     public static ArrayList<AvatarError> checkNames(AvatarSpecification _avspec, NameChecker.NamedElement _ne) {
 
-
         ArrayList<AvatarError> warnings = new ArrayList<>();
 
         // Checking block name

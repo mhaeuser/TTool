@@ -4434,6 +4434,14 @@ public class MainGUI implements ActionListener, WindowListener, KeyListener, Per
                             JOptionPane.INFORMATION_MESSAGE);
                 }
             }
+        } else {
+            // Identify active diagram panel
+            TDiagramPanel tdp = getCurrentTDiagramPanel();
+            if (tdp instanceof NameChecker.SystemWithNamedElements) {
+                TraceManager.addDev("Contains named elements");
+                gtm.addWarningForNames(tdp, true);
+                expandToWarnings();
+            }
         }
         // dtree.toBeUpdated();
         dtree.forceUpdate();

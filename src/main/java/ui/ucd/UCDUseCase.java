@@ -42,6 +42,7 @@
 package ui.ucd;
 
 import myutil.GraphicLib;
+import myutil.NameChecker;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -59,7 +60,7 @@ import java.awt.*;
  * @version 1.0 18/02/2005
  * @author Ludovic APVRILLE
  */
-public class UCDUseCase extends TGCScalableWithoutInternalComponent {
+public class UCDUseCase extends TGCScalableWithoutInternalComponent implements NameChecker.NameStartWithLowerCase, NameChecker.NameTakenFromValue {
     protected int lineLength = 5;
 //    protected int textX =  5;
 //    protected int textY =  15;

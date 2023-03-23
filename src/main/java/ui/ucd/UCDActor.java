@@ -42,6 +42,7 @@
 package ui.ucd;
 
 import myutil.GraphicLib;
+import myutil.NameChecker;
 import ui.*;
 import ui.util.IconManager;
 
@@ -55,7 +56,8 @@ import java.awt.*;
  * @author Ludovic APVRILLE
  * @version 1.0 18/02/2005
  */
-public class UCDActor extends TGCScalableWithoutInternalComponentOneLineText {
+public class UCDActor extends TGCScalableWithoutInternalComponentOneLineText implements NameChecker.NameStartWithUpperCase,
+        NameChecker.NameTakenFromValue {
     /*protected int lineLength = 5;
     protected int textX =  5;
     protected int textY =  15;
@@ -185,8 +187,7 @@ public class UCDActor extends TGCScalableWithoutInternalComponentOneLineText {
     public String getActorName() {
         return value;
     }
-    
-    
+
     @Override
     public int getType() {
         return TGComponentManager.UCD_ACTOR;

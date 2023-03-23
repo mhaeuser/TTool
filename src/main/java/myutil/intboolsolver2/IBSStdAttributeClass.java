@@ -191,6 +191,7 @@ public class IBSStdAttributeClass<
                 }
                 case IBSAttributeClass.BoolAttr: {
                     a = new TypedAttribute(x, true);
+                    break;
                 }
                 case IBSAttributeClass.IntAttr: {
                     a = new TypedAttribute(x, false);
@@ -249,6 +250,7 @@ public class IBSStdAttributeClass<
                 }
                 case IBSAttributeClass.BoolAttr: {
                     a = new TypedAttribute(x, true);
+                    break;
                 }
                 case IBSAttributeClass.IntAttr: {
                     a = new TypedAttribute(x, false);
@@ -309,12 +311,8 @@ public class IBSStdAttributeClass<
         public int getValue(SpecState _ss){
             return 1;
         }
-        public  int getValue(CompState sb) {
-            return 1;
-        }
-        public int getValue(Object _qs){
-            return 1;
-        }
+        public  int getValue(CompState sb) { return 1; }
+        public int getValue(Object _qs){ return 1; }
         public void setValue(SpecState _ss, int val){}
         public void setValue(CompState _cs, int val){}
 

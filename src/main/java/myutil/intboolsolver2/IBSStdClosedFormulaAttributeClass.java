@@ -72,4 +72,16 @@ public class IBSStdClosedFormulaAttributeClass extends IBSStdAttributeClass<
         IBSParamCompState
         > {
     IBSStdClosedFormulaAttributeClass(){}
+    class Attribute extends IBSStdAttributeClass<
+        IBSParamSpec,
+        IBSParamComp,
+        IBSParamState,
+        IBSParamSpecState,
+        IBSParamCompState
+        >.Attribute {
+        @Override
+        public int getValue(IBSParamSpecState _ss) {
+            return 18;
+        }
+    }
 }

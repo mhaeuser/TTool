@@ -43,9 +43,6 @@ public class IBSExpressionClass<
         public abstract void linkComps(Spec _spec);
     }
     public abstract class IExpr extends Expr {
-        public IExpr clone() throws CloneNotSupportedException {
-            return (IExpr) super.clone();
-        }
         public abstract int eval();
         public abstract int eval(SpecState _ss);
         public abstract int eval(SpecState _ss, State _st);
@@ -53,9 +50,6 @@ public class IBSExpressionClass<
         public abstract int eval(Object _qs);
     }
     public abstract class BExpr extends Expr {
-        public BExpr clone() throws CloneNotSupportedException {
-            return (BExpr) super.clone();
-        }
         public abstract boolean eval();
         public abstract boolean eval(SpecState _ss);
         public abstract boolean eval(SpecState _ss, State _st);

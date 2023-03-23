@@ -107,7 +107,7 @@ public class AvatarBDBlock extends TGCScalableWithInternalComponent implements S
     public AvatarBDBlock(int _x, int _y, int _minX, int _maxX, int _minY, int _maxY, boolean _pos, TGComponent _father, TDiagramPanel _tdp) {
         super(_x, _y, _minX, _maxX, _minY, _maxY, _pos, _father, _tdp);
 
-        TraceManager.addDevStackTrace("NEW AVATAR BD BLOCK");
+        //TraceManager.addDevStackTrace("NEW AVATAR BD BLOCK");
 
         width = 250;
         height = 200;

@@ -319,18 +319,20 @@ public class AvatarIBSStdParserTest {
         assertTrue(E!=null);
         System.out.println(E.eval(ss));
 
-        int i;
+        int i,j;
         String s = "(block1.x + block2.y) * 5 - (((block1.x + block2.y)) + block2.y) * ";
         ArrayList<AvatarIBSStdExpressionClass.IExpr> arr = new ArrayList<AvatarIBSStdExpressionClass.IExpr>();
 
         long t1 =  System.currentTimeMillis();
-        for(i=0;i<1000000;i++){
+        for(i=0;i<10000;i++){
             arr.add((AvatarIBSStdExpressionClass.IExpr) parser.parseInt(as, s+i));}
 
         long t2 =  System.currentTimeMillis();
         int e=2;
-        for(i=0;i<1000000;i++) {
-            e += arr.get(i).eval(ss);
+        for(j=0;j<100;j++) {
+            for (i = 0; i < 10000; i++) {
+                e += arr.get(i).eval(ss);
+            }
         }
         long t3 = System.currentTimeMillis();
         System.out.println(" Duration " + t1 + " " + t2 + " " + t3 + " : " + (t2 - t1) + " , " + (t3 - t2));

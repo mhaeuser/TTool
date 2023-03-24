@@ -347,7 +347,7 @@ public class TMLADWriteChannel extends TADComponentWithoutSubcomponents/* Issue 
         tab2.labels=labels;
         tab2.values =  values;
         tab2.help = help;
-        tab2.helpButtom = new String[]{null, "attacker.html", "encryptedForm.html"};
+        tab2.helpButtom = new String[]{null, "cryptographicconfiguration.html", "cryptographicconfiguration.html"};
 
         List<TabInfo> tabs = new ArrayList<>();
         tabs.add(tab1);

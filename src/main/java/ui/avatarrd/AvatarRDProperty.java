@@ -41,6 +41,7 @@ package ui.avatarrd;
 
 
 import myutil.GraphicLib;
+import myutil.NameChecker;
 import ui.*;
 import ui.util.IconManager;
 
@@ -57,7 +58,8 @@ import java.awt.*;
  * @author Ludovic APVRILLE
  * @version 1.0 20/04/2010
  */
-public class AvatarRDProperty extends TGCScalableWithInternalComponent implements TGAutoAdjust {
+public class AvatarRDProperty extends TGCScalableWithInternalComponent implements TGAutoAdjust, NameChecker.NameStartWithUpperCase,
+        NameChecker.NameTakenFromValue{
     public String oldValue;
     //    protected int textX = 5;
 //    protected int textY = 22;

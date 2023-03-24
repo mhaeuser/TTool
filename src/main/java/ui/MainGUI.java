@@ -3926,9 +3926,10 @@ public class MainGUI implements ActionListener, WindowListener, KeyListener, Per
         } else if (tp instanceof FaultTreePanel) {
             FaultTreePanel atp = (FaultTreePanel) tp;
             b = gtm.translateFaultTreePanel(atp);
+            identifyNamingWarnings(false);
             expandToWarnings();
             expandToErrors();
-            if (b) {
+            if (b || gtm.getCheckingWarnings().size() > 0) {
                 setMode(MainGUI.FAULTTREE_SYNTAXCHECKING_OK);
                 ret = true;
                 if (!automatic) {
@@ -3945,9 +3946,10 @@ public class MainGUI implements ActionListener, WindowListener, KeyListener, Per
         } else if (tp instanceof AttackTreePanel) {
             AttackTreePanel atp = (AttackTreePanel) tp;
             b = gtm.translateAttackTreePanel(atp, getTDiagramPanelIndex());
+            identifyNamingWarnings(false);
             expandToWarnings();
             expandToErrors();
-            if (b) {
+            if (b || gtm.getCheckingWarnings().size() > 0) {
                 setMode(MainGUI.ATTACKTREE_SYNTAXCHECKING_OK);
                 ret = true;
                 if (!automatic) {
@@ -4435,17 +4437,28 @@ public class MainGUI implements ActionListener, WindowListener, KeyListener, Per
                 }
             }
         } else {
-            // Identify active diagram panel
-            TDiagramPanel tdp = getCurrentTDiagramPanel();
-            if (tdp instanceof NameChecker.SystemWithNamedElements) {
-                TraceManager.addDev("Contains named elements");
-                gtm.addWarningForNames(tdp, true);
-                expandToWarnings();
+            identifyNamingWarnings(true);
+            expandToWarnings();
+            if (!automatic && gtm.getCheckingWarnings().size() > 0) {
+                JOptionPane.showMessageDialog(frame,
+                        "0 error, " + getCheckingWarnings().size()
+                                + " warning(s).",
+                        "Syntax analysis", JOptionPane.INFORMATION_MESSAGE);
             }
         }
         // dtree.toBeUpdated();
         dtree.forceUpdate();
         return ret;
+    }
+
+    private void identifyNamingWarnings(boolean clearWarnings) {
+        // Identify active diagram panel
+        TDiagramPanel tdp = getCurrentTDiagramPanel();
+        if (tdp instanceof NameChecker.SystemWithNamedElements) {
+            TraceManager.addDev("Contains named elements");
+            gtm.addWarningForNames(tdp, clearWarnings);
+
+        }
     }
 
     public AttackTree runAttackTreeAnalysis() {

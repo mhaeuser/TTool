@@ -9854,16 +9854,20 @@ public class GTURTLEModeling {
             warnings = new LinkedList<>();
         } else if (clearWarnings) {
             warnings.clear();
+            TraceManager.addDev("Clearing warnings");
         }
         for(NameChecker.NamedElement ne: nes) {
             checkName(ne, warnings, _tdp);
-            for(NameChecker.NamedElement sub: ne.getSubNamedElements()){
-                checkName(sub, warnings, _tdp);
+            if (ne.getSubNamedElements() != null) {
+                for (NameChecker.NamedElement sub : ne.getSubNamedElements()) {
+                    checkName(sub, warnings, _tdp);
+                }
             }
         }
     }
 
     private void checkName(NameChecker.NamedElement _ne, List<CheckingError> _warnings, TDiagramPanel _tdp) {
+        //TraceManager.addDev("Checking " + _ne.getName());
         if (_ne instanceof NameChecker.NameStartWithUpperCase) {
             if (!NameChecker.checkName(_ne)) {
                 UICheckingError ce = new UICheckingError(CheckingError.STRUCTURE_ERROR,

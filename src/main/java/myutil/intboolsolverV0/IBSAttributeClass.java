@@ -36,23 +36,37 @@
  * knowledge of the CeCILL license and that you accept its terms.
  */
 
-package myutil.intboolsolver;
+package myutil.intboolsolverV0;
 
 /**
- * Interface IBSParamSpec, to be implemented by classes intended to
- * instantiate the {@code Spec} parameter of
- * {@link IBSParserAPI IBSParserAPI}.
+ * class IBSAttribute (interface), describing the "static" generic part
+ * shared by all open leaves of {@link myutil.intboolsolverV0.IBSolver
+ * IBSolver}.
  * Creation: 07/03/2023
  *
- * <p> The {@code Spec} parameter of
- * {@link IBSParserAPI IBSParserAPI} may be instantiated
- * by any class without modification, except that the class must implement
- * this interface and none of the other IBSParamXXX interface.
- * </p>
+ *  <p> This interface describes the features required from the
+ *  class of {@link myutil.intboolsolverV0.IBSolver IBSolver}
+ *  attributes (methods that do not depend on attribute instances).
+ *  Its implementations are intended to instantiate
+ *  the {@code AtC} parameter of the generic
+ *  {@link myutil.intboolsolverV0.IBSolver IBSolver} </p>
  *
  * @version 0.1 07/03/2023
- * @author Sophie Coudert
+ * @author Sophie Coudert  (rewrite from Alessandro TEMPIA CALVINO)
  */
 
-public interface IBSParamSpec {
+public interface IBSAttributeClass<
+        Spec extends IBSParamSpec,
+        Comp extends IBSParamComp,
+        State extends IBSParamState,
+        SpecState extends IBSParamSpecState,
+        CompState extends IBSParamCompState,
+        Att extends IBSAttribute<Spec,Comp,State,SpecState,CompState>
+        > {
+     public IBSTypedAttribute getTypedAttribute(Spec _spec, String _s);
+     public IBSTypedAttribute getTypedAttribute(Comp _comp, String _s);
+     public IBSTypedAttribute getTypedAttribute(Comp _comp, State _st);
+     public void initBuild(Spec _spec);
+     public void initBuild(Comp _comp);
+     public void initBuild();
 }

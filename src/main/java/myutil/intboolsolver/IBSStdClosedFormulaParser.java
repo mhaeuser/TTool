@@ -39,20 +39,38 @@
 package myutil.intboolsolver;
 
 /**
- * Interface IBSParamSpec, to be implemented by classes intended to
- * instantiate the {@code Spec} parameter of
- * {@link IBSParserAPI IBSParserAPI}.
- * Creation: 07/03/2023
+ * class IBSStdClosedFormulaSolver is a complete implementation
+ * and instantiation of {@link IBSOriginParser
+ * IBSolver} for closed Formulas.
  *
- * <p> The {@code Spec} parameter of
- * {@link IBSParserAPI IBSParserAPI} may be instantiated
- * by any class without modification, except that the class must implement
- * this interface and none of the other IBSParamXXX interface.
- * </p>
+ * <p> It is provided for documentation together with
+ * {@link IBSStdClosedFormulaAttributeClass
+ * IBSStdClosedFormulaAttributeClass} and
+ * {@link IBSStdClosedFormulaAttributeClass
+ * IBSStdClosedFormulaAttribute}}</p>
+ *
+ * <p>These three
+ * classes provides the same features as
+ * {@link IBSClosedFormulaAttributeClass
+ * IBSClosedFormulaAttribute},
+ * {@link IBSClosedFormulaAttributeClass
+ * IBSClosedFormulaAttributeClass} and
+ * {@link IBSClosedFormulaParser
+ * IBSClosedFormulaSolver} (together).</p>
+ *
+ * Creation: 07/03/2023
  *
  * @version 0.1 07/03/2023
  * @author Sophie Coudert
  */
 
-public interface IBSParamSpec {
+public class IBSStdClosedFormulaParser extends IBSOriginParser<
+        IBSParamSpec,
+        IBSParamComp,
+        IBSParamState,
+        IBSParamSpecState,
+        IBSParamCompState> {
+        IBSStdClosedFormulaParser() {
+                super(new IBSStdClosedFormulaAttributeClass(), new IBSStdClosedFormulaExpressionClass());
+        }
 }

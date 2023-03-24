@@ -41,11 +41,11 @@ package myutil.intboolsolver;
 /**
  * Interface IBSParamSpecState, to be implemented by classes intended to
  * instantiate the {@code SpecState} parameter of
- * {@link myutil.intboolsolver.IBSolver IBSolver}.
+ * {@link IBSParserAPI IBSParserAPI}.
  * Creation: 07/03/2023
  *
  * <p> The {@code SpecState} parameter of
- * {@link myutil.intboolsolver.IBSolver IBSolver} may be instantiated
+ * {@link IBSParserAPI IBSParserAPI} may be instantiated
  * by any class without modification, except that the class must implement
  * this interface and none of the other IBSParamXXX interface.
  * </p>

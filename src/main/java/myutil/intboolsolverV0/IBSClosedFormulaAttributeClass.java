@@ -36,23 +36,37 @@
  * knowledge of the CeCILL license and that you accept its terms.
  */
 
-package myutil.intboolsolver;
+package myutil.intboolsolverV0;
 
 /**
- * Interface IBSParamSpec, to be implemented by classes intended to
- * instantiate the {@code Spec} parameter of
- * {@link IBSParserAPI IBSParserAPI}.
+ * class IBSClosedFormulaAttributeClass is a complete implementation
+ * and instantiation of {@link myutil.intboolsolverV0.IBSAttributeClass
+ * IBSAttributeClass} for closed Formulas.
  * Creation: 07/03/2023
  *
- * <p> The {@code Spec} parameter of
- * {@link IBSParserAPI IBSParserAPI} may be instantiated
- * by any class without modification, except that the class must implement
- * this interface and none of the other IBSParamXXX interface.
- * </p>
- *
  * @version 0.1 07/03/2023
- * @author Sophie Coudert
+ * @author Sophie Coudert  (rewrite from Alessandro TEMPIA CALVINO)
  */
 
-public interface IBSParamSpec {
+public class IBSClosedFormulaAttributeClass  implements IBSAttributeClass<
+        IBSParamSpec,
+        IBSParamComp,
+        IBSParamState,
+        IBSParamSpecState,
+        IBSParamCompState,
+        IBSClosedFormulaAttribute
+        > {
+    IBSClosedFormulaAttributeClass(){}
+    public IBSTypedAttribute getTypedAttribute(IBSParamSpec _spec, String _s) {
+        return IBSTypedAttribute.NullAttribute;
+    }
+    public IBSTypedAttribute getTypedAttribute(IBSParamComp _comp, String _s){
+        return IBSTypedAttribute.NullAttribute;
+    }
+    public IBSTypedAttribute getTypedAttribute(IBSParamComp _comp, IBSParamState _st){
+        return IBSTypedAttribute.NullAttribute;
+    }
+    public void initBuild(IBSParamSpec _spec){}
+    public void initBuild(IBSParamComp _comp){}
+    public void initBuild(){}
 }

@@ -36,26 +36,26 @@
  * knowledge of the CeCILL license and that you accept its terms.
  */
 
-package myutil.intboolsolver;
+package myutil.intboolsolverV0;
 
 /**
  * class IBSStdClosedFormulaAttributeClass is a complete implementation
- * and instantiation of {@link IBSStdAttributeClass
+ * and instantiation of {@link myutil.intboolsolverV0.IBSStdAttributeClass
  * IBSStdAttributeClass} for closed Formulas.
  *
  * <p> It is provided for documentation together with
- * {@link IBSStdClosedFormulaAttributeClass
+ * {@link myutil.intboolsolverV0.IBSStdClosedFormulaAttribute
  * IBSStdClosedFormulaAttribute} and
- * {@link IBSStdClosedFormulaParser
+ * {@link myutil.intboolsolverV0.IBSStdClosedFormulaSolver
  * IBSStdClosedFormulaSolver}}</p>
  *
  * <p>These three
  * classes provides the same features as
- * {@link IBSClosedFormulaAttributeClass
+ * {@link myutil.intboolsolverV0.IBSClosedFormulaAttribute
  * IBSClosedFormulaAttribute},
- * {@link IBSClosedFormulaAttributeClass
+ * {@link myutil.intboolsolverV0.IBSClosedFormulaAttributeClass
  * IBSClosedFormulaAttributeClass} and
- * {@link IBSClosedFormulaParser
+ * {@link myutil.intboolsolverV0.IBSClosedFormulaSolver
  * IBSClosedFormulaSolver} (together).</p>
  *
  * Creation: 07/03/2023
@@ -69,19 +69,35 @@ public class IBSStdClosedFormulaAttributeClass extends IBSStdAttributeClass<
         IBSParamComp,
         IBSParamState,
         IBSParamSpecState,
-        IBSParamCompState
+        IBSParamCompState,
+        IBSClosedFormulaAttribute
         > {
     IBSStdClosedFormulaAttributeClass(){}
-    class Attribute extends IBSStdAttributeClass<
-        IBSParamSpec,
-        IBSParamComp,
-        IBSParamState,
-        IBSParamSpecState,
-        IBSParamCompState
-        >.Attribute {
-        @Override
-        public int getValue(IBSParamSpecState _ss) {
-            return 18;
-        }
+
+    public IBSStdClosedFormulaAttribute getNewAttribute() {
+        return null;
     }
+
+    public IBSTypedAttribute getTypedAttribute(IBSParamSpec _spec, String _s) {
+        return IBSTypedAttribute.NullAttribute;
+    }
+
+    public IBSTypedAttribute getTypedAttribute(IBSParamComp _comp, String _s) {
+        return IBSTypedAttribute.NullAttribute;
+    }
+    public IBSTypedAttribute getTypedAttribute(IBSParamComp _comp, IBSParamState _st) {
+        return IBSTypedAttribute.NullAttribute;
+    }
+
+    public void initBuild(IBSParamSpec _spec){};
+    public void initBuild(IBSParamComp _comp){};
+    public void initBuild(){}
+
+    public IBSTypedAttribute findAttribute(IBSParamSpec _spec, String _s){ return null; }
+    public void addAttribute(IBSParamSpec _spec, String _s, IBSTypedAttribute _att){}
+    public IBSTypedAttribute findAttribute(IBSParamComp _comp, String _s){return null;}
+    public void addAttribute(IBSParamComp _comp, String _s, IBSTypedAttribute _att){}
+    public IBSTypedAttribute findAttribute(IBSParamComp _comp, IBSParamState _state){return null;}
+    public void addAttribute(IBSParamComp _comp, IBSParamState _state, IBSTypedAttribute _att){}
+    public void clearAttributes(){}
 }

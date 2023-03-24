@@ -37,59 +37,106 @@
   */
 
 /**
- * Package intboolsolver, a generic parser/evaluator for boolean/integer
- * expressions with open leaves (i.e identifiers).
- * Creation: 27/02/2023.
+ * Package intboolsolver, a generic modular parser/evaluator for
+ * boolean/integer expressions with open leaves (i.e identifiers).
+ * Creation: 24/03/2023.
  *
- * <p>
- *     The parser may be instantiated by usual expressions with variables
- *     and their usual evaluation, but it is more generally dedicated to
- *     two-level structured systems, i.e global specifications build over
- *     a set of components. For example we can consider identifiers
- *     associated to local states that define together a global state.
- *     Default parameters are provided to instantiate solvers that do not
- *     use all the features, such as for example a solver for closed
- *     expressions (which is provided).
+ * <p> This package provide a way to parse and evaluate boolean/integer
+ * expressions. The handling of open leaves is parametrized (thus can be
+ * instantiated in different contexts). The package is modular in the
+ * sense that expression structure or parsing algorithm can be changed
+ * without having to modify other components. </p>
  *
- * </p>
+ * <p> The solver may be instantiated by usual expressions with variables
+ * and their usual evaluation, but it is more generally dedicated to
+ * two-level structured systems, i.e global specifications build over
+ * a set of components. For example we can consider identifiers
+ * associated to (local) components that define together a (global)
+ * specification. It also handles a notion of component/specification
+ * state.  Default parameters are provided to instantiate solvers that
+ * do not use all the features, such as for example a solver for closed
+ * expressions (which is provided).</p>
  * <ul>
- *     <li> {@link myutil.intboolsolver.IBSolverAPI
- *     IBSolverAPI} provides documentation about the functions
- *     exported by the solver after it has been instantiated.
- *     </li>
- *     <li> <p>{@link myutil.intboolsolver.IBSolver IBSolver} is the solver
- *     implementation. It relies on the common structure of all expressions,
- *     which only differ on the way the open leaves are handled.</p>
- *
- *     <p>The way leaves are handled depends on the notions of specification,
+ *     <li> <p>{@link myutil.intboolsolver.IBSParserAPI
+ *     IBSParserAPI} provides documentation about the functions
+ *     exported by the provided parser implementations.</p>
+ *     <p> The way leaves are handled depends on the notions of specification,
  *     component, specification state, component state and (state machine)
- *     state of the instance. Thus they are parameters of the generic solver
- *     and <b> in order to instantiate the solver, we will have to
- *     provide:</b></p>
+ *     state of the instance. Thus the corresponding classes are parameters
+ *     of the generic parsers.</p>
+ *     <p> The handling of leaves relies on an "<b>attribute class</b>" that
+ *     must be provided for each instance (partial implementation is
+ *     provided).</p>
+ *     <p> The parser also relies on an "<b>expression class</b>" which
+ *     implements the structure of the expressions build by the parser (full
+ *     implementations are provided)</p>
+ *        <ul><li> {@link myutil.intboolsolver.IBSOriginParser IBSOriginParser}
+ *         is an implementation of {@link myutil.intboolsolver.IBSParserAPI
+ *         IBSParserAPI} based on the original implementation of the Avatar
+ *         solver (here for historical reasons... another implementation is
+ *         planned).
+ *        </li></ul><p></p>
+ *     </li>
+ *     <li> <p>{@link myutil.intboolsolver.IBSExpressionClass IBSExpressionClass}
+ *     describes the interface expected for expression handling. It contains two
+ *     kind of methods: methods for building expressions (required by parsing)
+ *     and methods for evaluating expressions (useful for final user, but also
+ *     available for parser implementations).</p>
+ *     <ul><li> <p>{@link myutil.intboolsolver.IBSOriginExpressionClass
+ *         IBSExpressionClass} is an full implementation of {@link
+ *         myutil.intboolsolver.IBSExpressionClass IBSExpressionClass} based
+ *         on the original implementation of the Avatar solver (here for
+ *         historical reasons)</p>
+ *         </li>
+ *         <li> <p>{@link myutil.intboolsolver.IBSStdExpressionClass
+ *         IBSStdExpressionClass} is a full implementation of {@link
+ *         myutil.intboolsolver.IBSExpressionClass IBSExpressionClass}.
+ *         Its classical structure is easy to extend.</p>
+ *         </li></ul>
+ *     <li> <p>{@link myutil.intboolsolver.IBSAttributeClass IBSAttributeClass}
+ *     describes the interface required from the attribute class which must be
+ *     provided for instantiation. It also provided some data shared by all
+ *     instances (some constants and a technical class). Roughly speaking,
+ *     this class provides an interpretation for open leaves.</p>
+ *     <ul><li><p>{@link myutil.intboolsolver.IBSStdAttributeClass
+ *         IBSStdAttributeClass} extends {@link
+ *         myutil.intboolsolver.IBSAttributeClass IBSAttributeClass}. It
+ *         provides a partial implementation so that instances just have
+ *         to provide low level methods.</p>
+ *         </li></ul>
+ *     <li><p>{@link myutil.intboolsolver.IBSParamSpec IBSParamSpec},
+ *     {@link myutil.intboolsolver.IBSParamComp IBSParamComp},
+ *     {@link myutil.intboolsolver.IBSParamState IBSParamState},
+ *     {@link myutil.intboolsolver.IBSParamSpecState IBSParamSpecState}
+ *     and {@link myutil.intboolsolver.IBSParamCompState IBSParamCompState} are
+ *     trivial classes used for technical reasons. The corresponding concrete
+ *     classes provided for instantiation must extend them. They are the type
+ *     of the parameter of the generic parser. Thus to instantiate a parser we
+ *     have to provide:</p>
  *     <ul>
- *         <li> <p>{@code Spec} class, which must implement {@link
+ *         <li> <p>a {@code Spec} class, which <b>must implement</b> {@link
  *         myutil.intboolsolver.IBSParamSpec IBSParamSpec}: The class of
  *         global system specifications, which intuitively associates
  *         leave structures to (spec-dedicated) leave identifiers).</p>
  *         </li>
- *         <li> <p>{@code Comp} class, which <b>must implement</b> {@link
+ *         <li> <p>a {@code Comp} class, which <b>must implement</b> {@link
  *         myutil.intboolsolver.IBSParamComp IBSParamComp}: the class
  *         of system components, which intuitively associates leave
  *         structures to (comp-dedicated) leave identifiers).</p>
  *         </li>
- *         <li> <p>{@code State} class, which <b>must implement</b>
+ *         <li> <p>a {@code State} class, which <b>must implement</b>
  *         {@link myutil.intboolsolver.IBSParamState IBSParamState}:
  *         a class of states. It is intended to receive state machine
  *         states in provided extensions but can be used another way
  *         (in the provided extensions, there are state leaves that
  *         may be true or false in different contexts...).</p>
  *         </li>
- *         <li> <p>{@code SpecState} class, which <b>must implement</b>
+ *         <li> <p>a {@code SpecState} class, which <b>must implement</b>
  *         {@link myutil.intboolsolver.IBSParamSpecState
  *         IBSParamSpecState}: the class of specification state, which
  *         intuitively associates leaves to int/bool values.</p>
  *         </li>
- *         <li> <p>{@code CompState} class, which <b>must implement</b>
+ *         <li> <p>a {@code CompState} class, which <b>must implement</b>
  *         {@link myutil.intboolsolver.IBSParamCompState
  *         IBSParamCompState}: the class of component states, which
  *         intuitively associates leaves to int/bool values.</p>
@@ -100,155 +147,87 @@
  *     {@code SpecState}, {@code CompState} and {@code State}) does
  *     not implement any IBS<i>yyy</i>Param with <i>yyy</i>
  *     &#8800;  <i>xxx</i>.</p>
- *     <p>{@link myutil.intboolsolver.IBSParamSpec IBSParamSpec},
- *     {@link myutil.intboolsolver.IBSParamComp IBSParamComp},
- *     {@link myutil.intboolsolver.IBSParamState IBSParamState},
- *     {@link myutil.intboolsolver.IBSParamSpecState IBSParamSpecState}
+ *     <p>{@link myutil.intboolsolverV0.IBSParamSpec IBSParamSpec},
+ *     {@link myutil.intboolsolverV0.IBSParamComp IBSParamComp},
+ *     {@link myutil.intboolsolverV0.IBSParamState IBSParamState},
+ *     {@link myutil.intboolsolverV0.IBSParamSpecState IBSParamSpecState}
  *     and
- *     {@link myutil.intboolsolver.IBSParamCompState IBSParamCompState}
+ *     {@link myutil.intboolsolverV0.IBSParamCompState IBSParamCompState}
  *     can be used as default parameters to instanciate solvers that do
  *     not implement the corresponding concepts.</p>
- *     <p>The structure of leaf expressions is  instantiation dependent.
- *     Thus it is parametrized by "attribute" parameters (themselves
- *     parametrized by  the five classes above) for which an
- *     implementation must also be provided in order to instantiate
- *     {@link myutil.intboolsolver.IBSolver IBSolver}. Attribute
- *     parameters are decomposed into two classes:</p>
- *     <ul>
- *         <li> <p>an "Attribute" class which allow to create
- *         attribute instances with instance dependent methods.</p>
- *         </li>
- *         <li> <p>an "Attribute Class" class which contains all the
- *         methods that do not depend on attribute instances</p>
- *         </li>
- *     </ul>
- *     </li>
- *     <li><p>{@link myutil.intboolsolver.IBSAttribute
- *     IBSAttribute} is the interface describing the features
- *     to provide in order to instantiate the "Attribute" class
- *     of {@link myutil.intboolsolver.IBSolver
- *     IBSolver} (features that depend on attribute instances).
- *     <b> implementation must be provides </b>. It can be
- *     implemented directly or using the provided extensions.</p>
- *     </li>
- *     <li><p>{@link myutil.intboolsolver.IBSAttributeClass
- *     IBSAttributeClass} is the interface describing the features
- *     to provide in order to instantiate the "attribute class"
- *     class of {@link myutil.intboolsolver.IBSolver IBSolver}
- *     (features that do not depend on attribute instances).
- *     <b> implementation must be provided </b>. It requires to
- *     instanciate an "Attribute" parameter by a class that extends
- *     {@link myutil.intboolsolver.IBSAttribute IBSAttribute},
- *     (with the same {@code Spec}, {@code Comp}, {@code SpecState},
- *     {@code CompState} and {@code State} parameters).
- *     Implementation can also be implemented using provided
- *     extensions, which refine the couple
- *     ({@link myutil.intboolsolver.IBSAttribute IBSAttribute},
- *     {@link myutil.intboolsolver.IBSAttributeClass
- *     IBSAttributeClass}).</p>
- *     </li>
  * </ul>
- * <p><a id="instanciation_sumary"> <b>Instantiation
- * summary:</b></a></p>
- * <ul>
- *     <li> provide {@code Spec}, {@code Comp}, {@code SpecState},
- *     {@code CompState} and {@code State} as they are, but making
- *     them extend their associated parameter IBS<i>xxx</i>Param
+ * <p><a id="instanciation_sumary"> <b>Instantiation summary:</b></a></p>
+ * <ol>
+ *     <li><p> provide {@code Spec}, {@code Comp}, {@code SpecState},
+ *     {@code CompState} and {@code State} from application. These class
+ *     just have to extend their associated parameter IBS<i>xxx</i>Param
  *     and not making them extend any IBS<i>yyy</i>Param with
- *     <i>xxx</i> &#8800; <i>yyy</i>
+ *     <i>xxx</i> &#8800; <i>yyy</i></p>
  *     </li>
- *     <li> provide an implementation {@code Attrib} of
- *     {@link myutil.intboolsolver.IBSAttribute IBSAttribute}
+ *     <li> <p> provide an implementation {@code AttribClass} of
+ *     {@link myutil.intboolsolver.IBSAttributeClass IBSAttributeClass} or
+ *     {@link myutil.intboolsolver.IBSStdAttributeClass
+ *     IBSStdAttributeClass} the instances of
  *     for {@code Spec}, {@code Comp}, {@code SpecState},
- *     {@code CompState} and {@code State}.
+ *     {@code CompState} and {@code State}.</p>
        <PRE>
      known from context (package, imports): intboolsolver,
          Spec, Comp, SpecState, CompState, State
 
-     public class Attrib
-         implements IBSAttribute[Spec,Comp,SpecState,CompState,State] {
-              !!! put implementation of IBSAttribute here
-     }
- *     </PRE>
- *     </li>
- *     <li> provide an implementation {@code AttribClass} of
- *     {@link myutil.intboolsolver.IBSAttributeClass
- *     IBSAttributeClass} for {@code Spec}, {@code Comp},
- *     {@code SpecState}, {@code CompState}, {@code State} and
- *     {@code Attrib}.
-       <PRE>
-     known from context (package, imports): intboolsolver,
-         Spec, Comp, SpecState, CompState, State, Attrib
-
      public class AttribClass
-         extends IBSAttribute[Spec, Comp, SpecState, CompState,
-                                  State,Attrib] {
-              !!! put implementation of IBSAttributeClass here
+         implements IBS[Std]AttributeClass &lt;Spec,Comp,SpecState,CompState,State&gt; {
+
+              !!! put implementation of IBS[Std]AttributeClass here
      }
  *     </PRE>
- *     <li> build solver instance following this model:
+ *     </li>
+ *     <li> <p>build expression class <code>ExprClass</code> for your instance, ie.
+ *     for example instantiate {@link myutil.intboolsolver.IBSStdExpressionClass
+ *     IBSStdExpressionClass} or {@link myutil.intboolsolver.IBSOriginExpressionClass
+ *     IBSOriginExpressionClass}:</p>
        <PRE>
      known from context (package, imports): intboolsolver,
-         Spec, Comp, SpecState, CompState, State, Attrib, AttribClass
-     public class Solver
-         extends IBSolver [ Spec,Comp, SpecState, CompState, State,
-                           Attrib, AttribClass ] {
-             Solver() {
-                 super(new AttribClass());
-             }
-        !!! or (sometimes required, I don't know why...)
-             Solver() {
-                 super();
-                 setAttributeClass(new AttribClass());
-             }
-        !!! put your solver's specific features here (or extends...)
+         Spec, Comp, SpecState, CompState, State
+
+     public class ExprClass
+         extends IBSStdExpressionClass &lt;Spec,Comp, SpecState, CompState, State&gt; {
+
+           public ExprClass(){}
+
+           !!! optionnal additionnal features here
      }
  *     </PRE>
+ *     <p>Note that if you want to add features to the inner class <code>Expr</code>,
+ *     you have to directly modify {@link myutil.intboolsolver.IBSStdExpressionClass
+ *     IBSStdExpressionClass}.</p>
  *     </li>
- * </ul>
+ *     <li> <p>build the parser <code>Parser</code> for your instance, ie.
+ *     instantiate an implementation of the generic parser (for example
+ *     {@link myutil.intboolsolver.IBSOriginParser
+ *     IBSSOriginParser}) :</p>
+ *        <PRE>
+ *      known from context (package, imports): intboolsolver,
+ *          Spec, Comp, SpecState, CompState, State
  *
- * <hr>
- * <span style="font-size: 120%"> Extension Standard Attributes </span>
- *  <p> This extension provides a skeleton for a typical
- *  implementation with (boolean) state leaves. It provides a guided
- *  way to implement some methods of
- *  {@link myutil.intboolsolver.IBSAttribute IBSAttribute} and
- *  {@link myutil.intboolsolver.IBSAttributeClass
- *  IBSAttributeClass}</p>
- *  <p> Following the proposed approach, some partial implementation
- *  is provided. It is sometime provided as code in comments that must
- *  be copied in final instantiation (when genericity disappear).</p>
- *  <p> This extension refines the two abstract class for
- *  attributes</p>
- *  <p> Note: the two following classes should be abstract
- *  (future work) making the remaining work to do more clear</p>
- * <ul>
- *     <li><p>{@link myutil.intboolsolver.IBSStdAttribute
- *     IBSStdAttribute} implements
- *     {@link myutil.intboolsolver.IBSAttribute IBSAttribute}.
- *     To instantiate the solver using this approach, <b>a fully
- *     implemented extension of this class must be provided</b>.
- *     Comments in the file say what remains to implement
- *     (in the futur, abstraction, for automatic checking...).
- *     </li>
- *     <li><p>{@link myutil.intboolsolver.IBSStdAttributeClass
- *     IBSStdAttributeClass} implements
- *     {@link myutil.intboolsolver.IBSAttributeClass
- *     IBSAttributeClass}.
- *     To instantiate the solver using this approach, <b>a fully
- *     implemented extension of this class must be provided</b>.
- *     Comments in the file say what remains to implement
- *     (in the futur, abstraction, for automatic checking...).
- *     </li>
- * </ul>
+ *      public class Parser
+ *          extends IBSOriginParser &lt;Spec,Comp, SpecState, CompState, State&gt; {
  *
- * <p><b>Instantiation summary:</b></p>
- * <p> similar to <a href="#instanciation_sumary"> the previously
- * described process</a>, replacing IBSAttribute by IBSStdAttribute
- * and IBSAttributeClass by  IBSStdAttributeClass.</p>
+ *                 public Parser() { super(new AttrClass(),new ExprClass()); }
+ *                 public Parser(AttrClass _a, ExprClass _e) { super(_c,_e); }
  *
- * @version 0.1 07/03/2023
+ *            !!! optional additional features here
+ *      }
+ *        </PRE>
+ * </ol>
+ * <p><a id="instanciation_use"> <b>Typical use of an instantiated parser:</b></a></p>
+ *     <PRE>
+ *          private Parser parser = new Parser(new AttribClass(),new ExprClass());
+ *          ExprClass.BExpr e = (ExprClass.BExpr) parser.parseBool("10 + 15 &gt;= 20");
+ *          boolean b = e.eval();
+ *          ...
+ *    </PRE>
  *
+ * @version 0.1 24/03/2023
  * @author Sophie Coudert  (rewrite from Alessandro TEMPIA CALVINO)
  */
  package myutil.intboolsolver;

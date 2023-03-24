@@ -43,13 +43,12 @@
  * @see
  */
 package avatartranslator;
-import avatartranslator.intboolsolver2.AvatarIBSStdExpressionClass;
-import avatartranslator.intboolsolver2.AvatarIBSOriginParser;
-import avatartranslator.intboolsolver2.AvatarIBSStdAttributeClass;
+import avatartranslator.intboolsolver.AvatarIBSStdExpressionClass;
+import avatartranslator.intboolsolver.AvatarIBSOriginParser;
+import avatartranslator.intboolsolver.AvatarIBSStdAttributeClass;
 import avatartranslator.modelchecker.SpecificationBlock;
 import avatartranslator.modelchecker.SpecificationState;
 import myutil.TraceManager;
-import myutil.intboolsolver2.IBSStdExpressionClass;
 import org.junit.Before;
 import org.junit.Test;
 

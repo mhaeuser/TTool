@@ -36,16 +36,16 @@
  * knowledge of the CeCILL license and that you accept its terms.
  */
 
-package myutil.intboolsolver;
+package myutil.intboolsolverV0;
 
 /**
  * Interface IBSParamSpec, to be implemented by classes intended to
  * instantiate the {@code Spec} parameter of
- * {@link IBSParserAPI IBSParserAPI}.
+ * {@link myutil.intboolsolverV0.IBSolver IBSolver}.
  * Creation: 07/03/2023
  *
  * <p> The {@code Spec} parameter of
- * {@link IBSParserAPI IBSParserAPI} may be instantiated
+ * {@link myutil.intboolsolverV0.IBSolver IBSolver} may be instantiated
  * by any class without modification, except that the class must implement
  * this interface and none of the other IBSParamXXX interface.
  * </p>

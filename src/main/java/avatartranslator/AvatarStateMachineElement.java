@@ -40,7 +40,7 @@
 package avatartranslator;
 
 import myutil.TraceManager;
-import myutil.intboolsolver.IBSParamState;
+import myutil.intboolsolverV0.IBSParamState;
 import ui.TGComponent;
 
 import java.util.HashMap;
@@ -55,7 +55,7 @@ import java.util.List;
  * @author Ludovic APVRILLE
  * @version 1.0 20/05/2010
  */
-public abstract class AvatarStateMachineElement extends AvatarElement implements IBSParamState, myutil.intboolsolver2.IBSParamState {
+public abstract class AvatarStateMachineElement extends AvatarElement implements IBSParamState, myutil.intboolsolver.IBSParamState {
 
     protected List<AvatarStateMachineElement> nexts;
     private AvatarState myState;

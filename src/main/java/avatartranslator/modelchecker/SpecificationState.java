@@ -45,7 +45,7 @@ package avatartranslator.modelchecker;
 
 import avatartranslator.AvatarBlock;
 import avatartranslator.AvatarSpecification;
-import myutil.intboolsolver.IBSParamSpecState;
+import myutil.intboolsolverV0.IBSParamSpecState;
 
 import java.util.Arrays;
 import java.util.LinkedList;
@@ -57,7 +57,7 @@ import java.util.LinkedList;
    * @version 1.0 31/05/2016
    * @author Ludovic APVRILLE
  */
-public class SpecificationState implements IBSParamSpecState, Comparable<SpecificationState>, myutil.intboolsolver2.IBSParamSpecState {
+public class SpecificationState implements IBSParamSpecState, Comparable<SpecificationState>, myutil.intboolsolver.IBSParamSpecState {
     public SpecificationBlock [] blocks;
     public int hashValue;
     public boolean hashComputed;

@@ -40,7 +40,7 @@ package myutil.intboolsolver;
 
 /**
  * class IBSClosedFormulaAttributeClass is a complete implementation
- * and instantiation of {@link myutil.intboolsolver.IBSAttributeClass
+ * and instantiation of {@link IBSAttributeClass
  * IBSAttributeClass} for closed Formulas.
  * Creation: 07/03/2023
  *
@@ -48,25 +48,11 @@ package myutil.intboolsolver;
  * @author Sophie Coudert  (rewrite from Alessandro TEMPIA CALVINO)
  */
 
-public class IBSClosedFormulaAttributeClass  implements IBSAttributeClass<
+public class IBSClosedFormulaAttributeClass  extends IBSAttributeClass<
         IBSParamSpec,
         IBSParamComp,
         IBSParamState,
         IBSParamSpecState,
-        IBSParamCompState,
-        IBSClosedFormulaAttribute
-        > {
+        IBSParamCompState> {
     IBSClosedFormulaAttributeClass(){}
-    public IBSTypedAttribute getTypedAttribute(IBSParamSpec _spec, String _s) {
-        return IBSTypedAttribute.NullAttribute;
-    }
-    public IBSTypedAttribute getTypedAttribute(IBSParamComp _comp, String _s){
-        return IBSTypedAttribute.NullAttribute;
-    }
-    public IBSTypedAttribute getTypedAttribute(IBSParamComp _comp, IBSParamState _st){
-        return IBSTypedAttribute.NullAttribute;
-    }
-    public void initBuild(IBSParamSpec _spec){}
-    public void initBuild(IBSParamComp _comp){}
-    public void initBuild(){}
 }

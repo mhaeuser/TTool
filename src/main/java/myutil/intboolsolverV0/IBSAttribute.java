@@ -35,24 +35,55 @@
  * The fact that you are presently reading this means that you have had
  * knowledge of the CeCILL license and that you accept its terms.
  */
-
-package myutil.intboolsolver;
+package myutil.intboolsolverV0;
 
 /**
- * Interface IBSParamSpec, to be implemented by classes intended to
- * instantiate the {@code Spec} parameter of
- * {@link IBSParserAPI IBSParserAPI}.
+ * Interface IBSAttribute, describing the "dynamic" generic part of open
+ * leaves of {@link myutil.intboolsolverV0.IBSolver IBSolver}.
  * Creation: 07/03/2023
  *
- * <p> The {@code Spec} parameter of
- * {@link IBSParserAPI IBSParserAPI} may be instantiated
- * by any class without modification, except that the class must implement
- * this interface and none of the other IBSParamXXX interface.
- * </p>
+ *  <p> This interface describes the features required from the
+ *  instances of {@link myutil.intboolsolverV0.IBSolver IBSolver}
+ *  attributes. Its implementations are intended to instantiate
+ *  the {@code ATT} parameter of the generic
+ *  {@link myutil.intboolsolverV0.IBSolver IBSolver} </p>
  *
  * @version 0.1 07/03/2023
- * @author Sophie Coudert
+ * @author Sophie Coudert  (rewrite from Alessandro TEMPIA CALVINO)
  */
 
-public interface IBSParamSpec {
+
+public interface IBSAttribute <
+        Spec extends IBSParamSpec,
+        Comp extends IBSParamComp,
+        State extends IBSParamState,
+        SpecState extends IBSParamSpecState,
+        CompState extends IBSParamCompState
+        > {
+    // returns a type from IBSolver (to modify)
+    // (i.e. among IMMEDIATE_(BOOL,INT,NO))
+    int getType();
+    int getAttributeType();
+    int getValue(SpecState _ss);
+    int getValue(SpecState _ss, State _st);
+    int getValue(CompState _cs);
+    // for efficiency, to allow low level objects as state
+    int getValue(Object _quickstate);
+    void setValue(SpecState _ss, int _val);
+    void setValue(CompState _cs, int _val);
+    
+   boolean isState();
+   /**
+    * links state attributes to their environment (spec, comp).
+    * If possible... (attributes must have internal information about
+    * this environment). Too specific, to enhance in the future...
+    */
+   void linkState();
+   /**
+    * links components of attributes to their environment (spec).
+    * If possible... (attributes must have internal information about
+    * their components). Too specific, to enhance in the future...
+    */
+   void linkComp(Spec _spec);
+   String toString();
 }

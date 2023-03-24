@@ -39,34 +39,176 @@
 package myutil.intboolsolver;
 
 /**
- * class IBSAttribute (interface), describing the "static" generic part
- * shared by all open leaves of {@link myutil.intboolsolver.IBSolver
- * IBSolver}.
- * Creation: 07/03/2023
+ * <p>Class {@link myutil.intboolsolver.IBSAttributeClass} BSAttributeClass},
+ * defining the features attributes must provide in order to b used by
+ * the generic parsers.</p>
+ * Creation: 23/03/2023
  *
- *  <p> This interface describes the features required from the
- *  class of {@link myutil.intboolsolver.IBSolver IBSolver}
- *  attributes (methods that do not depend on attribute instances).
- *  Its implementations are intended to instantiate
- *  the {@code AtC} parameter of the generic
- *  {@link myutil.intboolsolver.IBSolver IBSolver} </p>
+ * <p>  The handling of open leaf expressions is instantiation dependent.
+ * Thus they have associated "attribute" whose class is provided by
+ * instantiation. This class provides two main kinds of methods:
+ * <ul>
+ *     <li> attribute initialisation with information useful to
+ *     evaluate them later.</li>
+ *     <li> attribute evaluation methods</li>
+ * </ul>
+ * In this interface, provided features are parametrized by the same
+ * classes as {@link myutil.intboolsolver.IBSParserAPI IBSParserAPI}
+ * i.e  {@code Spec}, {@code Comp}, {@code SpecState},
+ * {@code CompState} and {@code State} parameters).
  *
- * @version 0.1 07/03/2023
- * @author Sophie Coudert  (rewrite from Alessandro TEMPIA CALVINO)
- */
-
-public interface IBSAttributeClass<
+ * @version 0.1 23/03/2023
+ * @author Sophie Coudert (rewrite from Alessandro TEMPIA CALVINO)
+*/
+public class IBSAttributeClass<
         Spec extends IBSParamSpec,
         Comp extends IBSParamComp,
         State extends IBSParamState,
         SpecState extends IBSParamSpecState,
-        CompState extends IBSParamCompState,
-        Att extends IBSAttribute<Spec,Comp,State,SpecState,CompState>
+        CompState extends IBSParamCompState
         > {
-     public IBSTypedAttribute getTypedAttribute(Spec _spec, String _s);
-     public IBSTypedAttribute getTypedAttribute(Comp _comp, String _s);
-     public IBSTypedAttribute getTypedAttribute(Comp _comp, State _st);
-     public void initBuild(Spec _spec);
-     public void initBuild(Comp _comp);
-     public void initBuild();
+     /**
+      * The different types of attributes:
+      * The type obtained when building
+      * attribute fails (for example due to an unknown identifier).
+      * DO NOT MODIFY.
+      */
+     public static final int NullAttr =0;  // val is null
+     /**
+      * The different types of attributes:
+      * The type obtained when building
+      * attribute identifies a boolean constant.
+      * DO NOT MODIFY.
+      */
+     public static final int BoolConst =1;  // val is an Int integer
+     /**
+      * The different types of attributes:
+      * The type obtained when building
+      * attribute identifies an integer constant.
+       * DO NOT MODIFY.
+     */
+     public static final int IntConst  =2;  // val is an Int boolean (0 or 1)
+     /**
+      * The different types of attributes:
+      * The type obtained when building
+      * attribute identifies a boolean variable.
+       * DO NOT MODIFY.
+     */
+     public static final int BoolAttr  =3;  // val is a bool IBSAttribute.
+     /**
+      * The different types of attributes:
+      * The type obtained when building
+      * attribute identifies an integer variable.
+      * DO NOT MODIFY.
+     */
+     public static final int IntAttr   =4;  // val is an int IBSAttribute.
+     /** Typed attribute returned when building an attribute fails
+      * DO NOT MODIFY.
+      */
+     public final TypedAttribute NullTypedAttribute = new TypedAttribute();
+
+     /**
+      * Technical class which allow to return different type of attributes
+      * depending on the result of building attributes. As this class is
+      * only for local internal use, it is not robust against erroneous use.
+      * DO NOT MODIFY.
+      */
+     public class TypedAttribute {
+          /** the type of the typed attribute */
+          private int type = NullAttr;
+          /** the value of the attribute. relevant only if the attribute
+          type is neither null nor constant */
+          protected Attribute attrVal = null;
+          /** the value of the attribute. relevant only if the attribute
+           type is a constant */
+          protected int constVal =0;
+          /** build a null typed attribute */
+          private TypedAttribute(){} //intVal=0; attVal=null; type=NullAttr;
+          /**
+           * build a constant typed attribute
+           * @param i the constant value
+           * @param isbool is true for boolean constants
+           *               (values 1/0 for true/false).
+           *               false for integer constants.
+           */
+          public TypedAttribute(int i,boolean isbool) {
+               constVal = i;
+               if (isbool) type=BoolConst; else type=IntConst;
+          }
+          /**
+           * build a variable typed attribute
+           * @param a the attribute (structure associated to a variable identifier)
+           * @param isbool is true for boolean variables.
+           *               false for integer variables.
+           */
+          public TypedAttribute(Attribute a,boolean isbool) {
+               attrVal = a;
+               if (isbool) type=BoolAttr; else type=IntAttr;
+          }
+          /** As its name suggests... */
+          public int getType() { return type; }
+          /** As its name suggests... relevant only for constant types (unchecked) */
+          public int getConstant() { return constVal; }
+          /** As its name suggests... relevant only for variable types (unchecked) */
+          public Attribute getAttribute() { return attrVal; }
+          public boolean isAttribute() { return (type >= BoolAttr); }
+     }
+
+     /**
+      * builds an attribute from a specification and an identifier.
+      * @param _spec the specification
+      * @param _s the identifier string
+      * @return the build typed attribute or <code>NullTypedAttribute</code> if building fails.
+      */
+     public TypedAttribute getTypedAttribute(Spec _spec, String _s) {
+          return NullTypedAttribute;
+     }
+     /**
+      * builds an attribute from a component and an identifier.
+      * @param _comp the component
+      * @param _s the identifier string
+      * @return the build typed attribute or <code>NullTypedAttribute</code> if building fails.
+      */
+     public TypedAttribute getTypedAttribute(Comp _comp, String _s) {
+          return NullTypedAttribute;
+     }
+     /**
+      * Builds a boolean attribute from a component and a (state machine) state.
+      * @param _comp the component
+      * @param _st the state
+      * @return the build boolean attribute or <code>NullTypedAttribute</code> if building fails.
+      */
+     public TypedAttribute getTypedAttribute(Comp _comp, State _st) {
+          return NullTypedAttribute;
+     }
+
+     /** Class of attributes that are associated to open leaves.
+      *
+      */
+     public class Attribute {
+          public int getType() { return NullAttr; }
+          public int getValue(SpecState _ss) { return 0; }
+          public int getValue(SpecState _ss, State _st) { return 0; }
+          public int getValue(CompState _cs) { return 0; }
+          // for efficiency, to allow low level objects as state
+          public int getValue(Object _quickstate) { return 0; }
+          public void setValue(SpecState _ss, int _val) {}
+          public void setValue(CompState _cs, int _val) {}
+          public boolean isState() { return false; }
+          /**
+           * links state attributes to their environment (spec, comp).
+           * If possible... (attributes must have internal information about
+           * this environment). Too specific, to enhance in the future...
+           */
+          public void linkState() {}
+          /**
+           * links components of attributes to their environment (spec).
+           * If possible... (attributes must have internal information about
+           * their components). Too specific, to enhance in the future...
+           */
+          public void linkComp(Spec _spec) {}
+          public String toString() { return ""; }
+     }
+
+
 }

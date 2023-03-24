@@ -49,9 +49,7 @@ package avatartranslator;
 import static org.junit.Assert.*;
 import static org.junit.Assert.assertTrue;
 
-import avatartranslator.intboolsolver2.AvatarIBSStdExpressionClass;
 import myutil.TraceManager;
-import myutil.intboolsolver2.IBSStdExpressionClass;
 import org.junit.Before;
 import org.junit.Test;
 

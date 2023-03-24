@@ -38,7 +38,7 @@
 
 package avatartranslator;
 
-import myutil.intboolsolver.IBSParamComp;
+import myutil.intboolsolverV0.IBSParamComp;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -51,7 +51,7 @@ import java.util.List;
  * @author Ludovic APVRILLE, Raja GATGOUT
  * @version 1.1 01/07/2014
  */
-public class AvatarBlock extends AvatarElement implements AvatarStateMachineOwner, IBSParamComp, myutil.intboolsolver2.IBSParamComp {
+public class AvatarBlock extends AvatarElement implements AvatarStateMachineOwner, IBSParamComp, myutil.intboolsolver.IBSParamComp {
 
     private AvatarBlock father;
     private List<AvatarAttribute> attributes;

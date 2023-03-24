@@ -51,8 +51,8 @@ import myutil.TraceManager;
 import org.junit.Before;
 import org.junit.Test;
 
-import avatartranslator.intboolsolver.*;
-import myutil.intboolsolver.*;
+import avatartranslator.intboolsolverV0.*;
+import myutil.intboolsolverV0.*;
 import avatartranslator.modelchecker.SpecificationBlock;
 import avatartranslator.modelchecker.SpecificationState;
 public class AvatarIBSExpressionTest {

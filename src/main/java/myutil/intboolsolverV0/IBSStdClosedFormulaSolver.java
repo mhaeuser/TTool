@@ -36,23 +36,43 @@
  * knowledge of the CeCILL license and that you accept its terms.
  */
 
-package myutil.intboolsolver;
+package myutil.intboolsolverV0;
 
 /**
- * Interface IBSParamSpec, to be implemented by classes intended to
- * instantiate the {@code Spec} parameter of
- * {@link IBSParserAPI IBSParserAPI}.
- * Creation: 07/03/2023
+ * class IBSStdClosedFormulaSolver is a complete implementation
+ * and instantiation of {@link myutil.intboolsolverV0.IBSolver
+ * IBSolver} for closed Formulas.
  *
- * <p> The {@code Spec} parameter of
- * {@link IBSParserAPI IBSParserAPI} may be instantiated
- * by any class without modification, except that the class must implement
- * this interface and none of the other IBSParamXXX interface.
- * </p>
+ * <p> It is provided for documentation together with
+ * {@link myutil.intboolsolverV0.IBSStdClosedFormulaAttributeClass
+ * IBSStdClosedFormulaAttributeClass} and
+ * {@link myutil.intboolsolverV0.IBSStdClosedFormulaAttribute
+ * IBSStdClosedFormulaAttribute}}</p>
+ *
+ * <p>These three
+ * classes provides the same features as
+ * {@link myutil.intboolsolverV0.IBSClosedFormulaAttribute
+ * IBSClosedFormulaAttribute},
+ * {@link myutil.intboolsolverV0.IBSClosedFormulaAttributeClass
+ * IBSClosedFormulaAttributeClass} and
+ * {@link myutil.intboolsolverV0.IBSClosedFormulaSolver
+ * IBSClosedFormulaSolver} (together).</p>
+ *
+ * Creation: 07/03/2023
  *
  * @version 0.1 07/03/2023
  * @author Sophie Coudert
  */
 
-public interface IBSParamSpec {
+public class IBSStdClosedFormulaSolver extends IBSolver <
+        IBSParamSpec,
+        IBSParamComp,
+        IBSParamState,
+        IBSParamSpecState,
+        IBSParamCompState,
+        IBSClosedFormulaAttribute,
+        IBSClosedFormulaAttributeClass > {
+        IBSStdClosedFormulaSolver() {
+                super(new IBSClosedFormulaAttributeClass());
+        }
 }

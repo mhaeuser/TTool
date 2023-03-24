@@ -36,23 +36,29 @@
  * knowledge of the CeCILL license and that you accept its terms.
  */
 
-package myutil.intboolsolver;
+package myutil.intboolsolverV0;
 
 /**
- * Interface IBSParamSpec, to be implemented by classes intended to
- * instantiate the {@code Spec} parameter of
- * {@link IBSParserAPI IBSParserAPI}.
+ * class IBSClosedFormulaSolver is a complete implementation
+ * and instantiation of {@link myutil.intboolsolverV0.IBSolver
+ * IBSolver} for closed Formulas.
+ *
+ * <p> It can be used as it is.</p>
  * Creation: 07/03/2023
  *
- * <p> The {@code Spec} parameter of
- * {@link IBSParserAPI IBSParserAPI} may be instantiated
- * by any class without modification, except that the class must implement
- * this interface and none of the other IBSParamXXX interface.
- * </p>
- *
  * @version 0.1 07/03/2023
- * @author Sophie Coudert
+ * @author Sophie Coudert  (rewrite from Alessandro TEMPIA CALVINO)
  */
 
-public interface IBSParamSpec {
+public class IBSClosedFormulaSolver extends IBSolver <
+        IBSParamSpec,
+        IBSParamComp,
+        IBSParamState,
+        IBSParamSpecState,
+        IBSParamCompState,
+        IBSClosedFormulaAttribute,
+        IBSClosedFormulaAttributeClass > {
+        IBSClosedFormulaSolver() {
+                super(new IBSClosedFormulaAttributeClass());
+        }
 }

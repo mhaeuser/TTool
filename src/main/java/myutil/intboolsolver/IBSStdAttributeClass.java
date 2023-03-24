@@ -40,18 +40,16 @@ package myutil.intboolsolver;
 
 /**
  * Abstract Class IBSStdAttributeClass, partially
- * implementing {@link myutil.intboolsolver.IBSAttributeClass
+ * implementing {@link IBSAttributeClass
  * IBSAttributeClass} for systems with states as boolean leaves.
- * Creation: 07/03/2023
+ * Creation: 23/03/2023
  *
- * <p> This class (together with
- * {@link myutil.intboolsolver.IBSStdAttribute
- * IBSStdAttribute}) is a step toward an instantiation
+ * <p> This class (is a step toward an instantiation
  * of the solver for systems with states as boolean leaves.</p>
  * <p> To instantiate the solver using this approach, a fully
  * implemented extension of this class must be provided.
- * To make instantiation easier, functions that remain abstract are
- * grouped at the beginning of the code file and commented</p>
+ * To make instantiation easier, functions that must be overridden
+ * are grouped at the beginning of the code file </p>
  * <HR>
  * <p> The proposed implementation allow instances to provides a
  * mechanism that  memorize attributes that have already
@@ -59,90 +57,52 @@ package myutil.intboolsolver;
  * instances of a single attribute.</p>
  *
  * <p> To allow the handling of this "memory", some methods must
- * be implemented, enumerated below. Associated comments below
- * are guided by this typical implementation semantics.</p>
+ * be implemented, enumerated below.</p>
  *
  * @version 0.1 07/03/2023
  * @author Sophie Coudert (rewrite from Alessandro TEMPIA CALVINO)
  */
 
-public abstract class IBSStdAttributeClass<
+public class IBSStdAttributeClass<
         Spec extends IBSParamSpec,
         Comp extends IBSParamComp,
         State extends IBSParamState,
         SpecState extends IBSParamSpecState,
-        CompState extends IBSParamCompState,
-        Att extends IBSAttribute<Spec,Comp,State,SpecState,CompState>
-        > implements IBSAttributeClass <
-        Spec ,
-        Comp ,
-        State ,
-        SpecState ,
-        CompState,
-        Att
-        > {
-    /**
-     * Pseudo default constructor for Attributes.
-     *
-     * <p> A simple {@code new} for attributes, that cannot be implemented
-     * at the current level (genericity constraints) and must be implemented at
-     * instance level to provide an instance attribute. Thus, it must
-     * be overridden as soon as subclasses of  instance attributes are used.
-     * Trivial implementation:</p>
-     * <PRE>
-     *     public instanceIBSAttribute getNewAttribute() {
-     *         return new instanceIBSAttribute();
-     *     }
-     * </PRE>
-     * @return a new fresh uninitialized instance IBSStdAttribute.
-     */
-    public abstract IBSStdAttribute<Spec,Comp,State,SpecState,CompState> getNewAttribute();
+        CompState extends IBSParamCompState
+        > extends IBSAttributeClass<
+                        Spec ,
+                        Comp ,
+                        State ,
+                        SpecState ,
+                        CompState
+                        > {
+    // TO OVERRIDE, Inherited from IBSAttributeClass.
+    // public void initBuild(Spec _spec);
+    // public void initBuild(Comp _comp);
+    // public void initBuild();
 
     /**
-     * Initialisation before parsing an expression.
+     * Find a memorized typed attribute or returns null (<b> to override </b>).
      *
-     * <p> Automatically called by {@code buildExpression(Spec _spec)} </p>
-     * @param _spec the specification that associates structures to open
-     *             leaves
-     */
-    public abstract void initBuild(Spec _spec);
-    /**
-     * Initialisation before parsing an expression.
-     *
-     * <p> Automatically called by {@code buildExpression(Comp _comp)} </p>
-     * @param _comp the component that associates structures to open
-     *             leaves
-     */
-    public abstract void initBuild(Comp _comp);
-    /**
-     * Initialisation before parsing an expression.
-     *
-     * <p> Automatically called by {@code buildExpression()} </p>
-     */
-    public abstract void initBuild();
-
-    /**
-     * Find a memorized typed attribute or returns null
-     *
-     * <p> Tf the attribute corresponding to _s has been memorized,
+     * <p> Tf the typed attribute corresponding to _s has been memorized,
      * it is returned. Otherwise null is returned </p>
      * @param _spec the specification that associates structures to open
      *             leaves
      * @param _s the string that identifies the searched attribute.
      * @return the found or created typed attribute
      */
-    public abstract IBSTypedAttribute findAttribute(Spec _spec, String _s);
+    public IBSStdAttributeClass<Spec,Comp,State,SpecState,CompState>.TypedAttribute findAttribute(Spec _spec, String _s) { return null; }
 
     /**
-     * Add an attribute to the memorized ones.
+     * Add an attribute to the memorized ones (<b> to override </b>).
      * @param _spec the specification that associates structures to open
      *             leaves
      * @param _s the string that identifies (in _spec) the attribute to add
      * @param _att the attribute to add
      */
-    public abstract void addAttribute(Spec _spec, String _s, IBSTypedAttribute _att);
+    public void addAttribute(Spec _spec, String _s, IBSStdAttributeClass<Spec,Comp,State,SpecState,CompState>.TypedAttribute _att) {}
      /**
-      * Find a memorized typed attribute or returns null
+      * Find a memorized typed attribute or returns null (<b> to override </b>).
      *
      * <p> Tf the attribute corresponding to _s has been memorized,
      * it is returned. Otherwise null is returned </p>
@@ -151,17 +111,17 @@ public abstract class IBSStdAttributeClass<
      * @param _s the string that identifies the searched attribute.
      * @return the found or created typed attribute
      */
-   public abstract IBSTypedAttribute findAttribute(Comp _comp, String _s);
+   public IBSStdAttributeClass<Spec,Comp,State,SpecState,CompState>.TypedAttribute findAttribute(Comp _comp, String _s) { return null; }
     /**
-     * Add an attribute to the memorized ones.
+     * Add an attribute to the memorized ones (<b> to override </b>).
      * @param _comp the component that associates structures to open
      *             leaves
      * @param _s the string that identifies (in _comp) the attribute to add
      * @param _att the attribute to add
      */
-    public abstract void addAttribute(Comp _comp, String _s, IBSTypedAttribute _att);
+    public void addAttribute(Comp _comp, String _s, IBSStdAttributeClass<Spec,Comp,State,SpecState,CompState>.TypedAttribute _att) {}
     /**
-     * Find a memorized attribute or returns null
+     * Find a memorized attribute or returns null (<b> to override </b>).
      *
      * <p> Tf the attribute corresponding to _s has been memorized,
      * it is returned. Otherwise null is returned </p>
@@ -170,88 +130,304 @@ public abstract class IBSStdAttributeClass<
      * @param _state the string that identifies the searched attribute.
      * @return  the found or created typed attribute.
      */
-    public abstract IBSTypedAttribute findAttribute(Comp _comp, State _state);
+    public IBSStdAttributeClass<Spec,Comp,State,SpecState,CompState>.TypedAttribute findAttribute(Comp _comp, State _state) { return null; }
     /**
-     * Add an attribute to the memorized ones.
+     * Add an attribute to the memorized ones (<b> to override </b>).
      * @param _comp the component that associates structures to open
      *             leaves
      * @param _state the state that identifies (in _comp) the attribute to add
      * @param _att the attribute to add
      */
-    public abstract void addAttribute(Comp _comp, State _state, IBSTypedAttribute _att);
+    public void addAttribute(Comp _comp, State _state, IBSStdAttributeClass<Spec,Comp,State,SpecState,CompState>.TypedAttribute _att) {}
 
     /**
-     * Clear the memorized attributes.
+     * Clear the memorized attributes (<b> to override </b>).
      */
-    public abstract void clearAttributes();
+    public void clearAttributes() {}
+    /**
+     * get the name associated to a state by the instance (<b> to override </b>).
+     *
+     * @param _comp the component that associates structures to attribute
+     *              strings
+     * @param _state the state of which we want the name
+     * @return the name associated to _state by _comp
+     */
+    public String getStateName(Comp _comp, State _state) { return ""; }
 
-    public IBSTypedAttribute getTypedAttribute(Spec _spec, String _s) {
-        IBSTypedAttribute a = findAttribute(_spec, _s);
+    /**
+     * Call to default Attribute constructor TO OVERRIDE IN SUBCLASSES.
+     *
+     * <p> Overriding this method in subclasses (with exactly the same code)
+     * allows to obtain instances of the subclasses when getTypedAttribute
+     * is called from these subclasses.</p>
+     * @return a new fresh instance of Attribute (call default constructor)
+     */
+    protected Attribute getAttribute() { return this.new Attribute();}
+
+
+    /* DO NOT OVERRIDE THE THREE FOLLOWING "getTypedAttribute". They are fully implemented and do not need any modifying.
+     */
+    public final IBSStdAttributeClass<Spec,Comp,State,SpecState,CompState>.TypedAttribute getTypedAttribute(Spec _spec, String _s) {
+        IBSStdAttributeClass<Spec,Comp,State,SpecState,CompState>.TypedAttribute a = findAttribute(_spec, _s);
         if (a == null) {
-            IBSStdAttribute x = getNewAttribute(); // replaced...
+            IBSStdAttributeClass<Spec,Comp,State,SpecState,CompState>.Attribute x = getAttribute();
             x.classInitAttribute(_spec,_s);
             switch (x.getType()) {
-                case IBSAttributeTypes.NullAttr:{
-                    return IBSTypedAttribute.NullAttribute;
+                case IBSAttributeClass.NullAttr: {
+                    return this.NullTypedAttribute;
                 }
-                case IBSAttributeTypes.BoolConst:
-                case IBSAttributeTypes.IntConst:{
-                    a = new IBSTypedAttribute(x.getType(),(Object) Integer.valueOf(x.getConstant()));
+                case IBSAttributeClass.BoolConst: {
+                    a = new TypedAttribute(x.getConstant(),true);
                     break;
                 }
-                default: {
-                    a = new IBSTypedAttribute(x.getType(),(Object) x);
 
+                case IBSAttributeClass.IntConst: {
+                    a = new TypedAttribute(x.getConstant(),false);
+                    break;
+                }
+                case IBSAttributeClass.BoolAttr: {
+                    a = new TypedAttribute(x, true);
+                    break;
+                }
+                case IBSAttributeClass.IntAttr: {
+                    a = new TypedAttribute(x, false);
                 }
             }
             addAttribute(_spec, _s, a);
         }
         return a;
     }
-
-    public IBSTypedAttribute getTypedAttribute(Comp _comp, String _s) {
-        IBSTypedAttribute a = findAttribute(_comp, _s);
+    public final IBSStdAttributeClass<Spec,Comp,State,SpecState,CompState>.TypedAttribute getTypedAttribute(Comp _comp, String _s) {
+        IBSStdAttributeClass<Spec,Comp,State,SpecState,CompState>.TypedAttribute a = findAttribute(_comp, _s);
         if (a == null) {
-            IBSStdAttribute x = getNewAttribute(); // replaced
+            IBSStdAttributeClass<Spec,Comp,State,SpecState,CompState>.Attribute x = getAttribute();
             x.classInitAttribute(_comp,_s);
             switch (x.getType()) {
-                case IBSAttributeTypes.NullAttr:{
-                    return IBSTypedAttribute.NullAttribute;
+                case IBSAttributeClass.NullAttr: {
+                    return this.NullTypedAttribute;
                 }
-                case IBSAttributeTypes.BoolConst:
-                case IBSAttributeTypes.IntConst:{
-                    a = new IBSTypedAttribute(x.getType(),(Object) Integer.valueOf(x.getConstant()));
+                case IBSAttributeClass.BoolConst: {
+                    a = new TypedAttribute(x.getConstant(),true);
                     break;
                 }
-                default: {
-                    a = new IBSTypedAttribute(x.getType(),(Object) x);
+
+                case IBSAttributeClass.IntConst: {
+                    a = new TypedAttribute(x.getConstant(),false);
+                    break;
+                }
+                case IBSAttributeClass.BoolAttr: {
+                    a = new TypedAttribute(x, true);
+                    break;
+                }
+                case IBSAttributeClass.IntAttr: {
+                    a = new TypedAttribute(x, false);
                 }
             }
             addAttribute(_comp, _s, a);
         }
         return a;
     }
-
-    public IBSTypedAttribute getTypedAttribute(Comp _comp, State _state) {
-        IBSTypedAttribute a = findAttribute(_comp, _state);
+    public final IBSStdAttributeClass<Spec,Comp,State,SpecState,CompState>.TypedAttribute getTypedAttribute(Comp _comp, State _state) {
+        IBSStdAttributeClass<Spec,Comp,State,SpecState,CompState>.TypedAttribute a = findAttribute(_comp, _state);
         if (a == null) {
-            IBSStdAttribute x = getNewAttribute(); // replaced
+            IBSStdAttributeClass<Spec,Comp,State,SpecState,CompState>.Attribute x = getAttribute();
             x.classInitAttribute(_comp,_state);
             switch (x.getType()) {
-                case IBSAttributeTypes.NullAttr:{
-                    return IBSTypedAttribute.NullAttribute;
+                case IBSAttributeClass.NullAttr: {
+                    return this.NullTypedAttribute;
                 }
-                case IBSAttributeTypes.BoolConst:
-                case IBSAttributeTypes.IntConst:{
-                    a = new IBSTypedAttribute(x.getType(),(Object) Integer.valueOf(x.getConstant()));
+                case IBSAttributeClass.BoolConst: {
+                    a = new TypedAttribute(x.getConstant(),true);
                     break;
                 }
-                default: {
-                    a = new IBSTypedAttribute(x.getType(),(Object) x);
+                case IBSAttributeClass.IntConst: {
+                    a = new TypedAttribute(x.getConstant(),false);
+                    break;
+                }
+                case IBSAttributeClass.BoolAttr: {
+                    a = new TypedAttribute(x, true);
+                    break;
+                }
+                case IBSAttributeClass.IntAttr: {
+                    a = new TypedAttribute(x, false);
                 }
             }
             addAttribute(_comp, _state, a);
         }
         return a;
     }
+
+    /**
+     * Class partially implementing {@link
+     * myutil.intboolsolver.IBSAttributeClass.Attribute
+     * IBSAttributeClass.IBSAttribute} for systems with
+     * states as boolean leaves.
+     *
+     * <p> To make instantiation easier, functions that must be overridden
+     * are grouped at the beginning of the class code and commented</p>
+     * <HR>
+     * <p>Subclasses must not export any constructors but provide access to
+     * their default one through
+     * {@link #getAttribute()}  getAttribute}. They also provide initialisation
+     * functions to be called after the default constructor.</p>
+     * <p> More technically, the creation process of attributes is the following one:</p>
+     * <ul>
+     *     <li> Subclass Default Constructor (subclass provides {@link #getAttribute() public
+     *     SubClass getAttribute()})
+     *     </li>
+     *     <li> IBSStdAttributeClass common initialisation function
+     *     (implemented <a href="#common_init">here</a>)
+     *     </li>
+     *     <li> Subclass specific initialisation function (subclass provides
+     *     {@link #initAttribute(IBSParamSpec)}  int initAttribute(...)})
+     *     </li>
+     *     <li> IBSStdtAttribute initialisation postprocessing (also
+     *     implemented <a href="#common_init">here</a>)
+     *     </li>
+     * </ul>
+     * <hr>
+     * methods inherited from {@link myutil.intboolsolver.IBSAttributeClass.Attribute
+     * IBSAttributeClass.Attribute} that <b>must be overridden</b>:
+     * <PRE>
+     *         public int getValue(SpecState _ss);
+     *         public  int getValue(CompState sb);
+     *         public int getValue(Object _qs);
+     *         public void setValue(SpecState _ss, int val);
+     *         public void setValue(CompState _cs, int val);
+     *         public void linkComp(Spec _spec){}
+     *         public void linkState(){}
+     * </PRE>
+     *
+     * @version 0.1 07/03/2023
+     * @author Sophie Coudert (rewrite from Alessandro TEMPIA CALVINO)
+     */
+
+    public class Attribute extends IBSAttributeClass<Spec,Comp,State,SpecState,CompState>.Attribute {
+
+        // partial implementation: Variable and State attributes
+        public State state =null;
+        protected String s = null;
+        protected boolean isState = false;
+        protected int type = IBSAttributeClass.NullAttr;
+        protected int constantInt = 0;
+
+        // TO OVERRIDE, Inherited from IBSAttributeClass.
+        // public int getValue(SpecState _ss);
+        // public  int getValue(CompState sb);
+        // public int getValue(Object _qs);
+        // public void setValue(SpecState _ss, int val);
+        // public void setValue(CompState _cs, int val);
+        // public void linkComp(Spec _spec){}
+        // public void linkState(){}
+
+        /** Subclass specific initialisation functions for attributes (<b> To override </b>).
+         *
+         * <p> Part of attribute initialisation that is specific to instantiation.
+         * Member "s" (attribute string), can be used as it has been set by
+         * IBSStdAttributeClass common initialisation, which has been called
+         * just before.</p>
+         *
+         * <p> The returned value is among {@link myutil.intboolsolver.IBSStdAttributeClass
+         * IBSStdAttributeClass} attribute types (NullAttr, BoolConst,
+         * IntConst, BoolAttr and IntAttr,) according to the type of attribute that
+         * has been identified.</p>
+         *
+         *  <p> If the returned type is BoolConst or IntConst, constantInt must contain
+         *  associated constant value when returning (expected by postprocessing)</p>
+         * @param _spec the specification that associates structures to attribute
+         *              strings
+         * @return the type of the identified attribute, among  (IBSTypedAttribute.)
+         * NullAttr, BoolConst, IntConst, BoolAttr and IntAttr. (IntConst set if relevant)
+         */
+        // to implement
+        protected int initAttribute(Spec _spec) { return IBSAttributeClass.NullAttr; }
+        /** Subclass specific initialisation functions for attributes (<b> To override </b>).
+         *
+         * <p> Part of attribute initialisation that is specific to instantiation.
+         * Member "s" (attribute string), can be used as it has been set by
+         * IBSStdAttributeClass common initialisation, which has been called
+         * just before.</p>
+         *
+         * <p> The returned value is among {@link myutil.intboolsolver.IBSStdAttributeClass
+         * IBSStdAttributeClass} attribute types (NullAttr, BoolConst,
+         * IntConst, BoolAttr and IntAttr) according to the type of attribute that
+         * has been identified.</p>
+         *
+         *  <p> If the returned type is BoolConst or IntConst, constantInt must contain
+         *  associated constant value when returning (expected by postprocessing)</p>
+         * @param _comp the component that associates structures to attribute
+         *              strings
+         * @return the type of the identified attribute, among  (IBSTypedAttribute.)
+         * NullAttr, BoolConst, IntConst, BoolAttr and IntAttr. (IntConst set if relevant)
+         */
+        protected int initAttribute(Comp _comp) { return IBSAttributeClass.NullAttr; }
+        /** Subclass specific initialisation functions for attributes (<b> To override </b>).
+         *
+         * <p> Part of attribute initialisation that is specific to instantiation.
+         * Members s, isState and state have already been set by
+         * IBSStdAttributeClass common initialisation, which has been called
+         * just before.</p>
+         * <p> Returned type should be BoolAttr, or NullAttr if the attribute is not
+         * a state attribute (error case).</p>
+         */
+        protected int initStateAttribute(Comp _comp) { return IBSAttributeClass.NullAttr; }
+
+
+        // $$$$$$$$$$$$$$$ provided implementation, should not be modified $$$$$$$$$$$$$$
+
+        /**
+         * get the type of the attribute. <b>do not override</b>
+         * @return a type among NullAttr, BoolConst, IntConst,
+         * BoolAttr and IntAttr. <b>do not override</b>
+         */
+        public final int getType(){ return type; }
+        // Nothing to do.
+        /**
+         * get the constant value of the attribute.
+         * Relevant only if the attribute is a constant.
+         * <b>do not override</b>
+         * @return the constant value of the attribute.
+         */
+         public final int getConstant(){ return constantInt; }
+        public int getValue(SpecState _ss, State _st) {
+            if (isState) {
+                return (state == _st) ? 1 : 0;
+            }
+            return(getValue(_ss));
+        }
+        // public boolean isState() { return isState; }
+        public String toString() {  return s; }
+        /** <a id="common_init"></a>Attribute initialisation that is common to all instances
+         * @param _spec the specification that associates structures to attribute
+         *              strings
+         * @param _s the string that identifies the attribute
+         */
+        public final void classInitAttribute(Spec _spec, String _s) {
+            this.s = _s;
+            type = initAttribute(_spec);
+        }
+        /** Attribute initialisation that is common to all instances
+         * @param _comp the component that associates structures to attribute
+         *              strings
+         * @param _s the string that identifies the attribute
+         */
+        public final void classInitAttribute(Comp _comp, String _s) {
+            this.s = _s;
+            type = initAttribute(_comp);
+        }
+
+        //!! for the moment, _comp is useless... Reviser...
+        /** Attribute initialisation that is common to all instances
+         * @param _comp the component that associates structures to attribute
+         *              strings
+         * @param _state the state that identifies the state attribute
+         */
+        public final void classInitAttribute(Comp _comp, State _state) {
+            this.s = getStateName(_comp,_state);
+            isState = true;
+            state = _state;
+            type = initStateAttribute(_comp);
+        }
+    }
+
 }

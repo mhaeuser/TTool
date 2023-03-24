@@ -43,6 +43,7 @@ package ui.sd2;
 
 
 import myutil.GraphicLib;
+import myutil.NameChecker;
 import myutil.TraceManager;
 import ui.*;
 import ui.util.IconManager;
@@ -61,7 +62,8 @@ import java.util.Vector;
    * @version 1.0 04/10/2004
    * @author Ludovic APVRILLE
  */
-public abstract class TGConnectorMessageSD extends TGConnector {
+public abstract class TGConnectorMessageSD extends TGConnector implements NameChecker.NameStartWithLowerCase,
+        NameChecker.NameTakenFromValue {
     public final String TO_SYNC = "To synchronous message";
     public final String TO_ASYNC = "To asynchronous message";
 
@@ -80,6 +82,7 @@ public abstract class TGConnectorMessageSD extends TGConnector {
     public String getMessage() {
         return value;
     }
+
 
     // Part before '()' section
     public String getFirstPartMessage() {
@@ -151,7 +154,7 @@ public abstract class TGConnectorMessageSD extends TGConnector {
             text = getTopLevelName() + " / " + text;
         }
         String s = (String)JOptionPane.showInputDialog(frame, text,
-                                                       "setting message name", JOptionPane.PLAIN_MESSAGE, IconManager.imgic100,
+                                                       "Setting message name", JOptionPane.PLAIN_MESSAGE, IconManager.imgic100,
                                                        null,
                                                        getValue());
         if ((s != null) && (s.length() > 0)) {

@@ -43,6 +43,7 @@ package ui.avatarpd;
 
 import myutil.GraphicLib;
 
+import myutil.NameChecker;
 import ui.*;
 import ui.util.IconManager;
 
@@ -60,7 +61,8 @@ import java.util.Vector;
 * @version 1.1 22/04/2010
 * @author Ludovic APVRILLE
  */
-public class AvatarPDBlock extends TGCScalableWithInternalComponent implements SwallowTGComponent, SwallowedTGComponent {
+public class AvatarPDBlock extends TGCScalableWithInternalComponent implements SwallowTGComponent, SwallowedTGComponent,
+		NameChecker.NameStartWithUpperCase, NameChecker.NameTakenFromValue {
     //private int textY1 = 3;
     private String stereotype = "block";
 	

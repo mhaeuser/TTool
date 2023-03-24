@@ -9867,7 +9867,11 @@ public class GTURTLEModeling {
     }
 
     private void checkName(NameChecker.NamedElement _ne, List<CheckingError> _warnings, TDiagramPanel _tdp) {
-        //TraceManager.addDev("Checking " + _ne.getName());
+        if (_ne instanceof NameChecker.NameTakenFromValue) {
+            //TraceManager.addDev("Checking from value:" + ((NameChecker.NameTakenFromValue) _ne).getValue());
+        } else {
+            //TraceManager.addDev("Checking from name: " + _ne.getName() + " class: " + _ne.getClass().toString());
+        }
         if (_ne instanceof NameChecker.NameStartWithUpperCase) {
             if (!NameChecker.checkName(_ne)) {
                 UICheckingError ce = new UICheckingError(CheckingError.STRUCTURE_ERROR,

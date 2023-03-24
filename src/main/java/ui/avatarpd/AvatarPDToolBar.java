@@ -95,7 +95,7 @@ public class AvatarPDToolBar extends TToolBar {
 
         mgui.actions[TGUIAction.ACT_TOGGLE_TEPE_ID].setEnabled(b);
 
-        mgui.actions[TGUIAction.ACT_MODEL_CHECKING].setEnabled(!b);
+        mgui.actions[TGUIAction.ACT_MODEL_CHECKING].setEnabled(b);
 
     }
     

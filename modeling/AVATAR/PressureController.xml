@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<TURTLEGMODELING version="1.0beta" ANIMATE_INTERACTIVE_SIMULATION="true" ACTIVATE_PENALTIES="false" UPDATE_INFORMATION_DIPLO_SIM="false" ANIMATE_WITH_INFO_DIPLO_SIM="true" OPEN_DIAG_DIPLO_SIM="false" LAST_SELECTED_MAIN_TAB="9" LAST_SELECTED_SUB_TAB="0">
+<TURTLEGMODELING version="1.0beta" ANIMATE_INTERACTIVE_SIMULATION="true" ACTIVATE_PENALTIES="false" UPDATE_INFORMATION_DIPLO_SIM="false" ANIMATE_WITH_INFO_DIPLO_SIM="true" OPEN_DIAG_DIPLO_SIM="false" LAST_SELECTED_MAIN_TAB="2" LAST_SELECTED_SUB_TAB="2">
 
 <Modeling type="Avatar Requirement" nameTab="Requirements" >
 <AvatarRDPanel name="RequirementsSystemView" minX="10" maxX="2500" minY="10" maxY="1500" zoom="1.0" >
@@ -2754,7 +2754,7 @@
 <SUBCOMPONENT type="-1" id="1456" index="53" uid="5b6db663-709b-4f49-a4b4-291de609dd37" >
 <father id="1463" num="0" />
 <cdparam x="643" y="554" />
-<sizeparam width="44" height="15" minWidth="10" minHeight="1" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
+<sizeparam width="39" height="15" minWidth="10" minHeight="1" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <hidden value="false" />
 <enabled value="true" />
 <cdrectangleparam minX="-75" maxX="-20" minY="10" maxY="35" />
@@ -2764,7 +2764,7 @@
 <SUBCOMPONENT type="-1" id="1457" index="54" uid="1e24891a-af78-4315-a5e8-1bffc42fb167" >
 <father id="1463" num="1" />
 <cdparam x="756" y="554" />
-<sizeparam width="117" height="15" minWidth="10" minHeight="1" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
+<sizeparam width="110" height="15" minWidth="10" minHeight="1" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <hidden value="false" />
 <enabled value="true" />
 <cdrectangleparam minX="35" maxX="55" minY="10" maxY="35" />
@@ -2774,7 +2774,7 @@
 <SUBCOMPONENT type="-1" id="1458" index="55" uid="96ee8b56-6a31-4923-9e97-d896a6d0c426" >
 <father id="1463" num="2" />
 <cdparam x="721" y="589" />
-<sizeparam width="14" height="15" minWidth="10" minHeight="1" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
+<sizeparam width="12" height="15" minWidth="10" minHeight="1" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <hidden value="false" />
 <cdrectangleparam minX="20" maxX="40" minY="45" maxY="70" />
 <infoparam name="guard 3" value="[ ]" />
@@ -2832,8 +2832,8 @@
 </COMPONENT>
 
 <COMPONENT type="5506" id="1507" index="25" uid="4e71c72c-297d-4251-ac78-09bbd9b11292" >
-<cdparam x="625" y="480" />
-<sizeparam width="182" height="20" minWidth="30" minHeight="1" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
+<cdparam x="629" y="480" />
+<sizeparam width="175" height="20" minWidth="30" minHeight="1" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <hidden value="false" />
 <enabled value="true" />
 <cdrectangleparam minX="10" maxX="2500" minY="10" maxY="1500" />
@@ -2844,8 +2844,8 @@
 </COMPONENT>
 
 <COMPONENT type="5510" id="1510" index="26" uid="cfd205b2-23d5-4922-b79e-fe6758d80686" >
-<cdparam x="504" y="417" />
-<sizeparam width="42" height="20" minWidth="30" minHeight="1" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
+<cdparam x="506" y="417" />
+<sizeparam width="38" height="20" minWidth="30" minHeight="1" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <hidden value="false" />
 <enabled value="true" />
 <cdrectangleparam minX="10" maxX="2500" minY="10" maxY="1500" />
@@ -2870,7 +2870,7 @@
 <SUBCOMPONENT type="-1" id="1511" index="56" uid="06b8b205-819d-4e18-8a6b-32645cd6fc70" >
 <father id="1518" num="0" />
 <cdparam x="557" y="367" />
-<sizeparam width="14" height="15" minWidth="10" minHeight="1" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
+<sizeparam width="12" height="15" minWidth="10" minHeight="1" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <hidden value="false" />
 <cdrectangleparam minX="-75" maxX="-20" minY="10" maxY="35" />
 <infoparam name="guard 1" value="[ ]" />
@@ -2879,7 +2879,7 @@
 <SUBCOMPONENT type="-1" id="1512" index="57" uid="b671507e-4b78-46ea-a0a4-cd47a0caa0c2" >
 <father id="1518" num="1" />
 <cdparam x="617" y="367" />
-<sizeparam width="14" height="15" minWidth="10" minHeight="1" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
+<sizeparam width="12" height="15" minWidth="10" minHeight="1" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <hidden value="false" />
 <cdrectangleparam minX="35" maxX="55" minY="10" maxY="35" />
 <infoparam name="guard 2" value="[ ]" />
@@ -2888,7 +2888,7 @@
 <SUBCOMPONENT type="-1" id="1513" index="58" uid="27268959-cd79-4072-bb80-4d13e7bf19fb" >
 <father id="1518" num="2" />
 <cdparam x="602" y="402" />
-<sizeparam width="14" height="15" minWidth="10" minHeight="1" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
+<sizeparam width="12" height="15" minWidth="10" minHeight="1" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <hidden value="false" />
 <cdrectangleparam minX="20" maxX="40" minY="45" maxY="70" />
 <infoparam name="guard 3" value="[ ]" />
@@ -2896,8 +2896,8 @@
 </SUBCOMPONENT>
 
 <COMPONENT type="5506" id="1521" index="28" uid="a2432dba-cd94-40cf-b501-37db5edfe453" >
-<cdparam x="542" y="298" />
-<sizeparam width="111" height="20" minWidth="30" minHeight="1" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
+<cdparam x="544" y="298" />
+<sizeparam width="106" height="20" minWidth="30" minHeight="1" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <hidden value="false" />
 <enabled value="true" />
 <cdrectangleparam minX="10" maxX="2500" minY="10" maxY="1500" />
@@ -2939,8 +2939,8 @@
 </COMPONENT>
 
 <COMPONENT type="5510" id="1547" index="30" uid="bf67b2c2-277e-4f9b-a450-e3a0e71d20b0" >
-<cdparam x="576" y="220" />
-<sizeparam width="42" height="20" minWidth="30" minHeight="1" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
+<cdparam x="578" y="220" />
+<sizeparam width="38" height="20" minWidth="30" minHeight="1" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <hidden value="false" />
 <enabled value="true" />
 <cdrectangleparam minX="10" maxX="2500" minY="10" maxY="1500" />
@@ -2951,8 +2951,8 @@
 </COMPONENT>
 
 <COMPONENT type="5509" id="1550" index="31" uid="bce44f7d-9f00-495a-a778-c82fa1cafc6f" >
-<cdparam x="247" y="384" />
-<sizeparam width="40" height="20" minWidth="30" minHeight="1" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
+<cdparam x="249" y="384" />
+<sizeparam width="36" height="20" minWidth="30" minHeight="1" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <hidden value="false" />
 <enabled value="true" />
 <cdrectangleparam minX="10" maxX="2500" minY="10" maxY="1500" />
@@ -3001,7 +3001,7 @@
 <SUBCOMPONENT type="-1" id="1566" index="59" uid="1fd4beac-3d70-4a88-914e-9a7a118cc602" >
 <father id="1573" num="0" />
 <cdparam x="107" y="380" />
-<sizeparam width="44" height="15" minWidth="10" minHeight="1" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
+<sizeparam width="39" height="15" minWidth="10" minHeight="1" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <hidden value="false" />
 <enabled value="true" />
 <cdrectangleparam minX="-75" maxX="-20" minY="10" maxY="35" />
@@ -3011,7 +3011,7 @@
 <SUBCOMPONENT type="-1" id="1567" index="60" uid="551fb22c-93ff-4d83-90c1-51f5025176c5" >
 <father id="1573" num="1" />
 <cdparam x="217" y="357" />
-<sizeparam width="108" height="15" minWidth="10" minHeight="1" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
+<sizeparam width="101" height="15" minWidth="10" minHeight="1" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <hidden value="false" />
 <enabled value="true" />
 <cdrectangleparam minX="35" maxX="55" minY="10" maxY="35" />
@@ -3021,7 +3021,7 @@
 <SUBCOMPONENT type="-1" id="1568" index="61" uid="2a345c15-7929-4b37-b3ab-d767c63d558a" >
 <father id="1573" num="2" />
 <cdparam x="202" y="390" />
-<sizeparam width="14" height="15" minWidth="10" minHeight="1" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
+<sizeparam width="12" height="15" minWidth="10" minHeight="1" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <hidden value="false" />
 <cdrectangleparam minX="20" maxX="40" minY="45" maxY="70" />
 <infoparam name="guard 3" value="[ ]" />
@@ -3110,8 +3110,8 @@
 </COMPONENT>
 
 <COMPONENT type="5510" id="1640" index="36" uid="6395ce20-2410-4a53-8893-1bf4a21591d5" >
-<cdparam x="129" y="282" />
-<sizeparam width="136" height="20" minWidth="30" minHeight="1" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
+<cdparam x="135" y="282" />
+<sizeparam width="124" height="20" minWidth="30" minHeight="1" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <hidden value="false" />
 <enabled value="true" />
 <cdrectangleparam minX="10" maxX="2500" minY="10" maxY="1500" />
@@ -3780,7 +3780,7 @@
 </SUBCOMPONENT>
 <SUBCOMPONENT type="625" id="1781" index="71" uid="307fa1e3-bb4c-4aa3-bde4-11aea9e84f35" >
 <father id="1782" num="31" />
-<cdparam x="365" y="299" />
+<cdparam x="365" y="303" />
 <sizeparam width="15" height="25" minWidth="1" minHeight="1" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <hidden value="false" />
 <cdrectangleparam minX="18" maxX="18" minY="-2" maxY="365" />
@@ -27720,49 +27720,6 @@ PressureSensor.SendingPressure --&gt; MainController.HighPressure
 
 
 </AVATARStateMachineDiagramPanel>
-
-</Modeling>
-
-
-
-
-<Modeling type="Avatar Requirement" nameTab="Requirements" >
-<AvatarPDPanel name="AVATARPD" minX="10" maxX="2500" minY="10" maxY="1500" zoom="1.0" >
-<COMPONENT type="5300" id="11404" index="0" uid="614bf096-8aa8-41e6-9282-c476bcf156dc" >
-<cdparam x="327" y="159" />
-<sizeparam width="250" height="200" minWidth="5" minHeight="2" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
-<hidden value="false" />
-<cdrectangleparam minX="10" maxX="2500" minY="10" maxY="1500" />
-<infoparam name="Block" value="Block" />
-<new d="false" />
-<TGConnectingPoint num="0" id="11405" />
-<TGConnectingPoint num="1" id="11406" />
-<TGConnectingPoint num="2" id="11407" />
-<TGConnectingPoint num="3" id="11408" />
-<TGConnectingPoint num="4" id="11409" />
-<TGConnectingPoint num="5" id="11410" />
-<TGConnectingPoint num="6" id="11411" />
-<TGConnectingPoint num="7" id="11412" />
-<TGConnectingPoint num="8" id="11413" />
-<TGConnectingPoint num="9" id="11414" />
-<TGConnectingPoint num="10" id="11415" />
-<TGConnectingPoint num="11" id="11416" />
-<TGConnectingPoint num="12" id="11417" />
-<TGConnectingPoint num="13" id="11418" />
-<TGConnectingPoint num="14" id="11419" />
-<TGConnectingPoint num="15" id="11420" />
-<TGConnectingPoint num="16" id="11421" />
-<TGConnectingPoint num="17" id="11422" />
-<TGConnectingPoint num="18" id="11423" />
-<TGConnectingPoint num="19" id="11424" />
-<TGConnectingPoint num="20" id="11425" />
-<TGConnectingPoint num="21" id="11426" />
-<TGConnectingPoint num="22" id="11427" />
-<TGConnectingPoint num="23" id="11428" />
-</COMPONENT>
-
-
-</AvatarPDPanel>
 
 </Modeling>
 

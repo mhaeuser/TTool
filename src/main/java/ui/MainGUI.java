@@ -3828,6 +3828,8 @@ public class MainGUI implements ActionListener, WindowListener, KeyListener, Per
         boolean b = false;
         boolean ret = false;
 
+        gtm.getCheckingWarnings().clear();
+
         if (file == null) {
             JOptionPane.showMessageDialog(frame, "The project must be saved before any simulation or formal verification can be performed",
                     "Syntax analysis failed", JOptionPane.INFORMATION_MESSAGE);
@@ -4149,6 +4151,9 @@ public class MainGUI implements ActionListener, WindowListener, KeyListener, Per
 
             JDialogSelectTMLComponent jdstmlc = new JDialogSelectTMLComponent(frame, tmlComponentsToValidate, tmlcdp.tmlctdp.getComponentList(),
                     "Choosing TML components to validate", true, tmlcdp.getConsiderExecOperators(), tmlcdp.getConsiderTimingOperators());
+
+
+
             if (!automatic) {
                 GraphicLib.centerOnParent(jdstmlc);
                 jdstmlc.setVisible(true); // Blocked until dialog has been closed
@@ -4163,6 +4168,7 @@ public class MainGUI implements ActionListener, WindowListener, KeyListener, Per
                 tmlcdp.setConsiderTimingOperators(jdstmlc.getConsiderTimingOperators());
                 b = gtm.translateTMLComponentDesign(tmlComponentsToValidate, tmlcdp, jdstmlc.getOptimize(), jdstmlc.getConsiderExecOperators(),
                         jdstmlc.getConsiderTimingOperators());
+                identifyNamingWarnings(false);
                 expandToWarnings();
                 expandToErrors();
                 if (b) {

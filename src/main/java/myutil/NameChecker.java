@@ -52,19 +52,21 @@ import java.util.List;
  */
 public class NameChecker {
     public static boolean checkName(NamedElement _ne) {
+        String name = getName(_ne);
+
         if (_ne instanceof NameStartWithUpperCase) {
             //TraceManager.addDev("Must start with upper case or exception");
-            return Conversion.startsWithUpperCase(_ne.getName()) || inException(_ne);
+            return Conversion.startsWithUpperCase(name) || inException(_ne, name);
         } else if (_ne instanceof NameStartWithLowerCase) {
             //TraceManager.addDev("Must start with lower case or exception");
-            return Conversion.startsWithLowerCase(_ne.getName()) || inException(_ne);
+            return Conversion.startsWithLowerCase(name) || inException(_ne, name);
         }
 
         //TraceManager.addDev("Not concerned");
         return true;
     }
 
-    public static boolean inException(NamedElement _ne) {
+    public static boolean inException(NamedElement _ne, String _name) {
         //TraceManager.addDev("Working on exception");
         String[] exceptions = _ne.getNameExceptions();
         if (exceptions == null) {
@@ -72,13 +74,23 @@ public class NameChecker {
             return false;
         }
         for(int i=0; i<exceptions.length; i++) {
-            if (exceptions[i].equals(_ne.getName())) {
+            if (exceptions[i].equals(_name)) {
                 //TraceManager.addDev("Found exception");
                 return true;
             }
         }
         //TraceManager.addDev("No exception found");
         return false;
+    }
+
+    public static String getName(NamedElement _ne) {
+        if (_ne instanceof NameTakenFromValue) {
+            return ((NameTakenFromValue)_ne).getValue();
+        } else if (_ne instanceof NameTakenFromSpecific) {
+            return ((NameTakenFromSpecific)_ne).getSpecificName();
+        } else {
+            return _ne.getName();
+        }
     }
 
 
@@ -100,6 +112,10 @@ public class NameChecker {
 
     public interface NameTakenFromValue {
         String getValue();
+    }
+
+    public interface NameTakenFromSpecific {
+        String getSpecificName();
     }
 
 

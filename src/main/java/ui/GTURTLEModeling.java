@@ -9854,7 +9854,7 @@ public class GTURTLEModeling {
             warnings = new LinkedList<>();
         } else if (clearWarnings) {
             warnings.clear();
-            TraceManager.addDev("Clearing warnings");
+            //TraceManager.addDev("Clearing warnings");
         }
         for(NameChecker.NamedElement ne: nes) {
             checkName(ne, warnings, _tdp);
@@ -9875,7 +9875,7 @@ public class GTURTLEModeling {
         if (_ne instanceof NameChecker.NameStartWithUpperCase) {
             if (!NameChecker.checkName(_ne)) {
                 UICheckingError ce = new UICheckingError(CheckingError.STRUCTURE_ERROR,
-                        _ne.getName() + ": its name should start with an uppercase letter");
+                        NameChecker.getName(_ne) + ": its name should start with an uppercase letter");
                 ce.setTDiagramPanel(_tdp);
                 if (_ne instanceof TGComponent) {
                     ce.setTGComponent((TGComponent)_ne);
@@ -9886,7 +9886,7 @@ public class GTURTLEModeling {
         if (_ne instanceof NameChecker.NameStartWithLowerCase) {
             if (!NameChecker.checkName(_ne)) {
                 UICheckingError ce = new UICheckingError(CheckingError.STRUCTURE_ERROR,
-                        _ne.getName() + ": its name should start with an lowercase letter");
+                        NameChecker.getName(_ne) + ": its name should start with an lowercase letter");
                 ce.setTDiagramPanel(_tdp);
                 if (_ne instanceof TGComponent) {
                     ce.setTGComponent((TGComponent)_ne);

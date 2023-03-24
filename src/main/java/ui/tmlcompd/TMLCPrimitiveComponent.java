@@ -39,6 +39,7 @@
 package ui.tmlcompd;
 
 import myutil.GraphicLib;
+import myutil.NameChecker;
 import myutil.TraceManager;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -63,7 +64,7 @@ import java.util.Vector;
  * @version 1.0 12/03/2008
  */
 public class TMLCPrimitiveComponent extends TGCScalableWithInternalComponent implements SwallowTGComponent, SwallowedTGComponent, WithAttributes,
-        ColorCustomizable {
+        ColorCustomizable, NameChecker.NameStartWithUpperCase, NameChecker.NameTakenFromValue  {
     // #FIXME Debugging
     //private int maxFontSize = 14;
     //private int minFontSize = 4;
@@ -961,6 +962,16 @@ public class TMLCPrimitiveComponent extends TGCScalableWithInternalComponent imp
             return Color.white;
         else
             return new Color(201, 243, 188 - (getMyDepth() * 10), 200);
+    }
+
+    public myutil.NameChecker.NamedElement[] getSubNamedElements() {
+        myutil.NameChecker.NamedElement[] nes = new myutil.NameChecker.NamedElement[tgcomponent.length + myAttributes.size()];
+        System.arraycopy(tgcomponent, 0, nes, 0, tgcomponent.length);
+        int index = tgcomponent.length;
+        for(TAttribute at: myAttributes) {
+            nes[index] = at;
+        }
+        return nes;
     }
 
 

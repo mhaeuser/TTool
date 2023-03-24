@@ -42,6 +42,7 @@
 package ui.ftd;
 
 import myutil.GraphicLib;
+import myutil.NameChecker;
 import ui.*;
 import ui.util.IconManager;
 
@@ -57,7 +58,8 @@ import java.util.Vector;
  * @version 1.1 14/12/2017
  * @author Ludovic APVRILLE
  */
-public class FTDBlock extends TGCScalableWithInternalComponent implements SwallowTGComponent {
+public class FTDBlock extends TGCScalableWithInternalComponent implements SwallowTGComponent,
+        NameChecker.NameStartWithUpperCase, NameChecker.NameTakenFromValue {
 //    private int textY1 = 3;
     private String stereotype = "block";
 

@@ -43,6 +43,7 @@ package ui.avatarcd;
 
 //import java.awt.*;
 
+import myutil.NameChecker;
 import ui.*;
 
 import java.util.ArrayList;
@@ -59,7 +60,7 @@ import java.util.Iterator;
  * @version 1.0 31/08/2011
  * @author Ludovic APVRILLE
  */
-public class AvatarCDPanel extends TDiagramPanel implements TDPWithAttributes{
+public class AvatarCDPanel extends TDiagramPanel implements TDPWithAttributes, NameChecker.SystemWithNamedElements {
     
 	public static int ARC = 20;
 	

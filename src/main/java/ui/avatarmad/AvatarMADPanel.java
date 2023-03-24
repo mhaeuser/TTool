@@ -43,16 +43,17 @@ package ui.avatarmad;
 
 //import java.awt.*;
 
+import myutil.NameChecker;
 import ui.*;
 
 /**
  * Class AvatarMADPanel
  * Panel for drawing Avatar Model Assumption Panels
-* Creation: 20/04/2010
-* @version 1.0 20/04/2010
+ * Creation: 20/04/2010
+ * @version 1.1 24/03/2023
  * @author Ludovic APVRILLE
  */
-public class AvatarMADPanel extends TDiagramPanel implements TDPWithAttributes {
+public class AvatarMADPanel extends TDiagramPanel implements TDPWithAttributes, NameChecker.SystemWithNamedElements {
   
     
     public  AvatarMADPanel(MainGUI mgui, TToolBar _ttb) {

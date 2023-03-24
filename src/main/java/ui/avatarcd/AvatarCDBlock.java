@@ -41,6 +41,7 @@ package ui.avatarcd;
 
 import myutil.Conversion;
 import myutil.GraphicLib;
+import myutil.NameChecker;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -59,9 +60,10 @@ import java.util.LinkedList;
  * Creation: 31/08/2011
  *
  * @author Ludovic APVRILLE
- * @version 1.2 03/07/2019
+ * @version 1.3 24/03/2023
  */
-public class AvatarCDBlock extends TGCScalableWithInternalComponent implements SwallowTGComponent, SwallowedTGComponent, ColorCustomizable {
+public class AvatarCDBlock extends TGCScalableWithInternalComponent implements SwallowTGComponent, SwallowedTGComponent, ColorCustomizable,
+        NameChecker.NameStartWithUpperCase, NameChecker.NameTakenFromValue {
     //    private int textY1 = 3;
 //    private int textX = 7;
     private String stereotype = "block";

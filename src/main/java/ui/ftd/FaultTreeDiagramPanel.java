@@ -43,6 +43,7 @@ package ui.ftd;
 
 //import java.awt.*;
 
+import myutil.NameChecker;
 import ui.*;
 
 import java.util.ArrayList;
@@ -61,7 +62,7 @@ import java.util.ListIterator;
  * @version 1.0 14/12/2017
  * @author Ludovic APVRILLE
  */
-public class FaultTreeDiagramPanel extends TDiagramPanel implements TDPWithAttributes{
+public class FaultTreeDiagramPanel extends TDiagramPanel implements TDPWithAttributes, NameChecker.SystemWithNamedElements {
 
     public  FaultTreeDiagramPanel(MainGUI mgui, TToolBar _ttb) {
         super(mgui, _ttb);

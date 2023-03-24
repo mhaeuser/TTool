@@ -1,26 +1,26 @@
 /* Copyright or (C) or Copr. GET / ENST, Telecom-Paris, Ludovic Apvrille
- * 
+ *
  * ludovic.apvrille AT enst.fr
- * 
+ *
  * This software is a computer program whose purpose is to allow the
  * edition of TURTLE analysis, design and deployment diagrams, to
  * allow the generation of RT-LOTOS or Java code from this diagram,
  * and at last to allow the analysis of formal validation traces
  * obtained from external tools, e.g. RTL from LAAS-CNRS and CADP
  * from INRIA Rhone-Alpes.
- * 
+ *
  * This software is governed by the CeCILL  license under French law and
  * abiding by the rules of distribution of free software.  You can  use,
  * modify and/ or redistribute the software under the terms of the CeCILL
  * license as circulated by CEA, CNRS and INRIA at the following URL
  * "http://www.cecill.info".
- * 
+ *
  * As a counterpart to the access to the source code and  rights to copy,
  * modify and redistribute granted by the license, users are provided only
  * with a limited warranty  and the software's author,  the holder of the
  * economic rights,  and the successive licensors  have only  limited
  * liability.
- * 
+ *
  * In this respect, the user's attention is drawn to the risks associated
  * with loading,  using,  modifying and/or developing or reproducing the
  * software by the user in light of its specific status of free software,
@@ -31,54 +31,67 @@
  * requirements in conditions enabling the security of their systems and/or
  * data to be ensured and,  more generally, to use and operate it in the
  * same conditions as regards security.
- * 
+ *
  * The fact that you are presently reading this means that you have had
  * knowledge of the CeCILL license and that you accept its terms.
  */
 
 
-package ui.util;
+package myutil;
 
+
+import java.util.List;
 
 /**
- * Class DefaultText
- * Text of some windows
- * Creation: 01/12/2003
+ * Class NameChecker
+ * Point with a byte value
+ * Creation: 2023
  *
  * @author Ludovic APVRILLE
- * @version 1.2 21/06/2018
+ * @version 1.0 21/03/2023
  */
-public class DefaultText {
+public class NameChecker {
+    public static boolean checkName(NamedElement _ne) {
+        if (_ne instanceof NameStartWithUpperCase) {
+            //TraceManager.addDev("Must start with upper case or exception");
+            return Conversion.startsWithUpperCase(_ne.getName()) || inException(_ne);
+        } else if (_ne instanceof NameStartWithLowerCase) {
+            //TraceManager.addDev("Must start with lower case or exception");
+            return Conversion.startsWithLowerCase(_ne.getName()) || inException(_ne);
+        }
 
-    public static String BUILD = "14367";
-    public static String DATE = "2023/03/23 03:20:23 CET";
-
-    public static StringBuffer sbAbout = makeAbout();
-
-    public static String getAboutText() {
-        return new String(sbAbout);
+        //TraceManager.addDev("Not concerned");
+        return true;
     }
 
-    public static String getVersion() {
-        return "1.0beta"; /* Set new release Nov. 16th, 2017 */
+    public static boolean inException(NamedElement _ne) {
+        //TraceManager.addDev("Working on exception");
+        String[] exceptions = _ne.getNameExceptions();
+        if (exceptions == null) {
+            TraceManager.addDev("Null excep");
+            return false;
+        }
+        for(int i=0; i<exceptions.length; i++) {
+            if (exceptions[i].equals(_ne.getName())) {
+                //TraceManager.addDev("Found exception");
+                return true;
+            }
+        }
+        //TraceManager.addDev("No exception found");
+        return false;
     }
 
-    public static String getFullVersion() {
-        return getVersion() + " -- build: " + DefaultText.BUILD + " date: " + DefaultText.DATE;
+    public interface NamedElement {
+        String getName();
+        String[] getNameExceptions();
+        NamedElement[] getSubNamedElements();
     }
 
-    private static StringBuffer makeAbout() {
-        StringBuffer sb = new StringBuffer();
-        sb.append("TTool version " + getFullVersion() + "\n");
-        sb.append("Copyright IMT - Telecom Paris / Ludovic Apvrille \n");
-        sb.append("\nContact: ludovic.apvrille@telecom-paris.fr\n");
-        sb.append("\nProgrammers\n\tTelecom Paris: Ludovic Apvrille, Dominique Blouin, Fabien Tessier, \n\t" +
-                "Daniel Knorreck, Florian Lugou, Letitia Li\n\tMaysam Zoor\n\tMinh Hiep Pham, Levan Truong\n");
-        sb.append("\n\tNokia: Andrea Enrici\n");
-        sb.append("\n\tLIP6: Daniela Genius\n");
-        sb.append("\nFor more information:\n");
-        sb.append("https://ttool.telecom-paris.fr/\n\n");
-        return sb;
+    public interface NameStartWithUpperCase {
     }
+
+    public interface NameStartWithLowerCase {
+    }
+
 
 }

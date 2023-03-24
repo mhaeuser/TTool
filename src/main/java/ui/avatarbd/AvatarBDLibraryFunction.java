@@ -969,7 +969,7 @@ public class AvatarBDLibraryFunction extends TGCScalableWithoutInternalComponent
     public void removeCryptoElements() {
         this.isCrypto = false;
 
-        for (String method : AvatarMethod.cryptoMethods)
+        for (String method : avatartranslator.AvatarMethod.cryptoMethods)
             this.removeMethodIfApplicable(method);
     }
 
@@ -979,7 +979,7 @@ public class AvatarBDLibraryFunction extends TGCScalableWithoutInternalComponent
     public void addCryptoElements() {
         this.isCrypto = true;
 
-        for (String method : AvatarMethod.cryptoMethods)
+        for (String method : avatartranslator.AvatarMethod.cryptoMethods)
             this.addMethodIfApplicable(method);
     }
 

@@ -38,6 +38,7 @@
 
 package avatartranslator;
 
+import myutil.NameChecker;
 import myutil.TraceManager;
 import myutil.intboolsolverV0.IBSParamSpec;
 
@@ -1031,7 +1032,16 @@ public class AvatarSpecification extends AvatarElement implements IBSParamSpec, 
 
         removeEmptyBlocks();
 
+    }
 
+    public NameChecker.NamedElement[] getSubNamedElements() {
+        NameChecker.NamedElement[] lne = new NameChecker.NamedElement[blocks.size()];
+        int index = 0;
+        for(AvatarBlock bl: blocks) {
+            lne[index] = bl;
+            index ++;
+        }
+        return lne;
     }
 
 

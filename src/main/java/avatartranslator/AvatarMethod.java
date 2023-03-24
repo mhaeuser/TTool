@@ -38,6 +38,8 @@
 
 package avatartranslator;
 
+import myutil.NameChecker;
+
 import java.util.LinkedList;
 import java.util.List;
 
@@ -48,7 +50,31 @@ import java.util.List;
  * @version 1.0 08/04/2010
  * @author Ludovic APVRILLE
  */
-public class AvatarMethod extends AvatarElement {
+public class AvatarMethod extends AvatarElement implements NameChecker.NameStartWithLowerCase {
+
+    public static final String[] cryptoMethods = {
+            "Message aencrypt(Message msg, Key k)",
+            "Message adecrypt(Message msg, Key k)",
+            "Key pk(Key k)",
+            "Message sign(Message msg, Key k)",
+            "bool verifySign(Message msg1, Message sig, Key k)",
+            "Message cert(Key k, Message msg)",
+            "bool verifyCert(Message cert, Key k)",
+            "Key getpk(Message cert)",
+            "Message sencrypt(Message msg, Key k)",
+            "Message sdecrypt(Message msg, Key k)",
+            "Key DH(Key pubK, Key privK)",
+            "Message hash(Message msg)",
+            "Message MAC(Message msg, Key k)",
+            "bool verifyMAC(Message msg, Key k, Message macmsg)",
+            "Message concat2(Message msg1, Message msg2)",
+            "Message concat3(Message msg1, Message msg2, Message msg3)",
+            "Message concat4(Message msg1, Message msg2, Message msg3, Message msg4)",
+            "get2(Message msg, Message msg1, Message msg2)",
+            "get3(Message msg, Message msg1, Message msg2, Message msg3)",
+            "get4(Message msg, Message msg1, Message msg2, Message msg3, Message msg4)"};
+
+    public static final String[] EXCEPTIONS = {"MAC", "DH"};
 
     protected boolean implementationProvided;
 
@@ -216,4 +242,6 @@ public class AvatarMethod extends AvatarElement {
     	setAdvancedClone(am, _block);	
     	return am;
     }
+
+    public String[] getNameExceptions() { return EXCEPTIONS;}
 }

@@ -2016,7 +2016,7 @@ public class GTURTLEModeling {
             avatarspec = t2a.generateAvatarSpec("1");
             TraceManager.addDev("Avatar spec generation: done");
             if (mgui.isExperimentalOn()) {
-                mgui.drawAvatarSpecification(avatarspec);
+                //mgui.drawAvatarSpecification(avatarspec);
             }
         }
     }
@@ -2074,7 +2074,7 @@ public class GTURTLEModeling {
             t2a = new TML2Avatar(tmap, false, true);
             avatarspec = t2a.generateAvatarSpec(loopLimit);
             if (mgui.isExperimentalOn()) {
-                drawPanel(avatarspec, mgui.getFirstAvatarDesignPanelFound());
+                //drawPanel(avatarspec, mgui.getFirstAvatarDesignPanelFound());
             }
 
         } else if (tmlm != null) {
@@ -2085,7 +2085,7 @@ public class GTURTLEModeling {
             avatarspec = t2a.generateAvatarSpec(loopLimit);
 
             if (mgui.isExperimentalOn()) {
-                mgui.drawAvatarSpecification(avatarspec);
+                //mgui.drawAvatarSpecification(avatarspec);
                 /*DateFormat dateFormat = new SimpleDateFormat("_yyyyMMdd_HHmmss");
                 Date date = new Date();
                 String dateAndTime = dateFormat.format(date);

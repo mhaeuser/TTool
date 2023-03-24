@@ -80,6 +80,14 @@ public class Conversion {
         return cpt;
     }
 
+    public static boolean startsWithLowerCase(String _s) {
+        return Character.isLowerCase(_s.charAt(0));
+    }
+
+    public static boolean startsWithUpperCase(String _s) {
+        return Character.isUpperCase(_s.charAt(0));
+    }
+
     public static String replaceChar(String s, char c, String snew) {
         int index = s.indexOf(c);
         if (index > -1) {

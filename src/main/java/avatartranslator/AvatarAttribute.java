@@ -41,6 +41,7 @@ package avatartranslator;
 
 import java.util.Map;
 
+import myutil.NameChecker;
 import myutil.TraceManager;
 
 /**
@@ -51,7 +52,7 @@ import myutil.TraceManager;
  * @author Ludovic APVRILLE
  * @version 1.0 20/05/2010
  */
-public class AvatarAttribute extends AvatarLeftHand {
+public class AvatarAttribute extends AvatarLeftHand implements NameChecker.NameStartWithLowerCase {
 
     // Types of parameters
     private AvatarType type;

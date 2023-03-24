@@ -151,4 +151,6 @@ public class AvatarSignal extends AvatarMethod {
 
 		return super.isCompatibleWith(_as);
 	}
+
+    public String[] getNameExceptions() { return null;}
 }

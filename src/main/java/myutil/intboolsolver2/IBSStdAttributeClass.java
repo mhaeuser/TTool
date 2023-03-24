@@ -308,16 +308,14 @@ public class IBSStdAttributeClass<
         protected int constantInt = 0;
 
         // TO OVERRIDE, Inherited from IBSAttributeClass.
-        public int getValue(SpecState _ss){
-            return 1;
-        }
-        public  int getValue(CompState sb) { return 1; }
-        public int getValue(Object _qs){ return 1; }
-        public void setValue(SpecState _ss, int val){}
-        public void setValue(CompState _cs, int val){}
+        // public int getValue(SpecState _ss){ return 1; }
+        // public  int getValue(CompState sb) { return 1; }
+        // public int getValue(Object _qs){ return 1; }
+        // public void setValue(SpecState _ss, int val){}
+        // public void setValue(CompState _cs, int val){}
 
-        public void linkComp(Spec _spec){}
-        public void linkState(){}
+        // public void linkComp(Spec _spec){}
+        // public void linkState(){}
 
         /** Subclass specific initialisation functions for attributes (<b> To override </b>).
          *

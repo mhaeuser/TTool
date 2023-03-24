@@ -122,21 +122,21 @@ public class IBSAttributeClass<
      public class Attribute {
           // returns a type from IBSolver (to modify)
           // (i.e. among IMMEDIATE_(BOOL,INT,NO))
-          int getType() { return NullAttr; }
-          int getValue(SpecState _ss) { return 0; }
-          int getValue(SpecState _ss, State _st) { return 0; }
-          int getValue(CompState _cs) { return 0; }
+          public int getType() { return NullAttr; }
+          public int getValue(SpecState _ss) { return 0; }
+          public int getValue(SpecState _ss, State _st) { return 0; }
+          public int getValue(CompState _cs) { return 0; }
           // for efficiency, to allow low level objects as state
-          int getValue(Object _quickstate) { return 0; }
-          void setValue(SpecState _ss, int _val) {}
-          void setValue(CompState _cs, int _val) {}
+          public int getValue(Object _quickstate) { return 0; }
+          public void setValue(SpecState _ss, int _val) {}
+          public void setValue(CompState _cs, int _val) {}
           public boolean isState() { return false; }
           /**
            * links state attributes to their environment (spec, comp).
            * If possible... (attributes must have internal information about
            * this environment). Too specific, to enhance in the future...
            */
-          void linkState() {}
+          public void linkState() {}
           /**
            * links components of attributes to their environment (spec).
            * If possible... (attributes must have internal information about

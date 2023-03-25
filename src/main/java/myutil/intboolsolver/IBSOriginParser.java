@@ -41,17 +41,18 @@ package myutil.intboolsolver;
 import java.util.HashSet;
 
 /**
- * Class IBSolver implements the generic solver.
- *
+ * Class IBSOriginParser implements the generic parser.
+ * Creation: 24/03/2023
  * <p>For general information about the solver, see
- * {@link myutil.intboolsolverV0 package page}.</p>
+ * {@link myutil.intboolsolver package page}.</p>
  *
  * <p>For documentation about exported API, see
  * {@link IBSOriginParser IBSolverAPI}</p>
- * Creation: 27/02/2023
+ *
+ * <p>Note: this parser stops after first error found.</p>
  *
  * @author Sophie Coudert (rewrite from Alessandro TEMPIA CALVINO)
- * @version 0.0 27/02/2023
+ * @version 0.1 24/03/2023
  */
 public class IBSOriginParser<
         Spec extends IBSParamSpec,

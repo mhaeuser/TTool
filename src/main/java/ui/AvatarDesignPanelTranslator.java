@@ -1367,23 +1367,25 @@ public class AvatarDesignPanelTranslator {
                     // TraceManager.addDev(" -> Other type found: " + a.getTypeOther());
                     List<TAttribute> types = adp.getAvatarBDPanel().getAttributesOfDataType(a.getTypeOther());
                     if (types == null) {
-                        UICheckingError ce = new UICheckingError(CheckingError.STRUCTURE_ERROR, "Unknown data type:  " + a.getTypeOther() + " used in " + ab.getName());
+                        UICheckingError ce = new UICheckingError(CheckingError.STRUCTURE_ERROR, "Unknown data type:  " + a.getTypeOther()
+                                + " used in " + ab.getName());
                         ce.setTDiagramPanel(adp.getAvatarBDPanel());
                         addCheckingError(ce);
                         return;
                     } else {
                         if (types.size() == 0) {
-                            UICheckingError ce = new UICheckingError(CheckingError.STRUCTURE_ERROR, "Data type definition must contain at least one attribute:  " + ab.getName());
+                            UICheckingError ce = new UICheckingError(CheckingError.STRUCTURE_ERROR,
+                                    "Data type definition must contain at least one attribute:  " + ab.getName());
                             ce.setTDiagramPanel(adp.getAvatarBDPanel());
                             addCheckingError(ce);
                         } else {
                             nameTypeMap.put(block.getBlockName() + "." + a.getId(), a.getTypeOther());
                             typeAttributesMap.put(a.getTypeOther(), types);
-                            for (TAttribute type : types)
+                            for (TAttribute type : types) {
                                 addRegularAttribute(ab, type, a.getId() + "__");
+                            }
                         }
                     }
-
                 }
             }
 

@@ -307,6 +307,7 @@ public class AvatarBlock extends AvatarElement implements AvatarStateMachineOwne
 
     public void addAttribute(AvatarAttribute _aa) {
         if (getAvatarAttributeWithName(_aa.getName()) == null) {
+            //TraceManager.addDevStackTrace("Adding attribute " + _aa.getName() + " to block " + getName());
             attributes.add(_aa);
         }
     }

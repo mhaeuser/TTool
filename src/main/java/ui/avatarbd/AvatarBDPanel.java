@@ -131,7 +131,7 @@ public class AvatarBDPanel extends TDiagramPanel {
     }
 
     public void updateSignalAttachement(AvatarBDBlock _b, AvatarBDPortConnector _conn) {
-        TraceManager.addDev("Update signal attachment for block " + _b.getBlockName());
+        //TraceManager.addDev("Update signal attachment for block " + _b.getBlockName());
 
     	// Set all signals of B as non connected
     	_b.setSignalsAsNonAttached();

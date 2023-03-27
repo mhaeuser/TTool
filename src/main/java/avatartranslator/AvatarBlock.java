@@ -39,6 +39,7 @@
 package avatartranslator;
 
 import myutil.NameChecker;
+import myutil.TraceManager;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -63,7 +64,7 @@ public class AvatarBlock extends AvatarElement implements AvatarStateMachineOwne
     private int blockIndex; //Index of block in the Avatar Specification
 
     private String globalCode;
-    
+
     private int booleanOffset;
     private int attributeOptRatio;
     private List<AvatarAttribute> constants;
@@ -82,6 +83,126 @@ public class AvatarBlock extends AvatarElement implements AvatarStateMachineOwne
         attributeOptRatio = 1;
     }
 
+    public static boolean isAValidMethodCall(AvatarStateMachineOwner owner, String _s) {
+        int i;
+
+        //TraceManager.addDev("****** method=" + _s);
+        String all = _s;
+
+        int indexeq = _s.indexOf('=');
+
+        if (indexeq != -1) {
+            _s = _s.substring(indexeq + 1, _s.length()).trim();
+            //TraceManager.addDev("****** cut method: " + _s);
+        }
+
+        int index0 = _s.indexOf("(");
+        int index1 = _s.indexOf(")");
+        if ((index0 == -1) || (index1 == -1) || (index1 < index0)) {
+            //TraceManager.addDev("No parenthesis");
+            return false;
+        }
+
+        String method = _s.substring(0, index0);
+
+        AvatarMethod am = owner.getAvatarMethodWithName(method);
+        if (am == null) {
+            //TraceManager.addDev("Method not found");
+            return false;
+        }
+
+        String[] actions;
+        AvatarAttribute aa;
+        String params = _s.substring(index0 + 1, index1).trim();
+        //TraceManager.addDev("params=" + params);
+        if (params.length() == 0) {
+            if (am.getListOfAttributes().size() != 0) {
+                return false;
+            }
+        } else {
+            //TraceManager.addDev("params=" + params);
+            actions = params.split(",");
+            if (am.getListOfAttributes().size() != actions.length) {
+                return false;
+            }
+
+            for (i = 0; i < actions.length; i++) {
+                //TraceManager.addDev("params=" + params +  " actions=" + actions[i]);
+                // Must check the validity of this action
+
+                if (am.getListOfAttributes().get(i).isInt()) {
+                    if (AvatarSyntaxChecker.isAValidIntExpr(null, owner, actions[i].trim()) < 0) {
+                        return false;
+                    }
+                } else {
+                    // Assume it is a bool attribute
+                    if (AvatarSyntaxChecker.isAValidBoolExpr(null, owner, actions[i].trim()) < 0) {
+                        return false;
+                    }
+                }
+
+            /*aa = getAvatarAttributeWithName(actions[i].trim());
+              if (aa == null) {
+              //TraceManager.addDev("Failed for attribute " + actions[i]);
+              return false;
+              }*/
+            }
+        }
+
+        // Checking for return attributes
+        //TraceManager.addDev("Checking for return attributes");
+        if (indexeq != -1) {
+            //TraceManager.addDev("Checking for return params");
+            String retparams = all.substring(0, indexeq).trim();
+            //TraceManager.addDev("Retparam=" + retparams);
+
+            // multiple params
+            if (retparams.length() > 0) {
+                if (retparams.charAt(0) == '(') {
+                    if (retparams.charAt(retparams.length() - 1) != ')') {
+                        //TraceManager.addDev("Bad format for return params: " + retparams);
+                        return false;
+                    }
+
+                    retparams = retparams.substring(1, retparams.length() - 1).trim();
+                    actions = retparams.split(",");
+                    if (am.getListOfReturnAttributes().size() != actions.length) {
+                        return false;
+                    }
+
+                    for (i = 0; i < actions.length; i++) {
+                        //TraceManager.addDev("params=" + retparams + " actions=" + actions[i]);
+                        aa = owner.getAvatarAttributeWithName(actions[i].trim());
+                        if (aa == null) {
+                            //TraceManager.addDev("Failed for attribute " + actions[i]);
+                            return false;
+                        } else if (aa.isConstant()) {
+                            return false;
+                        }
+                    }
+
+                } else {
+                    // Only one param.
+                    aa = owner.getAvatarAttributeWithName(retparams);
+                    if (aa == null) {
+                        //TraceManager.addDev("Failed for return attribute " + retparams);
+                        return false;
+                    } else if (aa.isConstant()) {
+                        return false;
+                    }
+
+                    if (am.getListOfReturnAttributes().size() != 1) {
+                        //TraceManager.addDev("Wrong number of return parameters in :" + retparams);
+                        return false;
+                    }
+                }
+
+            }
+        }
+        //TraceManager.addDev("Ok for method " + _s);
+
+        return true;
+    }
 
     // For code generation
     public void addGlobalCode(String _code) {
@@ -102,23 +223,22 @@ public class AvatarBlock extends AvatarElement implements AvatarStateMachineOwne
         return globalCode;
     }
 
+    public AvatarBlock getFather() {
+        return father;
+    }
 
     // Relation with parent block
     public void setFather(AvatarBlock _father) {
         father = _father;
     }
 
-    public AvatarBlock getFather() {
-        return father;
-    }
+    /*public void addAttribute(AvatarAttribute _attribute) {
+        attributes.add(_attribute);
+	}*/
 
     public AvatarStateMachine getStateMachine() {
         return asm;
     }
-
-    /*public void addAttribute(AvatarAttribute _attribute) {
-        attributes.add(_attribute);
-	}*/
 
     public void addMethod(AvatarMethod _method) {
         methods.add(_method);
@@ -128,7 +248,9 @@ public class AvatarBlock extends AvatarElement implements AvatarStateMachineOwne
         signals.add(_signal);
     }
 
-    public void clearAttributes() {attributes.clear();}
+    public void clearAttributes() {
+        attributes.clear();
+    }
 
     public AvatarSignal addSignalIfApplicable(String name, int type, Object refObject) {
         AvatarSignal sig = getSignalByName(name);
@@ -141,7 +263,6 @@ public class AvatarBlock extends AvatarElement implements AvatarStateMachineOwne
 
     }
 
-
     public List<AvatarAttribute> getAttributes() {
         return attributes;
     }
@@ -153,7 +274,6 @@ public class AvatarBlock extends AvatarElement implements AvatarStateMachineOwne
     public List<AvatarMethod> getMethods() {
         return methods;
     }
-
 
     public List<AvatarSignal> getSignals() {
         return signals;
@@ -282,7 +402,6 @@ public class AvatarBlock extends AvatarElement implements AvatarStateMachineOwne
         return false;
     }
 
-
     public AvatarAttribute getAttribute(int _index) {
         return attributes.get(_index);
     }
@@ -314,10 +433,10 @@ public class AvatarBlock extends AvatarElement implements AvatarStateMachineOwne
         }
         return -1;
     }
-    
+
     public int getIndexOfConstantWithName(String _name) {
         int cpt = 0;
-        
+
         if (constants == null) {
             return -1;
         }
@@ -329,7 +448,7 @@ public class AvatarBlock extends AvatarElement implements AvatarStateMachineOwne
         }
         return -1;
     }
-    
+
     public AvatarAttribute getConstantWithIndex(int index) {
         if (constants == null) {
             return null;
@@ -404,118 +523,6 @@ public class AvatarBlock extends AvatarElement implements AvatarStateMachineOwne
         }
 
         return null;
-    }
-
-    public static boolean isAValidMethodCall(AvatarStateMachineOwner owner, String _s) {
-        int i;
-
-        //TraceManager.addDev("****** method=" + _s);
-        String all = _s;
-
-        int indexeq = _s.indexOf('=');
-
-        if (indexeq != -1) {
-            _s = _s.substring(indexeq + 1, _s.length()).trim();
-            //TraceManager.addDev("****** cut method: " + _s);
-        }
-
-        int index0 = _s.indexOf("(");
-        int index1 = _s.indexOf(")");
-        if ((index0 == -1) || (index1 == -1) || (index1 < index0)) {
-            //TraceManager.addDev("No parenthesis");
-            return false;
-        }
-
-        String method = _s.substring(0, index0);
-
-        AvatarMethod am = owner.getAvatarMethodWithName(method);
-        if (am == null) {
-            //TraceManager.addDev("Method not found");
-            return false;
-        }
-
-        String params = _s.substring(index0 + 1, index1).trim();
-        //TraceManager.addDev("params=" + params);
-        if (params.length() == 0) {
-            return am.getListOfAttributes().size() == 0;
-        }
-        //TraceManager.addDev("params=" + params);
-        String[] actions = params.split(",");
-        if (am.getListOfAttributes().size() != actions.length) {
-            return false;
-        }
-
-        AvatarAttribute aa;
-        for (i = 0; i < actions.length; i++) {
-            //TraceManager.addDev("params=" + params +  " actions=" + actions[i]);
-            // Must check tha validity of this action
-
-            if (am.getListOfAttributes().get(i).isInt()) {
-                if (AvatarSyntaxChecker.isAValidIntExpr(null, owner, actions[i].trim()) < 0) {
-                    return false;
-                }
-            } else {
-                // Assume it is a bool attribute
-                if (AvatarSyntaxChecker.isAValidBoolExpr(null, owner, actions[i].trim()) < 0) {
-                    return false;
-                }
-            }
-
-            /*aa = getAvatarAttributeWithName(actions[i].trim());
-              if (aa == null) {
-              //TraceManager.addDev("Failed for attribute " + actions[i]);
-              return false;
-              }*/
-        }
-
-        // Checking for return attributes
-        if (indexeq != -1) {
-            //TraceManager.addDev("Checking for return params");
-            String retparams = all.substring(0, indexeq).trim();
-            //TraceManager.addDev("Retparam=" + retparams);
-
-            // multiple params
-            if (retparams.length() > 0) {
-                if (retparams.charAt(0) == '(') {
-                    if (retparams.charAt(retparams.length() - 1) != ')') {
-                        //TraceManager.addDev("Bad format for return params: " + retparams);
-                        return false;
-                    }
-
-                    retparams = retparams.substring(1, retparams.length() - 1).trim();
-                    actions = retparams.split(",");
-                    if (am.getListOfReturnAttributes().size() != actions.length) {
-                        return false;
-                    }
-
-                    for (i = 0; i < actions.length; i++) {
-                        //TraceManager.addDev("params=" + retparams +  " actions=" + actions[i]);
-                        aa = owner.getAvatarAttributeWithName(actions[i].trim());
-                        if (aa == null) {
-                            //TraceManager.addDev("Failed for attribute " + actions[i]);
-                            return false;
-                        }
-                    }
-
-                } else {
-                    // Only one param.
-                    aa = owner.getAvatarAttributeWithName(retparams);
-                    if (aa == null) {
-                        //TraceManager.addDev("Failed for return attribute " + retparams);
-                        return false;
-                    }
-
-                    if (am.getListOfReturnAttributes().size() != 1) {
-                        //TraceManager.addDev("Wrong number of return parameters in :" + retparams);
-                        return false;
-                    }
-                }
-
-            }
-        }
-        //TraceManager.addDev("Ok for method " + _s);
-
-        return true;
     }
 
     public AvatarStateMachineElement getStateMachineElementFromReferenceObject(Object _o) {
@@ -737,7 +744,7 @@ public class AvatarBlock extends AvatarElement implements AvatarStateMachineOwne
 
     public ArrayList<AvatarElement> getAttributesOverMax(int maxV) {
         ArrayList<AvatarElement> outside = new ArrayList<>();
-        for(AvatarAttribute aa: attributes) {
+        for (AvatarAttribute aa : attributes) {
             if (aa.isInt()) {
                 if (aa.hasInitialValue()) {
                     try {
@@ -753,38 +760,38 @@ public class AvatarBlock extends AvatarElement implements AvatarStateMachineOwne
         }
         return outside;
     }
-    
-    
+
+
     //move boolean attributes to last positions in list attributes
     public void sortAttributes() {
         List<AvatarAttribute> newAttributes = new LinkedList<AvatarAttribute>();
-        
+
         for (AvatarAttribute attribute : attributes) {
             if (attribute.getType() != AvatarType.BOOLEAN) {
                 newAttributes.add(attribute);
             }
         }
-        
+
         booleanOffset = newAttributes.size();
-        
+
         for (AvatarAttribute attribute : attributes) {
             if (attribute.getType() == AvatarType.BOOLEAN) {
                 newAttributes.add(attribute);
             }
         }
-        
+
         attributes = newAttributes;
     }
-    
+
     public int getBooleanOffset() {
         return booleanOffset;
     }
-    
-    
+
+
     public int getAttributeOptRatio() {
         return attributeOptRatio;
     }
-    
+
     public void setAttributeOptRatio(int attributeOptRatio) {
         if (attributeOptRatio == 2 || attributeOptRatio == 4) {
             this.attributeOptRatio = attributeOptRatio;
@@ -792,20 +799,19 @@ public class AvatarBlock extends AvatarElement implements AvatarStateMachineOwne
             this.attributeOptRatio = 1;
         }
     }
-    
-    
+
+
     public void removeConstantAttributes() {
         AvatarTransition at;
-
 
 
         if ((constants == null) || (constants.size() == 0)) {
             List<AvatarAttribute> newAttributes = new LinkedList<>();
             constants = new LinkedList<>();
-    
+
             for (AvatarAttribute attr : attributes) {
                 boolean toKeep = false;
-                
+
                 if (attr.isTimer()) {
                     toKeep = true;
                 }
@@ -817,10 +823,10 @@ public class AvatarBlock extends AvatarElement implements AvatarStateMachineOwne
 
                         for (AvatarAction aa : at.getActions()) {
                             if (aa instanceof AvatarActionAssignment) {
-                               if (((AvatarActionAssignment) aa).leftHand.getName().compareTo(attr.name) == 0) {
-                                   //assigned
-                                   toKeep = true;
-                               }
+                                if (((AvatarActionAssignment) aa).leftHand.getName().compareTo(attr.name) == 0) {
+                                    //assigned
+                                    toKeep = true;
+                                }
                             }
                         }
                     } else if (elt instanceof AvatarActionOnSignal) {
@@ -844,7 +850,6 @@ public class AvatarBlock extends AvatarElement implements AvatarStateMachineOwne
                     }
 
 
-
                     if (toKeep) {
                         break;
                     }
@@ -860,13 +865,12 @@ public class AvatarBlock extends AvatarElement implements AvatarStateMachineOwne
     }
 
 
-
     public void removeUselessAttributes() {
         //AvatarTransition at;
         List<AvatarAttribute> toBeRemoved = new LinkedList<AvatarAttribute>();
 
 
-        for(AvatarAttribute aa: attributes) {
+        for (AvatarAttribute aa : attributes) {
             if (aa.isTimer()) {
                 if (!(asm.isTimerUsed(aa))) {
                     toBeRemoved.add(aa);
@@ -881,19 +885,19 @@ public class AvatarBlock extends AvatarElement implements AvatarStateMachineOwne
             }
         }
 
-        for(AvatarAttribute aa: toBeRemoved) {
+        for (AvatarAttribute aa : toBeRemoved) {
             attributes.remove(aa);
         }
 
     }
 
     // Returns the number of replaced queries
-    public int  replaceQueriesWithReadSignal(AvatarSignal _origin, AvatarSignal _newSignal) {
+    public int replaceQueriesWithReadSignal(AvatarSignal _origin, AvatarSignal _newSignal) {
         List<AvatarQueryOnSignal> elts = new LinkedList<>();
         AvatarQueryOnSignal aqos;
 
         // Getting all related ops
-        for(AvatarStateMachineElement elt: asm.getListOfElements()) {
+        for (AvatarStateMachineElement elt : asm.getListOfElements()) {
             if (elt instanceof AvatarQueryOnSignal) {
                 aqos = (AvatarQueryOnSignal) elt;
                 if (aqos.getSignal() == _origin) {
@@ -903,7 +907,7 @@ public class AvatarBlock extends AvatarElement implements AvatarStateMachineOwne
         }
 
         // Replacing ops
-        for(AvatarQueryOnSignal q: elts) {
+        for (AvatarQueryOnSignal q : elts) {
             AvatarActionOnSignal aaosQuery = new AvatarActionOnSignal("query", _newSignal, q.getReferenceObject());
             aaosQuery.addValue(q.getAttribute().getName());
             asm.replace(q, aaosQuery);
@@ -942,17 +946,17 @@ public class AvatarBlock extends AvatarElement implements AvatarStateMachineOwne
     public NameChecker.NamedElement[] getSubNamedElements() {
         NameChecker.NamedElement[] nes = new NameChecker.NamedElement[attributes.size() + methods.size() + signals.size()];
         int index = 0;
-        for(AvatarAttribute aa: attributes) {
+        for (AvatarAttribute aa : attributes) {
             nes[index] = aa;
-            index ++;
+            index++;
         }
-        for(AvatarMethod am: methods) {
+        for (AvatarMethod am : methods) {
             nes[index] = am;
-            index ++;
+            index++;
         }
-        for(AvatarSignal as: signals) {
+        for (AvatarSignal as : signals) {
             nes[index] = as;
-            index ++;
+            index++;
         }
         return nes;
     }

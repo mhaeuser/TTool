@@ -83,7 +83,7 @@ public class AvatarSyntaxChecker {
     public static ArrayList<AvatarError> checkSyntaxWarnings(AvatarSpecification avspec) {
         ArrayList<AvatarError> warnings = new ArrayList<>();
 
-        warnings.addAll(checkIsolatedElements(avspec));
+        //warnings.addAll(checkIsolatedElements(avspec));
         warnings.addAll(checkNames(avspec));
 
 

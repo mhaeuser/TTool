@@ -390,6 +390,8 @@ public class AvatarBDDataType extends TGCScalableWithInternalComponent implement
             //value = value + a + "\n";
             sb.append("<Attribute access=\"");
             sb.append(a.getAccess());
+            sb.append("\" var=\"");
+            sb.append(a.getConstant());
             sb.append("\" id=\"");
             sb.append(a.getId());
             sb.append("\" value=\"");
@@ -410,7 +412,7 @@ public class AvatarBDDataType extends TGCScalableWithInternalComponent implement
             NodeList nli;
             Node n1, n2;
             Element elt;
-            int access, type;
+            int isConstant, access, type;
             String typeOther;
             String id, valueAtt;
 
@@ -429,6 +431,11 @@ public class AvatarBDDataType extends TGCScalableWithInternalComponent implement
                             elt = (Element) n2;
                             if (elt.getTagName().equals("Attribute")) {
                                 //
+                                try {
+                                    isConstant = Integer.decode(elt.getAttribute("var")).intValue();
+                                } catch (Exception e) {
+                                    isConstant = TAttribute.VARIABLE;
+                                }
                                 access = Integer.decode(elt.getAttribute("access")).intValue();
                                 type = Integer.decode(elt.getAttribute("type")).intValue();
                                 try {
@@ -460,7 +467,7 @@ public class AvatarBDDataType extends TGCScalableWithInternalComponent implement
                                         if (type == TAttribute.NATURAL) {
                                             type = TAttribute.INTEGER;
                                         }
-                                        TAttribute ta = new TAttribute(access, id, valueAtt, type, typeOther);
+                                        TAttribute ta = new TAttribute(isConstant, access, id, valueAtt, type, typeOther);
                                         ta.isAvatar = true;
                                         myAttributes.add(ta);
                                     }

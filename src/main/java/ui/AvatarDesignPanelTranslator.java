@@ -1201,7 +1201,7 @@ public class AvatarDesignPanelTranslator {
         return optype;
     }
 
-    private AvatarAttribute createRegularAttribute(AvatarStateMachineOwner _ab, TAttribute _a, String _preName) {
+    private AvatarAttribute createRegularAttribute(AvatarStateMachineOwner _ab, TAttribute _a, String _preName, TAttribute originAttribute) {
         AvatarType type = AvatarType.UNDEFINED;
         if (_a.getType() == TAttribute.INTEGER) {
             type = AvatarType.INTEGER;
@@ -1216,15 +1216,19 @@ public class AvatarDesignPanelTranslator {
         aa.setInitialValue(_a.getInitialValue());
         aa.setAsConstant(_a.isConstant());
 
+        if ( (originAttribute != null) && (originAttribute.isConstant()) ) {
+            aa.setAsConstant(true);
+        }
+
         return aa;
     }
 
-    private void addRegularAttribute(AvatarBlock _ab, TAttribute _a, String _preName) {
-        _ab.addAttribute(this.createRegularAttribute(_ab, _a, _preName));
+    private void addRegularAttribute(AvatarBlock _ab, TAttribute _a, String _preName, TAttribute originAttribute) {
+        _ab.addAttribute(this.createRegularAttribute(_ab, _a, _preName, originAttribute));
     }
 
-    private void addRegularAttributeInterface(AvatarAMSInterface _ai, TAttribute _a, String _preName) {
-        _ai.addAttribute(this.createRegularAttribute(_ai, _a, _preName));
+    private void addRegularAttributeInterface(AvatarAMSInterface _ai, TAttribute _a, String _preName, TAttribute originAttribute) {
+        _ai.addAttribute(this.createRegularAttribute(_ai, _a, _preName, originAttribute));
     }
 
     private void createLibraryFunctions(AvatarSpecification _as, List<AvatarBDLibraryFunction> _libraryFunctions) {
@@ -1240,7 +1244,7 @@ public class AvatarDesignPanelTranslator {
                         || attr.getType() == TAttribute.NATURAL
                         || attr.getType() == TAttribute.BOOLEAN
                         || attr.getType() == TAttribute.TIMER)
-                    alf.addParameter(this.createRegularAttribute(alf, attr, ""));
+                    alf.addParameter(this.createRegularAttribute(alf, attr, "", null));
                 else {
                     // other
                     List<TAttribute> types = adp.getAvatarBDPanel().getAttributesOfDataType(attr.getTypeOther());
@@ -1259,7 +1263,7 @@ public class AvatarDesignPanelTranslator {
                             nameTypeMap.put(libraryFunction.getFunctionName() + "." + attr.getId(), attr.getTypeOther());
                             typeAttributesMap.put(attr.getTypeOther(), types);
                             for (TAttribute type : types)
-                                alf.addParameter(this.createRegularAttribute(alf, type, attr.getId() + "__"));
+                                alf.addParameter(this.createRegularAttribute(alf, type, attr.getId() + "__", attr));
                         }
                     }
                 }
@@ -1317,7 +1321,7 @@ public class AvatarDesignPanelTranslator {
                             nameTypeMap.put(libraryFunction.getFunctionName() + "." + attr.getId(), attr.getTypeOther());
                             typeAttributesMap.put(attr.getTypeOther(), types);
                             for (TAttribute type : types)
-                                alf.addAttribute(this.createRegularAttribute(alf, type, attr.getId() + "__"));
+                                alf.addAttribute(this.createRegularAttribute(alf, type, attr.getId() + "__", attr));
                         }
                     }
                 }
@@ -1355,13 +1359,13 @@ public class AvatarDesignPanelTranslator {
             // Create attributes
             for (TAttribute a : block.getAttributeList()) {
                 if (a.getType() == TAttribute.INTEGER) {
-                    addRegularAttribute(ab, a, "");
+                    addRegularAttribute(ab, a, "", null);
                 } else if (a.getType() == TAttribute.NATURAL) {
-                    addRegularAttribute(ab, a, "");
+                    addRegularAttribute(ab, a, "", null);
                 } else if (a.getType() == TAttribute.BOOLEAN) {
-                    addRegularAttribute(ab, a, "");
+                    addRegularAttribute(ab, a, "", null);
                 } else if (a.getType() == TAttribute.TIMER) {
-                    addRegularAttribute(ab, a, "");
+                    addRegularAttribute(ab, a, "", null);
                 } else {
                     // other
                     // TraceManager.addDev(" -> Other type found: " + a.getTypeOther());
@@ -1382,7 +1386,7 @@ public class AvatarDesignPanelTranslator {
                             nameTypeMap.put(block.getBlockName() + "." + a.getId(), a.getTypeOther());
                             typeAttributesMap.put(a.getTypeOther(), types);
                             for (TAttribute type : types) {
-                                addRegularAttribute(ab, type, a.getId() + "__");
+                                addRegularAttribute(ab, type, a.getId() + "__", a);
                             }
                         }
                     }

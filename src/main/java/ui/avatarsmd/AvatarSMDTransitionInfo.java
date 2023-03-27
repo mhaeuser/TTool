@@ -121,7 +121,7 @@ public class AvatarSMDTransitionInfo extends TGCWithoutInternalComponent impleme
 //    protected String[] filesToInclude;
 //    protected String[] codeToInclude;
 
-    protected int minWidth = 10;
+    protected int minWidth = 50;
     protected int minHeight = 25;
     protected int h;
     protected boolean userResized = false;

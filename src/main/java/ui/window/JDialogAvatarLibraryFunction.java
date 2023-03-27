@@ -691,16 +691,17 @@ public class JDialogAvatarLibraryFunction extends JDialogBase implements ActionL
         int selectedTab = this.tabbedPane.getSelectedIndex();
         switch (selectedTab) {
             case 0:
-                this.addAttribute(0, this.parametersAccessBox, this.parametersIdentifierText, this.parametersInitialValue, this.parametersTypeBox, false);
+                this.addAttribute(0, TAttribute.VARIABLE, this.parametersAccessBox, this.parametersIdentifierText, this.parametersInitialValue,
+                        this.parametersTypeBox, false);
                 break;
             case 1:
                 this.addSignal(false);
                 break;
             case 2:
-                this.addAttribute(2, this.returnAttributesAccessBox, this.returnAttributesIdentifierText, this.returnAttributesInitialValue, this.returnAttributesTypeBox, false);
+                this.addAttribute(2, TAttribute.VARIABLE, this.returnAttributesAccessBox, this.returnAttributesIdentifierText, this.returnAttributesInitialValue, this.returnAttributesTypeBox, false);
                 break;
             case 3:
-                this.addAttribute(3, this.attributesAccessBox, this.attributesIdentifierText, this.attributesInitialValue, this.attributesTypeBox, false);
+                this.addAttribute(3, TAttribute.VARIABLE, this.attributesAccessBox, this.attributesIdentifierText, this.attributesInitialValue, this.attributesTypeBox, false);
                 break;
             case 4:
                 this.addMethod(false);
@@ -710,7 +711,8 @@ public class JDialogAvatarLibraryFunction extends JDialogBase implements ActionL
         }
     }
 
-    private void addAttribute(int tabIndex, JComboBox<String> accessBox, JTextField identifierText, JTextField initialValue, JComboBox<String> typeBox, boolean modify) {
+    private void addAttribute(int tabIndex, int _variableOrConstant, JComboBox<String> accessBox, JTextField identifierText, JTextField initialValue,
+                              JComboBox<String> typeBox, boolean modify) {
         String identifier = identifierText.getText();
         if (identifier.isEmpty()) {
             // Identifier is empty
@@ -729,6 +731,7 @@ public class JDialogAvatarLibraryFunction extends JDialogBase implements ActionL
             return;
         }
 
+        int variable = _variableOrConstant;
         int accessIndex = TAttribute.getAccess((String) accessBox.getSelectedItem());
         if (accessIndex < 0) {
             // Unknown access modifier
@@ -769,9 +772,9 @@ public class JDialogAvatarLibraryFunction extends JDialogBase implements ActionL
 
         TAttribute a;
         if (typeIndex == TAttribute.OTHER)
-            a = new TAttribute(accessIndex, identifier, value, (String) typeBox.getSelectedItem());
+            a = new TAttribute(variable, accessIndex, identifier, value, (String) typeBox.getSelectedItem());
         else
-            a = new TAttribute(accessIndex, identifier, value, typeIndex);
+            a = new TAttribute(variable, accessIndex, identifier, value, typeIndex);
         a.isAvatar = true;
 
         int index;
@@ -895,16 +898,19 @@ public class JDialogAvatarLibraryFunction extends JDialogBase implements ActionL
         int selectedTab = this.tabbedPane.getSelectedIndex();
         switch (selectedTab) {
             case 0:
-                this.addAttribute(0, this.parametersAccessBox, this.parametersIdentifierText, this.parametersInitialValue, this.parametersTypeBox, true);
+                this.addAttribute(0, TAttribute.VARIABLE, this.parametersAccessBox, this.parametersIdentifierText, this.parametersInitialValue,
+                        this.parametersTypeBox, true);
                 break;
             case 1:
                 this.addSignal(true);
                 break;
             case 2:
-                this.addAttribute(2, this.returnAttributesAccessBox, this.returnAttributesIdentifierText, this.returnAttributesInitialValue, this.returnAttributesTypeBox, true);
+                this.addAttribute(2, TAttribute.VARIABLE, this.returnAttributesAccessBox, this.returnAttributesIdentifierText,
+                        this.returnAttributesInitialValue, this.returnAttributesTypeBox, true);
                 break;
             case 3:
-                this.addAttribute(3, this.attributesAccessBox, this.attributesIdentifierText, this.attributesInitialValue, this.attributesTypeBox, true);
+                this.addAttribute(3, TAttribute.VARIABLE, this.attributesAccessBox, this.attributesIdentifierText, this.attributesInitialValue,
+                        this.attributesTypeBox, true);
                 break;
             case 4:
                 this.addMethod(true);

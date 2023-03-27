@@ -5527,7 +5527,7 @@ public class GTURTLEModeling {
                 elt = (Element) node;
                 if (elt.getTagName().compareTo("AVATARBlockDiagramPanel") == 0) {
                     // Block diagram
-                    TraceManager.addDev("Load avatar bd panel");
+                    //TraceManager.addDev("Load avatar bd panel");
                     loadAvatarBD(elt, indexDesign, keepUUID);
                 }
             }
@@ -5538,7 +5538,7 @@ public class GTURTLEModeling {
                 elt = (Element) node;
                 if (elt.getTagName().compareTo("AVATARStateMachineDiagramPanel") == 0) {
                     // Managing activity diagrams
-                    TraceManager.addDev("Load avatar smd panel");
+                    //TraceManager.addDev("Load avatar smd panel");
                     loadAvatarSMD(elt, indexDesign, keepUUID);
                 }
             }
@@ -6441,7 +6441,7 @@ public class GTURTLEModeling {
         String name;
 
         name = elt.getAttribute("name");
-        TraceManager.addDev("Loading SMD of:" + name + " at index " + indexDesign);
+        //TraceManager.addDev("Loading SMD of:" + name + " at index " + indexDesign);
         AvatarSMDPanel asmdp = mgui.getAvatarSMDPanel(indexDesign, name);
 
         if (asmdp == null) {
@@ -7110,7 +7110,7 @@ public class GTURTLEModeling {
         try {
             NodeList activityDiagramNl = docCopy.getElementsByTagName("TActivityDiagramPanel");
 
-            TraceManager.addDev("Loading activity diagram of " + newValue + "Before : " + oldValue);
+            //TraceManager.addDev("Loading activity diagram of " + newValue + "Before : " + oldValue);
             //TraceManager.addDev("" + docCopy);
 
             if (activityDiagramNl == null) {

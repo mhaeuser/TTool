@@ -554,6 +554,9 @@ public class AvatarSyntaxChecker {
             return -1;
         }
 
+        if (aa.isConstant()) { return -2;}
+
+
         String action = _expr.substring(index0 + 1, _expr.length()).trim();
 
         if (aa.isInt()) {

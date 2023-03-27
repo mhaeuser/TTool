@@ -58,21 +58,16 @@ public class AvatarDesignPanelTranslator {
     private final AvatarDesignPanel adp;
     private final List<CheckingError> checkingErrors, warnings;
     private final CorrespondanceTGElement listE; // usual list
-    //protected CorrespondanceTGElement listB; // list for particular element -> first element of group of blocks
-    //protected List <TDiagramPanel> panels;
+
     private Map<String, List<TAttribute>> typeAttributesMap;
     private Map<String, String> nameTypeMap;
 
     public AvatarDesignPanelTranslator(AvatarDesignPanel _adp) {
         adp = _adp;
-        //   reinit();
-        // }
-
-        //public void reinit() {
         checkingErrors = new LinkedList<CheckingError>();
         warnings = new LinkedList<CheckingError>();
         listE = new CorrespondanceTGElement();
-        //panels = new LinkedList <TDiagramPanel>();
+
     }
 
     public List<CheckingError> getErrors() {
@@ -89,14 +84,11 @@ public class AvatarDesignPanelTranslator {
 
     public AvatarSpecification generateAvatarSpecification(List<AvatarBDStateMachineOwner> _blocks) {
         List<AvatarBDBlock> blocks = new LinkedList<AvatarBDBlock>();
-        //	List<AvatarBDInterface> interfaces = new LinkedList<AvatarBDInterface>();
         List<AvatarBDLibraryFunction> libraryFunctions = new LinkedList<AvatarBDLibraryFunction>();
 
         for (AvatarBDStateMachineOwner owner : _blocks)
             if (owner instanceof AvatarBDBlock)
                 blocks.add((AvatarBDBlock) owner);
-                //  else if (owner instanceof AvatarBDInterface)
-                //        interfaces.add((AvatarBDInterface) owner);
             else
                 libraryFunctions.add((AvatarBDLibraryFunction) owner);
 
@@ -121,7 +113,6 @@ public class AvatarDesignPanelTranslator {
         //TraceManager.addDev("Removing else guards");
         as.removeElseGuards();
 
-
         // Checking integer values
         ArrayList<AvatarElement> listOfBadInt = AvatarSyntaxChecker.useOfInvalidUPPAALNumericalValues(as, AvatarSpecification.UPPAAL_MAX_INT);
         // Adding warnings for each element
@@ -136,8 +127,7 @@ public class AvatarDesignPanelTranslator {
             addWarning(ce);
         }
 
-        //TraceManager.addDev("Removing else guards ... done");
-        //System.out.println(as.toString());
+
 
         ArrayList<AvatarError> list = AvatarSyntaxChecker.checkSyntaxErrors(as);
         for (AvatarError ar : list) {
@@ -1223,6 +1213,7 @@ public class AvatarDesignPanelTranslator {
         }
         AvatarAttribute aa = new AvatarAttribute(_preName + _a.getId(), type, _ab, _a);
         aa.setInitialValue(_a.getInitialValue());
+        aa.setAsConstant(_a.isConstant());
 
         return aa;
     }
@@ -2487,7 +2478,11 @@ public class AvatarDesignPanelTranslator {
                     error = AvatarSyntaxChecker.isAValidVariableExpr(block.getAvatarSpecification(), block, actionText);
 
                     if (error < 0) {
-                        makeError(error, connector.tdp, block, connector, "transition action", actionText);
+                        if (error == -2) {
+                            makeError(error, connector.tdp, block, connector, "action because a constant attribute is modified", actionText);
+                        } else {
+                            makeError(error, connector.tdp, block, connector, "transition action", actionText);
+                        }
                     } else {
                         //TraceManager.addDev("Adding regular action:" + actionText);
                         transition.addAction(actionText);

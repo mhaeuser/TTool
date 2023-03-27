@@ -131,6 +131,7 @@ public class AvatarBDPanel extends TDiagramPanel {
     }
 
     public void updateSignalAttachement(AvatarBDBlock _b, AvatarBDPortConnector _conn) {
+        TraceManager.addDev("Update signal attachment for block " + _b.getBlockName());
 
     	// Set all signals of B as non connected
     	_b.setSignalsAsNonAttached();
@@ -173,7 +174,7 @@ public class AvatarBDPanel extends TDiagramPanel {
 
     @Override
     public boolean actionOnValueChanged(TGComponent tgc) {
-        TraceManager.addDev("Action on value changed");
+        //TraceManager.addDev("Action on value changed");
         if (tgc instanceof AvatarBDBlock) {
             //updateAllSignalsOnConnectors();
             return actionOnDoubleClick(tgc);
@@ -429,6 +430,19 @@ public class AvatarBDPanel extends TDiagramPanel {
                 AvatarBDBlock block2 = ((AvatarBDPortConnector)tgc).getAvatarBDBlock2();
                 List<AvatarSignal> available1 = block1.getListOfAvailableSignals();
                 connectIfPossible((AvatarBDPortConnector)tgc, block1, available1, block2, true);
+                updateSignalAttachement(block1, (AvatarBDPortConnector)tgc);
+                updateSignalAttachement(block2, (AvatarBDPortConnector)tgc);
+            }
+        }
+    }
+
+    public void updateInfoOnSignalAttachment() {
+        for (TGComponent tgc : this.getAllComponentList()) {
+            if (tgc instanceof AvatarBDPortConnector) {
+                AvatarBDBlock block1 = ((AvatarBDPortConnector)tgc).getAvatarBDBlock1();
+                AvatarBDBlock block2 = ((AvatarBDPortConnector)tgc).getAvatarBDBlock2();
+                List<AvatarSignal> available1 = block1.getListOfAvailableSignals();
+                //connectIfPossible((AvatarBDPortConnector)tgc, block1, available1, block2, true);
                 updateSignalAttachement(block1, (AvatarBDPortConnector)tgc);
                 updateSignalAttachement(block2, (AvatarBDPortConnector)tgc);
             }

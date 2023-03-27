@@ -722,16 +722,9 @@ public class AvatarBDPortConnector extends TGConnectorWithCommentConnectionPoint
     }
 
     public void updateAllSignals() {
-        //TraceManager.addDev("Updating signals");
         try {
             Vector<String> v = getAssociationSignals();
 
-
-            /*for (String s: v) {
-                TraceManager.addDev("Assoc: " + s);
-            }*/
-
-            //	
             inSignalsAtOrigin.clear();
             inSignalsAtDestination.clear();
             outSignalsAtOrigin.clear();

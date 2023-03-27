@@ -1274,7 +1274,7 @@ public class AvatarDesignPanelTranslator {
                         || attr.getType() == TAttribute.NATURAL
                         || attr.getType() == TAttribute.BOOLEAN
                         || attr.getType() == TAttribute.TIMER)
-                    alf.addReturnAttribute(this.createRegularAttribute(alf, attr, ""));
+                    alf.addReturnAttribute(this.createRegularAttribute(alf, attr, "", null));
                 else {
                     // other
                     List<TAttribute> types = adp.getAvatarBDPanel().getAttributesOfDataType(attr.getTypeOther());
@@ -1292,7 +1292,7 @@ public class AvatarDesignPanelTranslator {
                             nameTypeMap.put(libraryFunction.getFunctionName() + "." + attr.getId(), attr.getTypeOther());
                             typeAttributesMap.put(attr.getTypeOther(), types);
                             for (TAttribute type : types)
-                                alf.addReturnAttribute(this.createRegularAttribute(alf, type, attr.getId() + "__"));
+                                alf.addReturnAttribute(this.createRegularAttribute(alf, type, attr.getId() + "__", attr));
                         }
                     }
                 }
@@ -1303,7 +1303,7 @@ public class AvatarDesignPanelTranslator {
                         || attr.getType() == TAttribute.NATURAL
                         || attr.getType() == TAttribute.BOOLEAN
                         || attr.getType() == TAttribute.TIMER)
-                    alf.addAttribute(this.createRegularAttribute(alf, attr, ""));
+                    alf.addAttribute(this.createRegularAttribute(alf, attr, "", null));
                 else {
                     // other
                     List<TAttribute> types = adp.getAvatarBDPanel().getAttributesOfDataType(attr.getTypeOther());
@@ -1894,7 +1894,7 @@ public class AvatarDesignPanelTranslator {
                             || returnTA.getType() == TAttribute.TIMER) {
                         AvatarAttribute attr = _ab.getAvatarAttributeWithName(dummyName);
                         if (attr == null) {
-                            attr = this.createRegularAttribute(_ab, returnTA, "__dummy_return_attribute_");
+                            attr = this.createRegularAttribute(_ab, returnTA, "__dummy_return_attribute_", null);
                             _ab.addAttribute(attr);
                         }
                         attrs.add(attr);
@@ -1907,7 +1907,7 @@ public class AvatarDesignPanelTranslator {
                             String attributeName = dummyName + "__" + type.getId();
                             AvatarAttribute attr = _ab.getAvatarAttributeWithName(attributeName);
                             if (attr == null) {
-                                attr = this.createRegularAttribute(_ab, type, dummyName + "__");
+                                attr = this.createRegularAttribute(_ab, type, dummyName + "__", null);
                                 _ab.addAttribute(attr);
                             }
                             attrs.add(attr);
@@ -1963,7 +1963,7 @@ public class AvatarDesignPanelTranslator {
                         || returnTA.getType() == TAttribute.TIMER) {
                     AvatarAttribute attr = _ab.getAvatarAttributeWithName(dummyName);
                     if (attr == null) {
-                        attr = this.createRegularAttribute(_ab, returnTA, "__dummy_return_attribute_");
+                        attr = this.createRegularAttribute(_ab, returnTA, "__dummy_return_attribute_", null);
                         _ab.addAttribute(attr);
                     }
                     attrs.add(attr);
@@ -1976,7 +1976,7 @@ public class AvatarDesignPanelTranslator {
                         String attributeName = dummyName + "__" + type.getId();
                         AvatarAttribute attr = _ab.getAvatarAttributeWithName(attributeName);
                         if (attr == null) {
-                            attr = this.createRegularAttribute(_ab, type, dummyName + "__");
+                            attr = this.createRegularAttribute(_ab, type, dummyName + "__", null);
                             _ab.addAttribute(attr);
                         }
                         attrs.add(attr);

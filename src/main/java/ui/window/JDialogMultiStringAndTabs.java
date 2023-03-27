@@ -48,6 +48,7 @@ import java.awt.event.ActionListener;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import ui.util.IconManager;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -56,6 +57,10 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
+import javax.swing.Icon;
+import ui.MainGUI;
+import ui.TGHelpButton;
+import help.HelpManager;
 
 /**
  * Class JDialogMultiStringAndTabs
@@ -76,6 +81,8 @@ public class JDialogMultiStringAndTabs extends JDialogBase implements ActionList
     private JTextField[] texts;
     private JButton inserts[];
     private Map<Integer, JComboBox<String>> helps;
+    private MainGUI mgui;
+    public TGHelpButton myButton;
 
    // private List<String[]> possibleValues = null;
 
@@ -89,6 +96,25 @@ public class JDialogMultiStringAndTabs extends JDialogBase implements ActionList
         super(f, title, true);
 
         tabs = _tabs;
+
+        totalNbOfStrings = 0;
+        for(TabInfo tab: tabs) {
+            totalNbOfStrings += tab.labels.length;
+        }
+
+        texts = new JTextField[totalNbOfStrings];
+
+        initComponents();
+        //myInitComponents();
+        pack();
+    }
+
+    public JDialogMultiStringAndTabs(MainGUI _mgui, Frame f, String title, List<TabInfo> _tabs) {
+
+        super(f, title, true);
+
+        tabs = _tabs;
+        mgui =_mgui;
 
         totalNbOfStrings = 0;
         for(TabInfo tab: tabs) {
@@ -155,12 +181,18 @@ public class JDialogMultiStringAndTabs extends JDialogBase implements ActionList
                         if (tmp != null) {
                             helps.put(totalIndex, new JComboBox<>(tmp));
                             panel1.add(helps.get(totalIndex), c1);
-                            c1.gridwidth = GridBagConstraints.REMAINDER; //end row
+                            if (tab.helpButtom == null || mgui == null || tab.helpButtom[i] == null) {
+                                c1.gridwidth = GridBagConstraints.REMAINDER; //end row
+                            }
                             inserts[totalIndex] = new JButton("Use");
                             inserts[totalIndex].addActionListener(this);
                             panel1.add(inserts[totalIndex], c1);
                         }
                     }
+                }
+                if (tab.helpButtom != null && mgui != null && tab.helpButtom[i] != null) {
+                    c1.gridwidth = GridBagConstraints.REMAINDER; //end row
+                    makeEndHelpButton(tab.helpButtom[i], mgui, mgui.getHelpManager(), panel1, c1);
                 }
                 c1.gridwidth = GridBagConstraints.REMAINDER; //end row
                 texts[totalIndex] = new JTextField(tab.values[i], 15);
@@ -244,5 +276,11 @@ public class JDialogMultiStringAndTabs extends JDialogBase implements ActionList
 
     public void cancelDialog() {
         dispose();
+    }
+
+    private void makeEndHelpButton(String helpWord, MainGUI mgui, HelpManager hm, JPanel panel, GridBagConstraints c) {
+        Icon myIcon = IconManager.imgic32;
+        myButton = new TGHelpButton(myIcon, helpWord, mgui, hm);
+        myButton.addToPanel(panel, c);
     }
 }

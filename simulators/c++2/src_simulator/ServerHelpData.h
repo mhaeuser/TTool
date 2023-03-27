@@ -15,7 +15,7 @@
     ul.task-list{list-style: none;} \n\
     .display.math{display: block; text-align: center; margin: 0.5rem auto;} \n\
   </style> \n\
-  <link rel=\"stylesheet\" href=\"/Users/ludovicapvrille/TTool/src/main/resources/help/help.css\" /> \n\
+  <link rel=\"stylesheet\" href=\"help.css\" /> \n\
   <!--[if lt IE 9]> \n\
     <script src=\"//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js\"></script> \n\
   <![endif]--> \n\

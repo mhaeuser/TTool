@@ -823,14 +823,16 @@ public class TMLModeling<E> {
                     invalidate = true;
                 }
                 for (TMLPortWithSecurityInformation port : channel.ports) {
-                    if (port.getCheckConf() && !invalidate) {
-                        port.setConfStatus(r);
+                    if (port.getCheckConf()) {
                         port.setMappingName(mappingName);
-                        //Add Result Trace also
-                        ProVerifResultTrace trace = pvoa.getResults().get(pragma).getTrace();
-                        if (trace != null && port.isOrigin()) {
-                            port.setResultTrace(trace);
-                            port.setPragmaString(pragma.toString());
+                        if (!invalidate) {
+                            port.setConfStatus(r);
+                            //Add Result Trace also
+                            ProVerifResultTrace trace = pvoa.getResults().get(pragma).getTrace();
+                            if (trace != null && port.isOrigin()) {
+                                port.setResultTrace(trace);
+                                port.setPragmaString(pragma.toString());
+                            }
                         }
                     }
                 }

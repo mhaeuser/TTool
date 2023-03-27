@@ -12,12 +12,8 @@
     div.column{display: inline-block; vertical-align: top; width: 50%;}
     div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
     ul.task-list{list-style: none;}
-    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
   </style>
-  <link rel="stylesheet" href="/Users/ludovicapvrille/TTool/src/main/resources/help/help.css" />
-  <!--[if lt IE 9]>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
-  <![endif]-->
+  <link rel="stylesheet" href="help.css" />
 </head>
 <body>
 <h1 id="bus">Bus</h1>
@@ -29,7 +25,7 @@
 <li>An arbitration policy capturing how simultaneous trafsre request are handled</li>
 <li>A data size in byte.</li>
 <li>A pipeline size expressing the number of cycles spent by one transfer in this bus</li>
-<li>A slice time, i.e. the maximum number of cycles a transfer can use before being preempted./ not taken into account, so ponly for documentation. Rather use the ’burst size”</li>
+<li>A slice time, i.e. the maximum number of cycles a transfer can use before being preempted./ not taken into account, so ponly for documentation. Rather use the ’burst size"</li>
 <li>A burst size: this represents the maximum size of a transfer before it is preempted if another request is pending.</li>
 <li>A clock divider expresses the relation between the clock of the memory and the main clock of the architecture</li>
 <li>A bus privacy. A public bus can be spied at, while a private bus cannot. On a public bus, an attacker can reive messages and inject messages.</li>

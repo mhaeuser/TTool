@@ -3561,14 +3561,17 @@ message before encryption.
 
 Nonces can be concatenated to messages to ensure strong authenticity and prevent replay attacks. Nonces are first forged
 as a Cryptographic Configuration. To state that a message will use a nonce, in the Cryptographic Configuration window,
-select the nonce name. As shown in Fig.~\ref{fig:nonce}, Bob sends Alice his
-nonce, then Alice concatenates it to her message and encrypts the new message. Bob then decrypts the message and verifies it contains his sent nonce. (Note that
+select the nonce name. As shown in Fig.~\ref{fig:nonce}, Bob sends to Alice his
+nonce, then Alice concatenates it to her message and encrypts the new message. Bob then decrypts the message and verifies if it contains his sent nonce. (Note that
 we allow a nonce to be used for more than one message)
 
 
 \begin{figure}[htbp]
 	\centering
- 	\includegraphics[width=0.85\textwidth]{figures/securityStuff/nonceComp.pdf}
+ 	%\includegraphics[width=0.85\textwidth]{figures/securityStuff/nonceComp.pdf}
+ 	\includegraphics[width=0.15\textwidth]{figures/securityStuff/alice_bob_nonce_ad_alice-svg.pdf}
+	\includegraphics[width=0.6\textwidth]{figures/securityStuff/fv_alice_bob_nonce-svg.pdf}
+	\includegraphics[width=0.15\textwidth]{figures/securityStuff/alice_bob_nonce_ad_bob-svg.pdf}
 	\caption{Message exchange with nonce}
 	\label{fig:nonce}
 \end{figure}

@@ -8,85 +8,144 @@
   <style>
     code{white-space: pre-wrap;}
     span.smallcaps{font-variant: small-caps;}
-    span.underline{text-decoration: underline;}
-    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
     div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
     ul.task-list{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
   </style>
   <link rel="stylesheet" href="help.css" />
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
 </head>
 <body>
 <h1 id="requirements">Requirements</h1>
 <p>Requirements can be captured in SysML Requirement Diagrams.</p>
 <h2 id="requirement-node">Requirement node</h2>
-<p>A requirement node <img src="file:../ui/util/avatarrdreq.gif" alt="syntax checking icon" /> defines a requirement with an textual identifier, a number unique id) and a description text, a risk, a type, a list of references and finally custom attributes defined as follows:</p>
+<p>A requirement node <img src="file:../ui/util/avatarrdreq.gif"
+alt="syntax checking icon" /> defines a requirement with an textual
+identifier, a number unique id) and a description text, a risk, a type,
+a list of references and finally custom attributes defined as
+follows:</p>
 <p>ID:Value</p>
 <p>For instance: version:1.2</p>
-<h2 id="relations-between-requirements">Relations between requirements</h2>
+<h2 id="relations-between-requirements">Relations between
+requirements</h2>
 <h3 id="composition">Composition</h3>
-<p>A composition <img src="file:../ui/util/reqcomp.gif" alt="syntax checking icon" /> links a high-level requirements “r” to requirements that are supposed to compose “r”.</p>
+<p>A composition <img src="file:../ui/util/reqcomp.gif"
+alt="syntax checking icon" /> links a high-level requirements “r” to
+requirements that are supposed to compose “r”.</p>
 <h3 id="refine">Refine</h3>
-<p>A refine relation <img src="file:../ui/util/reqref.gif" alt="syntax checking icon" /> expresses a requirement which gives more details (e.g., more concrete values, or more concrete model elements) to a requirement.</p>
+<p>A refine relation <img src="file:../ui/util/reqref.gif"
+alt="syntax checking icon" /> expresses a requirement which gives more
+details (e.g., more concrete values, or more concrete model elements) to
+a requirement.</p>
 <h3 id="derivereqt">DeriveReqt</h3>
-<p>A DeriveReqt relation <img src="file:../ui/util/reqder.gif" alt="syntax checking icon" /> builds a requirement from other requirements (i.e. it is derived from other requirements). This relation is particularly used when a requirement expresses required technical aspects from non-technical requirements.</p>
+<p>A DeriveReqt relation <img src="file:../ui/util/reqder.gif"
+alt="syntax checking icon" /> builds a requirement from other
+requirements (i.e. it is derived from other requirements). This relation
+is particularly used when a requirement expresses required technical
+aspects from non-technical requirements.</p>
 <h2 id="security-requirements">Security requirements</h2>
-<p>Security requirements in TTool can be made explicit, with e.g. “confidentiality”, “integrity”, etc. The following definitions make these terms more explicit. There are other security requirements (e.g. eligibility, uniqueness, verifiability, etc.): TTool only support the most comon ones.</p>
+<p>Security requirements in TTool can be made explicit, with
+e.g. “confidentiality”, “integrity”, etc. The following definitions make
+these terms more explicit. There are other security requirements
+(e.g. eligibility, uniqueness, verifiability, etc.): TTool only support
+the most comon ones.</p>
 <h3 id="privacy">Privacy</h3>
-<p>Privacy is guaranteed if the <strong>relation</strong> between an <strong>entity</strong> and a <strong>set of information</strong> is confidential.</p>
+<p>Privacy is guaranteed if the <strong>relation</strong> between an
+<strong>entity</strong> and a <strong>set of information</strong> is
+confidential.</p>
 <p>An example:</p>
 <ul>
-<li><em>In a social network, for non administrator users, the user of a message shall not be linkable to that message but two messages sent by the same user shall be linkable to each other</em>.</li>
+<li><em>In a social network, for non administrator users, the user of a
+message shall not be linkable to that message but two messages sent by
+the same user shall be linkable to each other</em>.</li>
 </ul>
 <h3 id="confidentiality">Confidentiality</h3>
-<p>Confidentiality is satisfied when authorized <strong>entities</strong> are the only ones that can know a given <strong>quantum of information</strong>.</p>
+<p>Confidentiality is satisfied when authorized
+<strong>entities</strong> are the only ones that can know a given
+<strong>quantum of information</strong>.</p>
 <p>Examples:</p>
 <ul>
-<li><p><em>The content of Messages sent from A to B shall be known only by A and B</em></p></li>
-<li><p><em>The state of a state machine shall be known only by its execution engine</em></p></li>
+<li><p><em>The content of Messages sent from A to B shall be known only
+by A and B</em></p></li>
+<li><p><em>The state of a state machine shall be known only by its
+execution engine</em></p></li>
 </ul>
 <h3 id="integrity">Integrity</h3>
-<p>Integrity is satisfied when a <strong>quantum of information</strong> has not been modified between <strong>two observations</strong>.</p>
+<p>Integrity is satisfied when a <strong>quantum of information</strong>
+has not been modified between <strong>two observations</strong>.</p>
 <p>Integrity is also called “weak authenticity”.</p>
 <p>Examples:</p>
 <ul>
-<li><p><em>The system shall ensure the integrity of messages sent from A to B</em></p></li>
-<li><p><em>The integrity of the instructions executed on the system processor shall be ensured</em></p></li>
+<li><p><em>The system shall ensure the integrity of messages sent from A
+to B</em></p></li>
+<li><p><em>The integrity of the instructions executed on the system
+processor shall be ensured</em></p></li>
 </ul>
 <h3 id="data-origin-authenticity">(Data origin) Authenticity</h3>
-<p>Data origin authenticity is satisfied when the <strong>data</strong> (quantum of information) truly originates from the <strong>author</strong></p>
+<p>Data origin authenticity is satisfied when the <strong>data</strong>
+(quantum of information) truly originates from the
+<strong>author</strong></p>
 <p>(authenticity is also called “strong authenticity”)</p>
 <p>Example:</p>
 <ul>
-<li><em>All information received from sensors by the main controller shall be authentic in terms of origin.</em></li>
+<li><em>All information received from sensors by the main controller
+shall be authentic in terms of origin.</em></li>
 </ul>
 <h3 id="non-repudiation">Non-Repudiation</h3>
-<p>The non-repudiation of an <strong>action</strong> is guaranteed if it is impossible for the <strong>entity</strong> that performed the action to claim that it did not perform this action</p>
+<p>The non-repudiation of an <strong>action</strong> is guaranteed if it
+is impossible for the <strong>entity</strong> that performed the action
+to claim that it did not perform this action</p>
 <p>Example:</p>
 <ul>
-<li><em>The payment system shall guarantee that neither the payer nor the billing system can deny a transaction once it has been performed</em></li>
+<li><em>The payment system shall guarantee that neither the payer nor
+the billing system can deny a transaction once it has been
+performed</em></li>
 </ul>
-<h3 id="controlled-access-a.k.a.-authorization">Controlled Access (a.k.a. Authorization)</h3>
-<p>Controlled access is guaranteed if specified <strong>entities</strong> are the only entities that can perform the <strong>actions</strong> or <strong>access the information</strong>.</p>
+<h3 id="controlled-access-a.k.a.-authorization">Controlled Access
+(a.k.a. Authorization)</h3>
+<p>Controlled access is guaranteed if specified
+<strong>entities</strong> are the only entities that can perform the
+<strong>actions</strong> or <strong>access the information</strong>.</p>
 <p>Examples:</p>
 <ul>
-<li><p><em>Only explicitly authorized users shall be able to execute processes on the computer</em></p></li>
-<li><p><em>Controlled access to read data from a hard disk must be ensured</em></p></li>
+<li><p><em>Only explicitly authorized users shall be able to execute
+processes on the computer</em></p></li>
+<li><p><em>Controlled access to read data from a hard disk must be
+ensured</em></p></li>
 </ul>
 <h3 id="freshness">Freshness</h3>
-<p>Freshness is satisfied if a <strong>quantum of information</strong> received by an <strong>entity</strong> at the <strong>given time</strong> is not a copy of the same information received by the same or another entity in the past.</p>
+<p>Freshness is satisfied if a <strong>quantum of information</strong>
+received by an <strong>entity</strong> at the <strong>given
+time</strong> is not a copy of the same information received by the same
+or another entity in the past.</p>
 <p>Freshness usually relates to replay attacks</p>
 <p>Examples:</p>
 <ul>
-<li><p><em>Freshness of all messages sent from A to B must be ensured</em></p></li>
-<li><p><em>Execution of instruction in processor P must apply only to fresh instructions</em></p></li>
+<li><p><em>Freshness of all messages sent from A to B must be
+ensured</em></p></li>
+<li><p><em>Execution of instruction in processor P must apply only to
+fresh instructions</em></p></li>
 </ul>
 <h3 id="availability">Availability</h3>
-<p>Availability is satisfied when a <strong>service</strong> or a <strong>physical device</strong> is operational.</p>
-<p>Availability is usually related to Denial of Service Attacks - DoS.</p>
+<p>Availability is satisfied when a <strong>service</strong> or a
+<strong>physical device</strong> is operational.</p>
+<p>Availability is usually related to Denial of Service Attacks -
+DoS.</p>
 <p>Examples:</p>
 <ul>
-<li><p><em>The webserver must always respond in less than 1 second to requests</em></p></li>
-<li><p><em>The availability of the flight management system must be ensured</em></p></li>
+<li><p><em>The webserver must always respond in less than 1 second to
+requests</em></p></li>
+<li><p><em>The availability of the flight management system must be
+ensured</em></p></li>
 </ul>
 </body>
 </html>

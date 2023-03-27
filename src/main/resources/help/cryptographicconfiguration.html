@@ -8,15 +8,30 @@
   <style>
     code{white-space: pre-wrap;}
     span.smallcaps{font-variant: small-caps;}
-    span.underline{text-decoration: underline;}
-    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
     div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
     ul.task-list{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
   </style>
   <link rel="stylesheet" href="help.css" />
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
 </head>
 <body>
 <h1 id="cryptographic-configuration">Cryptographic configuration</h1>
-<p>A sending or receiving operator can specify a cryptographic configuration. If no cryptographic configuration is used, it means that data sent over the channel are unmodified. If a cryptographic configuration is used, then data sent over the channel are modified according to what is specified in the cryptographic configuration (e.g., data are encrypted, etc.). In case an HSM is used, then data can be sent to the HSM encrypted or unencrypted.</p>
+<p>A sending or receiving operator can specify a cryptographic
+configuration. If no cryptographic configuration is used, it means that
+data sent over the channel are unmodified. If a cryptographic
+configuration is used, then data sent over the channel are modified
+according to what is specified in the cryptographic configuration (e.g.,
+data are encrypted, etc.). In case an HSM is used, then data can be sent
+to the HSM encrypted or unencrypted.</p>
 </body>
 </html>

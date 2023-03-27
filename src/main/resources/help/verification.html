@@ -8,27 +8,46 @@
   <style>
     code{white-space: pre-wrap;}
     span.smallcaps{font-variant: small-caps;}
-    span.underline{text-decoration: underline;}
-    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
     div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
     ul.task-list{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
     .display.math{display: block; text-align: center; margin: 0.5rem auto;}
   </style>
+  <link rel="stylesheet" href="help.css" />
   <!--[if lt IE 9]>
     <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
   <![endif]-->
 </head>
 <body>
 <h1 id="verification">Verification</h1>
-<p>Once a model has been syntaxically checked, TTool can perform verification on the model.</p>
-<h2 id="formal-and-informal-verification">Formal and informal verification</h2>
-<p>Verification can be formal, i.e. the model is first transformed into a mathematically defined specification before the latter is verified. Informal verification relates to the simulation or the execution of the system, i.e. the generation of one possible execution trace. On the contrary, formal verification intends to explore all the execution possibilities.</p>
-<h2 id="safety-security-and-performance-verification">Safety, security and performance verification</h2>
-<p>Techniques used to verify safety, security and performance properties are different.</p>
+<p>Once a model has been syntaxically checked, TTool can perform
+verification on the model.</p>
+<h2 id="formal-and-informal-verification">Formal and informal
+verification</h2>
+<p>Verification can be formal, i.e. the model is first transformed into
+a mathematically defined specification before the latter is verified.
+Informal verification relates to the simulation or the execution of the
+system, i.e. the generation of one possible execution trace. On the
+contrary, formal verification intends to explore all the execution
+possibilities.</p>
+<h2 id="safety-security-and-performance-verification">Safety, security
+and performance verification</h2>
+<p>Techniques used to verify safety, security and performance properties
+are different.</p>
 <ul>
-<li><p>Safety verification is usually performed using model-checking techniques.</p></li>
-<li><p><a href="file://securityverification.html">Security verification</a> relies on formal verification techniques to check for confidentiality, integrity and authenticity properties.</p></li>
-<li><p>Performance properties can be checked with simulation techniques.</p></li>
+<li><p>Safety verification is usually performed using model-checking
+techniques.</p></li>
+<li><p><a href="file://securityverification.html">Security
+verification</a> relies on formal verification techniques to check for
+confidentiality, integrity and authenticity properties.</p></li>
+<li><p>Performance properties can be checked with simulation
+techniques.</p></li>
 </ul>
 </body>
 </html>

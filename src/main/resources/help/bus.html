@@ -8,12 +8,21 @@
   <style>
     code{white-space: pre-wrap;}
     span.smallcaps{font-variant: small-caps;}
-    span.underline{text-decoration: underline;}
-    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
     div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
     ul.task-list{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
   </style>
   <link rel="stylesheet" href="help.css" />
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
 </head>
 <body>
 <h1 id="bus">Bus</h1>
@@ -22,14 +31,28 @@
 <p>They have the following attributes.</p>
 <ul>
 <li>A name</li>
-<li>An arbitration policy capturing how simultaneous trafsre request are handled</li>
+<li>An arbitration policy capturing how simultaneous trafsre request are
+handled</li>
 <li>A data size in byte.</li>
-<li>A pipeline size expressing the number of cycles spent by one transfer in this bus</li>
-<li>A slice time, i.e. the maximum number of cycles a transfer can use before being preempted./ not taken into account, so ponly for documentation. Rather use the ’burst size"</li>
-<li>A burst size: this represents the maximum size of a transfer before it is preempted if another request is pending.</li>
-<li>A clock divider expresses the relation between the clock of the memory and the main clock of the architecture</li>
-<li>A bus privacy. A public bus can be spied at, while a private bus cannot. On a public bus, an attacker can reive messages and inject messages.</li>
-<li>A reference attack specifies which attack of attakc trees this bus relates to.</li>
+<li>A pipeline size expressing the number of cycles spent by one
+transfer in this bus</li>
+<li>A slice time, i.e. the maximum number of cycles a transfer can use
+before being preempted./ not taken into account, so ponly for
+documentation. Rather use the ’burst size”</li>
+<li>A burst size: this represents the maximum size of a transfer before
+it is preempted if another request is pending.</li>
+<li>A clock divider expresses the relation between the clock of the
+memory and the main clock of the architecture</li>
+<li>A bus privacy. A public bus can be spied at, i.e., an attacker can
+read messages, modify messages, and inject messages. In a private bus,
+an attacker can retrieve messages and reinject only the same messages.
+An attacker cannot read the content of messages in private channel, nor
+he/she can modify the content of these messages. Thus, confidentiality
+and integrity is guaranteed, but not uathenticity. To garantee
+authenticity, one had to use, for instance, nonces, to avoid message
+being replayed.</li>
+<li>A reference attack specifies which attack of attakc trees this bus
+relates to.</li>
 </ul>
 </body>
 </html>

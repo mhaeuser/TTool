@@ -36,23 +36,47 @@
  * knowledge of the CeCILL license and that you accept its terms.
  */
 
-package myutil.intboolsolverV0;
+package avatartranslator.intboolsolver;
+
+import avatartranslator.AvatarBlock;
+import avatartranslator.AvatarSpecification;
+import avatartranslator.AvatarStateMachineElement;
+import avatartranslator.modelchecker.SpecificationBlock;
+import avatartranslator.modelchecker.SpecificationState;
+import myutil.intboolsolver.*;
 
 /**
- * Interface IBSParamCompState, to be implemented by classes intended to
- * instantiate the {@code CompState} parameter of
- * {@link myutil.intboolsolverV0.IBSolver IBSolver}.
- * Creation: 07/03/2023
+ * class IBSStdClosedFormulaAttributeClass is a complete implementation
+ * and instantiation of {@link IBSStdAttributeClass
+ * IBSStdAttributeClass} for closed Formulas.
  *
- * <p> The {@code CompState} parameter of
- * {@link myutil.intboolsolverV0.IBSolver IBSolver} may be instantiated
- * by any class without modification, except that the class must implement
- * this interface and none of the other IBSParamXXX interface.
- * </p>
+ * <p> It is provided for documentation together with
+ * {@link IBSStdClosedFormulaAttributeClass
+ * IBSStdClosedFormulaAttribute} and
+ * {@link AvatarIBSParser
+ * IBSStdClosedFormulaSolver}}</p>
+ *
+ * <p>These three
+ * classes provides the same features as
+ * {@link IBSClosedFormulaAttributeClass
+ * IBSClosedFormulaAttribute},
+ * {@link IBSClosedFormulaAttributeClass
+ * IBSClosedFormulaAttributeClass} and
+ * {@link IBSClosedFormulaParser
+ * IBSClosedFormulaSolver} (together).</p>
+ *
+ * Creation: 07/03/2023
  *
  * @version 0.1 07/03/2023
  * @author Sophie Coudert
  */
 
-public interface IBSParamCompState {
+public class AvatarIBSExpressionClass extends IBSStdExpressionClass<
+        AvatarSpecification,
+        AvatarBlock,
+        AvatarStateMachineElement,
+        SpecificationState,
+        SpecificationBlock
+        > {
+    public AvatarIBSExpressionClass(){}
 }

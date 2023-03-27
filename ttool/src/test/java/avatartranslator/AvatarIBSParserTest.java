@@ -43,9 +43,9 @@
  * @see
  */
 package avatartranslator;
-import avatartranslator.intboolsolver.AvatarIBSOriginExpressionClass;
-import avatartranslator.intboolsolver.AvatarIBSOriginParser;
-import avatartranslator.intboolsolver.AvatarIBSStdAttributeClass;
+import avatartranslator.intboolsolver.AvatarIBSExpressionClass;
+import avatartranslator.intboolsolver.AvatarIBSParser;
+import avatartranslator.intboolsolver.AvatarIBSAttributeClass;
 import avatartranslator.modelchecker.SpecificationBlock;
 import avatartranslator.modelchecker.SpecificationState;
 import myutil.TraceManager;
@@ -60,10 +60,10 @@ public class AvatarIBSParserTest {
 
     private AvatarSpecification as;
     private AvatarBlock block1, block2;
-    private AvatarIBSStdAttributeClass attC = new AvatarIBSStdAttributeClass();
-    private AvatarIBSOriginExpressionClass expr = new AvatarIBSOriginExpressionClass();
+    private AvatarIBSAttributeClass attC = new AvatarIBSAttributeClass();
+    private AvatarIBSExpressionClass expr = new AvatarIBSExpressionClass();
 
-    private AvatarIBSOriginParser parser = new AvatarIBSOriginParser(attC,expr);
+    private AvatarIBSParser parser = new AvatarIBSParser(attC,expr);
     public AvatarIBSParserTest() {
     }
     
@@ -110,72 +110,72 @@ public class AvatarIBSParserTest {
     @Test
     public void testImmediate() {
         TraceManager.addDev("Testing AvatarExpressionTest.testImmediate");
-        AvatarIBSOriginExpressionClass.BExpr e1 = (AvatarIBSOriginExpressionClass.BExpr) parser.parseBool("10 + 15 >= 20");
+        AvatarIBSExpressionClass.BExpr e1 = (AvatarIBSExpressionClass.BExpr) parser.parseBool("10 + 15 >= 20");
         assertTrue(e1!=null);
 
-        AvatarIBSOriginExpressionClass.BExpr e1bis = (AvatarIBSOriginExpressionClass.BExpr) parser.parseBool("not( ( 0>10 ) and true)");
+        AvatarIBSExpressionClass.BExpr e1bis = (AvatarIBSExpressionClass.BExpr) parser.parseBool("not( ( 0>10 ) and true)");
         assertTrue(e1bis!=null);
 
-        AvatarIBSOriginExpressionClass.BExpr e2 = (AvatarIBSOriginExpressionClass.BExpr) parser.parseBool("-10 / 2 - 15 * 2 + 1 == -30 -4");
+        AvatarIBSExpressionClass.BExpr e2 = (AvatarIBSExpressionClass.BExpr) parser.parseBool("-10 / 2 - 15 * 2 + 1 == -30 -4");
         assertTrue(e2!=null);
-        AvatarIBSOriginExpressionClass.IExpr a1 =(AvatarIBSOriginExpressionClass.IExpr) parser.parseInt("-10 / 2 - 15 * 2 + 1");
-        AvatarIBSOriginExpressionClass.IExpr a2 =(AvatarIBSOriginExpressionClass.IExpr) parser.parseInt("-30 -4");
+        AvatarIBSExpressionClass.IExpr a1 =(AvatarIBSExpressionClass.IExpr) parser.parseInt("-10 / 2 - 15 * 2 + 1");
+        AvatarIBSExpressionClass.IExpr a2 =(AvatarIBSExpressionClass.IExpr) parser.parseInt("-30 -4");
 
-        AvatarIBSOriginExpressionClass.BExpr e3 = (AvatarIBSOriginExpressionClass.BExpr) parser.parseBool("not(-10 / 2 - 15 * 2 + 1 == -(60 - 26))");
+        AvatarIBSExpressionClass.BExpr e3 = (AvatarIBSExpressionClass.BExpr) parser.parseBool("not(-10 / 2 - 15 * 2 + 1 == -(60 - 26))");
         assertTrue(e3!=null);
 
         //TraceManager.addDev("Testing AvatarExpressionTest.testImmediate.e3bis");
 
-        AvatarIBSOriginExpressionClass.BExpr e4 = (AvatarIBSOriginExpressionClass.BExpr) parser.parseBool("0 || -1 >= 0 && 1");
+        AvatarIBSExpressionClass.BExpr e4 = (AvatarIBSExpressionClass.BExpr) parser.parseBool("0 || -1 >= 0 && 1");
         assertTrue(e4!=null);
 
-        AvatarIBSOriginExpressionClass.BExpr e5 = (AvatarIBSOriginExpressionClass.BExpr) parser.parseBool("true and not(false) == !(false or false)");
+        AvatarIBSExpressionClass.BExpr e5 = (AvatarIBSExpressionClass.BExpr) parser.parseBool("true and not(false) == !(false or false)");
         assertTrue(e5!=null);
 
-        AvatarIBSOriginExpressionClass.IExpr e6 = (AvatarIBSOriginExpressionClass.IExpr) parser.parseInt("10 -Cabin.match");
+        AvatarIBSExpressionClass.IExpr e6 = (AvatarIBSExpressionClass.IExpr) parser.parseInt("10 -Cabin.match");
         assertFalse(e6!=null);
 
-        AvatarIBSOriginExpressionClass.BExpr e7 = (AvatarIBSOriginExpressionClass.BExpr) parser.parseBool("not(10)");
+        AvatarIBSExpressionClass.BExpr e7 = (AvatarIBSExpressionClass.BExpr) parser.parseBool("not(10)");
         assertTrue(e7!=null);
 
-        AvatarIBSOriginExpressionClass.BExpr e8 = (AvatarIBSOriginExpressionClass.BExpr) parser.parseBool("-(false)");
+        AvatarIBSExpressionClass.BExpr e8 = (AvatarIBSExpressionClass.BExpr) parser.parseBool("-(false)");
         assertFalse(e8!=null);
 
-        AvatarIBSOriginExpressionClass.BExpr e9 = (AvatarIBSOriginExpressionClass.BExpr) parser.parseBool("-10 < 5 && 20/4 == 5");
+        AvatarIBSExpressionClass.BExpr e9 = (AvatarIBSExpressionClass.BExpr) parser.parseBool("-10 < 5 && 20/4 == 5");
         assertTrue(e9!=null);
 
-        AvatarIBSOriginExpressionClass.IExpr e9Bis = (AvatarIBSOriginExpressionClass.IExpr) parser.parseInt("-10 < (5 && 20)/4 == 5");
+        AvatarIBSExpressionClass.IExpr e9Bis = (AvatarIBSExpressionClass.IExpr) parser.parseInt("-10 < (5 && 20)/4 == 5");
         assertFalse(e9Bis!=null);
 
-        AvatarIBSOriginExpressionClass.BExpr e10 = (AvatarIBSOriginExpressionClass.BExpr) parser.parseBool("true && 0 >= 1 || false");
+        AvatarIBSExpressionClass.BExpr e10 = (AvatarIBSExpressionClass.BExpr) parser.parseBool("true && 0 >= 1 || false");
         assertTrue(e10!=null);
 
-        AvatarIBSOriginExpressionClass.IExpr e11 = (AvatarIBSOriginExpressionClass.IExpr) parser.parseInt("8/2*(2+2)");
+        AvatarIBSExpressionClass.IExpr e11 = (AvatarIBSExpressionClass.IExpr) parser.parseInt("8/2*(2+2)");
         assertTrue(e11!=null);
 
-        AvatarIBSOriginExpressionClass.BExpr e12 = (AvatarIBSOriginExpressionClass.BExpr) parser.parseBool("not(!(not(true)))");
+        AvatarIBSExpressionClass.BExpr e12 = (AvatarIBSExpressionClass.BExpr) parser.parseBool("not(!(not(true)))");
         assertTrue(e12!=null);
 
-        AvatarIBSOriginExpressionClass.BExpr e13 = (AvatarIBSOriginExpressionClass.BExpr) parser.parseBool("!(not(true))");
+        AvatarIBSExpressionClass.BExpr e13 = (AvatarIBSExpressionClass.BExpr) parser.parseBool("!(not(true))");
         assertTrue(e13!=null);
 
-        AvatarIBSOriginExpressionClass.BExpr e13bis = (AvatarIBSOriginExpressionClass.BExpr) parser.parseBool("!(not(TRUE))");
+        AvatarIBSExpressionClass.BExpr e13bis = (AvatarIBSExpressionClass.BExpr) parser.parseBool("!(not(TRUE))");
         assertFalse(e13bis!=null);
 
-        AvatarIBSOriginExpressionClass.BExpr e13Ter = (AvatarIBSOriginExpressionClass.BExpr) parser.parseBool("!(not(FALSE))");
+        AvatarIBSExpressionClass.BExpr e13Ter = (AvatarIBSExpressionClass.BExpr) parser.parseBool("!(not(FALSE))");
         assertFalse(e13Ter!=null);
 
-        AvatarIBSOriginExpressionClass.IExpr e14 = (AvatarIBSOriginExpressionClass.IExpr) parser.parseInt("3+2");
+        AvatarIBSExpressionClass.IExpr e14 = (AvatarIBSExpressionClass.IExpr) parser.parseInt("3+2");
         assertTrue(e14!=null);
 
         // Testing extra parenthesis
-        AvatarIBSOriginExpressionClass.BExpr e15 = (AvatarIBSOriginExpressionClass.BExpr) parser.parseBool("not((false))");
+        AvatarIBSExpressionClass.BExpr e15 = (AvatarIBSExpressionClass.BExpr) parser.parseBool("not((false))");
         assertTrue(e15!=null);
 
-        AvatarIBSOriginExpressionClass.BExpr e16 = (AvatarIBSOriginExpressionClass.BExpr) parser.parseBool("(((10 + ((15)))) >= (((20))))");
+        AvatarIBSExpressionClass.BExpr e16 = (AvatarIBSExpressionClass.BExpr) parser.parseBool("(((10 + ((15)))) >= (((20))))");
         assertTrue(e16!=null);
 
-        AvatarIBSOriginExpressionClass.BExpr e17 = (AvatarIBSOriginExpressionClass.BExpr) parser.parseBool("((true)) && (((((0 >= 1))))) || not((not(false)))");
+        AvatarIBSExpressionClass.BExpr e17 = (AvatarIBSExpressionClass.BExpr) parser.parseBool("((true)) && (((((0 >= 1))))) || not((not(false)))");
         assertTrue(e17!=null);
 
         assertEquals(true, e1.eval());
@@ -220,37 +220,37 @@ public class AvatarIBSParserTest {
         assertTrue(parser.replaceVariable("(foo==foo1)", "foo", "foo").equals("(foo==foo1)"));
         assertTrue(parser.replaceVariable("(foo==foo1)", "foo", "foo1").equals("(foo1==foo1)"));
 
-        AvatarIBSOriginExpressionClass.IExpr e1 = (AvatarIBSOriginExpressionClass.IExpr)parser.parseInt(block1,"x + y");
+        AvatarIBSExpressionClass.IExpr e1 = (AvatarIBSExpressionClass.IExpr)parser.parseInt(block1,"x + y");
         assertTrue(e1!=null);
         System.out.println("" + e1 + e1.eval(specBlock));
         assertTrue(attC.containsElementAttribute(block1.getAttribute(0)));
         assertTrue(attC.containsElementAttribute(block1.getAttribute(1)));
         assertFalse(attC.containsElementAttribute(block1.getAttribute(2)));
-        AvatarIBSOriginExpressionClass.BExpr e2 = (AvatarIBSOriginExpressionClass.BExpr) parser.parseBool(block1,"-x / y - 15 * z + 1 == -31");
+        AvatarIBSExpressionClass.BExpr e2 = (AvatarIBSExpressionClass.BExpr) parser.parseBool(block1,"-x / y - 15 * z + 1 == -31");
         assertTrue(e2!=null);
-        AvatarIBSOriginExpressionClass.BExpr e3 = (AvatarIBSOriginExpressionClass.BExpr) parser.parseBool(block1,"not(-x / z - (x + y) * 2 + 1 >= -(60 - 26))");
+        AvatarIBSExpressionClass.BExpr e3 = (AvatarIBSExpressionClass.BExpr) parser.parseBool(block1,"not(-x / z - (x + y) * 2 + 1 >= -(60 - 26))");
         assertTrue(e3!=null);
-        AvatarIBSOriginExpressionClass.BExpr e4 = (AvatarIBSOriginExpressionClass.BExpr) parser.parseBool(block1,"(key1==true) and (key2==false)");
+        AvatarIBSExpressionClass.BExpr e4 = (AvatarIBSExpressionClass.BExpr) parser.parseBool(block1,"(key1==true) and (key2==false)");
         assertTrue(e4!=null);
-        AvatarIBSOriginExpressionClass.BExpr e5 = (AvatarIBSOriginExpressionClass.BExpr) parser.parseBool(block1,"(key1) and (key2)");
+        AvatarIBSExpressionClass.BExpr e5 = (AvatarIBSExpressionClass.BExpr) parser.parseBool(block1,"(key1) and (key2)");
         assertTrue(e5!=null);
-        AvatarIBSOriginExpressionClass.BExpr e6 = (AvatarIBSOriginExpressionClass.BExpr) parser.parseBool(block1,"(key1==key1) or (key2==key1)");
+        AvatarIBSExpressionClass.BExpr e6 = (AvatarIBSExpressionClass.BExpr) parser.parseBool(block1,"(key1==key1) or (key2==key1)");
         assertTrue(e6!=null);
-        AvatarIBSOriginExpressionClass.BExpr e7 = (AvatarIBSOriginExpressionClass.BExpr) parser.parseBool(block1,"((key1==key1) and not(key2==key1)) and (x - y == z + 3)");
+        AvatarIBSExpressionClass.BExpr e7 = (AvatarIBSExpressionClass.BExpr) parser.parseBool(block1,"((key1==key1) and not(key2==key1)) and (x - y == z + 3)");
         assertTrue(e7!=null);
-        AvatarIBSOriginExpressionClass.IExpr e8 = (AvatarIBSOriginExpressionClass.IExpr)parser.parseInt(block1,"x + x*(y+z)/(x + z - x)");
+        AvatarIBSExpressionClass.IExpr e8 = (AvatarIBSExpressionClass.IExpr)parser.parseInt(block1,"x + x*(y+z)/(x + z - x)");
         assertTrue(e8!=null);
-        AvatarIBSOriginExpressionClass.IExpr e9 = (AvatarIBSOriginExpressionClass.IExpr)parser.parseInt(block1,"x + x*(y+z)*(x - z)");
+        AvatarIBSExpressionClass.IExpr e9 = (AvatarIBSExpressionClass.IExpr)parser.parseInt(block1,"x + x*(y+z)*(x - z)");
         assertTrue(e9!=null);
-        AvatarIBSOriginExpressionClass.IExpr e10 = (AvatarIBSOriginExpressionClass.IExpr)parser.parseInt(block1,"x*((x + y)*z + (x+z)/z)/x");
+        AvatarIBSExpressionClass.IExpr e10 = (AvatarIBSExpressionClass.IExpr)parser.parseInt(block1,"x*((x + y)*z + (x+z)/z)/x");
         assertTrue(e10!=null);
-        AvatarIBSOriginExpressionClass.IExpr e11 = (AvatarIBSOriginExpressionClass.IExpr)parser.parseInt(block1,"x + y");
+        AvatarIBSExpressionClass.IExpr e11 = (AvatarIBSExpressionClass.IExpr)parser.parseInt(block1,"x + y");
         assertTrue(e11!=null);
-        AvatarIBSOriginExpressionClass.IExpr e12 = (AvatarIBSOriginExpressionClass.IExpr)parser.parseInt(block1,"x*((x + y)*z + (x+z)/z)/x");
+        AvatarIBSExpressionClass.IExpr e12 = (AvatarIBSExpressionClass.IExpr)parser.parseInt(block1,"x*((x + y)*z + (x+z)/z)/x");
         assertTrue(e12!=null);
-        AvatarIBSOriginExpressionClass.BExpr e13 = (AvatarIBSOriginExpressionClass.BExpr) parser.parseBool(block1,"(key1==false) and (key2==true)");
+        AvatarIBSExpressionClass.BExpr e13 = (AvatarIBSExpressionClass.BExpr) parser.parseBool(block1,"(key1==false) and (key2==true)");
         assertTrue(e13!=null);
-        AvatarIBSOriginExpressionClass.BExpr e14 = (AvatarIBSOriginExpressionClass.BExpr) parser.parseBool(block1,"x-40<3");
+        AvatarIBSExpressionClass.BExpr e14 = (AvatarIBSExpressionClass.BExpr) parser.parseBool(block1,"x-40<3");
         assertTrue(e14!=null);
         assertTrue(e1.eval(specBlock) == 15);
         assertTrue(e2.eval(specBlock));
@@ -276,19 +276,19 @@ public class AvatarIBSParserTest {
         ss.setInit(as, false);
         attC.clearAttributes();
 
-        AvatarIBSOriginExpressionClass.IExpr e1 = (AvatarIBSOriginExpressionClass.IExpr) parser.parseInt(as,"block1.x + block2.y");
+        AvatarIBSExpressionClass.IExpr e1 = (AvatarIBSExpressionClass.IExpr) parser.parseInt(as,"block1.x + block2.y");
         assertTrue(e1!=null);
         assertTrue(attC.containsElementAttribute(block1.getAttribute(0)));
         assertTrue(attC.containsElementAttribute(block2.getAttribute(1)));
         assertFalse(attC.containsElementAttribute(block1.getAttribute(1)));
         assertFalse(attC.containsElementAttribute(block2.getAttribute(0)));
 
-        AvatarIBSOriginExpressionClass.BExpr e2 = (AvatarIBSOriginExpressionClass.BExpr) parser.parseBool(as,"-block1.x / block1.y - 15 * block2.z + 1 == -46");
+        AvatarIBSExpressionClass.BExpr e2 = (AvatarIBSExpressionClass.BExpr) parser.parseBool(as,"-block1.x / block1.y - 15 * block2.z + 1 == -46");
         assertTrue(e2!=null);
         assertTrue(attC.containsElementAttribute(block2.getAttribute(2)));
-        AvatarIBSOriginExpressionClass.BExpr e3 = (AvatarIBSOriginExpressionClass.BExpr) parser.parseBool(as,"not(-block2.x / block2.z - not(block1.x + block2.y) * -2 + -(1) <= -(-4 + 7))");
+        AvatarIBSExpressionClass.BExpr e3 = (AvatarIBSExpressionClass.BExpr) parser.parseBool(as,"not(-block2.x / block2.z - not(block1.x + block2.y) * -2 + -(1) <= -(-4 + 7))");
         assertFalse(e3!=null);
-        AvatarIBSOriginExpressionClass.IExpr e4 = (AvatarIBSOriginExpressionClass.IExpr) parser.parseInt(as,"block1.x + block2.w");
+        AvatarIBSExpressionClass.IExpr e4 = (AvatarIBSExpressionClass.IExpr) parser.parseInt(as,"block1.x + block2.w");
         assertTrue(e4!=null);
         assertTrue(e1.eval(ss) == 17);
         assertTrue(e2.eval(ss) == true);
@@ -300,39 +300,40 @@ public class AvatarIBSParserTest {
         ss = new SpecificationState();
         ss.setInit(as, false);
         
-        e1 = (AvatarIBSOriginExpressionClass.IExpr) parser.parseInt(as,"block1.x + block2.y");
+        e1 = (AvatarIBSExpressionClass.IExpr) parser.parseInt(as,"block1.x + block2.y");
         assertTrue(e1!=null);
-        e2 = (AvatarIBSOriginExpressionClass.BExpr) parser.parseBool(as,"-block1.x / block1.y - 15 * block2.z + 1 == -46");
+        e2 = (AvatarIBSExpressionClass.BExpr) parser.parseBool(as,"-block1.x / block1.y - 15 * block2.z + 1 == -46");
         assertTrue(e2!=null);
-        e3 = (AvatarIBSOriginExpressionClass.BExpr) parser.parseBool(as,"not(-block2.x / block2.z - not(block1.x + block2.y) * -2 + -(1) <= -(-4 + 7))");
+        e3 = (AvatarIBSExpressionClass.BExpr) parser.parseBool(as,"not(-block2.x / block2.z - not(block1.x + block2.y) * -2 + -(1) <= -(-4 + 7))");
         assertFalse(e3!=null);
-        e4 = (AvatarIBSOriginExpressionClass.IExpr) parser.parseInt(as,"block1.x + block2.w");
+        e4 = (AvatarIBSExpressionClass.IExpr) parser.parseInt(as,"block1.x + block2.w");
         assertTrue(e4!=null);
         assertTrue(e1.eval(ss) == 17);
         assertTrue(e2.eval(ss));
         assertTrue(e4.eval(ss) == -2);
 
 
-        AvatarIBSOriginExpressionClass.IExpr E = (AvatarIBSOriginExpressionClass.IExpr) parser.parseInt(as,"(block1.x + block2.y) * 5 - (((block1.x + " +
+        AvatarIBSExpressionClass.IExpr E = (AvatarIBSExpressionClass.IExpr) parser.parseInt(as,"(block1.x + block2.y) * 5 - (((block1.x + " +
                 "block2.y)) + block2.y) * 3");
         assertTrue(E!=null);
         System.out.println(E.eval(ss));
 
-        int i;
+        int i,j;
         String s = "(block1.x + block2.y) * 5 - (((block1.x + block2.y)) + block2.y) * ";
-        ArrayList<AvatarIBSOriginExpressionClass.IExpr> arr = new ArrayList<AvatarIBSOriginExpressionClass.IExpr>();
+        ArrayList<AvatarIBSExpressionClass.IExpr> arr = new ArrayList<AvatarIBSExpressionClass.IExpr>();
 
         long t1 =  System.currentTimeMillis();
-        for(i=0;i<1000000;i++){
-            arr.add((AvatarIBSOriginExpressionClass.IExpr) parser.parseInt(as, s+i));}
+        for(i=0;i<10000;i++){
+            arr.add((AvatarIBSExpressionClass.IExpr) parser.parseInt(as, s+i));}
 
         long t2 =  System.currentTimeMillis();
         int e=2;
-        for(i=0;i<1000000;i++) {
-            e += arr.get(i).eval(ss);
+        for(j=0;j<100;j++) {
+            for (i = 0; i < 10000; i++) {
+                e += arr.get(i).eval(ss);
+            }
         }
         long t3 = System.currentTimeMillis();
         System.out.println(" Duration " + t1 + " " + t2 + " " + t3 + " : " + (t2 - t1) + " , " + (t3 - t2));
-
     }
 }

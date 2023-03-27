@@ -40,7 +40,6 @@ package avatartranslator;
 
 import myutil.NameChecker;
 import myutil.TraceManager;
-import myutil.intboolsolverV0.IBSParamSpec;
 
 import java.util.*;
 
@@ -52,7 +51,7 @@ import java.util.*;
  * @author Ludovic APVRILLE
  * @version 1.0 20/05/2010
  */
-public class AvatarSpecification extends AvatarElement implements IBSParamSpec, myutil.intboolsolver.IBSParamSpec {
+public class AvatarSpecification extends AvatarElement {
 
     public final static int UPPAAL_MAX_INT = 32767;
 

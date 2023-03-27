@@ -39,7 +39,6 @@
 package avatartranslator;
 
 import myutil.NameChecker;
-import myutil.intboolsolver.IBSParamComp;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -52,7 +51,7 @@ import java.util.List;
  * @author Ludovic APVRILLE, Raja GATGOUT
  * @version 1.1 01/07/2014
  */
-public class AvatarBlock extends AvatarElement implements AvatarStateMachineOwner, NameChecker.NameStartWithUpperCase, IBSParamComp, myutil.intboolsolverV0.IBSParamComp {
+public class AvatarBlock extends AvatarElement implements AvatarStateMachineOwner, NameChecker.NameStartWithUpperCase {
 
     private AvatarBlock father;
     private List<AvatarAttribute> attributes;

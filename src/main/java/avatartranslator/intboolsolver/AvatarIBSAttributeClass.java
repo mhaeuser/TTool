@@ -8,7 +8,7 @@ import myutil.intboolsolver.IBSStdAttributeClass;
 import java.util.HashMap;
 import java.util.Map;
 
-public class AvatarIBSStdAttributeClass extends IBSStdAttributeClass<
+public class AvatarIBSAttributeClass extends IBSStdAttributeClass<
         AvatarSpecification,
         AvatarBlock,
         AvatarStateMachineElement,
@@ -21,7 +21,7 @@ public class AvatarIBSStdAttributeClass extends IBSStdAttributeClass<
     private static AvatarBlock findComp = null;
     private static String findString = "";
     private static AvatarElement keyElement;
-    public AvatarIBSStdAttributeClass(){
+    public AvatarIBSAttributeClass(){
         attributesMap = new HashMap<AvatarElement, TypedAttribute>();
     }
     public TypedAttribute findAttribute(AvatarSpecification _spec, String _s){

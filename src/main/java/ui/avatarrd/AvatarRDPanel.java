@@ -41,6 +41,7 @@ package ui.avatarrd;
 
 //import java.awt.*;
 
+import myutil.NameChecker;
 import myutil.TraceManager;
 import ui.*;
 
@@ -54,7 +55,7 @@ import java.util.*;
  * @author Ludovic APVRILLE
  * @version 1.0 20/04/2010
  */
-public class AvatarRDPanel extends TDiagramPanel implements TDPWithAttributes {
+public class AvatarRDPanel extends TDiagramPanel implements TDPWithAttributes, NameChecker.SystemWithNamedElements {
     public Vector validated, ignored;
 
     public AvatarRDPanel(MainGUI mgui, TToolBar _ttb) {

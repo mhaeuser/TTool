@@ -63,11 +63,11 @@ public class CLIDiploToAvatarTest extends AbstractTest implements InterpreterOut
     private final static String PATH_TO_EXPECTED_FILE = "cli/expected/";
     private StringBuilder outputResult;
 
-    private final int[] statesInfo = {54300, 2360, 2360};
-    private final int[] transitionsInfo = {171000, 5444, 5444};
+    private final int[] statesInfo = {299, 35, 35};
+    private final int[] transitionsInfo = {515, 43, 43};
 
-    private final int[] statesMinimizeInfo = {63, 21, 21};
-    private final int[] transitionsMinimizeInfo = {162, 40, 40};
+    private final int[] statesMinimizeInfo = {24, 8, 8};
+    private final int[] transitionsMinimizeInfo = {40, 8, 8};
 
 	
 	public CLIDiploToAvatarTest() {

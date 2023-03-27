@@ -42,6 +42,7 @@
 package ui.avatarpd;
 
 import myutil.GraphicLib;
+import myutil.NameChecker;
 import ui.*;
 import ui.util.IconManager;
 
@@ -55,7 +56,8 @@ import java.awt.*;
 * @version 1.0 22/04/2010
 * @author Ludovic APVRILLE
  */
-public class AvatarPDAttribute extends AvatarPDToggle implements SwallowedTGComponent {
+public class AvatarPDAttribute extends AvatarPDToggle implements SwallowedTGComponent, NameChecker.NameStartWithLowerCase,
+        NameChecker.NameTakenFromValue {
 //    private int textY1 = 3;
     //private int textY2 = 3;
 	//private int textX = 10;

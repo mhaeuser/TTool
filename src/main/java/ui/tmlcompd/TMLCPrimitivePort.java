@@ -39,6 +39,7 @@
  package ui.tmlcompd;
 
  import myutil.GraphicLib;
+ import myutil.NameChecker;
  import myutil.TraceManager;
  import org.w3c.dom.Element;
  import org.w3c.dom.Node;
@@ -69,7 +70,7 @@
   * @version 1.0 12/03/2008
   */
  public abstract class TMLCPrimitivePort extends TGCScalableWithInternalComponent implements SwallowedTGComponent, LinkedReference, WithAttributes,
-         TMLPortWithSecurityInformation {
+         TMLPortWithSecurityInformation, NameChecker.NameStartWithLowerCase, NameChecker.NameTakenFromSpecific  {
 
      public final static int TML_PORT_CHANNEL = 0;
      public final static int TML_PORT_EVENT = 1;
@@ -1292,6 +1293,10 @@
          checkWeakAuthStatus = TOCHECK;
          checkConfStatus = TOCHECK;
          mappingName = "???";
+     }
+
+     public String getSpecificName() {
+         return commName;
      }
 
 

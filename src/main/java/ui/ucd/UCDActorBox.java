@@ -42,6 +42,7 @@
 package ui.ucd;
 
 import myutil.GraphicLib;
+import myutil.NameChecker;
 import ui.*;
 import ui.util.IconManager;
 
@@ -54,7 +55,8 @@ import java.awt.*;
    * @version 1.0 04/01/2011
    * @author Ludovic APVRILLE
  */
-public class UCDActorBox extends TGCScalableWithoutInternalComponentOneLineText {
+public class UCDActorBox extends TGCScalableWithoutInternalComponentOneLineText implements NameChecker.NameStartWithUpperCase,
+        NameChecker.NameTakenFromValue {
     /*protected int lineLength = 5;
       protected int textX =  5;
       protected int textY =  15;

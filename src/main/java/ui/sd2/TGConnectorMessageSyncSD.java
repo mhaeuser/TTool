@@ -42,6 +42,7 @@
 package ui.sd2;
 
 import myutil.GraphicLib;
+import myutil.NameChecker;
 import ui.*;
 import ui.util.IconManager;
 
@@ -58,7 +59,8 @@ import java.util.Vector;
    * @version 1.0 04/10/2004
    * @author Ludovic APVRILLE
  */
-public  class TGConnectorMessageSyncSD extends TGConnectorMessageSD {
+public  class TGConnectorMessageSyncSD extends TGConnectorMessageSD implements NameChecker.NameStartWithLowerCase,
+        NameChecker.NameTakenFromValue {
     protected int arrowLength = 10;
 
     public TGConnectorMessageSyncSD(int _x, int _y, int _minX, int _minY, int _maxX, int _maxY, boolean _pos, TGComponent _father, TDiagramPanel _tdp, TGConnectingPoint _p1, TGConnectingPoint _p2, Vector<Point> _listPoint) {

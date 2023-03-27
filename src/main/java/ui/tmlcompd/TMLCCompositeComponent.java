@@ -39,6 +39,7 @@
 package ui.tmlcompd;
 
 import myutil.GraphicLib;
+import myutil.NameChecker;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -61,7 +62,8 @@ import java.util.ListIterator;
  * @version 1.0 11/03/2008
  * @author Ludovic APVRILLE
  */
-public class TMLCCompositeComponent extends TGCScalableWithInternalComponent implements SwallowTGComponent, SwallowedTGComponent, HiddenInternalComponents {
+public class TMLCCompositeComponent extends TGCScalableWithInternalComponent implements SwallowTGComponent, SwallowedTGComponent,
+		HiddenInternalComponents, NameChecker.NameStartWithUpperCase, NameChecker.NameTakenFromValue {
 //	private int maxFontSize = 20;
 //	private int minFontSize = 4;
 	private int currentFontSize = -1;

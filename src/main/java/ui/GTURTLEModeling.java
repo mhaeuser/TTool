@@ -9847,6 +9847,54 @@ public class GTURTLEModeling {
     public void setElementsOfSearchTree(Vector<Object> elements) {
         st.setElements(elements);
     }
+
+    public void addWarningForNames(TDiagramPanel _tdp, boolean clearWarnings) {
+        NameChecker.NamedElement[] nes = _tdp.getNamedElements();
+        if (warnings == null) {
+            warnings = new LinkedList<>();
+        } else if (clearWarnings) {
+            warnings.clear();
+            //TraceManager.addDev("Clearing warnings");
+        }
+        for(NameChecker.NamedElement ne: nes) {
+            checkName(ne, warnings, _tdp);
+            if (ne.getSubNamedElements() != null) {
+                for (NameChecker.NamedElement sub : ne.getSubNamedElements()) {
+                    checkName(sub, warnings, _tdp);
+                }
+            }
+        }
+    }
+
+    private void checkName(NameChecker.NamedElement _ne, List<CheckingError> _warnings, TDiagramPanel _tdp) {
+        if (_ne instanceof NameChecker.NameTakenFromValue) {
+            //TraceManager.addDev("Checking from value:" + ((NameChecker.NameTakenFromValue) _ne).getValue());
+        } else {
+            //TraceManager.addDev("Checking from name: " + _ne.getName() + " class: " + _ne.getClass().toString());
+        }
+        if (_ne instanceof NameChecker.NameStartWithUpperCase) {
+            if (!NameChecker.checkName(_ne)) {
+                UICheckingError ce = new UICheckingError(CheckingError.STRUCTURE_ERROR,
+                        NameChecker.getName(_ne) + ": its name should start with an uppercase letter");
+                ce.setTDiagramPanel(_tdp);
+                if (_ne instanceof TGComponent) {
+                    ce.setTGComponent((TGComponent)_ne);
+                }
+                warnings.add(ce);
+            }
+        }
+        if (_ne instanceof NameChecker.NameStartWithLowerCase) {
+            if (!NameChecker.checkName(_ne)) {
+                UICheckingError ce = new UICheckingError(CheckingError.STRUCTURE_ERROR,
+                        NameChecker.getName(_ne) + ": its name should start with an lowercase letter");
+                ce.setTDiagramPanel(_tdp);
+                if (_ne instanceof TGComponent) {
+                    ce.setTGComponent((TGComponent)_ne);
+                }
+                warnings.add(ce);
+            }
+        }
+    }
 }
 
 

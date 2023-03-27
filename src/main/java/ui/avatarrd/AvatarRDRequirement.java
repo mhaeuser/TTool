@@ -42,6 +42,7 @@ package ui.avatarrd;
 
 import myutil.Conversion;
 import myutil.GraphicLib;
+import myutil.NameChecker;
 import myutil.TraceManager;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -67,7 +68,8 @@ import java.util.LinkedList;
  * @author Ludovic APVRILLE
  * @version 1.0 20/04/2010
  */
-public class AvatarRDRequirement extends TGCScalableWithInternalComponent implements WithAttributes, TGAutoAdjust, ColorCustomizable {
+public class AvatarRDRequirement extends TGCScalableWithInternalComponent implements WithAttributes, TGAutoAdjust, ColorCustomizable,
+        NameChecker.NameStartWithUpperCase, NameChecker.NameTakenFromValue {
     public static int SIZE_LIMIT = 35;
 
     public String oldValue;

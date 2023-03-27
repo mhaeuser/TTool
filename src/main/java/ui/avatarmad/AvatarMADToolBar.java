@@ -82,7 +82,7 @@ public class AvatarMADToolBar extends TToolBar {
         mgui.actions[TGUIAction.AMAD_BELONGSTOCOMPOSITION_CONNECTOR].setEnabled(b);
         mgui.actions[TGUIAction.AMAD_IMPACT_CONNECTOR].setEnabled(b);
 
-        mgui.actions[TGUIAction.ACT_MODEL_CHECKING].setEnabled(!b);
+        mgui.actions[TGUIAction.ACT_MODEL_CHECKING].setEnabled(b);
 
         /*mgui.actions[TGUIAction.ACT_TOGGLE_ATTR].setEnabled(b);
 

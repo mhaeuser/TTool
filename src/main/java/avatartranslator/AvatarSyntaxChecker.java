@@ -136,7 +136,6 @@ public class AvatarSyntaxChecker {
 
     public static ArrayList<AvatarError> checkNames(AvatarSpecification _avspec, NameChecker.NamedElement _ne) {
 
-
         ArrayList<AvatarError> warnings = new ArrayList<>();
 
         // Checking block name
@@ -152,7 +151,7 @@ public class AvatarSyntaxChecker {
         }
 
         for(NameChecker.NamedElement sub: _ne.getSubNamedElements()) {
-            TraceManager.addDev("Checking sub name: " + sub.getName());
+            //TraceManager.addDev("Checking sub name: " + sub.getName());
 
             if (sub instanceof NameChecker.NameStartWithUpperCase) {
                 if (!NameChecker.checkName(sub)) {

@@ -43,6 +43,7 @@ package ui.sd;
 
 
 import myutil.GraphicLib;
+import myutil.NameChecker;
 import myutil.TraceManager;
 import ui.*;
 import ui.util.IconManager;
@@ -61,7 +62,8 @@ import java.util.Vector;
    * @version 1.0 04/10/2004
    * @author Ludovic APVRILLE
  */
-public abstract class TGConnectorMessageSD extends TGConnector {
+public abstract class TGConnectorMessageSD extends TGConnector implements NameChecker.NameStartWithLowerCase,
+        NameChecker.NameTakenFromValue {
     public final String TO_SYNC = "To synchronous message";
     public final String TO_ASYNC = "To asynchronous message";
 

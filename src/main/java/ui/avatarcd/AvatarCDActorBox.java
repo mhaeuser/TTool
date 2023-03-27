@@ -43,6 +43,7 @@
 package ui.avatarcd;
 
 import myutil.GraphicLib;
+import myutil.NameChecker;
 import ui.*;
 import ui.util.IconManager;
 
@@ -55,7 +56,8 @@ import java.awt.*;
    * @version 1.0 31/08/2011
    * @author Ludovic APVRILLE
  */
-public class AvatarCDActorBox extends TGCScalableOneLineText {
+public class AvatarCDActorBox extends TGCScalableOneLineText implements NameChecker.NameStartWithUpperCase,
+        NameChecker.NameTakenFromValue {
     /*protected int lineLength = 5;
       protected int textX =  5;
       protected int textY =  15;

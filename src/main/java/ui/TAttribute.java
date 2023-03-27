@@ -39,6 +39,7 @@
 
 package ui;
 
+import myutil.NameChecker;
 import tmltranslator.TMLArchiTextSpecification;
 import tmltranslator.TMLMappingTextSpecification;
 import tmltranslator.TMLTextSpecification;
@@ -56,7 +57,7 @@ import java.util.List;
  * @author Ludovic APVRILLE
  * @version 1.0 18/12/2003
  */
-public class TAttribute {
+public class TAttribute implements NameChecker.NamedElement, NameChecker.NameStartWithLowerCase {
 
     //access
     public final static int PRIVATE = 0;
@@ -578,6 +579,8 @@ public class TAttribute {
         return ta;
     }
 
+
+
     public int getConfidentialityVerification() {
         return confidentialityVerification;
     }
@@ -585,4 +588,9 @@ public class TAttribute {
     public void setConfidentialityVerification(int _confidentialityVerification) {
         confidentialityVerification = _confidentialityVerification;
     }
+
+    public String getName() {return id;}
+    public String[] getNameExceptions() {return null;}
+    public NameChecker.NamedElement[] getSubNamedElements() {return null;};
+
 }

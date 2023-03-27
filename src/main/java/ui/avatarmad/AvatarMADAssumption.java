@@ -44,6 +44,7 @@ package ui.avatarmad;
 
 import myutil.Conversion;
 import myutil.GraphicLib;
+import myutil.NameChecker;
 import myutil.TraceManager;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -65,9 +66,8 @@ import java.util.List;
    * @version 2.0 05/01/2021
    * @author Ludovic APVRILLE
  */
-public class AvatarMADAssumption extends TGCScalableWithInternalComponent implements WithAttributes, TGAutoAdjust {
-
-    // Stereotypes
+public class AvatarMADAssumption extends TGCScalableWithInternalComponent implements WithAttributes, TGAutoAdjust, NameChecker.NameStartWithUpperCase,
+        NameChecker.NameTakenFromValue {
 
 
 

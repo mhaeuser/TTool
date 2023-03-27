@@ -41,6 +41,7 @@
 
 package ui.sd;
 
+import myutil.NameChecker;
 import ui.*;
 
 import java.awt.*;
@@ -56,7 +57,7 @@ import java.util.Vector;
    * @version 1.0 30/09/2004
    * @author Ludovic APVRILLE
  */
-public class SequenceDiagramPanel extends TDiagramPanel{
+public class SequenceDiagramPanel extends TDiagramPanel implements NameChecker.SystemWithNamedElements {
 
     public  SequenceDiagramPanel(MainGUI mgui, TToolBar _ttb) {
         super(mgui, _ttb);

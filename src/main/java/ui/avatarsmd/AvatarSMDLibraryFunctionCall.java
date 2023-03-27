@@ -61,7 +61,8 @@ import java.util.List;
 * @version 1.0 04.18.2016
 * @author Florian LUGOU
 */
-public class AvatarSMDLibraryFunctionCall extends AvatarSMDBasicCanBeDisabledComponent /* Issue #69 TGCScalableWithoutInternalComponent*/ implements BasicErrorHighlight {
+public class AvatarSMDLibraryFunctionCall extends AvatarSMDBasicCanBeDisabledComponent /* Issue #69 TGCScalableWithoutInternalComponent*/
+        implements BasicErrorHighlight {
     
 	private List<TAttribute> parameters;
     private List<String> parametersS;
@@ -70,7 +71,7 @@ public class AvatarSMDLibraryFunctionCall extends AvatarSMDBasicCanBeDisabledCom
     private List<String> signalsS;
     
 	private List<TAttribute> returnAttributes;
-    private List<String>returnAttributesS;
+    private List<String> returnAttributesS;
 
     private AvatarBDLibraryFunction libraryFunction;
     private String libraryFunctionS;
@@ -339,7 +340,7 @@ public class AvatarSMDLibraryFunctionCall extends AvatarSMDBasicCanBeDisabledCom
     public void loadExtraParam (NodeList nl, int decX, int decY, int decId) throws MalformedModelingException {
         parametersS = new LinkedList<>();
         returnAttributesS = new LinkedList<>();
-        signals = new LinkedList<>();
+        signalsS = new LinkedList<>();
         libraryFunctionS = null;
 
 
@@ -373,9 +374,10 @@ public class AvatarSMDLibraryFunctionCall extends AvatarSMDBasicCanBeDisabledCom
                             }
 
                             String nameOfLib = elt.getAttribute ("name");
-                            TraceManager.addDev("Library function: " + nameOfLib);
-                            if (nameOfLib.equals ("null"))
+                            //TraceManager.addDev("Library function: " + nameOfLib);
+                            if (nameOfLib.equals ("null")) {
                                 break;
+                            }
 
                             libraryFunctionS = nameOfLib;
 
@@ -397,6 +399,7 @@ public class AvatarSMDLibraryFunctionCall extends AvatarSMDBasicCanBeDisabledCom
                             if (name.equals ("null")) {
                                 break;
                             } else {
+                                //TraceManager.addDev("Library function / adding parameter " + name);
                                 this.parametersS.add(name);
                             }
 
@@ -422,6 +425,7 @@ public class AvatarSMDLibraryFunctionCall extends AvatarSMDBasicCanBeDisabledCom
                             if (value.equals ("null")) {
                                 break;
                             } else {
+                                //TraceManager.addDev("Library function / adding signal " + value);
                                 signalsS.add(value);
                             }
 
@@ -444,6 +448,7 @@ public class AvatarSMDLibraryFunctionCall extends AvatarSMDBasicCanBeDisabledCom
                             if (name.equals ("null")) {
                                 break;
                             } else {
+                                //TraceManager.addDev("Library function / adding return attribute " + name);
                                 this.returnAttributesS.add(name);
                             }
 
@@ -470,6 +475,8 @@ public class AvatarSMDLibraryFunctionCall extends AvatarSMDBasicCanBeDisabledCom
             throw new MalformedModelingException( e );
         }
 
+        //TraceManager.addDev("end load Library function call ");
+
         if (this.libraryFunction != null &&
            (this.parameters.size () != this.libraryFunction.getParameters ().size () ||
             this.signals.size () != this.libraryFunction.getSignals().size () ||
@@ -486,7 +493,7 @@ public class AvatarSMDLibraryFunctionCall extends AvatarSMDBasicCanBeDisabledCom
         // in ordre to retrieve its attributes and signals.
 
 
-        //TraceManager.addDev("Post loading of AvatarSMDLibraryFunctionCall");
+        TraceManager.addDev("Post loading of AvatarSMDLibraryFunctionCall");
 
 
         MainGUI mgui = this.tdp.getMGUI ();

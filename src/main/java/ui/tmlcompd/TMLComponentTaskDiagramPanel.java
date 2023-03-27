@@ -39,6 +39,7 @@
 
 package ui.tmlcompd;
 
+import myutil.NameChecker;
 import myutil.TraceManager;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -56,7 +57,7 @@ import java.util.*;
  * @author Ludovic APVRILLE, Andrea ENRICI
  * @version 1.0 10/03/2008
  */
-public class TMLComponentTaskDiagramPanel extends TDiagramPanel implements TDPWithAttributes {
+public class TMLComponentTaskDiagramPanel extends TDiagramPanel implements TDPWithAttributes, NameChecker.SystemWithNamedElements {
 
     private boolean considerExecOperators = true;
     private boolean considerTimingOperators = true;

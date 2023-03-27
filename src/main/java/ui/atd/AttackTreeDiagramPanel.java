@@ -43,6 +43,7 @@ package ui.atd;
 
 //import java.awt.*;
 
+import myutil.NameChecker;
 import ui.*;
 
 import java.util.ArrayList;
@@ -61,7 +62,7 @@ import java.util.ListIterator;
  * @version 1.0 03/11/2009
  * @author Ludovic APVRILLE
  */
-public class AttackTreeDiagramPanel extends TDiagramPanel implements TDPWithAttributes{
+public class AttackTreeDiagramPanel extends TDiagramPanel implements TDPWithAttributes, NameChecker.SystemWithNamedElements {
     
     public  AttackTreeDiagramPanel(MainGUI mgui, TToolBar _ttb) {
         super(mgui, _ttb);

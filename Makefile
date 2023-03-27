@@ -213,7 +213,7 @@ html: $(MD2HTML)
 	@chmod u+x $(TTOOL_SIMULATORS)/c++2/src_simulator/helpGeneration.sh
 	@$(TTOOL_SIMULATORS)/c++2/src_simulator/helpGeneration.sh $(TTOOL_SIMULATORS)/c++2/src_simulator/ServerHelpData.h $(TTOOL_HELP_DIR)/diplodocussimulator.html
 %.html: %.md
-	pandoc $< -f markdown -t html -s -o  $@ --lua-filter=doc/ttoolfilter.lua --metadata pagetitle="TTool help" --css $(TTOOL_RESOURCES)/help/help.css
+	pandoc $< -f markdown -t html -s -o  $@ --lua-filter=doc/ttoolfilter.lua --metadata pagetitle="TTool help" --css help.css
 
 # ======================================== 
 # ==========    DOCUMENTATION   ========== 

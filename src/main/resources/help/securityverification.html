@@ -8,65 +8,32 @@
   <style>
     code{white-space: pre-wrap;}
     span.smallcaps{font-variant: small-caps;}
-    div.columns{display: flex; gap: min(4vw, 1.5em);}
-    div.column{flex: auto; overflow-x: auto;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
     div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
     ul.task-list{list-style: none;}
-    ul.task-list li input[type="checkbox"] {
-      width: 0.8em;
-      margin: 0 0.8em 0.2em -1.6em;
-      vertical-align: middle;
-    }
-    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
   </style>
-  <link rel="stylesheet" href="/Users/ludovicapvrille/TTool/src/main/resources/help/help.css" />
-  <!--[if lt IE 9]>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
-  <![endif]-->
+  <link rel="stylesheet" href="help.css" />
 </head>
 <body>
 <h1 id="security-verification">Security verification</h1>
 <h2 id="main-principle">Main principle</h2>
-<p>Security verification can be performed either from <a
-href="file://mapping.html">DIPLODOCUS mapping diagrams</a> or from <a
-href="file://avatarsoftwaredesign.html">AVATAR design diagrams</a>.</p>
-<p>The security verification consists in transforming a diagram and its
-security properties into a ProVerif specification, and then colling
-ProVerif to check for the satisfaction of security properties. while
-ProVerif runs, TTool indicates which properties could be proved and
-backtraces the results to diagrams, using locks next to perperties or
-elements involved in these properties. A green lock indicates a
-satisfied property, a greay lock indicates that the property could not
-be proved, and a red lock indicates that the property could be proved as
-violated.</p>
+<p>Security verification can be performed either from <a href="file://mapping.html">DIPLODOCUS mapping diagrams</a> or from <a href="file://avatarsoftwaredesign.html">AVATAR design diagrams</a>.</p>
+<p>The security verification consists in transforming a diagram and its security properties into a ProVerif specification, and then colling ProVerif to check for the satisfaction of security properties. while ProVerif runs, TTool indicates which properties could be proved and backtraces the results to diagrams, using locks next to perperties or elements involved in these properties. A green lock indicates a satisfied property, a greay lock indicates that the property could not be proved, and a red lock indicates that the property could be proved as violated.</p>
 <h2 id="attacker-model">Attacker model</h2>
-<p>An important point to note: the assumed attacker model is Dolev-Yao,
-that is a, attacker can retreive messages from public channel, rework
-messages according to his/her knowledge and inject messages. We also
-assume that the attack knows about all cryptographic primitives
-available in TTool. Thus, an attacker can use symetric cryptography,
-asymetric cryptography, MAC, hash, etc.</p>
-<p><strong>Private channels</strong> cypher data with symetric
-encryption, i.e., they ensure condifentiality and integrity (also known
-as weak authenticity), but not (strong) authenticity.</p>
-<h2 id="proverif-installation-and-configuration">ProVerif installation
-and configuration</h2>
-<p>We advice to install the latest version of ProVerif on your computer.
-We usually install ProVerif using <em>opam</em>:</p>
+<p>An important point to note: the assumed attacker model is Dolev-Yao, that is a, attacker can retreive messages from public channel, rework messages according to his/her knowledge and inject messages. We also assume that the attack knows about all cryptographic primitives available in TTool. Thus, an attacker can use symetric cryptography, asymetric cryptography, MAC, hash, etc.</p>
+<p><strong>Private channels</strong> cypher data with symetric encryption, i.e., they ensure condifentiality and integrity (also known as weak authenticity), but not (strong) authenticity.</p>
+<h2 id="proverif-installation-and-configuration">ProVerif installation and configuration</h2>
+<p>We advice to install the latest version of ProVerif on your computer. We usually install ProVerif using <em>opam</em>:</p>
 <pre><code>$ opam install proverif</code></pre>
-<p>Once proverif has been installed, TTool must be configured. TTool
-relies on a .xml configuration file (by default: config.xml). Open this
-configuration file and configure:</p>
-<p>The directory in which TTool generated ProVerif specifications. For
-instance:</p>
+<p>Once proverif has been installed, TTool must be configured. TTool relies on a .xml configuration file (by default: config.xml). Open this configuration file and configure:</p>
+<p>The directory in which TTool generated ProVerif specifications. For instance:</p>
 <pre><code>&lt;ProVerifCodeDirectory data=&quot;/home/foo/TTool/proverif/&quot; /&gt;</code></pre>
 <p>The path to the ProVerif executable. For instance:</p>
 <pre><code>&lt;ProVerifVerifierPath data=&quot;/home/foo/bin/proverif&quot; /&gt;</code></pre>
 <h2 id="security-properties">Security properties</h2>
-<p>Three security properties can be investigated: - Confidentiality -
-Integrity (or weak authenticity) - (Strong) authenticity</p>
-<h2 id="investigating-verification-results">Investigating verification
-results</h2>
+<p>Three security properties can be investigated: - Confidentiality - Integrity (or weak authenticity) - (Strong) authenticity</p>
+<h2 id="investigating-verification-results">Investigating verification results</h2>
 <h2 id="advanced-concepts">Advanced concepts</h2>
 </body>
 </html>

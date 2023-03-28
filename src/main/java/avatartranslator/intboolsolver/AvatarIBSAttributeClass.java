@@ -100,6 +100,12 @@ public class AvatarIBSAttributeClass extends IBSStdAttributeClass<
         attributesMap.put((AvatarElement) _state, _att);
     }
     protected Attribute getAttribute() {return new Attribute();}
+    //@Override
+    public String getStateName(AvatarBlock _comp, AvatarStateMachineElement _state)
+    {
+        return _state.getName();
+    }
+
     public static AvatarElement getElement(String s, AvatarSpecification spec) {
         //Extract Block and Attribute
         String[] splitS;
@@ -329,12 +335,6 @@ public class AvatarIBSAttributeClass extends IBSStdAttributeClass<
             } else {
                 return BoolAttr;
             }
-        }
-
-
-
-        public String getStateName(AvatarBlock _comp, AvatarStateMachineElement _state){
-            return (_state).getName();
         }
 
         public int getValue(SpecificationState _ss) {

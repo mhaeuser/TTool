@@ -374,7 +374,7 @@ public class IBSStdAttributeClass<
 
 
         // $$$$$$$$$$$$$$$ provided implementation, should not be modified $$$$$$$$$$$$$$
-
+        public boolean isState() { return isState; }
         /**
          * get the type of the attribute. <b>do not override</b>
          * @return a type among NullAttr, BoolConst, IntConst,

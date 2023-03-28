@@ -2,6 +2,7 @@ package tmltranslator;
 
 import common.ConfigurationTTool;
 import common.SpecConfigTTool;
+import myutil.Conversion;
 import myutil.FileUtils;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -209,9 +210,11 @@ public class HelpServerTest extends AbstractTest {
                     tempData += str + "\n";;
                 }
 
+                tempData = Conversion.replaceAllChar(tempData, '\n', "");
+
                 System.out.println("HELP_COMMAND = " + tempData);
                 for (int j = 0; j < HELP_COMMAND.length; j++) {
-                    System.out.println("Checked HELP_COMMAND = " + tempData.contains(HELP_COMMAND[j]));
+                    System.out.println("Checked HELP_COMMAND = " + HELP_COMMAND[j] + " / " + tempData.contains(HELP_COMMAND[j]));
                     assertTrue(tempData.contains(HELP_COMMAND[j]));
                 }
 

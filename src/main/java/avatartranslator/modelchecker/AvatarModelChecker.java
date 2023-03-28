@@ -1682,7 +1682,7 @@ public class AvatarModelChecker implements Runnable, myutil.Graph {
 
 
 
-        boolean guardResult = (_at.getGuardSolver().getResult(_sb) == 0) ?  false : true;
+        boolean guardResult = _at.getGuardSolver().eval(_sb);
 
         //TraceManager.addDev("Guard=" + _at.getGuard() + " -> " + guardResult);
 
@@ -1711,13 +1711,13 @@ public class AvatarModelChecker implements Runnable, myutil.Graph {
         if ((minDelay == null) || (minDelay.length() == 0)) {
             st.clockMin = 0 - _sb.values[SpecificationBlock.CLOCKMAX_INDEX];
         } else {
-            st.clockMin = _at.getMinDelaySolver().getResult(_sb) - _sb.values[SpecificationBlock.CLOCKMAX_INDEX];
+            st.clockMin = _at.getMinDelaySolver().eval(_sb) - _sb.values[SpecificationBlock.CLOCKMAX_INDEX];
         }
         String maxDelay = _at.getMaxDelay().trim();
         if ((maxDelay == null) || (maxDelay.length() == 0)) {
             st.clockMax = 0 - _sb.values[SpecificationBlock.CLOCKMIN_INDEX];
         } else {
-            int resMax = _at.getMaxDelaySolver().getResult(_sb);
+            int resMax = _at.getMaxDelaySolver().eval(_sb);
             _sb.maxClock = Math.max(_sb.maxClock, resMax);
             st.clockMax = resMax - _sb.values[SpecificationBlock.CLOCKMIN_INDEX];
         }

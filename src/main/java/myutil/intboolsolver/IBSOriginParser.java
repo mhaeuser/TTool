@@ -481,7 +481,7 @@ public class IBSOriginParser<
                         badIdents.add(expression);
                         return -1;
                     case IBSAttributeClass.BoolConst:
-                        res= exprC.make_bConst(att.getConstant() == 0);
+                        res= exprC.make_bConst(att.getConstant() != 0);
                         break;
                     case IBSAttributeClass.IntConst:
                         res= exprC.make_bConst(att.getConstant()!=0);
@@ -749,7 +749,7 @@ public class IBSOriginParser<
                         badIdents.add(expression);
                         return -1;
                     case IBSAttributeClass.BoolConst:
-                        res= exprC.make_bConst(att.getConstant() == 0);
+                        res= exprC.make_bConst(att.getConstant() != 0);
                         break;
                     case IBSAttributeClass.IntConst:
                         res= exprC.make_bConst(att.getConstant()!=0);

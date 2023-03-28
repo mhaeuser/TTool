@@ -26,10 +26,10 @@ public class IBSStdExpressionClass<
     public final int biiGt = 12;
     public final int biiLeq = 13;
     public final int biiGeq = 14;
-    public final int iNeg = 13;
-    public final int bNot = 14;
-    public final int btrue = 15;
-    public final int bfalse = 16;
+    public final int iNeg = 15;
+    public final int bNot = 16;
+    public final int btrue = 17;
+    public final int bfalse = 18;
     public final int iVar = 1000; // no associated symbol
     public final int bVar = 1001; // no associated symbol
     public final int biVar = 1002; // no associated symbol

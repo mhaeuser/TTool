@@ -80,6 +80,7 @@ public class JDialogAvatarLibraryFunction extends JDialogBase implements ActionL
     private ArrayList<LinkedList<Object>> attributes;
 
     // Parameters Tab
+    private JCheckBox parametersConstantCheckBox;
     private JComboBox<String> parametersAccessBox;
     private JTextField parametersIdentifierText;
     private JTextField parametersInitialValue;
@@ -96,6 +97,7 @@ public class JDialogAvatarLibraryFunction extends JDialogBase implements ActionL
     private JComboBox<String> returnAttributesTypeBox;
 
     // Attributes Tab
+    private JCheckBox attributesConstantCheckBox;
     private JComboBox<String> attributesAccessBox;
     private JTextField attributesIdentifierText;
     private JTextField attributesInitialValue;
@@ -157,7 +159,13 @@ public class JDialogAvatarLibraryFunction extends JDialogBase implements ActionL
         */
     }
 
-    private void fillGenericAttributesTab(JPanel tab, int tabIndex, String tabTitle, JComboBox<String> accessBox, JTextField identifierText, JTextField initialValue, JComboBox<String> typeBox) {
+    private void fillGenericAttributesTab(JPanel tab, int tabIndex, String tabTitle, JComboBox<String> accessBox, JTextField identifierText,
+                                          JTextField initialValue, JComboBox<String> typeBox) {
+        fillGenericAttributesTab(tab, tabIndex, tabTitle, accessBox, identifierText,initialValue, typeBox, null);
+    }
+
+    private void fillGenericAttributesTab(JPanel tab, int tabIndex, String tabTitle, JComboBox<String> accessBox, JTextField identifierText,
+                                          JTextField initialValue, JComboBox<String> typeBox, JCheckBox _constantCheckBox) {
         // West Panel
 
         GridBagConstraints c0 = new GridBagConstraints();
@@ -219,11 +227,16 @@ public class JDialogAvatarLibraryFunction extends JDialogBase implements ActionL
         typeBox.addActionListener(this);
         panelWest.add(typeBox, gridConstraints);
 
-        //      third line west panel (empty line)
-        gridConstraints.gridwidth = GridBagConstraints.REMAINDER; //end row
-        gridConstraints.fill = GridBagConstraints.BOTH;
-        gridConstraints.gridheight = 3;
-        panelWest.add(new JLabel(" "), gridConstraints);
+        if (_constantCheckBox != null) {
+            //      optional line west panel (empty line)
+            gridConstraints.gridwidth = GridBagConstraints.REMAINDER; //end row
+            gridConstraints.fill = GridBagConstraints.BOTH;
+            gridConstraints.gridheight = 3;
+            panelWest.add(new JLabel(" "), gridConstraints);
+            panelWest.add(_constantCheckBox, gridConstraints);
+        }
+
+
 
         //      fourth line west panel (Add and modify buttons)
         gridConstraints.gridheight = 1;
@@ -292,6 +305,7 @@ public class JDialogAvatarLibraryFunction extends JDialogBase implements ActionL
     private JPanel initParametersTab() {
         GridBagLayout gridbag0 = new GridBagLayout();
         JPanel panelParameters = new JPanel(gridbag0);
+        this.parametersConstantCheckBox = new JCheckBox("Constant value");
         this.parametersAccessBox = new JComboBox<String>();
         this.parametersIdentifierText = new JTextField();
         this.parametersInitialValue = new JTextField();
@@ -304,7 +318,8 @@ public class JDialogAvatarLibraryFunction extends JDialogBase implements ActionL
                 this.parametersAccessBox,
                 this.parametersIdentifierText,
                 this.parametersInitialValue,
-                this.parametersTypeBox);
+                this.parametersTypeBox,
+                parametersConstantCheckBox);
 
         return panelParameters;
     }
@@ -442,6 +457,7 @@ public class JDialogAvatarLibraryFunction extends JDialogBase implements ActionL
     private JPanel initAttributesTab() {
         GridBagLayout gridbag0 = new GridBagLayout();
         JPanel panelAttributes = new JPanel(gridbag0);
+        this.attributesConstantCheckBox = new JCheckBox("Constant value");
         this.attributesAccessBox = new JComboBox<String>();
         this.attributesIdentifierText = new JTextField();
         this.attributesInitialValue = new JTextField();
@@ -454,7 +470,8 @@ public class JDialogAvatarLibraryFunction extends JDialogBase implements ActionL
                 this.attributesAccessBox,
                 this.attributesIdentifierText,
                 this.attributesInitialValue,
-                this.attributesTypeBox);
+                this.attributesTypeBox,
+                this.attributesConstantCheckBox);
 
         return panelAttributes;
     }
@@ -691,17 +708,20 @@ public class JDialogAvatarLibraryFunction extends JDialogBase implements ActionL
         int selectedTab = this.tabbedPane.getSelectedIndex();
         switch (selectedTab) {
             case 0:
-                this.addAttribute(0, TAttribute.VARIABLE, this.parametersAccessBox, this.parametersIdentifierText, this.parametersInitialValue,
+                this.addAttribute(0, parametersConstantCheckBox.isSelected()? 1 : 0, this.parametersAccessBox, this.parametersIdentifierText,
+                        this.parametersInitialValue,
                         this.parametersTypeBox, false);
                 break;
             case 1:
                 this.addSignal(false);
                 break;
             case 2:
-                this.addAttribute(2, TAttribute.VARIABLE, this.returnAttributesAccessBox, this.returnAttributesIdentifierText, this.returnAttributesInitialValue, this.returnAttributesTypeBox, false);
+                this.addAttribute(2, TAttribute.VARIABLE, this.returnAttributesAccessBox, this.returnAttributesIdentifierText,
+                        this.returnAttributesInitialValue, this.returnAttributesTypeBox, false);
                 break;
             case 3:
-                this.addAttribute(3, TAttribute.VARIABLE, this.attributesAccessBox, this.attributesIdentifierText, this.attributesInitialValue, this.attributesTypeBox, false);
+                this.addAttribute(3, attributesConstantCheckBox.isSelected()? 1 : 0, this.attributesAccessBox, this.attributesIdentifierText,
+                        this.attributesInitialValue, this.attributesTypeBox, false);
                 break;
             case 4:
                 this.addMethod(false);
@@ -710,7 +730,6 @@ public class JDialogAvatarLibraryFunction extends JDialogBase implements ActionL
                 // Should not arrive here
         }
     }
-
     private void addAttribute(int tabIndex, int _variableOrConstant, JComboBox<String> accessBox, JTextField identifierText, JTextField initialValue,
                               JComboBox<String> typeBox, boolean modify) {
         String identifier = identifierText.getText();
@@ -898,7 +917,8 @@ public class JDialogAvatarLibraryFunction extends JDialogBase implements ActionL
         int selectedTab = this.tabbedPane.getSelectedIndex();
         switch (selectedTab) {
             case 0:
-                this.addAttribute(0, TAttribute.VARIABLE, this.parametersAccessBox, this.parametersIdentifierText, this.parametersInitialValue,
+                this.addAttribute(0, parametersConstantCheckBox.isSelected()? 1 : 0, this.parametersAccessBox, this.parametersIdentifierText,
+                        this.parametersInitialValue,
                         this.parametersTypeBox, true);
                 break;
             case 1:
@@ -909,7 +929,8 @@ public class JDialogAvatarLibraryFunction extends JDialogBase implements ActionL
                         this.returnAttributesInitialValue, this.returnAttributesTypeBox, true);
                 break;
             case 3:
-                this.addAttribute(3, TAttribute.VARIABLE, this.attributesAccessBox, this.attributesIdentifierText, this.attributesInitialValue,
+                this.addAttribute(3, attributesConstantCheckBox.isSelected()? 1 : 0, this.attributesAccessBox, this.attributesIdentifierText,
+                        this.attributesInitialValue,
                         this.attributesTypeBox, true);
                 break;
             case 4:

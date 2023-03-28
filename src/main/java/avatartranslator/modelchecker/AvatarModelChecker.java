@@ -40,6 +40,7 @@
 package avatartranslator.modelchecker;
 
 import avatartranslator.*;
+import avatartranslator.intboolsolver.AvatarIBSExpressionClass;
 import myutil.BoolExpressionEvaluator;
 import myutil.Conversion;
 import myutil.IntExpressionEvaluator;
@@ -1681,7 +1682,7 @@ public class AvatarModelChecker implements Runnable, myutil.Graph {
         //s = Conversion.replaceAllString(s, "]", "").trim();
 
 
-
+        AvatarIBSExpressionClass.BExpr e = _at.getGuardSolver();
         boolean guardResult = _at.getGuardSolver().eval(_sb);
 
         //TraceManager.addDev("Guard=" + _at.getGuard() + " -> " + guardResult);

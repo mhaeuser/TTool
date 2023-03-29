@@ -38,6 +38,7 @@
 
 package avatartranslator;
 
+import avatartranslator.intboolsolver.AvatarIBSolver;
 import myutil.NameChecker;
 import myutil.TraceManager;
 import myutil.intboolsolver.IBSParamSpec;
@@ -359,7 +360,8 @@ public class AvatarSpecification extends AvatarElement implements IBSParamSpec {
         AvatarTransition at;
         boolean returnVal;
 
-        AvatarExpressionSolver.emptyAttributesMap();
+        //AvatarExpressionSolver.emptyAttributesMap();
+        AvatarIBSolver.attrC.clearAttributes();
 
         for (AvatarBlock block : getListOfBlocks()) {
             AvatarStateMachine asm = block.getStateMachine();

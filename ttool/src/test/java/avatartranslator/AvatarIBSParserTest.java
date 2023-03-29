@@ -276,24 +276,44 @@ public class AvatarIBSParserTest {
         ss.setInit(as, false);
         attC.clearAttributes();
 
-        AvatarIBSExpressionClass.IExpr e1 = (AvatarIBSExpressionClass.IExpr) parser.parseInt(as,"block1.x + block2.y");
-        assertTrue(e1!=null);
+        AvatarIBSExpressionClass.IExpr e1 = (AvatarIBSExpressionClass.IExpr) parser.parseInt(as, "block1.x + block2.y");
+        System.out.println(e1);
+        assertTrue(e1 != null);
         assertTrue(attC.containsElementAttribute(block1.getAttribute(0)));
         assertTrue(attC.containsElementAttribute(block2.getAttribute(1)));
         assertFalse(attC.containsElementAttribute(block1.getAttribute(1)));
         assertFalse(attC.containsElementAttribute(block2.getAttribute(0)));
 
-        AvatarIBSExpressionClass.BExpr e2 = (AvatarIBSExpressionClass.BExpr) parser.parseBool(as,"-block1.x / block1.y - 15 * block2.z + 1 == -46");
-        assertTrue(e2!=null);
+        AvatarIBSExpressionClass.BExpr e2 = (AvatarIBSExpressionClass.BExpr) parser.parseBool(as, "-block1.x / block1.y - 15 * block2.z + 1 == -46");
+        assertTrue(e2 != null);
         assertTrue(attC.containsElementAttribute(block2.getAttribute(2)));
-        AvatarIBSExpressionClass.BExpr e3 = (AvatarIBSExpressionClass.BExpr) parser.parseBool(as,"not(-block2.x / block2.z - not(block1.x + block2.y) * -2 + -(1) <= -(-4 + 7))");
-        assertFalse(e3!=null);
-        AvatarIBSExpressionClass.IExpr e4 = (AvatarIBSExpressionClass.IExpr) parser.parseInt(as,"block1.x + block2.w");
-        assertTrue(e4!=null);
+        AvatarIBSExpressionClass.BExpr e3 = (AvatarIBSExpressionClass.BExpr) parser.parseBool(as, "not(-block2.x / block2.z - not(block1.x + block2.y) * -2 + -(1) <= -(-4 + 7))");
+        assertFalse(e3 != null);
+        AvatarIBSExpressionClass.IExpr e4 = (AvatarIBSExpressionClass.IExpr) parser.parseInt(as, "block1.x + block2.w");
+
+        assertTrue(e4 != null);
         assertTrue(e1.eval(ss) == 17);
         assertTrue(e2.eval(ss) == true);
         assertTrue(e4.eval(ss) == -2);
-        
+
+        int i;
+        String[] str = {
+                "block1.x",
+                "block2.y",
+                "block1.x + block2.y",
+                "block1.x - block2.y",
+                "block1.x * block2.y",
+                "block1.x / block2.y",
+                "block1.x / (block2.y * 3)"
+        };
+
+        for (i = 0; i < str.length; i++) {
+            e1 = (AvatarIBSExpressionClass.IExpr) parser.parseInt(as, str[i]);
+            assertTrue(e1 != null);
+            System.out.println(str[i] + " ==> " + e1 + "  $$  " + e1.eval(ss));
+        }
+
+
         as.removeConstants();
         as.sortAttributes();
         as.setAttributeOptRatio(4);
@@ -312,13 +332,11 @@ public class AvatarIBSParserTest {
         assertTrue(e2.eval(ss));
         assertTrue(e4.eval(ss) == -2);
 
-
+        // PERFORMANCE TEST
         AvatarIBSExpressionClass.IExpr E = (AvatarIBSExpressionClass.IExpr) parser.parseInt(as,"(block1.x + block2.y) * 5 - (((block1.x + " +
                 "block2.y)) + block2.y) * 3");
-        assertTrue(E!=null);
-        System.out.println(E.eval(ss));
 
-        int i,j;
+        int j;
         String s = "(block1.x + block2.y) * 5 - (((block1.x + block2.y)) + block2.y) * ";
         ArrayList<AvatarIBSExpressionClass.IExpr> arr = new ArrayList<AvatarIBSExpressionClass.IExpr>();
 
@@ -334,6 +352,6 @@ public class AvatarIBSParserTest {
             }
         }
         long t3 = System.currentTimeMillis();
-        System.out.println(" Duration " + t1 + " " + t2 + " " + t3 + " : " + (t2 - t1) + " , " + (t3 - t2));
+        System.out.println(" Durations, parsing: " + (t2 - t1) + " , evaluation: " + (t3 - t2));
     }
 }

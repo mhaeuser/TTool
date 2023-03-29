@@ -451,7 +451,7 @@ public class CLIAvatarModelCheckerTest extends AbstractTest implements Interpret
         assertEquals(expectedOutput, outputResult.toString()+"\n");
     }
 
-    //@Test
+    @Test
     public void testAdvancedRandom() {
 	    System.out.println("advanced random model checker test");
         String filePath = getBaseResourcesDir() + PATH_TO_TEST_FILE + "scriptmodelcheckerrandom";

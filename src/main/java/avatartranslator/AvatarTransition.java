@@ -119,6 +119,7 @@ public class AvatarTransition extends AvatarStateMachineElement {
             String expr = guard.toString().replaceAll("\\[", "").trim();
             expr = expr.replaceAll("\\]", "");
             guardSolver = (AvatarIBSExpressionClass.BExpr) AvatarIBSolver.parser.parseBool((AvatarBlock)block,expr);
+            if(guardSolver==null) System.out.println("\n&&&&&&&&&&&&&&&&&&&&&&&&& " + expr + " &&&&&\n");
             return guardSolver!=null;
         }
         return true;

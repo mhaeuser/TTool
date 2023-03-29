@@ -1683,6 +1683,7 @@ public class AvatarModelChecker implements Runnable, myutil.Graph {
 
 
         AvatarIBSExpressionClass.BExpr e = _at.getGuardSolver();
+        if(_at.getGuardSolver()==null) System.out.println("Guard=" + _at.getGuard());
         boolean guardResult = _at.getGuardSolver().eval(_sb);
 
         //TraceManager.addDev("Guard=" + _at.getGuard() + " -> " + guardResult);

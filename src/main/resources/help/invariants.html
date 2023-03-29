@@ -8,13 +8,18 @@
   <style>
     code{white-space: pre-wrap;}
     span.smallcaps{font-variant: small-caps;}
-    span.underline{text-decoration: underline;}
-    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
     div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
     ul.task-list{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
     .display.math{display: block; text-align: center; margin: 0.5rem auto;}
   </style>
-  <link rel="stylesheet" href="/Users/ludovicapvrille/TTool/src/main/resources/help/help.css" />
+  <link rel="stylesheet" href="help.css" />
   <!--[if lt IE 9]>
     <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
   <![endif]-->
@@ -22,20 +27,38 @@
 <body>
 <h1 id="invariants">Invariants</h1>
 <h2 id="what-are-invariants">What are invariants?</h2>
-<p>P-invariants (or place invariants) of Petri Nets can be used to prove mutual exclusion properties.</p>
-<p>For more information, see: Apvrille, Ludovic and Saqui-Sannes, Pierre de Static analysis techniques to verify mutual exclusion situations within SysML models. ( In Press: 2013) In: SDL 2013 - 16th International System Design Languages Forum, 26-28 Jun 2013, Montreal, Canada</p>
-<p>You can also access to the paper as follows: https://oatao.univ-toulouse.fr/8846/1/Saqui-Sannes_8846.pdf</p>
+<p>P-invariants (or place invariants) of Petri Nets can be used to prove
+mutual exclusion properties.</p>
+<p>For more information, see: Apvrille, Ludovic and Saqui-Sannes, Pierre
+de Static analysis techniques to verify mutual exclusion situations
+within SysML models. ( In Press: 2013) In: SDL 2013 - 16th International
+System Design Languages Forum, 26-28 Jun 2013, Montreal, Canada</p>
+<p>You can also access to the paper as follows:
+https://oatao.univ-toulouse.fr/8846/1/Saqui-Sannes_8846.pdf</p>
 <h2 id="invariants-in-avatar-models">Invariants in Avatar models</h2>
-<p>In the scope of Avatar, P-invariants, or invariants for short, can be used to prove mutual exclusion between states of state machine diagrams. To compute invariants, TTool first translates an Avatar model into a Petri net. Then, it computes the incidence matrix of that Petri net. Finally, it relies on the Farkas algorithm to compute mutual exclusion between states.</p>
+<p>In the scope of Avatar, P-invariants, or invariants for short, can be
+used to prove mutual exclusion between states of state machine diagrams.
+To compute invariants, TTool first translates an Avatar model into a
+Petri net. Then, it computes the incidence matrix of that Petri net.
+Finally, it relies on the Farkas algorithm to compute mutual exclusion
+between states.</p>
 <h2 id="how-to-proceed">how to proceed</h2>
 <ol type="1">
-<li>Select states of states machines for which you would like to study mutual exclusion. for this, do a right click on a state and select “Check for mutual exclusion”. This stage is optional since in stage 4. you can select to study the mutual exclusion between all states of your state machine diagrams.</li>
-<li>Check the syntax of the model. We now assume the syntax of the model produces no error.</li>
-<li>Click on the “Mutual exclusion analysis” icon. A window shall open.</li>
-<li>Select optins and click on start. Mutual exclusion (as well as other intermediate models) are given in the tabs of the dialog window.</li>
+<li>Select states of states machines for which you would like to study
+mutual exclusion. for this, do a right click on a state and select
+“Check for mutual exclusion”. This stage is optional since in stage 4.
+you can select to study the mutual exclusion between all states of your
+state machine diagrams.</li>
+<li>Check the syntax of the model. We now assume the syntax of the model
+produces no error.</li>
+<li>Click on the “Mutual exclusion analysis” icon. A window shall
+open.</li>
+<li>Select optins and click on start. Mutual exclusion (as well as other
+intermediate models) are given in the tabs of the dialog window.</li>
 </ol>
 <h2 id="backtracing-to-models">Backtracing to models</h2>
-<p>Once computed, mutual exclusions are displayed next to each state of the state machine.</p>
+<p>Once computed, mutual exclusions are displayed next to each state of
+the state machine.</p>
 <h2 id="limitations">Limitations</h2>
 <ul>
 <li>Combinatory explosion</li>

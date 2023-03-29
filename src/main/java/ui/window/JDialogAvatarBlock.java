@@ -42,6 +42,7 @@ package ui.window;
 import myutil.Conversion;
 import myutil.GraphicLib;
 import myutil.TraceManager;
+import org.apache.batik.anim.timing.Trace;
 import ui.AvatarMethod;
 import ui.AvatarSignal;
 import ui.TAttribute;
@@ -96,6 +97,7 @@ public class JDialogAvatarBlock extends JDialogBase implements ActionListener, L
     private String attrib; // "Attributes", "Gates", etc.
 
     // Panel1
+    private JCheckBox constantCheckBox;
     private JComboBox<String> accessBox, typeBox;
     private JTextField identifierText;
     private JTextField initialValue;
@@ -297,13 +299,21 @@ public class JDialogAvatarBlock extends JDialogBase implements ActionListener, L
         typeBox.addActionListener(this);
         panel1.add(typeBox, c1);
 
-        // third line panel1
+        // third and fourth line panel1
+
+        constantCheckBox = new JCheckBox("Constant value");
+        c1.gridwidth = GridBagConstraints.REMAINDER; //end row
+        c1.fill = GridBagConstraints.BOTH;
+        c1.gridheight = 3;
+        panel1.add(constantCheckBox, c1);
+
         c1.gridwidth = GridBagConstraints.REMAINDER; //end row
         c1.fill = GridBagConstraints.BOTH;
         c1.gridheight = 3;
         panel1.add(new JLabel(" "), c1);
 
-        // fourth line panel2
+
+        // fifth line panel1
         c1.gridheight = 1;
         c1.fill = GridBagConstraints.HORIZONTAL;
         addButton = new JButton("Add / Modify " + attrib);
@@ -727,6 +737,8 @@ public class JDialogAvatarBlock extends JDialogBase implements ActionListener, L
 
 
     public void addAttribute() {
+        int constant = constantCheckBox.isSelected() ? TAttribute.CONSTANT : TAttribute.VARIABLE;
+        TraceManager.addDev("Constant = " + constant);
         Object o1 = accessBox.getSelectedItem();
         Object o2 = typeBox.getSelectedItem();
         String s = identifierText.getText();
@@ -760,19 +772,21 @@ public class JDialogAvatarBlock extends JDialogBase implements ActionListener, L
                         }
                     }
                     if (j == TAttribute.OTHER) {
-                        a = new TAttribute(i, s, value, o2.toString());
+                        a = new TAttribute(constant, i, s, value, o2.toString());
                         a.isAvatar = true;
                         //
                     } else {
-                        a = new TAttribute(i, s, value, j);
+                        a = new TAttribute(constant, i, s, value, j);
                         a.isAvatar = true;
                     }
+                    TraceManager.addDev("Adding attribute= " + a.toAvatarString() + " constant=" + a.getConstant());
                     //checks whether the same attribute already belongs to the list
                     int index = attributes.size();
                     if (attributes.contains(a)) {
                         index = attributes.indexOf(a);
                         a = attributes.get(index);
                         a.setAccess(i);
+                        a.setConstant(constant);
                         if (j == TAttribute.OTHER) {
                             a.setTypeOther(o2.toString());
                         }
@@ -1013,10 +1027,13 @@ public class JDialogAvatarBlock extends JDialogBase implements ActionListener, L
             identifierText.setText("");
             //initialValue.setText("");
         } else {
+
             TAttribute a = attributes.get(i);
+            TraceManager.addDev("Selecting attribute a=" + a.toString() + " isAvatar?" + a.isAvatar + " isConstant? " + a.getConstant());
             identifierText.setText(a.getId());
             initialValue.setText(a.getInitialValue());
             select(accessBox, TAttribute.getStringAccess(a.getAccess()));
+            constantCheckBox.setSelected(a.isConstant());
             if (a.getType() == TAttribute.OTHER) {
                 select(typeBox, a.getTypeOther());
             } else {

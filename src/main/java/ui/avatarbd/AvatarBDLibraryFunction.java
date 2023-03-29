@@ -349,7 +349,8 @@ public class AvatarBDLibraryFunction extends TGCScalableWithoutInternalComponent
         // Draw icon
         this.iconIsDrawn = this.width > IconManager.iconSize + 2 * paddingHorizontal && height > IconManager.iconSize + 2 * paddingHorizontal;
         if (this.iconIsDrawn)
-            graph.drawImage(scale(IconManager.img5100), this.x + this.width - scale(IconManager.iconSize) - paddingHorizontal, this.y + paddingHorizontal, null);
+            graph.drawImage(scale(IconManager.img5100), this.x + this.width - scale(IconManager.iconSize) - paddingHorizontal, this.y
+                    + paddingHorizontal, null);
 
 
         Font font = graph.getFont();
@@ -687,7 +688,7 @@ public class AvatarBDLibraryFunction extends TGCScalableWithoutInternalComponent
                 "Library Function");
         this.setJDialogOptions(dialog);
         //   dialog.setSize (650, 575);
-        GraphicLib.centerOnParent(dialog, 650, 575);
+        GraphicLib.centerOnParent(dialog, 750, 675);
 
         // Focus on the right input depending on the part that was clicked.
         // FIXME: if nothing is displayed, focus will go on tab 2 instead of tab 0
@@ -742,6 +743,8 @@ public class AvatarBDLibraryFunction extends TGCScalableWithoutInternalComponent
         for (TAttribute attr : this.parameters) {
             sb.append("<Parameter access=\"");
             sb.append(attr.getAccess());
+            sb.append("\" var=\"");
+            sb.append(attr.getConstant());
             sb.append("\" id=\"");
             sb.append(attr.getId());
             sb.append("\" value=\"");
@@ -776,6 +779,8 @@ public class AvatarBDLibraryFunction extends TGCScalableWithoutInternalComponent
         for (TAttribute attr : this.attributes) {
             sb.append("<Attribute access=\"");
             sb.append(attr.getAccess());
+            sb.append("\" var=\"");
+            sb.append(attr.getConstant());
             sb.append("\" id=\"");
             sb.append(attr.getId());
             sb.append("\" value=\"");
@@ -836,6 +841,12 @@ public class AvatarBDLibraryFunction extends TGCScalableWithoutInternalComponent
                             break;
 
                         case "Parameter": {
+                            int isConstant;
+                            try {
+                                isConstant = Integer.decode(elt.getAttribute("var")).intValue();
+                            } catch (Exception e) {
+                                isConstant = TAttribute.VARIABLE;
+                            }
                             Integer access = Integer.decode(elt.getAttribute("access")).intValue();
                             Integer type = Integer.decode(elt.getAttribute("type")).intValue();
                             String typeOther = elt.getAttribute("typeOther");
@@ -849,7 +860,7 @@ public class AvatarBDLibraryFunction extends TGCScalableWithoutInternalComponent
                                     if (type == TAttribute.NATURAL)
                                         type = TAttribute.INTEGER;
 
-                                    TAttribute ta = new TAttribute(access, id, valueAtt, type, typeOther);
+                                    TAttribute ta = new TAttribute(isConstant, access, id, valueAtt, type, typeOther);
                                     ta.isAvatar = true;
                                     this.parameters.add(ta);
                                 }
@@ -881,7 +892,8 @@ public class AvatarBDLibraryFunction extends TGCScalableWithoutInternalComponent
                             if (valueAtt.equals("null"))
                                 valueAtt = "";
 
-                            if (TAttribute.isAValidId(id, false, false, false) && TAttribute.isAValidInitialValue(type, valueAtt)) {
+                            if (TAttribute.isAValidId(id, false, false, false) &&
+                                    TAttribute.isAValidInitialValue(type, valueAtt)) {
                                 if (type == TAttribute.NATURAL)
                                     type = TAttribute.INTEGER;
 
@@ -894,6 +906,12 @@ public class AvatarBDLibraryFunction extends TGCScalableWithoutInternalComponent
                         break;
 
                         case "Attribute": {
+                            int isConstant;
+                            try {
+                                isConstant = Integer.decode(elt.getAttribute("var")).intValue();
+                            } catch (Exception e) {
+                                isConstant = TAttribute.VARIABLE;
+                            }
                             Integer access = Integer.decode(elt.getAttribute("access")).intValue();
                             Integer type = Integer.decode(elt.getAttribute("type")).intValue();
                             String typeOther = elt.getAttribute("typeOther");
@@ -902,11 +920,12 @@ public class AvatarBDLibraryFunction extends TGCScalableWithoutInternalComponent
                             if (valueAtt.equals("null"))
                                 valueAtt = "";
 
-                            if (TAttribute.isAValidId(id, false, false, false) && TAttribute.isAValidInitialValue(type, valueAtt)) {
+                            if (TAttribute.isAValidId(id, false, false, false) &&
+                                    TAttribute.isAValidInitialValue(type, valueAtt)) {
                                 if (type == TAttribute.NATURAL)
                                     type = TAttribute.INTEGER;
 
-                                TAttribute ta = new TAttribute(access, id, valueAtt, type, typeOther);
+                                TAttribute ta = new TAttribute(isConstant, access, id, valueAtt, type, typeOther);
                                 ta.isAvatar = true;
                                 this.attributes.add(ta);
                             }

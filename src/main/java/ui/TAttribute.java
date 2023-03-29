@@ -59,7 +59,12 @@ import java.util.List;
  */
 public class TAttribute implements NameChecker.NamedElement, NameChecker.NameStartWithLowerCase {
 
-    //access
+    // CONSTANT OR NOT
+    public final static int VARIABLE = 0;
+    public final static int CONSTANT = 1;
+    public final String[] VARIABLE_CONSTANT = {"", " (Constant)"};
+
+    // access
     public final static int PRIVATE = 0;
     public final static int PROTECTED = 1;
     public final static int PUBLIC = 2;
@@ -78,13 +83,13 @@ public class TAttribute implements NameChecker.NamedElement, NameChecker.NameSta
     public final static int ADDRESS = 10;
     public final static int DOUBLE = 11;
 
-    // Confidentiality verififcation
+    // Confidentiality verification
     public final static int NOT_VERIFIED = 0;
     public final static int CONFIDENTIALITY_OK = 1;
     public final static int CONFIDENTIALITY_KO = 2;
     public final static int COULD_NOT_VERIFY_CONFIDENTIALITY = 3;
 
-
+    private int isConstant;
     private int access;
     private String id;
     private String initialValue;
@@ -98,7 +103,8 @@ public class TAttribute implements NameChecker.NamedElement, NameChecker.NameSta
 
     private boolean set = false;
 
-    public TAttribute(int _access, String _id, String _initialValue, int _type) {
+    public TAttribute(int _isVariable, int _access, String _id, String _initialValue, int _type) {
+        isConstant = _isVariable;
         access = _access;
         id = new String(_id);
         initialValue = new String(_initialValue);
@@ -106,7 +112,17 @@ public class TAttribute implements NameChecker.NamedElement, NameChecker.NameSta
         typeOther = "";
     }
 
-    public TAttribute(int _access, String _id, String _initialValue, String _typeOther) {
+    public TAttribute(int _access, String _id, String _initialValue, int _type) {
+        isConstant = VARIABLE;
+        access = _access;
+        id = new String(_id);
+        initialValue = new String(_initialValue);
+        type = _type;
+        typeOther = "";
+    }
+
+    public TAttribute(int _isVariable, int _access, String _id, String _initialValue, String _typeOther) {
+        isConstant = _isVariable;
         access = _access;
         id = new String(_id);
         initialValue = new String(_initialValue);
@@ -114,7 +130,17 @@ public class TAttribute implements NameChecker.NamedElement, NameChecker.NameSta
         typeOther = _typeOther;
     }
 
-    public TAttribute(int _access, String _id, String _initialValue, int _type, String _typeOther) {
+    public TAttribute(int _access, String _id, String _initialValue, String _typeOther) {
+        isConstant = VARIABLE;
+        access = _access;
+        id = new String(_id);
+        initialValue = new String(_initialValue);
+        type = OTHER;
+        typeOther = _typeOther;
+    }
+
+    public TAttribute(int _isVariable, int _access, String _id, String _initialValue, int _type, String _typeOther) {
+        isConstant = _isVariable;
         access = _access;
         id = new String(_id);
         initialValue = new String(_initialValue);
@@ -122,6 +148,30 @@ public class TAttribute implements NameChecker.NamedElement, NameChecker.NameSta
         typeOther = new String(_typeOther);
     }
 
+    public TAttribute(int _access, String _id, String _initialValue, int _type, String _typeOther) {
+        isConstant = VARIABLE;
+        access = _access;
+        id = new String(_id);
+        initialValue = new String(_initialValue);
+        type = _type;
+        typeOther = new String(_typeOther);
+    }
+
+    public int getConstant() {
+        return isConstant;
+    }
+
+    public void setConstant(int _constant) {
+        isConstant = _constant;
+    }
+
+    public boolean isConstant() {
+        return isConstant == TAttribute.CONSTANT;
+    }
+
+    public String getConstantString() {
+        return VARIABLE_CONSTANT[isConstant];
+    }
 
     public int getAccess() {
         return access;
@@ -487,12 +537,12 @@ public class TAttribute implements NameChecker.NamedElement, NameChecker.NameSta
         }
 
         if ((initialValue == null) || (initialValue.equals(""))) {
-            return getStringAccess(access) + " " + id + " : " + myType + ";";
+            return getStringAccess(access) + " " + id + " : " + myType + ";" +  getConstantString() ;
         } else {
             if (type == ARRAY_NAT) {
                 return getStringAccess(access) + " " + id + " [" + getInitialValue() + "] : " + myType + ";";
             } else {
-                return getStringAccess(access) + " " + id + " = " + getInitialValue() + " : " + myType + ";";
+                return getStringAccess(access) + " " + id + " = " + getInitialValue() + " : " + myType + ";" +  getConstantString() ;
             }
         }
     }
@@ -555,6 +605,10 @@ public class TAttribute implements NameChecker.NamedElement, NameChecker.NameSta
             return 1;
         }
 
+        if (isConstant() != a.isConstant()) {
+            return 1;
+        }
+
         if (getType() != a.getType()) {
             return 1;
         }
@@ -574,7 +628,7 @@ public class TAttribute implements NameChecker.NamedElement, NameChecker.NameSta
     }
 
     public TAttribute makeClone() {
-        TAttribute ta = new TAttribute(access, id, initialValue, type, typeOther);
+        TAttribute ta = new TAttribute(isConstant, access, id, initialValue, type, typeOther);
         ta.isAvatar = isAvatar;
         return ta;
     }

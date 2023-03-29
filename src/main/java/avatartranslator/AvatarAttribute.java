@@ -57,6 +57,7 @@ public class AvatarAttribute extends AvatarLeftHand implements NameChecker.NameS
     // Types of parameters
     private AvatarType type;
     private String initialValue;
+    private boolean isConstant;
 
     private AvatarStateMachineOwner block;
 
@@ -83,6 +84,10 @@ public class AvatarAttribute extends AvatarLeftHand implements NameChecker.NameS
     public void setInitialValue(String _initialValue) {
         initialValue = _initialValue;
     }
+
+    public void setAsConstant(boolean _isConstant) {isConstant = _isConstant;}
+
+    public boolean isConstant() {return isConstant;}
 
     public boolean hasInitialValue() {
         if (getInitialValue() == null) {

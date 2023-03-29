@@ -6,11 +6,20 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
   <title>TTool help</title>
   <style>
-      code{white-space: pre-wrap;}
-      span.smallcaps{font-variant: small-caps;}
-      span.underline{text-decoration: underline;}
-      div.column{display: inline-block; vertical-align: top; width: 50%;}
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
   </style>
+  <link rel="stylesheet" href="help.css" />
   <!--[if lt IE 9]>
     <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
   <![endif]-->
@@ -19,9 +28,12 @@
 <h1 id="mapping">Mapping</h1>
 <p>The mapping consists in:</p>
 <ul>
-<li><a href="file://taskmapping.html">mapping tasks</a> to execution nodes: to CPUs, to FPGAS, to hardware accelerators (a.k.a. HwAs).</li>
-<li>mapping communication channels to communication paths built upon buses, bridges, memories.</li>
+<li><a href="file://taskmapping.html">mapping tasks</a> to execution
+nodes: to CPUs, to FPGAS, to hardware accelerators (a.k.a. HwAs).</li>
+<li>mapping communication channels to communication paths built upon
+buses, bridges, memories.</li>
 </ul>
-<p>If a user makes an incomplete mapping of communication channels, TTool automatically decides of a channel mapping.</p>
+<p>If a user makes an incomplete mapping of communication channels,
+TTool automatically decides of a channel mapping.</p>
 </body>
 </html>

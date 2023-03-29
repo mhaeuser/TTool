@@ -54,6 +54,7 @@ public class TabInfo  {
     public String[] labels;
     public String[] values;
     public List<String[]> help;
+    public String[] helpButtom;
 
     public TabInfo(String _identifier) {
         identifier = _identifier;

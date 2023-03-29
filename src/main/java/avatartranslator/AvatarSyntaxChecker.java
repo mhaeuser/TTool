@@ -83,7 +83,7 @@ public class AvatarSyntaxChecker {
     public static ArrayList<AvatarError> checkSyntaxWarnings(AvatarSpecification avspec) {
         ArrayList<AvatarError> warnings = new ArrayList<>();
 
-        warnings.addAll(checkIsolatedElements(avspec));
+        //warnings.addAll(checkIsolatedElements(avspec));
         warnings.addAll(checkNames(avspec));
 
 
@@ -553,6 +553,9 @@ public class AvatarSyntaxChecker {
         if (aa == null) {
             return -1;
         }
+
+        if (aa.isConstant()) { return -2;}
+
 
         String action = _expr.substring(index0 + 1, _expr.length()).trim();
 

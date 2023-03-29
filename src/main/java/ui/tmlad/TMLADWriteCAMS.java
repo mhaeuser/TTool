@@ -344,6 +344,7 @@ public class TMLADWriteCAMS extends TADComponentWithoutSubcomponents/* Issue #69
         tab2.labels=labels;
         tab2.values =  values;
         tab2.help = help;
+        tab2.helpButtom = new String[]{null, "cryptographicconfiguration.html", "cryptographicconfiguration.html"};
 
         List<TabInfo> tabs = new ArrayList<>();
         tabs.add(tab1);
@@ -351,7 +352,7 @@ public class TMLADWriteCAMS extends TADComponentWithoutSubcomponents/* Issue #69
 
 
         //JDialogTwoString jdts = new JDialogTwoString(frame, "Setting channel's properties", "Channel name", channelName, "Nb of samples", nbOfSamples);
-        JDialogMultiStringAndTabs jdmsat = new JDialogMultiStringAndTabs(frame, "Write in channel", tabs);
+        JDialogMultiStringAndTabs jdmsat = new JDialogMultiStringAndTabs(tdp.getMGUI(), frame, "Write in channel", tabs);
         //jdms.setSize(600, 300);
         GraphicLib.centerOnParent(jdmsat, 600, 300);
         jdmsat.setVisible(true); // blocked until dialog has been closed

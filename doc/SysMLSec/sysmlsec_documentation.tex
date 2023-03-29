@@ -334,7 +334,7 @@ Channels can be tagged with cryptographic configurations on the Security tab, wi
 
 \begin{figure*}[htbp]
 \centering
-\includegraphics[width=0.7\textwidth]{fig/channelsecurityoptions.png}
+\includegraphics[width=0.7\textwidth]{fig/channelsecurityTab.png}
 \caption{Channel security options dialog window} \label{fig:channelsec}
 \end{figure*}
 
@@ -382,15 +382,24 @@ When the option to add security operators is selected, there are multiple option
 
 \begin{figure*}[htbp]
 \centering
+\includegraphics[width=0.1\textwidth]{build/fv1_t1-svg.pdf}
+\includegraphics[width=0.7\textwidth]{build/fv_auth_check-svg.pdf}
+\includegraphics[width=0.1\textwidth]{build/fv1_t2-svg.pdf}
+\caption{Functional View with authenticity check} \label{fig:fv1AuthCheck}
+\end{figure*}
+
+\begin{figure*}[htbp]
+\centering
 \includegraphics[width=0.2\textwidth]{build/autogen_t1-svg.pdf}
 \includegraphics[width=0.4\textwidth]{build/autogen_fv-svg.pdf}
 \includegraphics[width=0.2\textwidth]{build/autogen_t2-svg.pdf}
 \caption{Functional view with automatically generated security operators to ensure weak authenticity} \label{fig:secfv1}
 \end{figure*}
   
-  For example, using the insecure architecture and functional model from Figure \ref{fig:fv1} and \ref{fig:mapping1}, if the communication channel is marked that it should be authentic, and if we choose to ensure weak authenticity only, then the toolkit generates the functional model shown in Figure \ref{fig:secfv1}. The Message Authentication Code concatenated onto the message can only be calculated with the given key and message, and if T2 detects that they do not match, then it discards the message as it was not an authentic message sent by T1.
+  For example, using the insecure architecture and functional model with authenticity check from Figure \ref{fig:fv1AuthCheck} and \ref{fig:mapping1}, if the communication channel is marked that it should be authentic, and if we choose to ensure weak authenticity only, then the toolkit generates the functional model shown in Figure \ref{fig:secfv1}. The Message Authentication Code concatenated onto the message can only be calculated with the given key and message, and if T2 detects that they do not match, then it discards the message as it was not an authentic message sent by T1.
   
   If instead we chose to add weak and strong authenticity, then the tasks should exchange a nonce to avoid replay attacks, and the functional model in Figure \ref{fig:secfv2} is generated. 
+
 
 \begin{figure*}[htbp]
 \centering
@@ -416,7 +425,7 @@ For example, using the model in our example, chose to ensure confidentiality, an
 
 \begin{figure*}[htbp]
 \centering
-\includegraphics[width=0.99\textwidth]{build/hsmfunc-svg.pdf}
+\includegraphics[width=0.99\textwidth]{build/hsm_fv-svg.pdf}
 \caption{Functional Model with added Hardware Security Module Tasks} \label{fig:hsmfunc}
 \end{figure*}
 
@@ -430,8 +439,8 @@ For example, using the model in our example, chose to ensure confidentiality, an
 
 \begin{figure*}[htbp]
 \centering
-\includegraphics[width=0.4\textwidth]{build/hsmt1-svg.pdf}
-\includegraphics[width=0.4\textwidth]{build/hsmact-svg.pdf}
+\includegraphics[width=0.33\textwidth]{build/hsm_ad_t1-svg.pdf}
+\includegraphics[width=0.4\textwidth]{build/hsm_ad_hsm_cpu1-svg.pdf}
 \caption{Modified Activity Diagram of T1 and HSM} \label{fig:hsmt1act}
 \end{figure*}
 
@@ -440,7 +449,7 @@ For example, using the model in our example, chose to ensure confidentiality, an
 
 \subsubsection{Mapping Keys}
 
-With multiple Cryptographic Configurations, it may become tedious to the map all of the keys to memory. Our toolkit therefore can find every Cryptographic Configuration used by a task, and then, depending on the type of the Cryptographic Configuration, map each applicable key to a memory that the task can securely access. For Cryptographic Configurations of type symmetric encryption or MAC, both the sending and receiving task will need to be able to access the key. For asymmetric encryption, however, all the sending tasks will need the public key while only the receiving task will need to access the private key. 
+With multiple Cryptographic Configurations, it may become tedious to map all of the keys to memory. Our toolkit therefore can find every Cryptographic Configuration used by a task, and then, depending on the type of the Cryptographic Configuration, map each applicable key to a memory that the task can securely access. For Cryptographic Configurations of type symmetric encryption or MAC, both the sending and receiving task will need to be able to access the key. For asymmetric encryption, however, all the sending tasks will need the public key while only the receiving task will need to access the private key. 
 
 At every security generation, keys are automatically generated and mapped securely. There is also the option to add keys alone after completing a design by hand.
 

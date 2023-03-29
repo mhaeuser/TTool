@@ -58,21 +58,16 @@ public class AvatarDesignPanelTranslator {
     private final AvatarDesignPanel adp;
     private final List<CheckingError> checkingErrors, warnings;
     private final CorrespondanceTGElement listE; // usual list
-    //protected CorrespondanceTGElement listB; // list for particular element -> first element of group of blocks
-    //protected List <TDiagramPanel> panels;
+
     private Map<String, List<TAttribute>> typeAttributesMap;
     private Map<String, String> nameTypeMap;
 
     public AvatarDesignPanelTranslator(AvatarDesignPanel _adp) {
         adp = _adp;
-        //   reinit();
-        // }
-
-        //public void reinit() {
         checkingErrors = new LinkedList<CheckingError>();
         warnings = new LinkedList<CheckingError>();
         listE = new CorrespondanceTGElement();
-        //panels = new LinkedList <TDiagramPanel>();
+
     }
 
     public List<CheckingError> getErrors() {
@@ -89,16 +84,17 @@ public class AvatarDesignPanelTranslator {
 
     public AvatarSpecification generateAvatarSpecification(List<AvatarBDStateMachineOwner> _blocks) {
         List<AvatarBDBlock> blocks = new LinkedList<AvatarBDBlock>();
-        //	List<AvatarBDInterface> interfaces = new LinkedList<AvatarBDInterface>();
         List<AvatarBDLibraryFunction> libraryFunctions = new LinkedList<AvatarBDLibraryFunction>();
 
         for (AvatarBDStateMachineOwner owner : _blocks)
             if (owner instanceof AvatarBDBlock)
                 blocks.add((AvatarBDBlock) owner);
-                //  else if (owner instanceof AvatarBDInterface)
-                //        interfaces.add((AvatarBDInterface) owner);
-            else
+            else if (owner instanceof AvatarBDLibraryFunction)
                 libraryFunctions.add((AvatarBDLibraryFunction) owner);
+            else {
+                CheckingError ce = new CheckingError(CheckingError.STRUCTURE_ERROR, owner.getOwnerName() + " is not a supported type");
+                addCheckingError(ce);
+            }
 
         AvatarSpecification as = new AvatarSpecification("avatarspecification", adp);
 
@@ -121,7 +117,6 @@ public class AvatarDesignPanelTranslator {
         //TraceManager.addDev("Removing else guards");
         as.removeElseGuards();
 
-
         // Checking integer values
         ArrayList<AvatarElement> listOfBadInt = AvatarSyntaxChecker.useOfInvalidUPPAALNumericalValues(as, AvatarSpecification.UPPAAL_MAX_INT);
         // Adding warnings for each element
@@ -136,44 +131,44 @@ public class AvatarDesignPanelTranslator {
             addWarning(ce);
         }
 
-        //TraceManager.addDev("Removing else guards ... done");
-        //System.out.println(as.toString());
-
-        ArrayList<AvatarError> list = AvatarSyntaxChecker.checkSyntaxErrors(as);
-        for (AvatarError ar : list) {
-            UICheckingError ce = new UICheckingError(CheckingError.STRUCTURE_ERROR, AvatarError.errorStrings[ar.error]);
-            ce.setTDiagramPanel(adp.getAvatarBDPanel());
-            Object o = ar.firstAvatarElement.getReferenceObject();
-            if (o instanceof TGComponent) {
-                ce.setTGComponent((TGComponent) o);
-                ce.setTDiagramPanel(((TGComponent) o).getTDiagramPanel());
+        if (checkingErrors.size() == 0) {
+            ArrayList<AvatarError> list = AvatarSyntaxChecker.checkSyntaxErrors(as);
+            for (AvatarError ar : list) {
+                UICheckingError ce = new UICheckingError(CheckingError.STRUCTURE_ERROR, AvatarError.errorStrings[ar.error]);
+                ce.setTDiagramPanel(adp.getAvatarBDPanel());
+                Object o = ar.firstAvatarElement.getReferenceObject();
+                if (o instanceof TGComponent) {
+                    ce.setTGComponent((TGComponent) o);
+                    ce.setTDiagramPanel(((TGComponent) o).getTDiagramPanel());
+                }
+                addCheckingError(ce);
             }
-            addWarning(ce);
-        }
 
-        ArrayList<AvatarError> listW = AvatarSyntaxChecker.checkSyntaxWarnings(as);
-        for (AvatarError ar : listW) {
-            UICheckingError ce;
-            if (ar.firstAvatarElement != null) {
-                if (ar.secondAvatarElement == null) {
-                    ce = new UICheckingError(CheckingError.BEHAVIOR_ERROR,
-                            AvatarError.errorStrings[ar.error] + ": " + ar.firstAvatarElement.getName());
+
+            ArrayList<AvatarError> listW = AvatarSyntaxChecker.checkSyntaxWarnings(as);
+            for (AvatarError ar : listW) {
+                UICheckingError ce;
+                if (ar.firstAvatarElement != null) {
+                    if (ar.secondAvatarElement == null) {
+                        ce = new UICheckingError(CheckingError.BEHAVIOR_ERROR,
+                                AvatarError.errorStrings[ar.error] + ": " + ar.firstAvatarElement.getName());
+                    } else {
+                        ce = new UICheckingError(CheckingError.BEHAVIOR_ERROR,
+                                AvatarError.errorStrings[ar.error] + ": " +
+                                        ar.firstAvatarElement.getName() + " / " + ar.secondAvatarElement.getName());
+                    }
                 } else {
                     ce = new UICheckingError(CheckingError.BEHAVIOR_ERROR,
-                            AvatarError.errorStrings[ar.error] + ": " +
-                                    ar.firstAvatarElement.getName() + " / " + ar.secondAvatarElement.getName());
+                            AvatarError.errorStrings[ar.error]);
                 }
-            } else {
-                ce = new UICheckingError(CheckingError.BEHAVIOR_ERROR,
-                        AvatarError.errorStrings[ar.error]);
+                ce.setTDiagramPanel(adp.getAvatarBDPanel());
+                Object o = ar.firstAvatarElement.getReferenceObject();
+                if (o instanceof TGComponent) {
+                    ce.setTGComponent((TGComponent) o);
+                    ce.setTDiagramPanel(((TGComponent) o).getTDiagramPanel());
+                }
+                addWarning(ce);
             }
-            ce.setTDiagramPanel(adp.getAvatarBDPanel());
-            Object o = ar.firstAvatarElement.getReferenceObject();
-            if (o instanceof TGComponent) {
-                ce.setTGComponent((TGComponent) o);
-                ce.setTDiagramPanel(((TGComponent) o).getTDiagramPanel());
-            }
-            addWarning(ce);
         }
 
         adp.abdp.repaint();
@@ -368,7 +363,8 @@ public class AvatarDesignPanelTranslator {
         }
 
         if (id2.size() == 0) {
-            UICheckingError ce = new UICheckingError(CheckingError.STRUCTURE_ERROR, "Cannot find checkable state " + block2 + "." + state2 + " in pragma");
+            UICheckingError ce = new UICheckingError(CheckingError.STRUCTURE_ERROR, "Cannot find checkable state " + block2 + "." + state2
+                    + " in pragma");
             ce.setTDiagramPanel(adp.getAvatarBDPanel());
             ce.setTGComponent(tgc);
             addWarning(ce);
@@ -540,7 +536,8 @@ public class AvatarDesignPanelTranslator {
                 return false;
             }
         } else if (header.equals("E[]") || header.equals("E<>") || header.equals("A[]") || header.equals("A<>")) {
-            String state = _pragma.replace("E[]", "").replace("A[]", "").replace("E<>", "").replace("A<>", "").replaceAll(" ", "");
+            String state = _pragma.replace("E[]", "").replace("A[]", "")
+                    .replace("E<>", "").replace("A<>", "").replaceAll(" ", "");
             state = state.trim();
             // if (!state.contains("||") && !state.contains("&&")){
             if (!statementParser(state, as, _pragma, tgc)) {
@@ -550,7 +547,8 @@ public class AvatarDesignPanelTranslator {
 
 
         } else {
-            UICheckingError ce = new UICheckingError(CheckingError.STRUCTURE_ERROR, "Pragma " + _pragma + " cannot be parsed: wrong or missing CTL header");
+            UICheckingError ce = new UICheckingError(CheckingError.STRUCTURE_ERROR, "Pragma " + _pragma +
+                    " cannot be parsed: wrong or missing CTL header");
             ce.setTDiagramPanel(adp.getAvatarBDPanel());
             ce.setTGComponent(tgc);
             addWarning(ce);
@@ -586,190 +584,6 @@ public class AvatarDesignPanelTranslator {
         } else {
             return true;
         }
-
-        //Divide into simple statements
-
-//        String[] split = state.split("[|&]+");
-//        //     System.out.println("split " + split[0]);
-//        if (split.length > 1) {
-//            boolean validity = true;
-//            for (String fragment : split) {
-//                if (fragment.length() > 2) {
-//                    validity = validity && statementParser(fragment, as, _pragma, tgc);
-//                }
-//            }
-//            return validity;
-//        }
-//        String number = "[0-9]+";
-//        String bo = "(?i)true|false";
-//        if (state.contains("=") || state.contains("<") || state.contains(">")) {
-//            String state1 = state.split("==|>(=)?|!=|<(=)?")[0];
-//            String state2 = state.split("==|>(=)?|!=|<(=)?")[1];
-//            if (!state1.contains(".")) {
-//                UICheckingError ce = new UICheckingError(CheckingError.STRUCTURE_ERROR, "Pragma " + _pragma + " cannot be parsed: missing '.'");
-//                ce.setTDiagramPanel(adp.getAvatarBDPanel());
-//                ce.setTGComponent(tgc);
-//                addWarning(ce);
-//
-//                TraceManager.addDev("Safety Pragma " + _pragma + " cannot be parsed: missing '.'");
-//                return false;
-//            }
-//
-//            String block1 = state1.split("\\.", 2)[0];
-//            String attr1 = state1.split("\\.", 2)[1];
-//            if (attr1.contains(".")) {
-//                UICheckingError ce = new UICheckingError(CheckingError.STRUCTURE_ERROR, "Complex UPPAAL Pragma attribute " + attr1 + " must contain __ and not .");
-//                ce.setTDiagramPanel(adp.getAvatarBDPanel());
-//                ce.setTGComponent(tgc);
-//                addWarning(ce);
-//
-//                TraceManager.addDev("Complex Safety Pragma attribute " + attr1 + " must contain __ and not .");
-//                return false;
-//            }
-//
-//            attr1 = attr1.replace(".", "__");
-//            AvatarType p1Type = AvatarType.UNDEFINED;
-//            AvatarBlock bl1 = as.getBlockWithName(block1);
-//            if (bl1 != null) {
-//                //AvatarStateMachine asm = bl1.getStateMachine();
-//                if (bl1.getIndexOfAvatarAttributeWithName(attr1) == -1) {
-//                    UICheckingError ce = new UICheckingError(CheckingError.STRUCTURE_ERROR, "UPPAAL Pragma " + _pragma + " contains invalid attribute name " + attr1);
-//                    ce.setTDiagramPanel(adp.getAvatarBDPanel());
-//                    ce.setTGComponent(tgc);
-//                    addWarning(ce);
-//                    TraceManager.addDev("Safety Pragma " + _pragma + " contains invalid attribute name " + attr1);
-//                    return false;
-//                } else {
-//                    int ind = bl1.getIndexOfAvatarAttributeWithName(attr1);
-//                    AvatarAttribute attr = bl1.getAttribute(ind);
-//                    p1Type = attr.getType();
-//                }
-//            } else {
-//                UICheckingError ce = new UICheckingError(CheckingError.STRUCTURE_ERROR, "UPPAAL Pragma " + _pragma + " contains invalid block name " + block1);
-//                ce.setTDiagramPanel(adp.getAvatarBDPanel());
-//                ce.setTGComponent(tgc);
-//                addWarning(ce);
-//                TraceManager.addDev("Safety Pragma " + _pragma + " contains invalid block name " + block1);
-//                return false;
-//            }
-//
-//
-//            if (state2.contains(".")) {
-//                String block2 = state2.split("\\.", 2)[0];
-//                String attr2 = state2.split("\\.", 2)[1];
-//                if (attr2.contains(".")) {
-//                    UICheckingError ce = new UICheckingError(CheckingError.STRUCTURE_ERROR, "Complex UPPAAL Pragma attribute " + attr2 + " must contain __ and not .");
-//                    ce.setTDiagramPanel(adp.getAvatarBDPanel());
-//                    ce.setTGComponent(tgc);
-//                    addWarning(ce);
-//                    TraceManager.addDev("Complex Safety Pragma attribute " + attr2 + " must contain __ and not .");
-//                    return false;
-//                }
-//
-//                AvatarBlock bl2 = as.getBlockWithName(block2);
-//                if (bl2 != null) {
-//                    if (bl2.getIndexOfAvatarAttributeWithName(attr2) == -1) {
-//                        UICheckingError ce = new UICheckingError(CheckingError.STRUCTURE_ERROR, "UPPAAL Pragma " + _pragma + " contains invalid attribute name " + attr2);
-//                        ce.setTDiagramPanel(adp.getAvatarBDPanel());
-//                        ce.setTGComponent(tgc);
-//                        addWarning(ce);
-//                        TraceManager.addDev("Safety Pragma " + _pragma + " contains invalid attribute name " + attr2);
-//                        return false;
-//                    }
-//                    int ind = bl2.getIndexOfAvatarAttributeWithName(attr2);
-//                    AvatarAttribute attr = bl2.getAttribute(ind);
-//                    p1Type = attr.getType();
-//
-//                } else {
-//                    UICheckingError ce = new UICheckingError(CheckingError.STRUCTURE_ERROR, "Safety Pragma " + _pragma + " contains invalid block name " + block2);
-//                    ce.setTDiagramPanel(adp.getAvatarBDPanel());
-//                    ce.setTGComponent(tgc);
-//                    addWarning(ce);
-//                    TraceManager.addDev("Safety Pragma " + _pragma + " contains invalid block name " + block2);
-//                    return false;
-//                }
-//            } else {
-//                if (state2.matches(number)) {
-//                    if (p1Type != AvatarType.INTEGER) {
-//                        UICheckingError ce = new UICheckingError(CheckingError.STRUCTURE_ERROR, "UPPAAL Pragma " + _pragma + " has incompatible types");
-//                        ce.setTDiagramPanel(adp.getAvatarBDPanel());
-//                        ce.setTGComponent(tgc);
-//                        addWarning(ce);
-//                        TraceManager.addDev("Safety Pragma " + _pragma + " has incompatible types");
-//                        return false;
-//                    }
-//                } else if (state2.matches(bo)) {
-//                    if (p1Type != AvatarType.BOOLEAN) {
-//                        UICheckingError ce = new UICheckingError(CheckingError.STRUCTURE_ERROR, "UPPAAL Pragma " + _pragma + " has incompatible types");
-//                        ce.setTDiagramPanel(adp.getAvatarBDPanel());
-//                        ce.setTGComponent(tgc);
-//                        addWarning(ce);
-//                        TraceManager.addDev("Safety Pragma " + _pragma + " has incompatible types");
-//                        return false;
-//                    }
-//                } else {
-//                    UICheckingError ce = new UICheckingError(CheckingError.STRUCTURE_ERROR, "UPPAAL Pragma " + _pragma + " cannot be parsed");
-//                    ce.setTDiagramPanel(adp.getAvatarBDPanel());
-//                    ce.setTGComponent(tgc);
-//                    addWarning(ce);
-//                    TraceManager.addDev("Safety Pragma " + _pragma + " cannot be parsed");
-//                    return false;
-//                }
-//            }
-//        } else {
-//            if (!state.contains(".")) {
-//                UICheckingError ce = new UICheckingError(CheckingError.STRUCTURE_ERROR, "Safety Pragma " + _pragma + " cannot be parsed: missing '.'");
-//                ce.setTDiagramPanel(adp.getAvatarBDPanel());
-//                ce.setTGComponent(tgc);
-//                addWarning(ce);
-//                TraceManager.addDev("UPPAAL Pragma " + _pragma + " improperly formatted");
-//                return false;
-//            }
-//            String block1 = state.split("\\.", 2)[0];
-//            String attr1 = state.split("\\.", 2)[1];
-//            if (attr1.contains(".")) {
-//                UICheckingError ce = new UICheckingError(CheckingError.STRUCTURE_ERROR, "Complex Safety Pragma attribute " + attr1 + " must contain __ and not .");
-//                ce.setTDiagramPanel(adp.getAvatarBDPanel());
-//                ce.setTGComponent(tgc);
-//                addWarning(ce);
-//                TraceManager.addDev("Complex Safety Pragma attribute " + attr1 + " must contain __ and not .");
-//                return false;
-//            }
-//            AvatarBlock bl1 = as.getBlockWithName(block1);
-//            if (bl1 != null) {
-//                AvatarStateMachine asm = bl1.getStateMachine();
-//                if (bl1.getIndexOfAvatarAttributeWithName(attr1) == -1 && asm.getStateWithName(attr1) == null) {
-//                    UICheckingError ce = new UICheckingError(CheckingError.STRUCTURE_ERROR, "UPPAAL Pragma " + _pragma + " contains invalid attribute or state name " + attr1);
-//                    ce.setTDiagramPanel(adp.getAvatarBDPanel());
-//                    ce.setTGComponent(tgc);
-//                    addWarning(ce);
-//
-//                    TraceManager.addDev("Safety Pragma " + _pragma + " contains invalid attribute or state name " + attr1);
-//                    return false;
-//                }
-//
-//                int ind = bl1.getIndexOfAvatarAttributeWithName(attr1);
-//                if (ind != -1) {
-//                    AvatarAttribute attr = bl1.getAttribute(ind);
-//                    if (attr.getType() != AvatarType.BOOLEAN) {
-//                        UICheckingError ce = new UICheckingError(CheckingError.STRUCTURE_ERROR, "UPPAAL Pragma " + _pragma + " performs query on non-boolean attribute");
-//                        ce.setTDiagramPanel(adp.getAvatarBDPanel());
-//                        ce.setTGComponent(tgc);
-//                        addWarning(ce);
-//                        TraceManager.addDev("Safety Pragma " + _pragma + " performs query on non-boolean attribute");
-//                        return false;
-//                    }
-//                }
-//            } else {
-//                UICheckingError ce = new UICheckingError(CheckingError.STRUCTURE_ERROR, "UPPAAL Pragma " + _pragma + " contains invalid block name " + block1);
-//                ce.setTDiagramPanel(adp.getAvatarBDPanel());
-//                ce.setTGComponent(tgc);
-//                addWarning(ce);
-//                TraceManager.addDev("Safety Pragma " + _pragma + " contains invalid block name " + block1);
-//                return false;
-//            }
-//        }
-//        return true;
     }
 
     private int statementParserRec(String state, AvatarSpecification as, String _pragma, TGComponent tgc) {
@@ -798,7 +612,8 @@ public class AvatarDesignPanelTranslator {
 
             if (state.equals("true") || state.equals("false")) {
                 if (isNegated) {
-                    UICheckingError ce = new UICheckingError(CheckingError.STRUCTURE_ERROR, "Safety Pragma " + _pragma + " negation of a boolean value");
+                    UICheckingError ce = new UICheckingError(CheckingError.STRUCTURE_ERROR, "Safety Pragma " + _pragma +
+                            " negation of a boolean value");
                     ce.setTDiagramPanel(adp.getAvatarBDPanel());
                     ce.setTGComponent(tgc);
                     addWarning(ce);
@@ -808,7 +623,8 @@ public class AvatarDesignPanelTranslator {
                 return 0;
             } else if (state.matches("-?\\d+")) {
                 if (isNot) {
-                    UICheckingError ce = new UICheckingError(CheckingError.STRUCTURE_ERROR, "Safety Pragma " + _pragma + " not of an integer value");
+                    UICheckingError ce = new UICheckingError(CheckingError.STRUCTURE_ERROR, "Safety Pragma " + _pragma +
+                            " not of an integer value");
                     ce.setTDiagramPanel(adp.getAvatarBDPanel());
                     ce.setTGComponent(tgc);
                     addWarning(ce);
@@ -818,7 +634,8 @@ public class AvatarDesignPanelTranslator {
                 return 1;
             } else {
                 if (!state.contains(".")) {
-                    UICheckingError ce = new UICheckingError(CheckingError.STRUCTURE_ERROR, "Safety Pragma " + _pragma + " cannot be parsed: missing '.'");
+                    UICheckingError ce = new UICheckingError(CheckingError.STRUCTURE_ERROR, "Safety Pragma " + _pragma +
+                            " cannot be parsed: missing '.'");
                     ce.setTDiagramPanel(adp.getAvatarBDPanel());
                     ce.setTGComponent(tgc);
                     addWarning(ce);
@@ -828,7 +645,8 @@ public class AvatarDesignPanelTranslator {
                 String block = state.split("\\.", 2)[0];
                 String attr = state.split("\\.", 2)[1];
                 if (attr.contains(".")) {
-                    UICheckingError ce = new UICheckingError(CheckingError.STRUCTURE_ERROR, "Complex Safety Pragma attribute " + attr + " must contain __ and not .");
+                    UICheckingError ce = new UICheckingError(CheckingError.STRUCTURE_ERROR, "Complex Safety Pragma attribute " + attr +
+                            " must contain __ and not .");
                     ce.setTDiagramPanel(adp.getAvatarBDPanel());
                     ce.setTGComponent(tgc);
                     addWarning(ce);
@@ -839,7 +657,8 @@ public class AvatarDesignPanelTranslator {
                 if (bl != null) {
                     AvatarStateMachine asm = bl.getStateMachine();
                     if (bl.getIndexOfAvatarAttributeWithName(attr) == -1 && asm.getStateWithName(attr) == null) {
-                        UICheckingError ce = new UICheckingError(CheckingError.STRUCTURE_ERROR, "UPPAAL Pragma " + _pragma + " contains invalid attribute or state name " + attr);
+                        UICheckingError ce = new UICheckingError(CheckingError.STRUCTURE_ERROR, "UPPAAL Pragma " + _pragma +
+                                " contains invalid attribute or state name " + attr);
                         ce.setTDiagramPanel(adp.getAvatarBDPanel());
                         ce.setTGComponent(tgc);
                         addWarning(ce);
@@ -861,7 +680,8 @@ public class AvatarDesignPanelTranslator {
                         return 0;
                     }
                 } else {
-                    UICheckingError ce = new UICheckingError(CheckingError.STRUCTURE_ERROR, "UPPAAL Pragma " + _pragma + " contains invalid block name " + block);
+                    UICheckingError ce = new UICheckingError(CheckingError.STRUCTURE_ERROR, "UPPAAL Pragma " + _pragma +
+                            " contains invalid block name " + block);
                     ce.setTDiagramPanel(adp.getAvatarBDPanel());
                     ce.setTGComponent(tgc);
                     addWarning(ce);
@@ -911,7 +731,8 @@ public class AvatarDesignPanelTranslator {
                 return -1;
             case 1:
                 if (!(optypel == 1 && optyper == 1)) {
-                    ce = new UICheckingError(CheckingError.STRUCTURE_ERROR, "UPPAAL Pragma " + _pragma + " expected integer attributes around " + operator);
+                    ce = new UICheckingError(CheckingError.STRUCTURE_ERROR, "UPPAAL Pragma " + _pragma +
+                            " expected integer attributes around " + operator);
                     ce.setTDiagramPanel(adp.getAvatarBDPanel());
                     ce.setTGComponent(tgc);
                     addWarning(ce);
@@ -922,7 +743,8 @@ public class AvatarDesignPanelTranslator {
                 break;
             case 0:
                 if (!(optypel == 0 && optyper == 0)) {
-                    ce = new UICheckingError(CheckingError.STRUCTURE_ERROR, "UPPAAL Pragma " + _pragma + " expected boolean attributes around " + operator);
+                    ce = new UICheckingError(CheckingError.STRUCTURE_ERROR, "UPPAAL Pragma " + _pragma +
+                            " expected boolean attributes around " + operator);
                     ce.setTDiagramPanel(adp.getAvatarBDPanel());
                     ce.setTGComponent(tgc);
                     addWarning(ce);
@@ -933,7 +755,8 @@ public class AvatarDesignPanelTranslator {
                 break;
             case 3:
                 if (optypel != optyper) {
-                    ce = new UICheckingError(CheckingError.STRUCTURE_ERROR, "UPPAAL Pragma " + _pragma + " has incompatible types around " + operator);
+                    ce = new UICheckingError(CheckingError.STRUCTURE_ERROR, "UPPAAL Pragma " + _pragma +
+                            " has incompatible types around " + operator);
                     ce.setTDiagramPanel(adp.getAvatarBDPanel());
                     ce.setTGComponent(tgc);
                     addWarning(ce);
@@ -1210,7 +1033,7 @@ public class AvatarDesignPanelTranslator {
         return optype;
     }
 
-    private AvatarAttribute createRegularAttribute(AvatarStateMachineOwner _ab, TAttribute _a, String _preName) {
+    private AvatarAttribute createRegularAttribute(AvatarStateMachineOwner _ab, TAttribute _a, String _preName, TAttribute originAttribute) {
         AvatarType type = AvatarType.UNDEFINED;
         if (_a.getType() == TAttribute.INTEGER) {
             type = AvatarType.INTEGER;
@@ -1223,16 +1046,21 @@ public class AvatarDesignPanelTranslator {
         }
         AvatarAttribute aa = new AvatarAttribute(_preName + _a.getId(), type, _ab, _a);
         aa.setInitialValue(_a.getInitialValue());
+        aa.setAsConstant(_a.isConstant());
+
+        if ( (originAttribute != null) && (originAttribute.isConstant()) ) {
+            aa.setAsConstant(true);
+        }
 
         return aa;
     }
 
-    private void addRegularAttribute(AvatarBlock _ab, TAttribute _a, String _preName) {
-        _ab.addAttribute(this.createRegularAttribute(_ab, _a, _preName));
+    private void addRegularAttribute(AvatarBlock _ab, TAttribute _a, String _preName, TAttribute originAttribute) {
+        _ab.addAttribute(this.createRegularAttribute(_ab, _a, _preName, originAttribute));
     }
 
-    private void addRegularAttributeInterface(AvatarAMSInterface _ai, TAttribute _a, String _preName) {
-        _ai.addAttribute(this.createRegularAttribute(_ai, _a, _preName));
+    private void addRegularAttributeInterface(AvatarAMSInterface _ai, TAttribute _a, String _preName, TAttribute originAttribute) {
+        _ai.addAttribute(this.createRegularAttribute(_ai, _a, _preName, originAttribute));
     }
 
     private void createLibraryFunctions(AvatarSpecification _as, List<AvatarBDLibraryFunction> _libraryFunctions) {
@@ -1248,26 +1076,28 @@ public class AvatarDesignPanelTranslator {
                         || attr.getType() == TAttribute.NATURAL
                         || attr.getType() == TAttribute.BOOLEAN
                         || attr.getType() == TAttribute.TIMER)
-                    alf.addParameter(this.createRegularAttribute(alf, attr, ""));
+                    alf.addParameter(this.createRegularAttribute(alf, attr, "", null));
                 else {
                     // other
                     List<TAttribute> types = adp.getAvatarBDPanel().getAttributesOfDataType(attr.getTypeOther());
                     if (types == null) {
-                        UICheckingError ce = new UICheckingError(CheckingError.STRUCTURE_ERROR, "Unknown data type:  " + attr.getTypeOther() + " used in " + alf.getName());
+                        UICheckingError ce = new UICheckingError(CheckingError.STRUCTURE_ERROR, "Unknown data type:  " +
+                                attr.getTypeOther() + " used in " + alf.getName());
                         // TODO: adapt
                         ce.setTDiagramPanel(adp.getAvatarBDPanel());
                         addCheckingError(ce);
                         return;
                     } else {
                         if (types.isEmpty()) {
-                            UICheckingError ce = new UICheckingError(CheckingError.STRUCTURE_ERROR, "Data type definition must contain at least one attribute:  " + alf.getName());
+                            UICheckingError ce = new UICheckingError(CheckingError.STRUCTURE_ERROR,
+                                    "Data type definition must contain at least one attribute:  " + alf.getName());
                             ce.setTDiagramPanel(adp.getAvatarBDPanel());
                             addCheckingError(ce);
                         } else {
                             nameTypeMap.put(libraryFunction.getFunctionName() + "." + attr.getId(), attr.getTypeOther());
                             typeAttributesMap.put(attr.getTypeOther(), types);
                             for (TAttribute type : types)
-                                alf.addParameter(this.createRegularAttribute(alf, type, attr.getId() + "__"));
+                                alf.addParameter(this.createRegularAttribute(alf, type, attr.getId() + "__", attr));
                         }
                     }
                 }
@@ -1278,25 +1108,27 @@ public class AvatarDesignPanelTranslator {
                         || attr.getType() == TAttribute.NATURAL
                         || attr.getType() == TAttribute.BOOLEAN
                         || attr.getType() == TAttribute.TIMER)
-                    alf.addReturnAttribute(this.createRegularAttribute(alf, attr, ""));
+                    alf.addReturnAttribute(this.createRegularAttribute(alf, attr, "", null));
                 else {
                     // other
                     List<TAttribute> types = adp.getAvatarBDPanel().getAttributesOfDataType(attr.getTypeOther());
                     if (types == null) {
-                        UICheckingError ce = new UICheckingError(CheckingError.STRUCTURE_ERROR, "Unknown data type:  " + attr.getTypeOther() + " used in " + alf.getName());
+                        UICheckingError ce = new UICheckingError(CheckingError.STRUCTURE_ERROR, "Unknown data type:  " +
+                                attr.getTypeOther() + " used in " + alf.getName());
                         ce.setTDiagramPanel(adp.getAvatarBDPanel());
                         addCheckingError(ce);
                         return;
                     } else {
                         if (types.isEmpty()) {
-                            UICheckingError ce = new UICheckingError(CheckingError.STRUCTURE_ERROR, "Data type definition must contain at least one attribute:  " + alf.getName());
+                            UICheckingError ce = new UICheckingError(CheckingError.STRUCTURE_ERROR,
+                                    "Data type definition must contain at least one attribute:  " + alf.getName());
                             ce.setTDiagramPanel(adp.getAvatarBDPanel());
                             addCheckingError(ce);
                         } else {
                             nameTypeMap.put(libraryFunction.getFunctionName() + "." + attr.getId(), attr.getTypeOther());
                             typeAttributesMap.put(attr.getTypeOther(), types);
                             for (TAttribute type : types)
-                                alf.addReturnAttribute(this.createRegularAttribute(alf, type, attr.getId() + "__"));
+                                alf.addReturnAttribute(this.createRegularAttribute(alf, type, attr.getId() + "__", attr));
                         }
                     }
                 }
@@ -1307,25 +1139,27 @@ public class AvatarDesignPanelTranslator {
                         || attr.getType() == TAttribute.NATURAL
                         || attr.getType() == TAttribute.BOOLEAN
                         || attr.getType() == TAttribute.TIMER)
-                    alf.addAttribute(this.createRegularAttribute(alf, attr, ""));
+                    alf.addAttribute(this.createRegularAttribute(alf, attr, "", null));
                 else {
                     // other
                     List<TAttribute> types = adp.getAvatarBDPanel().getAttributesOfDataType(attr.getTypeOther());
                     if (types == null) {
-                        UICheckingError ce = new UICheckingError(CheckingError.STRUCTURE_ERROR, "Unknown data type:  " + attr.getTypeOther() + " used in " + alf.getName());
+                        UICheckingError ce = new UICheckingError(CheckingError.STRUCTURE_ERROR, "Unknown data type:  " +
+                                attr.getTypeOther() + " used in " + alf.getName());
                         ce.setTDiagramPanel(adp.getAvatarBDPanel());
                         addCheckingError(ce);
                         return;
                     } else {
                         if (types.isEmpty()) {
-                            UICheckingError ce = new UICheckingError(CheckingError.STRUCTURE_ERROR, "Data type definition must contain at least one attribute:  " + alf.getName());
+                            UICheckingError ce = new UICheckingError(CheckingError.STRUCTURE_ERROR, "Data type definition must contain at " +
+                                    "least one attribute:  " + alf.getName());
                             ce.setTDiagramPanel(adp.getAvatarBDPanel());
                             addCheckingError(ce);
                         } else {
                             nameTypeMap.put(libraryFunction.getFunctionName() + "." + attr.getId(), attr.getTypeOther());
                             typeAttributesMap.put(attr.getTypeOther(), types);
                             for (TAttribute type : types)
-                                alf.addAttribute(this.createRegularAttribute(alf, type, attr.getId() + "__"));
+                                alf.addAttribute(this.createRegularAttribute(alf, type, attr.getId() + "__", attr));
                         }
                     }
                 }
@@ -1363,35 +1197,37 @@ public class AvatarDesignPanelTranslator {
             // Create attributes
             for (TAttribute a : block.getAttributeList()) {
                 if (a.getType() == TAttribute.INTEGER) {
-                    addRegularAttribute(ab, a, "");
+                    addRegularAttribute(ab, a, "", null);
                 } else if (a.getType() == TAttribute.NATURAL) {
-                    addRegularAttribute(ab, a, "");
+                    addRegularAttribute(ab, a, "", null);
                 } else if (a.getType() == TAttribute.BOOLEAN) {
-                    addRegularAttribute(ab, a, "");
+                    addRegularAttribute(ab, a, "", null);
                 } else if (a.getType() == TAttribute.TIMER) {
-                    addRegularAttribute(ab, a, "");
+                    addRegularAttribute(ab, a, "", null);
                 } else {
                     // other
                     // TraceManager.addDev(" -> Other type found: " + a.getTypeOther());
                     List<TAttribute> types = adp.getAvatarBDPanel().getAttributesOfDataType(a.getTypeOther());
                     if (types == null) {
-                        UICheckingError ce = new UICheckingError(CheckingError.STRUCTURE_ERROR, "Unknown data type:  " + a.getTypeOther() + " used in " + ab.getName());
+                        UICheckingError ce = new UICheckingError(CheckingError.STRUCTURE_ERROR, "Unknown data type:  " + a.getTypeOther()
+                                + " used in " + ab.getName());
                         ce.setTDiagramPanel(adp.getAvatarBDPanel());
                         addCheckingError(ce);
                         return;
                     } else {
                         if (types.size() == 0) {
-                            UICheckingError ce = new UICheckingError(CheckingError.STRUCTURE_ERROR, "Data type definition must contain at least one attribute:  " + ab.getName());
+                            UICheckingError ce = new UICheckingError(CheckingError.STRUCTURE_ERROR,
+                                    "Data type definition must contain at least one attribute:  " + ab.getName());
                             ce.setTDiagramPanel(adp.getAvatarBDPanel());
                             addCheckingError(ce);
                         } else {
                             nameTypeMap.put(block.getBlockName() + "." + a.getId(), a.getTypeOther());
                             typeAttributesMap.put(a.getTypeOther(), types);
-                            for (TAttribute type : types)
-                                addRegularAttribute(ab, type, a.getId() + "__");
+                            for (TAttribute type : types) {
+                                addRegularAttribute(ab, type, a.getId() + "__", a);
+                            }
                         }
                     }
-
                 }
             }
 
@@ -1619,30 +1455,44 @@ public class AvatarDesignPanelTranslator {
     }
 
     private void manageAttribute(String _name, AvatarStateMachineOwner _ab, AvatarActionOnSignal _aaos, TDiagramPanel _tdp, TGComponent _tgc,
-                                 String _idOperator) {
+                                 String _idOperator, boolean writeOperation) {
         //TraceManager.addDev("Searching for attribute:" + _name);
         TAttribute ta = adp.getAvatarBDPanel().getAttribute(_name, _ab.getName());
         if (ta == null) {
             // Must search among attributes of the created block
             AvatarAttribute aatmp = _ab.getAvatarAttributeWithName(_name);
             if (aatmp != null) {
+                if (aatmp.isConstant() && writeOperation) {
+                    UICheckingError ce = new UICheckingError(CheckingError.BEHAVIOR_ERROR, "Using constant parameter \"" + _name +
+                            "\" in a receive operation: " + _idOperator);
+                    ce.setTDiagramPanel(_tdp);
+                    ce.setTGComponent(_tgc);
+                    addCheckingError(ce);
+                    return;
+                }
                 _aaos.addValue(aatmp.getName());
                 return;
             }
 
-
-            UICheckingError ce = new UICheckingError(CheckingError.BEHAVIOR_ERROR, "Badly formed parameter: " + _name + " in signal expression: " + _idOperator);
-            // TODO: adapt
-            // ce.setAvatarBlock(_ab);
+            UICheckingError ce = new UICheckingError(CheckingError.BEHAVIOR_ERROR, "Badly formed parameter \"" + _name +
+                    "\" in signal expression: " + _idOperator);
             ce.setTDiagramPanel(_tdp);
             ce.setTGComponent(_tgc);
             addCheckingError(ce);
-            TraceManager.addDev("not found " + _name + " in block " + _ab.getName() + ". Attributes are:");
+            /*TraceManager.addDev("not found " + _name + " in block " + _ab.getName() + ". Attributes are:");
             for (AvatarAttribute aa : _ab.getAttributes()) {
                 TraceManager.addDev("\t" + aa.getName());
             }
-            TraceManager.addDev("\n");
+            TraceManager.addDev("\n");*/
             return;
+        }
+
+        if (writeOperation && ta.isConstant()) {
+            UICheckingError ce = new UICheckingError(CheckingError.BEHAVIOR_ERROR, "Using constant parameter \"" + _name +
+                    "\" in a receive operation: " + _idOperator);
+            ce.setTDiagramPanel(_tdp);
+            ce.setTGComponent(_tgc);
+            addCheckingError(ce);
         }
 
         //TraceManager.addDev("Found: " + ta.getId());
@@ -1691,7 +1541,8 @@ public class AvatarDesignPanelTranslator {
                     ((ui.AvatarSignal) atas.getReferenceObject()).attachedToARelation = false;
                 }
                 //TraceManager.addDev("Spec:" + _as.toString());
-                throw new CheckingError(CheckingError.BEHAVIOR_ERROR, "Signal used for sending " + asmdss.getValue() + " is not connected to a channel");
+                throw new CheckingError(CheckingError.BEHAVIOR_ERROR, "Signal used for sending " + asmdss.getValue() +
+                        " is not connected to a channel");
             }
             if (atas.getReferenceObject() instanceof ui.AvatarSignal) {
                 //TraceManager.addDev("Send/ Setting as attached " + atas);
@@ -1722,7 +1573,7 @@ public class AvatarDesignPanelTranslator {
                 if (tmp.isEmpty())
                     throw new CheckingError(CheckingError.BEHAVIOR_ERROR, "Empty parameter in signal expression: " + asmdss.getValue());
 
-                this.manageAttribute(tmp, _ab, aaos, tdp, asmdss, asmdss.getValue());
+                this.manageAttribute(tmp, _ab, aaos, tdp, asmdss, asmdss.getValue(), false);
             }
 
             if (aaos.getNbOfValues() != atas.getListOfAttributes().size()) {
@@ -1881,7 +1732,7 @@ public class AvatarDesignPanelTranslator {
                             || returnTA.getType() == TAttribute.TIMER) {
                         AvatarAttribute attr = _ab.getAvatarAttributeWithName(dummyName);
                         if (attr == null) {
-                            attr = this.createRegularAttribute(_ab, returnTA, "__dummy_return_attribute_");
+                            attr = this.createRegularAttribute(_ab, returnTA, "__dummy_return_attribute_", null);
                             _ab.addAttribute(attr);
                         }
                         attrs.add(attr);
@@ -1894,7 +1745,7 @@ public class AvatarDesignPanelTranslator {
                             String attributeName = dummyName + "__" + type.getId();
                             AvatarAttribute attr = _ab.getAvatarAttributeWithName(attributeName);
                             if (attr == null) {
-                                attr = this.createRegularAttribute(_ab, type, dummyName + "__");
+                                attr = this.createRegularAttribute(_ab, type, dummyName + "__", null);
                                 _ab.addAttribute(attr);
                             }
                             attrs.add(attr);
@@ -1950,7 +1801,7 @@ public class AvatarDesignPanelTranslator {
                         || returnTA.getType() == TAttribute.TIMER) {
                     AvatarAttribute attr = _ab.getAvatarAttributeWithName(dummyName);
                     if (attr == null) {
-                        attr = this.createRegularAttribute(_ab, returnTA, "__dummy_return_attribute_");
+                        attr = this.createRegularAttribute(_ab, returnTA, "__dummy_return_attribute_", null);
                         _ab.addAttribute(attr);
                     }
                     attrs.add(attr);
@@ -1963,7 +1814,7 @@ public class AvatarDesignPanelTranslator {
                         String attributeName = dummyName + "__" + type.getId();
                         AvatarAttribute attr = _ab.getAvatarAttributeWithName(attributeName);
                         if (attr == null) {
-                            attr = this.createRegularAttribute(_ab, type, dummyName + "__");
+                            attr = this.createRegularAttribute(_ab, type, dummyName + "__", null);
                             _ab.addAttribute(attr);
                         }
                         attrs.add(attr);
@@ -1982,7 +1833,8 @@ public class AvatarDesignPanelTranslator {
         asm.addElement(element);
     }
 
-    private void translateAvatarSMDReceiveSignal(TDiagramPanel tdp, AvatarSpecification _as, AvatarStateMachineOwner _ab, AvatarSMDReceiveSignal asmdrs) throws CheckingError {
+    private void translateAvatarSMDReceiveSignal(TDiagramPanel tdp, AvatarSpecification _as, AvatarStateMachineOwner _ab,
+                                                 AvatarSMDReceiveSignal asmdrs) throws CheckingError {
         AvatarStateMachine asm = _ab.getStateMachine();
         avatartranslator.AvatarSignal atas = _ab.getAvatarSignalWithName(asmdrs.getSignalName());
         if (atas == null)
@@ -1997,7 +1849,8 @@ public class AvatarDesignPanelTranslator {
                     //TraceManager.addDev("Receive/ Setting as attached " + atas);
                     ((ui.AvatarSignal) atas.getReferenceObject()).attachedToARelation = false;
                 }
-                throw new CheckingError(CheckingError.BEHAVIOR_ERROR, "Signal used for receiving " + asmdrs.getValue() + " is not connected to a channel");
+                throw new CheckingError(CheckingError.BEHAVIOR_ERROR, "Signal used for receiving " + asmdrs.getValue() +
+                        " is not connected to a channel");
             }
             if (atas.getReferenceObject() instanceof ui.AvatarSignal) {
                 //TraceManager.addDev("Receive/ Setting as attached " + atas);
@@ -2033,22 +1886,25 @@ public class AvatarDesignPanelTranslator {
                 if (tmp.isEmpty())
                     throw new CheckingError(CheckingError.BEHAVIOR_ERROR, "Empty parameter in signal expression: " + asmdrs.getValue());
 
-                this.manageAttribute(tmp, _ab, aaos, tdp, asmdrs, asmdrs.getValue());
+                this.manageAttribute(tmp, _ab, aaos, tdp, asmdrs, asmdrs.getValue(), true);
             }
 
             if (aaos.getNbOfValues() != atas.getListOfAttributes().size())
-                throw new CheckingError(CheckingError.BEHAVIOR_ERROR, "Badly formed signal receiving: " + asmdrs.getValue() + " -> nb of parameters does not match definition");
+                throw new CheckingError(CheckingError.BEHAVIOR_ERROR, "Badly formed signal receiving: " + asmdrs.getValue() +
+                        " -> nb of parameters does not match definition");
 
             // Checking expressions passed as parameter
             for (int i = 0; i < aaos.getNbOfValues(); i++) {
                 String theVal = aaos.getValue(i);
                 if (atas.getListOfAttributes().get(i).isInt()) {
                     if (AvatarSyntaxChecker.isAValidIntExpr(_as, _ab, theVal) < 0)
-                        throw new CheckingError(CheckingError.BEHAVIOR_ERROR, "Badly formed signal receiving: " + asmdrs.getValue() + " -> value at index #" + i + " does not match definition");
+                        throw new CheckingError(CheckingError.BEHAVIOR_ERROR, "Badly formed signal receiving: " + asmdrs.getValue() +
+                                " -> value at index #" + i + " does not match definition");
                 } else {
                     // We assume it is a bool attribute
                     if (AvatarSyntaxChecker.isAValidBoolExpr(_as, _ab, theVal) < 0)
-                        throw new CheckingError(CheckingError.BEHAVIOR_ERROR, "Badly formed signal receiving: " + asmdrs.getValue() + " -> value at index #" + i + " does not match definition");
+                        throw new CheckingError(CheckingError.BEHAVIOR_ERROR, "Badly formed signal receiving: " + asmdrs.getValue() +
+                                " -> value at index #" + i + " does not match definition");
                 }
             }
 
@@ -2184,7 +2040,8 @@ public class AvatarDesignPanelTranslator {
         asmdquery.setAVATARID(element.getID());
     }
 
-    private void translateAvatarSMDRandom(TDiagramPanel tdp, AvatarSpecification _as, AvatarStateMachineOwner _ab, AvatarSMDRandom asmdrand) throws CheckingError {
+    private void translateAvatarSMDRandom(TDiagramPanel tdp, AvatarSpecification _as, AvatarStateMachineOwner _ab, AvatarSMDRandom asmdrand)
+            throws CheckingError {
         AvatarStateMachine asm = _ab.getStateMachine();
 
         final AvatarStateMachineElement element;
@@ -2222,7 +2079,9 @@ public class AvatarDesignPanelTranslator {
                 this.makeError(-3, tdp, _ab, asmdrand, "random", tmp1);
                 // Checking type of variable -> must be an int
             else if (!(aa.isInt()))
-                this.makeError(error, tdp, _ab, asmdrand, ": variable of random must be of type \"int\"", tmp2);
+                this.makeError(error, tdp, _ab, asmdrand, ": variable of random must be of type \"int\"", tmp1);
+            else if (aa.isConstant())
+                this.makeError(error, tdp, _ab, asmdrand, ": variable of random must not be constant", tmp1);
 
             arandom.setVariable(tmp1);
         } else {
@@ -2467,7 +2326,7 @@ public class AvatarDesignPanelTranslator {
 
                     //TraceManager.addDev("Action before modifyStringMethodCall :" + actionText);
                     actionText = modifyStringMethodCall(actionText, block.getName());
-                    //TraceManager.addDev("Action after modifyStringMethodCall :" + actionText);
+                    TraceManager.addDev("Action after modifyStringMethodCall :" + actionText);
 
                     if (!AvatarBlock.isAValidMethodCall(block, actionText)) {
                         UICheckingError ce = new UICheckingError(CheckingError.BEHAVIOR_ERROR, "Badly formed transition method call: " + actionText);
@@ -2487,7 +2346,11 @@ public class AvatarDesignPanelTranslator {
                     error = AvatarSyntaxChecker.isAValidVariableExpr(block.getAvatarSpecification(), block, actionText);
 
                     if (error < 0) {
-                        makeError(error, connector.tdp, block, connector, "transition action", actionText);
+                        if (error == -2) {
+                            makeError(error, connector.tdp, block, connector, "action because a constant attribute is modified", actionText);
+                        } else {
+                            makeError(error, connector.tdp, block, connector, "transition action", actionText);
+                        }
                     } else {
                         //TraceManager.addDev("Adding regular action:" + actionText);
                         transition.addAction(actionText);

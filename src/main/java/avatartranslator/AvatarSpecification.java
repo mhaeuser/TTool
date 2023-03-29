@@ -1033,6 +1033,7 @@ public class AvatarSpecification extends AvatarElement {
 
     }
 
+
     public NameChecker.NamedElement[] getSubNamedElements() {
         NameChecker.NamedElement[] lne = new NameChecker.NamedElement[blocks.size()];
         int index = 0;

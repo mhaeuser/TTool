@@ -669,9 +669,9 @@ public class AvatarStateMachine extends AvatarElement {
 
 
                 if (AvatarExpressionSolver.indexOfVariable(maxExpr, var) > -1) {
-                    _block.addIntegerAttribute("tmpMaxRandom__");
-                    maxExprToBeUsed = "tmpMaxRandom__";
-                    at1.addAction("tmpMaxRandom__ = " + maxExpr);
+                    AvatarAttribute aa = _block.addIntegerAttribute("tmpMaxRandom__");
+                    maxExprToBeUsed = aa.getName();
+                    at1.addAction(aa.getName() + " = " + maxExpr);
                 } else {
                     maxExprToBeUsed = maxExpr;
                 }

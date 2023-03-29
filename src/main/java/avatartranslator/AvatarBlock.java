@@ -805,7 +805,6 @@ public class AvatarBlock extends AvatarElement implements AvatarStateMachineOwne
     public void removeConstantAttributes() {
         AvatarTransition at;
 
-
         if ((constants == null) || (constants.size() == 0)) {
             List<AvatarAttribute> newAttributes = new LinkedList<>();
             constants = new LinkedList<>();
@@ -848,6 +847,10 @@ public class AvatarBlock extends AvatarElement implements AvatarStateMachineOwne
                         if (((AvatarQueryOnSignal) elt).getAttribute().getName().compareTo(attr.name) == 0) {
                             toKeep = true;
                         }
+                    } else if (elt instanceof AvatarLibraryFunctionCall) {
+                        if ( ((AvatarLibraryFunctionCall)(elt)).getReturnAttributes().contains(attr)) {
+                            toKeep = true;
+                        }
                     }
 
 
@@ -876,7 +879,6 @@ public class AvatarBlock extends AvatarElement implements AvatarStateMachineOwne
                 if (!(asm.isTimerUsed(aa))) {
                     toBeRemoved.add(aa);
                 }
-
 
                 // Regular attribute. We have to search where it is used
             } else {

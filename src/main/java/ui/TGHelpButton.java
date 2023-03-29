@@ -123,11 +123,7 @@ public class TGHelpButton extends JButton {
         }
         //buttonClick(this, he, mgui);
         panel.add(this);
-
     }
-
-
-
 
     public void buttonClick(JButton but, HelpEntry he, MainGUI mgui) {
         //TraceManager.addDev("ADding action listener");

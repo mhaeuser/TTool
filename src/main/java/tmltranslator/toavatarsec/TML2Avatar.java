@@ -1245,6 +1245,8 @@ public class TML2Avatar {
                 }
 
                 // Add the authenticity pragma for this channel data
+                // To be removed in case another authenticity pragma is used on the channel
+                // Also, to be duplicated for each send / receive
                 if (ch.checkAuth) {
                     if (block.getAvatarAttributeWithName(getName(ch.getName()) + "_chData") == null) {
                         AvatarAttribute channelData = new AvatarAttribute(getName(ch.getName()) + "_chData", AvatarType.INTEGER, block, null);

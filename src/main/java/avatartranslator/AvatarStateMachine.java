@@ -53,9 +53,8 @@ import java.util.*;
  * @version 1.0 20/05/2010
  */
 public class AvatarStateMachine extends AvatarElement {
-    // to be used by code generator for fast access to states
+    // To be used by code generator for fast access to states
     public AvatarStateElement[] allStates;
-
 
     protected List<AvatarStateMachineElement> elements;
     protected AvatarStartState startState;
@@ -377,7 +376,8 @@ public class AvatarStateMachine extends AvatarElement {
         return AvatarExpressionSolver.indexOfVariable(expr, _aa.getName()) > -1;
     }
 
-    private int getSimplifiedElementsAux( Map<AvatarStateMachineElement, Integer> simplifiedElements, Set<AvatarStateMachineElement> visited, AvatarStateMachineElement root, int counter) {
+    private int getSimplifiedElementsAux( Map<AvatarStateMachineElement, Integer> simplifiedElements, Set<AvatarStateMachineElement> visited,
+                                          AvatarStateMachineElement root, int counter) {
         if (visited.contains(root)) {
             Integer name = simplifiedElements.get(root);
             if (name == null) {

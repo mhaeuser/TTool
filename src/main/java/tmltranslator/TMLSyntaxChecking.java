@@ -1070,11 +1070,13 @@ public class TMLSyntaxChecking {
                 }
 
                 if (nbOfWrite > 1) {
+                    // W with different crypto configuration?
                     TraceManager.addDev("Adding warning because nbOfWrite > 1");
                     addWarning(foundTW, wc, DUPLICATE_WR_AUTHENTICITY + ". Channel: " + ch.getName(), TMLError.ERROR_STRUCTURE);
                 }
 
                 if (nbOfRead > 1) {
+                    // Rwith different crypto configuration?
                     TraceManager.addDev("Adding warning because nbOfRead > 1");
                     addWarning(foundTR, rc, DUPLICATE_RD_AUTHENTICITY + ". Channel: " + ch.getName(), TMLError.ERROR_STRUCTURE);
                 }

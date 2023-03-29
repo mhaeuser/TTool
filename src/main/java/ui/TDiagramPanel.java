@@ -494,7 +494,7 @@ public abstract class TDiagramPanel extends JPanel implements GenericTree {
     public void paintMyComponents(Graphics g, boolean b, double w, double h) {
         //TraceManager.addDev("Going to paint components (1)" + tp);
         if (!drawable) {
-            TraceManager.addDev("Not drawable! " + tp);
+            //TraceManager.addDev("Not drawable! " + tp);
             return;
         }
 

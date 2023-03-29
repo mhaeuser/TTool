@@ -277,7 +277,6 @@ public class AvatarIBSParserTest {
         attC.clearAttributes();
 
         AvatarIBSExpressionClass.IExpr e1 = (AvatarIBSExpressionClass.IExpr) parser.parseInt(as, "block1.x + block2.y");
-        System.out.println(e1);
         assertTrue(e1 != null);
         assertTrue(attC.containsElementAttribute(block1.getAttribute(0)));
         assertTrue(attC.containsElementAttribute(block2.getAttribute(1)));
@@ -296,23 +295,25 @@ public class AvatarIBSParserTest {
         assertTrue(e2.eval(ss) == true);
         assertTrue(e4.eval(ss) == -2);
 
+        // visual test (among others, test toString)
         int i;
         String[] str = {
                 "block1.x",
                 "block2.y",
-                "block1.x + block2.y",
-                "block1.x - block2.y",
-                "block1.x * block2.y",
-                "block1.x / block2.y",
-                "block1.x / (block2.y * 3)"
+                "block1.x + block2.y > 3",
+                "block1.x - block2.y < 5 ",
+                "not(block1.x + block2.y<=3)",
+                "not(block1.x - block2.y>=5)",
+                "block1.x == true",
+                "(2 && block2.y) == 4"
         };
 
         for (i = 0; i < str.length; i++) {
-            e1 = (AvatarIBSExpressionClass.IExpr) parser.parseInt(as, str[i]);
-            assertTrue(e1 != null);
-            System.out.println(str[i] + " ==> " + e1 + "  $$  " + e1.eval(ss));
+            e2 = (AvatarIBSExpressionClass.BExpr) parser.parseBool(as, str[i]);
+            assertTrue(e2 != null);
+            System.out.println(str[i] + " ==> " + e2 + "  $$  " + e2.eval(ss));
         }
-
+        // end of visual test
 
         as.removeConstants();
         as.sortAttributes();

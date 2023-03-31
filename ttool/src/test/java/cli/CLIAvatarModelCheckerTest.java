@@ -241,7 +241,6 @@ public class CLIAvatarModelCheckerTest extends AbstractTest implements Interpret
         String expectedOutput = myutil.FileUtils.loadFileData(f);
 
         System.out.println("states=" + graph.getNbOfStates() + " transitions=" + graph.getNbOfTransitions());
-        System.out.println("TEST " + graph.getNbOfStates());
         assertTrue(graph.getNbOfStates() == 251);
         assertTrue(graph.getNbOfTransitions() > 700);
         assertTrue(graph.getNbOfTransitions() < 770);
@@ -260,7 +259,7 @@ public class CLIAvatarModelCheckerTest extends AbstractTest implements Interpret
        /*for(int i=0; i<s1.length(); i++) {
            System.out.println(i + "\t" + s1.substring(i, i+1) + " " + s2.substring(i, i+1));
        }*/
-        System.out.println("S1: " + s1 + "\nS2: " + s2);
+        
         assertTrue(s1.equals(s2));
     }
 

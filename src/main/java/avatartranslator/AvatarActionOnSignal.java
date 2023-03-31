@@ -39,7 +39,10 @@
 
 package avatartranslator;
 
+import avatartranslator.intboolsolver.AvatarIBSAttributeClass;
+import avatartranslator.intboolsolver.AvatarIBSolver;
 import myutil.TraceManager;
+import myutil.intboolsolver.IBSAttributeClass;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -111,27 +114,23 @@ public class AvatarActionOnSignal extends AvatarStateMachineElement {
     }
     
     public boolean buildActionSolver(AvatarBlock block) {
-        AvatarExpressionAttribute aea;
+        AvatarIBSAttributeClass.TypedAttribute ta;
         AvatarExpressionConstant cnst;
-        AvatarElement attr;
         boolean res = true;
-        
         actionAttr = new ArrayList<AvatarExpressionAttributeInterface>();
         for (String val : values) {
-            attr = AvatarExpressionAttribute.getElement(val, block);
-            if (attr != null && AvatarExpressionSolver.containsElementAttribute(attr)) {
-                actionAttr.add(AvatarExpressionSolver.getElementAttribute(attr));
-            } else {
-                aea = new AvatarExpressionAttribute(block, val);
-                res &= !aea.hasError();
-                if (aea.isConstant()) {
-                    AvatarAttribute attribute = aea.getConstAttribute();
-                    cnst = new AvatarExpressionConstant(attribute.getInitialValueInInt());
+            ta= AvatarIBSolver.attrC.getTypedAttribute(block,val);
+            switch(ta.getType()){
+                case AvatarIBSAttributeClass.NullAttr: res = false; break; //could directly return false ?
+                case AvatarIBSAttributeClass.BoolConst:
+                case AvatarIBSAttributeClass.IntConst:
+                    cnst = new AvatarExpressionConstant(ta.getConstant());
                     actionAttr.add(cnst);
-                } else if (res) {
-                    AvatarExpressionSolver.addElementAttribute(attr, aea);
-                    actionAttr.add(aea);
-                }
+                    break;
+                case AvatarIBSAttributeClass.BoolAttr:
+                case AvatarIBSAttributeClass.IntAttr:
+                    // original: if(res)... but strange
+                    actionAttr.add((AvatarIBSAttributeClass.Attribute)ta.getAttribute());
             }
         }
         return res;

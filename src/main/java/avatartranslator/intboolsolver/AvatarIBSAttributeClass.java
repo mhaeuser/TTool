@@ -178,7 +178,7 @@ public class AvatarIBSAttributeClass extends IBSStdAttributeClass<
             AvatarStateMachineElement,
             SpecificationState,
             SpecificationBlock
-            >.Attribute {
+            >.Attribute implements AvatarExpressionAttributeInterface {
 
         // attribute access information
         private AvatarBlock block;
@@ -404,6 +404,7 @@ public class AvatarIBSAttributeClass extends IBSStdAttributeClass<
 
             return value;
         }
+        public int getValue(int[] _quickstate) { return getValue((Object) _quickstate);}
 
         public int getValue(SpecificationState _ss, AvatarStateMachineElement _asme) {
             int value;

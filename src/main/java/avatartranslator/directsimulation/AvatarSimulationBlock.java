@@ -788,9 +788,11 @@ public class AvatarSimulationBlock {
             return false;
         }
 
-        int[] attributes = AvatarSimulationTransaction.getAttributeValues(_attributeValues);
+        return aee.getResult() != 0;
 
-        return aee.getResult(attributes) != 0;
+        //int[] attributes = AvatarSimulationTransaction.getAttributeValues(_attributeValues);
+
+        //return aee.getResult(attributes) != 0;
 
         /*BoolExpressionEvaluator bee = new BoolExpressionEvaluator();
 

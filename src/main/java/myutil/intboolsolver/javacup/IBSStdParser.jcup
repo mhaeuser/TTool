@@ -1,0 +1,115 @@
+// CUP specification for a simple expression evaluator (no actions)
+
+import java_cup.runtime.*;
+import java.io.StringReader;
+
+/* Preliminaries to set up and use the scanner.
+init with {: scanner.init();              :};
+scan with {: return scanner.next_token(); :};
+*/
+
+parser code {:
+    public static void main(String[] args) {
+    if (args.length==0 || args[0]==null) {
+        System.out.println("String to parse is missing");
+        return;
+    }
+    StringReader r = new StringReader(args[0]);
+        Lexer l = new Lexer(r);
+        parser p = new parser(l);
+        try{p.parse();} catch(Exception e){}
+    }
+:}
+/* Terminals (tokens returned by the scanner). */
+terminal            PLUS, MINUS, MULT, DIV, MOD, AND, OR, EQ, DIF, LT, GT, LEQ, GEQ;
+terminal            NOT, TRUE, FALSE, LPAR, RPAR; /*, UMINUS; */
+terminal            PARSE_INT, PARSE_BOOL;
+terminal Integer    INT;
+terminal String     BIDENT,IIDENT;
+
+/* Non terminals */
+non terminal  Integer      expr;
+non terminal Integer    iexpr, ifact, iatom;
+non terminal Boolean    bexpr, bfact, batom, bcomp;
+
+/* Precedences */
+precedence left OR;
+precedence left AND;
+precedence left NOT;
+precedence left EQ, DIF;
+precedence nonassoc DIF, LT, GT, LEQ, GEQ;
+precedence left PLUS, MINUS;
+precedence left MULT, DIV, MOD;
+/* precedence left UMINUS; */
+
+
+/* The grammar */
+expr    ::=
+     PARSE_BOOL bexpr:e  {: System.out.println("BoolEXPR : " + e.booleanValue()); :}
+   | PARSE_INT iexpr:e  {: System.out.println("intEXPR : " + e.intValue()); :}
+;
+
+iexpr   ::=
+   | iexpr:l PLUS ifact:r
+      {: RESULT = Integer.valueOf(l.intValue() + r.intValue()); :}
+   | iexpr:l MINUS ifact:r
+      {: RESULT = Integer.valueOf(l.intValue() - r.intValue()); :}
+   | ifact:e  {: RESULT = e; :}
+;
+
+ifact   ::=
+      ifact:l MULT iatom:r
+      {: RESULT = Integer.valueOf(l.intValue() * r.intValue()); :}
+    | ifact:l DIV iatom:r
+      {: RESULT = Integer.valueOf(l.intValue() / r.intValue()); :}
+    | ifact:l MOD iatom:r
+      {: RESULT = Integer.valueOf(l.intValue() % r.intValue()); :}
+    | iatom:e  {: RESULT = e; :}
+;
+
+iatom   ::=
+      INT:e {: RESULT = Integer.valueOf(e.intValue()); :}
+    | IIDENT {: RESULT = Integer.valueOf(0); :}
+    | LPAR iexpr:e RPAR {: RESULT = e; :}
+    | MINUS iatom:e {: RESULT = Integer.valueOf(-e.intValue()); :}
+;
+
+bexpr   ::=
+      bexpr:l OR bfact:r
+      {: RESULT = Boolean.valueOf(l.booleanValue() || r.booleanValue()); :}
+    | bfact:e {: RESULT = e; :}
+;
+
+bfact   ::=
+      bfact:l AND batom:r
+      {: RESULT = Boolean.valueOf(l.booleanValue() && r.booleanValue()); :}
+    | batom:e {: RESULT = e; :}
+;
+
+batom   ::=
+      TRUE {: RESULT = Boolean.TRUE; :}
+    | FALSE {: RESULT = Boolean.FALSE; :}
+    | BIDENT {: RESULT = Boolean.FALSE; :}
+    | bcomp:e {: RESULT = e; :}
+    | LPAR bexpr:e RPAR {: RESULT = e; :}
+    | NOT bexpr:e {: RESULT = Boolean.valueOf(!e.booleanValue()); :}
+;
+
+bcomp   ::=
+      iexpr:l LT iexpr:r
+      {: RESULT = Boolean.valueOf(l.intValue() < r.intValue()); :}
+    | iexpr:l GT iexpr:r
+      {: RESULT = Boolean.valueOf(l.intValue() > r.intValue()); :}
+    | iexpr:l LEQ iexpr:r
+      {: RESULT = Boolean.valueOf(l.intValue() <= r.intValue()); :}
+    | iexpr:l GEQ iexpr:r
+      {: RESULT = Boolean.valueOf(l.intValue() >= r.intValue()); :}
+    | iexpr:l EQ iexpr:r
+      {: RESULT = Boolean.valueOf(l.intValue() == r.intValue()); :}
+    | iexpr:l DIF iexpr:r
+      {: RESULT = Boolean.valueOf(l.intValue() != r.intValue()); :}
+    | bexpr:l EQ bexpr:r
+      {: RESULT = Boolean.valueOf(l.booleanValue() == r.booleanValue()); :}
+    | bexpr:l DIF bexpr:r
+      {: RESULT = Boolean.valueOf(l.booleanValue() != r.booleanValue()); :}
+;

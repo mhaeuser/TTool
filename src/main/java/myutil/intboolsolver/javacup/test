@@ -1,0 +1,5 @@
+# export CLASSPATH=/usr/share/java/*
+jflex IBSStdLexer.jflex
+java-cup -expect 4 IBSStdParser.jcup
+javac *.java
+java parser "parse_int 5 - (2 - 1)"

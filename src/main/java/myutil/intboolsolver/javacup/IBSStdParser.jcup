@@ -1,34 +1,102 @@
-// CUP specification for a simple expression evaluator (no actions)
 
+package myutil.intboolsolver;
 import java_cup.runtime.*;
-import java.io.StringReader;
+import java.util.HashSet;
 
+class IBSStdParser< Spec extends IBSParamSpec, Comp extends IBSParamComp, State extends IBSParamState, SpecState extends IBSParamSpecState, CompState extends IBSParamCompState >
 /* Preliminaries to set up and use the scanner.
-init with {: scanner.init();              :};
 scan with {: return scanner.next_token(); :};
 */
 
 parser code {:
-    public static void main(String[] args) {
-    if (args.length==0 || args[0]==null) {
-        System.out.println("String to parse is missing");
-        return;
+IBSStdLexer<Spec,Comp,State,SpecState,CompState> lexer;
+public void setLexer(IBSStdLexer<Spec,Comp,State,SpecState,CompState> _lexer){ lexer=_lexer; setScanner(_lexer); }
+
+    public void setAttributeClass(IBSAttributeClass<Spec,Comp,State,SpecState,CompState> _c){ lexer.setAttributeClass(_c); }
+
+    public IBSAttributeClass<Spec,Comp,State,SpecState,CompState> getAttributeClass(){ return lexer.getAttributeClass(); }
+
+    public void setExpressionClass(IBSExpressionClass<Spec,Comp,State,SpecState,CompState> _c){ lexer.setExpressionClass(_c); }
+
+    public IBSExpressionClass<Spec,Comp,State,SpecState,CompState> getExpressionClass(){ return lexer.getExpressionClass(); }
+
+    public HashSet<String> getBadIdents(){ return lexer.getBadIdents(); }
+
+    public void clearBadIdents(){ lexer.clearBadIdents(); }
+
+    public boolean syntaxError(){ return false; }
+
+    public IBSExpressionClass<Spec,Comp,State,SpecState,CompState>.IExpr parseInt(Spec _spec, String _s){
+        lexer.init(_spec,"integer " + _s);
+        try { return (IBSExpressionClass<Spec,Comp,State,SpecState,CompState>.IExpr) parse(); }
+        catch (Exception e) { lexer.getExpressionClass().clear(); return null; }
     }
-    StringReader r = new StringReader(args[0]);
-        Lexer l = new Lexer(r);
-        parser p = new parser(l);
-        try{p.parse();} catch(Exception e){}
+
+    public IBSExpressionClass<Spec,Comp,State,SpecState,CompState>.BExpr parseBool(Spec _spec, String _s){
+        lexer.init(_spec,"boolean " + _s);
+        try { return (IBSExpressionClass<Spec,Comp,State,SpecState,CompState>.BExpr) parse(); }
+        catch (Exception e) { lexer.getExpressionClass().clear(); return null; }
+    }
+
+    public IBSExpressionClass<Spec,Comp,State,SpecState,CompState>.IExpr parseInt(Comp _comp, String _s){
+        lexer.init(_comp,"integer " + _s);
+        try { return (IBSExpressionClass<Spec,Comp,State,SpecState,CompState>.IExpr) parse(); }
+        catch (Exception e) { lexer.getExpressionClass().clear(); return null; }
+    }
+
+    public IBSExpressionClass<Spec,Comp,State,SpecState,CompState>.BExpr parseBool(Comp _comp, String _s){
+        lexer.init(_comp,"boolean " + _s);
+        try { return (IBSExpressionClass<Spec,Comp,State,SpecState,CompState>.BExpr) parse(); }
+        catch (Exception e) { lexer.getExpressionClass().clear(); return null; }
+    }
+
+    public IBSExpressionClass<Spec,Comp,State,SpecState,CompState>.IExpr parseInt(String _s){
+        lexer.init("integer " + _s);
+        try { return (IBSExpressionClass<Spec,Comp,State,SpecState,CompState>.IExpr) parse(); }
+        catch (Exception e) { lexer.getExpressionClass().clear(); return null; }
+    }
+
+    public IBSExpressionClass<Spec,Comp,State,SpecState,CompState>.BExpr parseBool(String _s){
+        lexer.init(_comp,"boolean " + _s);
+        try { return (IBSExpressionClass<Spec,Comp,State,SpecState,CompState>.BExpr) parse(); }
+        catch (Exception e) { lexer.getExpressionClass().clear(); return null; }
+    }
+
+    public IBSExpressionClass<Spec,Comp,State,SpecState,CompState>.IExpr
+    makeInt(IBSAttributeClass<Spec,Comp,State,SpecState,CompState>.Attribute _attr){
+        int index = exprC.make_iVar(_attr);
+        if (index >= 0) {
+            IBSExpressionClass<Spec, Comp, State, SpecState, CompState>.IExpr res = exprC.getIExpr(index);
+            exprC.freeInt(index);
+            return res;
+        }
+        // if (index==-1) syntaxError=true; else syntaxError=false;
+        return null;
+    }
+
+    public IBSExpressionClass<Spec,Comp,State,SpecState,CompState>.BExpr
+    makeBool(IBSAttributeClass<Spec,Comp,State,SpecState,CompState>.Attribute _attr){
+        int index = exprC.make_bVar(_attr);
+        if (index >= 0) {
+            IBSExpressionClass<Spec, Comp, State, SpecState, CompState>.BExpr res = exprC.getBExpr(index);
+            exprC.freeBool(index);
+            return res;
+        }
+        // if (index==-1) syntaxError=true; else syntaxError=false;
+        return null;
     }
 :}
+
 /* Terminals (tokens returned by the scanner). */
 terminal            PLUS, MINUS, MULT, DIV, MOD, AND, OR, EQ, DIF, LT, GT, LEQ, GEQ;
-terminal            NOT, TRUE, FALSE, LPAR, RPAR; /*, UMINUS; */
+terminal            NOT, LPAR, RPAR;
 terminal            PARSE_INT, PARSE_BOOL;
-terminal Integer    INT;
-terminal String     BIDENT,IIDENT;
+terminal IBSStdAttributeClass<Spec,Comp,State,SpecState,CompState>.IExpr INT;
+terminal IBSStdAttributeClass<Spec,Comp,State,SpecState,CompState>.BExpr BOOL;
+
 
 /* Non terminals */
-non terminal  Integer      expr;
+non terminal IBSStdAttributeClass<Spec,Comp,State,SpecState,CompState>.Expr expr;
 non terminal Integer    iexpr, ifact, iatom;
 non terminal Boolean    bexpr, bfact, batom, bcomp;
 
@@ -45,25 +113,42 @@ precedence left MULT, DIV, MOD;
 
 /* The grammar */
 expr    ::=
-     PARSE_BOOL bexpr:e  {: System.out.println("BoolEXPR : " + e.booleanValue()); :}
-   | PARSE_INT iexpr:e  {: System.out.println("intEXPR : " + e.intValue()); :}
+     PARSE_BOOL bexpr:e  {: RESULT = lexer.getExpressionClass().getBExpr(e.intValue());
+                            lexer.getExpressionClass().freeBool(e.intValue()); :}
+   | PARSE_INT iexpr:e   {: RESULT = lexer.getExpressionClass().getIExpr(e.intValue());
+                            lexer.getExpressionClass().freeBool(e.intValue()); :}
 ;
 
 iexpr   ::=
    | iexpr:l PLUS ifact:r
-      {: RESULT = Integer.valueOf(l.intValue() + r.intValue()); :}
+      {: RESULT = Integer.valueOf(lexer.getExpressionClass().make_iiiPlus(l.intValue(),r.intValue()));
+         lexer.getExpressionClass().freeInt(l.intValue());
+         lexer.getExpressionClass().freeInt(r.intValue());
+      :}
    | iexpr:l MINUS ifact:r
-      {: RESULT = Integer.valueOf(l.intValue() - r.intValue()); :}
+      {: RESULT = Integer.valueOf(lexer.getExpressionClass().make_iiiMinus(l.intValue(),r.intValue()));
+         lexer.getExpressionClass().freeInt(l.intValue());
+         lexer.getExpressionClass().freeInt(r.intValue());
+      :}
    | ifact:e  {: RESULT = e; :}
 ;
 
 ifact   ::=
       ifact:l MULT iatom:r
-      {: RESULT = Integer.valueOf(l.intValue() * r.intValue()); :}
+      {: RESULT = Integer.valueOf(lexer.getExpressionClass().make_iiiMult(l.intValue(),r.intValue()));
+         lexer.getExpressionClass().freeInt(l.intValue());
+         lexer.getExpressionClass().freeInt(r.intValue());
+      :}
     | ifact:l DIV iatom:r
-      {: RESULT = Integer.valueOf(l.intValue() / r.intValue()); :}
+      {: RESULT = Integer.valueOf(lexer.getExpressionClass().make_iiiDiv(l.intValue(),r.intValue()));
+         lexer.getExpressionClass().freeInt(l.intValue());
+         lexer.getExpressionClass().freeInt(r.intValue());
+      :}
     | ifact:l MOD iatom:r
-      {: RESULT = Integer.valueOf(l.intValue() % r.intValue()); :}
+      {: RESULT = Integer.valueOf(lexer.getExpressionClass().make_iiiMod(l.intValue(),r.intValue()));
+         lexer.getExpressionClass().freeInt(l.intValue());
+         lexer.getExpressionClass().freeInt(r.intValue());
+      :}
     | iatom:e  {: RESULT = e; :}
 ;
 
@@ -76,13 +161,19 @@ iatom   ::=
 
 bexpr   ::=
       bexpr:l OR bfact:r
-      {: RESULT = Boolean.valueOf(l.booleanValue() || r.booleanValue()); :}
+      {: RESULT = Integer.valueOf(lexer.getExpressionClass().make_bbbOr(l.intValue(),r.intValue()));
+         lexer.getExpressionClass().freeBool(l.intValue());
+         lexer.getExpressionClass().freeBool(r.intValue());
+      :}
     | bfact:e {: RESULT = e; :}
 ;
 
 bfact   ::=
       bfact:l AND batom:r
-      {: RESULT = Boolean.valueOf(l.booleanValue() && r.booleanValue()); :}
+      {: RESULT = Integer.valueOf(lexer.getExpressionClass().make_bbbAnd(l.intValue(),r.intValue()));
+         lexer.getExpressionClass().freeBool(l.intValue());
+         lexer.getExpressionClass().freeBool(r.intValue());
+      :}
     | batom:e {: RESULT = e; :}
 ;
 
@@ -97,19 +188,43 @@ batom   ::=
 
 bcomp   ::=
       iexpr:l LT iexpr:r
-      {: RESULT = Boolean.valueOf(l.intValue() < r.intValue()); :}
+      {: RESULT = Integer.valueOf(lexer.getExpressionClass().make_biiLt(l.intValue(),r.intValue()));
+         lexer.getExpressionClass().freeInt(l.intValue());
+         lexer.getExpressionClass().freeInt(r.intValue());
+      :}
     | iexpr:l GT iexpr:r
-      {: RESULT = Boolean.valueOf(l.intValue() > r.intValue()); :}
+      {: RESULT = Integer.valueOf(lexer.getExpressionClass().make_biiGt(l.intValue(),r.intValue()));
+         lexer.getExpressionClass().freeInt(l.intValue());
+         lexer.getExpressionClass().freeInt(r.intValue());
+      :}
     | iexpr:l LEQ iexpr:r
-      {: RESULT = Boolean.valueOf(l.intValue() <= r.intValue()); :}
+      {: RESULT = Integer.valueOf(lexer.getExpressionClass().make_biiLeq(l.intValue(),r.intValue()));
+         lexer.getExpressionClass().freeInt(l.intValue());
+         lexer.getExpressionClass().freeInt(r.intValue());
+      :}
     | iexpr:l GEQ iexpr:r
-      {: RESULT = Boolean.valueOf(l.intValue() >= r.intValue()); :}
+      {: RESULT = Integer.valueOf(lexer.getExpressionClass().make_biiGeq(l.intValue(),r.intValue()));
+         lexer.getExpressionClass().freeInt(l.intValue());
+         lexer.getExpressionClass().freeInt(r.intValue());
+      :}
     | iexpr:l EQ iexpr:r
-      {: RESULT = Boolean.valueOf(l.intValue() == r.intValue()); :}
+      {: RESULT = Integer.valueOf(lexer.getExpressionClass().make_biiEq(l.intValue(),r.intValue()));
+         lexer.getExpressionClass().freeInt(l.intValue());
+         lexer.getExpressionClass().freeInt(r.intValue());
+      :}
     | iexpr:l DIF iexpr:r
-      {: RESULT = Boolean.valueOf(l.intValue() != r.intValue()); :}
+      {: RESULT = Integer.valueOf(lexer.getExpressionClass().make_biiDif(l.intValue(),r.intValue()));
+         lexer.getExpressionClass().freeInt(l.intValue());
+         lexer.getExpressionClass().freeInt(r.intValue());
+      :}
     | bexpr:l EQ bexpr:r
-      {: RESULT = Boolean.valueOf(l.booleanValue() == r.booleanValue()); :}
+      {: RESULT = Integer.valueOf(lexer.getExpressionClass().make_bbbEq(l.intValue(),r.intValue()));
+         lexer.getExpressionClass().freeBool(l.intValue());
+         lexer.getExpressionClass().freeBool(r.intValue());
+      :}
     | bexpr:l DIF bexpr:r
-      {: RESULT = Boolean.valueOf(l.booleanValue() != r.booleanValue()); :}
+      {: RESULT = Integer.valueOf(lexer.getExpressionClass().make_bbbDif(l.intValue(),r.intValue()));
+         lexer.getExpressionClass().freeBool(l.intValue());
+         lexer.getExpressionClass().freeBool(r.intValue());
+      :}
 ;

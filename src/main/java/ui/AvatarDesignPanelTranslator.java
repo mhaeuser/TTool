@@ -1994,6 +1994,10 @@ public class AvatarDesignPanelTranslator {
         if (ataa == null)
             throw new CheckingError(CheckingError.BEHAVIOR_ERROR, "Unknown attribute: " + asmdquery.getAttributeName());
 
+        if (ataa.isConstant())
+            throw new CheckingError(CheckingError.BEHAVIOR_ERROR,
+                    "Attribute \"" + ataa.getName() + "\" cannot be assigned in query " + asmdquery.getAttributeName());
+
         // Get relation of that signal
         if (_ab instanceof AvatarBlock) {
             // Note that for library functions, signals are just placeholders so they don't need to be connected to anything

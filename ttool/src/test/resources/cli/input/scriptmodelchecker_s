@@ -2,10 +2,10 @@ print dir
 set model resources/test/cli/models/AirbusDoor_V2.xml
 #print The model to be opened is: $model
 action start
-wait 2
+wait 4
 #toto
 action open $model
-wait 4
+wait 10
 action check-syntax
 action avatar-rg -d -ra -la -s -g rgmodelchecker.aut
 action quit

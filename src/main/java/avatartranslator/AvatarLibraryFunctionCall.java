@@ -225,4 +225,7 @@ public class AvatarLibraryFunctionCall extends AvatarStateMachineElement {
     public void translate (AvatarTranslator translator, Object arg) {
         translator.translateLibraryFunctionCall (this, arg);
     }
+
+
+
 }

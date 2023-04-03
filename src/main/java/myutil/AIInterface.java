@@ -107,10 +107,10 @@ public class AIInterface {
 
     public StringBuilder chat(String text) throws AIInterfaceException {
         connect();
-        JSONObject mainObject = new JSONObject();
+        org.json.JSONObject mainObject = new org.json.JSONObject();
         mainObject.put("model", "gpt-3.5-turbo");
-        JSONArray array = new JSONArray();
-        JSONObject sub = new JSONObject();
+        org.json.JSONArray array = new org.json.JSONArray();
+        org.json.JSONObject sub = new org.json.JSONObject();
         sub.put("role", "system");
         sub.put("content", "You are a helpful assistant.");
         sub = new JSONObject();
@@ -122,7 +122,7 @@ public class AIInterface {
         return getAnswer();
     }
 
-    private void sendJSON(JSONObject _jsonToBeSent) throws AIInterfaceException {
+    private void sendJSON(org.json.JSONObject _jsonToBeSent) throws AIInterfaceException {
         if (connection == null) {
             throw new AIInterfaceException(CONNECTION_PB);
         }

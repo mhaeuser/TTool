@@ -41,6 +41,8 @@ package cli;
 
 
 import myutil.*;
+
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -56,6 +58,7 @@ public class Chat extends Command  {
     private final static String ASK = "ask";
     private final static String SET_KEY = "setaikey";
     private final static String CLEAR_KNOWLEDGE = "clear";
+    private final static String PRINT_KNOWLEDGE = "print-knowledge";
 
     private String key;
     private AIInterface aiinterface;
@@ -195,11 +198,45 @@ public class Chat extends Command  {
             }
         };
 
+        Command pk = new Command() {
+            public String getCommand() {
+                return PRINT_KNOWLEDGE;
+            }
+
+            public String getShortCommand() {
+                return "pk";
+            }
+
+            public String getDescription() {
+                return "print current knowledge";
+            }
+
+            public String executeCommand(String command, Interpreter interpreter) {
+
+                if (aiinterface == null) {
+                    return "knowledge canot be clear before a first question has been asked";
+                }
+
+                ArrayList<AIInterface.AIKnowledge> db = aiinterface.getKnowledge();
+                if ((db == null) || (db.size() ==0)) {
+                    return "no knowledge";
+                }
+
+                for (AIInterface.AIKnowledge aik: aiinterface.getKnowledge()) {
+                    System.out.println("user:\t\t" + aik.userKnowledge.substring(30));
+                    System.out.println("assistant:\t" + aik.assistantKnowledge.substring(30));
+                }
+
+                return null;
+            }
+        };
+
 
 
         addAndSortSubcommand(ask);
         addAndSortSubcommand(setKey);
         addAndSortSubcommand(clear);
+        addAndSortSubcommand(pk);
 
     }
 

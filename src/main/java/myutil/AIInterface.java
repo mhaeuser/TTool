@@ -153,9 +153,7 @@ public class AIInterface {
         String aiText = messageText.getString("content");
 
         if (useOuputKnowledge) {
-            AIKnowledge addedKnowledge = new AIKnowledge();
-            addedKnowledge.assistantKnowledge = aiText;
-            addedKnowledge.userKnowledge = text;
+            AIKnowledge addedKnowledge = new AIKnowledge(text, aiText);
             knowledge.add(addedKnowledge);
         }
         return aiText;
@@ -187,11 +185,21 @@ public class AIInterface {
         return response;
     }
 
+    public void addKnowledge(String userKnowledge, String assistantKnowledge) {
+        knowledge.add(new AIKnowledge(userKnowledge, assistantKnowledge));
+    }
+
     public ArrayList<AIKnowledge> getKnowledge() {
         return knowledge;
     }
 
     public class AIKnowledge {
+
+        public AIKnowledge(String _userKnowledge, String _assistantKnowledge) {
+            userKnowledge = _userKnowledge;
+            assistantKnowledge = _assistantKnowledge;
+        }
+
         public String userKnowledge;
         public String assistantKnowledge;
     }

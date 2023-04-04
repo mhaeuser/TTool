@@ -46,7 +46,6 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 
-import org.apache.batik.anim.timing.Trace;
 import org.json.JSONObject;
 import org.json.JSONArray;
 

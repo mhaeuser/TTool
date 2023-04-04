@@ -214,7 +214,10 @@ public class Chat extends Command  {
             public String executeCommand(String command, Interpreter interpreter) {
 
                 if (aiinterface == null) {
-                    return "knowledge canot be clear before a first question has been asked";
+                    aiinterface = new AIInterface();
+                    aiinterface.setURL(AIInterface.URL_OPENAI_COMPLETION);
+                    aiinterface.setAIModel(AIInterface.MODEL_GPT_35);
+                    aiinterface.setKey(key);
                 }
 
                 ArrayList<AIInterface.AIKnowledge> db = aiinterface.getKnowledge();
@@ -223,8 +226,8 @@ public class Chat extends Command  {
                 }
 
                 for (AIInterface.AIKnowledge aik: aiinterface.getKnowledge()) {
-                    System.out.println("user:\t\t" + aik.userKnowledge.substring(30));
-                    System.out.println("assistant:\t" + aik.assistantKnowledge.substring(30));
+                    System.out.println("user:\t\t" + aik.userKnowledge.substring(0, 30));
+                    System.out.println("assistant:\t" + aik.assistantKnowledge.substring(0, 30));
                 }
 
                 return null;

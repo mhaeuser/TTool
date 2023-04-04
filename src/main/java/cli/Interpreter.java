@@ -227,7 +227,7 @@ public class Interpreter implements Runnable, TerminalProviderInterface {
             }
 
             if ((error != null) && (error.length() > 0)) {
-                System.out.println("Error in line " + cptLine + " : " + error);
+                System.out.println("Error in line " + cptLine + ": " + error);
                 if (exitOnError) {
                     System.exit(-1);
                 }

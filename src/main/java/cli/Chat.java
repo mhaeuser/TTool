@@ -57,11 +57,17 @@ public class Chat extends Command  {
     // Action commands
     private final static String ASK = "ask";
     private final static String SET_KEY = "setaikey";
-    private final static String CLEAR_KNOWLEDGE = "clear";
+    private final static String CLEAR_KNOWLEDGE = "clear-knowledge";
     private final static String PRINT_KNOWLEDGE = "print-knowledge";
+    private final static String SET_USER_KNOWLEDGE = "set-user-knowledge";
+    private final static String SET_ASSISTANT_KNOWLEDGE = "set-assistant-knowledge";
+    private final static String ADD_KNOWLEDGE = "add-knowledge";
 
     private String key;
     private AIInterface aiinterface;
+
+    private String userKnowledge;
+    private String assistantKnowledge;
 
 
     public Chat() {
@@ -123,10 +129,7 @@ public class Chat extends Command  {
                 String text = command;
 
                 if (aiinterface == null) {
-                    aiinterface = new AIInterface();
-                    aiinterface.setURL(AIInterface.URL_OPENAI_COMPLETION);
-                    aiinterface.setAIModel(AIInterface.MODEL_GPT_35);
-                    aiinterface.setKey(key);
+                    makeAIInterface();
                 }
 
                 String response;
@@ -214,10 +217,7 @@ public class Chat extends Command  {
             public String executeCommand(String command, Interpreter interpreter) {
 
                 if (aiinterface == null) {
-                    aiinterface = new AIInterface();
-                    aiinterface.setURL(AIInterface.URL_OPENAI_COMPLETION);
-                    aiinterface.setAIModel(AIInterface.MODEL_GPT_35);
-                    aiinterface.setKey(key);
+                    makeAIInterface();
                 }
 
                 ArrayList<AIInterface.AIKnowledge> db = aiinterface.getKnowledge();
@@ -234,13 +234,112 @@ public class Chat extends Command  {
             }
         };
 
+        Command setUserKnowledge = new Command() {
+            public String getCommand() {
+                return SET_USER_KNOWLEDGE;
+            }
+
+            public String getShortCommand() {
+                return "suk";
+            }
+
+            public String getDescription() {
+                return "Set a user knowledge. Once a user and an assistant knowledge have been set, you can add a new knowledge";
+            }
+
+            public String executeCommand(String command, Interpreter interpreter) {
+                if (aiinterface == null) {
+                    makeAIInterface();
+                }
+
+                if (command.length() == 0) {
+                    return "Empty user knowledge";
+                }
+
+                userKnowledge = command;
+
+                return null;
+            }
+        };
+
+        Command setAssistantKnowledge = new Command() {
+            public String getCommand() {
+                return SET_ASSISTANT_KNOWLEDGE;
+            }
+
+            public String getShortCommand() {
+                return "sak";
+            }
+
+            public String getDescription() {
+                return "Set an assistant knowledge. Once a user and an assistant knowledge have been set, you can add a new knowledge";
+            }
+
+            public String executeCommand(String command, Interpreter interpreter) {
+                if (aiinterface == null) {
+                    makeAIInterface();
+                }
+
+                if (command.length() == 0) {
+                    return "Empty assistant knowledge";
+                }
+
+                assistantKnowledge = command;
+
+                return null;
+            }
+        };
+
+        Command addKnowledge = new Command() {
+            public String getCommand() {
+                return ADD_KNOWLEDGE;
+            }
+
+            public String getShortCommand() {
+                return "ak";
+            }
+
+            public String getDescription() {
+                return "Add a new knowledge once user and assistant knowledge have been set";
+            }
+
+            public String executeCommand(String command, Interpreter interpreter) {
+                if (aiinterface == null) {
+                    makeAIInterface();
+                }
+
+                if (userKnowledge == null) {
+                    return "User knowledge must be set first";
+                }
+
+                if (assistantKnowledge == null) {
+                    return "Assistant knowledge must be set first";
+                }
+
+                aiinterface.addKnowledge(userKnowledge, assistantKnowledge);
+                userKnowledge = null;
+                assistantKnowledge = null;
+
+                return null;
+            }
+        };
 
 
         addAndSortSubcommand(ask);
         addAndSortSubcommand(setKey);
         addAndSortSubcommand(clear);
         addAndSortSubcommand(pk);
+        addAndSortSubcommand(setUserKnowledge);
+        addAndSortSubcommand(setAssistantKnowledge);
+        addAndSortSubcommand(addKnowledge);
 
+    }
+
+    private void makeAIInterface() {
+        aiinterface = new AIInterface();
+        aiinterface.setURL(AIInterface.URL_OPENAI_COMPLETION);
+        aiinterface.setAIModel(AIInterface.MODEL_GPT_35);
+        aiinterface.setKey(key);
     }
 
 

@@ -44,6 +44,9 @@ import java.io.DataOutputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
+
+import org.apache.batik.anim.timing.Trace;
 import org.json.JSONObject;
 import org.json.JSONArray;
 
@@ -67,6 +70,15 @@ public class AIInterface {
     private String key;
     private String aiModel;
     private HttpURLConnection connection;
+    private ArrayList<AIKnowledge> knowledge;
+
+    public AIInterface() {
+        knowledge = new ArrayList<>();
+    }
+
+    public void clearKnowledge() {
+        knowledge.clear();
+    }
 
     public void setURL(String _url) {
         urlText = _url;
@@ -105,21 +117,49 @@ public class AIInterface {
         }
     }
 
-    public StringBuilder chat(String text) throws AIInterfaceException {
+    public String chat(String text, boolean useKnowledgeAsInput, boolean useOuputKnowledge) throws AIInterfaceException {
         connect();
         org.json.JSONObject mainObject = new org.json.JSONObject();
         mainObject.put("model", "gpt-3.5-turbo");
         org.json.JSONArray array = new org.json.JSONArray();
         org.json.JSONObject sub = new org.json.JSONObject();
         sub.put("role", "system");
-        sub.put("content", "You are a helpful assistant.");
+        sub.put("content", "You are a helpful assistant for system engineering.");
+        array.put(sub);
+        if (useOuputKnowledge) {
+            for(AIKnowledge aik: knowledge) {
+                sub.put("role", "user");
+                sub.put("content", aik.userKnowledge);
+                array.put(sub);
+                sub.put("role", "assistant");
+                sub.put("content", aik.assistantKnowledge);
+                array.put(sub);
+            }
+        }
         sub = new JSONObject();
         sub.put("role", "user");
         sub.put("content", text);
         array.put(sub);
         mainObject.put("messages", array);
+
+        // Sending JSON
+        //TraceManager.addDev("Sending: " + mainObject.toString());
         sendJSON(mainObject);
-        return getAnswer();
+
+        StringBuilder sb = getAnswer();
+        JSONObject answerObject = new JSONObject(sb.toString());
+        JSONArray answerArray = answerObject.getJSONArray("choices");
+        JSONObject answerText = answerArray.getJSONObject(0);
+        JSONObject messageText = answerText.getJSONObject("message");
+        String aiText = messageText.getString("content");
+
+        if (useOuputKnowledge) {
+            AIKnowledge addedKnowledge = new AIKnowledge();
+            addedKnowledge.assistantKnowledge = aiText;
+            addedKnowledge.userKnowledge = text;
+            knowledge.add(addedKnowledge);
+        }
+        return aiText;
     }
 
     private void sendJSON(org.json.JSONObject _jsonToBeSent) throws AIInterfaceException {
@@ -132,7 +172,6 @@ public class AIInterface {
         } catch (Exception e) {
             throw new AIInterfaceException(e.getMessage());
         }
-
     }
 
     private StringBuilder getAnswer() throws AIInterfaceException {
@@ -140,7 +179,7 @@ public class AIInterface {
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()))) {
             String line;
             while ((line = reader.readLine()) != null) {
-                System.out.println("Line read: " + line);
+                //System.out.println("Line read: " + line);
                 response.append(line);
             }
         } catch (Exception e) {
@@ -148,6 +187,17 @@ public class AIInterface {
         }
         return response;
     }
+
+    public ArrayList<AIKnowledge> getKnowledge() {
+        return knowledge;
+    }
+
+    public class AIKnowledge {
+        public String userKnowledge;
+        public String assistantKnowledge;
+    }
+
+
 
     
 }

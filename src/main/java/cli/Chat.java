@@ -39,47 +39,8 @@
 
 package cli;
 
-import avatartranslator.*;
-import avatartranslator.directsimulation.AvatarSpecificationSimulation;
-import avatartranslator.modelchecker.AvatarModelChecker;
-import avatartranslator.modelchecker.CounterexampleQueryReport;
-import avatartranslator.modelchecker.SpecificationActionLoop;
-import avatartranslator.modelcheckervalidator.ModelCheckerValidator;
-import avatartranslator.mutation.ApplyMutationException;
-import avatartranslator.mutation.AvatarMutation;
-import avatartranslator.mutation.ParseMutationException;
-import common.ConfigurationTTool;
-import common.SpecConfigTTool;
-import graph.RG;
-import launcher.RTLLauncher;
-import launcher.RshClient;
-import launcher.RshClientReader;
-import myutil.*;
-import proverifspec.ProVerifOutputAnalyzer;
-import proverifspec.ProVerifOutputListener;
-import proverifspec.ProVerifQueryAuthResult;
-import proverifspec.ProVerifQueryResult;
-import tmltranslator.TMLMapping;
-import tmltranslator.TMLMappingTextSpecification;
-import tmltranslator.TMLModeling;
-import tmltranslator.TMLTextSpecification;
-import ui.MainGUI;
-import ui.avatarinteractivesimulation.AvatarInteractiveSimulationActions;
-import ui.avatarinteractivesimulation.JFrameAvatarInteractiveSimulation;
-import ui.util.IconManager;
-import ui.window.JDialogProverifVerification;
-import ui.window.JDialogSystemCGeneration;
-import ui.*;
 
-import javax.swing.*;
-import java.awt.*;
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.*;
+import myutil.*;
 import java.util.List;
 
 
@@ -94,9 +55,11 @@ public class Chat extends Command  {
     // Action commands
     private final static String ASK = "ask";
     private final static String SET_KEY = "setaikey";
+    private final static String CLEAR_KNOWLEDGE = "clear";
 
     private String key;
     private AIInterface aiinterface;
+
 
     public Chat() {
 
@@ -119,7 +82,8 @@ public class Chat extends Command  {
     }
 
     public String getDescription() {
-        return "AI based on ChatGPT to support System Engineering. Secret key must be configured";
+        return "AI based on ChatGPT to support System Engineering. Secret key must be configured. For each question, the question and the answer " +
+                "are stored in the knowledge Database, reused for eash question. To clear teh database, use the clear command";
     }
 
 
@@ -150,7 +114,10 @@ public class Chat extends Command  {
                     return Interpreter.BAD;
                 }
 
-                String text = commands[commands.length-1];
+                //String text = commands[commands.length-1];
+
+                //System.out.println("Sending text: " + command);
+                String text = command;
 
                 if (aiinterface == null) {
                     aiinterface = new AIInterface();
@@ -159,9 +126,9 @@ public class Chat extends Command  {
                     aiinterface.setKey(key);
                 }
 
-                StringBuilder response;
+                String response;
                 try {
-                    response = aiinterface.chat(text);
+                    response = aiinterface.chat(text, true, true);
                 } catch (AIInterfaceException aiie) {
                     return aiie.getMessage();
                 }
@@ -182,7 +149,7 @@ public class Chat extends Command  {
             }
 
             public String getDescription() {
-                return "AAdding communication key to ChatGPT";
+                return "Adding communication key to ChatGPT";
             }
 
             public String executeCommand(String command, Interpreter interpreter) {
@@ -198,17 +165,17 @@ public class Chat extends Command  {
             }
         };
 
-        Command setModel = new Command() {
+        Command clear = new Command() {
             public String getCommand() {
-                return SET_KEY;
+                return CLEAR_KNOWLEDGE;
             }
 
             public String getShortCommand() {
-                return "sk";
+                return "cl";
             }
 
             public String getDescription() {
-                return "AAdding communication key to ChatGPT";
+                return "Clear knowledge";
             }
 
             public String executeCommand(String command, Interpreter interpreter) {
@@ -218,7 +185,11 @@ public class Chat extends Command  {
                     return Interpreter.BAD;
                 }
 
-                key = commands[commands.length-1];
+                if (aiinterface == null) {
+                    return "knowledge canot be clear before a first question has been asked";
+                }
+
+                aiinterface.clearKnowledge();
 
                 return null;
             }
@@ -228,6 +199,7 @@ public class Chat extends Command  {
 
         addAndSortSubcommand(ask);
         addAndSortSubcommand(setKey);
+        addAndSortSubcommand(clear);
 
     }
 

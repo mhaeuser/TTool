@@ -39,18 +39,22 @@
 
 package ui.window;
 
+import common.ConfigurationTTool;
+import myutil.AIInterface;
+import myutil.AIInterfaceException;
+import myutil.GraphicLib;
 import myutil.TraceManager;
-import ui.ColorManager;
-import ui.TGCSysMLV2;
+import ui.MainGUI;
+import ui.TDiagramPanel;
+import ui.TGComponent;
+import ui.avatarrd.AvatarRDPanel;
+import ui.avatarrd.AvatarRDRequirement;
 import ui.util.IconManager;
 
 import javax.swing.*;
-import javax.swing.plaf.basic.BasicTabbedPaneUI;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 
 
 /**
@@ -60,18 +64,36 @@ import java.awt.event.MouseEvent;
  *
  * @author Ludovic APVRILLE
  */
-public class JFrameAI extends JFrame implements ActionListener {
+public class JFrameAI extends JFrame implements ActionListener, Runnable {
 
-    private String [] POSSIBLE_ACTIONS = {"Chat", "Classify requirements"};
 
-    private JTextArea question, answer, console;
-    protected JComboBox<String>  listOfPossibleActions;
+    private static int KIND_CLASSIFY_REQUIREMENT = 1;
+
+    private static String[] POSSIBLE_ACTIONS = {"Chat", "Classify requirements"};
+    protected JComboBox<String> listOfPossibleActions;
+    private String QUESTION_CLASSIFY_REQ = "I would like to identify the \"type\" attribute, i.e. the classification, " +
+            "of the following requirements. Could you give me a correct type among: safety, security, functional, " +
+            "non-functional, performance, business, stakeholder need. if the main category is security, you can use the " +
+            "following sub categories: privacy, confidentiality, non-repudiation, controlled access, availability," +
+            "immunity, data origin authenticity, freshness. Use the following format for the answer:" +
+            " - Requirement name: classification\n";
+    private MainGUI mgui;
+    private JTextPane question, answer, console;
+    private String automatedAnswer;
+    private TDiagramPanel previousTDP;
+    private int previousKind;
+    private String lastChatAnswer;
+
+    private AIInterface aiinterface;
+
+    private boolean go = false;
 
 
     private JButton buttonClose, buttonStart, buttonApplyResponse;
 
-    public JFrameAI(String title) {
+    public JFrameAI(String title, MainGUI _mgui) {
         super(title);
+        mgui = _mgui;
         makeComponents();
     }
 
@@ -90,6 +112,7 @@ public class JFrameAI extends JFrame implements ActionListener {
 
         listOfPossibleActions = new JComboBox<>(POSSIBLE_ACTIONS);
         panelTop.add(listOfPossibleActions, BorderLayout.CENTER);
+        listOfPossibleActions.addActionListener(this);
 
         framePanel.add(panelTop, BorderLayout.NORTH);
 
@@ -105,26 +128,33 @@ public class JFrameAI extends JFrame implements ActionListener {
         JPanel questionPanel = new JPanel();
         questionPanel.setBorder(new javax.swing.border.TitledBorder("Question"));
         questionPanel.setPreferredSize(new Dimension(450, 550));
-        question = new JTextArea();
-        question.setPreferredSize(new Dimension(400, 500));
+        question = new JTextPane();
+        //question.setPreferredSize(new Dimension(400, 500));
+        setOptionsJTextPane(question, true);
         JScrollPane scrollPane = new JScrollPane(question);
+        scrollPane.setPreferredSize(new Dimension(420, 500));
+        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         questionPanel.add(scrollPane, BorderLayout.CENTER);
 
         JPanel answerPanel = new JPanel();
         answerPanel.setBorder(new javax.swing.border.TitledBorder("Answer"));
-        answerPanel.setPreferredSize(new Dimension(450, 550));
-        answer = new JTextArea();
-        answer.setPreferredSize(new Dimension(400, 500));
-        setOptionsJTextArea(answer, true);
+        answerPanel.setPreferredSize(new Dimension(550, 550));
+        answer = new JTextPane();
+        //answer.setPreferredSize(new Dimension(400, 500));
+        //setOptionsJTextPane(answer, false);
         scrollPane = new JScrollPane(answer);
+        scrollPane.setPreferredSize(new Dimension(510, 500));
+        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         answerPanel.add(scrollPane, BorderLayout.CENTER);
 
         JPanel consolePanel = new JPanel();
         consolePanel.setBorder(new javax.swing.border.TitledBorder("Console"));
-        console = new JTextArea();
-        console.setPreferredSize(new Dimension(900, 150));
-        addToConsole("Select options and click on \"start\"");
+        console = new JTextPane();
+        //console.setPreferredSize(new Dimension(900, 150));
+        inform("Select options and click on \"start\"\n");
         scrollPane = new JScrollPane(console);
+        scrollPane.setPreferredSize(new Dimension(900, 150));
+        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         consolePanel.add(scrollPane, BorderLayout.CENTER);
 
         JPanel middlePanel = new JPanel(new BorderLayout());
@@ -137,17 +167,16 @@ public class JFrameAI extends JFrame implements ActionListener {
         framePanel.add(middlePanel, BorderLayout.CENTER);
 
 
-
         // Lower panel
 
-        buttonClose = new JButton("Close", IconManager.imgic26);
+        buttonClose = new JButton("Close", IconManager.imgic27);
         buttonClose.addActionListener(this);
 
         buttonStart = new JButton("Start", IconManager.imgic53);
         buttonStart.addActionListener(this);
 
-        buttonApplyResponse = new JButton("Apply response", IconManager.imgic25);
-        buttonStart.addActionListener(this);
+        buttonApplyResponse = new JButton("Apply response", IconManager.imgic75);
+        buttonApplyResponse.addActionListener(this);
 
         JPanel lowPart = new JPanel(new BorderLayout());
         JPanel jp = new JPanel();
@@ -164,7 +193,6 @@ public class JFrameAI extends JFrame implements ActionListener {
     }
 
 
-
     public void actionPerformed(ActionEvent evt) {
 
         TraceManager.addDev("Action performed");
@@ -172,9 +200,12 @@ public class JFrameAI extends JFrame implements ActionListener {
         if (evt.getSource() == buttonClose) {
             close();
         } else if (evt.getSource() == buttonStart) {
+            TraceManager.addDev("start!");
             start();
         } else if (evt.getSource() == buttonApplyResponse) {
             applyResponse();
+        } else if (evt.getSource() == listOfPossibleActions) {
+            enableDisableActions();
         }
     }
 
@@ -184,36 +215,192 @@ public class JFrameAI extends JFrame implements ActionListener {
     }
 
     private void start() {
-
+        runChat();
     }
 
     private void applyResponse() {
+        if (previousKind == 1) {
+            applyRequirementClassification();
+        }
+    }
+
+    private void applyRequirementClassification() {
+        if (previousTDP == null) {
+            error("No diagram has been selected\n");
+            return;
+        }
+
+        if (!(previousTDP instanceof AvatarRDPanel)) {
+            error("Wrong diagram has been selected\n");
+            return;
+        }
+
+        AvatarRDPanel rdpanel = (AvatarRDPanel) previousTDP;
+
+        inform("Enhancing requirement diagram with ai answer, please wait\n");
+
+        for (TGComponent tgc : rdpanel.getAllRequirements()) {
+            AvatarRDRequirement req = (AvatarRDRequirement) tgc;
+            String query = req.getValue() + ":";
+            int index = automatedAnswer.indexOf(query);
+            if (index != -1) {
+                String kind = automatedAnswer.substring((index + query.length()), automatedAnswer.length()).trim();
+                //TraceManager.addDev("Kind=" + kind);
+                int indexSpace = kind.indexOf("\n");
+                int indexSpace1 = kind.indexOf(" ");
+                String kTmp;
+                if ((indexSpace1 > -1) || (indexSpace > -1)) {
+                    if ((indexSpace1 > -1) && (indexSpace > -1)) {
+                        indexSpace = Math.min(indexSpace, indexSpace1);
+                        kTmp = kind.substring(0, indexSpace);
+                    } else if (indexSpace1 > -1) {
+                        kTmp = kind.substring(0, indexSpace1);
+                    } else {
+                        kTmp = kind.substring(0, indexSpace);
+                    }
+                } else {
+                    kTmp = kind;
+                }
+
+                //TraceManager.addDev("Looking for req=" +  req.getValue() + " to set kind to " + kTmp);
+                String k = JDialogRequirement.getKindFromString(kTmp);
+                if (k != null) {
+                    req.setKind(k);
+                    inform("\tRequirement " + req.getValue() + " kind was set to " + k + "\n");
+                } else {
+                    error("Unknown kind: " + k + "\n");
+                }
+            }
+        }
+
+        rdpanel.repaint();
+
 
     }
 
     private void enableDisableActions() {
-
+        buttonApplyResponse.setEnabled(automatedAnswer != null);
+        buttonStart.setEnabled(!go);
     }
 
-    private void setOptionsJTextArea(JTextArea jta, boolean _isEditable) {
+    private void setOptionsJTextPane(JTextPane jta, boolean _isEditable) {
         jta.setEditable(_isEditable);
         jta.setMargin(new Insets(10, 10, 10, 10));
-        jta.setTabSize(3);
         Font f = new Font("Courrier", Font.BOLD, 12);
         jta.setFont(f);
     }
 
-    private void addToConsole() {
-        console.append("Select options and click on \"start\"");
+
+    private void runChat() {
+        Thread t = new Thread(this);
+        t.start();
+    }
+
+    public void run() {
+        go = true;
+        enableDisableActions();
+
+        if (makeAIInterface()) {
+            if (listOfPossibleActions.getSelectedIndex() == 0) {
+                simpleChat();
+            }
+
+            if (listOfPossibleActions.getSelectedIndex() == 1) {
+                classifyRequirements();
+            }
+
+
+        }
+
+        go = false;
+        enableDisableActions();
+    }
+
+    private void simpleChat() {
+        if (question.getText().trim().length() == 0) {
+            error("No question is provided. Aborting.\n\n");
+            return;
+        }
+
+
+        inform("Simple chat is selected\n");
+        TraceManager.addDev("Appending: " + question.getText().trim() + " to answer");
+        GraphicLib.appendToPane(answer, "\nYou:" + question.getText().trim() + "\n", Color.blue);
+
+        try {
+            GraphicLib.appendToPane(console, "Connecting, waiting for answer\n", Color.blue);
+            lastChatAnswer = aiinterface.chat(question.getText().trim(), true, true);
+        } catch (AIInterfaceException aiie) {
+            error(aiie.getMessage());
+            return;
+        }
+        inform("Got answer from ai. All done.\n\n");
+        GraphicLib.appendToPane(answer, "\nAI:" + lastChatAnswer + "\n", Color.red);
+        question.setText("");
+
+    }
+
+    private void classifyRequirements() {
+        inform("Classifying requirements is selected\n");
+        TDiagramPanel tdp = mgui.getCurrentTDiagramPanel();
+        if (!(tdp instanceof AvatarRDPanel)) {
+            error("A requirement diagram must be selected first");
+            return;
+        }
+
+        String s = ((AvatarRDPanel) tdp).toSysMLV2TextExcludeType(true).toString();
+        if (s.length() == 0) {
+            error("Empty requirement diagram. Aborting");
+            return;
+        }
+
+        TraceManager.addDev("Appending: " + s.trim() + " to answer");
+        String question = "\nTTool:" + QUESTION_CLASSIFY_REQ + "\n" + s.trim() + "\n";
+        makeQuestion(question, KIND_CLASSIFY_REQUIREMENT, tdp);
+    }
+
+    private void makeQuestion(String _question, int _kind, TDiagramPanel _tdp) {
+        GraphicLib.appendToPane(answer, _question, Color.blue);
+
+        try {
+            GraphicLib.appendToPane(console, "Connecting, waiting for answer\n", Color.blue);
+            automatedAnswer = aiinterface.chat(_question, true, true);
+            previousKind = _kind;
+            previousTDP = _tdp;
+        } catch (AIInterfaceException aiie) {
+            error(aiie.getMessage());
+            return;
+        }
+        inform("Got answer from ai. All done.\n\n");
+        GraphicLib.appendToPane(answer, "\nAI:" + automatedAnswer + "\n", Color.red);
+    }
+
+    private boolean makeAIInterface() {
+        if (aiinterface == null) {
+            String key = ConfigurationTTool.OPENAIKey;
+            if (key == null) {
+                error("No key has been set. Aborting.\n");
+                return false;
+            } else {
+                TraceManager.addDev("Setting key: " + key);
+                aiinterface = new AIInterface();
+                aiinterface.setURL(AIInterface.URL_OPENAI_COMPLETION);
+                aiinterface.setAIModel(AIInterface.MODEL_GPT_35);
+                aiinterface.setKey(key);
+            }
+        }
+        return true;
+    }
+
+    private void error(String text) {
+        GraphicLib.appendToPane(console, text, Color.red);
+    }
+
+    private void inform(String text) {
+        GraphicLib.appendToPane(console, text, Color.blue);
     }
 
 
-
-
-
-
-
-
-} // Class 
+} // Class
 
 	

@@ -56,6 +56,8 @@ import java.util.*;
  * @version 1.0 20/04/2010
  */
 public class AvatarRDPanel extends TDiagramPanel implements TDPWithAttributes, NameChecker.SystemWithNamedElements {
+    private static String CR = "\n";
+
     public Vector validated, ignored;
 
     public AvatarRDPanel(MainGUI mgui, TToolBar _ttb) {
@@ -171,6 +173,17 @@ public class AvatarRDPanel extends TDiagramPanel implements TDPWithAttributes, N
 
         return list;
 
+    }
+
+    public AvatarRDRequirement getReqWithName(String name) {
+        for(TGComponent tgc: componentList) {
+            if (tgc instanceof AvatarRDRequirement) {
+                if (tgc.getValue().compareTo(name) == 0) {
+                    return (AvatarRDRequirement)tgc;
+                }
+            }
+        }
+        return null;
     }
     
     /*public boolean isLinkedByVerifyTo(TGComponent tgc1, TGComponent tgc2) {
@@ -629,6 +642,48 @@ public class AvatarRDPanel extends TDiagramPanel implements TDPWithAttributes, N
             }
         }
     }
+
+    public StringBuffer toSysMLV2Text() {
+        return toSysMLV2TextExcludeType(false);
+    }
+
+    public StringBuffer toSysMLV2TextExcludeType(boolean excludeType) {
+        StringBuffer sb = new StringBuffer();
+        for(TGComponent component: getComponentList()) {
+            if (component instanceof AvatarRDRequirement) {
+                AvatarRDRequirement req = (AvatarRDRequirement)component;
+                sb.append("requirement " + req.getValue() + CR);
+                sb.append("\ttext: " + req.getText() + CR);
+                if (!excludeType){
+                    sb.append("\ttype: " + req.getKind() + CR);
+                }
+                for(TGComponent relation: getComponentList()) {
+                    if (relation instanceof TGConnector) {
+                        if ( (relation instanceof AvatarRDRefineConnector) || (relation instanceof AvatarRDCompositionConnector)
+                                || (relation instanceof AvatarRDDeriveConnector)) {
+                            if (((TGConnector) relation).getTGConnectingPointP1().getFather() == req) {
+                                if (((TGConnector)relation).getTGConnectingPointP2().getFather() instanceof AvatarRDRequirement) {
+                                    AvatarRDRequirement req2 =
+                                            (AvatarRDRequirement)(((TGConnector)relation).getTGConnectingPointP2().getFather());
+                                    String relationS = "refine";
+                                    if (relation instanceof AvatarRDCompositionConnector) {
+                                        relationS = "compose";
+                                    } else if (relation instanceof AvatarRDDeriveConnector) {
+                                        relationS = "derive";
+                                    }
+                                    sb.append("\t" + relationS + ": " + req2.getValue() + CR);
+                                }
+                            }
+                        }
+                    }
+                }
+                sb.append("end requirement " + CR + CR);
+            }
+        }
+        return sb;
+    }
+
+
 }
 
 

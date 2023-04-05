@@ -4447,6 +4447,10 @@ public abstract class TDiagramPanel extends JPanel implements GenericTree {
         }
         return nes;
     }
+
+    public StringBuffer toSysMLV2Text() {
+        return new StringBuffer();
+    }
 }
 
 

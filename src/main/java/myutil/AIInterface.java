@@ -46,6 +46,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 
+import org.apache.batik.anim.timing.Trace;
 import org.json.JSONObject;
 import org.json.JSONArray;
 
@@ -142,10 +143,11 @@ public class AIInterface {
         mainObject.put("messages", array);
 
         // Sending JSON
-        //TraceManager.addDev("Sending: " + mainObject.toString());
+        TraceManager.addDev("Sending: " + mainObject.toString());
         sendJSON(mainObject);
 
         StringBuilder sb = getAnswer();
+        TraceManager.addDev("Got answer");
         JSONObject answerObject = new JSONObject(sb.toString());
         JSONArray answerArray = answerObject.getJSONArray("choices");
         JSONObject answerText = answerArray.getJSONObject(0);

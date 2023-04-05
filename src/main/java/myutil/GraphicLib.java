@@ -40,6 +40,10 @@
 package myutil;
 
 import javax.swing.*;
+import javax.swing.text.AttributeSet;
+import javax.swing.text.SimpleAttributeSet;
+import javax.swing.text.StyleConstants;
+import javax.swing.text.StyleContext;
 import java.awt.*;
 import java.awt.geom.*;
 import java.util.*;
@@ -822,6 +826,21 @@ public final class GraphicLib {
         double deltaY = (p2.getY() - p1.getY()) / 100;
 
         return new Point( (int)(p1.getX() + percentage*deltaX), (int)(p1.getY() + percentage*deltaY) );
+    }
+
+    public static void appendToPane(JTextPane tp, String msg, Color c) {
+        StyleContext sc = StyleContext.getDefaultStyleContext();
+        AttributeSet aset = sc.addAttribute(SimpleAttributeSet.EMPTY, StyleConstants.Foreground, c);
+
+        aset = sc.addAttribute(aset,
+                StyleConstants.FontFamily,
+                "Lucida Console");
+        aset = sc.addAttribute(aset, StyleConstants.Alignment, StyleConstants.ALIGN_JUSTIFIED);
+
+        int len = tp.getDocument().getLength();
+        tp.setCaretPosition(len);
+        tp.setCharacterAttributes(aset, false);
+        tp.replaceSelection(msg);
     }
 
 

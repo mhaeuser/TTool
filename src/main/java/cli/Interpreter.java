@@ -58,7 +58,7 @@ import java.util.Vector;
  */
 public class Interpreter implements Runnable, TerminalProviderInterface {
 
-    public final static Command[] commands = {new Action(), new Help(), new HelpTTool(), new History(), new Print(),
+    public final static Command[] commands = {new Action(), new Chat(), new Help(), new HelpTTool(), new History(), new Print(),
             new Plan(), new PluginAction(), new Quit(),
             new TestSpecific(), new TML(), new Set(), new Wait(), new Robot(), new BF(), new SimulatorScript()};
 
@@ -227,7 +227,7 @@ public class Interpreter implements Runnable, TerminalProviderInterface {
             }
 
             if ((error != null) && (error.length() > 0)) {
-                System.out.println("Error in line " + cptLine + " : " + error);
+                System.out.println("Error in line " + cptLine + ": " + error);
                 if (exitOnError) {
                     System.exit(-1);
                 }

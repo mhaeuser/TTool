@@ -294,7 +294,7 @@ public abstract class TURTLEPanel implements GenericTree, DraggableTabbedPaneCal
 
     }
 
-    public void requestMoveTabFromTo(int src, int dst) {
+    public synchronized void  requestMoveTabFromTo(int src, int dst) {
 
         // Get all the properties
         Component comp = tabbedPane.getComponentAt(src);
@@ -310,11 +310,9 @@ public abstract class TURTLEPanel implements GenericTree, DraggableTabbedPaneCal
 
         Object o = panels.elementAt(src);
         panels.removeElementAt(src);
-        panels.insertElementAt((TDiagramPanel) o, dst);
-
-        // Remove the tab
         tabbedPane.remove(src);
 
+        panels.insertElementAt((TDiagramPanel) o, dst);
         // Add a new tab
         tabbedPane.insertTab(label, icon, comp, tooltip, dst);
 

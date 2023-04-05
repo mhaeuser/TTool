@@ -13,7 +13,8 @@ sourceSets {
 
     test {
         java {
-            srcDir "${rootProject.absPath}/tests/util/fr.tpt.ttool.tests.util/src"
+            //srcDir "${rootProject.absPath}/tests/util/fr.tpt.ttool.tests.util/src"
+	     srcDir "${rootProject.absPath}/src/test/java"
         }
     }
 }
@@ -40,7 +41,7 @@ dependencies {
     implementation name: 'commons-logging-1.0.4'
     implementation name: 'xmlgraphics-commons-2.6'
     implementation name: 'batik-all-1.14'
-     implementation name: 'xml-apis'
+    implementation name: 'xml-apis'
     implementation name: 'json-java'
     implementation name: 'fop'
     

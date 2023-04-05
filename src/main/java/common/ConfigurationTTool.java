@@ -148,6 +148,10 @@ public class ConfigurationTTool {
     // Z3
      public static String Z3LIBS = "";
 
+     // AI
+    public static String OPENAIKey = "";
+    public static String OPENAIModel = "";
+
 
     // Ontology
     //public static String RequirementOntologyWebsite = "";
@@ -500,6 +504,10 @@ public class ConfigurationTTool {
         sb.append("Requirement ontology website: " + RequirementOntologyWebsite + "\n");
         sb.append("Attack ontology website: " + AttackOntologyWebsite + "\n");*/
 
+        sb.append("\nAI:\n");
+        sb.append("Key: " + OPENAIKey + "\n");
+        sb.append("Model: " + OPENAIModel + "\n");
+
         // Plugins
         sb.append("\nPlugins:\n");
         //sb.append("Plugin path: " + PLUGIN_PKG + "\n");
@@ -792,6 +800,14 @@ public class ConfigurationTTool {
             nl = doc.getElementsByTagName("ProVerifVerifierHost");
             if (nl.getLength() > 0)
                 ProVerifVerifierHost(nl);
+
+            nl = doc.getElementsByTagName("OPENAIKey");
+            if (nl.getLength() > 0)
+                openAIKey(nl);
+
+            nl = doc.getElementsByTagName("OPENAIModel");
+            if (nl.getLength() > 0)
+                openAIModel(nl);
 
 
             // Ontologies
@@ -1572,6 +1588,24 @@ public class ConfigurationTTool {
             Element elt = (Element) (nl.item(0));
             PLUGIN_PATH = elt.getAttribute("data");
             PluginManager.PLUGIN_PATH = PLUGIN_PATH;
+        } catch (Exception e) {
+            throw new MalformedConfigurationException(e.getMessage());
+        }
+    }
+
+    private static void openAIKey(NodeList nl) throws MalformedConfigurationException {
+        try {
+            Element elt = (Element) (nl.item(0));
+            OPENAIKey = elt.getAttribute("data");
+        } catch (Exception e) {
+            throw new MalformedConfigurationException(e.getMessage());
+        }
+    }
+
+    private static void openAIModel(NodeList nl) throws MalformedConfigurationException {
+        try {
+            Element elt = (Element) (nl.item(0));
+            OPENAIModel = elt.getAttribute("data");
         } catch (Exception e) {
             throw new MalformedConfigurationException(e.getMessage());
         }

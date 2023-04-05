@@ -74,6 +74,8 @@ public class TGUIAction extends AbstractAction {
     public static final int ACT_MERGE = 228;
     public static final int ACT_SAVE = 2;
 
+    public static final int ACT_IA = 564;
+
     public static final int ACT_SAVE_AS_PROJECT = 31;
     public static final int ACT_SAVE_AS_MODEL = 475;
     public static final int ACT_SAVE_TIF = 213;
@@ -729,7 +731,7 @@ public class TGUIAction extends AbstractAction {
 
 
 
-    public static final int NB_ACTION = 564; // Last + 1
+    public static final int NB_ACTION = 565; // Last + 1
 
     private static final TAction [] actions = new TAction[NB_ACTION];
 
@@ -849,6 +851,8 @@ public class TGUIAction extends AbstractAction {
         actions[ACT_SAVE_AS_PROJECT] = new TAction("saveasproject-command", "Save as Project",IconManager.imgic24, IconManager.imgic25, "Save as Project", "Save an opened or a new TTool modeling under a new project", 0);
         actions[ACT_SAVE_AS_MODEL] = new TAction("saveasmodel-command", "Save as Model",IconManager.imgic24, IconManager.imgic25, "Save as Model", "Save an opened or a new TTool modeling under a new model", 0);
         actions[ACT_QUIT] = new TAction("quit-command", "Quit", IconManager.imgic26, IconManager.imgic27, "Quit",  "Quit TTool", 'Q');
+        actions[ACT_IA] = new TAction("ia-command", "IA", IconManager.imgic152, IconManager.imgic152, "IA",  "Start IA for modeling", 'A');
+
 
         actions[ACT_SAVE_LOTOS] = new TAction("save-last-lotos", "Save last RT-LOTOS specification",IconManager.imgic24, IconManager.imgic25, "Save last RT-LOTOS specification", "Save the lastest automatically generated RT-LOTOS specification", 0);
         actions[ACT_SAVE_DTA] = new TAction("save-last-dta", "Save last DTA",IconManager.imgic24, IconManager.imgic25, "Save last DTA", "Save the lastest built DTA", 0);

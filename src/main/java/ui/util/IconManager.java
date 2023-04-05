@@ -76,7 +76,7 @@ public class IconManager {
     public static ImageIcon imgic90, imgic92, imgic94, imgic96, imgic98, imgic99;
 
     // Diverse actions
-    public static ImageIcon imgic150, imgic151;
+    public static ImageIcon imgic150, imgic151, imgic152;
 
 
     // Class diagram
@@ -362,6 +362,7 @@ public class IconManager {
 
     private static String icon150 = "toolbarButtonGraphics/general/removeTrace16.gif";
     private static String icon151 = "toolbarButtonGraphics/general/removeTrace24.gif";
+    private static String icon152 = "ia.gif";
 
     private static String icon200 = "toolbarButtonGraphics/general/Properties16.gif";
     private static String icon201 = "toolbarButtonGraphics/general/Properties24.gif";
@@ -941,6 +942,7 @@ public class IconManager {
 
         imgic150 = getIcon(icon150);
         imgic151 = getIcon(icon151);
+        imgic152 = getIcon(icon152);
 
         imgic200 = getIcon(icon200);
         imgic201 = getIcon(icon201);

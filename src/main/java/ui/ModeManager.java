@@ -55,7 +55,7 @@ public class ModeManager {
         switch (mode) {
         case MainGUI.CREATE_NEW_PANEL:
             actions[TGUIAction.ACT_MODEL_CHECKING].setEnabled(false);
-            TraceManager.addDev("Deactivating syntax checking");
+            //TraceManager.addDev("Deactivating syntax checking");
             break;
         case MainGUI.NOT_OPENED:
             mgui.activeActions(false);
@@ -98,6 +98,7 @@ public class ModeManager {
             if (mainBar != null) {
                 mainBar.activateSearch(false);
             }
+            actions[TGUIAction.ACT_IA].setEnabled(false);
             break;
         case MainGUI.OPENED:
             actions[TGUIAction.ACT_MERGE].setEnabled(true);
@@ -136,6 +137,9 @@ public class ModeManager {
             if (mainBar != null) {
                 mainBar.activateSearch(true);
             }
+
+            actions[TGUIAction.ACT_IA].setEnabled(true);
+
             // @author: Huy TRUONG
             actions[TGUIAction.ACT_EXTERNAL_SEARCH].setEnabled(true);
             // disable when there is no text in search textfield

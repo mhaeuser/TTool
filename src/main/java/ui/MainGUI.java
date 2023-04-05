@@ -5069,6 +5069,13 @@ public class MainGUI implements ActionListener, WindowListener, KeyListener, Per
 
     }
 
+    public void ai() {
+        TraceManager.addDev("ai");
+        JFrameAI frameAI = new JFrameAI("System engineering with AI");
+        GraphicLib.centerOnParent(frameAI, 1000, 800);
+        frameAI.setVisible(true);
+    }
+
 
     public void avatarSimulation() {
         TraceManager.addDev("Avatar simulation");

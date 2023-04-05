@@ -47,7 +47,6 @@ import compiler.tmlparser.TokenMgrError;
 import myutil.Conversion;
 import myutil.NameChecker;
 import myutil.TraceManager;
-import avatartranslator.intboolsolver.AvatarIBSParser;
 
 import java.io.StringReader;
 import java.util.ArrayList;

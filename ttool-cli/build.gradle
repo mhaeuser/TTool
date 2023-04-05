@@ -19,6 +19,7 @@ sourceSets {
 }
 
 dependencies {
+    implementation name: 'java_cup'
     implementation name: 'opencloud'
     implementation name: 'JavaPlot'
     implementation name: 'derbynet'

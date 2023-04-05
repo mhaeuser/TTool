@@ -12,6 +12,7 @@ sourceSets {
 }
 
 dependencies {
+    implementation name: 'java_cup'
     compileOnly name: 'commons-codec-1.10'
     compileOnly name: 'jsoup-1.8.1'
     implementation name: 'commons-io-2.5'

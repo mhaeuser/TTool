@@ -44,7 +44,7 @@
  */
 package avatartranslator;
 import avatartranslator.intboolsolver.AvatarIBSExpressionClass;
-import avatartranslator.intboolsolver.AvatarIBSParser;
+import avatartranslator.intboolsolver.AvatarIBSOriginParser;
 import avatartranslator.intboolsolver.AvatarIBSAttributeClass;
 import avatartranslator.modelchecker.SpecificationBlock;
 import avatartranslator.modelchecker.SpecificationState;
@@ -56,15 +56,15 @@ import java.util.ArrayList;
 
 import static org.junit.Assert.*;
 
-public class AvatarIBSParserTest {
+public class AvatarIBSOriginParserTest {
 
     private AvatarSpecification as;
     private AvatarBlock block1, block2;
     private AvatarIBSAttributeClass attC = new AvatarIBSAttributeClass();
     private AvatarIBSExpressionClass expr = new AvatarIBSExpressionClass();
 
-    private AvatarIBSParser parser = new AvatarIBSParser(attC,expr);
-    public AvatarIBSParserTest() {
+    private AvatarIBSOriginParser parser = new AvatarIBSOriginParser(attC,expr);
+    public AvatarIBSOriginParserTest() {
     }
     
     @Before

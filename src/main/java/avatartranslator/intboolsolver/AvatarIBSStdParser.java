@@ -71,16 +71,18 @@ import myutil.intboolsolver.*;
  * @author Sophie Coudert
  */
 
-public class AvatarIBSParser extends IBSOriginParser<
+public class AvatarIBSStdParser extends IBSStdParser<
         AvatarSpecification,
         AvatarBlock,
         AvatarStateMachineElement,
         SpecificationState,
         SpecificationBlock> {
-        public AvatarIBSParser() {
-                super(new AvatarIBSAttributeClass(),new AvatarIBSExpressionClass());
+        public AvatarIBSStdParser() {
+                super();
+                setAttributeClass(new AvatarIBSAttributeClass());
+                setExpressionClass(new AvatarIBSExpressionClass());
         }
-        public AvatarIBSParser(
+        public AvatarIBSStdParser(
                 IBSAttributeClass<
                         AvatarSpecification,
                         AvatarBlock,
@@ -93,6 +95,8 @@ public class AvatarIBSParser extends IBSOriginParser<
                         AvatarStateMachineElement,
                         SpecificationState,
                         SpecificationBlock> _e) {
-                super(_c,_e);
+                super();
+                setAttributeClass(_c);
+                setExpressionClass(_e);
         }
 }

@@ -14,24 +14,24 @@ import java.util.HashSet;
 %yylexthrow Exception
 
 %{
-private IBSStdAttributeClass<Spec,Comp,State,SpecState,CompState> attrC;
+private IBSAttributeClass<Spec,Comp,State,SpecState,CompState> attrC;
 private IBSExpressionClass<Spec,Comp,State,SpecState,CompState> exprC;
 private final HashSet<String> badIdents = new HashSet<String>();
 
 public IBSStdLexer(){}
-public void setAttributeClass( IBSStdAttributeClass<Spec,Comp,State,SpecState,CompState> _attrC) { attrC = _attrC; }
-public IBSStdAttributeClass<Spec,Comp,State,SpecState,CompState> getAttributeClass() { return attrC; }
+public void setAttributeClass( IBSAttributeClass<Spec,Comp,State,SpecState,CompState> _attrC) { attrC = _attrC; }
+public IBSAttributeClass<Spec,Comp,State,SpecState,CompState> getAttributeClass() { return attrC; }
 public void setExpressionClass( IBSExpressionClass<Spec,Comp,State,SpecState,CompState> _exprC) { exprC = _exprC; }
 public IBSExpressionClass<Spec,Comp,State,SpecState,CompState> getExpressionClass() { return exprC; }
 public HashSet<String> getBadIdents() { return badIdents; }
 public void clearBadIdents() { badIdents.clear(); }
 
 private abstract class AttrHandler {
-    public abstract IBSStdAttributeClass<Spec,Comp,State,SpecState,CompState>.TypedAttribute getTypedAttribute(String _s) throws Exception;
+    public abstract IBSAttributeClass<Spec,Comp,State,SpecState,CompState>.TypedAttribute getTypedAttribute(String _s) throws Exception;
 }
 private class ClosedAttrHandler extends AttrHandler {
     ClosedAttrHandler(){};
-    public IBSStdAttributeClass<Spec,Comp,State,SpecState,CompState>.TypedAttribute getTypedAttribute(String _s)
+    public IBSAttributeClass<Spec,Comp,State,SpecState,CompState>.TypedAttribute getTypedAttribute(String _s)
        throws Exception {
         badIdents.add(_s); throw new Exception ("Ident in closed expression: " +  _s);
     }
@@ -39,14 +39,14 @@ private class ClosedAttrHandler extends AttrHandler {
 private class SpecAttrHandler extends AttrHandler {
     private Spec spec;
     SpecAttrHandler(Spec _spec){ spec = _spec; }
-    public IBSStdAttributeClass<Spec,Comp,State,SpecState,CompState>.TypedAttribute getTypedAttribute(String _s){
+    public IBSAttributeClass<Spec,Comp,State,SpecState,CompState>.TypedAttribute getTypedAttribute(String _s){
         return attrC.getTypedAttribute(spec,_s);
     }
 }
 private class CompAttrHandler extends AttrHandler {
     private Comp comp;
     CompAttrHandler(Comp _comp){ comp = _comp; }
-    public IBSStdAttributeClass<Spec,Comp,State,SpecState,CompState>.TypedAttribute getTypedAttribute(String _s){
+    public IBSAttributeClass<Spec,Comp,State,SpecState,CompState>.TypedAttribute getTypedAttribute(String _s){
         return attrC.getTypedAttribute(comp,_s);
     }
 }
@@ -93,14 +93,14 @@ Identifier = [a-zA-Z_][a-zA-Z0-9_\.]*
  ">="           { return new Symbol(IBSStdParserSym.GEQ); }
  "("            { return new Symbol(IBSStdParserSym.LPAR); }
  ")"            { return new Symbol(IBSStdParserSym.RPAR); }
- {Identifier}   { IBSStdAttributeClass<Spec,Comp,State,SpecState,CompState>.TypedAttribute attr =
+ {Identifier}   { IBSAttributeClass<Spec,Comp,State,SpecState,CompState>.TypedAttribute attr =
                       attrHandler.getTypedAttribute(yytext());
                   switch(attr.getType()) {
-                      case IBSStdAttributeClass.NullAttr : badIdents.add(yytext()); throw new Exception ("Bad Ident : " +  yytext());
-                      case IBSStdAttributeClass.BoolConst : return new Symbol(IBSStdParserSym.BOOL, Integer.valueOf(exprC.make_bConst(attr.getConstant()!=0)));
-                      case IBSStdAttributeClass.IntConst : return new Symbol(IBSStdParserSym.INT, Integer.valueOf(exprC.make_iConst(attr.getConstant())));
-                      case IBSStdAttributeClass.BoolAttr : return new Symbol(IBSStdParserSym.BOOL, Integer.valueOf(exprC.make_bVar(attr.getAttribute())));
-                      case IBSStdAttributeClass.IntAttr : return new Symbol(IBSStdParserSym.INT, Integer.valueOf(exprC.make_iVar(attr.getAttribute())));
+                      case IBSAttributeClass.NullAttr : badIdents.add(yytext()); throw new Exception ("Bad Ident : " +  yytext());
+                      case IBSAttributeClass.BoolConst : return new Symbol(IBSStdParserSym.BOOL, Integer.valueOf(exprC.make_bConst(attr.getConstant()!=0)));
+                      case IBSAttributeClass.IntConst : return new Symbol(IBSStdParserSym.INT, Integer.valueOf(exprC.make_iConst(attr.getConstant())));
+                      case IBSAttributeClass.BoolAttr : return new Symbol(IBSStdParserSym.BOOL, Integer.valueOf(exprC.make_bVar(attr.getAttribute())));
+                      case IBSAttributeClass.IntAttr : return new Symbol(IBSStdParserSym.INT, Integer.valueOf(exprC.make_iVar(attr.getAttribute())));
                       default : throw new Error ("Lexer, BUG : bad attribute type");
                   }
                 }

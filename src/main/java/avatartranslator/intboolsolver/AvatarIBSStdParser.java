@@ -96,6 +96,12 @@ public class AvatarIBSStdParser extends IBSStdParser<
                         SpecificationState,
                         SpecificationBlock> _e) {
                 super();
+                setLexer(new IBSStdLexer<
+                        AvatarSpecification,
+                        AvatarBlock,
+                        AvatarStateMachineElement,
+                        SpecificationState,
+                        SpecificationBlock>());
                 setAttributeClass(_c);
                 setExpressionClass(_e);
         }

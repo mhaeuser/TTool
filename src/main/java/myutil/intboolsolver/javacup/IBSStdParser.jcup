@@ -199,7 +199,8 @@ expr    ::=
 ;
 
 iexpr   ::=
-     iexpr:l PLUS ifact:r
+     ifact:e  {: RESULT = e; :}
+   | iexpr:l PLUS ifact:r
       {: RESULT = Integer.valueOf(lexer.getExpressionClass().make_iiiPlus(l.intValue(),r.intValue()));
          lexer.getExpressionClass().freeInt(l.intValue());
          lexer.getExpressionClass().freeInt(r.intValue());
@@ -209,7 +210,6 @@ iexpr   ::=
          lexer.getExpressionClass().freeInt(l.intValue());
          lexer.getExpressionClass().freeInt(r.intValue());
       :}
-   | ifact:e  {: RESULT = e; :}
 ;
 
 ifact   ::=
@@ -238,12 +238,12 @@ iatom   ::=
 ;
 
 bexpr   ::=
-      bexpr:l OR bfact:r
+      bfact:e {: RESULT = e; :}
+    | bexpr:l OR bfact:r
       {: RESULT = Integer.valueOf(lexer.getExpressionClass().make_bbbOr(l.intValue(),r.intValue()));
          lexer.getExpressionClass().freeBool(l.intValue());
          lexer.getExpressionClass().freeBool(r.intValue());
       :}
-    | bfact:e {: RESULT = e; :}
 ;
 
 bfact   ::=

@@ -11,7 +11,7 @@ import java.util.HashSet;
  * on 05/04/2023 15:54 from the specification file
  * <tt>IBSStdLexer.jflex</tt>
  */
-class IBSStdLexer< Spec extends IBSParamSpec, Comp extends IBSParamComp, State extends IBSParamState, SpecState extends IBSParamSpecState, CompState extends IBSParamCompState > implements java_cup.runtime.Scanner {
+public class IBSStdLexer< Spec extends IBSParamSpec, Comp extends IBSParamComp, State extends IBSParamState, SpecState extends IBSParamSpecState, CompState extends IBSParamCompState > implements java_cup.runtime.Scanner {
 
   /** This character denotes the end of file */
   public static final int YYEOF = -1;

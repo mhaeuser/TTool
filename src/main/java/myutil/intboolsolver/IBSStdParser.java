@@ -34,10 +34,10 @@ public class IBSStdParser< Spec extends IBSParamSpec, Comp extends IBSParamComp,
   protected static final short _production_table[][] = 
     unpackFromStrings(new String[] {
     "\000\035\000\002\002\004\000\002\002\004\000\002\002" +
-    "\004\000\002\003\005\000\002\003\005\000\002\003\003" +
+    "\004\000\002\003\003\000\002\003\005\000\002\003\005" +
     "\000\002\004\005\000\002\004\005\000\002\004\005\000" +
     "\002\004\003\000\002\005\003\000\002\005\005\000\002" +
-    "\005\004\000\002\006\005\000\002\006\003\000\002\007" +
+    "\005\004\000\002\006\003\000\002\006\005\000\002\007" +
     "\005\000\002\007\003\000\002\010\003\000\002\010\003" +
     "\000\002\010\005\000\002\010\004\000\002\011\005\000" +
     "\002\011\005\000\002\011\005\000\002\011\005\000\002" +
@@ -65,13 +65,13 @@ public class IBSStdParser< Spec extends IBSParamSpec, Comp extends IBSParamComp,
     "\012\027\013\001\002\000\040\002\ufff8\004\ufff8\005\ufff8" +
     "\006\ufff8\007\ufff8\010\ufff8\011\ufff8\012\ufff8\013\ufff8\014" +
     "\ufff8\015\ufff8\016\ufff8\017\ufff8\020\ufff8\023\ufff8\001\002" +
-    "\000\016\002\ufff3\011\047\012\ufff3\013\ufff3\014\ufff3\023" +
-    "\ufff3\001\002\000\022\004\032\005\033\013\053\014\054" +
+    "\000\016\002\ufff4\011\047\012\ufff4\013\ufff4\014\ufff4\023" +
+    "\ufff4\001\002\000\022\004\032\005\033\013\053\014\054" +
     "\015\055\016\056\017\060\020\057\001\002\000\014\005" +
     "\010\021\021\022\015\026\012\027\013\001\002\000\040" +
-    "\002\ufffc\004\ufffc\005\ufffc\006\025\007\026\010\024\011" +
-    "\ufffc\012\ufffc\013\ufffc\014\ufffc\015\ufffc\016\ufffc\017\ufffc" +
-    "\020\ufffc\023\ufffc\001\002\000\016\002\uffef\011\uffef\012" +
+    "\002\ufffe\004\ufffe\005\ufffe\006\025\007\026\010\024\011" +
+    "\ufffe\012\ufffe\013\ufffe\014\ufffe\015\ufffe\016\ufffe\017\ufffe" +
+    "\020\ufffe\023\ufffe\001\002\000\016\002\uffef\011\uffef\012" +
     "\uffef\013\uffef\014\uffef\023\uffef\001\002\000\010\005\010" +
     "\022\027\026\012\001\002\000\010\005\010\022\027\026" +
     "\012\001\002\000\010\005\010\022\027\026\012\001\002" +
@@ -83,12 +83,12 @@ public class IBSStdParser< Spec extends IBSParamSpec, Comp extends IBSParamComp,
     "\010\005\010\022\027\026\012\001\002\000\040\002\ufff6" +
     "\004\ufff6\005\ufff6\006\ufff6\007\ufff6\010\ufff6\011\ufff6\012" +
     "\ufff6\013\ufff6\014\ufff6\015\ufff6\016\ufff6\017\ufff6\020\ufff6" +
-    "\023\ufff6\001\002\000\040\002\ufffd\004\ufffd\005\ufffd\006" +
-    "\025\007\026\010\024\011\ufffd\012\ufffd\013\ufffd\014\ufffd" +
-    "\015\ufffd\016\ufffd\017\ufffd\020\ufffd\023\ufffd\001\002\000" +
-    "\040\002\ufffe\004\ufffe\005\ufffe\006\025\007\026\010\024" +
-    "\011\ufffe\012\ufffe\013\ufffe\014\ufffe\015\ufffe\016\ufffe\017" +
-    "\ufffe\020\ufffe\023\ufffe\001\002\000\040\002\ufffb\004\ufffb" +
+    "\023\ufff6\001\002\000\040\002\ufffc\004\ufffc\005\ufffc\006" +
+    "\025\007\026\010\024\011\ufffc\012\ufffc\013\ufffc\014\ufffc" +
+    "\015\ufffc\016\ufffc\017\ufffc\020\ufffc\023\ufffc\001\002\000" +
+    "\040\002\ufffd\004\ufffd\005\ufffd\006\025\007\026\010\024" +
+    "\011\ufffd\012\ufffd\013\ufffd\014\ufffd\015\ufffd\016\ufffd\017" +
+    "\ufffd\020\ufffd\023\ufffd\001\002\000\040\002\ufffb\004\ufffb" +
     "\005\ufffb\006\ufffb\007\ufffb\010\ufffb\011\ufffb\012\ufffb\013" +
     "\ufffb\014\ufffb\015\ufffb\016\ufffb\017\ufffb\020\ufffb\023\ufffb" +
     "\001\002\000\040\002\ufff9\004\ufff9\005\ufff9\006\ufff9\007" +
@@ -99,8 +99,8 @@ public class IBSStdParser< Spec extends IBSParamSpec, Comp extends IBSParamComp,
     "\002\000\014\005\010\021\021\022\015\026\012\027\013" +
     "\001\002\000\014\005\010\021\021\022\015\026\012\027" +
     "\013\001\002\000\010\012\044\013\043\014\042\001\002" +
-    "\000\016\002\ufff4\011\047\012\ufff4\013\ufff4\014\ufff4\023" +
-    "\ufff4\001\002\000\014\005\010\021\021\022\015\026\012" +
+    "\000\016\002\ufff3\011\047\012\ufff4\013\ufff4\014\ufff4\023" +
+    "\ufff3\001\002\000\014\005\010\021\021\022\015\026\012" +
     "\027\013\001\002\000\016\002\ufff2\011\ufff2\012\ufff2\013" +
     "\ufff2\014\ufff2\023\ufff2\001\002\000\016\002\uffe6\011\uffe6" +
     "\012\uffe6\013\uffe6\014\uffe6\023\uffe6\001\002\000\016\002" +
@@ -432,7 +432,19 @@ class CUP$IBSStdParser$actions {
           return CUP$IBSStdParser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 3: // iexpr ::= iexpr PLUS ifact 
+          case 3: // iexpr ::= ifact 
+            {
+              Integer RESULT =null;
+		int eleft = (CUP$IBSStdParser$stack.peek()).left;
+		int eright = (CUP$IBSStdParser$stack.peek()).right;
+		Integer e = CUP$IBSStdParser$stack.peek().<Integer>value();
+		 RESULT = e; 
+              CUP$IBSStdParser$result = parser.getSymbolFactory().newSymbol("iexpr",1, CUP$IBSStdParser$stack.peek(), CUP$IBSStdParser$stack.peek(), RESULT);
+            }
+          return CUP$IBSStdParser$result;
+
+          /*. . . . . . . . . . . . . . . . . . . .*/
+          case 4: // iexpr ::= iexpr PLUS ifact 
             {
               Integer RESULT =null;
 		int lleft = (CUP$IBSStdParser$stack.elementAt(CUP$IBSStdParser$top-2)).left;
@@ -450,7 +462,7 @@ class CUP$IBSStdParser$actions {
           return CUP$IBSStdParser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 4: // iexpr ::= iexpr MINUS ifact 
+          case 5: // iexpr ::= iexpr MINUS ifact 
             {
               Integer RESULT =null;
 		int lleft = (CUP$IBSStdParser$stack.elementAt(CUP$IBSStdParser$top-2)).left;
@@ -464,18 +476,6 @@ class CUP$IBSStdParser$actions {
          lexer.getExpressionClass().freeInt(r.intValue());
       
               CUP$IBSStdParser$result = parser.getSymbolFactory().newSymbol("iexpr",1, CUP$IBSStdParser$stack.elementAt(CUP$IBSStdParser$top-2), CUP$IBSStdParser$stack.peek(), RESULT);
-            }
-          return CUP$IBSStdParser$result;
-
-          /*. . . . . . . . . . . . . . . . . . . .*/
-          case 5: // iexpr ::= ifact 
-            {
-              Integer RESULT =null;
-		int eleft = (CUP$IBSStdParser$stack.peek()).left;
-		int eright = (CUP$IBSStdParser$stack.peek()).right;
-		Integer e = CUP$IBSStdParser$stack.peek().<Integer>value();
-		 RESULT = e; 
-              CUP$IBSStdParser$result = parser.getSymbolFactory().newSymbol("iexpr",1, CUP$IBSStdParser$stack.peek(), CUP$IBSStdParser$stack.peek(), RESULT);
             }
           return CUP$IBSStdParser$result;
 
@@ -582,7 +582,19 @@ class CUP$IBSStdParser$actions {
           return CUP$IBSStdParser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 13: // bexpr ::= bexpr OR bfact 
+          case 13: // bexpr ::= bfact 
+            {
+              Integer RESULT =null;
+		int eleft = (CUP$IBSStdParser$stack.peek()).left;
+		int eright = (CUP$IBSStdParser$stack.peek()).right;
+		Integer e = CUP$IBSStdParser$stack.peek().<Integer>value();
+		 RESULT = e; 
+              CUP$IBSStdParser$result = parser.getSymbolFactory().newSymbol("bexpr",4, CUP$IBSStdParser$stack.peek(), CUP$IBSStdParser$stack.peek(), RESULT);
+            }
+          return CUP$IBSStdParser$result;
+
+          /*. . . . . . . . . . . . . . . . . . . .*/
+          case 14: // bexpr ::= bexpr OR bfact 
             {
               Integer RESULT =null;
 		int lleft = (CUP$IBSStdParser$stack.elementAt(CUP$IBSStdParser$top-2)).left;
@@ -596,18 +608,6 @@ class CUP$IBSStdParser$actions {
          lexer.getExpressionClass().freeBool(r.intValue());
       
               CUP$IBSStdParser$result = parser.getSymbolFactory().newSymbol("bexpr",4, CUP$IBSStdParser$stack.elementAt(CUP$IBSStdParser$top-2), CUP$IBSStdParser$stack.peek(), RESULT);
-            }
-          return CUP$IBSStdParser$result;
-
-          /*. . . . . . . . . . . . . . . . . . . .*/
-          case 14: // bexpr ::= bfact 
-            {
-              Integer RESULT =null;
-		int eleft = (CUP$IBSStdParser$stack.peek()).left;
-		int eright = (CUP$IBSStdParser$stack.peek()).right;
-		Integer e = CUP$IBSStdParser$stack.peek().<Integer>value();
-		 RESULT = e; 
-              CUP$IBSStdParser$result = parser.getSymbolFactory().newSymbol("bexpr",4, CUP$IBSStdParser$stack.peek(), CUP$IBSStdParser$stack.peek(), RESULT);
             }
           return CUP$IBSStdParser$result;
 

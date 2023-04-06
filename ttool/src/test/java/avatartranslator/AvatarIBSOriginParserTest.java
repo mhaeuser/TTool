@@ -296,22 +296,22 @@ public class AvatarIBSOriginParserTest {
         assertTrue(e4.eval(ss) == -2);
 
         // visual test (among others, test toString)
-        int i;
+        int i,j;
         String[] str = {
-                "block1.x",
-                "block2.y",
+                "block1.key1",
+                "block1.key2",
                 "block1.x + block2.y > 3",
                 "block1.x - block2.y < 5 ",
                 "not(block1.x + block2.y<=3)",
                 "not(block1.x - block2.y>=5)",
-                "block1.x == true",
-                "(2 && block2.y) == 4"
+                "block1.key2 == true",
+                "(true && block1.key1) == false"
         };
 
         for (i = 0; i < str.length; i++) {
             e2 = (AvatarIBSExpressionClass.BExpr) parser.parseBool(as, str[i]);
             assertTrue(e2 != null);
-            System.out.println(str[i] + " ==> " + e2 + "  $$  " + e2.eval(ss));
+            System.out.println(str[i] + " == toString ==> " + e2 + "  $$  " + e2.eval(ss));
         }
         // end of visual test
 
@@ -320,7 +320,7 @@ public class AvatarIBSOriginParserTest {
         as.setAttributeOptRatio(4);
         ss = new SpecificationState();
         ss.setInit(as, false);
-        
+
         e1 = (AvatarIBSExpressionClass.IExpr) parser.parseInt(as,"block1.x + block2.y");
         assertTrue(e1!=null);
         e2 = (AvatarIBSExpressionClass.BExpr) parser.parseBool(as,"-block1.x / block1.y - 15 * block2.z + 1 == -46");
@@ -333,28 +333,32 @@ public class AvatarIBSOriginParserTest {
         assertTrue(e2.eval(ss));
         assertTrue(e4.eval(ss) == -2);
 
-        // PERFORMANCE TEST
-        AvatarIBSExpressionClass.IExpr E = (AvatarIBSExpressionClass.IExpr) parser.parseInt(as,"(block1.x + block2.y) * 5 - (((block1.x + " +
-                "block2.y)) + block2.y) * 3");
+        // PERFORMANCE TEST (VISUAL) =============================
+        int OUTER_LOOP = 1000;
+        int INNER_LOOP = 10000;
 
-        int j;
         String s = "(block1.x + block2.y) * 5 - (((block2.x + block1.y)) + block2.w) * ";
         ArrayList<AvatarIBSExpressionClass.IExpr> arr = new ArrayList<AvatarIBSExpressionClass.IExpr>();
 
-        long t1 =  System.currentTimeMillis();
-        for(i=0;i<10000;i++){
+        long parse_beg =  System.currentTimeMillis();
+        for(i=0;i<INNER_LOOP;i++){
             arr.add((AvatarIBSExpressionClass.IExpr) parser.parseInt(as, s+i));}
+        long parse_end =  System.currentTimeMillis();
 
-        long t2 =  System.currentTimeMillis();
-        int e=2;
-        for(j=0;j<100;j++) {
-            for (i = 0; i < 10000; i++) {
+        System.gc();
+        int e=0;
+
+        long eval_beg =  System.currentTimeMillis();
+        for(j=0;j<OUTER_LOOP;j++) {
+            for (i = 0; i < INNER_LOOP; i++) {
                 e += arr.get(i).eval(ss);
             }
         }
-
-        long t3 = System.currentTimeMillis();
-        System.out.println(arr.get(i-1).toString());
-        System.out.println(" Durations, parsing: " + (t2 - t1) + " , evaluation: " + (t3 - t2));
+        long eval_end = System.currentTimeMillis();
+        System.out.println("Expression : " + s + "some_integer");
+        System.out.println("INNER LOOP : " + INNER_LOOP + ", OUTER_LOOP : " + OUTER_LOOP +
+                "  ( " + OUTER_LOOP + " times " + INNER_LOOP + " expressions )");
+        System.out.println("Parsing time : " + (parse_end - parse_beg));
+        System.out.println("Evaluation time : " + (eval_end - eval_beg));
     }
 }

@@ -314,8 +314,12 @@ public class AvatarIBSStdParserTest {
                 "not(block1.x + block2.y<=3)",
                 "not(block1.x - block2.y>=5)",
                 "block1.key2 == true",
-                "(true && block1.key1) == false"
-        };
+                "(true && block1.key1) == false",
+                "true || false == false && true",
+                "true && false == false || true",
+                "true && false == false && true",
+                "true || false == false || true"
+      };
 
         for (i = 0; i < str.length; i++) {
             e2 = (AvatarIBSExpressionClass.BExpr) parser.parseBool(as, str[i]);
@@ -370,4 +374,10 @@ public class AvatarIBSStdParserTest {
         System.out.println("Parsing time : " + (parse_end - parse_beg));
         System.out.println("Evaluation time : " + (eval_end - eval_beg));
     }
+     @Test
+    public void testTMP() {
+        AvatarIBSExpressionClass.BExpr e =
+                (AvatarIBSExpressionClass.BExpr) parser.parseBool( "true || false == false || true");
+        assertNotNull(e);
+     }
 }

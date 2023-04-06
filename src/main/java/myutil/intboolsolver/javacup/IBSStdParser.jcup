@@ -238,12 +238,13 @@ iatom   ::=
 ;
 
 bexpr   ::=
-      bfact:e {: RESULT = e; :}
-    | bexpr:l OR bfact:r
+      bexpr:l OR bfact:r
       {: RESULT = Integer.valueOf(lexer.getExpressionClass().make_bbbOr(l.intValue(),r.intValue()));
+      System.out.println("BBOR: " + lexer.getExpressionClass().getBExpr(RESULT).toString());
          lexer.getExpressionClass().freeBool(l.intValue());
          lexer.getExpressionClass().freeBool(r.intValue());
       :}
+    | bfact:e {: RESULT = e; :}
 ;
 
 bfact   ::=
@@ -295,6 +296,7 @@ bcomp   ::=
       :}
     | bexpr:l EQ bexpr:r
       {: RESULT = Integer.valueOf(lexer.getExpressionClass().make_bbbEq(l.intValue(),r.intValue()));
+      System.out.println("BBEQ: " + lexer.getExpressionClass().getBExpr(RESULT).toString());
          lexer.getExpressionClass().freeBool(l.intValue());
          lexer.getExpressionClass().freeBool(r.intValue());
       :}

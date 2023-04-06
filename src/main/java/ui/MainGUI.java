@@ -755,7 +755,6 @@ public class MainGUI implements ActionListener, WindowListener, KeyListener, Per
     }
 
     public void search(String text) {
-
         Vector<Object> elements = new Vector<Object>();
 
         TURTLEPanel panel;
@@ -767,7 +766,6 @@ public class MainGUI implements ActionListener, WindowListener, KeyListener, Per
         elements.addAll(helpManager.getEntriesWithKeyword(text.split(" ")));
 
         gtm.setElementsOfSearchTree(elements);
-        // TraceManager.addDev("Found " + elements.size() + " elements");
         dtree.forceUpdate();
     }
 

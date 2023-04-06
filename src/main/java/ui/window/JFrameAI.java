@@ -40,6 +40,8 @@
 package ui.window;
 
 import common.ConfigurationTTool;
+import help.HelpEntry;
+import help.HelpManager;
 import myutil.AIInterface;
 import myutil.AIInterfaceException;
 import myutil.GraphicLib;
@@ -55,6 +57,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 
 /**
@@ -84,6 +88,10 @@ public class JFrameAI extends JFrame implements ActionListener, Runnable {
     private int previousKind;
     private String lastChatAnswer;
 
+    private JMenuBar menuBar;
+    private JMenu help;
+    private JPopupMenu helpPopup;
+
     private AIInterface aiinterface;
 
     private boolean go = false;
@@ -98,6 +106,30 @@ public class JFrameAI extends JFrame implements ActionListener, Runnable {
     }
 
     public void makeComponents() {
+
+        helpPopup = new JPopupMenu();
+        helpPopup.add(new JLabel(IconManager.imgic7009));
+        helpPopup.setPreferredSize(new Dimension(600, 900));
+        menuBar = new JMenuBar();
+        menuBar.setComponentOrientation(ComponentOrientation.RIGHT_TO_LEFT);
+        help = new JMenu("?");
+        menuBar.add(help);
+        setJMenuBar(menuBar);
+
+        help.setPreferredSize(new Dimension(30, 30));
+        help.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                help();
+            }
+        });
+        helpPopup.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("ESCAPE"), "closeJlabel");
+        helpPopup.getActionMap().put("closeJlabel", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                helpPopup.setVisible(false);
+            }
+        });
 
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         Container framePanel = getContentPane();
@@ -398,6 +430,17 @@ public class JFrameAI extends JFrame implements ActionListener, Runnable {
 
     private void inform(String text) {
         GraphicLib.appendToPane(console, text, Color.blue);
+    }
+
+    public void help() {
+        if (mgui == null) {
+            TraceManager.addDev("Null mgui");
+        }
+
+        HelpManager hm = mgui.getHelpManager();
+        HelpEntry he = hm.getHelpEntryWithHTMLFile("ai.html");
+        mgui.openHelpFrame(he);
+
     }
 
 

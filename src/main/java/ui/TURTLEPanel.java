@@ -88,7 +88,11 @@ public abstract class TURTLEPanel implements GenericTree, DraggableTabbedPaneCal
     public abstract String saveTailInXml();
 
     public TDiagramPanel panelAt(int index) {
-        return panels.elementAt(index);
+        if (panels != null) {
+            if (panels.size() > index)
+                return panels.elementAt(index);
+        }
+        return null;
     }
 
     public boolean hasTDiagramPanel(TDiagramPanel _tdp) {
@@ -479,10 +483,10 @@ public abstract class TURTLEPanel implements GenericTree, DraggableTabbedPaneCal
                   elements.add(ce);*/
             }
         }
-
-
-        for (TDiagramPanel tdp : panels) {
-            tdp.searchForText(text, elements);
+        if (panels != null) {
+            for (TDiagramPanel tdp : panels) {
+                tdp.searchForText(text, elements);
+            }
         }
     }
 

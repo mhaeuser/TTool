@@ -42,6 +42,7 @@ package cli;
 
 import myutil.*;
 
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -68,6 +69,8 @@ public class Chat extends Command  {
 
     private String userKnowledge;
     private String assistantKnowledge;
+
+
 
 
     public Chat() {

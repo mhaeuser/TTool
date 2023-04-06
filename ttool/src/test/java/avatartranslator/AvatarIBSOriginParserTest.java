@@ -338,7 +338,7 @@ public class AvatarIBSOriginParserTest {
                 "block2.y)) + block2.y) * 3");
 
         int j;
-        String s = "(block1.x + block2.y) * 5 - (((block1.x + block2.y)) + block2.y) * ";
+        String s = "(block1.x + block2.y) * 5 - (((block2.x + block1.y)) + block2.w) * ";
         ArrayList<AvatarIBSExpressionClass.IExpr> arr = new ArrayList<AvatarIBSExpressionClass.IExpr>();
 
         long t1 =  System.currentTimeMillis();
@@ -352,7 +352,9 @@ public class AvatarIBSOriginParserTest {
                 e += arr.get(i).eval(ss);
             }
         }
+
         long t3 = System.currentTimeMillis();
+        System.out.println(arr.get(i-1).toString());
         System.out.println(" Durations, parsing: " + (t2 - t1) + " , evaluation: " + (t3 - t2));
     }
 }

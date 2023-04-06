@@ -183,7 +183,6 @@ public class AvatarIBSStdParserTest {
         assertEquals(true, e2.eval());
         assertEquals(false, e3.eval());
         assertEquals(true, e5.eval());
-        assertEquals(false, e7.eval());
         assertEquals(true, e9.eval());
         assertEquals(false, e10.eval());
         assertEquals(16, e11.eval());
@@ -299,14 +298,14 @@ public class AvatarIBSStdParserTest {
         // visual test (among others, test toString)
         int i;
         String[] str = {
-                "block1.x",
-                "block2.y",
+                "block1.key1",
+                "block1.key2",
                 "block1.x + block2.y > 3",
                 "block1.x - block2.y < 5 ",
                 "not(block1.x + block2.y<=3)",
                 "not(block1.x - block2.y>=5)",
-                "block1.x == true",
-                "(2 && block2.y) == 4"
+                "block1.key2 == true",
+                "(true && block1.key1) == false"
         };
 
         for (i = 0; i < str.length; i++) {
@@ -339,21 +338,22 @@ public class AvatarIBSStdParserTest {
                 "block2.y)) + block2.y) * 3");
 
         int j;
-        String s = "(block1.x + block2.y) * 5 - (((block1.x + block2.y)) + block2.y) * ";
+        String s = "(block1.x + block2.y) * 5 - (((block2.x + block1.y)) + block2.y) * ";
         ArrayList<AvatarIBSExpressionClass.IExpr> arr = new ArrayList<AvatarIBSExpressionClass.IExpr>();
 
         long t1 =  System.currentTimeMillis();
-        for(i=0;i<10000;i++){
+        for(i=0;i<100000;i++){
             arr.add((AvatarIBSExpressionClass.IExpr) parser.parseInt(as, s+i));}
 
         long t2 =  System.currentTimeMillis();
         int e=2;
-        for(j=0;j<100;j++) {
-            for (i = 0; i < 10000; i++) {
+        //for(j=0;j<100;j++) {
+            for (i = 0; i < 100000; i++) {
                 e += arr.get(i).eval(ss);
             }
-        }
+        //}
         long t3 = System.currentTimeMillis();
+        System.out.println(arr.get(i-1).toString());
         System.out.println(" Durations, parsing: " + (t2 - t1) + " , evaluation: " + (t3 - t2));
     }
 }

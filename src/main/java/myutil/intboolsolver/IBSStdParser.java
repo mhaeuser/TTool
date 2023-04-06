@@ -426,7 +426,7 @@ class CUP$IBSStdParser$actions {
 		int eright = (CUP$IBSStdParser$stack.peek()).right;
 		Integer e = CUP$IBSStdParser$stack.peek().<Integer>value();
 		 RESULT = lexer.getExpressionClass().getIExpr(e.intValue());
-                            lexer.getExpressionClass().freeBool(e.intValue()); 
+                            lexer.getExpressionClass().freeInt(e.intValue()); 
               CUP$IBSStdParser$result = parser.getSymbolFactory().newSymbol("expr",0, CUP$IBSStdParser$stack.elementAt(CUP$IBSStdParser$top-1), CUP$IBSStdParser$stack.peek(), RESULT);
             }
           return CUP$IBSStdParser$result;

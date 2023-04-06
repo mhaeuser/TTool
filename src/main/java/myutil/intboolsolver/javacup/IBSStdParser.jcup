@@ -180,7 +180,7 @@ non terminal IBSExpressionClass<Spec,Comp,State,SpecState,CompState>.Expr expr;
 non terminal Integer    iexpr, ifact, iatom;
 non terminal Integer    bexpr, bfact, batom, bcomp;
 
-/* Precedences */
+/* Precedences (probably useless for the current grammar) */
 precedence left OR;
 precedence left AND;
 precedence left NOT;
@@ -195,7 +195,7 @@ expr    ::=
      PARSE_BOOL bexpr:e  {: RESULT = lexer.getExpressionClass().getBExpr(e.intValue());
                             lexer.getExpressionClass().freeBool(e.intValue()); :}
    | PARSE_INT iexpr:e   {: RESULT = lexer.getExpressionClass().getIExpr(e.intValue());
-                            lexer.getExpressionClass().freeBool(e.intValue()); :}
+                            lexer.getExpressionClass().freeInt(e.intValue()); :}
 ;
 
 iexpr   ::=

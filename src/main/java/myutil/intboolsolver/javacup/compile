@@ -1,0 +1,9 @@
+jflex IBSStdLexer.jflex
+java-cup -expect 2 IBSStdParser.jcup
+sed "s/class IBSStdLexer/public class IBSStdLexer/" IBSStdLexer.java > IBSStdLexer1.java
+sed "s/class IBSStdParser/class IBSStdParser< Spec extends IBSParamSpec, Comp extends IBSParamComp, State extends IBSParamState, SpecState extends IBSParamSpecState, CompState extends IBSParamCompState >/" IBSStdParser.java > IBSStdParser1.java
+rm IBSStdParser.java
+mv IBSStdParser1.java IBSStdParser.java
+rm IBSStdLexer.java
+mv IBSStdLexer1.java IBSStdLexer.java
+mv IBSStdParser.java IBSStdLexer.java IBSStdParserSym.java ..

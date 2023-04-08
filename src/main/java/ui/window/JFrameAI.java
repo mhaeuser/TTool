@@ -70,10 +70,10 @@ import java.awt.event.MouseEvent;
  */
 public class JFrameAI extends JFrame implements ActionListener, Runnable {
 
+    private static int IDENTIFY_REQUIREMENT = 1;
+    private static int KIND_CLASSIFY_REQUIREMENT = 2;
 
-    private static int KIND_CLASSIFY_REQUIREMENT = 1;
-
-    private static String[] POSSIBLE_ACTIONS = {"Chat", "Classify requirements"};
+    private static String[] POSSIBLE_ACTIONS = {"Chat", "Identify requirements", "Classify requirements"};
     protected JComboBox<String> listOfPossibleActions;
     private String QUESTION_CLASSIFY_REQ = "I would like to identify the \"type\" attribute, i.e. the classification, " +
             "of the following requirements. Could you give me a correct type among: safety, security, functional, " +
@@ -81,6 +81,10 @@ public class JFrameAI extends JFrame implements ActionListener, Runnable {
             "following sub categories: privacy, confidentiality, non-repudiation, controlled access, availability," +
             "immunity, data origin authenticity, freshness. Use the following format for the answer:" +
             " - Requirement name: classification\n";
+    private String QUESTION_IDENTIFY_REQ = "Identify the requirements of the following specification. List them as follows: " +
+            "- name of the requirement: text of the requirement ; link to other requirements (derive, refine, compose). The name " +
+            "should be an english " +
+            "name and not a number or an identifier";
     private MainGUI mgui;
     private JTextPane question, answer, console;
     private String automatedAnswer;
@@ -337,11 +341,13 @@ public class JFrameAI extends JFrame implements ActionListener, Runnable {
                 simpleChat();
             }
 
-            if (listOfPossibleActions.getSelectedIndex() == 1) {
+            if (listOfPossibleActions.getSelectedIndex() == KIND_CLASSIFY_REQUIREMENT) {
                 classifyRequirements();
             }
 
-
+            if (listOfPossibleActions.getSelectedIndex() == IDENTIFY_REQUIREMENT) {
+                identifyRequirements();
+            }
         }
 
         go = false;
@@ -370,6 +376,23 @@ public class JFrameAI extends JFrame implements ActionListener, Runnable {
         GraphicLib.appendToPane(answer, "\nAI:" + lastChatAnswer + "\n", Color.red);
         question.setText("");
 
+    }
+
+    private void identifyRequirements() {
+        inform("Identifying requirements\n");
+        TDiagramPanel tdp = mgui.getCurrentTDiagramPanel();
+        if (!(tdp instanceof AvatarRDPanel)) {
+            error("A requirement diagram must be selected first");
+            return;
+        }
+        if (!hasQuestion()) {
+            error("A system specification must be provided in the \"question\" area");
+            return;
+        }
+
+        TraceManager.addDev("Asking for requirements");
+        String questionT = "\nTTool:" + QUESTION_IDENTIFY_REQ + "\n" + question.getText().trim() + "\n";
+        makeQuestion(questionT, IDENTIFY_REQUIREMENT, tdp);
     }
 
     private void classifyRequirements() {
@@ -442,6 +465,11 @@ public class JFrameAI extends JFrame implements ActionListener, Runnable {
         mgui.openHelpFrame(he);
 
     }
+
+    public boolean hasQuestion() {
+        return question.getText().trim().length() > 0;
+    }
+
 
 
 } // Class

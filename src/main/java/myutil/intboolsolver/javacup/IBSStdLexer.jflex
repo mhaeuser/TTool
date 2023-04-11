@@ -4,11 +4,14 @@ import java.util.HashSet;
 
 %%
 
-%class IBSStdLexer< Spec extends IBSParamSpec, Comp extends IBSParamComp, State extends IBSParamState, SpecState extends IBSParamSpecState, CompState extends IBSParamCompState >
+%class IBSLexerClassName
+%implements IBSScanner<Spec, Comp, State, SpecState, CompState>
+
+%public
 %unicode
 %cup
 %eofval{
-   return new java_cup.runtime.Symbol(IBSStdParserSym.EOF);
+   return new java_cup.runtime.Symbol(IBSFlex#Symb.EOF);
 %eofval}
 
 %yylexthrow Exception
@@ -18,7 +21,7 @@ private IBSAttributeClass<Spec,Comp,State,SpecState,CompState> attrC;
 private IBSExpressionClass<Spec,Comp,State,SpecState,CompState> exprC;
 private final HashSet<String> badIdents = new HashSet<String>();
 
-public IBSStdLexer(){}
+public IBSLexerClassName(){}
 public void setAttributeClass( IBSAttributeClass<Spec,Comp,State,SpecState,CompState> _attrC) { attrC = _attrC; }
 public IBSAttributeClass<Spec,Comp,State,SpecState,CompState> getAttributeClass() { return attrC; }
 public void setExpressionClass( IBSExpressionClass<Spec,Comp,State,SpecState,CompState> _exprC) { exprC = _exprC; }
@@ -63,44 +66,44 @@ Identifier = [a-zA-Z_][a-zA-Z0-9_\.]*
 %state INTBOOL
 
 %%
-<YYINITIAL> "boolean"  { yybegin(INTBOOL); return new Symbol(IBSStdParserSym.PARSE_BOOL); }
-<YYINITIAL> "integer"  { yybegin(INTBOOL); return new Symbol(IBSStdParserSym.PARSE_INT); }
+<YYINITIAL> "boolean"  { yybegin(INTBOOL); return new Symbol(IBSFlex#Symb.PARSE_BOOL); }
+<YYINITIAL> "integer"  { yybegin(INTBOOL); return new Symbol(IBSFlex#Symb.PARSE_INT); }
 <YYINITIAL> {Space}    {}
 
 <INTBOOL> {
  {Space}        {}
- "true"         { return new Symbol(IBSStdParserSym.BOOL, Integer.valueOf(exprC.make_bConst(true))); }
- "false"        { return new Symbol(IBSStdParserSym.BOOL, Integer.valueOf(exprC.make_bConst(false))); }
- {Natural}      { try { return new Symbol(IBSStdParserSym.INT, Integer.valueOf(exprC.make_iConst(Integer.parseInt(yytext()))));}
+ "true"         { return new Symbol(IBSFlex#Symb.BOOL, Integer.valueOf(exprC.make_bConst(true))); }
+ "false"        { return new Symbol(IBSFlex#Symb.BOOL, Integer.valueOf(exprC.make_bConst(false))); }
+ {Natural}      { try { return new Symbol(IBSFlex#Symb.INT, Integer.valueOf(exprC.make_iConst(Integer.parseInt(yytext()))));}
                   catch (NumberFormatException nfe) { throw new Exception ("Lexer : Integer Format : " + yytext()); }
                 }
- "+"            { return new Symbol(IBSStdParserSym.PLUS); }
- "-"            { return new Symbol(IBSStdParserSym.MINUS); }
- "*"            { return new Symbol(IBSStdParserSym.MULT); }
- "/"            { return new Symbol(IBSStdParserSym.DIV); }
- "%"            { return new Symbol(IBSStdParserSym.MOD); }
- "&&"           { return new Symbol(IBSStdParserSym.AND); }
- "and"          { return new Symbol(IBSStdParserSym.AND); }
- "||"           { return new Symbol(IBSStdParserSym.OR); }
- "or"           { return new Symbol(IBSStdParserSym.OR); }
- "!"            { return new Symbol(IBSStdParserSym.NOT); }
- "not"          { return new Symbol(IBSStdParserSym.NOT); }
- "=="           { return new Symbol(IBSStdParserSym.EQ); }
- "!="           { return new Symbol(IBSStdParserSym.DIF); }
- "<"            { return new Symbol(IBSStdParserSym.LT); }
- ">"            { return new Symbol(IBSStdParserSym.GT); }
- "<="           { return new Symbol(IBSStdParserSym.LEQ); }
- ">="           { return new Symbol(IBSStdParserSym.GEQ); }
- "("            { return new Symbol(IBSStdParserSym.LPAR); }
- ")"            { return new Symbol(IBSStdParserSym.RPAR); }
+ "+"            { return new Symbol(IBSFlex#Symb.PLUS); }
+ "-"            { return new Symbol(IBSFlex#Symb.MINUS); }
+ "*"            { return new Symbol(IBSFlex#Symb.MULT); }
+ "/"            { return new Symbol(IBSFlex#Symb.DIV); }
+ "%"            { return new Symbol(IBSFlex#Symb.MOD); }
+ "&&"           { return new Symbol(IBSFlex#Symb.AND); }
+ "and"          { return new Symbol(IBSFlex#Symb.AND); }
+ "||"           { return new Symbol(IBSFlex#Symb.OR); }
+ "or"           { return new Symbol(IBSFlex#Symb.OR); }
+ "!"            { return new Symbol(IBSFlex#Symb.NOT); }
+ "not"          { return new Symbol(IBSFlex#Symb.NOT); }
+ "=="           { return new Symbol(IBSFlex#Symb.EQ); }
+ "!="           { return new Symbol(IBSFlex#Symb.DIF); }
+ "<"            { return new Symbol(IBSFlex#Symb.LT); }
+ ">"            { return new Symbol(IBSFlex#Symb.GT); }
+ "<="           { return new Symbol(IBSFlex#Symb.LEQ); }
+ ">="           { return new Symbol(IBSFlex#Symb.GEQ); }
+ "("            { return new Symbol(IBSFlex#Symb.LPAR); }
+ ")"            { return new Symbol(IBSFlex#Symb.RPAR); }
  {Identifier}   { IBSAttributeClass<Spec,Comp,State,SpecState,CompState>.TypedAttribute attr =
                       attrHandler.getTypedAttribute(yytext());
                   switch(attr.getType()) {
                       case IBSAttributeClass.NullAttr : badIdents.add(yytext()); throw new Exception ("Bad Ident : " +  yytext());
-                      case IBSAttributeClass.BoolConst : return new Symbol(IBSStdParserSym.BOOL, Integer.valueOf(exprC.make_bConst(attr.getConstant()!=0)));
-                      case IBSAttributeClass.IntConst : return new Symbol(IBSStdParserSym.INT, Integer.valueOf(exprC.make_iConst(attr.getConstant())));
-                      case IBSAttributeClass.BoolAttr : return new Symbol(IBSStdParserSym.BOOL, Integer.valueOf(exprC.make_bVar(attr.getAttribute())));
-                      case IBSAttributeClass.IntAttr : return new Symbol(IBSStdParserSym.INT, Integer.valueOf(exprC.make_iVar(attr.getAttribute())));
+                      case IBSAttributeClass.BoolConst : return new Symbol(IBSFlex#Symb.BOOL, Integer.valueOf(exprC.make_bConst(attr.getConstant()!=0)));
+                      case IBSAttributeClass.IntConst : return new Symbol(IBSFlex#Symb.INT, Integer.valueOf(exprC.make_iConst(attr.getConstant())));
+                      case IBSAttributeClass.BoolAttr : return new Symbol(IBSFlex#Symb.BOOL, Integer.valueOf(exprC.make_bVar(attr.getAttribute())));
+                      case IBSAttributeClass.IntAttr : return new Symbol(IBSFlex#Symb.INT, Integer.valueOf(exprC.make_iVar(attr.getAttribute())));
                       default : throw new Error ("Lexer, BUG : bad attribute type");
                   }
                 }

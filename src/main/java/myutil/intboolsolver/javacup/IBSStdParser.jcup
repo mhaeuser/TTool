@@ -4,16 +4,16 @@ import java_cup.runtime.*;
 import java.util.HashSet;
 
 
-class IBSStdParser;
+/* class IBSStdParser; */
 /* To add in generated file:
    < Spec extends IBSParamSpec, Comp extends IBSParamComp, State extends IBSParamState, SpecState extends IBSParamSpecState, CompState extends IBSParamCompState >
 */
 
 parser code {:
 
-    IBSStdLexer<Spec,Comp,State,SpecState,CompState> lexer;
+    IBSScanner<Spec,Comp,State,SpecState,CompState> lexer;
     
-    public void setLexer(IBSStdLexer<Spec,Comp,State,SpecState,CompState> _lexer){ lexer=_lexer; setScanner(_lexer); }
+    public void setLexer(IBSScanner<Spec,Comp,State,SpecState,CompState> _lexer){ lexer=_lexer; setScanner(_lexer); }
 
     public void setAttributeClass(IBSAttributeClass<Spec,Comp,State,SpecState,CompState> _c){ lexer.setAttributeClass(_c); }
 
@@ -170,15 +170,14 @@ parser code {:
 
 /* Terminals (tokens returned by the scanner). */
 terminal            PLUS, MINUS, MULT, DIV, MOD, AND, OR, EQ, DIF, LT, GT, LEQ, GEQ;
-terminal            NOT, LPAR, RPAR;
+terminal            NOT, LPAR, RPAR, UMINUS;
 terminal            PARSE_INT, PARSE_BOOL;
 terminal Integer    INT, BOOL;
 
 
 /* Non terminals */
 non terminal IBSExpressionClass<Spec,Comp,State,SpecState,CompState>.Expr expr;
-non terminal Integer    iexpr, ifact, iatom;
-non terminal Integer    bexpr, bfact, batom, bcomp;
+non terminal Integer    iexpr, bexpr;
 
 /* Precedences (probably useless for the current grammar) */
 precedence left OR;
@@ -188,6 +187,7 @@ precedence left EQ, DIF;
 precedence nonassoc GT, LT, LEQ, GEQ;
 precedence left PLUS, MINUS;
 precedence left MULT, DIV, MOD;
+precedence left UMINUS;
 
 
 /* The grammar */
@@ -199,72 +199,51 @@ expr    ::=
 ;
 
 iexpr   ::=
-     ifact:e  {: RESULT = e; :}
-   | iexpr:l PLUS ifact:r
+     iexpr:l PLUS iexpr:r
       {: RESULT = Integer.valueOf(lexer.getExpressionClass().make_iiiPlus(l.intValue(),r.intValue()));
          lexer.getExpressionClass().freeInt(l.intValue());
          lexer.getExpressionClass().freeInt(r.intValue());
       :}
-   | iexpr:l MINUS ifact:r
+   | iexpr:l MINUS iexpr:r
       {: RESULT = Integer.valueOf(lexer.getExpressionClass().make_iiiMinus(l.intValue(),r.intValue()));
          lexer.getExpressionClass().freeInt(l.intValue());
          lexer.getExpressionClass().freeInt(r.intValue());
       :}
-;
-
-ifact   ::=
-      ifact:l MULT iatom:r
+   | iexpr:l MULT iexpr:r
       {: RESULT = Integer.valueOf(lexer.getExpressionClass().make_iiiMult(l.intValue(),r.intValue()));
          lexer.getExpressionClass().freeInt(l.intValue());
          lexer.getExpressionClass().freeInt(r.intValue());
       :}
-    | ifact:l DIV iatom:r
+   | iexpr:l DIV iexpr:r
       {: RESULT = Integer.valueOf(lexer.getExpressionClass().make_iiiDiv(l.intValue(),r.intValue()));
          lexer.getExpressionClass().freeInt(l.intValue());
          lexer.getExpressionClass().freeInt(r.intValue());
       :}
-    | ifact:l MOD iatom:r
+   | iexpr:l MOD iexpr:r
       {: RESULT = Integer.valueOf(lexer.getExpressionClass().make_iiiMod(l.intValue(),r.intValue()));
          lexer.getExpressionClass().freeInt(l.intValue());
          lexer.getExpressionClass().freeInt(r.intValue());
       :}
-    | iatom:e  {: RESULT = e; :}
-;
-
-iatom   ::=
-      INT:e {: RESULT = e; :}
-    | LPAR iexpr:e RPAR {: RESULT = e; :}
-    | MINUS iatom:e {: RESULT = Integer.valueOf(lexer.getExpressionClass().make_iNeg(e.intValue())); :}
+   | LPAR iexpr:e RPAR {: RESULT = e; :}
+   | MINUS iexpr:e {: RESULT = Integer.valueOf(lexer.getExpressionClass().make_iNeg(e.intValue())); :} %prec UMINUS
+   | INT:e {: RESULT = e; :}
 ;
 
 bexpr   ::=
-      bexpr:l OR bfact:r
+      bexpr:l OR bexpr:r
       {: RESULT = Integer.valueOf(lexer.getExpressionClass().make_bbbOr(l.intValue(),r.intValue()));
-      System.out.println("BBOR: " + lexer.getExpressionClass().getBExpr(RESULT).toString());
          lexer.getExpressionClass().freeBool(l.intValue());
          lexer.getExpressionClass().freeBool(r.intValue());
       :}
-    | bfact:e {: RESULT = e; :}
-;
-
-bfact   ::=
-      bfact:l AND batom:r
+    | bexpr:l AND bexpr:r
       {: RESULT = Integer.valueOf(lexer.getExpressionClass().make_bbbAnd(l.intValue(),r.intValue()));
          lexer.getExpressionClass().freeBool(l.intValue());
          lexer.getExpressionClass().freeBool(r.intValue());
       :}
-    | batom:e {: RESULT = e; :}
-;
-
-batom   ::=
-      BOOL:e {: RESULT = e; :}
-    | bcomp:e {: RESULT = e; :}
+    | BOOL:e {: RESULT = e; :}
     | LPAR bexpr:e RPAR {: RESULT = e; :}
     | NOT bexpr:e {: RESULT = Integer.valueOf(lexer.getExpressionClass().make_bNot(e.intValue())); :}
-;
-
-bcomp   ::=
-      iexpr:l LT iexpr:r
+    | iexpr:l LT iexpr:r
       {: RESULT = Integer.valueOf(lexer.getExpressionClass().make_biiLt(l.intValue(),r.intValue()));
          lexer.getExpressionClass().freeInt(l.intValue());
          lexer.getExpressionClass().freeInt(r.intValue());
@@ -296,7 +275,6 @@ bcomp   ::=
       :}
     | bexpr:l EQ bexpr:r
       {: RESULT = Integer.valueOf(lexer.getExpressionClass().make_bbbEq(l.intValue(),r.intValue()));
-      System.out.println("BBEQ: " + lexer.getExpressionClass().getBExpr(RESULT).toString());
          lexer.getExpressionClass().freeBool(l.intValue());
          lexer.getExpressionClass().freeBool(r.intValue());
       :}

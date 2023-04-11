@@ -16,7 +16,7 @@ public class IBSStdParser< Spec extends IBSParamSpec, Comp extends IBSParamComp,
 
  @Override
  public final Class<?> getSymbolContainer() {
-    return IBSStdSymbol.class;
+    return IBSStdSymbols.class;
 }
 
   /** Default constructor. */
@@ -210,8 +210,6 @@ public class IBSStdParser< Spec extends IBSParamSpec, Comp extends IBSParamComp,
     public HashSet<String> getBadIdents(){ return lexer.getBadIdents(); }
 
     public void clearBadIdents(){ lexer.clearBadIdents(); }
-
-    public boolean syntaxError(){ return false; }
 
     public IBSExpressionClass<Spec,Comp,State,SpecState,CompState>.IExpr parseInt(Spec _spec, String _s){
         try { lexer.init(_spec,"integer " + _s); }

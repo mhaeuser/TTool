@@ -52,8 +52,8 @@ import java.util.HashSet;
  * <PRE>
  *     IBSParserAPI();
  *     public IBSParserAPI(
- *          IBSAttributeClass<Spec,Comp,State,SpecState,CompState> _c,
- *          IBSExpressionClass<Spec,Comp,State,SpecState,CompState> _e);
+ *          IBSAttributeClass&lt;Spec,Comp,State,SpecState,CompState&gt; _c,
+ *          IBSExpressionClass&lt;Spec,Comp,State,SpecState,CompState&gt; _e);
  * </PRE>
  * <p> When using the default constructor, attribute and expression classes
  * can be set <i>a posteriori</i>.</p>
@@ -111,13 +111,6 @@ public interface IBSParserAPI<
      * (this is not done automatically to allow some flexibility)
      */
     public void clearBadIdents();
-
-    /** relevant just after parsing an expression.
-     *
-     * @return true if an error has been detected
-     * that is not a type error at leave.
-     */
-    public boolean syntaxError();
 
     /** parse an integer expression
      * @param _spec the specification in which open leaves are interpreted

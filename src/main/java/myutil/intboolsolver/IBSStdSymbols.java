@@ -6,7 +6,7 @@
 package myutil.intboolsolver;
 
 /** CUP generated class containing symbol constants. */
-public class IBSStdSymbol {
+public class IBSStdSymbols {
   /* terminals */
   public static final int GEQ = 14;
   public static final int MOD = 6;

@@ -42,7 +42,7 @@ package myutil.intboolsolver;
  * Abstract Class IBSStdAttributeClass, partially
  * implementing {@link IBSAttributeClass
  * IBSAttributeClass} for systems with states as boolean leaves.
- * Creation: 23/03/2023
+ * Creation: 04/11/2023
  *
  * <p> This class (is a step toward an instantiation
  * of the solver for systems with states as boolean leaves.</p>
@@ -59,8 +59,8 @@ package myutil.intboolsolver;
  * <p> To allow the handling of this "memory", some methods must
  * be implemented, enumerated below.</p>
  *
- * @version 0.1 07/03/2023
- * @author Sophie Coudert (rewrite from Alessandro TEMPIA CALVINO)
+ * @version 1.0 04/11/2023
+ * @author Sophie Coudert
  */
 
 public class IBSStdAttributeClass<

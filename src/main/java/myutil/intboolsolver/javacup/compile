@@ -4,20 +4,19 @@ JFLEX_FILE="IBSStdLexer.jflex"
 JAVACUP_FILE="IBSStdParser.jcup"
 LEXER_CLASS="IBSStdLexer"
 PARSER_CLASS="IBSStdParser"
-SYMBOL_CLASS="IBSStdSymbol"
+SYMBOL_CLASS="IBSStdSymbols"
 
-sed "s/IBSLexerClassName/$LEXER_CLASS/g" $JFLEX_FILE > __tmplexer.jflex
-sed "s/IBSFlex#Symb/$SYMBOL_CLASS/g" __tmplexer.jflex > __tmplexer2.jflex
-jflex __tmplexer2.jflex
-sed "s/public class $LEXER_CLASS/public class $LEXER_CLASS< Spec extends IBSParamSpec, Comp extends IBSParamComp, State extends IBSParamState, SpecState extends IBSParamSpecState, CompState extends IBSParamCompState >/" $LEXER_CLASS.java > __tmplexer.java
+sed "s/IBSLexerClassName/$LEXER_CLASS/g" $JFLEX_FILE > __${LEXER_CLASS}2__.jflex
+sed "s/IBSFlex#Symb/$SYMBOL_CLASS/g" __${LEXER_CLASS}2__.jflex > __${LEXER_CLASS}__.jflex
+jflex __${LEXER_CLASS}__.jflex
+sed "s/public class $LEXER_CLASS/public class $LEXER_CLASS< Spec extends IBSParamSpec, Comp extends IBSParamComp, State extends IBSParamState, SpecState extends IBSParamSpecState, CompState extends IBSParamCompState >/" $LEXER_CLASS.java > __${LEXER_CLASS}__.java
 rm $LEXER_CLASS.java
-mv __tmplexer.java $LEXER_CLASS.java
-rm __tmplexer.jflex __tmplexer2.jflex
+mv __${LEXER_CLASS}__.java $LEXER_CLASS.java
+rm __${LEXER_CLASS}__.jflex __${LEXER_CLASS}2__.jflex
 
 java-cup -parser $PARSER_CLASS -symbols $SYMBOL_CLASS $JAVACUP_FILE
-
-sed "s/class $PARSER_CLASS/class $PARSER_CLASS< Spec extends IBSParamSpec, Comp extends IBSParamComp, State extends IBSParamState, SpecState extends IBSParamSpecState, CompState extends IBSParamCompState >/" $PARSER_CLASS.java > __tmpparser.java
+sed "s/class $PARSER_CLASS/class $PARSER_CLASS< Spec extends IBSParamSpec, Comp extends IBSParamComp, State extends IBSParamState, SpecState extends IBSParamSpecState, CompState extends IBSParamCompState >/" $PARSER_CLASS.java > __${PARSER_CLASS}__.java
 
 rm $PARSER_CLASS.java *~
-mv __tmpparser.java $PARSER_CLASS.java
+mv __${PARSER_CLASS}__.java $PARSER_CLASS.java
 mv $LEXER_CLASS.java $PARSER_CLASS.java $SYMBOL_CLASS.java ..

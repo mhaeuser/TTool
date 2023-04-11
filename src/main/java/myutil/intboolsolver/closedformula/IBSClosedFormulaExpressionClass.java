@@ -36,40 +36,25 @@
  * knowledge of the CeCILL license and that you accept its terms.
  */
 
-package myutil.intboolsolver;
+package myutil.intboolsolver.closedformula;
+
+import myutil.intboolsolver.*;
 
 /**
- * class IBSStdClosedFormulaAttributeClass is a complete implementation
- * and instantiation of {@link IBSStdAttributeClass
- * IBSStdAttributeClass} for closed Formulas.
+ * class IBSClosedFormulaAttributeClass is a complete implementation
+ * and instantiation of {@link IBSAttributeClass
+ * IBSAttributeClass} for closed Formulas.
+ * Creation: 11/04/2023
  *
- * <p> It is provided for documentation together with
- * {@link IBSStdClosedFormulaExpressionClass
- * IBSStdClosedFormulaExpressionClass} and
- * {@link IBSStdClosedFormulaParser
- * IBSStdClosedFormulaParser}}</p>
- *
- * <p>These three
- * classes provides the same features as
- * {@link IBSClosedFormulaAttributeClass
- * IBSClosedFormulaAttribute},
- * {@link IBSClosedFormulaExpressionClass
- * IBSClosedFormulaExpressionClass} and
- * {@link IBSClosedFormulaParser
- * IBSClosedFormulaParser} (together).</p>
- *
- * Creation: 07/03/2023
- *
- * @version 0.1 07/03/2023
+ * @version 1.0 11/04/2023
  * @author Sophie Coudert
  */
 
-public class IBSStdClosedFormulaExpressionClass extends IBSStdExpressionClass<
+public class IBSClosedFormulaExpressionClass extends IBSStdExpressionClass<
         IBSParamSpec,
         IBSParamComp,
         IBSParamState,
         IBSParamSpecState,
-        IBSParamCompState
-        > {
-    IBSStdClosedFormulaExpressionClass(){}
+        IBSParamCompState> {
+    IBSClosedFormulaExpressionClass(){}
 }

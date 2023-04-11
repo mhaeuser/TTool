@@ -36,7 +36,9 @@
  * knowledge of the CeCILL license and that you accept its terms.
  */
 
-package myutil.intboolsolver;
+package myutil.intboolsolver.origin;
+
+import myutil.intboolsolver.*;
 
 import java.util.HashSet;
 

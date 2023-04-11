@@ -36,52 +36,38 @@
  * knowledge of the CeCILL license and that you accept its terms.
  */
 
-package myutil.intboolsolver;
+package myutil.intboolsolver.closedformula;
+
+import myutil.intboolsolver.*;
+import myutil.intboolsolver.origin.IBSOriginParser;
 
 /**
- * class IBSStdClosedFormulaAttributeClass is a complete implementation
- * and instantiation of {@link IBSStdAttributeClass
- * IBSStdAttributeClass} for closed Formulas.
+ * class IBSClosedFormulaParser is a complete implementation
+ * and instantiation of {@link IBSOriginParser
+ * IBSOriginParser} for closed Formulas.
  *
- * <p> It is provided for documentation together with
- * {@link IBSStdClosedFormulaAttributeClass
- * IBSStdClosedFormulaAttribute} and
- * {@link IBSStdClosedFormulaParser
- * IBSStdClosedFormulaSolver}}</p>
- *
- * <p>These three
- * classes provides the same features as
- * {@link IBSClosedFormulaAttributeClass
- * IBSClosedFormulaAttribute},
- * {@link IBSClosedFormulaAttributeClass
- * IBSClosedFormulaAttributeClass} and
- * {@link IBSClosedFormulaParser
- * IBSClosedFormulaSolver} (together).</p>
- *
+ * <p> It can be used as it is.</p>
  * Creation: 07/03/2023
  *
- * @version 0.1 07/03/2023
+ * @version 1.0 11/04/2023
  * @author Sophie Coudert
  */
 
-public class IBSStdClosedFormulaAttributeClass extends IBSStdAttributeClass<
+public class IBSClosedFormulaParser extends IBSStdParser<
         IBSParamSpec,
         IBSParamComp,
         IBSParamState,
         IBSParamSpecState,
-        IBSParamCompState
-        > {
-    IBSStdClosedFormulaAttributeClass(){}
-    class Attribute extends IBSStdAttributeClass<
-        IBSParamSpec,
-        IBSParamComp,
-        IBSParamState,
-        IBSParamSpecState,
-        IBSParamCompState
-        >.Attribute {
-        @Override
-        public int getValue(IBSParamSpecState _ss) {
-            return 18;
+        IBSParamCompState> {
+        IBSClosedFormulaParser() {
+                super();
+                setLexer(new IBSStdLexer<
+                        IBSParamSpec,
+                        IBSParamComp,
+                        IBSParamState,
+                        IBSParamSpecState,
+                        IBSParamCompState>());
+                setAttributeClass(new IBSClosedFormulaAttributeClass());
+                setExpressionClass(new IBSClosedFormulaExpressionClass());
         }
-    }
 }

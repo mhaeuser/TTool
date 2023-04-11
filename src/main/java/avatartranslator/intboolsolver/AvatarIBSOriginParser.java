@@ -44,30 +44,14 @@ import avatartranslator.AvatarStateMachineElement;
 import avatartranslator.modelchecker.SpecificationBlock;
 import avatartranslator.modelchecker.SpecificationState;
 import myutil.intboolsolver.*;
+import myutil.intboolsolver.origin.IBSOriginParser;
 
 /**
- * class IBSStdClosedFormulaSolver is a complete implementation
- * and instantiation of {@link IBSOriginParser
- * IBSolver} for closed Formulas.
+ * Instanciation of IBSOriginParser for Avatar
  *
- * <p> It is provided for documentation together with
- * {@link IBSStdClosedFormulaAttributeClass
- * IBSStdClosedFormulaAttributeClass} and
- * {@link IBSStdClosedFormulaAttributeClass
- * IBSStdClosedFormulaAttribute}}</p>
+ * Creation: 11/04/2023
  *
- * <p>These three
- * classes provides the same features as
- * {@link IBSClosedFormulaAttributeClass
- * IBSClosedFormulaAttribute},
- * {@link IBSClosedFormulaAttributeClass
- * IBSClosedFormulaAttributeClass} and
- * {@link IBSClosedFormulaParser
- * IBSClosedFormulaSolver} (together).</p>
- *
- * Creation: 07/03/2023
- *
- * @version 0.1 07/03/2023
+ * @version 1.0 11/04/2023
  * @author Sophie Coudert
  */
 

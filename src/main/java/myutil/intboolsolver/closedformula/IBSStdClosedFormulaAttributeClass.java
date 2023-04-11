@@ -36,27 +36,54 @@
  * knowledge of the CeCILL license and that you accept its terms.
  */
 
-package myutil.intboolsolver;
+package myutil.intboolsolver.closedformula;
+
+import myutil.intboolsolver.*;
 
 /**
- * class IBSClosedFormulaParser is a complete implementation
- * and instantiation of {@link IBSOriginParser
- * IBSOriginParser} for closed Formulas.
+ * class IBSStdClosedFormulaAttributeClass is a complete implementation
+ * and instantiation of {@link IBSStdAttributeClass
+ * IBSStdAttributeClass} for closed Formulas.
  *
- * <p> It can be used as it is.</p>
+ * <p> It is provided for documentation together with
+ * {@link IBSStdClosedFormulaAttributeClass
+ * IBSStdClosedFormulaAttribute} and
+ * {@link IBSStdClosedFormulaParser
+ * IBSStdClosedFormulaSolver}}</p>
+ *
+ * <p>These three
+ * classes provides the same features as
+ * {@link IBSClosedFormulaAttributeClass
+ * IBSClosedFormulaAttribute},
+ * {@link IBSClosedFormulaAttributeClass
+ * IBSClosedFormulaAttributeClass} and
+ * {@link IBSClosedFormulaParser
+ * IBSClosedFormulaSolver} (together).</p>
+ *
  * Creation: 07/03/2023
  *
  * @version 0.1 07/03/2023
- * @author Sophie Coudert  (rewrite from Alessandro TEMPIA CALVINO)
+ * @author Sophie Coudert
  */
 
-public class IBSClosedFormulaParser extends IBSOriginParser<
+public class IBSStdClosedFormulaAttributeClass extends IBSStdAttributeClass<
         IBSParamSpec,
         IBSParamComp,
         IBSParamState,
         IBSParamSpecState,
-        IBSParamCompState> {
-        IBSClosedFormulaParser() {
-                super(new IBSClosedFormulaAttributeClass(), new IBSClosedFormulaExpressionClass());
+        IBSParamCompState
+        > {
+    IBSStdClosedFormulaAttributeClass(){}
+    class Attribute extends IBSStdAttributeClass<
+        IBSParamSpec,
+        IBSParamComp,
+        IBSParamState,
+        IBSParamSpecState,
+        IBSParamCompState
+        >.Attribute {
+        @Override
+        public int getValue(IBSParamSpecState _ss) {
+            return 18;
         }
+    }
 }

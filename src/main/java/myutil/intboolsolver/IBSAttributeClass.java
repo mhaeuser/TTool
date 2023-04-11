@@ -42,7 +42,7 @@ package myutil.intboolsolver;
  * <p>Class {@link myutil.intboolsolver.IBSAttributeClass} BSAttributeClass},
  * defining the features attributes must provide in order to b used by
  * the generic parsers.</p>
- * Creation: 23/03/2023
+ * Creation: 11/04/2023
  *
  * <p>  The handling of open leaf expressions is instantiation dependent.
  * Thus they have associated "attribute" whose class is provided by
@@ -57,8 +57,8 @@ package myutil.intboolsolver;
  * i.e  {@code Spec}, {@code Comp}, {@code SpecState},
  * {@code CompState} and {@code State} parameters).
  *
- * @version 0.1 23/03/2023
- * @author Sophie Coudert (rewrite from Alessandro TEMPIA CALVINO)
+ * @version 1.0 11/04/2023
+ * @author Sophie Coudert
 */
 public class IBSAttributeClass<
         Spec extends IBSParamSpec,

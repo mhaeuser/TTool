@@ -291,13 +291,10 @@ public class JDialogSafetyPragma extends JDialogBase implements ActionListener {
         c.setLayout(new BorderLayout());
         //setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);	
         helpPopup = new JPopupMenu();
-
-
         helpPopup.add(new JLabel(IconManager.imgic7009));
-
         helpPopup.setPreferredSize(new Dimension(600, 900));
-        textarea = new JTextArea();
 
+        textarea = new JTextArea();
         textarea.setEditable(true);
         textarea.setMargin(new Insets(10, 10, 10, 10));
         textarea.setTabSize(3);

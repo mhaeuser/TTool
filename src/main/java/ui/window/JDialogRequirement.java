@@ -41,6 +41,7 @@
 
 package ui.window;
 
+import myutil.TraceManager;
 import ui.util.IconManager;
 
 import javax.swing.*;
@@ -49,6 +50,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.Locale;
 
 //import javax.swing.event.*;
 //import java.util.*;
@@ -63,7 +65,9 @@ import java.util.LinkedList;
  */
 public class JDialogRequirement extends JDialogBase implements ActionListener  {
     
-    public static String[] kinds = {"Functional", "Non-functional", "Performance", "Privacy", "Confidentiality", "Non-repudiation", "Controlled access (authorization)", "Availability", "Immunity", "Integrity", "Data origin authenticity", "Freshness", "Business", "Stakeholder need", "Other"};
+    public static String[] kinds = {"Safety", "Functional", "Non-functional", "Performance", "Privacy", "Confidentiality", "Non-repudiation",
+            "Controlled access (authorization)", "Availability", "Immunity", "Integrity", "Data origin authenticity", "Freshness", "Business",
+            "Stakeholder need", "Other"};
     
 	
     private boolean regularClose;
@@ -386,6 +390,19 @@ public class JDialogRequirement extends JDialogBase implements ActionListener  {
 
     public String getExtraAttributes() {
         return jtaAttributes.getText();
+    }
+
+    public static String getKindFromString(String _kind) {
+        _kind = _kind.toLowerCase();
+        for (int i=0; i<kinds.length; i++) {
+            //TraceManager.addDev("Comparing >" + kinds[i] + "< with >" + _kind + "<");
+            if (kinds[i].toLowerCase().compareTo(_kind) ==0 ) {
+                TraceManager.addDev("ok");
+                return kinds[i];
+            }
+        }
+
+        return null;
     }
     
 }

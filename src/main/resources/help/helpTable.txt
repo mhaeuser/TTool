@@ -2,6 +2,7 @@
 -- syntaxchecking syntaxchecking syntax checking model verification
 -- verification verification formal simulation model checking
 --- securityverification security_verification proverif configuration
+-- ai openai chatgpt query artificial_intelligence artificial intelligence
 - diplodocus diplodocus hardware software partitioning dse design space exploration
 -- application application functional view diplodocus
 --- channel channel functional view diplodocus

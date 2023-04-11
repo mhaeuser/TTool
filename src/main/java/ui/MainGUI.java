@@ -755,7 +755,6 @@ public class MainGUI implements ActionListener, WindowListener, KeyListener, Per
     }
 
     public void search(String text) {
-
         Vector<Object> elements = new Vector<Object>();
 
         TURTLEPanel panel;
@@ -767,7 +766,6 @@ public class MainGUI implements ActionListener, WindowListener, KeyListener, Per
         elements.addAll(helpManager.getEntriesWithKeyword(text.split(" ")));
 
         gtm.setElementsOfSearchTree(elements);
-        // TraceManager.addDev("Found " + elements.size() + " elements");
         dtree.forceUpdate();
     }
 
@@ -5067,6 +5065,13 @@ public class MainGUI implements ActionListener, WindowListener, KeyListener, Per
          * (String)(v.elementAt(i)); jmenubarturtle.addMenuItem(menu, s, this); }
          */
 
+    }
+
+    public void ai() {
+        TraceManager.addDev("ai");
+        JFrameAI frameAI = new JFrameAI("System engineering with AI", this);
+        GraphicLib.centerOnParent(frameAI, 1100, 900);
+        frameAI.setVisible(true);
     }
 
 

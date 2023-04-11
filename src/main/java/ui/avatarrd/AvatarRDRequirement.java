@@ -1004,6 +1004,10 @@ public class AvatarRDRequirement extends TGCScalableWithInternalComponent implem
         return kind;
     }
 
+    public void setKind(String _kind) {
+        kind = _kind;
+    }
+
     public String getViolatedAction() {
         return violatedAction;
     }

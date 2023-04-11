@@ -84,6 +84,9 @@ public  class JToolBarMainTurtle extends JToolBar implements ActionListener     
     private JButton oneClickrtlotos, onclicklotos, gensystemc, simusystemc, gentml, genC, genjava, nc,externalSearch, internalSearch;
     private JMenuItem oneClickrtlotosMI, onclicklotosMI, gensystemcMI, simusystemcMI, gentmlMI, genCMI, genjavaMI, ncMI;
 
+    // IA
+    private JButton ia;
+
     // Main button
     private JButton menuButton;
     private JPopupMenu menu;
@@ -350,6 +353,11 @@ public  class JToolBarMainTurtle extends JToolBar implements ActionListener     
             addSeparator();
             menu.addSeparator();
         }
+
+        addSeparator();
+
+        ia = add(mgui.actions[TGUIAction.ACT_IA]);
+        ia.addMouseListener(mgui.mouseHandler);
 
         addSeparator();
 
@@ -658,6 +666,10 @@ public  class JToolBarMainTurtle extends JToolBar implements ActionListener     
         if (nc != null) {
             nc.setVisible(!b);
             ncMI.setVisible(!b);
+        }
+
+        if (ia != null) {
+            ia.setVisible(!b);
         }
 
         if (gendesign != null) {

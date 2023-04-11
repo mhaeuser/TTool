@@ -79,6 +79,8 @@ public class ActionPerformer {
             mgui.openLastProject();
         } else if (command.equals(mgui.actions[TGUIAction.ACT_SAVE].getActionCommand())) {
             mgui.saveProject();
+        } else if (command.equals(mgui.actions[TGUIAction.ACT_IA].getActionCommand())) {
+                mgui.ai();
         } else if (command.equals(mgui.actions[TGUIAction.ACT_SAVE_AS_MODEL].getActionCommand())) {
             mgui.saveAsNewModel();
         } else if (command.equals(mgui.actions[TGUIAction.ACT_SAVE_AS_PROJECT].getActionCommand())) {

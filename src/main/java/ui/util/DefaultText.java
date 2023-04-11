@@ -50,8 +50,8 @@ package ui.util;
  */
 public class DefaultText {
 
-    public static String BUILD = "14379";
-    public static String DATE = "2023/04/05 03:20:25 CET";
+    public static String BUILD = "14384";
+    public static String DATE = "2023/04/10 03:20:03 CET";
 
     public static StringBuffer sbAbout = makeAbout();
 
@@ -73,9 +73,10 @@ public class DefaultText {
         sb.append("Copyright IMT - Telecom Paris / Ludovic Apvrille \n");
         sb.append("\nContact: ludovic.apvrille@telecom-paris.fr\n");
         sb.append("\nProgrammers\n\tTelecom Paris: Ludovic Apvrille, Dominique Blouin, Fabien Tessier, \n\t" +
-                "Daniel Knorreck, Florian Lugou, Letitia Li\n\tMaysam Zoor\n\tMinh Hiep Pham, Levan Truong\n");
+                "Daniel Knorreck, Florian Lugou, Letitia Li\n\tMaysam Zoor\n\tMinh Hiep Pham, Levan Truong, Léon Frénot\n");
         sb.append("\n\tNokia: Andrea Enrici\n");
         sb.append("\n\tLIP6: Daniela Genius\n");
+        sb.append("\n\tEMSE: Bastien Sultan\n");
         sb.append("\nFor more information:\n");
         sb.append("https://ttool.telecom-paris.fr/\n\n");
         return sb;

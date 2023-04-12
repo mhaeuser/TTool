@@ -227,12 +227,29 @@
  *            !!! optional additional features here
  *      }
  *        </PRE>
- *      Note: for the JavaCUP/Jflex parser, the scanner must also be provided
- *      (see <a href="#javacup">here </a>).
+ *      <p>Note: for the JavaCUP/Jflex parser, the scanner must also be provided
+ *      (see <a href="#javacup">here </a>).</p>
+ *      </li>
+ *      <li> <p>Subpackage intboolsolver/closedformula contains a complete instantiation
+ *      for closed formulas. This instantiation is trivial as behaviours for closed
+ *      formulas are the default ones.This instantiation is made of
+ *      {@link myutil.intboolsolver.closedformula.IBSClosedComp IBSClosedComp},
+ *      {@link myutil.intboolsolver.closedformula.IBSClosedSpec IBSClosedSpec},
+ *      {@link myutil.intboolsolver.closedformula.IBSClosedState IBSClosedState},
+ *      {@link myutil.intboolsolver.closedformula.IBSClosedCompState IBSClosedCompState},
+ *      {@link myutil.intboolsolver.closedformula.IBSClosedSpecState IBSClosedSpecState},
+ *      {@link myutil.intboolsolver.closedformula.IBSClosedFormulaAttributeClass IBSClosedFormulaAttributeClass},
+ *      {@link myutil.intboolsolver.closedformula.IBSClosedFormulaExpressionClass IBSClosedFormulaExpressionClass},
+ *      {@link myutil.intboolsolver.closedformula.IBSClosedFormulaParser IBSClosedFormulaParser}.
+ *      Finally, {@link myutil.intboolsolver.closedformula.IBSClosedFormulaSolver IBSClosedFormulaSolver}
+ *      contains an instance of the parser/solver that can be used from anywhere.</p>
+ *      </li>
+ *      <li> <p>There is also an instance dedicated to AVATAR structures, which can be found as an "intboolsolver"
+ *      subpackage of the avatartranslator package of TTool</p></li>
  * </ol>
  * <p><a id="instanciation_use"> <b>Typical use of an instantiated parser:</b></a></p>
  *     <PRE>
- *          private Parser parser = new Parser(new AttribClass(),new ExprClass());
+ *          public Parser parser = new Parser(new AttribClass(),new ExprClass());
  *          ExprClass.BExpr e = (ExprClass.BExpr) parser.parseBool("10 + 15 &gt;= 20");
  *          boolean b = e.eval();
  *          ...

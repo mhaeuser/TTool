@@ -38,10 +38,6 @@
 
 package myutil.intboolsolver.closedformula;
 
-import avatartranslator.intboolsolver.AvatarIBSAttributeClass;
-import avatartranslator.intboolsolver.AvatarIBSExpressionClass;
-import avatartranslator.intboolsolver.AvatarIBSStdParser;
-
 /**
  * Instance of IBS parser and evaluator system to be used
  * for closed formulas

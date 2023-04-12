@@ -260,7 +260,10 @@ iexpr   ::=
          lexer.getExpressionClass().freeInt(r.intValue());
       :}
    | LPAR iexpr:e RPAR {: RESULT = e; :}
-   | MINUS iexpr:e {: RESULT = Integer.valueOf(lexer.getExpressionClass().make_iNeg(e.intValue())); :} %prec UMINUS
+   | MINUS iexpr:e
+     {: RESULT = Integer.valueOf(lexer.getExpressionClass().make_iNeg(e.intValue()));
+        lexer.getExpressionClass().freeInt(e.intValue());
+     :} %prec UMINUS
    | INT:e {: RESULT = e; :}
 ;
 

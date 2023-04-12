@@ -36,22 +36,17 @@
  * knowledge of the CeCILL license and that you accept its terms.
  */
 
-package myutil.intboolsolver;
+package myutil.intboolsolver.closedformula;
+
+import myutil.intboolsolver.IBSParamCompState;
 
 /**
- * Interface IBSParamSpecState, to be implemented by classes intended to
- * instantiate the {@code SpecState} parameter of
- * {@link IBSParserAPI IBSParserAPI}.
+ * trivial implementation of IBSParamCompState for closed formula.
  * Creation: 11/04/2023
- *
- * <p> The {@code SpecState} parameter of
- * {@link IBSParserAPI IBSParserAPI} may be instantiated
- * by any class without modification, except that the class must implement
- * this interface and none of the other IBSParamXXX interface.
- * </p>
  *
  * @version 1.0 11/04/2023
  * @author Sophie Coudert
  */
-public interface IBSParamSpecState {
+
+public class IBSClosedCompState implements IBSParamCompState {
 }

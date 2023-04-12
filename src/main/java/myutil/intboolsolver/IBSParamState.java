@@ -42,7 +42,7 @@ package myutil.intboolsolver;
  * Interface IBSParamState, to be implemented by classes intended to
  * instantiate the {@code State} parameter of
  * {@link IBSParserAPI IBSParserAPI}.
- * Creation: 07/03/2023
+ * Creation: 11/04/2023
  *
  * <p> The {@code State} parameter of
  * {@link IBSParserAPI IBSParserAPI} may be instantiated
@@ -50,7 +50,7 @@ package myutil.intboolsolver;
  * this interface and none of the other IBSParamXXX interface.
  * </p>
  *
- * @version 0.1 07/03/2023
+ * @version 1.0 11/04/2023
  * @author Sophie Coudert
  */
 

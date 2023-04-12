@@ -38,40 +38,14 @@
 
 package myutil.intboolsolver.closedformula;
 
-import myutil.intboolsolver.*;
+import myutil.intboolsolver.IBSParamSpecState;
 
 /**
- * class IBSStdClosedFormulaAttributeClass is a complete implementation
- * and instantiation of {@link IBSStdAttributeClass
- * IBSStdAttributeClass} for closed Formulas.
+ * trivial implementation of IBSParamSpecState for closed formula.
+ * Creation: 11/04/2023
  *
- * <p> It is provided for documentation together with
- * {@link IBSStdClosedFormulaExpressionClass
- * IBSStdClosedFormulaExpressionClass} and
- * {@link IBSStdClosedFormulaParser
- * IBSStdClosedFormulaParser}}</p>
- *
- * <p>These three
- * classes provides the same features as
- * {@link IBSClosedFormulaAttributeClass
- * IBSClosedFormulaAttribute},
- * {@link IBSClosedFormulaExpressionClass
- * IBSClosedFormulaExpressionClass} and
- * {@link IBSClosedFormulaParser
- * IBSClosedFormulaParser} (together).</p>
- *
- * Creation: 07/03/2023
- *
- * @version 0.1 07/03/2023
+ * @version 1.0 11/04/2023
  * @author Sophie Coudert
  */
-
-public class IBSStdClosedFormulaExpressionClass extends IBSStdExpressionClass<
-        IBSParamSpec,
-        IBSParamComp,
-        IBSParamState,
-        IBSParamSpecState,
-        IBSParamCompState
-        > {
-    IBSStdClosedFormulaExpressionClass(){}
+public class IBSClosedSpecState implements IBSParamSpecState {
 }

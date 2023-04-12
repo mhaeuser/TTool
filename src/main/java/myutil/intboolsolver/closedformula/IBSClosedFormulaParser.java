@@ -54,20 +54,31 @@ import myutil.intboolsolver.origin.IBSOriginParser;
  */
 
 public class IBSClosedFormulaParser extends IBSStdParser<
-        IBSParamSpec,
-        IBSParamComp,
-        IBSParamState,
-        IBSParamSpecState,
-        IBSParamCompState> {
+        IBSClosedSpec,
+        IBSClosedComp,
+        IBSClosedState,
+        IBSClosedSpecState,
+        IBSClosedCompState> {
         IBSClosedFormulaParser() {
                 super();
                 setLexer(new IBSStdLexer<
-                        IBSParamSpec,
-                        IBSParamComp,
-                        IBSParamState,
-                        IBSParamSpecState,
-                        IBSParamCompState>());
+                        IBSClosedSpec,
+                        IBSClosedComp,
+                        IBSClosedState,
+                        IBSClosedSpecState,
+                        IBSClosedCompState>());
                 setAttributeClass(new IBSClosedFormulaAttributeClass());
                 setExpressionClass(new IBSClosedFormulaExpressionClass());
+        }
+        IBSClosedFormulaParser(IBSClosedFormulaAttributeClass _ac, IBSClosedFormulaExpressionClass _ec) {
+                super();
+                setLexer(new IBSStdLexer<
+                        IBSClosedSpec,
+                        IBSClosedComp,
+                        IBSClosedState,
+                        IBSClosedSpecState,
+                        IBSClosedCompState>());
+                setAttributeClass(_ac);
+                setExpressionClass(_ec);
         }
 }

@@ -51,10 +51,10 @@ import myutil.intboolsolver.*;
  */
 
 public class IBSClosedFormulaExpressionClass extends IBSStdExpressionClass<
-        IBSParamSpec,
-        IBSParamComp,
-        IBSParamState,
-        IBSParamSpecState,
-        IBSParamCompState> {
+        IBSClosedSpec,
+        IBSClosedComp,
+        IBSClosedState,
+        IBSClosedSpecState,
+        IBSClosedCompState> {
     IBSClosedFormulaExpressionClass(){}
 }

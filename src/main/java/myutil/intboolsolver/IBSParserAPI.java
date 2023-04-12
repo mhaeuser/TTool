@@ -42,7 +42,7 @@ import java.util.HashSet;
 
 /**
  * <p>Class IBSParser presents the functions exported by the parser.
- * Creation: 23/03/2023.</p>
+ * Creation: 11/04/2023.</p>
  *
  * <p> As explained in {@link myutil.intboolsolver package documentation},
  * the parser is parametrized by application classes <code>Spec</code>,
@@ -70,7 +70,7 @@ import java.util.HashSet;
  * </p>
  *
  * @author Sophie Coudert (rewrite from Alessandro TEMPIA CALVINO)
- * @version 0.0 23/03/2023
+ * @version 1.0 11/04/2023
  */
 public interface IBSParserAPI<
         Spec extends IBSParamSpec,

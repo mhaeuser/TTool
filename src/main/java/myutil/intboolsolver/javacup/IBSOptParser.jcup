@@ -236,12 +236,12 @@ expr    ::=
 iexpr   ::=
      iexpr:l PLUS iexpr:r
       {: if (lexer.getExpressionClass().isIconstant(l.intValue())) {
-             int left = lexer.getExpressionClass().getIexpr(l.intValue()).eval();
+             int left = lexer.getExpressionClass().getIExpr(l.intValue()).eval();
 	     if (left==0){
                  RESULT = r;
 		 lexer.getExpressionClass().freeInt(l.intValue());
              } else if (lexer.getExpressionClass().isIconstant(r.intValue())) {
-	         int right = lexer.getExpressionClass().getIexpr(r.intValue()).eval();
+	         int right = lexer.getExpressionClass().getIExpr(r.intValue()).eval();
 		 RESULT = Integer.valueOf(lexer.getExpressionClass().make_iConst(left+right));
 		 lexer.getExpressionClass().freeInt(l.intValue());
 		 lexer.getExpressionClass().freeInt(r.intValue());
@@ -251,7 +251,7 @@ iexpr   ::=
                  lexer.getExpressionClass().freeInt(r.intValue());
              }
 	 } else if (lexer.getExpressionClass().isIconstant(r.intValue())) {
-	     int right = lexer.getExpressionClass().getIexpr(r.intValue()).eval();
+	     int right = lexer.getExpressionClass().getIExpr(r.intValue()).eval();
 	     if (right==0){
                  RESULT = l;
 		 lexer.getExpressionClass().freeInt(r.intValue());
@@ -270,13 +270,13 @@ iexpr   ::=
       
    | iexpr:l MINUS iexpr:r
       {:  if (lexer.getExpressionClass().isIconstant(l.intValue())) {
-             int left = lexer.getExpressionClass().getIexpr(l.intValue()).eval();
+             int left = lexer.getExpressionClass().getIExpr(l.intValue()).eval();
 	     if (left==0){
-                 RESULT =  Integer.valueOf(lexer.getExpressionClass().make_iNeg(right));
+                 RESULT =  Integer.valueOf(lexer.getExpressionClass().make_iNeg(r.intValue()));
 		 lexer.getExpressionClass().freeInt(l.intValue());
 		 lexer.getExpressionClass().freeInt(r.intValue());
              } else if (lexer.getExpressionClass().isIconstant(r.intValue())) {
-	         int right = lexer.getExpressionClass().getIexpr(r.intValue()).eval();
+	         int right = lexer.getExpressionClass().getIExpr(r.intValue()).eval();
 		 RESULT = Integer.valueOf(lexer.getExpressionClass().make_iConst(left-right));
 		 lexer.getExpressionClass().freeInt(l.intValue());
 		 lexer.getExpressionClass().freeInt(r.intValue());
@@ -286,7 +286,7 @@ iexpr   ::=
                  lexer.getExpressionClass().freeInt(r.intValue());
              }
 	 } else if (lexer.getExpressionClass().isIconstant(r.intValue())) {
-	     int right = lexer.getExpressionClass().getIexpr(r.intValue()).eval();
+	     int right = lexer.getExpressionClass().getIExpr(r.intValue()).eval();
 	     if (right==0){
                  RESULT = l;
 		 lexer.getExpressionClass().freeInt(r.intValue());
@@ -305,12 +305,12 @@ iexpr   ::=
       
    | iexpr:l MULT iexpr:r
       {: if (lexer.getExpressionClass().isIconstant(l.intValue())) {
-             int left = lexer.getExpressionClass().getIexpr(l.intValue()).eval();
+             int left = lexer.getExpressionClass().getIExpr(l.intValue()).eval();
 	     if (left==1) {
 	         RESULT = r;
 		 lexer.getExpressionClass().freeInt(l.intValue());
 	     } else if (lexer.getExpressionClass().isIconstant(r.intValue())) {
-	         int right = lexer.getExpressionClass().getIexpr(r.intValue()).eval();
+	         int right = lexer.getExpressionClass().getIExpr(r.intValue()).eval();
 		 RESULT = Integer.valueOf(lexer.getExpressionClass().make_iConst(left*right));
 		 lexer.getExpressionClass().freeInt(l.intValue());
 		 lexer.getExpressionClass().freeInt(r.intValue());
@@ -320,7 +320,7 @@ iexpr   ::=
                  lexer.getExpressionClass().freeInt(r.intValue());
              }
 	 } else if (lexer.getExpressionClass().isIconstant(r.intValue())) {
-	     int right = lexer.getExpressionClass().getIexpr(r.intValue()).eval();
+	     int right = lexer.getExpressionClass().getIExpr(r.intValue()).eval();
 	     if (right==1) {
 	         RESULT = l;
 		 lexer.getExpressionClass().freeInt(r.intValue());
@@ -338,13 +338,13 @@ iexpr   ::=
       
    | iexpr:l DIV iexpr:r
       {: if (lexer.getExpressionClass().isIconstant(r.intValue())) {
-             int right = lexer.getExpressionClass().getIexpr(r.intValue()).eval();
+             int right = lexer.getExpressionClass().getIExpr(r.intValue()).eval();
 	     if (right==0) throw new Exception("divide by 0");
 	     if (right==1) {
 	     	 RESULT = l;
 		 lexer.getExpressionClass().freeInt(r.intValue());
 	     } else if (lexer.getExpressionClass().isIconstant(l.intValue())) {
-                 int left = lexer.getExpressionClass().getIexpr(l.intValue()).eval();
+                 int left = lexer.getExpressionClass().getIExpr(l.intValue()).eval();
 		 RESULT = Integer.valueOf(lexer.getExpressionClass().make_iConst(left/right));
 		 lexer.getExpressionClass().freeInt(l.intValue());
 		 lexer.getExpressionClass().freeInt(r.intValue());
@@ -361,10 +361,10 @@ iexpr   ::=
       :}
    | iexpr:l MOD iexpr:r
       {: if (lexer.getExpressionClass().isIconstant(r.intValue())) {
-             int right = lexer.getExpressionClass().getIexpr(r.intValue()).eval();
+             int right = lexer.getExpressionClass().getIExpr(r.intValue()).eval();
 	     if (right==0) throw new Exception("mod 0");
 	     if (lexer.getExpressionClass().isIconstant(l.intValue())) {
-                 int left = lexer.getExpressionClass().getIexpr(l.intValue()).eval();
+                 int left = lexer.getExpressionClass().getIExpr(l.intValue()).eval();
 		 RESULT = Integer.valueOf(lexer.getExpressionClass().make_iConst(left%right));
 		 lexer.getExpressionClass().freeInt(l.intValue());
 		 lexer.getExpressionClass().freeInt(r.intValue());
@@ -387,7 +387,7 @@ iexpr   ::=
 bexpr   ::=
       bexpr:l OR bexpr:r
       {: if (lexer.getExpressionClass().isBconstant(l.intValue())) {
-             boolean left = lexer.getExpressionClass().getIexpr(l.intValue()).eval();
+             boolean left = lexer.getExpressionClass().getBExpr(l.intValue()).eval();
 	     if (left) {
 	         RESULT = l;
 		 lexer.getExpressionClass().freeBool(r.intValue());
@@ -396,7 +396,7 @@ bexpr   ::=
 		 lexer.getExpressionClass().freeBool(l.intValue());
              }
 	 } else if (lexer.getExpressionClass().isBconstant(r.intValue())) {
-             boolean right = lexer.getExpressionClass().getIexpr(r.intValue()).eval();
+             boolean right = lexer.getExpressionClass().getBExpr(r.intValue()).eval();
 	     if (right) {
 	         RESULT = r;
 		 lexer.getExpressionClass().freeBool(l.intValue());
@@ -413,7 +413,7 @@ bexpr   ::=
       
     | bexpr:l AND bexpr:r
       {: if (lexer.getExpressionClass().isBconstant(l.intValue())) {
-             boolean left = lexer.getExpressionClass().getIexpr(l.intValue()).eval();
+             boolean left = lexer.getExpressionClass().getBExpr(l.intValue()).eval();
 	     if (!left) {
 	         RESULT = l;
 		 lexer.getExpressionClass().freeBool(r.intValue());
@@ -422,7 +422,7 @@ bexpr   ::=
 		 lexer.getExpressionClass().freeBool(l.intValue());
              }
 	 } else if (lexer.getExpressionClass().isBconstant(r.intValue())) {
-             boolean right = lexer.getExpressionClass().getIexpr(r.intValue()).eval();
+             boolean right = lexer.getExpressionClass().getBExpr(r.intValue()).eval();
 	     if (!right) {
 	         RESULT = r;
 		 lexer.getExpressionClass().freeBool(l.intValue());
@@ -443,7 +443,7 @@ bexpr   ::=
     
     | NOT bexpr:e
       {: if (lexer.getExpressionClass().isBconstant(e.intValue())) {
-             boolean b = lexer.getExpressionClass().getIexpr(e.intValue()).eval();
+             boolean b = lexer.getExpressionClass().getBExpr(e.intValue()).eval();
 	     if (b) {
                  RESULT = Integer.valueOf(lexer.getExpressionClass().make_bConst(false));
 	         lexer.getExpressionClass().freeBool(e.intValue());
@@ -461,8 +461,8 @@ bexpr   ::=
       {: if (lexer.getExpressionClass().isIconstant(l.intValue()) &&
              lexer.getExpressionClass().isIconstant(r.intValue()))
 	     RESULT = Integer.valueOf(lexer.getExpressionClass().make_bConst(
-	          lexer.getExpressionClass().getIexpr(l.intValue()).eval() <
-                  lexer.getExpressionClass().getIexpr(r.intValue()).eval()));
+	          lexer.getExpressionClass().getIExpr(l.intValue()).eval() <
+                  lexer.getExpressionClass().getIExpr(r.intValue()).eval()));
          else
              RESULT = Integer.valueOf(lexer.getExpressionClass().make_biiLt(l.intValue(),r.intValue()));
          lexer.getExpressionClass().freeInt(l.intValue());
@@ -472,8 +472,8 @@ bexpr   ::=
       {: if (lexer.getExpressionClass().isIconstant(l.intValue()) &&
              lexer.getExpressionClass().isIconstant(r.intValue()))
 	     RESULT = Integer.valueOf(lexer.getExpressionClass().make_bConst(
-	          lexer.getExpressionClass().getIexpr(l.intValue()).eval() >
-                  lexer.getExpressionClass().getIexpr(r.intValue()).eval()));
+	          lexer.getExpressionClass().getIExpr(l.intValue()).eval() >
+                  lexer.getExpressionClass().getIExpr(r.intValue()).eval()));
          else
              RESULT = Integer.valueOf(lexer.getExpressionClass().make_biiGt(l.intValue(),r.intValue()));
          lexer.getExpressionClass().freeInt(l.intValue());
@@ -483,8 +483,8 @@ bexpr   ::=
       {: if (lexer.getExpressionClass().isIconstant(l.intValue()) &&
              lexer.getExpressionClass().isIconstant(r.intValue()))
 	     RESULT = Integer.valueOf(lexer.getExpressionClass().make_bConst(
-	          lexer.getExpressionClass().getIexpr(l.intValue()).eval() <=
-                  lexer.getExpressionClass().getIexpr(r.intValue()).eval()));
+	          lexer.getExpressionClass().getIExpr(l.intValue()).eval() <=
+                  lexer.getExpressionClass().getIExpr(r.intValue()).eval()));
          else
              RESULT = Integer.valueOf(lexer.getExpressionClass().make_biiLeq(l.intValue(),r.intValue()));
          lexer.getExpressionClass().freeInt(l.intValue());
@@ -494,8 +494,8 @@ bexpr   ::=
       {: if (lexer.getExpressionClass().isIconstant(l.intValue()) &&
              lexer.getExpressionClass().isIconstant(r.intValue()))
 	     RESULT = Integer.valueOf(lexer.getExpressionClass().make_bConst(
-	          lexer.getExpressionClass().getIexpr(l.intValue()).eval() >=
-                  lexer.getExpressionClass().getIexpr(r.intValue()).eval()));
+	          lexer.getExpressionClass().getIExpr(l.intValue()).eval() >=
+                  lexer.getExpressionClass().getIExpr(r.intValue()).eval()));
          else
              RESULT = Integer.valueOf(lexer.getExpressionClass().make_biiGeq(l.intValue(),r.intValue()));
          lexer.getExpressionClass().freeInt(l.intValue());
@@ -505,8 +505,8 @@ bexpr   ::=
       {: if (lexer.getExpressionClass().isIconstant(l.intValue()) &&
              lexer.getExpressionClass().isIconstant(r.intValue()))
 	     RESULT = Integer.valueOf(lexer.getExpressionClass().make_bConst(
-	          lexer.getExpressionClass().getIexpr(l.intValue()).eval() ==
-                  lexer.getExpressionClass().getIexpr(r.intValue()).eval()));
+	          lexer.getExpressionClass().getIExpr(l.intValue()).eval() ==
+                  lexer.getExpressionClass().getIExpr(r.intValue()).eval()));
          else
              RESULT = Integer.valueOf(lexer.getExpressionClass().make_biiEq(l.intValue(),r.intValue()));
          lexer.getExpressionClass().freeInt(l.intValue());
@@ -516,33 +516,67 @@ bexpr   ::=
       {: if (lexer.getExpressionClass().isIconstant(l.intValue()) &&
              lexer.getExpressionClass().isIconstant(r.intValue()))
 	     RESULT = Integer.valueOf(lexer.getExpressionClass().make_bConst(
-	          lexer.getExpressionClass().getIexpr(l.intValue()).eval() !=
-                  lexer.getExpressionClass().getIexpr(r.intValue()).eval()));
+	          lexer.getExpressionClass().getIExpr(l.intValue()).eval() !=
+                  lexer.getExpressionClass().getIExpr(r.intValue()).eval()));
          else
              RESULT = Integer.valueOf(lexer.getExpressionClass().make_biiDif(l.intValue(),r.intValue()));
          lexer.getExpressionClass().freeInt(l.intValue());
          lexer.getExpressionClass().freeInt(r.intValue());
       :}
+      
     | bexpr:l EQ bexpr:r
-      {: if (lexer.getExpressionClass().isBconstant(l.intValue()) &&
-             lexer.getExpressionClass().isBconstant(r.intValue()))
-	     RESULT = Integer.valueOf(lexer.getExpressionClass().make_bConst(
-	          lexer.getExpressionClass().getBexpr(l.intValue()).eval() ==
-                  lexer.getExpressionClass().getBexpr(r.intValue()).eval()));
-         else
-             RESULT = Integer.valueOf(lexer.getExpressionClass().make_bbbEq(l.intValue(),r.intValue()));
-         lexer.getExpressionClass().freeBool(l.intValue());
-         lexer.getExpressionClass().freeBool(r.intValue());
+      {: if (lexer.getExpressionClass().isBconstant(l.intValue())) {
+             boolean b = lexer.getExpressionClass().getBExpr(l.intValue()).eval();
+	     if (b) {
+	        RESULT = r;
+		lexer.getExpressionClass().freeBool(l.intValue());
+	     } else {
+	        RESULT = Integer.valueOf(lexer.getExpressionClass().make_bNot(r.intValue()));
+		lexer.getExpressionClass().freeBool(l.intValue());
+		lexer.getExpressionClass().freeBool(r.intValue());
+             }
+	 } else if (lexer.getExpressionClass().isBconstant(r.intValue())) {
+             boolean b = lexer.getExpressionClass().getBExpr(r.intValue()).eval();
+	     if (b) {
+	        RESULT = l;
+		lexer.getExpressionClass().freeBool(r.intValue());
+	     } else {
+	        RESULT = Integer.valueOf(lexer.getExpressionClass().make_bNot(l.intValue()));
+		lexer.getExpressionClass().freeBool(l.intValue());
+		lexer.getExpressionClass().freeBool(r.intValue());
+             }
+	 } else {
+	     RESULT = Integer.valueOf(lexer.getExpressionClass().make_bbbEq(l.intValue(),r.intValue()));
+             lexer.getExpressionClass().freeBool(l.intValue());
+             lexer.getExpressionClass().freeBool(r.intValue());
+	 }
       :}
+      
     | bexpr:l DIF bexpr:r
-      {: if (lexer.getExpressionClass().isBconstant(l.intValue()) &&
-             lexer.getExpressionClass().isBconstant(r.intValue()))
-	     RESULT = Integer.valueOf(lexer.getExpressionClass().make_bConst(
-	          lexer.getExpressionClass().getBexpr(l.intValue()).eval() !=
-                  lexer.getExpressionClass().getBexpr(r.intValue()).eval()));
-         else
-             RESULT = Integer.valueOf(lexer.getExpressionClass().make_bbbDif(l.intValue(),r.intValue()));
-         lexer.getExpressionClass().freeBool(l.intValue());
-         lexer.getExpressionClass().freeBool(r.intValue());
+      {: if (lexer.getExpressionClass().isBconstant(l.intValue())) {
+             boolean b = lexer.getExpressionClass().getBExpr(l.intValue()).eval();
+	     if (b) {
+	        RESULT = Integer.valueOf(lexer.getExpressionClass().make_bNot(r.intValue()));
+		lexer.getExpressionClass().freeBool(l.intValue());
+		lexer.getExpressionClass().freeBool(r.intValue());
+	     } else {
+	        RESULT = r;
+		lexer.getExpressionClass().freeBool(l.intValue());
+             }
+	 } else if (lexer.getExpressionClass().isBconstant(r.intValue())) {
+             boolean b = lexer.getExpressionClass().getBExpr(r.intValue()).eval();
+	     if (b) {
+	        RESULT = Integer.valueOf(lexer.getExpressionClass().make_bNot(l.intValue()));
+		lexer.getExpressionClass().freeBool(l.intValue());
+		lexer.getExpressionClass().freeBool(r.intValue());
+	     } else {
+	        RESULT = l;
+		lexer.getExpressionClass().freeBool(r.intValue());
+             }
+	 } else {
+	     RESULT = Integer.valueOf(lexer.getExpressionClass().make_bbbEq(l.intValue(),r.intValue()));
+             lexer.getExpressionClass().freeBool(l.intValue());
+             lexer.getExpressionClass().freeBool(r.intValue());
+	 }
       :}
 ;

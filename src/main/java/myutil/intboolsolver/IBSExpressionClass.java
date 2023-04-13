@@ -92,6 +92,18 @@ public class IBSExpressionClass<
      */
     public BExpr getBExpr(int _expr) { return null; }
 
+    /** test weather some saved expression is constant.
+     *
+     * @param i index of a boolean expression
+     * @return true iff the associated expression is constant
+     */
+    public boolean isBconstant(int i){ return false; }
+    /** test weather some saved expression is constant.
+     *
+     * @param i index of an integer expression
+     * @return true iff the associated expression is constant
+     */
+    public boolean isIconstant(int i){ return false; }
     /** method for building an expression. Such a method find
      * a free index to memorize the build expression and return it.
      * Parameters are indexes of previously build expressions

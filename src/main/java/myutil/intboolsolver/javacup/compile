@@ -1,7 +1,7 @@
 #!/bin/sh
 
 JFLEX_FILE="IBSStdLexer.jflex"
-JAVACUP_FILE="IBSStdParser.jcup"
+JAVACUP_FILE="IBSOptParser.jcup"
 LEXER_CLASS="IBSStdLexer"
 PARSER_CLASS="IBSStdParser"
 SYMBOL_CLASS="IBSStdSymbols"

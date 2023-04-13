@@ -89,40 +89,32 @@ public class IBSStdExpressionClass<
     public final int biExpr = 1005; // no associated symbol
 
     private ArrayList<IExpr> iExpressions = new ArrayList<IExpr>(16);
-    private ArrayList<Boolean> iBusy = new ArrayList<Boolean>(16);
     private ArrayList<BExpr> bExpressions = new ArrayList<BExpr>(16);
-    private ArrayList<Boolean> bBusy = new ArrayList<Boolean>(16);
     public IBSStdExpressionClass(){}
     public void clear(){
         iExpressions.clear();
         bExpressions.clear();
-        iBusy.clear();
-        bBusy.clear();
     }
     private int findIfree(){
         int i;
-        for (i = 0; i < iBusy.size(); i++) if (!iBusy.get(i)) break;
-        if (i==iBusy.size()){
-            iBusy.add(Boolean.FALSE);
+        for (i = 0; i < iExpressions.size(); i++) if (iExpressions.get(i)==null) break;
+        if (i==iExpressions.size()){
             iExpressions.add(null);
         }
         return i;
     }
     private int findBfree(){
         int i;
-        for (i = 0; i < bBusy.size(); i++) if (!bBusy.get(i)) break;
-        if (i==bBusy.size()){
-            bBusy.add(Boolean.FALSE);
+        for (i = 0; i < bExpressions.size(); i++) if (bExpressions.get(i)==null) break;
+        if (i==bExpressions.size()){
             bExpressions.add(null);
         }
         return i;
     }
     public void freeInt(int _toFree) {
-        iBusy.set(_toFree,Boolean.FALSE);
         iExpressions.set(_toFree,null);
     }
     public void freeBool(int _toFree) {
-        bBusy.set(_toFree,Boolean.FALSE);
         bExpressions.set(_toFree,null);
     }
     public IExpr getIExpr(int _expr) {
@@ -145,7 +137,6 @@ public class IBSStdExpressionClass<
                 iExpressions.get(_left) == null || iExpressions.get(_right) == null)
            throw new Error("IBSStdExpressionClass.make_iiiPlus called on undefined subexpression");
         iExpressions.set(tgt, new IIIPlus(iExpressions.get(_left), iExpressions.get(_right)));
-        iBusy.set(tgt,Boolean.TRUE);
         return tgt;
     }
     public int make_iiiMinus(int _left, int _right) {
@@ -154,7 +145,6 @@ public class IBSStdExpressionClass<
                 iExpressions.get(_left) == null || iExpressions.get(_right) == null)
             throw new Error("IBSStdExpressionClass.make_iiiMinus called on undefined subexpression");
         iExpressions.set(tgt, new IIIMinus(iExpressions.get(_left), iExpressions.get(_right)));
-        iBusy.set(tgt,Boolean.TRUE);
         return tgt;
     }
     public int make_iiiMult(int _left, int _right) {
@@ -163,7 +153,6 @@ public class IBSStdExpressionClass<
                 iExpressions.get(_left) == null || iExpressions.get(_right) == null)
             throw new Error("IBSStdExpressionClass.make_iiiMult called on undefined subexpression");
         iExpressions.set(tgt, new IIIMult(iExpressions.get(_left), iExpressions.get(_right)));
-        iBusy.set(tgt,Boolean.TRUE);
         return tgt;
     }
     public int make_iiiDiv(int _left, int _right) {
@@ -172,7 +161,6 @@ public class IBSStdExpressionClass<
                 iExpressions.get(_left) == null || iExpressions.get(_right) == null)
             throw new Error("IBSStdExpressionClass.make_iiiDiv called on undefined subexpression");
         iExpressions.set(tgt, new IIIDiv(iExpressions.get(_left), iExpressions.get(_right)));
-        iBusy.set(tgt,Boolean.TRUE);
         return tgt;
     }
     public int make_iiiMod(int _left, int _right) {
@@ -181,7 +169,6 @@ public class IBSStdExpressionClass<
                 iExpressions.get(_left) == null || iExpressions.get(_right) == null)
             throw new Error("IBSStdExpressionClass.make_iiiMod called on undefined subexpression");
         iExpressions.set(tgt, new IIIMod(iExpressions.get(_left), iExpressions.get(_right)));
-        iBusy.set(tgt,Boolean.TRUE);
         return tgt;
     }
     public int make_bbbAnd(int _left, int _right) {
@@ -190,7 +177,6 @@ public class IBSStdExpressionClass<
                 bExpressions.get(_left) == null || bExpressions.get(_right) == null)
             throw new Error("IBSStdExpressionClass.make_bbbAnd called on undefined subexpression");
         bExpressions.set(tgt, new BBBAnd(bExpressions.get(_left), bExpressions.get(_right)));
-        bBusy.set(tgt,Boolean.TRUE);
         return tgt;
     }
     public int make_bbbOr(int _left, int _right) {
@@ -199,7 +185,6 @@ public class IBSStdExpressionClass<
                 bExpressions.get(_left) == null || bExpressions.get(_right) == null)
             throw new Error("IBSStdExpressionClass.make_bbbOr called on undefined subexpression");
         bExpressions.set(tgt, new BBBOr(bExpressions.get(_left), bExpressions.get(_right)));
-        bBusy.set(tgt,Boolean.TRUE);
         return tgt;
     }
     public int make_biiEq(int _left, int _right) {
@@ -209,7 +194,6 @@ public class IBSStdExpressionClass<
                     iExpressions.get(_left) == null || iExpressions.get(_right) == null)
                 throw new Error("IBSStdExpressionClass.make_biiEq called on undefined subexpression");
         bExpressions.set(tgt, new BIIEq(iExpressions.get(_left), iExpressions.get(_right)));
-        bBusy.set(tgt,Boolean.TRUE);
         return tgt;
     }
     public int make_bbbEq(int _left, int _right) {
@@ -218,7 +202,6 @@ public class IBSStdExpressionClass<
                 bExpressions.get(_left) == null || bExpressions.get(_right) == null)
             throw new Error("IBSStdExpressionClass.make_bbbEq called on undefined subexpression");
         bExpressions.set(tgt, new BBBEq(bExpressions.get(_left), bExpressions.get(_right)));
-        bBusy.set(tgt,Boolean.TRUE);
         return tgt;
     }
     public int make_biiDif(int _left, int _right) {
@@ -227,7 +210,6 @@ public class IBSStdExpressionClass<
                 iExpressions.get(_left) == null || iExpressions.get(_right) == null)
             throw new Error("IBSStdExpressionClass.make_biiDif called on undefined subexpression");
         bExpressions.set(tgt, new BIIDif(iExpressions.get(_left), iExpressions.get(_right)));
-        bBusy.set(tgt,Boolean.TRUE);
         return tgt;
     }
     public int make_bbbDif(int _left, int _right) {
@@ -236,7 +218,6 @@ public class IBSStdExpressionClass<
                 bExpressions.get(_left) == null || bExpressions.get(_right) == null)
             throw new Error("IBSStdExpressionClass.make_bbbDif called on undefined subexpression");
         bExpressions.set(tgt, new BBBDif(bExpressions.get(_left), bExpressions.get(_right)));
-        bBusy.set(tgt,Boolean.TRUE);
         return tgt;
     }
     public int make_biiLt(int _left, int _right) {
@@ -245,7 +226,6 @@ public class IBSStdExpressionClass<
                 iExpressions.get(_left) == null || iExpressions.get(_right) == null)
             throw new Error("IBSStdExpressionClass.make_biiLt called on undefined subexpression");
         bExpressions.set(tgt, new BIILt(iExpressions.get(_left), iExpressions.get(_right)));
-        bBusy.set(tgt,Boolean.TRUE);
         return tgt;
     }
     public int make_biiGt(int _left, int _right) {
@@ -254,7 +234,6 @@ public class IBSStdExpressionClass<
                 iExpressions.get(_left) == null || iExpressions.get(_right) == null)
             throw new Error("IBSStdExpressionClass.make_biiGt called on undefined subexpression");
         bExpressions.set(tgt, new BIIGt(iExpressions.get(_left), iExpressions.get(_right)));
-        bBusy.set(tgt,Boolean.TRUE);
         return tgt;
     }
     public int make_biiLeq(int _left, int _right) {
@@ -263,7 +242,6 @@ public class IBSStdExpressionClass<
                 iExpressions.get(_left) == null || iExpressions.get(_right) == null)
             throw new Error("IBSStdExpressionClass.make_biiLeq called on undefined subexpression");
         bExpressions.set(tgt, new BIILeq(iExpressions.get(_left), iExpressions.get(_right)));
-        bBusy.set(tgt,Boolean.TRUE);
         return tgt;
     }
     public int make_biiGeq(int _left, int _right) {
@@ -272,7 +250,6 @@ public class IBSStdExpressionClass<
                 iExpressions.get(_left) == null || iExpressions.get(_right) == null)
             throw new Error("IBSStdExpressionClass.make_biiGeq called on undefined subexpression");
         bExpressions.set(tgt, new BIIGeq(iExpressions.get(_left), iExpressions.get(_right)));
-        bBusy.set(tgt,Boolean.TRUE);
         return tgt;
     }
     public int make_iVar(IBSAttributeClass<Spec,Comp,State,SpecState,CompState>.Attribute _v) {
@@ -282,7 +259,6 @@ public class IBSStdExpressionClass<
         if (_v.getType() != IBSAttributeClass.IntAttr)
             return -1;
         iExpressions.set(tgt, new IVar(_v));
-        iBusy.set(tgt,Boolean.TRUE);
         return tgt;
     }
     public int make_bVar(IBSAttributeClass<Spec,Comp,State,SpecState,CompState>.Attribute _v) {
@@ -292,7 +268,6 @@ public class IBSStdExpressionClass<
         if (_v.getType() != IBSAttributeClass.BoolAttr)
             return -1;
         bExpressions.set(tgt, new BVar(_v));
-        bBusy.set(tgt,Boolean.TRUE);
         return tgt;
     }
     public int make_biVar(IBSAttributeClass<Spec,Comp,State,SpecState,CompState>.Attribute _v) {
@@ -302,19 +277,16 @@ public class IBSStdExpressionClass<
         if (_v.getType() != IBSAttributeClass.IntAttr)
             return -1;
         bExpressions.set(tgt, new BIVar(_v));
-        bBusy.set(tgt,Boolean.TRUE);
         return tgt;
     }
     public int make_iConst(int _i) {
         int tgt = findIfree();
         iExpressions.set(tgt, new IConst(_i));
-        iBusy.set(tgt,Boolean.TRUE);
         return tgt;
     }
     public int make_bConst(boolean _b) {
         int tgt = findBfree();
         bExpressions.set(tgt, new BConst(_b));
-        bBusy.set(tgt,Boolean.TRUE);
         return tgt;
     }
     public int make_iNeg(int _expr) {
@@ -322,7 +294,6 @@ public class IBSStdExpressionClass<
         if (iExpressions.size()<=_expr || _expr < 0 ||iExpressions.get(_expr) == null)
             throw new Error("IBSStdExpressionClass.make_iNeg called on undefined subexpression");
         iExpressions.set(tgt, iExpressions.get(_expr).negate());
-        iBusy.set(tgt,Boolean.TRUE);
         return tgt;
     }
     public int make_bNot(int _expr) {
@@ -330,7 +301,6 @@ public class IBSStdExpressionClass<
         if (bExpressions.size()<=_expr || _expr < 0 || bExpressions.get(_expr) == null)
             throw new Error("IBSStdExpressionClass.make_bNot called on undefined subexpression");
         bExpressions.set(tgt, bExpressions.get(_expr).negate());
-        bBusy.set(tgt,Boolean.TRUE);
         return tgt;
     }
     public int make_biExpr(int _expr) {
@@ -338,7 +308,6 @@ public class IBSStdExpressionClass<
         if (iExpressions.size()<=_expr || _expr < 0 || iExpressions.get(_expr) == null)
             throw new Error("IBSStdExpressionClass.make_biExpr called on undefined subexpression");
         bExpressions.set(tgt, new BIExpr(iExpressions.get(_expr)));
-        bBusy.set(tgt,Boolean.TRUE);
         return tgt;
     }
     public abstract class IExpr extends IBSExpressionClass<Spec,Comp,State,SpecState,CompState>.IExpr {

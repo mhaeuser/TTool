@@ -36,7 +36,7 @@
  * knowledge of the CeCILL license and that you accept its terms.
  */
 
-package myutil.intboolsolver.origin;
+package myutil.intboolsolver.history;
 
 import myutil.intboolsolver.*;
 

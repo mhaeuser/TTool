@@ -44,6 +44,7 @@ import avatartranslator.AvatarStateMachineElement;
 import avatartranslator.modelchecker.SpecificationBlock;
 import avatartranslator.modelchecker.SpecificationState;
 import myutil.intboolsolver.*;
+import myutil.intboolsolver.history.*;
 
 /**
  * instantiation of {@link IBSStdExpressionClass

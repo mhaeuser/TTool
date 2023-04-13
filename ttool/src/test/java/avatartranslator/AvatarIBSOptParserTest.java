@@ -347,10 +347,10 @@ public class AvatarIBSOptParserTest {
         assertTrue(e4.eval(ss) == -2);
 
         // PERFORMANCE TEST (VISUAL) =============================
-        int OUTER_LOOP = 1000;
-        int INNER_LOOP = 10000;
+        int OUTER_LOOP = 100000;
+        int INNER_LOOP = 1000;
 
-        String s = "(block1.x + block2.y) * 5 - (((block2.x + block1.y)) + block2.w) * ";
+        String s = "(block1.x + -block2.y) * -5 - (((-block2.x + block1.y)) + -block2.w) * ";
         ArrayList<AvatarIBSExpressionClass.IExpr> arr = new ArrayList<AvatarIBSExpressionClass.IExpr>();
 
         long parse_beg =  System.currentTimeMillis();
@@ -374,10 +374,4 @@ public class AvatarIBSOptParserTest {
         System.out.println("Parsing time : " + (parse_end - parse_beg));
         System.out.println("Evaluation time : " + (eval_end - eval_beg));
     }
-     @Test
-    public void testTMP() {
-        AvatarIBSExpressionClass.BExpr e =
-                (AvatarIBSExpressionClass.BExpr) parser.parseBool( "true || false == false || true");
-        assertNotNull(e);
-     }
 }

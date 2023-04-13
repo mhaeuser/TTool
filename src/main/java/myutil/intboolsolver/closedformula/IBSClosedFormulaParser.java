@@ -39,7 +39,7 @@
 package myutil.intboolsolver.closedformula;
 
 import myutil.intboolsolver.*;
-import myutil.intboolsolver.origin.IBSOriginParser;
+import myutil.intboolsolver.history.IBSOriginParser;
 
 /**
  * class IBSClosedFormulaParser is a complete implementation

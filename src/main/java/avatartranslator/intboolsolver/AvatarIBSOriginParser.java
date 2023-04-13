@@ -44,7 +44,7 @@ import avatartranslator.AvatarStateMachineElement;
 import avatartranslator.modelchecker.SpecificationBlock;
 import avatartranslator.modelchecker.SpecificationState;
 import myutil.intboolsolver.*;
-import myutil.intboolsolver.origin.IBSOriginParser;
+import myutil.intboolsolver.history.IBSOriginParser;
 
 /**
  * Instanciation of IBSOriginParser for Avatar

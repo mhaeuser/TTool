@@ -70,7 +70,7 @@
  *     <p> The parser also relies on an "<b>expression class</b>" which
  *     implements the structure of the expressions build by the parser (full
  *     implementations are provided)</p>
- *        <ul><li> {@link myutil.intboolsolver.origin.IBSOriginParser IBSOriginParser}
+ *        <ul><li> {@link myutil.intboolsolver.history.IBSOriginParser IBSOriginParser}
  *         is an implementation of {@link myutil.intboolsolver.IBSParserAPI
  *         IBSParserAPI} based on the original implementation of the Avatar
  *         solver (here for historical reasons... another implementation is
@@ -91,7 +91,7 @@
  *     kind of methods: methods for building expressions (required by parsing)
  *     and methods for evaluating expressions (useful for final user, but also
  *     available for parser implementations).</p>
- *     <ul><li> <p>{@link myutil.intboolsolver.origin.IBSOriginExpressionClass
+ *     <ul><li> <p>{@link myutil.intboolsolver.history.IBSOriginExpressionClass
  *         IBSOriginExpressionClass} is a full implementation of {@link
  *         myutil.intboolsolver.IBSExpressionClass IBSExpressionClass} based
  *         on the original implementation of the Avatar solver (here for
@@ -192,7 +192,7 @@
  *     </li>
  *     <li> <p>build expression class <code>ExprClass</code> for your instance, ie.
  *     for example instantiate {@link myutil.intboolsolver.IBSStdExpressionClass
- *     IBSStdExpressionClass} or {@link myutil.intboolsolver.origin.IBSOriginExpressionClass
+ *     IBSStdExpressionClass} or {@link myutil.intboolsolver.history.IBSOriginExpressionClass
  *     IBSOriginExpressionClass}:</p>
        <PRE>
      known from context (package, imports): intboolsolver,
@@ -212,7 +212,7 @@
  *     </li>
  *     <li> <p>build the parser <code>Parser</code> for your instance, ie.
  *     instantiate an implementation of the generic parser (for example
- *     {@link myutil.intboolsolver.origin.IBSOriginParser
+ *     {@link myutil.intboolsolver.history.IBSOriginParser
  *     IBSSOriginParser}) :</p>
  *        <PRE>
  *      known from context (package, imports): intboolsolver,

@@ -312,13 +312,13 @@ public class IBSStdExpressionClass<
     }
     public abstract class IExpr extends IBSExpressionClass<Spec,Comp,State,SpecState,CompState>.IExpr {
         protected short type;
-        public final int getType() { return type; }
+        public final short getType() { return type; }
         public abstract int getPrio();
         public abstract IExpr negate();
     }
     public abstract class BExpr extends IBSExpressionClass<Spec,Comp,State,SpecState,CompState>.BExpr {
         protected short type;
-        public final int getType() { return type; }
+        public final short getType() { return type; }
         public abstract int getPrio();
         public abstract BExpr negate();
     }

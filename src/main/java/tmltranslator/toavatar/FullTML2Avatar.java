@@ -1168,7 +1168,7 @@ public class FullTML2Avatar {
 
             if (security && ae.securityPattern != null) {
                 //If encryption
-                if (ae.securityPattern != null && ae.getName().contains("encrypt")) {
+                if (ae.securityPattern != null && ae instanceof TMLEncryption) {
                     secPatterns.add(ae.securityPattern);
                     if (ae.securityPattern.type.equals("Advanced")) {
                         //Type Advanced
@@ -1352,7 +1352,7 @@ public class FullTML2Avatar {
                         signalAuthOriginMap.put(ae.securityPattern.name, authOrigin);
                     }
 
-                } else if (ae.securityPattern != null && ae.getName().contains("decrypt")) {
+                } else if (ae.securityPattern != null && ae instanceof TMLDecryption) {
                     //Decryption action
                     //block.addAttribute(new AvatarAttribute(ae.securityPattern.name, AvatarType.INTEGER, block, null));
                     //block.addAttribute(new AvatarAttribute(ae.securityPattern.name+"_encrypted", AvatarType.INTEGER, block, null));

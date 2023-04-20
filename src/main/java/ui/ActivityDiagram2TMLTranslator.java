@@ -99,6 +99,8 @@ public class ActivityDiagram2TMLTranslator {
         TMLRandomSequence tmlrsequence;
         TMLSelectEvt tmlselectevt;
         TMLDelay tmldelay;
+        TMLEncryption tmlencryption;
+        TMLDecryption tmldecryption;
         int staticLoopIndex = 0;
         String sl = "", tmp;
         TMLType tt;
@@ -188,8 +190,8 @@ public class ActivityDiagram2TMLTranslator {
                     corrTgElement.addCor(tmlexecii, tgc);
 
                 } else if (tgc instanceof TMLADEncrypt) {
-                    tmlexecc = new TMLExecC("encrypt_" + ((TMLADEncrypt) tgc).securityContext, tgc);
-                    activity.addElement(tmlexecc);
+                    tmlencryption = new TMLEncryption("encrypt_" + ((TMLADEncrypt) tgc).securityContext, tgc);
+                    activity.addElement(tmlencryption);
                     SecurityPattern sp = securityPatterns.get(((TMLADEncrypt) tgc).securityContext);
                     if (sp == null) {
                         //Throw error for missing security pattern
@@ -198,15 +200,15 @@ public class ActivityDiagram2TMLTranslator {
                         ce.setTGComponent(tgc);
                         checkingErrors.add(ce);
                     } else {
-                        tmlexecc.securityPattern = sp;
-                        tmlexecc.setAction(Integer.toString(sp.encTime));
+                        tmlencryption.securityPattern = sp;
+                        tmlencryption.setAction(Integer.toString(sp.encTime));
                         ((BasicErrorHighlight) tgc).setStateAction(ErrorHighlight.OK);
                         tmlm.securityTaskMap.get(sp).add(tmltask);
-                        corrTgElement.addCor(tmlexecc, tgc);
+                        corrTgElement.addCor(tmlencryption, tgc);
                     }
                 } else if (tgc instanceof TMLADDecrypt) {
-                    tmlexecc = new TMLExecC("decrypt_" + ((TMLADDecrypt) tgc).securityContext, tgc);
-                    activity.addElement(tmlexecc);
+                    tmldecryption = new TMLDecryption("decrypt_" + ((TMLADDecrypt) tgc).securityContext, tgc);
+                    activity.addElement(tmldecryption);
                     SecurityPattern sp = securityPatterns.get(((TMLADDecrypt) tgc).securityContext);
                     if (sp == null) {
                         //Throw error for missing security pattern
@@ -215,10 +217,10 @@ public class ActivityDiagram2TMLTranslator {
                         ce.setTGComponent(tgc);
                         checkingErrors.add(ce);
                     } else {
-                        tmlexecc.securityPattern = sp;
-                        tmlexecc.setAction(Integer.toString(sp.decTime));
+                        tmldecryption.securityPattern = sp;
+                        tmldecryption.setAction(Integer.toString(sp.decTime));
                         ((BasicErrorHighlight) tgc).setStateAction(ErrorHighlight.OK);
-                        corrTgElement.addCor(tmlexecc, tgc);
+                        corrTgElement.addCor(tmldecryption, tgc);
                         tmlm.securityTaskMap.get(sp).add(tmltask);
                     }
 

@@ -171,7 +171,7 @@ public class AVATAR2ProVerif implements AvatarTranslator {
                     return ZERO;
                 }
             } catch (NumberFormatException e) {
-                TraceManager.addDev("ERROR=NFE");
+                TraceManager.addDev("ERROR=NFE for " + term.getName());
             }
 
             return constant.getName();
@@ -257,22 +257,26 @@ public class AVATAR2ProVerif implements AvatarTranslator {
     // -> transformed into a = b, a <> b, g1 && g2, g1 || g2
     // Returns nulls otherwise
     private static String translateGuard(AvatarGuard _guard, Map<AvatarAttribute, Integer> attributeCmp) {
-        TraceManager.addDev("Handling Guard:" + _guard.toString());
+        //TraceManager.addDev("Handling Guard:" + _guard.toString());
         if (_guard == null || _guard instanceof AvatarGuardEmpty) {
             TraceManager.addDev("Null or empty guard");
             return null;
         }
 
-        if (_guard instanceof AvatarGuardElse)
+        if (_guard instanceof AvatarGuardElse) {
             // TODO: warning
+            //TraceManager.addDev("WARNING: ELSE GUARD");
             return null;
+        }
 
         if (_guard instanceof AvatarSimpleGuardMono) {
             //TraceManager.addDev("SimpleGuardMono:" + _guard);
             String term = AVATAR2ProVerif.translateTerm(((AvatarSimpleGuardMono) _guard).getTerm(), attributeCmp);
             //TraceManager.addDev("guard/ term=" + term);
-            if (term != null)
+            if (term != null) {
+                //TraceManager.addDev("RETURN 1: " +  term + " = " + TRUE);
                 return term + " = " + TRUE;
+            }
 
             return null;
         }
@@ -292,8 +296,12 @@ public class AVATAR2ProVerif implements AvatarTranslator {
             /*else if (((AvatarSimpleGuardDuo) _guard).getBinaryOp ().equals (">"))
                 delim = ">";*/
 
-            if (termA != null && termB != null && delim != null)
+            if (termA != null && termB != null && delim != null) {
+                termA = modifyTerm(termA);
+                termB = modifyTerm(termB);
+                //TraceManager.addDev("RETURN 2: " +  termA + " " + delim + " " + termB);
                 return termA + " " + delim + " " + termB;
+            }
 
             return null;
         }
@@ -314,8 +322,10 @@ public class AVATAR2ProVerif implements AvatarTranslator {
             String guardProV = AVATAR2ProVerif.translateGuard(guard, attributeCmp);
 
 
-            if (beforeProV != null && guardProV != null)
+            if (beforeProV != null && guardProV != null) {
+                //TraceManager.addDev("RETURN 3: " +  beforeProV + guardProV + afterProV);
                 return beforeProV + guardProV + afterProV;
+            }
 
             return null;
         }
@@ -336,8 +346,10 @@ public class AVATAR2ProVerif implements AvatarTranslator {
             String guardAProV = AVATAR2ProVerif.translateGuard(guardA, attributeCmp);
             String guardBProV = AVATAR2ProVerif.translateGuard(guardB, attributeCmp);
 
-            if (delimProV != null && guardAProV != null && guardBProV != null)
+            if (delimProV != null && guardAProV != null && guardBProV != null) {
+                //TraceManager.addDev("Return 4: " + guardAProV + " " + delimProV + " " + guardBProV);
                 return guardAProV + " " + delimProV + " " + guardBProV;
+            }
         }
 
         if (_guard instanceof AvatarConstantGuard) {
@@ -353,6 +365,18 @@ public class AVATAR2ProVerif implements AvatarTranslator {
 
 
         return null;
+    }
+
+    private static String modifyTerm(String _term) {
+        if (_term.compareTo("true") == 0) {
+            return "TRUE";
+        }
+
+        if (_term.compareTo("false") == 0) {
+            return "FALSE";
+        }
+
+        return _term;
     }
 
     public boolean saveInFile(String path) throws FileException {
@@ -1179,14 +1203,14 @@ public class AVATAR2ProVerif implements AvatarTranslator {
 
         // Check if the transition is guarded
         if (_asme.isGuarded() && !arg.lastASME.hasElseChoiceType1()) {
-            //TraceManager.addDev("Analyzing GUARD: " + _asme.getGuard() + " real guard=" + _asme.getGuard().getRealGuard(arg.lastASME));
+            //TraceManager.addDev("\nAnalyzing GUARD: " + _asme.getGuard() + " real guard=" + _asme.getGuard().getRealGuard(arg.lastASME));
             String tmp = AVATAR2ProVerif.translateGuard(_asme.getGuard().getRealGuard(arg.lastASME), arg.attributeCmp);
             if (tmp != null) {
-                //TraceManager.addDev("|    |    transition is guarded by " + tmp);
+                TraceManager.addDev("|    |    transition is guarded by " + tmp);
                 _lastInstr = _lastInstr.setNextInstr(new ProVerifProcITE(tmp));
             } else {
-                //TraceManager.addDev("!!!       Guard: " + _asme.getGuard() + " in block " + arg.block.getName() + " is not supported. " +
-                 //       "Replacing by an empty guard");
+                /*TraceManager.addDev("!!!       Guard: " + _asme.getGuard() + " in block " + arg.block.getName() + " is not supported. " +
+                        "Replacing by an empty guard");*/
                 UICheckingError ce = new UICheckingError(CheckingError.BEHAVIOR_ERROR,
                         SEC_TRANS + "Guard: " + _asme.getGuard() + " in block " + arg.block.getName() + " is not supported. " +
                                 "Replacing by an empty " +
@@ -1387,7 +1411,11 @@ public class AVATAR2ProVerif implements AvatarTranslator {
 
         } else if (_asme.hasElseChoiceType1()) {
             //TraceManager.addDev("|    |    calling next ITE");
+            //TraceManager.addDev("\nAnalyzing GUARD ELSE TYPE 1: " + ((AvatarTransition) _asme.getNext(0)).getGuard().getRealGuard(_asme));
             ProVerifProcITE ite = new ProVerifProcITE(AVATAR2ProVerif.translateGuard(((AvatarTransition) _asme.getNext(0)).getGuard().getRealGuard(_asme), arg.attributeCmp));
+
+            TraceManager.addDev("if guard: " + ite.getCond());
+            //TraceManager.addDev("else guard: " + ite.getElse().getCond());
 
             HashMap<AvatarAttribute, Integer> attributeCmp = new HashMap<AvatarAttribute, Integer>(arg.attributeCmp);
 

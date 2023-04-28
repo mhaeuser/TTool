@@ -59,6 +59,10 @@ public class ProVerifProcITE extends ProVerifProcInstr {
         };
     }
 
+    public String getCond() {
+        return cond;
+    }
+
     public ProVerifProcInstr getElse () {
         return this.elseInstr;
     }

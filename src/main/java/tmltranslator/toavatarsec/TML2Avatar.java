@@ -677,7 +677,7 @@ public class TML2Avatar {
             elementList.add(tran);
             if (security && ae.securityPattern != null) {
                 //If encryption
-                if (ae.securityPattern != null && ae instanceof TMLEncryption) {
+                if (ae.securityPattern != null && ae.securityPattern.process == SecurityPattern.ENCRYPTION_PROCESS) {
                     secPatterns.add(ae.securityPattern);
                     if (ae.securityPattern.type.equals("Advanced")) {
                         //Type Advanced
@@ -863,7 +863,7 @@ public class TML2Avatar {
                         signalAuthOriginMap.put(ae.securityPattern.name, authOrigin);
                     }
 
-                } else if (ae.securityPattern != null && ae instanceof TMLDecryption) {
+                } else if (ae.securityPattern != null  && ae.securityPattern.process == SecurityPattern.DECRYPTION_PROCESS) {
                     //Decryption action
                     //block.addAttribute(new AvatarAttribute(ae.securityPattern.name, AvatarType.INTEGER, block, null));
                     //block.addAttribute(new AvatarAttribute(ae.securityPattern.name+"_encrypted", AvatarType.INTEGER, block, null));

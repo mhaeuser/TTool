@@ -142,13 +142,7 @@ public class SecurityGeneration implements Runnable {
 
 
             Map<AvatarPragmaAuthenticity, ProVerifQueryAuthResult> authResults = pvoa.getAuthenticityResults();
-            TraceManager.addDev("authResults= " + authResults);
             for (AvatarPragmaAuthenticity pragma : authResults.keySet()) {
-                TraceManager.addDev("pragma= " + pragma.getName());
-                TraceManager.addDev("pragma.getAttrA()= " + pragma.getAttrA());
-                TraceManager.addDev("pragma.getAttrB()= " + pragma.getAttrB());
-                TraceManager.addDev("authResults.get(pragma).isProved()= " + authResults.get(pragma).isProved());
-                TraceManager.addDev("!authResults.get(pragma).isSatisfied()= " + !authResults.get(pragma).isSatisfied());
                 if (authResults.get(pragma).isProved() && !authResults.get(pragma).isSatisfied()) {
                     nonAuthChans.add(pragma.getAttrA().getAttribute().getBlock().getName() + "__" + pragma.getAttrA().getAttribute().getName().replaceAll("_chData", ""));
                     nonAuthChans.add(pragma.getAttrB().getAttribute().getBlock().getName() + "__" + pragma.getAttrB().getAttribute().getName().replaceAll("_chData", ""));
@@ -343,9 +337,6 @@ public class SecurityGeneration implements Runnable {
                         nonConf = true;
                         TraceManager.addDev("SECGEN. non conf basic ch = true");
                     }
-                    TraceManager.addDev("nonAuthChans="+nonAuthChans);
-                    TraceManager.addDev("if1="+chan.getDestinationTask().getName().split("__")[1] + "__" + title + "__" + chan.getDestinationPort().getName());
-                    TraceManager.addDev("if2="+chan.getDestinationTask().getName().split("__")[1] + "__" + chan.getName());
 
                     if (nonAuthChans.contains(chan.getDestinationTask().getName().split("__")[1] + "__" + title + "__" + chan.getDestinationPort().getName())) {
                         nonAuth = true;
@@ -394,8 +385,6 @@ public class SecurityGeneration implements Runnable {
                 for (String chanName : portNames) {
                     //Classify channels based on the type of security requirements and unsatisfied properties
                     if (chan.isBasicChannel()) {
-                        TraceManager.addDev("chan.isBasicChannel()="+chan.getName());
-                        TraceManager.addDev("chan.checkAuth="+chan.checkAuth+" autoWeakAuth="+autoWeakAuth+" nonAuth="+nonAuth);
                         if (chan.checkConf && autoConf && nonConf) {
                             toSecure.get(chan.getOriginTask()).add(chan.getDestinationTask());
                             if (chan.checkAuth && autoStrongAuth) {
@@ -403,7 +392,6 @@ public class SecurityGeneration implements Runnable {
                                     toSecureRev.get(chan.getDestinationTask()).add(chan.getOriginTask());
                                 }
                             }
-                            TraceManager.addDev("(chan.checkConf && autoConf && nonConf)");
                             if (hsmTasks.contains(chan.getOriginTask().getName().split("__")[1])) {
                                 channelSecMap.put(chanName, "hsmSec_" + secName);
                                 if (!hsmSecOutChannels.get(chan.getOriginTask()).contains(chanName) && portInTask(chan.getOriginTask(), chanName)) {
@@ -417,10 +405,8 @@ public class SecurityGeneration implements Runnable {
                                     }
                                 }
                             } else {
-                                TraceManager.addDev("else hsmTasks.contains(chan.getOriginTask().getName().split(__)[1])");
                                 if (!secOutChannels.get(chan.getOriginTask()).contains(chanName)) {
                                     secOutChannels.get(chan.getOriginTask()).add(chanName);
-                                    TraceManager.addDev("!secOutChannels.get(chan.getOriginTask()).contains(chanName)");
                                     channelSecMap.put(chanName, "autoEncrypt_" + secName);
                                     if (chan.checkAuth && autoStrongAuth) {
                                         nonceOutChannels.get(chan.getOriginTask()).add(chanName);
@@ -448,7 +434,6 @@ public class SecurityGeneration implements Runnable {
                             }
 
                         } else if (chan.checkAuth && autoWeakAuth && nonAuth) {
-                            TraceManager.addDev("(chan.checkAuth && autoWeakAuth && nonAuth)");
                             toSecure.get(chan.getOriginTask()).add(chan.getDestinationTask());
                             if (autoStrongAuth) {
                                 if (!toSecureRev.get(chan.getDestinationTask()).contains(chan.getOriginTask())) {
@@ -475,7 +460,6 @@ public class SecurityGeneration implements Runnable {
                                 }
                             } else {
                                 if (!macInChannels.get(chan.getOriginTask()).contains(chanName)) {
-                                    TraceManager.addDev("(!macInChannels.get(chan.getOriginTask()).contains(chanName)");
                                     macOutChannels.get(chan.getOriginTask()).add(chanName);
                                     channelSecMap.put(chanName, "autoEncrypt_" + secName);
                                     if (autoStrongAuth) {
@@ -515,7 +499,6 @@ public class SecurityGeneration implements Runnable {
 								  toSecureRev.get(dest).add(orig);
 								  }
 								  }*/
-                                    TraceManager.addDev("(chan.checkConf && autoConf && nonConf)"+ " dest="+dest.getName() +" orig=" + orig.getName());
                                     if (hsmTasks.contains(orig.getName().split("__")[1])) {
                                         channelSecMap.put(chanName, "hsmSec_" + secName);
                                         if (!hsmSecOutChannels.get(orig).contains(chanName) && portInTask(orig, chanName)) {
@@ -530,7 +513,6 @@ public class SecurityGeneration implements Runnable {
                                         }
                                     } else {
                                         if (!secOutChannels.get(orig).contains(chanName)) {
-                                            TraceManager.addDev("(!secOutChannels.get(orig).contains(chanName))");
                                             secOutChannels.get(orig).add(chanName);
                                             channelSecMap.put(chanName, "autoEncrypt_" + secName);
 										/* if (chan.checkAuth && autoStrongAuth) {
@@ -559,7 +541,6 @@ public class SecurityGeneration implements Runnable {
                                     }
 
                                 } else if (chan.checkAuth && autoWeakAuth && nonAuth) {
-                                    TraceManager.addDev("(chan.checkAuth && autoWeakAuth && nonAuth)"+ " dest="+dest.getName() +" orig=" + orig.getName());
                                     toSecure.get(orig).add(dest);
 								/*	if (autoStrongAuth) {
 								/*  		if (chan.getOriginTask().getReferenceObject() instanceof TMLCPrimitiveComponent && chan.getDestinationTask().getReferenceObject() instanceof TMLCPrimitiveComponent){*/
@@ -589,7 +570,6 @@ public class SecurityGeneration implements Runnable {
                                         if (!macInChannels.get(orig).contains(chanName)) {
                                             macOutChannels.get(orig).add(chanName);
                                             channelSecMap.put(chanName, "autoEncrypt_" + secName);
-                                            TraceManager.addDev("(!macInChannels.get(orig).contains(chanName))");
 										/*   if (autoStrongAuth) {
 										     nonceOutChannels.get(orig).add(chanName);
 										     }*/

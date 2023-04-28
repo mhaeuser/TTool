@@ -48,6 +48,8 @@ import java.util.Objects;
 
 
 public class SecurityPattern {
+    public final static int ENCRYPTION_PROCESS = 1;
+    public final static int DECRYPTION_PROCESS = 2;
 
     public String name = "";
     public String type = "";
@@ -62,6 +64,7 @@ public class SecurityPattern {
     public String formula;
     public String key;
     public String algorithm = "";
+    public int process = 0; 
 
     public SecurityPattern(String _name, String _type, String _overhead, String _size, String _enctime, String _dectime, String _nonce,
                            String _formula, String _key) {
@@ -86,6 +89,19 @@ public class SecurityPattern {
             TraceManager.addDev("enctime=" + _enctime);
             this.encTime = Integer.parseInt(_enctime);
         } catch (NumberFormatException e) {}
+    }
+
+
+    public SecurityPattern(SecurityPattern secPattern) {
+        this.name = secPattern.name;
+        this.type = secPattern.type;
+        this.nonce = secPattern.nonce;
+        this.formula = secPattern.formula;
+        this.key = secPattern.key;
+        this.overhead = secPattern.overhead;
+        this.size = secPattern.size;
+        this.decTime = secPattern.decTime;
+        this.encTime = secPattern.encTime;
     }
 
     public String toXML() {
@@ -139,6 +155,10 @@ public class SecurityPattern {
             return false;
         }
         return type.toLowerCase(Locale.ROOT).equals("nonce");
+    }
+
+    public void setProcess(int _process){
+        this.process = _process;
     }
 
 }

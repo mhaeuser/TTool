@@ -79,7 +79,7 @@ public class SecurityGeneration implements Runnable {
 
         //Perform ProVerif Analysis
         TML2Avatar t2a = new TML2Avatar(newMap, false, true);
-        AvatarSpecification avatarspec = t2a.generateAvatarSpec("1");
+        AvatarSpecification avatarspec = t2a.generateAvatarSpec("1", this.autoWeakAuth||this.autoStrongAuth);
         if (avatarspec == null) {
             TraceManager.addDev("No avatar spec");
             return;
@@ -143,7 +143,6 @@ public class SecurityGeneration implements Runnable {
 
             Map<AvatarPragmaAuthenticity, ProVerifQueryAuthResult> authResults = pvoa.getAuthenticityResults();
             for (AvatarPragmaAuthenticity pragma : authResults.keySet()) {
-
                 if (authResults.get(pragma).isProved() && !authResults.get(pragma).isSatisfied()) {
                     nonAuthChans.add(pragma.getAttrA().getAttribute().getBlock().getName() + "__" + pragma.getAttrA().getAttribute().getName().replaceAll("_chData", ""));
                     nonAuthChans.add(pragma.getAttrB().getAttribute().getBlock().getName() + "__" + pragma.getAttrB().getAttribute().getName().replaceAll("_chData", ""));

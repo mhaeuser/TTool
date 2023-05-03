@@ -427,7 +427,7 @@ public class JFrameAI extends JFrame implements ActionListener, Runnable {
             return;
         }
         inform("Got answer from ai. All done.\n\n");
-        GraphicLib.appendToPane(answer, "\nAI:" + automatedAnswer + "\n", Color.red);
+        GraphicLib.appendToPane(answer, "\nAI:\n" + automatedAnswer + "\n", Color.red);
     }
 
     private boolean makeAIInterface() {

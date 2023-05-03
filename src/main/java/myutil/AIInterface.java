@@ -127,9 +127,13 @@ public class AIInterface {
         array.put(sub);
         if (useOuputKnowledge) {
             for(AIKnowledge aik: knowledge) {
+                sub = new org.json.JSONObject();
                 sub.put("role", "user");
+                TraceManager.addDev("Putting user knowledge: " + aik.userKnowledge);
                 sub.put("content", aik.userKnowledge);
                 array.put(sub);
+                sub = new org.json.JSONObject();
+                TraceManager.addDev("Putting assistant knowledge: " + aik.assistantKnowledge);
                 sub.put("role", "assistant");
                 sub.put("content", aik.assistantKnowledge);
                 array.put(sub);

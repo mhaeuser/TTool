@@ -39,6 +39,8 @@
 
 package ui.window;
 
+import avatartranslator.AvatarSpecification;
+import avatartranslator.tosysmlv2.AVATAR2SysMLV2;
 import common.ConfigurationTTool;
 import help.HelpEntry;
 import help.HelpManager;
@@ -46,11 +48,11 @@ import myutil.AIInterface;
 import myutil.AIInterfaceException;
 import myutil.GraphicLib;
 import myutil.TraceManager;
-import ui.MainGUI;
-import ui.TDiagramPanel;
-import ui.TGComponent;
+import ui.*;
+import ui.avatarbd.AvatarBDPanel;
 import ui.avatarrd.AvatarRDPanel;
 import ui.avatarrd.AvatarRDRequirement;
+import ui.avatarsmd.AvatarSMDPanel;
 import ui.util.IconManager;
 
 import javax.swing.*;
@@ -72,8 +74,10 @@ public class JFrameAI extends JFrame implements ActionListener, Runnable {
 
     private static int IDENTIFY_REQUIREMENT = 1;
     private static int KIND_CLASSIFY_REQUIREMENT = 2;
+    private static int IDENTIFY_PROPERTIES = 3;
 
-    private static String[] POSSIBLE_ACTIONS = {"Chat", "Identify requirements", "Classify requirements"};
+    private static String[] POSSIBLE_ACTIONS = {"Chat", "Identify requirements from a specification", "Classify requirements from a requirement " +
+            "diagram", "Identify properties from a design"};
     protected JComboBox<String> listOfPossibleActions;
     private String QUESTION_CLASSIFY_REQ = "I would like to identify the \"type\" attribute, i.e. the classification, " +
             "of the following requirements. Could you give me a correct type among: safety, security, functional, " +
@@ -85,6 +89,15 @@ public class JFrameAI extends JFrame implements ActionListener, Runnable {
             "- name of the requirement: text of the requirement ; link to other requirements (derive, refine, compose). The name " +
             "should be an english " +
             "name and not a number or an identifier";
+    private String QUESTION_IDENTIFY_PROPERTIES = "List properties of the following SysML V2 specification.";
+
+    private String KNOWLEDGE_ON_DESIGN_PROPERTIES = "Properties of Design are of the following types\n" +
+            "- A<>expr means that all states of all paths must respect expr\n" +
+            "- A[]expr means that all states of at least one path must respect expr\n" +
+            "- E<>expr means that one state of all paths must respect expr\n" +
+            "- E[]expr means that one state of one path must respect expr\n" +
+            "expr is a boolean expression using either attributes of blocks or blocks states";
+
     private MainGUI mgui;
     private JTextPane question, answer, console;
     private String automatedAnswer;
@@ -97,6 +110,7 @@ public class JFrameAI extends JFrame implements ActionListener, Runnable {
     private JPopupMenu helpPopup;
 
     private AIInterface aiinterface;
+    private boolean knowledgeOnProperties = false;
 
     private boolean go = false;
 
@@ -348,6 +362,10 @@ public class JFrameAI extends JFrame implements ActionListener, Runnable {
             if (listOfPossibleActions.getSelectedIndex() == IDENTIFY_REQUIREMENT) {
                 identifyRequirements();
             }
+
+            if (listOfPossibleActions.getSelectedIndex() == IDENTIFY_PROPERTIES) {
+                identifyProperties();
+            }
         }
 
         go = false;
@@ -412,6 +430,37 @@ public class JFrameAI extends JFrame implements ActionListener, Runnable {
         TraceManager.addDev("Appending: " + s.trim() + " to answer");
         String question = "\nTTool:" + QUESTION_CLASSIFY_REQ + "\n" + s.trim() + "\n";
         makeQuestion(question, KIND_CLASSIFY_REQUIREMENT, tdp);
+    }
+
+    private void identifyProperties() {
+        inform("Identifying properties\n");
+        TURTLEPanel tp = mgui.getCurrentTURTLEPanel();
+        if (!(tp instanceof AvatarDesignPanel)) {
+            error("A design diagram must be selected first");
+            return;
+        }
+        TDiagramPanel tdp = mgui.getCurrentTDiagramPanel();
+
+        boolean ret = mgui.checkModelingSyntax(tp, true);
+        if (!ret) {
+            error("Design diagram has syntax errors. Correct them before.");
+            return;
+        }
+
+        AvatarSpecification avspec = mgui.gtm.getAvatarSpecification();
+        AVATAR2SysMLV2 tosysmlv2 = new AVATAR2SysMLV2(avspec);
+        StringBuffer sb = tosysmlv2.generateSysMLV2Spec(false, false);
+
+
+        TraceManager.addDev("Appending: " + sb.toString().trim() + " to answer");
+        String question = QUESTION_IDENTIFY_PROPERTIES + "\n" + sb.toString().trim();
+
+        if (!knowledgeOnProperties) {
+            knowledgeOnProperties = true;
+            question = KNOWLEDGE_ON_DESIGN_PROPERTIES + "\n" + question;
+        }
+        question = "\nTTool:" + question + "\n";
+        makeQuestion(question, IDENTIFY_PROPERTIES, tdp);
     }
 
     private void makeQuestion(String _question, int _kind, TDiagramPanel _tdp) {

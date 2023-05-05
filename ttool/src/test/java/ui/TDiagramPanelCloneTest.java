@@ -77,6 +77,7 @@ public class TDiagramPanelCloneTest extends AbstractUITest {
                mainGUI.generateTMLTxt();
                File f1 = new File(FILE_DIR + EXPECTED_FILES[i]);
                File f2 = new File("spec.tml");  // Generated file after executing "TML generation"
+               System.out.println("Comparing " + f1.getAbsolutePath() + " with " + f2.getAbsolutePath());
                assertTrue(compTML.compareTML(f1, f2));
            }
        }

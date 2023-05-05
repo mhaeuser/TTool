@@ -13,10 +13,10 @@ TASK TestCycleEvt_wait__C0
     TASKOP
     //Local variables
     int x = 0
-    int loop__0 = 0
+    int loop_0 = 0
     
     //Behavior
-    FOR(loop__0 = 0; loop__0<10; loop__0 = loop__0 + 1)
+    FOR(loop_0 = 0; loop_0<10; loop_0 = loop_0 + 1)
         NOTIFY TestCycleEvt_wait__evt__TestCycleEvt_wait__evt x
         x=x+1
         DELAY 1 us isActiveDelay true

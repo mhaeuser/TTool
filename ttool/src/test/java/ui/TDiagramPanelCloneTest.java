@@ -1,6 +1,5 @@
 package ui;
 
-import myutil.TraceManager;
 import org.junit.*;
 import tmltranslator.compareTMLTest.CompareTML;
 import ui.tmlcompd.TMLComponentTaskDiagramPanel;

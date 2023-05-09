@@ -149,6 +149,7 @@ This design process is known as the Y-chart approach~\cite{YChart} and is shown 
 	\label{fig:Ychart}
 \end{figure}
 %
+\newpage
 \section{An overview of TTool/DIPLODOCUS}
 \label{sec:Overview}
 %
@@ -222,6 +223,7 @@ equivalent system amounted to 6 months.
 %
 %
 %
+\newpage
 \section{The software architecture of TTool/DIPLODOCUS}
 \label{sec:SwArch}
 %
@@ -249,6 +251,7 @@ automatically produced from the IF data structure, Fig.~\ref{fig:TToolSWArch}.
 %
 %
 %
+\newpage
 \section{Configuring TTool/DIPLODOCUS}
 \label{sec:Config}
 %
@@ -3410,16 +3413,19 @@ the mapping model of TTool/DIPLODOCUS. The generated files are:
 \vspace{1em}
 \end{algorithm}
 %
-Click on the start button to produce the C code as shown in Fig.~\ref{fig:CCodeGen2}. Here, the dialog window allows the
-user to choose the location of the source files to be compiled and the command to be launched to produce an executable
-file.
-%
-\begin{figure}[htbp]
+
+\begin{figure}[!htbp]
 	\centering
  	\includegraphics[width=\screenshotsize]{figures/screenshot/CCodeGen2.png}
 	\caption{Compiling the C code that has been automatically generated in Fig.~\ref{fig:CCodeGen1}}
 	\label{fig:CCodeGen2}
 \end{figure}
+
+Click on the start button to produce the C code as shown in Fig.~\ref{fig:CCodeGen2}. Here, the dialog window allows the
+user to choose the location of the source files to be compiled and the command to be launched to produce an executable
+file.
+%
+
 %
 For the compilation process of Fig.~\ref{fig:CCodeGen2} to complete successfully, the user must customize the Makefile
 that TTool produced and correctly enter the location of the libraries used by the MECs.\\
@@ -3512,6 +3518,9 @@ public FftMEC( String _ctxName, String inSignalName, String outSignalName )	{
 %
 %
 %
+
+
+\pagebreak
 \newpage
 \section{Analysis of security properties}
 \label{sec:Security}
@@ -3642,7 +3651,7 @@ it is also possible to automatically generate these security elements. Based on 
 
 In our example in Figure \ref{fig:autogenexample}, data sent along Channel 'comm' has been marked to be required confidential and authentic. However, the tasks are mapped to communicate across an insecure bus. After syntax analysis of a mapping, we open the Automatic Security window and select that we wish to preserve all security properties as shown in Figure \ref{fig:autosec}, and  then click 'Start'.
 
-Figure \ref{fig:autogenres} shows the models for Bob and Alice before and after security is generated. To ensure strong authenticity (prevent replay attacks), Alice and Bob must exchange a nonce before each message exchange.
+Figure \ref{fig:autogenres} shows the models for Bob and Alice before and after security is generated. To ensure strong authenticity (e.g., to prevent replay attacks), Alice and Bob must exchange a nonce before each message exchange.
 
 
 \begin{figure}[htbp]

@@ -214,7 +214,7 @@ public class TMLADReadChannel extends TADComponentWithoutSubcomponents/* Issue #
 	        	g.setColor(Color.RED);
 	        }
             drawSingleString(g,"sec:" + securityContext, x + 3 * width / 4, y + height + textY1 - decSec);
-            securityMaxX = Math.max(securityMaxX, (int)(x + 3 * width / 4 + g.getFontMetrics().stringWidth("sec:" + securityContext) * 1.05));
+            securityMaxX = Math.max(securityMaxX, (int)(x + 3 * width / 4 + g.getFontMetrics().stringWidth("sec:" + securityContext) * 1.2));
             g.setColor(c);
         }
         drawReachabilityInformation(g);

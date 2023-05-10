@@ -48,6 +48,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import javax.swing.JFrame;
 
+import myutil.TraceManager;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -213,7 +214,7 @@ public class TMLADReadChannel extends TADComponentWithoutSubcomponents/* Issue #
 	        	g.setColor(Color.RED);
 	        }
             drawSingleString(g,"sec:" + securityContext, x + 3 * width / 4, y + height + textY1 - decSec);
-            securityMaxX = Math.max(securityMaxX, x + 3 * width / 4 + g.getFontMetrics().stringWidth("sec:" + securityContext));
+            securityMaxX = Math.max(securityMaxX, (int)(x + 3 * width / 4 + g.getFontMetrics().stringWidth("sec:" + securityContext) * 1.05));
             g.setColor(c);
         }
         drawReachabilityInformation(g);
@@ -230,6 +231,7 @@ public class TMLADReadChannel extends TADComponentWithoutSubcomponents/* Issue #
 
 
     public int getMyCurrentMaxX() {
+        TraceManager.addDev("Custom getMyCurrentMaxX");
         return Math.max(x + width, securityMaxX);
     }
 

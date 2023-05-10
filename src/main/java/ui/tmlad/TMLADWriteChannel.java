@@ -112,6 +112,8 @@ public class TMLADWriteChannel extends TADComponentWithoutSubcomponents/* Issue 
 
 	public boolean isEncForm = true;
 
+    private int securityMaxX;
+
     public TMLADWriteChannel(int _x, int _y, int _minX, int _maxX, int _minY, int _maxY, boolean _pos, TGComponent _father, TDiagramPanel _tdp) {
         super(_x, _y, _minX, _maxX, _minY, _maxY, _pos, _father, _tdp);
 
@@ -196,12 +198,14 @@ public class TMLADWriteChannel extends TADComponentWithoutSubcomponents/* Issue 
             drawSingleString(g,"chl", x + (width - w) / 2, y);
         }
         drawSingleString(g,value, x + (width - w) / 2, y + textY);
+        securityMaxX = 0;
         if (!securityContext.equals("")) {
 	        c = g.getColor();
 	        if (!isEncForm){
 	        	g.setColor(Color.RED);
 	        }
             drawSingleString(g,"sec:" + securityContext, x + 3 * width / 4, y + height + textY - scale( 4 ) );
+            securityMaxX = Math.max(securityMaxX, (int)(x + 3 * width / 4 + g.getFontMetrics().stringWidth("sec:" + securityContext) * 1.05));
             g.setColor(c);
         }
 
@@ -215,6 +219,10 @@ public class TMLADWriteChannel extends TADComponentWithoutSubcomponents/* Issue 
         }
         
         drawReachabilityInformation(g);
+    }
+
+    public int getMyCurrentMaxX() {
+        return Math.max(x + width, securityMaxX);
     }
 
     private void drawLatencyInformation(Graphics g) {

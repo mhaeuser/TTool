@@ -206,7 +206,7 @@ public class TMLADWriteChannel extends TADComponentWithoutSubcomponents/* Issue 
 	        	g.setColor(Color.RED);
 	        }
             drawSingleString(g,"sec:" + securityContext, x + 3 * width / 4, y + height + textY - scale( 4 ) );
-            securityMaxX = Math.max(securityMaxX, (int)(x + 3 * width / 4 + g.getFontMetrics().stringWidth("sec:" + securityContext) * 1.2));
+            securityMaxX = (int)(x + 3 * width / 4 + g.getFontMetrics().stringWidth("sec:" + securityContext) * 1.2);
             g.setColor(c);
         }
 

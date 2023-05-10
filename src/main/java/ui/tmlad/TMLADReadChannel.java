@@ -207,7 +207,9 @@ public class TMLADReadChannel extends TADComponentWithoutSubcomponents/* Issue #
         }
         drawSingleString(g,value, x + linebreak + scale( textX0 ), y + scale( textY1 ) ); // Issue #31
 
-        securityMaxX = 0;
+        if (!tdp.isScaled()) {
+            securityMaxX = 0;
+        }
         if (!securityContext.equals("")) {
         	c = g.getColor();
 	        if (!isEncForm){
@@ -215,7 +217,9 @@ public class TMLADReadChannel extends TADComponentWithoutSubcomponents/* Issue #
 	        }
             drawSingleString(g,"sec:" + securityContext, x + 3 * width / 4, y + height + textY1 - decSec);
             TraceManager.addDev("size of \""  +  ("sec:" + securityContext) +"\": " +  g.getFontMetrics().stringWidth("sec:" + securityContext));
-            securityMaxX = (int)(x + 3 * width / 4 + g.getFontMetrics().stringWidth("sec:" + securityContext) * 1.2);
+            if (!tdp.isScaled()) {
+                securityMaxX = (int) (x + 3 * width / 4 + g.getFontMetrics().stringWidth("sec:" + securityContext) * 1.2);
+            }
             g.setColor(c);
         }
         drawReachabilityInformation(g);

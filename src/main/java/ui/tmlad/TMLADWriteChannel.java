@@ -48,6 +48,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import javax.swing.JFrame;
 
+import myutil.TraceManager;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -222,6 +223,7 @@ public class TMLADWriteChannel extends TADComponentWithoutSubcomponents/* Issue 
     }
 
     public int getMyCurrentMaxX() {
+        TraceManager.addDev("Custom getMyCurrentMaxX. x+width= " + (x+width) + " SecurityMaxX=" + securityMaxX);
         return Math.max(x + width, securityMaxX);
     }
 

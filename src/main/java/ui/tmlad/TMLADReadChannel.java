@@ -79,7 +79,8 @@ import ui.window.TabInfo;
  * @author Ludovic APVRILLE
  * @version 1.0 21/11/2005
  */
-public class TMLADReadChannel extends TADComponentWithoutSubcomponents/* Issue #69 TGCWithoutInternalComponent*/ implements CheckableAccessibility, LinkedReference, CheckableLatency, EmbeddedComment, AllowedBreakpoint, BasicErrorHighlight {
+public class TMLADReadChannel extends TADComponentWithoutSubcomponents/* Issue #69 TGCWithoutInternalComponent*/ implements CheckableAccessibility,
+        LinkedReference, CheckableLatency, EmbeddedComment, AllowedBreakpoint, BasicErrorHighlight {
     private Map<String, String> latencyVals;
 
 	// Issue #31
@@ -111,6 +112,8 @@ public class TMLADReadChannel extends TADComponentWithoutSubcomponents/* Issue #
     public int reachabilityInformation;
 
 	public boolean isEncForm = true;
+
+    private int securityMaxX;
 	
     public TMLADReadChannel(int _x, int _y, int _minX, int _maxX, int _minY, int _maxY, boolean _pos, TGComponent _father, TDiagramPanel _tdp) {
         super(_x, _y, _minX, _maxX, _minY, _maxY, _pos, _father, _tdp);
@@ -203,15 +206,18 @@ public class TMLADReadChannel extends TADComponentWithoutSubcomponents/* Issue #
         }
         drawSingleString(g,value, x + linebreak + scale( textX0 ), y + scale( textY1 ) ); // Issue #31
 
+        securityMaxX = 0;
         if (!securityContext.equals("")) {
         	c = g.getColor();
 	        if (!isEncForm){
 	        	g.setColor(Color.RED);
 	        }
             drawSingleString(g,"sec:" + securityContext, x + 3 * width / 4, y + height + textY1 - decSec);
+            securityMaxX = Math.max(securityMaxX, x + 3 * width / 4 + g.getFontMetrics().stringWidth("sec:" + securityContext));
             g.setColor(c);
         }
         drawReachabilityInformation(g);
+
         if (getCheckLatency()) {
             ConcurrentHashMap<String, String> latency = tdp.getMGUI().getLatencyVals(getDIPLOID());
 
@@ -220,6 +226,11 @@ public class TMLADReadChannel extends TADComponentWithoutSubcomponents/* Issue #
                 drawLatencyInformation(g);
             }
         }
+    }
+
+
+    public int getMyCurrentMaxX() {
+        return Math.max(x + width, securityMaxX);
     }
 
     private void drawLatencyInformation(Graphics g) {

@@ -39,7 +39,8 @@
 
 package ui.avatarrd;
 
-//import java.awt.*;
+import org.json.JSONObject;
+import org.json.JSONArray;
 
 import myutil.NameChecker;
 import myutil.TraceManager;
@@ -682,6 +683,34 @@ public class AvatarRDPanel extends TDiagramPanel implements TDPWithAttributes, N
         }
         return sb;
     }
+
+
+    /**
+     *
+     * @param text: the json specification
+     *            Elements of a requirement: name, id, doc, category, refine, derive, compose
+     *            {
+     *   "requirements": [
+     *     {
+     *       "name": "REQ1",
+     *       "text": "The system shall be able to autonomously navigate through a warehouse.",
+     *       "compose": ["REQ5", "REQ6"]
+     *     },
+     *     {
+     *       "name": "REQ2",
+     *       "text": "The system shall include a map of the warehouse to navigate through.",
+     *       "refine": ["REQ1"],
+     *       "derive": ["REQ3"]
+     *     },
+     *
+     */
+    public void loadAndUpdateFromText(JSONObject text) {
+        JSONArray reqArray = text.getJSONArray("requirements");
+        for(int i=0; i<reqArray.length(); i++) {
+            JSONObject name = reqArray.getJSONObject(i).getJSONObject("message");
+        }
+    }
+
 
 
 }

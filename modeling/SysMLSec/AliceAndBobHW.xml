@@ -891,7 +891,7 @@
 
 </TMLComponentTaskDiagramPanel>
 
-<TMLActivityDiagramPanel name="Bob" minX="10" maxX="2500" minY="10" maxY="1500" zoom="1.0" >
+<TMLActivityDiagramPanel name="Bob" minX="10" maxX="2000" minY="10" maxY="1500" zoom="1.0" >
 <COMPONENT type="1036" id="332" index="0" uid="ea111ff9-ac45-4065-87ca-b82a38ecaa71" >
 <cdparam x="494" y="297" />
 <sizeparam width="15" height="35" minWidth="1" minHeight="1" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
@@ -908,7 +908,7 @@
 </COMPONENT>
 
 <COMPONENT type="1036" id="335" index="1" uid="b3b5764e-e503-4dca-aa65-2189abbc888e" >
-<cdparam x="494" y="421" />
+<cdparam x="669" y="406" />
 <sizeparam width="15" height="35" minWidth="1" minHeight="1" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <hidden value="false" />
 <enabled value="true" />
@@ -1015,7 +1015,7 @@
 <cdparam x="525" y="491" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector" value="null" />
-<P1  x="501" y="466" id="334" />
+<P1  x="676" y="451" id="334" />
 <P2  x="501" y="484" id="342" />
 <AutomaticDrawing  data="true" />
 <new d="false" />
@@ -1034,7 +1034,7 @@
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector" value="null" />
 <P1  x="501" y="390" id="348" />
-<P2  x="501" y="416" id="333" />
+<P2  x="676" y="401" id="333" />
 <AutomaticDrawing  data="true" />
 <new d="false" />
 </CONNECTOR>

@@ -199,14 +199,21 @@ public class TMLADWriteChannel extends TADComponentWithoutSubcomponents/* Issue 
             drawSingleString(g,"chl", x + (width - w) / 2, y);
         }
         drawSingleString(g,value, x + (width - w) / 2, y + textY);
-        securityMaxX = 0;
+        if (!tdp.isScaled()) {
+            securityMaxX = 0;
+        }
         if (!securityContext.equals("")) {
 	        c = g.getColor();
 	        if (!isEncForm){
 	        	g.setColor(Color.RED);
 	        }
             drawSingleString(g,"sec:" + securityContext, x + 3 * width / 4, y + height + textY - scale( 4 ) );
-            securityMaxX = (int)(x + 3 * width / 4 + g.getFontMetrics().stringWidth("sec:" + securityContext) * 1.2);
+
+            if (!tdp.isScaled()) {
+                //TraceManager.addDev("Size of \""  +  ("sec:" + securityContext) +"\": " +  g.getFontMetrics().stringWidth("sec:" +
+                // securityContext));
+                securityMaxX = (int) (x + 3 * width / 4 + g.getFontMetrics().stringWidth("sec:" + securityContext) * 1.2);
+            }
             g.setColor(c);
         }
 
@@ -223,7 +230,7 @@ public class TMLADWriteChannel extends TADComponentWithoutSubcomponents/* Issue 
     }
 
     public int getMyCurrentMaxX() {
-        TraceManager.addDev("Custom getMyCurrentMaxX. x+width= " + (x+width) + " SecurityMaxX=" + securityMaxX);
+        //TraceManager.addDev("Custom getMyCurrentMaxX. x+width= " + (x+width) + " SecurityMaxX=" + securityMaxX);
         return Math.max(x + width, securityMaxX);
     }
 

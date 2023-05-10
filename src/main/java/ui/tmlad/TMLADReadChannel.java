@@ -231,7 +231,8 @@ public class TMLADReadChannel extends TADComponentWithoutSubcomponents/* Issue #
 
 
     public int getMyCurrentMaxX() {
-        TraceManager.addDev("Custom getMyCurrentMaxX. x+width= " + (x+width) + " SecurityMaxX=" + securityMaxX);
+        TraceManager.addDev("Custom getMyCurrentMaxX. x+width= " + (x+width) + " SecurityMaxX=" + securityMaxX + "securityContext=" +
+                securityContext);
         return Math.max(x + width, securityMaxX);
     }
 

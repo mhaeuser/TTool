@@ -762,8 +762,8 @@
 <cdparam x="579" y="304" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector" value="Connector between ports" />
-<P1  x="591" y="318" id="317" />
-<P2  x="662" y="318" id="304" />
+<P1  x="578" y="305" id="317" />
+<P2  x="675" y="305" id="304" />
 <AutomaticDrawing  data="true" />
 <new d="false" />
 </CONNECTOR>
@@ -771,8 +771,8 @@
 <cdparam x="579" y="247" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector" value="Connector between ports" />
-<P1  x="591" y="261" id="319" />
-<P2  x="662" y="261" id="306" />
+<P1  x="578" y="248" id="319" />
+<P2  x="675" y="248" id="306" />
 <AutomaticDrawing  data="true" />
 <new d="false" />
 </CONNECTOR>

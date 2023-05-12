@@ -1837,7 +1837,6 @@ public class TML2Avatar {
                     boolean checkAuthSecPattern = false;
                     for (TMLChannel ch : tmlmodel.getChannels(task)) {
                         if (ch.hasOriginTask(task) && ch.isCheckConfChannel()) {
-                            TraceManager.addDev("1842 ch.name= " + ch.getName());
                             for (TMLActivityElement actElem : task.getActivityDiagram().getElements()){
                                 if (actElem instanceof TMLWriteChannel) {
                                     TMLWriteChannel wc = (TMLWriteChannel) actElem;

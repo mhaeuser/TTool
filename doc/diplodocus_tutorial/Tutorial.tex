@@ -3180,38 +3180,6 @@ Make a right click on the minimized graph, and select "Show". A RG similar to th
 %%
 %%
 
-\subsubsection{Post-mapping formal verification with ProVerif}
-
-Security analysis is performed with ProVerif, a verification tool operating on designs described in pi-calculus
-\cite{BlanchetJCS08}. A ProVerif specification consists of a set of processes communicating on public and private
-channels. Processes can split to create concurrently executing processes, and replicate to model multiple executions
-(sessions) of a given protocol. Cryptographic primitives such as symmetric and asymmetric encryption or hash can be
-modeled through constructor and destructor functions. ProVerif assumes a Dolev-Yao attacker, which is a threat model in
-which anyone can read or write on any public channel, create new messages or apply known primitives.
-
-ProVerif provides its user with the capabilities to query the confidentiality of a piece of data, the authenticity of an
-exchange, or the reachability of a state. Traces are generated for all possible execution paths. The tool then presents
-a result to the user that is either \textit{true} if the property is verified, \textit{false} if a trace that falsifies
-the property has been found, or \textit{cannot be proved} if ProVerif failed in asserting or refuting the queried
-property.
-
-To run ProVerif on a mapping, first run Syntax Analysis, and once the mapping is validated, click on the ProVerif Security Analysis Button. In the popup window shown in Figure \ref{fig:ProVerifWindow}, we input the location for the output file containing the ProVerif text specification, and the location of the installed ProVerif verifier. After clicking the 'Start' button, the Verification results are displayed. Figure \ref{fig:ProVerifWindowRes} shows the verification results for the example described in Section \ref{sec:symenc}, which shows reachable vs non-reachable states, and confidential and authentic data.
-
-
-\begin{figure}[!htbp]
-	\centering
-	\includegraphics[width=0.65\textwidth]{figures/securityStuff/ProVerifWindow.png}
-	\caption{The button and window to launch security verification with ProVerif.}
-	\label{fig:ProVerifWindow}
-\end{figure}
-
-\begin{figure}[!htbp]
-	\centering
-	\includegraphics[width=0.6\textwidth]{figures/securityStuff/ProVerifWindowRes.png}
-	\caption{ProVerif verification results window.}
-	\label{fig:ProVerifWindowRes}
-\end{figure}
-
 \newpage
 \section{Automatic Code Generation for Rapid Protoyping}
 \label{sec:CodeGen}
@@ -3525,8 +3493,9 @@ public FftMEC( String _ctxName, String inSignalName, String outSignalName )	{
 \section{Analysis of security properties}
 \label{sec:Security}
 %
+
 In this section we present a case study that describes the analysis of security properties of embedded systems with
-TTool/DIPLODOCUS.\\
+TTool/DIPLODOCUS. The  case study is available in the network models under the name 'AliceAndBobHW' and it is accessible from TTool using 'open project from TTool repository' from the file menu.\\
 %
 
 Even if we do not operate on named data or concern ourselves with values in DIPLODOCUS, it is still important that we
@@ -3535,30 +3504,75 @@ operations occupy computation cycles, or may add additional bits to data sent al
 properties, we use the security operators and tags to abstractly model all security-related operations.
 
 
-\begin{figure}[htbp]
+\subsection{Post-mapping formal verification with ProVerif}
+
+Security analysis is performed with ProVerif, a verification tool operating on designs described in pi-calculus
+\cite{BlanchetJCS08}. A ProVerif specification consists of a set of processes communicating on public and private
+channels. Processes can split to create concurrently executing processes, and replicate to model multiple executions
+(sessions) of a given protocol. Cryptographic primitives such as symmetric and asymmetric encryption or hash can be
+modeled through constructor and destructor functions. ProVerif assumes a Dolev-Yao attacker, which is a threat model in
+which anyone can read or write on any public channel, create new messages or apply known primitives.
+
+ProVerif provides its user with the capabilities to query the confidentiality of a piece of data, the authenticity of an
+exchange, or the reachability of a state. Traces are generated for all possible execution paths. The tool then presents
+a result to the user that is either \textit{true} if the property is verified, \textit{false} if a trace that falsifies
+the property has been found, or \textit{cannot be proved} if ProVerif failed in asserting or refuting the queried
+property.
+
+To run ProVerif on a mapping, first run Syntax Analysis, and once the mapping is validated, click on the ProVerif Security Analysis Button. In the popup window shown in Figure \ref{fig:ProVerifWindow}, we input the location for the output file containing the ProVerif text specification, and the location of the installed ProVerif verifier. After clicking the 'Start' button, the Verification results are displayed. Figure \ref{fig:ProVerifWindowRes} shows the verification results for the example described in Section \ref{sec:symenc}, which shows reachable vs non-reachable states, and confidential and authentic data.
+
+
+\begin{figure}[!htbp]
 	\centering
- 	\includegraphics[width=0.7\textwidth]{figures/securityStuff/sampleArch.pdf}
-	\caption{Simple secured message exchange architecture}
-	\label{fig:sampleArch}
+	\includegraphics[width=0.65\textwidth]{figures/securityStuff/ProVerifWindow.png}
+	\caption{The button and window to launch security verification with ProVerif.}
+	\label{fig:ProVerifWindow}
 \end{figure}
+
+\begin{figure}[!htbp]
+	\centering
+	\includegraphics[width=0.6\textwidth]{figures/securityStuff/ProVerifWindowRes.png}
+	\caption{ProVerif verification results window.}
+	\label{fig:ProVerifWindowRes}
+\end{figure}
+
+
+
+
 
 \subsection{Symmetric Encryption}
 \label{sec:symenc}
 
-Here, we present how to model the basic exchange of Alice and Bob communicating
-across a public bus as shown in Fig.~\ref{fig:sampleArch}, model SysMLSec/AliceAndBobHW.xml. We assume they have
+Here, we present how to model the basic exchange of Alice and Bob communicating, model SysMLSec/AliceAndBobHW.xml. We assume they have
 pre-shared a secret key. We name this Cryptographic Configuration 'sym', for
-Symmetric Encryption. Alice encrypts a message with the secret key under
+Symmetric Encryption, the configuration of 'sym' is shown in Fig.~\ref{fig:sampleSecConfig}. Alice encrypts a message with the secret key under
 configuration 'sym', and sends it along a channel. To denote that Alice sends
 secured data, the channel 'comm' is tagged with 'sym' as shown in
 Fig.~\ref{fig:sampleComp}.
 Bob receives the encrypted data from the channel and then decrypts it.
 
+As shown in Fig.~\ref{fig:sampleArch}, the tasks 'Alice' and 'Bob' are mapped to the CPUs 'CPUAlice' and 'CPUBob', respectively.
+To illustrate the exchange of the 'sym' key between Alice and Bob, we map the key to the memories 'MemoryAlice' and 'MemoryBob' which are connected to the private buses 'BusAlice' and 'BusBob', respectively. 
+
+The exchange of data between Alice and Bob is done through the channel 'comm' which is mapped to the memory 'ExternalMemory'.
+This communication is made across a public bus named 'ExternalBus' which is connected to the Bridges 'BridgeAlice' and 'BridgeBob'.
+
 \begin{figure}[htbp]
-	\centering
- 	\includegraphics[width=0.7\textwidth]{figures/securityStuff/sampleComp.pdf}
+	\centering	\includegraphics[width=0.7\textwidth]{figures/securityStuff/sampleComp.pdf}
 	\caption{Simple secured message exchange}
 	\label{fig:sampleComp}
+\end{figure}
+
+\begin{figure}[htbp]
+	\centering	\includegraphics[width=0.8\textwidth]{figures/securityStuff/arch_alice_bob_sym.pdf}
+	\caption{Simple secured message exchange architecture}
+	\label{fig:sampleArch}
+\end{figure}
+
+\begin{figure}[htbp]
+	\centering	\includegraphics[width=0.7\textwidth]{figures/securityStuff/encrypt-config-symmetric.png}
+	\caption{Cryptographic configuration for the security symmetric encryption 'sym'}
+	\label{fig:sampleSecConfig}
 \end{figure}
 
 We note that this exchange verifies confidentiality and weak authenticity of the secret data of 'sym', but not strong
@@ -3570,71 +3584,112 @@ message before encryption.
 
 Nonces can be concatenated to messages to ensure strong authenticity and prevent replay attacks. Nonces are first forged
 as a Cryptographic Configuration. To state that a message will use a nonce, in the Cryptographic Configuration window,
-select the nonce name. As shown in Fig.~\ref{fig:nonce}, Bob sends to Alice his
-nonce, then Alice concatenates it to her message and encrypts the new message. Bob then decrypts the message and verifies if it contains his sent nonce. (Note that
-we allow a nonce to be used for more than one message)
+select the nonce name. 
+The configuration of security pattern nonce 'n' and the security symmetric encryption 'symN' are presented in Fig.~\ref{fig:nonceSecConfig-n} and Fig.~\ref{fig:nonceSecConfig-symN}, respectively.
 
+As shown in Fig.~\ref{fig:nonce}, Bob sends to Alice his
+nonce, then Alice concatenates it to her message and encrypts the new message. Bob then decrypts the message and verifies if it contains his sent nonce (Note that
+we allow a nonce to be used for more than one message).
+The architecture with mapped keys of this example is shown in Fig.~\ref{fig:nonceArch}.
 
 \begin{figure}[htbp]
 	\centering
  	%\includegraphics[width=0.85\textwidth]{figures/securityStuff/nonceComp.pdf}
- 	\includegraphics[width=0.15\textwidth]{figures/securityStuff/alice_bob_nonce_ad_alice-svg.pdf}
-	\includegraphics[width=0.6\textwidth]{figures/securityStuff/fv_alice_bob_nonce-svg.pdf}
-	\includegraphics[width=0.15\textwidth]{figures/securityStuff/alice_bob_nonce_ad_bob-svg.pdf}
+% 	\includegraphics[width=0.15\textwidth]{figures/securityStuff/alice_bob_nonce_ad_alice-svg.pdf}
+	\includegraphics[width=0.8\textwidth]{figures/securityStuff/fv_alice_bob_nonce.pdf}
+%	\includegraphics[width=0.15\textwidth]{figures/securityStuff/alice_bob_nonce_ad_bob-svg.pdf}
 	\caption{Message exchange with nonce}
 	\label{fig:nonce}
 \end{figure}
+
+\begin{figure}[htbp]
+\includegraphics[width=0.8\textwidth]{figures/securityStuff/arch_alice_bob_nonce.pdf}
+	\caption{Architecture of secured message exchange with nonce}
+	\label{fig:nonceArch}
+\end{figure}
+
+\begin{figure}[htbp]
+	\centering	\includegraphics[width=0.7\textwidth]{figures/securityStuff/encrypt-config-nonce-n.png}
+	\caption{Cryptographic configuration for the security pattern nonce 'n'}
+	\label{fig:nonceSecConfig-n}
+\end{figure}
+
+\begin{figure}[htbp]
+	\centering	\includegraphics[width=0.7\textwidth]{figures/securityStuff/encrypt-config-nonce-symN.png}
+	\caption{Cryptographic configuration for the security symmetric encryption 'symN'}
+	\label{fig:nonceSecConfig-symN}
+\end{figure}
+
 \subsection{Key exchange}
-
-
-Key exchange can be modeled, or keys can be automatically distributed and their distribution be implicit. ProVerif
-returns an error if a task attempts to use a key which is either not sent or not mapped to an accessible memory. 
+Key exchange can be modeled, or keys can be automatically distributed and their distribution be implicit.
+TTool returns a warning if a task attempts to use a key which is either not sent or not mapped to an accessible memory. 
 
 We present a simple example of modeling key exchange using security operators.
-The architecture with mapped keys is shown in Fig.~\ref{fig:keyArch} (for
-asymmetric encryption, the mapped key is assumed to be the private key). Alice
-and Bob wish to communicate across a public channel. To send a message to Bob, first Alice encrypts a secret key with Bob's public key, and sends it to Bob along a public channel as shown in
+ Alice
+and Bob wish to communicate across a public channel. To send a message to Bob, first Alice encrypts a secret key with Bob's public key. The configuration of this security asymmetric encryption 'aenc' is given in Fig.~\ref{fig:keySecConfig-aenc}.  
+Then, Alice sends it to Bob along a public channel as shown in
 Fig.~\ref{fig:keyComp}.
-
-\begin{figure}[htbp]
-	\centering
- 	\includegraphics[width=0.7\textwidth]{figures/securityStuff/keyArch.pdf}
-	\caption{Key exchange architecture with mapped keys}
-	\label{fig:keyArch}
-\end{figure}
-
-
-\begin{figure}[htbp]
-	\centering
- 	\includegraphics[width=0.8\textwidth]{figures/securityStuff/keyComp.pdf}
-	\caption{Key exchange protocol}
-	\label{fig:keyComp}
-\end{figure}
 
 Next, Bob decrypts Alice's message with his private key to recover the secret key. To show that Bob is able to use the
 secret key, we model a subsequent message exchange. 
 
 Alice sends a message encrypted with the secret key to Bob. Using the secret key, Bob decrypts Alice's newest message
-and recovers the original message. 
+and recovers the original message.
 
-If Bob uses the secret key to send a message to Alice, however, this key exchange protocol does not preserve a secret
+
+\begin{figure}[htbp]
+	\centering	\includegraphics[width=0.8\textwidth]{figures/securityStuff/keyComp.pdf}
+	\caption{Key exchange protocol}
+	\label{fig:keyComp}
+\end{figure}
+
+\begin{figure}[htbp]
+	\centering	\includegraphics[width=0.7\textwidth]{figures/securityStuff/arch_alice_bob_keyExchange.pdf}
+	\caption{Key exchange architecture with mapped keys}
+	\label{fig:keyArch}
+\end{figure}
+
+\begin{figure}[htbp]
+	\centering	\includegraphics[width=0.7\textwidth]{figures/securityStuff/encrypt-config-keyexchange-aenc.png}
+	\caption{Cryptographic configuration for the security asymmetric encryption 'aenc'}
+	\label{fig:keySecConfig-aenc}
+\end{figure}
+ 
+The architecture with mapped keys is shown in Fig.~\ref{fig:keyArch} (for
+asymmetric encryption, the mapped key is assumed to be the private key).
+
+%If Bob uses the secret key to send a message to Alice, however, t
+This key exchange protocol does not preserve a secret
 message. An attacker could pretend to be Alice and send an encrypted secret key to Bob, and then Bob will encrypt his
 secret message with the attacker's secret key and send it.
 
 
-TTool assumes that the only accessible keys are along private buses, as accessing a key along a public bus would be a security violation. While the ProVerif specification will still be generated assuming each task has access to the key, a warning debug message will be printed. 
+TTool assumes that keys are mapped to private buses and are only accessible to tasks mapped to those private buses.%, as accessing a key along a public bus would be a security violation. 
+While the ProVerif specification will still be generated assuming each task has access to the key.%, a warning debug message will be printed. 
+
 
 \subsection{MAC}
-
 If it is necessary to ensure the authenticity instead of confidentiality of messages, we may instead calculate a Message Authentication Code to concatenate onto the message, which the receiver can then use to verify that the MAC matches the received message.
 
-For example, as shown in Figure \ref{fig:macComp} (using the Architecture of Figure \ref{fig:sampleArch}), Alice calculates a MAC for a message and then concatenates the MAC onto the message before sending it. After Bob receives the message, he splits the message into the original message and the MAC, and then verifies the MAC to ensure that the message has been received unaltered.
+For example, as shown in Figure \ref{fig:macComp} (using the Architecture of Figure \ref{fig:macArch}), Alice calculates a MAC for a message and then concatenates the MAC onto the message before sending it. After Bob receives the message, he splits the message into the original message and the MAC, and then verifies the MAC to ensure that the message has been received unaltered.
 
+The configuration of the security pattern MAC 'mac' is presented in Fig.~\ref{fig:macSecConfig}.
 \begin{figure}[htbp]
-	\centering
- 	\includegraphics[width=0.7\textwidth]{figures/securityStuff/macComp.pdf}
+	\centering	\includegraphics[width=0.7\textwidth]{figures/securityStuff/macComp.pdf}
 	\caption{MAC verification protocol}
 	\label{fig:macComp}
+\end{figure}
+
+\begin{figure}[htbp]
+	\centering	\includegraphics[width=0.7\textwidth]{figures/securityStuff/arch_alice_bob_mac.pdf}
+	\caption{Architecture of secured message exchange with MAC}
+	\label{fig:macArch}
+\end{figure}
+
+\begin{figure}[htbp]
+	\centering	\includegraphics[width=0.7\textwidth]{figures/securityStuff/encrypt-config-mac.png}
+	\caption{Cryptographic configuration for the security pattern MAC 'mac'}
+	\label{fig:macSecConfig}
 \end{figure}
 
 \subsection{Automated Security Generation}
@@ -3649,24 +3704,34 @@ it is also possible to automatically generate these security elements. Based on 
 	\label{fig:autosec}
 \end{figure}
 
-In our example in Figure \ref{fig:autogenexample}, data sent along Channel 'comm' has been marked to be required confidential and authentic. However, the tasks are mapped to communicate across an insecure bus. After syntax analysis of a mapping, we open the Automatic Security window and select that we wish to preserve all security properties as shown in Figure \ref{fig:autosec}, and  then click 'Start'.
+We consider a basic Alice and Bob exchange data example, where the application of the models is shown in Figure~\ref{fig:autogenexample} and the architecture is given in Figure~\ref{fig:ArchAutogenexample}. The data sent along Channel 'comm' has been marked to be required confidential and authentic. However, the tasks are mapped to communicate across an insecure bus. After syntax analysis of a mapping, we open the Automatic Security window and select that we wish to preserve all security properties as shown in Figure \ref{fig:autosec}, and  then click 'Start'.
 
-Figure \ref{fig:autogenres} shows the models for Bob and Alice before and after security is generated. To ensure strong authenticity (e.g., to prevent replay attacks), Alice and Bob must exchange a nonce before each message exchange.
+Figures~\ref{fig:autogenres} and \ref{fig:ArchAutogenres} show the application models for Bob and Alice after security is generated and its architecture, respectively. To ensure strong authenticity (e.g., to prevent replay attacks), Alice and Bob must exchange a nonce before each message exchange.
 
 
 \begin{figure}[htbp]
-	\centering
- 	\includegraphics[width=0.5\textwidth]{figures/securityStuff/secComp.pdf}
-	\caption{Application model for Security Generation Example}
+	\centering	\includegraphics[width=0.5\textwidth]{figures/securityStuff/secComp.pdf}
+	\caption{Application model for security generation example}
 	\label{fig:autogenexample}
+\end{figure}
+
+\begin{figure}[htbp]
+	\centering	\includegraphics[width=0.8\textwidth]{figures/securityStuff/arch_alice_bob_sampleAuto.pdf}
+	\caption{Initial architecture of the security generation example}
+	\label{fig:ArchAutogenexample}
 \end{figure}
 
 
 \begin{figure}[htbp]
-	\centering
- 	\includegraphics[width=0.8\textwidth]{figures/securityStuff/secCompRes.pdf}
-	\caption{Unsecured vs Secured Application Models with Automatic Generation}
+	\centering	\includegraphics[width=0.9\textwidth]{figures/securityStuff/fv_alice_bob_Autononce_with_ad.pdf}
+	\caption{Secured Application Models with Automatic Generation}
 	\label{fig:autogenres}
+\end{figure}
+
+\begin{figure}[htbp]
+	\centering	\includegraphics[width=0.8\textwidth]{figures/securityStuff/arch_alice_bob_Autononce.pdf}
+	\caption{Auto generated architecture for the secured model}
+	\label{fig:ArchAutogenres}
 \end{figure}
 %
 %

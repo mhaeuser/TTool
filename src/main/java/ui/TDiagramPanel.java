@@ -41,7 +41,6 @@ package ui;
 import avatartranslator.ElementWithNew;
 import myutil.GenericTree;
 import myutil.GraphicLib;
-import myutil.NameChecker;
 import myutil.TraceManager;
 import myutilsvg.SVGGeneration;
 import myutilsvg.SVGGraphics;
@@ -3552,7 +3551,7 @@ public abstract class TDiagramPanel extends JPanel implements GenericTree {
                 for (TGComponent o : this.componentList)
                     if (o instanceof AvatarRDRequirement) {
                         AvatarRDRequirement areq = (AvatarRDRequirement) o;
-                        int otherid = Integer.decode(areq.getID()).intValue();
+                        int otherid = Integer.decode(areq.getReqID()).intValue();
                         if (intid == otherid) {
                             ok = false;
                             break;
@@ -4027,6 +4026,43 @@ public abstract class TDiagramPanel extends JPanel implements GenericTree {
 
         return res;
     }
+
+    public int numberOfComponentsIn(int _x, int _y, int _with, int _height) {
+        int nb = 0;
+        for(TGComponent tgc: getComponentList()) {
+            if (GraphicLib.isInRectangle(tgc.getX(), tgc.getY(), _x, _y, _with, _height)) {
+                nb ++;
+            } else if (GraphicLib.isInRectangle(tgc.getX() + tgc.getWidth(), tgc.getY(), _x, _y, _with, _height)) {
+                nb ++;
+            } else if(GraphicLib.isInRectangle(tgc.getX(), tgc.getY() + tgc.getHeight(), _x, _y, _with, _height)) {
+                nb ++;
+            } else if (GraphicLib.isInRectangle(tgc.getX()+ tgc.getWidth(), tgc.getY()+ tgc.getHeight(), _x, _y, _with, _height)) {
+                nb ++;
+            }
+        }
+        return nb;
+    }
+
+    /**
+     * Analyze the density of drawn elements, and find the less populated one yet
+     * close to minX, minY
+     * @return
+     */
+    public Point findLessPopulatedLocation(int _width, int  _height) {
+        int x = getMinX(), y = getMinY(), maxNb = Integer.MAX_VALUE;
+        for(int xi= getMinX()+_width; xi < getMaxX() - 2*_width ; xi = xi + 20) {
+            for(int yi= getMinY()+_height; yi < getMaxY() - 2*_height ; yi = yi + 20) {
+                int nb = numberOfComponentsIn(xi-_width, yi-_height, _width*2, _height*2);
+                if (nb < maxNb) {
+                    //TraceManager.addDev("xi=" + xi + " yi=" + yi + " nb=" + nb + " maxNb=" + maxNb);
+                    maxNb = nb;
+                    x = xi; y = yi;
+                }
+            }
+        }
+        return new Point(x, y);
+    }
+
 
     public boolean isSelectedTemp() {
         return selectedTemp;

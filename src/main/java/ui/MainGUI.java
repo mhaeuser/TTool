@@ -3826,7 +3826,9 @@ public class MainGUI implements ActionListener, WindowListener, KeyListener, Per
         boolean b = false;
         boolean ret = false;
 
-        gtm.getCheckingWarnings().clear();
+        if (gtm.getCheckingWarnings() != null) {
+            gtm.getCheckingWarnings().clear();
+        }
 
         if (file == null) {
             JOptionPane.showMessageDialog(frame, "The project must be saved before any simulation or formal verification can be performed",

@@ -9856,11 +9856,13 @@ public class GTURTLEModeling {
             warnings.clear();
             //TraceManager.addDev("Clearing warnings");
         }
-        for(NameChecker.NamedElement ne: nes) {
-            checkName(ne, warnings, _tdp);
-            if (ne.getSubNamedElements() != null) {
-                for (NameChecker.NamedElement sub : ne.getSubNamedElements()) {
-                    checkName(sub, warnings, _tdp);
+        if (nes != null) {
+            for (NameChecker.NamedElement ne : nes) {
+                checkName(ne, warnings, _tdp);
+                if (ne.getSubNamedElements() != null) {
+                    for (NameChecker.NamedElement sub : ne.getSubNamedElements()) {
+                        checkName(sub, warnings, _tdp);
+                    }
                 }
             }
         }

@@ -85,8 +85,11 @@ public class JFrameAI extends JFrame implements ActionListener, Runnable {
             "following sub categories: privacy, confidentiality, non-repudiation, controlled access, availability," +
             "immunity, data origin authenticity, freshness. Use the following format for the answer:" +
             " - Requirement name: classification\n";
-    private String QUESTION_IDENTIFY_REQ = "Identify the requirements of the following specification. List them as follows: " +
-            "- name of the requirement: text of the requirement ; link to other requirements (derive, refine, compose). The name " +
+    private String QUESTION_IDENTIFY_REQ = "Identify all the relevant requirements of the following specification. List them as a json array with " +
+            "the following elements for each requirements in the array:" +
+            " " +
+            "name: name of the requirement, id: id of the requirement (as a string), doc: text of the requirement  " +
+            "compose: all req names, derive: all req names, refine: all req names. The name " +
             "should be an english " +
             "name and not a number or an identifier";
     private String QUESTION_IDENTIFY_PROPERTIES = "List properties of the following SysML V2 specification.";
@@ -269,9 +272,40 @@ public class JFrameAI extends JFrame implements ActionListener, Runnable {
     }
 
     private void applyResponse() {
-        if (previousKind == 1) {
+        if (previousKind == KIND_CLASSIFY_REQUIREMENT) {
             applyRequirementClassification();
+        } else if (previousKind == IDENTIFY_REQUIREMENT) {
+            applyRequirementIdentification();
         }
+    }
+    private void applyRequirementIdentification() {
+        if (previousTDP == null) {
+            error("No diagram has been selected\n");
+            return;
+        }
+
+        if (!(previousTDP instanceof AvatarRDPanel)) {
+            error("Wrong diagram has been selected\n");
+            return;
+        }
+
+        AvatarRDPanel rdpanel = (AvatarRDPanel) previousTDP;
+
+        inform("Enhancing requirement diagram with ai answer, please wait\n");
+        TraceManager.addDev("Considered JSON array: " + automatedAnswer);
+        try {
+
+            rdpanel.loadAndUpdateFromText(automatedAnswer);
+
+        } catch (org.json.JSONException e) {
+            TraceManager.addDev("JSON Exception: " + e.getMessage());
+            inform("Answer provided by AI does not respect the JSON format necessary for TTool");
+            rdpanel.repaint();
+            return;
+        }
+        rdpanel.repaint();
+
+        inform("Enhancing requirement diagram with ai answer: done<\n");
     }
 
     private void applyRequirementClassification() {
@@ -410,7 +444,9 @@ public class JFrameAI extends JFrame implements ActionListener, Runnable {
 
         TraceManager.addDev("Asking for requirements");
         String questionT = "\nTTool:" + QUESTION_IDENTIFY_REQ + "\n" + question.getText().trim() + "\n";
-        makeQuestion(questionT, IDENTIFY_REQUIREMENT, tdp);
+        String answer = makeQuestion(questionT, IDENTIFY_REQUIREMENT, tdp);
+
+
     }
 
     private void classifyRequirements() {
@@ -451,7 +487,6 @@ public class JFrameAI extends JFrame implements ActionListener, Runnable {
         AVATAR2SysMLV2 tosysmlv2 = new AVATAR2SysMLV2(avspec);
         StringBuffer sb = tosysmlv2.generateSysMLV2Spec(false, false);
 
-
         TraceManager.addDev("Appending: " + sb.toString().trim() + " to answer");
         String question = QUESTION_IDENTIFY_PROPERTIES + "\n" + sb.toString().trim();
 
@@ -463,7 +498,7 @@ public class JFrameAI extends JFrame implements ActionListener, Runnable {
         makeQuestion(question, IDENTIFY_PROPERTIES, tdp);
     }
 
-    private void makeQuestion(String _question, int _kind, TDiagramPanel _tdp) {
+    private String makeQuestion(String _question, int _kind, TDiagramPanel _tdp) {
         GraphicLib.appendToPane(answer, _question, Color.blue);
 
         try {
@@ -473,10 +508,13 @@ public class JFrameAI extends JFrame implements ActionListener, Runnable {
             previousTDP = _tdp;
         } catch (AIInterfaceException aiie) {
             error(aiie.getMessage());
-            return;
+            return null;
         }
         inform("Got answer from ai. All done.\n\n");
         GraphicLib.appendToPane(answer, "\nAI:\n" + automatedAnswer + "\n", Color.red);
+
+        return automatedAnswer;
+
     }
 
     private boolean makeAIInterface() {

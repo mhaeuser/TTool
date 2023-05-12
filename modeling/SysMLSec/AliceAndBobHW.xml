@@ -897,7 +897,7 @@
 <sizeparam width="15" height="35" minWidth="1" minHeight="1" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <hidden value="false" />
 <enabled value="true" />
-<cdrectangleparam minX="10" maxX="2500" minY="10" maxY="1500" />
+<cdrectangleparam minX="10" maxX="2000" minY="10" maxY="1500" />
 <infoparam name="decrypt" value="null" />
 <new d="false" />
 <TGConnectingPoint num="0" id="330" />
@@ -908,11 +908,11 @@
 </COMPONENT>
 
 <COMPONENT type="1036" id="335" index="1" uid="b3b5764e-e503-4dca-aa65-2189abbc888e" >
-<cdparam x="669" y="406" />
+<cdparam x="494" y="409" />
 <sizeparam width="15" height="35" minWidth="1" minHeight="1" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <hidden value="false" />
 <enabled value="true" />
-<cdrectangleparam minX="10" maxX="2500" minY="10" maxY="1500" />
+<cdrectangleparam minX="10" maxX="2000" minY="10" maxY="1500" />
 <infoparam name="decrypt" value="null" />
 <new d="false" />
 <TGConnectingPoint num="0" id="333" />
@@ -927,7 +927,7 @@
 <sizeparam width="15" height="35" minWidth="1" minHeight="1" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <hidden value="false" />
 <enabled value="true" />
-<cdrectangleparam minX="10" maxX="2500" minY="10" maxY="1500" />
+<cdrectangleparam minX="10" maxX="2000" minY="10" maxY="1500" />
 <infoparam name="encrypt" value="null" />
 <new d="false" />
 <TGConnectingPoint num="0" id="336" />
@@ -942,7 +942,7 @@
 <sizeparam width="108" height="20" minWidth="30" minHeight="1" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <hidden value="false" />
 <enabled value="true" />
-<cdrectangleparam minX="10" maxX="2500" minY="10" maxY="1500" />
+<cdrectangleparam minX="10" maxX="2000" minY="10" maxY="1500" />
 <infoparam name="write channel" value="nonce_ch(1)" />
 <new d="false" />
 <TGConnectingPoint num="0" id="339" />
@@ -956,7 +956,7 @@
 <cdparam x="491" y="489" />
 <sizeparam width="20" height="20" minWidth="1" minHeight="1" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <hidden value="false" />
-<cdrectangleparam minX="10" maxX="2500" minY="10" maxY="1500" />
+<cdrectangleparam minX="10" maxX="2000" minY="10" maxY="1500" />
 <infoparam name="stop state" value="null" />
 <new d="false" />
 <TGConnectingPoint num="0" id="342" />
@@ -967,7 +967,7 @@
 <sizeparam width="89" height="20" minWidth="30" minHeight="1" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <hidden value="false" />
 <enabled value="true" />
-<cdrectangleparam minX="10" maxX="2500" minY="10" maxY="1500" />
+<cdrectangleparam minX="10" maxX="2000" minY="10" maxY="1500" />
 <infoparam name="read channel" value="comm(1) " />
 <new d="false" />
 <TGConnectingPoint num="0" id="344" />
@@ -982,7 +982,7 @@
 <sizeparam width="89" height="20" minWidth="30" minHeight="1" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <hidden value="false" />
 <enabled value="true" />
-<cdrectangleparam minX="10" maxX="2500" minY="10" maxY="1500" />
+<cdrectangleparam minX="10" maxX="2000" minY="10" maxY="1500" />
 <infoparam name="read channel" value="comm(1) " />
 <new d="false" />
 <TGConnectingPoint num="0" id="347" />
@@ -996,7 +996,7 @@
 <cdparam x="494" y="85" />
 <sizeparam width="15" height="15" minWidth="1" minHeight="1" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <hidden value="false" />
-<cdrectangleparam minX="10" maxX="2500" minY="10" maxY="1500" />
+<cdrectangleparam minX="10" maxX="2000" minY="10" maxY="1500" />
 <infoparam name="start state" value="null" />
 <new d="false" />
 <TGConnectingPoint num="0" id="350" />
@@ -1015,7 +1015,7 @@
 <cdparam x="525" y="491" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector" value="null" />
-<P1  x="676" y="451" id="334" />
+<P1  x="501" y="454" id="334" />
 <P2  x="501" y="484" id="342" />
 <AutomaticDrawing  data="true" />
 <new d="false" />
@@ -1034,7 +1034,7 @@
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector" value="null" />
 <P1  x="501" y="390" id="348" />
-<P2  x="676" y="401" id="333" />
+<P2  x="501" y="404" id="333" />
 <AutomaticDrawing  data="true" />
 <new d="false" />
 </CONNECTOR>
@@ -2992,9 +2992,9 @@
 <SUBCOMPONENT type="1103" id="1046" index="15" uid="82785cce-97cd-4347-8d5a-01ffdc771be5" >
 <father id="1071" num="0" />
 <cdparam x="432" y="408" />
-<sizeparam width="106" height="40" minWidth="75" minHeight="1" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
+<sizeparam width="104" height="40" minWidth="75" minHeight="1" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <hidden value="false" />
-<cdrectangleparam minX="0" maxX="81" minY="0" maxY="91" />
+<cdrectangleparam minX="0" maxX="83" minY="0" maxY="91" />
 <infoparam name="TGComponent" value="MAC::comm" />
 <new d="false" />
 <TGConnectingPoint num="0" id="1038" />
@@ -3274,9 +3274,9 @@
 <SUBCOMPONENT type="1101" id="1223" index="18" uid="f7bd214e-253e-4a5b-b1eb-8daa6faffbea" >
 <father id="1248" num="0" />
 <cdparam x="530" y="99" />
-<sizeparam width="98" height="40" minWidth="75" minHeight="1" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
+<sizeparam width="96" height="40" minWidth="75" minHeight="1" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <hidden value="false" />
-<cdrectangleparam minX="0" maxX="110" minY="0" maxY="61" />
+<cdrectangleparam minX="0" maxX="112" minY="0" maxY="61" />
 <infoparam name="TGComponent" value="MAC::Alice" />
 <new d="false" />
 <TGConnectingPoint num="0" id="1215" />
@@ -3331,9 +3331,9 @@
 <SUBCOMPONENT type="1101" id="1257" index="19" uid="467ba799-1d32-4cad-a893-74add4b8598f" >
 <father id="1282" num="0" />
 <cdparam x="308" y="110" />
-<sizeparam width="93" height="40" minWidth="75" minHeight="1" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
+<sizeparam width="91" height="40" minWidth="75" minHeight="1" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <hidden value="false" />
-<cdrectangleparam minX="0" maxX="119" minY="0" maxY="62" />
+<cdrectangleparam minX="0" maxX="121" minY="0" maxY="62" />
 <infoparam name="TGComponent" value="MAC::Bob" />
 <new d="false" />
 <TGConnectingPoint num="0" id="1249" />

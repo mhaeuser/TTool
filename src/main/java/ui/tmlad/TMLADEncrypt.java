@@ -235,8 +235,8 @@ public class TMLADEncrypt extends TADComponentWithoutSubcomponents/* Issue #69 T
         int max =  Math.max(x + width, securityMaxX);
         max = Math.max(max, nonceMaxX);
         max = Math.max(max, keyMaxX);
-        TraceManager.addDev("Custom getMyCurrentMaxX. x+width= " + (x+width) + " SecurityMaxX=" + securityMaxX + " securityContext=" +
-                securityContext + " max=" + max);
+        /*TraceManager.addDev("Custom getMyCurrentMaxX. x+width= " + (x+width) + " SecurityMaxX=" + securityMaxX + " securityContext=" +
+                securityContext + " max=" + max);*/
         return max;
     }
 

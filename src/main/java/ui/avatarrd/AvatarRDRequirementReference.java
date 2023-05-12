@@ -282,7 +282,7 @@ public class AvatarRDRequirementReference extends TGCScalableWithInternalCompone
 
             //ID
             if (size < (height - 2)) {
-                drawLimitedString(g, "ID=" + reference.getID(), x + textX, y + size, width, 0);
+                drawLimitedString(g, "ID=" + reference.getReqID(), x + textX, y + size, width, 0);
             }
             size += currentFontSize;
 
@@ -433,7 +433,7 @@ public class AvatarRDRequirementReference extends TGCScalableWithInternalCompone
         if (reference == null) {
             return "";
         }
-        String attr = "ID=" + reference.getID() + "\n";
+        String attr = "ID=" + reference.getReqID() + "\n";
         attr += "Text= " + reference.getText() + "\n";
         attr += "Kind= " + reference.getKind() + "\n";
         attr += "Risk= " + reference.getCriticality() + "\n";

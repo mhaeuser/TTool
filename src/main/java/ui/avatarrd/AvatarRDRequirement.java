@@ -138,6 +138,8 @@ public class AvatarRDRequirement extends TGCScalableWithInternalComponent implem
     // References
     private ArrayList<AvatarRDRequirementReference> references;
 
+    private boolean adapt = false;
+
     public AvatarRDRequirement(int _x, int _y, int _minX, int _maxX, int _minY, int _maxY, boolean _pos, TGComponent _father, TDiagramPanel _tdp) {
         super(_x, _y, _minX, _maxX, _minY, _maxY, _pos, _father, _tdp);
 
@@ -249,6 +251,19 @@ public class AvatarRDRequirement extends TGCScalableWithInternalComponent implem
 
     @Override
     public void internalDrawing(Graphics g) {
+        if (adapt) {
+            // Must adapt its size according to its name
+            //TraceManager.addDev("Size of border: " + textX);
+            int sizeOfValue = g.getFontMetrics().stringWidth(getValue());
+            width = Math.max(width, sizeOfValue + (textX * 10) + iconSize);
+
+            // Wrapping the text
+            wrapText(40);
+
+            adapt = false;
+        }
+
+
     	// Rectangle and lines
     	g.drawRect(x, y, width, height);
     	g.drawLine(x, y + lineHeight, x + width, y + lineHeight);
@@ -357,155 +372,16 @@ public class AvatarRDRequirement extends TGCScalableWithInternalComponent implem
         }
     }
 
-//    public void internalDrawing(Graphics g) {
-//        Font f = g.getFont();
-//        //    Font fold = f;
-//        //  int w, c;
-//        int size;
-//
-//        if (texts == null) {
-//            makeValue();
-//        }
-//
-//        if (!tdp.isScaled()) {
-//            graphics = g;
-//        }
-//
-//        if (((rescaled) && (!tdp.isScaled())) || myFont == null) {
-//            currentFontSize = tdp.getFontSize();
-//            //
-//            myFont = f.deriveFont((float) currentFontSize);
-//            myFontB = myFont.deriveFont(Font.BOLD);
-//
-//            if (rescaled) {
-//                rescaled = false;
-//            }
-//        }
-//
-//        displayText = currentFontSize >= minFontSize;
-//
-//        //   int h  = g.getFontMetrics().getHeight();
-//
-//        g.drawRect(x, y, width, height);
-//
-//        g.drawLine(x, y + lineHeight, x + width, y + lineHeight);
-//        Color topColor = REQ_TYPE_COLOR.get(reqType);
-//        if (topColor == null) {
-//            //TraceManager.addDev("Swithing back to default Color for:" + REQ_TYPE_STR.get(reqType));
-//            topColor = ColorManager.AVATAR_REQUIREMENT_TOP;
-//        } else {
-//            //TraceManager.addDev("Using color: " + topColor.getRGB() + "for  " +REQ_TYPE_STR.get(reqType));
-//        }
-//        g.setColor(topColor);
-//        g.fillRect(x + 1, y + 1, width - 1, lineHeight - 1);
-//        g.setColor(ColorManager.AVATAR_REQUIREMENT_ATTRIBUTES);
-//        g.fillRect(x + 1, y + 1 + lineHeight, width - 1, height - 1 - lineHeight);
-//        ColorManager.setColor(g, getState(), 0);
-//        if ((lineHeight > 23) && (width > 23)) {
-//            g.drawImage(IconManager.img5100, x + width - iconSize + 1, y + 3, Color.yellow, null);
-//        }
-//
-//        if (displayText) {
-//            size = currentFontSize - 2;
-//            g.setFont(myFont.deriveFont((float) (myFont.getSize() - 2)));
-//
-//            drawLimitedString(g, "<<" + REQ_TYPE_STR.get(reqType) + ">>", x, y + size, width, 1);
-//
-//            size += currentFontSize;
-//            g.setFont(myFontB);
-//            //  w = g.getFontMetrics().stringWidth(value);
-//            drawLimitedString(g, value, x, y + size, width, 1);
-//
-//        }
-//
-//        if (verified) {
-//            if (satisfied) {
-//                Color tmp = g.getColor();
-//                GraphicLib.setMediumStroke(g);
-//                g.setColor(Color.green);
-//                g.drawLine(x + width - 2, y - 6 + lineHeight, x + width - 6, y - 2 + lineHeight);
-//                g.drawLine(x + width - 6, y - 3 + lineHeight, x + width - 8, y - 6 + lineHeight);
-//                g.setColor(tmp);
-//                GraphicLib.setNormalStroke(g);
-//            } else {
-//                //g.drawString("acc", x + width - 10, y+height-10);
-//                Color tmp = g.getColor();
-//                GraphicLib.setMediumStroke(g);
-//                g.setColor(Color.red);
-//                g.drawLine(x + width - 2, y - 2 + lineHeight, x + width - 8, y - 8 + lineHeight);
-//                g.drawLine(x + width - 8, y - 2 + lineHeight, x + width - 2, y - 8 + lineHeight);
-//                g.setColor(tmp);
-//                GraphicLib.setNormalStroke(g);
-//            }
-//        }
-//
-//        g.setFont(myFont);
-//        String texti = "Text";
-//        String s;
-//        int i;
-//        size = lineHeight + currentFontSize;
-//
-//        //ID
-//        if (size < (height - 2)) {
-//            drawLimitedString(g, "ID=" + id, x + textX, y + size, width, 0);
-//        }
-//        size += currentFontSize;
-//
-//        //text
-//        for (i = 0; i < texts.length; i++) {
-//            if (size < (height - 2)) {
-//                s = texts[i];
-//                if (i == 0) {
-//                    s = texti + "=\"" + s;
-//                }
-//                if (i == (texts.length - 1)) {
-//                    s = s + "\"";
-//                }
-//                drawLimitedString(g, s, x + textX, y + size, width, 0);
-//            }
-//            size += currentFontSize;
-//
-//        }
-//        // Type and risk
-//        if (size < (height - 2)) {
-//            drawLimitedString(g, "Kind=\"" + kind + "\"", x + textX, y + size, width, 0);
-//            size += currentFontSize;
-//            if (size < (height - 2)) {
-//                drawLimitedString(g, "Risk=\"" + criticality + "\"", x + textX, y + size, width, 0);
-//                size += currentFontSize;
-//                if (size < (height - 2)) {
-//
-//                    drawLimitedString(g, "Reference elements=\"" + referenceElements + "\"", x + textX, y + size, width, 0);
-//                    size += currentFontSize;
-//
-//                    if (size < (height - 2)) {
-//
-//                        if (reqType == SECURITY_REQ) {
-//                            drawLimitedString(g, "Targeted attacks=\"" + attackTreeNode + "\"", x + textX, y + size, width, 0);
-//                            size += currentFontSize;
-//                        }
-//
-//                        if (reqType == SAFETY_REQ) {
-//                            drawLimitedString(g, "State violating req.=\"" + violatedAction + "\"", x + textX, y + size, width, 0);
-//                            size += currentFontSize;
-//                        }
-//                    }
-//                }
-//            }
-//        }
-//
-//        // Extra attributes
-//        for (i = 0; i < extraParamIDs.size(); i++) {
-//            if (size < (height - 2)) {
-//                s = extraParamIDs.get(i) + ":" + extraParamValues.get(i);
-//                drawLimitedString(g, s, x + textX, y + size, width, 0);
-//            }
-//            size += currentFontSize;
-//
-//        }
-//
-//        g.setFont(f);
-//    }
+    public void adaptItsSizeAndWrapText() {
+        adapt = true;
+    }
+
+    private void wrapText(int maxNbOfcharacters) {
+        text = Conversion.breakIntoLines(text, maxNbOfcharacters);
+        makeValue();
+    }
+
+
 
     public boolean editOnDoubleClick(JFrame frame, int _x, int _y) {
         // On the name ?
@@ -992,12 +868,21 @@ public class AvatarRDRequirement extends TGCScalableWithInternalComponent implem
         return text;
     }
 
+    public void setText(String _text) {
+        text = _text;
+        makeValue();
+    }
+
     public String[] getTexts() {
         return texts;
     }
 
-    public String getID() {
+    public String getReqID() {
         return id;
+    }
+
+    public void setReqID(String _id) {
+        id = _id;
     }
 
     public String getKind() {

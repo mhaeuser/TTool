@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022/MacPorts 2022.62882_2) (preloaded format=pdflatex 2023.4.30)  15 MAY 2023 09:04
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022/MacPorts 2022.62882_2) (preloaded format=pdflatex 2023.4.30)  15 MAY 2023 09:33
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1656,180 +1656,249 @@ File: figures/RGMinimized.png Graphic file (type png)
 <use figures/RGMinimized.png>
 Package pdftex.def Info: figures/RGMinimized.png  used on input line 3142.
 (pdftex.def)             Requested size: 507.03091pt x 426.16049pt.
-[83 <./figures/RGTree.png> <./figures/RGMinimizationWindow.png>]
-<figures/securityStuff/ProVerifWindow.png, id=2681, 559.08875pt x 466.74374pt>
-File: figures/securityStuff/ProVerifWindow.png Graphic file (type png)
-<use figures/securityStuff/ProVerifWindow.png>
-Package pdftex.def Info: figures/securityStuff/ProVerifWindow.png  used on inpu
-t line 3203.
-(pdftex.def)             Requested size: 332.8941pt x 277.91895pt.
-<figures/securityStuff/ProVerifWindowRes.png, id=2682, 509.905pt x 462.72874pt>
-
-File: figures/securityStuff/ProVerifWindowRes.png Graphic file (type png)
-<use figures/securityStuff/ProVerifWindowRes.png>
-Package pdftex.def Info: figures/securityStuff/ProVerifWindowRes.png  used on i
-nput line 3210.
-(pdftex.def)             Requested size: 307.29288pt x 278.875pt.
-[84 <./figures/RGMinimizedTree.png>] [85 <./figures/RGMinimized.png>] [86 <./fi
-gures/securityStuff/ProVerifWindow.png> <./figures/securityStuff/ProVerifWindow
-Res.png>]
-<figures/PsiChartReal.pdf, id=2702, 1043.9pt x 1316.92pt>
+[83 <./figures/RGTree.png> <./figures/RGMinimizationWindow.png>] [84 <./figures
+/RGMinimizedTree.png>] [85 <./figures/RGMinimized.png>]
+<figures/PsiChartReal.pdf, id=2686, 1043.9pt x 1316.92pt>
 File: figures/PsiChartReal.pdf Graphic file (type pdf)
 <use figures/PsiChartReal.pdf>
-Package pdftex.def Info: figures/PsiChartReal.pdf  used on input line 3225.
+Package pdftex.def Info: figures/PsiChartReal.pdf  used on input line 3193.
 (pdftex.def)             Requested size: 1043.89745pt x 1316.9168pt.
 
 Package hyperref Warning: Difference (2) between bookmark levels is greater 
-(hyperref)                than one, level fixed on input line 3260.
+(hyperref)                than one, level fixed on input line 3228.
 
-<figures/ModelCompiler.pdf, id=2713, 2184.16pt x 762.85pt>
+<figures/ModelCompiler.pdf, id=2697, 2184.16pt x 762.85pt>
 File: figures/ModelCompiler.pdf Graphic file (type pdf)
 <use figures/ModelCompiler.pdf>
-Package pdftex.def Info: figures/ModelCompiler.pdf  used on input line 3287.
+Package pdftex.def Info: figures/ModelCompiler.pdf  used on input line 3255.
 (pdftex.def)             Requested size: 409.72124pt x 143.09222pt.
-[87 <./figures/PsiChartReal.pdf>] [88 <./figures/ModelCompiler.pdf>]
-<figures/screenshot/Prex.png, id=2865, 346.29375pt x 728.7225pt>
+[86 <./figures/PsiChartReal.pdf>] [87 <./figures/ModelCompiler.pdf>]
+<figures/screenshot/Prex.png, id=2849, 346.29375pt x 728.7225pt>
 File: figures/screenshot/Prex.png Graphic file (type png)
 <use figures/screenshot/Prex.png>
-Package pdftex.def Info: figures/screenshot/Prex.png  used on input line 3336.
+Package pdftex.def Info: figures/screenshot/Prex.png  used on input line 3304.
 (pdftex.def)             Requested size: 179.25548pt x 377.2255pt.
-<figures/screenshot/Postex.png, id=2866, 349.305pt x 698.61pt>
+<figures/screenshot/Postex.png, id=2850, 349.305pt x 698.61pt>
 File: figures/screenshot/Postex.png Graphic file (type png)
 <use figures/screenshot/Postex.png>
-Package pdftex.def Info: figures/screenshot/Postex.png  used on input line 3344
+Package pdftex.def Info: figures/screenshot/Postex.png  used on input line 3312
 .
 (pdftex.def)             Requested size: 179.25548pt x 358.51431pt.
-<figures/screenshot/CCodeGenButton.pdf, id=2868, 1096.89806pt x 616.70403pt>
+<figures/screenshot/CCodeGenButton.pdf, id=2852, 1096.89806pt x 616.70403pt>
 File: figures/screenshot/CCodeGenButton.pdf Graphic file (type pdf)
 <use figures/screenshot/CCodeGenButton.pdf>
 Package pdftex.def Info: figures/screenshot/CCodeGenButton.pdf  used on input l
-ine 3354.
+ine 3322.
 (pdftex.def)             Requested size: 512.1496pt x 287.94067pt.
-<figures/screenshot/CCodeGen1.png, id=2870, 1371.1225pt x 770.88pt>
+<figures/screenshot/CCodeGen1.png, id=2854, 1371.1225pt x 770.88pt>
 File: figures/screenshot/CCodeGen1.png Graphic file (type png)
 <use figures/screenshot/CCodeGen1.png>
 Package pdftex.def Info: figures/screenshot/CCodeGen1.png  used on input line 3
-366.
+334.
 (pdftex.def)             Requested size: 512.1496pt x 287.95007pt.
-[89 <./figures/screenshot/Prex.png>] [90 <./figures/screenshot/Postex.png>] [91
+[88 <./figures/screenshot/Prex.png>] [89 <./figures/screenshot/Postex.png>] [90
  <./figures/screenshot/CCodeGenButton.pdf> <./figures/screenshot/CCodeGen1.png>
 ]
 Package hyperref Info: bookmark level for unknown algorithm defaults to 0 on in
-put line 3398.
-<figures/screenshot/CCodeGen2.png, id=2899, 1371.1225pt x 770.88pt>
+put line 3366.
+<figures/screenshot/CCodeGen2.png, id=2882, 1371.1225pt x 770.88pt>
 File: figures/screenshot/CCodeGen2.png Graphic file (type png)
 <use figures/screenshot/CCodeGen2.png>
 Package pdftex.def Info: figures/screenshot/CCodeGen2.png  used on input line 3
-419.
+387.
 (pdftex.def)             Requested size: 512.1496pt x 287.95007pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 3430--3433
+Underfull \hbox (badness 10000) in paragraph at lines 3398--3401
 
  []
 
 Package hyperref Info: bookmark level for unknown lstlisting defaults to 0 on i
-nput line 3464.
-[92] [93]
-Underfull \hbox (badness 10000) in paragraph at lines 3528--3531
+nput line 3432.
+[91] [92]
+Underfull \hbox (badness 10000) in paragraph at lines 3497--3500
 
  []
 
-<figures/securityStuff/sampleArch.pdf, id=2972, 935.495pt x 249.93375pt>
-File: figures/securityStuff/sampleArch.pdf Graphic file (type pdf)
-<use figures/securityStuff/sampleArch.pdf>
-Package pdftex.def Info: figures/securityStuff/sampleArch.pdf  used on input li
-ne 3540.
-(pdftex.def)             Requested size: 358.50314pt x 95.78049pt.
-<figures/securityStuff/sampleComp.pdf, id=2975, 786.94pt x 219.82124pt>
+<figures/securityStuff/ProVerifWindow.png, id=2961, 559.08875pt x 466.74374pt>
+File: figures/securityStuff/ProVerifWindow.png Graphic file (type png)
+<use figures/securityStuff/ProVerifWindow.png>
+Package pdftex.def Info: figures/securityStuff/ProVerifWindow.png  used on inpu
+t line 3527.
+(pdftex.def)             Requested size: 332.8941pt x 277.91895pt.
+<figures/securityStuff/ProVerifWindowRes.png, id=2962, 509.905pt x 462.72874pt>
+
+File: figures/securityStuff/ProVerifWindowRes.png Graphic file (type png)
+<use figures/securityStuff/ProVerifWindowRes.png>
+Package pdftex.def Info: figures/securityStuff/ProVerifWindowRes.png  used on i
+nput line 3534.
+(pdftex.def)             Requested size: 307.29288pt x 278.875pt.
+[93 <./figures/screenshot/CCodeGen2.png>] [94 <./figures/securityStuff/ProVerif
+Window.png> <./figures/securityStuff/ProVerifWindowRes.png>]
+<figures/securityStuff/sampleComp.pdf, id=2979, 786.94pt x 219.82124pt>
 File: figures/securityStuff/sampleComp.pdf Graphic file (type pdf)
 <use figures/securityStuff/sampleComp.pdf>
 Package pdftex.def Info: figures/securityStuff/sampleComp.pdf  used on input li
-ne 3559.
+ne 3561.
 (pdftex.def)             Requested size: 358.50314pt x 100.14291pt.
-[94 <./figures/screenshot/CCodeGen2.png> <./figures/securityStuff/sampleArch.pd
-f>]
-<figures/securityStuff/alice_bob_nonce_ad_alice-svg.pdf, id=2984, 106.3975pt x 
-198.7425pt>
-File: figures/securityStuff/alice_bob_nonce_ad_alice-svg.pdf Graphic file (type
- pdf)
-<use figures/securityStuff/alice_bob_nonce_ad_alice-svg.pdf>
-Package pdftex.def Info: figures/securityStuff/alice_bob_nonce_ad_alice-svg.pdf
-  used on input line 3581.
-(pdftex.def)             Requested size: 76.8193pt x 143.50084pt.
-<figures/securityStuff/fv_alice_bob_nonce-svg.pdf, id=2985, 397.485pt x 138.517
-5pt>
-File: figures/securityStuff/fv_alice_bob_nonce-svg.pdf Graphic file (type pdf)
-<use figures/securityStuff/fv_alice_bob_nonce-svg.pdf>
-Package pdftex.def Info: figures/securityStuff/fv_alice_bob_nonce-svg.pdf  used
- on input line 3582.
-(pdftex.def)             Requested size: 307.29288pt x 107.08997pt.
-<figures/securityStuff/alice_bob_nonce_ad_bob-svg.pdf, id=2986, 111.41624pt x 2
-42.9075pt>
-File: figures/securityStuff/alice_bob_nonce_ad_bob-svg.pdf Graphic file (type p
-df)
-<use figures/securityStuff/alice_bob_nonce_ad_bob-svg.pdf>
-Package pdftex.def Info: figures/securityStuff/alice_bob_nonce_ad_bob-svg.pdf  
-used on input line 3583.
-(pdftex.def)             Requested size: 76.8193pt x 167.48032pt.
-<figures/securityStuff/keyArch.pdf, id=2989, 937.5025pt x 245.91875pt>
-File: figures/securityStuff/keyArch.pdf Graphic file (type pdf)
-<use figures/securityStuff/keyArch.pdf>
-Package pdftex.def Info: figures/securityStuff/keyArch.pdf  used on input line 
-3601.
-(pdftex.def)             Requested size: 358.50314pt x 94.03922pt.
-<figures/securityStuff/keyComp.pdf, id=2990, 871.255pt x 333.245pt>
+<figures/securityStuff/arch_alice_bob_sym.pdf, id=2980, 573.93425pt x 217.33199
+pt>
+File: figures/securityStuff/arch_alice_bob_sym.pdf Graphic file (type pdf)
+<use figures/securityStuff/arch_alice_bob_sym.pdf>
+Package pdftex.def Info: figures/securityStuff/arch_alice_bob_sym.pdf  used on 
+input line 3567.
+(pdftex.def)             Requested size: 409.72124pt x 155.15572pt.
+<figures/securityStuff/encrypt-config-symmetric.png, id=2981, 652.4375pt x 451.
+6875pt>
+File: figures/securityStuff/encrypt-config-symmetric.png Graphic file (type png
+)
+<use figures/securityStuff/encrypt-config-symmetric.png>
+Package pdftex.def Info: figures/securityStuff/encrypt-config-symmetric.png  us
+ed on input line 3573.
+(pdftex.def)             Requested size: 358.50314pt x 248.20145pt.
+<figures/securityStuff/fv_alice_bob_nonce.pdf, id=2986, 523.84134pt x 226.22015
+pt>
+File: figures/securityStuff/fv_alice_bob_nonce.pdf Graphic file (type pdf)
+<use figures/securityStuff/fv_alice_bob_nonce.pdf>
+Package pdftex.def Info: figures/securityStuff/fv_alice_bob_nonce.pdf  used on 
+input line 3599.
+(pdftex.def)             Requested size: 409.72124pt x 176.94463pt.
+[95 <./figures/securityStuff/sampleComp.pdf> <./figures/securityStuff/arch_alic
+e_bob_sym.pdf>]
+<figures/securityStuff/arch_alice_bob_nonce.pdf, id=3790, 510.69803pt x 248.197
+3pt>
+File: figures/securityStuff/arch_alice_bob_nonce.pdf Graphic file (type pdf)
+<use figures/securityStuff/arch_alice_bob_nonce.pdf>
+Package pdftex.def Info: figures/securityStuff/arch_alice_bob_nonce.pdf  used o
+n input line 3606.
+(pdftex.def)             Requested size: 409.72124pt x 199.12616pt.
+<figures/securityStuff/encrypt-config-nonce-n.png, id=3791, 652.4375pt x 451.68
+75pt>
+File: figures/securityStuff/encrypt-config-nonce-n.png Graphic file (type png)
+<use figures/securityStuff/encrypt-config-nonce-n.png>
+Package pdftex.def Info: figures/securityStuff/encrypt-config-nonce-n.png  used
+ on input line 3612.
+(pdftex.def)             Requested size: 358.50314pt x 248.20145pt.
+<figures/securityStuff/encrypt-config-nonce-symN.png, id=3792, 652.4375pt x 451
+.6875pt>
+File: figures/securityStuff/encrypt-config-nonce-symN.png Graphic file (type pn
+g)
+<use figures/securityStuff/encrypt-config-nonce-symN.png>
+Package pdftex.def Info: figures/securityStuff/encrypt-config-nonce-symN.png  u
+sed on input line 3618.
+(pdftex.def)             Requested size: 358.50314pt x 248.20145pt.
+[96 <./figures/securityStuff/encrypt-config-symmetric.png> <./figures/securityS
+tuff/fv_alice_bob_nonce.pdf>] [97 <./figures/securityStuff/arch_alice_bob_nonce
+.pdf> <./figures/securityStuff/encrypt-config-nonce-n.png>]
+<figures/securityStuff/keyComp.pdf, id=4754, 871.255pt x 333.245pt>
 File: figures/securityStuff/keyComp.pdf Graphic file (type pdf)
 <use figures/securityStuff/keyComp.pdf>
 Package pdftex.def Info: figures/securityStuff/keyComp.pdf  used on input line 
-3609.
+3641.
 (pdftex.def)             Requested size: 409.72124pt x 156.71161pt.
-[95 <./figures/securityStuff/sampleComp.pdf> <./figures/securityStuff/alice_bob
-_nonce_ad_alice-svg.pdf> <./figures/securityStuff/fv_alice_bob_nonce-svg.pdf> <
-./figures/securityStuff/alice_bob_nonce_ad_bob-svg.pdf>]
-<figures/securityStuff/macComp.pdf, id=3052, 787.94376pt x 212.795pt>
+<figures/securityStuff/arch_alice_bob_keyExchange.pdf, id=4755, 514.46207pt x 2
+22.60167pt>
+File: figures/securityStuff/arch_alice_bob_keyExchange.pdf Graphic file (type p
+df)
+<use figures/securityStuff/arch_alice_bob_keyExchange.pdf>
+Package pdftex.def Info: figures/securityStuff/arch_alice_bob_keyExchange.pdf  
+used on input line 3647.
+(pdftex.def)             Requested size: 358.50314pt x 155.1238pt.
+<figures/securityStuff/encrypt-config-keyexchange-aenc.png, id=4756, 652.4375pt
+ x 451.6875pt>
+File: figures/securityStuff/encrypt-config-keyexchange-aenc.png Graphic file (t
+ype png)
+<use figures/securityStuff/encrypt-config-keyexchange-aenc.png>
+Package pdftex.def Info: figures/securityStuff/encrypt-config-keyexchange-aenc.
+png  used on input line 3653.
+(pdftex.def)             Requested size: 358.50314pt x 248.20145pt.
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+[98 <./figures/securityStuff/encrypt-config-nonce-symN.png> <./figures/security
+Stuff/keyComp.pdf>] [99 <./figures/securityStuff/arch_alice_bob_keyExchange.pdf
+> <./figures/securityStuff/encrypt-config-keyexchange-aenc.png>]
+<figures/securityStuff/macComp.pdf, id=5567, 787.94376pt x 212.795pt>
 File: figures/securityStuff/macComp.pdf Graphic file (type pdf)
 <use figures/securityStuff/macComp.pdf>
 Package pdftex.def Info: figures/securityStuff/macComp.pdf  used on input line 
-3635.
+3678.
 (pdftex.def)             Requested size: 358.50314pt x 96.81862pt.
-<figures/securityStuff/autoSec.png, id=3053, 655.44875pt x 639.38875pt>
+<figures/securityStuff/arch_alice_bob_mac.pdf, id=5568, 510.69803pt x 222.60167
+pt>
+File: figures/securityStuff/arch_alice_bob_mac.pdf Graphic file (type pdf)
+<use figures/securityStuff/arch_alice_bob_mac.pdf>
+Package pdftex.def Info: figures/securityStuff/arch_alice_bob_mac.pdf  used on 
+input line 3684.
+(pdftex.def)             Requested size: 358.50314pt x 156.26506pt.
+<figures/securityStuff/encrypt-config-mac.png, id=5569, 652.4375pt x 451.6875pt
+>
+File: figures/securityStuff/encrypt-config-mac.png Graphic file (type png)
+<use figures/securityStuff/encrypt-config-mac.png>
+Package pdftex.def Info: figures/securityStuff/encrypt-config-mac.png  used on 
+input line 3690.
+(pdftex.def)             Requested size: 358.50314pt x 248.20145pt.
+<figures/securityStuff/autoSec.png, id=5570, 655.44875pt x 639.38875pt>
 File: figures/securityStuff/autoSec.png Graphic file (type png)
 <use figures/securityStuff/autoSec.png>
 Package pdftex.def Info: figures/securityStuff/autoSec.png  used on input line 
-3647.
+3702.
 (pdftex.def)             Requested size: 358.50314pt x 349.72339pt.
-[96 <./figures/securityStuff/keyArch.pdf> <./figures/securityStuff/keyComp.pdf>
-] [97 <./figures/securityStuff/macComp.pdf> <./figures/securityStuff/autoSec.pn
-g>]
-<figures/securityStuff/secComp.pdf, id=3076, 282.12746pt x 73.23029pt>
+<figures/securityStuff/secComp.pdf, id=5576, 282.12746pt x 73.23029pt>
 File: figures/securityStuff/secComp.pdf Graphic file (type pdf)
 <use figures/securityStuff/secComp.pdf>
 Package pdftex.def Info: figures/securityStuff/secComp.pdf  used on input line 
-3659.
+3713.
 (pdftex.def)             Requested size: 256.0748pt x 66.46756pt.
-<figures/securityStuff/secCompRes.pdf, id=3077, 473.14725pt x 245.10815pt>
-File: figures/securityStuff/secCompRes.pdf Graphic file (type pdf)
-<use figures/securityStuff/secCompRes.pdf>
-Package pdftex.def Info: figures/securityStuff/secCompRes.pdf  used on input li
-ne 3667.
-(pdftex.def)             Requested size: 409.72124pt x 212.25873pt.
-[98 <./figures/securityStuff/secComp.pdf> <./figures/securityStuff/secCompRes.p
-df
+<figures/securityStuff/arch_alice_bob_sampleAuto.pdf, id=5577, 533.28238pt x 22
+0.34323pt>
+File: figures/securityStuff/arch_alice_bob_sampleAuto.pdf Graphic file (type pd
+f)
+<use figures/securityStuff/arch_alice_bob_sampleAuto.pdf>
+Package pdftex.def Info: figures/securityStuff/arch_alice_bob_sampleAuto.pdf  u
+sed on input line 3719.
+(pdftex.def)             Requested size: 409.72124pt x 169.29832pt.
+<figures/securityStuff/fv_alice_bob_Autononce_with_ad.pdf, id=5578, 696.59416pt
+ x 241.27641pt>
+File: figures/securityStuff/fv_alice_bob_Autononce_with_ad.pdf Graphic file (ty
+pe pdf)
+<use figures/securityStuff/fv_alice_bob_Autononce_with_ad.pdf>
+Package pdftex.def Info: figures/securityStuff/fv_alice_bob_Autononce_with_ad.p
+df  used on input line 3726.
+(pdftex.def)             Requested size: 460.9315pt x 159.65526pt.
+<figures/securityStuff/arch_alice_bob_Autononce.pdf, id=5579, 578.45113pt x 243
+.68042pt>
+File: figures/securityStuff/arch_alice_bob_Autononce.pdf Graphic file (type pdf
+)
+<use figures/securityStuff/arch_alice_bob_Autononce.pdf>
+Package pdftex.def Info: figures/securityStuff/arch_alice_bob_Autononce.pdf  us
+ed on input line 3732.
+(pdftex.def)             Requested size: 409.72124pt x 172.60158pt.
+[100 <./figures/securityStuff/macComp.pdf> <./figures/securityStuff/arch_alice_
+bob_mac.pdf>] [101 <./figures/securityStuff/encrypt-config-mac.png> <./figures/
+securityStuff/autoSec.png>] [102 <./figures/securityStuff/secComp.pdf> <./figur
+es/securityStuff/arch_alice_bob_sampleAuto.pdf
 
-pdfTeX warning: /opt/local/bin/pdflatex (file ./figures/securityStuff/secCompRe
-s.pdf): PDF inclusion: multiple pdfs with page group included in a single page
->] [99] [100] [101] [102] [103] [104] [105] [106] (build/Tutorial.aux)
+pdfTeX warning: /opt/local/bin/pdflatex (file ./figures/securityStuff/arch_alic
+e_bob_sampleAuto.pdf): PDF inclusion: multiple pdfs with page group included in
+ a single page
+> <./figures/securityStuff/fv_alice_bob_Autononce_with_ad.pdf
+
+pdfTeX warning: /opt/local/bin/pdflatex (file ./figures/securityStuff/fv_alice_
+bob_Autononce_with_ad.pdf): PDF inclusion: multiple pdfs with page group includ
+ed in a single page
+>] [103 <./figures/securityStuff/arch_alice_bob_Autononce.pdf>] [104] [105] [10
+6] [107] [108] [109] [110] (build/Tutorial.aux)
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
 Package rerunfilecheck Info: File `Tutorial.out' has not changed.
-(rerunfilecheck)             Checksum: 6BBF8DE0DDB8BC43A86DEA0130CA0D4B;11289.
+(rerunfilecheck)             Checksum: 87CD6A49C327E4499089BDC5EEF2C5B1;11291.
  ) 
 Here is how much of TeX's memory you used:
- 15193 strings out of 479309
- 247990 string characters out of 5867802
- 1624210 words of memory out of 5000000
- 32292 multiletter control sequences out of 15000+600000
+ 15264 strings out of 479309
+ 251080 string characters out of 5867802
+ 1624011 words of memory out of 5000000
+ 32343 multiletter control sequences out of 15000+600000
  476630 words of font info for 55 fonts, out of 8000000 for 9000
  475 hyphenation exceptions out of 8191
  60i,21n,63p,655b,1469s stack positions out of 10000i,1000n,20000p,200000b,200000s
@@ -1861,10 +1930,10 @@ ublic/amsfonts/cm/cmtt8.pfb></opt/local/share/texmf-texlive/fonts/type1/public/
 amsfonts/cm/cmtt9.pfb></opt/local/share/texmf-texlive/fonts/type1/public/cm-sup
 er/sfrm0500.pfb></opt/local/share/texmf-texlive/fonts/type1/public/cm-super/sfr
 m1000.pfb>
-Output written on build/Tutorial.pdf (106 pages, 7792319 bytes).
+Output written on build/Tutorial.pdf (110 pages, 8457183 bytes).
 PDF statistics:
- 3391 PDF objects out of 3580 (max. 8388607)
- 2592 compressed objects within 26 object streams
- 598 named destinations out of 1000 (max. 500000)
- 1060 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 8890 PDF objects out of 8907 (max. 8388607)
+ 6140 compressed objects within 62 object streams
+ 611 named destinations out of 1000 (max. 500000)
+ 1095 words of extra memory for PDF output out of 10000 (max. 10000000)
 

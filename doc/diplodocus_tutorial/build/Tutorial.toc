@@ -29,22 +29,22 @@
 \contentsline {subsubsection}{Pre-mapping formal verification with UPPAAL}{80}{section*.10}%
 \contentsline {subsubsection}{Post-mapping formal Verification with the TTool verifier and simulator engine}{80}{section*.11}%
 \contentsline {subsubsection}{Example of post-mapping formal verification}{81}{section*.12}%
-\contentsline {subsubsection}{Post-mapping formal verification with ProVerif}{84}{section*.13}%
-\contentsline {section}{\numberline {9}Automatic Code Generation for Rapid Protoyping}{87}{section.1.9}%
-\contentsline {subsubsection}{The compilation process}{87}{section*.14}%
-\contentsline {subsubsection}{Scheduling of operations}{88}{section*.15}%
-\contentsline {subsubsection}{Memory allocation}{88}{section*.16}%
-\contentsline {subsubsection}{Portability of the code-generation approach}{88}{section*.17}%
-\contentsline {subsection}{\numberline {9.1}Generating the code for the ZigBee transmitter}{89}{subsection.1.9.1}%
-\contentsline {section}{\numberline {10}Analysis of security properties}{94}{section.1.10}%
-\contentsline {subsection}{\numberline {10.1}Symmetric Encryption}{94}{subsection.1.10.1}%
-\contentsline {subsection}{\numberline {10.2}Nonces}{95}{subsection.1.10.2}%
-\contentsline {subsection}{\numberline {10.3}Key exchange}{95}{subsection.1.10.3}%
-\contentsline {subsection}{\numberline {10.4}MAC}{96}{subsection.1.10.4}%
-\contentsline {subsection}{\numberline {10.5}Automated Security Generation}{96}{subsection.1.10.5}%
-\contentsline {section}{\numberline {11}Conclusion}{99}{section.1.11}%
-\contentsline {section}{\numberline {1.A}Formal description of Communication Patterns}{100}{section.a.1.A}%
-\contentsline {section}{\numberline {1.B}TTool/DIPLODOCUS' simulation semantics}{103}{section.a.1.B}%
-\contentsline {subsection}{\numberline {1.B.1}Functionality}{103}{subsection.a.1.B.1}%
-\contentsline {subsection}{\numberline {1.B.2}Platform}{103}{subsection.a.1.B.2}%
-\contentsline {subsection}{\numberline {1.B.3}Mapping}{104}{subsection.a.1.B.3}%
+\contentsline {section}{\numberline {9}Automatic Code Generation for Rapid Protoyping}{86}{section.1.9}%
+\contentsline {subsubsection}{The compilation process}{86}{section*.13}%
+\contentsline {subsubsection}{Scheduling of operations}{87}{section*.14}%
+\contentsline {subsubsection}{Memory allocation}{87}{section*.15}%
+\contentsline {subsubsection}{Portability of the code-generation approach}{87}{section*.16}%
+\contentsline {subsection}{\numberline {9.1}Generating the code for the ZigBee transmitter}{88}{subsection.1.9.1}%
+\contentsline {section}{\numberline {10}Analysis of security properties}{93}{section.1.10}%
+\contentsline {subsection}{\numberline {10.1}Post-mapping formal verification with ProVerif}{93}{subsection.1.10.1}%
+\contentsline {subsection}{\numberline {10.2}Symmetric Encryption}{95}{subsection.1.10.2}%
+\contentsline {subsection}{\numberline {10.3}Nonces}{95}{subsection.1.10.3}%
+\contentsline {subsection}{\numberline {10.4}Key exchange}{96}{subsection.1.10.4}%
+\contentsline {subsection}{\numberline {10.5}MAC}{100}{subsection.1.10.5}%
+\contentsline {subsection}{\numberline {10.6}Automated Security Generation}{100}{subsection.1.10.6}%
+\contentsline {section}{\numberline {11}Conclusion}{103}{section.1.11}%
+\contentsline {section}{\numberline {1.A}Formal description of Communication Patterns}{104}{section.a.1.A}%
+\contentsline {section}{\numberline {1.B}TTool/DIPLODOCUS' simulation semantics}{107}{section.a.1.B}%
+\contentsline {subsection}{\numberline {1.B.1}Functionality}{107}{subsection.a.1.B.1}%
+\contentsline {subsection}{\numberline {1.B.2}Platform}{107}{subsection.a.1.B.2}%
+\contentsline {subsection}{\numberline {1.B.3}Mapping}{108}{subsection.a.1.B.3}%

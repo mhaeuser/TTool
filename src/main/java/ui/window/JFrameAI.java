@@ -101,25 +101,33 @@ public class JFrameAI extends JFrame implements ActionListener, Runnable {
             "expr is a boolean expression using either attributes of blocks or blocks states";
 
     private MainGUI mgui;
-    private JTextPane question, answer, console;
-    private ArrayList<JTextPane> answers;
+    private JTextPane question, console;
     private JTabbedPane answerPane;
-    private String automatedAnswer;
-    private String lastSelectedAnswer;
+    private ArrayList<ChatData> chats;
 
-
-    private TDiagramPanel previousTDP;
-    private int previousKind;
-    private String lastChatAnswer;
+    private int currentChatIndex = -1;
 
     private JMenuBar menuBar;
     private JMenu help;
     private JPopupMenu helpPopup;
 
-    private AIInterface aiinterface;
-    private boolean knowledgeOnProperties = false;
-
     private boolean go = false;
+
+    private class ChatData {
+        public AIInterface aiinterface;
+        public boolean knowledgeOnProperties = false;
+        public JTextPane answer = new JTextPane();
+        public String lastAnswer = "";
+        public int previousKind;
+        public TDiagramPanel tdp;
+
+        public ChatData() {}
+
+        public void clear() {
+            lastAnswer = "";
+            answer.setText("");
+        }
+    }
 
 
     private JButton buttonClose, buttonStart, buttonApplyResponse;
@@ -127,7 +135,9 @@ public class JFrameAI extends JFrame implements ActionListener, Runnable {
     public JFrameAI(String title, MainGUI _mgui) {
         super(title);
         mgui = _mgui;
+        chats = new ArrayList<>();
         makeComponents();
+
     }
 
     public void makeComponents() {
@@ -199,7 +209,6 @@ public class JFrameAI extends JFrame implements ActionListener, Runnable {
         answerPane = new JTabbedPane();
         answerPane.addMouseListener(new JFrameAI.PopupListener(this));
         answerPane.setPreferredSize(new Dimension(500, 500));
-        answers = new ArrayList<>();
         addChat("Chat1");
         answerPanel.add(answerPane, BorderLayout.CENTER);
 
@@ -249,12 +258,13 @@ public class JFrameAI extends JFrame implements ActionListener, Runnable {
     }
 
     private void addChat(String nameOfChat) {
-        answer = new JTextPane();
-        answers.add(answer);
+
+        ChatData data = new ChatData();
+        chats.add(data);
 
         //answer.setPreferredSize(new Dimension(400, 500));
         //setOptionsJTextPane(answer, false);
-        JScrollPane scrollPane = new JScrollPane(answer);
+        JScrollPane scrollPane = new JScrollPane(data.answer);
         scrollPane.setMinimumSize(new Dimension(400, 400));
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         answerPane.add(scrollPane);
@@ -284,37 +294,40 @@ public class JFrameAI extends JFrame implements ActionListener, Runnable {
     }
 
     private void start() {
+        currentChatIndex = answerPane.getSelectedIndex();
         runChat();
     }
 
     private void applyResponse() {
-        if (previousKind == KIND_CLASSIFY_REQUIREMENT) {
+
+        if (selectedChat().previousKind == KIND_CLASSIFY_REQUIREMENT) {
             applyRequirementClassification();
-        } else if (previousKind == IDENTIFY_REQUIREMENT) {
+        } else if (selectedChat().previousKind == IDENTIFY_REQUIREMENT) {
             applyRequirementIdentification();
+        } else {
+            return;
         }
         question.setText("");
     }
 
     private void applyRequirementIdentification() {
-        if (previousTDP == null) {
+        if (selectedChat().tdp == null) {
             error("No diagram has been selected\n");
             return;
         }
 
-        if (!(previousTDP instanceof AvatarRDPanel)) {
+        if (!(selectedChat().tdp instanceof AvatarRDPanel)) {
             error("Wrong diagram has been selected\n");
             return;
         }
 
-        AvatarRDPanel rdpanel = (AvatarRDPanel) previousTDP;
+        AvatarRDPanel rdpanel = (AvatarRDPanel) selectedChat().tdp;
 
         inform("Enhancing requirement diagram with ai answer, please wait\n");
-        TraceManager.addDev("Considered JSON array: " + automatedAnswer);
+        int index = answerPane.getSelectedIndex();
+        TraceManager.addDev("Considered JSON array: " + selectedChat().lastAnswer);
         try {
-
-            rdpanel.loadAndUpdateFromText(automatedAnswer);
-
+            rdpanel.loadAndUpdateFromText( selectedChat().lastAnswer );
         } catch (org.json.JSONException e) {
             TraceManager.addDev("JSON Exception: " + e.getMessage());
             inform("Answer provided by AI does not respect the JSON format necessary for TTool");
@@ -327,26 +340,28 @@ public class JFrameAI extends JFrame implements ActionListener, Runnable {
     }
 
     private void applyRequirementClassification() {
-        if (previousTDP == null) {
+        if (selectedChat().tdp == null) {
             error("No diagram has been selected\n");
             return;
         }
 
-        if (!(previousTDP instanceof AvatarRDPanel)) {
+        if (!(selectedChat().tdp instanceof AvatarRDPanel)) {
             error("Wrong diagram has been selected\n");
             return;
         }
 
-        AvatarRDPanel rdpanel = (AvatarRDPanel) previousTDP;
+        AvatarRDPanel rdpanel = (AvatarRDPanel) selectedChat().tdp;
 
         inform("Enhancing requirement diagram with ai answer, please wait\n");
+
+        String automatedAnswer = selectedChat().lastAnswer;
 
         for (TGComponent tgc : rdpanel.getAllRequirements()) {
             AvatarRDRequirement req = (AvatarRDRequirement) tgc;
             String query = req.getValue() + ":";
             int index = automatedAnswer.indexOf(query);
             if (index != -1) {
-                String kind = automatedAnswer.substring((index + query.length()), automatedAnswer.length()).trim();
+                String kind = automatedAnswer.substring( index + query.length() ).trim();
                 //TraceManager.addDev("Kind=" + kind);
                 int indexSpace = kind.indexOf("\n");
                 int indexSpace1 = kind.indexOf(" ");
@@ -381,7 +396,8 @@ public class JFrameAI extends JFrame implements ActionListener, Runnable {
     }
 
     private void enableDisableActions() {
-        buttonApplyResponse.setEnabled(automatedAnswer != null);
+        String chat = chats.get(answerPane.getSelectedIndex()).lastAnswer;
+        buttonApplyResponse.setEnabled(chat != null && chat.length() > 0);
         buttonStart.setEnabled(!go);
     }
 
@@ -430,20 +446,22 @@ public class JFrameAI extends JFrame implements ActionListener, Runnable {
             return;
         }
 
-
         inform("Simple chat is selected\n");
         TraceManager.addDev("Appending: " + question.getText().trim() + " to answer");
-        GraphicLib.appendToPane(answer, "\nYou:" + question.getText().trim() + "\n", Color.blue);
+        GraphicLib.appendToPane(chatOfStart().answer, "\nYou:" + question.getText().trim() + "\n", Color.blue);
+
+        String lastChatAnswer = "";
 
         try {
             GraphicLib.appendToPane(console, "Connecting, waiting for answer\n", Color.blue);
-            lastChatAnswer = aiinterface.chat(question.getText().trim(), true, true);
+            lastChatAnswer = chatOfStart().aiinterface.chat(question.getText().trim(), true, true);
         } catch (AIInterfaceException aiie) {
             error(aiie.getMessage());
             return;
         }
         inform("Got answer from ai. All done.\n\n");
-        GraphicLib.appendToPane(answer, "\nAI:" + lastChatAnswer + "\n", Color.red);
+        GraphicLib.appendToPane(chatOfStart().answer, "\nAI:" + lastChatAnswer + "\n", Color.red);
+        chatOfStart().lastAnswer = lastChatAnswer;
         question.setText("");
 
     }
@@ -508,8 +526,8 @@ public class JFrameAI extends JFrame implements ActionListener, Runnable {
         TraceManager.addDev("Appending: " + sb.toString().trim() + " to answer");
         String question = QUESTION_IDENTIFY_PROPERTIES + "\n" + sb.toString().trim();
 
-        if (!knowledgeOnProperties) {
-            knowledgeOnProperties = true;
+        if (!(chats.get(answerPane.getSelectedIndex()).knowledgeOnProperties)) {
+            chats.get(answerPane.getSelectedIndex()).knowledgeOnProperties = true;
             question = KNOWLEDGE_ON_DESIGN_PROPERTIES + "\n" + question;
         }
         question = "\nTTool:" + question + "\n";
@@ -517,43 +535,51 @@ public class JFrameAI extends JFrame implements ActionListener, Runnable {
     }
 
     private String makeQuestion(String _question, int _kind, TDiagramPanel _tdp) {
-        GraphicLib.appendToPane(answer, _question, Color.blue);
+        GraphicLib.appendToPane(chatOfStart().answer, _question, Color.blue);
 
         try {
             GraphicLib.appendToPane(console, "Connecting, waiting for answer\n", Color.blue);
-            automatedAnswer = aiinterface.chat(_question, true, true);
-            previousKind = _kind;
-            previousTDP = _tdp;
+            chatOfStart().lastAnswer = chatOfStart().aiinterface.chat(_question, true, true);
+            chatOfStart().previousKind = _kind;
+            chatOfStart().tdp = _tdp;
         } catch (AIInterfaceException aiie) {
             error(aiie.getMessage());
             return null;
         }
         inform("Got answer from ai. All done.\n\n");
-        GraphicLib.appendToPane(answer, "\nAI:\n" + automatedAnswer + "\n", Color.red);
+        GraphicLib.appendToPane(chatOfStart().answer, "\nAI:\n" + chatOfStart().lastAnswer + "\n", Color.red);
 
-        return automatedAnswer;
+        return chatOfStart().lastAnswer;
 
     }
 
+    private ChatData selectedChat() {
+        return chats.get(answerPane.getSelectedIndex());
+    }
+
+    private ChatData chatOfStart() {
+        return chats.get(currentChatIndex);
+    }
+
     private boolean makeAIInterface() {
-        if (aiinterface == null) {
+        if (chatOfStart().aiinterface == null) {
             String key = ConfigurationTTool.OPENAIKey;
             if (key == null) {
                 error("No key has been set. Aborting.\n");
                 return false;
             } else {
                 TraceManager.addDev("Setting key: " + key);
-                aiinterface = new AIInterface();
-                aiinterface.setURL(AIInterface.URL_OPENAI_COMPLETION);
-                aiinterface.setAIModel(AIInterface.MODEL_GPT_35);
-                aiinterface.setKey(key);
+                chatOfStart().aiinterface = new AIInterface();
+                chatOfStart().aiinterface.setURL(AIInterface.URL_OPENAI_COMPLETION);
+                chatOfStart().aiinterface.setAIModel(AIInterface.MODEL_GPT_35);
+                chatOfStart().aiinterface.setKey(key);
             }
         }
         return true;
     }
 
     private void error(String text) {
-        GraphicLib.appendToPane(console, text, Color.red);
+        GraphicLib.appendToPane(console, "\n****" + text + " ****\n\n", Color.red);
     }
 
     private void inform(String text) {
@@ -576,9 +602,9 @@ public class JFrameAI extends JFrame implements ActionListener, Runnable {
     }
 
     public void clear() {
-        int index = answerPane.getSelectedIndex();
-        answers.get(index).setText("");
-        // Must also remove the associated knowledge
+        selectedChat().clear();
+        // We must also remove the knowledge
+        selectedChat().aiinterface.clearKnowledge();
     }
 
     public void requestRenameTab() {
@@ -599,8 +625,8 @@ public class JFrameAI extends JFrame implements ActionListener, Runnable {
 
     public void removeCurrentTab() {
         int index = answerPane.getSelectedIndex();
-        answers.remove(index);
         answerPane.remove(index);
+        chats.remove(index);
     }
 
     public void requestMoveRightTab() {
@@ -634,9 +660,9 @@ public class JFrameAI extends JFrame implements ActionListener, Runnable {
         // Add a new tab
         answerPane.insertTab(label, icon, comp, tooltip, dst);
 
-        JTextPane pane = answers.get(src);
-        answers.remove(src);
-        answers.add(dst, pane);
+        ChatData data  = chats.get(src);
+        chats.remove(src);
+        chats.add(dst, data);
 
         // Restore all properties
         answerPane.setDisabledIconAt(dst, iconDis);

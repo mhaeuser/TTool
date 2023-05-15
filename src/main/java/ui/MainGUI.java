@@ -212,6 +212,7 @@ public class MainGUI implements ActionListener, WindowListener, KeyListener, Per
     public static boolean experimentalOn;
     public static boolean avatarOnly;
     public static boolean turtleOn;
+    public static boolean picoZebre;
     public static boolean openLast;
     public static Object BACK_COLOR;
     public boolean isxml = false;
@@ -334,7 +335,8 @@ public class MainGUI implements ActionListener, WindowListener, KeyListener, Per
     private boolean hidden = false;
 
     public MainGUI(boolean _openLast, boolean _turtleOn, boolean _systemcOn, boolean _lotosOn, boolean _proactiveOn, boolean _tpnOn, boolean _osOn,
-                   boolean _uppaalOn, boolean _ncOn, boolean _avatarOn, boolean _proverifOn, boolean _avatarOnly, boolean _experimental) {
+                   boolean _uppaalOn, boolean _ncOn, boolean _avatarOn, boolean _proverifOn, boolean _avatarOnly, boolean _experimental,
+                   boolean _picoZebre) {
         openLast = _openLast;
         TraceManager.addDev("openLast=" + openLast);
         turtleOn = _turtleOn;
@@ -349,6 +351,7 @@ public class MainGUI implements ActionListener, WindowListener, KeyListener, Per
         proverifOn = _proverifOn;
         avatarOnly = _avatarOnly;
         experimentalOn = _experimental;
+        picoZebre = _picoZebre;
 
         currentInvariant = null;
 

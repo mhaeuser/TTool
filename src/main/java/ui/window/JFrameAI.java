@@ -209,7 +209,7 @@ public class JFrameAI extends JFrame implements ActionListener, Runnable {
         answerPane = new JTabbedPane();
         answerPane.addMouseListener(new JFrameAI.PopupListener(this));
         answerPane.setPreferredSize(new Dimension(500, 500));
-        addChat("Chat1");
+        addChat(getChatName());
         answerPanel.add(answerPane, BorderLayout.CENTER);
 
         JPanel consolePanel = new JPanel(new BorderLayout());
@@ -286,6 +286,15 @@ public class JFrameAI extends JFrame implements ActionListener, Runnable {
         } else if (evt.getSource() == listOfPossibleActions) {
             enableDisableActions();
         }
+    }
+
+    private String getChatName() {
+        if (!mgui.picoZebre) {
+            return "Chat";
+        }
+        String[] names = {"pico", "zebre", "pingouin", "chien", "minou", "kitty", "chaton", "whatsapp", "Luke Skywalker"};
+        int x = (int)(Math.random()*names.length);
+        return names[x];
     }
 
 
@@ -700,7 +709,7 @@ public class JFrameAI extends JFrame implements ActionListener, Runnable {
                 } else if (e.getSource() == remove) {
                     frameAI.requestMoveLeftTab();
                 } else if (e.getSource() == addNew) {
-                    addChat("Chat");
+                    addChat(getChatName());
                 } else if (e.getSource() == clear) {
                     clear();
                 }

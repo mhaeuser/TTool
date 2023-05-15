@@ -86,6 +86,7 @@ public class Main implements ActionListener, InterpreterOutputInterface{
     public static boolean turtle = false;
     public static boolean openLast = false;
     public static boolean interact = false;
+    public static boolean picoZebre = false;
 
     public Main() {
 
@@ -257,6 +258,12 @@ public class Main implements ActionListener, InterpreterOutputInterface{
                 config = args[Math.min(args.length - 1, i + 1)];
             }
 
+
+	     if (args[i].compareTo("-picoZebre") == 0) {
+		 picoZebre = true;
+		 System.out.println("You like playing with animal °°. enjoy!\n");
+            }
+
             if (args[i].compareTo("-debug") == 0) {
                 TraceManager.devPolicy = TraceManager.TO_CONSOLE;
             }
@@ -327,7 +334,7 @@ public class Main implements ActionListener, InterpreterOutputInterface{
         if (splashFrame != null) {
             splashFrame.setMessage("Creating main window");
         }
-        MainGUI mainGUI = new MainGUI(openLast, turtle, systemc, lotos, proactive, tpn, os, uppaal, nc, avatar, proverif, avataronly, experimental);
+        MainGUI mainGUI = new MainGUI(openLast, turtle, systemc, lotos, proactive, tpn, os, uppaal, nc, avatar, proverif, avataronly, experimental, picoZebre);
         if (splashFrame != null) {
             splashFrame.setMessage("Building graphical components");
         }

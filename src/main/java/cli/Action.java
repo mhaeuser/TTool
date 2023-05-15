@@ -237,7 +237,7 @@ public class Action extends Command implements ProVerifOutputListener {
                 TraceManager.addDev("Creating main window");
                 interpreter.mgui = new MainGUI(false, true, true, true,
                         true, true, true, true, true, true,
-                        true, false, true);
+                        true, false, true, false);
                 interpreter.mgui.build();
                 interpreter.mgui.start(interpreter.showWindow());
 

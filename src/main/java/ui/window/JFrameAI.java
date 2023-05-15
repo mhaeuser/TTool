@@ -293,7 +293,8 @@ public class JFrameAI extends JFrame implements ActionListener, Runnable {
             return "Chat";
         }
         String[] names = {"pico", "zebre", "pingouin", "chien", "minou", "kitty", "chaton", "whatsapp", "Luke Skywalker",
-                "macareux", "ours", "italien", "paris-brest", "belle-mère", "apéro (l'abus d'alcool est dangereux pour la santé)"};
+                "macareux", "ours", "italien", "paris-brest", "belle-mère", "apéro (l'abus d'alcool est dangereux pour la santé)",
+                "carpe", "crocodile"};
         int x = (int)(Math.random()*names.length);
         return names[x];
     }

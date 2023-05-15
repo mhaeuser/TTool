@@ -353,6 +353,10 @@ public class MainGUI implements ActionListener, WindowListener, KeyListener, Per
         experimentalOn = _experimental;
         picoZebre = _picoZebre;
 
+        if (picoZebre) {
+            handlePicoZebre();
+        }
+
         currentInvariant = null;
 
         pbt = new PeriodicBehaviorThread(this, 120000); // save every two minutes
@@ -5996,6 +6000,10 @@ public class MainGUI implements ActionListener, WindowListener, KeyListener, Per
         if (graph != null) {
             showAUTFromString("Analysis on " + graph[0], graph[1]);
         }
+    }
+
+    public void  handlePicoZebre() {
+
     }
 
     public void pmAUT() {

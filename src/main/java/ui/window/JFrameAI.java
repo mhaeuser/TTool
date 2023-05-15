@@ -49,10 +49,8 @@ import myutil.AIInterfaceException;
 import myutil.GraphicLib;
 import myutil.TraceManager;
 import ui.*;
-import ui.avatarbd.AvatarBDPanel;
 import ui.avatarrd.AvatarRDPanel;
 import ui.avatarrd.AvatarRDRequirement;
-import ui.avatarsmd.AvatarSMDPanel;
 import ui.util.IconManager;
 
 import javax.swing.*;
@@ -61,6 +59,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 
 
 /**
@@ -103,7 +102,12 @@ public class JFrameAI extends JFrame implements ActionListener, Runnable {
 
     private MainGUI mgui;
     private JTextPane question, answer, console;
+    private ArrayList<JTextPane> answers;
+    private JTabbedPane answerPane;
     private String automatedAnswer;
+    private String lastSelectedAnswer;
+
+
     private TDiagramPanel previousTDP;
     private int previousKind;
     private String lastChatAnswer;
@@ -178,7 +182,7 @@ public class JFrameAI extends JFrame implements ActionListener, Runnable {
         Font f = new Font("Courrier", Font.BOLD, 12);
         jta.setFont(f);*/
 
-        JPanel questionPanel = new JPanel();
+        JPanel questionPanel = new JPanel(new BorderLayout());
         questionPanel.setBorder(new javax.swing.border.TitledBorder("Question"));
         questionPanel.setPreferredSize(new Dimension(450, 550));
         question = new JTextPane();
@@ -189,18 +193,17 @@ public class JFrameAI extends JFrame implements ActionListener, Runnable {
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         questionPanel.add(scrollPane, BorderLayout.CENTER);
 
-        JPanel answerPanel = new JPanel();
+        JPanel answerPanel = new JPanel(new BorderLayout());
         answerPanel.setBorder(new javax.swing.border.TitledBorder("Answer"));
         answerPanel.setPreferredSize(new Dimension(550, 550));
-        answer = new JTextPane();
-        //answer.setPreferredSize(new Dimension(400, 500));
-        //setOptionsJTextPane(answer, false);
-        scrollPane = new JScrollPane(answer);
-        scrollPane.setPreferredSize(new Dimension(510, 500));
-        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-        answerPanel.add(scrollPane, BorderLayout.CENTER);
+        answerPane = new JTabbedPane();
+        answerPane.addMouseListener(new JFrameAI.PopupListener(this));
+        answerPane.setPreferredSize(new Dimension(500, 500));
+        answers = new ArrayList<>();
+        addChat("Chat1");
+        answerPanel.add(answerPane, BorderLayout.CENTER);
 
-        JPanel consolePanel = new JPanel();
+        JPanel consolePanel = new JPanel(new BorderLayout());
         consolePanel.setBorder(new javax.swing.border.TitledBorder("Console"));
         console = new JTextPane();
         //console.setPreferredSize(new Dimension(900, 150));
@@ -245,6 +248,19 @@ public class JFrameAI extends JFrame implements ActionListener, Runnable {
         pack();
     }
 
+    private void addChat(String nameOfChat) {
+        answer = new JTextPane();
+        answers.add(answer);
+
+        //answer.setPreferredSize(new Dimension(400, 500));
+        //setOptionsJTextPane(answer, false);
+        JScrollPane scrollPane = new JScrollPane(answer);
+        scrollPane.setMinimumSize(new Dimension(400, 400));
+        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+        answerPane.add(scrollPane);
+        answerPane.setTitleAt(answerPane.getTabCount() - 1, nameOfChat);
+    }
+
 
     public void actionPerformed(ActionEvent evt) {
 
@@ -277,7 +293,9 @@ public class JFrameAI extends JFrame implements ActionListener, Runnable {
         } else if (previousKind == IDENTIFY_REQUIREMENT) {
             applyRequirementIdentification();
         }
+        question.setText("");
     }
+
     private void applyRequirementIdentification() {
         if (previousTDP == null) {
             error("No diagram has been selected\n");
@@ -557,6 +575,171 @@ public class JFrameAI extends JFrame implements ActionListener, Runnable {
         return question.getText().trim().length() > 0;
     }
 
+    public void clear() {
+        int index = answerPane.getSelectedIndex();
+        answers.get(index).setText("");
+        // Must also remove the associated knowledge
+    }
+
+    public void requestRenameTab() {
+        int index = answerPane.getSelectedIndex();
+        String oldName = answerPane.getTitleAt(index);
+        String s = (String) JOptionPane.showInputDialog(this, "Name: ", "Renaming a tab", JOptionPane.PLAIN_MESSAGE,
+                IconManager.imgic101, null,
+                answerPane.getTitleAt(index));
+        if ((s != null) && (s.length() > 0)) {
+            // name already in use?
+            if (s.compareTo(oldName) != 0) {
+                if (index < answerPane.getTabCount()) {
+                    answerPane.setTitleAt(index, s);
+                }
+            }
+        }
+    }
+
+    public void removeCurrentTab() {
+        int index = answerPane.getSelectedIndex();
+        answers.remove(index);
+        answerPane.remove(index);
+    }
+
+    public void requestMoveRightTab() {
+        int index = answerPane.getSelectedIndex();
+        requestMoveTabFromTo(index, index + 1);
+
+    }
+
+    public void requestMoveLeftTab() {
+        int index = answerPane.getSelectedIndex();
+        requestMoveTabFromTo(index, index - 1);
+    }
+
+    public void requestMoveTabFromTo(int src, int dst) {
+
+        // Get all the properties
+        Component comp = answerPane.getComponentAt(src);
+        String label = answerPane.getTitleAt(src);
+        Icon icon = answerPane.getIconAt(src);
+        Icon iconDis = answerPane.getDisabledIconAt(src);
+        String tooltip = answerPane.getToolTipTextAt(src);
+        boolean enabled = answerPane.isEnabledAt(src);
+        int keycode = answerPane.getMnemonicAt(src);
+        int mnemonicLoc = answerPane.getDisplayedMnemonicIndexAt(src);
+        Color fg = answerPane.getForegroundAt(src);
+        Color bg = answerPane.getBackgroundAt(src);
+
+        // Remove the tab
+        answerPane.remove(src);
+
+        // Add a new tab
+        answerPane.insertTab(label, icon, comp, tooltip, dst);
+
+        JTextPane pane = answers.get(src);
+        answers.remove(src);
+        answers.add(dst, pane);
+
+        // Restore all properties
+        answerPane.setDisabledIconAt(dst, iconDis);
+        answerPane.setEnabledAt(dst, enabled);
+        answerPane.setMnemonicAt(dst, keycode);
+        answerPane.setDisplayedMnemonicIndexAt(dst, mnemonicLoc);
+        answerPane.setForegroundAt(dst, fg);
+        answerPane.setBackgroundAt(dst, bg);
+
+        answerPane.setSelectedIndex(dst);
+    }
+
+
+
+
+    // Handling popup menu AI
+    private class PopupListener extends MouseAdapter /* popup menus onto tabs */ {
+        private JFrameAI frameAI;
+        private JPopupMenu menu;
+
+        private JMenuItem rename, remove, moveRight, moveLeft, addNew, clear;
+
+        private Action listener = new AbstractAction() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JMenuItem item = (JMenuItem) e.getSource();
+
+                if (e.getSource() == rename) {
+                    frameAI.requestRenameTab();
+                } else if (e.getSource() == remove) {
+                    frameAI.removeCurrentTab();
+                } else if (e.getSource() == moveRight) {
+                    frameAI.requestMoveRightTab();
+                } else if (e.getSource() == remove) {
+                    frameAI.requestMoveLeftTab();
+                } else if (e.getSource() == addNew) {
+                    addChat("Chat");
+                } else if (e.getSource() == clear) {
+                    clear();
+                }
+
+            }
+        };
+
+        public PopupListener(JFrameAI _frameAI) {
+            frameAI = _frameAI;
+            createMenu();
+        }
+
+        public void mousePressed(MouseEvent e) {
+            checkForPopup(e);
+        }
+
+        public void mouseReleased(MouseEvent e) {
+
+            checkForPopup(e);
+        }
+
+        public void mouseClicked(MouseEvent e) {
+
+            checkForPopup(e);
+        }
+
+        private void checkForPopup(MouseEvent e) {
+            if (e.isPopupTrigger()) {
+                Component c = e.getComponent();
+                // TraceManager.addDev("e =" + e + " Component=" + c);
+                menu.show(c, e.getX(), e.getY());
+            }
+        }
+
+        private void createMenu() {
+            rename = createMenuItem("Rename");
+            remove = createMenuItem("Remove");
+            moveLeft = createMenuItem("Move to the left");
+            moveRight = createMenuItem("Move to the right");
+            addNew = createMenuItem("Add new chat");
+            clear = createMenuItem("Clear current chat");
+
+            menu = new JPopupMenu("Views");
+            menu.add(addNew);
+            menu.addSeparator();
+            menu.add(clear);
+            menu.addSeparator();
+            menu.add(rename);
+            menu.addSeparator();
+            menu.add(remove);
+            menu.addSeparator();
+            menu.add(moveLeft);
+            menu.add(moveRight);
+
+
+        }
+
+        private JMenuItem createMenuItem(String s) {
+            JMenuItem item = new JMenuItem(s);
+            item.setActionCommand(s);
+            item.addActionListener(listener);
+            return item;
+        }
+
+    }
 
 
 } // Class

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022/MacPorts 2022.62882_2) (preloaded format=pdflatex 2023.4.30)  9 MAY 2023 15:28
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022/MacPorts 2022.62882_2) (preloaded format=pdflatex 2023.4.30)  15 MAY 2023 09:04
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1861,7 +1861,7 @@ ublic/amsfonts/cm/cmtt8.pfb></opt/local/share/texmf-texlive/fonts/type1/public/
 amsfonts/cm/cmtt9.pfb></opt/local/share/texmf-texlive/fonts/type1/public/cm-sup
 er/sfrm0500.pfb></opt/local/share/texmf-texlive/fonts/type1/public/cm-super/sfr
 m1000.pfb>
-Output written on build/Tutorial.pdf (106 pages, 7792318 bytes).
+Output written on build/Tutorial.pdf (106 pages, 7792319 bytes).
 PDF statistics:
  3391 PDF objects out of 3580 (max. 8388607)
  2592 compressed objects within 26 object streams

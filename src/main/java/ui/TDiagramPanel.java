@@ -4057,6 +4057,10 @@ public abstract class TDiagramPanel extends JPanel implements GenericTree {
                     //TraceManager.addDev("xi=" + xi + " yi=" + yi + " nb=" + nb + " maxNb=" + maxNb);
                     maxNb = nb;
                     x = xi; y = yi;
+                } else if (nb == maxNb) {
+                    if ( (x*x + y*y) > (xi*xi + yi*yi) ) {
+                        x = xi; y = yi;
+                    }
                 }
             }
         }

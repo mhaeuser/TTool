@@ -1834,12 +1834,28 @@ public class TML2Avatar {
             for (SecurityPattern secPattern : secPatterns) {
                 AvatarAttribute sec = block.getAvatarAttributeWithName(secPattern.name);
                 if (sec != null) {
+                    boolean checkAuthSecPattern = false;
+                    for (TMLChannel ch : tmlmodel.getChannels(task)) {
+                        if (ch.hasOriginTask(task) && ch.isCheckConfChannel()) {
+                            for (TMLActivityElement actElem : task.getActivityDiagram().getElements()){
+                                if (actElem instanceof TMLWriteChannel) {
+                                    TMLWriteChannel wc = (TMLWriteChannel) actElem;
+                                    if(wc.hasChannel(ch) && actElem.securityPattern.getName().equals(secPattern.getName())){
+                                        checkAuthSecPattern = true;
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                    }
                     //sec = new AvatarAttribute(secPattern.name, AvatarType.INTEGER, block, null);
                     //AvatarAttribute enc = new AvatarAttribute(secPattern.name+"_encrypted", AvatarType.INTEGER, block, null);
                     //	block.addAttribute(sec);
                     //	block.addAttribute(enc);
                     //}
-                    avspec.addPragma(new AvatarPragmaSecret("#Confidentiality " + block.getName() + "." + secPattern.name, null, sec));
+                    if (checkAuthSecPattern) {
+                        avspec.addPragma(new AvatarPragmaSecret("#Confidentiality " + block.getName() + "." + secPattern.name, null, sec));
+                    }
                 }
             }
 

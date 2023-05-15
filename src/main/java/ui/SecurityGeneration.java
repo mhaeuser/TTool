@@ -822,6 +822,24 @@ public class SecurityGeneration implements Runnable {
                     //Add connection
                     TMLCPortConnector conn = new TMLCPortConnector(0, 0, tcdp.getMinX(), tcdp.getMaxX(), tcdp.getMinY(), tcdp.getMaxX(), true, null, tcdp, originPort.getTGConnectingPointAtIndex(0), destPort.getTGConnectingPointAtIndex(0), new Vector<Point>());
                     tcdp.addComponent(conn, 0, 0, false, true);
+
+                    List<TMLChannel> chans2 = tmlmodel.getChannelsFromMe(task2);
+                    for (TGComponent comps : newarch.tmlap.getComponentList()) {
+                        if (comps instanceof TMLArchiMemoryNode) {
+                            TMLArchiMemoryNode compMem = (TMLArchiMemoryNode) comps;
+                            for (TMLArchiCommunicationArtifact channelAtif : compMem.getChannelArtifactList()) {               
+                                for (TMLChannel chan : chans2) {
+                                    if (chan.getName().split("__")[1].equals(channelAtif.getCommunicationName())) {
+                                        TMLArchiCommunicationArtifact newChannelInMem = new TMLArchiCommunicationArtifact(compMem.getX(), (int)(compMem.getY()+compMem.getHeight()*(0.3+Math.random()/2)), compMem.getCurrentMinX(), compMem.getCurrentMaxX(), compMem.getCurrentMinY(), compMem.getCurrentMaxY(), true, comps, newarch.tmlap);
+                                        newChannelInMem.setReferenceCommunicationName(channelAtif.getReferenceCommunicationName());
+                                        newChannelInMem.setCommunicationName(destPort.commName);
+                                        newChannelInMem.setOtherCommunicationNames(channelAtif.getOtherCommunicationNames());
+                                        compMem.addInternalComponent(newChannelInMem, compMem.getNbInternalTGComponent());
+                                    }
+                                }
+                            }
+                        }
+                    }
                 }
             }
         }

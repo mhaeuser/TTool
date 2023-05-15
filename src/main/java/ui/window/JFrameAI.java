@@ -269,6 +269,8 @@ public class JFrameAI extends JFrame implements ActionListener, Runnable {
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         answerPane.add(scrollPane);
         answerPane.setTitleAt(answerPane.getTabCount() - 1, nameOfChat);
+        answerPane.setIconAt(answerPane.getTabCount() - 1, IconManager.imgic154);
+
     }
 
 

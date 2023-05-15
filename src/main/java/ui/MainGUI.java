@@ -353,9 +353,7 @@ public class MainGUI implements ActionListener, WindowListener, KeyListener, Per
         experimentalOn = _experimental;
         picoZebre = _picoZebre;
 
-        if (picoZebre) {
-            handlePicoZebre();
-        }
+
 
         currentInvariant = null;
 
@@ -511,6 +509,10 @@ public class MainGUI implements ActionListener, WindowListener, KeyListener, Per
 
         // Actions
         initActions();
+
+        if (picoZebre) {
+            handlePicoZebre();
+        }
 
         // mode
         setMode(NOT_OPENED);
@@ -6003,7 +6005,8 @@ public class MainGUI implements ActionListener, WindowListener, KeyListener, Per
     }
 
     public void  handlePicoZebre() {
-
+        actions[TGUIAction.EXTERNAL_ACTION_1].putValue(Action.SMALL_ICON, IconManager.imgic154);
+        actions[TGUIAction.EXTERNAL_ACTION_2].putValue(Action.SMALL_ICON, IconManager.imgic154);
     }
 
     public void pmAUT() {

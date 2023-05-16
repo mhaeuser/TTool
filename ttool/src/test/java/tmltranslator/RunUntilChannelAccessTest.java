@@ -47,7 +47,7 @@ public class RunUntilChannelAccessTest extends AbstractTest {
         SIM_DIR = getBaseResourcesDir() + "../../../../simulators/c++2/";
     }
     @Test
-    public void testRunUntilReadWriteOnChanelAccess() throws Exception {
+    public void testRunUntilReadWriteOnChannelAccess() throws Exception {
         for (int i = 0; i < 1; i++) {
             String s = MODELS_RUCA[i];
             SIM_DIR = DIR_GEN + s + "/";

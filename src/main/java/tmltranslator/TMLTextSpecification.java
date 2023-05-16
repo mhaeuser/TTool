@@ -966,14 +966,22 @@ public class TMLTextSpecification<E> {
                         tmlm.addTask(t1);
                         //TraceManager.addDev("New task:" + _split[4+dec]);
                     }
-                    ch.addTaskPort(t1, null, (i < indexOfIN));
+                    TMLPort port = new TMLPort(ch.getName(), null);
+                    ch.addTaskPort(t1, port, (i < indexOfIN));
                 }
 
             }
 
+
+            TraceManager.addDev("******** ch " + ch.getName() + " toBasicIfPossible");
             ch.toBasicIfPossible();
 
+            if (ch.getOriginPort() == null) {
+                TraceManager.addDev("******** NULL PORT");
+            }
+
             if (!(ch.isBasicChannel())) {
+                TraceManager.addDev("******* Not a basic channel");
                 if (ch.isBadComplexChannel()) {
                     error = "A complex channel must be \"1 -> many\" of \"many -> 1\"";
                     addError(0, _lineNb, 0, error);

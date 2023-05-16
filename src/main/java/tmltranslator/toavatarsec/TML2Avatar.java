@@ -1606,12 +1606,17 @@ public class TML2Avatar {
 
         for (TMLTask task : tasks) {
             AvatarBlock block = taskBlockMap.get(task);
-            //Add temp variable for unsendable signals
+            // Add temp variable for unsendable signals
 
-            //Add all channel signals
+            // Add all channel signals
             for (TMLChannel chan : tmlmodel.getChannels(task)) {
 
                 if (chan.hasOriginTask(task)) {
+                    if (chan.getOriginPort() == null) {
+                        TraceManager.addDev("NULL PORT in chan " + chan.getName());
+                    } else if (chan.getOriginPort().getName() == null) {
+                        TraceManager.addDev("NULL PORT NAME" + chan.getName());
+                    }
                     AvatarSignal sig = new AvatarSignal(chan.getOriginPort().getName(), AvatarSignal.OUT, chan.getReferenceObject());
 
                     block.addSignal(sig);

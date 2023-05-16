@@ -39,8 +39,8 @@ public class DiplodocusSimulatorTest extends AbstractTest {
 
     // model for Daemon Run To Next Breakpoint
     final String MODELS_DAEMON_RTNB = "testDaemon";
-    final int [] DAEMON_RTNBP_1 = {10, 9, 2147483647, 0}; // 2147483647==-1
-    final int [] DAEMON_RTNBP_2 = {17, 16, 2147483647, 0}; // 2147483647==-1
+    final int [] DAEMON_RTNBP_1 = {12, 11, 2147483647, 0}; // 2147483647==-1
+    final int [] DAEMON_RTNBP_2 = {19, 18, 2147483647, 0}; // 2147483647==-1
     private String SIM_DIR;
 
     @BeforeClass

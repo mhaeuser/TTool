@@ -1,0 +1,39 @@
+// TML Application - FORMAT 0.2
+// Application: /Users/ludovicapvrille/TTool/modeling/SysMLSec/AliceAndBobHW.xml
+// Generated: Tue May 16 18:10:50 CEST 2023
+
+// PRAGMAS
+
+// Channels
+CHANNEL nonce__comm NBRNBW 4 OUT nonce__Alice IN nonce__Bob
+VCCHANNEL nonce__comm 0
+CONFCHANNEL nonce__comm
+AUTHCHANNEL nonce__comm
+CHANNEL nonce__nonce_ch NBRNBW 4 OUT nonce__Bob IN nonce__Alice
+VCCHANNEL nonce__nonce_ch 0
+
+// Events
+
+// Requests
+
+TASK nonce__Alice
+    TASKOP
+    //Local variables
+    
+    //Behavior
+    READ nonce__nonce_ch 1+0 n
+    EXECC 100 symN SE 100 100 0 0 n n
+    WRITE nonce__comm 1+0 symN
+ENDTASK
+
+TASK nonce__Bob
+    TASKOP
+    //Local variables
+    
+    //Behavior
+    EXECC 100 n NONCE 100 100 0 11 - -
+    WRITE nonce__nonce_ch 1+0 n
+    READ nonce__comm 1+0 symN
+    EXECC 100 symN SE 100 100 0 0 n n
+ENDTASK
+

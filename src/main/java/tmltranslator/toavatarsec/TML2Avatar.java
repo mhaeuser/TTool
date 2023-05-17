@@ -531,7 +531,7 @@ public class TML2Avatar {
 
 
                     AvatarState choiceStateEnd = new AvatarState("seqchoiceend__" + i + "_" +
-                        reworkStringName(ae.getName()), ae.getReferenceObject());
+                            reworkStringName(ae.getName()), ae.getReferenceObject());
                     elementList.add(choiceStateEnd);
 
 
@@ -863,7 +863,7 @@ public class TML2Avatar {
                         signalAuthOriginMap.put(ae.securityPattern.name, authOrigin);
                     }
 
-                } else if (ae.securityPattern != null  && ae.securityPattern.process == SecurityPattern.DECRYPTION_PROCESS) {
+                } else if (ae.securityPattern != null && ae.securityPattern.process == SecurityPattern.DECRYPTION_PROCESS) {
                     //Decryption action
                     //block.addAttribute(new AvatarAttribute(ae.securityPattern.name, AvatarType.INTEGER, block, null));
                     //block.addAttribute(new AvatarAttribute(ae.securityPattern.name+"_encrypted", AvatarType.INTEGER, block, null));
@@ -1183,15 +1183,16 @@ public class TML2Avatar {
                     afterSignalState.addNext(tran);
                     elementList.add(afterSignalState);
                     elementList.add(tran);
-                    if (autoAuthChans){
+                    if (autoAuthChans) {
                         if (block.getAvatarAttributeWithName(getName(ch.getName()) + "_chData") == null) {
                             AvatarAttribute channelData = new AvatarAttribute(getName(ch.getName()) + "_chData", AvatarType.INTEGER, block, null);
                             block.addAttribute(channelData);
                         }
-                            AvatarAttributeState authDest = new AvatarAttributeState(block.getName() + "." + reworkStringName(afterSignalState.getName()) + "." +
+                        AvatarAttributeState authDest = new AvatarAttributeState(block.getName() + "." + reworkStringName(afterSignalState.getName()) + "." +
                                 getName(ch.getName()) + "_chData", ae.getReferenceObject(), block.getAvatarAttributeWithName(getName(ch.getName())
                                 + "_chData"), afterSignalState);
-                            signalAuthDestMap.put(ch.getName(), authDest);
+                        TraceManager.addDev("Adding in signalAuthDestMap:" + ch.getName() + " / " + authDest);
+                        signalAuthDestMap.put(ch.getName(), authDest);
                     }
                 }
 
@@ -1257,9 +1258,9 @@ public class TML2Avatar {
                         }
                         AvatarAttributeState authOrigin = new AvatarAttributeState(block.getName() + "." + reworkStringName(signalState.getName()) + "." +
                                 getName(ch.getName()) + "_chData", ae.getReferenceObject(), block.getAvatarAttributeWithName(getName(ch.getName()) + "_chData"), signalState);
-                            signalAuthOriginMap.put(ch.getName(), authOrigin);
+                        signalAuthOriginMap.put(ch.getName(), authOrigin);
                     }
-                    
+
                 }
 
                 AvatarActionOnSignal as = new AvatarActionOnSignal(ae.getName(), sig, ae.getReferenceObject());
@@ -1525,7 +1526,7 @@ public class TML2Avatar {
 
         //TODO: Make state names readable
         //TODO: Put back numeric guards
-        //TODO: Calcuate for temp variable
+        //TODO: Calculate for temp variable
         if (tmlmap.getTMLModeling().getTGComponent() != null) {
             this.avspec = new AvatarSpecification("spec", tmlmap.getTMLModeling().getTGComponent().getTDiagramPanel().tp);
         } else {
@@ -1843,10 +1844,10 @@ public class TML2Avatar {
                     boolean checkAuthSecPattern = false;
                     for (TMLChannel ch : tmlmodel.getChannels(task)) {
                         if (ch.hasOriginTask(task) && ch.isCheckConfChannel()) {
-                            for (TMLActivityElement actElem : task.getActivityDiagram().getElements()){
+                            for (TMLActivityElement actElem : task.getActivityDiagram().getElements()) {
                                 if (actElem instanceof TMLWriteChannel) {
                                     TMLWriteChannel wc = (TMLWriteChannel) actElem;
-                                    if(wc.hasChannel(ch) && actElem.securityPattern.getName().equals(secPattern.getName())){
+                                    if (wc.hasChannel(ch) && actElem.securityPattern.getName().equals(secPattern.getName())) {
                                         checkAuthSecPattern = true;
                                         break;
                                     }
@@ -2443,7 +2444,7 @@ public class TML2Avatar {
     }
 
     private String reworkStringName(String _name) {
-        String ret =  _name.replaceAll(" ", "");
+        String ret = _name.replaceAll(" ", "");
         ret = ret.replaceAll("__", "_");
         ret = ret.replaceAll("-", "");
         return ret;

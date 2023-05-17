@@ -73,12 +73,12 @@ public class SecurityPattern {
 
         if (_nonce != null) {
             if (_nonce.compareTo("-") == 0) {
-                this.nonce = "None";
+                this.nonce = "";
             } else {
                 this.nonce = _nonce;
             }
         } else {
-            _nonce = "None";
+            this.nonce = "";
         }
 
         this.formula = _formula;

@@ -45,9 +45,11 @@ public class DiplodocusSecurityTest extends AbstractTest {
     final static String DIR_MODELS = "tmltranslator/test_diplo_security_models/";
     final String [] MODELS_DIPLO_SECURITY = {"symetric", "nonce"};
     private static final List<List<String>> LIST_OF_LISTS_OF_QUERIES = Arrays.asList(
-            Arrays.asList("Query not attacker(Alice___SymmetricExchange__comm_chData[!1 = v]) is true."),
-            Arrays.asList("Query not attacker(Alice___nonce__comm_chData[!1 = v]) is true.")
-            //Arrays.asList("string3a", "string3b", "string3c", "string3d")
+            Arrays.asList("Query not attacker(Alice___SymmetricExchange__comm_chData[!1 = v]) is true.",
+                    "Query inj-event(authenticity___Bob___SymmetricExchange__comm_chData___aftersignalstate_SymmetricExchange_comm_SymmetricExchange_comm(dummyM)) ==> inj-event(authenticity___Alice___SymmetricExchange__comm_chData___signalstate_SymmetricExchange_comm_SymmetricExchange_comm(dummyM)) is false."),
+            Arrays.asList("Query not attacker(Alice___nonce__comm_chData[!1 = v]) is true.",
+                    "Query inj-event(authenticity___Bob___nonce__comm_chData___aftersignalstate_nonce_comm_nonce_comm(dummyM)) ==> inj-event" +
+                            "(authenticity___Alice___nonce__comm_chData___signalstate_nonce_comm_nonce_comm(dummyM)) is false.")
     );
     private static final String PROVERIF_SUMMARY = "Verification summary:";
     private static final String PROVERIF_QUERY = "Query";
@@ -127,7 +129,7 @@ public class DiplodocusSecurityTest extends AbstractTest {
             // Generate ProVerif code
             System.out.println("Generating ProVerif code for " + s);
             TML2Avatar t2a = new TML2Avatar(tmap, false, true);
-            AvatarSpecification avatarspec = t2a.generateAvatarSpec("2");
+            AvatarSpecification avatarspec = t2a.generateAvatarSpec("1", true);
             AVATAR2ProVerif avatar2proverif = new AVATAR2ProVerif(avatarspec);
             ProVerifSpec proverif = avatar2proverif.generateProVerif(true, true, 0, true,
                     true);
@@ -170,7 +172,7 @@ public class DiplodocusSecurityTest extends AbstractTest {
     private boolean contains(int index, String str) {
         str = str.trim();
         for(String s: LIST_OF_LISTS_OF_QUERIES.get(index)) {
-            if (str.compareTo(s.trim()) == 0) {
+            if (str.startsWith(s.trim())) {
                 TraceManager.addDev("Query: " + s + " is correct");
                 return true;
             }

@@ -900,22 +900,21 @@ public class TMLModeling<E> {
                     + "__" + pragma.getAttrA().getAttribute().getName()
                     + "__" + pragma.getAttrA().getState().getName();
 
-            TraceManager.addDev("\n\n **Backtracing Authenticity s=" + s + "  **");
-            if (result.isProved() && !result.isSatisfied()) {
-                TraceManager.addDev("Backtracing Authenticity proved but not satisfied");
-                String signalName = s.toString().split("_chData")[0];
-                signalName = signalName.split("__")[signalName.split("__").length - 1];
-
-                TMLChannel channel = getChannelByShortName(signalName);
-
-                if (channel == null) {
-                    channel = getChannelByDestinationPortName(signalName);
+            TraceManager.addDev("\n\n **Backtracing Authenticity s=" + s + "  **");    
+            if (result.isProved() && result.isSatisfied()) {
+                TraceManager.addDev("Backtracing Authenticity  proved and  satisfied" );
+                String signalName = s.split("_chData")[0];
+                for (TMLTask t : getTasks()) {
+                    if (signalName.contains(t.getName())) {
+                        signalName = signalName.replace(t.getName() + "__", "");
+                    }
                 }
+                signalName = signalName.split("__")[1];
+                TMLChannel channel = getChannelByShortName(signalName);
                 if (channel != null) {
                     for (TMLPortWithSecurityInformation port : channel.ports) {
                         if (port.getCheckAuth()) {
-                            TraceManager.addDev("Backtracing Authenticity proved but not satisfied / Found port with checkAuth");
-                            port.setStrongAuthStatus(3);
+                            port.setStrongAuthStatus(2);
                             port.setMappingName(mappingName);
                             ProVerifResultTrace trace = pvoa.getResults().get(pragma).getTrace();
                             if (trace != null && !port.isOrigin()) {
@@ -924,10 +923,8 @@ public class TMLModeling<E> {
                             }
                         }
                     }
-                } else {
-                    TraceManager.addDev("Backtracing Authenticity proved but not satisfied / NULL channel");
                 }
-                signalName = s.toString().split("_reqData")[0];
+                signalName = s.split("_reqData")[0];
                 for (TMLTask t : getTasks()) {
                     if (signalName.contains(t.getName())) {
                         signalName = signalName.replace(t.getName() + "__", "");
@@ -937,12 +934,12 @@ public class TMLModeling<E> {
                 if (req != null) {
                     for (TMLPortWithSecurityInformation port : req.ports) {
                         if (port.getCheckAuth()) {
-                            port.setStrongAuthStatus(3);
+                            port.setStrongAuthStatus(2);
                             port.setMappingName(mappingName);
                         }
                     }
                 }
-                signalName = s.toString().split("_eventData")[0];
+                signalName = s.split("_eventData")[0];
                 for (TMLTask t : getTasks()) {
                     if (signalName.contains(t.getName())) {
                         signalName = signalName.replace(t.getName() + "__", "");
@@ -951,26 +948,34 @@ public class TMLModeling<E> {
                 TMLEvent ev = getEventByName(signalName);
                 if (ev != null) {
                     if (ev.port.checkAuth) {
-                        ev.port.checkStrongAuthStatus = 3;
+                        ev.port.checkStrongAuthStatus = 2;
                         ev.port2.mappingName = mappingName;
                     }
                     if (ev.port2.checkAuth) {
-                        ev.port2.checkStrongAuthStatus = 3;
+                        ev.port2.checkStrongAuthStatus = 2;
                         ev.port2.mappingName = mappingName;
                     }
                 }
 
                 signalName = s.split("__decrypt")[0];
+
+                /*for (TMLTask t: getTasks()){
+                  if (signalName.contains(t.getName())){
+                  signalName = signalName.replace(t.getName()+"__","");
+                  }
+                  }*/
+                signalName = signalName.split("__")[1];
+                //   TraceManager.addDev("secpattern " + signalName);
                 List<String> channels = secChannelMap.get(signalName);
+                // TraceManager.addDev("secpattern channels " + channels);
                 if (channels != null) {
                     for (String channelName : channels) {
                         channel = getChannelByShortName(channelName);
                         if (channel != null) {
-                            TraceManager.addDev("Security ports: " + channel.getSecurityPorts());
                             for (TMLPortWithSecurityInformation port : channel.ports) {
-                                if (port.getCheckAuth() && port.getCheckStrongAuthStatus() == 1) {
-                                    port.setStrongAuthStatus(3);
-                                    TraceManager.addDev("Backtracing Authenticity not verified " + signalName);
+                                //   TraceManager.addDev("adding to port " + channelName);
+                                if (port.getCheckAuth()) {
+                                    port.setStrongAuthStatus(2);
                                     port.setSecName(signalName);
                                     ProVerifResultTrace trace = pvoa.getResults().get(pragma).getTrace();
                                     if (trace != null && !port.isOrigin()) {
@@ -1001,7 +1006,7 @@ public class TMLModeling<E> {
                             if (channel != null) {
                                 for (TMLPortWithSecurityInformation port : channel.ports) {
                                     if (port.getCheckAuth()) {
-                                        port.setWeakAuthStatus(3);
+                                        port.setStrongAuthStatus(2);
                                         port.setSecName(signalName);
                                         ProVerifResultTrace trace = pvoa.getResults().get(pragma).getTrace();
                                         if (trace != null && !port.isOrigin()) {
@@ -1014,9 +1019,7 @@ public class TMLModeling<E> {
                         }
                     }
                 }
-            }
-
-            if (result.isWeakProved() && result.isWeakSatisfied()) {
+            } else if (result.isWeakProved() && result.isWeakSatisfied()) {
                 TraceManager.addDev("Backtracing Authenticity weak proved and weak satisfied");
                 String signalName = s.split("_chData")[0];
                 signalName = signalName.split("__")[1];
@@ -1090,6 +1093,7 @@ public class TMLModeling<E> {
                             TraceManager.addDev("Security ports (2): " + channel.getSecurityPorts());
                             for (TMLPortWithSecurityInformation port : channel.ports) {
                                 if (port.getCheckAuth()) {
+                                    port.setStrongAuthStatus(3);
                                     port.setWeakAuthStatus(2);
                                     port.setSecName(signalName);
                                     ProVerifResultTrace trace = pvoa.getResults().get(pragma).getTrace();
@@ -1136,22 +1140,21 @@ public class TMLModeling<E> {
                         }
                     }
                 }
-            }
+            } else if (result.isProved() && !result.isSatisfied()) {
+                TraceManager.addDev("Backtracing Authenticity proved but not satisfied");
+                String signalName = s.toString().split("_chData")[0];
+                signalName = signalName.split("__")[signalName.split("__").length - 1];
 
-            if (result.isProved() && result.isSatisfied()) {
-                TraceManager.addDev("Backtracing Authenticity  proved and  satisfied" );
-                String signalName = s.split("_chData")[0];
-                for (TMLTask t : getTasks()) {
-                    if (signalName.contains(t.getName())) {
-                        signalName = signalName.replace(t.getName() + "__", "");
-                    }
-                }
-                signalName = signalName.split("__")[1];
                 TMLChannel channel = getChannelByShortName(signalName);
+
+                if (channel == null) {
+                    channel = getChannelByDestinationPortName(signalName);
+                }
                 if (channel != null) {
                     for (TMLPortWithSecurityInformation port : channel.ports) {
                         if (port.getCheckAuth()) {
-                            port.setStrongAuthStatus(2);
+                            TraceManager.addDev("Backtracing Authenticity proved but not satisfied / Found port with checkAuth");
+                            port.setStrongAuthStatus(3);
                             port.setMappingName(mappingName);
                             ProVerifResultTrace trace = pvoa.getResults().get(pragma).getTrace();
                             if (trace != null && !port.isOrigin()) {
@@ -1160,8 +1163,10 @@ public class TMLModeling<E> {
                             }
                         }
                     }
+                } else {
+                    TraceManager.addDev("Backtracing Authenticity proved but not satisfied / NULL channel");
                 }
-                signalName = s.split("_reqData")[0];
+                signalName = s.toString().split("_reqData")[0];
                 for (TMLTask t : getTasks()) {
                     if (signalName.contains(t.getName())) {
                         signalName = signalName.replace(t.getName() + "__", "");
@@ -1171,12 +1176,12 @@ public class TMLModeling<E> {
                 if (req != null) {
                     for (TMLPortWithSecurityInformation port : req.ports) {
                         if (port.getCheckAuth()) {
-                            port.setStrongAuthStatus(2);
+                            port.setStrongAuthStatus(3);
                             port.setMappingName(mappingName);
                         }
                     }
                 }
-                signalName = s.split("_eventData")[0];
+                signalName = s.toString().split("_eventData")[0];
                 for (TMLTask t : getTasks()) {
                     if (signalName.contains(t.getName())) {
                         signalName = signalName.replace(t.getName() + "__", "");
@@ -1185,33 +1190,30 @@ public class TMLModeling<E> {
                 TMLEvent ev = getEventByName(signalName);
                 if (ev != null) {
                     if (ev.port.checkAuth) {
-                        ev.port.checkStrongAuthStatus = 2;
+                        ev.port.checkStrongAuthStatus = 3;
                         ev.port2.mappingName = mappingName;
                     }
                     if (ev.port2.checkAuth) {
-                        ev.port2.checkStrongAuthStatus = 2;
+                        ev.port2.checkStrongAuthStatus = 3;
                         ev.port2.mappingName = mappingName;
                     }
                 }
 
                 signalName = s.split("__decrypt")[0];
-                /*for (TMLTask t: getTasks()){
-                  if (signalName.contains(t.getName())){
-                  signalName = signalName.replace(t.getName()+"__","");
-                  }
-                  }*/
                 signalName = signalName.split("__")[1];
-                //   TraceManager.addDev("secpattern " + signalName);
                 List<String> channels = secChannelMap.get(signalName);
-                // TraceManager.addDev("secpattern channels " + channels);
+                for (Map.Entry<String, List<String>> entry : secChannelMap.entrySet()) {
+                    System.out.println(entry.getKey() + ":" + entry.getValue());
+                }
+                
                 if (channels != null) {
                     for (String channelName : channels) {
                         channel = getChannelByShortName(channelName);
                         if (channel != null) {
                             for (TMLPortWithSecurityInformation port : channel.ports) {
-                                //   TraceManager.addDev("adding to port " + channelName);
                                 if (port.getCheckAuth()) {
-                                    port.setStrongAuthStatus(2);
+                                    port.setStrongAuthStatus(3);
+                                    TraceManager.addDev("Backtracing Authenticity not verified " + signalName);
                                     port.setSecName(signalName);
                                     ProVerifResultTrace trace = pvoa.getResults().get(pragma).getTrace();
                                     if (trace != null && !port.isOrigin()) {
@@ -1221,7 +1223,6 @@ public class TMLModeling<E> {
                                 }
                             }
                         }
-
                     }
                 }
 
@@ -1243,7 +1244,7 @@ public class TMLModeling<E> {
                             if (channel != null) {
                                 for (TMLPortWithSecurityInformation port : channel.ports) {
                                     if (port.getCheckAuth()) {
-                                        port.setStrongAuthStatus(2);
+                                        port.setWeakAuthStatus(3);
                                         port.setSecName(signalName);
                                         ProVerifResultTrace trace = pvoa.getResults().get(pragma).getTrace();
                                         if (trace != null && !port.isOrigin()) {
@@ -1257,7 +1258,6 @@ public class TMLModeling<E> {
                     }
                 }
             }
-
         }
     }
 

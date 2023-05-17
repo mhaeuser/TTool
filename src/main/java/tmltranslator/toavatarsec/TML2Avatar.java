@@ -1183,7 +1183,7 @@ public class TML2Avatar {
                     afterSignalState.addNext(tran);
                     elementList.add(afterSignalState);
                     elementList.add(tran);
-                    if (autoAuthChans) {
+                    if (autoAuthChans || ae.securityPattern == null) {
                         if (block.getAvatarAttributeWithName(getName(ch.getName()) + "_chData") == null) {
                             AvatarAttribute channelData = new AvatarAttribute(getName(ch.getName()) + "_chData", AvatarType.INTEGER, block, null);
                             block.addAttribute(channelData);
@@ -1250,7 +1250,7 @@ public class TML2Avatar {
                 // To be removed in case another authenticity pragma is used on the channel
                 // Also, to be duplicated for each send / receive
                 if (ch.checkAuth) {
-                    if (autoAuthChans) {
+                    if (autoAuthChans || ae.securityPattern == null) {
                         if (block.getAvatarAttributeWithName(getName(ch.getName()) + "_chData") == null) {
                             AvatarAttribute channelData = new AvatarAttribute(getName(ch.getName()) + "_chData", AvatarType.INTEGER, block, null);
                             block.addAttribute(channelData);

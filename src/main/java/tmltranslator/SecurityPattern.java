@@ -123,6 +123,7 @@ public class SecurityPattern {
         s += "\" nonce=\"" + nonce;
         s += "\" formula=\"" + formula;
         s += "\" key=\"" + key;
+        s += "\" process=\"" + process;
         s += "\" />\n";
 
         return s;

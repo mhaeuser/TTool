@@ -542,11 +542,27 @@ public class DrawerTMLModeling  {
         } else if (elt instanceof TMLExecC) {
             TMLExecC execc = (TMLExecC) elt;
 
-            TMLADExecC exec = new TMLADExecC(firstGUI.getX(), firstGUI.getY()+getYDep(), activityPanel.getMinX(),
-                    activityPanel.getMaxX(), activityPanel.getMinY(), activityPanel.getMaxY(), true, null, activityPanel);
+            if (elt.securityPattern != null) {
+                TraceManager.addDev("Found security pattern: " + elt.securityPattern.toXML() + "\n");
+                if (elt.securityPattern.process == SecurityPattern.ENCRYPTION_PROCESS) {
+                    TMLADEncrypt encrypt = new TMLADEncrypt(firstGUI.getX(), firstGUI.getY() + getYDep(), activityPanel.getMinX(),
+                            activityPanel.getMaxX(), activityPanel.getMinY(), activityPanel.getMaxY(), true, null, activityPanel);
+                    return encrypt;
 
-            exec.setDelayValue(execc.getAction());
-            return exec;
+                } else {
+                    TMLADDecrypt decrypt = new TMLADDecrypt(firstGUI.getX(), firstGUI.getY() + getYDep(), activityPanel.getMinX(),
+                            activityPanel.getMaxX(), activityPanel.getMinY(), activityPanel.getMaxY(), true, null, activityPanel);
+                    return decrypt;
+                }
+
+            } else {
+
+                TMLADExecC exec = new TMLADExecC(firstGUI.getX(), firstGUI.getY() + getYDep(), activityPanel.getMinX(),
+                        activityPanel.getMaxX(), activityPanel.getMinY(), activityPanel.getMaxY(), true, null, activityPanel);
+
+                exec.setDelayValue(execc.getAction());
+                return exec;
+            }
 
         }  else if (elt instanceof TMLExecCInterval) {
             TMLExecCInterval execc = (TMLExecCInterval) elt;

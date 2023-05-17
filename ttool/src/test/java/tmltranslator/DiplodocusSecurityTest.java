@@ -43,10 +43,10 @@ import static org.junit.Assert.*;
 public class DiplodocusSecurityTest extends AbstractTest {
     final static String DIR_GEN = "tmltranslator/test_diplo_security/";
     final static String DIR_MODELS = "tmltranslator/test_diplo_security_models/";
-    final String [] MODELS_DIPLO_SECURITY = {"symetric"};
+    final String [] MODELS_DIPLO_SECURITY = {"symetric", "nonce"};
     private static final List<List<String>> LIST_OF_LISTS_OF_QUERIES = Arrays.asList(
-            Arrays.asList("Query not attacker(Alice___SymmetricExchange__comm_chData[!1 = v]) is true.")
-            //Arrays.asList("string2a", "string2b"),
+            Arrays.asList("Query not attacker(Alice___SymmetricExchange__comm_chData[!1 = v]) is true."),
+            Arrays.asList("Query not attacker(Alice___nonce__comm_chData[!1 = v]) is true.")
             //Arrays.asList("string3a", "string3b", "string3c", "string3d")
     );
     private static final String PROVERIF_SUMMARY = "Verification summary:";

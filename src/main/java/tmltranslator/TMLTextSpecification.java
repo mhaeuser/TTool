@@ -994,6 +994,8 @@ public class TMLTextSpecification<E> {
                     return -1;
                 }
             }
+
+
             tmlm.addChannel(ch);
         } // CHANNEL
 

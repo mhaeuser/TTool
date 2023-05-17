@@ -1565,6 +1565,7 @@ public class TML2Avatar {
             loopLimit = Integer.valueOf(_loopLimit);
         }
         for (TMLChannel channel : tmlmodel.getChannels()) {
+            TraceManager.addDev("Checking auth of channel " + channel.getName() + ": " + channel.isCheckAuthChannel());
             channel.checkAuth = channel.isCheckAuthChannel();
             for (TMLPortWithSecurityInformation p : channel.ports) {
                 channel.checkConf = channel.checkConf || p.getCheckConf();

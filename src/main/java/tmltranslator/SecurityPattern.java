@@ -71,14 +71,14 @@ public class SecurityPattern {
         this.name = _name;
         this.type = _type;
 
-        if (nonce != null) {
-            if (nonce.compareTo("-") != 0) {
-                this.nonce = _nonce;
+        if (_nonce != null) {
+            if (_nonce.compareTo("-") == 0) {
+                this.nonce = "None";
             } else {
-                nonce = "";
+                this.nonce = _nonce;
             }
         } else {
-            nonce = "";
+            _nonce = "None";
         }
 
         this.formula = _formula;

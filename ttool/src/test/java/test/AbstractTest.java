@@ -152,5 +152,51 @@ public abstract class AbstractTest {
         }.start();
     }
 
+    public class AbstractTestException extends Exception {
+        public AbstractTestException(String message){
+            super(message);
+        }
+    }
+
+    public boolean CompareTwoBufferedReaders(BufferedReader reader1, BufferedReader reader2, String _regex, String _replace) throws AbstractTestException {
+        boolean areEqual;
+        try {
+            String line1 = reader1.readLine();
+            String line2 = reader2.readLine();
+            areEqual = true;
+            int lineNum = 1;
+            
+            while (line1 != null || line2 != null) {
+                if (!line1.equalsIgnoreCase(line2)) {
+                    if(_regex != null && _regex.length()>0) {
+                        line1 = line1.replaceAll(_regex, _replace);
+                        line2 = line2.replaceAll(_regex, _replace);
+                    }
+                    if (!line1.equalsIgnoreCase(line2)) {
+                        areEqual = false;
+                        break;
+                    }
+                }
+                line1 = reader1.readLine();
+                line2 = reader2.readLine();
+                lineNum++;
+            }
+
+            if (areEqual) {
+                System.out.println("Two buffers have same content.");
+            } else {
+                System.out.println("Two buffers have different content. They differ at line " + lineNum);
+                System.out.println("Buffer1 has " + line1 + " and Buffer2 has " + line2 + " at line " + lineNum);
+            }
+
+            reader1.close();
+            reader2.close();
+        } catch (Exception e) {
+            System.out.println("FAILED: executing comparison: " + e.getMessage());
+            throw new AbstractTestException("FAILED: executing comparison: " + e.getMessage());
+        }
+        return areEqual;
+    }
+
 
 }

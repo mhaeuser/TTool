@@ -1191,7 +1191,6 @@ public class TML2Avatar {
                         AvatarAttributeState authDest = new AvatarAttributeState(block.getName() + "." + reworkStringName(afterSignalState.getName()) + "." +
                                 getName(ch.getName()) + "_chData", ae.getReferenceObject(), block.getAvatarAttributeWithName(getName(ch.getName())
                                 + "_chData"), afterSignalState);
-                        TraceManager.addDev("Adding in signalAuthDestMap:" + ch.getName() + " / " + authDest);
                         signalAuthDestMap.put(ch.getName(), authDest);
                     }
                 }

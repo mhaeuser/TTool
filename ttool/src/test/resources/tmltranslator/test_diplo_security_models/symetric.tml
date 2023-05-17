@@ -1,6 +1,6 @@
 // TML Application - FORMAT 0.2
 // Application: /Users/ludovicapvrille/TTool/modeling/SysMLSec/AliceAndBobHW.xml
-// Generated: Mon May 15 19:50:10 CEST 2023
+// Generated: Wed May 17 10:08:56 CEST 2023
 
 // PRAGMAS
 
@@ -19,7 +19,7 @@ TASK SymmetricExchange__Alice
     //Local variables
     
     //Behavior
-    EXECC 100 sym SE 100 100 0 0 - -
+    EXECC 100 sym SE 100 100 0 0 - - 1
     WRITE SymmetricExchange__comm 1+0 sym
 ENDTASK
 
@@ -29,6 +29,6 @@ TASK SymmetricExchange__Bob
     
     //Behavior
     READ SymmetricExchange__comm 1+0 sym
-    EXECC 100 sym SE 100 100 0 0 - -
+    EXECC 100 sym SE 100 100 0 0 - - 2
 ENDTASK
 

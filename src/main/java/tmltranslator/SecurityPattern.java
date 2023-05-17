@@ -70,9 +70,21 @@ public class SecurityPattern {
                            String _formula, String _key) {
         this.name = _name;
         this.type = _type;
-        this.nonce = _nonce;
+
+        if (nonce != null) {
+            if (nonce.compareTo("-") != 0) {
+                this.nonce = _nonce;
+            } else {
+                nonce = "";
+            }
+        } else {
+            nonce = "";
+        }
+
         this.formula = _formula;
         this.key = _key;
+
+
         try {
             TraceManager.addDev("overhead=" + _overhead);
             this.overhead = Integer.parseInt(_overhead);

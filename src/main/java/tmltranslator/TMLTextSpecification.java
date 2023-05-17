@@ -1726,6 +1726,9 @@ public class TMLTextSpecification<E> {
             if (_split.length > 3) {
                 if (securityPatternMap.containsKey(_split[_split.length - 1])) {
                     tmlwch.securityPattern = securityPatternMap.get(_split[_split.length - 1]);
+                    TraceManager.addDev("Nb of samples in task " + task.getName() +
+                            " security pattern: " + tmlwch.securityPattern.name);
+                    tmlwch.securityPattern.originTask = task.getTaskName();
                 }
                 for (int k = 0; k < _split.length - 3; k++) {
                     //TraceManager.addDev("Handling write channel 1.1");

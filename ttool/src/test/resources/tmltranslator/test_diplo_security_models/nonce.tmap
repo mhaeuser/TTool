@@ -11,14 +11,6 @@ TMLMAPPING
     SET nonce__Alice priority 0
     MAP CPUBob nonce__Bob
     SET nonce__Bob priority 0
-    MAP ExternalMemory nonce__nonce_ch
-    SET nonce__nonce_ch priority 0
-    MAP ExternalBus nonce__nonce_ch
-    SET nonce__nonce_ch priority 0
-    MAP BusAlice nonce__nonce_ch
-    SET nonce__nonce_ch priority 0
-    MAP BusBob nonce__nonce_ch
-    SET nonce__nonce_ch priority 0
     MAP ExternalMemory nonce__comm
     SET nonce__comm priority 0
     MAP ExternalBus nonce__comm
@@ -27,6 +19,14 @@ TMLMAPPING
     SET nonce__comm priority 0
     MAP BusBob nonce__comm
     SET nonce__comm priority 0
+    MAP ExternalMemory nonce__nonce_ch
+    SET nonce__nonce_ch priority 0
+    MAP ExternalBus nonce__nonce_ch
+    SET nonce__nonce_ch priority 0
+    MAP BusAlice nonce__nonce_ch
+    SET nonce__nonce_ch priority 0
+    MAP BusBob nonce__nonce_ch
+    SET nonce__nonce_ch priority 0
     MAPSEC MemoryAlice symN
     MAPSEC MemoryBob symN
 ENDTMLMAPPING

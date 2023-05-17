@@ -1,6 +1,6 @@
 // TML Application - FORMAT 0.2
 // Application: /Users/ludovicapvrille/TTool/modeling/SysMLSec/AliceAndBobHW.xml
-// Generated: Tue May 16 18:10:50 CEST 2023
+// Generated: Wed May 17 16:24:56 CEST 2023
 
 // PRAGMAS
 
@@ -22,7 +22,7 @@ TASK nonce__Alice
     
     //Behavior
     READ nonce__nonce_ch 1+0 n
-    EXECC 100 symN SE 100 100 0 0 n n
+    EXECC 100 symN SE 100 100 0 0 - - 1
     WRITE nonce__comm 1+0 symN
 ENDTASK
 
@@ -31,9 +31,9 @@ TASK nonce__Bob
     //Local variables
     
     //Behavior
-    EXECC 100 n NONCE 100 100 0 11 - -
+    EXECC 100 n NONCE 100 100 0 11 - - 1
     WRITE nonce__nonce_ch 1+0 n
     READ nonce__comm 1+0 symN
-    EXECC 100 symN SE 100 100 0 0 n n
+    EXECC 100 symN SE 100 100 0 0 - - 2
 ENDTASK
 

@@ -1812,7 +1812,175 @@ public class GTURTLEModeling {
         if (tmlm.securityTaskMap == null) {
             return;
         }
+        for (SecurityPattern sp : tmlm.securityTaskMap.keySet()) {
+            if (sp.type.contains("Symmetric Encryption") || sp.type.equals("MAC") || sp.type.equals("Asymmetric Encryption")) {
+                for (TMLTask t : tmlm.securityTaskMap.get(sp)) {
+                    HwExecutionNode node1 = tmap.getHwNodeOf(t);
+                    boolean taskMappedToCPU = false;
+                    if (node1!=null){
+                        if (node1 instanceof HwCPU){
+                            HwCPU cpuNode = (HwCPU) node1;
+                            taskMappedToCPU = true;
+                            boolean keyMappedtoMem = false;
+                            HwLink lastLink = null;
+                            for (HwLink link : links) {
+                                if (!keyMappedtoMem && link.hwnode == node1) {
+                                    lastLink = link;
+                                    if (link.bus.privacy == 1) {
+                                        HwBus curBus = link.bus;
+                                        boolean keyFound = false;
+                                        TMLArchiMemoryNode memNodeToMap = null;
+                                        outer:
+                                        for (HwLink linkBus : links) {
+                                            if (linkBus.bus == curBus) {
+                                                if (linkBus.hwnode instanceof HwMemory) {
+                                                    memNodeToMap = (TMLArchiMemoryNode) listE.getTG(linkBus.hwnode);
+                                                    List<TMLArchiKey> keys = memNodeToMap.getKeyList();
+                                                    for (TMLArchiKey key : keys) {
+                                                        if (key.getValue().equals(sp.name)) {
+                                                            keyFound = true;
+                                                            keyMappedtoMem = true;
+                                                            break outer;
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                        if (!keyFound) {
+                                            if (memNodeToMap != null) {
+                                                TMLArchiKey key = new TMLArchiKey(memNodeToMap.x, (int)(memNodeToMap.y+memNodeToMap.getHeight()*(0.3+Math.random()/2)), memNodeToMap.tdp.getMinX(), memNodeToMap.tdp.getMaxX(), memNodeToMap.tdp.getMinY(), memNodeToMap.tdp.getMaxY(), false, memNodeToMap, memNodeToMap.tdp);
+                                                key.setReferenceKey(sp.name);
+                                                key.makeFullValue();
+                                                TraceManager.addDev("Adding " + sp.name + " key to " + memNodeToMap.getName());
+                                                memNodeToMap.tdp.addComponent(key, memNodeToMap.x, memNodeToMap.y, true, true);
+                                                memNodeToMap.tdp.repaint();
+                                                keyMappedtoMem = true;
+                                            } else {
+                                                TMLArchiBUSNode busNode = (TMLArchiBUSNode) listE.getTG(curBus);
+                                                memNodeToMap = new TMLArchiMemoryNode(busNode.getX(), (int) (busNode.getY() + busNode.getHeight()*(1+Math.random())), busNode.tdp.getMinX(), busNode.tdp.getMaxX(), busNode.tdp.getMinY(), busNode.tdp.getMaxY(), false, busNode.getFather(), busNode.tdp);
+                                                memNodeToMap.setName(t.getTaskName() + "KeysMemory");
+                                                busNode.tdp.addComponent(memNodeToMap);
+
+                                                /*HwLink newLink = new HwLink("Link_"+curBus.getName() + "_" + memNodeToMap.getName());
+                                                HwMemory newHwMemory = new HwMemory("HwMemory_" + memNodeToMap.getName());
+                                                listE.addCor(newHwMemory, memNodeToMap);
+                                                newLink.setNodes(curBus, listE.getHwNode(memNodeToMap));
+                                                links.add(newLink);*/
+
+                                                //Connect Bus and Memory
+                                                TDiagramPanel archPanel =  busNode.tdp;
+                                                TMLArchiConnectorNode connect = new TMLArchiConnectorNode(memNodeToMap.getX() + 100, archPanel.getMaxY() - 300, archPanel.getMinX(), archPanel.getMaxX(), archPanel.getMinY(), archPanel.getMaxY(), true, null, archPanel, null, null, new Vector<Point>());
+                                                TGConnectingPoint p1 = busNode.findFirstFreeTGConnectingPoint(true, true);
+                                                p1.setFree(false);
+                                                connect.setP2(p1);
+
+                                                TGConnectingPoint p2 = memNodeToMap.findFirstFreeTGConnectingPoint(true, true);
+                                                p2.setFree(false);
+                                                connect.setP1(p2);
+                                                archPanel.addComponent(connect, memNodeToMap.getX() + 100, memNodeToMap.getY() + 100, false, true);
+                                                
+                                                TMLArchiKey key = new TMLArchiKey(memNodeToMap.x, (int)(memNodeToMap.y+memNodeToMap.getHeight()*(0.3+Math.random()/2)), memNodeToMap.tdp.getMinX(), memNodeToMap.tdp.getMaxX(), memNodeToMap.tdp.getMinY(), memNodeToMap.tdp.getMaxY(), false, memNodeToMap, memNodeToMap.tdp);
+                                                key.setReferenceKey(sp.name);
+                                                key.makeFullValue();
+                                                TraceManager.addDev("Adding " + sp.name + " key to " + memNodeToMap.getName());
+                                                memNodeToMap.tdp.addComponent(key, memNodeToMap.x, memNodeToMap.y, true, true);
+                                                memNodeToMap.tdp.repaint();
+                                                keyMappedtoMem = true;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                            if (!keyMappedtoMem) {
+                                if (lastLink!=null){
+                                    TMLArchiBUSNode lastBusNode = (TMLArchiBUSNode) listE.getTG(lastLink.bus);
+                                    TMLArchiCPUNode cpuArchiNode = (TMLArchiCPUNode) listE.getTG(cpuNode);
+
+                                    TMLArchiBridgeNode newBrigde = new TMLArchiBridgeNode(lastBusNode.getX(), (int) (lastBusNode.getY() + lastBusNode.getHeight()*(1+Math.random())), lastBusNode.tdp.getMinX(), lastBusNode.tdp.getMaxX(), lastBusNode.tdp.getMinY(), lastBusNode.tdp.getMaxY(), false, lastBusNode.getFather(), lastBusNode.tdp);
+                                    newBrigde.setName(t.getTaskName() + "KeysBrigde");
+                                    lastBusNode.tdp.addComponent(newBrigde);
+
+                                    TMLArchiBUSNode newPrivateBus = new TMLArchiBUSNode(newBrigde.getX(), (int) (newBrigde.getY() + newBrigde.getHeight()*(1+Math.random())), newBrigde.tdp.getMinX(), newBrigde.tdp.getMaxX(), newBrigde.tdp.getMinY(), newBrigde.tdp.getMaxY(), false, lastBusNode.getFather(), lastBusNode.tdp);
+                                    newPrivateBus.setPrivacy(1);
+                                    newPrivateBus.setName(t.getTaskName() + "KeysPrivateBus");
+                                    lastBusNode.tdp.addComponent(newPrivateBus);
+
+                                    TMLArchiMemoryNode memNodeToMap = new TMLArchiMemoryNode(newPrivateBus.getX(), (int) (newPrivateBus.getY() + newPrivateBus.getHeight()*(1+Math.random())), newPrivateBus.tdp.getMinX(), newPrivateBus.tdp.getMaxX(), newPrivateBus.tdp.getMinY(), newPrivateBus.tdp.getMaxY(), false, lastBusNode.getFather(), lastBusNode.tdp);
+                                    memNodeToMap.setName(t.getTaskName() + "KeysMemory");
+                                    lastBusNode.tdp.addComponent(memNodeToMap);
+
+                                    TMLArchiKey key = new TMLArchiKey(memNodeToMap.x, (int)(memNodeToMap.y+memNodeToMap.getHeight()*(0.3+Math.random()/2)), memNodeToMap.tdp.getMinX(), memNodeToMap.tdp.getMaxX(), memNodeToMap.tdp.getMinY(), memNodeToMap.tdp.getMaxY(), false, memNodeToMap, memNodeToMap.tdp);
+                                    key.setReferenceKey(sp.name);
+                                    key.makeFullValue();
+                                    TraceManager.addDev("Adding " + sp.name + " key to " + memNodeToMap.getName());
+                                    memNodeToMap.tdp.addComponent(key, memNodeToMap.x, memNodeToMap.y, true, true);
+                                    memNodeToMap.tdp.repaint();
+                                    keyMappedtoMem = true;
+
+                                    //Connect Bus and Memory
+                                    TMLArchiConnectorNode connectbusMem = new TMLArchiConnectorNode(memNodeToMap.getX() + 100, lastBusNode.tdp.getMaxY() - 300, lastBusNode.tdp.getMinX(), lastBusNode.tdp.getMaxX(), lastBusNode.tdp.getMinY(), lastBusNode.tdp.getMaxY(), true, null, lastBusNode.tdp, null, null, new Vector<Point>());
+                                    TGConnectingPoint p1 = newPrivateBus.findFirstFreeTGConnectingPoint(true, true);
+                                    p1.setFree(false);
+                                    connectbusMem.setP2(p1);
+
+                                    TGConnectingPoint p2 = memNodeToMap.findFirstFreeTGConnectingPoint(true, true);
+                                    p2.setFree(false);
+                                    connectbusMem.setP1(p2);
+                                    lastBusNode.tdp.addComponent(connectbusMem, memNodeToMap.getX() + 100, memNodeToMap.getY() + 100, false, true);
+
+                                    //Connect new Private Bus and Bridge
+                                    TMLArchiConnectorNode connectPrivatebusBridge = new TMLArchiConnectorNode(newBrigde.getX() + 100, lastBusNode.tdp.getMaxY() - 300, lastBusNode.tdp.getMinX(), lastBusNode.tdp.getMaxX(), lastBusNode.tdp.getMinY(), lastBusNode.tdp.getMaxY(), true, null, lastBusNode.tdp, null, null, new Vector<Point>());
+                                    p1 = newPrivateBus.findFirstFreeTGConnectingPoint(true, true);
+                                    p1.setFree(false);
+                                    connectPrivatebusBridge.setP2(p1);
+
+                                    p2 = newBrigde.findFirstFreeTGConnectingPoint(true, true);
+                                    p2.setFree(false);
+                                    connectPrivatebusBridge.setP1(p2);
+                                    lastBusNode.tdp.addComponent(connectPrivatebusBridge, newBrigde.getX() + 100, newBrigde.getY() + 100, false, true);
+
+                                    //Connect Public Bus and Bridge
+                                    TMLArchiConnectorNode connectPublicbusBridge = new TMLArchiConnectorNode(newBrigde.getX() + 100, lastBusNode.tdp.getMaxY() - 300, lastBusNode.tdp.getMinX(), lastBusNode.tdp.getMaxX(), lastBusNode.tdp.getMinY(), lastBusNode.tdp.getMaxY(), true, null, lastBusNode.tdp, null, null, new Vector<Point>());
+                                    p1 = lastBusNode.findFirstFreeTGConnectingPoint(true, true);
+                                    p1.setFree(false);
+                                    connectPublicbusBridge.setP2(p1);
+
+                                    p2 = newBrigde.findFirstFreeTGConnectingPoint(true, true);
+                                    p2.setFree(false);
+                                    connectPublicbusBridge.setP1(p2);
+                                    lastBusNode.tdp.addComponent(connectPublicbusBridge, newBrigde.getX() + 100, newBrigde.getY() + 100, false, true);
+
+                                    //Connect new Private Bus and CPU
+                                    TMLArchiConnectorNode connectPrivatebusCPU = new TMLArchiConnectorNode(cpuArchiNode.getX() + 100, lastBusNode.tdp.getMaxY() - 300, lastBusNode.tdp.getMinX(), lastBusNode.tdp.getMaxX(), lastBusNode.tdp.getMinY(), lastBusNode.tdp.getMaxY(), true, null, lastBusNode.tdp, null, null, new Vector<Point>());
+                                    p1 = newPrivateBus.findFirstFreeTGConnectingPoint(true, true);
+                                    p1.setFree(false);
+                                    connectPrivatebusCPU.setP2(p1);
+
+                                    p2 = cpuArchiNode.findFirstFreeTGConnectingPoint(true, true);
+                                    p2.setFree(false);
+                                    connectPrivatebusCPU.setP1(p2);
+                                    lastBusNode.tdp.addComponent(connectPrivatebusCPU, cpuArchiNode.getX() + 100, cpuArchiNode.getY() + 100, false, true);
+
+                                    //Disconnect Public Bus and CPU
+                                    lastBusNode.tdp.getConnectorConnectedTo(p2);
+                                    for (TGConnector connector: lastBusNode.tdp.getConnectors()){
+                                        if ((connector.getTGComponent1() == cpuArchiNode && connector.getTGComponent2() == lastBusNode) || (connector.getTGComponent1() == lastBusNode && connector.getTGComponent2() == cpuArchiNode)){
+                                            TraceManager.addDev("Disconnect :" + connector.getTGComponent1().getName() + " and " + connector.getTGComponent2().getName());
+                                            lastBusNode.tdp.removeComponent(connector);
+                                        }       
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    if (!taskMappedToCPU){
+                        TraceManager.addDev(t.getTaskName() + " has to be mapped to a CPU!");
+                    }
+                }
+            }
+        }
         //
+        /*
         for (SecurityPattern sp : tmlm.securityTaskMap.keySet()) {
             if (sp.type.contains("Symmetric Encryption") || sp.type.equals("MAC")) {
 
@@ -1952,7 +2120,7 @@ public class GTURTLEModeling {
                     }
                 }
             }
-        }
+        }*/
         TraceManager.addDev("Mapping finished");
     }
 

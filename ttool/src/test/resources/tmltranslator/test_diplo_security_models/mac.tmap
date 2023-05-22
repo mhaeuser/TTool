@@ -1,0 +1,24 @@
+TMLSPEC
+    #include "mac.tml"
+ENDTMLSPEC
+
+TMLARCHI
+    #include "mac.tarchi"
+ENDTMLARCHI
+
+TMLMAPPING
+    MAP CPUAlice MAC__Alice
+    SET MAC__Alice priority 0
+    MAP CPUBob MAC__Bob
+    SET MAC__Bob priority 0
+    MAP ExternalMemory MAC__comm
+    SET MAC__comm priority 0
+    MAP ExternalBus MAC__comm
+    SET MAC__comm priority 0
+    MAP BusAlice MAC__comm
+    SET MAC__comm priority 0
+    MAP BusBob MAC__comm
+    SET MAC__comm priority 0
+    MAPSEC MemoryAlice mac
+    MAPSEC MemoryBob mac
+ENDTMLMAPPING

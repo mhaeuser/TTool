@@ -1,0 +1,24 @@
+TMLSPEC
+    #include "keyexchange.tml"
+ENDTMLSPEC
+
+TMLARCHI
+    #include "keyexchange.tarchi"
+ENDTMLARCHI
+
+TMLMAPPING
+    MAP CPUAlice KeyExchange__Alice
+    SET KeyExchange__Alice priority 0
+    MAP CPUBob KeyExchange__Bob
+    SET KeyExchange__Bob priority 0
+    MAP ExternalMemory KeyExchange__comm
+    SET KeyExchange__comm priority 0
+    MAP ExternalBus KeyExchange__comm
+    SET KeyExchange__comm priority 0
+    MAP BusAlice KeyExchange__comm
+    SET KeyExchange__comm priority 0
+    MAP BusBob KeyExchange__comm
+    SET KeyExchange__comm priority 0
+    MAPSEC MemoryBob aenc
+    MAPSEC MemoryAlice symKey
+ENDTMLMAPPING

@@ -248,7 +248,9 @@ public class LatencyDetailedAnalysisMain {
                 }
                 try {
                     mainGUI_compare = null;
-                    mainGUI_compare = new MainGUI(false, false, false, false, false, false, false, false, false, false, true, false, false);
+                    mainGUI_compare = new MainGUI(false, false, false, false, false,
+                            false, false, false, false, false, true, false,
+                            false, false);
                     mainGUI_compare.build();
                     mainGUI_compare.openProjectFromFile(new File(fileName));
                     mainGUI_compare.frame.setVisible(false);

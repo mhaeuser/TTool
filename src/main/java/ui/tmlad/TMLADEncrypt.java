@@ -40,6 +40,7 @@
 package ui.tmlad;
 
 import myutil.GraphicLib;
+import myutil.TraceManager;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -88,6 +89,10 @@ public class TMLADEncrypt extends TADComponentWithoutSubcomponents/* Issue #69 T
     public String algorithm = "";
     protected int stateOfError = 0; // Not yet checked
 
+    private int securityMaxX;
+    private int keyMaxX;
+    private int nonceMaxX;
+
     public TMLADEncrypt(int _x, int _y, int _minX, int _maxX, int _minY, int _maxY, boolean _pos, TGComponent _father, TDiagramPanel _tdp) {
         super(_x, _y, _minX, _maxX, _minY, _maxY, _pos, _father, _tdp);
 
@@ -113,6 +118,13 @@ public class TMLADEncrypt extends TADComponentWithoutSubcomponents/* Issue #69 T
 
     @Override
     protected void internalDrawing(Graphics g) {
+
+        if (!tdp.isScaled()) {
+            securityMaxX = 0;
+            keyMaxX = 0;
+            nonceMaxX = 0;
+        }
+
         final int scaledMargin = scale( MARGIN );
 
         if (stateOfError > 0) {
@@ -189,22 +201,43 @@ public class TMLADEncrypt extends TADComponentWithoutSubcomponents/* Issue #69 T
             g.drawLine(x + 3 * scaledMargin / 2, y + (height - scaledSymbolHeight) / 2 + scaledSymbolHeight / 2 + scaledMargin / 2, x + width - 3 * scaledMargin / 2, y + (height - scaledSymbolHeight) / 2 + scaledSymbolHeight / 2 + scaledMargin / 2);
         }
         
-        //Draw security pattern
+        // Draw security pattern
         drawSingleString(g,"sec:" + securityContext, x + 3 * width / 2, y + height / 2);
-        
+        if (!tdp.isScaled()) {
+            securityMaxX = (int) (x + 3 * width / 2 + g.getFontMetrics().stringWidth("sec:" + securityContext) * 1.05);
+        }
         final int scaledSecIconHeight = scale( SEC_ICON_HIGHT );
         
-        //Draw nonce if it exists
+        // Draw nonce if it exists
         if (!nonce.isEmpty()) {
             drawSingleString(g,"nonce:" + nonce, x + 3 * width / 2, y + height / 2 + scaledSecIconHeight );
+            if (!tdp.isScaled()) {
+                nonceMaxX = (int) (x + 3 * width / 2 + g.getFontMetrics().stringWidth("nonce:" + nonce) * 1.05);
+            }
         }
         
-        //Draw key if it exists
+        // Draw key if it exists
         if (!key.isEmpty()) {
             drawSingleString(g,"key:" + key, x + 3 * width / 2, y + height / 2 + 2 * scaledSecIconHeight );
+
+            if (!tdp.isScaled()) {
+                keyMaxX = (int) (x + 3 * width / 2 + g.getFontMetrics().stringWidth("key:" + key) * 1.05);
+            }
         }
         
         g.drawImage( scale( IconManager.imgic7000.getImage() ), x - scale( 22 ), y + height / 2, null );
+    }
+
+
+    public int getMyCurrentMaxX() {
+        /*TraceManager.addDev("Custom getMyCurrentMaxX. x+width= " + (x+width) + " SecurityMaxX=" + securityMaxX + " securityContext=" +
+                securityContext);*/
+        int max =  Math.max(x + width, securityMaxX);
+        max = Math.max(max, nonceMaxX);
+        max = Math.max(max, keyMaxX);
+        /*TraceManager.addDev("Custom getMyCurrentMaxX. x+width= " + (x+width) + " SecurityMaxX=" + securityMaxX + " securityContext=" +
+                securityContext + " max=" + max);*/
+        return max;
     }
 
     @Override

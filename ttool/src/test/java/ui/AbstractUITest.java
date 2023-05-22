@@ -17,7 +17,8 @@ public abstract class AbstractUITest extends AbstractTest {
 		// DB: Not needed for tests (causes NPE)
 		//IconManager.loadImg();
         System.out.println("Creating main Window");
-        mainGUI = new MainGUI(false, false, false, false, false, false, false, false, false, false, true, false, false);
+        mainGUI = new MainGUI(false, false, false, false, false, false, false,
+				false, false, false, true, false, false, false);
         System.out.println("Main Window new done");
         mainGUI.build();
         System.out.println("Main Window build done");

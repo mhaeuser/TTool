@@ -248,6 +248,11 @@ public class DiplodocusDelayPenaltyDisableTests extends AbstractUITest {
         mainGUI.generateTMLTxt();
         File f1 = new File(EXPECTED_FILE1);
         File f2 = new File("spec.tml");  // Generated file after executing "TML generation"
+
+
+        System.out.println("\n\n\n*** Compared files: " + f1.getAbsolutePath() + " vs " + f2.getAbsolutePath() + "\n\n" +
+                "\n");
+
         assertTrue(compTML.compareTML(f1,f2));
     }
 

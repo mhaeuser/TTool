@@ -96,6 +96,7 @@ public abstract class TGScalableComponent extends TGComponent implements Scalabl
     			&& (txtWidth + spaceTakenByIcon < width) // enough space in width
     			;
     }
+
     /**
      * Draw a box of two rectangle: one for the title and one for the content of the box
      * lineHeight defines the height of the first box

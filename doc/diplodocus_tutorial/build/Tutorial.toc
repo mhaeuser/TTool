@@ -3,48 +3,48 @@
 \contentsline {author}{Andrea Enrici\unskip {} \and Letitia Li\unskip {} \and Ludovic Apvrille\unskip {} \and Dominique Blouin\unskip {}}{1}{chapter.1}%
 \contentsline {section}{\numberline {1}Important note}{3}{section.1.1}%
 \contentsline {section}{\numberline {2}Why TTool/DIPLODOCUS?}{4}{section.1.2}%
-\contentsline {section}{\numberline {3}An overview of TTool/DIPLODOCUS}{4}{section.1.3}%
-\contentsline {section}{\numberline {4}The software architecture of TTool/DIPLODOCUS}{6}{section.1.4}%
-\contentsline {section}{\numberline {5}Configuring TTool/DIPLODOCUS}{6}{section.1.5}%
-\contentsline {section}{\numberline {6}Starting a new project}{10}{section.1.6}%
-\contentsline {section}{\numberline {7}Modeling a ZigBee transmitter}{15}{section.1.7}%
-\contentsline {subsection}{\numberline {7.1}The functionality of a ZigBee transmitter (data-link layer)}{15}{subsection.1.7.1}%
-\contentsline {subsection}{\numberline {7.2}Creating the application model of a ZigBee transmitter (data-link layer)}{16}{subsection.1.7.2}%
-\contentsline {subsubsection}{Attributes of a primitive component}{19}{section*.3}%
-\contentsline {subsubsection}{Ports, channels, events and requests}{19}{section*.4}%
-\contentsline {subsubsection}{The activity diagram of a primitive component}{22}{section*.5}%
-\contentsline {subsection}{\numberline {7.3}Platform modeling}{32}{subsection.1.7.3}%
-\contentsline {subsection}{\numberline {7.4}Creating the platform model of EMBB}{32}{subsection.1.7.4}%
-\contentsline {subsection}{\numberline {7.5}Communication protocols and patterns modeling}{40}{subsection.1.7.5}%
-\contentsline {subsection}{\numberline {7.6}Modeling a DMA data transfer with Communication Patterns}{41}{subsection.1.7.6}%
-\contentsline {subsection}{\numberline {7.7}Communication models}{43}{subsection.1.7.7}%
-\contentsline {subsubsection}{The communication mismatch in EMBB}{45}{section*.6}%
-\contentsline {subsubsection}{Creating Communication Pattern diagrams}{50}{section*.7}%
-\contentsline {subsection}{\numberline {7.8}Mapping}{53}{subsection.1.7.8}%
-\contentsline {section}{\numberline {8}Design Space Exploration in TTool/DIPLODOCUS}{66}{section.1.8}%
-\contentsline {subsection}{\numberline {8.1}Simulation}{66}{subsection.1.8.1}%
-\contentsline {subsubsection}{The simulation results of the ZigBee transmitter (physical layer)}{72}{section*.8}%
-\contentsline {subsection}{\numberline {8.2}Formal verification}{77}{subsection.1.8.2}%
-\contentsline {subsubsection}{Formal Verification before mapping}{77}{section*.9}%
-\contentsline {subsubsection}{Pre-mapping formal verification with UPPAAL}{79}{section*.10}%
-\contentsline {subsubsection}{Post-mapping formal Verification with the TTool verifier and simulator engine}{79}{section*.11}%
-\contentsline {subsubsection}{Example of post-mapping formal verification}{80}{section*.12}%
-\contentsline {subsubsection}{Post-mapping formal verification with ProVerif}{83}{section*.13}%
+\contentsline {section}{\numberline {3}An overview of TTool/DIPLODOCUS}{5}{section.1.3}%
+\contentsline {section}{\numberline {4}The software architecture of TTool/DIPLODOCUS}{7}{section.1.4}%
+\contentsline {section}{\numberline {5}Configuring TTool/DIPLODOCUS}{8}{section.1.5}%
+\contentsline {section}{\numberline {6}Starting a new project}{11}{section.1.6}%
+\contentsline {section}{\numberline {7}Modeling a ZigBee transmitter}{16}{section.1.7}%
+\contentsline {subsection}{\numberline {7.1}The functionality of a ZigBee transmitter (data-link layer)}{16}{subsection.1.7.1}%
+\contentsline {subsection}{\numberline {7.2}Creating the application model of a ZigBee transmitter (data-link layer)}{17}{subsection.1.7.2}%
+\contentsline {subsubsection}{Attributes of a primitive component}{20}{section*.3}%
+\contentsline {subsubsection}{Ports, channels, events and requests}{20}{section*.4}%
+\contentsline {subsubsection}{The activity diagram of a primitive component}{23}{section*.5}%
+\contentsline {subsection}{\numberline {7.3}Platform modeling}{33}{subsection.1.7.3}%
+\contentsline {subsection}{\numberline {7.4}Creating the platform model of EMBB}{33}{subsection.1.7.4}%
+\contentsline {subsection}{\numberline {7.5}Communication protocols and patterns modeling}{41}{subsection.1.7.5}%
+\contentsline {subsection}{\numberline {7.6}Modeling a DMA data transfer with Communication Patterns}{42}{subsection.1.7.6}%
+\contentsline {subsection}{\numberline {7.7}Communication models}{44}{subsection.1.7.7}%
+\contentsline {subsubsection}{The communication mismatch in EMBB}{46}{section*.6}%
+\contentsline {subsubsection}{Creating Communication Pattern diagrams}{51}{section*.7}%
+\contentsline {subsection}{\numberline {7.8}Mapping}{54}{subsection.1.7.8}%
+\contentsline {section}{\numberline {8}Design Space Exploration in TTool/DIPLODOCUS}{67}{section.1.8}%
+\contentsline {subsection}{\numberline {8.1}Simulation}{67}{subsection.1.8.1}%
+\contentsline {subsubsection}{The simulation results of the ZigBee transmitter (physical layer)}{73}{section*.8}%
+\contentsline {subsection}{\numberline {8.2}Formal verification}{78}{subsection.1.8.2}%
+\contentsline {subsubsection}{Formal Verification before mapping}{78}{section*.9}%
+\contentsline {subsubsection}{Pre-mapping formal verification with UPPAAL}{80}{section*.10}%
+\contentsline {subsubsection}{Post-mapping formal Verification with the TTool verifier and simulator engine}{80}{section*.11}%
+\contentsline {subsubsection}{Example of post-mapping formal verification}{81}{section*.12}%
 \contentsline {section}{\numberline {9}Automatic Code Generation for Rapid Protoyping}{86}{section.1.9}%
-\contentsline {subsubsection}{The compilation process}{86}{section*.14}%
-\contentsline {subsubsection}{Scheduling of operations}{87}{section*.15}%
-\contentsline {subsubsection}{Memory allocation}{87}{section*.16}%
-\contentsline {subsubsection}{Portability of the code-generation approach}{87}{section*.17}%
+\contentsline {subsubsection}{The compilation process}{86}{section*.13}%
+\contentsline {subsubsection}{Scheduling of operations}{87}{section*.14}%
+\contentsline {subsubsection}{Memory allocation}{87}{section*.15}%
+\contentsline {subsubsection}{Portability of the code-generation approach}{87}{section*.16}%
 \contentsline {subsection}{\numberline {9.1}Generating the code for the ZigBee transmitter}{88}{subsection.1.9.1}%
 \contentsline {section}{\numberline {10}Analysis of security properties}{93}{section.1.10}%
-\contentsline {subsection}{\numberline {10.1}Symmetric Encryption}{93}{subsection.1.10.1}%
-\contentsline {subsection}{\numberline {10.2}Nonces}{94}{subsection.1.10.2}%
-\contentsline {subsection}{\numberline {10.3}Key exchange}{94}{subsection.1.10.3}%
-\contentsline {subsection}{\numberline {10.4}MAC}{95}{subsection.1.10.4}%
-\contentsline {subsection}{\numberline {10.5}Automated Security Generation}{95}{subsection.1.10.5}%
-\contentsline {section}{\numberline {11}Conclusion}{98}{section.1.11}%
-\contentsline {section}{\numberline {1.A}Formal description of Communication Patterns}{99}{section.a.1.A}%
-\contentsline {section}{\numberline {1.B}TTool/DIPLODOCUS' simulation semantics}{102}{section.a.1.B}%
-\contentsline {subsection}{\numberline {1.B.1}Functionality}{102}{subsection.a.1.B.1}%
-\contentsline {subsection}{\numberline {1.B.2}Platform}{102}{subsection.a.1.B.2}%
-\contentsline {subsection}{\numberline {1.B.3}Mapping}{103}{subsection.a.1.B.3}%
+\contentsline {subsection}{\numberline {10.1}Post-mapping formal verification with ProVerif}{93}{subsection.1.10.1}%
+\contentsline {subsection}{\numberline {10.2}Symmetric Encryption}{95}{subsection.1.10.2}%
+\contentsline {subsection}{\numberline {10.3}Nonces}{95}{subsection.1.10.3}%
+\contentsline {subsection}{\numberline {10.4}Key exchange}{96}{subsection.1.10.4}%
+\contentsline {subsection}{\numberline {10.5}MAC}{100}{subsection.1.10.5}%
+\contentsline {subsection}{\numberline {10.6}Automated Security Generation}{100}{subsection.1.10.6}%
+\contentsline {section}{\numberline {11}Conclusion}{103}{section.1.11}%
+\contentsline {section}{\numberline {1.A}Formal description of Communication Patterns}{104}{section.a.1.A}%
+\contentsline {section}{\numberline {1.B}TTool/DIPLODOCUS' simulation semantics}{107}{section.a.1.B}%
+\contentsline {subsection}{\numberline {1.B.1}Functionality}{107}{subsection.a.1.B.1}%
+\contentsline {subsection}{\numberline {1.B.2}Platform}{107}{subsection.a.1.B.2}%
+\contentsline {subsection}{\numberline {1.B.3}Mapping}{108}{subsection.a.1.B.3}%

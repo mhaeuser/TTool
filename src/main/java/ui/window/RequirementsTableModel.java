@@ -39,7 +39,6 @@
 
 package ui.window;
 
-import myutil.TraceManager;
 import ui.TGComponent;
 import ui.avatarrd.AvatarRDRequirement;
 import ui.req.Requirement;
@@ -164,7 +163,7 @@ public class RequirementsTableModel extends AbstractTableModel {
 
             switch (index) {
                 case 0:
-                    return rd.getID();
+                    return rd.getReqID();
                 case 1:
                     return rd.getStereotype();
                 case 2:

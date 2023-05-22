@@ -1,0 +1,116 @@
+// Master clock frequency - in MHz
+MASTERCLOCKFREQUENCY 200
+
+NODE BRIDGE BridgeAlice
+SET BridgeAlice bufferByteSize 4
+SET BridgeAlice clockDivider 1
+
+NODE BRIDGE BridgeBob
+SET BridgeBob bufferByteSize 4
+SET BridgeBob clockDivider 1
+
+NODE MEMORY ExternalMemory
+SET ExternalMemory byteDataSize 4
+SET ExternalMemory clockDivider 1
+
+NODE MEMORY MemoryAlice
+SET MemoryAlice byteDataSize 4
+SET MemoryAlice clockDivider 1
+
+NODE MEMORY MemoryBob
+SET MemoryBob byteDataSize 4
+SET MemoryBob clockDivider 1
+
+NODE BUS BusBob
+SET BusBob byteDataSize 4
+SET BusBob pipelineSize 1
+SET BusBob arbitration 0
+SET BusBob sliceTime 10000
+SET BusBob burstSize 100
+SET BusBob privacy private
+SET BusBob clockDivider 1
+
+NODE BUS BusAlice
+SET BusAlice byteDataSize 4
+SET BusAlice pipelineSize 1
+SET BusAlice arbitration 0
+SET BusAlice sliceTime 10000
+SET BusAlice burstSize 100
+SET BusAlice privacy private
+SET BusAlice clockDivider 1
+
+NODE BUS ExternalBus
+SET ExternalBus byteDataSize 4
+SET ExternalBus pipelineSize 1
+SET ExternalBus arbitration 0
+SET ExternalBus sliceTime 10000
+SET ExternalBus burstSize 100
+SET ExternalBus privacy public
+SET ExternalBus clockDivider 1
+
+NODE CPU CPUAlice
+SET CPUAlice nbOfCores 1
+SET CPUAlice byteDataSize 4
+SET CPUAlice pipelineSize 5
+SET CPUAlice goIdleTime 10
+SET CPUAlice maxConsecutiveIdleCycles 10
+SET CPUAlice taskSwitchingTime 20
+SET CPUAlice branchingPredictionPenalty 2
+SET CPUAlice cacheMiss 5
+SET CPUAlice schedulingPolicy 0
+SET CPUAlice sliceTime 10000
+SET CPUAlice execiTime 1
+SET CPUAlice execcTime 1
+SET CPUAlice clockDivider 1
+
+NODE CPU CPUBob
+SET CPUBob nbOfCores 1
+SET CPUBob byteDataSize 4
+SET CPUBob pipelineSize 5
+SET CPUBob goIdleTime 10
+SET CPUBob maxConsecutiveIdleCycles 10
+SET CPUBob taskSwitchingTime 20
+SET CPUBob branchingPredictionPenalty 2
+SET CPUBob cacheMiss 5
+SET CPUBob schedulingPolicy 0
+SET CPUBob sliceTime 10000
+SET CPUBob execiTime 1
+SET CPUBob execcTime 1
+SET CPUBob clockDivider 1
+
+NODE LINK link_CPUBob_to_BusBob
+SET link_CPUBob_to_BusBob node CPUBob
+SET link_CPUBob_to_BusBob bus BusBob
+SET link_CPUBob_to_BusBob priority 0
+NODE LINK link_CPUAlice_to_BusAlice
+SET link_CPUAlice_to_BusAlice node CPUAlice
+SET link_CPUAlice_to_BusAlice bus BusAlice
+SET link_CPUAlice_to_BusAlice priority 0
+NODE LINK link_BridgeBob_to_BusBob
+SET link_BridgeBob_to_BusBob node BridgeBob
+SET link_BridgeBob_to_BusBob bus BusBob
+SET link_BridgeBob_to_BusBob priority 0
+NODE LINK link_BridgeBob_to_ExternalBus
+SET link_BridgeBob_to_ExternalBus node BridgeBob
+SET link_BridgeBob_to_ExternalBus bus ExternalBus
+SET link_BridgeBob_to_ExternalBus priority 0
+NODE LINK link_BridgeAlice_to_ExternalBus
+SET link_BridgeAlice_to_ExternalBus node BridgeAlice
+SET link_BridgeAlice_to_ExternalBus bus ExternalBus
+SET link_BridgeAlice_to_ExternalBus priority 0
+NODE LINK link_BridgeAlice_to_BusAlice
+SET link_BridgeAlice_to_BusAlice node BridgeAlice
+SET link_BridgeAlice_to_BusAlice bus BusAlice
+SET link_BridgeAlice_to_BusAlice priority 0
+NODE LINK link_ExternalMemory_to_ExternalBus
+SET link_ExternalMemory_to_ExternalBus node ExternalMemory
+SET link_ExternalMemory_to_ExternalBus bus ExternalBus
+SET link_ExternalMemory_to_ExternalBus priority 0
+NODE LINK link_MemoryAlice_to_BusAlice
+SET link_MemoryAlice_to_BusAlice node MemoryAlice
+SET link_MemoryAlice_to_BusAlice bus BusAlice
+SET link_MemoryAlice_to_BusAlice priority 0
+NODE LINK link_MemoryBob_to_BusBob
+SET link_MemoryBob_to_BusBob node MemoryBob
+SET link_MemoryBob_to_BusBob bus BusBob
+SET link_MemoryBob_to_BusBob priority 0

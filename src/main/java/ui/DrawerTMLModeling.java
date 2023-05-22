@@ -542,11 +542,46 @@ public class DrawerTMLModeling  {
         } else if (elt instanceof TMLExecC) {
             TMLExecC execc = (TMLExecC) elt;
 
-            TMLADExecC exec = new TMLADExecC(firstGUI.getX(), firstGUI.getY()+getYDep(), activityPanel.getMinX(),
-                    activityPanel.getMaxX(), activityPanel.getMinY(), activityPanel.getMaxY(), true, null, activityPanel);
+            if (elt.securityPattern != null) {
+                TraceManager.addDev("Found security pattern: " + elt.securityPattern.toXML() + " originTask: " +
+                        elt.securityPattern.originTask + " comp:" + comp.getValue() + "\n");
+                if (elt.securityPattern.originTask.compareTo(comp.getValue()) == 0) {
+                    TMLADEncrypt encrypt = new TMLADEncrypt(firstGUI.getX(), firstGUI.getY() + getYDep(), activityPanel.getMinX(),
+                            activityPanel.getMaxX(), activityPanel.getMinY(), activityPanel.getMaxY(), true, null, activityPanel);
+                    encrypt.setName(elt.securityPattern.getName());
+                    encrypt.securityContext = elt.securityPattern.getName();
+                    encrypt.type = elt.securityPattern.type;
+                    encrypt.message_overhead = "" + elt.securityPattern.overhead;
+                    encrypt.size = "" + elt.securityPattern.size;
+                    encrypt.encTime = "" + elt.securityPattern.encTime;
+                    encrypt.decTime = "" + elt.securityPattern.decTime;
+                    encrypt.nonce = "" + elt.securityPattern.nonce;
+                    encrypt.formula = "" + elt.securityPattern.formula;
+                    encrypt.key = "" + elt.securityPattern.key;
+                    encrypt.algorithm = "" + elt.securityPattern.algorithm;
 
-            exec.setDelayValue(execc.getAction());
-            return exec;
+
+
+                    return encrypt;
+
+                } else {
+                    TMLADDecrypt decrypt = new TMLADDecrypt(firstGUI.getX(), firstGUI.getY() + getYDep(), activityPanel.getMinX(),
+                            activityPanel.getMaxX(), activityPanel.getMinY(), activityPanel.getMaxY(), true, null, activityPanel);
+                    decrypt.setName(elt.securityPattern.getName());
+                    decrypt.securityContext = elt.securityPattern.getName();
+
+
+                    return decrypt;
+                }
+
+            } else {
+
+                TMLADExecC exec = new TMLADExecC(firstGUI.getX(), firstGUI.getY() + getYDep(), activityPanel.getMinX(),
+                        activityPanel.getMaxX(), activityPanel.getMinY(), activityPanel.getMaxY(), true, null, activityPanel);
+
+                exec.setDelayValue(execc.getAction());
+                return exec;
+            }
 
         }  else if (elt instanceof TMLExecCInterval) {
             TMLExecCInterval execc = (TMLExecCInterval) elt;
@@ -614,6 +649,9 @@ public class DrawerTMLModeling  {
 
             read.setChannelName(getSplitName(readT.getChannel(0).getName(), false));
             read.setSamples(readT.getNbOfSamples());
+            if (readT.securityPattern != null) {
+                read.setSecurityContext(readT.securityPattern.name);
+            }
             return read;
 
         } else if (elt instanceof TMLSelectEvt) {
@@ -654,6 +692,11 @@ public class DrawerTMLModeling  {
 
             write.setChannelName(getSplitName(writeT.getChannel(0).getName(), true));
             write.setSamples(writeT.getNbOfSamples());
+
+            if (writeT.securityPattern != null) {
+                write.setSecurityContext(writeT.securityPattern.name);
+            }
+
             return write;
         }
 

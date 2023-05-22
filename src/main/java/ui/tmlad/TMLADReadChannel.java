@@ -48,6 +48,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import javax.swing.JFrame;
 
+import myutil.TraceManager;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -79,7 +80,8 @@ import ui.window.TabInfo;
  * @author Ludovic APVRILLE
  * @version 1.0 21/11/2005
  */
-public class TMLADReadChannel extends TADComponentWithoutSubcomponents/* Issue #69 TGCWithoutInternalComponent*/ implements CheckableAccessibility, LinkedReference, CheckableLatency, EmbeddedComment, AllowedBreakpoint, BasicErrorHighlight {
+public class TMLADReadChannel extends TADComponentWithoutSubcomponents/* Issue #69 TGCWithoutInternalComponent*/ implements CheckableAccessibility,
+        LinkedReference, CheckableLatency, EmbeddedComment, AllowedBreakpoint, BasicErrorHighlight {
     private Map<String, String> latencyVals;
 
 	// Issue #31
@@ -111,6 +113,8 @@ public class TMLADReadChannel extends TADComponentWithoutSubcomponents/* Issue #
     public int reachabilityInformation;
 
 	public boolean isEncForm = true;
+
+    private int securityMaxX;
 	
     public TMLADReadChannel(int _x, int _y, int _minX, int _maxX, int _minY, int _maxY, boolean _pos, TGComponent _father, TDiagramPanel _tdp) {
         super(_x, _y, _minX, _maxX, _minY, _maxY, _pos, _father, _tdp);
@@ -203,15 +207,24 @@ public class TMLADReadChannel extends TADComponentWithoutSubcomponents/* Issue #
         }
         drawSingleString(g,value, x + linebreak + scale( textX0 ), y + scale( textY1 ) ); // Issue #31
 
+        if (!tdp.isScaled()) {
+            securityMaxX = 0;
+        }
         if (!securityContext.equals("")) {
         	c = g.getColor();
 	        if (!isEncForm){
 	        	g.setColor(Color.RED);
 	        }
             drawSingleString(g,"sec:" + securityContext, x + 3 * width / 4, y + height + textY1 - decSec);
+            if (!tdp.isScaled()) {
+                //TraceManager.addDev("Size of \""  +  ("sec:" + securityContext) +"\": " +  g.getFontMetrics().stringWidth("sec:" +
+                // securityContext));
+                securityMaxX = (int) (x + 3 * width / 4 + g.getFontMetrics().stringWidth("sec:" + securityContext) * 1.05);
+            }
             g.setColor(c);
         }
         drawReachabilityInformation(g);
+
         if (getCheckLatency()) {
             ConcurrentHashMap<String, String> latency = tdp.getMGUI().getLatencyVals(getDIPLOID());
 
@@ -220,6 +233,13 @@ public class TMLADReadChannel extends TADComponentWithoutSubcomponents/* Issue #
                 drawLatencyInformation(g);
             }
         }
+    }
+
+
+    public int getMyCurrentMaxX() {
+        /*TraceManager.addDev("Custom getMyCurrentMaxX. x+width= " + (x+width) + " SecurityMaxX=" + securityMaxX + " securityContext=" +
+                securityContext);*/
+        return Math.max(x + width, securityMaxX);
     }
 
     private void drawLatencyInformation(Graphics g) {

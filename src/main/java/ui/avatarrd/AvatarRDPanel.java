@@ -39,12 +39,14 @@
 
 package ui.avatarrd;
 
-//import java.awt.*;
+import myutil.TraceManager;
+import org.json.JSONObject;
+import org.json.JSONArray;
 
 import myutil.NameChecker;
-import myutil.TraceManager;
 import ui.*;
 
+import java.awt.*;
 import java.util.*;
 
 /**
@@ -184,6 +186,31 @@ public class AvatarRDPanel extends TDiagramPanel implements TDPWithAttributes, N
             }
         }
         return null;
+    }
+
+    public AvatarRDRequirement getReqWithId(String id) {
+        for(TGComponent tgc: componentList) {
+            if (tgc instanceof AvatarRDRequirement) {
+                if (  ((AvatarRDRequirement)(tgc)).getReqID().compareTo(id) == 0) {
+                    return (AvatarRDRequirement)tgc;
+                }
+            }
+        }
+        return null;
+    }
+
+    public AvatarRDRequirement addRequirement(String _name, String _id) {
+        // Find a less populated location, closer to (minX, minY)
+        Point p = findLessPopulatedLocation(200, 120);
+
+        AvatarRDRequirement rdReq = new AvatarRDRequirement(p.x, p.y, getMinX(), getMaxX(), getMinY(), getMaxY(), true, null, this);
+        rdReq.setValue(_name);
+        rdReq.setReqID(_id);
+        rdReq.adaptItsSizeAndWrapText();
+        addBuiltComponent(rdReq);
+
+
+        return rdReq;
     }
     
     /*public boolean isLinkedByVerifyTo(TGComponent tgc1, TGComponent tgc2) {
@@ -682,6 +709,94 @@ public class AvatarRDPanel extends TDiagramPanel implements TDPWithAttributes, N
         }
         return sb;
     }
+
+
+    /**
+     *
+     * @param _spec: the json specification
+     *            Elements of a requirement: name, id, doc, category, refine, derive, compose
+     *            {
+     *   "requirements": [
+     *     {
+     *       "name": "REQ1",
+     *       "text": "The system shall be able to autonomously navigate through a warehouse.",
+     *       "compose": ["REQ5", "REQ6"]
+     *     },
+     *     {
+     *       "name": "REQ2",
+     *       "text": "The system shall include a map of the warehouse to navigate through.",
+     *       "refine": ["REQ1"],
+     *       "derive": ["REQ3"]
+     *     },
+     *
+     */
+    public void loadAndUpdateFromText(String _spec) throws org.json.JSONException {
+
+        // cut before and after what is not part of the json array
+        int indexStart = _spec.indexOf('[');
+        int indexStop = _spec.lastIndexOf(']');
+
+        if ((indexStart == -1) || (indexStop == -1) || (indexStart > indexStop)) {
+            throw new org.json.JSONException("Invalid JSON array");
+        }
+
+        _spec = _spec.substring(indexStart, indexStop+1);
+
+        TraceManager.addDev("Cut spec: " + _spec);
+
+        JSONArray reqArray = new JSONArray(_spec);
+        for(int i=0; i<reqArray.length(); i++) {
+            String name = reqArray.getJSONObject(i).getString("name");
+            String id = reqArray.getJSONObject(i).getString("id");
+            TraceManager.addDev("Handling requirements " + name + " / " + id);
+
+            // If no requirement has this name, nor id, we create a new one.
+            // If a requirement has the same id xor the same name, we update it
+            // If a requirement has both, we simply select it
+
+            name = name.trim().replaceAll(" ", "_");
+
+            AvatarRDRequirement reqName = getReqWithName(name);
+            AvatarRDRequirement reqId = getReqWithId(id);
+            AvatarRDRequirement selectedReq = null;
+
+            if (reqName != null) {
+                if (reqId != null) {
+                    if (reqName == reqId) {
+                        selectedReq = reqName;
+                    } else {
+                        // Incoherency situation. We assume the name goes first
+                        selectedReq = reqName;
+                        selectedReq.setReqID(id);
+                    }
+                } else {
+                    selectedReq = reqName;
+                    selectedReq.setReqID(id);
+                }
+            } else if (reqId != null) {
+                // We know that the name is null
+                // We update the name of the requirement
+                selectedReq = reqId;
+                selectedReq.setValue(name);
+
+            } else {
+                if (selectedReq == null) {
+                    // We create a new Requirement
+                    selectedReq = addRequirement(name, id);
+                }
+            }
+
+            // We complete other values
+            String doc = reqArray.getJSONObject(i).getString("doc");
+            selectedReq.setText(doc);
+            /*JSONObject derive = reqArray.getJSONObject(i).getJSONObject("derive");
+            JSONObject refine = reqArray.getJSONObject(i).getJSONObject("refine");*/
+        }
+
+
+
+    }
+
 
 
 }

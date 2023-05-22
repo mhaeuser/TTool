@@ -47,7 +47,7 @@ public class RunUntilChannelAccessTest extends AbstractTest {
         SIM_DIR = getBaseResourcesDir() + "../../../../simulators/c++2/";
     }
     @Test
-    public void testRunUntilReadWriteOnChanelAccess() throws Exception {
+    public void testRunUntilReadWriteOnChannelAccess() throws Exception {
         for (int i = 0; i < 1; i++) {
             String s = MODELS_RUCA[i];
             SIM_DIR = DIR_GEN + s + "/";
@@ -180,38 +180,14 @@ public class RunUntilChannelAccessTest extends AbstractTest {
             System.out.println("Reding file: " + graphPath + ".txt to be compared with " + EXPECTED_FILE_RUCA);
             BufferedReader reader1 = new BufferedReader(new FileReader(graphPath + ".txt"));
             BufferedReader reader2 = new BufferedReader(new FileReader(EXPECTED_FILE_RUCA));
-
-            String line1 = reader1.readLine();
-
-            String line2 = reader2.readLine();
-
-            boolean areEqual = true;
-
-            int lineNum = 1;
-
-            while (line1 != null || line2 != null) {
-                if (line1 == null || line2 == null) {
-                    areEqual = false;
-                    break;
-                } else if (!line1.equalsIgnoreCase(line2)) {
-                    areEqual = false;
-                    break;
-                }
-                line1 = reader1.readLine();
-                line2 = reader2.readLine();
-                lineNum++;
-            }
-
-            if (areEqual) {
-                System.out.println("Two files have same content.");
-
-            } else {
-                System.out.println("Two files have different content. They differ at line " + lineNum);
-                System.out.println("File1 has " + line1 + " and File2 has " + line2 + " at line " + lineNum);
+            boolean areEqual = false;
+            try {
+                areEqual = CompareTwoBufferedReaders(reader1, reader2, " ID:([0-9])* ", " ");
+            } catch (AbstractTestException e) {
+                System.out.println(e.getMessage());
+                assertTrue(false);
             }
             assertTrue(areEqual);
-            reader1.close();
-            reader2.close();
         }
     }
 }

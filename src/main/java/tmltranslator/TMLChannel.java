@@ -328,11 +328,24 @@ public class TMLChannel extends TMLCommunicationElement {
     }
 
     public void toBasicIfPossible() {
+       TraceManager.addDev(" chan: " +  getName() + " Origin task: " + originTasks.size() + " destination task: " + destinationTasks.size());
         if ((originTasks.size() == 1) && (destinationTasks.size() == 1)) {
+            TraceManager.addDev(" Modifying channel to basic originPorts: " + originPorts.size() + " destinatioPorts: " + destinationPorts.size());
             originTask = originTasks.get(0);
             destinationTask = destinationTasks.get(0);
-            originPort = originPorts.get(0);
-            destinationPort = destinationPorts.get(0);
+            if (originPort == null) {
+                originPort = originPorts.get(0);
+                if (originPort == null) {
+                    TraceManager.addDev(" NULL origin port in ch " +  getName() );
+                }
+            }
+            if (destinationPort == null) {
+                destinationPort = destinationPorts.get(0);
+                if (destinationPort == null) {
+                    TraceManager.addDev(" NULL destination port in ch " +  getName() );
+                }
+            }
+
             originTasks = new ArrayList<TMLTask>();
             destinationTasks = new ArrayList<TMLTask>();
             originPorts = new ArrayList<TMLPort>();

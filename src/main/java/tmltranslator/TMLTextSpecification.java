@@ -109,7 +109,8 @@ public class TMLTextSpecification<E> {
     private String eventtypes[] = {"INF", "NIB", "NINB"};
 
     private String beginArray[] = {"TASK", "FOR", "IF", "ELSE", "ORIF", "SELECTEVT", "CASE", "RAND", "CASERAND", "RANDOMSEQ", "SEQ"};
-    private String endArray[] = {"ENDTASK", "ENDFOR", "ENDIF", "ELSE", "ORIF", "ENDSELECTEVT", "ENDCASE", "ENDRAND", "ENDCASERAND", "ENDRANDOMSEQ", "ENDSEQ"};
+    private String endArray[] = {"ENDTASK", "ENDFOR", "ENDIF", "ELSE", "ORIF", "ENDSELECTEVT", "ENDCASE", "ENDRAND", "ENDCASERAND", "ENDRANDOMSEQ",
+            "ENDSEQ"};
 
 // New argument to be added on EXECC for security: CC_name Type Encrypt_complexity Decrypt_Complexity Overhead Size Nonce Key
 // New argument on Read/Write Channels: CC_name
@@ -444,7 +445,7 @@ public class TMLTextSpecification<E> {
 
                 code = "EXECC" + SP + modifyString(((TMLExecC) elt).getAction()) + SP + elt.securityPattern.name + SP + type + SP +
                         elt.securityPattern.encTime + SP + elt.securityPattern.decTime + SP + elt.securityPattern.overhead + SP +
-                        elt.securityPattern.size + SP + nonce + SP + key + CR;
+                        elt.securityPattern.size + SP + nonce + SP + key + SP + elt.securityPattern.process + CR;
             }
             return code + makeBehavior(task, elt.getNextElement(0));
 
@@ -729,7 +730,6 @@ public class TMLTextSpecification<E> {
                         split = s1.split("\\s");
                         if (split.length > 0) {
                             findSec(split);
-
                         }
                     }
 
@@ -774,11 +774,12 @@ public class TMLTextSpecification<E> {
     public void findSec(String[] _split) {
         if (isInstruction(_split[0], "EXECC")) {
 
-            if (_split.length > 9) {
+            if (_split.length > 10) {
                 TraceManager.addDev("Found EXECC in: " + _split.length + " name=" + _split[2] + " type=" + _split[3]);
                 String ccName = _split[2];
                 String type = _split[3];
                 String stringType = "";
+                int process;
 
                 if (type.equals(AENCRYPT)) {
                     stringType = "Symmetric Encryption";
@@ -804,8 +805,13 @@ public class TMLTextSpecification<E> {
                     if (_split[8].compareTo(EMPTY_KEY_NONCE) == 0) {
                         key = "";
                     }
+                    process = SecurityPattern.DECRYPTION_PROCESS;
+                    if (_split[9].compareTo("" + SecurityPattern.ENCRYPTION_PROCESS) == 0) {
+                        process = SecurityPattern.ENCRYPTION_PROCESS;
+                    }
                     SecurityPattern sp = new SecurityPattern(ccName, stringType, _split[6], _split[7], _split[4], _split[5], nonce, "",
                             key);
+                    sp.process = process;
                     if (securityPatternMap.get(ccName) == null) {
                         tmlm.addSecurityPattern(sp);
                     }
@@ -966,20 +972,30 @@ public class TMLTextSpecification<E> {
                         tmlm.addTask(t1);
                         //TraceManager.addDev("New task:" + _split[4+dec]);
                     }
-                    ch.addTaskPort(t1, null, (i < indexOfIN));
+                    TMLPort port = new TMLPort(ch.getName(), null);
+                    ch.addTaskPort(t1, port, (i < indexOfIN));
                 }
 
             }
 
+
+            TraceManager.addDev("******** ch " + ch.getName() + " toBasicIfPossible");
             ch.toBasicIfPossible();
 
+            if (ch.getOriginPort() == null) {
+                TraceManager.addDev("******** NULL PORT");
+            }
+
             if (!(ch.isBasicChannel())) {
+                TraceManager.addDev("******* Not a basic channel");
                 if (ch.isBadComplexChannel()) {
                     error = "A complex channel must be \"1 -> many\" of \"many -> 1\"";
                     addError(0, _lineNb, 0, error);
                     return -1;
                 }
             }
+
+
             tmlm.addChannel(ch);
         } // CHANNEL
 
@@ -1712,6 +1728,9 @@ public class TMLTextSpecification<E> {
             if (_split.length > 3) {
                 if (securityPatternMap.containsKey(_split[_split.length - 1])) {
                     tmlwch.securityPattern = securityPatternMap.get(_split[_split.length - 1]);
+                    TraceManager.addDev("Nb of samples in task " + task.getName() +
+                            " security pattern: " + tmlwch.securityPattern.name);
+                    tmlwch.securityPattern.originTask = task.getTaskName();
                 }
                 for (int k = 0; k < _split.length - 3; k++) {
                     //TraceManager.addDev("Handling write channel 1.1");
@@ -2764,7 +2783,7 @@ public class TMLTextSpecification<E> {
 
             TraceManager.addDev("Found EXECC " + _split);
 
-            if (_split.length == 10) {
+            if (_split.length == 11) {
                 if (securityPatternMap.containsKey(_split[2])) {
                     //Security operation
                     TraceManager.addDev("Found security pattern: " + _split[2]);
@@ -2781,7 +2800,7 @@ public class TMLTextSpecification<E> {
                 }
             } else {
                 if ((_split.length < 2) || (_split.length > 4)) {
-                    error = "An EXECC operation must be declared with 1, 2 or 9 parameters, and not " + (_split.length - 1);
+                    error = "An EXECC operation must be declared with 1, 2 or 10 parameters, and not " + (_split.length - 1);
                     addError(0, _lineNb, 0, error);
                     return -1;
                 }

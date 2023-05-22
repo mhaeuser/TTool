@@ -198,8 +198,9 @@ public class ActivityDiagram2TMLTranslator {
                         ce.setTGComponent(tgc);
                         checkingErrors.add(ce);
                     } else {
-                        tmlexecc.securityPattern = sp;
-                        tmlexecc.setAction(Integer.toString(sp.encTime));
+                        tmlexecc.securityPattern = new SecurityPattern(sp);
+                        tmlexecc.securityPattern.setProcess(SecurityPattern.ENCRYPTION_PROCESS);
+                        tmlexecc.setAction(Integer.toString(sp.encTime));;
                         ((BasicErrorHighlight) tgc).setStateAction(ErrorHighlight.OK);
                         tmlm.securityTaskMap.get(sp).add(tmltask);
                         corrTgElement.addCor(tmlexecc, tgc);
@@ -215,8 +216,9 @@ public class ActivityDiagram2TMLTranslator {
                         ce.setTGComponent(tgc);
                         checkingErrors.add(ce);
                     } else {
-                        tmlexecc.securityPattern = sp;
+                        tmlexecc.securityPattern = new SecurityPattern(sp);
                         tmlexecc.setAction(Integer.toString(sp.decTime));
+                        tmlexecc.securityPattern.setProcess(SecurityPattern.DECRYPTION_PROCESS);
                         ((BasicErrorHighlight) tgc).setStateAction(ErrorHighlight.OK);
                         corrTgElement.addCor(tmlexecc, tgc);
                         tmlm.securityTaskMap.get(sp).add(tmltask);

@@ -39,11 +39,11 @@
 
 package myutil;
 
-import java.io.BufferedReader;
-import java.io.DataOutputStream;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 
 import org.json.JSONObject;
@@ -64,11 +64,12 @@ public class AIInterface {
     private final static String NO_KEY = "No key specified";
     private final static String NO_AI_MODEL = "No ai model specified (e.g. \"gpt-3.5-turbo\")";
     private final static String CONNECTION_PB = "Connection to server failed";
+    private final static String DISCONNECTION_PB = "DisConnection to server failed";
 
-    private String urlText;
-    private String key;
-    private String aiModel;
-    private HttpURLConnection connection;
+    private  String urlText;
+    private  String key;
+    private  String aiModel;
+    private  HttpURLConnection connection;
     private ArrayList<AIKnowledge> knowledge;
 
     public AIInterface() {
@@ -105,15 +106,32 @@ public class AIInterface {
         }
 
         try {
-            connection = (HttpURLConnection) new URL(urlText).openConnection();
-            connection.setRequestMethod("POST");
-            connection.setRequestProperty("Content-Type", "application/json");
-            connection.setRequestProperty("Authorization", "Bearer " + key);
-            connection.setDoOutput(true);
+            if (connection == null) {
+                TraceManager.addDev("Connecting to " + urlText);
+                connection = (HttpURLConnection) new URL(urlText).openConnection();
+                TraceManager.addDev("Connection to " + urlText + " is opened");
+                connection.setRequestMethod("POST");
+                //connection.setRequestProperty("Content-Type", "application/json");
+                connection.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
+                connection.setRequestProperty("Authorization", "Bearer " + key);
+                connection.setDoOutput(true);
+            }
 
         } catch (Exception e) {
+            disconnect();
             throw new AIInterfaceException(CONNECTION_PB);
         }
+        TraceManager.addDev("Connection done with key: " + key);
+    }
+
+    private void disconnect() throws AIInterfaceException {
+        try {
+            connection.disconnect();
+        } catch (Exception e) {
+            connection = null;
+            throw new AIInterfaceException(DISCONNECTION_PB);
+        }
+        connection = null;
     }
 
     public String chat(String text, boolean useKnowledgeAsInput, boolean useOuputKnowledge) throws AIInterfaceException {
@@ -127,9 +145,13 @@ public class AIInterface {
         array.put(sub);
         if (useOuputKnowledge) {
             for(AIKnowledge aik: knowledge) {
+                sub = new org.json.JSONObject();
                 sub.put("role", "user");
+                TraceManager.addDev("Putting user knowledge: " + aik.userKnowledge);
                 sub.put("content", aik.userKnowledge);
                 array.put(sub);
+                sub = new org.json.JSONObject();
+                TraceManager.addDev("Putting assistant knowledge: " + aik.assistantKnowledge);
                 sub.put("role", "assistant");
                 sub.put("content", aik.assistantKnowledge);
                 array.put(sub);
@@ -157,6 +179,8 @@ public class AIInterface {
             AIKnowledge addedKnowledge = new AIKnowledge(text, aiText);
             knowledge.add(addedKnowledge);
         }
+        //connection = null;
+        disconnect();
         return aiText;
     }
 
@@ -165,11 +189,22 @@ public class AIInterface {
             throw new AIInterfaceException(CONNECTION_PB);
         }
 
-        try (DataOutputStream outputStream = new DataOutputStream(connection.getOutputStream())) {
-            outputStream.writeBytes(_jsonToBeSent.toString());
+        try (OutputStream os = connection.getOutputStream(); OutputStreamWriter osw = new OutputStreamWriter(os, "UTF-8")) {
+            osw.write(_jsonToBeSent.toString());
+            osw.flush();
         } catch (Exception e) {
+            connection = null;
             throw new AIInterfaceException(e.getMessage());
         }
+
+        /*String formData = URLEncoder.encode(_jsonToBeSent.toString(), StandardCharsets.UTF_8);
+
+        try (DataOutputStream outputStream = new DataOutputStream(connection.getOutputStream())) {
+            outputStream.writeBytes(formData);
+        } catch (Exception e) {
+            connection = null;
+            throw new AIInterfaceException(e.getMessage());
+        }*/
     }
 
     private StringBuilder getAnswer() throws AIInterfaceException {

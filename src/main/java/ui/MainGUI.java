@@ -212,6 +212,7 @@ public class MainGUI implements ActionListener, WindowListener, KeyListener, Per
     public static boolean experimentalOn;
     public static boolean avatarOnly;
     public static boolean turtleOn;
+    public static boolean picoZebre;
     public static boolean openLast;
     public static Object BACK_COLOR;
     public boolean isxml = false;
@@ -334,7 +335,8 @@ public class MainGUI implements ActionListener, WindowListener, KeyListener, Per
     private boolean hidden = false;
 
     public MainGUI(boolean _openLast, boolean _turtleOn, boolean _systemcOn, boolean _lotosOn, boolean _proactiveOn, boolean _tpnOn, boolean _osOn,
-                   boolean _uppaalOn, boolean _ncOn, boolean _avatarOn, boolean _proverifOn, boolean _avatarOnly, boolean _experimental) {
+                   boolean _uppaalOn, boolean _ncOn, boolean _avatarOn, boolean _proverifOn, boolean _avatarOnly, boolean _experimental,
+                   boolean _picoZebre) {
         openLast = _openLast;
         TraceManager.addDev("openLast=" + openLast);
         turtleOn = _turtleOn;
@@ -349,6 +351,9 @@ public class MainGUI implements ActionListener, WindowListener, KeyListener, Per
         proverifOn = _proverifOn;
         avatarOnly = _avatarOnly;
         experimentalOn = _experimental;
+        picoZebre = _picoZebre;
+
+
 
         currentInvariant = null;
 
@@ -504,6 +509,10 @@ public class MainGUI implements ActionListener, WindowListener, KeyListener, Per
 
         // Actions
         initActions();
+
+        if (picoZebre) {
+            handlePicoZebre();
+        }
 
         // mode
         setMode(NOT_OPENED);
@@ -3826,7 +3835,9 @@ public class MainGUI implements ActionListener, WindowListener, KeyListener, Per
         boolean b = false;
         boolean ret = false;
 
-        gtm.getCheckingWarnings().clear();
+        if (gtm.getCheckingWarnings() != null) {
+            gtm.getCheckingWarnings().clear();
+        }
 
         if (file == null) {
             JOptionPane.showMessageDialog(frame, "The project must be saved before any simulation or formal verification can be performed",
@@ -5991,6 +6002,11 @@ public class MainGUI implements ActionListener, WindowListener, KeyListener, Per
         if (graph != null) {
             showAUTFromString("Analysis on " + graph[0], graph[1]);
         }
+    }
+
+    public void  handlePicoZebre() {
+        actions[TGUIAction.EXTERNAL_ACTION_1].putValue(Action.SMALL_ICON, IconManager.imgic154);
+        actions[TGUIAction.EXTERNAL_ACTION_2].putValue(Action.SMALL_ICON, IconManager.imgic154);
     }
 
     public void pmAUT() {

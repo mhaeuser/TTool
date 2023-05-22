@@ -1,0 +1,24 @@
+TMLSPEC
+    #include "symetric.tml"
+ENDTMLSPEC
+
+TMLARCHI
+    #include "symetric.tarchi"
+ENDTMLARCHI
+
+TMLMAPPING
+    MAP CPUAlice SymmetricExchange__Alice
+    SET SymmetricExchange__Alice priority 0
+    MAP CPUBob SymmetricExchange__Bob
+    SET SymmetricExchange__Bob priority 0
+    MAP ExternalMemory SymmetricExchange__comm
+    SET SymmetricExchange__comm priority 0
+    MAP ExternalBus SymmetricExchange__comm
+    SET SymmetricExchange__comm priority 0
+    MAP BusAlice SymmetricExchange__comm
+    SET SymmetricExchange__comm priority 0
+    MAP BusBob SymmetricExchange__comm
+    SET SymmetricExchange__comm priority 0
+    MAPSEC MemoryAlice sym
+    MAPSEC MemoryBob sym
+ENDTMLMAPPING

@@ -1,0 +1,34 @@
+// TML Application - FORMAT 0.2
+// Application: /Users/ludovicapvrille/TTool/modeling/SysMLSec/AliceAndBobHW.xml
+// Generated: Wed May 17 10:08:56 CEST 2023
+
+// PRAGMAS
+
+// Channels
+CHANNEL SymmetricExchange__comm NBRNBW 4 OUT SymmetricExchange__Alice IN SymmetricExchange__Bob
+VCCHANNEL SymmetricExchange__comm 0
+CONFCHANNEL SymmetricExchange__comm
+AUTHCHANNEL SymmetricExchange__comm
+
+// Events
+
+// Requests
+
+TASK SymmetricExchange__Alice
+    TASKOP
+    //Local variables
+    
+    //Behavior
+    EXECC 100 sym SE 100 100 0 0 - - 1
+    WRITE SymmetricExchange__comm 1+0 sym
+ENDTASK
+
+TASK SymmetricExchange__Bob
+    TASKOP
+    //Local variables
+    
+    //Behavior
+    READ SymmetricExchange__comm 1+0 sym
+    EXECC 100 sym SE 100 100 0 0 - - 2
+ENDTASK
+

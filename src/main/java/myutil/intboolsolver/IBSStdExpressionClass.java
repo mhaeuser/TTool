@@ -424,7 +424,7 @@ public class IBSStdExpressionClass<
         public final boolean eval(SpecState _ss, State _st) { return constant; }
         public final boolean eval(CompState _cs) { return constant; }
         public final boolean eval(Object _qs) { return constant; }
-        public final String toString() { return (constant ? opString[btrue] : opString[bfalse]); }
+        public final String toString() { return (constant ? opString[btrue>>>4] : opString[bfalse>>>4]); }
         public final boolean hasStates() { return false; }
         public final void linkStates() {}
         public final void linkComps(Spec _spec) {}
@@ -520,7 +520,7 @@ public class IBSStdExpressionClass<
         }
         public final int eval(Object _qs){ return (isNeg?-(left.eval(_qs) + right.eval(_qs)):(left.eval(_qs) + right.eval(_qs))); }
         public final String toString() {
-            String s = "(" +  left.toString() + ")" + opString[iiiPlus] + "(" +  right.toString() + ")";
+            String s = "(" +  left.toString() + ")" + opString[iiiPlus>>>4] + "(" +  right.toString() + ")";
             return  (isNeg? opString[iNeg] + "(" + s + ")" : s);
         }
     }
@@ -551,7 +551,7 @@ public class IBSStdExpressionClass<
             return (isNeg?-(left.eval(_qs) - right.eval(_qs)):(left.eval(_qs) - right.eval(_qs)));
         }
         public final String toString() {
-            String s = "(" +  left.toString() + ")" + opString[iiiMinus] + "(" +  right.toString() + ")";
+            String s = "(" +  left.toString() + ")" + opString[iiiMinus>>>4] + "(" +  right.toString() + ")";
             return  (isNeg? opString[iNeg] + "(" + s + ")" : s);
         }
     }
@@ -582,7 +582,7 @@ public class IBSStdExpressionClass<
             return (isNeg?-(left.eval(_qs) * right.eval(_qs)):(left.eval(_qs) * right.eval(_qs)));
         }
         public final String toString() {
-            String s = "(" +  left.toString() + ")" + opString[iiiMult] + "(" +  right.toString() + ")";
+            String s = "(" +  left.toString() + ")" + opString[iiiMult>>>4] + "(" +  right.toString() + ")";
             return  (isNeg? opString[iNeg] + "(" + s + ")" : s);
         }
     }
@@ -613,7 +613,7 @@ public class IBSStdExpressionClass<
             return (isNeg?-(left.eval(_qs) / right.eval(_qs)):(left.eval(_qs) / right.eval(_qs)));
         }
         public final String toString() {
-            String s = "(" +  left.toString() + ")" + opString[iiiDiv] + "(" +  right.toString() + ")";
+            String s = "(" +  left.toString() + ")" + opString[iiiDiv>>>4] + "(" +  right.toString() + ")";
             return  (isNeg? opString[iNeg] + "(" + s + ")" : s);
         }
     }
@@ -644,7 +644,7 @@ public class IBSStdExpressionClass<
             return (isNeg?-(left.eval(_qs) % right.eval(_qs)):(left.eval(_qs) % right.eval(_qs)));
         }
         public final String toString() {
-            String s = "(" +  left.toString() + ")" + opString[iiiMod] + "(" +  right.toString() + ")";
+            String s = "(" +  left.toString() + ")" + opString[iiiMod>>>4] + "(" +  right.toString() + ")";
             return  (isNeg? opString[iNeg] + "(" + s + ")" : s);
         }
     }
@@ -678,7 +678,7 @@ public class IBSStdExpressionClass<
             return isNot != b;
         }
         public final String toString() {
-            String s = "(" +  left.toString() + ")" + opString[bbbAnd] + "(" +  right.toString() + ")";
+            String s = "(" +  left.toString() + ")" + opString[bbbAnd>>>4] + "(" +  right.toString() + ")";
             return  (isNot? opString[bNot] + "(" + s + ")" : s);
         }
     }
@@ -712,7 +712,7 @@ public class IBSStdExpressionClass<
             return isNot != b;
         }
         public final String toString() {
-            String s = "(" +  left.toString() + ")" + opString[bbbOr] + "(" +  right.toString() + ")";
+            String s = "(" +  left.toString() + ")" + opString[bbbOr>>>4] + "(" +  right.toString() + ")";
             return  (isNot? opString[bNot] + "(" + s + ")" : s);
         }
     }
@@ -729,7 +729,7 @@ public class IBSStdExpressionClass<
         public final boolean eval(CompState _cs) { return left.eval(_cs) == right.eval(_cs); }
         public final boolean eval(Object _qs) { return left.eval(_qs) == right.eval(_qs); }
         public final String toString() {
-            return  "(" + left.toString() + ")" + opString[biiEq] + " (" + right.toString() + ")";
+            return  "(" + left.toString() + ")" + opString[biiEq>>>4] + " (" + right.toString() + ")";
         }
     }
     public final class BBBEq extends BBBBinOp {
@@ -742,7 +742,7 @@ public class IBSStdExpressionClass<
         public final boolean eval(CompState _cs) { return left.eval(_cs) == right.eval(_cs); }
         public final boolean eval(Object _qs) { return left.eval(_qs) == right.eval(_qs); }
         public final String toString() {
-            return  "(" + left.toString() + ")" + opString[bbbEq] + " (" + right.toString() + ")";
+            return  "(" + left.toString() + ")" + opString[bbbEq>>>4] + " (" + right.toString() + ")";
         }
     }
     public final class BIIDif extends BIIBinOp {
@@ -758,7 +758,7 @@ public class IBSStdExpressionClass<
         public final boolean eval(CompState _cs) { return left.eval(_cs) != right.eval(_cs); }
         public final boolean eval(Object _qs) { return left.eval(_qs) != right.eval(_qs); }
         public final String toString() {
-            return  "(" + left.toString() + ")" + opString[biiDif] + " (" + right.toString() + ")";
+            return  "(" + left.toString() + ")" + opString[biiDif>>>4] + " (" + right.toString() + ")";
         }
     }
     public final class BBBDif extends BBBBinOp {
@@ -773,7 +773,7 @@ public class IBSStdExpressionClass<
             return left.eval(_qs) != right.eval(_qs);
         }
         public final String toString() {
-            return "(" + left.toString() + ")" + opString[bbbDif] + " (" + right.toString() + ")";
+            return "(" + left.toString() + ")" + opString[bbbDif>>>4] + " (" + right.toString() + ")";
         }
     }
     public final class BIILt extends BIIBinOp {
@@ -790,7 +790,7 @@ public class IBSStdExpressionClass<
         public final String toString() {
             String l = left.toString();
             String r = right.toString();
-            return  "(" +l + ")" + opString[biiLt] + "(" + r + ")";
+            return  "(" +l + ")" + opString[biiLt>>>4] + "(" + r + ")";
         }
     }
     public final class BIIGt extends BIIBinOp {
@@ -805,7 +805,7 @@ public class IBSStdExpressionClass<
         public final String toString() {
             String l = left.toString();
             String r = right.toString();
-            return   "(" +l + ")" + opString[biiGt] + "(" + r + ")";
+            return   "(" +l + ")" + opString[biiGt>>>4] + "(" + r + ")";
         }
     }
     public final class BIILeq extends BIIBinOp {
@@ -820,7 +820,7 @@ public class IBSStdExpressionClass<
         public final String toString() {
             String l = left.toString();
             String r = right.toString();
-            return   "(" +l + ")" + opString[biiLeq] + "(" + r + ")";
+            return   "(" +l + ")" + opString[biiLeq>>>4] + "(" + r + ")";
         }
     }
     public final class BIIGeq extends BIIBinOp {
@@ -835,7 +835,7 @@ public class IBSStdExpressionClass<
         public final String toString() {
             String l = left.toString();
             String r = right.toString();
-            return   "(" +l + ")" + opString[biiGeq] + "(" + r + ")";
+            return   "(" +l + ")" + opString[biiGeq>>>4] + "(" + r + ")";
         }
     }
 }

@@ -39,12 +39,12 @@
 package myutil.intboolsolver.closedformula;
 
 import myutil.intboolsolver.*;
-import myutil.intboolsolver.history.IBSOriginParser;
+
 
 /**
  * class IBSClosedFormulaParser is a complete implementation
- * and instantiation of {@link IBSOriginParser
- * IBSOriginParser} for closed Formulas.
+ * and instantiation of {@link IBSStdParser
+ * IBSStdParser} for closed Formulas.
  *
  * <p> It can be used as it is.</p>
  * Creation: 07/03/2023

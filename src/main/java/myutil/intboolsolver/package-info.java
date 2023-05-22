@@ -313,7 +313,7 @@ public class AvatarIBSStdParser extends IBSStdParser&lt;
         }
 }
  </PRE>
- * Note: the (deprecated) constructor of javaCUP parser "super()" is used
+ * <p>Note: the (deprecated) constructor of javaCUP parser "super()" is used
  * as setting the lexer is a bit more complex than the default behaviour
  * of "super(lexer)" provided by javaCUP (do not use it).</p>
  * <p>WARNING : The lexer must be set first as setAttributeClass and

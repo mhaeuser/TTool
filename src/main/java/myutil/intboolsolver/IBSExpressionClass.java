@@ -190,10 +190,6 @@ public class IBSExpressionClass<
     /** method for building an expression. Such a method find
      * a free index to memorize the build expression and return it.
      */
-    public int make_biVar(IBSAttributeClass<Spec,Comp,State,SpecState,CompState>.Attribute _v) { return -1; }
-    /** method for building an expression. Such a method find
-     * a free index to memorize the build expression and return it.
-     */
     public int make_iConst(int _i) { return -1; }
     /** method for building an expression. Such a method find
      * a free index to memorize the build expression and return it.
@@ -209,13 +205,10 @@ public class IBSExpressionClass<
      * The Parameter is the index of a previously build expression.
      */
     public int make_bNot(int _expr) { return -1; }
-    /** method for building an expression. Such a method find
-     * a free index to memorize the build expression and return it.
-     * The Parameter is the index of a previously build expression.
-     */
-    public int make_biExpr(int _expr) { return -1; }
 
     public abstract class Expr{
+        protected short type; // to be available  in extensions for technical reason
+        public short getType() {return type;}
         public abstract String toString();
         public abstract boolean hasStates();
         public abstract void linkStates();

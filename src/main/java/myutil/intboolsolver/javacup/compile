@@ -10,6 +10,9 @@ sed "s/IBSLexerClassName/$LEXER_CLASS/g" $JFLEX_FILE > __${LEXER_CLASS}2__.jflex
 sed "s/IBSFlex#Symb/$SYMBOL_CLASS/g" __${LEXER_CLASS}2__.jflex > __${LEXER_CLASS}__.jflex
 jflex __${LEXER_CLASS}__.jflex
 sed "s/public class $LEXER_CLASS/public class $LEXER_CLASS< Spec extends IBSParamSpec, Comp extends IBSParamComp, State extends IBSParamState, SpecState extends IBSParamSpecState, CompState extends IBSParamCompState >/" $LEXER_CLASS.java > __${LEXER_CLASS}__.java
+sed "s/<tt>/<code>/g" __${LEXER_CLASS}__.java > $LEXER_CLASS.java
+sed "s/<\/tt>/<\/code>/g" $LEXER_CLASS.java > __${LEXER_CLASS}__.java
+
 rm $LEXER_CLASS.java
 mv __${LEXER_CLASS}__.java $LEXER_CLASS.java
 rm __${LEXER_CLASS}__.jflex __${LEXER_CLASS}2__.jflex

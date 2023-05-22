@@ -48,6 +48,18 @@ import java.util.ArrayList;
  * are saved (technical choice that allow inheritance)</p>
  * <p> There are two memories: one for integer expressions and one
  * for boolean expressions.</p>
+ * <hr>
+ * <p> About the encoding of expression types: considering bits from less significant bit (0) to most significant bit (15)</p>
+ * <ul><li> Bit 0 is 1 iff expression type is boolean </li>
+ * <li> Bit 1 is 1 iff expression is unary, i.e. negated (not or unary minus) </li>
+ * <li> Bit 2 is 1 iff expression is binary (negated or not...) </li>
+ * <li> if expression is binary, then bit 3 is 1 iff arguments are booleans (otherwise they are integers)</li>
+ * <li> if expression is not binary, then bit 3 is 1 iff expression is constant (otherwise it is variable)</li>
+ * <li> if relevant, other bits provide the index of the associated symbol in the symbol table:
+ * <code> symbol = opString[expression.getType()>>>4] </code></li>
+ * </ul>
+ * <p><code>iNeg</code> and <code>bNeg</code> are not types but simple symbol indexes (thus they do not contain
+ * the 4-bit encoding and do not require the right shift 4.</p>
  *
  * @version 1.0 11/04/2023
  * @author Sophie Coudert
@@ -60,33 +72,52 @@ public class IBSStdExpressionClass<
         SpecState extends IBSParamSpecState,
         CompState extends IBSParamCompState
         > extends IBSExpressionClass<Spec,Comp,State,SpecState,CompState> {
-    private final int[] prios =       { 2 , 2 , 1 , 1 , 1 , 1  ,  2 ,  3 ,  3 ,  3 ,  3 , 3 , 3 ,  3 ,  3 };
     private final String[] opString = {"+","-","*","/","%","&&","||","==","==","!=","!=","<",">","<=",">=","-","!","true","false"};
-    private final short iiiPlus = 0;
-    private final short iiiMinus = 1;
-    private final short iiiMult = 2;
-    private final short iiiDiv = 3;
-    private final short iiiMod = 4;
-    private final short bbbAnd = 5;
-    private final short bbbOr = 6;
-    private final short biiEq = 7;
-    private final short bbbEq = 8;
-    private final short biiDif = 9;
-    private final short bbbDif = 10;
-    private final short biiLt = 11;
-    private final short biiGt = 12;
-    private final short biiLeq = 13;
-    private final short biiGeq = 14;
-    private final short iNeg = 15;
-    private final short bNot = 16;
-    private final short btrue = 17;
-    private final short bfalse = 18;
-    private final short iVar = 1000; // no associated symbol
-    private final short bVar = 1001; // no associated symbol
-    private final short biVar = 1002; // no associated symbol
-    private final short iConst = 1003; // no associated symbol
-    private final short bConst = 1004; // no associated symbol
-    private final short biExpr = 1005; // no associated symbol
+    public final short iiiPlus = 0<<4 | 0b0100;
+    public final short iiiPlus_n = 0<<4 | 0b0110;
+    public final short iiiMinus = 1<<4 | 0b0100;
+    public final short iiiMinus_n = 1<<4 | 0b0110;
+    public final short iiiMult = 2<<4 | 0b0100;
+    public final short iiiMult_n = 2<<4 | 0b0110;
+    public final short iiiDiv = 3<<4 | 0b0100;
+    public final short iiiDiv_n = 3<<4 | 0b0110;
+    public final short iiiMod = 4<<4 | 0b0100;
+    public final short iiiMod_n = 4<<4 | 0b0110;
+    public final short bbbAnd = 5<<4 | 0b1101;
+    public final short bbbAnd_n = 5<<4 | 0b1111;
+    public final short bbbOr = 6<<4 | 0b1101;
+    public final short bbbOr_n = 6<<4 | 0b1111;
+    public final short biiEq = 7<<4 | 0b0101 ;
+    public final short bbbEq = 8<<4 | 0b1101;
+    public final short biiDif = 9<<4 | 0b0101;
+    public final short bbbDif = 10<<4 | 0b1101;
+    public final short biiLt = 11<<4 | 0b0101;
+    public final short biiGt = 12<<4 | 0b0101;
+    public final short biiLeq = 13<<4 | 0b0101;
+    public final short biiGeq = 14<<4 | 0b0101;
+    public final short iNeg = 15; // simple symbol index
+    public final short bNot = 16; // simple symbol index
+    public final short btrue = 17<<4 | 0b1001;
+    public final short bfalse = 18<<4 | 0b1001;
+    public final short iVar = 64<<4 | 0b0000; // no associated symbol
+    public final short iVar_n = 64<<4 | 0b0010; // no associated symbol
+    public final short bVar = 65<<4 | 0b0001; // no associated symbol
+    public final short bVar_n = 65<<4 | 0b0011; // no associated symbol
+    public final short iConst = 67<<4 | 0b1000 ; // no associated symbol
+    public final short bConst = 68<<4 | 0b1001 ; // no associated symbol
+    public final boolean isBool(Expr e) { return (e.getType() & 0b1) == 0b1; }
+    public final boolean isUnary(Expr e) { return (e.getType() & 0b10) == 0b10; }
+    public final boolean isBinary(Expr e) { return ((e.getType() & 0b110) == 0b100); }
+    public final boolean isConstant(Expr e) { return ((e.getType() & 0b1110) == 0b1000); }
+    public final boolean isVar(Expr e) { return ((e.getType() & 0b1110) == 0b0000); }
+    public final IExpr getArg(IExpr e){ return ( isUnary(e)?e.negate():null); }
+    public final BExpr getArg(BExpr e){ return ( isUnary(e)?e.negate():null); }
+    public final IExpr getLeftArg(IIIBinOp e){ return ( isBinary(e)?e.left:null); }
+    public final IExpr getRightArg(IIIBinOp e){ return ( isBinary(e)?e.right:null); }
+    public final IExpr getLeftArg(BIIBinOp e){ return ( isBinary(e)?e.left:null); }
+    public final IExpr getRightArg(BIIBinOp e){ return ( isBinary(e)?e.right:null); }
+    public final BExpr getLeftArg(BBBBinOp e){ return ( isBinary(e)?e.left:null); }
+    public final BExpr getRightArg(BBBBinOp e){ return ( isBinary(e)?e.right:null); }
 
     private final ArrayList<IExpr> iExpressions = new ArrayList<IExpr>(16);
     private final ArrayList<BExpr> bExpressions = new ArrayList<BExpr>(16);
@@ -270,15 +301,6 @@ public class IBSStdExpressionClass<
         bExpressions.set(tgt, new BVar(_v));
         return tgt;
     }
-    public int make_biVar(IBSAttributeClass<Spec,Comp,State,SpecState,CompState>.Attribute _v) {
-        int tgt = findBfree();
-        if (_v == null)
-            throw new Error("IBSStdExpressionClass.make_biVar called on null attribute");
-        if (_v.getType() != IBSAttributeClass.IntAttr)
-            return -1;
-        bExpressions.set(tgt, new BIVar(_v));
-        return tgt;
-    }
     public int make_iConst(int _i) {
         int tgt = findIfree();
         iExpressions.set(tgt, new IConst(_i));
@@ -303,23 +325,11 @@ public class IBSStdExpressionClass<
         bExpressions.set(tgt, bExpressions.get(_expr).negate());
         return tgt;
     }
-    public int make_biExpr(int _expr) {
-        int tgt = findBfree();
-        if (iExpressions.size()<=_expr || _expr < 0 || iExpressions.get(_expr) == null)
-            throw new Error("IBSStdExpressionClass.make_biExpr called on undefined subexpression");
-        bExpressions.set(tgt, new BIExpr(iExpressions.get(_expr)));
-        return tgt;
-    }
     public abstract class IExpr extends IBSExpressionClass<Spec,Comp,State,SpecState,CompState>.IExpr {
-        protected short type;
-        public final short getType() { return type; }
-        public abstract int getPrio();
         public abstract IExpr negate();
     }
     public abstract class BExpr extends IBSExpressionClass<Spec,Comp,State,SpecState,CompState>.BExpr {
-        protected short type;
         public final short getType() { return type; }
-        public abstract int getPrio();
         public abstract BExpr negate();
     }
     public abstract class IIIBinOp extends IExpr{
@@ -378,7 +388,7 @@ public class IBSStdExpressionClass<
             left.linkComps(_spec);
             right.linkComps(_spec);
         }
-    }
+   }
     public final class IConst extends IExpr {
         private final int constant;
         private IConst(int _i){ constant = _i; type = iConst;}
@@ -389,7 +399,6 @@ public class IBSStdExpressionClass<
         public final IConst negate(){
             return new IConst(this);
         }
-        public final int getPrio(){ return 0; }
         public final int eval() { return constant; }
         public final int eval(SpecState _ss) { return constant; }
         public final int eval(SpecState _ss, State _st) { return constant; }
@@ -410,7 +419,6 @@ public class IBSStdExpressionClass<
         public final BConst negate() {
             return new BConst(this);
         }
-        public final int getPrio(){ return 0; }
         public final boolean eval() { return constant; }
         public final boolean eval(SpecState _ss) { return constant; }
         public final boolean eval(SpecState _ss, State _st) { return constant; }
@@ -432,12 +440,11 @@ public class IBSStdExpressionClass<
         private IVar(IVar _v){
             var = _v.var;
             isNeg = !_v.isNeg;
-            type = iVar;
+            type = (isNeg?iVar_n:iVar);
         }
         public IVar negate(){
             return new IVar(this);
         }
-        public final int getPrio(){ return 0; }
         public final int eval(){ return 0; }
         public final int eval(SpecState _ss) { return (isNeg?-var.getValue(_ss):var.getValue(_ss)); }
         public final int eval(SpecState _ss, State _st) { return (isNeg?-var.getValue(_ss,_st):var.getValue(_ss,_st)); }
@@ -463,47 +470,9 @@ public class IBSStdExpressionClass<
         private BVar(BVar _b){
             isNot = !_b.isNot;
             var = _b.var;
-            type = bVar;
+            type = (isNot?bVar_n:bVar);
         }
         public BVar negate(){ return new BVar(this);}
-        public final int getPrio(){ return 0; }
-        public final boolean eval(){ return false; }
-        public final boolean eval(SpecState _ss) {
-            return (isNot == (var.getValue(_ss) == 0));
-        }
-        public final boolean eval(SpecState _ss, State _st) {
-            return (isNot == (var.getValue(_ss, _st) == 0));
-        }
-        public final boolean eval(CompState _cs) {
-            return (isNot == (var.getValue(_cs) == 0));
-        }
-        public final boolean eval(Object _qs) {
-            return (isNot == (var.getValue(_qs) == 0));
-        }
-        public final String toString() {
-            if (isNot)
-                return opString[bNot] + "(" + var.toString() + ")";
-            return var.toString();
-        }
-        public final boolean hasStates() { return var.isState(); }
-        public final void linkStates() {var.linkState();}
-        public final void linkComps(Spec _spec) {var.linkComp(_spec);}
-    }
-    public final class BIVar extends BExpr {
-        private final boolean isNot;
-        private final IBSAttributeClass<Spec,Comp,State,SpecState,CompState>.Attribute var;
-        private BIVar(IBSAttributeClass<Spec,Comp,State,SpecState,CompState>.Attribute _v) {
-            var = _v;
-            isNot=false;
-            type = biVar;
-        }
-        public BIVar(BIVar _b) {
-            isNot = !_b.isNot;
-            var =_b.var;
-            type = biVar;
-        }
-        public BIVar negate() { return new BIVar(this); }
-        public final int getPrio(){ return 0; }
         public final boolean eval(){ return false; }
         public final boolean eval(SpecState _ss) {
             return (isNot == (var.getValue(_ss) == 0));
@@ -536,10 +505,9 @@ public class IBSStdExpressionClass<
         public IIIPlus(IIIPlus _p){
             super(_p.left, _p.right);
             isNeg = !_p.isNeg;
-            type = iiiPlus;
+            type = (isNeg?iiiPlus_n:iiiPlus);
         }
         public final IIIPlus negate(){ return new IIIPlus(this); }
-        public final int getPrio() { return prios[iiiPlus]; }
         public final int eval() { return (isNeg?-(left.eval() + right.eval()):(left.eval() + right.eval())); }
         public final int eval(SpecState _ss) {
             return (isNeg?-(left.eval(_ss) + right.eval(_ss)):(left.eval(_ss) + right.eval(_ss)));
@@ -566,10 +534,9 @@ public class IBSStdExpressionClass<
         public IIIMinus(IIIMinus _p){
             super(_p.left, _p.right);
             isNeg = !_p.isNeg;
-            type = iiiMinus;
+            type = (isNeg?iiiMinus_n:iiiMinus);
         }
         public final IIIMinus negate(){ return new IIIMinus(this); }
-        public final int getPrio() { return prios[iiiMinus]; }
         public final int eval() { return (isNeg?-(left.eval() - right.eval()):(left.eval() - right.eval())); }
         public final int eval(SpecState _ss) {
             return (isNeg?-(left.eval(_ss) - right.eval(_ss)):(left.eval(_ss) - right.eval(_ss)));
@@ -598,10 +565,9 @@ public class IBSStdExpressionClass<
         public IIIMult(IIIMult _p){
             super(_p.left, _p.right);
             isNeg = !_p.isNeg;
-            type = iiiMult;
+            type = (isNeg?iiiMult_n:iiiMult);
         }
         public final IIIMult negate(){ return new IIIMult(this); }
-        public final int getPrio() { return prios[iiiMult]; }
         public final int eval() { return (isNeg?-(left.eval() * right.eval()):(left.eval() * right.eval())); }
         public final int eval(SpecState _ss) {
             return (isNeg?-(left.eval(_ss) * right.eval(_ss)):(left.eval(_ss) * right.eval(_ss)));
@@ -630,10 +596,9 @@ public class IBSStdExpressionClass<
         public IIIDiv(IIIDiv _p){
             super(_p.left, _p.right);
             isNeg = !_p.isNeg;
-            type = iiiDiv;
+            type = (isNeg?iiiDiv_n:iiiDiv);
         }
         public final IIIDiv negate(){ return new IIIDiv(this); }
-        public final int getPrio() { return prios[iiiDiv]; }
         public final int eval() { return (isNeg?-(left.eval() / right.eval()):(left.eval() / right.eval())); }
         public final int eval(SpecState _ss) {
             return (isNeg?-(left.eval(_ss) / right.eval(_ss)):(left.eval(_ss) / right.eval(_ss)));
@@ -662,10 +627,9 @@ public class IBSStdExpressionClass<
         public IIIMod(IIIMod _p){
             super(_p.left, _p.right);
             isNeg = !_p.isNeg;
-            type = iiiMod;
+            type = (isNeg?iiiMod_n:iiiMod);
         }
         public final IIIMod negate(){ return new IIIMod(this); }
-        public final int getPrio() { return prios[iiiMod]; }
         public final int eval() { return (isNeg?-(left.eval() % right.eval()):(left.eval() % right.eval())); }
         public final int eval(SpecState _ss) {
             return (isNeg?-(left.eval(_ss) % right.eval(_ss)):(left.eval(_ss) % right.eval(_ss)));
@@ -690,10 +654,9 @@ public class IBSStdExpressionClass<
         public BBBAnd(BBBAnd _p){
             super(_p.left, _p.right);
             isNot = !_p.isNot;
-            type = bbbAnd;
+            type = (isNot?bbbAnd_n:bbbAnd);
         }
         public final BBBAnd negate(){ return new BBBAnd(this); }
-        public final int getPrio() { return prios[bbbAnd]; }
         public final boolean eval() {
             boolean b = left.eval() && right.eval();
             return isNot != b;
@@ -725,10 +688,9 @@ public class IBSStdExpressionClass<
         public BBBOr(BBBOr _p){
             super(_p.left, _p.right);
             isNot = !_p.isNot;
-            type = bbbOr;
+            type = (isNot?bbbOr_n:bbbOr);
         }
         public final BBBOr negate(){ return new BBBOr(this); }
-        public final int getPrio() { return prios[bbbOr]; }
         public final boolean eval() {
             boolean b = left.eval() || right.eval();
             return isNot != b;
@@ -761,7 +723,6 @@ public class IBSStdExpressionClass<
             type = biiEq;
         }
         public final BIIDif negate(){ return new BIIDif(this); }
-        public final int getPrio() { return prios[biiEq]; }
         public final boolean eval() { return left.eval() == right.eval(); }
         public final boolean eval(SpecState _ss) { return left.eval(_ss) == right.eval(_ss); }
         public final boolean eval(SpecState _ss, State _st) { return left.eval(_ss,_st) == right.eval(_ss,_st); }
@@ -775,7 +736,6 @@ public class IBSStdExpressionClass<
         public BBBEq(BExpr _l, BExpr _r){ super(_l, _r); type = bbbEq; }
         public BBBEq(BBBDif _p){ super(_p.left, _p.right); type = bbbEq; }
         public final BBBDif negate(){ return new BBBDif(this); }
-        public final int getPrio() { return prios[bbbEq]; }
         public final boolean eval() { return left.eval() == right.eval(); }
         public final boolean eval(SpecState _ss) { return left.eval(_ss) == right.eval(_ss); }
         public final boolean eval(SpecState _ss, State _st) { return left.eval(_ss,_st) == right.eval(_ss,_st); }
@@ -792,7 +752,6 @@ public class IBSStdExpressionClass<
             type = biiDif;
         }
         public final BIIEq negate(){ return new BIIEq(this); }
-        public final int getPrio() { return prios[biiDif]; }
         public final boolean eval() { return left.eval() != right.eval(); }
         public final boolean eval(SpecState _ss) { return left.eval(_ss) != right.eval(_ss); }
         public final boolean eval(SpecState _ss, State _st) { return left.eval(_ss,_st) != right.eval(_ss,_st); }
@@ -806,7 +765,6 @@ public class IBSStdExpressionClass<
         public BBBDif(BExpr _l, BExpr _r){ super(_l, _r); type = bbbDif; }
         public BBBDif(BBBEq _p){ super(_p.left, _p.right); type = bbbDif; }
         public final BBBEq negate(){ return new BBBEq(this); }
-        public final int getPrio() { return prios[bbbDif]; }
         public final boolean eval() { return left.eval() != right.eval(); }
         public final boolean eval(SpecState _ss) { return left.eval(_ss) != right.eval(_ss); }
         public final boolean eval(SpecState _ss, State _st) { return left.eval(_ss,_st) != right.eval(_ss,_st); }
@@ -822,7 +780,6 @@ public class IBSStdExpressionClass<
         public BIILt(IExpr _l, IExpr _r) { super(_l, _r); type = biiLt; }
         public BIILt(BIIGeq _p){ super(_p.left, _p.right); type = biiLt; }
         public final BIIGeq negate(){ return new BIIGeq(this); }
-        public final int getPrio() { return prios[biiLt]; }
         public final boolean eval() { return  left.eval() < right.eval(); }
         public final boolean eval(SpecState _ss) { return left.eval(_ss) < right.eval(_ss); }
         public final boolean eval(SpecState _ss, State _st) { return left.eval(_ss, _st) < right.eval(_ss, _st); }
@@ -840,7 +797,6 @@ public class IBSStdExpressionClass<
         public BIIGt(IExpr _l, IExpr _r) { super(_l, _r); type = biiGt; }
         public BIIGt(BIILeq _p){ super(_p.left, _p.right); type = biiGt; }
         public final BIILeq negate(){ return new BIILeq(this); }
-        public final int getPrio() { return prios[biiGt]; }
         public final boolean eval() { return left.eval() > right.eval(); }
         public final boolean eval(SpecState _ss) { return left.eval(_ss) > right.eval(_ss); }
         public final boolean eval(SpecState _ss, State _st) { return left.eval(_ss, _st) > right.eval(_ss, _st); }
@@ -856,7 +812,6 @@ public class IBSStdExpressionClass<
         public BIILeq(IExpr _l, IExpr _r){ super(_l, _r); type = biiLeq; }
         public BIILeq(BIIGt _p){ super(_p.left, _p.right); type = biiLeq; }
         public final BIIGt negate(){ return new BIIGt(this); }
-        public final int getPrio() { return prios[biiLeq]; }
         public final boolean eval() { return left.eval() <= right.eval(); }
         public final boolean eval(SpecState _ss) { return left.eval(_ss) <= right.eval(_ss); }
         public final boolean eval(SpecState _ss, State _st) { return left.eval(_ss, _st) <= right.eval(_ss, _st); }
@@ -872,7 +827,6 @@ public class IBSStdExpressionClass<
         public BIIGeq(IExpr _l, IExpr _r) { super(_l, _r); type = biiGeq; }
         public BIIGeq(BIILt _p){ super(_p.left, _p.right); type = biiGeq; }
         public final BIILt negate(){ return new BIILt(this); }
-        public final int getPrio() { return prios[biiGeq]; }
         public final boolean eval() { return left.eval() >= right.eval(); }
         public final boolean eval(SpecState _ss) { return left.eval(_ss) >= right.eval(_ss); }
         public final boolean eval(SpecState _ss, State _st) { return left.eval(_ss, _st) >= right.eval(_ss, _st); }
@@ -883,32 +837,5 @@ public class IBSStdExpressionClass<
             String r = right.toString();
             return   "(" +l + ")" + opString[biiGeq] + "(" + r + ")";
         }
-    }
-    public final class BIExpr extends BExpr {
-        private final boolean isNot;
-        IExpr iExpr;
-        public BIExpr(IExpr _e) { iExpr=_e; isNot=false; type = biExpr; }
-        public BIExpr(BIExpr _e) {
-            iExpr=_e.iExpr;
-            isNot = !_e.isNot;
-            type = biExpr;
-        }
-        public final BIExpr negate() { return new BIExpr(this); }
-        public final int getPrio() { return 0; }
-        public final boolean eval() { return (isNot == (iExpr.eval() == 0)); }
-        public final boolean eval(SpecState _ss) { return (isNot == (iExpr.eval(_ss) == 0)); }
-        public final boolean eval(SpecState _ss, State _st) { return (isNot == (iExpr.eval(_ss, _st) == 0)); }
-        public final boolean eval(CompState _cs) { return (isNot == (iExpr.eval(_cs) == 0)); }
-        public final boolean eval(Object _qs) { return (isNot == (iExpr.eval(_qs) == 0)); }
-        public final String toString() {
-            String s = iExpr.toString();
-            if (isNot)
-                return opString[bNot] + "(" + s + ")";
-            else
-                return  s;
-        };
-        public final boolean hasStates() { return false; };
-        public final void linkStates() { iExpr.linkStates(); };
-        public final void linkComps(Spec _spec) { iExpr.linkComps(_spec); };
     }
 }

@@ -959,8 +959,8 @@ public class TMLModeling<E> {
 
                 signalName = s.split("__decrypt")[0];
 
-                /*for (TMLTask t: getTasks()){
-                  if (signalName.contains(t.getName())){
+                /*for (TMLTask t: getTasks()) {
+                  if (signalName.contains(t.getName())) {
                   signalName = signalName.replace(t.getName()+"__","");
                   }
                   }*/
@@ -1076,8 +1076,8 @@ public class TMLModeling<E> {
                 }
                 signalName = s.toString().split("__decrypt")[0];
 
-                    /*for (TMLTask t: getTasks()){
-                      if (signalName.contains(t.getName())){
+                    /*for (TMLTask t: getTasks()) {
+                      if (signalName.contains(t.getName())) {
                       signalName = signalName.replace(t.getName()+"__","");
                       }
                       }*/
@@ -1668,7 +1668,7 @@ public class TMLModeling<E> {
                 //TraceManager.addDev("Getting usage");
                 name = attr.getName();
                 if (!(name.startsWith("arg")) && (name.endsWith("__req"))) {
-                    //if ((name.compareTo("arg1__req") != 0) && (name.compareTo("arg2__req") != 0) && (name.compareTo("arg3__req") != 0)){
+                    //if ((name.compareTo("arg1__req") != 0) && (name.compareTo("arg2__req") != 0) && (name.compareTo("arg3__req") != 0)) {
                     usage = getUsageOfAttribute(task, activity, attr);
                     //TraceManager.addDev("End getting usage");
                     if (usage == 0) {

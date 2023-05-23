@@ -1514,7 +1514,7 @@ public class GTURTLEModeling {
 
 
 
-        		for (TMLADWriteChannel wr: wrChans){
+        		for (TMLADWriteChannel wr: wrChans) {
 
 	        		String chanName = wr.getChannelName();
 
@@ -1813,12 +1813,12 @@ public class GTURTLEModeling {
             return;
         }
         for (SecurityPattern sp : tmlm.securityTaskMap.keySet()) {
-            if (sp.type.contains("Symmetric Encryption") || sp.type.equals("MAC") || sp.type.equals("Asymmetric Encryption")) {
+            if (sp.type.equals(SecurityPattern.SYMMETRIC_ENC_PATTERN) || sp.type.equals(SecurityPattern.MAC_PATTERN) || sp.type.equals(SecurityPattern.ASYMMETRIC_ENC_PATTERN)) {
                 for (TMLTask t : tmlm.securityTaskMap.get(sp)) {
                     HwExecutionNode node1 = tmap.getHwNodeOf(t);
                     boolean taskMappedToCPU = false;
-                    if (node1!=null){
-                        if (node1 instanceof HwCPU){
+                    if (node1!=null) {
+                        if (node1 instanceof HwCPU) {
                             HwCPU cpuNode = (HwCPU) node1;
                             taskMappedToCPU = true;
                             boolean keyMappedtoMem = false;
@@ -1868,7 +1868,7 @@ public class GTURTLEModeling {
                                                 links.add(newLink);*/
 
                                                 //Connect Bus and Memory
-                                                TDiagramPanel archPanel =  busNode.tdp;
+                                                TDiagramPanel archPanel = busNode.tdp;
                                                 TMLArchiConnectorNode connect = new TMLArchiConnectorNode(memNodeToMap.getX() + 100, archPanel.getMaxY() - 300, archPanel.getMinX(), archPanel.getMaxX(), archPanel.getMinY(), archPanel.getMaxY(), true, null, archPanel, null, null, new Vector<Point>());
                                                 TGConnectingPoint p1 = busNode.findFirstFreeTGConnectingPoint(true, true);
                                                 p1.setFree(false);
@@ -1892,7 +1892,7 @@ public class GTURTLEModeling {
                                 }
                             }
                             if (!keyMappedtoMem) {
-                                if (lastLink!=null){
+                                if (lastLink != null) {
                                     TMLArchiBUSNode lastBusNode = (TMLArchiBUSNode) listE.getTG(lastLink.bus);
                                     TMLArchiCPUNode cpuArchiNode = (TMLArchiCPUNode) listE.getTG(cpuNode);
 
@@ -1963,8 +1963,8 @@ public class GTURTLEModeling {
 
                                     //Disconnect Public Bus and CPU
                                     lastBusNode.tdp.getConnectorConnectedTo(p2);
-                                    for (TGConnector connector: lastBusNode.tdp.getConnectors()){
-                                        if ((connector.getTGComponent1() == cpuArchiNode && connector.getTGComponent2() == lastBusNode) || (connector.getTGComponent1() == lastBusNode && connector.getTGComponent2() == cpuArchiNode)){
+                                    for (TGConnector connector: lastBusNode.tdp.getConnectors()) {
+                                        if ((connector.getTGComponent1() == cpuArchiNode && connector.getTGComponent2() == lastBusNode) || (connector.getTGComponent1() == lastBusNode && connector.getTGComponent2() == cpuArchiNode)) {
                                             TraceManager.addDev("Disconnect :" + connector.getTGComponent1().getName() + " and " + connector.getTGComponent2().getName());
                                             lastBusNode.tdp.removeComponent(connector);
                                         }       
@@ -1973,7 +1973,7 @@ public class GTURTLEModeling {
                             }
                         }
                     }
-                    if (!taskMappedToCPU){
+                    if (!taskMappedToCPU) {
                         TraceManager.addDev(t.getTaskName() + " has to be mapped to a CPU!");
                     }
                 }
@@ -3313,7 +3313,7 @@ public class GTURTLEModeling {
             Point p1 = savedPanels.elementAt(size - 1); // panels are saved under the form of a point -> x = analysis/design, y = panel
             if (p == null)
                 p = p1;
-			/*if ((p1.x != p.x) || (p1.y != p.y)){
+			/*if ((p1.x != p.x) || (p1.y != p.y)) {
 			  savedOperations.add(savedOperations.elementAt(size - 1));
 			  savedPanels.add(p);
 			  if (savedOperations.size() > nbMaxSavedOperations) {
@@ -3524,7 +3524,7 @@ public class GTURTLEModeling {
 		  checkingErrors = tmc.syntaxAnalysisChecking();
 		  warnings.addAll(tmc.getWarnings());
 
-		  if ((checkingErrors != null) && (checkingErrors.size() > 0)){
+		  if ((checkingErrors != null) && (checkingErrors.size() > 0)) {
 		  analyzeErrors();
 		  return false;
 		  } else {
@@ -7595,7 +7595,7 @@ public class GTURTLEModeling {
                             tdp.addBuiltComponent(tgc);
                             list.add(tgc);
 
-                            /*if ((zoomV != 1) && (tgc instanceof TGScalableComponent)){
+                            /*if ((zoomV != 1) && (tgc instanceof TGScalableComponent)) {
                                 ((TGScalableComponent)tgc).forceScale(zoomV);
                                 TraceManager.addDev("myX after =" + tgc.getX());
                             }*/
@@ -7797,7 +7797,7 @@ public class GTURTLEModeling {
 
 
             // Do the scaling here?
-            /*if ((zoomV != 1) && (tgc instanceof TGScalableComponent)){
+            /*if ((zoomV != 1) && (tgc instanceof TGScalableComponent)) {
                 ((TGScalableComponent)tgc).forceScale(zoomV);
                 TraceManager.addDev("myX after =" + tgc.getX());
             }*/
@@ -7826,7 +7826,7 @@ public class GTURTLEModeling {
                     if (father instanceof SwallowTGComponent) {
                         //TraceManager.addDev("1 Must add the component to its father:");
                         tgc = TGComponentManager.addComponent(myX, myY, myType, tdp);
-                        /*if ((zoomV != 1) && (tgc instanceof TGScalableComponent)){
+                        /*if ((zoomV != 1) && (tgc instanceof TGScalableComponent)) {
                             ((TGScalableComponent)tgc).forceScale(zoomV);
                             TraceManager.addDev("myX after =" + tgc.getX());
                         }*/
@@ -7852,7 +7852,7 @@ public class GTURTLEModeling {
                 }
             } else {
                 tgc = TGComponentManager.addComponent(myX, myY, myType, tdp);
-                /*if ((zoomV != 1) && (tgc instanceof TGScalableComponent)){
+                /*if ((zoomV != 1) && (tgc instanceof TGScalableComponent)) {
                     ((TGScalableComponent)tgc).forceScale(zoomV);
                     TraceManager.addDev("myX after =" + tgc.getX());
                 }*/
@@ -8888,7 +8888,7 @@ public class GTURTLEModeling {
 
 	//     checkingErrors = gtmlm.getCheckingErrors();
 	//     avatarspec = gtmlm.avspec;
-	//     if ((checkingErrors != null) && (checkingErrors.size() > 0)){
+	//     if ((checkingErrors != null) && (checkingErrors.size() > 0)) {
 	//         analyzeErrors();
 	//         warnings = gtmlm.getCheckingWarnings();
 	//         return false;
@@ -9238,13 +9238,13 @@ public class GTURTLEModeling {
 
         if (asme instanceof AvatarState) {
             //check if empty checker state
-			/* if (asme.getName().contains("signalstate_")){
+			/* if (asme.getName().contains("signalstate_")) {
 			//don't add the state, ignore next transition,
-			if (asme.getNexts().size()==1){
+			if (asme.getNexts().size()==1) {
 			AvatarStateMachineElement next = asme.getNext(0).getNext(0);
 			//Reroute transition
-			for (AvatarTransition at: tranDestMap.keySet()){
-			if (tranDestMap.get(at) == asme){
+			for (AvatarTransition at: tranDestMap.keySet()) {
+			if (tranDestMap.get(at) == asme) {
 			tranDestMap.put(at, next);
 			}
 			}
@@ -9791,9 +9791,9 @@ public class GTURTLEModeling {
                     conn.updateAllSignals();
                 }
 
-				/*for (ui.AvatarSignal sig:blockMap.get(bl1).getSignalList()){
-				  for (ui.AvatarSignal sig2: blockMap.get(bl2).getSignalList()){
-				  if (sig.getId().equals(sig2.getId())){
+				/*for (ui.AvatarSignal sig:blockMap.get(bl1).getSignalList()) {
+				  for (ui.AvatarSignal sig2: blockMap.get(bl2).getSignalList()) {
+				  if (sig.getId().equals(sig2.getId())) {
 				  conn.addSignal("in "+sig.getId(), true, true);
 				  conn.addSignal("out "+sig.getId(), false, false);
 				  }

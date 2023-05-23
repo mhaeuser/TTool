@@ -1170,10 +1170,10 @@ public class FullTML2Avatar {
                 //If encryption
                 if (ae.securityPattern != null && ae.securityPattern.process == SecurityPattern.ENCRYPTION_PROCESS) {
                     secPatterns.add(ae.securityPattern);
-                    if (ae.securityPattern.type.equals("Advanced")) {
+                    if (ae.securityPattern.type.equals(SecurityPattern.ADVANCED_PATTERN)) {
                         //Type Advanced
                         tran.addAction(ae.securityPattern.formula);
-                    } else if (ae.securityPattern.type.equals("Symmetric Encryption")) {
+                    } else if (ae.securityPattern.type.equals(SecurityPattern.SYMMETRIC_ENC_PATTERN)) {
                         //Type Symmetric Encryption
                         if (!ae.securityPattern.nonce.isEmpty()) {
                             //Concatenate nonce to data
@@ -1230,7 +1230,7 @@ public class FullTML2Avatar {
                         //Set as origin for authenticity
                         ae.securityPattern.originTask = block.getName();
                         ae.securityPattern.state1 = as;
-                    } else if (ae.securityPattern.type.equals("Asymmetric Encryption")) {
+                    } else if (ae.securityPattern.type.equals(SecurityPattern.ASYMMETRIC_ENC_PATTERN)) {
                         if (!ae.securityPattern.nonce.isEmpty()) {
                             //Concatenating a nonce
                             //Add concat2 method
@@ -1277,7 +1277,7 @@ public class FullTML2Avatar {
                         //Set as origin state for authenticity
                         ae.securityPattern.originTask = block.getName();
                         ae.securityPattern.state1 = as;
-                    } else if (ae.securityPattern.type.equals("Nonce")) {
+                    } else if (ae.securityPattern.type.equals(SecurityPattern.NONCE_PATTERN)) {
                         //Do nothing except occupy time to forge nonce
 
 
@@ -1291,14 +1291,14 @@ public class FullTML2Avatar {
 							arandom.addNext(tran);
 							elementList.add(tran);
 							block.addAttribute(new AvatarAttribute(ae.securityPattern.name, AvatarType.INTEGER, block, null));*/
-                    } else if (ae.securityPattern.type.equals("Hash")) {
+                    } else if (ae.securityPattern.type.equals(SecurityPattern.HASH_PATTERN)) {
                         AvatarMethod hash = new AvatarMethod("hash", ae);
                         hash.addParameter(block.getAvatarAttributeWithName(ae.securityPattern.name));
                         if (block.getAvatarAttributeWithName(ae.securityPattern.name) != null) {
                             block.addMethod(hash);
                         }
                         tran.addAction(ae.securityPattern.name + "_encrypted = hash(" + ae.securityPattern.name + ")");
-                    } else if (ae.securityPattern.type.equals("MAC")) {
+                    } else if (ae.securityPattern.type.equals(SecurityPattern.MAC_PATTERN)) {
                         block.addAttribute(new AvatarAttribute(ae.securityPattern.name, AvatarType.INTEGER, block, null));
                         block.addAttribute(new AvatarAttribute("key_" + ae.securityPattern.name, AvatarType.INTEGER, block, null));
                         block.addAttribute(new AvatarAttribute(ae.securityPattern.name + "_encrypted", AvatarType.INTEGER, block, null)); //msg + mac(msg)
@@ -1356,7 +1356,7 @@ public class FullTML2Avatar {
                     //Decryption action
                     //block.addAttribute(new AvatarAttribute(ae.securityPattern.name, AvatarType.INTEGER, block, null));
                     //block.addAttribute(new AvatarAttribute(ae.securityPattern.name+"_encrypted", AvatarType.INTEGER, block, null));
-                    if (ae.securityPattern.type.equals("Symmetric Encryption")) {
+                    if (ae.securityPattern.type.equals(SecurityPattern.SYMMETRIC_ENC_PATTERN)) {
                         if (!ae.securityPattern.key.isEmpty()) {
                             //Decrypting a key
                             //Add sdecrypt method
@@ -1423,7 +1423,7 @@ public class FullTML2Avatar {
                             AvatarAttributeState authDest = new AvatarAttributeState(block.getName() + "." + dummy.getName() + "." + ae.securityPattern.name, ae.getReferenceObject(), block.getAvatarAttributeWithName(ae.securityPattern.name), dummy);
                             signalAuthDestMap.put(ae.securityPattern.name, authDest);
                         }
-                    } else if (ae.securityPattern.type.equals("Asymmetric Encryption")) {
+                    } else if (ae.securityPattern.type.equals(SecurityPattern.ASYMMETRIC_ENC_PATTERN)) {
                         AvatarMethod adecrypt = new AvatarMethod("adecrypt", ae);
 
                         if (!ae.securityPattern.key.isEmpty()) {
@@ -1490,7 +1490,7 @@ public class FullTML2Avatar {
                                     ae.securityPattern.name, ae.getReferenceObject(), block.getAvatarAttributeWithName(ae.securityPattern.name), dummy);
                             signalAuthDestMap.put(ae.securityPattern.name, authDest);
                         }
-                    } else if (ae.securityPattern.type.equals("MAC")) {
+                    } else if (ae.securityPattern.type.equals(SecurityPattern.MAC_PATTERN)) {
                         //Separate MAC from MSG
 
                         //Add get2 method

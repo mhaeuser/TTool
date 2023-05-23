@@ -495,7 +495,7 @@ public class SecurityGeneration implements Runnable {
                                 if (chan.checkConf && autoConf && nonConf) {
                                     toSecure.get(orig).add(dest);
 								/*if (chan.checkAuth && autoStrongAuth) {
-								  if (!toSecureRev.get(dest).contains(orig)){
+								  if (!toSecureRev.get(dest).contains(orig)) {
 								  toSecureRev.get(dest).add(orig);
 								  }
 								  }*/
@@ -543,8 +543,8 @@ public class SecurityGeneration implements Runnable {
                                 } else if (chan.checkAuth && autoWeakAuth && nonAuth) {
                                     toSecure.get(orig).add(dest);
 								/*	if (autoStrongAuth) {
-								/*  		if (chan.getOriginTask().getReferenceObject() instanceof TMLCPrimitiveComponent && chan.getDestinationTask().getReferenceObject() instanceof TMLCPrimitiveComponent){*/
-								/*if (!toSecureRev.get(dest).contains(orig)){
+								/*  		if (chan.getOriginTask().getReferenceObject() instanceof TMLCPrimitiveComponent && chan.getDestinationTask().getReferenceObject() instanceof TMLCPrimitiveComponent) {*/
+								/*if (!toSecureRev.get(dest).contains(orig)) {
 								  toSecureRev.get(dest).add(orig);
 								  }*/
 								/*}
@@ -834,8 +834,8 @@ public class SecurityGeneration implements Runnable {
                                 for (TMLChannel chan : chans2) {
                                     if (chan.isCheckAuthChannel()) {
                                         if (chan.getName().split("__")[1].equals(channelAtif.getCommunicationName())) {
-                                            count_chans +=1;
-                                            if (count_chans==1) {
+                                            count_chans += 1;
+                                            if (count_chans == 1) {
                                                 compMemToPutChannel = compMem;
                                                 newChannelInMem = new TMLArchiCommunicationArtifact(compMem.getX(), (int)(compMem.getY()+compMem.getHeight()*(0.3+Math.random()/2)), compMem.getCurrentMinX(), compMem.getCurrentMaxX(), compMem.getCurrentMinY(), compMem.getCurrentMaxY(), true, comp, newarch.tmlap);
                                                 newChannelInMem.setCommunicationName(destPort.commName);
@@ -848,7 +848,7 @@ public class SecurityGeneration implements Runnable {
                             }
                         }
                     }
-                    if (count_chans>0){
+                    if (count_chans > 0) {
                         compMemToPutChannel.addInternalComponent(newChannelInMem, compMemToPutChannel.getNbInternalTGComponent());
                     }
                 }
@@ -935,7 +935,7 @@ public class SecurityGeneration implements Runnable {
                     }
 
                     enc.securityContext = channelSecMap.get(channel);
-                    enc.type = "Symmetric Encryption";
+                    enc.type = SecurityPattern.SYMMETRIC_ENC_PATTERN;
                     enc.message_overhead = overhead;
                     enc.encTime = encComp;
                     enc.decTime = decComp;
@@ -1032,7 +1032,7 @@ public class SecurityGeneration implements Runnable {
                     //Add encryption operator
 
                     enc.securityContext = channelSecMap.get(channel);
-                    enc.type = "MAC";
+                    enc.type = SecurityPattern.MAC_PATTERN;
                     enc.message_overhead = overhead;
                     enc.encTime = encComp;
                     enc.decTime = decComp;
@@ -1295,7 +1295,7 @@ public class SecurityGeneration implements Runnable {
                         yShift += 60;
                         nonce = new TMLADEncrypt(xpos, ypos + yShift, tad.getMinX(), tad.getMaxX(), tad.getMinY(), tad.getMaxY(), false, null, tad);
                         nonce.securityContext = "nonce_" + tmlc.getDestinationTask().getName().split("__")[1] + "_" + tmlc.getOriginTask().getName().split("__")[1];
-                        nonce.type = "Nonce";
+                        nonce.type = SecurityPattern.NONCE_PATTERN;
                         nonce.message_overhead = overhead;
                         nonce.encTime = encComp;
                         nonce.decTime = decComp;
@@ -1432,7 +1432,7 @@ public class SecurityGeneration implements Runnable {
                         //Create a nonce operator and a write channel operator
                         TMLADEncrypt nonce = new TMLADEncrypt(xpos, ypos + yShift, tad.getMinX(), tad.getMaxX(), tad.getMinY(), tad.getMaxY(), false, null, tad);
                         nonce.securityContext = "nonce_" + tmlc.getDestinationTask().getName().split("__")[1] + "_" + tmlc.getOriginTask().getName().split("__")[1];
-                        nonce.type = "Nonce";
+                        nonce.type = SecurityPattern.NONCE_PATTERN;
                         nonce.message_overhead = overhead;
                         nonce.encTime = encComp;
                         nonce.decTime = decComp;
@@ -1548,7 +1548,7 @@ public class SecurityGeneration implements Runnable {
                         //Create a nonce operator and a write channel operator
                         nonce = new TMLADEncrypt(xpos, ypos + yShift, tad.getMinX(), tad.getMaxX(), tad.getMinY(), tad.getMaxY(), false, null, tad);
                         nonce.securityContext = "nonce_" + tmlc.getDestinationTask().getName().split("__")[1] + "_" + tmlc.getOriginTask().getName().split("__")[1];
-                        nonce.type = "Nonce";
+                        nonce.type = SecurityPattern.NONCE_PATTERN;
                         nonce.message_overhead = overhead;
                         nonce.encTime = encComp;
                         nonce.decTime = decComp;
@@ -1630,7 +1630,7 @@ public class SecurityGeneration implements Runnable {
 
 //    GTMLModeling gtm = new GTMLModeling(newarch, false);
 //   map = gtm.translateToTMLMapping();
-//if (gtm.getCheckingErrors().size() > 0){
+//if (gtm.getCheckingErrors().size() > 0) {
 //System.out.println("@$()(#");
 //map= null;
 // }
@@ -1765,13 +1765,13 @@ public class SecurityGeneration implements Runnable {
                     TMLADEncrypt enc = new TMLADEncrypt(xc, 500, tad.getMinX(), tad.getMaxX(), tad.getMinY(), tad.getMaxY(), false, null, tad);
                     enc.securityContext = channelSecMap.get(ch.name);
                     if (ch.secType == HSMChannel.SENC) {
-                        enc.type = "Symmetric Encryption";
+                        enc.type = SecurityPattern.SYMMETRIC_ENC_PATTERN;
                     } else if (ch.secType == HSMChannel.AENC) {
-                        enc.type = "Asymmetric Encryption";
+                        enc.type = SecurityPattern.ASYMMETRIC_ENC_PATTERN;
                     } else if (ch.secType == HSMChannel.MAC) {
-                        enc.type = "MAC";
+                        enc.type = SecurityPattern.MAC_PATTERN;
                     } else if (ch.secType == HSMChannel.NONCE) {
-                        enc.type = "Nonce";
+                        enc.type = SecurityPattern.NONCE_PATTERN;
                     }
 
                     enc.message_overhead = overhead;
@@ -1904,13 +1904,13 @@ public class SecurityGeneration implements Runnable {
                     TMLADEncrypt enc = new TMLADEncrypt(xc, 500, tad.getMinX(), tad.getMaxX(), tad.getMinY(), tad.getMaxY(), false, null, tad);
                     enc.securityContext = channelSecMap.get(ch.name);
                     if (ch.secType == HSMChannel.SENC) {
-                        enc.type = "Symmetric Encryption";
+                        enc.type = SecurityPattern.SYMMETRIC_ENC_PATTERN;
                     } else if (ch.secType == HSMChannel.AENC) {
-                        enc.type = "Asymmetric Encryption";
+                        enc.type = SecurityPattern.ASYMMETRIC_ENC_PATTERN;
                     } else if (ch.secType == HSMChannel.MAC) {
-                        enc.type = "MAC";
+                        enc.type = SecurityPattern.MAC_PATTERN;
                     } else if (ch.secType == HSMChannel.NONCE) {
-                        enc.type = "Nonce";
+                        enc.type = SecurityPattern.NONCE_PATTERN;
                     }
 
                     enc.message_overhead = overhead;

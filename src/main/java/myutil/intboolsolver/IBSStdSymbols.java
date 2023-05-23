@@ -13,18 +13,19 @@ public class IBSStdSymbols {
   public static final int AND = 7;
   public static final int LT = 11;
   public static final int PLUS = 2;
-  public static final int INT = 21;
+  public static final int INT = 22;
   public static final int OR = 8;
   public static final int NOT = 15;
   public static final int GT = 12;
   public static final int PARSE_INT = 19;
   public static final int EOF = 0;
   public static final int MULT = 4;
+  public static final int PARSE_GUARD = 21;
   public static final int DIV = 5;
   public static final int MINUS = 3;
   public static final int error = 1;
   public static final int EQ = 9;
-  public static final int BOOL = 22;
+  public static final int BOOL = 23;
   public static final int PARSE_BOOL = 20;
   public static final int LEQ = 13;
   public static final int RPAR = 17;
@@ -53,6 +54,7 @@ public class IBSStdSymbols {
   "UMINUS",
   "PARSE_INT",
   "PARSE_BOOL",
+  "PARSE_GUARD",
   "INT",
   "BOOL"
   };

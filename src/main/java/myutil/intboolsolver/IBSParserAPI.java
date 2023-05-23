@@ -56,7 +56,9 @@ import java.util.HashSet;
  *          IBSExpressionClass&lt;Spec,Comp,State,SpecState,CompState&gt; _e);
  * </PRE>
  * <p> When using the default constructor, attribute and expression classes
- * can be set <i>a posteriori</i>.</p>
+ * can be set <i>a posteriori</i>. In some implementation, additional
+ * components must be provided: for example, when using the provided javacup
+ * generated parser, a lexer must be provided.</p>
  *
  * <p>The parser offers several parsing methods depending on the structure
  * in which open leaves are interpreted.</p>
@@ -68,6 +70,11 @@ import java.util.HashSet;
  * occur in a single expression, returned error information is not
  * exhaustive.
  * </p>
+ *
+ * <p> Parsing is provided for integer expressions, boolean expressions,
+ * and guards. The only difference between guards and boolean expressions
+ * is that guards can be empty strings (or only spaces), which are
+ * evaluated as {@code true}. </p>
  *
  * @author Sophie Coudert (rewrite from Alessandro TEMPIA CALVINO)
  * @version 1.0 11/04/2023
@@ -124,6 +131,12 @@ public interface IBSParserAPI<
      * @return an expression if no error has been detected. Otherwise, null.
      */
     public IBSExpressionClass<Spec,Comp,State,SpecState,CompState>.BExpr parseBool(Spec _spec, String _s);
+    /** parse a guard
+     * @param _spec the specification in which open leaves are interpreted
+     * @param _s the string to parse
+     * @return an expression if no error has been detected. Otherwise, null.
+     */
+    public IBSExpressionClass<Spec,Comp,State,SpecState,CompState>.BExpr parseGuard(Spec _spec, String _s);
     /** parse an integer expression
      * @param _comp the component in which open leaves are interpreted
      * @param _s the string to parse
@@ -136,6 +149,12 @@ public interface IBSParserAPI<
      * @return an expression if no error has been detected. Otherwise, null.
      */
     public IBSExpressionClass<Spec,Comp,State,SpecState,CompState>.BExpr parseBool(Comp _comp, String _s);
+    /** parse a guard
+     * @param _comp the component in which open leaves are interpreted
+     * @param _s the string to parse
+     * @return an expression if no error has been detected. Otherwise, null.
+     */
+    public IBSExpressionClass<Spec,Comp,State,SpecState,CompState>.BExpr parseGuard(Comp _comp, String _s);
     /** parse a closed integer expression
      * @param _s the string to parse
      * @return an expression if no error has been detected. Otherwise, null.
@@ -146,6 +165,11 @@ public interface IBSParserAPI<
      * @return an expression if no error has been detected. Otherwise, null.
      */
     public IBSExpressionClass<Spec,Comp,State,SpecState,CompState>.BExpr parseBool(String _s);
+    /** parse a closed guard
+     * @param _s the string to parse
+     * @return an expression if no error has been detected. Otherwise, null.
+     */
+    public IBSExpressionClass<Spec,Comp,State,SpecState,CompState>.BExpr parseGuard(String _s);
     /** builds an integer expression from an attribute
      * @param _attr the source attribute
      * @return an expression if no error has been detected. Otherwise, null.

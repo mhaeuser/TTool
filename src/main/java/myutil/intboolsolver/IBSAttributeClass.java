@@ -145,11 +145,17 @@ public class IBSAttributeClass<
                attrVal = a;
                if (isbool) type=BoolAttr; else type=IntAttr;
           }
-          /** As its name suggests... */
+          /** As its name suggests...
+           * @return the attribute type
+           */
           public int getType() { return type; }
-          /** As its name suggests... relevant only for constant types (unchecked) */
+          /** As its name suggests... relevant only for constant types (unchecked)
+           * @return the constant value of the attribute
+           */
           public int getConstant() { return constVal; }
-          /** As its name suggests... relevant only for variable types (unchecked) */
+          /** As its name suggests... relevant only for variable types (unchecked)
+           * @return the attribute that characterizes the variable
+           */
           public Attribute getAttribute() { return attrVal; }
           public boolean isAttribute() { return (type >= BoolAttr); }
      }
@@ -205,6 +211,8 @@ public class IBSAttributeClass<
            * links components of attributes to their environment (spec).
            * If possible... (attributes must have internal information about
            * their components). Too specific, to enhance in the future...
+           * @param _spec the specification in which the components are
+           *              comprised
            */
           public void linkComp(Spec _spec) {}
           public String toString() { return ""; }

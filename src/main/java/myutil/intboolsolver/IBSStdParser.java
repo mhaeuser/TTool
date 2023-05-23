@@ -33,14 +33,15 @@ public class IBSStdParser< Spec extends IBSParamSpec, Comp extends IBSParamComp,
   /** Production table. */
   protected static final short _production_table[][] = 
     unpackFromStrings(new String[] {
-    "\000\030\000\002\002\004\000\002\002\004\000\002\002" +
-    "\004\000\002\003\005\000\002\003\005\000\002\003\005" +
+    "\000\032\000\002\002\004\000\002\002\004\000\002\002" +
+    "\004\000\002\002\004\000\002\002\003\000\002\003\005" +
     "\000\002\003\005\000\002\003\005\000\002\003\005\000" +
-    "\002\003\004\000\002\003\003\000\002\004\005\000\002" +
-    "\004\005\000\002\004\003\000\002\004\005\000\002\004" +
-    "\004\000\002\004\005\000\002\004\005\000\002\004\005" +
+    "\002\003\005\000\002\003\005\000\002\003\004\000\002" +
+    "\003\003\000\002\004\005\000\002\004\005\000\002\004" +
+    "\003\000\002\004\005\000\002\004\004\000\002\004\005" +
     "\000\002\004\005\000\002\004\005\000\002\004\005\000" +
-    "\002\004\005\000\002\004\005" });
+    "\002\004\005\000\002\004\005\000\002\004\005\000\002" +
+    "\004\005" });
 
   /** Access to production table. */
   @Override
@@ -49,77 +50,79 @@ public class IBSStdParser< Spec extends IBSParamSpec, Comp extends IBSParamComp,
   /** Parse-action table. */
   protected static final short[][] _action_table = 
     unpackFromStrings(new String[] {
-    "\000\063\000\006\025\004\026\005\001\002\000\010\005" +
-    "\014\022\020\027\016\001\002\000\014\005\014\021\012" +
-    "\022\013\027\016\030\015\001\002\000\004\002\007\001" +
-    "\002\000\004\002\000\001\002\000\030\004\024\005\025" +
-    "\006\023\007\026\010\022\013\051\014\050\015\054\016" +
-    "\052\017\055\020\053\001\002\000\014\002\001\011\041" +
-    "\012\042\013\037\014\040\001\002\000\014\005\014\021" +
-    "\012\022\013\027\016\030\015\001\002\000\014\005\014" +
-    "\021\012\022\013\027\016\030\015\001\002\000\010\005" +
-    "\014\022\020\027\016\001\002\000\016\002\ufff4\011\ufff4" +
-    "\012\ufff4\013\ufff4\014\ufff4\023\ufff4\001\002\000\040\002" +
+    "\000\065\000\010\025\004\026\005\027\007\001\002\000" +
+    "\010\005\014\022\020\030\016\001\002\000\014\005\014" +
+    "\021\012\022\013\030\016\031\015\001\002\000\004\002" +
+    "\065\001\002\000\016\002\ufffd\005\014\021\012\022\013" +
+    "\030\016\031\015\001\002\000\030\004\024\005\025\006" +
+    "\023\007\026\010\022\013\051\014\050\015\054\016\052" +
+    "\017\055\020\053\001\002\000\014\002\ufffe\011\041\012" +
+    "\043\013\040\014\037\001\002\000\014\005\014\021\012" +
+    "\022\013\030\016\031\015\001\002\000\014\005\014\021" +
+    "\012\022\013\030\016\031\015\001\002\000\010\005\014" +
+    "\022\020\030\016\001\002\000\016\002\ufff2\011\ufff2\012" +
+    "\ufff2\013\ufff2\014\ufff2\023\ufff2\001\002\000\040\002\ufff5" +
+    "\004\ufff5\005\ufff5\006\ufff5\007\ufff5\010\ufff5\011\ufff5\012" +
+    "\ufff5\013\ufff5\014\ufff5\015\ufff5\016\ufff5\017\ufff5\020\ufff5" +
+    "\023\ufff5\001\002\000\040\002\ufff6\004\ufff6\005\ufff6\006" +
+    "\ufff6\007\ufff6\010\ufff6\011\ufff6\012\ufff6\013\ufff6\014\ufff6" +
+    "\015\ufff6\016\ufff6\017\ufff6\020\ufff6\023\ufff6\001\002\000" +
+    "\010\005\014\022\020\030\016\001\002\000\016\004\024" +
+    "\005\025\006\023\007\026\010\022\023\027\001\002\000" +
+    "\010\005\014\022\020\030\016\001\002\000\010\005\014" +
+    "\022\020\030\016\001\002\000\010\005\014\022\020\030" +
+    "\016\001\002\000\010\005\014\022\020\030\016\001\002" +
+    "\000\010\005\014\022\020\030\016\001\002\000\040\002" +
     "\ufff7\004\ufff7\005\ufff7\006\ufff7\007\ufff7\010\ufff7\011\ufff7" +
     "\012\ufff7\013\ufff7\014\ufff7\015\ufff7\016\ufff7\017\ufff7\020" +
-    "\ufff7\023\ufff7\001\002\000\040\002\ufff8\004\ufff8\005\ufff8" +
-    "\006\ufff8\007\ufff8\010\ufff8\011\ufff8\012\ufff8\013\ufff8\014" +
-    "\ufff8\015\ufff8\016\ufff8\017\ufff8\020\ufff8\023\ufff8\001\002" +
-    "\000\010\005\014\022\020\027\016\001\002\000\016\004" +
-    "\024\005\025\006\023\007\026\010\022\023\027\001\002" +
-    "\000\010\005\014\022\020\027\016\001\002\000\010\005" +
-    "\014\022\020\027\016\001\002\000\010\005\014\022\020" +
-    "\027\016\001\002\000\010\005\014\022\020\027\016\001" +
-    "\002\000\010\005\014\022\020\027\016\001\002\000\040" +
-    "\002\ufff9\004\ufff9\005\ufff9\006\ufff9\007\ufff9\010\ufff9\011" +
-    "\ufff9\012\ufff9\013\ufff9\014\ufff9\015\ufff9\016\ufff9\017\ufff9" +
-    "\020\ufff9\023\ufff9\001\002\000\040\002\ufffb\004\ufffb\005" +
-    "\ufffb\006\ufffb\007\ufffb\010\ufffb\011\ufffb\012\ufffb\013\ufffb" +
-    "\014\ufffb\015\ufffb\016\ufffb\017\ufffb\020\ufffb\023\ufffb\001" +
-    "\002\000\040\002\ufffd\004\ufffd\005\ufffd\006\023\007\026" +
-    "\010\022\011\ufffd\012\ufffd\013\ufffd\014\ufffd\015\ufffd\016" +
-    "\ufffd\017\ufffd\020\ufffd\023\ufffd\001\002\000\040\002\ufffe" +
-    "\004\ufffe\005\ufffe\006\023\007\026\010\022\011\ufffe\012" +
-    "\ufffe\013\ufffe\014\ufffe\015\ufffe\016\ufffe\017\ufffe\020\ufffe" +
-    "\023\ufffe\001\002\000\040\002\ufffc\004\ufffc\005\ufffc\006" +
-    "\ufffc\007\ufffc\010\ufffc\011\ufffc\012\ufffc\013\ufffc\014\ufffc" +
-    "\015\ufffc\016\ufffc\017\ufffc\020\ufffc\023\ufffc\001\002\000" +
-    "\040\002\ufffa\004\ufffa\005\ufffa\006\ufffa\007\ufffa\010\ufffa" +
-    "\011\ufffa\012\ufffa\013\ufffa\014\ufffa\015\ufffa\016\ufffa\017" +
-    "\ufffa\020\ufffa\023\ufffa\001\002\000\032\004\024\005\025" +
-    "\006\023\007\026\010\022\013\051\014\050\015\054\016" +
-    "\052\017\055\020\053\023\027\001\002\000\014\011\041" +
-    "\012\042\013\037\014\040\023\043\001\002\000\014\005" +
-    "\014\021\012\022\013\027\016\030\015\001\002\000\014" +
-    "\005\014\021\012\022\013\027\016\030\015\001\002\000" +
-    "\014\005\014\021\012\022\013\027\016\030\015\001\002" +
-    "\000\014\005\014\021\012\022\013\027\016\030\015\001" +
-    "\002\000\016\002\ufff3\011\ufff3\012\ufff3\013\ufff3\014\ufff3" +
-    "\023\ufff3\001\002\000\016\002\ufff6\011\041\012\ufff6\013" +
-    "\037\014\040\023\ufff6\001\002\000\016\002\ufff5\011\ufff5" +
-    "\012\ufff5\013\037\014\040\023\ufff5\001\002\000\016\002" +
-    "\uffea\011\uffea\012\uffea\013\uffea\014\uffea\023\uffea\001\002" +
-    "\000\016\002\uffeb\011\uffeb\012\uffeb\013\uffeb\014\uffeb\023" +
-    "\uffeb\001\002\000\010\005\014\022\020\027\016\001\002" +
-    "\000\010\005\014\022\020\027\016\001\002\000\010\005" +
-    "\014\022\020\027\016\001\002\000\010\005\014\022\020" +
-    "\027\016\001\002\000\010\005\014\022\020\027\016\001" +
-    "\002\000\010\005\014\022\020\027\016\001\002\000\030" +
-    "\002\uffef\004\024\005\025\006\023\007\026\010\022\011" +
-    "\uffef\012\uffef\013\uffef\014\uffef\023\uffef\001\002\000\030" +
-    "\002\ufff1\004\024\005\025\006\023\007\026\010\022\011" +
-    "\ufff1\012\ufff1\013\ufff1\014\ufff1\023\ufff1\001\002\000\030" +
-    "\002\uffee\004\024\005\025\006\023\007\026\010\022\011" +
-    "\uffee\012\uffee\013\uffee\014\uffee\023\uffee\001\002\000\030" +
-    "\002\ufff0\004\024\005\025\006\023\007\026\010\022\011" +
-    "\ufff0\012\ufff0\013\ufff0\014\ufff0\023\ufff0\001\002\000\030" +
-    "\002\uffed\004\024\005\025\006\023\007\026\010\022\011" +
-    "\uffed\012\uffed\013\uffed\014\uffed\023\uffed\001\002\000\030" +
-    "\002\uffec\004\024\005\025\006\023\007\026\010\022\011" +
-    "\uffec\012\uffec\013\uffec\014\uffec\023\uffec\001\002\000\016" +
-    "\002\ufff2\011\ufff2\012\ufff2\013\037\014\040\023\ufff2\001" +
-    "\002\000\016\002\uffff\004\024\005\025\006\023\007\026" +
-    "\010\022\001\002" });
+    "\ufff7\023\ufff7\001\002\000\040\002\ufff9\004\ufff9\005\ufff9" +
+    "\006\ufff9\007\ufff9\010\ufff9\011\ufff9\012\ufff9\013\ufff9\014" +
+    "\ufff9\015\ufff9\016\ufff9\017\ufff9\020\ufff9\023\ufff9\001\002" +
+    "\000\040\002\ufffb\004\ufffb\005\ufffb\006\023\007\026\010" +
+    "\022\011\ufffb\012\ufffb\013\ufffb\014\ufffb\015\ufffb\016\ufffb" +
+    "\017\ufffb\020\ufffb\023\ufffb\001\002\000\040\002\ufffc\004" +
+    "\ufffc\005\ufffc\006\023\007\026\010\022\011\ufffc\012\ufffc" +
+    "\013\ufffc\014\ufffc\015\ufffc\016\ufffc\017\ufffc\020\ufffc\023" +
+    "\ufffc\001\002\000\040\002\ufffa\004\ufffa\005\ufffa\006\ufffa" +
+    "\007\ufffa\010\ufffa\011\ufffa\012\ufffa\013\ufffa\014\ufffa\015" +
+    "\ufffa\016\ufffa\017\ufffa\020\ufffa\023\ufffa\001\002\000\040" +
+    "\002\ufff8\004\ufff8\005\ufff8\006\ufff8\007\ufff8\010\ufff8\011" +
+    "\ufff8\012\ufff8\013\ufff8\014\ufff8\015\ufff8\016\ufff8\017\ufff8" +
+    "\020\ufff8\023\ufff8\001\002\000\032\004\024\005\025\006" +
+    "\023\007\026\010\022\013\051\014\050\015\054\016\052" +
+    "\017\055\020\053\023\027\001\002\000\014\011\041\012" +
+    "\043\013\040\014\037\023\042\001\002\000\014\005\014" +
+    "\021\012\022\013\030\016\031\015\001\002\000\014\005" +
+    "\014\021\012\022\013\030\016\031\015\001\002\000\014" +
+    "\005\014\021\012\022\013\030\016\031\015\001\002\000" +
+    "\016\002\ufff1\011\ufff1\012\ufff1\013\ufff1\014\ufff1\023\ufff1" +
+    "\001\002\000\014\005\014\021\012\022\013\030\016\031" +
+    "\015\001\002\000\016\002\ufff4\011\041\012\ufff4\013\040" +
+    "\014\037\023\ufff4\001\002\000\016\002\ufff3\011\ufff3\012" +
+    "\ufff3\013\040\014\037\023\ufff3\001\002\000\016\002\uffe9" +
+    "\011\uffe9\012\uffe9\013\uffe9\014\uffe9\023\uffe9\001\002\000" +
+    "\016\002\uffe8\011\uffe8\012\uffe8\013\uffe8\014\uffe8\023\uffe8" +
+    "\001\002\000\010\005\014\022\020\030\016\001\002\000" +
+    "\010\005\014\022\020\030\016\001\002\000\010\005\014" +
+    "\022\020\030\016\001\002\000\010\005\014\022\020\030" +
+    "\016\001\002\000\010\005\014\022\020\030\016\001\002" +
+    "\000\010\005\014\022\020\030\016\001\002\000\030\002" +
+    "\uffed\004\024\005\025\006\023\007\026\010\022\011\uffed" +
+    "\012\uffed\013\uffed\014\uffed\023\uffed\001\002\000\030\002" +
+    "\uffef\004\024\005\025\006\023\007\026\010\022\011\uffef" +
+    "\012\uffef\013\uffef\014\uffef\023\uffef\001\002\000\030\002" +
+    "\uffec\004\024\005\025\006\023\007\026\010\022\011\uffec" +
+    "\012\uffec\013\uffec\014\uffec\023\uffec\001\002\000\030\002" +
+    "\uffee\004\024\005\025\006\023\007\026\010\022\011\uffee" +
+    "\012\uffee\013\uffee\014\uffee\023\uffee\001\002\000\030\002" +
+    "\uffeb\004\024\005\025\006\023\007\026\010\022\011\uffeb" +
+    "\012\uffeb\013\uffeb\014\uffeb\023\uffeb\001\002\000\030\002" +
+    "\uffea\004\024\005\025\006\023\007\026\010\022\011\uffea" +
+    "\012\uffea\013\uffea\014\uffea\023\uffea\001\002\000\016\002" +
+    "\ufff0\011\ufff0\012\ufff0\013\040\014\037\023\ufff0\001\002" +
+    "\000\004\002\000\001\002\000\014\002\001\011\041\012" +
+    "\043\013\040\014\037\001\002\000\016\002\uffff\004\024" +
+    "\005\025\006\023\007\026\010\022\001\002" });
 
   /** Access to parse-action table. */
   @Override
@@ -128,27 +131,28 @@ public class IBSStdParser< Spec extends IBSParamSpec, Comp extends IBSParamComp,
   /** <code>reduce_goto</code> table. */
   protected static final short[][] _reduce_table = 
     unpackFromStrings(new String[] {
-    "\000\063\000\004\002\005\001\001\000\004\003\064\001" +
-    "\001\000\006\003\007\004\010\001\001\000\002\001\001" +
-    "\000\002\001\001\000\002\001\001\000\002\001\001\000" +
-    "\006\003\007\004\063\001\001\000\006\003\034\004\035" +
-    "\001\001\000\004\003\016\001\001\000\002\001\001\000" +
-    "\002\001\001\000\002\001\001\000\004\003\020\001\001" +
-    "\000\002\001\001\000\004\003\033\001\001\000\004\003" +
-    "\032\001\001\000\004\003\031\001\001\000\004\003\030" +
-    "\001\001\000\004\003\027\001\001\000\002\001\001\000" +
+    "\000\065\000\004\002\005\001\001\000\004\003\066\001" +
+    "\001\000\006\003\007\004\065\001\001\000\002\001\001" +
+    "\000\006\003\007\004\010\001\001\000\002\001\001\000" +
+    "\002\001\001\000\006\003\007\004\063\001\001\000\006" +
+    "\003\034\004\035\001\001\000\004\003\016\001\001\000" +
+    "\002\001\001\000\002\001\001\000\002\001\001\000\004" +
+    "\003\020\001\001\000\002\001\001\000\004\003\033\001" +
+    "\001\000\004\003\032\001\001\000\004\003\031\001\001" +
+    "\000\004\003\030\001\001\000\004\003\027\001\001\000" +
     "\002\001\001\000\002\001\001\000\002\001\001\000\002" +
     "\001\001\000\002\001\001\000\002\001\001\000\002\001" +
-    "\001\000\006\003\007\004\046\001\001\000\006\003\007" +
-    "\004\045\001\001\000\006\003\007\004\044\001\001\000" +
-    "\006\003\007\004\043\001\001\000\002\001\001\000\002" +
+    "\001\000\002\001\001\000\006\003\007\004\046\001\001" +
+    "\000\006\003\007\004\045\001\001\000\006\003\007\004" +
+    "\044\001\001\000\002\001\001\000\006\003\007\004\043" +
     "\001\001\000\002\001\001\000\002\001\001\000\002\001" +
-    "\001\000\004\003\062\001\001\000\004\003\061\001\001" +
-    "\000\004\003\060\001\001\000\004\003\057\001\001\000" +
-    "\004\003\056\001\001\000\004\003\055\001\001\000\002" +
+    "\001\000\002\001\001\000\004\003\062\001\001\000\004" +
+    "\003\061\001\001\000\004\003\060\001\001\000\004\003" +
+    "\057\001\001\000\004\003\056\001\001\000\004\003\055" +
     "\001\001\000\002\001\001\000\002\001\001\000\002\001" +
     "\001\000\002\001\001\000\002\001\001\000\002\001\001" +
-    "\000\002\001\001" });
+    "\000\002\001\001\000\002\001\001\000\002\001\001\000" +
+    "\002\001\001" });
 
   /** Access to <code>reduce_goto</code> table. */
   @Override
@@ -225,6 +229,13 @@ public class IBSStdParser< Spec extends IBSParamSpec, Comp extends IBSParamComp,
         catch (Exception e) { lexer.getExpressionClass().clear(); return null; }
     }
 
+    public IBSExpressionClass<Spec,Comp,State,SpecState,CompState>.BExpr parseGuard(Spec _spec, String _s){
+        try { lexer.init(_spec,"guard " + _s); }
+        catch (java.io.IOException e) { return null; }
+        try { return (IBSExpressionClass<Spec,Comp,State,SpecState,CompState>.BExpr) parse().value; }
+        catch (Exception e) { lexer.getExpressionClass().clear(); return null; }
+    }
+
     public IBSExpressionClass<Spec,Comp,State,SpecState,CompState>.IExpr parseInt(Comp _comp, String _s){
         try { lexer.init(_comp,"integer " + _s); }
         catch (java.io.IOException e) { return null; }
@@ -239,6 +250,13 @@ public class IBSStdParser< Spec extends IBSParamSpec, Comp extends IBSParamComp,
         catch (Exception e) { lexer.getExpressionClass().clear(); return null; }
     }
 
+    public IBSExpressionClass<Spec,Comp,State,SpecState,CompState>.BExpr parseGuard(Comp _comp, String _s){
+        try { lexer.init(_comp,"guard " + _s); }
+        catch (java.io.IOException e) { return null; }
+        try { return (IBSExpressionClass<Spec,Comp,State,SpecState,CompState>.BExpr) parse().value; }
+        catch (Exception e) { lexer.getExpressionClass().clear(); return null; }
+    }
+
     public IBSExpressionClass<Spec,Comp,State,SpecState,CompState>.IExpr parseInt(String _s){
         try { lexer.init("integer " + _s); }
         catch (java.io.IOException e) { return null; }
@@ -248,6 +266,13 @@ public class IBSStdParser< Spec extends IBSParamSpec, Comp extends IBSParamComp,
 
     public IBSExpressionClass<Spec,Comp,State,SpecState,CompState>.BExpr parseBool(String _s){
         try { lexer.init("boolean " + _s); }
+        catch (java.io.IOException e) { return null; }
+        try { return (IBSExpressionClass<Spec,Comp,State,SpecState,CompState>.BExpr) parse().value; }
+        catch (Exception e) { lexer.getExpressionClass().clear(); return null; }
+    }
+
+    public IBSExpressionClass<Spec,Comp,State,SpecState,CompState>.BExpr parseGuard(String _s){
+        try { lexer.init("guard " + _s); }
         catch (java.io.IOException e) { return null; }
         try { return (IBSExpressionClass<Spec,Comp,State,SpecState,CompState>.BExpr) parse().value; }
         catch (Exception e) { lexer.getExpressionClass().clear(); return null; }
@@ -413,7 +438,34 @@ class CUP$IBSStdParser$actions {
           return CUP$IBSStdParser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 3: // iexpr ::= iexpr PLUS iexpr 
+          case 3: // expr ::= PARSE_GUARD bexpr 
+            {
+              IBSExpressionClass<Spec,Comp,State,SpecState,CompState>.Expr RESULT =null;
+		int eleft = (CUP$IBSStdParser$stack.peek()).left;
+		int eright = (CUP$IBSStdParser$stack.peek()).right;
+		Integer e = CUP$IBSStdParser$stack.peek().<Integer>value();
+		 RESULT = lexer.getExpressionClass().getBExpr(e.intValue());
+                            lexer.getExpressionClass().freeBool(e.intValue()); 
+              CUP$IBSStdParser$result = parser.getSymbolFactory().newSymbol("expr",0, CUP$IBSStdParser$stack.elementAt(CUP$IBSStdParser$top-1), CUP$IBSStdParser$stack.peek(), RESULT);
+            }
+          return CUP$IBSStdParser$result;
+
+          /*. . . . . . . . . . . . . . . . . . . .*/
+          case 4: // expr ::= PARSE_GUARD 
+            {
+              IBSExpressionClass<Spec,Comp,State,SpecState,CompState>.Expr RESULT =null;
+		 int index = lexer.getExpressionClass().make_bConst(true);
+                            if(index >=0){
+                              RESULT = lexer.getExpressionClass().getBExpr(index);
+                              lexer.getExpressionClass().freeBool(index);
+                            }
+                            else RESULT = null; 
+              CUP$IBSStdParser$result = parser.getSymbolFactory().newSymbol("expr",0, CUP$IBSStdParser$stack.peek(), CUP$IBSStdParser$stack.peek(), RESULT);
+            }
+          return CUP$IBSStdParser$result;
+
+          /*. . . . . . . . . . . . . . . . . . . .*/
+          case 5: // iexpr ::= iexpr PLUS iexpr 
             {
               Integer RESULT =null;
 		int lleft = (CUP$IBSStdParser$stack.elementAt(CUP$IBSStdParser$top-2)).left;
@@ -459,7 +511,7 @@ class CUP$IBSStdParser$actions {
           return CUP$IBSStdParser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 4: // iexpr ::= iexpr MINUS iexpr 
+          case 6: // iexpr ::= iexpr MINUS iexpr 
             {
               Integer RESULT =null;
 		int lleft = (CUP$IBSStdParser$stack.elementAt(CUP$IBSStdParser$top-2)).left;
@@ -506,7 +558,7 @@ class CUP$IBSStdParser$actions {
           return CUP$IBSStdParser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 5: // iexpr ::= iexpr MULT iexpr 
+          case 7: // iexpr ::= iexpr MULT iexpr 
             {
               Integer RESULT =null;
 		int lleft = (CUP$IBSStdParser$stack.elementAt(CUP$IBSStdParser$top-2)).left;
@@ -551,7 +603,7 @@ class CUP$IBSStdParser$actions {
           return CUP$IBSStdParser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 6: // iexpr ::= iexpr DIV iexpr 
+          case 8: // iexpr ::= iexpr DIV iexpr 
             {
               Integer RESULT =null;
 		int lleft = (CUP$IBSStdParser$stack.elementAt(CUP$IBSStdParser$top-2)).left;
@@ -587,7 +639,7 @@ class CUP$IBSStdParser$actions {
           return CUP$IBSStdParser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 7: // iexpr ::= iexpr MOD iexpr 
+          case 9: // iexpr ::= iexpr MOD iexpr 
             {
               Integer RESULT =null;
 		int lleft = (CUP$IBSStdParser$stack.elementAt(CUP$IBSStdParser$top-2)).left;
@@ -620,7 +672,7 @@ class CUP$IBSStdParser$actions {
           return CUP$IBSStdParser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 8: // iexpr ::= LPAR iexpr RPAR 
+          case 10: // iexpr ::= LPAR iexpr RPAR 
             {
               Integer RESULT =null;
 		int eleft = (CUP$IBSStdParser$stack.elementAt(CUP$IBSStdParser$top-1)).left;
@@ -632,7 +684,7 @@ class CUP$IBSStdParser$actions {
           return CUP$IBSStdParser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 9: // iexpr ::= MINUS iexpr 
+          case 11: // iexpr ::= MINUS iexpr 
             {
               Integer RESULT =null;
 		int eleft = (CUP$IBSStdParser$stack.peek()).left;
@@ -644,7 +696,7 @@ class CUP$IBSStdParser$actions {
           return CUP$IBSStdParser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 10: // iexpr ::= INT 
+          case 12: // iexpr ::= INT 
             {
               Integer RESULT =null;
 		int eleft = (CUP$IBSStdParser$stack.peek()).left;
@@ -656,7 +708,7 @@ class CUP$IBSStdParser$actions {
           return CUP$IBSStdParser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 11: // bexpr ::= bexpr OR bexpr 
+          case 13: // bexpr ::= bexpr OR bexpr 
             {
               Integer RESULT =null;
 		int lleft = (CUP$IBSStdParser$stack.elementAt(CUP$IBSStdParser$top-2)).left;
@@ -694,7 +746,7 @@ class CUP$IBSStdParser$actions {
           return CUP$IBSStdParser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 12: // bexpr ::= bexpr AND bexpr 
+          case 14: // bexpr ::= bexpr AND bexpr 
             {
               Integer RESULT =null;
 		int lleft = (CUP$IBSStdParser$stack.elementAt(CUP$IBSStdParser$top-2)).left;
@@ -732,7 +784,7 @@ class CUP$IBSStdParser$actions {
           return CUP$IBSStdParser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 13: // bexpr ::= BOOL 
+          case 15: // bexpr ::= BOOL 
             {
               Integer RESULT =null;
 		int eleft = (CUP$IBSStdParser$stack.peek()).left;
@@ -744,7 +796,7 @@ class CUP$IBSStdParser$actions {
           return CUP$IBSStdParser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 14: // bexpr ::= LPAR bexpr RPAR 
+          case 16: // bexpr ::= LPAR bexpr RPAR 
             {
               Integer RESULT =null;
 		int eleft = (CUP$IBSStdParser$stack.elementAt(CUP$IBSStdParser$top-1)).left;
@@ -756,7 +808,7 @@ class CUP$IBSStdParser$actions {
           return CUP$IBSStdParser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 15: // bexpr ::= NOT bexpr 
+          case 17: // bexpr ::= NOT bexpr 
             {
               Integer RESULT =null;
 		int eleft = (CUP$IBSStdParser$stack.peek()).left;
@@ -781,7 +833,7 @@ class CUP$IBSStdParser$actions {
           return CUP$IBSStdParser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 16: // bexpr ::= iexpr LT iexpr 
+          case 18: // bexpr ::= iexpr LT iexpr 
             {
               Integer RESULT =null;
 		int lleft = (CUP$IBSStdParser$stack.elementAt(CUP$IBSStdParser$top-2)).left;
@@ -805,7 +857,7 @@ class CUP$IBSStdParser$actions {
           return CUP$IBSStdParser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 17: // bexpr ::= iexpr GT iexpr 
+          case 19: // bexpr ::= iexpr GT iexpr 
             {
               Integer RESULT =null;
 		int lleft = (CUP$IBSStdParser$stack.elementAt(CUP$IBSStdParser$top-2)).left;
@@ -829,7 +881,7 @@ class CUP$IBSStdParser$actions {
           return CUP$IBSStdParser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 18: // bexpr ::= iexpr LEQ iexpr 
+          case 20: // bexpr ::= iexpr LEQ iexpr 
             {
               Integer RESULT =null;
 		int lleft = (CUP$IBSStdParser$stack.elementAt(CUP$IBSStdParser$top-2)).left;
@@ -853,7 +905,7 @@ class CUP$IBSStdParser$actions {
           return CUP$IBSStdParser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 19: // bexpr ::= iexpr GEQ iexpr 
+          case 21: // bexpr ::= iexpr GEQ iexpr 
             {
               Integer RESULT =null;
 		int lleft = (CUP$IBSStdParser$stack.elementAt(CUP$IBSStdParser$top-2)).left;
@@ -877,7 +929,7 @@ class CUP$IBSStdParser$actions {
           return CUP$IBSStdParser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 20: // bexpr ::= iexpr EQ iexpr 
+          case 22: // bexpr ::= iexpr EQ iexpr 
             {
               Integer RESULT =null;
 		int lleft = (CUP$IBSStdParser$stack.elementAt(CUP$IBSStdParser$top-2)).left;
@@ -901,7 +953,7 @@ class CUP$IBSStdParser$actions {
           return CUP$IBSStdParser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 21: // bexpr ::= iexpr DIF iexpr 
+          case 23: // bexpr ::= iexpr DIF iexpr 
             {
               Integer RESULT =null;
 		int lleft = (CUP$IBSStdParser$stack.elementAt(CUP$IBSStdParser$top-2)).left;
@@ -925,7 +977,7 @@ class CUP$IBSStdParser$actions {
           return CUP$IBSStdParser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 22: // bexpr ::= bexpr EQ bexpr 
+          case 24: // bexpr ::= bexpr EQ bexpr 
             {
               Integer RESULT =null;
 		int lleft = (CUP$IBSStdParser$stack.elementAt(CUP$IBSStdParser$top-2)).left;
@@ -965,7 +1017,7 @@ class CUP$IBSStdParser$actions {
           return CUP$IBSStdParser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 23: // bexpr ::= bexpr DIF bexpr 
+          case 25: // bexpr ::= bexpr DIF bexpr 
             {
               Integer RESULT =null;
 		int lleft = (CUP$IBSStdParser$stack.elementAt(CUP$IBSStdParser$top-2)).left;

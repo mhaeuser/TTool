@@ -369,6 +369,8 @@ public class IBSStdAttributeClass<
          * just before.</p>
          * <p> Returned type should be BoolAttr, or NullAttr if the attribute is not
          * a state attribute (error case).</p>
+         * @param _comp the component that associates structures to attribute
+         * @return the type of the identified attribute, i.e. BoolAttr or NullAttr
          */
         protected int initStateAttribute(Comp _comp) { return IBSAttributeClass.NullAttr; }
 

@@ -49,6 +49,8 @@ import myutil.AIInterfaceException;
 import myutil.GraphicLib;
 import myutil.TraceManager;
 import ui.*;
+import ui.avatarbd.AvatarBDBlock;
+import ui.avatarbd.AvatarBDPanel;
 import ui.avatarrd.AvatarRDPanel;
 import ui.avatarrd.AvatarRDRequirement;
 import ui.util.IconManager;
@@ -74,9 +76,12 @@ public class JFrameAI extends JFrame implements ActionListener, Runnable {
     private static int IDENTIFY_REQUIREMENT = 1;
     private static int KIND_CLASSIFY_REQUIREMENT = 2;
     private static int IDENTIFY_PROPERTIES = 3;
+    private static int IDENTIFY_SYSTEM_BLOCKS = 4;
+    private static int IDENTIFY_SOFTWARE_BLOCKS = 5;
 
     private static String[] POSSIBLE_ACTIONS = {"Chat", "Identify requirements from a specification", "Classify requirements from a requirement " +
-            "diagram", "Identify properties from a design"};
+            "diagram", "Identify properties from a design", "Identify system blocks from a specification", "Identify software blocks from a " +
+            "specification"};
     protected JComboBox<String> listOfPossibleActions;
     private String QUESTION_CLASSIFY_REQ = "I would like to identify the \"type\" attribute, i.e. the classification, " +
             "of the following requirements. Could you give me a correct type among: safety, security, functional, " +
@@ -90,8 +95,23 @@ public class JFrameAI extends JFrame implements ActionListener, Runnable {
             "name: name of the requirement, id: id of the requirement (as a string), doc: text of the requirement  " +
             "compose: all req names, derive: all req names, refine: all req names. The name " +
             "should be an english " +
-            "name and not a number or an identifier";
+            "name and not a number or an identifier. Identify the relations (compose, derive, refine) even if they are not given in the " +
+            "specification. Use the name of requirements and not the id in the list of relations.";
     private String QUESTION_IDENTIFY_PROPERTIES = "List properties of the following SysML V2 specification.";
+
+    private String KNOWLEDGE_ON_JSON_FOR_BLOCKS = "JSON for block diagram is as follows: " +
+            "{blocks: [{ \"name\": \"Name of block\", \"attributes\": [\"name\": \"name of attribute\", \"type\": \"int or boolean\" ...}" + " same" +
+            "(with its parameters : int, boolean ; and its return type : nothing, int or boolean)" +
+            "and signals (with its list of parameters : int or boolean ; and each signal is either an output signal or an input signal), ..." +
+            " then the list of connections between block signals: \"connections\": [\n" +"{\n" + " \"sourceBlock\": \"name of block\",\n" +
+            " \"sourceSignal\": \"name of output signal\",\n" +
+            " \"destinationBlock\": \"name of destination block\",\n" +
+            " \"destinationSignal\": \"rechargeBattery\",\n" +
+            " \"communicationType\": \"synchronous (or asynchronous)\"\n" +
+            "},";
+
+    private String QUESTION_IDENTIFY_SYSTEM_BLOCKS = "From the following system specification, using the specified JSON format, identify the " +
+            "typical system blocks. All this in JSON.\n";
 
     private String KNOWLEDGE_ON_DESIGN_PROPERTIES = "Properties of Design are of the following types\n" +
             "- A<>expr means that all states of all paths must respect expr\n" +
@@ -116,6 +136,7 @@ public class JFrameAI extends JFrame implements ActionListener, Runnable {
     private class ChatData {
         public AIInterface aiinterface;
         public boolean knowledgeOnProperties = false;
+        public boolean knowledgeOnBlockJSON = false;
         public JTextPane answer = new JTextPane();
         public String lastAnswer = "";
         public int previousKind;
@@ -318,6 +339,8 @@ public class JFrameAI extends JFrame implements ActionListener, Runnable {
             applyRequirementClassification();
         } else if (selectedChat().previousKind == IDENTIFY_REQUIREMENT) {
             applyRequirementIdentification();
+        } else if (selectedChat().previousKind == IDENTIFY_SYSTEM_BLOCKS) {
+            applyIdentifySystemBlocks();
         } else {
             return;
         }
@@ -350,7 +373,35 @@ public class JFrameAI extends JFrame implements ActionListener, Runnable {
         }
         rdpanel.repaint();
 
-        inform("Enhancing requirement diagram with ai answer: done<\n");
+        inform("Enhancing requirement diagram with ai answer: done\n");
+    }
+
+    private void applyIdentifySystemBlocks() {
+        if (selectedChat().tdp == null) {
+            error("No diagram has been selected\n");
+            return;
+        }
+
+        if (!(selectedChat().tdp instanceof AvatarBDPanel)) {
+            error("Wrong diagram has been selected\n");
+            return;
+        }
+
+        AvatarBDPanel bdpanel = (AvatarBDPanel) selectedChat().tdp;
+
+        TraceManager.addDev("Considered JSON array: " + selectedChat().lastAnswer);
+        try {
+            bdpanel.loadAndUpdateFromText( selectedChat().lastAnswer );
+        } catch (org.json.JSONException e) {
+            TraceManager.addDev("JSON Exception: " + e.getMessage());
+            inform("Answer provided by AI does not respect the JSON format necessary for TTool");
+            bdpanel.repaint();
+            return;
+        }
+        bdpanel.repaint();
+
+        inform("System blocks added to diagram from ai answer: done\n");
+
     }
 
     private void applyRequirementClassification() {
@@ -447,6 +498,10 @@ public class JFrameAI extends JFrame implements ActionListener, Runnable {
 
             if (listOfPossibleActions.getSelectedIndex() == IDENTIFY_PROPERTIES) {
                 identifyProperties();
+            }
+
+            if (listOfPossibleActions.getSelectedIndex() == IDENTIFY_SYSTEM_BLOCKS) {
+                identifySystemBlocks();
             }
         }
 
@@ -546,6 +601,32 @@ public class JFrameAI extends JFrame implements ActionListener, Runnable {
         }
         question = "\nTTool:" + question + "\n";
         makeQuestion(question, IDENTIFY_PROPERTIES, tdp);
+    }
+
+    private void identifySystemBlocks() {
+        inform("Identifying system blocks\n");
+        TDiagramPanel tdp = mgui.getCurrentTDiagramPanel();
+        if (!(tdp instanceof AvatarBDPanel)) {
+            error("An Avatar block diagram must be selected first");
+            return;
+        }
+        if (!hasQuestion()) {
+            error("A system specification must be provided in the \"question\" area");
+            return;
+        }
+
+        TraceManager.addDev("Asking for system blocks");
+
+        String questionT = QUESTION_IDENTIFY_SYSTEM_BLOCKS + "\n" + question.getText().trim() + "\n";
+        if (!(chats.get(answerPane.getSelectedIndex()).knowledgeOnBlockJSON)) {
+            chats.get(answerPane.getSelectedIndex()).knowledgeOnBlockJSON = true;
+            questionT = KNOWLEDGE_ON_JSON_FOR_BLOCKS + "\n" + questionT;
+        }
+
+
+        String answer = makeQuestion(questionT, IDENTIFY_SYSTEM_BLOCKS, tdp);
+
+
     }
 
     private String makeQuestion(String _question, int _kind, TDiagramPanel _tdp) {

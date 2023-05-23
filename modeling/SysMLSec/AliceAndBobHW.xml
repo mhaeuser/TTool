@@ -862,8 +862,8 @@
 <cdparam x="578" y="303" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector" value="Connector between ports" />
-<P1  x="577" y="306" id="371" />
-<P2  x="671" y="306" id="358" />
+<P1  x="577" y="306" id="369" />
+<P2  x="671" y="306" id="356" />
 <AutomaticDrawing  data="true" />
 <new d="false" />
 </CONNECTOR>
@@ -871,8 +871,8 @@
 <cdparam x="578" y="246" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector" value="Connector between ports" />
-<P1  x="577" y="263" id="369" />
-<P2  x="671" y="263" id="356" />
+<P1  x="577" y="263" id="371" />
+<P2  x="671" y="263" id="358" />
 <AutomaticDrawing  data="true" />
 <new d="false" />
 </CONNECTOR>
@@ -895,17 +895,17 @@
 <Data isAttacker="No" daemon="false" periodic="false" periodValue="" unit="ns" Operation="" />
 </extraparam>
 </COMPONENT>
-<SUBCOMPONENT type="1203" id="357" index="4" uid="88d5d3ae-02e6-45d4-939c-f4e23df82248" >
+<SUBCOMPONENT type="1203" id="357" index="4" uid="b6a9696d-2351-4e1d-889e-8e28ef415911" >
 <father id="368" num="0" />
-<cdparam x="659" y="263" />
+<cdparam x="659" y="306" />
 <sizeparam width="25" height="25" minWidth="1" minHeight="1" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <hidden value="false" />
 <cdrectangleparam minX="-12" maxX="147" minY="-12" maxY="108" />
-<infoparam name="Primitive port" value="Channel comm" />
+<infoparam name="Primitive port" value="Channel nonce_ch" />
 <new d="false" />
 <TGConnectingPoint num="0" id="356" />
 <extraparam>
-<Prop commName="comm" commType="0" origin="false" finite="false" blocking="false" maxSamples="8" widthSamples="4" isLossy="false" isPrex="false" isPostex="false" lossPercentage="0" maxNbOfLoss="0" dataFlowType="null" associatedEvent="" checkConf="false" checkConfStatus="0" checkAuth="true" checkWeakAuthStatus="0" checkStrongAuthStatus="0" vc="0" />
+<Prop commName="nonce_ch" commType="0" origin="true" finite="false" blocking="false" maxSamples="8" widthSamples="4" isLossy="false" isPrex="false" isPostex="false" lossPercentage="0" maxNbOfLoss="0" dataFlowType="int16_t" associatedEvent="" checkConf="false" checkConfStatus="0" checkAuth="false" checkWeakAuthStatus="0" checkStrongAuthStatus="0" vc="0" />
 <Type type="0" typeOther="" />
 <Type type="0" typeOther="" />
 <Type type="0" typeOther="" />
@@ -913,17 +913,17 @@
 <Type type="0" typeOther="" />
 </extraparam>
 </SUBCOMPONENT>
-<SUBCOMPONENT type="1203" id="359" index="5" uid="b6a9696d-2351-4e1d-889e-8e28ef415911" >
+<SUBCOMPONENT type="1203" id="359" index="5" uid="88d5d3ae-02e6-45d4-939c-f4e23df82248" >
 <father id="368" num="1" />
-<cdparam x="659" y="306" />
+<cdparam x="659" y="263" />
 <sizeparam width="25" height="25" minWidth="1" minHeight="1" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <hidden value="false" />
 <cdrectangleparam minX="-12" maxX="147" minY="-12" maxY="108" />
-<infoparam name="Primitive port" value="Channel nonce_ch" />
+<infoparam name="Primitive port" value="Channel comm" />
 <new d="false" />
 <TGConnectingPoint num="0" id="358" />
 <extraparam>
-<Prop commName="nonce_ch" commType="0" origin="true" finite="false" blocking="false" maxSamples="8" widthSamples="4" isLossy="false" isPrex="false" isPostex="false" lossPercentage="0" maxNbOfLoss="0" dataFlowType="int16_t" associatedEvent="" checkConf="false" checkConfStatus="0" checkAuth="false" checkWeakAuthStatus="0" checkStrongAuthStatus="0" vc="0" />
+<Prop commName="comm" commType="0" origin="false" finite="false" blocking="false" maxSamples="8" widthSamples="4" isLossy="false" isPrex="false" isPostex="false" lossPercentage="0" maxNbOfLoss="0" dataFlowType="null" associatedEvent="" checkConf="false" checkConfStatus="0" checkAuth="true" checkWeakAuthStatus="0" checkStrongAuthStatus="0" vc="0" />
 <Type type="0" typeOther="" />
 <Type type="0" typeOther="" />
 <Type type="0" typeOther="" />
@@ -951,17 +951,17 @@
 <Data isAttacker="No" daemon="false" periodic="false" periodValue="" unit="" Operation="" />
 </extraparam>
 </COMPONENT>
-<SUBCOMPONENT type="1203" id="370" index="6" uid="4b3c553b-8c45-4729-8a22-92683c78ab19" >
+<SUBCOMPONENT type="1203" id="370" index="6" uid="3a57071f-7f06-425a-a0a5-d6c487afbd10" >
 <father id="381" num="0" />
-<cdparam x="565" y="263" />
+<cdparam x="565" y="306" />
 <sizeparam width="25" height="25" minWidth="1" minHeight="1" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <hidden value="false" />
 <cdrectangleparam minX="-12" maxX="147" minY="-12" maxY="107" />
-<infoparam name="Primitive port" value="Channel comm" />
+<infoparam name="Primitive port" value="Channel nonce_ch" />
 <new d="false" />
 <TGConnectingPoint num="0" id="369" />
 <extraparam>
-<Prop commName="comm" commType="0" origin="true" finite="false" blocking="false" maxSamples="8" widthSamples="4" isLossy="false" isPrex="false" isPostex="false" lossPercentage="0" maxNbOfLoss="0" dataFlowType="int16_t" associatedEvent="" checkConf="true" checkConfStatus="1" checkAuth="false" checkWeakAuthStatus="0" checkStrongAuthStatus="0" vc="0" />
+<Prop commName="nonce_ch" commType="0" origin="false" finite="false" blocking="false" maxSamples="8" widthSamples="4" isLossy="false" isPrex="false" isPostex="false" lossPercentage="0" maxNbOfLoss="0" dataFlowType="int16_t" associatedEvent="" checkConf="false" checkConfStatus="0" checkAuth="false" checkWeakAuthStatus="0" checkStrongAuthStatus="0" vc="0" />
 <Type type="0" typeOther="" />
 <Type type="0" typeOther="" />
 <Type type="0" typeOther="" />
@@ -969,17 +969,17 @@
 <Type type="0" typeOther="" />
 </extraparam>
 </SUBCOMPONENT>
-<SUBCOMPONENT type="1203" id="372" index="7" uid="3a57071f-7f06-425a-a0a5-d6c487afbd10" >
+<SUBCOMPONENT type="1203" id="372" index="7" uid="4b3c553b-8c45-4729-8a22-92683c78ab19" >
 <father id="381" num="1" />
-<cdparam x="565" y="306" />
+<cdparam x="565" y="263" />
 <sizeparam width="25" height="25" minWidth="1" minHeight="1" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <hidden value="false" />
 <cdrectangleparam minX="-12" maxX="147" minY="-12" maxY="107" />
-<infoparam name="Primitive port" value="Channel nonce_ch" />
+<infoparam name="Primitive port" value="Channel comm" />
 <new d="false" />
 <TGConnectingPoint num="0" id="371" />
 <extraparam>
-<Prop commName="nonce_ch" commType="0" origin="false" finite="false" blocking="false" maxSamples="8" widthSamples="4" isLossy="false" isPrex="false" isPostex="false" lossPercentage="0" maxNbOfLoss="0" dataFlowType="int16_t" associatedEvent="" checkConf="false" checkConfStatus="0" checkAuth="false" checkWeakAuthStatus="0" checkStrongAuthStatus="0" vc="0" />
+<Prop commName="comm" commType="0" origin="true" finite="false" blocking="false" maxSamples="8" widthSamples="4" isLossy="false" isPrex="false" isPostex="false" lossPercentage="0" maxNbOfLoss="0" dataFlowType="int16_t" associatedEvent="" checkConf="true" checkConfStatus="1" checkAuth="false" checkWeakAuthStatus="0" checkStrongAuthStatus="0" vc="0" />
 <Type type="0" typeOther="" />
 <Type type="0" typeOther="" />
 <Type type="0" typeOther="" />
@@ -1407,13 +1407,13 @@
 <attributes byteDataSize="4"  memorySize="1024"  clockRatio="1"  bufferType="0" />
 </extraparam>
 </COMPONENT>
-<SUBCOMPONENT type="1103" id="483" index="19" uid="758629cb-5cec-476e-9490-89ba05e4cf75" >
+<SUBCOMPONENT type="1103" id="483" index="19" uid="aa788f80-fc04-45c8-b0ec-86a79bb52b6c" >
 <father id="517" num="0" />
-<cdparam x="468" y="418" />
-<sizeparam width="130" height="40" minWidth="75" minHeight="1" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
+<cdparam x="480" y="371" />
+<sizeparam width="112" height="40" minWidth="75" minHeight="1" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <hidden value="false" />
-<cdrectangleparam minX="0" maxX="40" minY="0" maxY="95" />
-<infoparam name="TGComponent" value="nonce::nonce_ch" />
+<cdrectangleparam minX="0" maxX="58" minY="0" maxY="95" />
+<infoparam name="TGComponent" value="nonce::comm" />
 <new d="false" />
 <TGConnectingPoint num="0" id="475" />
 <TGConnectingPoint num="1" id="476" />
@@ -1424,16 +1424,16 @@
 <TGConnectingPoint num="6" id="481" />
 <TGConnectingPoint num="7" id="482" />
 <extraparam>
-<info value="nonce::nonce_ch" communicationName="nonce_ch" referenceCommunicationName="nonce" mappedElements="ExternalBus BusAlice BusBob" priority="0" typeName="channel" />
+<info value="nonce::comm" communicationName="comm" referenceCommunicationName="nonce" mappedElements="ExternalBus BusAlice BusBob" priority="0" typeName="channel" />
 </extraparam>
 </SUBCOMPONENT>
-<SUBCOMPONENT type="1103" id="492" index="20" uid="aa788f80-fc04-45c8-b0ec-86a79bb52b6c" >
+<SUBCOMPONENT type="1103" id="492" index="20" uid="758629cb-5cec-476e-9490-89ba05e4cf75" >
 <father id="517" num="1" />
-<cdparam x="480" y="371" />
-<sizeparam width="112" height="40" minWidth="75" minHeight="1" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
+<cdparam x="468" y="418" />
+<sizeparam width="130" height="40" minWidth="75" minHeight="1" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <hidden value="false" />
-<cdrectangleparam minX="0" maxX="58" minY="0" maxY="95" />
-<infoparam name="TGComponent" value="nonce::comm" />
+<cdrectangleparam minX="0" maxX="40" minY="0" maxY="95" />
+<infoparam name="TGComponent" value="nonce::nonce_ch" />
 <new d="false" />
 <TGConnectingPoint num="0" id="484" />
 <TGConnectingPoint num="1" id="485" />
@@ -1444,7 +1444,7 @@
 <TGConnectingPoint num="6" id="490" />
 <TGConnectingPoint num="7" id="491" />
 <extraparam>
-<info value="nonce::comm" communicationName="comm" referenceCommunicationName="nonce" mappedElements="ExternalBus BusAlice BusBob" priority="0" typeName="channel" />
+<info value="nonce::nonce_ch" communicationName="nonce_ch" referenceCommunicationName="nonce" mappedElements="ExternalBus BusAlice BusBob" priority="0" typeName="channel" />
 </extraparam>
 </SUBCOMPONENT>
 
@@ -1853,8 +1853,8 @@
 <cdparam x="404" y="206" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector" value="Connector between ports" />
-<P1  x="391" y="193" id="745" />
-<P2  x="493" y="193" id="734" />
+<P1  x="404" y="206" id="745" />
+<P2  x="480" y="206" id="734" />
 <AutomaticDrawing  data="true" />
 <new d="false" />
 </CONNECTOR>
@@ -3657,8 +3657,8 @@
 <cdparam x="255" y="121" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector" value="Connector between ports" />
-<P1  x="275" y="136" id="1467" />
-<P2  x="329" y="136" id="1456" />
+<P1  x="262" y="123" id="1467" />
+<P2  x="342" y="123" id="1456" />
 <AutomaticDrawing  data="true" />
 <new d="false" />
 </CONNECTOR>

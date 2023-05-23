@@ -3089,6 +3089,7 @@ public class MainGUI implements ActionListener, WindowListener, KeyListener, Per
 
         if (dir != null)
             loadAUTGraphsDir();
+
     }
 
     public void saveAsLibrary(String data) {

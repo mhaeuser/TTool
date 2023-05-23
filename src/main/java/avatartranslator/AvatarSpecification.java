@@ -40,6 +40,9 @@ package avatartranslator;
 
 import myutil.NameChecker;
 import myutil.TraceManager;
+import org.json.JSONArray;
+import org.json.JSONObject;
+import ui.TAttribute;
 
 import java.util.*;
 
@@ -1044,6 +1047,475 @@ public class AvatarSpecification extends AvatarElement {
         return lne;
     }
 
+    /*
+    * Typical JSON:
+    *
+    * AI:
+{
+"blocks": [
+{
+"name": "Battery",
+"attributes": [
+{
+ "name": "chargeLevel",
+ "type": "int"
+},
+{
+ "name": "capacity",
+ "type": "int"
+}
+],
+"methods": [
+{
+ "name": "loadBattery",
+ "parameters": [
+  {
+   "name": "rechargeTime",
+   "type": "int"
+  }
+ ],
+ "returnType": "nothing"
+ },
+ {
+ "name": "unloadBattery",
+ "parameters": [
+  {
+  "name": "dischargeThreshold",
+  "type": "int"
+  }
+ ],
+ "returnType": "nothing"
+ }
+],
+"signals": [
+{
+ "name": "batteryLoaded",
+ "parameters": [
+  {
+   "name": "loadAmount",
+   "type": "int"
+  }
+ ],
+ "type": "output"
+},
+{
+ "name": "batteryUnloaded",
+ "parameters": [
+  {
+   "name": "unloadAmount",
+   "type": "int"
+  }
+ ],
+ "type": "output"
+}
+]
+},
+{
+"name": "MainEngine",
+"attributes": [
+{
+ "name": "isTurnedOn",
+ "type": "boolean"
+},
+{
+ "name": "currentRpm",
+ "type": "int"
+}
+],
+"methods": [
+{
+ "name": "toggleEngine",
+ "parameters": [
+ {
+  "name": "turnOn",
+  "type": "boolean"
+ }
+],
+ "returnType": "nothing"
+},
+{
+ "name": "setRpm",
+ "parameters": [
+  {
+   "name": "rpm",
+   "type": "int"
+ }
+],
+ "returnType": "nothing"
+}
+],
+"signals": [
+{
+ "name": "engineToggled",
+ "parameters": [
+  {
+   "name": "turnOn",
+   "type": "boolean"
+  }
+ ],
+ "type": "output"
+},
+{
+ "name": "rpmSet",
+ "parameters": [
+  {
+   "name": "rpm",
+   "type": "int"
+  }
+ ],
+ "type": "output"
+}
+]
+},
+{
+"name": "ElectricEngines",
+"attributes": [
+{
+ "name": "hasPower",
+ "type": "boolean"
+},
+{
+ "name": "powerLevel",
+ "type": "int"
+}
+],
+"methods": [
+{
+ "name": "togglePower",
+ "parameters": [
+  {
+   "name": "hasPower",
+   "type": "boolean"
+  }
+ ],
+ "returnType": "nothing"
+},
+{
+ "name": "setPowerLevel",
+ "parameters": [
+ {
+  "name": "powerLevel",
+  "type": "int"
+ }
+],
+ "returnType": "nothing"
+}
+],
+"signals": [
+{
+ "name": "powerToggled",
+ "parameters": [
+  {
+   "name": "hasPower",
+   "type": "boolean"
+  }
+ ],
+ "type": "output"
+},
+{
+ "name": "powerLevelSet",
+ "parameters": [
+  {
+   "name": "powerLevel",
+   "type": "int"
+  }
+ ],
+ "type": "output"
+}
+]
+},
+{
+"name": "SystemController",
+"attributes": [
+{
+ "name": "batteryRechargeTime",
+ "type": "int"
+},
+{
+ "name": "dischargeThreshold",
+ "type": "int"
+}
+],
+"methods": [
+{
+ "name": "combineEngines",
+ "parameters": [
+  {
+   "name": "needMorePower",
+   "type": "boolean"
+  }
+ ],
+ "returnType": "nothing"
+},
+{
+ "name": "toggleMainEngine",
+ "parameters": [
+  {
+   "name": "turnOn",
+   "type": "boolean"
+  }
+ ],
+ "returnType": "nothing"
+},
+{
+ "name": "stopVehicle",
+ "parameters": [],
+ "returnType": "nothing"
+}
+],
+"signals": [
+{
+ "name": "enginesCombined",
+ "parameters": [
+  {
+   "name": "needMorePower",
+   "type": "boolean"
+  }
+ ],
+ "type": "output"
+},
+{
+ "name": "mainEngineToggled",
+ "parameters": [
+  {
+   "name": "turnOn",
+   "type": "boolean"
+  }
+ ],
+ "type": "output"
+},
+{
+ "name": "vehicleStopped",
+ "parameters": [],
+ "type": "output"
+},
+{
+ "name": "rechargeBattery",
+ "parameters": [
+  {
+   "name": "rechargeTime",
+   "type": "int"
+  }
+ ],
+ "type": "input",
+ "communicationType": "synchronous"
+},
+{
+ "name": "unloadBattery",
+ "parameters": [
+  {
+   "name": "dischargeThreshold",
+   "type": "int"
+  }
+ ],
+ "type": "input",
+ "communicationType": "synchronous"
+},
+{
+ "name": "setMainEngineRpm",
+ "parameters": [
+  {
+   "name": "rpm",
+   "type": "int"
+  }
+ ],
+ "type": "input",
+ "communicationType": "synchronous"
+},
+{
+ "name": "toggleElectricEnginesPower",
+ "parameters": [
+ {
+  "name": "hasPower",
+  "type": "boolean"
+  }
+ ],
+ "type": "input",
+ "communicationType": "asynchronous"
+},
+{
+ "name": "setElectricEnginesPowerLevel",
+ "parameters": [
+  {
+   "name": "powerLevel",
+   "type": "int"
+  }
+ ],
+ "type": "input",
+ "communicationType": "asynchronous"
+}
+]
+}
+],
+"connections": [
+{
+ "sourceBlock": "Battery",
+ "sourceSignal": "batteryLoaded",
+ "destinationBlock": "SystemController",
+ "destinationSignal": "rechargeBattery",
+ "communicationType": "synchronous"
+},
+{
+ "sourceBlock": "Battery",
+ "sourceSignal": "batteryUnloaded",
+ "destinationBlock": "SystemController",
+ "destinationSignal": "unloadBattery",
+ "communicationType": "synchronous"
+},
+{
+ "sourceBlock": "MainEngine",
+ "sourceSignal": "engineToggled",
+ "destinationBlock": "SystemController",
+ "destinationSignal": "mainEngineToggled",
+ "communicationType": "synchronous"
+},
+{
+ "sourceBlock": "MainEngine",
+ "sourceSignal": "rpmSet",
+ "destinationBlock": "SystemController",
+ "destinationSignal": "setMainEngineRpm",
+ "communicationType": "synchronous"
+},
+{
+ "sourceBlock": "ElectricEngines",
+ "sourceSignal": "powerToggled",
+ "destinationBlock": "SystemController",
+ "destinationSignal": "toggleElectricEnginesPower",
+ "communicationType": "asynchronous"
+},
+{
+ "sourceBlock": "ElectricEngines",
+ "sourceSignal": "powerLevelSet",
+ "destinationBlock": "SystemController",
+ "destinationSignal": "setElectricEnginesPowerLevel",
+ "communicationType": "asynchronous"
+},
+{
+ "sourceBlock": "SystemController",
+ "sourceSignal": "rechargeBattery",
+ "destinationBlock": "Battery",
+ "destinationSignal": "loadBattery",
+ "communicationType": "synchronous"
+},
+{
+ "sourceBlock": "SystemController",
+ "sourceSignal": "unloadBattery",
+ "destinationBlock": "Battery",
+ "destinationSignal": "unloadBattery",
+ "communicationType": "synchronous"
+},
+{
+ "sourceBlock": "SystemController",
+ "destinationBlock": "MainEngine",
+ "destinationSignal": "engineToggled",
+ "sourceSignal": "mainEngineToggled",
+ "communicationType": "synchronous"
+},
+{
+ "sourceBlock": "SystemController",
+ "destinationBlock": "MainEngine",
+ "destinationSignal": "rpmSet",
+ "sourceSignal": "setMainEngineRpm",
+ "communicationType": "synchronous"
+},
+{
+ "sourceBlock": "SystemController",
+ "destinationBlock": "ElectricEngines",
+ "destinationSignal": "powerToggled",
+ "sourceSignal": "toggleElectricEnginesPower",
+ "communicationType": "asynchronous"
+},
+{
+ "sourceBlock": "SystemController",
+ "destinationBlock": "ElectricEngines",
+ "destinationSignal": "powerLevelSet",
+ "sourceSignal": "setElectricEnginesPowerLevel",
+ "communicationType": "asynchronous"
+},
+{
+ "sourceBlock": "SystemController",
+ "destinationBlock": "ElectricEngines",
+ "destinationSignal": "powerToggled",
+ "sourceSignal": "enginesCombined",
+ "communicationType": "asynchronous"
+}
+]
+}
+    *
+    *
+    *
+    *
+    *
+    *
+    *
+    *
+    *
+    *
+     */
+    public static AvatarSpecification fromJSON(String _spec, String _name, Object _referenceObject) {
+        AvatarSpecification spec = new AvatarSpecification(_name, _referenceObject);
 
+        int indexStart = _spec.indexOf('{');
+        int indexStop = _spec.lastIndexOf('}');
+
+        if ((indexStart == -1) || (indexStop == -1) || (indexStart > indexStop)) {
+            throw new org.json.JSONException("Invalid JSON object");
+        }
+
+        _spec = _spec.substring(indexStart, indexStop+1);
+
+        TraceManager.addDev("Cut spec: " + _spec);
+
+        JSONObject mainObject = new JSONObject(_spec);
+
+        JSONArray blocksA = mainObject.getJSONArray("blocks");
+
+        if (blocksA == null) {
+            TraceManager.addDev("No blocks in json");
+            return spec;
+        }
+
+        for (int i=0; i<blocksA.length(); i++) {
+            JSONObject blockO = blocksA.getJSONObject(i);
+            String name = blockO.getString("name");
+            if (name != null) {
+                AvatarBlock newBlock = new AvatarBlock(name, spec, _referenceObject);
+                spec.addBlock(newBlock);
+
+                JSONArray attributesA = blockO.getJSONArray("attributes");
+
+                for (int j=0; j<attributesA.length(); j++) {
+                    String nameA = attributesA.getJSONObject(j).getString("name");
+                    String typeA = attributesA.getJSONObject(j).getString("type");
+                    AvatarAttribute aa = new AvatarAttribute(nameA, AvatarType.getType(typeA), newBlock, _referenceObject);
+                    newBlock.addAttribute(aa);
+                }
+
+                JSONArray methodsA = blockO.getJSONArray("methods");
+                for (int j=0; j<methodsA.length(); j++) {
+                    String nameM = methodsA.getJSONObject(j).getString("name");
+                    AvatarMethod am = new AvatarMethod(nameM, _referenceObject);
+                    JSONArray params = methodsA.getJSONObject(j).getJSONArray("paremeters");
+                    for(int k=0; k<params.length(); k++) {
+                        String nameA = params.getJSONObject(k).getString("name");
+                        String typeA = params.getJSONObject(k).getString("type");
+                        AvatarAttribute aa = new AvatarAttribute(nameA, AvatarType.getType(typeA), newBlock, _referenceObject);
+                        am.addParameter(aa);
+                    }
+                    String returnT = methodsA.getJSONObject(j).getString("returnType");
+                    AvatarType at = AvatarType.getType(returnT);
+                    if (at != AvatarType.UNDEFINED) {
+                        am.addReturnParameter(new AvatarAttribute("returnType", at, newBlock, _referenceObject));
+                    }
+
+                    newBlock.addMethod(am);
+                }
+
+            }
+        }
+
+        return spec;
+
+    }
 
 }

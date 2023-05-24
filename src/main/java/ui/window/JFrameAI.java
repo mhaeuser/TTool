@@ -62,6 +62,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 
 /**
@@ -102,13 +103,13 @@ public class JFrameAI extends JFrame implements ActionListener, Runnable {
     private String KNOWLEDGE_ON_JSON_FOR_BLOCKS = "JSON for block diagram is as follows: " +
             "{blocks: [{ \"name\": \"Name of block\", \"attributes\": [\"name\": \"name of attribute\", \"type\": \"int or boolean\" ...}" + " same" +
             "(with its parameters : int, boolean ; and its return type : nothing, int or boolean)" +
-            "and signals (with its list of parameters : int or boolean ; and each signal is either an output signal or an input signal), ..." +
+            "and signals (with its list of parameters : int or boolean, and a type (input, output)" +
             " then the list of connections between block signals: \"connections\": [\n" +"{\n" + " \"sourceBlock\": \"name of block\",\n" +
             " \"sourceSignal\": \"name of output signal\",\n" +
             " \"destinationBlock\": \"name of destination block\",\n" +
             " \"destinationSignal\": \"rechargeBattery\",\n" +
             " \"communicationType\": \"synchronous (or asynchronous)\"\n" +
-            "},";
+            "}. A connection must connect one output signal of a block to one input signal of a block";
 
     private String QUESTION_IDENTIFY_SYSTEM_BLOCKS = "From the following system specification, using the specified JSON format, identify the " +
             "typical system blocks. All this in JSON.\n";
@@ -133,7 +134,9 @@ public class JFrameAI extends JFrame implements ActionListener, Runnable {
 
     private boolean go = false;
 
-    private class ChatData {
+    private HashMap<Integer, ImageIcon> rotatedI = new HashMap<>();
+
+    private class ChatData implements Runnable {
         public AIInterface aiinterface;
         public boolean knowledgeOnProperties = false;
         public boolean knowledgeOnBlockJSON = false;
@@ -141,6 +144,9 @@ public class JFrameAI extends JFrame implements ActionListener, Runnable {
         public String lastAnswer = "";
         public int previousKind;
         public TDiagramPanel tdp;
+        public boolean doIconRotation = false;
+        private Thread t;
+
 
         public ChatData() {}
 
@@ -148,8 +154,49 @@ public class JFrameAI extends JFrame implements ActionListener, Runnable {
             lastAnswer = "";
             answer.setText("");
         }
+
+        public void startAnimation() {
+            doIconRotation = true;
+            t = new Thread(this);
+            t.start();
+        }
+
+        public void stopAnimation() {
+            doIconRotation = false;
+            if (t != null) {
+                t.interrupt();
+            }
+            t = null;
+        }
+
+
+        public void run() {
+            int angle = 0;
+
+            while( doIconRotation ) {
+                angle = (angle - 15) % 360;
+                ImageIcon rotated = rotatedI.get(angle);
+                if ( rotated == null ) {
+                    rotated = IconManager.rotateImageIcon(IconManager.imgic154, angle);
+                    rotatedI.put(angle, rotated);
+                }
+
+                setIcon(this, rotated);
+                try {
+                    Thread.currentThread().sleep(100);
+                } catch (Exception e) {
+                    TraceManager.addDev("Interrupted");
+                    doIconRotation = false;
+                };
+            }
+            setIcon(this, IconManager.imgic154);
+        }
     }
 
+    public void setIcon(ChatData _data, Icon newIcon) {
+        int index = chats.indexOf(_data);
+        answerPane.setIconAt(index, newIcon);
+    }
 
     private JButton buttonClose, buttonStart, buttonApplyResponse;
 
@@ -325,6 +372,9 @@ public class JFrameAI extends JFrame implements ActionListener, Runnable {
 
 
     private void close() {
+        for(ChatData data: chats) {
+            data.stopAnimation();
+        }
         dispose();
     }
 
@@ -480,6 +530,8 @@ public class JFrameAI extends JFrame implements ActionListener, Runnable {
     }
 
     public void run() {
+        ChatData selected = selectedChat();
+        selected.startAnimation();
         go = true;
         enableDisableActions();
 
@@ -506,6 +558,7 @@ public class JFrameAI extends JFrame implements ActionListener, Runnable {
         }
 
         go = false;
+        selected.stopAnimation();
         enableDisableActions();
     }
 

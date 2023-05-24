@@ -42,6 +42,11 @@ package ui.util;
 import javax.swing.*;
 import java.awt.*;
 import java.net.URL;
+import java.awt.*;
+import java.awt.geom.AffineTransform;
+import java.awt.image.AffineTransformOp;
+import java.awt.image.BufferedImage;
+import javax.swing.ImageIcon;
 
 
 /**
@@ -1328,5 +1333,25 @@ public class IconManager {
         imgic8029 = getIcon(icon8029);
         imgic8030 = getIcon(icon8030);
     }
+
+
+
+    public static ImageIcon rotateImageIcon(ImageIcon icon, double degrees) {
+        int w = icon.getIconWidth();
+        int h = icon.getIconHeight();
+        int type = BufferedImage.TYPE_INT_ARGB;  // Other options
+        BufferedImage image = new BufferedImage(h, w, type);
+        Graphics2D g2 = image.createGraphics();
+        double x = (h - w)/2.0;
+        double y = (h - w)/2.0;
+        AffineTransform at = AffineTransform.getTranslateInstance(x, y);
+        at.rotate(Math.toRadians(degrees), w/2.0, h/2.0);
+        g2.setBackground(Color.white);
+        g2.drawImage(icon.getImage(), at, null);
+        g2.dispose();
+        icon = new ImageIcon(image);
+        return icon;
+    }
+
 
 } // Class

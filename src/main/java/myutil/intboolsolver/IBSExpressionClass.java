@@ -91,7 +91,6 @@ public class IBSExpressionClass<
      * @return The expression memorized at the provided index.
      */
     public BExpr getBExpr(int _expr) { return null; }
-
     /** test weather some saved expression is constant.
      *
      * @param i index of a boolean expression

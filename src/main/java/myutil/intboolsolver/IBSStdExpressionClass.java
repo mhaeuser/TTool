@@ -97,7 +97,7 @@ public class IBSStdExpressionClass<
         CompState extends IBSParamCompState
         > extends IBSExpressionClass<Spec,Comp,State,SpecState,CompState> {
     /** table of strings associated to operators and boolean constants */
-    private final String[] opString = {"-","!","+","-","*","/","%","&&","||","==","!=","<",">","<=",">=","true","false"};
+    public final String[] opString = {"-","!","+","-","*","/","%","&&","||","==","!=","<",">","<=",">=","true","false"};
     /**
      * opposite (unary) operator symbol (index in
      * {@link myutil.intboolsolver.IBSStdExpressionClass#opString opString})
@@ -265,7 +265,7 @@ public class IBSStdExpressionClass<
      */
     public final boolean isUnary(Expr _e) { return (_e.getType() & 0b10) == 0b10; }
     /**
-     * test if expression is build on a binary operator (not or minus)
+     * test if expression is build on a binary operator (not negated nor negative)
      * @param _e  the expression to test
      * @return true iff e is build on a binary operator
      */

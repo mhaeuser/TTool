@@ -43,13 +43,24 @@ import static org.junit.Assert.*;
 public class DiplodocusSecurityTest extends AbstractTest {
     final static String DIR_GEN = "tmltranslator/test_diplo_security/";
     final static String DIR_MODELS = "tmltranslator/test_diplo_security_models/";
-    final String [] MODELS_DIPLO_SECURITY = {"symetric", "nonce"};
+    final String [] MODELS_DIPLO_SECURITY = {"symetric", "nonce", "keyexchange", "mac"};
     private static final List<List<String>> LIST_OF_LISTS_OF_QUERIES = Arrays.asList(
             Arrays.asList("Query not attacker(Alice___SymmetricExchange__comm_chData[!1 = v]) is true.",
-                    "Query inj-event(authenticity___Bob___SymmetricExchange__comm_chData___aftersignalstate_SymmetricExchange_comm_SymmetricExchange_comm(dummyM)) ==> inj-event(authenticity___Alice___SymmetricExchange__comm_chData___signalstate_SymmetricExchange_comm_SymmetricExchange_comm(dummyM)) is false."),
+                    "Query inj-event(authenticity___Bob___SymmetricExchange__comm_chData___aftersignalstate_SymmetricExchange_comm_" +
+                            "SymmetricExchange_comm(dummyM)) ==> inj-event(authenticity___Alice___SymmetricExchange__comm_chData" +
+                            "___signalstate_SymmetricExchange_comm_SymmetricExchange_comm(dummyM)) is false."),
             Arrays.asList("Query not attacker(Alice___nonce__comm_chData[!1 = v]) is true.",
                     "Query inj-event(authenticity___Bob___nonce__comm_chData___aftersignalstate_nonce_comm_nonce_comm(dummyM)) ==> inj-event" +
-                            "(authenticity___Alice___nonce__comm_chData___signalstate_nonce_comm_nonce_comm(dummyM)) is false.")
+                            "(authenticity___Alice___nonce__comm_chData___signalstate_nonce_comm_nonce_comm(dummyM)) is false."),
+            Arrays.asList("Query not attacker(Alice___KeyExchange__comm_chData[!1 = v]) is true.", "RESULT inj-event" +
+                    "(authenticity___Bob___KeyExchange__comm_chData___aftersignalstate_KeyExchange_comm_KeyExchange_comm283" +
+                    "(dummyM)) ==> inj-event(authenticity___Alice___KeyExchange__comm_chData___signalstate_KeyExchange_comm_KeyExchange_comm239" +
+                    "(dummyM)) is true.", "Query inj-event(authenticity___Bob___KeyExchange__comm_chData___aftersignalstate_KeyExchange_comm" +
+                    "_KeyExchange_comm283(dummyM)) ==> inj-event(authenticity___Alice___KeyExchange__comm_chData" +
+                    "___signalstate_KeyExchange_comm_KeyExchange_comm239(dummyM)) is true."),
+            Arrays.asList("Query not attacker(Alice___MAC__comm_chData[!1 = v]) is true.",
+                    "Query inj-event(authenticity___Bob___MAC__comm_chData___aftersignalstate_MAC_comm_MAC_comm(dummyM)) ==> inj-event(authenticity" +
+                            "___Alice___MAC__comm_chData___signalstate_MAC_comm_MAC_comm(dummyM)) is false")
     );
     private static final String PROVERIF_SUMMARY = "Verification summary:";
     private static final String PROVERIF_QUERY = "Query";

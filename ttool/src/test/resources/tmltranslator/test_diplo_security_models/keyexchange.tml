@@ -1,0 +1,38 @@
+// TML Application - FORMAT 0.2
+// Application: /Users/ludovicapvrille/TTool/modeling/SysMLSec/AliceAndBobHW.xml
+// Generated: Mon May 22 13:40:05 CEST 2023
+
+// PRAGMAS
+
+// Channels
+CHANNEL KeyExchange__comm NBRNBW 4 OUT KeyExchange__Alice IN KeyExchange__Bob
+VCCHANNEL KeyExchange__comm 0
+CONFCHANNEL KeyExchange__comm
+AUTHCHANNEL KeyExchange__comm
+
+// Events
+
+// Requests
+
+TASK KeyExchange__Alice
+    TASKOP
+    //Local variables
+    
+    //Behavior
+    EXECC 100 aenc AE 100 100 0 0 - - 1
+    WRITE KeyExchange__comm 1+0 aenc
+    EXECC 100 symKey SE 100 100 0 0 - - 1
+    WRITE KeyExchange__comm 1+0 symKey
+ENDTASK
+
+TASK KeyExchange__Bob
+    TASKOP
+    //Local variables
+    
+    //Behavior
+    READ KeyExchange__comm 1+0 aenc
+    EXECC 100 aenc AE 100 100 0 0 - - 2
+    READ KeyExchange__comm 1+0 symKey
+    EXECC 100 symKey SE 100 100 0 0 - - 2
+ENDTASK
+

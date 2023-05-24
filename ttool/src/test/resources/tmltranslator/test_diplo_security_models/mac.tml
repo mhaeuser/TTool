@@ -1,0 +1,34 @@
+// TML Application - FORMAT 0.2
+// Application: /Users/ludovicapvrille/TTool/modeling/SysMLSec/AliceAndBobHW.xml
+// Generated: Mon May 22 14:07:26 CEST 2023
+
+// PRAGMAS
+
+// Channels
+CHANNEL MAC__comm NBRNBW 4 OUT MAC__Alice IN MAC__Bob
+VCCHANNEL MAC__comm 0
+CONFCHANNEL MAC__comm
+AUTHCHANNEL MAC__comm
+
+// Events
+
+// Requests
+
+TASK MAC__Alice
+    TASKOP
+    //Local variables
+    
+    //Behavior
+    EXECC 100 mac MAC 100 100 0 0 - - 1
+    WRITE MAC__comm 1+0 mac
+ENDTASK
+
+TASK MAC__Bob
+    TASKOP
+    //Local variables
+    
+    //Behavior
+    READ MAC__comm 1+0 mac
+    EXECC 100 mac MAC 100 100 0 0 - - 2
+ENDTASK
+

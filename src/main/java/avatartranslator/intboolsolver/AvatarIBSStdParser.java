@@ -68,22 +68,22 @@ public class AvatarIBSStdParser extends IBSStdParser<
                         AvatarStateMachineElement,
                         SpecificationState,
                         SpecificationBlock>());
-                setAttributeClass(new AvatarIBSAttributeClass());
-                setExpressionClass(new AvatarIBSExpressionClass());
+                setAttributes(new AvatarIBSAttributes());
+                setExpressions(new AvatarIBSExpressions());
         }
         public AvatarIBSStdParser(
-                IBSAttributeClass<
-                        AvatarSpecification,
-                        AvatarBlock,
-                        AvatarStateMachineElement,
-                        SpecificationState,
-                        SpecificationBlock> _c,
-                IBSExpressionClass<
-                        AvatarSpecification,
-                        AvatarBlock,
-                        AvatarStateMachineElement,
-                        SpecificationState,
-                        SpecificationBlock> _e) {
+                IBSAttributes<
+                                        AvatarSpecification,
+                                        AvatarBlock,
+                                        AvatarStateMachineElement,
+                                        SpecificationState,
+                                        SpecificationBlock> _c,
+                IBSExpressions<
+                                        AvatarSpecification,
+                                        AvatarBlock,
+                                        AvatarStateMachineElement,
+                                        SpecificationState,
+                                        SpecificationBlock> _e) {
                 super();
                 setLexer(new IBSStdLexer<
                         AvatarSpecification,
@@ -91,7 +91,7 @@ public class AvatarIBSStdParser extends IBSStdParser<
                         AvatarStateMachineElement,
                         SpecificationState,
                         SpecificationBlock>());
-                setAttributeClass(_c);
-                setExpressionClass(_e);
+                setAttributes(_c);
+                setExpressions(_e);
         }
 }

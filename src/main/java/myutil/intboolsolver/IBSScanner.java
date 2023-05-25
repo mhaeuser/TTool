@@ -58,10 +58,10 @@ import java.util.HashSet;
  */
 public interface IBSScanner< Spec extends IBSParamSpec, Comp extends IBSParamComp, State extends IBSParamState, SpecState extends IBSParamSpecState,
         CompState extends IBSParamCompState > extends java_cup.runtime.Scanner {
-    public void setAttributeClass( IBSAttributeClass<Spec,Comp,State,SpecState,CompState> _attrC);
-    public IBSAttributeClass<Spec,Comp,State,SpecState,CompState> getAttributeClass();
-    public void setExpressionClass( IBSExpressionClass<Spec,Comp,State,SpecState,CompState> _exprC);
-    public IBSExpressionClass<Spec,Comp,State,SpecState,CompState> getExpressionClass();
+    public void setAttributes(IBSAttributes<Spec,Comp,State,SpecState,CompState> _attrC);
+    public IBSAttributes<Spec,Comp,State,SpecState,CompState> getAttributes();
+    public void setExpressions(IBSExpressions<Spec,Comp,State,SpecState,CompState> _exprC);
+    public IBSExpressions<Spec,Comp,State,SpecState,CompState> getExpressions();
     public HashSet<String> getBadIdents();
     public void clearBadIdents();
     public void init(String _s) throws java.io.IOException;

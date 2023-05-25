@@ -39,10 +39,9 @@
 
 package avatartranslator;
 
-import avatartranslator.intboolsolver.AvatarIBSAttributeClass;
+import avatartranslator.intboolsolver.AvatarIBSAttributes;
 import avatartranslator.intboolsolver.AvatarIBSolver;
 import myutil.TraceManager;
-import myutil.intboolsolver.IBSAttributeClass;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -114,23 +113,23 @@ public class AvatarActionOnSignal extends AvatarStateMachineElement {
     }
     
     public boolean buildActionSolver(AvatarBlock block) {
-        AvatarIBSAttributeClass.TypedAttribute ta;
+        AvatarIBSAttributes.TypedAttribute ta;
         AvatarExpressionConstant cnst;
         boolean res = true;
         actionAttr = new ArrayList<AvatarExpressionAttributeInterface>();
         for (String val : values) {
             ta= AvatarIBSolver.attrC.getTypedAttribute(block,val);
             switch(ta.getType()){
-                case AvatarIBSAttributeClass.NullAttr: res = false; break; //could directly return false ?
-                case AvatarIBSAttributeClass.BoolConst:
-                case AvatarIBSAttributeClass.IntConst:
+                case AvatarIBSAttributes.NullAttr: res = false; break; //could directly return false ?
+                case AvatarIBSAttributes.BoolConst:
+                case AvatarIBSAttributes.IntConst:
                     cnst = new AvatarExpressionConstant(ta.getConstant());
                     actionAttr.add(cnst);
                     break;
-                case AvatarIBSAttributeClass.BoolAttr:
-                case AvatarIBSAttributeClass.IntAttr:
+                case AvatarIBSAttributes.BoolAttr:
+                case AvatarIBSAttributes.IntAttr:
                     // original: if(res)... but strange
-                    actionAttr.add((AvatarIBSAttributeClass.Attribute)ta.getAttribute());
+                    actionAttr.add((AvatarIBSAttributes.Attribute)ta.getAttribute());
             }
         }
         return res;

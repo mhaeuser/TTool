@@ -38,7 +38,7 @@
 
 package avatartranslator;
 
-import avatartranslator.intboolsolver.AvatarIBSExpressionClass;
+import avatartranslator.intboolsolver.AvatarIBSExpressions;
 import avatartranslator.intboolsolver.AvatarIBSolver;
 import compiler.tmlparser.ParseException;
 import compiler.tmlparser.SimpleNode;
@@ -378,7 +378,7 @@ public class AvatarSyntaxChecker {
 
         //TraceManager.addDev("Testing guard expr=" + act);
 
-        AvatarIBSExpressionClass.BExpr e1 = (AvatarIBSExpressionClass.BExpr) AvatarIBSolver.parser.parseBool(act);
+        AvatarIBSExpressions.BExpr e1 = (AvatarIBSExpressions.BExpr) AvatarIBSolver.parser.parseBool(act);
         return (e1!=null?0:-1);
 
 
@@ -417,7 +417,7 @@ public class AvatarSyntaxChecker {
             act = Conversion.putVariableValueInString(AvatarSpecification.ops, act, aa.getName(), aa.getDefaultInitialValue());
         }
 
-        AvatarIBSExpressionClass.IExpr e1 = (AvatarIBSExpressionClass.IExpr) AvatarIBSolver.parser.parseInt(act);
+        AvatarIBSExpressions.IExpr e1 = (AvatarIBSExpressions.IExpr) AvatarIBSolver.parser.parseInt(act);
         return (e1!=null?0:-1);
 
         /*IntExpressionEvaluator iee = new IntExpressionEvaluator();
@@ -468,7 +468,7 @@ public class AvatarSyntaxChecker {
             act = Conversion.putVariableValueInString(AvatarSpecification.ops, act, aa.getName(), aa.getDefaultInitialValueTF());
         }
 
-        AvatarIBSExpressionClass.BExpr e1 = (AvatarIBSExpressionClass.BExpr) AvatarIBSolver.parser.parseBool(act);
+        AvatarIBSExpressions.BExpr e1 = (AvatarIBSExpressions.BExpr) AvatarIBSolver.parser.parseBool(act);
 
         return (e1==null?0:1);
     }
@@ -507,7 +507,7 @@ public class AvatarSyntaxChecker {
 
         //TraceManager.addDev("3. Now with avatar expression solver:" + _expr);
 
-        AvatarIBSExpressionClass.BExpr aee = (AvatarIBSExpressionClass.BExpr) AvatarIBSolver.parser.parseBool(act);
+        AvatarIBSExpressions.BExpr aee = (AvatarIBSExpressions.BExpr) AvatarIBSolver.parser.parseBool(act);
         if (aee==null) {
             TraceManager.addDev("4. Error with avatar expression solver:" + act);
             return -1;

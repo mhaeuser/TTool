@@ -81,26 +81,26 @@
  *        the parser.
  *     </p>
  *     </li>
- *     <li> <p>{@link myutil.intboolsolver.IBSExpressionClass IBSExpressionClass}
+ *     <li> <p>{@link myutil.intboolsolver.IBSExpressions IBSExpressions}
  *     describes the interface expected for expression handling. It contains two
  *     kind of methods: methods for building expressions (required by parsing)
  *     and methods for evaluating expressions (useful for final user, but also
  *     available for parser implementations).</p>
- *     <p>{@link myutil.intboolsolver.IBSStdExpressionClass
- *         IBSStdExpressionClass} is a full implementation of {@link
- *         myutil.intboolsolver.IBSExpressionClass IBSExpressionClass}.
+ *     <p>{@link myutil.intboolsolver.IBSStdExpressions
+ *         IBSStdExpressions} is a full implementation of {@link
+ *         myutil.intboolsolver.IBSExpressions IBSExpressions}.
  *         Its classical structure is easy to extend (for example by adding
- *         operators). W.r.t. {@link myutil.intboolsolver.IBSExpressionClass
- *         IBSExpressionClass}, it provides additional features such as tools
+ *         operators). W.r.t. {@link myutil.intboolsolver.IBSExpressions
+ *         IBSExpressions}, it provides additional features such as tools
  *         to identify expression kinds and to access sub-expressions.</p>
- *     <li> <p>{@link myutil.intboolsolver.IBSAttributeClass IBSAttributeClass}
+ *     <li> <p>{@link myutil.intboolsolver.IBSAttributes IBSAttributes}
  *     describes the interface required from the attribute class that must be
  *     provided for instantiation. It also provides some data shared by all
  *     instances (some constants and a technical classes). Roughly speaking,
  *     this class provides an interpretation for open leaves.</p>
- *     <p>{@link myutil.intboolsolver.IBSStdAttributeClass
- *     IBSStdAttributeClass} extends {@link
- *     myutil.intboolsolver.IBSAttributeClass IBSAttributeClass}. It
+ *     <p>{@link myutil.intboolsolver.IBSStdAttributes
+ *     IBSStdAttributes} extends {@link
+ *     myutil.intboolsolver.IBSAttributes IBSAttributes}. It
  *     provides a partial implementation so that instances just have
  *     to provide low level methods.</p>
  *     <li><p>{@link myutil.intboolsolver.IBSParamSpec IBSParamSpec},
@@ -163,40 +163,40 @@
  *     and not making them extend any IBS<i>yyy</i>Param with
  *     <i>xxx</i> &#8800; <i>yyy</i></p>
  *     </li>
- *     <li> <p> provide an implementation {@code AttribClass} of
- *     {@link myutil.intboolsolver.IBSAttributeClass IBSAttributeClass} or
- *     {@link myutil.intboolsolver.IBSStdAttributeClass
- *     IBSStdAttributeClass}, and instanciate it with the chosen {@code Spec},
+ *     <li> <p> provide an implementation {@code Attribs} of
+ *     {@link myutil.intboolsolver.IBSAttributes IBSAttributes} or
+ *     {@link myutil.intboolsolver.IBSStdAttributes
+ *     IBSStdAttributes}, and instanciate it with the chosen {@code Spec},
  *     {@code Comp}, {@code SpecState}, {@code CompState} and {@code State}.</p>
        <PRE>
      known from context (package, imports): intboolsolver,
          Spec, Comp, SpecState, CompState, State
 
-     public class AttribClass
-         implements IBS[Std]AttributeClass &lt;Spec,Comp,SpecState,CompState,State&gt; {
+     public class Attribs
+         implements IBS[Std]Attributes &lt;Spec,Comp,SpecState,CompState,State&gt; {
 
-              !!! put implementation of IBS[Std]AttributeClass here
+              !!! put implementation of IBS[Std]Attributes here
      }
  *     </PRE>
  *     </li>
- *     <li> <p>build expression class <code>ExprClass</code> for your instance, ie.
- *     for example instantiate {@link myutil.intboolsolver.IBSStdExpressionClass
- *     IBSStdExpressionClass}:</p>
+ *     <li> <p>build expression class <code>Exprs</code> for your instance, ie.
+ *     for example instantiate {@link myutil.intboolsolver.IBSStdExpressions
+ *     IBSStdExpressions}:</p>
        <PRE>
      known from context (package, imports): intboolsolver,
          Spec, Comp, SpecState, CompState, State
 
-     public class ExprClass
-         extends IBSStdExpressionClass &lt;Spec,Comp, SpecState, CompState, State&gt; {
+     public class Exprs
+         extends IBSStdExpressions &lt;Spec,Comp, SpecState, CompState, State&gt; {
 
-           public ExprClass(){}
+           public Exprs(){}
 
            !!! optionnal additionnal features here
      }
  *     </PRE>
  *     <p>Note that if you want to add features to the inner class <code>Expr</code>,
- *     you have to directly modify {@link myutil.intboolsolver.IBSStdExpressionClass
- *     IBSStdExpressionClass}.</p>
+ *     you have to directly modify {@link myutil.intboolsolver.IBSStdExpressions
+ *     IBSStdExpressions}.</p>
  *     </li>
  *     <li> <p>build the parser <code>Parser</code> for your instance, ie.
  *     instantiate an implementation of the generic parser:</p>
@@ -207,8 +207,8 @@
  *      public class Parser
  *          extends IBSParserImpl &lt;Spec,Comp, SpecState, CompState, State&gt; {
  *
- *                 public Parser() { super(new AttrClass(),new ExprClass()); }
- *                 public Parser(AttrClass _a, ExprClass _e) { super(_c,_e); }
+ *                 public Parser() { super(new Attrs(),new Exprs()); }
+ *                 public Parser(Attrs _a, Exprs _e) { super(_c,_e); }
  *
  *            !!! optional additional features here
  *      }
@@ -224,8 +224,8 @@
  *      {@link myutil.intboolsolver.closedformula.IBSClosedState IBSClosedState},
  *      {@link myutil.intboolsolver.closedformula.IBSClosedCompState IBSClosedCompState},
  *      {@link myutil.intboolsolver.closedformula.IBSClosedSpecState IBSClosedSpecState},
- *      {@link myutil.intboolsolver.closedformula.IBSClosedFormulaAttributeClass IBSClosedFormulaAttributeClass},
- *      {@link myutil.intboolsolver.closedformula.IBSClosedFormulaExpressionClass IBSClosedFormulaExpressionClass},
+ *      {@link myutil.intboolsolver.closedformula.IBSClosedFormulaAttributes IBSClosedFormulaAttributes},
+ *      {@link myutil.intboolsolver.closedformula.IBSClosedFormulaExpressions IBSClosedFormulaExpressions},
  *      {@link myutil.intboolsolver.closedformula.IBSClosedFormulaParser IBSClosedFormulaParser}.
  *      Finally, {@link myutil.intboolsolver.closedformula.IBSClosedFormulaSolver IBSClosedFormulaSolver}
  *      contains an instance of the parser/solver that can be used from anywhere.</p>
@@ -235,8 +235,8 @@
  * </ol>
  * <p><a id="instanciation_use"> <b>Typical use of an instantiated parser:</b></a></p>
  *     <PRE>
- *          public Parser parser = new Parser(new AttribClass(),new ExprClass());
- *          ExprClass.BExpr e = (ExprClass.BExpr) parser.parseBool("10 + 15 &gt;= 20");
+ *          public Parser parser = new Parser(new Attribs(),new Exprs());
+ *          Exprs.BExpr e = (Exprs.BExpr) parser.parseBool("10 + 15 &gt;= 20");
  *          boolean b = e.eval();
  *          ...
  *    </PRE>
@@ -300,16 +300,16 @@ public class AvatarIBSStdParser extends IBSStdParser&lt;
                         AvatarStateMachineElement,
                         SpecificationState,
                         SpecificationBlock&gt;());
-                setAttributeClass(new AvatarIBSAttributeClass());
-                setExpressionClass(new AvatarIBSExpressionClass());
+                setAttributes(new AvatarIBSAttributes());
+                setExpressions(new AvatarIBSExpressions());
         }
 }
  </PRE>
  * <p>Note: the (deprecated) constructor of javaCUP parser "super()" is used
  * as setting the lexer is a bit more complex than the default behaviour
  * of "super(lexer)" provided by javaCUP (do not use it).</p>
- * <p>WARNING : The lexer must be set first as setAttributeClass and
- * setExpressionClass modify it. (these classes are saved as member of
+ * <p>WARNING : The lexer must be set first as setAttributes and
+ * setExpressions modify it. (these classes are saved as member of
  * the lexer and not as member of the parser)</p>
  *
  * @version 1.0 11/04/2023

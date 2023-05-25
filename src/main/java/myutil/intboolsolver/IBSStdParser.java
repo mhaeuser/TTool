@@ -5,9 +5,7 @@
 
 package myutil.intboolsolver;
 
-import java_cup.runtime.*;
 import java.util.HashSet;
-import java_cup.runtime.XMLElement;
 
 /** CUP v0.11b 20210814 (GIT d69c832) generated parser.
   */
@@ -203,99 +201,99 @@ public class IBSStdParser< Spec extends IBSParamSpec, Comp extends IBSParamComp,
     
     public void setLexer(IBSScanner<Spec,Comp,State,SpecState,CompState> _lexer){ lexer=_lexer; setScanner(_lexer); }
 
-    public void setAttributeClass(IBSAttributeClass<Spec,Comp,State,SpecState,CompState> _c){ lexer.setAttributeClass(_c); }
+    public void setAttributes(IBSAttributes<Spec,Comp,State,SpecState,CompState> _c){ lexer.setAttributes(_c); }
 
-    public IBSAttributeClass<Spec,Comp,State,SpecState,CompState> getAttributeClass(){ return lexer.getAttributeClass(); }
+    public IBSAttributes<Spec,Comp,State,SpecState,CompState> getAttributes(){ return lexer.getAttributes(); }
 
-    public void setExpressionClass(IBSExpressionClass<Spec,Comp,State,SpecState,CompState> _c){ lexer.setExpressionClass(_c); }
+    public void setExpressions(IBSExpressions<Spec,Comp,State,SpecState,CompState> _c){ lexer.setExpressions(_c); }
 
-    public IBSExpressionClass<Spec,Comp,State,SpecState,CompState> getExpressionClass(){ return lexer.getExpressionClass(); }
+    public IBSExpressions<Spec,Comp,State,SpecState,CompState> getExpressions(){ return lexer.getExpressions(); }
 
     public HashSet<String> getBadIdents(){ return lexer.getBadIdents(); }
 
     public void clearBadIdents(){ lexer.clearBadIdents(); }
 
-    public IBSExpressionClass<Spec,Comp,State,SpecState,CompState>.IExpr parseInt(Spec _spec, String _s){
+    public IBSExpressions<Spec,Comp,State,SpecState,CompState>.IExpr parseInt(Spec _spec, String _s){
         try { lexer.init(_spec,"integer " + _s); }
         catch (java.io.IOException e) { return null; }
-        try { return (IBSExpressionClass<Spec,Comp,State,SpecState,CompState>.IExpr) parse().value; }
-        catch (Exception e) { lexer.getExpressionClass().clear(); return null; }
+        try { return (IBSExpressions<Spec,Comp,State,SpecState,CompState>.IExpr) parse().value; }
+        catch (Exception e) { lexer.getExpressions().clear(); return null; }
     }
 
-    public IBSExpressionClass<Spec,Comp,State,SpecState,CompState>.BExpr parseBool(Spec _spec, String _s){
+    public IBSExpressions<Spec,Comp,State,SpecState,CompState>.BExpr parseBool(Spec _spec, String _s){
         try { lexer.init(_spec,"boolean " + _s); }
         catch (java.io.IOException e) { return null; }
-        try { return (IBSExpressionClass<Spec,Comp,State,SpecState,CompState>.BExpr) parse().value; }
-        catch (Exception e) { lexer.getExpressionClass().clear(); return null; }
+        try { return (IBSExpressions<Spec,Comp,State,SpecState,CompState>.BExpr) parse().value; }
+        catch (Exception e) { lexer.getExpressions().clear(); return null; }
     }
 
-    public IBSExpressionClass<Spec,Comp,State,SpecState,CompState>.BExpr parseGuard(Spec _spec, String _s){
+    public IBSExpressions<Spec,Comp,State,SpecState,CompState>.BExpr parseGuard(Spec _spec, String _s){
         try { lexer.init(_spec,"guard " + _s); }
         catch (java.io.IOException e) { return null; }
-        try { return (IBSExpressionClass<Spec,Comp,State,SpecState,CompState>.BExpr) parse().value; }
-        catch (Exception e) { lexer.getExpressionClass().clear(); return null; }
+        try { return (IBSExpressions<Spec,Comp,State,SpecState,CompState>.BExpr) parse().value; }
+        catch (Exception e) { lexer.getExpressions().clear(); return null; }
     }
 
-    public IBSExpressionClass<Spec,Comp,State,SpecState,CompState>.IExpr parseInt(Comp _comp, String _s){
+    public IBSExpressions<Spec,Comp,State,SpecState,CompState>.IExpr parseInt(Comp _comp, String _s){
         try { lexer.init(_comp,"integer " + _s); }
         catch (java.io.IOException e) { return null; }
-        try { return (IBSExpressionClass<Spec,Comp,State,SpecState,CompState>.IExpr) parse().value; }
-        catch (Exception e) { lexer.getExpressionClass().clear(); return null; }
+        try { return (IBSExpressions<Spec,Comp,State,SpecState,CompState>.IExpr) parse().value; }
+        catch (Exception e) { lexer.getExpressions().clear(); return null; }
     }
 
-    public IBSExpressionClass<Spec,Comp,State,SpecState,CompState>.BExpr parseBool(Comp _comp, String _s){
+    public IBSExpressions<Spec,Comp,State,SpecState,CompState>.BExpr parseBool(Comp _comp, String _s){
         try { lexer.init(_comp,"boolean " + _s); }
         catch (java.io.IOException e) { return null; }
-        try { return (IBSExpressionClass<Spec,Comp,State,SpecState,CompState>.BExpr) parse().value; }
-        catch (Exception e) { lexer.getExpressionClass().clear(); return null; }
+        try { return (IBSExpressions<Spec,Comp,State,SpecState,CompState>.BExpr) parse().value; }
+        catch (Exception e) { lexer.getExpressions().clear(); return null; }
     }
 
-    public IBSExpressionClass<Spec,Comp,State,SpecState,CompState>.BExpr parseGuard(Comp _comp, String _s){
+    public IBSExpressions<Spec,Comp,State,SpecState,CompState>.BExpr parseGuard(Comp _comp, String _s){
         try { lexer.init(_comp,"guard " + _s); }
         catch (java.io.IOException e) { return null; }
-        try { return (IBSExpressionClass<Spec,Comp,State,SpecState,CompState>.BExpr) parse().value; }
-        catch (Exception e) { lexer.getExpressionClass().clear(); return null; }
+        try { return (IBSExpressions<Spec,Comp,State,SpecState,CompState>.BExpr) parse().value; }
+        catch (Exception e) { lexer.getExpressions().clear(); return null; }
     }
 
-    public IBSExpressionClass<Spec,Comp,State,SpecState,CompState>.IExpr parseInt(String _s){
+    public IBSExpressions<Spec,Comp,State,SpecState,CompState>.IExpr parseInt(String _s){
         try { lexer.init("integer " + _s); }
         catch (java.io.IOException e) { return null; }
-        try { return (IBSExpressionClass<Spec,Comp,State,SpecState,CompState>.IExpr) parse().value; }
-        catch (Exception e) { lexer.getExpressionClass().clear(); return null; }
+        try { return (IBSExpressions<Spec,Comp,State,SpecState,CompState>.IExpr) parse().value; }
+        catch (Exception e) { lexer.getExpressions().clear(); return null; }
     }
 
-    public IBSExpressionClass<Spec,Comp,State,SpecState,CompState>.BExpr parseBool(String _s){
+    public IBSExpressions<Spec,Comp,State,SpecState,CompState>.BExpr parseBool(String _s){
         try { lexer.init("boolean " + _s); }
         catch (java.io.IOException e) { return null; }
-        try { return (IBSExpressionClass<Spec,Comp,State,SpecState,CompState>.BExpr) parse().value; }
-        catch (Exception e) { lexer.getExpressionClass().clear(); return null; }
+        try { return (IBSExpressions<Spec,Comp,State,SpecState,CompState>.BExpr) parse().value; }
+        catch (Exception e) { lexer.getExpressions().clear(); return null; }
     }
 
-    public IBSExpressionClass<Spec,Comp,State,SpecState,CompState>.BExpr parseGuard(String _s){
+    public IBSExpressions<Spec,Comp,State,SpecState,CompState>.BExpr parseGuard(String _s){
         try { lexer.init("guard " + _s); }
         catch (java.io.IOException e) { return null; }
-        try { return (IBSExpressionClass<Spec,Comp,State,SpecState,CompState>.BExpr) parse().value; }
-        catch (Exception e) { lexer.getExpressionClass().clear(); return null; }
+        try { return (IBSExpressions<Spec,Comp,State,SpecState,CompState>.BExpr) parse().value; }
+        catch (Exception e) { lexer.getExpressions().clear(); return null; }
     }
 
-    public IBSExpressionClass<Spec,Comp,State,SpecState,CompState>.IExpr
-    makeInt(IBSAttributeClass<Spec,Comp,State,SpecState,CompState>.Attribute _attr){
-        int index = lexer.getExpressionClass().make_iVar(_attr);
+    public IBSExpressions<Spec,Comp,State,SpecState,CompState>.IExpr
+    makeInt(IBSAttributes<Spec,Comp,State,SpecState,CompState>.Attribute _attr){
+        int index = lexer.getExpressions().make_iVar(_attr);
         if (index >= 0) {
-            IBSExpressionClass<Spec, Comp, State, SpecState, CompState>.IExpr res = lexer.getExpressionClass().getIExpr(index);
-            lexer.getExpressionClass().freeInt(index);
+            IBSExpressions<Spec, Comp, State, SpecState, CompState>.IExpr res = lexer.getExpressions().getIExpr(index);
+            lexer.getExpressions().freeInt(index);
             return res;
         }
         // if (index==-1) syntaxError=true; else syntaxError=false;
         return null;
     }
 
-    public IBSExpressionClass<Spec,Comp,State,SpecState,CompState>.BExpr
-    makeBool(IBSAttributeClass<Spec,Comp,State,SpecState,CompState>.Attribute _attr){
-        int index = lexer.getExpressionClass().make_bVar(_attr);
+    public IBSExpressions<Spec,Comp,State,SpecState,CompState>.BExpr
+    makeBool(IBSAttributes<Spec,Comp,State,SpecState,CompState>.Attribute _attr){
+        int index = lexer.getExpressions().make_bVar(_attr);
         if (index >= 0) {
-            IBSExpressionClass<Spec, Comp, State, SpecState, CompState>.BExpr res = lexer.getExpressionClass().getBExpr(index);
-            lexer.getExpressionClass().freeBool(index);
+            IBSExpressions<Spec, Comp, State, SpecState, CompState>.BExpr res = lexer.getExpressions().getBExpr(index);
+            lexer.getExpressions().freeBool(index);
             return res;
         }
         // if (index==-1) syntaxError=true; else syntaxError=false;
@@ -400,12 +398,12 @@ class CUP$IBSStdParser$actions {
           /*. . . . . . . . . . . . . . . . . . . .*/
           case 0: // expr ::= PARSE_BOOL bexpr 
             {
-              IBSExpressionClass<Spec,Comp,State,SpecState,CompState>.Expr RESULT =null;
+              IBSExpressions<Spec,Comp,State,SpecState,CompState>.Expr RESULT =null;
 		int eleft = (CUP$IBSStdParser$stack.peek()).left;
 		int eright = (CUP$IBSStdParser$stack.peek()).right;
 		Integer e = CUP$IBSStdParser$stack.peek().<Integer>value();
-		 RESULT = lexer.getExpressionClass().getBExpr(e.intValue());
-                            lexer.getExpressionClass().freeBool(e.intValue()); 
+		 RESULT = lexer.getExpressions().getBExpr(e.intValue());
+                            lexer.getExpressions().freeBool(e.intValue());
               CUP$IBSStdParser$result = parser.getSymbolFactory().newSymbol("expr",0, CUP$IBSStdParser$stack.elementAt(CUP$IBSStdParser$top-1), CUP$IBSStdParser$stack.peek(), RESULT);
             }
           return CUP$IBSStdParser$result;
@@ -416,7 +414,7 @@ class CUP$IBSStdParser$actions {
               Object RESULT =null;
 		int start_valleft = (CUP$IBSStdParser$stack.elementAt(CUP$IBSStdParser$top-1)).left;
 		int start_valright = (CUP$IBSStdParser$stack.elementAt(CUP$IBSStdParser$top-1)).right;
-		IBSExpressionClass<Spec,Comp,State,SpecState,CompState>.Expr start_val = CUP$IBSStdParser$stack.elementAt(CUP$IBSStdParser$top-1).<IBSExpressionClass<Spec,Comp,State,SpecState,CompState>.Expr>value();
+		IBSExpressions<Spec,Comp,State,SpecState,CompState>.Expr start_val = CUP$IBSStdParser$stack.elementAt(CUP$IBSStdParser$top-1).<IBSExpressions<Spec,Comp,State,SpecState,CompState>.Expr>value();
 		RESULT = start_val;
               CUP$IBSStdParser$result = parser.getSymbolFactory().newSymbol("$START",0, CUP$IBSStdParser$stack.elementAt(CUP$IBSStdParser$top-1), CUP$IBSStdParser$stack.peek(), RESULT);
             }
@@ -427,12 +425,12 @@ class CUP$IBSStdParser$actions {
           /*. . . . . . . . . . . . . . . . . . . .*/
           case 2: // expr ::= PARSE_INT iexpr 
             {
-              IBSExpressionClass<Spec,Comp,State,SpecState,CompState>.Expr RESULT =null;
+              IBSExpressions<Spec,Comp,State,SpecState,CompState>.Expr RESULT =null;
 		int eleft = (CUP$IBSStdParser$stack.peek()).left;
 		int eright = (CUP$IBSStdParser$stack.peek()).right;
 		Integer e = CUP$IBSStdParser$stack.peek().<Integer>value();
-		 RESULT = lexer.getExpressionClass().getIExpr(e.intValue());
-                            lexer.getExpressionClass().freeInt(e.intValue()); 
+		 RESULT = lexer.getExpressions().getIExpr(e.intValue());
+                            lexer.getExpressions().freeInt(e.intValue());
               CUP$IBSStdParser$result = parser.getSymbolFactory().newSymbol("expr",0, CUP$IBSStdParser$stack.elementAt(CUP$IBSStdParser$top-1), CUP$IBSStdParser$stack.peek(), RESULT);
             }
           return CUP$IBSStdParser$result;
@@ -440,12 +438,12 @@ class CUP$IBSStdParser$actions {
           /*. . . . . . . . . . . . . . . . . . . .*/
           case 3: // expr ::= PARSE_GUARD bexpr 
             {
-              IBSExpressionClass<Spec,Comp,State,SpecState,CompState>.Expr RESULT =null;
+              IBSExpressions<Spec,Comp,State,SpecState,CompState>.Expr RESULT =null;
 		int eleft = (CUP$IBSStdParser$stack.peek()).left;
 		int eright = (CUP$IBSStdParser$stack.peek()).right;
 		Integer e = CUP$IBSStdParser$stack.peek().<Integer>value();
-		 RESULT = lexer.getExpressionClass().getBExpr(e.intValue());
-                            lexer.getExpressionClass().freeBool(e.intValue()); 
+		 RESULT = lexer.getExpressions().getBExpr(e.intValue());
+                            lexer.getExpressions().freeBool(e.intValue());
               CUP$IBSStdParser$result = parser.getSymbolFactory().newSymbol("expr",0, CUP$IBSStdParser$stack.elementAt(CUP$IBSStdParser$top-1), CUP$IBSStdParser$stack.peek(), RESULT);
             }
           return CUP$IBSStdParser$result;
@@ -453,11 +451,11 @@ class CUP$IBSStdParser$actions {
           /*. . . . . . . . . . . . . . . . . . . .*/
           case 4: // expr ::= PARSE_GUARD 
             {
-              IBSExpressionClass<Spec,Comp,State,SpecState,CompState>.Expr RESULT =null;
-		 int index = lexer.getExpressionClass().make_bConst(true);
+              IBSExpressions<Spec,Comp,State,SpecState,CompState>.Expr RESULT =null;
+		 int index = lexer.getExpressions().make_bConst(true);
                             if(index >=0){
-                              RESULT = lexer.getExpressionClass().getBExpr(index);
-                              lexer.getExpressionClass().freeBool(index);
+                              RESULT = lexer.getExpressions().getBExpr(index);
+                              lexer.getExpressions().freeBool(index);
                             }
                             else RESULT = null; 
               CUP$IBSStdParser$result = parser.getSymbolFactory().newSymbol("expr",0, CUP$IBSStdParser$stack.peek(), CUP$IBSStdParser$stack.peek(), RESULT);
@@ -474,36 +472,36 @@ class CUP$IBSStdParser$actions {
 		int rleft = (CUP$IBSStdParser$stack.peek()).left;
 		int rright = (CUP$IBSStdParser$stack.peek()).right;
 		Integer r = CUP$IBSStdParser$stack.peek().<Integer>value();
-		 if (lexer.getExpressionClass().isIconstant(l.intValue())) {
-             int left = lexer.getExpressionClass().getIExpr(l.intValue()).eval();
+		 if (lexer.getExpressions().isIconstant(l.intValue())) {
+             int left = lexer.getExpressions().getIExpr(l.intValue()).eval();
 	     if (left==0){
                  RESULT = r;
-		 lexer.getExpressionClass().freeInt(l.intValue());
-             } else if (lexer.getExpressionClass().isIconstant(r.intValue())) {
-	         int right = lexer.getExpressionClass().getIExpr(r.intValue()).eval();
-		 RESULT = Integer.valueOf(lexer.getExpressionClass().make_iConst(left+right));
-		 lexer.getExpressionClass().freeInt(l.intValue());
-		 lexer.getExpressionClass().freeInt(r.intValue());
+		 lexer.getExpressions().freeInt(l.intValue());
+             } else if (lexer.getExpressions().isIconstant(r.intValue())) {
+	         int right = lexer.getExpressions().getIExpr(r.intValue()).eval();
+		 RESULT = Integer.valueOf(lexer.getExpressions().make_iConst(left+right));
+		 lexer.getExpressions().freeInt(l.intValue());
+		 lexer.getExpressions().freeInt(r.intValue());
 	     }  else {
-                 RESULT = Integer.valueOf(lexer.getExpressionClass().make_iiiPlus(l.intValue(),r.intValue()));
-                 lexer.getExpressionClass().freeInt(l.intValue());
-                 lexer.getExpressionClass().freeInt(r.intValue());
+                 RESULT = Integer.valueOf(lexer.getExpressions().make_iiiPlus(l.intValue(),r.intValue()));
+                 lexer.getExpressions().freeInt(l.intValue());
+                 lexer.getExpressions().freeInt(r.intValue());
              }
-	 } else if (lexer.getExpressionClass().isIconstant(r.intValue())) {
-	     int right = lexer.getExpressionClass().getIExpr(r.intValue()).eval();
+	 } else if (lexer.getExpressions().isIconstant(r.intValue())) {
+	     int right = lexer.getExpressions().getIExpr(r.intValue()).eval();
 	     if (right==0){
                  RESULT = l;
-		 lexer.getExpressionClass().freeInt(r.intValue());
+		 lexer.getExpressions().freeInt(r.intValue());
              }
 	     else {
-                 RESULT = Integer.valueOf(lexer.getExpressionClass().make_iiiPlus(l.intValue(),r.intValue()));
-                 lexer.getExpressionClass().freeInt(l.intValue());
-                 lexer.getExpressionClass().freeInt(r.intValue());
+                 RESULT = Integer.valueOf(lexer.getExpressions().make_iiiPlus(l.intValue(),r.intValue()));
+                 lexer.getExpressions().freeInt(l.intValue());
+                 lexer.getExpressions().freeInt(r.intValue());
              }
 	 } else {
-             RESULT = Integer.valueOf(lexer.getExpressionClass().make_iiiPlus(l.intValue(),r.intValue()));
-             lexer.getExpressionClass().freeInt(l.intValue());
-             lexer.getExpressionClass().freeInt(r.intValue());
+             RESULT = Integer.valueOf(lexer.getExpressions().make_iiiPlus(l.intValue(),r.intValue()));
+             lexer.getExpressions().freeInt(l.intValue());
+             lexer.getExpressions().freeInt(r.intValue());
 	 }
       
               CUP$IBSStdParser$result = parser.getSymbolFactory().newSymbol("iexpr",1, CUP$IBSStdParser$stack.elementAt(CUP$IBSStdParser$top-2), CUP$IBSStdParser$stack.peek(), RESULT);
@@ -520,37 +518,37 @@ class CUP$IBSStdParser$actions {
 		int rleft = (CUP$IBSStdParser$stack.peek()).left;
 		int rright = (CUP$IBSStdParser$stack.peek()).right;
 		Integer r = CUP$IBSStdParser$stack.peek().<Integer>value();
-		  if (lexer.getExpressionClass().isIconstant(l.intValue())) {
-             int left = lexer.getExpressionClass().getIExpr(l.intValue()).eval();
+		  if (lexer.getExpressions().isIconstant(l.intValue())) {
+             int left = lexer.getExpressions().getIExpr(l.intValue()).eval();
 	     if (left==0){
-                 RESULT =  Integer.valueOf(lexer.getExpressionClass().make_iNeg(r.intValue()));
-		 lexer.getExpressionClass().freeInt(l.intValue());
-		 lexer.getExpressionClass().freeInt(r.intValue());
-             } else if (lexer.getExpressionClass().isIconstant(r.intValue())) {
-	         int right = lexer.getExpressionClass().getIExpr(r.intValue()).eval();
-		 RESULT = Integer.valueOf(lexer.getExpressionClass().make_iConst(left-right));
-		 lexer.getExpressionClass().freeInt(l.intValue());
-		 lexer.getExpressionClass().freeInt(r.intValue());
+                 RESULT =  Integer.valueOf(lexer.getExpressions().make_iNeg(r.intValue()));
+		 lexer.getExpressions().freeInt(l.intValue());
+		 lexer.getExpressions().freeInt(r.intValue());
+             } else if (lexer.getExpressions().isIconstant(r.intValue())) {
+	         int right = lexer.getExpressions().getIExpr(r.intValue()).eval();
+		 RESULT = Integer.valueOf(lexer.getExpressions().make_iConst(left-right));
+		 lexer.getExpressions().freeInt(l.intValue());
+		 lexer.getExpressions().freeInt(r.intValue());
 	     } else {
-                 RESULT = Integer.valueOf(lexer.getExpressionClass().make_iiiMinus(l.intValue(),r.intValue()));
-                 lexer.getExpressionClass().freeInt(l.intValue());
-                 lexer.getExpressionClass().freeInt(r.intValue());
+                 RESULT = Integer.valueOf(lexer.getExpressions().make_iiiMinus(l.intValue(),r.intValue()));
+                 lexer.getExpressions().freeInt(l.intValue());
+                 lexer.getExpressions().freeInt(r.intValue());
              }
-	 } else if (lexer.getExpressionClass().isIconstant(r.intValue())) {
-	     int right = lexer.getExpressionClass().getIExpr(r.intValue()).eval();
+	 } else if (lexer.getExpressions().isIconstant(r.intValue())) {
+	     int right = lexer.getExpressions().getIExpr(r.intValue()).eval();
 	     if (right==0){
                  RESULT = l;
-		 lexer.getExpressionClass().freeInt(r.intValue());
+		 lexer.getExpressions().freeInt(r.intValue());
              }
 	     else {
-                 RESULT = Integer.valueOf(lexer.getExpressionClass().make_iiiMinus(l.intValue(),r.intValue()));
-                 lexer.getExpressionClass().freeInt(l.intValue());
-                 lexer.getExpressionClass().freeInt(r.intValue());
+                 RESULT = Integer.valueOf(lexer.getExpressions().make_iiiMinus(l.intValue(),r.intValue()));
+                 lexer.getExpressions().freeInt(l.intValue());
+                 lexer.getExpressions().freeInt(r.intValue());
              }
 	 } else {
-             RESULT = Integer.valueOf(lexer.getExpressionClass().make_iiiMinus(l.intValue(),r.intValue()));
-             lexer.getExpressionClass().freeInt(l.intValue());
-             lexer.getExpressionClass().freeInt(r.intValue());
+             RESULT = Integer.valueOf(lexer.getExpressions().make_iiiMinus(l.intValue(),r.intValue()));
+             lexer.getExpressions().freeInt(l.intValue());
+             lexer.getExpressions().freeInt(r.intValue());
 	 }
       
               CUP$IBSStdParser$result = parser.getSymbolFactory().newSymbol("iexpr",1, CUP$IBSStdParser$stack.elementAt(CUP$IBSStdParser$top-2), CUP$IBSStdParser$stack.peek(), RESULT);
@@ -567,35 +565,35 @@ class CUP$IBSStdParser$actions {
 		int rleft = (CUP$IBSStdParser$stack.peek()).left;
 		int rright = (CUP$IBSStdParser$stack.peek()).right;
 		Integer r = CUP$IBSStdParser$stack.peek().<Integer>value();
-		 if (lexer.getExpressionClass().isIconstant(l.intValue())) {
-             int left = lexer.getExpressionClass().getIExpr(l.intValue()).eval();
+		 if (lexer.getExpressions().isIconstant(l.intValue())) {
+             int left = lexer.getExpressions().getIExpr(l.intValue()).eval();
 	     if (left==1) {
 	         RESULT = r;
-		 lexer.getExpressionClass().freeInt(l.intValue());
-	     } else if (lexer.getExpressionClass().isIconstant(r.intValue())) {
-	         int right = lexer.getExpressionClass().getIExpr(r.intValue()).eval();
-		 RESULT = Integer.valueOf(lexer.getExpressionClass().make_iConst(left*right));
-		 lexer.getExpressionClass().freeInt(l.intValue());
-		 lexer.getExpressionClass().freeInt(r.intValue());
+		 lexer.getExpressions().freeInt(l.intValue());
+	     } else if (lexer.getExpressions().isIconstant(r.intValue())) {
+	         int right = lexer.getExpressions().getIExpr(r.intValue()).eval();
+		 RESULT = Integer.valueOf(lexer.getExpressions().make_iConst(left*right));
+		 lexer.getExpressions().freeInt(l.intValue());
+		 lexer.getExpressions().freeInt(r.intValue());
 	     } else {
-                 RESULT = Integer.valueOf(lexer.getExpressionClass().make_iiiMult(l.intValue(),r.intValue()));
-                 lexer.getExpressionClass().freeInt(l.intValue());
-                 lexer.getExpressionClass().freeInt(r.intValue());
+                 RESULT = Integer.valueOf(lexer.getExpressions().make_iiiMult(l.intValue(),r.intValue()));
+                 lexer.getExpressions().freeInt(l.intValue());
+                 lexer.getExpressions().freeInt(r.intValue());
              }
-	 } else if (lexer.getExpressionClass().isIconstant(r.intValue())) {
-	     int right = lexer.getExpressionClass().getIExpr(r.intValue()).eval();
+	 } else if (lexer.getExpressions().isIconstant(r.intValue())) {
+	     int right = lexer.getExpressions().getIExpr(r.intValue()).eval();
 	     if (right==1) {
 	         RESULT = l;
-		 lexer.getExpressionClass().freeInt(r.intValue());
+		 lexer.getExpressions().freeInt(r.intValue());
 	     } else {
-                 RESULT = Integer.valueOf(lexer.getExpressionClass().make_iiiMult(l.intValue(),r.intValue()));
-                 lexer.getExpressionClass().freeInt(l.intValue());
-                 lexer.getExpressionClass().freeInt(r.intValue());
+                 RESULT = Integer.valueOf(lexer.getExpressions().make_iiiMult(l.intValue(),r.intValue()));
+                 lexer.getExpressions().freeInt(l.intValue());
+                 lexer.getExpressions().freeInt(r.intValue());
              }
 	 } else {
-             RESULT = Integer.valueOf(lexer.getExpressionClass().make_iiiMult(l.intValue(),r.intValue()));
-             lexer.getExpressionClass().freeInt(l.intValue());
-             lexer.getExpressionClass().freeInt(r.intValue());
+             RESULT = Integer.valueOf(lexer.getExpressions().make_iiiMult(l.intValue(),r.intValue()));
+             lexer.getExpressions().freeInt(l.intValue());
+             lexer.getExpressions().freeInt(r.intValue());
 	 }
       
               CUP$IBSStdParser$result = parser.getSymbolFactory().newSymbol("iexpr",1, CUP$IBSStdParser$stack.elementAt(CUP$IBSStdParser$top-2), CUP$IBSStdParser$stack.peek(), RESULT);
@@ -612,26 +610,26 @@ class CUP$IBSStdParser$actions {
 		int rleft = (CUP$IBSStdParser$stack.peek()).left;
 		int rright = (CUP$IBSStdParser$stack.peek()).right;
 		Integer r = CUP$IBSStdParser$stack.peek().<Integer>value();
-		 if (lexer.getExpressionClass().isIconstant(r.intValue())) {
-             int right = lexer.getExpressionClass().getIExpr(r.intValue()).eval();
+		 if (lexer.getExpressions().isIconstant(r.intValue())) {
+             int right = lexer.getExpressions().getIExpr(r.intValue()).eval();
 	     if (right==0) throw new Exception("divide by 0");
 	     if (right==1) {
 	     	 RESULT = l;
-		 lexer.getExpressionClass().freeInt(r.intValue());
-	     } else if (lexer.getExpressionClass().isIconstant(l.intValue())) {
-                 int left = lexer.getExpressionClass().getIExpr(l.intValue()).eval();
-		 RESULT = Integer.valueOf(lexer.getExpressionClass().make_iConst(left/right));
-		 lexer.getExpressionClass().freeInt(l.intValue());
-		 lexer.getExpressionClass().freeInt(r.intValue());
+		 lexer.getExpressions().freeInt(r.intValue());
+	     } else if (lexer.getExpressions().isIconstant(l.intValue())) {
+                 int left = lexer.getExpressions().getIExpr(l.intValue()).eval();
+		 RESULT = Integer.valueOf(lexer.getExpressions().make_iConst(left/right));
+		 lexer.getExpressions().freeInt(l.intValue());
+		 lexer.getExpressions().freeInt(r.intValue());
 	     } else {
-                 RESULT = Integer.valueOf(lexer.getExpressionClass().make_iiiDiv(l.intValue(),r.intValue()));
-                 lexer.getExpressionClass().freeInt(l.intValue());
-                 lexer.getExpressionClass().freeInt(r.intValue());   
+                 RESULT = Integer.valueOf(lexer.getExpressions().make_iiiDiv(l.intValue(),r.intValue()));
+                 lexer.getExpressions().freeInt(l.intValue());
+                 lexer.getExpressions().freeInt(r.intValue());
 	     }
 	 } else {
-             RESULT = Integer.valueOf(lexer.getExpressionClass().make_iiiDiv(l.intValue(),r.intValue()));
-             lexer.getExpressionClass().freeInt(l.intValue());
-             lexer.getExpressionClass().freeInt(r.intValue());
+             RESULT = Integer.valueOf(lexer.getExpressions().make_iiiDiv(l.intValue(),r.intValue()));
+             lexer.getExpressions().freeInt(l.intValue());
+             lexer.getExpressions().freeInt(r.intValue());
 	 }
       
               CUP$IBSStdParser$result = parser.getSymbolFactory().newSymbol("iexpr",1, CUP$IBSStdParser$stack.elementAt(CUP$IBSStdParser$top-2), CUP$IBSStdParser$stack.peek(), RESULT);
@@ -648,23 +646,23 @@ class CUP$IBSStdParser$actions {
 		int rleft = (CUP$IBSStdParser$stack.peek()).left;
 		int rright = (CUP$IBSStdParser$stack.peek()).right;
 		Integer r = CUP$IBSStdParser$stack.peek().<Integer>value();
-		 if (lexer.getExpressionClass().isIconstant(r.intValue())) {
-             int right = lexer.getExpressionClass().getIExpr(r.intValue()).eval();
+		 if (lexer.getExpressions().isIconstant(r.intValue())) {
+             int right = lexer.getExpressions().getIExpr(r.intValue()).eval();
 	     if (right==0) throw new Exception("mod 0");
-	     if (lexer.getExpressionClass().isIconstant(l.intValue())) {
-                 int left = lexer.getExpressionClass().getIExpr(l.intValue()).eval();
-		 RESULT = Integer.valueOf(lexer.getExpressionClass().make_iConst(left%right));
-		 lexer.getExpressionClass().freeInt(l.intValue());
-		 lexer.getExpressionClass().freeInt(r.intValue());
+	     if (lexer.getExpressions().isIconstant(l.intValue())) {
+                 int left = lexer.getExpressions().getIExpr(l.intValue()).eval();
+		 RESULT = Integer.valueOf(lexer.getExpressions().make_iConst(left%right));
+		 lexer.getExpressions().freeInt(l.intValue());
+		 lexer.getExpressions().freeInt(r.intValue());
 	     } else {
-                 RESULT = Integer.valueOf(lexer.getExpressionClass().make_iiiMod(l.intValue(),r.intValue()));
-                 lexer.getExpressionClass().freeInt(l.intValue());
-                 lexer.getExpressionClass().freeInt(r.intValue());   
+                 RESULT = Integer.valueOf(lexer.getExpressions().make_iiiMod(l.intValue(),r.intValue()));
+                 lexer.getExpressions().freeInt(l.intValue());
+                 lexer.getExpressions().freeInt(r.intValue());
 	     }
 	 } else {
-             RESULT = Integer.valueOf(lexer.getExpressionClass().make_iiiMod(l.intValue(),r.intValue()));
-             lexer.getExpressionClass().freeInt(l.intValue());
-             lexer.getExpressionClass().freeInt(r.intValue());
+             RESULT = Integer.valueOf(lexer.getExpressions().make_iiiMod(l.intValue(),r.intValue()));
+             lexer.getExpressions().freeInt(l.intValue());
+             lexer.getExpressions().freeInt(r.intValue());
 	 }
       
               CUP$IBSStdParser$result = parser.getSymbolFactory().newSymbol("iexpr",1, CUP$IBSStdParser$stack.elementAt(CUP$IBSStdParser$top-2), CUP$IBSStdParser$stack.peek(), RESULT);
@@ -690,7 +688,7 @@ class CUP$IBSStdParser$actions {
 		int eleft = (CUP$IBSStdParser$stack.peek()).left;
 		int eright = (CUP$IBSStdParser$stack.peek()).right;
 		Integer e = CUP$IBSStdParser$stack.peek().<Integer>value();
-		 RESULT = Integer.valueOf(lexer.getExpressionClass().make_iNeg(e.intValue())); 
+		 RESULT = Integer.valueOf(lexer.getExpressions().make_iNeg(e.intValue()));
               CUP$IBSStdParser$result = parser.getSymbolFactory().newSymbol("iexpr",1, CUP$IBSStdParser$stack.elementAt(CUP$IBSStdParser$top-1), CUP$IBSStdParser$stack.peek(), RESULT);
             }
           return CUP$IBSStdParser$result;
@@ -717,28 +715,28 @@ class CUP$IBSStdParser$actions {
 		int rleft = (CUP$IBSStdParser$stack.peek()).left;
 		int rright = (CUP$IBSStdParser$stack.peek()).right;
 		Integer r = CUP$IBSStdParser$stack.peek().<Integer>value();
-		 if (lexer.getExpressionClass().isBconstant(l.intValue())) {
-             boolean left = lexer.getExpressionClass().getBExpr(l.intValue()).eval();
+		 if (lexer.getExpressions().isBconstant(l.intValue())) {
+             boolean left = lexer.getExpressions().getBExpr(l.intValue()).eval();
 	     if (left) {
 	         RESULT = l;
-		 lexer.getExpressionClass().freeBool(r.intValue());
+		 lexer.getExpressions().freeBool(r.intValue());
              } else {
 	         RESULT = r;
-		 lexer.getExpressionClass().freeBool(l.intValue());
+		 lexer.getExpressions().freeBool(l.intValue());
              }
-	 } else if (lexer.getExpressionClass().isBconstant(r.intValue())) {
-             boolean right = lexer.getExpressionClass().getBExpr(r.intValue()).eval();
+	 } else if (lexer.getExpressions().isBconstant(r.intValue())) {
+             boolean right = lexer.getExpressions().getBExpr(r.intValue()).eval();
 	     if (right) {
 	         RESULT = r;
-		 lexer.getExpressionClass().freeBool(l.intValue());
+		 lexer.getExpressions().freeBool(l.intValue());
              } else {
 	         RESULT = l;
-		 lexer.getExpressionClass().freeBool(r.intValue());
+		 lexer.getExpressions().freeBool(r.intValue());
              }
 	 } else {
-             RESULT = Integer.valueOf(lexer.getExpressionClass().make_bbbOr(l.intValue(),r.intValue()));
-             lexer.getExpressionClass().freeBool(l.intValue());
-             lexer.getExpressionClass().freeBool(r.intValue());
+             RESULT = Integer.valueOf(lexer.getExpressions().make_bbbOr(l.intValue(),r.intValue()));
+             lexer.getExpressions().freeBool(l.intValue());
+             lexer.getExpressions().freeBool(r.intValue());
 	 }
       
               CUP$IBSStdParser$result = parser.getSymbolFactory().newSymbol("bexpr",2, CUP$IBSStdParser$stack.elementAt(CUP$IBSStdParser$top-2), CUP$IBSStdParser$stack.peek(), RESULT);
@@ -755,28 +753,28 @@ class CUP$IBSStdParser$actions {
 		int rleft = (CUP$IBSStdParser$stack.peek()).left;
 		int rright = (CUP$IBSStdParser$stack.peek()).right;
 		Integer r = CUP$IBSStdParser$stack.peek().<Integer>value();
-		 if (lexer.getExpressionClass().isBconstant(l.intValue())) {
-             boolean left = lexer.getExpressionClass().getBExpr(l.intValue()).eval();
+		 if (lexer.getExpressions().isBconstant(l.intValue())) {
+             boolean left = lexer.getExpressions().getBExpr(l.intValue()).eval();
 	     if (!left) {
 	         RESULT = l;
-		 lexer.getExpressionClass().freeBool(r.intValue());
+		 lexer.getExpressions().freeBool(r.intValue());
              } else {
 	         RESULT = r;
-		 lexer.getExpressionClass().freeBool(l.intValue());
+		 lexer.getExpressions().freeBool(l.intValue());
              }
-	 } else if (lexer.getExpressionClass().isBconstant(r.intValue())) {
-             boolean right = lexer.getExpressionClass().getBExpr(r.intValue()).eval();
+	 } else if (lexer.getExpressions().isBconstant(r.intValue())) {
+             boolean right = lexer.getExpressions().getBExpr(r.intValue()).eval();
 	     if (!right) {
 	         RESULT = r;
-		 lexer.getExpressionClass().freeBool(l.intValue());
+		 lexer.getExpressions().freeBool(l.intValue());
              } else {
 	         RESULT = l;
-		 lexer.getExpressionClass().freeBool(r.intValue());
+		 lexer.getExpressions().freeBool(r.intValue());
              }
 	 } else {
-             RESULT = Integer.valueOf(lexer.getExpressionClass().make_bbbAnd(l.intValue(),r.intValue()));
-             lexer.getExpressionClass().freeBool(l.intValue());
-             lexer.getExpressionClass().freeBool(r.intValue());
+             RESULT = Integer.valueOf(lexer.getExpressions().make_bbbAnd(l.intValue(),r.intValue()));
+             lexer.getExpressions().freeBool(l.intValue());
+             lexer.getExpressions().freeBool(r.intValue());
 	 }
       
               CUP$IBSStdParser$result = parser.getSymbolFactory().newSymbol("bexpr",2, CUP$IBSStdParser$stack.elementAt(CUP$IBSStdParser$top-2), CUP$IBSStdParser$stack.peek(), RESULT);
@@ -814,18 +812,18 @@ class CUP$IBSStdParser$actions {
 		int eleft = (CUP$IBSStdParser$stack.peek()).left;
 		int eright = (CUP$IBSStdParser$stack.peek()).right;
 		Integer e = CUP$IBSStdParser$stack.peek().<Integer>value();
-		 if (lexer.getExpressionClass().isBconstant(e.intValue())) {
-             boolean b = lexer.getExpressionClass().getBExpr(e.intValue()).eval();
+		 if (lexer.getExpressions().isBconstant(e.intValue())) {
+             boolean b = lexer.getExpressions().getBExpr(e.intValue()).eval();
 	     if (b) {
-                 RESULT = Integer.valueOf(lexer.getExpressionClass().make_bConst(false));
-	         lexer.getExpressionClass().freeBool(e.intValue());
+                 RESULT = Integer.valueOf(lexer.getExpressions().make_bConst(false));
+	         lexer.getExpressions().freeBool(e.intValue());
 	     } else {
-                 RESULT = Integer.valueOf(lexer.getExpressionClass().make_bConst(true));
-	         lexer.getExpressionClass().freeBool(e.intValue());
+                 RESULT = Integer.valueOf(lexer.getExpressions().make_bConst(true));
+	         lexer.getExpressions().freeBool(e.intValue());
 	     }
 	 } else {
-             RESULT = Integer.valueOf(lexer.getExpressionClass().make_bNot(e.intValue()));
-	     lexer.getExpressionClass().freeBool(e.intValue());
+             RESULT = Integer.valueOf(lexer.getExpressions().make_bNot(e.intValue()));
+	     lexer.getExpressions().freeBool(e.intValue());
 	 }
       
               CUP$IBSStdParser$result = parser.getSymbolFactory().newSymbol("bexpr",2, CUP$IBSStdParser$stack.elementAt(CUP$IBSStdParser$top-1), CUP$IBSStdParser$stack.peek(), RESULT);
@@ -842,15 +840,15 @@ class CUP$IBSStdParser$actions {
 		int rleft = (CUP$IBSStdParser$stack.peek()).left;
 		int rright = (CUP$IBSStdParser$stack.peek()).right;
 		Integer r = CUP$IBSStdParser$stack.peek().<Integer>value();
-		 if (lexer.getExpressionClass().isIconstant(l.intValue()) &&
-             lexer.getExpressionClass().isIconstant(r.intValue()))
-	     RESULT = Integer.valueOf(lexer.getExpressionClass().make_bConst(
-	          lexer.getExpressionClass().getIExpr(l.intValue()).eval() <
-                  lexer.getExpressionClass().getIExpr(r.intValue()).eval()));
+		 if (lexer.getExpressions().isIconstant(l.intValue()) &&
+             lexer.getExpressions().isIconstant(r.intValue()))
+	     RESULT = Integer.valueOf(lexer.getExpressions().make_bConst(
+	          lexer.getExpressions().getIExpr(l.intValue()).eval() <
+                  lexer.getExpressions().getIExpr(r.intValue()).eval()));
          else
-             RESULT = Integer.valueOf(lexer.getExpressionClass().make_biiLt(l.intValue(),r.intValue()));
-         lexer.getExpressionClass().freeInt(l.intValue());
-         lexer.getExpressionClass().freeInt(r.intValue());
+             RESULT = Integer.valueOf(lexer.getExpressions().make_biiLt(l.intValue(),r.intValue()));
+         lexer.getExpressions().freeInt(l.intValue());
+         lexer.getExpressions().freeInt(r.intValue());
       
               CUP$IBSStdParser$result = parser.getSymbolFactory().newSymbol("bexpr",2, CUP$IBSStdParser$stack.elementAt(CUP$IBSStdParser$top-2), CUP$IBSStdParser$stack.peek(), RESULT);
             }
@@ -866,15 +864,15 @@ class CUP$IBSStdParser$actions {
 		int rleft = (CUP$IBSStdParser$stack.peek()).left;
 		int rright = (CUP$IBSStdParser$stack.peek()).right;
 		Integer r = CUP$IBSStdParser$stack.peek().<Integer>value();
-		 if (lexer.getExpressionClass().isIconstant(l.intValue()) &&
-             lexer.getExpressionClass().isIconstant(r.intValue()))
-	     RESULT = Integer.valueOf(lexer.getExpressionClass().make_bConst(
-	          lexer.getExpressionClass().getIExpr(l.intValue()).eval() >
-                  lexer.getExpressionClass().getIExpr(r.intValue()).eval()));
+		 if (lexer.getExpressions().isIconstant(l.intValue()) &&
+             lexer.getExpressions().isIconstant(r.intValue()))
+	     RESULT = Integer.valueOf(lexer.getExpressions().make_bConst(
+	          lexer.getExpressions().getIExpr(l.intValue()).eval() >
+                  lexer.getExpressions().getIExpr(r.intValue()).eval()));
          else
-             RESULT = Integer.valueOf(lexer.getExpressionClass().make_biiGt(l.intValue(),r.intValue()));
-         lexer.getExpressionClass().freeInt(l.intValue());
-         lexer.getExpressionClass().freeInt(r.intValue());
+             RESULT = Integer.valueOf(lexer.getExpressions().make_biiGt(l.intValue(),r.intValue()));
+         lexer.getExpressions().freeInt(l.intValue());
+         lexer.getExpressions().freeInt(r.intValue());
       
               CUP$IBSStdParser$result = parser.getSymbolFactory().newSymbol("bexpr",2, CUP$IBSStdParser$stack.elementAt(CUP$IBSStdParser$top-2), CUP$IBSStdParser$stack.peek(), RESULT);
             }
@@ -890,15 +888,15 @@ class CUP$IBSStdParser$actions {
 		int rleft = (CUP$IBSStdParser$stack.peek()).left;
 		int rright = (CUP$IBSStdParser$stack.peek()).right;
 		Integer r = CUP$IBSStdParser$stack.peek().<Integer>value();
-		 if (lexer.getExpressionClass().isIconstant(l.intValue()) &&
-             lexer.getExpressionClass().isIconstant(r.intValue()))
-	     RESULT = Integer.valueOf(lexer.getExpressionClass().make_bConst(
-	          lexer.getExpressionClass().getIExpr(l.intValue()).eval() <=
-                  lexer.getExpressionClass().getIExpr(r.intValue()).eval()));
+		 if (lexer.getExpressions().isIconstant(l.intValue()) &&
+             lexer.getExpressions().isIconstant(r.intValue()))
+	     RESULT = Integer.valueOf(lexer.getExpressions().make_bConst(
+	          lexer.getExpressions().getIExpr(l.intValue()).eval() <=
+                  lexer.getExpressions().getIExpr(r.intValue()).eval()));
          else
-             RESULT = Integer.valueOf(lexer.getExpressionClass().make_biiLeq(l.intValue(),r.intValue()));
-         lexer.getExpressionClass().freeInt(l.intValue());
-         lexer.getExpressionClass().freeInt(r.intValue());
+             RESULT = Integer.valueOf(lexer.getExpressions().make_biiLeq(l.intValue(),r.intValue()));
+         lexer.getExpressions().freeInt(l.intValue());
+         lexer.getExpressions().freeInt(r.intValue());
       
               CUP$IBSStdParser$result = parser.getSymbolFactory().newSymbol("bexpr",2, CUP$IBSStdParser$stack.elementAt(CUP$IBSStdParser$top-2), CUP$IBSStdParser$stack.peek(), RESULT);
             }
@@ -914,15 +912,15 @@ class CUP$IBSStdParser$actions {
 		int rleft = (CUP$IBSStdParser$stack.peek()).left;
 		int rright = (CUP$IBSStdParser$stack.peek()).right;
 		Integer r = CUP$IBSStdParser$stack.peek().<Integer>value();
-		 if (lexer.getExpressionClass().isIconstant(l.intValue()) &&
-             lexer.getExpressionClass().isIconstant(r.intValue()))
-	     RESULT = Integer.valueOf(lexer.getExpressionClass().make_bConst(
-	          lexer.getExpressionClass().getIExpr(l.intValue()).eval() >=
-                  lexer.getExpressionClass().getIExpr(r.intValue()).eval()));
+		 if (lexer.getExpressions().isIconstant(l.intValue()) &&
+             lexer.getExpressions().isIconstant(r.intValue()))
+	     RESULT = Integer.valueOf(lexer.getExpressions().make_bConst(
+	          lexer.getExpressions().getIExpr(l.intValue()).eval() >=
+                  lexer.getExpressions().getIExpr(r.intValue()).eval()));
          else
-             RESULT = Integer.valueOf(lexer.getExpressionClass().make_biiGeq(l.intValue(),r.intValue()));
-         lexer.getExpressionClass().freeInt(l.intValue());
-         lexer.getExpressionClass().freeInt(r.intValue());
+             RESULT = Integer.valueOf(lexer.getExpressions().make_biiGeq(l.intValue(),r.intValue()));
+         lexer.getExpressions().freeInt(l.intValue());
+         lexer.getExpressions().freeInt(r.intValue());
       
               CUP$IBSStdParser$result = parser.getSymbolFactory().newSymbol("bexpr",2, CUP$IBSStdParser$stack.elementAt(CUP$IBSStdParser$top-2), CUP$IBSStdParser$stack.peek(), RESULT);
             }
@@ -938,15 +936,15 @@ class CUP$IBSStdParser$actions {
 		int rleft = (CUP$IBSStdParser$stack.peek()).left;
 		int rright = (CUP$IBSStdParser$stack.peek()).right;
 		Integer r = CUP$IBSStdParser$stack.peek().<Integer>value();
-		 if (lexer.getExpressionClass().isIconstant(l.intValue()) &&
-             lexer.getExpressionClass().isIconstant(r.intValue()))
-	     RESULT = Integer.valueOf(lexer.getExpressionClass().make_bConst(
-	          lexer.getExpressionClass().getIExpr(l.intValue()).eval() ==
-                  lexer.getExpressionClass().getIExpr(r.intValue()).eval()));
+		 if (lexer.getExpressions().isIconstant(l.intValue()) &&
+             lexer.getExpressions().isIconstant(r.intValue()))
+	     RESULT = Integer.valueOf(lexer.getExpressions().make_bConst(
+	          lexer.getExpressions().getIExpr(l.intValue()).eval() ==
+                  lexer.getExpressions().getIExpr(r.intValue()).eval()));
          else
-             RESULT = Integer.valueOf(lexer.getExpressionClass().make_biiEq(l.intValue(),r.intValue()));
-         lexer.getExpressionClass().freeInt(l.intValue());
-         lexer.getExpressionClass().freeInt(r.intValue());
+             RESULT = Integer.valueOf(lexer.getExpressions().make_biiEq(l.intValue(),r.intValue()));
+         lexer.getExpressions().freeInt(l.intValue());
+         lexer.getExpressions().freeInt(r.intValue());
       
               CUP$IBSStdParser$result = parser.getSymbolFactory().newSymbol("bexpr",2, CUP$IBSStdParser$stack.elementAt(CUP$IBSStdParser$top-2), CUP$IBSStdParser$stack.peek(), RESULT);
             }
@@ -962,15 +960,15 @@ class CUP$IBSStdParser$actions {
 		int rleft = (CUP$IBSStdParser$stack.peek()).left;
 		int rright = (CUP$IBSStdParser$stack.peek()).right;
 		Integer r = CUP$IBSStdParser$stack.peek().<Integer>value();
-		 if (lexer.getExpressionClass().isIconstant(l.intValue()) &&
-             lexer.getExpressionClass().isIconstant(r.intValue()))
-	     RESULT = Integer.valueOf(lexer.getExpressionClass().make_bConst(
-	          lexer.getExpressionClass().getIExpr(l.intValue()).eval() !=
-                  lexer.getExpressionClass().getIExpr(r.intValue()).eval()));
+		 if (lexer.getExpressions().isIconstant(l.intValue()) &&
+             lexer.getExpressions().isIconstant(r.intValue()))
+	     RESULT = Integer.valueOf(lexer.getExpressions().make_bConst(
+	          lexer.getExpressions().getIExpr(l.intValue()).eval() !=
+                  lexer.getExpressions().getIExpr(r.intValue()).eval()));
          else
-             RESULT = Integer.valueOf(lexer.getExpressionClass().make_biiDif(l.intValue(),r.intValue()));
-         lexer.getExpressionClass().freeInt(l.intValue());
-         lexer.getExpressionClass().freeInt(r.intValue());
+             RESULT = Integer.valueOf(lexer.getExpressions().make_biiDif(l.intValue(),r.intValue()));
+         lexer.getExpressions().freeInt(l.intValue());
+         lexer.getExpressions().freeInt(r.intValue());
       
               CUP$IBSStdParser$result = parser.getSymbolFactory().newSymbol("bexpr",2, CUP$IBSStdParser$stack.elementAt(CUP$IBSStdParser$top-2), CUP$IBSStdParser$stack.peek(), RESULT);
             }
@@ -986,30 +984,30 @@ class CUP$IBSStdParser$actions {
 		int rleft = (CUP$IBSStdParser$stack.peek()).left;
 		int rright = (CUP$IBSStdParser$stack.peek()).right;
 		Integer r = CUP$IBSStdParser$stack.peek().<Integer>value();
-		 if (lexer.getExpressionClass().isBconstant(l.intValue())) {
-             boolean b = lexer.getExpressionClass().getBExpr(l.intValue()).eval();
+		 if (lexer.getExpressions().isBconstant(l.intValue())) {
+             boolean b = lexer.getExpressions().getBExpr(l.intValue()).eval();
 	     if (b) {
 	        RESULT = r;
-		lexer.getExpressionClass().freeBool(l.intValue());
+		lexer.getExpressions().freeBool(l.intValue());
 	     } else {
-	        RESULT = Integer.valueOf(lexer.getExpressionClass().make_bNot(r.intValue()));
-		lexer.getExpressionClass().freeBool(l.intValue());
-		lexer.getExpressionClass().freeBool(r.intValue());
+	        RESULT = Integer.valueOf(lexer.getExpressions().make_bNot(r.intValue()));
+		lexer.getExpressions().freeBool(l.intValue());
+		lexer.getExpressions().freeBool(r.intValue());
              }
-	 } else if (lexer.getExpressionClass().isBconstant(r.intValue())) {
-             boolean b = lexer.getExpressionClass().getBExpr(r.intValue()).eval();
+	 } else if (lexer.getExpressions().isBconstant(r.intValue())) {
+             boolean b = lexer.getExpressions().getBExpr(r.intValue()).eval();
 	     if (b) {
 	        RESULT = l;
-		lexer.getExpressionClass().freeBool(r.intValue());
+		lexer.getExpressions().freeBool(r.intValue());
 	     } else {
-	        RESULT = Integer.valueOf(lexer.getExpressionClass().make_bNot(l.intValue()));
-		lexer.getExpressionClass().freeBool(l.intValue());
-		lexer.getExpressionClass().freeBool(r.intValue());
+	        RESULT = Integer.valueOf(lexer.getExpressions().make_bNot(l.intValue()));
+		lexer.getExpressions().freeBool(l.intValue());
+		lexer.getExpressions().freeBool(r.intValue());
              }
 	 } else {
-	     RESULT = Integer.valueOf(lexer.getExpressionClass().make_bbbEq(l.intValue(),r.intValue()));
-             lexer.getExpressionClass().freeBool(l.intValue());
-             lexer.getExpressionClass().freeBool(r.intValue());
+	     RESULT = Integer.valueOf(lexer.getExpressions().make_bbbEq(l.intValue(),r.intValue()));
+             lexer.getExpressions().freeBool(l.intValue());
+             lexer.getExpressions().freeBool(r.intValue());
 	 }
       
               CUP$IBSStdParser$result = parser.getSymbolFactory().newSymbol("bexpr",2, CUP$IBSStdParser$stack.elementAt(CUP$IBSStdParser$top-2), CUP$IBSStdParser$stack.peek(), RESULT);
@@ -1026,30 +1024,30 @@ class CUP$IBSStdParser$actions {
 		int rleft = (CUP$IBSStdParser$stack.peek()).left;
 		int rright = (CUP$IBSStdParser$stack.peek()).right;
 		Integer r = CUP$IBSStdParser$stack.peek().<Integer>value();
-		 if (lexer.getExpressionClass().isBconstant(l.intValue())) {
-             boolean b = lexer.getExpressionClass().getBExpr(l.intValue()).eval();
+		 if (lexer.getExpressions().isBconstant(l.intValue())) {
+             boolean b = lexer.getExpressions().getBExpr(l.intValue()).eval();
 	     if (b) {
-	        RESULT = Integer.valueOf(lexer.getExpressionClass().make_bNot(r.intValue()));
-		lexer.getExpressionClass().freeBool(l.intValue());
-		lexer.getExpressionClass().freeBool(r.intValue());
+	        RESULT = Integer.valueOf(lexer.getExpressions().make_bNot(r.intValue()));
+		lexer.getExpressions().freeBool(l.intValue());
+		lexer.getExpressions().freeBool(r.intValue());
 	     } else {
 	        RESULT = r;
-		lexer.getExpressionClass().freeBool(l.intValue());
+		lexer.getExpressions().freeBool(l.intValue());
              }
-	 } else if (lexer.getExpressionClass().isBconstant(r.intValue())) {
-             boolean b = lexer.getExpressionClass().getBExpr(r.intValue()).eval();
+	 } else if (lexer.getExpressions().isBconstant(r.intValue())) {
+             boolean b = lexer.getExpressions().getBExpr(r.intValue()).eval();
 	     if (b) {
-	        RESULT = Integer.valueOf(lexer.getExpressionClass().make_bNot(l.intValue()));
-		lexer.getExpressionClass().freeBool(l.intValue());
-		lexer.getExpressionClass().freeBool(r.intValue());
+	        RESULT = Integer.valueOf(lexer.getExpressions().make_bNot(l.intValue()));
+		lexer.getExpressions().freeBool(l.intValue());
+		lexer.getExpressions().freeBool(r.intValue());
 	     } else {
 	        RESULT = l;
-		lexer.getExpressionClass().freeBool(r.intValue());
+		lexer.getExpressions().freeBool(r.intValue());
              }
 	 } else {
-	     RESULT = Integer.valueOf(lexer.getExpressionClass().make_bbbEq(l.intValue(),r.intValue()));
-             lexer.getExpressionClass().freeBool(l.intValue());
-             lexer.getExpressionClass().freeBool(r.intValue());
+	     RESULT = Integer.valueOf(lexer.getExpressions().make_bbbEq(l.intValue(),r.intValue()));
+             lexer.getExpressions().freeBool(l.intValue());
+             lexer.getExpressions().freeBool(r.intValue());
 	 }
       
               CUP$IBSStdParser$result = parser.getSymbolFactory().newSymbol("bexpr",2, CUP$IBSStdParser$stack.elementAt(CUP$IBSStdParser$top-2), CUP$IBSStdParser$stack.peek(), RESULT);

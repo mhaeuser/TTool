@@ -52,8 +52,8 @@ import java.util.HashSet;
  * <PRE>
  *     IBSParserAPI();
  *     public IBSParserAPI(
- *          IBSAttributeClass&lt;Spec,Comp,State,SpecState,CompState&gt; _c,
- *          IBSExpressionClass&lt;Spec,Comp,State,SpecState,CompState&gt; _e);
+ *          IBSAttributes&lt;Spec,Comp,State,SpecState,CompState&gt; _c,
+ *          IBSExpressions&lt;Spec,Comp,State,SpecState,CompState&gt; _e);
  * </PRE>
  * <p> When using the default constructor, attribute and expression classes
  * can be set <i>a posteriori</i>. In some implementation, additional
@@ -90,22 +90,22 @@ public interface IBSParserAPI<
      * Set the parser's attribute class.
      * @param _c the attribute class to set.
      */
-    public void setAttributeClass(IBSAttributeClass<Spec,Comp,State,SpecState,CompState> _c);
+    public void setAttributes(IBSAttributes<Spec,Comp,State,SpecState,CompState> _c);
     /**
      * Get the parser's attribute class.
      * @return the parser's attribute class.
      */
-    public IBSAttributeClass<Spec,Comp,State,SpecState,CompState> getAttributeClass();
+    public IBSAttributes<Spec,Comp,State,SpecState,CompState> getAttributes();
     /**
      * Set the parser's expression class.
      * @param _c the expression class to set.
      */
-    public void setExpressionClass(IBSExpressionClass<Spec,Comp,State,SpecState,CompState> _c);
+    public void setExpressions(IBSExpressions<Spec,Comp,State,SpecState,CompState> _c);
     /**
      * Get the parser's expression class.
      * @return the parser's expression class.
      */
-    public IBSExpressionClass<Spec,Comp,State,SpecState,CompState> getExpressionClass();
+    public IBSExpressions<Spec,Comp,State,SpecState,CompState> getExpressions();
 
     /**
      * Get the bad identifiers found while parsing
@@ -124,62 +124,62 @@ public interface IBSParserAPI<
      * @param _s the string to parse
      * @return an expression if no error has been detected. Otherwise, null.
      */
-    public IBSExpressionClass<Spec,Comp,State,SpecState,CompState>.IExpr parseInt(Spec _spec, String _s);
+    public IBSExpressions<Spec,Comp,State,SpecState,CompState>.IExpr parseInt(Spec _spec, String _s);
     /** parse a boolean expression
      * @param _spec the specification in which open leaves are interpreted
      * @param _s the string to parse
      * @return an expression if no error has been detected. Otherwise, null.
      */
-    public IBSExpressionClass<Spec,Comp,State,SpecState,CompState>.BExpr parseBool(Spec _spec, String _s);
+    public IBSExpressions<Spec,Comp,State,SpecState,CompState>.BExpr parseBool(Spec _spec, String _s);
     /** parse a guard
      * @param _spec the specification in which open leaves are interpreted
      * @param _s the string to parse
      * @return an expression if no error has been detected. Otherwise, null.
      */
-    public IBSExpressionClass<Spec,Comp,State,SpecState,CompState>.BExpr parseGuard(Spec _spec, String _s);
+    public IBSExpressions<Spec,Comp,State,SpecState,CompState>.BExpr parseGuard(Spec _spec, String _s);
     /** parse an integer expression
      * @param _comp the component in which open leaves are interpreted
      * @param _s the string to parse
      * @return an expression if no error has been detected. Otherwise, null.
      */
-    public IBSExpressionClass<Spec,Comp,State,SpecState,CompState>.IExpr parseInt(Comp _comp, String _s);
+    public IBSExpressions<Spec,Comp,State,SpecState,CompState>.IExpr parseInt(Comp _comp, String _s);
     /** parse a boolean expression
      * @param _comp the component in which open leaves are interpreted
      * @param _s the string to parse
      * @return an expression if no error has been detected. Otherwise, null.
      */
-    public IBSExpressionClass<Spec,Comp,State,SpecState,CompState>.BExpr parseBool(Comp _comp, String _s);
+    public IBSExpressions<Spec,Comp,State,SpecState,CompState>.BExpr parseBool(Comp _comp, String _s);
     /** parse a guard
      * @param _comp the component in which open leaves are interpreted
      * @param _s the string to parse
      * @return an expression if no error has been detected. Otherwise, null.
      */
-    public IBSExpressionClass<Spec,Comp,State,SpecState,CompState>.BExpr parseGuard(Comp _comp, String _s);
+    public IBSExpressions<Spec,Comp,State,SpecState,CompState>.BExpr parseGuard(Comp _comp, String _s);
     /** parse a closed integer expression
      * @param _s the string to parse
      * @return an expression if no error has been detected. Otherwise, null.
      */
-    public IBSExpressionClass<Spec,Comp,State,SpecState,CompState>.IExpr parseInt(String _s);
+    public IBSExpressions<Spec,Comp,State,SpecState,CompState>.IExpr parseInt(String _s);
     /** parse a closed boolean expression
      * @param _s the string to parse
      * @return an expression if no error has been detected. Otherwise, null.
      */
-    public IBSExpressionClass<Spec,Comp,State,SpecState,CompState>.BExpr parseBool(String _s);
+    public IBSExpressions<Spec,Comp,State,SpecState,CompState>.BExpr parseBool(String _s);
     /** parse a closed guard
      * @param _s the string to parse
      * @return an expression if no error has been detected. Otherwise, null.
      */
-    public IBSExpressionClass<Spec,Comp,State,SpecState,CompState>.BExpr parseGuard(String _s);
+    public IBSExpressions<Spec,Comp,State,SpecState,CompState>.BExpr parseGuard(String _s);
     /** builds an integer expression from an attribute
      * @param _attr the source attribute
      * @return an expression if no error has been detected. Otherwise, null.
      */
-    public IBSExpressionClass<Spec,Comp,State,SpecState,CompState>.IExpr
-    makeInt(IBSAttributeClass<Spec,Comp,State,SpecState,CompState>.Attribute _attr);
+    public IBSExpressions<Spec,Comp,State,SpecState,CompState>.IExpr
+    makeInt(IBSAttributes<Spec,Comp,State,SpecState,CompState>.Attribute _attr);
     /** builds a boolean expression from an attribute
      * @param _attr the source attribute
      * @return an expression if no error has been detected. Otherwise, null.
      */
-    public IBSExpressionClass<Spec,Comp,State,SpecState,CompState>.BExpr
-    makeBool(IBSAttributeClass<Spec,Comp,State,SpecState,CompState>.Attribute _attr);
+    public IBSExpressions<Spec,Comp,State,SpecState,CompState>.BExpr
+    makeBool(IBSAttributes<Spec,Comp,State,SpecState,CompState>.Attribute _attr);
 }

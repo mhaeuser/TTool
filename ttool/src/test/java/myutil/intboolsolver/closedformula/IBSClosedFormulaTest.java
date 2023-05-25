@@ -44,10 +44,7 @@
  */
 package myutil.intboolsolver.closedformula;
 import myutil.TraceManager;
-import myutil.intboolsolver.*;
 import org.junit.Test;
-
-import java.util.ArrayList;
 
 import static org.junit.Assert.*;
 
@@ -58,8 +55,8 @@ public class IBSClosedFormulaTest {
     private IBSClosedSpecState specState = new IBSClosedSpecState();
     private IBSClosedCompState compState = new IBSClosedCompState();
     private int[] quickState = {};
-    private IBSClosedFormulaAttributeClass attC = new IBSClosedFormulaAttributeClass();
-    private IBSClosedFormulaExpressionClass expr = new IBSClosedFormulaExpressionClass();
+    private IBSClosedFormulaAttributes attC = new IBSClosedFormulaAttributes();
+    private IBSClosedFormulaExpressions expr = new IBSClosedFormulaExpressions();
 
     private IBSClosedFormulaParser parser = new IBSClosedFormulaParser(attC,expr);
     public IBSClosedFormulaTest() {
@@ -68,175 +65,175 @@ public class IBSClosedFormulaTest {
     @Test
     public void testImmediate() {
         TraceManager.addDev("Testing IBSClosedFormulaTest.testImmediate");
-        IBSClosedFormulaExpressionClass.BExpr e1 = (IBSClosedFormulaExpressionClass.BExpr) parser.parseBool("10 + 15 >= 20");
+        IBSClosedFormulaExpressions.BExpr e1 = (IBSClosedFormulaExpressions.BExpr) parser.parseBool("10 + 15 >= 20");
         assertTrue(e1!=null);
-        e1 = (IBSClosedFormulaExpressionClass.BExpr) parser.parseBool(comp,"10 + 15 >= 20");
+        e1 = (IBSClosedFormulaExpressions.BExpr) parser.parseBool(comp,"10 + 15 >= 20");
         assertTrue(e1!=null);
-        e1 = (IBSClosedFormulaExpressionClass.BExpr) parser.parseBool(spec,"10 + 15 >= 20");
+        e1 = (IBSClosedFormulaExpressions.BExpr) parser.parseBool(spec,"10 + 15 >= 20");
         assertTrue(e1!=null);
 
-        IBSClosedFormulaExpressionClass.BExpr e1bis = (IBSClosedFormulaExpressionClass.BExpr) parser.parseBool("not( ( 0>10 ) and true)");
+        IBSClosedFormulaExpressions.BExpr e1bis = (IBSClosedFormulaExpressions.BExpr) parser.parseBool("not( ( 0>10 ) and true)");
         assertTrue(e1bis!=null);
-        e1bis = (IBSClosedFormulaExpressionClass.BExpr) parser.parseBool(comp,"not( ( 0>10 ) and true)");
+        e1bis = (IBSClosedFormulaExpressions.BExpr) parser.parseBool(comp,"not( ( 0>10 ) and true)");
         assertTrue(e1bis!=null);
-        e1bis = (IBSClosedFormulaExpressionClass.BExpr) parser.parseBool(spec,"not( ( 0>10 ) and true)");
+        e1bis = (IBSClosedFormulaExpressions.BExpr) parser.parseBool(spec,"not( ( 0>10 ) and true)");
         assertTrue(e1bis!=null);
 
-        IBSClosedFormulaExpressionClass.BExpr e2 = (IBSClosedFormulaExpressionClass.BExpr) parser.parseBool("-10 / 2 - 15 * 2 + 1 == -30 -4");
+        IBSClosedFormulaExpressions.BExpr e2 = (IBSClosedFormulaExpressions.BExpr) parser.parseBool("-10 / 2 - 15 * 2 + 1 == -30 -4");
         assertTrue(e2!=null);
-        e2 = (IBSClosedFormulaExpressionClass.BExpr) parser.parseBool(comp,"-10 / 2 - 15 * 2 + 1 == -30 -4");
+        e2 = (IBSClosedFormulaExpressions.BExpr) parser.parseBool(comp,"-10 / 2 - 15 * 2 + 1 == -30 -4");
         assertTrue(e2!=null);
-        e2 = (IBSClosedFormulaExpressionClass.BExpr) parser.parseBool(spec,"-10 / 2 - 15 * 2 + 1 == -30 -4");
+        e2 = (IBSClosedFormulaExpressions.BExpr) parser.parseBool(spec,"-10 / 2 - 15 * 2 + 1 == -30 -4");
         assertTrue(e2!=null);
 
-        IBSClosedFormulaExpressionClass.BExpr e3 = (IBSClosedFormulaExpressionClass.BExpr) parser.parseBool("not(-10 / 2 - 15 * 2 + 1 == -(60 - 26))");
+        IBSClosedFormulaExpressions.BExpr e3 = (IBSClosedFormulaExpressions.BExpr) parser.parseBool("not(-10 / 2 - 15 * 2 + 1 == -(60 - 26))");
         assertTrue(e3!=null);
-        e3 = (IBSClosedFormulaExpressionClass.BExpr) parser.parseBool(comp,"not(-10 / 2 - 15 * 2 + 1 == -(60 - 26))");
+        e3 = (IBSClosedFormulaExpressions.BExpr) parser.parseBool(comp,"not(-10 / 2 - 15 * 2 + 1 == -(60 - 26))");
         assertTrue(e3!=null);
-        e3 = (IBSClosedFormulaExpressionClass.BExpr) parser.parseBool(spec,"not(-10 / 2 - 15 * 2 + 1 == -(60 - 26))");
+        e3 = (IBSClosedFormulaExpressions.BExpr) parser.parseBool(spec,"not(-10 / 2 - 15 * 2 + 1 == -(60 - 26))");
         assertTrue(e3!=null);
 
         //TraceManager.addDev("Testing AvatarExpressionTest.testImmediate.e3bis");
 
-        IBSClosedFormulaExpressionClass.BExpr e4 = (IBSClosedFormulaExpressionClass.BExpr) parser.parseBool("false || -1 >= 0 && true");
+        IBSClosedFormulaExpressions.BExpr e4 = (IBSClosedFormulaExpressions.BExpr) parser.parseBool("false || -1 >= 0 && true");
         assertTrue(e4!=null);
-        e4 = (IBSClosedFormulaExpressionClass.BExpr) parser.parseBool(comp,"false || -1 >= 0 && true");
+        e4 = (IBSClosedFormulaExpressions.BExpr) parser.parseBool(comp,"false || -1 >= 0 && true");
         assertTrue(e4!=null);
-        e4 = (IBSClosedFormulaExpressionClass.BExpr) parser.parseBool(spec,"false || -1 >= 0 && true");
+        e4 = (IBSClosedFormulaExpressions.BExpr) parser.parseBool(spec,"false || -1 >= 0 && true");
         assertTrue(e4!=null);
 
-        IBSClosedFormulaExpressionClass.BExpr e5 = (IBSClosedFormulaExpressionClass.BExpr) parser.parseBool("true and not(false) == !(false or false)");
+        IBSClosedFormulaExpressions.BExpr e5 = (IBSClosedFormulaExpressions.BExpr) parser.parseBool("true and not(false) == !(false or false)");
         assertTrue(e5!=null);
-        e5 = (IBSClosedFormulaExpressionClass.BExpr) parser.parseBool(comp,"true and not(false) == !(false or false)");
+        e5 = (IBSClosedFormulaExpressions.BExpr) parser.parseBool(comp,"true and not(false) == !(false or false)");
         assertTrue(e5!=null);
-        e5 = (IBSClosedFormulaExpressionClass.BExpr) parser.parseBool(spec,"true and not(false) == !(false or false)");
+        e5 = (IBSClosedFormulaExpressions.BExpr) parser.parseBool(spec,"true and not(false) == !(false or false)");
         assertTrue(e5!=null);
 
-        IBSClosedFormulaExpressionClass.IExpr e6 = (IBSClosedFormulaExpressionClass.IExpr) parser.parseInt("10 -Cabin.match");
+        IBSClosedFormulaExpressions.IExpr e6 = (IBSClosedFormulaExpressions.IExpr) parser.parseInt("10 -Cabin.match");
         assertFalse(e6!=null);
-        e6 = (IBSClosedFormulaExpressionClass.IExpr) parser.parseInt(comp,"10 -Cabin.match");
+        e6 = (IBSClosedFormulaExpressions.IExpr) parser.parseInt(comp,"10 -Cabin.match");
         assertFalse(e6!=null);
-        e6 = (IBSClosedFormulaExpressionClass.IExpr) parser.parseInt(spec,"10 -Cabin.match");
+        e6 = (IBSClosedFormulaExpressions.IExpr) parser.parseInt(spec,"10 -Cabin.match");
         assertFalse(e6!=null);
 
-        IBSClosedFormulaExpressionClass.BExpr e7 = (IBSClosedFormulaExpressionClass.BExpr) parser.parseBool("not(10)");
+        IBSClosedFormulaExpressions.BExpr e7 = (IBSClosedFormulaExpressions.BExpr) parser.parseBool("not(10)");
         assertFalse(e7!=null);
-        e7 = (IBSClosedFormulaExpressionClass.BExpr) parser.parseBool(comp,"not(10)");
+        e7 = (IBSClosedFormulaExpressions.BExpr) parser.parseBool(comp,"not(10)");
         assertFalse(e7!=null);
-        e7 = (IBSClosedFormulaExpressionClass.BExpr) parser.parseBool(spec,"not(10)");
+        e7 = (IBSClosedFormulaExpressions.BExpr) parser.parseBool(spec,"not(10)");
         assertFalse(e7!=null);
 
-        IBSClosedFormulaExpressionClass.BExpr e8 = (IBSClosedFormulaExpressionClass.BExpr) parser.parseBool("-(false)");
+        IBSClosedFormulaExpressions.BExpr e8 = (IBSClosedFormulaExpressions.BExpr) parser.parseBool("-(false)");
         assertFalse(e8!=null);
-        e8 = (IBSClosedFormulaExpressionClass.BExpr) parser.parseBool(comp,"-(false)");
+        e8 = (IBSClosedFormulaExpressions.BExpr) parser.parseBool(comp,"-(false)");
         assertFalse(e8!=null);
-        e8 = (IBSClosedFormulaExpressionClass.BExpr) parser.parseBool(spec,"-(false)");
+        e8 = (IBSClosedFormulaExpressions.BExpr) parser.parseBool(spec,"-(false)");
         assertFalse(e8!=null);
 
-        IBSClosedFormulaExpressionClass.BExpr e9 = (IBSClosedFormulaExpressionClass.BExpr) parser.parseBool("-10 < 5 && 20/4 == 5");
+        IBSClosedFormulaExpressions.BExpr e9 = (IBSClosedFormulaExpressions.BExpr) parser.parseBool("-10 < 5 && 20/4 == 5");
         assertTrue(e9!=null);
-        e9 = (IBSClosedFormulaExpressionClass.BExpr) parser.parseBool(comp,"-10 < 5 && 20/4 == 5");
+        e9 = (IBSClosedFormulaExpressions.BExpr) parser.parseBool(comp,"-10 < 5 && 20/4 == 5");
         assertTrue(e9!=null);
-        e9 = (IBSClosedFormulaExpressionClass.BExpr) parser.parseBool(spec,"-10 < 5 && 20/4 == 5");
+        e9 = (IBSClosedFormulaExpressions.BExpr) parser.parseBool(spec,"-10 < 5 && 20/4 == 5");
         assertTrue(e9!=null);
 
-        IBSClosedFormulaExpressionClass.IExpr e9Bis = (IBSClosedFormulaExpressionClass.IExpr) parser.parseInt("-10 < (5 && 20)/4 == 5");
+        IBSClosedFormulaExpressions.IExpr e9Bis = (IBSClosedFormulaExpressions.IExpr) parser.parseInt("-10 < (5 && 20)/4 == 5");
         assertFalse(e9Bis!=null);
-        e9Bis = (IBSClosedFormulaExpressionClass.IExpr) parser.parseInt(comp,"-10 < (5 && 20)/4 == 5");
+        e9Bis = (IBSClosedFormulaExpressions.IExpr) parser.parseInt(comp,"-10 < (5 && 20)/4 == 5");
         assertFalse(e9Bis!=null);
-        e9Bis = (IBSClosedFormulaExpressionClass.IExpr) parser.parseInt(spec,"-10 < (5 && 20)/4 == 5");
+        e9Bis = (IBSClosedFormulaExpressions.IExpr) parser.parseInt(spec,"-10 < (5 && 20)/4 == 5");
         assertFalse(e9Bis!=null);
 
-        IBSClosedFormulaExpressionClass.BExpr e10 = (IBSClosedFormulaExpressionClass.BExpr) parser.parseBool("true && 0 >= 1 || false");
+        IBSClosedFormulaExpressions.BExpr e10 = (IBSClosedFormulaExpressions.BExpr) parser.parseBool("true && 0 >= 1 || false");
         assertTrue(e10!=null);
-        e10 = (IBSClosedFormulaExpressionClass.BExpr) parser.parseBool(comp,"true && 0 >= 1 || false");
+        e10 = (IBSClosedFormulaExpressions.BExpr) parser.parseBool(comp,"true && 0 >= 1 || false");
         assertTrue(e10!=null);
-        e10 = (IBSClosedFormulaExpressionClass.BExpr) parser.parseBool(spec,"true && 0 >= 1 || false");
+        e10 = (IBSClosedFormulaExpressions.BExpr) parser.parseBool(spec,"true && 0 >= 1 || false");
         assertTrue(e10!=null);
 
-        IBSClosedFormulaExpressionClass.IExpr e11 = (IBSClosedFormulaExpressionClass.IExpr) parser.parseInt("8/2*(2+2)");
+        IBSClosedFormulaExpressions.IExpr e11 = (IBSClosedFormulaExpressions.IExpr) parser.parseInt("8/2*(2+2)");
         assertTrue(e11!=null);
-        e11 = (IBSClosedFormulaExpressionClass.IExpr) parser.parseInt(comp,"8/2*(2+2)");
+        e11 = (IBSClosedFormulaExpressions.IExpr) parser.parseInt(comp,"8/2*(2+2)");
         assertTrue(e11!=null);
-        e11 = (IBSClosedFormulaExpressionClass.IExpr) parser.parseInt(spec,"8/2*(2+2)");
+        e11 = (IBSClosedFormulaExpressions.IExpr) parser.parseInt(spec,"8/2*(2+2)");
         assertTrue(e11!=null);
 
-        IBSClosedFormulaExpressionClass.BExpr e12 = (IBSClosedFormulaExpressionClass.BExpr) parser.parseBool("not(!(not(true)))");
+        IBSClosedFormulaExpressions.BExpr e12 = (IBSClosedFormulaExpressions.BExpr) parser.parseBool("not(!(not(true)))");
         assertTrue(e12!=null);
-        e12 = (IBSClosedFormulaExpressionClass.BExpr) parser.parseBool(comp,"not(!(not(true)))");
+        e12 = (IBSClosedFormulaExpressions.BExpr) parser.parseBool(comp,"not(!(not(true)))");
         assertTrue(e12!=null);
-        e12 = (IBSClosedFormulaExpressionClass.BExpr) parser.parseBool(spec,"not(!(not(true)))");
+        e12 = (IBSClosedFormulaExpressions.BExpr) parser.parseBool(spec,"not(!(not(true)))");
         assertTrue(e12!=null);
 
-        IBSClosedFormulaExpressionClass.BExpr e13 = (IBSClosedFormulaExpressionClass.BExpr) parser.parseBool("!(not(true))");
+        IBSClosedFormulaExpressions.BExpr e13 = (IBSClosedFormulaExpressions.BExpr) parser.parseBool("!(not(true))");
         assertTrue(e13!=null);
-        e13 = (IBSClosedFormulaExpressionClass.BExpr) parser.parseBool(comp,"!(not(true))");
+        e13 = (IBSClosedFormulaExpressions.BExpr) parser.parseBool(comp,"!(not(true))");
         assertTrue(e13!=null);
-        e13 = (IBSClosedFormulaExpressionClass.BExpr) parser.parseBool(spec,"!(not(true))");
+        e13 = (IBSClosedFormulaExpressions.BExpr) parser.parseBool(spec,"!(not(true))");
         assertTrue(e13!=null);
 
-        IBSClosedFormulaExpressionClass.BExpr e13bis = (IBSClosedFormulaExpressionClass.BExpr) parser.parseBool("!(not(TRUE))");
+        IBSClosedFormulaExpressions.BExpr e13bis = (IBSClosedFormulaExpressions.BExpr) parser.parseBool("!(not(TRUE))");
         assertFalse(e13bis!=null);
-        e13bis = (IBSClosedFormulaExpressionClass.BExpr) parser.parseBool(comp,"!(not(TRUE))");
+        e13bis = (IBSClosedFormulaExpressions.BExpr) parser.parseBool(comp,"!(not(TRUE))");
         assertFalse(e13bis!=null);
-        e13bis = (IBSClosedFormulaExpressionClass.BExpr) parser.parseBool(spec,"!(not(TRUE))");
+        e13bis = (IBSClosedFormulaExpressions.BExpr) parser.parseBool(spec,"!(not(TRUE))");
         assertFalse(e13bis!=null);
 
-        IBSClosedFormulaExpressionClass.BExpr e13Ter = (IBSClosedFormulaExpressionClass.BExpr) parser.parseBool("!(not(FALSE))");
+        IBSClosedFormulaExpressions.BExpr e13Ter = (IBSClosedFormulaExpressions.BExpr) parser.parseBool("!(not(FALSE))");
         assertFalse(e13Ter!=null);
-        e13Ter = (IBSClosedFormulaExpressionClass.BExpr) parser.parseBool(comp,"!(not(FALSE))");
+        e13Ter = (IBSClosedFormulaExpressions.BExpr) parser.parseBool(comp,"!(not(FALSE))");
         assertFalse(e13Ter!=null);
-        e13Ter = (IBSClosedFormulaExpressionClass.BExpr) parser.parseBool(spec,"!(not(FALSE))");
+        e13Ter = (IBSClosedFormulaExpressions.BExpr) parser.parseBool(spec,"!(not(FALSE))");
         assertFalse(e13Ter!=null);
 
-        IBSClosedFormulaExpressionClass.IExpr e14 = (IBSClosedFormulaExpressionClass.IExpr) parser.parseInt("3+2");
+        IBSClosedFormulaExpressions.IExpr e14 = (IBSClosedFormulaExpressions.IExpr) parser.parseInt("3+2");
         assertTrue(e14!=null);
-        e14 = (IBSClosedFormulaExpressionClass.IExpr) parser.parseInt(comp,"3+2");
+        e14 = (IBSClosedFormulaExpressions.IExpr) parser.parseInt(comp,"3+2");
         assertTrue(e14!=null);
-        e14 = (IBSClosedFormulaExpressionClass.IExpr) parser.parseInt(spec,"3+2");
+        e14 = (IBSClosedFormulaExpressions.IExpr) parser.parseInt(spec,"3+2");
         assertTrue(e14!=null);
 
         // Testing extra parenthesis
-        IBSClosedFormulaExpressionClass.BExpr e15 = (IBSClosedFormulaExpressionClass.BExpr) parser.parseBool("not((false))");
+        IBSClosedFormulaExpressions.BExpr e15 = (IBSClosedFormulaExpressions.BExpr) parser.parseBool("not((false))");
         assertTrue(e15!=null);
-        e15 = (IBSClosedFormulaExpressionClass.BExpr) parser.parseBool(comp,"not((false))");
+        e15 = (IBSClosedFormulaExpressions.BExpr) parser.parseBool(comp,"not((false))");
         assertTrue(e15!=null);
-        e15 = (IBSClosedFormulaExpressionClass.BExpr) parser.parseBool(spec,"not((false))");
+        e15 = (IBSClosedFormulaExpressions.BExpr) parser.parseBool(spec,"not((false))");
         assertTrue(e15!=null);
 
-        IBSClosedFormulaExpressionClass.BExpr e16 = (IBSClosedFormulaExpressionClass.BExpr) parser.parseBool("(((10 + ((15)))) >= (((20))))");
+        IBSClosedFormulaExpressions.BExpr e16 = (IBSClosedFormulaExpressions.BExpr) parser.parseBool("(((10 + ((15)))) >= (((20))))");
         assertTrue(e16!=null);
-        e16 = (IBSClosedFormulaExpressionClass.BExpr) parser.parseBool(comp,"(((10 + ((15)))) >= (((20))))");
+        e16 = (IBSClosedFormulaExpressions.BExpr) parser.parseBool(comp,"(((10 + ((15)))) >= (((20))))");
         assertTrue(e16!=null);
-        e16 = (IBSClosedFormulaExpressionClass.BExpr) parser.parseBool(spec,"(((10 + ((15)))) >= (((20))))");
+        e16 = (IBSClosedFormulaExpressions.BExpr) parser.parseBool(spec,"(((10 + ((15)))) >= (((20))))");
         assertTrue(e16!=null);
 
-        IBSClosedFormulaExpressionClass.BExpr e17 = (IBSClosedFormulaExpressionClass.BExpr) parser.parseBool("((true)) && (((((0 >= 1))))) || not((not(false)))");
+        IBSClosedFormulaExpressions.BExpr e17 = (IBSClosedFormulaExpressions.BExpr) parser.parseBool("((true)) && (((((0 >= 1))))) || not((not(false)))");
         assertTrue(e17!=null);
-        e17 = (IBSClosedFormulaExpressionClass.BExpr) parser.parseBool(comp,"((true)) && (((((0 >= 1))))) || not((not(false)))");
+        e17 = (IBSClosedFormulaExpressions.BExpr) parser.parseBool(comp,"((true)) && (((((0 >= 1))))) || not((not(false)))");
         assertTrue(e17!=null);
-        e17 = (IBSClosedFormulaExpressionClass.BExpr) parser.parseBool(spec,"((true)) && (((((0 >= 1))))) || not((not(false)))");
+        e17 = (IBSClosedFormulaExpressions.BExpr) parser.parseBool(spec,"((true)) && (((((0 >= 1))))) || not((not(false)))");
         assertTrue(e17!=null);
 
-        IBSClosedFormulaExpressionClass.IExpr e18 = (IBSClosedFormulaExpressionClass.IExpr) parser.parseInt("2 * -3 + -5 * 4 + 27"); // 1
+        IBSClosedFormulaExpressions.IExpr e18 = (IBSClosedFormulaExpressions.IExpr) parser.parseInt("2 * -3 + -5 * 4 + 27"); // 1
         assertTrue(e18!=null);
-        e18 = (IBSClosedFormulaExpressionClass.IExpr) parser.parseInt(comp,"2 * -3 + -5 * 4 + 27"); // 1
+        e18 = (IBSClosedFormulaExpressions.IExpr) parser.parseInt(comp,"2 * -3 + -5 * 4 + 27"); // 1
         assertTrue(e18!=null);
-        e18 = (IBSClosedFormulaExpressionClass.IExpr) parser.parseInt(spec,"2 * -3 + -5 * 4 + 27"); // 1
+        e18 = (IBSClosedFormulaExpressions.IExpr) parser.parseInt(spec,"2 * -3 + -5 * 4 + 27"); // 1
         assertTrue(e18!=null);
 
-        IBSClosedFormulaExpressionClass.IExpr e19 = (IBSClosedFormulaExpressionClass.IExpr) parser.parseInt("-6 / -2 * 3 - -4 "); // 13
+        IBSClosedFormulaExpressions.IExpr e19 = (IBSClosedFormulaExpressions.IExpr) parser.parseInt("-6 / -2 * 3 - -4 "); // 13
         assertTrue(e19!=null);
-        e19 = (IBSClosedFormulaExpressionClass.IExpr) parser.parseInt(comp,"-6 / -2 * 3 - -4 "); // 13
+        e19 = (IBSClosedFormulaExpressions.IExpr) parser.parseInt(comp,"-6 / -2 * 3 - -4 "); // 13
         assertTrue(e19!=null);
-        e19 = (IBSClosedFormulaExpressionClass.IExpr) parser.parseInt(spec,"-6 / -2 * 3 - -4 "); // 13
+        e19 = (IBSClosedFormulaExpressions.IExpr) parser.parseInt(spec,"-6 / -2 * 3 - -4 "); // 13
         assertTrue(e19!=null);
 
-        IBSClosedFormulaExpressionClass.IExpr e20 = (IBSClosedFormulaExpressionClass.IExpr) parser.parseInt("-(2 * 3)+ -(1+1) * -3"); // 0
+        IBSClosedFormulaExpressions.IExpr e20 = (IBSClosedFormulaExpressions.IExpr) parser.parseInt("-(2 * 3)+ -(1+1) * -3"); // 0
         assertTrue(e20!=null);
-        e20 = (IBSClosedFormulaExpressionClass.IExpr) parser.parseInt(comp,"-(2 * 3)+ -(1+1) * -3"); // 0
+        e20 = (IBSClosedFormulaExpressions.IExpr) parser.parseInt(comp,"-(2 * 3)+ -(1+1) * -3"); // 0
         assertTrue(e20!=null);
-        e20 = (IBSClosedFormulaExpressionClass.IExpr) parser.parseInt(spec,"-(2 * 3)+ -(1+1) * -3"); // 0
+        e20 = (IBSClosedFormulaExpressions.IExpr) parser.parseInt(spec,"-(2 * 3)+ -(1+1) * -3"); // 0
         assertTrue(e20!=null);
 
         assertEquals(true, e1.eval());
@@ -324,41 +321,41 @@ public class IBSClosedFormulaTest {
         assertTrue(parser.replaceVariable("(foo==foo1)", "foo", "foo").equals("(foo==foo1)"));
         assertTrue(parser.replaceVariable("(foo==foo1)", "foo", "foo1").equals("(foo1==foo1)"));
 
-        IBSClosedFormulaExpressionClass.IExpr e1 = (IBSClosedFormulaExpressionClass.IExpr) parser.parseInt(comp, "x + y");
+        IBSClosedFormulaExpressions.IExpr e1 = (IBSClosedFormulaExpressions.IExpr) parser.parseInt(comp, "x + y");
         assertTrue(e1 == null);
-        IBSClosedFormulaExpressionClass.BExpr e2 = (IBSClosedFormulaExpressionClass.BExpr) parser.parseBool(comp, "-x / y - 15 * z + 1 == -31");
+        IBSClosedFormulaExpressions.BExpr e2 = (IBSClosedFormulaExpressions.BExpr) parser.parseBool(comp, "-x / y - 15 * z + 1 == -31");
         assertTrue(e2 == null);
-        IBSClosedFormulaExpressionClass.BExpr e3 = (IBSClosedFormulaExpressionClass.BExpr) parser.parseBool(comp, "not(-x / z - (x + y) * 2 + 1 >= -(60 - 26))");
+        IBSClosedFormulaExpressions.BExpr e3 = (IBSClosedFormulaExpressions.BExpr) parser.parseBool(comp, "not(-x / z - (x + y) * 2 + 1 >= -(60 - 26))");
         assertTrue(e3 == null);
-        IBSClosedFormulaExpressionClass.BExpr e4 = (IBSClosedFormulaExpressionClass.BExpr) parser.parseBool(comp, "(key1==true) and (key2==false)");
+        IBSClosedFormulaExpressions.BExpr e4 = (IBSClosedFormulaExpressions.BExpr) parser.parseBool(comp, "(key1==true) and (key2==false)");
         assertTrue(e4 == null);
-        IBSClosedFormulaExpressionClass.BExpr e5 = (IBSClosedFormulaExpressionClass.BExpr) parser.parseBool(comp, "(key1) and (key2)");
+        IBSClosedFormulaExpressions.BExpr e5 = (IBSClosedFormulaExpressions.BExpr) parser.parseBool(comp, "(key1) and (key2)");
         assertTrue(e5 == null);
-        IBSClosedFormulaExpressionClass.BExpr e6 = (IBSClosedFormulaExpressionClass.BExpr) parser.parseBool(comp, "(key1==key1) or (key2==key1)");
+        IBSClosedFormulaExpressions.BExpr e6 = (IBSClosedFormulaExpressions.BExpr) parser.parseBool(comp, "(key1==key1) or (key2==key1)");
         assertTrue(e6 == null);
-        IBSClosedFormulaExpressionClass.BExpr e7 = (IBSClosedFormulaExpressionClass.BExpr) parser.parseBool(comp, "((key1==key1) and not(key2==key1)) and (x - y == z + 3)");
+        IBSClosedFormulaExpressions.BExpr e7 = (IBSClosedFormulaExpressions.BExpr) parser.parseBool(comp, "((key1==key1) and not(key2==key1)) and (x - y == z + 3)");
         assertTrue(e7 == null);
-        IBSClosedFormulaExpressionClass.IExpr e8 = (IBSClosedFormulaExpressionClass.IExpr) parser.parseInt(comp, "x + x*(y+z)/(x + z - x)");
+        IBSClosedFormulaExpressions.IExpr e8 = (IBSClosedFormulaExpressions.IExpr) parser.parseInt(comp, "x + x*(y+z)/(x + z - x)");
         assertTrue(e8 == null);
-        IBSClosedFormulaExpressionClass.IExpr e9 = (IBSClosedFormulaExpressionClass.IExpr) parser.parseInt(comp, "x + x*(y+z)*(x - z)");
+        IBSClosedFormulaExpressions.IExpr e9 = (IBSClosedFormulaExpressions.IExpr) parser.parseInt(comp, "x + x*(y+z)*(x - z)");
         assertTrue(e9 == null);
-        IBSClosedFormulaExpressionClass.IExpr e10 = (IBSClosedFormulaExpressionClass.IExpr) parser.parseInt(comp, "x*((x + y)*z + (x+z)/z)/x");
+        IBSClosedFormulaExpressions.IExpr e10 = (IBSClosedFormulaExpressions.IExpr) parser.parseInt(comp, "x*((x + y)*z + (x+z)/z)/x");
         assertTrue(e10 == null);
-        IBSClosedFormulaExpressionClass.IExpr e11 = (IBSClosedFormulaExpressionClass.IExpr) parser.parseInt(comp, "x + y");
+        IBSClosedFormulaExpressions.IExpr e11 = (IBSClosedFormulaExpressions.IExpr) parser.parseInt(comp, "x + y");
         assertTrue(e11 == null);
-        IBSClosedFormulaExpressionClass.IExpr e12 = (IBSClosedFormulaExpressionClass.IExpr) parser.parseInt(comp, "x*((x + y)*z + (x+z)/z)/x");
+        IBSClosedFormulaExpressions.IExpr e12 = (IBSClosedFormulaExpressions.IExpr) parser.parseInt(comp, "x*((x + y)*z + (x+z)/z)/x");
         assertTrue(e12 == null);
-        IBSClosedFormulaExpressionClass.BExpr e13 = (IBSClosedFormulaExpressionClass.BExpr) parser.parseBool(comp, "(key1==false) and (key2==true)");
+        IBSClosedFormulaExpressions.BExpr e13 = (IBSClosedFormulaExpressions.BExpr) parser.parseBool(comp, "(key1==false) and (key2==true)");
         assertTrue(e13 == null);
-        IBSClosedFormulaExpressionClass.BExpr e14 = (IBSClosedFormulaExpressionClass.BExpr) parser.parseBool(comp, "x-40<3");
+        IBSClosedFormulaExpressions.BExpr e14 = (IBSClosedFormulaExpressions.BExpr) parser.parseBool(comp, "x-40<3");
         assertTrue(e14 == null);
-        IBSClosedFormulaExpressionClass.IExpr e15 = (IBSClosedFormulaExpressionClass.IExpr) parser.parseInt(spec, "block1.x + block2.y");
+        IBSClosedFormulaExpressions.IExpr e15 = (IBSClosedFormulaExpressions.IExpr) parser.parseInt(spec, "block1.x + block2.y");
         assertTrue(e15 == null);
-        IBSClosedFormulaExpressionClass.BExpr e16 = (IBSClosedFormulaExpressionClass.BExpr) parser.parseBool(spec, "-block1.x / block1.y - 15 * " + "block2.z + 1 == -46");
+        IBSClosedFormulaExpressions.BExpr e16 = (IBSClosedFormulaExpressions.BExpr) parser.parseBool(spec, "-block1.x / block1.y - 15 * " + "block2.z + 1 == -46");
         assertTrue(e16 == null);
-        IBSClosedFormulaExpressionClass.BExpr e17 = (IBSClosedFormulaExpressionClass.BExpr) parser.parseBool(spec, "not(-block2.x / block2.z - not" + "(block1.x + block2.y) * -2 + -(1) <= -(-4 + 7))");
+        IBSClosedFormulaExpressions.BExpr e17 = (IBSClosedFormulaExpressions.BExpr) parser.parseBool(spec, "not(-block2.x / block2.z - not" + "(block1.x + block2.y) * -2 + -(1) <= -(-4 + 7))");
         assertTrue(e17 == null);
-        IBSClosedFormulaExpressionClass.IExpr e18 = (IBSClosedFormulaExpressionClass.IExpr) parser.parseInt(spec, "block1.x + block2.w");
+        IBSClosedFormulaExpressions.IExpr e18 = (IBSClosedFormulaExpressions.IExpr) parser.parseInt(spec, "block1.x + block2.w");
         assertTrue(e18 == null);
     }
 }

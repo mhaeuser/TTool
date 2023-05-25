@@ -49,8 +49,8 @@ package myutil.intboolsolver.closedformula;
  */
 
 public class IBSClosedFormulaSolver {
-    public static IBSClosedFormulaAttributeClass attrC = new IBSClosedFormulaAttributeClass();
-    protected static IBSClosedFormulaExpressionClass exprC = new IBSClosedFormulaExpressionClass();
+    public static IBSClosedFormulaAttributes attrC = new IBSClosedFormulaAttributes();
+    protected static IBSClosedFormulaExpressions exprC = new IBSClosedFormulaExpressions();
 
     public static IBSClosedFormulaParser parser = new IBSClosedFormulaParser(attrC,exprC);
 }

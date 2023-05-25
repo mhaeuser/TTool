@@ -39,7 +39,7 @@
 package myutil.intboolsolver;
 
 /**
- * <p>Class {@link myutil.intboolsolver.IBSAttributeClass} BSAttributeClass},
+ * <p>Class {@link IBSAttributes} IBSAttributes},
  * defining the features attributes must provide in order to b used by
  * the generic parsers.</p>
  * Creation: 11/04/2023
@@ -60,7 +60,7 @@ package myutil.intboolsolver;
  * @version 1.0 11/04/2023
  * @author Sophie Coudert
 */
-public class IBSAttributeClass<
+public class IBSAttributes<
         Spec extends IBSParamSpec,
         Comp extends IBSParamComp,
         State extends IBSParamState,

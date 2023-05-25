@@ -36,25 +36,32 @@
  * knowledge of the CeCILL license and that you accept its terms.
  */
 
-package myutil.intboolsolver.closedformula;
+package avatartranslator.intboolsolver;
 
+import avatartranslator.AvatarBlock;
+import avatartranslator.AvatarSpecification;
+import avatartranslator.AvatarStateMachineElement;
+import avatartranslator.modelchecker.SpecificationBlock;
+import avatartranslator.modelchecker.SpecificationState;
 import myutil.intboolsolver.*;
 
+
 /**
- * class IBSClosedFormulaAttributeClass is a complete implementation
- * and instantiation of {@link IBSAttributeClass
- * IBSAttributeClass} for closed Formulas.
+ * instantiation of {@link IBSStdExpressions
+ * IBSStdExpressions} for Avatar.
+ *
  * Creation: 11/04/2023
  *
  * @version 1.0 11/04/2023
  * @author Sophie Coudert
  */
 
-public class IBSClosedFormulaAttributeClass  extends IBSAttributeClass<
-        IBSClosedSpec,
-        IBSClosedComp,
-        IBSClosedState,
-        IBSClosedSpecState,
-        IBSClosedCompState> {
-    IBSClosedFormulaAttributeClass(){}
+public class AvatarIBSExpressions extends IBSStdExpressions<
+        AvatarSpecification,
+        AvatarBlock,
+        AvatarStateMachineElement,
+        SpecificationState,
+        SpecificationBlock
+        > {
+    public AvatarIBSExpressions(){}
 }

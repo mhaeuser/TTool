@@ -40,11 +40,10 @@
 package avatartranslator.directsimulation;
 
 import avatartranslator.*;
-import avatartranslator.intboolsolver.AvatarIBSExpressionClass;
+import avatartranslator.intboolsolver.AvatarIBSExpressions;
 import avatartranslator.intboolsolver.AvatarIBSolver;
 import avatartranslator.modelchecker.SpecificationBlock;
 import myutil.*;
-import myutil.intboolsolver.IBSExpressionClass;
 
 import java.util.Vector;
 
@@ -751,7 +750,7 @@ public class AvatarSimulationBlock {
     }
 
     public int newEvaluateIntExpression(String _expr, Vector<String> _attributeValues) {
-        AvatarIBSExpressionClass.IExpr e1 = (AvatarIBSExpressionClass.IExpr) AvatarIBSolver.parser.parseInt(block,_expr);
+        AvatarIBSExpressions.IExpr e1 = (AvatarIBSExpressions.IExpr) AvatarIBSolver.parser.parseInt(block,_expr);
         SpecificationBlock sb = new SpecificationBlock(_attributeValues);
         return e1.eval(sb);
     }
@@ -782,7 +781,7 @@ public class AvatarSimulationBlock {
             act = Conversion.putVariableValueInString(AvatarSpecification.ops, act, getAttributeName(cpt), attrValue);
             cpt++;
         }
-        AvatarIBSExpressionClass.BExpr aee = (AvatarIBSExpressionClass.BExpr) AvatarIBSolver.parser.parseBool(act);
+        AvatarIBSExpressions.BExpr aee = (AvatarIBSExpressions.BExpr) AvatarIBSolver.parser.parseBool(act);
         if ( aee==null) {
             TraceManager.addDev("4. Error with avatar expression solver:" + act);
             return false;

@@ -41,13 +41,13 @@
 import avatartranslator.*;
 import avatartranslator.modelchecker.SpecificationBlock;
 import avatartranslator.modelchecker.SpecificationState;
-import myutil.intboolsolver.IBSStdAttributeClass;
+import myutil.intboolsolver.IBSStdAttributes;
 
 import java.util.HashMap;
 import java.util.Map;
 /**
- * instantiation of {@link IBSStdAttributeClass
- * IBSStdAttributeClass} for Avatar.
+ * instantiation of {@link IBSStdAttributes
+ * IBSStdAttributes} for Avatar.
  *
  * Creation: 11/04/2023
  *
@@ -55,7 +55,7 @@ import java.util.Map;
  * @author Sophie Coudert (rewritten from Alessandro TEMPIA CALVINO)
  */
 
-public class AvatarIBSAttributeClass extends IBSStdAttributeClass<
+public class AvatarIBSAttributes extends IBSStdAttributes<
         AvatarSpecification,
         AvatarBlock,
         AvatarStateMachineElement,
@@ -68,7 +68,7 @@ public class AvatarIBSAttributeClass extends IBSStdAttributeClass<
     private static AvatarBlock findComp = null;
     private static String findString = "";
     private static AvatarElement keyElement;
-    public AvatarIBSAttributeClass(){
+    public AvatarIBSAttributes(){
         attributesMap = new HashMap<AvatarElement, TypedAttribute>();
     }
     public TypedAttribute findAttribute(AvatarSpecification _spec, String _s){
@@ -219,13 +219,13 @@ public class AvatarIBSAttributeClass extends IBSStdAttributeClass<
             return block.getAvatarAttributeWithName(s);
         }
     }
-    public class Attribute extends IBSStdAttributeClass<
-            AvatarSpecification,
-            AvatarBlock,
-            AvatarStateMachineElement,
-            SpecificationState,
-            SpecificationBlock
-            >.Attribute implements AvatarExpressionAttributeInterface {
+    public class Attribute extends IBSStdAttributes<
+                AvatarSpecification,
+                AvatarBlock,
+                AvatarStateMachineElement,
+                SpecificationState,
+                SpecificationBlock
+                >.Attribute implements AvatarExpressionAttributeInterface {
 
         // attribute access information
         private AvatarBlock block;

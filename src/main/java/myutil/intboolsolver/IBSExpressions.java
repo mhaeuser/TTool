@@ -51,7 +51,7 @@ package myutil.intboolsolver;
  * @author Sophie Coudert
 */
 
-public class IBSExpressionClass<
+public class IBSExpressions<
         Spec extends IBSParamSpec,
         Comp extends IBSParamComp,
         State extends IBSParamState,
@@ -228,13 +228,13 @@ public class IBSExpressionClass<
      * @param _v attribute from which the expression is build
      * @return index of build expression, or -1 (if error)
      */
-    public int make_iVar(IBSAttributeClass<Spec,Comp,State,SpecState,CompState>.Attribute _v) { return -1; }
+    public int make_iVar(IBSAttributes<Spec,Comp,State,SpecState,CompState>.Attribute _v) { return -1; }
     /** method for building an expression. Such a method find
      * a free index to memorize the build expression and return it.
      * @param _v attribute from which the expression is build
      * @return index of build expression, or -1 (if error)
      */
-    public int make_bVar(IBSAttributeClass<Spec,Comp,State,SpecState,CompState>.Attribute _v) { return -1; }
+    public int make_bVar(IBSAttributes<Spec,Comp,State,SpecState,CompState>.Attribute _v) { return -1; }
     /** method for building an expression. Such a method find
      * a free index to memorize the build expression and return it.
      * @param _i integer value from which the constant expression is build

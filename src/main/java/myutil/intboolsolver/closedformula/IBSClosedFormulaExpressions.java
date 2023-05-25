@@ -41,20 +41,20 @@ package myutil.intboolsolver.closedformula;
 import myutil.intboolsolver.*;
 
 /**
- * class IBSClosedFormulaAttributeClass is a complete implementation
- * and instantiation of {@link IBSAttributeClass
- * IBSAttributeClass} for closed Formulas.
+ * class IBSClosedFormulaExpressions is a complete implementation
+ * and instantiation of {@link IBSExpressions
+ * IBSExpressions} for closed Formulas.
  * Creation: 11/04/2023
  *
  * @version 1.0 11/04/2023
  * @author Sophie Coudert
  */
 
-public class IBSClosedFormulaExpressionClass extends IBSStdExpressionClass<
+public class IBSClosedFormulaExpressions extends IBSStdExpressions<
         IBSClosedSpec,
         IBSClosedComp,
         IBSClosedState,
         IBSClosedSpecState,
         IBSClosedCompState> {
-    IBSClosedFormulaExpressionClass(){}
+    IBSClosedFormulaExpressions(){}
 }

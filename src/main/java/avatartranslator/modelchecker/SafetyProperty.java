@@ -40,7 +40,6 @@ package avatartranslator.modelchecker;
 
 import avatartranslator.*;
 import avatartranslator.intboolsolver.*;
-import myutil.intboolsolver.*;
 import myutil.TraceManager;
 
 
@@ -56,8 +55,8 @@ public class SafetyProperty  {
     private String rawProperty;
     private String refProperty;
     private int errorOnProperty;
-    private AvatarIBSExpressionClass.BExpr safetySolver;
-    private AvatarIBSExpressionClass.BExpr safetySolverLead;
+    private AvatarIBSExpressions.BExpr safetySolver;
+    private AvatarIBSExpressions.BExpr safetySolverLead;
    private SpecificationPropertyPhase phase;
     private AvatarStateMachineElement state;
     
@@ -104,9 +103,9 @@ public class SafetyProperty  {
     
     public SafetyProperty(AvatarBlock block, AvatarStateMachineElement state, int _safetyType) {
         //create liveness safety
-        AvatarIBSAttributeClass.Attribute attribute =
-                (AvatarIBSAttributeClass.Attribute)AvatarIBSolver.attrC.getTypedAttribute(block, state).getAttribute();
-        safetySolver = (AvatarIBSExpressionClass.BExpr) AvatarIBSolver.parser.makeBool(attribute);
+        AvatarIBSAttributes.Attribute attribute =
+                (AvatarIBSAttributes.Attribute)AvatarIBSolver.attrC.getTypedAttribute(block, state).getAttribute();
+        safetySolver = (AvatarIBSExpressions.BExpr) AvatarIBSolver.parser.makeBool(attribute);
 
         propertyType = BLOCK_STATE;
         safetyType = _safetyType;
@@ -164,7 +163,7 @@ public class SafetyProperty  {
  
     
     public void initLead() {
-        AvatarIBSExpressionClass.BExpr tmp;
+        AvatarIBSExpressions.BExpr tmp;
 
         int type;
         tmp = safetySolver;
@@ -179,7 +178,7 @@ public class SafetyProperty  {
     
     public void restoreLead() {
         //to be used only after initLead()
-        AvatarIBSExpressionClass.BExpr tmp;
+        AvatarIBSExpressions.BExpr tmp;
         int type;
         tmp = safetySolver;
         safetySolver = safetySolverLead;
@@ -324,7 +323,7 @@ public class SafetyProperty  {
     
     
     private boolean initSafetyTrace(AvatarSpecification _spec, String p) {      
-        safetySolver = (AvatarIBSExpressionClass.BExpr)AvatarIBSolver.parser.parseBool(_spec,p);
+        safetySolver = (AvatarIBSExpressions.BExpr)AvatarIBSolver.parser.parseBool(_spec,p);
 
         
         if (safetySolver==null) {
@@ -342,7 +341,7 @@ public class SafetyProperty  {
     }
     
     private boolean initSafetyTrace(AvatarBlock block, AvatarSpecification _spec, String p) {      
-        safetySolver = (AvatarIBSExpressionClass.BExpr)AvatarIBSolver.parser.parseBool(block,p);
+        safetySolver = (AvatarIBSExpressions.BExpr)AvatarIBSolver.parser.parseBool(block,p);
         
         if (safetySolver == null) {
             errorOnProperty = BAD_PROPERTY_STRUCTURE;
@@ -375,14 +374,14 @@ public class SafetyProperty  {
         pp = pFields[0].trim();
         pq = pFields[1].trim();
         
-        safetySolver = (AvatarIBSExpressionClass.BExpr)AvatarIBSolver.parser.parseBool(_spec,pp);
+        safetySolver = (AvatarIBSExpressions.BExpr)AvatarIBSolver.parser.parseBool(_spec,pp);
 
         if (safetySolver==null) {
             errorOnProperty = BAD_PROPERTY_STRUCTURE;
             return false;
         }
         
-        safetySolverLead = (AvatarIBSExpressionClass.BExpr)AvatarIBSolver.parser.parseBool(_spec,pq);
+        safetySolverLead = (AvatarIBSExpressions.BExpr)AvatarIBSolver.parser.parseBool(_spec,pq);
 
         if (safetySolverLead==null) {
             errorOnProperty = BAD_PROPERTY_STRUCTURE;
@@ -418,7 +417,7 @@ public class SafetyProperty  {
         pp = pFields[0].trim();
         pq = pFields[1].trim();
         
-        safetySolver = (AvatarIBSExpressionClass.BExpr)AvatarIBSolver.parser.parseBool(block,pp);
+        safetySolver = (AvatarIBSExpressions.BExpr)AvatarIBSolver.parser.parseBool(block,pp);
     
         if (safetySolver==null) {
             errorOnProperty = BAD_PROPERTY_STRUCTURE;
@@ -427,7 +426,7 @@ public class SafetyProperty  {
         
         safetySolver.linkComps(_spec);
         
-        safetySolverLead = (AvatarIBSExpressionClass.BExpr)AvatarIBSolver.parser.parseBool(block,pq);
+        safetySolverLead = (AvatarIBSExpressions.BExpr)AvatarIBSolver.parser.parseBool(block,pq);
 
         if (safetySolverLead==null) {
             errorOnProperty = BAD_PROPERTY_STRUCTURE;

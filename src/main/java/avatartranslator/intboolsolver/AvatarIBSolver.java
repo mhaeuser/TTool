@@ -47,8 +47,8 @@ package avatartranslator.intboolsolver;
  */
 
 public class AvatarIBSolver {
-    public static AvatarIBSAttributeClass attrC = new AvatarIBSAttributeClass();
-    public static AvatarIBSExpressionClass exprC = new AvatarIBSExpressionClass();
+    public static AvatarIBSAttributes attrC = new AvatarIBSAttributes();
+    public static AvatarIBSExpressions exprC = new AvatarIBSExpressions();
 
     public static AvatarIBSStdParser parser = new AvatarIBSStdParser(attrC,exprC);
 }

@@ -94,9 +94,9 @@ public class AvatarTransition extends AvatarStateMachineElement {
     private String minCompute = "", maxCompute = "";
     private AvatarStateMachineOwner block;
 
-    private AvatarIBSExpressionClass.BExpr guardSolver;
-    private AvatarIBSExpressionClass.IExpr minDelaySolver;
-    private AvatarIBSExpressionClass.IExpr maxDelaySolver;
+    private AvatarIBSExpressions.BExpr guardSolver;
+    private AvatarIBSExpressions.IExpr minDelaySolver;
+    private AvatarIBSExpressions.IExpr maxDelaySolver;
 
     private List<AvatarAction> actions; // actions on variable, or method call
 
@@ -118,7 +118,7 @@ public class AvatarTransition extends AvatarStateMachineElement {
         if (isGuarded()) {
             String expr = guard.toString().replaceAll("\\[", "").trim();
             expr = expr.replaceAll("\\]", "");
-            guardSolver = (AvatarIBSExpressionClass.BExpr) AvatarIBSolver.parser.parseBool((AvatarBlock)block,expr);
+            guardSolver = (AvatarIBSExpressions.BExpr) AvatarIBSolver.parser.parseBool((AvatarBlock)block,expr);
             if(guardSolver==null) System.out.println("\n&&&&&&&&&&&&&&&&&&&&&&&&& " + expr + " &&&&&\n");
             return guardSolver!=null;
         }
@@ -129,10 +129,10 @@ public class AvatarTransition extends AvatarStateMachineElement {
         boolean result;
         if (hasDelay()) {
             TraceManager.addDev("Building delay for " + minDelay + "," + maxDelay);
-            minDelaySolver = (AvatarIBSExpressionClass.IExpr) AvatarIBSolver.parser.parseInt((AvatarBlock)block,minDelay);
+            minDelaySolver = (AvatarIBSExpressions.IExpr) AvatarIBSolver.parser.parseInt((AvatarBlock)block,minDelay);
             result = minDelaySolver!=null;
             if (maxDelay.trim().length() != 0) {
-                maxDelaySolver = (AvatarIBSExpressionClass.IExpr) AvatarIBSolver.parser.parseInt((AvatarBlock)block,maxDelay);
+                maxDelaySolver = (AvatarIBSExpressions.IExpr) AvatarIBSolver.parser.parseInt((AvatarBlock)block,maxDelay);
                 result &= maxDelaySolver!=null;
             } else {
                 maxDelaySolver = minDelaySolver;
@@ -142,13 +142,13 @@ public class AvatarTransition extends AvatarStateMachineElement {
         return true;
     }
     
-    public AvatarIBSExpressionClass.BExpr getGuardSolver() {
+    public AvatarIBSExpressions.BExpr getGuardSolver() {
         return guardSolver;
     }
     
-    public AvatarIBSExpressionClass.IExpr getMinDelaySolver() { return minDelaySolver; }
+    public AvatarIBSExpressions.IExpr getMinDelaySolver() { return minDelaySolver; }
     
-    public AvatarIBSExpressionClass.IExpr getMaxDelaySolver() {
+    public AvatarIBSExpressions.IExpr getMaxDelaySolver() {
         return maxDelaySolver;
     }
 

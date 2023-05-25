@@ -463,5 +463,26 @@ public class AvatarIBSStdParserTest {
         assertFalse(AvatarIBSExpressionClass.isBBBBinOp(ie1));
         assertFalse(AvatarIBSExpressionClass.isBIIBinOp(ie1));
         assertTrue(AvatarIBSExpressionClass.isIIIBinOp(ie1));
-     }
+        AvatarIBSExpressionClass.BExpr be1 = (AvatarIBSExpressionClass.BExpr) AvatarIBSolver.parser.parseGuard(as,"");
+        assertTrue(AvatarIBSExpressionClass.getClassCode(be1)==AvatarIBSExpressionClass.classBConst);
+        assertTrue(AvatarIBSExpressionClass.getOpSymbol(be1)==-1);
+        assertTrue(AvatarIBSExpressionClass.isBool(be1));
+        assertFalse(AvatarIBSExpressionClass.isInverted(be1));
+        assertTrue(AvatarIBSExpressionClass.isConst(be1));
+        assertTrue(AvatarIBSExpressionClass.isBConst(be1));
+        assertFalse(AvatarIBSExpressionClass.isIConst(be1));
+        assertFalse(AvatarIBSExpressionClass.isVariable(be1));
+        assertFalse(AvatarIBSExpressionClass.isBVariable(be1));
+        assertFalse(AvatarIBSExpressionClass.isIVariable(be1));
+        assertFalse(AvatarIBSExpressionClass.isVar(be1));
+        assertFalse(AvatarIBSExpressionClass.isBVar(be1));
+        assertFalse(AvatarIBSExpressionClass.isIVar(be1));
+        assertFalse(AvatarIBSExpressionClass.isBinary(be1));
+        assertFalse(AvatarIBSExpressionClass.isBBBBinary(be1));
+        assertFalse(AvatarIBSExpressionClass.isBIIBinary(be1));
+        assertFalse(AvatarIBSExpressionClass.isIIIBinary(be1));
+        assertFalse(AvatarIBSExpressionClass.isBBBBinOp(be1));
+        assertFalse(AvatarIBSExpressionClass.isBIIBinOp(be1));
+        assertFalse(AvatarIBSExpressionClass.isIIIBinOp(be1));
+    }
 }

@@ -185,11 +185,6 @@ public class IBSStdExpressionClass<
     public static final byte opFalse = 16;
     /** greatest allowed operator symbol. must be lower than 128 */
     public static final byte opMax = 127;
-
-    /** index of the unary minus symbol in {@link myutil.intboolsolver.IBSStdExpressionClass#opString opString} */
-    public static final short iNeg = opNeg; // simple symbol index
-    /** index of the unary not symbol in {@link myutil.intboolsolver.IBSStdExpressionClass#opString opString} */
-    public static final short bNot = opNot; // simple symbol index
     /** type of expression. Clear from name... */
     public static final short iiiPlus = opPlus<<4 | 0b0100;
     /** type of expression. Clear from name... */
@@ -234,10 +229,6 @@ public class IBSStdExpressionClass<
     public static final short biiLeq = opLeq<<4 | 0b0101;
     /** type of expression. Clear from name... */
     public static final short biiGeq = opGeq<<4 | 0b0101;
-    /** pseudo-type of expression (getType returns {@code bConst}). Clear from name... */
-    public static final short bTrue = opTrue<<4 | 0b1001;
-    /** pseudo-type of expression (getType returns {@code bConst}). Clear from name... */
-    public static final short bFalse = opFalse<<4 | 0b1001;
     /** type of expression. Clear from name... */
     public static final short iVar = (opMax+1)<<4 | 0b0000; // no associated symbol
     /** type of expression. Clear from name... */
@@ -408,7 +399,7 @@ public class IBSStdExpressionClass<
      * @return true iff e is in IVar
      */
     public static final boolean isIVar(IBSStdExpressionClass.Expr _e) { return ((_e.getType() & 0b1111) == 0b0000); }
-    /** get the main operator symbol of an expression if it exists
+    /** get the main operator symbol of an expression if it exists.
      * @param _e the expression
      * @return the symbol or -1 if there is no symbol
      */
@@ -940,7 +931,7 @@ public class IBSStdExpressionClass<
         public final boolean eval(SpecState _ss, State _st) { return constant; }
         public final boolean eval(CompState _cs) { return constant; }
         public final boolean eval(Object _qs) { return constant; }
-        public final String toString() { return (constant ? opString[bTrue>>>4] : opString[bFalse>>>4]); }
+        public final String toString() { return (constant ? opString[opTrue] : opString[opFalse]); }
         public final boolean hasStates() { return false; }
         public final void linkStates() {}
         public final void linkComps(Spec _spec) {}
@@ -974,7 +965,7 @@ public class IBSStdExpressionClass<
         public final int eval(Object _qs) { return (isNeg?-var.getValue(_qs):var.getValue(_qs)); }
         public final String toString() {
             if (isNeg)
-                return opString[iNeg] + "(" + var.toString() + ")";
+                return opString[opNeg] + "(" + var.toString() + ")";
             return var.toString();
         }
         public final boolean hasStates() { return false; }
@@ -1016,7 +1007,7 @@ public class IBSStdExpressionClass<
         }
         public final String toString() {
             if (isNot)
-                return opString[bNot] + "(" + var.toString() + ")";
+                return opString[opNot] + "(" + var.toString() + ")";
             return var.toString();
         }
         public final boolean hasStates() { return var.isState(); }
@@ -1052,7 +1043,7 @@ public class IBSStdExpressionClass<
         public final int eval(Object _qs){ return (isNeg?-(left.eval(_qs) + right.eval(_qs)):(left.eval(_qs) + right.eval(_qs))); }
         public final String toString() {
             String s = "(" +  left.toString() + ")" + opString[iiiPlus>>>4] + "(" +  right.toString() + ")";
-            return  (isNeg? opString[iNeg] + "(" + s + ")" : s);
+            return  (isNeg? opString[opNeg] + "(" + s + ")" : s);
         }
     }
     /** Integer binary Minus expressions  (and opposites of such expressions) */
@@ -1086,7 +1077,7 @@ public class IBSStdExpressionClass<
         }
         public final String toString() {
             String s = "(" +  left.toString() + ")" + opString[iiiMinus>>>4] + "(" +  right.toString() + ")";
-            return  (isNeg? opString[iNeg] + "(" + s + ")" : s);
+            return  (isNeg? opString[opNeg] + "(" + s + ")" : s);
         }
     }
     /** Integer binary Mult expressions  (and opposites of such expressions) */
@@ -1120,7 +1111,7 @@ public class IBSStdExpressionClass<
         }
         public final String toString() {
             String s = "(" +  left.toString() + ")" + opString[iiiMult>>>4] + "(" +  right.toString() + ")";
-            return  (isNeg? opString[iNeg] + "(" + s + ")" : s);
+            return  (isNeg? opString[opNeg] + "(" + s + ")" : s);
         }
     }
     /** Integer binary Div expressions  (and opposites of such expressions) */
@@ -1154,7 +1145,7 @@ public class IBSStdExpressionClass<
         }
         public final String toString() {
             String s = "(" +  left.toString() + ")" + opString[iiiDiv>>>4] + "(" +  right.toString() + ")";
-            return  (isNeg? opString[iNeg] + "(" + s + ")" : s);
+            return  (isNeg? opString[opNeg] + "(" + s + ")" : s);
         }
     }
     /** Integer binary Modulus expressions  (and opposites of such expressions) */
@@ -1188,7 +1179,7 @@ public class IBSStdExpressionClass<
         }
         public final String toString() {
             String s = "(" +  left.toString() + ")" + opString[iiiMod>>>4] + "(" +  right.toString() + ")";
-            return  (isNeg? opString[iNeg] + "(" + s + ")" : s);
+            return  (isNeg? opString[opNeg] + "(" + s + ")" : s);
         }
     }
     /** Boolean binary And expressions (and negations of such expressions)*/
@@ -1228,7 +1219,7 @@ public class IBSStdExpressionClass<
         }
         public final String toString() {
             String s = "(" +  left.toString() + ")" + opString[bbbAnd>>>4] + "(" +  right.toString() + ")";
-            return  (isNot? opString[bNot] + "(" + s + ")" : s);
+            return  (isNot? opString[opNot] + "(" + s + ")" : s);
         }
     }
     /** Boolean binary Or expressions (and negations of such expressions)*/
@@ -1268,7 +1259,7 @@ public class IBSStdExpressionClass<
         }
         public final String toString() {
             String s = "(" +  left.toString() + ")" + opString[bbbOr>>>4] + "(" +  right.toString() + ")";
-            return  (isNot? opString[bNot] + "(" + s + ")" : s);
+            return  (isNot? opString[opNot] + "(" + s + ")" : s);
         }
     }
     /** Integer Equality expressions */

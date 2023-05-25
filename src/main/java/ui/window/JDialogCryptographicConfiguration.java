@@ -60,6 +60,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import myutil.TraceManager;
+import tmltranslator.*;
 
 /**
  * Class JDialogCryptographicConfiguration
@@ -120,19 +121,19 @@ public class JDialogCryptographicConfiguration extends JDialogBase implements Ac
 		//http://www.cs.wustl.edu/~jain/cse567-06/ftp/encryption_perf/index.html
 		//https://automationrhapsody.com/md5-sha-1-sha-256-sha-512-speed-performance/
 		//Add list of sample security algorithms
-		secAlgs.add(new SecurityAlgorithm("AES", "0","100","100","128","Symmetric Encryption"));  
-		secAlgs.add(new SecurityAlgorithm("Triple-DES", "0","200","200","128","Symmetric Encryption"));
+		secAlgs.add(new SecurityAlgorithm("AES", "0","100","100","128", SecurityPattern.SYMMETRIC_ENC_PATTERN));  
+		secAlgs.add(new SecurityAlgorithm("Triple-DES", "0","200","200","128", SecurityPattern.SYMMETRIC_ENC_PATTERN));
 		
-		secAlgs.add(new SecurityAlgorithm("RSA", "0","250","150","128","Asymmetric Encryption"));    
-		secAlgs.add(new SecurityAlgorithm("ECC", "0","315","310","128","Asymmetric Encryption"));    
+		secAlgs.add(new SecurityAlgorithm("RSA", "0","250","150","128", SecurityPattern.ASYMMETRIC_ENC_PATTERN));    
+		secAlgs.add(new SecurityAlgorithm("ECC", "0","315","310","128", SecurityPattern.ASYMMETRIC_ENC_PATTERN));    
 		
-		secAlgs.add(new SecurityAlgorithm("SHA-256", "0","370","370","128","Hash"));    
-		secAlgs.add(new SecurityAlgorithm("Whirlpool", "0","550","550","128","Hash"));  
+		secAlgs.add(new SecurityAlgorithm("SHA-256", "0","370","370","128", SecurityPattern.HASH_PATTERN));    
+		secAlgs.add(new SecurityAlgorithm("Whirlpool", "0","550","550","128", SecurityPattern.HASH_PATTERN));  
 		
-		secAlgs.add(new SecurityAlgorithm("Poly-1305", "0","400","400","128","MAC"));    
-		secAlgs.add(new SecurityAlgorithm("HMAC", "0","800","800","128","MAC")); 
+		secAlgs.add(new SecurityAlgorithm("Poly-1305", "0","400","400","128", SecurityPattern.MAC_PATTERN));    
+		secAlgs.add(new SecurityAlgorithm("HMAC", "0","800","800","128", SecurityPattern.MAC_PATTERN)); 
 		
-		for (SecurityAlgorithm secAlg: secAlgs){
+		for (SecurityAlgorithm secAlg: secAlgs) {
 			algNames.add(secAlg.name);
 		}
 		inserts = new JButton[nbString];
@@ -145,7 +146,7 @@ public class JDialogCryptographicConfiguration extends JDialogBase implements Ac
 
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
-		if (values[1].contains("Encryption") || values[1].equals("MAC") || values[1].isEmpty()){
+		if (values[1].contains("Encryption") || values[1].equals("MAC") || values[1].isEmpty()) {
 			panel1= new EncryptPanel(this);
 		}
 		else {
@@ -185,7 +186,7 @@ public class JDialogCryptographicConfiguration extends JDialogBase implements Ac
 			if (evt.getSource() == inserts[0]) {
 				texts[1].setText(helps.get(1).getSelectedItem().toString());
 				boolean repanel = false;
-				if (helps.get(1).getSelectedIndex()==5 && !(panel1 instanceof AdvPanel)){
+				if (helps.get(1).getSelectedIndex()==5 && !(panel1 instanceof AdvPanel)) {
 					values[1]=helps.get(1).getSelectedItem().toString();
 					values[0]=texts[0].getText();
 					values[3]=texts[3].getText();
@@ -197,7 +198,7 @@ public class JDialogCryptographicConfiguration extends JDialogBase implements Ac
 					c.removeAll();
 					panel1= new AdvPanel(this);
 				}
-				else if ((helps.get(1).getSelectedIndex() >2) && !(panel1 instanceof FuncPanel)){
+				else if ((helps.get(1).getSelectedIndex() >2) && !(panel1 instanceof FuncPanel)) {
 					values[1]=helps.get(1).getSelectedItem().toString();
 					values[0]=texts[0].getText();
 					values[3]=texts[3].getText();
@@ -209,7 +210,7 @@ public class JDialogCryptographicConfiguration extends JDialogBase implements Ac
 					c.removeAll();
 					panel1= new FuncPanel(this);
 				}
-				else if ((helps.get(1).getSelectedIndex() <3) && !(panel1 instanceof EncryptPanel)){
+				else if ((helps.get(1).getSelectedIndex() <3) && !(panel1 instanceof EncryptPanel)) {
 					values[1]=helps.get(1).getSelectedItem().toString();
 					values[0]=texts[0].getText();
 					values[3]=texts[3].getText();
@@ -222,7 +223,7 @@ public class JDialogCryptographicConfiguration extends JDialogBase implements Ac
 
 				}
 
-				if (repanel){
+				if (repanel) {
 					/*c0.gridwidth = 1;
 					c0.gridheight = 10;
 					c0.weighty = 1.0;
@@ -252,21 +253,21 @@ public class JDialogCryptographicConfiguration extends JDialogBase implements Ac
 				}
 			}
 			if (evt.getSource() == inserts[5]) {
-				if (helps.get(5).getSelectedItem()!=null){
+				if (helps.get(5).getSelectedItem()!=null) {
 					texts[5].setText(helps.get(5).getSelectedItem().toString());
 				}
 			}
 			if (evt.getSource() == inserts[8]) {
-				if (helps.get(8).getSelectedItem()!=null){
+				if (helps.get(8).getSelectedItem()!=null) {
 					texts[8].setText(helps.get(8).getSelectedItem().toString());
 				}
 			}
 			//Using preset algorithm
 			if (evt.getSource() == inserts[9]) {
-				if (helps.get(9).getSelectedItem()!=null){
+				if (helps.get(9).getSelectedItem()!=null) {
 					texts[9].setText(helps.get(9).getSelectedItem().toString());
-					for (SecurityAlgorithm secAlg: secAlgs){
-						if (secAlg.name.equals(texts[9].getText())){
+					for (SecurityAlgorithm secAlg: secAlgs) {
+						if (secAlg.name.equals(texts[9].getText())) {
 							//Set algorithm times + overhead
 							texts[1].setText(secAlg.type);
 							texts[2].setText(secAlg.overhead);
@@ -292,7 +293,7 @@ public class JDialogCryptographicConfiguration extends JDialogBase implements Ac
             add(new JLabel(" "), gc);
         }
 
-		EncryptPanel(JDialogCryptographicConfiguration j){
+		EncryptPanel(JDialogCryptographicConfiguration j) {
 			GridBagConstraints c1 = new GridBagConstraints();
 			GridBagLayout gridbag1 = new GridBagLayout();
 
@@ -309,7 +310,7 @@ public class JDialogCryptographicConfiguration extends JDialogBase implements Ac
 			c1.weightx = 1.0;
 			c1.fill = GridBagConstraints.HORIZONTAL;
 			c1.anchor = GridBagConstraints.CENTER;
-			String[] vals = new String[]{"Symmetric Encryption", "Asymmetric Encryption","MAC", "Hash", "Nonce", "Advanced"};
+			String[] vals = new String[]{SecurityPattern.SYMMETRIC_ENC_PATTERN, SecurityPattern.ASYMMETRIC_ENC_PATTERN, SecurityPattern.MAC_PATTERN, SecurityPattern.HASH_PATTERN, SecurityPattern.NONCE_PATTERN, SecurityPattern.ADVANCED_PATTERN};
 
             addEmptyLine(c1);
 
@@ -360,7 +361,7 @@ public class JDialogCryptographicConfiguration extends JDialogBase implements Ac
 			c1.gridwidth = 1;
 			add(new JLabel("Nonce"),c1);
 			helps.put(5, new JComboBox<>(nonces));
-			if (helps.get(5).getItemCount() > 0){
+			if (helps.get(5).getItemCount() > 0) {
 				helps.get(5).setSelectedItem(values[5]);
 			}
 			add(helps.get(5),c1);
@@ -376,7 +377,7 @@ public class JDialogCryptographicConfiguration extends JDialogBase implements Ac
 			c1.gridwidth = 1;
 			add(new JLabel("Encrypted Key"),c1);
 			helps.put(8, new JComboBox<>(keys));
-			if (helps.get(8).getItemCount() > 0){
+			if (helps.get(8).getItemCount() > 0) {
 				helps.get(8).setSelectedItem(values[8]);
 			}
 			add(helps.get(8),c1);
@@ -414,7 +415,7 @@ public class JDialogCryptographicConfiguration extends JDialogBase implements Ac
             add(new JLabel(" "), gc);
         }
 
-		FuncPanel(JDialogCryptographicConfiguration j){
+		FuncPanel(JDialogCryptographicConfiguration j) {
 			GridBagConstraints c1 = new GridBagConstraints();
 			GridBagLayout gridbag1 = new GridBagLayout();
 
@@ -439,7 +440,7 @@ public class JDialogCryptographicConfiguration extends JDialogBase implements Ac
 			c1.anchor = GridBagConstraints.CENTER;
 			c1.fill = GridBagConstraints.HORIZONTAL;
 			c1.anchor = GridBagConstraints.CENTER;
-			String[] vals = new String[]{"Symmetric Encryption", "Asymmetric Encryption","MAC", "Hash", "Nonce", "Advanced"}; 
+			String[] vals = new String[]{SecurityPattern.SYMMETRIC_ENC_PATTERN, SecurityPattern.ASYMMETRIC_ENC_PATTERN, SecurityPattern.MAC_PATTERN, SecurityPattern.HASH_PATTERN, SecurityPattern.NONCE_PATTERN, SecurityPattern.ADVANCED_PATTERN}; 
 			// String1
 
             addEmptyLine(c1);
@@ -504,7 +505,7 @@ public class JDialogCryptographicConfiguration extends JDialogBase implements Ac
             add(new JLabel(" "), gc);
         }
 
-		AdvPanel(JDialogCryptographicConfiguration j){
+		AdvPanel(JDialogCryptographicConfiguration j) {
 			GridBagConstraints c1 = new GridBagConstraints();
 			GridBagLayout gridbag1 = new GridBagLayout();
 
@@ -529,7 +530,7 @@ public class JDialogCryptographicConfiguration extends JDialogBase implements Ac
 			c1.anchor = GridBagConstraints.CENTER;
 			c1.fill = GridBagConstraints.HORIZONTAL;
 			c1.anchor = GridBagConstraints.CENTER;
-			String[] vals = new String[]{"Symmetric Encryption", "Asymmetric Encryption","MAC", "Hash", "Nonce", "Advanced"}; 
+			String[] vals = new String[]{SecurityPattern.SYMMETRIC_ENC_PATTERN, SecurityPattern.ASYMMETRIC_ENC_PATTERN, SecurityPattern.MAC_PATTERN, SecurityPattern.HASH_PATTERN, SecurityPattern.NONCE_PATTERN, SecurityPattern.ADVANCED_PATTERN}; 
 
 			addEmptyLine(c1);
 
@@ -584,7 +585,7 @@ public class JDialogCryptographicConfiguration extends JDialogBase implements Ac
 	}
 
 	public String getString(int i) {
-		if (texts[i]!=null){
+		if (texts[i]!=null) {
 			return texts[i].getText();
 		}
 		return "";
@@ -610,7 +611,7 @@ public class JDialogCryptographicConfiguration extends JDialogBase implements Ac
 		String decryptCC;
 		String keysize;
 		String type;
-		public SecurityAlgorithm(String name, String overhead, String encryptCC, String decryptCC, String keysize, String type){
+		public SecurityAlgorithm(String name, String overhead, String encryptCC, String decryptCC, String keysize, String type) {
 			this.name=name;
 			this.overhead=overhead;
 			this.encryptCC = encryptCC;

@@ -42,7 +42,7 @@
 package ui.tmlad;
 
 //import java.awt.*;
-
+import tmltranslator.*;
 import ui.*;
 
 import java.util.ArrayList;
@@ -128,7 +128,7 @@ public class TMLActivityDiagramPanel extends TDiagramPanel {
         
         while(iterator.hasNext()) {
             o = iterator.next();
-            if (o instanceof TMLADStartState){
+            if (o instanceof TMLADStartState) {
                 enhance(v, o);
             }
         }
@@ -178,15 +178,15 @@ public class TMLActivityDiagramPanel extends TDiagramPanel {
 		return true;
 	}
 	
-    public List<String> getAllCryptoConfig(){
+    public List<String> getAllCryptoConfig() {
 		List<String> cc = new ArrayList<String>();
 		List<TGComponent> comps = getAllComponentList();
 		
-		for (TGComponent c: comps){
-		    if (c instanceof TMLADEncrypt){
+		for (TGComponent c: comps) {
+		    if (c instanceof TMLADEncrypt) {
 		    	TMLADEncrypt en= (TMLADEncrypt) c;
 		    	
-		    	if (!en.securityContext.isEmpty()){
+		    	if (!en.securityContext.isEmpty()) {
 		    		cc.add(en.securityContext);
 		    	}
 		    }
@@ -195,14 +195,14 @@ public class TMLActivityDiagramPanel extends TDiagramPanel {
 		return cc;
     }
 
-    public List<String> getAllNonce(){
+    public List<String> getAllNonce() {
     	List<String> ns=new ArrayList<String>();
     	List<TGComponent> comps= getAllComponentList();
     	
-    	for (TGComponent c: comps){
-    		if (c instanceof TMLADEncrypt){
+    	for (TGComponent c: comps) {
+    		if (c instanceof TMLADEncrypt) {
     			TMLADEncrypt en= (TMLADEncrypt) c;
-    			if (!en.securityContext.isEmpty() && en.type.equals("Nonce")){
+    			if (!en.securityContext.isEmpty() && en.type.equals(SecurityPattern.NONCE_PATTERN)) {
     				ns.add(en.securityContext);
     			}
     		}
@@ -211,18 +211,18 @@ public class TMLActivityDiagramPanel extends TDiagramPanel {
     	return ns;
     }
 
-    public List<String> getAllKeys(){
+    public List<String> getAllKeys() {
     	List<String> ns=new ArrayList<String>();
     	List<TGComponent> comps= getAllComponentList();
     	
-    	for (TGComponent c: comps){
-    		if (c instanceof TMLADEncrypt){
+    	for (TGComponent c: comps) {
+    		if (c instanceof TMLADEncrypt) {
     			TMLADEncrypt en= (TMLADEncrypt) c;
-    			if (!en.securityContext.isEmpty()){
-    				if ((en.type.equals("Symmetric Encryption") || en.type.equals("MAC"))){
+    			if (!en.securityContext.isEmpty()) {
+    				if ((en.type.equals(SecurityPattern.SYMMETRIC_ENC_PATTERN) || en.type.equals(SecurityPattern.MAC_PATTERN))) {
 	    				ns.add(en.securityContext);
 	    			}
-	    			else if (en.type.equals("Asymmetric Encryption")) {
+	    			else if (en.type.equals(SecurityPattern.ASYMMETRIC_ENC_PATTERN)) {
 	    				ns.add(en.securityContext);
 	    				//ns.add("pubKey" + en.securityContext);
 	    			}

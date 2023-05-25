@@ -419,17 +419,17 @@ public class TMLTextSpecification<E> {
                 code = "EXECC" + SP + modifyString(((TMLExecC) elt).getAction()) + CR;
             } else {
                 String type = "";
-                if (elt.securityPattern.type.equals("Asymmetric Encryption")) {
+                if (elt.securityPattern.type.equals(SecurityPattern.ASYMMETRIC_ENC_PATTERN)) {
                     type = AENCRYPT;
-                } else if (elt.securityPattern.type.equals("Symmetric Encryption")) {
+                } else if (elt.securityPattern.type.equals(SecurityPattern.SYMMETRIC_ENC_PATTERN)) {
                     type = SENCRYPT;
-                } else if (elt.securityPattern.type.equals("MAC")) {
+                } else if (elt.securityPattern.type.equals(SecurityPattern.MAC_PATTERN)) {
                     type = MAC;
-                } else if (elt.securityPattern.type.equals("Nonce")) {
+                } else if (elt.securityPattern.type.equals(SecurityPattern.NONCE_PATTERN)) {
                     type = NONCE;
-                } else if (elt.securityPattern.type.equals("Hash")) {
+                } else if (elt.securityPattern.type.equals(SecurityPattern.HASH_PATTERN)) {
                     type = HASH;
-                } else {
+                } else if (elt.securityPattern.type.equals(SecurityPattern.ADVANCED_PATTERN)) {
                     type = ADV;
                 }
 
@@ -782,17 +782,17 @@ public class TMLTextSpecification<E> {
                 int process;
 
                 if (type.equals(AENCRYPT)) {
-                    stringType = "Symmetric Encryption";
+                    stringType = SecurityPattern.ASYMMETRIC_ENC_PATTERN;
                 } else if (type.equals(SENCRYPT)) {
-                    stringType = "Symmetric Encryption";
+                    stringType = SecurityPattern.SYMMETRIC_ENC_PATTERN;
                 } else if (type.equals(HASH)) {
-                    stringType = "Hash";
+                    stringType = SecurityPattern.HASH_PATTERN;
                 } else if (type.equals(MAC)) {
-                    stringType = "MAC";
+                    stringType = SecurityPattern.MAC_PATTERN;
                 } else if (type.equals(NONCE)) {
-                    stringType = "Nonce";
+                    stringType = SecurityPattern.NONCE_PATTERN;
                 } else if (type.equals(ADV)) {
-                    stringType = "Advanced";
+                    stringType = SecurityPattern.ADVANCED_PATTERN;
                 }
 
                 if (stringType.length() > 0) {

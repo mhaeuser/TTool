@@ -628,6 +628,7 @@ public class AvatarSpecification extends AvatarElement {
                 srcSig = new AvatarSignal(sourceSignal, AvatarSignal.OUT, _referenceObject);
                 srcB.addSignal(srcSig);
             }
+
             if (srcSig.isIn()) {
                 TraceManager.addDev("Signal " + sourceSignal + " in block: " + sourceBlock + " should be out");
                 continue;
@@ -643,16 +644,16 @@ public class AvatarSpecification extends AvatarElement {
             AvatarSignal dstSig = srcB.getSignalByName(dstSignal);
 
             if (dstSig == null) {
-                dstSig = new AvatarSignal(sourceSignal, AvatarSignal.IN, _referenceObject);
+                dstSig = new AvatarSignal(dstSignal, AvatarSignal.IN, _referenceObject);
                 dstB.addSignal(dstSig);
             }
-            if (srcSig.isOut()) {
+            if (dstSig.isOut()) {
                 TraceManager.addDev("Signal " + dstSignal + " in block: " + destinationBlock + " should be in");
                 continue;
             }
 
             if (!srcSig.isCompatibleWith(dstSig)) {
-                TraceManager.addDev("Signals " + srcSig + " and " + dstSignal + " are not compatible");
+                TraceManager.addDev("Signals " + srcSig + " and " + dstSig + " are not compatible");
                 continue;
             }
 

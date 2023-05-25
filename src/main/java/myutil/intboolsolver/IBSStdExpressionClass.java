@@ -72,7 +72,7 @@ import java.util.ArrayList;
  * that allow to easy recover information about them.</p>
  * <p> Encoding of expression types: considering bits from less significant bit (0) to most significant bit (15)</p>
  * <ul><li> Bit 0 is 1 iff expression type is boolean </li>
- * <li> Bit 1 is 1 iff expression is unary, i.e. negated or negative. </li>
+ * <li> Bit 1 is 1 iff expression is inversed, i.e. negated or negative. </li>
  * <li> Bit 2 is 1 iff expression is binary (may be negated/negative or not...) </li>
  * <li> if expression is binary, then bit 3 is 1 iff arguments are booleans (otherwise they are integers)</li>
  * <li> if expression is not binary, then bit 3 is 1 iff expression is constant (otherwise it is variable)</li>
@@ -97,196 +97,322 @@ public class IBSStdExpressionClass<
         CompState extends IBSParamCompState
         > extends IBSExpressionClass<Spec,Comp,State,SpecState,CompState> {
     /** table of strings associated to operators and boolean constants */
-    public final String[] opString = {"-","!","+","-","*","/","%","&&","||","==","!=","<",">","<=",">=","true","false"};
+    public static final String[] opString = {"-","!","+","-","*","/","%","&&","||","==","!=","<",">","<=",">=","true","false"};
     /**
      * opposite (unary) operator symbol (index in
      * {@link myutil.intboolsolver.IBSStdExpressionClass#opString opString})
      */
-    public final byte opNeg = 0;
+    public static final byte opNeg = 0;
     /**
      * negation (unary) operator symbol (index in
      * {@link myutil.intboolsolver.IBSStdExpressionClass#opString opString})
      */
-    public final byte opNot = 1;
+    public static final byte opNot = 1;
     /**
      * plus (binary) operator symbol (index in
      * {@link myutil.intboolsolver.IBSStdExpressionClass#opString opString})
      */
-    public final byte opPlus = 2;
+    public static final byte opPlus = 2;
     /**
      * minus (binary) operator symbol (index in
      * {@link myutil.intboolsolver.IBSStdExpressionClass#opString opString})
      */
-    public final byte opMinus = 3;
+    public static final byte opMinus = 3;
     /**
      * mult (binary) operator symbol (index in
      * {@link myutil.intboolsolver.IBSStdExpressionClass#opString opString})
      */
-    public final byte opMult = 4;
+    public static final byte opMult = 4;
     /**
      * div (binary) operator symbol (index in
      * {@link myutil.intboolsolver.IBSStdExpressionClass#opString opString})
      */
-    public final byte opDiv = 5;
+    public static final byte opDiv = 5;
     /**
      * mod (binary) operator symbol (index in
      * {@link myutil.intboolsolver.IBSStdExpressionClass#opString opString})
      */
-    public final byte opMod = 6;
+    public static final byte opMod = 6;
     /**
      * and (binary) operator symbol (index in
      * {@link myutil.intboolsolver.IBSStdExpressionClass#opString opString})
      */
-    public final byte opAnd = 7;
+    public static final byte opAnd = 7;
     /**
      * or (binary) operator symbol (index in
      * {@link myutil.intboolsolver.IBSStdExpressionClass#opString opString})
      */
-    public final byte opOr = 8;
+    public static final byte opOr = 8;
     /**
      * equality (binary) operator symbol (index in
      * {@link myutil.intboolsolver.IBSStdExpressionClass#opString opString})
      */
-    public final byte opEq = 9;
+    public static final byte opEq = 9;
     /**
      * difference (binary) operator symbol (index in
      * {@link myutil.intboolsolver.IBSStdExpressionClass#opString opString})
      */
-    public final byte opDif = 10;
+    public static final byte opDif = 10;
     /**
      * "lower than"" (binary) operator symbol (index in
      * {@link myutil.intboolsolver.IBSStdExpressionClass#opString opString})
      */
-    public final byte opLt = 11;
+    public static final byte opLt = 11;
     /**
      * "greater than" (binary) operator symbol (index in
      * {@link myutil.intboolsolver.IBSStdExpressionClass#opString opString})
      */
-    public final byte opGt = 12;
+    public static final byte opGt = 12;
     /**
      * "lower than or equal" (binary) operator symbol (index in
      * {@link myutil.intboolsolver.IBSStdExpressionClass#opString opString})
      */
-    public final byte opLeq = 13;
+    public static final byte opLeq = 13;
     /**
      * "greater than or equal" (binary) operator symbol (index in
      * {@link myutil.intboolsolver.IBSStdExpressionClass#opString opString})
      */
-    public final byte opGeq = 14;
+    public static final byte opGeq = 14;
     /**
      * true (pseudo) operator symbol (index in
      * {@link myutil.intboolsolver.IBSStdExpressionClass#opString opString})
      */
-    public final byte opTrue = 15;
+    public static final byte opTrue = 15;
     /**
      * false (pseudo) operator symbol (index in
      * {@link myutil.intboolsolver.IBSStdExpressionClass#opString opString})
      */
-    public final byte opFalse = 16;
+    public static final byte opFalse = 16;
     /** greatest allowed operator symbol. must be lower than 128 */
-    public final byte opMax = 127;
+    public static final byte opMax = 127;
 
     /** index of the unary minus symbol in {@link myutil.intboolsolver.IBSStdExpressionClass#opString opString} */
-    public final short iNeg = opNeg; // simple symbol index
+    public static final short iNeg = opNeg; // simple symbol index
     /** index of the unary not symbol in {@link myutil.intboolsolver.IBSStdExpressionClass#opString opString} */
-    public final short bNot = opNot; // simple symbol index
+    public static final short bNot = opNot; // simple symbol index
     /** type of expression. Clear from name... */
-    public final short iiiPlus = opPlus<<4 | 0b0100;
+    public static final short iiiPlus = opPlus<<4 | 0b0100;
     /** type of expression. Clear from name... */
-    public final short iiiPlus_n = opPlus<<4 | 0b0110;
+    public static final short iiiPlus_n = opPlus<<4 | 0b0110;
     /** type of expression. Clear from name... */
-    public final short iiiMinus = opMinus<<4 | 0b0100;
+    public static final short iiiMinus = opMinus<<4 | 0b0100;
     /** type of expression. Clear from name... */
-    public final short iiiMinus_n = opMinus<<4 | 0b0110;
+    public static final short iiiMinus_n = opMinus<<4 | 0b0110;
     /** type of expression. Clear from name... */
-    public final short iiiMult = opMult<<4 | 0b0100;
+    public static final short iiiMult = opMult<<4 | 0b0100;
     /** type of expression. Clear from name... */
-    public final short iiiMult_n = opMult<<4 | 0b0110;
+    public static final short iiiMult_n = opMult<<4 | 0b0110;
     /** type of expression. Clear from name... */
-    public final short iiiDiv = opDiv<<4 | 0b0100;
+    public static final short iiiDiv = opDiv<<4 | 0b0100;
     /** type of expression. Clear from name... */
-    public final short iiiDiv_n = opDiv<<4 | 0b0110;
+    public static final short iiiDiv_n = opDiv<<4 | 0b0110;
     /** type of expression. Clear from name... */
-    public final short iiiMod = opMod<<4 | 0b0100;
+    public static final short iiiMod = opMod<<4 | 0b0100;
     /** type of expression. Clear from name... */
-    public final short iiiMod_n = opMod<<4 | 0b0110;
+    public static final short iiiMod_n = opMod<<4 | 0b0110;
     /** type of expression. Clear from name... */
-    public final short bbbAnd = opAnd<<4 | 0b1101;
+    public static final short bbbAnd = opAnd<<4 | 0b1101;
     /** type of expression. Clear from name... */
-    public final short bbbAnd_n = opAnd<<4 | 0b1111;
+    public static final short bbbAnd_n = opAnd<<4 | 0b1111;
     /** type of expression. Clear from name... */
-    public final short bbbOr = opOr<<4 | 0b1101;
+    public static final short bbbOr = opOr<<4 | 0b1101;
     /** type of expression. Clear from name... */
-    public final short bbbOr_n = opOr<<4 | 0b1111;
+    public static final short bbbOr_n = opOr<<4 | 0b1111;
     /** type of expression. Clear from name... */
-    public final short biiEq = opEq<<4 | 0b0101 ;
+    public static final short biiEq = opEq<<4 | 0b0101 ;
     /** type of expression. Clear from name... */
-    public final short bbbEq = opEq<<4 | 0b1101;
+    public static final short bbbEq = opEq<<4 | 0b1101;
     /** type of expression. Clear from name... */
-    public final short biiDif = opDif<<4 | 0b0101;
+    public static final short biiDif = opDif<<4 | 0b0101;
     /** type of expression. Clear from name... */
-    public final short bbbDif = opDif<<4 | 0b1101;
+    public static final short bbbDif = opDif<<4 | 0b1101;
     /** type of expression. Clear from name... */
-    public final short biiLt = opLt<<4 | 0b0101;
+    public static final short biiLt = opLt<<4 | 0b0101;
     /** type of expression. Clear from name... */
-    public final short biiGt = opGt<<4 | 0b0101;
+    public static final short biiGt = opGt<<4 | 0b0101;
     /** type of expression. Clear from name... */
-    public final short biiLeq = opLeq<<4 | 0b0101;
+    public static final short biiLeq = opLeq<<4 | 0b0101;
     /** type of expression. Clear from name... */
-    public final short biiGeq = opGeq<<4 | 0b0101;
+    public static final short biiGeq = opGeq<<4 | 0b0101;
     /** pseudo-type of expression (getType returns {@code bConst}). Clear from name... */
-    public final short bTrue = opTrue<<4 | 0b1001;
+    public static final short bTrue = opTrue<<4 | 0b1001;
     /** pseudo-type of expression (getType returns {@code bConst}). Clear from name... */
-    public final short bFalse = opFalse<<4 | 0b1001;
+    public static final short bFalse = opFalse<<4 | 0b1001;
     /** type of expression. Clear from name... */
-    public final short iVar = (opMax+1)<<4 | 0b0000; // no associated symbol
+    public static final short iVar = (opMax+1)<<4 | 0b0000; // no associated symbol
     /** type of expression. Clear from name... */
-    public final short iVar_n = (opMax+1)<<4 | 0b0010; // no associated symbol
+    public static final short iVar_n = (opMax+1)<<4 | 0b0010; // no associated symbol
     /** type of expression. Clear from name... */
-    public final short bVar = (opMax+1)<<4 | 0b0001; // no associated symbol
+    public static final short bVar = (opMax+1)<<4 | 0b0001; // no associated symbol
     /** type of expression. Clear from name... */
-    public final short bVar_n = (opMax+1)<<4 | 0b0011; // no associated symbol
+    public static final short bVar_n = (opMax+1)<<4 | 0b0011; // no associated symbol
     /** type of expression. Clear from name... */
-    public final short iConst = (opMax+1)<<4 | 0b1000 ; // no associated symbol
+    public static final short iConst = (opMax+1)<<4 | 0b1000 ; // no associated symbol
     /** type of expression. Clear from name... */
-    public final short bConst = (opMax+1)<<4 | 0b1001 ; // no associated symbol
+    public static final short bConst = (opMax+1)<<4 | 0b1001 ; // no associated symbol
+    /** code of BConst class */
+    public static final byte classBConst = 0b1001;
+    /** code of IConst class */
+    public static final byte classIConst = 0b1000;
+    /** code of BVar class */
+    public static final byte classBVar = 0b0001;
+    /** code of IVar class */
+    public static final byte classIVar = 0b0000;
+    /** code of BBBBinOp class */
+    public static final byte classBBBBinOp = 0b1101;
+    /** code of BIIBinOp class */
+    public static final byte classBIIBinOp = 0b0101;
+    /** code of IIIBinOp class */
+    public static final byte classIIIBinOp = 0b0100;
     /** default (and single) constructor */
     public IBSStdExpressionClass(){}
+    /** get the expression's class code.
+     * <p>Binary operators expressions return to XXXBinOp classes.
+     * To identify the precise operator, use
+     * {@link myutil.intboolsolver.IBSStdExpressionClass#getOpSymbol
+     * getOpSymbol}</p>
+     * @return classBConst, classIConst, classBVar, classIVar, classBBBBinOp, classBIIBinOp or classIIIBinOp
+     */
+    public static final byte getClassCode(IBSStdExpressionClass.Expr _e){
+        return (byte)(_e.getType() & 0b1101);
+    }
     /**
      * test if an expression is boolean
      * @param _e the expression to test
      * @return true iff e is boolean (otherwise, integer)
      */
-    public final boolean isBool(Expr _e) { return (_e.getType() & 0b1) == 0b1; }
+    public static final boolean isBool(IBSStdExpressionClass.Expr _e) { return (_e.getType() & 0b1) == 0b1; }
     /**
      * test if expression is build on a unary operator (not or minus)
      * @param _e  the expression to test
      * @return true iff e is build on a unary operator
      */
-    public final boolean isUnary(Expr _e) { return (_e.getType() & 0b10) == 0b10; }
+    public static final boolean isInverted(IBSStdExpressionClass.Expr _e) { return (_e.getType() & 0b10) == 0b10; }
+    /**
+     * test if expression is boolean and build on a unary operator (i.e. not(...))
+     * @param _e  the expression to test
+     * @return true iff e is boolean and build on a unary operator
+     */
+    public static final boolean isBBUnary(IBSStdExpressionClass.Expr _e) { return (_e.getType() & 0b11) == 0b11; }
+    /**
+     * test if expression is integer and build on a unary operator (i.e. -(...))
+     * @param _e  the expression to test
+     * @return true iff e is integer and build on a unary operator
+     */
+    public static final boolean isIIUnary(IBSStdExpressionClass.Expr _e) { return (_e.getType() & 0b11) == 0b10; }
     /**
      * test if expression is build on a binary operator (not negated nor negative)
      * @param _e  the expression to test
      * @return true iff e is build on a binary operator
      */
-    public final boolean isBinary(Expr _e) { return ((_e.getType() & 0b110) == 0b100); }
+    public static final boolean isBinary(IBSStdExpressionClass.Expr _e) { return ((_e.getType() & 0b110) == 0b100); }
+    /**
+     * test if expression is boolean build on a binary operator with boolean parameters (not negated)
+     * Then expression belongs to BBBBinOp.
+     * @param _e  the expression to test
+     * @return true iff e is boolean build on a binary operator with boolean parameters
+     */
+    public static final boolean isBBBBinary(IBSStdExpressionClass.Expr _e) { return ((_e.getType() & 0b1111) == 0b0101); }
+    /**
+     * test if expression is boolean, build on a binary operator with integer parameters (not negated).
+     * Then expression belongs to BIIBinOp.
+     * @param _e  the expression to test
+     * @return true iff e is boolean, build on a binary operator with integer parameters
+     */
+    public static final boolean isBIIBinary(IBSStdExpressionClass.Expr _e) { return ((_e.getType() & 0b1111) == 0b0101); }
+    /**
+     * test if expression is integer, build on a binary operator with integer parameters (not negative)
+     * Then expression belongs to IIIBinOp.
+     * @param _e  the expression to test
+     * @return true iff e is integer, build on a binary operator with integer parameters
+     */
+    public static final boolean isIIIBinary(IBSStdExpressionClass.Expr _e) { return ((_e.getType() & 0b1111) == 0b0100); }
+    /**
+     * test if expression is boolean build on a binary operator with boolean parameters (may be negated)
+     * Then expression belongs to BBBBinOp.
+     * @param _e  the expression to test
+     * @return true iff e is in BBBinOp
+     */
+    public static final boolean isBBBBinOp(IBSStdExpressionClass.Expr _e) { return ((_e.getType() & 0b1101) == 0b0101); }
+    /**
+     * test if expression is boolean build on a binary operator with integer parameters (may be negated).
+     * Then expression belongs to BIIBinOp.
+     * @param _e  the expression to test
+     * @return true iff e is in BIIBinOp
+     */
+    public static final boolean isBIIBinOp(IBSStdExpressionClass.Expr _e) { return ((_e.getType() & 0b1101) == 0b0101); }
+    /**
+     * test if expression is integer build on a binary operator with integer parameters (may be negative)
+     * Then expression belongs to IIIBinOp.
+     * @param _e  the expression to test
+     * @return true iff e is in IIIBinOp
+     */
+    public static final boolean isIIIBinOp(IBSStdExpressionClass.Expr _e) { return ((_e.getType() & 0b1101) == 0b0100); }
     /**
      * test if expression is a constant
      * @param _e  the expression to test
      * @return true iff e is a constant expression
      */
-    public final boolean isConst(Expr _e) { return ((_e.getType() & 0b1110) == 0b1000); }
+    public static final boolean isConst(IBSStdExpressionClass.Expr _e) { return ((_e.getType() & 0b1110) == 0b1000); }
     /**
-     * test if expression is a variable
+     * test if expression is a boolean constant
+     * Then expression belongs to BConst.
+     * @param _e  the expression to test
+     * @return true iff e is a boolean constant expression
+     */
+    public static final boolean isBConst(IBSStdExpressionClass.Expr _e) { return ((_e.getType() & 0b1111) == 0b1001); }
+    /**
+     * test if expression is an integer constant
+     * Then expression belongs to IConst.
+     * @param _e  the expression to test
+     * @return true iff e is an integer constant expression
+     */
+    public static final boolean isIConst(IBSStdExpressionClass.Expr _e) { return ((_e.getType() & 0b1111) == 0b1000); }
+    /**
+     * test if expression is a variable (not negated nor negative)
      * @param _e  the expression to test
      * @return true iff e is a variable
      */
-    public final boolean isVar(Expr _e) { return ((_e.getType() & 0b1110) == 0b0000); }
+    public static final boolean isVariable(IBSStdExpressionClass.Expr _e) { return ((_e.getType() & 0b1110) == 0b0000); }
+    /**
+     * test if expression is a boolean variable (not negated)
+     * Then expression belongs to BVar.
+     * @param _e  the expression to test
+     * @return true iff e is a boolean variable
+     */
+    public static final boolean isBVariable(IBSStdExpressionClass.Expr _e) { return ((_e.getType() & 0b1111) == 0b0001); }
+    /**
+     * test if expression is an integer variable (not negative)
+     * Then expression belongs to IVar.
+     * @param _e  the expression to test
+     * @return true iff e is an integer variable
+     */
+    public static final boolean isIVariable(IBSStdExpressionClass.Expr _e) { return ((_e.getType() & 0b1111) == 0b0000); }
+    /**
+     * test if expression is a variable (may be negated or negative)
+     * @param _e  the expression to test
+     * @return true iff e is a variable
+     */
+    public static final boolean isVar(IBSStdExpressionClass.Expr _e) { return ((_e.getType() & 0b1110) == 0b0000); }
+    /**
+     * test if expression is a boolean variable (may be negated)
+     * Then expression belongs to BVar.
+     * @param _e  the expression to test
+     * @return true iff e is in BVar
+     */
+    public static final boolean isBVar(IBSStdExpressionClass.Expr _e) { return ((_e.getType() & 0b1111) == 0b0001); }
+    /**
+     * test if expression is an integer variable (may be negative)
+     * Then expression belongs to IVar.
+     * @param _e  the expression to test
+     * @return true iff e is in IVar
+     */
+    public static final boolean isIVar(IBSStdExpressionClass.Expr _e) { return ((_e.getType() & 0b1111) == 0b0000); }
     /** get the main operator symbol of an expression if it exists
      * @param _e the expression
      * @return the symbol or -1 if there is no symbol
      */
-    public final byte getOpSymbol(Expr _e){
+    public static final byte getOpSymbol(IBSStdExpressionClass.Expr _e){
         short type = _e.getType();
         if ((type & 0b11) == 0b11) return opNot;
         if ((type & 0b11) == 0b10) return opNeg;
@@ -297,7 +423,7 @@ public class IBSStdExpressionClass<
      * @param _e the expression
      * @return the operator's string or null if there is no symbol
      */
-    public final String getOpString(Expr _e){
+    public static final String getOpString(IBSStdExpressionClass.Expr _e){
         byte symbol = getOpSymbol(_e);
         if (symbol < 0) return null;
         return opString[symbol];
@@ -306,42 +432,42 @@ public class IBSStdExpressionClass<
      * @param _e the expression
      * @return its subexpression, or null if e is not unary
      */
-    public final IExpr getArg(IExpr _e){ return ( isUnary(_e)?_e.negate():null); }
+    public static final IBSStdExpressionClass.IExpr getArg(IBSStdExpressionClass.IExpr _e){ return ( isInverted(_e)?_e.negate():null); }
     /** get the unique subexpression of an unary boolean expression.
      * @param _e the expression
      * @return its subexpression, or null if e is not unary
      */
-    public final BExpr getArg(BExpr _e){ return ( isUnary(_e)?_e.negate():null); }
+    public static final IBSStdExpressionClass.BExpr getArg(IBSStdExpressionClass.BExpr _e){ return ( isInverted(_e)?_e.negate():null); }
     /** get the left subexpression of an integer binary operator expression.
      * @param _e the expression
      * @return its left subexpression, or null if e is not binary
      */
-    public final IExpr getLeftArg(IIIBinOp _e){ return ( isBinary(_e)?_e.left:null); }
+    public static final IBSStdExpressionClass.IExpr getLeftArg(IBSStdExpressionClass.IIIBinOp _e){ return ( isBinary(_e)?_e.left:null); }
     /** get the right subexpression of an integer binary operator expression.
      * @param _e the expression
      * @return its right subexpression, or null if e is not binary
      */
-    public final IExpr getRightArg(IIIBinOp _e){ return ( isBinary(_e)?_e.right:null); }
+    public static final IBSStdExpressionClass.IExpr getRightArg(IBSStdExpressionClass.IIIBinOp _e){ return ( isBinary(_e)?_e.right:null); }
     /** get the left subexpression of an integer comparison expression.
      * @param _e the expression
      * @return its left subexpression, or null if e is not binary
      */
-    public final IExpr getLeftArg(BIIBinOp _e){ return ( isBinary(_e)?_e.left:null); }
+    public static final IBSStdExpressionClass.IExpr getLeftArg(IBSStdExpressionClass.BIIBinOp _e){ return ( isBinary(_e)?_e.left:null); }
     /** get the right subexpression of an integer comparison expression.
      * @param _e the expression
      * @return its left subexpression, or null if e is not binary
      */
-    public final IExpr getRightArg(BIIBinOp _e){ return ( isBinary(_e)?_e.right:null); }
+    public static final IBSStdExpressionClass.IExpr getRightArg(IBSStdExpressionClass.BIIBinOp _e){ return ( isBinary(_e)?_e.right:null); }
     /** get the right subexpression of a boolean binary operator expression.
      * @param _e the expression
      * @return its left subexpression, or null if e is not binary
      */
-    public final BExpr getLeftArg(BBBBinOp _e){ return ( isBinary(_e)?_e.left:null); }
+    public static final IBSStdExpressionClass.BExpr getLeftArg(IBSStdExpressionClass.BBBBinOp _e){ return ( isBinary(_e)?_e.left:null); }
     /** get the right subexpression of a boolean binary operator expression.
      * @param _e the expression
      * @return its right subexpression, or null if e is not binary
      */
-    public final BExpr getRightArg(BBBBinOp _e){ return ( isBinary(_e)?_e.right:null); }
+    public static final IBSStdExpressionClass.BExpr getRightArg(IBSStdExpressionClass.BBBBinOp _e){ return ( isBinary(_e)?_e.right:null); }
 
     private final ArrayList<IExpr> iExpressions = new ArrayList<IExpr>(16);
     private final ArrayList<BExpr> bExpressions = new ArrayList<BExpr>(16);
@@ -664,13 +790,15 @@ public class IBSStdExpressionClass<
         iExpressions.set(tgt, new IConst(_i));
         return tgt;
     }
+    private BConst BTrue = new BConst(true);
+    private BConst BFalse = new BConst(false);
     /** boolean constant expression constructor
      * @param _b the value of the constant
      * @return index of the build expression
      */
     public int make_bConst(boolean _b) {
         int tgt = findBfree();
-        bExpressions.set(tgt, new BConst(_b));
+        bExpressions.set(tgt, (_b?BTrue:BFalse));
         return tgt;
     }
     /** build an expression denoting the opposite of the provided integer expression
@@ -725,7 +853,7 @@ public class IBSStdExpressionClass<
             right.linkComps(_spec);
         }
     }
-    /** Integer comparison expressions (and negations of such expressions)*/
+    /** Integer comparison expressions */
     public abstract class BIIBinOp extends BExpr{
         protected final IExpr left;
         protected final IExpr right;
@@ -853,7 +981,7 @@ public class IBSStdExpressionClass<
         public final void linkStates() {var.linkState();}
         public final void linkComps(Spec _spec) {var.linkComp(_spec);}
     }
-    /** Boolean variable expressions */
+    /** Boolean variable expressions (and negations of such expressions)*/
     public final class BVar extends BExpr {
         private final boolean isNot;
         private final IBSAttributeClass<Spec,Comp,State,SpecState,CompState>.Attribute var;

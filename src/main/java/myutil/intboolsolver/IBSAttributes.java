@@ -146,7 +146,7 @@ public class IBSAttributes<
                if (isbool) type=BoolAttr; else type=IntAttr;
           }
           /** As its name suggests...
-           * @return the attribute type
+           * @return the attribute type, among NullAttr IntConst BoolConst IntAttr BoolAttr
            */
           public int getType() { return type; }
           /** As its name suggests... relevant only for constant types (unchecked)

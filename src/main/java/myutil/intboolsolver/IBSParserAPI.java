@@ -98,9 +98,9 @@ public interface IBSParserAPI<
     public IBSAttributes<Spec,Comp,State,SpecState,CompState> getAttributes();
     /**
      * Set the parser's expression class.
-     * @param _c the expression class to set.
+     * @param _e the expression class to set.
      */
-    public void setExpressions(IBSExpressions<Spec,Comp,State,SpecState,CompState> _c);
+    public void setExpressions(IBSExpressions<Spec,Comp,State,SpecState,CompState> _e);
     /**
      * Get the parser's expression class.
      * @return the parser's expression class.

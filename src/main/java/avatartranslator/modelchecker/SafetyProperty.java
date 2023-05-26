@@ -104,8 +104,8 @@ public class SafetyProperty  {
     public SafetyProperty(AvatarBlock block, AvatarStateMachineElement state, int _safetyType) {
         //create liveness safety
         AvatarIBSAttributes.Attribute attribute =
-                (AvatarIBSAttributes.Attribute)AvatarIBSolver.attrC.getTypedAttribute(block, state).getAttribute();
-        safetySolver = (AvatarIBSExpressions.BExpr) AvatarIBSolver.parser.makeBool(attribute);
+                AvatarIBSolver.getAttribute(AvatarIBSolver.getTypedAttribute(block, state));
+        safetySolver = AvatarIBSolver.makeBool(attribute);
 
         propertyType = BLOCK_STATE;
         safetyType = _safetyType;

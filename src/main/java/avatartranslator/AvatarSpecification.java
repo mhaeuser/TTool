@@ -625,6 +625,7 @@ public class AvatarSpecification extends AvatarElement {
             AvatarSignal srcSig = srcB.getSignalByName(sourceSignal);
 
             if (srcSig == null) {
+                TraceManager.addDev("Signal added as out signal: " + sourceSignal);
                 srcSig = new AvatarSignal(sourceSignal, AvatarSignal.OUT, _referenceObject);
                 srcB.addSignal(srcSig);
             }
@@ -641,9 +642,10 @@ public class AvatarSpecification extends AvatarElement {
                 spec.addBlock(dstB);
             }
             String dstSignal = spec.removeSpaces(blockO.getString("destinationSignal"));
-            AvatarSignal dstSig = srcB.getSignalByName(dstSignal);
+            AvatarSignal dstSig = dstB.getSignalByName(dstSignal);
 
             if (dstSig == null) {
+                TraceManager.addDev("Signal added as in signal: " + dstSignal);
                 dstSig = new AvatarSignal(dstSignal, AvatarSignal.IN, _referenceObject);
                 dstB.addSignal(dstSig);
             }

@@ -56,6 +56,8 @@ import ui.avatarrd.AvatarRDRequirement;
 import ui.util.IconManager;
 
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -111,8 +113,81 @@ public class JFrameAI extends JFrame implements ActionListener, Runnable {
             " \"communicationType\": \"synchronous (or asynchronous)\"\n" +
             "}. A connection must connect one output signal of a block to one input signal of a block";
 
+    private String KNOWLEDGE_ON_JSON_FOR_BLOCKS_2 = "The system has two blocks B1 et B2.\n" +
+            "B1 has an attribute x of type int and B2 has one attribute y of  type bool.\n" +
+            "B1 also has a method: \"int getValue(int val)\" and an output signal sendInfo(int x).\n" +
+            "B2 has an input signal \"getValue(int val)\".\n" +
+            "sendInfo of B1 is connected to getValue of block B2.";
+    private String KNOWLEDGE_ON_JSON_FOR_BLOCKS_ANSWER_2 = "{\n" +
+            "  \"blocks\": [\n" +
+            "    {\n" +
+            "      \"name\": \"B1\",\n" +
+            "      \"attributes\": [\n" +
+            "        {\n" +
+            "          \"name\": \"x\",\n" +
+            "          \"type\": \"int\"\n" +
+            "        }\n" +
+            "      ],\n" +
+            "      \"methods\": [\n" +
+            "        {\n" +
+            "          \"name\": \"getValue\",\n" +
+            "          \"parameters\": [\n" +
+            "            {\n" +
+            "              \"name\": \"val\",\n" +
+            "              \"type\": \"int\"\n" +
+            "            }\n" +
+            "          ],\n" +
+            "          \"returnType\": \"int\"\n" +
+            "        }\n" +
+            "      ],\n" +
+            "      \"signals\": [\n" +
+            "        {\n" +
+            "          \"name\": \"sendInfo\",\n" +
+            "          \"parameters\": [\n" +
+            "            {\n" +
+            "              \"name\": \"x\",\n" +
+            "              \"type\": \"int\"\n" +
+            "            }\n" +
+            "          ],\n" +
+            "          \"type\": \"output\"\n" +
+            "        }\n" +
+            "      ]\n" +
+            "    },\n" +
+            "    {\n" +
+            "      \"name\": \"B2\",\n" +
+            "      \"attributes\": [\n" +
+            "        {\n" +
+            "          \"name\": \"y\",\n" +
+            "          \"type\": \"bool\"\n" +
+            "        }\n" +
+            "      ],\n" +
+            "      \"signals\": [\n" +
+            "        {\n" +
+            "          \"name\": \"getValue\",\n" +
+            "          \"parameters\": [\n" +
+            "            {\n" +
+            "              \"name\": \"val\",\n" +
+            "              \"type\": \"int\"\n" +
+            "            }\n" +
+            "          ],\n" +
+            "          \"type\": \"input\"\n" +
+            "        }\n" +
+            "      ]\n" +
+            "    }\n" +
+            "  ],\n" +
+            "  \"connections\": [\n" +
+            "    {\n" +
+            "      \"sourceBlock\": \"B1\",\n" +
+            "      \"sourceSignal\": \"sendInfo\",\n" +
+            "      \"destinationBlock\": \"B2\",\n" +
+            "      \"destinationSignal\": \"getValue\",\n" +
+            "      \"communicationType\": \"synchronous\"\n" +
+            "    }\n" +
+            "  ]\n" +
+            "}";
+
     private String QUESTION_IDENTIFY_SYSTEM_BLOCKS = "From the following system specification, using the specified JSON format, identify the " +
-            "typical system blocks. All this in JSON.\n";
+            "typical system blocks. All this in JSON, nothing else than JSON.\n";
 
     private String KNOWLEDGE_ON_DESIGN_PROPERTIES = "Properties of Design are of the following types\n" +
             "- A<>expr means that all states of all paths must respect expr\n" +
@@ -275,6 +350,13 @@ public class JFrameAI extends JFrame implements ActionListener, Runnable {
         answerPanel.setBorder(new javax.swing.border.TitledBorder("Answer"));
         answerPanel.setPreferredSize(new Dimension(550, 550));
         answerPane = new JTabbedPane();
+        answerPane.addChangeListener(new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent e) {
+                enableDisableActions();
+                // Perform your action here
+            }
+        });;
         answerPane.addMouseListener(new JFrameAI.PopupListener(this));
         answerPane.setPreferredSize(new Dimension(500, 500));
         addChat(getChatName());
@@ -365,7 +447,7 @@ public class JFrameAI extends JFrame implements ActionListener, Runnable {
         String[] names = {"pico", "zebre", "pingouin", "chien", "minou", "kitty", "chaton", "whatsapp", "Luke Skywalker",
                 "macareux", "ours", "italien", "paris-brest", "belle-mère", "apéro (l'abus d'alcool est dangereux pour la santé)",
                 "carpe", "crocodile", "psychologue", "dr emacs", "3615-TTool", "100 balles et 1 mars",
-                "opéra (l’abus d’Alcôve est dangereux pour la santé)", "chapon"};
+                "opéra (l’abus d’Alcôve est dangereux pour la santé)", "chapon", "perroquet"};
         int x = (int)(Math.random()*names.length);
         return names[x];
     }
@@ -511,9 +593,11 @@ public class JFrameAI extends JFrame implements ActionListener, Runnable {
     }
 
     private void enableDisableActions() {
-        String chat = chats.get(answerPane.getSelectedIndex()).lastAnswer;
-        buttonApplyResponse.setEnabled(chat != null && chat.length() > 0);
-        buttonStart.setEnabled(!go);
+        if ((answerPane != null) && (chats != null) && (buttonApplyResponse != null) && (buttonStart != null)){
+            String chat = chats.get(answerPane.getSelectedIndex()).lastAnswer;
+            buttonApplyResponse.setEnabled(chat != null && chat.length() > 0);
+            buttonStart.setEnabled(!go);
+        }
     }
 
     private void setOptionsJTextPane(JTextPane jta, boolean _isEditable) {
@@ -673,11 +757,14 @@ public class JFrameAI extends JFrame implements ActionListener, Runnable {
         String questionT = QUESTION_IDENTIFY_SYSTEM_BLOCKS + "\n" + question.getText().trim() + "\n";
         if (!(chats.get(answerPane.getSelectedIndex()).knowledgeOnBlockJSON)) {
             chats.get(answerPane.getSelectedIndex()).knowledgeOnBlockJSON = true;
-            questionT = KNOWLEDGE_ON_JSON_FOR_BLOCKS + "\n" + questionT;
+            chats.get(answerPane.getSelectedIndex()).aiinterface.addKnowledge( KNOWLEDGE_ON_JSON_FOR_BLOCKS, "ok");
+            chats.get(answerPane.getSelectedIndex()).aiinterface.addKnowledge( KNOWLEDGE_ON_JSON_FOR_BLOCKS_2, KNOWLEDGE_ON_JSON_FOR_BLOCKS_ANSWER_2);
         }
 
 
         String answer = makeQuestion(questionT, IDENTIFY_SYSTEM_BLOCKS, tdp);
+
+        // What could be wrong: the used attributes (String, etc.), no connections
 
 
     }

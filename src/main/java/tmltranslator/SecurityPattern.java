@@ -50,6 +50,12 @@ import java.util.Objects;
 public class SecurityPattern {
     public final static int ENCRYPTION_PROCESS = 1;
     public final static int DECRYPTION_PROCESS = 2;
+    public final static String SYMMETRIC_ENC_PATTERN = "Symmetric Encryption";
+    public final static String ASYMMETRIC_ENC_PATTERN = "Asymmetric Encryption";
+    public final static String MAC_PATTERN = "MAC";
+    public final static String HASH_PATTERN = "Hash";
+    public final static String NONCE_PATTERN = "Nonce";
+    public final static String ADVANCED_PATTERN = "Advanced";
 
     public String name = "";
     public String type = "";
@@ -167,10 +173,10 @@ public class SecurityPattern {
         if (type == null) {
             return false;
         }
-        return type.toLowerCase(Locale.ROOT).equals("nonce");
+        return type.equals(SecurityPattern.NONCE_PATTERN);
     }
 
-    public void setProcess(int _process){
+    public void setProcess(int _process) {
         this.process = _process;
     }
 

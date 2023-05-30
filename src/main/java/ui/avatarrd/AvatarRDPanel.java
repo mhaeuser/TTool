@@ -742,6 +742,8 @@ public class AvatarRDPanel extends TDiagramPanel implements TDPWithAttributes, N
 
         _spec = _spec.substring(indexStart, indexStop+1);
 
+
+
         TraceManager.addDev("Cut spec: " + _spec);
 
         JSONArray reqArray = new JSONArray(_spec);
@@ -789,14 +791,67 @@ public class AvatarRDPanel extends TDiagramPanel implements TDPWithAttributes, N
             // We complete other values
             String doc = reqArray.getJSONObject(i).getString("doc");
             selectedReq.setText(doc);
-            /*JSONObject derive = reqArray.getJSONObject(i).getJSONObject("derive");
-            JSONObject refine = reqArray.getJSONObject(i).getJSONObject("refine");*/
+
+
+        }
+
+        // 2nd parsing: relations
+        for(int i=0; i<reqArray.length(); i++) {
+            String name = reqArray.getJSONObject(i).getString("name");
+            name = name.trim().replaceAll(" ", "_");
+            AvatarRDRequirement reqName = getReqWithName(name);
+
+            if (reqName != null) {
+                String [] relations = {"compose", "derive", "refine"};
+                for (int j=0; j<relations.length; j++) {
+                    JSONArray rel = reqArray.getJSONObject(i).getJSONArray(relations[j]);
+                    for(int k=0; k<rel.length(); k++) {
+                        String nameOther = rel.getString(k);
+                        AvatarRDRequirement reqOther = getReqWithName(nameOther.trim().replaceAll(" ", "_"));
+                        if (reqOther != null) {
+                            addRelation(relations[j], reqName, reqOther);
+                        }
+                    }
+                }
+
+            }
         }
 
 
 
     }
 
+    public void addRelation(String relation, AvatarRDRequirement reqOrigin, AvatarRDRequirement reqDest) {
+
+        TraceManager.addDev("Adding " + relation + " between " + reqOrigin.getValue() + " and " + reqDest.getValue());
+
+        TGConnectingPoint p1 = reqOrigin.closerFreeTGConnectingPoint(reqDest.getX(), reqDest.getY(), true, true);
+        TGConnectingPoint p2 = reqDest.closerFreeTGConnectingPoint(reqOrigin.getX(), reqOrigin.getY(), true, true);
+
+        if ( (p1 != null) && (p2 != null) ) {
+            TGConnector conn = null;
+            if (relation.compareTo("compose") == 0) {
+                conn = new AvatarRDCompositionConnector(reqOrigin.getX(), reqOrigin.getY(), reqOrigin.getCurrentMinX(), reqOrigin.getCurrentMinY(),
+                        reqOrigin.getCurrentMaxX(), reqOrigin.getCurrentMaxY(), true, null, reqOrigin.getTDiagramPanel(),
+                        p1, p2, null);
+            } else if (relation.compareTo("refine") == 0) {
+                conn = new AvatarRDRefineConnector(reqOrigin.getX(), reqOrigin.getY(), reqOrigin.getCurrentMinX(), reqOrigin.getCurrentMinY(),
+                        reqOrigin.getCurrentMaxX(), reqOrigin.getCurrentMaxY(), true, null, reqOrigin.getTDiagramPanel(),
+                        p1, p2, null);
+            } else if (relation.compareTo("derive") == 0) {
+                conn = new AvatarRDDeriveConnector(reqOrigin.getX(), reqOrigin.getY(), reqOrigin.getCurrentMinX(), reqOrigin.getCurrentMinY(),
+                        reqOrigin.getCurrentMaxX(), reqOrigin.getCurrentMaxY(), true, null, reqOrigin.getTDiagramPanel(),
+                        p1, p2, null);
+            }
+
+            if (conn != null) {
+                p1.setFree(false);
+                p2.setFree(false);
+                reqOrigin.getTDiagramPanel().addComponent(conn, p1.getX(), p1.getY(), false, true);
+            }
+        }
+
+    }
 
 
 }

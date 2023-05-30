@@ -2290,7 +2290,7 @@ public abstract class TGComponent extends AbstractCDElement implements /*CDEleme
         double d1, d2;
         int i;
         int ref = 0;
-        //compare currentcloser to my points.
+        //compare current closer to my points.
         for (i = 0; i < nbConnectingPoint; i++) {
             if (connectingPoint[i] instanceof TGConnectingPointComment) {
                 continue;

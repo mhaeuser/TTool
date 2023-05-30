@@ -386,8 +386,12 @@ public class TMLArchiCommunicationArtifact extends TGCWithoutInternalComponent i
         return mappedElements;
     }
 
-    public void setOtherCommunicationNames(ArrayList<String> _mappedElements) {
-        mappedElements = _mappedElements;
+    public void addNewOtherCommunicationNames(ArrayList<String> _mappedElements) {
+        for(String mappedElem: _mappedElements) {
+            if (!mappedElements.contains(mappedElem)) {
+                mappedElements.add(mappedElem);
+            }
+        }
         makeFullValue();
     }
 

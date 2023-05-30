@@ -42,6 +42,9 @@ import avatartranslator.intboolsolver.AvatarIBSolver;
 import myutil.NameChecker;
 import myutil.TraceManager;
 import myutil.intboolsolver.IBSParamSpec;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.*;
 
@@ -58,25 +61,23 @@ public class AvatarSpecification extends AvatarElement implements IBSParamSpec {
     public final static int UPPAAL_MAX_INT = 32767;
 
     public static String[] ops = {">", "<", "+", "-", "*", "/", "[", "]", "(", ")", ":", "=", "==", ",", "!", "?", "{", "}", "|", "&"};
-    public List<String> checkedIDs;
     private final List<AvatarBlock> blocks;
     private final List<AvatarRelation> relations;
-    private  List<AvatarInterfaceRelation> irelations;
     private final List<AvatarAMSInterface> interfaces;
     /**
      * The list of all library functions that can be called.
      */
     private final List<AvatarLibraryFunction> libraryFunctions;
-
-    //private AvatarBroadcast broadcast;
-    private String applicationCode;
     private final List<AvatarPragma> pragmas; // Security pragmas
     private final List<String> safetyPragmas;
     private final HashMap<String, String> safetyPragmasRefs;
     private final List<AvatarPragmaLatency> latencyPragmas;
     private final List<AvatarConstant> constants;
     private final boolean robustnessMade = false;
-
+    public List<String> checkedIDs;
+    private List<AvatarInterfaceRelation> irelations;
+    //private AvatarBroadcast broadcast;
+    private String applicationCode;
     private Object informationSource; // Element from which the spec has been built
 
 
@@ -96,6 +97,591 @@ public class AvatarSpecification extends AvatarElement implements IBSParamSpec {
         this.libraryFunctions = new LinkedList<>();
     }
 
+    public AvatarRelation getAvatarRelationWithBlocks (AvatarBlock block1, AvatarBlock block2, boolean synchronous) {
+        for(AvatarRelation rel: relations) {
+            if ( (block1 == rel.block1) || (block1 == rel.block2) ) {
+                if ( (block2 == rel.block1) || (block2 == rel.block2) ) {
+                    if (rel.isAsynchronous() == !synchronous) {
+                        return rel;
+                    }
+                }
+            }
+        }
+        return null;
+    }
+
+    /*
+    * Typical JSON:
+    *
+    * AI:
+{
+"blocks": [
+{
+"name": "Battery",
+"attributes": [
+{
+ "name": "chargeLevel",
+ "type": "int"
+},
+{
+ "name": "capacity",
+ "type": "int"
+}
+],
+"methods": [
+{
+ "name": "loadBattery",
+ "parameters": [
+  {
+   "name": "rechargeTime",
+   "type": "int"
+  }
+ ],
+ "returnType": "nothing"
+ },
+ {
+ "name": "unloadBattery",
+ "parameters": [
+  {
+  "name": "dischargeThreshold",
+  "type": "int"
+  }
+ ],
+ "returnType": "nothing"
+ }
+],
+"signals": [
+{
+ "name": "batteryLoaded",
+ "parameters": [
+  {
+   "name": "loadAmount",
+   "type": "int"
+  }
+ ],
+ "type": "output"
+},
+{
+ "name": "batteryUnloaded",
+ "parameters": [
+  {
+   "name": "unloadAmount",
+   "type": "int"
+  }
+ ],
+ "type": "output"
+}
+]
+},
+{
+"name": "MainEngine",
+"attributes": [
+{
+ "name": "isTurnedOn",
+ "type": "boolean"
+},
+{
+ "name": "currentRpm",
+ "type": "int"
+}
+],
+"methods": [
+{
+ "name": "toggleEngine",
+ "parameters": [
+ {
+  "name": "turnOn",
+  "type": "boolean"
+ }
+],
+ "returnType": "nothing"
+},
+{
+ "name": "setRpm",
+ "parameters": [
+  {
+   "name": "rpm",
+   "type": "int"
+ }
+],
+ "returnType": "nothing"
+}
+],
+"signals": [
+{
+ "name": "engineToggled",
+ "parameters": [
+  {
+   "name": "turnOn",
+   "type": "boolean"
+  }
+ ],
+ "type": "output"
+},
+{
+ "name": "rpmSet",
+ "parameters": [
+  {
+   "name": "rpm",
+   "type": "int"
+  }
+ ],
+ "type": "output"
+}
+]
+},
+{
+"name": "ElectricEngines",
+"attributes": [
+{
+ "name": "hasPower",
+ "type": "boolean"
+},
+{
+ "name": "powerLevel",
+ "type": "int"
+}
+],
+"methods": [
+{
+ "name": "togglePower",
+ "parameters": [
+  {
+   "name": "hasPower",
+   "type": "boolean"
+  }
+ ],
+ "returnType": "nothing"
+},
+{
+ "name": "setPowerLevel",
+ "parameters": [
+ {
+  "name": "powerLevel",
+  "type": "int"
+ }
+],
+ "returnType": "nothing"
+}
+],
+"signals": [
+{
+ "name": "powerToggled",
+ "parameters": [
+  {
+   "name": "hasPower",
+   "type": "boolean"
+  }
+ ],
+ "type": "output"
+},
+{
+ "name": "powerLevelSet",
+ "parameters": [
+  {
+   "name": "powerLevel",
+   "type": "int"
+  }
+ ],
+ "type": "output"
+}
+]
+},
+{
+"name": "SystemController",
+"attributes": [
+{
+ "name": "batteryRechargeTime",
+ "type": "int"
+},
+{
+ "name": "dischargeThreshold",
+ "type": "int"
+}
+],
+"methods": [
+{
+ "name": "combineEngines",
+ "parameters": [
+  {
+   "name": "needMorePower",
+   "type": "boolean"
+  }
+ ],
+ "returnType": "nothing"
+},
+{
+ "name": "toggleMainEngine",
+ "parameters": [
+  {
+   "name": "turnOn",
+   "type": "boolean"
+  }
+ ],
+ "returnType": "nothing"
+},
+{
+ "name": "stopVehicle",
+ "parameters": [],
+ "returnType": "nothing"
+}
+],
+"signals": [
+{
+ "name": "enginesCombined",
+ "parameters": [
+  {
+   "name": "needMorePower",
+   "type": "boolean"
+  }
+ ],
+ "type": "output"
+},
+{
+ "name": "mainEngineToggled",
+ "parameters": [
+  {
+   "name": "turnOn",
+   "type": "boolean"
+  }
+ ],
+ "type": "output"
+},
+{
+ "name": "vehicleStopped",
+ "parameters": [],
+ "type": "output"
+},
+{
+ "name": "rechargeBattery",
+ "parameters": [
+  {
+   "name": "rechargeTime",
+   "type": "int"
+  }
+ ],
+ "type": "input",
+ "communicationType": "synchronous"
+},
+{
+ "name": "unloadBattery",
+ "parameters": [
+  {
+   "name": "dischargeThreshold",
+   "type": "int"
+  }
+ ],
+ "type": "input",
+ "communicationType": "synchronous"
+},
+{
+ "name": "setMainEngineRpm",
+ "parameters": [
+  {
+   "name": "rpm",
+   "type": "int"
+  }
+ ],
+ "type": "input",
+ "communicationType": "synchronous"
+},
+{
+ "name": "toggleElectricEnginesPower",
+ "parameters": [
+ {
+  "name": "hasPower",
+  "type": "boolean"
+  }
+ ],
+ "type": "input",
+ "communicationType": "asynchronous"
+},
+{
+ "name": "setElectricEnginesPowerLevel",
+ "parameters": [
+  {
+   "name": "powerLevel",
+   "type": "int"
+  }
+ ],
+ "type": "input",
+ "communicationType": "asynchronous"
+}
+]
+}
+],
+"connections": [
+{
+ "sourceBlock": "Battery",
+ "sourceSignal": "batteryLoaded",
+ "destinationBlock": "SystemController",
+ "destinationSignal": "rechargeBattery",
+ "communicationType": "synchronous"
+},
+{
+ "sourceBlock": "Battery",
+ "sourceSignal": "batteryUnloaded",
+ "destinationBlock": "SystemController",
+ "destinationSignal": "unloadBattery",
+ "communicationType": "synchronous"
+},
+{
+ "sourceBlock": "MainEngine",
+ "sourceSignal": "engineToggled",
+ "destinationBlock": "SystemController",
+ "destinationSignal": "mainEngineToggled",
+ "communicationType": "synchronous"
+},
+{
+ "sourceBlock": "MainEngine",
+ "sourceSignal": "rpmSet",
+ "destinationBlock": "SystemController",
+ "destinationSignal": "setMainEngineRpm",
+ "communicationType": "synchronous"
+},
+{
+ "sourceBlock": "ElectricEngines",
+ "sourceSignal": "powerToggled",
+ "destinationBlock": "SystemController",
+ "destinationSignal": "toggleElectricEnginesPower",
+ "communicationType": "asynchronous"
+},
+{
+ "sourceBlock": "ElectricEngines",
+ "sourceSignal": "powerLevelSet",
+ "destinationBlock": "SystemController",
+ "destinationSignal": "setElectricEnginesPowerLevel",
+ "communicationType": "asynchronous"
+},
+{
+ "sourceBlock": "SystemController",
+ "sourceSignal": "rechargeBattery",
+ "destinationBlock": "Battery",
+ "destinationSignal": "loadBattery",
+ "communicationType": "synchronous"
+},
+{
+ "sourceBlock": "SystemController",
+ "sourceSignal": "unloadBattery",
+ "destinationBlock": "Battery",
+ "destinationSignal": "unloadBattery",
+ "communicationType": "synchronous"
+},
+{
+ "sourceBlock": "SystemController",
+ "destinationBlock": "MainEngine",
+ "destinationSignal": "engineToggled",
+ "sourceSignal": "mainEngineToggled",
+ "communicationType": "synchronous"
+},
+{
+ "sourceBlock": "SystemController",
+ "destinationBlock": "MainEngine",
+ "destinationSignal": "rpmSet",
+ "sourceSignal": "setMainEngineRpm",
+ "communicationType": "synchronous"
+},
+{
+ "sourceBlock": "SystemController",
+ "destinationBlock": "ElectricEngines",
+ "destinationSignal": "powerToggled",
+ "sourceSignal": "toggleElectricEnginesPower",
+ "communicationType": "asynchronous"
+},
+{
+ "sourceBlock": "SystemController",
+ "destinationBlock": "ElectricEngines",
+ "destinationSignal": "powerLevelSet",
+ "sourceSignal": "setElectricEnginesPowerLevel",
+ "communicationType": "asynchronous"
+},
+{
+ "sourceBlock": "SystemController",
+ "destinationBlock": "ElectricEngines",
+ "destinationSignal": "powerToggled",
+ "sourceSignal": "enginesCombined",
+ "communicationType": "asynchronous"
+}
+]
+}
+    *
+    *
+    *
+    *
+    *
+    *
+    *
+    *
+    *
+    *
+     */
+    public static AvatarSpecification fromJSON(String _spec, String _name, Object _referenceObject) {
+        AvatarSpecification spec = new AvatarSpecification(_name, _referenceObject);
+
+        int indexStart = _spec.indexOf('{');
+        int indexStop = _spec.lastIndexOf('}');
+
+        if ((indexStart == -1) || (indexStop == -1) || (indexStart > indexStop)) {
+            throw new org.json.JSONException("Invalid JSON object");
+        }
+
+        _spec = _spec.substring(indexStart, indexStop + 1);
+
+        TraceManager.addDev("Cut spec: " + _spec);
+
+        JSONObject mainObject = new JSONObject(_spec);
+
+        JSONArray blocksA = mainObject.getJSONArray("blocks");
+
+        if (blocksA == null) {
+            TraceManager.addDev("No blocks in json");
+            return spec;
+        }
+
+        for (int i = 0; i < blocksA.length(); i++) {
+            JSONObject blockO = blocksA.getJSONObject(i);
+            String name = spec.removeSpaces(blockO.getString("name"));
+            if (name != null) {
+                AvatarBlock newBlock = new AvatarBlock(name, spec, _referenceObject);
+                spec.addBlock(newBlock);
+
+                try {
+                    JSONArray attributesA = blockO.getJSONArray("attributes");
+
+                    for (int j = 0; j < attributesA.length(); j++) {
+                        String nameA = spec.removeSpaces(attributesA.getJSONObject(j).getString("name"));
+                        String typeA = attributesA.getJSONObject(j).getString("type");
+                        AvatarAttribute aa = new AvatarAttribute(nameA, AvatarType.getType(typeA), newBlock, _referenceObject);
+                        newBlock.addAttribute(aa);
+                    }
+                } catch (JSONException je) {
+                }
+
+                try {
+                    JSONArray methodsA = blockO.getJSONArray("methods");
+                    for (int j = 0; j < methodsA.length(); j++) {
+                        String nameM = spec.removeSpaces(methodsA.getJSONObject(j).getString("name"));
+                        AvatarMethod am = new AvatarMethod(nameM, _referenceObject);
+                        JSONArray params = methodsA.getJSONObject(j).getJSONArray("parameters");
+                        for (int k = 0; k < params.length(); k++) {
+                            String nameA = spec.removeSpaces(params.getJSONObject(k).getString("name"));
+                            String typeA = params.getJSONObject(k).getString("type");
+                            AvatarAttribute aa = new AvatarAttribute(nameA, AvatarType.getType(typeA), newBlock, _referenceObject);
+                            am.addParameter(aa);
+                        }
+                        String returnT = methodsA.getJSONObject(j).getString("returnType");
+                        AvatarType at = AvatarType.getType(returnT);
+                        if (at != AvatarType.UNDEFINED) {
+                            am.addReturnParameter(new AvatarAttribute("returnType", at, newBlock, _referenceObject));
+                        }
+
+                        newBlock.addMethod(am);
+                    }
+                } catch (JSONException je) {
+                }
+
+                try {
+                    JSONArray signalS = blockO.getJSONArray("signals");
+                    for (int j = 0; j < signalS.length(); j++) {
+                        String nameS = spec.removeSpaces(signalS.getJSONObject(j).getString("name"));
+                        String typeS = signalS.getJSONObject(j).getString("type");
+                        int inout = AvatarSignal.IN;
+                        if (typeS.compareTo("output") == 0) {
+                            inout = AvatarSignal.OUT;
+                        }
+                        AvatarSignal as = new AvatarSignal(nameS, inout, _referenceObject);
+
+                        JSONArray params = signalS.getJSONObject(j).getJSONArray("parameters");
+                        for (int k = 0; k < params.length(); k++) {
+                            String nameA = spec.removeSpaces(params.getJSONObject(k).getString("name"));
+                            String typeA = params.getJSONObject(k).getString("type");
+                            AvatarAttribute aa = new AvatarAttribute(nameA, AvatarType.getType(typeA), newBlock, _referenceObject);
+                            as.addParameter(aa);
+                        }
+
+                        newBlock.addSignal(as);
+                    }
+                } catch (JSONException je) {
+                }
+
+            }
+        }
+
+        JSONArray connections = mainObject.getJSONArray("connections");
+
+        if (connections == null) {
+            TraceManager.addDev("No connections in json");
+            return spec;
+        }
+
+        for (int i = 0; i < connections.length(); i++) {
+            JSONObject blockO = connections.getJSONObject(i);
+            String sourceBlock = spec.removeSpaces(blockO.getString("sourceBlock"));
+
+            AvatarBlock srcB = spec.getBlockWithName(sourceBlock);
+            if (srcB == null) {
+                srcB = new AvatarBlock(sourceBlock, spec, _referenceObject);
+                spec.addBlock(srcB);
+            }
+            String sourceSignal = spec.removeSpaces(blockO.getString("sourceSignal"));
+            AvatarSignal srcSig = srcB.getSignalByName(sourceSignal);
+
+            if (srcSig == null) {
+                srcSig = new AvatarSignal(sourceSignal, AvatarSignal.OUT, _referenceObject);
+                srcB.addSignal(srcSig);
+            }
+
+            if (srcSig.isIn()) {
+                TraceManager.addDev("Signal " + sourceSignal + " in block: " + sourceBlock + " should be out");
+                continue;
+            }
+            String destinationBlock = spec.removeSpaces(blockO.getString("destinationBlock"));
+            AvatarBlock dstB = spec.getBlockWithName(destinationBlock);
+
+            if (dstB == null) {
+                dstB = new AvatarBlock(destinationBlock, spec, _referenceObject);
+                spec.addBlock(dstB);
+            }
+            String dstSignal = spec.removeSpaces(blockO.getString("destinationSignal"));
+            AvatarSignal dstSig = srcB.getSignalByName(dstSignal);
+
+            if (dstSig == null) {
+                dstSig = new AvatarSignal(dstSignal, AvatarSignal.IN, _referenceObject);
+                dstB.addSignal(dstSig);
+            }
+            if (dstSig.isOut()) {
+                TraceManager.addDev("Signal " + dstSignal + " in block: " + destinationBlock + " should be in");
+                continue;
+            }
+
+            if (!srcSig.isCompatibleWith(dstSig)) {
+                TraceManager.addDev("Signals " + srcSig + " and " + dstSig + " are not compatible");
+                continue;
+            }
+
+            String communicationType = spec.removeSpaces(blockO.getString("communicationType"));
+            boolean synchronous = communicationType.compareTo("synchronous") == 0;
+
+            AvatarRelation ar = spec.getAvatarRelationWithBlocks(srcB, dstB, synchronous);
+
+            if (ar == null) {
+                ar = new AvatarRelation("relation", srcB, dstB, _referenceObject);
+                ar.setAsynchronous(!synchronous);
+                spec.addRelation(ar);
+            }
+
+            ar.addSignals(srcSig, dstSig);
+
+        }
+
+
+        return spec;
+
+    }
+
+    public String removeSpaces(String _input) {
+        return _input.trim().replaceAll(" ", "_");
+    }
 
     public List<AvatarLibraryFunction> getListOfLibraryFunctions() {
         return this.libraryFunctions;
@@ -225,10 +811,6 @@ public class AvatarSpecification extends AvatarElement implements IBSParamSpec {
         blocks.add(_block);
     }
 
-    public void addInterface(AvatarAMSInterface _interface) {
-        interfaces.add(_interface);
-    }
-
     /*public void addBroadcastSignal(AvatarSignal _as) {
       if (!broadcast.containsSignal(_as)) {
       broadcast.addSignal(_as);
@@ -238,6 +820,10 @@ public class AvatarSpecification extends AvatarElement implements IBSParamSpec {
       public AvatarBroadcast getBroadcast() {
       return broadcast;
       }*/
+
+    public void addInterface(AvatarAMSInterface _interface) {
+        interfaces.add(_interface);
+    }
 
     public void addRelation(AvatarRelation _relation) {
         relations.add(_relation);
@@ -453,12 +1039,6 @@ public class AvatarSpecification extends AvatarElement implements IBSParamSpec {
         }
     }
 
-    public void setAttributeOptRatio(int attributeOptRatio) {
-        for (AvatarBlock block : blocks) {
-            block.setAttributeOptRatio(attributeOptRatio);
-        }
-    }
-
 //
 //    private void renameTimers() {
 //        // Check whether timers have the same name in different blocks
@@ -480,6 +1060,12 @@ public class AvatarSpecification extends AvatarElement implements IBSParamSpec {
 //        }
 //
 //    }
+
+    public void setAttributeOptRatio(int attributeOptRatio) {
+        for (AvatarBlock block : blocks) {
+            block.setAttributeOptRatio(attributeOptRatio);
+        }
+    }
 
     /**
      * Removes all FIFOs by replacing them with
@@ -558,7 +1144,7 @@ public class AvatarSpecification extends AvatarElement implements IBSParamSpec {
 
         AvatarSignal queryS = new AvatarSignal("query_FIFO_read_" + FIFO_ID, AvatarSignal.IN, _sig2.getReferenceObject());
         block2.addSignal(queryS);
-        AvatarAttribute queryA = new  AvatarAttribute("queryA", AvatarType.INTEGER, null, _sig2.getReferenceObject());
+        AvatarAttribute queryA = new AvatarAttribute("queryA", AvatarType.INTEGER, null, _sig2.getReferenceObject());
         queryS.addParameter(queryA);
 
         AvatarRelation newAR3 = new AvatarRelation("FIFO_query_" + FIFO_ID, fifoBlock, block2, _ar.getReferenceObject());
@@ -638,7 +1224,6 @@ public class AvatarSpecification extends AvatarElement implements IBSParamSpec {
         }
     }
 
-
     private void removeElseGuards(AvatarStateMachine asm) {
         if (asm == null)
             return;
@@ -688,7 +1273,6 @@ public class AvatarSpecification extends AvatarElement implements IBSParamSpec {
         return false;
     }
 
-
     public void removeEmptyTransitions(boolean _canOptimize) {
         for (AvatarBlock block : this.blocks) {
             AvatarStateMachine asm = block.getStateMachine();
@@ -704,7 +1288,6 @@ public class AvatarSpecification extends AvatarElement implements IBSParamSpec {
                 asm.groupUselessTransitions(block);
         }
     }
-
 
     public void makeRobustness() {
         //TraceManager.addDev("Make robustness");
@@ -826,7 +1409,7 @@ public class AvatarSpecification extends AvatarElement implements IBSParamSpec {
                 spec.addRelation(nR);
             }
         }
-	
+
 		/*for(AvatarPragma pragma: pragmas) {
 		    AvatarPragma nP = pragma.advancedClone();
 		    spec.addPragma(nP);
@@ -874,7 +1457,6 @@ public class AvatarSpecification extends AvatarElement implements IBSParamSpec {
         return adg;
     }
 
-
     public AvatarSpecification simplifyFromDependencies(ArrayList<AvatarElement> eltsOfInterest) {
         AvatarSpecification clonedSpec = advancedClone();
         AvatarDependencyGraph adg = clonedSpec.makeDependencyGraph();
@@ -883,9 +1465,8 @@ public class AvatarSpecification extends AvatarElement implements IBSParamSpec {
         return clonedSpec;
     }
 
-
     public boolean isSignalUsed(AvatarSignal _sig) {
-        for(AvatarBlock block: blocks) {
+        for (AvatarBlock block : blocks) {
             if (block.getStateMachine().isSignalUsed(_sig)) {
                 return true;
             }
@@ -894,15 +1475,14 @@ public class AvatarSpecification extends AvatarElement implements IBSParamSpec {
         return false;
     }
 
-
     public void removeUselessSignalAssociations() {
         ArrayList<AvatarRelation> mightBeRemoved = new ArrayList<>();
         ArrayList<AvatarSignal> toBeRemoved1 = new ArrayList<>();
         ArrayList<AvatarSignal> toBeRemoved2 = new ArrayList<>();
 
-        for(AvatarRelation rel: relations) {
+        for (AvatarRelation rel : relations) {
             // For each signal association, we look for whether it is used or not
-            for(int i=0; i<rel.getSignals1().size(); i++) {
+            for (int i = 0; i < rel.getSignals1().size(); i++) {
                 AvatarSignal sig1 = rel.getSignal1(i);
                 if (!isSignalUsed(sig1)) {
                     AvatarSignal sig2 = rel.getSignal2(i);
@@ -917,13 +1497,13 @@ public class AvatarSpecification extends AvatarElement implements IBSParamSpec {
         }
 
         // Removing useless signals from blocks
-        for(AvatarBlock block: blocks) {
+        for (AvatarBlock block : blocks) {
             block.getSignals().removeAll(toBeRemoved1);
             block.getSignals().removeAll(toBeRemoved2);
         }
 
         // Removing signals from relations, and removing relations if applicable
-        for(int cpt=0; cpt<mightBeRemoved.size(); cpt++) {
+        for (int cpt = 0; cpt < mightBeRemoved.size(); cpt++) {
             AvatarRelation rel = mightBeRemoved.get(cpt);
             rel.removeAssociation(toBeRemoved1.get(cpt), toBeRemoved2.get(cpt));
             if (rel.getSignals1().size() == 0) {
@@ -936,7 +1516,7 @@ public class AvatarSpecification extends AvatarElement implements IBSParamSpec {
     public void removeEmptyBlocks() {
         // Remove all blocks with no ASM and no signals
         ArrayList<AvatarBlock> toBeRemoved = new ArrayList<>();
-        for(AvatarBlock block: blocks) {
+        for (AvatarBlock block : blocks) {
             if (block.getStateMachine().isBasicStateMachine()) {
                 if (block.getSignals().size() == 0) {
                     toBeRemoved.add(block);
@@ -945,14 +1525,14 @@ public class AvatarSpecification extends AvatarElement implements IBSParamSpec {
         }
 
         // If a block has a father in toBeRemoved, then keep the father, and the father of the father, etc.
-        for(AvatarBlock block: blocks) {
+        for (AvatarBlock block : blocks) {
             AvatarBlock bl = block.getFather();
-            while(bl != null) {
+            while (bl != null) {
                 if (toBeRemoved.contains(bl)) {
                     toBeRemoved.remove(bl);
                 }
                 bl = bl.getFather();
-             }
+            }
         }
 
 
@@ -964,14 +1544,10 @@ public class AvatarSpecification extends AvatarElement implements IBSParamSpec {
      */
     public void removeUselessAttributes() {
         ArrayList<AvatarBlock> toBeRemoved = new ArrayList<>();
-        for(AvatarBlock block: blocks) {
+        for (AvatarBlock block : blocks) {
             block.removeUselessAttributes();
         }
     }
-
-
-
-
 
     // TO BE COMPLETED
     // We assume the graph has been reduced already to what is necessary:
@@ -979,7 +1555,7 @@ public class AvatarSpecification extends AvatarElement implements IBSParamSpec {
     public void reduceFromDependencyGraph(AvatarDependencyGraph _adg) {
 
         // We have to update the state machines according to the graph
-        for(AvatarBlock block: blocks) {
+        for (AvatarBlock block : blocks) {
             //TraceManager.addDev("Handling block " + block.getName());
             AvatarStateMachine asm = block.getStateMachine();
             // We first check if the start is still in the graph
@@ -999,7 +1575,7 @@ public class AvatarSpecification extends AvatarElement implements IBSParamSpec {
                 TraceManager.addDev("Reducing state machine of " + block.getName());
 
                 ArrayList<AvatarElement> toRemove = new ArrayList<>();
-                for(AvatarStateMachineElement asme: asm.getListOfElements()) {
+                for (AvatarStateMachineElement asme : asm.getListOfElements()) {
                     if (_adg.getFirstStateWithReference(asme) == null) {
                         boolean toBeRemoved = false;
                         if (asme instanceof AvatarTransition) {
@@ -1027,7 +1603,6 @@ public class AvatarSpecification extends AvatarElement implements IBSParamSpec {
         // Then we can remove useless attributes i.e attributes that are not used
 
 
-
         removeUselessSignalAssociations();
 
         removeUselessAttributes();
@@ -1036,17 +1611,14 @@ public class AvatarSpecification extends AvatarElement implements IBSParamSpec {
 
     }
 
-
     public NameChecker.NamedElement[] getSubNamedElements() {
         NameChecker.NamedElement[] lne = new NameChecker.NamedElement[blocks.size()];
         int index = 0;
-        for(AvatarBlock bl: blocks) {
+        for (AvatarBlock bl : blocks) {
             lne[index] = bl;
-            index ++;
+            index++;
         }
         return lne;
     }
-
-
 
 }

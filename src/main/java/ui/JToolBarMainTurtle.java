@@ -56,7 +56,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.concurrent.CancellationException;
 
 
 /**
@@ -85,7 +84,7 @@ public  class JToolBarMainTurtle extends JToolBar implements ActionListener     
     private JMenuItem oneClickrtlotosMI, onclicklotosMI, gensystemcMI, simusystemcMI, gentmlMI, genCMI, genjavaMI, ncMI;
 
     // IA
-    private JButton ia;
+    private JButton ai;
 
     // Main button
     private JButton menuButton;
@@ -356,8 +355,8 @@ public  class JToolBarMainTurtle extends JToolBar implements ActionListener     
 
         addSeparator();
 
-        ia = add(mgui.actions[TGUIAction.ACT_IA]);
-        ia.addMouseListener(mgui.mouseHandler);
+        ai = add(mgui.actions[TGUIAction.ACT_IA]);
+        ai.addMouseListener(mgui.mouseHandler);
 
         addSeparator();
 
@@ -399,7 +398,10 @@ public  class JToolBarMainTurtle extends JToolBar implements ActionListener     
 
     public void showAvatarActions(boolean b) {
 
+        ai.setVisible(true);
+
         //TraceManager.addDev("Show avatar options with b = " + b);
+
         genMapping.setVisible(!b);
         genMappingMI.setVisible(!b);
         dse.setVisible(!b);
@@ -556,6 +558,8 @@ public  class JToolBarMainTurtle extends JToolBar implements ActionListener     
 
         //TraceManager.addDev("Show diplodocus options with b = " + b);
 
+        ai.setVisible(true);
+
         genMapping.setVisible(b);
         dse.setVisible(b);
 
@@ -668,9 +672,6 @@ public  class JToolBarMainTurtle extends JToolBar implements ActionListener     
             ncMI.setVisible(!b);
         }
 
-        if (ia != null) {
-            ia.setVisible(!b);
-        }
 
         if (gendesign != null) {
             gendesign.setVisible(!b);

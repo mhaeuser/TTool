@@ -54,7 +54,7 @@ public class HSMGeneration implements Runnable {
 	ProVerifSpec proverif;
 	TMLMapping<TGComponent> tmap;
 	
-	public HSMGeneration(MainGUI gui, Map<String, List<String>> selectedCpuTasks, TMLMapping<TGComponent> tmap){
+	public HSMGeneration(MainGUI gui, Map<String, List<String>> selectedCpuTasks, TMLMapping<TGComponent> tmap) {
 		this.gui = gui;
 		this.selectedCpuTasks = selectedCpuTasks;
 		this.tmap = tmap;
@@ -90,7 +90,7 @@ public class HSMGeneration implements Runnable {
 
             ProVerifOutputAnalyzer pvoa = avatar2proverif.getOutputAnalyzer();
             pvoa.analyzeOutput(data, true);
-            if (pvoa.getResults().size() ==0){
+            if (pvoa.getResults().size() ==0) {
             	TraceManager.addDev("ERROR: No security results");
             }
             
@@ -122,19 +122,19 @@ public class HSMGeneration implements Runnable {
     }
     
     
-	public void startThread(){
+	public void startThread() {
 		Thread t = new Thread(this);
 		t.start();
 		try {
 			t.join();
 		}
-		catch (Exception e){
+		catch (Exception e) {
 			TraceManager.addDev("Error in HSM Generation Thread");
 		}
 		return;
 	}
     
-    public void run(){
+    public void run() {
     	Map<String, Integer> channelIndexMap = new HashMap<String, Integer>();
     	int channelIndex=0;
     	TraceManager.addDev("Adding HSM");
@@ -244,7 +244,7 @@ public class HSMGeneration implements Runnable {
                                 if (type != -1) {
                                     compChannels.put(writeChannel.getChannelName(), ch);
                                     channelInstances.add(tg);
-                                    if (!channelIndexMap.containsKey(writeChannel.getChannelName())){
+                                    if (!channelIndexMap.containsKey(writeChannel.getChannelName())) {
 	                                    channelIndexMap.put(writeChannel.getChannelName(),channelIndex);
 	                                    channelIndex++;
 									}   
@@ -257,19 +257,19 @@ public class HSMGeneration implements Runnable {
                                 channelInstances.add(tg);
                                 SecurityPattern sp = tmap.getSecurityPatternByName(writeChannel.getSecurityContext());
                                 int type = -1;
-                                if (sp.type.equals("Symmetric Encryption")) {
+                                if (sp.type.equals(SecurityPattern.SYMMETRIC_ENC_PATTERN)) {
                                     type = HSMChannel.SENC;
-                                } else if (sp.type.equals("Asymmetric Encryption")) {
+                                } else if (sp.type.equals(SecurityPattern.ASYMMETRIC_ENC_PATTERN)) {
                                     type = HSMChannel.AENC;
-                                } else if (sp.type.equals("MAC")) {
+                                } else if (sp.type.equals(SecurityPattern.MAC_PATTERN)) {
                                     type = HSMChannel.MAC;
-                                } else if (sp.type.equals("Nonce")) {
+                                } else if (sp.type.equals(SecurityPattern.NONCE_PATTERN)) {
                                     type = HSMChannel.NONCE;
                                 }
                                 HSMChannel ch = new HSMChannel(writeChannel.getChannelName(), compName, type);
                                 ch.securityContext = writeChannel.getSecurityContext();
                                 compChannels.put(writeChannel.getChannelName(), ch);
-                                if (!channelIndexMap.containsKey(writeChannel.getChannelName())){
+                                if (!channelIndexMap.containsKey(writeChannel.getChannelName())) {
 	                            	channelIndexMap.put(writeChannel.getChannelName(),channelIndex);
 	                                channelIndex++;
 								}   
@@ -287,7 +287,7 @@ public class HSMGeneration implements Runnable {
                                     HSMChannel ch = new HSMChannel(readChannel.getChannelName(), compName, HSMChannel.DEC);
                                     ch.securityContext = "hsmSec_" + readChannel.getChannelName();
                                     compChannels.put(readChannel.getChannelName(), ch);
-                                    if (!channelIndexMap.containsKey(readChannel.getChannelName())){
+                                    if (!channelIndexMap.containsKey(readChannel.getChannelName())) {
 	                            		channelIndexMap.put(readChannel.getChannelName(),channelIndex);
 	                                	channelIndex++;
 									}   
@@ -303,7 +303,7 @@ public class HSMGeneration implements Runnable {
                                 HSMChannel ch = new HSMChannel(readChannel.getChannelName(), compName, HSMChannel.DEC);
                                 ch.securityContext = readChannel.getSecurityContext();
                                 compChannels.put(readChannel.getChannelName(), ch);
-                                if (!channelIndexMap.containsKey(readChannel.getChannelName())){
+                                if (!channelIndexMap.containsKey(readChannel.getChannelName())) {
 	                            	channelIndexMap.put(readChannel.getChannelName(),channelIndex);
 	                                channelIndex++;
 								}   
@@ -631,13 +631,13 @@ public class HSMGeneration implements Runnable {
                         TMLADEncrypt enc = new TMLADEncrypt(xc, 500, tad.getMinX(), tad.getMaxX(), tad.getMinY(), tad.getMaxY(), false, null, tad);
                         enc.securityContext = ch.securityContext;
                         if (hsmChannels.get(chan).secType == HSMChannel.SENC) {
-                            enc.type = "Symmetric Encryption";
+                            enc.type = SecurityPattern.SYMMETRIC_ENC_PATTERN;
                         } else if (hsmChannels.get(chan).secType == HSMChannel.AENC) {
-                            enc.type = "Asymmetric Encryption";
+                            enc.type = SecurityPattern.ASYMMETRIC_ENC_PATTERN;
                         } else if (hsmChannels.get(chan).secType == HSMChannel.MAC) {
-                            enc.type = "MAC";
+                            enc.type = SecurityPattern.MAC_PATTERN;
                         } else if (hsmChannels.get(chan).secType == HSMChannel.NONCE) {
-                            enc.type = "Nonce";
+                            enc.type = SecurityPattern.NONCE_PATTERN;
                         }
 
                         enc.message_overhead = overhead;
@@ -734,13 +734,13 @@ public class HSMGeneration implements Runnable {
                         TMLADEncrypt enc = new TMLADEncrypt(xc, 500, tad.getMinX(), tad.getMaxX(), tad.getMinY(), tad.getMaxY(), false, null, tad);
                         enc.securityContext = ch.securityContext;
                         if (hsmChannels.get(chan).secType == HSMChannel.SENC) {
-                            enc.type = "Symmetric Encryption";
+                            enc.type = SecurityPattern.SYMMETRIC_ENC_PATTERN;
                         } else if (hsmChannels.get(chan).secType == HSMChannel.AENC) {
-                            enc.type = "Asymmetric Encryption";
+                            enc.type = SecurityPattern.ASYMMETRIC_ENC_PATTERN;
                         } else if (hsmChannels.get(chan).secType == HSMChannel.MAC) {
-                            enc.type = "MAC";
+                            enc.type = SecurityPattern.MAC_PATTERN;
                         } else if (hsmChannels.get(chan).secType == HSMChannel.NONCE) {
-                            enc.type = "Nonce";
+                            enc.type = SecurityPattern.NONCE_PATTERN;
                         }
 
                         enc.message_overhead = overhead;
@@ -871,7 +871,7 @@ public class HSMGeneration implements Runnable {
                     TMLADEncrypt enc = new TMLADEncrypt(xpos, ypos, tad.getMinX(), tad.getMaxX(), tad.getMinY(), tad.getMaxY(), false, null, tad);
                     tad.addComponent(enc, xpos, ypos, false, true);
                     enc.securityContext = ch.securityContext;
-                    enc.type = "Symmetric Encryption";
+                    enc.type = SecurityPattern.SYMMETRIC_ENC_PATTERN;
                     enc.message_overhead = overhead;
                     enc.encTime = encComp;
                     enc.decTime = decComp;

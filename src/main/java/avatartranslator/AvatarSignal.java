@@ -136,7 +136,9 @@ public class AvatarSignal extends AvatarMethod {
         }
         return cumul;
 	}*/
-    //fin DG 
+    //fin DG
+
+
 	public AvatarSignal advancedClone(AvatarStateMachineOwner _block) {
 		AvatarSignal as = new AvatarSignal(getName(), getInOut(), getReferenceObject());
 		setAdvancedClone(as, _block);

@@ -66,7 +66,7 @@ public enum AvatarType {
         this.name = name;
         this.defaultValue = defaultValue;
         this.defaultValueTF = defaultValueTF;
-	this.defaultValueInInt = defaultValueInInt;
+	    this.defaultValueInInt = defaultValueInInt;
     }
 
     public static AvatarType getType (String s) {

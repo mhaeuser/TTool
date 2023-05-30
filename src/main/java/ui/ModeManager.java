@@ -98,7 +98,7 @@ public class ModeManager {
             if (mainBar != null) {
                 mainBar.activateSearch(false);
             }
-            actions[TGUIAction.ACT_IA].setEnabled(false);
+            actions[TGUIAction.ACT_IA].setEnabled(true);
             break;
         case MainGUI.OPENED:
             actions[TGUIAction.ACT_MERGE].setEnabled(true);

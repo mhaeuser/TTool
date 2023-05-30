@@ -48,6 +48,7 @@ import ui.*;
 import ui.ad.TADComponentWithoutSubcomponents;
 import ui.util.IconManager;
 import ui.window.JDialogCryptographicConfiguration;
+import tmltranslator.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -156,7 +157,7 @@ public class TMLADEncrypt extends TADComponentWithoutSubcomponents/* Issue #69 T
         final int scaledSymbolHeight = scale( ENC_SYMBOL_HEIGHT );
         final int scaledSymbolMargin = scale( ENC_SYMBOL_MARGIN );
         
-        if (type.equals("Symmetric Encryption")) {
+        if (type.equals(SecurityPattern.SYMMETRIC_ENC_PATTERN)) {
             //S
             g.drawLine(x + scaledMargin, y + (height - scaledSymbolHeight) / 4, x + width - scaledMargin, y + (height - scaledSymbolHeight) / 4);
             g.drawLine(x + scaledMargin, y + (height - scaledSymbolHeight) / 4 + scaledSymbolHeight, x + width - scaledMargin, y + (height - scaledSymbolHeight) / 4 + scaledSymbolHeight);
@@ -168,7 +169,7 @@ public class TMLADEncrypt extends TADComponentWithoutSubcomponents/* Issue #69 T
             g.drawLine(x + scaledMargin, y + (height - scaledSymbolHeight) / 4 + scaledSymbolHeight + height / 2 - scaledMargin / 2, x + width - scaledMargin, y + (height - scaledSymbolHeight) / 4 + scaledSymbolHeight + height / 2 - scaledMargin / 2);
             g.drawLine(x + scaledMargin, y + (height - scaledSymbolHeight) / 4 + scaledSymbolHeight / 2 + height / 2 - scaledMargin / 2, x + width - scaledMargin, y + (height - scaledSymbolHeight) / 4 + scaledSymbolHeight / 2 + height / 2 - scaledMargin / 2);
             g.drawLine(x + scaledMargin, y + (height - scaledSymbolHeight) / 4 + height / 2 - scaledMargin / 2, x + scaledMargin, y + (height - scaledSymbolHeight) / 4 + scaledSymbolHeight + height / 2 - scaledMargin / 2);
-        } else if (type.equals("Asymmetric Encryption")) {
+        } else if (type.equals(SecurityPattern.ASYMMETRIC_ENC_PATTERN)) {
             //A
             g.drawLine(x + (width / 2), y + (height - scaledSymbolHeight) / 4, x + scaledMargin, y + (height - scaledSymbolHeight) / 4 + scaledSymbolHeight);
             g.drawLine(x + (width / 2), y + (height - scaledSymbolHeight) / 4, x + (width) - scaledMargin, y + (height - scaledSymbolHeight) / 4 + scaledSymbolHeight);
@@ -178,23 +179,23 @@ public class TMLADEncrypt extends TADComponentWithoutSubcomponents/* Issue #69 T
             g.drawLine(x + scaledMargin, y + (height - scaledSymbolHeight) / 4 + scaledSymbolHeight + height / 2 - scaledMargin / 2, x + width - scaledMargin, y + (height - scaledSymbolHeight) / 4 + scaledSymbolHeight + height / 2 - scaledMargin / 2);
             g.drawLine(x + scaledMargin, y + (height - scaledSymbolHeight) / 4 + scaledSymbolHeight / 2 + height / 2 - scaledMargin / 2, x + width - scaledMargin, y + (height - scaledSymbolHeight) / 4 + scaledSymbolHeight / 2 + height / 2 - scaledMargin / 2);
             g.drawLine(x + scaledMargin, y + (height - scaledSymbolHeight) / 4 + height / 2 - scaledMargin / 2, x + scaledMargin, y + (height - scaledSymbolHeight) / 4 + scaledSymbolHeight + height / 2 - scaledMargin / 2);
-        } else if (type.equals("Nonce")) {
+        } else if (type.equals(SecurityPattern.NONCE_PATTERN)) {
             //N
             g.drawLine(x + (width / 2) - scaledSymbolMargin, y + (height - scaledSymbolHeight) / 2, x + (width / 2) - scaledSymbolMargin, y + (height - scaledSymbolHeight) / 2 + scaledSymbolHeight);
             g.drawLine(x + (width / 2) + scaledSymbolMargin, y + (height - scaledSymbolHeight) / 2, x + (width / 2) + scaledSymbolMargin, y + (height - scaledSymbolHeight) / 2 + scaledSymbolHeight);
             g.drawLine(x + (width / 2) - scaledSymbolMargin, y + (height - scaledSymbolHeight) / 2, x + (width / 2) + scaledSymbolMargin, y + (height - scaledSymbolHeight) / 2 + scaledSymbolHeight);
-        } else if (type.equals("MAC")) {
+        } else if (type.equals(SecurityPattern.MAC_PATTERN)) {
             //M
             g.drawLine(x + scaledMargin / 2 + 1, y + (height - scaledSymbolHeight) / 2, x + scaledMargin / 2 + 1, y + (height - scaledSymbolHeight) / 2 + scaledSymbolHeight);
             g.drawLine(x + width - scaledMargin / 2 - 1, y + (height - scaledSymbolHeight) / 2, x + width - scaledMargin / 2 - 1, y + (height - scaledSymbolHeight) / 2 + scaledSymbolHeight);
             g.drawLine(x + scaledMargin / 2 + 1, y + (height - scaledSymbolHeight) / 2, x + width / 2, y + (height - scaledSymbolHeight) / 2 + scaledSymbolHeight);
             g.drawLine(x + width - scaledMargin / 2 - 1, y + (height - scaledSymbolHeight) / 2, x + width / 2, y + (height - scaledSymbolHeight) / 2 + scaledSymbolHeight);
-        } else if (type.equals("Hash")) {
+        } else if (type.equals(SecurityPattern.HASH_PATTERN)) {
         	//H
             g.drawLine(x + (width / 2) - scaledSymbolMargin, y + (height - scaledSymbolHeight) / 2, x + (width / 2) - scaledSymbolMargin, y + (height - scaledSymbolHeight) / 2 + scaledSymbolHeight);
             g.drawLine(x + (width / 2) + scaledSymbolMargin, y + (height - scaledSymbolHeight) / 2, x + (width / 2) + scaledSymbolMargin, y + (height - scaledSymbolHeight) / 2 + scaledSymbolHeight);
             g.drawLine(x + (width / 2) - scaledSymbolMargin, y + (height - scaledSymbolHeight) / 2 + scaledSymbolHeight / 2, x + (width / 2) + scaledSymbolMargin, y + (height - scaledSymbolHeight) / 2 + scaledSymbolHeight / 2);
-        } else if (type.equals("Advanced")) {
+        } else if (type.equals(SecurityPattern.ADVANCED_PATTERN)) {
             //A
             g.drawLine(x + (width / 2), y + (height - scaledSymbolHeight) / 2, x + scaledMargin, y + (height - scaledSymbolHeight) / 2 + scaledSymbolHeight);
             g.drawLine(x + (width / 2), y + (height - scaledSymbolHeight) / 2, x + (width) - scaledMargin, y + (height - scaledSymbolHeight) / 2 + scaledSymbolHeight);

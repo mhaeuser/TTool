@@ -225,7 +225,7 @@ public class AvatarIBSStdParserTest {
         assertTrue(AvatarIBSolver.parser.replaceVariable("(foo==foo1)", "foo", "foo").equals("(foo==foo1)"));
         assertTrue(AvatarIBSolver.parser.replaceVariable("(foo==foo1)", "foo", "foo1").equals("(foo1==foo1)"));
 
-        AvatarIBSExpressions.IExpr e1 = (AvatarIBSExpressions.IExpr)AvatarIBSolver.parseInt(block1,"x + y");
+        AvatarIBSExpressions.IExpr e1 = AvatarIBSolver.parseInt(block1,"x + y");
         assertTrue(e1!=null);
         System.out.println("" + e1 + e1.eval(specBlock));
         assertTrue(AvatarIBSAttributes.containsElementAttribute(block1.getAttribute(0)));

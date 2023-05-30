@@ -262,6 +262,7 @@ public class IBSStdExpressions<
      * To identify the precise operator, use
      * {@link IBSStdExpressions#getOpSymbol
      * getOpSymbol}</p>
+     * @param _e the expression
      * @return classBConst, classIConst, classBVar, classIVar, classBBBBinOp, classBIIBinOp or classIIIBinOp
      */
     public static final byte getClassCode(IBSStdExpressions.Expr _e){

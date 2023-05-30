@@ -47,7 +47,7 @@ import avatartranslator.AvatarStateMachineElement;
 import java.util.HashSet;
 
 /**
- * Instance of IBS parser and evaluator system to be used in Avatar.
+ * Dynamic Instance of IBS parser and evaluator system to be used in Avatar.
  * Creation: 11/04/2023.
  * <p>This class is a wrapper class that provides all the features
  * offered by the IBS System for the AVATAR instantiation in a
@@ -424,20 +424,24 @@ public class AvatarIBS {
      */
     public final int make_bNot(int _i) { return getExpressions().make_bNot(_i); }
     /** As its name suggests...
+     * @param _a the typed attribute
       * @return the attribute type, among NullAttr IntConst BoolConst IntAttr BoolAttr
       */
     public static int getType(AvatarIBSAttributes.TypedAttribute _a) { return _a.getType(); }
     /** As its name suggests... relevant only for constant types (unchecked)
+     * @param _a the typed attribute
      * @return the constant value of the attribute
      */
     public static int getConstant(AvatarIBSAttributes.TypedAttribute _a) { return _a.getConstant(); }
     /** As its name suggests... relevant only for variable types (unchecked)
+     * @param _a the typed attribute
      * @return the attribute that characterizes the variable
      */
     public static AvatarIBSAttributes.Attribute getAttribute(AvatarIBSAttributes.TypedAttribute _a) {
         return (AvatarIBSAttributes.Attribute)_a.getAttribute();
     }
     /** As its name suggests...
+     * @param _a the typed attribute
      * @return true iff type is IntAttr or BoolAttr
      */
     public static boolean isAttribute(AvatarIBSAttributes.TypedAttribute _a) { return _a.isAttribute(); }

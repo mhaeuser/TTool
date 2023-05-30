@@ -154,6 +154,12 @@
  *     {@link myutil.intboolsolver.IBSParamCompState IBSParamCompState}
  *     can be used as default parameters to instanciate solvers that do
  *     not implement the corresponding concepts.</p>
+ *     </li><li>
+ *     To make the use of the IBS system easier (in particular hide casts),
+ *     wrapper classes can be written, as illustrated in the provided IBS
+ *     instances.
+ *     </li>
+ *
  * </ul>
  * <p><a id="instanciation_sumary"> <b>Instantiation summary:</b></a></p>
  * <ol>
@@ -226,9 +232,13 @@
  *      {@link myutil.intboolsolver.closedformula.IBSClosedSpecState IBSClosedSpecState},
  *      {@link myutil.intboolsolver.closedformula.IBSClosedFormulaAttributes IBSClosedFormulaAttributes},
  *      {@link myutil.intboolsolver.closedformula.IBSClosedFormulaExpressions IBSClosedFormulaExpressions},
- *      {@link myutil.intboolsolver.closedformula.IBSClosedFormulaParser IBSClosedFormulaParser}.
- *      Finally, {@link myutil.intboolsolver.closedformula.IBSClosedFormulaSolver IBSClosedFormulaSolver}
- *      contains an instance of the parser/solver that can be used from anywhere.</p>
+ *      {@link myutil.intboolsolver.closedformula.IBSClosedFormulaParser IBSClosedFormulaParser}.</p>
+ *      <p>Finally, two wrapper classes are provided that make all features available in
+ *      a single classe and do most of the instance related casts.
+ *     {@link myutil.intboolsolver.closedformula.IBSClosedFormulaSolver IBSClosedFormulaSolver} is
+ *     a static instance of the system that that can be used from anywhere. It is not thread safe.
+ *     {@link myutil.intboolsolver.closedformula.IBSClosedFormula IBSClosedFormula} is dynamic and thus
+ *     must be used through objects. It is then thread safe but be careful: the class is quite big...</p>
  *      </li>
  *      <li> <p>There is also an instance dedicated to AVATAR structures, which can be found as an "intboolsolver"
  *      subpackage of the avatartranslator package of TTool</p></li>
@@ -250,6 +260,9 @@
  * genericity). Moreover by setting the variables at the beginning of the script,
  * several different parsers and lexers can be produced (obviously, a lexer can only
  * be coupled with a parser that defines all the symbols it uses)</p>
+ * <p>Notice that executing this script requires that javacup and jflex jar files
+ * be in the {@code CLASSPATH} environment variable (generally java-cup.jar or
+ * java_cup.jar and jflex.jar).</p>
  * <p> In fact, two javacup parsers are provided (IBSStdParser.jcup and
  * IBSOptParser.jcup). They both recognise the same set of usual boolean and integer
  * expressions. The difference is that IBSOptParser implements constant propagation
@@ -292,7 +305,7 @@ public class AvatarIBSStdParser extends IBSStdParser&lt;
         AvatarStateMachineElement,
         SpecificationState,
         SpecificationBlock&gt; {
-        public AvatarIBSStdParser() {
+        public AvatarIBSStdParser(AvatarIBSAttributes _a, AvatarIBSExpressions _e) {
                 super();
                 setLexer(new IBSStdLexer&lt;
                         AvatarSpecification,
@@ -300,17 +313,18 @@ public class AvatarIBSStdParser extends IBSStdParser&lt;
                         AvatarStateMachineElement,
                         SpecificationState,
                         SpecificationBlock&gt;());
-                setAttributes(new AvatarIBSAttributes());
-                setExpressions(new AvatarIBSExpressions());
+                setAttributes(_a);
+                setExpressions(_e);
         }
 }
  </PRE>
  * <p>Note: the (deprecated) constructor of javaCUP parser "super()" is used
  * as setting the lexer is a bit more complex than the default behaviour
  * of "super(lexer)" provided by javaCUP (do not use it).</p>
- * <p>WARNING : The lexer must be set first as setAttributes and
- * setExpressions modify it. (these classes are saved as member of
- * the lexer and not as member of the parser)</p>
+ * <p>Tech : setAttributes and setExpressions modify the lexer as these
+ * classes are saved as member of the lexer and not as direct member of
+ * the parser). Thus these two methods must be called each time the lexer
+ * is set.</p>
  *
  * @version 1.0 11/04/2023
  * @author Sophie Coudert

@@ -60,7 +60,7 @@ public class DefaultText {
     }
 
     public static String getVersion() {
-        return "2.0"; /* Set new release May, 30, th, 2023 */
+        return "3.0 beta"; /* Set new release May, 30, th, 2023 */
     }
 
     public static String getFullVersion() {

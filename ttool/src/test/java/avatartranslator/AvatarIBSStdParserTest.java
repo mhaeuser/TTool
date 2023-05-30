@@ -53,6 +53,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 
 import static org.junit.Assert.*;
 
@@ -162,6 +163,10 @@ public class AvatarIBSStdParserTest {
         AvatarIBSExpressions.BExpr e13Ter = AvatarIBSolver.parseBool("!(not(FALSE))");
         assertFalse(e13Ter!=null);
 
+        HashSet<String> H = AvatarIBSolver.getBadIdents();
+        for(String s:H){System.out.println(s);}
+        AvatarIBSolver.clearBadIdents();
+        
         AvatarIBSExpressions.IExpr e14 = AvatarIBSolver.parseInt("3+2");
         assertTrue(e14!=null);
 

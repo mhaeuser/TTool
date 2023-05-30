@@ -48,6 +48,11 @@ import java.util.Map;
 /**
  * instantiation of {@link IBSStdAttributes
  * IBSStdAttributes} for Avatar.
+ * <p>Notice that this class allows to memorizes encountered attributes
+ * (used while paring, to avoid having several objects for a single
+ * attribute). So do not forget to use
+ * {@link AvatarIBSAttributes#clearAttributes clearAttributes}
+ * when relevant.</p>
  *
  * Creation: 11/04/2023
  *

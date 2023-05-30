@@ -310,7 +310,7 @@ public class AvatarStateMachine extends AvatarElement {
      */
     public boolean isRegularAttributeUsed(AvatarAttribute _aa) {
         boolean ret;
-        AvatarIBSolver.attrC.clearAttributes();
+        AvatarIBSolver.clearAttributes();
         for(AvatarStateMachineElement asme: elements) {
             if (asme instanceof AvatarTransition) {
                 // Must check the guard, the delays and all the actions

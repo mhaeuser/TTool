@@ -60,30 +60,10 @@ public class AvatarIBSStdParser extends IBSStdParser<
         AvatarStateMachineElement,
         SpecificationState,
         SpecificationBlock> {
-        public AvatarIBSStdParser() {
-                super();
-                setLexer(new IBSStdLexer<
-                        AvatarSpecification,
-                        AvatarBlock,
-                        AvatarStateMachineElement,
-                        SpecificationState,
-                        SpecificationBlock>());
-                setAttributes(new AvatarIBSAttributes());
-                setExpressions(new AvatarIBSExpressions());
-        }
+        @SuppressWarnings("deprecation")
         public AvatarIBSStdParser(
-                IBSAttributes<
-                                        AvatarSpecification,
-                                        AvatarBlock,
-                                        AvatarStateMachineElement,
-                                        SpecificationState,
-                                        SpecificationBlock> _c,
-                IBSExpressions<
-                                        AvatarSpecification,
-                                        AvatarBlock,
-                                        AvatarStateMachineElement,
-                                        SpecificationState,
-                                        SpecificationBlock> _e) {
+                AvatarIBSAttributes _c,
+                AvatarIBSExpressions _e) {
                 super();
                 setLexer(new IBSStdLexer<
                         AvatarSpecification,

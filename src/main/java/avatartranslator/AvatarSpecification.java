@@ -361,7 +361,7 @@ public class AvatarSpecification extends AvatarElement implements IBSParamSpec {
         boolean returnVal;
 
         //AvatarExpressionSolver.emptyAttributesMap();
-        AvatarIBSolver.attrC.clearAttributes();
+        AvatarIBSolver.clearAttributes();
 
         for (AvatarBlock block : getListOfBlocks()) {
             AvatarStateMachine asm = block.getStateMachine();

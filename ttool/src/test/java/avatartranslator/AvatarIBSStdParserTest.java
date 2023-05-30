@@ -290,7 +290,7 @@ public class AvatarIBSStdParserTest {
 
         AvatarIBSExpressions.BExpr e2 = AvatarIBSolver.parseBool(as, "-block1.x / block1.y - 15 * block2.z + 1 == -46");
         assertTrue(e2 != null);
-        assertTrue(AvatarIBSAttributes..containsElementAttribute(block2.getAttribute(2)));
+        assertTrue(AvatarIBSAttributes.containsElementAttribute(block2.getAttribute(2)));
         AvatarIBSExpressions.BExpr e3 = AvatarIBSolver.parseBool(as, "not(-block2.x / block2.z - not(block1.x + block2.y) * -2 + -(1) <= -(-4 + 7))");
         assertFalse(e3 != null);
         AvatarIBSExpressions.IExpr e4 = AvatarIBSolver.parseInt(as, "block1.x + block2.w");

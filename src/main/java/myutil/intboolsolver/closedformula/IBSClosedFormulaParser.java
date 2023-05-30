@@ -59,17 +59,7 @@ public class IBSClosedFormulaParser extends IBSStdParser<
         IBSClosedState,
         IBSClosedSpecState,
         IBSClosedCompState> {
-        IBSClosedFormulaParser() {
-                super();
-                setLexer(new IBSStdLexer<
-                        IBSClosedSpec,
-                        IBSClosedComp,
-                        IBSClosedState,
-                        IBSClosedSpecState,
-                        IBSClosedCompState>());
-                setAttributes(new IBSClosedFormulaAttributes());
-                setExpressions(new IBSClosedFormulaExpressions());
-        }
+        @SuppressWarnings("deprecation")
         IBSClosedFormulaParser(IBSClosedFormulaAttributes _ac, IBSClosedFormulaExpressions _ec) {
                 super();
                 setLexer(new IBSStdLexer<

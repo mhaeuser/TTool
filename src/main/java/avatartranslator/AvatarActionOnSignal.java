@@ -118,7 +118,7 @@ public class AvatarActionOnSignal extends AvatarStateMachineElement {
         boolean res = true;
         actionAttr = new ArrayList<AvatarExpressionAttributeInterface>();
         for (String val : values) {
-            ta= AvatarIBSolver.attrC.getTypedAttribute(block,val);
+            ta= AvatarIBSolver.getTypedAttribute(block,val);
             switch(ta.getType()){
                 case AvatarIBSAttributes.NullAttr: res = false; break; //could directly return false ?
                 case AvatarIBSAttributes.BoolConst:

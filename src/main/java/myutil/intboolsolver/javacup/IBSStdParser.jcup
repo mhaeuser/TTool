@@ -64,6 +64,7 @@ parser code {:
 
     public void clearBadIdents(){ lexer.clearBadIdents(); }
 
+    @SuppressWarnings("unchecked")
     public IBSExpressions<Spec,Comp,State,SpecState,CompState>.IExpr parseInt(Spec _spec, String _s){
         try { lexer.init(_spec,"integer " + _s); }
         catch (java.io.IOException e) { return null; }
@@ -71,6 +72,7 @@ parser code {:
         catch (Exception e) { lexer.getExpressions().clear(); return null; }
     }
 
+    @SuppressWarnings("unchecked")
     public IBSExpressions<Spec,Comp,State,SpecState,CompState>.BExpr parseBool(Spec _spec, String _s){
         try { lexer.init(_spec,"boolean " + _s); }
         catch (java.io.IOException e) { return null; }
@@ -78,6 +80,7 @@ parser code {:
         catch (Exception e) { lexer.getExpressions().clear(); return null; }
     }
 
+    @SuppressWarnings("unchecked")
     public IBSExpressions<Spec,Comp,State,SpecState,CompState>.BExpr parseGuard(Spec _spec, String _s){
         try { lexer.init(_spec,"guard " + _s); }
         catch (java.io.IOException e) { return null; }
@@ -85,6 +88,7 @@ parser code {:
         catch (Exception e) { lexer.getExpressions().clear(); return null; }
     }
 
+    @SuppressWarnings("unchecked")
     public IBSExpressions<Spec,Comp,State,SpecState,CompState>.IExpr parseInt(Comp _comp, String _s){
         try { lexer.init(_comp,"integer " + _s); }
         catch (java.io.IOException e) { return null; }
@@ -92,6 +96,7 @@ parser code {:
         catch (Exception e) { lexer.getExpressions().clear(); return null; }
     }
 
+    @SuppressWarnings("unchecked")
     public IBSExpressions<Spec,Comp,State,SpecState,CompState>.BExpr parseBool(Comp _comp, String _s){
         try { lexer.init(_comp,"boolean " + _s); }
         catch (java.io.IOException e) { return null; }
@@ -99,6 +104,7 @@ parser code {:
         catch (Exception e) { lexer.getExpressions().clear(); return null; }
     }
 
+    @SuppressWarnings("unchecked")
     public IBSExpressions<Spec,Comp,State,SpecState,CompState>.BExpr parseGuard(Comp _comp, String _s){
         try { lexer.init(_comp,"guard " + _s); }
         catch (java.io.IOException e) { return null; }
@@ -106,6 +112,7 @@ parser code {:
         catch (Exception e) { lexer.getExpressions().clear(); return null; }
     }
 
+    @SuppressWarnings("unchecked")
     public IBSExpressions<Spec,Comp,State,SpecState,CompState>.IExpr parseInt(String _s){
         try { lexer.init("integer " + _s); }
         catch (java.io.IOException e) { return null; }
@@ -113,6 +120,7 @@ parser code {:
         catch (Exception e) { lexer.getExpressions().clear(); return null; }
     }
 
+    @SuppressWarnings("unchecked")
     public IBSExpressions<Spec,Comp,State,SpecState,CompState>.BExpr parseBool(String _s){
         try { lexer.init("boolean " + _s); }
         catch (java.io.IOException e) { return null; }
@@ -120,6 +128,7 @@ parser code {:
         catch (Exception e) { lexer.getExpressions().clear(); return null; }
     }
 
+    @SuppressWarnings("unchecked")
     public IBSExpressions<Spec,Comp,State,SpecState,CompState>.BExpr parseGuard(String _s){
         try { lexer.init("guard " + _s); }
         catch (java.io.IOException e) { return null; }

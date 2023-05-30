@@ -37,8 +37,9 @@
  */
 
 package myutil.intboolsolver.closedformula;
-
 import myutil.intboolsolver.*;
+
+import java.util.HashSet;
 
 /**
  * class IBSClosedFormulaExpressions is a complete implementation
@@ -56,5 +57,5 @@ public class IBSClosedFormulaExpressions extends IBSStdExpressions<
         IBSClosedState,
         IBSClosedSpecState,
         IBSClosedCompState> {
-    IBSClosedFormulaExpressions(){}
+    public IBSClosedFormulaExpressions(){}
 }

@@ -50,8 +50,8 @@ package ui.util;
  */
 public class DefaultText {
 
-    public static String BUILD = "14435";
-    public static String DATE = "2023/05/30 03:19:53 CET";
+    public static String BUILD = "14437";
+    public static String DATE = "2023/05/31 03:20:20 CET";
 
     public static StringBuffer sbAbout = makeAbout();
 
@@ -60,7 +60,7 @@ public class DefaultText {
     }
 
     public static String getVersion() {
-        return "1.0beta"; /* Set new release Nov. 16th, 2017 */
+        return "3.0 beta"; /* Set new release May, 30, th, 2023 */
     }
 
     public static String getFullVersion() {

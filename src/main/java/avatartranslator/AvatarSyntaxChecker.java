@@ -378,7 +378,7 @@ public class AvatarSyntaxChecker {
 
         //TraceManager.addDev("Testing guard expr=" + act);
 
-        AvatarIBSExpressions.BExpr e1 = (AvatarIBSExpressions.BExpr) AvatarIBSolver.parser.parseBool(act);
+        AvatarIBSExpressions.BExpr e1 = AvatarIBSolver.parseBool(act);
         return (e1!=null?0:-1);
 
 
@@ -417,7 +417,7 @@ public class AvatarSyntaxChecker {
             act = Conversion.putVariableValueInString(AvatarSpecification.ops, act, aa.getName(), aa.getDefaultInitialValue());
         }
 
-        AvatarIBSExpressions.IExpr e1 = (AvatarIBSExpressions.IExpr) AvatarIBSolver.parser.parseInt(act);
+        AvatarIBSExpressions.IExpr e1 = AvatarIBSolver.parseInt(act);
         return (e1!=null?0:-1);
 
         /*IntExpressionEvaluator iee = new IntExpressionEvaluator();
@@ -468,7 +468,7 @@ public class AvatarSyntaxChecker {
             act = Conversion.putVariableValueInString(AvatarSpecification.ops, act, aa.getName(), aa.getDefaultInitialValueTF());
         }
 
-        AvatarIBSExpressions.BExpr e1 = (AvatarIBSExpressions.BExpr) AvatarIBSolver.parser.parseBool(act);
+        AvatarIBSExpressions.BExpr e1 = AvatarIBSolver.parseBool(act);
 
         return (e1==null?0:1);
     }
@@ -507,7 +507,7 @@ public class AvatarSyntaxChecker {
 
         //TraceManager.addDev("3. Now with avatar expression solver:" + _expr);
 
-        AvatarIBSExpressions.BExpr aee = (AvatarIBSExpressions.BExpr) AvatarIBSolver.parser.parseBool(act);
+        AvatarIBSExpressions.BExpr aee = AvatarIBSolver.parseBool(act);
         if (aee==null) {
             TraceManager.addDev("4. Error with avatar expression solver:" + act);
             return -1;

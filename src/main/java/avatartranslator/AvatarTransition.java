@@ -118,7 +118,7 @@ public class AvatarTransition extends AvatarStateMachineElement {
         if (isGuarded()) {
             String expr = guard.toString().replaceAll("\\[", "").trim();
             expr = expr.replaceAll("\\]", "");
-            guardSolver = (AvatarIBSExpressions.BExpr) AvatarIBSolver.parser.parseBool((AvatarBlock)block,expr);
+            guardSolver = AvatarIBSolver.parseBool((AvatarBlock)block,expr);
             if(guardSolver==null) System.out.println("\n&&&&&&&&&&&&&&&&&&&&&&&&& " + expr + " &&&&&\n");
             return guardSolver!=null;
         }
@@ -129,10 +129,10 @@ public class AvatarTransition extends AvatarStateMachineElement {
         boolean result;
         if (hasDelay()) {
             TraceManager.addDev("Building delay for " + minDelay + "," + maxDelay);
-            minDelaySolver = (AvatarIBSExpressions.IExpr) AvatarIBSolver.parser.parseInt((AvatarBlock)block,minDelay);
+            minDelaySolver = AvatarIBSolver.parseInt((AvatarBlock)block,minDelay);
             result = minDelaySolver!=null;
             if (maxDelay.trim().length() != 0) {
-                maxDelaySolver = (AvatarIBSExpressions.IExpr) AvatarIBSolver.parser.parseInt((AvatarBlock)block,maxDelay);
+                maxDelaySolver = AvatarIBSolver.parseInt((AvatarBlock)block,maxDelay);
                 result &= maxDelaySolver!=null;
             } else {
                 maxDelaySolver = minDelaySolver;

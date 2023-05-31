@@ -323,7 +323,7 @@ public class SafetyProperty  {
     
     
     private boolean initSafetyTrace(AvatarSpecification _spec, String p) {      
-        safetySolver = (AvatarIBSExpressions.BExpr)AvatarIBSolver.parser.parseBool(_spec,p);
+        safetySolver = AvatarIBSolver.parseBool(_spec,p);
 
         
         if (safetySolver==null) {
@@ -341,7 +341,7 @@ public class SafetyProperty  {
     }
     
     private boolean initSafetyTrace(AvatarBlock block, AvatarSpecification _spec, String p) {      
-        safetySolver = (AvatarIBSExpressions.BExpr)AvatarIBSolver.parser.parseBool(block,p);
+        safetySolver = AvatarIBSolver.parseBool(block,p);
         
         if (safetySolver == null) {
             errorOnProperty = BAD_PROPERTY_STRUCTURE;
@@ -374,14 +374,14 @@ public class SafetyProperty  {
         pp = pFields[0].trim();
         pq = pFields[1].trim();
         
-        safetySolver = (AvatarIBSExpressions.BExpr)AvatarIBSolver.parser.parseBool(_spec,pp);
+        safetySolver = AvatarIBSolver.parseBool(_spec,pp);
 
         if (safetySolver==null) {
             errorOnProperty = BAD_PROPERTY_STRUCTURE;
             return false;
         }
         
-        safetySolverLead = (AvatarIBSExpressions.BExpr)AvatarIBSolver.parser.parseBool(_spec,pq);
+        safetySolverLead = AvatarIBSolver.parseBool(_spec,pq);
 
         if (safetySolverLead==null) {
             errorOnProperty = BAD_PROPERTY_STRUCTURE;
@@ -417,7 +417,7 @@ public class SafetyProperty  {
         pp = pFields[0].trim();
         pq = pFields[1].trim();
         
-        safetySolver = (AvatarIBSExpressions.BExpr)AvatarIBSolver.parser.parseBool(block,pp);
+        safetySolver = AvatarIBSolver.parseBool(block,pp);
     
         if (safetySolver==null) {
             errorOnProperty = BAD_PROPERTY_STRUCTURE;
@@ -426,7 +426,7 @@ public class SafetyProperty  {
         
         safetySolver.linkComps(_spec);
         
-        safetySolverLead = (AvatarIBSExpressions.BExpr)AvatarIBSolver.parser.parseBool(block,pq);
+        safetySolverLead = AvatarIBSolver.parseBool(block,pq);
 
         if (safetySolverLead==null) {
             errorOnProperty = BAD_PROPERTY_STRUCTURE;

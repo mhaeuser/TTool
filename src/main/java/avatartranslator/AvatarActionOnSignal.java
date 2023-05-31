@@ -129,7 +129,7 @@ public class AvatarActionOnSignal extends AvatarStateMachineElement {
                 case AvatarIBSAttributes.BoolAttr:
                 case AvatarIBSAttributes.IntAttr:
                     // original: if(res)... but strange
-                    actionAttr.add((AvatarIBSAttributes.Attribute)ta.getAttribute());
+                    actionAttr.add(AvatarIBSolver.getAttribute(ta));
             }
         }
         return res;

@@ -750,7 +750,7 @@ public class AvatarSimulationBlock {
     }
 
     public int newEvaluateIntExpression(String _expr, Vector<String> _attributeValues) {
-        AvatarIBSExpressions.IExpr e1 = (AvatarIBSExpressions.IExpr) AvatarIBSolver.parser.parseInt(block,_expr);
+        AvatarIBSExpressions.IExpr e1 = AvatarIBSolver.parseInt(block,_expr);
         SpecificationBlock sb = new SpecificationBlock(_attributeValues);
         return e1.eval(sb);
     }
@@ -781,7 +781,7 @@ public class AvatarSimulationBlock {
             act = Conversion.putVariableValueInString(AvatarSpecification.ops, act, getAttributeName(cpt), attrValue);
             cpt++;
         }
-        AvatarIBSExpressions.BExpr aee = (AvatarIBSExpressions.BExpr) AvatarIBSolver.parser.parseBool(act);
+        AvatarIBSExpressions.BExpr aee = AvatarIBSolver.parseBool(act);
         if ( aee==null) {
             TraceManager.addDev("4. Error with avatar expression solver:" + act);
             return false;

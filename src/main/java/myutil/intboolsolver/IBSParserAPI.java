@@ -41,40 +41,38 @@ package myutil.intboolsolver;
 import java.util.HashSet;
 
 /**
- * <p>Class IBSParser presents the functions exported by the parser.
+ * <p>This class presents the features exported by the parsers of the
+ * IntBoolSolver System.
  * Creation: 11/04/2023.</p>
  *
  * <p> As explained in {@link myutil.intboolsolver package documentation},
  * the parser is parametrized by application classes <code>Spec</code>,
  * <code>Comp</code>, <code>State</code>, <code>SpecState</code> and
- * <code>CompState</code>. It also depends on an attribute class and
- * an expression class. Thus, it provides two constructors:
+ * <code>CompState</code>. </p>
+ * Note that the parsers alsorely on an attribute class and an expression
+ * class (based on the same generic parameters). Thus, they should provide
+ * at least one constructors like this (where {@code IBSParser} implements
+ * {@code IBSParserAPI}):
  * <PRE>
- *     IBSParserAPI();
- *     public IBSParserAPI(
+ *     public IBSParser(
  *          IBSAttributes&lt;Spec,Comp,State,SpecState,CompState&gt; _c,
  *          IBSExpressions&lt;Spec,Comp,State,SpecState,CompState&gt; _e);
  * </PRE>
- * <p> When using the default constructor, attribute and expression classes
- * can be set <i>a posteriori</i>. In some implementation, additional
- * components must be provided: for example, when using the provided javacup
- * generated parser, a lexer must be provided.</p>
  *
  * <p>The parser offers several parsing methods depending on the structure
- * in which open leaves are interpreted.</p>
+ * in which variables are interpreted.</p>
  *
  * <p> While parsing, bad identifiers are collected, i.e. identifiers
  * for which no valid interpretation has been found. Finding such
  * identifiers in an expression is an error case. Other error cases are
- * usual syntax errors and type errors. As several different errors can
- * occur in a single expression, returned error information is not
- * exhaustive.
+ * usual syntax errors and type errors. As of now, returned error
+ * information is not precise.
  * </p>
  *
  * <p> Parsing is provided for integer expressions, boolean expressions,
  * and guards. The only difference between guards and boolean expressions
- * is that guards can be empty strings (or only spaces), which are
- * evaluated as {@code true}. </p>
+ * is that guards can be empty strings (or string containing only
+ * spaces/separators), which are evaluated as {@code true}. </p>
  *
  * @author Sophie Coudert (rewrite from Alessandro TEMPIA CALVINO)
  * @version 1.0 11/04/2023
@@ -114,69 +112,69 @@ public interface IBSParserAPI<
     public HashSet<String> getBadIdents();
 
     /**
-     * empty the parser's set of found bad identifiers.
+     * Empty the parser's set of found bad identifiers.
      * (this is not done automatically to allow some flexibility)
      */
     public void clearBadIdents();
 
-    /** parse an integer expression
-     * @param _spec the specification in which open leaves are interpreted
+    /** Parse an integer expression
+     * @param _spec the specification in which variables are interpreted
      * @param _s the string to parse
      * @return an expression if no error has been detected. Otherwise, null.
      */
     public IBSExpressions<Spec,Comp,State,SpecState,CompState>.IExpr parseInt(Spec _spec, String _s);
-    /** parse a boolean expression
-     * @param _spec the specification in which open leaves are interpreted
+    /** Parse a boolean expression
+     * @param _spec the specification in which variables are interpreted
      * @param _s the string to parse
      * @return an expression if no error has been detected. Otherwise, null.
      */
     public IBSExpressions<Spec,Comp,State,SpecState,CompState>.BExpr parseBool(Spec _spec, String _s);
-    /** parse a guard
-     * @param _spec the specification in which open leaves are interpreted
+    /** Parse a guard
+     * @param _spec the specification in which variables are interpreted
      * @param _s the string to parse
      * @return an expression if no error has been detected. Otherwise, null.
      */
     public IBSExpressions<Spec,Comp,State,SpecState,CompState>.BExpr parseGuard(Spec _spec, String _s);
-    /** parse an integer expression
-     * @param _comp the component in which open leaves are interpreted
+    /** Parse an integer expression
+     * @param _comp the component in which variables are interpreted
      * @param _s the string to parse
      * @return an expression if no error has been detected. Otherwise, null.
      */
     public IBSExpressions<Spec,Comp,State,SpecState,CompState>.IExpr parseInt(Comp _comp, String _s);
-    /** parse a boolean expression
-     * @param _comp the component in which open leaves are interpreted
+    /** Parse a boolean expression
+     * @param _comp the component in which variables are interpreted
      * @param _s the string to parse
      * @return an expression if no error has been detected. Otherwise, null.
      */
     public IBSExpressions<Spec,Comp,State,SpecState,CompState>.BExpr parseBool(Comp _comp, String _s);
-    /** parse a guard
-     * @param _comp the component in which open leaves are interpreted
+    /** Parse a guard
+     * @param _comp the component in which variables are interpreted
      * @param _s the string to parse
      * @return an expression if no error has been detected. Otherwise, null.
      */
     public IBSExpressions<Spec,Comp,State,SpecState,CompState>.BExpr parseGuard(Comp _comp, String _s);
-    /** parse a closed integer expression
+    /** Parse a closed integer expression
      * @param _s the string to parse
      * @return an expression if no error has been detected. Otherwise, null.
      */
     public IBSExpressions<Spec,Comp,State,SpecState,CompState>.IExpr parseInt(String _s);
-    /** parse a closed boolean expression
+    /** Parse a closed boolean expression
      * @param _s the string to parse
      * @return an expression if no error has been detected. Otherwise, null.
      */
     public IBSExpressions<Spec,Comp,State,SpecState,CompState>.BExpr parseBool(String _s);
-    /** parse a closed guard
+    /** Parse a closed guard
      * @param _s the string to parse
      * @return an expression if no error has been detected. Otherwise, null.
      */
     public IBSExpressions<Spec,Comp,State,SpecState,CompState>.BExpr parseGuard(String _s);
-    /** builds an integer expression from an attribute
+    /** Builds an integer expression from an attribute
      * @param _attr the source attribute
      * @return an expression if no error has been detected. Otherwise, null.
      */
     public IBSExpressions<Spec,Comp,State,SpecState,CompState>.IExpr
     makeInt(IBSAttributes<Spec,Comp,State,SpecState,CompState>.Attribute _attr);
-    /** builds a boolean expression from an attribute
+    /** Builds a boolean expression from an attribute
      * @param _attr the source attribute
      * @return an expression if no error has been detected. Otherwise, null.
      */

@@ -42,7 +42,7 @@ import myutil.intboolsolver.*;
 
 
 /**
- * class IBSClosedFormulaParser is a complete implementation
+ * Complete implementation
  * and instantiation of {@link IBSStdParser
  * IBSStdParser} for closed Formulas.
  *

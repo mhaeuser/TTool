@@ -44,7 +44,7 @@ import java.util.HashSet;
  *
  * <p> This is used by the provided JavaCUP  parser and may be useless
  * for the final user. The <code> init functions </code> decide the
- * way the leaves are handled by the lexer. Thus they should be called
+ * way the variables are handled by the lexer. Thus they should be called
  * just before parsing an expression.
  *
  * @param <Spec> The specifications that provide a meaning to the leaves
@@ -58,13 +58,50 @@ import java.util.HashSet;
  */
 public interface IBSScanner< Spec extends IBSParamSpec, Comp extends IBSParamComp, State extends IBSParamState, SpecState extends IBSParamSpecState,
         CompState extends IBSParamCompState > extends java_cup.runtime.Scanner {
+    /** Set the scanner's attributes class
+     * @param _attrC the attribute class
+     */
     public void setAttributes(IBSAttributes<Spec,Comp,State,SpecState,CompState> _attrC);
+    /** Get the scanner's attribute class
+     * @return the scanner's attribute class
+     */
     public IBSAttributes<Spec,Comp,State,SpecState,CompState> getAttributes();
+    /** Set the scanner's expressions class
+     * @param _exprC the expressions class
+     */
     public void setExpressions(IBSExpressions<Spec,Comp,State,SpecState,CompState> _exprC);
+    /** Get the scanner's expressions class
+     * @return the scanner's expressions class
+     */
     public IBSExpressions<Spec,Comp,State,SpecState,CompState> getExpressions();
+
+    /** Get the set of bad identifiers found while lexing
+     * @return the set of bad identifiers
+     */
     public HashSet<String> getBadIdents();
+    /** Reset the set of bad identifiers */
     public void clearBadIdents();
+
+    /** To parse closed expressions. All variables are considered as bad
+     * identifiers. To be called just before parsing an expression.
+     * @param _s the string to parse
+     * @throws java.io.IOException if the scanner fails to create a reader from _s
+     */
     public void init(String _s) throws java.io.IOException;
+    /** To interpret variable w.r.t. a specification. Variables with no
+     * valid interpretation (unknown or not well typed) are considered as
+     * bad  identifiers. To be called just before parsing an expression.
+     * @param _spec the specification in which variables are interpreted
+     * @param _s the string to parse
+     * @throws java.io.IOException if the scanner fails to create a reader from _s
+     */
     public void init(Spec _spec, String _s) throws java.io.IOException;
+    /** To interpret variable w.r.t. a component. Variables with no
+     * valid interpretation (unknown or not well typed) are considered as
+     * bad  identifiers. To be called just before parsing an expression.
+     * @param _comp the component in which variables are interpreted
+     * @param _s the string to parse
+     * @throws java.io.IOException if the scanner fails to create a reader from _s
+     */
     public void init(Comp _comp, String _s) throws java.io.IOException;
 }

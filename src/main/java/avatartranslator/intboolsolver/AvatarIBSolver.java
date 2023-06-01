@@ -102,7 +102,7 @@ public class AvatarIBSolver {
     }
 
     /**
-     * empty the parser's set of found bad identifiers.
+     * Empty the parser's set of found bad identifiers.
      * (this is not done automatically to allow some flexibility)
      */
     public static void clearBadIdents() { parser.clearBadIdents(); }
@@ -111,76 +111,76 @@ public class AvatarIBSolver {
      * Clear the memorized attributes.
      */
     public static void clearAttributes() { getAttributes().clearAttributes(); }
-    /** parse an integer expression
-     * @param _spec the specification in which open leaves are interpreted
+    /** Parse an integer expression
+     * @param _spec the specification in which variables are interpreted
      * @param _s the string to parse
      * @return an expression if no error has been detected. Otherwise, null.
      */
     public static AvatarIBSExpressions.IExpr parseInt(AvatarSpecification _spec, String _s) {
-        return (AvatarIBSExpressions.IExpr) parser.parseInt(_spec,_s);
+        return (AvatarIBSExpressions.IExpr) parser.parseInt(_spec, _s);
     }
-    /** parse a boolean expression
-     * @param _spec the specification in which open leaves are interpreted
+    /** Parse a boolean expression
+     * @param _spec the specification in which variables are interpreted
      * @param _s the string to parse
      * @return an expression if no error has been detected. Otherwise, null.
      */
     public static AvatarIBSExpressions.BExpr parseBool(AvatarSpecification _spec, String _s) {
-        return (AvatarIBSExpressions.BExpr) parser.parseBool(_spec,_s);
+        return (AvatarIBSExpressions.BExpr) parser.parseBool(_spec, _s);
     }
-    /** parse a guard
-     * @param _spec the specification in which open leaves are interpreted
+    /** Parse a guard
+     * @param _spec the specification in which variables are interpreted
      * @param _s the string to parse
      * @return an expression if no error has been detected. Otherwise, null.
      */
     public static AvatarIBSExpressions.BExpr parseGuard(AvatarSpecification _spec, String _s) {
-        return (AvatarIBSExpressions.BExpr) parser.parseGuard(_spec,_s);
+        return (AvatarIBSExpressions.BExpr) parser.parseGuard(_spec, _s);
     }
-    /** parse an integer expression
-     * @param _comp the component in which open leaves are interpreted
+    /** Parse an integer expression
+     * @param _comp the component in which variables are interpreted
      * @param _s the string to parse
      * @return an expression if no error has been detected. Otherwise, null.
      */
     public static AvatarIBSExpressions.IExpr parseInt(AvatarBlock _comp, String _s) {
-        return (AvatarIBSExpressions.IExpr) parser.parseInt(_comp,_s);
+        return (AvatarIBSExpressions.IExpr) parser.parseInt(_comp, _s);
     }
-    /** parse a boolean expression
-     * @param _comp the component in which open leaves are interpreted
+    /** Parse a boolean expression
+     * @param _comp the component in which variables are interpreted
      * @param _s the string to parse
      * @return an expression if no error has been detected. Otherwise, null.
      */
     public static AvatarIBSExpressions.BExpr parseBool(AvatarBlock _comp, String _s) {
-        return (AvatarIBSExpressions.BExpr) parser.parseBool(_comp,_s);
+        return (AvatarIBSExpressions.BExpr) parser.parseBool(_comp, _s);
     }
-    /** parse a guard
-     * @param _comp the component in which open leaves are interpreted
+    /** Parse a guard
+     * @param _comp the component in which variables are interpreted
      * @param _s the string to parse
      * @return an expression if no error has been detected. Otherwise, null.
      */
     public static AvatarIBSExpressions.BExpr parseGuard(AvatarBlock _comp, String _s) {
-        return (AvatarIBSExpressions.BExpr) parser.parseGuard(_comp,_s);
+        return (AvatarIBSExpressions.BExpr) parser.parseGuard(_comp, _s);
     }
-    /** parse a closed integer expression
+    /** Parse a closed integer expression
      * @param _s the string to parse
      * @return an expression if no error has been detected. Otherwise, null.
      */
     public static AvatarIBSExpressions.IExpr parseInt(String _s) {
         return (AvatarIBSExpressions.IExpr) parser.parseInt(_s);
     }
-    /** parse a closed boolean expression
+    /** Parse a closed boolean expression
      * @param _s the string to parse
      * @return an expression if no error has been detected. Otherwise, null.
      */
     public static AvatarIBSExpressions.BExpr parseBool(String _s) {
         return (AvatarIBSExpressions.BExpr) parser.parseBool(_s);
     }
-    /** parse a closed guard
+    /** Parse a closed guard
      * @param _s the string to parse
      * @return an expression if no error has been detected. Otherwise, null.
      */
     public static AvatarIBSExpressions.BExpr parseGuard(String _s) {
         return (AvatarIBSExpressions.BExpr) parser.parseGuard(_s);
     }
-    /** builds an integer expression from an attribute
+    /** Builds an integer expression from an attribute
      * @param _attr the source attribute
      * @return an expression if no error has been detected. Otherwise, null.
      */
@@ -188,7 +188,7 @@ public class AvatarIBSolver {
     makeInt(AvatarIBSAttributes.Attribute _attr) {
         return (AvatarIBSExpressions.IExpr) parser.makeInt(_attr);
     }
-    /** builds a boolean expression from an attribute
+    /** Builds a boolean expression from an attribute
      * @param _attr the source attribute
      * @return an expression if no error has been detected. Otherwise, null.
      */
@@ -196,224 +196,223 @@ public class AvatarIBSolver {
     makeBool(AvatarIBSAttributes.Attribute _attr) {
         return (AvatarIBSExpressions.BExpr) parser.makeBool(_attr);
     }
-    /** get the unique subexpression of an unary integer expression.
+    /** Get the unique sub-expression of an unary integer expression.
      * @param _e the expression
-     * @return its subexpression, or null if e is not unary
+     * @return its sub-expression, or null if e is not unary
      */
     @SuppressWarnings("unchecked")
     public static AvatarIBSExpressions.IExpr getArg(AvatarIBSExpressions.IExpr _e) {
         return (AvatarIBSExpressions.IExpr) AvatarIBSExpressions.getArg(_e);
     }
-    /** get the unique subexpression of an unary boolean expression.
+    /** Get the unique sub-expression of an unary boolean expression.
      * @param _e the expression
-     * @return its subexpression, or null if e is not unary
+     * @return its sub-expression, or null if e is not unary
      */
     @SuppressWarnings("unchecked")
     public static AvatarIBSExpressions.BExpr getArg(AvatarIBSExpressions.BExpr _e) {
         return (AvatarIBSExpressions.BExpr) AvatarIBSExpressions.getArg(_e);
     }
-    /** get the left subexpression of an integer binary operator expression.
+    /** Get the left sub-expression of an integer binary operator expression.
      * @param _e the expression
-     * @return its left subexpression, or null if e is not binary
+     * @return its left sub-expression, or null if e is not binary
      */
     @SuppressWarnings("unchecked")
     public static AvatarIBSExpressions.IExpr getLeftArg(AvatarIBSExpressions.IIIBinOp _e) {
         return (AvatarIBSExpressions.IExpr) AvatarIBSExpressions.getLeftArg(_e);
     }
-    /** get the right subexpression of an integer binary operator expression.
+    /** Get the right sub-expression of an integer binary operator expression.
      * @param _e the expression
-     * @return its right subexpression, or null if e is not binary
+     * @return its right sub-expression, or null if e is not binary
      */
     @SuppressWarnings("unchecked")
     public static AvatarIBSExpressions.IExpr getRightArg(AvatarIBSExpressions.IIIBinOp _e) {
         return (AvatarIBSExpressions.IExpr) AvatarIBSExpressions.getRightArg(_e);
     }
-    /** get the left subexpression of an integer comparison expression.
+    /** Get the left sub-expression of an integer comparison expression.
      * @param _e the expression
-     * @return its left subexpression, or null if e is not binary
+     * @return its left sub-expression, or null if e is not binary
      */
     @SuppressWarnings("unchecked")
     public static AvatarIBSExpressions.IExpr getLeftArg(AvatarIBSExpressions.BIIBinOp _e) {
         return (AvatarIBSExpressions.IExpr) AvatarIBSExpressions.getLeftArg(_e);
     }
-    /** get the right subexpression of an integer comparison expression.
+    /** Get the right sub-expression of an integer comparison expression.
      * @param _e the expression
-     * @return its left subexpression, or null if e is not binary
+     * @return its left sub-expression, or null if e is not binary
      */
     @SuppressWarnings("unchecked")
     public static AvatarIBSExpressions.IExpr getRightArg(AvatarIBSExpressions.BIIBinOp _e) {
         return (AvatarIBSExpressions.IExpr) AvatarIBSExpressions.getRightArg(_e);
     }
-    /** get the right subexpression of a boolean binary operator expression.
+    /** Get the right sub-expression of a boolean binary operator expression.
      * @param _e the expression
-     * @return its left subexpression, or null if e is not binary
+     * @return its left sub-expression, or null if e is not binary
      */
     @SuppressWarnings("unchecked")
     public static AvatarIBSExpressions.BExpr getLeftArg(AvatarIBSExpressions.BBBBinOp _e) {
         return (AvatarIBSExpressions.BExpr) AvatarIBSExpressions.getLeftArg(_e);
     }
-    /** get the right subexpression of a boolean binary operator expression.
+    /** Get the right sub-expression of a boolean binary operator expression.
      * @param _e the expression
-     * @return its right subexpression, or null if e is not binary
+     * @return its right sub-expression, or null if e is not binary
      */
     @SuppressWarnings("unchecked")
     public static AvatarIBSExpressions.BExpr getRightArg(AvatarIBSExpressions.BBBBinOp _e) {
         return (AvatarIBSExpressions.BExpr) AvatarIBSExpressions.getRightArg(_e);
     }
-    /** get the integer expression memorized at some index
+    /** Get the integer expression memorized at some index
      * @param _i the index
      * @return the requested expression (may be null)
      */
     public static AvatarIBSExpressions.IExpr getIExpr(int _i) {
         return getExpressions().getIExpr(_i);
     }
-    /** get the boolean expression memorized at some index
+    /** Get the boolean expression memorized at some index
      * @param _i the index
      * @return the requested expression (may be null)
      */
     public static AvatarIBSExpressions.BExpr getBExpr(int _i) {
         return getExpressions().getBExpr(_i);
     }
-    /** put a boolean expression in internal memory
+    /** Put a boolean expression in internal memory
      *
      * @param _expr the expression
      * @return The index at which the expression is  memorized.
      */
     public static int putBExpr(AvatarIBSExpressions.BExpr _expr) { return getExpressions().putBExpr(_expr); }
-    /** put an integer expression in internal memory
+    /** Put an integer expression in internal memory
      *
      * @param _expr the expression
      * @return The index at which the expression is  memorized.
      */
     public static int putIExpr(AvatarIBSExpressions.IExpr _expr) { return getExpressions().putIExpr(_expr); }
-    /** deletes a memorized integer expression, making its index free
+    /** Deletes a memorized integer expression, making its index free
      * @param _toFree the index to free
      */
     public static void freeInt(int _toFree) { getExpressions().freeInt(_toFree); }
-    /** deletes a memorized boolean expression, making its index free
+    /** Deletes a memorized boolean expression, making its index free
      * @param _toFree the index to free
      */
     public static void freeBool(int _toFree) { getExpressions().freeBool(_toFree); }
-    /**
-     * clear the internal memories containing build integer and boolean expressions
+    /** Clear the internal memories containing build integer and boolean expressions
      */
     public static void clear(){ getExpressions().clear(); }
-    /** binary Plus expression constructor
-     * @param _left index of left subexpression
-     * @param _right index of right subexpression
+    /** Binary Plus expression constructor
+     * @param _left index of left sub-expression
+     * @param _right index of right sub-expression
      * @return index of the build expression
      */
-    public static int make_iiiPlus(int _left, int _right) { return getExpressions().make_iiiPlus(_left,_right); }
-    /** binary Minus expression constructor
-     * @param _left index of left subexpression
-     * @param _right index of right subexpression
+    public static int make_iiiPlus(int _left, int _right) { return getExpressions().make_iiiPlus(_left, _right); }
+    /** Binary Minus expression constructor
+     * @param _left index of left sub-expression
+     * @param _right index of right sub-expression
      * @return index of the build expression
      */
-    public static int make_iiiMinus(int _left, int _right) { return getExpressions().make_iiiMinus(_left,_right); }
-    /** binary Mult expression constructor
-     * @param _left index of left subexpression
-     * @param _right index of right subexpression
+    public static int make_iiiMinus(int _left, int _right) { return getExpressions().make_iiiMinus(_left, _right); }
+    /** Binary Mult expression constructor
+     * @param _left index of left sub-expression
+     * @param _right index of right sub-expression
      * @return index of the build expression
      */
-    public static int make_iiiMult(int _left, int _right) { return getExpressions().make_iiiMult(_left,_right); }
-    /** binary Div expression constructor
-     * @param _left index of left subexpression
-     * @param _right index of right subexpression
+    public static int make_iiiMult(int _left, int _right) { return getExpressions().make_iiiMult(_left, _right); }
+    /** Binary Div expression constructor
+     * @param _left index of left sub-expression
+     * @param _right index of right sub-expression
      * @return index of the build expression
      */
-    public static int make_iiiDiv(int _left, int _right) { return getExpressions().make_iiiMod(_left,_right); }
-    /** binary Modulus expression constructor
-     * @param _left index of left subexpression
-     * @param _right index of right subexpression
+    public static int make_iiiDiv(int _left, int _right) { return getExpressions().make_iiiMod(_left, _right); }
+    /** Binary Modulus expression constructor
+     * @param _left index of left sub-expression
+     * @param _right index of right sub-expression
      * @return index of the build expression
      */
-    public static int make_iiiMod(int _left, int _right) { return getExpressions().make_iiiPlus(_left,_right); }
-    /** binary And expression constructor
-     * @param _left index of left subexpression
-     * @param _right index of right subexpression
+    public static int make_iiiMod(int _left, int _right) { return getExpressions().make_iiiPlus(_left, _right); }
+    /** Binary And expression constructor
+     * @param _left index of left sub-expression
+     * @param _right index of right sub-expression
      * @return index of the build expression
      */
-    public static int make_bbbAnd(int _left, int _right) { return getExpressions().make_bbbAnd(_left,_right); }
-    /** binary Or expression constructor
-     * @param _left index of left subexpression
-     * @param _right index of right subexpression
+    public static int make_bbbAnd(int _left, int _right) { return getExpressions().make_bbbAnd(_left, _right); }
+    /** Binary Or expression constructor
+     * @param _left index of left sub-expression
+     * @param _right index of right sub-expression
      * @return index of the build expression
      */
-    public static int make_bbbOr(int _left, int _right) { return getExpressions().make_bbbOr(_left,_right); }
-    /** integer equality expression constructor
-     * @param _left index of left subexpression
-     * @param _right index of right subexpression
+    public static int make_bbbOr(int _left, int _right) { return getExpressions().make_bbbOr(_left, _right); }
+    /** Integer equality expression constructor
+     * @param _left index of left sub-expression
+     * @param _right index of right sub-expression
      * @return index of the build expression
      */
-    public static int make_biiEq(int _left, int _right) { return getExpressions().make_biiEq(_left,_right); }
-    /** boolean equality expression constructor
-     * @param _left index of left subexpression
-     * @param _right index of right subexpression
+    public static int make_biiEq(int _left, int _right) { return getExpressions().make_biiEq(_left, _right); }
+    /** Boolean equality expression constructor
+     * @param _left index of left sub-expression
+     * @param _right index of right sub-expression
      * @return index of the build expression
      */
-    public static int make_bbbEq(int _left, int _right) { return getExpressions().make_bbbEq(_left,_right); }
-    /** integer difference expression constructor
-     * @param _left index of left subexpression
-     * @param _right index of right subexpression
+    public static int make_bbbEq(int _left, int _right) { return getExpressions().make_bbbEq(_left, _right); }
+    /** Integer difference expression constructor
+     * @param _left index of left sub-expression
+     * @param _right index of right sub-expression
      * @return index of the build expression
      */
-    public static int make_biiDif(int _left, int _right) { return getExpressions().make_biiDif(_left,_right); }
-    /** boolean difference expression constructor
-     * @param _left index of left subexpression
-     * @param _right index of right subexpression
+    public static int make_biiDif(int _left, int _right) { return getExpressions().make_biiDif(_left, _right); }
+    /** Boolean difference expression constructor
+     * @param _left index of left sub-expression
+     * @param _right index of right sub-expression
      * @return index of the build expression
      */
-    public static int make_bbbDif(int _left, int _right) { return getExpressions().make_bbbDif(_left,_right); }
-    /** integer "lower than" expression constructor
-     * @param _left index of left subexpression
-     * @param _right index of right subexpression
+    public static int make_bbbDif(int _left, int _right) { return getExpressions().make_bbbDif(_left, _right); }
+    /** Integer "lower than" expression constructor
+     * @param _left index of left sub-expression
+     * @param _right index of right sub-expression
      * @return index of the build expression
      */
-    public static int make_biiLt(int _left, int _right) { return getExpressions().make_biiLt(_left,_right); }
-    /** integer "greater than" expression constructor
-     * @param _left index of left subexpression
-     * @param _right index of right subexpression
+    public static int make_biiLt(int _left, int _right) { return getExpressions().make_biiLt(_left, _right); }
+    /** Integer "greater than" expression constructor
+     * @param _left index of left sub-expression
+     * @param _right index of right sub-expression
      * @return index of the build expression
      */
-    public static int make_biiGt(int _left, int _right) { return getExpressions().make_biiGt(_left,_right); }
-    /** integer "lower than or equal" expression constructor
-     * @param _left index of left subexpression
-     * @param _right index of right subexpression
+    public static int make_biiGt(int _left, int _right) { return getExpressions().make_biiGt(_left, _right); }
+    /** Integer "lower than or equal" expression constructor
+     * @param _left index of left sub-expression
+     * @param _right index of right sub-expression
      * @return index of the build expression
      */
-    public static int make_biiLeq(int _left, int _right) { return getExpressions().make_biiLeq(_left,_right); }
-    /** integer "greater than or equal" expression constructor
-     * @param _left index of left subexpression
-     * @param _right index of right subexpression
+    public static int make_biiLeq(int _left, int _right) { return getExpressions().make_biiLeq(_left, _right); }
+    /** Integer "greater than or equal" expression constructor
+     * @param _left index of left sub-expression
+     * @param _right index of right sub-expression
      * @return index of the build expression
      */
-    public static int make_biiGeq(int _left, int _right) { return getExpressions().make_biiGeq(_left,_right); }
-    /** integer variable expression constructor
+    public static int make_biiGeq(int _left, int _right) { return getExpressions().make_biiGeq(_left, _right); }
+    /** Integer variable expression constructor
      * @param _v attribute defining the variable
      * @return index of the build expression
      */
     public static int make_iVar(AvatarIBSAttributes.Attribute _v) { return getExpressions().make_iVar(_v); }
-    /** boolean variable expression constructor
+    /** Boolean variable expression constructor
      * @param _v attribute defining the variable
      * @return index of the build expression
      */
     public static int make_bVar(AvatarIBSAttributes.Attribute _v) { return getExpressions().make_bVar(_v); }
-    /** integer constant expression constructor
+    /** Integer constant expression constructor
      * @param _i the value of the constant
      * @return index of the build expression
      */
     public static int make_iConst(int _i) { return getExpressions().make_iConst(_i); }
-    /** boolean constant expression constructor
+    /** Boolean constant expression constructor
      * @param _b the value of the constant
      * @return index of the build expression
      */
     public static int make_bConst(boolean _b) { return getExpressions().make_bConst(_b); }
-    /** build an expression denoting the opposite of the provided integer expression
+    /** Build an expression denoting the opposite of the provided integer expression
      * @param _i the expression from which the opposite is requested
      * @return index of the build expression
      */
     public static int make_iNeg(int _i) { return getExpressions().make_iNeg(_i); }
-    /** build an expression denoting the negation of the provided boolean expression
+    /** Build an expression denoting the negation of the provided boolean expression
      * @param _i the expression from which the negation is requested
      * @return index of the build expression
      */
@@ -440,8 +439,7 @@ public class AvatarIBSolver {
      * @return true iff type is IntAttr or BoolAttr
      */
     public static boolean isAttribute(AvatarIBSAttributes.TypedAttribute _a) { return _a.isAttribute(); }
-     /**
-      * builds an attribute from a specification and an identifier.
+     /** Builds an attribute from a specification and an identifier.
       * @param _spec the specification
       * @param _s the identifier string
       * @return the build typed attribute or <code>NullTypedAttribute</code> if building fails.
@@ -449,8 +447,7 @@ public class AvatarIBSolver {
      public static AvatarIBSAttributes.TypedAttribute getTypedAttribute(AvatarSpecification _spec, String _s) {
           return getAttributes().getTypedAttribute(_spec, _s);
      }
-     /**
-      * builds an attribute from a component and an identifier.
+     /** Builds an attribute from a component and an identifier.
       * @param _comp the component
       * @param _s the identifier string
       * @return the build typed attribute or <code>NullTypedAttribute</code> if building fails.
@@ -458,8 +455,7 @@ public class AvatarIBSolver {
      public static AvatarIBSAttributes.TypedAttribute getTypedAttribute(AvatarBlock _comp, String _s) {
          return getAttributes().getTypedAttribute(_comp, _s);
      }
-     /**
-      * Builds a boolean attribute from a component and a (state machine) state.
+     /** Builds a boolean attribute from a component and a (state machine) state.
       * @param _comp the component
       * @param _state the state
       * @return the build boolean attribute or <code>NullTypedAttribute</code> if building fails.

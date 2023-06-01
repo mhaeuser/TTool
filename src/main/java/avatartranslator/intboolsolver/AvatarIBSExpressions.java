@@ -47,7 +47,7 @@ import myutil.intboolsolver.*;
 
 
 /**
- * instantiation of {@link IBSStdExpressions
+ * Instantiation of {@link IBSStdExpressions
  * IBSStdExpressions} for Avatar.
  *
  * Creation: 11/04/2023

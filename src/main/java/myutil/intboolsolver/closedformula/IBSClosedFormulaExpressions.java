@@ -42,7 +42,7 @@ import myutil.intboolsolver.*;
 import java.util.HashSet;
 
 /**
- * class IBSClosedFormulaExpressions is a complete implementation
+ * Complete implementation
  * and instantiation of {@link IBSExpressions
  * IBSExpressions} for closed Formulas.
  * Creation: 11/04/2023

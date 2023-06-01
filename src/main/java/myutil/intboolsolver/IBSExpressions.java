@@ -37,13 +37,15 @@
  */
 
 package myutil.intboolsolver;
-/** Interface of expressions for the IBS System.
+/** This class defines the features expressions must provide in order
+ * to be usable in the the generic IntBoolSolver System.
  *
  * <p> Methods are provided to build and evaluate integer and boolean
  * expressions.</p>
- * <p>Integer that are used as parameter or return value by building
- * methods are indexes in some internal memory where build expressions
- * are saved (technical choice that allow inheritance)</p>
+ * <p> Methods provided for building expressions use integers as
+ * parameters and return values: these integers are indexes in some
+ * internal memory where build expressions are saved (technical choice
+ * to allow inheritance)</p>
  * <p> There are two memories: one for integer expressions and one
  * for boolean expressions.</p>
  *
@@ -59,217 +61,217 @@ public class IBSExpressions<
         CompState extends IBSParamCompState
         > {
     /**
-     * makes the provided index available for integer expressions.
+     * Makes the provided index available for integer expressions.
      * The pointed expression is lost. May raise an exception for
      * unused indexes.
      * @param _toFree the index to free
      */
     public void freeInt(int _toFree) {}
     /**
-     * makes the provided index available for integer expressions.
+     * Makes the provided index available for integer expressions.
      * The pointed expression is lost. May raise an exception for
      * unused indexes.
      * @param _toFree the index to free
      */
     public void freeBool(int _toFree) {}
     /**
-     * makes all indexes available for integer or boolean
+     * Clear internal memories for build integer or boolean
      * expressions.
-     * all memorized expressions are lost.
+     * All memorized expressions are lost.
      */
     public void clear(){}
 
-    /** obtain an integer expression from its index
-     *
+    /** Obtain an integer expression from its index
      * @param _expr the index
      * @return The expression memorized at the provided index.
      */
     public IExpr getIExpr(int _expr) { return null; }
-    /** obtain a boolean expression from its index
+    /** Obtain a boolean expression from its index
      *
      * @param _expr the index
      * @return The expression memorized at the provided index.
      */
     public BExpr getBExpr(int _expr) { return null; }
-    /** test weather some saved expression is constant.
-     *
-     * @param i index of a boolean expression
+    /** Test whether some saved boolean expression is constant.
+     * @param _i index of a boolean expression
      * @return true iff the associated expression is constant
      */
-    public boolean isBconstant(int i){ return false; }
-    /** test weather some saved expression is constant.
+    public boolean isBconstant(int _i){ return false; }
+    /** Test weather some saved integer expression is constant.
      *
-     * @param i index of an integer expression
+     * @param _i index of an integer expression
      * @return true iff the associated expression is constant
      */
-    public boolean isIconstant(int i){ return false; }
-    /** method for building an expression. Such a method find
-     * a free index to memorize the build expression and return it.
+    public boolean isIconstant(int _i){ return false; }
+    /** Method for building an expression. Such a method finds
+     * a free index to memorize the build expression and returns it.
      * Parameters are indexes of previously build expressions.
      * @param _left index of left subexpression
      * @param _right index of right subexpression
      * @return index of build expression, or -1 (if error)
      */
     public int make_iiiPlus(int _left, int _right) { return -1; }
-    /** method for building an expression. Such a method find
-     * a free index to memorize the build expression and return it.
+    /** Method for building an expression. Such a method finds
+     * a free index to memorize the build expression and returns it.
      * Parameters are indexes of previously build expressions
      * @param _left index of left subexpression
      * @param _right index of right subexpression
      * @return index of build expression, or -1 (if error)
      */
     public int make_iiiMinus(int _left, int _right) { return -1; }
-    /** method for building an expression. Such a method find
-     * a free index to memorize the build expression and return it.
+    /** Method for building an expression. Such a method finds
+     * a free index to memorize the build expression and returns it.
      * Parameters are indexes of previously build expressions
      * @param _left index of left subexpression
      * @param _right index of right subexpression
      * @return index of build expression, or -1 (if error)
      */
     public int make_iiiMult(int _left, int _right) { return -1; }
-    /** method for building an expression. Such a method find
-     * a free index to memorize the build expression and return it.
+    /** Method for building an expression. Such a method finds
+     * a free index to memorize the build expression and returns it.
      * Parameters are indexes of previously build expressions
      * @param _left index of left subexpression
      * @param _right index of right subexpression
      * @return index of build expression, or -1 (if error)
      */
     public int make_iiiDiv(int _left, int _right) { return -1; }
-    /** method for building an expression. Such a method find
-     * a free index to memorize the build expression and return it.
+    /** Method for building an expression. Such a method finds
+     * a free index to memorize the build expression and returns it.
      * Parameters are indexes of previously build expressions
      * @param _left index of left subexpression
      * @param _right index of right subexpression
      * @return index of build expression, or -1 (if error)
      */
     public int make_iiiMod(int _left, int _right) { return -1; }
-    /** method for building an expression. Such a method find
-     * a free index to memorize the build expression and return it.
+    /** Method for building an expression. Such a method finds
+     * a free index to memorize the build expression and returns it.
      * Parameters are indexes of previously build expressions
      * @param _left index of left subexpression
      * @param _right index of right subexpression
      * @return index of build expression, or -1 (if error)
      */
     public int make_bbbAnd(int _left, int _right) { return -1; }
-    /** method for building an expression. Such a method find
-     * a free index to memorize the build expression and return it.
+    /** Method for building an expression. Such a method finds
+     * a free index to memorize the build expression and returns it.
      * Parameters are indexes of previously build expressions
      * @param _left index of left subexpression
      * @param _right index of right subexpression
      * @return index of build expression, or -1 (if error)
      */
     public int make_bbbOr(int _left, int _right) { return -1; }
-    /** method for building an expression. Such a method find
-     * a free index to memorize the build expression and return it.
+    /** Method for building an expression. Such a method finds
+     * a free index to memorize the build expression and returns it.
      * Parameters are indexes of previously build expressions
      * @param _left index of left subexpression
      * @param _right index of right subexpression
      * @return index of build expression, or -1 (if error)
      */
     public int make_biiEq(int _left, int _right) { return -1; }
-    /** method for building an expression. Such a method find
-     * a free index to memorize the build expression and return it.
+    /** Method for building an expression. Such a method finds
+     * a free index to memorize the build expression and returns it.
      * Parameters are indexes of previously build expressions
      * @param _left index of left subexpression
      * @param _right index of right subexpression
      * @return index of build expression, or -1 (if error)
      */
     public int make_bbbEq(int _left, int _right) { return -1; }
-    /** method for building an expression. Such a method find
-     * a free index to memorize the build expression and return it.
+    /** Method for building an expression. Such a method finds
+     * a free index to memorize the build expression and returns it.
      * Parameters are indexes of previously build expressions
      * @param _left index of left subexpression
      * @param _right index of right subexpression
      * @return index of build expression, or -1 (if error)
      */
     public int make_biiDif(int _left, int _right) { return -1; }
-    /** method for building an expression. Such a method find
-     * a free index to memorize the build expression and return it.
+    /** Method for building an expression. Such a method finds
+     * a free index to memorize the build expression and returns it.
      * Parameters are indexes of previously build expressions
      * @param _left index of left subexpression
      * @param _right index of right subexpression
      * @return index of build expression, or -1 (if error)
      */
     public int make_bbbDif(int _left, int _right) { return -1; }
-    /** method for building an expression. Such a method find
-     * a free index to memorize the build expression and return it.
+    /** Method for building an expression. Such a method finds
+     * a free index to memorize the build expression and returns it.
      * Parameters are indexes of previously build expressions
      * @param _left index of left subexpression
      * @param _right index of right subexpression
      * @return index of build expression, or -1 (if error)
      */
     public int make_biiLt(int _left, int _right) { return -1; }
-    /** method for building an expression. Such a method find
-     * a free index to memorize the build expression and return it.
+    /** Method for building an expression. Such a method finds
+     * a free index to memorize the build expression and returns it.
      * Parameters are indexes of previously build expressions
      * @param _left index of left subexpression
      * @param _right index of right subexpression
      * @return index of build expression, or -1 (if error)
      */
     public int make_biiGt(int _left, int _right) { return -1; }
-    /** method for building an expression. Such a method find
-     * a free index to memorize the build expression and return it.
+    /** Method for building an expression. Such a method finds
+     * a free index to memorize the build expression and returns it.
      * Parameters are indexes of previously build expressions
      * @param _left index of left subexpression
      * @param _right index of right subexpression
      * @return index of build expression, or -1 (if error)
      */
     public int make_biiLeq(int _left, int _right) { return -1; }
-    /** method for building an expression. Such a method find
-     * a free index to memorize the build expression and return it.
+    /** Method for building an expression. Such a method finds
+     * a free index to memorize the build expression and returns it.
      * Parameters are indexes of previously build expressions
      * @param _left index of left subexpression
      * @param _right index of right subexpression
      * @return index of build expression, or -1 (if error)
      */
     public int make_biiGeq(int _left, int _right) { return -1; }
-    /** method for building an expression. Such a method find
-     * a free index to memorize the build expression and return it.
+    /** Method for building an expression. Such a method finds
+     * a free index to memorize the build expression and returns it.
      * @param _v attribute from which the expression is build
      * @return index of build expression, or -1 (if error)
      */
     public int make_iVar(IBSAttributes<Spec,Comp,State,SpecState,CompState>.Attribute _v) { return -1; }
-    /** method for building an expression. Such a method find
-     * a free index to memorize the build expression and return it.
+    /** Method for building an expression. Such a method finds
+     * a free index to memorize the build expression and returns it.
      * @param _v attribute from which the expression is build
      * @return index of build expression, or -1 (if error)
      */
     public int make_bVar(IBSAttributes<Spec,Comp,State,SpecState,CompState>.Attribute _v) { return -1; }
-    /** method for building an expression. Such a method find
-     * a free index to memorize the build expression and return it.
+    /** Method for building an expression. Such a method finds
+     * a free index to memorize the build expression and returns it.
      * @param _i integer value from which the constant expression is build
      * @return index of build expression, or -1 (if error)
      */
     public int make_iConst(int _i) { return -1; }
-    /** method for building an expression. Such a method find
-     * a free index to memorize the build expression and return it.
+    /** Method for building an expression. Such a method finds
+     * a free index to memorize the build expression and returns it.
      * @param _b boolean value from which the constant expression is build
      * @return index of build expression, or -1 (if error)
      */
     public int make_bConst(boolean _b) { return -1; }
-    /** method for building an expression. Such a method find
-     * a free index to memorize the build expression and return it.
+    /** Method for building an expression. Such a method finds
+     * a free index to memorize the build expression and returns it.
      * The Parameter is the index of an expression build previously.
      * @param _expr expression from which the negative version is requested
      * @return index of build expression, or -1 (if error)
      */
     public int make_iNeg(int _expr) { return -1; }
-    /** method for building an expression. Such a method find
-     * a free index to memorize the build expression and return it.
+    /** Method for building an expression. Such a method finds
+     * a free index to memorize the build expression and returns it.
      * The Parameter is the index of an expression build previously.
      * @param _expr expression from which the negated version is requested
      * @return index of build expression, or -1 (if error)
      */
     public int make_bNot(int _expr) { return -1; }
-
+    /** The class of all expressions */
     public abstract class Expr{
-        protected short type; // to be available  in extensions for technical reason
+        /** To be available  in extensions for technical reasons */
+        protected short type;
         public short getType() {return type;}
         public abstract String toString();
         public abstract boolean hasStates();
         public abstract void linkStates();
         public abstract void linkComps(Spec _spec);
     }
+    /** The class of integer expressions */
     public abstract class IExpr extends Expr {
         public abstract int eval();
         public abstract int eval(SpecState _ss);
@@ -277,6 +279,7 @@ public class IBSExpressions<
         public abstract int eval(CompState _cs);
         public abstract int eval(Object _qs);
     }
+    /** The class of boolean expressions */
     public abstract class BExpr extends Expr {
         public abstract boolean eval();
         public abstract boolean eval(SpecState _ss);

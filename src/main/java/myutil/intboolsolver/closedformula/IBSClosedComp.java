@@ -41,7 +41,7 @@ package myutil.intboolsolver.closedformula;
 import myutil.intboolsolver.IBSParamComp;
 
 /**
- * trivial implementation of IBSParamComp for closed formula.
+ * Trivial implementation of IBSParamComp for closed formula.
  * Creation: 11/04/2023
  *
  * @version 1.0 11/04/2023

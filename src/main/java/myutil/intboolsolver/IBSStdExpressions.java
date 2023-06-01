@@ -43,10 +43,6 @@ import java.util.ArrayList;
  *
  * <p> Methods are provided to build and evaluate integer and boolean
  * expressions.</p>
- * <p> W.r.t. {@link IBSExpressions IBSExpressions},
- * some additional methods are provided (to identify expression types, to access
- * subexpressions, and to put expression in internal memory in order to be able
- * to build new expressions).</p>
  * <p>Integer that are used as parameter or return value by building
  * methods are indexes in some internal memory where build expressions
  * are saved (technical choice that allow inheritance). When building expressions,
@@ -54,10 +50,14 @@ import java.util.ArrayList;
  * A returned index equal to -1 denotes an error.</p>
  * <p> There are two memories: one for integer expressions and one
  * for boolean expressions.</p>
+ * <p> W.r.t. {@link IBSExpressions IBSExpressions},
+ * some additional methods are provided (to identify expression types, to access
+ * sub-expressions, and to put expressions in internal memories
+ * in order to be able to build new expressions).</p>
  * <p> Expressions are instances of subclasses depending on their kind (plus,
  * minus, greater than,...). Names are prefixed by letters which denote types. For example,
  * {@code BII} or {@code bii} is used for binary operators that provide a boolean
- * expression from two integer expression (i.e. integer comparisons).</p>
+ * expression (B) from two integer expression (II), i.e. integer comparisons.</p>
  * <p> Notice that, due to implementation choices, primitives that build expressions
  * do not fully preserve original expression structure, especially when using negation
  * ({@code !true} becomes {@code false}, {@code !(a<b)} becomes {@code a>=b},...). The expressions
@@ -183,7 +183,7 @@ public class IBSStdExpressions<
      * {@link IBSStdExpressions#opString opString})
      */
     public static final byte opFalse = 16;
-    /** greatest allowed operator symbol. must be lower than 128 */
+    /** Greatest allowed operator symbol. must be lower than 128 */
     public static final byte opMax = 127;
     /** type of expression. Clear from name... */
     public static final short iiiPlus = opPlus<<4 | 0b0100;
@@ -241,23 +241,23 @@ public class IBSStdExpressions<
     public static final short iConst = (opMax+1)<<4 | 0b1000 ; // no associated symbol
     /** type of expression. Clear from name... */
     public static final short bConst = (opMax+1)<<4 | 0b1001 ; // no associated symbol
-    /** code of BConst class */
+    /** Code of BConst class */
     public static final byte classBConst = 0b1001;
-    /** code of IConst class */
+    /** Code of IConst class */
     public static final byte classIConst = 0b1000;
-    /** code of BVar class */
+    /** Code of BVar class */
     public static final byte classBVar = 0b0001;
-    /** code of IVar class */
+    /** Code of IVar class */
     public static final byte classIVar = 0b0000;
-    /** code of BBBBinOp class */
+    /** Code of BBBBinOp class */
     public static final byte classBBBBinOp = 0b1101;
-    /** code of BIIBinOp class */
+    /** Code of BIIBinOp class */
     public static final byte classBIIBinOp = 0b0101;
-    /** code of IIIBinOp class */
+    /** Code of IIIBinOp class */
     public static final byte classIIIBinOp = 0b0100;
-    /** default (and single) constructor */
+    /** Default (and single) constructor */
     public IBSStdExpressions(){}
-    /** get the expression's class code.
+    /** Get the expression's class code.
      * <p>Binary operators expressions return to XXXBinOp classes.
      * To identify the precise operator, use
      * {@link IBSStdExpressions#getOpSymbol
@@ -269,138 +269,138 @@ public class IBSStdExpressions<
         return (byte)(_e.getType() & 0b1101);
     }
     /**
-     * test if an expression is boolean
+     * Test if an expression is boolean
      * @param _e the expression to test
      * @return true iff e is boolean (otherwise, integer)
      */
     public static final boolean isBool(IBSStdExpressions.Expr _e) { return (_e.getType() & 0b1) == 0b1; }
     /**
-     * test if expression is build on a unary operator (not or minus)
+     * Test if expression is build on a unary operator (not or minus)
      * @param _e  the expression to test
      * @return true iff e is build on a unary operator
      */
     public static final boolean isInverted(IBSStdExpressions.Expr _e) { return (_e.getType() & 0b10) == 0b10; }
     /**
-     * test if expression is boolean and build on a unary operator (i.e. not(...))
+     * Test if expression is boolean and build on a unary operator (i.e. not(...))
      * @param _e  the expression to test
      * @return true iff e is boolean and build on a unary operator
      */
     public static final boolean isBBUnary(IBSStdExpressions.Expr _e) { return (_e.getType() & 0b11) == 0b11; }
     /**
-     * test if expression is integer and build on a unary operator (i.e. -(...))
+     * Test if expression is integer and build on a unary operator (i.e. -(...))
      * @param _e  the expression to test
      * @return true iff e is integer and build on a unary operator
      */
     public static final boolean isIIUnary(IBSStdExpressions.Expr _e) { return (_e.getType() & 0b11) == 0b10; }
     /**
-     * test if expression is build on a binary operator (not negated nor negative)
+     * Test if expression is build on a binary operator (not negated nor negative)
      * @param _e  the expression to test
      * @return true iff e is build on a binary operator
      */
     public static final boolean isBinary(IBSStdExpressions.Expr _e) { return ((_e.getType() & 0b110) == 0b100); }
     /**
-     * test if expression is boolean build on a binary operator with boolean parameters (not negated)
+     * Test if expression is boolean build on a binary operator with boolean parameters (not negated)
      * Then expression belongs to BBBBinOp.
      * @param _e  the expression to test
      * @return true iff e is boolean build on a binary operator with boolean parameters
      */
     public static final boolean isBBBBinary(IBSStdExpressions.Expr _e) { return ((_e.getType() & 0b1111) == 0b0101); }
     /**
-     * test if expression is boolean, build on a binary operator with integer parameters (not negated).
+     * Test if expression is boolean, build on a binary operator with integer parameters (not negated).
      * Then expression belongs to BIIBinOp.
      * @param _e  the expression to test
      * @return true iff e is boolean, build on a binary operator with integer parameters
      */
     public static final boolean isBIIBinary(IBSStdExpressions.Expr _e) { return ((_e.getType() & 0b1111) == 0b0101); }
     /**
-     * test if expression is integer, build on a binary operator with integer parameters (not negative)
+     * Test if expression is integer, build on a binary operator with integer parameters (not negative)
      * Then expression belongs to IIIBinOp.
      * @param _e  the expression to test
      * @return true iff e is integer, build on a binary operator with integer parameters
      */
     public static final boolean isIIIBinary(IBSStdExpressions.Expr _e) { return ((_e.getType() & 0b1111) == 0b0100); }
     /**
-     * test if expression is boolean build on a binary operator with boolean parameters (may be negated)
+     * Test if expression is boolean build on a binary operator with boolean parameters (may be negated)
      * Then expression belongs to BBBBinOp.
      * @param _e  the expression to test
      * @return true iff e is in BBBinOp
      */
     public static final boolean isBBBBinOp(IBSStdExpressions.Expr _e) { return ((_e.getType() & 0b1101) == 0b0101); }
     /**
-     * test if expression is boolean build on a binary operator with integer parameters (may be negated).
+     * Test if expression is boolean build on a binary operator with integer parameters (may be negated).
      * Then expression belongs to BIIBinOp.
      * @param _e  the expression to test
      * @return true iff e is in BIIBinOp
      */
     public static final boolean isBIIBinOp(IBSStdExpressions.Expr _e) { return ((_e.getType() & 0b1101) == 0b0101); }
     /**
-     * test if expression is integer build on a binary operator with integer parameters (may be negative)
+     * Test if expression is integer build on a binary operator with integer parameters (may be negative)
      * Then expression belongs to IIIBinOp.
      * @param _e  the expression to test
      * @return true iff e is in IIIBinOp
      */
     public static final boolean isIIIBinOp(IBSStdExpressions.Expr _e) { return ((_e.getType() & 0b1101) == 0b0100); }
     /**
-     * test if expression is a constant
+     * Test if expression is a constant
      * @param _e  the expression to test
      * @return true iff e is a constant expression
      */
     public static final boolean isConst(IBSStdExpressions.Expr _e) { return ((_e.getType() & 0b1110) == 0b1000); }
     /**
-     * test if expression is a boolean constant
+     * Test if expression is a boolean constant
      * Then expression belongs to BConst.
      * @param _e  the expression to test
      * @return true iff e is a boolean constant expression
      */
     public static final boolean isBConst(IBSStdExpressions.Expr _e) { return ((_e.getType() & 0b1111) == 0b1001); }
     /**
-     * test if expression is an integer constant
+     * Test if expression is an integer constant
      * Then expression belongs to IConst.
      * @param _e  the expression to test
      * @return true iff e is an integer constant expression
      */
     public static final boolean isIConst(IBSStdExpressions.Expr _e) { return ((_e.getType() & 0b1111) == 0b1000); }
     /**
-     * test if expression is a variable (not negated nor negative)
+     * Test if expression is a variable (not negated nor negative)
      * @param _e  the expression to test
      * @return true iff e is a variable
      */
     public static final boolean isVariable(IBSStdExpressions.Expr _e) { return ((_e.getType() & 0b1110) == 0b0000); }
     /**
-     * test if expression is a boolean variable (not negated)
+     * Test if expression is a boolean variable (not negated)
      * Then expression belongs to BVar.
      * @param _e  the expression to test
      * @return true iff e is a boolean variable
      */
     public static final boolean isBVariable(IBSStdExpressions.Expr _e) { return ((_e.getType() & 0b1111) == 0b0001); }
     /**
-     * test if expression is an integer variable (not negative)
+     * Test if expression is an integer variable (not negative)
      * Then expression belongs to IVar.
      * @param _e  the expression to test
      * @return true iff e is an integer variable
      */
     public static final boolean isIVariable(IBSStdExpressions.Expr _e) { return ((_e.getType() & 0b1111) == 0b0000); }
     /**
-     * test if expression is a variable (may be negated or negative)
+     * Test if expression is a variable (may be negated or negative)
      * @param _e  the expression to test
      * @return true iff e is a variable
      */
     public static final boolean isVar(IBSStdExpressions.Expr _e) { return ((_e.getType() & 0b1110) == 0b0000); }
     /**
-     * test if expression is a boolean variable (may be negated)
+     * Test if expression is a boolean variable (may be negated)
      * Then expression belongs to BVar.
      * @param _e  the expression to test
      * @return true iff e is in BVar
      */
     public static final boolean isBVar(IBSStdExpressions.Expr _e) { return ((_e.getType() & 0b1111) == 0b0001); }
     /**
-     * test if expression is an integer variable (may be negative)
+     * Test if expression is an integer variable (may be negative)
      * Then expression belongs to IVar.
      * @param _e  the expression to test
      * @return true iff e is in IVar
      */
     public static final boolean isIVar(IBSStdExpressions.Expr _e) { return ((_e.getType() & 0b1111) == 0b0000); }
-    /** get the main operator symbol of an expression if it exists.
+    /** Get the main operator symbol of an expression if it exists.
      * @param _e the expression
      * @return the symbol or -1 if there is no symbol
      */
@@ -411,7 +411,7 @@ public class IBSStdExpressions<
         if (type >= (opMax+1<<4)) return -1;
         return (byte)(type>>>4);
     }
-    /** get the main operator symbol's string of an expression if it exists
+    /** Get the main operator symbol's string of an expression if it exists
      * @param _e the expression
      * @return the operator's string or null if there is no symbol
      */
@@ -420,44 +420,44 @@ public class IBSStdExpressions<
         if (symbol < 0) return null;
         return opString[symbol];
     }
-    /** get the unique subexpression of an unary integer expression.
+    /** Get the unique sub-expression of an unary integer expression.
      * @param _e the expression
-     * @return its subexpression, or null if e is not unary
+     * @return its sub-expression, or null if e is not unary
      */
     public static final IBSStdExpressions.IExpr getArg(IBSStdExpressions.IExpr _e){ return ( isInverted(_e)?_e.negate():null); }
-    /** get the unique subexpression of an unary boolean expression.
+    /** Get the unique sub-expression of an unary boolean expression.
      * @param _e the expression
-     * @return its subexpression, or null if e is not unary
+     * @return its sub-expression, or null if e is not unary
      */
     public static final IBSStdExpressions.BExpr getArg(IBSStdExpressions.BExpr _e){ return ( isInverted(_e)?_e.negate():null); }
-    /** get the left subexpression of an integer binary operator expression.
+    /** Get the left sub-expression of an integer binary operator expression.
      * @param _e the expression
-     * @return its left subexpression, or null if e is not binary
+     * @return its left sub-expression, or null if e is not binary
      */
     public static final IBSStdExpressions.IExpr getLeftArg(IBSStdExpressions.IIIBinOp _e){ return ( isBinary(_e)?_e.left:null); }
-    /** get the right subexpression of an integer binary operator expression.
+    /** Get the right sub-expression of an integer binary operator expression.
      * @param _e the expression
-     * @return its right subexpression, or null if e is not binary
+     * @return its right sub-expression, or null if e is not binary
      */
     public static final IBSStdExpressions.IExpr getRightArg(IBSStdExpressions.IIIBinOp _e){ return ( isBinary(_e)?_e.right:null); }
-    /** get the left subexpression of an integer comparison expression.
+    /** Get the left sub-expression of an integer comparison expression.
      * @param _e the expression
-     * @return its left subexpression, or null if e is not binary
+     * @return its left sub-expression, or null if e is not binary
      */
     public static final IBSStdExpressions.IExpr getLeftArg(IBSStdExpressions.BIIBinOp _e){ return ( isBinary(_e)?_e.left:null); }
-    /** get the right subexpression of an integer comparison expression.
+    /** Get the right sub-expression of an integer comparison expression.
      * @param _e the expression
-     * @return its left subexpression, or null if e is not binary
+     * @return its left sub-expression, or null if e is not binary
      */
     public static final IBSStdExpressions.IExpr getRightArg(IBSStdExpressions.BIIBinOp _e){ return ( isBinary(_e)?_e.right:null); }
-    /** get the right subexpression of a boolean binary operator expression.
+    /** Get the right sub-expression of a boolean binary operator expression.
      * @param _e the expression
-     * @return its left subexpression, or null if e is not binary
+     * @return its left sub-expression, or null if e is not binary
      */
     public static final IBSStdExpressions.BExpr getLeftArg(IBSStdExpressions.BBBBinOp _e){ return ( isBinary(_e)?_e.left:null); }
-    /** get the right subexpression of a boolean binary operator expression.
+    /** Get the right sub-expression of a boolean binary operator expression.
      * @param _e the expression
-     * @return its right subexpression, or null if e is not binary
+     * @return its right sub-expression, or null if e is not binary
      */
     public static final IBSStdExpressions.BExpr getRightArg(IBSStdExpressions.BBBBinOp _e){ return ( isBinary(_e)?_e.right:null); }
 
@@ -465,7 +465,7 @@ public class IBSStdExpressions<
     private final ArrayList<BExpr> bExpressions = new ArrayList<BExpr>(16);
 
     /**
-     * clear the internal memories containing build integer and boolean expressions
+     * Clear the internal memories containing build integer and boolean expressions
      */
     public void clear(){
         iExpressions.clear();
@@ -488,20 +488,20 @@ public class IBSStdExpressions<
         return i;
     }
 
-    /** deletes a memorized integer expression, making its index free
+    /** Deletes a memorized integer expression, making its index free
      * @param _toFree the index to free
      */
     public void freeInt(int _toFree) {
         iExpressions.set(_toFree,null);
     }
-    /** deletes a memorized boolean expression, making its index free
+    /** Deletes a memorized boolean expression, making its index free
      * @param _toFree the index to free
      */
     public void freeBool(int _toFree) {
         bExpressions.set(_toFree,null);
     }
 
-    /** get the integer expression memorized at some index
+    /** Get the integer expression memorized at some index
      * @param _i the index
      * @return the requested expression (may be null)
      */
@@ -511,7 +511,7 @@ public class IBSStdExpressions<
         else
             return iExpressions.get(_i);
     }
-    /** get the boolean expression memorized at some index
+    /** Get the boolean expression memorized at some index
      * @param _i the index
      * @return the requested expression (may be null)
      */
@@ -521,7 +521,7 @@ public class IBSStdExpressions<
         else
             return bExpressions.get(_i);
     }
-    /** put a boolean expression in internal memory
+    /** Put a boolean expression in internal memory
      *
      * @param _expr the expression
      * @return The index at which the expression is  memorized.
@@ -531,7 +531,7 @@ public class IBSStdExpressions<
         bExpressions.set(tgt, _expr);
         return tgt;
     }
-    /** put an integer expression in internal memory
+    /** Put an integer expression in internal memory
      *
      * @param _expr the expression
      * @return The index at which the expression is  memorized.
@@ -541,110 +541,110 @@ public class IBSStdExpressions<
         iExpressions.set(tgt, _expr);
         return tgt;
     }
-    /** test if a memorized boolean expression is constant
+    /** Test if a memorized boolean expression is constant
      * @param _i index of a (not null) boolean expression
      * @return true iff boolean expression at index _i is constant
      */
     public boolean isBconstant(int _i){ return bExpressions.get(_i).getType()==bConst; }
-    /** test if a memorized integer expression is constant
+    /** Test if a memorized integer expression is constant
      * @param _i index of a (not null) boolean expression
      * @return true iff boolean expression at index _i is constant
      */
     public boolean isIconstant(int _i){ return iExpressions.get(_i).getType()==iConst; }
-    /** binary Plus expression constructor
-     * @param _left index of left subexpression
-     * @param _right index of right subexpression
+    /** Binary Plus expression constructor
+     * @param _left index of left sub-expression
+     * @param _right index of right sub-expression
      * @return index of the build expression
      */
     public int make_iiiPlus(int _left, int _right) {
         int tgt = findIfree();
         if (iExpressions.size()<= _left || iExpressions.size() <= _right || 0 > _left || 0 > _right ||
                 iExpressions.get(_left) == null || iExpressions.get(_right) == null)
-           throw new Error("IBSStdExpressions.make_iiiPlus called on undefined subexpression");
+           throw new Error("IBSStdExpressions.make_iiiPlus called on undefined sub-expression");
         iExpressions.set(tgt, new IIIPlus(iExpressions.get(_left), iExpressions.get(_right)));
         return tgt;
     }
-    /** binary Minus expression constructor
-     * @param _left index of left subexpression
-     * @param _right index of right subexpression
+    /** Binary Minus expression constructor
+     * @param _left index of left sub-expression
+     * @param _right index of right sub-expression
      * @return index of the build expression
      */
     public int make_iiiMinus(int _left, int _right) {
         int tgt = findIfree();
         if (iExpressions.size()<= _left || iExpressions.size() <= _right || 0 > _left || 0 > _right ||
                 iExpressions.get(_left) == null || iExpressions.get(_right) == null)
-            throw new Error("IBSStdExpressions.make_iiiMinus called on undefined subexpression");
+            throw new Error("IBSStdExpressions.make_iiiMinus called on undefined sub-expression");
         iExpressions.set(tgt, new IIIMinus(iExpressions.get(_left), iExpressions.get(_right)));
         return tgt;
     }
-    /** binary Mult expression constructor
-     * @param _left index of left subexpression
-     * @param _right index of right subexpression
+    /** Binary Mult expression constructor
+     * @param _left index of left sub-expression
+     * @param _right index of right sub-expression
      * @return index of the build expression
      */
     public int make_iiiMult(int _left, int _right) {
         int tgt = findIfree();
         if (iExpressions.size()<= _left || iExpressions.size() <= _right || 0 > _left || 0 > _right ||
                 iExpressions.get(_left) == null || iExpressions.get(_right) == null)
-            throw new Error("IBSStdExpressions.make_iiiMult called on undefined subexpression");
+            throw new Error("IBSStdExpressions.make_iiiMult called on undefined sub-expression");
         iExpressions.set(tgt, new IIIMult(iExpressions.get(_left), iExpressions.get(_right)));
         return tgt;
     }
-    /** binary Div expression constructor
-     * @param _left index of left subexpression
-     * @param _right index of right subexpression
+    /** Binary Div expression constructor
+     * @param _left index of left sub-expression
+     * @param _right index of right sub-expression
      * @return index of the build expression
      */
     public int make_iiiDiv(int _left, int _right) {
         int tgt = findIfree();
         if (iExpressions.size()<= _left || iExpressions.size() <= _right || 0 > _left || 0 > _right ||
                 iExpressions.get(_left) == null || iExpressions.get(_right) == null)
-            throw new Error("IBSStdExpressions.make_iiiDiv called on undefined subexpression");
+            throw new Error("IBSStdExpressions.make_iiiDiv called on undefined sub-expression");
         iExpressions.set(tgt, new IIIDiv(iExpressions.get(_left), iExpressions.get(_right)));
         return tgt;
     }
-    /** binary Modulus expression constructor
-     * @param _left index of left subexpression
-     * @param _right index of right subexpression
+    /** Binary Modulus expression constructor
+     * @param _left index of left sub-expression
+     * @param _right index of right sub-expression
      * @return index of the build expression
      */
     public int make_iiiMod(int _left, int _right) {
         int tgt = findIfree();
         if (iExpressions.size()<= _left || iExpressions.size() <= _right || 0 > _left || 0 > _right ||
                 iExpressions.get(_left) == null || iExpressions.get(_right) == null)
-            throw new Error("IBSStdExpressions.make_iiiMod called on undefined subexpression");
+            throw new Error("IBSStdExpressions.make_iiiMod called on undefined sub-expression");
         iExpressions.set(tgt, new IIIMod(iExpressions.get(_left), iExpressions.get(_right)));
         return tgt;
     }
-    /** binary And expression constructor
-     * @param _left index of left subexpression
-     * @param _right index of right subexpression
+    /** Binary And expression constructor
+     * @param _left index of left sub-expression
+     * @param _right index of right sub-expression
      * @return index of the build expression
      */
     public int make_bbbAnd(int _left, int _right) {
         int tgt = findBfree();
         if (bExpressions.size()<= _left || bExpressions.size() <= _right || 0 > _left || 0 > _right ||
                 bExpressions.get(_left) == null || bExpressions.get(_right) == null)
-            throw new Error("IBSStdExpressions.make_bbbAnd called on undefined subexpression");
+            throw new Error("IBSStdExpressions.make_bbbAnd called on undefined sub-expression");
         bExpressions.set(tgt, new BBBAnd(bExpressions.get(_left), bExpressions.get(_right)));
         return tgt;
     }
-    /** binary Or expression constructor
-     * @param _left index of left subexpression
-     * @param _right index of right subexpression
+    /** Binary Or expression constructor
+     * @param _left index of left sub-expression
+     * @param _right index of right sub-expression
      * @return index of the build expression
      */
     public int make_bbbOr(int _left, int _right) {
         int tgt = findBfree();
         if (bExpressions.size()<= _left || bExpressions.size() <= _right || 0 > _left || 0 > _right ||
                 bExpressions.get(_left) == null || bExpressions.get(_right) == null)
-            throw new Error("IBSStdExpressions.make_bbbOr called on undefined subexpression");
+            throw new Error("IBSStdExpressions.make_bbbOr called on undefined sub-expression");
         bExpressions.set(tgt, new BBBOr(bExpressions.get(_left), bExpressions.get(_right)));
         return tgt;
     }
-    /** integer equality expression constructor
-     * @param _left index of left subexpression
-     * @param _right index of right subexpression
+    /** Integer equality expression constructor
+     * @param _left index of left sub-expression
+     * @param _right index of right sub-expression
      * @return index of the build expression
      */
     public int make_biiEq(int _left, int _right) {
@@ -652,102 +652,102 @@ public class IBSStdExpressions<
         if (iExpressions.size()<= _left || iExpressions.size() <= _right || iExpressions.get(_left) == null || iExpressions.get(_right) == null)
             if (iExpressions.size()<= _left || iExpressions.size() <= _right || 0 > _left || 0 > _right ||
                     iExpressions.get(_left) == null || iExpressions.get(_right) == null)
-                throw new Error("IBSStdExpressions.make_biiEq called on undefined subexpression");
+                throw new Error("IBSStdExpressions.make_biiEq called on undefined sub-expression");
         bExpressions.set(tgt, new BIIEq(iExpressions.get(_left), iExpressions.get(_right)));
         return tgt;
     }
-    /** boolean equality expression constructor
-     * @param _left index of left subexpression
-     * @param _right index of right subexpression
+    /** Boolean equality expression constructor
+     * @param _left index of left sub-expression
+     * @param _right index of right sub-expression
      * @return index of the build expression
      */
     public int make_bbbEq(int _left, int _right) {
         int tgt = findBfree();
         if (bExpressions.size()<= _left || bExpressions.size() <= _right || 0 > _left || 0 > _right ||
                 bExpressions.get(_left) == null || bExpressions.get(_right) == null)
-            throw new Error("IBSStdExpressions.make_bbbEq called on undefined subexpression");
+            throw new Error("IBSStdExpressions.make_bbbEq called on undefined sub-expression");
         bExpressions.set(tgt, new BBBEq(bExpressions.get(_left), bExpressions.get(_right)));
         return tgt;
     }
-    /** integer difference expression constructor
-     * @param _left index of left subexpression
-     * @param _right index of right subexpression
+    /** Integer difference expression constructor
+     * @param _left index of left sub-expression
+     * @param _right index of right sub-expression
      * @return index of the build expression
      */
     public int make_biiDif(int _left, int _right) {
         int tgt = findBfree();
         if (iExpressions.size()<= _left || iExpressions.size() <= _right || 0 > _left || 0 > _right ||
                 iExpressions.get(_left) == null || iExpressions.get(_right) == null)
-            throw new Error("IBSStdExpressions.make_biiDif called on undefined subexpression");
+            throw new Error("IBSStdExpressions.make_biiDif called on undefined sub-expression");
         bExpressions.set(tgt, new BIIDif(iExpressions.get(_left), iExpressions.get(_right)));
         return tgt;
     }
-    /** boolean difference expression constructor
-     * @param _left index of left subexpression
-     * @param _right index of right subexpression
+    /** Boolean difference expression constructor
+     * @param _left index of left sub-expression
+     * @param _right index of right sub-expression
      * @return index of the build expression
      */
     public int make_bbbDif(int _left, int _right) {
         int tgt = findBfree();
         if (bExpressions.size()<= _left || bExpressions.size() <= _right || 0 > _left || 0 > _right ||
                 bExpressions.get(_left) == null || bExpressions.get(_right) == null)
-            throw new Error("IBSStdExpressions.make_bbbDif called on undefined subexpression");
+            throw new Error("IBSStdExpressions.make_bbbDif called on undefined sub-expression");
         bExpressions.set(tgt, new BBBDif(bExpressions.get(_left), bExpressions.get(_right)));
         return tgt;
     }
-    /** integer "lower than" expression constructor
-     * @param _left index of left subexpression
-     * @param _right index of right subexpression
+    /** Integer "lower than" expression constructor
+     * @param _left index of left sub-expression
+     * @param _right index of right sub-expression
      * @return index of the build expression
      */
     public int make_biiLt(int _left, int _right) {
         int tgt = findBfree();
         if (iExpressions.size()<= _left || iExpressions.size() <= _right || 0 > _left || 0 > _right ||
                 iExpressions.get(_left) == null || iExpressions.get(_right) == null)
-            throw new Error("IBSStdExpressions.make_biiLt called on undefined subexpression");
+            throw new Error("IBSStdExpressions.make_biiLt called on undefined sub-expression");
         bExpressions.set(tgt, new BIILt(iExpressions.get(_left), iExpressions.get(_right)));
         return tgt;
     }
-    /** integer "greater than" expression constructor
-     * @param _left index of left subexpression
-     * @param _right index of right subexpression
+    /** Integer "greater than" expression constructor
+     * @param _left index of left sub-expression
+     * @param _right index of right sub-expression
      * @return index of the build expression
      */
     public int make_biiGt(int _left, int _right) {
         int tgt = findBfree();
         if (iExpressions.size()<= _left || iExpressions.size() <= _right || 0 > _left || 0 > _right ||
                 iExpressions.get(_left) == null || iExpressions.get(_right) == null)
-            throw new Error("IBSStdExpressions.make_biiGt called on undefined subexpression");
+            throw new Error("IBSStdExpressions.make_biiGt called on undefined sub-expression");
         bExpressions.set(tgt, new BIIGt(iExpressions.get(_left), iExpressions.get(_right)));
         return tgt;
     }
-    /** integer "lower than or equal" expression constructor
-     * @param _left index of left subexpression
-     * @param _right index of right subexpression
+    /** Integer "lower than or equal" expression constructor
+     * @param _left index of left sub-expression
+     * @param _right index of right sub-expression
      * @return index of the build expression
      */
     public int make_biiLeq(int _left, int _right) {
         int tgt = findBfree();
         if (iExpressions.size()<= _left || iExpressions.size() <= _right || 0 > _left || 0 > _right ||
                 iExpressions.get(_left) == null || iExpressions.get(_right) == null)
-            throw new Error("IBSStdExpressions.make_biiLeq called on undefined subexpression");
+            throw new Error("IBSStdExpressions.make_biiLeq called on undefined sub-expression");
         bExpressions.set(tgt, new BIILeq(iExpressions.get(_left), iExpressions.get(_right)));
         return tgt;
     }
-    /** integer "greater than or equal" expression constructor
-     * @param _left index of left subexpression
-     * @param _right index of right subexpression
+    /** Integer "greater than or equal" expression constructor
+     * @param _left index of left sub-expression
+     * @param _right index of right sub-expression
      * @return index of the build expression
      */
     public int make_biiGeq(int _left, int _right) {
         int tgt = findBfree();
         if (iExpressions.size()<= _left || iExpressions.size() <= _right || 0 > _left || 0 > _right ||
                 iExpressions.get(_left) == null || iExpressions.get(_right) == null)
-            throw new Error("IBSStdExpressions.make_biiGeq called on undefined subexpression");
+            throw new Error("IBSStdExpressions.make_biiGeq called on undefined sub-expression");
         bExpressions.set(tgt, new BIIGeq(iExpressions.get(_left), iExpressions.get(_right)));
         return tgt;
     }
-    /** integer variable expression constructor
+    /** Integer variable expression constructor
      * @param _v attribute defining the variable
      * @return index of the build expression
      */
@@ -760,7 +760,7 @@ public class IBSStdExpressions<
         iExpressions.set(tgt, new IVar(_v));
         return tgt;
     }
-    /** boolean variable expression constructor
+    /** Boolean variable expression constructor
      * @param _v attribute defining the variable
      * @return index of the build expression
      */
@@ -773,7 +773,7 @@ public class IBSStdExpressions<
         bExpressions.set(tgt, new BVar(_v));
         return tgt;
     }
-    /** integer constant expression constructor
+    /** Integer constant expression constructor
      * @param _i the value of the constant
      * @return index of the build expression
      */
@@ -784,7 +784,7 @@ public class IBSStdExpressions<
     }
     private BConst BTrue = new BConst(true);
     private BConst BFalse = new BConst(false);
-    /** boolean constant expression constructor
+    /** Boolean constant expression constructor
      * @param _b the value of the constant
      * @return index of the build expression
      */
@@ -793,25 +793,25 @@ public class IBSStdExpressions<
         bExpressions.set(tgt, (_b?BTrue:BFalse));
         return tgt;
     }
-    /** build an expression denoting the opposite of the provided integer expression
+    /** Build an expression denoting the opposite of the provided integer expression
      * @param _expr the expression from which the opposite is requested
      * @return index of the build expression
      */
     public int make_iNeg(int _expr) {
         int tgt = findIfree();
         if (iExpressions.size()<=_expr || _expr < 0 ||iExpressions.get(_expr) == null)
-            throw new Error("IBSStdExpressions.make_iNeg called on undefined subexpression");
+            throw new Error("IBSStdExpressions.make_iNeg called on undefined sub-expression");
         iExpressions.set(tgt, iExpressions.get(_expr).negate());
         return tgt;
     }
-    /** build an expression denoting the negation of the provided boolean expression
+    /** Build an expression denoting the negation of the provided boolean expression
      * @param _expr the expression from which the negation is requested
      * @return index of the build expression
      */
     public int make_bNot(int _expr) {
         int tgt = findBfree();
         if (bExpressions.size()<=_expr || _expr < 0 || bExpressions.get(_expr) == null)
-            throw new Error("IBSStdExpressions.make_bNot called on undefined subexpression");
+            throw new Error("IBSStdExpressions.make_bNot called on undefined sub-expression");
         bExpressions.set(tgt, bExpressions.get(_expr).negate());
         return tgt;
     }
@@ -937,7 +937,7 @@ public class IBSStdExpressions<
         public final void linkStates() {}
         public final void linkComps(Spec _spec) {}
     }
-    /** integer variable expressions  (and opposites of such expressions) */
+    /** Integer variable expressions  (and opposites of such expressions) */
     public final class IVar extends IExpr {
         private final boolean isNeg;
         private final IBSAttributes<Spec,Comp,State,SpecState,CompState>.Attribute var;

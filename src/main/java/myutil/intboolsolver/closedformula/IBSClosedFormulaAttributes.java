@@ -41,7 +41,7 @@ package myutil.intboolsolver.closedformula;
 import myutil.intboolsolver.*;
 
 /**
- * class IBSClosedFormulaAttributes is a complete implementation
+ * Complete implementation
  * and instantiation of {@link IBSAttributes
  * IBSAttributes} for closed Formulas.
  * Creation: 11/04/2023

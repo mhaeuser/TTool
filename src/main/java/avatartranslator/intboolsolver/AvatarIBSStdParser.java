@@ -46,7 +46,7 @@ import avatartranslator.modelchecker.SpecificationState;
 import myutil.intboolsolver.*;
 
 /**
- * instantiation of {@link IBSStdParser
+ * Instantiation of {@link IBSStdParser
  * IBSStdParser} for Avatar.
  * Creation: 11/04/2023
  *

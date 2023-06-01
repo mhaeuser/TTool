@@ -41,7 +41,7 @@ package myutil.intboolsolver.closedformula;
 import myutil.intboolsolver.IBSParamSpecState;
 
 /**
- * trivial implementation of IBSParamSpecState for closed formula.
+ * Trivial implementation of IBSParamSpecState for closed formula.
  * Creation: 11/04/2023
  *
  * @version 1.0 11/04/2023

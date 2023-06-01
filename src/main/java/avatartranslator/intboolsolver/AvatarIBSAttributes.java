@@ -46,7 +46,7 @@ import myutil.intboolsolver.IBSStdAttributes;
 import java.util.HashMap;
 import java.util.Map;
 /**
- * instantiation of {@link IBSStdAttributes
+ * Instantiation of {@link IBSStdAttributes
  * IBSStdAttributes} for Avatar.
  * <p>Notice that this class allows to memorizes encountered attributes
  * (used while paring, to avoid having several objects for a single
@@ -76,7 +76,7 @@ public class AvatarIBSAttributes extends IBSStdAttributes<
     public AvatarIBSAttributes(){
         attributesMap = new HashMap<AvatarElement, TypedAttribute>();
     }
-    public TypedAttribute findAttribute(AvatarSpecification _spec, String _s){
+    public TypedAttribute findAttribute(AvatarSpecification _spec, String _s) {
         AvatarElement ae = getElement(_s, _spec);
         if (ae != null && attributesMap.containsKey(ae)) {
             TypedAttribute ta = attributesMap.get(ae);
@@ -91,7 +91,7 @@ public class AvatarIBSAttributes extends IBSStdAttributes<
         keyElement = ae;
         return null;
     }
-    public void addAttribute(AvatarSpecification _spec, String _s, TypedAttribute _att){
+    public void addAttribute(AvatarSpecification _spec, String _s, TypedAttribute _att) {
         AvatarElement ae;
         if ( _s == findString && _spec == findSpec )
             ae = keyElement;
@@ -104,7 +104,7 @@ public class AvatarIBSAttributes extends IBSStdAttributes<
         }
     }
 
-    public TypedAttribute findAttribute(AvatarBlock _cmp, String _s){
+    public TypedAttribute findAttribute(AvatarBlock _cmp, String _s) {
         AvatarBlock _comp = _cmp;
         AvatarElement ae = getElement(_s, _comp);
         if (ae != null && attributesMap.containsKey(ae)) {
@@ -117,7 +117,7 @@ public class AvatarIBSAttributes extends IBSStdAttributes<
         return null;
     }
 
-    public void addAttribute(AvatarBlock _comp, String _s, TypedAttribute _att){
+    public void addAttribute(AvatarBlock _comp, String _s, TypedAttribute _att) {
         AvatarElement ae;
         if ( _s == findString && _comp == findComp )
             ae = keyElement;

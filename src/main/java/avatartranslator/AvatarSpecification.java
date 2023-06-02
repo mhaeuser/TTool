@@ -79,6 +79,9 @@ public class AvatarSpecification extends AvatarElement implements IBSParamSpec {
     //private AvatarBroadcast broadcast;
     private String applicationCode;
     private Object informationSource; // Element from which the spec has been built
+    
+    // For JSON return
+    private static ArrayList<String> jsonErrors;
 
 
     public AvatarSpecification(String _name, Object _referenceObject) {
@@ -517,6 +520,7 @@ public class AvatarSpecification extends AvatarElement implements IBSParamSpec {
      */
     public static AvatarSpecification fromJSON(String _spec, String _name, Object _referenceObject) {
         AvatarSpecification spec = new AvatarSpecification(_name, _referenceObject);
+        jsonErrors = new ArrayList<>();
 
         int indexStart = _spec.indexOf('{');
         int indexStop = _spec.lastIndexOf('}');
@@ -610,6 +614,7 @@ public class AvatarSpecification extends AvatarElement implements IBSParamSpec {
         JSONArray connections = mainObject.getJSONArray("connections");
 
         if (connections == null) {
+            jsonErrors.add("No connections between blocks");
             TraceManager.addDev("No connections in json");
             return spec;
         }
@@ -633,6 +638,7 @@ public class AvatarSpecification extends AvatarElement implements IBSParamSpec {
             }
 
             if (srcSig.isIn()) {
+                jsonErrors.add("Signal " + sourceSignal + " in block: " + sourceBlock + " should be out");
                 TraceManager.addDev("Signal " + sourceSignal + " in block: " + sourceBlock + " should be out");
                 continue;
             }
@@ -652,11 +658,14 @@ public class AvatarSpecification extends AvatarElement implements IBSParamSpec {
                 dstB.addSignal(dstSig);
             }
             if (dstSig.isOut()) {
+                jsonErrors.add("Signal " + dstSignal + " in block: " + destinationBlock + " should be in" );
                 TraceManager.addDev("Signal " + dstSignal + " in block: " + destinationBlock + " should be in");
                 continue;
             }
 
             if (!srcSig.isCompatibleWith(dstSig)) {
+                jsonErrors.add("Signal " + srcSig + " of block " + srcB + " and signal " + dstSig + " of block " + dstB + " cannot be connected " +
+                        "because the parameters of these signals are not equal");
                 TraceManager.addDev("Signals " + srcSig + " and " + dstSig + " are not compatible");
                 continue;
             }
@@ -679,6 +688,10 @@ public class AvatarSpecification extends AvatarElement implements IBSParamSpec {
 
         return spec;
 
+    }
+    
+    public static ArrayList<String> getJSONErrors() {
+        return jsonErrors;
     }
 
     public String removeSpaces(String _input) {

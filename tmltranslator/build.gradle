@@ -10,6 +10,7 @@ sourceSets {
 }
 
 dependencies {
+    implementation name: 'java_cup'
     compileOnly name: 'opencloud'
     compileOnly name: 'JavaPlot'
     compileOnly name: 'derbynet'

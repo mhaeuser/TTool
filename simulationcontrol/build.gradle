@@ -13,6 +13,7 @@ sourceSets {
 }
 
 dependencies {
+    implementation name: 'java_cup'
     implementation name: 'jsoup-1.8.1'
 }
 

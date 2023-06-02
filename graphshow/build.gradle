@@ -15,6 +15,7 @@ sourceSets {
 }
 
 dependencies {
+    implementation name: 'java_cup'
     implementation name: 'gs-core-2.0'
     implementation name: 'gs-algo-2.0'
     implementation name: 'gs-ui-swing-2.0'

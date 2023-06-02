@@ -38,6 +38,7 @@
 
 package avatartranslator;
 
+import avatartranslator.intboolsolver.AvatarIBSolver;
 import myutil.MyMath;
 import myutil.TraceManager;
 
@@ -309,8 +310,7 @@ public class AvatarStateMachine extends AvatarElement {
      */
     public boolean isRegularAttributeUsed(AvatarAttribute _aa) {
         boolean ret;
-
-        AvatarExpressionSolver.emptyAttributesMap();
+        AvatarIBSolver.clearAttributes();
         for(AvatarStateMachineElement asme: elements) {
             if (asme instanceof AvatarTransition) {
                 // Must check the guard, the delays and all the actions
@@ -373,7 +373,7 @@ public class AvatarStateMachine extends AvatarElement {
     }
 
     private boolean isInExpression(String expr, AvatarAttribute _aa) {
-        return AvatarExpressionSolver.indexOfVariable(expr, _aa.getName()) > -1;
+        return AvatarIBSolver.parser.indexOfVariable(expr, _aa.getName()) > -1;
     }
 
     private int getSimplifiedElementsAux( Map<AvatarStateMachineElement, Integer> simplifiedElements, Set<AvatarStateMachineElement> visited,
@@ -668,7 +668,7 @@ public class AvatarStateMachine extends AvatarElement {
                 // If maxExpr contains var then use __tmpMax instead of var in maxExpr
 
 
-                if (AvatarExpressionSolver.indexOfVariable(maxExpr, var) > -1) {
+                if (AvatarIBSolver.parser.indexOfVariable(maxExpr, var) > -1) {
                     AvatarAttribute aa = _block.addIntegerAttribute("tmpMaxRandom__");
                     maxExprToBeUsed = aa.getName();
                     at1.addAction(aa.getName() + " = " + maxExpr);

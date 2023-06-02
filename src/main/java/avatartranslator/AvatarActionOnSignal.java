@@ -39,6 +39,8 @@
 
 package avatartranslator;
 
+import avatartranslator.intboolsolver.AvatarIBSAttributes;
+import avatartranslator.intboolsolver.AvatarIBSolver;
 import myutil.TraceManager;
 
 import java.util.ArrayList;
@@ -111,27 +113,23 @@ public class AvatarActionOnSignal extends AvatarStateMachineElement {
     }
     
     public boolean buildActionSolver(AvatarBlock block) {
-        AvatarExpressionAttribute aea;
+        AvatarIBSAttributes.TypedAttribute ta;
         AvatarExpressionConstant cnst;
-        AvatarElement attr;
         boolean res = true;
-        
         actionAttr = new ArrayList<AvatarExpressionAttributeInterface>();
         for (String val : values) {
-            attr = AvatarExpressionAttribute.getElement(val, block);
-            if (attr != null && AvatarExpressionSolver.containsElementAttribute(attr)) {
-                actionAttr.add(AvatarExpressionSolver.getElementAttribute(attr));
-            } else {
-                aea = new AvatarExpressionAttribute(block, val);
-                res &= !aea.hasError();
-                if (aea.isConstant()) {
-                    AvatarAttribute attribute = aea.getConstAttribute();
-                    cnst = new AvatarExpressionConstant(attribute.getInitialValueInInt());
+            ta= AvatarIBSolver.getTypedAttribute(block,val);
+            switch(ta.getType()){
+                case AvatarIBSAttributes.NullAttr: res = false; break; //could directly return false ?
+                case AvatarIBSAttributes.BoolConst:
+                case AvatarIBSAttributes.IntConst:
+                    cnst = new AvatarExpressionConstant(ta.getConstant());
                     actionAttr.add(cnst);
-                } else if (res) {
-                    AvatarExpressionSolver.addElementAttribute(attr, aea);
-                    actionAttr.add(aea);
-                }
+                    break;
+                case AvatarIBSAttributes.BoolAttr:
+                case AvatarIBSAttributes.IntAttr:
+                    // original: if(res)... but strange
+                    actionAttr.add(AvatarIBSolver.getAttribute(ta));
             }
         }
         return res;

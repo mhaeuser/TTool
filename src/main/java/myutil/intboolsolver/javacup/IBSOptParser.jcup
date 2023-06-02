@@ -1,0 +1,620 @@
+/* Copyright or (C) or Copr. GET / ENST, Telecom-Paris, Ludovic Apvrille
+ *
+ * ludovic.apvrille AT enst.fr
+ *
+ * This software is a computer program whose purpose is to allow the
+ * edition of TURTLE analysis, design and deployment diagrams, to
+ * allow the generation of RT-LOTOS or Java code from this diagram,
+ * and at last to allow the analysis of formal validation traces
+ * obtained from external tools, e.g. RTL from LAAS-CNRS and CADP
+ * from INRIA Rhone-Alpes.
+ *
+ * This software is governed by the CeCILL  license under French law and
+ * abiding by the rules of distribution of free software.  You can  use,
+ * modify and/ or redistribute the software under the terms of the CeCILL
+ * license as circulated by CEA, CNRS and INRIA at the following URL
+ * "http://www.cecill.info".
+ *
+ * As a counterpart to the access to the source code and  rights to copy,
+ * modify and redistribute granted by the license, users are provided only
+ * with a limited warranty  and the software's author,  the holder of the
+ * economic rights,  and the successive licensors  have only  limited
+ * liability.
+ *
+ * In this respect, the user's attention is drawn to the risks associated
+ * with loading,  using,  modifying and/or developing or reproducing the
+ * software by the user in light of its specific status of free software,
+ * that may mean  that it is complicated to manipulate,  and  that  also
+ * therefore means  that it is reserved for developers  and  experienced
+ * professionals having in-depth computer knowledge. Users are therefore
+ * encouraged to load and test the software's suitability as regards their
+ * requirements in conditions enabling the security of their systems and/or
+ * data to be ensured and,  more generally, to use and operate it in the
+ * same conditions as regards security.
+ *
+ * The fact that you are presently reading this means that you have had
+ * knowledge of the CeCILL license and that you accept its terms.
+ */
+ 
+
+package myutil.intboolsolver;
+import java_cup.runtime.*;
+import java.util.HashSet;
+
+
+/* To add in generated file:
+   < Spec extends IBSParamSpec, Comp extends IBSParamComp, State extends IBSParamState, SpecState extends IBSParamSpecState, CompState extends IBSParamCompState >
+*/
+
+parser code {:
+
+    IBSScanner<Spec,Comp,State,SpecState,CompState> lexer;
+    
+    public void setLexer(IBSScanner<Spec,Comp,State,SpecState,CompState> _lexer){ lexer=_lexer; setScanner(_lexer); }
+
+    public void setAttributes(IBSAttributes<Spec,Comp,State,SpecState,CompState> _c){ lexer.setAttributes(_c); }
+
+    public IBSAttributes<Spec,Comp,State,SpecState,CompState> getAttributes(){ return lexer.getAttributes(); }
+
+    public void setExpressions(IBSExpressions<Spec,Comp,State,SpecState,CompState> _c){ lexer.setExpressions(_c); }
+
+    public IBSExpressions<Spec,Comp,State,SpecState,CompState> getExpressions(){ return lexer.getExpressions(); }
+
+    public HashSet<String> getBadIdents(){ return lexer.getBadIdents(); }
+
+    public void clearBadIdents(){ lexer.clearBadIdents(); }
+
+    @SuppressWarnings("unchecked")
+    public IBSExpressions<Spec,Comp,State,SpecState,CompState>.IExpr parseInt(Spec _spec, String _s){
+        try { lexer.init(_spec, "integer " + _s); }
+        catch (java.io.IOException e) { return null; }
+        try { return (IBSExpressions<Spec,Comp,State,SpecState,CompState>.IExpr) parse().value; }
+        catch (Exception e) { lexer.getExpressions().clear(); return null; }
+    }
+
+    @SuppressWarnings("unchecked")
+    public IBSExpressions<Spec,Comp,State,SpecState,CompState>.BExpr parseBool(Spec _spec, String _s){
+        try { lexer.init(_spec, "boolean " + _s); }
+        catch (java.io.IOException e) { return null; }
+        try { return (IBSExpressions<Spec,Comp,State,SpecState,CompState>.BExpr) parse().value; }
+        catch (Exception e) { lexer.getExpressions().clear(); return null; }
+    }
+
+    @SuppressWarnings("unchecked")
+    public IBSExpressions<Spec,Comp,State,SpecState,CompState>.BExpr parseGuard(Spec _spec, String _s){
+        try { lexer.init(_spec, "guard " + _s); }
+        catch (java.io.IOException e) { return null; }
+        try { return (IBSExpressions<Spec,Comp,State,SpecState,CompState>.BExpr) parse().value; }
+        catch (Exception e) { lexer.getExpressions().clear(); return null; }
+    }
+
+    @SuppressWarnings("unchecked")
+    public IBSExpressions<Spec,Comp,State,SpecState,CompState>.IExpr parseInt(Comp _comp, String _s){
+        try { lexer.init(_comp, "integer " + _s); }
+        catch (java.io.IOException e) { return null; }
+        try { return (IBSExpressions<Spec,Comp,State,SpecState,CompState>.IExpr) parse().value; }
+        catch (Exception e) { lexer.getExpressions().clear(); return null; }
+    }
+
+    @SuppressWarnings("unchecked")
+    public IBSExpressions<Spec,Comp,State,SpecState,CompState>.BExpr parseBool(Comp _comp, String _s){
+        try { lexer.init(_comp, "boolean " + _s); }
+        catch (java.io.IOException e) { return null; }
+        try { return (IBSExpressions<Spec,Comp,State,SpecState,CompState>.BExpr) parse().value; }
+        catch (Exception e) { lexer.getExpressions().clear(); return null; }
+    }
+
+    @SuppressWarnings("unchecked")
+    public IBSExpressions<Spec,Comp,State,SpecState,CompState>.BExpr parseGuard(Comp _comp, String _s){
+        try { lexer.init(_comp, "guard " + _s); }
+        catch (java.io.IOException e) { return null; }
+        try { return (IBSExpressions<Spec,Comp,State,SpecState,CompState>.BExpr) parse().value; }
+        catch (Exception e) { lexer.getExpressions().clear(); return null; }
+    }
+
+    @SuppressWarnings("unchecked")
+    public IBSExpressions<Spec,Comp,State,SpecState,CompState>.IExpr parseInt(String _s){
+        try { lexer.init("integer " + _s); }
+        catch (java.io.IOException e) { return null; }
+        try { return (IBSExpressions<Spec,Comp,State,SpecState,CompState>.IExpr) parse().value; }
+        catch (Exception e) { lexer.getExpressions().clear(); return null; }
+    }
+
+    @SuppressWarnings("unchecked")
+    public IBSExpressions<Spec,Comp,State,SpecState,CompState>.BExpr parseBool(String _s){
+        try { lexer.init("boolean " + _s); }
+        catch (java.io.IOException e) { return null; }
+        try { return (IBSExpressions<Spec,Comp,State,SpecState,CompState>.BExpr) parse().value; }
+        catch (Exception e) { lexer.getExpressions().clear(); return null; }
+    }
+
+    @SuppressWarnings("unchecked")
+    public IBSExpressions<Spec,Comp,State,SpecState,CompState>.BExpr parseGuard(String _s){
+        try { lexer.init("guard " + _s); }
+        catch (java.io.IOException e) { return null; }
+        try { return (IBSExpressions<Spec,Comp,State,SpecState,CompState>.BExpr) parse().value; }
+        catch (Exception e) { lexer.getExpressions().clear(); return null; }
+    }
+
+    public IBSExpressions<Spec,Comp,State,SpecState,CompState>.IExpr
+    makeInt(IBSAttributes<Spec,Comp,State,SpecState,CompState>.Attribute _attr){
+        int index = lexer.getExpressions().make_iVar(_attr);
+        if (index >= 0) {
+            IBSExpressions<Spec, Comp, State, SpecState, CompState>.IExpr res = lexer.getExpressions().getIExpr(index);
+            lexer.getExpressions().freeInt(index);
+            return res;
+        }
+        // if (index == -1) syntaxError=true; else syntaxError=false;
+        return null;
+    }
+
+    public IBSExpressions<Spec,Comp,State,SpecState,CompState>.BExpr
+    makeBool(IBSAttributes<Spec,Comp,State,SpecState,CompState>.Attribute _attr){
+        int index = lexer.getExpressions().make_bVar(_attr);
+        if (index >= 0) {
+            IBSExpressions<Spec, Comp, State, SpecState, CompState>.BExpr res = lexer.getExpressions().getBExpr(index);
+            lexer.getExpressions().freeBool(index);
+            return res;
+        }
+        // if (index == -1) syntaxError=true; else syntaxError=false;
+        return null;
+    }
+
+    // A DEPLACER ...
+
+    public int indexOfVariable(String expr, String variable) {
+        int index;
+        String tmp = expr;
+        int removed = 0;
+        //System.out.println("\nHandling expr: " + expr);
+
+        while ((index = tmp.indexOf(variable)) > -1) {
+            char c1, c2;
+            if (index > 0) {
+                c1 = tmp.charAt(index - 1);
+            } else {
+                c1 = ' ';
+            }
+
+            if (index + variable.length() < tmp.length())
+                c2 = tmp.charAt(index + variable.length());
+            else
+                c2 = ' ';
+
+            //System.out.println("tmp=" + tmp + " c1=" + c1 + " c2=" + c2);
+
+            if (!(Character.isLetterOrDigit(c1) || (c1 == '_'))) {
+                if (!(Character.isLetterOrDigit(c2) || (c2 == '_'))) {
+                    //System.out.println("Found at index=" + index + " returnedIndex=" + (index+removed));
+                    return index + removed;
+                }
+            }
+            tmp = tmp.substring(index + variable.length(), tmp.length());
+            //System.out.println("tmp=" + tmp);
+            removed = index + variable.length();
+            if (tmp.length() == 0) {
+                return -1;
+            }
+            // We cut until we find a non alphanumerical character
+            while (Character.isLetterOrDigit(tmp.charAt(0)) || (tmp.charAt(0) == '_')) {
+                tmp = tmp.substring(1, tmp.length());
+                if (tmp.length() == 0) {
+                    return -1;
+                }
+                removed++;
+            }
+            //System.out.println("after remove: tmp=" + tmp);
+
+        }
+        return -1;
+    }
+
+
+    public String replaceVariable(String expr, String oldVariable, String newVariable) {
+        if (oldVariable.compareTo(newVariable) == 0) {
+            return expr;
+        }
+        int index;
+        String tmp = expr;
+
+        while ((index = indexOfVariable(tmp, oldVariable)) > -1) {
+            String tmp1 = "";
+            if (index > 0) {
+                tmp1 = tmp.substring(0, index);
+            }
+            tmp1 += newVariable;
+            tmp1 += tmp.substring(index + oldVariable.length(), tmp.length());
+            tmp = tmp1;
+        }
+
+        return tmp;
+    }
+
+:}
+
+
+/* Terminals (tokens returned by the scanner). */
+terminal            PLUS, MINUS, MULT, DIV, MOD, AND, OR, EQ, DIF, LT, GT, LEQ, GEQ;
+terminal            NOT, LPAR, RPAR, UMINUS;
+terminal            PARSE_INT, PARSE_BOOL, PARSE_GUARD;
+terminal Integer    INT, BOOL;
+
+
+/* Non terminals */
+non terminal IBSExpressions<Spec,Comp,State,SpecState,CompState>.Expr expr;
+non terminal Integer    iexpr, bexpr;
+
+/* Precedences (probably useless for the current grammar) */
+precedence left OR;
+precedence left AND;
+precedence left NOT;
+precedence left EQ, DIF;
+precedence nonassoc GT, LT, LEQ, GEQ;
+precedence left PLUS, MINUS;
+precedence left MULT, DIV, MOD;
+precedence left UMINUS;
+
+
+/* The grammar */
+expr    ::=
+     PARSE_BOOL bexpr:e  {: RESULT = lexer.getExpressions().getBExpr(e.intValue());
+                            lexer.getExpressions().freeBool(e.intValue()); :}
+   | PARSE_INT iexpr:e   {: RESULT = lexer.getExpressions().getIExpr(e.intValue());
+                            lexer.getExpressions().freeInt(e.intValue()); :}
+   | PARSE_GUARD bexpr:e {: RESULT = lexer.getExpressions().getBExpr(e.intValue());
+                            lexer.getExpressions().freeBool(e.intValue()); :}
+   | PARSE_GUARD         {: int index = lexer.getExpressions().make_bConst(true);
+                            if(index >=0){
+                              RESULT = lexer.getExpressions().getBExpr(index);
+                              lexer.getExpressions().freeBool(index);
+                            }
+                            else RESULT = null; :}
+;
+
+iexpr   ::=
+     iexpr:l PLUS iexpr:r
+      {: if (lexer.getExpressions().isIconstant(l.intValue())) {
+             int left = lexer.getExpressions().getIExpr(l.intValue()).eval();
+	     if (left == 0){
+                 RESULT = r;
+		 lexer.getExpressions().freeInt(l.intValue());
+             } else if (lexer.getExpressions().isIconstant(r.intValue())) {
+	         int right = lexer.getExpressions().getIExpr(r.intValue()).eval();
+		 RESULT = Integer.valueOf(lexer.getExpressions().make_iConst(left+right));
+		 lexer.getExpressions().freeInt(l.intValue());
+		 lexer.getExpressions().freeInt(r.intValue());
+	     }  else {
+                 RESULT = Integer.valueOf(lexer.getExpressions().make_iiiPlus(l.intValue(),r.intValue()));
+                 lexer.getExpressions().freeInt(l.intValue());
+                 lexer.getExpressions().freeInt(r.intValue());
+             }
+	 } else if (lexer.getExpressions().isIconstant(r.intValue())) {
+	     int right = lexer.getExpressions().getIExpr(r.intValue()).eval();
+	     if (right == 0){
+                 RESULT = l;
+		 lexer.getExpressions().freeInt(r.intValue());
+             }
+	     else {
+                 RESULT = Integer.valueOf(lexer.getExpressions().make_iiiPlus(l.intValue(), r.intValue()));
+                 lexer.getExpressions().freeInt(l.intValue());
+                 lexer.getExpressions().freeInt(r.intValue());
+             }
+	 } else {
+             RESULT = Integer.valueOf(lexer.getExpressions().make_iiiPlus(l.intValue(), r.intValue()));
+             lexer.getExpressions().freeInt(l.intValue());
+             lexer.getExpressions().freeInt(r.intValue());
+	 }
+      :}
+      
+   | iexpr:l MINUS iexpr:r
+      {:  if (lexer.getExpressions().isIconstant(l.intValue())) {
+             int left = lexer.getExpressions().getIExpr(l.intValue()).eval();
+	     if (left == 0){
+                 RESULT =  Integer.valueOf(lexer.getExpressions().make_iNeg(r.intValue()));
+		 lexer.getExpressions().freeInt(l.intValue());
+		 lexer.getExpressions().freeInt(r.intValue());
+             } else if (lexer.getExpressions().isIconstant(r.intValue())) {
+	         int right = lexer.getExpressions().getIExpr(r.intValue()).eval();
+		 RESULT = Integer.valueOf(lexer.getExpressions().make_iConst(left-right));
+		 lexer.getExpressions().freeInt(l.intValue());
+		 lexer.getExpressions().freeInt(r.intValue());
+	     } else {
+                 RESULT = Integer.valueOf(lexer.getExpressions().make_iiiMinus(l.intValue(), r.intValue()));
+                 lexer.getExpressions().freeInt(l.intValue());
+                 lexer.getExpressions().freeInt(r.intValue());
+             }
+	 } else if (lexer.getExpressions().isIconstant(r.intValue())) {
+	     int right = lexer.getExpressions().getIExpr(r.intValue()).eval();
+	     if (right == 0){
+                 RESULT = l;
+		 lexer.getExpressions().freeInt(r.intValue());
+             }
+	     else {
+                 RESULT = Integer.valueOf(lexer.getExpressions().make_iiiMinus(l.intValue(), r.intValue()));
+                 lexer.getExpressions().freeInt(l.intValue());
+                 lexer.getExpressions().freeInt(r.intValue());
+             }
+	 } else {
+             RESULT = Integer.valueOf(lexer.getExpressions().make_iiiMinus(l.intValue(), r.intValue()));
+             lexer.getExpressions().freeInt(l.intValue());
+             lexer.getExpressions().freeInt(r.intValue());
+	 }
+      :}
+      
+   | iexpr:l MULT iexpr:r
+      {: if (lexer.getExpressions().isIconstant(l.intValue())) {
+             int left = lexer.getExpressions().getIExpr(l.intValue()).eval();
+	     if (left == 1) {
+	         RESULT = r;
+		 lexer.getExpressions().freeInt(l.intValue());
+	     } else if (lexer.getExpressions().isIconstant(r.intValue())) {
+	         int right = lexer.getExpressions().getIExpr(r.intValue()).eval();
+		 RESULT = Integer.valueOf(lexer.getExpressions().make_iConst(left*right));
+		 lexer.getExpressions().freeInt(l.intValue());
+		 lexer.getExpressions().freeInt(r.intValue());
+	     } else {
+                 RESULT = Integer.valueOf(lexer.getExpressions().make_iiiMult(l.intValue(), r.intValue()));
+                 lexer.getExpressions().freeInt(l.intValue());
+                 lexer.getExpressions().freeInt(r.intValue());
+             }
+	 } else if (lexer.getExpressions().isIconstant(r.intValue())) {
+	     int right = lexer.getExpressions().getIExpr(r.intValue()).eval();
+	     if (right == 1) {
+	         RESULT = l;
+		 lexer.getExpressions().freeInt(r.intValue());
+	     } else {
+                 RESULT = Integer.valueOf(lexer.getExpressions().make_iiiMult(l.intValue(), r.intValue()));
+                 lexer.getExpressions().freeInt(l.intValue());
+                 lexer.getExpressions().freeInt(r.intValue());
+             }
+	 } else {
+             RESULT = Integer.valueOf(lexer.getExpressions().make_iiiMult(l.intValue(), r.intValue()));
+             lexer.getExpressions().freeInt(l.intValue());
+             lexer.getExpressions().freeInt(r.intValue());
+	 }
+      :}
+      
+   | iexpr:l DIV iexpr:r
+      {: if (lexer.getExpressions().isIconstant(r.intValue())) {
+             int right = lexer.getExpressions().getIExpr(r.intValue()).eval();
+	     if (right == 0) throw new Exception("divide by 0");
+	     if (right == 1) {
+	     	 RESULT = l;
+		 lexer.getExpressions().freeInt(r.intValue());
+	     } else if (lexer.getExpressions().isIconstant(l.intValue())) {
+                 int left = lexer.getExpressions().getIExpr(l.intValue()).eval();
+		 RESULT = Integer.valueOf(lexer.getExpressions().make_iConst(left/right));
+		 lexer.getExpressions().freeInt(l.intValue());
+		 lexer.getExpressions().freeInt(r.intValue());
+	     } else {
+                 RESULT = Integer.valueOf(lexer.getExpressions().make_iiiDiv(l.intValue(), r.intValue()));
+                 lexer.getExpressions().freeInt(l.intValue());
+                 lexer.getExpressions().freeInt(r.intValue());   
+	     }
+	 } else {
+             RESULT = Integer.valueOf(lexer.getExpressions().make_iiiDiv(l.intValue(), r.intValue()));
+             lexer.getExpressions().freeInt(l.intValue());
+             lexer.getExpressions().freeInt(r.intValue());
+	 }
+      :}
+   | iexpr:l MOD iexpr:r
+      {: if (lexer.getExpressions().isIconstant(r.intValue())) {
+             int right = lexer.getExpressions().getIExpr(r.intValue()).eval();
+	     if (right == 0) throw new Exception("mod 0");
+	     if (lexer.getExpressions().isIconstant(l.intValue())) {
+                 int left = lexer.getExpressions().getIExpr(l.intValue()).eval();
+		 RESULT = Integer.valueOf(lexer.getExpressions().make_iConst(left%right));
+		 lexer.getExpressions().freeInt(l.intValue());
+		 lexer.getExpressions().freeInt(r.intValue());
+	     } else {
+                 RESULT = Integer.valueOf(lexer.getExpressions().make_iiiMod(l.intValue(), r.intValue()));
+                 lexer.getExpressions().freeInt(l.intValue());
+                 lexer.getExpressions().freeInt(r.intValue());   
+	     }
+	 } else {
+             RESULT = Integer.valueOf(lexer.getExpressions().make_iiiMod(l.intValue(), r.intValue()));
+             lexer.getExpressions().freeInt(l.intValue());
+             lexer.getExpressions().freeInt(r.intValue());
+	 }
+      :}
+   | LPAR iexpr:e RPAR {: RESULT = e; :}
+   | MINUS iexpr:e {: RESULT = Integer.valueOf(lexer.getExpressions().make_iNeg(e.intValue())); :} %prec UMINUS
+   | INT:e {: RESULT = e; :}
+;
+
+bexpr   ::=
+      bexpr:l OR bexpr:r
+      {: if (lexer.getExpressions().isBconstant(l.intValue())) {
+             boolean left = lexer.getExpressions().getBExpr(l.intValue()).eval();
+	     if (left) {
+	         RESULT = l;
+		 lexer.getExpressions().freeBool(r.intValue());
+             } else {
+	         RESULT = r;
+		 lexer.getExpressions().freeBool(l.intValue());
+             }
+	 } else if (lexer.getExpressions().isBconstant(r.intValue())) {
+             boolean right = lexer.getExpressions().getBExpr(r.intValue()).eval();
+	     if (right) {
+	         RESULT = r;
+		 lexer.getExpressions().freeBool(l.intValue());
+             } else {
+	         RESULT = l;
+		 lexer.getExpressions().freeBool(r.intValue());
+             }
+	 } else {
+             RESULT = Integer.valueOf(lexer.getExpressions().make_bbbOr(l.intValue(), r.intValue()));
+             lexer.getExpressions().freeBool(l.intValue());
+             lexer.getExpressions().freeBool(r.intValue());
+	 }
+      :}
+      
+    | bexpr:l AND bexpr:r
+      {: if (lexer.getExpressions().isBconstant(l.intValue())) {
+             boolean left = lexer.getExpressions().getBExpr(l.intValue()).eval();
+	     if (!left) {
+	         RESULT = l;
+		 lexer.getExpressions().freeBool(r.intValue());
+             } else {
+	         RESULT = r;
+		 lexer.getExpressions().freeBool(l.intValue());
+             }
+	 } else if (lexer.getExpressions().isBconstant(r.intValue())) {
+             boolean right = lexer.getExpressions().getBExpr(r.intValue()).eval();
+	     if (!right) {
+	         RESULT = r;
+		 lexer.getExpressions().freeBool(l.intValue());
+             } else {
+	         RESULT = l;
+		 lexer.getExpressions().freeBool(r.intValue());
+             }
+	 } else {
+             RESULT = Integer.valueOf(lexer.getExpressions().make_bbbAnd(l.intValue(), r.intValue()));
+             lexer.getExpressions().freeBool(l.intValue());
+             lexer.getExpressions().freeBool(r.intValue());
+	 }
+      :}
+      
+    | BOOL:e {: RESULT = e; :}
+    
+    | LPAR bexpr:e RPAR {: RESULT = e; :}
+    
+    | NOT bexpr:e
+      {: if (lexer.getExpressions().isBconstant(e.intValue())) {
+             boolean b = lexer.getExpressions().getBExpr(e.intValue()).eval();
+	     if (b) {
+                 RESULT = Integer.valueOf(lexer.getExpressions().make_bConst(false));
+	         lexer.getExpressions().freeBool(e.intValue());
+	     } else {
+                 RESULT = Integer.valueOf(lexer.getExpressions().make_bConst(true));
+	         lexer.getExpressions().freeBool(e.intValue());
+	     }
+	 } else {
+             RESULT = Integer.valueOf(lexer.getExpressions().make_bNot(e.intValue()));
+	     lexer.getExpressions().freeBool(e.intValue());
+	 }
+      :}
+    
+    | iexpr:l LT iexpr:r
+      {: if (lexer.getExpressions().isIconstant(l.intValue()) &&
+             lexer.getExpressions().isIconstant(r.intValue()))
+	     RESULT = Integer.valueOf(lexer.getExpressions().make_bConst(
+	          lexer.getExpressions().getIExpr(l.intValue()).eval() <
+                  lexer.getExpressions().getIExpr(r.intValue()).eval()));
+         else
+             RESULT = Integer.valueOf(lexer.getExpressions().make_biiLt(l.intValue(), r.intValue()));
+         lexer.getExpressions().freeInt(l.intValue());
+         lexer.getExpressions().freeInt(r.intValue());
+      :}
+    | iexpr:l GT iexpr:r
+      {: if (lexer.getExpressions().isIconstant(l.intValue()) &&
+             lexer.getExpressions().isIconstant(r.intValue()))
+	     RESULT = Integer.valueOf(lexer.getExpressions().make_bConst(
+	          lexer.getExpressions().getIExpr(l.intValue()).eval() >
+                  lexer.getExpressions().getIExpr(r.intValue()).eval()));
+         else
+             RESULT = Integer.valueOf(lexer.getExpressions().make_biiGt(l.intValue(), r.intValue()));
+         lexer.getExpressions().freeInt(l.intValue());
+         lexer.getExpressions().freeInt(r.intValue());
+      :}
+    | iexpr:l LEQ iexpr:r
+      {: if (lexer.getExpressions().isIconstant(l.intValue()) &&
+             lexer.getExpressions().isIconstant(r.intValue()))
+	     RESULT = Integer.valueOf(lexer.getExpressions().make_bConst(
+	          lexer.getExpressions().getIExpr(l.intValue()).eval() <=
+                  lexer.getExpressions().getIExpr(r.intValue()).eval()));
+         else
+             RESULT = Integer.valueOf(lexer.getExpressions().make_biiLeq(l.intValue(), r.intValue()));
+         lexer.getExpressions().freeInt(l.intValue());
+         lexer.getExpressions().freeInt(r.intValue());
+      :}
+    | iexpr:l GEQ iexpr:r
+      {: if (lexer.getExpressions().isIconstant(l.intValue()) &&
+             lexer.getExpressions().isIconstant(r.intValue()))
+	     RESULT = Integer.valueOf(lexer.getExpressions().make_bConst(
+	          lexer.getExpressions().getIExpr(l.intValue()).eval() >=
+                  lexer.getExpressions().getIExpr(r.intValue()).eval()));
+         else
+             RESULT = Integer.valueOf(lexer.getExpressions().make_biiGeq(l.intValue(), r.intValue()));
+         lexer.getExpressions().freeInt(l.intValue());
+         lexer.getExpressions().freeInt(r.intValue());
+      :}
+    | iexpr:l EQ iexpr:r
+      {: if (lexer.getExpressions().isIconstant(l.intValue()) &&
+             lexer.getExpressions().isIconstant(r.intValue()))
+	     RESULT = Integer.valueOf(lexer.getExpressions().make_bConst(
+	          lexer.getExpressions().getIExpr(l.intValue()).eval() ==
+                  lexer.getExpressions().getIExpr(r.intValue()).eval()));
+         else
+             RESULT = Integer.valueOf(lexer.getExpressions().make_biiEq(l.intValue(), r.intValue()));
+         lexer.getExpressions().freeInt(l.intValue());
+         lexer.getExpressions().freeInt(r.intValue());
+      :}
+    | iexpr:l DIF iexpr:r
+      {: if (lexer.getExpressions().isIconstant(l.intValue()) &&
+             lexer.getExpressions().isIconstant(r.intValue()))
+	     RESULT = Integer.valueOf(lexer.getExpressions().make_bConst(
+	          lexer.getExpressions().getIExpr(l.intValue()).eval() !=
+                  lexer.getExpressions().getIExpr(r.intValue()).eval()));
+         else
+             RESULT = Integer.valueOf(lexer.getExpressions().make_biiDif(l.intValue(), r.intValue()));
+         lexer.getExpressions().freeInt(l.intValue());
+         lexer.getExpressions().freeInt(r.intValue());
+      :}
+      
+    | bexpr:l EQ bexpr:r
+      {: if (lexer.getExpressions().isBconstant(l.intValue())) {
+             boolean b = lexer.getExpressions().getBExpr(l.intValue()).eval();
+	     if (b) {
+	        RESULT = r;
+		lexer.getExpressions().freeBool(l.intValue());
+	     } else {
+	        RESULT = Integer.valueOf(lexer.getExpressions().make_bNot(r.intValue()));
+		lexer.getExpressions().freeBool(l.intValue());
+		lexer.getExpressions().freeBool(r.intValue());
+             }
+	 } else if (lexer.getExpressions().isBconstant(r.intValue())) {
+             boolean b = lexer.getExpressions().getBExpr(r.intValue()).eval();
+	     if (b) {
+	        RESULT = l;
+		lexer.getExpressions().freeBool(r.intValue());
+	     } else {
+	        RESULT = Integer.valueOf(lexer.getExpressions().make_bNot(l.intValue()));
+		lexer.getExpressions().freeBool(l.intValue());
+		lexer.getExpressions().freeBool(r.intValue());
+             }
+	 } else {
+	     RESULT = Integer.valueOf(lexer.getExpressions().make_bbbEq(l.intValue(), r.intValue()));
+             lexer.getExpressions().freeBool(l.intValue());
+             lexer.getExpressions().freeBool(r.intValue());
+	 }
+      :}
+      
+    | bexpr:l DIF bexpr:r
+      {: if (lexer.getExpressions().isBconstant(l.intValue())) {
+             boolean b = lexer.getExpressions().getBExpr(l.intValue()).eval();
+	     if (b) {
+	        RESULT = Integer.valueOf(lexer.getExpressions().make_bNot(r.intValue()));
+		lexer.getExpressions().freeBool(l.intValue());
+		lexer.getExpressions().freeBool(r.intValue());
+	     } else {
+	        RESULT = r;
+		lexer.getExpressions().freeBool(l.intValue());
+             }
+	 } else if (lexer.getExpressions().isBconstant(r.intValue())) {
+             boolean b = lexer.getExpressions().getBExpr(r.intValue()).eval();
+	     if (b) {
+	        RESULT = Integer.valueOf(lexer.getExpressions().make_bNot(l.intValue()));
+		lexer.getExpressions().freeBool(l.intValue());
+		lexer.getExpressions().freeBool(r.intValue());
+	     } else {
+	        RESULT = l;
+		lexer.getExpressions().freeBool(r.intValue());
+             }
+	 } else {
+	     RESULT = Integer.valueOf(lexer.getExpressions().make_bbbEq(l.intValue(), r.intValue()));
+             lexer.getExpressions().freeBool(l.intValue());
+             lexer.getExpressions().freeBool(r.intValue());
+	 }
+      :}
+;

@@ -39,6 +39,7 @@
 package ui;
 
 import avatartranslator.*;
+import avatartranslator.intboolsolver.AvatarIBSolver;
 import myutil.Conversion;
 import myutil.TraceManager;
 import translator.CheckingError;
@@ -471,7 +472,7 @@ public class AvatarDesignPanelTranslator {
 
         // Replace in pragmas loc by its value init
         // We must be sure to correctly identify loc
-        _pragma = AvatarExpressionSolver.replaceVariable(_pragma, loc, init);
+        _pragma = AvatarIBSolver.parser.replaceVariable(_pragma, loc, init);
 
         //TraceManager.addDev("PRAGMA: new pragma=" + _pragma);
 

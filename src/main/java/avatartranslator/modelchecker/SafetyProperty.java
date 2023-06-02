@@ -39,6 +39,7 @@
 package avatartranslator.modelchecker;
 
 import avatartranslator.*;
+import avatartranslator.intboolsolver.*;
 import myutil.TraceManager;
 
 
@@ -54,9 +55,9 @@ public class SafetyProperty  {
     private String rawProperty;
     private String refProperty;
     private int errorOnProperty;
-    private AvatarExpressionSolver safetySolver;
-    private AvatarExpressionSolver safetySolverLead;
-    private SpecificationPropertyPhase phase;
+    private AvatarIBSExpressions.BExpr safetySolver;
+    private AvatarIBSExpressions.BExpr safetySolverLead;
+   private SpecificationPropertyPhase phase;
     private AvatarStateMachineElement state;
     
     // Error on property
@@ -102,9 +103,10 @@ public class SafetyProperty  {
     
     public SafetyProperty(AvatarBlock block, AvatarStateMachineElement state, int _safetyType) {
         //create liveness safety
-        AvatarExpressionAttribute attribute = new AvatarExpressionAttribute(block, state);
-        safetySolver = new AvatarExpressionSolver();
-        safetySolver.buildExpression(attribute);
+        AvatarIBSAttributes.Attribute attribute =
+                AvatarIBSolver.getAttribute(AvatarIBSolver.getTypedAttribute(block, state));
+        safetySolver = AvatarIBSolver.makeBool(attribute);
+
         propertyType = BLOCK_STATE;
         safetyType = _safetyType;
         result = true;
@@ -161,7 +163,8 @@ public class SafetyProperty  {
  
     
     public void initLead() {
-        AvatarExpressionSolver tmp;
+        AvatarIBSExpressions.BExpr tmp;
+
         int type;
         tmp = safetySolver;
         safetySolver = safetySolverLead;
@@ -175,7 +178,7 @@ public class SafetyProperty  {
     
     public void restoreLead() {
         //to be used only after initLead()
-        AvatarExpressionSolver tmp;
+        AvatarIBSExpressions.BExpr tmp;
         int type;
         tmp = safetySolver;
         safetySolver = safetySolverLead;
@@ -208,20 +211,18 @@ public class SafetyProperty  {
     
     
     public boolean getSolverResult(SpecificationState _ss) {
-        return safetySolver.getResult(_ss) != 0;
+        return safetySolver.eval(_ss);
     }
     
     
     public boolean getSolverResult(SpecificationState _ss, AvatarStateMachineElement _asme) {
-        return safetySolver.getResult(_ss, _asme) != 0;
+       return safetySolver.eval(_ss, _asme);
     }
-    
-    
+
     public boolean getSolverLeadResult(SpecificationState _ss, AvatarStateMachineElement _asme) {
-        return safetySolverLead.getResult(_ss, _asme) != 0;
+        return safetySolverLead.eval(_ss, _asme);
     }
-    
-    
+
     public SpecificationPropertyPhase getPhase() {
         return phase;
     }
@@ -234,13 +235,11 @@ public class SafetyProperty  {
             phase = SpecificationPropertyPhase.NONSATISFIED;
         }
     }
-    
-    
+
     public AvatarStateMachineElement getState() {
         return state;
     }
-    
-    
+
     public void linkSolverStates() {
         //linking to states so that normal bool elaborations are possible
         if (safetySolver != null) {
@@ -250,8 +249,7 @@ public class SafetyProperty  {
             safetySolverLead.linkStates();
         }
     }
-    
-    
+
     public String toString() {
         String ret = rawProperty;
         switch(phase) {
@@ -325,39 +323,40 @@ public class SafetyProperty  {
     
     
     private boolean initSafetyTrace(AvatarSpecification _spec, String p) {      
-        safetySolver = new AvatarExpressionSolver(p);
-        boolean exprRet = safetySolver.buildExpression(_spec);
+        safetySolver = AvatarIBSolver.parseBool(_spec,p);
+
         
-        if (exprRet == false) {
+        if (safetySolver == null) {
             errorOnProperty = BAD_PROPERTY_STRUCTURE;
+            return false;
         }
         
-        if (safetySolver.hasState()) {
+        if (safetySolver.hasStates()) {
             propertyType = BLOCK_STATE;
         } else {
             propertyType = BOOL_EXPR;
         }
         
-        return exprRet;
+        return true;
     }
     
     private boolean initSafetyTrace(AvatarBlock block, AvatarSpecification _spec, String p) {      
-        safetySolver = new AvatarExpressionSolver(p);
-        boolean exprRet = safetySolver.buildExpression(block);
+        safetySolver = AvatarIBSolver.parseBool(block,p);
         
-        if (exprRet == false) {
+        if (safetySolver == null) {
             errorOnProperty = BAD_PROPERTY_STRUCTURE;
+            return false;
         }
         
-        safetySolver.setBlockIndex(_spec);
+        safetySolver.linkComps(_spec);
         
-        if (safetySolver.hasState()) {
+        if (safetySolver.hasStates()) {
             propertyType = BLOCK_STATE;
         } else {
             propertyType = BOOL_EXPR;
         }
         
-        return exprRet;
+        return true;
     }
     
     
@@ -375,29 +374,27 @@ public class SafetyProperty  {
         pp = pFields[0].trim();
         pq = pFields[1].trim();
         
-        safetySolver = new AvatarExpressionSolver(pp);
-        exprRet = safetySolver.buildExpression(_spec);
-    
-        if (exprRet == false) {
-            errorOnProperty = BAD_PROPERTY_STRUCTURE;
-            return false;
-        }
-        
-        safetySolverLead = new AvatarExpressionSolver(pq);
-        exprRet = safetySolverLead.buildExpression(_spec);
+        safetySolver = AvatarIBSolver.parseBool(_spec,pp);
 
-        if (exprRet == false) {
+        if (safetySolver == null) {
             errorOnProperty = BAD_PROPERTY_STRUCTURE;
             return false;
         }
         
-        if (safetySolver.hasState()) {
+        safetySolverLead = AvatarIBSolver.parseBool(_spec,pq);
+
+        if (safetySolverLead == null) {
+            errorOnProperty = BAD_PROPERTY_STRUCTURE;
+            return false;
+        }
+        
+        if (safetySolver.hasStates()) {
             propertyType = BLOCK_STATE;
         } else {
             propertyType = BOOL_EXPR;
         }
         
-        if (safetySolverLead.hasState()) {
+        if (safetySolverLead.hasStates()) {
             leadType = BLOCK_STATE;
         } else {
             leadType = BOOL_EXPR;
@@ -420,33 +417,31 @@ public class SafetyProperty  {
         pp = pFields[0].trim();
         pq = pFields[1].trim();
         
-        safetySolver = new AvatarExpressionSolver(pp);
-        exprRet = safetySolver.buildExpression(block);
+        safetySolver = AvatarIBSolver.parseBool(block,pp);
     
-        if (exprRet == false) {
+        if (safetySolver == null) {
             errorOnProperty = BAD_PROPERTY_STRUCTURE;
             return false;
         }
         
-        safetySolver.setBlockIndex(_spec);
+        safetySolver.linkComps(_spec);
         
-        safetySolverLead = new AvatarExpressionSolver(pq);
-        exprRet = safetySolverLead.buildExpression(block);
+        safetySolverLead = AvatarIBSolver.parseBool(block,pq);
 
-        if (exprRet == false) {
+        if (safetySolverLead == null) {
             errorOnProperty = BAD_PROPERTY_STRUCTURE;
             return false;
         }
         
-        safetySolverLead.setBlockIndex(_spec);
+        safetySolverLead.linkComps(_spec);
         
-        if (safetySolver.hasState()) {
+        if (safetySolver.hasStates()) {
             propertyType = BLOCK_STATE;
         } else {
             propertyType = BOOL_EXPR;
         }
         
-        if (safetySolverLead.hasState()) {
+        if (safetySolverLead.hasStates()) {
             leadType = BLOCK_STATE;
         } else {
             leadType = BOOL_EXPR;

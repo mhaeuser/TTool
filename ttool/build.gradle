@@ -20,6 +20,8 @@ sourceSets {
 }
 
 dependencies {
+    implementation name: 'java_cup'
+
     implementation name: 'opencloud'
     implementation name: 'JavaPlot'
     implementation name: 'derbynet'
@@ -55,7 +57,7 @@ dependencies {
     implementation name: 'jgrapht-io-1.3.0'
     implementation name: 'jgraphx-3.4.1.3'
     implementation name: 'jfreechart-1.6.0'
-
+    
 //    implementation group: 'com.sun.activation', name: 'javax.activation', version: '1.2.0'
 
 

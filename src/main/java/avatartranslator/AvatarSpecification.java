@@ -38,8 +38,10 @@
 
 package avatartranslator;
 
+import avatartranslator.intboolsolver.AvatarIBSolver;
 import myutil.NameChecker;
 import myutil.TraceManager;
+import myutil.intboolsolver.IBSParamSpec;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -54,7 +56,7 @@ import java.util.*;
  * @author Ludovic APVRILLE
  * @version 1.0 20/05/2010
  */
-public class AvatarSpecification extends AvatarElement {
+public class AvatarSpecification extends AvatarElement implements IBSParamSpec {
 
     public final static int UPPAAL_MAX_INT = 32767;
 
@@ -959,7 +961,8 @@ public class AvatarSpecification extends AvatarElement {
         AvatarTransition at;
         boolean returnVal;
 
-        AvatarExpressionSolver.emptyAttributesMap();
+        //AvatarExpressionSolver.emptyAttributesMap();
+        AvatarIBSolver.clearAttributes();
 
         for (AvatarBlock block : getListOfBlocks()) {
             AvatarStateMachine asm = block.getStateMachine();

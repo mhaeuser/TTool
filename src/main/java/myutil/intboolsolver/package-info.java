@@ -165,7 +165,7 @@
  * <p><a id="instanciation_sumary"> <b>Instantiation summary:</b></a></p>
  * <ol>
  *     <li><p> provide {@code Spec}, {@code Comp}, {@code SpecState},
- *     {@code CompState} and {@code State} from application. These class
+ *     {@code CompState} and {@code State} from application. These classes
  *     just have to extend their associated parameter IBS<i>xxx</i>Param
  *     and not extend any other IBS<i>yyy</i>Param (with
  *     <i>xxx</i> &#8800; <i>yyy</i>)</p>

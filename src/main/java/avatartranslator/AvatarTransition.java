@@ -118,9 +118,12 @@ public class AvatarTransition extends AvatarStateMachineElement {
         if (isGuarded()) {
             String expr = guard.toString().replaceAll("\\[", "").trim();
             expr = expr.replaceAll("\\]", "");
-            guardSolver = AvatarIBSolver.parseBool((AvatarBlock)block,expr);
-            if(guardSolver==null) System.out.println("\n&&&&&&&&&&&&&&&&&&&&&&&&& " + expr + " &&&&&\n");
-            return guardSolver!=null;
+            guardSolver = AvatarIBSolver.parseBool((AvatarBlock)block, expr);
+
+            if(guardSolver == null) {
+                TraceManager.addDev("Null guard solver: " + expr);
+            }
+            return guardSolver != null;
         }
         return true;
     }

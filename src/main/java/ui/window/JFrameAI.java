@@ -119,6 +119,7 @@ public class JFrameAI extends JFrame implements ActionListener, Runnable {
             "}. A connection must connect one output signal of a block to one input signal of a block. All signals must be connected to exactly one" +
             "connection";
 
+
     private String KNOWLEDGE_ON_JSON_FOR_BLOCKS_2 = "The system has two blocks B1 et B2.\n" +
             "B1 has an attribute x of type int and B2 has one attribute y of  type bool.\n" +
             "B1 also has a method: \"int getValue(int val)\" and an output signal sendInfo(int x).\n" +

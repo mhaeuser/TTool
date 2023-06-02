@@ -46,6 +46,7 @@ import java.util.Map;
 
 import launcher.LauncherException;
 import launcher.RshClient;
+import myutil.TraceManager;
 import ui.GTURTLEModeling;
 import ui.MainGUI;
 import ui.TGComponent;
@@ -120,7 +121,7 @@ public class ModelCheckerValidator {
         int id;
         
         if (spec == null) {
-            System.out.println("Spec not initialized\n");
+            TraceManager.addDev("Spec not initialized\n");
             return false;
         }
         
@@ -273,7 +274,7 @@ public class ModelCheckerValidator {
 
             rshc.freeId(id);
         } catch (Exception e) {
-            System.out.println("Shit: " + e + "\n");
+            TraceManager.addDev("Exception: " + e + "\n");
             return false;
         }
         

@@ -52,8 +52,8 @@ import java.util.HashSet;
  * <p>This class is a wrapper class that provides all the features
  * offered by the IBS System for the AVATAR instantiation in a
  * single class. It also implements the relevant casts toward
- * the types of the AVATAR instantiation, so that the user
- * don't have to worry about this.</p>
+ * the types of the AVATAR instantiation, so that a developer
+ * doesn't have to worry about this.</p>
  * <p> As a "globally" available IBS System, this class is static
  * and not thread safe. </p>
  *

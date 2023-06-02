@@ -95,7 +95,7 @@ public class IBSStdExpressions<
         State extends IBSParamState,
         SpecState extends IBSParamSpecState,
         CompState extends IBSParamCompState
-        > extends IBSExpressions<Spec,Comp,State,SpecState,CompState> {
+        > extends IBSExpressions<Spec, Comp, State, SpecState, CompState> {
     /** table of strings associated to operators and boolean constants */
     public static final String[] opString = {"-","!","+","-","*","/","%","&&","||","==","!=","<",">","<=",">=","true","false"};
     /**

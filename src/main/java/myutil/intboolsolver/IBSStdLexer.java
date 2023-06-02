@@ -741,8 +741,9 @@ public void init(Comp _comp, String _s) throws java.io.IOException { attrHandler
           { return new Symbol(IBSStdSymbols.LT);
           }
         case 47: break;
-        case 1: 
-          { 
+        case 1:
+          {
+            break;
           }
         case 48: break;
         default: 

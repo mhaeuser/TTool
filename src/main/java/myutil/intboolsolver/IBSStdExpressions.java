@@ -256,7 +256,7 @@ public class IBSStdExpressions<
     /** Code of IIIBinOp class */
     public static final byte classIIIBinOp = 0b0100;
     /** Default (and single) constructor */
-    public IBSStdExpressions(){}
+    public IBSStdExpressions() {}
     /** Get the expression's class code.
      * <p>Binary operators expressions return to XXXBinOp classes.
      * To identify the precise operator, use
@@ -265,7 +265,7 @@ public class IBSStdExpressions<
      * @param _e the expression
      * @return classBConst, classIConst, classBVar, classIVar, classBBBBinOp, classBIIBinOp or classIIIBinOp
      */
-    public static final byte getClassCode(IBSStdExpressions.Expr _e){
+    public static final byte getClassCode(IBSStdExpressions.Expr _e) {
         return (byte)(_e.getType() & 0b1101);
     }
     /**
@@ -404,7 +404,7 @@ public class IBSStdExpressions<
      * @param _e the expression
      * @return the symbol or -1 if there is no symbol
      */
-    public static final byte getOpSymbol(IBSStdExpressions.Expr _e){
+    public static final byte getOpSymbol(IBSStdExpressions.Expr _e) {
         short type = _e.getType();
         if ((type & 0b11) == 0b11) return opNot;
         if ((type & 0b11) == 0b10) return opNeg;
@@ -415,7 +415,7 @@ public class IBSStdExpressions<
      * @param _e the expression
      * @return the operator's string or null if there is no symbol
      */
-    public static final String getOpString(IBSStdExpressions.Expr _e){
+    public static final String getOpString(IBSStdExpressions.Expr _e) {
         byte symbol = getOpSymbol(_e);
         if (symbol < 0) return null;
         return opString[symbol];
@@ -424,42 +424,42 @@ public class IBSStdExpressions<
      * @param _e the expression
      * @return its sub-expression, or null if e is not unary
      */
-    public static final IBSStdExpressions.IExpr getArg(IBSStdExpressions.IExpr _e){ return ( isInverted(_e)?_e.negate():null); }
+    public static final IBSStdExpressions.IExpr getArg(IBSStdExpressions.IExpr _e) { return ( isInverted(_e) ? _e.negate() : null); }
     /** Get the unique sub-expression of an unary boolean expression.
      * @param _e the expression
      * @return its sub-expression, or null if e is not unary
      */
-    public static final IBSStdExpressions.BExpr getArg(IBSStdExpressions.BExpr _e){ return ( isInverted(_e)?_e.negate():null); }
+    public static final IBSStdExpressions.BExpr getArg(IBSStdExpressions.BExpr _e) { return ( isInverted(_e) ? _e.negate() : null); }
     /** Get the left sub-expression of an integer binary operator expression.
      * @param _e the expression
      * @return its left sub-expression, or null if e is not binary
      */
-    public static final IBSStdExpressions.IExpr getLeftArg(IBSStdExpressions.IIIBinOp _e){ return ( isBinary(_e)?_e.left:null); }
+    public static final IBSStdExpressions.IExpr getLeftArg(IBSStdExpressions.IIIBinOp _e) { return ( isBinary(_e) ? _e.left : null); }
     /** Get the right sub-expression of an integer binary operator expression.
      * @param _e the expression
      * @return its right sub-expression, or null if e is not binary
      */
-    public static final IBSStdExpressions.IExpr getRightArg(IBSStdExpressions.IIIBinOp _e){ return ( isBinary(_e)?_e.right:null); }
+    public static final IBSStdExpressions.IExpr getRightArg(IBSStdExpressions.IIIBinOp _e) { return ( isBinary(_e) ? _e.right : null); }
     /** Get the left sub-expression of an integer comparison expression.
      * @param _e the expression
      * @return its left sub-expression, or null if e is not binary
      */
-    public static final IBSStdExpressions.IExpr getLeftArg(IBSStdExpressions.BIIBinOp _e){ return ( isBinary(_e)?_e.left:null); }
+    public static final IBSStdExpressions.IExpr getLeftArg(IBSStdExpressions.BIIBinOp _e) { return ( isBinary(_e) ? _e.left : null); }
     /** Get the right sub-expression of an integer comparison expression.
      * @param _e the expression
      * @return its left sub-expression, or null if e is not binary
      */
-    public static final IBSStdExpressions.IExpr getRightArg(IBSStdExpressions.BIIBinOp _e){ return ( isBinary(_e)?_e.right:null); }
+    public static final IBSStdExpressions.IExpr getRightArg(IBSStdExpressions.BIIBinOp _e) { return ( isBinary(_e) ? _e.right : null); }
     /** Get the right sub-expression of a boolean binary operator expression.
      * @param _e the expression
      * @return its left sub-expression, or null if e is not binary
      */
-    public static final IBSStdExpressions.BExpr getLeftArg(IBSStdExpressions.BBBBinOp _e){ return ( isBinary(_e)?_e.left:null); }
+    public static final IBSStdExpressions.BExpr getLeftArg(IBSStdExpressions.BBBBinOp _e) { return ( isBinary(_e) ? _e.left : null); }
     /** Get the right sub-expression of a boolean binary operator expression.
      * @param _e the expression
      * @return its right sub-expression, or null if e is not binary
      */
-    public static final IBSStdExpressions.BExpr getRightArg(IBSStdExpressions.BBBBinOp _e){ return ( isBinary(_e)?_e.right:null); }
+    public static final IBSStdExpressions.BExpr getRightArg(IBSStdExpressions.BBBBinOp _e) { return ( isBinary(_e) ? _e.right : null); }
 
     private final ArrayList<IExpr> iExpressions = new ArrayList<IExpr>(16);
     private final ArrayList<BExpr> bExpressions = new ArrayList<BExpr>(16);
@@ -467,22 +467,22 @@ public class IBSStdExpressions<
     /**
      * Clear the internal memories containing build integer and boolean expressions
      */
-    public void clear(){
+    public void clear() {
         iExpressions.clear();
         bExpressions.clear();
     }
-    private int findIfree(){
+    private int findIfree() {
         int i;
-        for (i = 0; i < iExpressions.size(); i++) if (iExpressions.get(i)==null) break;
-        if (i==iExpressions.size()){
+        for (i = 0; i < iExpressions.size(); i++) if (iExpressions.get(i) == null) break;
+        if (i == iExpressions.size()) {
             iExpressions.add(null);
         }
         return i;
     }
-    private int findBfree(){
+    private int findBfree() {
         int i;
-        for (i = 0; i < bExpressions.size(); i++) if (bExpressions.get(i)==null) break;
-        if (i==bExpressions.size()){
+        for (i = 0; i < bExpressions.size(); i++) if (bExpressions.get(i) == null) break;
+        if (i == bExpressions.size()) {
             bExpressions.add(null);
         }
         return i;
@@ -492,13 +492,13 @@ public class IBSStdExpressions<
      * @param _toFree the index to free
      */
     public void freeInt(int _toFree) {
-        iExpressions.set(_toFree,null);
+        iExpressions.set(_toFree, null);
     }
     /** Deletes a memorized boolean expression, making its index free
      * @param _toFree the index to free
      */
     public void freeBool(int _toFree) {
-        bExpressions.set(_toFree,null);
+        bExpressions.set(_toFree, null);
     }
 
     /** Get the integer expression memorized at some index
@@ -545,12 +545,12 @@ public class IBSStdExpressions<
      * @param _i index of a (not null) boolean expression
      * @return true iff boolean expression at index _i is constant
      */
-    public boolean isBconstant(int _i){ return bExpressions.get(_i).getType()==bConst; }
+    public boolean isBconstant(int _i) { return bExpressions.get(_i).getType() == bConst; }
     /** Test if a memorized integer expression is constant
      * @param _i index of a (not null) boolean expression
      * @return true iff boolean expression at index _i is constant
      */
-    public boolean isIconstant(int _i){ return iExpressions.get(_i).getType()==iConst; }
+    public boolean isIconstant(int _i) { return iExpressions.get(_i).getType() == iConst; }
     /** Binary Plus expression constructor
      * @param _left index of left sub-expression
      * @param _right index of right sub-expression
@@ -558,7 +558,7 @@ public class IBSStdExpressions<
      */
     public int make_iiiPlus(int _left, int _right) {
         int tgt = findIfree();
-        if (iExpressions.size()<= _left || iExpressions.size() <= _right || 0 > _left || 0 > _right ||
+        if (iExpressions.size() <= _left || iExpressions.size() <= _right || 0 > _left || 0 > _right ||
                 iExpressions.get(_left) == null || iExpressions.get(_right) == null)
            throw new Error("IBSStdExpressions.make_iiiPlus called on undefined sub-expression");
         iExpressions.set(tgt, new IIIPlus(iExpressions.get(_left), iExpressions.get(_right)));
@@ -571,7 +571,7 @@ public class IBSStdExpressions<
      */
     public int make_iiiMinus(int _left, int _right) {
         int tgt = findIfree();
-        if (iExpressions.size()<= _left || iExpressions.size() <= _right || 0 > _left || 0 > _right ||
+        if (iExpressions.size() <= _left || iExpressions.size() <= _right || 0 > _left || 0 > _right ||
                 iExpressions.get(_left) == null || iExpressions.get(_right) == null)
             throw new Error("IBSStdExpressions.make_iiiMinus called on undefined sub-expression");
         iExpressions.set(tgt, new IIIMinus(iExpressions.get(_left), iExpressions.get(_right)));
@@ -584,7 +584,7 @@ public class IBSStdExpressions<
      */
     public int make_iiiMult(int _left, int _right) {
         int tgt = findIfree();
-        if (iExpressions.size()<= _left || iExpressions.size() <= _right || 0 > _left || 0 > _right ||
+        if (iExpressions.size() <= _left || iExpressions.size() <= _right || 0 > _left || 0 > _right ||
                 iExpressions.get(_left) == null || iExpressions.get(_right) == null)
             throw new Error("IBSStdExpressions.make_iiiMult called on undefined sub-expression");
         iExpressions.set(tgt, new IIIMult(iExpressions.get(_left), iExpressions.get(_right)));
@@ -597,7 +597,7 @@ public class IBSStdExpressions<
      */
     public int make_iiiDiv(int _left, int _right) {
         int tgt = findIfree();
-        if (iExpressions.size()<= _left || iExpressions.size() <= _right || 0 > _left || 0 > _right ||
+        if (iExpressions.size() <= _left || iExpressions.size() <= _right || 0 > _left || 0 > _right ||
                 iExpressions.get(_left) == null || iExpressions.get(_right) == null)
             throw new Error("IBSStdExpressions.make_iiiDiv called on undefined sub-expression");
         iExpressions.set(tgt, new IIIDiv(iExpressions.get(_left), iExpressions.get(_right)));
@@ -610,7 +610,7 @@ public class IBSStdExpressions<
      */
     public int make_iiiMod(int _left, int _right) {
         int tgt = findIfree();
-        if (iExpressions.size()<= _left || iExpressions.size() <= _right || 0 > _left || 0 > _right ||
+        if (iExpressions.size() <= _left || iExpressions.size() <= _right || 0 > _left || 0 > _right ||
                 iExpressions.get(_left) == null || iExpressions.get(_right) == null)
             throw new Error("IBSStdExpressions.make_iiiMod called on undefined sub-expression");
         iExpressions.set(tgt, new IIIMod(iExpressions.get(_left), iExpressions.get(_right)));
@@ -623,7 +623,7 @@ public class IBSStdExpressions<
      */
     public int make_bbbAnd(int _left, int _right) {
         int tgt = findBfree();
-        if (bExpressions.size()<= _left || bExpressions.size() <= _right || 0 > _left || 0 > _right ||
+        if (bExpressions.size() <= _left || bExpressions.size() <= _right || 0 > _left || 0 > _right ||
                 bExpressions.get(_left) == null || bExpressions.get(_right) == null)
             throw new Error("IBSStdExpressions.make_bbbAnd called on undefined sub-expression");
         bExpressions.set(tgt, new BBBAnd(bExpressions.get(_left), bExpressions.get(_right)));
@@ -636,7 +636,7 @@ public class IBSStdExpressions<
      */
     public int make_bbbOr(int _left, int _right) {
         int tgt = findBfree();
-        if (bExpressions.size()<= _left || bExpressions.size() <= _right || 0 > _left || 0 > _right ||
+        if (bExpressions.size() <= _left || bExpressions.size() <= _right || 0 > _left || 0 > _right ||
                 bExpressions.get(_left) == null || bExpressions.get(_right) == null)
             throw new Error("IBSStdExpressions.make_bbbOr called on undefined sub-expression");
         bExpressions.set(tgt, new BBBOr(bExpressions.get(_left), bExpressions.get(_right)));
@@ -649,8 +649,8 @@ public class IBSStdExpressions<
      */
     public int make_biiEq(int _left, int _right) {
         int tgt = findBfree();
-        if (iExpressions.size()<= _left || iExpressions.size() <= _right || iExpressions.get(_left) == null || iExpressions.get(_right) == null)
-            if (iExpressions.size()<= _left || iExpressions.size() <= _right || 0 > _left || 0 > _right ||
+        if (iExpressions.size() <= _left || iExpressions.size() <= _right || iExpressions.get(_left) == null || iExpressions.get(_right) == null)
+            if (iExpressions.size() <= _left || iExpressions.size() <= _right || 0 > _left || 0 > _right ||
                     iExpressions.get(_left) == null || iExpressions.get(_right) == null)
                 throw new Error("IBSStdExpressions.make_biiEq called on undefined sub-expression");
         bExpressions.set(tgt, new BIIEq(iExpressions.get(_left), iExpressions.get(_right)));
@@ -663,7 +663,7 @@ public class IBSStdExpressions<
      */
     public int make_bbbEq(int _left, int _right) {
         int tgt = findBfree();
-        if (bExpressions.size()<= _left || bExpressions.size() <= _right || 0 > _left || 0 > _right ||
+        if (bExpressions.size() <= _left || bExpressions.size() <= _right || 0 > _left || 0 > _right ||
                 bExpressions.get(_left) == null || bExpressions.get(_right) == null)
             throw new Error("IBSStdExpressions.make_bbbEq called on undefined sub-expression");
         bExpressions.set(tgt, new BBBEq(bExpressions.get(_left), bExpressions.get(_right)));
@@ -676,7 +676,7 @@ public class IBSStdExpressions<
      */
     public int make_biiDif(int _left, int _right) {
         int tgt = findBfree();
-        if (iExpressions.size()<= _left || iExpressions.size() <= _right || 0 > _left || 0 > _right ||
+        if (iExpressions.size() <= _left || iExpressions.size() <= _right || 0 > _left || 0 > _right ||
                 iExpressions.get(_left) == null || iExpressions.get(_right) == null)
             throw new Error("IBSStdExpressions.make_biiDif called on undefined sub-expression");
         bExpressions.set(tgt, new BIIDif(iExpressions.get(_left), iExpressions.get(_right)));
@@ -689,7 +689,7 @@ public class IBSStdExpressions<
      */
     public int make_bbbDif(int _left, int _right) {
         int tgt = findBfree();
-        if (bExpressions.size()<= _left || bExpressions.size() <= _right || 0 > _left || 0 > _right ||
+        if (bExpressions.size() <= _left || bExpressions.size() <= _right || 0 > _left || 0 > _right ||
                 bExpressions.get(_left) == null || bExpressions.get(_right) == null)
             throw new Error("IBSStdExpressions.make_bbbDif called on undefined sub-expression");
         bExpressions.set(tgt, new BBBDif(bExpressions.get(_left), bExpressions.get(_right)));
@@ -702,7 +702,7 @@ public class IBSStdExpressions<
      */
     public int make_biiLt(int _left, int _right) {
         int tgt = findBfree();
-        if (iExpressions.size()<= _left || iExpressions.size() <= _right || 0 > _left || 0 > _right ||
+        if (iExpressions.size() <= _left || iExpressions.size() <= _right || 0 > _left || 0 > _right ||
                 iExpressions.get(_left) == null || iExpressions.get(_right) == null)
             throw new Error("IBSStdExpressions.make_biiLt called on undefined sub-expression");
         bExpressions.set(tgt, new BIILt(iExpressions.get(_left), iExpressions.get(_right)));
@@ -715,7 +715,7 @@ public class IBSStdExpressions<
      */
     public int make_biiGt(int _left, int _right) {
         int tgt = findBfree();
-        if (iExpressions.size()<= _left || iExpressions.size() <= _right || 0 > _left || 0 > _right ||
+        if (iExpressions.size() <= _left || iExpressions.size() <= _right || 0 > _left || 0 > _right ||
                 iExpressions.get(_left) == null || iExpressions.get(_right) == null)
             throw new Error("IBSStdExpressions.make_biiGt called on undefined sub-expression");
         bExpressions.set(tgt, new BIIGt(iExpressions.get(_left), iExpressions.get(_right)));
@@ -728,7 +728,7 @@ public class IBSStdExpressions<
      */
     public int make_biiLeq(int _left, int _right) {
         int tgt = findBfree();
-        if (iExpressions.size()<= _left || iExpressions.size() <= _right || 0 > _left || 0 > _right ||
+        if (iExpressions.size() <= _left || iExpressions.size() <= _right || 0 > _left || 0 > _right ||
                 iExpressions.get(_left) == null || iExpressions.get(_right) == null)
             throw new Error("IBSStdExpressions.make_biiLeq called on undefined sub-expression");
         bExpressions.set(tgt, new BIILeq(iExpressions.get(_left), iExpressions.get(_right)));
@@ -741,7 +741,7 @@ public class IBSStdExpressions<
      */
     public int make_biiGeq(int _left, int _right) {
         int tgt = findBfree();
-        if (iExpressions.size()<= _left || iExpressions.size() <= _right || 0 > _left || 0 > _right ||
+        if (iExpressions.size() <= _left || iExpressions.size() <= _right || 0 > _left || 0 > _right ||
                 iExpressions.get(_left) == null || iExpressions.get(_right) == null)
             throw new Error("IBSStdExpressions.make_biiGeq called on undefined sub-expression");
         bExpressions.set(tgt, new BIIGeq(iExpressions.get(_left), iExpressions.get(_right)));
@@ -790,7 +790,7 @@ public class IBSStdExpressions<
      */
     public int make_bConst(boolean _b) {
         int tgt = findBfree();
-        bExpressions.set(tgt, (_b?BTrue:BFalse));
+        bExpressions.set(tgt, (_b ? BTrue : BFalse));
         return tgt;
     }
     /** Build an expression denoting the opposite of the provided integer expression
@@ -799,7 +799,7 @@ public class IBSStdExpressions<
      */
     public int make_iNeg(int _expr) {
         int tgt = findIfree();
-        if (iExpressions.size()<=_expr || _expr < 0 ||iExpressions.get(_expr) == null)
+        if (iExpressions.size() <=_expr || _expr < 0 || iExpressions.get(_expr) == null)
             throw new Error("IBSStdExpressions.make_iNeg called on undefined sub-expression");
         iExpressions.set(tgt, iExpressions.get(_expr).negate());
         return tgt;
@@ -810,7 +810,7 @@ public class IBSStdExpressions<
      */
     public int make_bNot(int _expr) {
         int tgt = findBfree();
-        if (bExpressions.size()<=_expr || _expr < 0 || bExpressions.get(_expr) == null)
+        if (bExpressions.size() <=_expr || _expr < 0 || bExpressions.get(_expr) == null)
             throw new Error("IBSStdExpressions.make_bNot called on undefined sub-expression");
         bExpressions.set(tgt, bExpressions.get(_expr).negate());
         return tgt;
@@ -828,15 +828,15 @@ public class IBSStdExpressions<
         protected final IExpr left;
         protected final IExpr right;
         protected final boolean isNeg;
-        public IIIBinOp(IExpr _l, IExpr _r, boolean _isNeg){
+        public IIIBinOp(IExpr _l, IExpr _r, boolean _isNeg) {
             left  = _l;
             right = _r;
             isNeg = _isNeg;
         }
-        public final boolean hasStates(){
+        public final boolean hasStates() {
             return left.hasStates() || right.hasStates();
         }
-        public final void linkStates(){
+        public final void linkStates() {
             left.linkStates();
             right.linkStates();
         }
@@ -849,14 +849,14 @@ public class IBSStdExpressions<
     public abstract class BIIBinOp extends BExpr{
         protected final IExpr left;
         protected final IExpr right;
-        public BIIBinOp(IExpr _l, IExpr _r){
+        public BIIBinOp(IExpr _l, IExpr _r) {
             left  = _l;
             right = _r;
         }
-        public final boolean hasStates(){
+        public final boolean hasStates() {
             return left.hasStates() || right.hasStates();
         }
-        public final void linkStates(){
+        public final void linkStates() {
             left.linkStates();
             right.linkStates();
         }
@@ -869,14 +869,14 @@ public class IBSStdExpressions<
     public abstract class BBBBinOp extends BExpr{
         protected final BExpr left;
         protected final BExpr right;
-        public BBBBinOp(BExpr _l, BExpr _r){
+        public BBBBinOp(BExpr _l, BExpr _r) {
             left  = _l;
             right = _r;
         }
-        public final boolean hasStates(){
+        public final boolean hasStates() {
             return left.hasStates() || right.hasStates();
         }
-        public final void linkStates(){
+        public final void linkStates() {
             left.linkStates();
             right.linkStates();
         }
@@ -888,17 +888,17 @@ public class IBSStdExpressions<
     /** Integer constant expressions */
     public final class IConst extends IExpr {
         private final int constant;
-        private IConst(int _i){ constant = _i; type = iConst;}
+        private IConst(int _i) { constant = _i; type = iConst;}
         /**
          * Constructor for implementing negate. The build expression
          * is the opposite of the parameter.
          * @param _e the expression from which the opposite is required
          */
-        public IConst(IConst _e){
+        public IConst(IConst _e) {
             constant = -_e.constant;
             type = iConst;
         }
-        public final IConst negate(){
+        public final IConst negate() {
             return new IConst(this);
         }
         public final int eval() { return constant; }
@@ -914,13 +914,13 @@ public class IBSStdExpressions<
     /** Boolean constant expressions */
     public final class BConst extends BExpr {
         private final boolean constant;
-        public BConst(boolean _b){ constant = _b; type = bConst;}
+        public BConst(boolean _b) { constant = _b; type = bConst;}
         /**
          * Constructor for implementing negate. The build expression
          * is the negation of the parameter.
          * @param _b the expression from which the negation is required
          */
-        public BConst(BConst _b){
+        public BConst(BConst _b) {
             constant = !_b.constant;
             type = bConst;
         }
@@ -941,7 +941,7 @@ public class IBSStdExpressions<
     public final class IVar extends IExpr {
         private final boolean isNeg;
         private final IBSAttributes<Spec,Comp,State,SpecState,CompState>.Attribute var;
-        public IVar(IBSAttributes<Spec,Comp,State,SpecState,CompState>.Attribute _v){
+        public IVar(IBSAttributes<Spec,Comp,State,SpecState,CompState>.Attribute _v) {
             var = _v;
             isNeg=false;
             type = iVar;
@@ -951,27 +951,27 @@ public class IBSStdExpressions<
          * is the opposite of the parameter.
          * @param _v the expression from which the opposite is required
          */
-        private IVar(IVar _v){
+        private IVar(IVar _v) {
             var = _v.var;
             isNeg = !_v.isNeg;
-            type = (isNeg?iVar_n:iVar);
+            type = (isNeg ? iVar_n : iVar);
         }
-        public IVar negate(){
+        public IVar negate() {
             return new IVar(this);
         }
-        public final int eval(){ return 0; }
-        public final int eval(SpecState _ss) { return (isNeg?-var.getValue(_ss):var.getValue(_ss)); }
-        public final int eval(SpecState _ss, State _st) { return (isNeg?-var.getValue(_ss,_st):var.getValue(_ss,_st)); }
-        public final int eval(CompState _cs) { return (isNeg?-var.getValue(_cs):var.getValue(_cs)); }
-        public final int eval(Object _qs) { return (isNeg?-var.getValue(_qs):var.getValue(_qs)); }
+        public final int eval() { return 0; }
+        public final int eval(SpecState _ss) { return (isNeg ? -var.getValue(_ss) : var.getValue(_ss)); }
+        public final int eval(SpecState _ss, State _st) { return (isNeg ? -var.getValue(_ss,_st) : var.getValue(_ss,_st)); }
+        public final int eval(CompState _cs) { return (isNeg ? -var.getValue(_cs) : var.getValue(_cs)); }
+        public final int eval(Object _qs) { return (isNeg ? -var.getValue(_qs) : var.getValue(_qs)); }
         public final String toString() {
             if (isNeg)
                 return opString[opNeg] + "(" + var.toString() + ")";
             return var.toString();
         }
         public final boolean hasStates() { return false; }
-        public final void linkStates() {var.linkState();}
-        public final void linkComps(Spec _spec) {var.linkComp(_spec);}
+        public final void linkStates() { var.linkState(); }
+        public final void linkComps(Spec _spec) { var.linkComp(_spec); }
     }
     /** Boolean variable expressions (and negations of such expressions)*/
     public final class BVar extends BExpr {
@@ -987,13 +987,13 @@ public class IBSStdExpressions<
          * is the negation of the parameter.
          * @param _b the expression from which the negation is required
          */
-        public BVar(BVar _b){
+        public BVar(BVar _b) {
             isNot = !_b.isNot;
             var = _b.var;
-            type = (isNot?bVar_n:bVar);
+            type = (isNot ? bVar_n : bVar);
         }
-        public BVar negate(){ return new BVar(this);}
-        public final boolean eval(){ return false; }
+        public BVar negate() { return new BVar(this);}
+        public final boolean eval() { return false; }
         public final boolean eval(SpecState _ss) {
             return (isNot == (var.getValue(_ss) == 0));
         }
@@ -1012,8 +1012,8 @@ public class IBSStdExpressions<
             return var.toString();
         }
         public final boolean hasStates() { return var.isState(); }
-        public final void linkStates() {var.linkState();}
-        public final void linkComps(Spec _spec) {var.linkComp(_spec);}
+        public final void linkStates() { var.linkState(); }
+        public final void linkComps(Spec _spec) { var.linkComp(_spec); }
     }
     /** Integer binary Plus expressions  (and opposites of such expressions) */
     public final class IIIPlus extends IIIBinOp {
@@ -1026,25 +1026,25 @@ public class IBSStdExpressions<
          * is the opposite of the parameter.
          * @param _p the expression from which the opposite is required
          */
-        public IIIPlus(IIIPlus _p){
+        public IIIPlus(IIIPlus _p) {
             super(_p.left, _p.right,!_p.isNeg);
-            type = (isNeg?iiiPlus_n:iiiPlus);
+            type = (isNeg ? iiiPlus_n : iiiPlus);
         }
-        public final IIIPlus negate(){ return new IIIPlus(this); }
-        public final int eval() { return (isNeg?-(left.eval() + right.eval()):(left.eval() + right.eval())); }
+        public final IIIPlus negate() { return new IIIPlus(this); }
+        public final int eval() { return (isNeg ? -(left.eval() + right.eval()) : (left.eval() + right.eval())); }
         public final int eval(SpecState _ss) {
-            return (isNeg?-(left.eval(_ss) + right.eval(_ss)):(left.eval(_ss) + right.eval(_ss)));
+            return (isNeg ? -(left.eval(_ss) + right.eval(_ss)) : (left.eval(_ss) + right.eval(_ss)));
         }
         public final int eval(SpecState _ss, State _st) {
-            return (isNeg?-(left.eval(_ss,_st) + right.eval(_ss,_st)):(left.eval(_ss,_st) + right.eval(_ss,_st)));
+            return (isNeg ? -(left.eval(_ss,_st) + right.eval(_ss,_st)) : (left.eval(_ss,_st) + right.eval(_ss,_st)));
         }
         public final int eval(CompState _cs) {
-            return (isNeg?-(left.eval(_cs) + right.eval(_cs)):(left.eval(_cs) + right.eval(_cs)));
+            return (isNeg ? -(left.eval(_cs) + right.eval(_cs)) : (left.eval(_cs) + right.eval(_cs)));
         }
-        public final int eval(Object _qs){ return (isNeg?-(left.eval(_qs) + right.eval(_qs)):(left.eval(_qs) + right.eval(_qs))); }
+        public final int eval(Object _qs) { return (isNeg ? -(left.eval(_qs) + right.eval(_qs)) : (left.eval(_qs) + right.eval(_qs))); }
         public final String toString() {
             String s = "(" +  left.toString() + ")" + opString[iiiPlus>>>4] + "(" +  right.toString() + ")";
-            return  (isNeg? opString[opNeg] + "(" + s + ")" : s);
+            return  (isNeg ?  opString[opNeg] + "(" + s + ")"  :  s);
         }
     }
     /** Integer binary Minus expressions  (and opposites of such expressions) */
@@ -1058,27 +1058,27 @@ public class IBSStdExpressions<
          * is the opposite of the parameter.
          * @param _p the expression from which the opposite is required
          */
-        public IIIMinus(IIIMinus _p){
+        public IIIMinus(IIIMinus _p) {
             super(_p.left, _p.right,!_p.isNeg);
-            type = (isNeg?iiiMinus_n:iiiMinus);
+            type = (isNeg ? iiiMinus_n : iiiMinus);
         }
-        public final IIIMinus negate(){ return new IIIMinus(this); }
-        public final int eval() { return (isNeg?-(left.eval() - right.eval()):(left.eval() - right.eval())); }
+        public final IIIMinus negate() { return new IIIMinus(this); }
+        public final int eval() { return (isNeg ? -(left.eval() - right.eval()) : (left.eval() - right.eval())); }
         public final int eval(SpecState _ss) {
-            return (isNeg?-(left.eval(_ss) - right.eval(_ss)):(left.eval(_ss) - right.eval(_ss)));
+            return (isNeg ? -(left.eval(_ss) - right.eval(_ss)) : (left.eval(_ss) - right.eval(_ss)));
         }
         public final int eval(SpecState _ss, State _st) {
-            return (isNeg?-(left.eval(_ss,_st) - right.eval(_ss,_st)):(left.eval(_ss,_st) - right.eval(_ss,_st)));
+            return (isNeg ? -(left.eval(_ss,_st) - right.eval(_ss,_st)) : (left.eval(_ss,_st) - right.eval(_ss,_st)));
         }
         public final int eval(CompState _cs) {
-            return (isNeg?-(left.eval(_cs) - right.eval(_cs)):(left.eval(_cs) - right.eval(_cs)));
+            return (isNeg ? -(left.eval(_cs) - right.eval(_cs)) : (left.eval(_cs) - right.eval(_cs)));
         }
-        public final int eval(Object _qs){
-            return (isNeg?-(left.eval(_qs) - right.eval(_qs)):(left.eval(_qs) - right.eval(_qs)));
+        public final int eval(Object _qs) {
+            return (isNeg ? -(left.eval(_qs) - right.eval(_qs)) : (left.eval(_qs) - right.eval(_qs)));
         }
         public final String toString() {
             String s = "(" +  left.toString() + ")" + opString[iiiMinus>>>4] + "(" +  right.toString() + ")";
-            return  (isNeg? opString[opNeg] + "(" + s + ")" : s);
+            return  (isNeg ?  opString[opNeg] + "(" + s + ")" : s);
         }
     }
     /** Integer binary Mult expressions  (and opposites of such expressions) */
@@ -1092,27 +1092,27 @@ public class IBSStdExpressions<
          * is the opposite of the parameter.
          * @param _p the expression from which the opposite is required
          */
-        public IIIMult(IIIMult _p){
+        public IIIMult(IIIMult _p) {
             super(_p.left, _p.right,!_p.isNeg);
-            type = (isNeg?iiiMult_n:iiiMult);
+            type = (isNeg ? iiiMult_n : iiiMult);
         }
-        public final IIIMult negate(){ return new IIIMult(this); }
-        public final int eval() { return (isNeg?-(left.eval() * right.eval()):(left.eval() * right.eval())); }
+        public final IIIMult negate() { return new IIIMult(this); }
+        public final int eval() { return (isNeg ? -(left.eval() * right.eval()) : (left.eval() * right.eval())); }
         public final int eval(SpecState _ss) {
-            return (isNeg?-(left.eval(_ss) * right.eval(_ss)):(left.eval(_ss) * right.eval(_ss)));
+            return (isNeg ? -(left.eval(_ss) * right.eval(_ss)) : (left.eval(_ss) * right.eval(_ss)));
         }
         public final int eval(SpecState _ss, State _st) {
-            return (isNeg?-(left.eval(_ss,_st) * right.eval(_ss,_st)):(left.eval(_ss,_st) * right.eval(_ss,_st)));
+            return (isNeg ? -(left.eval(_ss,_st) * right.eval(_ss,_st)) : (left.eval(_ss,_st) * right.eval(_ss,_st)));
         }
         public final int eval(CompState _cs) {
-            return (isNeg?-(left.eval(_cs) * right.eval(_cs)):(left.eval(_cs) * right.eval(_cs)));
+            return (isNeg ? -(left.eval(_cs) * right.eval(_cs)) : (left.eval(_cs) * right.eval(_cs)));
         }
-        public final int eval(Object _qs){
-            return (isNeg?-(left.eval(_qs) * right.eval(_qs)):(left.eval(_qs) * right.eval(_qs)));
+        public final int eval(Object _qs) {
+            return (isNeg ? -(left.eval(_qs) * right.eval(_qs)) : (left.eval(_qs) * right.eval(_qs)));
         }
         public final String toString() {
             String s = "(" +  left.toString() + ")" + opString[iiiMult>>>4] + "(" +  right.toString() + ")";
-            return  (isNeg? opString[opNeg] + "(" + s + ")" : s);
+            return  (isNeg ?  opString[opNeg] + "(" + s + ")" : s);
         }
     }
     /** Integer binary Div expressions  (and opposites of such expressions) */
@@ -1126,27 +1126,27 @@ public class IBSStdExpressions<
          * is the opposite of the parameter.
          * @param _p the expression from which the opposite is required
          */
-        public IIIDiv(IIIDiv _p){
+        public IIIDiv(IIIDiv _p) {
             super(_p.left, _p.right,!_p.isNeg);
-            type = (isNeg?iiiDiv_n:iiiDiv);
+            type = (isNeg ? iiiDiv_n : iiiDiv);
         }
-        public final IIIDiv negate(){ return new IIIDiv(this); }
-        public final int eval() { return (isNeg?-(left.eval() / right.eval()):(left.eval() / right.eval())); }
+        public final IIIDiv negate() { return new IIIDiv(this); }
+        public final int eval() { return (isNeg ? -(left.eval() / right.eval()) : (left.eval() / right.eval())); }
         public final int eval(SpecState _ss) {
-            return (isNeg?-(left.eval(_ss) / right.eval(_ss)):(left.eval(_ss) / right.eval(_ss)));
+            return (isNeg ? -(left.eval(_ss) / right.eval(_ss)) : (left.eval(_ss) / right.eval(_ss)));
         }
         public final int eval(SpecState _ss, State _st) {
-            return (isNeg?-(left.eval(_ss,_st) / right.eval(_ss,_st)):(left.eval(_ss,_st) / right.eval(_ss,_st)));
+            return (isNeg ? -(left.eval(_ss,_st) / right.eval(_ss,_st)) : (left.eval(_ss,_st) / right.eval(_ss,_st)));
         }
         public final int eval(CompState _cs) {
-            return (isNeg?-(left.eval(_cs) / right.eval(_cs)):(left.eval(_cs) / right.eval(_cs)));
+            return (isNeg ? -(left.eval(_cs) / right.eval(_cs)) : (left.eval(_cs) / right.eval(_cs)));
         }
-        public final int eval(Object _qs){
-            return (isNeg?-(left.eval(_qs) / right.eval(_qs)):(left.eval(_qs) / right.eval(_qs)));
+        public final int eval(Object _qs) {
+            return (isNeg ? -(left.eval(_qs) / right.eval(_qs)) : (left.eval(_qs) / right.eval(_qs)));
         }
         public final String toString() {
             String s = "(" +  left.toString() + ")" + opString[iiiDiv>>>4] + "(" +  right.toString() + ")";
-            return  (isNeg? opString[opNeg] + "(" + s + ")" : s);
+            return  (isNeg ?  opString[opNeg] + "(" + s + ")" : s);
         }
     }
     /** Integer binary Modulus expressions  (and opposites of such expressions) */
@@ -1160,27 +1160,27 @@ public class IBSStdExpressions<
          * is the opposite of the parameter.
          * @param _p the expression from which the opposite is required
          */
-        public IIIMod(IIIMod _p){
+        public IIIMod(IIIMod _p) {
             super(_p.left, _p.right,!_p.isNeg);
-            type = (isNeg?iiiMod_n:iiiMod);
+            type = (isNeg ? iiiMod_n : iiiMod);
         }
-        public final IIIMod negate(){ return new IIIMod(this); }
-        public final int eval() { return (isNeg?-(left.eval() % right.eval()):(left.eval() % right.eval())); }
+        public final IIIMod negate() { return new IIIMod(this); }
+        public final int eval() { return (isNeg ? -(left.eval() % right.eval()) : (left.eval() % right.eval())); }
         public final int eval(SpecState _ss) {
-            return (isNeg?-(left.eval(_ss) % right.eval(_ss)):(left.eval(_ss) % right.eval(_ss)));
+            return (isNeg ? -(left.eval(_ss) % right.eval(_ss)) : (left.eval(_ss) % right.eval(_ss)));
         }
         public final int eval(SpecState _ss, State _st) {
-            return (isNeg?-(left.eval(_ss,_st) % right.eval(_ss,_st)):(left.eval(_ss,_st) % right.eval(_ss,_st)));
+            return (isNeg ? -(left.eval(_ss,_st) % right.eval(_ss,_st)) : (left.eval(_ss,_st) % right.eval(_ss,_st)));
         }
         public final int eval(CompState _cs) {
-            return (isNeg?-(left.eval(_cs) % right.eval(_cs)):(left.eval(_cs) % right.eval(_cs)));
+            return (isNeg ? -(left.eval(_cs) % right.eval(_cs)) : (left.eval(_cs) % right.eval(_cs)));
         }
-        public final int eval(Object _qs){
-            return (isNeg?-(left.eval(_qs) % right.eval(_qs)):(left.eval(_qs) % right.eval(_qs)));
+        public final int eval(Object _qs) {
+            return (isNeg ? -(left.eval(_qs) % right.eval(_qs)) : (left.eval(_qs) % right.eval(_qs)));
         }
         public final String toString() {
             String s = "(" +  left.toString() + ")" + opString[iiiMod>>>4] + "(" +  right.toString() + ")";
-            return  (isNeg? opString[opNeg] + "(" + s + ")" : s);
+            return  (isNeg ?  opString[opNeg] + "(" + s + ")" : s);
         }
     }
     /** Boolean binary And expressions (and negations of such expressions)*/
@@ -1192,12 +1192,12 @@ public class IBSStdExpressions<
          * is the negation of the parameter.
          * @param _p the expression from which the negation is required
          */
-        public BBBAnd(BBBAnd _p){
+        public BBBAnd(BBBAnd _p) {
             super(_p.left, _p.right);
             isNot = !_p.isNot;
-            type = (isNot?bbbAnd_n:bbbAnd);
+            type = (isNot ? bbbAnd_n : bbbAnd);
         }
-        public final BBBAnd negate(){ return new BBBAnd(this); }
+        public final BBBAnd negate() { return new BBBAnd(this); }
         public final boolean eval() {
             boolean b = left.eval() && right.eval();
             return isNot != b;
@@ -1220,24 +1220,24 @@ public class IBSStdExpressions<
         }
         public final String toString() {
             String s = "(" +  left.toString() + ")" + opString[bbbAnd>>>4] + "(" +  right.toString() + ")";
-            return  (isNot? opString[opNot] + "(" + s + ")" : s);
+            return  (isNot ?  opString[opNot] + "(" + s + ")" : s);
         }
     }
     /** Boolean binary Or expressions (and negations of such expressions)*/
     public final class BBBOr extends BBBBinOp {
         private final boolean isNot;
-        public BBBOr(BExpr _l, BExpr _r){ super(_l, _r); isNot=false; type = bbbOr;}
+        public BBBOr(BExpr _l, BExpr _r) { super(_l, _r); isNot=false; type = bbbOr;}
         /**
          * Constructor for implementing negate. The build expression
          * is the negation of the parameter.
          * @param _p the expression from which the negation is required
          */
-        public BBBOr(BBBOr _p){
+        public BBBOr(BBBOr _p) {
             super(_p.left, _p.right);
             isNot = !_p.isNot;
-            type = (isNot?bbbOr_n:bbbOr);
+            type = (isNot ? bbbOr_n : bbbOr);
         }
-        public final BBBOr negate(){ return new BBBOr(this); }
+        public final BBBOr negate() { return new BBBOr(this); }
         public final boolean eval() {
             boolean b = left.eval() || right.eval();
             return isNot != b;
@@ -1260,22 +1260,22 @@ public class IBSStdExpressions<
         }
         public final String toString() {
             String s = "(" +  left.toString() + ")" + opString[bbbOr>>>4] + "(" +  right.toString() + ")";
-            return  (isNot? opString[opNot] + "(" + s + ")" : s);
+            return  (isNot ?  opString[opNot] + "(" + s + ")" : s);
         }
     }
     /** Integer Equality expressions */
     public final class BIIEq extends BIIBinOp {
-        public BIIEq(IExpr _l, IExpr _r){ super(_l, _r); type = biiEq;}
+        public BIIEq(IExpr _l, IExpr _r) { super(_l, _r); type = biiEq;}
         /**
          * Constructor for implementing negate. The build expression
          * is the negation of the parameter.
          * @param _p the expression from which the negation is required
          */
-        public BIIEq(BIIDif _p){
+        public BIIEq(BIIDif _p) {
             super(_p.left, _p.right);
             type = biiEq;
         }
-        public final BIIDif negate(){ return new BIIDif(this); }
+        public final BIIDif negate() { return new BIIDif(this); }
         public final boolean eval() { return left.eval() == right.eval(); }
         public final boolean eval(SpecState _ss) { return left.eval(_ss) == right.eval(_ss); }
         public final boolean eval(SpecState _ss, State _st) { return left.eval(_ss,_st) == right.eval(_ss,_st); }
@@ -1287,14 +1287,14 @@ public class IBSStdExpressions<
     }
     /** Boolean Equality expressions */
     public final class BBBEq extends BBBBinOp {
-        public BBBEq(BExpr _l, BExpr _r){ super(_l, _r); type = bbbEq; }
+        public BBBEq(BExpr _l, BExpr _r) { super(_l, _r); type = bbbEq; }
         /**
          * Constructor for implementing negate. The build expression
          * is the negation of the parameter.
          * @param _p the expression from which the negation is required
          */
-        public BBBEq(BBBDif _p){ super(_p.left, _p.right); type = bbbEq; }
-        public final BBBDif negate(){ return new BBBDif(this); }
+        public BBBEq(BBBDif _p) { super(_p.left, _p.right); type = bbbEq; }
+        public final BBBDif negate() { return new BBBDif(this); }
         public final boolean eval() { return left.eval() == right.eval(); }
         public final boolean eval(SpecState _ss) { return left.eval(_ss) == right.eval(_ss); }
         public final boolean eval(SpecState _ss, State _st) { return left.eval(_ss,_st) == right.eval(_ss,_st); }
@@ -1306,17 +1306,17 @@ public class IBSStdExpressions<
     }
     /** Integer Difference expressions */
     public final class BIIDif extends BIIBinOp {
-        public BIIDif(IExpr _l, IExpr _r){ super(_l, _r); type = biiDif; }
+        public BIIDif(IExpr _l, IExpr _r) { super(_l, _r); type = biiDif; }
         /**
          * Constructor for implementing negate. The build expression
          * is the negation of the parameter.
          * @param _p the expression from which the negation is required
          */
-        public BIIDif(BIIEq _p){
+        public BIIDif(BIIEq _p) {
             super(_p.left, _p.right);
             type = biiDif;
         }
-        public final BIIEq negate(){ return new BIIEq(this); }
+        public final BIIEq negate() { return new BIIEq(this); }
         public final boolean eval() { return left.eval() != right.eval(); }
         public final boolean eval(SpecState _ss) { return left.eval(_ss) != right.eval(_ss); }
         public final boolean eval(SpecState _ss, State _st) { return left.eval(_ss,_st) != right.eval(_ss,_st); }
@@ -1328,14 +1328,14 @@ public class IBSStdExpressions<
     }
     /** Boolean Difference expressions */
     public final class BBBDif extends BBBBinOp {
-        public BBBDif(BExpr _l, BExpr _r){ super(_l, _r); type = bbbDif; }
+        public BBBDif(BExpr _l, BExpr _r) { super(_l, _r); type = bbbDif; }
         /**
          * Constructor for implementing negate. The build expression
          * is the negation of the parameter.
          * @param _p the expression from which the negation is required
          */
-        public BBBDif(BBBEq _p){ super(_p.left, _p.right); type = bbbDif; }
-        public final BBBEq negate(){ return new BBBEq(this); }
+        public BBBDif(BBBEq _p) { super(_p.left, _p.right); type = bbbDif; }
+        public final BBBEq negate() { return new BBBEq(this); }
         public final boolean eval() { return left.eval() != right.eval(); }
         public final boolean eval(SpecState _ss) { return left.eval(_ss) != right.eval(_ss); }
         public final boolean eval(SpecState _ss, State _st) { return left.eval(_ss,_st) != right.eval(_ss,_st); }
@@ -1355,8 +1355,8 @@ public class IBSStdExpressions<
          * is the negation of the parameter.
          * @param _p the expression from which the negation is required
          */
-        public BIILt(BIIGeq _p){ super(_p.left, _p.right); type = biiLt; }
-        public final BIIGeq negate(){ return new BIIGeq(this); }
+        public BIILt(BIIGeq _p) { super(_p.left, _p.right); type = biiLt; }
+        public final BIIGeq negate() { return new BIIGeq(this); }
         public final boolean eval() { return  left.eval() < right.eval(); }
         public final boolean eval(SpecState _ss) { return left.eval(_ss) < right.eval(_ss); }
         public final boolean eval(SpecState _ss, State _st) { return left.eval(_ss, _st) < right.eval(_ss, _st); }
@@ -1378,8 +1378,8 @@ public class IBSStdExpressions<
          * is the negation of the parameter.
          * @param _p the expression from which the negation is required
          */
-        public BIIGt(BIILeq _p){ super(_p.left, _p.right); type = biiGt; }
-        public final BIILeq negate(){ return new BIILeq(this); }
+        public BIIGt(BIILeq _p) { super(_p.left, _p.right); type = biiGt; }
+        public final BIILeq negate() { return new BIILeq(this); }
         public final boolean eval() { return left.eval() > right.eval(); }
         public final boolean eval(SpecState _ss) { return left.eval(_ss) > right.eval(_ss); }
         public final boolean eval(SpecState _ss, State _st) { return left.eval(_ss, _st) > right.eval(_ss, _st); }
@@ -1393,14 +1393,14 @@ public class IBSStdExpressions<
     }
     /** Integer "Lower Than or Equal" expressions */
     public final class BIILeq extends BIIBinOp {
-        public BIILeq(IExpr _l, IExpr _r){ super(_l, _r); type = biiLeq; }
+        public BIILeq(IExpr _l, IExpr _r) { super(_l, _r); type = biiLeq; }
         /**
          * Constructor for implementing negate. The build expression
          * is the negation of the parameter.
          * @param _p the expression from which the negation is required
          */
-        public BIILeq(BIIGt _p){ super(_p.left, _p.right); type = biiLeq; }
-        public final BIIGt negate(){ return new BIIGt(this); }
+        public BIILeq(BIIGt _p) { super(_p.left, _p.right); type = biiLeq; }
+        public final BIIGt negate() { return new BIIGt(this); }
         public final boolean eval() { return left.eval() <= right.eval(); }
         public final boolean eval(SpecState _ss) { return left.eval(_ss) <= right.eval(_ss); }
         public final boolean eval(SpecState _ss, State _st) { return left.eval(_ss, _st) <= right.eval(_ss, _st); }
@@ -1420,8 +1420,8 @@ public class IBSStdExpressions<
          * is the negation of the parameter.
          * @param _p the expression from which the negation is required
          */
-        public BIIGeq(BIILt _p){ super(_p.left, _p.right); type = biiGeq; }
-        public final BIILt negate(){ return new BIILt(this); }
+        public BIIGeq(BIILt _p) { super(_p.left, _p.right); type = biiGeq; }
+        public final BIILt negate() { return new BIILt(this); }
         public final boolean eval() { return left.eval() >= right.eval(); }
         public final boolean eval(SpecState _ss) { return left.eval(_ss) >= right.eval(_ss); }
         public final boolean eval(SpecState _ss, State _st) { return left.eval(_ss, _st) >= right.eval(_ss, _st); }

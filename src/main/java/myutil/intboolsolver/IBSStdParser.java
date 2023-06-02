@@ -217,7 +217,7 @@ public class IBSStdParser< Spec extends IBSParamSpec, Comp extends IBSParamComp,
 
     @SuppressWarnings("unchecked")
     public IBSExpressions<Spec,Comp,State,SpecState,CompState>.IExpr parseInt(Spec _spec, String _s){
-        try { lexer.init(_spec,"integer " + _s); }
+        try { lexer.init(_spec, "integer " + _s); }
         catch (java.io.IOException e) { return null; }
         try { return (IBSExpressions<Spec,Comp,State,SpecState,CompState>.IExpr) parse().value; }
         catch (Exception e) { lexer.getExpressions().clear(); return null; }
@@ -225,7 +225,7 @@ public class IBSStdParser< Spec extends IBSParamSpec, Comp extends IBSParamComp,
 
     @SuppressWarnings("unchecked")
     public IBSExpressions<Spec,Comp,State,SpecState,CompState>.BExpr parseBool(Spec _spec, String _s){
-        try { lexer.init(_spec,"boolean " + _s); }
+        try { lexer.init(_spec, "boolean " + _s); }
         catch (java.io.IOException e) { return null; }
         try { return (IBSExpressions<Spec,Comp,State,SpecState,CompState>.BExpr) parse().value; }
         catch (Exception e) { lexer.getExpressions().clear(); return null; }
@@ -233,7 +233,7 @@ public class IBSStdParser< Spec extends IBSParamSpec, Comp extends IBSParamComp,
 
     @SuppressWarnings("unchecked")
     public IBSExpressions<Spec,Comp,State,SpecState,CompState>.BExpr parseGuard(Spec _spec, String _s){
-        try { lexer.init(_spec,"guard " + _s); }
+        try { lexer.init(_spec, "guard " + _s); }
         catch (java.io.IOException e) { return null; }
         try { return (IBSExpressions<Spec,Comp,State,SpecState,CompState>.BExpr) parse().value; }
         catch (Exception e) { lexer.getExpressions().clear(); return null; }
@@ -241,7 +241,7 @@ public class IBSStdParser< Spec extends IBSParamSpec, Comp extends IBSParamComp,
 
     @SuppressWarnings("unchecked")
     public IBSExpressions<Spec,Comp,State,SpecState,CompState>.IExpr parseInt(Comp _comp, String _s){
-        try { lexer.init(_comp,"integer " + _s); }
+        try { lexer.init(_comp, "integer " + _s); }
         catch (java.io.IOException e) { return null; }
         try { return (IBSExpressions<Spec,Comp,State,SpecState,CompState>.IExpr) parse().value; }
         catch (Exception e) { lexer.getExpressions().clear(); return null; }
@@ -249,7 +249,7 @@ public class IBSStdParser< Spec extends IBSParamSpec, Comp extends IBSParamComp,
 
     @SuppressWarnings("unchecked")
     public IBSExpressions<Spec,Comp,State,SpecState,CompState>.BExpr parseBool(Comp _comp, String _s){
-        try { lexer.init(_comp,"boolean " + _s); }
+        try { lexer.init(_comp, "boolean " + _s); }
         catch (java.io.IOException e) { return null; }
         try { return (IBSExpressions<Spec,Comp,State,SpecState,CompState>.BExpr) parse().value; }
         catch (Exception e) { lexer.getExpressions().clear(); return null; }
@@ -257,7 +257,7 @@ public class IBSStdParser< Spec extends IBSParamSpec, Comp extends IBSParamComp,
 
     @SuppressWarnings("unchecked")
     public IBSExpressions<Spec,Comp,State,SpecState,CompState>.BExpr parseGuard(Comp _comp, String _s){
-        try { lexer.init(_comp,"guard " + _s); }
+        try { lexer.init(_comp, "guard " + _s); }
         catch (java.io.IOException e) { return null; }
         try { return (IBSExpressions<Spec,Comp,State,SpecState,CompState>.BExpr) parse().value; }
         catch (Exception e) { lexer.getExpressions().clear(); return null; }
@@ -295,7 +295,7 @@ public class IBSStdParser< Spec extends IBSParamSpec, Comp extends IBSParamComp,
             lexer.getExpressions().freeInt(index);
             return res;
         }
-        // if (index==-1) syntaxError=true; else syntaxError=false;
+        // if (index == -1) syntaxError=true; else syntaxError=false;
         return null;
     }
 
@@ -307,7 +307,7 @@ public class IBSStdParser< Spec extends IBSParamSpec, Comp extends IBSParamComp,
             lexer.getExpressions().freeBool(index);
             return res;
         }
-        // if (index==-1) syntaxError=true; else syntaxError=false;
+        // if (index == -1) syntaxError=true; else syntaxError=false;
         return null;
     }
 
@@ -485,7 +485,7 @@ class CUP$IBSStdParser$actions {
 		Integer r = CUP$IBSStdParser$stack.peek().<Integer>value();
 		 if (lexer.getExpressions().isIconstant(l.intValue())) {
              int left = lexer.getExpressions().getIExpr(l.intValue()).eval();
-	     if (left==0){
+	     if (left == 0){
                  RESULT = r;
 		 lexer.getExpressions().freeInt(l.intValue());
              } else if (lexer.getExpressions().isIconstant(r.intValue())) {
@@ -500,17 +500,17 @@ class CUP$IBSStdParser$actions {
              }
 	 } else if (lexer.getExpressions().isIconstant(r.intValue())) {
 	     int right = lexer.getExpressions().getIExpr(r.intValue()).eval();
-	     if (right==0){
+	     if (right == 0){
                  RESULT = l;
 		 lexer.getExpressions().freeInt(r.intValue());
              }
 	     else {
-                 RESULT = Integer.valueOf(lexer.getExpressions().make_iiiPlus(l.intValue(),r.intValue()));
+                 RESULT = Integer.valueOf(lexer.getExpressions().make_iiiPlus(l.intValue(), r.intValue()));
                  lexer.getExpressions().freeInt(l.intValue());
                  lexer.getExpressions().freeInt(r.intValue());
              }
 	 } else {
-             RESULT = Integer.valueOf(lexer.getExpressions().make_iiiPlus(l.intValue(),r.intValue()));
+             RESULT = Integer.valueOf(lexer.getExpressions().make_iiiPlus(l.intValue(), r.intValue()));
              lexer.getExpressions().freeInt(l.intValue());
              lexer.getExpressions().freeInt(r.intValue());
 	 }
@@ -531,7 +531,7 @@ class CUP$IBSStdParser$actions {
 		Integer r = CUP$IBSStdParser$stack.peek().<Integer>value();
 		  if (lexer.getExpressions().isIconstant(l.intValue())) {
              int left = lexer.getExpressions().getIExpr(l.intValue()).eval();
-	     if (left==0){
+	     if (left == 0){
                  RESULT =  Integer.valueOf(lexer.getExpressions().make_iNeg(r.intValue()));
 		 lexer.getExpressions().freeInt(l.intValue());
 		 lexer.getExpressions().freeInt(r.intValue());
@@ -541,23 +541,23 @@ class CUP$IBSStdParser$actions {
 		 lexer.getExpressions().freeInt(l.intValue());
 		 lexer.getExpressions().freeInt(r.intValue());
 	     } else {
-                 RESULT = Integer.valueOf(lexer.getExpressions().make_iiiMinus(l.intValue(),r.intValue()));
+                 RESULT = Integer.valueOf(lexer.getExpressions().make_iiiMinus(l.intValue(), r.intValue()));
                  lexer.getExpressions().freeInt(l.intValue());
                  lexer.getExpressions().freeInt(r.intValue());
              }
 	 } else if (lexer.getExpressions().isIconstant(r.intValue())) {
 	     int right = lexer.getExpressions().getIExpr(r.intValue()).eval();
-	     if (right==0){
+	     if (right == 0){
                  RESULT = l;
 		 lexer.getExpressions().freeInt(r.intValue());
              }
 	     else {
-                 RESULT = Integer.valueOf(lexer.getExpressions().make_iiiMinus(l.intValue(),r.intValue()));
+                 RESULT = Integer.valueOf(lexer.getExpressions().make_iiiMinus(l.intValue(), r.intValue()));
                  lexer.getExpressions().freeInt(l.intValue());
                  lexer.getExpressions().freeInt(r.intValue());
              }
 	 } else {
-             RESULT = Integer.valueOf(lexer.getExpressions().make_iiiMinus(l.intValue(),r.intValue()));
+             RESULT = Integer.valueOf(lexer.getExpressions().make_iiiMinus(l.intValue(), r.intValue()));
              lexer.getExpressions().freeInt(l.intValue());
              lexer.getExpressions().freeInt(r.intValue());
 	 }
@@ -578,7 +578,7 @@ class CUP$IBSStdParser$actions {
 		Integer r = CUP$IBSStdParser$stack.peek().<Integer>value();
 		 if (lexer.getExpressions().isIconstant(l.intValue())) {
              int left = lexer.getExpressions().getIExpr(l.intValue()).eval();
-	     if (left==1) {
+	     if (left == 1) {
 	         RESULT = r;
 		 lexer.getExpressions().freeInt(l.intValue());
 	     } else if (lexer.getExpressions().isIconstant(r.intValue())) {
@@ -587,22 +587,22 @@ class CUP$IBSStdParser$actions {
 		 lexer.getExpressions().freeInt(l.intValue());
 		 lexer.getExpressions().freeInt(r.intValue());
 	     } else {
-                 RESULT = Integer.valueOf(lexer.getExpressions().make_iiiMult(l.intValue(),r.intValue()));
+                 RESULT = Integer.valueOf(lexer.getExpressions().make_iiiMult(l.intValue(), r.intValue()));
                  lexer.getExpressions().freeInt(l.intValue());
                  lexer.getExpressions().freeInt(r.intValue());
              }
 	 } else if (lexer.getExpressions().isIconstant(r.intValue())) {
 	     int right = lexer.getExpressions().getIExpr(r.intValue()).eval();
-	     if (right==1) {
+	     if (right == 1) {
 	         RESULT = l;
 		 lexer.getExpressions().freeInt(r.intValue());
 	     } else {
-                 RESULT = Integer.valueOf(lexer.getExpressions().make_iiiMult(l.intValue(),r.intValue()));
+                 RESULT = Integer.valueOf(lexer.getExpressions().make_iiiMult(l.intValue(), r.intValue()));
                  lexer.getExpressions().freeInt(l.intValue());
                  lexer.getExpressions().freeInt(r.intValue());
              }
 	 } else {
-             RESULT = Integer.valueOf(lexer.getExpressions().make_iiiMult(l.intValue(),r.intValue()));
+             RESULT = Integer.valueOf(lexer.getExpressions().make_iiiMult(l.intValue(), r.intValue()));
              lexer.getExpressions().freeInt(l.intValue());
              lexer.getExpressions().freeInt(r.intValue());
 	 }
@@ -623,8 +623,8 @@ class CUP$IBSStdParser$actions {
 		Integer r = CUP$IBSStdParser$stack.peek().<Integer>value();
 		 if (lexer.getExpressions().isIconstant(r.intValue())) {
              int right = lexer.getExpressions().getIExpr(r.intValue()).eval();
-	     if (right==0) throw new Exception("divide by 0");
-	     if (right==1) {
+	     if (right == 0) throw new Exception("divide by 0");
+	     if (right == 1) {
 	     	 RESULT = l;
 		 lexer.getExpressions().freeInt(r.intValue());
 	     } else if (lexer.getExpressions().isIconstant(l.intValue())) {
@@ -633,12 +633,12 @@ class CUP$IBSStdParser$actions {
 		 lexer.getExpressions().freeInt(l.intValue());
 		 lexer.getExpressions().freeInt(r.intValue());
 	     } else {
-                 RESULT = Integer.valueOf(lexer.getExpressions().make_iiiDiv(l.intValue(),r.intValue()));
+                 RESULT = Integer.valueOf(lexer.getExpressions().make_iiiDiv(l.intValue(), r.intValue()));
                  lexer.getExpressions().freeInt(l.intValue());
                  lexer.getExpressions().freeInt(r.intValue());   
 	     }
 	 } else {
-             RESULT = Integer.valueOf(lexer.getExpressions().make_iiiDiv(l.intValue(),r.intValue()));
+             RESULT = Integer.valueOf(lexer.getExpressions().make_iiiDiv(l.intValue(), r.intValue()));
              lexer.getExpressions().freeInt(l.intValue());
              lexer.getExpressions().freeInt(r.intValue());
 	 }
@@ -659,19 +659,19 @@ class CUP$IBSStdParser$actions {
 		Integer r = CUP$IBSStdParser$stack.peek().<Integer>value();
 		 if (lexer.getExpressions().isIconstant(r.intValue())) {
              int right = lexer.getExpressions().getIExpr(r.intValue()).eval();
-	     if (right==0) throw new Exception("mod 0");
+	     if (right == 0) throw new Exception("mod 0");
 	     if (lexer.getExpressions().isIconstant(l.intValue())) {
                  int left = lexer.getExpressions().getIExpr(l.intValue()).eval();
 		 RESULT = Integer.valueOf(lexer.getExpressions().make_iConst(left%right));
 		 lexer.getExpressions().freeInt(l.intValue());
 		 lexer.getExpressions().freeInt(r.intValue());
 	     } else {
-                 RESULT = Integer.valueOf(lexer.getExpressions().make_iiiMod(l.intValue(),r.intValue()));
+                 RESULT = Integer.valueOf(lexer.getExpressions().make_iiiMod(l.intValue(), r.intValue()));
                  lexer.getExpressions().freeInt(l.intValue());
                  lexer.getExpressions().freeInt(r.intValue());   
 	     }
 	 } else {
-             RESULT = Integer.valueOf(lexer.getExpressions().make_iiiMod(l.intValue(),r.intValue()));
+             RESULT = Integer.valueOf(lexer.getExpressions().make_iiiMod(l.intValue(), r.intValue()));
              lexer.getExpressions().freeInt(l.intValue());
              lexer.getExpressions().freeInt(r.intValue());
 	 }
@@ -745,7 +745,7 @@ class CUP$IBSStdParser$actions {
 		 lexer.getExpressions().freeBool(r.intValue());
              }
 	 } else {
-             RESULT = Integer.valueOf(lexer.getExpressions().make_bbbOr(l.intValue(),r.intValue()));
+             RESULT = Integer.valueOf(lexer.getExpressions().make_bbbOr(l.intValue(), r.intValue()));
              lexer.getExpressions().freeBool(l.intValue());
              lexer.getExpressions().freeBool(r.intValue());
 	 }
@@ -783,7 +783,7 @@ class CUP$IBSStdParser$actions {
 		 lexer.getExpressions().freeBool(r.intValue());
              }
 	 } else {
-             RESULT = Integer.valueOf(lexer.getExpressions().make_bbbAnd(l.intValue(),r.intValue()));
+             RESULT = Integer.valueOf(lexer.getExpressions().make_bbbAnd(l.intValue(), r.intValue()));
              lexer.getExpressions().freeBool(l.intValue());
              lexer.getExpressions().freeBool(r.intValue());
 	 }
@@ -857,7 +857,7 @@ class CUP$IBSStdParser$actions {
 	          lexer.getExpressions().getIExpr(l.intValue()).eval() <
                   lexer.getExpressions().getIExpr(r.intValue()).eval()));
          else
-             RESULT = Integer.valueOf(lexer.getExpressions().make_biiLt(l.intValue(),r.intValue()));
+             RESULT = Integer.valueOf(lexer.getExpressions().make_biiLt(l.intValue(), r.intValue()));
          lexer.getExpressions().freeInt(l.intValue());
          lexer.getExpressions().freeInt(r.intValue());
       
@@ -881,7 +881,7 @@ class CUP$IBSStdParser$actions {
 	          lexer.getExpressions().getIExpr(l.intValue()).eval() >
                   lexer.getExpressions().getIExpr(r.intValue()).eval()));
          else
-             RESULT = Integer.valueOf(lexer.getExpressions().make_biiGt(l.intValue(),r.intValue()));
+             RESULT = Integer.valueOf(lexer.getExpressions().make_biiGt(l.intValue(), r.intValue()));
          lexer.getExpressions().freeInt(l.intValue());
          lexer.getExpressions().freeInt(r.intValue());
       
@@ -905,7 +905,7 @@ class CUP$IBSStdParser$actions {
 	          lexer.getExpressions().getIExpr(l.intValue()).eval() <=
                   lexer.getExpressions().getIExpr(r.intValue()).eval()));
          else
-             RESULT = Integer.valueOf(lexer.getExpressions().make_biiLeq(l.intValue(),r.intValue()));
+             RESULT = Integer.valueOf(lexer.getExpressions().make_biiLeq(l.intValue(), r.intValue()));
          lexer.getExpressions().freeInt(l.intValue());
          lexer.getExpressions().freeInt(r.intValue());
       
@@ -929,7 +929,7 @@ class CUP$IBSStdParser$actions {
 	          lexer.getExpressions().getIExpr(l.intValue()).eval() >=
                   lexer.getExpressions().getIExpr(r.intValue()).eval()));
          else
-             RESULT = Integer.valueOf(lexer.getExpressions().make_biiGeq(l.intValue(),r.intValue()));
+             RESULT = Integer.valueOf(lexer.getExpressions().make_biiGeq(l.intValue(), r.intValue()));
          lexer.getExpressions().freeInt(l.intValue());
          lexer.getExpressions().freeInt(r.intValue());
       
@@ -953,7 +953,7 @@ class CUP$IBSStdParser$actions {
 	          lexer.getExpressions().getIExpr(l.intValue()).eval() ==
                   lexer.getExpressions().getIExpr(r.intValue()).eval()));
          else
-             RESULT = Integer.valueOf(lexer.getExpressions().make_biiEq(l.intValue(),r.intValue()));
+             RESULT = Integer.valueOf(lexer.getExpressions().make_biiEq(l.intValue(), r.intValue()));
          lexer.getExpressions().freeInt(l.intValue());
          lexer.getExpressions().freeInt(r.intValue());
       
@@ -977,7 +977,7 @@ class CUP$IBSStdParser$actions {
 	          lexer.getExpressions().getIExpr(l.intValue()).eval() !=
                   lexer.getExpressions().getIExpr(r.intValue()).eval()));
          else
-             RESULT = Integer.valueOf(lexer.getExpressions().make_biiDif(l.intValue(),r.intValue()));
+             RESULT = Integer.valueOf(lexer.getExpressions().make_biiDif(l.intValue(), r.intValue()));
          lexer.getExpressions().freeInt(l.intValue());
          lexer.getExpressions().freeInt(r.intValue());
       
@@ -1016,7 +1016,7 @@ class CUP$IBSStdParser$actions {
 		lexer.getExpressions().freeBool(r.intValue());
              }
 	 } else {
-	     RESULT = Integer.valueOf(lexer.getExpressions().make_bbbEq(l.intValue(),r.intValue()));
+	     RESULT = Integer.valueOf(lexer.getExpressions().make_bbbEq(l.intValue(), r.intValue()));
              lexer.getExpressions().freeBool(l.intValue());
              lexer.getExpressions().freeBool(r.intValue());
 	 }
@@ -1056,7 +1056,7 @@ class CUP$IBSStdParser$actions {
 		lexer.getExpressions().freeBool(r.intValue());
              }
 	 } else {
-	     RESULT = Integer.valueOf(lexer.getExpressions().make_bbbEq(l.intValue(),r.intValue()));
+	     RESULT = Integer.valueOf(lexer.getExpressions().make_bbbEq(l.intValue(), r.intValue()));
              lexer.getExpressions().freeBool(l.intValue());
              lexer.getExpressions().freeBool(r.intValue());
 	 }

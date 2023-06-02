@@ -1,13 +1,18 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="TTool" type="Application" factoryName="Application">
-    <option name="ALTERNATIVE_JRE_PATH" value="jbr-11" />
-    <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
+    <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
     <option name="MAIN_CLASS_NAME" value="Main" />
-    <module name="ttool" />
+    <option name="VM_PARAMETERS" />
     <option name="PROGRAM_PARAMETERS" value="-debug -proverif -experimental -config bin/config.xml" />
     <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/bin" />
-    <method v="2">
-      <option name="Make" enabled="true" />
+    <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
+    <option name="ALTERNATIVE_JRE_PATH" value="jbr-11" />
+    <option name="ENABLE_SWING_INSPECTOR" value="false" />
+    <option name="ENV_VARIABLES" />
+    <option name="PASS_PARENT_ENVS" value="true" />
+    <module name="ttool" />
+    <envs />
+    <method>
       <option name="BuildArtifacts" enabled="true">
         <artifact name="dependencies" />
       </option>

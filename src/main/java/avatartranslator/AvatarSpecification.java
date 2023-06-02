@@ -664,7 +664,8 @@ public class AvatarSpecification extends AvatarElement implements IBSParamSpec {
             }
 
             if (!srcSig.isCompatibleWith(dstSig)) {
-                jsonErrors.add("Signal " + srcSig + " of block " + srcB + " and signal " + dstSig + " of block " + dstB + " cannot be connected " +
+                jsonErrors.add("Signal " + srcSig.getSignalName() + " of block " + sourceBlock + " and signal " + dstSig.getSignalName() + " of block " + destinationBlock + " " +
+                        "cannot be connected " +
                         "because the parameters of these signals are not equal");
                 TraceManager.addDev("Signals " + srcSig + " and " + dstSig + " are not compatible");
                 continue;

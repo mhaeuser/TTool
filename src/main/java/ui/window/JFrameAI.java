@@ -49,7 +49,6 @@ import myutil.AIInterfaceException;
 import myutil.GraphicLib;
 import myutil.TraceManager;
 import ui.*;
-import ui.avatarbd.AvatarBDBlock;
 import ui.avatarbd.AvatarBDPanel;
 import ui.avatarrd.AvatarRDPanel;
 import ui.avatarrd.AvatarRDRequirement;
@@ -106,12 +105,13 @@ public class JFrameAI extends JFrame implements ActionListener, Runnable {
             "{blocks: [{ \"name\": \"Name of block\", \"attributes\": [\"name\": \"name of attribute\", \"type\": \"int or boolean\" ...}" + " same" +
             "(with its parameters : int, boolean ; and its return type : nothing, int or boolean)" +
             "and signals (with its list of parameters : int or boolean, and a type (input, output)" +
-            " then the list of connections between block signals: \"connections\": [\n" +"{\n" + " \"sourceBlock\": \"name of block\",\n" +
+            " then the list of connections between block signals: \"connections\": [\n" + "{\n" + " \"sourceBlock\": \"name of block\",\n" +
             " \"sourceSignal\": \"name of output signal\",\n" +
             " \"destinationBlock\": \"name of destination block\",\n" +
             " \"destinationSignal\": \"rechargeBattery\",\n" +
             " \"communicationType\": \"synchronous (or asynchronous)\"\n" +
-            "}. A connection must connect one output signal of a block to one input signal of a block";
+            "}. A connection must connect one output signal of a block to one input signal of a block. All signals must be connected to exactly one" +
+            "connection";
 
     private String KNOWLEDGE_ON_JSON_FOR_BLOCKS_2 = "The system has two blocks B1 et B2.\n" +
             "B1 has an attribute x of type int and B2 has one attribute y of  type bool.\n" +
@@ -210,69 +210,6 @@ public class JFrameAI extends JFrame implements ActionListener, Runnable {
     private boolean go = false;
 
     private HashMap<Integer, ImageIcon> rotatedI = new HashMap<>();
-
-    private class ChatData implements Runnable {
-        public AIInterface aiinterface;
-        public boolean knowledgeOnProperties = false;
-        public boolean knowledgeOnBlockJSON = false;
-        public JTextPane answer = new JTextPane();
-        public String lastAnswer = "";
-        public int previousKind;
-        public TDiagramPanel tdp;
-        public boolean doIconRotation = false;
-        private Thread t;
-
-
-        public ChatData() {}
-
-        public void clear() {
-            lastAnswer = "";
-            answer.setText("");
-        }
-
-        public void startAnimation() {
-            doIconRotation = true;
-            t = new Thread(this);
-            t.start();
-        }
-
-        public void stopAnimation() {
-            doIconRotation = false;
-            if (t != null) {
-                t.interrupt();
-            }
-            t = null;
-        }
-
-
-        public void run() {
-            int angle = 0;
-
-            while( doIconRotation ) {
-                angle = (angle - 15) % 360;
-                ImageIcon rotated = rotatedI.get(angle);
-                if ( rotated == null ) {
-                    rotated = IconManager.rotateImageIcon(IconManager.imgic154, angle);
-                    rotatedI.put(angle, rotated);
-                }
-
-                setIcon(this, rotated);
-                try {
-                    Thread.currentThread().sleep(100);
-                } catch (Exception e) {
-                    TraceManager.addDev("Interrupted");
-                    doIconRotation = false;
-                };
-            }
-            setIcon(this, IconManager.imgic154);
-        }
-    }
-
-    public void setIcon(ChatData _data, Icon newIcon) {
-        int index = chats.indexOf(_data);
-        answerPane.setIconAt(index, newIcon);
-    }
-
     private JButton buttonClose, buttonStart, buttonApplyResponse;
 
     public JFrameAI(String title, MainGUI _mgui) {
@@ -281,6 +218,11 @@ public class JFrameAI extends JFrame implements ActionListener, Runnable {
         chats = new ArrayList<>();
         makeComponents();
 
+    }
+
+    public void setIcon(ChatData _data, Icon newIcon) {
+        int index = chats.indexOf(_data);
+        answerPane.setIconAt(index, newIcon);
     }
 
     public void makeComponents() {
@@ -356,7 +298,8 @@ public class JFrameAI extends JFrame implements ActionListener, Runnable {
                 enableDisableActions();
                 // Perform your action here
             }
-        });;
+        });
+        ;
         answerPane.addMouseListener(new JFrameAI.PopupListener(this));
         answerPane.setPreferredSize(new Dimension(500, 500));
         addChat(getChatName());
@@ -423,7 +366,6 @@ public class JFrameAI extends JFrame implements ActionListener, Runnable {
 
     }
 
-
     public void actionPerformed(ActionEvent evt) {
 
         TraceManager.addDev("Action performed");
@@ -448,13 +390,12 @@ public class JFrameAI extends JFrame implements ActionListener, Runnable {
                 "macareux", "ours", "italien", "paris-brest", "belle-mère", "apéro (l'abus d'alcool est dangereux pour la santé)",
                 "carpe", "crocodile", "psychologue", "dr emacs", "3615-TTool", "100 balles et 1 mars",
                 "opéra (l’abus d’Alcôve est dangereux pour la santé)", "chapon", "perroquet"};
-        int x = (int)(Math.random()*names.length);
+        int x = (int) (Math.random() * names.length);
         return names[x];
     }
 
-
     private void close() {
-        for(ChatData data: chats) {
+        for (ChatData data : chats) {
             data.stopAnimation();
         }
         dispose();
@@ -496,7 +437,7 @@ public class JFrameAI extends JFrame implements ActionListener, Runnable {
         int index = answerPane.getSelectedIndex();
         TraceManager.addDev("Considered JSON array: " + selectedChat().lastAnswer);
         try {
-            rdpanel.loadAndUpdateFromText( selectedChat().lastAnswer );
+            rdpanel.loadAndUpdateFromText(selectedChat().lastAnswer);
         } catch (org.json.JSONException e) {
             TraceManager.addDev("JSON Exception: " + e.getMessage());
             inform("Answer provided by AI does not respect the JSON format necessary for TTool");
@@ -523,7 +464,7 @@ public class JFrameAI extends JFrame implements ActionListener, Runnable {
 
         TraceManager.addDev("Considered JSON array: " + selectedChat().lastAnswer);
         try {
-            bdpanel.loadAndUpdateFromText( selectedChat().lastAnswer );
+            bdpanel.loadAndUpdateFromText(selectedChat().lastAnswer, true);
         } catch (org.json.JSONException e) {
             TraceManager.addDev("JSON Exception: " + e.getMessage());
             inform("Answer provided by AI does not respect the JSON format necessary for TTool");
@@ -558,7 +499,7 @@ public class JFrameAI extends JFrame implements ActionListener, Runnable {
             String query = req.getValue() + ":";
             int index = automatedAnswer.indexOf(query);
             if (index != -1) {
-                String kind = automatedAnswer.substring( index + query.length() ).trim();
+                String kind = automatedAnswer.substring(index + query.length()).trim();
                 //TraceManager.addDev("Kind=" + kind);
                 int indexSpace = kind.indexOf("\n");
                 int indexSpace1 = kind.indexOf(" ");
@@ -593,7 +534,7 @@ public class JFrameAI extends JFrame implements ActionListener, Runnable {
     }
 
     private void enableDisableActions() {
-        if ((answerPane != null) && (chats != null) && (buttonApplyResponse != null) && (buttonStart != null)){
+        if ((answerPane != null) && (chats != null) && (buttonApplyResponse != null) && (buttonStart != null)) {
             String chat = chats.get(answerPane.getSelectedIndex()).lastAnswer;
             buttonApplyResponse.setEnabled(chat != null && chat.length() > 0);
             buttonStart.setEnabled(!go);
@@ -606,7 +547,6 @@ public class JFrameAI extends JFrame implements ActionListener, Runnable {
         Font f = new Font("Courrier", Font.BOLD, 12);
         jta.setFont(f);
     }
-
 
     private void runChat() {
         Thread t = new Thread(this);
@@ -741,6 +681,7 @@ public class JFrameAI extends JFrame implements ActionListener, Runnable {
     }
 
     private void identifySystemBlocks() {
+        ChatData chat = chats.get(answerPane.getSelectedIndex());
         inform("Identifying system blocks\n");
         TDiagramPanel tdp = mgui.getCurrentTDiagramPanel();
         if (!(tdp instanceof AvatarBDPanel)) {
@@ -752,19 +693,72 @@ public class JFrameAI extends JFrame implements ActionListener, Runnable {
             return;
         }
 
+        chat.tdp = tdp;
+
         TraceManager.addDev("Asking for system blocks");
 
         String questionT = QUESTION_IDENTIFY_SYSTEM_BLOCKS + "\n" + question.getText().trim() + "\n";
-        if (!(chats.get(answerPane.getSelectedIndex()).knowledgeOnBlockJSON)) {
-            chats.get(answerPane.getSelectedIndex()).knowledgeOnBlockJSON = true;
-            chats.get(answerPane.getSelectedIndex()).aiinterface.addKnowledge( KNOWLEDGE_ON_JSON_FOR_BLOCKS, "ok");
-            chats.get(answerPane.getSelectedIndex()).aiinterface.addKnowledge( KNOWLEDGE_ON_JSON_FOR_BLOCKS_2, KNOWLEDGE_ON_JSON_FOR_BLOCKS_ANSWER_2);
+        if (!chat.knowledgeOnBlockJSON) {
+            chat.knowledgeOnBlockJSON = true;
+            chat.aiinterface.addKnowledge(KNOWLEDGE_ON_JSON_FOR_BLOCKS, "ok");
+            chat.aiinterface.addKnowledge(KNOWLEDGE_ON_JSON_FOR_BLOCKS_2, KNOWLEDGE_ON_JSON_FOR_BLOCKS_ANSWER_2);
         }
 
 
-        String answer = makeQuestion(questionT, IDENTIFY_SYSTEM_BLOCKS, tdp);
+        boolean done = false;
+        int cpt = 0;
 
-        // What could be wrong: the used attributes (String, etc.), no connections
+        if (chat.tdp == null) {
+            error("No diagram has been selected\n");
+            return;
+        }
+
+        if (!(chat.tdp instanceof AvatarBDPanel)) {
+            error("Wrong diagram has been selected\n");
+            return;
+        }
+
+        while (!done) {
+            String answer = makeQuestion(questionT, IDENTIFY_SYSTEM_BLOCKS, tdp);
+
+            // What could be wrong: the used attributes (String, etc.), no connections
+            // Analyze Answer
+
+            ArrayList<String> errors = null;
+            try {
+
+                AvatarBDPanel bdpanel = (AvatarBDPanel) selectedChat().tdp;
+                errors = bdpanel.loadAndUpdateFromText(answer, false);
+            } catch (org.json.JSONException e) {
+                TraceManager.addDev("JSON Exception: " + e.getMessage());
+                inform("Answer provided by AI does not respect the JSON format necessary for TTool");
+                errors = new ArrayList<>();
+                errors.add("Invalid JSON format");
+            }
+
+            if ((errors == null) || (errors.size() < 1)) {
+                done = true;
+            }
+
+            cpt++;
+            if (cpt > 20) {
+                done = true;
+            }
+
+            if (!done) {
+                chat.aiinterface.addKnowledge(questionT, answer);
+                questionT = "The following elements you have provided are not correct. Update your JSON:\n";
+                for (String s : errors) {
+                    TraceManager.addDev("Adding error: " + s);
+                    questionT += "- " + s + "\n";
+                }
+                try {
+                    Thread.currentThread().sleep(5000);
+                } catch (Exception e) {}
+            }
+
+
+        }
 
 
     }
@@ -895,7 +889,7 @@ public class JFrameAI extends JFrame implements ActionListener, Runnable {
         // Add a new tab
         answerPane.insertTab(label, icon, comp, tooltip, dst);
 
-        ChatData data  = chats.get(src);
+        ChatData data = chats.get(src);
         chats.remove(src);
         chats.add(dst, data);
 
@@ -910,8 +904,64 @@ public class JFrameAI extends JFrame implements ActionListener, Runnable {
         answerPane.setSelectedIndex(dst);
     }
 
+    private class ChatData implements Runnable {
+        public AIInterface aiinterface;
+        public boolean knowledgeOnProperties = false;
+        public boolean knowledgeOnBlockJSON = false;
+        public JTextPane answer = new JTextPane();
+        public String lastAnswer = "";
+        public int previousKind;
+        public TDiagramPanel tdp;
+        public boolean doIconRotation = false;
+        private Thread t;
 
 
+        public ChatData() {
+        }
+
+        public void clear() {
+            lastAnswer = "";
+            answer.setText("");
+        }
+
+        public void startAnimation() {
+            doIconRotation = true;
+            t = new Thread(this);
+            t.start();
+        }
+
+        public void stopAnimation() {
+            doIconRotation = false;
+            if (t != null) {
+                t.interrupt();
+            }
+            t = null;
+        }
+
+
+        public void run() {
+            int angle = 0;
+
+            while (doIconRotation) {
+                angle = (angle - 15) % 360;
+                ImageIcon rotated = rotatedI.get(angle);
+                if (rotated == null) {
+                    rotated = IconManager.rotateImageIcon(IconManager.imgic154, angle);
+                    rotatedI.put(angle, rotated);
+                }
+
+                setIcon(this, rotated);
+                try {
+                    Thread.currentThread().sleep(100);
+                } catch (Exception e) {
+                    TraceManager.addDev("Interrupted");
+                    doIconRotation = false;
+                }
+                ;
+            }
+            setIcon(this, IconManager.imgic154);
+        }
+    }
 
     // Handling popup menu AI
     private class PopupListener extends MouseAdapter /* popup menus onto tabs */ {

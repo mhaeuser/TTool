@@ -937,10 +937,13 @@ public class AvatarBDPanel extends TDiagramPanel {
         return list;
     }
 
-    public void loadAndUpdateFromText(String _spec) throws org.json.JSONException {
+    public ArrayList<String> loadAndUpdateFromText(String _spec, boolean apply) throws org.json.JSONException {
         TraceManager.addDev("Loading blocks from JSON:" + _spec);
 
         AvatarSpecification avatarSpec = AvatarSpecification.fromJSON(_spec, getName(), this);
-        mgui.drawAvatarSpecification(avatarSpec);
+        if (apply) {
+            mgui.drawAvatarSpecification(avatarSpec);
+        }
+        return AvatarSpecification.getJSONErrors();
     }
 }

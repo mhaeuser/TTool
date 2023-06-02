@@ -326,7 +326,7 @@ public class SafetyProperty  {
         safetySolver = AvatarIBSolver.parseBool(_spec,p);
 
         
-        if (safetySolver==null) {
+        if (safetySolver == null) {
             errorOnProperty = BAD_PROPERTY_STRUCTURE;
             return false;
         }
@@ -376,14 +376,14 @@ public class SafetyProperty  {
         
         safetySolver = AvatarIBSolver.parseBool(_spec,pp);
 
-        if (safetySolver==null) {
+        if (safetySolver == null) {
             errorOnProperty = BAD_PROPERTY_STRUCTURE;
             return false;
         }
         
         safetySolverLead = AvatarIBSolver.parseBool(_spec,pq);
 
-        if (safetySolverLead==null) {
+        if (safetySolverLead == null) {
             errorOnProperty = BAD_PROPERTY_STRUCTURE;
             return false;
         }
@@ -419,7 +419,7 @@ public class SafetyProperty  {
         
         safetySolver = AvatarIBSolver.parseBool(block,pp);
     
-        if (safetySolver==null) {
+        if (safetySolver == null) {
             errorOnProperty = BAD_PROPERTY_STRUCTURE;
             return false;
         }
@@ -428,7 +428,7 @@ public class SafetyProperty  {
         
         safetySolverLead = AvatarIBSolver.parseBool(block,pq);
 
-        if (safetySolverLead==null) {
+        if (safetySolverLead == null) {
             errorOnProperty = BAD_PROPERTY_STRUCTURE;
             return false;
         }

@@ -55,7 +55,10 @@ public interface AIFeedback {
 
   public void setRunning(boolean b);
 
-  public void addInformation(String text);
+  public void addInformation(String text); // e.g. to information pane
+  public void addToChat(String data, boolean user); // e.g. to current chat pane
+  public void addError(String text); // e.g. to error pane
+
   public void setNewBlockDiagram(AvatarSpecification avspec);
 
   public void setAnswerText(String text);

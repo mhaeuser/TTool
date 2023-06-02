@@ -40,10 +40,13 @@
 package ai;
 
 
-import avatartranslator.AvatarSpecification;
+import myutil.AIInterfaceException;
+import myutil.GraphicLib;
+
+import java.awt.*;
 
 /**
- * Class AIBlock
+ * Class AIInteract
  *
  * Creation: 02/06/2023
  * @version 1.0 02/06/2023
@@ -51,49 +54,31 @@ import avatartranslator.AvatarSpecification;
  */
 
 
-public class AIBlock extends AIInteract {
+public abstract class AIInteract {
 
-   public static String KNOWLEDGES_ON_JSON_FOR_BLOCKS_AND_ATTRIBUTES = "When you are asked to identify SysML blocks, return them as a JSON specification" +
-            " " +
-            "formatted as follows:" +
-            "{blocks: [{ \"name\": \"Name of block\", \"attributes\": [\"name\": \"name of attribute\", \"type\": \"int or bool\" ...} ...]" +
-            "Use only attributes of type int or boolean. If you want to use \"String\" or another other attribute, use int.";
+    protected AIChatData chatData;
 
-
-    private String QUESTION_IDENTIFY_SYSTEM_BLOCKS = "From the following system specification, using the specified JSON format, identify the " +
-            "typical system blocks and their attributes. Do respect the JSON format.\n";
-
-
-
-    public AIBlock(AIChatData _chatData) {
-        super(_chatData);
+    public AIInteract(AIChatData _chatData) {
+        chatData = _chatData;
     }
 
-    public void request(String data) {
+    public abstract void request(String data);
 
-        String questionT = QUESTION_IDENTIFY_SYSTEM_BLOCKS + "\n" + data.trim() + "\n";
-        if (!chatData.knowledgeOnBlockJSON) {
-            chatData.knowledgeOnBlockJSON = true;
-            chatData.aiinterface.addKnowledge(KNOWLEDGES_ON_JSON_FOR_BLOCKS_AND_ATTRIBUTES, "ok");
+    // Returns true if there was no problem ; false otherwise
+    public boolean makeQuestion(String _question) {
+        chatData.feedback.addToChat(_question, true);
+        try {
+            chatData.feedback.addInformation("Connecting, waiting for answer\n");
+            chatData.lastAnswer = chatData.aiinterface.chat(_question, true, true);
+        } catch (AIInterfaceException aiie) {
+            chatData.feedback.addError(aiie.getMessage());
+            return false;
         }
+        chatData.feedback.addInformation("Got answer from ai. All done.\n\n");
+        chatData.feedback.addToChat(chatData.lastAnswer, false);
 
-        boolean done = false;
-        int cpt = 0;
-
-        while (!done) {
-            boolean ok = makeQuestion(questionT);
-
-            if (!ok) {
-                done = true;
-            }
-
-            AvatarSpecification specification = AvatarSpecification.fromJSON(chatData.lastAnswer, "design", null);
-            
-
-        }
-
+        return true;
     }
-
 	
     
 }

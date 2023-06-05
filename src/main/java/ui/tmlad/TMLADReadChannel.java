@@ -116,6 +116,10 @@ public class TMLADReadChannel extends TADComponentWithoutSubcomponents/* Issue #
 
     private int securityMaxX;
 	
+    protected boolean authCheck = false;
+    protected int weakAuthStatus = 0;
+    protected int strongAuthStatus = 0;
+
     public TMLADReadChannel(int _x, int _y, int _minX, int _maxX, int _minY, int _maxY, boolean _pos, TGComponent _father, TDiagramPanel _tdp) {
         super(_x, _y, _minX, _maxX, _minY, _maxY, _pos, _father, _tdp);
 
@@ -212,7 +216,7 @@ public class TMLADReadChannel extends TADComponentWithoutSubcomponents/* Issue #
         }
         if (!securityContext.equals("")) {
         	c = g.getColor();
-	        if (!isEncForm){
+	        if (!isEncForm) {
 	        	g.setColor(Color.RED);
 	        }
             drawSingleString(g,"sec:" + securityContext, x + 3 * width / 4, y + height + textY1 - decSec);
@@ -224,6 +228,9 @@ public class TMLADReadChannel extends TADComponentWithoutSubcomponents/* Issue #
             g.setColor(c);
         }
         drawReachabilityInformation(g);
+        if (authCheck) {
+            drawAuthenticityInformation(g);
+        }
 
         if (getCheckLatency()) {
             ConcurrentHashMap<String, String> latency = tdp.getMGUI().getLatencyVals(getDIPLOID());
@@ -285,6 +292,61 @@ public class TMLADReadChannel extends TADComponentWithoutSubcomponents/* Issue #
                 g.drawLine(x - scale( 14 ), y - scale( 9 ), x - scale( 1 ), y + scale( 3 )); // Issue #31
                 g.drawLine(x - scale( 14 ), y + scale( 3 ), x - scale( 1 ), y - scale( 9 )); // Issue #31
             }
+        }
+    }
+
+    public void drawAuthenticityInformation(Graphics g) {
+        Color c = g.getColor();
+        Color c1;
+        Color c2;
+        switch (strongAuthStatus) {
+            case 2:
+                c1 = Color.green;
+                break;
+            case 3:
+                c1 = Color.red;
+                break;
+            default:
+                c1 = Color.gray;
+        }
+        switch (weakAuthStatus) {
+            case 2:
+                c2 = Color.green;
+                break;
+            case 3:
+                c2 = Color.red;
+                break;
+            default:
+                c2 = c1;
+        }
+        double space_port_authlock = width * 0.1;
+        double authovalwidth = height * 1;
+        double authovalheight = height * 1;
+        double authlockwidth = height * 1.1;
+        double authlockheight = height * 1.1;
+        g.drawOval((int)(x + width + (authlockwidth-authovalwidth)/2 + space_port_authlock), (int)(y + height - authlockheight - authovalheight/2), (int)authovalwidth, (int)authovalheight);
+        g.setColor(c1);
+       
+        int[] xps = new int[]{(int)(x + width + space_port_authlock), (int)(x + width + space_port_authlock), (int)(x + width + authlockwidth + space_port_authlock)};
+        int[] yps = new int[]{(int)(y + height - authlockheight), y + height, y + height};
+        int[] xpw = new int[]{(int)(x + width + authlockwidth + space_port_authlock), (int)(x + width + authlockwidth + space_port_authlock), (int)(x + width + space_port_authlock)};
+        int[] ypw = new int[]{y + height, (int)(y + height -  authlockheight), (int)(y + height - authlockheight)};
+        g.fillPolygon(xps, yps, 3);
+
+        g.setColor(c2);
+        g.fillPolygon(xpw, ypw, 3);
+        g.setColor(c);
+        g.drawPolygon(xps, yps, 3);
+        g.drawPolygon(xpw, ypw, 3);
+        drawSingleString(g, "S", (int)(x + width + space_port_authlock), (int) (y + 0.95*height));
+        drawSingleString(g, "W", (int)(x + 0.85*authlockwidth/2 + width + space_port_authlock), (int)(y + height - 0.95*authlockheight/2));
+        if (strongAuthStatus == 3) {
+           g.drawLine((int)(x + width + space_port_authlock), y + height, (int)(x + width + authlockwidth/2 + space_port_authlock), (int)(y + height -  authlockheight/2));
+           g.drawLine((int)(x + width + space_port_authlock), (int)(y + height -  authlockheight/2), (int)(x + width + authlockwidth/2 + space_port_authlock), y + height);
+        }
+        if (weakAuthStatus == 3 || strongAuthStatus == 3 && weakAuthStatus < 2) {
+           g.drawLine((int)(x + width + authlockwidth/2 + space_port_authlock), (int)(y + height -  authlockheight/2), (int)(x + width + authlockwidth + space_port_authlock), (int)(y + height -  authlockheight));
+           g.drawLine((int)(x + width + authlockwidth/2 + space_port_authlock), (int)(y + height -  authlockheight), (int)(x + width + authlockwidth + space_port_authlock), (int)(y + height -  authlockheight/2));
         }
     }
 
@@ -424,8 +486,8 @@ public class TMLADReadChannel extends TADComponentWithoutSubcomponents/* Issue #
                                 securityContext = elt.getAttribute("secPattern");
                                 isAttacker = elt.getAttribute("isAttacker").equals("Yes");
                                 isEncForm = elt.getAttribute("isEncForm").equals("Yes");    
-                                if (elt.getAttribute("isEncForm").equals("") || !elt.hasAttribute("isEncForm")){
-                                	if (!securityContext.equals("")){
+                                if (elt.getAttribute("isEncForm").equals("") || !elt.hasAttribute("isEncForm")) {
+                                	if (!securityContext.equals("")) {
                                 		isEncForm=true;
                                 	}
                                 }
@@ -468,11 +530,11 @@ public class TMLADReadChannel extends TADComponentWithoutSubcomponents/* Issue #
         stateOfError = _stateAction;
     }
 
-    public boolean getEncForm(){
+    public boolean getEncForm() {
 		return isEncForm;
 	}
 		
-	public void setEncForm(boolean encForm){
+	public void setEncForm(boolean encForm) {
 		isEncForm=encForm;
 	}
 
@@ -480,5 +542,30 @@ public class TMLADReadChannel extends TADComponentWithoutSubcomponents/* Issue #
     public void setChannelName(String s) {
         channelName = s;
         makeValue();
+    }
+
+    public boolean getAuthCheck() {
+		return authCheck;
+	}
+
+    public void setAuthCheck(Boolean _authCheck) {
+        authCheck = _authCheck;
+        makeValue();
+    }
+
+    public int getWeakAuthStatus() {
+		return weakAuthStatus;
+	}
+
+    public void setWeakAuthStatus(int _weakAuthStatus) {
+        weakAuthStatus = _weakAuthStatus;
+    }
+
+    public int getStrongAuthStatus() {
+		return strongAuthStatus;
+	}
+
+    public void setStrongAuthStatus(int _strongAuthStatus) {
+        strongAuthStatus = _strongAuthStatus;
     }
 }

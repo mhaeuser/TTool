@@ -252,6 +252,12 @@ public class TMLADEncrypt extends TADComponentWithoutSubcomponents/* Issue #69 T
         jdms.setVisible(true); // blocked until dialog has been closed
 
         if (jdms.hasBeenSet() && (jdms.hasValidString(0))) {
+            for (String k : tdp.getMGUI().getCurrentCryptoConfig()) {
+                if (k.equals(jdms.getString(0)) && !securityContext.equals(jdms.getString(0))) {
+                    JOptionPane.showMessageDialog(frame, "Error: the name is already in use", "Name modification", JOptionPane.ERROR_MESSAGE);
+                    return false;
+                }
+            }
             securityContext = jdms.getString(0);
             type = jdms.getString(1);
             message_overhead = jdms.getString(2);

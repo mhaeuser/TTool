@@ -42,8 +42,11 @@ package ai;
 
 import myutil.AIInterfaceException;
 import myutil.GraphicLib;
+import myutil.TraceManager;
 
 import java.awt.*;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 
 /**
  * Class AIInteract
@@ -54,30 +57,135 @@ import java.awt.*;
  */
 
 
-public abstract class AIInteract {
+public abstract class AIInteract implements Runnable {
+
+    public static String[] REQUEST_TYPES = {"Simple chat", "Identify blocks"};
+    public static String[] SHORT_REQUEST_TYPES = {"sc", "ib"};
+    public static String[] REQUEST_CLASSES = {"AIChat", "AIBlock"};
 
     protected AIChatData chatData;
+
 
     public AIInteract(AIChatData _chatData) {
         chatData = _chatData;
     }
 
-    public abstract void request(String data);
+    public abstract void internalRequest();
+    public abstract Object applyAnswer(Object input);
+
+    public final void makeRequest(String _data) {
+        chatData.lastQuestion = _data;
+        startRunning();
+    }
+
+    public void run() {
+        internalRequest();
+        stopRunning();
+    }
+
+    public void startRunning() {
+        if (chatData.feedback != null) {
+            chatData.feedback.setRunning(true);
+        }
+        chatData.t = new Thread(this);
+        chatData.t.start();
+    }
+
+    public void stopRunning() {
+        TraceManager.addDev("stop running");
+        if (chatData.feedback != null) {
+            chatData.feedback.setRunning(false);
+        }
+        if (chatData.t != null) {
+            chatData.t.interrupt();
+        }
+        if (chatData.feedback != null) {
+            chatData.feedback.setAnswerText(chatData.lastAnswer);
+        }
+        chatData.t = null;
+    }
 
     // Returns true if there was no problem ; false otherwise
     public boolean makeQuestion(String _question) {
-        chatData.feedback.addToChat(_question, true);
+        if (chatData.feedback != null) {
+            chatData.feedback.addToChat(_question, true);
+        }
         try {
-            chatData.feedback.addInformation("Connecting, waiting for answer\n");
+            if (chatData.feedback != null) {
+                chatData.feedback.addInformation("Connecting, waiting for answer\n");
+            }
             chatData.lastAnswer = chatData.aiinterface.chat(_question, true, true);
         } catch (AIInterfaceException aiie) {
-            chatData.feedback.addError(aiie.getMessage());
+            if (chatData.feedback != null) {
+                chatData.feedback.addError(aiie.getMessage());
+            }
             return false;
         }
-        chatData.feedback.addInformation("Got answer from ai. All done.\n\n");
-        chatData.feedback.addToChat(chatData.lastAnswer, false);
+        if (chatData.feedback != null) {
+            chatData.feedback.addInformation("Got answer from ai.\n");
+            chatData.feedback.addToChat(chatData.lastAnswer, false);
+        }
 
         return true;
+    }
+
+    public String extractJSON() {
+        if (chatData == null) {
+            return null;
+        }
+
+        if (chatData.lastAnswer == null) {
+            return null;
+        }
+
+        int begin =  chatData.lastAnswer.indexOf("{");
+        int end =  chatData.lastAnswer.lastIndexOf("}");
+
+        if (begin == -1 || end == -1) {
+            return null;
+        }
+
+        if (begin > end) {
+            return null;
+        }
+
+        return chatData.lastAnswer.substring(begin, end+1);
+
+    }
+
+
+
+    public static int getIndexOfShortType(String _text) {
+        for(int i=0; i<SHORT_REQUEST_TYPES.length; i++) {
+            if (SHORT_REQUEST_TYPES[i].compareTo(_text) == 0) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    public static AIInteract getAIFromShortType(int _type, AIChatData _chatData) {
+        return getInstance("ai." + REQUEST_CLASSES[_type], _chatData);
+    }
+
+    public static AIInteract getInstance(String className, AIChatData chatData) {
+        TraceManager.addDev("Looking for class: " + className);
+        try {
+            Class<?> clazz = Class.forName(className);
+            if (AIInteract.class.isAssignableFrom(clazz)) {
+                Constructor<?> constructor = clazz.getConstructor(AIChatData.class);
+                TraceManager.addDev("Constructor:" + constructor.getName());
+                return (AIInteract) constructor.newInstance(chatData);
+            }
+        } catch (ClassNotFoundException e) {
+            TraceManager.addDev("The specified class was not found.");
+        } catch (NoSuchMethodException e) {
+            TraceManager.addDev("The specified class does not have a constructor with a single AIChatData parameter.");
+        } catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {
+            TraceManager.addDev("An error occurred during instance creation.");
+        }
+
+        return null;
     }
 	
     

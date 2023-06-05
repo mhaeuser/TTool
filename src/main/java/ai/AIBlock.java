@@ -41,6 +41,7 @@ package ai;
 
 
 import avatartranslator.AvatarSpecification;
+import myutil.TraceManager;
 
 /**
  * Class AIBlock
@@ -53,8 +54,10 @@ import avatartranslator.AvatarSpecification;
 
 public class AIBlock extends AIInteract {
 
-   public static String KNOWLEDGES_ON_JSON_FOR_BLOCKS_AND_ATTRIBUTES = "When you are asked to identify SysML blocks, return them as a JSON specification" +
-            " " +
+    AvatarSpecification specification;
+
+   public static String KNOWLEDGES_ON_JSON_FOR_BLOCKS_AND_ATTRIBUTES = "When you are asked to identify SysML blocks, " +
+           "return them as a JSON specification " +
             "formatted as follows:" +
             "{blocks: [{ \"name\": \"Name of block\", \"attributes\": [\"name\": \"name of attribute\", \"type\": \"int or bool\" ...} ...]" +
             "Use only attributes of type int or boolean. If you want to use \"String\" or another other attribute, use int.";
@@ -64,14 +67,13 @@ public class AIBlock extends AIInteract {
             "typical system blocks and their attributes. Do respect the JSON format.\n";
 
 
-
     public AIBlock(AIChatData _chatData) {
         super(_chatData);
     }
 
-    public void request(String data) {
+    public void internalRequest() {
 
-        String questionT = QUESTION_IDENTIFY_SYSTEM_BLOCKS + "\n" + data.trim() + "\n";
+        String questionT = QUESTION_IDENTIFY_SYSTEM_BLOCKS + "\n" + chatData.lastQuestion.trim() + "\n";
         if (!chatData.knowledgeOnBlockJSON) {
             chatData.knowledgeOnBlockJSON = true;
             chatData.aiinterface.addKnowledge(KNOWLEDGES_ON_JSON_FOR_BLOCKS_AND_ATTRIBUTES, "ok");
@@ -82,16 +84,26 @@ public class AIBlock extends AIInteract {
 
         while (!done) {
             boolean ok = makeQuestion(questionT);
-
             if (!ok) {
                 done = true;
             }
-
-            AvatarSpecification specification = AvatarSpecification.fromJSON(chatData.lastAnswer, "design", null);
-            
-
+            try {
+                specification = AvatarSpecification.fromJSON(chatData.lastAnswer, "design", null);
+                TraceManager.addDev(" Avatar spec=" + specification);
+                done = true;
+            } catch (org.json.JSONException e) {
+                done = true;
+            }
         }
 
+    }
+
+    public Object applyAnswer(Object input) {
+        if (input == null) {
+            return specification;
+        }
+
+        return specification;
     }
 
 	

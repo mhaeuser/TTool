@@ -40,70 +40,30 @@
 package ai;
 
 
-import common.ConfigurationTTool;
-import myutil.AIInterface;
+import avatartranslator.AvatarSpecification;
 import myutil.TraceManager;
-import ui.TDiagramPanel;
-import ui.util.IconManager;
-
-import javax.swing.*;
 
 /**
- * Class AIChatData
+ * Class AIChat
  *
- * Creation: 02/06/2023
- * @version 1.0 02/06/2023
+ * Creation: 05/06/2023
+ * @version 1.0 05/06/2023
  * @author Ludovic APVRILLE
  */
 
 
-public class AIChatData  {
+public class AIChat extends AIInteract {
 
-
-    public AIInterface aiinterface;
-    public boolean knowledgeOnProperties = false;
-    public boolean knowledgeOnBlockJSON = false;
-    public boolean knowledgeOnAMULET = false;
-
-    public AIFeedback feedback;
-    public String lastQuestion;
-    public String lastAnswer = "";
-    public Thread t;
-
-    public AIChatData(AIInterface _aiinterface) {
-        aiinterface = _aiinterface;
+    public AIChat(AIChatData _chatData) {
+        super(_chatData);
     }
 
-    public AIChatData() {
+    public void internalRequest() {
+        makeQuestion(chatData.lastQuestion);
     }
 
-    public void clear() {
-        knowledgeOnProperties = false;
-        knowledgeOnBlockJSON = false;
-        knowledgeOnAMULET = false;
-
-        lastAnswer = "";
-        feedback.clear();
+    public Object applyAnswer(Object input) {
+        return null;
     }
 
-    public boolean makeAIInterface() {
-        if (aiinterface == null) {
-            String key = ConfigurationTTool.OPENAIKey;
-            if (key == null) {
-                return false;
-            } else {
-                TraceManager.addDev("Setting key: " + key);
-                aiinterface = new AIInterface();
-                aiinterface.setURL(AIInterface.URL_OPENAI_COMPLETION);
-                aiinterface.setAIModel(AIInterface.MODEL_GPT_35);
-                aiinterface.setKey(key);
-            }
-        }
-        return true;
-    }
-
-
-
-
-    
 }

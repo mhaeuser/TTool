@@ -39,11 +39,15 @@
 
 package ui.window;
 
+import ai.AIChatData;
+import ai.AIFeedback;
+import ai.AIInteract;
 import avatartranslator.AvatarSpecification;
 import avatartranslator.mutation.ApplyMutationException;
 import avatartranslator.mutation.AvatarMutation;
 import avatartranslator.mutation.ParseMutationException;
 import avatartranslator.tosysmlv2.AVATAR2SysMLV2;
+import cli.Interpreter;
 import common.ConfigurationTTool;
 import help.HelpEntry;
 import help.HelpManager;
@@ -78,7 +82,7 @@ import java.util.HashMap;
  *
  * @author Ludovic APVRILLE
  */
-public class JFrameAI extends JFrame implements ActionListener, Runnable {
+public class JFrameAI extends JFrame implements ActionListener {
 
     private static int IDENTIFY_REQUIREMENT = 1;
     private static int KIND_CLASSIFY_REQUIREMENT = 2;
@@ -90,6 +94,9 @@ public class JFrameAI extends JFrame implements ActionListener, Runnable {
     private static String[] POSSIBLE_ACTIONS = {"Chat", "Identify requirements from a specification", "Classify requirements from a requirement " +
             "diagram", "Identify properties from a design", "Identify system blocks from a specification", "Identify software blocks from a " +
             "specification", "A(I)MULET"};
+
+    private static String[] AIInteractClass = {"AIChat", "AIChat", "AIChat", "AIChat", "AIBlock", "AIChat", "AIChat"};
+
     protected JComboBox<String> listOfPossibleActions;
     private String QUESTION_CLASSIFY_REQ = "I would like to identify the \"type\" attribute, i.e. the classification, " +
             "of the following requirements. Could you give me a correct type among: safety, security, functional, " +
@@ -411,12 +418,65 @@ public class JFrameAI extends JFrame implements ActionListener, Runnable {
 
     private void start() {
         currentChatIndex = answerPane.getSelectedIndex();
-        runChat();
+        ChatData selected = selectedChat();
+
+        if (selected.makeAIChatData()) {
+            String selectedClass = AIInteractClass[listOfPossibleActions.getSelectedIndex()];
+            selected.aiInteract = ai.AIInteract.getInstance("ai." + selectedClass, selected.aiChatData);
+
+            if (selected.aiInteract == null) {
+                error("Unknow selected type");
+                return;
+            }
+            selected.aiInteract.makeRequest(question.getText());
+            /*if (listOfPossibleActions.getSelectedIndex() == 0) {
+                simpleChat();
+            }
+
+            if (listOfPossibleActions.getSelectedIndex() == KIND_CLASSIFY_REQUIREMENT) {
+                classifyRequirements();
+            }
+
+            if (listOfPossibleActions.getSelectedIndex() == IDENTIFY_REQUIREMENT) {
+                identifyRequirements();
+            }
+
+            if (listOfPossibleActions.getSelectedIndex() == IDENTIFY_PROPERTIES) {
+                identifyProperties();
+            }
+
+            if (listOfPossibleActions.getSelectedIndex() == IDENTIFY_SYSTEM_BLOCKS) {
+                identifySystemBlocks();
+            }
+
+            if (listOfPossibleActions.getSelectedIndex() == AMULET) {
+                amuletChat();
+            }*/
+        } else {
+            error("AI interface failed (no key has been set?)");
+        }
+
+
+
     }
 
     private void applyResponse() {
+        ChatData selectedChat = selectedChat();
+        if (selectedChat.lastAnswer == null || selectedChat.aiChatData == null) {
+            error("No answer to apply");
+            return ;
+        }
 
-        if (selectedChat().previousKind == KIND_CLASSIFY_REQUIREMENT) {
+        TraceManager.addDev("Class of answer: " + selectedChat.aiInteract.getClass().getName());
+
+        if (selectedChat.aiInteract instanceof ai.AIBlock) {
+            applyIdentifySystemBlocks(selectedChat.aiInteract.applyAnswer(null));
+        }
+
+
+
+
+        /*if (selectedChat().previousKind == KIND_CLASSIFY_REQUIREMENT) {
             applyRequirementClassification();
         } else if (selectedChat().previousKind == IDENTIFY_REQUIREMENT) {
             applyRequirementIdentification();
@@ -430,7 +490,7 @@ public class JFrameAI extends JFrame implements ActionListener, Runnable {
             }
         } else {
             return;
-        }
+        }*/
         question.setText("");
     }
 
@@ -463,29 +523,21 @@ public class JFrameAI extends JFrame implements ActionListener, Runnable {
         inform("Enhancing requirement diagram with ai answer: done\n");
     }
 
-    private void applyIdentifySystemBlocks() {
-        if (selectedChat().tdp == null) {
-            error("No diagram has been selected\n");
+    private void applyIdentifySystemBlocks(Object input) {
+
+        if (input == null) {
+            error("Invalid specification in answer");
             return;
         }
 
-        if (!(selectedChat().tdp instanceof AvatarBDPanel)) {
-            error("Wrong diagram has been selected\n");
+        TraceManager.addDev("Type of input:" + input.getClass());
+
+        if (!(input instanceof AvatarSpecification)) {
+            error("Invalid answer");
             return;
         }
 
-        AvatarBDPanel bdpanel = (AvatarBDPanel) selectedChat().tdp;
-
-        TraceManager.addDev("Considered JSON array: " + selectedChat().lastAnswer);
-        try {
-            bdpanel.loadAndUpdateFromText(selectedChat().lastAnswer, true);
-        } catch (org.json.JSONException e) {
-            TraceManager.addDev("JSON Exception: " + e.getMessage());
-            inform("Answer provided by AI does not respect the JSON format necessary for TTool");
-            bdpanel.repaint();
-            return;
-        }
-        bdpanel.repaint();
+        mgui.drawAvatarSpecification((AvatarSpecification) input);
 
         inform("System blocks added to diagram from ai answer: done\n");
 
@@ -590,9 +642,10 @@ public class JFrameAI extends JFrame implements ActionListener, Runnable {
 
     private void enableDisableActions() {
         if ((answerPane != null) && (chats != null) && (buttonApplyResponse != null) && (buttonStart != null)) {
-            String chat = chats.get(answerPane.getSelectedIndex()).lastAnswer;
-            buttonApplyResponse.setEnabled(chat != null && chat.length() > 0);
-            buttonStart.setEnabled(!go);
+            ChatData cd = chats.get(answerPane.getSelectedIndex());
+            String chat = cd.lastAnswer;
+            buttonApplyResponse.setEnabled(chat != null && chat.length() > 0 && !cd.doIconRotation);
+            buttonStart.setEnabled(!cd.doIconRotation);
         }
     }
 
@@ -603,47 +656,6 @@ public class JFrameAI extends JFrame implements ActionListener, Runnable {
         jta.setFont(f);
     }
 
-    private void runChat() {
-        Thread t = new Thread(this);
-        t.start();
-    }
-
-    public void run() {
-        ChatData selected = selectedChat();
-        selected.startAnimation();
-        go = true;
-        enableDisableActions();
-
-        if (makeAIInterface()) {
-            if (listOfPossibleActions.getSelectedIndex() == 0) {
-                simpleChat();
-            }
-
-            if (listOfPossibleActions.getSelectedIndex() == KIND_CLASSIFY_REQUIREMENT) {
-                classifyRequirements();
-            }
-
-            if (listOfPossibleActions.getSelectedIndex() == IDENTIFY_REQUIREMENT) {
-                identifyRequirements();
-            }
-
-            if (listOfPossibleActions.getSelectedIndex() == IDENTIFY_PROPERTIES) {
-                identifyProperties();
-            }
-
-            if (listOfPossibleActions.getSelectedIndex() == IDENTIFY_SYSTEM_BLOCKS) {
-                identifySystemBlocks();
-            }
-
-            if (listOfPossibleActions.getSelectedIndex() == AMULET) {
-                amuletChat();
-            }
-        }
-
-        go = false;
-        selected.stopAnimation();
-        enableDisableActions();
-    }
 
     private void simpleChat() {
         if (question.getText().trim().length() == 0) {
@@ -652,22 +664,23 @@ public class JFrameAI extends JFrame implements ActionListener, Runnable {
         }
 
         inform("Simple chat is selected\n");
-        TraceManager.addDev("Appending: " + question.getText().trim() + " to answer");
-        GraphicLib.appendToPane(chatOfStart().answer, "\nYou:" + question.getText().trim() + "\n", Color.blue);
 
-        String lastChatAnswer = "";
+        //TraceManager.addDev("Appending: " + question.getText().trim() + " to answer");
+        //GraphicLib.appendToPane(chatOfStart().answer, "\nYou:" + question.getText().trim() + "\n", Color.blue);
 
-        try {
-            GraphicLib.appendToPane(console, "Connecting, waiting for answer\n", Color.blue);
-            lastChatAnswer = chatOfStart().aiinterface.chat(question.getText().trim(), true, true);
-        } catch (AIInterfaceException aiie) {
+        //String lastChatAnswer = "";
+
+        //try {
+        //    GraphicLib.appendToPane(console, "Connecting, waiting for answer\n", Color.blue);
+            //lastChatAnswer = chatOfStart().aiinterface.chat(question.getText().trim(), true, true);
+        /*} catch (AIInterfaceException aiie) {
             error(aiie.getMessage());
             return;
-        }
-        inform("Got answer from ai. All done.\n\n");
-        GraphicLib.appendToPane(chatOfStart().answer, "\nAI:" + lastChatAnswer + "\n", Color.red);
-        chatOfStart().lastAnswer = lastChatAnswer;
-        question.setText("");
+        }*/
+        //inform("Got answer from ai. All done.\n\n");
+        //GraphicLib.appendToPane(chatOfStart().answer, "\nAI:" + lastChatAnswer + "\n", Color.red);
+        //chatOfStart().lastAnswer = lastChatAnswer;
+        //question.setText("");
 
     }
 
@@ -731,10 +744,10 @@ public class JFrameAI extends JFrame implements ActionListener, Runnable {
         TraceManager.addDev("Appending: " + sb.toString().trim() + " to answer");
         String question = QUESTION_IDENTIFY_PROPERTIES + "\n" + sb.toString().trim();
 
-        if (!(chats.get(answerPane.getSelectedIndex()).knowledgeOnProperties)) {
+        /*if (!(chats.get(answerPane.getSelectedIndex()).knowledgeOnProperties)) {
             chats.get(answerPane.getSelectedIndex()).knowledgeOnProperties = true;
             question = KNOWLEDGE_ON_DESIGN_PROPERTIES + "\n" + question;
-        }
+        }*/
         question = "\nTTool:" + question + "\n";
         makeQuestion(question, IDENTIFY_PROPERTIES, tdp);
     }
@@ -757,11 +770,11 @@ public class JFrameAI extends JFrame implements ActionListener, Runnable {
         TraceManager.addDev("Asking for system blocks");
 
         String questionT = QUESTION_IDENTIFY_SYSTEM_BLOCKS + "\n" + question.getText().trim() + "\n";
-        if (!chat.knowledgeOnBlockJSON) {
+        /*if (!chat.knowledgeOnBlockJSON) {
             chat.knowledgeOnBlockJSON = true;
             chat.aiinterface.addKnowledge(KNOWLEDGE_ON_JSON_FOR_BLOCKS, "ok");
             chat.aiinterface.addKnowledge(KNOWLEDGE_ON_JSON_FOR_BLOCKS_2, KNOWLEDGE_ON_JSON_FOR_BLOCKS_ANSWER_2);
-        }
+        }*/
 
 
         boolean done = false;
@@ -805,7 +818,7 @@ public class JFrameAI extends JFrame implements ActionListener, Runnable {
             }
 
             if (!done) {
-                chat.aiinterface.addKnowledge(questionT, answer);
+                //chat.aiinterface.addKnowledge(questionT, answer);
                 questionT = "The following elements you have provided are not correct. Update your JSON:\n";
                 for (String s : errors) {
                     TraceManager.addDev("Adding error: " + s);
@@ -823,7 +836,7 @@ public class JFrameAI extends JFrame implements ActionListener, Runnable {
     }
 
     private void injectAMULETKnowledge(ChatData myChat) {
-        myChat.aiinterface.addKnowledge("AMULET is a SysML mutation language. In AMULET, adding a block b in a block diagram is written " +
+        /*myChat.aiinterface.addKnowledge("AMULET is a SysML mutation language. In AMULET, adding a block b in a block diagram is written " +
                 "\"add block b\".\nRemoving a block b from a block diagram is written \"remove block b\".\n","AMULET source-code for adding a block" +
                 " myBlock is \"add block myBlock\" and for removing a block myBlock is \"remove block myBlock\".");
 
@@ -909,15 +922,15 @@ public class JFrameAI extends JFrame implements ActionListener, Runnable {
 
         myChat.aiinterface.addKnowledge("Consider a block diagram with a block b1 and a block b2. I want b1 to send an boolean value b to b2. Could" +
                 " you provide the relevant AMULET source code?","add attribute bool b in b1\n add attribute bool b in b2\n add output signal " +
-                "sendBool(bool b) in b1\n add input signal receiveBool(bool b) in b2");
+                "sendBool(bool b) in b1\n add input signal receiveBool(bool b) in b2");*/
     }
 
     private void amuletChat() {
 
-        if (!selectedChat().knowledgeOnAMULET){
+        /*if (!selectedChat().knowledgeOnAMULET){
             injectAMULETKnowledge(selectedChat());
             selectedChat().knowledgeOnAMULET = true;
-        }
+        }*/
 
         String SysMLV2Design;
         TURTLEPanel tp = mgui.getCurrentTURTLEPanel();
@@ -931,7 +944,7 @@ public class JFrameAI extends JFrame implements ActionListener, Runnable {
                 error("Please perform a syntax checking\n");
                 return;
             }
-            selectedChat().aiinterface.addKnowledge("Consider the following model " + SysMLV2Design,"Understood");
+            //selectedChat().aiinterface.addKnowledge("Consider the following model " + SysMLV2Design,"Understood");
         }
 
         if (question.getText().trim().length() == 0) {
@@ -964,15 +977,15 @@ public class JFrameAI extends JFrame implements ActionListener, Runnable {
     private String makeQuestion(String _question, int _kind, TDiagramPanel _tdp) {
         GraphicLib.appendToPane(chatOfStart().answer, _question, Color.blue);
 
-        try {
+        //try {
             GraphicLib.appendToPane(console, "Connecting, waiting for answer\n", Color.blue);
-            chatOfStart().lastAnswer = chatOfStart().aiinterface.chat(_question, true, true);
-            chatOfStart().previousKind = _kind;
+            //chatOfStart().lastAnswer = chatOfStart().aiinterface.chat(_question, true, true);
+            //chatOfStart().previousKind = _kind;
             chatOfStart().tdp = _tdp;
-        } catch (AIInterfaceException aiie) {
+        /*} catch (AIInterfaceException aiie) {
             error(aiie.getMessage());
             return null;
-        }
+        }*/
         inform("Got answer from ai. All done.\n\n");
         GraphicLib.appendToPane(chatOfStart().answer, "\nAI:\n" + chatOfStart().lastAnswer + "\n", Color.red);
 
@@ -988,22 +1001,7 @@ public class JFrameAI extends JFrame implements ActionListener, Runnable {
         return chats.get(currentChatIndex);
     }
 
-    private boolean makeAIInterface() {
-        if (chatOfStart().aiinterface == null) {
-            String key = ConfigurationTTool.OPENAIKey;
-            if (key == null) {
-                error("No key has been set. Aborting.\n");
-                return false;
-            } else {
-                TraceManager.addDev("Setting key: " + key);
-                chatOfStart().aiinterface = new AIInterface();
-                chatOfStart().aiinterface.setURL(AIInterface.URL_OPENAI_COMPLETION);
-                chatOfStart().aiinterface.setAIModel(AIInterface.MODEL_GPT_35);
-                chatOfStart().aiinterface.setKey(key);
-            }
-        }
-        return true;
-    }
+
 
     private void error(String text) {
         GraphicLib.appendToPane(console, "\n****" + text + " ****\n\n", Color.red);
@@ -1031,7 +1029,7 @@ public class JFrameAI extends JFrame implements ActionListener, Runnable {
     public void clear() {
         selectedChat().clear();
         // We must also remove the knowledge
-        selectedChat().aiinterface.clearKnowledge();
+        //selectedChat().aiinterface.clearKnowledge();
     }
 
     public void requestRenameTab() {
@@ -1102,26 +1100,62 @@ public class JFrameAI extends JFrame implements ActionListener, Runnable {
         answerPane.setSelectedIndex(dst);
     }
 
-    private class ChatData implements Runnable {
-        public AIInterface aiinterface;
-        public boolean knowledgeOnProperties = false;
-        public boolean knowledgeOnBlockJSON = false;
+    private class ChatData implements AIFeedback, Runnable {
+
         public JTextPane answer = new JTextPane();
-        public String lastAnswer = "";
-        public int previousKind;
         public TDiagramPanel tdp;
         public boolean doIconRotation = false;
-        public boolean knowledgeOnAMULET = false;
         private Thread t;
-
+        public String lastAnswer;
+        public AIChatData aiChatData;
+        public AIInteract aiInteract;
 
         public ChatData() {
         }
 
-        public void clear() {
-            lastAnswer = "";
-            answer.setText("");
+        public boolean makeAIChatData() {
+            aiChatData = new AIChatData();
+            aiChatData.feedback = this;
+            return aiChatData.makeAIInterface();
         }
+
+
+        // AIFeedback methods
+        public void addInformation(String text) {
+            inform(text);
+        }
+
+        public void addError(String text) {
+            error(text);
+        }
+
+        public void addToChat(String data, boolean user) {
+            GraphicLib.appendToPane(chatOfStart().answer, "\nTTool:" + data + "\n", Color.blue);
+        }
+
+        public void setAnswerText(String text) {
+            lastAnswer = text;
+            GraphicLib.appendToPane(selectedChat().answer, "\nAI:" + text + "\n", Color.red);
+            enableDisableActions();
+        }
+
+
+        public void setRunning(boolean b) {
+            if (b) {
+                startAnimation();
+            } else {
+                stopAnimation();
+            }
+            enableDisableActions();
+        }
+
+
+        // Internal methods
+        public void clear() {
+            answer.setText("");
+            lastAnswer = "";
+        }
+
 
         public void startAnimation() {
             doIconRotation = true;

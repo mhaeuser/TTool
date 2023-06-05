@@ -404,7 +404,7 @@ public class JFrameAI extends JFrame implements ActionListener {
         String[] names = {"pico", "zebre", "pingouin", "chien", "minou", "kitty", "chaton", "whatsapp", "Luke Skywalker",
                 "macareux", "ours", "italien", "paris-brest", "belle-mère", "apéro (l'abus d'alcool est dangereux pour la santé)",
                 "carpe", "crocodile", "psychologue", "dr emacs", "3615-TTool", "100 balles et 1 mars",
-                "opéra (l’abus d’Alcôve est dangereux pour la santé)", "chapon", "perroquet"};
+                "opéra (l’abus d’Alcôve est dangereux pour la santé)", "chapon", "perroquet", "chameau volant", "Alice", "Oasis"};
         int x = (int) (Math.random() * names.length);
         return names[x];
     }
@@ -466,6 +466,7 @@ public class JFrameAI extends JFrame implements ActionListener {
             error("No answer to apply");
             return ;
         }
+
 
         TraceManager.addDev("Class of answer: " + selectedChat.aiInteract.getClass().getName());
 

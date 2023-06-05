@@ -86,12 +86,15 @@ public class AIBlock extends AIInteract {
             boolean ok = makeQuestion(questionT);
             if (!ok) {
                 done = true;
+                TraceManager.addDev("Make question failed");
             }
             try {
-                specification = AvatarSpecification.fromJSON(chatData.lastAnswer, "design", null);
+                TraceManager.addDev("Making specification from " + chatData.lastAnswer);
+                specification = AvatarSpecification.fromJSON(extractJSON(), "design", null);
                 TraceManager.addDev(" Avatar spec=" + specification);
                 done = true;
             } catch (org.json.JSONException e) {
+                TraceManager.addDev("Invalid JSON spec: " + extractJSON() + " because " + e.getMessage());
                 done = true;
             }
         }

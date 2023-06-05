@@ -141,6 +141,8 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import java.awt.*;
 import java.io.*;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.*;
 
@@ -1653,10 +1655,13 @@ public class GTURTLEModeling {
         }
         TURTLEPanel tmlap = tmap.getCorrespondanceList().getTG(tmap.getArch().getFirstCPU()).getTDiagramPanel().tp;
         int arch = gui.tabs.indexOf(tmlap);
-        gui.cloneRenameTab(arch, "enc");
+        DateFormat dateFormat = new SimpleDateFormat("ddMMyy_HHmmss");
+        Date date = new Date();
+        String dateAndTime = dateFormat.format(date);
+        String newTabSuffix = "enc_" + dateAndTime;
+        gui.cloneRenameTab(arch, newTabSuffix);
         TMLArchiPanel newarch = (TMLArchiPanel) gui.tabs.get(gui.tabs.size() - 1);
-
-        return autoSecure(gui, "enc", tmap, newarch, autoConf, autoWeakAuth, autoStrongAuth);
+        return autoSecure(gui, newTabSuffix, tmap, newarch, autoConf, autoWeakAuth, autoStrongAuth);
     }
 
     public TMLMapping<TGComponent> autoSecure(MainGUI gui, String name, TMLMapping<TGComponent> map, TMLArchiPanel newarch) {
@@ -1674,9 +1679,13 @@ public class GTURTLEModeling {
         }
         TURTLEPanel tmlap = tmap.getCorrespondanceList().getTG(tmap.getArch().getFirstCPU()).getTDiagramPanel().tp;
         int arch = gui.tabs.indexOf(tmlap);
-        gui.cloneRenameTab(arch, "enc");
+        DateFormat dateFormat = new SimpleDateFormat("ddMMyy_HHmmss");
+        Date date = new Date();
+        String dateAndTime = dateFormat.format(date);
+        String newTabSuffix = "enc_" + dateAndTime;
+        gui.cloneRenameTab(arch, newTabSuffix);
         TMLArchiPanel newarch = (TMLArchiPanel) gui.tabs.get(gui.tabs.size() - 1);
-        return autoSecure(gui, "enc", tmap, newarch, encComp, overhead, decComp, true, false, false, new HashMap<String, java.util.List<String>>());
+        return autoSecure(gui, newTabSuffix, tmap, newarch, encComp, overhead, decComp, true, false, false, new HashMap<String, java.util.List<String>>());
     }
 
     public TMLMapping<TGComponent> autoSecure(MainGUI gui, String encComp, String overhead, String decComp, boolean autoConf, boolean autoWeakAuth,
@@ -1686,9 +1695,13 @@ public class GTURTLEModeling {
         }
         TURTLEPanel tmlap = tmap.getCorrespondanceList().getTG(tmap.getArch().getFirstCPU()).getTDiagramPanel().tp;
         int arch = gui.tabs.indexOf(tmlap);
-        gui.cloneRenameTab(arch, "enc");
+        DateFormat dateFormat = new SimpleDateFormat("ddMMyy_HHmmss");
+        Date date = new Date();
+        String dateAndTime = dateFormat.format(date);
+        String newTabSuffix = "enc_" + dateAndTime;
+        gui.cloneRenameTab(arch, newTabSuffix);
         TMLArchiPanel newarch = (TMLArchiPanel) gui.tabs.get(gui.tabs.size() - 1);
-        return autoSecure(gui, "enc", tmap, newarch, encComp, overhead, decComp, autoConf, autoWeakAuth, autoStrongAuth, selectedCpuTasks);
+        return autoSecure(gui, newTabSuffix, tmap, newarch, encComp, overhead, decComp, autoConf, autoWeakAuth, autoStrongAuth, selectedCpuTasks);
     }
 
     public TMLMapping<TGComponent> autoSecure(MainGUI gui, String name, TMLMapping<TGComponent> map, TMLArchiPanel newarch, String encComp, String

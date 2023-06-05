@@ -125,7 +125,7 @@ public class JDialogArchiKey extends JDialogBase implements ActionListener  {
         panel2.add(new JLabel("Key:"), c2);
         c1.gridwidth = GridBagConstraints.REMAINDER; //end row
 	TraceManager.addDev("Getting key");
-	ArrayList<String> list = artifact.getTDiagramPanel().getMGUI().getAllKeys();
+	ArrayList<String> list = artifact.getTDiagramPanel().getMGUI().getAllKeysWithPanelName();
 	int index = 0;
 	/*	if (list.size() == 0) {
 			emptyList = true;

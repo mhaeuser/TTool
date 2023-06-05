@@ -4727,6 +4727,20 @@ public class MainGUI implements ActionListener, WindowListener, KeyListener, Per
         return list;
     }
 
+    public ArrayList<String> getAllKeysWithPanelName() {
+        TURTLEPanel tp;
+        ArrayList<String> list = new ArrayList<String>();
+        for (int i = 0; i < tabs.size(); i++) {
+            tp = tabs.elementAt(i);
+            if (tp instanceof TMLComponentDesignPanel) {
+                for (String s : ((TMLComponentDesignPanel) tp).getAllKeys()) {
+                    list.add(tp.getNameOfTab()+"::"+s);
+                }
+            }
+        }
+        return list;
+    }
+
     public ArrayList<TGComponent> getAllAttacks() {
         TURTLEPanel tp;
         ArrayList<TGComponent> list = new ArrayList<TGComponent>();
@@ -4834,6 +4848,7 @@ public class MainGUI implements ActionListener, WindowListener, KeyListener, Per
                 gtm.getTMLMapping().getTMLModeling().clearBacktracing();
                 gtm.getTMLMapping().getTMLModeling().backtrace(pvoa, getTabName(tp));
                 gtm.getTML2Avatar().backtraceReachability(pvoa.getReachabilityResults());
+                gtm.getTML2Avatar().backtraceAuthenticityADReadChannels(pvoa, getTabName(tp));
                 gtm.getTMLMapping().getTMLModeling().backtraceAuthenticity(pvoa, getTabName(tp));
             }
 
@@ -4843,6 +4858,7 @@ public class MainGUI implements ActionListener, WindowListener, KeyListener, Per
                 gtm.getTMLMapping().getTMLModeling().clearBacktracing();
                 gtm.getTMLMapping().getTMLModeling().backtrace(pvoa, "Default Mapping");
                 gtm.getTML2Avatar().backtraceReachability(pvoa.getReachabilityResults());
+                gtm.getTML2Avatar().backtraceAuthenticityADReadChannels(pvoa, "Default Mapping");
                 gtm.getTMLMapping().getTMLModeling().backtraceAuthenticity(pvoa, "Default Mapping");
             }
         }

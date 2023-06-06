@@ -83,6 +83,12 @@ public abstract class AIInteract implements Runnable {
         stopRunning();
     }
 
+    public void error(String error) {
+        if ((chatData != null) && (chatData.feedback != null)) {
+            chatData.feedback.addError(error);
+        }
+    }
+
     public void startRunning() {
         if (chatData.feedback != null) {
             chatData.feedback.setRunning(true);

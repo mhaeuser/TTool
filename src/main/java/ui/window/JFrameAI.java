@@ -44,20 +44,11 @@ import ai.AIFeedback;
 import ai.AIInteract;
 import ai.AISysMLV2DiagramContent;
 import avatartranslator.AvatarSpecification;
-import avatartranslator.mutation.ApplyMutationException;
-import avatartranslator.mutation.AvatarMutation;
-import avatartranslator.mutation.ParseMutationException;
-import avatartranslator.tosysmlv2.AVATAR2SysMLV2;
-import cli.Interpreter;
-import common.ConfigurationTTool;
 import help.HelpEntry;
 import help.HelpManager;
-import myutil.AIInterface;
-import myutil.AIInterfaceException;
 import myutil.GraphicLib;
 import myutil.TraceManager;
 import ui.*;
-import ui.avatarbd.AvatarBDPanel;
 import ui.avatarrd.AvatarRDPanel;
 import ui.avatarrd.AvatarRDRequirement;
 import ui.util.IconManager;
@@ -69,17 +60,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 
 /**
- * Class JFrameSysMLV2Text
- * Creation: 13/07/2021
- * version 1.0 13/07/2021
+ * Class JFrameAI
+ * Creation: 01/03/2023
+ * version 1.0 01/03/2021
  *
  * @author Ludovic APVRILLE
  */
@@ -90,13 +78,10 @@ public class JFrameAI extends JFrame implements ActionListener {
             "diagram", "Identify properties from a design", "Identify system blocks from a specification", "Identify software blocks from a " +
             "specification", "A(I)MULET"};
 
-    private static String[] AIInteractClass = {"AIChat", "AIReqIdent", "AIReqClassification", "AIDesignPropertyIdentification", "AIBlock", "AIChat", "AIChat"};
+    private static String[] AIInteractClass = {"AIChat", "AIReqIdent", "AIReqClassification", "AIDesignPropertyIdentification", "AIBlock", "AIChat",
+            "AIAmulet"};
 
     protected JComboBox<String> listOfPossibleActions;
-
-
-    private String QUESTION_IDENTIFY_PROPERTIES = "List properties of the following SysML V2 specification.";
-
 
 
     private MainGUI mgui;
@@ -110,8 +95,6 @@ public class JFrameAI extends JFrame implements ActionListener {
     private JMenu help;
     private JPopupMenu helpPopup;
 
-    private boolean go = false;
-    private boolean isAMULETFirstLoop = true;
 
     private HashMap<Integer, ImageIcon> rotatedI = new HashMap<>();
     private JButton buttonClose, buttonStart, buttonApplyResponse;
@@ -338,34 +321,10 @@ public class JFrameAI extends JFrame implements ActionListener {
             }
 
             selected.aiInteract.makeRequest(question.getText());
-            /*if (listOfPossibleActions.getSelectedIndex() == 0) {
-                simpleChat();
-            }
 
-            if (listOfPossibleActions.getSelectedIndex() == KIND_CLASSIFY_REQUIREMENT) {
-                classifyRequirements();
-            }
-
-            if (listOfPossibleActions.getSelectedIndex() == IDENTIFY_REQUIREMENT) {
-                identifyRequirements();
-            }
-
-            if (listOfPossibleActions.getSelectedIndex() == IDENTIFY_PROPERTIES) {
-                identifyProperties();
-            }
-
-            if (listOfPossibleActions.getSelectedIndex() == IDENTIFY_SYSTEM_BLOCKS) {
-                identifySystemBlocks();
-            }
-
-            if (listOfPossibleActions.getSelectedIndex() == AMULET) {
-                amuletChat();
-            }*/
         } else {
             error("AI interface failed (no key has been set?)");
         }
-
-
 
     }
 
@@ -386,6 +345,8 @@ public class JFrameAI extends JFrame implements ActionListener {
             applyRequirementClassification();
         } else if (selectedChat.aiInteract instanceof ai.AIDesignPropertyIdentification) {
             // nothing up to now :-)
+        } else if (selectedChat.aiInteract instanceof ai.AIAmulet) {
+            applyMutations();
         }
 
         question.setText("");
@@ -462,42 +423,21 @@ public class JFrameAI extends JFrame implements ActionListener {
         rdpanel.repaint();
     }
 
-    private void applyMutations() throws IOException {
-
+    private void applyMutations(){
         AvatarSpecification avspec = mgui.gtm.getAvatarSpecification();
-
         if (avspec == null){
-            error("AVATAR specification missing\n");
+            error("AVATAR specification not found: aborting.\n");
             return;
         }
 
         inform("Applying mutations to the model, please wait\n");
+        avspec = (AvatarSpecification) (selectedChat().aiInteract.applyAnswer( avspec ));
 
-        String automatedAnswer = selectedChat().lastAnswer;
-        BufferedReader buff = new BufferedReader(new StringReader(automatedAnswer));
-        String line ;
-        Boolean mutationApplied = false;
-
-        while ((line=buff.readLine())!=null){
-            if (line.startsWith("add ") || line.startsWith("remove ") || line.startsWith("modify ")){
-                try {
-                    AvatarMutation am = AvatarMutation.createFromString(line);
-                    if (am != null) {
-                        am.apply(avspec);
-                        mutationApplied = true;
-                    }
-                } catch (ParseMutationException e) {
-                    TraceManager.addDev("Exception in parsing mutation: " + e.getMessage());
-                    error(e.getMessage());
-                } catch (ApplyMutationException e) {
-                    TraceManager.addDev("Exception in applying mutation: " + e.getMessage());
-                    error(e.getMessage());
-                }
-            }
-        }
-
-        if (mutationApplied) {
+        if (avspec != null) {
             mgui.drawAvatarSpecification(avspec);
+            inform("Mutations applied");
+        } else {
+            error("No mutations applied");
         }
 
     }
@@ -518,165 +458,6 @@ public class JFrameAI extends JFrame implements ActionListener {
         jta.setFont(f);
     }
 
-
-
-    private void injectAMULETKnowledge(ChatData myChat) {
-        /*myChat.aiinterface.addKnowledge("AMULET is a SysML mutation language. In AMULET, adding a block b in a block diagram is written " +
-                "\"add block b\".\nRemoving a block b from a block diagram is written \"remove block b\".\n","AMULET source-code for adding a block" +
-                " myBlock is \"add block myBlock\" and for removing a block myBlock is \"remove block myBlock\".");
-
-        myChat.aiinterface.addKnowledge("Here are some more AMULET commands. Adding an input signal sig in a block b is written \"add input signal " +
-                "sig in " +
-                "b\". If the signal conveys parameters (e.g. int i and bool x), we will write \"add input signal sig(int i, bool x) in b\".\n" +
-                "Removing an input signal sig from a block b is written \"remove input signal sig in b\".\n" +
-                "Adding an output signal sig in a block b is written \"add output signal sig in b\". If the signal sig conveys parameters (e.g. int" +
-                " i and bool x), we will write \"add output signal sig(int i, bool x) in b\".\n" +
-                "Removing an output signal sig from a block b is written \"remove output signal sig in b\".\n", "In AMULET, adding an input" +
-                " signal mySig in a block myBlock is written \"add input signal mySig in myBlock\". If this signal conveys three parameters int n, " +
-                "int m and bool b, it is written \"add input signal mySig (int n, int m, bool b) in myBlock\". Adding an output signal mySig in a " +
-                "block myBlock is written \"add output signal mySig in myBlock\". If this signal conveys two parameters bool b and int n, it is " +
-                "written \"add output signal mySig(bool b, int n) in myBlock\". Removing an input signal mySig from a block myBlock is written " +
-                "\"remove input signal mySig in myBlock\", and removing an output signal mySig from a block myBlock is written \"remove output " +
-                "signal mySig in myBlock\".");
-
-        myChat.aiinterface.addKnowledge("Here are some more AMULET commands. Adding an integer attribute i in a block b is written \"add attribute " +
-                "int i in b\".\n" + "Adding a boolean " +
-                "attribute x in a block b is written \"add attribute bool x in b\".\n" + "Removing an attribute a from a block b is written" +
-                " \"remove attribute a in b\"","In AMULET, adding an integer attribute n in a block myBlock is written \"add attribute int n in " +
-                "myBlock\".\n" + "Adding a boolean attribute b in a block myBlock is written \"add attribute bool b in myBlock\".\n" +
-                "Removing an attribute myAttribute from a block myBlock is written \"remove attribute myAttribute in myBlock\".");
-
-        myChat.aiinterface.addKnowledge("Here are some more AMULET commands. Adding a connection between the ports of two blocks b1 and b2 is " +
-                "written \"add link between b1 and b2\".\n" +
-                "Removing a connection between the ports of two blocks b1 and b2 is written \"remove link between b1 and b2\".", "In " +
-                "AMULET, adding a connection between the ports of two blocks b1 and b2 is written \"add link between b1 and b2\".\n" + "Removing a " +
-                "connection between the ports of two blocks b1 and b2 is written \"remove link between b1 and b2\".");
-
-        myChat.aiinterface.addKnowledge("Here are some more AMULET commands. If we want an input and an output signal to be synchronized, we need " +
-                "to connect them. Connecting an input signal insig in a block b to an output signal outsig in a block c is written \"add connection " +
-                "between outsig in c to insig in b\".\n" + "Removing a connection between an input signal insig in a block b to an output signal " +
-                "outsig in a block c is written \"remove connection between outsig in c to insig in b\".","In AMULET, connecting an input signal " +
-                "inSig in a block myBlock to an output signal outSig in a block mySecondBlock is written \"add connection between outSig in " +
-                "mySecondBlock to inSig in myBlock\".\n" + "Removing a connection between an input signal inSig in a block myBlock to an output " +
-                "signal outSig in a block mySecondBlock is written \"remove connection between outSig in mySecondBlock to inSig in myBlock\".");
-
-        myChat.aiinterface.addKnowledge("Connections are only possible between two signals, an input one and an output one.","Right, we can't " +
-                "connect a signal to an attribute but only to another signal of the opposite type (input, output).");
-
-        myChat.aiinterface.addKnowledge("Here are some more AMULET commands. Adding a state s in a block b's state-machine diagram is written " +
-                "\"add state s in b\".\n Removing a state s from a block b's state-machine diagram is written \"remove state s in b\".", "In " +
-                "AMULET, adding a state myState in a block myBlock's state-machine diagram is written \"add state myState in myBlock\".\n Removing a state myState " +
-                "from a block myBlock's state-machine diagram is written \"remove state myState in myBlock\".");
-
-        myChat.aiinterface.addKnowledge("Here are some more AMULET commands. Adding a transition t in a block b's state-machine diagram from a " +
-                "state s0 to" +
-                " a state s1 is written \"add transition t in b from s0 to s1\". If this transition has a guard (i.e., a boolean condition " +
-                "boolean_condition allowing its firing), we will write \"add transition t in b from s0 to s2 with [boolean_condition]\".\n" +
-                "Removing a transition t in a block b's state-machine diagram from a state s0 to a state s1 is written \"remove transition t in b\"" +
-                " or, if there is only one transition from s0 to s1, \"remove transition in b from s0 to s1\".", "In AMULET, adding a transition " +
-                "myTransition in a block myBlock's state-machine diagram from a state myState to a state mySecondState is written \"add transition " +
-                "myTransition in myBlock from myState to mySecondState\". If this transition has a guard (i.e., a boolean condition " +
-                "boolean_condition allowing its firing), we will write \"add transition myTransition in myBlock from myState to mySecondState with " +
-                "[boolean_condition]\".\n" + "Removing a transition myTransition in a block myBlock's state-machine diagram from a state myState to" +
-                " a state mySecondState is written \"remove transition myTransition in myState\" or, if there is only one transition from myState " +
-                "to mySecondState, \"remove transition in myBlock from myState to mySecondState\".");
-
-        myChat.aiinterface.addKnowledge("If we want a block b to receive a parameter p through an input signal and if b has no attribute of the " +
-                "type of p, we need first to add the relevant attribute to b.","Right. For instance, if we want a block b to receive an " +
-                "integer parameter n and if b has no integer attribute, we will first add an integer attribute n: add attribute int n in b");
-
-        myChat.aiinterface.addKnowledge("Consider a block having an integer attribute myInt. If we want this block to send this value " +
-                "through an output signal myOutSig, the output signal declaration will be myOutSig(int myInt).","Right. And if this block " +
-                "has a boolean attribute myBool and we want it to receive a boolean value from an input signal myInSig and if we want this value to be assigned " +
-                "to myBool, the input signal declaration will be myInSig(bool myBool).");
-
-        myChat.aiinterface.addKnowledge("A link can only exist between two blocks. We can't add a link between to signals, only a connection.",
-                "Right. If I want two blocks b1 and b2 to be connected, I will write \"add link between b1 and b2\", and if I want two signals s1 " +
-                        "and s2 belonging to b1 and b2 to be connected, I will write \"add connection between s1 in b1 to s2 in b2\".");
-
-        myChat.aiinterface.addKnowledge("If a block already exists in the model, we don't need to add it with an AMULET \"add\" command.",
-                "Right, if the model I analyze already has a block b1, I will never write \"add block b1\" except if b1 has been deleted by another" +
-                        " AMULET command.");
-
-        myChat.aiinterface.addKnowledge("Now, I want you to answer only with the AMULET source code, without any comment nor other sentence that is" +
-                " not AMULET source code.", "Understood, from now on I will only provide AMULET source code.");
-
-        myChat.aiinterface.addKnowledge("Consider a block diagram with a block b1 and a block b2. I want b1 to send an integer value n to b2. Could" +
-                " you provide the relevant AMULET source code?","add attribute int n in b2\n add attribute int n in b1\n add output signal sendInt" +
-                "(int n) in b1\n add input signal receiveInt(int n) in b2");
-
-        myChat.aiinterface.addKnowledge("Consider a block diagram with a block b1 and a block b2. I want b1 to send an boolean value b to b2. Could" +
-                " you provide the relevant AMULET source code?","add attribute bool b in b1\n add attribute bool b in b2\n add output signal " +
-                "sendBool(bool b) in b1\n add input signal receiveBool(bool b) in b2");*/
-    }
-
-    private void amuletChat() {
-
-        /*if (!selectedChat().knowledgeOnAMULET){
-            injectAMULETKnowledge(selectedChat());
-            selectedChat().knowledgeOnAMULET = true;
-        }*/
-
-        String SysMLV2Design;
-        TURTLEPanel tp = mgui.getCurrentTURTLEPanel();
-        if (!(tp instanceof AvatarDesignPanel)) {
-            error("An AVATAR model must be selected first");
-            return;
-        }
-        else {
-            SysMLV2Design = mgui.gtm.toSysMLV2();
-            if (SysMLV2Design == null){
-                error("Please perform a syntax checking\n");
-                return;
-            }
-            //selectedChat().aiinterface.addKnowledge("Consider the following model " + SysMLV2Design,"Understood");
-        }
-
-        if (question.getText().trim().length() == 0) {
-            error("No question is provided. Aborting.\n\n");
-            return;
-        }
-
-        String questionA = question.getText().trim() + "\n";
-        //makeQuestion(questionA, AMULET, mgui.getCurrentTDiagramPanel());
-
-        /**inform("AMULET chat is selected\n");
-         TraceManager.addDev("Appending: " + question.getText().trim() + " to answer");
-         GraphicLib.appendToPane(selectedChat().answer, "\nYou:" + question.getText().trim() + "\n", Color.blue);
-
-         String lastChatAnswer = "";
-
-         try {
-         GraphicLib.appendToPane(console, "Connecting, waiting for answer\n", Color.blue);
-         lastChatAnswer = selectedChat().aiinterface.chat(questionA, true, true);
-         } catch (AIInterfaceException aiie) {
-         error(aiie.getMessage());
-         return;
-         }
-         inform("Got answer from ai. All done.\n\n");
-         GraphicLib.appendToPane(selectedChat().answer, "\nAI:" + lastChatAnswer + "\n", Color.red);
-         question.setText("");**/
-
-    }
-
-    private String makeQuestion(String _question, int _kind, TDiagramPanel _tdp) {
-        GraphicLib.appendToPane(chatOfStart().answer, _question, Color.blue);
-
-        //try {
-            GraphicLib.appendToPane(console, "Connecting, waiting for answer\n", Color.blue);
-            //chatOfStart().lastAnswer = chatOfStart().aiinterface.chat(_question, true, true);
-            //chatOfStart().previousKind = _kind;
-            chatOfStart().tdp = _tdp;
-        /*} catch (AIInterfaceException aiie) {
-            error(aiie.getMessage());
-            return null;
-        }*/
-        inform("Got answer from ai. All done.\n\n");
-        GraphicLib.appendToPane(chatOfStart().answer, "\nAI:\n" + chatOfStart().lastAnswer + "\n", Color.red);
-
-        return chatOfStart().lastAnswer;
-
-    }
 
     private ChatData selectedChat() {
         return chats.get(answerPane.getSelectedIndex());

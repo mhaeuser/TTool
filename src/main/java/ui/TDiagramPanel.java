@@ -4488,8 +4488,12 @@ public abstract class TDiagramPanel extends JPanel implements GenericTree {
         return nes;
     }
 
-    public StringBuffer toSysMLV2Text() {
+    public StringBuffer toSysMLV2Text(String[] exclusions) {
         return new StringBuffer();
+    }
+
+    public String getDiagramIdentifier() {
+        return getClass().getName();
     }
 }
 

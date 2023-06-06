@@ -40,70 +40,43 @@
 package ai;
 
 
-import common.ConfigurationTTool;
-import myutil.AIInterface;
+import avatartranslator.AvatarSpecification;
 import myutil.TraceManager;
-import ui.TDiagramPanel;
-import ui.util.IconManager;
-
-import javax.swing.*;
 
 /**
- * Class AIChatData
+ * Class AIReqIdent
  *
- * Creation: 02/06/2023
- * @version 1.0 02/06/2023
+ * Creation: 06/06/2023
+ * @version 1.0 06/06/2023
  * @author Ludovic APVRILLE
  */
 
 
-public class AIChatData  {
+public class AIReqIdent extends AIInteract {
+
+    private String QUESTION_IDENTIFY_REQ = "Identify all the relevant requirements of the following specification. List them as a json array with " +
+            "the following elements for each requirements in the array:" +
+            " " +
+            "name: name of the requirement, id: id of the requirement (as a string), doc: text of the requirement  " +
+            "compose: all req names, derive: all req names, refine: all req names. The name " +
+            "should be an english " +
+            "name and not a number or an identifier. Identify the relations (compose, derive, refine) even if they are not given in the " +
+            "specification. Use the name of requirements and not the id in the list of relations.";
 
 
-    public AIInterface aiinterface;
-    public boolean knowledgeOnProperties = false;
-    public boolean knowledgeOnBlockJSON = false;
-    public boolean knowledgeOnAMULET = false;
-
-    public AIFeedback feedback;
-    public String lastQuestion;
-    public String lastAnswer = "";
-    public Thread t;
-
-    public AIChatData(AIInterface _aiinterface) {
-        aiinterface = _aiinterface;
+    public AIReqIdent(AIChatData _chatData) {
+        super(_chatData);
     }
 
-    public AIChatData() {
+    public void internalRequest() {
+        String questionT = "\nTTool:" + QUESTION_IDENTIFY_REQ + "\n" + chatData.lastQuestion.trim()+ "\n";
+        boolean ok = makeQuestion(questionT);
     }
 
-    public void clear() {
-        knowledgeOnProperties = false;
-        knowledgeOnBlockJSON = false;
-        knowledgeOnAMULET = false;
-
-        lastAnswer = "";
-        feedback.clear();
+    public Object applyAnswer(Object input) {
+        return null;
     }
 
-    public boolean makeAIInterface() {
-        if (aiinterface == null) {
-            String key = ConfigurationTTool.OPENAIKey;
-            if (key == null) {
-                return false;
-            } else {
-                TraceManager.addDev("Setting key: " + key);
-                aiinterface = new AIInterface();
-                aiinterface.setURL(AIInterface.URL_OPENAI_COMPLETION);
-                aiinterface.setAIModel(AIInterface.MODEL_GPT_35);
-                aiinterface.setKey(key);
-            }
-        }
-        return true;
-    }
-
-
-
-
+	
     
 }

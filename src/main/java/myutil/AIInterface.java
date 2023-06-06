@@ -60,11 +60,11 @@ public class AIInterface {
     public final static String URL_OPENAI_COMPLETION = "https://api.openai.com/v1/chat/completions";
     public final static String MODEL_GPT_35 = "gpt-3.5-turbo";
 
-    private final static String NO_URL = "No URL specified";
-    private final static String NO_KEY = "No key specified";
-    private final static String NO_AI_MODEL = "No ai model specified (e.g. \"gpt-3.5-turbo\")";
-    private final static String CONNECTION_PB = "Connection to server failed";
-    private final static String DISCONNECTION_PB = "DisConnection to server failed";
+    public final static String NO_URL = "No URL specified";
+    public final static String NO_KEY = "No key specified";
+    public final static String NO_AI_MODEL = "No ai model specified (e.g. \"gpt-3.5-turbo\")";
+    public final static String CONNECTION_PB = "Connection to server failed";
+    public final static String DISCONNECTION_PB = "DisConnection to server failed";
 
     private  String urlText;
     private  String key;
@@ -86,6 +86,10 @@ public class AIInterface {
 
     public void setKey(String _key) {
         key = _key;
+    }
+
+    public boolean hasKey() {
+        return key != null;
     }
 
     public void setAIModel(String _aiModel) {

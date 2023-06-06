@@ -526,7 +526,7 @@ public class AvatarSpecification extends AvatarElement implements IBSParamSpec {
         int indexStop = _spec.lastIndexOf('}');
 
         if ((indexStart == -1) || (indexStop == -1) || (indexStart > indexStop)) {
-            throw new org.json.JSONException("Invalid JSON object");
+            throw new org.json.JSONException("Invalid JSON object (start)");
         }
 
         _spec = _spec.substring(indexStart, indexStop + 1);
@@ -551,12 +551,14 @@ public class AvatarSpecification extends AvatarElement implements IBSParamSpec {
 
                 try {
                     JSONArray attributesA = blockO.getJSONArray("attributes");
+                    if (attributesA != null) {
 
-                    for (int j = 0; j < attributesA.length(); j++) {
-                        String nameA = spec.removeSpaces(attributesA.getJSONObject(j).getString("name"));
-                        String typeA = attributesA.getJSONObject(j).getString("type");
-                        AvatarAttribute aa = new AvatarAttribute(nameA, AvatarType.getType(typeA), newBlock, _referenceObject);
-                        newBlock.addAttribute(aa);
+                        for (int j = 0; j < attributesA.length(); j++) {
+                            String nameA = spec.removeSpaces(attributesA.getJSONObject(j).getString("name"));
+                            String typeA = attributesA.getJSONObject(j).getString("type");
+                            AvatarAttribute aa = new AvatarAttribute(nameA, AvatarType.getType(typeA), newBlock, _referenceObject);
+                            newBlock.addAttribute(aa);
+                        }
                     }
                 } catch (JSONException je) {
                 }
@@ -610,11 +612,14 @@ public class AvatarSpecification extends AvatarElement implements IBSParamSpec {
 
             }
         }
-
-        JSONArray connections = mainObject.getJSONArray("connections");
+        JSONArray connections = null;
+        try {
+            connections = mainObject.getJSONArray("connections");
+        } catch (JSONException je) {
+        }
 
         if (connections == null) {
-            jsonErrors.add("No connections between blocks");
+            //jsonErrors.add("No connections between blocks");
             TraceManager.addDev("No connections in json");
             return spec;
         }

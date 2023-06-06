@@ -53,18 +53,16 @@ import avatartranslator.AvatarSpecification;
 
 public interface AIFeedback {
 
-  public void setRunning(boolean b);
-
   public void addInformation(String text); // e.g. to information pane
-  public void addToChat(String data, boolean user); // e.g. to current chat pane
   public void addError(String text); // e.g. to error pane
 
-  public void setNewBlockDiagram(AvatarSpecification avspec);
+  public void addToChat(String data, boolean user); // e.g. to current chat pane
+
+  //public void setNewBlockDiagram(AvatarSpecification avspec);
 
   public void setAnswerText(String text);
+  public void clear();
 
-  public boolean mustRun();
-  public void running();
-  public void reinitRunning();
+  public void setRunning(boolean b);
     
 }

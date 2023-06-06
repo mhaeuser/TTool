@@ -66,8 +66,8 @@ public class Interpreter implements Runnable, TerminalProviderInterface {
     public final static String UNKNOWN = "Unknown command";
     public final static String BAD = "Badly formatted expression";
     public final static String BAD_WAIT_VALUE = "Must provide a int value > 0";
-    public final static String BAD_VAR_VALUE = "Unvalid value for variable";
-    public final static String BAD_VAR_NAME = "Unvalid variable name";
+    public final static String BAD_VAR_VALUE = "Invalid value for variable";
+    public final static String BAD_VAR_NAME = "Invalid variable name";
     public final static String UNKNOWN_NEXT_COMMAND = "Invalid action: ";
     public final static String TTOOL_NOT_STARTED = "TTool is not yet started. Cannot execute command.";
     public final static String TTOOL_ALREADY_STARTED = "TTool is already started. Cannot execute command.";
@@ -80,7 +80,9 @@ public class Interpreter implements Runnable, TerminalProviderInterface {
     public final static String TML_NO_SPEC = "No TML specification";
     public final static String TMAP_NO_SPEC = "No TMAP specification";
     public final static String NO_WINDOW = "The targeted window does not exist";
+    public final static String NO_AI_INTERFACE = "No AI interface of this type could be queried";
     public final static String GEN_FAILED = "code generation failed";
+    public final static String BAD_TYPE = "Invalid type";
 
 
     private String script;

@@ -40,6 +40,9 @@
 package cli;
 
 
+import ai.AIChatData;
+import ai.AIFeedback;
+import ai.AIInteract;
 import myutil.*;
 
 import javax.swing.*;
@@ -55,6 +58,8 @@ import java.util.List;
  * @author Ludovic APVRILLE
  */
 public class Chat extends Command  {
+
+
     // Action commands
     private final static String ASK = "ask";
     private final static String SET_KEY = "setaikey";
@@ -63,6 +68,7 @@ public class Chat extends Command  {
     private final static String SET_USER_KNOWLEDGE = "set-user-knowledge";
     private final static String SET_ASSISTANT_KNOWLEDGE = "set-assistant-knowledge";
     private final static String ADD_KNOWLEDGE = "add-knowledge";
+    private final static String QUERY = "query";
 
     private String key;
     private AIInterface aiinterface;
@@ -70,7 +76,8 @@ public class Chat extends Command  {
     private String userKnowledge;
     private String assistantKnowledge;
 
-
+    private AIChatData chatData;
+    private CLIAIFeedback feedback;
 
 
     public Chat() {
@@ -95,7 +102,7 @@ public class Chat extends Command  {
 
     public String getDescription() {
         return "AI based on ChatGPT to support System Engineering. Secret key must be configured. For each question, the question and the answer " +
-                "are stored in the knowledge Database, reused for eash question. To clear teh database, use the clear command";
+                "are stored in the knowledge Database, reused for eash question. To clear the database, use the clear command";
     }
 
 
@@ -169,6 +176,10 @@ public class Chat extends Command  {
                 }
 
                 key = commands[commands.length-1];
+
+                if (aiinterface != null) {
+                    aiinterface.setKey(key);
+                }
 
                 return null;
             }
@@ -327,6 +338,87 @@ public class Chat extends Command  {
             }
         };
 
+        Command query = new Command() {
+            public String getCommand() {
+                return QUERY;
+            }
+
+            public String getShortCommand() {
+                return "q";
+            }
+
+            public String getDescription() {
+                String listOfQuery = "";
+                for(int i=0; i<AIInteract.SHORT_REQUEST_TYPES.length; i++) {
+                    if (i > 0) {
+                        listOfQuery += ", ";
+                    }
+                    listOfQuery += "\"" + AIInteract.SHORT_REQUEST_TYPES[i] + "\"" + " (" + AIInteract.REQUEST_TYPES[i] + ")";
+                }
+                return "query <QUERY_TYPE> Text of the query. QUERY_TYPE can be: " + listOfQuery;
+            }
+
+            public String executeCommand(String command, Interpreter interpreter) {
+                String[] commands = command.trim().split(" ");
+                if (commands.length < 2) {
+                    return Interpreter.BAD;
+                }
+
+                String type = commands[0];
+                int length = type.length();
+                String text = command.substring(length+1).trim();
+
+                // Testing the type
+                int indexOfType = AIInteract.getIndexOfShortType(type);
+
+                if (indexOfType == -1) {
+                    return Interpreter.BAD_TYPE;
+                }
+
+                if (aiinterface == null) {
+                    makeAIInterface();
+                }
+
+                if (!aiinterface.hasKey()) {
+                    return AIInterface.NO_KEY;
+                }
+
+                if (feedback == null) {
+                    feedback = new CLIAIFeedback(interpreter);
+                }
+
+                if (chatData == null) {
+                    chatData = new AIChatData(aiinterface);
+                    chatData.feedback = feedback;
+                }
+
+                AIInteract aii = AIInteract.getAIFromShortType(indexOfType, chatData);
+                if (aii == null) {
+                    return Interpreter.NO_AI_INTERFACE;
+                }
+                feedback.running = true;
+                aii.makeRequest(text);
+
+                int cpt = 0;
+
+                interpreter.print("Computing");
+                while(feedback.running && cpt < 1000) {
+                    cpt ++;
+                    try {
+                        Thread.currentThread().sleep(100);
+                        if (cpt % 5 == 0) {
+                            interpreter.print("./" + feedback.running + " ");
+                        }
+                    } catch (Exception e) {
+                    }
+                }
+
+                interpreter.print("Answer: " + chatData.lastAnswer);
+
+                return null;
+            }
+        };
+
 
         addAndSortSubcommand(ask);
         addAndSortSubcommand(setKey);
@@ -335,6 +427,7 @@ public class Chat extends Command  {
         addAndSortSubcommand(setUserKnowledge);
         addAndSortSubcommand(setAssistantKnowledge);
         addAndSortSubcommand(addKnowledge);
+        addAndSortSubcommand(query);
 
     }
 
@@ -343,6 +436,41 @@ public class Chat extends Command  {
         aiinterface.setURL(AIInterface.URL_OPENAI_COMPLETION);
         aiinterface.setAIModel(AIInterface.MODEL_GPT_35);
         aiinterface.setKey(key);
+    }
+
+    private class CLIAIFeedback implements AIFeedback {
+
+        private Interpreter interpreter;
+        private boolean running = false;
+
+        public CLIAIFeedback(Interpreter _interpreter) {
+            interpreter = _interpreter;
+        }
+
+        public void addInformation(String text) {
+            interpreter.print("chat info: " + text);
+        }
+        public void addError(String text) {
+            interpreter.print("chat error: " + text);
+        }
+
+        public void addToChat(String data, boolean user) {
+            String s = "TTool: ";
+            if (!user) {
+                s = "AI: ";
+            }
+            interpreter.print(s + data);
+
+        }
+
+        //public void setNewBlockDiagram(AvatarSpecification avspec);
+
+        public void setAnswerText(String text) {}
+        public void clear() {}
+
+        public void setRunning(boolean b) {
+            running = b;
+        }
     }
 
 

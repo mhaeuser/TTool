@@ -40,16 +40,9 @@
 package ai;
 
 
-import common.ConfigurationTTool;
-import myutil.AIInterface;
-import myutil.TraceManager;
-import ui.TDiagramPanel;
-import ui.util.IconManager;
-
-import javax.swing.*;
 
 /**
- * Class AIChatData
+ * interface AISysMLV2DiagramContent
  *
  * Creation: 02/06/2023
  * @version 1.0 02/06/2023
@@ -57,53 +50,12 @@ import javax.swing.*;
  */
 
 
-public class AIChatData  {
+public interface AISysMLV2DiagramContent {
 
+  public void setDiagramContentInSysMLV2(String _diagramContentInSysMLV2);
 
-    public AIInterface aiinterface;
-    public boolean knowledgeOnProperties = false;
-    public boolean knowledgeOnBlockJSON = false;
-    public boolean knowledgeOnAMULET = false;
+  public String[] getValidDiagrams(); // Names of diagrams that are compatible with the related AI interaction
 
-    public AIFeedback feedback;
-    public String lastQuestion;
-    public String lastAnswer = "";
-    public Thread t;
-
-    public AIChatData(AIInterface _aiinterface) {
-        aiinterface = _aiinterface;
-    }
-
-    public AIChatData() {
-    }
-
-    public void clear() {
-        knowledgeOnProperties = false;
-        knowledgeOnBlockJSON = false;
-        knowledgeOnAMULET = false;
-
-        lastAnswer = "";
-        feedback.clear();
-    }
-
-    public boolean makeAIInterface() {
-        if (aiinterface == null) {
-            String key = ConfigurationTTool.OPENAIKey;
-            if (key == null) {
-                return false;
-            } else {
-                TraceManager.addDev("Setting key: " + key);
-                aiinterface = new AIInterface();
-                aiinterface.setURL(AIInterface.URL_OPENAI_COMPLETION);
-                aiinterface.setAIModel(AIInterface.MODEL_GPT_35);
-                aiinterface.setKey(key);
-            }
-        }
-        return true;
-    }
-
-
-
-
+  public String[] getDiagramExclusions(); // Elements of diagrams in SysML Vé that are not required in the question input
     
 }

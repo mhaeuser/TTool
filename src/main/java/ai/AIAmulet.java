@@ -76,6 +76,12 @@ public class AIAmulet extends AIInteract implements AISysMLV2DiagramContent {
             injectAMULETKnowledge();
             chatData.knowledgeOnAMULET = true;
         }
+
+        if (diagramContent != null) {
+            //TraceManager.addDev("\n\nUse the following SysML V2 model: " + diagramContent + "\n");
+            chatData.aiinterface.addKnowledge("Consider the following model " + diagramContent,"Understood");
+        }
+
         String questionT = "\nTTool:" + chatData.lastQuestion.trim()+ "\n";
         boolean ok = makeQuestion(questionT);
     }

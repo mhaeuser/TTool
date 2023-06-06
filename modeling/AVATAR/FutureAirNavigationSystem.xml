@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<TURTLEGMODELING version="1.0beta" ANIMATE_INTERACTIVE_SIMULATION="true" ACTIVATE_PENALTIES="true" UPDATE_INFORMATION_DIPLO_SIM="true" ANIMATE_WITH_INFO_DIPLO_SIM="true" OPEN_DIAG_DIPLO_SIM="false" LAST_SELECTED_MAIN_TAB="5" LAST_SELECTED_SUB_TAB="4">
+<TURTLEGMODELING version="3.0 beta" ANIMATE_INTERACTIVE_SIMULATION="true" ACTIVATE_PENALTIES="true" UPDATE_INFORMATION_DIPLO_SIM="true" ANIMATE_WITH_INFO_DIPLO_SIM="true" OPEN_DIAG_DIPLO_SIM="false" LAST_SELECTED_MAIN_TAB="6" LAST_SELECTED_SUB_TAB="0">
 
 <Modeling type="Avatar Methodology" nameTab="Methodology" >
 <AvatarMethodologyDiagramPanel name="Methodology" minX="10" maxX="1400" minY="10" maxY="900" zoom="1.0" >
@@ -10,6 +10,7 @@
 <hidden value="false" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="TGComponent" value="Prototyping" />
+<new d="false" />
 <TGConnectingPoint num="0" id="1" />
 <TGConnectingPoint num="1" id="2" />
 <TGConnectingPoint num="2" id="3" />
@@ -36,6 +37,7 @@
 <hidden value="false" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="TGComponent" value="Design" />
+<new d="false" />
 <TGConnectingPoint num="0" id="22" />
 <TGConnectingPoint num="1" id="23" />
 <TGConnectingPoint num="2" id="24" />
@@ -55,21 +57,23 @@
 <TGConnectingPoint num="16" id="38" />
 <TGConnectingPoint num="17" id="39" />
 </COMPONENT>
-<SUBCOMPONENT type="5607" id="20" index="12" uid="f06fc6b7-f0e8-461c-b805-b8f8f1391e34" >
+<SUBCOMPONENT type="5607" id="20" index="12" uid="5ad6e895-a0da-453e-be89-82fcb05bd400" >
 <father id="40" num="0" />
-<cdparam x="366" y="488" />
-<sizeparam width="10" height="10" minWidth="10" minHeight="1" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
-<hidden value="false" />
-<cdrectangleparam minX="366" maxX="366" minY="488" maxY="488" />
-<infoparam name="value " value="Design_lossy" />
-</SUBCOMPONENT>
-<SUBCOMPONENT type="5607" id="21" index="13" uid="5ad6e895-a0da-453e-be89-82fcb05bd400" >
-<father id="40" num="1" />
 <cdparam x="366" y="473" />
 <sizeparam width="10" height="10" minWidth="10" minHeight="1" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <hidden value="false" />
 <cdrectangleparam minX="366" maxX="366" minY="473" maxY="473" />
 <infoparam name="value " value="Design_unlossy" />
+<new d="false" />
+</SUBCOMPONENT>
+<SUBCOMPONENT type="5607" id="21" index="13" uid="f06fc6b7-f0e8-461c-b805-b8f8f1391e34" >
+<father id="40" num="1" />
+<cdparam x="366" y="488" />
+<sizeparam width="10" height="10" minWidth="10" minHeight="1" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
+<hidden value="false" />
+<cdrectangleparam minX="366" maxX="366" minY="488" maxY="488" />
+<infoparam name="value " value="Design_lossy" />
+<new d="false" />
 </SUBCOMPONENT>
 
 <COMPONENT type="5603" id="61" index="2" uid="dfe1f372-5aa2-487d-8c9f-3b05e7abe880" >
@@ -78,6 +82,7 @@
 <hidden value="false" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="TGComponent" value="Analysis" />
+<new d="false" />
 <TGConnectingPoint num="0" id="43" />
 <TGConnectingPoint num="1" id="44" />
 <TGConnectingPoint num="2" id="45" />
@@ -97,21 +102,23 @@
 <TGConnectingPoint num="16" id="59" />
 <TGConnectingPoint num="17" id="60" />
 </COMPONENT>
-<SUBCOMPONENT type="5607" id="41" index="14" uid="89fb151a-131f-49b5-9517-0de99135d995" >
+<SUBCOMPONENT type="5607" id="41" index="14" uid="51458822-3d04-4a6b-b20c-30a1c185442a" >
 <father id="61" num="0" />
-<cdparam x="264" y="395" />
-<sizeparam width="10" height="10" minWidth="10" minHeight="1" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
-<hidden value="false" />
-<cdrectangleparam minX="264" maxX="264" minY="395" maxY="395" />
-<infoparam name="value " value="Analysis_lossy" />
-</SUBCOMPONENT>
-<SUBCOMPONENT type="5607" id="42" index="15" uid="51458822-3d04-4a6b-b20c-30a1c185442a" >
-<father id="61" num="1" />
 <cdparam x="264" y="380" />
 <sizeparam width="10" height="10" minWidth="10" minHeight="1" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <hidden value="false" />
 <cdrectangleparam minX="264" maxX="264" minY="380" maxY="380" />
 <infoparam name="value " value="Analysis_unlossy" />
+<new d="false" />
+</SUBCOMPONENT>
+<SUBCOMPONENT type="5607" id="42" index="15" uid="89fb151a-131f-49b5-9517-0de99135d995" >
+<father id="61" num="1" />
+<cdparam x="264" y="395" />
+<sizeparam width="10" height="10" minWidth="10" minHeight="1" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
+<hidden value="false" />
+<cdrectangleparam minX="264" maxX="264" minY="395" maxY="395" />
+<infoparam name="value " value="Analysis_lossy" />
+<new d="false" />
 </SUBCOMPONENT>
 
 <COMPONENT type="5602" id="81" index="3" uid="0404fc25-1b72-42b1-bae5-efae0f3e5241" >
@@ -120,6 +127,7 @@
 <hidden value="false" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="TGComponent" value="Requirements" />
+<new d="false" />
 <TGConnectingPoint num="0" id="63" />
 <TGConnectingPoint num="1" id="64" />
 <TGConnectingPoint num="2" id="65" />
@@ -146,6 +154,7 @@
 <hidden value="false" />
 <cdrectangleparam minX="165" maxX="165" minY="279" maxY="279" />
 <infoparam name="value " value="Requirements_Properties" />
+<new d="false" />
 </SUBCOMPONENT>
 
 <COMPONENT type="5601" id="101" index="4" uid="b99af450-230e-4c8d-9713-cf5f3f9d44aa" >
@@ -154,6 +163,7 @@
 <hidden value="false" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="TGComponent" value="Assumptions" />
+<new d="false" />
 <TGConnectingPoint num="0" id="83" />
 <TGConnectingPoint num="1" id="84" />
 <TGConnectingPoint num="2" id="85" />
@@ -180,6 +190,7 @@
 <hidden value="false" />
 <cdrectangleparam minX="55" maxX="55" minY="176" maxY="176" />
 <infoparam name="value " value="Assumptions" />
+<new d="false" />
 </SUBCOMPONENT>
 
 <COMPONENT type="5605" id="121" index="5" uid="c13132ff-353a-40df-b166-8336f5770631" >
@@ -188,6 +199,7 @@
 <hidden value="false" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="TGComponent" value="Properties" />
+<new d="false" />
 <TGConnectingPoint num="0" id="103" />
 <TGConnectingPoint num="1" id="104" />
 <TGConnectingPoint num="2" id="105" />
@@ -214,6 +226,7 @@
 <hidden value="false" />
 <cdrectangleparam minX="205" maxX="205" minY="440" maxY="440" />
 <infoparam name="value " value="Properties" />
+<new d="false" />
 </SUBCOMPONENT>
 
 <COMPONENT type="301" id="138" index="6" uid="a84b4f69-7b4a-40c5-9c30-10869553a1d5" >
@@ -229,6 +242,7 @@
     TTool: java ttool.jar -experimentatal -nocolor
  
 " />
+<new d="false" />
 <TGConnectingPoint num="0" id="122" />
 <TGConnectingPoint num="1" id="123" />
 <TGConnectingPoint num="2" id="124" />
@@ -264,6 +278,7 @@
 <P1  x="160" y="291" id="65" />
 <P2  x="110" y="456" id="103" />
 <AutomaticDrawing  data="true" />
+<new d="false" />
 </CONNECTOR>
 <CONNECTOR type="5608" id="144" index="8" uid="825f8bf8-fbf9-4279-92e8-736fb987a6bb" >
 <cdparam x="420" y="509" />
@@ -275,6 +290,7 @@
 <P2  x="460" y="556" id="1" />
 <Point x="422" y="574" />
 <AutomaticDrawing  data="true" />
+<new d="false" />
 </CONNECTOR><SUBCOMPONENT type="-1" id="141" index="19" uid="359ac209-3079-4b8b-8f79-be7a8d77eee4" >
 <father id="144" num="0" />
 <cdparam x="422" y="574" />
@@ -282,6 +298,7 @@
 <hidden value="false" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="point " value="null" />
+<new d="false" />
 </SUBCOMPONENT>
 
 <CONNECTOR type="5608" id="148" index="9" uid="73b90374-e9f3-4852-9475-b0e1287454fc" >
@@ -294,6 +311,7 @@
 <P2  x="361" y="453" id="22" />
 <Point x="320" y="474" />
 <AutomaticDrawing  data="true" />
+<new d="false" />
 </CONNECTOR><SUBCOMPONENT type="-1" id="145" index="20" uid="d3a3fc3c-0ca4-4626-9c5c-685bebce2f0d" >
 <father id="148" num="0" />
 <cdparam x="320" y="474" />
@@ -301,6 +319,7 @@
 <hidden value="false" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="point " value="null" />
+<new d="false" />
 </SUBCOMPONENT>
 
 <CONNECTOR type="5608" id="152" index="10" uid="b0a390a9-b261-45ab-89dd-10e6076c6aad" >
@@ -313,6 +332,7 @@
 <P2  x="259" y="360" id="43" />
 <Point x="220" y="380" />
 <AutomaticDrawing  data="true" />
+<new d="false" />
 </CONNECTOR><SUBCOMPONENT type="-1" id="149" index="21" uid="68836bae-d7bb-406f-93e2-6df227fa6350" >
 <father id="152" num="0" />
 <cdparam x="220" y="380" />
@@ -320,6 +340,7 @@
 <hidden value="false" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="point " value="null" />
+<new d="false" />
 </SUBCOMPONENT>
 
 <CONNECTOR type="5608" id="156" index="11" uid="59c4f27f-ec70-4d6a-af25-4275e6e07a14" >
@@ -332,6 +353,7 @@
 <P2  x="160" y="256" id="63" />
 <Point x="120" y="274" />
 <AutomaticDrawing  data="true" />
+<new d="false" />
 </CONNECTOR><SUBCOMPONENT type="-1" id="153" index="22" uid="7f639dbc-a3b1-4d8e-bb74-8069d8eea5b0" >
 <father id="156" num="0" />
 <cdparam x="120" y="274" />
@@ -339,6 +361,7 @@
 <hidden value="false" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="point " value="null" />
+<new d="false" />
 </SUBCOMPONENT>
 
 
@@ -378,6 +401,7 @@ or timer ATST1 expires, an error indication is given to the the flight crew.
 
      
 " />
+<new d="false" />
 <TGConnectingPoint num="0" id="157" />
 <TGConnectingPoint num="1" id="158" />
 <TGConnectingPoint num="2" id="159" />
@@ -429,6 +453,7 @@ or timer ATST1 expires, an error indication is given to the the flight crew.
 <hidden value="false" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="Requirement" value="ProtocolCharacteristics" />
+<new d="false" />
 <TGConnectingPoint num="0" id="174" />
 <TGConnectingPoint num="1" id="175" />
 <TGConnectingPoint num="2" id="176" />
@@ -494,6 +519,7 @@ or timer ATST1 expires, an error indication is given to the the flight crew.
 <hidden value="false" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="Requirement" value="FANS_Initial_Notification_Procedure" />
+<new d="false" />
 <TGConnectingPoint num="0" id="218" />
 <TGConnectingPoint num="1" id="219" />
 <TGConnectingPoint num="2" id="220" />
@@ -559,6 +585,7 @@ or timer ATST1 expires, an error indication is given to the the flight crew.
 <hidden value="false" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="Requirement" value="GeneralRequirement" />
+<new d="false" />
 <TGConnectingPoint num="0" id="262" />
 <TGConnectingPoint num="1" id="263" />
 <TGConnectingPoint num="2" id="264" />
@@ -623,6 +650,7 @@ or timer ATST1 expires, an error indication is given to the the flight crew.
 <hidden value="false" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="AvatarElementReference" value="Lossy_Analysis_Design" />
+<new d="false" />
 <TGConnectingPoint num="0" id="306" />
 <TGConnectingPoint num="1" id="307" />
 <TGConnectingPoint num="2" id="308" />
@@ -646,6 +674,7 @@ or timer ATST1 expires, an error indication is given to the the flight crew.
 <hidden value="false" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="AvatarElementReference" value="Unlossy_Analysis_Design" />
+<new d="false" />
 <TGConnectingPoint num="0" id="322" />
 <TGConnectingPoint num="1" id="323" />
 <TGConnectingPoint num="2" id="324" />
@@ -671,6 +700,7 @@ or timer ATST1 expires, an error indication is given to the the flight crew.
 <P1  x="701" y="271" id="313" />
 <P2  x="699" y="220" id="213" />
 <AutomaticDrawing  data="true" />
+<new d="false" />
 </CONNECTOR>
 <CONNECTOR type="5208" id="341" index="6" uid="dfd17a4d-9e04-49ac-b172-19d04b1de911" >
 <cdparam x="494" y="296" />
@@ -680,6 +710,7 @@ or timer ATST1 expires, an error indication is given to the the flight crew.
 <P1  x="507" y="271" id="329" />
 <P2  x="507" y="220" id="211" />
 <AutomaticDrawing  data="true" />
+<new d="false" />
 </CONNECTOR>
 <CONNECTOR type="5206" id="343" index="7" uid="42952569-409a-44b7-a3c0-d924bf714061" >
 <cdparam x="396" y="175" />
@@ -689,6 +720,7 @@ or timer ATST1 expires, an error indication is given to the the flight crew.
 <P1  x="411" y="170" id="175" />
 <P2  x="320" y="169" id="222" />
 <AutomaticDrawing  data="true" />
+<new d="false" />
 </CONNECTOR>
 <CONNECTOR type="5206" id="345" index="8" uid="5a1eac51-c868-46c2-982c-4fe385dd377a" >
 <cdparam x="146" y="120" />
@@ -698,6 +730,7 @@ or timer ATST1 expires, an error indication is given to the the flight crew.
 <P1  x="165" y="121" id="225" />
 <P2  x="167" y="91" id="272" />
 <AutomaticDrawing  data="true" />
+<new d="false" />
 </CONNECTOR>
 
 </AvatarRDPanel>
@@ -711,6 +744,7 @@ or timer ATST1 expires, an error indication is given to the the flight crew.
 <P1  x="444" y="383" id="386" />
 <P2  x="444" y="431" id="390" />
 <AutomaticDrawing  data="true" />
+<new d="false" />
 </CONNECTOR>
 <CONNECTOR type="5312" id="349" index="1" uid="f1a434ec-f7ee-4974-9ee5-51a160b7c28f" >
 <cdparam x="475" y="306" />
@@ -720,6 +754,7 @@ or timer ATST1 expires, an error indication is given to the the flight crew.
 <P1  x="475" y="294" id="396" />
 <P2  x="464" y="343" id="381" />
 <AutomaticDrawing  data="true" />
+<new d="false" />
 </CONNECTOR>
 <CONNECTOR type="5312" id="351" index="2" uid="9f4b4631-e321-40e2-8def-e6d2ba98326b" >
 <cdparam x="423" y="175" />
@@ -729,6 +764,7 @@ or timer ATST1 expires, an error indication is given to the the flight crew.
 <P1  x="424" y="175" id="429" />
 <P2  x="424" y="343" id="379" />
 <AutomaticDrawing  data="true" />
+<new d="false" />
 </CONNECTOR>
 <CONNECTOR type="5311" id="353" index="3" uid="16f23cdf-c083-4175-9017-eaa2f49b3724" >
 <cdparam x="179" y="234" />
@@ -738,33 +774,37 @@ or timer ATST1 expires, an error indication is given to the the flight crew.
 <P1  x="179" y="234" id="452" />
 <P2  x="445" y="234" id="399" />
 <AutomaticDrawing  data="true" />
+<new d="false" />
 </CONNECTOR>
 <CONNECTOR type="5311" id="355" index="4" uid="42ea3f2c-4658-4d0e-9722-ca4eef90a661" >
 <cdparam x="175" y="105" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector" value="" />
 <TGConnectingPoint num="0" id="354" />
-<P1  x="175" y="105" id="446" />
+<P1  x="175" y="105" id="472" />
 <P2  x="445" y="214" id="397" />
 <AutomaticDrawing  data="true" />
+<new d="false" />
 </CONNECTOR>
 <CONNECTOR type="5311" id="357" index="5" uid="a0184a8e-f82b-429a-8731-955ec47b52a6" >
 <cdparam x="175" y="158" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector" value="" />
 <TGConnectingPoint num="0" id="356" />
-<P1  x="175" y="158" id="465" />
+<P1  x="175" y="158" id="439" />
 <P2  x="379" y="125" id="421" />
 <AutomaticDrawing  data="true" />
+<new d="false" />
 </CONNECTOR>
 <CONNECTOR type="5311" id="359" index="6" uid="807db3df-ef5a-438b-b2a8-d2bfe524e1f8" >
 <cdparam x="175" y="95" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector" value="" />
 <TGConnectingPoint num="0" id="358" />
-<P1  x="175" y="95" id="439" />
+<P1  x="175" y="95" id="465" />
 <P2  x="379" y="95" id="418" />
 <AutomaticDrawing  data="true" />
+<new d="false" />
 </CONNECTOR>
 <COMPONENT type="301" id="376" index="7" uid="64a33a8d-4768-40dd-81ed-1db9abda9d1b" >
 <cdparam x="72" y="433" />
@@ -776,6 +816,7 @@ or timer ATST1 expires, an error indication is given to the the flight crew.
  either successfully or unsuccessfully.
  
 " />
+<new d="false" />
 <TGConnectingPoint num="0" id="360" />
 <TGConnectingPoint num="1" id="361" />
 <TGConnectingPoint num="2" id="362" />
@@ -806,6 +847,7 @@ or timer ATST1 expires, an error indication is given to the the flight crew.
 <hidden value="false" />
 <cdrectangleparam minX="10" maxX="2500" minY="10" maxY="1500" />
 <infoparam name="TGComponent" value="OR" />
+<new d="false" />
 <TGConnectingPoint num="0" id="377" />
 <TGConnectingPoint num="1" id="378" />
 <TGConnectingPoint num="2" id="379" />
@@ -826,6 +868,7 @@ or timer ATST1 expires, an error indication is given to the the flight crew.
 <hidden value="false" />
 <cdrectangleparam minX="10" maxX="2500" minY="10" maxY="1500" />
 <infoparam name="TGComponent" value="TerminationProperty" />
+<new d="false" />
 <TGConnectingPoint num="0" id="390" />
 <TGConnectingPoint num="1" id="391" />
 <TGConnectingPoint num="2" id="392" />
@@ -842,6 +885,7 @@ or timer ATST1 expires, an error indication is given to the the flight crew.
 <hidden value="false" />
 <cdrectangleparam minX="10" maxX="2500" minY="10" maxY="1500" />
 <infoparam name="TGComponent" value="&lt;&lt;LC&gt;&gt;" />
+<new d="false" />
 <TGConnectingPoint num="0" id="395" />
 <TGConnectingPoint num="1" id="396" />
 <TGConnectingPoint num="2" id="397" />
@@ -870,6 +914,7 @@ or timer ATST1 expires, an error indication is given to the the flight crew.
 <hidden value="false" />
 <cdrectangleparam minX="10" maxX="2500" minY="10" maxY="1500" />
 <infoparam name="TGComponent" value="&lt;&lt;LC&gt;&gt;" />
+<new d="false" />
 <TGConnectingPoint num="0" id="416" />
 <TGConnectingPoint num="1" id="417" />
 <TGConnectingPoint num="2" id="418" />
@@ -898,6 +943,7 @@ or timer ATST1 expires, an error indication is given to the the flight crew.
 <hidden value="false" />
 <cdrectangleparam minX="10" maxX="2500" minY="10" maxY="1500" />
 <infoparam name="Block0" value="Pilot" />
+<new d="false" />
 <TGConnectingPoint num="0" id="476" />
 <TGConnectingPoint num="1" id="477" />
 <TGConnectingPoint num="2" id="478" />
@@ -923,13 +969,14 @@ or timer ATST1 expires, an error indication is given to the the flight crew.
 <TGConnectingPoint num="22" id="498" />
 <TGConnectingPoint num="23" id="499" />
 </COMPONENT>
-<SUBCOMPONENT type="5304" id="449" index="13" uid="4c85276f-7b08-41dc-988d-1f7c98d43bca" >
+<SUBCOMPONENT type="5304" id="449" index="13" uid="9564dc4c-7520-4c15-9f76-68759304e6c5" >
 <father id="500" num="0" />
-<cdparam x="75" y="75" />
+<cdparam x="75" y="138" />
 <sizeparam width="100" height="40" minWidth="100" minHeight="1" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <hidden value="false" />
 <cdrectangleparam minX="0" maxX="114" minY="0" maxY="240" />
-<infoparam name="TGComponent" value="INconreq" />
+<infoparam name="TGComponent" value="INconconf" />
+<new d="false" />
 <TGConnectingPoint num="0" id="437" />
 <TGConnectingPoint num="1" id="438" />
 <TGConnectingPoint num="2" id="439" />
@@ -950,6 +997,7 @@ or timer ATST1 expires, an error indication is given to the the flight crew.
 <hidden value="false" />
 <cdrectangleparam minX="0" maxX="114" minY="0" maxY="240" />
 <infoparam name="TGComponent" value="INerror" />
+<new d="false" />
 <TGConnectingPoint num="0" id="450" />
 <TGConnectingPoint num="1" id="451" />
 <TGConnectingPoint num="2" id="452" />
@@ -963,13 +1011,14 @@ or timer ATST1 expires, an error indication is given to the the flight crew.
 <TGConnectingPoint num="10" id="460" />
 <TGConnectingPoint num="11" id="461" />
 </SUBCOMPONENT>
-<SUBCOMPONENT type="5304" id="475" index="15" uid="9564dc4c-7520-4c15-9f76-68759304e6c5" >
+<SUBCOMPONENT type="5304" id="475" index="15" uid="4c85276f-7b08-41dc-988d-1f7c98d43bca" >
 <father id="500" num="2" />
-<cdparam x="75" y="138" />
+<cdparam x="75" y="75" />
 <sizeparam width="100" height="40" minWidth="100" minHeight="1" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <hidden value="false" />
 <cdrectangleparam minX="0" maxX="114" minY="0" maxY="240" />
-<infoparam name="TGComponent" value="INconconf" />
+<infoparam name="TGComponent" value="INconreq" />
+<new d="false" />
 <TGConnectingPoint num="0" id="463" />
 <TGConnectingPoint num="1" id="464" />
 <TGConnectingPoint num="2" id="465" />
@@ -1000,6 +1049,7 @@ or timer ATST1 expires, an error indication is given to the the flight crew.
 <hidden value="false" />
 <cdrectangleparam minX="10" maxX="1900" minY="10" maxY="900" />
 <infoparam name="Assumption" value="Rendez_Vous_Acceptors" />
+<new d="false" />
 <TGConnectingPoint num="0" id="501" />
 <TGConnectingPoint num="1" id="502" />
 <TGConnectingPoint num="2" id="503" />
@@ -1053,6 +1103,7 @@ or timer ATST1 expires, an error indication is given to the the flight crew.
 <hidden value="false" />
 <cdrectangleparam minX="10" maxX="1900" minY="10" maxY="900" />
 <infoparam name="Assumption" value="Users" />
+<new d="false" />
 <TGConnectingPoint num="0" id="533" />
 <TGConnectingPoint num="1" id="534" />
 <TGConnectingPoint num="2" id="535" />
@@ -1101,6 +1152,7 @@ or timer ATST1 expires, an error indication is given to the the flight crew.
 <hidden value="false" />
 <cdrectangleparam minX="10" maxX="1900" minY="10" maxY="900" />
 <infoparam name="AvatarElementReference" value="Pilot" />
+<new d="false" />
 <TGConnectingPoint num="0" id="565" />
 <TGConnectingPoint num="1" id="566" />
 <TGConnectingPoint num="2" id="567" />
@@ -1136,6 +1188,7 @@ or timer ATST1 expires, an error indication is given to the the flight crew.
 <hidden value="false" />
 <cdrectangleparam minX="10" maxX="1900" minY="10" maxY="900" />
 <infoparam name="AvatarElementReference" value="Controller" />
+<new d="false" />
 <TGConnectingPoint num="0" id="593" />
 <TGConnectingPoint num="1" id="594" />
 <TGConnectingPoint num="2" id="595" />
@@ -1171,6 +1224,7 @@ or timer ATST1 expires, an error indication is given to the the flight crew.
 <hidden value="false" />
 <cdrectangleparam minX="10" maxX="1900" minY="10" maxY="900" />
 <infoparam name="AvatarDiagramReference" value="Design_unlossy" />
+<new d="false" />
 <TGConnectingPoint num="0" id="621" />
 <TGConnectingPoint num="1" id="622" />
 <TGConnectingPoint num="2" id="623" />
@@ -1206,6 +1260,7 @@ or timer ATST1 expires, an error indication is given to the the flight crew.
 <hidden value="false" />
 <cdrectangleparam minX="10" maxX="1900" minY="10" maxY="900" />
 <infoparam name="AvatarDiagramReference" value="Design_lossy" />
+<new d="false" />
 <TGConnectingPoint num="0" id="649" />
 <TGConnectingPoint num="1" id="650" />
 <TGConnectingPoint num="2" id="651" />
@@ -1241,6 +1296,7 @@ or timer ATST1 expires, an error indication is given to the the flight crew.
 <hidden value="false" />
 <cdrectangleparam minX="10" maxX="1900" minY="10" maxY="900" />
 <infoparam name="AvatarElementReference" value="Pilot" />
+<new d="false" />
 <TGConnectingPoint num="0" id="677" />
 <TGConnectingPoint num="1" id="678" />
 <TGConnectingPoint num="2" id="679" />
@@ -1276,6 +1332,7 @@ or timer ATST1 expires, an error indication is given to the the flight crew.
 <hidden value="false" />
 <cdrectangleparam minX="10" maxX="1900" minY="10" maxY="900" />
 <infoparam name="AvatarElementReference" value="Controller" />
+<new d="false" />
 <TGConnectingPoint num="0" id="705" />
 <TGConnectingPoint num="1" id="706" />
 <TGConnectingPoint num="2" id="707" />
@@ -1313,6 +1370,7 @@ or timer ATST1 expires, an error indication is given to the the flight crew.
 <P1  x="392" y="184" id="522" />
 <P2  x="376" y="234" id="628" />
 <AutomaticDrawing  data="true" />
+<new d="false" />
 </CONNECTOR>
 <CONNECTOR type="5257" id="736" index="9" uid="0dc792e3-2170-4d19-9982-1588877e28c9" >
 <cdparam x="286" y="302" />
@@ -1322,6 +1380,7 @@ or timer ATST1 expires, an error indication is given to the the flight crew.
 <P1  x="286" y="302" id="712" />
 <P2  x="338" y="264" id="630" />
 <AutomaticDrawing  data="true" />
+<new d="false" />
 </CONNECTOR>
 <CONNECTOR type="5257" id="738" index="10" uid="0d459e7d-273b-4a8e-8e4b-92e03189a2b2" >
 <cdparam x="407" y="303" />
@@ -1331,6 +1390,7 @@ or timer ATST1 expires, an error indication is given to the the flight crew.
 <P1  x="407" y="303" id="684" />
 <P2  x="414" y="264" id="632" />
 <AutomaticDrawing  data="true" />
+<new d="false" />
 </CONNECTOR>
 <CONNECTOR type="5253" id="740" index="11" uid="386c6597-ea0a-4a6d-adad-b527f040c954" >
 <cdparam x="212" y="209" />
@@ -1340,6 +1400,7 @@ or timer ATST1 expires, an error indication is given to the the flight crew.
 <P1  x="314" y="97" id="502" />
 <P2  x="245" y="97" id="537" />
 <AutomaticDrawing  data="true" />
+<new d="false" />
 </CONNECTOR>
 <CONNECTOR type="5257" id="742" index="12" uid="aaea90b2-d96c-49a6-999e-19dfe79db930" >
 <cdparam x="681" y="368" />
@@ -1349,6 +1410,7 @@ or timer ATST1 expires, an error indication is given to the the flight crew.
 <P1  x="550" y="301" id="600" />
 <P2  x="511" y="264" id="658" />
 <AutomaticDrawing  data="true" />
+<new d="false" />
 </CONNECTOR>
 <CONNECTOR type="5257" id="744" index="13" uid="89b2cd53-698d-493b-ab20-af20d960d2b2" >
 <cdparam x="681" y="321" />
@@ -1358,6 +1420,7 @@ or timer ATST1 expires, an error indication is given to the the flight crew.
 <P1  x="677" y="301" id="572" />
 <P2  x="587" y="264" id="660" />
 <AutomaticDrawing  data="true" />
+<new d="false" />
 </CONNECTOR>
 <CONNECTOR type="5255" id="746" index="14" uid="0c6ed505-91ad-46ba-9f30-d9287382e7ce" >
 <cdparam x="368" y="339" />
@@ -1367,6 +1430,7 @@ or timer ATST1 expires, an error indication is given to the the flight crew.
 <P1  x="548" y="184" id="524" />
 <P2  x="549" y="234" id="656" />
 <AutomaticDrawing  data="true" />
+<new d="false" />
 </CONNECTOR>
 
 </AvatarMADPanel>
@@ -1378,6 +1442,7 @@ or timer ATST1 expires, an error indication is given to the the flight crew.
 <hidden value="false" />
 <cdrectangleparam minX="10" maxX="2500" minY="10" maxY="1500" />
 <infoparam name="Assumption" value="PerfectMedium" />
+<new d="false" />
 <TGConnectingPoint num="0" id="747" />
 <TGConnectingPoint num="1" id="748" />
 <TGConnectingPoint num="2" id="749" />
@@ -1427,6 +1492,7 @@ or timer ATST1 expires, an error indication is given to the the flight crew.
 <hidden value="false" />
 <cdrectangleparam minX="10" maxX="2500" minY="10" maxY="1500" />
 <infoparam name="Assumption" value="Network" />
+<new d="false" />
 <TGConnectingPoint num="0" id="779" />
 <TGConnectingPoint num="1" id="780" />
 <TGConnectingPoint num="2" id="781" />
@@ -1475,6 +1541,7 @@ or timer ATST1 expires, an error indication is given to the the flight crew.
 <hidden value="false" />
 <cdrectangleparam minX="10" maxX="2500" minY="10" maxY="1500" />
 <infoparam name="AvatarDiagramReference" value="Design_unlossy" />
+<new d="false" />
 <TGConnectingPoint num="0" id="811" />
 <TGConnectingPoint num="1" id="812" />
 <TGConnectingPoint num="2" id="813" />
@@ -1510,6 +1577,7 @@ or timer ATST1 expires, an error indication is given to the the flight crew.
 <hidden value="false" />
 <cdrectangleparam minX="10" maxX="2500" minY="10" maxY="1500" />
 <infoparam name="AvatarDiagramReference" value="Design_unlossy" />
+<new d="false" />
 <TGConnectingPoint num="0" id="839" />
 <TGConnectingPoint num="1" id="840" />
 <TGConnectingPoint num="2" id="841" />
@@ -1545,6 +1613,7 @@ or timer ATST1 expires, an error indication is given to the the flight crew.
 <hidden value="false" />
 <cdrectangleparam minX="10" maxX="2500" minY="10" maxY="1500" />
 <infoparam name="Assumption" value="Lossy_Network" />
+<new d="false" />
 <TGConnectingPoint num="0" id="867" />
 <TGConnectingPoint num="1" id="868" />
 <TGConnectingPoint num="2" id="869" />
@@ -1594,6 +1663,7 @@ or timer ATST1 expires, an error indication is given to the the flight crew.
 <hidden value="false" />
 <cdrectangleparam minX="10" maxX="2500" minY="10" maxY="1500" />
 <infoparam name="Assumption" value="Unlossy_Network" />
+<new d="false" />
 <TGConnectingPoint num="0" id="899" />
 <TGConnectingPoint num="1" id="900" />
 <TGConnectingPoint num="2" id="901" />
@@ -1641,6 +1711,7 @@ or timer ATST1 expires, an error indication is given to the the flight crew.
 <hidden value="false" />
 <cdrectangleparam minX="10" maxX="2500" minY="10" maxY="1500" />
 <infoparam name="AvatarElementReference" value="Network" />
+<new d="false" />
 <TGConnectingPoint num="0" id="931" />
 <TGConnectingPoint num="1" id="932" />
 <TGConnectingPoint num="2" id="933" />
@@ -1676,6 +1747,7 @@ or timer ATST1 expires, an error indication is given to the the flight crew.
 <hidden value="false" />
 <cdrectangleparam minX="10" maxX="2500" minY="10" maxY="1500" />
 <infoparam name="AvatarElementReference" value="Network" />
+<new d="false" />
 <TGConnectingPoint num="0" id="959" />
 <TGConnectingPoint num="1" id="960" />
 <TGConnectingPoint num="2" id="961" />
@@ -1713,6 +1785,7 @@ or timer ATST1 expires, an error indication is given to the the flight crew.
 <P1  x="96" y="164" id="905" />
 <P2  x="96" y="65" id="789" />
 <AutomaticDrawing  data="true" />
+<new d="false" />
 </CONNECTOR>
 <CONNECTOR type="5253" id="990" index="9" uid="0641cf51-1261-49ef-a595-588d41e5ec70" >
 <cdparam x="247" y="40" />
@@ -1722,6 +1795,7 @@ or timer ATST1 expires, an error indication is given to the the flight crew.
 <P1  x="249" y="42" id="747" />
 <P2  x="182" y="42" id="782" />
 <AutomaticDrawing  data="true" />
+<new d="false" />
 </CONNECTOR>
 <CONNECTOR type="5257" id="992" index="10" uid="b9ae83f3-0438-4ee6-95ed-12e8ce76d907" >
 <cdparam x="707" y="544" />
@@ -1731,6 +1805,7 @@ or timer ATST1 expires, an error indication is given to the the flight crew.
 <P1  x="596" y="381" id="966" />
 <P2  x="596" y="346" id="821" />
 <AutomaticDrawing  data="true" />
+<new d="false" />
 </CONNECTOR>
 <CONNECTOR type="5255" id="994" index="11" uid="74c95430-a2e5-4230-8714-84352231113b" >
 <cdparam x="304" y="548" />
@@ -1740,6 +1815,7 @@ or timer ATST1 expires, an error indication is given to the the flight crew.
 <P1  x="596" y="278" id="889" />
 <P2  x="596" y="316" id="818" />
 <AutomaticDrawing  data="true" />
+<new d="false" />
 </CONNECTOR>
 <CONNECTOR type="5257" id="996" index="12" uid="30a19c18-c2a9-47fb-b6a8-20cfba8aadd9" >
 <cdparam x="706" y="420" />
@@ -1749,6 +1825,7 @@ or timer ATST1 expires, an error indication is given to the the flight crew.
 <P1  x="165" y="375" id="938" />
 <P2  x="166" y="339" id="849" />
 <AutomaticDrawing  data="true" />
+<new d="false" />
 </CONNECTOR>
 <CONNECTOR type="5255" id="998" index="13" uid="4b1835ec-eae0-4172-97cc-87e47f234289" >
 <cdparam x="306" y="417" />
@@ -1758,6 +1835,7 @@ or timer ATST1 expires, an error indication is given to the the flight crew.
 <P1  x="165" y="272" id="921" />
 <P2  x="166" y="309" id="846" />
 <AutomaticDrawing  data="true" />
+<new d="false" />
 </CONNECTOR>
 <CONNECTOR type="5254" id="1000" index="14" uid="e4b345d9-576b-4671-95d0-e901b3780ee9" >
 <cdparam x="739" y="293" />
@@ -1767,6 +1845,7 @@ or timer ATST1 expires, an error indication is given to the the flight crew.
 <P1  x="304" y="218" id="903" />
 <P2  x="441" y="218" id="868" />
 <AutomaticDrawing  data="true" />
+<new d="false" />
 <extraparam>
 <oldVersion data="1" />
 <newVersion data="2" />
@@ -1782,6 +1861,7 @@ or timer ATST1 expires, an error indication is given to the the flight crew.
 <hidden value="false" />
 <cdrectangleparam minX="10" maxX="2500" minY="10" maxY="1500" />
 <infoparam name="Assumption" value="Message_Loss_Compensation" />
+<new d="false" />
 <TGConnectingPoint num="0" id="1001" />
 <TGConnectingPoint num="1" id="1002" />
 <TGConnectingPoint num="2" id="1003" />
@@ -1831,6 +1911,7 @@ or timer ATST1 expires, an error indication is given to the the flight crew.
 <hidden value="false" />
 <cdrectangleparam minX="10" maxX="2500" minY="10" maxY="1500" />
 <infoparam name="Assumption" value="Protocol_Layer" />
+<new d="false" />
 <TGConnectingPoint num="0" id="1033" />
 <TGConnectingPoint num="1" id="1034" />
 <TGConnectingPoint num="2" id="1035" />
@@ -1879,6 +1960,7 @@ or timer ATST1 expires, an error indication is given to the the flight crew.
 <hidden value="false" />
 <cdrectangleparam minX="10" maxX="2500" minY="10" maxY="1500" />
 <infoparam name="Assumption" value="Temporal_Ordering_Of_Messages" />
+<new d="false" />
 <TGConnectingPoint num="0" id="1065" />
 <TGConnectingPoint num="1" id="1066" />
 <TGConnectingPoint num="2" id="1067" />
@@ -1928,6 +2010,7 @@ or timer ATST1 expires, an error indication is given to the the flight crew.
 <hidden value="false" />
 <cdrectangleparam minX="10" maxX="2500" minY="10" maxY="1500" />
 <infoparam name="AvatarDiagramReference" value="Design_unlossy" />
+<new d="false" />
 <TGConnectingPoint num="0" id="1097" />
 <TGConnectingPoint num="1" id="1098" />
 <TGConnectingPoint num="2" id="1099" />
@@ -1963,6 +2046,7 @@ or timer ATST1 expires, an error indication is given to the the flight crew.
 <hidden value="false" />
 <cdrectangleparam minX="10" maxX="2500" minY="10" maxY="1500" />
 <infoparam name="AvatarElementReference" value="Pilot" />
+<new d="false" />
 <TGConnectingPoint num="0" id="1125" />
 <TGConnectingPoint num="1" id="1126" />
 <TGConnectingPoint num="2" id="1127" />
@@ -1998,6 +2082,7 @@ or timer ATST1 expires, an error indication is given to the the flight crew.
 <hidden value="false" />
 <cdrectangleparam minX="10" maxX="2500" minY="10" maxY="1500" />
 <infoparam name="AvatarElementReference" value="Controller" />
+<new d="false" />
 <TGConnectingPoint num="0" id="1153" />
 <TGConnectingPoint num="1" id="1154" />
 <TGConnectingPoint num="2" id="1155" />
@@ -2035,6 +2120,7 @@ or timer ATST1 expires, an error indication is given to the the flight crew.
 <P1  x="478" y="314" id="1023" />
 <P2  x="462" y="358" id="1104" />
 <AutomaticDrawing  data="true" />
+<new d="false" />
 </CONNECTOR>
 <CONNECTOR type="5254" id="1184" index="7" uid="ea26b3e5-0984-4055-b5be-f3277b6b4f71" >
 <cdparam x="474" y="127" />
@@ -2044,6 +2130,7 @@ or timer ATST1 expires, an error indication is given to the the flight crew.
 <P1  x="477" y="127" id="1075" />
 <P2  x="478" y="192" id="1008" />
 <AutomaticDrawing  data="true" />
+<new d="false" />
 <extraparam>
 <oldVersion data="1" />
 <newVersion data="2" />
@@ -2057,6 +2144,7 @@ or timer ATST1 expires, an error indication is given to the the flight crew.
 <P1  x="250" y="74" id="1066" />
 <P2  x="203" y="74" id="1036" />
 <AutomaticDrawing  data="true" />
+<new d="false" />
 </CONNECTOR>
 <CONNECTOR type="5257" id="1188" index="9" uid="673b0ab5-662a-42ac-a622-87c683e31810" >
 <cdparam x="372" y="426" />
@@ -2066,6 +2154,7 @@ or timer ATST1 expires, an error indication is given to the the flight crew.
 <P1  x="372" y="426" id="1160" />
 <P2  x="424" y="388" id="1106" />
 <AutomaticDrawing  data="true" />
+<new d="false" />
 </CONNECTOR>
 <CONNECTOR type="5257" id="1190" index="10" uid="fe3ed83f-380e-4836-87c0-88d800b47b4f" >
 <cdparam x="493" y="427" />
@@ -2075,6 +2164,7 @@ or timer ATST1 expires, an error indication is given to the the flight crew.
 <P1  x="493" y="427" id="1132" />
 <P2  x="500" y="388" id="1108" />
 <AutomaticDrawing  data="true" />
+<new d="false" />
 </CONNECTOR>
 
 </AvatarMADPanel>
@@ -2092,6 +2182,7 @@ or timer ATST1 expires, an error indication is given to the the flight crew.
 <hidden value="false" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="actor" value="Network" />
+<new d="false" />
 <TGConnectingPoint num="0" id="1191" />
 <TGConnectingPoint num="1" id="1192" />
 <TGConnectingPoint num="2" id="1193" />
@@ -2132,6 +2223,7 @@ or timer ATST1 expires, an error indication is given to the the flight crew.
 <hidden value="false" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="actor" value="Controller" />
+<new d="false" />
 <TGConnectingPoint num="0" id="1224" />
 <TGConnectingPoint num="1" id="1225" />
 <TGConnectingPoint num="2" id="1226" />
@@ -2172,6 +2264,7 @@ or timer ATST1 expires, an error indication is given to the the flight crew.
 <hidden value="false" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="actor" value="Pilot" />
+<new d="false" />
 <TGConnectingPoint num="0" id="1257" />
 <TGConnectingPoint num="1" id="1258" />
 <TGConnectingPoint num="2" id="1259" />
@@ -2212,6 +2305,7 @@ or timer ATST1 expires, an error indication is given to the the flight crew.
 <hidden value="false" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="border" value="Communication_System" />
+<new d="false" />
 <TGConnectingPoint num="0" id="1290" />
 <TGConnectingPoint num="1" id="1291" />
 <TGConnectingPoint num="2" id="1292" />
@@ -2232,6 +2326,7 @@ or timer ATST1 expires, an error indication is given to the the flight crew.
 <hidden value="false" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="Controller" value="AirTrafficController" />
+<new d="false" />
 <TGConnectingPoint num="0" id="1299" />
 <TGConnectingPoint num="1" id="1300" />
 <TGConnectingPoint num="2" id="1301" />
@@ -2267,6 +2362,7 @@ or timer ATST1 expires, an error indication is given to the the flight crew.
 <hidden value="false" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="CommunicationSystem" value="FANS_Pilot_ATC_Communication_System" />
+<new d="false" />
 <TGConnectingPoint num="0" id="1324" />
 <TGConnectingPoint num="1" id="1325" />
 <TGConnectingPoint num="2" id="1326" />
@@ -2302,6 +2398,7 @@ or timer ATST1 expires, an error indication is given to the the flight crew.
 <hidden value="false" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="Pilot" value="Pilot" />
+<new d="false" />
 <TGConnectingPoint num="0" id="1349" />
 <TGConnectingPoint num="1" id="1350" />
 <TGConnectingPoint num="2" id="1351" />
@@ -2338,6 +2435,7 @@ or timer ATST1 expires, an error indication is given to the the flight crew.
 <P1  x="285" y="184" id="1335" />
 <P2  x="65" y="184" id="1360" />
 <AutomaticDrawing  data="true" />
+<new d="false" />
 </CONNECTOR>
 <CONNECTOR type="107" id="1375" index="4" uid="b9c26de3-f6d1-4ca2-9ac0-4b7f480e5689" >
 <cdparam x="385" y="154" />
@@ -2346,6 +2444,7 @@ or timer ATST1 expires, an error indication is given to the the flight crew.
 <P1  x="518" y="154" id="1307" />
 <P2  x="285" y="154" id="1332" />
 <AutomaticDrawing  data="true" />
+<new d="false" />
 </CONNECTOR>
 <CONNECTOR type="107" id="1376" index="5" uid="d6e4550a-9406-4110-9cab-e0ad65d15c59" >
 <cdparam x="235" y="124" />
@@ -2354,6 +2453,7 @@ or timer ATST1 expires, an error indication is given to the the flight crew.
 <P1  x="285" y="124" id="1329" />
 <P2  x="518" y="124" id="1304" />
 <AutomaticDrawing  data="true" />
+<new d="false" />
 </CONNECTOR>
 <CONNECTOR type="107" id="1377" index="6" uid="e0a52f2f-7e03-4469-a9f9-0218e606a832" >
 <cdparam x="85" y="104" />
@@ -2362,6 +2462,7 @@ or timer ATST1 expires, an error indication is given to the the flight crew.
 <P1  x="65" y="104" id="1352" />
 <P2  x="285" y="104" id="1327" />
 <AutomaticDrawing  data="true" />
+<new d="false" />
 </CONNECTOR>
 
 </SequenceDiagramPanel>
@@ -2378,6 +2479,7 @@ or timer ATST1 expires, an error indication is given to the the flight crew.
  Basic arrows: the protocol layer communicates via FIFO queues with the network service it relies on.
     
 " />
+<new d="false" />
 <TGConnectingPoint num="0" id="1378" />
 <TGConnectingPoint num="1" id="1379" />
 <TGConnectingPoint num="2" id="1380" />
@@ -2409,6 +2511,7 @@ or timer ATST1 expires, an error indication is given to the the flight crew.
 <hidden value="false" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="GroundCommunication" value="GroundCommunication" />
+<new d="false" />
 <TGConnectingPoint num="0" id="1395" />
 <TGConnectingPoint num="1" id="1396" />
 <TGConnectingPoint num="2" id="1397" />
@@ -2444,6 +2547,7 @@ or timer ATST1 expires, an error indication is given to the the flight crew.
 <hidden value="false" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="Network" value="Network" />
+<new d="false" />
 <TGConnectingPoint num="0" id="1420" />
 <TGConnectingPoint num="1" id="1421" />
 <TGConnectingPoint num="2" id="1422" />
@@ -2479,6 +2583,7 @@ or timer ATST1 expires, an error indication is given to the the flight crew.
 <hidden value="false" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="OnboardCommunication" value="OnboardCommunication" />
+<new d="false" />
 <TGConnectingPoint num="0" id="1445" />
 <TGConnectingPoint num="1" id="1446" />
 <TGConnectingPoint num="2" id="1447" />
@@ -2514,6 +2619,7 @@ or timer ATST1 expires, an error indication is given to the the flight crew.
 <hidden value="false" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="Controller" value="AirTrafficController" />
+<new d="false" />
 <TGConnectingPoint num="0" id="1470" />
 <TGConnectingPoint num="1" id="1471" />
 <TGConnectingPoint num="2" id="1472" />
@@ -2549,6 +2655,7 @@ or timer ATST1 expires, an error indication is given to the the flight crew.
 <hidden value="false" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="Pilot" value="Pilot" />
+<new d="false" />
 <TGConnectingPoint num="0" id="1495" />
 <TGConnectingPoint num="1" id="1496" />
 <TGConnectingPoint num="2" id="1497" />
@@ -2585,6 +2692,7 @@ or timer ATST1 expires, an error indication is given to the the flight crew.
 <P1  x="348" y="258" id="1437" />
 <P2  x="204" y="258" id="1462" />
 <AutomaticDrawing  data="true" />
+<new d="false" />
 </CONNECTOR>
 <CONNECTOR type="106" id="1521" index="7" uid="773771ad-1ffe-4a65-a208-3e15eabd2be7" >
 <cdparam x="507" y="228" />
@@ -2593,6 +2701,7 @@ or timer ATST1 expires, an error indication is given to the the flight crew.
 <P1  x="507" y="228" id="1409" />
 <P2  x="348" y="228" id="1434" />
 <AutomaticDrawing  data="true" />
+<new d="false" />
 </CONNECTOR>
 <CONNECTOR type="106" id="1522" index="8" uid="cc11be11-b086-4843-aaa9-fb48b01980e4" >
 <cdparam x="348" y="148" />
@@ -2601,6 +2710,7 @@ or timer ATST1 expires, an error indication is given to the the flight crew.
 <P1  x="348" y="148" id="1426" />
 <P2  x="507" y="148" id="1401" />
 <AutomaticDrawing  data="true" />
+<new d="false" />
 </CONNECTOR>
 <CONNECTOR type="106" id="1523" index="9" uid="086826f7-7bf8-406a-8dfc-7fbe82c6f526" >
 <cdparam x="204" y="128" />
@@ -2609,6 +2719,7 @@ or timer ATST1 expires, an error indication is given to the the flight crew.
 <P1  x="204" y="128" id="1449" />
 <P2  x="348" y="128" id="1424" />
 <AutomaticDrawing  data="true" />
+<new d="false" />
 </CONNECTOR>
 <CONNECTOR type="107" id="1524" index="10" uid="16a360d1-9f49-4e7c-96af-643b23131234" >
 <cdparam x="12" y="115" />
@@ -2617,6 +2728,7 @@ or timer ATST1 expires, an error indication is given to the the flight crew.
 <P1  x="41" y="108" id="1497" />
 <P2  x="204" y="108" id="1447" />
 <AutomaticDrawing  data="true" />
+<new d="false" />
 </CONNECTOR>
 <CONNECTOR type="107" id="1525" index="11" uid="625216db-7d22-4d3f-a13e-7f494f18eeee" >
 <cdparam x="202" y="280" />
@@ -2625,6 +2737,7 @@ or timer ATST1 expires, an error indication is given to the the flight crew.
 <P1  x="204" y="278" id="1464" />
 <P2  x="41" y="278" id="1514" />
 <AutomaticDrawing  data="true" />
+<new d="false" />
 </CONNECTOR>
 <CONNECTOR type="107" id="1526" index="12" uid="ec5ef37f-d83b-4eb2-a4e1-d09d233464cf" >
 <cdparam x="685" y="199" />
@@ -2633,6 +2746,7 @@ or timer ATST1 expires, an error indication is given to the the flight crew.
 <P1  x="685" y="198" id="1481" />
 <P2  x="507" y="198" id="1406" />
 <AutomaticDrawing  data="true" />
+<new d="false" />
 </CONNECTOR>
 <CONNECTOR type="107" id="1527" index="13" uid="5bf91af4-fc13-42d8-95f2-b5c64d71f8f3" >
 <cdparam x="507" y="169" />
@@ -2641,6 +2755,7 @@ or timer ATST1 expires, an error indication is given to the the flight crew.
 <P1  x="507" y="168" id="1403" />
 <P2  x="685" y="168" id="1478" />
 <AutomaticDrawing  data="true" />
+<new d="false" />
 </CONNECTOR>
 
 </SequenceDiagramPanel>
@@ -2658,6 +2773,7 @@ or timer ATST1 expires, an error indication is given to the the flight crew.
 <hidden value="false" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="actor" value="Network" />
+<new d="false" />
 <TGConnectingPoint num="0" id="1528" />
 <TGConnectingPoint num="1" id="1529" />
 <TGConnectingPoint num="2" id="1530" />
@@ -2698,6 +2814,7 @@ or timer ATST1 expires, an error indication is given to the the flight crew.
 <hidden value="false" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="actor" value="Controller" />
+<new d="false" />
 <TGConnectingPoint num="0" id="1561" />
 <TGConnectingPoint num="1" id="1562" />
 <TGConnectingPoint num="2" id="1563" />
@@ -2738,6 +2855,7 @@ or timer ATST1 expires, an error indication is given to the the flight crew.
 <hidden value="false" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="actor" value="Pilot" />
+<new d="false" />
 <TGConnectingPoint num="0" id="1594" />
 <TGConnectingPoint num="1" id="1595" />
 <TGConnectingPoint num="2" id="1596" />
@@ -2778,6 +2896,7 @@ or timer ATST1 expires, an error indication is given to the the flight crew.
 <hidden value="false" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="border" value="Communication_System" />
+<new d="false" />
 <TGConnectingPoint num="0" id="1627" />
 <TGConnectingPoint num="1" id="1628" />
 <TGConnectingPoint num="2" id="1629" />
@@ -2795,6 +2914,7 @@ or timer ATST1 expires, an error indication is given to the the flight crew.
 <P1  x="208" y="207" id="1558" />
 <P2  x="71" y="90" id="1622" />
 <AutomaticDrawing  data="true" />
+<new d="false" />
 </CONNECTOR>
 <CONNECTOR type="110" id="1637" index="5" uid="548ff56f-3020-41c8-b572-bc8a51727e01" >
 <cdparam x="257" y="83" />
@@ -2803,14 +2923,16 @@ or timer ATST1 expires, an error indication is given to the the flight crew.
 <P1  x="41" y="90" id="1621" />
 <P2  x="342" y="90" id="1588" />
 <AutomaticDrawing  data="true" />
+<new d="false" />
 </CONNECTOR>
 <CONNECTOR type="110" id="1638" index="6" uid="6a6d74c4-f5b0-417d-95d4-e2312d9999e5" >
 <cdparam x="32" y="20" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="1000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <infoparam name="connector from actor to Use case" value="null" />
-<P1  x="4653056" y="5898240" id="1576" />
-<P2  x="10223616" y="5898240" id="1543" />
+<P1  x="342" y="107" id="1576" />
+<P2  x="171" y="194" id="1543" />
 <AutomaticDrawing  data="true" />
+<new d="false" />
 </CONNECTOR>
 
 </UseCaseDiagramPanel>
@@ -2823,6 +2945,7 @@ or timer ATST1 expires, an error indication is given to the the flight crew.
 <cdrectangleparam minX="10" maxX="2500" minY="10" maxY="1500" />
 <infoparam name="UML Note" value="Lost
 " />
+<new d="false" />
 <TGConnectingPoint num="0" id="1639" />
 <TGConnectingPoint num="1" id="1640" />
 <TGConnectingPoint num="2" id="1641" />
@@ -2850,6 +2973,7 @@ or timer ATST1 expires, an error indication is given to the the flight crew.
 <hidden value="false" />
 <cdrectangleparam minX="10" maxX="2500" minY="10" maxY="1500" />
 <infoparam name="Line of relative time constraint" value="rtc" />
+<new d="false" />
 <TGConnectingPoint num="0" id="1656" />
 <TGConnectingPoint num="1" id="1657" />
 <TGConnectingPoint num="2" id="1658" />
@@ -2867,6 +2991,7 @@ or timer ATST1 expires, an error indication is given to the the flight crew.
 <hidden value="false" />
 <cdrectangleparam minX="10" maxX="2500" minY="10" maxY="1500" />
 <infoparam name="Line of relative time constraint" value="rtc" />
+<new d="false" />
 <TGConnectingPoint num="0" id="1666" />
 <TGConnectingPoint num="1" id="1667" />
 <TGConnectingPoint num="2" id="1668" />
@@ -2884,6 +3009,7 @@ or timer ATST1 expires, an error indication is given to the the flight crew.
 <hidden value="false" />
 <cdrectangleparam minX="10" maxX="2500" minY="10" maxY="1500" />
 <infoparam name="Controller" value="AirTrafficController" />
+<new d="false" />
 <TGConnectingPoint num="0" id="1676" />
 <TGConnectingPoint num="1" id="1677" />
 <TGConnectingPoint num="2" id="1678" />
@@ -2920,6 +3046,7 @@ or timer ATST1 expires, an error indication is given to the the flight crew.
 <hidden value="false" />
 <cdrectangleparam minX="10" maxX="2500" minY="10" maxY="1500" />
 <infoparam name="CommunicationSystem" value="FANS_Pilot_ATC_Communication_System" />
+<new d="false" />
 <TGConnectingPoint num="0" id="1702" />
 <TGConnectingPoint num="1" id="1703" />
 <TGConnectingPoint num="2" id="1704" />
@@ -2957,6 +3084,7 @@ or timer ATST1 expires, an error indication is given to the the flight crew.
 <hidden value="false" />
 <cdrectangleparam minX="10" maxX="2500" minY="10" maxY="1500" />
 <infoparam name="Pilot" value="Pilot" />
+<new d="false" />
 <TGConnectingPoint num="0" id="1729" />
 <TGConnectingPoint num="1" id="1730" />
 <TGConnectingPoint num="2" id="1731" />
@@ -2994,6 +3122,7 @@ or timer ATST1 expires, an error indication is given to the the flight crew.
 <P1  x="409" y="182" id="1686" />
 <P2  x="236" y="182" id="1712" />
 <AutomaticDrawing  data="true" />
+<new d="false" />
 </CONNECTOR>
 <CONNECTOR type="109" id="1756" index="7" uid="077f263b-d55a-45e9-bb9b-48cf07f887fc" >
 <cdparam x="218" y="132" />
@@ -3002,6 +3131,7 @@ or timer ATST1 expires, an error indication is given to the the flight crew.
 <P1  x="218" y="132" id="1666" />
 <P2  x="218" y="261" id="1656" />
 <AutomaticDrawing  data="true" />
+<new d="false" />
 <extraparam>
 <Interval minConstraint="ATST1" maxConstraint="ATST1" />
 </extraparam>
@@ -3013,6 +3143,7 @@ or timer ATST1 expires, an error indication is given to the the flight crew.
 <P1  x="236" y="262" id="1720" />
 <P2  x="50" y="262" id="1747" />
 <AutomaticDrawing  data="true" />
+<new d="false" />
 </CONNECTOR>
 <CONNECTOR type="107" id="1758" index="9" uid="5e327ecd-a2c7-446e-a7a5-03d47d3cc317" >
 <cdparam x="220" y="132" />
@@ -3021,6 +3152,7 @@ or timer ATST1 expires, an error indication is given to the the flight crew.
 <P1  x="236" y="132" id="1707" />
 <P2  x="409" y="132" id="1681" />
 <AutomaticDrawing  data="true" />
+<new d="false" />
 </CONNECTOR>
 <CONNECTOR type="107" id="1759" index="10" uid="73c5cb76-c889-40e6-8728-4cba9c1c3829" >
 <cdparam x="70" y="112" />
@@ -3029,6 +3161,7 @@ or timer ATST1 expires, an error indication is given to the the flight crew.
 <P1  x="50" y="112" id="1732" />
 <P2  x="236" y="112" id="1705" />
 <AutomaticDrawing  data="true" />
+<new d="false" />
 </CONNECTOR>
 
 </SequenceDiagramPanel>
@@ -3040,6 +3173,7 @@ or timer ATST1 expires, an error indication is given to the the flight crew.
 <hidden value="false" />
 <cdrectangleparam minX="10" maxX="2500" minY="10" maxY="1500" />
 <infoparam name="timer expiration" value="{timer=ATST1}" />
+<new d="false" />
 <TGConnectingPoint num="0" id="1760" />
 <TGConnectingPoint num="1" id="1761" />
 <TGConnectingPoint num="2" id="1762" />
@@ -3059,6 +3193,7 @@ or timer ATST1 expires, an error indication is given to the the flight crew.
 <hidden value="false" />
 <cdrectangleparam minX="10" maxX="2500" minY="10" maxY="1500" />
 <infoparam name="setting timer" value="{timer=ATST1, duration=10}" />
+<new d="false" />
 <TGConnectingPoint num="0" id="1769" />
 <TGConnectingPoint num="1" id="1770" />
 <TGConnectingPoint num="2" id="1771" />
@@ -3078,6 +3213,7 @@ or timer ATST1 expires, an error indication is given to the the flight crew.
 <hidden value="false" />
 <cdrectangleparam minX="10" maxX="2500" minY="10" maxY="1500" />
 <infoparam name="GroundCommunication" value="GroundCommunication" />
+<new d="false" />
 <TGConnectingPoint num="0" id="1778" />
 <TGConnectingPoint num="1" id="1779" />
 <TGConnectingPoint num="2" id="1780" />
@@ -3138,6 +3274,7 @@ or timer ATST1 expires, an error indication is given to the the flight crew.
 <hidden value="false" />
 <cdrectangleparam minX="10" maxX="2500" minY="10" maxY="1500" />
 <infoparam name="Network" value="Network" />
+<new d="false" />
 <TGConnectingPoint num="0" id="1828" />
 <TGConnectingPoint num="1" id="1829" />
 <TGConnectingPoint num="2" id="1830" />
@@ -3198,6 +3335,7 @@ or timer ATST1 expires, an error indication is given to the the flight crew.
 <hidden value="false" />
 <cdrectangleparam minX="10" maxX="2500" minY="10" maxY="1500" />
 <infoparam name="OnboardCommunication" value="OnboardCommunication" />
+<new d="false" />
 <TGConnectingPoint num="0" id="1896" />
 <TGConnectingPoint num="1" id="1897" />
 <TGConnectingPoint num="2" id="1898" />
@@ -3251,13 +3389,14 @@ or timer ATST1 expires, an error indication is given to the the flight crew.
 <Actor data="false" />
 </extraparam>
 </COMPONENT>
-<SUBCOMPONENT type="603" id="1886" index="21" uid="c34a2ec8-ed88-45c0-94ab-c016d1a8b299" >
+<SUBCOMPONENT type="604" id="1886" index="21" uid="a48f0889-99e9-4ed3-954e-9b62fb2857e4" >
 <father id="1945" num="0" />
-<cdparam x="219" y="344" />
+<cdparam x="219" y="448" />
 <sizeparam width="15" height="25" minWidth="1" minHeight="1" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <hidden value="false" />
 <cdrectangleparam minX="18" maxX="18" minY="-2" maxY="478" />
-<infoparam name="setting timer" value="{timer=ATST1, duration=10}" />
+<infoparam name="timer cancellation" value="{timer=ATST1}" />
+<new d="false" />
 <TGConnectingPoint num="0" id="1878" />
 <TGConnectingPoint num="1" id="1879" />
 <TGConnectingPoint num="2" id="1880" />
@@ -3267,16 +3406,17 @@ or timer ATST1 expires, an error indication is given to the the flight crew.
 <TGConnectingPoint num="6" id="1884" />
 <TGConnectingPoint num="7" id="1885" />
 <extraparam>
-<Interval timer="ATST1" duration="10" />
+<Interval timer="ATST1" />
 </extraparam>
 </SUBCOMPONENT>
-<SUBCOMPONENT type="604" id="1895" index="22" uid="a48f0889-99e9-4ed3-954e-9b62fb2857e4" >
+<SUBCOMPONENT type="603" id="1895" index="22" uid="c34a2ec8-ed88-45c0-94ab-c016d1a8b299" >
 <father id="1945" num="1" />
-<cdparam x="219" y="448" />
+<cdparam x="219" y="344" />
 <sizeparam width="15" height="25" minWidth="1" minHeight="1" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <hidden value="false" />
 <cdrectangleparam minX="18" maxX="18" minY="-2" maxY="478" />
-<infoparam name="timer cancellation" value="{timer=ATST1}" />
+<infoparam name="setting timer" value="{timer=ATST1, duration=10}" />
+<new d="false" />
 <TGConnectingPoint num="0" id="1887" />
 <TGConnectingPoint num="1" id="1888" />
 <TGConnectingPoint num="2" id="1889" />
@@ -3286,7 +3426,7 @@ or timer ATST1 expires, an error indication is given to the the flight crew.
 <TGConnectingPoint num="6" id="1893" />
 <TGConnectingPoint num="7" id="1894" />
 <extraparam>
-<Interval timer="ATST1" />
+<Interval timer="ATST1" duration="10" />
 </extraparam>
 </SUBCOMPONENT>
 
@@ -3296,6 +3436,7 @@ or timer ATST1 expires, an error indication is given to the the flight crew.
 <hidden value="false" />
 <cdrectangleparam minX="10" maxX="2500" minY="10" maxY="1500" />
 <infoparam name="Controller" value="AirTrafficController" />
+<new d="false" />
 <TGConnectingPoint num="0" id="1946" />
 <TGConnectingPoint num="1" id="1947" />
 <TGConnectingPoint num="2" id="1948" />
@@ -3356,6 +3497,7 @@ or timer ATST1 expires, an error indication is given to the the flight crew.
 <hidden value="false" />
 <cdrectangleparam minX="10" maxX="2500" minY="10" maxY="1500" />
 <infoparam name="Pilot" value="Pilot" />
+<new d="false" />
 <TGConnectingPoint num="0" id="1996" />
 <TGConnectingPoint num="1" id="1997" />
 <TGConnectingPoint num="2" id="1998" />
@@ -3419,6 +3561,7 @@ or timer ATST1 expires, an error indication is given to the the flight crew.
 CC is lost
    
 " />
+<new d="false" />
 <TGConnectingPoint num="0" id="2046" />
 <TGConnectingPoint num="1" id="2047" />
 <TGConnectingPoint num="2" id="2048" />
@@ -3449,6 +3592,7 @@ CC is lost
 <P1  x="625" y="366" id="1805" />
 <P2  x="804" y="366" id="1973" />
 <AutomaticDrawing  data="true" />
+<new d="false" />
 </CONNECTOR>
 <CONNECTOR type="107" id="2064" index="9" uid="95a8fa55-c393-483e-b2ca-ffb19f33b5ed" >
 <cdparam x="206" y="456" />
@@ -3457,6 +3601,7 @@ CC is lost
 <P1  x="206" y="486" id="1935" />
 <P2  x="43" y="486" id="2035" />
 <AutomaticDrawing  data="true" />
+<new d="false" />
 </CONNECTOR>
 <CONNECTOR type="106" id="2065" index="10" uid="89bfc2de-cb5a-4231-98ea-189767bbe541" >
 <cdparam x="478" y="436" />
@@ -3465,6 +3610,7 @@ CC is lost
 <P1  x="478" y="436" id="1862" />
 <P2  x="206" y="436" id="1930" />
 <AutomaticDrawing  data="true" />
+<new d="false" />
 </CONNECTOR>
 <CONNECTOR type="106" id="2066" index="11" uid="ee1dc595-173c-42b0-bfc6-66884a8ef941" >
 <cdparam x="625" y="416" />
@@ -3473,6 +3619,7 @@ CC is lost
 <P1  x="625" y="416" id="1810" />
 <P2  x="478" y="416" id="1860" />
 <AutomaticDrawing  data="true" />
+<new d="false" />
 </CONNECTOR>
 <CONNECTOR type="107" id="2067" index="12" uid="2ec9a1e6-f671-43c4-a0ad-6d0bfe72eb85" >
 <cdparam x="804" y="396" />
@@ -3481,6 +3628,7 @@ CC is lost
 <P1  x="804" y="396" id="1976" />
 <P2  x="625" y="396" id="1808" />
 <AutomaticDrawing  data="true" />
+<new d="false" />
 </CONNECTOR>
 <CONNECTOR type="106" id="2068" index="13" uid="f02307b1-5e0d-42c2-87b9-856a1173a579" >
 <cdparam x="466" y="346" />
@@ -3489,6 +3637,7 @@ CC is lost
 <P1  x="478" y="346" id="1853" />
 <P2  x="625" y="346" id="1803" />
 <AutomaticDrawing  data="true" />
+<new d="false" />
 </CONNECTOR>
 <CONNECTOR type="106" id="2069" index="14" uid="f49ae39b-6a20-43b6-bdf8-f744b0d5d321" >
 <cdparam x="206" y="326" />
@@ -3497,6 +3646,7 @@ CC is lost
 <P1  x="206" y="326" id="1919" />
 <P2  x="478" y="326" id="1851" />
 <AutomaticDrawing  data="true" />
+<new d="false" />
 </CONNECTOR>
 <CONNECTOR type="106" id="2070" index="15" uid="bcb4f76c-5d1e-446e-b721-93345df5d13a" >
 <cdparam x="625" y="236" />
@@ -3505,6 +3655,7 @@ CC is lost
 <P1  x="625" y="226" id="1791" />
 <P2  x="478" y="226" id="1841" />
 <AutomaticDrawing  data="true" />
+<new d="false" />
 </CONNECTOR>
 <CONNECTOR type="106" id="2071" index="16" uid="f099c776-ae8d-4080-8207-154f0964a26a" >
 <cdparam x="466" y="156" />
@@ -3513,6 +3664,7 @@ CC is lost
 <P1  x="478" y="156" id="1834" />
 <P2  x="625" y="156" id="1784" />
 <AutomaticDrawing  data="true" />
+<new d="false" />
 </CONNECTOR>
 <CONNECTOR type="106" id="2072" index="17" uid="7dc73724-4aa0-4287-b715-7c3d4b566da1" >
 <cdparam x="206" y="136" />
@@ -3521,6 +3673,7 @@ CC is lost
 <P1  x="206" y="136" id="1900" />
 <P2  x="478" y="136" id="1832" />
 <AutomaticDrawing  data="true" />
+<new d="false" />
 </CONNECTOR>
 <CONNECTOR type="107" id="2073" index="18" uid="e2c9fdff-5c88-43fc-8a5b-5116228347e8" >
 <cdparam x="15" y="123" />
@@ -3529,6 +3682,7 @@ CC is lost
 <P1  x="43" y="116" id="1998" />
 <P2  x="206" y="116" id="1898" />
 <AutomaticDrawing  data="true" />
+<new d="false" />
 </CONNECTOR>
 <CONNECTOR type="107" id="2074" index="19" uid="9c56778e-670c-4f95-ac97-0865dddc011a" >
 <cdparam x="803" y="207" />
@@ -3537,6 +3691,7 @@ CC is lost
 <P1  x="804" y="206" id="1957" />
 <P2  x="625" y="206" id="1789" />
 <AutomaticDrawing  data="true" />
+<new d="false" />
 </CONNECTOR>
 <CONNECTOR type="107" id="2075" index="20" uid="408386a9-b152-47e7-8197-39be48e63f31" >
 <cdparam x="625" y="177" />
@@ -3545,6 +3700,7 @@ CC is lost
 <P1  x="625" y="176" id="1786" />
 <P2  x="804" y="176" id="1954" />
 <AutomaticDrawing  data="true" />
+<new d="false" />
 </CONNECTOR>
 
 </SequenceDiagramPanel>
@@ -3556,6 +3712,7 @@ CC is lost
 <hidden value="false" />
 <cdrectangleparam minX="10" maxX="2500" minY="10" maxY="1500" />
 <infoparam name="timer expiration" value="{timer=ATST1}" />
+<new d="false" />
 <TGConnectingPoint num="0" id="2076" />
 <TGConnectingPoint num="1" id="2077" />
 <TGConnectingPoint num="2" id="2078" />
@@ -3575,6 +3732,7 @@ CC is lost
 <hidden value="false" />
 <cdrectangleparam minX="10" maxX="2500" minY="10" maxY="1500" />
 <infoparam name="timer expiration" value="{timer=ATST1}" />
+<new d="false" />
 <TGConnectingPoint num="0" id="2085" />
 <TGConnectingPoint num="1" id="2086" />
 <TGConnectingPoint num="2" id="2087" />
@@ -3594,6 +3752,7 @@ CC is lost
 <hidden value="false" />
 <cdrectangleparam minX="10" maxX="2500" minY="10" maxY="1500" />
 <infoparam name="setting timer" value="{timer=ATST1, duration=10}" />
+<new d="false" />
 <TGConnectingPoint num="0" id="2094" />
 <TGConnectingPoint num="1" id="2095" />
 <TGConnectingPoint num="2" id="2096" />
@@ -3613,6 +3772,7 @@ CC is lost
 <hidden value="false" />
 <cdrectangleparam minX="10" maxX="2500" minY="10" maxY="1500" />
 <infoparam name="GroundCommunication" value="GroundCommunication" />
+<new d="false" />
 <TGConnectingPoint num="0" id="2103" />
 <TGConnectingPoint num="1" id="2104" />
 <TGConnectingPoint num="2" id="2105" />
@@ -3698,6 +3858,7 @@ CC is lost
 <hidden value="false" />
 <cdrectangleparam minX="10" maxX="2500" minY="10" maxY="1500" />
 <infoparam name="Network" value="Network" />
+<new d="false" />
 <TGConnectingPoint num="0" id="2178" />
 <TGConnectingPoint num="1" id="2179" />
 <TGConnectingPoint num="2" id="2180" />
@@ -3783,6 +3944,7 @@ CC is lost
 <hidden value="false" />
 <cdrectangleparam minX="10" maxX="2500" minY="10" maxY="1500" />
 <infoparam name="OnboardCommunication" value="OnboardCommunication" />
+<new d="false" />
 <TGConnectingPoint num="0" id="2271" />
 <TGConnectingPoint num="1" id="2272" />
 <TGConnectingPoint num="2" id="2273" />
@@ -3861,13 +4023,14 @@ CC is lost
 <Actor data="false" />
 </extraparam>
 </COMPONENT>
-<SUBCOMPONENT type="603" id="2261" index="28" uid="315d63b4-9770-40c4-8e10-5eebb2fc66ea" >
+<SUBCOMPONENT type="605" id="2261" index="28" uid="58c0ac8b-9e95-4eab-8525-ed9c4599b5bd" >
 <father id="2345" num="0" />
-<cdparam x="214" y="334" />
+<cdparam x="214" y="497" />
 <sizeparam width="15" height="25" minWidth="1" minHeight="1" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <hidden value="false" />
 <cdrectangleparam minX="18" maxX="18" minY="-2" maxY="728" />
-<infoparam name="setting timer" value="{timer=ATST1, duration=10}" />
+<infoparam name="timer expiration" value="{timer=ATST1}" />
+<new d="false" />
 <TGConnectingPoint num="0" id="2253" />
 <TGConnectingPoint num="1" id="2254" />
 <TGConnectingPoint num="2" id="2255" />
@@ -3877,16 +4040,17 @@ CC is lost
 <TGConnectingPoint num="6" id="2259" />
 <TGConnectingPoint num="7" id="2260" />
 <extraparam>
-<Interval timer="ATST1" duration="10" />
+<Interval timer="ATST1" />
 </extraparam>
 </SUBCOMPONENT>
-<SUBCOMPONENT type="605" id="2270" index="29" uid="58c0ac8b-9e95-4eab-8525-ed9c4599b5bd" >
+<SUBCOMPONENT type="603" id="2270" index="29" uid="315d63b4-9770-40c4-8e10-5eebb2fc66ea" >
 <father id="2345" num="1" />
-<cdparam x="214" y="497" />
+<cdparam x="214" y="334" />
 <sizeparam width="15" height="25" minWidth="1" minHeight="1" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <hidden value="false" />
 <cdrectangleparam minX="18" maxX="18" minY="-2" maxY="728" />
-<infoparam name="timer expiration" value="{timer=ATST1}" />
+<infoparam name="setting timer" value="{timer=ATST1, duration=10}" />
+<new d="false" />
 <TGConnectingPoint num="0" id="2262" />
 <TGConnectingPoint num="1" id="2263" />
 <TGConnectingPoint num="2" id="2264" />
@@ -3896,7 +4060,7 @@ CC is lost
 <TGConnectingPoint num="6" id="2268" />
 <TGConnectingPoint num="7" id="2269" />
 <extraparam>
-<Interval timer="ATST1" />
+<Interval timer="ATST1" duration="10" />
 </extraparam>
 </SUBCOMPONENT>
 
@@ -3906,6 +4070,7 @@ CC is lost
 <hidden value="false" />
 <cdrectangleparam minX="10" maxX="2500" minY="10" maxY="1500" />
 <infoparam name="Controller" value="AirTrafficController" />
+<new d="false" />
 <TGConnectingPoint num="0" id="2346" />
 <TGConnectingPoint num="1" id="2347" />
 <TGConnectingPoint num="2" id="2348" />
@@ -3991,6 +4156,7 @@ CC is lost
 <hidden value="false" />
 <cdrectangleparam minX="10" maxX="2500" minY="10" maxY="1500" />
 <infoparam name="Pilot" value="Pilot" />
+<new d="false" />
 <TGConnectingPoint num="0" id="2421" />
 <TGConnectingPoint num="1" id="2422" />
 <TGConnectingPoint num="2" id="2423" />
@@ -4079,6 +4245,7 @@ CC is lost
 CC is lost
    
 " />
+<new d="false" />
 <TGConnectingPoint num="0" id="2496" />
 <TGConnectingPoint num="1" id="2497" />
 <TGConnectingPoint num="2" id="2498" />
@@ -4111,6 +4278,7 @@ CC is lost
 CC is lost
    
 " />
+<new d="false" />
 <TGConnectingPoint num="0" id="2513" />
 <TGConnectingPoint num="1" id="2514" />
 <TGConnectingPoint num="2" id="2515" />
@@ -4143,6 +4311,7 @@ CC is lost
 CC is lost
    
 " />
+<new d="false" />
 <TGConnectingPoint num="0" id="2530" />
 <TGConnectingPoint num="1" id="2531" />
 <TGConnectingPoint num="2" id="2532" />
@@ -4173,6 +4342,7 @@ CC is lost
 <P1  x="201" y="726" id="2335" />
 <P2  x="38" y="726" id="2485" />
 <AutomaticDrawing  data="true" />
+<new d="false" />
 </CONNECTOR>
 <CONNECTOR type="106" id="2548" index="12" uid="302f06c8-f0e6-410d-a888-b8b0a112c517" >
 <cdparam x="620" y="616" />
@@ -4181,6 +4351,7 @@ CC is lost
 <P1  x="620" y="616" id="2156" />
 <P2  x="447" y="616" id="2231" />
 <AutomaticDrawing  data="true" />
+<new d="false" />
 </CONNECTOR>
 <CONNECTOR type="107" id="2549" index="13" uid="546b0e6c-bd58-40a1-9e13-d647ba8397f7" >
 <cdparam x="799" y="596" />
@@ -4189,6 +4360,7 @@ CC is lost
 <P1  x="799" y="596" id="2397" />
 <P2  x="620" y="596" id="2154" />
 <AutomaticDrawing  data="true" />
+<new d="false" />
 </CONNECTOR>
 <CONNECTOR type="107" id="2550" index="14" uid="64c17a5a-4bd1-470b-ba48-83030b197488" >
 <cdparam x="620" y="576" />
@@ -4197,6 +4369,7 @@ CC is lost
 <P1  x="620" y="576" id="2152" />
 <P2  x="799" y="576" id="2395" />
 <AutomaticDrawing  data="true" />
+<new d="false" />
 </CONNECTOR>
 <CONNECTOR type="106" id="2551" index="15" uid="a2b6d684-3ebf-4577-9698-49afd6d4cb83" >
 <cdparam x="447" y="556" />
@@ -4205,6 +4378,7 @@ CC is lost
 <P1  x="447" y="556" id="2225" />
 <P2  x="620" y="556" id="2150" />
 <AutomaticDrawing  data="true" />
+<new d="false" />
 </CONNECTOR>
 <CONNECTOR type="106" id="2552" index="16" uid="f8e123c3-0540-46d8-a0bd-6ffecbc40151" >
 <cdparam x="201" y="536" />
@@ -4213,6 +4387,7 @@ CC is lost
 <P1  x="201" y="536" id="2316" />
 <P2  x="447" y="536" id="2223" />
 <AutomaticDrawing  data="true" />
+<new d="false" />
 </CONNECTOR>
 <CONNECTOR type="106" id="2553" index="17" uid="6f92f6ec-0e16-40a3-a9aa-5c18a652d70d" >
 <cdparam x="620" y="406" />
@@ -4221,6 +4396,7 @@ CC is lost
 <P1  x="620" y="406" id="2135" />
 <P2  x="447" y="406" id="2210" />
 <AutomaticDrawing  data="true" />
+<new d="false" />
 </CONNECTOR>
 <CONNECTOR type="107" id="2554" index="18" uid="24083609-3314-43b4-85fd-35cb7ca58367" >
 <cdparam x="799" y="386" />
@@ -4229,6 +4405,7 @@ CC is lost
 <P1  x="799" y="386" id="2376" />
 <P2  x="620" y="386" id="2133" />
 <AutomaticDrawing  data="true" />
+<new d="false" />
 </CONNECTOR>
 <CONNECTOR type="107" id="2557" index="19" uid="a49f9549-6c2d-4cb1-ac5b-a80b876667d4" >
 <cdparam x="620" y="356" />
@@ -4239,6 +4416,7 @@ CC is lost
 <Point x="619" y="355" />
 <Point x="621" y="355" />
 <AutomaticDrawing  data="true" />
+<new d="false" />
 </CONNECTOR><SUBCOMPONENT type="-1" id="2555" index="30" uid="f42e56a7-b771-4d9c-93ea-de16e048a37b" >
 <father id="2557" num="0" />
 <cdparam x="619" y="355" />
@@ -4246,6 +4424,7 @@ CC is lost
 <hidden value="false" />
 <cdrectangleparam minX="10" maxX="2500" minY="10" maxY="1500" />
 <infoparam name="point " value="null" />
+<new d="false" />
 </SUBCOMPONENT>
 <SUBCOMPONENT type="-1" id="2556" index="31" uid="03650724-c9c5-48a0-818a-4941b67cbe60" >
 <father id="2557" num="1" />
@@ -4254,6 +4433,7 @@ CC is lost
 <hidden value="false" />
 <cdrectangleparam minX="10" maxX="2500" minY="10" maxY="1500" />
 <infoparam name="point " value="null" />
+<new d="false" />
 </SUBCOMPONENT>
 
 <CONNECTOR type="106" id="2558" index="20" uid="982c04f4-b5b7-46d2-bf47-0e81dbca55f9" >
@@ -4263,6 +4443,7 @@ CC is lost
 <P1  x="447" y="336" id="2203" />
 <P2  x="620" y="336" id="2128" />
 <AutomaticDrawing  data="true" />
+<new d="false" />
 </CONNECTOR>
 <CONNECTOR type="106" id="2559" index="21" uid="47e25914-96e8-484e-9c5d-59fa758ff04d" >
 <cdparam x="201" y="316" />
@@ -4271,6 +4452,7 @@ CC is lost
 <P1  x="201" y="316" id="2294" />
 <P2  x="447" y="316" id="2201" />
 <AutomaticDrawing  data="true" />
+<new d="false" />
 </CONNECTOR>
 <CONNECTOR type="106" id="2560" index="22" uid="51034562-a982-4210-9a68-47a3abc60afd" >
 <cdparam x="620" y="226" />
@@ -4279,6 +4461,7 @@ CC is lost
 <P1  x="620" y="216" id="2116" />
 <P2  x="447" y="216" id="2191" />
 <AutomaticDrawing  data="true" />
+<new d="false" />
 </CONNECTOR>
 <CONNECTOR type="106" id="2561" index="23" uid="38968672-e4ff-4ddc-b3b9-f60cc3f7d5e5" >
 <cdparam x="461" y="146" />
@@ -4287,6 +4470,7 @@ CC is lost
 <P1  x="447" y="146" id="2184" />
 <P2  x="620" y="146" id="2109" />
 <AutomaticDrawing  data="true" />
+<new d="false" />
 </CONNECTOR>
 <CONNECTOR type="106" id="2562" index="24" uid="af69d2de-1799-4889-a49c-2119ebdb2100" >
 <cdparam x="201" y="126" />
@@ -4295,6 +4479,7 @@ CC is lost
 <P1  x="201" y="126" id="2275" />
 <P2  x="447" y="126" id="2182" />
 <AutomaticDrawing  data="true" />
+<new d="false" />
 </CONNECTOR>
 <CONNECTOR type="107" id="2563" index="25" uid="2ede4e4c-2d61-4d0e-9a30-cea2e28eb199" >
 <cdparam x="10" y="113" />
@@ -4303,6 +4488,7 @@ CC is lost
 <P1  x="38" y="106" id="2423" />
 <P2  x="201" y="106" id="2273" />
 <AutomaticDrawing  data="true" />
+<new d="false" />
 </CONNECTOR>
 <CONNECTOR type="107" id="2564" index="26" uid="8d6b0b84-45d9-41ac-85c1-dfdf1f5c2ddb" >
 <cdparam x="798" y="197" />
@@ -4311,6 +4497,7 @@ CC is lost
 <P1  x="799" y="196" id="2357" />
 <P2  x="620" y="196" id="2114" />
 <AutomaticDrawing  data="true" />
+<new d="false" />
 </CONNECTOR>
 <CONNECTOR type="107" id="2565" index="27" uid="025b1445-db45-4e4f-b093-05a3c630b29e" >
 <cdparam x="620" y="167" />
@@ -4319,6 +4506,7 @@ CC is lost
 <P1  x="620" y="166" id="2111" />
 <P2  x="799" y="166" id="2354" />
 <AutomaticDrawing  data="true" />
+<new d="false" />
 </CONNECTOR>
 
 </SequenceDiagramPanel>
@@ -4334,7 +4522,7 @@ CC is lost
 <MainCode value="}"/>
 <Optimized value="true" />
 <considerTimingOperators value="true" />
-<Validated value="" />
+<Validated value="OnBoardCommunication;GroundCommunication;Controller;Pilot;" />
 <Ignored value="" />
 
 <CONNECTOR type="5002" id="2571" index="0" uid="ad3ab1a8-471e-49cb-8109-0133a6314257" >
@@ -4349,6 +4537,7 @@ CC is lost
 <Point x="117" y="308" />
 <Point x="464" y="308" />
 <AutomaticDrawing  data="true" />
+<new d="false" />
 <extraparam>
 <iso value="in CC()" />
 <osd value="out CC()" />
@@ -4363,6 +4552,7 @@ CC is lost
 <hidden value="false" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="point " value="null" />
+<new d="false" />
 </SUBCOMPONENT>
 <SUBCOMPONENT type="-1" id="2567" index="10" uid="7912f638-8985-4332-a8ba-6760d7536817" >
 <father id="2571" num="1" />
@@ -4371,6 +4561,7 @@ CC is lost
 <hidden value="false" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="point " value="null" />
+<new d="false" />
 </SUBCOMPONENT>
 
 <CONNECTOR type="5002" id="2573" index="1" uid="29d47509-b801-4dc5-a9f9-9ec53f6dead8" >
@@ -4381,6 +4572,7 @@ CC is lost
 <P1  x="424" y="104" id="2698" />
 <P2  x="424" y="143" id="2652" />
 <AutomaticDrawing  data="true" />
+<new d="false" />
 <extraparam>
 <iso value="in INconind()" />
 <osd value="out INconind()" />
@@ -4397,6 +4589,7 @@ CC is lost
 <P1  x="158" y="104" id="2739" />
 <P2  x="158" y="142" id="2611" />
 <AutomaticDrawing  data="true" />
+<new d="false" />
 <extraparam>
 <iso value="in INconconf()" />
 <osd value="out INconconf()" />
@@ -4412,6 +4605,7 @@ CC is lost
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="UML Note" value="Unlossy channel
 " />
+<new d="false" />
 <TGConnectingPoint num="0" id="2576" />
 <TGConnectingPoint num="1" id="2577" />
 <TGConnectingPoint num="2" id="2578" />
@@ -4443,6 +4637,7 @@ CC is lost
   White squares: the protocol entities communicate bu FIFO queues with their underlying network.
    
 " />
+<new d="false" />
 <TGConnectingPoint num="0" id="2593" />
 <TGConnectingPoint num="1" id="2594" />
 <TGConnectingPoint num="2" id="2595" />
@@ -4473,6 +4668,7 @@ CC is lost
 <hidden value="false" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="Block0" value="OnBoardCommunication" />
+<new d="false" />
 <TGConnectingPoint num="0" id="2610" />
 <TGConnectingPoint num="1" id="2611" />
 <TGConnectingPoint num="2" id="2612" />
@@ -4529,6 +4725,7 @@ CC is lost
 <hidden value="false" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="Block0" value="GroundCommunication" />
+<new d="false" />
 <TGConnectingPoint num="0" id="2651" />
 <TGConnectingPoint num="1" id="2652" />
 <TGConnectingPoint num="2" id="2653" />
@@ -4585,6 +4782,7 @@ CC is lost
 <hidden value="false" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="Block0" value="Controller" />
+<new d="false" />
 <TGConnectingPoint num="0" id="2692" />
 <TGConnectingPoint num="1" id="2693" />
 <TGConnectingPoint num="2" id="2694" />
@@ -4639,6 +4837,7 @@ CC is lost
 <hidden value="false" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="Block0" value="Pilot" />
+<new d="false" />
 <TGConnectingPoint num="0" id="2733" />
 <TGConnectingPoint num="1" id="2734" />
 <TGConnectingPoint num="2" id="2735" />
@@ -4690,7 +4889,7 @@ CC is lost
 
 </AVATARBlockDiagramPanel>
 
-<AVATARStateMachineDiagramPanel name="OnBoardCommunication" minX="10" maxX="1400" minY="10" maxY="900" >
+<AVATARStateMachineDiagramPanel name="OnBoardCommunication" minX="10" maxX="1400" minY="10" maxY="900" zoom="1.0" >
 <CONNECTOR type="5102" id="2780" index="0" uid="46f23903-2b04-4248-a747-1cd10f6e6f3e" >
 <cdparam x="82" y="38" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="1000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
@@ -4699,6 +4898,7 @@ CC is lost
 <P1  x="68" y="42" id="3159" />
 <P2  x="88" y="61" id="3087" />
 <AutomaticDrawing  data="true" />
+<new d="false" />
 </CONNECTOR><SUBCOMPONENT type="-1" id="2778" index="16" uid="c42204e9-ee21-463f-836e-a9a5e8696f96" >
 <father id="2780" num="0" />
 <cdparam x="82" y="78" />
@@ -4707,6 +4907,7 @@ CC is lost
 <enabled value="true" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="List of all parameters of an Avatar SMD transition" value="" />
+<new d="false" />
 <TGConnectingPoint num="0" id="2774" />
 <TGConnectingPoint num="1" id="2775" />
 <TGConnectingPoint num="2" id="2776" />
@@ -4732,6 +4933,7 @@ CC is lost
 <P1  x="88" y="111" id="3092" />
 <P2  x="88" y="133" id="3075" />
 <AutomaticDrawing  data="true" />
+<new d="false" />
 </CONNECTOR><SUBCOMPONENT type="-1" id="2785" index="17" uid="42c40756-da10-4a2c-b6d2-0fd24b65753e" >
 <father id="2787" num="0" />
 <cdparam x="88" y="151" />
@@ -4740,6 +4942,7 @@ CC is lost
 <enabled value="true" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="List of all parameters of an Avatar SMD transition" value="" />
+<new d="false" />
 <TGConnectingPoint num="0" id="2781" />
 <TGConnectingPoint num="1" id="2782" />
 <TGConnectingPoint num="2" id="2783" />
@@ -4765,6 +4968,7 @@ CC is lost
 <P1  x="88" y="163" id="3076" />
 <P2  x="87" y="181" id="3064" />
 <AutomaticDrawing  data="true" />
+<new d="false" />
 </CONNECTOR><SUBCOMPONENT type="-1" id="2792" index="18" uid="a30a7b7e-70fd-440b-98c1-113f67537938" >
 <father id="2794" num="0" />
 <cdparam x="88" y="203" />
@@ -4773,6 +4977,7 @@ CC is lost
 <enabled value="true" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="List of all parameters of an Avatar SMD transition" value="" />
+<new d="false" />
 <TGConnectingPoint num="0" id="2788" />
 <TGConnectingPoint num="1" id="2789" />
 <TGConnectingPoint num="2" id="2790" />
@@ -4798,6 +5003,7 @@ CC is lost
 <P1  x="87" y="211" id="3065" />
 <P2  x="87" y="232" id="2992" />
 <AutomaticDrawing  data="true" />
+<new d="false" />
 </CONNECTOR><SUBCOMPONENT type="-1" id="2799" index="19" uid="140df6ab-06e2-4664-9852-8578ec5086bf" >
 <father id="2801" num="0" />
 <cdparam x="87" y="251" />
@@ -4806,6 +5012,7 @@ CC is lost
 <enabled value="true" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="List of all parameters of an Avatar SMD transition" value="" />
+<new d="false" />
 <TGConnectingPoint num="0" id="2795" />
 <TGConnectingPoint num="1" id="2796" />
 <TGConnectingPoint num="2" id="2797" />
@@ -4831,6 +5038,7 @@ CC is lost
 <P1  x="304" y="109" id="2924" />
 <P2  x="304" y="134" id="2907" />
 <AutomaticDrawing  data="true" />
+<new d="false" />
 </CONNECTOR><SUBCOMPONENT type="-1" id="2806" index="20" uid="96db1d54-9a93-4469-8243-51d0c4959e25" >
 <father id="2808" num="0" />
 <cdparam x="304" y="149" />
@@ -4839,6 +5047,7 @@ CC is lost
 <enabled value="true" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="List of all parameters of an Avatar SMD transition" value="" />
+<new d="false" />
 <TGConnectingPoint num="0" id="2802" />
 <TGConnectingPoint num="1" id="2803" />
 <TGConnectingPoint num="2" id="2804" />
@@ -4864,6 +5073,7 @@ CC is lost
 <P1  x="304" y="164" id="2908" />
 <P2  x="304" y="188" id="2896" />
 <AutomaticDrawing  data="true" />
+<new d="false" />
 </CONNECTOR><SUBCOMPONENT type="-1" id="2813" index="21" uid="bcc9c329-d861-4edf-84c1-19197cf9c002" >
 <father id="2815" num="0" />
 <cdparam x="304" y="204" />
@@ -4872,6 +5082,7 @@ CC is lost
 <enabled value="true" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="List of all parameters of an Avatar SMD transition" value="" />
+<new d="false" />
 <TGConnectingPoint num="0" id="2809" />
 <TGConnectingPoint num="1" id="2810" />
 <TGConnectingPoint num="2" id="2811" />
@@ -4897,6 +5108,7 @@ CC is lost
 <P1  x="304" y="218" id="2897" />
 <P2  x="304" y="241" id="2824" />
 <AutomaticDrawing  data="true" />
+<new d="false" />
 </CONNECTOR><SUBCOMPONENT type="-1" id="2820" index="22" uid="6e0d6cc2-819d-4d4c-baa4-0f3797acb2b7" >
 <father id="2822" num="0" />
 <cdparam x="304" y="258" />
@@ -4905,6 +5117,7 @@ CC is lost
 <enabled value="true" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="List of all parameters of an Avatar SMD transition" value="" />
+<new d="false" />
 <TGConnectingPoint num="0" id="2816" />
 <TGConnectingPoint num="1" id="2817" />
 <TGConnectingPoint num="2" id="2818" />
@@ -4929,6 +5142,7 @@ CC is lost
 <enabled value="true" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="state0" value="CONNECTED" />
+<new d="false" />
 <TGConnectingPoint num="0" id="2823" />
 <TGConnectingPoint num="1" id="2824" />
 <TGConnectingPoint num="2" id="2825" />
@@ -5012,6 +5226,7 @@ CC is lost
 <enabled value="true" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="Send signal" value="INconconf()" />
+<new d="false" />
 <TGConnectingPoint num="0" id="2896" />
 <TGConnectingPoint num="1" id="2897" />
 <TGConnectingPoint num="2" id="2898" />
@@ -5031,6 +5246,7 @@ CC is lost
 <enabled value="true" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="Receive signal" value="CC()" />
+<new d="false" />
 <TGConnectingPoint num="0" id="2907" />
 <TGConnectingPoint num="1" id="2908" />
 <TGConnectingPoint num="2" id="2909" />
@@ -5050,6 +5266,7 @@ CC is lost
 <enabled value="true" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="state0" value="WAIT_FOR_CONF" />
+<new d="false" />
 <TGConnectingPoint num="0" id="2918" />
 <TGConnectingPoint num="1" id="2919" />
 <TGConnectingPoint num="2" id="2920" />
@@ -5133,6 +5350,7 @@ CC is lost
 <enabled value="true" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="state0" value="WAIT_FOR_CONF" />
+<new d="false" />
 <TGConnectingPoint num="0" id="2991" />
 <TGConnectingPoint num="1" id="2992" />
 <TGConnectingPoint num="2" id="2993" />
@@ -5216,6 +5434,7 @@ CC is lost
 <enabled value="true" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="Send signal" value="CR()" />
+<new d="false" />
 <TGConnectingPoint num="0" id="3064" />
 <TGConnectingPoint num="1" id="3065" />
 <TGConnectingPoint num="2" id="3066" />
@@ -5235,6 +5454,7 @@ CC is lost
 <enabled value="true" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="Receive signal" value="INconreq()" />
+<new d="false" />
 <TGConnectingPoint num="0" id="3075" />
 <TGConnectingPoint num="1" id="3076" />
 <TGConnectingPoint num="2" id="3077" />
@@ -5254,6 +5474,7 @@ CC is lost
 <enabled value="true" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="state0" value="IDLE" />
+<new d="false" />
 <TGConnectingPoint num="0" id="3086" />
 <TGConnectingPoint num="1" id="3087" />
 <TGConnectingPoint num="2" id="3088" />
@@ -5336,13 +5557,14 @@ CC is lost
 <hidden value="false" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="start state" value="null" />
+<new d="false" />
 <TGConnectingPoint num="0" id="3159" />
 </COMPONENT>
 
 
 </AVATARStateMachineDiagramPanel>
 
-<AVATARStateMachineDiagramPanel name="GroundCommunication" minX="10" maxX="1400" minY="10" maxY="900" >
+<AVATARStateMachineDiagramPanel name="GroundCommunication" minX="10" maxX="1400" minY="10" maxY="900" zoom="1.0" >
 <CONNECTOR type="5102" id="3167" index="0" uid="fe216f91-b57d-40e7-b25b-8b957e714485" >
 <cdparam x="86" y="48" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="1000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
@@ -5351,6 +5573,7 @@ CC is lost
 <P1  x="86" y="48" id="3546" />
 <P2  x="87" y="72" id="3474" />
 <AutomaticDrawing  data="true" />
+<new d="false" />
 </CONNECTOR><SUBCOMPONENT type="-1" id="3165" index="16" uid="59e2707b-fe7d-4f2c-87b2-da5c6fa120ca" >
 <father id="3167" num="0" />
 <cdparam x="86" y="88" />
@@ -5359,6 +5582,7 @@ CC is lost
 <enabled value="true" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="List of all parameters of an Avatar SMD transition" value="" />
+<new d="false" />
 <TGConnectingPoint num="0" id="3161" />
 <TGConnectingPoint num="1" id="3162" />
 <TGConnectingPoint num="2" id="3163" />
@@ -5384,6 +5608,7 @@ CC is lost
 <P1  x="99" y="122" id="3503" />
 <P2  x="99" y="151" id="3462" />
 <AutomaticDrawing  data="true" />
+<new d="false" />
 </CONNECTOR><SUBCOMPONENT type="-1" id="3172" index="17" uid="4ec9f489-7413-400c-8d1f-f1f9f6391c21" >
 <father id="3174" num="0" />
 <cdparam x="99" y="162" />
@@ -5392,6 +5617,7 @@ CC is lost
 <enabled value="true" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="List of all parameters of an Avatar SMD transition" value="" />
+<new d="false" />
 <TGConnectingPoint num="0" id="3168" />
 <TGConnectingPoint num="1" id="3169" />
 <TGConnectingPoint num="2" id="3170" />
@@ -5417,6 +5643,7 @@ CC is lost
 <P1  x="99" y="181" id="3463" />
 <P2  x="99" y="207" id="3451" />
 <AutomaticDrawing  data="true" />
+<new d="false" />
 </CONNECTOR><SUBCOMPONENT type="-1" id="3179" index="18" uid="19c68e48-8bf8-4db7-bc48-fb76bc024a4a" >
 <father id="3181" num="0" />
 <cdparam x="99" y="221" />
@@ -5425,6 +5652,7 @@ CC is lost
 <enabled value="true" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="List of all parameters of an Avatar SMD transition" value="" />
+<new d="false" />
 <TGConnectingPoint num="0" id="3175" />
 <TGConnectingPoint num="1" id="3176" />
 <TGConnectingPoint num="2" id="3177" />
@@ -5450,6 +5678,7 @@ CC is lost
 <P1  x="99" y="237" id="3452" />
 <P2  x="99" y="262" id="3379" />
 <AutomaticDrawing  data="true" />
+<new d="false" />
 </CONNECTOR><SUBCOMPONENT type="-1" id="3186" index="19" uid="d88e2730-9fac-4acb-bdf2-b0995014f161" >
 <father id="3188" num="0" />
 <cdparam x="99" y="277" />
@@ -5458,6 +5687,7 @@ CC is lost
 <enabled value="true" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="List of all parameters of an Avatar SMD transition" value="" />
+<new d="false" />
 <TGConnectingPoint num="0" id="3182" />
 <TGConnectingPoint num="1" id="3183" />
 <TGConnectingPoint num="2" id="3184" />
@@ -5483,6 +5713,7 @@ CC is lost
 <P1  x="327" y="119" id="3335" />
 <P2  x="327" y="145" id="3294" />
 <AutomaticDrawing  data="true" />
+<new d="false" />
 </CONNECTOR><SUBCOMPONENT type="-1" id="3193" index="20" uid="420b1a9f-dd5b-4ac6-86f2-c0dfbbb48522" >
 <father id="3195" num="0" />
 <cdparam x="327" y="159" />
@@ -5491,6 +5722,7 @@ CC is lost
 <enabled value="true" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="List of all parameters of an Avatar SMD transition" value="" />
+<new d="false" />
 <TGConnectingPoint num="0" id="3189" />
 <TGConnectingPoint num="1" id="3190" />
 <TGConnectingPoint num="2" id="3191" />
@@ -5516,6 +5748,7 @@ CC is lost
 <P1  x="327" y="175" id="3295" />
 <P2  x="327" y="204" id="3283" />
 <AutomaticDrawing  data="true" />
+<new d="false" />
 </CONNECTOR><SUBCOMPONENT type="-1" id="3200" index="21" uid="ca6726ff-a91a-4585-9c0b-6c475e1cd47f" >
 <father id="3202" num="0" />
 <cdparam x="327" y="215" />
@@ -5524,6 +5757,7 @@ CC is lost
 <enabled value="true" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="List of all parameters of an Avatar SMD transition" value="" />
+<new d="false" />
 <TGConnectingPoint num="0" id="3196" />
 <TGConnectingPoint num="1" id="3197" />
 <TGConnectingPoint num="2" id="3198" />
@@ -5549,6 +5783,7 @@ CC is lost
 <P1  x="327" y="234" id="3284" />
 <P2  x="327" y="261" id="3211" />
 <AutomaticDrawing  data="true" />
+<new d="false" />
 </CONNECTOR><SUBCOMPONENT type="-1" id="3207" index="22" uid="8cd41ed1-358c-4996-86ec-2e9fbc39b49b" >
 <father id="3209" num="0" />
 <cdparam x="327" y="274" />
@@ -5557,6 +5792,7 @@ CC is lost
 <enabled value="true" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="List of all parameters of an Avatar SMD transition" value="" />
+<new d="false" />
 <TGConnectingPoint num="0" id="3203" />
 <TGConnectingPoint num="1" id="3204" />
 <TGConnectingPoint num="2" id="3205" />
@@ -5581,6 +5817,7 @@ CC is lost
 <enabled value="true" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="state0" value="IDLE" />
+<new d="false" />
 <TGConnectingPoint num="0" id="3210" />
 <TGConnectingPoint num="1" id="3211" />
 <TGConnectingPoint num="2" id="3212" />
@@ -5664,6 +5901,7 @@ CC is lost
 <enabled value="true" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="Send signal" value="CC()" />
+<new d="false" />
 <TGConnectingPoint num="0" id="3283" />
 <TGConnectingPoint num="1" id="3284" />
 <TGConnectingPoint num="2" id="3285" />
@@ -5683,6 +5921,7 @@ CC is lost
 <enabled value="true" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="Receive signal" value="INconresp()" />
+<new d="false" />
 <TGConnectingPoint num="0" id="3294" />
 <TGConnectingPoint num="1" id="3295" />
 <TGConnectingPoint num="2" id="3296" />
@@ -5702,6 +5941,7 @@ CC is lost
 <enabled value="true" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="state0" value="WAIT_FOR_RESP" />
+<new d="false" />
 <TGConnectingPoint num="0" id="3305" />
 <TGConnectingPoint num="1" id="3306" />
 <TGConnectingPoint num="2" id="3307" />
@@ -5785,6 +6025,7 @@ CC is lost
 <enabled value="true" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="state0" value="WAIT_FOR_RESP" />
+<new d="false" />
 <TGConnectingPoint num="0" id="3378" />
 <TGConnectingPoint num="1" id="3379" />
 <TGConnectingPoint num="2" id="3380" />
@@ -5868,6 +6109,7 @@ CC is lost
 <enabled value="true" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="Send signal" value="INconind()" />
+<new d="false" />
 <TGConnectingPoint num="0" id="3451" />
 <TGConnectingPoint num="1" id="3452" />
 <TGConnectingPoint num="2" id="3453" />
@@ -5887,6 +6129,7 @@ CC is lost
 <enabled value="true" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="Receive signal" value="CR()" />
+<new d="false" />
 <TGConnectingPoint num="0" id="3462" />
 <TGConnectingPoint num="1" id="3463" />
 <TGConnectingPoint num="2" id="3464" />
@@ -5906,6 +6149,7 @@ CC is lost
 <enabled value="true" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="state0" value="IDLE" />
+<new d="false" />
 <TGConnectingPoint num="0" id="3473" />
 <TGConnectingPoint num="1" id="3474" />
 <TGConnectingPoint num="2" id="3475" />
@@ -5988,13 +6232,14 @@ CC is lost
 <hidden value="false" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="start state" value="null" />
+<new d="false" />
 <TGConnectingPoint num="0" id="3546" />
 </COMPONENT>
 
 
 </AVATARStateMachineDiagramPanel>
 
-<AVATARStateMachineDiagramPanel name="Controller" minX="10" maxX="1400" minY="10" maxY="900" >
+<AVATARStateMachineDiagramPanel name="Controller" minX="10" maxX="1400" minY="10" maxY="900" zoom="1.0" >
 <CONNECTOR type="5102" id="3560" index="0" uid="e7491a88-468a-44b5-ad4d-2e7e30ec4b86" >
 <cdparam x="153" y="198" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
@@ -6009,6 +6254,7 @@ CC is lost
 <Point x="309" y="216" />
 <Point x="309" y="114" />
 <AutomaticDrawing  data="true" />
+<new d="false" />
 </CONNECTOR><SUBCOMPONENT type="-1" id="3548" index="9" uid="88fa080f-3c94-42ae-9ff0-3f9854ef57ad" >
 <father id="3560" num="0" />
 <cdparam x="153" y="216" />
@@ -6016,6 +6262,7 @@ CC is lost
 <hidden value="false" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="point " value="null" />
+<new d="false" />
 </SUBCOMPONENT>
 <SUBCOMPONENT type="-1" id="3549" index="10" uid="88eff285-ecd7-414c-be84-98753839f8e0" >
 <father id="3560" num="1" />
@@ -6024,6 +6271,7 @@ CC is lost
 <hidden value="false" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="point " value="null" />
+<new d="false" />
 </SUBCOMPONENT>
 <SUBCOMPONENT type="-1" id="3550" index="11" uid="32a56344-0548-4259-b0cc-6183ed469302" >
 <father id="3560" num="2" />
@@ -6032,6 +6280,7 @@ CC is lost
 <hidden value="false" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="point " value="null" />
+<new d="false" />
 </SUBCOMPONENT>
 <SUBCOMPONENT type="-1" id="3555" index="12" uid="2e8fd65c-ffd0-425c-bed2-1a7baea20449" >
 <father id="3560" num="3" />
@@ -6041,6 +6290,7 @@ CC is lost
 <enabled value="true" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="List of all parameters of an Avatar SMD transition" value="" />
+<new d="false" />
 <TGConnectingPoint num="0" id="3551" />
 <TGConnectingPoint num="1" id="3552" />
 <TGConnectingPoint num="2" id="3553" />
@@ -6072,6 +6322,7 @@ CC is lost
 <Point x="298" y="207" />
 <Point x="298" y="133" />
 <AutomaticDrawing  data="true" />
+<new d="false" />
 </CONNECTOR><SUBCOMPONENT type="-1" id="3561" index="13" uid="dc813e07-92c9-48dc-8779-f1a88aa45747" >
 <father id="3573" num="0" />
 <cdparam x="247" y="207" />
@@ -6079,6 +6330,7 @@ CC is lost
 <hidden value="false" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="point " value="null" />
+<new d="false" />
 </SUBCOMPONENT>
 <SUBCOMPONENT type="-1" id="3562" index="14" uid="fa49b8e6-9bb7-40b4-8da4-f5daf0d551d4" >
 <father id="3573" num="1" />
@@ -6087,6 +6339,7 @@ CC is lost
 <hidden value="false" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="point " value="null" />
+<new d="false" />
 </SUBCOMPONENT>
 <SUBCOMPONENT type="-1" id="3563" index="15" uid="67eaec02-6df8-4782-8453-0798085ca5d8" >
 <father id="3573" num="2" />
@@ -6095,6 +6348,7 @@ CC is lost
 <hidden value="false" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="point " value="null" />
+<new d="false" />
 </SUBCOMPONENT>
 <SUBCOMPONENT type="-1" id="3568" index="16" uid="7039cbe9-8df8-478d-912d-af2bb2550fd0" >
 <father id="3573" num="3" />
@@ -6104,6 +6358,7 @@ CC is lost
 <enabled value="true" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="List of all parameters of an Avatar SMD transition" value="" />
+<new d="false" />
 <TGConnectingPoint num="0" id="3564" />
 <TGConnectingPoint num="1" id="3565" />
 <TGConnectingPoint num="2" id="3566" />
@@ -6129,6 +6384,7 @@ CC is lost
 <P1  x="186" y="62" id="3690" />
 <P2  x="211" y="96" id="3618" />
 <AutomaticDrawing  data="true" />
+<new d="false" />
 </CONNECTOR><SUBCOMPONENT type="-1" id="3578" index="17" uid="9bea24f5-ffd7-4453-9ee4-1e2fbe117c1c" >
 <father id="3580" num="0" />
 <cdparam x="211" y="104" />
@@ -6137,6 +6393,7 @@ CC is lost
 <enabled value="true" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="List of all parameters of an Avatar SMD transition" value="" />
+<new d="false" />
 <TGConnectingPoint num="0" id="3574" />
 <TGConnectingPoint num="1" id="3575" />
 <TGConnectingPoint num="2" id="3576" />
@@ -6162,6 +6419,7 @@ CC is lost
 <P1  x="186" y="146" id="3631" />
 <P2  x="153" y="168" id="3606" />
 <AutomaticDrawing  data="true" />
+<new d="false" />
 </CONNECTOR><SUBCOMPONENT type="-1" id="3585" index="18" uid="d43b17bc-2649-46aa-88ae-034f42dbe808" >
 <father id="3587" num="0" />
 <cdparam x="161" y="186" />
@@ -6170,6 +6428,7 @@ CC is lost
 <enabled value="true" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="List of all parameters of an Avatar SMD transition" value="" />
+<new d="false" />
 <TGConnectingPoint num="0" id="3581" />
 <TGConnectingPoint num="1" id="3582" />
 <TGConnectingPoint num="2" id="3583" />
@@ -6195,6 +6454,7 @@ CC is lost
 <P1  x="236" y="146" id="3632" />
 <P2  x="247" y="167" id="3595" />
 <AutomaticDrawing  data="true" />
+<new d="false" />
 </CONNECTOR><SUBCOMPONENT type="-1" id="3592" index="19" uid="aef81fd7-033c-4877-97fe-2b6c9193c67d" >
 <father id="3594" num="0" />
 <cdparam x="211" y="241" />
@@ -6203,6 +6463,7 @@ CC is lost
 <enabled value="true" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="List of all parameters of an Avatar SMD transition" value="" />
+<new d="false" />
 <TGConnectingPoint num="0" id="3588" />
 <TGConnectingPoint num="1" id="3589" />
 <TGConnectingPoint num="2" id="3590" />
@@ -6227,6 +6488,7 @@ CC is lost
 <enabled value="true" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="Send signal" value="INconresp()" />
+<new d="false" />
 <TGConnectingPoint num="0" id="3595" />
 <TGConnectingPoint num="1" id="3596" />
 <TGConnectingPoint num="2" id="3597" />
@@ -6246,6 +6508,7 @@ CC is lost
 <enabled value="true" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="Receive signal" value="INconind()" />
+<new d="false" />
 <TGConnectingPoint num="0" id="3606" />
 <TGConnectingPoint num="1" id="3607" />
 <TGConnectingPoint num="2" id="3608" />
@@ -6265,6 +6528,7 @@ CC is lost
 <enabled value="true" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="state0" value="ACTIVE" />
+<new d="false" />
 <TGConnectingPoint num="0" id="3617" />
 <TGConnectingPoint num="1" id="3618" />
 <TGConnectingPoint num="2" id="3619" />
@@ -6347,13 +6611,14 @@ CC is lost
 <hidden value="false" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="start state" value="null" />
+<new d="false" />
 <TGConnectingPoint num="0" id="3690" />
 </COMPONENT>
 
 
 </AVATARStateMachineDiagramPanel>
 
-<AVATARStateMachineDiagramPanel name="Pilot" minX="10" maxX="1400" minY="10" maxY="900" >
+<AVATARStateMachineDiagramPanel name="Pilot" minX="10" maxX="1400" minY="10" maxY="900" zoom="1.0" >
 <CONNECTOR type="5102" id="3704" index="0" uid="af45a4dd-6547-4fd7-8cbc-5df486217aca" >
 <cdparam x="79" y="166" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
@@ -6368,6 +6633,7 @@ CC is lost
 <Point x="341" y="189" />
 <Point x="341" y="78" />
 <AutomaticDrawing  data="true" />
+<new d="false" />
 </CONNECTOR><SUBCOMPONENT type="-1" id="3692" index="9" uid="ccc8df7a-7757-4cf9-b49d-9726b84c5b04" >
 <father id="3704" num="0" />
 <cdparam x="79" y="189" />
@@ -6375,6 +6641,7 @@ CC is lost
 <hidden value="false" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="point " value="null" />
+<new d="false" />
 </SUBCOMPONENT>
 <SUBCOMPONENT type="-1" id="3693" index="10" uid="2bed0111-da00-4907-b60f-b1b676b3abc8" >
 <father id="3704" num="1" />
@@ -6383,6 +6650,7 @@ CC is lost
 <hidden value="false" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="point " value="null" />
+<new d="false" />
 </SUBCOMPONENT>
 <SUBCOMPONENT type="-1" id="3694" index="11" uid="d1b6bcb2-36e9-47c3-9ba3-b4a98c6d9fc2" >
 <father id="3704" num="2" />
@@ -6391,15 +6659,17 @@ CC is lost
 <hidden value="false" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="point " value="null" />
+<new d="false" />
 </SUBCOMPONENT>
 <SUBCOMPONENT type="-1" id="3699" index="12" uid="b5cdb392-8118-4106-8cda-b8eb88dcc2ed" >
 <father id="3704" num="3" />
 <cdparam x="79" y="206" />
-<sizeparam width="10" height="15" minWidth="1" minHeight="1" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
+<sizeparam width="50" height="25" minWidth="1" minHeight="1" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <hidden value="false" />
 <enabled value="true" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="List of all parameters of an Avatar SMD transition" value="" />
+<new d="false" />
 <TGConnectingPoint num="0" id="3695" />
 <TGConnectingPoint num="1" id="3696" />
 <TGConnectingPoint num="2" id="3697" />
@@ -6431,6 +6701,7 @@ CC is lost
 <Point x="330" y="183" />
 <Point x="330" y="91" />
 <AutomaticDrawing  data="true" />
+<new d="false" />
 </CONNECTOR><SUBCOMPONENT type="-1" id="3705" index="13" uid="55d7f62a-c541-449c-a20c-a1185fc2ec86" >
 <father id="3717" num="0" />
 <cdparam x="177" y="183" />
@@ -6438,6 +6709,7 @@ CC is lost
 <hidden value="false" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="point " value="null" />
+<new d="false" />
 </SUBCOMPONENT>
 <SUBCOMPONENT type="-1" id="3706" index="14" uid="3f419946-46bf-45c3-9211-a456c7d83c8a" >
 <father id="3717" num="1" />
@@ -6446,6 +6718,7 @@ CC is lost
 <hidden value="false" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="point " value="null" />
+<new d="false" />
 </SUBCOMPONENT>
 <SUBCOMPONENT type="-1" id="3707" index="15" uid="d4f8b17d-2c9f-447f-90f9-a11dbb185418" >
 <father id="3717" num="2" />
@@ -6454,15 +6727,17 @@ CC is lost
 <hidden value="false" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="point " value="null" />
+<new d="false" />
 </SUBCOMPONENT>
 <SUBCOMPONENT type="-1" id="3712" index="16" uid="d4624a4b-b7d2-4230-9dd3-6aa93864cbe9" >
 <father id="3717" num="3" />
 <cdparam x="177" y="206" />
-<sizeparam width="10" height="15" minWidth="1" minHeight="1" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
+<sizeparam width="50" height="25" minWidth="1" minHeight="1" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <hidden value="false" />
 <enabled value="true" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="List of all parameters of an Avatar SMD transition" value="" />
+<new d="false" />
 <TGConnectingPoint num="0" id="3708" />
 <TGConnectingPoint num="1" id="3709" />
 <TGConnectingPoint num="2" id="3710" />
@@ -6488,14 +6763,16 @@ CC is lost
 <P1  x="165" y="44" id="3761" />
 <P2  x="166" y="66" id="3764" />
 <AutomaticDrawing  data="true" />
+<new d="false" />
 </CONNECTOR><SUBCOMPONENT type="-1" id="3722" index="17" uid="cb0669e3-e228-4b91-a8df-2d54301be635" >
 <father id="3724" num="0" />
 <cdparam x="165" y="84" />
-<sizeparam width="10" height="15" minWidth="1" minHeight="1" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
+<sizeparam width="50" height="25" minWidth="1" minHeight="1" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <hidden value="false" />
 <enabled value="true" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="List of all parameters of an Avatar SMD transition" value="" />
+<new d="false" />
 <TGConnectingPoint num="0" id="3718" />
 <TGConnectingPoint num="1" id="3719" />
 <TGConnectingPoint num="2" id="3720" />
@@ -6521,14 +6798,16 @@ CC is lost
 <P1  x="128" y="116" id="3791" />
 <P2  x="79" y="136" id="3750" />
 <AutomaticDrawing  data="true" />
+<new d="false" />
 </CONNECTOR><SUBCOMPONENT type="-1" id="3729" index="18" uid="66282a91-d974-4094-a336-a04313be7db5" >
 <father id="3731" num="0" />
 <cdparam x="178" y="156" />
-<sizeparam width="10" height="15" minWidth="1" minHeight="1" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
+<sizeparam width="50" height="25" minWidth="1" minHeight="1" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <hidden value="false" />
 <enabled value="true" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="List of all parameters of an Avatar SMD transition" value="" />
+<new d="false" />
 <TGConnectingPoint num="0" id="3725" />
 <TGConnectingPoint num="1" id="3726" />
 <TGConnectingPoint num="2" id="3727" />
@@ -6554,14 +6833,16 @@ CC is lost
 <P1  x="166" y="116" id="3769" />
 <P2  x="177" y="136" id="3739" />
 <AutomaticDrawing  data="true" />
+<new d="false" />
 </CONNECTOR><SUBCOMPONENT type="-1" id="3736" index="19" uid="c2ef6896-51dd-4c2c-b9e9-393d1a2d093d" >
 <father id="3738" num="0" />
 <cdparam x="178" y="208" />
-<sizeparam width="10" height="15" minWidth="1" minHeight="1" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
+<sizeparam width="50" height="25" minWidth="1" minHeight="1" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <hidden value="false" />
 <enabled value="true" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="List of all parameters of an Avatar SMD transition" value="" />
+<new d="false" />
 <TGConnectingPoint num="0" id="3732" />
 <TGConnectingPoint num="1" id="3733" />
 <TGConnectingPoint num="2" id="3734" />
@@ -6586,6 +6867,7 @@ CC is lost
 <enabled value="true" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="Receive signal" value="INconconf()" />
+<new d="false" />
 <TGConnectingPoint num="0" id="3739" />
 <TGConnectingPoint num="1" id="3740" />
 <TGConnectingPoint num="2" id="3741" />
@@ -6605,6 +6887,7 @@ CC is lost
 <enabled value="true" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="Send signal" value="INconreq()" />
+<new d="false" />
 <TGConnectingPoint num="0" id="3750" />
 <TGConnectingPoint num="1" id="3751" />
 <TGConnectingPoint num="2" id="3752" />
@@ -6623,6 +6906,7 @@ CC is lost
 <hidden value="false" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="start state" value="null" />
+<new d="false" />
 <TGConnectingPoint num="0" id="3761" />
 </COMPONENT>
 
@@ -6633,6 +6917,7 @@ CC is lost
 <enabled value="true" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="state0" value="ACTIVE" />
+<new d="false" />
 <TGConnectingPoint num="0" id="3763" />
 <TGConnectingPoint num="1" id="3764" />
 <TGConnectingPoint num="2" id="3765" />
@@ -6738,6 +7023,7 @@ CC is lost
 <Point x="118" y="400" />
 <Point x="462" y="400" />
 <AutomaticDrawing  data="true" />
+<new d="false" />
 <extraparam>
 <isd value="in CR()" />
 <isd value="in DR()" />
@@ -6752,6 +7038,7 @@ CC is lost
 <hidden value="false" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="point " value="null" />
+<new d="false" />
 </SUBCOMPONENT>
 <SUBCOMPONENT type="-1" id="3837" index="12" uid="aab6fc38-bdb5-4cea-8ece-c5596f5b182e" >
 <father id="3841" num="1" />
@@ -6760,6 +7047,7 @@ CC is lost
 <hidden value="false" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="point " value="null" />
+<new d="false" />
 </SUBCOMPONENT>
 
 <CONNECTOR type="5002" id="3847" index="1" uid="9b3ce705-3543-4d76-9047-7539a1f6bc56" >
@@ -6774,6 +7062,7 @@ CC is lost
 <Point x="161" y="352" />
 <Point x="423" y="352" />
 <AutomaticDrawing  data="true" />
+<new d="false" />
 <extraparam>
 <iso value="in CC()" />
 <osd value="out CC()" />
@@ -6786,6 +7075,7 @@ CC is lost
 <hidden value="false" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="point " value="null" />
+<new d="false" />
 </SUBCOMPONENT>
 <SUBCOMPONENT type="-1" id="3843" index="14" uid="a5017feb-0155-4e17-8e69-c332724249d2" >
 <father id="3847" num="1" />
@@ -6794,6 +7084,7 @@ CC is lost
 <hidden value="false" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="point " value="null" />
+<new d="false" />
 </SUBCOMPONENT>
 
 <CONNECTOR type="5002" id="3849" index="2" uid="12e22e2d-f437-4e53-a1bf-aa7d57033a8c" >
@@ -6804,6 +7095,7 @@ CC is lost
 <P1  x="423" y="118" id="3991" />
 <P2  x="422" y="138" id="3945" />
 <AutomaticDrawing  data="true" />
+<new d="false" />
 <extraparam>
 <iso value="in INconind()" />
 <iso value="in INerror_ground()" />
@@ -6822,6 +7114,7 @@ CC is lost
 <P1  x="161" y="117" id="4032" />
 <P2  x="161" y="138" id="3904" />
 <AutomaticDrawing  data="true" />
+<new d="false" />
 <extraparam>
 <iso value="in INconconf()" />
 <iso value="in INerror()" />
@@ -6841,6 +7134,7 @@ CC is lost
 OnBoardCommunication.IDLE --&gt; OnBoardCommunication.CONNECTED
 OnBoardCommunication.IDLE --&gt; OnBoardCommunication.ERROR
 " />
+<new d="false" />
 <TGConnectingPoint num="0" id="3852" />
 <TGConnectingPoint num="1" id="3853" />
 <TGConnectingPoint num="2" id="3854" />
@@ -6871,6 +7165,7 @@ OnBoardCommunication.IDLE --&gt; OnBoardCommunication.ERROR
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="UML Note" value="  CC may be lost (lossy channel).
 " />
+<new d="false" />
 <TGConnectingPoint num="0" id="3869" />
 <TGConnectingPoint num="1" id="3870" />
 <TGConnectingPoint num="2" id="3871" />
@@ -6899,6 +7194,7 @@ OnBoardCommunication.IDLE --&gt; OnBoardCommunication.ERROR
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="UML Note" value="  CRs and DRs will not be lost.
 " />
+<new d="false" />
 <TGConnectingPoint num="0" id="3886" />
 <TGConnectingPoint num="1" id="3887" />
 <TGConnectingPoint num="2" id="3888" />
@@ -6926,6 +7222,7 @@ OnBoardCommunication.IDLE --&gt; OnBoardCommunication.ERROR
 <hidden value="false" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="Block0" value="OnBoardCommunication" />
+<new d="false" />
 <TGConnectingPoint num="0" id="3903" />
 <TGConnectingPoint num="1" id="3904" />
 <TGConnectingPoint num="2" id="3905" />
@@ -6969,9 +7266,9 @@ OnBoardCommunication.IDLE --&gt; OnBoardCommunication.ERROR
 <extraparam>
 <blockType data="block" color="-4072719" />
 <CryptoBlock value="false" />
-<Attribute access="0" id="ATST1" value="" type="9" typeOther="" />
-<Attribute access="0" id="retransmissionCounter" value="" type="8" typeOther="" />
-<Attribute access="0" id="maxRetransmissions" value="2" type="8" typeOther="" />
+<Attribute access="0" var="0" id="ATST1" value="" type="9" typeOther="" />
+<Attribute access="0" var="0" id="retransmissionCounter" value="" type="8" typeOther="" />
+<Attribute access="0" var="0" id="maxRetransmissions" value="2" type="8" typeOther="" />
 <Signal value="in INconreq()" attached="true" />
 <Signal value="out INconconf()" attached="true" />
 <Signal value="out INerror()" attached="true" />
@@ -6987,6 +7284,7 @@ OnBoardCommunication.IDLE --&gt; OnBoardCommunication.ERROR
 <hidden value="false" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="Block0" value="GroundCommunication" />
+<new d="false" />
 <TGConnectingPoint num="0" id="3944" />
 <TGConnectingPoint num="1" id="3945" />
 <TGConnectingPoint num="2" id="3946" />
@@ -7045,6 +7343,7 @@ OnBoardCommunication.IDLE --&gt; OnBoardCommunication.ERROR
 <hidden value="false" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="Block0" value="Controller" />
+<new d="false" />
 <TGConnectingPoint num="0" id="3985" />
 <TGConnectingPoint num="1" id="3986" />
 <TGConnectingPoint num="2" id="3987" />
@@ -7100,6 +7399,7 @@ OnBoardCommunication.IDLE --&gt; OnBoardCommunication.ERROR
 <hidden value="false" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="Block0" value="Pilot" />
+<new d="false" />
 <TGConnectingPoint num="0" id="4026" />
 <TGConnectingPoint num="1" id="4027" />
 <TGConnectingPoint num="2" id="4028" />
@@ -7152,7 +7452,7 @@ OnBoardCommunication.IDLE --&gt; OnBoardCommunication.ERROR
 
 </AVATARBlockDiagramPanel>
 
-<AVATARStateMachineDiagramPanel name="OnBoardCommunication" minX="10" maxX="1400" minY="10" maxY="900" >
+<AVATARStateMachineDiagramPanel name="OnBoardCommunication" minX="10" maxX="1400" minY="10" maxY="900" zoom="1.0" >
 <CONNECTOR type="5102" id="4073" index="0" uid="17f958ba-2092-45b1-8966-80e4afcc088e" >
 <cdparam x="473" y="237" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
@@ -7161,6 +7461,7 @@ OnBoardCommunication.IDLE --&gt; OnBoardCommunication.ERROR
 <P1  x="472" y="233" id="4280" />
 <P2  x="472" y="260" id="4263" />
 <AutomaticDrawing  data="true" />
+<new d="false" />
 </CONNECTOR><SUBCOMPONENT type="-1" id="4071" index="33" uid="f850bb1b-5abf-417c-988b-b8034944c86d" >
 <father id="4073" num="0" />
 <cdparam x="476" y="245" />
@@ -7169,6 +7470,7 @@ OnBoardCommunication.IDLE --&gt; OnBoardCommunication.ERROR
 <enabled value="true" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="List of all parameters of an Avatar SMD transition" value="" />
+<new d="false" />
 <TGConnectingPoint num="0" id="4067" />
 <TGConnectingPoint num="1" id="4068" />
 <TGConnectingPoint num="2" id="4069" />
@@ -7194,6 +7496,7 @@ OnBoardCommunication.IDLE --&gt; OnBoardCommunication.ERROR
 <P1  x="473" y="165" id="4313" />
 <P2  x="472" y="183" id="4274" />
 <AutomaticDrawing  data="true" />
+<new d="false" />
 </CONNECTOR><SUBCOMPONENT type="-1" id="4078" index="34" uid="447a9a24-a3c5-40a2-b592-3205884a2aef" >
 <father id="4080" num="0" />
 <cdparam x="473" y="205" />
@@ -7202,6 +7505,7 @@ OnBoardCommunication.IDLE --&gt; OnBoardCommunication.ERROR
 <enabled value="true" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="List of all parameters of an Avatar SMD transition" value="" />
+<new d="false" />
 <TGConnectingPoint num="0" id="4074" />
 <TGConnectingPoint num="1" id="4075" />
 <TGConnectingPoint num="2" id="4076" />
@@ -7227,6 +7531,7 @@ OnBoardCommunication.IDLE --&gt; OnBoardCommunication.ERROR
 <P1  x="619" y="228" id="4291" />
 <P2  x="619" y="248" id="4469" />
 <AutomaticDrawing  data="true" />
+<new d="false" />
 </CONNECTOR><SUBCOMPONENT type="-1" id="4085" index="35" uid="2b606d98-e933-40e2-b348-097c401416a1" >
 <father id="4087" num="0" />
 <cdparam x="630" y="269" />
@@ -7235,6 +7540,7 @@ OnBoardCommunication.IDLE --&gt; OnBoardCommunication.ERROR
 <enabled value="true" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="List of all parameters of an Avatar SMD transition" value="" />
+<new d="false" />
 <TGConnectingPoint num="0" id="4081" />
 <TGConnectingPoint num="1" id="4082" />
 <TGConnectingPoint num="2" id="4083" />
@@ -7260,6 +7566,7 @@ OnBoardCommunication.IDLE --&gt; OnBoardCommunication.ERROR
 <P1  x="619" y="174" id="4481" />
 <P2  x="619" y="198" id="4290" />
 <AutomaticDrawing  data="true" />
+<new d="false" />
 </CONNECTOR><SUBCOMPONENT type="-1" id="4092" index="36" uid="d69752e0-b351-4958-8488-9eb5da7f9581" >
 <father id="4094" num="0" />
 <cdparam x="619" y="214" />
@@ -7268,6 +7575,7 @@ OnBoardCommunication.IDLE --&gt; OnBoardCommunication.ERROR
 <enabled value="true" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="List of all parameters of an Avatar SMD transition" value="" />
+<new d="false" />
 <TGConnectingPoint num="0" id="4088" />
 <TGConnectingPoint num="1" id="4089" />
 <TGConnectingPoint num="2" id="4090" />
@@ -7293,6 +7601,7 @@ OnBoardCommunication.IDLE --&gt; OnBoardCommunication.ERROR
 <P1  x="99" y="284" id="4302" />
 <P2  x="100" y="299" id="4637" />
 <AutomaticDrawing  data="true" />
+<new d="false" />
 </CONNECTOR><SUBCOMPONENT type="-1" id="4099" index="37" uid="77573696-fafc-4c93-9234-7f876f8527ad" >
 <father id="4101" num="0" />
 <cdparam x="94" y="323" />
@@ -7301,6 +7610,7 @@ OnBoardCommunication.IDLE --&gt; OnBoardCommunication.ERROR
 <enabled value="true" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="List of all parameters of an Avatar SMD transition" value="" />
+<new d="false" />
 <TGConnectingPoint num="0" id="4095" />
 <TGConnectingPoint num="1" id="4096" />
 <TGConnectingPoint num="2" id="4097" />
@@ -7326,6 +7636,7 @@ OnBoardCommunication.IDLE --&gt; OnBoardCommunication.ERROR
 <P1  x="98" y="235" id="4353" />
 <P2  x="99" y="254" id="4301" />
 <AutomaticDrawing  data="true" />
+<new d="false" />
 </CONNECTOR><SUBCOMPONENT type="-1" id="4106" index="38" uid="b9795b38-0a1d-4ade-a1f3-947797db2a40" >
 <father id="4108" num="0" />
 <cdparam x="98" y="275" />
@@ -7334,6 +7645,7 @@ OnBoardCommunication.IDLE --&gt; OnBoardCommunication.ERROR
 <enabled value="true" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="List of all parameters of an Avatar SMD transition" value="" />
+<new d="false" />
 <TGConnectingPoint num="0" id="4102" />
 <TGConnectingPoint num="1" id="4103" />
 <TGConnectingPoint num="2" id="4104" />
@@ -7359,6 +7671,7 @@ OnBoardCommunication.IDLE --&gt; OnBoardCommunication.ERROR
 <P1  x="532" y="109" id="4519" />
 <P2  x="473" y="135" id="4312" />
 <AutomaticDrawing  data="true" />
+<new d="false" />
 </CONNECTOR><SUBCOMPONENT type="-1" id="4113" index="39" uid="4502c9a7-6668-457b-bcc0-88a8999a637f" >
 <father id="4115" num="0" />
 <cdparam x="635" y="149" />
@@ -7367,6 +7680,7 @@ OnBoardCommunication.IDLE --&gt; OnBoardCommunication.ERROR
 <enabled value="true" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="List of all parameters of an Avatar SMD transition" value="" />
+<new d="false" />
 <TGConnectingPoint num="0" id="4109" />
 <TGConnectingPoint num="1" id="4110" />
 <TGConnectingPoint num="2" id="4111" />
@@ -7392,6 +7706,7 @@ OnBoardCommunication.IDLE --&gt; OnBoardCommunication.ERROR
 <P1  x="86" y="162" id="4649" />
 <P2  x="86" y="193" id="4324" />
 <AutomaticDrawing  data="true" />
+<new d="false" />
 </CONNECTOR><SUBCOMPONENT type="-1" id="4120" index="40" uid="a5a5d7e2-875a-4657-b3f7-62c9e42d3048" >
 <father id="4122" num="0" />
 <cdparam x="93" y="175" />
@@ -7400,6 +7715,7 @@ OnBoardCommunication.IDLE --&gt; OnBoardCommunication.ERROR
 <enabled value="true" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="List of all parameters of an Avatar SMD transition" value="" />
+<new d="false" />
 <TGConnectingPoint num="0" id="4116" />
 <TGConnectingPoint num="1" id="4117" />
 <TGConnectingPoint num="2" id="4118" />
@@ -7426,6 +7742,7 @@ OnBoardCommunication.IDLE --&gt; OnBoardCommunication.ERROR
 <P1  x="619" y="109" id="4522" />
 <P2  x="619" y="144" id="4480" />
 <AutomaticDrawing  data="true" />
+<new d="false" />
 </CONNECTOR><SUBCOMPONENT type="-1" id="4127" index="41" uid="095ca6ad-3cc1-42d9-83f7-0534bc8e9913" >
 <father id="4129" num="0" />
 <cdparam x="576" y="151" />
@@ -7434,6 +7751,7 @@ OnBoardCommunication.IDLE --&gt; OnBoardCommunication.ERROR
 <enabled value="true" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="List of all parameters of an Avatar SMD transition" value="" />
+<new d="false" />
 <TGConnectingPoint num="0" id="4123" />
 <TGConnectingPoint num="1" id="4124" />
 <TGConnectingPoint num="2" id="4125" />
@@ -7459,6 +7777,7 @@ OnBoardCommunication.IDLE --&gt; OnBoardCommunication.ERROR
 <P1  x="100" y="329" id="4638" />
 <P2  x="100" y="351" id="4565" />
 <AutomaticDrawing  data="true" />
+<new d="false" />
 </CONNECTOR><SUBCOMPONENT type="-1" id="4134" index="42" uid="94640a43-06d5-46e6-8d52-7ea956b49504" >
 <father id="4136" num="0" />
 <cdparam x="85" y="250" />
@@ -7467,6 +7786,7 @@ OnBoardCommunication.IDLE --&gt; OnBoardCommunication.ERROR
 <enabled value="true" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="List of all parameters of an Avatar SMD transition" value="" />
+<new d="false" />
 <TGConnectingPoint num="0" id="4130" />
 <TGConnectingPoint num="1" id="4131" />
 <TGConnectingPoint num="2" id="4132" />
@@ -7492,6 +7812,7 @@ OnBoardCommunication.IDLE --&gt; OnBoardCommunication.ERROR
 <P1  x="86" y="110" id="4665" />
 <P2  x="86" y="132" id="4648" />
 <AutomaticDrawing  data="true" />
+<new d="false" />
 </CONNECTOR><SUBCOMPONENT type="-1" id="4141" index="43" uid="c4ecc024-9789-408d-9bcf-4956f5878325" >
 <father id="4143" num="0" />
 <cdparam x="86" y="150" />
@@ -7500,6 +7821,7 @@ OnBoardCommunication.IDLE --&gt; OnBoardCommunication.ERROR
 <enabled value="true" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="List of all parameters of an Avatar SMD transition" value="" />
+<new d="false" />
 <TGConnectingPoint num="0" id="4137" />
 <TGConnectingPoint num="1" id="4138" />
 <TGConnectingPoint num="2" id="4139" />
@@ -7525,6 +7847,7 @@ OnBoardCommunication.IDLE --&gt; OnBoardCommunication.ERROR
 <P1  x="67" y="36" id="4732" />
 <P2  x="86" y="60" id="4660" />
 <AutomaticDrawing  data="true" />
+<new d="false" />
 </CONNECTOR><SUBCOMPONENT type="-1" id="4148" index="44" uid="8dc9037f-db35-47c9-af5c-e9b6933d8ab1" >
 <father id="4150" num="0" />
 <cdparam x="82" y="38" />
@@ -7533,6 +7856,7 @@ OnBoardCommunication.IDLE --&gt; OnBoardCommunication.ERROR
 <enabled value="true" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="List of all parameters of an Avatar SMD transition" value="" />
+<new d="false" />
 <TGConnectingPoint num="0" id="4144" />
 <TGConnectingPoint num="1" id="4145" />
 <TGConnectingPoint num="2" id="4146" />
@@ -7558,6 +7882,7 @@ OnBoardCommunication.IDLE --&gt; OnBoardCommunication.ERROR
 <P1  x="619" y="278" id="4470" />
 <P2  x="619" y="302" id="4397" />
 <AutomaticDrawing  data="true" />
+<new d="false" />
 </CONNECTOR><SUBCOMPONENT type="-1" id="4155" index="45" uid="e8b5531d-083c-4f4f-979b-d76bf21d3e47" >
 <father id="4157" num="0" />
 <cdparam x="619" y="318" />
@@ -7566,6 +7891,7 @@ OnBoardCommunication.IDLE --&gt; OnBoardCommunication.ERROR
 <enabled value="true" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="List of all parameters of an Avatar SMD transition" value="" />
+<new d="false" />
 <TGConnectingPoint num="0" id="4151" />
 <TGConnectingPoint num="1" id="4152" />
 <TGConnectingPoint num="2" id="4153" />
@@ -7591,6 +7917,7 @@ OnBoardCommunication.IDLE --&gt; OnBoardCommunication.ERROR
 <P1  x="447" y="208" id="4275" />
 <P2  x="138" y="208" id="4346" />
 <AutomaticDrawing  data="true" />
+<new d="false" />
 </CONNECTOR><SUBCOMPONENT type="-1" id="4162" index="46" uid="7a26e2d5-056c-49c8-a117-0222ff9e5742" >
 <father id="4164" num="0" />
 <cdparam x="154" y="206" />
@@ -7599,6 +7926,7 @@ OnBoardCommunication.IDLE --&gt; OnBoardCommunication.ERROR
 <enabled value="true" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="List of all parameters of an Avatar SMD transition" value="" />
+<new d="false" />
 <TGConnectingPoint num="0" id="4158" />
 <TGConnectingPoint num="1" id="4159" />
 <TGConnectingPoint num="2" id="4160" />
@@ -7625,6 +7953,7 @@ OnBoardCommunication.IDLE --&gt; OnBoardCommunication.ERROR
 <P1  x="472" y="290" id="4264" />
 <P2  x="473" y="308" id="4179" />
 <AutomaticDrawing  data="true" />
+<new d="false" />
 </CONNECTOR><SUBCOMPONENT type="-1" id="4169" index="47" uid="1a48ea67-7a5e-41e6-b6f6-327b5aa52aca" >
 <father id="4171" num="0" />
 <cdparam x="466" y="297" />
@@ -7633,6 +7962,7 @@ OnBoardCommunication.IDLE --&gt; OnBoardCommunication.ERROR
 <enabled value="true" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="List of all parameters of an Avatar SMD transition" value="" />
+<new d="false" />
 <TGConnectingPoint num="0" id="4165" />
 <TGConnectingPoint num="1" id="4166" />
 <TGConnectingPoint num="2" id="4167" />
@@ -7658,6 +7988,7 @@ OnBoardCommunication.IDLE --&gt; OnBoardCommunication.ERROR
 <P1  x="473" y="338" id="4180" />
 <P2  x="473" y="366" id="4207" />
 <AutomaticDrawing  data="true" />
+<new d="false" />
 </CONNECTOR><SUBCOMPONENT type="-1" id="4176" index="48" uid="25684044-4a27-4386-b473-f1400ea7485a" >
 <father id="4178" num="0" />
 <cdparam x="459" y="350" />
@@ -7666,6 +7997,7 @@ OnBoardCommunication.IDLE --&gt; OnBoardCommunication.ERROR
 <enabled value="true" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="List of all parameters of an Avatar SMD transition" value="" />
+<new d="false" />
 <TGConnectingPoint num="0" id="4172" />
 <TGConnectingPoint num="1" id="4173" />
 <TGConnectingPoint num="2" id="4174" />
@@ -7690,6 +8022,7 @@ OnBoardCommunication.IDLE --&gt; OnBoardCommunication.ERROR
 <enabled value="true" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="Send signal" value="DR()" />
+<new d="false" />
 <TGConnectingPoint num="0" id="4179" />
 <TGConnectingPoint num="1" id="4180" />
 <TGConnectingPoint num="2" id="4181" />
@@ -7709,6 +8042,7 @@ OnBoardCommunication.IDLE --&gt; OnBoardCommunication.ERROR
 <enabled value="true" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="State" value="ERROR" />
+<new d="false" />
 <TGConnectingPoint num="0" id="4190" />
 <TGConnectingPoint num="1" id="4191" />
 <TGConnectingPoint num="2" id="4192" />
@@ -7792,6 +8126,7 @@ OnBoardCommunication.IDLE --&gt; OnBoardCommunication.ERROR
 <enabled value="true" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="Send signal" value="INerror()" />
+<new d="false" />
 <TGConnectingPoint num="0" id="4263" />
 <TGConnectingPoint num="1" id="4264" />
 <TGConnectingPoint num="2" id="4265" />
@@ -7810,6 +8145,7 @@ OnBoardCommunication.IDLE --&gt; OnBoardCommunication.ERROR
 <hidden value="false" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="choice" value="null" />
+<new d="false" />
 <TGConnectingPoint num="0" id="4274" />
 <TGConnectingPoint num="1" id="4275" />
 <TGConnectingPoint num="2" id="4276" />
@@ -7834,6 +8170,7 @@ OnBoardCommunication.IDLE --&gt; OnBoardCommunication.ERROR
 <enabled value="true" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="Reset timer" value="reset(ATST1)" />
+<new d="false" />
 <TGConnectingPoint num="0" id="4290" />
 <TGConnectingPoint num="1" id="4291" />
 <TGConnectingPoint num="2" id="4292" />
@@ -7853,6 +8190,7 @@ OnBoardCommunication.IDLE --&gt; OnBoardCommunication.ERROR
 <enabled value="true" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="Set timer" value="setTimer(ATST1,10)" />
+<new d="false" />
 <TGConnectingPoint num="0" id="4301" />
 <TGConnectingPoint num="1" id="4302" />
 <TGConnectingPoint num="2" id="4303" />
@@ -7872,6 +8210,7 @@ OnBoardCommunication.IDLE --&gt; OnBoardCommunication.ERROR
 <enabled value="true" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="Reset timer" value="expire(ATST1)" />
+<new d="false" />
 <TGConnectingPoint num="0" id="4312" />
 <TGConnectingPoint num="1" id="4313" />
 <TGConnectingPoint num="2" id="4314" />
@@ -7891,6 +8230,7 @@ OnBoardCommunication.IDLE --&gt; OnBoardCommunication.ERROR
 <enabled value="true" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="State" value="SEND" />
+<new d="false" />
 <TGConnectingPoint num="0" id="4323" />
 <TGConnectingPoint num="1" id="4324" />
 <TGConnectingPoint num="2" id="4325" />
@@ -7974,6 +8314,7 @@ OnBoardCommunication.IDLE --&gt; OnBoardCommunication.ERROR
 <enabled value="true" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="state0" value="CONNECTED" />
+<new d="false" />
 <TGConnectingPoint num="0" id="4396" />
 <TGConnectingPoint num="1" id="4397" />
 <TGConnectingPoint num="2" id="4398" />
@@ -8057,6 +8398,7 @@ OnBoardCommunication.IDLE --&gt; OnBoardCommunication.ERROR
 <enabled value="true" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="Send signal" value="INconconf()" />
+<new d="false" />
 <TGConnectingPoint num="0" id="4469" />
 <TGConnectingPoint num="1" id="4470" />
 <TGConnectingPoint num="2" id="4471" />
@@ -8076,6 +8418,7 @@ OnBoardCommunication.IDLE --&gt; OnBoardCommunication.ERROR
 <enabled value="true" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="Receive signal" value="CC()" />
+<new d="false" />
 <TGConnectingPoint num="0" id="4480" />
 <TGConnectingPoint num="1" id="4481" />
 <TGConnectingPoint num="2" id="4482" />
@@ -8095,6 +8438,7 @@ OnBoardCommunication.IDLE --&gt; OnBoardCommunication.ERROR
 <enabled value="true" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="state0" value="WAIT_FOR_CONF" />
+<new d="false" />
 <TGConnectingPoint num="0" id="4491" />
 <TGConnectingPoint num="1" id="4492" />
 <TGConnectingPoint num="2" id="4493" />
@@ -8178,6 +8522,7 @@ OnBoardCommunication.IDLE --&gt; OnBoardCommunication.ERROR
 <enabled value="true" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="state0" value="WAIT_FOR_CONF" />
+<new d="false" />
 <TGConnectingPoint num="0" id="4564" />
 <TGConnectingPoint num="1" id="4565" />
 <TGConnectingPoint num="2" id="4566" />
@@ -8261,6 +8606,7 @@ OnBoardCommunication.IDLE --&gt; OnBoardCommunication.ERROR
 <enabled value="true" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="Send signal" value="CR()" />
+<new d="false" />
 <TGConnectingPoint num="0" id="4637" />
 <TGConnectingPoint num="1" id="4638" />
 <TGConnectingPoint num="2" id="4639" />
@@ -8280,6 +8626,7 @@ OnBoardCommunication.IDLE --&gt; OnBoardCommunication.ERROR
 <enabled value="true" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="Receive signal" value="INconreq()" />
+<new d="false" />
 <TGConnectingPoint num="0" id="4648" />
 <TGConnectingPoint num="1" id="4649" />
 <TGConnectingPoint num="2" id="4650" />
@@ -8299,6 +8646,7 @@ OnBoardCommunication.IDLE --&gt; OnBoardCommunication.ERROR
 <enabled value="true" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="state0" value="IDLE" />
+<new d="false" />
 <TGConnectingPoint num="0" id="4659" />
 <TGConnectingPoint num="1" id="4660" />
 <TGConnectingPoint num="2" id="4661" />
@@ -8381,13 +8729,14 @@ OnBoardCommunication.IDLE --&gt; OnBoardCommunication.ERROR
 <hidden value="false" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="start state" value="null" />
+<new d="false" />
 <TGConnectingPoint num="0" id="4732" />
 </COMPONENT>
 
 
 </AVATARStateMachineDiagramPanel>
 
-<AVATARStateMachineDiagramPanel name="GroundCommunication" minX="10" maxX="1400" minY="10" maxY="900" >
+<AVATARStateMachineDiagramPanel name="GroundCommunication" minX="10" maxX="1400" minY="10" maxY="900" zoom="1.0" >
 <CONNECTOR type="5102" id="4740" index="0" uid="4551ec2a-c7fa-4c1e-b44b-e60d8cb9e1c3" >
 <cdparam x="483" y="115" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
@@ -8396,6 +8745,7 @@ OnBoardCommunication.IDLE --&gt; OnBoardCommunication.ERROR
 <P1  x="490" y="122" id="5170" />
 <P2  x="490" y="143" id="5069" />
 <AutomaticDrawing  data="true" />
+<new d="false" />
 </CONNECTOR><SUBCOMPONENT type="-1" id="4738" index="23" uid="285bd479-f082-4a2a-8471-9a57733a41b8" >
 <father id="4740" num="0" />
 <cdparam x="486" y="129" />
@@ -8404,6 +8754,7 @@ OnBoardCommunication.IDLE --&gt; OnBoardCommunication.ERROR
 <enabled value="true" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="List of all parameters of an Avatar SMD transition" value="" />
+<new d="false" />
 <TGConnectingPoint num="0" id="4734" />
 <TGConnectingPoint num="1" id="4735" />
 <TGConnectingPoint num="2" id="4736" />
@@ -8429,6 +8780,7 @@ OnBoardCommunication.IDLE --&gt; OnBoardCommunication.ERROR
 <P1  x="490" y="173" id="5070" />
 <P2  x="490" y="197" id="5080" />
 <AutomaticDrawing  data="true" />
+<new d="false" />
 </CONNECTOR><SUBCOMPONENT type="-1" id="4745" index="24" uid="3f503e37-6f53-47c1-9416-6f8fb3bf8fef" >
 <father id="4747" num="0" />
 <cdparam x="491" y="186" />
@@ -8437,6 +8789,7 @@ OnBoardCommunication.IDLE --&gt; OnBoardCommunication.ERROR
 <enabled value="true" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="List of all parameters of an Avatar SMD transition" value="" />
+<new d="false" />
 <TGConnectingPoint num="0" id="4741" />
 <TGConnectingPoint num="1" id="4742" />
 <TGConnectingPoint num="2" id="4743" />
@@ -8462,6 +8815,7 @@ OnBoardCommunication.IDLE --&gt; OnBoardCommunication.ERROR
 <P1  x="490" y="227" id="5081" />
 <P2  x="490" y="255" id="5092" />
 <AutomaticDrawing  data="true" />
+<new d="false" />
 </CONNECTOR><SUBCOMPONENT type="-1" id="4752" index="25" uid="10be6560-b6ca-41c6-9299-58f637d3c22a" >
 <father id="4754" num="0" />
 <cdparam x="486" y="224" />
@@ -8470,6 +8824,7 @@ OnBoardCommunication.IDLE --&gt; OnBoardCommunication.ERROR
 <enabled value="true" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="List of all parameters of an Avatar SMD transition" value="" />
+<new d="false" />
 <TGConnectingPoint num="0" id="4748" />
 <TGConnectingPoint num="1" id="4749" />
 <TGConnectingPoint num="2" id="4750" />
@@ -8495,6 +8850,7 @@ OnBoardCommunication.IDLE --&gt; OnBoardCommunication.ERROR
 <P1  x="75" y="47" id="5067" />
 <P2  x="87" y="72" id="4995" />
 <AutomaticDrawing  data="true" />
+<new d="false" />
 </CONNECTOR><SUBCOMPONENT type="-1" id="4759" index="26" uid="91215b49-f492-4c11-9868-93f7dd66d76e" >
 <father id="4761" num="0" />
 <cdparam x="86" y="88" />
@@ -8503,6 +8859,7 @@ OnBoardCommunication.IDLE --&gt; OnBoardCommunication.ERROR
 <enabled value="true" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="List of all parameters of an Avatar SMD transition" value="" />
+<new d="false" />
 <TGConnectingPoint num="0" id="4755" />
 <TGConnectingPoint num="1" id="4756" />
 <TGConnectingPoint num="2" id="4757" />
@@ -8528,6 +8885,7 @@ OnBoardCommunication.IDLE --&gt; OnBoardCommunication.ERROR
 <P1  x="99" y="122" id="5024" />
 <P2  x="99" y="151" id="4983" />
 <AutomaticDrawing  data="true" />
+<new d="false" />
 </CONNECTOR><SUBCOMPONENT type="-1" id="4766" index="27" uid="191d08be-e3e4-461d-8b9b-298c11eba86a" >
 <father id="4768" num="0" />
 <cdparam x="99" y="162" />
@@ -8536,6 +8894,7 @@ OnBoardCommunication.IDLE --&gt; OnBoardCommunication.ERROR
 <enabled value="true" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="List of all parameters of an Avatar SMD transition" value="" />
+<new d="false" />
 <TGConnectingPoint num="0" id="4762" />
 <TGConnectingPoint num="1" id="4763" />
 <TGConnectingPoint num="2" id="4764" />
@@ -8561,6 +8920,7 @@ OnBoardCommunication.IDLE --&gt; OnBoardCommunication.ERROR
 <P1  x="99" y="181" id="4984" />
 <P2  x="99" y="207" id="4972" />
 <AutomaticDrawing  data="true" />
+<new d="false" />
 </CONNECTOR><SUBCOMPONENT type="-1" id="4773" index="28" uid="f4bd8077-6914-49f8-874a-0aa7b8027731" >
 <father id="4775" num="0" />
 <cdparam x="99" y="221" />
@@ -8569,6 +8929,7 @@ OnBoardCommunication.IDLE --&gt; OnBoardCommunication.ERROR
 <enabled value="true" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="List of all parameters of an Avatar SMD transition" value="" />
+<new d="false" />
 <TGConnectingPoint num="0" id="4769" />
 <TGConnectingPoint num="1" id="4770" />
 <TGConnectingPoint num="2" id="4771" />
@@ -8594,6 +8955,7 @@ OnBoardCommunication.IDLE --&gt; OnBoardCommunication.ERROR
 <P1  x="99" y="237" id="4973" />
 <P2  x="99" y="262" id="4900" />
 <AutomaticDrawing  data="true" />
+<new d="false" />
 </CONNECTOR><SUBCOMPONENT type="-1" id="4780" index="29" uid="89caa404-7170-42ec-841f-d2993e5d6335" >
 <father id="4782" num="0" />
 <cdparam x="99" y="277" />
@@ -8602,6 +8964,7 @@ OnBoardCommunication.IDLE --&gt; OnBoardCommunication.ERROR
 <enabled value="true" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="List of all parameters of an Avatar SMD transition" value="" />
+<new d="false" />
 <TGConnectingPoint num="0" id="4776" />
 <TGConnectingPoint num="1" id="4777" />
 <TGConnectingPoint num="2" id="4778" />
@@ -8627,6 +8990,7 @@ OnBoardCommunication.IDLE --&gt; OnBoardCommunication.ERROR
 <P1  x="326" y="119" id="4856" />
 <P2  x="327" y="145" id="4815" />
 <AutomaticDrawing  data="true" />
+<new d="false" />
 </CONNECTOR><SUBCOMPONENT type="-1" id="4787" index="30" uid="a8aff915-8142-499f-b44b-3b8c901e2724" >
 <father id="4789" num="0" />
 <cdparam x="327" y="159" />
@@ -8635,6 +8999,7 @@ OnBoardCommunication.IDLE --&gt; OnBoardCommunication.ERROR
 <enabled value="true" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="List of all parameters of an Avatar SMD transition" value="" />
+<new d="false" />
 <TGConnectingPoint num="0" id="4783" />
 <TGConnectingPoint num="1" id="4784" />
 <TGConnectingPoint num="2" id="4785" />
@@ -8660,6 +9025,7 @@ OnBoardCommunication.IDLE --&gt; OnBoardCommunication.ERROR
 <P1  x="327" y="175" id="4816" />
 <P2  x="327" y="204" id="4804" />
 <AutomaticDrawing  data="true" />
+<new d="false" />
 </CONNECTOR><SUBCOMPONENT type="-1" id="4794" index="31" uid="e1c97e7f-2a8b-495e-9550-1066e1ff8b29" >
 <father id="4796" num="0" />
 <cdparam x="327" y="215" />
@@ -8668,6 +9034,7 @@ OnBoardCommunication.IDLE --&gt; OnBoardCommunication.ERROR
 <enabled value="true" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="List of all parameters of an Avatar SMD transition" value="" />
+<new d="false" />
 <TGConnectingPoint num="0" id="4790" />
 <TGConnectingPoint num="1" id="4791" />
 <TGConnectingPoint num="2" id="4792" />
@@ -8693,6 +9060,7 @@ OnBoardCommunication.IDLE --&gt; OnBoardCommunication.ERROR
 <P1  x="327" y="234" id="4805" />
 <P2  x="327" y="266" id="5238" />
 <AutomaticDrawing  data="true" />
+<new d="false" />
 </CONNECTOR><SUBCOMPONENT type="-1" id="4801" index="32" uid="f882c769-920c-4451-818b-5183bb0597b0" >
 <father id="4803" num="0" />
 <cdparam x="331" y="251" />
@@ -8701,6 +9069,7 @@ OnBoardCommunication.IDLE --&gt; OnBoardCommunication.ERROR
 <enabled value="true" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="List of all parameters of an Avatar SMD transition" value="" />
+<new d="false" />
 <TGConnectingPoint num="0" id="4797" />
 <TGConnectingPoint num="1" id="4798" />
 <TGConnectingPoint num="2" id="4799" />
@@ -8725,6 +9094,7 @@ OnBoardCommunication.IDLE --&gt; OnBoardCommunication.ERROR
 <enabled value="true" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="Send signal" value="CC()" />
+<new d="false" />
 <TGConnectingPoint num="0" id="4804" />
 <TGConnectingPoint num="1" id="4805" />
 <TGConnectingPoint num="2" id="4806" />
@@ -8744,6 +9114,7 @@ OnBoardCommunication.IDLE --&gt; OnBoardCommunication.ERROR
 <enabled value="true" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="Receive signal" value="INconresp()" />
+<new d="false" />
 <TGConnectingPoint num="0" id="4815" />
 <TGConnectingPoint num="1" id="4816" />
 <TGConnectingPoint num="2" id="4817" />
@@ -8763,6 +9134,7 @@ OnBoardCommunication.IDLE --&gt; OnBoardCommunication.ERROR
 <enabled value="true" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="state0" value="WAIT_FOR_RESP" />
+<new d="false" />
 <TGConnectingPoint num="0" id="4826" />
 <TGConnectingPoint num="1" id="4827" />
 <TGConnectingPoint num="2" id="4828" />
@@ -8846,6 +9218,7 @@ OnBoardCommunication.IDLE --&gt; OnBoardCommunication.ERROR
 <enabled value="true" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="state0" value="WAIT_FOR_RESP" />
+<new d="false" />
 <TGConnectingPoint num="0" id="4899" />
 <TGConnectingPoint num="1" id="4900" />
 <TGConnectingPoint num="2" id="4901" />
@@ -8929,6 +9302,7 @@ OnBoardCommunication.IDLE --&gt; OnBoardCommunication.ERROR
 <enabled value="true" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="Send signal" value="INconind()" />
+<new d="false" />
 <TGConnectingPoint num="0" id="4972" />
 <TGConnectingPoint num="1" id="4973" />
 <TGConnectingPoint num="2" id="4974" />
@@ -8948,6 +9322,7 @@ OnBoardCommunication.IDLE --&gt; OnBoardCommunication.ERROR
 <enabled value="true" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="Receive signal" value="CR()" />
+<new d="false" />
 <TGConnectingPoint num="0" id="4983" />
 <TGConnectingPoint num="1" id="4984" />
 <TGConnectingPoint num="2" id="4985" />
@@ -8967,6 +9342,7 @@ OnBoardCommunication.IDLE --&gt; OnBoardCommunication.ERROR
 <enabled value="true" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="state0" value="IDLE" />
+<new d="false" />
 <TGConnectingPoint num="0" id="4994" />
 <TGConnectingPoint num="1" id="4995" />
 <TGConnectingPoint num="2" id="4996" />
@@ -9049,6 +9425,7 @@ OnBoardCommunication.IDLE --&gt; OnBoardCommunication.ERROR
 <hidden value="false" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="start state" value="null" />
+<new d="false" />
 <TGConnectingPoint num="0" id="5067" />
 </COMPONENT>
 
@@ -9059,6 +9436,7 @@ OnBoardCommunication.IDLE --&gt; OnBoardCommunication.ERROR
 <enabled value="true" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="Receive signal" value="DR()" />
+<new d="false" />
 <TGConnectingPoint num="0" id="5069" />
 <TGConnectingPoint num="1" id="5070" />
 <TGConnectingPoint num="2" id="5071" />
@@ -9078,6 +9456,7 @@ OnBoardCommunication.IDLE --&gt; OnBoardCommunication.ERROR
 <enabled value="true" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="Send signal" value="INerror_ground()" />
+<new d="false" />
 <TGConnectingPoint num="0" id="5080" />
 <TGConnectingPoint num="1" id="5081" />
 <TGConnectingPoint num="2" id="5082" />
@@ -9097,6 +9476,7 @@ OnBoardCommunication.IDLE --&gt; OnBoardCommunication.ERROR
 <enabled value="true" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="State" value="ERROR" />
+<new d="false" />
 <TGConnectingPoint num="0" id="5091" />
 <TGConnectingPoint num="1" id="5092" />
 <TGConnectingPoint num="2" id="5093" />
@@ -9180,6 +9560,7 @@ OnBoardCommunication.IDLE --&gt; OnBoardCommunication.ERROR
 <enabled value="true" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="State" value="CONNECTED" />
+<new d="false" />
 <TGConnectingPoint num="0" id="5164" />
 <TGConnectingPoint num="1" id="5165" />
 <TGConnectingPoint num="2" id="5166" />
@@ -9263,6 +9644,7 @@ OnBoardCommunication.IDLE --&gt; OnBoardCommunication.ERROR
 <enabled value="true" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="State" value="CONNECTED" />
+<new d="false" />
 <TGConnectingPoint num="0" id="5237" />
 <TGConnectingPoint num="1" id="5238" />
 <TGConnectingPoint num="2" id="5239" />
@@ -9342,7 +9724,7 @@ OnBoardCommunication.IDLE --&gt; OnBoardCommunication.ERROR
 
 </AVATARStateMachineDiagramPanel>
 
-<AVATARStateMachineDiagramPanel name="Controller" minX="10" maxX="1400" minY="10" maxY="900" >
+<AVATARStateMachineDiagramPanel name="Controller" minX="10" maxX="1400" minY="10" maxY="900" zoom="1.0" >
 <CONNECTOR type="5102" id="5324" index="0" uid="910bd74a-47f9-43d1-8d8c-c300b2f2b7bf" >
 <cdparam x="374" y="197" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
@@ -9359,6 +9741,7 @@ OnBoardCommunication.IDLE --&gt; OnBoardCommunication.ERROR
 <Point x="441" y="90" />
 <Point x="274" y="90" />
 <AutomaticDrawing  data="true" />
+<new d="false" />
 </CONNECTOR><SUBCOMPONENT type="-1" id="5310" index="12" uid="980e9f26-995d-4e88-9f4a-e5016b6e8d4c" >
 <father id="5324" num="0" />
 <cdparam x="374" y="212" />
@@ -9366,6 +9749,7 @@ OnBoardCommunication.IDLE --&gt; OnBoardCommunication.ERROR
 <hidden value="false" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="point " value="null" />
+<new d="false" />
 </SUBCOMPONENT>
 <SUBCOMPONENT type="-1" id="5311" index="13" uid="83150b09-795b-4fe1-8a12-e7fea1f701f6" >
 <father id="5324" num="1" />
@@ -9374,6 +9758,7 @@ OnBoardCommunication.IDLE --&gt; OnBoardCommunication.ERROR
 <hidden value="false" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="point " value="null" />
+<new d="false" />
 </SUBCOMPONENT>
 <SUBCOMPONENT type="-1" id="5312" index="14" uid="74335709-6a1a-426d-809c-5c48eb3300a9" >
 <father id="5324" num="2" />
@@ -9382,6 +9767,7 @@ OnBoardCommunication.IDLE --&gt; OnBoardCommunication.ERROR
 <hidden value="false" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="point " value="null" />
+<new d="false" />
 </SUBCOMPONENT>
 <SUBCOMPONENT type="-1" id="5313" index="15" uid="5a32a596-a5de-4986-ae89-f4576a5cb40b" >
 <father id="5324" num="3" />
@@ -9390,6 +9776,7 @@ OnBoardCommunication.IDLE --&gt; OnBoardCommunication.ERROR
 <hidden value="false" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="point " value="null" />
+<new d="false" />
 </SUBCOMPONENT>
 <SUBCOMPONENT type="-1" id="5318" index="16" uid="7f3ed18c-85f6-4f6b-b305-f697a1a0ad51" >
 <father id="5324" num="4" />
@@ -9399,6 +9786,7 @@ OnBoardCommunication.IDLE --&gt; OnBoardCommunication.ERROR
 <enabled value="true" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="List of all parameters of an Avatar SMD transition" value="" />
+<new d="false" />
 <TGConnectingPoint num="0" id="5314" />
 <TGConnectingPoint num="1" id="5315" />
 <TGConnectingPoint num="2" id="5316" />
@@ -9426,6 +9814,7 @@ OnBoardCommunication.IDLE --&gt; OnBoardCommunication.ERROR
 <P2  x="374" y="167" id="5381" />
 <Point x="374" y="102" />
 <AutomaticDrawing  data="true" />
+<new d="false" />
 </CONNECTOR><SUBCOMPONENT type="-1" id="5325" index="17" uid="e9d35f73-ae67-4c1e-b779-f6a4e0c779eb" >
 <father id="5333" num="0" />
 <cdparam x="374" y="102" />
@@ -9433,6 +9822,7 @@ OnBoardCommunication.IDLE --&gt; OnBoardCommunication.ERROR
 <hidden value="false" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="point " value="null" />
+<new d="false" />
 </SUBCOMPONENT>
 <SUBCOMPONENT type="-1" id="5330" index="18" uid="534c69ee-76cc-4b6a-b8b0-afbf75e98c0a" >
 <father id="5333" num="1" />
@@ -9442,6 +9832,7 @@ OnBoardCommunication.IDLE --&gt; OnBoardCommunication.ERROR
 <enabled value="true" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="List of all parameters of an Avatar SMD transition" value="" />
+<new d="false" />
 <TGConnectingPoint num="0" id="5326" />
 <TGConnectingPoint num="1" id="5327" />
 <TGConnectingPoint num="2" id="5328" />
@@ -9473,6 +9864,7 @@ OnBoardCommunication.IDLE --&gt; OnBoardCommunication.ERROR
 <Point x="309" y="216" />
 <Point x="309" y="114" />
 <AutomaticDrawing  data="true" />
+<new d="false" />
 </CONNECTOR><SUBCOMPONENT type="-1" id="5334" index="19" uid="712161b2-320a-47d4-862b-26d14f6038aa" >
 <father id="5346" num="0" />
 <cdparam x="153" y="216" />
@@ -9480,6 +9872,7 @@ OnBoardCommunication.IDLE --&gt; OnBoardCommunication.ERROR
 <hidden value="false" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="point " value="null" />
+<new d="false" />
 </SUBCOMPONENT>
 <SUBCOMPONENT type="-1" id="5335" index="20" uid="ca6e53a6-0b00-41f3-a674-a487e5f59e28" >
 <father id="5346" num="1" />
@@ -9488,6 +9881,7 @@ OnBoardCommunication.IDLE --&gt; OnBoardCommunication.ERROR
 <hidden value="false" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="point " value="null" />
+<new d="false" />
 </SUBCOMPONENT>
 <SUBCOMPONENT type="-1" id="5336" index="21" uid="25a3e2f2-bf22-4303-8d73-816363263571" >
 <father id="5346" num="2" />
@@ -9496,6 +9890,7 @@ OnBoardCommunication.IDLE --&gt; OnBoardCommunication.ERROR
 <hidden value="false" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="point " value="null" />
+<new d="false" />
 </SUBCOMPONENT>
 <SUBCOMPONENT type="-1" id="5341" index="22" uid="903a5a13-d38a-4102-91ac-a961fc5cc0de" >
 <father id="5346" num="3" />
@@ -9505,6 +9900,7 @@ OnBoardCommunication.IDLE --&gt; OnBoardCommunication.ERROR
 <enabled value="true" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="List of all parameters of an Avatar SMD transition" value="" />
+<new d="false" />
 <TGConnectingPoint num="0" id="5337" />
 <TGConnectingPoint num="1" id="5338" />
 <TGConnectingPoint num="2" id="5339" />
@@ -9536,6 +9932,7 @@ OnBoardCommunication.IDLE --&gt; OnBoardCommunication.ERROR
 <Point x="298" y="207" />
 <Point x="298" y="133" />
 <AutomaticDrawing  data="true" />
+<new d="false" />
 </CONNECTOR><SUBCOMPONENT type="-1" id="5347" index="23" uid="a78a8460-da76-463d-a900-1d3aba020f5b" >
 <father id="5359" num="0" />
 <cdparam x="247" y="207" />
@@ -9543,6 +9940,7 @@ OnBoardCommunication.IDLE --&gt; OnBoardCommunication.ERROR
 <hidden value="false" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="point " value="null" />
+<new d="false" />
 </SUBCOMPONENT>
 <SUBCOMPONENT type="-1" id="5348" index="24" uid="599160d3-1256-41d3-a24f-886636d7bd25" >
 <father id="5359" num="1" />
@@ -9551,6 +9949,7 @@ OnBoardCommunication.IDLE --&gt; OnBoardCommunication.ERROR
 <hidden value="false" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="point " value="null" />
+<new d="false" />
 </SUBCOMPONENT>
 <SUBCOMPONENT type="-1" id="5349" index="25" uid="65f83f2e-156d-442c-9dc5-a27ecf433171" >
 <father id="5359" num="2" />
@@ -9559,6 +9958,7 @@ OnBoardCommunication.IDLE --&gt; OnBoardCommunication.ERROR
 <hidden value="false" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="point " value="null" />
+<new d="false" />
 </SUBCOMPONENT>
 <SUBCOMPONENT type="-1" id="5354" index="26" uid="4cc5b25a-99c1-4cee-9392-48cad71f7bd0" >
 <father id="5359" num="3" />
@@ -9568,6 +9968,7 @@ OnBoardCommunication.IDLE --&gt; OnBoardCommunication.ERROR
 <enabled value="true" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="List of all parameters of an Avatar SMD transition" value="" />
+<new d="false" />
 <TGConnectingPoint num="0" id="5350" />
 <TGConnectingPoint num="1" id="5351" />
 <TGConnectingPoint num="2" id="5352" />
@@ -9593,6 +9994,7 @@ OnBoardCommunication.IDLE --&gt; OnBoardCommunication.ERROR
 <P1  x="186" y="62" id="5487" />
 <P2  x="211" y="96" id="5415" />
 <AutomaticDrawing  data="true" />
+<new d="false" />
 </CONNECTOR><SUBCOMPONENT type="-1" id="5364" index="27" uid="aff35df7-a0f9-4510-8e84-df6fb4b1bf46" >
 <father id="5366" num="0" />
 <cdparam x="211" y="104" />
@@ -9601,6 +10003,7 @@ OnBoardCommunication.IDLE --&gt; OnBoardCommunication.ERROR
 <enabled value="true" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="List of all parameters of an Avatar SMD transition" value="" />
+<new d="false" />
 <TGConnectingPoint num="0" id="5360" />
 <TGConnectingPoint num="1" id="5361" />
 <TGConnectingPoint num="2" id="5362" />
@@ -9626,6 +10029,7 @@ OnBoardCommunication.IDLE --&gt; OnBoardCommunication.ERROR
 <P1  x="186" y="146" id="5428" />
 <P2  x="153" y="168" id="5403" />
 <AutomaticDrawing  data="true" />
+<new d="false" />
 </CONNECTOR><SUBCOMPONENT type="-1" id="5371" index="28" uid="d7efb58c-5f24-450e-b39f-d3dd1bf88288" >
 <father id="5373" num="0" />
 <cdparam x="161" y="186" />
@@ -9634,6 +10038,7 @@ OnBoardCommunication.IDLE --&gt; OnBoardCommunication.ERROR
 <enabled value="true" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="List of all parameters of an Avatar SMD transition" value="" />
+<new d="false" />
 <TGConnectingPoint num="0" id="5367" />
 <TGConnectingPoint num="1" id="5368" />
 <TGConnectingPoint num="2" id="5369" />
@@ -9659,6 +10064,7 @@ OnBoardCommunication.IDLE --&gt; OnBoardCommunication.ERROR
 <P1  x="236" y="146" id="5429" />
 <P2  x="247" y="167" id="5392" />
 <AutomaticDrawing  data="true" />
+<new d="false" />
 </CONNECTOR><SUBCOMPONENT type="-1" id="5378" index="29" uid="3c36109f-8182-406c-bbb8-4436330591d7" >
 <father id="5380" num="0" />
 <cdparam x="211" y="241" />
@@ -9667,6 +10073,7 @@ OnBoardCommunication.IDLE --&gt; OnBoardCommunication.ERROR
 <enabled value="true" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="List of all parameters of an Avatar SMD transition" value="" />
+<new d="false" />
 <TGConnectingPoint num="0" id="5374" />
 <TGConnectingPoint num="1" id="5375" />
 <TGConnectingPoint num="2" id="5376" />
@@ -9691,6 +10098,7 @@ OnBoardCommunication.IDLE --&gt; OnBoardCommunication.ERROR
 <enabled value="true" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="Receive signal" value="INerror_ground()" />
+<new d="false" />
 <TGConnectingPoint num="0" id="5381" />
 <TGConnectingPoint num="1" id="5382" />
 <TGConnectingPoint num="2" id="5383" />
@@ -9710,6 +10118,7 @@ OnBoardCommunication.IDLE --&gt; OnBoardCommunication.ERROR
 <enabled value="true" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="Send signal" value="INconresp()" />
+<new d="false" />
 <TGConnectingPoint num="0" id="5392" />
 <TGConnectingPoint num="1" id="5393" />
 <TGConnectingPoint num="2" id="5394" />
@@ -9729,6 +10138,7 @@ OnBoardCommunication.IDLE --&gt; OnBoardCommunication.ERROR
 <enabled value="true" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="Receive signal" value="INconind()" />
+<new d="false" />
 <TGConnectingPoint num="0" id="5403" />
 <TGConnectingPoint num="1" id="5404" />
 <TGConnectingPoint num="2" id="5405" />
@@ -9748,6 +10158,7 @@ OnBoardCommunication.IDLE --&gt; OnBoardCommunication.ERROR
 <enabled value="true" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="state0" value="ACTIVE" />
+<new d="false" />
 <TGConnectingPoint num="0" id="5414" />
 <TGConnectingPoint num="1" id="5415" />
 <TGConnectingPoint num="2" id="5416" />
@@ -9830,13 +10241,14 @@ OnBoardCommunication.IDLE --&gt; OnBoardCommunication.ERROR
 <hidden value="false" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="start state" value="null" />
+<new d="false" />
 <TGConnectingPoint num="0" id="5487" />
 </COMPONENT>
 
 
 </AVATARStateMachineDiagramPanel>
 
-<AVATARStateMachineDiagramPanel name="Pilot" minX="10" maxX="1400" minY="10" maxY="900" >
+<AVATARStateMachineDiagramPanel name="Pilot" minX="10" maxX="1400" minY="10" maxY="900" zoom="1.0" >
 <CONNECTOR type="5102" id="5501" index="0" uid="e515122a-9494-4df4-9f80-9f0ef3285d82" >
 <cdparam x="261" y="165" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
@@ -9851,6 +10263,7 @@ OnBoardCommunication.IDLE --&gt; OnBoardCommunication.ERROR
 <Point x="320" y="173" />
 <Point x="320" y="109" />
 <AutomaticDrawing  data="true" />
+<new d="false" />
 </CONNECTOR><SUBCOMPONENT type="-1" id="5489" index="12" uid="61346985-6f06-4877-a548-f84422a7b434" >
 <father id="5501" num="0" />
 <cdparam x="271" y="173" />
@@ -9858,6 +10271,7 @@ OnBoardCommunication.IDLE --&gt; OnBoardCommunication.ERROR
 <hidden value="false" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="point " value="null" />
+<new d="false" />
 </SUBCOMPONENT>
 <SUBCOMPONENT type="-1" id="5490" index="13" uid="4c8bce19-b8a3-4fda-8fca-49b39c3eb9b1" >
 <father id="5501" num="1" />
@@ -9866,6 +10280,7 @@ OnBoardCommunication.IDLE --&gt; OnBoardCommunication.ERROR
 <hidden value="false" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="point " value="null" />
+<new d="false" />
 </SUBCOMPONENT>
 <SUBCOMPONENT type="-1" id="5491" index="14" uid="af574619-e6a8-4e0f-b980-59b61a4db920" >
 <father id="5501" num="2" />
@@ -9874,6 +10289,7 @@ OnBoardCommunication.IDLE --&gt; OnBoardCommunication.ERROR
 <hidden value="false" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="point " value="null" />
+<new d="false" />
 </SUBCOMPONENT>
 <SUBCOMPONENT type="-1" id="5496" index="15" uid="e5cad264-f4e2-4550-9ffd-26f564a8a87d" >
 <father id="5501" num="3" />
@@ -9883,6 +10299,7 @@ OnBoardCommunication.IDLE --&gt; OnBoardCommunication.ERROR
 <enabled value="true" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="List of all parameters of an Avatar SMD transition" value="" />
+<new d="false" />
 <TGConnectingPoint num="0" id="5492" />
 <TGConnectingPoint num="1" id="5493" />
 <TGConnectingPoint num="2" id="5494" />
@@ -9914,6 +10331,7 @@ OnBoardCommunication.IDLE --&gt; OnBoardCommunication.ERROR
 <Point x="341" y="189" />
 <Point x="341" y="78" />
 <AutomaticDrawing  data="true" />
+<new d="false" />
 </CONNECTOR><SUBCOMPONENT type="-1" id="5502" index="16" uid="9d034611-6dfd-4671-8310-b151401fa7d5" >
 <father id="5514" num="0" />
 <cdparam x="79" y="189" />
@@ -9921,6 +10339,7 @@ OnBoardCommunication.IDLE --&gt; OnBoardCommunication.ERROR
 <hidden value="false" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="point " value="null" />
+<new d="false" />
 </SUBCOMPONENT>
 <SUBCOMPONENT type="-1" id="5503" index="17" uid="e081cb88-6323-422e-b23a-18545a3e85b2" >
 <father id="5514" num="1" />
@@ -9929,6 +10348,7 @@ OnBoardCommunication.IDLE --&gt; OnBoardCommunication.ERROR
 <hidden value="false" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="point " value="null" />
+<new d="false" />
 </SUBCOMPONENT>
 <SUBCOMPONENT type="-1" id="5504" index="18" uid="d3d8bd95-bbc2-479b-998b-927c52f398a0" >
 <father id="5514" num="2" />
@@ -9937,6 +10357,7 @@ OnBoardCommunication.IDLE --&gt; OnBoardCommunication.ERROR
 <hidden value="false" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="point " value="null" />
+<new d="false" />
 </SUBCOMPONENT>
 <SUBCOMPONENT type="-1" id="5509" index="19" uid="1c882909-d271-42df-adac-6b1ee16dce13" >
 <father id="5514" num="3" />
@@ -9946,6 +10367,7 @@ OnBoardCommunication.IDLE --&gt; OnBoardCommunication.ERROR
 <enabled value="true" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="List of all parameters of an Avatar SMD transition" value="" />
+<new d="false" />
 <TGConnectingPoint num="0" id="5505" />
 <TGConnectingPoint num="1" id="5506" />
 <TGConnectingPoint num="2" id="5507" />
@@ -9977,6 +10399,7 @@ OnBoardCommunication.IDLE --&gt; OnBoardCommunication.ERROR
 <Point x="330" y="183" />
 <Point x="330" y="91" />
 <AutomaticDrawing  data="true" />
+<new d="false" />
 </CONNECTOR><SUBCOMPONENT type="-1" id="5515" index="20" uid="0a4d0bb5-998a-4033-b569-aa06190b7cbd" >
 <father id="5527" num="0" />
 <cdparam x="177" y="183" />
@@ -9984,6 +10407,7 @@ OnBoardCommunication.IDLE --&gt; OnBoardCommunication.ERROR
 <hidden value="false" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="point " value="null" />
+<new d="false" />
 </SUBCOMPONENT>
 <SUBCOMPONENT type="-1" id="5516" index="21" uid="a940097d-feb7-453a-b272-a2935b19dd4c" >
 <father id="5527" num="1" />
@@ -9992,6 +10416,7 @@ OnBoardCommunication.IDLE --&gt; OnBoardCommunication.ERROR
 <hidden value="false" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="point " value="null" />
+<new d="false" />
 </SUBCOMPONENT>
 <SUBCOMPONENT type="-1" id="5517" index="22" uid="9374a508-d1af-4d21-9063-916c59b0b8ac" >
 <father id="5527" num="2" />
@@ -10000,6 +10425,7 @@ OnBoardCommunication.IDLE --&gt; OnBoardCommunication.ERROR
 <hidden value="false" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="point " value="null" />
+<new d="false" />
 </SUBCOMPONENT>
 <SUBCOMPONENT type="-1" id="5522" index="23" uid="713bdf91-6ac0-44e7-8313-4fbc17bcf6bc" >
 <father id="5527" num="3" />
@@ -10009,6 +10435,7 @@ OnBoardCommunication.IDLE --&gt; OnBoardCommunication.ERROR
 <enabled value="true" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="List of all parameters of an Avatar SMD transition" value="" />
+<new d="false" />
 <TGConnectingPoint num="0" id="5518" />
 <TGConnectingPoint num="1" id="5519" />
 <TGConnectingPoint num="2" id="5520" />
@@ -10034,6 +10461,7 @@ OnBoardCommunication.IDLE --&gt; OnBoardCommunication.ERROR
 <P1  x="165" y="44" id="5589" />
 <P2  x="166" y="66" id="5592" />
 <AutomaticDrawing  data="true" />
+<new d="false" />
 </CONNECTOR><SUBCOMPONENT type="-1" id="5532" index="24" uid="0b26d3f4-83ae-4c5a-8766-c52752c19073" >
 <father id="5534" num="0" />
 <cdparam x="165" y="84" />
@@ -10042,6 +10470,7 @@ OnBoardCommunication.IDLE --&gt; OnBoardCommunication.ERROR
 <enabled value="true" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="List of all parameters of an Avatar SMD transition" value="" />
+<new d="false" />
 <TGConnectingPoint num="0" id="5528" />
 <TGConnectingPoint num="1" id="5529" />
 <TGConnectingPoint num="2" id="5530" />
@@ -10067,6 +10496,7 @@ OnBoardCommunication.IDLE --&gt; OnBoardCommunication.ERROR
 <P1  x="128" y="116" id="5619" />
 <P2  x="79" y="136" id="5578" />
 <AutomaticDrawing  data="true" />
+<new d="false" />
 </CONNECTOR><SUBCOMPONENT type="-1" id="5539" index="25" uid="5e7a00c3-428c-49be-8aa1-e7139c2c901e" >
 <father id="5541" num="0" />
 <cdparam x="178" y="156" />
@@ -10075,6 +10505,7 @@ OnBoardCommunication.IDLE --&gt; OnBoardCommunication.ERROR
 <enabled value="true" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="List of all parameters of an Avatar SMD transition" value="" />
+<new d="false" />
 <TGConnectingPoint num="0" id="5535" />
 <TGConnectingPoint num="1" id="5536" />
 <TGConnectingPoint num="2" id="5537" />
@@ -10100,6 +10531,7 @@ OnBoardCommunication.IDLE --&gt; OnBoardCommunication.ERROR
 <P1  x="166" y="116" id="5597" />
 <P2  x="177" y="136" id="5567" />
 <AutomaticDrawing  data="true" />
+<new d="false" />
 </CONNECTOR><SUBCOMPONENT type="-1" id="5546" index="26" uid="ea6bd1ec-eab6-4517-8800-7be8bd919a5a" >
 <father id="5548" num="0" />
 <cdparam x="178" y="208" />
@@ -10108,6 +10540,7 @@ OnBoardCommunication.IDLE --&gt; OnBoardCommunication.ERROR
 <enabled value="true" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="List of all parameters of an Avatar SMD transition" value="" />
+<new d="false" />
 <TGConnectingPoint num="0" id="5542" />
 <TGConnectingPoint num="1" id="5543" />
 <TGConnectingPoint num="2" id="5544" />
@@ -10133,6 +10566,7 @@ OnBoardCommunication.IDLE --&gt; OnBoardCommunication.ERROR
 <P1  x="216" y="116" id="5598" />
 <P2  x="271" y="135" id="5556" />
 <AutomaticDrawing  data="true" />
+<new d="false" />
 </CONNECTOR><SUBCOMPONENT type="-1" id="5553" index="27" uid="49252a51-02ec-4402-a031-787386b789a4" >
 <father id="5555" num="0" />
 <cdparam x="246" y="129" />
@@ -10141,6 +10575,7 @@ OnBoardCommunication.IDLE --&gt; OnBoardCommunication.ERROR
 <enabled value="true" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="List of all parameters of an Avatar SMD transition" value="" />
+<new d="false" />
 <TGConnectingPoint num="0" id="5549" />
 <TGConnectingPoint num="1" id="5550" />
 <TGConnectingPoint num="2" id="5551" />
@@ -10165,6 +10600,7 @@ OnBoardCommunication.IDLE --&gt; OnBoardCommunication.ERROR
 <enabled value="true" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="Receive signal" value="INerror()" />
+<new d="false" />
 <TGConnectingPoint num="0" id="5556" />
 <TGConnectingPoint num="1" id="5557" />
 <TGConnectingPoint num="2" id="5558" />
@@ -10184,6 +10620,7 @@ OnBoardCommunication.IDLE --&gt; OnBoardCommunication.ERROR
 <enabled value="true" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="Receive signal" value="INconconf()" />
+<new d="false" />
 <TGConnectingPoint num="0" id="5567" />
 <TGConnectingPoint num="1" id="5568" />
 <TGConnectingPoint num="2" id="5569" />
@@ -10203,6 +10640,7 @@ OnBoardCommunication.IDLE --&gt; OnBoardCommunication.ERROR
 <enabled value="true" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="Send signal" value="INconreq()" />
+<new d="false" />
 <TGConnectingPoint num="0" id="5578" />
 <TGConnectingPoint num="1" id="5579" />
 <TGConnectingPoint num="2" id="5580" />
@@ -10221,6 +10659,7 @@ OnBoardCommunication.IDLE --&gt; OnBoardCommunication.ERROR
 <hidden value="false" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="start state" value="null" />
+<new d="false" />
 <TGConnectingPoint num="0" id="5589" />
 </COMPONENT>
 
@@ -10231,6 +10670,7 @@ OnBoardCommunication.IDLE --&gt; OnBoardCommunication.ERROR
 <enabled value="true" />
 <cdrectangleparam minX="10" maxX="1400" minY="10" maxY="900" />
 <infoparam name="state0" value="ACTIVE" />
+<new d="false" />
 <TGConnectingPoint num="0" id="5591" />
 <TGConnectingPoint num="1" id="5592" />
 <TGConnectingPoint num="2" id="5593" />

@@ -36,44 +36,47 @@
  * knowledge of the CeCILL license and that you accept its terms.
  */
 
-package avatartranslator;
+
+package ai;
+
+
+import avatartranslator.AvatarSpecification;
+import myutil.TraceManager;
 
 /**
- * Class AvatarPragma
- * Creation: 20/05/2010
- * @version 1.1 01/07/2014
- * @author Ludovic APVRILLE, Raja GATGOUT
+ * Class AIReqIdent
+ *
+ * Creation: 06/06/2023
+ * @version 1.0 06/06/2023
+ * @author Ludovic APVRILLE
  */
-public class AvatarAttributeState extends AvatarElement {
-    private AvatarAttribute attribute;
-    private AvatarState state;
-    public AvatarAttributeState(String _name, Object _referenceObject, AvatarAttribute attr, AvatarState st) {
-        super(_name, _referenceObject);
-        attribute = attr;
-        state = st;
+
+
+public class AIReqIdent extends AIInteract {
+
+    private String QUESTION_IDENTIFY_REQ = "Identify all the relevant requirements of the following specification. List them as a json array with " +
+            "the following elements for each requirements in the array:" +
+            " " +
+            "name: name of the requirement, id: id of the requirement (as a string), doc: text of the requirement  " +
+            "compose: all req names, derive: all req names, refine: all req names. The name " +
+            "should be an english " +
+            "name and not a number or an identifier. Identify the relations (compose, derive, refine) even if they are not given in the " +
+            "specification. Use the name of requirements and not the id in the list of relations.";
+
+
+    public AIReqIdent(AIChatData _chatData) {
+        super(_chatData);
     }
+
+    public void internalRequest() {
+        String questionT = "\nTTool:" + QUESTION_IDENTIFY_REQ + "\n" + chatData.lastQuestion.trim()+ "\n";
+        boolean ok = makeQuestion(questionT);
+    }
+
+    public Object applyAnswer(Object input) {
+        return null;
+    }
+
+	
     
-    public AvatarAttribute getAttribute(){
-    	return attribute;
-    }
-    
-    public AvatarState getState(){
-    	return state;
-    }
-
-    public AvatarAttributeState advancedClone (AvatarSpecification avspec) {
-        AvatarAttribute aa = avspec.getMatchingAttribute (this.attribute);
-        if (aa == null)
-            return null;
-
-        AvatarAttributeState result = new AvatarAttributeState (this.name, this.referenceObject, aa, aa.getBlock().getStateMachine().getStateWithName(this.state.getName()));
-        this.cloneLinkToReferenceObjects (result);
-        return result;
-    }
-
-    @Override
-    public String toString() {
-        return this.attribute.getBlock().getName().replaceAll("__", ".") + "." + this.state.getName() + "." + this.attribute.getName();
-    }
-
 }

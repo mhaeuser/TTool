@@ -39,6 +39,7 @@
 package ui.avatarbd;
 
 import avatartranslator.AvatarSpecification;
+import avatartranslator.tosysmlv2.AVATAR2SysMLV2;
 import myutil.Conversion;
 import myutil.TraceManager;
 import org.json.JSONArray;
@@ -945,5 +946,18 @@ public class AvatarBDPanel extends TDiagramPanel {
             mgui.drawAvatarSpecification(avatarSpec);
         }
         return AvatarSpecification.getJSONErrors();
+    }
+
+    public StringBuffer toSysMLV2Text(String[] exclusions) {
+        // Must first create an Avatar Specification after syntax checking
+        // Then transformation to the spec.
+        boolean ret = mgui.checkModelingSyntax(tp, true);
+        if (!ret) {
+            return null;
+        }
+        AvatarSpecification avspec = mgui.gtm.getAvatarSpecification();
+        AVATAR2SysMLV2 tosysmlv2 = new AVATAR2SysMLV2(avspec);
+        StringBuffer sb = tosysmlv2.generateSysMLV2Spec(false, false);
+        return sb;
     }
 }

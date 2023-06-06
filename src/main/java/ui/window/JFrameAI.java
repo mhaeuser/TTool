@@ -42,6 +42,7 @@ package ui.window;
 import ai.AIChatData;
 import ai.AIFeedback;
 import ai.AIInteract;
+import ai.AISysMLV2DiagramContent;
 import avatartranslator.AvatarSpecification;
 import avatartranslator.mutation.ApplyMutationException;
 import avatartranslator.mutation.AvatarMutation;
@@ -84,131 +85,19 @@ import java.util.HashMap;
  */
 public class JFrameAI extends JFrame implements ActionListener {
 
-    private static int IDENTIFY_REQUIREMENT = 1;
-    private static int KIND_CLASSIFY_REQUIREMENT = 2;
-    private static int IDENTIFY_PROPERTIES = 3;
-    private static int IDENTIFY_SYSTEM_BLOCKS = 4;
-    private static int IDENTIFY_SOFTWARE_BLOCKS = 5;
-    private static int AMULET = 6;
 
     private static String[] POSSIBLE_ACTIONS = {"Chat", "Identify requirements from a specification", "Classify requirements from a requirement " +
             "diagram", "Identify properties from a design", "Identify system blocks from a specification", "Identify software blocks from a " +
             "specification", "A(I)MULET"};
 
-    private static String[] AIInteractClass = {"AIChat", "AIChat", "AIChat", "AIChat", "AIBlock", "AIChat", "AIChat"};
+    private static String[] AIInteractClass = {"AIChat", "AIReqIdent", "AIReqClassification", "AIDesignPropertyIdentification", "AIBlock", "AIChat", "AIChat"};
 
     protected JComboBox<String> listOfPossibleActions;
-    private String QUESTION_CLASSIFY_REQ = "I would like to identify the \"type\" attribute, i.e. the classification, " +
-            "of the following requirements. Could you give me a correct type among: safety, security, functional, " +
-            "non-functional, performance, business, stakeholder need. if the main category is security, you can use the " +
-            "following sub categories: privacy, confidentiality, non-repudiation, controlled access, availability," +
-            "immunity, data origin authenticity, freshness. Use the following format for the answer:" +
-            " - Requirement name: classification\n";
-    private String QUESTION_IDENTIFY_REQ = "Identify all the relevant requirements of the following specification. List them as a json array with " +
-            "the following elements for each requirements in the array:" +
-            " " +
-            "name: name of the requirement, id: id of the requirement (as a string), doc: text of the requirement  " +
-            "compose: all req names, derive: all req names, refine: all req names. The name " +
-            "should be an english " +
-            "name and not a number or an identifier. Identify the relations (compose, derive, refine) even if they are not given in the " +
-            "specification. Use the name of requirements and not the id in the list of relations.";
+
+
     private String QUESTION_IDENTIFY_PROPERTIES = "List properties of the following SysML V2 specification.";
 
-    private String KNOWLEDGE_ON_JSON_FOR_BLOCKS = "JSON for block diagram is as follows: " +
-            "{blocks: [{ \"name\": \"Name of block\", \"attributes\": [\"name\": \"name of attribute\", \"type\": \"int or boolean\" ...}" + " same" +
-            "(with its parameters : int, boolean ; and its return type : nothing, int or boolean)" +
-            "and signals (with its list of parameters : int or boolean, and a type (input, output)" +
-            " then the list of connections between block signals: \"connections\": [\n" + "{\n" + " \"sourceBlock\": \"name of block\",\n" +
-            " \"sourceSignal\": \"name of output signal\",\n" +
-            " \"destinationBlock\": \"name of destination block\",\n" +
-            " \"destinationSignal\": \"rechargeBattery\",\n" +
-            " \"communicationType\": \"synchronous (or asynchronous)\"\n" +
-            "}. A connection must connect one output signal of a block to one input signal of a block. All signals must be connected to exactly one" +
-            "connection";
 
-
-    private String KNOWLEDGE_ON_JSON_FOR_BLOCKS_2 = "The system has two blocks B1 et B2.\n" +
-            "B1 has an attribute x of type int and B2 has one attribute y of  type bool.\n" +
-            "B1 also has a method: \"int getValue(int val)\" and an output signal sendInfo(int x).\n" +
-            "B2 has an input signal \"getValue(int val)\".\n" +
-            "sendInfo of B1 is connected to getValue of block B2.";
-    private String KNOWLEDGE_ON_JSON_FOR_BLOCKS_ANSWER_2 = "{\n" +
-            "  \"blocks\": [\n" +
-            "    {\n" +
-            "      \"name\": \"B1\",\n" +
-            "      \"attributes\": [\n" +
-            "        {\n" +
-            "          \"name\": \"x\",\n" +
-            "          \"type\": \"int\"\n" +
-            "        }\n" +
-            "      ],\n" +
-            "      \"methods\": [\n" +
-            "        {\n" +
-            "          \"name\": \"getValue\",\n" +
-            "          \"parameters\": [\n" +
-            "            {\n" +
-            "              \"name\": \"val\",\n" +
-            "              \"type\": \"int\"\n" +
-            "            }\n" +
-            "          ],\n" +
-            "          \"returnType\": \"int\"\n" +
-            "        }\n" +
-            "      ],\n" +
-            "      \"signals\": [\n" +
-            "        {\n" +
-            "          \"name\": \"sendInfo\",\n" +
-            "          \"parameters\": [\n" +
-            "            {\n" +
-            "              \"name\": \"x\",\n" +
-            "              \"type\": \"int\"\n" +
-            "            }\n" +
-            "          ],\n" +
-            "          \"type\": \"output\"\n" +
-            "        }\n" +
-            "      ]\n" +
-            "    },\n" +
-            "    {\n" +
-            "      \"name\": \"B2\",\n" +
-            "      \"attributes\": [\n" +
-            "        {\n" +
-            "          \"name\": \"y\",\n" +
-            "          \"type\": \"bool\"\n" +
-            "        }\n" +
-            "      ],\n" +
-            "      \"signals\": [\n" +
-            "        {\n" +
-            "          \"name\": \"getValue\",\n" +
-            "          \"parameters\": [\n" +
-            "            {\n" +
-            "              \"name\": \"val\",\n" +
-            "              \"type\": \"int\"\n" +
-            "            }\n" +
-            "          ],\n" +
-            "          \"type\": \"input\"\n" +
-            "        }\n" +
-            "      ]\n" +
-            "    }\n" +
-            "  ],\n" +
-            "  \"connections\": [\n" +
-            "    {\n" +
-            "      \"sourceBlock\": \"B1\",\n" +
-            "      \"sourceSignal\": \"sendInfo\",\n" +
-            "      \"destinationBlock\": \"B2\",\n" +
-            "      \"destinationSignal\": \"getValue\",\n" +
-            "      \"communicationType\": \"synchronous\"\n" +
-            "    }\n" +
-            "  ]\n" +
-            "}";
-
-    private String QUESTION_IDENTIFY_SYSTEM_BLOCKS = "From the following system specification, using the specified JSON format, identify the " +
-            "typical system blocks. All this in JSON, nothing else than JSON.\n";
-
-    private String KNOWLEDGE_ON_DESIGN_PROPERTIES = "Properties of Design are of the following types\n" +
-            "- A<>expr means that all states of all paths must respect expr\n" +
-            "- A[]expr means that all states of at least one path must respect expr\n" +
-            "- E<>expr means that one state of all paths must respect expr\n" +
-            "- E[]expr means that one state of one path must respect expr\n" +
-            "expr is a boolean expression using either attributes of blocks or blocks states";
 
     private MainGUI mgui;
     private JTextPane question, console;
@@ -404,7 +293,7 @@ public class JFrameAI extends JFrame implements ActionListener {
         String[] names = {"pico", "zebre", "pingouin", "chien", "minou", "kitty", "chaton", "whatsapp", "Luke Skywalker",
                 "macareux", "ours", "italien", "paris-brest", "belle-mère", "apéro (l'abus d'alcool est dangereux pour la santé)",
                 "carpe", "crocodile", "psychologue", "dr emacs", "3615-TTool", "100 balles et 1 mars",
-                "opéra (l’abus d’Alcôve est dangereux pour la santé)", "chapon", "perroquet", "chameau volant", "Alice", "Oasis"};
+                "opéra (l’abus d’Alcôve est dangereux pour la santé)", "chapon", "perroquet", "chameau volant", "Alice", "Oasis", "ATC RAK"};
         int x = (int) (Math.random() * names.length);
         return names[x];
     }
@@ -428,6 +317,26 @@ public class JFrameAI extends JFrame implements ActionListener {
                 error("Unknow selected type");
                 return;
             }
+
+            if (selected.aiInteract  instanceof AISysMLV2DiagramContent) {
+                TDiagramPanel tdp = mgui.getCurrentTDiagramPanel();
+                String[] validDiagrams = ((AISysMLV2DiagramContent)(selected.aiInteract)).getValidDiagrams();
+                String className = tdp.getClass().getName();
+
+                boolean found = false;
+                for(String s: validDiagrams) {
+                    if (className.contains(s)) {
+                        found = true;
+                        break;
+                    }
+                }
+
+                if (found) {
+                    String[] exclusions = ((AISysMLV2DiagramContent)(selected.aiInteract)).getDiagramExclusions();
+                    ((AISysMLV2DiagramContent)(selected.aiInteract)).setDiagramContentInSysMLV2(tdp.toSysMLV2Text(exclusions).toString());
+                }
+            }
+
             selected.aiInteract.makeRequest(question.getText());
             /*if (listOfPossibleActions.getSelectedIndex() == 0) {
                 simpleChat();
@@ -467,49 +376,32 @@ public class JFrameAI extends JFrame implements ActionListener {
             return ;
         }
 
-
         TraceManager.addDev("Class of answer: " + selectedChat.aiInteract.getClass().getName());
 
         if (selectedChat.aiInteract instanceof ai.AIBlock) {
             applyIdentifySystemBlocks(selectedChat.aiInteract.applyAnswer(null));
+        } else if (selectedChat.aiInteract instanceof ai.AIReqIdent) {
+            applyRequirementIdentification();
+        } else if (selectedChat.aiInteract instanceof ai.AIReqClassification) {
+            applyRequirementClassification();
+        } else if (selectedChat.aiInteract instanceof ai.AIDesignPropertyIdentification) {
+            // nothing up to now :-)
         }
 
-
-
-
-        /*if (selectedChat().previousKind == KIND_CLASSIFY_REQUIREMENT) {
-            applyRequirementClassification();
-        } else if (selectedChat().previousKind == IDENTIFY_REQUIREMENT) {
-            applyRequirementIdentification();
-        } else if (selectedChat().previousKind == IDENTIFY_SYSTEM_BLOCKS) {
-            applyIdentifySystemBlocks();
-        } else if (selectedChat().previousKind == AMULET){
-            try {
-                applyMutations();
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-        } else {
-            return;
-        }*/
         question.setText("");
     }
 
     private void applyRequirementIdentification() {
-        if (selectedChat().tdp == null) {
-            error("No diagram has been selected\n");
+
+        TDiagramPanel tdp = mgui.getCurrentTDiagramPanel();
+        if (!(tdp instanceof AvatarRDPanel)) {
+            error("A requirement diagram must be selected first");
             return;
         }
 
-        if (!(selectedChat().tdp instanceof AvatarRDPanel)) {
-            error("Wrong diagram has been selected\n");
-            return;
-        }
-
-        AvatarRDPanel rdpanel = (AvatarRDPanel) selectedChat().tdp;
+        AvatarRDPanel rdpanel = (AvatarRDPanel) tdp;
 
         inform("Enhancing requirement diagram with ai answer, please wait\n");
-        int index = answerPane.getSelectedIndex();
         TraceManager.addDev("Considered JSON array: " + selectedChat().lastAnswer);
         try {
             rdpanel.loadAndUpdateFromText(selectedChat().lastAnswer);
@@ -525,7 +417,6 @@ public class JFrameAI extends JFrame implements ActionListener {
     }
 
     private void applyIdentifySystemBlocks(Object input) {
-
         if (input == null) {
             error("Invalid specification in answer");
             return;
@@ -539,53 +430,25 @@ public class JFrameAI extends JFrame implements ActionListener {
         }
 
         mgui.drawAvatarSpecification((AvatarSpecification) input);
-
         inform("System blocks added to diagram from ai answer: done\n");
-
     }
 
     private void applyRequirementClassification() {
-        if (selectedChat().tdp == null) {
-            error("No diagram has been selected\n");
+        TDiagramPanel tdp = mgui.getCurrentTDiagramPanel();
+        if (!(tdp instanceof AvatarRDPanel)) {
+            error("A requirement diagram must be selected first");
             return;
         }
 
-        if (!(selectedChat().tdp instanceof AvatarRDPanel)) {
-            error("Wrong diagram has been selected\n");
-            return;
-        }
-
-        AvatarRDPanel rdpanel = (AvatarRDPanel) selectedChat().tdp;
-
+        AvatarRDPanel rdpanel = (AvatarRDPanel) tdp;
         inform("Enhancing requirement diagram with ai answer, please wait\n");
 
-        String automatedAnswer = selectedChat().lastAnswer;
-
+        ChatData selected = selectedChat();
         for (TGComponent tgc : rdpanel.getAllRequirements()) {
             AvatarRDRequirement req = (AvatarRDRequirement) tgc;
-            String query = req.getValue() + ":";
-            int index = automatedAnswer.indexOf(query);
-            if (index != -1) {
-                String kind = automatedAnswer.substring(index + query.length()).trim();
-                //TraceManager.addDev("Kind=" + kind);
-                int indexSpace = kind.indexOf("\n");
-                int indexSpace1 = kind.indexOf(" ");
-                String kTmp;
-                if ((indexSpace1 > -1) || (indexSpace > -1)) {
-                    if ((indexSpace1 > -1) && (indexSpace > -1)) {
-                        indexSpace = Math.min(indexSpace, indexSpace1);
-                        kTmp = kind.substring(0, indexSpace);
-                    } else if (indexSpace1 > -1) {
-                        kTmp = kind.substring(0, indexSpace1);
-                    } else {
-                        kTmp = kind.substring(0, indexSpace);
-                    }
-                } else {
-                    kTmp = kind;
-                }
-
-                //TraceManager.addDev("Looking for req=" +  req.getValue() + " to set kind to " + kTmp);
-                String k = JDialogRequirement.getKindFromString(kTmp);
+            String kind = (String)(selected.aiInteract.applyAnswer(req.getValue()));
+            if (kind != null) {
+                String k = JDialogRequirement.getKindFromString(kind);
                 if (k != null) {
                     req.setKind(k);
                     inform("\tRequirement " + req.getValue() + " kind was set to " + k + "\n");
@@ -594,10 +457,9 @@ public class JFrameAI extends JFrame implements ActionListener {
                 }
             }
         }
+        inform("Enhancing requirement diagram: done.\n");
 
         rdpanel.repaint();
-
-
     }
 
     private void applyMutations() throws IOException {
@@ -631,7 +493,6 @@ public class JFrameAI extends JFrame implements ActionListener {
                     TraceManager.addDev("Exception in applying mutation: " + e.getMessage());
                     error(e.getMessage());
                 }
-
             }
         }
 
@@ -658,183 +519,6 @@ public class JFrameAI extends JFrame implements ActionListener {
     }
 
 
-    private void simpleChat() {
-        if (question.getText().trim().length() == 0) {
-            error("No question is provided. Aborting.\n\n");
-            return;
-        }
-
-        inform("Simple chat is selected\n");
-
-        //TraceManager.addDev("Appending: " + question.getText().trim() + " to answer");
-        //GraphicLib.appendToPane(chatOfStart().answer, "\nYou:" + question.getText().trim() + "\n", Color.blue);
-
-        //String lastChatAnswer = "";
-
-        //try {
-        //    GraphicLib.appendToPane(console, "Connecting, waiting for answer\n", Color.blue);
-            //lastChatAnswer = chatOfStart().aiinterface.chat(question.getText().trim(), true, true);
-        /*} catch (AIInterfaceException aiie) {
-            error(aiie.getMessage());
-            return;
-        }*/
-        //inform("Got answer from ai. All done.\n\n");
-        //GraphicLib.appendToPane(chatOfStart().answer, "\nAI:" + lastChatAnswer + "\n", Color.red);
-        //chatOfStart().lastAnswer = lastChatAnswer;
-        //question.setText("");
-
-    }
-
-    private void identifyRequirements() {
-        inform("Identifying requirements\n");
-        TDiagramPanel tdp = mgui.getCurrentTDiagramPanel();
-        if (!(tdp instanceof AvatarRDPanel)) {
-            error("A requirement diagram must be selected first");
-            return;
-        }
-        if (!hasQuestion()) {
-            error("A system specification must be provided in the \"question\" area");
-            return;
-        }
-
-        TraceManager.addDev("Asking for requirements");
-        String questionT = "\nTTool:" + QUESTION_IDENTIFY_REQ + "\n" + question.getText().trim() + "\n";
-        String answer = makeQuestion(questionT, IDENTIFY_REQUIREMENT, tdp);
-
-
-    }
-
-    private void classifyRequirements() {
-        inform("Classifying requirements is selected\n");
-        TDiagramPanel tdp = mgui.getCurrentTDiagramPanel();
-        if (!(tdp instanceof AvatarRDPanel)) {
-            error("A requirement diagram must be selected first");
-            return;
-        }
-
-        String s = ((AvatarRDPanel) tdp).toSysMLV2TextExcludeType(true).toString();
-        if (s.length() == 0) {
-            error("Empty requirement diagram. Aborting");
-            return;
-        }
-
-        TraceManager.addDev("Appending: " + s.trim() + " to answer");
-        String question = "\nTTool:" + QUESTION_CLASSIFY_REQ + "\n" + s.trim() + "\n";
-        makeQuestion(question, KIND_CLASSIFY_REQUIREMENT, tdp);
-    }
-
-    private void identifyProperties() {
-        inform("Identifying properties\n");
-        TURTLEPanel tp = mgui.getCurrentTURTLEPanel();
-        if (!(tp instanceof AvatarDesignPanel)) {
-            error("A design diagram must be selected first");
-            return;
-        }
-        TDiagramPanel tdp = mgui.getCurrentTDiagramPanel();
-
-        boolean ret = mgui.checkModelingSyntax(tp, true);
-        if (!ret) {
-            error("Design diagram has syntax errors. Correct them before.");
-            return;
-        }
-
-        AvatarSpecification avspec = mgui.gtm.getAvatarSpecification();
-        AVATAR2SysMLV2 tosysmlv2 = new AVATAR2SysMLV2(avspec);
-        StringBuffer sb = tosysmlv2.generateSysMLV2Spec(false, false);
-
-        TraceManager.addDev("Appending: " + sb.toString().trim() + " to answer");
-        String question = QUESTION_IDENTIFY_PROPERTIES + "\n" + sb.toString().trim();
-
-        /*if (!(chats.get(answerPane.getSelectedIndex()).knowledgeOnProperties)) {
-            chats.get(answerPane.getSelectedIndex()).knowledgeOnProperties = true;
-            question = KNOWLEDGE_ON_DESIGN_PROPERTIES + "\n" + question;
-        }*/
-        question = "\nTTool:" + question + "\n";
-        makeQuestion(question, IDENTIFY_PROPERTIES, tdp);
-    }
-
-    private void identifySystemBlocks() {
-        ChatData chat = chats.get(answerPane.getSelectedIndex());
-        inform("Identifying system blocks\n");
-        TDiagramPanel tdp = mgui.getCurrentTDiagramPanel();
-        if (!(tdp instanceof AvatarBDPanel)) {
-            error("An Avatar block diagram must be selected first");
-            return;
-        }
-        if (!hasQuestion()) {
-            error("A system specification must be provided in the \"question\" area");
-            return;
-        }
-
-        chat.tdp = tdp;
-
-        TraceManager.addDev("Asking for system blocks");
-
-        String questionT = QUESTION_IDENTIFY_SYSTEM_BLOCKS + "\n" + question.getText().trim() + "\n";
-        /*if (!chat.knowledgeOnBlockJSON) {
-            chat.knowledgeOnBlockJSON = true;
-            chat.aiinterface.addKnowledge(KNOWLEDGE_ON_JSON_FOR_BLOCKS, "ok");
-            chat.aiinterface.addKnowledge(KNOWLEDGE_ON_JSON_FOR_BLOCKS_2, KNOWLEDGE_ON_JSON_FOR_BLOCKS_ANSWER_2);
-        }*/
-
-
-        boolean done = false;
-        int cpt = 0;
-
-        if (chat.tdp == null) {
-            error("No diagram has been selected\n");
-            return;
-        }
-
-        if (!(chat.tdp instanceof AvatarBDPanel)) {
-            error("Wrong diagram has been selected\n");
-            return;
-        }
-
-        while (!done) {
-            String answer = makeQuestion(questionT, IDENTIFY_SYSTEM_BLOCKS, tdp);
-
-            // What could be wrong: the used attributes (String, etc.), no connections
-            // Analyze Answer
-
-            ArrayList<String> errors = null;
-            try {
-
-                AvatarBDPanel bdpanel = (AvatarBDPanel) selectedChat().tdp;
-                errors = bdpanel.loadAndUpdateFromText(answer, false);
-            } catch (org.json.JSONException e) {
-                TraceManager.addDev("JSON Exception: " + e.getMessage());
-                inform("Answer provided by AI does not respect the JSON format necessary for TTool");
-                errors = new ArrayList<>();
-                errors.add("Invalid JSON format");
-            }
-
-            if ((errors == null) || (errors.size() < 1)) {
-                done = true;
-            }
-
-            cpt++;
-            if (cpt > 20) {
-                done = true;
-            }
-
-            if (!done) {
-                //chat.aiinterface.addKnowledge(questionT, answer);
-                questionT = "The following elements you have provided are not correct. Update your JSON:\n";
-                for (String s : errors) {
-                    TraceManager.addDev("Adding error: " + s);
-                    questionT += "- " + s + "\n";
-                }
-                try {
-                    Thread.currentThread().sleep(5000);
-                } catch (Exception e) {}
-            }
-
-
-        }
-
-
-    }
 
     private void injectAMULETKnowledge(ChatData myChat) {
         /*myChat.aiinterface.addKnowledge("AMULET is a SysML mutation language. In AMULET, adding a block b in a block diagram is written " +
@@ -954,7 +638,7 @@ public class JFrameAI extends JFrame implements ActionListener {
         }
 
         String questionA = question.getText().trim() + "\n";
-        makeQuestion(questionA, AMULET, mgui.getCurrentTDiagramPanel());
+        //makeQuestion(questionA, AMULET, mgui.getCurrentTDiagramPanel());
 
         /**inform("AMULET chat is selected\n");
          TraceManager.addDev("Appending: " + question.getText().trim() + " to answer");
@@ -1003,7 +687,6 @@ public class JFrameAI extends JFrame implements ActionListener {
     }
 
 
-
     private void error(String text) {
         GraphicLib.appendToPane(console, "\n****" + text + " ****\n\n", Color.red);
     }
@@ -1023,9 +706,6 @@ public class JFrameAI extends JFrame implements ActionListener {
 
     }
 
-    public boolean hasQuestion() {
-        return question.getText().trim().length() > 0;
-    }
 
     public void clear() {
         selectedChat().clear();
@@ -1131,7 +811,11 @@ public class JFrameAI extends JFrame implements ActionListener {
         }
 
         public void addToChat(String data, boolean user) {
-            GraphicLib.appendToPane(chatOfStart().answer, "\nTTool:" + data + "\n", Color.blue);
+            if (user) {
+                GraphicLib.appendToPane(chatOfStart().answer, "\nTTool:" + data + "\n", Color.blue);
+            } else {
+                GraphicLib.appendToPane(chatOfStart().answer, "\nAI:" + data + "\n", Color.red);
+            }
         }
 
         public void setAnswerText(String text) {
@@ -1273,8 +957,6 @@ public class JFrameAI extends JFrame implements ActionListener {
             menu.addSeparator();
             menu.add(moveLeft);
             menu.add(moveRight);
-
-
         }
 
         private JMenuItem createMenuItem(String s) {
@@ -1283,9 +965,7 @@ public class JFrameAI extends JFrame implements ActionListener {
             item.addActionListener(listener);
             return item;
         }
-
     }
-
 
 } // Class
 

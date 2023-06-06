@@ -670,20 +670,26 @@ public class AvatarRDPanel extends TDiagramPanel implements TDPWithAttributes, N
         }
     }
 
-    public StringBuffer toSysMLV2Text() {
-        return toSysMLV2TextExcludeType(false);
+    private void addIfNotExcluded(StringBuffer sb, String s, String category, String [] exclusions) {
+        if (exclusions != null) {
+            for (int i = 0; i < exclusions.length; i++) {
+                if (exclusions[i].compareTo(category) == 0) {
+                    return;
+                }
+            }
+        }
+        sb.append(s);
     }
 
-    public StringBuffer toSysMLV2TextExcludeType(boolean excludeType) {
+    public StringBuffer toSysMLV2Text(String [] exclusions) {
         StringBuffer sb = new StringBuffer();
         for(TGComponent component: getComponentList()) {
             if (component instanceof AvatarRDRequirement) {
                 AvatarRDRequirement req = (AvatarRDRequirement)component;
                 sb.append("requirement " + req.getValue() + CR);
-                sb.append("\ttext: " + req.getText() + CR);
-                if (!excludeType){
-                    sb.append("\ttype: " + req.getKind() + CR);
-                }
+                addIfNotExcluded(sb, "\ttext: " + req.getText() + CR , "text", exclusions);
+                addIfNotExcluded(sb, "\ttype: " + req.getKind() + CR, "type", exclusions);
+
                 for(TGComponent relation: getComponentList()) {
                     if (relation instanceof TGConnector) {
                         if ( (relation instanceof AvatarRDRefineConnector) || (relation instanceof AvatarRDCompositionConnector)

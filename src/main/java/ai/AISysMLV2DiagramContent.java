@@ -36,44 +36,26 @@
  * knowledge of the CeCILL license and that you accept its terms.
  */
 
-package avatartranslator;
+
+package ai;
+
+
 
 /**
- * Class AvatarPragma
- * Creation: 20/05/2010
- * @version 1.1 01/07/2014
- * @author Ludovic APVRILLE, Raja GATGOUT
+ * interface AISysMLV2DiagramContent
+ *
+ * Creation: 02/06/2023
+ * @version 1.0 02/06/2023
+ * @author Ludovic APVRILLE
  */
-public class AvatarAttributeState extends AvatarElement {
-    private AvatarAttribute attribute;
-    private AvatarState state;
-    public AvatarAttributeState(String _name, Object _referenceObject, AvatarAttribute attr, AvatarState st) {
-        super(_name, _referenceObject);
-        attribute = attr;
-        state = st;
-    }
+
+
+public interface AISysMLV2DiagramContent {
+
+  public void setDiagramContentInSysMLV2(String _diagramContentInSysMLV2);
+
+  public String[] getValidDiagrams(); // Names of diagrams that are compatible with the related AI interaction
+
+  public String[] getDiagramExclusions(); // Elements of diagrams in SysML Vé that are not required in the question input
     
-    public AvatarAttribute getAttribute(){
-    	return attribute;
-    }
-    
-    public AvatarState getState(){
-    	return state;
-    }
-
-    public AvatarAttributeState advancedClone (AvatarSpecification avspec) {
-        AvatarAttribute aa = avspec.getMatchingAttribute (this.attribute);
-        if (aa == null)
-            return null;
-
-        AvatarAttributeState result = new AvatarAttributeState (this.name, this.referenceObject, aa, aa.getBlock().getStateMachine().getStateWithName(this.state.getName()));
-        this.cloneLinkToReferenceObjects (result);
-        return result;
-    }
-
-    @Override
-    public String toString() {
-        return this.attribute.getBlock().getName().replaceAll("__", ".") + "." + this.state.getName() + "." + this.attribute.getName();
-    }
-
 }

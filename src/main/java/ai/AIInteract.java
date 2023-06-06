@@ -123,7 +123,8 @@ public abstract class AIInteract implements Runnable {
         }
         if (chatData.feedback != null) {
             chatData.feedback.addInformation("Got answer from ai.\n");
-            chatData.feedback.addToChat(chatData.lastAnswer, false);
+            //chatData.feedback.addToChat(chatData.lastAnswer, false);
+            //chatData.feedback.setAnswerText(chatData.lastAnswer);
         }
 
         return true;

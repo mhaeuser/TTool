@@ -109,6 +109,101 @@ public class AIBlock extends AIInteract {
         return specification;
     }
 
+    private String KNOWLEDGE_ON_JSON_FOR_BLOCKS = "JSON for block diagram is as follows: " +
+            "{blocks: [{ \"name\": \"Name of block\", \"attributes\": [\"name\": \"name of attribute\", \"type\": \"int or boolean\" ...}" + " same" +
+            "(with its parameters : int, boolean ; and its return type : nothing, int or boolean)" +
+            "and signals (with its list of parameters : int or boolean, and a type (input, output)" +
+            " then the list of connections between block signals: \"connections\": [\n" + "{\n" + " \"sourceBlock\": \"name of block\",\n" +
+            " \"sourceSignal\": \"name of output signal\",\n" +
+            " \"destinationBlock\": \"name of destination block\",\n" +
+            " \"destinationSignal\": \"rechargeBattery\",\n" +
+            " \"communicationType\": \"synchronous (or asynchronous)\"\n" +
+            "}. A connection must connect one output signal of a block to one input signal of a block. All signals must be connected to exactly one" +
+            "connection";
+
+
+    private String KNOWLEDGE_ON_JSON_FOR_BLOCKS_2 = "The system has two blocks B1 et B2.\n" +
+            "B1 has an attribute x of type int and B2 has one attribute y of  type bool.\n" +
+            "B1 also has a method: \"int getValue(int val)\" and an output signal sendInfo(int x).\n" +
+            "B2 has an input signal \"getValue(int val)\".\n" +
+            "sendInfo of B1 is connected to getValue of block B2.";
+    private String KNOWLEDGE_ON_JSON_FOR_BLOCKS_ANSWER_2 = "{\n" +
+            "  \"blocks\": [\n" +
+            "    {\n" +
+            "      \"name\": \"B1\",\n" +
+            "      \"attributes\": [\n" +
+            "        {\n" +
+            "          \"name\": \"x\",\n" +
+            "          \"type\": \"int\"\n" +
+            "        }\n" +
+            "      ],\n" +
+            "      \"methods\": [\n" +
+            "        {\n" +
+            "          \"name\": \"getValue\",\n" +
+            "          \"parameters\": [\n" +
+            "            {\n" +
+            "              \"name\": \"val\",\n" +
+            "              \"type\": \"int\"\n" +
+            "            }\n" +
+            "          ],\n" +
+            "          \"returnType\": \"int\"\n" +
+            "        }\n" +
+            "      ],\n" +
+            "      \"signals\": [\n" +
+            "        {\n" +
+            "          \"name\": \"sendInfo\",\n" +
+            "          \"parameters\": [\n" +
+            "            {\n" +
+            "              \"name\": \"x\",\n" +
+            "              \"type\": \"int\"\n" +
+            "            }\n" +
+            "          ],\n" +
+            "          \"type\": \"output\"\n" +
+            "        }\n" +
+            "      ]\n" +
+            "    },\n" +
+            "    {\n" +
+            "      \"name\": \"B2\",\n" +
+            "      \"attributes\": [\n" +
+            "        {\n" +
+            "          \"name\": \"y\",\n" +
+            "          \"type\": \"bool\"\n" +
+            "        }\n" +
+            "      ],\n" +
+            "      \"signals\": [\n" +
+            "        {\n" +
+            "          \"name\": \"getValue\",\n" +
+            "          \"parameters\": [\n" +
+            "            {\n" +
+            "              \"name\": \"val\",\n" +
+            "              \"type\": \"int\"\n" +
+            "            }\n" +
+            "          ],\n" +
+            "          \"type\": \"input\"\n" +
+            "        }\n" +
+            "      ]\n" +
+            "    }\n" +
+            "  ],\n" +
+            "  \"connections\": [\n" +
+            "    {\n" +
+            "      \"sourceBlock\": \"B1\",\n" +
+            "      \"sourceSignal\": \"sendInfo\",\n" +
+            "      \"destinationBlock\": \"B2\",\n" +
+            "      \"destinationSignal\": \"getValue\",\n" +
+            "      \"communicationType\": \"synchronous\"\n" +
+            "    }\n" +
+            "  ]\n" +
+            "}";
+
+
+
+    private String KNOWLEDGE_ON_DESIGN_PROPERTIES = "Properties of Design are of the following types\n" +
+            "- A<>expr means that all states of all paths must respect expr\n" +
+            "- A[]expr means that all states of at least one path must respect expr\n" +
+            "- E<>expr means that one state of all paths must respect expr\n" +
+            "- E[]expr means that one state of one path must respect expr\n" +
+            "expr is a boolean expression using either attributes of blocks or blocks states";
+
 	
     
 }

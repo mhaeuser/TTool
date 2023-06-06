@@ -259,6 +259,24 @@ public class TMLADDecrypt extends TADComponentWithoutSubcomponents/* Issue #69 T
     }
 
     public void drawAuthenticityInformation(Graphics g) {
+        final double coeffSpacePortAuthLock = 0.1;
+        final double coeffAuthOval = 0.55;
+        final double coeffAuthLock = 0.65;
+        final double coeffXCoordinateOffsetDrawAuth = 1.5;
+        final double coeffYCoordinateOffsetDrawAuth = 0.95;
+        double spacePortAuthLock = width * coeffSpacePortAuthLock;
+        double authOvalWidth = height * coeffAuthOval;
+        double authOvalHeight = height * coeffAuthOval;
+        double authLockWidth = height * coeffAuthLock;
+        double authLockHeight = height * coeffAuthLock;
+        double xCoordinateAuthLockLeft = securityMaxX + spacePortAuthLock;
+        double xCoordinateAuthLockRight = securityMaxX + authLockWidth + spacePortAuthLock;
+        double yCoordinateAuthLockTop = y + height - authLockHeight;
+        double yCoordinateAuthLockBottom = y + height;
+        double xCoordinateAuthLockCenter = xCoordinateAuthLockLeft + authLockWidth/2;
+        double yCoordinateAuthLockCenter = yCoordinateAuthLockBottom - authLockHeight/2;
+        double xCoordinateAuthOvalLeft = xCoordinateAuthLockLeft + (authLockWidth - authOvalWidth)/2;
+        double yCoordinateAuthOvalTop = yCoordinateAuthLockTop - authOvalHeight/2;
         Color c = g.getColor();
         Color c1;
         Color c2;
@@ -282,18 +300,14 @@ public class TMLADDecrypt extends TADComponentWithoutSubcomponents/* Issue #69 T
             default:
                 c2 = c1;
         }
-        double space_port_authlock = height * 0.1;
-        double authovalwidth = height * 0.55;
-        double authovalheight = height * 0.55;
-        double authlockwidth = height * 0.65;
-        double authlockheight = height * 0.65;
-        g.drawOval((int)(securityMaxX + (authlockwidth-authovalwidth)/2 + space_port_authlock), (int)(y + height - authlockheight - authovalheight/2), (int)authovalwidth, (int)authovalheight);
+        
+        g.drawOval((int) (xCoordinateAuthOvalLeft), (int) (yCoordinateAuthOvalTop), (int) (authOvalWidth), (int) (authOvalHeight));
         g.setColor(c1);
        
-        int[] xps = new int[]{(int)(securityMaxX + space_port_authlock), (int)(securityMaxX + space_port_authlock), (int)(securityMaxX + authlockwidth + space_port_authlock)};
-        int[] yps = new int[]{(int)(y + height - authlockheight), y + height, y + height};
-        int[] xpw = new int[]{(int)(securityMaxX + authlockwidth + space_port_authlock), (int)(securityMaxX + authlockwidth + space_port_authlock), (int)(securityMaxX + space_port_authlock)};
-        int[] ypw = new int[]{y + height, (int)(y + height -  authlockheight), (int)(y + height - authlockheight)};
+        int[] xps = new int[]{(int) (xCoordinateAuthLockLeft), (int) (xCoordinateAuthLockLeft), (int) (xCoordinateAuthLockRight)};
+        int[] yps = new int[]{(int) (yCoordinateAuthLockTop), (int) (yCoordinateAuthLockBottom), (int) (yCoordinateAuthLockBottom)};
+        int[] xpw = new int[]{(int) (xCoordinateAuthLockRight), (int) (xCoordinateAuthLockRight), (int) (xCoordinateAuthLockLeft)};
+        int[] ypw = new int[]{(int) (yCoordinateAuthLockBottom), (int) (yCoordinateAuthLockTop), (int) (yCoordinateAuthLockTop)};
         g.fillPolygon(xps, yps, 3);
 
         g.setColor(c2);
@@ -301,15 +315,21 @@ public class TMLADDecrypt extends TADComponentWithoutSubcomponents/* Issue #69 T
         g.setColor(c);
         g.drawPolygon(xps, yps, 3);
         g.drawPolygon(xpw, ypw, 3);
-        drawSingleString(g, "S", (int)(securityMaxX + 1.5*space_port_authlock), (int) (y + 0.95*height));
-        drawSingleString(g, "W", (int)(securityMaxX + 0.95*authlockwidth/2 + space_port_authlock), (int)(y + height - 0.95*authlockheight/2));
+        drawSingleString(g, "S", (int) (securityMaxX + coeffXCoordinateOffsetDrawAuth * spacePortAuthLock),
+                (int) (y + coeffYCoordinateOffsetDrawAuth * height));
+        drawSingleString(g, "W", (int) (xCoordinateAuthLockLeft + coeffYCoordinateOffsetDrawAuth * authLockWidth / 2),
+                (int) (yCoordinateAuthLockBottom - coeffYCoordinateOffsetDrawAuth * authLockHeight / 2));
         if (strongAuthStatus == 3) {
-           g.drawLine((int)(securityMaxX + space_port_authlock), y + height, (int)(securityMaxX + authlockwidth/2 + space_port_authlock), (int)(y + height -  authlockheight/2));
-           g.drawLine((int)(securityMaxX + space_port_authlock), (int)(y + height -  authlockheight/2), (int)(securityMaxX + authlockwidth/2 + space_port_authlock), y + height);
+            g.drawLine((int) (xCoordinateAuthLockLeft), (int) (yCoordinateAuthLockBottom),
+                    (int) (xCoordinateAuthLockCenter), (int) (yCoordinateAuthLockCenter));
+            g.drawLine((int) (xCoordinateAuthLockLeft), (int) (yCoordinateAuthLockCenter),
+                    (int) (xCoordinateAuthLockCenter), (int) (yCoordinateAuthLockBottom));
         }
         if (weakAuthStatus == 3 || strongAuthStatus == 3 && weakAuthStatus < 2) {
-           g.drawLine((int)(securityMaxX + authlockwidth/2 + space_port_authlock), (int)(y + height -  authlockheight/2), (int)(securityMaxX + authlockwidth + space_port_authlock), (int)(y + height -  authlockheight));
-           g.drawLine((int)(securityMaxX + authlockwidth/2 + space_port_authlock), (int)(y + height -  authlockheight), (int)(securityMaxX + authlockwidth + space_port_authlock), (int)(y + height -  authlockheight/2));
+            g.drawLine((int) (xCoordinateAuthLockCenter), (int) (yCoordinateAuthLockCenter),
+                    (int) (xCoordinateAuthLockRight), (int) (yCoordinateAuthLockTop));
+            g.drawLine((int) (xCoordinateAuthLockCenter), (int) (yCoordinateAuthLockTop),
+                    (int) (xCoordinateAuthLockRight), (int) (yCoordinateAuthLockCenter));
         }
     }
 
@@ -332,7 +352,7 @@ public class TMLADDecrypt extends TADComponentWithoutSubcomponents/* Issue #69 T
 		return authCheck;
 	}
 
-    public void setAuthCheck(Boolean _authCheck) {
+    public void setAuthCheck(boolean _authCheck) {
         authCheck = _authCheck;
     }
 

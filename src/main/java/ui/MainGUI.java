@@ -4734,7 +4734,7 @@ public class MainGUI implements ActionListener, WindowListener, KeyListener, Per
             tp = tabs.elementAt(i);
             if (tp instanceof TMLComponentDesignPanel) {
                 for (String s : ((TMLComponentDesignPanel) tp).getAllKeys()) {
-                    list.add(tp.getNameOfTab()+"::"+s);
+                    list.add(tp.getNameOfTab() + "::" + s);
                 }
             }
         }

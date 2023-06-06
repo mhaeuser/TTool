@@ -915,8 +915,12 @@ public class TMLModeling<E> {
                     for (TMLPortWithSecurityInformation port : channel.ports) {
                         if (port.getCheckAuth()) {
                             //port.setStrongAuthStatus(2);
-                            port.setStrongAuthStatus(updateStrongAuthenticityStatus(port.getCheckStrongAuthStatus(), port.getCheckWeakAuthStatus(), result.isProved(), result.isSatisfied(), result.isWeakProved(), result.isWeakSatisfied()));
-                            port.setWeakAuthStatus(updateWeakAuthenticityStatus(port.getCheckStrongAuthStatus(), port.getCheckWeakAuthStatus(), result.isProved(), result.isSatisfied(), result.isWeakProved(), result.isWeakSatisfied()));
+                            port.setStrongAuthStatus(updateStrongAuthenticityStatus(port.getCheckStrongAuthStatus(),
+                                    port.getCheckWeakAuthStatus(), result.isProved(), result.isSatisfied(),
+                                    result.isWeakProved(), result.isWeakSatisfied()));
+                            port.setWeakAuthStatus(updateWeakAuthenticityStatus(port.getCheckStrongAuthStatus(),
+                                    port.getCheckWeakAuthStatus(), result.isProved(), result.isSatisfied(),
+                                    result.isWeakProved(), result.isWeakSatisfied()));
                             port.setMappingName(mappingName);
                             ProVerifResultTrace trace = pvoa.getResults().get(pragma).getTrace();
                             if (trace != null && !port.isOrigin()) {
@@ -937,8 +941,12 @@ public class TMLModeling<E> {
                     for (TMLPortWithSecurityInformation port : req.ports) {
                         if (port.getCheckAuth()) {
                             //port.setStrongAuthStatus(2);
-                            port.setStrongAuthStatus(updateStrongAuthenticityStatus(port.getCheckStrongAuthStatus(), port.getCheckWeakAuthStatus(), result.isProved(), result.isSatisfied(), result.isWeakProved(), result.isWeakSatisfied()));
-                            port.setWeakAuthStatus(updateWeakAuthenticityStatus(port.getCheckStrongAuthStatus(), port.getCheckWeakAuthStatus(), result.isProved(), result.isSatisfied(), result.isWeakProved(), result.isWeakSatisfied()));
+                            port.setStrongAuthStatus(updateStrongAuthenticityStatus(port.getCheckStrongAuthStatus(),
+                                    port.getCheckWeakAuthStatus(), result.isProved(), result.isSatisfied(),
+                                    result.isWeakProved(), result.isWeakSatisfied()));
+                            port.setWeakAuthStatus(updateWeakAuthenticityStatus(port.getCheckStrongAuthStatus(),
+                                    port.getCheckWeakAuthStatus(), result.isProved(), result.isSatisfied(),
+                                    result.isWeakProved(), result.isWeakSatisfied()));
                             port.setMappingName(mappingName);
                         }
                     }
@@ -980,8 +988,13 @@ public class TMLModeling<E> {
                                 //   TraceManager.addDev("adding to port " + channelName);
                                 if (port.getCheckAuth()) {
                                     //port.setStrongAuthStatus(2);
-                                    port.setStrongAuthStatus(updateStrongAuthenticityStatus(port.getCheckStrongAuthStatus(), port.getCheckWeakAuthStatus(), result.isProved(), result.isSatisfied(), result.isWeakProved(), result.isWeakSatisfied()));
-                                    port.setWeakAuthStatus(updateWeakAuthenticityStatus(port.getCheckStrongAuthStatus(), port.getCheckWeakAuthStatus(), result.isProved(), result.isSatisfied(), result.isWeakProved(), result.isWeakSatisfied()));
+                                    port.setStrongAuthStatus(updateStrongAuthenticityStatus(
+                                            port.getCheckStrongAuthStatus(), port.getCheckWeakAuthStatus(),
+                                            result.isProved(), result.isSatisfied(), result.isWeakProved(),
+                                            result.isWeakSatisfied()));
+                                    port.setWeakAuthStatus(updateWeakAuthenticityStatus(port.getCheckStrongAuthStatus(),
+                                            port.getCheckWeakAuthStatus(), result.isProved(), result.isSatisfied(),
+                                            result.isWeakProved(), result.isWeakSatisfied()));
                                     port.setSecName(signalName);
                                     ProVerifResultTrace trace = pvoa.getResults().get(pragma).getTrace();
                                     if (trace != null && !port.isOrigin()) {
@@ -1013,8 +1026,14 @@ public class TMLModeling<E> {
                                 for (TMLPortWithSecurityInformation port : channel.ports) {
                                     if (port.getCheckAuth()) {
                                         //port.setStrongAuthStatus(2);
-                                        port.setStrongAuthStatus(updateStrongAuthenticityStatus(port.getCheckStrongAuthStatus(), port.getCheckWeakAuthStatus(), result.isProved(), result.isSatisfied(), result.isWeakProved(), result.isWeakSatisfied()));
-                                        port.setWeakAuthStatus(updateWeakAuthenticityStatus(port.getCheckStrongAuthStatus(), port.getCheckWeakAuthStatus(), result.isProved(), result.isSatisfied(), result.isWeakProved(), result.isWeakSatisfied()));
+                                        port.setStrongAuthStatus(updateStrongAuthenticityStatus(
+                                                port.getCheckStrongAuthStatus(), port.getCheckWeakAuthStatus(),
+                                                result.isProved(), result.isSatisfied(), result.isWeakProved(),
+                                                result.isWeakSatisfied()));
+                                        port.setWeakAuthStatus(updateWeakAuthenticityStatus(
+                                                port.getCheckStrongAuthStatus(), port.getCheckWeakAuthStatus(),
+                                                result.isProved(), result.isSatisfied(), result.isWeakProved(),
+                                                result.isWeakSatisfied()));
                                         port.setSecName(signalName);
                                         ProVerifResultTrace trace = pvoa.getResults().get(pragma).getTrace();
                                         if (trace != null && !port.isOrigin()) {
@@ -1038,8 +1057,12 @@ public class TMLModeling<E> {
                     for (TMLPortWithSecurityInformation port : channel.ports) {
                         if (port.getCheckAuth()) {
                             //port.setWeakAuthStatus(2);
-                            port.setStrongAuthStatus(updateStrongAuthenticityStatus(port.getCheckStrongAuthStatus(), port.getCheckWeakAuthStatus(), result.isProved(), result.isSatisfied(), result.isWeakProved(), result.isWeakSatisfied()));
-                            port.setWeakAuthStatus(updateWeakAuthenticityStatus(port.getCheckStrongAuthStatus(), port.getCheckWeakAuthStatus(), result.isProved(), result.isSatisfied(), result.isWeakProved(), result.isWeakSatisfied()));
+                            port.setStrongAuthStatus(updateStrongAuthenticityStatus(port.getCheckStrongAuthStatus(),
+                                    port.getCheckWeakAuthStatus(), result.isProved(), result.isSatisfied(),
+                                    result.isWeakProved(), result.isWeakSatisfied()));
+                            port.setWeakAuthStatus(updateWeakAuthenticityStatus(port.getCheckStrongAuthStatus(),
+                                    port.getCheckWeakAuthStatus(), result.isProved(), result.isSatisfied(),
+                                    result.isWeakProved(), result.isWeakSatisfied()));
                             port.setMappingName(mappingName);
                             ProVerifResultTrace trace = pvoa.getResults().get(pragma).getTrace();
                             if (trace != null && !port.isOrigin()) {
@@ -1063,8 +1086,12 @@ public class TMLModeling<E> {
                     for (TMLPortWithSecurityInformation port : req.ports) {
                         if (port.getCheckAuth()) {
                             //port.setWeakAuthStatus(2);
-                            port.setStrongAuthStatus(updateStrongAuthenticityStatus(port.getCheckStrongAuthStatus(), port.getCheckWeakAuthStatus(), result.isProved(), result.isSatisfied(), result.isWeakProved(), result.isWeakSatisfied()));
-                            port.setWeakAuthStatus(updateWeakAuthenticityStatus(port.getCheckStrongAuthStatus(), port.getCheckWeakAuthStatus(), result.isProved(), result.isSatisfied(), result.isWeakProved(), result.isWeakSatisfied()));
+                            port.setStrongAuthStatus(updateStrongAuthenticityStatus(port.getCheckStrongAuthStatus(),
+                                    port.getCheckWeakAuthStatus(), result.isProved(), result.isSatisfied(),
+                                    result.isWeakProved(), result.isWeakSatisfied()));
+                            port.setWeakAuthStatus(updateWeakAuthenticityStatus(port.getCheckStrongAuthStatus(),
+                                    port.getCheckWeakAuthStatus(), result.isProved(), result.isSatisfied(),
+                                    result.isWeakProved(), result.isWeakSatisfied()));
                             port.setMappingName(mappingName);
                         }
                     }
@@ -1106,9 +1133,14 @@ public class TMLModeling<E> {
                             for (TMLPortWithSecurityInformation port : channel.ports) {
                                 if (port.getCheckAuth()) {
                                     //port.setStrongAuthStatus(3);
-                                    port.setStrongAuthStatus(updateStrongAuthenticityStatus(port.getCheckStrongAuthStatus(), port.getCheckWeakAuthStatus(), result.isProved(), result.isSatisfied(), result.isWeakProved(), result.isWeakSatisfied()));
+                                    port.setStrongAuthStatus(updateStrongAuthenticityStatus(
+                                            port.getCheckStrongAuthStatus(), port.getCheckWeakAuthStatus(),
+                                            result.isProved(), result.isSatisfied(), result.isWeakProved(),
+                                            result.isWeakSatisfied()));
                                     //port.setWeakAuthStatus(2);
-                                    port.setWeakAuthStatus(updateWeakAuthenticityStatus(port.getCheckStrongAuthStatus(), port.getCheckWeakAuthStatus(), result.isProved(), result.isSatisfied(), result.isWeakProved(), result.isWeakSatisfied()));
+                                    port.setWeakAuthStatus(updateWeakAuthenticityStatus(port.getCheckStrongAuthStatus(),
+                                            port.getCheckWeakAuthStatus(), result.isProved(), result.isSatisfied(),
+                                            result.isWeakProved(), result.isWeakSatisfied()));
                                     port.setSecName(signalName);
                                     ProVerifResultTrace trace = pvoa.getResults().get(pragma).getTrace();
                                     if (trace != null && !port.isOrigin()) {
@@ -1142,8 +1174,14 @@ public class TMLModeling<E> {
                                 for (TMLPortWithSecurityInformation port : channel.ports) {
                                     if (port.getCheckAuth()) {
                                         //port.setWeakAuthStatus(2);
-                                        port.setStrongAuthStatus(updateStrongAuthenticityStatus(port.getCheckStrongAuthStatus(), port.getCheckWeakAuthStatus(), result.isProved(), result.isSatisfied(), result.isWeakProved(), result.isWeakSatisfied()));
-                                        port.setWeakAuthStatus(updateWeakAuthenticityStatus(port.getCheckStrongAuthStatus(), port.getCheckWeakAuthStatus(), result.isProved(), result.isSatisfied(), result.isWeakProved(), result.isWeakSatisfied()));
+                                        port.setStrongAuthStatus(updateStrongAuthenticityStatus(
+                                                port.getCheckStrongAuthStatus(), port.getCheckWeakAuthStatus(),
+                                                result.isProved(), result.isSatisfied(), result.isWeakProved(),
+                                                result.isWeakSatisfied()));
+                                        port.setWeakAuthStatus(updateWeakAuthenticityStatus(
+                                                port.getCheckStrongAuthStatus(), port.getCheckWeakAuthStatus(),
+                                                result.isProved(), result.isSatisfied(), result.isWeakProved(),
+                                                result.isWeakSatisfied()));
                                         port.setSecName(signalName);
                                         ProVerifResultTrace trace = pvoa.getResults().get(pragma).getTrace();
                                         if (trace != null && !port.isOrigin()) {
@@ -1171,8 +1209,12 @@ public class TMLModeling<E> {
                         if (port.getCheckAuth()) {
                             TraceManager.addDev("Backtracing Authenticity proved but not satisfied / Found port with checkAuth");
                             //port.setStrongAuthStatus(3);
-                            port.setStrongAuthStatus(updateStrongAuthenticityStatus(port.getCheckStrongAuthStatus(), port.getCheckWeakAuthStatus(), result.isProved(), result.isSatisfied(), result.isWeakProved(), result.isWeakSatisfied()));
-                            port.setWeakAuthStatus(updateWeakAuthenticityStatus(port.getCheckStrongAuthStatus(), port.getCheckWeakAuthStatus(), result.isProved(), result.isSatisfied(), result.isWeakProved(), result.isWeakSatisfied()));
+                            port.setStrongAuthStatus(updateStrongAuthenticityStatus(port.getCheckStrongAuthStatus(),
+                                    port.getCheckWeakAuthStatus(), result.isProved(), result.isSatisfied(),
+                                    result.isWeakProved(), result.isWeakSatisfied()));
+                            port.setWeakAuthStatus(updateWeakAuthenticityStatus(port.getCheckStrongAuthStatus(),
+                                    port.getCheckWeakAuthStatus(), result.isProved(), result.isSatisfied(),
+                                    result.isWeakProved(), result.isWeakSatisfied()));
                             port.setMappingName(mappingName);
                             ProVerifResultTrace trace = pvoa.getResults().get(pragma).getTrace();
                             if (trace != null && !port.isOrigin()) {
@@ -1195,8 +1237,12 @@ public class TMLModeling<E> {
                     for (TMLPortWithSecurityInformation port : req.ports) {
                         if (port.getCheckAuth()) {
                             //port.setStrongAuthStatus(3);
-                            port.setStrongAuthStatus(updateStrongAuthenticityStatus(port.getCheckStrongAuthStatus(), port.getCheckWeakAuthStatus(), result.isProved(), result.isSatisfied(), result.isWeakProved(), result.isWeakSatisfied()));
-                            port.setWeakAuthStatus(updateWeakAuthenticityStatus(port.getCheckStrongAuthStatus(), port.getCheckWeakAuthStatus(), result.isProved(), result.isSatisfied(), result.isWeakProved(), result.isWeakSatisfied()));
+                            port.setStrongAuthStatus(updateStrongAuthenticityStatus(port.getCheckStrongAuthStatus(),
+                                    port.getCheckWeakAuthStatus(), result.isProved(), result.isSatisfied(),
+                                    result.isWeakProved(), result.isWeakSatisfied()));
+                            port.setWeakAuthStatus(updateWeakAuthenticityStatus(port.getCheckStrongAuthStatus(),
+                                    port.getCheckWeakAuthStatus(), result.isProved(), result.isSatisfied(),
+                                    result.isWeakProved(), result.isWeakSatisfied()));
                             port.setMappingName(mappingName);
                         }
                     }
@@ -1233,8 +1279,13 @@ public class TMLModeling<E> {
                             for (TMLPortWithSecurityInformation port : channel.ports) {
                                 if (port.getCheckAuth()) {
                                     //port.setStrongAuthStatus(3);
-                                    port.setStrongAuthStatus(updateStrongAuthenticityStatus(port.getCheckStrongAuthStatus(), port.getCheckWeakAuthStatus(), result.isProved(), result.isSatisfied(), result.isWeakProved(), result.isWeakSatisfied()));
-                                    port.setWeakAuthStatus(updateWeakAuthenticityStatus(port.getCheckStrongAuthStatus(), port.getCheckWeakAuthStatus(), result.isProved(), result.isSatisfied(), result.isWeakProved(), result.isWeakSatisfied()));
+                                    port.setStrongAuthStatus(updateStrongAuthenticityStatus(
+                                            port.getCheckStrongAuthStatus(), port.getCheckWeakAuthStatus(),
+                                            result.isProved(), result.isSatisfied(), result.isWeakProved(),
+                                            result.isWeakSatisfied()));
+                                    port.setWeakAuthStatus(updateWeakAuthenticityStatus(port.getCheckStrongAuthStatus(),
+                                            port.getCheckWeakAuthStatus(), result.isProved(), result.isSatisfied(),
+                                            result.isWeakProved(), result.isWeakSatisfied()));
                                     TraceManager.addDev("Backtracing Authenticity not verified " + signalName);
                                     port.setSecName(signalName);
                                     ProVerifResultTrace trace = pvoa.getResults().get(pragma).getTrace();
@@ -1267,8 +1318,14 @@ public class TMLModeling<E> {
                                 for (TMLPortWithSecurityInformation port : channel.ports) {
                                     if (port.getCheckAuth()) {
                                         //port.setWeakAuthStatus(3);
-                                        port.setStrongAuthStatus(updateStrongAuthenticityStatus(port.getCheckStrongAuthStatus(), port.getCheckWeakAuthStatus(), result.isProved(), result.isSatisfied(), result.isWeakProved(), result.isWeakSatisfied()));
-                                        port.setWeakAuthStatus(updateWeakAuthenticityStatus(port.getCheckStrongAuthStatus(), port.getCheckWeakAuthStatus(), result.isProved(), result.isSatisfied(), result.isWeakProved(), result.isWeakSatisfied()));
+                                        port.setStrongAuthStatus(updateStrongAuthenticityStatus(
+                                                port.getCheckStrongAuthStatus(), port.getCheckWeakAuthStatus(),
+                                                result.isProved(), result.isSatisfied(), result.isWeakProved(),
+                                                result.isWeakSatisfied()));
+                                        port.setWeakAuthStatus(updateWeakAuthenticityStatus(
+                                                port.getCheckStrongAuthStatus(), port.getCheckWeakAuthStatus(),
+                                                result.isProved(), result.isSatisfied(), result.isWeakProved(),
+                                                result.isWeakSatisfied()));
                                         port.setSecName(signalName);
                                         ProVerifResultTrace trace = pvoa.getResults().get(pragma).getTrace();
                                         if (trace != null && !port.isOrigin()) {
@@ -3099,8 +3156,11 @@ public class TMLModeling<E> {
         return true;
     }
 
-    public int updateStrongAuthenticityStatus(int _lastStrongAuthStatus, int _lastWeakAuthStatus, Boolean _isStrongAuthProved, Boolean _isStrongAuthSatisfied, Boolean _isWeakAuthProved, Boolean _isWeakAuthSatisfied) {
-        if (_isStrongAuthProved && _isStrongAuthSatisfied && _isWeakAuthProved && _isWeakAuthSatisfied && _lastStrongAuthStatus != 3 && _lastWeakAuthStatus != 3) {
+    public int updateStrongAuthenticityStatus(int _lastStrongAuthStatus, int _lastWeakAuthStatus,
+            boolean _isStrongAuthProved, boolean _isStrongAuthSatisfied, boolean _isWeakAuthProved,
+            boolean _isWeakAuthSatisfied) {
+        if (_isStrongAuthProved && _isStrongAuthSatisfied && _isWeakAuthProved && _isWeakAuthSatisfied
+                && _lastStrongAuthStatus != 3 && _lastWeakAuthStatus != 3) {
             return 2;
         } else if (!_isStrongAuthProved && !(_isWeakAuthProved && !_isWeakAuthSatisfied) && _lastStrongAuthStatus < 3 && _lastWeakAuthStatus < 3) {
             return 1;
@@ -3110,7 +3170,9 @@ public class TMLModeling<E> {
         } 
     }
 
-    public int updateWeakAuthenticityStatus(int _lastStrongAuthStatus, int _lastWeakAuthStatus, Boolean _isStrongAuthProved, Boolean _isStrongAuthSatisfied, Boolean _isWeakAuthProved, Boolean _isWeakAuthSatisfied) {
+    public int updateWeakAuthenticityStatus(int _lastStrongAuthStatus, int _lastWeakAuthStatus,
+            boolean _isStrongAuthProved, boolean _isStrongAuthSatisfied, boolean _isWeakAuthProved,
+            boolean _isWeakAuthSatisfied) {
         if (_isWeakAuthProved && _isWeakAuthSatisfied && _lastWeakAuthStatus != 3) {
             return 2;
         } else if (!_isWeakAuthProved && _lastWeakAuthStatus < 3) {

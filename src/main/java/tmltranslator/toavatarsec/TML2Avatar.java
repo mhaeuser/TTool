@@ -316,7 +316,7 @@ public class TML2Avatar {
 			TraceManager.addDev(channelMap);
 		}*/
 
-    public List<AvatarStateMachineElement> translateState(TMLActivityElement ae, AvatarBlock block, Boolean autoAuthChans) {
+    public List<AvatarStateMachineElement> translateState(TMLActivityElement ae, AvatarBlock block, boolean autoAuthChans) {
 
         //		TMLActionState tmlaction;
         //		TMLChoice tmlchoice;
@@ -1555,7 +1555,7 @@ public class TML2Avatar {
         }
     }
 
-    public AvatarSpecification generateAvatarSpec(String _loopLimit, Boolean autoAuthChans) {
+    public AvatarSpecification generateAvatarSpec(String _loopLimit, boolean autoAuthChans) {
 
         TraceManager.addDev("security patterns " + tmlmodel.secPatterns);
         TraceManager.addDev("keys " + tmlmap.mappedSecurity);
@@ -1884,7 +1884,8 @@ public class TML2Avatar {
                             for (TMLActivityElement actElem : task.getActivityDiagram().getElements()) {
                                 if (actElem instanceof TMLWriteChannel) {
                                     TMLWriteChannel wc = (TMLWriteChannel) actElem;
-                                    if (wc != null && wc.hasChannel(ch) && actElem.securityPattern != null && actElem.securityPattern.getName().equals(secPattern.getName())) {
+                                    if (wc != null && wc.hasChannel(ch) && actElem.securityPattern != null
+                                            && actElem.securityPattern.getName().equals(secPattern.getName())) {
                                         checkAuthSecPattern = true;
                                         break;
                                     }
@@ -1911,8 +1912,9 @@ public class TML2Avatar {
             for (AvatarAttributeState attributeStateOrigin : signalAuthOriginMap.get(s)) {
                 if (signalAuthDestMap.containsKey(s)) {
                     for (AvatarAttributeState attributeStateDest : signalAuthDestMap.get(s)) { 
-                        AvatarPragmaAuthenticity pragma = new AvatarPragmaAuthenticity("#Authenticity " + attributeStateOrigin.getName() + " "
-                                + attributeStateDest.getName(), attributeStateOrigin.getReferenceObject(), attributeStateOrigin, attributeStateDest);
+                        AvatarPragmaAuthenticity pragma = new AvatarPragmaAuthenticity(
+                                "#Authenticity " + attributeStateOrigin.getName() + " " + attributeStateDest.getName(),
+                                attributeStateOrigin.getReferenceObject(), attributeStateOrigin, attributeStateDest);
                         if (secChannelMap.containsKey(s)) {
                             for (String channel : secChannelMap.get(s)) {
                                 TMLChannel ch = tmlmodel.getChannelByShortName(channel);
@@ -2374,14 +2376,14 @@ public class TML2Avatar {
             ProVerifQueryAuthResult result = authenticityResults.get(pragma);
             if (!result.isProved() || !result.isWeakProved())
                 continue;
-            int r_weakAuthStatus = 1;
-            int r_strongAuthStatus = 1;
+            int resWeakAuthStatus = 1;
+            int resStrongAuthStatus = 1;
             if (result.isWeakProved()) {
-                r_weakAuthStatus = result.isWeakSatisfied() ? 2 : 3;
+                resWeakAuthStatus = result.isWeakSatisfied() ? 2 : 3;
             }
 
             if (result.isProved()) {
-                r_strongAuthStatus = result.isSatisfied() ? 2 : 3;
+                resStrongAuthStatus = result.isSatisfied() ? 2 : 3;
             }
 
             if (pragma.getAttrB().getReferenceObject()!= null && pragma.getAttrB().getReferenceObject() instanceof TMLADReadChannel) {
@@ -2391,9 +2393,9 @@ public class TML2Avatar {
                     rc.setAuthCheck(channel.checkAuth);
                 }
                 if (rc.getWeakAuthStatus() < 3) {
-                    rc.setWeakAuthStatus(r_weakAuthStatus);
+                    rc.setWeakAuthStatus(resWeakAuthStatus);
                     if (rc.getStrongAuthStatus() < 3) {
-                        rc.setStrongAuthStatus(r_strongAuthStatus);
+                        rc.setStrongAuthStatus(resStrongAuthStatus);
                     }
                 }
             }
@@ -2402,15 +2404,16 @@ public class TML2Avatar {
                 TMLADDecrypt dec = (TMLADDecrypt) pragma.getAttrB().getReferenceObject();
                 for (TMLTask t : taskBlockMap.keySet()) {
                     if (taskBlockMap.get(t).equals(pragma.getAttrB().getAttribute().getBlock())) {
-                        ch_des_task:
+                        chDestinationTask:
                         for (TMLChannel ch : tmlmodel.getChannels(t)) {
                             if (ch.hasDestinationTask(t)) {
                                 for (TMLActivityElement actElem : t.getActivityDiagram().getElements()) {
                                     if (actElem instanceof TMLReadChannel) {
                                         TMLReadChannel rc = (TMLReadChannel) actElem;
-                                        if (rc.hasChannel(ch) && actElem.securityPattern != null && actElem.securityPattern.getName().equals(dec.securityContext)) {
+                                        if (rc.hasChannel(ch) && actElem.securityPattern != null
+                                                && actElem.securityPattern.getName().equals(dec.securityContext)) {
                                             dec.setAuthCheck(ch.checkAuth);
-                                            break ch_des_task;
+                                            break chDestinationTask;
                                         }
                                     }
                                 }
@@ -2419,9 +2422,9 @@ public class TML2Avatar {
                     }
                 }
                 if (dec.getWeakAuthStatus() < 3) {
-                    dec.setWeakAuthStatus(r_weakAuthStatus);
+                    dec.setWeakAuthStatus(resWeakAuthStatus);
                     if (dec.getStrongAuthStatus() < 3) {
-                        dec.setStrongAuthStatus(r_strongAuthStatus);
+                        dec.setStrongAuthStatus(resStrongAuthStatus);
                     }
                 }
             }

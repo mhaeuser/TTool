@@ -370,6 +370,25 @@
 
 
      public void drawAuthVerification(Graphics g) {
+        final double coeffSpacePortAuthLock = 0.1;
+        final double coeffAuthOval = 0.6;
+        final double coeffAuthLock = 0.7;
+        final double coeffOffsetSecName = 0.7;
+        final double coeffXCoordinateOffsetDrawAuth = 0.8;
+        final double coeffYCoordinateOffsetDrawAuth = 0.95;
+        double spacePortAuthLock = width * coeffSpacePortAuthLock;
+        double authOvalWidth = width * coeffAuthOval;
+        double authOvalHeight = height * coeffAuthOval;
+        double authLockWidth = width * coeffAuthLock;
+        double authLockHeight = height * coeffAuthLock;
+        double xCoordinateAuthLockLeft = x + width + spacePortAuthLock;
+        double xCoordinateAuthLockRight = x + width + authLockWidth + spacePortAuthLock;
+        double yCoordinateAuthLockTop = y + height - authLockHeight;
+        double yCoordinateAuthLockBottom = y + height;
+        double xCoordinateAuthLockCenter = xCoordinateAuthLockLeft + authLockWidth/2;
+        double yCoordinateAuthLockCenter = yCoordinateAuthLockBottom - authLockHeight/2;
+        double xCoordinateAuthOvalLeft = xCoordinateAuthLockLeft + (authLockWidth - authOvalWidth)/2;
+        double yCoordinateAuthOvalTop = yCoordinateAuthLockTop - authOvalHeight/2;
         Color c = g.getColor();
         Color c1;
         Color c2;
@@ -393,19 +412,14 @@
             default:
                 c2 = c1;
         }
-        double space_port_authlock = width * 0.1;
-        double authovalwidth = width * 0.6;
-        double authovalheight = height * 0.6;
-        double authlockwidth = width * 0.7;
-        double authlockheight = height * 0.7;
-        drawSingleString(g, secName, (int)(x + width + space_port_authlock), (int)(y + height + 0.7*authlockheight));
-        g.drawOval((int)(x + width + (authlockwidth-authovalwidth)/2 + space_port_authlock), (int)(y + height - authlockheight - authovalheight/2), (int)authovalwidth, (int)authovalheight);
+        drawSingleString(g, secName, (int) (xCoordinateAuthLockLeft), (int) (yCoordinateAuthLockBottom + coeffOffsetSecName*authLockHeight));
+        g.drawOval((int) (xCoordinateAuthOvalLeft), (int) (yCoordinateAuthOvalTop), (int) (authOvalWidth), (int) (authOvalHeight));
         g.setColor(c1);
        
-        int[] xps = new int[]{(int)(x + width + space_port_authlock), (int)(x + width + space_port_authlock), (int)(x + width + authlockwidth + space_port_authlock)};
-        int[] yps = new int[]{(int)(y + height - authlockheight), y + height, y + height};
-        int[] xpw = new int[]{(int)(x + width + authlockwidth + space_port_authlock), (int)(x + width + authlockwidth + space_port_authlock), (int)(x + width + space_port_authlock)};
-        int[] ypw = new int[]{y + height, (int)(y + height -  authlockheight), (int)(y + height - authlockheight)};
+        int[] xps = new int[]{(int) (xCoordinateAuthLockLeft), (int) (xCoordinateAuthLockLeft), (int) (xCoordinateAuthLockRight)};
+        int[] yps = new int[]{(int) (yCoordinateAuthLockTop), (int) (yCoordinateAuthLockBottom), (int) (yCoordinateAuthLockBottom)};
+        int[] xpw = new int[]{(int) (xCoordinateAuthLockRight), (int) (xCoordinateAuthLockRight), (int) (xCoordinateAuthLockLeft)};
+        int[] ypw = new int[]{(int) (yCoordinateAuthLockBottom), (int) (yCoordinateAuthLockTop), (int) (yCoordinateAuthLockTop)};
         g.fillPolygon(xps, yps, 3);
 
         g.setColor(c2);
@@ -413,20 +427,41 @@
         g.setColor(c);
         g.drawPolygon(xps, yps, 3);
         g.drawPolygon(xpw, ypw, 3);
-        drawSingleString(g, "S", (int)(x + width + space_port_authlock), (int) (y + 0.95*height));
-        drawSingleString(g, "W", (int)(x + 0.85*authlockwidth/2 + width + space_port_authlock), (int)(y + height - 0.95*authlockheight/2));
+        drawSingleString(g, "S", (int) (xCoordinateAuthLockLeft), (int) (y + coeffYCoordinateOffsetDrawAuth * height));
+        drawSingleString(g, "W", (int) (xCoordinateAuthLockLeft + coeffXCoordinateOffsetDrawAuth * authLockWidth / 2),
+                (int) (yCoordinateAuthLockBottom - coeffYCoordinateOffsetDrawAuth * authLockHeight / 2));
         if (checkStrongAuthStatus == 3) {
-           g.drawLine((int)(x + width + space_port_authlock), y + height, (int)(x + width + authlockwidth/2 + space_port_authlock), (int)(y + height -  authlockheight/2));
-           g.drawLine((int)(x + width + space_port_authlock), (int)(y + height -  authlockheight/2), (int)(x + width + authlockwidth/2 + space_port_authlock), y + height);
+            g.drawLine((int) (xCoordinateAuthLockLeft), (int) (yCoordinateAuthLockBottom),
+                    (int) (xCoordinateAuthLockCenter), (int) (yCoordinateAuthLockCenter));
+            g.drawLine((int) (xCoordinateAuthLockLeft), (int) (yCoordinateAuthLockCenter),
+                    (int) (xCoordinateAuthLockCenter), (int) (yCoordinateAuthLockBottom));
         }
         if (checkWeakAuthStatus == 3 || checkStrongAuthStatus == 3 && checkWeakAuthStatus < 2) {
-           g.drawLine((int)(x + width + authlockwidth/2 + space_port_authlock), (int)(y + height -  authlockheight/2), (int)(x + width + authlockwidth + space_port_authlock), (int)(y + height -  authlockheight));
-           g.drawLine((int)(x + width + authlockwidth/2 + space_port_authlock), (int)(y + height -  authlockheight), (int)(x + width + authlockwidth + space_port_authlock), (int)(y + height -  authlockheight/2));
+            g.drawLine((int) (xCoordinateAuthLockCenter), (int) (yCoordinateAuthLockCenter),
+                    (int) (xCoordinateAuthLockRight), (int) (yCoordinateAuthLockTop));
+            g.drawLine((int) (xCoordinateAuthLockCenter), (int) (yCoordinateAuthLockTop),
+                    (int) (xCoordinateAuthLockRight), (int) (yCoordinateAuthLockCenter));
         }
     }
 
 
     public void drawConfVerification(Graphics g) {
+        final double coeffSpacePortConfLock = 0.1;
+        final double coeffConfLock = 0.5;
+        final double coeffConfOval = 0.4;
+        final double coeffYCoordinateOffsetDrawConf = 1.01;
+        double spacePortConfLock = width * coeffSpacePortConfLock;
+        double confLockWidth = width * coeffConfLock;
+        double confLockHeight = height * coeffConfLock;
+        double confOvalWidth =  width * coeffConfOval;
+        double confOvalHeight = height * coeffConfOval;
+        double xCoordinateConfLockLeft = x - confLockWidth - spacePortConfLock;
+        double xCoordinateConfLockRight = x - spacePortConfLock;
+        double yCoordinateConfLockTop = y + height - confLockHeight;
+        double yCoordinateConfLockBottom = y + height;
+        double xCoordinateConfOvalLeft = xCoordinateConfLockRight - (confOvalWidth/2) - (confLockWidth/2);
+        double yCoordinateConfOvalTop = yCoordinateConfLockTop - confOvalHeight/2;
+
         Color c = g.getColor();
         Color c1;
         switch (checkConfStatus) {
@@ -442,20 +477,19 @@
             default:
                 return;
         }
-        double space_port_conflock = width * 0.1;
-        double conflockwidth = width * 0.5;
-        double conflockheight = height * 0.5;
-        double confovalwidth =  width * 0.4;
-        double confovalheight = height * 0.4;
-        drawSingleString(g, mappingName, (int)(x - conflockwidth - space_port_conflock), (int)(y + height + 1.01*conflockheight));
-        g.drawOval((int)(x - (confovalwidth/2) - (conflockwidth/2) - space_port_conflock), (int)(y + conflockheight - confovalheight/2), (int)confovalwidth, (int)confovalheight);
+        
+        drawSingleString(g, mappingName, (int) (xCoordinateConfLockLeft),
+                (int) (yCoordinateConfLockBottom + coeffYCoordinateOffsetDrawConf * confLockHeight));
+        g.drawOval((int) (xCoordinateConfOvalLeft), (int) (yCoordinateConfOvalTop), (int)confOvalWidth, (int)confOvalHeight);
         g.setColor(c1);
-        g.fillRect((int)(x - conflockwidth - space_port_conflock), (int)(y + conflockheight), (int)conflockwidth, (int)conflockheight);
+        g.fillRect((int) (xCoordinateConfLockLeft), (int) (yCoordinateConfLockTop), (int)confLockWidth, (int)confLockHeight);
         g.setColor(c);
-        g.drawRect((int)(x - conflockwidth - space_port_conflock), (int)(y + conflockheight), (int)conflockwidth, (int)conflockheight);
+        g.drawRect((int) (xCoordinateConfLockLeft), (int) (yCoordinateConfLockTop), (int)confLockWidth, (int)confLockHeight);
         if (checkConfStatus == 3) {
-            g.drawLine((int)(x - conflockwidth - space_port_conflock), (int)(y + conflockheight), (int)(x - space_port_conflock), y + height);
-            g.drawLine((int)(x - space_port_conflock), (int)(y + conflockheight), (int)(x - conflockwidth - space_port_conflock), y + height);
+            g.drawLine((int) (xCoordinateConfLockLeft), (int) (yCoordinateConfLockTop),
+                    (int) (xCoordinateConfLockRight), (int) (yCoordinateConfLockBottom));
+            g.drawLine((int) (xCoordinateConfLockRight), (int) (yCoordinateConfLockTop),
+                    (int) (xCoordinateConfLockLeft), (int) (yCoordinateConfLockBottom));
         }
 
         if (!secName.equals("")) {
@@ -472,12 +506,13 @@
                 default:
                     return;
             }
-            drawSingleString(g, mappingName, (int)(x - conflockwidth - space_port_conflock), (int)(y + height + 1.01*conflockheight));
-            g.drawOval((int)(x - (confovalwidth/2) - (conflockwidth/2) - space_port_conflock), (int)(y + conflockheight - confovalheight/2), (int)confovalwidth, (int)confovalheight);
+            drawSingleString(g, mappingName, (int) (xCoordinateConfLockLeft),
+                    (int) (yCoordinateConfLockBottom + coeffYCoordinateOffsetDrawConf * confLockHeight));
+            g.drawOval((int) (xCoordinateConfOvalLeft), (int) (yCoordinateConfOvalTop), (int)confOvalWidth, (int)confOvalHeight);
             g.setColor(c1);
-            g.fillRect((int)(x - conflockwidth - space_port_conflock), (int)(y + conflockheight), (int)conflockwidth, (int)conflockheight);
+            g.fillRect((int) (xCoordinateConfLockLeft), (int) (yCoordinateConfLockTop), (int)confLockWidth, (int)confLockHeight);
             g.setColor(c);
-            g.drawRect((int)(x - conflockwidth - space_port_conflock), (int)(y + conflockheight), (int)conflockwidth, (int)conflockheight);
+            g.drawRect((int) (xCoordinateConfLockLeft), (int) (yCoordinateConfLockTop), (int)confLockWidth, (int)confLockHeight);
         }
     }
 

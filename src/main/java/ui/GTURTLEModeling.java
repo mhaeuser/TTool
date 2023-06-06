@@ -1655,7 +1655,7 @@ public class GTURTLEModeling {
         }
         TURTLEPanel tmlap = tmap.getCorrespondanceList().getTG(tmap.getArch().getFirstCPU()).getTDiagramPanel().tp;
         int arch = gui.tabs.indexOf(tmlap);
-        DateFormat dateFormat = new SimpleDateFormat("ddMMyy_HHmmss");
+        DateFormat dateFormat = new SimpleDateFormat("HHmmss");
         Date date = new Date();
         String dateAndTime = dateFormat.format(date);
         String newTabSuffix = "enc_" + dateAndTime;
@@ -1679,13 +1679,14 @@ public class GTURTLEModeling {
         }
         TURTLEPanel tmlap = tmap.getCorrespondanceList().getTG(tmap.getArch().getFirstCPU()).getTDiagramPanel().tp;
         int arch = gui.tabs.indexOf(tmlap);
-        DateFormat dateFormat = new SimpleDateFormat("ddMMyy_HHmmss");
+        DateFormat dateFormat = new SimpleDateFormat("HHmmss");
         Date date = new Date();
         String dateAndTime = dateFormat.format(date);
         String newTabSuffix = "enc_" + dateAndTime;
         gui.cloneRenameTab(arch, newTabSuffix);
         TMLArchiPanel newarch = (TMLArchiPanel) gui.tabs.get(gui.tabs.size() - 1);
-        return autoSecure(gui, newTabSuffix, tmap, newarch, encComp, overhead, decComp, true, false, false, new HashMap<String, java.util.List<String>>());
+        return autoSecure(gui, newTabSuffix, tmap, newarch, encComp, overhead, decComp, true, false, false,
+                new HashMap<String, java.util.List<String>>());
     }
 
     public TMLMapping<TGComponent> autoSecure(MainGUI gui, String encComp, String overhead, String decComp, boolean autoConf, boolean autoWeakAuth,
@@ -1695,7 +1696,7 @@ public class GTURTLEModeling {
         }
         TURTLEPanel tmlap = tmap.getCorrespondanceList().getTG(tmap.getArch().getFirstCPU()).getTDiagramPanel().tp;
         int arch = gui.tabs.indexOf(tmlap);
-        DateFormat dateFormat = new SimpleDateFormat("ddMMyy_HHmmss");
+        DateFormat dateFormat = new SimpleDateFormat("HHmmss");
         Date date = new Date();
         String dateAndTime = dateFormat.format(date);
         String newTabSuffix = "enc_" + dateAndTime;

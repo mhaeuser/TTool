@@ -47,17 +47,18 @@ package avatartranslator;
 public class AvatarAttributeState extends AvatarElement {
     private AvatarAttribute attribute;
     private AvatarState state;
+    
     public AvatarAttributeState(String _name, Object _referenceObject, AvatarAttribute attr, AvatarState st) {
         super(_name, _referenceObject);
         attribute = attr;
         state = st;
     }
     
-    public AvatarAttribute getAttribute(){
+    public AvatarAttribute getAttribute() {
     	return attribute;
     }
     
-    public AvatarState getState(){
+    public AvatarState getState() {
     	return state;
     }
 
@@ -76,4 +77,8 @@ public class AvatarAttributeState extends AvatarElement {
         return this.attribute.getBlock().getName().replaceAll("__", ".") + "." + this.state.getName() + "." + this.attribute.getName();
     }
 
+    @Override
+    public String getName() {
+        return getAttribute().getBlock().getName() + "." + getState().getName() + "." + getAttribute().getName();
+    }
 }

@@ -47,6 +47,8 @@ import ui.tmlad.*;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import proverifspec.ProVerifOutputAnalyzer;
+import proverifspec.ProVerifQueryAuthResult;
 
 /**
  * Class AVATAR2ProVerif
@@ -68,8 +70,8 @@ public class TML2Avatar {
     public ArrayList<SecurityPattern> secPatterns = new ArrayList<SecurityPattern>();
     public int loopLimit = 1;
     HashMap<String, List<String>> secChannelMap = new HashMap<String, List<String>>();
-    HashMap<String, AvatarAttributeState> signalAuthOriginMap = new HashMap<String, AvatarAttributeState>();
-    HashMap<String, AvatarAttributeState> signalAuthDestMap = new HashMap<String, AvatarAttributeState>();
+    HashMap<String, List<AvatarAttributeState>> signalAuthOriginMap = new HashMap<String, List<AvatarAttributeState>>();
+    HashMap<String, List<AvatarAttributeState>> signalAuthDestMap = new HashMap<String, List<AvatarAttributeState>>();
     List<AvatarSignal> signals = new ArrayList<AvatarSignal>();
     AvatarSpecification avspec;
     ArrayList<String> attrsToCheck;
@@ -314,7 +316,7 @@ public class TML2Avatar {
 			TraceManager.addDev(channelMap);
 		}*/
 
-    public List<AvatarStateMachineElement> translateState(TMLActivityElement ae, AvatarBlock block, Boolean autoAuthChans) {
+    public List<AvatarStateMachineElement> translateState(TMLActivityElement ae, AvatarBlock block, boolean autoAuthChans) {
 
         //		TMLActionState tmlaction;
         //		TMLChoice tmlchoice;
@@ -860,7 +862,13 @@ public class TML2Avatar {
                     if (block.getAvatarAttributeWithName(ae.securityPattern.name) != null) {
                         AvatarAttributeState authOrigin = new AvatarAttributeState(block.getName() + "." + as.getName() + "." +
                                 ae.securityPattern.name, ae.getReferenceObject(), block.getAvatarAttributeWithName(ae.securityPattern.name), as);
-                        signalAuthOriginMap.put(ae.securityPattern.name, authOrigin);
+                        if (signalAuthOriginMap.containsKey(ae.securityPattern.name)) {
+                            signalAuthOriginMap.get(ae.securityPattern.name).add(authOrigin);
+                        } else {
+                            LinkedList<AvatarAttributeState> tmp = new LinkedList<AvatarAttributeState>();
+                            tmp.add(authOrigin);
+                            signalAuthOriginMap.put(ae.securityPattern.name, tmp);
+                        }
                     }
 
                 } else if (ae.securityPattern != null && ae.securityPattern.process == SecurityPattern.DECRYPTION_PROCESS) {
@@ -935,7 +943,13 @@ public class TML2Avatar {
                         if (block.getAvatarAttributeWithName(ae.securityPattern.name) != null) {
                             AvatarAttributeState authDest = new AvatarAttributeState(block.getName() + "." + dummy.getName() + "." +
                                     ae.securityPattern.name, ae.getReferenceObject(), block.getAvatarAttributeWithName(ae.securityPattern.name), dummy);
-                            signalAuthDestMap.put(ae.securityPattern.name, authDest);
+                            if (signalAuthDestMap.containsKey(ae.securityPattern.name)) {
+                                signalAuthDestMap.get(ae.securityPattern.name).add(authDest);
+                            } else {
+                                LinkedList<AvatarAttributeState> tmp = new LinkedList<AvatarAttributeState>();
+                                tmp.add(authDest);
+                                signalAuthDestMap.put(ae.securityPattern.name, tmp);
+                            }
                         }
                     } else if (ae.securityPattern.type.equals(SecurityPattern.ASYMMETRIC_ENC_PATTERN)) {
                         AvatarMethod adecrypt = new AvatarMethod("adecrypt", ae);
@@ -1001,7 +1015,13 @@ public class TML2Avatar {
                         ae.securityPattern.state2 = dummy;
                         if (block.getAvatarAttributeWithName(ae.securityPattern.name) != null) {
                             AvatarAttributeState authDest = new AvatarAttributeState(block.getName() + "." + dummy.getName() + "." + ae.securityPattern.name, ae.getReferenceObject(), block.getAvatarAttributeWithName(ae.securityPattern.name), dummy);
-                            signalAuthDestMap.put(ae.securityPattern.name, authDest);
+                            if (signalAuthDestMap.containsKey(ae.securityPattern.name)) {
+                                signalAuthDestMap.get(ae.securityPattern.name).add(authDest);
+                            } else {
+                                LinkedList<AvatarAttributeState> tmp = new LinkedList<AvatarAttributeState>();
+                                tmp.add(authDest);
+                                signalAuthDestMap.put(ae.securityPattern.name, tmp);
+                            }
                         }
                     } else if (ae.securityPattern.type.equals(SecurityPattern.MAC_PATTERN)) {
                         //Separate MAC from MSG
@@ -1074,7 +1094,13 @@ public class TML2Avatar {
 
                         if (block.getAvatarAttributeWithName(ae.securityPattern.name) != null) {
                             AvatarAttributeState authDest = new AvatarAttributeState(block.getName() + "." + dummy.getName() + "." + ae.securityPattern.name, ae.getReferenceObject(), block.getAvatarAttributeWithName(ae.securityPattern.name), dummy);
-                            signalAuthDestMap.put(ae.securityPattern.name, authDest);
+                            if (signalAuthDestMap.containsKey(ae.securityPattern.name)) {
+                                signalAuthDestMap.get(ae.securityPattern.name).add(authDest);
+                            } else {
+                                LinkedList<AvatarAttributeState> tmp = new LinkedList<AvatarAttributeState>();
+                                tmp.add(authDest);
+                                signalAuthDestMap.put(ae.securityPattern.name, tmp);
+                            }
                         }
                     }
 
@@ -1191,7 +1217,13 @@ public class TML2Avatar {
                         AvatarAttributeState authDest = new AvatarAttributeState(block.getName() + "." + reworkStringName(afterSignalState.getName()) + "." +
                                 getName(ch.getName()) + "_chData", ae.getReferenceObject(), block.getAvatarAttributeWithName(getName(ch.getName())
                                 + "_chData"), afterSignalState);
-                        signalAuthDestMap.put(ch.getName(), authDest);
+                        if (signalAuthDestMap.containsKey(ch.getName())) {
+                            signalAuthDestMap.get(ch.getName()).add(authDest);
+                        } else {
+                            LinkedList<AvatarAttributeState> tmp = new LinkedList<AvatarAttributeState>();
+                            tmp.add(authDest);
+                            signalAuthDestMap.put(ch.getName(), tmp);
+                        }
                     }
                 }
 
@@ -1257,7 +1289,13 @@ public class TML2Avatar {
                         }
                         AvatarAttributeState authOrigin = new AvatarAttributeState(block.getName() + "." + reworkStringName(signalState.getName()) + "." +
                                 getName(ch.getName()) + "_chData", ae.getReferenceObject(), block.getAvatarAttributeWithName(getName(ch.getName()) + "_chData"), signalState);
-                        signalAuthOriginMap.put(ch.getName(), authOrigin);
+                        if (signalAuthOriginMap.containsKey(ch.getName())) {
+                            signalAuthOriginMap.get(ch.getName()).add(authOrigin);
+                        } else {
+                            LinkedList<AvatarAttributeState> tmp = new LinkedList<AvatarAttributeState>();
+                            tmp.add(authOrigin);
+                            signalAuthOriginMap.put(ch.getName(), tmp);
+                        }
                     }
 
                 }
@@ -1517,7 +1555,7 @@ public class TML2Avatar {
         }
     }
 
-    public AvatarSpecification generateAvatarSpec(String _loopLimit, Boolean autoAuthChans) {
+    public AvatarSpecification generateAvatarSpec(String _loopLimit, boolean autoAuthChans) {
 
         TraceManager.addDev("security patterns " + tmlmodel.secPatterns);
         TraceManager.addDev("keys " + tmlmap.mappedSecurity);
@@ -1846,7 +1884,8 @@ public class TML2Avatar {
                             for (TMLActivityElement actElem : task.getActivityDiagram().getElements()) {
                                 if (actElem instanceof TMLWriteChannel) {
                                     TMLWriteChannel wc = (TMLWriteChannel) actElem;
-                                    if (wc.hasChannel(ch) && actElem.securityPattern.getName().equals(secPattern.getName())) {
+                                    if (wc != null && wc.hasChannel(ch) && actElem.securityPattern != null
+                                            && actElem.securityPattern.getName().equals(secPattern.getName())) {
                                         checkAuthSecPattern = true;
                                         break;
                                     }
@@ -1870,22 +1909,26 @@ public class TML2Avatar {
 
         // Add authenticity pragmas
         for (String s : signalAuthOriginMap.keySet()) {
-            if (signalAuthDestMap.containsKey(s)) {
-                AvatarPragmaAuthenticity pragma = new AvatarPragmaAuthenticity("#Authenticity " + signalAuthOriginMap.get(s).getName() + " "
-                        + signalAuthDestMap.get(s).getName(), signalAuthOriginMap.get(s).getReferenceObject(), signalAuthOriginMap.get(s), signalAuthDestMap.get(s));
-                if (secChannelMap.containsKey(s)) {
-                    for (String channel : secChannelMap.get(s)) {
-                        TMLChannel ch = tmlmodel.getChannelByShortName(channel);
-                        if (ch != null) {
-                            if (ch.checkAuth) {
-                                avspec.addPragma(pragma);
-                                break;
+            for (AvatarAttributeState attributeStateOrigin : signalAuthOriginMap.get(s)) {
+                if (signalAuthDestMap.containsKey(s)) {
+                    for (AvatarAttributeState attributeStateDest : signalAuthDestMap.get(s)) { 
+                        AvatarPragmaAuthenticity pragma = new AvatarPragmaAuthenticity(
+                                "#Authenticity " + attributeStateOrigin.getName() + " " + attributeStateDest.getName(),
+                                attributeStateOrigin.getReferenceObject(), attributeStateOrigin, attributeStateDest);
+                        if (secChannelMap.containsKey(s)) {
+                            for (String channel : secChannelMap.get(s)) {
+                                TMLChannel ch = tmlmodel.getChannelByShortName(channel);
+                                if (ch != null) {
+                                    if (ch.checkAuth) {
+                                        avspec.addPragma(pragma);
+                                        break;
+                                    }
+                                }
                             }
+                        } else {
+                            avspec.addPragma(pragma);
                         }
                     }
-
-                } else {
-                    avspec.addPragma(pragma);
                 }
             }
         }
@@ -2322,6 +2365,67 @@ public class TML2Avatar {
                 if (obj instanceof TMLADWaitEvent) {
                     TMLADWaitEvent wc = (TMLADWaitEvent) obj;
                     wc.reachabilityInformation = r;
+                }
+            }
+        }
+    }
+
+    public void backtraceAuthenticityADReadChannels(ProVerifOutputAnalyzer pvoa, String mappingName) {
+        Map<AvatarPragmaAuthenticity, ProVerifQueryAuthResult> authenticityResults = pvoa.getAuthenticityResults();
+        for (AvatarPragmaAuthenticity pragma : authenticityResults.keySet()) {
+            ProVerifQueryAuthResult result = authenticityResults.get(pragma);
+            if (!result.isProved() || !result.isWeakProved())
+                continue;
+            int resWeakAuthStatus = 1;
+            int resStrongAuthStatus = 1;
+            if (result.isWeakProved()) {
+                resWeakAuthStatus = result.isWeakSatisfied() ? 2 : 3;
+            }
+
+            if (result.isProved()) {
+                resStrongAuthStatus = result.isSatisfied() ? 2 : 3;
+            }
+
+            if (pragma.getAttrB().getReferenceObject()!= null && pragma.getAttrB().getReferenceObject() instanceof TMLADReadChannel) {
+                TMLADReadChannel rc = (TMLADReadChannel) pragma.getAttrB().getReferenceObject();
+                TMLChannel channel = tmlmodel.getChannelByShortName(rc.getChannelName());
+                if (channel != null) {
+                    rc.setAuthCheck(channel.checkAuth);
+                }
+                if (rc.getWeakAuthStatus() < 3) {
+                    rc.setWeakAuthStatus(resWeakAuthStatus);
+                    if (rc.getStrongAuthStatus() < 3) {
+                        rc.setStrongAuthStatus(resStrongAuthStatus);
+                    }
+                }
+            }
+
+            if (pragma.getAttrB().getReferenceObject()!= null && pragma.getAttrB().getReferenceObject() instanceof TMLADDecrypt) {
+                TMLADDecrypt dec = (TMLADDecrypt) pragma.getAttrB().getReferenceObject();
+                for (TMLTask t : taskBlockMap.keySet()) {
+                    if (taskBlockMap.get(t).equals(pragma.getAttrB().getAttribute().getBlock())) {
+                        chDestinationTask:
+                        for (TMLChannel ch : tmlmodel.getChannels(t)) {
+                            if (ch.hasDestinationTask(t)) {
+                                for (TMLActivityElement actElem : t.getActivityDiagram().getElements()) {
+                                    if (actElem instanceof TMLReadChannel) {
+                                        TMLReadChannel rc = (TMLReadChannel) actElem;
+                                        if (rc.hasChannel(ch) && actElem.securityPattern != null
+                                                && actElem.securityPattern.getName().equals(dec.securityContext)) {
+                                            dec.setAuthCheck(ch.checkAuth);
+                                            break chDestinationTask;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                if (dec.getWeakAuthStatus() < 3) {
+                    dec.setWeakAuthStatus(resWeakAuthStatus);
+                    if (dec.getStrongAuthStatus() < 3) {
+                        dec.setStrongAuthStatus(resStrongAuthStatus);
+                    }
                 }
             }
         }

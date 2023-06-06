@@ -116,6 +116,10 @@ public class TMLADReadChannel extends TADComponentWithoutSubcomponents/* Issue #
 
     private int securityMaxX;
 	
+    protected boolean authCheck = false;
+    protected int weakAuthStatus = 0;
+    protected int strongAuthStatus = 0;
+
     public TMLADReadChannel(int _x, int _y, int _minX, int _maxX, int _minY, int _maxY, boolean _pos, TGComponent _father, TDiagramPanel _tdp) {
         super(_x, _y, _minX, _maxX, _minY, _maxY, _pos, _father, _tdp);
 
@@ -212,7 +216,7 @@ public class TMLADReadChannel extends TADComponentWithoutSubcomponents/* Issue #
         }
         if (!securityContext.equals("")) {
         	c = g.getColor();
-	        if (!isEncForm){
+	        if (!isEncForm) {
 	        	g.setColor(Color.RED);
 	        }
             drawSingleString(g,"sec:" + securityContext, x + 3 * width / 4, y + height + textY1 - decSec);
@@ -224,6 +228,9 @@ public class TMLADReadChannel extends TADComponentWithoutSubcomponents/* Issue #
             g.setColor(c);
         }
         drawReachabilityInformation(g);
+        if (authCheck) {
+            drawAuthenticityInformation(g);
+        }
 
         if (getCheckLatency()) {
             ConcurrentHashMap<String, String> latency = tdp.getMGUI().getLatencyVals(getDIPLOID());
@@ -285,6 +292,80 @@ public class TMLADReadChannel extends TADComponentWithoutSubcomponents/* Issue #
                 g.drawLine(x - scale( 14 ), y - scale( 9 ), x - scale( 1 ), y + scale( 3 )); // Issue #31
                 g.drawLine(x - scale( 14 ), y + scale( 3 ), x - scale( 1 ), y - scale( 9 )); // Issue #31
             }
+        }
+    }
+
+    public void drawAuthenticityInformation(Graphics g) {
+        final double coeffSpacePortAuthLock = 0.1;
+        final double coeffAuthOval = 1;
+        final double coeffAuthLock = 1.1;
+        final double coeffXCoordinateOffsetDrawAuth = 0.85;
+        final double coeffYCoordinateOffsetDrawAuth = 0.95;
+        double spacePortAuthLock = width * coeffSpacePortAuthLock;
+        double authOvalWidth = height * coeffAuthOval;
+        double authOvalHeight = height * coeffAuthOval;
+        double authLockWidth = height * coeffAuthLock;
+        double authLockHeight = height * coeffAuthLock;
+        double xCoordinateAuthLockLeft = x + width + spacePortAuthLock;
+        double xCoordinateAuthLockRight = x + width + authLockWidth + spacePortAuthLock;
+        double yCoordinateAuthLockTop = y + height - authLockHeight;
+        double yCoordinateAuthLockBottom = y + height;
+        double xCoordinateAuthLockCenter = xCoordinateAuthLockLeft + authLockWidth/2;
+        double yCoordinateAuthLockCenter = yCoordinateAuthLockBottom - authLockHeight/2;
+        double xCoordinateAuthOvalLeft = xCoordinateAuthLockLeft + (authLockWidth - authOvalWidth)/2;
+        double yCoordinateAuthOvalTop = yCoordinateAuthLockTop - authOvalHeight/2;
+
+        Color c = g.getColor();
+        Color c1;
+        Color c2;
+        switch (strongAuthStatus) {
+            case 2:
+                c1 = Color.green;
+                break;
+            case 3:
+                c1 = Color.red;
+                break;
+            default:
+                c1 = Color.gray;
+        }
+        switch (weakAuthStatus) {
+            case 2:
+                c2 = Color.green;
+                break;
+            case 3:
+                c2 = Color.red;
+                break;
+            default:
+                c2 = c1;
+        }
+        g.drawOval((int) (xCoordinateAuthOvalLeft), (int) (yCoordinateAuthOvalTop), (int) (authOvalWidth), (int) (authOvalHeight));
+        g.setColor(c1);
+       
+        int[] xps = new int[]{(int) (xCoordinateAuthLockLeft), (int) (xCoordinateAuthLockLeft), (int) (xCoordinateAuthLockRight)};
+        int[] yps = new int[]{(int) (yCoordinateAuthLockTop), (int) (yCoordinateAuthLockBottom), (int) (yCoordinateAuthLockBottom)};
+        int[] xpw = new int[]{(int) (xCoordinateAuthLockRight), (int) (xCoordinateAuthLockRight), (int) (xCoordinateAuthLockLeft)};
+        int[] ypw = new int[]{(int) (yCoordinateAuthLockBottom), (int) (yCoordinateAuthLockTop), (int) (yCoordinateAuthLockTop)};
+        g.fillPolygon(xps, yps, 3);
+
+        g.setColor(c2);
+        g.fillPolygon(xpw, ypw, 3);
+        g.setColor(c);
+        g.drawPolygon(xps, yps, 3);
+        g.drawPolygon(xpw, ypw, 3);
+        drawSingleString(g, "S", (int) (xCoordinateAuthLockLeft), (int) (y + coeffYCoordinateOffsetDrawAuth*height));
+        drawSingleString(g, "W", (int) (xCoordinateAuthLockLeft + coeffXCoordinateOffsetDrawAuth * authLockWidth / 2),
+                (int) (yCoordinateAuthLockBottom - coeffYCoordinateOffsetDrawAuth * authLockHeight / 2));
+        if (strongAuthStatus == 3) {
+            g.drawLine((int) (xCoordinateAuthLockLeft), (int) (yCoordinateAuthLockBottom),
+                    (int) (xCoordinateAuthLockCenter), (int) (yCoordinateAuthLockCenter));
+            g.drawLine((int) (xCoordinateAuthLockLeft), (int) (yCoordinateAuthLockCenter),
+                    (int) (xCoordinateAuthLockCenter), (int) (yCoordinateAuthLockBottom));
+        }
+        if (weakAuthStatus == 3 || strongAuthStatus == 3 && weakAuthStatus < 2) {
+            g.drawLine((int) (xCoordinateAuthLockCenter), (int) (yCoordinateAuthLockCenter),
+                    (int) (xCoordinateAuthLockRight), (int) (yCoordinateAuthLockTop));
+            g.drawLine((int) (xCoordinateAuthLockCenter), (int) (yCoordinateAuthLockTop),
+                    (int) (xCoordinateAuthLockRight), (int) (yCoordinateAuthLockCenter));
         }
     }
 
@@ -424,8 +505,8 @@ public class TMLADReadChannel extends TADComponentWithoutSubcomponents/* Issue #
                                 securityContext = elt.getAttribute("secPattern");
                                 isAttacker = elt.getAttribute("isAttacker").equals("Yes");
                                 isEncForm = elt.getAttribute("isEncForm").equals("Yes");    
-                                if (elt.getAttribute("isEncForm").equals("") || !elt.hasAttribute("isEncForm")){
-                                	if (!securityContext.equals("")){
+                                if (elt.getAttribute("isEncForm").equals("") || !elt.hasAttribute("isEncForm")) {
+                                	if (!securityContext.equals("")) {
                                 		isEncForm=true;
                                 	}
                                 }
@@ -468,11 +549,11 @@ public class TMLADReadChannel extends TADComponentWithoutSubcomponents/* Issue #
         stateOfError = _stateAction;
     }
 
-    public boolean getEncForm(){
+    public boolean getEncForm() {
 		return isEncForm;
 	}
 		
-	public void setEncForm(boolean encForm){
+	public void setEncForm(boolean encForm) {
 		isEncForm=encForm;
 	}
 
@@ -480,5 +561,30 @@ public class TMLADReadChannel extends TADComponentWithoutSubcomponents/* Issue #
     public void setChannelName(String s) {
         channelName = s;
         makeValue();
+    }
+
+    public boolean getAuthCheck() {
+		return authCheck;
+	}
+
+    public void setAuthCheck(boolean _authCheck) {
+        authCheck = _authCheck;
+        makeValue();
+    }
+
+    public int getWeakAuthStatus() {
+		return weakAuthStatus;
+	}
+
+    public void setWeakAuthStatus(int _weakAuthStatus) {
+        weakAuthStatus = _weakAuthStatus;
+    }
+
+    public int getStrongAuthStatus() {
+		return strongAuthStatus;
+	}
+
+    public void setStrongAuthStatus(int _strongAuthStatus) {
+        strongAuthStatus = _strongAuthStatus;
     }
 }

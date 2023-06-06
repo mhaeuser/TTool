@@ -90,6 +90,10 @@ public class TMLADDecrypt extends TADComponentWithoutSubcomponents/* Issue #69 T
 
     private int securityMaxX;
 
+    protected boolean authCheck = false;
+    protected int weakAuthStatus = 0;
+    protected int strongAuthStatus = 0;
+
     public TMLADDecrypt(int _x, int _y, int _minX, int _maxX, int _minY, int _maxY, boolean _pos, TGComponent _father, TDiagramPanel _tdp) {
         super(_x, _y, _minX, _maxX, _minY, _maxY, _pos, _father, _tdp);
 
@@ -156,6 +160,10 @@ public class TMLADDecrypt extends TADComponentWithoutSubcomponents/* Issue #69 T
 
         if (!tdp.isScaled()) {
             securityMaxX = (int) (x + 3 * width / 2 + g.getFontMetrics().stringWidth("sec:" + securityContext) * 1.05);
+        }
+
+        if (authCheck) {
+            drawAuthenticityInformation(g);
         }
     }
 
@@ -250,6 +258,81 @@ public class TMLADDecrypt extends TADComponentWithoutSubcomponents/* Issue #69 T
         }
     }
 
+    public void drawAuthenticityInformation(Graphics g) {
+        final double coeffSpacePortAuthLock = 0.1;
+        final double coeffAuthOval = 0.55;
+        final double coeffAuthLock = 0.65;
+        final double coeffXCoordinateOffsetDrawAuth = 1.5;
+        final double coeffYCoordinateOffsetDrawAuth = 0.95;
+        double spacePortAuthLock = width * coeffSpacePortAuthLock;
+        double authOvalWidth = height * coeffAuthOval;
+        double authOvalHeight = height * coeffAuthOval;
+        double authLockWidth = height * coeffAuthLock;
+        double authLockHeight = height * coeffAuthLock;
+        double xCoordinateAuthLockLeft = securityMaxX + spacePortAuthLock;
+        double xCoordinateAuthLockRight = securityMaxX + authLockWidth + spacePortAuthLock;
+        double yCoordinateAuthLockTop = y + height - authLockHeight;
+        double yCoordinateAuthLockBottom = y + height;
+        double xCoordinateAuthLockCenter = xCoordinateAuthLockLeft + authLockWidth/2;
+        double yCoordinateAuthLockCenter = yCoordinateAuthLockBottom - authLockHeight/2;
+        double xCoordinateAuthOvalLeft = xCoordinateAuthLockLeft + (authLockWidth - authOvalWidth)/2;
+        double yCoordinateAuthOvalTop = yCoordinateAuthLockTop - authOvalHeight/2;
+        Color c = g.getColor();
+        Color c1;
+        Color c2;
+        switch (strongAuthStatus) {
+            case 2:
+                c1 = Color.green;
+                break;
+            case 3:
+                c1 = Color.red;
+                break;
+            default:
+                c1 = Color.gray;
+        }
+        switch (weakAuthStatus) {
+            case 2:
+                c2 = Color.green;
+                break;
+            case 3:
+                c2 = Color.red;
+                break;
+            default:
+                c2 = c1;
+        }
+        
+        g.drawOval((int) (xCoordinateAuthOvalLeft), (int) (yCoordinateAuthOvalTop), (int) (authOvalWidth), (int) (authOvalHeight));
+        g.setColor(c1);
+       
+        int[] xps = new int[]{(int) (xCoordinateAuthLockLeft), (int) (xCoordinateAuthLockLeft), (int) (xCoordinateAuthLockRight)};
+        int[] yps = new int[]{(int) (yCoordinateAuthLockTop), (int) (yCoordinateAuthLockBottom), (int) (yCoordinateAuthLockBottom)};
+        int[] xpw = new int[]{(int) (xCoordinateAuthLockRight), (int) (xCoordinateAuthLockRight), (int) (xCoordinateAuthLockLeft)};
+        int[] ypw = new int[]{(int) (yCoordinateAuthLockBottom), (int) (yCoordinateAuthLockTop), (int) (yCoordinateAuthLockTop)};
+        g.fillPolygon(xps, yps, 3);
+
+        g.setColor(c2);
+        g.fillPolygon(xpw, ypw, 3);
+        g.setColor(c);
+        g.drawPolygon(xps, yps, 3);
+        g.drawPolygon(xpw, ypw, 3);
+        drawSingleString(g, "S", (int) (securityMaxX + coeffXCoordinateOffsetDrawAuth * spacePortAuthLock),
+                (int) (y + coeffYCoordinateOffsetDrawAuth * height));
+        drawSingleString(g, "W", (int) (xCoordinateAuthLockLeft + coeffYCoordinateOffsetDrawAuth * authLockWidth / 2),
+                (int) (yCoordinateAuthLockBottom - coeffYCoordinateOffsetDrawAuth * authLockHeight / 2));
+        if (strongAuthStatus == 3) {
+            g.drawLine((int) (xCoordinateAuthLockLeft), (int) (yCoordinateAuthLockBottom),
+                    (int) (xCoordinateAuthLockCenter), (int) (yCoordinateAuthLockCenter));
+            g.drawLine((int) (xCoordinateAuthLockLeft), (int) (yCoordinateAuthLockCenter),
+                    (int) (xCoordinateAuthLockCenter), (int) (yCoordinateAuthLockBottom));
+        }
+        if (weakAuthStatus == 3 || strongAuthStatus == 3 && weakAuthStatus < 2) {
+            g.drawLine((int) (xCoordinateAuthLockCenter), (int) (yCoordinateAuthLockCenter),
+                    (int) (xCoordinateAuthLockRight), (int) (yCoordinateAuthLockTop));
+            g.drawLine((int) (xCoordinateAuthLockCenter), (int) (yCoordinateAuthLockTop),
+                    (int) (xCoordinateAuthLockRight), (int) (yCoordinateAuthLockCenter));
+        }
+    }
+
     @Override
     public int getType() {
         return TGComponentManager.TMLAD_DECRYPT;
@@ -263,5 +346,29 @@ public class TMLADDecrypt extends TADComponentWithoutSubcomponents/* Issue #69 T
     @Override
     public void setStateAction(int _stateAction) {
         stateOfError = _stateAction;
+    }
+
+    public boolean getAuthCheck() {
+		return authCheck;
+	}
+
+    public void setAuthCheck(boolean _authCheck) {
+        authCheck = _authCheck;
+    }
+
+    public int getWeakAuthStatus() {
+		return weakAuthStatus;
+	}
+
+    public void setWeakAuthStatus(int _weakAuthStatus) {
+        weakAuthStatus = _weakAuthStatus;
+    }
+
+    public int getStrongAuthStatus() {
+		return strongAuthStatus;
+	}
+
+    public void setStrongAuthStatus(int _strongAuthStatus) {
+        strongAuthStatus = _strongAuthStatus;
     }
 }

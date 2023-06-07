@@ -519,6 +519,11 @@ public class AvatarSpecification extends AvatarElement implements IBSParamSpec {
     *
      */
     public static AvatarSpecification fromJSON(String _spec, String _name, Object _referenceObject) {
+        if (_spec == null) {
+            return null;
+        }
+
+
         AvatarSpecification spec = new AvatarSpecification(_name, _referenceObject);
         jsonErrors = new ArrayList<>();
 

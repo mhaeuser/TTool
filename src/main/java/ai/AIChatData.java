@@ -62,7 +62,7 @@ public class AIChatData  {
 
     public AIInterface aiinterface;
     public boolean knowledgeOnProperties = false;
-    public boolean knowledgeOnBlockJSON = false;
+    public int knowledgeOnBlockJSON = -1;
     public boolean knowledgeOnAMULET = false;
 
     public AIFeedback feedback;
@@ -79,7 +79,7 @@ public class AIChatData  {
 
     public void clear() {
         knowledgeOnProperties = false;
-        knowledgeOnBlockJSON = false;
+        knowledgeOnBlockJSON = -1;
         knowledgeOnAMULET = false;
 
         lastAnswer = "";

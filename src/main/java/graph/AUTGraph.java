@@ -783,7 +783,6 @@ public class AUTGraph implements myutil.Graph {
                         st1.outTransitions.add(trf);
                     }
                 }
-
             }
         }
 

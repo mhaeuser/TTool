@@ -44,6 +44,8 @@ import myutil.GraphicLib;
 import myutil.TraceManager;
 import myutilsvg.SVGGeneration;
 import myutilsvg.SVGGraphics;
+import tmltranslator.TMLActivityElement;
+import tmltranslator.TMLTask;
 import ui.atd.ATDAttack;
 import ui.atd.ATDBlock;
 import ui.avatarad.AvatarADActivity;
@@ -76,6 +78,8 @@ import ui.syscams.SysCAMSBlockDE;
 import ui.syscams.SysCAMSBlockTDF;
 import ui.syscams.SysCAMSClock;
 import ui.syscams.SysCAMSCompositeComponent;
+import ui.tmlad.TMLADDecrypt;
+import ui.tmlad.TMLADReadChannel;
 import ui.tmlcd.TMLTaskOperator;
 import ui.tmlcompd.TMLCCompositeComponent;
 import ui.tmlcompd.TMLCPrimitiveComponent;
@@ -2587,6 +2591,26 @@ public abstract class TDiagramPanel extends JPanel implements GenericTree {
         for (TGComponent tgc : getAllComponentList()) {
             tgc.resetVerificationResults();
         }
+        for (TMLTask t : mgui.gtm.getTMLMapping().getTMLModeling().getTasks()) {
+            for (TMLActivityElement elem : t.getActivityDiagram().getElements()) {
+                if (elem.getReferenceObject() instanceof TMLADReadChannel){
+                    TMLADReadChannel rc = (TMLADReadChannel) elem.getReferenceObject();
+                    if (rc.getAuthCheck()) {
+                        rc.setWeakAuthStatus(1);
+                        rc.setStrongAuthStatus(1);
+                    }
+                }
+
+                if (elem.getReferenceObject() instanceof TMLADDecrypt) {
+                    TMLADDecrypt dec = (TMLADDecrypt) elem.getReferenceObject();
+                    if (dec.getAuthCheck()) {
+                        dec.setWeakAuthStatus(1);
+                        dec.setStrongAuthStatus(1);
+                    }
+                }
+            }
+        }
+
     }
 
 

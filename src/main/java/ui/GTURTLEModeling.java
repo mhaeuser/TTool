@@ -9222,6 +9222,8 @@ public class GTURTLEModeling {
 
         if (asme instanceof AvatarSetTimer) {
             AvatarSMDSetTimer timerSet = new AvatarSMDSetTimer(x, y, smp.getMinX(), smp.getMaxX(), smp.getMinY(), smp.getMaxY(), false, null, smp);
+            AvatarSetTimer ast = (AvatarSetTimer)asme;
+            timerSet.setComplexValue( ast.getTimer().getName(), ast.getTimerValue() );
             tgcomp = timerSet;
             SMDMap.put(asme, timerSet);
             smp.addComponent(timerSet, x, y, false, true);
@@ -9232,7 +9234,9 @@ public class GTURTLEModeling {
         if (asme instanceof AvatarExpireTimer) {
             AvatarSMDExpireTimer timerExpire = new AvatarSMDExpireTimer(x, y, smp.getMinX(), smp.getMaxX(), smp.getMinY(), smp.getMaxY(), false, null,
                     smp);
+            timerExpire.setComplexValue( ((AvatarExpireTimer)asme).getTimer().getName());
             tgcomp = timerExpire;
+
             SMDMap.put(asme, timerExpire);
             smp.addComponent(timerExpire, x, y, false, true);
             //  tp = smdstop.tgconnectingPointAtIndex(0);
@@ -9243,6 +9247,7 @@ public class GTURTLEModeling {
             AvatarSMDResetTimer timerReset = new AvatarSMDResetTimer(x, y, smp.getMinX(), smp.getMaxX(), smp.getMinY(), smp.getMaxY(), false,
                     null,
                     smp);
+            timerReset.setComplexValue( ((AvatarResetTimer)asme).getTimer().getName());
             tgcomp = timerReset;
             SMDMap.put(asme, timerReset);
             smp.addComponent(timerReset, x, y, false, true);
@@ -9377,7 +9382,9 @@ public class GTURTLEModeling {
         }
 
         for (avatartranslator.AvatarMethod method : ab.getMethods()) {
-            bl.addMethodIfApplicable(method.toString().replaceAll(" = 0", ""));
+            String methodId = method.toString().replaceAll(" = 0", "");
+            String result = methodId.replaceAll(" = false", "");
+            bl.addMethodIfApplicable(result);
         }
     }
 
@@ -9388,9 +9395,9 @@ public class GTURTLEModeling {
         TraceManager.addDev("Checking syntax of avatar spec.");
         ArrayList<AvatarError> list = AvatarSyntaxChecker.checkSyntaxErrors(avspec);
         for (AvatarError error : list) {
-            TraceManager.addDev("Error: " + error.toString());
+            TraceManager.addDev("\n*********** Error: " + error.toString() + "\n\n");
         }
-        TraceManager.addDev("Check done. " + checkingErrors.size() + " errors found");
+        //TraceManager.addDev("Check done. " + checkingErrors.size() + " errors found\nAvatar Spec:\n" + avspec.toString());
 
         // Go for drawing!
         hasCrypto = false;
@@ -9624,6 +9631,9 @@ public class GTURTLEModeling {
             key.resize(200, 100);
             abd.addComponent(key, xpos, ypos, false, true);
         }
+
+        adp.getAvatarBDPanel().connectSignals();
+        adp.getAvatarBDPanel().repaint();
 
     }
 

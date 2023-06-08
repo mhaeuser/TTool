@@ -244,9 +244,13 @@ public class AvatarSMDExpireTimer extends AvatarSMDBasicCanBeDisabledComponent /
             return false;
         }
 
-        value = "expire(" + val0 + ")";
+        setComplexValue(val0);
 
         return true;
+    }
+
+    public void setComplexValue(String timerName) {
+        value = "expire(" + timerName + ")";
     }
 
     @Override

@@ -237,11 +237,15 @@ public class AvatarSMDResetTimer extends AvatarSMDBasicCanBeDisabledComponent /*
 						JOptionPane.INFORMATION_MESSAGE);
 			return false;
 		}
-		
-		value = "reset(" + val0 + ")";
+
+		setComplexValue(val0);
 		
 		return true;
     }
+
+	public void setComplexValue(String timerName) {
+		value = "reset(" + timerName + ")";
+	}
 
     @Override
     public int getType() {

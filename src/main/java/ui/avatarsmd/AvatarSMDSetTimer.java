@@ -251,11 +251,15 @@ public class AvatarSMDSetTimer extends AvatarSMDBasicCanBeDisabledComponent /* I
 			return false;
 		}
 		
-		value = "setTimer(" + val0 + "," + val1 + ")";
+		setComplexValue(val0, val1);
 		
 		return true;
          
     }
+
+	public void setComplexValue(String timerName, String timerValue) {
+		value = "setTimer(" + timerName + "," + timerValue + ")";
+	}
 
 	@Override
     public int getType() {

@@ -43,6 +43,7 @@ import myutil.TraceManager;
 import myutil.intboolsolver.IBSParamComp;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -537,41 +538,55 @@ public class AvatarBlock extends AvatarElement implements AvatarStateMachineOwne
     }
 
     public void removeTimers(AvatarSpecification _spec, List<AvatarBlock> _addedBlocks) {
-        AvatarSignal as;
+        AvatarSignal asSet, asReset, asExpire;
+        String name;
         AvatarAttribute value;
+        HashMap<String, AvatarSignal> sets = new HashMap<>();
+        HashMap<String, AvatarSignal> resets = new HashMap<>();
+        HashMap<String, AvatarSignal> expires = new HashMap<>();
+
 
         // Add new timer signals
         for (AvatarAttribute aa : attributes) {
             if (aa.getType() == AvatarType.TIMER) {
-                as = new AvatarSignal("set__" + aa.getName(), AvatarSignal.OUT, aa.getReferenceObject());
-                value = new AvatarAttribute("__myvalue", AvatarType.INTEGER, this, aa.getReferenceObject());
-                as.addParameter(value);
-                addSignal(as);
-                addSignal(new AvatarSignal("reset__" + aa.getName(), AvatarSignal.OUT, aa.getReferenceObject()));
-                addSignal(new AvatarSignal("expire__" + aa.getName(), AvatarSignal.IN, aa.getReferenceObject()));
+                name = findUniqueSignalName("set_" + aa.getName());
+                asSet = new AvatarSignal(name, AvatarSignal.OUT, aa.getReferenceObject());
+                value = new AvatarAttribute("timerValue", AvatarType.INTEGER, this, aa.getReferenceObject());
+                asSet.addParameter(value);
+                addSignal(asSet);
+                sets.put(aa.getName(), asSet);
+                name = findUniqueSignalName("reset_" + aa.getName());
+                asReset = new AvatarSignal(name, AvatarSignal.OUT, aa.getReferenceObject());
+                addSignal(asReset);
+                resets.put(aa.getName(), asReset);
+                name = findUniqueSignalName("expire_" + aa.getName());
+                asExpire = new AvatarSignal(name, AvatarSignal.IN, aa.getReferenceObject());
+                addSignal(asExpire);
+                expires.put(aa.getName(), asExpire);
 
                 // Create a timer block, and connect signals
-                String blockName = "Timer__" + aa.getName() + "__" + getName();
+                String blockName = "Timer_" + aa.getName() + "_" + getName();
                 while (_spec.getBlockWithName(blockName) != null) {
-                    blockName += "_";
+                    blockName += "0";
                 }
                 AvatarBlock ab = AvatarBlockTemplate.getTimerBlock(blockName, _spec, getReferenceObject(), null, null, null);
                 _addedBlocks.add(ab);
 
                 AvatarRelation ar;
-                ar = new AvatarRelation("timerrelation", this, ab, getReferenceObject());
-                ar.addSignals(getAvatarSignalWithName("set__" + aa.getName()), ab.getAvatarSignalWithName("set"));
-                ar.addSignals(getAvatarSignalWithName("reset__" + aa.getName()), ab.getAvatarSignalWithName("reset"));
-                ar.addSignals(getAvatarSignalWithName("expire__" + aa.getName()), ab.getAvatarSignalWithName("expire"));
+                ar = new AvatarRelation("timerRelation", this, ab, getReferenceObject());
+                ar.addSignals(getAvatarSignalWithName(asSet.getSignalName()), ab.getAvatarSignalWithName("set"));
+                ar.addSignals(getAvatarSignalWithName(asReset.getSignalName()), ab.getAvatarSignalWithName("reset"));
+                ar.addSignals(getAvatarSignalWithName(asExpire.getSignalName()), ab.getAvatarSignalWithName("expire"));
                 _spec.addRelation(ar);
             }
         }
 
-        value = new AvatarAttribute("__timerValue", AvatarType.INTEGER, this, getReferenceObject());
+        name = findUniqueAttributeName("timerValue_");
+        value = new AvatarAttribute(name, AvatarType.INTEGER, this, getReferenceObject());
         addAttribute(value);
 
         // Modify the state machine
-        if (asm.removeTimers(this, "__timerValue")) {
+        if (asm.removeTimers(name, sets, resets, expires)) {
             // Add an attribute for the timer value
             //value = new AvatarAttribute("__timerValue", AvatarType.INTEGER, this, getReferenceObject());
             //addAttribute(value);
@@ -588,6 +603,24 @@ public class AvatarBlock extends AvatarElement implements AvatarStateMachineOwne
                 //hasTimerAttribute = true;
             }
         }
+    }
+
+    public String findUniqueSignalName(String inputName) {
+        for(AvatarSignal signal: signals) {
+            if (signal.getSignalName().compareTo(inputName) == 0) {
+                return findUniqueSignalName(inputName + "0");
+            }
+        }
+        return inputName;
+    }
+
+    public String findUniqueAttributeName(String inputName) {
+        for(AvatarAttribute attr: attributes) {
+            if (attr.getName().compareTo(inputName) == 0) {
+                return findUniqueAttributeName(inputName + "0");
+            }
+        }
+        return inputName;
     }
 
     public boolean hasTimerAttribute() {

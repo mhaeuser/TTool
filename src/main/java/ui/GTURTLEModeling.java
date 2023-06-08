@@ -9343,6 +9343,9 @@ public class GTURTLEModeling {
             if (attr.getType() == AvatarType.INTEGER) {
                 type = 0;
             }
+            if (attr.getType() == AvatarType.TIMER) {
+                type = 9;
+            }
             if (attr.hasInitialValue()) {
                 bl.addAttribute(new TAttribute(0, attr.getName(), attr.getInitialValue(), type));
             } else {

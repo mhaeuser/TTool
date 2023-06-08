@@ -49,6 +49,7 @@ import help.HelpManager;
 import myutil.GraphicLib;
 import myutil.TraceManager;
 import ui.*;
+import ui.avatarbd.AvatarBDPanel;
 import ui.avatarrd.AvatarRDPanel;
 import ui.avatarrd.AvatarRDRequirement;
 import ui.util.IconManager;
@@ -276,7 +277,8 @@ public class JFrameAI extends JFrame implements ActionListener {
         String[] names = {"pico", "zebre", "pingouin", "chien", "minou", "kitty", "chaton", "whatsapp", "Luke Skywalker",
                 "macareux", "ours", "italien", "paris-brest", "belle-mère", "apéro (l'abus d'alcool est dangereux pour la santé)",
                 "carpe", "crocodile", "psychologue", "dr emacs", "3615-TTool", "100 balles et 1 mars",
-                "opéra (l’abus d’Alcôve est dangereux pour la santé)", "chapon", "perroquet", "chameau volant", "Alice", "Oasis", "ATC RAK"};
+                "opéra (l’abus d’Alcôve est dangereux pour la santé)", "chapon", "perroquet", "chameau volant", "Alice", "Oasis", "ATC RAK",
+                "Adibou"};
         int x = (int) (Math.random() * names.length);
         return names[x];
     }
@@ -424,7 +426,22 @@ public class JFrameAI extends JFrame implements ActionListener {
     }
 
     private void applyMutations(){
+        //AvatarSpecification avspec = mgui.gtm.getAvatarSpecification();
+        TDiagramPanel tdp = mgui.getCurrentTDiagramPanel();
+        if (!(tdp instanceof AvatarBDPanel)) {
+            error("A block diagram must be selected first");
+            return;
+        }
+
+        boolean syntaxOK = mgui.checkModelingSyntax(true);
+
+        if (!syntaxOK) {
+            error("Block diagram: incorrect syntax");
+            return;
+        }
+
         AvatarSpecification avspec = mgui.gtm.getAvatarSpecification();
+
         if (avspec == null){
             error("AVATAR specification not found: aborting.\n");
             return;

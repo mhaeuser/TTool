@@ -831,8 +831,8 @@ public class AvatarRDPanel extends TDiagramPanel implements TDPWithAttributes, N
 
         TraceManager.addDev("Adding " + relation + " between " + reqOrigin.getValue() + " and " + reqDest.getValue());
 
-        TGConnectingPoint p1 = reqOrigin.closerFreeTGConnectingPoint(reqDest.getX(), reqDest.getY(), true, true);
-        TGConnectingPoint p2 = reqDest.closerFreeTGConnectingPoint(reqOrigin.getX(), reqOrigin.getY(), true, true);
+        TGConnectingPoint p1 = reqOrigin.closerFreeTGConnectingPoint(reqDest.getX(), reqDest.getY(), true);
+        TGConnectingPoint p2 = reqDest.closerFreeTGConnectingPoint(reqOrigin.getX(), reqOrigin.getY(), false);
 
         if ( (p1 != null) && (p2 != null) ) {
             TGConnector conn = null;

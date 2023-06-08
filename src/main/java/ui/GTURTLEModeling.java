@@ -9496,9 +9496,6 @@ public class GTURTLEModeling {
             }
         }
 
-        //for(String s: blockMap.keySet()) {
-        //    TraceManager.addDev("Key:" + s);
-        //}
 
 
         for (AvatarRelation ar : avspec.getRelations()) {
@@ -9510,8 +9507,6 @@ public class GTURTLEModeling {
 
             Vector<Point> points = new Vector<Point>();
 
-
-
             //TraceManager.addDev("bl1:" + bl1 + " bl2:" + bl2);
 
             // Printing blockMap
@@ -9520,42 +9515,48 @@ public class GTURTLEModeling {
                 TraceManager.addDev("String s:" + s + " / Block : " + block.getBlockName());
             }*/
 
-
             if ((blockMap.get(bl1) != null) && (blockMap.get(bl2) != null)) {
                 //TraceManager.addDev("Handling blocks");
-                TGConnectingPoint p1 = blockMap.get(bl1).findFirstFreeTGConnectingPoint(true, true);
-                p1.setFree(false);
+                AvatarBDBlock b1 = blockMap.get(bl1);
+                AvatarBDBlock b2 = blockMap.get(bl2);
+                //TGConnectingPoint p1 = blockMap.get(bl1).findFirstFreeTGConnectingPoint(true, true);
+                //TGConnectingPoint p2 = blockMap.get(bl2).findFirstFreeTGConnectingPoint(true, true);
 
-                TGConnectingPoint p2 = blockMap.get(bl2).findFirstFreeTGConnectingPoint(true, true);
-                p2.setFree(false);
+                TGConnectingPoint p1 = b1.closerFreeTGConnectingPoint(b2.getX(), b2.getY(), false, true);
+                TGConnectingPoint p2 = b2.closerFreeTGConnectingPoint(b1.getX(), b1.getY(), true, false);
+                if (p1 != null && p2 != null) {
+                    p1.setFree(false);
+                    p2.setFree(false);
 
-                if (bl2.equals(bl1)) {
-                    // Add 2 point so the connection looks square
-                    Point p = new Point(p1.getX(), p1.getY() - 10);
-                    points.add(p);
-                    p = new Point(p2.getX(), p2.getY() - 10);
-                    points.add(p);
-                }
-                AvatarBDPortConnector conn = new AvatarBDPortConnector(0, 0, 0, 0, 0, 0, true, null, abd, p1, p2, points);
-                abd.addComponent(conn, 0, 0, false, true);
-                conn.setAsynchronous(ar.isAsynchronous());
-                conn.setSynchronous(!ar.isAsynchronous());
-                conn.setAMS(false);
-                conn.setBlocking(ar.isBlocking());
-                conn.setPrivate(ar.isPrivate());
-                conn.setSizeOfFIFO(ar.getSizeOfFIFO());
+                    if (bl2.equals(bl1)) {
+                        // Add 2 point so the connection looks square
+                        Point p = new Point(p1.getX(), p1.getY() - 10);
+                        points.add(p);
+                        p = new Point(p2.getX(), p2.getY() - 10);
+                        points.add(p);
+                    }
+                    AvatarBDPortConnector conn = new AvatarBDPortConnector(0, 0, 0, 0, 0, 0, true, null,
+                            abd, p1, p2, points);
+                    abd.addComponent(conn, 0, 0, false, true);
+                    conn.setAsynchronous(ar.isAsynchronous());
+                    conn.setSynchronous(!ar.isAsynchronous());
+                    conn.setAMS(false);
+                    conn.setBlocking(ar.isBlocking());
+                    conn.setPrivate(ar.isPrivate());
+                    conn.setSizeOfFIFO(ar.getSizeOfFIFO());
 
-                for (int indexSig = 0; indexSig < ar.getSignals1().size(); indexSig++) {
+                    for (int indexSig = 0; indexSig < ar.getSignals1().size(); indexSig++) {
 
-                    //TraceManager.addDev("Adding signal 1: " + ar.getSignal1(i).toString() + " of block " + ar.block1.getName());
-                    conn.addSignal(ar.getSignal1(indexSig).toString(), ar.getSignal1(indexSig).getInOut() == 0, ar.block1.getName().contains(bl1));
-                    //TraceManager.addDev("Adding signal 2:" + ar.getSignal2(i).toString() + " of block " + ar.block2.getName());
-                    conn.addSignal(ar.getSignal2(indexSig).toString(), ar.getSignal2(indexSig).getInOut() == 0, !ar.block2.getName().contains(bl2));
+                        //TraceManager.addDev("Adding signal 1: " + ar.getSignal1(i).toString() + " of block " + ar.block1.getName());
+                        conn.addSignal(ar.getSignal1(indexSig).toString(), ar.getSignal1(indexSig).getInOut() == 0, ar.block1.getName().contains(bl1));
+                        //TraceManager.addDev("Adding signal 2:" + ar.getSignal2(i).toString() + " of block " + ar.block2.getName());
+                        conn.addSignal(ar.getSignal2(indexSig).toString(), ar.getSignal2(indexSig).getInOut() == 0, !ar.block2.getName().contains(bl2));
+
+                        conn.updateAllSignals();
+                    }
 
                     conn.updateAllSignals();
                 }
-
-                conn.updateAllSignals();
             }
         }
 
@@ -9908,9 +9909,10 @@ public class GTURTLEModeling {
             int y = tranSourceMap.get(t).getY() + tranSourceMap.get(t).getHeight();
 
             //    TGConnectingPoint p1 = tranSourceMap.get(t).findFirstFreeTGConnectingPoint(true,false);
-            TGConnectingPoint p1 = tranSourceMap.get(t).closerFreeTGConnectingPoint(x, y, true, false);
+            TGConnectingPoint p1 = tranSourceMap.get(t).closerFreeTGConnectingPoint(x, y, false, true);
             if (p1 == null) {
-                p1 = tranSourceMap.get(t).findFirstFreeTGConnectingPoint(true, true);
+                TraceManager.addDev("NULL P1 in " + tranSourceMap.get(t).getName() + "/" +  tranSourceMap.get(t).getValue());
+                p1 = tranSourceMap.get(t).findFirstFreeTGConnectingPoint(true, false);
                 //p1=tranSourceMap.get(t).closerFreeTGConnectingPoint(x,y,true, true);
             }
             x = locMap.get(tranDestMap.get(t)).getX() + locMap.get(tranDestMap.get(t)).getWidth() / 2;
@@ -9923,13 +9925,14 @@ public class GTURTLEModeling {
                     x = locMap.get(tranDestMap.get(t)).getX() + locMap.get(tranDestMap.get(t)).getWidth();
                 }
             }
-            TGConnectingPoint p2 = locMap.get(tranDestMap.get(t)).closerFreeTGConnectingPoint(x, y, false, true);
+            TGConnectingPoint p2 = locMap.get(tranDestMap.get(t)).closerFreeTGConnectingPoint(x, y, true, false);
             if (p2 == null) {
-                p2 = locMap.get(tranDestMap.get(t)).closerFreeTGConnectingPoint(x, y, true, true);
+                TraceManager.addDev("NULL P2 in " +  locMap.get(tranDestMap.get(t)).getName() + "/" + locMap.get(tranDestMap.get(t)).getValue());
+                p2 = locMap.get(tranDestMap.get(t)).findFirstFreeTGConnectingPoint(false, true);
             }
             Vector<Point> points = new Vector<Point>();
             if (p1 == null || p2 == null) {
-
+                TraceManager.addDev("Null P1 and P2");
 
                 return;
             }

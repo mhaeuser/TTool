@@ -2284,7 +2284,7 @@ public abstract class TGComponent extends AbstractCDElement implements /*CDEleme
         return currentCloser;
     }
 
-    public TGConnectingPoint closerFreeTGConnectingPoint(int x, int y, boolean out, boolean in) {
+    public TGConnectingPoint closerFreeTGConnectingPoint(int x, int y, boolean mustBeIn, boolean mustBeOut) {
         TGConnectingPoint currentCloser = null;
         TGConnectingPoint currentp;
         double d1, d2;
@@ -2296,7 +2296,7 @@ public abstract class TGComponent extends AbstractCDElement implements /*CDEleme
                 continue;
             }
             currentp = connectingPoint[i];
-            if ((currentp != null) && (currentp.isFree()) && (currentp.isIn() == in) && (currentp.isOut() == out)) {
+            if ((currentp != null) && (currentp.isFree()) && ( (currentp.isIn() && mustBeIn) || (currentp.isOut() && mustBeOut))) {
                 if (currentCloser == null) {
                     currentCloser = currentp;
                     ref = i;

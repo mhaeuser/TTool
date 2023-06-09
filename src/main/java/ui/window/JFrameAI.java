@@ -618,7 +618,7 @@ public class JFrameAI extends JFrame implements ActionListener {
 
         public void setAnswerText(String text) {
             lastAnswer = text;
-            GraphicLib.appendToPane(selectedChat().answer, "\nAI:" + text + "\n", Color.red);
+            //GraphicLib.appendToPane(selectedChat().answer, "\nAI:" + text + "\n", Color.red);
             enableDisableActions();
         }
 

@@ -61,112 +61,37 @@ public class AIBlock extends AIInteract {
             "return them as a JSON specification " +
             "formatted as follows:" +
             "{blocks: [{ \"name\": \"Name of block\", \"attributes\": [\"name\": \"name of attribute\", \"type\": \"int or bool\" ...} ...]}" +
-            "Use only attributes of type int or boolean. If you want to use \"String\" or another other attribute, use int. Any identifier (block," +
-            "attribute, etc.) must no contain any space. User \"_\" instead.";
+            "Use only attributes of type int or boolean. If you want to use \"String\" or another other attribute, use int." +
+            "# Respect: each attribute must be of type \"int\" or \"bool\" only" +
+            "# Respect: Any identifier (block, attribute, etc.) must no contain any space. Use \"_\" instead.";
     public static String KNOWLEDGE_ON_JSON_FOR_BLOCKS_AND_CONNECTIONS = "When you are ask to identify signals of blocks, give a name to each " +
-            "signal, and list their attributes. Also, each signal must be connected with exactly one signal. Two connected signals must have the " +
-            "same list of attributes. For instance, if block b1 has a signal s1(int x), and b2 a signal s2(int y), s1 and s2 can be connected. In " +
+            "signal, and input/output direction and list their attributes. Also, each  signal must be connected with exactly one" +
+            " signal.  For instance, if block b1 has a signal \"output s1(int x)\", and b2 a signal \"input s2(int y)\", s1 and s2 " +
+            "can be connected. In " +
             "JSON, signals are given in the definition of blocks. JSON is as follows: {blocks: [{ \"name\": \"Name of block\", \"signals\": " +
-            "[\"signal\": \"sig1(int x, bool b)\"...] (no need to relist the attributes of signals) and after the blocks, add the following JSON: " +
-            "connections: [{\"sig1\": \"name of first " +
-            "signal\", " +
+            "[\"signal\": \"input/output sig1(int x, bool b)\"] (no need to relist the attributes of signals, nor to give a direction) and after " +
+            "the blocks, add the " +
+            "following JSON: " +
+            "connections: [{\"block1\" : name of first block, \"sig1\": name of first " +
+            "signal\", \"block2\" : name of second block" +
             "\"sig2\": \"name of second signal\"}, ." +
-            "..]. " +
-            "Also, in this JSON, keep the attributes you have identified at previous step";
+            "..]. " +  ".#" +
+            "Respect: in a connection, sig1 and sig2 must be different. The name of the signal only include its identifier, so not " +
+            "\"input\" nor " +
+            "\"output\", nor its attributes.#" +
+            "Two connected signals must have the \" +\n" +
+            "            \"same list of attributes.";
+
+
+
+
     public static String[] KNOWLEDGE_STAGES = {KNOWLEDGE_ON_JSON_FOR_BLOCKS_AND_ATTRIBUTES, KNOWLEDGE_ON_JSON_FOR_BLOCKS_AND_CONNECTIONS};
     AvatarSpecification specification;
     private String[] QUESTION_IDENTIFY_SYSTEM_BLOCKS = {"From the following system specification, using the specified JSON format, identify the " +
-            "typical system blocks and their attributes. Do respect the JSON format.\n", "From the previous JSON and system specification, identify" +
-            " the siganls and connection between signals"};
-    private String KNOWLEDGE_ON_JSON_FOR_BLOCKS = "JSON for block diagram is as follows: " +
-            "{blocks: [{ \"name\": \"Name of block\", \"attributes\": [\"name\": \"name of attribute\", \"type\": \"int or boolean\" ...}" + " same" +
-            "(with its parameters : int, boolean ; and its return type : nothing, int or boolean)" +
-            "and signals (with its list of parameters : int or boolean, and a type (input, output)" +
-            " then the list of connections between block signals: \"connections\": [\n" + "{\n" + " \"sourceBlock\": \"name of block\",\n" +
-            " \"sourceSignal\": \"name of output signal\",\n" +
-            " \"destinationBlock\": \"name of destination block\",\n" +
-            " \"destinationSignal\": \"rechargeBattery\",\n" +
-            " \"communicationType\": \"synchronous (or asynchronous)\"\n" +
-            "}. A connection must connect one output signal of a block to one input signal of a block. All signals must be connected to exactly one" +
-            "connection";
-    private String KNOWLEDGE_ON_JSON_FOR_BLOCKS_2 = "The system has two blocks B1 et B2.\n" +
-            "B1 has an attribute x of type int and B2 has one attribute y of  type bool.\n" +
-            "B1 also has a method: \"int getValue(int val)\" and an output signal sendInfo(int x).\n" +
-            "B2 has an input signal \"getValue(int val)\".\n" +
-            "sendInfo of B1 is connected to getValue of block B2.";
-    private String KNOWLEDGE_ON_JSON_FOR_BLOCKS_ANSWER_2 = "{\n" +
-            "  \"blocks\": [\n" +
-            "    {\n" +
-            "      \"name\": \"B1\",\n" +
-            "      \"attributes\": [\n" +
-            "        {\n" +
-            "          \"name\": \"x\",\n" +
-            "          \"type\": \"int\"\n" +
-            "        }\n" +
-            "      ],\n" +
-            "      \"methods\": [\n" +
-            "        {\n" +
-            "          \"name\": \"getValue\",\n" +
-            "          \"parameters\": [\n" +
-            "            {\n" +
-            "              \"name\": \"val\",\n" +
-            "              \"type\": \"int\"\n" +
-            "            }\n" +
-            "          ],\n" +
-            "          \"returnType\": \"int\"\n" +
-            "        }\n" +
-            "      ],\n" +
-            "      \"signals\": [\n" +
-            "        {\n" +
-            "          \"name\": \"sendInfo\",\n" +
-            "          \"parameters\": [\n" +
-            "            {\n" +
-            "              \"name\": \"x\",\n" +
-            "              \"type\": \"int\"\n" +
-            "            }\n" +
-            "          ],\n" +
-            "          \"type\": \"output\"\n" +
-            "        }\n" +
-            "      ]\n" +
-            "    },\n" +
-            "    {\n" +
-            "      \"name\": \"B2\",\n" +
-            "      \"attributes\": [\n" +
-            "        {\n" +
-            "          \"name\": \"y\",\n" +
-            "          \"type\": \"bool\"\n" +
-            "        }\n" +
-            "      ],\n" +
-            "      \"signals\": [\n" +
-            "        {\n" +
-            "          \"name\": \"getValue\",\n" +
-            "          \"parameters\": [\n" +
-            "            {\n" +
-            "              \"name\": \"val\",\n" +
-            "              \"type\": \"int\"\n" +
-            "            }\n" +
-            "          ],\n" +
-            "          \"type\": \"input\"\n" +
-            "        }\n" +
-            "      ]\n" +
-            "    }\n" +
-            "  ],\n" +
-            "  \"connections\": [\n" +
-            "    {\n" +
-            "      \"sourceBlock\": \"B1\",\n" +
-            "      \"sourceSignal\": \"sendInfo\",\n" +
-            "      \"destinationBlock\": \"B2\",\n" +
-            "      \"destinationSignal\": \"getValue\",\n" +
-            "      \"communicationType\": \"synchronous\"\n" +
-            "    }\n" +
-            "  ]\n" +
-            "}";
-    private String KNOWLEDGE_ON_DESIGN_PROPERTIES = "Properties of Design are of the following types\n" +
-            "- A<>expr means that all states of all paths must respect expr\n" +
-            "- A[]expr means that all states of at least one path must respect expr\n" +
-            "- E<>expr means that one state of all paths must respect expr\n" +
-            "- E[]expr means that one state of one path must respect expr\n" +
-            "expr is a boolean expression using either attributes of blocks or blocks states";
+            "typical system blocks and their attributes. Do respect the JSON format.\n", "From the previous JSON and system specification, update " +
+            "this JSON with" +
+            " the signals and connection between signals."};
+
 
     public AIBlock(AIChatData _chatData) {
         super(_chatData);
@@ -198,9 +123,8 @@ public class AIBlock extends AIInteract {
 
             } catch (org.json.JSONException e) {
                 TraceManager.addDev("Invalid JSON spec: " + extractJSON() + " because " + e.getMessage());
-                done = true;
                 errors = new ArrayList<>();
-                errors.add(e.getMessage());
+                errors.add("There is an error in your JSON: " + e.getMessage() + ". probably the JSON spec was incomplete. Do correct it");
             }
 
             if ((errors != null) && (errors.size() > 0)) {
@@ -219,8 +143,11 @@ public class AIBlock extends AIInteract {
                 }
             }
 
+            waitIfConditionTrue(!done && cpt < 20);
+
             cpt++;
         }
+        TraceManager.addDev("Reached end og AIBlock internal request");
 
     }
 
@@ -236,10 +163,17 @@ public class AIBlock extends AIInteract {
         TraceManager.addDev("makeKnowledge. stage: " + stage + " chatData.knowledgeOnBlockJSON: " + chatData.knowledgeOnBlockJSON);
         if (stage > chatData.knowledgeOnBlockJSON) {
             chatData.knowledgeOnBlockJSON++;
-            TraceManager.addDev("Knowledge added: " + KNOWLEDGE_STAGES[chatData.knowledgeOnBlockJSON]);
-            chatData.aiinterface.addKnowledge(KNOWLEDGE_STAGES[chatData.knowledgeOnBlockJSON], "ok");
+
+            String [] know = KNOWLEDGE_STAGES[chatData.knowledgeOnBlockJSON].split("#");
+
+            for(String s: know) {
+                TraceManager.addDev("\nKnowledge added: " + s);
+                chatData.aiinterface.addKnowledge(s, "ok");
+            }
         }
     }
+
+
 
 
 }

@@ -38,6 +38,12 @@
 
 package avatartranslator;
 
+import myutil.Conversion;
+import myutil.TraceManager;
+import translator.JKeyword;
+import translator.RTLOTOSKeyword;
+import translator.UPPAALKeyword;
+
 /**
    * Class AvatarSignal
    * Signals in Avatar ...
@@ -155,4 +161,166 @@ public class AvatarSignal extends AvatarMethod {
 	}
 
     public String[] getNameExceptions() { return null;}
+
+    // A signal must be of the form: "out/in id(type id0, type id1, ...)"
+    // Or 'returntype id(type id0, type id1, ...)'
+    // Returns null in case the method is not valid
+    public static AvatarSignal isAValidSignalThenCreate(String _signal, AvatarBlock _block) {
+
+
+        String signal, tmp, id;
+        String rt = "";
+
+        if (_signal == null) {
+            return null;
+        }
+
+        signal = _signal.trim();
+
+        int inout = IN;
+
+        if (signal.startsWith("in ")) {
+            signal = signal.substring(3).trim();
+        } else if (signal.startsWith("out ")) {
+            inout = OUT;
+            signal = signal.substring(4).trim();
+        }
+
+        // Must replace all "more than one space" by only one space
+        signal = Conversion.replaceAllString(signal, "\t", " ");
+        signal = Conversion.replaceAllString(signal, "  ", " ");
+        //TraceManager.addDev("Signal=" + signal);
+
+        if (signal.length() == 0) {
+            return null;
+        }
+
+        // Check for name
+        int indexName = signal.indexOf('(');
+        String signalName = signal;
+        if (indexName != -1) {
+            signalName = signal.substring(0, indexName).trim();
+            signal = signal.substring(indexName);
+        }
+
+        //TraceManager.addDev("SignalName: " + signalName + " signal:" + signal);
+
+        if (!isAValidId(signalName, true, true,true, false)) {
+            TraceManager.addDev("Unvalid id of signal " + signalName);
+            return null;
+        }
+
+
+        AvatarSignal as = new AvatarSignal(signalName, inout, null);
+
+        int indexBeg = signal.indexOf('(');
+        int indexEnd = signal.indexOf(')');
+
+        if ((indexBeg == -1) || (indexEnd == -1)) {
+            TraceManager.addDev("No parenthesis in signal=" + signal);
+            return as;
+        }
+
+        // Check parenthesis order
+        if (indexBeg > indexEnd) {
+            TraceManager.addDev(") before (");
+            return as;
+        }
+
+
+        // Between parenthesis: parameters of the form: String space String comma
+        // We replace double space by spaces and then spaces by commas
+        tmp = signal.substring(indexBeg + 1, indexEnd).trim();
+        //TraceManager.addDev("valid signal: tmp=" + tmp);
+
+        // no parameter?
+        if (tmp.length() == 0) {
+            return as;
+        }
+
+        // Has parameters...
+        tmp = Conversion.replaceAllString(tmp, "  ", " ");
+        tmp = Conversion.replaceAllString(tmp, " ,", ",");
+        tmp = Conversion.replaceAllString(tmp, ", ", ",");
+        tmp = Conversion.replaceAllChar(tmp, ' ', ",");
+
+
+        String splitted[] = tmp.split(",");
+        int size = splitted.length / 2;
+        // TraceManager.addDev("Nb of parameters=" + size);
+        int i;
+
+
+
+        try {
+            for (i = 0; i < splitted.length; i = i + 2) {
+                if (splitted[i].length() == 0) {
+                    return null;
+                }
+                if (splitted[i + 1].length() == 0) {
+                    return null;
+                }
+                if (!isAValidId(splitted[i], false, false,false, true)) {
+                    TraceManager.addDev("Unvalid type: " + splitted[i]);
+                    return null;
+                }
+                if (!isAValidId(splitted[i + 1], true, true,true, false)) {
+                    TraceManager.addDev("Unvalid id of parameter " + splitted[i + 1]);
+                    return null;
+                }
+                //TraceManager.addDev("Adding parameter: " + splitted[i] + " " + splitted[i+1]);
+                AvatarAttribute aa = new AvatarAttribute(splitted[i + 1], AvatarType.getType(splitted[i]), _block, null);
+                as.addParameter(aa);
+
+
+            }
+        } catch (Exception e) {
+            TraceManager.addDev("AvatarSignal Exception:" + e.getMessage());
+            return null;
+        }
+
+        //TraceManager.addDev("Returning method");
+
+        return as;
+    }
+
+    public static boolean isAValidId(String id, boolean checkKeyword, boolean checkUPPAALKeyword, boolean checkJavaKeyword, boolean checkTypes) {
+        // test whether _id is a word
+
+        if ((id == null) || (id.length() < 1)) {
+            return false;
+        }
+
+        String lowerid = id.toLowerCase();
+        boolean b1, b2, b3, b4, b5, b6;
+        b1 = (id.substring(0, 1)).matches("[a-zA-Z]");
+        b2 = id.matches("\\w*");
+        if (checkKeyword) {
+            b3 = !RTLOTOSKeyword.isAKeyword(lowerid);
+        } else {
+            b3 = true;
+        }
+
+        if (checkKeyword) {
+            b6 = !UPPAALKeyword.isAKeyword(lowerid);
+        } else {
+            b6 = true;
+        }
+
+        if (checkJavaKeyword) {
+            b5 = !JKeyword.isAKeyword(lowerid);
+        } else {
+            b5 = true;
+        }
+
+        if (checkTypes) {
+            b4 = ( lowerid.equals("int") || lowerid.equals("bool") );
+        } else {
+            b4 = true;
+        }
+
+        return (b1 && b2 && b3 && b4 && b5 && b6);
+    }
+
+    
 }

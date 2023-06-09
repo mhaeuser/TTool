@@ -366,6 +366,5 @@ public class AvatarExpressionTest {
         long t3 = System.currentTimeMillis();
         System.out.println(arr.get(5));
         System.out.println(" Durations, parsing: " + (t2 - t1) + " , evaluation: " + (t3 - t2));
-
     }
 }

@@ -129,11 +129,22 @@ public abstract class AIInteract implements Runnable {
         }
         if (chatData.feedback != null) {
             chatData.feedback.addInformation("Got answer from ai.\n");
-            //chatData.feedback.addToChat(chatData.lastAnswer, false);
+            chatData.feedback.addToChat(chatData.lastAnswer, false);
             //chatData.feedback.setAnswerText(chatData.lastAnswer);
         }
 
         return true;
+    }
+
+    public void waitIfConditionTrue(boolean _condition) {
+        if (_condition) {
+            try{
+                Thread.currentThread().sleep(5000);
+            } catch (Exception e) {
+
+            }
+
+        }
     }
 
     public String extractJSON() {

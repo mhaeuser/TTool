@@ -594,23 +594,30 @@ public class AvatarSpecification extends AvatarElement implements IBSParamSpec {
                 try {
                     JSONArray signalS = blockO.getJSONArray("signals");
                     for (int j = 0; j < signalS.length(); j++) {
-                        String nameS = spec.removeSpaces(signalS.getJSONObject(j).getString("name"));
-                        String typeS = signalS.getJSONObject(j).getString("type");
-                        int inout = AvatarSignal.IN;
-                        if (typeS.compareTo("output") == 0) {
-                            inout = AvatarSignal.OUT;
+                        String nameS = signalS.getJSONObject(j).getString("signal");
+                        if (nameS.startsWith("input")) {
+                            nameS = nameS.substring(5).trim();
+                            nameS = "in " + nameS;
+                        } else if (nameS.startsWith("output")) {
+                            nameS = nameS.substring(6).trim();
+                            nameS = "out " + nameS;
                         }
-                        AvatarSignal as = new AvatarSignal(nameS, inout, _referenceObject);
 
-                        JSONArray params = signalS.getJSONObject(j).getJSONArray("parameters");
+                        AvatarSignal as = AvatarSignal.isAValidSignalThenCreate(nameS, newBlock);
+
+                        /*JSONArray params = signalS.getJSONObject(j).getJSONArray("parameters");
                         for (int k = 0; k < params.length(); k++) {
                             String nameA = spec.removeSpaces(params.getJSONObject(k).getString("name"));
                             String typeA = params.getJSONObject(k).getString("type");
                             AvatarAttribute aa = new AvatarAttribute(nameA, AvatarType.getType(typeA), newBlock, _referenceObject);
                             as.addParameter(aa);
-                        }
+                        }*/
 
-                        newBlock.addSignal(as);
+                        if (as != null) {
+                            newBlock.addSignal(as);
+                        } else {
+                            TraceManager.addDev("Invalid signal: " + nameS);
+                        }
                     }
                 } catch (JSONException je) {
                 }
@@ -631,14 +638,30 @@ public class AvatarSpecification extends AvatarElement implements IBSParamSpec {
 
         for (int i = 0; i < connections.length(); i++) {
             JSONObject blockO = connections.getJSONObject(i);
-            String sourceBlock = spec.removeSpaces(blockO.getString("sourceBlock"));
 
-            AvatarBlock srcB = spec.getBlockWithName(sourceBlock);
-            if (srcB == null) {
-                srcB = new AvatarBlock(sourceBlock, spec, _referenceObject);
-                spec.addBlock(srcB);
+            if (blockO == null) {
+                jsonErrors.add("Invalid connection section in JSON");
+                continue;
             }
-            String sourceSignal = spec.removeSpaces(blockO.getString("sourceSignal"));
+
+            String sourceSignal = spec.removeSpaces(blockO.getString("sig1"));
+            String destinationSignal = spec.removeSpaces(blockO.getString("sig2"));
+
+            if (destinationSignal.compareTo(sourceSignal) == 0) {
+                jsonErrors.add("Signals must be different in a connection, but the following connection has the same signals: " + sourceSignal);
+                TraceManager.addDev("Signals must be different in a connection, but the following connection has the same signals: "
+                        + sourceSignal);
+                continue;
+            }
+
+            AvatarBlock srcB = spec.getBlockWithSignal(sourceSignal);
+
+            if (srcB == null) {
+                jsonErrors.add("Signal " + sourceSignal + " does not exist");
+                TraceManager.addDev("Signal " + sourceSignal + " does not exist");
+                continue;
+            }
+
             AvatarSignal srcSig = srcB.getSignalByName(sourceSignal);
 
             if (srcSig == null) {
@@ -648,33 +671,38 @@ public class AvatarSpecification extends AvatarElement implements IBSParamSpec {
             }
 
             if (srcSig.isIn()) {
-                jsonErrors.add("Signal " + sourceSignal + " in block: " + sourceBlock + " should be out");
-                TraceManager.addDev("Signal " + sourceSignal + " in block: " + sourceBlock + " should be out");
+                jsonErrors.add("Signal " + sourceSignal + " in block: " + srcB.getName() + " should be out");
+                TraceManager.addDev("Signal " + sourceSignal + " in block: " + srcB.getName() + " should be out");
                 continue;
             }
-            String destinationBlock = spec.removeSpaces(blockO.getString("destinationBlock"));
-            AvatarBlock dstB = spec.getBlockWithName(destinationBlock);
 
-            if (dstB == null) {
-                dstB = new AvatarBlock(destinationBlock, spec, _referenceObject);
-                spec.addBlock(dstB);
+
+            AvatarBlock destB = spec.getBlockWithSignal(destinationSignal);
+
+            if (destB == null) {
+                jsonErrors.add("Signal " + destinationSignal + " does not exist");
+                TraceManager.addDev("Signal " + destinationSignal + " does not exist");
+                continue;
             }
-            String dstSignal = spec.removeSpaces(blockO.getString("destinationSignal"));
-            AvatarSignal dstSig = dstB.getSignalByName(dstSignal);
+
+            AvatarSignal dstSig = destB.getSignalByName(destinationSignal);
 
             if (dstSig == null) {
-                TraceManager.addDev("Signal added as in signal: " + dstSignal);
-                dstSig = new AvatarSignal(dstSignal, AvatarSignal.IN, _referenceObject);
-                dstB.addSignal(dstSig);
+                TraceManager.addDev("Signal added as in signal: " + destinationSignal);
+                dstSig = new AvatarSignal(sourceSignal, AvatarSignal.IN, _referenceObject);
+                destB.addSignal(srcSig);
             }
+
             if (dstSig.isOut()) {
-                jsonErrors.add("Signal " + dstSignal + " in block: " + destinationBlock + " should be in" );
-                TraceManager.addDev("Signal " + dstSignal + " in block: " + destinationBlock + " should be in");
+                jsonErrors.add("Signal " + destinationSignal + " in block: " + destB.getName() + " should be int");
+                TraceManager.addDev("Signal " + destinationSignal + " in block: " + destB.getName() + " should be int");
                 continue;
             }
 
+
             if (!srcSig.isCompatibleWith(dstSig)) {
-                jsonErrors.add("Signal " + srcSig.getSignalName() + " of block " + sourceBlock + " and signal " + dstSig.getSignalName() + " of block " + destinationBlock + " " +
+                jsonErrors.add("Signal " + srcSig.getSignalName() + " of block " + srcB.getName() + " and signal " + dstSig.getSignalName() +
+                        " of block " + destB.getName() + " " +
                         "cannot be connected " +
                         "because the parameters of these signals are not equal");
                 TraceManager.addDev("Signals " + srcSig + " and " + dstSig + " are not compatible");
@@ -684,10 +712,10 @@ public class AvatarSpecification extends AvatarElement implements IBSParamSpec {
             String communicationType = spec.removeSpaces(blockO.getString("communicationType"));
             boolean synchronous = communicationType.compareTo("synchronous") == 0;
 
-            AvatarRelation ar = spec.getAvatarRelationWithBlocks(srcB, dstB, synchronous);
+            AvatarRelation ar = spec.getAvatarRelationWithBlocks(srcB, destB, synchronous);
 
             if (ar == null) {
-                ar = new AvatarRelation("relation", srcB, dstB, _referenceObject);
+                ar = new AvatarRelation("relation", srcB, destB, _referenceObject);
                 ar.setAsynchronous(!synchronous);
                 spec.addRelation(ar);
             }
@@ -943,6 +971,15 @@ public class AvatarSpecification extends AvatarElement implements IBSParamSpec {
         }
 
         return -1;
+    }
+
+    public AvatarBlock getBlockWithSignal(String signalName) {
+        for(AvatarBlock b: blocks) {
+            if (b.getSignalByName(signalName) != null) {
+                return b;
+            }
+        }
+        return null;
     }
 
     public AvatarAMSInterface getAMSInterfaceWithName(String _name) {

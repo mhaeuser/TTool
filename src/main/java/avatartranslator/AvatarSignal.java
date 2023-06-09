@@ -206,7 +206,7 @@ public class AvatarSignal extends AvatarMethod {
         //TraceManager.addDev("SignalName: " + signalName + " signal:" + signal);
 
         if (!isAValidId(signalName, true, true,true, false)) {
-            TraceManager.addDev("Unvalid id of signal " + signalName);
+            TraceManager.addDev("Invalid id of signal " + signalName);
             return null;
         }
 
@@ -261,11 +261,11 @@ public class AvatarSignal extends AvatarMethod {
                     return null;
                 }
                 if (!isAValidId(splitted[i], false, false,false, true)) {
-                    TraceManager.addDev("Unvalid type: " + splitted[i]);
+                    TraceManager.addDev("Invalid type: " + splitted[i]);
                     return null;
                 }
                 if (!isAValidId(splitted[i + 1], true, true,true, false)) {
-                    TraceManager.addDev("Unvalid id of parameter " + splitted[i + 1]);
+                    TraceManager.addDev("Invalid id of parameter " + splitted[i + 1]);
                     return null;
                 }
                 //TraceManager.addDev("Adding parameter: " + splitted[i] + " " + splitted[i+1]);

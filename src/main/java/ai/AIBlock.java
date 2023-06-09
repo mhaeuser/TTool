@@ -64,12 +64,18 @@ public class AIBlock extends AIInteract {
             "Use only attributes of type int or boolean. If you want to use \"String\" or another other attribute, use int." +
             "# Respect: each attribute must be of type \"int\" or \"bool\" only" +
             "# Respect: Any identifier (block, attribute, etc.) must no contain any space. Use \"_\" instead.";
-    public static String KNOWLEDGE_ON_JSON_FOR_BLOCKS_AND_CONNECTIONS = "When you are ask to identify signals of blocks, give a name to each " +
-            "signal, and input/output direction and list their attributes. Also, each  signal must be connected with exactly one" +
-            " signal.  For instance, if block b1 has a signal \"output s1(int x)\", and b2 a signal \"input s2(int y)\", s1 and s2 " +
-            "can be connected. In " +
-            "JSON, signals are given in the definition of blocks. JSON is as follows: {blocks: [{ \"name\": \"Name of block\", \"signals\": " +
-            "[\"signal\": \"input/output sig1(int x, bool b)\"] (no need to relist the attributes of signals, nor to give a direction) and after " +
+    public static String KNOWLEDGE_ON_JSON_FOR_BLOCKS_AND_CONNECTIONS = "When you are ask to identify signals of blocks, JSON is as follows: " +
+            "{blocks: [{ \"name\": \"Name of block\", \"signals\": " +
+            "[ ... signals ... ] ... (no need to relist the attributes of signals, nor to give a direction). " +
+            "#Respect: signals are defined like this in JSON: {\"signal\": \"input sig1(int x, bool b)\"} if the signal is an input signal" +
+            " and {\"signal\": \"output sig1(int x, bool b)\"} if the signal is an output signal" +
+            "#Respect 2 signals with the same name are assumed to be connected: this is the only way to connect signals. " +
+            "#Respect: Two connected signals must have " +
+            "the same list of attributes, even if they are " +
+            "defined in two different blocks. One of them must be output, the other one must be input" +
+            "#Respect: all input signals must have exactly one corresponding output signal, i.e. a signal with the same name" +
+            "#Respect: two signals with the same name must be defined in different blocks";
+            /*"and after " +
             "the blocks, add the " +
             "following JSON: " +
             "connections: [{\"block1\" : name of first block, \"sig1\": name of first " +
@@ -80,7 +86,8 @@ public class AIBlock extends AIInteract {
             "\"input\" nor " +
             "\"output\", nor its attributes.#" +
             "Two connected signals must have the \" +\n" +
-            "            \"same list of attributes.";
+            "            \"same list of attributes." +
+            "# A signal must be involved in one connection exactly";*/
 
 
 
@@ -88,9 +95,10 @@ public class AIBlock extends AIInteract {
     public static String[] KNOWLEDGE_STAGES = {KNOWLEDGE_ON_JSON_FOR_BLOCKS_AND_ATTRIBUTES, KNOWLEDGE_ON_JSON_FOR_BLOCKS_AND_CONNECTIONS};
     AvatarSpecification specification;
     private String[] QUESTION_IDENTIFY_SYSTEM_BLOCKS = {"From the following system specification, using the specified JSON format, identify the " +
-            "typical system blocks and their attributes. Do respect the JSON format.\n", "From the previous JSON and system specification, update " +
+            "typical system blocks and their attributes. Do respect the JSON format, and provide only JSON (no explanation before or after).\n",
+            "From the previous JSON and system specification, update " +
             "this JSON with" +
-            " the signals and connection between signals."};
+            " the signals you have to identify. If necessary, you can add new blocks and new attributes."};
 
 
     public AIBlock(AIChatData _chatData) {
@@ -122,9 +130,10 @@ public class AIBlock extends AIInteract {
                 errors = AvatarSpecification.getJSONErrors();
 
             } catch (org.json.JSONException e) {
-                TraceManager.addDev("Invalid JSON spec: " + extractJSON() + " because " + e.getMessage());
+                TraceManager.addDev("Invalid JSON spec: " + extractJSON() + " because " + e.getMessage() + ": INJECTING ERROR");
                 errors = new ArrayList<>();
-                errors.add("There is an error in your JSON: " + e.getMessage() + ". probably the JSON spec was incomplete. Do correct it");
+                errors.add("There is an error in your JSON: " + e.getMessage() + ". probably the JSON spec was incomplete. Do correct it. I need " +
+                        "the full specification at once.");
             }
 
             if ((errors != null) && (errors.size() > 0)) {
@@ -147,7 +156,7 @@ public class AIBlock extends AIInteract {
 
             cpt++;
         }
-        TraceManager.addDev("Reached end og AIBlock internal request");
+        TraceManager.addDev("Reached end of AIBlock internal request cpt=" + cpt);
 
     }
 

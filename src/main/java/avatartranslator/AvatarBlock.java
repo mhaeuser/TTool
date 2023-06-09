@@ -537,6 +537,12 @@ public class AvatarBlock extends AvatarElement implements AvatarStateMachineOwne
         return (asme != null);
     }
 
+    public void removeAvatarSignal(AvatarSignal as) {
+        if (signals.contains(as)) {
+            signals.remove(as);
+        }
+    }
+
     public void removeTimers(AvatarSpecification _spec, List<AvatarBlock> _addedBlocks) {
         AvatarSignal asSet, asReset, asExpire;
         String name;

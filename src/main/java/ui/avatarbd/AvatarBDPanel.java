@@ -457,11 +457,11 @@ public class AvatarBDPanel extends TDiagramPanel {
         for (AvatarSignal sig : sigs) {
             // Try to associate it with one of the signals
             for (AvatarSignal pot : otherBlock.getListOfAvailableSignals()) {
-                TraceManager.addDev("Testing block" + block.getBlockName() + " sig=" + sig.getId() +
-                        " with block " + otherBlock.getBlockName() + " sig = " + pot.getId());
+                //TraceManager.addDev("Testing block" + block.getBlockName() + " sig=" + sig.getId() +
+                 //       " with block " + otherBlock.getBlockName() + " sig = " + pot.getId());
                 if (sig.isCompatibleWith(pot) && (sig.getId().compareTo(pot.getId()) == 0)) {
-                    TraceManager.addDev("Added connection: block " + block.getBlockName() + " sig=" + sig.getId() +
-                            " with block " + otherBlock.getBlockName() + " sig = " + pot.getId());
+                    //TraceManager.addDev("Added connection: block " + block.getBlockName() + " sig=" + sig.getId() +
+                     //       " with block " + otherBlock.getBlockName() + " sig = " + pot.getId());
                     port.addSignal(sig.toString(), sig.getInOut() == AvatarSignal.IN, origin);
                     port.addSignal(pot.toString(), pot.getInOut() == AvatarSignal.IN, !origin);
 

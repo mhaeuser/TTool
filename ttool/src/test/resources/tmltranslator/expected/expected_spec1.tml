@@ -123,8 +123,8 @@ TASK Application__PrimitiveComp5
     EXECI 10
     EXECI 10 20
     DELAY 10 ms isActiveDelay false
-    EXECC 100 encryption1 ADV 100 100 0 0 - -
-    EXECC 100 encryption1 ADV 100 100 0 0 - -
+    EXECC 100 encryption1 SE 100 100 0 0 - - 1
+    EXECC 100 encryption1 SE 100 100 0 0 - - 2
     DELAY 10 20 ms isActiveDelay false
     RANDOM 0 attr1 0 10
     FOR( ; ; )
@@ -157,8 +157,8 @@ TASK Application__PrimitiveComp5_
     EXECI 10
     EXECI 10 20
     DELAY 10 ms isActiveDelay false
-    EXECC 100 encryption1 ADV 100 100 0 0 - -
-    EXECC 100 encryption1 ADV 100 100 0 0 - -
+    EXECC 100 encryption1 SE 100 100 0 0 - - 1
+    EXECC 100 encryption1 SE 100 100 0 0 - - 2
     DELAY 10 20 ms isActiveDelay false
     RANDOM 0 attr1 0 10
     FOR( ; ; )

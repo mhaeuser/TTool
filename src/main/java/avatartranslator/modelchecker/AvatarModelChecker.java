@@ -2469,16 +2469,16 @@ public class AvatarModelChecker implements Runnable, myutil.Graph {
         }
 
         for (SpecificationState state : states.values()) {
-            TraceManager.addDev("Parsing states");
+            //TraceManager.addDev("Parsing states");
             if ((state.nexts == null) || (state.nexts != null) && (state.nexts.size() == 0)) {
-                TraceManager.addDev("Deadlock state identified");
+                //TraceManager.addDev("Deadlock state identified");
                 // Deadlock state
                 // Must add all states of blocks
                 for (int i = 0; i < spec.getListOfBlocks().size(); i++) {
                     AvatarBlock ab = spec.getListOfBlocks().get(i);
-                    TraceManager.addDev("avatar block: " + ab.getName());
+                    //TraceManager.addDev("avatar block: " + ab.getName());
                     if (state.blocks != null) {
-                        TraceManager.addDev("Non null blocks of state");
+                        //TraceManager.addDev("Non null blocks of state");
                         SpecificationBlock sb = state.blocks[i];
                         HashSet<AvatarStateElement> listOfStates;
                         listOfStates = map.get(ab);

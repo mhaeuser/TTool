@@ -47,7 +47,11 @@ package cli;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import common.ConfigurationTTool;
@@ -55,6 +59,7 @@ import common.SpecConfigTTool;
 import graph.AUTGraph;
 import graph.AUTTransition;
 import myutil.Conversion;
+import myutil.TraceManager;
 import org.junit.Test;
 import test.AbstractTest;
 
@@ -64,6 +69,8 @@ public class CLIAvatarModelCheckerTest extends AbstractTest implements Interpret
     final static String PATH_TO_TEST_FILE = "cli/input/";
     final static String PATH_TO_EXPECTED_FILE = "cli/expected/";
     private StringBuilder outputResult;
+
+    private static final String DEADLOCKS [] = {"#MainBlock", "-stop", "#Receiver", "-stopCreated", "-MainChoice"};
 	
 	public CLIAvatarModelCheckerTest() {
 	    //
@@ -485,7 +492,61 @@ public class CLIAvatarModelCheckerTest extends AbstractTest implements Interpret
         assertTrue(graph.getNbOfStates() == 49);
         assertTrue(graph.getNbOfTransitions() == 48);
 
+        filePath = "deadlockmodel.txt";
+        f = new File(filePath);
+        assertTrue(myutil.FileUtils.checkFileForOpen(f));
 
+        BufferedReader reader;
+        String block = "";
+        String state = "";
+        try {
+            reader = new BufferedReader(new FileReader("deadlockmodel.txt"));
+            String line = "";
+            while (line != null) {
+                // read next line
+                line = reader.readLine();
+                if (line  == null) {
+                    break;
+                }
+                TraceManager.addDev("line of file=" + line);
+                if (line.startsWith("#")) {
+                    block = line.trim();
+                    TraceManager.addDev("Block=" + block);
+                }
+                if (line.startsWith("-")) {
+                    state = line.trim();
+                    assertTrue(checkNames(block, state));
+                }
+
+            }
+            reader.close();
+        } catch (IOException e) {
+            assertTrue(false);
+        }
+
+
+
+    }
+
+    private boolean checkNames(String blockName, String stateName) {
+        TraceManager.addDev("Checking for block=" + blockName + " state=" + stateName);
+        boolean blockFound = false;
+        for(String s: DEADLOCKS) {
+            TraceManager.addDev("s=" + s);
+            if (s.compareTo(blockName) == 0) {
+                blockFound = true;
+                TraceManager.addDev("Found block");
+            } else if (blockFound) {
+                if (s.startsWith("#")) {
+                    return false;
+                }
+                if (s.compareTo(stateName) == 0) {
+                    TraceManager.addDev("s found");
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
 }

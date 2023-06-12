@@ -1392,6 +1392,7 @@ public class Action extends Command implements ProVerifOutputListener {
                     + "-s\tsafety pragmas verification\n"
                     + "-q \"QUERY\"\tquery a safety pragma\n"
                     + "-d\tno deadlocks check\n"
+                    + "-adv\tadvanced deadlock check: provide a path to a text file"
                     + "-i\ttest model reinitialization\n"
                     + "-dfs\tDFS search preferred over BFS\n"
                     + "-a\tno internal actions loops check\n"
@@ -1453,6 +1454,8 @@ public class Action extends Command implements ProVerifOutputListener {
                 boolean livenessAnalysis = false;
                 boolean safetyAnalysis = false;
                 boolean noDeadlocks = false;
+                String deadlockPaths = "";
+                boolean advancedDeadlock = false;
                 boolean reinit = false;
                 boolean actionLoop = false;
                 for (int i = 0; i < commands.length; i++) {
@@ -1524,6 +1527,16 @@ public class Action extends Command implements ProVerifOutputListener {
                             amc.setCheckNoDeadlocks(true);
                             noDeadlocks = true;
                             break;
+                        case "-adv":
+                            // Advanced deadlock
+                            if (i != commands.length - 1) {
+                                amc.setCheckNoDeadlocks(true);
+                                advancedDeadlock = true;
+                                deadlockPaths = commands[++i];
+                            } else {
+                                return Interpreter.BAD;
+                            }
+                            break;
                         case "-i":
                             //reinitialization
                             amc.setReinitAnalysis(true);
@@ -1587,11 +1600,17 @@ public class Action extends Command implements ProVerifOutputListener {
                 TraceManager.addDev("Starting model checking");
                 amc.setCounterExampleTrace(counterTraces, counterTracesAUT);
 
+                if (advancedDeadlock) {
+                    amc.setFreeIntermediateStateCoding(false);
+                }
+
                 if (livenessAnalysis || safetyAnalysis || noDeadlocks) {
                     amc.startModelCheckingProperties();
                 } else {
                     amc.startModelChecking();
                 }
+
+
                 
                 System.out.println("Model checking done\nGraph: states:" + amc.getNbOfStates() +
                         " links:" + amc.getNbOfLinks() + "\n");
@@ -1714,6 +1733,26 @@ public class Action extends Command implements ProVerifOutputListener {
                     } catch (Exception e) {
                         System.out.println("Graph could not be saved in " + autfile + "\n");
                     }
+                }
+
+                if (advancedDeadlock && deadlockPaths != null) {
+                    try {
+                        File f = new File(deadlockPaths);
+                        StringBuffer sb = new StringBuffer("");
+                        HashMap<AvatarBlock, HashSet<AvatarStateElement>> mapOfDeadlockStates = amc.getMapOfDeadlockStates();
+                        for (AvatarBlock ab : mapOfDeadlockStates.keySet()) {
+                            interpreter.print("deadlock state for " + ab.getName() + ":");
+                            sb.append("#" + ab.getName() + "\n");
+                            for (AvatarStateElement ase : mapOfDeadlockStates.get(ab)) {
+                                interpreter.print("\t- state \"" + ase.getName() + "\"");
+                                sb.append("-" + ase.getName() + "\n");
+                            }
+                        }
+                        FileUtils.saveFile(f, sb.toString());
+                    } catch (Exception e) {
+                        return Interpreter.BAD;
+                    }
+
                 }
 
                 return null;

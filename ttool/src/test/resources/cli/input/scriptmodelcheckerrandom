@@ -7,5 +7,5 @@ wait 2
 action open $model
 wait 4
 action check-syntax
-action avatar-rg -g rgmodelcheckerrandom.aut
+action avatar-rg -adv deadlockmodel.txt -g rgmodelcheckerrandom.aut
 action quit

@@ -39,10 +39,7 @@
 
 package ui.window;
 
-import avatartranslator.AvatarDependencyGraph;
-import avatartranslator.AvatarElement;
-import avatartranslator.AvatarSpecification;
-import avatartranslator.AvatarStateMachineElement;
+import avatartranslator.*;
 import avatartranslator.modelchecker.AvatarModelChecker;
 import avatartranslator.modelchecker.CounterexampleQueryReport;
 import avatartranslator.modelchecker.SafetyProperty;
@@ -103,6 +100,7 @@ public class JDialogAvatarModelChecker extends javax.swing.JFrame implements Act
     protected static boolean graphSelected = false;
     protected static String graphDirDot;
     protected static boolean graphSelectedDot = false;
+    protected static boolean advancedInfoDeadlock = false;
     protected static boolean ignoreEmptyTransitionsSelected = true;
     protected static boolean ignoreConcurrenceBetweenInternalActionsSelected = true;
     protected static boolean ignoreInternalStatesSelected = true;
@@ -186,7 +184,7 @@ public class JDialogAvatarModelChecker extends javax.swing.JFrame implements Act
     protected JTextField maxNbOfThreadsText;
 
 
-    protected JCheckBox saveGraphAUT, saveGraphDot, ignoreEmptyTransitions, ignoreInternalStates,
+    protected JCheckBox saveGraphAUT, saveGraphDot, advancedInfoDeadlockBox, ignoreEmptyTransitions, ignoreInternalStates,
             ignoreConcurrenceBetweenInternalActions, generateDesign, generateDependencyGraph, generateDependencyGraphNoID,
             generateDependencyGraphElt, generateDependencyGraphEltNOID;
     protected JButton graphDirButton, graphPathDotButton;
@@ -207,6 +205,7 @@ public class JDialogAvatarModelChecker extends javax.swing.JFrame implements Act
     protected Map<String, Integer> verifMap;
 
     private HashSet<TGComponent> hasDependencyGraph;
+    private HashMap<AvatarBlock, HashSet<AvatarStateElement>> mapOfDeadlockStates;
 
     // Help
     //protected JPopupMenu helpPopup;
@@ -606,9 +605,11 @@ public class JDialogAvatarModelChecker extends javax.swing.JFrame implements Act
         graphDirButton.addActionListener(this);
         jpopt.add(graphDirButton, copt);
 
+        advancedInfoDeadlockBox = new JCheckBox("Backtrace deadlocks to model", advancedInfoDeadlock);
+        jpopt.add(advancedInfoDeadlockBox, copt);
+
         saveGraphDot = new JCheckBox("Save RG in dotty:", graphSelectedDot);
         saveGraphDot.addActionListener(this);
-        //saveGraphDot.setEnebaled(false);
         jpopt.add(saveGraphDot, copt);
         copt.gridwidth = 1;
         graphPathDot = new JTextField(graphDirDot);
@@ -1023,6 +1024,10 @@ public class JDialogAvatarModelChecker extends javax.swing.JFrame implements Act
                 }
             }
 
+            if (advancedInfoDeadlockBox.isSelected()) {
+                amc.setFreeIntermediateStateCoding(false);
+            }
+
             // Starting model checking
             testGo();
 
@@ -1208,6 +1213,38 @@ public class JDialogAvatarModelChecker extends javax.swing.JFrame implements Act
                     }
                 }
             }
+
+            if (advancedInfoDeadlockBox.isSelected()) {
+                TraceManager.addDev("Deadlocks:");
+                boolean success = false;
+                HashMap<AvatarBlock, HashSet<AvatarStateElement>> mapOfDeadlockStates = new HashMap<>();
+                try {
+                    mapOfDeadlockStates = amc.getMapOfDeadlockStates();
+                    success = true;
+                    TraceManager.addDev("Got the map");
+                } catch (OutOfMemoryError e) {
+                    jta.append("Out of memory: computation of deadlock failed\n");
+                }
+
+                if (success) {
+
+                    // Print them
+                    // Identify all blocks and their states, and annotate them
+                    for(AvatarBlock ab: mapOfDeadlockStates.keySet()) {
+                        TraceManager.addDev("Deadlock states for block " + ab.getName() + ":");
+                        for(AvatarStateElement ase: mapOfDeadlockStates.get(ab)) {
+                            TraceManager.addDev("\t- state \"" + ase.getName() + "\"");
+                            if (ase.getReferenceObject() != null) {
+                                if (ase.getReferenceObject() instanceof TGComponent) {
+                                    TGComponent tgc = (TGComponent) (ase.getReferenceObject());
+                                    tgc.addTag("Deadlock (in at least one execution path)");
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
             if (saveGraphDot.isSelected()) {
                 String dotfile;
                 if (graphPathDot.getText().indexOf("$") != -1) {
@@ -1390,6 +1427,9 @@ public class JDialogAvatarModelChecker extends javax.swing.JFrame implements Act
         graphSelected = saveGraphAUT.isSelected();
         graphPath.setEnabled(saveGraphAUT.isSelected());
         graphDirButton.setEnabled(saveGraphAUT.isSelected());
+
+        advancedInfoDeadlock = advancedInfoDeadlockBox.isSelected();
+        advancedInfoDeadlockBox.setEnabled(saveGraphAUT.isSelected());
 
         graphSelectedDot = saveGraphDot.isSelected();
         saveGraphDot.setEnabled(saveGraphAUT.isSelected());

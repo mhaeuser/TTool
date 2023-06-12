@@ -212,6 +212,8 @@ public abstract class TGComponent extends AbstractCDElement implements /*CDEleme
     protected boolean mutualExclusionWithMasterMutex;
     protected String nameOfMasterStateMutex;
 
+    protected HashSet<String> tags;
+
     protected boolean breakpoint;
 
     // Colors
@@ -1041,6 +1043,17 @@ public abstract class TGComponent extends AbstractCDElement implements /*CDEleme
 
     }
 
+    public void addTag(String tag) {
+        if (tags == null) {
+            tags = new HashSet<>();
+        }
+        tags.add(tag);
+    }
+
+    public void clearTag() {
+        tags = null;
+    }
+
     /**
      * Issue #31
      *
@@ -1163,6 +1176,19 @@ public abstract class TGComponent extends AbstractCDElement implements /*CDEleme
             Font f = g.getFont();
             g.setFont(f.deriveFont(Font.BOLD));
             g.drawString("bk", x + width, y + 3);
+            g.setFont(f);
+        }
+
+        if ((tags != null) && (tags.size() > 0)) {
+            g.setColor(ColorManager.ATD_ROOT_ATTACK);
+            Font f = g.getFont();
+            g.setFont(f.deriveFont(Font.BOLD));
+
+            String tag = "";
+            for(String s: tags) {
+                tag += "\"" + s + "\" ";
+            }
+            g.drawString(tag.trim(), x + width + 2, y + height/2);
             g.setFont(f);
         }
 
@@ -3573,6 +3599,7 @@ public abstract class TGComponent extends AbstractCDElement implements /*CDEleme
         reachability = ACCESSIBILITY_UNKNOWN;
         liveness = ACCESSIBILITY_UNKNOWN;
         mutex = MUTEX_NOT_YET_STUDIED;
+        tags = null;
     }
 
     @Override

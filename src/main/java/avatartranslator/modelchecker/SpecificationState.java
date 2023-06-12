@@ -64,8 +64,8 @@ public class SpecificationState implements Comparable<SpecificationState>, IBSPa
     public boolean hashComputed;
     public long id;
     public LinkedList<SpecificationLink> nexts; // The RG is there
-    public boolean property; //trace the property check at this state
-    public boolean elaborated; //true only if the elaboration has been completed
+    public boolean property; // Trace the property check at this state
+    public boolean elaborated; // True only if the elaboration has been completed
 
     
     public SpecificationState() {

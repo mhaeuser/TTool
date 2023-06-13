@@ -1802,5 +1802,19 @@ public class AUTGraph implements myutil.Graph {
         return sb.toString();
     }
 
+    // Tags
+    public void makeTags(AUTTag _tag) {
+        boolean modified = true;
+        while(modified) {
+            modified = false;
+            for(AUTState state: states) {
+                if (_tag.hasToBeTagged(state)) {
+                    modified = true;
+                    state.addTag(_tag);
+                }
+            }
+        }
+    }
+
 
 }

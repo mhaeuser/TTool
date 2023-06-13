@@ -75,12 +75,20 @@ import java.util.HashMap;
 public class JFrameAI extends JFrame implements ActionListener {
 
 
-    private static String[] POSSIBLE_ACTIONS = {"Chat", "Identify requirements from a specification", "Classify requirements from a requirement " +
-            "diagram", "Identify properties from a design", "Identify system blocks from a specification", "Identify software blocks from a " +
-            "specification", "A(I)MULET"};
+    private static String[] POSSIBLE_ACTIONS = {"Chat - Chat on any topic you like, or help the AI give a better answer on a previous question",
+            "Identify requirements - Provide a system specification", "Classify requirements - select a" +
+            " requirement diagram first",
+            "Identify properties - Select a block diagram first. You can also provide a system specification",
+            "Identify system blocks - Provide a system specification", "Identify software blocks - Provide a system specification", "Identify state" +
+            " machines - Select a block diagram. Additionally, you can provide a system specification", "A(I)MULET - Select a block diagram first"};
 
-    private static String[] AIInteractClass = {"AIChat", "AIReqIdent", "AIReqClassification", "AIDesignPropertyIdentification", "AIBlock", "AIChat",
-            "AIAmulet"};
+    private static String[] AIInteractClass = {"AIChat", "AIReqIdent", "AIReqClassification", "AIDesignPropertyIdentification", "AIBlock",
+            "AISoftwareBlock", "AIStateMachine", "AIAmulet"};
+
+    private static String[] INFOS = {"Chat on any topic you like", "Identify requirements from the specification of a system", "Classify " +
+            "requirements from a requirement diagram", "Identify the typical properties to be proven from a block diagram", "Identify the system " +
+            "blocks from a specification", "Identify the software blocks from a specification", "Identify the state machines from a system " +
+            "specification and a block diagram", "Formalize mutations to be performed on a block diagram"};
 
     protected JComboBox<String> listOfPossibleActions;
 
@@ -267,6 +275,7 @@ public class JFrameAI extends JFrame implements ActionListener {
             applyResponse();
         } else if (evt.getSource() == listOfPossibleActions) {
             enableDisableActions();
+            printInfos();
         }
     }
 
@@ -340,6 +349,8 @@ public class JFrameAI extends JFrame implements ActionListener {
         TraceManager.addDev("Class of answer: " + selectedChat.aiInteract.getClass().getName());
 
         if (selectedChat.aiInteract instanceof ai.AIBlock) {
+            applyIdentifySystemBlocks(selectedChat.aiInteract.applyAnswer(null));
+        } else if (selectedChat.aiInteract instanceof ai.AISoftwareBlock) {
             applyIdentifySystemBlocks(selectedChat.aiInteract.applyAnswer(null));
         } else if (selectedChat.aiInteract instanceof ai.AIReqIdent) {
             applyRequirementIdentification();
@@ -459,6 +470,7 @@ public class JFrameAI extends JFrame implements ActionListener {
 
     }
 
+
     private void enableDisableActions() {
         if ((answerPane != null) && (chats != null) && (buttonApplyResponse != null) && (buttonStart != null)) {
             ChatData cd = chats.get(answerPane.getSelectedIndex());
@@ -466,6 +478,11 @@ public class JFrameAI extends JFrame implements ActionListener {
             buttonApplyResponse.setEnabled(chat != null && chat.length() > 0 && !cd.doIconRotation);
             buttonStart.setEnabled(!cd.doIconRotation);
         }
+    }
+
+    private void printInfos() {
+        int index = listOfPossibleActions.getSelectedIndex();
+        GraphicLib.appendToPane(console, "Your selection: " + INFOS[index] + "\n", Color.darkGray);
     }
 
     private void setOptionsJTextPane(JTextPane jta, boolean _isEditable) {

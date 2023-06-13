@@ -60,6 +60,8 @@ public class AUTState implements Comparable<AUTState> {
     public Object referenceObject;
     public boolean isOrigin = false;
 
+    public ArrayList<AUTTag> tags;
+
 
     public AUTState(int _id) {
         id = _id;
@@ -264,6 +266,14 @@ public class AUTState implements Comparable<AUTState> {
         for (AUTTransition tr : outTransitions) {
             s += "\tout: " + tr.toString() + "\n";
         }
+        if (tags != null) {
+            StringBuffer ta = new StringBuffer("");
+            for (AUTTag t : tags) {
+               ta.append(t.getID());
+               ta.append(" ");
+            }
+            s += "\ttags: " + ta.toString().trim() + "\n";
+        }
         return s;
     }
 
@@ -274,6 +284,21 @@ public class AUTState implements Comparable<AUTState> {
 		s.isOrigin = isOrigin;
     	return s;
 	}
+
+    // Tags
+    public void addTag(AUTTag _tag) {
+        if (tags == null) {
+            tags = new ArrayList<>();
+        }
+        tags.add(_tag);
+    }
+
+    public boolean hasTag(AUTTag _tag) {
+        if (tags == null) {
+            return false;
+        }
+        return tags.contains(_tag);
+    }
 
 
 }

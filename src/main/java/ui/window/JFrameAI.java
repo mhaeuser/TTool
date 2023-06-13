@@ -46,6 +46,7 @@ import ai.AISysMLV2DiagramContent;
 import avatartranslator.AvatarSpecification;
 import help.HelpEntry;
 import help.HelpManager;
+import myutil.AIInterface;
 import myutil.GraphicLib;
 import myutil.TraceManager;
 import ui.*;
@@ -78,15 +79,21 @@ public class JFrameAI extends JFrame implements ActionListener {
     private static String[] POSSIBLE_ACTIONS = {"Chat - Chat on any topic you like, or help the AI give a better answer on a previous question",
             "Identify requirements - Provide a system specification", "Classify requirements - select a" +
             " requirement diagram first",
+            "Identify use cases",
             "Identify properties - Select a block diagram first. You can also provide a system specification",
             "Identify system blocks - Provide a system specification", "Identify software blocks - Provide a system specification", "Identify state" +
-            " machines - Select a block diagram. Additionally, you can provide a system specification", "A(I)MULET - Select a block diagram first"};
+            " machines - Select a block diagram. Additionally, you can provide a system specification",
+            "A(I)MULET - Select a block diagram first"};
 
-    private static String[] AIInteractClass = {"AIChat", "AIReqIdent", "AIReqClassification", "AIDesignPropertyIdentification", "AIBlock",
+    private static String[] AIInteractClass = {"AIChat", "AIReqIdent", "AIReqClassification", "AIChat", "AIDesignPropertyIdentification", "AIBlock",
             "AISoftwareBlock", "AIStateMachine", "AIAmulet"};
 
     private static String[] INFOS = {"Chat on any topic you like", "Identify requirements from the specification of a system", "Classify " +
-            "requirements from a requirement diagram", "Identify the typical properties to be proven from a block diagram", "Identify the system " +
+            "requirements from a requirement diagram", "Identify use cases and actors from a system specification",
+            "Identify the typical properties" +
+            " to be proven " +
+            "from a block" +
+            " diagram", "Identify the system " +
             "blocks from a specification", "Identify the software blocks from a specification", "Identify the state machines from a system " +
             "specification and a block diagram", "Formalize mutations to be performed on a block diagram"};
 
@@ -303,9 +310,16 @@ public class JFrameAI extends JFrame implements ActionListener {
         currentChatIndex = answerPane.getSelectedIndex();
         ChatData selected = selectedChat();
 
-        if (selected.makeAIChatData()) {
+        boolean chatDataMade = selected.aiChatData != null;
+
+        if (!chatDataMade) {
+            chatDataMade = selected.makeAIChatData();
+        }
+
+        if (chatDataMade) {
             String selectedClass = AIInteractClass[listOfPossibleActions.getSelectedIndex()];
             selected.aiInteract = ai.AIInteract.getInstance("ai." + selectedClass, selected.aiChatData);
+
 
             if (selected.aiInteract == null) {
                 error("Unknow selected type");
@@ -357,6 +371,8 @@ public class JFrameAI extends JFrame implements ActionListener {
         } else if (selectedChat.aiInteract instanceof ai.AIReqClassification) {
             applyRequirementClassification();
         } else if (selectedChat.aiInteract instanceof ai.AIDesignPropertyIdentification) {
+            // nothing up to now :-)
+        } else if (selectedChat.aiInteract instanceof ai.AIStateMachine) {
             // nothing up to now :-)
         } else if (selectedChat.aiInteract instanceof ai.AIAmulet) {
             applyMutations();
@@ -482,7 +498,10 @@ public class JFrameAI extends JFrame implements ActionListener {
 
     private void printInfos() {
         int index = listOfPossibleActions.getSelectedIndex();
+        Font tmpFont = console.getFont();
+        console.setFont(tmpFont.deriveFont(Font.BOLD));
         GraphicLib.appendToPane(console, "Your selection: " + INFOS[index] + "\n", Color.darkGray);
+        console.setFont(tmpFont);
     }
 
     private void setOptionsJTextPane(JTextPane jta, boolean _isEditable) {

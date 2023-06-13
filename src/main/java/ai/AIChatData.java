@@ -59,8 +59,8 @@ import javax.swing.*;
 
 public class AIChatData  {
 
-
     public AIInterface aiinterface;
+
     public boolean knowledgeOnProperties = false;
     public int knowledgeOnBlockJSON = -1;
     public boolean knowledgeOnAMULET = false;

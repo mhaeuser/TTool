@@ -56,50 +56,31 @@ import java.util.ArrayList;
  */
 
 
-public class AIStateMachine extends AIInteract {
+public class AIStateMachine extends AIInteract implements AISysMLV2DiagramContent {
+    private static String[] SUPPORTED_DIAGRAMS = {"BD"};
+    private static String[] EXCLUSIONS_IN_INPUT = {"type"};
 
-    public static String KNOWLEDGE_ON_JSON_FOR_BLOCKS_AND_ATTRIBUTES = "When you are asked to identify SysML blocks, " +
+    public static String KNOWLEDGE_ON_JSON_FOR_STATE_MACHINES = "When you are asked to identify the SysML state machine of a block, " +
             "return them as a JSON specification " +
             "formatted as follows:" +
-            "{blocks: [{ \"name\": \"Name of block\", \"attributes\": [\"name\": \"name of attribute\", \"type\": \"int or bool\" ...} ...]}" +
-            "Use only attributes of type int or boolean. If you want to use \"String\" or another other attribute, use int." +
-            "# Respect: each attribute must be of type \"int\" or \"bool\" only" +
-            "# Respect: Any identifier (block, attribute, etc.) must no contain any space. Use \"_\" instead.";
-    public static String KNOWLEDGE_ON_JSON_FOR_BLOCKS_AND_CONNECTIONS = "When you are ask to identify signals of blocks, JSON is as follows: " +
-            "{blocks: [{ \"name\": \"Name of block\", \"signals\": " +
-            "[ ... signals ... ] ... (no need to relist the attributes of signals, nor to give a direction). " +
-            "#Respect: signals are defined like this in JSON: {\"signal\": \"input sig1(int x, bool b)\"} if the signal is an input signal" +
-            " and {\"signal\": \"output sig1(int x, bool b)\"} if the signal is an output signal" +
-            "#Respect 2 signals with the same name are assumed to be connected: this is the only way to connect signals. " +
-            "#Respect: Two connected signals must have " +
-            "the same list of attributes, even if they are " +
-            "defined in two different blocks. One of them must be output, the other one must be input" +
-            "#Respect: all input signals must have exactly one corresponding output signal, i.e. a signal with the same name" +
-            "#Respect: two signals with the same name must be defined in different blocks";
-            /*"and after " +
-            "the blocks, add the " +
-            "following JSON: " +
-            "connections: [{\"block1\" : name of first block, \"sig1\": name of first " +
-            "signal\", \"block2\" : name of second block" +
-            "\"sig2\": \"name of second signal\"}, ." +
-            "..]. " +  ".#" +
-            "Respect: in a connection, sig1 and sig2 must be different. The name of the signal only include its identifier, so not " +
-            "\"input\" nor " +
-            "\"output\", nor its attributes.#" +
-            "Two connected signals must have the \" +\n" +
-            "            \"same list of attributes." +
-            "# A signal must be involved in one connection exactly";*/
+            "{states: [{ \"name\": \"Name of state\", transitions [{ \"destinationstate\" : \"state name\",  \"guard\": \"boolean condition\", " +
+            "\"after\": \"time " +
+        "value\", \"action\":" +
+            " \"attribute action or signal receiving/sending\"}]}]} ." +
+            "# Respect: in actions, use only attributes and signals already defined in the corresponding block" +
+            "# Respect: at least one state must be called Start, which is the start state";
 
 
+    private AvatarSpecification specification;
 
+    private String diagramContentInSysMLV2;
 
-    public static String[] KNOWLEDGE_STAGES = {KNOWLEDGE_ON_JSON_FOR_BLOCKS_AND_ATTRIBUTES, KNOWLEDGE_ON_JSON_FOR_BLOCKS_AND_CONNECTIONS};
-    AvatarSpecification specification;
-    private String[] QUESTION_IDENTIFY_SYSTEM_BLOCKS = {"From the following system specification, using the specified JSON format, identify the " +
-            "typical system blocks and their attributes. Do respect the JSON format, and provide only JSON (no explanation before or after).\n",
-            "From the previous JSON and system specification, update " +
-            "this JSON with" +
-            " the signals you have to identify. If necessary, you can add new blocks and new attributes."};
+    private String[] KNOWLEDGE_SYSTEM_SPECIFICATION = {"The specification of the system is:"};
+    private String[] KNOWLEDGE_SYSTEM_BLOCKS = {"The specification of the blocks in SysML V2 is:"};
+
+    private String[] QUESTION_IDENTIFY_STATE_MACHINE = {"From the  system specification, and from the definition of blocks and" +
+            " their " +
+            "connections, identify the state machine of block:"};
 
 
     public AIStateMachine(AIChatData _chatData) {
@@ -108,55 +89,63 @@ public class AIStateMachine extends AIInteract {
 
     public void internalRequest() {
 
-        int stage = 0;
-        String questionT = QUESTION_IDENTIFY_SYSTEM_BLOCKS[stage] + "\n" + chatData.lastQuestion.trim() + "\n";
+        // Add the knowledge, retrieve the block names, attributes, etc.
+        if (!chatData.knowledgeOnStateMachines) {
+            chatData.aiinterface.addKnowledge(KNOWLEDGE_ON_JSON_FOR_STATE_MACHINES, "ok");
+            chatData.knowledgeOnStateMachines = true;
+        }
 
-        makeKnowledge(stage);
+        chatData.aiinterface.addKnowledge(KNOWLEDGE_SYSTEM_SPECIFICATION + chatData.lastQuestion, "ok");
+        chatData.aiinterface.addKnowledge(KNOWLEDGE_SYSTEM_BLOCKS + diagramContentInSysMLV2, "ok");
+
+        // Getting block names for SysMLV2 spec
+        ArrayList<String> blockNames = new ArrayList<>();
 
         boolean done = false;
         int cpt = 0;
 
-        // Blocks and attributes
-        while (!done && cpt < 20) {
-            cpt++;
-            boolean ok = makeQuestion(questionT);
-            if (!ok) {
-                done = true;
-                TraceManager.addDev("Make question failed");
-            }
-            ArrayList<String> errors;
-            try {
-                TraceManager.addDev("Making specification from " + chatData.lastAnswer);
-                specification = AvatarSpecification.fromJSON(extractJSON(), "design", null);
-                errors = AvatarSpecification.getJSONErrors();
+        String questionT;
 
-            } catch (org.json.JSONException e) {
-                TraceManager.addDev("Invalid JSON spec: " + extractJSON() + " because " + e.getMessage() + ": INJECTING ERROR");
-                errors = new ArrayList<>();
-                errors.add("There is an error in your JSON: " + e.getMessage() + ". probably the JSON spec was incomplete. Do correct it. I need " +
-                        "the full specification at once.");
-            }
 
-            if ((errors != null) && (errors.size() > 0)) {
-                questionT = "Your answer was not correct because of the following errors:";
-                for (String s : errors) {
-                    questionT += "\n- " + s;
-                }
-            } else {
-                TraceManager.addDev(" Avatar spec=" + specification);
-                stage++;
-                if (stage == KNOWLEDGE_STAGES.length) {
+        for(String blockName: blockNames) {
+            while (!done && cpt < 3) {
+                cpt++;
+
+                questionT = QUESTION_IDENTIFY_STATE_MACHINE + blockName;
+
+                boolean ok = makeQuestion(questionT);
+                if (!ok) {
                     done = true;
-                } else {
-                    makeKnowledge(stage);
-                    questionT = QUESTION_IDENTIFY_SYSTEM_BLOCKS[stage] + "\n";
-
+                    TraceManager.addDev("Make question failed");
                 }
+
+                // Checking if only correct attributes are used, only valid signals, that there is a "Start" state, etc.
+                ArrayList<String> errors;
+                try {
+                    TraceManager.addDev("Making specification from " + chatData.lastAnswer);
+                    specification = AvatarSpecification.fromJSON(extractJSON(), "design", null);
+                    errors = AvatarSpecification.getJSONErrors();
+
+                } catch (org.json.JSONException e) {
+                    TraceManager.addDev("Invalid JSON spec: " + extractJSON() + " because " + e.getMessage() + ": INJECTING ERROR");
+                    errors = new ArrayList<>();
+                    errors.add("There is an error in your JSON: " + e.getMessage() + ". probably the JSON spec was incomplete. Do correct it. I need " +
+                            "the full specification at once.");
+                }
+
+                if ((errors != null) && (errors.size() > 0)) {
+                    questionT = "Your answer was not correct because of the following errors:";
+                    for (String s : errors) {
+                        questionT += "\n- " + s;
+                    }
+                } else {
+                    TraceManager.addDev(" Avatar spec=" + specification);
+                }
+
+                waitIfConditionTrue(!done && cpt < 20);
+
+                cpt++;
             }
-
-            waitIfConditionTrue(!done && cpt < 20);
-
-            cpt++;
         }
         TraceManager.addDev("Reached end of AIBlock internal request cpt=" + cpt);
 
@@ -170,19 +159,19 @@ public class AIStateMachine extends AIInteract {
         return specification;
     }
 
-    public void makeKnowledge(int stage) {
-        TraceManager.addDev("makeKnowledge. stage: " + stage + " chatData.knowledgeOnBlockJSON: " + chatData.knowledgeOnBlockJSON);
-        if (stage > chatData.knowledgeOnBlockJSON) {
-            chatData.knowledgeOnBlockJSON++;
 
-            String [] know = KNOWLEDGE_STAGES[chatData.knowledgeOnBlockJSON].split("#");
+    public void setDiagramContentInSysMLV2(String _diagramContentInSysMLV2) {
+        diagramContentInSysMLV2 = _diagramContentInSysMLV2;
+    };
 
-            for(String s: know) {
-                TraceManager.addDev("\nKnowledge added: " + s);
-                chatData.aiinterface.addKnowledge(s, "ok");
-            }
-        }
+    public String[] getValidDiagrams() {
+        return SUPPORTED_DIAGRAMS;
     }
+
+    public String[] getDiagramExclusions() {
+        return EXCLUSIONS_IN_INPUT;
+    }
+
 
 
 

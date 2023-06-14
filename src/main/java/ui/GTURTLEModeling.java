@@ -9581,9 +9581,10 @@ public class GTURTLEModeling {
             for (AvatarPragma p : avspec.getPragmas()) {
 
                 //    arr[i] = p.getName();
+                TraceManager.addDev("Handling pragma: " + p.getName());
                 String t = "";
                 String[] split = p.getName().split(" ");
-                if (p.getName().contains("#Confidentiality")) {
+                if (p.getName().startsWith("Confidentiality")) {
                     for (String str : split) {
                         if (str.contains(".")) {
                             String tmp = str.split("\\.")[0];
@@ -9594,14 +9595,22 @@ public class GTURTLEModeling {
                             t = t.concat(str + " ");
                         }
                     }
-                } else if (p.getName().contains("Authenticity")) {
+                } else if (p.getName().startsWith("Authenticity")) {
                     t = p.getName();
-                } else if (p.getName().contains("Initial")) {
+                } else if (p.getName().startsWith("Initial")) {
                     t = p.getName();
                 } else {
                     t = p.getName();
                 }
-                s = s.concat(t + "\n");
+                //TraceManager.addDev("1. pragma=" + t);
+                t = t.trim();
+                if (t.startsWith("Confidentiality") || t.startsWith("Authenticity") ) {
+                    t = "#" + t;
+                }
+                //TraceManager.addDev("2. pragma=" + t);
+                s = s + "\n";
+                s = s.concat(t);
+
                 //  i++;
             }
             pragma.setValue(s);

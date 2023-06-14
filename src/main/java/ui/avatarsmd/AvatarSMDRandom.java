@@ -111,6 +111,14 @@ public class AvatarSMDRandom extends  AvatarSMDBasicCanBeDisabledComponent /* Is
 		variable=v;
 	}
 
+    public void setMaxValue(String _maxValue) {
+		maxValue = _maxValue;
+	}
+
+    public void setMinValue(String _minValue) {
+		minValue = _minValue;
+	}
+
 	@Override
     public void internalDrawing(Graphics g) {
         if (valueRandom.length() == 0) {

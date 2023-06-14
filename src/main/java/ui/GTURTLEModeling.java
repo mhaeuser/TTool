@@ -9143,6 +9143,8 @@ public class GTURTLEModeling {
         if (asme instanceof AvatarRandom) {
             AvatarSMDRandom smdr = new AvatarSMDRandom(x, y, smp.getMinX(), smp.getMaxX(), smp.getMinY(), smp.getMaxY(), false, null, smp);
             smdr.setVariable(((AvatarRandom) asme).getVariable());
+            smdr.setMinValue(((AvatarRandom) asme).getMinValue());
+            smdr.setMaxValue(((AvatarRandom) asme).getMaxValue());
             smp.addComponent(smdr, x, y, false, true);
             tgcomp = smdr;
             SMDMap.put(asme, smdr);

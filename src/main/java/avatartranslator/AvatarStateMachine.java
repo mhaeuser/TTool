@@ -86,6 +86,13 @@ public class AvatarStateMachine extends AvatarElement {
         return cpt;
     }
 
+    public void clear () {
+        elements.clear();
+        startState = null;
+        allStates = null;
+        states = null;
+    }
+
     public void makeBasicSM(AvatarStateMachineOwner owner) {
         elements.clear();
 
@@ -231,6 +238,17 @@ public class AvatarStateMachine extends AvatarElement {
                 states.add(asme);
             }
         }
+    }
+
+    public AvatarState getStateByName(String _name) {
+        for(AvatarElement ae: elements) {
+            if (ae instanceof AvatarState) {
+                if (ae.getName().compareTo(_name) == 0) {
+                    return (AvatarState) ae;
+                }
+            }
+        }
+        return null;
     }
 
     public void makeAllStates() {

@@ -435,7 +435,7 @@ public class ActivityDiagram2TMLTranslator {
                         }
                     } else {
 						if (!event.hasOriginTask(tmltask)) {
-							UICheckingError ce = new UICheckingError(CheckingError.BEHAVIOR_ERROR, ((TMLADReadChannel) tgc).getChannelName() + " is " +
+							UICheckingError ce = new UICheckingError(CheckingError.BEHAVIOR_ERROR, ((TMLADSendEvent) tgc).getEventName() + " is " +
 									"not an output event of task " + tmltask.getName());
 							ce.setTDiagramPanel(tadp);
 							ce.setTGComponent(tgc);
@@ -692,7 +692,7 @@ public class ActivityDiagram2TMLTranslator {
                         //TraceManager.addDev("Nb of param of event:" + event.getNbOfParams());
 
                         if (!event.hasDestinationTask(tmltask)) {
-                            UICheckingError ce = new UICheckingError(CheckingError.BEHAVIOR_ERROR, ((TMLADReadChannel) tgc).getChannelName() + " is " +
+                            UICheckingError ce = new UICheckingError(CheckingError.BEHAVIOR_ERROR, ((TMLADWaitEvent) tgc).getEventName() + " is " +
                                     "not an input event of task " + tmltask.getName());
                             ce.setTDiagramPanel(tadp);
                             ce.setTGComponent(tgc);
@@ -768,7 +768,7 @@ public class ActivityDiagram2TMLTranslator {
                         for (int i = 0; i < channels.length; i++) {
                             channel = tmlm.getChannelByName(getFromTable(tmltask, channels[i], table));
                             if (!channel.hasOriginTask(tmltask)) {
-                                UICheckingError ce = new UICheckingError(CheckingError.BEHAVIOR_ERROR, ((TMLADReadChannel) tgc).getChannelName() + " is " +
+                                UICheckingError ce = new UICheckingError(CheckingError.BEHAVIOR_ERROR, ((TMLADWriteChannel) tgc).getChannelName() + " is " +
                                         "not an output channel of task " + tmltask.getName());
                                 ce.setTDiagramPanel(tadp);
                                 ce.setTGComponent(tgc);

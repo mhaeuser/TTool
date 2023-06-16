@@ -822,7 +822,7 @@ public class AvatarSpecification extends AvatarElement implements IBSParamSpec {
         return jsonErrors;
     }
 
-    public String removeSpaces(String _input) {
+    public static String removeSpaces(String _input) {
         return _input.trim().replaceAll(" ", "_");
     }
 

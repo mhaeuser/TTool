@@ -2243,7 +2243,7 @@ public class GTURTLEModeling {
     public String toSysMLV2() {
         if (avatarspec != null) {
             AVATAR2SysMLV2 toS = new AVATAR2SysMLV2(avatarspec);
-            StringBuffer sb = toS.generateSysMLV2Spec(true, true);
+            StringBuffer sb = toS.generateSysMLV2Spec(true, true, null);
             TraceManager.addDev("SysMLV2:\n" + sb.toString());
             return sb.toString();
         }

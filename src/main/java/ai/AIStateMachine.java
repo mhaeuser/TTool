@@ -42,6 +42,7 @@ package ai;
 
 import avatartranslator.AvatarBlock;
 import avatartranslator.AvatarSpecification;
+import avatartranslator.tosysmlv2.AVATAR2SysMLV2;
 import myutil.TraceManager;
 
 import java.util.ArrayList;
@@ -56,9 +57,9 @@ import java.util.ArrayList;
  */
 
 
-public class AIStateMachine extends AIInteract implements AISysMLV2DiagramContent {
+public class AIStateMachine extends AIInteract implements AISysMLV2DiagramContent, AIAvatarSpecificationRequired {
     private static String[] SUPPORTED_DIAGRAMS = {"BD"};
-    private static String[] EXCLUSIONS_IN_INPUT = {"type"};
+    private static String[] EXCLUSIONS_IN_INPUT = {"state",  "method"};
 
     public static String KNOWLEDGE_ON_JSON_FOR_STATE_MACHINES = "When you are asked to identify the SysML state machine of a block, " +
             "return them as a JSON specification " +
@@ -75,12 +76,12 @@ public class AIStateMachine extends AIInteract implements AISysMLV2DiagramConten
 
     private String diagramContentInSysMLV2;
 
-    private String[] KNOWLEDGE_SYSTEM_SPECIFICATION = {"The specification of the system is:"};
-    private String[] KNOWLEDGE_SYSTEM_BLOCKS = {"The specification of the blocks in SysML V2 is:"};
+    private static String KNOWLEDGE_SYSTEM_SPECIFICATION = "The specification of the system is:";
+    private static String KNOWLEDGE_SYSTEM_BLOCKS = "The specification of the blocks in SysML V2 is:";
 
     private String[] QUESTION_IDENTIFY_STATE_MACHINE = {"From the  system specification, and from the definition of blocks and" +
             " their " +
-            "connections, identify the state machine of block:"};
+            "connections, identify the state machine of block: "};
 
 
     public AIStateMachine(AIChatData _chatData) {
@@ -99,7 +100,14 @@ public class AIStateMachine extends AIInteract implements AISysMLV2DiagramConten
         chatData.aiinterface.addKnowledge(KNOWLEDGE_SYSTEM_BLOCKS + diagramContentInSysMLV2, "ok");
 
         // Getting block names for SysMLV2 spec
-        ArrayList<String> blockNames = new ArrayList<>();
+        //TraceManager.addDev("SysML V2 spec: " + diagramContentInSysMLV2);
+        ArrayList<String> blockNames = AVATAR2SysMLV2.getAllBlockNames(diagramContentInSysMLV2);
+
+        TraceManager.addDev("Going to handle the following blocks: ");
+        for(String s: blockNames) {
+            TraceManager.addDev("\tblock: " + s);
+        }
+
 
         boolean done = false;
         int cpt = 0;
@@ -107,11 +115,13 @@ public class AIStateMachine extends AIInteract implements AISysMLV2DiagramConten
         String questionT;
 
 
+
+
         for(String blockName: blockNames) {
             while (!done && cpt < 3) {
                 cpt++;
 
-                questionT = QUESTION_IDENTIFY_STATE_MACHINE + blockName;
+                questionT = QUESTION_IDENTIFY_STATE_MACHINE[0] + blockName;
 
                 boolean ok = makeQuestion(questionT);
                 if (!ok) {
@@ -120,7 +130,8 @@ public class AIStateMachine extends AIInteract implements AISysMLV2DiagramConten
                 }
 
                 // Checking if only correct attributes are used, only valid signals, that there is a "Start" state, etc.
-                ArrayList<String> errors;
+                // Can be done only if AvatarSpecifcation is non null
+                /*ArrayList<String> errors;
                 try {
                     TraceManager.addDev("Making specification from " + chatData.lastAnswer);
                     specification = AvatarSpecification.fromJSON(extractJSON(), "design", null);
@@ -142,12 +153,12 @@ public class AIStateMachine extends AIInteract implements AISysMLV2DiagramConten
                     TraceManager.addDev(" Avatar spec=" + specification);
                 }
 
-                waitIfConditionTrue(!done && cpt < 20);
-
+                waitIfConditionTrue(!done && cpt < 20);*/
+                done = true;
                 cpt++;
             }
         }
-        TraceManager.addDev("Reached end of AIBlock internal request cpt=" + cpt);
+        TraceManager.addDev("Reached end of AIStateMachine internal request cpt=" + cpt);
 
     }
 
@@ -159,6 +170,9 @@ public class AIStateMachine extends AIInteract implements AISysMLV2DiagramConten
         return specification;
     }
 
+    public void setAvatarSpecification(AvatarSpecification _specification) {
+        specification = _specification;
+    };
 
     public void setDiagramContentInSysMLV2(String _diagramContentInSysMLV2) {
         diagramContentInSysMLV2 = _diagramContentInSysMLV2;

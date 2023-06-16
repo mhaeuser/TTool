@@ -39,10 +39,7 @@
 
 package ui.window;
 
-import ai.AIChatData;
-import ai.AIFeedback;
-import ai.AIInteract;
-import ai.AISysMLV2DiagramContent;
+import ai.*;
 import avatartranslator.AvatarSpecification;
 import help.HelpEntry;
 import help.HelpManager;
@@ -324,6 +321,21 @@ public class JFrameAI extends JFrame implements ActionListener {
             if (selected.aiInteract == null) {
                 error("Unknow selected type");
                 return;
+            }
+
+            if (selected.aiInteract  instanceof AIAvatarSpecificationRequired) {
+                TDiagramPanel tdp = mgui.getCurrentMainTDiagramPanel();
+                boolean found = false;
+                if (tdp instanceof AvatarBDPanel) {
+                    found = true;
+                }
+
+                if (found) {
+                    boolean ret = mgui.checkModelingSyntax(true);
+                    if (ret) {
+                        ((AIAvatarSpecificationRequired) (selected.aiInteract)).setAvatarSpecification(mgui.gtm.getAvatarSpecification());
+                    }
+                }
             }
 
             if (selected.aiInteract  instanceof AISysMLV2DiagramContent) {
@@ -646,9 +658,9 @@ public class JFrameAI extends JFrame implements ActionListener {
 
         public void addToChat(String data, boolean user) {
             if (user) {
-                GraphicLib.appendToPane(chatOfStart().answer, "\nTTool:" + data + "\n", Color.blue);
+                GraphicLib.appendToPane(chatOfStart().answer, "\nTTool: " + data + "\n", Color.blue);
             } else {
-                GraphicLib.appendToPane(chatOfStart().answer, "\nAI:" + data + "\n", Color.red);
+                GraphicLib.appendToPane(chatOfStart().answer, "\nAI: " + data + "\n", Color.red);
             }
         }
 

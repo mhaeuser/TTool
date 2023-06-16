@@ -996,6 +996,8 @@ public class TMLSyntaxChecking {
             String s = gen.determineRouting(mapping.getHwNodeOf(ch.getOriginTask()),
                     mapping.getHwNodeOf(ch.getDestinationTask()), ch);
             if (s == null) {
+                TraceManager.addDev(INVALID_ROUTING + ": " + ch.getName() + " between " + ch.getOriginTask().getName() + " and " +
+                        ch.getDestinationTask().getName());
                 addError(ch.getOriginTask(), null, INVALID_ROUTING + ": " + ch.getName() + " between " + ch.getOriginTask().getName() + " and " +
                         ch.getDestinationTask().getName(), TMLError.ERROR_STRUCTURE);
             }

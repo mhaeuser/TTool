@@ -38,21 +38,22 @@
 
 package avatartranslator;
 
+import avatartranslator.intboolsolver.AvatarIBSExpressions;
+import avatartranslator.intboolsolver.AvatarIBSolver;
 import myutil.NameChecker;
-import myutil.TraceManager;
 import myutil.intboolsolver.IBSParamComp;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
+
 
 /**
  * Class AvatarBlock
  * Creation: 20/05/2010
  *
  * @author Ludovic APVRILLE, Raja GATGOUT
- * @version 1.1 01/07/2014
+ * @version 2.0 15/06/2023
  */
 public class AvatarBlock extends AvatarElement implements AvatarStateMachineOwner, NameChecker.NameStartWithUpperCase, IBSParamComp {
 
@@ -612,7 +613,7 @@ public class AvatarBlock extends AvatarElement implements AvatarStateMachineOwne
     }
 
     public String findUniqueSignalName(String inputName) {
-        for(AvatarSignal signal: signals) {
+        for (AvatarSignal signal : signals) {
             if (signal.getSignalName().compareTo(inputName) == 0) {
                 return findUniqueSignalName(inputName + "0");
             }
@@ -621,7 +622,7 @@ public class AvatarBlock extends AvatarElement implements AvatarStateMachineOwne
     }
 
     public String findUniqueAttributeName(String inputName) {
-        for(AvatarAttribute attr: attributes) {
+        for (AvatarAttribute attr : attributes) {
             if (attr.getName().compareTo(inputName) == 0) {
                 return findUniqueAttributeName(inputName + "0");
             }
@@ -888,7 +889,7 @@ public class AvatarBlock extends AvatarElement implements AvatarStateMachineOwne
                             toKeep = true;
                         }
                     } else if (elt instanceof AvatarLibraryFunctionCall) {
-                        if ( ((AvatarLibraryFunctionCall)(elt)).getReturnAttributes().contains(attr)) {
+                        if (((AvatarLibraryFunctionCall) (elt)).getReturnAttributes().contains(attr)) {
                             toKeep = true;
                         }
                     }
@@ -1002,5 +1003,82 @@ public class AvatarBlock extends AvatarElement implements AvatarStateMachineOwne
             index++;
         }
         return nes;
+    }
+
+    // Returns errors as String
+    public ArrayList<String> makeStateMachineFromJSON(String _jsonSpec) {
+        if (_jsonSpec == null) {
+            return null;
+        }
+
+        asm.clear();
+        asm.makeBasicSM(this);
+
+        ArrayList<String> errors = new ArrayList<>();
+
+        JSONObject mainObject = new JSONObject(_jsonSpec);
+        JSONArray statesJSON = mainObject.getJSONArray("states");
+
+        for (int i = 0; i < statesJSON.length(); i++) {
+            JSONObject state0 = statesJSON.getJSONObject(i);
+            String name = AvatarSpecification.removeSpaces(state0.getString("name"));
+
+            AvatarState sameState = asm.getStateByName(name);
+            if (sameState != null) {
+                errors.add("State " + name + " is defined several times");
+            } else {
+                AvatarState newState = new AvatarState(name, this.getReferenceObject());
+                asm.addElement(newState);
+
+                if (name.toLowerCase(Locale.ROOT).compareTo("start") == 0) {
+                    AvatarTransition at = new AvatarTransition(this, "firstTransition", this.getReferenceObject());
+                    asm.addElement(at);
+                    asm.getStartState().addNext(at);
+                    at.addNext(newState);
+                }
+            }
+        }
+        for (int i = 0; i < statesJSON.length(); i++) {
+            JSONObject state0 = statesJSON.getJSONObject(i);
+            String name = AvatarSpecification.removeSpaces(state0.getString("name"));
+            if (name != null) {
+                AvatarState originState = asm.getStateByName(name);
+                if (originState != null) {
+                    JSONArray transitionsJSON = state0.getJSONArray("transitions");
+                    for (int j = 0; j < transitionsJSON.length(); j++) {
+                        JSONObject transitions0 = transitionsJSON.getJSONObject(j);
+                        String destinationState = AvatarSpecification.removeSpaces(transitions0.getString("destinationstate"));
+                        if (destinationState == null) {
+                            errors.add("A transition has no \"destinationstate\"");
+                        } else {
+                            AvatarState dstState = asm.getStateByName(name);
+                            if (dstState == null) {
+                                errors.add("A transition has a undefined destination state to state\"" + destinationState + "\"");
+                            } else {
+                                AvatarTransition at =
+                                        new AvatarTransition(this, "name" + "_to_" + destinationState, getReferenceObject());
+                                asm.addElement(at);
+                                originState.addNext(at);
+                                at.addNext(dstState);
+
+                                // Handling guard, after and action
+                                String guard = transitions0.getString("guard");
+                                if (guard != null) {
+                                    // Check if the guard is valid
+                                    AvatarIBSExpressions.BExpr g = AvatarIBSolver.parseBool(guard);
+                                    if (g != null) {
+
+                                    }
+                                }
+                            }
+
+                        }
+                    }
+                }
+            }
+        }
+
+
+        return errors;
     }
 }

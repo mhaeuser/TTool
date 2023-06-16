@@ -39,8 +39,11 @@
 
 package avatartranslator.tosysmlv2;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 import java.util.Vector;
 
 import avatartranslator.*;
@@ -93,12 +96,15 @@ public class AVATAR2SysMLV2 {
     private final static java.lang.String THEN = "then";
     private final static String DEC = "\t";
 
+    private final static String DEC_METHOD = PRIVATE + " " + METHOD;
+
 
     private AvatarSpecification avspec;
 
     private int timeUnit;
     private boolean debug;
     private boolean tracing;
+    private String [] exclusions;
 
     private Vector warnings;
 
@@ -148,12 +154,13 @@ public class AVATAR2SysMLV2 {
     }
 
 
-    public StringBuffer generateSysMLV2Spec(boolean _debug, boolean _tracing) {
+    public StringBuffer generateSysMLV2Spec(boolean _debug, boolean _tracing, String[] _exclusions) {
         debug = _debug;
         tracing = _tracing;
+        exclusions = _exclusions;
 
 
-        TraceManager.addDev("AVATAR2SysMLV2 avspec=" + avspec);
+        //TraceManager.addDev("AVATAR2SysMLV2 avspec=" + avspec);
 
         avspec.removeCompositeStates();
         avspec.removeLibraryFunctionCalls();
@@ -171,6 +178,36 @@ public class AVATAR2SysMLV2 {
 
        return indent(sysml);
 
+    }
+
+    public  boolean isExcluded(String key) {
+        return isExcluded(key, exclusions);
+    }
+
+    public static boolean isExcluded(String key, String []_exclusions) {
+        if (_exclusions == null) {
+          return false;
+        }
+        boolean ret = false;
+
+        for(String s: _exclusions) {
+            if (s.compareTo(key) == 0) {
+                return true;
+            }
+        }
+
+        return ret;
+    }
+
+    private void addIfNotExcluded(StringBuffer sb, String s, String category, String [] exclusions) {
+        if (exclusions != null) {
+            for (int i = 0; i < exclusions.length; i++) {
+                if (exclusions[i].compareTo(category) == 0) {
+                    return;
+                }
+            }
+        }
+        sb.append(s);
     }
 
     public void makeBlocks(StringBuffer sysml) {
@@ -197,8 +234,10 @@ public class AVATAR2SysMLV2 {
     public void makePartDef(StringBuffer sysml, AvatarBlock block) {
         sysml.append(PART_DEF + " " + getPartDef(block) + B_BRACKET);
 
-        for(AvatarAttribute aa: block.getAttributes()) {
-            sysml.append(getAttribute(aa) + END);
+        if (!isExcluded("attributes")) {
+            for (AvatarAttribute aa : block.getAttributes()) {
+                sysml.append(getAttribute(aa) + END);
+            }
         }
 
         if (block.getAttributes().size()>0) {
@@ -206,9 +245,12 @@ public class AVATAR2SysMLV2 {
         }
 
         // methods
-        for(AvatarMethod am: block.getMethods()) {
-            //TraceManager.addDev("Handling method:" + am);
-            sysml.append(getMethod(am) + END);
+
+        if (!isExcluded("method")) {
+            for (AvatarMethod am : block.getMethods()) {
+                //TraceManager.addDev("Handling method:" + am);
+                sysml.append(getMethod(am) + END);
+            }
         }
 
         if (block.getMethods().size()>0) {
@@ -216,9 +258,11 @@ public class AVATAR2SysMLV2 {
         }
 
         // signals
-        for(AvatarSignal as: block.getSignals()) {
-            //TraceManager.addDev("Handling method:" + as);
-            sysml.append(getSignal(as) + END);
+        if (!isExcluded("signals")) {
+            for (AvatarSignal as : block.getSignals()) {
+                //TraceManager.addDev("Handling method:" + as);
+                sysml.append(getSignal(as) + END);
+            }
         }
 
         // State machine
@@ -272,7 +316,8 @@ public class AVATAR2SysMLV2 {
     }
 
     public static String getMethod(AvatarMethod am) {
-        java.lang.String ret = PRIVATE + " " + METHOD + " ";
+        java.lang.String ret = DEC_METHOD + " ";
+
         ret += am.toString();
 
         return ret;
@@ -306,23 +351,27 @@ public class AVATAR2SysMLV2 {
         return ret;
     }
 
-    public static StringBuffer getStateMachine(AvatarStateMachine asm) {
+    public  StringBuffer getStateMachine(AvatarStateMachine asm) {
         StringBuffer ret = new StringBuffer("");
 
         // declare all states
         // Then handle each transition from a state until another state is reached
 
-        for(AvatarStateMachineElement asme: asm.getListOfElements()) {
-            if (asme instanceof AvatarState) {
-                ret.append(STATE + " " + asme.getName() + END);
+        if (!isExcluded("state")) {
+            for (AvatarStateMachineElement asme : asm.getListOfElements()) {
+                if (!isExcluded("state")) {
+                    if (asme instanceof AvatarState) {
+                        ret.append(STATE + " " + asme.getName() + END);
+                    }
+                }
             }
-        }
 
-        ret.append(CR);
+            ret.append(CR);
 
-        for(AvatarStateMachineElement asme: asm.getListOfElements()) {
-            if ((asme instanceof AvatarState) || (asme instanceof AvatarStartState)){
-                ret.append(getStateHandling(asme));
+            for (AvatarStateMachineElement asme : asm.getListOfElements()) {
+                if ((asme instanceof AvatarState) || (asme instanceof AvatarStartState)) {
+                    ret.append(getStateHandling(asme));
+                }
             }
         }
 
@@ -480,6 +529,26 @@ public class AVATAR2SysMLV2 {
 
         //TraceManager.addDev("Out of makeDec:" + ret);
         return ret;
+    }
+
+    public static ArrayList<String> getAllBlockNames(String _spec) {
+        ArrayList<String> listOfBlockNames = new ArrayList<>();
+
+        // Reading spec line and line and looking for:
+        // part <name> :
+        Scanner scanner = new Scanner(_spec);
+        while (scanner.hasNextLine()) {
+            String line = scanner.nextLine().trim();
+            if (line.startsWith("part ")) {
+                line = line.substring(5);
+                int index = line.indexOf(":");
+                if (index > -1) {
+                    listOfBlockNames.add(line.substring(0, index).trim());
+                }
+            }
+        }
+
+        return listOfBlockNames;
     }
 
 

@@ -957,7 +957,7 @@ public class AvatarBDPanel extends TDiagramPanel {
         }
         AvatarSpecification avspec = mgui.gtm.getAvatarSpecification();
         AVATAR2SysMLV2 tosysmlv2 = new AVATAR2SysMLV2(avspec);
-        StringBuffer sb = tosysmlv2.generateSysMLV2Spec(false, false);
+        StringBuffer sb = tosysmlv2.generateSysMLV2Spec(false, false, exclusions);
         return sb;
     }
 }

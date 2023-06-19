@@ -80,6 +80,12 @@ public class AIInterface {
         knowledge.clear();
     }
 
+    public void removePreviousKnowledge() {
+        if ((knowledge != null) && (knowledge.size() > 0)) {
+            knowledge.remove(knowledge.size() - 1);
+        }
+    }
+
     public void setURL(String _url) {
         urlText = _url;
     }

@@ -164,7 +164,9 @@ public class AvatarIBSStdParserTest {
         assertFalse(e13Ter!=null);
 
         HashSet<String> H = AvatarIBSolver.getBadIdents();
-        for(String s:H){System.out.println(s);}
+        for(String s:H){
+            System.out.println(s);
+        }
         AvatarIBSolver.clearBadIdents();
         
         AvatarIBSExpressions.IExpr e14 = AvatarIBSolver.parseInt("3+2");
@@ -180,11 +182,14 @@ public class AvatarIBSStdParserTest {
         AvatarIBSExpressions.BExpr e17 = AvatarIBSolver.parseBool("((true)) && (((((0 >= 1))))) || not((not(false)))");
         assertTrue(e17!=null);
          AvatarIBSExpressions.IExpr e18 = AvatarIBSolver.parseInt("2 * -3 + -5 * 4 + 27"); // 1
-        assertTrue(e17!=null);
+        assertTrue(e18!=null);
         AvatarIBSExpressions.IExpr e19 = AvatarIBSolver.parseInt("-6 / -2 * 3 - -4 "); // 13
-        assertTrue(e17!=null);
+        assertTrue(e19!=null);
        AvatarIBSExpressions.IExpr e20 = AvatarIBSolver.parseInt("-(2 * 3)+ -(1+1) * -3"); // 0
-        assertTrue(e17!=null);
+        assertTrue(e20!=null);
+
+        AvatarIBSExpressions.IExpr e21 = AvatarIBSolver.parseInt("0"); // 0
+        assertTrue(e21!=null);
 
         assertEquals(true, e1.eval());
         assertEquals(true, e2.eval());
@@ -202,6 +207,7 @@ public class AvatarIBSStdParserTest {
         assertEquals(1, e18.eval());
         assertEquals(13, e19.eval());
         assertEquals(0, e20.eval());
+        assertEquals(0, e21.eval());
 
     }
     

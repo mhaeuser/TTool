@@ -41,6 +41,7 @@ package avatartranslator;
 import avatartranslator.intboolsolver.AvatarIBSExpressions;
 import avatartranslator.intboolsolver.AvatarIBSolver;
 import myutil.NameChecker;
+import myutil.TraceManager;
 import myutil.intboolsolver.IBSParamComp;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -1063,15 +1064,135 @@ public class AvatarBlock extends AvatarElement implements AvatarStateMachineOwne
 
                                 // Handling guard, after and action
                                 String guard = transitions0.getString("guard");
-                                if (guard != null) {
+                                if ((guard != null) && (guard.length() > 0)) {
+
+
+                                    int g = AvatarSyntaxChecker.isAValidGuard(getAvatarSpecification(), this, guard);
+
+                                    if (g != 0) {
+                                        errors.add("The following guard " + guard + " is incorrect");
+                                    } else {
+                                        at.setGuard(guard);
+                                    }
+
                                     // Check if the guard is valid
-                                    AvatarIBSExpressions.BExpr g = AvatarIBSolver.parseBool(guard);
-                                    if (g != null) {
+                                    /*AvatarIBSolver.clearBadIdents();
+                                    AvatarIBSExpressions.BExpr g = AvatarIBSolver.parseBool(this, guard);
+                                    if (g == null) {
+                                        HashSet<String> hs = AvatarIBSolver.getBadIdents();
+                                        String badAttrib = "";
+                                        for (String s : hs) {
+                                            badAttrib += s + " ";
+                                        }
+                                        errors.add("The following elements of the guard " + guard + " are incorrect: " + badAttrib);
+                                    } else {
+                                        at.setGuard(guard);
+                                    }*/
+                                }
+
+                                // After
+                                String afterS = transitions0.getString("after");
+                                if ((afterS != null) && (afterS.length() > 0)) {
+
+                                    int af = AvatarSyntaxChecker.isAValidIntExpr(getAvatarSpecification(), this, afterS);
+
+                                    if (af != 0) {
+                                        errors.add("The following after " + afterS + " is incorrect");
+                                    } else {
+                                        at.setDelays(afterS, afterS);
+                                    }
+
+
+                                    /*AvatarIBSolver.clearBadIdents();
+                                    AvatarIBSExpressions.IExpr expr = AvatarIBSolver.parseInt(this, afterS);
+                                    if (expr == null) {
+                                        HashSet<String> hs = AvatarIBSolver.getBadIdents();
+                                        String badAttrib = "";
+                                        for (String s : hs) {
+                                            badAttrib += s + " ";
+                                        }
+                                        errors.add("The following elements of the after " + afterS + " are incorrect: " + badAttrib);
+                                    } else {
+                                        at.setDelays(afterS, afterS);
+                                    }*/
+                                }
+
+                                // Action
+                                String action = transitions0.getString("action");
+                                if ((action != null) && (action.length() > 0)) {
+                                    try {
+                                        // Affectation?
+                                        if (action.contains("=")) {
+                                            int index = action.indexOf('=');
+                                            String variableName = action.substring(0, index).trim();
+                                            AvatarAttribute aa = getAvatarAttributeWithName(variableName);
+                                            if (aa == null) {
+                                                errors.add("The following action is not valid: " + action + " because it contains an attribute  " +
+                                                        variableName + " which is not declared in the block " + getName());
+                                            } else {
+                                                String expr = action.substring(index + 1).trim();
+                                                TraceManager.addDev("Found expr:" + expr);
+                                                AvatarIBSolver.clearBadIdents();
+                                                if (aa.getType() == AvatarType.INTEGER) {
+                                                    TraceManager.addDev("int expr");
+
+                                                    int ex = AvatarSyntaxChecker.isAValidIntExpr(getAvatarSpecification(), this, expr);
+
+                                                    if (ex != 0) {
+                                                        errors.add("The  action " + action + " is incorrect");
+                                                    } else {
+                                                        at.addAction(action);
+                                                    }
+
+                                                    /*AvatarIBSExpressions.IExpr iExpr = AvatarIBSolver.parseInt(this, expr);
+                                                    if (iExpr == null) {
+                                                        HashSet<String> hs = AvatarIBSolver.getBadIdents();
+                                                        String badAttrib = "";
+                                                        for (String s : hs) {
+                                                            badAttrib += s + " ";
+                                                        }
+                                                        errors.add("The following elements of the int expr " + action + " are incorrect: " + badAttrib);
+                                                    } else {
+                                                        at.addAction(action);
+                                                    }*/
+                                                } else if (aa.getType() == AvatarType.BOOLEAN) {
+                                                    TraceManager.addDev("bool expr");
+                                                    int ex = AvatarSyntaxChecker.isAValidBoolExpr(getAvatarSpecification(), this, expr);
+
+                                                    if (ex != 0) {
+                                                        errors.add("The  action " + action + " is incorrect");
+                                                    } else {
+                                                        at.addAction(action);
+                                                    }
+                                                    /*AvatarIBSExpressions.BExpr bExpr = AvatarIBSolver.parseBool(this, expr);
+                                                    if (bExpr == null) {
+                                                        HashSet<String> hs = AvatarIBSolver.getBadIdents();
+                                                        String badAttrib = "";
+                                                        for (String s : hs) {
+                                                            badAttrib += s + " ";
+                                                        }
+                                                        errors.add("The following elements of the bool expr " + action + " are incorrect: " + badAttrib);
+                                                    } else {
+                                                        at.addAction(action);
+                                                    }*/
+                                                }
+
+                                            }
+
+
+                                        }
+                                        // signal sending / receiving
+                                        else if (action.contains("::")) {
+                                            TraceManager.addDev("Handing communication action: " + action);
+                                        } else {
+                                            errors.add("The following action is not valid: " + action + ". It must contain either the affectation of a " +
+                                                    "variable or a signal send/receive");
+                                        }
+                                    } catch (Exception e) {
 
                                     }
                                 }
                             }
-
                         }
                     }
                 }

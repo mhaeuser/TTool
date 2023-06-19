@@ -69,7 +69,12 @@ public class AIStateMachine extends AIInteract implements AISysMLV2DiagramConten
         "value\", \"action\":" +
             " \"attribute action or signal receiving/sending\"}]}]} ." +
             "# Respect: in actions, use only attributes and signals already defined in the corresponding block" +
-            "# Respect: at least one state must be called Start, which is the start state";
+            "# Respect: at least one state must be called Start, which is the start state" +
+            "# Respect: if a guard, an action, or an after is empty, use an empty string \"\", do not use \"null\"" +
+            "# Respect: an action contains either a variable affection, e.g. \"x = x + 1\" or a signal send/receive " +
+            "# Respect If a transition contains several actions, use a \";\" to separate them " +
+            "# Respect: a signal send is out::signalName(..) and a signal receive is in::signaNamd(...) " +
+            "# Respect: the attribute of an action is named by its identifier, do not reference its block";
 
 
     private AvatarSpecification specification;
@@ -115,47 +120,44 @@ public class AIStateMachine extends AIInteract implements AISysMLV2DiagramConten
         String questionT;
 
 
-
-
         for(String blockName: blockNames) {
+            TraceManager.addDev("Handling block: " + blockName);
+            done = false; cpt = 0;
+            questionT = QUESTION_IDENTIFY_STATE_MACHINE[0] + blockName;
             while (!done && cpt < 3) {
-                cpt++;
-
-                questionT = QUESTION_IDENTIFY_STATE_MACHINE[0] + blockName;
-
+                done = true;
                 boolean ok = makeQuestion(questionT);
                 if (!ok) {
-                    done = true;
                     TraceManager.addDev("Make question failed");
                 }
 
-                // Checking if only correct attributes are used, only valid signals, that there is a "Start" state, etc.
-                // Can be done only if AvatarSpecifcation is non null
-                /*ArrayList<String> errors;
-                try {
-                    TraceManager.addDev("Making specification from " + chatData.lastAnswer);
-                    specification = AvatarSpecification.fromJSON(extractJSON(), "design", null);
-                    errors = AvatarSpecification.getJSONErrors();
-
-                } catch (org.json.JSONException e) {
-                    TraceManager.addDev("Invalid JSON spec: " + extractJSON() + " because " + e.getMessage() + ": INJECTING ERROR");
-                    errors = new ArrayList<>();
-                    errors.add("There is an error in your JSON: " + e.getMessage() + ". probably the JSON spec was incomplete. Do correct it. I need " +
-                            "the full specification at once.");
-                }
-
-                if ((errors != null) && (errors.size() > 0)) {
-                    questionT = "Your answer was not correct because of the following errors:";
-                    for (String s : errors) {
-                        questionT += "\n- " + s;
+                if (specification != null) {
+                    AvatarBlock b = specification.getBlockWithName(blockName);
+                    if (b != null) {
+                        ArrayList<String> errors = b.makeStateMachineFromJSON(extractJSON());
+                        if ((errors != null) && (errors.size() > 0)) {
+                            done = false;
+                            questionT = "Your answer was not correct because of the following errors:";
+                            for (String s : errors) {
+                                TraceManager.addDev("Error in JSON: " + s);
+                                questionT += "\n- " + s;
+                            }
+                        } else {
+                            TraceManager.addDev("SMD done for Block " + blockName);
+                        }
+                    } else {
+                        TraceManager.addDev("ERROR: no block named " + blockName);
                     }
-                } else {
-                    TraceManager.addDev(" Avatar spec=" + specification);
                 }
 
-                waitIfConditionTrue(!done && cpt < 20);*/
-                done = true;
-                cpt++;
+                waitIfConditionTrue(!done && cpt < 3);
+
+                cpt ++;
+            }
+            // Remove knowledge of previous questions
+            while(cpt > 0) {
+                cpt --;
+                chatData.aiinterface.removePreviousKnowledge();
             }
         }
         TraceManager.addDev("Reached end of AIStateMachine internal request cpt=" + cpt);

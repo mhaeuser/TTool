@@ -78,7 +78,8 @@ public class JFrameAI extends JFrame implements ActionListener {
             " requirement diagram first",
             "Identify use cases",
             "Identify properties - Select a block diagram first. You can also provide a system specification",
-            "Identify system blocks - Provide a system specification", "Identify software blocks - Provide a system specification", "Identify state" +
+            "Identify system blocks - Provide a system specification",
+            "Identify software blocks - Provide a system specification", "Identify state" +
             " machines - Select a block diagram. Additionally, you can provide a system specification",
             "A(I)MULET - Select a block diagram first"};
 
@@ -291,7 +292,7 @@ public class JFrameAI extends JFrame implements ActionListener {
                 "macareux", "ours", "italien", "paris-brest", "belle-mère", "apéro (l'abus d'alcool est dangereux pour la santé)",
                 "carpe", "crocodile", "psychologue", "dr emacs", "3615-TTool", "100 balles et 1 mars",
                 "opéra (l’abus d’Alcôve est dangereux pour la santé)", "chapon", "perroquet", "chameau volant", "Alice", "Oasis", "ATC RAK",
-                "Adibou", "Cheval de Troyes"};
+                "Adibou", "Cheval de Troyes", "Twist", "GSM", "Etalon"};
         int x = (int) (Math.random() * names.length);
         return names[x];
     }
@@ -372,9 +373,9 @@ public class JFrameAI extends JFrame implements ActionListener {
             return ;
         }
 
-        TraceManager.addDev("Class of answer: " + selectedChat.aiInteract.getClass().getName());
+        //TraceManager.addDev("Class of answer: " + selectedChat.aiInteract.getClass().getName());
 
-        if (selectedChat.aiInteract instanceof ai.AIBlock) {
+        /*if (selectedChat.aiInteract instanceof ai.AIBlock) {
             applyIdentifySystemBlocks(selectedChat.aiInteract.applyAnswer(null));
         } else if (selectedChat.aiInteract instanceof ai.AISoftwareBlock) {
             applyIdentifySystemBlocks(selectedChat.aiInteract.applyAnswer(null));
@@ -388,9 +389,57 @@ public class JFrameAI extends JFrame implements ActionListener {
             // nothing up to now :-)
         } else if (selectedChat.aiInteract instanceof ai.AIAmulet) {
             applyMutations();
+        }*/
+
+
+        currentChatIndex = answerPane.getSelectedIndex();
+        switch(currentChatIndex) {
+            case 0:
+                if (selectedChat.aiInteract instanceof ai.AIBlock) {
+                    applyIdentifySystemBlocks(selectedChat.aiInteract.applyAnswer(null));
+                } else if (selectedChat.aiInteract instanceof ai.AISoftwareBlock) {
+                    applyIdentifySystemBlocks(selectedChat.aiInteract.applyAnswer(null));
+                } else if (selectedChat.aiInteract instanceof ai.AIReqIdent) {
+                    applyRequirementIdentification();
+                } else if (selectedChat.aiInteract instanceof ai.AIReqClassification) {
+                    applyRequirementClassification();
+                } else if (selectedChat.aiInteract instanceof ai.AIDesignPropertyIdentification) {
+                    // nothing up to now :-)
+                } else if (selectedChat.aiInteract instanceof ai.AIStateMachine) {
+                    // nothing up to now :-)
+                } else if (selectedChat.aiInteract instanceof ai.AIAmulet) {
+                    applyMutations();
+                }
+                break;
+                case 1:
+                    applyRequirementIdentification();
+                    break;
+            case 2:
+                applyRequirementClassification();
+                break;
+            case 3:
+                break;
+            case 4:
+                break;
+            case 5:
+                applyIdentifySystemBlocks(selectedChat.aiInteract.applyAnswer(null));
+                break;
+            case 6:
+                applyIdentifySystemBlocks(selectedChat.aiInteract.applyAnswer(null));
+                break;
+            case 7:
+                applyIdentifyStateMachines(selectedChat.aiInteract.applyAnswer(null));
+                break;
+            case 8:
+                applyMutations();
+                break;
         }
 
         question.setText("");
+    }
+
+    private void applyIdentifyStateMachines(Object input) {
+
     }
 
     private void applyRequirementIdentification() {

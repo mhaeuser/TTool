@@ -69,7 +69,7 @@ public class AIStateMachine extends AIInteract implements AISysMLV2DiagramConten
         "value\", \"action\":" +
             " \"attribute action or signal receiving/sending\"}]}]} ." +
             "# Respect: in actions, use only attributes and signals already defined in the corresponding block" +
-            "# Respect: at least one state must be called Start, which is the start state" +
+            "# Respect: at least one state must be called \"Start\", which is the start state" +
             "# Respect: if a guard, an action, or an after is empty, use an empty string \"\", do not use \"null\"" +
             "# Respect: an action contains either a variable affection, e.g. \"x = x + 1\" or a signal send/receive " +
             "# Respect If a transition contains several actions, use a \";\" to separate them " +

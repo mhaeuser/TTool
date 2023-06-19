@@ -406,7 +406,7 @@ public class JFrameAI extends JFrame implements ActionListener {
                 } else if (selectedChat.aiInteract instanceof ai.AIDesignPropertyIdentification) {
                     // nothing up to now :-)
                 } else if (selectedChat.aiInteract instanceof ai.AIStateMachine) {
-                    // nothing up to now :-)
+                    applyIdentifyStateMachines(selectedChat.aiInteract.applyAnswer(null));
                 } else if (selectedChat.aiInteract instanceof ai.AIAmulet) {
                     applyMutations();
                 }
@@ -439,7 +439,20 @@ public class JFrameAI extends JFrame implements ActionListener {
     }
 
     private void applyIdentifyStateMachines(Object input) {
+        if (input == null) {
+            error("Invalid specification in answer");
+            return;
+        }
 
+        TraceManager.addDev("Type of input:" + input.getClass());
+
+        if (!(input instanceof AvatarSpecification)) {
+            error("Invalid answer");
+            return;
+        }
+
+        mgui.drawAvatarSpecification((AvatarSpecification) input);
+        inform("State machine of blocks added to diagram from ai answer\n");
     }
 
     private void applyRequirementIdentification() {

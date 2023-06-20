@@ -7,8 +7,8 @@ package myutil.intboolsolver;
 
 import java_cup.runtime.*;
 import java.util.HashSet;
-import java_cup.runtime.XMLElement;
 import myutil.TraceManager;
+import java_cup.runtime.XMLElement;
 
 /** CUP v0.11b 20210814 (GIT d69c832) generated parser.
   */
@@ -200,9 +200,12 @@ public class IBSStdParser< Spec extends IBSParamSpec, Comp extends IBSParamComp,
 
 
 
+    @Override
     public void report_error(String message, Object info){
       TraceManager.addDev("Error during parsing: " + message + " / class " + info.getClass());
     }
+    @Override
+    protected void report_expected_token_ids() {}
 
     IBSScanner<Spec,Comp,State,SpecState,CompState> lexer;
     

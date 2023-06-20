@@ -124,7 +124,7 @@ public class AvatarBDSafetyPragma extends TGCScalableWithoutInternalComponent {
         editable = true;
         removable = true;
         syntaxErrors = new ArrayList<String>();
-        name = "UPPAAL Pragma";
+        name = "Safety Pragma";
         value = "";
 
         myImageIcon = IconManager.imgic6000;

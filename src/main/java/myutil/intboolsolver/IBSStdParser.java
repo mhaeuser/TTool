@@ -199,6 +199,8 @@ public class IBSStdParser< Spec extends IBSParamSpec, Comp extends IBSParamComp,
 
 
 
+    public void report_error(String message, Object info){} 
+
     IBSScanner<Spec,Comp,State,SpecState,CompState> lexer;
     
     public void setLexer(IBSScanner<Spec,Comp,State,SpecState,CompState> _lexer){ lexer=_lexer; setScanner(_lexer); }

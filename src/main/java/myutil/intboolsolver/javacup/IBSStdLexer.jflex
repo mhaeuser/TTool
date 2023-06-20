@@ -107,10 +107,10 @@ Identifier = [a-zA-Z_][a-zA-Z0-9_\.]*
 <YYINITIAL> "boolean"  { yybegin(INTBOOL); return new Symbol(IBSFlex#Symb.PARSE_BOOL); }
 <YYINITIAL> "guard"    { yybegin(INTBOOL); return new Symbol(IBSFlex#Symb.PARSE_GUARD); }
 <YYINITIAL> "integer"  { yybegin(INTBOOL); return new Symbol(IBSFlex#Symb.PARSE_INT); }
-<YYINITIAL> {Space}    {}
+<YYINITIAL> {Space}    { break; }
 
 <INTBOOL> {
- {Space}        {}
+ {Space}        { break; }
  "true"         { return new Symbol(IBSFlex#Symb.BOOL, Integer.valueOf(exprC.make_bConst(true))); }
  "false"        { return new Symbol(IBSFlex#Symb.BOOL, Integer.valueOf(exprC.make_bConst(false))); }
  {Natural}      { try { return new Symbol(IBSFlex#Symb.INT, Integer.valueOf(exprC.make_iConst(Integer.parseInt(yytext()))));}
@@ -146,4 +146,5 @@ Identifier = [a-zA-Z_][a-zA-Z0-9_\.]*
                       default : throw new Error ("Lexer, BUG : bad attribute type");
                   }
                 }
+ . { throw new Exception ("Unknown character in  expression"); }
 }

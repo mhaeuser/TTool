@@ -74,7 +74,9 @@ public class AIStateMachine extends AIInteract implements AISysMLV2DiagramConten
             "# Respect: an action contains either a variable affection, e.g. \"x = x + 1\" or a signal send/receive " +
             "# Respect If a transition contains several actions, use a \";\" to separate them " +
             "# Respect: a signal send is out::signalName(..) and a signal receive is in::signaNamd(...) " +
-            "# Respect: the attribute of an action is named by its identifier, do not reference its block";
+            "# Respect: the attribute of an action is named by its identifier, do not reference its block " +
+            "# Respect: A guard cannot contain a reference to a signal " +
+            "# Rexpect: To reference the attribute \"x\" of block \"B\", use \"x\" and never \"B.x\" nor \"B::x\"";
 
 
     private AvatarSpecification specification;
@@ -134,7 +136,7 @@ public class AIStateMachine extends AIInteract implements AISysMLV2DiagramConten
                 if (specification != null) {
                     AvatarBlock b = specification.getBlockWithName(blockName);
                     if (b != null) {
-                        ArrayList<String> errors = b.makeStateMachineFromJSON(extractJSON());
+                        ArrayList<String> errors = b.makeStateMachineFromJSON(extractJSON(), cpt == 2);
                         if ((errors != null) && (errors.size() > 0)) {
                             done = false;
                             questionT = "Your answer was not correct because of the following errors:";

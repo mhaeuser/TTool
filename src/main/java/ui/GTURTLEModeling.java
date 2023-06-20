@@ -9912,6 +9912,8 @@ public class GTURTLEModeling {
         }
         smp.removeAll();
         AvatarStateMachine asm = ab.getStateMachine();
+
+
         //Remove the empty check states
 
         AvatarStartState start = asm.getStartState();
@@ -9919,7 +9921,7 @@ public class GTURTLEModeling {
         addStates(start, smx, smy, smp, bl, SMDMap, locMap, tranDestMap, tranSourceMap);
 
         //Add transitions
-        for (AvatarTransition t : tranSourceMap.keySet()) {
+        for (AvatarTransition t: tranSourceMap.keySet()) {
             if (tranSourceMap.get(t) == null || tranDestMap.get(t) == null || locMap.get(tranDestMap.get(t)) == null) {
                 continue;
             }

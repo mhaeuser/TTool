@@ -38,7 +38,6 @@
 
 package avatartranslator;
 
-import avatartranslator.intboolsolver.AvatarIBSExpressions;
 import avatartranslator.intboolsolver.AvatarIBSolver;
 import myutil.NameChecker;
 import myutil.TraceManager;
@@ -1018,67 +1017,70 @@ public class AvatarBlock extends AvatarElement implements AvatarStateMachineOwne
         asm.setStartState(startState);
 
         ArrayList<String> errors = new ArrayList<>();
+        JSONObject mainObject;
 
-        JSONObject mainObject = new JSONObject(_jsonSpec);
-        JSONArray statesJSON = mainObject.getJSONArray("states");
+        try {
+            mainObject = new JSONObject(_jsonSpec);
 
-        for (int i = 0; i < statesJSON.length(); i++) {
-            JSONObject state0 = statesJSON.getJSONObject(i);
-            String name = AvatarSpecification.removeSpaces(state0.getString("name"));
+            JSONArray statesJSON = mainObject.getJSONArray("states");
 
-            AvatarState sameState = asm.getStateByName(name);
-            if (sameState != null) {
-                errors.add("State " + name + " is defined several times");
-            } else {
-                AvatarState newState = new AvatarState(name, this.getReferenceObject());
-                asm.addElement(newState);
+            for (int i = 0; i < statesJSON.length(); i++) {
+                JSONObject state0 = statesJSON.getJSONObject(i);
+                String name = AvatarSpecification.removeSpaces(state0.getString("name"));
 
-                if (name.toLowerCase(Locale.ROOT).compareTo("start") == 0) {
-                    AvatarTransition at = new AvatarTransition(this, "firstTransition", this.getReferenceObject());
-                    asm.addElement(at);
-                    asm.getStartState().addNext(at);
-                    at.addNext(newState);
+                AvatarState sameState = asm.getStateByName(name);
+                if (sameState != null) {
+                    errors.add("State " + name + " is defined several times");
+                } else {
+                    AvatarState newState = new AvatarState(name, this.getReferenceObject());
+                    asm.addElement(newState);
+
+                    if (name.toLowerCase(Locale.ROOT).compareTo("start") == 0) {
+                        AvatarTransition at = new AvatarTransition(this, "firstTransition", this.getReferenceObject());
+                        asm.addElement(at);
+                        asm.getStartState().addNext(at);
+                        at.addNext(newState);
+                    }
                 }
             }
-        }
-        for (int i = 0; i < statesJSON.length(); i++) {
-            JSONObject state0 = statesJSON.getJSONObject(i);
-            String name = AvatarSpecification.removeSpaces(state0.getString("name"));
-            if (name != null) {
-                AvatarState originState = asm.getStateByName(name);
-                if (originState != null) {
-                    JSONArray transitionsJSON = state0.getJSONArray("transitions");
-                    for (int j = 0; j < transitionsJSON.length(); j++) {
-                        JSONObject transitions0 = transitionsJSON.getJSONObject(j);
-                        String destinationState = transitions0.getString("destinationstate");
-                        if (destinationState == null) {
-                            errors.add("A transition has no \"destinationstate\"");
-                        } else {
-                            destinationState = AvatarSpecification.removeSpaces(destinationState);
-                            AvatarState dstState = asm.getStateByName(name);
-                            if (dstState == null) {
-                                errors.add("A transition has a undefined destination state to state\"" + destinationState + "\"");
+            for (int i = 0; i < statesJSON.length(); i++) {
+                JSONObject state0 = statesJSON.getJSONObject(i);
+                String name = AvatarSpecification.removeSpaces(state0.getString("name"));
+                if (name != null) {
+                    AvatarState originState = asm.getStateByName(name);
+                    if (originState != null) {
+                        JSONArray transitionsJSON = state0.getJSONArray("transitions");
+                        for (int j = 0; j < transitionsJSON.length(); j++) {
+                            JSONObject transitions0 = transitionsJSON.getJSONObject(j);
+                            String destinationState = transitions0.getString("destinationstate");
+                            if (destinationState == null) {
+                                errors.add("A transition has no \"destinationstate\"");
                             } else {
-                                AvatarTransition at =
-                                        new AvatarTransition(this, "name" + "_to_" + destinationState, getReferenceObject());
-                                asm.addElement(at);
-                                originState.addNext(at);
-                                at.addNext(dstState);
+                                destinationState = AvatarSpecification.removeSpaces(destinationState);
+                                AvatarState dstState = asm.getStateByName(name);
+                                if (dstState == null) {
+                                    errors.add("A transition has a undefined destination state to state\"" + destinationState + "\"");
+                                } else {
+                                    AvatarTransition at =
+                                            new AvatarTransition(this, "name" + "_to_" + destinationState, getReferenceObject());
+                                    asm.addElement(at);
+                                    originState.addNext(at);
+                                    at.addNext(dstState);
 
-                                // Handling guard, after and action
-                                String guard = transitions0.getString("guard");
-                                if ((guard != null) && (guard.length() > 0)) {
+                                    // Handling guard, after and action
+                                    String guard = transitions0.getString("guard");
+                                    if ((guard != null) && (guard.length() > 0)) {
 
 
-                                    int g = AvatarSyntaxChecker.isAValidGuard(getAvatarSpecification(), this, guard);
+                                        int g = AvatarSyntaxChecker.isAValidGuard(getAvatarSpecification(), this, guard);
 
-                                    if (g != 0) {
-                                        errors.add("The following guard " + guard + " is incorrect");
-                                    } else {
-                                        at.setGuard(guard);
-                                    }
+                                        if (g != 0) {
+                                            errors.add("The following guard " + guard + " is incorrect");
+                                        } else {
+                                            at.setGuard(guard);
+                                        }
 
-                                    // Check if the guard is valid
+                                        // Check if the guard is valid
                                     /*AvatarIBSolver.clearBadIdents();
                                     AvatarIBSExpressions.BExpr g = AvatarIBSolver.parseBool(this, guard);
                                     if (g == null) {
@@ -1091,20 +1093,20 @@ public class AvatarBlock extends AvatarElement implements AvatarStateMachineOwne
                                     } else {
                                         at.setGuard(guard);
                                     }*/
-                                }
-
-                                // After
-                                String afterS = transitions0.getString("after");
-                                if ((afterS != null) && (afterS.length() > 0)) {
-
-                                    int af = AvatarSyntaxChecker.isAValidIntExpr(getAvatarSpecification(), this, afterS);
-
-                                    if (af != 0) {
-                                        errors.add("The following after clause \"" + afterS + "\" is incorrect (maybe the attribute does not exist?" +
-                                                " In that case, directly use a numerical value)");
-                                    } else {
-                                        at.setDelays(afterS, afterS);
                                     }
+
+                                    // After
+                                    String afterS = transitions0.getString("after");
+                                    if ((afterS != null) && (afterS.length() > 0)) {
+
+                                        int af = AvatarSyntaxChecker.isAValidIntExpr(getAvatarSpecification(), this, afterS);
+
+                                        if (af != 0) {
+                                            errors.add("The following after clause \"" + afterS + "\" is incorrect (maybe the attribute does not exist?" +
+                                                    " In that case, directly use a numerical value)");
+                                        } else {
+                                            at.setDelays(afterS, afterS);
+                                        }
 
 
                                     /*AvatarIBSolver.clearBadIdents();
@@ -1119,39 +1121,39 @@ public class AvatarBlock extends AvatarElement implements AvatarStateMachineOwne
                                     } else {
                                         at.setDelays(afterS, afterS);
                                     }*/
-                                }
+                                    }
 
-                                // Action
-                                String actionS = transitions0.getString("action");
+                                    // Action
+                                    String actionS = transitions0.getString("action");
 
-                                if ((actionS != null) && (actionS.length() > 0)) {
-                                    String actions[] = actionS.split(";");
+                                    if ((actionS != null) && (actionS.length() > 0)) {
+                                        String actions[] = actionS.split(";");
 
-                                    try {
-                                        for(String action: actions) {
-                                            // Affectation?
-                                            if (action.contains("=")) {
-                                                int index = action.indexOf('=');
-                                                String variableName = action.substring(0, index).trim();
-                                                AvatarAttribute aa = getAvatarAttributeWithName(variableName);
-                                                if (aa == null) {
-                                                    errors.add("The following action is not valid: " + action + " because it contains an attribute  " +
-                                                            variableName + " which is not declared in the block " + getName());
-                                                } else {
-                                                    String expr = action.substring(index + 1).trim();
-                                                    TraceManager.addDev("Found expr:" + expr);
-                                                    AvatarIBSolver.clearBadIdents();
-                                                    if (aa.getType() == AvatarType.INTEGER) {
-                                                        TraceManager.addDev("int expr");
+                                        try {
+                                            for (String action : actions) {
+                                                // Affectation?
+                                                if (action.contains("=")) {
+                                                    int index = action.indexOf('=');
+                                                    String variableName = action.substring(0, index).trim();
+                                                    AvatarAttribute aa = getAvatarAttributeWithName(variableName);
+                                                    if (aa == null) {
+                                                        errors.add("The following action is not valid: " + action + " because it contains an attribute  " +
+                                                                variableName + " which is not declared in the block " + getName());
+                                                    } else {
+                                                        String expr = action.substring(index + 1).trim();
+                                                        TraceManager.addDev("Found expr:" + expr);
+                                                        AvatarIBSolver.clearBadIdents();
+                                                        if (aa.getType() == AvatarType.INTEGER) {
+                                                            TraceManager.addDev("int expr");
 
-                                                        int ex = AvatarSyntaxChecker.isAValidIntExpr(getAvatarSpecification(), this, expr);
+                                                            int ex = AvatarSyntaxChecker.isAValidIntExpr(getAvatarSpecification(), this, expr);
 
-                                                        if (ex != 0) {
-                                                            errors.add("The  action " + action + " is incorrect. Maybe it uses undeclared " +
-                                                                    "attributes? In that case");
-                                                        } else {
-                                                            at.addAction(action);
-                                                        }
+                                                            if (ex != 0) {
+                                                                errors.add("The  action " + action + " is incorrect. Maybe it uses undeclared " +
+                                                                        "attributes? In that case");
+                                                            } else {
+                                                                at.addAction(action);
+                                                            }
 
                                                     /*AvatarIBSExpressions.IExpr iExpr = AvatarIBSolver.parseInt(this, expr);
                                                     if (iExpr == null) {
@@ -1164,15 +1166,15 @@ public class AvatarBlock extends AvatarElement implements AvatarStateMachineOwne
                                                     } else {
                                                         at.addAction(action);
                                                     }*/
-                                                    } else if (aa.getType() == AvatarType.BOOLEAN) {
-                                                        TraceManager.addDev("bool expr");
-                                                        int ex = AvatarSyntaxChecker.isAValidBoolExpr(getAvatarSpecification(), this, expr);
+                                                        } else if (aa.getType() == AvatarType.BOOLEAN) {
+                                                            TraceManager.addDev("bool expr");
+                                                            int ex = AvatarSyntaxChecker.isAValidBoolExpr(getAvatarSpecification(), this, expr);
 
-                                                        if (ex != 0) {
-                                                            errors.add("The  action " + action + " is incorrect");
-                                                        } else {
-                                                            at.addAction(action);
-                                                        }
+                                                            if (ex != 0) {
+                                                                errors.add("The  action " + action + " is incorrect");
+                                                            } else {
+                                                                at.addAction(action);
+                                                            }
                                                     /*AvatarIBSExpressions.BExpr bExpr = AvatarIBSolver.parseBool(this, expr);
                                                     if (bExpr == null) {
                                                         HashSet<String> hs = AvatarIBSolver.getBadIdents();
@@ -1184,29 +1186,33 @@ public class AvatarBlock extends AvatarElement implements AvatarStateMachineOwne
                                                     } else {
                                                         at.addAction(action);
                                                     }*/
+                                                        }
+
                                                     }
 
+
                                                 }
-
-
+                                                // signal sending / receiving
+                                                else if (action.contains("::")) {
+                                                    TraceManager.addDev("Handing communication action: " + action);
+                                                } else {
+                                                    errors.add("The following action is not valid: " + action + ". It must contain either the affectation of a " +
+                                                            "variable or a signal send/receive");
+                                                }
                                             }
-                                            // signal sending / receiving
-                                            else if (action.contains("::")) {
-                                                TraceManager.addDev("Handing communication action: " + action);
-                                            } else {
-                                                errors.add("The following action is not valid: " + action + ". It must contain either the affectation of a " +
-                                                        "variable or a signal send/receive");
-                                            }
+                                        } catch (Exception e) {
+
                                         }
-                                    } catch (Exception e) {
-
                                     }
                                 }
                             }
                         }
                     }
                 }
+
             }
+        } catch (org.json.JSONException e) {
+            errors.add("Invalid JSON: " + e.getMessage());
         }
 
 

@@ -37,6 +37,7 @@
  */
  
 
+
 package myutil.intboolsolver;
 import java_cup.runtime.*;
 import java.util.HashSet;
@@ -47,6 +48,8 @@ import java.util.HashSet;
 */
 
 parser code {:
+
+    public void report_error(String message, Object info){}
 
     IBSScanner<Spec,Comp,State,SpecState,CompState> lexer;
     

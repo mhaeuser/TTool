@@ -49,7 +49,11 @@ import java.util.HashSet;
 
 parser code {:
 
+    @Override
     public void report_error(String message, Object info){}
+
+    @Override
+    protected void report_expected_token_ids() {}
 
     IBSScanner<Spec,Comp,State,SpecState,CompState> lexer;
     

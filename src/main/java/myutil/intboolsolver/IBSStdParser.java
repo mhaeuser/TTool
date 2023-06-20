@@ -199,7 +199,11 @@ public class IBSStdParser< Spec extends IBSParamSpec, Comp extends IBSParamComp,
 
 
 
-    public void report_error(String message, Object info){} 
+    @Override
+    public void report_error(String message, Object info){}
+    
+    @Override
+    protected void report_expected_token_ids() {}
 
     IBSScanner<Spec,Comp,State,SpecState,CompState> lexer;
     

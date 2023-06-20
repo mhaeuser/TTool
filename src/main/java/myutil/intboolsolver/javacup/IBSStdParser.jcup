@@ -41,6 +41,7 @@
 package myutil.intboolsolver;
 import java_cup.runtime.*;
 import java.util.HashSet;
+import myutil.TraceManager;
 
 
 /* To add in generated file:
@@ -49,7 +50,12 @@ import java.util.HashSet;
 
 parser code {:
 
-    public void report_error(String message, Object info){}
+    @Override
+    public void report_error(String message, Object info){
+      TraceManager.addDev("Error during parsing: " + message + " / class " + info.getClass());
+    }
+    @Override
+    protected void report_expected_token_ids() {}
 
     IBSScanner<Spec,Comp,State,SpecState,CompState> lexer;
     

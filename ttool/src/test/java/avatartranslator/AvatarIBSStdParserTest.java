@@ -268,6 +268,14 @@ public class AvatarIBSStdParserTest {
         assertTrue(e13!=null);
         AvatarIBSExpressions.BExpr e14 = AvatarIBSolver.parseBool(block1,"x-40<3");
         assertTrue(e14!=null);
+
+        TraceManager.addDev("Testing e15");
+        AvatarIBSExpressions.BExpr e15 = AvatarIBSolver.parseBool(block1,"x-40<3*b");
+        TraceManager.addDev("Expr e15 built");
+        //assertTrue(e15!=null);
+        //TraceManager.addDev("Testing e15 done");
+
+
         assertTrue(e1.eval(specBlock) == 15);
         assertTrue(e2.eval(specBlock));
         assertTrue(!e3.eval(specBlock));

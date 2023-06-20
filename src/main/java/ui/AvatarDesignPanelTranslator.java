@@ -567,7 +567,7 @@ public class AvatarDesignPanelTranslator {
             ce.setTDiagramPanel(adp.getAvatarBDPanel());
             ce.setTGComponent(tgc);
             addWarning(ce);
-            TraceManager.addDev("UPPAAL Pragma " + _pragma + " cannot be parsed");
+            TraceManager.addDev("Safety Pragma " + _pragma + " cannot be parsed");
             return false;
         }
 
@@ -578,7 +578,7 @@ public class AvatarDesignPanelTranslator {
             ce.setTDiagramPanel(adp.getAvatarBDPanel());
             ce.setTGComponent(tgc);
             addWarning(ce);
-            TraceManager.addDev("UPPAAL Pragma " + _pragma + " improperly formatted");
+            TraceManager.addDev("Safety Pragma " + _pragma + " improperly formatted");
             return false;
         } else if (returnVal == -1) {
             return false;
@@ -618,7 +618,7 @@ public class AvatarDesignPanelTranslator {
                     ce.setTDiagramPanel(adp.getAvatarBDPanel());
                     ce.setTGComponent(tgc);
                     addWarning(ce);
-                    TraceManager.addDev("UPPAAL Pragma " + _pragma + " improperly formatted");
+                    TraceManager.addDev("Safety Pragma " + _pragma + " improperly formatted");
                     return -1;
                 }
                 return 0;
@@ -629,7 +629,7 @@ public class AvatarDesignPanelTranslator {
                     ce.setTDiagramPanel(adp.getAvatarBDPanel());
                     ce.setTGComponent(tgc);
                     addWarning(ce);
-                    TraceManager.addDev("UPPAAL Pragma " + _pragma + " improperly formatted");
+                    TraceManager.addDev("Safety Pragma " + _pragma + " improperly formatted");
                     return -1;
                 }
                 return 1;
@@ -640,7 +640,7 @@ public class AvatarDesignPanelTranslator {
                     ce.setTDiagramPanel(adp.getAvatarBDPanel());
                     ce.setTGComponent(tgc);
                     addWarning(ce);
-                    TraceManager.addDev("UPPAAL Pragma " + _pragma + " improperly formatted");
+                    TraceManager.addDev("Safety Pragma " + _pragma + " improperly formatted");
                     return -1;
                 }
                 String block = state.split("\\.", 2)[0];
@@ -658,7 +658,7 @@ public class AvatarDesignPanelTranslator {
                 if (bl != null) {
                     AvatarStateMachine asm = bl.getStateMachine();
                     if (bl.getIndexOfAvatarAttributeWithName(attr) == -1 && asm.getStateWithName(attr) == null) {
-                        UICheckingError ce = new UICheckingError(CheckingError.STRUCTURE_ERROR, "UPPAAL Pragma " + _pragma +
+                        UICheckingError ce = new UICheckingError(CheckingError.STRUCTURE_ERROR, "Safety Pragma " + _pragma +
                                 " contains invalid attribute or state name " + attr);
                         ce.setTDiagramPanel(adp.getAvatarBDPanel());
                         ce.setTGComponent(tgc);
@@ -681,7 +681,7 @@ public class AvatarDesignPanelTranslator {
                         return 0;
                     }
                 } else {
-                    UICheckingError ce = new UICheckingError(CheckingError.STRUCTURE_ERROR, "UPPAAL Pragma " + _pragma +
+                    UICheckingError ce = new UICheckingError(CheckingError.STRUCTURE_ERROR, "Safety Pragma " + _pragma +
                             " contains invalid block name " + block);
                     ce.setTDiagramPanel(adp.getAvatarBDPanel());
                     ce.setTGComponent(tgc);
@@ -696,7 +696,7 @@ public class AvatarDesignPanelTranslator {
         int index = getOperatorIndex(state);
 
         if (index == -1) {
-            UICheckingError ce = new UICheckingError(CheckingError.STRUCTURE_ERROR, "UPPAAL Pragma " + _pragma + " cannot parse " + state);
+            UICheckingError ce = new UICheckingError(CheckingError.STRUCTURE_ERROR, "Safety Pragma " + _pragma + " cannot parse " + state);
             ce.setTDiagramPanel(adp.getAvatarBDPanel());
             ce.setTGComponent(tgc);
             addWarning(ce);
@@ -723,7 +723,7 @@ public class AvatarDesignPanelTranslator {
 
         switch (optype) {
             case -1:
-                ce = new UICheckingError(CheckingError.STRUCTURE_ERROR, "UPPAAL Pragma " + _pragma + " unrecognized " + operator);
+                ce = new UICheckingError(CheckingError.STRUCTURE_ERROR, "Safety Pragma " + _pragma + " unrecognized " + operator);
                 ce.setTDiagramPanel(adp.getAvatarBDPanel());
                 ce.setTGComponent(tgc);
                 addWarning(ce);
@@ -732,7 +732,7 @@ public class AvatarDesignPanelTranslator {
                 return -1;
             case 1:
                 if (!(optypel == 1 && optyper == 1)) {
-                    ce = new UICheckingError(CheckingError.STRUCTURE_ERROR, "UPPAAL Pragma " + _pragma +
+                    ce = new UICheckingError(CheckingError.STRUCTURE_ERROR, "Safety Pragma " + _pragma +
                             " expected integer attributes around " + operator);
                     ce.setTDiagramPanel(adp.getAvatarBDPanel());
                     ce.setTGComponent(tgc);
@@ -744,7 +744,7 @@ public class AvatarDesignPanelTranslator {
                 break;
             case 0:
                 if (!(optypel == 0 && optyper == 0)) {
-                    ce = new UICheckingError(CheckingError.STRUCTURE_ERROR, "UPPAAL Pragma " + _pragma +
+                    ce = new UICheckingError(CheckingError.STRUCTURE_ERROR, "Safety Pragma " + _pragma +
                             " expected boolean attributes around " + operator);
                     ce.setTDiagramPanel(adp.getAvatarBDPanel());
                     ce.setTGComponent(tgc);
@@ -756,7 +756,7 @@ public class AvatarDesignPanelTranslator {
                 break;
             case 3:
                 if (optypel != optyper) {
-                    ce = new UICheckingError(CheckingError.STRUCTURE_ERROR, "UPPAAL Pragma " + _pragma +
+                    ce = new UICheckingError(CheckingError.STRUCTURE_ERROR, "Safety Pragma " + _pragma +
                             " has incompatible types around " + operator);
                     ce.setTDiagramPanel(adp.getAvatarBDPanel());
                     ce.setTGComponent(tgc);

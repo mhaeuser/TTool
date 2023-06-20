@@ -291,8 +291,8 @@ public class JFrameAI extends JFrame implements ActionListener {
         String[] names = {"pico", "zebre", "pingouin", "chien", "minou", "kitty", "chaton", "whatsapp", "Luke Skywalker",
                 "macareux", "ours", "italien", "paris-brest", "belle-mère", "apéro (l'abus d'alcool est dangereux pour la santé)",
                 "carpe", "crocodile", "psychologue", "dr emacs", "3615-TTool", "100 balles et 1 mars",
-                "opéra (l’abus d’Alcôve est dangereux pour la santé)", "chapon", "perroquet", "chameau volant", "Alice", "Oasis", "ATC RAK",
-                "Adibou", "Cheval de Troyes", "Twist", "GSM", "Etalon"};
+                "opéra (l’abus d’Alcôve est dangereux pour la santé)", "chapon", "perroquet", "chameau volant", "Alice", "oasis", "ATC RAK",
+                "Adibou", "cheval de Troyes", "Twist", "GSM", "étalon", "jaseux"};
         int x = (int) (Math.random() * names.length);
         return names[x];
     }

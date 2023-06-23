@@ -518,7 +518,7 @@ public class AvatarSpecification extends AvatarElement implements IBSParamSpec {
     *
     *
      */
-    public static AvatarSpecification fromJSON(String _spec, String _name, Object _referenceObject) {
+    public static AvatarSpecification fromJSON(String _spec, String _name, Object _referenceObject, boolean acceptErrors) {
         if (_spec == null) {
             return null;
         }
@@ -601,6 +601,9 @@ public class AvatarSpecification extends AvatarElement implements IBSParamSpec {
                         } else if (nameS.startsWith("output")) {
                             nameS = nameS.substring(6).trim();
                             nameS = "out " + nameS;
+                        } else {
+                            nameS = nameS.substring(6).trim();
+                            nameS = "in " + nameS;
                         }
 
                         AvatarSignal as = AvatarSignal.isAValidSignalThenCreate(nameS, newBlock);
@@ -614,6 +617,7 @@ public class AvatarSpecification extends AvatarElement implements IBSParamSpec {
                         }*/
 
                         if (as != null) {
+                            TraceManager.addDev("Added signal: " + nameS);
                             newBlock.addSignal(as);
                         } else {
                             TraceManager.addDev("Invalid signal: " + nameS);
@@ -696,20 +700,24 @@ public class AvatarSpecification extends AvatarElement implements IBSParamSpec {
             }
         }
 
-        // Identify in signals that are not connected
-        for(AvatarBlock block: spec.getListOfBlocks()) {
-            for (AvatarSignal inSig : block.getSignals()) {
-                if (!(signalSet.contains(inSig))) {
-                    if (inSig.isIn()) {
-                        toBeRemoved.add(inSig);
+        if (!acceptErrors) {
+            // Identify in signals that are not connected
+            for (AvatarBlock block : spec.getListOfBlocks()) {
+                for (AvatarSignal inSig : block.getSignals()) {
+                    if (!(signalSet.contains(inSig))) {
+                        if (inSig.isIn()) {
+                            toBeRemoved.add(inSig);
+                            jsonErrors.add("In block " + block.getName() + " signal " + inSig.getSignalName() + " was removed because there is" +
+                                    " no correponding output signal with the same name");
+                        }
                     }
                 }
             }
-        }
 
-        for(AvatarSignal as: toBeRemoved) {
-            for (AvatarBlock block : spec.getListOfBlocks()) {
-                block.removeAvatarSignal(as);
+            for (AvatarSignal as : toBeRemoved) {
+                for (AvatarBlock block : spec.getListOfBlocks()) {
+                    block.removeAvatarSignal(as);
+                }
             }
         }
 

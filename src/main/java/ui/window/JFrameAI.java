@@ -353,8 +353,15 @@ public class JFrameAI extends JFrame implements ActionListener {
                 }
 
                 if (found) {
+                    TraceManager.addDev("The selected diagram is valid");
                     String[] exclusions = ((AISysMLV2DiagramContent)(selected.aiInteract)).getDiagramExclusions();
-                    ((AISysMLV2DiagramContent)(selected.aiInteract)).setDiagramContentInSysMLV2(tdp.toSysMLV2Text(exclusions).toString());
+                    StringBuffer sb =  tdp.toSysMLV2Text(exclusions);
+                    if (sb == null) {
+                        error("The syntax of the selected diagram is incorrect");
+                        return;
+                    } else {
+                        ((AISysMLV2DiagramContent) (selected.aiInteract)).setDiagramContentInSysMLV2(sb.toString());
+                    }
                 }
             }
 

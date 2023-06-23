@@ -73,7 +73,7 @@ public class AIBlock extends AIInteract {
             "#Respect: Two connected signals must have " +
             "the same list of attributes, even if they are " +
             "defined in two different blocks. One of them must be output, the other one must be input" +
-            "#Respect: all input signals must have exactly one corresponding output signal, i.e. a signal with the same name" +
+            "#Respect: all input signals must have exactly one corresponding output signal, i.e. an ouput signal with the same name" +
             "#Respect: two signals with the same name must be defined in different blocks";
             /*"and after " +
             "the blocks, add the " +
@@ -126,7 +126,7 @@ public class AIBlock extends AIInteract {
             ArrayList<String> errors;
             try {
                 TraceManager.addDev("Making specification from " + chatData.lastAnswer);
-                specification = AvatarSpecification.fromJSON(extractJSON(), "design", null);
+                specification = AvatarSpecification.fromJSON(extractJSON(), "design", null, true);
                 errors = AvatarSpecification.getJSONErrors();
 
             } catch (org.json.JSONException e) {

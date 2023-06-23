@@ -133,7 +133,7 @@ public class AISoftwareBlock extends AIInteract {
             ArrayList<String> errors;
             try {
                 TraceManager.addDev("Making specification from " + chatData.lastAnswer);
-                specification = AvatarSpecification.fromJSON(extractJSON(), "design", null);
+                specification = AvatarSpecification.fromJSON(extractJSON(), "design", null, cpt == 20);
                 errors = AvatarSpecification.getJSONErrors();
 
             } catch (org.json.JSONException e) {

@@ -941,7 +941,7 @@ public class AvatarBDPanel extends TDiagramPanel {
     public ArrayList<String> loadAndUpdateFromText(String _spec, boolean apply) throws org.json.JSONException {
         TraceManager.addDev("Loading blocks from JSON:" + _spec);
 
-        AvatarSpecification avatarSpec = AvatarSpecification.fromJSON(_spec, getName(), this);
+        AvatarSpecification avatarSpec = AvatarSpecification.fromJSON(_spec, getName(), this, true);
         if (apply) {
             mgui.drawAvatarSpecification(avatarSpec);
         }

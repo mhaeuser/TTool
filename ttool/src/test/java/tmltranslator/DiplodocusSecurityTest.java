@@ -44,6 +44,7 @@ public class DiplodocusSecurityTest extends AbstractTest {
     final static String DIR_GEN = "tmltranslator/test_diplo_security/";
     final static String DIR_MODELS = "tmltranslator/test_diplo_security_models/";
     final String [] MODELS_DIPLO_SECURITY = {"symetric", "nonce", "keyexchange", "mac"};
+
     private static final List<List<String>> LIST_OF_LISTS_OF_QUERIES = Arrays.asList(
             Arrays.asList("Query not attacker(Alice___SymmetricExchange__comm_chData[!1 = v]) is true.",
                     "Query inj-event(authenticity___Bob___SymmetricExchange__comm_chData___aftersignalstate_SymmetricExchange_comm_" +
@@ -57,7 +58,10 @@ public class DiplodocusSecurityTest extends AbstractTest {
                     "(dummyM)) ==> inj-event(authenticity___Alice___KeyExchange__comm_chData___signalstate_KeyExchange_comm_KeyExchange_comm239" +
                     "(dummyM)) is true.", "Query inj-event(authenticity___Bob___KeyExchange__comm_chData___aftersignalstate_KeyExchange_comm" +
                     "_KeyExchange_comm283(dummyM)) ==> inj-event(authenticity___Alice___KeyExchange__comm_chData" +
-                    "___signalstate_KeyExchange_comm_KeyExchange_comm239(dummyM)) is true."),
+                    "___signalstate_KeyExchange_comm_KeyExchange_comm239(dummyM)) is true.",
+                    "Query inj-event(authenticity___Bob___KeyExchange__comm_chData___aftersignalstate_KeyExchange_comm_KeyExchange_",
+                    "Query inj-event(authenticity___Bob___KeyExchange__comm_chData___aftersignalstate_KeyExchange_comm_KeyExchange_comm(dummyM)) " +
+                            "==> inj-event(authenticity___Alice___KeyExchange__comm_chData___signalstate_KeyExchange_comm_KeyExchange_comm(dummyM)) is false"),
             Arrays.asList("Query not attacker(Alice___MAC__comm_chData[!1 = v]) is true.",
                     "Query inj-event(authenticity___Bob___MAC__comm_chData___aftersignalstate_MAC_comm_MAC_comm(dummyM)) ==> inj-event(authenticity" +
                             "___Alice___MAC__comm_chData___signalstate_MAC_comm_MAC_comm(dummyM)) is false")
@@ -104,7 +108,7 @@ public class DiplodocusSecurityTest extends AbstractTest {
 
         for (int i = 0; i < MODELS_DIPLO_SECURITY.length; i++) {
             String s = MODELS_DIPLO_SECURITY[i];
-            System.out.println("Checking the security of " + s);
+            System.out.println("\n\n********** Checking the security of " + s + " ********\n");
             TMLMappingTextSpecification tmts = new TMLMappingTextSpecification(s);
             File f = new File(RESOURCES_DIR + s + ".tmap");
             System.out.println("Loading file: " + f.getAbsolutePath());

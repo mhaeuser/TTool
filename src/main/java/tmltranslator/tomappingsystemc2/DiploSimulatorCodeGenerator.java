@@ -128,7 +128,7 @@ public class DiploSimulatorCodeGenerator implements IDiploSimulatorCodeGenerator
     }
 
     public void setModelName(String _modelName) {
-        modelName = _modelName;
+        modelName = _modelName.replace("\\", "\\\\");
     }
 
     public void saveFile(String path, String filename) throws FileException {
@@ -388,9 +388,11 @@ public class DiploSimulatorCodeGenerator implements IDiploSimulatorCodeGenerator
         declaration += CR;
 
         // Declaration of Model Name
-        declaration += "//Declaration of Model Name" + CR;
+        declaration += "// Declaration of Model Name" + CR;
         declaration += "std::string msg=" + "\"" + modelName + "\"" + SCCR;
         declaration += "addModelName(" + "\"" + modelName + "\"" + ")" + SCCR;
+
+
 
         // Declaration of Buses
         declaration += "//Declaration of Buses" + CR;

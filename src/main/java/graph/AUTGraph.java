@@ -459,6 +459,18 @@ public class AUTGraph implements myutil.Graph {
         return null;
     }
 
+    public ArrayList<AUTState> getAllStateWithReference(Object _ref) {
+        ArrayList<AUTState> states = new ArrayList<>();
+        for(AUTState st: states) {
+            if (st.referenceObject == _ref) {
+                states.add(st);
+            }
+        }
+        return states;
+    }
+
+
+
     public AUTState getState(int _id) {
         return states.get(_id);
     }

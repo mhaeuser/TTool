@@ -1496,7 +1496,7 @@ public class JFrameInteractiveSimulation extends JFrame implements ActionListene
 			LinkedHashMap<String, ArrayList<String>> deviceTaskMap = new LinkedHashMap<String, ArrayList<String>>();
 			for (String name: tmlComponentsToValidate){
 				TMLTask task = tmap.getTMLModeling().getTMLTaskByName(name);
-				if (task==null){
+				if (task == null){
 					continue;
 				}
 				HwNode node = tmap.getHwNodeOf(task);
@@ -1517,9 +1517,14 @@ public class JFrameInteractiveSimulation extends JFrame implements ActionListene
 				simtraces.add("time=0 block="+ node.getName()+" type=state_entering state=start");
 				simIndex++;
 			}*/
+
+            //TraceManager.addDev("Processing traces");
+
 			for (TMLTask task : tmap.getTMLModeling().getTasks()){
 				if (!simtraces.contains("time=0 block="+ task.getName()+" type=state_entering state=startState") && tmlComponentsToValidate.contains(task.getName())){
-					simtraces.add("time=0 block="+ task.getName()+" type=state_entering state=startState");
+					String trace = "time=0 block="+ task.getName()+" type=state_entering state=startState";
+                    simtraces.add(trace);
+                    //TraceManager.addDev("Trace added: " + trace);
 					simIndex++;
 				}
 			}
@@ -1556,6 +1561,7 @@ public class JFrameInteractiveSimulation extends JFrame implements ActionListene
 			}
 			bw.close();
 			pos.close();
+            TraceManager.addDev("Sim trace written");
 			tmlSimPanel.setVisible(true);
 	
 		}

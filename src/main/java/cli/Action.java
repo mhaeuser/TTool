@@ -140,6 +140,8 @@ public class Action extends Command implements ProVerifOutputListener {
     private final static String AVATAR_SIMULATION_OPEN_WINDOW = "avatar-simulation-open-window";
     private final static String AVATAR_SIMULATION_GENERIC = "avatar-simulation-generic";
 
+    private final static String AVATAR_COMPLEXITY = "avatar-complexity";
+
 
 
     private AvatarSpecificationSimulation ass;
@@ -1225,6 +1227,48 @@ public class Action extends Command implements ProVerifOutputListener {
         };
 
 
+        Command makeComplexityAction = new Command() {
+            public String getCommand() {
+                return AVATAR_COMPLEXITY;
+            }
+
+            public String getShortCommand() {
+                return "ac";
+            }
+
+            public String getDescription() {
+                return "Computes the complexity of an AVATAR Model";
+            }
+
+            public String getUsage() {
+                return "";
+            }
+
+            public String getExample() {
+                return "ac";
+            }
+
+            public String executeCommand(String command, Interpreter interpreter) {
+
+                if (!interpreter.isTToolStarted()) {
+                    return Interpreter.TTOOL_NOT_STARTED;
+                }
+
+                AvatarSpecification spec = interpreter.mgui.gtm.getAvatarSpecification();
+
+                if (spec == null) {
+                    return "No AVATAR specification";
+                }
+
+                TraceManager.addUser("Hello from avatar complexity");
+
+
+
+                return null;
+            }
+        };
+
+
         Command makeMutationBatchFromAvatar = new Command() {
             public String getCommand() {
                 return AVATAR_MUTATION_BATCH;
@@ -2060,6 +2104,7 @@ public class Action extends Command implements ProVerifOutputListener {
 
         addAndSortSubcommand(printAvatarSpec);
         addAndSortSubcommand(makeMutationFromAvatar);
+        addAndSortSubcommand(makeComplexityAction);
         addAndSortSubcommand(makeMutationBatchFromAvatar);
         addAndSortSubcommand(drawAvatarSpec);
         addAndSortSubcommand(avatarSimulationToBrk);

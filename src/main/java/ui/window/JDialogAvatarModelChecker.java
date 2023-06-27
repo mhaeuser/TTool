@@ -107,6 +107,8 @@ public class JDialogAvatarModelChecker extends javax.swing.JFrame implements Act
     protected static boolean generateDesignSelected = false;
     protected static boolean generateDependencyGraphSelected = false;
     protected static boolean generateDependencyGraphSelectedNoID = false;
+    protected static boolean generateCompactDependencyGraphSelected = false;
+    protected static boolean generateCompactDependencyGraphSelectedNoID = false;
     protected static boolean generateDependencyGraphEltSelected = false;
     protected static boolean generateDependencyGraphEltSelectedNoID = false;
     protected static int reachabilitySelected = REACHABILITY_NONE;
@@ -186,6 +188,7 @@ public class JDialogAvatarModelChecker extends javax.swing.JFrame implements Act
 
     protected JCheckBox saveGraphAUT, saveGraphDot, advancedInfoDeadlockBox, ignoreEmptyTransitions, ignoreInternalStates,
             ignoreConcurrenceBetweenInternalActions, generateDesign, generateDependencyGraph, generateDependencyGraphNoID,
+            generateCompactDependencyGraph, generateCompactDependencyGraphNoID,
             generateDependencyGraphElt, generateDependencyGraphEltNOID;
     protected JButton graphDirButton, graphPathDotButton;
     protected JTextField graphPath, graphPathDot;
@@ -323,6 +326,11 @@ public class JDialogAvatarModelChecker extends javax.swing.JFrame implements Act
             generateDependencyGraph = new JCheckBox("[For testing purpose only] Generate dependency graph", generateDependencyGraphSelected);
             generateDependencyGraph.addActionListener(this);
             jp01.add(generateDependencyGraph, c01);
+
+            generateCompactDependencyGraph = new JCheckBox("[For testing purpose only] Generate compact dependency graph",
+                    generateCompactDependencyGraphSelected);
+            generateCompactDependencyGraph.addActionListener(this);
+            jp01.add(generateCompactDependencyGraph, c01);
         }
 
         if (TraceManager.devPolicy == TraceManager.TO_CONSOLE) {
@@ -330,6 +338,11 @@ public class JDialogAvatarModelChecker extends javax.swing.JFrame implements Act
                     generateDependencyGraphSelectedNoID);
             generateDependencyGraphNoID.addActionListener(this);
             jp01.add(generateDependencyGraphNoID, c01);
+
+            generateCompactDependencyGraphNoID = new JCheckBox("[For testing purpose only] Generate compact dependency graph with no ID",
+                    generateCompactDependencyGraphSelectedNoID);
+            generateCompactDependencyGraphNoID.addActionListener(this);
+            jp01.add(generateCompactDependencyGraphNoID, c01);
         }
 
         if (TraceManager.devPolicy == TraceManager.TO_CONSOLE) {
@@ -897,10 +910,30 @@ public class JDialogAvatarModelChecker extends javax.swing.JFrame implements Act
                 mgui.addRG(rg);
             }
 
+            if (generateCompactDependencyGraphSelected) {
+                TraceManager.addDev("Generating compact dependency graph");
+                AvatarCompactDependencyGraph adg = spec.makeCompactDependencyGraph();
+                RG rg = new RG("Compact Dependency Graph");
+                rg.graph = adg.getGraph();
+                rg.nbOfStates = rg.graph.getNbOfStates();
+                rg.nbOfTransitions = rg.graph.getNbOfTransitions();
+                mgui.addRG(rg);
+            }
+
             if (generateDependencyGraphSelectedNoID) {
                 TraceManager.addDev("Generating dependency graph with no ID");
                 AvatarDependencyGraph adg = spec.makeDependencyGraph(false);
                 RG rg = new RG("Dependency Graph no ID");
+                rg.graph = adg.getGraph();
+                rg.nbOfStates = rg.graph.getNbOfStates();
+                rg.nbOfTransitions = rg.graph.getNbOfTransitions();
+                mgui.addRG(rg);
+            }
+
+            if (generateCompactDependencyGraphSelectedNoID) {
+                TraceManager.addDev("Generating compacr dependency graph with no ID");
+                AvatarCompactDependencyGraph adg = spec.makeCompactDependencyGraph(false);
+                RG rg = new RG("Compact Dependency Graph no ID");
                 rg.graph = adg.getGraph();
                 rg.nbOfStates = rg.graph.getNbOfStates();
                 rg.nbOfTransitions = rg.graph.getNbOfTransitions();
@@ -1441,8 +1474,14 @@ public class JDialogAvatarModelChecker extends javax.swing.JFrame implements Act
         if (generateDependencyGraph != null) {
             generateDependencyGraphSelected = generateDependencyGraph.isSelected();
         }
+        if (generateCompactDependencyGraph != null) {
+            generateCompactDependencyGraphSelected = generateCompactDependencyGraph.isSelected();
+        }
         if (generateDependencyGraphNoID != null) {
             generateDependencyGraphSelectedNoID = generateDependencyGraphNoID.isSelected();
+        }
+        if (generateCompactDependencyGraphNoID != null) {
+            generateCompactDependencyGraphSelectedNoID = generateCompactDependencyGraphNoID.isSelected();
         }
         if (generateDependencyGraphElt != null) {
             generateDependencyGraphEltSelected = generateDependencyGraphElt.isSelected();

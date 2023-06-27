@@ -1637,6 +1637,16 @@ public class AvatarSpecification extends AvatarElement implements IBSParamSpec {
         return adg;
     }
 
+    public AvatarCompactDependencyGraph makeCompactDependencyGraph() {
+        return makeCompactDependencyGraph(true);
+    }
+
+    public AvatarCompactDependencyGraph makeCompactDependencyGraph(boolean withID) {
+        AvatarCompactDependencyGraph adg = new AvatarCompactDependencyGraph();
+        adg.buildGraph(this, withID);
+        return adg;
+    }
+
     public AvatarSpecification simplifyFromDependencies(ArrayList<AvatarElement> eltsOfInterest) {
         AvatarSpecification clonedSpec = advancedClone();
         AvatarDependencyGraph adg = clonedSpec.makeDependencyGraph();

@@ -105,8 +105,8 @@ public class AvatarCompactDependencyGraph {
         // For each writing state, we draw a transition to all possible corresponding readers
         // Double direction if synchronous
         for (AUTState state : states) {
-            if (state.referenceObject instanceof AvatarActionOnSignal) {
-                AvatarActionOnSignal aaos = (AvatarActionOnSignal) state.referenceObject;
+            AvatarActionOnSignal aaos = getAvatarActionOnSignalInReferences(state);
+            if (aaos != null) {
 
                 // Find previous of state
                 AUTTransition previousTr = state.inTransitions.get(0);
@@ -132,8 +132,8 @@ public class AvatarCompactDependencyGraph {
                         //TraceManager.addDev("Corresponding signal=" + correspondingSig);
                         if (correspondingSig != null) {
                             for (AUTState stateDestination : states) {
-                                if (stateDestination.referenceObject instanceof AvatarActionOnSignal) {
-                                    AvatarActionOnSignal aaosD = (AvatarActionOnSignal) stateDestination.referenceObject;
+                                AvatarActionOnSignal aaosD = getAvatarActionOnSignalInReferences(stateDestination);
+                                if (aaosD != null) {
                                     if (aaosD.getSignal() == correspondingSig) {
                                         // Found relation
                                         //TraceManager.addDev("Found relation!");
@@ -144,10 +144,6 @@ public class AvatarCompactDependencyGraph {
                                         AUTState newState = new AUTState(id);
                                         newState.referenceObject = state.referenceObject;
                                         newState.info = state.info;
-                                        if (state.referenceObject instanceof AvatarElement) {
-                                            //putState((AvatarElement) state.referenceObject, newState);
-                                            //fromStates.put(newState, (AvatarElement) state.referenceObject);
-                                        }
 
                                         newStates.add(newState);
                                         id++;
@@ -416,15 +412,18 @@ public class AvatarCompactDependencyGraph {
 
     }
 
-
+    @SuppressWarnings("unchecked")
     private void addReferenceElement(AUTState _state,  AvatarStateMachineElement _elt) {
         ArrayList<AvatarStateMachineElement> refs = null;
-        if (_state.referenceObject == null) {
+        if ( (_state.referenceObject == null) ) {
             refs = new ArrayList<>();
             _state.referenceObject = refs;
+        } else {
+            refs = (ArrayList<AvatarStateMachineElement> ) (_state.referenceObject);
         }
         refs.add(_elt);
     }
+
     @SuppressWarnings("unchecked")
     private boolean hasReferenceObject(AUTState _state,  AvatarStateMachineElement _elt) {
         if (_state.referenceObject == null) {
@@ -433,6 +432,22 @@ public class AvatarCompactDependencyGraph {
         ArrayList<AvatarStateMachineElement> refs = (ArrayList<AvatarStateMachineElement> )(_state.referenceObject);
         return refs.contains(_elt);
     }
+
+    @SuppressWarnings("unchecked")
+    private AvatarActionOnSignal getAvatarActionOnSignalInReferences(AUTState _state) {
+        if (_state.referenceObject == null) {
+            return null;
+        }
+        ArrayList<AvatarStateMachineElement> refs = (ArrayList<AvatarStateMachineElement> )(_state.referenceObject);
+        for(AvatarStateMachineElement elt: refs) {
+            if (elt instanceof AvatarActionOnSignal) {
+                return (AvatarActionOnSignal)elt;
+            }
+        }
+        return null;
+    }
+
+
 
 
     private AUTState makeCompactDependencyGraphForAvatarElement(AvatarBlock bl, AvatarStateMachineElement _elt,
@@ -444,12 +459,24 @@ public class AvatarCompactDependencyGraph {
             return null;
         }
 
-        if (_elt instanceof AvatarTransition) {
+        if ( (_elt instanceof AvatarTransition) && (_elt.getNext(0) instanceof AvatarActionOnSignal)) {
             if (_elt.getNext(0) != null) {
                 return makeCompactDependencyGraphForAvatarElement(bl, _elt.getNext(0), _previousS, _elt, _states, _transitions, withID,
                         (AvatarTransition) _elt);
             } else {
                 return _previousS;
+            }
+        }
+
+        if (_elt instanceof AvatarTransition) {
+            AvatarTransition at = (AvatarTransition) _elt;
+            if (at.isEmpty()) {
+                if (_elt.getNext(0) != null) {
+                    return makeCompactDependencyGraphForAvatarElement(bl, _elt.getNext(0), _previousS, _elt, _states, _transitions, withID,
+                            null);
+                } else {
+                    return _previousS;
+                }
             }
         }
 

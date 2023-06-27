@@ -105,7 +105,7 @@ public class AvatarSafetyTests {
 
 		AvatarBlock C = new AvatarBlock("C", null, null);
 		AvatarStateMachine Casm = C.getStateMachine();
-		AvatarState c1=	new AvatarState("c1", null);
+		AvatarState c1 =	new AvatarState("c1", null, C);
 		c1.setCheckLatency(true);
 		Casm.addElement(c1);
 

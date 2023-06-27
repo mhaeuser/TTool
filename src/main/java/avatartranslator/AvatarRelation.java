@@ -310,7 +310,7 @@ public class AvatarRelation extends AvatarElement {
 		    AvatarSignal ns1 = b1.getSignalByName(s1.getName());
 		    AvatarSignal ns2 = b2.getSignalByName(s2.getName());
 		    if ((ns1 == null) || (ns2 == null)) {
-			continue;
+			    continue;
 		    }	   	
 		    ar.addSignals(ns1, ns2);
 		}

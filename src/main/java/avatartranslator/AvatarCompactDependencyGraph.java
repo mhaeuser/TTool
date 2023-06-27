@@ -43,10 +43,9 @@ import graph.AUTGraph;
 import graph.AUTState;
 import graph.AUTTransition;
 import myutil.TraceManager;
+import org.jfree.data.json.impl.JSONObject;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashSet;
+import java.util.*;
 
 /**
  * Class AvatarCompactDependencyGraph
@@ -675,19 +674,78 @@ public class AvatarCompactDependencyGraph {
                 // This is a start state
                 AvatarStateMachineElement asme = getFirstReferenceObjectFromState(st);
                 if ((asme != null) && (asme instanceof AvatarStartState)) {
+                    AvatarStateMachineOwner asmo = asme.getOwner();
 
+                    if ((asmo != null) && (asmo instanceof AvatarBlock)) {
+                        AvatarBlock ab = (AvatarBlock) asmo;
+                        AvatarBlock newBlock = new AvatarBlock(ab.getName(), newAvspec, this);
+                        newAvspec.addBlock(newBlock);
+                        for (AvatarAttribute aa : ab.getAttributes()) {
+                            AvatarAttribute newA = aa.advancedClone(newBlock);
+                            newA.clearReferenceObject();
+                            newA.setReferenceObject(this);
+                            newBlock.addAttribute(newA);
+                        }
+                        for (AvatarMethod am : ab.getMethods()) {
+                            AvatarMethod newAm = am.advancedClone(newBlock);
+                            newAm.clearReferenceObject();
+                            newAm.setReferenceObject(this);
+                            newBlock.addMethod(newAm);
+                        }
+                        for (AvatarSignal as : ab.getSignals()) {
+                            AvatarSignal newAs = as.advancedClone(newBlock);
+                            newAs.clearReferenceObject();
+                            newAs.setReferenceObject(this);
+                            newBlock.addSignal(newAs);
+                        }
+
+                        // We start from the start state and we build the SMD
+
+
+
+                        // We add relations for which the two related have been defined
+                        AvatarSpecification oldSpec = asmo.getAvatarSpecification();
+                        if (oldSpec != null) {
+                            for (AvatarRelation ar: oldSpec.getRelations()) {
+                                boolean b1 = ar.getBlock1().getName().compareTo(newBlock.getName()) == 0;
+                                boolean b2 = ar.getBlock2().getName().compareTo(newBlock.getName()) == 0;
+
+
+                                if (b1 || b2) {
+                                    AvatarBlock bl1 = null, bl2 = null;
+                                    String nameOther;
+                                    if (b1) {
+                                        bl1 = newBlock;
+                                        nameOther = ar.getBlock2().getName();
+                                    } else {
+                                        bl2 = newBlock;
+                                        nameOther = ar.getBlock1().getName();
+                                    }
+                                    AvatarBlock bOther = newAvspec.getBlockWithName(nameOther);
+                                    if (bOther != null) {
+                                        if (bl1 == null) {
+                                            bl1 = bOther;
+                                        } else {
+                                            bl2 = bOther;
+                                        }
+                                        HashMap<AvatarBlock, AvatarBlock> blMap = new HashMap<AvatarBlock, AvatarBlock>();
+                                        blMap.put(ar.getBlock1(), bl1);
+                                        blMap.put(ar.getBlock1(), bl2);
+                                        AvatarRelation newAr = ar.advancedClone(blMap);
+                                        newAr.setReferenceObject(this);
+                                        newAvspec.addRelation(newAr);
+                                    }
+                                }
+
+                            }
+                        }
+
+
+
+                    }
                 }
             }
         }
-
-
-
-        // We make state machines from the graph.
-
-
-        // Making blocks from reference objects
-
-        // Making ASM
 
 
         return newAvspec;

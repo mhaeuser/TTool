@@ -78,6 +78,14 @@ public class AvatarElement implements NameChecker.NamedElement {
 
     }
 
+    public void clearReferenceObject() {
+        referenceObject = null;
+    }
+
+    public void setReferenceObject(Object _referenceObject) {
+        referenceObject = _referenceObject;
+    }
+
     public void addReferenceObject(Object _ref) {
         if (otherReferenceObjects == null) {
             otherReferenceObjects = new Vector<Object>();

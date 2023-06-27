@@ -77,13 +77,13 @@ public class AvatarPragmaTests {
 	public void setupBlocks(){
 		AvatarBlock A = new AvatarBlock("A", null, null);
 		AvatarStateMachine Aasm = A.getStateMachine();
-		Aasm.addElement(new AvatarState("a1", null));
+		Aasm.addElement(new AvatarState("a1", null, A));
 		A.addAttribute(new AvatarAttribute("key1", AvatarType.INTEGER, A, null));
 		A.addAttribute(new AvatarAttribute("key2", AvatarType.INTEGER, A, null));
 
 		AvatarBlock B = new AvatarBlock("B", null, null);
 		AvatarStateMachine Basm = B.getStateMachine();
-		Basm.addElement(new AvatarState("b1", null));
+		Basm.addElement(new AvatarState("b1", null, B));
 		B.addAttribute(new AvatarAttribute("key1", AvatarType.INTEGER, B, null));
 		B.addAttribute(new AvatarAttribute("key2", AvatarType.BOOLEAN, B, null));
 		B.addAttribute(new AvatarAttribute("m__a", AvatarType.UNDEFINED, B, null));
@@ -91,7 +91,7 @@ public class AvatarPragmaTests {
 
 		AvatarBlock C = new AvatarBlock("C", null, null);
 		AvatarStateMachine Casm = C.getStateMachine();
-		Casm.addElement(new AvatarState("c1", null));
+		Casm.addElement(new AvatarState("c1", null, C));
 		C.addAttribute(new AvatarAttribute("attr", AvatarType.INTEGER, C, null));
 		C.addAttribute(new AvatarAttribute("m__a", AvatarType.UNDEFINED, C, null));	
 		C.addAttribute(new AvatarAttribute("m__b", AvatarType.UNDEFINED, C, null));

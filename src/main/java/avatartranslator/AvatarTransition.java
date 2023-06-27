@@ -101,7 +101,7 @@ public class AvatarTransition extends AvatarStateMachineElement {
     private List<AvatarAction> actions; // actions on variable, or method call
 
     public AvatarTransition(AvatarStateMachineOwner _block, String _name, Object _referenceObject) {
-        super(_name, _referenceObject);
+        super(_name, _referenceObject, _block);
         actions = new LinkedList<AvatarAction>();
         this.guard = new AvatarGuardEmpty();
         this.block = _block;

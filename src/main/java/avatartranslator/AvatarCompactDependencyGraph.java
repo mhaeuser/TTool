@@ -52,7 +52,7 @@ import java.util.HashSet;
  * Class AvatarCompactDependencyGraph
  * Creation: 27/06/2023
  *
- * @author Ludovic APVRILLE, Raja GATGOUT
+ * @author Ludovic APVRILLE
  * @version 1.0 27/06/2023
  */
 public class AvatarCompactDependencyGraph {
@@ -81,6 +81,8 @@ public class AvatarCompactDependencyGraph {
     }
 
     public void buildGraph(AvatarSpecification _avspec, boolean withID) {
+
+
         graph = new AUTGraph();
         id = 0;
 
@@ -446,6 +448,18 @@ public class AvatarCompactDependencyGraph {
         }
         return null;
     }
+    
+    @SuppressWarnings("unchecked")
+    private AvatarStateMachineElement getFirstReferenceObjectFromState(AUTState _state) {
+        if (_state.referenceObject == null) {
+            return null;
+        }
+        ArrayList<AvatarStateMachineElement> refs = (ArrayList<AvatarStateMachineElement> )(_state.referenceObject);
+        if (refs.size() > 0) {
+            return refs.get(0);
+        }
+        return null;
+    }
 
 
 
@@ -646,6 +660,38 @@ public class AvatarCompactDependencyGraph {
 
 
         return result;
+
+    }
+
+    public AvatarSpecification makeAvatarSpecification() {
+
+        AvatarSpecification newAvspec = new AvatarSpecification("from CDG", this);
+
+        // We look for start states: we create the block with attributes / signals etc.
+        // We take from the other avatar spec of relations
+
+        for(AUTState st: graph.getStates()) {
+            if (st.getNbInTransitions() == 0) {
+                // This is a start state
+                AvatarStateMachineElement asme = getFirstReferenceObjectFromState(st);
+                if ((asme != null) && (asme instanceof AvatarStartState)) {
+
+                }
+            }
+        }
+
+
+
+        // We make state machines from the graph.
+
+
+        // Making blocks from reference objects
+
+        // Making ASM
+
+
+        return newAvspec;
+
 
     }
 

@@ -52,19 +52,19 @@ public class AvatarState extends AvatarStateElement {
     private boolean checkLatency;
     private boolean commit = false; // Not used currently
 
-    public AvatarState(String _name, Object _referenceObject) {
-        super(_name, _referenceObject);
+    public AvatarState(String _name, Object _referenceObject, AvatarStateMachineOwner _block) {
+        super(_name, _referenceObject, _block);
 
         //TraceManager.addDev("CREATING state with name = "+ _name);
     }
 
-    public AvatarState(String _name, Object _referenceObject, boolean _isCheckable, boolean _isChecked) {
-        super(_name, _referenceObject, _isCheckable, _isChecked);
+    public AvatarState(String _name, Object _referenceObject, AvatarStateMachineOwner _block, boolean _isCheckable, boolean _isChecked) {
+        super(_name, _referenceObject, _block, _isCheckable, _isChecked);
         //TraceManager.addDev("CREATING state with name = "+ _name);
     }
 
     public AvatarStateMachineElement basicCloneMe(AvatarStateMachineOwner _block) {
-        AvatarState as = new AvatarState(getName(), getReferenceObject(), isCheckable(), isChecked());
+        AvatarState as = new AvatarState(getName(), getReferenceObject(), _block, isCheckable(), isChecked());
         as.setAsVerifiable(canBeVerified());
         as.addEntryCode(getEntryCode());
         return as;

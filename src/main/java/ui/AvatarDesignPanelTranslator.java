@@ -1554,7 +1554,7 @@ public class AvatarDesignPanelTranslator {
         final String name = "action_on_signal";
 
         if (asmdss.isEnabled()) {
-            element = new AvatarActionOnSignal(name, atas, asmdss);
+            element = new AvatarActionOnSignal(name, atas, asmdss, _ab);
 
             final AvatarActionOnSignal aaos = (AvatarActionOnSignal) element;
             if (asmdss.hasCheckedAccessibility())
@@ -1606,7 +1606,7 @@ public class AvatarDesignPanelTranslator {
                 _as.checkedIDs.add(asmdss.getName() + "-" + asmdss.getSignalName() + ":" + aaos.getID());
             }
         } else {
-            element = new AvatarDummyState(name + ":" + atas.getName(), asmdss);
+            element = new AvatarDummyState(name + ":" + atas.getName(), asmdss, _ab);
         }
 
         listE.addCor(element, asmdss);
@@ -1826,7 +1826,7 @@ public class AvatarDesignPanelTranslator {
                     alfc.addReturnAttribute(attr);
             }
         } else {
-            element = new AvatarDummyState(name + ":" + aLibraryFunction.getName(), asmdlfc);
+            element = new AvatarDummyState(name + ":" + aLibraryFunction.getName(), asmdlfc, _ab);
         }
 
         listE.addCor(element, asmdlfc);
@@ -1866,7 +1866,7 @@ public class AvatarDesignPanelTranslator {
         final String name = "action_on_signal";
 
         if (asmdrs.isEnabled()) {
-            element = new AvatarActionOnSignal(name, atas, asmdrs);
+            element = new AvatarActionOnSignal(name, atas, asmdrs, _ab);
 
             final AvatarActionOnSignal aaos = (AvatarActionOnSignal) element;
 
@@ -1914,7 +1914,7 @@ public class AvatarDesignPanelTranslator {
                 _as.checkedIDs.add(asmdrs.getName() + "-" + asmdrs.getSignalName() + ":" + aaos.getID());
             }
         } else {
-            element = new AvatarDummyState(name + ":" + atas.getName(), asmdrs);
+            element = new AvatarDummyState(name + ":" + atas.getName(), asmdrs, _ab);
         }
 
         this.listE.addCor(element, asmdrs);
@@ -1965,13 +1965,13 @@ public class AvatarDesignPanelTranslator {
 
             // Issue #69
             if (diagramState.isEnabled()) {
-                stateElement = new AvatarState(name, diagramState);
+                stateElement = new AvatarState(name, diagramState, stateMachine.getOwner());
                 stateElement.setAsVerifiable(true);
             } else {
                 if (diagramState.getOutputConnectors().isEmpty()) {
-                    stateElement = new AvatarStopState(name + "_state_converted_to_stop", diagramState);
+                    stateElement = new AvatarStopState(name + "_state_converted_to_stop", diagramState, stateMachine.getOwner());
                 } else {
-                    stateElement = new AvatarDummyState(name, diagramState);
+                    stateElement = new AvatarDummyState(name, diagramState, stateMachine.getOwner());
                 }
             }
 
@@ -2032,12 +2032,12 @@ public class AvatarDesignPanelTranslator {
         final String name = "query-signal";
 
         if (asmdquery.isEnabled()) {
-            element = new AvatarQueryOnSignal(name, atas, ataa, asmdquery);
+            element = new AvatarQueryOnSignal(name, atas, ataa, asmdquery, asm.getOwner());
 
             final AvatarQueryOnSignal aqos = (AvatarQueryOnSignal) element;
 
         } else {
-            element = new AvatarDummyState(name, asmdquery);
+            element = new AvatarDummyState(name, asmdquery, asm.getOwner());
         }
 
         asm.addElement(element);
@@ -2053,7 +2053,7 @@ public class AvatarDesignPanelTranslator {
         final String name = "random";
 
         if (asmdrand.isEnabled()) {
-            element = new AvatarRandom(name, asmdrand);
+            element = new AvatarRandom(name, asmdrand, _ab);
 
             final AvatarRandom arandom = (AvatarRandom) element;
 
@@ -2090,7 +2090,7 @@ public class AvatarDesignPanelTranslator {
 
             arandom.setVariable(tmp1);
         } else {
-            element = new AvatarDummyState(name, asmdrand);
+            element = new AvatarDummyState(name, asmdrand, _ab);
         }
 
         asm.addElement(element);
@@ -2117,13 +2117,13 @@ public class AvatarDesignPanelTranslator {
         final String name = "settimer__" + aa.getName();
 
         if (asmdst.isEnabled()) {
-            element = new AvatarSetTimer(name, asmdst);
+            element = new AvatarSetTimer(name, asmdst, _ab);
 
             final AvatarSetTimer asettimer = (AvatarSetTimer) element;
             asettimer.setTimer(aa);
             asettimer.setTimerValue(tmp);
         } else {
-            element = new AvatarDummyState(name, asmdst);
+            element = new AvatarDummyState(name, asmdst, _ab);
         }
 
         asm.addElement(element);
@@ -2145,10 +2145,10 @@ public class AvatarDesignPanelTranslator {
         final String name = "resettimer__" + aa.getName();
 
         if (asmdrt.isEnabled()) {
-            element = new AvatarResetTimer(name, asmdrt);
+            element = new AvatarResetTimer(name, asmdrt, _ab);
             ((AvatarResetTimer) element).setTimer(aa);
         } else {
-            element = new AvatarDummyState(name, asmdrt);
+            element = new AvatarDummyState(name, asmdrt, _ab);
         }
 
         asm.addElement(element);
@@ -2170,10 +2170,10 @@ public class AvatarDesignPanelTranslator {
         final String name = "expiretimer__" + aa.getName();
 
         if (asmdet.isEnabled()) {
-            avatarElement = new AvatarExpireTimer(name, asmdet);
+            avatarElement = new AvatarExpireTimer(name, asmdet, _ab);
             ((AvatarExpireTimer) avatarElement).setTimer(aa);
         } else {
-            avatarElement = new AvatarDummyState(name, asmdet);
+            avatarElement = new AvatarDummyState(name, asmdet, _ab);
         }
 
         asm.addElement(avatarElement);
@@ -2483,7 +2483,7 @@ public class AvatarDesignPanelTranslator {
 
                         // Choice
                     else if (tgc instanceof AvatarSMDChoice) {
-                        AvatarState astate = new AvatarState("choice__" + choiceID, tgc);
+                        AvatarState astate = new AvatarState("choice__" + choiceID, tgc, _ab);
                         choiceID++;
                         asm.addElement(astate);
                         listE.addCor(astate, tgc);
@@ -2504,7 +2504,7 @@ public class AvatarDesignPanelTranslator {
                         this.translateAvatarSMDExpireTimer(asmdp, _as, _ab, (AvatarSMDExpireTimer) tgc);
                         // Start state
                     else if (tgc instanceof AvatarSMDStartState) {
-                        AvatarStartState astart = new AvatarStartState("start", tgc);
+                        AvatarStartState astart = new AvatarStartState("start", tgc, _ab);
                         this.listE.addCor(astart, tgc);
                         tgc.setAVATARID(astart.getID());
                         asm.addElement(astart);
@@ -2513,7 +2513,7 @@ public class AvatarDesignPanelTranslator {
                             asm.setStartState(astart);
                         // Stop state
                     } else if (tgc instanceof AvatarSMDStopState) {
-                        AvatarStopState astop = new AvatarStopState("stop", tgc);
+                        AvatarStopState astop = new AvatarStopState("stop", tgc, _ab);
                         astop.setAsVerifiable(true);
                         this.listE.addCor(astop, tgc);
                         tgc.setAVATARID(astop.getID());

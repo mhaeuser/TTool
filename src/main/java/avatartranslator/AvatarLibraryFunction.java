@@ -454,7 +454,7 @@ public class AvatarLibraryFunction extends AvatarElement implements AvatarTransl
     public AvatarState translateASMWithMapping( Map<AvatarAttribute, AvatarAttribute> placeholdersMapping, Map<AvatarSignal, AvatarSignal> signalsMapping,
                                                 AvatarStateMachineElement firstElement, AvatarBlock block, Object referenceObject, int counter) {
         /* Create the last state */
-        AvatarState lastState = new AvatarState ("exit_" + this.name + "_" + counter, referenceObject);
+        AvatarState lastState = new AvatarState ("exit_" + this.name + "_" + counter, referenceObject, block);
         block.getStateMachine().addElement(lastState);
 
         /* Create the argument object that will be passed to translation functions */
@@ -521,14 +521,14 @@ public class AvatarLibraryFunction extends AvatarElement implements AvatarTransl
 
         if (_asme instanceof AvatarSetTimer) {
             // TODO: isn't the name used for the timer ?
-            asme = new AvatarSetTimer (this.name + "_" + arg.counter + "__" + _asme.getName (), arg.referenceObject);
+            asme = new AvatarSetTimer (this.name + "_" + arg.counter + "__" + _asme.getName (), arg.referenceObject, _asme.getOwner());
 
             // TODO: should probably replace attributes too, right ?
             ((AvatarSetTimer) asme).setTimerValue (((AvatarSetTimer) _asme).getTimerValue ());
         } else if (_asme instanceof AvatarResetTimer)
-            asme = new AvatarResetTimer (this.name + "_" + arg.counter + "__" + _asme.getName (), arg.referenceObject);
+            asme = new AvatarResetTimer (this.name + "_" + arg.counter + "__" + _asme.getName (), arg.referenceObject, _asme.getOwner());
         else if (_asme instanceof AvatarExpireTimer) 
-            asme = new AvatarExpireTimer (this.name + "_" + arg.counter + "__" + _asme.getName (), arg.referenceObject);
+            asme = new AvatarExpireTimer (this.name + "_" + arg.counter + "__" + _asme.getName (), arg.referenceObject, _asme.getOwner());
         else
             /* !!! should not happen */
             return;
@@ -542,7 +542,8 @@ public class AvatarLibraryFunction extends AvatarElement implements AvatarTransl
     public void translateActionOnSignal (AvatarActionOnSignal _asme, Object _arg) {
         TranslatorArgument arg = (TranslatorArgument) _arg;
 
-        AvatarActionOnSignal asme = new AvatarActionOnSignal (this.name + "_" + arg.counter + "__" + _asme.getName (), arg.signalsMapping.get (_asme.getSignal ()), arg.referenceObject);
+        AvatarActionOnSignal asme = new AvatarActionOnSignal (this.name + "_" + arg.counter + "__" + _asme.getName (),
+                arg.signalsMapping.get (_asme.getSignal ()), arg.referenceObject, _asme.getOwner());
         for (String s: _asme.getValues ()) {
             AvatarAttribute attr = this.getAvatarAttributeWithName (s);
             if (attr == null)
@@ -609,7 +610,8 @@ public class AvatarLibraryFunction extends AvatarElement implements AvatarTransl
          * reachability of state in a function for a particular invocation of this
          * function.
          */
-        AvatarState asme = new AvatarState (this.name + "_" + arg.counter + "__" + _asme.getName (), arg.referenceObject, false, false);
+        AvatarState asme = new AvatarState (this.name + "_" + arg.counter + "__" + _asme.getName (), arg.referenceObject, _asme.getOwner(), false,
+                false);
         asme.setHidden (true);
         asme.addEntryCode (_asme.getEntryCode ());
 
@@ -620,7 +622,7 @@ public class AvatarLibraryFunction extends AvatarElement implements AvatarTransl
     public void translateRandom (AvatarRandom _asme, Object _arg) {
         TranslatorArgument arg = (TranslatorArgument) _arg;
 
-        AvatarRandom asme = new AvatarRandom (this.name + "_" + arg.counter + "__" + _asme.getName (), arg.referenceObject);
+        AvatarRandom asme = new AvatarRandom (this.name + "_" + arg.counter + "__" + _asme.getName (), arg.referenceObject, _asme.getOwner());
         asme.setValues (replaceAttributesInExpr(_asme.getMinValue (), _arg), replaceAttributesInExpr(_asme.getMaxValue (), _arg));
         asme.setFunctionId (_asme.getFunctionId ());
         asme.setExtraAttribute1(_asme.getExtraAttribute1());

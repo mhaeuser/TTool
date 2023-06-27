@@ -50,12 +50,12 @@ package avatartranslator;
 public class AvatarStartState extends AvatarStateElement {
 
 
-    public AvatarStartState(String _name, Object _referenceObject) {
-        super(_name, _referenceObject);
+    public AvatarStartState(String _name, Object _referenceObject, AvatarStateMachineOwner _block) {
+        super(_name, _referenceObject, _block);
     }
 
     public AvatarStateMachineElement basicCloneMe(AvatarStateMachineOwner _block) {
-	AvatarStartState astart = new AvatarStartState(getName(), getReferenceObject());
+	AvatarStartState astart = new AvatarStartState(getName(), getReferenceObject(), _block);
 	astart.setAsVerifiable(canBeVerified());
         return astart;
     }

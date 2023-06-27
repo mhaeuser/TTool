@@ -952,7 +952,7 @@ public class AvatarBlock extends AvatarElement implements AvatarStateMachineOwne
 
         // Replacing ops
         for (AvatarQueryOnSignal q : elts) {
-            AvatarActionOnSignal aaosQuery = new AvatarActionOnSignal("query", _newSignal, q.getReferenceObject());
+            AvatarActionOnSignal aaosQuery = new AvatarActionOnSignal("query", _newSignal, q.getReferenceObject(), asm.getOwner());
             aaosQuery.addValue(q.getAttribute().getName());
             asm.replace(q, aaosQuery);
         }
@@ -1012,7 +1012,7 @@ public class AvatarBlock extends AvatarElement implements AvatarStateMachineOwne
         }
 
         asm.clear();
-        AvatarStartState startState = new AvatarStartState("StartState", null);
+        AvatarStartState startState = new AvatarStartState("StartState", null, asm.getOwner());
         asm.addElement(startState);
         asm.setStartState(startState);
 
@@ -1033,7 +1033,7 @@ public class AvatarBlock extends AvatarElement implements AvatarStateMachineOwne
                     TraceManager.addDev("State " + name + " is defined several times");
                     errors.add("State " + name + " is defined several times");
                 } else {
-                    AvatarState newState = new AvatarState(name, this.getReferenceObject());
+                    AvatarState newState = new AvatarState(name, this.getReferenceObject(), asm.getOwner());
                     asm.addElement(newState);
                     TraceManager.addDev("Adding state " + newState);
 
@@ -1071,7 +1071,7 @@ public class AvatarBlock extends AvatarElement implements AvatarStateMachineOwne
                             if (dstState == null) {
                                 TraceManager.addDev("A transition has a undefined destination state to state\"" + destinationState + "\"");
                                 //errors.add("A transition has a undefined destination state to state\"" + destinationState + "\"");
-                                AvatarState newState = new AvatarState(destinationState, this.getReferenceObject());
+                                AvatarState newState = new AvatarState(destinationState, this.getReferenceObject(), asm.getOwner());
                                 asm.addElement(newState);
                                 dstState = asm.getStateByName(destinationState);
                             }
@@ -1237,7 +1237,8 @@ public class AvatarBlock extends AvatarElement implements AvatarStateMachineOwne
                                                          atas = new AvatarSignal(sigName, isIn?AvatarSignal.IN : AvatarSignal.OUT, null);
                                                          addSignal(atas);
                                                      }
-                                                     AvatarActionOnSignal aaos = new AvatarActionOnSignal(sigName + "_aaos", atas, null);
+                                                     AvatarActionOnSignal aaos = new AvatarActionOnSignal(
+                                                             sigName + "_aaos", atas, null, asm.getOwner());
                                                      // Chaining components
                                                      asm.addElement(aaos);
                                                      AvatarTransition atBis =

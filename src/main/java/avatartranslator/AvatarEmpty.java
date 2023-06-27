@@ -49,12 +49,9 @@ package avatartranslator;
  */
 public class AvatarEmpty extends AvatarStateMachineElement {
 
-
-    public AvatarEmpty(String _name, Object _referenceObject) {
-        super(_name, _referenceObject);
+    public AvatarEmpty(String _name, Object _referenceObject, AvatarStateMachineOwner _block) {
+        super(_name, _referenceObject, _block);
     }
-
-
 
     public String getNiceName() {
         return "Empty " ;
@@ -65,8 +62,7 @@ public class AvatarEmpty extends AvatarStateMachineElement {
     }
 
     public AvatarStateMachineElement basicCloneMe(AvatarStateMachineOwner _block) {
-	 AvatarEmpty ar = new AvatarEmpty(getName() + "_clone", getReferenceObject());
-
+	 AvatarEmpty ar = new AvatarEmpty(getName() + "_clone", getReferenceObject(), _block);
 
 	 return ar;
     }

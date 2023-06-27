@@ -57,6 +57,9 @@ import java.util.List;
  */
 public abstract class AvatarStateMachineElement extends AvatarElement implements IBSParamState {
 
+
+    protected AvatarStateMachineOwner block;
+
     protected List<AvatarStateMachineElement> nexts;
     private AvatarState myState;
 
@@ -67,12 +70,15 @@ public abstract class AvatarStateMachineElement extends AvatarElement implements
     private boolean isHidden = false;
 
     public AvatarStateMachineElement(	final String _name, 
-    									final Object _referenceObject ) {
-    	this( _name, _referenceObject, false, false );
+    									final Object _referenceObject,
+                                         final AvatarStateMachineOwner _block) {
+    	this( _name, _referenceObject, _block, false, false );
+        block = _block;
     }
 
     public AvatarStateMachineElement(	String _name,
     									Object _referenceObject,
+                                         final AvatarStateMachineOwner _block,
     									boolean _isCheckable,
     									final boolean _isChecked ) {
         super( _name, _referenceObject );
@@ -81,6 +87,11 @@ public abstract class AvatarStateMachineElement extends AvatarElement implements
         isCheckable = _isCheckable;
         canBeVerified = false;
         isChecked = _isChecked;
+        block = _block;
+    }
+
+    public AvatarStateMachineOwner getOwner() {
+        return block;
     }
 
     public void setAsVerifiable(boolean _canBeVerified) {

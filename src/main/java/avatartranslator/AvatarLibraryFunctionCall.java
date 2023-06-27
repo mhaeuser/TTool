@@ -93,7 +93,7 @@ public class AvatarLibraryFunctionCall extends AvatarStateMachineElement {
      *      The library function that corresponds to this call.
      */
     public AvatarLibraryFunctionCall (String name, AvatarLibraryFunction libraryFunction, Object referenceObject) {
-        super(name, referenceObject);
+        super(name, referenceObject, libraryFunction);
 
         this.libraryFunction = libraryFunction;
         this.counter = this.libraryFunction.getCounter();

@@ -55,7 +55,7 @@ public class AddStateMutation extends StateMutation implements AddMutation {
     }
     
     public AvatarState createElement() {
-        AvatarState state = new AvatarState(getStateName(), null);
+        AvatarState state = new AvatarState(getStateName(), null, null);
         return state;
 
     }

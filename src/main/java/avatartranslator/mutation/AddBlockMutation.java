@@ -74,7 +74,7 @@ public class AddBlockMutation extends BlockElementMutation implements AddMutatio
         AvatarBlock block = createElement(_avspec);
         _avspec.addBlock(block);
 
-        AvatarStartState start = new AvatarStartState("start", null);
+        AvatarStartState start = new AvatarStartState("start", null, block);
 
         AvatarStateMachine asm = block.getStateMachine();
 

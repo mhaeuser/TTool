@@ -336,7 +336,7 @@ public class AttackTreePanelTranslator {
         // One block per attack -> syncho
         // One mast block with all channels declared at that level
         AvatarBlock mainBlock = new AvatarBlock("MainBlock", as, null);
-        AvatarStartState ass = new AvatarStartState("StartStateOfMainBlock", null);
+        AvatarStartState ass = new AvatarStartState("StartStateOfMainBlock", null, mainBlock);
         mainBlock.getStateMachine().setStartState(ass);
         mainBlock.getStateMachine().addElement(ass);
         as.addBlock(mainBlock);
@@ -438,13 +438,13 @@ public class AttackTreePanelTranslator {
                 isChecked = ((TGComponent) (_ref1)).hasCheckedAccessibility();
             }
 
-            AvatarStartState start = new AvatarStartState("start", _ref);
-            AvatarState mainState = new AvatarState("main", _ref, false, false);
-            AvatarState performedState = new AvatarState("main", _ref1, isCheckable, isChecked);
+            AvatarStartState start = new AvatarStartState("start", _ref, _ab);
+            AvatarState mainState = new AvatarState("main", _ref, _ab, false, false);
+            AvatarState performedState = new AvatarState("main", _ref1, _ab, isCheckable, isChecked);
             performedState.setAsVerifiable(true);
-            AvatarState mainStop = new AvatarState("stop", _ref, false, false);
-            AvatarActionOnSignal getMake = new AvatarActionOnSignal("GettingAttack", _sigAttack, _ref1);
-            AvatarActionOnSignal getStop = new AvatarActionOnSignal("GettingStop", _sigStop, _ref);
+            AvatarState mainStop = new AvatarState("stop", _ref, _ab, false, false);
+            AvatarActionOnSignal getMake = new AvatarActionOnSignal("GettingAttack", _sigAttack, _ref1, _ab);
+            AvatarActionOnSignal getStop = new AvatarActionOnSignal("GettingStop", _sigStop, _ref, _ab);
 
             asm.addElement(start);
             asm.setStartState(start);
@@ -486,10 +486,10 @@ public class AttackTreePanelTranslator {
 
         } else {
 
-            AvatarStartState start = new AvatarStartState("start", _ref);
-            AvatarState mainState = new AvatarState("main", _ref, false, false);
-            AvatarState mainStop = new AvatarState("stop", _ref, false, false);
-            AvatarActionOnSignal getStop = new AvatarActionOnSignal("GettingStop", _sigStop, _ref);
+            AvatarStartState start = new AvatarStartState("start", _ref, _ab);
+            AvatarState mainState = new AvatarState("main", _ref, _ab, false, false);
+            AvatarState mainStop = new AvatarState("stop", _ref, _ab, false, false);
+            AvatarActionOnSignal getStop = new AvatarActionOnSignal("GettingStop", _sigStop, _ref, _ab);
 
             asm.addElement(start);
             asm.setStartState(start);
@@ -529,21 +529,21 @@ public class AttackTreePanelTranslator {
             if (_ref1 instanceof TGComponent) {
                 isChecked = ((TGComponent) (_ref1)).hasCheckedAccessibility();
             }
-            AvatarStartState start = new AvatarStartState("start", _ref);
-            AvatarState activateState = new AvatarState("activate", _ref, false, false);
-            AvatarState mainState = new AvatarState("main", _ref, false, false);
-            AvatarState activatedState = new AvatarState("activated", _ref1, isCheckable, isChecked);
+            AvatarStartState start = new AvatarStartState("start", _ref, _ab);
+            AvatarState activateState = new AvatarState("activate", _ref, _ab, false, false);
+            AvatarState mainState = new AvatarState("main", _ref, _ab, false, false);
+            AvatarState activatedState = new AvatarState("activated", _ref1, _ab, isCheckable, isChecked);
             if (_ref1 instanceof ATDAttack) {
                 activatedState.setAsVerifiable(true);
             }
-            AvatarState performedState = new AvatarState("performed", _ref, false, false);
-            AvatarState mainStop = new AvatarState("stop", _ref, false, false);
-            AvatarState stopBeforeActivate = new AvatarState("stopBeforeActivate", _ref, false, false);
-            AvatarActionOnSignal getMake = new AvatarActionOnSignal("GettingAttack", _sigAttack, _ref1);
-            AvatarActionOnSignal getStop = new AvatarActionOnSignal("GettingStop", _sigStop, _ref);
-            AvatarActionOnSignal getStopInitial = new AvatarActionOnSignal("GettingInitialStop", _sigStop, _ref);
-            AvatarActionOnSignal getActivate = new AvatarActionOnSignal("GettingActivate", _sigActivate, _ref1);
-            AvatarActionOnSignal getActivateAfterStop = new AvatarActionOnSignal("GettingActivateAfterStop", _sigActivate, _ref1);
+            AvatarState performedState = new AvatarState("performed", _ref, _ab, false, false);
+            AvatarState mainStop = new AvatarState("stop", _ref, _ab, false, false);
+            AvatarState stopBeforeActivate = new AvatarState("stopBeforeActivate", _ref, _ab, false, false);
+            AvatarActionOnSignal getMake = new AvatarActionOnSignal("GettingAttack", _sigAttack, _ref1, _ab);
+            AvatarActionOnSignal getStop = new AvatarActionOnSignal("GettingStop", _sigStop, _ref, _ab);
+            AvatarActionOnSignal getStopInitial = new AvatarActionOnSignal("GettingInitialStop", _sigStop, _ref, _ab);
+            AvatarActionOnSignal getActivate = new AvatarActionOnSignal("GettingActivate", _sigActivate, _ref1, _ab);
+            AvatarActionOnSignal getActivateAfterStop = new AvatarActionOnSignal("GettingActivateAfterStop", _sigActivate, _ref1, _ab);
 
             asm.addElement(start);
             asm.setStartState(start);
@@ -627,16 +627,16 @@ public class AttackTreePanelTranslator {
             getActivateAfterStop.addNext(at);
             at.addNext(mainStop);
         } else {
-            AvatarStartState start = new AvatarStartState("start", _ref);
-            AvatarState activateState = new AvatarState("activate", _ref, false, false);
-            AvatarState mainState = new AvatarState("main", _ref, false, false);
-            AvatarState activatedState = new AvatarState("main", _ref1, isCheckable, isChecked);
-            AvatarState mainStop = new AvatarState("stop", _ref, false, false);
-            AvatarState stopBeforeActivate = new AvatarState("stopBeforeActivate", _ref, false, false);
-            AvatarActionOnSignal getStop = new AvatarActionOnSignal("GettingStop", _sigStop, _ref);
-            AvatarActionOnSignal getStopInitial = new AvatarActionOnSignal("GettingInitialStop", _sigStop, _ref);
-            AvatarActionOnSignal getActivate = new AvatarActionOnSignal("GettingActivate", _sigActivate, _ref1);
-            AvatarActionOnSignal getActivateAfterStop = new AvatarActionOnSignal("GettingActivateAfterStop", _sigActivate, _ref1);
+            AvatarStartState start = new AvatarStartState("start", _ref, _ab);
+            AvatarState activateState = new AvatarState("activate", _ref, _ab,false, false);
+            AvatarState mainState = new AvatarState("main", _ref, _ab, false, false);
+            AvatarState activatedState = new AvatarState("main", _ref1, _ab, isCheckable, isChecked);
+            AvatarState mainStop = new AvatarState("stop", _ref, _ab, false, false);
+            AvatarState stopBeforeActivate = new AvatarState("stopBeforeActivate", _ref, _ab, false, false);
+            AvatarActionOnSignal getStop = new AvatarActionOnSignal("GettingStop", _sigStop, _ref, _ab);
+            AvatarActionOnSignal getStopInitial = new AvatarActionOnSignal("GettingInitialStop", _sigStop, _ref, _ab);
+            AvatarActionOnSignal getActivate = new AvatarActionOnSignal("GettingActivate", _sigActivate, _ref1, _ab);
+            AvatarActionOnSignal getActivateAfterStop = new AvatarActionOnSignal("GettingActivateAfterStop", _sigActivate, _ref1, _ab);
 
             asm.addElement(start);
             asm.setStartState(start);
@@ -739,10 +739,10 @@ public class AttackTreePanelTranslator {
         AvatarStateMachine asm = _ab.getStateMachine();
 
         // Basic machine
-        AvatarStartState start = new AvatarStartState("start", _ref);
-        AvatarState mainState = new AvatarState("main", _ref, false, false);
-        AvatarState endState = new AvatarState("end", _ref, false, false);
-        AvatarState overallState = new AvatarState("overall", _ref, false, false);
+        AvatarStartState start = new AvatarStartState("start", _ref, _ab);
+        AvatarState mainState = new AvatarState("main", _ref, _ab, false, false);
+        AvatarState endState = new AvatarState("end", _ref, _ab, false, false);
+        AvatarState overallState = new AvatarState("overall", _ref, _ab, false, false);
         asm.addElement(start);
         asm.setStartState(start);
         asm.addElement(mainState);
@@ -766,7 +766,7 @@ public class AttackTreePanelTranslator {
 
 
             avatartranslator.AvatarSignal sigAtt = _main.getAvatarSignalWithName("accept__" + att.getName());
-            AvatarActionOnSignal acceptAttack = new AvatarActionOnSignal("AcceptAttack", sigAtt, _ref1);
+            AvatarActionOnSignal acceptAttack = new AvatarActionOnSignal("AcceptAttack", sigAtt, _ref1, _ab);
             asm.addElement(acceptAttack);
             AvatarTransition at = new AvatarTransition(_ab, "at_toInputAttack", _ref);
             asm.addElement(at);
@@ -790,7 +790,7 @@ public class AttackTreePanelTranslator {
 
         Attack resulting = _node.getResultingAttack();
         avatartranslator.AvatarSignal sigAttack = _main.getAvatarSignalWithName("nodeDone__" + resulting.getName());
-        AvatarActionOnSignal resultingAttack = new AvatarActionOnSignal("ResultingAttack", sigAttack, _ref1);
+        AvatarActionOnSignal resultingAttack = new AvatarActionOnSignal("ResultingAttack", sigAttack, _ref1, _ab);
         asm.addElement(resultingAttack);
         at = new AvatarTransition(_ab, "at_toResultingAttack", _ref);
         asm.addElement(at);
@@ -809,10 +809,10 @@ public class AttackTreePanelTranslator {
         AvatarStateMachine asm = _ab.getStateMachine();
 
         // Basic machine
-        AvatarStartState start = new AvatarStartState("start", _ref);
-        AvatarState mainState = new AvatarState("main", _ref, false, false);
-        AvatarState endState = new AvatarState("end", _ref, false, false);
-        AvatarState overallState = new AvatarState("overall", _ref, false, false);
+        AvatarStartState start = new AvatarStartState("start", _ref, _ab);
+        AvatarState mainState = new AvatarState("main", _ref, _ab, false, false);
+        AvatarState endState = new AvatarState("end", _ref, _ab, false, false);
+        AvatarState overallState = new AvatarState("overall", _ref, _ab, false, false);
         asm.addElement(start);
         asm.setStartState(start);
         asm.addElement(mainState);
@@ -836,7 +836,7 @@ public class AttackTreePanelTranslator {
 
             // From Main
             avatartranslator.AvatarSignal sigAtt = _main.getAvatarSignalWithName("accept__" + att.getName());
-            AvatarActionOnSignal acceptAttack = new AvatarActionOnSignal("AcceptAttack", sigAtt, _ref1);
+            AvatarActionOnSignal acceptAttack = new AvatarActionOnSignal("AcceptAttack", sigAtt, _ref1, _ab);
             asm.addElement(acceptAttack);
             AvatarTransition at = new AvatarTransition(_ab, "at_toInputAttack", _ref);
             asm.addElement(at);
@@ -850,7 +850,7 @@ public class AttackTreePanelTranslator {
             at.addNext(mainState);
 
             // Link from End
-            acceptAttack = new AvatarActionOnSignal("AcceptAttack", sigAtt, _ref1);
+            acceptAttack = new AvatarActionOnSignal("AcceptAttack", sigAtt, _ref1, _ab);
             asm.addElement(acceptAttack);
             at = new AvatarTransition(_ab, "at_toInputAttack", _ref);
             asm.addElement(at);
@@ -864,7 +864,7 @@ public class AttackTreePanelTranslator {
             at.addNext(endState);
 
             // Link from Overall
-            acceptAttack = new AvatarActionOnSignal("AcceptAttack", sigAtt, _ref1);
+            acceptAttack = new AvatarActionOnSignal("AcceptAttack", sigAtt, _ref1, _ab);
             asm.addElement(acceptAttack);
             at = new AvatarTransition(_ab, "at_toInputAttack", _ref);
             asm.addElement(at);
@@ -890,7 +890,7 @@ public class AttackTreePanelTranslator {
 
         Attack resulting = _node.getResultingAttack();
         avatartranslator.AvatarSignal sigAttack = _main.getAvatarSignalWithName("nodeDone__" + resulting.getName());
-        AvatarActionOnSignal resultingAttack = new AvatarActionOnSignal("ResultingAttack", sigAttack, _ref1);
+        AvatarActionOnSignal resultingAttack = new AvatarActionOnSignal("ResultingAttack", sigAttack, _ref1, _ab);
         asm.addElement(resultingAttack);
         at = new AvatarTransition(_ab, "at_toResultingAttack", _ref);
         asm.addElement(at);
@@ -910,11 +910,11 @@ public class AttackTreePanelTranslator {
         AvatarStateMachine asm = _ab.getStateMachine();
 
         // Basic machine
-        AvatarStartState start = new AvatarStartState("start", _ref);
-        AvatarState mainState = new AvatarState("main", _ref, false, false);
-        AvatarState stoppingAll = new AvatarState("stoppingAll", _ref, false, false);
-        AvatarState endState = new AvatarState("end", _ref, false, false);
-        AvatarState overallState = new AvatarState("overall", _ref, false, false);
+        AvatarStartState start = new AvatarStartState("start", _ref, _main);
+        AvatarState mainState = new AvatarState("main", _ref, _main, false, false);
+        AvatarState stoppingAll = new AvatarState("stoppingAll", _ref, _main, false, false);
+        AvatarState endState = new AvatarState("end", _ref, _main, false, false);
+        AvatarState overallState = new AvatarState("overall", _ref, _main, false, false);
         asm.addElement(start);
         asm.setStartState(start);
         asm.addElement(mainState);
@@ -944,7 +944,7 @@ public class AttackTreePanelTranslator {
 
             // From Main
             avatartranslator.AvatarSignal sigAtt = _main.getAvatarSignalWithName("accept__" + att.getName());
-            AvatarActionOnSignal acceptAttack = new AvatarActionOnSignal("AcceptAttack", sigAtt, _ref1);
+            AvatarActionOnSignal acceptAttack = new AvatarActionOnSignal("AcceptAttack", sigAtt, _ref1, _main);
             asm.addElement(acceptAttack);
             AvatarTransition at = new AvatarTransition(_ab, "at_toInputAttack", _ref);
             asm.addElement(at);
@@ -966,7 +966,7 @@ public class AttackTreePanelTranslator {
             //           if (att.isLeaf()) {
             // Leaf attack -> must make a stop
             sigAtt = _main.getAvatarSignalWithName("acceptStop__" + att.getName());
-            acceptAttack = new AvatarActionOnSignal("StopAttack", sigAtt, _ref1);
+            acceptAttack = new AvatarActionOnSignal("StopAttack", sigAtt, _ref1, _main);
             asm.addElement(acceptAttack);
             at = new AvatarTransition(_ab, "at_toInputAttack_leaf", _ref);
             asm.addElement(at);
@@ -1009,7 +1009,7 @@ public class AttackTreePanelTranslator {
 
         Attack resulting = _node.getResultingAttack();
         avatartranslator.AvatarSignal sigAttack = _main.getAvatarSignalWithName("nodeDone__" + resulting.getName());
-        AvatarActionOnSignal resultingAttack = new AvatarActionOnSignal("ResultingAttack", sigAttack, _ref1);
+        AvatarActionOnSignal resultingAttack = new AvatarActionOnSignal("ResultingAttack", sigAttack, _ref1, _main);
         asm.addElement(resultingAttack);
         at = new AvatarTransition(_ab, "at_toResultingAttack", _ref);
         asm.addElement(at);
@@ -1030,10 +1030,10 @@ public class AttackTreePanelTranslator {
         _node.orderAttacks();
 
         // Basic machine
-        AvatarStartState start = new AvatarStartState("start", _ref);
-        AvatarState mainState = new AvatarState("main", _ref, false, false);
-        AvatarState endState = new AvatarState("end", _ref, false, false);
-        AvatarState overallState = new AvatarState("overall", _ref, false, false);
+        AvatarStartState start = new AvatarStartState("start", _ref, _main);
+        AvatarState mainState = new AvatarState("main", _ref, _main, false, false);
+        AvatarState endState = new AvatarState("end", _ref, _main, false, false);
+        AvatarState overallState = new AvatarState("overall", _ref, _main, false, false);
         asm.addElement(start);
         asm.setStartState(start);
         asm.addElement(mainState);
@@ -1050,10 +1050,10 @@ public class AttackTreePanelTranslator {
 
         // Chaining accept attacks
         for (Attack att : _node.getInputAttacks()) {
-            AvatarState state = new AvatarState("state__" + att.getName(), _ref);
+            AvatarState state = new AvatarState("state__" + att.getName(), _ref, _main);
             asm.addElement(state);
             avatartranslator.AvatarSignal sigAtt = _main.getAvatarSignalWithName("accept__" + att.getName());
-            AvatarActionOnSignal acceptAttack = new AvatarActionOnSignal("AcceptAttack", sigAtt, _ref1);
+            AvatarActionOnSignal acceptAttack = new AvatarActionOnSignal("AcceptAttack", sigAtt, _ref1, _main);
             asm.addElement(acceptAttack);
 
             at = new AvatarTransition(_ab, "at", _ref);
@@ -1076,7 +1076,7 @@ public class AttackTreePanelTranslator {
         // Performing resulting attack
         Attack resulting = _node.getResultingAttack();
         avatartranslator.AvatarSignal sigAttack = _main.getAvatarSignalWithName("nodeDone__" + resulting.getName());
-        AvatarActionOnSignal resultingAttack = new AvatarActionOnSignal("ResultingAttack", sigAttack, _ref1);
+        AvatarActionOnSignal resultingAttack = new AvatarActionOnSignal("ResultingAttack", sigAttack, _ref1, _main);
         asm.addElement(resultingAttack);
         at = new AvatarTransition(_ab, "at_toResultingAttack", _ref);
         asm.addElement(at);
@@ -1095,10 +1095,10 @@ public class AttackTreePanelTranslator {
         _node.orderAttacks();
 
         // Basic machine
-        AvatarStartState start = new AvatarStartState("start", _ref);
-        AvatarState mainState = new AvatarState("main", _ref, false, false);
-        AvatarState endState = new AvatarState("end", _ref, false, false);
-        AvatarState overallState = new AvatarState("overall", _ref, false, false);
+        AvatarStartState start = new AvatarStartState("start", _ref, _main);
+        AvatarState mainState = new AvatarState("main", _ref, _main, false, false);
+        AvatarState endState = new AvatarState("end", _ref, _main, false, false);
+        AvatarState overallState = new AvatarState("overall", _ref, _main, false, false);
         asm.addElement(start);
         asm.setStartState(start);
         asm.addElement(mainState);
@@ -1116,10 +1116,10 @@ public class AttackTreePanelTranslator {
         // Chaining accept attacks
         int cpt = 0;
         for (Attack att : _node.getInputAttacks()) {
-            AvatarState state = new AvatarState("state__" + att.getName(), _ref);
+            AvatarState state = new AvatarState("state__" + att.getName(), _ref, _main);
             asm.addElement(state);
             avatartranslator.AvatarSignal sigAtt = _main.getAvatarSignalWithName("accept__" + att.getName());
-            AvatarActionOnSignal acceptAttack = new AvatarActionOnSignal("AcceptAttack", sigAtt, _ref1);
+            AvatarActionOnSignal acceptAttack = new AvatarActionOnSignal("AcceptAttack", sigAtt, _ref1, _main);
             asm.addElement(acceptAttack);
 
             at = new AvatarTransition(_ab, "at", _ref);
@@ -1146,7 +1146,7 @@ public class AttackTreePanelTranslator {
         // Performing resulting attack
         Attack resulting = _node.getResultingAttack();
         avatartranslator.AvatarSignal sigAttack = _main.getAvatarSignalWithName("nodeDone__" + resulting.getName());
-        AvatarActionOnSignal resultingAttack = new AvatarActionOnSignal("ResultingAttack", sigAttack, _ref1);
+        AvatarActionOnSignal resultingAttack = new AvatarActionOnSignal("ResultingAttack", sigAttack, _ref1, _main);
         asm.addElement(resultingAttack);
         at = new AvatarTransition(_ab, "at_toResultingAttack", _ref);
         asm.addElement(at);
@@ -1165,11 +1165,11 @@ public class AttackTreePanelTranslator {
         _node.orderAttacks();
 
         // Basic machine
-        AvatarStartState start = new AvatarStartState("start", _ref);
-        AvatarState mainState = new AvatarState("main", _ref, false, false);
-        AvatarState endState = new AvatarState("end", _ref, false, false);
-        AvatarState overallState = new AvatarState("overall", _ref, false, false);
-        AvatarState timeout = new AvatarState("timeout", _ref, false, false);
+        AvatarStartState start = new AvatarStartState("start", _ref, _main);
+        AvatarState mainState = new AvatarState("main", _ref, _main, false, false);
+        AvatarState endState = new AvatarState("end", _ref, _main, false, false);
+        AvatarState overallState = new AvatarState("overall", _ref, _main, false, false);
+        AvatarState timeout = new AvatarState("timeout", _ref, _main, false, false);
         asm.addElement(start);
         asm.setStartState(start);
         asm.addElement(mainState);
@@ -1188,10 +1188,10 @@ public class AttackTreePanelTranslator {
         // Chaining accept attacks
         int cpt = 0;
         for (Attack att : _node.getInputAttacks()) {
-            AvatarState state = new AvatarState("state__" + att.getName(), _ref);
+            AvatarState state = new AvatarState("state__" + att.getName(), _ref, _main);
             asm.addElement(state);
             avatartranslator.AvatarSignal sigAtt = _main.getAvatarSignalWithName("accept__" + att.getName());
-            AvatarActionOnSignal acceptAttack = new AvatarActionOnSignal("AcceptAttack", sigAtt, _ref1);
+            AvatarActionOnSignal acceptAttack = new AvatarActionOnSignal("AcceptAttack", sigAtt, _ref1, _main);
             asm.addElement(acceptAttack);
 
             at = new AvatarTransition(_ab, "at", _ref);
@@ -1222,7 +1222,7 @@ public class AttackTreePanelTranslator {
         // Performing resulting attack
         Attack resulting = _node.getResultingAttack();
         avatartranslator.AvatarSignal sigAttack = _main.getAvatarSignalWithName("nodeDone__" + resulting.getName());
-        AvatarActionOnSignal resultingAttack = new AvatarActionOnSignal("ResultingAttack", sigAttack, _ref1);
+        AvatarActionOnSignal resultingAttack = new AvatarActionOnSignal("ResultingAttack", sigAttack, _ref1, _main);
         asm.addElement(resultingAttack);
         at = new AvatarTransition(_ab, "at_toResultingAttack", _ref);
         asm.addElement(at);

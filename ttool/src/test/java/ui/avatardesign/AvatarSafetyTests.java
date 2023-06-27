@@ -83,7 +83,7 @@ public class AvatarSafetyTests {
 		sig = new avatartranslator.AvatarSignal("sig", 0, null);
 		A.addSignal(sig);
 		AvatarStateMachine Aasm = A.getStateMachine();
-		AvatarActionOnSignal aaos = new AvatarActionOnSignal("action_on_signal", sig, null);
+		AvatarActionOnSignal aaos = new AvatarActionOnSignal("action_on_signal", sig, null, A);
 		aaos.setCheckLatency(true);
 		Aasm.addElement(aaos);
 
@@ -94,7 +94,7 @@ public class AvatarSafetyTests {
 		AvatarStateMachine Basm = B.getStateMachine();
 
 		sig2 = new avatartranslator.AvatarSignal("sig2", 0, null);
-		AvatarActionOnSignal aaos2= new AvatarActionOnSignal("action_on_signal", sig2, null);
+		AvatarActionOnSignal aaos2= new AvatarActionOnSignal("action_on_signal", sig2, null, A);
 		aaos2.setCheckLatency(true);
 		Basm.addElement(aaos2);
 
@@ -233,7 +233,7 @@ public class AvatarSafetyTests {
 	public void testMultipleIdsPerSignal(){
 		AvatarBlock A = as.getBlockWithName("A");
 		AvatarStateMachine Aasm = A.getStateMachine();
-		AvatarActionOnSignal aaos = new AvatarActionOnSignal("action_on_signal", sig, null);
+		AvatarActionOnSignal aaos = new AvatarActionOnSignal("action_on_signal", sig, null, A);
 		aaos.setCheckLatency(true);
 		Aasm.addElement(aaos);
 		Aasm.getListOfElements().get(0).addNext(aaos);

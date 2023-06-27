@@ -448,7 +448,7 @@ public class AvatarCompactDependencyGraph {
         }
         return null;
     }
-    
+
     @SuppressWarnings("unchecked")
     private AvatarStateMachineElement getFirstReferenceObjectFromState(AUTState _state) {
         if (_state.referenceObject == null) {

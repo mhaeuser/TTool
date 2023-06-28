@@ -61,7 +61,7 @@ public class AddActionOnSignalMutation extends ActionOnSignalMutation implements
 
     public AvatarActionOnSignal createElement(AvatarSpecification _avspec) throws ApplyMutationException {
         AvatarSignal signal = getSignal(_avspec, getSignalName());
-        AvatarActionOnSignal aaos = new AvatarActionOnSignal(getName(), signal, null, null);
+        AvatarActionOnSignal aaos = new AvatarActionOnSignal(getName(), signal, null, getAvatarStateMachine(_avspec).getOwner());
         
         if (isCheckLatencySet())
             aaos.setCheckLatency(this.getCheckLatency());

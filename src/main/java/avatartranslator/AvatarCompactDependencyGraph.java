@@ -44,6 +44,7 @@ import graph.AUTState;
 import graph.AUTTransition;
 import myutil.TraceManager;
 import org.jfree.data.json.impl.JSONObject;
+import ui.TGComponent;
 
 import java.util.*;
 
@@ -460,6 +461,18 @@ public class AvatarCompactDependencyGraph {
         return null;
     }
 
+    @SuppressWarnings("unchecked")
+    private AvatarStateMachineElement getLastReferenceObjectFromState(AUTState _state) {
+        if (_state.referenceObject == null) {
+            return null;
+        }
+        ArrayList<AvatarStateMachineElement> refs = (ArrayList<AvatarStateMachineElement> )(_state.referenceObject);
+        if (refs.size() > 0) {
+            return refs.get(refs.size()-1);
+        }
+        return null;
+    }
+
 
 
 
@@ -700,7 +713,7 @@ public class AvatarCompactDependencyGraph {
                         }
 
                         // We start from the start state and we build the SMD
-
+                        makeASMFromState(newBlock, st, null, null);
 
 
                         // We add relations for which the two related have been defined
@@ -749,6 +762,108 @@ public class AvatarCompactDependencyGraph {
 
 
         return newAvspec;
+
+
+    }
+
+
+    public void makeASMFromState(AvatarBlock _block, AUTState _currentState, AvatarStateMachineElement _previousE, HashMap<AUTState,
+            AvatarStateMachineElement> elementM) {
+        // Handling referenced elements
+        AvatarStateMachineElement asme = getLastReferenceObjectFromState(_currentState);
+        if (asme == null) {
+            return;
+        }
+
+        AvatarStateMachine asm = _block.getStateMachine();
+        if (asm == null) {
+            return;
+        }
+
+        if (elementM == null) {
+            elementM = new HashMap<>();
+        }
+
+        boolean mustLinkToPrevious = false;
+        AvatarStateMachineElement newE = null;
+        AvatarStateMachineElement newASME = elementM.get(_currentState);
+
+        if (asme instanceof AvatarStartState) {
+            AvatarStartState ass = new AvatarStartState(asme.getName(), this, _block);
+            asm.addElement(ass);
+            asm.setStartState(ass);
+
+            newE = ass;
+        } else if (asme instanceof AvatarState) {
+
+            if (newASME == null) {
+                AvatarState as = new AvatarState(asme.getName(), this, _block);
+                asm.addElement(as);
+                newE = as;
+            } else {
+                newE = newASME;
+            }
+            mustLinkToPrevious = true;
+
+
+        } else if (asme instanceof AvatarStopState) {
+            AvatarStopState ass = new AvatarStopState(asme.getName(), this, _block);
+            asm.addElement(ass);
+            mustLinkToPrevious = true;
+
+        } else if (asme instanceof AvatarActionOnSignal) {
+            AvatarActionOnSignal aaos = ((AvatarActionOnSignal) asme).basicCloneMe(_block);
+            asm.addElement(aaos);
+            newE = aaos;
+
+            if (_previousE instanceof AvatarTransition) {
+                mustLinkToPrevious = true;
+            } else {
+                // Look at reference objects
+                AvatarStateMachineElement asmeFirst = getFirstReferenceObjectFromState(_currentState);
+                if (asmeFirst instanceof AvatarTransition) {
+                    AvatarTransition at = ((AvatarTransition) asme).cloneMe();
+                    asme.setReferenceObject(this);
+                    asm.addElement(at);
+                    _previousE.addNext(at);
+                    at.addNext(newE);
+                } else {
+                    mustLinkToPrevious = true;
+                }
+            }
+
+        } else if (asme instanceof AvatarTransition) {
+            AvatarTransition at = ((AvatarTransition) asme).cloneMe();
+            asme.setReferenceObject(this);
+            asm.addElement(at);
+            _previousE.addNext(at);
+            newE = at;
+        }
+
+        if (mustLinkToPrevious) {
+            if (_previousE instanceof AvatarTransition) {
+                _previousE.addNext(newE);
+            } else {
+                AvatarTransition at = new AvatarTransition(_block, "EmptyTransition", this);
+                asm.addElement(at);
+                _previousE.addNext(at);
+                at.addNext(newE);
+            }
+        }
+
+        if (newE != null) {
+            elementM.put(_currentState, newE);
+        }
+
+        if ((newE != null) && (newASME == null)) {
+            // We have to handle the next states of currentState
+            for(AUTTransition tr: _currentState.outTransitions) {
+                AUTState st = graph.getState(tr.destination);
+                if (st != null) {
+                    makeASMFromState(_block, st, newE, elementM);
+                }
+            }
+        }
 
 
     }

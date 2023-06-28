@@ -50,6 +50,7 @@ import avatartranslator.mutation.AvatarMutation;
 import avatartranslator.mutation.ParseMutationException;
 import common.ConfigurationTTool;
 import common.SpecConfigTTool;
+import graph.AUTGraph;
 import graph.RG;
 import launcher.RTLLauncher;
 import launcher.RshClient;
@@ -69,6 +70,7 @@ import tmltranslator.TMLTextSpecification;
 import ui.MainGUI;
 import ui.avatarinteractivesimulation.AvatarInteractiveSimulationActions;
 import ui.avatarinteractivesimulation.JFrameAvatarInteractiveSimulation;
+import ui.graphd.GraphDPanel;
 import ui.util.IconManager;
 import ui.window.JDialogProverifVerification;
 import ui.window.JDialogSystemCGeneration;
@@ -141,6 +143,8 @@ public class Action extends Command implements ProVerifOutputListener {
     private final static String AVATAR_SIMULATION_GENERIC = "avatar-simulation-generic";
 
     private final static String AVATAR_COMPLEXITY = "avatar-complexity";
+
+    private final static String GRAPH_TO_AVATAR = "graph-to-avatar";
 
 
 
@@ -2064,6 +2068,55 @@ public class Action extends Command implements ProVerifOutputListener {
         };
 
 
+        Command graphtToAvatar = new Command() {
+            public String getCommand() {
+                return GRAPH_TO_AVATAR;
+            }
+
+            public String getShortCommand() {
+                return "gta";
+            }
+
+            public String getDescription() {
+                return "Draws an AVATAR design from a dependency graph";
+            }
+
+            public String getUsage() {
+                String usage =  "graph-to-avatar. A graph diagram must have been selected first";
+                return usage;
+            }
+
+            public String executeCommand(String command, Interpreter interpreter) {
+                if (!interpreter.isTToolStarted()) {
+                    return Interpreter.TTOOL_NOT_STARTED;
+                }
+
+                TDiagramPanel tdp = interpreter.mgui.getCurrentTDiagramPanel();
+                if (!(tdp instanceof GraphDPanel)) {
+                    return "Select first a graph panel";
+                }
+
+                GraphDPanel panel = (GraphDPanel)tdp;
+                AUTGraph graph = panel.autGraph;
+
+                if (graph == null) {
+                    return "Graph must have been built from an AUT graph";
+                }
+
+                Object o = graph.referenceObject;
+
+                if (!(o instanceof AvatarCompactDependencyGraph)) {
+                    return "Graph must have been built from an AvatarCompactDependencyGraph";
+                }
+
+                TraceManager.addDev("Graph found, drawing...");
+
+
+                return null;
+            }
+        };
+
+
 
 
 
@@ -2113,6 +2166,10 @@ public class Action extends Command implements ProVerifOutputListener {
         addAndSortSubcommand(avatarSimulationGeneric);
 
         addAndSortSubcommand(generic);
+
+        addAndSortSubcommand(graphtToAvatar);
+
+
 
     }
 

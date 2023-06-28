@@ -69,6 +69,8 @@ public class GraphDPanel extends TDiagramPanel implements TDPWithAttributes, Run
     public int GOOD_CONNECTOR = 200;
     public int INC = 5;
 
+    public AUTGraph autGraph;
+
     public GraphDPanel(MainGUI mgui, TToolBar _ttb) {
         super(mgui, _ttb);
         //addComponent(400, 50, TGComponentManager.EBRDD_START_STATE, false);
@@ -170,6 +172,8 @@ public class GraphDPanel extends TDiagramPanel implements TDPWithAttributes, Run
 
     // Making a graph from AUT
     public void makeGraphAUT(AUTGraph graph) {
+
+        autGraph = graph;
 
         TraceManager.addDev("Making graph");
 

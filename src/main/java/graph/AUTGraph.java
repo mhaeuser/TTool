@@ -73,6 +73,8 @@ public class AUTGraph implements myutil.Graph {
     protected boolean[] hasEntryTransition;
     protected boolean statesComputed;
 
+    public Object referenceObject;
+
 
     public AUTGraph() {
         transitions = new ArrayList<>();

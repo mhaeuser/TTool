@@ -915,6 +915,7 @@ public class JDialogAvatarModelChecker extends javax.swing.JFrame implements Act
                 AvatarCompactDependencyGraph adg = spec.makeCompactDependencyGraph();
                 RG rg = new RG("Compact Dependency Graph");
                 rg.graph = adg.getGraph();
+                rg.graph.referenceObject = adg;
                 rg.nbOfStates = rg.graph.getNbOfStates();
                 rg.nbOfTransitions = rg.graph.getNbOfTransitions();
                 mgui.addRG(rg);

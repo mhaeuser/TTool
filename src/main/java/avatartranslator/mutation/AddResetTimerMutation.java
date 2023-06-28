@@ -58,7 +58,7 @@ public class AddResetTimerMutation extends ResetTimerMutation implements AddMuta
     }
 
     public AvatarResetTimer createElement(AvatarSpecification _avspec) throws ApplyMutationException {
-        AvatarResetTimer elt = new AvatarResetTimer(getName(), null, null);
+        AvatarResetTimer elt = new AvatarResetTimer(getName(), null, getAvatarStateMachine(_avspec).getOwner());
         AvatarAttribute timer = getAttribute(_avspec, getTimerName());
         if (timer == null) {
             throw new ApplyMutationException("No timer named " + getTimerName() + " in block " + getBlockName());

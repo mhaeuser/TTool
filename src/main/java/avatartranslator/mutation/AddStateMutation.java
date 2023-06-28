@@ -54,14 +54,14 @@ public class AddStateMutation extends StateMutation implements AddMutation {
         super(_blockName, _stateName);
     }
     
-    public AvatarState createElement() {
-        AvatarState state = new AvatarState(getStateName(), null, null);
+    public AvatarState createElement(AvatarStateMachineOwner _block) {
+        AvatarState state = new AvatarState(getStateName(), null, _block);
         return state;
 
     }
 
-    public AvatarState createElement(AvatarSpecification _avspec) {
-        return createElement();
+    public AvatarState createElement(AvatarSpecification _avspec) throws ApplyMutationException {
+        return createElement(getAvatarStateMachine(_avspec).getOwner());
     }
 
     public void apply(AvatarSpecification _avspec) throws ApplyMutationException {
@@ -75,7 +75,7 @@ public class AddStateMutation extends StateMutation implements AddMutation {
             }
         }
 
-        AvatarState state = createElement();
+        AvatarState state = createElement(asm.getOwner());
         asm.addElement(state);
     }
 

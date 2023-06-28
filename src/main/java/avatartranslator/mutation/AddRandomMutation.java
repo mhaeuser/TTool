@@ -60,7 +60,7 @@ public class AddRandomMutation extends RandomMutation implements AddMutation {
     
     //todo : add Graphical referenceObject
     public AvatarRandom createElement(AvatarSpecification _avspec) throws ApplyMutationException {
-        AvatarRandom rand = new AvatarRandom(getName(), null, null);
+        AvatarRandom rand = new AvatarRandom(getName(), null, getAvatarStateMachine(_avspec).getOwner());
         rand.setVariable(getAttributeName());
         if(areValuesSet()) rand.setValues(getMinValue(), getMaxValue());
         if(isFunctionSet()) {

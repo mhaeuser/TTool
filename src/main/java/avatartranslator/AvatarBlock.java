@@ -352,6 +352,32 @@ public class AvatarBlock extends AvatarElement implements AvatarStateMachineOwne
         return sb.toString();
     }
 
+    public String toStringRecursive() {
+        //Thread.currentThread().dumpStack();
+        StringBuffer sb = new StringBuffer("block:" + getName() + " ID=" + getID() + " \n");
+        if (getFather() != null) {
+            sb.append("  subblock of: " + getFather().getName() + " ID=" + getFather().getID() + "\n");
+        } else {
+            sb.append("  top level block\n");
+        }
+        for (AvatarAttribute attribute : attributes) {
+            sb.append("  attribute: " + attribute.toString() + " ID=" + attribute.getID() + "\n");
+        }
+        for (AvatarMethod method : methods) {
+            sb.append("  method: " + method.toString() + " ID=" + method.getID() + "\n");
+        }
+        for (AvatarSignal signal : signals) {
+            sb.append("  signal: " + signal.toString() + " ID=" + signal.getID() + "\n");
+        }
+        if (asm != null) {
+            sb.append(asm.toStringRecursive());
+        } else {
+            sb.append("No state machine");
+        }
+
+        return sb.toString();
+    }
+
     public String toShortString() {
         //Thread.currentThread().dumpStack();
         StringBuffer sb = new StringBuffer("block:" + getName() + " ID=" + getID() + " \n");

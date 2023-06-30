@@ -90,7 +90,7 @@ public class AvatarStateMachine extends AvatarElement {
         return cpt;
     }
 
-    public void clear () {
+    public void clear() {
         elements.clear();
         startState = null;
         allStates = null;
@@ -245,7 +245,7 @@ public class AvatarStateMachine extends AvatarElement {
     }
 
     public AvatarState getStateByName(String _name) {
-        for(AvatarElement ae: elements) {
+        for (AvatarElement ae : elements) {
             if (ae instanceof AvatarState) {
                 if (ae.getName().compareTo(_name) == 0) {
                     return (AvatarState) ae;
@@ -431,7 +431,33 @@ public class AvatarStateMachine extends AvatarElement {
             sb.append("\t" + element.getClass() + "->" + element.toString() + "\n");
         }
 
+
         return sb.toString();
+    }
+
+    public String toStringRecursive() {
+        AvatarStartState ass = getStartState();
+        if (ass == null) {
+            return "empty asm";
+        }
+
+        return toStringRecursiveElt(ass);
+    }
+
+    public String toStringRecursiveElt(AvatarStateMachineElement _asme) {
+        String ret = "";
+        ret += "* " + _asme.toStringExtendedID() + "\n";
+
+        for (AvatarStateMachineElement asme : _asme.getNexts()) {
+            ret += "\tnext: " + asme.toStringExtendedID() + "\n";
+
+        }
+        for (AvatarStateMachineElement asme : _asme.getNexts()) {
+            ret += toStringRecursiveElt(asme);
+        }
+
+        return ret;
+
     }
 
 
@@ -2274,6 +2300,93 @@ public class AvatarStateMachine extends AvatarElement {
 
 
         }
+    }
+
+    public boolean removeDuplicatedTransitions() {
+
+        ArrayList<AvatarStateMachineElement> toBeRemoved = new ArrayList<>();
+        for (AvatarStateMachineElement elt : elements) {
+            if (elt instanceof AvatarState) {
+                // We look at the nexts
+                // If transition -> state duplicated, or transition -> aaos duplicated -> state : we remove  the duplicate
+                toBeRemoved.addAll(removeDuplicatedTransitionsFromState((AvatarState) elt));
+            }
+        }
+
+        for (AvatarStateMachineElement asme : toBeRemoved) {
+            elements.remove(asme);
+        }
+
+        for (AvatarStateMachineElement elt : elements) {
+            if (elt instanceof AvatarState) {
+                toBeRemoved.clear();
+                for (AvatarStateMachineElement asmeState: elt.getNexts()) {
+                    if (!(elements.contains(asmeState))) {
+                        toBeRemoved.add(asmeState);
+                    }
+                }
+                for (AvatarStateMachineElement asme : toBeRemoved) {
+                    elt.getNexts().remove(asme);
+                }
+            }
+
+
+        }
+
+
+        return toBeRemoved.size() != 0;
+    }
+
+    public ArrayList<AvatarStateMachineElement> removeDuplicatedTransitionsFromState(AvatarState _st) {
+        ArrayList<AvatarStateMachineElement> toBeRemoved = new ArrayList<>();
+
+        // At least two exiting transitions
+        if (_st.getNexts().size() < 2) {
+            return toBeRemoved;
+        }
+
+        // We check is the at least two transitions are equivalent
+
+        for (int i = 0; i < _st.getNexts().size(); i++) {
+            AvatarTransition at1 = (AvatarTransition) (_st.getNexts().get(i));
+            for (int j = i + 1; j < _st.getNexts().size(); j++) {
+                AvatarTransition at2 = (AvatarTransition) (_st.getNexts().get(j));
+                if (at1.equals(at2)) {
+                    //TraceManager.addDev("\tTwo equal transitions in state " + _st.getName());
+                    // We have to consider the next of at1 and at2
+                    AvatarStateMachineElement next1, next2;
+                    next1 = at1.getNext(0);
+                    next2 = at2.getNext(0);
+                    if (next1 instanceof AvatarState && next1 == next2) {
+                        toBeRemoved.add(at2);
+                    } else if ((next1 instanceof AvatarActionOnSignal) && (next2 instanceof AvatarActionOnSignal)) {
+                        //TraceManager.addDev("\tChecking for equal AAOS " + _st.getName());
+                        AvatarActionOnSignal aaos1 = (AvatarActionOnSignal) next1;
+                        AvatarActionOnSignal aaos2 = (AvatarActionOnSignal) next2;
+                        if (next1.getNexts().get(0) instanceof AvatarTransition && next2.getNexts().get(0) instanceof AvatarTransition) {
+                            AvatarTransition at11 = (AvatarTransition) next1.getNexts().get(0);
+                            AvatarTransition at21 = (AvatarTransition) next2.getNexts().get(0);
+                            if (at11.equals(at21)) {
+                                if (at11.getNexts().get(0) instanceof AvatarState && (at11.getNexts().get(0) == at21.getNexts().get(0))) {
+                                    // We need to compare the two AvatarActionOnSignal
+                                    //TraceManager.addDev("\tComparing aaos1 and aaos2 in " + _st.getName());
+                                    if (aaos1.equals(aaos2)) {
+                                        toBeRemoved.add(at2);
+                                        toBeRemoved.add(aaos2);
+                                        toBeRemoved.add(at21);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        TraceManager.addDev("\ttoBeRemoved of size " + toBeRemoved.size() + " for state " + _st.getName());
+
+
+        return toBeRemoved;
     }
 
 }

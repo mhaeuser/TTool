@@ -231,6 +231,9 @@ public class GraphDPanel extends TDiagramPanel implements TDPWithAttributes, Run
                             true,
                             null, this, p1, p2, null);
                     connector.setValue(tr.transition);
+                    if (tr.hasTag(AUTGraph.COMM_TAG)) {
+                        connector.setCurrentColor(ColorManager.COMM_EDGE);
+                    }
                     //TraceManager.addDev("Adding transition with value=" + tr.transition + " label=" + tr.getLabel());
                     addBuiltConnector(connector);
 
@@ -295,7 +298,7 @@ public class GraphDPanel extends TDiagramPanel implements TDPWithAttributes, Run
         // Blue for comm states
         if (info != null) {
             if (info.contains("Sending ") || info.contains("!")) {
-                dv.setCurrentColor(ColorManager.TML_COMPOSITE_COMPONENT);
+                dv.setCurrentColor(ColorManager.SENDING_VERTEX);
             } else if (info.contains("Receiving ") || info.contains("?")) {
                 dv.setCurrentColor(ColorManager.BUS_BOX);
             }

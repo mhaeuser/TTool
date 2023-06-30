@@ -1018,7 +1018,7 @@ public class Action extends Command implements ProVerifOutputListener {
             }
         };
 
-        // Diplodocus security verfication proverif
+        // Diplodocus security verification with proverif
         Command diplodocusSecProof = new Command() {
             public String getCommand() {
                 return DIPLO_SEC_PROOF;
@@ -2110,6 +2110,16 @@ public class Action extends Command implements ProVerifOutputListener {
                 }
 
                 TraceManager.addDev("Graph found, drawing...");
+                AvatarCompactDependencyGraph cdg = (AvatarCompactDependencyGraph)o;
+
+                AvatarSpecification avspec = cdg.makeAvatarSpecification();
+                if (avspec == null) {
+                    return "Error when parsing dependency graph";
+                }
+
+                //TraceManager.addDev("Avatar specification recursive: " + avspec.toStringRecursive(true));
+
+                interpreter.mgui.drawAvatarSpecification(avspec);
 
 
                 return null;

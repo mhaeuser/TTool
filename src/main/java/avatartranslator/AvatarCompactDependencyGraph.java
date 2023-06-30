@@ -43,6 +43,7 @@ import graph.AUTGraph;
 import graph.AUTState;
 import graph.AUTTransition;
 import myutil.TraceManager;
+import org.apache.batik.anim.timing.Trace;
 import org.jfree.data.json.impl.JSONObject;
 import ui.TGComponent;
 
@@ -58,6 +59,8 @@ import java.util.*;
 public class AvatarCompactDependencyGraph {
     private AUTGraph graph;
     private int id = 0;
+
+    public static int ID = 0;
 
     public AvatarCompactDependencyGraph() {
         //fromStates = new HashMap<>();
@@ -199,6 +202,7 @@ public class AvatarCompactDependencyGraph {
                                             // Links between the two new states
 
                                             tr = new AUTTransition(newState.id, "", newStateD.id);
+                                            tr.addTag(AUTGraph.COMM_TAG);
                                             transitions.add(tr);
                                             newState.addOutTransition(tr);
                                             newStateD.addInTransition(tr);
@@ -206,6 +210,7 @@ public class AvatarCompactDependencyGraph {
 
                                             if (!(ar.isAsynchronous())) {
                                                 tr = new AUTTransition(newStateD.id, "", newState.id);
+                                                tr.addTag(AUTGraph.COMM_TAG);
                                                 transitions.add(tr);
                                                 newStateD.addOutTransition(tr);
                                                 newState.addInTransition(tr);
@@ -676,13 +681,15 @@ public class AvatarCompactDependencyGraph {
     }
 
     public AvatarSpecification makeAvatarSpecification() {
+        ID = 0;
 
         AvatarSpecification newAvspec = new AvatarSpecification("from CDG", this);
 
         // We look for start states: we create the block with attributes / signals etc.
         // We take from the other avatar spec of relations
 
-        for(AUTState st: graph.getStates()) {
+        // We create all blocks
+        for (AUTState st : graph.getStates()) {
             if (st.getNbInTransitions() == 0) {
                 // This is a start state
                 AvatarStateMachineElement asme = getFirstReferenceObjectFromState(st);
@@ -692,81 +699,144 @@ public class AvatarCompactDependencyGraph {
                     if ((asmo != null) && (asmo instanceof AvatarBlock)) {
                         AvatarBlock ab = (AvatarBlock) asmo;
                         AvatarBlock newBlock = new AvatarBlock(ab.getName(), newAvspec, this);
+                        TraceManager.addDev("Creating new block: " + newBlock.getName() + " from block " + ab.getName());
                         newAvspec.addBlock(newBlock);
                         for (AvatarAttribute aa : ab.getAttributes()) {
                             AvatarAttribute newA = aa.advancedClone(newBlock);
                             newA.clearReferenceObject();
                             newA.setReferenceObject(this);
                             newBlock.addAttribute(newA);
+                            TraceManager.addDev("\t Adding attribute: " + newA.getName());
                         }
                         for (AvatarMethod am : ab.getMethods()) {
                             AvatarMethod newAm = am.advancedClone(newBlock);
                             newAm.clearReferenceObject();
                             newAm.setReferenceObject(this);
                             newBlock.addMethod(newAm);
+                            TraceManager.addDev("\t Adding method: " + newAm.getName());
                         }
                         for (AvatarSignal as : ab.getSignals()) {
                             AvatarSignal newAs = as.advancedClone(newBlock);
                             newAs.clearReferenceObject();
                             newAs.setReferenceObject(this);
                             newBlock.addSignal(newAs);
+                            TraceManager.addDev("\t Adding signal: " + newAs.getName());
                         }
+                    }
+                }
+            }
+        }
 
-                        // We start from the start state and we build the SMD
-                        makeASMFromState(newBlock, st, null, null);
+        // We have to ensure the block hierarchy
+        for (AUTState st : graph.getStates()) {
+            if (st.getNbInTransitions() == 0) {
+                // This is a start state
+                AvatarStateMachineElement asme = getFirstReferenceObjectFromState(st);
+                if ((asme != null) && (asme instanceof AvatarStartState)) {
+                    AvatarStateMachineOwner asmo = asme.getOwner();
+
+                    if ((asmo != null) && (asmo instanceof AvatarBlock)) {
+                        AvatarBlock ab = (AvatarBlock) asmo;
 
 
-                        // We add relations for which the two related have been defined
-                        AvatarSpecification oldSpec = asmo.getAvatarSpecification();
-                        if (oldSpec != null) {
-                            for (AvatarRelation ar: oldSpec.getRelations()) {
-                                boolean b1 = ar.getBlock1().getName().compareTo(newBlock.getName()) == 0;
-                                boolean b2 = ar.getBlock2().getName().compareTo(newBlock.getName()) == 0;
+                        AvatarBlock father = ab.getFather();
+                        if (father != null) {
+                            AvatarBlock newSon = newAvspec.getBlockWithName(ab.getName());
+                            AvatarBlock newFather = newAvspec.getBlockWithName(father.getName());
 
-
-                                if (b1 || b2) {
-                                    AvatarBlock bl1 = null, bl2 = null;
-                                    String nameOther;
-                                    if (b1) {
-                                        bl1 = newBlock;
-                                        nameOther = ar.getBlock2().getName();
-                                    } else {
-                                        bl2 = newBlock;
-                                        nameOther = ar.getBlock1().getName();
-                                    }
-                                    AvatarBlock bOther = newAvspec.getBlockWithName(nameOther);
-                                    if (bOther != null) {
-                                        if (bl1 == null) {
-                                            bl1 = bOther;
-                                        } else {
-                                            bl2 = bOther;
-                                        }
-                                        HashMap<AvatarBlock, AvatarBlock> blMap = new HashMap<AvatarBlock, AvatarBlock>();
-                                        blMap.put(ar.getBlock1(), bl1);
-                                        blMap.put(ar.getBlock1(), bl2);
-                                        AvatarRelation newAr = ar.advancedClone(blMap);
-                                        newAr.setReferenceObject(this);
-                                        newAvspec.addRelation(newAr);
-                                    }
-                                }
-
+                            if (newSon != null && newFather != null) {
+                                newSon.setFather(newFather);
                             }
                         }
+                    }
+                }
+            }
+        }
 
+        // We make the relations between blocks
+        for (AUTState st : graph.getStates()) {
+            if (st.getNbInTransitions() == 0) {
+                // This is a start state
+                AvatarStateMachineElement asme = getFirstReferenceObjectFromState(st);
+                if ((asme != null) && (asme instanceof AvatarStartState)) {
+                    AvatarStateMachineOwner asmo = asme.getOwner();
 
+                    if ((asmo != null) && (asmo instanceof AvatarBlock)) {
+                        AvatarBlock ab = (AvatarBlock) asmo;
+                        AvatarBlock newBlock = newAvspec.getBlockWithName(ab.getName());
+                        if (newBlock != null) {
+                            // We add relations for which the two related blocks have been defined
+                            AvatarSpecification oldSpec = asmo.getAvatarSpecification();
+                            if (oldSpec != null) {
+                                for (AvatarRelation ar: oldSpec.getRelations()) {
+                                    boolean b1 = ar.getBlock1().getName().compareTo(newBlock.getName()) == 0;
 
+                                    if (b1) {
+                                        String nameOther = ar.getBlock2().getName();
+
+                                        //TraceManager.addDev("Looking for relation with blocks " + newBlock.getName() + " and " + nameOther);
+                                        AvatarBlock bOther = newAvspec.getBlockWithName(nameOther);
+                                        //TraceManager.addDev("Checking bOther");
+                                        if (bOther != null) {
+
+                                            HashMap<AvatarBlock, AvatarBlock> blMap = new HashMap<AvatarBlock, AvatarBlock>();
+                                            blMap.put(ar.getBlock1(), newBlock);
+                                            blMap.put(ar.getBlock2(), bOther);
+                                            AvatarRelation newAr = ar.advancedClone(blMap);
+                                            //TraceManager.addDev("Cloning the relation");
+                                            if (newAr != null) {
+                                                newAr.setReferenceObject(this);
+                                                //TraceManager.addDev("Non null relation");
+                                                newAvspec.addRelation(newAr);
+                                            } else {
+                                                TraceManager.addDev("Null clone");
+                                            }
+                                        }
+                                    }
+
+                                }
+                            }
+                        }
                     }
                 }
             }
         }
 
 
+        // We make the state machines
+        for (AUTState st : graph.getStates()) {
+            if (st.getNbInTransitions() == 0) {
+                // This is a start state
+                AvatarStateMachineElement asme = getFirstReferenceObjectFromState(st);
+                if ((asme != null) && (asme instanceof AvatarStartState)) {
+                    AvatarStateMachineOwner asmo = asme.getOwner();
+
+                    if ((asmo != null) && (asmo instanceof AvatarBlock)) {
+                        AvatarBlock ab = (AvatarBlock) asmo;
+                        AvatarBlock newBlock = newAvspec.getBlockWithName(ab.getName());
+                        if (newBlock != null) {
+
+                            // We start from the start state to build the SMD
+                            makeASMFromState(newBlock, st, null, null);
+                        }
+                    }
+                }
+            }
+        }
+
+
+        if (newAvspec.removeDuplicatedTransitions()) {
+            TraceManager.addDev("Useless transitions were removed");
+        } else {
+            TraceManager.addDev("No duplicate transitions");
+        }
+
         return newAvspec;
 
 
     }
 
-
+    @SuppressWarnings("unchecked")
     public void makeASMFromState(AvatarBlock _block, AUTState _currentState, AvatarStateMachineElement _previousE, HashMap<AUTState,
             AvatarStateMachineElement> elementM) {
         // Handling referenced elements
@@ -784,16 +854,36 @@ public class AvatarCompactDependencyGraph {
             elementM = new HashMap<>();
         }
 
+
+        if (_previousE != null) {
+            //TraceManager.addDev("Considering state " + _currentState.id + " with previous=" + _previousE.getName());
+        } else {
+            //TraceManager.addDev("Considering state " + _currentState.id + " with no previous");
+        }
+        if (_currentState.referenceObject == null) {
+            //TraceManager.addDev("Nb of referenced elements of this state: 0");
+        } else {
+            Object o = _currentState.referenceObject;
+            try {
+                ArrayList<AvatarStateMachineElement> refs = (ArrayList<AvatarStateMachineElement>)(_currentState.referenceObject);
+                for(AvatarStateMachineElement refAsme: refs) {
+                    //TraceManager.addDev("\tref object:" + refAsme.getName() + " / " + refAsme.getClass().toString());
+                }
+            } catch (Exception e) {
+                TraceManager.addDev("No valid referenced object");
+            }
+        }
+
         boolean mustLinkToPrevious = false;
         AvatarStateMachineElement newE = null;
         AvatarStateMachineElement newASME = elementM.get(_currentState);
 
         if (asme instanceof AvatarStartState) {
-            AvatarStartState ass = new AvatarStartState(asme.getName(), this, _block);
+            AvatarStartState ass = new AvatarStartState(asme.getName() + ID++, this, _block);
             asm.addElement(ass);
             asm.setStartState(ass);
-
             newE = ass;
+
         } else if (asme instanceof AvatarState) {
 
             if (newASME == null) {
@@ -807,12 +897,14 @@ public class AvatarCompactDependencyGraph {
 
 
         } else if (asme instanceof AvatarStopState) {
-            AvatarStopState ass = new AvatarStopState(asme.getName(), this, _block);
+            AvatarStopState ass = new AvatarStopState(asme.getName() + ID++, this, _block);
             asm.addElement(ass);
+            newE = ass;
             mustLinkToPrevious = true;
 
         } else if (asme instanceof AvatarActionOnSignal) {
             AvatarActionOnSignal aaos = ((AvatarActionOnSignal) asme).basicCloneMe(_block);
+            aaos.setName(aaos.getName() + ID++);
             asm.addElement(aaos);
             newE = aaos;
 
@@ -822,11 +914,15 @@ public class AvatarCompactDependencyGraph {
                 // Look at reference objects
                 AvatarStateMachineElement asmeFirst = getFirstReferenceObjectFromState(_currentState);
                 if (asmeFirst instanceof AvatarTransition) {
-                    AvatarTransition at = ((AvatarTransition) asme).cloneMe();
-                    asme.setReferenceObject(this);
+                    //TraceManager.addDev("Transition before aaos found in referenced objects");
+                    AvatarTransition at = ((AvatarTransition) asmeFirst).cloneMe();
+                    at.removeAllNexts();
+                    at.setName("TransitionBeforeAAOS" + ID++);
+                    at.setReferenceObject(this);
                     asm.addElement(at);
                     _previousE.addNext(at);
                     at.addNext(newE);
+                    mustLinkToPrevious = false;
                 } else {
                     mustLinkToPrevious = true;
                 }
@@ -834,17 +930,19 @@ public class AvatarCompactDependencyGraph {
 
         } else if (asme instanceof AvatarTransition) {
             AvatarTransition at = ((AvatarTransition) asme).cloneMe();
+            at.removeAllNexts();
+            at.setName("TransitionInGraph" + ID++);
             asme.setReferenceObject(this);
             asm.addElement(at);
             _previousE.addNext(at);
             newE = at;
         }
 
-        if (mustLinkToPrevious) {
+        if (mustLinkToPrevious && _previousE != null && newE != null) {
             if (_previousE instanceof AvatarTransition) {
                 _previousE.addNext(newE);
             } else {
-                AvatarTransition at = new AvatarTransition(_block, "EmptyTransition", this);
+                AvatarTransition at = new AvatarTransition(_block, "EmptyTransition" + ID++, this);
                 asm.addElement(at);
                 _previousE.addNext(at);
                 at.addNext(newE);
@@ -858,9 +956,11 @@ public class AvatarCompactDependencyGraph {
         if ((newE != null) && (newASME == null)) {
             // We have to handle the next states of currentState
             for(AUTTransition tr: _currentState.outTransitions) {
-                AUTState st = graph.getState(tr.destination);
-                if (st != null) {
-                    makeASMFromState(_block, st, newE, elementM);
+                if (!(tr.hasTag(AUTGraph.COMM_TAG))) {
+                    AUTState st = graph.getState(tr.destination);
+                    if (st != null) {
+                        makeASMFromState(_block, st, newE, elementM);
+                    }
                 }
             }
         }

@@ -58,6 +58,9 @@ import java.util.*;
  * @author Ludovic APVRILLE
  */
 public class AUTGraph implements myutil.Graph {
+    public final static AUTTag DEADLOCK_TAG = new AUTDeadlockTag("Deadlock");
+    public final static AUTTag COMM_TAG = new AUTCommTag("COMM");
+
 
     // Graph is defined with this only
     protected ArrayList<AUTTransition> transitions;

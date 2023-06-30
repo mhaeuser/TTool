@@ -551,6 +551,56 @@ public class AvatarTransition extends AvatarStateMachineElement {
         return "Empty transition" + s;
     }
 
+    public boolean equals(AvatarTransition _at) {
+        if (isGuarded() != _at.isGuarded()) {
+            return false;
+        }
+        if (isGuarded()) {
+            if (getGuard().toString().compareTo(_at.getGuard().toString()) != 0) {
+                return false;
+            }
+        }
+
+        if (minDelay.compareTo(_at.getMinDelay()) != 0) {
+            return false;
+        }
+
+        if (maxDelay.compareTo(_at.getMaxDelay()) != 0) {
+            return false;
+        }
+
+        if (delayDistributionLaw != _at.getDelayDistributionLaw()) {
+            return false;
+        }
+
+        if (delayDistributionLaw > 0) {
+            if (delayExtra1.compareTo(_at.getDelayExtra1()) != 0) {
+                return false;
+            }
+            if (delayExtra2.compareTo(_at.getDelayExtra2()) != 0) {
+                return false;
+            }
+        }
+
+        if (getNbOfAction() != _at.getNbOfAction()) {
+            return false;
+        }
+
+        int cpt = 0;
+        for(AvatarAction a: actions) {
+            if (a.toString().compareTo(_at.getAction(cpt).toString()) != 0) {
+                return false;
+            }
+            cpt ++;
+        }
+
+        return true;
+
+
+
+
+    }
+
 
     public void translate(AvatarTranslator translator, Object arg) {
         translator.translateTransition(this, arg);

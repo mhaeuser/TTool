@@ -39,6 +39,8 @@
 
 package graph;
 
+import java.util.ArrayList;
+
 /**
  * Class AUTTransition
  * Creation : 16/09/2004
@@ -54,6 +56,8 @@ public class AUTTransition implements Comparable<AUTTransition> {
     public AUTElement elt;
     public boolean isTau;
 
+    public ArrayList<AUTTag> tags;
+
     public AUTTransition(int _origin, String _transition, int _destination) {
         origin = _origin;
         destination = _destination;
@@ -65,6 +69,7 @@ public class AUTTransition implements Comparable<AUTTransition> {
         destination = Integer.decode(_destination).intValue();
         transition = _transition;
     }
+
 
     public int compareTo(AUTTransition _t) {
         if (origin != _t.origin) {
@@ -163,6 +168,20 @@ public class AUTTransition implements Comparable<AUTTransition> {
         AUTTransition tr = new AUTTransition(origin, transition, destination);
         tr.isTau = isTau;
         return tr;
+    }
+
+    public void addTag(AUTTag _tag) {
+        if (tags == null) {
+            tags = new ArrayList<>();
+        }
+        tags.add(_tag);
+    }
+
+    public boolean hasTag(AUTTag _tag) {
+        if (tags == null) {
+            return false;
+        }
+        return tags.contains(_tag);
     }
 
 

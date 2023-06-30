@@ -207,4 +207,25 @@ public class AvatarActionOnSignal extends AvatarStateMachineElement {
     public void setSignal(AvatarSignal _signal) {
 		signal = _signal;
     }
+
+    public boolean equals(AvatarActionOnSignal _aaos) {
+        if (getSignal() != _aaos.getSignal()) {
+            TraceManager.addDev("\tSignal is different");
+            return false;
+        }
+
+        if (values.size() != _aaos.getNbOfValues()) {
+            TraceManager.addDev("\tNb of values is different");
+            return false;
+        }
+
+        for(int i=0; i<getNbOfValues(); i++) {
+            if (getValue(i).compareTo(_aaos.getValue(i)) != 0) {
+                TraceManager.addDev("\tValue #" + i + " is different");
+                return false;
+            }
+        }
+
+        return true;
+    }
 }

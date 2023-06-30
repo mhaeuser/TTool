@@ -1006,11 +1006,20 @@ public class AvatarSpecification extends AvatarElement implements IBSParamSpec {
 
     @Override
     public String toString() {
+        return toStringRecursive(false);
+        //Thread.currentThread().dumpStack();
+    }
+
+    public String toStringRecursive(boolean isRecursive) {
         //Thread.currentThread().dumpStack();
         StringBuffer sb = new StringBuffer("Blocks:\n");
         //TraceManager.addDev("TS Block");
         for (AvatarBlock block : blocks) {
-            sb.append("*** " + block.toString() + "\n");
+            if (isRecursive) {
+                sb.append("*** " + block.toString() + "\n");
+            } else {
+                sb.append("*** " + block.toStringRecursive() + "\n");
+            }
         }
         //TraceManager.addDev("TS Relations");
         sb.append("\nRelations:\n");
@@ -1799,6 +1808,16 @@ public class AvatarSpecification extends AvatarElement implements IBSParamSpec {
 
         removeEmptyBlocks();
 
+    }
+
+
+    public boolean removeDuplicatedTransitions() {
+        boolean b = false;
+
+        for(AvatarBlock ab: blocks) {
+             b = b || ab.getStateMachine().removeDuplicatedTransitions();
+        }
+        return b;
     }
 
     public NameChecker.NamedElement[] getSubNamedElements() {

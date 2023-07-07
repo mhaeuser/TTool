@@ -78,6 +78,7 @@ public class AvatarDesignPanel extends TURTLEPanel {
         if (_mgui == null) {
             //for unit testing only
             abdp = new AvatarBDPanel(null, null);
+            tdp = abdp;
             return;
         }
         // Issue #41 Ordering of tabbed panes 
@@ -299,7 +300,7 @@ public class AvatarDesignPanel extends TURTLEPanel {
     public TGComponent hasCheckableMasterMutex() {
         TGComponent tgc, tgctmp;
         for (int i = 0; i < panels.size(); i++) {
-            tdp = panels.get(i);
+            TDiagramPanel tdp = panels.get(i);
             if (tdp instanceof AvatarSMDPanel) {
                 Iterator<TGComponent> iterator = panels.get(i).getComponentList().listIterator();
                 while (iterator.hasNext()) {
@@ -318,6 +319,7 @@ public class AvatarDesignPanel extends TURTLEPanel {
 
     public void removeAllMutualExclusionWithMasterMutex() {
         TGComponent tgc;
+        TDiagramPanel tdp;
         for (int i = 0; i < panels.size(); i++) {
             tdp = panels.get(i);
             if (tdp instanceof AvatarSMDPanel) {
@@ -332,6 +334,7 @@ public class AvatarDesignPanel extends TURTLEPanel {
 
     public void reinitMutualExclusionStates() {
         TGComponent tgc;
+        TDiagramPanel tdp;
         for (int i = 0; i < panels.size(); i++) {
             tdp = panels.get(i);
             if (tdp instanceof AvatarSMDPanel) {
@@ -373,6 +376,7 @@ public class AvatarDesignPanel extends TURTLEPanel {
     }
 
     public void resetModelBacktracingProVerif() {
+        TDiagramPanel tdp;
         if (abdp == null) {
             return;
         }
@@ -454,6 +458,7 @@ public class AvatarDesignPanel extends TURTLEPanel {
     }
 
     public void modelBacktracingProVerif(ProVerifOutputAnalyzer pvoa) {
+        TDiagramPanel tdp;
 
         if (abdp == null) {
             return;

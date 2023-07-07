@@ -119,6 +119,8 @@ public class JFrameAI extends JFrame implements ActionListener {
         chats = new ArrayList<>();
         makeComponents();
 
+        TraceManager.addDev("Selected TDP = " + mgui.getCurrentMainTDiagramPanel().getClass());
+
     }
 
     public void setIcon(ChatData _data, Icon newIcon) {
@@ -144,7 +146,8 @@ public class JFrameAI extends JFrame implements ActionListener {
                 help();
             }
         });
-        helpPopup.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("ESCAPE"), "closeJlabel");
+        helpPopup.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("ESCAPE"),
+                "closeJlabel");
         helpPopup.getActionMap().put("closeJlabel", new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -305,6 +308,7 @@ public class JFrameAI extends JFrame implements ActionListener {
     }
 
     private void start() {
+        TraceManager.addDev("Start in JFrameAI");
         currentChatIndex = answerPane.getSelectedIndex();
         ChatData selected = selectedChat();
 
@@ -315,7 +319,9 @@ public class JFrameAI extends JFrame implements ActionListener {
         }
 
         if (chatDataMade) {
+            TraceManager.addDev("chatDataMade in JFameAI");
             String selectedClass = AIInteractClass[listOfPossibleActions.getSelectedIndex()];
+            TraceManager.addDev("SelectedClass: " + selectedClass);
             selected.aiInteract = ai.AIInteract.getInstance("ai." + selectedClass, selected.aiChatData);
 
 
@@ -324,7 +330,10 @@ public class JFrameAI extends JFrame implements ActionListener {
                 return;
             }
 
+            TraceManager.addDev("Selected aiinteract: " + selected.aiInteract.getClass());
+
             if (selected.aiInteract  instanceof AIAvatarSpecificationRequired) {
+                TraceManager.addDev("****** AIAvatarSpecificationRequired identified *****");
                 TDiagramPanel tdp = mgui.getCurrentMainTDiagramPanel();
                 boolean found = false;
                 if (tdp instanceof AvatarBDPanel) {
@@ -332,14 +341,22 @@ public class JFrameAI extends JFrame implements ActionListener {
                 }
 
                 if (found) {
+                    TraceManager.addDev("BD panel: ok");
                     boolean ret = mgui.checkModelingSyntax(true);
                     if (ret) {
+                        TraceManager.addDev("****** Syntax checking OK *****");
                         ((AIAvatarSpecificationRequired) (selected.aiInteract)).setAvatarSpecification(mgui.gtm.getAvatarSpecification());
+                    } else {
+                        TraceManager.addDev("\n\n*****Syntax checking failed: no avatar spec***\n\n");
                     }
+                } else {
+                    TraceManager.addDev("Selected panel is not correct. tdp=" + tdp.getClass());
+                    return;
                 }
             }
 
             if (selected.aiInteract  instanceof AISysMLV2DiagramContent) {
+                TraceManager.addDev("****** AISysMLV2DiagramContent identified *****");
                 TDiagramPanel tdp = mgui.getCurrentTDiagramPanel();
                 String[] validDiagrams = ((AISysMLV2DiagramContent)(selected.aiInteract)).getValidDiagrams();
                 String className = tdp.getClass().getName();
@@ -413,6 +430,7 @@ public class JFrameAI extends JFrame implements ActionListener {
                 } else if (selectedChat.aiInteract instanceof ai.AIDesignPropertyIdentification) {
                     // nothing up to now :-)
                 } else if (selectedChat.aiInteract instanceof ai.AIStateMachine) {
+                    TraceManager.addDev("Applying state machines");
                     applyIdentifyStateMachines(selectedChat.aiInteract.applyAnswer(null));
                 } else if (selectedChat.aiInteract instanceof ai.AIAmulet) {
                     applyMutations();

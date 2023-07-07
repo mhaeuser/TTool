@@ -117,9 +117,9 @@ public class AIInterface {
 
         try {
             if (connection == null) {
-                TraceManager.addDev("Connecting to " + urlText);
+                //TraceManager.addDev("Connecting to " + urlText);
                 connection = (HttpURLConnection) new URL(urlText).openConnection();
-                TraceManager.addDev("Connection to " + urlText + " is opened");
+                //TraceManager.addDev("Connection to " + urlText + " is opened");
                 connection.setRequestMethod("POST");
                 //connection.setRequestProperty("Content-Type", "application/json");
                 connection.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
@@ -131,7 +131,7 @@ public class AIInterface {
             disconnect();
             throw new AIInterfaceException(CONNECTION_PB);
         }
-        TraceManager.addDev("Connection done with key: " + key);
+        //TraceManager.addDev("Connection done with key: " + key);
     }
 
     private void disconnect() throws AIInterfaceException {
@@ -157,11 +157,11 @@ public class AIInterface {
             for(AIKnowledge aik: knowledge) {
                 sub = new org.json.JSONObject();
                 sub.put("role", "user");
-                TraceManager.addDev("Putting user knowledge: " + aik.userKnowledge);
+                //TraceManager.addDev("Putting user knowledge: " + aik.userKnowledge);
                 sub.put("content", aik.userKnowledge);
                 array.put(sub);
                 sub = new org.json.JSONObject();
-                TraceManager.addDev("Putting assistant knowledge: " + aik.assistantKnowledge);
+                //TraceManager.addDev("Putting assistant knowledge: " + aik.assistantKnowledge);
                 sub.put("role", "assistant");
                 sub.put("content", aik.assistantKnowledge);
                 array.put(sub);

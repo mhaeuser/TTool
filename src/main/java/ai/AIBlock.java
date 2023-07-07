@@ -73,7 +73,7 @@ public class AIBlock extends AIInteract {
             "#Respect: Two connected signals must have " +
             "the same list of attributes, even if they are " +
             "defined in two different blocks. One of them must be output, the other one must be input" +
-            "#Respect: all input signals must have exactly one corresponding output signal, i.e. an ouput signal with the same name" +
+            "#Respect: all input signals must have exactly one corresponding output signal, i.e., an ouput signal with the same name" +
             "#Respect: two signals with the same name must be defined in different blocks";
             /*"and after " +
             "the blocks, add the " +
@@ -88,8 +88,6 @@ public class AIBlock extends AIInteract {
             "Two connected signals must have the \" +\n" +
             "            \"same list of attributes." +
             "# A signal must be involved in one connection exactly";*/
-
-
 
 
     public static String[] KNOWLEDGE_STAGES = {KNOWLEDGE_ON_JSON_FOR_BLOCKS_AND_ATTRIBUTES, KNOWLEDGE_ON_JSON_FOR_BLOCKS_AND_CONNECTIONS};

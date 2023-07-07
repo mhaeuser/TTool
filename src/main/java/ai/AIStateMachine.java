@@ -44,6 +44,7 @@ import avatartranslator.AvatarBlock;
 import avatartranslator.AvatarSpecification;
 import avatartranslator.tosysmlv2.AVATAR2SysMLV2;
 import myutil.TraceManager;
+import org.apache.batik.anim.timing.Trace;
 
 import java.util.ArrayList;
 
@@ -125,18 +126,22 @@ public class AIStateMachine extends AIInteract implements AISysMLV2DiagramConten
         for(String blockName: blockNames) {
             TraceManager.addDev("Handling block: " + blockName);
             done = false; cpt = 0;
+            int max = 3;
+
+
             questionT = QUESTION_IDENTIFY_STATE_MACHINE[0] + blockName;
-            while (!done && cpt < 3) {
+            while (!done && cpt < max) {
                 done = true;
                 boolean ok = makeQuestion(questionT);
                 if (!ok) {
                     TraceManager.addDev("Make question failed");
                 }
 
-                if (specification != null) {
+                if (ok && specification != null) {
                     AvatarBlock b = specification.getBlockWithName(blockName);
                     if (b != null) {
-                        ArrayList<String> errors = b.makeStateMachineFromJSON(extractJSON(), cpt == 2);
+                        TraceManager.addDev("Making the state machine of " + blockName);
+                        ArrayList<String> errors = b.makeStateMachineFromJSON(extractJSON(), cpt == (max - 1));
                         if ((errors != null) && (errors.size() > 0)) {
                             done = false;
                             questionT = "Your answer was not correct because of the following errors:";
@@ -150,9 +155,11 @@ public class AIStateMachine extends AIInteract implements AISysMLV2DiagramConten
                     } else {
                         TraceManager.addDev("ERROR: no block named " + blockName);
                     }
+                } else {
+                    TraceManager.addDev("Null specification");
                 }
 
-                waitIfConditionTrue(!done && cpt < 3);
+                waitIfConditionTrue(!done && cpt < max);
 
                 cpt ++;
             }
@@ -167,6 +174,12 @@ public class AIStateMachine extends AIInteract implements AISysMLV2DiagramConten
     }
 
     public Object applyAnswer(Object input) {
+        TraceManager.addDev("Apply answer in AIState Machine");
+        if (specification == null) {
+            TraceManager.addDev("Null spec");
+        } else {
+            TraceManager.addDev("Non null spec");
+        }
         if (input == null) {
             return specification;
         }

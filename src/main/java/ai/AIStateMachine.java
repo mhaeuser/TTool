@@ -156,7 +156,7 @@ public class AIStateMachine extends AIInteract implements AISysMLV2DiagramConten
                         TraceManager.addDev("ERROR: no block named " + blockName);
                     }
                 } else {
-                    TraceManager.addDev("Null specification");
+                    TraceManager.addDev("Null specification or false ok");
                 }
 
                 waitIfConditionTrue(!done && cpt < max);

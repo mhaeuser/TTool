@@ -490,6 +490,26 @@ public class AvatarCompactDependencyGraph {
             return null;
         }
 
+        // Already a state for a next?
+        AUTState stateN = null;
+        for (AUTState st : _states) {
+            if (hasReferenceObject(st, _elt)) {
+                stateN = st;
+                TraceManager.addDev("Found known state machine element for " + _elt.getExtendedName());
+                break;
+            }
+        }
+        //AUTState stateN = getFirstStateFor(eltN);
+        if (stateN != null) {
+            AUTTransition tr = new AUTTransition(_previousS.id, "", stateN.id);
+            _transitions.add(tr);
+            _previousS.addOutTransition(tr);
+            stateN.addInTransition(tr);
+            return stateN;
+        }
+
+        TraceManager.addDev("Handling sme: " + _elt.getName() + "/" + _elt.getExtendedName());
+
         if ( (_elt instanceof AvatarTransition) && (_elt.getNext(0) instanceof AvatarActionOnSignal)) {
             if (_elt.getNext(0) != null) {
                 return makeCompactDependencyGraphForAvatarElement(bl, _elt.getNext(0), _previousS, _elt, _states, _transitions, withID,
@@ -511,6 +531,8 @@ public class AvatarCompactDependencyGraph {
             }
         }
 
+        //
+        // Find
         AUTState state = new AUTState(id);
         _states.add(state);
         if (_previousAvatarTransition != null) {
@@ -546,23 +568,7 @@ public class AvatarCompactDependencyGraph {
         // Handling all nexts
         //if (!(_elt instanceof AvatarActionOnSignal)) {
         for (AvatarStateMachineElement eltN : _elt.getNexts()) {
-            // Already a state for a next?
-            AUTState stateN = null;
-            for (AUTState st : _states) {
-                if (hasReferenceObject(st, eltN)) {
-                    stateN = st;
-                    break;
-                }
-            }
-            //AUTState stateN = getFirstStateFor(eltN);
-            if (stateN != null) {
-                AUTTransition tr = new AUTTransition(state.id, "", stateN.id);
-                _transitions.add(tr);
-                state.addOutTransition(tr);
-                stateN.addInTransition(tr);
-            } else {
-                makeCompactDependencyGraphForAvatarElement(bl, eltN, state, _elt, _states, _transitions, withID, null);
-            }
+            makeCompactDependencyGraphForAvatarElement(bl, eltN, state, _elt, _states, _transitions, withID, null);
         }
         //}
         return state;
@@ -840,6 +846,7 @@ public class AvatarCompactDependencyGraph {
     public void makeASMFromState(AvatarBlock _block, AUTState _currentState, AvatarStateMachineElement _previousE, HashMap<AUTState,
             AvatarStateMachineElement> elementM) {
         // Handling referenced elements
+
         AvatarStateMachineElement asme = getLastReferenceObjectFromState(_currentState);
         if (asme == null) {
             return;

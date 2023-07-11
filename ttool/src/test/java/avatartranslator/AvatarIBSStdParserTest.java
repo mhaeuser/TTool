@@ -262,6 +262,8 @@ public class AvatarIBSStdParserTest {
         assertTrue(e10!=null);
         AvatarIBSExpressions.IExpr e11 = AvatarIBSolver.parseInt(block1,"x + y");
         assertTrue(e11!=null);
+        AvatarIBSExpressions.IExpr e11bis = AvatarIBSolver.parseInt(block1,"x*8/y");
+        assertTrue(e11bis!=null);
         AvatarIBSExpressions.IExpr e12 = AvatarIBSolver.parseInt(block1,"x*((x + y)*z + (x+z)/z)/x");
         assertTrue(e12!=null);
         AvatarIBSExpressions.BExpr e13 = AvatarIBSolver.parseBool(block1,"(key1==false) and (key2==true)");

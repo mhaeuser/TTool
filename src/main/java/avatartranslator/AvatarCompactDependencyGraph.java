@@ -95,10 +95,12 @@ public class AvatarCompactDependencyGraph {
 
         for (AvatarBlock block : _avspec.getListOfBlocks()) {
             AvatarStateMachine asm = block.getStateMachine();
-            AvatarStartState ass = asm.getStartState();
+            if (!(asm.isBasicStateMachine())) {
+                AvatarStartState ass = asm.getStartState();
 
-            // Make general structure
-            makeCompactDependencyGraphForAvatarElement(block, ass, null, null, states, transitions, withID, null);
+                // Make general structure
+                makeCompactDependencyGraphForAvatarElement(block, ass, null, null, states, transitions, withID, null);
+            }
         }
 
         ArrayList<AUTState> newStates = new ArrayList<>();

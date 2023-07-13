@@ -463,9 +463,7 @@ public class AvatarSyntaxChecker {
 
         return isAValidIntExprReplaceVariables(_as, _ab, _expr);
 
-
         //TraceManager.addDev("Checking if expr " + _expr + " is valid: " + (e1 != null));
-
 
         /*IntExpressionEvaluator iee = new IntExpressionEvaluator();
 

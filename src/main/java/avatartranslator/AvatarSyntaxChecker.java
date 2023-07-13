@@ -45,6 +45,7 @@ import compiler.tmlparser.SimpleNode;
 import compiler.tmlparser.TMLExprParser;
 import compiler.tmlparser.TokenMgrError;
 import myutil.Conversion;
+import myutil.IntExpressionEvaluator;
 import myutil.NameChecker;
 import myutil.TraceManager;
 
@@ -401,7 +402,7 @@ public class AvatarSyntaxChecker {
     /*
      * @return 0 if ok, -1 if failure
      */
-    public static int isAValidIntExpr(AvatarSpecification _as, AvatarStateMachineOwner _ab, String _expr) {
+    public static int isAValidIntExprReplaceVariables(AvatarSpecification _as, AvatarStateMachineOwner _ab, String _expr) {
 
         /*AvatarExpressionSolver e1 = new AvatarExpressionSolver("x + y");
         e1.buildExpression(_ab);*/
@@ -417,20 +418,68 @@ public class AvatarSyntaxChecker {
             act = Conversion.putVariableValueInString(AvatarSpecification.ops, act, aa.getName(), aa.getDefaultInitialValue());
         }
 
+        //TraceManager.addDev("Checking if expr " + _expr + " is valid");
         AvatarIBSExpressions.IExpr e1 = AvatarIBSolver.parseInt(act);
-        return (e1 != null ? 0 : -1);
+        //TraceManager.addDev("Checking if expr " + _expr + " is valid: " + (e1 != null));
+
 
         /*IntExpressionEvaluator iee = new IntExpressionEvaluator();
 
         //TraceManager.addDev("Evaluating int:" + act);
         double result = iee.getResultOf(act);
         if (iee.getError() != null) {
-            //TraceManager.addDev("Error: " + iee.getError());
-            return -1;
+            TraceManager.addDev("My parsing Error: " + iee.getError());
+        } else {
+            TraceManager.addDev("My parsing ok");
+        }*/
+
+        //TraceManager.addDev("my parsing:" + parse(_as, _ab, "actionnat", _expr));
+
+        return (e1 != null ? 0 : -1);
+
+    }
+
+    public static int isAValidIntExpr(AvatarSpecification _as, AvatarStateMachineOwner _ab, String _expr) {
+
+        /*AvatarExpressionSolver e1 = new AvatarExpressionSolver("x + y");
+        e1.buildExpression(_ab);*/
+
+        if (_expr.trim().length() == 0) {
+            return 0;
         }
 
-        return 0;*/
-        // OLD return parse(_as, _ab, "actionnat", _expr);
+        String tmp = _expr.replaceAll(" ", "").trim();
+        String act = tmp;
+
+        /*for (AvatarAttribute aa : _ab.getAttributes()) {
+            act = Conversion.putVariableValueInString(AvatarSpecification.ops, act, aa.getName(), aa.getDefaultInitialValue());
+        }*/
+
+        //TraceManager.addDev("Checking if expr " + _expr + " is valid");
+        if (_ab instanceof AvatarBlock) {
+            AvatarIBSExpressions.IExpr e1 = AvatarIBSolver.parseInt((AvatarBlock)_ab, act);
+            return (e1 != null ? 0 : -1);
+        }
+
+        return isAValidIntExprReplaceVariables(_as, _ab, _expr);
+
+
+        //TraceManager.addDev("Checking if expr " + _expr + " is valid: " + (e1 != null));
+
+
+        /*IntExpressionEvaluator iee = new IntExpressionEvaluator();
+
+        //TraceManager.addDev("Evaluating int:" + act);
+        double result = iee.getResultOf(act);
+        if (iee.getError() != null) {
+            TraceManager.addDev("My parsing Error: " + iee.getError());
+        } else {
+            TraceManager.addDev("My parsing ok");
+        }*/
+
+        //TraceManager.addDev("my parsing:" + parse(_as, _ab, "actionnat", _expr));
+
+
 
     }
 

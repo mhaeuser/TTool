@@ -1868,7 +1868,7 @@ public class GTURTLEModeling {
                                                 key.setReferenceKey(sp.name);
                                                 key.makeFullValue();
                                                 TraceManager.addDev("Adding " + sp.name + " key to " + memNodeToMap.getName());
-                                                memNodeToMap.tdp.addComponent(key, memNodeToMap.x, memNodeToMap.y, true, true);
+                                                memNodeToMap.addSwallowedTGComponent(key, 10, 10);
                                                 memNodeToMap.tdp.repaint();
                                                 keyMappedtoMem = true;
                                             } else {
@@ -1898,11 +1898,11 @@ public class GTURTLEModeling {
                                                 newLink.setNodes(curBus, listE.getHwNode(memNodeToMap));
                                                 links.add(newLink);
                                                 
-                                                TMLArchiKey key = new TMLArchiKey(memNodeToMap.x, (int)(memNodeToMap.y+memNodeToMap.getHeight()*(0.3+Math.random()/2)), memNodeToMap.tdp.getMinX(), memNodeToMap.tdp.getMaxX(), memNodeToMap.tdp.getMinY(), memNodeToMap.tdp.getMaxY(), false, memNodeToMap, memNodeToMap.tdp);
+                                                TMLArchiKey key = new TMLArchiKey(memNodeToMap.x, (int)(memNodeToMap.y+memNodeToMap.getHeight()*(0.3+Math.random()/2)), memNodeToMap.tdp.getMinX(), memNodeToMap.tdp.getMaxX(), memNodeToMap.tdp.getMinY(), memNodeToMap.tdp.getMaxY(), false, null, memNodeToMap.tdp);
                                                 key.setReferenceKey(sp.name);
                                                 key.makeFullValue();
                                                 TraceManager.addDev("Adding " + sp.name + " key to " + memNodeToMap.getName());
-                                                memNodeToMap.tdp.addComponent(key, memNodeToMap.x, memNodeToMap.y, true, true);
+                                                memNodeToMap.addSwallowedTGComponent(key, 10, 10);
                                                 memNodeToMap.tdp.repaint();
                                                 keyMappedtoMem = true;
                                             }
@@ -1949,11 +1949,11 @@ public class GTURTLEModeling {
                                     newHwMemory.bufferType = memNodeToMap.getBufferType();
                                     listE.addCor(newHwMemory, memNodeToMap);
 
-                                    TMLArchiKey key = new TMLArchiKey(memNodeToMap.x, (int)(memNodeToMap.y+memNodeToMap.getHeight()*(0.3+Math.random()/2)), memNodeToMap.tdp.getMinX(), memNodeToMap.tdp.getMaxX(), memNodeToMap.tdp.getMinY(), memNodeToMap.tdp.getMaxY(), false, memNodeToMap, memNodeToMap.tdp);
+                                    TMLArchiKey key = new TMLArchiKey(memNodeToMap.x, (int)(memNodeToMap.y+memNodeToMap.getHeight()*(0.3+Math.random()/2)), memNodeToMap.tdp.getMinX(), memNodeToMap.tdp.getMaxX(), memNodeToMap.tdp.getMinY(), memNodeToMap.tdp.getMaxY(), false, null, memNodeToMap.tdp);
                                     key.setReferenceKey(sp.name);
                                     key.makeFullValue();
                                     TraceManager.addDev("Adding " + sp.name + " key to " + memNodeToMap.getName());
-                                    memNodeToMap.tdp.addComponent(key, memNodeToMap.x, memNodeToMap.y, true, true);
+                                    memNodeToMap.addSwallowedTGComponent(key, 10, 10);
                                     memNodeToMap.tdp.repaint();
                                     keyMappedtoMem = true;
 

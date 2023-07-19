@@ -444,9 +444,9 @@ public class TML2Avatar {
                 if (block.getAvatarAttributeWithName(sr.getParam(i)) == null) {
                     //Throw Error
                     AvatarType type;
-                    if (isInteger(sr.getParam(i))) {
+                    if (sr.getParam(i).matches("-?\\d+")) {
                         type = AvatarType.INTEGER;
-                    } else if (sr.getParam(i).toLowerCase().equals("true")||sr.getParam(i).toLowerCase().equals("false")) {
+                    } else if (sr.getParam(i).matches("(?i)^(true|false)")) {
                         type = AvatarType.BOOLEAN;
                     } else {
                         type = AvatarType.UNDEFINED;
@@ -711,9 +711,9 @@ public class TML2Avatar {
                     if (block.getAvatarAttributeWithName(aee.getParam(i)) == null) {
                         //Throw Error
                         AvatarType type;
-                        if (isInteger(aee.getParam(i))) {
+                        if (aee.getParam(i).matches("-?\\d+")) {
                             type = AvatarType.INTEGER;
-                        } else if (aee.getParam(i).toLowerCase().equals("true")||aee.getParam(i).toLowerCase().equals("false")) {
+                        } else if (aee.getParam(i).matches("(?i)^(true|false)")) {
                             type = AvatarType.BOOLEAN;
                         } else {
                             type = AvatarType.UNDEFINED;
@@ -765,9 +765,9 @@ public class TML2Avatar {
                     if (block.getAvatarAttributeWithName(aee.getParam(i)) == null) {
                         //Throw Error
                         AvatarType type;
-                        if (isInteger(aee.getParam(i))) {
+                        if (aee.getParam(i).matches("-?\\d+")) {
                             type = AvatarType.INTEGER;
-                        } else if (aee.getParam(i).toLowerCase().equals("true")||aee.getParam(i).toLowerCase().equals("false")) {
+                        } else if (aee.getParam(i).matches("(?i)^(true|false)")) {
                             type = AvatarType.BOOLEAN;
                         } else {
                             type = AvatarType.UNDEFINED;
@@ -1993,9 +1993,9 @@ public class TML2Avatar {
                         if (block.getAvatarAttributeWithName(req.getParam(i)) == null) {
                             //Throw Error
                             AvatarType type;
-                            if (isInteger(req.getParam(i))) {
+                            if (req.getParam(i).matches("-?\\d+")) {
                                 type = AvatarType.INTEGER;
-                            } else if (req.getParam(i).toLowerCase().equals("true")||req.getParam(i).toLowerCase().equals("false")) {
+                            } else if (req.getParam(i).matches("(?i)^(true|false)")) {
                                 type = AvatarType.BOOLEAN;
                             } else {
                                 type = AvatarType.UNDEFINED;
@@ -2727,7 +2727,7 @@ public class TML2Avatar {
         return ret;
     }
 
-    public static boolean isInteger(String string) {         
+   /*  public static boolean isInteger(String string) {         
         if(string == null || string.equals("")) {
             return false;
         }
@@ -2739,7 +2739,7 @@ public class TML2Avatar {
             
         }
         return false;
-    }
+    }*/
 
 }
 

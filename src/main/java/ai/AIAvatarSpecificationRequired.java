@@ -36,64 +36,23 @@
  * knowledge of the CeCILL license and that you accept its terms.
  */
 
-package avatartranslator.mutation;
 
-import avatartranslator.*;
+package ai;
+
+
+import avatartranslator.AvatarSpecification;
+
 /**
- * Class AddBlockMutation
- * Creation: 23/06/2022
+ * interface AIAvatarSpecificationRequired
  *
- * @author Léon FRENOT
- * @version 1.0 23/06/2022
+ * Creation: 15/06/2023
+ * @version 1.0 15/06/2023
+ * @author Ludovic APVRILLE
  */
 
-public class AddBlockMutation extends BlockElementMutation implements AddMutation {
+
+public interface AIAvatarSpecificationRequired {
+
+  public void setAvatarSpecification(AvatarSpecification _specification);
     
-    public AddBlockMutation(String _blockName) {
-        super(_blockName);
-    }
-
-    public AvatarBlock getElement(AvatarSpecification _avspec) {
-        return getBlock(_avspec);
-    }
-
-    //todo : graphic
-    public AvatarBlock createElement(AvatarSpecification _avspec) throws ApplyMutationException {
-
-        for (AvatarBlock block : _avspec.getListOfBlocks()) {
-            if (block.getName().equals(getBlockName())) {
-                throw new ApplyMutationException("Block " + getBlockName() + " already exists");
-            }
-        }
-
-        AvatarBlock block = new AvatarBlock(getBlockName(), _avspec, null);
-        return block;
-    }
-
-    public void apply(AvatarSpecification _avspec) throws ApplyMutationException {
-        AvatarBlock block = createElement(_avspec);
-        _avspec.addBlock(block);
-
-        AvatarStartState start = new AvatarStartState("start", null, block);
-
-        AvatarStateMachine asm = block.getStateMachine();
-
-        asm.addElement(start);
-        asm.setStartState(start);
-    }
-    
-    public static AddBlockMutation createFromString(String toParse) throws ParseMutationException {
-        String[] tokens = MutationParser.tokenise(toParse);
-        int index = MutationParser.indexOf(tokens, "BLOCK");
-
-        if (tokens.length == index + 1) {
-            throw new ParseMutationException("Block name missing [add block blockName]");
-        }
-
-        String _blockName = tokens[index + 1];
-
-        AddBlockMutation mutation = new AddBlockMutation(_blockName);
-
-        return mutation;
-    }
 }

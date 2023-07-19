@@ -64,6 +64,7 @@ public class AIChatData  {
     public boolean knowledgeOnProperties = false;
     public int knowledgeOnBlockJSON = -1;
     public boolean knowledgeOnAMULET = false;
+    public boolean knowledgeOnStateMachines = false;
 
     public AIFeedback feedback;
     public String lastQuestion;

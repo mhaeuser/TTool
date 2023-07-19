@@ -61,15 +61,16 @@ public class AvatarActionOnSignal extends AvatarStateMachineElement {
 	private List<AvatarExpressionAttributeInterface> actionAttr;
 
 
-	public AvatarActionOnSignal(String _name, AvatarSignal _signal, Object _referenceObject ) {
-		this( _name, _signal, _referenceObject, false );
+	public AvatarActionOnSignal(String _name, AvatarSignal _signal, Object _referenceObject, AvatarStateMachineOwner _block) {
+        this( _name, _signal, _referenceObject, _block, false );
 	}
 
 	public AvatarActionOnSignal(	String _name,
 									AvatarSignal _signal,
 									Object _referenceObject,
+                                    AvatarStateMachineOwner _block,
 									boolean _isCheckable ) {
-		super( _name, _referenceObject, _isCheckable, false );
+		super( _name, _referenceObject, _block, _isCheckable, false );
 		
 		signal = _signal;
 		values = new LinkedList<String>();
@@ -143,7 +144,8 @@ public class AvatarActionOnSignal extends AvatarStateMachineElement {
     	//TraceManager.addDev("I HAVE BEEN CLONED: " + this);
     	AvatarSignal sig = _block.getAvatarSignalWithName(getSignal().getName());
     	if (sig != null) {
-    		AvatarActionOnSignal aaos = new AvatarActionOnSignal(getName() + "__clone", sig, getReferenceObject(), isCheckable()/*, isChecked()*/);
+    		AvatarActionOnSignal aaos = new AvatarActionOnSignal(getName() + "__clone", sig, getReferenceObject(), _block, isCheckable()/*,
+    		isChecked()*/);
     		for(int i=0; i<getNbOfValues(); i++) {
     			aaos.addValue(getValue(i));
     		}
@@ -204,5 +206,26 @@ public class AvatarActionOnSignal extends AvatarStateMachineElement {
 
     public void setSignal(AvatarSignal _signal) {
 		signal = _signal;
+    }
+
+    public boolean equals(AvatarActionOnSignal _aaos) {
+        if (getSignal() != _aaos.getSignal()) {
+            TraceManager.addDev("\tSignal is different");
+            return false;
+        }
+
+        if (values.size() != _aaos.getNbOfValues()) {
+            TraceManager.addDev("\tNb of values is different");
+            return false;
+        }
+
+        for(int i=0; i<getNbOfValues(); i++) {
+            if (getValue(i).compareTo(_aaos.getValue(i)) != 0) {
+                TraceManager.addDev("\tValue #" + i + " is different");
+                return false;
+            }
+        }
+
+        return true;
     }
 }

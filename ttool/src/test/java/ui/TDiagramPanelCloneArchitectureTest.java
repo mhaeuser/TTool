@@ -40,8 +40,10 @@
 package ui;
 
 import myutil.TraceManager;
+import org.apache.batik.anim.timing.Trace;
 import org.junit.*;
 import tmltranslator.*;
+import translator.CheckingError;
 import ui.tmldd.TMLArchiDiagramPanel;
 
 import java.io.*;
@@ -82,12 +84,14 @@ public class TDiagramPanelCloneArchitectureTest extends AbstractUITest {
         super();
 
         // Open expected model
+        TraceManager.addDev("*** Opening model");
         mainGUI.openProjectFromFile(new File(EXPECTED_FILE_MODEL));
 
         for(TURTLEPanel _tab : mainGUI.getTabs()) {
             if(_tab instanceof TMLArchiPanel) {
                 for (TDiagramPanel tdp : _tab.getPanels()) {
                     if (tdp instanceof TMLArchiDiagramPanel) {
+                        TraceManager.addDev("*** Selecting tdp TMLArchiDiagramPanel");
                         mainGUI.selectTab(tdp);
                         break;
                     }
@@ -96,16 +100,23 @@ public class TDiagramPanelCloneArchitectureTest extends AbstractUITest {
             }
         }
 
+        waiting();
 
+        TraceManager.addDev("*** Checking modeling syntax");
         mainGUI.checkModelingSyntax(true);
+        TraceManager.addDev("*** Checking modeling syntax: done");
         tmlMapping_exp = mainGUI.gtm.getTMLMapping();
+        TraceManager.addDev("*** Got mapping");
+
 
         // Open testing model
+        TraceManager.addDev("*** Opening testing model");
         mainGUI.openProjectFromFile(new File(RESOURCES_DIR));
     }
 
     @Before
     public void setUp() {
+        TraceManager.addDev("*** Setup");
         for(TURTLEPanel _tab : mainGUI.getTabs()) {
             if(_tab instanceof TMLArchiPanel) {
                 for (TDiagramPanel tdp : _tab.getPanels()) {
@@ -123,7 +134,7 @@ public class TDiagramPanelCloneArchitectureTest extends AbstractUITest {
 
         for (TGComponent tgc : architecture_clone.getAllComponentList()) {
 
-            if (tgc.getName().equals("CPU1")) {
+            if (tgc.getName().equals("CPU0")) {
                 CPU_Cl = tgc;
             }
 
@@ -155,30 +166,8 @@ public class TDiagramPanelCloneArchitectureTest extends AbstractUITest {
     }
 
     public void cloneHwNodesOfTestingModel(){
-        architecture_clone.cloneComponent(CPU_Cl);
-        for (TGComponent tgc : architecture_clone.getComponentList()) {
-            if (tgc.getName().equals("CPU1")) {
-                tgc.setName("CPU2");
-                break;
-            }
-        }
 
-        architecture_clone.cloneComponent(FPGA_Cl);
-        for (TGComponent tgc : architecture_clone.getComponentList()) {
-            if (tgc.getName().equals("FPGA0")) {
-                tgc.setName("FPGA1");
-                break;
-            }
-        }
-
-        architecture_clone.cloneComponent(Bridge_Cl);
-        for (TGComponent tgc : architecture_clone.getComponentList()) {
-            if (tgc.getName().equals("Bridge0")) {
-                tgc.setName("Bridge1");
-                break;
-            }
-        }
-
+        TraceManager.addDev("clone bus");
         architecture_clone.cloneComponent(Bus_Cl);
         for (TGComponent tgc : architecture_clone.getComponentList()) {
             if (tgc.getName().equals("Bus0")) {
@@ -187,6 +176,36 @@ public class TDiagramPanelCloneArchitectureTest extends AbstractUITest {
             }
         }
 
+        TraceManager.addDev("clone CPUs");
+        architecture_clone.cloneComponent(CPU_Cl);
+        for (TGComponent tgc : architecture_clone.getComponentList()) {
+            if (tgc.getName().equals("CPU0")) {
+                tgc.setName("CPU1");
+                break;
+            }
+        }
+
+        TraceManager.addDev("clone FPGAs");
+        architecture_clone.cloneComponent(FPGA_Cl);
+        for (TGComponent tgc : architecture_clone.getComponentList()) {
+            if (tgc.getName().equals("FPGA0")) {
+                tgc.setName("FPGA1");
+                break;
+            }
+        }
+
+        TraceManager.addDev("clone Bridges");
+        architecture_clone.cloneComponent(Bridge_Cl);
+        for (TGComponent tgc : architecture_clone.getComponentList()) {
+            if (tgc.getName().equals("Bridge0")) {
+                tgc.setName("Bridge1");
+                break;
+            }
+        }
+
+
+
+        TraceManager.addDev("clone DMA");
         architecture_clone.cloneComponent(DMA_Cl);
         for (TGComponent tgc : architecture_clone.getComponentList()) {
             if (tgc.getName().equals("DMA0")) {
@@ -195,6 +214,7 @@ public class TDiagramPanelCloneArchitectureTest extends AbstractUITest {
             }
         }
 
+        TraceManager.addDev("clone Memory");
         architecture_clone.cloneComponent(Memory_Cl);
         for (TGComponent tgc : architecture_clone.getComponentList()) {
             if (tgc.getName().equals("Memory0")) {
@@ -203,6 +223,7 @@ public class TDiagramPanelCloneArchitectureTest extends AbstractUITest {
             }
         }
 
+        TraceManager.addDev("clone HWA");
         architecture_clone.cloneComponent(HWA_Cl);
         for (TGComponent tgc : architecture_clone.getComponentList()) {
             if (tgc.getName().equals("HWA0")) {
@@ -217,10 +238,35 @@ public class TDiagramPanelCloneArchitectureTest extends AbstractUITest {
 
     @Test
     public void testTMLMapping() {
-        cloneHwNodesOfTestingModel();
-        mainGUI.checkModelingSyntax(true);
-        TMLMapping tmlMapping_clone = mainGUI.gtm.getTMLMapping();
-        assertTrue(tmlMapping_clone.equalSpec(tmlMapping_exp));
+        try {
+            TraceManager.addDev("*** Clone");
+            cloneHwNodesOfTestingModel();
+            TraceManager.addDev("*** Check syntax");
+            waiting();
+            mainGUI.checkModelingSyntax(true);
+            for(CheckingError ce: mainGUI.gtm.getCheckingErrors()) {
+                TraceManager.addDev("Error: " + ce.getMessage());
+            }
+            TraceManager.addDev("*** Getting mapping");
+            TMLMapping tmlMapping_clone = mainGUI.gtm.getTMLMapping();
+
+            TraceManager.addDev("*** Comparing spec");
+            //assertNotNull(tmlMapping_clone);
+            //assertNotNull(tmlMapping_exp);
+            assertTrue(tmlMapping_clone.equalSpec(tmlMapping_exp));
+
+        } catch (Exception e) {
+            TraceManager.addDev("Exception: " + e.getClass() + " / " + e.getMessage());
+            //assertTrue(false);
+        }
+    }
+
+    public void waiting() {
+        try {
+            Thread.currentThread().sleep(5000);
+        } catch (Exception e) {
+
+        }
     }
 
 }

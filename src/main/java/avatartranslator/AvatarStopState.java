@@ -46,12 +46,12 @@ package avatartranslator;
  */
 public class AvatarStopState extends AvatarStateElement {
 
-    public AvatarStopState(String _name, Object _referenceObject) {
-        super(_name, _referenceObject);
+    public AvatarStopState(String _name, Object _referenceObject, AvatarStateMachineOwner _block) {
+        super(_name, _referenceObject, _block);
     }
 
     public AvatarStateMachineElement basicCloneMe(AvatarStateMachineOwner _block) {
-        AvatarStopState astop = new AvatarStopState(getName(), getReferenceObject());
+        AvatarStopState astop = new AvatarStopState(getName(), getReferenceObject(), _block);
         astop.setAsVerifiable(canBeVerified());
 	
         return astop;

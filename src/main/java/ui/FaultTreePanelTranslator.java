@@ -315,7 +315,7 @@ public class FaultTreePanelTranslator {
         // One block per Fault -> syncho
         // One mast block with all channels declared at that level
         AvatarBlock mainBlock = new AvatarBlock("MainBlock", as, null);
-        AvatarStartState ass = new AvatarStartState("StartStateOfMainBlock", null);
+        AvatarStartState ass = new AvatarStartState("StartStateOfMainBlock", null, mainBlock);
         mainBlock.getStateMachine().setStartState(ass);
         mainBlock.getStateMachine().addElement(ass);
         as.addBlock(mainBlock);
@@ -416,13 +416,13 @@ public class FaultTreePanelTranslator {
                 isChecked = ((TGComponent) (_ref1)).hasCheckedAccessibility();
             }
 
-            AvatarStartState start = new AvatarStartState("start", _ref);
-            AvatarState mainState = new AvatarState("main", _ref, false, false);
-            AvatarState performedState = new AvatarState("main", _ref1, isCheckable, isChecked);
+            AvatarStartState start = new AvatarStartState("start", _ref, _ab);
+            AvatarState mainState = new AvatarState("main", _ref, _ab, false, false);
+            AvatarState performedState = new AvatarState("main", _ref1, _ab, isCheckable, isChecked);
             performedState.setAsVerifiable(true);
-            AvatarState mainStop = new AvatarState("stop", _ref, false, false);
-            AvatarActionOnSignal getMake = new AvatarActionOnSignal("GettingFault", _sigFault, _ref1);
-            AvatarActionOnSignal getStop = new AvatarActionOnSignal("GettingStop", _sigStop, _ref);
+            AvatarState mainStop = new AvatarState("stop", _ref, _ab, false, false);
+            AvatarActionOnSignal getMake = new AvatarActionOnSignal("GettingFault", _sigFault, _ref1, _ab);
+            AvatarActionOnSignal getStop = new AvatarActionOnSignal("GettingStop", _sigStop, _ref, _ab);
 
             asm.addElement(start);
             asm.setStartState(start);
@@ -464,10 +464,10 @@ public class FaultTreePanelTranslator {
 
         } else {
 
-            AvatarStartState start = new AvatarStartState("start", _ref);
-            AvatarState mainState = new AvatarState("main", _ref, false, false);
-            AvatarState mainStop = new AvatarState("stop", _ref, false, false);
-            AvatarActionOnSignal getStop = new AvatarActionOnSignal("GettingStop", _sigStop, _ref);
+            AvatarStartState start = new AvatarStartState("start", _ref, _ab);
+            AvatarState mainState = new AvatarState("main", _ref, _ab, false, false);
+            AvatarState mainStop = new AvatarState("stop", _ref, _ab, false, false);
+            AvatarActionOnSignal getStop = new AvatarActionOnSignal("GettingStop", _sigStop, _ref, _ab);
 
             asm.addElement(start);
             asm.setStartState(start);
@@ -507,22 +507,22 @@ public class FaultTreePanelTranslator {
             if (_ref1 instanceof TGComponent) {
                 isChecked = ((TGComponent) (_ref1)).hasCheckedAccessibility();
             }
-            AvatarStartState start = new AvatarStartState("start", _ref);
-            AvatarState activateState = new AvatarState("activate", _ref, false, false);
-            AvatarState mainState = new AvatarState("main", _ref, false, false);
-            AvatarState activatedState = new AvatarState("activated", _ref1, isCheckable, isChecked);
+            AvatarStartState start = new AvatarStartState("start", _ref, _ab);
+            AvatarState activateState = new AvatarState("activate", _ref, _ab, false, false);
+            AvatarState mainState = new AvatarState("main", _ref, _ab, false, false);
+            AvatarState activatedState = new AvatarState("activated", _ref1, _ab, isCheckable, isChecked);
             if (_ref1 instanceof FTDFault) {
                 activatedState.setAsVerifiable(true);
             }
 
-            AvatarState performedState = new AvatarState("performed", _ref, false, false);
-            AvatarState mainStop = new AvatarState("stop", _ref, false, false);
-            AvatarState stopBeforeActivate = new AvatarState("stopBeforeActivate", _ref, false, false);
-            AvatarActionOnSignal getMake = new AvatarActionOnSignal("GettingFault", _sigFault, _ref1);
-            AvatarActionOnSignal getStop = new AvatarActionOnSignal("GettingStop", _sigStop, _ref);
-            AvatarActionOnSignal getStopInitial = new AvatarActionOnSignal("GettingInitialStop", _sigStop, _ref);
-            AvatarActionOnSignal getActivate = new AvatarActionOnSignal("GettingActivate", _sigActivate, _ref1);
-            AvatarActionOnSignal getActivateAfterStop = new AvatarActionOnSignal("GettingActivateAfterStop", _sigActivate, _ref1);
+            AvatarState performedState = new AvatarState("performed", _ref, _ab, false, false);
+            AvatarState mainStop = new AvatarState("stop", _ref, _ab, false, false);
+            AvatarState stopBeforeActivate = new AvatarState("stopBeforeActivate", _ref, _ab, false, false);
+            AvatarActionOnSignal getMake = new AvatarActionOnSignal("GettingFault", _sigFault, _ref1, _ab);
+            AvatarActionOnSignal getStop = new AvatarActionOnSignal("GettingStop", _sigStop, _ref, _ab);
+            AvatarActionOnSignal getStopInitial = new AvatarActionOnSignal("GettingInitialStop", _sigStop, _ref, _ab);
+            AvatarActionOnSignal getActivate = new AvatarActionOnSignal("GettingActivate", _sigActivate, _ref1, _ab);
+            AvatarActionOnSignal getActivateAfterStop = new AvatarActionOnSignal("GettingActivateAfterStop", _sigActivate, _ref1, _ab);
 
             asm.addElement(start);
             asm.setStartState(start);
@@ -606,16 +606,16 @@ public class FaultTreePanelTranslator {
             getActivateAfterStop.addNext(at);
             at.addNext(mainStop);
         } else {
-            AvatarStartState start = new AvatarStartState("start", _ref);
-            AvatarState activateState = new AvatarState("activate", _ref, false, false);
-            AvatarState mainState = new AvatarState("main", _ref, false, false);
-            AvatarState activatedState = new AvatarState("main", _ref1, isCheckable, isChecked);
-            AvatarState mainStop = new AvatarState("stop", _ref, false, false);
-            AvatarState stopBeforeActivate = new AvatarState("stopBeforeActivate", _ref, false, false);
-            AvatarActionOnSignal getStop = new AvatarActionOnSignal("GettingStop", _sigStop, _ref);
-            AvatarActionOnSignal getStopInitial = new AvatarActionOnSignal("GettingInitialStop", _sigStop, _ref);
-            AvatarActionOnSignal getActivate = new AvatarActionOnSignal("GettingActivate", _sigActivate, _ref1);
-            AvatarActionOnSignal getActivateAfterStop = new AvatarActionOnSignal("GettingActivateAfterStop", _sigActivate, _ref1);
+            AvatarStartState start = new AvatarStartState("start", _ref, _ab);
+            AvatarState activateState = new AvatarState("activate", _ref, _ab, false, false);
+            AvatarState mainState = new AvatarState("main", _ref, _ab, false, false);
+            AvatarState activatedState = new AvatarState("main", _ref1, _ab, isCheckable, isChecked);
+            AvatarState mainStop = new AvatarState("stop", _ref, _ab, false, false);
+            AvatarState stopBeforeActivate = new AvatarState("stopBeforeActivate", _ref, _ab, false, false);
+            AvatarActionOnSignal getStop = new AvatarActionOnSignal("GettingStop", _sigStop, _ref, _ab);
+            AvatarActionOnSignal getStopInitial = new AvatarActionOnSignal("GettingInitialStop", _sigStop, _ref, _ab);
+            AvatarActionOnSignal getActivate = new AvatarActionOnSignal("GettingActivate", _sigActivate, _ref1, _ab);
+            AvatarActionOnSignal getActivateAfterStop = new AvatarActionOnSignal("GettingActivateAfterStop", _sigActivate, _ref1, _ab);
 
             asm.addElement(start);
             asm.setStartState(start);
@@ -722,10 +722,10 @@ public class FaultTreePanelTranslator {
         AvatarStateMachine asm = _ab.getStateMachine();
 
         // Basic machine
-        AvatarStartState start = new AvatarStartState("start", _ref);
-        AvatarState mainState = new AvatarState("main", _ref, false, false);
-        AvatarState endState = new AvatarState("end", _ref, false, false);
-        AvatarState overallState = new AvatarState("overall", _ref, false, false);
+        AvatarStartState start = new AvatarStartState("start", _ref, _main);
+        AvatarState mainState = new AvatarState("main", _ref, _main, false, false);
+        AvatarState endState = new AvatarState("end", _ref, _main, false, false);
+        AvatarState overallState = new AvatarState("overall", _ref, _main, false, false);
         asm.addElement(start);
         asm.setStartState(start);
         asm.addElement(mainState);
@@ -748,7 +748,7 @@ public class FaultTreePanelTranslator {
             atF.addAction(att.getName() + "__performed = false");
 
             avatartranslator.AvatarSignal sigAtt = _main.getAvatarSignalWithName("accept__" + att.getName());
-            AvatarActionOnSignal acceptFault = new AvatarActionOnSignal("AcceptFault", sigAtt, _ref1);
+            AvatarActionOnSignal acceptFault = new AvatarActionOnSignal("AcceptFault", sigAtt, _ref1, _main);
             asm.addElement(acceptFault);
             AvatarTransition at = new AvatarTransition(_ab, "at_toInputFault", _ref);
             at.setProbability(att.getProbability());
@@ -773,7 +773,7 @@ public class FaultTreePanelTranslator {
 
         Fault resulting = _node.getResultingFault();
         avatartranslator.AvatarSignal sigFault = _main.getAvatarSignalWithName("nodeDone__" + resulting.getName());
-        AvatarActionOnSignal resultingFault = new AvatarActionOnSignal("ResultingFault", sigFault, _ref1);
+        AvatarActionOnSignal resultingFault = new AvatarActionOnSignal("ResultingFault", sigFault, _ref1, _main);
         asm.addElement(resultingFault);
         at = new AvatarTransition(_ab, "at_toResultingFault", _ref);
         asm.addElement(at);
@@ -791,10 +791,10 @@ public class FaultTreePanelTranslator {
         AvatarStateMachine asm = _ab.getStateMachine();
 
         // Basic machine
-        AvatarStartState start = new AvatarStartState("start", _ref);
-        AvatarState mainState = new AvatarState("main", _ref, false, false);
-        AvatarState endState = new AvatarState("end", _ref, false, false);
-        AvatarState overallState = new AvatarState("overall", _ref, false, false);
+        AvatarStartState start = new AvatarStartState("start", _ref, _main);
+        AvatarState mainState = new AvatarState("main", _ref, _main, false, false);
+        AvatarState endState = new AvatarState("end", _ref, _main, false, false);
+        AvatarState overallState = new AvatarState("overall", _ref, _main, false, false);
         asm.addElement(start);
         asm.setStartState(start);
         asm.addElement(mainState);
@@ -818,7 +818,7 @@ public class FaultTreePanelTranslator {
 
 
             avatartranslator.AvatarSignal sigAtt = _main.getAvatarSignalWithName("accept__" + att.getName());
-            AvatarActionOnSignal acceptFault = new AvatarActionOnSignal("AcceptFault", sigAtt, _ref1);
+            AvatarActionOnSignal acceptFault = new AvatarActionOnSignal("AcceptFault", sigAtt, _ref1, _main);
             asm.addElement(acceptFault);
             AvatarTransition at = new AvatarTransition(_ab, "at_toInputFault", _ref);
             asm.addElement(at);
@@ -842,7 +842,7 @@ public class FaultTreePanelTranslator {
 
         Fault resulting = _node.getResultingFault();
         avatartranslator.AvatarSignal sigFault = _main.getAvatarSignalWithName("nodeDone__" + resulting.getName());
-        AvatarActionOnSignal resultingFault = new AvatarActionOnSignal("ResultingFault", sigFault, _ref1);
+        AvatarActionOnSignal resultingFault = new AvatarActionOnSignal("ResultingFault", sigFault, _ref1, _main);
         asm.addElement(resultingFault);
         at = new AvatarTransition(_ab, "at_toResultingFault", _ref);
         asm.addElement(at);
@@ -860,10 +860,10 @@ public class FaultTreePanelTranslator {
         AvatarStateMachine asm = _ab.getStateMachine();
 
         // Basic machine
-        AvatarStartState start = new AvatarStartState("start", _ref);
-        AvatarState mainState = new AvatarState("main", _ref, false, false);
-        AvatarState endState = new AvatarState("end", _ref, false, false);
-        AvatarState overallState = new AvatarState("overall", _ref, false, false);
+        AvatarStartState start = new AvatarStartState("start", _ref, _main);
+        AvatarState mainState = new AvatarState("main", _ref, _main, false, false);
+        AvatarState endState = new AvatarState("end", _ref, _main, false, false);
+        AvatarState overallState = new AvatarState("overall", _ref, _main, false, false);
         asm.addElement(start);
         asm.setStartState(start);
         asm.addElement(mainState);
@@ -895,7 +895,7 @@ public class FaultTreePanelTranslator {
 
 
             avatartranslator.AvatarSignal sigAtt = _main.getAvatarSignalWithName("accept__" + att.getName());
-            AvatarActionOnSignal acceptFault = new AvatarActionOnSignal("AcceptFault", sigAtt, _ref1);
+            AvatarActionOnSignal acceptFault = new AvatarActionOnSignal("AcceptFault", sigAtt, _ref1, _main);
             asm.addElement(acceptFault);
             AvatarTransition at = new AvatarTransition(_ab, "at_toInputFault", _ref);
             asm.addElement(at);
@@ -920,7 +920,7 @@ public class FaultTreePanelTranslator {
 
         Fault resulting = _node.getResultingFault();
         avatartranslator.AvatarSignal sigFault = _main.getAvatarSignalWithName("nodeDone__" + resulting.getName());
-        AvatarActionOnSignal resultingFault = new AvatarActionOnSignal("ResultingFault", sigFault, _ref1);
+        AvatarActionOnSignal resultingFault = new AvatarActionOnSignal("ResultingFault", sigFault, _ref1, _main);
         asm.addElement(resultingFault);
         at = new AvatarTransition(_ab, "at_toResultingFault", _ref);
         asm.addElement(at);
@@ -939,10 +939,10 @@ public class FaultTreePanelTranslator {
         AvatarStateMachine asm = _ab.getStateMachine();
 
         // Basic machine
-        AvatarStartState start = new AvatarStartState("start", _ref);
-        AvatarState mainState = new AvatarState("main", _ref, false, false);
-        AvatarState endState = new AvatarState("end", _ref, false, false);
-        AvatarState overallState = new AvatarState("overall", _ref, false, false);
+        AvatarStartState start = new AvatarStartState("start", _ref, _main);
+        AvatarState mainState = new AvatarState("main", _ref, _main, false, false);
+        AvatarState endState = new AvatarState("end", _ref, _main, false, false);
+        AvatarState overallState = new AvatarState("overall", _ref, _main, false, false);
         asm.addElement(start);
         asm.setStartState(start);
         asm.addElement(mainState);
@@ -966,7 +966,7 @@ public class FaultTreePanelTranslator {
 
             // From Main
             avatartranslator.AvatarSignal sigAtt = _main.getAvatarSignalWithName("accept__" + att.getName());
-            AvatarActionOnSignal acceptFault = new AvatarActionOnSignal("AcceptFault", sigAtt, _ref1);
+            AvatarActionOnSignal acceptFault = new AvatarActionOnSignal("AcceptFault", sigAtt, _ref1, _main);
             asm.addElement(acceptFault);
             AvatarTransition at = new AvatarTransition(_ab, "at_toInputFault", _ref);
             asm.addElement(at);
@@ -980,7 +980,7 @@ public class FaultTreePanelTranslator {
             at.addNext(mainState);
 
             // Link from End
-            acceptFault = new AvatarActionOnSignal("AcceptFault", sigAtt, _ref1);
+            acceptFault = new AvatarActionOnSignal("AcceptFault", sigAtt, _ref1, _main);
             asm.addElement(acceptFault);
             at = new AvatarTransition(_ab, "at_toInputFault", _ref);
             asm.addElement(at);
@@ -994,7 +994,7 @@ public class FaultTreePanelTranslator {
             at.addNext(endState);
 
             // Link from Overall
-            acceptFault = new AvatarActionOnSignal("AcceptFault", sigAtt, _ref1);
+            acceptFault = new AvatarActionOnSignal("AcceptFault", sigAtt, _ref1, _main);
             asm.addElement(acceptFault);
             at = new AvatarTransition(_ab, "at_toInputFault", _ref);
             asm.addElement(at);
@@ -1020,7 +1020,7 @@ public class FaultTreePanelTranslator {
 
         Fault resulting = _node.getResultingFault();
         avatartranslator.AvatarSignal sigFault = _main.getAvatarSignalWithName("nodeDone__" + resulting.getName());
-        AvatarActionOnSignal resultingFault = new AvatarActionOnSignal("ResultingFault", sigFault, _ref1);
+        AvatarActionOnSignal resultingFault = new AvatarActionOnSignal("ResultingFault", sigFault, _ref1, _main);
         asm.addElement(resultingFault);
         at = new AvatarTransition(_ab, "at_toResultingFault", _ref);
         asm.addElement(at);
@@ -1040,11 +1040,11 @@ public class FaultTreePanelTranslator {
         AvatarStateMachine asm = _ab.getStateMachine();
 
         // Basic machine
-        AvatarStartState start = new AvatarStartState("start", _ref);
-        AvatarState mainState = new AvatarState("main", _ref, false, false);
-        AvatarState stoppingAll = new AvatarState("stoppingAll", _ref, false, false);
-        AvatarState endState = new AvatarState("end", _ref, false, false);
-        AvatarState overallState = new AvatarState("overall", _ref, false, false);
+        AvatarStartState start = new AvatarStartState("start", _ref, _main);
+        AvatarState mainState = new AvatarState("main", _ref, _main, false, false);
+        AvatarState stoppingAll = new AvatarState("stoppingAll", _ref, _main, false, false);
+        AvatarState endState = new AvatarState("end", _ref, _main, false, false);
+        AvatarState overallState = new AvatarState("overall", _ref, _main, false, false);
         asm.addElement(start);
         asm.setStartState(start);
         asm.addElement(mainState);
@@ -1074,7 +1074,7 @@ public class FaultTreePanelTranslator {
 
             // From Main
             avatartranslator.AvatarSignal sigAtt = _main.getAvatarSignalWithName("accept__" + att.getName());
-            AvatarActionOnSignal acceptFault = new AvatarActionOnSignal("AcceptFault", sigAtt, _ref1);
+            AvatarActionOnSignal acceptFault = new AvatarActionOnSignal("AcceptFault", sigAtt, _ref1, _main);
             asm.addElement(acceptFault);
             AvatarTransition at = new AvatarTransition(_ab, "at_toInputFault", _ref);
             asm.addElement(at);
@@ -1096,7 +1096,7 @@ public class FaultTreePanelTranslator {
             //           if (att.isLeaf()) {
             // Leaf Fault -> must make a stop
             sigAtt = _main.getAvatarSignalWithName("acceptStop__" + att.getName());
-            acceptFault = new AvatarActionOnSignal("StopFault", sigAtt, _ref1);
+            acceptFault = new AvatarActionOnSignal("StopFault", sigAtt, _ref1, _main);
             asm.addElement(acceptFault);
             at = new AvatarTransition(_ab, "at_toInputFault_leaf", _ref);
             asm.addElement(at);
@@ -1139,7 +1139,7 @@ public class FaultTreePanelTranslator {
 
         Fault resulting = _node.getResultingFault();
         avatartranslator.AvatarSignal sigFault = _main.getAvatarSignalWithName("nodeDone__" + resulting.getName());
-        AvatarActionOnSignal resultingFault = new AvatarActionOnSignal("ResultingFault", sigFault, _ref1);
+        AvatarActionOnSignal resultingFault = new AvatarActionOnSignal("ResultingFault", sigFault, _ref1, _main);
         asm.addElement(resultingFault);
         at = new AvatarTransition(_ab, "at_toResultingFault", _ref);
         asm.addElement(at);
@@ -1160,10 +1160,10 @@ public class FaultTreePanelTranslator {
         _node.orderFaults();
 
         // Basic machine
-        AvatarStartState start = new AvatarStartState("start", _ref);
-        AvatarState mainState = new AvatarState("main", _ref, false, false);
-        AvatarState endState = new AvatarState("end", _ref, false, false);
-        AvatarState overallState = new AvatarState("overall", _ref, false, false);
+        AvatarStartState start = new AvatarStartState("start", _ref, _main);
+        AvatarState mainState = new AvatarState("main", _ref, _main, false, false);
+        AvatarState endState = new AvatarState("end", _ref, _main, false, false);
+        AvatarState overallState = new AvatarState("overall", _ref, _main, false, false);
         asm.addElement(start);
         asm.setStartState(start);
         asm.addElement(mainState);
@@ -1180,10 +1180,10 @@ public class FaultTreePanelTranslator {
 
         // Chaining accept Faults
         for (Fault att : _node.getInputFaults()) {
-            AvatarState state = new AvatarState("state__" + att.getName(), _ref);
+            AvatarState state = new AvatarState("state__" + att.getName(), _ref, _main);
             asm.addElement(state);
             avatartranslator.AvatarSignal sigAtt = _main.getAvatarSignalWithName("accept__" + att.getName());
-            AvatarActionOnSignal acceptFault = new AvatarActionOnSignal("AcceptFault", sigAtt, _ref1);
+            AvatarActionOnSignal acceptFault = new AvatarActionOnSignal("AcceptFault", sigAtt, _ref1, _main);
             asm.addElement(acceptFault);
 
             at = new AvatarTransition(_ab, "at", _ref);
@@ -1206,7 +1206,7 @@ public class FaultTreePanelTranslator {
         // Performing resulting Fault
         Fault resulting = _node.getResultingFault();
         avatartranslator.AvatarSignal sigFault = _main.getAvatarSignalWithName("nodeDone__" + resulting.getName());
-        AvatarActionOnSignal resultingFault = new AvatarActionOnSignal("ResultingFault", sigFault, _ref1);
+        AvatarActionOnSignal resultingFault = new AvatarActionOnSignal("ResultingFault", sigFault, _ref1, _main);
         asm.addElement(resultingFault);
         at = new AvatarTransition(_ab, "at_toResultingFault", _ref);
         asm.addElement(at);
@@ -1225,10 +1225,10 @@ public class FaultTreePanelTranslator {
         _node.orderFaults();
 
         // Basic machine
-        AvatarStartState start = new AvatarStartState("start", _ref);
-        AvatarState mainState = new AvatarState("main", _ref, false, false);
-        AvatarState endState = new AvatarState("end", _ref, false, false);
-        AvatarState overallState = new AvatarState("overall", _ref, false, false);
+        AvatarStartState start = new AvatarStartState("start", _ref, _main);
+        AvatarState mainState = new AvatarState("main", _ref, _main, false, false);
+        AvatarState endState = new AvatarState("end", _ref, _main, false, false);
+        AvatarState overallState = new AvatarState("overall", _ref, _main, false, false);
         asm.addElement(start);
         asm.setStartState(start);
         asm.addElement(mainState);
@@ -1246,10 +1246,10 @@ public class FaultTreePanelTranslator {
         // Chaining accept Faults
         int cpt = 0;
         for (Fault att : _node.getInputFaults()) {
-            AvatarState state = new AvatarState("state__" + att.getName(), _ref);
+            AvatarState state = new AvatarState("state__" + att.getName(), _ref, _main);
             asm.addElement(state);
             avatartranslator.AvatarSignal sigAtt = _main.getAvatarSignalWithName("accept__" + att.getName());
-            AvatarActionOnSignal acceptFault = new AvatarActionOnSignal("AcceptFault", sigAtt, _ref1);
+            AvatarActionOnSignal acceptFault = new AvatarActionOnSignal("AcceptFault", sigAtt, _ref1, _main);
             asm.addElement(acceptFault);
 
             at = new AvatarTransition(_ab, "at", _ref);
@@ -1276,7 +1276,7 @@ public class FaultTreePanelTranslator {
         // Performing resulting Fault
         Fault resulting = _node.getResultingFault();
         avatartranslator.AvatarSignal sigFault = _main.getAvatarSignalWithName("nodeDone__" + resulting.getName());
-        AvatarActionOnSignal resultingFault = new AvatarActionOnSignal("ResultingFault", sigFault, _ref1);
+        AvatarActionOnSignal resultingFault = new AvatarActionOnSignal("ResultingFault", sigFault, _ref1, _main);
         asm.addElement(resultingFault);
         at = new AvatarTransition(_ab, "at_toResultingFault", _ref);
         asm.addElement(at);
@@ -1295,11 +1295,11 @@ public class FaultTreePanelTranslator {
         _node.orderFaults();
 
         // Basic machine
-        AvatarStartState start = new AvatarStartState("start", _ref);
-        AvatarState mainState = new AvatarState("main", _ref, false, false);
-        AvatarState endState = new AvatarState("end", _ref, false, false);
-        AvatarState overallState = new AvatarState("overall", _ref, false, false);
-        AvatarState timeout = new AvatarState("timeout", _ref, false, false);
+        AvatarStartState start = new AvatarStartState("start", _ref, _main);
+        AvatarState mainState = new AvatarState("main", _ref, _main, false, false);
+        AvatarState endState = new AvatarState("end", _ref, _main, false, false);
+        AvatarState overallState = new AvatarState("overall", _ref, _main, false, false);
+        AvatarState timeout = new AvatarState("timeout", _ref, _main, false, false);
         asm.addElement(start);
         asm.setStartState(start);
         asm.addElement(mainState);
@@ -1318,10 +1318,10 @@ public class FaultTreePanelTranslator {
         // Chaining accept Faults
         int cpt = 0;
         for (Fault att : _node.getInputFaults()) {
-            AvatarState state = new AvatarState("state__" + att.getName(), _ref);
+            AvatarState state = new AvatarState("state__" + att.getName(), _ref, _main);
             asm.addElement(state);
             avatartranslator.AvatarSignal sigAtt = _main.getAvatarSignalWithName("accept__" + att.getName());
-            AvatarActionOnSignal acceptFault = new AvatarActionOnSignal("AcceptFault", sigAtt, _ref1);
+            AvatarActionOnSignal acceptFault = new AvatarActionOnSignal("AcceptFault", sigAtt, _ref1, _main);
             asm.addElement(acceptFault);
 
             at = new AvatarTransition(_ab, "at", _ref);
@@ -1352,7 +1352,7 @@ public class FaultTreePanelTranslator {
         // Performing resulting Fault
         Fault resulting = _node.getResultingFault();
         avatartranslator.AvatarSignal sigFault = _main.getAvatarSignalWithName("nodeDone__" + resulting.getName());
-        AvatarActionOnSignal resultingFault = new AvatarActionOnSignal("ResultingFault", sigFault, _ref1);
+        AvatarActionOnSignal resultingFault = new AvatarActionOnSignal("ResultingFault", sigFault, _ref1, _main);
         asm.addElement(resultingFault);
         at = new AvatarTransition(_ab, "at_toResultingFault", _ref);
         asm.addElement(at);

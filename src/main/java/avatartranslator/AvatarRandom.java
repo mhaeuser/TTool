@@ -69,8 +69,8 @@ public class AvatarRandom extends AvatarStateMachineElement {
     protected String extraAttribute1;
     protected String extraAttribute2;
 
-    public AvatarRandom(String _name, Object _referenceObject) {
-        super(_name, _referenceObject);
+    public AvatarRandom(String _name, Object _referenceObject, AvatarStateMachineOwner block) {
+        super(_name, _referenceObject, block);
     }
 
     public String getVariable() {
@@ -126,7 +126,7 @@ public class AvatarRandom extends AvatarStateMachineElement {
     }
 
     public AvatarStateMachineElement basicCloneMe(AvatarStateMachineOwner _block) {
-	 AvatarRandom ar = new AvatarRandom(getName() + "_clone", getReferenceObject());
+	 AvatarRandom ar = new AvatarRandom(getName() + "_clone", getReferenceObject(), _block);
 
 	 ar.setVariable(variable);
 	 ar.setValues(minValue, maxValue);

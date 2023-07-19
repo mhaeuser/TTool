@@ -2288,7 +2288,7 @@ public class GTURTLEModeling {
     public String toSysMLV2() {
         if (avatarspec != null) {
             AVATAR2SysMLV2 toS = new AVATAR2SysMLV2(avatarspec);
-            StringBuffer sb = toS.generateSysMLV2Spec(true, true);
+            StringBuffer sb = toS.generateSysMLV2Spec(true, true, null);
             TraceManager.addDev("SysMLV2:\n" + sb.toString());
             return sb.toString();
         }
@@ -9168,13 +9168,20 @@ public class GTURTLEModeling {
     }
 
 
-    public void addStates(AvatarStateMachineElement asme, int x, int y, AvatarSMDPanel smp, AvatarBDBlock bl, Map<AvatarStateMachineElement, TGComponent> SMDMap, Map<AvatarStateMachineElement, TGComponent> locMap, Map<AvatarTransition, AvatarStateMachineElement> tranDestMap, Map<AvatarTransition, TGComponent> tranSourceMap) {
+    public void addStates(AvatarStateMachineElement asme, int x, int y, AvatarSMDPanel smp, AvatarBDBlock bl,
+                          Map<AvatarStateMachineElement, TGComponent> SMDMap, Map<AvatarStateMachineElement, TGComponent> locMap,
+                          Map<AvatarTransition, AvatarStateMachineElement> tranDestMap, Map<AvatarTransition, TGComponent> tranSourceMap) {
         // TGConnectingPoint tp = new TGConnectingPoint(null, x, y, false, false);
         //Create dummy tgcomponent
-        TGComponent tgcomp = new AvatarSMDStartState(x, y, smp.getMinX(), smp.getMaxX(), smp.getMinY(), smp.getMaxY(), false, null, smp);
+
         if (asme == null) {
             return;
         }
+
+        //TGComponent tgcomp = new AvatarSMDStartState(x, y, smp.getMinX(), smp.getMaxX(), smp.getMinY(), smp.getMaxY(), false, null, smp);
+        TGComponent tgcomp = null;
+        //TraceManager.addDev("Block " + bl.getName() + " / " + bl.getValue() + " Found: " + asme.getExtendedName());
+
         if (asme instanceof AvatarStartState) {
             AvatarSMDStartState smdss = new AvatarSMDStartState(x, y, smp.getMinX(), smp.getMaxX(), smp.getMinY(), smp.getMaxY(), false, null, smp);
             tgcomp = smdss;
@@ -9208,6 +9215,7 @@ public class GTURTLEModeling {
         }
 
         if (asme instanceof AvatarActionOnSignal) {
+            //TraceManager.addDev("Block " + bl.getName() + " / " + bl.getValue() + " Found AvatarActionOnSignal: " + asme.getExtendedName());
             avatartranslator.AvatarSignal sig = ((AvatarActionOnSignal) asme).getSignal();
             if (sig.isIn()) {
                 AvatarSMDReceiveSignal smdrs = new AvatarSMDReceiveSignal(x, y, smp.getMinX(), smp.getMaxX(), smp.getMinY(), smp.getMaxY(), false, null, smp);
@@ -9348,6 +9356,8 @@ public class GTURTLEModeling {
         }
         if (asme.getNexts() != null) {
             for (AvatarStateMachineElement el : asme.getNexts()) {
+                /*TraceManager.addDev("Block " + bl.getName() + " / " + bl.getValue() +
+                        " Handling next of " + asme.getExtendedName() + ": " + el.getExtendedName());*/
                 if (el instanceof AvatarTransition) {
                     tranSourceMap.put((AvatarTransition) el, tgcomp);
                 } else {
@@ -9357,6 +9367,8 @@ public class GTURTLEModeling {
                     }
                 }
                 if (!SMDMap.containsKey(el)) {
+                    /*TraceManager.addDev("not in map: Block " + bl.getName() + " / " + bl.getValue() +
+                            " Handling next of " + asme.getExtendedName() + ": " + el.getExtendedName());*/
                     addStates(el, x + diff * i, y + ydiff, smp, bl, SMDMap, locMap, tranDestMap, tranSourceMap);
                 }
                 i++;
@@ -9447,6 +9459,7 @@ public class GTURTLEModeling {
         }
         //TraceManager.addDev("Check done. " + checkingErrors.size() + " errors found\nAvatar Spec:\n" + avspec.toString());
 
+
         // Go for drawing!
         hasCrypto = false;
         //Map<String, Set<String>> originDestMap = new HashMap<String, Set<String>>();
@@ -9511,6 +9524,8 @@ public class GTURTLEModeling {
                         }
                         drawBlockProperties(ab, bl);
                         AvatarSMDPanel smp = adp.getAvatarSMDPanel(bl.getValue());
+                        //TraceManager.addDev("\nBuilding state machine of block " + ab.getName() + " smd:" + ab.getStateMachine().toString() + "\n" +
+                         //       "\n");
                         buildStateMachine(ab, bl, smp);
                         //TraceManager.addDev("Putting in block")
                         blockMap.put(bl.getValue().split("__")[bl.getValue().split("__").length - 1], bl);
@@ -9629,9 +9644,10 @@ public class GTURTLEModeling {
             for (AvatarPragma p : avspec.getPragmas()) {
 
                 //    arr[i] = p.getName();
+                TraceManager.addDev("Handling pragma: " + p.getName());
                 String t = "";
                 String[] split = p.getName().split(" ");
-                if (p.getName().contains("#Confidentiality")) {
+                if (p.getName().startsWith("Confidentiality")) {
                     for (String str : split) {
                         if (str.contains(".")) {
                             String tmp = str.split("\\.")[0];
@@ -9642,14 +9658,22 @@ public class GTURTLEModeling {
                             t = t.concat(str + " ");
                         }
                     }
-                } else if (p.getName().contains("Authenticity")) {
+                } else if (p.getName().startsWith("Authenticity")) {
                     t = p.getName();
-                } else if (p.getName().contains("Initial")) {
+                } else if (p.getName().startsWith("Initial")) {
                     t = p.getName();
                 } else {
                     t = p.getName();
                 }
-                s = s.concat(t + "\n");
+                //TraceManager.addDev("1. pragma=" + t);
+                t = t.trim();
+                if (t.startsWith("Confidentiality") || t.startsWith("Authenticity") ) {
+                    t = "#" + t;
+                }
+                //TraceManager.addDev("2. pragma=" + t);
+                s = s + "\n";
+                s = s.concat(t);
+
                 //  i++;
             }
             pragma.setValue(s);
@@ -9936,6 +9960,9 @@ public class GTURTLEModeling {
     }
 
     public void buildStateMachine(AvatarBlock ab, AvatarBDBlock bl, AvatarSMDPanel smp) {
+
+        //TraceManager.addDev("Building state machine of " + ab.getName());
+
         Map<AvatarTransition, TGComponent> tranSourceMap = new HashMap<AvatarTransition, TGComponent>();
         Map<AvatarTransition, AvatarStateMachineElement> tranDestMap = new HashMap<AvatarTransition, AvatarStateMachineElement>();
         Map<AvatarStateMachineElement, TGComponent> locMap = new HashMap<AvatarStateMachineElement, TGComponent>();
@@ -9946,19 +9973,25 @@ public class GTURTLEModeling {
         int smy = 40;
 
         if (smp == null) {
-
             return;
         }
+
         smp.removeAll();
         AvatarStateMachine asm = ab.getStateMachine();
+
+        //TraceManager.addDev("\nState machine: " + asm.toString() + "\n\n");
+        //TraceManager.addDev("\nRecursive state machine: " + asm.toStringRecursive() + "\n\n");
+
         //Remove the empty check states
 
         AvatarStartState start = asm.getStartState();
 
         addStates(start, smx, smy, smp, bl, SMDMap, locMap, tranDestMap, tranSourceMap);
 
+        //TraceManager.addDev("\nState machine: " + asm.toString() + "\n\n");
+
         //Add transitions
-        for (AvatarTransition t : tranSourceMap.keySet()) {
+        for (AvatarTransition t: tranSourceMap.keySet()) {
             if (tranSourceMap.get(t) == null || tranDestMap.get(t) == null || locMap.get(tranDestMap.get(t)) == null) {
                 continue;
             }

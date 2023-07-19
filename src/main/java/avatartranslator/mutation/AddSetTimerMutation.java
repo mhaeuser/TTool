@@ -59,7 +59,7 @@ public class AddSetTimerMutation extends SetTimerMutation implements AddMutation
 
     //todo : graphique
     public AvatarSetTimer createElement(AvatarSpecification _avspec) throws ApplyMutationException {
-        AvatarSetTimer elt = new AvatarSetTimer(getName(), null);
+        AvatarSetTimer elt = new AvatarSetTimer(getName(), null, getAvatarStateMachine(_avspec).getOwner());
         AvatarAttribute timer = getAttribute(_avspec, getTimerName());
         if (timer == null) {
             throw new ApplyMutationException("No timer named " + getTimerName() + " in block " + getBlockName());

@@ -56,8 +56,8 @@ public class AvatarQueryOnSignal extends AvatarStateMachineElement {
     private AvatarSignal signal;
     private AvatarAttribute attribute;
 
-	public AvatarQueryOnSignal(String _name, AvatarSignal _signal, AvatarAttribute _attribute, Object _referenceObject ) {
-	   super(_name, _referenceObject);
+	public AvatarQueryOnSignal(String _name, AvatarSignal _signal, AvatarAttribute _attribute, Object _referenceObject, AvatarStateMachineOwner _block ) {
+	   super(_name, _referenceObject, _block);
 	   signal = _signal;
 	   attribute = _attribute;
 
@@ -80,7 +80,7 @@ public class AvatarQueryOnSignal extends AvatarStateMachineElement {
     	AvatarSignal sig = _block.getAvatarSignalWithName(getSignal().getName());
     	AvatarAttribute att = _block.getAvatarAttributeWithName(getAttribute().getName());
     	if ((sig != null) && (att != null)) {
-            AvatarQueryOnSignal aqos = new AvatarQueryOnSignal(getName() + "__clone", sig, att, getReferenceObject());
+            AvatarQueryOnSignal aqos = new AvatarQueryOnSignal(getName() + "__clone", sig, att, getReferenceObject(), _block);
     		return aqos;
     	} else {
     	    TraceManager.addDev("Basic clone failed for AvatarQueryOnSignal");

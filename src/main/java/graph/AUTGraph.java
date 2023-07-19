@@ -58,6 +58,9 @@ import java.util.*;
  * @author Ludovic APVRILLE
  */
 public class AUTGraph implements myutil.Graph {
+    public final static AUTTag DEADLOCK_TAG = new AUTDeadlockTag("Deadlock");
+    public final static AUTTag COMM_TAG = new AUTCommTag("COMM");
+
 
     // Graph is defined with this only
     protected ArrayList<AUTTransition> transitions;
@@ -72,6 +75,8 @@ public class AUTGraph implements myutil.Graph {
     protected boolean[] hasExitTransition;
     protected boolean[] hasEntryTransition;
     protected boolean statesComputed;
+
+    public Object referenceObject;
 
 
     public AUTGraph() {
@@ -458,6 +463,18 @@ public class AUTGraph implements myutil.Graph {
         }
         return null;
     }
+
+    public ArrayList<AUTState> getAllStateWithReference(Object _ref) {
+        ArrayList<AUTState> states = new ArrayList<>();
+        for(AUTState st: states) {
+            if (st.referenceObject == _ref) {
+                states.add(st);
+            }
+        }
+        return states;
+    }
+
+
 
     public AUTState getState(int _id) {
         return states.get(_id);

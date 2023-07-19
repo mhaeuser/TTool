@@ -532,8 +532,10 @@ public class JDiagramTree extends javax.swing.JTree implements ActionListener, M
             } else if (ae.getSource() == jmiShowAsDiagram) {
 
                 if (selectedRG.graph != null) {
+                    TraceManager.addDev("Drawing selected AUT graph");
                     mgui.displayGraphAUTAsDiagram(selectedRG.graph);
                 } else {
+                    TraceManager.addDev("Drawing selected RG graph");
                     mgui.displayGraphRGAsDiagram(selectedRG.name, selectedRG);
                 }
 

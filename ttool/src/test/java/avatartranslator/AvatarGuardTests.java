@@ -75,7 +75,7 @@ public class AvatarGuardTests {
         AvatarSpecification as = new AvatarSpecification("avatarspecification", null);
         A = new AvatarBlock("A", as, null);
         AvatarStateMachine Aasm = A.getStateMachine();
-        Aasm.addElement(new AvatarState("a1", null));
+        Aasm.addElement(new AvatarState("a1", null, A));
         A.addAttribute(new AvatarAttribute("key1", AvatarType.INTEGER, A, null));
         A.addAttribute(new AvatarAttribute("key2", AvatarType.INTEGER, A, null));
         A.addAttribute(new AvatarAttribute("test", AvatarType.BOOLEAN, A, null));
@@ -83,7 +83,7 @@ public class AvatarGuardTests {
 
         B = new AvatarBlock("B", as, null);
         AvatarStateMachine Basm = B.getStateMachine();
-        Basm.addElement(new AvatarState("b1", null));
+        Basm.addElement(new AvatarState("b1", null, B));
         B.addAttribute(new AvatarAttribute("key1", AvatarType.INTEGER, B, null));
         B.addAttribute(new AvatarAttribute("key2", AvatarType.BOOLEAN, B, null));
         B.addAttribute(new AvatarAttribute("m__a", AvatarType.UNDEFINED, B, null));
@@ -91,7 +91,7 @@ public class AvatarGuardTests {
 
         AvatarBlock C = new AvatarBlock("C", as, null);
         AvatarStateMachine Casm = C.getStateMachine();
-        Casm.addElement(new AvatarState("c1", null));
+        Casm.addElement(new AvatarState("c1", null, C));
         C.addAttribute(new AvatarAttribute("attr", AvatarType.INTEGER, C, null));
         C.addAttribute(new AvatarAttribute("m__a", AvatarType.UNDEFINED, C, null));
         C.addAttribute(new AvatarAttribute("m__b", AvatarType.UNDEFINED, C, null));

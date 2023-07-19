@@ -39,10 +39,7 @@
 
 package ui.window;
 
-import ai.AIChatData;
-import ai.AIFeedback;
-import ai.AIInteract;
-import ai.AISysMLV2DiagramContent;
+import ai.*;
 import avatartranslator.AvatarSpecification;
 import help.HelpEntry;
 import help.HelpManager;
@@ -81,7 +78,8 @@ public class JFrameAI extends JFrame implements ActionListener {
             " requirement diagram first",
             "Identify use cases",
             "Identify properties - Select a block diagram first. You can also provide a system specification",
-            "Identify system blocks - Provide a system specification", "Identify software blocks - Provide a system specification", "Identify state" +
+            "Identify system blocks - Provide a system specification",
+            "Identify software blocks - Provide a system specification", "Identify state" +
             " machines - Select a block diagram. Additionally, you can provide a system specification",
             "A(I)MULET - Select a block diagram first"};
 
@@ -121,6 +119,8 @@ public class JFrameAI extends JFrame implements ActionListener {
         chats = new ArrayList<>();
         makeComponents();
 
+        TraceManager.addDev("Selected TDP = " + mgui.getCurrentMainTDiagramPanel().getClass());
+
     }
 
     public void setIcon(ChatData _data, Icon newIcon) {
@@ -146,7 +146,8 @@ public class JFrameAI extends JFrame implements ActionListener {
                 help();
             }
         });
-        helpPopup.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("ESCAPE"), "closeJlabel");
+        helpPopup.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("ESCAPE"),
+                "closeJlabel");
         helpPopup.getActionMap().put("closeJlabel", new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -293,8 +294,8 @@ public class JFrameAI extends JFrame implements ActionListener {
         String[] names = {"pico", "zebre", "pingouin", "chien", "minou", "kitty", "chaton", "whatsapp", "Luke Skywalker",
                 "macareux", "ours", "italien", "paris-brest", "belle-mère", "apéro (l'abus d'alcool est dangereux pour la santé)",
                 "carpe", "crocodile", "psychologue", "dr emacs", "3615-TTool", "100 balles et 1 mars",
-                "opéra (l’abus d’Alcôve est dangereux pour la santé)", "chapon", "perroquet", "chameau volant", "Alice", "Oasis", "ATC RAK",
-                "Adibou", "Cheval de Troyes"};
+                "opéra (l’abus d’Alcôve est dangereux pour la santé)", "chapon", "perroquet", "chameau volant", "Alice", "oasis", "ATC RAK",
+                "Adibou", "cheval de Troyes", "Twist", "GSM", "étalon", "jaseux"};
         int x = (int) (Math.random() * names.length);
         return names[x];
     }
@@ -307,6 +308,7 @@ public class JFrameAI extends JFrame implements ActionListener {
     }
 
     private void start() {
+        TraceManager.addDev("Start in JFrameAI");
         currentChatIndex = answerPane.getSelectedIndex();
         ChatData selected = selectedChat();
 
@@ -317,7 +319,9 @@ public class JFrameAI extends JFrame implements ActionListener {
         }
 
         if (chatDataMade) {
+            TraceManager.addDev("chatDataMade in JFameAI");
             String selectedClass = AIInteractClass[listOfPossibleActions.getSelectedIndex()];
+            TraceManager.addDev("SelectedClass: " + selectedClass);
             selected.aiInteract = ai.AIInteract.getInstance("ai." + selectedClass, selected.aiChatData);
 
 
@@ -326,7 +330,33 @@ public class JFrameAI extends JFrame implements ActionListener {
                 return;
             }
 
+            TraceManager.addDev("Selected aiinteract: " + selected.aiInteract.getClass());
+
+            if (selected.aiInteract  instanceof AIAvatarSpecificationRequired) {
+                TraceManager.addDev("****** AIAvatarSpecificationRequired identified *****");
+                TDiagramPanel tdp = mgui.getCurrentMainTDiagramPanel();
+                boolean found = false;
+                if (tdp instanceof AvatarBDPanel) {
+                    found = true;
+                }
+
+                if (found) {
+                    TraceManager.addDev("BD panel: ok");
+                    boolean ret = mgui.checkModelingSyntax(true);
+                    if (ret) {
+                        TraceManager.addDev("****** Syntax checking OK *****");
+                        ((AIAvatarSpecificationRequired) (selected.aiInteract)).setAvatarSpecification(mgui.gtm.getAvatarSpecification());
+                    } else {
+                        TraceManager.addDev("\n\n*****Syntax checking failed: no avatar spec***\n\n");
+                    }
+                } else {
+                    TraceManager.addDev("Selected panel is not correct. tdp=" + tdp.getClass());
+                    return;
+                }
+            }
+
             if (selected.aiInteract  instanceof AISysMLV2DiagramContent) {
+                TraceManager.addDev("****** AISysMLV2DiagramContent identified *****");
                 TDiagramPanel tdp = mgui.getCurrentTDiagramPanel();
                 String[] validDiagrams = ((AISysMLV2DiagramContent)(selected.aiInteract)).getValidDiagrams();
                 String className = tdp.getClass().getName();
@@ -340,8 +370,15 @@ public class JFrameAI extends JFrame implements ActionListener {
                 }
 
                 if (found) {
+                    TraceManager.addDev("The selected diagram is valid");
                     String[] exclusions = ((AISysMLV2DiagramContent)(selected.aiInteract)).getDiagramExclusions();
-                    ((AISysMLV2DiagramContent)(selected.aiInteract)).setDiagramContentInSysMLV2(tdp.toSysMLV2Text(exclusions).toString());
+                    StringBuffer sb =  tdp.toSysMLV2Text(exclusions);
+                    if (sb == null) {
+                        error("The syntax of the selected diagram is incorrect");
+                        return;
+                    } else {
+                        ((AISysMLV2DiagramContent) (selected.aiInteract)).setDiagramContentInSysMLV2(sb.toString());
+                    }
                 }
             }
 
@@ -360,9 +397,9 @@ public class JFrameAI extends JFrame implements ActionListener {
             return ;
         }
 
-        TraceManager.addDev("Class of answer: " + selectedChat.aiInteract.getClass().getName());
+        //TraceManager.addDev("Class of answer: " + selectedChat.aiInteract.getClass().getName());
 
-        if (selectedChat.aiInteract instanceof ai.AIBlock) {
+        /*if (selectedChat.aiInteract instanceof ai.AIBlock) {
             applyIdentifySystemBlocks(selectedChat.aiInteract.applyAnswer(null));
         } else if (selectedChat.aiInteract instanceof ai.AISoftwareBlock) {
             applyIdentifySystemBlocks(selectedChat.aiInteract.applyAnswer(null));
@@ -376,9 +413,71 @@ public class JFrameAI extends JFrame implements ActionListener {
             // nothing up to now :-)
         } else if (selectedChat.aiInteract instanceof ai.AIAmulet) {
             applyMutations();
+        }*/
+
+
+        currentChatIndex = answerPane.getSelectedIndex();
+        switch(currentChatIndex) {
+            case 0:
+                if (selectedChat.aiInteract instanceof ai.AIBlock) {
+                    applyIdentifySystemBlocks(selectedChat.aiInteract.applyAnswer(null));
+                } else if (selectedChat.aiInteract instanceof ai.AISoftwareBlock) {
+                    applyIdentifySystemBlocks(selectedChat.aiInteract.applyAnswer(null));
+                } else if (selectedChat.aiInteract instanceof ai.AIReqIdent) {
+                    applyRequirementIdentification();
+                } else if (selectedChat.aiInteract instanceof ai.AIReqClassification) {
+                    applyRequirementClassification();
+                } else if (selectedChat.aiInteract instanceof ai.AIDesignPropertyIdentification) {
+                    // nothing up to now :-)
+                } else if (selectedChat.aiInteract instanceof ai.AIStateMachine) {
+                    TraceManager.addDev("Applying state machines");
+                    applyIdentifyStateMachines(selectedChat.aiInteract.applyAnswer(null));
+                } else if (selectedChat.aiInteract instanceof ai.AIAmulet) {
+                    applyMutations();
+                }
+                break;
+                case 1:
+                    applyRequirementIdentification();
+                    break;
+            case 2:
+                applyRequirementClassification();
+                break;
+            case 3:
+                break;
+            case 4:
+                break;
+            case 5:
+                applyIdentifySystemBlocks(selectedChat.aiInteract.applyAnswer(null));
+                break;
+            case 6:
+                applyIdentifySystemBlocks(selectedChat.aiInteract.applyAnswer(null));
+                break;
+            case 7:
+                applyIdentifyStateMachines(selectedChat.aiInteract.applyAnswer(null));
+                break;
+            case 8:
+                applyMutations();
+                break;
         }
 
         question.setText("");
+    }
+
+    private void applyIdentifyStateMachines(Object input) {
+        if (input == null) {
+            error("Invalid specification in answer");
+            return;
+        }
+
+        TraceManager.addDev("Type of input:" + input.getClass());
+
+        if (!(input instanceof AvatarSpecification)) {
+            error("Invalid answer");
+            return;
+        }
+
+        mgui.drawAvatarSpecification((AvatarSpecification) input);
+        inform("State machine of blocks added to diagram from ai answer\n");
     }
 
     private void applyRequirementIdentification() {
@@ -646,9 +745,9 @@ public class JFrameAI extends JFrame implements ActionListener {
 
         public void addToChat(String data, boolean user) {
             if (user) {
-                GraphicLib.appendToPane(chatOfStart().answer, "\nTTool:" + data + "\n", Color.blue);
+                GraphicLib.appendToPane(chatOfStart().answer, "\nTTool: " + data + "\n", Color.blue);
             } else {
-                GraphicLib.appendToPane(chatOfStart().answer, "\nAI:" + data + "\n", Color.red);
+                GraphicLib.appendToPane(chatOfStart().answer, "\nAI: " + data + "\n", Color.red);
             }
         }
 

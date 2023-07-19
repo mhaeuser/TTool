@@ -36,64 +36,57 @@
  * knowledge of the CeCILL license and that you accept its terms.
  */
 
-package avatartranslator.mutation;
+package avatartranslator.incrementalverification;
 
-import avatartranslator.*;
+
+import avatartranslator.AvatarDependencyGraph;
+import avatartranslator.AvatarSpecification;
+import graph.*;
+
+import java.util.ArrayList;
+
 /**
- * Class AddBlockMutation
- * Creation: 23/06/2022
- *
- * @author Léon FRENOT
- * @version 1.0 23/06/2022
+   * Class IncrementalVerificationManager
+   * Creation: 22/06/2023
+   * @version 1.0 22/06/2023
+   * @author Ludovic Apvrille
  */
+public class IncrementalVerificationManager {
 
-public class AddBlockMutation extends BlockElementMutation implements AddMutation {
-    
-    public AddBlockMutation(String _blockName) {
-        super(_blockName);
+    // Initial spec
+    public AvatarSpecification initialSpec;
+    AvatarDependencyGraph dgi;
+
+
+    // New spec
+    public AvatarSpecification newSpec;
+    public AvatarDependencyGraph dgm;
+
+    public AUTState vpI, vpM; // same Vp, in the two graphs
+
+
+    public AvatarDependencyGraph dgr; //dgr is a reduced graphs on which model-
+    //checking decides if vp is reachable through an
+    //old path
+    public ArrayList<AUTState> Pr; // List of states which reachability must be studied on dgr
+
+    public AvatarDependencyGraph dgp; //dgp is a reduced graphs on which model-
+    // checking decides if vp is reachable through a
+    // new path.
+
+
+
+
+
+
+    public IncrementalVerificationManager() {
+
     }
 
-    public AvatarBlock getElement(AvatarSpecification _avspec) {
-        return getBlock(_avspec);
-    }
 
-    //todo : graphic
-    public AvatarBlock createElement(AvatarSpecification _avspec) throws ApplyMutationException {
 
-        for (AvatarBlock block : _avspec.getListOfBlocks()) {
-            if (block.getName().equals(getBlockName())) {
-                throw new ApplyMutationException("Block " + getBlockName() + " already exists");
-            }
-        }
 
-        AvatarBlock block = new AvatarBlock(getBlockName(), _avspec, null);
-        return block;
-    }
 
-    public void apply(AvatarSpecification _avspec) throws ApplyMutationException {
-        AvatarBlock block = createElement(_avspec);
-        _avspec.addBlock(block);
 
-        AvatarStartState start = new AvatarStartState("start", null, block);
 
-        AvatarStateMachine asm = block.getStateMachine();
-
-        asm.addElement(start);
-        asm.setStartState(start);
-    }
-    
-    public static AddBlockMutation createFromString(String toParse) throws ParseMutationException {
-        String[] tokens = MutationParser.tokenise(toParse);
-        int index = MutationParser.indexOf(tokens, "BLOCK");
-
-        if (tokens.length == index + 1) {
-            throw new ParseMutationException("Block name missing [add block blockName]");
-        }
-
-        String _blockName = tokens[index + 1];
-
-        AddBlockMutation mutation = new AddBlockMutation(_blockName);
-
-        return mutation;
-    }
 }

@@ -941,7 +941,7 @@ public class AvatarBDPanel extends TDiagramPanel {
     public ArrayList<String> loadAndUpdateFromText(String _spec, boolean apply) throws org.json.JSONException {
         TraceManager.addDev("Loading blocks from JSON:" + _spec);
 
-        AvatarSpecification avatarSpec = AvatarSpecification.fromJSON(_spec, getName(), this);
+        AvatarSpecification avatarSpec = AvatarSpecification.fromJSON(_spec, getName(), this, true);
         if (apply) {
             mgui.drawAvatarSpecification(avatarSpec);
         }
@@ -957,7 +957,7 @@ public class AvatarBDPanel extends TDiagramPanel {
         }
         AvatarSpecification avspec = mgui.gtm.getAvatarSpecification();
         AVATAR2SysMLV2 tosysmlv2 = new AVATAR2SysMLV2(avspec);
-        StringBuffer sb = tosysmlv2.generateSysMLV2Spec(false, false);
+        StringBuffer sb = tosysmlv2.generateSysMLV2Spec(false, false, exclusions);
         return sb;
     }
 }

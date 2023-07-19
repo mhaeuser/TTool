@@ -164,7 +164,9 @@ public class AvatarIBSStdParserTest {
         assertFalse(e13Ter!=null);
 
         HashSet<String> H = AvatarIBSolver.getBadIdents();
-        for(String s:H){System.out.println(s);}
+        for(String s:H){
+            System.out.println(s);
+        }
         AvatarIBSolver.clearBadIdents();
         
         AvatarIBSExpressions.IExpr e14 = AvatarIBSolver.parseInt("3+2");
@@ -180,11 +182,14 @@ public class AvatarIBSStdParserTest {
         AvatarIBSExpressions.BExpr e17 = AvatarIBSolver.parseBool("((true)) && (((((0 >= 1))))) || not((not(false)))");
         assertTrue(e17!=null);
          AvatarIBSExpressions.IExpr e18 = AvatarIBSolver.parseInt("2 * -3 + -5 * 4 + 27"); // 1
-        assertTrue(e17!=null);
+        assertTrue(e18!=null);
         AvatarIBSExpressions.IExpr e19 = AvatarIBSolver.parseInt("-6 / -2 * 3 - -4 "); // 13
-        assertTrue(e17!=null);
+        assertTrue(e19!=null);
        AvatarIBSExpressions.IExpr e20 = AvatarIBSolver.parseInt("-(2 * 3)+ -(1+1) * -3"); // 0
-        assertTrue(e17!=null);
+        assertTrue(e20!=null);
+
+        AvatarIBSExpressions.IExpr e21 = AvatarIBSolver.parseInt("0"); // 0
+        assertTrue(e21!=null);
 
         assertEquals(true, e1.eval());
         assertEquals(true, e2.eval());
@@ -202,6 +207,7 @@ public class AvatarIBSStdParserTest {
         assertEquals(1, e18.eval());
         assertEquals(13, e19.eval());
         assertEquals(0, e20.eval());
+        assertEquals(0, e21.eval());
 
     }
     
@@ -256,12 +262,22 @@ public class AvatarIBSStdParserTest {
         assertTrue(e10!=null);
         AvatarIBSExpressions.IExpr e11 = AvatarIBSolver.parseInt(block1,"x + y");
         assertTrue(e11!=null);
+        AvatarIBSExpressions.IExpr e11bis = AvatarIBSolver.parseInt(block1,"x*8/y");
+        assertTrue(e11bis!=null);
         AvatarIBSExpressions.IExpr e12 = AvatarIBSolver.parseInt(block1,"x*((x + y)*z + (x+z)/z)/x");
         assertTrue(e12!=null);
         AvatarIBSExpressions.BExpr e13 = AvatarIBSolver.parseBool(block1,"(key1==false) and (key2==true)");
         assertTrue(e13!=null);
         AvatarIBSExpressions.BExpr e14 = AvatarIBSolver.parseBool(block1,"x-40<3");
         assertTrue(e14!=null);
+
+        TraceManager.addDev("Testing e15");
+        AvatarIBSExpressions.BExpr e15 = AvatarIBSolver.parseBool(block1,"x-40<3*b");
+        TraceManager.addDev("Expr e15 built");
+        //assertTrue(e15!=null);
+        //TraceManager.addDev("Testing e15 done");
+
+
         assertTrue(e1.eval(specBlock) == 15);
         assertTrue(e2.eval(specBlock));
         assertTrue(!e3.eval(specBlock));

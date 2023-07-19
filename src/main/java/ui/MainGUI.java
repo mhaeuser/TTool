@@ -8299,6 +8299,7 @@ public class MainGUI implements ActionListener, WindowListener, KeyListener, Per
     }
 
     public TDiagramPanel getCurrentMainTDiagramPanel() {
+        TraceManager.addDev("Main selected index:" + mainTabbedPane.getSelectedIndex());
         return tabs.elementAt(mainTabbedPane.getSelectedIndex()).tdp;
     }
 

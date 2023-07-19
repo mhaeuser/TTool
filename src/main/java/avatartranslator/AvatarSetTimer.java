@@ -50,8 +50,9 @@ package avatartranslator;
 public class AvatarSetTimer extends AvatarTimerOperator {
 	protected String setValue;
 	
-    public AvatarSetTimer(String _name, Object _referenceObject) {
-        super(_name, _referenceObject);
+    public AvatarSetTimer(String _name, Object _referenceObject, AvatarStateMachineOwner _block) {
+
+		super(_name, _referenceObject, _block);
     }
 	
 	public void setTimerValue(String _setValue) {
@@ -63,7 +64,7 @@ public class AvatarSetTimer extends AvatarTimerOperator {
 	}
 	
 	public AvatarStateMachineElement basicCloneMe(AvatarStateMachineOwner _block) {
-		AvatarSetTimer ast = new AvatarSetTimer(getName(), getReferenceObject());
+		AvatarSetTimer ast = new AvatarSetTimer(getName(), getReferenceObject(), _block);
 		ast.setTimer(getTimer());
 		ast.setTimerValue(getTimerValue());
 		return ast;

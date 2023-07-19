@@ -750,6 +750,10 @@ public class AvatarSimulationBlock {
     }
 
     public int newEvaluateIntExpression(String _expr, Vector<String> _attributeValues) {
+        //TraceManager.addDev("Evaluating int expr:" + _expr);
+        if (_expr == null || _expr.trim().length() == 0) {
+            return 0;
+        }
         AvatarIBSExpressions.IExpr e1 = AvatarIBSolver.parseInt(block,_expr);
         SpecificationBlock sb = new SpecificationBlock(_attributeValues);
         return e1.eval(sb);

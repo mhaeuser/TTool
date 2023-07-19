@@ -235,6 +235,9 @@ public class ColorManager {
     public static final Color InteractiveSimulationText_TERM = new Color(241, 6, 6);
     public static final Color InteractiveSimulationText_UNKNOWN = new Color(6, 6, 241);
 
+    public static  Color SENDING_VERTEX = new Color(239, 212, 176);
+    public static  Color COMM_EDGE = new Color(5, 200, 7);
+
     // Issue #69: Managing color for disabled diagram components
     public final static void setColor( 	Graphics g,
     									int state,

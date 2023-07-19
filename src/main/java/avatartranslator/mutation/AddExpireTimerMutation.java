@@ -58,7 +58,7 @@ public class AddExpireTimerMutation extends ExpireTimerMutation implements AddMu
     }
 
     public AvatarExpireTimer createElement(AvatarSpecification _avspec) throws ApplyMutationException {
-        AvatarExpireTimer elt = new AvatarExpireTimer(getName(), null);
+        AvatarExpireTimer elt = new AvatarExpireTimer(getName(), null, getAvatarStateMachine(_avspec).getOwner());
         AvatarAttribute timer = getAttribute(_avspec, getTimerName());
         if (timer == null) {
             throw new ApplyMutationException("No timer named " + getTimerName() + " in block " + getBlockName());

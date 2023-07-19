@@ -69,6 +69,8 @@ public class GraphDPanel extends TDiagramPanel implements TDPWithAttributes, Run
     public int GOOD_CONNECTOR = 200;
     public int INC = 5;
 
+    public AUTGraph autGraph;
+
     public GraphDPanel(MainGUI mgui, TToolBar _ttb) {
         super(mgui, _ttb);
         //addComponent(400, 50, TGComponentManager.EBRDD_START_STATE, false);
@@ -171,6 +173,8 @@ public class GraphDPanel extends TDiagramPanel implements TDPWithAttributes, Run
     // Making a graph from AUT
     public void makeGraphAUT(AUTGraph graph) {
 
+        autGraph = graph;
+
         TraceManager.addDev("Making graph");
 
         graph.computeStates();
@@ -227,6 +231,9 @@ public class GraphDPanel extends TDiagramPanel implements TDPWithAttributes, Run
                             true,
                             null, this, p1, p2, null);
                     connector.setValue(tr.transition);
+                    if (tr.hasTag(AUTGraph.COMM_TAG)) {
+                        connector.setCurrentColor(ColorManager.COMM_EDGE);
+                    }
                     //TraceManager.addDev("Adding transition with value=" + tr.transition + " label=" + tr.getLabel());
                     addBuiltConnector(connector);
 
@@ -291,7 +298,7 @@ public class GraphDPanel extends TDiagramPanel implements TDPWithAttributes, Run
         // Blue for comm states
         if (info != null) {
             if (info.contains("Sending ") || info.contains("!")) {
-                dv.setCurrentColor(ColorManager.TML_COMPOSITE_COMPONENT);
+                dv.setCurrentColor(ColorManager.SENDING_VERTEX);
             } else if (info.contains("Receiving ") || info.contains("?")) {
                 dv.setCurrentColor(ColorManager.BUS_BOX);
             }

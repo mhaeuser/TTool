@@ -49,8 +49,8 @@ package avatartranslator;
 public abstract class AvatarTimerOperator extends AvatarStateMachineElement {
     protected AvatarAttribute timer;
 
-    public AvatarTimerOperator(String _name, Object _referenceObject) {
-        super(_name, _referenceObject);
+    public AvatarTimerOperator(String _name, Object _referenceObject, AvatarStateMachineOwner _block) {
+        super(_name, _referenceObject, _block);
     }
 
     public void setTimer(AvatarAttribute _timer) {

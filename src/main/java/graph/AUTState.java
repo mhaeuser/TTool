@@ -52,7 +52,7 @@ import java.util.Random;
  */
 public class AUTState implements Comparable<AUTState> {
 
-    public final static AUTTag DEADLOCK_TAG = new AUTDeadlockTag("Deadlock");
+
 
     public String info;
     public int id;

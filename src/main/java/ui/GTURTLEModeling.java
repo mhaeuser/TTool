@@ -1820,7 +1820,9 @@ public class GTURTLEModeling {
         if (tmap == null) {
             return;
         }
-        List<HwLink> links = tmap.getArch().getHwLinks();
+        List<HwLink> links = new ArrayList<>();
+        links.addAll(tmap.getArch().getHwLinks()); 
+       // links = tmap.getArch().getHwLinks();
         //Find all Security Patterns, if they don't have an associated memory at encrypt and decrypt, map them
         TMLModeling<TGComponent> tmlm = tmap.getTMLModeling();
         if (tmlm.securityTaskMap == null) {
@@ -1872,14 +1874,14 @@ public class GTURTLEModeling {
                                             } else {
                                                 TMLArchiBUSNode busNode = (TMLArchiBUSNode) listE.getTG(curBus);
                                                 memNodeToMap = new TMLArchiMemoryNode(busNode.getX(), (int) (busNode.getY() + busNode.getHeight()*(1+Math.random())), busNode.tdp.getMinX(), busNode.tdp.getMaxX(), busNode.tdp.getMinY(), busNode.tdp.getMaxY(), false, busNode.getFather(), busNode.tdp);
-                                                memNodeToMap.setName(t.getTaskName() + "KeysMemory");
+                                                memNodeToMap.setName(cpuNode.getName() + "KeysMemory");
+                                                TraceManager.addDev("Creating new memory: " + memNodeToMap.getName());
                                                 busNode.tdp.addComponent(memNodeToMap);
-
-                                                /*HwLink newLink = new HwLink("Link_"+curBus.getName() + "_" + memNodeToMap.getName());
-                                                HwMemory newHwMemory = new HwMemory("HwMemory_" + memNodeToMap.getName());
+                                                HwMemory newHwMemory = new HwMemory(memNodeToMap.getName());
+                                                newHwMemory.byteDataSize = memNodeToMap.getByteDataSize();
+                                                newHwMemory.clockRatio = memNodeToMap.getClockRatio();
+                                                newHwMemory.bufferType = memNodeToMap.getBufferType();
                                                 listE.addCor(newHwMemory, memNodeToMap);
-                                                newLink.setNodes(curBus, listE.getHwNode(memNodeToMap));
-                                                links.add(newLink);*/
 
                                                 //Connect Bus and Memory
                                                 TDiagramPanel archPanel = busNode.tdp;
@@ -1892,6 +1894,9 @@ public class GTURTLEModeling {
                                                 p2.setFree(false);
                                                 connect.setP1(p2);
                                                 archPanel.addComponent(connect, memNodeToMap.getX() + 100, memNodeToMap.getY() + 100, false, true);
+                                                HwLink newLink = new HwLink("Link_"+curBus.getName() + "_" + memNodeToMap.getName());
+                                                newLink.setNodes(curBus, listE.getHwNode(memNodeToMap));
+                                                links.add(newLink);
                                                 
                                                 TMLArchiKey key = new TMLArchiKey(memNodeToMap.x, (int)(memNodeToMap.y+memNodeToMap.getHeight()*(0.3+Math.random()/2)), memNodeToMap.tdp.getMinX(), memNodeToMap.tdp.getMaxX(), memNodeToMap.tdp.getMinY(), memNodeToMap.tdp.getMaxY(), false, memNodeToMap, memNodeToMap.tdp);
                                                 key.setReferenceKey(sp.name);
@@ -1911,17 +1916,38 @@ public class GTURTLEModeling {
                                     TMLArchiCPUNode cpuArchiNode = (TMLArchiCPUNode) listE.getTG(cpuNode);
 
                                     TMLArchiBridgeNode newBrigde = new TMLArchiBridgeNode(lastBusNode.getX(), (int) (lastBusNode.getY() + lastBusNode.getHeight()*(1+Math.random())), lastBusNode.tdp.getMinX(), lastBusNode.tdp.getMaxX(), lastBusNode.tdp.getMinY(), lastBusNode.tdp.getMaxY(), false, lastBusNode.getFather(), lastBusNode.tdp);
-                                    newBrigde.setName(t.getTaskName() + "KeysBrigde");
+                                    newBrigde.setName(cpuNode.getName() + "KeysBrigde");
                                     lastBusNode.tdp.addComponent(newBrigde);
+                                    HwBridge newHwbridge = new HwBridge(newBrigde.getName());
+                                    newHwbridge.setCustomData(newBrigde.getCustomData());
+                                    newHwbridge.bufferByteSize = newBrigde.getBufferByteDataSize();
+                                    newHwbridge.clockRatio = newBrigde.getClockRatio();
+                                    listE.addCor(newHwbridge, newBrigde);
 
                                     TMLArchiBUSNode newPrivateBus = new TMLArchiBUSNode(newBrigde.getX(), (int) (newBrigde.getY() + newBrigde.getHeight()*(1+Math.random())), newBrigde.tdp.getMinX(), newBrigde.tdp.getMaxX(), newBrigde.tdp.getMinY(), newBrigde.tdp.getMaxY(), false, lastBusNode.getFather(), lastBusNode.tdp);
                                     newPrivateBus.setPrivacy(1);
-                                    newPrivateBus.setName(t.getTaskName() + "KeysPrivateBus");
+                                    newPrivateBus.setName(cpuNode.getName() + "KeysPrivateBus");
                                     lastBusNode.tdp.addComponent(newPrivateBus);
+                                    HwBus newHwbus = new HwBus(newPrivateBus.getName());
+                                    newHwbus.setCustomData(newPrivateBus.getCustomData());
+                                    newHwbus.byteDataSize = newPrivateBus.getByteDataSize();
+                                    newHwbus.pipelineSize = newPrivateBus.getPipelineSize();
+                                    newHwbus.arbitration = newPrivateBus.getArbitrationPolicy();
+                                    newHwbus.clockRatio = newPrivateBus.getClockRatio();
+                                    newHwbus.sliceTime = newPrivateBus.getSliceTime();
+                                    newHwbus.burstSize = newPrivateBus.getBurstSize();
+                                    newHwbus.privacy = newPrivateBus.getPrivacy();
+                                    listE.addCor(newHwbus, newPrivateBus);
 
                                     TMLArchiMemoryNode memNodeToMap = new TMLArchiMemoryNode(newPrivateBus.getX(), (int) (newPrivateBus.getY() + newPrivateBus.getHeight()*(1+Math.random())), newPrivateBus.tdp.getMinX(), newPrivateBus.tdp.getMaxX(), newPrivateBus.tdp.getMinY(), newPrivateBus.tdp.getMaxY(), false, lastBusNode.getFather(), lastBusNode.tdp);
-                                    memNodeToMap.setName(t.getTaskName() + "KeysMemory");
+                                    memNodeToMap.setName(cpuNode.getName() + "KeysMemory");
+                                    TraceManager.addDev("Creating new memory: " + memNodeToMap.getName());
                                     lastBusNode.tdp.addComponent(memNodeToMap);
+                                    HwMemory newHwMemory = new HwMemory(memNodeToMap.getName());
+                                    newHwMemory.byteDataSize = memNodeToMap.getByteDataSize();
+                                    newHwMemory.clockRatio = memNodeToMap.getClockRatio();
+                                    newHwMemory.bufferType = memNodeToMap.getBufferType();
+                                    listE.addCor(newHwMemory, memNodeToMap);
 
                                     TMLArchiKey key = new TMLArchiKey(memNodeToMap.x, (int)(memNodeToMap.y+memNodeToMap.getHeight()*(0.3+Math.random()/2)), memNodeToMap.tdp.getMinX(), memNodeToMap.tdp.getMaxX(), memNodeToMap.tdp.getMinY(), memNodeToMap.tdp.getMaxY(), false, memNodeToMap, memNodeToMap.tdp);
                                     key.setReferenceKey(sp.name);
@@ -1941,6 +1967,9 @@ public class GTURTLEModeling {
                                     p2.setFree(false);
                                     connectbusMem.setP1(p2);
                                     lastBusNode.tdp.addComponent(connectbusMem, memNodeToMap.getX() + 100, memNodeToMap.getY() + 100, false, true);
+                                    HwLink newLinkBusMemory = new HwLink("Link_"+newPrivateBus.getName() + "_" + memNodeToMap.getName());
+                                    newLinkBusMemory.setNodes((HwBus) listE.getHwNode(newPrivateBus), listE.getHwNode(memNodeToMap));
+                                    links.add(newLinkBusMemory);
 
                                     //Connect new Private Bus and Bridge
                                     TMLArchiConnectorNode connectPrivatebusBridge = new TMLArchiConnectorNode(newBrigde.getX() + 100, lastBusNode.tdp.getMaxY() - 300, lastBusNode.tdp.getMinX(), lastBusNode.tdp.getMaxX(), lastBusNode.tdp.getMinY(), lastBusNode.tdp.getMaxY(), true, null, lastBusNode.tdp, null, null, new Vector<Point>());
@@ -1952,6 +1981,9 @@ public class GTURTLEModeling {
                                     p2.setFree(false);
                                     connectPrivatebusBridge.setP1(p2);
                                     lastBusNode.tdp.addComponent(connectPrivatebusBridge, newBrigde.getX() + 100, newBrigde.getY() + 100, false, true);
+                                    HwLink newLinkPrivateBusBridge = new HwLink("Link_"+newPrivateBus.getName() + "_" + newBrigde.getName());
+                                    newLinkPrivateBusBridge.setNodes((HwBus) listE.getHwNode(newPrivateBus), listE.getHwNode(newBrigde));
+                                    links.add(newLinkPrivateBusBridge);
 
                                     //Connect Public Bus and Bridge
                                     TMLArchiConnectorNode connectPublicbusBridge = new TMLArchiConnectorNode(newBrigde.getX() + 100, lastBusNode.tdp.getMaxY() - 300, lastBusNode.tdp.getMinX(), lastBusNode.tdp.getMaxX(), lastBusNode.tdp.getMinY(), lastBusNode.tdp.getMaxY(), true, null, lastBusNode.tdp, null, null, new Vector<Point>());
@@ -1963,6 +1995,9 @@ public class GTURTLEModeling {
                                     p2.setFree(false);
                                     connectPublicbusBridge.setP1(p2);
                                     lastBusNode.tdp.addComponent(connectPublicbusBridge, newBrigde.getX() + 100, newBrigde.getY() + 100, false, true);
+                                    HwLink newLinkPublicBusBridge = new HwLink("Link_"+lastBusNode.getName() + "_" + newBrigde.getName());
+                                    newLinkPublicBusBridge.setNodes(lastLink.bus, listE.getHwNode(newBrigde));
+                                    links.add(newLinkPublicBusBridge);
 
                                     //Connect new Private Bus and CPU
                                     TMLArchiConnectorNode connectPrivatebusCPU = new TMLArchiConnectorNode(cpuArchiNode.getX() + 100, lastBusNode.tdp.getMaxY() - 300, lastBusNode.tdp.getMinX(), lastBusNode.tdp.getMaxX(), lastBusNode.tdp.getMinY(), lastBusNode.tdp.getMaxY(), true, null, lastBusNode.tdp, null, null, new Vector<Point>());
@@ -1974,6 +2009,10 @@ public class GTURTLEModeling {
                                     p2.setFree(false);
                                     connectPrivatebusCPU.setP1(p2);
                                     lastBusNode.tdp.addComponent(connectPrivatebusCPU, cpuArchiNode.getX() + 100, cpuArchiNode.getY() + 100, false, true);
+                                    HwLink newLinkPrivateBusCPU = new HwLink("Link_"+newPrivateBus.getName() + "_" + cpuArchiNode.getName());
+                                    newLinkPrivateBusCPU.setNodes((HwBus) listE.getHwNode(newPrivateBus), listE.getHwNode(cpuArchiNode));
+                                    links.add(newLinkPrivateBusCPU);
+
 
                                     //Disconnect Public Bus and CPU
                                     lastBusNode.tdp.getConnectorConnectedTo(p2);
@@ -1981,6 +2020,12 @@ public class GTURTLEModeling {
                                         if ((connector.getTGComponent1() == cpuArchiNode && connector.getTGComponent2() == lastBusNode) || (connector.getTGComponent1() == lastBusNode && connector.getTGComponent2() == cpuArchiNode)) {
                                             TraceManager.addDev("Disconnect :" + connector.getTGComponent1().getName() + " and " + connector.getTGComponent2().getName());
                                             lastBusNode.tdp.removeComponent(connector);
+                                        }       
+                                    }
+                                    for (HwLink li: links) {
+                                        if (li.bus == lastLink.bus && li.hwnode == cpuNode) {
+                                            links.remove(li);
+                                            break;
                                         }       
                                     }
                                 }
@@ -3506,6 +3551,7 @@ public class GTURTLEModeling {
         // Builds a TURTLE modeling from diagrams
         //warnings = new Vector();
         //checkingErrors = null;
+        nullifyTMLModeling();
         mgui.setMode(MainGUI.VIEW_SUGG_DESIGN_KO);
         //tm = new TURTLEModeling();
         //listE = new CorrespondanceTGElement();

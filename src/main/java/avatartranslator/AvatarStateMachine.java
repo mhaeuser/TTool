@@ -374,7 +374,7 @@ public class AvatarStateMachine extends AvatarElement {
         return AvatarIBSolver.parser.indexOfVariable(expr, _aa.getName()) > -1;
     }
 
-    private int getSimplifiedElementsAux(Map<AvatarStateMachineElement, Integer> simplifiedElements, Set<AvatarStateMachineElement> visited,
+    private int getSimplifiedElementsAux(LinkedHashMap<AvatarStateMachineElement, Integer> simplifiedElements, Set<AvatarStateMachineElement> visited,
                                          AvatarStateMachineElement root, int counter) {
         if (visited.contains(root)) {
             Integer name = simplifiedElements.get(root);
@@ -395,8 +395,8 @@ public class AvatarStateMachine extends AvatarElement {
         return counter;
     }
 
-    public Map<AvatarStateMachineElement, Integer> getSimplifiedElements() {
-        Map<AvatarStateMachineElement, Integer> simplifiedElements = new HashMap<AvatarStateMachineElement, Integer>();
+    public LinkedHashMap<AvatarStateMachineElement, Integer> getSimplifiedElements() {
+        LinkedHashMap<AvatarStateMachineElement, Integer> simplifiedElements = new LinkedHashMap<AvatarStateMachineElement, Integer>();
         this.getSimplifiedElementsAux(simplifiedElements, new HashSet<AvatarStateMachineElement>(), startState, 0);
         return simplifiedElements;
     }

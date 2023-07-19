@@ -102,9 +102,9 @@ public class AVATAR2ProVerif implements AvatarTranslator {
     private ProVerifSpec spec;
     private AvatarSpecification avspec;
 
-    private HashMap<AvatarAttribute, AvatarAttribute> pubs;
-    private HashMap<AvatarAttribute, AvatarAttribute> nameEquivalence;
-    private HashSet<AvatarAttribute> secrecyChecked;
+    private LinkedHashMap<AvatarAttribute, AvatarAttribute> pubs;
+    private LinkedHashMap<AvatarAttribute, AvatarAttribute> nameEquivalence;
+    private List<AvatarAttribute> secrecyChecked;
 
     private int dummyDataCounter;
 
@@ -131,7 +131,7 @@ public class AVATAR2ProVerif implements AvatarTranslator {
         return result;
     }
 
-    protected static String translateTerm(AvatarTerm term, Map<AvatarAttribute, Integer> attributeCmp) {
+    protected static String translateTerm(AvatarTerm term, LinkedHashMap<AvatarAttribute, Integer> attributeCmp) {
         if (term instanceof AvatarAttribute) {
             AvatarAttribute attr = (AvatarAttribute) term;
 
@@ -256,7 +256,7 @@ public class AVATAR2ProVerif implements AvatarTranslator {
     // Supported guards: a == b, not(a == b), g1 and g2, g1 or g2
     // -> transformed into a = b, a <> b, g1 && g2, g1 || g2
     // Returns nulls otherwise
-    private static String translateGuard(AvatarGuard _guard, Map<AvatarAttribute, Integer> attributeCmp) {
+    private static String translateGuard(AvatarGuard _guard, LinkedHashMap<AvatarAttribute, Integer> attributeCmp) {
         //TraceManager.addDev("Handling Guard:" + _guard.toString());
         if (_guard == null || _guard instanceof AvatarGuardEmpty) {
             TraceManager.addDev("Null or empty guard");
@@ -541,7 +541,7 @@ public class AVATAR2ProVerif implements AvatarTranslator {
         List<AvatarBlock> blocks = this.avspec.getListOfBlocks();
         //  String action = "(";
         for (AvatarBlock block : blocks) {
-            Map<AvatarStateMachineElement, Integer> simplifiedElements = block.getStateMachine().getSimplifiedElements();
+            LinkedHashMap<AvatarStateMachineElement, Integer> simplifiedElements = block.getStateMachine().getSimplifiedElements();
             if (simplifiedElements.get(block.getStateMachine().getStartState()) == null)
                 simplifiedElements.put(block.getStateMachine().getStartState(), Integer.valueOf(0));
 
@@ -560,7 +560,7 @@ public class AVATAR2ProVerif implements AvatarTranslator {
                 }
 
         /* Secrecy Assumptions */
-        this.secrecyChecked = new HashSet<AvatarAttribute>();
+        this.secrecyChecked = new ArrayList<AvatarAttribute>();
 
         this.spec.addDeclaration(new ProVerifComment("Secrecy Assumptions"));
         //TraceManager.addDev("Secrecy Assumptions");
@@ -608,7 +608,7 @@ public class AVATAR2ProVerif implements AvatarTranslator {
         if (this.stateReachability != JDialogProverifVerification.REACHABILITY_NONE) {
             this.spec.addDeclaration(new ProVerifComment("Queries Event"));
             for (AvatarBlock block : this.avspec.getListOfBlocks()) {
-                HashSet<AvatarStateMachineElement> visited = new HashSet<AvatarStateMachineElement>();
+                List<AvatarStateMachineElement> visited = new ArrayList<AvatarStateMachineElement>();
                 LinkedList<AvatarStateMachineElement> toVisit = new LinkedList<AvatarStateMachineElement>();
                 toVisit.add(block.getStateMachine().getStartState());
                 while (!toVisit.isEmpty()) {
@@ -632,7 +632,7 @@ public class AVATAR2ProVerif implements AvatarTranslator {
         /* Autenticity */
         this.spec.addDeclaration(new ProVerifComment("Authenticity"));
         //TraceManager.addDev ("Authenticity");
-        HashSet<String> authenticityEvents = new HashSet<String>();
+        List<String> authenticityEvents = new ArrayList<String>();
         for (AvatarPragma pragma : this.avspec.getPragmas())
             if (pragma instanceof AvatarPragmaAuthenticity) {
                 AvatarAttributeState attrA = ((AvatarPragmaAuthenticity) pragma).getAttrA();
@@ -665,7 +665,7 @@ public class AVATAR2ProVerif implements AvatarTranslator {
         List<AvatarBlock> blocks = avspec.getListOfBlocks();
 
         // Used to store the names that are public keys
-        this.pubs = new HashMap<AvatarAttribute, AvatarAttribute>();
+        this.pubs = new LinkedHashMap<AvatarAttribute, AvatarAttribute>();
         for (AvatarPragma pragma : this.avspec.getPragmas())
             if (pragma instanceof AvatarPragmaPrivatePublicKey)
                 this.pubs.put(((AvatarPragmaPrivatePublicKey) pragma).getPublicKey(), ((AvatarPragmaPrivatePublicKey) pragma).getPrivateKey());
@@ -676,7 +676,7 @@ public class AVATAR2ProVerif implements AvatarTranslator {
         // Enable to raise warning when an attribute is both system and session knowledge
         List<AvatarAttribute> systemKnowledge = new LinkedList<AvatarAttribute>();
 
-        this.nameEquivalence = new HashMap<AvatarAttribute, AvatarAttribute>();
+        this.nameEquivalence = new LinkedHashMap<AvatarAttribute, AvatarAttribute>();
 
         //TraceManager.addDev("Finding constants");
         for (AvatarBlock block : blocks)
@@ -774,7 +774,7 @@ public class AVATAR2ProVerif implements AvatarTranslator {
         lastInstr = lastInstr.setNextInstr(paral);
 
         for (AvatarBlock block : blocks) {
-            Map<AvatarStateMachineElement, Integer> simplifiedElements = block.getStateMachine().getSimplifiedElements();
+            LinkedHashMap<AvatarStateMachineElement, Integer> simplifiedElements = block.getStateMachine().getSimplifiedElements();
 
             if (simplifiedElements.get(block.getStateMachine().getStartState()) == null)
                 paral.addInstr(new ProVerifProcCall(block.getName() + ATTR_DELIM + "0", new ProVerifVar[]{new ProVerifVar("sessionID", "bitstring")}));
@@ -985,13 +985,13 @@ public class AVATAR2ProVerif implements AvatarTranslator {
         lastInstr = lastInstr.setNextInstr(new ProVerifProcRaw(tmp + ")))"));
 
         // Generate a new process for every simplified element of the block's state machine
-        Map<AvatarStateMachineElement, Integer> simplifiedElements = ab.getStateMachine().getSimplifiedElements();
+        LinkedHashMap<AvatarStateMachineElement, Integer> simplifiedElements = ab.getStateMachine().getSimplifiedElements();
         if (simplifiedElements.get(ab.getStateMachine().getStartState()) == null)
             simplifiedElements.put(ab.getStateMachine().getStartState(), Integer.valueOf(0));
 
         for (AvatarStateMachineElement asme : simplifiedElements.keySet())
             if (asme != null) {
-                HashMap<AvatarAttribute, Integer> attributeCmp = new HashMap<AvatarAttribute, Integer>();
+                LinkedHashMap<AvatarAttribute, Integer> attributeCmp = new LinkedHashMap<AvatarAttribute, Integer>();
                 for (AvatarAttribute attr : ab.getAttributes()) {
                     //TraceManager.addDev ("=== " + attr.getName());
                     attributeCmp.put(attr, 0);
@@ -1374,7 +1374,7 @@ public class AVATAR2ProVerif implements AvatarTranslator {
             _lastInstr = _lastInstr.setNextInstr(new ProVerifProcRaw("event enteringState" + ATTR_DELIM + arg.block.getName() + ATTR_DELIM + _asme.getName() + "()", true));
 
         // Adding an event if authenticity is concerned with that state
-        HashSet<String> authenticityEvents = new HashSet<String>();
+        List<String> authenticityEvents = new ArrayList<String>();
         for (AvatarPragma pragma : this.avspec.getPragmas())
             if (pragma instanceof AvatarPragmaAuthenticity) {
                 AvatarAttributeState attrA = ((AvatarPragmaAuthenticity) pragma).getAttrA();
@@ -1417,7 +1417,7 @@ public class AVATAR2ProVerif implements AvatarTranslator {
             TraceManager.addDev("if guard: " + ite.getCond());
             //TraceManager.addDev("else guard: " + ite.getElse().getCond());
 
-            HashMap<AvatarAttribute, Integer> attributeCmp = new HashMap<AvatarAttribute, Integer>(arg.attributeCmp);
+            LinkedHashMap<AvatarAttribute, Integer> attributeCmp = new LinkedHashMap<AvatarAttribute, Integer>(arg.attributeCmp);
 
             arg.lastInstr = _lastInstr.setNextInstr(ite);
             arg.lastASME = _asme;
@@ -1437,12 +1437,12 @@ public class AVATAR2ProVerif implements AvatarTranslator {
             }
             _lastInstr = _lastInstr.setNextInstr(new ProVerifProcIn(CH_MAINCH, new ProVerifVar[]{new ProVerifVar("choice" + ATTR_DELIM + _asme.getName(), "bitstring")}));
 
-            Map<AvatarAttribute, Integer> attributeCmp = arg.attributeCmp;
+            LinkedHashMap<AvatarAttribute, Integer> attributeCmp = arg.attributeCmp;
             for (int i = 0; i < nbOfNexts - 1; i++) {
                 String choice = "choice" + ATTR_DELIM + _asme.getName() + ATTR_DELIM + i;
                 ProVerifProcITE ite = new ProVerifProcITE("choice" + ATTR_DELIM + _asme.getName() + " = " + choice);
 
-                arg.attributeCmp = new HashMap<AvatarAttribute, Integer>(attributeCmp);
+                arg.attributeCmp = new LinkedHashMap<AvatarAttribute, Integer>(attributeCmp);
                 arg.lastASME = _asme;
                 arg.lastInstr = _lastInstr.setNextInstr(ite);
                 this.translateNext(_asme.getNext(i), arg);
@@ -1514,8 +1514,8 @@ public class AVATAR2ProVerif implements AvatarTranslator {
     class ProVerifTranslatorParameter {
         AvatarBlock block;
         ProVerifProcInstr lastInstr;
-        Map<AvatarStateMachineElement, Integer> simplifiedElements;
-        Map<AvatarAttribute, Integer> attributeCmp;
+        LinkedHashMap<AvatarStateMachineElement, Integer> simplifiedElements;
+        LinkedHashMap<AvatarAttribute, Integer> attributeCmp;
         AvatarStateMachineElement lastASME;
     }
 }

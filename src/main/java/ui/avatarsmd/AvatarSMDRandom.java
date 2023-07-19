@@ -109,6 +109,17 @@ public class AvatarSMDRandom extends  AvatarSMDBasicCanBeDisabledComponent /* Is
 
 	public void setVariable(String v){
 		variable=v;
+        makeValue();
+	}
+
+    public void setMaxValue(String _maxValue) {
+		maxValue = _maxValue;
+        makeValue();
+	}
+
+    public void setMinValue(String _minValue) {
+		minValue = _minValue;
+        makeValue();
 	}
 
 	@Override

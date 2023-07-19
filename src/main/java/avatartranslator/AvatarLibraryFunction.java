@@ -463,7 +463,7 @@ public class AvatarLibraryFunction extends AvatarElement implements AvatarTransl
                 signalsMapping,
                 firstElement,
                 lastState,
-                new HashMap<AvatarStateMachineElement, AvatarStateMachineElement> (),
+                new LinkedHashMap<AvatarStateMachineElement, AvatarStateMachineElement> (),
                 block,
                 referenceObject,
                 counter);

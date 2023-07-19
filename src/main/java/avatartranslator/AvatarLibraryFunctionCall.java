@@ -41,7 +41,7 @@
 
 package avatartranslator;
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.LinkedList;
 
 
@@ -205,7 +205,7 @@ public class AvatarLibraryFunctionCall extends AvatarStateMachineElement {
      * @return The last state that marks the end of the function call.
      */
     public AvatarState inlineFunctionCall (AvatarBlock block, AvatarStateMachineElement firstElement) {
-        HashMap<AvatarAttribute, AvatarAttribute> placeholdersMapping = new HashMap<AvatarAttribute, AvatarAttribute> ();
+        LinkedHashMap<AvatarAttribute, AvatarAttribute> placeholdersMapping = new LinkedHashMap<AvatarAttribute, AvatarAttribute> ();
 
         /* Create new attributes for local variables */
         this.libraryFunction.addAttributesToBlock (block, placeholdersMapping);
@@ -214,7 +214,7 @@ public class AvatarLibraryFunctionCall extends AvatarStateMachineElement {
         this.libraryFunction.addAttributesToMapping (placeholdersMapping, this.parameters, this.returnAttributes);
 
         /* Add signals to mapping */
-        HashMap<AvatarSignal, AvatarSignal> signalsMapping = new HashMap<AvatarSignal, AvatarSignal> ();
+        LinkedHashMap<AvatarSignal, AvatarSignal> signalsMapping = new LinkedHashMap<AvatarSignal, AvatarSignal> ();
         this.libraryFunction.addSignalsToMapping (signalsMapping, this.signals);
 
         /* Translate the state machine */

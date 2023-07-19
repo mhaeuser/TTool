@@ -481,8 +481,8 @@ public class TML2Avatar {
             elementList.add(tran);
         } else if (ae instanceof TMLRandomSequence) {
             //HashMap<Integer, List<AvatarStateMachineElement>> seqs = new HashMap<Integer, List<AvatarStateMachineElement>>();
-            AvatarState choiceStateInit = new AvatarState("seqchoiceInit__" + reworkStringName(ae.getName()), ae.getReferenceObject());
-            AvatarState choiceState = new AvatarState("seqchoice__" + reworkStringName(ae.getName()), ae.getReferenceObject());
+            AvatarState choiceStateInit = new AvatarState("seqchoiceInit__" + reworkStringName(ae.getName()), ae.getReferenceObject(), block);
+            AvatarState choiceState = new AvatarState("seqchoice__" + reworkStringName(ae.getName()), ae.getReferenceObject(), block);
             AvatarTransition tranChoiceStateInit = new AvatarTransition(block, "trans_seqchoiceInit__" + reworkStringName(ae.getName()), ae.getReferenceObject());
             elementList.add(choiceStateInit);
             elementList.add(tranChoiceStateInit);
@@ -516,7 +516,7 @@ public class TML2Avatar {
                     choiceState.addNext(tran);
                     elementList.add(tran);
                     List<AvatarStateMachineElement> tmp = translateState(ae.getNextElement(i), block, autoAuthChans);
-                    AvatarState choiceStateEnd = new AvatarState("seqchoiceend__" + i + "_" + reworkStringName(ae.getName()), ae.getReferenceObject());
+                    AvatarState choiceStateEnd = new AvatarState("seqchoiceend__" + i + "_" + reworkStringName(ae.getName()), ae.getReferenceObject(), block);
                     AvatarTransition tranChoiceStateEnd = new AvatarTransition(block, "trans_seqchoiceend__" + i + "_" + reworkStringName(ae.getName()), ae.getReferenceObject());
                     choiceStateEnd.addNext(tranChoiceStateEnd);
                     elementList.add(choiceStateEnd);
@@ -544,7 +544,7 @@ public class TML2Avatar {
                 tran.setGuard("seqNb_" + ae.getName() + ae.getID() + " == " + ae.getNbNext());
                 choiceState.addNext(tran);
                 elementList.add(tran);
-                AvatarStopState stop = new AvatarStopState("stop", null);
+                AvatarStopState stop = new AvatarStopState("stop", null, block);
                 tran.addNext(stop);
                 elementList.add(stop);
                 

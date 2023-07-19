@@ -424,7 +424,7 @@ public class TML2Avatar {
             AvatarState signalState = new AvatarState("signalstate_" + reworkStringName(ae.getName()) + "_" + reworkStringName(req.getName()), ae.getReferenceObject(), checkAcc, checked);
             AvatarTransition signalTran = new AvatarTransition(block, "__after_signalstate_" + ae.getName() + "_" + req.getName(), ae.getReferenceObject());
             if (!signalOutMap.containsKey(req.getName())) {
-                sig = new AvatarSignal(getName(req.getName()), AvatarSignal.OUT, req.getReferenceObject());
+                sig = new AvatarSignal(getNameReworked(req.getName(), 1), AvatarSignal.OUT, req.getReferenceObject());
                 signals.add(sig);
                 signalOutMap.put(req.getName(), sig);
                 block.addSignal(sig);
@@ -450,7 +450,7 @@ public class TML2Avatar {
                     } else {
                         type = AvatarType.UNDEFINED;
                     }
-                    String nameNewAtt = req.getName() + "_" + req.getID() + "_" + i + "_" + sr.getParam(i);
+                    String nameNewAtt = getNameReworked(req.getName(), 1) + "_" + req.getID() + "_" + i + "_" + sr.getParam(i);
                     if (block.getAvatarAttributeWithName(nameNewAtt) == null) {
                         AvatarAttribute avattr = new AvatarAttribute(nameNewAtt, type, block, null);
                         avattr.setInitialValue(sr.getParam(i));
@@ -480,7 +480,13 @@ public class TML2Avatar {
             elementList.add(tran);
         } else if (ae instanceof TMLRandomSequence) {
             //HashMap<Integer, List<AvatarStateMachineElement>> seqs = new HashMap<Integer, List<AvatarStateMachineElement>>();
+            AvatarState choiceStateInit = new AvatarState("seqchoiceInit__" + reworkStringName(ae.getName()), ae.getReferenceObject());
             AvatarState choiceState = new AvatarState("seqchoice__" + reworkStringName(ae.getName()), ae.getReferenceObject());
+            AvatarTransition tranChoiceStateInit = new AvatarTransition(block, "trans_seqchoiceInit__" + reworkStringName(ae.getName()), ae.getReferenceObject());
+            elementList.add(choiceStateInit);
+            elementList.add(tranChoiceStateInit);
+            choiceStateInit.addNext(tranChoiceStateInit);
+            tranChoiceStateInit.addNext(choiceState);
             elementList.add(choiceState);
 
             if (ae.getNbNext() == 1) {
@@ -497,8 +503,12 @@ public class TML2Avatar {
                     tran = new AvatarTransition(block, "__after_" + ae.getName() + "_" + i, ae.getReferenceObject());
                     block.addAttribute(new AvatarAttribute("seq_" + ae.getName() + i + "_" + ae.getID(), AvatarType.INTEGER, block, null));
                     tran.addAction("seq_" + ae.getName() + i + "_" + ae.getID() + " = 1");
-                    tran.addAction("seqNb_" + ae.getName() + ae.getID() +  " = 1 + " + "seqNb_" + ae.getName() + ae.getID());
+                    tran.addAction("seqNb_" + ae.getName() + ae.getID() +  " = " + "seqNb_" + ae.getName() + ae.getID() + " + 1");
                     tran.setGuard("seq_" + ae.getName() + i + "_" + ae.getID() + " == 0");
+                    if (i == 0) {
+                        tranChoiceStateInit.addAction("seqNb_" + ae.getName() + ae.getID() +  " = 0");
+                    }
+                    tranChoiceStateInit.addAction("seq_" + ae.getName() + i + "_" + ae.getID() + " = 0");
                     //tran.addAction(AvatarTerm.createActionFromString(block, "seq_"+ae.getName()+i+ae.getID()+" = 1"));
                     //tran.addAction(AvatarTerm.createActionFromString(block, "seqNb_"+ae.getName()+ae.getID()+" = 1 + " + "seqNb_"+ae.getName()+ae.getID()));
                     
@@ -680,7 +690,7 @@ public class TML2Avatar {
             if (ae instanceof TMLSendEvent) {
                 AvatarSignal sig;
                 if (!signalOutMap.containsKey(evt.getName())) {
-                    sig = new AvatarSignal(evt.getName(), AvatarSignal.OUT, evt.getReferenceObject());
+                    sig = new AvatarSignal(getNameReworked(evt.getName(), 1), AvatarSignal.OUT, evt.getReferenceObject());
                     signals.add(sig);
                     block.addSignal(sig);
                     signalOutMap.put(evt.getName(), sig);
@@ -705,7 +715,7 @@ public class TML2Avatar {
                         } else {
                             type = AvatarType.UNDEFINED;
                         }
-                        String nameNewAtt = evt.getName() + "_" + evt.getID() + "_" + i + "_" + aee.getParam(i);
+                        String nameNewAtt = getNameReworked(evt.getName(), 1) + "_" + evt.getID() + "_" + i + "_" + aee.getParam(i);
                         if (block.getAvatarAttributeWithName(nameNewAtt) == null) {
                             AvatarAttribute avattr = new AvatarAttribute(nameNewAtt, type, block, null);
                             avattr.setInitialValue(aee.getParam(i));
@@ -734,7 +744,7 @@ public class TML2Avatar {
             } else if (ae instanceof TMLWaitEvent) {
                 AvatarSignal sig;
                 if (!signalInMap.containsKey(evt.getName())) {
-                    sig = new AvatarSignal(evt.getName(), AvatarSignal.IN, evt.getReferenceObject());
+                    sig = new AvatarSignal(getNameReworked(evt.getName(), 3), AvatarSignal.IN, evt.getReferenceObject());
                     signals.add(sig);
                     block.addSignal(sig);
                     signalInMap.put(evt.getName(), sig);
@@ -759,7 +769,7 @@ public class TML2Avatar {
                         } else {
                             type = AvatarType.UNDEFINED;
                         }
-                        String nameNewAtt = evt.getName() + "_" + evt.getID() + "_" + i + "_" + aee.getParam(i);
+                        String nameNewAtt = getNameReworked(evt.getName(), 3) + "_" + evt.getID() + "_" + i + "_" + aee.getParam(i);
                         if (block.getAvatarAttributeWithName(nameNewAtt) == null) {
                             AvatarAttribute avattr = new AvatarAttribute(nameNewAtt, type, block, null);
                             avattr.setInitialValue(aee.getParam(i));
@@ -1664,7 +1674,7 @@ public class TML2Avatar {
             if (!s.contains("__")) {
                 nameMap.put(s, s);
                 return s;
-            } else if (s.split("__").length == 1) {
+            } else if (s.split("__").length == 1 || s.split("__").length == 2 || s.split("__").length == 3 || s.split("__").length == 4) {
                 nameMap.put(s, s.split("__")[s.split("__").length - 1]);
                 return s.split("__")[s.split("__").length - 1];
             } else if (s.contains("JOIN") || s.contains("FORK")) {

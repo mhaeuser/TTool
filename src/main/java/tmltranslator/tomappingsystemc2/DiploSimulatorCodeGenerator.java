@@ -950,8 +950,9 @@ public class DiploSimulatorCodeGenerator implements IDiploSimulatorCodeGenerator
             }
 
             path.add(memory);
-
-            exploreBuses(0, commNodes2, path, memory, destNode, commElemToRoute);
+            List<HwCommunicationNode> pathMemoryToDestNode = new LinkedList<HwCommunicationNode>();
+            exploreBuses(0, commNodes2, pathMemoryToDestNode, memory, destNode, commElemToRoute);
+            path.addAll(pathMemoryToDestNode);
         }
 
         int hopNum = extractPath(path, masters, slaves, startNode, destNode, false);

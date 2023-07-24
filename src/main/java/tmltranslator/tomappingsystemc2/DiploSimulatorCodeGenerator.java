@@ -944,11 +944,11 @@ public class DiploSimulatorCodeGenerator implements IDiploSimulatorCodeGenerator
 
             // TraceManager.addDev("Explore bus from " + startNode.getName() + " to memory "
             // + memory.getName());
-
-            if (!exploreBuses(0, commNodes, path, startNode, memory, commElemToRoute)) {
+            List<HwCommunicationNode> pathStartNodeToMemory = new LinkedList<HwCommunicationNode>();
+            if (!exploreBuses(0, commNodes, pathStartNodeToMemory, startNode, memory, commElemToRoute)) {
                 TraceManager.addDev("1. NO route to " + memory.getName() + " found!!!!!!!!!!!!!!!!!!!!!!!!!!");
             }
-
+            path.addAll(pathStartNodeToMemory);
             path.add(memory);
             List<HwCommunicationNode> pathMemoryToDestNode = new LinkedList<HwCommunicationNode>();
             exploreBuses(0, commNodes2, pathMemoryToDestNode, memory, destNode, commElemToRoute);

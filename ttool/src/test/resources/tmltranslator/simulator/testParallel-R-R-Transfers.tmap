@@ -1,19 +1,23 @@
 TMLSPEC
-    #include "testParallelTransfers.tml"
+    #include "testParallel-R-R-Transfers.tml"
 ENDTMLSPEC
 
 TMLARCHI
-    #include "testParallelTransfers.tarchi"
+    #include "testParallel-R-R-Transfers.tarchi"
 ENDTMLARCHI
 
 TMLMAPPING
-    MAP CPUOrigin2 Application__Origin2
-    SET Application__Origin2 priority 0
-    MAP CPUDestination Application__Destination
-    SET Application__Destination priority 0
-    MAP CPUOrigin1 Application__Origin1
-    SET Application__Origin1 priority 0
+    MAP CPUDestination2 Application__Destination2
+    SET Application__Destination2 priority 0
+    MAP CPUDestination1 Application__Destination1
+    SET Application__Destination1 priority 0
+    MAP CPUOrigin Application__Origin
+    SET Application__Origin priority 0
     MAP MemoryOrigin2 Application__comm2
+    SET Application__comm2 priority 0
+    MAP Bus1 Application__comm2
+    SET Application__comm2 priority 0
+    MAP Bus2 Application__comm2
     SET Application__comm2 priority 0
     MAP Bus3 Application__comm2
     SET Application__comm2 priority 0
@@ -24,9 +28,5 @@ TMLMAPPING
     MAP Bus1 Application__comm1
     SET Application__comm1 priority 0
     MAP Bus2 Application__comm1
-    SET Application__comm1 priority 0
-    MAP Bus3 Application__comm1
-    SET Application__comm1 priority 0
-    MAP Bus4 Application__comm1
     SET Application__comm1 priority 0
 ENDTMLMAPPING

@@ -45,8 +45,8 @@ public class DiplodocusSimulatorTest extends AbstractTest {
     // model with paths allowing parallel transfers
     private static final String SIM_KEYWORD_TIME_BEG = "Simulated time:";
     private static final String SIM_KEYWORD_TIME_END = "time";
-    final String MODEL_PARALLEL_TRANSFERS = "testParallelTransfers";
-    final String SIMUL_END_TIME = "3";
+    final String[] MODELS_PARALLEL_TRANSFERS = {"testParallel-W-W-Transfers", "testParallel-R-R-Transfers", "testParallel-W-R-Transfers"};
+    final String[] SIMULS_END_TIME = {"3", "3", "3"};
     private String SIM_DIR;
 
     @BeforeClass
@@ -604,136 +604,138 @@ public class DiplodocusSimulatorTest extends AbstractTest {
 
     @Test
     public void testPathsWithParallelTransfers() throws Exception {
-        String s = MODEL_PARALLEL_TRANSFERS;
-        SIM_DIR = DIR_GEN + s + "/";
-        System.out.println("executing: checking syntax " + s);
+        for (int i = 0; i < MODELS_PARALLEL_TRANSFERS.length; i++) {
+            String s = MODELS_PARALLEL_TRANSFERS[i];
+            SIM_DIR = DIR_GEN + s + "/";
+            System.out.println("executing: checking syntax " + s);
 
-        // Load the TML
-        System.out.println("executing: loading " + s);
-        TMLMappingTextSpecification tmts = new TMLMappingTextSpecification(s);
-        File f = new File(RESOURCES_DIR + s + ".tmap");
-        System.out.println("executing: new file loaded " + s);
-        String spec = null;
-        try {
-            spec = FileUtils.loadFileData(f);
-        } catch (Exception e) {
-            System.out.println("Exception executing: loading " + s);
-            assertTrue(false);
-        }
-        System.out.println("executing: testing spec " + s);
-        assertTrue(spec != null);
-        System.out.println("executing: testing parsed " + s);
-        boolean parsed = tmts.makeTMLMapping(spec, RESOURCES_DIR);
-        assertTrue(parsed);
-        System.out.println("executing: checking syntax " + s);
-
-        // Checking syntax
-        TMLMapping tmap = tmts.getTMLMapping();
-        TMLSyntaxChecking syntax = new TMLSyntaxChecking(tmap);
-        syntax.checkSyntax();
-        assertTrue(syntax.hasErrors() == 0);
-
-        // Generate C code
-        System.out.println("executing: sim code gen for " + s);
-        final IDiploSimulatorCodeGenerator tml2systc;
-        List<EBRDD> al = new ArrayList<EBRDD>();
-        List<TEPE> alTepe = new ArrayList<TEPE>();
-        tml2systc = DiploSimulatorFactory.INSTANCE.createCodeGenerator(tmap, al, alTepe);
-        tml2systc.setModelName(s);
-        String error = tml2systc.generateSystemC(false, true);
-        assertTrue(error == null);
-        File directory = new File(SIM_DIR);
-        if (! directory.exists()){
-            directory.mkdirs();
-        }
-
-        // Putting sim files
-        System.out.println("SIM executing: sim lib code copying for " + s);
-        ConfigurationTTool.SystemCCodeDirectory = getBaseResourcesDir() +  "../../../../simulators/c++2/";
-        boolean simFiles = SpecConfigTTool.checkAndCreateSystemCDir(SIM_DIR);
-        System.out.println("SIM executing: sim lib code copying done with result " + simFiles);
-        assertTrue(simFiles);
-        System.out.println("SIM Saving file in: " + SIM_DIR);
-        tml2systc.saveFile(SIM_DIR, "appmodel");
-
-        // Compile it
-        System.out.println("executing: compile");
-        Process proc;
-        BufferedReader proc_in;
-        String str;
-        boolean mustRecompileAll;
-        Penalties penalty = new Penalties(SIM_DIR + File.separator + "src_simulator");
-        int changed = penalty.handlePenalties(false);
-        if (changed == 1) {
-            mustRecompileAll = true;
-        } else {
-            mustRecompileAll = false;
-        }
-
-        if (mustRecompileAll) {
-            System.out.println("executing: " + "make -C " + SIM_DIR + " clean");
+            // Load the TML
+            System.out.println("executing: loading " + s);
+            TMLMappingTextSpecification tmts = new TMLMappingTextSpecification(s);
+            File f = new File(RESOURCES_DIR + s + ".tmap");
+            System.out.println("executing: new file loaded " + s);
+            String spec = null;
             try {
-                proc = Runtime.getRuntime().exec("make -C " + SIM_DIR + " clean");
+                spec = FileUtils.loadFileData(f);
+            } catch (Exception e) {
+                System.out.println("Exception executing: loading " + s);
+                assertTrue(false);
+            }
+            System.out.println("executing: testing spec " + s);
+            assertTrue(spec != null);
+            System.out.println("executing: testing parsed " + s);
+            boolean parsed = tmts.makeTMLMapping(spec, RESOURCES_DIR);
+            assertTrue(parsed);
+            System.out.println("executing: checking syntax " + s);
+
+            // Checking syntax
+            TMLMapping tmap = tmts.getTMLMapping();
+            TMLSyntaxChecking syntax = new TMLSyntaxChecking(tmap);
+            syntax.checkSyntax();
+            assertTrue(syntax.hasErrors() == 0);
+
+            // Generate C code
+            System.out.println("executing: sim code gen for " + s);
+            final IDiploSimulatorCodeGenerator tml2systc;
+            List<EBRDD> al = new ArrayList<EBRDD>();
+            List<TEPE> alTepe = new ArrayList<TEPE>();
+            tml2systc = DiploSimulatorFactory.INSTANCE.createCodeGenerator(tmap, al, alTepe);
+            tml2systc.setModelName(s);
+            String error = tml2systc.generateSystemC(false, true);
+            assertTrue(error == null);
+            File directory = new File(SIM_DIR);
+            if (! directory.exists()){
+                directory.mkdirs();
+            }
+
+            // Putting sim files
+            System.out.println("SIM executing: sim lib code copying for " + s);
+            ConfigurationTTool.SystemCCodeDirectory = getBaseResourcesDir() +  "../../../../simulators/c++2/";
+            boolean simFiles = SpecConfigTTool.checkAndCreateSystemCDir(SIM_DIR);
+            System.out.println("SIM executing: sim lib code copying done with result " + simFiles);
+            assertTrue(simFiles);
+            System.out.println("SIM Saving file in: " + SIM_DIR);
+            tml2systc.saveFile(SIM_DIR, "appmodel");
+
+            // Compile it
+            System.out.println("executing: compile");
+            Process proc;
+            BufferedReader proc_in;
+            String str;
+            boolean mustRecompileAll;
+            Penalties penalty = new Penalties(SIM_DIR + File.separator + "src_simulator");
+            int changed = penalty.handlePenalties(false);
+            if (changed == 1) {
+                mustRecompileAll = true;
+            } else {
+                mustRecompileAll = false;
+            }
+
+            if (mustRecompileAll) {
+                System.out.println("executing: " + "make -C " + SIM_DIR + " clean");
+                try {
+                    proc = Runtime.getRuntime().exec("make -C " + SIM_DIR + " clean");
+                    proc_in = new BufferedReader(new InputStreamReader(proc.getInputStream()));
+                    while ((str = proc_in.readLine()) != null) {
+                        System.out.println("executing: " + str);
+                    }
+                } catch (Exception e) {
+                    // probably make is not installed
+                    System.out.println("FAILED: executing: " + "make -C " + SIM_DIR + " clean");
+                    return;
+                }
+            }
+
+            System.out.println("executing: " + "make -C " + SIM_DIR);
+            try {
+                proc = Runtime.getRuntime().exec("make -C " + SIM_DIR + "");
                 proc_in = new BufferedReader(new InputStreamReader(proc.getInputStream()));
+                monitorError(proc);
                 while ((str = proc_in.readLine()) != null) {
                     System.out.println("executing: " + str);
                 }
             } catch (Exception e) {
-                // probably make is not installed
-                System.out.println("FAILED: executing: " + "make -C " + SIM_DIR + " clean");
+                // Probably make is not installed
+                System.out.println("FAILED: executing: " + "make -C " + SIM_DIR);
                 return;
             }
-        }
+            System.out.println("SUCCESS: executing: " + "make -C " + SIM_DIR);
 
-        System.out.println("executing: " + "make -C " + SIM_DIR);
-        try {
-            proc = Runtime.getRuntime().exec("make -C " + SIM_DIR + "");
-            proc_in = new BufferedReader(new InputStreamReader(proc.getInputStream()));
-            monitorError(proc);
-            while ((str = proc_in.readLine()) != null) {
-                System.out.println("executing: " + str);
-            }
-        } catch (Exception e) {
-            // Probably make is not installed
-            System.out.println("FAILED: executing: " + "make -C " + SIM_DIR);
-            return;
-        }
-        System.out.println("SUCCESS: executing: " + "make -C " + SIM_DIR);
+            // Run the simulator
+            String graphPath = SIM_DIR + "testgraph_" + s;
+            try {
 
-        // Run the simulator
-        String graphPath = SIM_DIR + "testgraph_" + s;
-        try {
+                String[] params = new String[3];
 
-            String[] params = new String[3];
+                params[0] = "./" + SIM_DIR + "run.x";
+                params[1] = "-cmd";
+                params[2] = "1 0; 1 7 100 100 " + graphPath;
+                proc = Runtime.getRuntime().exec(params);
+                //proc = Runtime.getRuntime().exec("./" + SIM_DIR + "run.x -explo -gname testgraph_" + s);
+                proc_in = new BufferedReader(new InputStreamReader(proc.getInputStream()));
 
-            params[0] = "./" + SIM_DIR + "run.x";
-            params[1] = "-cmd";
-            params[2] = "1 0; 1 7 100 100 " + graphPath;
-            proc = Runtime.getRuntime().exec(params);
-            //proc = Runtime.getRuntime().exec("./" + SIM_DIR + "run.x -explo -gname testgraph_" + s);
-            proc_in = new BufferedReader(new InputStreamReader(proc.getInputStream()));
+                monitorError(proc);
 
-            monitorError(proc);
-
-            boolean simulationTime = false;
-            while ((str = proc_in.readLine()) != null) {
-                System.out.println("executing: " + str);
-                if (str.startsWith(SIM_KEYWORD_TIME_BEG)) {
-                    String str1 = str.substring(SIM_KEYWORD_TIME_BEG.length());
-                    int index = str1.indexOf(SIM_KEYWORD_TIME_END);
-                    System.out.println("executing: str1=" + str1);
-                    if (index != -1) {
-                        String str2 = str1.substring(0, index).trim();
-                        System.out.println("executing: str2=" + str2);
-                        simulationTime = str2.compareTo(SIMUL_END_TIME) == 0;
+                boolean simulationTime = false;
+                while ((str = proc_in.readLine()) != null) {
+                    System.out.println("executing: " + str);
+                    if (str.startsWith(SIM_KEYWORD_TIME_BEG)) {
+                        String str1 = str.substring(SIM_KEYWORD_TIME_BEG.length());
+                        int index = str1.indexOf(SIM_KEYWORD_TIME_END);
+                        System.out.println("executing: str1=" + str1);
+                        if (index != -1) {
+                            String str2 = str1.substring(0, index).trim();
+                            System.out.println("executing: str2=" + str2);
+                            simulationTime = str2.compareTo(SIMULS_END_TIME[i]) == 0;
+                        }
                     }
                 }
+                assertTrue(simulationTime);
+            } catch (Exception e) {
+                // Probably make is not installed
+                System.out.println("FAILED: executing simulation");
+                return;
             }
-            assertTrue(simulationTime);
-        } catch (Exception e) {
-            // Probably make is not installed
-            System.out.println("FAILED: executing simulation");
-            return;
         }
     }
 }

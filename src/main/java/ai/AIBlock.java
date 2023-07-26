@@ -69,12 +69,11 @@ public class AIBlock extends AIInteract {
             "[ ... signals ... ] ... (no need to relist the attributes of signals, nor to give a direction). " +
             "#Respect: signals are defined like this in JSON: {\"signal\": \"input sig1(int x, bool b)\"} if the signal is an input signal" +
             " and {\"signal\": \"output sig1(int x, bool b)\"} if the signal is an output signal" +
-            "#Respect 2 signals with the same name are assumed to be connected: this is the only way to connect signals. " +
+            "#Respect: 2 signals with the same name are assumed to be connected: this is the only way to connect signals. " +
             "#Respect: Two connected signals must have " +
             "the same list of attributes, even if they are " +
             "defined in two different blocks. One of them must be output, the other one must be input" +
-            "#Respect: all input signals must have exactly one corresponding output signal, i.e., an ouput signal with the same name" +
-            "#Respect: two signals with the same name must be defined in different blocks";
+            "#Respect: whenever a block has a signal, another block must have a signal with the same name";
             /*"and after " +
             "the blocks, add the " +
             "following JSON: " +
@@ -96,7 +95,7 @@ public class AIBlock extends AIInteract {
             "typical system blocks and their attributes. Do respect the JSON format, and provide only JSON (no explanation before or after).\n",
             "From the previous JSON and system specification, update " +
             "this JSON with" +
-            " the signals you have to identify. If necessary, you can add new blocks and new attributes."};
+            " the signals you have to identify. If necessary, you can add new blocks and new attributes"};
 
 
     public AIBlock(AIChatData _chatData) {
@@ -123,7 +122,7 @@ public class AIBlock extends AIInteract {
             }
             ArrayList<String> errors;
             try {
-                TraceManager.addDev("Making specification from " + chatData.lastAnswer);
+                //TraceManager.addDev("Making specification from " + chatData.lastAnswer);
                 specification = AvatarSpecification.fromJSON(extractJSON(), "design", null, true);
                 errors = AvatarSpecification.getJSONErrors();
 

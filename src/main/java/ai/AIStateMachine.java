@@ -72,12 +72,12 @@ public class AIStateMachine extends AIInteract implements AISysMLV2DiagramConten
             "# Respect: in actions, use only attributes and signals already defined in the corresponding block" +
             "# Respect: at least one state must be called \"Start\", which is the start state" +
             "# Respect: if a guard, an action, or an after is empty, use an empty string \"\", do not use \"null\"" +
-            "# Respect: an action contains either a variable affection, e.g. \"x = x + 1\" or a signal send/receive " +
-            "# Respect If a transition contains several actions, use a \";\" to separate them " +
+            "# Respect: an action contains either a variable affectation, e.g. \"x = x + 1\" or a signal send/receive " +
+            "# Respect: if a transition contains several actions, use a \";\" to separate them " +
             "# Respect: a signal send is out::signalName(..) and a signal receive is in::signaNamd(...) " +
             "# Respect: the attribute of an action is named by its identifier, do not reference its block " +
             "# Respect: A guard cannot contain a reference to a signal " +
-            "# Rexpect: To reference the attribute \"x\" of block \"B\", use \"x\" and never \"B.x\" nor \"B::x\"";
+            "# Respect: To reference the attribute \"x\" of block \"B\", use \"x\" and never \"B.x\" nor \"B::x\"";
 
 
     private AvatarSpecification specification;
@@ -126,7 +126,7 @@ public class AIStateMachine extends AIInteract implements AISysMLV2DiagramConten
         for(String blockName: blockNames) {
             TraceManager.addDev("Handling block: " + blockName);
             done = false; cpt = 0;
-            int max = 3;
+            int max = 10;
 
 
             questionT = QUESTION_IDENTIFY_STATE_MACHINE[0] + blockName;

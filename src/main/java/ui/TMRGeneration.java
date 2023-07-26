@@ -149,8 +149,7 @@ public class TMRGeneration implements Runnable {
             if (portConnectorsSensorReceiverList.size() == 1) {
                 // Add New Read Channel
                 TMLADReadChannel readChannel = new TMLADReadChannel(300, 100, interpreterAD.getMinX(), interpreterAD.getMaxX(), interpreterAD.getMinY(), interpreterAD.getMaxY(), false, null, interpreterAD);
-                readChannel.setChannelName();
-                readChannel.setSamples();
+                readChannel.setChannelName(portConnectorsSensorReceiverList.get(0).getTGConnectingPointP1().getName());
                 fromStart = new TGConnectorTMLAD(xpos, ypos, interpreterAD.getMinX(), interpreterAD.getMaxX(), interpreterAD.getMinY(), interpreterAD.getMaxY(), false, null, interpreterAD, null, null, new Vector<Point>());
                 xpos += 10;
                 //Connect forEverLoop and readChannel
@@ -158,34 +157,44 @@ public class TMRGeneration implements Runnable {
                 fromStart.setP2(readChannel.getTGConnectingPointAtIndex(0));
                 interpreterAD.addComponent(fromStart, 300, 200, false, true);
 
-                // Add New Send Event
-                TMLADSendEvent sendEvt = new TMLADSendEvent(300, 100, interpreterAD.getMinX(), interpreterAD.getMaxX(), interpreterAD.getMinY(), interpreterAD.getMaxY(), false, null, interpreterAD);
-                sendEvt.setEventName();
-                fromStart = new TGConnectorTMLAD(xpos, ypos, interpreterAD.getMinX(), interpreterAD.getMaxX(), interpreterAD.getMinY(), interpreterAD.getMaxY(), false, null, interpreterAD, null, null, new Vector<Point>());
-                xpos += 10;
-                //Connect readChannel and sendEvent
-                fromStart.setP1(readChannel.getTGConnectingPointAtIndex(1));
-                fromStart.setP2(sendEvt.getTGConnectingPointAtIndex(0));
-                interpreterAD.addComponent(fromStart, 300, 200, false, true);
-
                 // Add New ExecC Opt
                 TMLADExecC execCOpt = new TMLADExecC(300, 100, interpreterAD.getMinX(), interpreterAD.getMaxX(), interpreterAD.getMinY(), interpreterAD.getMaxY(), false, null, interpreterAD);
                 execCOpt.setValue(calTime.getName());
                 fromStart = new TGConnectorTMLAD(xpos, ypos, interpreterAD.getMinX(), interpreterAD.getMaxX(), interpreterAD.getMinY(), interpreterAD.getMaxY(), false, null, interpreterAD, null, null, new Vector<Point>());
                 xpos += 10;
-                //Connect sendEvent and execCOpt
-                fromStart.setP1(sendEvt.getTGConnectingPointAtIndex(1));
+                //Connect readChannel and execCOpt
+                fromStart.setP1(readChannel.getTGConnectingPointAtIndex(1));
                 fromStart.setP2(execCOpt.getTGConnectingPointAtIndex(0));
+                interpreterAD.addComponent(fromStart, 300, 200, false, true);
+
+                // Add New Send Event
+                TMLADSendEvent sendEvt = new TMLADSendEvent(300, 100, interpreterAD.getMinX(), interpreterAD.getMaxX(), interpreterAD.getMinY(), interpreterAD.getMaxY(), false, null, interpreterAD);
+                sendEvt.setEventName("evt_"+portConnectorsSensorReceiverList.get(0).getTGConnectingPointP1().getName());
+                fromStart = new TGConnectorTMLAD(xpos, ypos, interpreterAD.getMinX(), interpreterAD.getMaxX(), interpreterAD.getMinY(), interpreterAD.getMaxY(), false, null, interpreterAD, null, null, new Vector<Point>());
+                xpos += 10;
+                //Connect execCOpt and sendEvent 
+                fromStart.setP1(execCOpt.getTGConnectingPointAtIndex(1));
+                fromStart.setP2(sendEvt.getTGConnectingPointAtIndex(0));
+                interpreterAD.addComponent(fromStart, 300, 200, false, true);
+
+                // Add New Write Channel
+                TMLADWriteChannel writeChInterpreter = new TMLADWriteChannel(300, 100, interpreterAD.getMinX(), interpreterAD.getMaxX(), interpreterAD.getMinY(), interpreterAD.getMaxY(), false, null, interpreterAD);
+                writeChInterpreter.setChannelName("res_"+portConnectorsSensorReceiverList.get(0).getTGConnectingPointP1().getName());
+                fromStart = new TGConnectorTMLAD(xpos, ypos, interpreterAD.getMinX(), interpreterAD.getMaxX(), interpreterAD.getMinY(), interpreterAD.getMaxY(), false, null, interpreterAD, null, null, new Vector<Point>());
+                xpos += 10;
+                //Connect sendEvent and write Channel
+                fromStart.setP1(sendEvt.getTGConnectingPointAtIndex(1));
+                fromStart.setP2(writeChInterpreter.getTGConnectingPointAtIndex(0));
                 interpreterAD.addComponent(fromStart, 300, 200, false, true);
 
                 //Add Stop
                 TMLADStopState stop = new TMLADStopState(300, 100, interpreterAD.getMinX(), interpreterAD.getMaxX(), interpreterAD.getMinY(), interpreterAD.getMaxY(), false, null, interpreterAD);
                 interpreterAD.addComponent(stop, 300, 200, false, true);
 
-                //Connect execCOpt and stop
+                //Connect write Channel and stop
                 fromStart = new TGConnectorTMLAD(xpos, ypos, interpreterAD.getMinX(), interpreterAD.getMaxX(), interpreterAD.getMinY(), interpreterAD.getMaxY(), false, null, interpreterAD, null, null, new Vector<Point>());
                 xpos += 10;
-                fromStart.setP1(execCOpt.getTGConnectingPointAtIndex(1));
+                fromStart.setP1(writeChInterpreter.getTGConnectingPointAtIndex(1));
                 fromStart.setP2(stop.getTGConnectingPointAtIndex(0));
                 interpreterAD.addComponent(fromStart, 300, 200, false, true);
                 
@@ -204,8 +213,7 @@ public class TMRGeneration implements Runnable {
 
                     // Add New Read Channel
                     TMLADReadChannel readChannel = new TMLADReadChannel(300, 100, interpreterAD.getMinX(), interpreterAD.getMaxX(), interpreterAD.getMinY(), interpreterAD.getMaxY(), false, null, interpreterAD);
-                    readChannel.setChannelName();
-                    readChannel.setSamples();
+                    readChannel.setChannelName(portConnectorsSensorReceiverList.get(indexConnector).getTGConnectingPointP1().getName());
                     fromStart = new TGConnectorTMLAD(xpos, ypos, interpreterAD.getMinX(), interpreterAD.getMaxX(), interpreterAD.getMinY(), interpreterAD.getMaxY(), false, null, interpreterAD, null, null, new Vector<Point>());
                     xpos += 10;
                     //Connect Sequence and readChannel
@@ -213,34 +221,44 @@ public class TMRGeneration implements Runnable {
                     fromStart.setP2(readChannel.getTGConnectingPointAtIndex(0));
                     interpreterAD.addComponent(fromStart, 300, 200, false, true);
 
-                    // Add New Send Event
-                    TMLADSendEvent sendEvt = new TMLADSendEvent(300, 100, interpreterAD.getMinX(), interpreterAD.getMaxX(), interpreterAD.getMinY(), interpreterAD.getMaxY(), false, null, interpreterAD);
-                    sendEvt.setEventName();
-                    fromStart = new TGConnectorTMLAD(xpos, ypos, interpreterAD.getMinX(), interpreterAD.getMaxX(), interpreterAD.getMinY(), interpreterAD.getMaxY(), false, null, interpreterAD, null, null, new Vector<Point>());
-                    xpos += 10;
-                    //Connect readChannel and sendEvent
-                    fromStart.setP1(readChannel.getTGConnectingPointAtIndex(1));
-                    fromStart.setP2(sendEvt.getTGConnectingPointAtIndex(0));
-                    interpreterAD.addComponent(fromStart, 300, 200, false, true);
-
                     // Add New ExecC Opt
                     TMLADExecC execCOpt = new TMLADExecC(300, 100, interpreterAD.getMinX(), interpreterAD.getMaxX(), interpreterAD.getMinY(), interpreterAD.getMaxY(), false, null, interpreterAD);
                     execCOpt.setValue(calTime.getName());
                     fromStart = new TGConnectorTMLAD(xpos, ypos, interpreterAD.getMinX(), interpreterAD.getMaxX(), interpreterAD.getMinY(), interpreterAD.getMaxY(), false, null, interpreterAD, null, null, new Vector<Point>());
                     xpos += 10;
-                    //Connect sendEvent and execCOpt
-                    fromStart.setP1(sendEvt.getTGConnectingPointAtIndex(1));
+                    //Connect readChannel and execCOpt
+                    fromStart.setP1(readChannel.getTGConnectingPointAtIndex(1));
                     fromStart.setP2(execCOpt.getTGConnectingPointAtIndex(0));
+                    interpreterAD.addComponent(fromStart, 300, 200, false, true);
+
+                    // Add New Send Event
+                    TMLADSendEvent sendEvt = new TMLADSendEvent(300, 100, interpreterAD.getMinX(), interpreterAD.getMaxX(), interpreterAD.getMinY(), interpreterAD.getMaxY(), false, null, interpreterAD);
+                    sendEvt.setEventName("evt_"+portConnectorsSensorReceiverList.get(indexConnector).getTGConnectingPointP1().getName());
+                    fromStart = new TGConnectorTMLAD(xpos, ypos, interpreterAD.getMinX(), interpreterAD.getMaxX(), interpreterAD.getMinY(), interpreterAD.getMaxY(), false, null, interpreterAD, null, null, new Vector<Point>());
+                    xpos += 10;
+                    //Connect execCOpt and sendEvent 
+                    fromStart.setP1(execCOpt.getTGConnectingPointAtIndex(1));
+                    fromStart.setP2(sendEvt.getTGConnectingPointAtIndex(0));
+                    interpreterAD.addComponent(fromStart, 300, 200, false, true);
+
+                    // Add New Write Channel
+                    TMLADWriteChannel writeChInterpreter = new TMLADWriteChannel(300, 100, interpreterAD.getMinX(), interpreterAD.getMaxX(), interpreterAD.getMinY(), interpreterAD.getMaxY(), false, null, interpreterAD);
+                    writeChInterpreter.setChannelName("res_"+portConnectorsSensorReceiverList.get(indexConnector).getTGConnectingPointP1().getName());
+                    fromStart = new TGConnectorTMLAD(xpos, ypos, interpreterAD.getMinX(), interpreterAD.getMaxX(), interpreterAD.getMinY(), interpreterAD.getMaxY(), false, null, interpreterAD, null, null, new Vector<Point>());
+                    xpos += 10;
+                    //Connect sendEvent and write Channel
+                    fromStart.setP1(sendEvt.getTGConnectingPointAtIndex(1));
+                    fromStart.setP2(writeChInterpreter.getTGConnectingPointAtIndex(0));
                     interpreterAD.addComponent(fromStart, 300, 200, false, true);
 
                     //Add Stop
                     TMLADStopState stop = new TMLADStopState(300, 100, interpreterAD.getMinX(), interpreterAD.getMaxX(), interpreterAD.getMinY(), interpreterAD.getMaxY(), false, null, interpreterAD);
                     interpreterAD.addComponent(stop, 300, 200, false, true);
 
-                    //Connect execCOpt and stop
+                    //Connect write Channel and stop
                     fromStart = new TGConnectorTMLAD(xpos, ypos, interpreterAD.getMinX(), interpreterAD.getMaxX(), interpreterAD.getMinY(), interpreterAD.getMaxY(), false, null, interpreterAD, null, null, new Vector<Point>());
                     xpos += 10;
-                    fromStart.setP1(execCOpt.getTGConnectingPointAtIndex(1));
+                    fromStart.setP1(writeChInterpreter.getTGConnectingPointAtIndex(1));
                     fromStart.setP2(stop.getTGConnectingPointAtIndex(0));
                     interpreterAD.addComponent(fromStart, 300, 200, false, true);
 
@@ -313,21 +331,16 @@ public class TMRGeneration implements Runnable {
         
         // Create Voter 
         TMLCPrimitiveComponent voterComponent = new TMLCPrimitiveComponent(0, 500, tcdp.getMinX(), tcdp.getMaxX(), tcdp.getMinY(), tcdp.getMaxY(), false, null, tcdp);
-        TAttribute timeOutReceivingData = new TAttribute(2, "dataReceivingTimeout", "10", 0);
-        timerComponent.getAttributeList().add(timeOutReceivingData);
-        tcdp.addComponent(timerComponent, 0, 500, false, true);
-        String prefixName = "";
-        for (String selectedSensorName : selectedSensorsTasks) {
-            prefixName += selectedSensorName + "_";
-        }
-        prefixName.substring(0, prefixName.length() - 1);
-        timerComponent.setValueWithChange("Timer_" + prefixName);
-        // Add Origin Event port in Timer Component
-        TMLCChannelOutPort sendEvtPortTimer = new TMLCChannelOutPort(receiverComponent.getX(), receiverComponent.getY(), tcdp.getMinX(), tcdp.getMaxX(), tcdp.getMinY(), tcdp.getMaxX(), true, timerComponent, tcdp);
-        sendEvtPortTimer.commName = "evtTimeout_" + prefixName;
-        sendEvtPortTimer.isOrigin = true;
-        sendEvtPortTimer.typep = 1;
-        timerComponent.addSwallowedTGComponent(sendEvtPortTimer, 0, 0);
+        TAttribute computationTimeVoter = new TAttribute(2, "computationTimeVoter", "10", 0);
+        voterComponent.getAttributeList().add(computationTimeVoter);
+        tcdp.addComponent(voterComponent, 0, 500, false, true);
+        voterComponent.setValueWithChange("Voter_" + prefixName);
+        // Add Destination Event port in Voter Component (from Timer)
+        TMLCChannelOutPort waitEvtPortFromTimer = new TMLCChannelOutPort(receiverComponent.getX(), receiverComponent.getY(), tcdp.getMinX(), tcdp.getMaxX(), tcdp.getMinY(), tcdp.getMaxX(), true, voterComponent, tcdp);
+        waitEvtPortFromTimer.commName = "evtTimeout_" + prefixName;
+        waitEvtPortFromTimer.isOrigin = false;
+        waitEvtPortFromTimer.typep = 1;
+        voterComponent.addSwallowedTGComponent(waitEvtPortFromTimer, 0, 0);
 
 
 	} 

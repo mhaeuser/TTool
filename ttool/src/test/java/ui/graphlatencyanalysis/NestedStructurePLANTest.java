@@ -66,14 +66,14 @@ public class NestedStructurePLANTest extends AbstractUITest {
         }
     }
 
-    @Test
-    /*public void parseFile() {
+    /*@Test
+    public void parseFile() {
         assertNotNull(latencyDetailedAnalysis);
         int graphsize = dgt.getGraphsize();
         System.out.println("Graph size:" + graphsize);
 
         assertTrue(graphsize >= 57);
-      
+
         transFile1 = LatencyDetailedAnalysisMain.getLatencyDetailedAnalysis().parseFile(new File(getBaseResourcesDir() + SIMULATIONTRACE_PATH_FILE));
         assertTrue(transFile1.size() == 38);
         checkedDropDown = latencyDetailedAnalysis.getCheckedT();

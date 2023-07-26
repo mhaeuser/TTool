@@ -1613,6 +1613,11 @@ public class GTURTLEModeling {
         hsm.startThread();
     }
 
+    public void addTMR(MainGUI gui, List<String> selectedSensorsTasks, String selectedRecieverTask) {
+        TMRGeneration tmr = new TMRGeneration(gui, selectedSensorsTasks, selectedRecieverTask, tmap);
+        tmr.startThread();
+    }
+
     @SuppressWarnings("unchecked")
     public boolean generateGraphicalMapping(TMLMapping map) {
         TURTLEPanel tmlap = tmap.getCorrespondanceList().getTG(tmap.getArch().getFirstCPU()).getTDiagramPanel().tp;

@@ -165,6 +165,13 @@ public class JDialogProverifVerification extends JDialog implements ActionListen
     JList<String> listSelected;
     JList<String> listIgnored;
 
+    //TMR
+    JComboBox<String> listCompSelectReceiver;
+    Vector<String> selectedTasksAsSensors = new Vector<String>();
+    Vector<String> noSelectedTasksAsSensors = new Vector<String>();
+    JList<String> listSelectedAsSensors;
+    JList<String> listNoSelectedAsSensors;
+
 
     protected static String encCC = "100";
     protected static String decCC = "100";
@@ -272,6 +279,7 @@ public class JDialogProverifVerification extends JDialog implements ActionListen
                 taskCpuMap.put(task, cpu);
             }
         }
+        noSelectedTasksAsSensors = ignoredTasks;
         currPanel = mgui.getCurrentTURTLEPanel();
 
         initComponents();
@@ -307,6 +315,163 @@ public class JDialogProverifVerification extends JDialog implements ActionListen
         gbc.weightx = 1.0;
         gbc.weighty = 1.0;
         return gbc;
+    }
+
+    protected void panelAutoTMR() {
+        JPanel jp03 = new JPanel();
+        GridBagLayout gridbag03 = new GridBagLayout();
+        GridBagConstraints c03 = new GridBagConstraints();
+        jp03.setLayout(gridbag03);
+        jp03.setBorder(new javax.swing.border.TitledBorder("Auto add TMR"));
+
+        c03.weighty = 1.0;
+        c03.weightx = 1.0;
+        c03.fill = GridBagConstraints.HORIZONTAL;
+        c03.gridheight = 1;
+        c03.gridwidth = 2;
+        jp03.add(new JLabel("Select receiver Component:"), c03);
+        listCompSelectReceiver = new JComboBox<String>(noSelectedTasksAsSensors);
+        //listCompBox.setSelectedIndex(selectedcomp);
+        listCompSelectReceiver.addActionListener(this);
+        jp03.add(listCompSelectReceiver, c03);
+        c03.gridwidth = GridBagConstraints.REMAINDER;
+		GridBagConstraints c04 = new GridBagConstraints();
+        c04.weighty = 1.0;
+        c04.weightx = 1.0;
+		c04.gridwidth = GridBagConstraints.REMAINDER;
+        c04.gridheight = 1;
+		c04.fill= GridBagConstraints.HORIZONTAL;
+        jp03.add(new JLabel(""), c04);
+        jp03.add(new JLabel("Select sensors:"), c04);
+
+        listNoSelectedAsSensors = new JList<String>(noSelectedTasksAsSensors);
+		JPanel panelSelectSensors = new JPanel();
+		panelSelectSensors.setPreferredSize(new Dimension(250, 200));
+        listNoSelectedAsSensors.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+
+        listNoSelectedAsSensors.addListSelectionListener(this);
+        JScrollPane scrollPaneNoSelected = new JScrollPane(listNoSelectedAsSensors);
+        scrollPaneNoSelected.setPreferredSize(new Dimension(250, 200));
+        panelSelectSensors.add(scrollPaneNoSelected, BorderLayout.WEST);
+
+        JPanel SelectSensorsPanel = new JPanel();
+        GridBagConstraints c13 = new GridBagConstraints();
+        c13.gridwidth = GridBagConstraints.REMAINDER;
+        c13.gridheight = 1;
+        
+        JButton allAsSensors = new JButton(IconManager.imgic50);
+        allAsSensors.setPreferredSize(new Dimension(50, 25));
+        allAsSensors.addActionListener(this);
+        allAsSensors.setActionCommand("allAsSensors");
+        SelectSensorsPanel.add(allAsSensors, c13);
+		
+
+        JButton addOneAsSensor = new JButton(IconManager.imgic48);
+        addOneAsSensor.setPreferredSize(new Dimension(50, 25));
+        addOneAsSensor.addActionListener(this);
+        addOneAsSensor.setActionCommand("addOneAsSensor");
+        SelectSensorsPanel.add(addOneAsSensor, c13);
+
+        SelectSensorsPanel.add(new JLabel(" "), c13);
+
+        JButton removeOneFromSensors = new JButton(IconManager.imgic46);
+        removeOneFromSensors.addActionListener(this);
+        removeOneFromSensors.setPreferredSize(new Dimension(50, 25));
+        removeOneFromSensors.setActionCommand("removeOneFromSensors");
+        SelectSensorsPanel.add(removeOneFromSensors, c13);
+
+        JButton removeAllFromSensors = new JButton(IconManager.imgic44);
+        removeAllFromSensors.addActionListener(this);
+        removeAllFromSensors.setPreferredSize(new Dimension(50, 25));
+        removeAllFromSensors.setActionCommand("removeAllFromSensors");
+        SelectSensorsPanel.add(removeAllFromSensors, c13);
+        panelSelectSensors.add(SelectSensorsPanel, c04);
+        SelectSensorsPanel.setPreferredSize(new Dimension(50, 200));
+		
+        listSelectedAsSensors = new JList<String>(selectedTasksAsSensors);
+
+        //listValidated.setPreferredSize(new Dimension(200, 250));
+        listSelectedAsSensors.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+        listSelectedAsSensors.addListSelectionListener(this);
+        JScrollPane scrollPaneSelected = new JScrollPane(listSelectedAsSensors);
+        scrollPaneSelected.setPreferredSize(new Dimension(250, 200));
+        panelSelectSensors.add(scrollPaneSelected, BorderLayout.CENTER);
+        panelSelectSensors.setPreferredSize(new Dimension(600, 250));
+        panelSelectSensors.setMinimumSize(new Dimension(600, 250));
+        jp03.add(panelSelectSensors, c04);
+        if (currPanel instanceof TMLArchiPanel) {
+            //Can only secure a mapping
+            jp1.add("Auto add TMR", jp03);
+        }
+    }
+
+    private void removeOneFromSensors() {
+        int[] list = listSelectedAsSensors.getSelectedIndices();
+        Vector<String> v = new Vector<String>();
+        String o;
+        for (int i = 0; i < list.length; i++) {
+            o = selectedTasksAsSensors.elementAt(list[i]);
+            noSelectedTasksAsSensors.addElement(o);
+            v.addElement(o);
+        }
+
+        selectedTasksAsSensors.removeAll(v);
+        listNoSelectedAsSensors.setListData(noSelectedTasksAsSensors);
+        listSelectedAsSensors.setListData(selectedTasksAsSensors);
+        if (selectedTasksAsSensors.size() != 3) {
+            mode = STARTED;
+        } else {
+            mode = NOT_STARTED;
+        }
+        setButtons();
+    }
+
+    private void addOneAsSensor() {
+        int[] list = listNoSelectedAsSensors.getSelectedIndices();
+        Vector<String> v = new Vector<String>();
+        String o;
+
+        for (int i = 0; i < list.length; i++) {
+            o = noSelectedTasksAsSensors.elementAt(list[i]);
+            selectedTasksAsSensors.addElement(o);
+            v.addElement(o);
+        }
+
+        noSelectedTasksAsSensors.removeAll(v);
+        listNoSelectedAsSensors.setListData(noSelectedTasksAsSensors);
+        listSelectedAsSensors.setListData(selectedTasksAsSensors);
+        if (selectedTasksAsSensors.size() != 3) {
+            mode = STARTED;
+        } else {
+            mode = NOT_STARTED;
+        }
+        setButtons();
+    }
+
+    private void allAsSensors() {
+        selectedTasksAsSensors.addAll(noSelectedTasksAsSensors);
+        noSelectedTasksAsSensors.removeAllElements();
+        listNoSelectedAsSensors.setListData(noSelectedTasksAsSensors);
+        listSelectedAsSensors.setListData(selectedTasksAsSensors);
+        if (selectedTasksAsSensors.size() != 3) {
+            mode = STARTED;
+        } else {
+            mode = NOT_STARTED;
+        }
+        setButtons();
+    }
+
+    private void removeAllFromSensors() {
+        noSelectedTasksAsSensors.addAll(selectedTasksAsSensors);
+        selectedTasksAsSensors.removeAllElements();
+        listNoSelectedAsSensors.setListData(noSelectedTasksAsSensors);
+        listSelectedAsSensors.setListData(selectedTasksAsSensors);
+        if (selectedTasksAsSensors.size() != 3) {
+            mode = STARTED;
+        } else {
+            mode = NOT_STARTED;
+        }
+        setButtons();
     }
 
     protected void initComponents() {
@@ -607,6 +772,7 @@ public class JDialogProverifVerification extends JDialog implements ActionListen
             //Can only secure a mapping
             jp1.add("Automated Security", jp02);
         }
+        panelAutoTMR();
         c.add(jp1, BorderLayout.NORTH);
         c.add(jp2, BorderLayout.SOUTH);
 
@@ -760,6 +926,14 @@ public class JDialogProverifVerification extends JDialog implements ActionListen
                     allValidated();
                 } else if (command.equals("allIgnored")) {
                     allIgnored();
+                } else if (command.equals("removeOneFromSensors")) {
+                    removeOneFromSensors();
+                } else if (command.equals("addOneAsSensor")) {
+                    addOneAsSensor();
+                } else if (command.equals("allAsSensors")) {
+                    allAsSensors();
+                } else if (command.equals("removeAllFromSensors")) {
+                    removeAllFromSensors();
                 }
                 if (evt.getSource() == autoConf || evt.getSource() == autoSec || evt.getSource() == autoMapKeys || evt.getSource() == autoWeakAuth || evt.getSource()==addHSM) {
                     //autoWeakAuth.setEnabled(autoConf.isSelected());
@@ -892,6 +1066,13 @@ public class JDialogProverifVerification extends JDialog implements ActionListen
             	
                 jta.removeAll();
                 JLabel label = new JLabel("Security Generation Complete");
+            	label.setAlignmentX(Component.LEFT_ALIGNMENT);
+            	this.jta.add(label, this.createGbc(0));
+                mode = NOT_STARTED;
+            } else if (jp1.getSelectedIndex() == 2) {
+                mgui.gtm.addTMR(mgui, selectedTasksAsSensors, listCompSelectReceiver.getSelectedItem().toString());
+                jta.removeAll();
+                JLabel label = new JLabel("TMR Generation Complete");
             	label.setAlignmentX(Component.LEFT_ALIGNMENT);
             	this.jta.add(label, this.createGbc(0));
                 mode = NOT_STARTED;

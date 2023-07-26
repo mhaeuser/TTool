@@ -1,0 +1,41 @@
+// TML Application - FORMAT 0.2
+// Application: /home/jawher/Jawher/Huawei-MDE/models/testParalR-R.xml
+// Generated: Tue Jul 25 12:48:24 CEST 2023
+
+// PRAGMAS
+
+// Channels
+CHANNEL Application__comm1 BRBW 4 8 OUT Application__Origin IN Application__Destination1
+VCCHANNEL Application__comm1 0
+CHANNEL Application__comm2 BRBW 4 8 OUT Application__Origin IN Application__Destination2
+VCCHANNEL Application__comm2 0
+
+// Events
+
+// Requests
+
+TASK Application__Destination1
+    TASKOP
+    //Local variables
+    
+    //Behavior
+    READ Application__comm1 1
+ENDTASK
+
+TASK Application__Destination2
+    TASKOP
+    //Local variables
+    
+    //Behavior
+    READ Application__comm2 1
+ENDTASK
+
+TASK Application__Origin
+    TASKOP
+    //Local variables
+    
+    //Behavior
+    WRITE Application__comm1 1
+    WRITE Application__comm2 1
+ENDTASK
+

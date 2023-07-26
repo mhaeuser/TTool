@@ -1,0 +1,140 @@
+// Master clock frequency - in MHz
+MASTERCLOCKFREQUENCY 200
+
+NODE MEMORY MemoryOrigin2
+SET MemoryOrigin2 byteDataSize 4
+SET MemoryOrigin2 clockDivider 1
+
+NODE CPU CPUOrigin2
+SET CPUOrigin2 nbOfCores 1
+SET CPUOrigin2 byteDataSize 4
+SET CPUOrigin2 pipelineSize 5
+SET CPUOrigin2 goIdleTime 10
+SET CPUOrigin2 maxConsecutiveIdleCycles 10
+SET CPUOrigin2 taskSwitchingTime 20
+SET CPUOrigin2 branchingPredictionPenalty 2
+SET CPUOrigin2 cacheMiss 5
+SET CPUOrigin2 schedulingPolicy 0
+SET CPUOrigin2 sliceTime 10000
+SET CPUOrigin2 execiTime 1
+SET CPUOrigin2 execcTime 1
+SET CPUOrigin2 clockDivider 1
+
+NODE BRIDGE Bridge1
+SET Bridge1 bufferByteSize 4
+SET Bridge1 clockDivider 1
+
+NODE BUS Bus1
+SET Bus1 byteDataSize 4
+SET Bus1 pipelineSize 1
+SET Bus1 arbitration 0
+SET Bus1 sliceTime 10000
+SET Bus1 burstSize 100
+SET Bus1 privacy private
+SET Bus1 clockDivider 1
+
+NODE MEMORY MemoryOrigin1
+SET MemoryOrigin1 byteDataSize 4
+SET MemoryOrigin1 clockDivider 1
+
+NODE CPU CPUDestination
+SET CPUDestination nbOfCores 1
+SET CPUDestination byteDataSize 4
+SET CPUDestination pipelineSize 5
+SET CPUDestination goIdleTime 10
+SET CPUDestination maxConsecutiveIdleCycles 10
+SET CPUDestination taskSwitchingTime 20
+SET CPUDestination branchingPredictionPenalty 2
+SET CPUDestination cacheMiss 5
+SET CPUDestination schedulingPolicy 0
+SET CPUDestination sliceTime 10000
+SET CPUDestination execiTime 1
+SET CPUDestination execcTime 1
+SET CPUDestination clockDivider 1
+
+NODE CPU CPUOrigin1
+SET CPUOrigin1 nbOfCores 1
+SET CPUOrigin1 byteDataSize 4
+SET CPUOrigin1 pipelineSize 5
+SET CPUOrigin1 goIdleTime 10
+SET CPUOrigin1 maxConsecutiveIdleCycles 10
+SET CPUOrigin1 taskSwitchingTime 20
+SET CPUOrigin1 branchingPredictionPenalty 2
+SET CPUOrigin1 cacheMiss 5
+SET CPUOrigin1 schedulingPolicy 0
+SET CPUOrigin1 sliceTime 10000
+SET CPUOrigin1 execiTime 1
+SET CPUOrigin1 execcTime 1
+SET CPUOrigin1 clockDivider 1
+
+NODE BUS Bus4
+SET Bus4 byteDataSize 4
+SET Bus4 pipelineSize 1
+SET Bus4 arbitration 0
+SET Bus4 sliceTime 10000
+SET Bus4 burstSize 100
+SET Bus4 privacy public
+SET Bus4 clockDivider 1
+
+NODE BUS Bus2
+SET Bus2 byteDataSize 4
+SET Bus2 pipelineSize 1
+SET Bus2 arbitration 0
+SET Bus2 sliceTime 10000
+SET Bus2 burstSize 100
+SET Bus2 privacy public
+SET Bus2 clockDivider 1
+
+NODE BRIDGE Bridge2
+SET Bridge2 bufferByteSize 4
+SET Bridge2 clockDivider 1
+
+NODE BUS Bus3
+SET Bus3 byteDataSize 4
+SET Bus3 pipelineSize 1
+SET Bus3 arbitration 0
+SET Bus3 sliceTime 10000
+SET Bus3 burstSize 100
+SET Bus3 privacy public
+SET Bus3 clockDivider 1
+
+NODE LINK link_MemoryOrigin2_to_Bus4
+SET link_MemoryOrigin2_to_Bus4 node MemoryOrigin2
+SET link_MemoryOrigin2_to_Bus4 bus Bus4
+SET link_MemoryOrigin2_to_Bus4 priority 0
+NODE LINK link_CPUOrigin2_to_Bus1
+SET link_CPUOrigin2_to_Bus1 node CPUOrigin2
+SET link_CPUOrigin2_to_Bus1 bus Bus1
+SET link_CPUOrigin2_to_Bus1 priority 0
+NODE LINK link_CPUDestination_to_Bus3
+SET link_CPUDestination_to_Bus3 node CPUDestination
+SET link_CPUDestination_to_Bus3 bus Bus3
+SET link_CPUDestination_to_Bus3 priority 0
+NODE LINK link_Bridge1_to_Bus1
+SET link_Bridge1_to_Bus1 node Bridge1
+SET link_Bridge1_to_Bus1 bus Bus1
+SET link_Bridge1_to_Bus1 priority 0
+NODE LINK link_Bridge1_to_Bus2
+SET link_Bridge1_to_Bus2 node Bridge1
+SET link_Bridge1_to_Bus2 bus Bus2
+SET link_Bridge1_to_Bus2 priority 0
+NODE LINK link_Bridge1_to_Bus4
+SET link_Bridge1_to_Bus4 node Bridge1
+SET link_Bridge1_to_Bus4 bus Bus4
+SET link_Bridge1_to_Bus4 priority 0
+NODE LINK link_CPUOrigin1_to_Bus1
+SET link_CPUOrigin1_to_Bus1 node CPUOrigin1
+SET link_CPUOrigin1_to_Bus1 bus Bus1
+SET link_CPUOrigin1_to_Bus1 priority 0
+NODE LINK link_Bridge2_to_Bus4
+SET link_Bridge2_to_Bus4 node Bridge2
+SET link_Bridge2_to_Bus4 bus Bus4
+SET link_Bridge2_to_Bus4 priority 0
+NODE LINK link_MemoryOrigin1_to_Bus2
+SET link_MemoryOrigin1_to_Bus2 node MemoryOrigin1
+SET link_MemoryOrigin1_to_Bus2 bus Bus2
+SET link_MemoryOrigin1_to_Bus2 priority 0
+NODE LINK link_Bridge2_to_Bus3
+SET link_Bridge2_to_Bus3 node Bridge2
+SET link_Bridge2_to_Bus3 bus Bus3
+SET link_Bridge2_to_Bus3 priority 0

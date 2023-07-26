@@ -1,0 +1,41 @@
+// TML Application - FORMAT 0.2
+// Application: models/testParal.xml
+// Generated: Mon Jul 24 15:30:12 CEST 2023
+
+// PRAGMAS
+
+// Channels
+CHANNEL Application__comm1 BRBW 4 8 OUT Application__Origin1 IN Application__Destination
+VCCHANNEL Application__comm1 0
+CHANNEL Application__comm2 BRBW 4 8 OUT Application__Origin2 IN Application__Destination
+VCCHANNEL Application__comm2 0
+
+// Events
+
+// Requests
+
+TASK Application__Destination
+    TASKOP
+    //Local variables
+    
+    //Behavior
+    READ Application__comm1 1
+    READ Application__comm2 1
+ENDTASK
+
+TASK Application__Origin1
+    TASKOP
+    //Local variables
+    
+    //Behavior
+    WRITE Application__comm1 1
+ENDTASK
+
+TASK Application__Origin2
+    TASKOP
+    //Local variables
+    
+    //Behavior
+    WRITE Application__comm2 1
+ENDTASK
+

@@ -1,0 +1,32 @@
+TMLSPEC
+    #include "testParallel-R-R-Transfers.tml"
+ENDTMLSPEC
+
+TMLARCHI
+    #include "testParallel-R-R-Transfers.tarchi"
+ENDTMLARCHI
+
+TMLMAPPING
+    MAP CPUDestination2 Application__Destination2
+    SET Application__Destination2 priority 0
+    MAP CPUDestination1 Application__Destination1
+    SET Application__Destination1 priority 0
+    MAP CPUOrigin Application__Origin
+    SET Application__Origin priority 0
+    MAP MemoryOrigin2 Application__comm2
+    SET Application__comm2 priority 0
+    MAP Bus1 Application__comm2
+    SET Application__comm2 priority 0
+    MAP Bus2 Application__comm2
+    SET Application__comm2 priority 0
+    MAP Bus3 Application__comm2
+    SET Application__comm2 priority 0
+    MAP Bus4 Application__comm2
+    SET Application__comm2 priority 0
+    MAP MemoryOrigin1 Application__comm1
+    SET Application__comm1 priority 0
+    MAP Bus1 Application__comm1
+    SET Application__comm1 priority 0
+    MAP Bus2 Application__comm1
+    SET Application__comm1 priority 0
+ENDTMLMAPPING

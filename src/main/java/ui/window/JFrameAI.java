@@ -295,7 +295,8 @@ public class JFrameAI extends JFrame implements ActionListener {
                 "macareux", "ours", "italien", "paris-brest", "belle-mère", "apéro (l'abus d'alcool est dangereux pour la santé)",
                 "carpe", "crocodile", "psychologue", "dr emacs", "3615-TTool", "100 balles et 1 mars",
                 "opéra (l’abus d’Alcôve est dangereux pour la santé)", "chapon", "perroquet", "chameau volant", "Alice", "oasis", "ATC RAK",
-                "Adibou", "cheval de Troyes", "Twist", "GSM", "étalon", "jaseux"};
+                "Adibou", "cheval de Troyes", "Twist", "GSM", "étalon", "jaseux", "walkman (l'abus d'écouteurs peut provoquer des otites)", "Blake " +
+                "& Mortimer", "Knights who say Ni!"};
         int x = (int) (Math.random() * names.length);
         return names[x];
     }

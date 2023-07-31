@@ -1,26 +1,26 @@
 /* Copyright or (C) or Copr. GET / ENST, Telecom-Paris, Ludovic Apvrille
- * 
+ *
  * ludovic.apvrille AT enst.fr
- * 
+ *
  * This software is a computer program whose purpose is to allow the
  * edition of TURTLE analysis, design and deployment diagrams, to
  * allow the generation of RT-LOTOS or Java code from this diagram,
  * and at last to allow the analysis of formal validation traces
  * obtained from external tools, e.g. RTL from LAAS-CNRS and CADP
  * from INRIA Rhone-Alpes.
- * 
+ *
  * This software is governed by the CeCILL  license under French law and
  * abiding by the rules of distribution of free software.  You can  use,
  * modify and/ or redistribute the software under the terms of the CeCILL
  * license as circulated by CEA, CNRS and INRIA at the following URL
  * "http://www.cecill.info".
- * 
+ *
  * As a counterpart to the access to the source code and  rights to copy,
  * modify and redistribute granted by the license, users are provided only
  * with a limited warranty  and the software's author,  the holder of the
  * economic rights,  and the successive licensors  have only  limited
  * liability.
- * 
+ *
  * In this respect, the user's attention is drawn to the risks associated
  * with loading,  using,  modifying and/or developing or reproducing the
  * software by the user in light of its specific status of free software,
@@ -31,7 +31,7 @@
  * requirements in conditions enabling the security of their systems and/or
  * data to be ensured and,  more generally, to use and operate it in the
  * same conditions as regards security.
- * 
+ *
  * The fact that you are presently reading this means that you have had
  * knowledge of the CeCILL license and that you accept its terms.
  */
@@ -60,11 +60,12 @@ import java.util.ArrayList;
  */
 
 
-public class AIAmulet extends AIInteract implements AISysMLV2DiagramContent {
+public class AIAmulet extends AIInteract implements AISysMLV2DiagramContent, AIAvatarSpecificationRequired {
 
 
     private static String[] SUPPORTED_DIAGRAMS = {"BD"};
     private static String[] EXCLUSIONS_IN_INPUT = {};
+    private AvatarSpecification specification;
 
     private String diagramContent;
 
@@ -86,27 +87,36 @@ public class AIAmulet extends AIInteract implements AISysMLV2DiagramContent {
         String questionT = "\nTTool:" + chatData.lastQuestion.trim()+ "\n";
         ArrayList<String> errors = new ArrayList<>();
         errors.add("Errors");
+        boolean done = false;
         int cpt = 0;
 
-        while (cpt<20 && !(errors.isEmpty())){
+        while (!done && cpt<20){
             boolean ok = makeQuestion(questionT);
             String automatedAnswer = chatData.lastAnswer;
             BufferedReader buff = new BufferedReader(new StringReader(automatedAnswer));
             String line ;
+            AvatarSpecification avspecTest = specification;
+            done = true;
             errors.clear();
+
             try {
                 while ((line = buff.readLine()) != null) {
                     if (line.startsWith("add ") || line.startsWith("remove ") || line.startsWith("modify ") || line.startsWith("attach ") || line.startsWith("detach ")) {
                         try {
-                            AvatarMutation.createFromString(line);
+                            AvatarMutation am = AvatarMutation.createFromString(line);
+                            am.apply(avspecTest);
                         } catch (ParseMutationException e) {
-                            TraceManager.addDev("Exception in parsing mutation: " + e.getMessage());
                             errors.add("There is an error in your AMULET command: " + e.getMessage() + ". Could you correct the relevant AMULET " +
                                     "line in your command list?");
+                        }
+                        catch (ApplyMutationException e) {
+                            errors.add("Your AMULET command cannot be applied to the model. Indeed, " + e.getMessage() + ". Could you correct the " +
+                                    "relevant AMULET line in your command list?");
                         }
                     }
                 }
                 if (!errors.isEmpty()){
+                    done = false;
                     questionT = "Your answer was not correct because of the following errors: ";
                     for (String e:errors){
                         questionT += "\n" + e;
@@ -115,8 +125,11 @@ public class AIAmulet extends AIInteract implements AISysMLV2DiagramContent {
             } catch (Exception e) {
                 error("Mutation parsing failed: " + e.getMessage());
             }
+
+            waitIfConditionTrue(!done && cpt < 20);
             cpt++;
         }
+
         TraceManager.addDev("Reached end of AImulet internal request.");
 
     }
@@ -165,6 +178,10 @@ public class AIAmulet extends AIInteract implements AISysMLV2DiagramContent {
     public void setDiagramContentInSysMLV2(String _diagramContentInSysMLV2) {
         diagramContent = _diagramContentInSysMLV2;
     }
+
+    public void setAvatarSpecification(AvatarSpecification _specification) {
+        specification = _specification;
+    };
 
     public String[] getValidDiagrams() {
         return SUPPORTED_DIAGRAMS;
@@ -219,7 +236,7 @@ public class AIAmulet extends AIInteract implements AISysMLV2DiagramContent {
 
         chatData.aiinterface.addKnowledge("If we want a block b0 to be a subblock (or a child block) of a block b1, we will write \"attach b0 to " +
                 "b1\". And if we no longer want a block b1 to be a superblock (or a parent block) of a block b0, we will write \"detach b0 from " +
-                        "b1\".", "OK.");
+                "b1\".", "OK.");
 
         chatData.aiinterface.addKnowledge("In AMULET, if we want to set an existing attribute n of a block myBlock to a value x, we will write " +
                 "\"modify attribute n in myBlock to x","OK.");
@@ -261,6 +278,6 @@ public class AIAmulet extends AIInteract implements AISysMLV2DiagramContent {
                 "specification, you will write \"remove block myBlock\".","OK.");
     }
 
-	
-    
+
+
 }

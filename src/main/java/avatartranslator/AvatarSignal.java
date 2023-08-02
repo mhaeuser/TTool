@@ -206,10 +206,13 @@ public class AvatarSignal extends AvatarMethod {
         //TraceManager.addDev("SignalName: " + signalName + " signal:" + signal);
 
         if (!isAValidId(signalName, true, true,true, false)) {
-            TraceManager.addDev("Invalid id of signal " + signalName);
+            TraceManager.addDev("Invalid id for signal " + signalName + ": this is a reserved keyword. Use a different identifier");
             return null;
         }
 
+        if (_block.getSignalByName(signalName) != null) {
+            signalName = signalName + "_" + (int)(Math.random()*10000);
+        }
 
         AvatarSignal as = new AvatarSignal(signalName, inout, null);
 
@@ -244,10 +247,30 @@ public class AvatarSignal extends AvatarMethod {
         tmp = Conversion.replaceAllString(tmp, ", ", ",");
         tmp = Conversion.replaceAllChar(tmp, ' ', ",");
 
+        if (tmp.compareTo("int") == 0) {
+            AvatarAttribute aa = new AvatarAttribute("value", AvatarType.INTEGER, _block, null);
+            as.addParameter(aa);
+            return as;
+        }
+
+        if (tmp.compareTo("bool") == 0) {
+            AvatarAttribute aa = new AvatarAttribute("value", AvatarType.BOOLEAN, _block, null);
+            as.addParameter(aa);
+            return as;
+        }
+
+        if (tmp.matches("[a-zA-Z_][a-zA-Z0-9_]*")) {
+            AvatarAttribute aa = new AvatarAttribute(tmp, AvatarType.INTEGER, _block, null);
+            as.addParameter(aa);
+            return as;
+        }
+
+
+
 
         String splitted[] = tmp.split(",");
         int size = splitted.length / 2;
-        // TraceManager.addDev("Nb of parameters=" + size);
+        TraceManager.addDev("Nb of parameters=" + size);
         int i;
 
 

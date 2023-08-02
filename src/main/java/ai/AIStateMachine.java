@@ -76,6 +76,7 @@ public class AIStateMachine extends AIInteract implements AISysMLV2DiagramConten
             "# Respect: if a transition contains several actions, use a \";\" to separate them " +
             "# Respect: a signal send is out::signalName(..) and a signal receive is in::signaNamd(...) " +
             "# Respect: the attribute of an action is named by its identifier, do not reference its block " +
+            "# Respect: a state machine can use only the attribute of its block " +
             "# Respect: A guard cannot contain a reference to a signal " +
             "# Respect: To reference the attribute \"x\" of block \"B\", use \"x\" and never \"B.x\" nor \"B::x\"";
 
@@ -99,13 +100,14 @@ public class AIStateMachine extends AIInteract implements AISysMLV2DiagramConten
     public void internalRequest() {
 
         // Add the knowledge, retrieve the block names, attributes, etc.
-        if (!chatData.knowledgeOnStateMachines) {
+        initKnowledge();
+        /*if (!chatData.knowledgeOnStateMachines) {
             chatData.aiinterface.addKnowledge(KNOWLEDGE_ON_JSON_FOR_STATE_MACHINES, "ok");
             chatData.knowledgeOnStateMachines = true;
         }
 
         chatData.aiinterface.addKnowledge(KNOWLEDGE_SYSTEM_SPECIFICATION + chatData.lastQuestion, "ok");
-        chatData.aiinterface.addKnowledge(KNOWLEDGE_SYSTEM_BLOCKS + diagramContentInSysMLV2, "ok");
+        chatData.aiinterface.addKnowledge(KNOWLEDGE_SYSTEM_BLOCKS + diagramContentInSysMLV2, "ok");*/
 
         // Getting block names for SysMLV2 spec
         //TraceManager.addDev("SysML V2 spec: " + diagramContentInSysMLV2);
@@ -164,13 +166,21 @@ public class AIStateMachine extends AIInteract implements AISysMLV2DiagramConten
                 cpt ++;
             }
             // Remove knowledge of previous questions
-            while(cpt > 0) {
+            initKnowledge();
+            /*while(cpt > 0) {
                 cpt --;
                 chatData.aiinterface.removePreviousKnowledge();
-            }
+            }*/
         }
         TraceManager.addDev("Reached end of AIStateMachine internal request cpt=" + cpt);
 
+    }
+
+    private void initKnowledge() {
+        chatData.aiinterface.clearKnowledge();
+        chatData.aiinterface.addKnowledge(KNOWLEDGE_ON_JSON_FOR_STATE_MACHINES, "ok");
+        chatData.aiinterface.addKnowledge(KNOWLEDGE_SYSTEM_SPECIFICATION + chatData.lastQuestion, "ok");
+        chatData.aiinterface.addKnowledge(KNOWLEDGE_SYSTEM_BLOCKS + diagramContentInSysMLV2, "ok");
     }
 
     public Object applyAnswer(Object input) {

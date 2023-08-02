@@ -46,60 +46,48 @@ import myutil.TraceManager;
 import java.util.ArrayList;
 
 /**
- * Class AIBlock
+ * Class AIBlockConnAttrib
  * <p>
- * Creation: 02/06/2023
+ * Creation: 01/08/2023
  *
  * @author Ludovic APVRILLE
- * @version 1.0 02/06/2023
+ * @version 1.0 01/08/2023
  */
 
 
-public class AIBlock extends AIInteract {
+public class AIBlockConnAttrib extends AIInteract {
 
-    public static String KNOWLEDGE_ON_JSON_FOR_BLOCKS_AND_ATTRIBUTES = "When you are asked to identify SysML blocks, " +
+    public static String KNOWLEDGE_ON_JSON_FOR_CONNECTIONS = "When you are asked to identify SysML blocks and their connections, " +
+            "return them as a JSON specification " +
+            "formatted as follows:" +
+            "{connections: [{ \"signal\": \"signal name\", \"nameOriginBlock\": \"Name of origin block\", \"nameDestinationBlock\": \"Name of " +
+                    "destination block\"} ...]}" +
+            "# Respect: do not provide a list of blocks, they are defined with the connections only. " +
+            "# Respect: a signal name is the form: name(list of int and bool attributes), for instance: sig1(int x, bool b). sig1(x) is not valid. " +
+            "# Respect: a signal name can be used in only one connection. " +
+            "# Respect: Use only attributes of type int or boolean. If you want to use \"String\" or another other attribute, use int." +
+            "# Respect: each attribute must be of type \"int\" or \"bool\" only" +
+            "# Respect: origin and destination block can be the same" +
+            "# Respect: Any identifier (block, attribute, etc.) must no contain any space. Use \"_\" instead.";
+    public static String KNOWLEDGE_ON_JSON_FOR_ATTRIBUTES = "When you are asked to identify the attributes of SysML blocks, " +
             "return them as a JSON specification " +
             "formatted as follows:" +
             "{blocks: [{ \"name\": \"Name of block\", \"attributes\": [\"name\": \"name of attribute\", \"type\": \"int or bool\" ...} ...]}" +
             "Use only attributes of type int or boolean. If you want to use \"String\" or another other attribute, use int." +
             "# Respect: each attribute must be of type \"int\" or \"bool\" only" +
-            "# Respect: Any identifier (block, attribute, etc.) must no contain any space. Use \"_\" instead.";
-    public static String KNOWLEDGE_ON_JSON_FOR_BLOCKS_AND_CONNECTIONS = "When you are ask to identify signals of blocks, JSON is as follows: " +
-            "{blocks: [{ \"name\": \"Name of block\", \"signals\": " +
-            "[ ... signals ... ] ... (no need to relist the attributes of signals, nor to give a direction). " +
-            "#Respect: signals are defined like this in JSON: {\"signal\": \"input sig1(int x, bool b)\"} if the signal is an input signal" +
-            " and {\"signal\": \"output sig1(int x, bool b)\"} if the signal is an output signal" +
-            "#Respect: A input signal and an output signals are connected if and only if  they the same name. " +
-            "#Respect: Two connected signals must have " +
-            "the same list of attributes, even if they are " +
-            "defined in two different blocks. One of them must be output, the other one must be input" +
-            "#Respect: whenever a block has a signal, another block must have a signal with the same name";
-            /*"and after " +
-            "the blocks, add the " +
-            "following JSON: " +
-            "connections: [{\"block1\" : name of first block, \"sig1\": name of first " +
-            "signal\", \"block2\" : name of second block" +
-            "\"sig2\": \"name of second signal\"}, ." +
-            "..]. " +  ".#" +
-            "Respect: in a connection, sig1 and sig2 must be different. The name of the signal only include its identifier, so not " +
-            "\"input\" nor " +
-            "\"output\", nor its attributes.#" +
-            "Two connected signals must have the \" +\n" +
-            "            \"same list of attributes." +
-            "# A signal must be involved in one connection exactly";*/
+            "# Respect: Any identifier of blocks must no contain any space. Use \"_\" instead.";
 
 
-    public static String[] KNOWLEDGE_STAGES = {KNOWLEDGE_ON_JSON_FOR_BLOCKS_AND_ATTRIBUTES, KNOWLEDGE_ON_JSON_FOR_BLOCKS_AND_CONNECTIONS};
-    AvatarSpecification specification;
+
+    public static String[] KNOWLEDGE_STAGES = {KNOWLEDGE_ON_JSON_FOR_CONNECTIONS, KNOWLEDGE_ON_JSON_FOR_ATTRIBUTES};
+    AvatarSpecification specification, specification0;
     private String[] QUESTION_IDENTIFY_SYSTEM_BLOCKS = {"From the following system specification, using the specified JSON format, identify the " +
-            "typical system blocks and their attributes. Do respect the JSON format, and provide only JSON (no explanation before or after).\n",
-            "From the previous JSON and system specification, update " +
-            "this JSON with" +
-            " the signals you have to identify. If necessary, you can add new blocks and new attributes. Signals are expected to be connected: a " +
-                    "non-connected signal is not valid"};
+            "typical system blocks and their connections. Do respect the JSON format, and provide only JSON (no explanation before or after).\n",
+            "From the previous JSON and system specification, find the typical attributes of all blocks by imagining all the necessary attributes " +
+                    "that would be needed for the state machine diagram of each block. "};
 
 
-    public AIBlock(AIChatData _chatData) {
+    public AIBlockConnAttrib(AIChatData _chatData) {
         super(_chatData);
     }
 
@@ -121,11 +109,21 @@ public class AIBlock extends AIInteract {
                 done = true;
                 TraceManager.addDev("Make question failed");
             }
-            ArrayList<String> errors;
+            ArrayList<String> errors = null;
             try {
                 //TraceManager.addDev("Making specification from " + chatData.lastAnswer);
-                specification = AvatarSpecification.fromJSON(extractJSON(), "design", null, true);
-                errors = AvatarSpecification.getJSONErrors();
+                if (stage == 0) {
+                    specification0 = AvatarSpecification.fromJSONConnection(extractJSON(), "design", null, true);
+                    errors = AvatarSpecification.getJSONErrors();
+                    //TraceManager.addDev("Specification0: " + specification0);
+                } else if (stage == 1) {
+                    specification = AvatarSpecification.fromJSON(extractJSON(), "design", null, true);
+                    specification.addSignalsAndConnection(specification0);
+                    specification.makeMinimalStateMachines();
+                    specification.improveNames();
+                    //TraceManager.addDev("Full spec: " + specification);
+                    errors = AvatarSpecification.getJSONErrors();
+                }
 
             } catch (org.json.JSONException e) {
                 TraceManager.addDev("Invalid JSON spec: " + extractJSON() + " because " + e.getMessage() + ": INJECTING ERROR");

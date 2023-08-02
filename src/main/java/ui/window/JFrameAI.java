@@ -78,13 +78,14 @@ public class JFrameAI extends JFrame implements ActionListener {
             " requirement diagram first",
             "Identify use cases",
             "Identify properties - Select a block diagram first. You can also provide a system specification",
-            "Identify system blocks - Provide a system specification",
+            "Identify system blocks (knowledge type #1) - Provide a system specification",
+            "Identify system blocks (knowledge type #2) - Provide a system specification",
             "Identify software blocks - Provide a system specification", "Identify state" +
             " machines - Select a block diagram. Additionally, you can provide a system specification",
             "A(I)MULET - Select a block diagram first"};
 
     private static String[] AIInteractClass = {"AIChat", "AIReqIdent", "AIReqClassification", "AIChat", "AIDesignPropertyIdentification", "AIBlock",
-            "AISoftwareBlock", "AIStateMachine", "AIAmulet"};
+            "AIBlockConnAttrib", "AISoftwareBlock", "AIStateMachine", "AIAmulet"};
 
     private static String[] INFOS = {"Chat on any topic you like", "Identify requirements from the specification of a system", "Classify " +
             "requirements from a requirement diagram", "Identify use cases and actors from a system specification",
@@ -92,7 +93,10 @@ public class JFrameAI extends JFrame implements ActionListener {
             " to be proven " +
             "from a block" +
             " diagram", "Identify the system " +
-            "blocks from a specification", "Identify the software blocks from a specification", "Identify the state machines from a system " +
+            "blocks from a specification", "Identify the system " +
+            "blocks from a specification (another kind of knowledge)", "Identify the software blocks from a specification", "Identify the state " +
+            "machines from a " +
+            "system " +
             "specification and a block diagram", "Formalize mutations to be performed on a block diagram"};
 
     protected JComboBox<String> listOfPossibleActions;
@@ -422,6 +426,8 @@ public class JFrameAI extends JFrame implements ActionListener {
             case 0:
                 if (selectedChat.aiInteract instanceof ai.AIBlock) {
                     applyIdentifySystemBlocks(selectedChat.aiInteract.applyAnswer(null));
+                } else if (selectedChat.aiInteract instanceof ai.AIBlockConnAttrib) {
+                        applyIdentifySystemBlocks(selectedChat.aiInteract.applyAnswer(null));
                 } else if (selectedChat.aiInteract instanceof ai.AISoftwareBlock) {
                     applyIdentifySystemBlocks(selectedChat.aiInteract.applyAnswer(null));
                 } else if (selectedChat.aiInteract instanceof ai.AIReqIdent) {
@@ -589,10 +595,15 @@ public class JFrameAI extends JFrame implements ActionListener {
 
     private void enableDisableActions() {
         if ((answerPane != null) && (chats != null) && (buttonApplyResponse != null) && (buttonStart != null)) {
-            ChatData cd = chats.get(answerPane.getSelectedIndex());
-            String chat = cd.lastAnswer;
-            buttonApplyResponse.setEnabled(chat != null && chat.length() > 0 && !cd.doIconRotation);
-            buttonStart.setEnabled(!cd.doIconRotation);
+            if (answerPane.getSelectedIndex() > -1) {
+                ChatData cd = chats.get(answerPane.getSelectedIndex());
+                String chat = cd.lastAnswer;
+                buttonApplyResponse.setEnabled(chat != null && chat.length() > 0 && !cd.doIconRotation);
+                buttonStart.setEnabled(!cd.doIconRotation);
+            } else {
+                buttonApplyResponse.setEnabled(false);
+                buttonStart.setEnabled(false);
+            }
         }
     }
 

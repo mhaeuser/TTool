@@ -1031,6 +1031,16 @@ public class AvatarBlock extends AvatarElement implements AvatarStateMachineOwne
         return nes;
     }
 
+    public void makeMinimalStateMachine() {
+        AvatarStateMachine asm = getStateMachine();
+        if (asm.getStartState() == null) {
+            asm.makeBasicSM(this);
+        }
+    }
+
+
+
+
     // Returns errors as String
     public ArrayList<String> makeStateMachineFromJSON(String _jsonSpec, boolean forceIfIncorrectExpression) {
         if (_jsonSpec == null) {

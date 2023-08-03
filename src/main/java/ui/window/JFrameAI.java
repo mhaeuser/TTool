@@ -300,7 +300,7 @@ public class JFrameAI extends JFrame implements ActionListener {
                 "carpe", "crocodile", "psychologue", "dr emacs", "3615-TTool", "100 balles et 1 mars",
                 "opéra (l’abus d’Alcôve est dangereux pour la santé)", "chapon", "perroquet", "chameau volant", "Alice", "oasis", "ATC RAK",
                 "Adibou", "cheval de Troyes", "Twist", "GSM", "étalon", "jaseux", "walkman (l'abus d'écouteurs peut provoquer des otites)", "Blake " +
-                "& Mortimer", "Knights who say Ni!"};
+                "& Mortimer", "Knights who say Ni!", "vendeur de canapés carreautés", "Marcel Proust"};
         int x = (int) (Math.random() * names.length);
         return names[x];
     }

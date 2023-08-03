@@ -78,7 +78,13 @@ public class SecurityGeneration implements Runnable {
         }
 
         //Perform ProVerif Analysis
-        TML2Avatar t2a = new TML2Avatar(newMap, false, true);
+
+        Object o = null;
+        if (map.getTMLModeling().getReference() instanceof TGComponent) {
+            o = ((TGComponent)(map.getTMLModeling().getReference())).getTDiagramPanel().tp;
+        }
+
+        TML2Avatar t2a = new TML2Avatar(newMap, false, true, o);
         AvatarSpecification avatarspec = t2a.generateAvatarSpec("1", this.autoWeakAuth||this.autoStrongAuth);
         if (avatarspec == null) {
             TraceManager.addDev("No avatar spec");

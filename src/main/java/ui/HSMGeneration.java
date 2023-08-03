@@ -64,9 +64,14 @@ public class HSMGeneration implements Runnable {
             TraceManager.addDev("No mapping");
             return;
         }
+
+        Object o = null;
+        if (tmap.getTMLModeling().getReference() instanceof TGComponent) {
+            o = ((TGComponent)(tmap.getTMLModeling().getReference())).getTDiagramPanel().tp;
+        }
         
         //Perform ProVerif Analysis
-        TML2Avatar t2a = new TML2Avatar(map, false, true);
+        TML2Avatar t2a = new TML2Avatar(map, false, true, o);
         AvatarSpecification avatarspec = t2a.generateAvatarSpec("1");
         if (avatarspec == null) {
             TraceManager.addDev("No avatar spec");

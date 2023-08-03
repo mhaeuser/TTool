@@ -2242,7 +2242,11 @@ public class GTURTLEModeling {
         if (avatarspec != null) {
             return;
         } else if (tmap != null) {
-            t2a = new TML2Avatar(tmap, mc, security);
+            Object o = null;
+            if (tmap.getTMLModeling().getReference() instanceof TGComponent) {
+                o = ((TGComponent)(tmlm.getReference())).getTDiagramPanel().tp;
+            }
+            t2a = new TML2Avatar(tmap, mc, security, o);
             TraceManager.addDev("Avatar spec generation");
             avatarspec = t2a.generateAvatarSpec("1");
             TraceManager.addDev("Avatar spec generation: done");
@@ -2302,7 +2306,11 @@ public class GTURTLEModeling {
     public boolean generateProVerifFromAVATAR(String _path, int _stateReachability, boolean _typed, boolean allowPrivateChannelDuplication, String loopLimit) {
         //
        if (tmap != null) {
-            t2a = new TML2Avatar(tmap, false, true);
+           Object o = null;
+           if (tmap.getTMLModeling().getReference() instanceof TGComponent) {
+               o = ((TGComponent)(tmlm.getReference())).getTDiagramPanel().tp;
+           }
+            t2a = new TML2Avatar(tmap, false, true, o);
             avatarspec = t2a.generateAvatarSpec(loopLimit);
             if (mgui.isExperimentalOn()) {
                 //drawPanel(avatarspec, mgui.getFirstAvatarDesignPanelFound());
@@ -2311,8 +2319,12 @@ public class GTURTLEModeling {
         } else if (tmlm != null) {
             //Generate default mapping
             tmap = tmlm.getDefaultMapping();
+            Object o = null;
+            if (tmlm.getReference() instanceof TGComponent) {
+                o = ((TGComponent)(tmlm.getReference())).getTDiagramPanel().tp;
+            }
 
-            t2a = new TML2Avatar(tmap, false, true);
+            t2a = new TML2Avatar(tmap, false, true, o);
             avatarspec = t2a.generateAvatarSpec(loopLimit);
 
             if (mgui.isExperimentalOn()) {

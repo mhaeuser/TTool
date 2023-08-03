@@ -54,7 +54,10 @@ import java.util.Vector;
 public abstract class TMLActivityElement extends TMLElement {
     protected Vector<TMLActivityElement> nexts;
     public SecurityPattern securityPattern;
-    private String value="";
+    private String value = "";
+    private boolean canBeCheckedForAccessibility = false;
+    private boolean accessibility = false;
+
     
     public TMLActivityElement(String _name, Object _referenceObject) {
         super(_name, _referenceObject);
@@ -152,5 +155,20 @@ public abstract class TMLActivityElement extends TMLElement {
         TMLComparingMethod comp = new TMLComparingMethod();
         return Objects.equals(value,tmlActEtls.getValue()) &&
                 comp.isTMLActivityEltListEquals(nexts,tmlActEtls.getNexts());
+    }
+
+    public void setCheckableAccessibility(boolean b) {
+        canBeCheckedForAccessibility = b;
+    }
+    public boolean hasCheckableAccessibility() {
+        return canBeCheckedForAccessibility;
+    }
+
+    public void setCheckAccessibility(boolean b) {
+         accessibility = b;
+    }
+
+    public boolean hasCheckedAccessibility() {
+        return accessibility;
     }
 }

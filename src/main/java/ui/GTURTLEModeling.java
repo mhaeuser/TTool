@@ -2210,7 +2210,11 @@ public class GTURTLEModeling {
         }*/
 
 
-        FullTML2Avatar t2a = new FullTML2Avatar(tmlm);
+        Object o = null;
+        if (tmlm.getReference() instanceof TGComponent) {
+            o = ((TGComponent)(tmlm.getReference())).getTDiagramPanel().tp;
+        }
+        FullTML2Avatar t2a = new FullTML2Avatar(tmlm, o);
         TraceManager.addDev("Avatar spec generation");
         avatarspec = t2a.generateAvatarSpec("1");
         TraceManager.addDev("Avatar spec generated");

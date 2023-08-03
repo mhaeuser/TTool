@@ -40,8 +40,7 @@ package tmltranslator.toavatar;
 import avatartranslator.*;
 import myutil.TraceManager;
 import tmltranslator.*;
-import ui.TGComponent;
-//import ui.tmlcompd.TMLCPrimitivePort;
+//import ui.TGComponent;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -94,8 +93,11 @@ public class FullTML2Avatar {
     boolean mc = true;
     boolean security = false;
 
-    public FullTML2Avatar(TMLModeling<?> tmlmodel) {
+    private Object referenceObject;
+
+    public FullTML2Avatar(TMLModeling<?> tmlmodel, Object _referenceObject) {
         this.tmlmodel = tmlmodel;
+        referenceObject = _referenceObject;
 
         allStates = new ArrayList<String>();
         attrsToCheck = new ArrayList<String>();
@@ -110,7 +112,7 @@ public class FullTML2Avatar {
         //TODO: Put back numeric guards
         //TODO: Calculate for temp variable
         if (tmlmodel.getReference() != null) {
-            this.avspec = new AvatarSpecification("spec", ((TGComponent)((tmlmodel.getReference()))).getTDiagramPanel().tp);
+            this.avspec = new AvatarSpecification("spec", referenceObject);
         } else {
             this.avspec = new AvatarSpecification("spec", null);
         }
@@ -866,14 +868,9 @@ public class FullTML2Avatar {
             TMLRequest req = sr.getRequest();
             AvatarSignal sig;
 
-            boolean checkAcc = false;
-            if (ae.getReferenceObject() != null) {
-                checkAcc = ((TGComponent) ae.getReferenceObject()).getCheckableAccessibility();
-            }
-            boolean checked = false;
-            if (ae.getReferenceObject() != null) {
-                checked = ((TGComponent) ae.getReferenceObject()).hasCheckedAccessibility();
-            }
+
+            boolean checkAcc = ae.hasCheckableAccessibility();
+            boolean checked =  ae.hasCheckedAccessibility();
             AvatarState signalState =
                     new AvatarState("signalstate_" + reworkStringName(ae.getName()) + "_" + reworkStringName(req.getName()),
                     ae.getReferenceObject(), block, checkAcc, checked);
@@ -1066,14 +1063,9 @@ public class FullTML2Avatar {
         } else if (ae instanceof TMLActivityElementEvent) {
             TMLActivityElementEvent aee = (TMLActivityElementEvent) ae;
             TMLEvent evt = aee.getEvent();
-            boolean checkAcc = false;
-            if (ae.getReferenceObject() != null) {
-                checkAcc = ((TGComponent) ae.getReferenceObject()).getCheckableAccessibility();
-            }
-            boolean checked = false;
-            if (ae.getReferenceObject() != null) {
-                checked = ((TGComponent) ae.getReferenceObject()).hasCheckedAccessibility();
-            }
+
+            boolean checkAcc = ae.hasCheckableAccessibility();
+            boolean checked =  ae.hasCheckedAccessibility();
             AvatarState signalState = new AvatarState("signalstate_" + reworkStringName(ae.getName() + "_" + evt.getName()),
                     ae.getReferenceObject(), block, checkAcc, checked);
             AvatarTransition signalTran = new AvatarTransition(block, "__after_signalstate_" + ae.getName() + "_" + evt.getName(), ae.getReferenceObject());
@@ -1598,15 +1590,8 @@ public class FullTML2Avatar {
 
             //String nv = getName(ch.getName()) + "_chData";
 
-
-            boolean checkAcc = false;
-            if (ae.getReferenceObject() != null) {
-                checkAcc = ((TGComponent) ae.getReferenceObject()).getCheckableAccessibility();
-            }
-            boolean checked = false;
-            if (ae.getReferenceObject() != null) {
-                checked = ((TGComponent) ae.getReferenceObject()).hasCheckedAccessibility();
-            }
+            boolean checkAcc = ae.hasCheckableAccessibility();
+            boolean checked =  ae.hasCheckedAccessibility();
             AvatarState signalState = new AvatarState("signalstate_" + reworkStringName(ae.getName() + "_" + ch.getName()),
                     ae.getReferenceObject(), block, checkAcc, checked);
             AvatarTransition signalTran = new AvatarTransition(block, "__after_signalstate_" + ae.getName() + "_" + ch.getName(), ae.getReferenceObject());

@@ -137,9 +137,11 @@ public class AIBlockConnAttrib extends AIInteract {
                     errors = AvatarSpecification.getJSONErrors();
                 } else if (stage == 2) {
                     specification = AvatarSpecification.fromJSON(extractJSON(), "design", null, true);
-                    specification.addSignalsAndConnection(specification0);
-                    specification.makeMinimalStateMachines();
-                    specification.improveNames();
+                    if (specification != null) {
+                        specification.addSignalsAndConnection(specification0);
+                        specification.makeMinimalStateMachines();
+                        specification.improveNames();
+                    }
                     //TraceManager.addDev("Full spec: " + specification);
                     errors = AvatarSpecification.getJSONErrors();
                 }

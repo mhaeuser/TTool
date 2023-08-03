@@ -11,6 +11,8 @@ import ui.TGComponent;
  */
 public abstract class TADComponentWithoutSubcomponents extends TGCScalableWithoutInternalComponent /* Issue #31 TGCWithoutInternalComponent*/ {
 
+	protected int reachabilityInformation;
+
 	public TADComponentWithoutSubcomponents(int _x, int _y, int _minX, int _maxX, int _minY, int _maxY,
 			boolean _pos, TGComponent _father, TDiagramPanel _tdp) {
 		super(_x, _y, _minX, _maxX, _minY, _maxY, _pos, _father, _tdp);
@@ -27,4 +29,8 @@ public abstract class TADComponentWithoutSubcomponents extends TGCScalableWithou
     	
     	return visitor.isCanBeDisabled();
     }
+
+	public void setReachabilityInformation(int info) {
+		reachabilityInformation = info;
+	}
 }

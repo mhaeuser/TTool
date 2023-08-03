@@ -42,8 +42,6 @@ import myutil.TraceManager;
 import proverifspec.ProVerifQueryResult;
 import tmltranslator.*;
 import ui.TGComponent;
-import ui.tmlad.*;
-import ui.window.TraceData;
 
 import java.util.*;
 import java.util.regex.Matcher;
@@ -2518,27 +2516,9 @@ public class TML2Avatar {
 
             if (stateObjectMap.containsKey(s)) {
                 Object obj = stateObjectMap.get(s);
-                if (obj instanceof TMLADWriteChannel) {
-                    TMLADWriteChannel wc = (TMLADWriteChannel) obj;
-                    wc.reachabilityInformation = r;
-                }
-                if (obj instanceof TMLADReadChannel) {
-                    TMLADReadChannel wc = (TMLADReadChannel) obj;
-                    wc.reachabilityInformation = r;
-                }
-
-                if (obj instanceof TMLADSendEvent) {
-                    TMLADSendEvent wc = (TMLADSendEvent) obj;
-                    wc.reachabilityInformation = r;
-                }
-
-                if (obj instanceof TMLADSendRequest) {
-                    TMLADSendRequest wc = (TMLADSendRequest) obj;
-                    wc.reachabilityInformation = r;
-                }
-                if (obj instanceof TMLADWaitEvent) {
-                    TMLADWaitEvent wc = (TMLADWaitEvent) obj;
-                    wc.reachabilityInformation = r;
+                if (obj instanceof SecurityCheckable) {
+                    SecurityCheckable wc = (SecurityCheckable) obj;
+                    wc.setReachabilityInformation(r);
                 }
             }
         }
@@ -2560,9 +2540,9 @@ public class TML2Avatar {
                 resStrongAuthStatus = result.isSatisfied() ? 2 : 3;
             }
 
-            if (pragma.getAttrB().getReferenceObject()!= null && pragma.getAttrB().getReferenceObject() instanceof TMLADReadChannel) {
-                TMLADReadChannel rc = (TMLADReadChannel) pragma.getAttrB().getReferenceObject();
-                TMLChannel channel = tmlmodel.getChannelByShortName(rc.getChannelName());
+            if (pragma.getAttrB().getReferenceObject()!= null && pragma.getAttrB().getReferenceObject() instanceof SecurityBacktracer) {
+                SecurityBacktracer rc = (SecurityBacktracer) pragma.getAttrB().getReferenceObject();
+                TMLChannel channel = tmlmodel.getChannelByShortName(rc.getCommunicationName());
                 if (channel != null) {
                     rc.setAuthCheck(channel.checkAuth);
                 }
@@ -2574,8 +2554,8 @@ public class TML2Avatar {
                 }
             }
 
-            if (pragma.getAttrB().getReferenceObject()!= null && pragma.getAttrB().getReferenceObject() instanceof TMLADDecrypt) {
-                TMLADDecrypt dec = (TMLADDecrypt) pragma.getAttrB().getReferenceObject();
+            if (pragma.getAttrB().getReferenceObject()!= null && pragma.getAttrB().getReferenceObject() instanceof SecurityDecryptor) {
+                SecurityDecryptor dec = (SecurityDecryptor) pragma.getAttrB().getReferenceObject();
                 for (TMLTask t : taskBlockMap.keySet()) {
                     if (taskBlockMap.get(t).equals(pragma.getAttrB().getAttribute().getBlock())) {
                         chDestinationTask:
@@ -2585,7 +2565,7 @@ public class TML2Avatar {
                                     if (actElem instanceof TMLReadChannel) {
                                         TMLReadChannel rc = (TMLReadChannel) actElem;
                                         if (rc.hasChannel(ch) && actElem.securityPattern != null
-                                                && actElem.securityPattern.getName().equals(dec.securityContext)) {
+                                                && actElem.securityPattern.getName().equals(dec.getSecurityContext())) {
                                             dec.setAuthCheck(ch.checkAuth);
                                             break chDestinationTask;
                                         }

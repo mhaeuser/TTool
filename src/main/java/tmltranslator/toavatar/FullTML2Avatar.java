@@ -40,7 +40,6 @@ package tmltranslator.toavatar;
 import avatartranslator.*;
 import myutil.TraceManager;
 import tmltranslator.*;
-//import ui.TGComponent;
 
 import java.util.ArrayList;
 import java.util.HashMap;

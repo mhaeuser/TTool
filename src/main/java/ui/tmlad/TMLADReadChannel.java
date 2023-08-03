@@ -54,6 +54,8 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import myutil.GraphicLib;
+import tmltranslator.SecurityBacktracer;
+import tmltranslator.SecurityCheckable;
 import ui.AllowedBreakpoint;
 import ui.BasicErrorHighlight;
 import ui.CheckableAccessibility;
@@ -81,7 +83,7 @@ import ui.window.TabInfo;
  * @version 1.0 21/11/2005
  */
 public class TMLADReadChannel extends TADComponentWithoutSubcomponents/* Issue #69 TGCWithoutInternalComponent*/ implements CheckableAccessibility,
-        LinkedReference, CheckableLatency, EmbeddedComment, AllowedBreakpoint, BasicErrorHighlight {
+        LinkedReference, CheckableLatency, EmbeddedComment, AllowedBreakpoint, BasicErrorHighlight, SecurityCheckable, SecurityBacktracer {
     private Map<String, String> latencyVals;
 
 	// Issue #31
@@ -586,5 +588,9 @@ public class TMLADReadChannel extends TADComponentWithoutSubcomponents/* Issue #
 
     public void setStrongAuthStatus(int _strongAuthStatus) {
         strongAuthStatus = _strongAuthStatus;
+    }
+
+    public String getCommunicationName() {
+        return channelName;
     }
 }

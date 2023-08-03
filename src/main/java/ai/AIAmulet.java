@@ -50,6 +50,7 @@ import ui.window.JFrameAI;
 import java.io.BufferedReader;
 import java.io.StringReader;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * Class AIAmulet
@@ -68,6 +69,7 @@ public class AIAmulet extends AIInteract implements AISysMLV2DiagramContent, AIA
     private AvatarSpecification specification;
 
     private String diagramContent;
+    private String[] mutationFirstTokens = {"add","remove","rm","modify","attach","detach"};
 
     public AIAmulet(AIChatData _chatData) {
         super(_chatData);
@@ -76,6 +78,7 @@ public class AIAmulet extends AIInteract implements AISysMLV2DiagramContent, AIA
     public void internalRequest() {
         if (!chatData.knowledgeOnAMULET) {
             injectAMULETKnowledge();
+            injectKnowledgeOnCountermeasures();
             chatData.knowledgeOnAMULET = true;
         }
 
@@ -90,18 +93,18 @@ public class AIAmulet extends AIInteract implements AISysMLV2DiagramContent, AIA
         boolean done = false;
         int cpt = 0;
 
-        while (!done && cpt<20){
-            boolean ok = makeQuestion(questionT);
+        while (!done && cpt<5){
+            makeQuestion(questionT);
             String automatedAnswer = chatData.lastAnswer;
             BufferedReader buff = new BufferedReader(new StringReader(automatedAnswer));
             String line ;
-            AvatarSpecification avspecTest = specification;
+            AvatarSpecification avspecTest = specification.advancedClone();
             done = true;
             errors.clear();
 
             try {
                 while ((line = buff.readLine()) != null) {
-                    if (line.startsWith("add ") || line.startsWith("remove ") || line.startsWith("modify ") || line.startsWith("attach ") || line.startsWith("detach ")) {
+                    if (Arrays.asList(mutationFirstTokens).contains(line.split(" ")[0])) {
                         try {
                             AvatarMutation am = AvatarMutation.createFromString(line);
                             am.apply(avspecTest);
@@ -126,7 +129,7 @@ public class AIAmulet extends AIInteract implements AISysMLV2DiagramContent, AIA
                 error("Mutation parsing failed: " + e.getMessage());
             }
 
-            waitIfConditionTrue(!done && cpt < 20);
+            waitIfConditionTrue(!done && cpt < 5);
             cpt++;
         }
 
@@ -148,7 +151,7 @@ public class AIAmulet extends AIInteract implements AISysMLV2DiagramContent, AIA
 
         try {
             while ((line = buff.readLine()) != null) {
-                if (line.startsWith("add ") || line.startsWith("remove ") || line.startsWith("modify ") || line.startsWith("attach ") || line.startsWith("detach ")) {
+                if (Arrays.asList(mutationFirstTokens).contains(line.split(" ")[0])) {
                     try {
                         AvatarMutation am = AvatarMutation.createFromString(line);
                         if (am != null) {
@@ -212,9 +215,14 @@ public class AIAmulet extends AIInteract implements AISysMLV2DiagramContent, AIA
                 "\"add attribute int i, j in myBlock\" but you must write \"add attribute int i in myBlock\" then \"add attribute int j in " +
                 "myBlock\".", "OK.");
 
-        chatData.aiinterface.addKnowledge("Here are some more AMULET commands. Adding a connection between the ports of two blocks b1 and b2 is " +
+        chatData.aiinterface.addKnowledge("Here are some more AMULET commands. Adding a link between two blocks b1 and b2 is " +
                 "written \"add link between b1 and b2\".\n" +
-                "Removing a connection between the ports of two blocks b1 and b2 is written \"remove link between b1 and b2\".", "OK.");
+                "Removing a connection link between two blocks b1 and b2 is written \"remove link between b1 and b2\".", "OK.");
+
+        chatData.aiinterface.addKnowledge("In AMULET, adding a private link between two blocks b1 and b2 is written \"add private link" +
+                "between b1 and b2\". Adding a lossy link between b1 and b2 is written \"add asynchronous lossy link between b1 and b2\". Adding a " +
+                        "broadcast link between b1 and b2 is written \"add broadcast link between b1 and b2\".",
+                "OK.");
 
         chatData.aiinterface.addKnowledge("Here are some more AMULET commands. If we want an input and an output signal to be synchronized, we need " +
                 "to connect them. Connecting an input signal insig in a block b to an output signal outsig in a block c is written \"add connection " +
@@ -241,6 +249,12 @@ public class AIAmulet extends AIInteract implements AISysMLV2DiagramContent, AIA
         chatData.aiinterface.addKnowledge("In AMULET, if we want to set an existing attribute n of a block myBlock to a value x, we will write " +
                 "\"modify attribute n in myBlock to x","OK.");
 
+        chatData.aiinterface.addKnowledge("If we want to set a link between a block b1 and a block b2 to private, we will write \"set link between " +
+                "b1 and b2 to private\".","OK.");
+
+        chatData.aiinterface.addKnowledge("If we want to set a link between a block b1 and a block b2 to lossy, we will write \"set link between " +
+                "b1 and b2 to asynchronous lossy\".","OK.");
+
         chatData.aiinterface.addKnowledge("If we want a block b to receive a parameter p through an input signal and if b has no attribute of the " +
                 "type of p, you need first to add the relevant attribute to b. Similarly, if we want b to send a parameter p through an output " +
                 "signal and if b has no attribute of the type of p, you must first add the attribute to b.","OK.");
@@ -254,9 +268,10 @@ public class AIAmulet extends AIInteract implements AISysMLV2DiagramContent, AIA
                 "Right. If I want two blocks b1 and b2 to be connected, I will write \"add link between b1 and b2\", and if I want two signals s1 " +
                         "and s2 belonging to b1 and b2 to be connected, I will write \"add connection from s1 in b1 to s2 in b2\".");
 
-        chatData.aiinterface.addKnowledge("If a block already exists in the model, we don't need to add it with an AMULET \"add\" command.",
+        /*chatData.aiinterface.addKnowledge("If a block already exists in the model, we don't need to add it with an AMULET \"add\" command.",
                 "Right, if the model I analyze already has a block b1, I will never write \"add block b1\" except if b1 has been deleted by another" +
                         " AMULET command.");
+         */
 
         chatData.aiinterface.addKnowledge("Now, I want you to answer only with the AMULET source code, without any comment nor other sentence that is" +
                 " not AMULET source code.", "Understood, from now on I will only provide AMULET source code.");
@@ -273,9 +288,22 @@ public class AIAmulet extends AIInteract implements AISysMLV2DiagramContent, AIA
                 "a block b2, you must check if some ports of b1 and b2 are already connected. If it is not the case, you must first write \"add " +
                 "link between b1 and b2\".","OK.");
 
-        chatData.aiinterface.addKnowledge("Even if the SysML textual specification provides the names of the blocks prefixed by \"Block__\", you " +
+        /*chatData.aiinterface.addKnowledge("Even if the SysML textual specification provides the names of the blocks prefixed by \"Block__\", you
                 "should never write this prefix in an AMULET command. For instance, for removing a block named \"Block__myBlock\" in the " +
                 "specification, you will write \"remove block myBlock\".","OK.");
+        */
+
+        chatData.aiinterface.addKnowledge("In AMULET, we can't access an attribute or a signal x of a block b by writing \"b.x\". We can access it " +
+                "by writing \"x in b\".","OK.");
+
+        chatData.aiinterface.addKnowledge("The \"bind\" command does not exist in AMULET. To work on links between blocks or connections between " +
+                "signals, we use the \"add link\", \"modify link\", \"add connection\", \"modify connection\" commands.","OK.");
+    }
+
+    private void injectKnowledgeOnCountermeasures(){
+        chatData.aiinterface.addKnowledge("For preventing eavesdropping on the links of a model, you must first set them to private using the " +
+                "following syntax: \"modify link between firstBlock and secondBlock to private\". If the link is already private, you may modify " +
+                "the model to add cryptographic keys to the exchanged signals, for instance.","OK.");
     }
 
 

@@ -45,8 +45,6 @@ package tmltranslator.tmlcp;
 import tmltranslator.TMLAttribute;
 import tmltranslator.TMLElement;
 import tmltranslator.TMLType;
-import ui.tmldd.TMLArchiNode;
-import ui.tmlsd.TGConnectorMessageTMLSD;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -61,7 +59,6 @@ import java.util.Collections;
 public class TMLSDInstance extends TMLElement  {
 
     private String type;
-    private TMLArchiNode mappedUnit;    //the unit of the architecture where the instance is mapped to
     private ArrayList<TMLAttribute> globalVariables;
     private ArrayList<TMLSDMessage> messages;
     private ArrayList<TMLSDAction> actions;
@@ -130,30 +127,22 @@ public class TMLSDInstance extends TMLElement  {
         events.add( new TMLSDEvent( _action, TMLSDEvent.ACTION_EVENT ) );
     }
 
-    public void addMappedUnit( TMLArchiNode _mappedUnit ) {
-        mappedUnit = _mappedUnit;
+
+    public void addSendMessage( TMLSDMessage _msg, int y) {
+        //TraceManager.addDev("SD: Adding message in " + getName()+ " nb of events: " + events.size());
+        messages.add( _msg );
+        events.add( new TMLSDEvent( _msg, TMLSDEvent.SEND_MESSAGE_EVENT, y ) );
+        Collections.sort( events );
+    }
+    public void addReceiveMessage( TMLSDMessage _msg, int y) {
+        //TraceManager.addDev("SD: Adding message in " + getName()+ " nb of events: " + events.size());
+        messages.add( _msg );
+        events.add( new TMLSDEvent( _msg, TMLSDEvent.RECEIVE_MESSAGE_EVENT, y ) );
+        Collections.sort( events );
     }
 
-    public TMLArchiNode getMappedUnit() {
-        return mappedUnit;
-    }
 
-    public void addMessage( TMLSDMessage _msg, int _type ) {
-
-			//TraceManager.addDev("SD: Adding message in " + getName()+ " nb of events: " + events.size());
-			messages.add( _msg );
-			if( _type == TMLSDEvent.SEND_MESSAGE_EVENT )	{
-				int yCoord = ( (TGConnectorMessageTMLSD) _msg.getReferenceObject()).getTGConnectingPointP1().getY();
-  	    events.add( new TMLSDEvent( _msg, TMLSDEvent.SEND_MESSAGE_EVENT, yCoord ) );
-			}
-			if( _type == TMLSDEvent.RECEIVE_MESSAGE_EVENT )	{
-	    	int yCoord = ( (TGConnectorMessageTMLSD) _msg.getReferenceObject()).getTGConnectingPointP2().getY();
-  	    events.add( new TMLSDEvent( _msg, TMLSDEvent.RECEIVE_MESSAGE_EVENT, yCoord ) );
-			}
-			Collections.sort( events );
-    }
-
-		//Add a message from the parser where there is no notion of yCoord. Events are already ordered.
+    // Add a message from the parser where there is no notion of yCoord. Events are already ordered.
     public void addMessageFromParser( TMLSDMessage _msg, int _type ) {
 
 			messages.add( _msg );

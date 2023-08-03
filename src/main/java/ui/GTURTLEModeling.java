@@ -551,7 +551,7 @@ public class GTURTLEModeling {
         //List<TGComponent> components = mgui.getCurrentArchiPanel().tmlap.getComponentList();
         // Parse the PEC file and the library of code snippets for each DIPLODOCUS unit
         applicationName = tmap.getMappedTasks().get(0).getName().split("__")[0];        // Remember that it works only for one application
-        CCode = new TMLModelCompiler(directory, applicationName, mgui.frame, mgui.getAllTMLCP(), tmap);
+        CCode = new TMLModelCompiler(directory, applicationName, mgui.frame, (Object)(mgui.getAllTMLCP()), tmap, mgui);
 
         // Issue #98: Use the passed directory
         File dir = new File(directory /*ConfigurationTTool.CCodeDirectory*/ + File.separator);

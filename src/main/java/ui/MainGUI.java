@@ -130,7 +130,7 @@ import java.util.concurrent.ConcurrentHashMap;
  *
  * @author Ludovic APVRILLE
  */
-public class MainGUI implements ActionListener, WindowListener, KeyListener, PeriodicBehavior, DraggableTabbedPaneCallbackInterface {
+public class MainGUI implements ActionListener, WindowListener, KeyListener, PeriodicBehavior, DraggableTabbedPaneCallbackInterface, TMLModelManager {
 
     public final static int LOTOS = 0;
     public final static int RT_LOTOS = 1;
@@ -10394,6 +10394,28 @@ public class MainGUI implements ActionListener, WindowListener, KeyListener, Per
             }
         }
 
+    }
+
+    // TMLModelManager interface
+    @SuppressWarnings("unchecked")
+    public ArrayList<TMLCP> getTMLCPFromModels(Object _input) {
+        ArrayList<TMLCP> tmlcpsList = new ArrayList<>();
+        if (!(_input instanceof ArrayList)) {
+            return tmlcpsList;
+        }
+
+        ArrayList<Object> input = (ArrayList<Object>)_input;
+
+        for(Object o: input) {
+            if (o instanceof TMLCommunicationPatternPanel) {
+                TMLCommunicationPatternPanel panel = (TMLCommunicationPatternPanel)o;
+                GTMLModeling gtmlm = new GTMLModeling(panel, true);
+                TMLCP tmlcp = gtmlm.translateToTMLCPDataStructure(panel.getName());
+                tmlcpsList.add(tmlcp);
+            }
+        }
+
+        return tmlcpsList;
     }
 
 

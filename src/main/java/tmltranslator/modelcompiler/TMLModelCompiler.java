@@ -43,8 +43,6 @@ import myutil.FileException;
 import myutil.FileUtils;
 import myutil.TraceManager;
 import tmltranslator.*;
-import ui.GTMLModeling;
-import ui.TMLCommunicationPatternPanel;
 
 import javax.swing.*;
 import java.io.File;
@@ -97,8 +95,9 @@ public class TMLModelCompiler implements CCodeGenConstants {
     private List<TMLPort> prexList;
     private List<Buffer> buffersList;
     private List<DataTransfer> dataTransfersList;
-    private List<TMLCommunicationPatternPanel> tmlcpps;
+    private Object tmlcpps; // List of TMLCommunicationPatternPanel
     private List<TMLCP> tmlcpsList;
+    TMLModelManager tmlmm;
 
     //  private ArrayList<TMLModelCompilerError> errors;
     //  private ArrayList<TMLModelCompilerError> warnings;
@@ -108,12 +107,14 @@ public class TMLModelCompiler implements CCodeGenConstants {
 
     public JFrame frame; //Main Frame
 
-    public TMLModelCompiler(String _directory, String _applicationName, JFrame _frame, List<TMLCommunicationPatternPanel> _tmlcpps, TMLMapping<?> _tmap) {
+    public TMLModelCompiler(String _directory, String _applicationName, JFrame _frame, Object _tmlcpps, TMLMapping<?> _tmap, TMLModelManager _tmlmm) {
         directory = _directory;
         applicationName = _applicationName;
         frame = _frame;
         tmap = _tmap;
         tmlcpps = _tmlcpps;
+        tmlmm = _tmlmm;
+
         tmap.linkTasks2TMLChannels();
         tmap.linkTasks2TMLEvents();
         tmlm = _tmap.getTMLModeling();
@@ -582,11 +583,8 @@ public class TMLModelCompiler implements CCodeGenConstants {
     }
 
     private void makeCommunicationPatternsList() {
-
-        for (TMLCommunicationPatternPanel panel : tmlcpps) {
-            GTMLModeling gtmlm = new GTMLModeling(panel, true);
-            TMLCP tmlcp = gtmlm.translateToTMLCPDataStructure(panel.getName());
-            tmlcpsList.add(tmlcp);
+        if (tmlmm != null) {
+            tmlcpsList.addAll(tmlmm.getTMLCPFromModels(tmlcpps));
         }
     }
 

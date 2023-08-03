@@ -113,20 +113,6 @@ public class TMLMapping<E> {
         }
     }
 
-    //
-    // public TMLMapping( TMLModeling _tmlm, TMLArchitecture _tmla, TMLCP _tmlcp,
-    // boolean reset ) {
-    //
-    // tmlm = _tmlm;
-    // tmla = _tmla;
-    // // tmlcp = _tmlcp;
-    // init();
-    //
-    // if( reset ) {
-    // DIPLOElement.resetID();
-    // }
-    // }
-
     public TMLArchitecture getArch() {
         return tmla;
     }

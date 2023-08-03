@@ -967,7 +967,7 @@ public class GTURTLEModeling {
         //index = 0 : update rules
         //index = 1-n: channel
         int index = 1;
-        TGComponent comp = map.getTMLModeling().getTGComponent();
+        TGComponent comp = (TGComponent) (map.getTMLModeling().getReference());
         TMLComponentDesignPanel tmlcdp = (TMLComponentDesignPanel) comp.getTDiagramPanel().tp;
         // TMLComponentDesignPanel tmlcdp = map.getTMLCDesignPanel();
         TMLModeling<TGComponent> tmlm = map.getTMLModeling();

@@ -259,7 +259,7 @@ public class SecurityGeneration implements Runnable {
         //System.out.println("NonConf " + nonConfChans);
 
         //Create clone of Component Diagram + Activity diagrams to secure
-        TGComponent tgcomp = map.getTMLModeling().getTGComponent();
+        TGComponent tgcomp = (TGComponent)map.getTMLModeling().getReference();
         tmlcdp = (TMLComponentDesignPanel) tgcomp.getTDiagramPanel().tp;
         //        TMLComponentDesignPanel tmlcdp = map.getTMLCDesignPanel();
         int ind = gui.tabs.indexOf(tmlcdp);

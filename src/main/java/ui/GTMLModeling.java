@@ -1272,10 +1272,10 @@ public class GTMLModeling {
                             } else {
                                 event = new TMLEvent(name, port1, -1, port1.isBlocking());
                             }
-                            event.ports.add(port1);
+                            //event.ports.add(port1);
                             for (j = 0; j < portstome.size(); j++) {
                                 TMLCPrimitivePort p = portstome.get(j);
-                                event.ports.add(p);
+                                //event.ports.add(p);
                             }
                             for (i = 0; i < port1.getNbMaxAttribute(); i++) {
                                 tt = port1.getParamAt(i);

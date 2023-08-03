@@ -109,8 +109,8 @@ public class FullTML2Avatar {
         //TODO: Make state names readable
         //TODO: Put back numeric guards
         //TODO: Calculate for temp variable
-        if (tmlmodel.getTGComponent() != null) {
-            this.avspec = new AvatarSpecification("spec", tmlmodel.getTGComponent().getTDiagramPanel().tp);
+        if (tmlmodel.getReference() != null) {
+            this.avspec = new AvatarSpecification("spec", ((TGComponent)((tmlmodel.getReference()))).getTDiagramPanel().tp);
         } else {
             this.avspec = new AvatarSpecification("spec", null);
         }

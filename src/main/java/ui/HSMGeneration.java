@@ -152,7 +152,7 @@ public class HSMGeneration implements Runnable {
         gui.cloneRenameTab(arch, "hsm");
         TMLArchiPanel newarch = (TMLArchiPanel) gui.tabs.get(gui.tabs.size() - 1);
 
-        TGComponent tgcomp = tmap.getTMLModeling().getTGComponent();
+        TGComponent tgcomp = (TGComponent) tmap.getTMLModeling().getReference();
         TMLComponentDesignPanel tmlcdp = (TMLComponentDesignPanel) tgcomp.getTDiagramPanel().tp;
 
 //        TMLComponentDesignPanel tmlcdp = tmap.getTMLCDesignPanel();

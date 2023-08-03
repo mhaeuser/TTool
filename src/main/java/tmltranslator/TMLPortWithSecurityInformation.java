@@ -74,6 +74,10 @@ public interface TMLPortWithSecurityInformation {
     public void setStrongAuthStatus(int _status);
     public void setWeakAuthStatus(int _status);
 
+    public boolean isBlocking();
+    public boolean isFinite();
+    public String getPortName();
+
 
 
 

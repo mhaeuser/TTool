@@ -49,8 +49,6 @@ import proverifspec.ProVerifOutputAnalyzer;
 import proverifspec.ProVerifQueryAuthResult;
 import proverifspec.ProVerifQueryResult;
 import proverifspec.ProVerifResultTrace;
-import ui.TGComponent;
-import ui.tmlad.TMLADStopState;
 
 import java.util.*;
 
@@ -803,7 +801,7 @@ public class TMLModeling<E> {
                         }
                     }
                 }
-                // Next check if there exists a writechannel operator that sends unencrypted data
+                // Next check if there exists a "write channel" operator that sends unencrypted data
                 boolean found = false;
                 for (TMLTask task : getTasks()) {
                     TMLActivity act = task.getActivityDiagram();
@@ -850,13 +848,13 @@ public class TMLModeling<E> {
             }
             TMLEvent ev = getEventByName(attr.getName().replaceAll("_eventData", ""));
             if (ev != null) {
-                if (ev.port.checkConf) {
-                    ev.port.checkConfStatus = r;
-                    ev.port.mappingName = mappingName;
+                if (ev.port.getCheckConf()) {
+                    ev.port.setConfStatus(r);
+                    ev.port.setMappingName(mappingName);
                 }
-                if (ev.port2.checkConf) {
-                    ev.port2.checkConfStatus = r;
-                    ev.port2.mappingName = mappingName;
+                if (ev.port2.getCheckConf()) {
+                    ev.port2.setConfStatus(r);
+                    ev.port2.setMappingName(mappingName);
                 }
             }
 
@@ -881,8 +879,13 @@ public class TMLModeling<E> {
         //
     }
 
-    public TGComponent getTGComponent() {
-        return (TGComponent) getTasks().get(0).getReferenceObject();
+    public Object getReference() {
+        if (getTasks() != null) {
+            if (getTasks().get(0) != null) {
+                return getTasks().get(0).getReferenceObject();
+            }
+        }
+        return null;
     }
 
 
@@ -959,13 +962,13 @@ public class TMLModeling<E> {
                 }
                 TMLEvent ev = getEventByName(signalName);
                 if (ev != null) {
-                    if (ev.port.checkAuth) {
-                        ev.port.checkStrongAuthStatus = 2;
-                        ev.port2.mappingName = mappingName;
+                    if (ev.port.getCheckAuth()) {
+                        ev.port.setStrongAuthStatus(2);
+                        ev.port2.setMappingName(mappingName);
                     }
-                    if (ev.port2.checkAuth) {
-                        ev.port2.checkStrongAuthStatus = 2;
-                        ev.port2.mappingName = mappingName;
+                    if (ev.port2.getCheckAuth()) {
+                        ev.port2.setStrongAuthStatus(2);
+                        ev.port2.setMappingName(mappingName);
                     }
                 }
 
@@ -1104,13 +1107,13 @@ public class TMLModeling<E> {
                 }
                 TMLEvent ev = getEventByName(signalName);
                 if (ev != null) {
-                    if (ev.port.checkAuth) {
-                        ev.port.checkWeakAuthStatus = 2;
-                        ev.port2.mappingName = mappingName;
+                    if (ev.port.getCheckAuth()) {
+                        ev.port.setWeakAuthStatus(2);
+                        ev.port2.setMappingName(mappingName);
                     }
-                    if (ev.port2.checkAuth) {
-                        ev.port2.checkWeakAuthStatus = 2;
-                        ev.port2.mappingName = mappingName;
+                    if (ev.port2.getCheckAuth()) {
+                        ev.port2.setWeakAuthStatus(2);
+                        ev.port2.setMappingName(mappingName);
                     }
                 }
                 signalName = s.toString().split("__decrypt")[0];
@@ -1255,13 +1258,13 @@ public class TMLModeling<E> {
                 }
                 TMLEvent ev = getEventByName(signalName);
                 if (ev != null) {
-                    if (ev.port.checkAuth) {
-                        ev.port.checkStrongAuthStatus = 3;
-                        ev.port2.mappingName = mappingName;
+                    if (ev.port.getCheckAuth()) {
+                        ev.port.setStrongAuthStatus(3);
+                        ev.port2.setMappingName(mappingName);
                     }
-                    if (ev.port2.checkAuth) {
-                        ev.port2.checkStrongAuthStatus = 3;
-                        ev.port2.mappingName = mappingName;
+                    if (ev.port2.getCheckAuth()) {
+                        ev.port2.setStrongAuthStatus(3);
+                        ev.port2.setMappingName(mappingName);
                     }
                 }
 
@@ -1375,21 +1378,21 @@ public class TMLModeling<E> {
 
         for (TMLEvent evt : getEvents()) {
             if (evt.port != null && evt.port2 != null) {
-                if (evt.port.checkConfStatus > 1) {
-                    evt.port.checkConfStatus = 1;
-                    evt.port.mappingName = "???";
+                if (evt.port.getConfStatus() > 1) {
+                    evt.port.setConfStatus(1);
+                    evt.port.setMappingName("???");
                 }
-                if (evt.port.checkStrongAuthStatus > 1 || evt.port.checkWeakAuthStatus > 1) {
-                    evt.port.checkStrongAuthStatus = 1;
-                    evt.port.checkWeakAuthStatus = 1;
+                if (evt.port.getCheckStrongAuthStatus() > 1 || evt.port.getCheckWeakAuthStatus() > 1) {
+                    evt.port.setStrongAuthStatus(1);
+                    evt.port.setWeakAuthStatus(1);
                 }
-                if (evt.port2.checkConfStatus > 1) {
-                    evt.port2.checkConfStatus = 1;
-                    evt.port2.mappingName = "???";
+                if (evt.port2.getConfStatus() > 1) {
+                    evt.port2.setConfStatus(1);
+                    evt.port2.setMappingName("???");
                 }
-                if (evt.port2.checkStrongAuthStatus > 1 || evt.port2.checkWeakAuthStatus > 1) {
-                    evt.port2.checkStrongAuthStatus = 1;
-                    evt.port2.checkWeakAuthStatus = 1;
+                if (evt.port2.getCheckStrongAuthStatus() > 1 || evt.port2.getCheckWeakAuthStatus() > 1) {
+                    evt.port2.setStrongAuthStatus(1);
+                    evt.port2.setWeakAuthStatus(1);
                 }
             }
         }

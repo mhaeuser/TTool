@@ -147,7 +147,7 @@ public class HSMGeneration implements Runnable {
             return;
         }
         //Clone diagrams
-        TURTLEPanel tmlap = tmap.getCorrespondanceList().getTG(tmap.getArch().getFirstCPU()).getTDiagramPanel().tp;
+        TURTLEPanel tmlap = ((CorrespondanceTGElement)(tmap.getCorrespondanceList())).getTG(tmap.getArch().getFirstCPU()).getTDiagramPanel().tp;
         int arch = gui.tabs.indexOf(tmlap);
         gui.cloneRenameTab(arch, "hsm");
         TMLArchiPanel newarch = (TMLArchiPanel) gui.tabs.get(gui.tabs.size() - 1);

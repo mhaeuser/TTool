@@ -51,9 +51,6 @@ package tmltranslator;
 
 
 import proverifspec.ProVerifResultTrace;
-import ui.tmlcompd.TMLCPrimitivePort;
-
-import java.util.Objects;
 
 
 public interface TMLPortWithSecurityInformation {
@@ -77,6 +74,8 @@ public interface TMLPortWithSecurityInformation {
     public boolean isBlocking();
     public boolean isFinite();
     public String getPortName();
+
+    public String getDataFlowType();
 
 
 

@@ -972,7 +972,7 @@ public class GTURTLEModeling {
         // TMLComponentDesignPanel tmlcdp = map.getTMLCDesignPanel();
         TMLModeling<TGComponent> tmlm = map.getTMLModeling();
         TMLArchitecture archi = map.getArch();
-        TURTLEPanel tmlap = map.getCorrespondanceList().getTG(archi.getFirstCPU()).getTDiagramPanel().tp;
+        TURTLEPanel tmlap = ((CorrespondanceTGElement)(map.getCorrespondanceList())).getTG(archi.getFirstCPU()).getTDiagramPanel().tp;
         TMLActivityDiagramPanel firewallADP = null;
         TMLComponentDesignPanel tcp = tmlcdp;
 
@@ -1204,8 +1204,8 @@ public class GTURTLEModeling {
                 outChans.put(chan, rd);
                 toAdd.add(rd);
                 toAdd.add(wr);
-                map.getCorrespondanceList().addCor(rd, (TGComponent) rd.getReferenceObject());
-                map.getCorrespondanceList().addCor(wr, (TGComponent) wr.getReferenceObject());
+                ((CorrespondanceTGElement)(map.getCorrespondanceList())).addCor(rd, (TGComponent) rd.getReferenceObject());
+                ((CorrespondanceTGElement)(map.getCorrespondanceList())).addCor(wr, (TGComponent) wr.getReferenceObject());
 
 
             }
@@ -1459,7 +1459,7 @@ public class GTURTLEModeling {
 
             TMLStartState start = new TMLStartState("start", adStart);
             act.setFirst(start);
-            map.getCorrespondanceList().addCor(start, adStart);
+            ((CorrespondanceTGElement)(map.getCorrespondanceList())).addCor(start, adStart);
 
             System.out.println("MODIFIED " + modifiedTasks);
             //Replace channel operator with new firewallIn and firewallOut operators
@@ -1615,7 +1615,7 @@ public class GTURTLEModeling {
 
     @SuppressWarnings("unchecked")
     public boolean generateGraphicalMapping(TMLMapping map) {
-        TURTLEPanel tmlap = tmap.getCorrespondanceList().getTG(tmap.getArch().getFirstCPU()).getTDiagramPanel().tp;
+        TURTLEPanel tmlap = ((CorrespondanceTGElement)(tmap.getCorrespondanceList())).getTG(tmap.getArch().getFirstCPU()).getTDiagramPanel().tp;
         int arch = mgui.tabs.indexOf(tmlap);
         mgui.cloneRenameTab(arch, "Z3");
         TMLArchiPanel newArch = (TMLArchiPanel) mgui.tabs.get(mgui.tabs.size() - 1);
@@ -1653,7 +1653,7 @@ public class GTURTLEModeling {
         if (tmap == null) {
             return null;
         }
-        TURTLEPanel tmlap = tmap.getCorrespondanceList().getTG(tmap.getArch().getFirstCPU()).getTDiagramPanel().tp;
+        TURTLEPanel tmlap = ((CorrespondanceTGElement)(tmap.getCorrespondanceList())).getTG(tmap.getArch().getFirstCPU()).getTDiagramPanel().tp;
         int arch = gui.tabs.indexOf(tmlap);
         DateFormat dateFormat = new SimpleDateFormat("HHmmss");
         Date date = new Date();
@@ -1677,7 +1677,7 @@ public class GTURTLEModeling {
         if (tmap == null) {
             return null;
         }
-        TURTLEPanel tmlap = tmap.getCorrespondanceList().getTG(tmap.getArch().getFirstCPU()).getTDiagramPanel().tp;
+        TURTLEPanel tmlap = ((CorrespondanceTGElement)(tmap.getCorrespondanceList())).getTG(tmap.getArch().getFirstCPU()).getTDiagramPanel().tp;
         int arch = gui.tabs.indexOf(tmlap);
         DateFormat dateFormat = new SimpleDateFormat("HHmmss");
         Date date = new Date();
@@ -1694,7 +1694,7 @@ public class GTURTLEModeling {
         if (tmap == null) {
             return null;
         }
-        TURTLEPanel tmlap = tmap.getCorrespondanceList().getTG(tmap.getArch().getFirstCPU()).getTDiagramPanel().tp;
+        TURTLEPanel tmlap = ((CorrespondanceTGElement)(tmap.getCorrespondanceList())).getTG(tmap.getArch().getFirstCPU()).getTDiagramPanel().tp;
         int arch = gui.tabs.indexOf(tmlap);
         DateFormat dateFormat = new SimpleDateFormat("HHmmss");
         Date date = new Date();

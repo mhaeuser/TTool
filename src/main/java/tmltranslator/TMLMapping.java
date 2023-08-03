@@ -50,7 +50,6 @@ import org.jgrapht.graph.DefaultDirectedGraph;
 import org.jgrapht.graph.DefaultEdge;
 import tmltranslator.tonetwork.TMAP2Network;
 import tmltranslator.toproverif.TML2ProVerif;
-import ui.CorrespondanceTGElement;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -75,7 +74,7 @@ public class TMLMapping<E> {
     private List<HwCommunicationNode> oncommnodes;
     private List<TMLElement> mappedcommelts;
 
-    private CorrespondanceTGElement listE;
+    private Object listE; // correspondence List
 
     // Security
     public boolean firewall = false;
@@ -150,11 +149,11 @@ public class TMLMapping<E> {
         mappedcommelts.clear();
     }
 
-    public CorrespondanceTGElement getCorrespondanceList() {
+    public Object getCorrespondanceList() {
         return listE;
     }
 
-    public void setCorrespondanceList(CorrespondanceTGElement cl) {
+    public void setCorrespondanceList(Object cl) {
         listE = cl;
     }
 

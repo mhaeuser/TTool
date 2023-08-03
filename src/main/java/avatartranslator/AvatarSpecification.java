@@ -807,6 +807,8 @@ public class AvatarSpecification extends AvatarElement implements IBSParamSpec {
 
             if ( (sigName != null) &&  (blockOName != null)  &&  (blockDName != null) ) {
 
+                TraceManager.addDev("Handling signal " + sigName + " from " + blockOName + " to " + blockDName);
+
                 AvatarBlock blockO = spec.getBlockWithName(blockOName);
                 if (blockO == null) {
                     blockO = new AvatarBlock(blockOName, spec, _referenceObject);
@@ -823,12 +825,8 @@ public class AvatarSpecification extends AvatarElement implements IBSParamSpec {
                     jsonErrors.add("The declaration of signal " + sigName + " is not valid for block " + blockOName);
                 }
 
-                AvatarSignal asD;
-                if (blockD == blockO) {
-                    asD = AvatarSignal.isAValidSignalThenCreate("in " + sigName, blockD);
-                } else {
-                    asD = AvatarSignal.isAValidSignalThenCreate("in " + sigName + "_dest", blockD);
-                }
+
+                AvatarSignal asD = AvatarSignal.isAValidSignalThenCreate("in " + sigName, blockD);
 
                 if (asD == null) {
                     jsonErrors.add("The declaration of signal " + sigName + " is not valid for block " + blockDName);
@@ -862,6 +860,12 @@ public class AvatarSpecification extends AvatarElement implements IBSParamSpec {
     }
 
     public void addSignalsAndConnection(AvatarSpecification _as) {
+
+        if (_as == null) {
+            return;
+        }
+
+
         ArrayList<AvatarBlock> blocksToBeAdded = new ArrayList<>();
         for(AvatarBlock _block: _as.getListOfBlocks()) {
             AvatarBlock block = getBlockWithName(_block.getName());

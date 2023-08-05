@@ -825,8 +825,12 @@ public class AvatarSpecification extends AvatarElement implements IBSParamSpec {
                     jsonErrors.add("The declaration of signal " + sigName + " is not valid for block " + blockOName);
                 }
 
-
-                AvatarSignal asD = AvatarSignal.isAValidSignalThenCreate("in " + sigName, blockD);
+                AvatarSignal asD;
+                if (blockO == blockD) {
+                    asD = AvatarSignal.isAValidSignalThenCreate("in " + sigName + "_in", blockD);
+                } else {
+                    asD = AvatarSignal.isAValidSignalThenCreate("in " + sigName, blockD);
+                }
 
                 if (asD == null) {
                     jsonErrors.add("The declaration of signal " + sigName + " is not valid for block " + blockDName);
@@ -1939,6 +1943,40 @@ public class AvatarSpecification extends AvatarElement implements IBSParamSpec {
             index++;
         }
         return lne;
+    }
+
+    public StringBuffer getStringAttributes(AvatarBlock _ab) {
+        StringBuffer sb = new StringBuffer("");
+
+        if (_ab == null) {
+            return sb;
+        }
+
+        for(AvatarAttribute aa: _ab.getAttributes()) {
+            sb.append(aa.toString() + "\n");
+        }
+        return sb;
+    }
+
+    public StringBuffer getStringSignals(AvatarBlock _ab) {
+        StringBuffer sb = new StringBuffer("");
+
+        if (_ab == null) {
+            return sb;
+        }
+
+        for(AvatarSignal as: _ab.getSignals()) {
+            sb.append(as.toString() + "\n");
+        }
+        return sb;
+    }
+
+    public ArrayList<String> getAllBlockNames() {
+        ArrayList<String> ret = new ArrayList<>();
+        for(AvatarBlock block: blocks) {
+            ret.add(block.getName());
+        }
+        return ret;
     }
 
 }

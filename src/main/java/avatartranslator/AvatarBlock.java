@@ -1183,13 +1183,15 @@ public class AvatarBlock extends AvatarElement implements AvatarStateMachineOwne
 
                                 try {
                                     for (String action : actions) {
+                                        TraceManager.addDev("Handling action:" + action);
                                         // Affectation?
                                         if (action.contains("=")) {
+                                            TraceManager.addDev("Handling affectation:" + action);
                                             int index = action.indexOf('=');
                                             String variableName = action.substring(0, index).trim();
                                             AvatarAttribute aa = getAvatarAttributeWithName(variableName);
                                             if (aa == null) {
-                                                TraceManager.addDev("The following action is not valid: " + action + " because it contains an attribute  " +
+                                                TraceManager.addDev("The following action is not valid: " + action + " because it contains an attribute " +
                                                         variableName + " which is not declared in the block " + getName());
                                                 errors.add("The following action is not valid: " + action + " because it contains an attribute  " +
                                                         variableName + " which is not declared in the block " + getName());
@@ -1250,55 +1252,35 @@ public class AvatarBlock extends AvatarElement implements AvatarStateMachineOwne
 
                                         }
                                         // signal sending / receiving
-                                        else if (action.contains("::")) {
+                                        else if (isASignalAction(action.trim())) {
                                             TraceManager.addDev("Handing communication action: " + action);
 
-                                            int index = action.indexOf("::");
-                                            boolean isIn = action.substring(0, index).trim().compareTo("in") == 0;
-                                            String signalSent = action.substring(index+2);
+                                            int index = action.indexOf("(");
+                                            String sigName = action.substring(0, index);
+                                            AvatarSignal as = getAvatarSignalWithName(sigName);
 
-                                            if (signalSent.length() >0) {
-                                                 int indexLPar = signalSent.indexOf("(");
-                                                 String sigName = signalSent;
-                                                 if (indexLPar > - 1) {
-                                                     sigName = signalSent.substring(0, indexLPar).trim();
-                                                 }
-                                                AvatarSignal atas = getAvatarSignalWithName(sigName);
-                                                 if ((atas == null) && (!forceIfIncorrectExpression)) {
-                                                     TraceManager.addDev("No signal named \"" + action + "\" in block \"" + getName() + "\"");
-                                                     errors.add("No signal named \"" + action + "\" in block \"" + getName() + "\"" );
-                                                 } else {
-                                                     if (atas == null) {
-                                                         // Adding signal to block
-                                                         atas = new AvatarSignal(sigName, isIn?AvatarSignal.IN : AvatarSignal.OUT, null);
-                                                         addSignal(atas);
-                                                     }
-                                                     AvatarActionOnSignal aaos = new AvatarActionOnSignal(
-                                                             sigName + "_aaos", atas, null, asm.getOwner());
-                                                     // Chaining components
-                                                     asm.addElement(aaos);
-                                                     AvatarTransition atBis =
-                                                             new AvatarTransition(this, "name" + "_from_" + sigName, getReferenceObject());
-                                                     asm.addElement(atBis);
-
-                                                     AvatarStateMachineElement asme = at.getNext(0);
-                                                     at.removeAllNexts();
-                                                     at.addNext(aaos);
-                                                     aaos.addNext(atBis);
-                                                     atBis.addNext(asme);
-                                                     at = atBis;
-
-
-                                                 }
-
+                                            if (as == null) {
+                                                errors.add("No signal named \"" + sigName + "\" in block \"" + getName() + "\"" );
                                             } else {
-                                                TraceManager.addDev("No signal provided in the following action: " + action + ".");
-                                                errors.add("No signal provided in the following action: " + action + ".");
+                                                AvatarActionOnSignal aaos = new AvatarActionOnSignal(
+                                                        sigName + "_aaos", as, null, asm.getOwner());
+                                                asm.addElement(aaos);
+                                                AvatarTransition atBis =
+                                                        new AvatarTransition(this, "name" + "_from_" + sigName, getReferenceObject());
+                                                asm.addElement(atBis);
+
+                                                AvatarStateMachineElement asme = at.getNext(0);
+                                                at.removeAllNexts();
+                                                at.addNext(aaos);
+                                                aaos.addNext(atBis);
+                                                atBis.addNext(asme);
+                                                at = atBis;
+
                                             }
 
 
-
                                         } else {
+                                            TraceManager.addDev("Other action:" + action);
                                             if (forceIfIncorrectExpression) {
                                                 at.addAction(action);
                                             } else {
@@ -1326,6 +1308,67 @@ public class AvatarBlock extends AvatarElement implements AvatarStateMachineOwne
 
         TraceManager.addDev("******************** State Machine of block: " + getName() + ":" + getStateMachine().toString());
 
+
+        return errors;
+    }
+
+    public static boolean isASignalAction(String s) {
+        int index = s.indexOf('(');
+        if (index == -1) {
+            return false;
+        }
+
+        String tmp = s.substring(0, index);
+
+        return tmp.trim().matches("[A-Za-z_][A-Za-z0-9_]*");
+    }
+
+    public ArrayList<String> addAttributesFromJSON(String _jsonSpec) {
+        if (_jsonSpec == null) {
+            return null;
+        }
+
+        ArrayList<String> errors = new ArrayList<>();
+        JSONObject mainObject;
+
+        try {
+            mainObject = new JSONObject(_jsonSpec);
+
+            JSONArray statesJSON = mainObject.getJSONArray("attributes");
+
+            for (int i = 0; i < statesJSON.length(); i++) {
+                JSONObject state0 = statesJSON.getJSONObject(i);
+                String name = AvatarSpecification.removeSpaces(state0.getString("name"));
+                String type = AvatarSpecification.removeSpaces(state0.getString("type"));
+
+                if (type == null) {
+                    type = "int";
+                }
+
+                AvatarType at;
+                if (type.compareTo("boolean") == 0) {
+                    at = AvatarType.BOOLEAN;
+                } else if (type.compareTo("int") == 0){
+                    at = AvatarType.INTEGER;
+                } else {
+                    errors.add("The following type is not valid: " + type + " in attribute " + name);
+                    at = AvatarType.INTEGER;
+                }
+
+                AvatarAttribute aa = getAvatarAttributeWithName(name);
+                if (aa != null){
+                    if (aa.getType() != at) {
+                        errors.add("Attribute " + name + " already has type: " + aa.getType().getStringType());
+                    }
+                } else {
+                    aa = new AvatarAttribute(name, at, this, this.getReferenceObject());
+                    addAttribute(aa);
+                }
+
+            }
+        }  catch (org.json.JSONException e) {
+            errors.add("Invalid JSON: " + e.getMessage());
+        }
 
         return errors;
     }

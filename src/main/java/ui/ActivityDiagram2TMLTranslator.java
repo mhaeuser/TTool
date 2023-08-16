@@ -411,7 +411,6 @@ public class ActivityDiagram2TMLTranslator {
                             if (tmltask.isAttacker()) {
                                 tmlreadchannel.setAttacker(true);
                             }
-                            activity.addElement(tmlreadchannel);
                             addElement(activity, tmlreadchannel, tgc);
                             ((BasicErrorHighlight) tgc).setStateAction(ErrorHighlight.OK);
                             corrTgElement.addCor(tmlreadchannel, tgc);

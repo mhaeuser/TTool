@@ -311,7 +311,7 @@ public class DrawerTMAPModeling {
                 artifact.setTaskName(splitName[1]);
                 artifact.setReferenceTaskName(splitName[0]);
             } else if (splitName.length == 1) {
-                String tabName = tmap.getTMLModeling().getTGComponent().getTDiagramPanel().tp.getNameOfTab();
+                String tabName = ((TGComponent)tmap.getTMLModeling().getReference()).getTDiagramPanel().tp.getNameOfTab();
                 artifact.setTaskName(refAndName);
                 artifact.setReferenceTaskName(tabName);
             } else {
@@ -353,7 +353,7 @@ public class DrawerTMAPModeling {
                 artifact.setCommunicationName(splitName[1]);
                 artifact.setReferenceCommunicationName(splitName[0]);
             } else if (splitName.length == 1) {
-                String tabName = tmap.getTMLModeling().getTGComponent().getTDiagramPanel().tp.getNameOfTab();
+                String tabName = ((TGComponent)tmap.getTMLModeling().getReference()).getTDiagramPanel().tp.getNameOfTab();
                 artifact.setCommunicationName(refAndName);
                 artifact.setReferenceCommunicationName(tabName);
             } else {

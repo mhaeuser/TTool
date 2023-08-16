@@ -365,7 +365,9 @@ public class JDialogProverifVerification extends JDialog implements ActionListen
                                 if (mgui.gtm.getTMLMapping().getTaskByName(originTaskName).getWriteChannels().get(k).getChannel(l) == mgui.gtm.getTMLMapping().getTaskByName(destinationTaskName).getReadChannels().get(i).getChannel(j)) {
                                     String channelLongName = mgui.gtm.getTMLMapping().getTaskByName(destinationTaskName).getReadChannels().get(i).getChannel(j).getName();
                                     String channelShortName = channelLongName.split("__")[channelLongName.split("__").length - 1];
-                                    channels.add(channelShortName);
+                                    if (!channels.contains(channelShortName)) {
+                                        channels.add(channelShortName);
+                                    }
                                 }
                             }
                         }

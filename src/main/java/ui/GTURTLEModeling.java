@@ -1619,8 +1619,8 @@ public class GTURTLEModeling {
         TMRGeneration tmr = new TMRGeneration(selectedSensorsTasks, selectedRecieverTask, interpretersCompTime, voterCompTime, voterTimeOut, tmap);
         tmap = (TMLMapping<TGComponent>) tmr.startThread();
         try {
-            String archTabName = tmap.getCorrespondanceList().getTG(tmap.getArch().getFirstCPU()).getTDiagramPanel().tp.getNameOfTab();
-            String appTabName = tmap.getTMLModeling().getTGComponent().getTDiagramPanel().tp.getNameOfTab();
+            String archTabName = ((CorrespondanceTGElement)(tmap.getCorrespondanceList())).getTG(tmap.getArch().getFirstCPU()).getTDiagramPanel().tp.getNameOfTab();
+            String appTabName = ((TGComponent)tmap.getTMLModeling().getReference()).getTDiagramPanel().tp.getNameOfTab();
             gui.drawTMLAndTMAPSpecification(tmap, appTabName + "_tmr", archTabName + "_tmr");
         } catch (MalformedTMLDesignException e) {
             TraceManager.addDev("Error when Drawing TML");

@@ -112,7 +112,7 @@ public class JDialogCommunicationArtifact extends JDialogBase implements ActionL
     }
 
     private void myInitComponents() {
-        selectPriority();
+        //selectPriority();
     }
 
     private void initComponents() {
@@ -171,20 +171,9 @@ public class JDialogCommunicationArtifact extends JDialogBase implements ActionL
         }
         panel2.add(new JLabel("Priority:"), c2);
         priority = new JComboBox<>(list);
-        priority.setSelectedIndex(artifact.getPriority());
+        //TraceManager.addDev("Priority: " + artifact.getPriority());
         panel2.add(priority, c2);
-		
-		/*c1.gridwidth = 1;
-        c1.gridheight = 1;
-        c1.weighty = 1.0;
-        c1.weightx = 1.0;
-        c1.fill = GridBagConstraints.HORIZONTAL;
-        panel2.add(new JLabel("Name:"), c2);
-        c1.gridwidth = GridBagConstraints.REMAINDER; //end row
-        taskName = new JTextField(artifact.getTaskName(), 30);
-        taskName.setEditable(true);
-        taskName.setFont(new Font("times", Font.PLAIN, 12));
-		panel2.add(taskName, c1);*/
+        priority.setSelectedIndex(artifact.getPriority());
 
 
         // Panel for multiple mappings
@@ -326,7 +315,7 @@ public class JDialogCommunicationArtifact extends JDialogBase implements ActionL
         }*/
 
         if (evt.getSource() == referenceCommunicationName) {
-            selectPriority();
+            //selectPriority();
         }
 
 
@@ -371,6 +360,7 @@ public class JDialogCommunicationArtifact extends JDialogBase implements ActionL
 
     public void selectPriority() {
         //
+        TraceManager.addDev("Select priority");
         int index = ((TMLArchiDiagramPanel) artifact.getTDiagramPanel()).getMaxPriority((String) (referenceCommunicationName.getSelectedItem()));
         priority.setSelectedIndex(index);
     }

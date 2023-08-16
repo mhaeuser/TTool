@@ -569,7 +569,7 @@ public class TMLArchiDiagramPanel extends TDiagramPanel implements TDPWithAttrib
 
         while(iterator.hasNext()) {
             node = iterator.next();
-            //Channel, request mapping
+            // Channel, request mapping
             if( node instanceof TMLArchiCommunicationNode ) {
                 ChannelList = ( (TMLArchiCommunicationNode)node ).getChannelArtifactList();
                 for( TMLArchiCommunicationArtifact arti: ChannelList ) {
@@ -577,7 +577,7 @@ public class TMLArchiDiagramPanel extends TDiagramPanel implements TDPWithAttrib
                         prio = Math.max(prio, arti.getPriority());
                     }
                 }
-                //Event mapping
+                // Event mapping
                 EventList = ((TMLArchiCommunicationNode)node).getEventArtifactList();
                 for( TMLArchiEventArtifact arti: EventList) {
                     if( arti.getFullValue().compareTo( _name ) == 0) {

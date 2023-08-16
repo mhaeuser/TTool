@@ -64,9 +64,14 @@ public class HSMGeneration implements Runnable {
             TraceManager.addDev("No mapping");
             return;
         }
+
+        Object o = null;
+        if (tmap.getTMLModeling().getReference() instanceof TGComponent) {
+            o = ((TGComponent)(tmap.getTMLModeling().getReference())).getTDiagramPanel().tp;
+        }
         
         //Perform ProVerif Analysis
-        TML2Avatar t2a = new TML2Avatar(map, false, true);
+        TML2Avatar t2a = new TML2Avatar(map, false, true, o);
         AvatarSpecification avatarspec = t2a.generateAvatarSpec("1");
         if (avatarspec == null) {
             TraceManager.addDev("No avatar spec");
@@ -147,12 +152,12 @@ public class HSMGeneration implements Runnable {
             return;
         }
         //Clone diagrams
-        TURTLEPanel tmlap = tmap.getCorrespondanceList().getTG(tmap.getArch().getFirstCPU()).getTDiagramPanel().tp;
+        TURTLEPanel tmlap = ((CorrespondanceTGElement)(tmap.getCorrespondanceList())).getTG(tmap.getArch().getFirstCPU()).getTDiagramPanel().tp;
         int arch = gui.tabs.indexOf(tmlap);
         gui.cloneRenameTab(arch, "hsm");
         TMLArchiPanel newarch = (TMLArchiPanel) gui.tabs.get(gui.tabs.size() - 1);
 
-        TGComponent tgcomp = tmap.getTMLModeling().getTGComponent();
+        TGComponent tgcomp = (TGComponent) tmap.getTMLModeling().getReference();
         TMLComponentDesignPanel tmlcdp = (TMLComponentDesignPanel) tgcomp.getTDiagramPanel().tp;
 
 //        TMLComponentDesignPanel tmlcdp = tmap.getTMLCDesignPanel();

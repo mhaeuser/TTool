@@ -41,8 +41,6 @@
 
 package tmltranslator;
 
-import cli.TML;
-import ui.tmlcompd.TMLCPrimitivePort;
 
 import java.util.*;
 
@@ -66,7 +64,7 @@ public class TMLRequest extends TMLCommunicationElement {
     public boolean checkConf;
     public boolean checkAuth;
 
-    public List<TMLCPrimitivePort> ports;
+    public List<TMLPortWithSecurityInformation> ports;
 
     public TMLRequest(  final String name,
                         final Object reference ) {
@@ -75,7 +73,7 @@ public class TMLRequest extends TMLCommunicationElement {
         params = new Vector<TMLType>();
         originTasks = new ArrayList<TMLTask>();
         paramNames = new ArrayList<String>();
-        ports = new ArrayList<TMLCPrimitivePort>();
+        ports = new ArrayList<TMLPortWithSecurityInformation>();
         checkConf = false;
     }
 

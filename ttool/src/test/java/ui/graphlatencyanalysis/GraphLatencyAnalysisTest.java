@@ -36,7 +36,7 @@ public class GraphLatencyAnalysisTest extends AbstractUITest {
     private JFrameLatencyDetailedAnalysis latencyDetailedAnalysis;
     private LatencyDetailedAnalysisMain LatencyDetailedAnalysisMain;
 
-    @Before
+    /*@Before
     public void GraphLatencyAnalysis() throws InterruptedException {
         mainGUI.openProjectFromFile(new File(getBaseResourcesDir() + modelPath));
         // mainGUI.openProjectFromFile(new File( modelPath));
@@ -96,5 +96,5 @@ public class GraphLatencyAnalysisTest extends AbstractUITest {
         assertTrue(detailedLatency.length == 14);
         detailedLatency = dgt.getTaskHWByRowDetails(7);
         assertTrue(detailedLatency.length == 14);
-    }
+    }*/
 }

@@ -49,16 +49,16 @@ import org.apache.batik.anim.timing.Trace;
 import java.util.ArrayList;
 
 /**
- * Class AIStateMachine
+ * Class AIStateMachinesAndAttributes
  * <p>
- * Creation: 02/06/2023
+ * Creation: 04/08/2023
  *
  * @author Ludovic APVRILLE
- * @version 1.0 13/06/2023
+ * @version 1.0 04/08/2023
  */
 
 
-public class AIStateMachine extends AIInteract implements AISysMLV2DiagramContent, AIAvatarSpecificationRequired {
+public class AIStateMachinesAndAttributes extends AIInteract implements AISysMLV2DiagramContent, AIAvatarSpecificationRequired {
     private static String[] SUPPORTED_DIAGRAMS = {"BD"};
     private static String[] EXCLUSIONS_IN_INPUT = {"state",  "method"};
 
@@ -68,17 +68,23 @@ public class AIStateMachine extends AIInteract implements AISysMLV2DiagramConten
             "{states: [{ \"name\": \"Name of state\", transitions [{ \"destinationstate\" : \"state name\",  \"guard\": \"boolean condition\", " +
             "\"after\": \"time " +
         "value\", \"action\":" +
-            " \"attribute action or signal receiving/sending\"}]}]} ." +
-            "# Respect: in actions, use only attributes and signals already defined in the corresponding block" +
-            "# Respect: at least one state must be called \"Start\", which is the start state" +
-            "# Respect: if a guard, an action, or an after is empty, use an empty string \"\", do not use \"null\"" +
-            "# Respect: an action contains either a variable affectation, e.g. \"x = x + 1\" or a signal send/receive " +
-            "# Respect: if a transition contains several actions, use a \";\" to separate them " +
-            "# Respect: a signal send is out::signalName(..) and a signal receive is in::signaNamd(...) " +
-            "# Respect: the attribute of an action is named by its identifier, do not reference its block " +
-            "# Respect: a state machine can use only the attribute of its block " +
-            "# Respect: A guard cannot contain a reference to a signal " +
-            "# Respect: To reference the attribute \"x\" of block \"B\", use \"x\" and never \"B.x\" nor \"B::x\"";
+            " \"attribute action or signal receiving/sending\"}]}]} .";
+
+    public static String ATTRIBUTES_JSON_FOR_STATE_MACHINES = "Now, give the type of all attributes (and not signals) you have just used using the " +
+            "following JSON " +
+            "format: {attributes: [{\"name\" : \"name of attribute\",  \"type\": \"int or boolean\"";
+
+    public static String[] CONSTRAINTS_ON_JSON_FOR_STATE_MACHINES = {
+            "# Respect: in actions, use only signals already defined in the block.",
+                    "# Respect: at least one state must be called \"Start\", which is the start state.",
+                    "# Respect: if a guard, an action, or an after is empty, use an empty string \"\", do not use \"null\"." ,
+                    "# Respect: an action contains either a variable affectation, e.g. \"x = x + 1\" or a signal send/receive. " ,
+                    "# Respect: if a transition contains several actions, use a \";\" to separate them. " ,
+                    "# Respect: a signal send or receive is signalName(..) with inside the right attributes or values. " ,
+                    "# Respect: the attribute of an action is named by its identifier, do not reference its block. " ,
+                    "# Respect: a state machine can use only the attribute of its block. " ,
+                    "# Respect: A guard cannot contain a reference to a signal. " ,
+                    "# Respect: To reference the attribute \"x\" of block \"B\", use \"x\" and never \"B.x\" nor \"B::x\"" };
 
 
     private AvatarSpecification specification;
@@ -93,14 +99,14 @@ public class AIStateMachine extends AIInteract implements AISysMLV2DiagramConten
             "connections, identify the state machine of block: "};
 
 
-    public AIStateMachine(AIChatData _chatData) {
+    public AIStateMachinesAndAttributes(AIChatData _chatData) {
         super(_chatData);
     }
 
     public void internalRequest() {
 
         // Add the knowledge, retrieve the block names, attributes, etc.
-        initKnowledge();
+
         /*if (!chatData.knowledgeOnStateMachines) {
             chatData.aiinterface.addKnowledge(KNOWLEDGE_ON_JSON_FOR_STATE_MACHINES, "ok");
             chatData.knowledgeOnStateMachines = true;
@@ -111,7 +117,8 @@ public class AIStateMachine extends AIInteract implements AISysMLV2DiagramConten
 
         // Getting block names for SysMLV2 spec
         //TraceManager.addDev("SysML V2 spec: " + diagramContentInSysMLV2);
-        ArrayList<String> blockNames = AVATAR2SysMLV2.getAllBlockNames(diagramContentInSysMLV2);
+        //ArrayList<String> blockNames = AVATAR2SysMLV2.getAllBlockNames(diagramContentInSysMLV2);
+        ArrayList<String> blockNames = specification.getAllBlockNames();
 
         TraceManager.addDev("Going to handle the following blocks: ");
         for(String s: blockNames) {
@@ -128,29 +135,65 @@ public class AIStateMachine extends AIInteract implements AISysMLV2DiagramConten
         for(String blockName: blockNames) {
             TraceManager.addDev("Handling block: " + blockName);
             done = false; cpt = 0;
-            int max = 10;
+            int max = 3;
 
 
+            initKnowledge();
+
+            AvatarBlock b = specification.getBlockWithName(blockName);
             questionT = QUESTION_IDENTIFY_STATE_MACHINE[0] + blockName;
+            if (b != null) {
+                questionT += ". This block has the following attributes: " + specification.getStringAttributes(b);
+                questionT += ". This block has the following signals: " + specification.getStringSignals(b);
+            }
             while (!done && cpt < max) {
                 done = true;
-                boolean ok = makeQuestion(questionT);
-                if (!ok) {
-                    TraceManager.addDev("Make question failed");
-                }
 
-                if (ok && specification != null) {
-                    AvatarBlock b = specification.getBlockWithName(blockName);
+
+                boolean ok1 = makeQuestion(questionT);
+                if (!ok1) {
+                    TraceManager.addDev("Make question #1 failed");
+                }
+                String json1 = extractJSON();
+
+                //chatData.aiinterface.addKnowledge(questionT, chatData.lastAnswer);
+                questionT = ATTRIBUTES_JSON_FOR_STATE_MACHINES;
+                boolean ok2 = makeQuestion(questionT);
+
+                if (!ok2) {
+                    TraceManager.addDev("Make question #2 failed");
+                }
+                String json2 = extractJSON();
+
+                if (ok1 && ok2 && specification != null) {
                     if (b != null) {
+                        ArrayList<String> errors = new ArrayList<>();
+                        ArrayList<String> ret;
+                        TraceManager.addDev("Adding attributes of the state machine of " + blockName);
+                        ret = b.addAttributesFromJSON(json2);
+                        if (ret != null) {
+                            errors.addAll(ret);
+                        }
                         TraceManager.addDev("Making the state machine of " + blockName);
-                        ArrayList<String> errors = b.makeStateMachineFromJSON(extractJSON(), cpt == (max - 1));
+
+                        errors.addAll(b.makeStateMachineFromJSON(json1, true));
+
+                        ret = b.addAttributesFromJSON(json2);
+                        if (ret != null) {
+                            errors.addAll(ret);
+                        }
+
                         if ((errors != null) && (errors.size() > 0)) {
                             done = false;
-                            questionT = "Your answer was not correct because of the following errors:";
+                            initKnowledge();
+
+                            questionT += "Your specification was: " + json1 + ". But it is not correct because of the following errors:";
+
                             for (String s : errors) {
                                 TraceManager.addDev("Error in JSON: " + s);
                                 questionT += "\n- " + s;
                             }
+                            questionT += "\nProvide only the updated state machine using only the already defined attributes";
                         } else {
                             TraceManager.addDev("SMD done for Block " + blockName);
                         }
@@ -178,9 +221,14 @@ public class AIStateMachine extends AIInteract implements AISysMLV2DiagramConten
 
     private void initKnowledge() {
         chatData.aiinterface.clearKnowledge();
-        chatData.aiinterface.addKnowledge(KNOWLEDGE_ON_JSON_FOR_STATE_MACHINES, "ok");
+
         chatData.aiinterface.addKnowledge(KNOWLEDGE_SYSTEM_SPECIFICATION + chatData.lastQuestion, "ok");
-        chatData.aiinterface.addKnowledge(KNOWLEDGE_SYSTEM_BLOCKS + diagramContentInSysMLV2, "ok");
+        //chatData.aiinterface.addKnowledge(KNOWLEDGE_SYSTEM_BLOCKS + diagramContentInSysMLV2, "ok");
+        chatData.aiinterface.addKnowledge(KNOWLEDGE_ON_JSON_FOR_STATE_MACHINES, "ok");
+
+        for(int i=0; i<CONSTRAINTS_ON_JSON_FOR_STATE_MACHINES.length; i++) {
+            chatData.aiinterface.addKnowledge(CONSTRAINTS_ON_JSON_FOR_STATE_MACHINES[i], "ok");
+        }
     }
 
     public Object applyAnswer(Object input) {

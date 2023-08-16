@@ -39,8 +39,6 @@
 
 package tmltranslator;
 
-import ui.tmlcompd.TMLCPrimitivePort;
-
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -59,13 +57,13 @@ public class TMLEvent extends TMLCommunicationElement {
     protected int maxEvt = -1; // maxEvt = -1 -> infinite nb of evts: default behaviour
     protected boolean isBlocking = false; // By default, latest events is removed when the FIFO is full
     protected boolean canBeNotified = false;
-    public List<TMLCPrimitivePort> ports;
+    //public List<TMLCPrimitivePort> ports;
 
     // Used for 1 -> 1
     protected TMLTask origin, destination;
     protected TMLPort originPort, destinationPort; // Not used by the simulator
-    public TMLCPrimitivePort port;
-    public TMLCPrimitivePort port2;
+    public TMLPortWithSecurityInformation port;
+    public TMLPortWithSecurityInformation port2;
 
     // Used for 1 -> many channel, or for many -> 1 channel
     protected List<TMLTask> originTasks, destinationTasks;
@@ -87,7 +85,7 @@ public class TMLEvent extends TMLCommunicationElement {
         destinationTasks = new ArrayList<TMLTask>();
         originPorts = new ArrayList<TMLPort>();
         destinationPorts = new ArrayList<TMLPort>();
-        ports = new ArrayList<TMLCPrimitivePort>();
+        //ports = new ArrayList<TMLCPrimitivePort>();
         checkConf = false;
         //TraceManager.addDev("New event: " + name + " max=" + _maxEvt + " blocking=" + isBlocking);
     }

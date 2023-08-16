@@ -1,6 +1,8 @@
 /* Copyright or (C) or Copr. GET / ENST, Telecom-Paris, Ludovic Apvrille
- * 
+ * Andrea ENRICI, Nokia Bell Labs France
+ *
  * ludovic.apvrille AT enst.fr
+ * andrea.enrici AT nokia-bell-labs.com
  * 
  * This software is a computer program whose purpose is to allow the
  * edition of TURTLE analysis, design and deployment diagrams, to
@@ -37,49 +39,21 @@
  */
 
 
-package ui.util;
-
-
 /**
- * Class DefaultText
- * Text of some windows
- * Creation: 01/12/2003
- *
- * @author Ludovic APVRILLE
- * @version 1.2 21/06/2018
+   * Class TMLPort
+   * Creation: 16/02/2015
+   * @version 1.0 16/02/2015
+   * @author Ludovic APVRILLE, Andrea ENRICI
  */
-public class DefaultText {
 
-    public static String BUILD = "14516";
-    public static String DATE = "2023/08/16 03:21:06 CET";
 
-    public static StringBuffer sbAbout = makeAbout();
+package tmltranslator;
 
-    public static String getAboutText() {
-        return new String(sbAbout);
-    }
 
-    public static String getVersion() {
-        return "3.0 beta"; /* Set new release May, 30, th, 2023 */
-    }
+import java.util.ArrayList;
 
-    public static String getFullVersion() {
-        return getVersion() + " -- build: " + DefaultText.BUILD + " date: " + DefaultText.DATE;
-    }
+public interface TMLModelManager {
 
-    private static StringBuffer makeAbout() {
-        StringBuffer sb = new StringBuffer();
-        sb.append("TTool version " + getFullVersion() + "\n");
-        sb.append("Copyright IMT - Telecom Paris / Ludovic Apvrille \n");
-        sb.append("\nContact: ludovic.apvrille@telecom-paris.fr\n");
-        sb.append("\nProgrammers\n\tTelecom Paris: Ludovic Apvrille, Dominique Blouin, Fabien Tessier, \n\t" +
-                "Daniel Knorreck, Florian Lugou, Letitia Li\n\tMaysam Zoor\n\tMinh Hiep Pham, Levan Truong, Léon Frénot\n");
-        sb.append("\n\tNokia: Andrea Enrici\n");
-        sb.append("\n\tLIP6: Daniela Genius\n");
-        sb.append("\n\tEMSE: Bastien Sultan\n");
-        sb.append("\nFor more information:\n");
-        sb.append("https://ttool.telecom-paris.fr/\n\n");
-        return sb;
-    }
+    public ArrayList<TMLCP> getTMLCPFromModels(Object _input);
 
 }

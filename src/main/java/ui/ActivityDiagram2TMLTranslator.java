@@ -126,7 +126,7 @@ public class ActivityDiagram2TMLTranslator {
                     tmp = ((TMLADActionState) (tgc)).getAction();
                     tmp = modifyActionString(tmp);
                     tmlaction.setAction(tmp);
-                    activity.addElement(tmlaction);
+                    addElement(activity, tmlaction, tgc);
                     ((BasicErrorHighlight) tgc).setStateAction(ErrorHighlight.OK);
                     corrTgElement.addCor(tmlaction, tgc);
 
@@ -143,20 +143,20 @@ public class ActivityDiagram2TMLTranslator {
                     tmp = modifyActionString(tmp);
                     tmlrandom.setMaxValue(tmp);
                     tmlrandom.setFunctionId(tmladrandom.getFunctionId());
-                    activity.addElement(tmlrandom);
+                    addElement(activity, tmlrandom, tgc);
                     ((BasicErrorHighlight) tgc).setStateAction(ErrorHighlight.OK);
                     corrTgElement.addCor(tmlrandom, tgc);
 
                 } else if (tgc instanceof TMLADChoice) {
                     tmlchoice = new TMLChoice("choice", tgc);
                     // Guards are added at the same time as next activities
-                    activity.addElement(tmlchoice);
+                    addElement(activity, tmlchoice, tgc);
                     ((BasicErrorHighlight) tgc).setStateAction(ErrorHighlight.OK);
                     corrTgElement.addCor(tmlchoice, tgc);
 
                 } else if (tgc instanceof TMLADSelectEvt) {
                     tmlselectevt = new TMLSelectEvt("select", tgc);
-                    activity.addElement(tmlselectevt);
+                    addElement(activity, tmlselectevt, tgc);
                     ((BasicErrorHighlight) tgc).setStateAction(ErrorHighlight.OK);
                     corrTgElement.addCor(tmlselectevt, tgc);
 
@@ -169,7 +169,7 @@ public class ActivityDiagram2TMLTranslator {
                         tmlexeci.setAction("0");
                         tmlexeci.setValue("0");
                     }
-                    activity.addElement(tmlexeci);
+                    addElement(activity, tmlexeci, tgc);
                     ((BasicErrorHighlight) tgc).setStateAction(ErrorHighlight.OK);
                     corrTgElement.addCor(tmlexeci, tgc);
 
@@ -183,13 +183,13 @@ public class ActivityDiagram2TMLTranslator {
                         tmlexecii.setMinDelay("0");
                         tmlexecii.setMaxDelay("0");
                     }
-                    activity.addElement(tmlexecii);
+                    addElement(activity, tmlexecii, tgc);
                     ((BasicErrorHighlight) tgc).setStateAction(ErrorHighlight.OK);
                     corrTgElement.addCor(tmlexecii, tgc);
 
                 } else if (tgc instanceof TMLADEncrypt) {
                     tmlexecc = new TMLExecC("encrypt_" + ((TMLADEncrypt) tgc).securityContext, tgc);
-                    activity.addElement(tmlexecc);
+                    addElement(activity, tmlexecc, tgc);
                     SecurityPattern sp = securityPatterns.get(((TMLADEncrypt) tgc).securityContext);
                     if (sp == null) {
                         //Throw error for missing security pattern
@@ -207,7 +207,7 @@ public class ActivityDiagram2TMLTranslator {
                     }
                 } else if (tgc instanceof TMLADDecrypt) {
                     tmlexecc = new TMLExecC("decrypt_" + ((TMLADDecrypt) tgc).securityContext, tgc);
-                    activity.addElement(tmlexecc);
+                    addElement(activity, tmlexecc, tgc);
                     SecurityPattern sp = securityPatterns.get(((TMLADDecrypt) tgc).securityContext);
                     if (sp == null) {
                         //Throw error for missing security pattern
@@ -234,7 +234,7 @@ public class ActivityDiagram2TMLTranslator {
                         tmlexecc.setAction("0");
                     }
 
-                    activity.addElement(tmlexecc);
+                    addElement(activity, tmlexecc, tgc);
                     ((BasicErrorHighlight) tgc).setStateAction(ErrorHighlight.OK);
                     corrTgElement.addCor(tmlexecc, tgc);
 
@@ -247,7 +247,7 @@ public class ActivityDiagram2TMLTranslator {
                         tmlexecci.setMinDelay("0");
                         tmlexecci.setMaxDelay("0");
                     }
-                    activity.addElement(tmlexecci);
+                    addElement(activity, tmlexecci, tgc);
                     ((BasicErrorHighlight) tgc).setStateAction(ErrorHighlight.OK);
                     corrTgElement.addCor(tmlexecci, tgc);
 
@@ -262,7 +262,7 @@ public class ActivityDiagram2TMLTranslator {
                     }
                     tmldelay.setUnit(((TMLADDelay) tgc).getUnit());
                     tmldelay.setActiveDelay(((TMLADDelay) tgc).getActiveDelayEnable());
-                    activity.addElement(tmldelay);
+                    addElement(activity, tmldelay, tgc);
                     ((BasicErrorHighlight) tgc).setStateAction(ErrorHighlight.OK);
                     corrTgElement.addCor(tmldelay, tgc);
 
@@ -277,7 +277,7 @@ public class ActivityDiagram2TMLTranslator {
                     }
                     tmldelay.setUnit(((TMLADDelayInterval) tgc).getUnit());
                     tmldelay.setActiveDelay(((TMLADDelayInterval) tgc).getActiveDelayEnableValue());
-                    activity.addElement(tmldelay);
+                    addElement(activity, tmldelay, tgc);
                     ((BasicErrorHighlight) tgc).setStateAction(ErrorHighlight.OK);
                     corrTgElement.addCor(tmldelay, tgc);
 
@@ -291,7 +291,7 @@ public class ActivityDiagram2TMLTranslator {
                     tmlforloop.setCondition(modifyString(tmp));
                     tmlforloop.setIncrement(modifyActionString(((TMLADForLoop) tgc).getIncrement()));
 
-                    activity.addElement(tmlforloop);
+                    addElement(activity, tmlforloop, tgc);
                     ((BasicErrorHighlight) tgc).setStateAction(ErrorHighlight.OK);
                     corrTgElement.addCor(tmlforloop, tgc);
 
@@ -305,7 +305,7 @@ public class ActivityDiagram2TMLTranslator {
                     tmlforloop.setInit(sl + " = 0");
                     tmlforloop.setCondition(sl + "<" + modifyString(tgc.getValue()));
                     tmlforloop.setIncrement(sl + " = " + sl + " + 1");
-                    activity.addElement(tmlforloop);
+                    addElement(activity, tmlforloop, tgc);
                     ((BasicErrorHighlight) tgc).setStateAction(ErrorHighlight.OK);
                     corrTgElement.addCor(tmlforloop, tgc);
                     staticLoopIndex++;
@@ -321,23 +321,23 @@ public class ActivityDiagram2TMLTranslator {
                     tmlforloop.setCondition("");
                     tmlforloop.setIncrement("");
                     tmlforloop.setInfinite(true);
-                    activity.addElement(tmlforloop);
+                    addElement(activity, tmlforloop, tgc);
                     ((BasicErrorHighlight) tgc).setStateAction(ErrorHighlight.OK);
                     corrTgElement.addCor(tmlforloop, tgc);
                     staticLoopIndex++;
 
                     tmlstopstate = new TMLStopState("Stop after infinite loop", null);
-                    activity.addElement(tmlstopstate);
+                    addElement(activity, tmlstopstate, tgc);
                     tmlforloop.addNext(tmlstopstate);
 
                 } else if (tgc instanceof TMLADSequence) {
                     tmlsequence = new TMLSequence("seq", tgc);
-                    activity.addElement(tmlsequence);
+                    addElement(activity, tmlsequence, tgc);
                     corrTgElement.addCor(tmlsequence, tgc);
 
                 } else if (tgc instanceof TMLADUnorderedSequence) {
                     tmlrsequence = new TMLRandomSequence("rseq", tgc);
-                    activity.addElement(tmlrsequence);
+                    addElement(activity, tmlrsequence, tgc);
                     corrTgElement.addCor(tmlrsequence, tgc);
 
                 } else if (tgc instanceof TMLADReadChannel) {
@@ -412,6 +412,7 @@ public class ActivityDiagram2TMLTranslator {
                                 tmlreadchannel.setAttacker(true);
                             }
                             activity.addElement(tmlreadchannel);
+                            addElement(activity, tmlreadchannel, tgc);
                             ((BasicErrorHighlight) tgc).setStateAction(ErrorHighlight.OK);
                             corrTgElement.addCor(tmlreadchannel, tgc);
                         }
@@ -466,7 +467,7 @@ public class ActivityDiagram2TMLTranslator {
 								checkingErrors.add(ce);
 								((BasicErrorHighlight) tgc).setStateAction(ErrorHighlight.UNKNOWN);
 							} else {
-								activity.addElement(tmlsendevent);
+                                addElement(activity, tmlsendevent, tgc);
 								corrTgElement.addCor(tmlsendevent, tgc);
 								((BasicErrorHighlight) tgc).setStateAction(ErrorHighlight.OK);
 							}
@@ -524,7 +525,7 @@ public class ActivityDiagram2TMLTranslator {
 								checkingErrors.add(ce);
 								((BasicErrorHighlight) tgc).setStateAction(ErrorHighlight.UNKNOWN);
 							} else {
-								activity.addElement(tmlsendrequest);
+                                addElement(activity, tmlsendrequest, tgc);
 								corrTgElement.addCor(tmlsendrequest, tgc);
 								((BasicErrorHighlight) tgc).setStateAction(ErrorHighlight.OK);
 							}
@@ -592,7 +593,7 @@ public class ActivityDiagram2TMLTranslator {
 
                 } else if (tgc instanceof TMLADStopState) {
                     tmlstopstate = new TMLStopState("stop state", tgc);
-                    activity.addElement(tmlstopstate);
+                    addElement(activity, tmlstopstate, tgc);
                     corrTgElement.addCor(tmlstopstate, tgc);
 
                 } else if (tgc instanceof TMLADNotifiedEvent) {
@@ -655,7 +656,7 @@ public class ActivityDiagram2TMLTranslator {
 
 
                                     tmlnotifiedevent.setVariable(modifyString(((TMLADNotifiedEvent) tgc).getVariable()));
-                                    activity.addElement(tmlnotifiedevent);
+                                    addElement(activity, tmlnotifiedevent, tgc);
                                     ((BasicErrorHighlight) tgc).setStateAction(ErrorHighlight.OK);
                                     corrTgElement.addCor(tmlnotifiedevent, tgc);
                                 }
@@ -723,7 +724,7 @@ public class ActivityDiagram2TMLTranslator {
                                 checkingErrors.add(ce);
                                 ((BasicErrorHighlight) tgc).setStateAction(ErrorHighlight.UNKNOWN);
                             } else {
-                                activity.addElement(tmlwaitevent);
+                                addElement(activity, tmlwaitevent, tgc);
                                 corrTgElement.addCor(tmlwaitevent, tgc);
                                 ((BasicErrorHighlight) tgc).setStateAction(ErrorHighlight.OK);
                             }
@@ -815,7 +816,7 @@ public class ActivityDiagram2TMLTranslator {
                             if (tmltask.isAttacker()) {
                                 tmlwritechannel.setAttacker(true);
                             }
-                            activity.addElement(tmlwritechannel);
+                            addElement(activity, tmlwritechannel, tgc);
                             ((BasicErrorHighlight) tgc).setStateAction(ErrorHighlight.OK);
                             corrTgElement.addCor(tmlwritechannel, tgc);
                         }
@@ -1004,6 +1005,14 @@ public class ActivityDiagram2TMLTranslator {
         }
 
         //TraceManager.addDev("Activity:" + tmltask.getActivityDiagram().toXML() );
+    }
+
+    private void addElement(TMLActivity _activity, TMLActivityElement _elt, TGComponent _ref) {
+        _activity.addElement(_elt);
+        if (_ref != null) {
+            _elt.setCheckableAccessibility(_ref.hasCheckableAccessibility());
+            _elt.setCheckAccessibility(_ref.hasCheckedAccessibility());
+        }
     }
 
     private String modifyActionString(String _input) {

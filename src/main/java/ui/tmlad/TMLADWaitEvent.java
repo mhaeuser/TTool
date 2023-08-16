@@ -42,6 +42,7 @@ import myutil.GraphicLib;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import tmltranslator.SecurityCheckable;
 import ui.*;
 import ui.ad.TADComponentWithoutSubcomponents;
 import ui.util.IconManager;
@@ -63,7 +64,8 @@ import java.util.Vector;
    * @version 1.0 21/11/2005
    * @author Ludovic APVRILLE
  */
-public class TMLADWaitEvent extends TADComponentWithoutSubcomponents/* Issue #69 TGCWithoutInternalComponent*/ implements CheckableAccessibility, CheckableLatency, EmbeddedComment, AllowedBreakpoint, BasicErrorHighlight {
+public class TMLADWaitEvent extends TADComponentWithoutSubcomponents/* Issue #69 TGCWithoutInternalComponent*/ implements CheckableAccessibility,
+        CheckableLatency, EmbeddedComment, AllowedBreakpoint, BasicErrorHighlight, SecurityCheckable {
 
 	// Issue #31
 //    protected int lineLength = 5;
@@ -401,5 +403,9 @@ public class TMLADWaitEvent extends TADComponentWithoutSubcomponents/* Issue #69
     @Override
     public void setStateAction(int _stateAction) {
         stateOfError = _stateAction;
+    }
+
+    public String getCommunicationName() {
+        return eventName;
     }
 }

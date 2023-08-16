@@ -52,6 +52,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import myutil.GraphicLib;
+import tmltranslator.SecurityCheckable;
 import ui.AllowedBreakpoint;
 import ui.BasicErrorHighlight;
 import ui.CheckableAccessibility;
@@ -76,7 +77,8 @@ import ui.window.JDialogMultiString;
  * @author Ludovic APVRILLE
  * @version 1.0 21/11/2005
  */
-public class TMLADSendEvent extends TADComponentWithoutSubcomponents implements CheckableAccessibility, CheckableLatency, EmbeddedComment, AllowedBreakpoint, BasicErrorHighlight {
+public class TMLADSendEvent extends TADComponentWithoutSubcomponents implements CheckableAccessibility, CheckableLatency, EmbeddedComment,
+        AllowedBreakpoint, BasicErrorHighlight, SecurityCheckable {
 
 	// Issue #31
 //    protected int lineLength = 5;
@@ -411,5 +413,9 @@ public class TMLADSendEvent extends TADComponentWithoutSubcomponents implements 
 
     public void setStateAction(int _stateAction) {
         stateOfError = _stateAction;
+    }
+
+    public String getCommunicationName() {
+        return eventName;
     }
 }

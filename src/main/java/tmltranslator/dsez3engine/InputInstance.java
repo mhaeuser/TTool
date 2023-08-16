@@ -6,9 +6,7 @@
 
 package tmltranslator.dsez3engine;
 
-import myutil.TraceManager;
 import tmltranslator.*;
-import ui.TGComponent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,9 +15,10 @@ import java.util.List;
 public class InputInstance {
 
     private TMLArchitecture architecture;
-    private TMLModeling<TGComponent> modeling;
+    private TMLModeling<?> modeling;
 
-    public InputInstance(TMLArchitecture architecture, TMLModeling<TGComponent> modeling) {
+    @SuppressWarnings("unchecked")
+    public InputInstance(TMLArchitecture architecture, TMLModeling modeling) {
         this.architecture = architecture;
         this.modeling = modeling;
     }
@@ -119,7 +118,7 @@ public class InputInstance {
         return architecture;
     }
 
-    public TMLModeling<TGComponent> getModeling() {
+    public TMLModeling<?> getModeling() {
         return modeling;
     }
 }

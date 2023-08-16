@@ -21,10 +21,7 @@ import tmltranslator.toavatarsec.TML2Avatar;
 import tmltranslator.tomappingsystemc2.DiploSimulatorFactory;
 import tmltranslator.tomappingsystemc2.IDiploSimulatorCodeGenerator;
 import tmltranslator.tomappingsystemc2.Penalties;
-import ui.AbstractUITest;
-import ui.TDiagramPanel;
-import ui.TMLArchiPanel;
-import ui.TURTLEPanel;
+import ui.*;
 import ui.tmldd.TMLArchiDiagramPanel;
 
 import java.io.BufferedReader;
@@ -143,7 +140,11 @@ public class DiplodocusSecurityTest extends AbstractTest {
 
             // Generate ProVerif code
             System.out.println("Generating ProVerif code for " + s);
-            TML2Avatar t2a = new TML2Avatar(tmap, false, true);
+            Object o = null;
+            if (tmap.getTMLModeling().getReference() instanceof TGComponent) {
+                o = ((TGComponent)(tmap.getTMLModeling().getReference())).getTDiagramPanel().tp;
+            }
+            TML2Avatar t2a = new TML2Avatar(tmap, false, true, o);
             AvatarSpecification avatarspec = t2a.generateAvatarSpec("1", true);
             AVATAR2ProVerif avatar2proverif = new AVATAR2ProVerif(avatarspec);
             ProVerifSpec proverif = avatar2proverif.generateProVerif(true, true, 0, true,

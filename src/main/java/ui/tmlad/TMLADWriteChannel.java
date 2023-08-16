@@ -55,6 +55,7 @@ import org.w3c.dom.NodeList;
 
 import myutil.Conversion;
 import myutil.GraphicLib;
+import tmltranslator.SecurityCheckable;
 import ui.AllowedBreakpoint;
 import ui.BasicErrorHighlight;
 import ui.CheckableAccessibility;
@@ -75,13 +76,14 @@ import ui.window.TabInfo;
 
 /**
  * Class TMLADWriteChannel
- * Action of writting data in channel
+ * Action of writing data in channel
  * Creation: 17/11/2005
  *
  * @author Ludovic APVRILLE
  * @version 1.0 17/11/2005
  */
-public class TMLADWriteChannel extends TADComponentWithoutSubcomponents/* Issue #69 TGCWithoutInternalComponent*/ implements CheckableAccessibility, LinkedReference, CheckableLatency, EmbeddedComment, AllowedBreakpoint, BasicErrorHighlight {
+public class TMLADWriteChannel extends TADComponentWithoutSubcomponents/* Issue #69 TGCWithoutInternalComponent*/ implements CheckableAccessibility,
+        LinkedReference, CheckableLatency, EmbeddedComment, AllowedBreakpoint, BasicErrorHighlight, SecurityCheckable {
 
 	// Issue #31
 //    protected int lineLength = 5;
@@ -109,7 +111,6 @@ public class TMLADWriteChannel extends TADComponentWithoutSubcomponents/* Issue 
     public final static int REACHABLE = 1;
     public final static int NOT_REACHABLE = 2;
 
-    public int reachabilityInformation;
 
 	public boolean isEncForm = true;
 
@@ -497,5 +498,9 @@ public class TMLADWriteChannel extends TADComponentWithoutSubcomponents/* Issue 
     @Override
     public void setStateAction(int _stateAction) {
         stateOfError = _stateAction;
+    }
+
+    public String getCommunicationName() {
+        return channelName;
     }
 }

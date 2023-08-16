@@ -41,9 +41,6 @@ import avatartranslator.*;
 import myutil.TraceManager;
 import proverifspec.ProVerifQueryResult;
 import tmltranslator.*;
-import ui.TGComponent;
-import ui.tmlad.*;
-import ui.window.TraceData;
 
 import java.util.*;
 import java.util.regex.Matcher;
@@ -87,7 +84,9 @@ public class TML2Avatar {
     private Map<String, AvatarSignal> signalInMap = new HashMap<String, AvatarSignal>();
     private Map<String, AvatarSignal> signalOutMap = new HashMap<String, AvatarSignal>();
 
-    public TML2Avatar(TMLMapping<?> tmlmap, boolean modelcheck, boolean sec) {
+    private Object referenceObject;
+
+    public TML2Avatar(TMLMapping<?> tmlmap, boolean modelcheck, boolean sec, Object _referenceObject) {
         this.tmlmap = tmlmap;
 
         this.tmlmodel = tmlmap.getTMLModeling();
@@ -96,6 +95,8 @@ public class TML2Avatar {
         attrsToCheck = new ArrayList<String>();
         mc = modelcheck;
         security = sec;
+
+        referenceObject = _referenceObject;
     }
 
     public void checkConnections() {
@@ -413,14 +414,9 @@ public class TML2Avatar {
             TMLSendRequest sr = (TMLSendRequest) ae;
             TMLRequest req = sr.getRequest();
             AvatarSignal sig;
-            boolean checkAcc = false;
-            if (ae.getReferenceObject() != null) {
-                checkAcc = ((TGComponent) ae.getReferenceObject()).getCheckableAccessibility();
-            }
-            boolean checked = false;
-            if (ae.getReferenceObject() != null) {
-                checked = ((TGComponent) ae.getReferenceObject()).hasCheckedAccessibility();
-            }
+
+            boolean checkAcc = ae.hasCheckableAccessibility();
+            boolean checked =  ae.hasCheckedAccessibility();
             AvatarState signalState = new AvatarState("signalstate_" + reworkStringName(ae.getName()) + "_" + reworkStringName(req.getName()),
                     ae.getReferenceObject(), block, checkAcc, checked);
             AvatarTransition signalTran = new AvatarTransition(block, "__after_signalstate_" + ae.getName() + "_" + req.getName(), ae.getReferenceObject());
@@ -677,14 +673,9 @@ public class TML2Avatar {
         } else if (ae instanceof TMLActivityElementEvent) {
             TMLActivityElementEvent aee = (TMLActivityElementEvent) ae;
             TMLEvent evt = aee.getEvent();
-            boolean checkAcc = false;
-            if (ae.getReferenceObject() != null) {
-                checkAcc = ((TGComponent) ae.getReferenceObject()).getCheckableAccessibility();
-            }
-            boolean checked = false;
-            if (ae.getReferenceObject() != null) {
-                checked = ((TGComponent) ae.getReferenceObject()).hasCheckedAccessibility();
-            }
+
+            boolean checkAcc = ae.hasCheckableAccessibility();
+            boolean checked =  ae.hasCheckedAccessibility();
             AvatarState signalState = new AvatarState("signalstate_" + reworkStringName(ae.getName()) + "_" + evt.getName(), ae.getReferenceObject(),
                     block, checkAcc, checked);
             AvatarTransition signalTran = new AvatarTransition(block, "__after_signalstate_" + ae.getName() + "_" + evt.getName(),
@@ -1272,14 +1263,8 @@ public class TML2Avatar {
             TMLActivityElementChannel aec = (TMLActivityElementChannel) ae;
             TMLChannel ch = aec.getChannel(0);
             AvatarSignal sig;
-            boolean checkAcc = false;
-            if (ae.getReferenceObject() != null) {
-                checkAcc = ((TGComponent) ae.getReferenceObject()).getCheckableAccessibility();
-            }
-            boolean checked = false;
-            if (ae.getReferenceObject() != null) {
-                checked = ((TGComponent) ae.getReferenceObject()).hasCheckedAccessibility();
-            }
+            boolean checkAcc = ae.hasCheckableAccessibility();
+            boolean checked =  ae.hasCheckedAccessibility();
             AvatarState signalState = new AvatarState("signalstate_" + reworkStringName(ae.getName()) + "_" +
                     ch.getName(), ae.getReferenceObject(), block, checkAcc, checked);
             AvatarTransition signalTran = new AvatarTransition(block, "__after_signalstate_" + ae.getName() + "_" + ch.getName(),
@@ -1714,8 +1699,8 @@ public class TML2Avatar {
         //TODO: Make state names readable
         //TODO: Put back numeric guards
         //TODO: Calculate for temp variable
-        if (tmlmap.getTMLModeling().getTGComponent() != null) {
-            this.avspec = new AvatarSpecification("spec", tmlmap.getTMLModeling().getTGComponent().getTDiagramPanel().tp);
+        if (tmlmap.getTMLModeling().getReference() != null) {
+            this.avspec = new AvatarSpecification("spec", referenceObject);
         } else {
             this.avspec = new AvatarSpecification("spec", null);
         }
@@ -2518,27 +2503,9 @@ public class TML2Avatar {
 
             if (stateObjectMap.containsKey(s)) {
                 Object obj = stateObjectMap.get(s);
-                if (obj instanceof TMLADWriteChannel) {
-                    TMLADWriteChannel wc = (TMLADWriteChannel) obj;
-                    wc.reachabilityInformation = r;
-                }
-                if (obj instanceof TMLADReadChannel) {
-                    TMLADReadChannel wc = (TMLADReadChannel) obj;
-                    wc.reachabilityInformation = r;
-                }
-
-                if (obj instanceof TMLADSendEvent) {
-                    TMLADSendEvent wc = (TMLADSendEvent) obj;
-                    wc.reachabilityInformation = r;
-                }
-
-                if (obj instanceof TMLADSendRequest) {
-                    TMLADSendRequest wc = (TMLADSendRequest) obj;
-                    wc.reachabilityInformation = r;
-                }
-                if (obj instanceof TMLADWaitEvent) {
-                    TMLADWaitEvent wc = (TMLADWaitEvent) obj;
-                    wc.reachabilityInformation = r;
+                if (obj instanceof SecurityCheckable) {
+                    SecurityCheckable wc = (SecurityCheckable) obj;
+                    wc.setReachabilityInformation(r);
                 }
             }
         }
@@ -2560,9 +2527,9 @@ public class TML2Avatar {
                 resStrongAuthStatus = result.isSatisfied() ? 2 : 3;
             }
 
-            if (pragma.getAttrB().getReferenceObject()!= null && pragma.getAttrB().getReferenceObject() instanceof TMLADReadChannel) {
-                TMLADReadChannel rc = (TMLADReadChannel) pragma.getAttrB().getReferenceObject();
-                TMLChannel channel = tmlmodel.getChannelByShortName(rc.getChannelName());
+            if (pragma.getAttrB().getReferenceObject()!= null && pragma.getAttrB().getReferenceObject() instanceof SecurityBacktracer) {
+                SecurityBacktracer rc = (SecurityBacktracer) pragma.getAttrB().getReferenceObject();
+                TMLChannel channel = tmlmodel.getChannelByShortName(rc.getCommunicationName());
                 if (channel != null) {
                     rc.setAuthCheck(channel.checkAuth);
                 }
@@ -2574,8 +2541,8 @@ public class TML2Avatar {
                 }
             }
 
-            if (pragma.getAttrB().getReferenceObject()!= null && pragma.getAttrB().getReferenceObject() instanceof TMLADDecrypt) {
-                TMLADDecrypt dec = (TMLADDecrypt) pragma.getAttrB().getReferenceObject();
+            if (pragma.getAttrB().getReferenceObject()!= null && pragma.getAttrB().getReferenceObject() instanceof SecurityDecryptor) {
+                SecurityDecryptor dec = (SecurityDecryptor) pragma.getAttrB().getReferenceObject();
                 for (TMLTask t : taskBlockMap.keySet()) {
                     if (taskBlockMap.get(t).equals(pragma.getAttrB().getAttribute().getBlock())) {
                         chDestinationTask:
@@ -2585,7 +2552,7 @@ public class TML2Avatar {
                                     if (actElem instanceof TMLReadChannel) {
                                         TMLReadChannel rc = (TMLReadChannel) actElem;
                                         if (rc.hasChannel(ch) && actElem.securityPattern != null
-                                                && actElem.securityPattern.getName().equals(dec.securityContext)) {
+                                                && actElem.securityPattern.getName().equals(dec.getSecurityContext())) {
                                             dec.setAuthCheck(ch.checkAuth);
                                             break chDestinationTask;
                                         }

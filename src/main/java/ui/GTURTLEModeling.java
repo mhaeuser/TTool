@@ -552,7 +552,7 @@ public class GTURTLEModeling {
         //List<TGComponent> components = mgui.getCurrentArchiPanel().tmlap.getComponentList();
         // Parse the PEC file and the library of code snippets for each DIPLODOCUS unit
         applicationName = tmap.getMappedTasks().get(0).getName().split("__")[0];        // Remember that it works only for one application
-        CCode = new TMLModelCompiler(directory, applicationName, mgui.frame, mgui.getAllTMLCP(), tmap);
+        CCode = new TMLModelCompiler(directory, applicationName, mgui.frame, (Object)(mgui.getAllTMLCP()), tmap, mgui);
 
         // Issue #98: Use the passed directory
         File dir = new File(directory /*ConfigurationTTool.CCodeDirectory*/ + File.separator);
@@ -968,12 +968,12 @@ public class GTURTLEModeling {
         //index = 0 : update rules
         //index = 1-n: channel
         int index = 1;
-        TGComponent comp = map.getTMLModeling().getTGComponent();
+        TGComponent comp = (TGComponent) (map.getTMLModeling().getReference());
         TMLComponentDesignPanel tmlcdp = (TMLComponentDesignPanel) comp.getTDiagramPanel().tp;
         // TMLComponentDesignPanel tmlcdp = map.getTMLCDesignPanel();
         TMLModeling<TGComponent> tmlm = map.getTMLModeling();
         TMLArchitecture archi = map.getArch();
-        TURTLEPanel tmlap = map.getCorrespondanceList().getTG(archi.getFirstCPU()).getTDiagramPanel().tp;
+        TURTLEPanel tmlap = ((CorrespondanceTGElement)(map.getCorrespondanceList())).getTG(archi.getFirstCPU()).getTDiagramPanel().tp;
         TMLActivityDiagramPanel firewallADP = null;
         TMLComponentDesignPanel tcp = tmlcdp;
 
@@ -1205,8 +1205,8 @@ public class GTURTLEModeling {
                 outChans.put(chan, rd);
                 toAdd.add(rd);
                 toAdd.add(wr);
-                map.getCorrespondanceList().addCor(rd, (TGComponent) rd.getReferenceObject());
-                map.getCorrespondanceList().addCor(wr, (TGComponent) wr.getReferenceObject());
+                ((CorrespondanceTGElement)(map.getCorrespondanceList())).addCor(rd, (TGComponent) rd.getReferenceObject());
+                ((CorrespondanceTGElement)(map.getCorrespondanceList())).addCor(wr, (TGComponent) wr.getReferenceObject());
 
 
             }
@@ -1460,7 +1460,7 @@ public class GTURTLEModeling {
 
             TMLStartState start = new TMLStartState("start", adStart);
             act.setFirst(start);
-            map.getCorrespondanceList().addCor(start, adStart);
+            ((CorrespondanceTGElement)(map.getCorrespondanceList())).addCor(start, adStart);
 
             System.out.println("MODIFIED " + modifiedTasks);
             //Replace channel operator with new firewallIn and firewallOut operators
@@ -1629,7 +1629,7 @@ public class GTURTLEModeling {
 
     @SuppressWarnings("unchecked")
     public boolean generateGraphicalMapping(TMLMapping map) {
-        TURTLEPanel tmlap = tmap.getCorrespondanceList().getTG(tmap.getArch().getFirstCPU()).getTDiagramPanel().tp;
+        TURTLEPanel tmlap = ((CorrespondanceTGElement)(tmap.getCorrespondanceList())).getTG(tmap.getArch().getFirstCPU()).getTDiagramPanel().tp;
         int arch = mgui.tabs.indexOf(tmlap);
         mgui.cloneRenameTab(arch, "Z3");
         TMLArchiPanel newArch = (TMLArchiPanel) mgui.tabs.get(mgui.tabs.size() - 1);
@@ -1667,7 +1667,7 @@ public class GTURTLEModeling {
         if (tmap == null) {
             return null;
         }
-        TURTLEPanel tmlap = tmap.getCorrespondanceList().getTG(tmap.getArch().getFirstCPU()).getTDiagramPanel().tp;
+        TURTLEPanel tmlap = ((CorrespondanceTGElement)(tmap.getCorrespondanceList())).getTG(tmap.getArch().getFirstCPU()).getTDiagramPanel().tp;
         int arch = gui.tabs.indexOf(tmlap);
         DateFormat dateFormat = new SimpleDateFormat("HHmmss");
         Date date = new Date();
@@ -1691,7 +1691,7 @@ public class GTURTLEModeling {
         if (tmap == null) {
             return null;
         }
-        TURTLEPanel tmlap = tmap.getCorrespondanceList().getTG(tmap.getArch().getFirstCPU()).getTDiagramPanel().tp;
+        TURTLEPanel tmlap = ((CorrespondanceTGElement)(tmap.getCorrespondanceList())).getTG(tmap.getArch().getFirstCPU()).getTDiagramPanel().tp;
         int arch = gui.tabs.indexOf(tmlap);
         DateFormat dateFormat = new SimpleDateFormat("HHmmss");
         Date date = new Date();
@@ -1708,7 +1708,7 @@ public class GTURTLEModeling {
         if (tmap == null) {
             return null;
         }
-        TURTLEPanel tmlap = tmap.getCorrespondanceList().getTG(tmap.getArch().getFirstCPU()).getTDiagramPanel().tp;
+        TURTLEPanel tmlap = ((CorrespondanceTGElement)(tmap.getCorrespondanceList())).getTG(tmap.getArch().getFirstCPU()).getTDiagramPanel().tp;
         int arch = gui.tabs.indexOf(tmlap);
         DateFormat dateFormat = new SimpleDateFormat("HHmmss");
         Date date = new Date();
@@ -2224,7 +2224,11 @@ public class GTURTLEModeling {
         }*/
 
 
-        FullTML2Avatar t2a = new FullTML2Avatar(tmlm);
+        Object o = null;
+        if (tmlm.getReference() instanceof TGComponent) {
+            o = ((TGComponent)(tmlm.getReference())).getTDiagramPanel().tp;
+        }
+        FullTML2Avatar t2a = new FullTML2Avatar(tmlm, o);
         TraceManager.addDev("Avatar spec generation");
         avatarspec = t2a.generateAvatarSpec("1");
         TraceManager.addDev("Avatar spec generated");
@@ -2252,7 +2256,11 @@ public class GTURTLEModeling {
         if (avatarspec != null) {
             return;
         } else if (tmap != null) {
-            t2a = new TML2Avatar(tmap, mc, security);
+            Object o = null;
+            if (tmap.getTMLModeling().getReference() instanceof TGComponent) {
+                o = ((TGComponent)(tmlm.getReference())).getTDiagramPanel().tp;
+            }
+            t2a = new TML2Avatar(tmap, mc, security, o);
             TraceManager.addDev("Avatar spec generation");
             avatarspec = t2a.generateAvatarSpec("1");
             TraceManager.addDev("Avatar spec generation: done");
@@ -2312,7 +2320,11 @@ public class GTURTLEModeling {
     public boolean generateProVerifFromAVATAR(String _path, int _stateReachability, boolean _typed, boolean allowPrivateChannelDuplication, String loopLimit) {
         //
        if (tmap != null) {
-            t2a = new TML2Avatar(tmap, false, true);
+           Object o = null;
+           if (tmap.getTMLModeling().getReference() instanceof TGComponent) {
+               o = ((TGComponent)(tmlm.getReference())).getTDiagramPanel().tp;
+           }
+            t2a = new TML2Avatar(tmap, false, true, o);
             avatarspec = t2a.generateAvatarSpec(loopLimit);
             if (mgui.isExperimentalOn()) {
                 //drawPanel(avatarspec, mgui.getFirstAvatarDesignPanelFound());
@@ -2321,8 +2333,12 @@ public class GTURTLEModeling {
         } else if (tmlm != null) {
             //Generate default mapping
             tmap = tmlm.getDefaultMapping();
+            Object o = null;
+            if (tmlm.getReference() instanceof TGComponent) {
+                o = ((TGComponent)(tmlm.getReference())).getTDiagramPanel().tp;
+            }
 
-            t2a = new TML2Avatar(tmap, false, true);
+            t2a = new TML2Avatar(tmap, false, true, o);
             avatarspec = t2a.generateAvatarSpec(loopLimit);
 
             if (mgui.isExperimentalOn()) {

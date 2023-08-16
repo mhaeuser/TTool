@@ -52,6 +52,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import myutil.GraphicLib;
+import tmltranslator.SecurityDecryptor;
 import ui.AllowedBreakpoint;
 import ui.BasicErrorHighlight;
 import ui.ColorManager;
@@ -74,7 +75,8 @@ import ui.window.JDialogMultiString;
  * @author Ludovic APVRILLE
  * @version 1.0 21/11/2005
  */
-public class TMLADDecrypt extends TADComponentWithoutSubcomponents/* Issue #69 TGCWithoutInternalComponent*/ implements EmbeddedComment, AllowedBreakpoint, BasicErrorHighlight {
+public class TMLADDecrypt extends TADComponentWithoutSubcomponents/* Issue #69 TGCWithoutInternalComponent*/ implements EmbeddedComment,
+        AllowedBreakpoint, BasicErrorHighlight, SecurityDecryptor {
 
 	// Issue #31
 //    private int lineLength = 5;
@@ -370,5 +372,9 @@ public class TMLADDecrypt extends TADComponentWithoutSubcomponents/* Issue #69 T
 
     public void setStrongAuthStatus(int _strongAuthStatus) {
         strongAuthStatus = _strongAuthStatus;
+    }
+
+    public String getSecurityContext() {
+        return securityContext;
     }
 }

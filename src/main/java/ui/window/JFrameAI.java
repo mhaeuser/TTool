@@ -51,6 +51,7 @@ import ui.avatarbd.AvatarBDPanel;
 import ui.avatarrd.AvatarRDPanel;
 import ui.avatarrd.AvatarRDRequirement;
 import ui.util.IconManager;
+
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -78,22 +79,31 @@ public class JFrameAI extends JFrame implements ActionListener {
             " requirement diagram first",
             "Identify use cases",
             "Identify properties - Select a block diagram first. You can also provide a system specification",
-            "Identify system blocks - Provide a system specification",
+            "Identify system blocks (knowledge type #1) - Provide a system specification",
+            "Identify system blocks (knowledge type #2) - Provide a system specification",
             "Identify software blocks - Provide a system specification", "Identify state" +
             " machines - Select a block diagram. Additionally, you can provide a system specification",
+            "Identify state machines and attributes - Select a block diagram. Additionally, you can provide a system specification",
             "A(I)MULET - Select a block diagram first"};
 
     private static String[] AIInteractClass = {"AIChat", "AIReqIdent", "AIReqClassification", "AIChat", "AIDesignPropertyIdentification", "AIBlock",
-            "AISoftwareBlock", "AIStateMachine", "AIAmulet"};
+            "AIBlockConnAttrib", "AISoftwareBlock", "AIStateMachine", "AIStateMachinesAndAttributes", "AIAmulet"};
 
     private static String[] INFOS = {"Chat on any topic you like", "Identify requirements from the specification of a system", "Classify " +
             "requirements from a requirement diagram", "Identify use cases and actors from a system specification",
             "Identify the typical properties" +
-            " to be proven " +
-            "from a block" +
-            " diagram", "Identify the system " +
-            "blocks from a specification", "Identify the software blocks from a specification", "Identify the state machines from a system " +
-            "specification and a block diagram", "Formalize mutations to be performed on a block diagram"};
+                    " to be proven " +
+                    "from a block" +
+                    " diagram", "Identify the system " +
+            "blocks from a specification", "Identify the system " +
+            "blocks from a specification (another kind of knowledge)", "Identify the software blocks from a specification", "Identify the state " +
+            "machines from a " +
+            "system " +
+            "specification and a block diagram", "Identify the state " +
+            "machines and attributes from a " +
+            "system " +
+            "specification and a block diagram",
+            "Formalize mutations to be performed on a block diagram"};
 
     protected JComboBox<String> listOfPossibleActions;
 
@@ -295,7 +305,8 @@ public class JFrameAI extends JFrame implements ActionListener {
                 "macareux", "ours", "italien", "paris-brest", "belle-mère", "apéro (l'abus d'alcool est dangereux pour la santé)",
                 "carpe", "crocodile", "psychologue", "dr emacs", "3615-TTool", "100 balles et 1 mars",
                 "opéra (l’abus d’Alcôve est dangereux pour la santé)", "chapon", "perroquet", "chameau volant", "Alice", "oasis", "ATC RAK",
-                "Adibou", "cheval de Troyes", "Twist", "GSM", "étalon", "jaseux"};
+                "Adibou", "cheval de Troyes", "Twist", "GSM", "étalon", "jaseux", "walkman (l'abus d'écouteurs peut provoquer des otites)", "Blake " +
+                "& Mortimer", "Knights who say Ni!", "vendeur de canapés carreautés", "Marcel Proust"};
         int x = (int) (Math.random() * names.length);
         return names[x];
     }
@@ -332,7 +343,7 @@ public class JFrameAI extends JFrame implements ActionListener {
 
             TraceManager.addDev("Selected aiinteract: " + selected.aiInteract.getClass());
 
-            if (selected.aiInteract  instanceof AIAvatarSpecificationRequired) {
+            if (selected.aiInteract instanceof AIAvatarSpecificationRequired) {
                 TraceManager.addDev("****** AIAvatarSpecificationRequired identified *****");
                 TDiagramPanel tdp = mgui.getCurrentMainTDiagramPanel();
                 boolean found = false;
@@ -355,14 +366,14 @@ public class JFrameAI extends JFrame implements ActionListener {
                 }
             }
 
-            if (selected.aiInteract  instanceof AISysMLV2DiagramContent) {
+            if (selected.aiInteract instanceof AISysMLV2DiagramContent) {
                 TraceManager.addDev("****** AISysMLV2DiagramContent identified *****");
                 TDiagramPanel tdp = mgui.getCurrentTDiagramPanel();
-                String[] validDiagrams = ((AISysMLV2DiagramContent)(selected.aiInteract)).getValidDiagrams();
+                String[] validDiagrams = ((AISysMLV2DiagramContent) (selected.aiInteract)).getValidDiagrams();
                 String className = tdp.getClass().getName();
 
                 boolean found = false;
-                for(String s: validDiagrams) {
+                for (String s : validDiagrams) {
                     if (className.contains(s)) {
                         found = true;
                         break;
@@ -371,8 +382,8 @@ public class JFrameAI extends JFrame implements ActionListener {
 
                 if (found) {
                     TraceManager.addDev("The selected diagram is valid");
-                    String[] exclusions = ((AISysMLV2DiagramContent)(selected.aiInteract)).getDiagramExclusions();
-                    StringBuffer sb =  tdp.toSysMLV2Text(exclusions);
+                    String[] exclusions = ((AISysMLV2DiagramContent) (selected.aiInteract)).getDiagramExclusions();
+                    StringBuffer sb = tdp.toSysMLV2Text(exclusions);
                     if (sb == null) {
                         error("The syntax of the selected diagram is incorrect");
                         return;
@@ -394,7 +405,7 @@ public class JFrameAI extends JFrame implements ActionListener {
         ChatData selectedChat = selectedChat();
         if (selectedChat.lastAnswer == null || selectedChat.aiChatData == null) {
             error("No answer to apply");
-            return ;
+            return;
         }
 
         //TraceManager.addDev("Class of answer: " + selectedChat.aiInteract.getClass().getName());
@@ -417,9 +428,11 @@ public class JFrameAI extends JFrame implements ActionListener {
 
 
         currentChatIndex = answerPane.getSelectedIndex();
-        switch(currentChatIndex) {
+        switch (currentChatIndex) {
             case 0:
                 if (selectedChat.aiInteract instanceof ai.AIBlock) {
+                    applyIdentifySystemBlocks(selectedChat.aiInteract.applyAnswer(null));
+                } else if (selectedChat.aiInteract instanceof ai.AIBlockConnAttrib) {
                     applyIdentifySystemBlocks(selectedChat.aiInteract.applyAnswer(null));
                 } else if (selectedChat.aiInteract instanceof ai.AISoftwareBlock) {
                     applyIdentifySystemBlocks(selectedChat.aiInteract.applyAnswer(null));
@@ -432,13 +445,16 @@ public class JFrameAI extends JFrame implements ActionListener {
                 } else if (selectedChat.aiInteract instanceof ai.AIStateMachine) {
                     TraceManager.addDev("Applying state machines");
                     applyIdentifyStateMachines(selectedChat.aiInteract.applyAnswer(null));
+                } else if (selectedChat.aiInteract instanceof ai.AIStateMachinesAndAttributes) {
+                    TraceManager.addDev("Applying state machines and attributes");
+                    applyIdentifyStateMachines(selectedChat.aiInteract.applyAnswer(null));
                 } else if (selectedChat.aiInteract instanceof ai.AIAmulet) {
                     applyMutations();
                 }
                 break;
-                case 1:
-                    applyRequirementIdentification();
-                    break;
+            case 1:
+                applyRequirementIdentification();
+                break;
             case 2:
                 applyRequirementClassification();
                 break;
@@ -535,7 +551,7 @@ public class JFrameAI extends JFrame implements ActionListener {
         ChatData selected = selectedChat();
         for (TGComponent tgc : rdpanel.getAllRequirements()) {
             AvatarRDRequirement req = (AvatarRDRequirement) tgc;
-            String kind = (String)(selected.aiInteract.applyAnswer(req.getValue()));
+            String kind = (String) (selected.aiInteract.applyAnswer(req.getValue()));
             if (kind != null) {
                 String k = JDialogRequirement.getKindFromString(kind);
                 if (k != null) {
@@ -551,7 +567,7 @@ public class JFrameAI extends JFrame implements ActionListener {
         rdpanel.repaint();
     }
 
-    private void applyMutations(){
+    private void applyMutations() {
         //AvatarSpecification avspec = mgui.gtm.getAvatarSpecification();
         TDiagramPanel tdp = mgui.getCurrentTDiagramPanel();
         if (!(tdp instanceof AvatarBDPanel)) {
@@ -568,13 +584,13 @@ public class JFrameAI extends JFrame implements ActionListener {
 
         AvatarSpecification avspec = mgui.gtm.getAvatarSpecification();
 
-        if (avspec == null){
+        if (avspec == null) {
             error("AVATAR specification not found: aborting.\n");
             return;
         }
 
         inform("Applying mutations to the model, please wait\n");
-        avspec = (AvatarSpecification) (selectedChat().aiInteract.applyAnswer( avspec ));
+        avspec = (AvatarSpecification) (selectedChat().aiInteract.applyAnswer(avspec));
 
         if (avspec != null) {
             mgui.drawAvatarSpecification(avspec);
@@ -588,10 +604,15 @@ public class JFrameAI extends JFrame implements ActionListener {
 
     private void enableDisableActions() {
         if ((answerPane != null) && (chats != null) && (buttonApplyResponse != null) && (buttonStart != null)) {
-            ChatData cd = chats.get(answerPane.getSelectedIndex());
-            String chat = cd.lastAnswer;
-            buttonApplyResponse.setEnabled(chat != null && chat.length() > 0 && !cd.doIconRotation);
-            buttonStart.setEnabled(!cd.doIconRotation);
+            if (answerPane.getSelectedIndex() > -1) {
+                ChatData cd = chats.get(answerPane.getSelectedIndex());
+                String chat = cd.lastAnswer;
+                buttonApplyResponse.setEnabled(chat != null && chat.length() > 0 && !cd.doIconRotation);
+                buttonStart.setEnabled(!cd.doIconRotation);
+            } else {
+                buttonApplyResponse.setEnabled(false);
+                buttonStart.setEnabled(false);
+            }
         }
     }
 

@@ -39,6 +39,7 @@
 package ui.tmldd;
 
 import myutil.GraphicLib;
+import myutil.TraceManager;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -244,6 +245,7 @@ public class TMLArchiCommunicationArtifact extends TGCWithoutInternalComponent i
         }
 
         priority = dialog.getPriority();
+        TraceManager.addDev("Priority is now: " + priority);
 
         ((TMLArchiDiagramPanel)tdp).setPriority(getFullValue(), priority);
 

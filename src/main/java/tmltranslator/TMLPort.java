@@ -50,8 +50,6 @@
 package tmltranslator;
 
 
-import ui.tmlcompd.TMLCPrimitivePort;
-
 import java.util.Objects;
 
 
@@ -64,8 +62,8 @@ public class TMLPort extends TMLElement {
 
     public TMLPort( String _name, Object _referenceObject ) {
         super( _name, _referenceObject );
-        if (referenceObject instanceof TMLCPrimitivePort)
-            dataFlowType = ( (TMLCPrimitivePort)referenceObject ).getDataFlowType();
+        if (referenceObject instanceof TMLPortWithSecurityInformation)
+            dataFlowType = ( (TMLPortWithSecurityInformation)referenceObject ).getDataFlowType();
 
     }
 

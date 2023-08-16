@@ -2007,4 +2007,10 @@ public class TMLMapping<E> {
         return mappedSecurity.get(_sp);
     }
 
+    public void NullifyAutomata() {
+        aut = null;
+        nodesToStates = null;
+        commNodes = null;
+    }
+
 }

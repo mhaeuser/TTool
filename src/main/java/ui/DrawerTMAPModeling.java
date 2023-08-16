@@ -100,6 +100,7 @@ public class DrawerTMAPModeling {
             return;
         }
 
+        tmap.NullifyAutomata();
         TMLSyntaxChecking syntax = new TMLSyntaxChecking(tmap);
         syntax.checkSyntax();
         if (syntax.hasErrors() > 0) {
@@ -309,6 +310,10 @@ public class DrawerTMAPModeling {
             if (splitName.length >= 2) {
                 artifact.setTaskName(splitName[1]);
                 artifact.setReferenceTaskName(splitName[0]);
+            } else if (splitName.length == 1) {
+                String tabName = tmap.getTMLModeling().getTGComponent().getTDiagramPanel().tp.getNameOfTab();
+                artifact.setTaskName(refAndName);
+                artifact.setReferenceTaskName(tabName);
             } else {
                 artifact.setTaskName(refAndName);
             }
@@ -347,6 +352,10 @@ public class DrawerTMAPModeling {
             if (splitName.length >= 2) {
                 artifact.setCommunicationName(splitName[1]);
                 artifact.setReferenceCommunicationName(splitName[0]);
+            } else if (splitName.length == 1) {
+                String tabName = tmap.getTMLModeling().getTGComponent().getTDiagramPanel().tp.getNameOfTab();
+                artifact.setCommunicationName(refAndName);
+                artifact.setReferenceCommunicationName(tabName);
             } else {
                 artifact.setCommunicationName(refAndName);
             }

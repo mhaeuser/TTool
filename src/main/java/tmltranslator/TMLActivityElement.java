@@ -41,6 +41,7 @@
 
 package tmltranslator;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.Objects;
 import java.util.Vector;
 
@@ -51,7 +52,7 @@ import java.util.Vector;
    * @version 1.0 23/11/2005
    * @author Ludovic APVRILLE
  */
-public abstract class TMLActivityElement extends TMLElement {
+public abstract class TMLActivityElement extends TMLElement implements Cloneable{
     protected Vector<TMLActivityElement> nexts;
     public SecurityPattern securityPattern;
     private String value="";
@@ -152,5 +153,27 @@ public abstract class TMLActivityElement extends TMLElement {
         TMLComparingMethod comp = new TMLComparingMethod();
         return Objects.equals(value,tmlActEtls.getValue()) &&
                 comp.isTMLActivityEltListEquals(nexts,tmlActEtls.getNexts());
+    }
+
+    @Override
+    public TMLActivityElement clone(){
+        try {
+            System.out.println(getClass().getCanonicalName());
+            TMLActivityElement ae = getClass().getDeclaredConstructor(String.class, Object.class).newInstance(name, referenceObject);
+            return ae;
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+        } catch (SecurityException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

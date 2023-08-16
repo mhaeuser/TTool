@@ -72,6 +72,7 @@ import sdtranslator.SDTranslator;
 import tmatrix.RequirementModeling;
 import tmltranslator.*;
 import tmltranslator.modelcompiler.TMLModelCompiler;
+import tmltranslator.patternhandling.TMRGeneration;
 import tmltranslator.toautomata.TML2AUT;
 import tmltranslator.toautomata.TML2AUTviaLOTOS;
 import tmltranslator.toavatar.FullTML2Avatar;
@@ -1613,9 +1614,17 @@ public class GTURTLEModeling {
         hsm.startThread();
     }
 
-    public void addTMR(MainGUI gui, List<String> selectedSensorsTasks, String selectedRecieverTask) {
-        TMRGeneration tmr = new TMRGeneration(gui, selectedSensorsTasks, selectedRecieverTask, tmap);
-        tmr.startThread();
+    @SuppressWarnings("unchecked")
+    public void addPattern(MainGUI gui, Map<String, List<String>> selectedSensorsTasks, String selectedRecieverTask, String interpretersCompTime, String voterCompTime, String voterTimeOut) {
+        TMRGeneration tmr = new TMRGeneration(selectedSensorsTasks, selectedRecieverTask, interpretersCompTime, voterCompTime, voterTimeOut, tmap);
+        tmap = (TMLMapping<TGComponent>) tmr.startThread();
+        try {
+            String archTabName = tmap.getCorrespondanceList().getTG(tmap.getArch().getFirstCPU()).getTDiagramPanel().tp.getNameOfTab();
+            String appTabName = tmap.getTMLModeling().getTGComponent().getTDiagramPanel().tp.getNameOfTab();
+            gui.drawTMLAndTMAPSpecification(tmap, appTabName + "_tmr", archTabName + "_tmr");
+        } catch (MalformedTMLDesignException e) {
+            TraceManager.addDev("Error when Drawing TML");
+        }
     }
 
     @SuppressWarnings("unchecked")

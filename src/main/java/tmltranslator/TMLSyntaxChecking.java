@@ -807,7 +807,17 @@ public class TMLSyntaxChecking {
     public String printErrors() {
         String ret = "*** ERRORS:";
         for (TMLError error : errors) {
-            ret += "ERROR / task " + error.task.getName() + " / element " + error.element.getName() + ": " + error.message + "\n";
+            ret += "ERROR";
+            if (error.task != null) {
+                ret += " / task " + error.task.getName();
+            }
+            if (error.element != null) {
+                ret += " / element " + error.element.getName();
+            }
+            if (error.message != null) {
+                ret += ": " + error.message;
+            }
+            ret += "\n";
         }
         return ret;
     }
@@ -815,7 +825,17 @@ public class TMLSyntaxChecking {
     public String printWarnings() {
         String ret = "";
         for (TMLError error : warnings) {
-            ret += "ERROR / task " + error.task.getName() + " / element: " + error.element.getName() + ": " + error.message + "\n";
+            ret += "ERROR";
+            if (error.task != null) {
+                ret += " / task " + error.task.getName();
+            }
+            if (error.element != null) {
+                ret += " / element " + error.element.getName();
+            }
+            if (error.message != null) {
+                ret += ": " + error.message;
+            }
+            ret += "\n";
         }
         return ret;
     }

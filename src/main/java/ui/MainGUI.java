@@ -1932,6 +1932,31 @@ public class MainGUI implements ActionListener, WindowListener, KeyListener, Per
         TraceManager.addDev("Draw TMAP Spec 4");
     }
 
+    public void drawTMLAndTMAPSpecification(TMLMapping tmap, String titleApp, String titleArch) throws MalformedTMLDesignException {
+        DateFormat dateFormat = new SimpleDateFormat("HHmmss");
+        Date date = new Date();
+        String dateAndTime = dateFormat.format(date);
+        String tabNameArch = titleArch + "_" + dateAndTime;
+        String tabNameApp = titleApp + "_" + dateAndTime;
+        
+        TraceManager.addDev("Draw TML Spec 1");
+        int indexApp = createTMLComponentDesign(tabNameApp);
+        TraceManager.addDev("Draw TML Spec 2");
+        TMLComponentDesignPanel tmlcdp = (TMLComponentDesignPanel) (tabs.elementAt(indexApp));
+        TraceManager.addDev("Draw TML Spec 3");
+        DrawerTMLModeling drawerApp = new DrawerTMLModeling(this);
+        drawerApp.drawTMLModelingPanel(tmap.getTMLModeling(), tmlcdp);
+
+        TraceManager.addDev("Draw TMAP Spec 1");
+        int indexArch = createTMLArchitecture(tabNameArch + "_Mapping");
+        TraceManager.addDev("Draw TMAP Spec 2");
+        TMLArchiPanel tmlap = (TMLArchiPanel) (tabs.elementAt(indexArch));
+        TraceManager.addDev("to Draw TMAP Spec 3");
+        DrawerTMAPModeling drawerArch = new DrawerTMAPModeling(this);
+        drawerArch.drawTMAPModelingPanel(tmap, tmlap);
+        TraceManager.addDev("Draw TMAP Spec 4");
+    }
+
     // Creates the status bar.
     private JLabel createStatusBar() {
         status = new JLabel("Ready...");

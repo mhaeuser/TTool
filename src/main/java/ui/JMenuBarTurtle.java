@@ -622,6 +622,9 @@ public class JMenuBarTurtle extends JMenuBar {
         menuItem = vAndV.add(mgui.actions[TGUIAction.ACT_AVATAR_FV_STATICANALYSIS]);
         menuItem.setName("V&V Avatar Static Analysis");
         menuItem.addMouseListener(mgui.mouseHandler);
+        menuItem = vAndV.add(mgui.actions[TGUIAction.ACT_PATTERN_GENERATION]);
+        menuItem.setName("V&V Pattern Generation");
+        menuItem.addMouseListener(mgui.mouseHandler);
 
         // Code generation
 

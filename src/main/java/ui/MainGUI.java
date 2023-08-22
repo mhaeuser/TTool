@@ -5214,6 +5214,21 @@ public class MainGUI implements ActionListener, WindowListener, KeyListener, Per
         dtree.toBeUpdated();
     }
 
+    public void patternGeneration() {
+        boolean limit = true;
+        TraceManager.addDev("PATTERN GENERATION");
+        TURTLEPanel tp = this.getCurrentTURTLEPanel();
+        AvatarDesignPanel adp = null;
+        if (tp instanceof AvatarDesignPanel) {
+            adp = (AvatarDesignPanel) tp;
+            limit = false;
+        }
+        JDialogPatternGeneration jgen = new JDialogPatternGeneration(frame, this, "Pattern Generation", "../ttool/build/resources/main/patterns/");
+        GraphicLib.centerOnParent(jgen, 600, 800);
+        jgen.setVisible(true);
+        dtree.toBeUpdated();
+    }
+
     public void dse() {
         // TraceManager.addDev("Design space exploration");
         JDialogDSE jdse = new JDialogDSE(frame, this, "Design Space Exploration", SpecConfigTTool.SystemCCodeDirectory,

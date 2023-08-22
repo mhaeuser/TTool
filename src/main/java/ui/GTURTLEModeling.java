@@ -72,6 +72,7 @@ import sdtranslator.SDTranslator;
 import tmatrix.RequirementModeling;
 import tmltranslator.*;
 import tmltranslator.modelcompiler.TMLModelCompiler;
+import tmltranslator.patternhandling.PatternGeneration;
 import tmltranslator.patternhandling.TMRGeneration;
 import tmltranslator.toautomata.TML2AUT;
 import tmltranslator.toautomata.TML2AUTviaLOTOS;
@@ -1625,6 +1626,12 @@ public class GTURTLEModeling {
         } catch (MalformedTMLDesignException e) {
             TraceManager.addDev("Error when Drawing TML");
         }
+    }
+
+    @SuppressWarnings("unchecked")
+    public void createPattern(MainGUI gui, List<String> selectedTasks, String patternName, String patternsPath) {
+        PatternGeneration pattern = new PatternGeneration(selectedTasks, patternName, patternsPath, tmap);
+        pattern.startThread();
     }
 
     @SuppressWarnings("unchecked")

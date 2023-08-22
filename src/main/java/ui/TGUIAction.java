@@ -678,6 +678,7 @@ public class TGUIAction extends AbstractAction {
     public static final int ACT_AVATAR_FV_PROVERIF = 338;
     public static final int ACT_AVATAR_FV_STATICANALYSIS = 365;
     public static final int ACT_AVATAR_EXECUTABLE_GENERATION = 340;
+    public static final int ACT_PATTERN_GENERATION = 565;
 
     // DSE
     public static final int ACT_GEN_MAPPING = 528;
@@ -731,7 +732,7 @@ public class TGUIAction extends AbstractAction {
 
 
 
-    public static final int NB_ACTION = 565; // Last + 1
+    public static final int NB_ACTION = 566; // Last + 1
 
     private static final TAction [] actions = new TAction[NB_ACTION];
 
@@ -964,6 +965,7 @@ public class TGUIAction extends AbstractAction {
                 IconManager.imgic96, IconManager.imgic96, "Mutual exclusion analysis with invariants",  "Mutual exclusion analysis with invariants",
                 '5');
         actions[ACT_AVATAR_EXECUTABLE_GENERATION] = new TAction("avatar-executable-generation", "Code generation" , IconManager.imgic94, IconManager.imgic94, "Code generation",  "Generation of C-POSIX executable code from AVATAR design under edition", '6');
+        actions[ACT_PATTERN_GENERATION] = new TAction("pattern-generation", "Pattern Generation", IconManager.imgic88, IconManager.imgic88, "Pattern Generation",  "Pattern Generation", '7');
 
 
         actions[ACT_VIEW_JAVA] = new TAction("view-java", "Display Java code", IconManager.imgic38, IconManager.imgic39, "Display Java code",  "Display the java code of the pointed component", 0);

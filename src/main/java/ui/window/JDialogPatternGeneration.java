@@ -153,6 +153,7 @@ public class JDialogPatternGeneration extends JDialog implements ActionListener,
     JComboBox<String> jComboBoxPatternExternalPortOfATask;
     JComboBox<String> jComboBoxModelsTask;
     JComboBox<String> jComboBoxModelsPortOfTask;
+    JCheckBox jCheckBoxConnectToNewPort;
     JList<String> jListConnectedPorts;
     Vector<String> connectedPorts = new Vector<String>();
     JButton addConnectionBetweenSelectedPorts, removeConnectionBetweenPorts;
@@ -273,9 +274,12 @@ public class JDialogPatternGeneration extends JDialog implements ActionListener,
     }
 
     Vector<String> getFoldersName(String path) {
+        Vector<String> folders = new Vector<String>();
         File directoryPath = new File(path);
         String[] directories = directoryPath.list((dir, name) -> new File(dir, name).isDirectory());
-        Vector<String> folders = new Vector<String>(Arrays.asList(directories));
+        if (directories != null) {
+            folders = new Vector<String>(Arrays.asList(directories));
+        }
         return folders;
     }
 
@@ -413,31 +417,36 @@ public class JDialogPatternGeneration extends JDialog implements ActionListener,
         jp02.add(jComboBoxPatterns, c02);
         jp02.add(new JLabel("Connect pattern's external ports:"), c02);
 
-        c02.gridwidth = 2;
+        c02.gridwidth = 3;
         jComboBoxPatternsTaskWithExternalPort = new JComboBox<String>(tasksOfPatternWithExternalPort);
         jComboBoxPatternsTaskWithExternalPort.setSelectedIndex(-1);
         jComboBoxPatternsTaskWithExternalPort.addActionListener(this);
         jp02.add(jComboBoxPatternsTaskWithExternalPort, c02);
-        c02.gridwidth = GridBagConstraints.REMAINDER;
+        //c02.gridwidth = GridBagConstraints.REMAINDER;
 
         jComboBoxPatternExternalPortOfATask = new JComboBox<String>(externalPortsOfTaskInPattern);
         jComboBoxPatternExternalPortOfATask.setSelectedIndex(-1);
         jComboBoxPatternExternalPortOfATask.addActionListener(this);
         jp02.add(jComboBoxPatternExternalPortOfATask, c02);
         c02.gridwidth = GridBagConstraints.REMAINDER;
+        jp02.add(new JLabel(" "), c02);
 
 
-        c02.gridwidth = 2;
+        c02.gridwidth = 3;
         jComboBoxModelsTask = new JComboBox<String>(tasksOfModel);
         jComboBoxModelsTask.setSelectedIndex(-1);
         jComboBoxModelsTask.addActionListener(this);
         jp02.add(jComboBoxModelsTask, c02);
-        c02.gridwidth = GridBagConstraints.REMAINDER;
 
         jComboBoxModelsPortOfTask = new JComboBox<String>(portsOfTaskInModel);
         jComboBoxModelsPortOfTask.setSelectedIndex(-1);
         jComboBoxModelsPortOfTask.addActionListener(this);
         jp02.add(jComboBoxModelsPortOfTask, c02);
+        c02.gridwidth = GridBagConstraints.REMAINDER;
+        jCheckBoxConnectToNewPort = new JCheckBox("Connect to new Port");
+        jp02.add(jCheckBoxConnectToNewPort, c02);
+        jCheckBoxConnectToNewPort.setEnabled(false);
+        jCheckBoxConnectToNewPort.addActionListener(this);
         c02.gridwidth = GridBagConstraints.REMAINDER;
 
 

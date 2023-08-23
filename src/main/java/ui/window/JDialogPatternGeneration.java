@@ -157,7 +157,7 @@ public class JDialogPatternGeneration extends JDialog implements ActionListener,
     JList<String> jListConnectedPorts;
     Vector<String> connectedPorts = new Vector<String>();
     JButton addConnectionBetweenSelectedPorts, removeConnectionBetweenPorts;
-    JPanel jPanelPatternIntergration;
+    //JPanel jPanelPatternIntergration;
     JButton buttonCloneTask, buttonAddPortInTask;
     Vector<String> portsConfig = new Vector<String>();
     JComboBox<String> jComboBoxPortsConfig;
@@ -165,7 +165,18 @@ public class JDialogPatternGeneration extends JDialog implements ActionListener,
     JRadioButton jRadioPortConfigRemove, jRadioPortConfigMerge;
     Vector<String> portsConfigMerge = new Vector<String>();
     JComboBox<String> jComboBoxPortsConfigMerge;
+    JList<String> jListConfigPorts;
+    Vector<String> configuredPorts = new Vector<String>();
+    JButton addConfigPorts, removeConfigPorts;
     JButton buttonMapInArch;
+
+    JComboBox<String> jComboBoxTaskToClone;
+    String newClonedTaskName;
+    protected JTextField jFieldNewClonedTaskName;
+    JButton addClonedTask, removeClonedTask;
+    JList<String> jListClonedTasks;
+    Vector<String> clonedTasks = new Vector<String>();
+    
 
     
 
@@ -317,8 +328,8 @@ public class JDialogPatternGeneration extends JDialog implements ActionListener,
         jp01.add(labelPatternName, c01);
         //addComponent(jp01, labelPatternName, 0, curY, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH);
         c01.gridwidth = GridBagConstraints.REMAINDER;
-        jFieldNewPatternName = new JTextField(newPatternName, 100);
-        jFieldNewPatternName.setPreferredSize(new Dimension(100, 10));
+        jFieldNewPatternName = new JTextField(newPatternName, 10);
+        jFieldNewPatternName.setPreferredSize(new Dimension(10, 25));
         jp01.add(jFieldNewPatternName, c01);
         //addComponent(jp01, jFieldNewPatternName, 1, curY, 3, GridBagConstraints.EAST, GridBagConstraints.BOTH);
         curY++;
@@ -335,7 +346,7 @@ public class JDialogPatternGeneration extends JDialog implements ActionListener,
 		c02.gridwidth = 1;
 		c02.gridheight = 1;
 		c02.fill= GridBagConstraints.BOTH;
-     	jListNoSelectedTasksAsPattern.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION );
+     	jListNoSelectedTasksAsPattern.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 
         jListNoSelectedTasksAsPattern.addListSelectionListener(this);
         JScrollPane scrollPane1 = new JScrollPane(jListNoSelectedTasksAsPattern);
@@ -405,65 +416,117 @@ public class JDialogPatternGeneration extends JDialog implements ActionListener,
         c02.weighty = 1.0;
         c02.weightx = 1.0;
         c02.fill = GridBagConstraints.HORIZONTAL;
+        c02.anchor = GridBagConstraints.LINE_START;
         c02.gridheight = 1;
-        c02.gridwidth = 2;
+        c02.gridwidth = 1;
         
+        JPanel jpPatternSelection = new JPanel();
+        jpPatternSelection.setLayout(new GridBagLayout());
+        GridBagConstraints cPatternSelection = new GridBagConstraints();
+        cPatternSelection.gridx = 0;
+        cPatternSelection.gridy = 0;
+        cPatternSelection.fill = GridBagConstraints.HORIZONTAL;
+        cPatternSelection.anchor = GridBagConstraints.LINE_START;
+        cPatternSelection.weightx = 0.5;
+
         JLabel labelPatternName = new JLabel("Select a pattern: ");
-        jp02.add(labelPatternName, c02);
-        c02.gridwidth = GridBagConstraints.REMAINDER;
+        jpPatternSelection.add(labelPatternName, cPatternSelection);
         jComboBoxPatterns = new JComboBox<String>(listPatterns);
         jComboBoxPatterns.setSelectedIndex(-1);
         jComboBoxPatterns.addActionListener(this);
-        jp02.add(jComboBoxPatterns, c02);
-        jp02.add(new JLabel("Connect pattern's external ports:"), c02);
+        cPatternSelection.gridx = 1;
+        jpPatternSelection.add(jComboBoxPatterns, cPatternSelection);
+        jp02.add(jpPatternSelection, c02);
 
-        c02.gridwidth = 3;
+        JPanel jpPatternConnetionMain = new JPanel();
+        jpPatternConnetionMain.setLayout(new GridBagLayout());
+        GridBagConstraints cPatternConnetionMain = new GridBagConstraints();
+        cPatternConnetionMain.gridx = 0;
+        cPatternConnetionMain.gridy = 0;
+        cPatternConnetionMain.fill = GridBagConstraints.HORIZONTAL;
+        cPatternConnetionMain.anchor = GridBagConstraints.LINE_START;
+        cPatternConnetionMain.weightx = 1.0;
+        jpPatternConnetionMain.add(new JLabel("Connect pattern's external ports:"), cPatternConnetionMain);
+
+        
+        JPanel jpPatternConnetion = new JPanel();
+        jpPatternConnetion.setLayout(new GridBagLayout());
+        GridBagConstraints cPatternConnetion = new GridBagConstraints();
+        cPatternConnetion.gridx = 0;
+        cPatternConnetion.gridy = 0;
+        cPatternConnetion.weightx = 0.4;
+        cPatternConnetion.fill = GridBagConstraints.HORIZONTAL;
+        cPatternConnetion.anchor = GridBagConstraints.LINE_START;
+
         jComboBoxPatternsTaskWithExternalPort = new JComboBox<String>(tasksOfPatternWithExternalPort);
         jComboBoxPatternsTaskWithExternalPort.setSelectedIndex(-1);
         jComboBoxPatternsTaskWithExternalPort.addActionListener(this);
-        jp02.add(jComboBoxPatternsTaskWithExternalPort, c02);
-        //c02.gridwidth = GridBagConstraints.REMAINDER;
-
+        jpPatternConnetion.add(jComboBoxPatternsTaskWithExternalPort, cPatternConnetion);
         jComboBoxPatternExternalPortOfATask = new JComboBox<String>(externalPortsOfTaskInPattern);
         jComboBoxPatternExternalPortOfATask.setSelectedIndex(-1);
         jComboBoxPatternExternalPortOfATask.addActionListener(this);
-        jp02.add(jComboBoxPatternExternalPortOfATask, c02);
-        c02.gridwidth = GridBagConstraints.REMAINDER;
-        jp02.add(new JLabel(" "), c02);
+        cPatternConnetion.gridx = 1;
+        cPatternConnetion.weightx = 0.8;
+        jpPatternConnetion.add(jComboBoxPatternExternalPortOfATask, cPatternConnetion);
+        buttonCloneTask = new JButton("Clone Task");
+        //buttonCloneTask.setPreferredSize(new Dimension(50, 25));
+        //buttonCloneTask.setEnabled(false);
+        buttonCloneTask.addActionListener(this);
+        buttonCloneTask.setActionCommand("cloneTask");
+        cPatternConnetion.gridx = 2;
+        cPatternConnetion.weightx = 0;
+        jpPatternConnetion.add(buttonCloneTask, cPatternConnetion);
 
-
-        c02.gridwidth = 3;
         jComboBoxModelsTask = new JComboBox<String>(tasksOfModel);
         jComboBoxModelsTask.setSelectedIndex(-1);
         jComboBoxModelsTask.addActionListener(this);
-        jp02.add(jComboBoxModelsTask, c02);
+        cPatternConnetion.gridx = 0;
+        cPatternConnetion.gridy = 1;
+        cPatternConnetion.weightx = 0.8;
+        jpPatternConnetion.add(jComboBoxModelsTask, cPatternConnetion);
 
         jComboBoxModelsPortOfTask = new JComboBox<String>(portsOfTaskInModel);
         jComboBoxModelsPortOfTask.setSelectedIndex(-1);
         jComboBoxModelsPortOfTask.addActionListener(this);
-        jp02.add(jComboBoxModelsPortOfTask, c02);
-        c02.gridwidth = GridBagConstraints.REMAINDER;
+        cPatternConnetion.gridx = 1;
+        cPatternConnetion.weightx = 0.8;
+        jpPatternConnetion.add(jComboBoxModelsPortOfTask, cPatternConnetion);
         jCheckBoxConnectToNewPort = new JCheckBox("Connect to new Port");
-        jp02.add(jCheckBoxConnectToNewPort, c02);
         jCheckBoxConnectToNewPort.setEnabled(false);
         jCheckBoxConnectToNewPort.addActionListener(this);
-        c02.gridwidth = GridBagConstraints.REMAINDER;
+        cPatternConnetion.gridx = 2;
+        cPatternConnetion.weightx = 0;
+        jpPatternConnetion.add(jCheckBoxConnectToNewPort, cPatternConnetion);
+        cPatternConnetionMain.gridy = 1;
+        jpPatternConnetionMain.add(jpPatternConnetion, cPatternConnetionMain);
 
 
         jListConnectedPorts = new JList<String>(connectedPorts);
-		jPanelPatternIntergration = new JPanel();
-		jPanelPatternIntergration.setPreferredSize(new Dimension(500, 150));
+		JPanel jPanelPatternIntergration = new JPanel();
+        jPanelPatternIntergration.setLayout(new GridBagLayout());
+        GridBagConstraints cPatternIntergration = new GridBagConstraints();
+        cPatternIntergration.gridx = 0;
+        cPatternIntergration.gridy = 0;
+        cPatternIntergration.weightx = 0.9;
+        cPatternIntergration.fill = GridBagConstraints.HORIZONTAL;
+        cPatternIntergration.anchor = GridBagConstraints.LINE_START;
+        
+		//jPanelPatternIntergration.setPreferredSize(new Dimension(600, 130));
         jListConnectedPorts.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 
         jListConnectedPorts.addListSelectionListener(this);
         JScrollPane scrollPaneConnectedPorts = new JScrollPane(jListConnectedPorts);
-        scrollPaneConnectedPorts.setPreferredSize(new Dimension(500, 150));
-        jPanelPatternIntergration.add(scrollPaneConnectedPorts, BorderLayout.WEST);
+        scrollPaneConnectedPorts.setPreferredSize(new Dimension(450, 125));
+        jPanelPatternIntergration.add(scrollPaneConnectedPorts, cPatternIntergration);
         
         JPanel pannelButtonConnectPorts = new JPanel();
+        pannelButtonConnectPorts.setLayout(new GridBagLayout());
         GridBagConstraints cConnectedPorts = new GridBagConstraints();
-        cConnectedPorts.gridwidth = GridBagConstraints.REMAINDER;
-        cConnectedPorts.gridheight = 1;
+        cConnectedPorts.gridx = 0;
+        cConnectedPorts.weightx = 1.0;
+        cConnectedPorts.gridy = 0;
+        cConnectedPorts.fill = GridBagConstraints.HORIZONTAL;
+        cConnectedPorts.anchor = GridBagConstraints.LINE_START;
         addConnectionBetweenSelectedPorts = new JButton("+");
         addConnectionBetweenSelectedPorts.setEnabled(false);
         addConnectionBetweenSelectedPorts.setPreferredSize(new Dimension(50, 25));
@@ -476,55 +539,154 @@ public class JDialogPatternGeneration extends JDialog implements ActionListener,
         removeConnectionBetweenPorts.setPreferredSize(new Dimension(50, 25));
         removeConnectionBetweenPorts.addActionListener(this);
         removeConnectionBetweenPorts.setActionCommand("removeChannelSecondSensor");
+        cConnectedPorts.gridy = 1;
         pannelButtonConnectPorts.add(removeConnectionBetweenPorts, cConnectedPorts);
-        pannelButtonConnectPorts.setPreferredSize(new Dimension(50, 150));
-        jPanelPatternIntergration.setMinimumSize(new Dimension(600, 200));
-        jPanelPatternIntergration.add(pannelButtonConnectPorts, c02);
-        jp02.add(jPanelPatternIntergration, c02);
+        //pannelButtonConnectPorts.setPreferredSize(new Dimension(50, 125));
+        //jPanelPatternIntergration.setMinimumSize(new Dimension(600, 130));
+        cPatternIntergration.gridx = 1;
+        cPatternIntergration.weightx = 0.1;
+        jPanelPatternIntergration.add(pannelButtonConnectPorts, cPatternIntergration);
+        cPatternConnetionMain.gridy = 2;
+        jpPatternConnetionMain.add(jPanelPatternIntergration, cPatternConnetionMain);
+        //c02.gridwidth = GridBagConstraints.REMAINDER;
+        c02.gridy = 1;
+        c02.insets = new Insets(10,0,0,0); 
+        jp02.add(jpPatternConnetionMain, c02);
         
-        jp02.add(new JLabel("List ports to configure:"), c02);
+        JPanel jpPortConfigurationMain = new JPanel();
+        jpPortConfigurationMain.setLayout(new GridBagLayout());
+        GridBagConstraints cPortConfigurationMain = new GridBagConstraints();
+        cPortConfigurationMain.gridx = 0;
+        cPortConfigurationMain.gridy = 0;
+        cPortConfigurationMain.gridwidth = 2;
+        cPortConfigurationMain.anchor = GridBagConstraints.LINE_START;
+        //cPortConfigurationMain.fill= GridBagConstraints.BOTH;
+
+        jpPortConfigurationMain.add(new JLabel("Ports to configure:"), cPortConfigurationMain);
+        //cPortConfigurationMain.gridwidth = GridBagConstraints.REMAINDER;
+        JPanel jpPortConfiguration = new JPanel();
+        jpPortConfiguration.setLayout(new GridBagLayout());
+        GridBagConstraints cPortConfiguration = new GridBagConstraints();
+        cPortConfiguration.gridx = 0;
+        cPortConfiguration.gridy = 0;
+        cPortConfiguration.gridwidth = 2;
+        cPortConfiguration.fill = GridBagConstraints.HORIZONTAL;
+        cPortConfiguration.anchor = GridBagConstraints.LINE_START;
+
         jComboBoxPortsConfig = new JComboBox<String>(portsConfig);
         jComboBoxPortsConfig.setSelectedIndex(-1);
         jComboBoxPortsConfig.addActionListener(this);
+        jpPortConfiguration.add(jComboBoxPortsConfig, cPortConfiguration);
+        //cPortConfiguration.gridwidth = GridBagConstraints.REMAINDER;
         portsConfigGroup =new ButtonGroup();
         jRadioPortConfigRemove = new JRadioButton("Remove port");
         jRadioPortConfigRemove.setEnabled(false);
         jRadioPortConfigRemove.addActionListener(this);
+        cPortConfiguration.gridy = 1;
+        jpPortConfiguration.add(jRadioPortConfigRemove, cPortConfiguration);
+        
         jRadioPortConfigMerge = new JRadioButton("Merge with:");
         jRadioPortConfigMerge.setEnabled(false);
         jRadioPortConfigMerge.addActionListener(this);
-
+        cPortConfiguration.gridy = 2;
+        cPortConfiguration.gridwidth = 1;
+        jpPortConfiguration.add(jRadioPortConfigMerge, cPortConfiguration);
+        //cPortConfiguration.gridwidth = GridBagConstraints.REMAINDER;
         portsConfigGroup.add(jRadioPortConfigRemove);
         portsConfigGroup.add(jRadioPortConfigMerge);
         jComboBoxPortsConfigMerge = new JComboBox<String>(portsConfigMerge);
         jComboBoxPortsConfigMerge.setSelectedIndex(-1);
         jComboBoxPortsConfigMerge.setEnabled(false);
         jComboBoxPortsConfigMerge.addActionListener(this);
+        jComboBoxPortsConfigMerge.setPreferredSize(new Dimension(150, 25));
+        cPortConfiguration.gridx = 1;
+        cPortConfiguration.weightx = 1.0;
+        jpPortConfiguration.add(jComboBoxPortsConfigMerge, cPortConfiguration);
+        
+        cPortConfigurationMain.gridx = 0;
+        cPortConfigurationMain.gridy = 1;
+        cPortConfigurationMain.weightx = 0.6;
+        cPortConfigurationMain.gridwidth = 1;
+        //cPortConfigurationMain.ipady = 100;
+        //cPortConfigurationMain.fill = GridBagConstraints.BOTH;
+        cPortConfigurationMain.anchor = GridBagConstraints.FIRST_LINE_START;
+        //jpPortConfiguration.setBackground(Color.gray);
+        cPortConfigurationMain.insets = new Insets(5,0,0,0);  //top padding
+        jpPortConfigurationMain.add(jpPortConfiguration, cPortConfigurationMain);
+        //cPortConfigurationMain.gridwidth = GridBagConstraints.REMAINDER;
 
+        jListConfigPorts = new JList<String>(configuredPorts);
+		JPanel jPanelConfigPorts = new JPanel(new GridBagLayout());
+        jPanelConfigPorts.setLayout(new GridBagLayout());
+        GridBagConstraints cConfigPorts = new GridBagConstraints();
+		//jPanelConfigPorts.setPreferredSize(new Dimension(200, 100));
+        jListConfigPorts.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 
+        jListConfigPorts.addListSelectionListener(this);
+        JScrollPane scrollPaneConfigPorts = new JScrollPane(jListConfigPorts);
+        //scrollPaneConfigPorts.setPreferredSize(new Dimension(200, 100));
+        cConfigPorts.gridx = 0;
+        cConfigPorts.gridy = 0;
+        cConfigPorts.fill = GridBagConstraints.HORIZONTAL;
+        jPanelConfigPorts.add(scrollPaneConfigPorts, cConfigPorts);
+        
+        JPanel pannelButtonConfigPorts = new JPanel();
+        pannelButtonConfigPorts.setLayout(new GridBagLayout());
+        GridBagConstraints cButtonConfigPorts = new GridBagConstraints();
+        cButtonConfigPorts.gridx = 0;
+        cButtonConfigPorts.gridy = 0;
+        addConfigPorts = new JButton("+");
+        addConfigPorts.setEnabled(false);
+        addConfigPorts.setPreferredSize(new Dimension(50, 25));
+        addConfigPorts.addActionListener(this);
+        addConfigPorts.setActionCommand("addChannelSecondSensor");
+        pannelButtonConfigPorts.add(addConfigPorts, cButtonConfigPorts);
 
-        jp02.add(new JLabel("Options:"), c02);
-        buttonCloneTask = new JButton("Clone Task");
-        buttonCloneTask.setPreferredSize(new Dimension(50, 25));
-        buttonCloneTask.setEnabled(false);
-        buttonCloneTask.addActionListener(this);
-        buttonCloneTask.setActionCommand("addChannelSecondSensor");
-        jp02.add(buttonCloneTask, c02);
+        removeConfigPorts = new JButton("-");
+        removeConfigPorts.setEnabled(false);
+        removeConfigPorts.setPreferredSize(new Dimension(50, 25));
+        removeConfigPorts.addActionListener(this);
+        removeConfigPorts.setActionCommand("removeChannelSecondSensor");
+        cButtonConfigPorts.gridx = 1;
+        pannelButtonConfigPorts.add(removeConfigPorts, cButtonConfigPorts);
+        //pannelButtonConfigPorts.setPreferredSize(new Dimension(200, 30));
+        //jPanelConfigPorts.setMinimumSize(new Dimension(220, 110));
+        cConfigPorts.gridy = 1;
+        jPanelConfigPorts.add(pannelButtonConfigPorts, cConfigPorts);
 
-        buttonAddPortInTask = new JButton("Add Port in Task");
-        buttonAddPortInTask.setPreferredSize(new Dimension(50, 25));
-        buttonAddPortInTask.setEnabled(false);
-        buttonAddPortInTask.addActionListener(this);
-        buttonAddPortInTask.setActionCommand("addChannelSecondSensor");
-        jp02.add(buttonAddPortInTask, c02);
+        cPortConfigurationMain.gridx = 1;
+        cPortConfigurationMain.gridy = 1;
+        cPortConfigurationMain.weightx = 0.4;
+        cPortConfigurationMain.fill = GridBagConstraints.HORIZONTAL;
+        cPortConfigurationMain.anchor = GridBagConstraints.FIRST_LINE_START;
+        //jPanelConfigPorts.setBackground(Color.red);  
+        jpPortConfigurationMain.add(jPanelConfigPorts, cPortConfigurationMain);
+        c02.gridy = 2;
+        jp02.add(jpPortConfigurationMain, c02);
+        //c02.gridwidth = GridBagConstraints.REMAINDER;
 
+        JPanel jpOptions = new JPanel();
+        jpOptions.setLayout(new GridBagLayout());
+        GridBagConstraints cOptions = new GridBagConstraints();
+        cOptions.gridx = 0;
+        cOptions.gridy = 0;
+        cOptions.fill = GridBagConstraints.HORIZONTAL;
+        cOptions.anchor = GridBagConstraints.FIRST_LINE_START;
+        cOptions.weightx = 1.0;
+        jpOptions.add(new JLabel("Options:"), cOptions);
+        
+        
         buttonMapInArch = new JButton("Manually Map in Arch");
-        buttonMapInArch.setPreferredSize(new Dimension(50, 25));
-        buttonMapInArch.setEnabled(false);
+        //buttonMapInArch.setPreferredSize(new Dimension(50, 25));
+        //buttonMapInArch.setEnabled(false);
         buttonMapInArch.addActionListener(this);
         buttonMapInArch.setActionCommand("addChannelSecondSensor");
-        jp02.add(buttonMapInArch, c02);
-
+        cOptions.gridy = 1;
+        cOptions.weightx = 0.3;
+        cOptions.fill = GridBagConstraints.NONE;
+        jpOptions.add(buttonMapInArch, cOptions);
+        c02.gridy = 3;
+        jp02.add(jpOptions, c02);
 
         jp1.add("Pattern Integration", jp02);
     }
@@ -623,6 +785,87 @@ public class JDialogPatternGeneration extends JDialog implements ActionListener,
         setButtons();
     }
 
+    private void cloneTask() {
+        JDialog cloneTaskDialog = new JDialog(this.getOwner(), "Clone a Task", Dialog.ModalityType.DOCUMENT_MODAL);
+        Container contCloneTask = cloneTaskDialog.getContentPane();
+        contCloneTask.setLayout(new BorderLayout());
+        JPanel jpCloneTask = new JPanel();
+        jpCloneTask.setLayout(new GridBagLayout());
+        GridBagConstraints cCloneTask = new GridBagConstraints();
+        cCloneTask.gridx = 0;
+        cCloneTask.gridy = 0;
+        cCloneTask.fill = GridBagConstraints.HORIZONTAL;
+        cCloneTask.anchor = GridBagConstraints.FIRST_LINE_START;
+        cCloneTask.weightx = 1.0;
+        cCloneTask.insets = new Insets(10,0,0,0);  //top padding
+        jpCloneTask.add(new JLabel("Select a Task to clone:"), cCloneTask);
+
+        jComboBoxTaskToClone = new JComboBox<String>(tasksOfModel);
+        jComboBoxTaskToClone.setSelectedIndex(-1);
+        jComboBoxTaskToClone.setEnabled(false);
+        jComboBoxTaskToClone.addActionListener(this);
+        //jComboBoxPortsConfigMerge.setPreferredSize(new Dimension(150, 25));
+        cCloneTask.gridx = 1;
+        jpCloneTask.add(jComboBoxPortsConfigMerge, cCloneTask);
+        cCloneTask.gridx = 0;
+        cCloneTask.gridy = 1;
+        jpCloneTask.add(new JLabel("Cloned task name:"), cCloneTask);
+        jFieldNewClonedTaskName = new JTextField(newClonedTaskName, 10);
+        jFieldNewClonedTaskName.setPreferredSize(new Dimension(10, 25));
+        cCloneTask.gridx = 1;
+        jpCloneTask.add(jFieldNewClonedTaskName, cCloneTask);
+
+        jListClonedTasks = new JList<String>(clonedTasks);
+		JPanel jPanelClonedTasks = new JPanel();
+        jPanelClonedTasks.setLayout(new GridBagLayout());
+        GridBagConstraints cClonedTasks = new GridBagConstraints();
+        cClonedTasks.gridx = 0;
+        cClonedTasks.gridy = 0;
+        cClonedTasks.weightx = 0.95;
+        cClonedTasks.fill = GridBagConstraints.HORIZONTAL;
+        cClonedTasks.anchor = GridBagConstraints.LINE_START;
+        
+        jListClonedTasks.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+        jListClonedTasks.addListSelectionListener(this);
+        JScrollPane scrollPaneClonedTasks = new JScrollPane(jListClonedTasks);
+        scrollPaneClonedTasks.setPreferredSize(new Dimension(250, 175));
+        jPanelClonedTasks.add(scrollPaneClonedTasks, cClonedTasks);
+        
+        JPanel pannelButtonClonedTasks = new JPanel();
+        pannelButtonClonedTasks.setLayout(new GridBagLayout());
+        GridBagConstraints cButtonClonedTasks = new GridBagConstraints();
+        cButtonClonedTasks.gridx = 0;
+        cButtonClonedTasks.weightx = 1.0;
+        cButtonClonedTasks.gridy = 0;
+        cButtonClonedTasks.fill = GridBagConstraints.HORIZONTAL;
+        cButtonClonedTasks.anchor = GridBagConstraints.LINE_START;
+        addClonedTask = new JButton("+");
+        addClonedTask.setEnabled(false);
+        addClonedTask.setPreferredSize(new Dimension(40, 25));
+        addClonedTask.addActionListener(this);
+        addClonedTask.setActionCommand("addChannelSecondSensor");
+        pannelButtonClonedTasks.add(addClonedTask, cButtonClonedTasks);
+
+        removeClonedTask = new JButton("-");
+        removeClonedTask.setEnabled(false);
+        removeClonedTask.setPreferredSize(new Dimension(40, 25));
+        removeClonedTask.addActionListener(this);
+        removeClonedTask.setActionCommand("removeChannelSecondSensor");
+        cButtonClonedTasks.gridy = 1;
+        pannelButtonClonedTasks.add(removeClonedTask, cButtonClonedTasks);
+
+        cClonedTasks.gridx = 1;
+        cClonedTasks.weightx = 0.05;
+        jPanelClonedTasks.add(pannelButtonClonedTasks, cClonedTasks);
+        cCloneTask.gridy = 2;
+        cCloneTask.gridx = 0;
+        cCloneTask.gridwidth = 2;
+        jpCloneTask.add(jPanelClonedTasks, cCloneTask);
+        contCloneTask.add(jpCloneTask, BorderLayout.NORTH);
+        GraphicLib.centerOnParent(cloneTaskDialog, 400, 300);
+        cloneTaskDialog.setVisible(true);
+    }
+
     @Override
     public void actionPerformed(ActionEvent evt) {
         String command = evt.getActionCommand();
@@ -646,6 +889,8 @@ public class JDialogPatternGeneration extends JDialog implements ActionListener,
                     allTasksSelectedAsPattern();
                 } else if (command.equals("allTasksNoSelectedAsPattern")) {
                     allTasksNoSelectedAsPattern();
+                } else if (command.equals("cloneTask")) {
+                    cloneTask();
                 } else if (evt.getSource() == jp1) {
                     listPatterns = getFoldersName(pathPatterns);
                 }

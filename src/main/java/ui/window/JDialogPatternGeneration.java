@@ -199,31 +199,18 @@ public class JDialogPatternGeneration extends JDialog implements ActionListener,
     Vector<String> busToLinkNewMem = new Vector<String>();
     
 
-    
+    Map<String, AttributeTaskJsonFile> patternTasksAttributes = new LinkedHashMap<String, AttributeTaskJsonFile>();
+    Map<String, PortTaskJsonFile> patternTasksExternalPorts = new LinkedHashMap<String, PortTaskJsonFile>();
+    Map<String, PortTaskJsonFile> patternTasksInternalPorts = new LinkedHashMap<String, PortTaskJsonFile>();
     //components
     protected JScrollPane jsp;
     protected JPanel jta;
     private JButton startButton;
     protected JButton stop;
     protected JButton close;
-    private JPopupMenu popup;
 
     public TGHelpButton myButton;
     public static String helpString = "securityverification.html";
-
-    private class MyMenuItem extends JMenuItem {
-        /**
-		 * 
-		 */
-		private static final long serialVersionUID = -344414299222823444L;
-		
-
-        MyMenuItem(String text) {
-            super(text);
-        }
-    }
-
-    private MyMenuItem menuItem;
 
     private boolean go = false;
 
@@ -464,17 +451,19 @@ public class JDialogPatternGeneration extends JDialog implements ActionListener,
 
         jComboBoxPatternsTaskWithExternalPort = new JComboBox<String>(tasksOfPatternWithExternalPort);
         jComboBoxPatternsTaskWithExternalPort.setSelectedIndex(-1);
+        jComboBoxPatternsTaskWithExternalPort.setEnabled(false);
         jComboBoxPatternsTaskWithExternalPort.addActionListener(this);
         jpPatternConnetion.add(jComboBoxPatternsTaskWithExternalPort, cPatternConnetion);
         jComboBoxPatternExternalPortOfATask = new JComboBox<String>(externalPortsOfTaskInPattern);
         jComboBoxPatternExternalPortOfATask.setSelectedIndex(-1);
+        jComboBoxPatternExternalPortOfATask.setEnabled(false);
         jComboBoxPatternExternalPortOfATask.addActionListener(this);
         cPatternConnetion.gridx = 1;
         cPatternConnetion.weightx = 0.8;
         jpPatternConnetion.add(jComboBoxPatternExternalPortOfATask, cPatternConnetion);
         buttonCloneTask = new JButton("Clone Task");
         //buttonCloneTask.setPreferredSize(new Dimension(50, 25));
-        //buttonCloneTask.setEnabled(false);
+        buttonCloneTask.setEnabled(false);
         buttonCloneTask.addActionListener(this);
         buttonCloneTask.setActionCommand("cloneTask");
         cPatternConnetion.gridx = 2;
@@ -483,6 +472,7 @@ public class JDialogPatternGeneration extends JDialog implements ActionListener,
 
         jComboBoxModelsTask = new JComboBox<String>(tasksOfModel);
         jComboBoxModelsTask.setSelectedIndex(-1);
+        jComboBoxModelsTask.setEnabled(false);
         jComboBoxModelsTask.addActionListener(this);
         cPatternConnetion.gridx = 0;
         cPatternConnetion.gridy = 1;
@@ -491,6 +481,7 @@ public class JDialogPatternGeneration extends JDialog implements ActionListener,
 
         jComboBoxModelsPortOfTask = new JComboBox<String>(portsOfTaskInModel);
         jComboBoxModelsPortOfTask.setSelectedIndex(-1);
+        jComboBoxModelsPortOfTask.setEnabled(false);
         jComboBoxModelsPortOfTask.addActionListener(this);
         cPatternConnetion.gridx = 1;
         cPatternConnetion.weightx = 0.8;
@@ -579,6 +570,7 @@ public class JDialogPatternGeneration extends JDialog implements ActionListener,
 
         jComboBoxPortsConfig = new JComboBox<String>(portsConfig);
         jComboBoxPortsConfig.setSelectedIndex(-1);
+        jComboBoxPortsConfig.setEnabled(false);
         jComboBoxPortsConfig.addActionListener(this);
         jpPortConfiguration.add(jComboBoxPortsConfig, cPortConfiguration);
         //cPortConfiguration.gridwidth = GridBagConstraints.REMAINDER;
@@ -682,7 +674,7 @@ public class JDialogPatternGeneration extends JDialog implements ActionListener,
         
         
         buttonTasksMapInArch = new JButton("Map pattern tasks");
-        //buttonTasksMapInArch.setEnabled(false);
+        buttonTasksMapInArch.setEnabled(false);
         buttonTasksMapInArch.addActionListener(this);
         buttonTasksMapInArch.setActionCommand("mapTasksManuallyInArchitecture");
         cOptions.gridy = 1;
@@ -692,7 +684,7 @@ public class JDialogPatternGeneration extends JDialog implements ActionListener,
         jpOptions.add(buttonTasksMapInArch, cOptions);
 
         buttonChannelsMapInArch = new JButton("Map pattern channels");
-        //buttonChannelsMapInArch.setEnabled(false);
+        buttonChannelsMapInArch.setEnabled(false);
         buttonChannelsMapInArch.addActionListener(this);
         buttonChannelsMapInArch.setActionCommand("mapChannelsManuallyInArchitecture");
         cOptions.gridx = 1;
@@ -742,11 +734,6 @@ public class JDialogPatternGeneration extends JDialog implements ActionListener,
         panelPatternIntergration();
         c.add(jp1, BorderLayout.NORTH);
         c.add(jp2, BorderLayout.SOUTH);
-
-        this.popup = new JPopupMenu();
-        this.menuItem = new MyMenuItem("Show trace");
-        this.menuItem.addActionListener(this);
-        popup.add(this.menuItem);
     }
 
     private void removeTaskAsPattern() {
@@ -814,7 +801,7 @@ public class JDialogPatternGeneration extends JDialog implements ActionListener,
 
         jComboBoxTaskToMap = new JComboBox<String>(tasksToMap);
         jComboBoxTaskToMap.setSelectedIndex(-1);
-        jComboBoxTaskToMap.setEnabled(false);
+        //jComboBoxTaskToMap.setEnabled(false);
         jComboBoxTaskToMap.addActionListener(this);
         //jComboBoxPortsConfigMerge.setPreferredSize(new Dimension(150, 25));
         cMapTasksInArch.gridx = 1;
@@ -887,7 +874,7 @@ public class JDialogPatternGeneration extends JDialog implements ActionListener,
         pannelButtonMappedTasks.add(addMappedTask, cButtonMappedTasks);
 
         removeMappedTask = new JButton("-");
-        removeMappedTask.setEnabled(false);
+        //removeMappedTask.setEnabled(false);
         removeMappedTask.setPreferredSize(new Dimension(40, 25));
         removeMappedTask.addActionListener(this);
         removeMappedTask.setActionCommand("removeChannelSecondSensor");
@@ -923,7 +910,7 @@ public class JDialogPatternGeneration extends JDialog implements ActionListener,
 
         jComboBoxChannelToMap = new JComboBox<String>(channelsToMap);
         jComboBoxChannelToMap.setSelectedIndex(-1);
-        jComboBoxChannelToMap.setEnabled(false);
+        //jComboBoxChannelToMap.setEnabled(false);
         jComboBoxChannelToMap.addActionListener(this);
         //jComboBoxPortsConfigMerge.setPreferredSize(new Dimension(150, 25));
         cMapChannelsInArch.gridx = 1;
@@ -996,7 +983,7 @@ public class JDialogPatternGeneration extends JDialog implements ActionListener,
         pannelButtonMappedChannels.add(addMappedChannel, cButtonMappedChannels);
 
         removeMappedChannel = new JButton("-");
-        removeMappedChannel.setEnabled(false);
+        //removeMappedChannel.setEnabled(false);
         removeMappedChannel.setPreferredSize(new Dimension(40, 25));
         removeMappedChannel.addActionListener(this);
         removeMappedChannel.setActionCommand("removeChannelSecondSensor");
@@ -1032,7 +1019,7 @@ public class JDialogPatternGeneration extends JDialog implements ActionListener,
 
         jComboBoxTaskToClone = new JComboBox<String>(tasksOfModel);
         jComboBoxTaskToClone.setSelectedIndex(-1);
-        jComboBoxTaskToClone.setEnabled(false);
+        //jComboBoxTaskToClone.setEnabled(false);
         jComboBoxTaskToClone.addActionListener(this);
         //jComboBoxPortsConfigMerge.setPreferredSize(new Dimension(150, 25));
         cCloneTask.gridx = 1;
@@ -1041,6 +1028,7 @@ public class JDialogPatternGeneration extends JDialog implements ActionListener,
         cCloneTask.gridy = 1;
         jpCloneTask.add(new JLabel("Cloned task name:"), cCloneTask);
         jFieldNewClonedTaskName = new JTextField(newClonedTaskName, 10);
+        jFieldNewClonedTaskName.setEnabled(false);
         jFieldNewClonedTaskName.setPreferredSize(new Dimension(10, 25));
         cCloneTask.gridx = 1;
         jpCloneTask.add(jFieldNewClonedTaskName, cCloneTask);
@@ -1077,7 +1065,7 @@ public class JDialogPatternGeneration extends JDialog implements ActionListener,
         pannelButtonClonedTasks.add(addClonedTask, cButtonClonedTasks);
 
         removeClonedTask = new JButton("-");
-        removeClonedTask.setEnabled(false);
+        //removeClonedTask.setEnabled(false);
         removeClonedTask.setPreferredSize(new Dimension(40, 25));
         removeClonedTask.addActionListener(this);
         removeClonedTask.setActionCommand("removeChannelSecondSensor");
@@ -1264,6 +1252,30 @@ public class JDialogPatternGeneration extends JDialog implements ActionListener,
         }
     }
 
+    private class AttributeTaskJsonFile {
+        String name;
+        String type;
+        String value;
+
+        AttributeTaskJsonFile(String name, String type, String value) {
+            this.name = name;
+            this.type = type;
+            this.value = value;
+        }
+    }
+
+    private class PortTaskJsonFile {
+        String name;
+        String type;
+        String mode;
+
+        PortTaskJsonFile(String name, String type, String mode) {
+            this.name = name;
+            this.type = type;
+            this.mode = mode;
+        }
+    }
+
     @Override
     public void setError() {
     }
@@ -1291,12 +1303,12 @@ public class JDialogPatternGeneration extends JDialog implements ActionListener,
 
     @Override
     public void mousePressed(MouseEvent e) {
-        this.maybeShowPopup(e);
+
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
-        this.maybeShowPopup(e);
+
     }
 
     @Override
@@ -1304,16 +1316,4 @@ public class JDialogPatternGeneration extends JDialog implements ActionListener,
 
     }
 
-    private void maybeShowPopup(MouseEvent e) {
-        if (e.isPopupTrigger() && e.getComponent() instanceof JList) {
-            JList<?> curList = (JList<?>) e.getComponent();
-            int row = curList.locationToIndex(e.getPoint());
-            curList.clearSelection();
-            curList.setSelectedIndex(row);
-            Object o = curList.getModel().getElementAt(row);
-            if (o instanceof AvatarPragma) {
-                popup.show(e.getComponent(), e.getX(), e.getY());
-            }
-        }
-    }
 }

@@ -28,6 +28,10 @@ public class PatternGeneration implements Runnable {
     public final static String TYPE = "type";
     public final static String MODE = "mode";
     public final static String TASK = "task";
+    public final static String VALUE = "value";
+    public final static String EXTERNALPORTS = "externalPorts";
+    public final static String INTERNALPORTS = "internalPorts";
+    public final static String ATTRIBUTES = "attributes";
 
 	List<String> selectedTasks;
 	String patternName;
@@ -108,13 +112,21 @@ public class PatternGeneration implements Runnable {
     public boolean generatePatternFile(String _title) {
         List<TMLChannel> listExternalChannels = new ArrayList<TMLChannel>();
         List<TMLEvent> listExternalEvents = new ArrayList<TMLEvent>();
-        JSONArray listExternalPorts = new JSONArray();
+        JSONArray listTasks = new JSONArray();
         try {
             FileWriter file = new FileWriter(patternsPath+patternName+"/"+patternName+".json");
-            
             for (String selectedTask1 : selectedTasks) {
                 TMLTask task1 = tmap.getTMLModeling().getTMLTaskByName(selectedTask1);
                 if (task1 != null) {
+                    JSONArray listAttributes = new JSONArray();
+                    JSONArray listExternalPorts = new JSONArray();
+                    JSONArray listInternalPorts = new JSONArray();
+                    JSONObject joTask = new JSONObject();
+                    joTask.put(NAME, task1.getName());
+                    for(TMLAttribute attrib : task1.getAttributes()) {
+                        listAttributes.put(addAttributeInJsonFile(attrib));
+                    }
+                    joTask.put(ATTRIBUTES, listAttributes);
                     for (int i=0; i < task1.getReadChannels().size(); i++) {
                         for (int j=0 ; j < task1.getReadChannels().get(i).getNbOfChannels(); j++) {
                             Boolean channelCheck = false;
@@ -132,8 +144,10 @@ public class PatternGeneration implements Runnable {
                                     }
                                 }
                                 if (!channelCheck) {
-                                    listExternalPorts.put(addExternalChannelInJsonFile(ch, task1, MODE_INPUT));
+                                    listExternalPorts.put(addChannelInJsonFile(ch, task1, MODE_INPUT));
                                     listExternalChannels.add(ch);
+                                } else {
+                                    listInternalPorts.put(addChannelInJsonFile(ch, task1, MODE_INPUT));
                                 }
                             }
                         }
@@ -156,8 +170,10 @@ public class PatternGeneration implements Runnable {
                                     }
                                 }
                                 if (!channelCheck) {
-                                    listExternalPorts.put(addExternalChannelInJsonFile(ch, task1, MODE_OUTPUT));
+                                    listExternalPorts.put(addChannelInJsonFile(ch, task1, MODE_OUTPUT));
                                     listExternalChannels.add(ch);
+                                } else {
+                                    listInternalPorts.put(addChannelInJsonFile(ch, task1, MODE_OUTPUT));
                                 }
                             }
                         }
@@ -179,8 +195,10 @@ public class PatternGeneration implements Runnable {
                                 }
                             }
                             if (!eventCheck) {
-                                listExternalPorts.put(addExternalEventInJsonFile(event, task1, MODE_OUTPUT));
+                                listExternalPorts.put(addEventInJsonFile(event, task1, MODE_OUTPUT));
                                 listExternalEvents.add(event);
+                            } else {
+                                listInternalPorts.put(addEventInJsonFile(event, task1, MODE_OUTPUT));
                             }
                             if (task1.getSendEvents().get(i).getEvents() != null) {
                                 for (int j=0 ; j < task1.getSendEvents().get(i).getEvents().size(); j++) {
@@ -198,8 +216,10 @@ public class PatternGeneration implements Runnable {
                                         }
                                     }
                                     if (!eventCheck) {
-                                        listExternalPorts.put(addExternalEventInJsonFile(event, task1, MODE_OUTPUT));
+                                        listExternalPorts.put(addEventInJsonFile(event, task1, MODE_OUTPUT));
                                         listExternalEvents.add(event);
+                                    } else {
+                                        listInternalPorts.put(addEventInJsonFile(event, task1, MODE_OUTPUT));
                                     }
                                 }
                             }
@@ -223,8 +243,10 @@ public class PatternGeneration implements Runnable {
                                 }
                             }
                             if (!eventCheck) {
-                                listExternalPorts.put(addExternalEventInJsonFile(event, task1, MODE_INPUT));
+                                listExternalPorts.put(addEventInJsonFile(event, task1, MODE_INPUT));
                                 listExternalEvents.add(event);
+                            }  else {
+                                listInternalPorts.put(addEventInJsonFile(event, task1, MODE_INPUT));
                             }
                             if (task1.getWaitEvents().get(i).getEvents() != null) {
                                 for (int j=0 ; j < task1.getWaitEvents().get(i).getEvents().size(); j++) {
@@ -242,16 +264,21 @@ public class PatternGeneration implements Runnable {
                                         }
                                     }
                                     if (!eventCheck) {
-                                        listExternalPorts.put(addExternalEventInJsonFile(event, task1, MODE_INPUT));
+                                        listExternalPorts.put(addEventInJsonFile(event, task1, MODE_INPUT));
                                         listExternalEvents.add(event);
+                                    } else {
+                                        listInternalPorts.put(addEventInJsonFile(event, task1, MODE_INPUT));
                                     }
                                 }
                             }
                         }
                     }
-                }          
+                    joTask.put(EXTERNALPORTS, listExternalPorts);
+                    joTask.put(INTERNALPORTS, listInternalPorts);
+                    listTasks.put(joTask);
+                }       
             }
-            file.write(listExternalPorts.toString(1));
+            file.write(listTasks.toString(1));
             file.close();
         } catch (IOException e) {
             e.printStackTrace();
@@ -269,7 +296,7 @@ public class PatternGeneration implements Runnable {
         return true;
     }
 
-    JSONObject addExternalChannelInJsonFile(TMLChannel ch, TMLTask task, String mode) {
+    JSONObject addChannelInJsonFile(TMLChannel ch, TMLTask task, String mode) {
         JSONObject jo = new JSONObject();
         try {
             jo.put(NAME, ch.getName());
@@ -282,7 +309,7 @@ public class PatternGeneration implements Runnable {
         return jo;
     }
 
-    JSONObject addExternalEventInJsonFile(TMLEvent evt, TMLTask task, String mode) {
+    JSONObject addEventInJsonFile(TMLEvent evt, TMLTask task, String mode) {
         JSONObject jo = new JSONObject();
         try {
             jo.put(NAME, evt.getName());
@@ -300,6 +327,19 @@ public class PatternGeneration implements Runnable {
         }*/
         return jo;
     }
+
+    JSONObject addAttributeInJsonFile(TMLAttribute attrib) {
+        JSONObject jo = new JSONObject();
+        try {
+            jo.put(NAME, attrib.getName());
+            jo.put(TYPE, attrib.getType());
+            jo.put(VALUE, attrib.getInitialValue());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return jo;
+    }
+    
 
     List<TMLChannel> getListChannelsBetweenTwoTasks(TMLTask originTask, TMLTask destinationTask) {
         List<TMLChannel> channels = new ArrayList<TMLChannel>();

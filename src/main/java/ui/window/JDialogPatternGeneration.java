@@ -168,7 +168,8 @@ public class JDialogPatternGeneration extends JDialog implements ActionListener,
     JList<String> jListConfigPorts;
     Vector<String> configuredPorts = new Vector<String>();
     JButton addConfigPorts, removeConfigPorts;
-    JButton buttonMapInArch;
+    JButton buttonTasksMapInArch;
+    JButton buttonChannelsMapInArch;
 
     JComboBox<String> jComboBoxTaskToClone;
     String newClonedTaskName;
@@ -176,10 +177,29 @@ public class JDialogPatternGeneration extends JDialog implements ActionListener,
     JButton addClonedTask, removeClonedTask;
     JList<String> jListClonedTasks;
     Vector<String> clonedTasks = new Vector<String>();
+
+    ButtonGroup mapTaskGroup;
+    JRadioButton jRadioMapTaskInExistingHw, jRadioMapTaskInNewHw;
+    JComboBox<String> jComboBoxTaskToMap, jComboBoxMapTaskInSameHwAs, jComboBoxMapTaskInNewHw;
+    JButton addMappedTask, removeMappedTask;
+    JList<String> jListMappedTasks;
+    Vector<String> mappedTasks = new Vector<String>();
+    Vector<String> tasksToMap = new Vector<String>();
+    Vector<String> tasksToMapInSameHw = new Vector<String>();
+    Vector<String> busToLinkNewHw = new Vector<String>();
+
+    ButtonGroup mapChannelGroup;
+    JRadioButton jRadioMapChannelInExistingMem, jRadioMapChannelInNewMem;
+    JComboBox<String> jComboBoxChannelToMap, jComboBoxMapChannelInSameMemAs, jComboBoxMapChannelInNewMem;
+    JButton addMappedChannel, removeMappedChannel;
+    JList<String> jListMappedChannels;
+    Vector<String> mappedChannels = new Vector<String>();
+    Vector<String> channelsToMap = new Vector<String>();
+    Vector<String> channelsToMapInSameMem = new Vector<String>();
+    Vector<String> busToLinkNewMem = new Vector<String>();
     
 
     
-
     //components
     protected JScrollPane jsp;
     protected JPanel jta;
@@ -190,8 +210,6 @@ public class JDialogPatternGeneration extends JDialog implements ActionListener,
 
     public TGHelpButton myButton;
     public static String helpString = "securityverification.html";
-
-    private Map<JCheckBox, List<JCheckBox>> cpuTaskObjs = new HashMap<JCheckBox, List<JCheckBox>>();
 
     private class MyMenuItem extends JMenuItem {
         /**
@@ -212,18 +230,6 @@ public class JDialogPatternGeneration extends JDialog implements ActionListener,
     protected RshClient rshc;
 
     protected JTabbedPane jp1;
-
-    private class ProVerifVerificationException extends Exception {
-        /**
-		 * 
-		 */
-		private static final long serialVersionUID = -2359743729229833671L;
-	
-
-        public ProVerifVerificationException(String message) {
-            super( message );
-        }
-    }
 
     /*
      * Creates new form
@@ -311,7 +317,6 @@ public class JDialogPatternGeneration extends JDialog implements ActionListener,
     }
 
     protected void panelPatternGeneration() {
-        int curY = 0;
         JPanel jp01 = new JPanel();
         GridBagLayout gridbag01 = new GridBagLayout();
         GridBagConstraints c01 = new GridBagConstraints();
@@ -332,7 +337,6 @@ public class JDialogPatternGeneration extends JDialog implements ActionListener,
         jFieldNewPatternName.setPreferredSize(new Dimension(10, 25));
         jp01.add(jFieldNewPatternName, c01);
         //addComponent(jp01, jFieldNewPatternName, 1, curY, 3, GridBagConstraints.EAST, GridBagConstraints.BOTH);
-        curY++;
         c01.gridwidth = GridBagConstraints.REMAINDER;
         jp01.add(new JLabel(" "), c01);
         c01.gridwidth = GridBagConstraints.REMAINDER;
@@ -673,18 +677,27 @@ public class JDialogPatternGeneration extends JDialog implements ActionListener,
         cOptions.fill = GridBagConstraints.HORIZONTAL;
         cOptions.anchor = GridBagConstraints.FIRST_LINE_START;
         cOptions.weightx = 1.0;
+        cOptions.gridwidth = 2;
         jpOptions.add(new JLabel("Options:"), cOptions);
         
         
-        buttonMapInArch = new JButton("Manually Map in Arch");
-        //buttonMapInArch.setPreferredSize(new Dimension(50, 25));
-        //buttonMapInArch.setEnabled(false);
-        buttonMapInArch.addActionListener(this);
-        buttonMapInArch.setActionCommand("addChannelSecondSensor");
+        buttonTasksMapInArch = new JButton("Map pattern tasks");
+        //buttonTasksMapInArch.setEnabled(false);
+        buttonTasksMapInArch.addActionListener(this);
+        buttonTasksMapInArch.setActionCommand("mapTasksManuallyInArchitecture");
         cOptions.gridy = 1;
-        cOptions.weightx = 0.3;
+        cOptions.gridwidth = 1;
+        //cOptions.weightx = 0.3;
         cOptions.fill = GridBagConstraints.NONE;
-        jpOptions.add(buttonMapInArch, cOptions);
+        jpOptions.add(buttonTasksMapInArch, cOptions);
+
+        buttonChannelsMapInArch = new JButton("Map pattern channels");
+        //buttonChannelsMapInArch.setEnabled(false);
+        buttonChannelsMapInArch.addActionListener(this);
+        buttonChannelsMapInArch.setActionCommand("mapChannelsManuallyInArchitecture");
+        cOptions.gridx = 1;
+        jpOptions.add(buttonChannelsMapInArch, cOptions);
+
         c02.gridy = 3;
         jp02.add(jpOptions, c02);
 
@@ -694,7 +707,6 @@ public class JDialogPatternGeneration extends JDialog implements ActionListener,
     protected void initComponents() {
 
         jp1 = GraphicLib.createTabbedPane();
-        int curY = 0;
         Container c = getContentPane();
         setFont(new Font("Helvetica", Font.PLAIN, 14));
         c.setLayout(new BorderLayout());
@@ -785,6 +797,224 @@ public class JDialogPatternGeneration extends JDialog implements ActionListener,
         setButtons();
     }
 
+    private void mapTasksManuallyInArchitecture() {
+        JDialog mapTasksInArchDialog = new JDialog(this.getOwner(), "Map manually tasks of the pattern in the architecture", Dialog.ModalityType.DOCUMENT_MODAL);
+        Container contMapTasksInArch = mapTasksInArchDialog.getContentPane();
+        contMapTasksInArch.setLayout(new BorderLayout());
+        JPanel jpMapTasksInArch = new JPanel();
+        jpMapTasksInArch.setLayout(new GridBagLayout());
+        GridBagConstraints cMapTasksInArch = new GridBagConstraints();
+        cMapTasksInArch.gridx = 0;
+        cMapTasksInArch.gridy = 0;
+        cMapTasksInArch.fill = GridBagConstraints.HORIZONTAL;
+        cMapTasksInArch.anchor = GridBagConstraints.FIRST_LINE_START;
+        cMapTasksInArch.weightx = 0.0;
+        cMapTasksInArch.insets = new Insets(10,0,0,0);  //top padding
+        jpMapTasksInArch.add(new JLabel("Select a Task to map:"), cMapTasksInArch);
+
+        jComboBoxTaskToMap = new JComboBox<String>(tasksToMap);
+        jComboBoxTaskToMap.setSelectedIndex(-1);
+        jComboBoxTaskToMap.setEnabled(false);
+        jComboBoxTaskToMap.addActionListener(this);
+        //jComboBoxPortsConfigMerge.setPreferredSize(new Dimension(150, 25));
+        cMapTasksInArch.gridx = 1;
+        cMapTasksInArch.weightx = 1.0;
+        jpMapTasksInArch.add(jComboBoxTaskToMap, cMapTasksInArch);
+        cMapTasksInArch.gridx = 0;
+        cMapTasksInArch.gridy = 1;
+        cMapTasksInArch.weightx = 0.0;
+        
+        mapTaskGroup =new ButtonGroup();
+        jRadioMapTaskInExistingHw = new JRadioButton("Map in the same HW as : ");
+        jRadioMapTaskInExistingHw.setEnabled(false);
+        jRadioMapTaskInExistingHw.addActionListener(this);
+        jpMapTasksInArch.add(jRadioMapTaskInExistingHw, cMapTasksInArch);
+        cMapTasksInArch.gridx = 1;
+        cMapTasksInArch.weightx = 1.0;
+        jComboBoxMapTaskInSameHwAs = new JComboBox<String>(tasksToMapInSameHw);
+        jComboBoxMapTaskInSameHwAs.setSelectedIndex(-1);
+        jComboBoxMapTaskInSameHwAs.setEnabled(false);
+        jComboBoxMapTaskInSameHwAs.addActionListener(this);
+        jpMapTasksInArch.add(jComboBoxMapTaskInSameHwAs, cMapTasksInArch);
+
+        cMapTasksInArch.gridy = 2;
+        cMapTasksInArch.gridx = 0;
+        cMapTasksInArch.weightx = 0.0;
+        jRadioMapTaskInNewHw = new JRadioButton("Map in a new HW that will be linked to bus :");
+        jRadioMapTaskInNewHw.setEnabled(false);
+        jRadioMapTaskInNewHw.addActionListener(this);
+        jpMapTasksInArch.add(jRadioMapTaskInNewHw, cMapTasksInArch);
+        cMapTasksInArch.gridx = 1;
+        cMapTasksInArch.weightx = 1.0;
+        jComboBoxMapTaskInNewHw = new JComboBox<String>(busToLinkNewHw);
+        jComboBoxMapTaskInNewHw.setSelectedIndex(-1);
+        jComboBoxMapTaskInNewHw.setEnabled(false);
+        jComboBoxMapTaskInNewHw.addActionListener(this);
+        jpMapTasksInArch.add(jComboBoxMapTaskInNewHw, cMapTasksInArch);
+        mapTaskGroup.add(jRadioMapTaskInExistingHw);
+        mapTaskGroup.add(jRadioMapTaskInNewHw);
+
+
+        jListMappedTasks = new JList<String>(mappedTasks);
+		JPanel jPanelMappedTasks = new JPanel();
+        jPanelMappedTasks.setLayout(new GridBagLayout());
+        GridBagConstraints cMappedTasks = new GridBagConstraints();
+        cMappedTasks.gridx = 0;
+        cMappedTasks.gridy = 0;
+        cMappedTasks.weightx = 0.95;
+        cMappedTasks.fill = GridBagConstraints.HORIZONTAL;
+        cMappedTasks.anchor = GridBagConstraints.LINE_START;
+        
+        jListMappedTasks.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+        jListMappedTasks.addListSelectionListener(this);
+        JScrollPane scrollPaneMappedTasks = new JScrollPane(jListMappedTasks);
+        scrollPaneMappedTasks.setPreferredSize(new Dimension(250, 175));
+        jPanelMappedTasks.add(scrollPaneMappedTasks, cMappedTasks);
+        
+        JPanel pannelButtonMappedTasks = new JPanel();
+        pannelButtonMappedTasks.setLayout(new GridBagLayout());
+        GridBagConstraints cButtonMappedTasks = new GridBagConstraints();
+        cButtonMappedTasks.gridx = 0;
+        cButtonMappedTasks.weightx = 1.0;
+        cButtonMappedTasks.gridy = 0;
+        cButtonMappedTasks.fill = GridBagConstraints.HORIZONTAL;
+        cButtonMappedTasks.anchor = GridBagConstraints.LINE_START;
+        addMappedTask = new JButton("+");
+        addMappedTask.setEnabled(false);
+        addMappedTask.setPreferredSize(new Dimension(40, 25));
+        addMappedTask.addActionListener(this);
+        addMappedTask.setActionCommand("addChannelSecondSensor");
+        pannelButtonMappedTasks.add(addMappedTask, cButtonMappedTasks);
+
+        removeMappedTask = new JButton("-");
+        removeMappedTask.setEnabled(false);
+        removeMappedTask.setPreferredSize(new Dimension(40, 25));
+        removeMappedTask.addActionListener(this);
+        removeMappedTask.setActionCommand("removeChannelSecondSensor");
+        cButtonMappedTasks.gridy = 1;
+        pannelButtonMappedTasks.add(removeMappedTask, cButtonMappedTasks);
+
+        cMappedTasks.gridx = 1;
+        cMappedTasks.weightx = 0.05;
+        jPanelMappedTasks.add(pannelButtonMappedTasks, cMappedTasks);
+        cMapTasksInArch.gridy = 3;
+        cMapTasksInArch.gridx = 0;
+        cMapTasksInArch.gridwidth = 2;
+        jpMapTasksInArch.add(jPanelMappedTasks, cMapTasksInArch);
+        contMapTasksInArch.add(jpMapTasksInArch, BorderLayout.NORTH);
+        GraphicLib.centerOnParent(mapTasksInArchDialog, 500, 400);
+        mapTasksInArchDialog.setVisible(true);
+    }
+
+    private void mapChannelsManuallyInArchitecture() {
+        JDialog mapChannelsInArchDialog = new JDialog(this.getOwner(), "Map manually channels of the pattern in the architecture", Dialog.ModalityType.DOCUMENT_MODAL);
+        Container contMapChannelsInArch = mapChannelsInArchDialog.getContentPane();
+        contMapChannelsInArch.setLayout(new BorderLayout());
+        JPanel jpMapChannelsInArch = new JPanel();
+        jpMapChannelsInArch.setLayout(new GridBagLayout());
+        GridBagConstraints cMapChannelsInArch = new GridBagConstraints();
+        cMapChannelsInArch.gridx = 0;
+        cMapChannelsInArch.gridy = 0;
+        cMapChannelsInArch.fill = GridBagConstraints.HORIZONTAL;
+        cMapChannelsInArch.anchor = GridBagConstraints.FIRST_LINE_START;
+        cMapChannelsInArch.weightx = 0.0;
+        cMapChannelsInArch.insets = new Insets(10,0,0,0);  //top padding
+        jpMapChannelsInArch.add(new JLabel("Select a Channel to map:"), cMapChannelsInArch);
+
+        jComboBoxChannelToMap = new JComboBox<String>(channelsToMap);
+        jComboBoxChannelToMap.setSelectedIndex(-1);
+        jComboBoxChannelToMap.setEnabled(false);
+        jComboBoxChannelToMap.addActionListener(this);
+        //jComboBoxPortsConfigMerge.setPreferredSize(new Dimension(150, 25));
+        cMapChannelsInArch.gridx = 1;
+        cMapChannelsInArch.weightx = 1.0;
+        jpMapChannelsInArch.add(jComboBoxChannelToMap, cMapChannelsInArch);
+        cMapChannelsInArch.gridx = 0;
+        cMapChannelsInArch.gridy = 1;
+        cMapChannelsInArch.weightx = 0.0;
+        
+        mapChannelGroup =new ButtonGroup();
+        jRadioMapChannelInExistingMem = new JRadioButton("Map in the same Memory as : ");
+        jRadioMapChannelInExistingMem.setEnabled(false);
+        jRadioMapChannelInExistingMem.addActionListener(this);
+        jpMapChannelsInArch.add(jRadioMapChannelInExistingMem, cMapChannelsInArch);
+        cMapChannelsInArch.gridx = 1;
+        cMapChannelsInArch.weightx = 1.0;
+        jComboBoxMapChannelInSameMemAs = new JComboBox<String>(channelsToMapInSameMem);
+        jComboBoxMapChannelInSameMemAs.setSelectedIndex(-1);
+        jComboBoxMapChannelInSameMemAs.setEnabled(false);
+        jComboBoxMapChannelInSameMemAs.addActionListener(this);
+        jpMapChannelsInArch.add(jComboBoxMapChannelInSameMemAs, cMapChannelsInArch);
+
+        cMapChannelsInArch.gridy = 2;
+        cMapChannelsInArch.gridx = 0;
+        cMapChannelsInArch.weightx = 0.0;
+        jRadioMapChannelInNewMem = new JRadioButton("Map in a new Memory that will be linked to bus :");
+        jRadioMapChannelInNewMem.setEnabled(false);
+        jRadioMapChannelInNewMem.addActionListener(this);
+        jpMapChannelsInArch.add(jRadioMapChannelInNewMem, cMapChannelsInArch);
+        cMapChannelsInArch.gridx = 1;
+        cMapChannelsInArch.weightx = 1.0;
+        jComboBoxMapChannelInNewMem = new JComboBox<String>(busToLinkNewMem);
+        jComboBoxMapChannelInNewMem.setSelectedIndex(-1);
+        jComboBoxMapChannelInNewMem.setEnabled(false);
+        jComboBoxMapChannelInNewMem.addActionListener(this);
+        jpMapChannelsInArch.add(jComboBoxMapChannelInNewMem, cMapChannelsInArch);
+        mapChannelGroup.add(jRadioMapChannelInExistingMem);
+        mapChannelGroup.add(jRadioMapChannelInNewMem);
+
+
+        jListMappedChannels = new JList<String>(mappedChannels);
+		JPanel jPanelMappedChannels = new JPanel();
+        jPanelMappedChannels.setLayout(new GridBagLayout());
+        GridBagConstraints cMappedChannels = new GridBagConstraints();
+        cMappedChannels.gridx = 0;
+        cMappedChannels.gridy = 0;
+        cMappedChannels.weightx = 0.95;
+        cMappedChannels.fill = GridBagConstraints.HORIZONTAL;
+        cMappedChannels.anchor = GridBagConstraints.LINE_START;
+        
+        jListMappedChannels.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+        jListMappedChannels.addListSelectionListener(this);
+        JScrollPane scrollPaneMappedChannels = new JScrollPane(jListMappedChannels);
+        scrollPaneMappedChannels.setPreferredSize(new Dimension(250, 175));
+        jPanelMappedChannels.add(scrollPaneMappedChannels, cMappedChannels);
+        
+        JPanel pannelButtonMappedChannels = new JPanel();
+        pannelButtonMappedChannels.setLayout(new GridBagLayout());
+        GridBagConstraints cButtonMappedChannels = new GridBagConstraints();
+        cButtonMappedChannels.gridx = 0;
+        cButtonMappedChannels.weightx = 1.0;
+        cButtonMappedChannels.gridy = 0;
+        cButtonMappedChannels.fill = GridBagConstraints.HORIZONTAL;
+        cButtonMappedChannels.anchor = GridBagConstraints.LINE_START;
+        addMappedChannel = new JButton("+");
+        addMappedChannel.setEnabled(false);
+        addMappedChannel.setPreferredSize(new Dimension(40, 25));
+        addMappedChannel.addActionListener(this);
+        addMappedChannel.setActionCommand("addChannelSecondSensor");
+        pannelButtonMappedChannels.add(addMappedChannel, cButtonMappedChannels);
+
+        removeMappedChannel = new JButton("-");
+        removeMappedChannel.setEnabled(false);
+        removeMappedChannel.setPreferredSize(new Dimension(40, 25));
+        removeMappedChannel.addActionListener(this);
+        removeMappedChannel.setActionCommand("removeChannelSecondSensor");
+        cButtonMappedChannels.gridy = 1;
+        pannelButtonMappedChannels.add(removeMappedChannel, cButtonMappedChannels);
+
+        cMappedChannels.gridx = 1;
+        cMappedChannels.weightx = 0.05;
+        jPanelMappedChannels.add(pannelButtonMappedChannels, cMappedChannels);
+        cMapChannelsInArch.gridy = 3;
+        cMapChannelsInArch.gridx = 0;
+        cMapChannelsInArch.gridwidth = 2;
+        jpMapChannelsInArch.add(jPanelMappedChannels, cMapChannelsInArch);
+        contMapChannelsInArch.add(jpMapChannelsInArch, BorderLayout.NORTH);
+        GraphicLib.centerOnParent(mapChannelsInArchDialog, 500, 400);
+        mapChannelsInArchDialog.setVisible(true);
+    }
+
     private void cloneTask() {
         JDialog cloneTaskDialog = new JDialog(this.getOwner(), "Clone a Task", Dialog.ModalityType.DOCUMENT_MODAL);
         Container contCloneTask = cloneTaskDialog.getContentPane();
@@ -806,7 +1036,7 @@ public class JDialogPatternGeneration extends JDialog implements ActionListener,
         jComboBoxTaskToClone.addActionListener(this);
         //jComboBoxPortsConfigMerge.setPreferredSize(new Dimension(150, 25));
         cCloneTask.gridx = 1;
-        jpCloneTask.add(jComboBoxPortsConfigMerge, cCloneTask);
+        jpCloneTask.add(jComboBoxTaskToClone, cCloneTask);
         cCloneTask.gridx = 0;
         cCloneTask.gridy = 1;
         jpCloneTask.add(new JLabel("Cloned task name:"), cCloneTask);
@@ -828,7 +1058,7 @@ public class JDialogPatternGeneration extends JDialog implements ActionListener,
         jListClonedTasks.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
         jListClonedTasks.addListSelectionListener(this);
         JScrollPane scrollPaneClonedTasks = new JScrollPane(jListClonedTasks);
-        scrollPaneClonedTasks.setPreferredSize(new Dimension(250, 175));
+        scrollPaneClonedTasks.setPreferredSize(new Dimension(250, 150));
         jPanelClonedTasks.add(scrollPaneClonedTasks, cClonedTasks);
         
         JPanel pannelButtonClonedTasks = new JPanel();
@@ -862,7 +1092,7 @@ public class JDialogPatternGeneration extends JDialog implements ActionListener,
         cCloneTask.gridwidth = 2;
         jpCloneTask.add(jPanelClonedTasks, cCloneTask);
         contCloneTask.add(jpCloneTask, BorderLayout.NORTH);
-        GraphicLib.centerOnParent(cloneTaskDialog, 400, 300);
+        GraphicLib.centerOnParent(cloneTaskDialog, 470, 350);
         cloneTaskDialog.setVisible(true);
     }
 
@@ -891,6 +1121,10 @@ public class JDialogPatternGeneration extends JDialog implements ActionListener,
                     allTasksNoSelectedAsPattern();
                 } else if (command.equals("cloneTask")) {
                     cloneTask();
+                } else if (command.equals("mapTasksManuallyInArchitecture")) {
+                    mapTasksManuallyInArchitecture();
+                } else if (command.equals("mapChannelsManuallyInArchitecture")) {
+                    mapChannelsManuallyInArchitecture();
                 } else if (evt.getSource() == jp1) {
                     listPatterns = getFoldersName(pathPatterns);
                 }

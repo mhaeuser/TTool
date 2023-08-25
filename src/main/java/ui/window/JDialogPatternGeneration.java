@@ -55,11 +55,15 @@ import java.awt.event.MouseListener;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.PipedInputStream;
 import java.io.PipedOutputStream;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -74,6 +78,7 @@ import java.util.Vector;
 
 import javax.swing.Box;
 import javax.swing.ButtonGroup;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
@@ -91,6 +96,9 @@ import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import avatartranslator.AvatarPragma;
 import common.SpecConfigTTool;
 import launcher.LauncherException;
@@ -101,6 +109,9 @@ import myutil.GraphicLib;
 import myutil.MasterProcessInterface;
 import myutil.TraceManager;
 import tmltranslator.TMLMapping;
+import tmltranslator.TMLModeling;
+import tmltranslator.TMLTask;
+import tmltranslator.patternhandling.PatternGeneration;
 import ui.*;
 import ui.interactivesimulation.JFrameSimulationSDPanel;
 import ui.util.IconManager;
@@ -150,7 +161,9 @@ public class JDialogPatternGeneration extends JDialog implements ActionListener,
     Vector<String> portsOfTaskInModel = new Vector<String>();
     JComboBox<String> jComboBoxPatterns;
     JComboBox<String> jComboBoxPatternsTaskWithExternalPort;
+    DefaultComboBoxModel<String> modelPatternsTaskWithExternalPort = new DefaultComboBoxModel<>(tasksOfPatternWithExternalPort);
     JComboBox<String> jComboBoxPatternExternalPortOfATask;
+    DefaultComboBoxModel<String> modelPatternExternalPortOfATask = new DefaultComboBoxModel<>(externalPortsOfTaskInPattern);
     JComboBox<String> jComboBoxModelsTask;
     JComboBox<String> jComboBoxModelsPortOfTask;
     JCheckBox jCheckBoxConnectToNewPort;
@@ -199,9 +212,9 @@ public class JDialogPatternGeneration extends JDialog implements ActionListener,
     Vector<String> busToLinkNewMem = new Vector<String>();
     
 
-    Map<String, AttributeTaskJsonFile> patternTasksAttributes = new LinkedHashMap<String, AttributeTaskJsonFile>();
-    Map<String, PortTaskJsonFile> patternTasksExternalPorts = new LinkedHashMap<String, PortTaskJsonFile>();
-    Map<String, PortTaskJsonFile> patternTasksInternalPorts = new LinkedHashMap<String, PortTaskJsonFile>();
+    LinkedHashMap<String, List<AttributeTaskJsonFile>> patternTasksAttributes = new LinkedHashMap<String, List<AttributeTaskJsonFile>>();
+    LinkedHashMap<String, List<PortTaskJsonFile>> patternTasksExternalPorts = new LinkedHashMap<String, List<PortTaskJsonFile>>();
+    LinkedHashMap<String, List<PortTaskJsonFile>> patternTasksInternalPorts = new LinkedHashMap<String, List<PortTaskJsonFile>>();
     //components
     protected JScrollPane jsp;
     protected JPanel jta;
@@ -251,6 +264,80 @@ public class JDialogPatternGeneration extends JDialog implements ActionListener,
         GridBagConstraints gbc = new GridBagConstraints(gridx, gridy, gridwidth, 1, 0, 0,
                 anchor, fill, insets, 0, 0);
         container.add(component, gbc);
+    }
+    void parsePatternJsonFile(String path, String patternFolerName, String fileName) {
+        Path jsonFilePath = Path.of(path+patternFolerName+"/"+fileName);
+        String jsonFilecontent = "";
+        try {
+            jsonFilecontent = Files.readString(jsonFilePath, Charset.defaultCharset());
+        } catch (IOException ioExc) {
+        } 
+        
+        JSONArray patternTasks = new JSONArray(jsonFilecontent);
+        for (int i = 0; i < patternTasks.length(); i++)
+        {
+            String taskName = patternTasks.getJSONObject(i).getString(PatternGeneration.NAME);
+            TraceManager.addDev("taskName= "+ taskName);
+            JSONArray attributes = patternTasks.getJSONObject(i).getJSONArray(PatternGeneration.ATTRIBUTES);
+            List<AttributeTaskJsonFile> attributeTaskList = new ArrayList<AttributeTaskJsonFile>();
+            for (int j = 0; j < attributes.length(); j++) {
+                String attribName = attributes.getJSONObject(j).getString(PatternGeneration.NAME);
+                String attribType = attributes.getJSONObject(j).getString(PatternGeneration.TYPE);
+                String attribValue = attributes.getJSONObject(j).getString(PatternGeneration.VALUE);
+                AttributeTaskJsonFile attributeTaskJsonFile = new AttributeTaskJsonFile(attribName, attribType, attribValue);
+                attributeTaskList.add(attributeTaskJsonFile);
+            }
+            patternTasksAttributes.put(taskName, attributeTaskList);
+
+            JSONArray externalPorts = patternTasks.getJSONObject(i).getJSONArray(PatternGeneration.EXTERNALPORTS);
+            List<PortTaskJsonFile> externalPortsTaskList = new ArrayList<PortTaskJsonFile>();
+            for (int j = 0; j < externalPorts.length(); j++) {
+                String externalPortName = externalPorts.getJSONObject(j).getString(PatternGeneration.NAME);
+                String externalPortType = externalPorts.getJSONObject(j).getString(PatternGeneration.TYPE);
+                String externalPortMode = externalPorts.getJSONObject(j).getString(PatternGeneration.MODE);
+                TraceManager.addDev("externalPortName= "+ externalPortName);
+                PortTaskJsonFile externalPortTaskJsonFile = new PortTaskJsonFile(externalPortName, externalPortType, externalPortMode);
+                externalPortsTaskList.add(externalPortTaskJsonFile);
+            }
+            patternTasksExternalPorts.put(taskName, externalPortsTaskList);
+
+            JSONArray internalPorts = patternTasks.getJSONObject(i).getJSONArray(PatternGeneration.INTERNALPORTS);
+            List<PortTaskJsonFile> internalPortsTaskList = new ArrayList<PortTaskJsonFile>();
+            for (int j = 0; j < internalPorts.length(); j++) {
+                String internalPortName = internalPorts.getJSONObject(j).getString(PatternGeneration.NAME);
+                String internalPortType = internalPorts.getJSONObject(j).getString(PatternGeneration.TYPE);
+                String internalPortMode = internalPorts.getJSONObject(j).getString(PatternGeneration.MODE);
+                PortTaskJsonFile internalPortTaskJsonFile = new PortTaskJsonFile(internalPortName, internalPortType, internalPortMode);
+                internalPortsTaskList.add(internalPortTaskJsonFile);
+            }
+            patternTasksInternalPorts.put(taskName, internalPortsTaskList);
+        }
+    }
+
+    LinkedHashMap<String, PortsTasks> ListPortsTask(TMLModeling<?> tmlmodel) {
+        LinkedHashMap<String, PortsTasks> listPortsTask = new LinkedHashMap<String, PortsTasks>();
+        for (TMLTask task : tmlmodel.getTasks()) {
+            List<String> writeChannels = new ArrayList<String>();
+            List<String> readChannels = new ArrayList<String>();
+            List<String> sendEvents = new ArrayList<String>();
+            List<String> waitEvents = new ArrayList<String>();
+
+        }
+
+        return listPortsTask;
+    }
+    private class PortsTasks {
+        List<String> writeChannels = new ArrayList<String>();
+        List<String> readChannels = new ArrayList<String>();
+        List<String> sendEvents = new ArrayList<String>();
+        List<String> waitEvents = new ArrayList<String>();
+
+        PortsTasks(List<String> writeChannels, List<String> readChannels, List<String> sendEvents, List<String> waitEvents) {
+            this.writeChannels = writeChannels;
+            this.readChannels = sendEvents;
+            this.sendEvents = sendEvents;
+            this.waitEvents = sendEvents;
+        }
     }
 
     Vector<String> getListChannelsBetweenTwoTasks(String originTaskName, String destinationTaskName) {
@@ -448,13 +535,14 @@ public class JDialogPatternGeneration extends JDialog implements ActionListener,
         cPatternConnetion.weightx = 0.4;
         cPatternConnetion.fill = GridBagConstraints.HORIZONTAL;
         cPatternConnetion.anchor = GridBagConstraints.LINE_START;
-
-        jComboBoxPatternsTaskWithExternalPort = new JComboBox<String>(tasksOfPatternWithExternalPort);
+        
+        
+        jComboBoxPatternsTaskWithExternalPort = new JComboBox<String>(modelPatternsTaskWithExternalPort);
         jComboBoxPatternsTaskWithExternalPort.setSelectedIndex(-1);
         jComboBoxPatternsTaskWithExternalPort.setEnabled(false);
         jComboBoxPatternsTaskWithExternalPort.addActionListener(this);
         jpPatternConnetion.add(jComboBoxPatternsTaskWithExternalPort, cPatternConnetion);
-        jComboBoxPatternExternalPortOfATask = new JComboBox<String>(externalPortsOfTaskInPattern);
+        jComboBoxPatternExternalPortOfATask = new JComboBox<String>(modelPatternExternalPortOfATask);
         jComboBoxPatternExternalPortOfATask.setSelectedIndex(-1);
         jComboBoxPatternExternalPortOfATask.setEnabled(false);
         jComboBoxPatternExternalPortOfATask.addActionListener(this);
@@ -1113,8 +1201,66 @@ public class JDialogPatternGeneration extends JDialog implements ActionListener,
                     mapTasksManuallyInArchitecture();
                 } else if (command.equals("mapChannelsManuallyInArchitecture")) {
                     mapChannelsManuallyInArchitecture();
-                } else if (evt.getSource() == jp1) {
+                }
+                if (evt.getSource() == jp1) {
                     listPatterns = getFoldersName(pathPatterns);
+                }
+                if (evt.getSource() == jComboBoxPatterns) {
+                    int selectedPatternIndex = jComboBoxPatterns.getSelectedIndex();
+                    parsePatternJsonFile(pathPatterns, listPatterns.get(selectedPatternIndex), listPatterns.get(selectedPatternIndex)+".json");
+                    //Vector<String> patternTasksVector = new Vector<String>();
+                    tasksOfPatternWithExternalPort.removeAllElements();
+                    for (String pTaskName : patternTasksExternalPorts.keySet()) {
+                        if (patternTasksExternalPorts.get(pTaskName).size() > 0) {
+                            TraceManager.addDev("pTaskName=" + pTaskName);
+                            tasksOfPatternWithExternalPort.add(pTaskName);
+                        }
+                    }
+                    for (String pTaskName : tasksOfPatternWithExternalPort) {
+                        TraceManager.addDev("pTaskName0=" + pTaskName);
+                    }
+                    //tasksOfPatternWithExternalPort = patternTasksVector;
+                    //modelPatternsTaskWithExternalPort.removeAllElements();
+                    for (String pTaskName : tasksOfPatternWithExternalPort) {
+                        TraceManager.addDev("pTaskName1=" + pTaskName);
+                    }
+                    //modelPatternsTaskWithExternalPort.addAll(tasksOfPatternWithExternalPort);
+                    jComboBoxPatternsTaskWithExternalPort.setEnabled(true);
+                    jComboBoxPatternsTaskWithExternalPort.setSelectedIndex(-1);
+                    buttonCloneTask.setEnabled(true);
+                }
+                if (evt.getSource() == jComboBoxPatternsTaskWithExternalPort) {
+                    externalPortsOfTaskInPattern.removeAllElements();
+                    if (jComboBoxPatternsTaskWithExternalPort.getSelectedIndex() >= 0) {
+                        for (PortTaskJsonFile portTask : patternTasksExternalPorts.get(jComboBoxPatternsTaskWithExternalPort.getSelectedItem().toString())) {
+                            externalPortsOfTaskInPattern.add(portTask.name);
+                            TraceManager.addDev("portTaskName=" + portTask.name);
+                        }
+                        jComboBoxPatternExternalPortOfATask.setEnabled(true);
+                    } else {
+                        jComboBoxPatternExternalPortOfATask.setEnabled(false);
+                    }
+                    //modelPatternExternalPortOfATask.removeAllElements();
+                    //modelPatternExternalPortOfATask.addAll(externalPortsOfTaskInPattern);
+                    jComboBoxPatternExternalPortOfATask.setSelectedIndex(-1);
+                }
+                if (evt.getSource() == jComboBoxPatternExternalPortOfATask) {
+                    if (jComboBoxPatternExternalPortOfATask.getSelectedIndex() >= 0) {
+                        jComboBoxModelsTask.setEnabled(true);
+                    } else {
+                        jComboBoxModelsTask.setEnabled(false);
+                    }
+                    jComboBoxModelsTask.setSelectedIndex(-1);
+                }
+                if (evt.getSource() == jComboBoxModelsTask) {
+                    if (jComboBoxModelsTask.getSelectedIndex() >= 0) {
+                        jComboBoxModelsPortOfTask.setEnabled(true);
+                        jCheckBoxConnectToNewPort.setEnabled(true);
+                    } else {
+                        jComboBoxModelsPortOfTask.setEnabled(false);
+                        jCheckBoxConnectToNewPort.setEnabled(false);
+                    }
+                    jComboBoxModelsPortOfTask.setSelectedIndex(-1);
                 }
         }
     }

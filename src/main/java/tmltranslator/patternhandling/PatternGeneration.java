@@ -13,6 +13,8 @@ import tmltranslator.*;
 
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.*;
 
 import org.json.JSONArray;
@@ -90,10 +92,11 @@ public class PatternGeneration implements Runnable {
         }
         if (generateTMLTxt(patternName)) {
             TraceManager.addDev("Done TML generation");
+            if (generatePatternFile(patternName)) {
+                TraceManager.addDev("Done Pattern JSON File generation");
+            } 
         }
-        if (generatePatternFile(patternName)) {
-            TraceManager.addDev("Done Pattern JSON File generation");
-        } 
+        
 	}
 
     @SuppressWarnings("unchecked")
@@ -101,7 +104,9 @@ public class PatternGeneration implements Runnable {
         TMLMappingTextSpecification<Class<?>> spec = new TMLMappingTextSpecification<Class<?>>(_title);
         spec.toTextFormat((TMLMapping<Class<?>>) tmap);
         try {
-            spec.saveFile(patternsPath+patternName+"/", patternName);
+            String pathNewPattern = patternsPath + patternName + "/";
+            Files.createDirectories(Paths.get(pathNewPattern));
+            spec.saveFile(pathNewPattern, patternName);
         } catch (Exception e) {
             TraceManager.addError("Files could not be saved: " + e.getMessage());
             return false;

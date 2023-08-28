@@ -182,9 +182,11 @@ public class JDialogPatternGeneration extends JDialog implements ActionListener,
     JButton buttonCloneTask, buttonAddPortInTask;
     Vector<String> portsConfig = new Vector<String>();
     JComboBox<String> jComboBoxPortsConfig;
+    DefaultComboBoxModel<String> modelPortsConfig = new DefaultComboBoxModel<>(portsConfig);
     ButtonGroup portsConfigGroup;
     JRadioButton jRadioPortConfigRemove, jRadioPortConfigMerge;
     Vector<String> portsConfigMerge = new Vector<String>();
+    DefaultComboBoxModel<String> modelPortsConfigMerge = new DefaultComboBoxModel<>(portsConfigMerge);
     JComboBox<String> jComboBoxPortsConfigMerge;
     JList<String> jListConfigPorts;
     Vector<String> configuredPorts = new Vector<String>();
@@ -200,6 +202,7 @@ public class JDialogPatternGeneration extends JDialog implements ActionListener,
     JButton addClonedTask, removeClonedTask;
     JList<String> jListClonedTasks;
     Vector<String> clonedTasks = new Vector<String>();
+    Vector<String> clonedTasksName = new Vector<String>();
 
     ButtonGroup mapTaskGroup;
     JRadioButton jRadioMapTaskInExistingHw, jRadioMapTaskInNewHw;
@@ -229,6 +232,7 @@ public class JDialogPatternGeneration extends JDialog implements ActionListener,
     LinkedHashMap<String, TaskPattern> patternTasksNotConnected = new LinkedHashMap<String, TaskPattern>();
     LinkedHashMap<String, PortsTasks> portsTaskOfModelAll = new LinkedHashMap<String, PortsTasks>();
     LinkedHashMap<String, PortsTasks> portsTaskOfModelLeft = new LinkedHashMap<String, PortsTasks>();
+    LinkedHashMap<String, PortsTasks> portsTaskConfig = new LinkedHashMap<String, PortsTasks>();
     
     List<String> busesOfModel = new ArrayList<String>();
     //components
@@ -702,7 +706,7 @@ public class JDialogPatternGeneration extends JDialog implements ActionListener,
         cPortConfiguration.fill = GridBagConstraints.HORIZONTAL;
         cPortConfiguration.anchor = GridBagConstraints.LINE_START;
 
-        jComboBoxPortsConfig = new JComboBox<String>(portsConfig);
+        jComboBoxPortsConfig = new JComboBox<String>(modelPortsConfig);
         jComboBoxPortsConfig.setSelectedIndex(-1);
         jComboBoxPortsConfig.setEnabled(false);
         jComboBoxPortsConfig.addActionListener(this);
@@ -724,11 +728,11 @@ public class JDialogPatternGeneration extends JDialog implements ActionListener,
         //cPortConfiguration.gridwidth = GridBagConstraints.REMAINDER;
         portsConfigGroup.add(jRadioPortConfigRemove);
         portsConfigGroup.add(jRadioPortConfigMerge);
-        jComboBoxPortsConfigMerge = new JComboBox<String>(portsConfigMerge);
+        jComboBoxPortsConfigMerge = new JComboBox<String>(modelPortsConfigMerge);
         jComboBoxPortsConfigMerge.setSelectedIndex(-1);
         jComboBoxPortsConfigMerge.setEnabled(false);
         jComboBoxPortsConfigMerge.addActionListener(this);
-        jComboBoxPortsConfigMerge.setPreferredSize(new Dimension(150, 25));
+        jComboBoxPortsConfigMerge.setPreferredSize(new Dimension(200, 25));
         cPortConfiguration.gridx = 1;
         cPortConfiguration.weightx = 1.0;
         jpPortConfiguration.add(jComboBoxPortsConfigMerge, cPortConfiguration);
@@ -769,14 +773,14 @@ public class JDialogPatternGeneration extends JDialog implements ActionListener,
         addConfigPorts.setEnabled(false);
         addConfigPorts.setPreferredSize(new Dimension(50, 25));
         addConfigPorts.addActionListener(this);
-        addConfigPorts.setActionCommand("addChannelSecondSensor");
+        addConfigPorts.setActionCommand("addConfigPorts");
         pannelButtonConfigPorts.add(addConfigPorts, cButtonConfigPorts);
 
         removeConfigPorts = new JButton("-");
         removeConfigPorts.setEnabled(false);
         removeConfigPorts.setPreferredSize(new Dimension(50, 25));
         removeConfigPorts.addActionListener(this);
-        removeConfigPorts.setActionCommand("removeChannelSecondSensor");
+        removeConfigPorts.setActionCommand("removeConfigPorts");
         cButtonConfigPorts.gridx = 1;
         pannelButtonConfigPorts.add(removeConfigPorts, cButtonConfigPorts);
         //pannelButtonConfigPorts.setPreferredSize(new Dimension(200, 30));
@@ -967,6 +971,7 @@ public class JDialogPatternGeneration extends JDialog implements ActionListener,
         jpMapTasksInArch.add(jRadioMapTaskInNewHw, cMapTasksInArch);
         cMapTasksInArch.gridx = 1;
         cMapTasksInArch.weightx = 1.0;
+        busToLinkNewHw = new Vector<String>(busesOfModel) ;
         jComboBoxMapTaskInNewHw = new JComboBox<String>(busToLinkNewHw);
         jComboBoxMapTaskInNewHw.setSelectedIndex(-1);
         jComboBoxMapTaskInNewHw.setEnabled(false);
@@ -1076,6 +1081,7 @@ public class JDialogPatternGeneration extends JDialog implements ActionListener,
         jpMapChannelsInArch.add(jRadioMapChannelInNewMem, cMapChannelsInArch);
         cMapChannelsInArch.gridx = 1;
         cMapChannelsInArch.weightx = 1.0;
+        busToLinkNewMem = new Vector<String>(busesOfModel) ;
         jComboBoxMapChannelInNewMem = new JComboBox<String>(busToLinkNewMem);
         jComboBoxMapChannelInNewMem.setSelectedIndex(-1);
         jComboBoxMapChannelInNewMem.setEnabled(false);
@@ -1344,11 +1350,23 @@ public class JDialogPatternGeneration extends JDialog implements ActionListener,
         String selectedTaskToClone = jComboBoxTaskToClone.getSelectedItem().toString();
         String nameNewTaskToClone = jFieldNewClonedTaskName.getText();
         
-        if (!tasksCanBeCloned.contains(nameNewTaskToClone) && !tasksOfModel.contains(nameNewTaskToClone)) {
-            clonedTasks.add(nameNewTaskToClone);
-            PortsTasks portTasksClone = new PortsTasks(portsTaskOfModelAll.get(selectedTaskToClone).writeChannels, portsTaskOfModelAll.get(selectedTaskToClone).readChannels, portsTaskOfModelAll.get(selectedTaskToClone).sendEvents, portsTaskOfModelAll.get(selectedTaskToClone).waitEvents);
+        if (!tasksCanBeCloned.contains(nameNewTaskToClone) && !tasksOfModel.contains(nameNewTaskToClone) && !nameNewTaskToClone.contains(" ")) {
+            clonedTasks.add(nameNewTaskToClone + " clone of " + selectedTaskToClone);
+            clonedTasksName.add(nameNewTaskToClone);
+            List<String> wcs = new ArrayList<String>(portsTaskOfModelAll.get(selectedTaskToClone).writeChannels);
+            List<String> rcs = new ArrayList<String>(portsTaskOfModelAll.get(selectedTaskToClone).readChannels);
+            List<String> ses = new ArrayList<String>(portsTaskOfModelAll.get(selectedTaskToClone).sendEvents);
+            List<String> wes = new ArrayList<String>(portsTaskOfModelAll.get(selectedTaskToClone).waitEvents);
+
+            List<String> wcs1 = new ArrayList<String>(portsTaskOfModelAll.get(selectedTaskToClone).writeChannels);
+            List<String> rcs1 = new ArrayList<String>(portsTaskOfModelAll.get(selectedTaskToClone).readChannels);
+            List<String> ses1 = new ArrayList<String>(portsTaskOfModelAll.get(selectedTaskToClone).sendEvents);
+            List<String> wes1 = new ArrayList<String>(portsTaskOfModelAll.get(selectedTaskToClone).waitEvents);
+
+            PortsTasks portTasksClone = new PortsTasks(wcs, rcs, ses, wes);
+            PortsTasks portTasksClone1 = new PortsTasks(wcs1, rcs1, ses1, wes1);
             portsTaskOfModelLeft.put(nameNewTaskToClone, portTasksClone);
-            portsTaskOfModelAll.put(nameNewTaskToClone, portTasksClone);
+            portsTaskOfModelAll.put(nameNewTaskToClone, portTasksClone1);
         }
         tasksOfModel.removeAllElements();
         for (String pTaskName : portsTaskOfModelLeft.keySet()) {
@@ -1361,19 +1379,208 @@ public class JDialogPatternGeneration extends JDialog implements ActionListener,
     private void removeClonedTask() {
         int[] list = jListClonedTasks.getSelectedIndices();
         Vector<String> v = new Vector<String>();
+        Vector<String> vName = new Vector<String>();
         String o;
         for (int i = 0; i < list.length; i++) {
-            o = clonedTasks.elementAt(list[i]);
-            v.addElement(o);
+            String[] splitS =  clonedTasks.elementAt(list[i]).split(" ");
+            o = splitS[0];
+            v.addElement(clonedTasks.elementAt(list[i]));
+            vName.addElement(clonedTasksName.elementAt(list[i]));
             portsTaskOfModelLeft.remove(o);
             portsTaskOfModelAll.remove(o);
+            Vector<String> vConn = new Vector<String>();
+            for (String st : connectedPorts) {
+                String[] splitO = st.split(" ");
+                String patternTaskName = splitO[0];
+                String patternTaskPortName = splitO[1];
+                String modelTaskName = splitO[3];
+                String modelTaskPortName = splitO[4];
+                if (modelTaskName.equals(o)) {
+                    for (String patternTask : patternTasksAll.keySet()) {
+                        for (PortTaskJsonFile  portTaskJsonFile : patternTasksAll.get(patternTask).externalPorts) {
+                            if (portTaskJsonFile.name.equals(patternTaskPortName)) {
+                                if (patternTasksNotConnected.containsKey(patternTaskName)) {
+                                    TaskPattern tp  = patternTasksNotConnected.get(patternTaskName);
+                                    tp.externalPorts.add(portTaskJsonFile);
+                                } else {
+                                    List<PortTaskJsonFile> portTaskJsonFilesList = new ArrayList<PortTaskJsonFile>(Arrays.asList(portTaskJsonFile));
+                                    TaskPattern tp = new TaskPattern(patternTasksAll.get(patternTask).attributes, patternTasksAll.get(patternTask).internalPorts, portTaskJsonFilesList);
+                                    patternTasksNotConnected.put(patternTaskName, tp);
+                                    tasksOfPatternWithExternalPort.removeAllElements();
+                                    for (String pTaskName : patternTasksNotConnected.keySet()) {
+                                        if (patternTasksNotConnected.get(pTaskName).externalPorts.size() > 0) {
+                                            tasksOfPatternWithExternalPort.add(pTaskName);
+                                        }
+                                    }
+                                }
+                                break;
+                            }
+                        }
+                    }
+                    vConn.addElement(st);
+                }
+            }
+            connectedPorts.removeAll(vConn);
+            jListConnectedPorts.setListData(connectedPorts);
         }
+
         clonedTasks.removeAll(v);
+        clonedTasksName.removeAll(vName);
         tasksOfModel.removeAllElements();
         for (String pTaskName : portsTaskOfModelLeft.keySet()) {
             tasksOfModel.add(pTaskName);
         }
         jListClonedTasks.setListData(clonedTasks);
+        setButtons();
+    }
+
+    LinkedHashMap<String, PortsTasks> getPortsToConfig(LinkedHashMap<String, PortsTasks> _portsTaskOfModelAll, LinkedHashMap<String, PortsTasks> _portsTaskOfModelLeft, TMLModeling<?> tmlmodel) {
+        LinkedHashMap<String, PortsTasks> portsToConf = new LinkedHashMap<String, PortsTasks>();
+        for (String task : _portsTaskOfModelLeft.keySet()) {
+            if (!clonedTasksName.contains(task)) {
+                TraceManager.addDev("getPortsToConfig: task=" + task);
+                TMLTask tmlTask = tmlmodel.getTMLTaskByName(task);
+                PortsTasks  pt = _portsTaskOfModelLeft.get(task);
+                if (tmlTask != null) {
+                    for (String wc : pt.writeChannels) {
+                        //TraceManager.addDev("getPortsToConfig: wc=" + wc);
+                        for (int i = 0; i < tmlTask.getWriteChannels().size() ; i++) {
+                            //TraceManager.addDev("getPortsToConfig: tmlTask.getWriteChannels()=" + tmlTask.getWriteChannels().get(i).getChannel(0).getName());
+                            if (tmlTask.getWriteChannels().get(i).getChannel(0).getName().equals(wc)) {
+                                for (String taskAll : _portsTaskOfModelAll.keySet()) {
+                                    //String destPortName = tmlTask.getWriteChannels().get(i).getChannel(0).getDestinationPort().getName();
+                                    //TraceManager.addDev("getPortsToConfig: destPortName=" + destPortName);
+                                    if (_portsTaskOfModelAll.get(taskAll).readChannels.contains(wc) && !_portsTaskOfModelLeft.get(taskAll).readChannels.contains(wc)) {
+                                        if (portsToConf.containsKey(task)) {
+                                            if (!portsToConf.get(task).writeChannels.contains(wc)) {
+                                                portsToConf.get(task).writeChannels.add(wc);
+                                                //TraceManager.addDev("getPortsToConfig: add wc=" + wc);
+                                            }
+                                        } else {
+                                            List<String> writeChannels = new ArrayList<String>(Arrays.asList(wc));
+                                            List<String> readChannels = new ArrayList<String>();
+                                            List<String> sendEvents = new ArrayList<String>();
+                                            List<String> waitEvents = new ArrayList<String>();
+                                            PortsTasks portTask = new PortsTasks(writeChannels, readChannels, sendEvents, waitEvents);
+                                            portsToConf.put(task, portTask);
+                                            //TraceManager.addDev("getPortsToConfig: new task add wc=" + wc);
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    for (String rc : pt.readChannels) {
+                         TraceManager.addDev("getPortsToConfig: rc=" + rc);
+                        for (int i = 0; i < tmlTask.getReadChannels().size() ; i++) {
+                            TraceManager.addDev("getPortsToConfig: tmlTask.getReadChannels()=" + tmlTask.getReadChannels().get(i).getChannel(0).getName());
+                            if (tmlTask.getReadChannels().get(i).getChannel(0).getName().equals(rc)) {
+                                for (String taskAll : _portsTaskOfModelAll.keySet()) {
+                                    //String originPortName = tmlTask.getReadChannels().get(i).getChannel(0).getOriginPort().getName();
+                                    //String[] sOriginPortName = originPortName.split("__");
+                                    //TraceManager.addDev("getPortsToConfig: originPortName=" + originPortName);
+                                    if (_portsTaskOfModelAll.get(taskAll).writeChannels.contains(rc) && !_portsTaskOfModelLeft.get(taskAll).writeChannels.contains(rc)) {
+                                        if (portsToConf.containsKey(task)) {
+                                            if (!portsToConf.get(task).readChannels.contains(rc)) {
+                                                portsToConf.get(task).readChannels.add(rc);
+                                                TraceManager.addDev("getPortsToConfig: add rc=" + rc);
+                                            }
+                                        } else {
+                                            List<String> writeChannels = new ArrayList<String>();
+                                            List<String> readChannels = new ArrayList<String>(Arrays.asList(rc));
+                                            List<String> sendEvents = new ArrayList<String>();
+                                            List<String> waitEvents = new ArrayList<String>();
+                                            PortsTasks portTask = new PortsTasks(writeChannels, readChannels, sendEvents, waitEvents);
+                                            portsToConf.put(task, portTask);
+                                            TraceManager.addDev("getPortsToConfig: new task add rc=" + rc);
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    for (String se : pt.sendEvents) {
+                        for (int i = 0; i < tmlTask.getSendEvents().size() ; i++) {
+                            if (tmlTask.getSendEvents().get(i).getEvent().getName().equals(se)) {
+                                for (String taskAll : _portsTaskOfModelAll.keySet()) {
+                                    //String destPortName = tmlTask.getSendEvents().get(i).getEvent().getDestinationPort().getName();
+                                    if (_portsTaskOfModelAll.get(taskAll).waitEvents.contains(se) && !_portsTaskOfModelLeft.get(taskAll).waitEvents.contains(se)) {
+                                        if (portsToConf.containsKey(task)) {
+                                            if (!portsToConf.get(task).sendEvents.contains(se)) {
+                                                portsToConf.get(task).sendEvents.add(se);
+                                            }
+                                        } else {
+                                            List<String> writeChannels = new ArrayList<String>();
+                                            List<String> readChannels = new ArrayList<String>();
+                                            List<String> sendEvents = new ArrayList<String>(Arrays.asList(se));
+                                            List<String> waitEvents = new ArrayList<String>();
+                                            PortsTasks portTask = new PortsTasks(writeChannels, readChannels, sendEvents, waitEvents);
+                                            portsToConf.put(task, portTask);
+                                        }
+                                    } 
+                                }
+                            } 
+                        }
+                    }
+                    for (String we : pt.waitEvents) {
+                        for (int i = 0; i < tmlTask.getWaitEvents().size() ; i++) {
+                            if (tmlTask.getWaitEvents().get(i).getEvent().getName().equals(we)) {
+                                for (String taskAll : _portsTaskOfModelAll.keySet()) {
+                                    //String originPortName = tmlTask.getWaitEvents().get(i).getEvent().getOriginPort().getName();
+                                    if (_portsTaskOfModelAll.get(taskAll).sendEvents.contains(we) && !_portsTaskOfModelLeft.get(taskAll).sendEvents.contains(we)) {
+                                        if (portsToConf.containsKey(task)) {
+                                            if (!portsToConf.get(task).waitEvents.contains(we)) {
+                                                portsToConf.get(task).waitEvents.add(we);
+                                            }
+                                        } else {
+                                            List<String> writeChannels = new ArrayList<String>();
+                                            List<String> readChannels = new ArrayList<String>();
+                                            List<String> sendEvents = new ArrayList<String>();
+                                            List<String> waitEvents = new ArrayList<String>(Arrays.asList(we));
+                                            PortsTasks portTask = new PortsTasks(writeChannels, readChannels, sendEvents, waitEvents);
+                                            portsToConf.put(task, portTask);
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                }
+            }
+        }
+
+        return portsToConf;
+    }
+
+    private void addConfigPorts() {
+        String selectedTaskToConfig = jComboBoxPortsConfig.getSelectedItem().toString();        
+        if (jRadioPortConfigRemove.isSelected()) {
+            configuredPorts.add(selectedTaskToConfig + " (Remove)");
+        } else if (jRadioPortConfigMerge.isSelected()) {
+            configuredPorts.add(selectedTaskToConfig + " (Merge with " + jComboBoxPortsConfigMerge.getSelectedItem().toString() + ")");
+        }
+        portsConfig.remove(selectedTaskToConfig);
+        jComboBoxPortsConfig.setSelectedIndex(-1);
+        jListConfigPorts.setListData(configuredPorts);
+        setButtons();
+    }
+
+    private void removeConfigPorts() {
+        int[] list = jListConfigPorts.getSelectedIndices();
+        Vector<String> v = new Vector<String>();
+        String o;
+        for (int i = 0; i < list.length; i++) {
+            o = configuredPorts.elementAt(list[i]);
+            String[] splitO = o.split(" ");
+            portsConfig.add(splitO[0]);
+            v.addElement(o);
+        }
+        configuredPorts.removeAll(v);
+        jListConfigPorts.setListData(configuredPorts);
+        jComboBoxPortsConfig.setSelectedIndex(-1);
         setButtons();
     }
 
@@ -1414,6 +1621,10 @@ public class JDialogPatternGeneration extends JDialog implements ActionListener,
                     addConnectionBetweenSelectedPorts();
                 } else if (command.equals("removeConnectionBetweenPorts")) {
                     removeConnectionBetweenPorts();
+                } else if (command.equals("addConfigPorts")) {
+                    addConfigPorts();
+                } else if (command.equals("removeConfigPorts")) {
+                    removeConfigPorts();
                 }
                 if (evt.getSource() == jp1) {
                     listPatterns = getFoldersName(pathPatterns);
@@ -1458,6 +1669,33 @@ public class JDialogPatternGeneration extends JDialog implements ActionListener,
                     //modelPatternExternalPortOfATask.removeAllElements();
                     //modelPatternExternalPortOfATask.addAll(externalPortsOfTaskInPattern);
                     jComboBoxPatternExternalPortOfATask.setSelectedIndex(-1);
+                    if (tasksOfPatternWithExternalPort.size() == 0) {
+                        removeConfigPorts.setEnabled(true);
+                        configuredPorts.removeAllElements();
+                        jListConfigPorts.setListData(configuredPorts);
+                        portsConfig.removeAllElements();
+                        portsTaskConfig = getPortsToConfig(portsTaskOfModelAll, portsTaskOfModelLeft, mgui.gtm.getTMLMapping().getTMLModeling());
+                        for (String st : portsTaskConfig.keySet()) {
+                            for (String wc : portsTaskConfig.get(st).writeChannels) {
+                                portsConfig.add(st + "::" + wc);
+                            }
+                            for (String rc : portsTaskConfig.get(st).readChannels) {
+                                portsConfig.add(st + "::" + rc);
+                            }
+                            for (String se : portsTaskConfig.get(st).sendEvents) {
+                                portsConfig.add(st + "::" + se);
+                            }
+                            for (String we : portsTaskConfig.get(st).waitEvents) {
+                                portsConfig.add(st + "::" + we);
+                            }
+                        }
+                        jComboBoxPortsConfig.setSelectedIndex(-1);
+                        jComboBoxPortsConfig.setEnabled(true);
+                    } else {
+                        portsConfig.removeAllElements();
+                        jComboBoxPortsConfig.setEnabled(false);
+                        removeConfigPorts.setEnabled(false);
+                    }
                 }
                 if (evt.getSource() == jComboBoxPatternExternalPortOfATask) {
                     if (jComboBoxPatternExternalPortOfATask.getSelectedIndex() >= 0) {
@@ -1571,6 +1809,122 @@ public class JDialogPatternGeneration extends JDialog implements ActionListener,
                     } else {
                         jFieldNewClonedTaskName.setEnabled(false);
                         addClonedTask.setEnabled(false);
+                    }
+                }
+
+                if (evt.getSource() == jComboBoxPortsConfig) {
+                    if (jComboBoxPortsConfig.getSelectedIndex() >= 0) {
+                        jRadioPortConfigRemove.setEnabled(true);
+                        jRadioPortConfigMerge.setEnabled(true);
+                        
+                    } else {
+                        jRadioPortConfigRemove.setEnabled(false);
+                        jRadioPortConfigMerge.setEnabled(false);
+                    }
+                    if (portsConfig.size() == 0) {
+                        buttonTasksMapInArch.setEnabled(true);
+                        buttonChannelsMapInArch.setEnabled(true);
+                    } else {
+                        buttonTasksMapInArch.setEnabled(false);
+                        buttonChannelsMapInArch.setEnabled(false);
+                    }
+                    
+                    jRadioPortConfigRemove.setSelected(false);
+                    jRadioPortConfigMerge.setSelected(false);
+                    portsConfigGroup.clearSelection();
+                    portsConfigMerge.removeAllElements();
+                    jComboBoxPortsConfigMerge.setSelectedIndex(-1);
+                }
+                if (evt.getSource() == jRadioPortConfigRemove) {
+                    jComboBoxPortsConfigMerge.setSelectedIndex(-1);
+                    jComboBoxPortsConfigMerge.setEnabled(false);
+                }
+
+                if (evt.getSource() == jRadioPortConfigMerge) {
+                    if (jRadioPortConfigMerge.isSelected()) {
+                        jComboBoxPortsConfigMerge.setEnabled(true);
+                        String jCo = jComboBoxPortsConfig.getSelectedItem().toString();
+                        String[] taskPortSelected = jCo.split("::");
+                        String taskSelected = taskPortSelected[0];
+                        String portSelected = taskPortSelected[1];
+                        List<String> portsToConfOfTaskAll = new ArrayList<String>();
+                        for (String st : portsConfig) {
+                            String[] taskPort = st.split("::");
+                            String task = taskPort[0];
+                            String port = taskPort[1];
+                            if (taskSelected.equals(task)) {
+                                portsToConfOfTaskAll.add(port);
+                            }
+                        }
+                        for (String st : configuredPorts) {
+                            String[] tp = st.split(" ");
+                            String[] taskPort = tp[0].split("::");
+                            String task = taskPort[0];
+                            String port = taskPort[1];
+                            if (taskSelected.equals(task)) {
+                                portsToConfOfTaskAll.add(port);
+                            }
+                        }
+                        for (String wc : portsTaskOfModelAll.get(taskSelected).writeChannels) {
+                            if (!portsToConfOfTaskAll.contains(wc)) {
+                                portsConfigMerge.add(wc);
+                            }
+                        }
+                        for (String rc : portsTaskOfModelAll.get(taskSelected).readChannels) {
+                            if (!portsToConfOfTaskAll.contains(rc)) {
+                                portsConfigMerge.add(rc);
+                            }
+                        }
+                        for (String se : portsTaskOfModelAll.get(taskSelected).sendEvents) {
+                            if (!portsToConfOfTaskAll.contains(se)) {
+                                portsConfigMerge.add(se);
+                            }
+                        }
+                        for (String we : portsTaskOfModelAll.get(taskSelected).waitEvents) {
+                            if (!portsToConfOfTaskAll.contains(we)) {
+                                portsConfigMerge.add(we);
+                            }
+                        } 
+                        
+                    } else {
+                        jComboBoxPortsConfigMerge.setEnabled(false);
+                    }
+                    jComboBoxPortsConfigMerge.setSelectedIndex(-1);
+                }
+
+                if (evt.getSource() == jRadioPortConfigMerge || evt.getSource() == jRadioPortConfigRemove || evt.getSource() == jComboBoxPortsConfigMerge) {
+                    if (portsConfig.size()>0 && (jRadioPortConfigRemove.isSelected() || (jRadioPortConfigMerge.isSelected() && jComboBoxPortsConfigMerge.getSelectedIndex() >= 0))) {
+                        addConfigPorts.setEnabled(true);
+                    } else {
+                        addConfigPorts.setEnabled(false);
+                    }
+                }
+                if (evt.getSource() == jComboBoxTaskToMap) {
+                    if (jComboBoxTaskToMap.getSelectedIndex() >= 0) {
+                        jRadioMapTaskInNewHw.setEnabled(true);
+                        jRadioMapTaskInExistingHw.setEnabled(true);
+                    }
+
+                }
+                if (evt.getSource() == jRadioMapTaskInNewHw) {
+                    if (jRadioMapTaskInNewHw.isSelected()) {
+                        jComboBoxMapTaskInNewHw.setEnabled(true);
+                    } else {
+                        jComboBoxMapTaskInNewHw.setEnabled(false);
+                    }
+                }
+                if (evt.getSource() == jRadioMapTaskInExistingHw) {
+                    if (jRadioMapTaskInExistingHw.isSelected()) {
+                        jComboBoxMapTaskInSameHwAs.setEnabled(true);
+                    } else {
+                        jComboBoxMapTaskInSameHwAs.setEnabled(false);
+                    }
+                }
+                if (evt.getSource() == jComboBoxMapTaskInSameHwAs || evt.getSource() == jComboBoxMapTaskInNewHw ) {
+                    if (portsConfig.size()>0 && (jRadioPortConfigRemove.isSelected() || (jRadioPortConfigMerge.isSelected() && jComboBoxPortsConfigMerge.getSelectedIndex() >= 0))) {
+                        addMappedTask.setEnabled(true);
+                    } else {
+                        addConfigPorts.setEnabled(false);
                     }
                 }
         }

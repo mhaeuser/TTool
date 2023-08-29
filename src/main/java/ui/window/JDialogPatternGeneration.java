@@ -193,6 +193,7 @@ public class JDialogPatternGeneration extends JDialog implements ActionListener,
     JButton addConfigPorts, removeConfigPorts;
     JButton buttonTasksMapInArch;
     JButton buttonChannelsMapInArch;
+    JButton buttonUpdatePatternsAttributes;
 
     Vector<String> tasksCanBeCloned = new Vector<String>();
     DefaultComboBoxModel<String> modelTaskToClone = new DefaultComboBoxModel<>(tasksCanBeCloned);
@@ -206,23 +207,37 @@ public class JDialogPatternGeneration extends JDialog implements ActionListener,
 
     ButtonGroup mapTaskGroup;
     JRadioButton jRadioMapTaskInExistingHw, jRadioMapTaskInNewHw;
+    Vector<String> tasksToMap = new Vector<String>();
+    Vector<String> tasksToMapInSameHw = new Vector<String>();
+    Vector<String> busToLinkNewHw = new Vector<String>();
+    DefaultComboBoxModel<String> modelTaskToMap = new DefaultComboBoxModel<>(tasksToMap);
+    DefaultComboBoxModel<String> modelMapTaskInSameHwAs = new DefaultComboBoxModel<>(tasksToMapInSameHw);
     JComboBox<String> jComboBoxTaskToMap, jComboBoxMapTaskInSameHwAs, jComboBoxMapTaskInNewHw;
     JButton addMappedTask, removeMappedTask;
     JList<String> jListMappedTasks;
     Vector<String> mappedTasks = new Vector<String>();
-    Vector<String> tasksToMap = new Vector<String>();
-    Vector<String> tasksToMapInSameHw = new Vector<String>();
-    Vector<String> busToLinkNewHw = new Vector<String>();
 
     ButtonGroup mapChannelGroup;
     JRadioButton jRadioMapChannelInExistingMem, jRadioMapChannelInNewMem;
+    Vector<String> channelsToMap = new Vector<String>();
+    Vector<String> channelsToMapInSameMem = new Vector<String>();
+    Vector<String> busToLinkNewMem = new Vector<String>();
+    DefaultComboBoxModel<String> modelChannelToMap = new DefaultComboBoxModel<>(channelsToMap);
+    DefaultComboBoxModel<String> modelMapChannelInSameMemAs = new DefaultComboBoxModel<>(channelsToMapInSameMem);
     JComboBox<String> jComboBoxChannelToMap, jComboBoxMapChannelInSameMemAs, jComboBoxMapChannelInNewMem;
     JButton addMappedChannel, removeMappedChannel;
     JList<String> jListMappedChannels;
     Vector<String> mappedChannels = new Vector<String>();
-    Vector<String> channelsToMap = new Vector<String>();
-    Vector<String> channelsToMapInSameMem = new Vector<String>();
-    Vector<String> busToLinkNewMem = new Vector<String>();
+
+    Vector<String> tasksToUpdateAttributes = new Vector<String>();
+    DefaultComboBoxModel<String> modelTasksToUpdateAttributes = new DefaultComboBoxModel<>(tasksToUpdateAttributes);
+    JComboBox<String> jComboBoxTasksToUpdateAttributes;
+    Vector<String> attributesOfTaskToUpdate = new Vector<String>();
+    DefaultComboBoxModel<String> modelAttributesOfTaskToUpdate = new DefaultComboBoxModel<>(tasksToUpdateAttributes);
+    JComboBox<String> jComboBoxAttributesOfTaskToUpdate;
+    String newTaskAttibuteValue;
+    protected JTextField jFieldNewTaskAttibuteValue;
+    JButton buttonUpdateTaskAttributeValue;
     
 
     //LinkedHashMap<String, List<AttributeTaskJsonFile>> patternTasksAttributes = new LinkedHashMap<String, List<AttributeTaskJsonFile>>();
@@ -807,7 +822,7 @@ public class JDialogPatternGeneration extends JDialog implements ActionListener,
         cOptions.fill = GridBagConstraints.HORIZONTAL;
         cOptions.anchor = GridBagConstraints.FIRST_LINE_START;
         cOptions.weightx = 1.0;
-        cOptions.gridwidth = 2;
+        cOptions.gridwidth = 3;
         jpOptions.add(new JLabel("Options:"), cOptions);
         
         
@@ -827,6 +842,13 @@ public class JDialogPatternGeneration extends JDialog implements ActionListener,
         buttonChannelsMapInArch.setActionCommand("mapChannelsManuallyInArchitecture");
         cOptions.gridx = 1;
         jpOptions.add(buttonChannelsMapInArch, cOptions);
+
+        buttonUpdatePatternsAttributes = new JButton("Update Pattern's Attributes values");
+        buttonUpdatePatternsAttributes.setEnabled(false);
+        buttonUpdatePatternsAttributes.addActionListener(this);
+        buttonUpdatePatternsAttributes.setActionCommand("updatePatternsAttributes");
+        cOptions.gridx = 2;
+        jpOptions.add(buttonUpdatePatternsAttributes, cOptions);
 
         c02.gridy = 3;
         jp02.add(jpOptions, c02);
@@ -937,7 +959,7 @@ public class JDialogPatternGeneration extends JDialog implements ActionListener,
         cMapTasksInArch.insets = new Insets(10,0,0,0);  //top padding
         jpMapTasksInArch.add(new JLabel("Select a Task to map:"), cMapTasksInArch);
 
-        jComboBoxTaskToMap = new JComboBox<String>(tasksToMap);
+        jComboBoxTaskToMap = new JComboBox<String>(modelTaskToMap);
         jComboBoxTaskToMap.setSelectedIndex(-1);
         //jComboBoxTaskToMap.setEnabled(false);
         jComboBoxTaskToMap.addActionListener(this);
@@ -956,7 +978,7 @@ public class JDialogPatternGeneration extends JDialog implements ActionListener,
         jpMapTasksInArch.add(jRadioMapTaskInExistingHw, cMapTasksInArch);
         cMapTasksInArch.gridx = 1;
         cMapTasksInArch.weightx = 1.0;
-        jComboBoxMapTaskInSameHwAs = new JComboBox<String>(tasksToMapInSameHw);
+        jComboBoxMapTaskInSameHwAs = new JComboBox<String>(modelMapTaskInSameHwAs);
         jComboBoxMapTaskInSameHwAs.setSelectedIndex(-1);
         jComboBoxMapTaskInSameHwAs.setEnabled(false);
         jComboBoxMapTaskInSameHwAs.addActionListener(this);
@@ -1009,14 +1031,14 @@ public class JDialogPatternGeneration extends JDialog implements ActionListener,
         addMappedTask.setEnabled(false);
         addMappedTask.setPreferredSize(new Dimension(40, 25));
         addMappedTask.addActionListener(this);
-        addMappedTask.setActionCommand("addChannelSecondSensor");
+        addMappedTask.setActionCommand("addMappedTask");
         pannelButtonMappedTasks.add(addMappedTask, cButtonMappedTasks);
 
         removeMappedTask = new JButton("-");
         //removeMappedTask.setEnabled(false);
         removeMappedTask.setPreferredSize(new Dimension(40, 25));
         removeMappedTask.addActionListener(this);
-        removeMappedTask.setActionCommand("removeChannelSecondSensor");
+        removeMappedTask.setActionCommand("removeMappedTask");
         cButtonMappedTasks.gridy = 1;
         pannelButtonMappedTasks.add(removeMappedTask, cButtonMappedTasks);
 
@@ -1047,7 +1069,7 @@ public class JDialogPatternGeneration extends JDialog implements ActionListener,
         cMapChannelsInArch.insets = new Insets(10,0,0,0);  //top padding
         jpMapChannelsInArch.add(new JLabel("Select a Channel to map:"), cMapChannelsInArch);
 
-        jComboBoxChannelToMap = new JComboBox<String>(channelsToMap);
+        jComboBoxChannelToMap = new JComboBox<String>(modelChannelToMap);
         jComboBoxChannelToMap.setSelectedIndex(-1);
         //jComboBoxChannelToMap.setEnabled(false);
         jComboBoxChannelToMap.addActionListener(this);
@@ -1066,7 +1088,7 @@ public class JDialogPatternGeneration extends JDialog implements ActionListener,
         jpMapChannelsInArch.add(jRadioMapChannelInExistingMem, cMapChannelsInArch);
         cMapChannelsInArch.gridx = 1;
         cMapChannelsInArch.weightx = 1.0;
-        jComboBoxMapChannelInSameMemAs = new JComboBox<String>(channelsToMapInSameMem);
+        jComboBoxMapChannelInSameMemAs = new JComboBox<String>(modelMapChannelInSameMemAs);
         jComboBoxMapChannelInSameMemAs.setSelectedIndex(-1);
         jComboBoxMapChannelInSameMemAs.setEnabled(false);
         jComboBoxMapChannelInSameMemAs.addActionListener(this);
@@ -1119,14 +1141,14 @@ public class JDialogPatternGeneration extends JDialog implements ActionListener,
         addMappedChannel.setEnabled(false);
         addMappedChannel.setPreferredSize(new Dimension(40, 25));
         addMappedChannel.addActionListener(this);
-        addMappedChannel.setActionCommand("addChannelSecondSensor");
+        addMappedChannel.setActionCommand("addMappedChannel");
         pannelButtonMappedChannels.add(addMappedChannel, cButtonMappedChannels);
 
         removeMappedChannel = new JButton("-");
         //removeMappedChannel.setEnabled(false);
         removeMappedChannel.setPreferredSize(new Dimension(40, 25));
         removeMappedChannel.addActionListener(this);
-        removeMappedChannel.setActionCommand("removeChannelSecondSensor");
+        removeMappedChannel.setActionCommand("removeMappedChannel");
         cButtonMappedChannels.gridy = 1;
         pannelButtonMappedChannels.add(removeMappedChannel, cButtonMappedChannels);
 
@@ -1226,6 +1248,94 @@ public class JDialogPatternGeneration extends JDialog implements ActionListener,
         contCloneTask.add(jpCloneTask, BorderLayout.NORTH);
         GraphicLib.centerOnParent(cloneTaskDialog, 470, 350);
         cloneTaskDialog.setVisible(true);
+    }
+
+    private void updatePatternsAttributes() {
+        JDialog updatePatternsAttributesDialog = new JDialog(this.getOwner(), "Update Pattern's Attributes Values", Dialog.ModalityType.DOCUMENT_MODAL);
+        Container contUpdatePatternsAttributes = updatePatternsAttributesDialog.getContentPane();
+        contUpdatePatternsAttributes.setLayout(new BorderLayout());
+        JPanel jpUpdatePatternsAttributes = new JPanel();
+        jpUpdatePatternsAttributes.setLayout(new GridBagLayout());
+        GridBagConstraints cUpdatePatternsAttributes = new GridBagConstraints();
+        cUpdatePatternsAttributes.gridx = 0;
+        cUpdatePatternsAttributes.gridy = 0;
+        cUpdatePatternsAttributes.fill = GridBagConstraints.HORIZONTAL;
+        cUpdatePatternsAttributes.anchor = GridBagConstraints.FIRST_LINE_START;
+        cUpdatePatternsAttributes.weightx = 1.0;
+        cUpdatePatternsAttributes.insets = new Insets(10,0,0,0);  //top padding
+        jpUpdatePatternsAttributes.add(new JLabel("Select a Task to update its attributes:"), cUpdatePatternsAttributes);
+
+        tasksToUpdateAttributes.removeAllElements();
+        for (String s : patternTasksAll.keySet()) {
+            tasksToUpdateAttributes.add(s);
+        }
+        jComboBoxTasksToUpdateAttributes = new JComboBox<String>(modelTasksToUpdateAttributes);
+        jComboBoxTasksToUpdateAttributes.setSelectedIndex(-1);
+        //jComboBoxTasksToUpdateAttributes.setEnabled(false);
+        jComboBoxTasksToUpdateAttributes.addActionListener(this);
+        cUpdatePatternsAttributes.gridx = 1;
+        jpUpdatePatternsAttributes.add(jComboBoxTasksToUpdateAttributes, cUpdatePatternsAttributes);
+
+        cUpdatePatternsAttributes.gridx = 0;
+        cUpdatePatternsAttributes.gridy = 1;
+        jpUpdatePatternsAttributes.add(new JLabel("Select an attribute to update:"), cUpdatePatternsAttributes);
+        attributesOfTaskToUpdate.removeAllElements();
+        jComboBoxAttributesOfTaskToUpdate = new JComboBox<String>(modelAttributesOfTaskToUpdate);
+        jComboBoxAttributesOfTaskToUpdate.setSelectedIndex(-1);
+        jComboBoxAttributesOfTaskToUpdate.setEnabled(false);
+        jComboBoxAttributesOfTaskToUpdate.addActionListener(this);
+        cUpdatePatternsAttributes.gridx = 1;
+        jpUpdatePatternsAttributes.add(jComboBoxAttributesOfTaskToUpdate, cUpdatePatternsAttributes);
+
+        cUpdatePatternsAttributes.gridx = 0;
+        cUpdatePatternsAttributes.gridy = 2;
+        jpUpdatePatternsAttributes.add(new JLabel("New Value:"), cUpdatePatternsAttributes);
+        jFieldNewTaskAttibuteValue = new JTextField(newTaskAttibuteValue, 10);
+        jFieldNewTaskAttibuteValue.setEnabled(false);
+        jFieldNewTaskAttibuteValue.setPreferredSize(new Dimension(10, 25));
+        jFieldNewTaskAttibuteValue.addActionListener(this);
+        cUpdatePatternsAttributes.gridx = 1;
+        jpUpdatePatternsAttributes.add(jFieldNewTaskAttibuteValue, cUpdatePatternsAttributes);
+        
+        JPanel pannelButtonUpdatePatternsAttributesValues = new JPanel();
+        pannelButtonUpdatePatternsAttributesValues.setLayout(new GridBagLayout());
+        GridBagConstraints cButtonUpdatePatternsAttributesValues = new GridBagConstraints();
+        cButtonUpdatePatternsAttributesValues.gridx = 0;
+        cButtonUpdatePatternsAttributesValues.weightx = 1.0;
+        cButtonUpdatePatternsAttributesValues.gridy = 0;
+        cButtonUpdatePatternsAttributesValues.fill = GridBagConstraints.HORIZONTAL;
+        cButtonUpdatePatternsAttributesValues.anchor = GridBagConstraints.LINE_START;
+        buttonUpdateTaskAttributeValue = new JButton("Update");
+        buttonUpdateTaskAttributeValue.setEnabled(false);
+        buttonUpdateTaskAttributeValue.setPreferredSize(new Dimension(75, 25));
+        buttonUpdateTaskAttributeValue.addActionListener(this);
+        buttonUpdateTaskAttributeValue.setActionCommand("updateTaskAttributeValue");
+        pannelButtonUpdatePatternsAttributesValues.add(buttonUpdateTaskAttributeValue, cButtonUpdatePatternsAttributesValues);
+
+        cUpdatePatternsAttributes.gridy = 3;
+        cUpdatePatternsAttributes.gridx = 0;
+        cUpdatePatternsAttributes.gridwidth = 2;
+        cUpdatePatternsAttributes.fill = GridBagConstraints.NONE;
+        cUpdatePatternsAttributes.anchor = GridBagConstraints.CENTER;
+        jpUpdatePatternsAttributes.add(pannelButtonUpdatePatternsAttributesValues, cUpdatePatternsAttributes);
+        contUpdatePatternsAttributes.add(jpUpdatePatternsAttributes, BorderLayout.NORTH);
+        GraphicLib.centerOnParent(updatePatternsAttributesDialog, 470, 350);
+        updatePatternsAttributesDialog.setVisible(true);
+    }
+
+    private void updateTaskAttributeValue() {
+        String selectedTaskToUpdateAttributes = jComboBoxTasksToUpdateAttributes.getSelectedItem().toString();
+        String selectedAttributeToUpdate = jComboBoxAttributesOfTaskToUpdate.getSelectedItem().toString();
+        String newValueAttribute = jFieldNewTaskAttibuteValue.getText();
+        if (newValueAttribute.matches("-?\\d+") || newValueAttribute.matches("(?i)^(true|false)")) {
+            for (AttributeTaskJsonFile attributeTaskJsonFile : patternTasksAll.get(selectedTaskToUpdateAttributes).attributes) {
+                if (attributeTaskJsonFile.name.equals(selectedAttributeToUpdate)) {
+                    attributeTaskJsonFile.value = newValueAttribute;
+                    jFieldNewTaskAttibuteValue.setText(attributeTaskJsonFile.value);
+                }
+            }
+        }
+        
     }
 
     private void addConnectionBetweenSelectedPorts() {
@@ -1584,6 +1694,64 @@ public class JDialogPatternGeneration extends JDialog implements ActionListener,
         setButtons();
     }
 
+    private void addMappedTask() {
+        String selectedTaskToMap = jComboBoxTaskToMap.getSelectedItem().toString();        
+        if (jRadioMapTaskInExistingHw.isSelected()) {
+            mappedTasks.add(selectedTaskToMap + " mapped in the same HW as " + jComboBoxMapTaskInSameHwAs.getSelectedItem().toString());
+        } else if (jRadioMapTaskInNewHw.isSelected()) {
+            mappedTasks.add(selectedTaskToMap + " mapped in a new HW linked to " + jComboBoxMapTaskInNewHw.getSelectedItem().toString());
+        }
+        tasksToMap.remove(selectedTaskToMap);
+        jComboBoxTaskToMap.setSelectedIndex(-1);
+        jListMappedTasks.setListData(mappedTasks);
+        setButtons();
+    }
+
+    private void removeMappedTask() {
+        int[] list = jListMappedTasks.getSelectedIndices();
+        Vector<String> v = new Vector<String>();
+        String o;
+        for (int i = 0; i < list.length; i++) {
+            o = mappedTasks.elementAt(list[i]);
+            String[] splitO = o.split(" ");
+            tasksToMap.add(splitO[0]);
+            v.addElement(o);
+        }
+        mappedTasks.removeAll(v);
+        jListMappedTasks.setListData(mappedTasks);
+        jComboBoxTaskToMap.setSelectedIndex(-1);
+        setButtons();
+    }
+
+    private void addMappedChannel() {
+        String selectedChannelToMap = jComboBoxChannelToMap.getSelectedItem().toString();        
+        if (jRadioMapChannelInExistingMem.isSelected()) {
+            mappedChannels.add(selectedChannelToMap + " mapped in the same Memory as " + jComboBoxMapChannelInSameMemAs.getSelectedItem().toString());
+        } else if (jRadioMapChannelInNewMem.isSelected()) {
+            mappedChannels.add(selectedChannelToMap + " mapped in a new memory linked to " + jComboBoxMapChannelInNewMem.getSelectedItem().toString());
+        }
+        channelsToMap.remove(selectedChannelToMap);
+        jComboBoxChannelToMap.setSelectedIndex(-1);
+        jListMappedChannels.setListData(mappedChannels);
+        setButtons();
+    }
+
+    private void removeMappedChannel() {
+        int[] list = jListMappedChannels.getSelectedIndices();
+        Vector<String> v = new Vector<String>();
+        String o;
+        for (int i = 0; i < list.length; i++) {
+            o = mappedChannels.elementAt(list[i]);
+            String[] splitO = o.split(" ");
+            channelsToMap.add(splitO[0]);
+            v.addElement(o);
+        }
+        mappedChannels.removeAll(v);
+        jListMappedChannels.setListData(mappedChannels);
+        jComboBoxChannelToMap.setSelectedIndex(-1);
+        setButtons();
+    }
+
     @Override
     public void actionPerformed(ActionEvent evt) {
         String command = evt.getActionCommand();
@@ -1613,6 +1781,8 @@ public class JDialogPatternGeneration extends JDialog implements ActionListener,
                     mapTasksManuallyInArchitecture();
                 } else if (command.equals("mapChannelsManuallyInArchitecture")) {
                     mapChannelsManuallyInArchitecture();
+                } else if (command.equals("updatePatternsAttributes")) {
+                    updatePatternsAttributes();
                 } else if (command.equals("addClonedTask")) {
                     addClonedTask();
                 } else if (command.equals("removeClonedTask")) {
@@ -1625,6 +1795,16 @@ public class JDialogPatternGeneration extends JDialog implements ActionListener,
                     addConfigPorts();
                 } else if (command.equals("removeConfigPorts")) {
                     removeConfigPorts();
+                } else if (command.equals("addMappedTask")) {
+                    addMappedTask();
+                } else if (command.equals("removeMappedTask")) {
+                    removeMappedTask();
+                } else if (command.equals("addMappedChannel")) {
+                    addMappedChannel();
+                } else if (command.equals("removeMappedChannel")) {
+                    removeMappedChannel();
+                } else if (command.equals("updateTaskAttributeValue")) {
+                    updateTaskAttributeValue();
                 }
                 if (evt.getSource() == jp1) {
                     listPatterns = getFoldersName(pathPatterns);
@@ -1822,11 +2002,69 @@ public class JDialogPatternGeneration extends JDialog implements ActionListener,
                         jRadioPortConfigMerge.setEnabled(false);
                     }
                     if (portsConfig.size() == 0) {
+                        tasksToMap.removeAllElements();
+                        tasksToMapInSameHw.removeAllElements();
+                        mappedTasks.removeAllElements();
+                        channelsToMap.removeAllElements();
+                        channelsToMapInSameMem.removeAllElements();
+                        mappedChannels.removeAllElements();
+                        for(String st : clonedTasksName) {
+                            tasksToMap.add(st);
+                        }
+                        for(String st : patternTasksAll.keySet()) {
+                            tasksToMap.add(st);
+                        }
+                        for(String st : portsTaskOfModelAll.keySet()) {
+                            if (!clonedTasksName.contains(st)) {
+                                tasksToMapInSameHw.add(st);
+                            }
+                        }
+
+                        for(String st : portsTaskOfModelAll.keySet()) {
+                            if (clonedTasksName.contains(st)) {
+                                for (String wc : portsTaskOfModelAll.get(st).writeChannels) {
+                                    if (!portsTaskOfModelLeft.get(st).writeChannels.contains(wc)) {
+                                        channelsToMap.add(st+"::"+wc);
+                                    }
+                                }
+                                for (String rc : portsTaskOfModelAll.get(st).readChannels) {
+                                    if (!portsTaskOfModelLeft.get(st).readChannels.contains(rc)) {
+                                        channelsToMap.add(st+"::"+rc);
+                                    }
+                                }
+                            }
+                            
+                        }
+                        for(String st : patternTasksAll.keySet()) {
+                            for (PortTaskJsonFile portTaskJsonFile : patternTasksAll.get(st).externalPorts) {
+                                if (portTaskJsonFile.type.equals(PatternGeneration.CHANNEL)) {
+                                    channelsToMap.add(st+"::"+portTaskJsonFile.name);
+                                }
+                            }
+                            for (PortTaskJsonFile portTaskJsonFile : patternTasksAll.get(st).internalPorts) {
+                                if (portTaskJsonFile.type.equals(PatternGeneration.CHANNEL)) {
+                                    channelsToMap.add(st+"::"+portTaskJsonFile.name);
+                                }
+                            }
+                        }
+                        for(String st : portsTaskOfModelAll.keySet()) {
+                            if (!clonedTasksName.contains(st)) {
+                                for (String wc : portsTaskOfModelAll.get(st).writeChannels) {
+                                    channelsToMapInSameMem.add(st+"::"+wc);
+                                }
+                                for (String rc : portsTaskOfModelAll.get(st).readChannels) {
+                                    channelsToMapInSameMem.add(st+"::"+rc);
+                                }
+                            }
+                        }
+                        
                         buttonTasksMapInArch.setEnabled(true);
-                        buttonChannelsMapInArch.setEnabled(true);
+                        buttonChannelsMapInArch.setEnabled(true); 
+                        buttonUpdatePatternsAttributes.setEnabled(true); 
                     } else {
                         buttonTasksMapInArch.setEnabled(false);
                         buttonChannelsMapInArch.setEnabled(false);
+                        buttonUpdatePatternsAttributes.setEnabled(false);
                     }
                     
                     jRadioPortConfigRemove.setSelected(false);
@@ -1903,12 +2141,21 @@ public class JDialogPatternGeneration extends JDialog implements ActionListener,
                     if (jComboBoxTaskToMap.getSelectedIndex() >= 0) {
                         jRadioMapTaskInNewHw.setEnabled(true);
                         jRadioMapTaskInExistingHw.setEnabled(true);
+                    } else {
+                        jRadioMapTaskInNewHw.setEnabled(false);
+                        jRadioMapTaskInExistingHw.setEnabled(false);
                     }
-
+                    mapTaskGroup.clearSelection();
+                    jComboBoxMapTaskInSameHwAs.setEnabled(false);
+                    jComboBoxMapTaskInNewHw.setEnabled(false);
+                    jComboBoxMapTaskInSameHwAs.setSelectedIndex(-1);
+                    jComboBoxMapTaskInNewHw.setSelectedIndex(-1);
                 }
                 if (evt.getSource() == jRadioMapTaskInNewHw) {
                     if (jRadioMapTaskInNewHw.isSelected()) {
                         jComboBoxMapTaskInNewHw.setEnabled(true);
+                        jComboBoxMapTaskInSameHwAs.setEnabled(false);
+                        jComboBoxMapTaskInSameHwAs.setSelectedIndex(-1);
                     } else {
                         jComboBoxMapTaskInNewHw.setEnabled(false);
                     }
@@ -1916,15 +2163,87 @@ public class JDialogPatternGeneration extends JDialog implements ActionListener,
                 if (evt.getSource() == jRadioMapTaskInExistingHw) {
                     if (jRadioMapTaskInExistingHw.isSelected()) {
                         jComboBoxMapTaskInSameHwAs.setEnabled(true);
+                        jComboBoxMapTaskInNewHw.setEnabled(false);
+                        jComboBoxMapTaskInNewHw.setSelectedIndex(-1);
                     } else {
                         jComboBoxMapTaskInSameHwAs.setEnabled(false);
                     }
                 }
-                if (evt.getSource() == jComboBoxMapTaskInSameHwAs || evt.getSource() == jComboBoxMapTaskInNewHw ) {
-                    if (portsConfig.size()>0 && (jRadioPortConfigRemove.isSelected() || (jRadioPortConfigMerge.isSelected() && jComboBoxPortsConfigMerge.getSelectedIndex() >= 0))) {
+                if (evt.getSource() == jComboBoxMapTaskInSameHwAs || evt.getSource() == jComboBoxMapTaskInNewHw) {
+                    if (tasksToMap.size() > 0 && ((jRadioMapTaskInExistingHw.isSelected() &&  jComboBoxMapTaskInSameHwAs.getSelectedIndex() >= 0) || (jRadioMapTaskInNewHw.isSelected() && jComboBoxMapTaskInNewHw.getSelectedIndex() >= 0))) {
                         addMappedTask.setEnabled(true);
                     } else {
-                        addConfigPorts.setEnabled(false);
+                        addMappedTask.setEnabled(false);
+                    }
+                }
+                if (evt.getSource() == jComboBoxChannelToMap) {
+                    if (jComboBoxChannelToMap.getSelectedIndex() >= 0) {
+                        jRadioMapChannelInNewMem.setEnabled(true);
+                        jRadioMapChannelInExistingMem.setEnabled(true);
+                    } else {
+                        jRadioMapChannelInNewMem.setEnabled(false);
+                        jRadioMapChannelInExistingMem.setEnabled(false);
+                    }
+                    mapChannelGroup.clearSelection();
+                    jComboBoxMapChannelInSameMemAs.setEnabled(false);
+                    jComboBoxMapChannelInNewMem.setEnabled(false);
+                    jComboBoxMapChannelInSameMemAs.setSelectedIndex(-1);
+                    jComboBoxMapChannelInNewMem.setSelectedIndex(-1);
+                }
+                if (evt.getSource() == jRadioMapChannelInNewMem) {
+                    if (jRadioMapChannelInNewMem.isSelected()) {
+                        jComboBoxMapChannelInNewMem.setEnabled(true);
+                        jComboBoxMapChannelInSameMemAs.setEnabled(false);
+                        jComboBoxMapChannelInSameMemAs.setSelectedIndex(-1);
+                    } else {
+                        jComboBoxMapChannelInNewMem.setEnabled(false);
+                    }
+                }
+                if (evt.getSource() == jRadioMapChannelInExistingMem) {
+                    if (jRadioMapChannelInExistingMem.isSelected()) {
+                        jComboBoxMapChannelInSameMemAs.setEnabled(true);
+                        jComboBoxMapChannelInNewMem.setEnabled(false);
+                        jComboBoxMapChannelInNewMem.setSelectedIndex(-1);
+                    } else {
+                        jComboBoxMapChannelInSameMemAs.setEnabled(false);
+                    }
+                }
+                if (evt.getSource() == jComboBoxMapChannelInSameMemAs || evt.getSource() == jComboBoxMapChannelInNewMem) {
+                    if (channelsToMap.size() > 0 && ((jRadioMapChannelInExistingMem.isSelected() &&  jComboBoxMapChannelInSameMemAs.getSelectedIndex() >= 0) || (jRadioMapChannelInNewMem.isSelected() && jComboBoxMapChannelInNewMem.getSelectedIndex() >= 0))) {
+                        addMappedChannel.setEnabled(true);
+                    } else {
+                        addMappedChannel.setEnabled(false);
+                    }
+                }
+
+                if (evt.getSource() == jComboBoxTasksToUpdateAttributes) {
+                    attributesOfTaskToUpdate.removeAllElements();
+                    if (jComboBoxTasksToUpdateAttributes.getSelectedIndex() >= 0) {
+                        jComboBoxAttributesOfTaskToUpdate.setEnabled(true);
+                        String selectedTaskToUpdateAttributes = jComboBoxTasksToUpdateAttributes.getSelectedItem().toString();
+                        for (AttributeTaskJsonFile attributeTaskJsonFile : patternTasksAll.get(selectedTaskToUpdateAttributes).attributes) {
+                            attributesOfTaskToUpdate.add(attributeTaskJsonFile.name);
+                        }
+                    } else {
+                        jComboBoxAttributesOfTaskToUpdate.setEnabled(false);
+                    }
+                    jComboBoxAttributesOfTaskToUpdate.setSelectedIndex(-1);
+                    jFieldNewTaskAttibuteValue.setText("");
+                }
+
+                if (evt.getSource() == jComboBoxAttributesOfTaskToUpdate) {
+                    if (jComboBoxAttributesOfTaskToUpdate.getSelectedIndex() >= 0) {
+                        jFieldNewTaskAttibuteValue.setEnabled(true);
+                        String selectedTaskToUpdateAttributes = jComboBoxTasksToUpdateAttributes.getSelectedItem().toString();
+                        String selectedAttributeToUpdate = jComboBoxAttributesOfTaskToUpdate.getSelectedItem().toString();
+                        for (AttributeTaskJsonFile attributeTaskJsonFile : patternTasksAll.get(selectedTaskToUpdateAttributes).attributes) {
+                            if (attributeTaskJsonFile.name.equals(selectedAttributeToUpdate)) {
+                                jFieldNewTaskAttibuteValue.setText(attributeTaskJsonFile.value);
+                            }
+                        }
+                    } else {
+                        jFieldNewTaskAttibuteValue.setEnabled(false);
+                        jFieldNewTaskAttibuteValue.setText("");
                     }
                 }
         }

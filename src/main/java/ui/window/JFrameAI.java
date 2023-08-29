@@ -123,6 +123,8 @@ public class JFrameAI extends JFrame implements ActionListener {
     private HashMap<Integer, ImageIcon> rotatedI = new HashMap<>();
     private JButton buttonClose, buttonStart, buttonApplyResponse;
 
+    private long startTime, endTime;
+
     public JFrameAI(String title, MainGUI _mgui) {
         super(title);
         mgui = _mgui;
@@ -320,6 +322,7 @@ public class JFrameAI extends JFrame implements ActionListener {
 
     private void start() {
         TraceManager.addDev("Start in JFrameAI");
+        startTime = System.currentTimeMillis();
         currentChatIndex = answerPane.getSelectedIndex();
         ChatData selected = selectedChat();
 
@@ -394,6 +397,8 @@ public class JFrameAI extends JFrame implements ActionListener {
             }
 
             selected.aiInteract.makeRequest(question.getText());
+
+            //question.setText("Total time: " + (endTime - startTime) + " ms");
 
         } else {
             error("AI interface failed (no key has been set?)");
@@ -776,6 +781,9 @@ public class JFrameAI extends JFrame implements ActionListener {
             lastAnswer = text;
             //GraphicLib.appendToPane(selectedChat().answer, "\nAI:" + text + "\n", Color.red);
             enableDisableActions();
+            endTime = System.currentTimeMillis();
+            GraphicLib.appendToPane(console, "Done. Total time: " + (endTime - startTime) + " ms\n", Color.black);
+            
         }
 
 

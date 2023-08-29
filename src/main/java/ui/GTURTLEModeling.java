@@ -73,7 +73,9 @@ import tmatrix.RequirementModeling;
 import tmltranslator.*;
 import tmltranslator.modelcompiler.TMLModelCompiler;
 import tmltranslator.patternhandling.PatternGeneration;
+import tmltranslator.patternhandling.PatternIntegration;
 import tmltranslator.patternhandling.TMRGeneration;
+import tmltranslator.patternhandling.TaskPattern;
 import tmltranslator.toautomata.TML2AUT;
 import tmltranslator.toautomata.TML2AUTviaLOTOS;
 import tmltranslator.toavatar.FullTML2Avatar;
@@ -146,6 +148,7 @@ import java.io.*;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.Map.Entry;
 import java.util.*;
 
 // AVATAR
@@ -1632,6 +1635,19 @@ public class GTURTLEModeling {
     public void createPattern(MainGUI gui, List<String> selectedTasks, String patternName, String patternsPath) {
         PatternGeneration pattern = new PatternGeneration(selectedTasks, patternName, patternsPath, tmap);
         pattern.startThread();
+    }
+
+    @SuppressWarnings("unchecked")
+    public void integratePattern(MainGUI gui, String patternPath, String patternName, LinkedHashMap<String,List<String[]>> portsConnection, LinkedHashMap<String, String> clonedTasks, LinkedHashMap<String, List<Entry<String, String>>> portsConfig, LinkedHashMap<String, Entry<String, String>> tasksMapping, LinkedHashMap<String,List<String[]>> channelsMapping, LinkedHashMap<String, TaskPattern> patternTasks) {
+        PatternIntegration patternInteg = new PatternIntegration(patternPath, patternName, portsConnection, clonedTasks, portsConfig, tasksMapping, channelsMapping, patternTasks, tmap);
+        tmap = (TMLMapping<TGComponent>) patternInteg.startThread();
+        try {
+            String archTabName = ((CorrespondanceTGElement)(tmap.getCorrespondanceList())).getTG(tmap.getArch().getFirstCPU()).getTDiagramPanel().tp.getNameOfTab();
+            String appTabName = ((TGComponent)tmap.getTMLModeling().getReference()).getTDiagramPanel().tp.getNameOfTab();
+            gui.drawTMLAndTMAPSpecification(tmap, appTabName + "_" + patternName, archTabName + "_" + patternName);
+        } catch (MalformedTMLDesignException e) {
+            TraceManager.addDev("Error when Drawing TML");
+        }
     }
 
     @SuppressWarnings("unchecked")

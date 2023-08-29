@@ -67,28 +67,20 @@ public class PatternGeneration implements Runnable {
 
         TMLModeling<?> tmlmNew = tmap.getTMLModeling();
         for (TMLTask task : tmlmNew.getTasks()) {
-            int index = task.getName().indexOf("__");
-            if (index > 0) {
-                task.setName(task.getName().substring(index + 2));
-            }
+            String[] taskNameSplit = task.getName().split("__");
+            task.setName(taskNameSplit[taskNameSplit.length-1]);
         }
         for (TMLChannel ch : tmlmNew.getChannels()) {
-            int index = ch.getName().indexOf("__");
-            if (index > 0) {
-                ch.setName(ch.getName().substring(index + 2));
-            }
+            String[] channelNameSplit = ch.getName().split("__");
+            ch.setName(channelNameSplit[channelNameSplit.length-1]);
         }
         for (TMLEvent evt : tmlmNew.getEvents()) {
-            int index = evt.getName().indexOf("__");
-            if (index > 0) {
-                evt.setName(evt.getName().substring(index + 2));
-            }
+            String[] eventNameSplit = evt.getName().split("__");
+            evt.setName(eventNameSplit[eventNameSplit.length-1]);
         }
         for (TMLRequest req : tmlmNew.getRequests()) {
-            int index = req.getName().indexOf("__");
-            if (index > 0) {
-                req.setName(req.getName().substring(index + 2));
-            }
+            String[] requestNameSplit = req.getName().split("__");
+            req.setName(requestNameSplit[requestNameSplit.length-1]);
         }
         if (generateTMLTxt(patternName)) {
             TraceManager.addDev("Done TML generation");

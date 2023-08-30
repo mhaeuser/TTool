@@ -142,8 +142,8 @@ public abstract class TMLActivityElement extends TMLElement {
 
 
     public String extraToXML() {
-	String s = "<CUSTOM " + customExtraToXML() + " />\n";
-	return s;
+	    String s = "<CUSTOM " + customExtraToXML() + " />\n";
+	    return s;
     }
     
     public abstract String customExtraToXML();

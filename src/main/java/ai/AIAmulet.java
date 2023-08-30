@@ -51,6 +51,7 @@ import java.io.BufferedReader;
 import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * Class AIAmulet
@@ -67,6 +68,7 @@ public class AIAmulet extends AIInteract implements AISysMLV2DiagramContent, AIA
     private static String[] SUPPORTED_DIAGRAMS = {"BD"};
     private static String[] EXCLUSIONS_IN_INPUT = {};
     private AvatarSpecification specification;
+    private boolean knowledgeOnModel = false;
 
     private String diagramContent;
     private String[] mutationFirstTokens = {"add","remove","rm","modify","attach","detach"};
@@ -78,13 +80,13 @@ public class AIAmulet extends AIInteract implements AISysMLV2DiagramContent, AIA
     public void internalRequest() {
         if (!chatData.knowledgeOnAMULET) {
             injectAMULETKnowledge();
-            injectKnowledgeOnCountermeasures();
+            //injectKnowledgeOnCountermeasures();
             chatData.knowledgeOnAMULET = true;
         }
 
-        if (diagramContent != null) {
-            //TraceManager.addDev("\n\nUse the following SysML V2 model: " + diagramContent + "\n");
-            chatData.aiinterface.addKnowledge("Consider the following model " + diagramContent,"Understood");
+        if (diagramContent != null && !knowledgeOnModel) {
+            injectKnowledgeOnModel();
+            knowledgeOnModel = true;
         }
 
         String questionT = "\nTTool:" + chatData.lastQuestion.trim()+ "\n";
@@ -109,12 +111,12 @@ public class AIAmulet extends AIInteract implements AISysMLV2DiagramContent, AIA
                             AvatarMutation am = AvatarMutation.createFromString(line);
                             am.apply(avspecTest);
                         } catch (ParseMutationException e) {
-                            errors.add("There is an error in your AMULET command: " + e.getMessage() + ". Could you correct the relevant AMULET " +
-                                    "line in your command list?");
+                            errors.add("There is an error in your AMULET command " + line + ". Indeed, " + e.getMessage() + ". Could you correct " +
+                                    "this line in your command list?");
                         }
                         catch (ApplyMutationException e) {
-                            errors.add("Your AMULET command cannot be applied to the model. Indeed, " + e.getMessage() + ". Could you correct the " +
-                                    "relevant AMULET line in your command list?");
+                            errors.add("Your AMULET command " + line + " cannot be applied to the model. Indeed, " + e.getMessage() + ". Could you " +
+                                    "correct this line in your command list?");
                         }
                     }
                 }
@@ -195,10 +197,10 @@ public class AIAmulet extends AIInteract implements AISysMLV2DiagramContent, AIA
     }
 
     private void injectAMULETKnowledge() {
-        chatData.aiinterface.addKnowledge("AMULET is a SysML mutation language. In AMULET, adding a block b in a block diagram is written " +
+        chatData.aiinterface.addKnowledge("AMULET is a SysML mutation language. With AMULET, adding a block b in a block diagram is written " +
                 "\"add block b\".\nRemoving a block b from a block diagram is written \"remove block b\".\n","OK.");
 
-        chatData.aiinterface.addKnowledge("Here are some more AMULET commands. Adding an input signal sig in a block b is written \"add input signal " +
+        chatData.aiinterface.addKnowledge("Adding an input signal sig in a block b is written \"add input signal " +
                 "sig in " +
                 "b\". If the signal conveys parameters (e.g. int i and bool x), we will write \"add input signal sig(int i, bool x) in b\".\n" +
                 "Removing an input signal sig from a block b is written \"remove input signal sig in b\".\n" +
@@ -206,7 +208,7 @@ public class AIAmulet extends AIInteract implements AISysMLV2DiagramContent, AIA
                 " i and bool x), we will write \"add output signal sig(int i, bool x) in b\".\n" +
                 "Removing an output signal sig from a block b is written \"remove output signal sig in b\".\n", "OK.");
 
-        chatData.aiinterface.addKnowledge("Here are some more AMULET commands. Adding an integer attribute i in a block b is written \"add attribute " +
+        chatData.aiinterface.addKnowledge("Adding an integer attribute i in a block b is written \"add attribute " +
                 "int i in b\".\n" + "Adding a boolean " +
                 "attribute x in a block b is written \"add attribute bool x in b\".\n" + "Removing an attribute a from a block b is written" +
                 " \"remove attribute a in b\"","OK.");
@@ -215,16 +217,16 @@ public class AIAmulet extends AIInteract implements AISysMLV2DiagramContent, AIA
                 "\"add attribute int i, j in myBlock\" but you must write \"add attribute int i in myBlock\" then \"add attribute int j in " +
                 "myBlock\".", "OK.");
 
-        chatData.aiinterface.addKnowledge("Here are some more AMULET commands. Adding a link between two blocks b1 and b2 is " +
+        chatData.aiinterface.addKnowledge("Adding a link between two blocks b1 and b2 is " +
                 "written \"add link between b1 and b2\".\n" +
                 "Removing a connection link between two blocks b1 and b2 is written \"remove link between b1 and b2\".", "OK.");
 
-        chatData.aiinterface.addKnowledge("In AMULET, adding a private link between two blocks b1 and b2 is written \"add private link" +
+        chatData.aiinterface.addKnowledge("Adding a private link between two blocks b1 and b2 is written \"add private link" +
                 "between b1 and b2\". Adding a lossy link between b1 and b2 is written \"add asynchronous lossy link between b1 and b2\". Adding a " +
                         "broadcast link between b1 and b2 is written \"add broadcast link between b1 and b2\".",
                 "OK.");
 
-        chatData.aiinterface.addKnowledge("Here are some more AMULET commands. If we want an input and an output signal to be synchronized, we need " +
+        chatData.aiinterface.addKnowledge("If we want an input and an output signal to be synchronized, we need " +
                 "to connect them. Connecting an input signal insig in a block b to an output signal outsig in a block c is written \"add connection " +
                 "from outsig in c to insig in b\".\n" + "Removing a connection between an input signal insig in a block b to an output signal " +
                 "outsig in a block c is written \"remove connection from outsig in c to insig in b\".","OK.");
@@ -232,10 +234,10 @@ public class AIAmulet extends AIInteract implements AISysMLV2DiagramContent, AIA
         chatData.aiinterface.addKnowledge("Connections are only possible between two signals, an input one and an output one.","Right, we can't " +
                 "connect a signal to an attribute but only to another signal of the opposite type (input, output).");
 
-        chatData.aiinterface.addKnowledge("Here are some more AMULET commands. Adding a state s in a block b's state-machine diagram is written " +
+        chatData.aiinterface.addKnowledge("Adding a state s in a block b's state-machine diagram is written " +
                 "\"add state s in b\".\n Removing a state s from a block b's state-machine diagram is written \"remove state s in b\".", "OK.");
 
-        chatData.aiinterface.addKnowledge("Here are some more AMULET commands. Adding a transition t in a block b's state-machine diagram from a " +
+        chatData.aiinterface.addKnowledge("Adding a transition t in a block b's state-machine diagram from a " +
                 "state s0 to" +
                 " a state s1 is written \"add transition t in b from s0 to s1\". If this transition has a guard (i.e., a boolean condition " +
                 "boolean_condition allowing its firing), we will write \"add transition t in b from s0 to s2 with [boolean_condition]\".\n" +
@@ -246,7 +248,7 @@ public class AIAmulet extends AIInteract implements AISysMLV2DiagramContent, AIA
                 "b1\". And if we no longer want a block b1 to be a superblock (or a parent block) of a block b0, we will write \"detach b0 from " +
                 "b1\".", "OK.");
 
-        chatData.aiinterface.addKnowledge("In AMULET, if we want to set an existing attribute n of a block myBlock to a value x, we will write " +
+        chatData.aiinterface.addKnowledge("If we want to set an existing attribute n of a block myBlock to a value x, we will write " +
                 "\"modify attribute n in myBlock to x","OK.");
 
         chatData.aiinterface.addKnowledge("If we want to set a link between a block b1 and a block b2 to private, we will write \"set link between " +
@@ -262,7 +264,7 @@ public class AIAmulet extends AIInteract implements AISysMLV2DiagramContent, AIA
         chatData.aiinterface.addKnowledge("Consider a block having an integer attribute myInt. If we want this block to send this value " +
                 "through an output signal myOutSig, the output signal declaration will be myOutSig(int myInt). Similarly, if this block has a " +
                 "boolean attribute myBool and we want it to receive a boolean value from an input signal myInSig and if we want this value to be " +
-                "assigned to myBool, the input signal declaration will be myInSig(bool myBool)","OK");
+                "assigned to myBool, the input signal declaration will be myInSig(bool myBool)","OK.");
 
         chatData.aiinterface.addKnowledge("A link can only exist between two blocks. We can't add a link between to signals, only a connection.",
                 "Right. If I want two blocks b1 and b2 to be connected, I will write \"add link between b1 and b2\", and if I want two signals s1 " +
@@ -273,8 +275,8 @@ public class AIAmulet extends AIInteract implements AISysMLV2DiagramContent, AIA
                         " AMULET command.");
          */
 
-        chatData.aiinterface.addKnowledge("Now, I want you to answer only with the AMULET source code, without any comment nor other sentence that is" +
-                " not AMULET source code.", "Understood, from now on I will only provide AMULET source code.");
+        chatData.aiinterface.addKnowledge("Now, I want you to answer only with AMULET source code, without any comment nor other sentence that is" +
+                " not AMULET source code.", "OK.");
 
         chatData.aiinterface.addKnowledge("Consider a block diagram with a block b1 and a block b2. I want b1 to send an integer value n to b2. Could" +
                 " you provide the relevant AMULET source code?","add attribute int n in b2\n add attribute int n in b1\n add output signal sendInt" +
@@ -306,6 +308,31 @@ public class AIAmulet extends AIInteract implements AISysMLV2DiagramContent, AIA
                 "the model to add cryptographic keys to the exchanged signals, for instance.","OK.");
     }
 
+    private void injectKnowledgeOnModel(){
+        diagramContent = diagramContent.replace("\t","");
+        int diagLength = diagramContent.length();
+        int messageMaxLength = 4000;
+        if (diagLength <= messageMaxLength) {
+            chatData.aiinterface.addKnowledge("Consider the following model " + diagramContent, "Understood");
+        } else {
+            List<String> splittedDiagramContent = new ArrayList<>();
+            for (int i = 0; i < diagLength; i += messageMaxLength) {
+                splittedDiagramContent.add(diagramContent.substring(i, Math.min(i + messageMaxLength, diagLength)));
+            }
+            int i = 0;
+            int splittedLength = splittedDiagramContent.size();
+            chatData.aiinterface.addKnowledge("I will send you a SysML model through " + splittedLength + " successive messages. At the end, " +
+                    "you will need to concatenate them to get the full model we want to work on.", "OK");
+            while (i < splittedLength) {
+                chatData.aiinterface.addKnowledge("Message number " + i + ": " + splittedDiagramContent.get(i), "OK");
+                i++;
+            }
+            chatData.aiinterface.addKnowledge("You now have the full model", "OK");
+        }
+    }
 
+    private void uploadModel(){
+
+    }
 
 }

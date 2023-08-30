@@ -619,15 +619,17 @@ public class JDialogPatternGeneration extends JDialog implements ActionListener,
         GridBagConstraints cPatternConnetion = new GridBagConstraints();
         cPatternConnetion.gridx = 0;
         cPatternConnetion.gridy = 0;
-        cPatternConnetion.weightx = 0.4;
         cPatternConnetion.fill = GridBagConstraints.HORIZONTAL;
         cPatternConnetion.anchor = GridBagConstraints.LINE_START;
+        jpPatternConnetion.add(new JLabel("Select an external port of the pattern:"), cPatternConnetion);
         
         
         jComboBoxPatternsTaskWithExternalPort = new JComboBox<String>(modelPatternsTaskWithExternalPort);
         jComboBoxPatternsTaskWithExternalPort.setSelectedIndex(-1);
         jComboBoxPatternsTaskWithExternalPort.setEnabled(false);
         jComboBoxPatternsTaskWithExternalPort.addActionListener(this);
+        cPatternConnetion.weightx = 0.4;
+        cPatternConnetion.gridy = 1;
         jpPatternConnetion.add(jComboBoxPatternsTaskWithExternalPort, cPatternConnetion);
         jComboBoxPatternExternalPortOfATask = new JComboBox<String>(modelPatternExternalPortOfATask);
         jComboBoxPatternExternalPortOfATask.setSelectedIndex(-1);
@@ -650,7 +652,10 @@ public class JDialogPatternGeneration extends JDialog implements ActionListener,
         jComboBoxModelsTask.setEnabled(false);
         jComboBoxModelsTask.addActionListener(this);
         cPatternConnetion.gridx = 0;
-        cPatternConnetion.gridy = 1;
+        cPatternConnetion.gridy = 2;
+        
+        jpPatternConnetion.add(new JLabel("Select a model port to connect with:"), cPatternConnetion);
+        cPatternConnetion.gridy = 3;
         cPatternConnetion.weightx = 0.8;
         jpPatternConnetion.add(jComboBoxModelsTask, cPatternConnetion);
 

@@ -100,10 +100,31 @@ public class PatternIntegration implements Runnable {
         return _tmapModel;
     }
 
-    public TMLMapping<?> addClonedTask(TMLMapping<?> _tmapModel, List<String>_portsConnection, List<String> _clonedTasks) {
-        TMLModeling<?> _tmlmModel = _tmapModel.getTMLModeling();
-        for (String clonedTask : _clonedTasks) {
+    public TMLMapping<?> updatePatternTasksAttributes(TMLMapping<?> _tmapPattern, LinkedHashMap<String, TaskPattern> _patternTasks) {
+        TMLModeling<?> _tmlmPattern = _tmapPattern.getTMLModeling();
+        for (String taskName : _patternTasks.keySet()) {
+            TMLTask taskPattern = _tmlmPattern.getTMLTaskByName(taskName);
+            if (taskPattern != null) {
+                for (int i=0; i < _patternTasks.get(taskName).getAttributes().size(); i++) {
+                    TMLAttribute attribTaskPattern = taskPattern.getAttributeByName(_patternTasks.get(taskName).getAttributes().get(i).getName());
+                    attribTaskPattern.initialValue = _patternTasks.get(taskName).getAttributes().get(i).getValue();
+                }
+            }
+        }
+        return _tmapPattern;
+    }
 
+
+    public TMLMapping<?> addClonedTask(TMLMapping<?> _tmapModel, LinkedHashMap<String,List<String[]>> _portsConnection, LinkedHashMap<String, String> _clonedTasks) {
+        TMLModeling<?> _tmlmModel = _tmapModel.getTMLModeling();
+        for (String clonedTask : _clonedTasks.keySet()) {
+            TMLTask taskToClone = _tmlmModel.getTMLTaskByName(_clonedTasks.get(clonedTask));
+            if (taskToClone != null) {
+                TMLTask taskClone = new TMLTask(clonedTask, taskToClone.getReferenceObject(), null);
+                _tmlmModel.addTask(taskClone);
+                taskClone.getAttributes().addAll(taskToClone.getAttributes());
+            }
+            
         }
         return _tmapModel;
     }

@@ -198,6 +198,7 @@ public class JDialogPatternGeneration extends JDialog implements ActionListener,
     JCheckBox jCheckBoxConnectToNewPort;
     JList<String> jListConnectedPorts;
     Vector<String> connectedPorts = new Vector<String>();
+    Vector<String> connectedPortsFull = new Vector<String>();
     JButton addConnectionBetweenSelectedPorts, removeConnectionBetweenPorts;
     //JPanel jPanelPatternIntergration;
     JButton buttonCloneTask, buttonAddPortInTask;
@@ -1366,6 +1367,7 @@ public class JDialogPatternGeneration extends JDialog implements ActionListener,
 
         if (!jCheckBoxConnectToNewPort.isSelected()) {
             connectedPorts.add(patternTaskName+TASK_CHANNEL_SEPARATOR+patternTaskPortName+PORT_CONNECTION_SEPARATOR+modelTaskName+TASK_CHANNEL_SEPARATOR+modelTaskPortName);
+            connectedPortsFull.add(patternTaskName+TASK_CHANNEL_SEPARATOR+patternTaskPortName+PORT_CONNECTION_SEPARATOR+modelTaskName+TASK_CHANNEL_SEPARATOR+modelTaskPortName);
             PortsTasks pt = portsTaskOfModelLeft.get(modelTaskName);
             if (pt.writeChannels.contains(modelTaskPortName)) {
                 pt.writeChannels.remove(modelTaskPortName);
@@ -1378,6 +1380,7 @@ public class JDialogPatternGeneration extends JDialog implements ActionListener,
             } 
         } else {
             connectedPorts.add(patternTaskName+TASK_CHANNEL_SEPARATOR+patternTaskPortName + PORT_CONNECTION_SEPARATOR +modelTaskName+ TASK_CHANNEL_SEPARATOR+patternTaskPortName+ NEW_PORT_OPTION);
+            connectedPortsFull.add(patternTaskName+TASK_CHANNEL_SEPARATOR+patternTaskPortName + PORT_CONNECTION_SEPARATOR +modelTaskName+ TASK_CHANNEL_SEPARATOR+modelTaskPortName+ NEW_PORT_OPTION);
         }
         TaskPattern tp = patternTasksNotConnected.get(patternTaskName);
         int indexElemToRemove = -1;
@@ -1416,9 +1419,11 @@ public class JDialogPatternGeneration extends JDialog implements ActionListener,
     private void removeConnectionBetweenPorts() {
         int[] list = jListConnectedPorts.getSelectedIndices();
         Vector<String> v = new Vector<String>();
-        String o;
+        Vector<String> vFull = new Vector<String>();
+        String o, oFull;
         for (int i = 0; i < list.length; i++) {
             o = connectedPorts.elementAt(list[i]);
+            oFull = connectedPortsFull.elementAt(list[i]);
 
             String[] splitO = o.split(TASK_CHANNEL_SEPARATOR, 2);
             String patternTaskName = splitO[0];
@@ -1464,10 +1469,12 @@ public class JDialogPatternGeneration extends JDialog implements ActionListener,
             }
 
             v.addElement(o);
+            vFull.addElement(oFull);
             jComboBoxPatternsTaskWithExternalPort.setSelectedIndex(-1);
             jCheckBoxConnectToNewPort.setSelected(false);
         }
         connectedPorts.removeAll(v);
+        connectedPortsFull.removeAll(vFull);
         jListConnectedPorts.setListData(connectedPorts);
         setButtons();
     }
@@ -1515,6 +1522,8 @@ public class JDialogPatternGeneration extends JDialog implements ActionListener,
             portsTaskOfModelLeft.remove(o);
             portsTaskOfModelAll.remove(o);
             Vector<String> vConn = new Vector<String>();
+            Vector<String> vConnFull = new Vector<String>();
+            int indexC = 0;
             for (String st : connectedPorts) {
                 String[] splitO = st.split(TASK_CHANNEL_SEPARATOR, 2);
                 String patternTaskName = splitO[0];
@@ -1553,9 +1562,12 @@ public class JDialogPatternGeneration extends JDialog implements ActionListener,
                         }
                     }
                     vConn.addElement(st);
+                    vConnFull.addElement(connectedPortsFull.get(indexC));
                 }
+                indexC += 1;
             }
             connectedPorts.removeAll(vConn);
+            connectedPortsFull.removeAll(vConnFull);
             jListConnectedPorts.setListData(connectedPorts);
         }
 
@@ -1874,6 +1886,7 @@ public class JDialogPatternGeneration extends JDialog implements ActionListener,
                     buttonCloneTask.setEnabled(true);
                     removeConnectionBetweenPorts.setEnabled(true);
                     connectedPorts.removeAllElements();
+                    connectedPortsFull.removeAllElements();
                     jListConnectedPorts.setListData(connectedPorts);
                 }
                 if (evt.getSource() == jComboBoxPatternsTaskWithExternalPort) {
@@ -2522,7 +2535,7 @@ public class JDialogPatternGeneration extends JDialog implements ActionListener,
                     }
                 }
                 LinkedHashMap<String, List<String[]>> connectedPortsMap = new LinkedHashMap<String, List<String[]>>();
-                for (String connectedPort : connectedPorts) {
+                for (String connectedPort : connectedPortsFull) {
                     String[] splitO = connectedPort.split(TASK_CHANNEL_SEPARATOR, 2);
                     String patternTaskName = splitO[0];
                     String[] splitCom = splitO[1].split(PORT_CONNECTION_SEPARATOR, 2);

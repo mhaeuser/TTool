@@ -81,13 +81,14 @@ public class JFrameAI extends JFrame implements ActionListener {
             "Identify properties - Select a block diagram first. You can also provide a system specification",
             "Identify system blocks (knowledge type #1) - Provide a system specification",
             "Identify system blocks (knowledge type #2) - Provide a system specification",
+            "Identify system blocks (knowledge type #2 with slicing) - Provide a system specification",
             "Identify software blocks - Provide a system specification", "Identify state" +
             " machines - Select a block diagram. Additionally, you can provide a system specification",
             "Identify state machines and attributes - Select a block diagram. Additionally, you can provide a system specification",
             "A(I)MULET - Select a block diagram first"};
 
     private static String[] AIInteractClass = {"AIChat", "AIReqIdent", "AIReqClassification", "AIChat", "AIDesignPropertyIdentification", "AIBlock",
-            "AIBlockConnAttrib", "AISoftwareBlock", "AIStateMachine", "AIStateMachinesAndAttributes", "AIAmulet"};
+            "AIBlockConnAttrib", "AIBlockConnAttribWithSlicing", "AISoftwareBlock", "AIStateMachine", "AIStateMachinesAndAttributes", "AIAmulet"};
 
     private static String[] INFOS = {"Chat on any topic you like", "Identify requirements from the specification of a system", "Classify " +
             "requirements from a requirement diagram", "Identify use cases and actors from a system specification",
@@ -96,7 +97,8 @@ public class JFrameAI extends JFrame implements ActionListener {
                     "from a block" +
                     " diagram", "Identify the system " +
             "blocks from a specification", "Identify the system " +
-            "blocks from a specification (another kind of knowledge)", "Identify the software blocks from a specification", "Identify the state " +
+            "blocks from a specification (another kind of knowledge)", "blocks from a specification (another kind of knowledge with slicing)",
+            "Identify the software blocks from a specification", "Identify the state " +
             "machines from a " +
             "system " +
             "specification and a block diagram", "Identify the state " +
@@ -438,6 +440,8 @@ public class JFrameAI extends JFrame implements ActionListener {
                 if (selectedChat.aiInteract instanceof ai.AIBlock) {
                     applyIdentifySystemBlocks(selectedChat.aiInteract.applyAnswer(null));
                 } else if (selectedChat.aiInteract instanceof ai.AIBlockConnAttrib) {
+                    applyIdentifySystemBlocks(selectedChat.aiInteract.applyAnswer(null));
+                } else if (selectedChat.aiInteract instanceof ai.AIBlockConnAttribWithSlicing) {
                     applyIdentifySystemBlocks(selectedChat.aiInteract.applyAnswer(null));
                 } else if (selectedChat.aiInteract instanceof ai.AISoftwareBlock) {
                     applyIdentifySystemBlocks(selectedChat.aiInteract.applyAnswer(null));

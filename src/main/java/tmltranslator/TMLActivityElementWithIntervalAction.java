@@ -50,7 +50,7 @@ import java.util.Objects;
  * @version 1.0 30/05/2008
  * @author Ludovic APVRILLE
  */
-public class TMLActivityElementWithIntervalAction extends TMLActivityElement {
+public abstract class TMLActivityElementWithIntervalAction extends TMLActivityElement {
     protected String minDelay, maxDelay;
     protected boolean isActiveDelay = false;
 
@@ -90,6 +90,14 @@ public class TMLActivityElementWithIntervalAction extends TMLActivityElement {
         return Objects.equals(minDelay, tmlAEIAction.getMinDelay()) &&
                 Objects.equals(maxDelay, tmlAEIAction.getMaxDelay()) &&
                 Objects.equals(isActiveDelay, tmlAEIAction.getActiveDelay());
+
+    }
+
+    public void fillValues(TMLActivityElementWithIntervalAction newElt, TMLModeling tmlm) throws TMLCheckingError {
+        super.fillValues(newElt, tmlm);
+        newElt.minDelay = minDelay;
+        newElt.maxDelay = maxDelay;
+        newElt.isActiveDelay = isActiveDelay;
 
     }
 

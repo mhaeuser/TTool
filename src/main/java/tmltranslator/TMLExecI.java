@@ -54,4 +54,10 @@ public class TMLExecI extends TMLActivityElementWithAction {
          super(_name, _referenceObject);
     }
 
+    public  TMLExecI deepClone(TMLModeling tmlm) throws TMLCheckingError {
+        TMLExecI newElt = new TMLExecI(getName(), getReferenceObject());
+        fillValues(newElt, tmlm);
+        return newElt;
+    }
+
 }

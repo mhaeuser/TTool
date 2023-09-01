@@ -40,6 +40,7 @@ package tmltranslator;
 
 import myutil.Conversion;
 import myutil.TraceManager;
+import translator.CheckingError;
 
 import java.util.*;
 
@@ -905,6 +906,42 @@ public class TMLActivity extends TMLElement {
             }
 
         }
+    }
+
+    public TMLActivity deepClone(TMLModeling tmlm) throws TMLCheckingError {
+        TMLActivity newAct = new TMLActivity(getName(), getReferenceObject());
+        HashMap<TMLActivityElement, TMLActivityElement> oldToNewElements = new HashMap<>();
+
+        // We first do basic clone elements without any nexts
+        for(TMLActivityElement tmlae: elements) {
+            TMLActivityElement newElt = tmlae.deepClone(tmlm);
+            oldToNewElements.put(tmlae, newElt);
+            newAct.addElement(newElt);
+        }
+
+        // We then deal with the nexts
+        for(TMLActivityElement tmlae: elements) {
+            TMLActivityElement  newElt = oldToNewElements.get(tmlae);
+            if (newElt == null) {
+                throw new TMLCheckingError(CheckingError.BEHAVIOR_ERROR, "Unknown element in cloned model: " + tmlae.getName());
+            }
+            for(TMLActivityElement next: tmlae.getNexts()) {
+                TMLActivityElement  newNext = oldToNewElements.get(next);
+                if (newNext == null) {
+                    throw new TMLCheckingError(CheckingError.BEHAVIOR_ERROR, "Unknown next element in cloned model: " + newNext.getName());
+                }
+                newElt.addNext(newNext);
+            }
+        }
+
+
+        // We then deal with the first
+        TMLActivityElement newFirst = oldToNewElements.get(first);
+        if (newFirst == null) {
+            throw new TMLCheckingError(CheckingError.BEHAVIOR_ERROR, "Unknown first element in cloned model: " + first.getName());
+        }
+
+        return newAct;
     }
 
 

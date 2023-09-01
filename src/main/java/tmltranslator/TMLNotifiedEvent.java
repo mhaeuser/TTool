@@ -61,4 +61,10 @@ public class TMLNotifiedEvent extends TMLActivityElementEvent {
     public String customExtraToXML() {
 	    return " event=\"" + event.getName() +  "\" params=\"" + getAllParams() + "\" variable=\"" + variable + "\" ";
     }
+
+    public  TMLNotifiedEvent deepClone(TMLModeling tmlm) throws TMLCheckingError {
+        TMLNotifiedEvent newElt = new TMLNotifiedEvent(getName(), getReferenceObject());
+        fillValues(newElt, tmlm);
+        return newElt;
+    }
 }

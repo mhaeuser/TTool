@@ -92,4 +92,20 @@ public class TMLForLoop extends TMLActivityElement {
                 Objects.equals(increment, tmlForLoop.getIncrement()) &&
                 isInfinite == tmlForLoop.isInfinite();
     }
+
+    public  TMLForLoop deepClone(TMLModeling tmlm) throws TMLCheckingError {
+        TMLForLoop newElt = new TMLForLoop(getName(), getReferenceObject());
+        fillValues(newElt, tmlm);
+        return newElt;
+    }
+
+    public void fillValues(TMLForLoop newElt, TMLModeling tmlm) throws TMLCheckingError {
+        super.fillValues(newElt, tmlm);
+        newElt.init = init;
+        newElt.condition = condition;
+        newElt.increment = increment;
+        newElt.isInfinite = isInfinite;
+    }
+
+
 }

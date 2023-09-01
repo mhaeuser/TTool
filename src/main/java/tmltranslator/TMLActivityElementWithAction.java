@@ -49,7 +49,7 @@ import java.util.Objects;
  * @version 1.0 23/11/2005
  * @author Ludovic APVRILLE
  */
-public class TMLActivityElementWithAction extends TMLActivityElement {
+public abstract class TMLActivityElementWithAction extends TMLActivityElement {
     protected String action;
 
     public TMLActivityElementWithAction(String _name, Object _referenceObject) {
@@ -80,6 +80,11 @@ public class TMLActivityElementWithAction extends TMLActivityElement {
         if (!super.equalSpec(o)) return false;
         TMLActivityElementWithAction tmlActivityElementWithAction = (TMLActivityElementWithAction) o;
         return Objects.equals(action, tmlActivityElementWithAction.getAction());
+    }
+
+    public void fillValues(TMLActivityElementWithAction newElt, TMLModeling tmlm) throws TMLCheckingError {
+        super.fillValues(newElt, tmlm);
+        newElt.action = action;
     }
 
 }

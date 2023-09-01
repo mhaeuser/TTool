@@ -57,4 +57,10 @@ public class TMLJunction extends TMLActivityElement{
     public String customExtraToXML() {
 	return "";
     }
+
+    public  TMLJunction deepClone(TMLModeling tmlm) throws TMLCheckingError {
+        TMLJunction newElt = new TMLJunction(getName(), getReferenceObject());
+        fillValues(newElt, tmlm);
+        return newElt;
+    }
 }

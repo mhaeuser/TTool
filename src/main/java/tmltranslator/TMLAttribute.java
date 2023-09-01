@@ -172,8 +172,8 @@ public class TMLAttribute extends DIPLOElement {
 	    return s;
     }
 
-    public TMLAttribute deepClone() {
-        TMLAttribute newA = new TMLAttribute(getName(), getInstanceName(), getType(), getInitialValue());
+    public TMLAttribute deepClone(TMLModeling tmlm) {
+        TMLAttribute newA = new TMLAttribute(getName(), getInstanceName(), getType().deepClone(tmlm), getInitialValue());
 
         return newA;
     }

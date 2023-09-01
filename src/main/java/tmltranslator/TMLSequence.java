@@ -108,4 +108,10 @@ public class TMLSequence extends TMLActivityElement {
         TMLSequence tmlSequence = (TMLSequence) o;
         return (new HashSet<>(indexes)).equals(new HashSet<>(tmlSequence.getIndexes()));
     }
+
+    public  TMLSequence deepClone(TMLModeling tmlm) throws TMLCheckingError {
+        TMLSequence newElt = new TMLSequence(getName(), getReferenceObject());
+        fillValues(newElt, tmlm);
+        return newElt;
+    }
 }

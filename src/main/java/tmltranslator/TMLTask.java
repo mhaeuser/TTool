@@ -573,7 +573,7 @@ public class TMLTask extends TMLElement {
         }
     }
 
-    public TMLTask deepClone(TMLModeling tml) {
+    public TMLTask deepClone(TMLModeling tmlm) throws TMLCheckingError {
         TMLTask task = new TMLTask(getName(), getReferenceObject(), getActivityDiagram().getReferenceObject());
         task.setRequested(isRequested());
         task.setExit(exits());
@@ -587,11 +587,12 @@ public class TMLTask extends TMLElement {
 
         // Attributes
         for(TMLAttribute a: attributes) {
-            TMLAttribute newA = a.deepClone();
+            TMLAttribute newA = a.deepClone(tmlm);
             task.addAttribute(newA);
         }
 
         // activity: to be done
+        task.activity = activity.deepClone(tmlm);
 
         return task;
 

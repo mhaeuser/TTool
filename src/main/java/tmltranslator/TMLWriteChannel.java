@@ -65,4 +65,10 @@ public class TMLWriteChannel extends TMLActivityElementChannel {
         return  tmp;
     }
 
+    public  TMLWriteChannel deepClone(TMLModeling tmlm) throws TMLCheckingError {
+        TMLWriteChannel newElt = new TMLWriteChannel(getName(), getReferenceObject());
+        fillValues(newElt, tmlm);
+        return newElt;
+    }
+
 }

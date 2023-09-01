@@ -171,4 +171,15 @@ public abstract class TMLActivityElement extends TMLElement {
     public boolean hasCheckedAccessibility() {
         return accessibility;
     }
+
+    public abstract TMLActivityElement deepClone(TMLModeling tmlm) throws TMLCheckingError;
+
+    public void fillValues(TMLActivityElement newElt, TMLModeling tmlm) throws TMLCheckingError {
+        newElt.value = value;
+        newElt.setCheckableAccessibility(canBeCheckedForAccessibility);
+        newElt.setCheckAccessibility(accessibility);
+        if (securityPattern != null) {
+            newElt.securityPattern = securityPattern.deepClone(tmlm);
+        }
+    }
 }

@@ -58,4 +58,10 @@ public class TMLReadChannel extends TMLActivityElementChannel {
         return "Read " + nbOfSamples + " samples in channel: " + getChannel(0).getName();
     }
 
+    public TMLReadChannel deepClone(TMLModeling tmlm) throws TMLCheckingError {
+        TMLReadChannel newElt = new TMLReadChannel(getName(), getReferenceObject());
+        fillValues(newElt, tmlm);
+        return newElt;
+    }
+
 }

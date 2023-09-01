@@ -566,7 +566,7 @@ public class AvatarSpecification extends AvatarElement implements IBSParamSpec {
 
                             if (at == AvatarType.UNDEFINED) {
                                 jsonErrors.add("In block " + newBlock.getName() + " attribute " + nameA + " is invalid because " +
-                                        "its type is invalid.");
+                                        "\"" + typeA + "\"is an invalid type (only int or bool).");
                             }
 
                             if (tryToCorrectErrors) {
@@ -598,7 +598,7 @@ public class AvatarSpecification extends AvatarElement implements IBSParamSpec {
                             AvatarType at = AvatarType.getType(typeA);
                             if (at == AvatarType.UNDEFINED) {
                                 jsonErrors.add("In block " + newBlock.getName() + " attribute " + nameA + " is invalid because " +
-                                        "its type is invalid.");
+                                        "\"" + typeA + "\"is an invalid type (only int or bool).");
                             }
 
                             AvatarAttribute aa;

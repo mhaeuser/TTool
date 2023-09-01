@@ -114,10 +114,12 @@ public class AIBlockConnAttrib extends AIInteract {
 
         boolean done = false;
         int cpt = 0;
+        int cptStage = 0;
 
         // Blocks and attributes
         while (!done && cpt < 20) {
             cpt++;
+            cptStage ++;
             boolean ok = makeQuestion(questionT);
             if (!ok) {
                 done = true;
@@ -155,7 +157,7 @@ public class AIBlockConnAttrib extends AIInteract {
                         "the full specification at once.");
             }
 
-            if ((errors != null) && (errors.size() > 0)) {
+            if ((errors != null) && (errors.size() > 0) && (cptStage < 8)) {
                 questionT = "Your answer was not correct because of the following errors:";
                 for (String s : errors) {
                     questionT += "\n- " + s;
@@ -163,13 +165,14 @@ public class AIBlockConnAttrib extends AIInteract {
             } else {
                 //TraceManager.addDev(" Avatar spec=" + specification);
                 stage++;
+                cptStage = 0;
                 if (stage == KNOWLEDGE_STAGES.length) {
                     done = true;
                 } else {
                     makeKnowledge(stage);
                     questionT = QUESTION_IDENTIFY_SYSTEM_BLOCKS[stage] + chatData.lastQuestion.trim();
                     if (namesOfBlocks.length() > 0) {
-                        questionT += "\nThe blocks to be used are: " + namesOfBlocks.trim();
+                        questionT += "\nThe blocks to use are: " + namesOfBlocks.trim();
                     }
                 }
             }

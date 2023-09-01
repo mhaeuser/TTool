@@ -92,10 +92,12 @@ public class AIBlockConnAttribWithSlicing extends AIInteract {
     public static String[] KNOWLEDGE_STAGES = {KNOWLEDGE_ON_JSON_FOR_BLOCKS, KNOWLEDGE_ON_JSON_FOR_CONNECTIONS, KNOWLEDGE_ON_JSON_FOR_ATTRIBUTES};
     AvatarSpecification specification, specification0;
 
-    private String[] QUESTION_IDENTIFY_SYSTEM_BLOCKS = {"From the following system specification, using the specified JSON format, identify the " +
+    private String[] QUESTION_IDENTIFY_SYSTEM_BLOCKS = {"From the provided system specification, using the specified JSON format, identify the " +
             "typical system blocks. Do respect the JSON format, and provide only JSON (no explanation before or after).\n",
-            "From the following system specification, using the specified JSON format, identify the " +
+
+            "From the provided system specification, using the specified JSON format, identify the " +
             "typical system blocks and their connections. Do respect the JSON format, and provide only JSON (no explanation before or after).\n",
+            
             "From the previous JSON and system specification, find the typical attributes of all blocks by imagining all the necessary attributes " +
                     "that would be needed for the state machine diagram of each block. "};
 
@@ -110,9 +112,9 @@ public class AIBlockConnAttribWithSlicing extends AIInteract {
         int stage = 0;
         String systemSpec = chatData.lastQuestion.trim();
         String json = "";
-        String questionT = QUESTION_IDENTIFY_SYSTEM_BLOCKS[stage] + "\n" + chatData.lastQuestion.trim() + "\n";
+        String questionT = QUESTION_IDENTIFY_SYSTEM_BLOCKS[stage] ;
         initKnowledge();
-        makeKnowledge(stage);
+        makeKnowledge(stage, systemSpec);
 
         boolean done = false;
         int cpt = 0;
@@ -174,13 +176,13 @@ public class AIBlockConnAttribWithSlicing extends AIInteract {
                     done = true;
                 } else {
                     initKnowledge();
-                    makeKnowledge(stage);
+                    makeKnowledge(stage, systemSpec);
                     if (stage == 1) {
                         questionT =
-                                "The system specification is: " + systemSpec + ".\n" + QUESTION_IDENTIFY_SYSTEM_BLOCKS[stage] + ". Blocks are to " +
-                                        "use are" + namesOfBlocks;
+                                QUESTION_IDENTIFY_SYSTEM_BLOCKS[stage] + ". Blocks to " +
+                                        "use are: " + namesOfBlocks + "\n";
                     } else {
-                        questionT = QUESTION_IDENTIFY_SYSTEM_BLOCKS[stage] + chatData.lastQuestion.trim();
+                        questionT = QUESTION_IDENTIFY_SYSTEM_BLOCKS[stage]; // + chatData.lastQuestion.trim();
                     }
                     if (namesOfBlocks.length() > 0) {
                         questionT += "\nThe blocks to be used are: " + namesOfBlocks.trim();
@@ -223,10 +225,9 @@ public class AIBlockConnAttribWithSlicing extends AIInteract {
         }
 
         if (_spec != null) {
-            for(String s: know) {
-                TraceManager.addDev("\nKnowledge added: " + s);
-                chatData.aiinterface.addKnowledge("The system specification is: " + _spec, "ok");
-            }
+            TraceManager.addDev("\nKnowledge added: " + _spec);
+            chatData.aiinterface.addKnowledge("The system specification is: " + _spec, "ok");
+
         }
 
 

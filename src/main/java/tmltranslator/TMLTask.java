@@ -573,5 +573,30 @@ public class TMLTask extends TMLElement {
         }
     }
 
+    public TMLTask deepClone(TMLModeling tml) {
+        TMLTask task = new TMLTask(getName(), getReferenceObject(), getActivityDiagram().getReferenceObject());
+        task.setRequested(isRequested());
+        task.setExit(exits());
+        task.setPriority(getPriority());
+
+        task.addOperationType(getOperationType());
+        task.addOperation(getOperation());
+        task.setDaemon(isDaemon());
+        task.addOperationMEC(getOperationMEC());
+        task.setAttacker(isAttacker());
+
+        // Attributes
+        for(TMLAttribute a: attributes) {
+            TMLAttribute newA = a.deepClone();
+            task.addAttribute(newA);
+        }
+
+        // activity: to be done
+
+        return task;
+
+
+    }
+
 
 }

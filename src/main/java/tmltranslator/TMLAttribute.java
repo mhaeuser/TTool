@@ -168,7 +168,13 @@ public class TMLAttribute extends DIPLOElement {
     }
 
     public String toXML() {
-	String s = "<ATTRIBUTE type=\"" + type.getType() + "\" name=\"" + name + "\" initialValue=\"" + initialValue + "\"/>\n";
-	return s;
+	    String s = "<ATTRIBUTE type=\"" + type.getType() + "\" name=\"" + name + "\" initialValue=\"" + initialValue + "\"/>\n";
+	    return s;
+    }
+
+    public TMLAttribute deepClone() {
+        TMLAttribute newA = new TMLAttribute(getName(), getInstanceName(), getType(), getInitialValue());
+
+        return newA;
     }
 }//End of class

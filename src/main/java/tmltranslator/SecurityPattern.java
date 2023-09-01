@@ -63,9 +63,11 @@ public class SecurityPattern {
     public int size = 0;
     public int encTime = 0;
     public int decTime = 0;
+
     public String originTask;
     public AvatarState state1;
     public AvatarState state2;
+
     public String nonce;
     public String formula;
     public String key;
@@ -178,6 +180,13 @@ public class SecurityPattern {
 
     public void setProcess(int _process) {
         this.process = _process;
+    }
+
+    public SecurityPattern deepClone(TMLModeling tmlm) throws TMLCheckingError {
+        SecurityPattern sp = new SecurityPattern(name, type, ""+overhead, ""+size, ""+encTime, ""+decTime,
+                nonce, formula, key);
+
+        return sp;
     }
 
 }

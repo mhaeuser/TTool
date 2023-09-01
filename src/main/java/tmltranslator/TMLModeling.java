@@ -76,7 +76,7 @@ public class TMLModeling<E> {
     private List<TMLEvent> events;
     private List<String> pragmas;
 
-    private TMLElement correspondance[]; // Link to graphical components
+    private TMLElement correspondance[]; // Link to e.g. graphical components
     private boolean optimized = false;
     private String[] ops = {">", "<", "+", "-", "*", "/", "[", "]", "(", ")", ":", "=", "==", ","};
 
@@ -3184,6 +3184,45 @@ public class TMLModeling<E> {
         else {
             return 3;
         } 
+    }
+
+    @SuppressWarnings("unchecked")
+    public TMLModeling deepClone() throws TMLCheckingError {
+        TMLModeling tmlm = new TMLModeling();
+
+        for(TMLTask task: tasks) {
+            TMLTask newTask = task.deepClone(tmlm);
+            tmlm.addTask(newTask);
+        }
+
+        for(TMLChannel ch: channels) {
+            TMLChannel newCh = ch.deepClone(tmlm);
+            tmlm.addChannel(newCh);
+        }
+
+        for(TMLEvent ev: events) {
+            TMLEvent newEv = ev.deepClone(tmlm);
+            tmlm.addEvent(newEv);
+        }
+
+        for(TMLRequest req: requests) {
+            TMLRequest newReq = req.deepClone(tmlm);
+            tmlm.addRequest(newReq);
+        }
+
+        for(String prag: pragmas) {
+            tmlm.pragmas.add(prag);
+        }
+
+        tmlm.optimized = optimized;
+
+        // Security
+        tmlm.securityPatterns.addAll(securityPatterns);
+        for(SecurityPattern sp: secPatterns) {
+            tmlm.secPatterns.add(sp.deepClone(tmlm));
+        }
+
+        return tmlm;
     }
 
 }

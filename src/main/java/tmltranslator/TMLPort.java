@@ -114,4 +114,14 @@ public class TMLPort extends TMLElement {
                 Objects.equals(associatedEvent, tmlPort.getAssociatedEvent()) &&
                 Objects.equals(dataFlowType, tmlPort.getDataFlowType());
     }
+
+    public TMLPort deepClone(TMLModeling tmlm) {
+        TMLPort newPort = new TMLPort(getName(), getReferenceObject());
+        newPort.associatedEvent = getAssociatedEvent();
+        newPort.dataFlowType = getDataFlowType();
+        newPort.postex = postex;
+        newPort.prex = prex;
+
+        return newPort;
+    }
 }

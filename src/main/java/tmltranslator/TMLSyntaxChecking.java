@@ -46,6 +46,7 @@ import compiler.tmlparser.TokenMgrError;
 import myutil.Conversion;
 import myutil.TraceManager;
 import tmltranslator.tomappingsystemc2.DiploSimulatorCodeGenerator;
+import translator.CheckingError;
 
 import java.io.StringReader;
 import java.util.*;
@@ -141,7 +142,6 @@ public class TMLSyntaxChecking {
 
             checkPortName();
 
-            //added by minh hiep
             checkAValidPortName();
 
             //checkOnlyOneReadAndWriteForChannelsWithAuthenticityCheck();
@@ -184,6 +184,19 @@ public class TMLSyntaxChecking {
             return 0;
         }
         return warnings.size();
+    }
+
+    public String getErrorAndWarningString() {
+        StringBuffer ret = new StringBuffer("Errors:\n");
+        for(TMLError e: getErrors()) {
+            ret.append("- " + e.toString() + "\n");
+        }
+
+        ret.append("\nWarning:\n");
+        for(TMLError e: getWarnings()) {
+            ret.append("- " + e.toString() + "\n");
+        }
+        return ret.toString();
     }
 
     public ArrayList<TMLError> getErrors() {

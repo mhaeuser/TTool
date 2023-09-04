@@ -619,7 +619,6 @@ public class TMLActivity extends TMLElement {
 
         try {
 
-
                 if ((currentElement instanceof TMLForLoop) || (currentElement instanceof TMLSequence) || (currentElement instanceof TMLRandomSequence)) {
                     // We consider each next independently
                     for (TMLActivityElement elt : currentElement.getNexts()) {
@@ -683,7 +682,7 @@ public class TMLActivity extends TMLElement {
                     return getWorstCaseIComplexity(currentElement.getNextElement(0));
                 }
         } catch (Exception e) {
-            TraceManager.addDev("Exception in Complexity computation:" + e.getMessage());
+            TraceManager.addDev("Exception in Complexity computation:" + e.getClass().toString() + "/" + e.getMessage());
             return -1;
         }
 
@@ -940,6 +939,7 @@ public class TMLActivity extends TMLElement {
         if (newFirst == null) {
             throw new TMLCheckingError(CheckingError.BEHAVIOR_ERROR, "Unknown first element in cloned model: " + first.getName());
         }
+        newAct.first = newFirst;
 
         return newAct;
     }

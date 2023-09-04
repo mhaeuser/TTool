@@ -137,7 +137,7 @@ public class TMLSendRequest extends TMLActivityElement  {
         return newElt;
     }
 
-    public void TMLActivityElementEvent(TMLSendRequest newElt, TMLModeling tmlm) throws TMLCheckingError {
+    public void fillValues(TMLSendRequest newElt, TMLModeling tmlm) throws TMLCheckingError {
         super.fillValues(newElt, tmlm);
         newElt.datas.addAll(datas);
 

@@ -135,7 +135,7 @@ public abstract class TMLActivityElementChannel extends TMLActivityElement {
 
     }
 
-    public void TMLActivityElementChannel(TMLActivityElementChannel newElt, TMLModeling tmlm) throws TMLCheckingError {
+    public void fillValues(TMLActivityElementChannel newElt, TMLModeling tmlm) throws TMLCheckingError {
         super.fillValues(newElt, tmlm);
         newElt.setNbOfSamples(getNbOfSamples());
         newElt.setAttacker(isAttacker);

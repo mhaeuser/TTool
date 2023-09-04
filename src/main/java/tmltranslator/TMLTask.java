@@ -573,6 +573,10 @@ public class TMLTask extends TMLElement {
         }
     }
 
+    public void setActivity(TMLActivity _activity) {
+        activity = _activity;
+    }
+
     public TMLTask deepClone(TMLModeling tmlm) throws TMLCheckingError {
         TMLTask task = new TMLTask(getName(), getReferenceObject(), getActivityDiagram().getReferenceObject());
         task.setRequested(isRequested());
@@ -592,11 +596,9 @@ public class TMLTask extends TMLElement {
         }
 
         // activity: to be done
-        task.activity = activity.deepClone(tmlm);
+        //task.activity = activity.deepClone(tmlm);
 
         return task;
-
-
     }
 
 

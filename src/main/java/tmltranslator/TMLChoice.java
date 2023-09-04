@@ -363,7 +363,7 @@ public class TMLChoice extends TMLActivityElement{
         return newElt;
     }
 
-    public void TMLChoice(TMLChoice newElt, TMLModeling tmlm) throws TMLCheckingError {
+    public void fillValues(TMLChoice newElt, TMLModeling tmlm) throws TMLCheckingError {
         super.fillValues(newElt, tmlm);
         newElt.guards.addAll(guards);
 

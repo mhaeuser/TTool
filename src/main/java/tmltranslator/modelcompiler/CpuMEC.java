@@ -42,6 +42,9 @@
 
 package tmltranslator.modelcompiler;
 
+import tmltranslator.TMLArchitecture;
+import tmltranslator.TMLCheckingError;
+
 /**
    * Class CpuMEC, Model Extension Construct (MEC) class for Embb non-cachable CPU operation
    * Creation: 05/02/2014
@@ -54,6 +57,12 @@ public class CpuMEC extends ArchUnitMEC	{
 
 	public CpuMEC()	{
 		index = 0;
+	}
+
+	public CpuMEC deepClone(TMLArchitecture _archi) throws TMLCheckingError {
+		CpuMEC newMEC = new CpuMEC();
+		fillValues(newMEC, _archi);
+		return newMEC;
 	}
 
 }	//End of class

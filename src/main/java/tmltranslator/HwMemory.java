@@ -79,4 +79,17 @@ public class HwMemory extends HwCommunicationNode  {
                 memorySize == hwMemory.memorySize;
     }
 
+    public HwMemory deepClone(TMLArchitecture _archi) throws TMLCheckingError {
+        HwMemory newNode = new HwMemory(getName());
+        fillValues(newNode, _archi);
+        return newNode;
+    }
+
+    public void fillValues(HwMemory newNode, TMLArchitecture _archi)  throws TMLCheckingError {
+        super.fillValues(newNode, _archi);
+        newNode.byteDataSize = byteDataSize;
+        newNode.bufferType = bufferType;
+        newNode.memorySize = memorySize;
+    }
+
 }

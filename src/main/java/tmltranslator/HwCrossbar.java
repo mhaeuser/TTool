@@ -70,4 +70,15 @@ public class HwCrossbar extends HwCommunicationNode  {
         HwCrossbar hwCrossbar = (HwCrossbar) o;
         return byteDataSize == hwCrossbar.byteDataSize;
     }
+
+    public HwCrossbar deepClone(TMLArchitecture _archi) throws TMLCheckingError {
+        HwCrossbar newNode = new HwCrossbar(getName());
+        fillValues(newNode, _archi);
+        return newNode;
+    }
+
+    public void fillValues(HwCrossbar newNode, TMLArchitecture _archi)  throws TMLCheckingError {
+        super.fillValues(newNode, _archi);
+        newNode.byteDataSize = byteDataSize;
+    }
 }

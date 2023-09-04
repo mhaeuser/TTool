@@ -39,6 +39,10 @@
 
 package tmltranslator.modelcompiler;
 
+import tmltranslator.HwNode;
+import tmltranslator.TMLArchitecture;
+import tmltranslator.TMLCheckingError;
+
 import java.util.Arrays;
 import java.util.Objects;
 import java.util.Vector;
@@ -106,6 +110,15 @@ public abstract class ArchUnitMEC       {
                 Objects.equals(initCtxRoutine, that.getCtxInitCode()) &&
                 Objects.equals(ctxCleanupRoutine, that.getCtxCleanupCode()) &&
                 Objects.equals(localMemoryPointer, getLocalMemoryPointer());
+    }
+
+    public abstract ArchUnitMEC deepClone(TMLArchitecture _archi) throws TMLCheckingError;
+
+    public void fillValues(ArchUnitMEC newMEC, TMLArchitecture _archi)  throws TMLCheckingError {
+        newMEC.index = index;
+        newMEC.initCtxRoutine = getCtxInitCode();
+        newMEC.ctxCleanupRoutine = getCtxCleanupCode();
+        newMEC.localMemoryPointer = getLocalMemoryPointer();
     }
 
 }       //End of class

@@ -42,6 +42,8 @@
 package tmltranslator;
 
 
+import myutil.TraceManager;
+
 import java.util.Objects;
 
 /**
@@ -65,10 +67,19 @@ public abstract class HwCommunicationNode extends HwNode  {
     }
 
     public boolean equalSpec(Object o) {
+        //TraceManager.addDev("equalSpec in HwCommunicationNode");
         if(!(o instanceof HwCommunicationNode)) return false;
         if (!super.equalSpec(o)) return false;
         HwCommunicationNode that = (HwCommunicationNode) o;
+        //TraceManager.addDev("Comparing HwCommunicationNode " + getName() + " with " + that.getName());
         return privacy == that.privacy;
     }
+
+    public void fillValues(HwBus newNode, TMLArchitecture _archi)  throws TMLCheckingError {
+        super.fillValues(newNode, _archi);
+        newNode.privacy = privacy;
+    }
+
+
 
 }

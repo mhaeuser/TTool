@@ -39,6 +39,9 @@
 
 package tmltranslator.modelcompiler;
 
+import tmltranslator.TMLArchitecture;
+import tmltranslator.TMLCheckingError;
+
 /**
    * Class MapperMEC, Model Extension Construct (MEC) class for Embb Mapper operations
    * Creation: 05/02/2014
@@ -58,4 +61,11 @@ public class MapperMEC extends ArchUnitMEC	{
 		localMemoryPointer = "mapper_mss";
 		ctxCleanupRoutine = "mapper_ctx_cleanup";
 	}
+
+	public MapperMEC deepClone(TMLArchitecture _archi) throws TMLCheckingError {
+		MapperMEC newMEC = new MapperMEC();
+		fillValues(newMEC, _archi);
+		return newMEC;
+	}
+
 }	//End of class

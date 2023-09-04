@@ -105,4 +105,23 @@ public class HwFPGA extends HwExecutionNode {
 	                reconfigurationTime == hwFPGA.reconfigurationTime &&
 	                scheduling.equals(hwFPGA.scheduling);
 	    }
+
+    public HwFPGA deepClone(TMLArchitecture _archi) throws TMLCheckingError {
+        HwFPGA newNode = new HwFPGA(getName());
+        fillValues(newNode, _archi);
+        return newNode;
+    }
+
+    public void fillValues(HwFPGA newNode, TMLArchitecture _archi)  throws TMLCheckingError {
+        super.fillValues(newNode, _archi);
+        newNode.byteDataSize = byteDataSize;
+        newNode.goIdleTime = goIdleTime;
+        newNode.maxConsecutiveIdleCycles = maxConsecutiveIdleCycles;
+        newNode.capacity = capacity;
+        newNode.mappingPenalty = mappingPenalty;
+        newNode.reconfigurationTime = reconfigurationTime;
+        newNode.scheduling = scheduling;
+    }
+
+
 }

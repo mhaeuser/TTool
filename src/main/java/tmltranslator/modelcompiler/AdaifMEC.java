@@ -42,6 +42,9 @@
 
 package tmltranslator.modelcompiler;
 
+import tmltranslator.TMLArchitecture;
+import tmltranslator.TMLCheckingError;
+
 /**
    * Class AdaifMEC, Model Extension Construct (MEC) class for Embb Adaif operations
    * Creation: 05/02/2014
@@ -61,6 +64,12 @@ public class AdaifMEC extends ArchUnitMEC	{
 		initCtxRoutine = "adaif_ctx_init";
 		localMemoryPointer = "adaif_mss";
 		ctxCleanupRoutine = CTX_CLEANUP;//"adaif_ctx_cleanup";
+	}
+
+	public AdaifMEC deepClone(TMLArchitecture _archi) throws TMLCheckingError {
+		AdaifMEC newMEC = new AdaifMEC();
+		fillValues(newMEC, _archi);
+		return newMEC;
 	}
 
 }	//End of class

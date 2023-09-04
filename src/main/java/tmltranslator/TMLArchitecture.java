@@ -336,6 +336,34 @@ public class TMLArchitecture {
         return null;
     }
 
+    public HwVGMN getHwVGMNByName(String _name) {
+        if (_name == null) {
+            return null;
+        }
+        for (HwNode node : hwnodes) {
+            if (node.getName().equals(_name)) {
+                if (node instanceof HwVGMN) {
+                    return (HwVGMN) node;
+                }
+            }
+        }
+        return null;
+    }
+
+    public HwCrossbar getHwCrossbarByName(String _name) {
+        if (_name == null) {
+            return null;
+        }
+        for (HwNode node : hwnodes) {
+            if (node.getName().equals(_name)) {
+                if (node instanceof HwCrossbar) {
+                    return (HwCrossbar) node;
+                }
+            }
+        }
+        return null;
+    }
+
     public HwExecutionNode getHwExecutionNodeByName(String _name) {
         if (_name == null) {
             return null;
@@ -345,6 +373,21 @@ public class TMLArchitecture {
             if (node.getName().equals(_name)) {
                 if (node instanceof HwExecutionNode) {
                     return (HwExecutionNode) node;
+                }
+            }
+        }
+        return null;
+    }
+
+    public HwCommunicationNode getHwCommunicationNodeByName(String _name) {
+        if (_name == null) {
+            return null;
+        }
+
+        for (HwNode node : hwnodes) {
+            if (node.getName().equals(_name)) {
+                if (node instanceof HwCommunicationNode) {
+                    return (HwCommunicationNode) node;
                 }
             }
         }
@@ -580,6 +623,23 @@ public class TMLArchitecture {
             }
         }
         return fpgas;
+    }
+
+    @SuppressWarnings("unchecked")
+    public TMLArchitecture deepClone() throws TMLCheckingError {
+        TMLArchitecture newArchi = new TMLArchitecture();
+
+        for(HwNode node: hwnodes) {
+            HwNode newNode = node.deepClone(newArchi);
+            newArchi.addHwNode(newNode);
+        }
+
+        for(HwLink link: hwlinks) {
+            HwLink newLink = link.deepClone(newArchi);
+            newArchi.addHwLink(newLink);
+        }
+
+        return newArchi;
     }
 
 

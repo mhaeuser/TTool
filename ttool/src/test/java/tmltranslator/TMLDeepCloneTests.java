@@ -19,6 +19,8 @@ public class TMLDeepCloneTests extends AbstractTest {
 
     private final static String[] TML_APP_FILES = {"signal.tml", "scp.tml"};
 
+    private final static String[] TMAP_FILES = {"signal.tmap", "scp.tmap"};
+
     //final static String EMPTY_FILE = getBaseResourcesDir() + PATH_TO_TEST_COMPARE_FILE + "file1.tml";
 
 
@@ -77,6 +79,57 @@ public class TMLDeepCloneTests extends AbstractTest {
 
             // Comparing the two TML Modeling
             boolean equal = cloned.equalSpec(tmlts.getTMLModeling());
+            assertTrue(equal);
+
+
+        }
+    }
+
+    @Test
+    public void testDeepCloneTMAP() {
+        for(String fileName: TMAP_FILES) {
+            fileName = getBaseResourcesDir() + PATH_TO_TEST_CLONE_FILE + fileName;
+
+            TMLMappingTextSpecification tmlts = new TMLMappingTextSpecification(fileName);
+
+            File f = new File(fileName);
+            TraceManager.addDev("TMLDeepCloneTest new file loaded " + fileName + " path to file: " + f.getAbsolutePath());
+            String spec = null;
+            try {
+                spec = FileUtils.loadFileData(f);
+            } catch (Exception e) {
+                TraceManager.addDev("TMLDeepCloneTest. Exception executing: loading " + fileName);
+                assertTrue(false);
+            }
+
+            // Parsing
+            assertTrue(spec != null);
+            boolean parsed = tmlts.makeTMLMapping(spec, getBaseResourcesDir() + PATH_TO_TEST_CLONE_FILE);
+            assertTrue(parsed);
+
+
+            // Syntax checking
+            TMLSyntaxChecking syntax = new TMLSyntaxChecking(tmlts.getTMLMapping());
+            syntax.checkSyntax();
+            assertTrue(syntax.hasErrors() == 0);
+
+            //////Clone
+            TMLMapping cloned = null;
+            try {
+                cloned = tmlts.getTMLMapping().deepClone();
+            } catch(TMLCheckingError tmlce) {
+                TraceManager.addDev("TMLDeepCloneTest in mapping clone. Exception executing: clone " + fileName + ": " + tmlce.getMessage());
+                assertTrue(false);
+            }
+
+
+            syntax = new TMLSyntaxChecking(cloned);
+            syntax.checkSyntax();
+            TraceManager.addDev("Cloned errors and warnings:\n" + syntax.getErrorAndWarningString() + "\n\n");
+            assertTrue(syntax.hasErrors() == 0);
+
+            // Comparing the two TML Modeling
+            boolean equal = cloned.equalSpec(tmlts.getTMLMapping());
             assertTrue(equal);
 
 

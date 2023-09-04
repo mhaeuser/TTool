@@ -76,4 +76,16 @@ public class HwDMA extends HwCommunicationNode  {
                 nbOfChannels == hwDMA.nbOfChannels;
     }
 
+    public HwDMA deepClone(TMLArchitecture _archi) throws TMLCheckingError {
+        HwDMA newNode = new HwDMA(getName());
+        fillValues(newNode, _archi);
+        return newNode;
+    }
+
+    public void fillValues(HwDMA newNode, TMLArchitecture _archi)  throws TMLCheckingError {
+        super.fillValues(newNode, _archi);
+        newNode.byteDataSize = byteDataSize;
+        newNode.nbOfChannels = nbOfChannels;
+    }
+
 }

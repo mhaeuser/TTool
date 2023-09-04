@@ -39,6 +39,8 @@
 
 package tmltranslator;
 
+import myutil.TraceManager;
+
 import java.util.Objects;
 
 /**
@@ -81,14 +83,32 @@ public class HwBus extends HwCommunicationNode {
     }
 
     public boolean equalSpec(Object o) {
+
         if (!(o instanceof HwBus)) return false;
         if (!super.equalSpec(o)) return false;
         HwBus hwBus = (HwBus) o;
+
+        //TraceManager.addDev("Testing equality in HwBus for " + toXML() + " and " + toXML());
         return byteDataSize == hwBus.byteDataSize &&
                 pipelineSize == hwBus.pipelineSize &&
                 arbitration == hwBus.arbitration &&
                 sliceTime == hwBus.sliceTime &&
                 burstSize == hwBus.burstSize;
+    }
+
+    public HwBus deepClone(TMLArchitecture _archi) throws TMLCheckingError {
+        HwBus newNode = new HwBus(getName());
+        fillValues(newNode, _archi);
+        return newNode;
+    }
+
+    public void fillValues(HwBus newNode, TMLArchitecture _archi)  throws TMLCheckingError {
+        super.fillValues(newNode, _archi);
+        newNode.byteDataSize = byteDataSize;
+        newNode.pipelineSize = pipelineSize;
+        newNode.arbitration = arbitration;
+        newNode.burstSize = burstSize;
+        newNode.sliceTime = sliceTime;
     }
 
 

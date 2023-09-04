@@ -39,6 +39,9 @@
 
 package tmltranslator.modelcompiler;
 
+import tmltranslator.TMLArchitecture;
+import tmltranslator.TMLCheckingError;
+
 import java.util.Arrays;
 import java.util.Vector;
 
@@ -71,8 +74,10 @@ public class FepMEC extends ArchUnitMEC	{
 		ctxCleanupRoutine = "fep_ctx_cleanup";
 	}
 
-    /*public static String getContext()   {
-        return context;
-    }*/
+	public FepMEC deepClone(TMLArchitecture _archi) throws TMLCheckingError {
+		FepMEC newMEC = new FepMEC();
+		fillValues(newMEC, _archi);
+		return newMEC;
+	}
 
 }	//End of class

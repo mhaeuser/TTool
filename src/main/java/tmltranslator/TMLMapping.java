@@ -50,6 +50,7 @@ import org.jgrapht.graph.DefaultDirectedGraph;
 import org.jgrapht.graph.DefaultEdge;
 import tmltranslator.tonetwork.TMAP2Network;
 import tmltranslator.toproverif.TML2ProVerif;
+import translator.CheckingError;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -1905,20 +1906,32 @@ public class TMLMapping<E> {
         TMLMapping<?> that = (TMLMapping<?>) o;
         TMLComparingMethod comp = new TMLComparingMethod();
 
+        //TraceManager.addDev("Testing isOncommondesListEquals");
+
         if (!comp.isOncommondesListEquals(oncommnodes, that.getCommunicationNodes()))
             return false;
+
+        //TraceManager.addDev("Testing isMappedcommeltsListEquals");
 
         if (!comp.isMappedcommeltsListEquals(mappedcommelts, that.getMappedCommunicationElement()))
             return false;
 
+        ////TraceManager.addDev("Testing isTasksListEquals");
+
         if (!comp.isTasksListEquals(mappedtasks, that.getMappedTasks()))
             return false;
+
+        //TraceManager.addDev("Testing isOnExecutionNodeListEquals");
 
         if (!comp.isOnExecutionNodeListEquals(onnodes, that.getNodes()))
             return false;
 
+        //TraceManager.addDev("Testing pragmas");
+
         if (!comp.isListOfStringArrayEquals(pragmas, that.getPragmas()))
             return false;
+
+        //TraceManager.addDev("Testing mapped secu");
 
         if (!comp.isSecurityPatternMapEquals(mappedSecurity, that.mappedSecurity))
             return false;
@@ -1997,5 +2010,92 @@ public class TMLMapping<E> {
         nodesToStates = null;
         commNodes = null;
     }
+
+    @SuppressWarnings("unchecked")
+    public TMLMapping deepClone() throws TMLCheckingError {
+
+        TMLModeling tmlm = getTMLModeling().deepClone();
+        TMLArchitecture tarchi = getTMLArchitecture().deepClone();
+
+        TMLMapping tmap = new TMLMapping(tmlm, tarchi, false);
+
+        // Mapping of tasks
+        for(int i=0; i<onnodes.size(); i++) {
+            HwExecutionNode node = onnodes.get(i);
+            TMLTask task = mappedtasks.get(i);
+
+            HwExecutionNode newNode = tarchi.getHwExecutionNodeByName(node.getName());
+            if (newNode == null) {
+                throw new TMLCheckingError(CheckingError.STRUCTURE_ERROR, "No execution node named " + node.getName() +
+                        " in new architecture (task mapping)");
+            }
+
+            TMLTask newTask = tmlm.getTMLTaskByName(task.getName());
+            if (task == null) {
+                throw new TMLCheckingError(CheckingError.STRUCTURE_ERROR, "No task named " + task.getName() +
+                        " in new architecture (task mapping)");
+            }
+
+            tmap.addTaskToHwExecutionNode(newTask, newNode);
+        }
+
+        // Mapping of communications
+        for(int i=0; i<oncommnodes.size(); i++) {
+            HwCommunicationNode commNode = oncommnodes.get(i);
+            TMLElement elt = mappedcommelts.get(i);
+
+            HwCommunicationNode newCommNode = tarchi.getHwCommunicationNodeByName(commNode.getName());
+            if (newCommNode == null) {
+                throw new TMLCheckingError(CheckingError.STRUCTURE_ERROR, "No communication node named " + commNode.getName() +
+                        " in new architecture (comm mapping)");
+            }
+
+            TMLElement newElt = tmlm.getCommunicationElementByName(elt.getName());
+            if (newElt == null) {
+                throw new TMLCheckingError(CheckingError.STRUCTURE_ERROR, "No element named " + elt.getName() +
+                        " in new architecture (task mapping)");
+            }
+
+            tmap.addCommToHwCommNode(newElt, newCommNode);
+        }
+
+        // Security
+        tmap.firewall = firewall;
+        for(SecurityPattern sp: mappedSecurity.keySet()) {
+            SecurityPattern newSp = tmlm.getSecurityPattern(sp.getName());
+            if (newSp == null) {
+                throw new TMLCheckingError(CheckingError.STRUCTURE_ERROR, "No security pattern named " + sp.getName() +
+                        " in new tml modeling (security pattern mapping)");
+            }
+            List<HwMemory> newMems = new ArrayList<>();
+            for(HwMemory mem: mappedSecurity.get(sp)) {
+                HwMemory newMem = tmla.getHwMemoryByName(mem.getName());
+                if (newMem == null) {
+                    throw new TMLCheckingError(CheckingError.STRUCTURE_ERROR, "No memory named " + mem.getName() +
+                            " in new architecture (security patter mapping)");
+                }
+                newMems.add(newMem);
+            }
+            tmap.mappedSecurity.put(newSp, newMems);
+        }
+
+        for(String [] ss: pragmas) {
+            tmap.pragmas.add(ss.clone());
+        }
+
+
+        // CPs
+        for(TMLCPLib lib: mappedCPLibs) {
+            tmap.addTMLCPLib(lib.deepClone());
+        }
+
+
+        // For plugins
+        tmap.customValues.addAll(customValues);
+
+        return tmap;
+    }
+
+
 
 }

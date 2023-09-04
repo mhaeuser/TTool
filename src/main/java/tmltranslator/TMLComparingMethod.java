@@ -1,5 +1,7 @@
 package tmltranslator;
 
+import myutil.TraceManager;
+
 import java.util.*;
 
 public class TMLComparingMethod {
@@ -26,7 +28,10 @@ public class TMLComparingMethod {
 
         boolean test;
 
+
+
         for (int i = 0; i < list1.size(); i++) {
+            TraceManager.addDev("Testing equality for " + list1.get(i).getName() + " and " + list2.get(i).getName());
             test =  list1.get(i).equalSpec(list2.get(i));
             if (!test) return false;
         }

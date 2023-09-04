@@ -59,7 +59,6 @@ public class HwCams extends HwExecutionNode  {
     public static final int DEFAULT_MAX_CONSECUTIVE_IDLE_CYCLES = 10;
     public static final int DEFAULT_SLICE_TIME = 10000; // in microseconds
 
-
     public int byteDataSize = DEFAULT_BYTE_DATA_SIZE; // In bytes. Should more than 0
 
     public HwCams(String _name) {
@@ -71,8 +70,19 @@ public class HwCams extends HwExecutionNode  {
     }
 
     public String toXML() {
-	String s = "<CAMS name=\"" + name + "\" clockRatio=\"" + clockRatio + "\"  byteDataSize=\"" + byteDataSize + "\" execiTime=\"" + execiTime + "\" execcTime=\"" + execcTime + "\" />\n";
-	return s;
+	    String s = "<CAMS name=\"" + name + "\" clockRatio=\"" + clockRatio + "\"  byteDataSize=\"" + byteDataSize + "\" execiTime=\"" + execiTime + "\" execcTime=\"" + execcTime + "\" />\n";
+	    return s;
+    }
+
+    public HwCams deepClone(TMLArchitecture _archi) throws TMLCheckingError {
+        HwCams newNode = new HwCams(getName());
+        fillValues(newNode, _archi);
+        return newNode;
+    }
+
+    public void fillValues(HwCams newNode, TMLArchitecture _archi)  throws TMLCheckingError {
+        super.fillValues(newNode, _archi);
+        newNode.byteDataSize = byteDataSize;
     }
 
 

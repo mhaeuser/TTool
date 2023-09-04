@@ -42,6 +42,7 @@
 
 package tmltranslator;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -95,10 +96,19 @@ public class TMLCPLibArtifact extends TMLElement {
 
     public String toXML() {
         String s = "<TMLCPLIBARTIFACT taskName=\"" + taskName + "\" portName=\"" + portName + "\" memoryName=\"" + memoryName + "\" priority=\"" + priority + "\" >\n";
-	for(String bp: bufferParameters) {
-	    s += "<BUFFERPARAMETERS param=\"" + bp + "\" />\n";
-	}
+        for(String bp: bufferParameters) {
+	        s += "<BUFFERPARAMETERS param=\"" + bp + "\" />\n";
+	    }
         s += "</TMLCPLIBARTIFACT>\n";
         return s;
     }
+
+    public TMLCPLibArtifact deepClone() {
+        TMLCPLibArtifact newLib = new TMLCPLibArtifact(getName(), getReferenceObject(), getTaskName(), getPortName(), getMemoryName(),
+                getPriority(), null);
+        newLib.bufferParameters = new ArrayList<>();
+        newLib.bufferParameters.addAll(bufferParameters);
+        return newLib;
+    }
+
 }       //End of the class

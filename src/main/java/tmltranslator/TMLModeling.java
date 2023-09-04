@@ -111,9 +111,9 @@ public class TMLModeling<E> {
         return checkedActivities;
     }
 
-    public SecurityPattern getSecurityPattern(String s) {
+    public SecurityPattern getSecurityPattern(String name) {
         for (SecurityPattern sp : secPatterns) {
-            if (sp.name.equals(s)) {
+            if (sp.name.equals(name)) {
                 return sp;
             }
         }

@@ -39,6 +39,8 @@
 
 package tmltranslator;
 
+import translator.CheckingError;
+
 import java.util.Objects;
 
 /**
@@ -115,6 +117,48 @@ public class HwLink implements Comparable<HwLink> {
                 bus.getName().equals(hwLink.bus.getName()) &&
                 hwnode.getName().equals(hwLink.hwnode.getName()) &&
                 Objects.equals(getName(),hwLink.getName());
+    }
+
+    public HwLink deepClone(TMLArchitecture _archi) throws TMLCheckingError {
+        HwLink newLink = new HwLink(getName());
+        fillValues(newLink, _archi);
+        return newLink;
+    }
+
+    public void fillValues(HwLink newLink, TMLArchitecture _archi)  throws TMLCheckingError {
+        if (bus != null) {
+            HwBus newBus = _archi.getHwBusByName(bus.getName());
+            if (newBus == null) {
+                throw new TMLCheckingError(CheckingError.STRUCTURE_ERROR, "No new bus named " + bus.getName() + " in new TMLArchitecture");
+            }
+            newLink.bus = newBus;
+        }
+
+        if (vgmn != null) {
+            HwVGMN newVGMN = _archi.getHwVGMNByName(vgmn.getName());
+            if (newVGMN == null) {
+                throw new TMLCheckingError(CheckingError.STRUCTURE_ERROR, "No new VGMN named " + vgmn.getName() + " in new TMLArchitecture");
+            }
+            newLink.vgmn = newVGMN;
+        }
+
+        if (crossbar != null) {
+            HwCrossbar newCrossbar = _archi.getHwCrossbarByName(crossbar.getName());
+            if (newCrossbar == null) {
+                throw new TMLCheckingError(CheckingError.STRUCTURE_ERROR, "No new Crossbar named " + crossbar.getName() + " in new TMLArchitecture");
+            }
+            newLink.crossbar = newCrossbar;
+        }
+
+        if (hwnode != null) {
+            HwNode newNode = _archi.getHwNodeByName(hwnode.getName());
+            if (newNode == null) {
+                throw new TMLCheckingError(CheckingError.STRUCTURE_ERROR, "No new hwnode named " + hwnode.getName() + " in new TMLArchitecture");
+            }
+            newLink.hwnode = newNode;
+        }
+
+        newLink.priority = priority;
     }
 
 }

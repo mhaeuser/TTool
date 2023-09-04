@@ -39,6 +39,8 @@
 
 package tmltranslator;
 
+import myutil.TraceManager;
+
 import java.util.*;
 
 /**
@@ -541,6 +543,9 @@ public class TMLTask extends TMLElement {
         if (!super.equalSpec(o)) return false;
         TMLTask tmlTask = (TMLTask) o;
         TMLComparingMethod comp = new TMLComparingMethod();
+
+        TraceManager.addDev("Going to compare requests");
+
         if (request != null) {
             if (!request.equalSpec(tmlTask.getRequest())) return false;
         } else {
@@ -549,6 +554,9 @@ public class TMLTask extends TMLElement {
 
         if (!(new HashSet<>(attributes).equals(new HashSet<>(tmlTask.attributes))))
             return false;
+
+        TraceManager.addDev("HashSet of attributes ok");
+
         return operationType == tmlTask.operationType &&
                 isDaemon == tmlTask.isDaemon &&
                 isPeriodic == tmlTask.isPeriodic &&

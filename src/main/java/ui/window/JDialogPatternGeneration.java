@@ -149,21 +149,21 @@ public class JDialogPatternGeneration extends JDialog implements ActionListener,
     protected final static int STARTED = 2;
     protected final static int STOPPED = 3;
     
-    protected final static String CLONE_TASK_SEPARATOR = " clone of ";
-    protected final static String TASK_CHANNEL_SEPARATOR = "::";
-    protected final static String PORT_CONNECTION_SEPARATOR = " <-> ";
-    protected final static String NEW_PORT_OPTION = " (New port)";
-    protected final static String REMOVE_PORT_OPTION = "(Remove)";
-    protected final static String MERGE_PORT_OPTION = "Merge with ";
-    protected final static String PORT_CONFIGURATION_SEPARATOR = " ";
-    protected final static String MAP_TASK_IN_SAME_HW_SEPARATOR = " mapped in the same HW as ";
-    protected final static String MAP_TASK_IN_NEW_HW_SEPARATOR = " mapped in a new HW linked to ";
-    protected final static String SAME_HW = "SAME";
-    protected final static String NEW_HW = "NEW";
-    protected final static String MAP_CHANNEL_IN_SAME_MEMORY_SEPARATOR = " mapped in the same Memory as ";
-    protected final static String MAP_CHANNEL_IN_NEW_MEMORY_SEPARATOR = " mapped in a new memory linked to ";
-    protected final static String SAME_MEMORY = "SAME";
-    protected final static String NEW_MEMORY = "NEW";
+    public final static String CLONE_TASK_SEPARATOR = " clone of ";
+    public final static String TASK_CHANNEL_SEPARATOR = "::";
+    public final static String PORT_CONNECTION_SEPARATOR = " <-> ";
+    public final static String NEW_PORT_OPTION = " (New port)";
+    public final static String REMOVE_PORT_OPTION = "(Remove)";
+    public final static String MERGE_PORT_OPTION = "Merge with ";
+    public final static String PORT_CONFIGURATION_SEPARATOR = " ";
+    public final static String MAP_TASK_IN_SAME_HW_SEPARATOR = " mapped in the same HW as ";
+    public final static String MAP_TASK_IN_NEW_HW_SEPARATOR = " mapped in a new HW linked to ";
+    public final static String SAME_HW = "SAME";
+    public final static String NEW_HW = "NEW";
+    public final static String MAP_CHANNEL_IN_SAME_MEMORY_SEPARATOR = " mapped in the same Memory as ";
+    public final static String MAP_CHANNEL_IN_NEW_MEMORY_SEPARATOR = " mapped in a new memory linked to ";
+    public final static String SAME_MEMORY = "SAME";
+    public final static String NEW_MEMORY = "NEW";
 
     String pathPatterns;
     TURTLEPanel currPanel;
@@ -2437,7 +2437,7 @@ public class JDialogPatternGeneration extends JDialog implements ActionListener,
             jta.removeAll();
             boolean findErr = false;
             if (tasksOfPatternWithExternalPort.size() > 0) {
-                JLabel label = new JLabel("ERROR: Some are connection between the pattern and the model are missing");
+                JLabel label = new JLabel("ERROR: Some connections between the pattern and the model are missing");
                 label.setAlignmentX(Component.LEFT_ALIGNMENT);
                 this.jta.add(label, this.createGbc(currentPosY));
                 currentPosY += stepY;

@@ -3013,16 +3013,22 @@ public class TMLModeling<E> {
         if (!isRequestListEquals(requests, that.requests))
             return false;
 
-        TraceManager.addDev("List of request: ok");
+        TraceManager.addDev("List of requests: ok. Now testing events");
 
         if (!isEventListEquals(events, that.events))
             return false;
 
+        TraceManager.addDev("List of events: ok");
+
         if (!isChannelListEquals(channels, that.channels))
             return false;
 
+        TraceManager.addDev("List of channels: ok");
+
         if (!isSecurityPatternListEquals(secPatterns, that.secPatterns))
             return false;
+
+        TraceManager.addDev("List of Security Patterns: ok");
 
         return (new HashSet<>(securityPatterns).equals(new HashSet<>(that.securityPatterns)));
     }
@@ -3052,7 +3058,10 @@ public class TMLModeling<E> {
         for (int i = 0; i < list1.size(); i++) {
             TraceManager.addDev("Comparing " + list1.get(i).getName() + " with " + list2.get(i).getName());
             test = list1.get(i).equalSpec(list2.get(i));
-            if (!test) return false;
+            if (!test) {
+                TraceManager.addDev("Returning false");
+                return false;
+            }
         }
 
         return true;
@@ -3233,6 +3242,51 @@ public class TMLModeling<E> {
                 throw new TMLCheckingError(CheckingError.STRUCTURE_ERROR, "No new task named " + task.getName() + " in new TMLModeling");
             }
             newTask.setActivity(task.getActivityDiagram().deepClone(tmlm));
+        }
+
+        // Others elements in class
+        for(TMLTask task: tasks) {
+            TMLTask newTask = tmlm.getTMLTaskByName(task.getName());
+            if (newTask == null) {
+                throw new TMLCheckingError(CheckingError.STRUCTURE_ERROR, "No new task named " + task.getName() + " in new TMLModeling");
+            }
+            for(TMLChannel ch: task.getChannelSet()) {
+                TMLChannel newCh = tmlm.getChannelByName(ch.getName());
+                if (newCh == null) {
+                    throw new TMLCheckingError(CheckingError.STRUCTURE_ERROR, "No new channel named " + ch.getName() + " in new TMLModeling");
+                }
+                newTask.addTMLChannel(newCh);
+            }
+            for(TMLChannel ch: task.getReadTMLChannels()) {
+                TMLChannel newCh = tmlm.getChannelByName(ch.getName());
+                if (newCh == null) {
+                    throw new TMLCheckingError(CheckingError.STRUCTURE_ERROR, "No new channel named " + ch.getName() + " in new TMLModeling");
+                }
+                newTask.addReadTMLChannel(newCh);
+            }
+            for(TMLChannel ch: task.getWriteTMLChannels()) {
+                TMLChannel newCh = tmlm.getChannelByName(ch.getName());
+                if (newCh == null) {
+                    throw new TMLCheckingError(CheckingError.STRUCTURE_ERROR, "No new channel named " + ch.getName() + " in new TMLModeling");
+                }
+                newTask.addWriteTMLChannel(newCh);
+            }
+            for(TMLEvent evt: task.getTMLEvents()) {
+                TMLEvent newEvt = tmlm.getEventByName(evt.getName());
+                if (newEvt == null) {
+                    throw new TMLCheckingError(CheckingError.STRUCTURE_ERROR, "No new event named " + evt.getName() + " in new TMLModeling");
+                }
+                newTask.addTMLEvent(newEvt);
+            }
+            TMLRequest req = task.getRequest();
+            if (req != null) {
+                TMLRequest newReq = tmlm.getRequestByName(req.getName());
+                if (newReq == null) {
+                    throw new TMLCheckingError(CheckingError.STRUCTURE_ERROR, "No new request named " + req.getName() + " in new TMLModeling");
+                }
+                newTask.setRequest(newReq);
+            }
+
         }
 
         tmlm.optimized = optimized;

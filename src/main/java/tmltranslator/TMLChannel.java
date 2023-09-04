@@ -627,6 +627,8 @@ public class TMLChannel extends TMLCommunicationElement {
         TMLChannel channel = (TMLChannel) o;
         TMLComparingMethod comp = new TMLComparingMethod();
 
+        TraceManager.addDev("Comparing channel ports");
+
         if (originPort != null) {
             if (!originPort.equalSpec(channel.getOriginPort()))
                 return false;
@@ -635,6 +637,8 @@ public class TMLChannel extends TMLCommunicationElement {
         if (destinationPort != null) {
             if (!destinationPort.equalSpec(channel.getDestinationPort())) return false;
         }
+
+        TraceManager.addDev("Comparing channel tasks");
 
         if (originTask != null) {
             if (!originTask.equalSpec(channel.getOriginTask()))
@@ -645,18 +649,28 @@ public class TMLChannel extends TMLCommunicationElement {
             if (!destinationTask.equalSpec(channel.getDestinationTask())) return false;
         }
 
-        return checkConf == channel.checkConf &&
+        TraceManager.addDev("Comparing other attributes");
+
+        boolean ret =  checkConf == channel.checkConf &&
                 checkAuth == channel.checkAuth &&
                 size == channel.size &&
                 type == channel.type &&
                 max == channel.max &&
                 vc == channel.vc &&
                 nbOfSamples == channel.getNumberOfSamples() &&
-                priority == channel.priority &&
+                priority == channel.priority;
+
+        TraceManager.addDev("ret 1 = " + ret);
+
+        ret = ret &&
                 comp.isTasksListEquals(originTasks, channel.getOriginTasks()) &&
                 comp.isTasksListEquals(destinationTasks, channel.getDestinationTasks()) &&
                 comp.isPortListEquals(originPorts, channel.getOriginPorts()) &&
                 comp.isPortListEquals(destinationPorts, channel.getDestinationPorts());
+
+        TraceManager.addDev("ret 2 = " + ret);
+
+        return ret;
     }
 
 
@@ -783,6 +797,7 @@ public class TMLChannel extends TMLCommunicationElement {
             newC.destinationPorts.add(port.deepClone(tmlm));
         }
 
+        newC.setType(getType());
         newC.setNumberOfSamples(getNumberOfSamples());
         newC.setSize(getSize());
         newC.setMax(getMax());

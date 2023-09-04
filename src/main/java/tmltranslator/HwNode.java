@@ -41,6 +41,7 @@
 
 package tmltranslator;
 
+import myutil.TraceManager;
 import tmltranslator.modelcompiler.ArchUnitMEC;
 
 import java.util.Objects;
@@ -80,6 +81,7 @@ public abstract class HwNode extends DIPLOElement  {
     public abstract String toXML();
 
     public boolean equalSpec(Object o) {
+        TraceManager.addDev("equalSpec in HwNode");
         if (!(o instanceof HwNode))
             return false;
         HwNode hwNode = (HwNode) o;
@@ -92,6 +94,17 @@ public abstract class HwNode extends DIPLOElement  {
 
     public void setName(String _name) {
         name = _name;
+    }
+
+    public abstract HwNode deepClone(TMLArchitecture _archi) throws TMLCheckingError;
+
+    public void fillValues(HwNode newNode, TMLArchitecture _archi)  throws TMLCheckingError {
+        newNode.maximumNbOfMappedElement = maximumNbOfMappedElement;
+        newNode.setName(name);
+        newNode.clockRatio = clockRatio;
+        if (mec != null) {
+            newNode.addMECToHwExecutionNode(getArchUnitMEC().deepClone(_archi));
+        }
     }
 
 }

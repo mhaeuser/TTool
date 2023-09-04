@@ -627,7 +627,7 @@ public class TMLChannel extends TMLCommunicationElement {
         TMLChannel channel = (TMLChannel) o;
         TMLComparingMethod comp = new TMLComparingMethod();
 
-        TraceManager.addDev("Comparing channel ports");
+        //TraceManager.addDev("Comparing channel ports");
 
         if (originPort != null) {
             if (!originPort.equalSpec(channel.getOriginPort()))
@@ -638,7 +638,7 @@ public class TMLChannel extends TMLCommunicationElement {
             if (!destinationPort.equalSpec(channel.getDestinationPort())) return false;
         }
 
-        TraceManager.addDev("Comparing channel tasks");
+        //TraceManager.addDev("Comparing channel tasks");
 
         if (originTask != null) {
             if (!originTask.equalSpec(channel.getOriginTask()))
@@ -649,7 +649,7 @@ public class TMLChannel extends TMLCommunicationElement {
             if (!destinationTask.equalSpec(channel.getDestinationTask())) return false;
         }
 
-        TraceManager.addDev("Comparing other attributes");
+        //TraceManager.addDev("Comparing other attributes");
 
         boolean ret =  checkConf == channel.checkConf &&
                 checkAuth == channel.checkAuth &&
@@ -660,7 +660,7 @@ public class TMLChannel extends TMLCommunicationElement {
                 nbOfSamples == channel.getNumberOfSamples() &&
                 priority == channel.priority;
 
-        TraceManager.addDev("ret 1 = " + ret);
+        //TraceManager.addDev("ret 1 = " + ret);
 
         ret = ret &&
                 comp.isTasksListEquals(originTasks, channel.getOriginTasks()) &&
@@ -668,7 +668,7 @@ public class TMLChannel extends TMLCommunicationElement {
                 comp.isPortListEquals(originPorts, channel.getOriginPorts()) &&
                 comp.isPortListEquals(destinationPorts, channel.getDestinationPorts());
 
-        TraceManager.addDev("ret 2 = " + ret);
+        //TraceManager.addDev("ret 2 = " + ret);
 
         return ret;
     }

@@ -86,4 +86,15 @@ public class HwA extends HwExecutionNode  {
         return byteDataSize == hwA.byteDataSize;
     }
 
+    public HwA deepClone(TMLArchitecture _archi) throws TMLCheckingError {
+        HwA newHwA = new HwA(getName());
+        fillValues(newHwA, _archi);
+        return newHwA;
+    }
+
+    public void fillValues(HwA newNode, TMLArchitecture _archi)  throws TMLCheckingError {
+        super.fillValues(newNode, _archi);
+        newNode.byteDataSize = byteDataSize;
+    }
+
 }

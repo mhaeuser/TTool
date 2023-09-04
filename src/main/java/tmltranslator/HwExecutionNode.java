@@ -109,4 +109,12 @@ public abstract class HwExecutionNode extends HwNode  {
                 operation.equals(that.operation);
     }
 
+    public void fillValues(HwExecutionNode newNode, TMLArchitecture _archi)  throws TMLCheckingError {
+        super.fillValues(newNode, _archi);
+        newNode.maximumNbOfTasks = maximumNbOfTasks;
+        newNode.execiTime = execiTime;
+        newNode.execcTime = execcTime;
+        newNode.operation = operation;
+    }
+
 }

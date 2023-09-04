@@ -68,4 +68,17 @@ public class HwRouter extends HwCommunicationNode  {
         return s;
     }
 
+    public HwRouter deepClone(TMLArchitecture _archi) throws TMLCheckingError {
+        HwRouter newNode = new HwRouter(getName());
+        fillValues(newNode, _archi);
+        return newNode;
+    }
+
+    public void fillValues(HwRouter newNode, TMLArchitecture _archi)  throws TMLCheckingError {
+        super.fillValues(newNode, _archi);
+        newNode.latency = latency;
+        newNode.bufferByteSize = bufferByteSize;
+        newNode.size = size;
+    }
+
 }

@@ -229,6 +229,23 @@ public class HwNoC extends HwCommunicationNode  {
                  latency == hwNoC.latency;
     }
 
+    public HwNoC deepClone(TMLArchitecture _archi) throws TMLCheckingError {
+        HwNoC newNode = new HwNoC(getName());
+        fillValues(newNode, _archi);
+        return newNode;
+    }
+
+    public void fillValues(HwNoC newNode, TMLArchitecture _archi)  throws TMLCheckingError {
+        super.fillValues(newNode, _archi);
+        newNode.bufferByteSize = bufferByteSize;
+        newNode.size = size;
+        newNode.latency = latency;
+        for(String s: placementMap.keySet()) {
+            Point  p =  placementMap.get(s);
+            placementMap.put(s, new Point(p.x, p.y));
+        }
+    }
+
 
 
 }

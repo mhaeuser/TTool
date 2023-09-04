@@ -142,5 +142,27 @@ public class HwCPU extends HwExecutionNode {
                 MEC.equalSpec(hwCPU.MEC);
     }
 
+    public HwCPU deepClone(TMLArchitecture _archi) throws TMLCheckingError {
+        HwCPU newNode = new HwCPU(getName());
+        fillValues(newNode, _archi);
+        return newNode;
+    }
+
+    public void fillValues(HwCPU newNode, TMLArchitecture _archi)  throws TMLCheckingError {
+        super.fillValues(newNode, _archi);
+        newNode.encryption = encryption;
+        newNode.nbOfCores = nbOfCores;
+        newNode.byteDataSize = byteDataSize;
+        newNode.pipelineSize = pipelineSize;
+        newNode.goIdleTime = goIdleTime;
+        newNode.maxConsecutiveIdleCycles = maxConsecutiveIdleCycles;
+        newNode.taskSwitchingTime = taskSwitchingTime;
+        newNode.branchingPredictionPenalty = branchingPredictionPenalty;
+        newNode.cacheMiss = cacheMiss;
+        newNode.schedulingPolicy = schedulingPolicy;
+        newNode.sliceTime = sliceTime;
+        newNode.MEC = MEC.deepClone(_archi);
+    }
+
 
 }

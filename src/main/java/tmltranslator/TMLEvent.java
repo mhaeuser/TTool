@@ -39,6 +39,8 @@
 
 package tmltranslator;
 
+import translator.CheckingError;
+
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -389,5 +391,74 @@ public class TMLEvent extends TMLCommunicationElement {
                 comp.isPortListEquals(originPorts, event.getOriginPorts()) &&
                 comp.isPortListEquals(destinationPorts, event.getDestinationPorts());
     }
+
+    public TMLEvent deepClone(TMLModeling tmlm) throws TMLCheckingError  {
+        TMLEvent newEv = new TMLEvent(getName(), getReferenceObject(), maxEvt, isBlocking);
+
+        // Params
+        for(TMLType type: params) {
+            newEv.addParam(type.deepClone(tmlm));
+        }
+
+        // Others
+        newEv.setNotified(canBeNotified());
+        newEv.checkAuth = checkAuth;
+        newEv.checkConf = checkConf;
+
+        newEv.port = port;
+        newEv.port2 = port2;
+
+        TMLTask tmpTask = tmlm.getTMLTaskByName(origin.getName());
+        if (tmpTask == null) {
+            throw new TMLCheckingError(CheckingError.STRUCTURE_ERROR, "Unknown task in cloned model: " + tmpTask.getName());
+        }
+        newEv.origin = tmpTask;
+
+        tmpTask = tmlm.getTMLTaskByName(destination.getName());
+        if (tmpTask == null) {
+            throw new TMLCheckingError(CheckingError.STRUCTURE_ERROR, "Unknown task in cloned model: " + tmpTask.getName());
+        }
+        newEv.destination = tmpTask;
+
+
+        if (originPort != null) {
+            newEv.originPort = originPort.deepClone(tmlm);
+        }
+
+        if (destinationPort != null) {
+            newEv.destinationPort = destinationPort.deepClone(tmlm);
+        }
+
+        for(TMLTask task: originTasks) {
+            tmpTask = tmlm.getTMLTaskByName(task.getName());
+            if (tmpTask == null) {
+                throw new TMLCheckingError(CheckingError.STRUCTURE_ERROR, "Unknown task in cloned model: " + tmpTask.getName());
+            }
+            newEv.originTasks.add(tmpTask);
+        }
+
+        for(TMLTask task: destinationTasks) {
+            tmpTask = tmlm.getTMLTaskByName(task.getName());
+            if (tmpTask == null) {
+                throw new TMLCheckingError(CheckingError.STRUCTURE_ERROR, "Unknown task in cloned model: " + tmpTask.getName());
+            }
+            newEv.destinationTasks.add(tmpTask);
+        }
+
+        for(TMLPort port: originPorts) {
+            newEv.originPorts.add(port.deepClone(tmlm));
+        }
+
+        for(TMLPort port: destinationPorts) {
+            newEv.destinationPorts.add(port.deepClone(tmlm));
+        }
+
+        newEv.isLossy = isLossy;
+        newEv.lossPercentage = lossPercentage;
+        newEv.maxNbOfLoss = maxNbOfLoss;
+
+        return newEv;
+    }
+
 
 }

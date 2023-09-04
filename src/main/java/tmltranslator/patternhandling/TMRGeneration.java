@@ -164,10 +164,15 @@ public class TMRGeneration implements Runnable {
         Map<TMLActivityElement, TMLActivityElement> corrElemNext = new HashMap<TMLActivityElement, TMLActivityElement>();
         Vector<TMLActivityElement> duplElements = new Vector<TMLActivityElement>();
         for (int i=0; i < sensorTask.getActivityDiagram().getElements().size(); i++) {
-            TMLActivityElement duplElement = sensorTask.getActivityDiagram().get(i).clone();
-            duplElement.setReferenceObject(duplicatedSensorTaskA.getReferenceObject());
-            duplElements.add(duplElement);
-            corrElemNext.put(sensorTask.getActivityDiagram().get(i), duplElement);
+            try {
+                TMLActivityElement duplElement = sensorTask.getActivityDiagram().get(i).deepClone(_tmlm);
+                duplElement.setReferenceObject(duplicatedSensorTaskA.getReferenceObject());
+                duplElements.add(duplElement);
+                corrElemNext.put(sensorTask.getActivityDiagram().get(i), duplElement);
+            } catch (TMLCheckingError ex) {
+                
+            }
+            
         }
         
         for (int i=0; i < sensorTask.getActivityDiagram().getElements().size(); i++) {

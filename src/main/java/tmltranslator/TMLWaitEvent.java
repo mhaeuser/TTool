@@ -65,4 +65,10 @@ public class TMLWaitEvent extends TMLActivityElementEvent {
         return ret;
     }
 
+    public  TMLWaitEvent deepClone(TMLModeling tmlm) throws TMLCheckingError {
+        TMLWaitEvent newElt = new TMLWaitEvent(getName(), getReferenceObject());
+        fillValues(newElt, tmlm);
+        return newElt;
+    }
+
 }

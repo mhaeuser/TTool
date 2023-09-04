@@ -37,25 +37,26 @@
  */
 
 
-
-
 package tmltranslator;
 
+
+import translator.CheckingError;
 
 import java.util.*;
 
 /**
  * Class TMLRequest
  * Creation: 22/11/2005
- * @version 1.0 22/11/2005
+ *
  * @author Ludovic APVRILLE
+ * @version 1.0 22/11/2005
  */
 public class TMLRequest extends TMLCommunicationElement {
 
     protected Vector<TMLType> params; // List of various types of parameters
     private List<TMLTask> originTasks; // list of tasks from which request starts
     protected TMLTask destinationTask;
-    
+
     protected List<String> paramNames;
 
 
@@ -66,9 +67,9 @@ public class TMLRequest extends TMLCommunicationElement {
 
     public List<TMLPortWithSecurityInformation> ports;
 
-    public TMLRequest(  final String name,
-                        final Object reference ) {
-        super( name, reference );
+    public TMLRequest(final String name,
+                      final Object reference) {
+        super(name, reference);
 
         params = new Vector<TMLType>();
         originTasks = new ArrayList<TMLTask>();
@@ -85,12 +86,12 @@ public class TMLRequest extends TMLCommunicationElement {
         params.add(_type);
     }
 
-    public void addParamName(String name){
+    public void addParamName(String name) {
         paramNames.add(name);
     }
 
     public TMLType getType(int i) {
-        if (i<getNbOfParams()) {
+        if (i < getNbOfParams()) {
             return params.elementAt(i);
         }
 
@@ -101,8 +102,8 @@ public class TMLRequest extends TMLCommunicationElement {
         return params;
     }
 
-    public String getParam(int i){
-        if (i<paramNames.size()) {
+    public String getParam(int i) {
+        if (i < paramNames.size()) {
             return paramNames.get(i);
         }
 
@@ -140,10 +141,10 @@ public class TMLRequest extends TMLCommunicationElement {
     }
 
     public void addParam(String _list) {
-        String []split = _list.split(",");
+        String[] split = _list.split(",");
         TMLType type;
 
-        for(int i=0; i<split.length; i++) {
+        for (int i = 0; i < split.length; i++) {
             if (TMLType.isAValidType(split[i])) {
                 type = new TMLType(TMLType.getType(split[i]));
                 addParam(type);
@@ -162,21 +163,21 @@ public class TMLRequest extends TMLCommunicationElement {
     public String toXML() {
         String s = "<TMLREQUEST ";
         s += "name=\"" + name + "\" ";
-	s += "destinationtask=\"" + destinationTask.getName() + "\" ";
-	s += "isLossy=\"" + isLossy + "\" ";
+        s += "destinationtask=\"" + destinationTask.getName() + "\" ";
+        s += "isLossy=\"" + isLossy + "\" ";
         s += "lossPercentage=\"" + lossPercentage + "\" ";
-	s += "maxNbOfLoss=\"" + maxNbOfLoss + "\" ";
-	s += " >\n";
+        s += "maxNbOfLoss=\"" + maxNbOfLoss + "\" ";
+        s += " >\n";
 
-	for (TMLTask ta: originTasks) {
-	    s += "<ORIGINTASK name=\"" +  ta.getName() + "\" /> ";
-	}
- 
-	for (TMLType t: params) {
-	    s += "<PARAM type=\"" + t.toString() + "\" />";
-	}
+        for (TMLTask ta : originTasks) {
+            s += "<ORIGINTASK name=\"" + ta.getName() + "\" /> ";
+        }
+
+        for (TMLType t : params) {
+            s += "<PARAM type=\"" + t.toString() + "\" />";
+        }
         s += "</TMLREQUEST>\n";
-	return s;
+        return s;
     }
 
     public boolean equalSpec(Object o) {
@@ -189,15 +190,50 @@ public class TMLRequest extends TMLCommunicationElement {
             if (!destinationTask.equalSpec(request.getDestinationTask())) return false;
         }
 
-        if(!(new HashSet<>(params).equals(new HashSet<>(request.params))))
+        if (!(new HashSet<>(params).equals(new HashSet<>(request.params))))
             return false;
 
-        if(!(new HashSet<>(paramNames).equals(new HashSet<>(request.paramNames))))
+        if (!(new HashSet<>(paramNames).equals(new HashSet<>(request.paramNames))))
             return false;
 
         return confStatus == request.confStatus &&
                 checkConf == request.checkConf &&
                 checkAuth == request.checkAuth &&
                 comp.isTasksListEquals(originTasks, request.getOriginTasks());
+    }
+
+    public TMLRequest deepClone(TMLModeling tmlm) throws TMLCheckingError {
+        TMLRequest newReq = new TMLRequest(getName(), getReferenceObject());
+
+        // Params
+        for(TMLType type: params) {
+            newReq.addParam(type.deepClone(tmlm));
+        }
+
+        TMLTask tmpTask;
+        for(TMLTask task: originTasks) {
+            tmpTask = tmlm.getTMLTaskByName(task.getName());
+            if (tmpTask == null) {
+                throw new TMLCheckingError(CheckingError.STRUCTURE_ERROR, "Unknown task in cloned model: " + tmpTask.getName());
+            }
+            newReq.originTasks.add(tmpTask);
+        }
+
+        tmpTask = tmlm.getTMLTaskByName(destinationTask.getName());
+        if (tmpTask == null) {
+            throw new TMLCheckingError(CheckingError.STRUCTURE_ERROR, "Unknown task in cloned model: " + tmpTask.getName());
+        }
+
+        newReq.destinationTask = tmpTask;
+
+        newReq.checkAuth = checkAuth;
+        newReq.checkConf = checkConf;
+        newReq.confStatus = confStatus;
+
+        newReq.isLossy = isLossy;
+        newReq.lossPercentage = lossPercentage;
+        newReq.maxNbOfLoss = maxNbOfLoss;
+
+        return newReq;
     }
 }

@@ -41,6 +41,8 @@
 
 package tmltranslator;
 
+import translator.CheckingError;
+
 import java.util.HashSet;
 import java.util.Vector;
 
@@ -127,6 +129,24 @@ public class TMLSendRequest extends TMLActivityElement  {
 
         TMLSendRequest tmlSendRequest = (TMLSendRequest) o;
         return (new HashSet<>(datas)).equals(new HashSet<>(tmlSendRequest.getDatas()));
+    }
+
+    public TMLSendRequest deepClone(TMLModeling tmlm) throws TMLCheckingError {
+        TMLSendRequest newElt = new TMLSendRequest(getName(), getReferenceObject());
+        fillValues(newElt, tmlm);
+        return newElt;
+    }
+
+    public void fillValues(TMLSendRequest newElt, TMLModeling tmlm) throws TMLCheckingError {
+        super.fillValues(newElt, tmlm);
+        newElt.datas.addAll(datas);
+
+        TMLRequest req = tmlm.getRequestByName(request.getName());
+        if (req == null) {
+            throw new TMLCheckingError(CheckingError.STRUCTURE_ERROR, "Unknown event in cloned model: " + request.getName());
+        }
+        newElt.setRequest(req);
+
     }
 
 }

@@ -85,4 +85,18 @@ public class TMLRandom extends TMLActivityElement {
                 functionId == tmlRandom.getFunctionId();
     }
 
+    public  TMLRandom deepClone(TMLModeling tmlm) throws TMLCheckingError {
+        TMLRandom newElt = new TMLRandom(getName(), getReferenceObject());
+        fillValues(newElt, tmlm);
+        return newElt;
+    }
+
+    public void fillValues(TMLRandom newElt, TMLModeling tmlm) throws TMLCheckingError {
+        super.fillValues(newElt, tmlm);
+        newElt.setFunctionId(getFunctionId());
+        newElt.setVariable(getVariable());
+        newElt.setMinValue(getMinValue());
+        newElt.setMaxValue(getMaxValue());
+    }
+
 }

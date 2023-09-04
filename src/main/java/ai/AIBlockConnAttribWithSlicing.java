@@ -48,19 +48,19 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 /**
- * Class AIBlockConnAttrib
+ * Class AIBlockConnAttribWithSlicing
  * <p>
- * Creation: 01/08/2023
+ * Creation: 30/08/2023
  *
  * @author Ludovic APVRILLE
  * @version 1.0 01/08/2023
  */
 
 
-public class AIBlockConnAttrib extends AIInteract {
+public class AIBlockConnAttribWithSlicing extends AIInteract {
 
 
-    public static String KNOWLEDGE_ON_JSON_FOR_BLOCKS = "When you are asked to identify SysML blocks and their connections, " +
+    public static String KNOWLEDGE_ON_JSON_FOR_BLOCKS = "When you are asked to identify SysML blocks, " +
             "return them as a JSON specification " +
             "formatted as follows:" +
             "{blocks: [{ \"name\": \"Name of block\"...]}" +
@@ -77,7 +77,7 @@ public class AIBlockConnAttrib extends AIInteract {
             "# Respect: Use only attributes of type int or boolean. If you want to use \"String\" or another other attribute, use int." +
             "# Respect: each attribute must be of type \"int\" or \"bool\" only" +
             "# Respect: origin and destination block can be the same" +
-            "# Respect: Any identifier (block, attribute, etc.) must no contain any space. Use \"_\" instead.";
+            "# Respect: Use identifiers with no spaces for attributes and signals";
 
     public static String KNOWLEDGE_ON_JSON_FOR_ATTRIBUTES = "When you are asked to identify the attributes of SysML blocks, " +
             "return them as a JSON specification " +
@@ -92,34 +92,36 @@ public class AIBlockConnAttrib extends AIInteract {
     public static String[] KNOWLEDGE_STAGES = {KNOWLEDGE_ON_JSON_FOR_BLOCKS, KNOWLEDGE_ON_JSON_FOR_CONNECTIONS, KNOWLEDGE_ON_JSON_FOR_ATTRIBUTES};
     AvatarSpecification specification, specification0;
 
-    private String[] QUESTION_IDENTIFY_SYSTEM_BLOCKS = {"From the following system specification, using the specified JSON format, identify the " +
+    private String[] QUESTION_IDENTIFY_SYSTEM_BLOCKS = {"From the provided system specification, using the specified JSON format, identify the " +
             "typical system blocks. Do respect the JSON format, and provide only JSON (no explanation before or after).\n",
-            "From the following system specification, using the specified JSON format, identify the " +
+
+            "From the provided system specification, using the specified JSON format, identify the " +
             "typical system blocks and their connections. Do respect the JSON format, and provide only JSON (no explanation before or after).\n",
+            
             "From the previous JSON and system specification, find the typical attributes of all blocks by imagining all the necessary attributes " +
                     "that would be needed for the state machine diagram of each block. "};
 
     public String namesOfBlocks = "";
 
-    public AIBlockConnAttrib(AIChatData _chatData) {
+    public AIBlockConnAttribWithSlicing(AIChatData _chatData) {
         super(_chatData);
     }
 
     public void internalRequest() {
 
         int stage = 0;
-        String questionT = QUESTION_IDENTIFY_SYSTEM_BLOCKS[stage] + "\n" + chatData.lastQuestion.trim() + "\n";
-
-        makeKnowledge(stage);
+        String systemSpec = chatData.lastQuestion.trim();
+        String json = "";
+        String questionT = QUESTION_IDENTIFY_SYSTEM_BLOCKS[stage] ;
+        initKnowledge();
+        makeKnowledge(stage, systemSpec);
 
         boolean done = false;
         int cpt = 0;
-        int cptStage = 0;
 
         // Blocks and attributes
         while (!done && cpt < 20) {
             cpt++;
-            cptStage ++;
             boolean ok = makeQuestion(questionT);
             if (!ok) {
                 done = true;
@@ -128,19 +130,20 @@ public class AIBlockConnAttrib extends AIInteract {
             ArrayList<String> errors = null;
             try {
                 //TraceManager.addDev("Making specification from " + chatData.lastAnswer);
+                json = extractJSON();
                 if (stage == 0) {
                     namesOfBlocks = "";
                     errors = new ArrayList<>();
-                    namesOfBlocks = getBlockNames(extractJSON(), errors);
+                    namesOfBlocks = getBlockNames(json, errors);
                     TraceManager.addDev("Names of blocks: " + namesOfBlocks);
                     if (namesOfBlocks.length() == 0) {
                         errors.add("You must give the name of at least one block");
                     }
                 } else if (stage == 1) {
-                    specification0 = AvatarSpecification.fromJSONConnection(extractJSON(), "design", null, true);
+                    specification0 = AvatarSpecification.fromJSONConnection(json, "design", null, true);
                     errors = AvatarSpecification.getJSONErrors();
                 } else if (stage == 2) {
-                    specification = AvatarSpecification.fromJSON(extractJSON(), "design", null, true);
+                    specification = AvatarSpecification.fromJSON(json, "design", null, true);
                     if (specification != null) {
                         specification.addSignalsAndConnection(specification0);
                         specification.makeMinimalStateMachines();
@@ -157,22 +160,32 @@ public class AIBlockConnAttrib extends AIInteract {
                         "the full specification at once.");
             }
 
-            if ((errors != null) && (errors.size() > 0) && (cptStage < 8)) {
-                questionT = "Your answer was not correct because of the following errors:";
+            if ((errors != null) && (errors.size() > 0)) {
+                questionT = "Your answer was as follows: " + json + "\n\nYet, it was not correct because of the following errors:";
+                // Updating knowledge
                 for (String s : errors) {
                     questionT += "\n- " + s;
                 }
+                initKnowledge();
+                makeKnowledge(stage, systemSpec);
+
             } else {
                 //TraceManager.addDev(" Avatar spec=" + specification);
                 stage++;
-                cptStage = 0;
                 if (stage == KNOWLEDGE_STAGES.length) {
                     done = true;
                 } else {
-                    makeKnowledge(stage);
-                    questionT = QUESTION_IDENTIFY_SYSTEM_BLOCKS[stage] + chatData.lastQuestion.trim();
+                    initKnowledge();
+                    makeKnowledge(stage, systemSpec);
+                    if (stage == 1) {
+                        questionT =
+                                QUESTION_IDENTIFY_SYSTEM_BLOCKS[stage] + ". Blocks to " +
+                                        "use are: " + namesOfBlocks + "\n";
+                    } else {
+                        questionT = QUESTION_IDENTIFY_SYSTEM_BLOCKS[stage]; // + chatData.lastQuestion.trim();
+                    }
                     if (namesOfBlocks.length() > 0) {
-                        questionT += "\nThe blocks to use are: " + namesOfBlocks.trim();
+                        questionT += "\nThe blocks to be used are: " + namesOfBlocks.trim();
                     }
                 }
             }
@@ -181,7 +194,7 @@ public class AIBlockConnAttrib extends AIInteract {
 
             cpt++;
         }
-        TraceManager.addDev("Reached end of AIBlock internal request cpt=" + cpt);
+        TraceManager.addDev("Reached end of AIBlockConnAttribWithSlicing internal request cpt=" + cpt);
 
     }
 
@@ -193,7 +206,34 @@ public class AIBlockConnAttrib extends AIInteract {
         return specification;
     }
 
+
+    private void initKnowledge() {
+        chatData.aiinterface.clearKnowledge();
+    }
+
     public void makeKnowledge(int stage) {
+        makeKnowledge(stage, null);
+    }
+    public void makeKnowledge(int stage, String _spec) {
+        TraceManager.addDev("makeKnowledge. stage: " + stage + " chatData.knowledgeOnBlockJSON: " + chatData.knowledgeOnBlockJSON);
+        //chatData.aiinterface.clearKnowledge();
+
+        String [] know = KNOWLEDGE_STAGES[stage].split("#");
+        for(String s: know) {
+            TraceManager.addDev("\nKnowledge added: " + s);
+            chatData.aiinterface.addKnowledge(s, "ok");
+        }
+
+        if (_spec != null) {
+            TraceManager.addDev("\nKnowledge added: " + _spec);
+            chatData.aiinterface.addKnowledge("The system specification is: " + _spec, "ok");
+
+        }
+
+
+    }
+
+    public void makeKnowledgeError(int stage) {
         TraceManager.addDev("makeKnowledge. stage: " + stage + " chatData.knowledgeOnBlockJSON: " + chatData.knowledgeOnBlockJSON);
         chatData.aiinterface.clearKnowledge();
 

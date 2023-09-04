@@ -41,6 +41,9 @@
 
 package tmltranslator;
 
+import myutil.TraceManager;
+import translator.CheckingError;
+
 import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
@@ -149,4 +152,20 @@ public abstract class TMLActivityElementEvent extends TMLActivityElement {
         return (new HashSet<>(datas)).equals(new HashSet<>(tmlActivityElementEvent.getDatas())) &&
                 Objects.equals(variable, tmlActivityElementEvent.getVariable());
     }
+
+    public void fillValues(TMLActivityElementEvent newElt, TMLModeling tmlm) throws TMLCheckingError {
+        super.fillValues(newElt, tmlm);
+        newElt.setVariable(getVariable());
+        newElt.datas.addAll(datas);
+
+        TMLEvent evt = tmlm.getEventByName(event.getName());
+        if (evt == null) {
+            TraceManager.addDev("Null evt");
+            throw new TMLCheckingError(CheckingError.STRUCTURE_ERROR, "Unknown event in cloned model: " + event.getName());
+        }
+        newElt.setEvent(evt);
+
+    }
+
+
 }

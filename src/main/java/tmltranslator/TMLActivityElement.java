@@ -41,7 +41,6 @@
 
 package tmltranslator;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.Objects;
 import java.util.Vector;
 
@@ -52,7 +51,7 @@ import java.util.Vector;
    * @version 1.0 23/11/2005
    * @author Ludovic APVRILLE
  */
-public abstract class TMLActivityElement extends TMLElement implements Cloneable{
+public abstract class TMLActivityElement extends TMLElement {
     protected Vector<TMLActivityElement> nexts;
     public SecurityPattern securityPattern;
     private String value = "";
@@ -143,8 +142,8 @@ public abstract class TMLActivityElement extends TMLElement implements Cloneable
 
 
     public String extraToXML() {
-	String s = "<CUSTOM " + customExtraToXML() + " />\n";
-	return s;
+	    String s = "<CUSTOM " + customExtraToXML() + " />\n";
+	    return s;
     }
     
     public abstract String customExtraToXML();
@@ -173,25 +172,14 @@ public abstract class TMLActivityElement extends TMLElement implements Cloneable
         return accessibility;
     }
 
-    @Override
-    public TMLActivityElement clone(){
-        try {
-            System.out.println(getClass().getCanonicalName());
-            TMLActivityElement ae = getClass().getDeclaredConstructor(String.class, Object.class).newInstance(name, referenceObject);
-            return ae;
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (IllegalArgumentException e) {
-            e.printStackTrace();
-        } catch (SecurityException e) {
-            e.printStackTrace();
-        } catch (InvocationTargetException e) {
-            e.printStackTrace();
-        } catch (NoSuchMethodException e) {
-            e.printStackTrace();
+    public abstract TMLActivityElement deepClone(TMLModeling tmlm) throws TMLCheckingError;
+
+    public void fillValues(TMLActivityElement newElt, TMLModeling tmlm) throws TMLCheckingError {
+        newElt.value = value;
+        newElt.setCheckableAccessibility(canBeCheckedForAccessibility);
+        newElt.setCheckAccessibility(accessibility);
+        if (securityPattern != null) {
+            newElt.securityPattern = securityPattern.deepClone(tmlm);
         }
-        return null;
     }
 }

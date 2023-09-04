@@ -66,6 +66,12 @@ public class TMLSendEvent extends TMLActivityElementEvent {
         return ret;
     }
 
+    public  TMLSendEvent deepClone(TMLModeling tmlm) throws TMLCheckingError {
+        TMLSendEvent newElt = new TMLSendEvent(getName(), getReferenceObject());
+        fillValues(newElt, tmlm);
+        return newElt;
+    }
+
     
     
 }

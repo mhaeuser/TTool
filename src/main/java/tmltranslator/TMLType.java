@@ -178,4 +178,11 @@ public class TMLType {
         return result;
     }
 
+    public TMLType deepClone(TMLModeling tmlm) {
+        TMLType type = new TMLType(getType());
+        type.typeOther = typeOther;
+
+        return type;
+    }
+
 }       //End of class

@@ -52,7 +52,7 @@ import java.util.Objects;
  */
 public class TMLDelay extends TMLActivityElementWithIntervalAction {
     
-	private String timeUnit = "ns"; // Shall be either "ns" or "us" or "ms" or "s"
+	protected String timeUnit = "ns"; // Shall be either "ns" or "us" or "ms" or "s"
 	
     public TMLDelay(String _name, Object _referenceObject) {
         super(_name, _referenceObject);
@@ -99,6 +99,18 @@ public class TMLDelay extends TMLActivityElementWithIntervalAction {
 
 		TMLDelay tmlDelay = (TMLDelay) o;
 		return Objects.equals(timeUnit,tmlDelay.getUnit());
+	}
+
+	public  TMLDelay deepClone(TMLModeling tmlm) throws TMLCheckingError {
+		TMLDelay newElt = new TMLDelay(getName(), getReferenceObject());
+		fillValues(newElt, tmlm);
+
+		return newElt;
+	}
+
+	public void fillValues(TMLDelay newElt, TMLModeling tmlm) throws TMLCheckingError {
+		super.fillValues(newElt, tmlm);
+		newElt.timeUnit = timeUnit;
 	}
     
 }

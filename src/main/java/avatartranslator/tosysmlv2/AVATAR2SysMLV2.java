@@ -55,7 +55,7 @@ import myutil.Plugin;
 import myutil.TraceManager;
 
 /**
- * Class AVATAR2CPOSIX
+ * Class AVATAR2SysMLV2
  * Creation: 21/09/2021
  *
  * @author Ludovic APVRILLE

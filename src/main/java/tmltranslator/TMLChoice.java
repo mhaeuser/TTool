@@ -39,6 +39,7 @@
 package tmltranslator;
 
 import myutil.Conversion;
+import translator.CheckingError;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -354,5 +355,17 @@ public class TMLChoice extends TMLActivityElement{
         if (!super.equalSpec(o)) return false;
         TMLChoice tmlChoice = (TMLChoice) o;
         return (new HashSet<>(guards)).equals(new HashSet<>(tmlChoice.getGuards()));
+    }
+
+    public TMLChoice deepClone(TMLModeling tmlm) throws TMLCheckingError {
+        TMLChoice newElt = new TMLChoice(getName(), getReferenceObject());
+        fillValues(newElt, tmlm);
+        return newElt;
+    }
+
+    public void fillValues(TMLChoice newElt, TMLModeling tmlm) throws TMLCheckingError {
+        super.fillValues(newElt, tmlm);
+        newElt.guards.addAll(guards);
+
     }
 }

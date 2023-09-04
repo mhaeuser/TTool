@@ -85,6 +85,11 @@ public class TMLSelectEvt extends TMLActivityElement {
 	return "";
     }
 
+    public  TMLSelectEvt deepClone(TMLModeling tmlm) throws TMLCheckingError {
+        TMLSelectEvt newElt = new TMLSelectEvt(getName(), getReferenceObject());
+        fillValues(newElt, tmlm);
+        return newElt;
+    }
 
 
 }

@@ -58,5 +58,11 @@ public class TMLStopState extends TMLActivityElement{
     public String customExtraToXML() {
 	return "";
     }
+
+    public TMLStopState deepClone(TMLModeling tmlm) throws TMLCheckingError {
+        TMLStopState newElt = new TMLStopState(getName(), getReferenceObject());
+        fillValues(newElt, tmlm);
+        return newElt;
+    }
  
 }

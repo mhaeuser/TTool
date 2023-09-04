@@ -39,6 +39,8 @@
 
 package tmltranslator;
 
+import translator.CheckingError;
+
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -50,7 +52,7 @@ import java.util.Objects;
  * @author Ludovic APVRILLE
  * @version 1.1 18/02/2015
  */
-public class TMLActivityElementChannel extends TMLActivityElement {
+public abstract class TMLActivityElementChannel extends TMLActivityElement {
     protected ArrayList<TMLChannel> channels;
     protected String nbOfSamples;
     private boolean isAttacker;
@@ -131,5 +133,20 @@ public class TMLActivityElementChannel extends TMLActivityElement {
                 isAttacker == tmlActEltChannel.isAttacker() &&
                 isEncForm == tmlActEltChannel.getEncForm();
 
+    }
+
+    public void fillValues(TMLActivityElementChannel newElt, TMLModeling tmlm) throws TMLCheckingError {
+        super.fillValues(newElt, tmlm);
+        newElt.setNbOfSamples(getNbOfSamples());
+        newElt.setAttacker(isAttacker);
+        newElt.setEncForm(getEncForm());
+
+        for(TMLChannel channel: channels) {
+            TMLChannel ch = tmlm.getChannelByName(channel.getName());
+            if (ch == null) {
+                throw new TMLCheckingError(CheckingError.STRUCTURE_ERROR, "Unknown channel in cloned model: " + channel.getName());
+            }
+            newElt.addChannel(ch);
+        }
     }
 }

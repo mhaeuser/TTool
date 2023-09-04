@@ -573,24 +573,33 @@ public class TMLTask extends TMLElement {
         }
     }
 
-    public TMLTask makeClone() {
-        TMLTask clone = new TMLTask(name, getReferenceObject(), null);
-        clone.activity = getActivityDiagram();
-        clone.isRequested = this.isRequested;
-        clone.request = this.request;
-        clone.attributes = this.attributes;
-        clone.mustExit = this.mustExit;
-        clone.priority = this.priority;
-        clone.channelsList = this.channelsList;
-        clone.readTMLChannelsList = this.readTMLChannelsList;
-        clone.writeTMLChannelsList = this.writeTMLChannelsList;
-        clone.eventsList = this.eventsList;
-        clone.operationType = this.operationType;
-        clone.operation = this.operation;
-        clone.isDaemon = this.isDaemon;
-        clone.operationMEC = this.operationMEC;
-        clone.isAttacker = this.isAttacker;
-        return clone;
+    public void setActivity(TMLActivity _activity) {
+        activity = _activity;
     }
+
+    public TMLTask deepClone(TMLModeling tmlm) throws TMLCheckingError {
+        TMLTask task = new TMLTask(getName(), getReferenceObject(), getActivityDiagram().getReferenceObject());
+        task.setRequested(isRequested());
+        task.setExit(exits());
+        task.setPriority(getPriority());
+
+        task.addOperationType(getOperationType());
+        task.addOperation(getOperation());
+        task.setDaemon(isDaemon());
+        task.addOperationMEC(getOperationMEC());
+        task.setAttacker(isAttacker());
+
+        // Attributes
+        for(TMLAttribute a: attributes) {
+            TMLAttribute newA = a.deepClone(tmlm);
+            task.addAttribute(newA);
+        }
+
+        // activity: to be done
+        //task.activity = activity.deepClone(tmlm);
+
+        return task;
+    }
+
 
 }

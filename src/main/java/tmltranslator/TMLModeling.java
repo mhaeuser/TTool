@@ -49,6 +49,7 @@ import proverifspec.ProVerifOutputAnalyzer;
 import proverifspec.ProVerifQueryAuthResult;
 import proverifspec.ProVerifQueryResult;
 import proverifspec.ProVerifResultTrace;
+import translator.CheckingError;
 
 import java.util.*;
 
@@ -76,7 +77,7 @@ public class TMLModeling<E> {
     private List<TMLEvent> events;
     private List<String> pragmas;
 
-    private TMLElement correspondance[]; // Link to graphical components
+    private TMLElement correspondance[]; // Link to e.g. graphical components
     private boolean optimized = false;
     private String[] ops = {">", "<", "+", "-", "*", "/", "[", "]", "(", ")", ":", "=", "==", ","};
 
@@ -2995,15 +2996,24 @@ public class TMLModeling<E> {
     }
 
     public boolean equalSpec(Object o) {
+        TraceManager.addDev("Equal Spec: testing");
+
+
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         TMLModeling<?> that = (TMLModeling<?>) o;
 
+        TraceManager.addDev("Equal Spec: testing tasks");
+
         if (!isTaskListEquals(tasks, that.tasks))
             return false;
 
+        TraceManager.addDev("List of tasks: ok");
+
         if (!isRequestListEquals(requests, that.requests))
             return false;
+
+        TraceManager.addDev("List of request: ok");
 
         if (!isEventListEquals(events, that.events))
             return false;
@@ -3029,7 +3039,7 @@ public class TMLModeling<E> {
             return false;
         }
 
-        //copying to avoid rearranging original lists
+        // Copying to avoid rearranging original lists
         list1 = new ArrayList<>(list1);
         list2 = new ArrayList<>(list2);
 
@@ -3038,7 +3048,9 @@ public class TMLModeling<E> {
 
         boolean test;
 
+        TraceManager.addDev("List of tasks sorted");
         for (int i = 0; i < list1.size(); i++) {
+            TraceManager.addDev("Comparing " + list1.get(i).getName() + " with " + list2.get(i).getName());
             test = list1.get(i).equalSpec(list2.get(i));
             if (!test) return false;
         }
@@ -3184,6 +3196,54 @@ public class TMLModeling<E> {
         else {
             return 3;
         } 
+    }
+
+    @SuppressWarnings("unchecked")
+    public TMLModeling deepClone() throws TMLCheckingError {
+        TMLModeling tmlm = new TMLModeling();
+
+        for(TMLTask task: tasks) {
+            TMLTask newTask = task.deepClone(tmlm);
+            tmlm.addTask(newTask);
+        }
+
+        for(TMLChannel ch: channels) {
+            TMLChannel newCh = ch.deepClone(tmlm);
+            tmlm.addChannel(newCh);
+        }
+
+        for(TMLEvent ev: events) {
+            TMLEvent newEv = ev.deepClone(tmlm);
+            tmlm.addEvent(newEv);
+        }
+
+        for(TMLRequest req: requests) {
+            TMLRequest newReq = req.deepClone(tmlm);
+            tmlm.addRequest(newReq);
+        }
+
+        for(String prag: pragmas) {
+            tmlm.pragmas.add(prag);
+        }
+
+        // activities
+        for(TMLTask task: tasks) {
+            TMLTask newTask = tmlm.getTMLTaskByName(task.getName());
+            if (newTask == null) {
+                throw new TMLCheckingError(CheckingError.STRUCTURE_ERROR, "No new task named " + task.getName() + " in new TMLModeling");
+            }
+            newTask.setActivity(task.getActivityDiagram().deepClone(tmlm));
+        }
+
+        tmlm.optimized = optimized;
+
+        // Security
+        tmlm.securityPatterns.addAll(securityPatterns);
+        for(SecurityPattern sp: secPatterns) {
+            tmlm.secPatterns.add(sp.deepClone(tmlm));
+        }
+
+        return tmlm;
     }
 
 }

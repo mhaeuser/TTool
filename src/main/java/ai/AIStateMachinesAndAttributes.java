@@ -223,7 +223,6 @@ public class AIStateMachinesAndAttributes extends AIInteract implements AISysMLV
         chatData.aiinterface.clearKnowledge();
 
         chatData.aiinterface.addKnowledge(KNOWLEDGE_SYSTEM_SPECIFICATION + chatData.lastQuestion, "ok");
-        //chatData.aiinterface.addKnowledge(KNOWLEDGE_SYSTEM_BLOCKS + diagramContentInSysMLV2, "ok");
         chatData.aiinterface.addKnowledge(KNOWLEDGE_ON_JSON_FOR_STATE_MACHINES, "ok");
 
         for(int i=0; i<CONSTRAINTS_ON_JSON_FOR_STATE_MACHINES.length; i++) {

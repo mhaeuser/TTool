@@ -113,4 +113,10 @@ public class TMLRandomSequence extends TMLActivityElement {
         TMLRandomSequence tmlRS = (TMLRandomSequence) o;
         return (new HashSet<>(indexes)).equals(new HashSet<>(tmlRS.getIndexes()));
     }
+
+    public  TMLRandomSequence deepClone(TMLModeling tmlm) throws TMLCheckingError {
+        TMLRandomSequence newElt = new TMLRandomSequence(getName(), getReferenceObject());
+        fillValues(newElt, tmlm);
+        return newElt;
+    }
 }

@@ -51,4 +51,9 @@ public class TMLExecCInterval extends TMLActivityElementWithIntervalAction {
         super(_name, _referenceObject);
     }
 
+    public  TMLExecCInterval deepClone(TMLModeling tmlm) throws TMLCheckingError {
+        TMLExecCInterval newElt = new TMLExecCInterval(getName(), getReferenceObject());
+        fillValues(newElt, tmlm);
+        return newElt;
+    }
 }

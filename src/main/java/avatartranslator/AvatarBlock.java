@@ -1191,7 +1191,8 @@ public class AvatarBlock extends AvatarElement implements AvatarStateMachineOwne
                                             String variableName = action.substring(0, index).trim();
                                             AvatarAttribute aa = getAvatarAttributeWithName(variableName);
                                             if (aa == null) {
-                                                TraceManager.addDev("The following action is not valid: " + action + " because it contains an attribute " +
+                                                TraceManager.addDev("The following action is not valid: " + action +
+                                                        " because it contains an attribute " +
                                                         variableName + " which is not declared in the block " + getName());
                                                 errors.add("The following action is not valid: " + action + " because it contains an attribute  " +
                                                         variableName + " which is not declared in the block " + getName());
@@ -1284,10 +1285,11 @@ public class AvatarBlock extends AvatarElement implements AvatarStateMachineOwne
                                             if (forceIfIncorrectExpression) {
                                                 at.addAction(action);
                                             } else {
-                                                TraceManager.addDev("The following action is not valid: " + action + ". It must contain either the affectation of a " +
+                                                TraceManager.addDev("The following action is not valid: " + action + ". It must contain either the " +
+                                                        "setting of a " +
                                                         "variable or a signal send/receive");
-                                                errors.add("The following action is not valid: " + action + ". It must contain either the affectation of a " +
-                                                        "variable or a signal send/receive");
+                                                errors.add("The following action is not valid: " + action + ". It must contain either the setting " +
+                                                        "of a " + "variable or a signal send/receive");
                                             }
                                         }
                                     }

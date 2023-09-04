@@ -40,6 +40,7 @@
 package tmltranslator;
 
 import myutil.TraceManager;
+import translator.CheckingError;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -707,6 +708,93 @@ public class TMLChannel extends TMLCommunicationElement {
 
         return false;
 
+    }
+
+    public TMLChannel deepClone(TMLModeling tmlm) throws TMLCheckingError {
+        TMLChannel newC = new TMLChannel(getName(), getReferenceObject());
+        newC.checkConf = isCheckConfChannel();
+        newC.checkAuth = isCheckAuthChannel();
+
+        newC.port = port;
+        newC.ports = new ArrayList<>();
+        for(TMLPortWithSecurityInformation infoPort: ports) {
+            newC.ports.add(infoPort);
+        }
+
+        for(TMLTask task: originalOriginTasks) {
+            TMLTask tmpTask = tmlm.getTMLTaskByName(task.getName());
+            if (tmpTask == null) {
+                throw new TMLCheckingError(CheckingError.STRUCTURE_ERROR, "Unknown task in cloned model: " + tmpTask.getName());
+            }
+            newC.originalOriginTasks.add(tmpTask);
+
+        }
+
+        for(TMLTask task: originalDestinationTasks) {
+            TMLTask tmpTask = tmlm.getTMLTaskByName(task.getName());
+            if (tmpTask == null) {
+                throw new TMLCheckingError(CheckingError.STRUCTURE_ERROR, "Unknown task in cloned model: " + tmpTask.getName());
+            }
+            newC.originalDestinationTasks.add(tmpTask);
+        }
+
+        TMLTask tmpTask = tmlm.getTMLTaskByName(originTask.getName());
+        if (tmpTask == null) {
+            throw new TMLCheckingError(CheckingError.STRUCTURE_ERROR, "Unknown task in cloned model: " + tmpTask.getName());
+        }
+        newC.originTask = tmpTask;
+
+        tmpTask = tmlm.getTMLTaskByName(destinationTask.getName());
+        if (tmpTask == null) {
+            throw new TMLCheckingError(CheckingError.STRUCTURE_ERROR, "Unknown task in cloned model: " + tmpTask.getName());
+        }
+        newC.destinationTask = tmpTask;
+
+        if (originPort != null) {
+            newC.originPort = originPort.deepClone(tmlm);
+        }
+
+        if (destinationPort != null) {
+            newC.destinationPort = destinationPort.deepClone(tmlm);
+        }
+
+
+        for(TMLTask task: originTasks) {
+            tmpTask = tmlm.getTMLTaskByName(task.getName());
+            if (tmpTask == null) {
+                throw new TMLCheckingError(CheckingError.STRUCTURE_ERROR, "Unknown task in cloned model: " + tmpTask.getName());
+            }
+            newC.originTasks.add(tmpTask);
+        }
+
+        for(TMLTask task: destinationTasks) {
+            tmpTask = tmlm.getTMLTaskByName(task.getName());
+            if (tmpTask == null) {
+                throw new TMLCheckingError(CheckingError.STRUCTURE_ERROR, "Unknown task in cloned model: " + tmpTask.getName());
+            }
+            newC.destinationTasks.add(tmpTask);
+        }
+
+        for(TMLPort port: originPorts) {
+            newC.originPorts.add(port.deepClone(tmlm));
+        }
+
+        for(TMLPort port: destinationPorts) {
+            newC.destinationPorts.add(port.deepClone(tmlm));
+        }
+
+        newC.setNumberOfSamples(getNumberOfSamples());
+        newC.setSize(getSize());
+        newC.setMax(getMax());
+        newC.setPriority(getPriority());
+        newC.setVC(getVC());
+
+        newC.isLossy = isLossy;
+        newC.lossPercentage = lossPercentage;
+        newC.maxNbOfLoss = maxNbOfLoss;
+
+
+        return newC;
     }
 
 }

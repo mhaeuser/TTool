@@ -187,7 +187,7 @@ public class TMLRequest extends TMLCommunicationElement {
         TMLComparingMethod comp = new TMLComparingMethod();
 
         if (destinationTask != null) {
-            if (!destinationTask.equalSpec(request.getDestinationTask())) return false;
+            if (destinationTask.getName().compareTo(request.getDestinationTask().getName()) != 0) return false;
         }
 
         if (!(new HashSet<>(params).equals(new HashSet<>(request.params))))

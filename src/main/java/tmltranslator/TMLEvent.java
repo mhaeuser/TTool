@@ -39,6 +39,8 @@
 
 package tmltranslator;
 
+import myutil.TraceManager;
+import org.apache.batik.anim.timing.Trace;
 import translator.CheckingError;
 
 import java.util.ArrayList;
@@ -362,25 +364,33 @@ public class TMLEvent extends TMLCommunicationElement {
 
         TMLComparingMethod comp = new TMLComparingMethod();
 
+        TraceManager.addDev(("Event: testing origin port"));
         if (originPort != null) {
             if (!originPort.equalSpec(event.getOriginPort()))
                 return false;
         }
 
+        TraceManager.addDev(("Event: testing destination port"));
         if (destinationPort != null) {
             if (!destinationPort.equalSpec(event.getDestinationPort())) return false;
         }
 
+        TraceManager.addDev(("Event: testing origin"));
         if (origin != null) {
             if (!origin.equalSpec(event.getOriginTask()))
                 return false;
         }
 
+        TraceManager.addDev(("Event: testing destination"));
         if (destination != null) {
             if (!destination.equalSpec(event.getDestinationTask())) return false;
         }
+
+        TraceManager.addDev(("Event: testing params"));
         if (!(new HashSet<>(params).equals(new HashSet<>(event.params))))
             return false;
+
+        TraceManager.addDev(("Event: testing others"));
         return maxEvt == event.maxEvt &&
                 isBlocking == event.isBlocking &&
                 checkAuth == event.checkAuth &&

@@ -76,8 +76,8 @@ public class TMLDeepCloneTests extends AbstractTest {
             assertTrue(syntax.hasErrors() == 0);
 
             // Comparing the two TML Modeling
-            //boolean equal = cloned.equalSpec(tmlts.getTMLModeling());
-            //assertTrue(equal);
+            boolean equal = cloned.equalSpec(tmlts.getTMLModeling());
+            assertTrue(equal);
 
 
         }

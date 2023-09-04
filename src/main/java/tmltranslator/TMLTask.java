@@ -39,6 +39,8 @@
 
 package tmltranslator;
 
+import myutil.TraceManager;
+
 import java.util.*;
 
 /**
@@ -537,19 +539,39 @@ public class TMLTask extends TMLElement {
     }
 
     public boolean equalSpec(Object o) {
-        if (!(o instanceof TMLTask)) return false;
-        if (!super.equalSpec(o)) return false;
+        if (!(o instanceof TMLTask)) {
+            //TraceManager.addDev("Returning false 1");
+            return false;
+        }
+        if (!super.equalSpec(o)) {
+            //TraceManager.addDev("Returning false 2");
+            return false;
+        }
         TMLTask tmlTask = (TMLTask) o;
         TMLComparingMethod comp = new TMLComparingMethod();
+
+        //TraceManager.addDev("Going to compare requests of task " + getName()  + " with task " + tmlTask.getName());
+
         if (request != null) {
-            if (!request.equalSpec(tmlTask.getRequest())) return false;
+            if (!request.equalSpec(tmlTask.getRequest())) {
+                //TraceManager.addDev("Returning false 3");
+                return false;
+            }
         } else {
-            if (tmlTask.getRequest() != null) return false;
+            if (tmlTask.getRequest() != null) {
+                //TraceManager.addDev("Returning false 4");
+                return false;
+            }
         }
+
+        //TraceManager.addDev("Going to compare attributes");
 
         if (!(new HashSet<>(attributes).equals(new HashSet<>(tmlTask.attributes))))
             return false;
-        return operationType == tmlTask.operationType &&
+
+        //TraceManager.addDev("HashSet of attributes ok");
+
+        boolean ret =  operationType == tmlTask.operationType &&
                 isDaemon == tmlTask.isDaemon &&
                 isPeriodic == tmlTask.isPeriodic &&
                 periodValue.compareTo(tmlTask.getPeriodValue()) == 0 &&
@@ -565,6 +587,10 @@ public class TMLTask extends TMLElement {
                 comp.isTMLChannelSetEquals(readTMLChannelsList, tmlTask.getReadTMLChannelSet()) &&
                 comp.isTMLChannelSetEquals(writeTMLChannelsList, tmlTask.getWriteTMLChannelSet()) &&
                 comp.isTMLEventSetEquals(eventsList, tmlTask.getEventSet());
+
+        //TraceManager.addDev("Returning: " + ret);
+
+        return ret;
     }
 
     public void nullifyDelayOperators(boolean execOp, boolean timeOp) {

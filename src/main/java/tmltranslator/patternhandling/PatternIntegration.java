@@ -25,6 +25,8 @@ import java.util.Map.Entry;
 
 import javax.swing.JDialog;
 
+import org.apache.batik.anim.timing.Trace;
+
  
 public class PatternIntegration implements Runnable {
     String patternPath;
@@ -111,7 +113,7 @@ public class PatternIntegration implements Runnable {
         tmapModel = addPatternInternalChannelsInModel(tmapModel, tmapPattern, patternTasks);
         tmapModel = addNewPortToATask(tmapModel, portsConnection, patternTasks);
         tmapModel = makeConnectionBetweenPatternAndModel(tmapModel, tmapPattern, portsConnection);        
-
+        tmapModel = configDisconnectedChannels(tmapModel, portsConfig);
 	}
     
     public void renamePatternTasksName() {
@@ -178,32 +180,56 @@ public class PatternIntegration implements Runnable {
                             }
                         }
                         extPort.name = oldNewChannelName.get(extPort.name);
+                        TraceManager.addDev("renamePatternChannelsName-0 : extPort.name= " + extPort.name);
                     } else {
-                        int indexChannel = 0;
-                        String channelNameWithIndex = extPort.name + indexChannel;
-                        while (tmlmModel.getChannelByName(channelNameWithIndex) != null || oldNewChannelName.values().contains(extPort.name)) {
-                            indexChannel += 1;
-                            channelNameWithIndex= extPort.name + indexChannel;
-                        }
-                        TMLChannel channelPattern = tmlmPattern.getChannelByName(extPort.name);
-                        oldNewChannelName.put(extPort.name, channelNameWithIndex);
-                        channelPattern.setName(channelNameWithIndex);
+                        boolean toRename = true;
                         if (portsConnection.containsKey(taskName)) {
-                            for (String[] pc : portsConnection.get(taskName)) {
-                                if (pc[0].equals(extPort.name)) {
-                                    pc[0] = channelNameWithIndex;
+                            for (String[] portConnection : portsConnection.get(taskName)) {
+                                
+                                TraceManager.addDev("renamePatternChannelsName-1 : extPort.name= " + extPort.name);
+                                TraceManager.addDev("renamePatternChannelsName-1 : portConnection[0]= " + portConnection[0]);
+                                TraceManager.addDev("renamePatternChannelsName-1 : portConnection[1]= " + portConnection[1]);
+                                TraceManager.addDev("renamePatternChannelsName-1 : portConnection[2]= " + portConnection[2]);
+                                if (portConnection[0].equals(extPort.getName()) && portConnection[2].equals(extPort.getName()) && portConnection.length == 3) {
+                                    if (tmlmModel.getChannelByName(extPort.name).getOriginTask().getName().equals(portConnection[1]) && extPort.mode.equals(PatternGeneration.MODE_INPUT)) {
+                                        toRename = false;
+                                        break;
+                                    }
+                                    if (tmlmModel.getChannelByName(extPort.name).getDestinationTask().getName().equals(portConnection[1]) && extPort.mode.equals(PatternGeneration.MODE_OUTPUT)) {
+                                        toRename = false;
+                                        break;
+                                    }
                                 }
                             }
                         }
-                        
-                        if (channelsMapping.containsKey(taskName)) {
-                            for (String[] cm : channelsMapping.get(taskName)) {
-                                if (cm[0].equals(extPort.name)) {
-                                    cm[0] = channelNameWithIndex;
+                        if (toRename) {
+                            int indexChannel = 0;
+                            String channelNameWithIndex = extPort.name + indexChannel;
+                            while (tmlmModel.getChannelByName(channelNameWithIndex) != null || oldNewChannelName.values().contains(extPort.name)) {
+                                indexChannel += 1;
+                                channelNameWithIndex= extPort.name + indexChannel;
+                            }
+                            TMLChannel channelPattern = tmlmPattern.getChannelByName(extPort.name);
+                            oldNewChannelName.put(extPort.name, channelNameWithIndex);
+                            channelPattern.setName(channelNameWithIndex);
+                            if (portsConnection.containsKey(taskName)) {
+                                for (String[] pc : portsConnection.get(taskName)) {
+                                    if (pc[0].equals(extPort.name)) {
+                                        pc[0] = channelNameWithIndex;
+                                    }
                                 }
                             }
+                            
+                            if (channelsMapping.containsKey(taskName)) {
+                                for (String[] cm : channelsMapping.get(taskName)) {
+                                    if (cm[0].equals(extPort.name)) {
+                                        cm[0] = channelNameWithIndex;
+                                    }
+                                }
+                            }
+                            extPort.name = channelNameWithIndex;
+                            TraceManager.addDev("renamePatternChannelsName-2 : extPort.name= " + extPort.name);
                         }
-                        extPort.name = channelNameWithIndex;
                     }
                 } else if (tmlmModel.getEventByName(extPort.name) != null || oldNewEventName.values().contains(extPort.name)) {
                     if (oldNewEventName.containsKey(extPort.name)) {
@@ -216,31 +242,48 @@ public class PatternIntegration implements Runnable {
                         }
                         extPort.name = oldNewEventName.get(extPort.name);
                     } else {
-                        int indexEvent = 0;
-                        String eventNameWithIndex = extPort.name + indexEvent;
-                        while (tmlmModel.getEventByName(eventNameWithIndex) != null || oldNewEventName.values().contains(extPort.name)) {
-                            indexEvent += 1;
-                            eventNameWithIndex= extPort.name + indexEvent;
-                        }
-                        TMLEvent eventPattern = tmlmPattern.getEventByName(extPort.name);
-                        eventPattern.setName(eventNameWithIndex);
-                        oldNewEventName.put(extPort.name, eventNameWithIndex);
+                        boolean toRename = true;
                         if (portsConnection.containsKey(taskName)) {
-                            for (String[] pc : portsConnection.get(taskName)) {
-                                if (pc[0].equals(extPort.name)) {
-                                    pc[0] = eventNameWithIndex;
+                            for (String[] portConnection : portsConnection.get(taskName)) {
+                                if (portConnection[0].equals(extPort.getName()) && portConnection[2].equals(extPort.getName()) && portConnection.length == 3) {
+                                    if (tmlmModel.getEventByName(extPort.name).getOriginTask().getName().equals(portConnection[1]) && extPort.mode.equals(PatternGeneration.MODE_INPUT)) {
+                                        toRename = false;
+                                        break;
+                                    }
+                                    if (tmlmModel.getEventByName(extPort.name).getDestinationTask().getName().equals(portConnection[1]) && extPort.mode.equals(PatternGeneration.MODE_OUTPUT)) {
+                                        toRename = false;
+                                        break;
+                                    }
                                 }
                             }
                         }
-                        extPort.name = eventNameWithIndex;
+                        if (toRename) {
+                            int indexEvent = 0;
+                            String eventNameWithIndex = extPort.name + indexEvent;
+                            while (tmlmModel.getEventByName(eventNameWithIndex) != null || oldNewEventName.values().contains(extPort.name)) {
+                                indexEvent += 1;
+                                eventNameWithIndex= extPort.name + indexEvent;
+                            }
+                            TMLEvent eventPattern = tmlmPattern.getEventByName(extPort.name);
+                            eventPattern.setName(eventNameWithIndex);
+                            oldNewEventName.put(extPort.name, eventNameWithIndex);
+                            if (portsConnection.containsKey(taskName)) {
+                                for (String[] pc : portsConnection.get(taskName)) {
+                                    if (pc[0].equals(extPort.name)) {
+                                        pc[0] = eventNameWithIndex;
+                                    }
+                                }
+                            }
+                            extPort.name = eventNameWithIndex;
+                        }
                     }
-                }
-                    
+                } 
             }
 
             for (int i = 0 ; i < tp.getInternalPorts().size() ; i++) {
                 PortTaskJsonFile extPort = tp.getInternalPorts().get(i);
                 if (tmlmModel.getChannelByName(extPort.name) != null) {
+                    TraceManager.addDev("tmlmModel.getChannelByName(extPort.name) != null  :"  + extPort.name);
                     if (oldNewChannelName.containsKey(extPort.name)) {
                         if (channelsMapping.containsKey(taskName)) {
                             for (String[] cm : channelsMapping.get(taskName)) {
@@ -249,7 +292,8 @@ public class PatternIntegration implements Runnable {
                                 }
                             }
                         }
-                        extPort.name = oldNewChannelName.get(extPort.name);;
+                        extPort.name = oldNewChannelName.get(extPort.name);
+                        TraceManager.addDev("oldNewChannelName.containsKey(extPort.name)  :" + extPort.name);
                     } else {
                         int indexChannel = 0;
                         String channelNameWithIndex = extPort.name + indexChannel;
@@ -268,11 +312,13 @@ public class PatternIntegration implements Runnable {
                             }
                         }
                         extPort.name = channelNameWithIndex;
+                        TraceManager.addDev("oldNewChannelName.containsKey(extPort.name) else  :" + extPort.name);
                     }
                     
                 } else if (tmlmModel.getEventByName(extPort.name) != null) {
                     if (oldNewEventName.containsKey(extPort.name)) {
                         extPort.name = oldNewEventName.get(extPort.name);
+                        TraceManager.addDev("else if oldNewEventName.containsKey(extPort.name)  :" + extPort.name);
                     } else {
                         int indexEvent = 0;
                         String eventNameWithIndex = extPort.name + indexEvent;
@@ -284,6 +330,7 @@ public class PatternIntegration implements Runnable {
                         oldNewEventName.put(extPort.name, eventNameWithIndex);
                         eventPattern.setName(eventNameWithIndex);
                         extPort.name = eventNameWithIndex;
+                        TraceManager.addDev("else if oldNewEventName.containsKey(extPort.name)  else :" + extPort.name);
                     }
                 }
             }
@@ -319,6 +366,7 @@ public class PatternIntegration implements Runnable {
         for (String taskName : _patternTasks.keySet()) {
             for (PortTaskJsonFile portTask : _patternTasks.get(taskName).internalPorts) {
                 TMLChannel channelPattern = _tmlmPattern.getChannelByName(portTask.name);
+                TMLEvent eventPattern = _tmlmPattern.getEventByName(portTask.name);
                 if (channelPattern != null) {
                     /*if (_tmlmModel.getChannelByName(portTask.name) != null) {
                         int indexChannel = 0;
@@ -331,6 +379,11 @@ public class PatternIntegration implements Runnable {
                     if (_tmlmModel.getChannelByName(portTask.name) == null) {
                         _tmlmModel.addChannel(channelPattern);
                         TraceManager.addDev("addPatternInternalChannelsInModel: channelName="+portTask.name);
+                    }
+                } else if (eventPattern != null) {
+                    if (_tmlmModel.getEventByName(portTask.name) == null) {
+                        _tmlmModel.addEvent(eventPattern);
+                        TraceManager.addDev("addPatternInternalChannelsInModel: eventName="+portTask.name);
                     }
                 }
             }
@@ -536,14 +589,15 @@ public class PatternIntegration implements Runnable {
 
     public TMLMapping<?> configDisconnectedChannels(TMLMapping<?> _tmapModel, LinkedHashMap<String, List<Entry<String, String>>> _portsConfig) {
         TMLModeling<?> _tmlmModel = _tmapModel.getTMLModeling();
+        TraceManager.addDev("configDisconnectedChannels");
         for (String taskName  : _portsConfig.keySet()) {
+            TraceManager.addDev("taskName = " + taskName);
             for (Entry<String, String> portDecision : _portsConfig.get(taskName)) {
                 String portName = portDecision.getKey();
                 String decision = portDecision.getValue();
+                TraceManager.addDev("decision = " + decision);
+                TraceManager.addDev("portName = " + portName);
                 TMLTask task = _tmlmModel.getTMLTaskByName(taskName);
-                if (decision != "") {
-                    
-                }
                 if (task != null) {
                     TMLActivity adTask = task.getActivityDiagram();
                     TMLActivityElement elemMerge = null;
@@ -621,7 +675,24 @@ public class PatternIntegration implements Runnable {
                         }
                     }
                     for (TMLActivityElement elemToRemove : elemsToRemove) {
+                        TraceManager.addDev("elemToRemove = " + elemToRemove.getName());
                         adTask.removeElement(elemToRemove);
+                        /*task.getReadTMLChannelSet().remove(elemToRemove);
+                        task.getReadTMLChannels().remove(elemToRemove);
+                        task.getReadChannels().remove(elemToRemove);
+                        task.getChannelSet().remove(elemToRemove);*/
+                    }
+
+                    TraceManager.addDev("task.getReadTMLChannelSet().size() = " + task.getReadTMLChannelSet().size());
+                    TraceManager.addDev("task.getReadTMLChannels().size() = " + task.getReadTMLChannels().size());
+                    TraceManager.addDev("task.getReadChannels().size() = " + task.getReadChannels().size());
+                    TraceManager.addDev("task.getChannels().size() = " + task.getChannelSet().size());
+                    TraceManager.addDev("task.getTMLEvents().size() = " + task.getTMLEvents().size());
+                    TraceManager.addDev("task.getEventSet().size() = " + task.getEventSet().size());
+                    TraceManager.addDev("task.getSendEvents().size() = " + task.getSendEvents().size());
+                    TraceManager.addDev("task.getWaitEvents().size() = " + task.getWaitEvents().size());
+                    for (TMLActivityElement acElem : adTask.getElements()) {
+                        TraceManager.addDev("acElem = " + acElem.getName());
                     }
                 }
                 

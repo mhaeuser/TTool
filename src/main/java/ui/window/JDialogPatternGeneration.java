@@ -112,9 +112,12 @@ import myutil.MasterProcessInterface;
 import myutil.TraceManager;
 import tmltranslator.HwNode;
 import tmltranslator.TMLArchitecture;
+import tmltranslator.TMLChannel;
+import tmltranslator.TMLEvent;
 import tmltranslator.TMLMapping;
 import tmltranslator.TMLModeling;
 import tmltranslator.TMLReadChannel;
+import tmltranslator.TMLRequest;
 import tmltranslator.TMLSendEvent;
 import tmltranslator.TMLTask;
 import tmltranslator.TMLWaitEvent;
@@ -152,8 +155,8 @@ public class JDialogPatternGeneration extends JDialog implements ActionListener,
     public final static String CLONE_TASK_SEPARATOR = " clone of ";
     public final static String TASK_CHANNEL_SEPARATOR = "::";
     public final static String PORT_CONNECTION_SEPARATOR = " <-> ";
-    public final static String NEW_PORT_OPTION = " (New port)";
-    public final static String REMOVE_PORT_OPTION = "(Remove)";
+    public final static String NEW_PORT_OPTION = " New port";
+    public final static String REMOVE_PORT_OPTION = "Remove";
     public final static String MERGE_PORT_OPTION = "Merge with ";
     public final static String PORT_CONFIGURATION_SEPARATOR = " ";
     public final static String MAP_TASK_IN_SAME_HW_SEPARATOR = " mapped in the same HW as ";
@@ -297,8 +300,25 @@ public class JDialogPatternGeneration extends JDialog implements ActionListener,
         mgui = _mgui;
         this.pathPatterns = _pathPatterns;
 
+        TMLModeling<?> tmlmNew = mgui.gtm.getTMLMapping().getTMLModeling();
+        for (TMLTask task : tmlmNew.getTasks()) {
+            String[] taskNameSplit = task.getName().split("__");
+            task.setName(taskNameSplit[taskNameSplit.length-1]);
+        }
+        for (TMLChannel ch : tmlmNew.getChannels()) {
+            String[] channelNameSplit = ch.getName().split("__");
+            ch.setName(channelNameSplit[channelNameSplit.length-1]);
+        }
+        for (TMLEvent evt : tmlmNew.getEvents()) {
+            String[] eventNameSplit = evt.getName().split("__");
+            evt.setName(eventNameSplit[eventNameSplit.length-1]);
+        }
+        for (TMLRequest req : tmlmNew.getRequests()) {
+            String[] requestNameSplit = req.getName().split("__");
+            req.setName(requestNameSplit[requestNameSplit.length-1]);
+        }
 
-        for (int i=0; i<mgui.gtm.getTMLMapping().getMappedTasks().size(); i++) {
+        for (int i=0; i < mgui.gtm.getTMLMapping().getMappedTasks().size(); i++) {
             String taskFullName = mgui.gtm.getTMLMapping().getMappedTasks().get(i).getName();
             String taskShortName = taskFullName.split("__")[taskFullName.split("__").length - 1];
             tasksFullName.put(taskShortName, taskFullName);
@@ -2464,19 +2484,21 @@ public class JDialogPatternGeneration extends JDialog implements ActionListener,
                 LinkedHashMap<String, List<Entry<String,String>>> configuredPortsMap = new LinkedHashMap<String, List<Entry<String,String>>>();
                 for (String configuredPort : configuredPorts) {
                     String[] configuredPortSplit = configuredPort.split(TASK_CHANNEL_SEPARATOR);
-                    String[] portConfigRemoveSplit = configuredPortSplit[1].split(TASK_CHANNEL_SEPARATOR+REMOVE_PORT_OPTION);
-                    String[] portConfigMergeSplit = configuredPortSplit[1].split(TASK_CHANNEL_SEPARATOR+MERGE_PORT_OPTION);
+                    String[] portConfigRemoveSplit = configuredPortSplit[1].split(PORT_CONFIGURATION_SEPARATOR + REMOVE_PORT_OPTION);
+                    String[] portConfigMergeSplit = configuredPortSplit[1].split(PORT_CONFIGURATION_SEPARATOR + MERGE_PORT_OPTION);
+                    TraceManager.addDev("portConfigRemoveSplit.length=" + portConfigRemoveSplit.length);
+                    TraceManager.addDev("portConfigRemoveSplit[0]=" + portConfigRemoveSplit[0]);
                     if (configuredPortsMap.containsKey(configuredPortSplit[0])) {
-                        if (portConfigRemoveSplit.length > 1) {
-                            Entry<String,String> portConfig = new AbstractMap.SimpleEntry<>(portConfigRemoveSplit[0], portConfigRemoveSplit[1]);
+                        if (!configuredPortSplit[1].equals(portConfigRemoveSplit[0])) {
+                            Entry<String,String> portConfig = new AbstractMap.SimpleEntry<>(portConfigRemoveSplit[0], "");
                             configuredPortsMap.get(configuredPortSplit[0]).add(portConfig);
                         } else if (portConfigMergeSplit.length > 1) {
                             Entry<String,String> portConfig = new AbstractMap.SimpleEntry<>(portConfigMergeSplit[0], portConfigMergeSplit[1]);
                             configuredPortsMap.get(configuredPortSplit[0]).add(portConfig);
                         }
                     } else {
-                        if (portConfigRemoveSplit.length > 1) {
-                            Entry<String,String> portConfig = new AbstractMap.SimpleEntry<>(portConfigRemoveSplit[0], portConfigRemoveSplit[1]);
+                        if (!configuredPortSplit[1].equals(portConfigRemoveSplit[0])) {
+                            Entry<String,String> portConfig = new AbstractMap.SimpleEntry<>(portConfigRemoveSplit[0], "");
                             configuredPortsMap.put(configuredPortSplit[0], new ArrayList<Entry<String,String>>(Arrays.asList(portConfig)));
                         } else if (portConfigMergeSplit.length > 1) {
                             Entry<String,String> portConfig = new AbstractMap.SimpleEntry<>(portConfigMergeSplit[0], portConfigMergeSplit[1]);
@@ -2550,7 +2572,7 @@ public class JDialogPatternGeneration extends JDialog implements ActionListener,
                     String[] splitComModelPort = splitComModel[1].split(NEW_PORT_OPTION, 2);
                     String modelTaskPortName = splitComModelPort[0];
                     if (connectedPortsMap.containsKey(patternTaskName)) {
-                        if (splitComModelPort.length == 1) {
+                        if (splitComModel[1].equals(modelTaskPortName)) {
                             String[] portConnecMap = new String[3];
                             portConnecMap[0] = patternTaskPortName;
                             portConnecMap[1] = modelTaskName;
@@ -2565,7 +2587,7 @@ public class JDialogPatternGeneration extends JDialog implements ActionListener,
                             connectedPortsMap.get(patternTaskName).add(portConnecMap);
                         }
                     } else {
-                        if (splitComModelPort.length == 1) {
+                        if (splitComModel[1].equals(modelTaskPortName)) {
                             String[] portConnecMap = new String[3];
                             portConnecMap[0] = patternTaskPortName;
                             portConnecMap[1] = modelTaskName;

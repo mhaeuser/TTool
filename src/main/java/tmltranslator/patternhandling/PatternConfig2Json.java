@@ -116,6 +116,17 @@ public class PatternConfig2Json {
         return ja;
     }
 
+    LinkedHashMap<String, String> getClonedTasksFromJsonFile(JSONArray ja) {
+        LinkedHashMap<String, String> _clonedTasks = new LinkedHashMap<String, String>();
+
+        for (int j = 0; j < ja.length(); j++) {
+            String cloneOfTask = ja.getJSONObject(j).getString(CLONE_OF_TASK);
+            String clonedTask = ja.getJSONObject(j).getString(CLONED_TASK);
+            _clonedTasks.put(cloneOfTask, clonedTask);
+        }
+        return _clonedTasks;
+    }
+
     JSONArray addPortsConfigurationInJsonFile(LinkedHashMap<String, List<Entry<String, String>>> _portsConfig) {
         JSONArray ja = new JSONArray();
         try {
@@ -136,6 +147,35 @@ public class PatternConfig2Json {
             e.printStackTrace();
         }
         return ja;
+    }
+
+    LinkedHashMap<String, List<Entry<String, String>>> getPortsConfigurationFromJsonFile(JSONArray ja) {
+        LinkedHashMap<String, List<Entry<String, String>>>  _portsConfig = new LinkedHashMap<String, List<Entry<String, String>>>();
+
+        for (int j = 0; j < ja.length(); j++) {
+            String taskOfChToConfig = ja.getJSONObject(j).getString(TASK_OF_CHANNEL_TO_CONFIG);
+            String chToConfig = ja.getJSONObject(j).getString(CHANNEL_TO_CONFIG);
+            String chToMergeWith = ja.getJSONObject(j).getString(CHANNEL_TO_MERGE_WITH);
+            String chToRemove = ja.getJSONObject(j).getString(CHANNEL_TO_REMOVE);
+            if (_portsConfig.containsKey(taskOfChToConfig)) {
+                if (chToMergeWith != "") {
+                    _portsConfig.get(taskOfChToConfig).add(new AbstractMap.SimpleEntry<String, String> (chToConfig, chToMergeWith));
+                } else if (chToRemove != "") {
+                    _portsConfig.get(taskOfChToConfig).add(new AbstractMap.SimpleEntry<String, String> (chToConfig, chToRemove));
+                }
+                
+            } else {
+                List<Entry<String, String>> portConf = new ArrayList<Entry<String, String>>();
+                if (chToMergeWith != "") {
+                    portConf.add(new AbstractMap.SimpleEntry<String, String> (chToConfig, chToMergeWith));
+                } else if (chToRemove != "") {
+                    portConf.add(new AbstractMap.SimpleEntry<String, String> (chToConfig, chToRemove));
+                }
+                _portsConfig.put(taskOfChToConfig, portConf);
+            }
+            
+        }
+        return _portsConfig;
     }
 
     JSONArray addChannelsMappingInJsonFile(LinkedHashMap<String,List<String[]>> _channelsMapping) {
@@ -194,7 +234,7 @@ public class PatternConfig2Json {
                     jo.put(MODEL_TASK, conn[1]);
                     jo.put(MODEL_PORT, conn[2]);
                     
-                    if (conn.length>=4 && conn[2].equals(JDialogPatternGeneration.NEW_PORT_OPTION)) {
+                    if (conn.length>=4 && conn[3].equals(JDialogPatternGeneration.NEW_PORT_OPTION)) {
                         jo.put(NEW_PORT, "true");
                     }
                     ja.put(jo);

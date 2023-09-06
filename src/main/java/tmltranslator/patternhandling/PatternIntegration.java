@@ -944,6 +944,9 @@ public class PatternIntegration implements Runnable {
                     }
                 } else if (portConn.length == 4 && portConn[3].equals(JDialogPatternGeneration.NEW_PORT_OPTION)) {
                     if (chInPattern != null) {
+                        if (renamedChannels.containsKey(modelTaskPortName)) {
+                            modelTaskPortName = renamedChannels.get(modelTaskPortName);
+                        }
                         if (chInPattern.getDestinationTask().equals(patternTask)) {
                             chInPattern.setOriginTask(modelTask);
                             chInPattern.setPorts(new TMLPort(chInPattern.getName(), chInPattern.getReferenceObject()), chInPattern.getDestinationPort());
@@ -956,6 +959,9 @@ public class PatternIntegration implements Runnable {
                             _tmapModel = addNewPortToATask(_tmapModel, _patternTasks, modelTask, patternTaskName, patternTaskPortName, modelTaskPortName);
                         }
                     } else if (evtInPattern != null) {
+                        if (renamedChannels.containsKey(modelTaskPortName)) {
+                            modelTaskPortName = renamedChannels.get(modelTaskPortName);
+                        }
                         if (evtInPattern.getDestinationTask().equals(patternTask)) {
                             evtInPattern.setOriginTask(modelTask);
                             evtInPattern.setPorts(new TMLPort(evtInPattern.getName(), evtInPattern.getReferenceObject()), evtInPattern.getDestinationPort());

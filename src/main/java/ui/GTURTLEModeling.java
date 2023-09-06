@@ -72,6 +72,7 @@ import sdtranslator.SDTranslator;
 import tmatrix.RequirementModeling;
 import tmltranslator.*;
 import tmltranslator.modelcompiler.TMLModelCompiler;
+import tmltranslator.patternhandling.PatternConfig2Json;
 import tmltranslator.patternhandling.PatternGeneration;
 import tmltranslator.patternhandling.PatternIntegration;
 import tmltranslator.patternhandling.TMRGeneration;
@@ -1639,6 +1640,9 @@ public class GTURTLEModeling {
 
     @SuppressWarnings("unchecked")
     public void integratePattern(MainGUI gui, String patternPath, String patternName, LinkedHashMap<String,List<String[]>> portsConnection, LinkedHashMap<String, String> clonedTasks, LinkedHashMap<String, List<Entry<String, String>>> portsConfig, LinkedHashMap<String, Entry<String, String>> tasksMapping, LinkedHashMap<String,List<String[]>> channelsMapping, LinkedHashMap<String, TaskPattern> patternTasks) {
+        PatternConfig2Json patternConfig2Json = new PatternConfig2Json(patternPath, patternName, portsConnection, clonedTasks, portsConfig, tasksMapping, channelsMapping);
+        patternConfig2Json.patternConfiguration2Json();
+        
         PatternIntegration patternInteg = new PatternIntegration(patternPath, patternName, portsConnection, clonedTasks, portsConfig, tasksMapping, channelsMapping, patternTasks, tmap);
         tmap = (TMLMapping<TGComponent>) patternInteg.startThread();
         try {

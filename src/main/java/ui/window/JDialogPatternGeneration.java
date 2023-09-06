@@ -183,7 +183,7 @@ public class JDialogPatternGeneration extends JDialog implements ActionListener,
     Map<String, String> tasksFullName = new LinkedHashMap<String, String>();
     JPanel jPanelPatternSelection;
 
-    // Pattern Intergration
+    // Pattern Integration
     Vector<String> listPatterns = new Vector<String>();
     Vector<String> tasksOfPatternWithExternalPort = new Vector<String>();
     Vector<String> externalPortsOfTaskInPattern = new Vector<String>();
@@ -203,7 +203,7 @@ public class JDialogPatternGeneration extends JDialog implements ActionListener,
     Vector<String> connectedPorts = new Vector<String>();
     Vector<String> connectedPortsFull = new Vector<String>();
     JButton addConnectionBetweenSelectedPorts, removeConnectionBetweenPorts;
-    //JPanel jPanelPatternIntergration;
+    //JPanel jPanelPatternIntegration;
     JButton buttonCloneTask, buttonAddPortInTask;
     Vector<String> portsConfig = new Vector<String>();
     JComboBox<String> jComboBoxPortsConfig;
@@ -275,6 +275,13 @@ public class JDialogPatternGeneration extends JDialog implements ActionListener,
     LinkedHashMap<String, PortsTasks> portsTaskConfig = new LinkedHashMap<String, PortsTasks>();
     
     List<String> busesOfModel = new ArrayList<String>();
+
+    // Pattern Integration with Json
+    Vector<String> listPatternsJson = new Vector<String>();
+    JComboBox<String> jComboBoxPatternsJson;
+    String patternJsonPathValue;
+    protected JTextField jFieldPatternJsonPath;
+
     //components
     protected JScrollPane jsp;
     protected JPanel jta;
@@ -326,6 +333,7 @@ public class JDialogPatternGeneration extends JDialog implements ActionListener,
         } 
         currPanel = mgui.getCurrentTURTLEPanel();
         listPatterns = getFoldersName(_pathPatterns);
+        listPatternsJson = getFoldersName(_pathPatterns);
         portsTaskOfModelAll = getListPortsTask(mgui.gtm.getTMLMapping().getTMLModeling());
         portsTaskOfModelLeft = getListPortsTask(mgui.gtm.getTMLMapping().getTMLModeling());
         busesOfModel = getListBus(mgui.gtm.getTMLMapping().getArch());
@@ -591,7 +599,7 @@ public class JDialogPatternGeneration extends JDialog implements ActionListener,
         jp1.add("Pattern Generation", jp01);
     }
 
-    protected void panelPatternIntergration() {
+    protected void panelPatternIntegration() {
         JPanel jp02 = new JPanel();
         GridBagLayout gridbag02 = new GridBagLayout();
         GridBagConstraints c02 = new GridBagConstraints();
@@ -697,22 +705,22 @@ public class JDialogPatternGeneration extends JDialog implements ActionListener,
 
 
         jListConnectedPorts = new JList<String>(connectedPorts);
-		JPanel jPanelPatternIntergration = new JPanel();
-        jPanelPatternIntergration.setLayout(new GridBagLayout());
-        GridBagConstraints cPatternIntergration = new GridBagConstraints();
-        cPatternIntergration.gridx = 0;
-        cPatternIntergration.gridy = 0;
-        cPatternIntergration.weightx = 0.9;
-        cPatternIntergration.fill = GridBagConstraints.HORIZONTAL;
-        cPatternIntergration.anchor = GridBagConstraints.LINE_START;
+		JPanel jPanelPatternIntegration = new JPanel();
+        jPanelPatternIntegration.setLayout(new GridBagLayout());
+        GridBagConstraints cPatternIntegration = new GridBagConstraints();
+        cPatternIntegration.gridx = 0;
+        cPatternIntegration.gridy = 0;
+        cPatternIntegration.weightx = 0.9;
+        cPatternIntegration.fill = GridBagConstraints.HORIZONTAL;
+        cPatternIntegration.anchor = GridBagConstraints.LINE_START;
         
-		//jPanelPatternIntergration.setPreferredSize(new Dimension(600, 130));
+		//jPanelPatternIntegration.setPreferredSize(new Dimension(600, 130));
         jListConnectedPorts.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 
         jListConnectedPorts.addListSelectionListener(this);
         JScrollPane scrollPaneConnectedPorts = new JScrollPane(jListConnectedPorts);
         scrollPaneConnectedPorts.setPreferredSize(new Dimension(450, 125));
-        jPanelPatternIntergration.add(scrollPaneConnectedPorts, cPatternIntergration);
+        jPanelPatternIntegration.add(scrollPaneConnectedPorts, cPatternIntegration);
         
         JPanel pannelButtonConnectPorts = new JPanel();
         pannelButtonConnectPorts.setLayout(new GridBagLayout());
@@ -737,12 +745,12 @@ public class JDialogPatternGeneration extends JDialog implements ActionListener,
         cConnectedPorts.gridy = 1;
         pannelButtonConnectPorts.add(removeConnectionBetweenPorts, cConnectedPorts);
         //pannelButtonConnectPorts.setPreferredSize(new Dimension(50, 125));
-        //jPanelPatternIntergration.setMinimumSize(new Dimension(600, 130));
-        cPatternIntergration.gridx = 1;
-        cPatternIntergration.weightx = 0.1;
-        jPanelPatternIntergration.add(pannelButtonConnectPorts, cPatternIntergration);
+        //jPanelPatternIntegration.setMinimumSize(new Dimension(600, 130));
+        cPatternIntegration.gridx = 1;
+        cPatternIntegration.weightx = 0.1;
+        jPanelPatternIntegration.add(pannelButtonConnectPorts, cPatternIntegration);
         cPatternConnetionMain.gridy = 2;
-        jpPatternConnetionMain.add(jPanelPatternIntergration, cPatternConnetionMain);
+        jpPatternConnetionMain.add(jPanelPatternIntegration, cPatternConnetionMain);
         //c02.gridwidth = GridBagConstraints.REMAINDER;
         c02.gridy = 1;
         c02.insets = new Insets(10,0,0,0); 
@@ -903,6 +911,54 @@ public class JDialogPatternGeneration extends JDialog implements ActionListener,
         jp1.add("Pattern Integration", jp02);
     }
 
+    protected void panelPatternIntegrationWithJson() {
+        JPanel jp02 = new JPanel();
+        GridBagLayout gridbag02 = new GridBagLayout();
+        GridBagConstraints c02 = new GridBagConstraints();
+        jp02.setLayout(gridbag02);
+        jp02.setBorder(new javax.swing.border.TitledBorder("Pattern Integration With Json File"));
+
+        c02.weighty = 1.0;
+        c02.weightx = 1.0;
+        c02.fill = GridBagConstraints.HORIZONTAL;
+        c02.anchor = GridBagConstraints.LINE_START;
+        c02.gridheight = 1;
+        c02.gridwidth = 1;
+        
+        JPanel jpPatternSelection = new JPanel();
+        jpPatternSelection.setLayout(new GridBagLayout());
+        GridBagConstraints cPatternSelection = new GridBagConstraints();
+        cPatternSelection.gridx = 0;
+        cPatternSelection.gridy = 0;
+        cPatternSelection.fill = GridBagConstraints.HORIZONTAL;
+        cPatternSelection.anchor = GridBagConstraints.LINE_START;
+        cPatternSelection.weightx = 0.5;
+
+        JLabel labelPatternName = new JLabel("Select a pattern: ");
+        jpPatternSelection.add(labelPatternName, cPatternSelection);
+
+        jComboBoxPatternsJson = new JComboBox<String>(listPatternsJson);
+        jComboBoxPatternsJson.setSelectedIndex(-1);
+        jComboBoxPatternsJson.addActionListener(this);
+        cPatternSelection.gridx = 1;
+        jpPatternSelection.add(jComboBoxPatternsJson, cPatternSelection);
+
+        cPatternSelection.gridy = 1;
+        cPatternSelection.gridx = 0;
+        jpPatternSelection.add(new JLabel("Path To Json File :"), cPatternSelection);
+
+
+        jFieldPatternJsonPath = new JTextField(patternJsonPathValue, 10);
+        jFieldPatternJsonPath.setEnabled(false);
+        jFieldPatternJsonPath.setPreferredSize(new Dimension(10, 25));
+        jFieldPatternJsonPath.addActionListener(this);
+        cPatternSelection.gridx = 1;
+        jpPatternSelection.add(jFieldPatternJsonPath, cPatternSelection);
+        jp02.add(jpPatternSelection, c02);
+
+        jp1.add("Pattern Integration With Json", jp02);
+    }
+
     protected void initComponents() {
 
         jp1 = GraphicLib.createTabbedPane();
@@ -938,7 +994,8 @@ public class JDialogPatternGeneration extends JDialog implements ActionListener,
         jp2.add(close);
 
         panelPatternGeneration();
-        panelPatternIntergration();
+        panelPatternIntegration();
+        panelPatternIntegrationWithJson();
         c.add(jp1, BorderLayout.NORTH);
         c.add(jp2, BorderLayout.SOUTH);
     }
@@ -1886,6 +1943,7 @@ public class JDialogPatternGeneration extends JDialog implements ActionListener,
                 }
                 if (evt.getSource() == jp1) {
                     listPatterns = getFoldersName(pathPatterns);
+                    listPatternsJson = getFoldersName(pathPatterns);
                 }
                 if (evt.getSource() == jComboBoxPatterns) {
                     int selectedPatternIndex = jComboBoxPatterns.getSelectedIndex();
@@ -2362,6 +2420,14 @@ public class JDialogPatternGeneration extends JDialog implements ActionListener,
                         buttonUpdateTaskAttributeValue.setEnabled(false);
                     }
                 }
+
+                if (evt.getSource() == jComboBoxPatternsJson) {
+                    if (jComboBoxPatternsJson.getSelectedIndex() >= 0) {
+                        jFieldPatternJsonPath.setEnabled(true);
+                    } else {
+                        jFieldPatternJsonPath.setEnabled(false);
+                    }
+                }
         }
     }
 
@@ -2614,6 +2680,33 @@ public class JDialogPatternGeneration extends JDialog implements ActionListener,
                 this.jta.add(label, this.createGbc(currentPosY));
             }
             mode = NOT_STARTED;
+        } else  if (jp1.getSelectedIndex() == 2) {
+            jta.removeAll();
+            boolean findErr = false;
+            String textJFieldPathJson = jFieldPatternJsonPath.getText();
+            File f = new File(textJFieldPathJson);
+            
+            if (jComboBoxAttributesOfTaskToUpdate.getSelectedIndex() == -1) {
+                JLabel label = new JLabel("ERROR: Select a pattern");
+                label.setAlignmentX(Component.LEFT_ALIGNMENT);
+                this.jta.add(label, this.createGbc(currentPosY));
+                currentPosY += stepY;
+                findErr = true;
+            }
+            if (!f.isFile() || !f.exists()) { 
+                JLabel label = new JLabel("ERROR: Json file doesn't exist");
+                label.setAlignmentX(Component.LEFT_ALIGNMENT);
+                this.jta.add(label, this.createGbc(currentPosY));
+                currentPosY += stepY;
+                findErr = true;
+            }
+
+            if (!findErr) {
+                JLabel label = new JLabel("Pattern Integration Completed");
+                label.setAlignmentX(Component.LEFT_ALIGNMENT);
+                this.jta.add(label, this.createGbc(currentPosY));
+            }
+            
         }
         setButtons();
     }

@@ -18,7 +18,9 @@ import ui.window.TraceData;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.charset.Charset;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
 import java.util.Map.Entry;
@@ -62,36 +64,35 @@ public class PatternConfig2Json {
     public final static String NEW_PORT = "New_Port";
 
 
-    String patternConfigurationPath;
-    String patternConfigurationName;
-    LinkedHashMap<String,List<String[]>> portsConnection;
-    LinkedHashMap<String, String> clonedTasks;
-    LinkedHashMap<String, List<Entry<String, String>>> portsConfig;
-    LinkedHashMap<String, Entry<String, String>> tasksMapping;
-    LinkedHashMap<String,List<String[]>> channelsMapping;
-    LinkedHashMap<String, TaskPattern> patternTasks;
+    String patternConfigurationPathName;
+    PatternConfiguration patternConfiguration;  
+
+
+    public PatternConfiguration getPaternConfiguration() {
+        return patternConfiguration;
+    }
 	
-    public PatternConfig2Json(String _patternPath, String _patternName, LinkedHashMap<String,List<String[]>> _portsConnection, LinkedHashMap<String, String> _clonedTasks, LinkedHashMap<String, List<Entry<String, String>>> _portsConfig, LinkedHashMap<String, Entry<String, String>> _tasksMapping, LinkedHashMap<String,List<String[]>> _channelsMapping) {
-		this.patternConfigurationPath = _patternPath;
-		this.patternConfigurationName = _patternName;
-		this.portsConnection = _portsConnection;
-		this.clonedTasks = _clonedTasks;
-		this.portsConfig = _portsConfig;
-		this.tasksMapping = _tasksMapping;
-		this.channelsMapping = _channelsMapping;
+    public PatternConfig2Json(String _patternPathName, PatternConfiguration _patternConfiguration) {
+		this.patternConfigurationPathName = _patternPathName;
+		this.patternConfiguration = _patternConfiguration;
 	}
     
+    public PatternConfig2Json(String _patternPathName) {
+		this.patternConfigurationPathName = _patternPathName;
+        this.patternConfiguration = new PatternConfiguration();
+	}
+
 	
     public void patternConfiguration2Json() {
         try {
-            FileWriter file = new FileWriter(patternConfigurationPath+"/"+patternConfigurationName);
+            FileWriter file = new FileWriter(patternConfigurationPathName);
             JSONObject jsonPatternConfig = new JSONObject();
 
-            jsonPatternConfig.put(CONNECTION, addConnectionInJsonFile(portsConnection));
-            jsonPatternConfig.put(TASK_CLONE, addClonedTasksInJsonFile(clonedTasks));
-            jsonPatternConfig.put(CHANNEL_CONFIG, addPortsConfigurationInJsonFile(portsConfig));
-            jsonPatternConfig.put(TASK_MAPPING, addTasksMappingInJsonFile(tasksMapping));
-            jsonPatternConfig.put(CHANNEL_MAPPING, addChannelsMappingInJsonFile(channelsMapping));
+            jsonPatternConfig.put(CONNECTION, addConnectionInJsonFile(patternConfiguration.getPortsConnection()));
+            jsonPatternConfig.put(TASK_CLONE, addClonedTasksInJsonFile(patternConfiguration.getClonedTasks()));
+            jsonPatternConfig.put(CHANNEL_CONFIG, addPortsConfigurationInJsonFile(patternConfiguration.getPortsConfig()));
+            jsonPatternConfig.put(TASK_MAPPING, addTasksMappingInJsonFile(patternConfiguration.getTasksMapping()));
+            jsonPatternConfig.put(CHANNEL_MAPPING, addChannelsMappingInJsonFile(patternConfiguration.getChannelsMapping()));
 
             file.write(jsonPatternConfig.toString(1));
             file.close();
@@ -99,6 +100,29 @@ public class PatternConfig2Json {
         catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public void json2patternConfiguration() {
+        Path jsonFilePath = Path.of(patternConfigurationPathName);
+        String jsonFilecontent = "";
+        
+        try {
+            jsonFilecontent = Files.readString(jsonFilePath, Charset.defaultCharset());
+        } catch (IOException ioExc) {
+        } 
+        
+        JSONObject patternConfigurationJson = new JSONObject(jsonFilecontent);
+        JSONArray jsonConnection = patternConfigurationJson.getJSONArray(CONNECTION);
+        JSONArray jsonTaskClone = patternConfigurationJson.getJSONArray(TASK_CLONE);
+        JSONArray jsonChannelConfig = patternConfigurationJson.getJSONArray(CHANNEL_CONFIG);
+        JSONArray jsonTaskMapping = patternConfigurationJson.getJSONArray(TASK_MAPPING);
+        JSONArray jsonChannelMapping = patternConfigurationJson.getJSONArray(CHANNEL_MAPPING);
+        patternConfiguration.setClonedTasks(getClonedTasksFromJsonFile(jsonTaskClone));
+        patternConfiguration.setPortsConnection(getConnectionFromJsonFile(jsonConnection));
+        patternConfiguration.setPortsConfig(getPortsConfigurationFromJsonFile(jsonChannelConfig));
+        patternConfiguration.setTasksMapping(getTasksMappingFromJsonFile(jsonTaskMapping));
+        patternConfiguration.setChannelsMapping(getChannelsMappingFromJsonFile(jsonChannelMapping));
+
     }
 
     JSONArray addClonedTasksInJsonFile(LinkedHashMap<String, String> _clonedTasks) {
@@ -150,35 +174,38 @@ public class PatternConfig2Json {
     }
 
     LinkedHashMap<String, List<Entry<String, String>>> getPortsConfigurationFromJsonFile(JSONArray ja) {
-        LinkedHashMap<String, List<Entry<String, String>>>  _portsConfig = new LinkedHashMap<String, List<Entry<String, String>>>();
-
+        LinkedHashMap<String, List<Entry<String, String>>> _portsConfig = new LinkedHashMap<String, List<Entry<String, String>>>();
         for (int j = 0; j < ja.length(); j++) {
             String taskOfChToConfig = ja.getJSONObject(j).getString(TASK_OF_CHANNEL_TO_CONFIG);
             String chToConfig = ja.getJSONObject(j).getString(CHANNEL_TO_CONFIG);
-            String chToMergeWith = ja.getJSONObject(j).getString(CHANNEL_TO_MERGE_WITH);
-            String chToRemove = ja.getJSONObject(j).getString(CHANNEL_TO_REMOVE);
+            String chToMergeWith = "";
+            if (ja.getJSONObject(j).has(CHANNEL_TO_MERGE_WITH)) {
+                chToMergeWith = ja.getJSONObject(j).getString(CHANNEL_TO_MERGE_WITH);
+            }
+            String chToRemove = "";
+            if (ja.getJSONObject(j).has(CHANNEL_TO_REMOVE)) {
+                chToRemove = ja.getJSONObject(j).getString(CHANNEL_TO_REMOVE);
+            }
             if (_portsConfig.containsKey(taskOfChToConfig)) {
                 if (chToMergeWith != "") {
-                    _portsConfig.get(taskOfChToConfig).add(new AbstractMap.SimpleEntry<String, String> (chToConfig, chToMergeWith));
+                    _portsConfig.get(taskOfChToConfig).add(new AbstractMap.SimpleEntry<String, String>(chToConfig, chToMergeWith));
                 } else if (chToRemove != "") {
-                    _portsConfig.get(taskOfChToConfig).add(new AbstractMap.SimpleEntry<String, String> (chToConfig, chToRemove));
+                    _portsConfig.get(taskOfChToConfig).add(new AbstractMap.SimpleEntry<String, String>(chToConfig, ""));
                 }
-                
             } else {
                 List<Entry<String, String>> portConf = new ArrayList<Entry<String, String>>();
                 if (chToMergeWith != "") {
-                    portConf.add(new AbstractMap.SimpleEntry<String, String> (chToConfig, chToMergeWith));
+                    portConf.add(new AbstractMap.SimpleEntry<String, String>(chToConfig, chToMergeWith));
                 } else if (chToRemove != "") {
-                    portConf.add(new AbstractMap.SimpleEntry<String, String> (chToConfig, chToRemove));
+                    portConf.add(new AbstractMap.SimpleEntry<String, String>(chToConfig, ""));
                 }
                 _portsConfig.put(taskOfChToConfig, portConf);
             }
-            
         }
         return _portsConfig;
     }
 
-    JSONArray addChannelsMappingInJsonFile(LinkedHashMap<String,List<String[]>> _channelsMapping) {
+    JSONArray addChannelsMappingInJsonFile(LinkedHashMap<String, List<String[]>> _channelsMapping) {
         JSONArray ja = new JSONArray();
         try {
             for (String task : _channelsMapping.keySet()) {
@@ -203,6 +230,60 @@ public class PatternConfig2Json {
         return ja;
     }
 
+    LinkedHashMap<String, List<String[]>> getChannelsMappingFromJsonFile(JSONArray ja) {
+        LinkedHashMap<String, List<String[]>> _channelsMapping = new LinkedHashMap<String, List<String[]>>();
+        for (int j = 0; j < ja.length(); j++) {
+            String channelToMap = ja.getJSONObject(j).getString(CHANNEL_TO_MAP);
+            String taskOfChannelToMap = ja.getJSONObject(j).getString(TASK_OF_CHANNEL_TO_MAP);
+            String channelMappedInSameMem = "";
+            if (ja.getJSONObject(j).has(CHANNEL_MAPPED_IN_SAME_MEM_AS)) {
+                channelMappedInSameMem = ja.getJSONObject(j).getString(CHANNEL_MAPPED_IN_SAME_MEM_AS);
+            }
+            String taskOfChannelSameMem = "";
+            if (ja.getJSONObject(j).has(TASK_OF_CHANNEL_SAME_MEM)) {
+                taskOfChannelSameMem = ja.getJSONObject(j).getString(TASK_OF_CHANNEL_SAME_MEM);
+            }
+            String channelMappedInNewMem = "";
+            if (ja.getJSONObject(j).has(CHANNEL_MAPPED_IN_NEW_MEM_CONNECTED_TO_BUS)) {
+                channelMappedInNewMem = ja.getJSONObject(j).getString(CHANNEL_MAPPED_IN_NEW_MEM_CONNECTED_TO_BUS);
+            }
+            if (_channelsMapping.containsKey(taskOfChannelToMap)) {
+                if (channelMappedInSameMem != "") {
+                    String[] channelMap = new String[4];
+                    channelMap[0] = JDialogPatternGeneration.SAME_MEMORY;
+                    channelMap[1] = channelToMap;
+                    channelMap[2] = taskOfChannelSameMem;
+                    channelMap[3] = channelMappedInNewMem;
+                    _channelsMapping.get(taskOfChannelToMap).add(channelMap);
+                } else if (channelMappedInNewMem != "") {
+                    String[] channelMap = new String[3];
+                    channelMap[0] = JDialogPatternGeneration.NEW_MEMORY;
+                    channelMap[1] = channelToMap;
+                    channelMap[2] = channelMappedInNewMem;
+                    _channelsMapping.get(taskOfChannelToMap).add(channelMap);
+                }
+            } else {
+                List<String[]> channelMapList = new ArrayList<String[]>();
+                if (channelMappedInSameMem != "") {
+                    String[] channelMap = new String[4];
+                    channelMap[0] = JDialogPatternGeneration.SAME_MEMORY;
+                    channelMap[1] = channelToMap;
+                    channelMap[2] = taskOfChannelSameMem;
+                    channelMap[3] = channelMappedInNewMem;
+                    channelMapList.add(channelMap);
+                } else if (channelMappedInNewMem != "") {
+                    String[] channelMap = new String[3];
+                    channelMap[0] = JDialogPatternGeneration.NEW_MEMORY;
+                    channelMap[1] = channelToMap;
+                    channelMap[2] = channelMappedInNewMem;
+                    channelMapList.add(channelMap);
+                }
+                _channelsMapping.put(taskOfChannelToMap, channelMapList);
+            }
+        }
+        return _channelsMapping;
+    }
+
     JSONArray addTasksMappingInJsonFile(LinkedHashMap<String, Entry<String, String>> _tasksMapping) {
         JSONArray ja = new JSONArray();
         try {
@@ -221,6 +302,27 @@ public class PatternConfig2Json {
             e.printStackTrace();
         }
         return ja;
+    }
+
+    LinkedHashMap<String, Entry<String, String>> getTasksMappingFromJsonFile(JSONArray ja) {
+        LinkedHashMap<String, Entry<String, String>> _tasksMapping = new LinkedHashMap<String, Entry<String, String>>();
+        for (int j = 0; j < ja.length(); j++) {
+            String taskToMap = ja.getJSONObject(j).getString(TASK_TO_MAP);
+            String taskMappedInNewHw = "";
+            if (ja.getJSONObject(j).has(TASK_MAPPED_IN_NEW_HW_CONNECTED_TO_BUS)) {
+                taskMappedInNewHw = ja.getJSONObject(j).getString(TASK_MAPPED_IN_NEW_HW_CONNECTED_TO_BUS);
+            }
+            String taskMappedInSameHw = "";
+            if (ja.getJSONObject(j).has(TASK_MAPPED_IN_SAME_HW_AS)) {
+                taskMappedInSameHw = ja.getJSONObject(j).getString(TASK_MAPPED_IN_SAME_HW_AS);
+            }
+            if (taskMappedInSameHw != "") {
+                _tasksMapping.put(taskToMap, new AbstractMap.SimpleEntry<String, String>(JDialogPatternGeneration.SAME_HW, taskMappedInSameHw));
+            } else if (taskMappedInNewHw != "") {
+                _tasksMapping.put(taskToMap, new AbstractMap.SimpleEntry<String, String>(JDialogPatternGeneration.NEW_HW, taskMappedInNewHw));
+            }
+        }
+        return _tasksMapping;
     }
 
     JSONArray addConnectionInJsonFile(LinkedHashMap<String,List<String[]>> _portsConnection) {
@@ -245,6 +347,54 @@ public class PatternConfig2Json {
             e.printStackTrace();
         }
         return ja;
+    }
+
+    LinkedHashMap<String, List<String[]>> getConnectionFromJsonFile(JSONArray ja) {
+        LinkedHashMap<String, List<String[]>> _portsConnection = new LinkedHashMap<String, List<String[]>>();
+        for (int j = 0; j < ja.length(); j++) {
+            String patternTask = ja.getJSONObject(j).getString(PATTERN_TASK);
+            String patternPort = ja.getJSONObject(j).getString(PATTERN_PORT);
+            String modelTask = ja.getJSONObject(j).getString(MODEL_TASK);
+            String modelPort = ja.getJSONObject(j).getString(MODEL_PORT);
+            String newPort = "";
+            if (ja.getJSONObject(j).has(NEW_PORT)) {
+                newPort = ja.getJSONObject(j).getString(NEW_PORT);
+            }
+            if (_portsConnection.containsKey(patternTask)) {
+                if (newPort != "") {
+                    String[] conn = new String[4];
+                    conn[0] = patternPort;
+                    conn[1] = modelTask;
+                    conn[2] = modelPort;
+                    conn[3] = newPort;
+                    _portsConnection.get(patternTask).add(conn);
+                } else {
+                    String[] conn = new String[3];
+                    conn[0] = patternPort;
+                    conn[1] = modelTask;
+                    conn[2] = modelPort;
+                    _portsConnection.get(patternTask).add(conn);
+                }
+            } else {
+                List<String[]> portConnec = new ArrayList<String[]>();
+                if (newPort != "") {
+                    String[] conn = new String[4];
+                    conn[0] = patternPort;
+                    conn[1] = modelTask;
+                    conn[2] = modelPort;
+                    conn[3] = newPort;
+                    portConnec.add(conn);
+                } else {
+                    String[] conn = new String[3];
+                    conn[0] = patternPort;
+                    conn[1] = modelTask;
+                    conn[2] = modelPort;
+                    portConnec.add(conn);
+                }
+                _portsConnection.put(patternTask, portConnec);
+            }
+        }
+        return _portsConnection;
     }
    
 }

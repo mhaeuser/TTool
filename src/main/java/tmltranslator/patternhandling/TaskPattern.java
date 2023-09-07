@@ -10,7 +10,14 @@ package tmltranslator.patternhandling;
  
 import myutil.TraceManager;
 import tmltranslator.*;
+
+import java.io.IOException;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.*;
+
+import org.json.JSONArray;
 
  
 public class TaskPattern {
@@ -34,6 +41,58 @@ public class TaskPattern {
 
     public List<PortTaskJsonFile> getExternalPorts() {
         return externalPorts;
+    }
+
+    public static LinkedHashMap<String, TaskPattern> parsePatternJsonFile(String pathPatternFoler, String fileName) {
+        Path jsonFilePath = Path.of(pathPatternFoler+"/"+fileName);
+        String jsonFilecontent = "";
+        LinkedHashMap<String, TaskPattern> tasksPattern = new LinkedHashMap<String, TaskPattern>();
+        try {
+            jsonFilecontent = Files.readString(jsonFilePath, Charset.defaultCharset());
+        } catch (IOException ioExc) {
+        } 
+        
+        JSONArray patternTasks = new JSONArray(jsonFilecontent);
+        for (int i = 0; i < patternTasks.length(); i++) {
+            String taskName = patternTasks.getJSONObject(i).getString(PatternGeneration.NAME);
+            
+            JSONArray attributes = patternTasks.getJSONObject(i).getJSONArray(PatternGeneration.ATTRIBUTES);
+            List<AttributeTaskJsonFile> attributeTaskList = new ArrayList<AttributeTaskJsonFile>();
+            for (int j = 0; j < attributes.length(); j++) {
+                String attribName = attributes.getJSONObject(j).getString(PatternGeneration.NAME);
+                String attribType = attributes.getJSONObject(j).getString(PatternGeneration.TYPE);
+                String attribValue = attributes.getJSONObject(j).getString(PatternGeneration.VALUE);
+                AttributeTaskJsonFile attributeTaskJsonFile = new AttributeTaskJsonFile(attribName, attribType, attribValue);
+                attributeTaskList.add(attributeTaskJsonFile);
+            }
+            //patternTasksAttributes.put(taskName, attributeTaskList);
+
+            JSONArray externalPorts = patternTasks.getJSONObject(i).getJSONArray(PatternGeneration.EXTERNALPORTS);
+            List<PortTaskJsonFile> externalPortsTaskList = new ArrayList<PortTaskJsonFile>();
+            for (int j = 0; j < externalPorts.length(); j++) {
+                String externalPortName = externalPorts.getJSONObject(j).getString(PatternGeneration.NAME);
+                String externalPortType = externalPorts.getJSONObject(j).getString(PatternGeneration.TYPE);
+                String externalPortMode = externalPorts.getJSONObject(j).getString(PatternGeneration.MODE);
+                TraceManager.addDev("externalPortName= "+ externalPortName);
+                PortTaskJsonFile externalPortTaskJsonFile = new PortTaskJsonFile(externalPortName, externalPortType, externalPortMode);
+                externalPortsTaskList.add(externalPortTaskJsonFile);
+            }
+            //patternTasksExternalPorts.put(taskName, externalPortsTaskList);
+
+            JSONArray internalPorts = patternTasks.getJSONObject(i).getJSONArray(PatternGeneration.INTERNALPORTS);
+            List<PortTaskJsonFile> internalPortsTaskList = new ArrayList<PortTaskJsonFile>();
+            for (int j = 0; j < internalPorts.length(); j++) {
+                String internalPortName = internalPorts.getJSONObject(j).getString(PatternGeneration.NAME);
+                String internalPortType = internalPorts.getJSONObject(j).getString(PatternGeneration.TYPE);
+                String internalPortMode = internalPorts.getJSONObject(j).getString(PatternGeneration.MODE);
+                PortTaskJsonFile internalPortTaskJsonFile = new PortTaskJsonFile(internalPortName, internalPortType, internalPortMode);
+                internalPortsTaskList.add(internalPortTaskJsonFile);
+            }
+            //patternTasksInternalPorts.put(taskName, internalPortsTaskList);
+            TaskPattern taskPattern = new TaskPattern(attributeTaskList, internalPortsTaskList, externalPortsTaskList);
+            tasksPattern.put(taskName, taskPattern);
+        }
+        return tasksPattern;
     }
     
 }

@@ -73,6 +73,7 @@ import tmatrix.RequirementModeling;
 import tmltranslator.*;
 import tmltranslator.modelcompiler.TMLModelCompiler;
 import tmltranslator.patternhandling.PatternConfig2Json;
+import tmltranslator.patternhandling.PatternConfiguration;
 import tmltranslator.patternhandling.PatternGeneration;
 import tmltranslator.patternhandling.PatternIntegration;
 import tmltranslator.patternhandling.TMRGeneration;
@@ -1639,13 +1640,32 @@ public class GTURTLEModeling {
     }
 
     @SuppressWarnings("unchecked")
-    public void integratePattern(MainGUI gui, String patternPath, String patternName, LinkedHashMap<String,List<String[]>> portsConnection, LinkedHashMap<String, String> clonedTasks, LinkedHashMap<String, List<Entry<String, String>>> portsConfig, LinkedHashMap<String, Entry<String, String>> tasksMapping, LinkedHashMap<String,List<String[]>> channelsMapping, LinkedHashMap<String, TaskPattern> patternTasks) {
-        TraceManager.addDev("patternPath="+patternPath);
-        TraceManager.addDev("patternName="+patternName);
-        PatternConfig2Json patternConfig2Json = new PatternConfig2Json(patternPath, patternName+"-config.json", portsConnection, clonedTasks, portsConfig, tasksMapping, channelsMapping);
-        patternConfig2Json.patternConfiguration2Json();
-        
-        PatternIntegration patternInteg = new PatternIntegration(patternPath, patternName, portsConnection, clonedTasks, portsConfig, tasksMapping, channelsMapping, patternTasks, tmap);
+    public void integratePattern(MainGUI gui, String patternPath, String patternName) {
+        TraceManager.addDev("patternPath= " + patternPath);
+        TraceManager.addDev("patternName= " + patternName);
+        PatternConfig2Json patternConfig2Json = new PatternConfig2Json(patternPath+"/"+patternName+"-config.json");
+        patternConfig2Json.json2patternConfiguration();
+        LinkedHashMap<String, TaskPattern> patternTasks = TaskPattern.parsePatternJsonFile(patternPath, patternName+".json");
+        PatternIntegration patternInteg = new PatternIntegration(patternPath, patternName, patternConfig2Json.getPaternConfiguration(), patternTasks, tmap);
+        tmap = (TMLMapping<TGComponent>) patternInteg.startThread();
+        try {
+            String archTabName = ((CorrespondanceTGElement)(tmap.getCorrespondanceList())).getTG(tmap.getArch().getFirstCPU()).getTDiagramPanel().tp.getNameOfTab();
+            String appTabName = ((TGComponent)tmap.getTMLModeling().getReference()).getTDiagramPanel().tp.getNameOfTab();
+            gui.drawTMLAndTMAPSpecification(tmap, appTabName + "_" + patternName, archTabName + "_" + patternName);
+        } catch (MalformedTMLDesignException e) {
+            TraceManager.addDev("Error when Drawing TML");
+        }
+    }
+    
+    @SuppressWarnings("unchecked")
+    public void integratePattern(MainGUI gui, String patternPath, String patternName,  String configPatternPath) {
+        TraceManager.addDev("patternPath= " + patternPath);
+        TraceManager.addDev("patternName= " + patternName);
+        TraceManager.addDev("configPatternPath= " + configPatternPath);
+        PatternConfig2Json patternConfig2Json = new PatternConfig2Json(configPatternPath);
+        patternConfig2Json.json2patternConfiguration();
+        LinkedHashMap<String, TaskPattern> patternTasks = TaskPattern.parsePatternJsonFile(patternPath, patternName+".json");
+        PatternIntegration patternInteg = new PatternIntegration(patternPath, patternName, patternConfig2Json.getPaternConfiguration(), patternTasks, tmap);
         tmap = (TMLMapping<TGComponent>) patternInteg.startThread();
         try {
             String archTabName = ((CorrespondanceTGElement)(tmap.getCorrespondanceList())).getTG(tmap.getArch().getFirstCPU()).getTDiagramPanel().tp.getNameOfTab();
@@ -1656,6 +1676,11 @@ public class GTURTLEModeling {
         }
     }
 
+    public void createJsonPatternConfigFile(String patternPath, String patternName, PatternConfiguration patternConfiguration) {
+        PatternConfig2Json patternConfig2Json = new PatternConfig2Json(patternPath+"/"+patternName+"-config.json", patternConfiguration);
+        patternConfig2Json.patternConfiguration2Json();
+    }
+    
     @SuppressWarnings("unchecked")
     public boolean generateGraphicalMapping(TMLMapping map) {
         TURTLEPanel tmlap = ((CorrespondanceTGElement)(tmap.getCorrespondanceList())).getTG(tmap.getArch().getFirstCPU()).getTDiagramPanel().tp;

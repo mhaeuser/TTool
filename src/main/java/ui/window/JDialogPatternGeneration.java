@@ -123,9 +123,11 @@ import tmltranslator.TMLTask;
 import tmltranslator.TMLWaitEvent;
 import tmltranslator.TMLWriteChannel;
 import tmltranslator.patternhandling.AttributeTaskJsonFile;
+import tmltranslator.patternhandling.PatternConfiguration;
 import tmltranslator.patternhandling.PatternGeneration;
 import tmltranslator.patternhandling.PortTaskJsonFile;
 import tmltranslator.patternhandling.TaskPattern;
+import tmltranslator.patternhandling.TaskPorts;
 import ui.*;
 import ui.interactivesimulation.JFrameSimulationSDPanel;
 import ui.util.IconManager;
@@ -270,9 +272,9 @@ public class JDialogPatternGeneration extends JDialog implements ActionListener,
     //LinkedHashMap<String, List<PortTaskJsonFile>> patternTasksInternalPorts = new LinkedHashMap<String, List<PortTaskJsonFile>>();
     LinkedHashMap<String, TaskPattern> patternTasksAll = new LinkedHashMap<String, TaskPattern>();
     LinkedHashMap<String, TaskPattern> patternTasksNotConnected = new LinkedHashMap<String, TaskPattern>();
-    LinkedHashMap<String, PortsTasks> portsTaskOfModelAll = new LinkedHashMap<String, PortsTasks>();
-    LinkedHashMap<String, PortsTasks> portsTaskOfModelLeft = new LinkedHashMap<String, PortsTasks>();
-    LinkedHashMap<String, PortsTasks> portsTaskConfig = new LinkedHashMap<String, PortsTasks>();
+    LinkedHashMap<String, TaskPorts> portsTaskOfModelAll = new LinkedHashMap<String, TaskPorts>();
+    LinkedHashMap<String, TaskPorts> portsTaskOfModelLeft = new LinkedHashMap<String, TaskPorts>();
+    LinkedHashMap<String, TaskPorts> portsTaskConfig = new LinkedHashMap<String, TaskPorts>();
     
     List<String> busesOfModel = new ArrayList<String>();
 
@@ -334,8 +336,8 @@ public class JDialogPatternGeneration extends JDialog implements ActionListener,
         currPanel = mgui.getCurrentTURTLEPanel();
         listPatterns = getFoldersName(_pathPatterns);
         listPatternsJson = getFoldersName(_pathPatterns);
-        portsTaskOfModelAll = getListPortsTask(mgui.gtm.getTMLMapping().getTMLModeling());
-        portsTaskOfModelLeft = getListPortsTask(mgui.gtm.getTMLMapping().getTMLModeling());
+        portsTaskOfModelAll = TaskPorts.getListPortsTask(mgui.gtm.getTMLMapping().getTMLModeling());
+        portsTaskOfModelLeft = TaskPorts.getListPortsTask(mgui.gtm.getTMLMapping().getTMLModeling());
         busesOfModel = getListBus(mgui.gtm.getTMLMapping().getArch());
         initComponents();
         myInitComponents();
@@ -347,112 +349,12 @@ public class JDialogPatternGeneration extends JDialog implements ActionListener,
         setButtons();
     }
 
-    LinkedHashMap<String, TaskPattern> parsePatternJsonFile(String path, String patternFolerName, String fileName) {
-        Path jsonFilePath = Path.of(path+patternFolerName+"/"+fileName);
-        String jsonFilecontent = "";
-        LinkedHashMap<String, TaskPattern> tasksPattern = new LinkedHashMap<String, TaskPattern>();
-        try {
-            jsonFilecontent = Files.readString(jsonFilePath, Charset.defaultCharset());
-        } catch (IOException ioExc) {
-        } 
-        
-        JSONArray patternTasks = new JSONArray(jsonFilecontent);
-        for (int i = 0; i < patternTasks.length(); i++) {
-            String taskName = patternTasks.getJSONObject(i).getString(PatternGeneration.NAME);
-            
-            JSONArray attributes = patternTasks.getJSONObject(i).getJSONArray(PatternGeneration.ATTRIBUTES);
-            List<AttributeTaskJsonFile> attributeTaskList = new ArrayList<AttributeTaskJsonFile>();
-            for (int j = 0; j < attributes.length(); j++) {
-                String attribName = attributes.getJSONObject(j).getString(PatternGeneration.NAME);
-                String attribType = attributes.getJSONObject(j).getString(PatternGeneration.TYPE);
-                String attribValue = attributes.getJSONObject(j).getString(PatternGeneration.VALUE);
-                AttributeTaskJsonFile attributeTaskJsonFile = new AttributeTaskJsonFile(attribName, attribType, attribValue);
-                attributeTaskList.add(attributeTaskJsonFile);
-            }
-            //patternTasksAttributes.put(taskName, attributeTaskList);
-
-            JSONArray externalPorts = patternTasks.getJSONObject(i).getJSONArray(PatternGeneration.EXTERNALPORTS);
-            List<PortTaskJsonFile> externalPortsTaskList = new ArrayList<PortTaskJsonFile>();
-            for (int j = 0; j < externalPorts.length(); j++) {
-                String externalPortName = externalPorts.getJSONObject(j).getString(PatternGeneration.NAME);
-                String externalPortType = externalPorts.getJSONObject(j).getString(PatternGeneration.TYPE);
-                String externalPortMode = externalPorts.getJSONObject(j).getString(PatternGeneration.MODE);
-                TraceManager.addDev("externalPortName= "+ externalPortName);
-                PortTaskJsonFile externalPortTaskJsonFile = new PortTaskJsonFile(externalPortName, externalPortType, externalPortMode);
-                externalPortsTaskList.add(externalPortTaskJsonFile);
-            }
-            //patternTasksExternalPorts.put(taskName, externalPortsTaskList);
-
-            JSONArray internalPorts = patternTasks.getJSONObject(i).getJSONArray(PatternGeneration.INTERNALPORTS);
-            List<PortTaskJsonFile> internalPortsTaskList = new ArrayList<PortTaskJsonFile>();
-            for (int j = 0; j < internalPorts.length(); j++) {
-                String internalPortName = internalPorts.getJSONObject(j).getString(PatternGeneration.NAME);
-                String internalPortType = internalPorts.getJSONObject(j).getString(PatternGeneration.TYPE);
-                String internalPortMode = internalPorts.getJSONObject(j).getString(PatternGeneration.MODE);
-                PortTaskJsonFile internalPortTaskJsonFile = new PortTaskJsonFile(internalPortName, internalPortType, internalPortMode);
-                internalPortsTaskList.add(internalPortTaskJsonFile);
-            }
-            //patternTasksInternalPorts.put(taskName, internalPortsTaskList);
-            TaskPattern taskPattern = new TaskPattern(attributeTaskList, internalPortsTaskList, externalPortsTaskList);
-            tasksPattern.put(taskName, taskPattern);
-        }
-        return tasksPattern;
-    }
-
-    LinkedHashMap<String, PortsTasks> getListPortsTask(TMLModeling<?> tmlmodel) {
-        LinkedHashMap<String, PortsTasks> listPortsTask = new LinkedHashMap<String, PortsTasks>();
-        for (TMLTask task : tmlmodel.getTasks()) {
-            List<String> writeChannels = new ArrayList<String>();
-            List<String> readChannels = new ArrayList<String>();
-            List<String> sendEvents = new ArrayList<String>();
-            List<String> waitEvents = new ArrayList<String>();
-            
-            for (TMLWriteChannel wc : task.getWriteChannels()) {
-                if (!writeChannels.contains(wc.getChannel(0).getName())) {
-                    writeChannels.add(wc.getChannel(0).getName());
-                }
-            }
-            for (TMLReadChannel rc : task.getReadChannels()) {
-                if (!readChannels.contains(rc.getChannel(0).getName())) {
-                    readChannels.add(rc.getChannel(0).getName());
-                }
-            }
-            for (TMLSendEvent se : task.getSendEvents()) {
-                if (!sendEvents.contains(se.getEvent().getName())) {
-                    sendEvents.add(se.getEvent().getName());
-                }
-            }
-            for (TMLWaitEvent we : task.getWaitEvents()) {
-                if (!waitEvents.contains(we.getEvent().getName())) {
-                    waitEvents.add(we.getEvent().getName());
-                }
-            }
-            PortsTasks portTask = new PortsTasks(writeChannels, readChannels, sendEvents, waitEvents);
-            listPortsTask.put(task.getName(), portTask);
-        }
-        return listPortsTask;
-    }
-
     List<String> getListBus(TMLArchitecture tmlarch) {
         List<String> listBusName = new ArrayList<String>();
         for (HwNode bus : tmlarch.getBUSs()) {
             listBusName.add(bus.getName());
         }
         return listBusName;
-    }
-
-    private class PortsTasks {
-        List<String> writeChannels = new ArrayList<String>();
-        List<String> readChannels = new ArrayList<String>();
-        List<String> sendEvents = new ArrayList<String>();
-        List<String> waitEvents = new ArrayList<String>();
-
-        PortsTasks(List<String> writeChannels, List<String> readChannels, List<String> sendEvents, List<String> waitEvents) {
-            this.writeChannels = writeChannels;
-            this.readChannels = readChannels;
-            this.sendEvents = sendEvents;
-            this.waitEvents = waitEvents;
-        }
     }
 
     Vector<String> getListChannelsBetweenTwoTasks(String originTaskName, String destinationTaskName) {
@@ -1450,15 +1352,15 @@ public class JDialogPatternGeneration extends JDialog implements ActionListener,
         if (!jCheckBoxConnectToNewPort.isSelected()) {
             connectedPorts.add(patternTaskName+TASK_CHANNEL_SEPARATOR+patternTaskPortName+PORT_CONNECTION_SEPARATOR+modelTaskName+TASK_CHANNEL_SEPARATOR+modelTaskPortName);
             connectedPortsFull.add(patternTaskName+TASK_CHANNEL_SEPARATOR+patternTaskPortName+PORT_CONNECTION_SEPARATOR+modelTaskName+TASK_CHANNEL_SEPARATOR+modelTaskPortName);
-            PortsTasks pt = portsTaskOfModelLeft.get(modelTaskName);
-            if (pt.writeChannels.contains(modelTaskPortName)) {
-                pt.writeChannels.remove(modelTaskPortName);
-            } else if (pt.readChannels.contains(modelTaskPortName)) {
-                pt.readChannels.remove(modelTaskPortName);
-            } else if (pt.sendEvents.contains(modelTaskPortName)) {
-                pt.sendEvents.remove(modelTaskPortName);
-            } else if (pt.waitEvents.contains(modelTaskPortName)) {
-                pt.waitEvents.remove(modelTaskPortName);
+            TaskPorts pt = portsTaskOfModelLeft.get(modelTaskName);
+            if (pt.getWriteChannels().contains(modelTaskPortName)) {
+                pt.getWriteChannels().remove(modelTaskPortName);
+            } else if (pt.getReadChannels().contains(modelTaskPortName)) {
+                pt.getReadChannels().remove(modelTaskPortName);
+            } else if (pt.getSendEvents().contains(modelTaskPortName)) {
+                pt.getSendEvents().remove(modelTaskPortName);
+            } else if (pt.getWaitEvents().contains(modelTaskPortName)) {
+                pt.getWaitEvents().remove(modelTaskPortName);
             } 
         } else {
             connectedPorts.add(patternTaskName+TASK_CHANNEL_SEPARATOR+patternTaskPortName + PORT_CONNECTION_SEPARATOR +modelTaskName+ TASK_CHANNEL_SEPARATOR+patternTaskPortName+ NEW_PORT_OPTION);
@@ -1537,16 +1439,16 @@ public class JDialogPatternGeneration extends JDialog implements ActionListener,
                 }
             }
             if (splitComModelPort.length == 1) {
-                PortsTasks pt = portsTaskOfModelLeft.get(modelTaskName);
-                PortsTasks ptAll = portsTaskOfModelAll.get(modelTaskName);
-                if (ptAll.writeChannels.contains(modelTaskPortName)) {
-                    pt.writeChannels.add(modelTaskPortName);
-                } else if (ptAll.readChannels.contains(modelTaskPortName)) {
-                    pt.readChannels.add(modelTaskPortName);
-                } else if (ptAll.sendEvents.contains(modelTaskPortName)) {
-                    pt.sendEvents.add(modelTaskPortName);
-                } else if (ptAll.waitEvents.contains(modelTaskPortName)) {
-                    pt.waitEvents.add(modelTaskPortName);
+                TaskPorts pt = portsTaskOfModelLeft.get(modelTaskName);
+                TaskPorts ptAll = portsTaskOfModelAll.get(modelTaskName);
+                if (ptAll.getWriteChannels().contains(modelTaskPortName)) {
+                    pt.getWriteChannels().add(modelTaskPortName);
+                } else if (ptAll.getReadChannels().contains(modelTaskPortName)) {
+                    pt.getReadChannels().add(modelTaskPortName);
+                } else if (ptAll.getSendEvents().contains(modelTaskPortName)) {
+                    pt.getSendEvents().add(modelTaskPortName);
+                } else if (ptAll.getWaitEvents().contains(modelTaskPortName)) {
+                    pt.getWaitEvents().add(modelTaskPortName);
                 } 
             }
 
@@ -1568,18 +1470,18 @@ public class JDialogPatternGeneration extends JDialog implements ActionListener,
         if (!tasksCanBeCloned.contains(nameNewTaskToClone) && !tasksOfModel.contains(nameNewTaskToClone) && !nameNewTaskToClone.contains(" ")) {
             clonedTasks.add(nameNewTaskToClone + CLONE_TASK_SEPARATOR + selectedTaskToClone);
             clonedTasksName.add(nameNewTaskToClone);
-            List<String> wcs = new ArrayList<String>(portsTaskOfModelAll.get(selectedTaskToClone).writeChannels);
-            List<String> rcs = new ArrayList<String>(portsTaskOfModelAll.get(selectedTaskToClone).readChannels);
-            List<String> ses = new ArrayList<String>(portsTaskOfModelAll.get(selectedTaskToClone).sendEvents);
-            List<String> wes = new ArrayList<String>(portsTaskOfModelAll.get(selectedTaskToClone).waitEvents);
+            List<String> wcs = new ArrayList<String>(portsTaskOfModelAll.get(selectedTaskToClone).getWriteChannels());
+            List<String> rcs = new ArrayList<String>(portsTaskOfModelAll.get(selectedTaskToClone).getReadChannels());
+            List<String> ses = new ArrayList<String>(portsTaskOfModelAll.get(selectedTaskToClone).getSendEvents());
+            List<String> wes = new ArrayList<String>(portsTaskOfModelAll.get(selectedTaskToClone).getWaitEvents());
 
-            List<String> wcs1 = new ArrayList<String>(portsTaskOfModelAll.get(selectedTaskToClone).writeChannels);
-            List<String> rcs1 = new ArrayList<String>(portsTaskOfModelAll.get(selectedTaskToClone).readChannels);
-            List<String> ses1 = new ArrayList<String>(portsTaskOfModelAll.get(selectedTaskToClone).sendEvents);
-            List<String> wes1 = new ArrayList<String>(portsTaskOfModelAll.get(selectedTaskToClone).waitEvents);
+            List<String> wcs1 = new ArrayList<String>(portsTaskOfModelAll.get(selectedTaskToClone).getWriteChannels());
+            List<String> rcs1 = new ArrayList<String>(portsTaskOfModelAll.get(selectedTaskToClone).getReadChannels());
+            List<String> ses1 = new ArrayList<String>(portsTaskOfModelAll.get(selectedTaskToClone).getSendEvents());
+            List<String> wes1 = new ArrayList<String>(portsTaskOfModelAll.get(selectedTaskToClone).getWaitEvents());
 
-            PortsTasks portTasksClone = new PortsTasks(wcs, rcs, ses, wes);
-            PortsTasks portTasksClone1 = new PortsTasks(wcs1, rcs1, ses1, wes1);
+            TaskPorts portTasksClone = new TaskPorts(wcs, rcs, ses, wes);
+            TaskPorts portTasksClone1 = new TaskPorts(wcs1, rcs1, ses1, wes1);
             portsTaskOfModelLeft.put(nameNewTaskToClone, portTasksClone);
             portsTaskOfModelAll.put(nameNewTaskToClone, portTasksClone1);
         }
@@ -1663,15 +1565,15 @@ public class JDialogPatternGeneration extends JDialog implements ActionListener,
         setButtons();
     }
 
-    LinkedHashMap<String, PortsTasks> getPortsToConfig(LinkedHashMap<String, PortsTasks> _portsTaskOfModelAll, LinkedHashMap<String, PortsTasks> _portsTaskOfModelLeft, TMLModeling<?> tmlmodel) {
-        LinkedHashMap<String, PortsTasks> portsToConf = new LinkedHashMap<String, PortsTasks>();
+    LinkedHashMap<String, TaskPorts> getPortsToConfig(LinkedHashMap<String, TaskPorts> _portsTaskOfModelAll, LinkedHashMap<String, TaskPorts> _portsTaskOfModelLeft, TMLModeling<?> tmlmodel) {
+        LinkedHashMap<String, TaskPorts> portsToConf = new LinkedHashMap<String, TaskPorts>();
         for (String task : _portsTaskOfModelLeft.keySet()) {
             if (!clonedTasksName.contains(task)) {
                 TraceManager.addDev("getPortsToConfig: task=" + task);
                 TMLTask tmlTask = tmlmodel.getTMLTaskByName(task);
-                PortsTasks  pt = _portsTaskOfModelLeft.get(task);
+                TaskPorts  pt = _portsTaskOfModelLeft.get(task);
                 if (tmlTask != null) {
-                    for (String wc : pt.writeChannels) {
+                    for (String wc : pt.getWriteChannels()) {
                         //TraceManager.addDev("getPortsToConfig: wc=" + wc);
                         for (int i = 0; i < tmlTask.getWriteChannels().size() ; i++) {
                             //TraceManager.addDev("getPortsToConfig: tmlTask.getWriteChannels()=" + tmlTask.getWriteChannels().get(i).getChannel(0).getName());
@@ -1679,10 +1581,10 @@ public class JDialogPatternGeneration extends JDialog implements ActionListener,
                                 for (String taskAll : _portsTaskOfModelAll.keySet()) {
                                     //String destPortName = tmlTask.getWriteChannels().get(i).getChannel(0).getDestinationPort().getName();
                                     //TraceManager.addDev("getPortsToConfig: destPortName=" + destPortName);
-                                    if (_portsTaskOfModelAll.get(taskAll).readChannels.contains(wc) && !_portsTaskOfModelLeft.get(taskAll).readChannels.contains(wc)) {
+                                    if (_portsTaskOfModelAll.get(taskAll).getReadChannels().contains(wc) && !_portsTaskOfModelLeft.get(taskAll).getReadChannels().contains(wc)) {
                                         if (portsToConf.containsKey(task)) {
-                                            if (!portsToConf.get(task).writeChannels.contains(wc)) {
-                                                portsToConf.get(task).writeChannels.add(wc);
+                                            if (!portsToConf.get(task).getWriteChannels().contains(wc)) {
+                                                portsToConf.get(task).getWriteChannels().add(wc);
                                                 //TraceManager.addDev("getPortsToConfig: add wc=" + wc);
                                             }
                                         } else {
@@ -1690,7 +1592,7 @@ public class JDialogPatternGeneration extends JDialog implements ActionListener,
                                             List<String> readChannels = new ArrayList<String>();
                                             List<String> sendEvents = new ArrayList<String>();
                                             List<String> waitEvents = new ArrayList<String>();
-                                            PortsTasks portTask = new PortsTasks(writeChannels, readChannels, sendEvents, waitEvents);
+                                            TaskPorts portTask = new TaskPorts(writeChannels, readChannels, sendEvents, waitEvents);
                                             portsToConf.put(task, portTask);
                                             //TraceManager.addDev("getPortsToConfig: new task add wc=" + wc);
                                         }
@@ -1700,7 +1602,7 @@ public class JDialogPatternGeneration extends JDialog implements ActionListener,
                         }
                     }
 
-                    for (String rc : pt.readChannels) {
+                    for (String rc : pt.getReadChannels()) {
                          TraceManager.addDev("getPortsToConfig: rc=" + rc);
                         for (int i = 0; i < tmlTask.getReadChannels().size() ; i++) {
                             TraceManager.addDev("getPortsToConfig: tmlTask.getReadChannels()=" + tmlTask.getReadChannels().get(i).getChannel(0).getName());
@@ -1709,10 +1611,10 @@ public class JDialogPatternGeneration extends JDialog implements ActionListener,
                                     //String originPortName = tmlTask.getReadChannels().get(i).getChannel(0).getOriginPort().getName();
                                     //String[] sOriginPortName = originPortName.split("__");
                                     //TraceManager.addDev("getPortsToConfig: originPortName=" + originPortName);
-                                    if (_portsTaskOfModelAll.get(taskAll).writeChannels.contains(rc) && !_portsTaskOfModelLeft.get(taskAll).writeChannels.contains(rc)) {
+                                    if (_portsTaskOfModelAll.get(taskAll).getWriteChannels().contains(rc) && !_portsTaskOfModelLeft.get(taskAll).getWriteChannels().contains(rc)) {
                                         if (portsToConf.containsKey(task)) {
-                                            if (!portsToConf.get(task).readChannels.contains(rc)) {
-                                                portsToConf.get(task).readChannels.add(rc);
+                                            if (!portsToConf.get(task).getReadChannels().contains(rc)) {
+                                                portsToConf.get(task).getReadChannels().add(rc);
                                                 TraceManager.addDev("getPortsToConfig: add rc=" + rc);
                                             }
                                         } else {
@@ -1720,7 +1622,7 @@ public class JDialogPatternGeneration extends JDialog implements ActionListener,
                                             List<String> readChannels = new ArrayList<String>(Arrays.asList(rc));
                                             List<String> sendEvents = new ArrayList<String>();
                                             List<String> waitEvents = new ArrayList<String>();
-                                            PortsTasks portTask = new PortsTasks(writeChannels, readChannels, sendEvents, waitEvents);
+                                            TaskPorts portTask = new TaskPorts(writeChannels, readChannels, sendEvents, waitEvents);
                                             portsToConf.put(task, portTask);
                                             TraceManager.addDev("getPortsToConfig: new task add rc=" + rc);
                                         }
@@ -1730,22 +1632,22 @@ public class JDialogPatternGeneration extends JDialog implements ActionListener,
                         }
                     }
 
-                    for (String se : pt.sendEvents) {
+                    for (String se : pt.getSendEvents()) {
                         for (int i = 0; i < tmlTask.getSendEvents().size() ; i++) {
                             if (tmlTask.getSendEvents().get(i).getEvent().getName().equals(se)) {
                                 for (String taskAll : _portsTaskOfModelAll.keySet()) {
                                     //String destPortName = tmlTask.getSendEvents().get(i).getEvent().getDestinationPort().getName();
-                                    if (_portsTaskOfModelAll.get(taskAll).waitEvents.contains(se) && !_portsTaskOfModelLeft.get(taskAll).waitEvents.contains(se)) {
+                                    if (_portsTaskOfModelAll.get(taskAll).getWaitEvents().contains(se) && !_portsTaskOfModelLeft.get(taskAll).getWaitEvents().contains(se)) {
                                         if (portsToConf.containsKey(task)) {
-                                            if (!portsToConf.get(task).sendEvents.contains(se)) {
-                                                portsToConf.get(task).sendEvents.add(se);
+                                            if (!portsToConf.get(task).getSendEvents().contains(se)) {
+                                                portsToConf.get(task).getSendEvents().add(se);
                                             }
                                         } else {
                                             List<String> writeChannels = new ArrayList<String>();
                                             List<String> readChannels = new ArrayList<String>();
                                             List<String> sendEvents = new ArrayList<String>(Arrays.asList(se));
                                             List<String> waitEvents = new ArrayList<String>();
-                                            PortsTasks portTask = new PortsTasks(writeChannels, readChannels, sendEvents, waitEvents);
+                                            TaskPorts portTask = new TaskPorts(writeChannels, readChannels, sendEvents, waitEvents);
                                             portsToConf.put(task, portTask);
                                         }
                                     } 
@@ -1753,22 +1655,22 @@ public class JDialogPatternGeneration extends JDialog implements ActionListener,
                             } 
                         }
                     }
-                    for (String we : pt.waitEvents) {
+                    for (String we : pt.getWaitEvents()) {
                         for (int i = 0; i < tmlTask.getWaitEvents().size() ; i++) {
                             if (tmlTask.getWaitEvents().get(i).getEvent().getName().equals(we)) {
                                 for (String taskAll : _portsTaskOfModelAll.keySet()) {
                                     //String originPortName = tmlTask.getWaitEvents().get(i).getEvent().getOriginPort().getName();
-                                    if (_portsTaskOfModelAll.get(taskAll).sendEvents.contains(we) && !_portsTaskOfModelLeft.get(taskAll).sendEvents.contains(we)) {
+                                    if (_portsTaskOfModelAll.get(taskAll).getSendEvents().contains(we) && !_portsTaskOfModelLeft.get(taskAll).getSendEvents().contains(we)) {
                                         if (portsToConf.containsKey(task)) {
-                                            if (!portsToConf.get(task).waitEvents.contains(we)) {
-                                                portsToConf.get(task).waitEvents.add(we);
+                                            if (!portsToConf.get(task).getWaitEvents().contains(we)) {
+                                                portsToConf.get(task).getWaitEvents().add(we);
                                             }
                                         } else {
                                             List<String> writeChannels = new ArrayList<String>();
                                             List<String> readChannels = new ArrayList<String>();
                                             List<String> sendEvents = new ArrayList<String>();
                                             List<String> waitEvents = new ArrayList<String>(Arrays.asList(we));
-                                            PortsTasks portTask = new PortsTasks(writeChannels, readChannels, sendEvents, waitEvents);
+                                            TaskPorts portTask = new TaskPorts(writeChannels, readChannels, sendEvents, waitEvents);
                                             portsToConf.put(task, portTask);
                                         }
                                     }
@@ -1947,9 +1849,9 @@ public class JDialogPatternGeneration extends JDialog implements ActionListener,
                 }
                 if (evt.getSource() == jComboBoxPatterns) {
                     int selectedPatternIndex = jComboBoxPatterns.getSelectedIndex();
-                    patternTasksAll = parsePatternJsonFile(pathPatterns, listPatterns.get(selectedPatternIndex), listPatterns.get(selectedPatternIndex)+".json");
-                    patternTasksNotConnected = parsePatternJsonFile(pathPatterns, listPatterns.get(selectedPatternIndex), listPatterns.get(selectedPatternIndex)+".json");
-                    portsTaskOfModelLeft = getListPortsTask(mgui.gtm.getTMLMapping().getTMLModeling());
+                    patternTasksAll = TaskPattern.parsePatternJsonFile(pathPatterns + listPatterns.get(selectedPatternIndex), listPatterns.get(selectedPatternIndex)+".json");
+                    patternTasksNotConnected = TaskPattern.parsePatternJsonFile(pathPatterns + listPatterns.get(selectedPatternIndex), listPatterns.get(selectedPatternIndex)+".json");
+                    portsTaskOfModelLeft = TaskPorts.getListPortsTask(mgui.gtm.getTMLMapping().getTMLModeling());
                     //Vector<String> patternTasksVector = new Vector<String>();
                     tasksOfPatternWithExternalPort.removeAllElements();
                     clonedTasks.removeAllElements();
@@ -1993,16 +1895,16 @@ public class JDialogPatternGeneration extends JDialog implements ActionListener,
                         portsConfig.removeAllElements();
                         portsTaskConfig = getPortsToConfig(portsTaskOfModelAll, portsTaskOfModelLeft, mgui.gtm.getTMLMapping().getTMLModeling());
                         for (String st : portsTaskConfig.keySet()) {
-                            for (String wc : portsTaskConfig.get(st).writeChannels) {
+                            for (String wc : portsTaskConfig.get(st).getWriteChannels()) {
                                 portsConfig.add(st + TASK_CHANNEL_SEPARATOR + wc);
                             }
-                            for (String rc : portsTaskConfig.get(st).readChannels) {
+                            for (String rc : portsTaskConfig.get(st).getReadChannels()) {
                                 portsConfig.add(st + TASK_CHANNEL_SEPARATOR + rc);
                             }
-                            for (String se : portsTaskConfig.get(st).sendEvents) {
+                            for (String se : portsTaskConfig.get(st).getSendEvents()) {
                                 portsConfig.add(st + TASK_CHANNEL_SEPARATOR + se);
                             }
-                            for (String we : portsTaskConfig.get(st).waitEvents) {
+                            for (String we : portsTaskConfig.get(st).getWaitEvents()) {
                                 portsConfig.add(st + TASK_CHANNEL_SEPARATOR + we);
                             }
                         }
@@ -2031,7 +1933,7 @@ public class JDialogPatternGeneration extends JDialog implements ActionListener,
                         jComboBoxModelsPortOfTask.setEnabled(true);
                         jCheckBoxConnectToNewPort.setEnabled(true);
                         String selectedModelTask = jComboBoxModelsTask.getSelectedItem().toString();
-                        PortsTasks pT = portsTaskOfModelLeft.get(selectedModelTask);
+                        TaskPorts pT = portsTaskOfModelLeft.get(selectedModelTask);
                         String selectedPatternTask = jComboBoxPatternsTaskWithExternalPort.getSelectedItem().toString();
                         int selectedIndexPatternPort = jComboBoxPatternExternalPortOfATask.getSelectedIndex();
                         
@@ -2045,42 +1947,42 @@ public class JDialogPatternGeneration extends JDialog implements ActionListener,
                                 TraceManager.addDev("selectedModelTask0=" + selectedModelTask);
                                 if (modeSelectedPatternPort.equals(PatternGeneration.MODE_INPUT)) {
                                     TraceManager.addDev("selectedModelTas1k=" + selectedModelTask);
-                                    TraceManager.addDev("portsTaskOfModelLeft.get(selectedModelTask).writeChannels=" + portsTaskOfModelLeft.get(selectedModelTask).writeChannels.size());
-                                    //portsOfTaskInModel = new Vector<String>(portsTaskOfModelLeft.get(selectedModelTask).writeChannels);
-                                    for (String st : portsTaskOfModelLeft.get(selectedModelTask).writeChannels) {
+                                    TraceManager.addDev("portsTaskOfModelLeft.get(selectedModelTask).getWriteChannels()=" + portsTaskOfModelLeft.get(selectedModelTask).getWriteChannels().size());
+                                    //portsOfTaskInModel = new Vector<String>(portsTaskOfModelLeft.get(selectedModelTask).getWriteChannels());
+                                    for (String st : portsTaskOfModelLeft.get(selectedModelTask).getWriteChannels()) {
                                         portsOfTaskInModel.add(st);
                                     }
                                 } else if (modeSelectedPatternPort.equals(PatternGeneration.MODE_OUTPUT)) {
-                                    //portsOfTaskInModel = new Vector<String>(portsTaskOfModelLeft.get(selectedModelTask).readChannels);
+                                    //portsOfTaskInModel = new Vector<String>(portsTaskOfModelLeft.get(selectedModelTask).getReadChannels());
                                     TraceManager.addDev("selectedModelTask2=" + selectedModelTask);
-                                    for (String st : portsTaskOfModelLeft.get(selectedModelTask).readChannels) {
+                                    for (String st : portsTaskOfModelLeft.get(selectedModelTask).getReadChannels()) {
                                         portsOfTaskInModel.add(st);
                                     }
                                 }
                             } else if (typeSelectedPatternPort.equals(PatternGeneration.EVENT)) {
                                 if (modeSelectedPatternPort.equals(PatternGeneration.MODE_INPUT)) {
-                                    //portsOfTaskInModel = new Vector<String>(portsTaskOfModelLeft.get(selectedModelTask).sendEvents);
-                                    for (String st : portsTaskOfModelLeft.get(selectedModelTask).sendEvents) {
+                                    //portsOfTaskInModel = new Vector<String>(portsTaskOfModelLeft.get(selectedModelTask).getSendEvents());
+                                    for (String st : portsTaskOfModelLeft.get(selectedModelTask).getSendEvents()) {
                                         portsOfTaskInModel.add(st);
                                     }
                                 } else if (modeSelectedPatternPort.equals(PatternGeneration.MODE_OUTPUT)) {
-                                    //portsOfTaskInModel = new Vector<String>(portsTaskOfModelLeft.get(selectedModelTask).waitEvents);
-                                    for (String st : portsTaskOfModelLeft.get(selectedModelTask).waitEvents) {
+                                    //portsOfTaskInModel = new Vector<String>(portsTaskOfModelLeft.get(selectedModelTask).getWaitEvents());
+                                    for (String st : portsTaskOfModelLeft.get(selectedModelTask).getWaitEvents()) {
                                         portsOfTaskInModel.add(st);
                                     }
                                 }
                             }
                         } else {
-                            for (String st : portsTaskOfModelAll.get(selectedModelTask).writeChannels) {
+                            for (String st : portsTaskOfModelAll.get(selectedModelTask).getWriteChannels()) {
                                 portsOfTaskInModel.add(st);
                             }
-                            for (String st : portsTaskOfModelAll.get(selectedModelTask).readChannels) {
+                            for (String st : portsTaskOfModelAll.get(selectedModelTask).getReadChannels()) {
                                 portsOfTaskInModel.add(st);
                             }
-                            for (String st : portsTaskOfModelAll.get(selectedModelTask).sendEvents) {
+                            for (String st : portsTaskOfModelAll.get(selectedModelTask).getSendEvents()) {
                                 portsOfTaskInModel.add(st);
                             }
-                            for (String st : portsTaskOfModelAll.get(selectedModelTask).waitEvents) {
+                            for (String st : portsTaskOfModelAll.get(selectedModelTask).getWaitEvents()) {
                                 portsOfTaskInModel.add(st);
                             }
                         }
@@ -2105,16 +2007,16 @@ public class JDialogPatternGeneration extends JDialog implements ActionListener,
                     portsOfTaskInModel.removeAllElements();
                     String selectedModelTask = jComboBoxModelsTask.getSelectedItem().toString();
                     if (jCheckBoxConnectToNewPort.isSelected()) { 
-                        for (String st : portsTaskOfModelLeft.get(selectedModelTask).writeChannels) {
+                        for (String st : portsTaskOfModelLeft.get(selectedModelTask).getWriteChannels()) {
                             portsOfTaskInModel.add(st);
                         }
-                        for (String st : portsTaskOfModelLeft.get(selectedModelTask).readChannels) {
+                        for (String st : portsTaskOfModelLeft.get(selectedModelTask).getReadChannels()) {
                             portsOfTaskInModel.add(st);
                         }
-                        for (String st : portsTaskOfModelLeft.get(selectedModelTask).sendEvents) {
+                        for (String st : portsTaskOfModelLeft.get(selectedModelTask).getSendEvents()) {
                             portsOfTaskInModel.add(st);
                         }
-                        for (String st : portsTaskOfModelLeft.get(selectedModelTask).waitEvents) {
+                        for (String st : portsTaskOfModelLeft.get(selectedModelTask).getWaitEvents()) {
                             portsOfTaskInModel.add(st);
                         }
                     }
@@ -2159,13 +2061,13 @@ public class JDialogPatternGeneration extends JDialog implements ActionListener,
 
                         /*for(String st : portsTaskOfModelAll.keySet()) {
                             if (clonedTasksName.contains(st)) {
-                                for (String wc : portsTaskOfModelAll.get(st).writeChannels) {
-                                    if (!portsTaskOfModelLeft.get(st).writeChannels.contains(wc)) {
+                                for (String wc : portsTaskOfModelAll.get(st).getWriteChannels()) {
+                                    if (!portsTaskOfModelLeft.get(st).getWriteChannels().contains(wc)) {
                                         channelsToMap.add(st+TASK_CHANNEL_SEPARATOR+wc);
                                     }
                                 }
-                                for (String rc : portsTaskOfModelAll.get(st).readChannels) {
-                                    if (!portsTaskOfModelLeft.get(st).readChannels.contains(rc)) {
+                                for (String rc : portsTaskOfModelAll.get(st).getReadChannels()) {
+                                    if (!portsTaskOfModelLeft.get(st).getReadChannels().contains(rc)) {
                                         channelsToMap.add(st+TASK_CHANNEL_SEPARATOR+rc);
                                     }
                                 }
@@ -2203,7 +2105,7 @@ public class JDialogPatternGeneration extends JDialog implements ActionListener,
                         }
                         for(String st : portsTaskOfModelAll.keySet()) {
                             if (!clonedTasksName.contains(st)) {
-                                for (String wc : portsTaskOfModelAll.get(st).writeChannels) {
+                                for (String wc : portsTaskOfModelAll.get(st).getWriteChannels()) {
                                     boolean isChToMap = true;
                                     for (String chToMap : channelsToMapInSameMem) {
                                         if (chToMap.split(TASK_CHANNEL_SEPARATOR)[1].equals(wc)) {
@@ -2215,7 +2117,7 @@ public class JDialogPatternGeneration extends JDialog implements ActionListener,
                                         channelsToMapInSameMem.add(st+TASK_CHANNEL_SEPARATOR+wc);
                                     }
                                 }
-                                for (String rc : portsTaskOfModelAll.get(st).readChannels) {
+                                for (String rc : portsTaskOfModelAll.get(st).getReadChannels()) {
                                     boolean isChToMap = true;
                                     for (String chToMap : channelsToMapInSameMem) {
                                         if (chToMap.split(TASK_CHANNEL_SEPARATOR)[1].equals(rc)) {
@@ -2275,22 +2177,22 @@ public class JDialogPatternGeneration extends JDialog implements ActionListener,
                                 portsToConfOfTaskAll.add(port);
                             }
                         }
-                        for (String wc : portsTaskOfModelAll.get(taskSelected).writeChannels) {
+                        for (String wc : portsTaskOfModelAll.get(taskSelected).getWriteChannels()) {
                             if (!portsToConfOfTaskAll.contains(wc)) {
                                 portsConfigMerge.add(wc);
                             }
                         }
-                        for (String rc : portsTaskOfModelAll.get(taskSelected).readChannels) {
+                        for (String rc : portsTaskOfModelAll.get(taskSelected).getReadChannels()) {
                             if (!portsToConfOfTaskAll.contains(rc)) {
                                 portsConfigMerge.add(rc);
                             }
                         }
-                        for (String se : portsTaskOfModelAll.get(taskSelected).sendEvents) {
+                        for (String se : portsTaskOfModelAll.get(taskSelected).getSendEvents()) {
                             if (!portsToConfOfTaskAll.contains(se)) {
                                 portsConfigMerge.add(se);
                             }
                         }
-                        for (String we : portsTaskOfModelAll.get(taskSelected).waitEvents) {
+                        for (String we : portsTaskOfModelAll.get(taskSelected).getWaitEvents()) {
                             if (!portsToConfOfTaskAll.contains(we)) {
                                 portsConfigMerge.add(we);
                             }
@@ -2424,8 +2326,10 @@ public class JDialogPatternGeneration extends JDialog implements ActionListener,
                 if (evt.getSource() == jComboBoxPatternsJson) {
                     if (jComboBoxPatternsJson.getSelectedIndex() >= 0) {
                         jFieldPatternJsonPath.setEnabled(true);
+                        jFieldPatternJsonPath.setText(pathPatterns + listPatternsJson.get(jComboBoxPatternsJson.getSelectedIndex()) + "/"+listPatternsJson.get(jComboBoxPatternsJson.getSelectedIndex())+"-config.json");
                     } else {
                         jFieldPatternJsonPath.setEnabled(false);
+                        jFieldPatternJsonPath.setText("");
                     }
                 }
         }
@@ -2540,141 +2444,15 @@ public class JDialogPatternGeneration extends JDialog implements ActionListener,
                 int selectedPatternIndex = jComboBoxPatterns.getSelectedIndex();
                 String selectedPatternPath = pathPatterns+listPatterns.get(selectedPatternIndex)+"/";
                 String selectedPatternName = listPatterns.get(selectedPatternIndex);
-                LinkedHashMap<String, String> clonedTasksMap = new LinkedHashMap<String, String>();
-                for (String clonedTask : clonedTasks) {
-                    String[] clonedTaskSplit = clonedTask.split(CLONE_TASK_SEPARATOR);
-                    if (clonedTaskSplit.length > 1) {
-                        clonedTasksMap.put(clonedTaskSplit[0], clonedTaskSplit[1]);
-                    }
-                }
-                LinkedHashMap<String, List<Entry<String,String>>> configuredPortsMap = new LinkedHashMap<String, List<Entry<String,String>>>();
-                for (String configuredPort : configuredPorts) {
-                    String[] configuredPortSplit = configuredPort.split(TASK_CHANNEL_SEPARATOR);
-                    String[] portConfigRemoveSplit = configuredPortSplit[1].split(PORT_CONFIGURATION_SEPARATOR + REMOVE_PORT_OPTION);
-                    String[] portConfigMergeSplit = configuredPortSplit[1].split(PORT_CONFIGURATION_SEPARATOR + MERGE_PORT_OPTION);
-                    TraceManager.addDev("portConfigRemoveSplit.length=" + portConfigRemoveSplit.length);
-                    TraceManager.addDev("portConfigRemoveSplit[0]=" + portConfigRemoveSplit[0]);
-                    if (configuredPortsMap.containsKey(configuredPortSplit[0])) {
-                        if (!configuredPortSplit[1].equals(portConfigRemoveSplit[0])) {
-                            Entry<String,String> portConfig = new AbstractMap.SimpleEntry<>(portConfigRemoveSplit[0], "");
-                            configuredPortsMap.get(configuredPortSplit[0]).add(portConfig);
-                        } else if (portConfigMergeSplit.length > 1) {
-                            Entry<String,String> portConfig = new AbstractMap.SimpleEntry<>(portConfigMergeSplit[0], portConfigMergeSplit[1]);
-                            configuredPortsMap.get(configuredPortSplit[0]).add(portConfig);
-                        }
-                    } else {
-                        if (!configuredPortSplit[1].equals(portConfigRemoveSplit[0])) {
-                            Entry<String,String> portConfig = new AbstractMap.SimpleEntry<>(portConfigRemoveSplit[0], "");
-                            configuredPortsMap.put(configuredPortSplit[0], new ArrayList<Entry<String,String>>(Arrays.asList(portConfig)));
-                        } else if (portConfigMergeSplit.length > 1) {
-                            Entry<String,String> portConfig = new AbstractMap.SimpleEntry<>(portConfigMergeSplit[0], portConfigMergeSplit[1]);
-                            configuredPortsMap.put(configuredPortSplit[0], new ArrayList<Entry<String,String>>(Arrays.asList(portConfig)));
-                        }
-                    }
-                }
-                LinkedHashMap<String, Entry<String,String>> mappedTasksMap = new LinkedHashMap<String, Entry<String,String>>();
-                for (String mappedTask : mappedTasks) {
-                    String[] mappedTaskSplitSameHw = mappedTask.split(MAP_TASK_IN_SAME_HW_SEPARATOR);
-                    String[] mappedTaskSplitNewHw = mappedTask.split(MAP_TASK_IN_NEW_HW_SEPARATOR);
-                    if (mappedTaskSplitSameHw.length > 1) {
-                        Entry<String,String> taskMap = new AbstractMap.SimpleEntry<>(SAME_HW, mappedTaskSplitSameHw[1]);
-                        mappedTasksMap.put(mappedTaskSplitSameHw[0], taskMap);
-                    } else if (mappedTaskSplitNewHw.length > 1) {
-                        Entry<String,String> taskMap = new AbstractMap.SimpleEntry<>(NEW_HW, mappedTaskSplitNewHw[1]);
-                        mappedTasksMap.put(mappedTaskSplitNewHw[0], taskMap);
-                    }
-                }
-                LinkedHashMap<String, List<String[]>> mappedChannelsMap = new LinkedHashMap<String, List<String[]>>();
-                for (String mappedChannel : mappedChannels) {
-                    String[] mappedChannelSplit= mappedChannel.split(TASK_CHANNEL_SEPARATOR, 2);
-                    String[] mappedChannelSplitSameMem = mappedChannelSplit[1].split(MAP_TASK_IN_SAME_HW_SEPARATOR);
-                    String[] mappedChannelSplitNewMem = mappedChannelSplit[1].split(MAP_TASK_IN_NEW_HW_SEPARATOR);
-                    if (mappedChannelsMap.containsKey(mappedChannelSplit[0])) {
-                        if (mappedChannelSplitSameMem.length > 1) {
-                            String[] channelMap = new String[4];
-                            String[] mappedChannelSplitSameMemTaskChannel = mappedChannelSplitSameMem[1].split(TASK_CHANNEL_SEPARATOR, 2);
-                            channelMap[0] = SAME_MEMORY;
-                            channelMap[1] = mappedChannelSplitSameMem[0];
-                            channelMap[2] = mappedChannelSplitSameMemTaskChannel[0];
-                            channelMap[3] = mappedChannelSplitSameMemTaskChannel[1];
-                            mappedChannelsMap.get(mappedChannelSplit[0]).add(channelMap);
-                        } else if (mappedChannelSplitNewMem.length > 1) {
-                            String[] channelMap = new String[3];
-                            channelMap[0] = NEW_MEMORY;
-                            channelMap[1] = mappedChannelSplitNewMem[0];
-                            channelMap[2] = mappedChannelSplitNewMem[1];
-                            mappedChannelsMap.get(mappedChannelSplit[0]).add(channelMap);
-                        }
-                    } else {
-                        if (mappedChannelSplitSameMem.length > 1) {
-                            String[] channelMap = new String[4];
-                            String[] mappedChannelSplitSameMemTaskChannel = mappedChannelSplitSameMem[1].split(TASK_CHANNEL_SEPARATOR, 2);
-                            channelMap[0] = SAME_MEMORY;
-                            channelMap[1] = mappedChannelSplitSameMem[0];
-                            channelMap[2] = mappedChannelSplitSameMemTaskChannel[0];
-                            channelMap[3] = mappedChannelSplitSameMemTaskChannel[1];
-                            ArrayList<String[]> channelMapList = new ArrayList<String[]>();
-                            channelMapList.add(channelMap);
-                            mappedChannelsMap.put(mappedChannelSplit[0], channelMapList);
-                        } else if (mappedChannelSplitNewMem.length > 1) {
-                            String[] channelMap = new String[3];
-                            channelMap[0] = NEW_MEMORY;
-                            channelMap[1] = mappedChannelSplitNewMem[0];
-                            channelMap[2] = mappedChannelSplitNewMem[1];
-                            ArrayList<String[]> channelMapList = new ArrayList<String[]>();
-                            channelMapList.add(channelMap);
-                            mappedChannelsMap.put(mappedChannelSplit[0], channelMapList);
-                        }
-                    }
-                }
-                LinkedHashMap<String, List<String[]>> connectedPortsMap = new LinkedHashMap<String, List<String[]>>();
-                for (String connectedPort : connectedPortsFull) {
-                    String[] splitO = connectedPort.split(TASK_CHANNEL_SEPARATOR, 2);
-                    String patternTaskName = splitO[0];
-                    String[] splitCom = splitO[1].split(PORT_CONNECTION_SEPARATOR, 2);
-                    String patternTaskPortName = splitCom[0];
-                    String[] splitComModel = splitCom[1].split(TASK_CHANNEL_SEPARATOR, 2);
-                    String modelTaskName = splitComModel[0];
-                    String[] splitComModelPort = splitComModel[1].split(NEW_PORT_OPTION, 2);
-                    String modelTaskPortName = splitComModelPort[0];
-                    if (connectedPortsMap.containsKey(patternTaskName)) {
-                        if (splitComModel[1].equals(modelTaskPortName)) {
-                            String[] portConnecMap = new String[3];
-                            portConnecMap[0] = patternTaskPortName;
-                            portConnecMap[1] = modelTaskName;
-                            portConnecMap[2] = modelTaskPortName;
-                            connectedPortsMap.get(patternTaskName).add(portConnecMap);
-                        } else {
-                            String[] portConnecMap = new String[4];
-                            portConnecMap[0] = patternTaskPortName;
-                            portConnecMap[1] = modelTaskName;
-                            portConnecMap[2] = modelTaskPortName;
-                            portConnecMap[3] = NEW_PORT_OPTION;
-                            connectedPortsMap.get(patternTaskName).add(portConnecMap);
-                        }
-                    } else {
-                        if (splitComModel[1].equals(modelTaskPortName)) {
-                            String[] portConnecMap = new String[3];
-                            portConnecMap[0] = patternTaskPortName;
-                            portConnecMap[1] = modelTaskName;
-                            portConnecMap[2] = modelTaskPortName;
-                            ArrayList<String[]> portConnecMapList = new ArrayList<String[]>();
-                            portConnecMapList.add(portConnecMap);
-                            connectedPortsMap.put(patternTaskName, portConnecMapList);
-                        } else {
-                            String[] portConnecMap = new String[4];
-                            portConnecMap[0] = patternTaskPortName;
-                            portConnecMap[1] = modelTaskName;
-                            portConnecMap[2] = modelTaskPortName;
-                            portConnecMap[3] = NEW_PORT_OPTION;
-                            ArrayList<String[]> portConnecMapList = new ArrayList<String[]>();
-                            portConnecMapList.add(portConnecMap);
-                            connectedPortsMap.put(patternTaskName, portConnecMapList);
-                        }
-                    }
-                
-                }
-                mgui.gtm.integratePattern(mgui, selectedPatternPath, selectedPatternName, connectedPortsMap, clonedTasksMap, configuredPortsMap, mappedTasksMap, mappedChannelsMap, patternTasksAll);
+                PatternConfiguration patternConfiguration = new PatternConfiguration();
+                patternConfiguration.loadClonedTasks(clonedTasks);
+                patternConfiguration.loadConnectedPorts(connectedPortsFull);
+                patternConfiguration.loadPortsConfig(configuredPorts);
+                patternConfiguration.loadMappedTasks(mappedTasks);
+                patternConfiguration.loadMappedChannels(mappedChannels);
+        
+                mgui.gtm.createJsonPatternConfigFile(selectedPatternPath, selectedPatternName, patternConfiguration);
+                mgui.gtm.integratePattern(mgui, selectedPatternPath, selectedPatternName);
                 JLabel label = new JLabel("Pattern Integration Completed");
                 label.setAlignmentX(Component.LEFT_ALIGNMENT);
                 this.jta.add(label, this.createGbc(currentPosY));
@@ -2686,7 +2464,7 @@ public class JDialogPatternGeneration extends JDialog implements ActionListener,
             String textJFieldPathJson = jFieldPatternJsonPath.getText();
             File f = new File(textJFieldPathJson);
             
-            if (jComboBoxAttributesOfTaskToUpdate.getSelectedIndex() == -1) {
+            if (jComboBoxPatternsJson.getSelectedIndex() == -1) {
                 JLabel label = new JLabel("ERROR: Select a pattern");
                 label.setAlignmentX(Component.LEFT_ALIGNMENT);
                 this.jta.add(label, this.createGbc(currentPosY));
@@ -2702,11 +2480,15 @@ public class JDialogPatternGeneration extends JDialog implements ActionListener,
             }
 
             if (!findErr) {
+                int selectedPatternIndex = jComboBoxPatternsJson.getSelectedIndex();
+                String selectedPatternPath = pathPatterns+listPatternsJson.get(selectedPatternIndex) + "/";
+                String selectedPatternName = listPatternsJson.get(selectedPatternIndex);
+                mgui.gtm.integratePattern(mgui, selectedPatternPath, selectedPatternName, textJFieldPathJson);
                 JLabel label = new JLabel("Pattern Integration Completed");
                 label.setAlignmentX(Component.LEFT_ALIGNMENT);
                 this.jta.add(label, this.createGbc(currentPosY));
             }
-            
+            mode = NOT_STARTED;
         }
         setButtons();
     }

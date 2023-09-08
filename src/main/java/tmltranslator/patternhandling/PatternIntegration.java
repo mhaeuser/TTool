@@ -174,9 +174,9 @@ public class PatternIntegration implements Runnable {
             }
         }
 
+        tmapModel = addClonedTask(tmapModel, patternConfiguration);
         renamePatternTasksName();
         renamePatternChannelsName();
-        tmapModel = addClonedTask(tmapModel, patternConfiguration.getClonedTasks());
         tmapPattern = updatePatternTasksAttributes(tmapPattern, patternTasks);
         tmapModel = addPatternTasksInModel(tmapModel, tmapPattern, patternTasks);
         tmapModel = addPatternInternalChannelsInModel(tmapModel, tmapPattern, patternTasks);
@@ -512,16 +512,16 @@ public class PatternIntegration implements Runnable {
     }
 
 
-    public TMLMapping<?> addClonedTask(TMLMapping<?> _tmapModel, LinkedHashMap<String, String> _clonedTasks) {
+    public TMLMapping<?> addClonedTask(TMLMapping<?> _tmapModel, PatternConfiguration _patternConfiguration) {
         TMLModeling<?> _tmlmModel = _tmapModel.getTMLModeling();
-        for (String clonedTask : _clonedTasks.keySet()) {
+        for (String clonedTask : _patternConfiguration.getClonedTasks().keySet()) {
             try {
                 TMLModeling<?> _tmlmModelClone = _tmlmModel.deepClone();
-                TMLTask taskClone = _tmlmModelClone.getTMLTaskByName(_clonedTasks.get(clonedTask));
+                TMLTask taskClone = _tmlmModelClone.getTMLTaskByName(_patternConfiguration.getClonedTasks().get(clonedTask));
                 
                 if (taskClone != null) {
                     taskClone.setName(clonedTask);
-                    if (_tmlmModel.getTMLTaskByName(taskClone.getName()) != null) {
+                    /*if (_tmlmModel.getTMLTaskByName(taskClone.getName()) != null) {
                         int indexTask = 0;
                         String taskNameWithIndex = taskClone.getName() + indexTask;
                         while (_tmlmModel.getTMLTaskByName(taskNameWithIndex) != null) {
@@ -529,7 +529,135 @@ public class PatternIntegration implements Runnable {
                             taskNameWithIndex= taskClone.getName() + indexTask;
                         }
                         taskClone.setName(taskNameWithIndex);
-                        _clonedTasks.put(taskNameWithIndex, _clonedTasks.remove(clonedTask));
+                        _patternConfiguration.getClonedTasks().put(taskNameWithIndex, _patternConfiguration.getClonedTasks().remove(clonedTask));
+                        _patternConfiguration.getTasksMapping().put(taskNameWithIndex, _patternConfiguration.getTasksMapping().remove(clonedTask));
+                        for (String taskPattern : _patternConfiguration.getPortsConnection().keySet()) {
+                            for (String[] st : _patternConfiguration.getPortsConnection().get(taskPattern)) {
+                                if (st[1].equals(clonedTask)) {
+                                    st[1] = taskNameWithIndex;
+                                }
+                            }
+                        }
+                        for (String taskPattern : _patternConfiguration.getChannelsMapping().keySet()) {
+                            for (String[] st : _patternConfiguration.getPortsConnection().get(taskPattern)) {
+                                if (st[1].equals(clonedTask)) {
+                                    st[1] = taskNameWithIndex;
+                                }
+                            }
+                        }
+                        _patternConfiguration.getChannelsMapping().put(taskNameWithIndex, _patternConfiguration.getTasksMapping().remove(clonedTask));
+                        _patternConfiguration.getPortsConnection().put(taskNameWithIndex, _patternConfiguration.getTasksMapping().remove(clonedTask));
+                    }*/
+                    //List<String> usedChannelsOfClonedTask = new ArrayList<String>();
+                    Map<String, String> oldNewChannelsClonedTaskName = new HashMap<String, String>();
+                    Map<String, String> oldNewEventsClonedTaskName = new HashMap<String, String>();
+                    List<TMLActivityElement> aeElemsToRemove = new ArrayList<TMLActivityElement>();
+                    for (String taskPattern : _patternConfiguration.getPortsConnection().keySet()) {
+                        for (String[] st : _patternConfiguration.getPortsConnection().get(taskPattern)) {
+                            if (st[1].equals(clonedTask) && st.length == 3) {
+                                if (_tmlmModel.getChannelByName(st[2]) != null) {
+                                    int indexChannel = 0;
+                                    String channelNameWithIndex = st[2] + indexChannel;
+                                    while (_tmlmModel.getChannelByName(channelNameWithIndex) != null) {
+                                        indexChannel += 1;
+                                        channelNameWithIndex = st[2] + indexChannel;
+                                    }
+                                    oldNewChannelsClonedTaskName.put(st[2], channelNameWithIndex);
+                                    TraceManager.addDev("Channel : old =" + st[2] + " New=" + channelNameWithIndex);
+                                    st[2] = channelNameWithIndex;
+                                } else if (_tmlmModel.getEventByName(st[2]) != null) {
+                                    int indexEvent = 0;
+                                    String eventNameWithIndex = st[2] + indexEvent;
+                                    while (_tmlmModel.getEventByName(eventNameWithIndex) != null) {
+                                        indexEvent += 1;
+                                        eventNameWithIndex = st[2] + indexEvent;
+                                    }
+                                    oldNewEventsClonedTaskName.put(st[2], eventNameWithIndex);
+                                    st[2] = eventNameWithIndex;
+                                }
+                            }
+                        }
+                    }
+                    for (String taskOfChannelToMap : _patternConfiguration.getChannelsMapping().keySet()) {
+                        for (String[] st : _patternConfiguration.getChannelsMapping().get(taskOfChannelToMap)) {
+                            if (taskOfChannelToMap.equals(clonedTask)) {
+                                if (oldNewChannelsClonedTaskName.keySet().contains(st[1])) {
+                                    st[1] = oldNewChannelsClonedTaskName.get(st[1]);
+                                } else if (oldNewEventsClonedTaskName.keySet().contains(st[1])) {
+                                    st[1] = oldNewEventsClonedTaskName.get(st[1]);
+                                }
+                            }
+                            if (st.length == 4) {
+                                if (st[2].equals(clonedTask)) {
+                                    if (oldNewChannelsClonedTaskName.keySet().contains(st[3])) {
+                                        st[3] = oldNewChannelsClonedTaskName.get(st[3]);
+                                    } else if (oldNewEventsClonedTaskName.keySet().contains(st[3])) {
+                                        st[3] = oldNewEventsClonedTaskName.get(st[3]);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    for (TMLActivityElement ae : taskClone.getActivityDiagram().getElements()) {
+                        if (ae instanceof TMLActivityElementChannel) {
+                            TMLActivityElementChannel aeChannel = (TMLActivityElementChannel) ae;
+                            for (int i=0; i < aeChannel.getNbOfChannels(); i++) {
+                                if (!oldNewChannelsClonedTaskName.keySet().contains(aeChannel.getChannel(i).getName())) {
+                                    TMLActivityElement prevElem =  taskClone.getActivityDiagram().getPrevious(ae);
+                                    prevElem.setNewNext(ae, ae.getNextElement(0));
+                                    aeElemsToRemove.add(ae);
+                                } else {
+                                    
+                                    for (TMLPort port : aeChannel.getChannel(i).getOriginPorts()) {
+                                        port.setName(oldNewChannelsClonedTaskName.get(aeChannel.getChannel(i).getName()));
+                                    }
+                                    for (TMLPort port : aeChannel.getChannel(i).getDestinationPorts()) {
+                                        port.setName(oldNewChannelsClonedTaskName.get(aeChannel.getChannel(i).getName()));
+                                    }
+                                    if (aeChannel.getChannel(i).getOriginPort() != null) {
+                                        aeChannel.getChannel(i).getOriginPort().setName(oldNewChannelsClonedTaskName.get(aeChannel.getChannel(i).getName()));
+                                        TraceManager.addDev("Port Origin New Name = " + aeChannel.getChannel(i).getOriginPort().getName());
+                                    }
+                                    if (aeChannel.getChannel(i).getDestinationPort() != null) {
+                                        aeChannel.getChannel(i).getDestinationPort().setName(oldNewChannelsClonedTaskName.get(aeChannel.getChannel(i).getName()));
+                                    }
+                                    TraceManager.addDev("Name Channel Clone Before =" + aeChannel.getChannel(i).getName());
+                                    aeChannel.getChannel(i).setName(oldNewChannelsClonedTaskName.get(aeChannel.getChannel(i).getName()));
+                                    TraceManager.addDev("Name Channel Clone After =" + aeChannel.getChannel(i).getName());
+                                    if (_tmlmModel.getChannelByName(aeChannel.getChannel(i).getName()) == null) {
+                                        _tmlmModel.addChannel(aeChannel.getChannel(i));
+                                    }
+                                }
+                            }
+                        } else if (ae instanceof TMLActivityElementEvent) {
+                            TMLActivityElementEvent aeEvent = (TMLActivityElementEvent) ae;
+                            if (!oldNewEventsClonedTaskName.keySet().contains(aeEvent.getEvent().getName())) {
+                                TMLActivityElement prevElem =  taskClone.getActivityDiagram().getPrevious(ae);
+                                prevElem.setNewNext(ae, ae.getNextElement(0));
+                                aeElemsToRemove.add(ae);
+                            } else {
+                                
+                                for (TMLPort port : aeEvent.getEvent().getOriginPorts()) {
+                                    port.setName(oldNewEventsClonedTaskName.get(aeEvent.getEvent().getName()));
+                                }
+                                for (TMLPort port : aeEvent.getEvent().getDestinationPorts()) {
+                                    port.setName(oldNewEventsClonedTaskName.get(aeEvent.getEvent().getName()));
+                                }
+                                if (aeEvent.getEvent().getOriginPort() != null) {
+                                    aeEvent.getEvent().getOriginPort().setName(oldNewEventsClonedTaskName.get(aeEvent.getEvent().getName()));
+                                }
+                                if (aeEvent.getEvent().getDestinationPort() != null) {
+                                    aeEvent.getEvent().getDestinationPort().setName(oldNewEventsClonedTaskName.get(aeEvent.getEvent().getName()));
+                                }
+                                aeEvent.getEvent().setName(oldNewEventsClonedTaskName.get(aeEvent.getEvent().getName()));
+                                if (_tmlmModel.getEventByName(aeEvent.getEvent().getName()) == null) {
+                                    _tmlmModel.addEvent(aeEvent.getEvent());
+                                }
+                            }
+                        }
+                    }
+                    for (TMLActivityElement ae : aeElemsToRemove) {
+                        taskClone.getActivityDiagram().removeElement(ae);
                     }
                     _tmlmModel.addTask(taskClone);
                 }  

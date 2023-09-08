@@ -169,8 +169,8 @@ public class PatternConfiguration {
     public void loadMappedChannels(Vector<String> mappedChannels) {
         for (String mappedChannel : mappedChannels) {
             String[] mappedChannelSplit= mappedChannel.split(JDialogPatternGeneration.TASK_CHANNEL_SEPARATOR, 2);
-            String[] mappedChannelSplitSameMem = mappedChannelSplit[1].split(JDialogPatternGeneration.MAP_TASK_IN_SAME_HW_SEPARATOR);
-            String[] mappedChannelSplitNewMem = mappedChannelSplit[1].split(JDialogPatternGeneration.MAP_TASK_IN_NEW_HW_SEPARATOR);
+            String[] mappedChannelSplitSameMem = mappedChannelSplit[1].split(JDialogPatternGeneration.MAP_CHANNEL_IN_SAME_MEMORY_SEPARATOR);
+            String[] mappedChannelSplitNewMem = mappedChannelSplit[1].split(JDialogPatternGeneration.MAP_CHANNEL_IN_NEW_MEMORY_SEPARATOR);
             if (channelsMapping.containsKey(mappedChannelSplit[0])) {
                 if (mappedChannelSplitSameMem.length > 1) {
                     String[] channelMap = new String[4];

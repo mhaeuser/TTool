@@ -12,6 +12,7 @@ import myutil.FileUtils;
 import myutil.TraceManager;
 import rationals.properties.isNormalized;
 import tmltranslator.*;
+import ui.window.JDialogPatternGeneration;
 import ui.window.TraceData;
 
 import java.io.File;
@@ -177,12 +178,14 @@ public class PatternIntegration implements Runnable {
         tmapModel = addClonedTask(tmapModel, patternConfiguration);
         renamePatternTasksName();
         renamePatternChannelsName();
-        tmapPattern = updatePatternTasksAttributes(tmapPattern, patternTasks);
+        tmapPattern = updatePatternTasksAttributes(tmapPattern, patternConfiguration.getUpdatedPatternAttributes());
         tmapModel = addPatternTasksInModel(tmapModel, tmapPattern, patternTasks);
         tmapModel = addPatternInternalChannelsInModel(tmapModel, tmapPattern, patternTasks);
         //tmapModel = addNewPortToTasks(tmapModel, patternConfiguration.getPortsConnection(), patternTasks);
         tmapModel = makeConnectionBetweenPatternAndModel(tmapModel, tmapPattern, patternConfiguration.getPortsConnection(), patternTasks);        
         tmapModel = configDisconnectedChannels(tmapModel, patternConfiguration.getPortsConfig(), renamedChannels);
+        tmapModel = mapTasksInArch(tmapModel, patternConfiguration.getTasksMapping());
+        tmapModel = mapChannelsInArch(tmapModel, patternConfiguration.getChannelsMapping());
 
         TraceManager.addDev("Model elems result :");
 
@@ -497,7 +500,7 @@ public class PatternIntegration implements Runnable {
         return _tmapModel;
     }
 
-    public TMLMapping<?> updatePatternTasksAttributes(TMLMapping<?> _tmapPattern, LinkedHashMap<String, TaskPattern> _patternTasks) {
+    /*public TMLMapping<?> updatePatternTasksAttributes(TMLMapping<?> _tmapPattern, LinkedHashMap<String, TaskPattern> _patternTasks) {
         TMLModeling<?> _tmlmPattern = _tmapPattern.getTMLModeling();
         for (String taskName : _patternTasks.keySet()) {
             TMLTask taskPattern = _tmlmPattern.getTMLTaskByName(taskName);
@@ -505,6 +508,20 @@ public class PatternIntegration implements Runnable {
                 for (int i=0; i < _patternTasks.get(taskName).getAttributes().size(); i++) {
                     TMLAttribute attribTaskPattern = taskPattern.getAttributeByName(_patternTasks.get(taskName).getAttributes().get(i).getName());
                     attribTaskPattern.initialValue = _patternTasks.get(taskName).getAttributes().get(i).getValue();
+                }
+            }
+        }
+        return _tmapPattern;
+    }*/
+
+    public TMLMapping<?> updatePatternTasksAttributes(TMLMapping<?> _tmapPattern, LinkedHashMap<String, List<AttributeTaskJsonFile>> _updatedPatternAttributes) {
+        TMLModeling<?> _tmlmPattern = _tmapPattern.getTMLModeling();
+        for (String taskName : _updatedPatternAttributes.keySet()) {
+            TMLTask taskPattern = _tmlmPattern.getTMLTaskByName(taskName);
+            if (taskPattern != null) {
+                for (int i=0; i < _updatedPatternAttributes.get(taskName).size(); i++) {
+                    TMLAttribute attribTaskPattern = taskPattern.getAttributeByName(_updatedPatternAttributes.get(taskName).get(i).getName());
+                    attribTaskPattern.initialValue = _updatedPatternAttributes.get(taskName).get(i).getValue();
                 }
             }
         }
@@ -1217,6 +1234,105 @@ public class PatternIntegration implements Runnable {
             }
             
 
+        }
+        return _tmapModel;
+    }
+
+    public TMLMapping<?> mapTasksInArch(TMLMapping<?> _tmapModel, LinkedHashMap<String, Entry<String, String>> _taskMapping) {
+        TMLArchitecture _tmlarchModel =  _tmapModel.getArch();
+        for (String taskName : _taskMapping.keySet()) {
+            String modeMapping = _taskMapping.get(taskName).getKey();
+            String relatedMapping = _taskMapping.get(taskName).getValue();
+            TMLTask taskToMap = _tmapModel.getTaskByName(taskName);
+            if (taskToMap != null) {
+                if (modeMapping.equals(JDialogPatternGeneration.SAME_HW)) {
+                    TMLTask inSameTask = _tmapModel.getTaskByName(relatedMapping);
+                    if (inSameTask != null) {
+                        HwExecutionNode hwMapTask = _tmapModel.getHwNodeOf(inSameTask);
+                        if (hwMapTask != null) {
+                            _tmapModel.addTaskToHwExecutionNode(taskToMap, hwMapTask);
+                        }
+                    }
+                } else if (modeMapping.equals(JDialogPatternGeneration.NEW_HW)) {
+                    HwBus bus = _tmlarchModel.getHwBusByName(relatedMapping);
+                    if (bus != null) {
+                        String nameCPU = "CPU_" + taskName;
+                        HwNode node = _tmlarchModel.getHwNodeByName(nameCPU);
+                        if (node != null) {
+                            int indexCPU = 0;
+                            String nameCPUWithIndex = nameCPU + indexCPU;
+                            while(_tmlarchModel.getHwNodeByName(nameCPUWithIndex) != null) {
+                                indexCPU += 1;
+                                nameCPUWithIndex = nameCPU + indexCPU;
+                            }
+                            nameCPU = nameCPUWithIndex;
+                        }
+                        HwCPU _newCpu = new HwCPU(nameCPU);
+                        _tmapModel.addTaskToHwExecutionNode(taskToMap, _newCpu);
+                        _tmlarchModel.addHwNode(_newCpu);
+                        HwLink linkNewCPUWithBus = new HwLink("link_" + _newCpu.getName() + "_to_" + bus.getName());
+                        linkNewCPUWithBus.bus = bus;
+                        linkNewCPUWithBus.hwnode = _newCpu;
+                        _tmlarchModel.addHwLink(linkNewCPUWithBus);
+                    }
+                }
+            }
+        }
+        return _tmapModel;
+    }
+
+    public TMLMapping<?> mapChannelsInArch(TMLMapping<?> _tmapModel, LinkedHashMap<String, List<String[]>> _channelMapping) {
+        TMLArchitecture _tmlarchModel =  _tmapModel.getArch();
+        for (String taskName : _channelMapping.keySet()) {
+            for (String[] channelMap : _channelMapping.get(taskName)) {
+                String modeMapping = channelMap[0];
+                String channelToMapName = channelMap[1];
+                
+                
+                TMLChannel channelToMap = _tmapModel.getChannelByName(channelToMapName);
+                if (channelToMap != null) {
+                    if (modeMapping.equals(JDialogPatternGeneration.SAME_MEMORY)) {
+                        String sameChannel = channelMap[3];
+                        TMLChannel inSameChannel = _tmapModel.getChannelByName(sameChannel);
+                        if (inSameChannel != null) {
+                            HwMemory memoryOfSameChannel = _tmapModel.getMemoryOfChannel(inSameChannel);
+                            if (memoryOfSameChannel != null) {
+                                _tmapModel.addCommToHwCommNode(channelToMap, memoryOfSameChannel);
+                            }
+                            for (HwCommunicationNode mappedNode : _tmapModel.getAllCommunicationNodesOfChannel(inSameChannel)) {
+                                if (mappedNode instanceof HwBus) {
+                                    _tmapModel.addCommToHwCommNode(channelToMap, mappedNode);
+                                }   
+                            }
+                        }
+                    } else if (modeMapping.equals(JDialogPatternGeneration.NEW_MEMORY)) {
+                        String busName = channelMap[2];
+                        HwBus bus = _tmlarchModel.getHwBusByName(busName);
+                        if (bus != null) {
+                            String nameMem = "Memory_" + channelToMapName;
+                            HwNode node = _tmlarchModel.getHwNodeByName(nameMem);
+                            if (node != null) {
+                                int indexMem = 0;
+                                String nameMemWithIndex = nameMem + indexMem;
+                                while(_tmlarchModel.getHwNodeByName(nameMemWithIndex) != null) {
+                                    indexMem += 1;
+                                    nameMemWithIndex = nameMem + indexMem;
+                                }
+                                nameMem = nameMemWithIndex;
+                            }
+                            HwMemory _newMem = new HwMemory(nameMem);
+                            _tmapModel.addCommToHwCommNode(channelToMap, _newMem);
+                            _tmapModel.addCommToHwCommNode(channelToMap, bus);
+                            _tmlarchModel.addHwNode(_newMem);
+                            HwLink linkNewMemWithBus = new HwLink("link_" + _newMem.getName() + "_to_" + bus.getName());
+                            linkNewMemWithBus.bus = bus;
+                            linkNewMemWithBus.hwnode = _newMem;
+                            _tmlarchModel.addHwLink(linkNewMemWithBus);
+                        }
+                    }
+                }
+            }
+            
         }
         return _tmapModel;
     }

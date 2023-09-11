@@ -22,13 +22,15 @@ public class PatternConfiguration {
     LinkedHashMap<String, List<Entry<String, String>>> portsConfig; 
     LinkedHashMap<String, Entry<String, String>> tasksMapping;
     LinkedHashMap<String, List<String[]>> channelsMapping;
+    LinkedHashMap<String, List<AttributeTaskJsonFile>> updatedPatternAttributes;
 
-    public PatternConfiguration(LinkedHashMap<String, List<String[]>> portsConnection, LinkedHashMap<String, String> clonedTasks, LinkedHashMap<String, List<Entry<String, String>>> portsConfig, LinkedHashMap<String, Entry<String, String>> tasksMapping, LinkedHashMap<String,List<String[]>> channelsMapping) {
+    public PatternConfiguration(LinkedHashMap<String, List<String[]>> portsConnection, LinkedHashMap<String, String> clonedTasks, LinkedHashMap<String, List<Entry<String, String>>> portsConfig, LinkedHashMap<String, Entry<String, String>> tasksMapping, LinkedHashMap<String,List<String[]>> channelsMapping, LinkedHashMap<String, List<AttributeTaskJsonFile>> updatedPatternAttributes) {
         this.portsConnection = portsConnection;
         this.clonedTasks = clonedTasks;
         this.portsConfig = portsConfig;
         this.tasksMapping = tasksMapping;
         this.channelsMapping = channelsMapping;
+        this.updatedPatternAttributes = updatedPatternAttributes;
     }
 
     public PatternConfiguration() {
@@ -37,6 +39,7 @@ public class PatternConfiguration {
         this.portsConfig = new LinkedHashMap<String, List<Entry<String, String>>>();
         this.tasksMapping = new LinkedHashMap<String, Entry<String, String>>();
         this.channelsMapping = new LinkedHashMap<String, List<String[]>>();
+        this.updatedPatternAttributes = new LinkedHashMap<String, List<AttributeTaskJsonFile>>();
     }
 
     public LinkedHashMap<String,List<String[]>> getPortsConnection() {
@@ -59,6 +62,10 @@ public class PatternConfiguration {
         return channelsMapping;
     }
 
+    public LinkedHashMap<String, List<AttributeTaskJsonFile>> getUpdatedPatternAttributes() {
+        return updatedPatternAttributes;
+    }
+
     public void setPortsConnection(LinkedHashMap<String,List<String[]>> _portsConnection) {
         portsConnection = _portsConnection;
     }
@@ -77,6 +84,10 @@ public class PatternConfiguration {
 
     public void setChannelsMapping(LinkedHashMap<String,List<String[]>> _channelsMapping) {
         channelsMapping = _channelsMapping;
+    }
+
+    public void setUpdatedPatternAttributes(LinkedHashMap<String, List<AttributeTaskJsonFile>> _updatedPatternAttributes) {
+        updatedPatternAttributes = _updatedPatternAttributes;
     }
 
     public void loadConnectedPorts(Vector<String> connectedPortsFull) {

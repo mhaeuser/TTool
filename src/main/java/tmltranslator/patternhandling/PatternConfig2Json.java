@@ -63,6 +63,8 @@ public class PatternConfig2Json {
     public final static String MODEL_PORT = "Model_Port";
     public final static String NEW_PORT = "New_Port";
 
+    public final static String UPDATED_ATTRIBUTES_IN_PATTERN = "Updated_Attributes_In_Pattern";
+    public final static String TASK_ATTRIBUTE_NAME = "Attribute_Task_Name";
 
     String patternConfigurationPathName;
     PatternConfiguration patternConfiguration;  
@@ -93,6 +95,7 @@ public class PatternConfig2Json {
             jsonPatternConfig.put(CHANNEL_CONFIG, addPortsConfigurationInJsonFile(patternConfiguration.getPortsConfig()));
             jsonPatternConfig.put(TASK_MAPPING, addTasksMappingInJsonFile(patternConfiguration.getTasksMapping()));
             jsonPatternConfig.put(CHANNEL_MAPPING, addChannelsMappingInJsonFile(patternConfiguration.getChannelsMapping()));
+            jsonPatternConfig.put(UPDATED_ATTRIBUTES_IN_PATTERN, addUpdatedPatternAttributesInJsonFile(patternConfiguration.getUpdatedPatternAttributes()));
 
             file.write(jsonPatternConfig.toString(1));
             file.close();
@@ -117,11 +120,13 @@ public class PatternConfig2Json {
         JSONArray jsonChannelConfig = patternConfigurationJson.getJSONArray(CHANNEL_CONFIG);
         JSONArray jsonTaskMapping = patternConfigurationJson.getJSONArray(TASK_MAPPING);
         JSONArray jsonChannelMapping = patternConfigurationJson.getJSONArray(CHANNEL_MAPPING);
+        JSONArray jsonUpdatedAttributesPattern = patternConfigurationJson.getJSONArray(UPDATED_ATTRIBUTES_IN_PATTERN);
         patternConfiguration.setClonedTasks(getClonedTasksFromJsonFile(jsonTaskClone));
         patternConfiguration.setPortsConnection(getConnectionFromJsonFile(jsonConnection));
         patternConfiguration.setPortsConfig(getPortsConfigurationFromJsonFile(jsonChannelConfig));
         patternConfiguration.setTasksMapping(getTasksMappingFromJsonFile(jsonTaskMapping));
         patternConfiguration.setChannelsMapping(getChannelsMappingFromJsonFile(jsonChannelMapping));
+        patternConfiguration.setUpdatedPatternAttributes(getUpdatedPatternAttributesFromJsonFile(jsonUpdatedAttributesPattern));
 
     }
 
@@ -228,6 +233,45 @@ public class PatternConfig2Json {
             e.printStackTrace();
         }
         return ja;
+    }
+
+    JSONArray addUpdatedPatternAttributesInJsonFile(LinkedHashMap<String, List<AttributeTaskJsonFile>> _updatedPatternAttributes) {
+        JSONArray ja = new JSONArray();
+        try {
+            for (String task : _updatedPatternAttributes.keySet()) {
+                for (AttributeTaskJsonFile attributeTask : _updatedPatternAttributes.get(task)) {
+                    JSONObject jo = new JSONObject();
+                    jo.put(TASK_ATTRIBUTE_NAME, task);
+                    jo.put(PatternGeneration.NAME, attributeTask.getName());
+                    jo.put(PatternGeneration.TYPE, attributeTask.getType());
+                    jo.put(PatternGeneration.VALUE, attributeTask.getValue());
+                    ja.put(jo);
+                }
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return ja;
+    }
+
+    LinkedHashMap<String, List<AttributeTaskJsonFile>> getUpdatedPatternAttributesFromJsonFile(JSONArray ja) {
+        LinkedHashMap<String, List<AttributeTaskJsonFile>> _updatedPatternAttributes = new LinkedHashMap<String, List<AttributeTaskJsonFile>>();
+        for (int j = 0; j < ja.length(); j++) {
+            String taskName = ja.getJSONObject(j).getString(TASK_ATTRIBUTE_NAME);
+            String attributeName = ja.getJSONObject(j).getString(PatternGeneration.NAME);
+            String attributeType = ja.getJSONObject(j).getString(PatternGeneration.TYPE);
+            String attributeValue = ja.getJSONObject(j).getString(PatternGeneration.VALUE);
+            if (_updatedPatternAttributes.containsKey(taskName)) {
+                AttributeTaskJsonFile attrib = new AttributeTaskJsonFile(attributeName, attributeType, attributeValue);
+                _updatedPatternAttributes.get(taskName).add(attrib);
+            } else {
+                List<AttributeTaskJsonFile> listAttrib = new ArrayList<AttributeTaskJsonFile>();
+                AttributeTaskJsonFile attrib = new AttributeTaskJsonFile(attributeName, attributeType, attributeValue);
+                listAttrib.add(attrib);
+                _updatedPatternAttributes.put(taskName, listAttrib);
+            }
+        }
+        return _updatedPatternAttributes;
     }
 
     LinkedHashMap<String, List<String[]>> getChannelsMappingFromJsonFile(JSONArray ja) {

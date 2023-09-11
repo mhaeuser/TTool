@@ -275,6 +275,7 @@ public class JDialogPatternGeneration extends JDialog implements ActionListener,
     LinkedHashMap<String, TaskPorts> portsTaskOfModelAll = new LinkedHashMap<String, TaskPorts>();
     LinkedHashMap<String, TaskPorts> portsTaskOfModelLeft = new LinkedHashMap<String, TaskPorts>();
     LinkedHashMap<String, TaskPorts> portsTaskConfig = new LinkedHashMap<String, TaskPorts>();
+    LinkedHashMap<String, List<AttributeTaskJsonFile>> updatedPatternAttributes = new LinkedHashMap<String, List<AttributeTaskJsonFile>>();
     
     List<String> busesOfModel = new ArrayList<String>();
 
@@ -1338,6 +1339,25 @@ public class JDialogPatternGeneration extends JDialog implements ActionListener,
                 if (attributeTaskJsonFile.getName().equals(selectedAttributeToUpdate)) {
                     attributeTaskJsonFile.setValue(newValueAttribute);
                     jFieldNewTaskAttibuteValue.setText(attributeTaskJsonFile.getValue());
+                    if (updatedPatternAttributes.containsKey(selectedTaskToUpdateAttributes)) {
+                        boolean attributeExist = false;
+                        for (AttributeTaskJsonFile attribUpdate : updatedPatternAttributes.get(selectedTaskToUpdateAttributes)) {
+                            if (attribUpdate.getName().equals(selectedAttributeToUpdate)) {
+                                attribUpdate.setValue(newValueAttribute);
+                                attributeExist = true;
+                            }
+                        }
+                        if (!attributeExist) {
+                            AttributeTaskJsonFile attrib = new AttributeTaskJsonFile(selectedAttributeToUpdate, attributeTaskJsonFile.getType(), newValueAttribute);
+                            updatedPatternAttributes.get(selectedTaskToUpdateAttributes).add(attrib);
+                        }
+                    } else {
+                        List<AttributeTaskJsonFile> listAttrib = new ArrayList<AttributeTaskJsonFile>();
+                        AttributeTaskJsonFile attrib = new AttributeTaskJsonFile(selectedAttributeToUpdate, attributeTaskJsonFile.getType(), newValueAttribute);
+                        listAttrib.add(attrib);
+                        updatedPatternAttributes.put(selectedTaskToUpdateAttributes, listAttrib);
+                    }
+                    
                 }
             }
         }
@@ -2450,6 +2470,7 @@ public class JDialogPatternGeneration extends JDialog implements ActionListener,
                 patternConfiguration.loadPortsConfig(configuredPorts);
                 patternConfiguration.loadMappedTasks(mappedTasks);
                 patternConfiguration.loadMappedChannels(mappedChannels);
+                patternConfiguration.setUpdatedPatternAttributes(updatedPatternAttributes);
         
                 mgui.gtm.createJsonPatternConfigFile(selectedPatternPath, selectedPatternName, patternConfiguration);
                 mgui.gtm.integratePattern(mgui, selectedPatternPath, selectedPatternName);

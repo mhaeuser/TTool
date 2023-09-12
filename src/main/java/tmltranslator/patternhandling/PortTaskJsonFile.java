@@ -16,6 +16,8 @@ public class PortTaskJsonFile {
     String name;
     String type;
     String mode;
+    String confidentiality;
+    String authenticity;
 
     public PortTaskJsonFile(String name, String type, String mode) {
         this.name = name;
@@ -33,6 +35,21 @@ public class PortTaskJsonFile {
 
     public String getMode() {
         return mode;
+    }
+
+    public String getConfidentiality() {
+        return confidentiality;
+    }
+    
+    public String getAuthenticity() {
+        return authenticity;
+    }
+    public void setConfidentiality(String _confidentiality) {
+        confidentiality = _confidentiality;
+    }
+    
+    public void setAuthenticity(String _authenticity) {
+        authenticity = _authenticity;
     }
     
 }

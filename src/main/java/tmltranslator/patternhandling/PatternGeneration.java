@@ -25,6 +25,13 @@ public class PatternGeneration implements Runnable {
     public final static String MODE_INPUT = "input";
     public final static String MODE_OUTPUT = "output";
     public final static String CHANNEL = "channel";
+    public final static String CONFIDENTIALITY = "confidentiality";
+    public final static String WITHOUT_CONFIDENTIALITY = "No";
+    public final static String WITH_CONFIDENTIALITY = "Yes";
+    public final static String AUTHENTICITY = "authenticity";
+    public final static String STRONG_AUTHENTICITY = "strong";
+    public final static String WEAK_AUTHENTICITY = "weak";
+    public final static String WITHOUT_AUTHENTICITY = "No";
     public final static String EVENT = "event";
     public final static String NAME = "name";
     public final static String TYPE = "type";
@@ -300,6 +307,8 @@ public class PatternGeneration implements Runnable {
             jo.put(TASK, task.getName());
             jo.put(TYPE, CHANNEL);
             jo.put(MODE, mode);
+            jo.put(CONFIDENTIALITY, WITHOUT_CONFIDENTIALITY);
+            jo.put(AUTHENTICITY, WITHOUT_AUTHENTICITY);
         } catch (JSONException e) {
             e.printStackTrace();
         }

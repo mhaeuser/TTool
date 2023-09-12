@@ -1922,7 +1922,7 @@ public class TML2Avatar {
 
                 for (AvatarStateMachineElement e : elementList) {
                     e.setName(processName(e.getName(), e.getID()));
-                    stateObjectMap.put(task.getName().split("__")[1] + "__" + e.getName(), e.getReferenceObject());
+                    stateObjectMap.put(task.getName().split("__")[task.getName().split("__").length-1] + "__" + e.getName(), e.getReferenceObject());
 
                     if (e instanceof AvatarStopState) {
                         //ignore it
@@ -2030,7 +2030,7 @@ public class TML2Avatar {
                 for (AvatarStateMachineElement e : elementList) {
                     e.setName(processName(e.getName(), e.getID()));
                     asm.addElement(e);
-                    stateObjectMap.put(task.getName().split("__")[1] + "__" + e.getName(), e.getReferenceObject());
+                    stateObjectMap.put(task.getName().split("__")[task.getName().split("__").length-1] + "__" + e.getName(), e.getReferenceObject());
                 }
                 asm.setStartState((AvatarStartState) elementList.get(0));
             }

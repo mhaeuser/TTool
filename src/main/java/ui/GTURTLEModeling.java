@@ -76,6 +76,7 @@ import tmltranslator.patternhandling.PatternConfig2Json;
 import tmltranslator.patternhandling.PatternConfiguration;
 import tmltranslator.patternhandling.PatternGeneration;
 import tmltranslator.patternhandling.PatternIntegration;
+import tmltranslator.patternhandling.PortTaskJsonFile;
 import tmltranslator.patternhandling.TMRGeneration;
 import tmltranslator.patternhandling.TaskPattern;
 import tmltranslator.toautomata.TML2AUT;
@@ -1641,20 +1642,7 @@ public class GTURTLEModeling {
 
     @SuppressWarnings("unchecked")
     public void integratePattern(MainGUI gui, String patternPath, String patternName) {
-        TraceManager.addDev("patternPath= " + patternPath);
-        TraceManager.addDev("patternName= " + patternName);
-        PatternConfig2Json patternConfig2Json = new PatternConfig2Json(patternPath+"/"+patternName+"-config.json");
-        patternConfig2Json.json2patternConfiguration();
-        LinkedHashMap<String, TaskPattern> patternTasks = TaskPattern.parsePatternJsonFile(patternPath, patternName+".json");
-        PatternIntegration patternInteg = new PatternIntegration(patternPath, patternName, patternConfig2Json.getPaternConfiguration(), patternTasks, tmap);
-        tmap = (TMLMapping<TGComponent>) patternInteg.startThread();
-        try {
-            String archTabName = ((CorrespondanceTGElement)(tmap.getCorrespondanceList())).getTG(tmap.getArch().getFirstCPU()).getTDiagramPanel().tp.getNameOfTab();
-            String appTabName = ((TGComponent)tmap.getTMLModeling().getReference()).getTDiagramPanel().tp.getNameOfTab();
-            gui.drawTMLAndTMAPSpecification(tmap, appTabName + "_" + patternName, archTabName + "_" + patternName);
-        } catch (MalformedTMLDesignException e) {
-            TraceManager.addDev("Error when Drawing TML");
-        }
+        integratePattern(gui, patternPath, patternName,  patternPath+"/"+patternName+"-config.json");
     }
     
     @SuppressWarnings("unchecked")
@@ -1662,11 +1650,41 @@ public class GTURTLEModeling {
         TraceManager.addDev("patternPath= " + patternPath);
         TraceManager.addDev("patternName= " + patternName);
         TraceManager.addDev("configPatternPath= " + configPatternPath);
-        PatternConfig2Json patternConfig2Json = new PatternConfig2Json(configPatternPath);
+        PatternConfig2Json patternConfig2Json = new PatternConfig2Json(patternPath+"/"+patternName+"-config.json");
         patternConfig2Json.json2patternConfiguration();
+        PatternConfiguration patternConfiguration = patternConfig2Json.getPaternConfiguration();
         LinkedHashMap<String, TaskPattern> patternTasks = TaskPattern.parsePatternJsonFile(patternPath, patternName+".json");
-        PatternIntegration patternInteg = new PatternIntegration(patternPath, patternName, patternConfig2Json.getPaternConfiguration(), patternTasks, tmap);
+        PatternIntegration patternInteg = new PatternIntegration(patternPath, patternName, patternConfiguration, patternTasks, tmap);
         tmap = (TMLMapping<TGComponent>) patternInteg.startThread();
+        LinkedHashMap<String, List<PortTaskJsonFile>> channelsWithSec = patternConfiguration.getChannelsWithSecurity();
+        TMLArchiPanel arch = (TMLArchiPanel) gui.tabs.get(gui.getCurrentSelectedIndex());
+        TraceManager.addDev("arch= " + arch.getNameOfTab());
+        for (String taskOfChannelWithSec : channelsWithSec.keySet()) {
+            for (PortTaskJsonFile portTask : channelsWithSec.get(taskOfChannelWithSec)) {
+                TMLChannel ch = tmap.getChannelByName(portTask.getName());
+                if (ch != null) {
+                    Boolean confToCheck = false;
+                    Boolean authWeakToCheck = false;
+                    Boolean authStrongToCheck = false;
+                    if (portTask.getConfidentiality().toUpperCase().equals(PatternGeneration.WITH_CONFIDENTIALITY.toUpperCase())) {
+                        ch.checkConf = true;
+                        confToCheck = true;
+                    }
+                    if (portTask.getAuthenticity().toUpperCase().equals(PatternGeneration.WEAK_AUTHENTICITY.toUpperCase())) {
+                        ch.checkAuth = true;
+                        authWeakToCheck = true;
+                    }
+                    if (portTask.getAuthenticity().toUpperCase().equals(PatternGeneration.STRONG_AUTHENTICITY.toUpperCase())) {
+                        ch.checkAuth = true;
+                        authStrongToCheck = true;
+                    }
+                    
+                    tmap = autoSecure(gui, "", tmap, arch, "100", "0", "100", confToCheck, authWeakToCheck, authStrongToCheck, new HashMap<String, java.util.List<String>>());
+                    ch.checkAuth = false;
+                    ch.checkConf = false;
+                }
+            }
+        }
         try {
             String archTabName = ((CorrespondanceTGElement)(tmap.getCorrespondanceList())).getTG(tmap.getArch().getFirstCPU()).getTDiagramPanel().tp.getNameOfTab();
             String appTabName = ((TGComponent)tmap.getTMLModeling().getReference()).getTDiagramPanel().tp.getNameOfTab();
@@ -2376,7 +2394,7 @@ public class GTURTLEModeling {
        if (tmap != null) {
            Object o = null;
            if (tmap.getTMLModeling().getReference() instanceof TGComponent) {
-               o = ((TGComponent)(tmlm.getReference())).getTDiagramPanel().tp;
+               o = ((TGComponent)(tmap.getTMLModeling().getReference())).getTDiagramPanel().tp;
            }
             t2a = new TML2Avatar(tmap, false, true, o);
             avatarspec = t2a.generateAvatarSpec(loopLimit);

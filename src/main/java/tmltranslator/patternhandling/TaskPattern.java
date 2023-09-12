@@ -75,6 +75,12 @@ public class TaskPattern {
                 String externalPortMode = externalPorts.getJSONObject(j).getString(PatternGeneration.MODE);
                 TraceManager.addDev("externalPortName= "+ externalPortName);
                 PortTaskJsonFile externalPortTaskJsonFile = new PortTaskJsonFile(externalPortName, externalPortType, externalPortMode);
+                if (externalPorts.getJSONObject(j).has(PatternGeneration.CONFIDENTIALITY)) {
+                    externalPortTaskJsonFile.setConfidentiality(externalPorts.getJSONObject(j).getString(PatternGeneration.CONFIDENTIALITY));
+                }
+                if (externalPorts.getJSONObject(j).has(PatternGeneration.AUTHENTICITY)) {
+                    externalPortTaskJsonFile.setAuthenticity(externalPorts.getJSONObject(j).getString(PatternGeneration.AUTHENTICITY));
+                }
                 externalPortsTaskList.add(externalPortTaskJsonFile);
             }
             //patternTasksExternalPorts.put(taskName, externalPortsTaskList);
@@ -86,6 +92,12 @@ public class TaskPattern {
                 String internalPortType = internalPorts.getJSONObject(j).getString(PatternGeneration.TYPE);
                 String internalPortMode = internalPorts.getJSONObject(j).getString(PatternGeneration.MODE);
                 PortTaskJsonFile internalPortTaskJsonFile = new PortTaskJsonFile(internalPortName, internalPortType, internalPortMode);
+                if (internalPorts.getJSONObject(j).has(PatternGeneration.CONFIDENTIALITY)) {
+                    internalPortTaskJsonFile.setConfidentiality(internalPorts.getJSONObject(j).getString(PatternGeneration.CONFIDENTIALITY));
+                }
+                if (internalPorts.getJSONObject(j).has(PatternGeneration.AUTHENTICITY)) {
+                    internalPortTaskJsonFile.setAuthenticity(internalPorts.getJSONObject(j).getString(PatternGeneration.AUTHENTICITY));
+                }
                 internalPortsTaskList.add(internalPortTaskJsonFile);
             }
             //patternTasksInternalPorts.put(taskName, internalPortsTaskList);

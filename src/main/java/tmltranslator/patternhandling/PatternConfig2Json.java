@@ -66,6 +66,9 @@ public class PatternConfig2Json {
     public final static String UPDATED_ATTRIBUTES_IN_PATTERN = "Updated_Attributes_In_Pattern";
     public final static String TASK_ATTRIBUTE_NAME = "Attribute_Task_Name";
 
+    public final static String CHANNELS_WITH_SECURITY_IN_PATTERN = "Channels_With_Security_In_Pattern";
+    public final static String TASK_CHANNEL_WITH_SECURITY_NAME = "Task_Name_Channel";
+
     String patternConfigurationPathName;
     PatternConfiguration patternConfiguration;  
 
@@ -96,6 +99,7 @@ public class PatternConfig2Json {
             jsonPatternConfig.put(TASK_MAPPING, addTasksMappingInJsonFile(patternConfiguration.getTasksMapping()));
             jsonPatternConfig.put(CHANNEL_MAPPING, addChannelsMappingInJsonFile(patternConfiguration.getChannelsMapping()));
             jsonPatternConfig.put(UPDATED_ATTRIBUTES_IN_PATTERN, addUpdatedPatternAttributesInJsonFile(patternConfiguration.getUpdatedPatternAttributes()));
+            jsonPatternConfig.put(CHANNELS_WITH_SECURITY_IN_PATTERN, addChannelsWithSecurityInJsonFile(patternConfiguration.getChannelsWithSecurity()));
 
             file.write(jsonPatternConfig.toString(1));
             file.close();
@@ -121,12 +125,14 @@ public class PatternConfig2Json {
         JSONArray jsonTaskMapping = patternConfigurationJson.getJSONArray(TASK_MAPPING);
         JSONArray jsonChannelMapping = patternConfigurationJson.getJSONArray(CHANNEL_MAPPING);
         JSONArray jsonUpdatedAttributesPattern = patternConfigurationJson.getJSONArray(UPDATED_ATTRIBUTES_IN_PATTERN);
+        JSONArray jsonChannelWithSecurity = patternConfigurationJson.getJSONArray(CHANNELS_WITH_SECURITY_IN_PATTERN);
         patternConfiguration.setClonedTasks(getClonedTasksFromJsonFile(jsonTaskClone));
         patternConfiguration.setPortsConnection(getConnectionFromJsonFile(jsonConnection));
         patternConfiguration.setPortsConfig(getPortsConfigurationFromJsonFile(jsonChannelConfig));
         patternConfiguration.setTasksMapping(getTasksMappingFromJsonFile(jsonTaskMapping));
         patternConfiguration.setChannelsMapping(getChannelsMappingFromJsonFile(jsonChannelMapping));
         patternConfiguration.setUpdatedPatternAttributes(getUpdatedPatternAttributesFromJsonFile(jsonUpdatedAttributesPattern));
+        patternConfiguration.setChannelsWithSecurity(getChannelsWithSecurityFromJsonFile(jsonChannelWithSecurity));
 
     }
 
@@ -254,6 +260,53 @@ public class PatternConfig2Json {
         return ja;
     }
 
+    JSONArray addChannelsWithSecurityInJsonFile(LinkedHashMap<String, List<PortTaskJsonFile>> _channelsWithSec) {
+        JSONArray ja = new JSONArray();
+        try {
+            for (String task : _channelsWithSec.keySet()) {
+                for (PortTaskJsonFile portTask : _channelsWithSec.get(task)) {
+                    JSONObject jo = new JSONObject();
+                    jo.put(TASK_CHANNEL_WITH_SECURITY_NAME, task);
+                    jo.put(PatternGeneration.NAME, portTask.getName());
+                    jo.put(PatternGeneration.TYPE, portTask.getType());
+                    jo.put(PatternGeneration.MODE, portTask.getMode());
+                    jo.put(PatternGeneration.CONFIDENTIALITY, portTask.getConfidentiality());
+                    jo.put(PatternGeneration.AUTHENTICITY, portTask.getAuthenticity());
+                    ja.put(jo);
+                }
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return ja;
+    }
+
+    LinkedHashMap<String, List<PortTaskJsonFile>> getChannelsWithSecurityFromJsonFile(JSONArray ja) {
+        LinkedHashMap<String, List<PortTaskJsonFile>> _channelsWithSec = new LinkedHashMap<String, List<PortTaskJsonFile>>();
+        for (int j = 0; j < ja.length(); j++) {
+            String taskName = ja.getJSONObject(j).getString(TASK_CHANNEL_WITH_SECURITY_NAME);
+            String channelName = ja.getJSONObject(j).getString(PatternGeneration.NAME);
+            String channelType = ja.getJSONObject(j).getString(PatternGeneration.TYPE);
+            String channelMode = ja.getJSONObject(j).getString(PatternGeneration.MODE);
+            String channelConf = ja.getJSONObject(j).getString(PatternGeneration.CONFIDENTIALITY);
+            String channelAuth = ja.getJSONObject(j).getString(PatternGeneration.AUTHENTICITY);
+            if (_channelsWithSec.containsKey(taskName)) {
+                PortTaskJsonFile portTask = new PortTaskJsonFile(channelName, channelType, channelMode);
+                portTask.setConfidentiality(channelConf);
+                portTask.setAuthenticity(channelAuth);
+                _channelsWithSec.get(taskName).add(portTask);
+            } else {
+                List<PortTaskJsonFile> listPortTask = new ArrayList<PortTaskJsonFile>();
+                PortTaskJsonFile portTask = new PortTaskJsonFile(channelName, channelType, channelMode);
+                portTask.setConfidentiality(channelConf);
+                portTask.setAuthenticity(channelAuth);
+                listPortTask.add(portTask);
+                _channelsWithSec.put(taskName, listPortTask);
+            }
+        }
+        return _channelsWithSec;
+    }
+
     LinkedHashMap<String, List<AttributeTaskJsonFile>> getUpdatedPatternAttributesFromJsonFile(JSONArray ja) {
         LinkedHashMap<String, List<AttributeTaskJsonFile>> _updatedPatternAttributes = new LinkedHashMap<String, List<AttributeTaskJsonFile>>();
         for (int j = 0; j < ja.length(); j++) {
@@ -297,7 +350,7 @@ public class PatternConfig2Json {
                     channelMap[0] = JDialogPatternGeneration.SAME_MEMORY;
                     channelMap[1] = channelToMap;
                     channelMap[2] = taskOfChannelSameMem;
-                    channelMap[3] = channelMappedInNewMem;
+                    channelMap[3] = channelMappedInSameMem;
                     _channelsMapping.get(taskOfChannelToMap).add(channelMap);
                 } else if (channelMappedInNewMem != "") {
                     String[] channelMap = new String[3];
@@ -313,7 +366,7 @@ public class PatternConfig2Json {
                     channelMap[0] = JDialogPatternGeneration.SAME_MEMORY;
                     channelMap[1] = channelToMap;
                     channelMap[2] = taskOfChannelSameMem;
-                    channelMap[3] = channelMappedInNewMem;
+                    channelMap[3] = channelMappedInSameMem;
                     channelMapList.add(channelMap);
                 } else if (channelMappedInNewMem != "") {
                     String[] channelMap = new String[3];

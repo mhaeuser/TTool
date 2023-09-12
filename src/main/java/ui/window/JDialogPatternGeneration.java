@@ -201,6 +201,10 @@ public class JDialogPatternGeneration extends JDialog implements ActionListener,
     JComboBox<String> jComboBoxModelsPortOfTask;
     DefaultComboBoxModel<String> modelPortOfATask = new DefaultComboBoxModel<>(portsOfTaskInModel);
     JCheckBox jCheckBoxConnectToNewPort;
+    JCheckBox jCheckBoxAddConfidentiality;
+    JLabel jLabelAddAuthenticity;
+    Vector<String> authenticityModes = new Vector<String>(Arrays.asList(PatternGeneration.WITHOUT_AUTHENTICITY, PatternGeneration.WEAK_AUTHENTICITY, PatternGeneration.STRONG_AUTHENTICITY));
+    JComboBox<String> jComboBoxAddAuthenticity;
     JList<String> jListConnectedPorts;
     Vector<String> connectedPorts = new Vector<String>();
     Vector<String> connectedPortsFull = new Vector<String>();
@@ -276,6 +280,7 @@ public class JDialogPatternGeneration extends JDialog implements ActionListener,
     LinkedHashMap<String, TaskPorts> portsTaskOfModelLeft = new LinkedHashMap<String, TaskPorts>();
     LinkedHashMap<String, TaskPorts> portsTaskConfig = new LinkedHashMap<String, TaskPorts>();
     LinkedHashMap<String, List<AttributeTaskJsonFile>> updatedPatternAttributes = new LinkedHashMap<String, List<AttributeTaskJsonFile>>();
+    LinkedHashMap<String, List<PortTaskJsonFile>> channelsWithSecurity = new LinkedHashMap<String, List<PortTaskJsonFile>>();
     
     List<String> busesOfModel = new ArrayList<String>();
 
@@ -603,6 +608,26 @@ public class JDialogPatternGeneration extends JDialog implements ActionListener,
         cPatternConnetion.gridx = 2;
         cPatternConnetion.weightx = 0;
         jpPatternConnetion.add(jCheckBoxConnectToNewPort, cPatternConnetion);
+
+        cPatternConnetion.gridy = 4;
+        cPatternConnetion.gridx = 0;
+        jCheckBoxAddConfidentiality = new JCheckBox("Add Confidentiality");
+        jCheckBoxAddConfidentiality.setEnabled(false);
+        jCheckBoxAddConfidentiality.setVisible(false);
+        jCheckBoxAddConfidentiality.addActionListener(this);
+        jpPatternConnetion.add(jCheckBoxAddConfidentiality, cPatternConnetion);
+        cPatternConnetion.gridx = 1;
+        jLabelAddAuthenticity = new JLabel("Add Authenticity:");
+        jLabelAddAuthenticity.setVisible(false);
+        jpPatternConnetion.add(jLabelAddAuthenticity, cPatternConnetion);
+        cPatternConnetion.gridx = 2;
+        jComboBoxAddAuthenticity = new JComboBox<String>(authenticityModes);
+        jComboBoxAddAuthenticity.setSelectedIndex(authenticityModes.indexOf(PatternGeneration.WITHOUT_AUTHENTICITY));
+        jComboBoxAddAuthenticity.setEnabled(false);
+        jComboBoxAddAuthenticity.setVisible(false);
+        jComboBoxAddAuthenticity.addActionListener(this);
+        jpPatternConnetion.add(jComboBoxAddAuthenticity, cPatternConnetion);
+
         cPatternConnetionMain.gridy = 1;
         jpPatternConnetionMain.add(jpPatternConnetion, cPatternConnetionMain);
 
@@ -1408,12 +1433,68 @@ public class JDialogPatternGeneration extends JDialog implements ActionListener,
                 }
             }
         }
+
+        for (PortTaskJsonFile  portTaskJsonFile : patternTasksAll.get(patternTaskName).getExternalPorts()) {
+            if (portTaskJsonFile.getName().equals(patternTaskPortName)) {
+                if (portTaskJsonFile.getType().equals(PatternGeneration.CHANNEL)) {
+                    if (jCheckBoxAddConfidentiality.isSelected()) {
+                        portTaskJsonFile.setConfidentiality(PatternGeneration.WITH_CONFIDENTIALITY);
+                    } else {
+                        portTaskJsonFile.setConfidentiality(PatternGeneration.WITHOUT_CONFIDENTIALITY);
+                    }
+                    portTaskJsonFile.setAuthenticity(jComboBoxAddAuthenticity.getSelectedItem().toString());
+                    break;
+                }
+            }
+        }
         
-        /*tasksOfPatternWithExternalPort
-        externalPortsOfTaskInPattern
-        tasksOfModel
-        portsOfTaskInModel*/
-        
+        /*if (jCheckBoxAddConfidentiality.isSelected() || (jComboBoxAddAuthenticity.getSelectedIndex() >= 0 && !jComboBoxAddAuthenticity.getSelectedItem().toString().toUpperCase().equals(PatternGeneration.WITHOUT_AUTHENTICITY.toUpperCase()))) {
+            if (channelsWithSecurity.containsKey(patternTaskName)) {
+                boolean channelWithSecToUpdate = false;
+                for (PortTaskJsonFile pt : channelsWithSecurity.get(patternTaskName)) {
+                    if (pt.getName().equals(patternTaskPortName)) {
+                        if (jCheckBoxAddConfidentiality.isSelected()) {
+                            pt.setConfidentiality(PatternGeneration.WITH_CONFIDENTIALITY);
+                        }
+                        if (jComboBoxAddAuthenticity.getSelectedIndex() >= 0 && !jComboBoxAddAuthenticity.getSelectedItem().toString().toUpperCase().equals(PatternGeneration.WITHOUT_AUTHENTICITY.toUpperCase())) {
+                            pt.setAuthenticity(jComboBoxAddAuthenticity.getSelectedItem().toString());
+                        }
+                        channelWithSecToUpdate = true;
+                        break;
+                    }
+                }
+                if (!channelWithSecToUpdate) {
+                    for (PortTaskJsonFile  portTaskJsonFile : patternTasksAll.get(patternTaskName).getExternalPorts()) {
+                        if (portTaskJsonFile.getName().equals(patternTaskPortName)) {
+                            if (jCheckBoxAddConfidentiality.isSelected()) {
+                                portTaskJsonFile.setConfidentiality(PatternGeneration.WITH_CONFIDENTIALITY);
+                            }
+                            if (jComboBoxAddAuthenticity.getSelectedIndex() >= 0 && !jComboBoxAddAuthenticity.getSelectedItem().toString().toUpperCase().equals(PatternGeneration.WITHOUT_AUTHENTICITY.toUpperCase())) {
+                                portTaskJsonFile.setAuthenticity(jComboBoxAddAuthenticity.getSelectedItem().toString());
+                            }
+                            channelsWithSecurity.get(patternTaskName).add(portTaskJsonFile);
+                            break;
+                        }
+                    }
+                }
+            } else {
+                List<PortTaskJsonFile> channelWithSecInfo = new ArrayList<PortTaskJsonFile>();
+                for (PortTaskJsonFile  portTaskJsonFile : patternTasksAll.get(patternTaskName).getExternalPorts()) {
+                    if (portTaskJsonFile.getName().equals(patternTaskPortName)) {
+                        if (jCheckBoxAddConfidentiality.isSelected()) {
+                            portTaskJsonFile.setConfidentiality(PatternGeneration.WITH_CONFIDENTIALITY);
+                        }
+                        if (jComboBoxAddAuthenticity.getSelectedIndex() >= 0 && !jComboBoxAddAuthenticity.getSelectedItem().toString().toUpperCase().equals(PatternGeneration.WITHOUT_AUTHENTICITY.toUpperCase())) {
+                            portTaskJsonFile.setAuthenticity(jComboBoxAddAuthenticity.getSelectedItem().toString());
+                        }
+                        channelWithSecInfo.add(portTaskJsonFile);
+                        channelsWithSecurity.put(patternTaskName, channelWithSecInfo);
+                        break;
+                    }
+                }
+            } 
+        }*/
+
         jComboBoxPatternsTaskWithExternalPort.setSelectedIndex(-1);
         jCheckBoxConnectToNewPort.setSelected(false);
         jListConnectedPorts.setListData(connectedPorts);
@@ -2018,9 +2099,36 @@ public class JDialogPatternGeneration extends JDialog implements ActionListener,
                 }
                 if (evt.getSource() == jComboBoxModelsPortOfTask) {
                     if (jComboBoxModelsPortOfTask.getSelectedIndex() >= 0) {
+                        String selectedPatternTask = jComboBoxPatternsTaskWithExternalPort.getSelectedItem().toString();
+                        int selectedIndexPatternPort = jComboBoxPatternExternalPortOfATask.getSelectedIndex();
+                        String typeSelectedPatternPort = patternTasksNotConnected.get(selectedPatternTask).getExternalPorts().get(selectedIndexPatternPort).getType();
+                        if (typeSelectedPatternPort.equals(PatternGeneration.CHANNEL)){
+                            String confSelectedPatternPort = patternTasksNotConnected.get(selectedPatternTask).getExternalPorts().get(selectedIndexPatternPort).getConfidentiality();
+                            String authSelectedPatternPort = patternTasksNotConnected.get(selectedPatternTask).getExternalPorts().get(selectedIndexPatternPort).getAuthenticity();
+                            jCheckBoxAddConfidentiality.setVisible(true);
+                            jCheckBoxAddConfidentiality.setEnabled(true);
+                            if (confSelectedPatternPort.toUpperCase().equals(PatternGeneration.WITH_CONFIDENTIALITY.toUpperCase())) {
+                                jCheckBoxAddConfidentiality.setSelected(true);
+                            }
+                            for (int indexModeAuth = 0; indexModeAuth < authenticityModes.size(); indexModeAuth++) {
+                                if (authSelectedPatternPort.toUpperCase().equals(authenticityModes.get(indexModeAuth).toUpperCase())) {
+                                    jComboBoxAddAuthenticity.setSelectedIndex(indexModeAuth);
+                                }
+                            }
+                            jComboBoxAddAuthenticity.setEnabled(true);
+                            jComboBoxAddAuthenticity.setVisible(true);
+                            jLabelAddAuthenticity.setVisible(true);
+                        }
                         addConnectionBetweenSelectedPorts.setEnabled(true);
                     } else {
                         addConnectionBetweenSelectedPorts.setEnabled(false);
+                        jCheckBoxAddConfidentiality.setVisible(false);
+                        jCheckBoxAddConfidentiality.setEnabled(false);
+                        jCheckBoxAddConfidentiality.setSelected(false);
+                        jComboBoxAddAuthenticity.setEnabled(false);
+                        jComboBoxAddAuthenticity.setVisible(false);
+                        jComboBoxAddAuthenticity.setSelectedIndex(authenticityModes.indexOf(PatternGeneration.WITHOUT_AUTHENTICITY));
+                        jLabelAddAuthenticity.setVisible(false);
                     }
                 }
                 /*if (evt.getSource() == jCheckBoxConnectToNewPort) {
@@ -2471,7 +2579,43 @@ public class JDialogPatternGeneration extends JDialog implements ActionListener,
                 patternConfiguration.loadMappedTasks(mappedTasks);
                 patternConfiguration.loadMappedChannels(mappedChannels);
                 patternConfiguration.setUpdatedPatternAttributes(updatedPatternAttributes);
-        
+                for (String taskName : patternTasksAll.keySet()) {
+                    for (PortTaskJsonFile portTaskExt : patternTasksAll.get(taskName).getExternalPorts()) {
+                        if (portTaskExt.getType().equals(PatternGeneration.CHANNEL)) {
+                            if (portTaskExt.getConfidentiality().toUpperCase().equals(PatternGeneration.WITH_CONFIDENTIALITY.toUpperCase()) || !portTaskExt.getAuthenticity().toUpperCase().equals(PatternGeneration.WITHOUT_AUTHENTICITY.toUpperCase())) {
+                                if (channelsWithSecurity.containsKey(taskName)) {
+                                    channelsWithSecurity.get(taskName).add(portTaskExt);
+                                } else {
+                                    List<PortTaskJsonFile> channelsWithSecurityList = new ArrayList<PortTaskJsonFile>();
+                                    channelsWithSecurityList.add(portTaskExt);
+                                    channelsWithSecurity.put(taskName, channelsWithSecurityList);
+                                }
+                            }
+                        }
+                    }
+                    for (PortTaskJsonFile portTaskInt : patternTasksAll.get(taskName).getInternalPorts()) {
+                        if (portTaskInt.getType().equals(PatternGeneration.CHANNEL)) {
+                            if (portTaskInt.getConfidentiality().toUpperCase().equals(PatternGeneration.WITH_CONFIDENTIALITY.toUpperCase()) || !portTaskInt.getAuthenticity().toUpperCase().equals(PatternGeneration.WITHOUT_AUTHENTICITY.toUpperCase())) {
+                                if (channelsWithSecurity.containsKey(taskName)) {
+                                    channelsWithSecurity.get(taskName).add(portTaskInt);
+                                } else {
+                                    List<PortTaskJsonFile> channelsWithSecurityList = new ArrayList<PortTaskJsonFile>();
+                                    channelsWithSecurityList.add(portTaskInt);
+                                    channelsWithSecurity.put(taskName, channelsWithSecurityList);
+                                }
+                            }
+                        }
+                    }
+                }
+                for(String taskCh : channelsWithSecurity.keySet()) {
+                    TraceManager.addDev("taskCh=" + taskCh);
+                    for (PortTaskJsonFile portTask : channelsWithSecurity.get(taskCh)) {
+                        TraceManager.addDev("portTask Name=" + portTask.getName());
+                        TraceManager.addDev("portTask Conf=" + portTask.getConfidentiality());
+                        TraceManager.addDev("portTask Auth=" + portTask.getAuthenticity());
+                    }
+                }
+                patternConfiguration.setChannelsWithSecurity(channelsWithSecurity);
                 mgui.gtm.createJsonPatternConfigFile(selectedPatternPath, selectedPatternName, patternConfiguration);
                 mgui.gtm.integratePattern(mgui, selectedPatternPath, selectedPatternName);
                 JLabel label = new JLabel("Pattern Integration Completed");

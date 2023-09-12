@@ -232,7 +232,6 @@ public class PatternIntegration implements Runnable {
         List<String> newTasksNames = new ArrayList<String>();
         for (int i = 0; i < patternTasks.keySet().size(); i++) {
             String taskName = patternTasksKeys[i];
-            TraceManager.addDev("renamePatternTasksName: taskName="+taskName);
             if (tmlmModel.getTMLTaskByName(taskName) != null || newTasksNames.contains(taskName)) {
                 int indexTask = 0;
                 String taskNameWithIndex = taskName + indexTask;
@@ -241,7 +240,6 @@ public class PatternIntegration implements Runnable {
                     taskNameWithIndex= taskName + indexTask;
                 }
                 TMLTask taskPattern = tmlmPattern.getTMLTaskByName(taskName);
-                TraceManager.addDev("renamePatternTasksName: taskNameWithIndex="+taskNameWithIndex);
                 taskPattern.setName(taskNameWithIndex);
                 newTasksNames.add(taskNameWithIndex);
                 if (patternConfiguration.getPortsConnection().containsKey(taskName)) {
@@ -252,6 +250,12 @@ public class PatternIntegration implements Runnable {
                 }
                 if (patternConfiguration.getChannelsMapping().containsKey(taskName)) {
                     patternConfiguration.getChannelsMapping().put(taskNameWithIndex, patternConfiguration.getChannelsMapping().remove(taskName));
+                }
+                if (patternConfiguration.getUpdatedPatternAttributes().containsKey(taskName)) {
+                    patternConfiguration.getUpdatedPatternAttributes().put(taskNameWithIndex, patternConfiguration.getUpdatedPatternAttributes().remove(taskName));
+                }
+                if (patternConfiguration.getChannelsWithSecurity().containsKey(taskName)) {
+                    patternConfiguration.getChannelsWithSecurity().put(taskNameWithIndex, patternConfiguration.getChannelsWithSecurity().remove(taskName));
                 }
                 if (patternTasks.containsKey(taskName)) {
                     patternTasks.put(taskNameWithIndex, patternTasks.remove(taskName));
@@ -285,6 +289,13 @@ public class PatternIntegration implements Runnable {
                             for (String[] cm : patternConfiguration.getChannelsMapping().get(taskName)) {
                                 if (cm[0].equals(extPort.name)) {
                                     cm[0] = oldNewChannelName.get(extPort.name);
+                                }
+                            }
+                        }
+                        if (patternConfiguration.getChannelsWithSecurity().containsKey(taskName)) {
+                            for (PortTaskJsonFile portTask : patternConfiguration.getChannelsWithSecurity().get(taskName)) {
+                                if (portTask.getName().equals(extPort.name)) {
+                                    portTask.name = oldNewChannelName.get(extPort.name);
                                 }
                             }
                         }
@@ -333,6 +344,13 @@ public class PatternIntegration implements Runnable {
                                 for (String[] cm : patternConfiguration.getChannelsMapping().get(taskName)) {
                                     if (cm[0].equals(extPort.name)) {
                                         cm[0] = channelNameWithIndex;
+                                    }
+                                }
+                            }
+                            if (patternConfiguration.getChannelsWithSecurity().containsKey(taskName)) {
+                                for (PortTaskJsonFile portTask : patternConfiguration.getChannelsWithSecurity().get(taskName)) {
+                                    if (portTask.getName().equals(extPort.name)) {
+                                        portTask.name = channelNameWithIndex;
                                     }
                                 }
                             }
@@ -401,6 +419,13 @@ public class PatternIntegration implements Runnable {
                                 }
                             }
                         }
+                        if (patternConfiguration.getChannelsWithSecurity().containsKey(taskName)) {
+                            for (PortTaskJsonFile portTask : patternConfiguration.getChannelsWithSecurity().get(taskName)) {
+                                if (portTask.getName().equals(extPort.name)) {
+                                    portTask.name = oldNewChannelName.get(extPort.name);
+                                }
+                            }
+                        }
                         extPort.name = oldNewChannelName.get(extPort.name);
                         TraceManager.addDev("oldNewChannelName.containsKey(extPort.name)  :" + extPort.name);
                     } else {
@@ -417,6 +442,13 @@ public class PatternIntegration implements Runnable {
                             for (String[] cm : patternConfiguration.getChannelsMapping().get(taskName)) {
                                 if (cm[0].equals(extPort.name)) {
                                     cm[0] = channelNameWithIndex;
+                                }
+                            }
+                        }
+                        if (patternConfiguration.getChannelsWithSecurity().containsKey(taskName)) {
+                            for (PortTaskJsonFile portTask : patternConfiguration.getChannelsWithSecurity().get(taskName)) {
+                                if (portTask.getName().equals(extPort.name)) {
+                                    portTask.name = channelNameWithIndex;
                                 }
                             }
                         }
@@ -1288,19 +1320,24 @@ public class PatternIntegration implements Runnable {
                 String modeMapping = channelMap[0];
                 String channelToMapName = channelMap[1];
                 
-                
                 TMLChannel channelToMap = _tmapModel.getChannelByName(channelToMapName);
+                TraceManager.addDev("channelToMapName= " + channelToMapName);
                 if (channelToMap != null) {
+                    TraceManager.addDev("channelToMap != null");
                     if (modeMapping.equals(JDialogPatternGeneration.SAME_MEMORY)) {
                         String sameChannel = channelMap[3];
+                        TraceManager.addDev("sameChannel= " + sameChannel);
                         TMLChannel inSameChannel = _tmapModel.getChannelByName(sameChannel);
                         if (inSameChannel != null) {
+                            TraceManager.addDev("inSameChannel != null");
                             HwMemory memoryOfSameChannel = _tmapModel.getMemoryOfChannel(inSameChannel);
                             if (memoryOfSameChannel != null) {
                                 _tmapModel.addCommToHwCommNode(channelToMap, memoryOfSameChannel);
+                                TraceManager.addDev("memoryOfSameChannel != null");
                             }
                             for (HwCommunicationNode mappedNode : _tmapModel.getAllCommunicationNodesOfChannel(inSameChannel)) {
                                 if (mappedNode instanceof HwBus) {
+                                    TraceManager.addDev("mappedNode instanceof HwBus");
                                     _tmapModel.addCommToHwCommNode(channelToMap, mappedNode);
                                 }   
                             }

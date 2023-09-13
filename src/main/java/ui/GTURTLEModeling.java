@@ -1650,7 +1650,7 @@ public class GTURTLEModeling {
         TraceManager.addDev("patternPath= " + patternPath);
         TraceManager.addDev("patternName= " + patternName);
         TraceManager.addDev("configPatternPath= " + configPatternPath);
-        PatternConfig2Json patternConfig2Json = new PatternConfig2Json(patternPath+"/"+patternName+"-config.json");
+        PatternConfig2Json patternConfig2Json = new PatternConfig2Json(configPatternPath);
         patternConfig2Json.json2patternConfiguration();
         PatternConfiguration patternConfiguration = patternConfig2Json.getPaternConfiguration();
         LinkedHashMap<String, TaskPattern> patternTasks = TaskPattern.parsePatternJsonFile(patternPath, patternName+".json");
@@ -1659,31 +1659,68 @@ public class GTURTLEModeling {
         LinkedHashMap<String, List<PortTaskJsonFile>> channelsWithSec = patternConfiguration.getChannelsWithSecurity();
         TMLArchiPanel arch = (TMLArchiPanel) gui.tabs.get(gui.getCurrentSelectedIndex());
         TraceManager.addDev("arch= " + arch.getNameOfTab());
+        boolean hasSecChannel = false;
         for (String taskOfChannelWithSec : channelsWithSec.keySet()) {
             for (PortTaskJsonFile portTask : channelsWithSec.get(taskOfChannelWithSec)) {
-                TMLChannel ch = tmap.getChannelByName(portTask.getName());
-                if (ch != null) {
+                TMLChannel chSec = tmap.getChannelByName(portTask.getName());
+                for (TMLChannel chann : tmap.getTMLModeling().getChannels()) {
+                    TraceManager.addDev("chann= " + chann.getName());
+                }
+                TraceManager.addDev("portTask = " + portTask.getName());
+                if (chSec != null) {
+                    TraceManager.addDev("channelsWithSec = " + chSec.getName());
                     Boolean confToCheck = false;
                     Boolean authWeakToCheck = false;
                     Boolean authStrongToCheck = false;
                     if (portTask.getConfidentiality().toUpperCase().equals(PatternGeneration.WITH_CONFIDENTIALITY.toUpperCase())) {
-                        ch.checkConf = true;
+                        TraceManager.addDev("channelsWithSec with conf ");
+                        chSec.checkConf = true;
                         confToCheck = true;
                     }
                     if (portTask.getAuthenticity().toUpperCase().equals(PatternGeneration.WEAK_AUTHENTICITY.toUpperCase())) {
-                        ch.checkAuth = true;
+                        TraceManager.addDev("channelsWithSec with weak auth ");
+                        chSec.checkAuth = true;
                         authWeakToCheck = true;
                     }
                     if (portTask.getAuthenticity().toUpperCase().equals(PatternGeneration.STRONG_AUTHENTICITY.toUpperCase())) {
-                        ch.checkAuth = true;
+                        TraceManager.addDev("channelsWithSec with strong auth");
+                        chSec.checkAuth = true;
                         authStrongToCheck = true;
                     }
                     
-                    tmap = autoSecure(gui, "", tmap, arch, "100", "0", "100", confToCheck, authWeakToCheck, authStrongToCheck, new HashMap<String, java.util.List<String>>());
-                    ch.checkAuth = false;
-                    ch.checkConf = false;
+                    //tmap = autoSecure(gui, "", tmap, arch, "100", "0", "100", confToCheck, authWeakToCheck, authStrongToCheck, new HashMap<String, java.util.List<String>>());
+                    //SecurityGeneration secgen = new SecurityGeneration(gui, "", tmap, arch, "100", "0", "100", confToCheck, authWeakToCheck, authStrongToCheck, new HashMap<String, java.util.List<String>>());
+                    //tmap = secgen.startThread();
+                    
+                    //GTMLModeling gtm = new GTMLModeling(newarch, true);
+                    //tmap = gtm.translateToTMLMapping(true, true);
+                    //listE = gtm.getCorrespondanceTable();
+                    TMLModeling<?> tmlmNew = tmap.getTMLModeling();
+                    for (TMLTask task : tmlmNew.getTasks()) {
+                        String[] taskNameSplit = task.getName().split("__");
+                        task.setName(taskNameSplit[taskNameSplit.length-1]);
+                    }
+                    for (TMLChannel ch : tmlmNew.getChannels()) {
+                        String[] channelNameSplit = ch.getName().split("__");
+                        ch.setName(channelNameSplit[channelNameSplit.length-1]);
+                    }
+                    for (TMLEvent evt : tmlmNew.getEvents()) {
+                        String[] eventNameSplit = evt.getName().split("__");
+                        evt.setName(eventNameSplit[eventNameSplit.length-1]);
+                    }
+                    for (TMLRequest req : tmlmNew.getRequests()) {
+                        String[] requestNameSplit = req.getName().split("__");
+                        req.setName(requestNameSplit[requestNameSplit.length-1]);
+                    }
+                    chSec.checkAuth = false;
+                    chSec.checkConf = false;
+                    hasSecChannel = true;
                 }
             }
+        }
+        if (hasSecChannel) {
+            TraceManager.addDev("hasSecChannel");
+            autoMapKeys();
         }
         try {
             String archTabName = ((CorrespondanceTGElement)(tmap.getCorrespondanceList())).getTG(tmap.getArch().getFirstCPU()).getTDiagramPanel().tp.getNameOfTab();

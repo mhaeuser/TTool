@@ -2308,7 +2308,7 @@ public class GTURTLEModeling {
        if (tmap != null) {
            Object o = null;
            if (tmap.getTMLModeling().getReference() instanceof TGComponent) {
-               o = ((TGComponent)(tmlm.getReference())).getTDiagramPanel().tp;
+               o = ((TGComponent)(tmap.getTMLModeling().getReference())).getTDiagramPanel().tp;
            }
             t2a = new TML2Avatar(tmap, false, true, o);
             avatarspec = t2a.generateAvatarSpec(loopLimit);

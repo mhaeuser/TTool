@@ -273,27 +273,42 @@ public class AvatarSignal extends AvatarMethod {
         TraceManager.addDev("Nb of parameters=" + size);
         int i;
 
-
-
         try {
             for (i = 0; i < splitted.length; i = i + 2) {
-                if (splitted[i].length() == 0) {
+
+                String one = splitted[i];
+                String two = splitted[i+1];
+
+                if (one.length() == 0) {
                     return null;
                 }
-                if (splitted[i + 1].length() == 0) {
+                if (two.length() == 0) {
                     return null;
                 }
-                if (!isAValidId(splitted[i], false, false,false, true)) {
-                    TraceManager.addDev("Invalid type: " + splitted[i]);
+
+                // Case where we have "arg : int"
+                if (one.contains(":") || two.contains(":")) {
+                    one = Conversion.replaceAllString(one, ":", "");
+                    two = Conversion.replaceAllString(two, ":", "");
+                    tmp = one;
+                    one = two;
+                    two = tmp;
+                }
+
+
+                if (!isAValidId(one, false, false, false, true)) {
+                    TraceManager.addDev("Invalid type: " + one);
                     return null;
                 }
-                if (!isAValidId(splitted[i + 1], true, true,true, false)) {
-                    TraceManager.addDev("Invalid id of parameter " + splitted[i + 1]);
+                if (!isAValidId(two, true, true, true, false)) {
+                    TraceManager.addDev("Invalid id of parameter " + two);
                     return null;
                 }
-                //TraceManager.addDev("Adding parameter: " + splitted[i] + " " + splitted[i+1]);
-                AvatarAttribute aa = new AvatarAttribute(splitted[i + 1], AvatarType.getType(splitted[i]), _block, null);
+                AvatarAttribute aa = new AvatarAttribute(two, AvatarType.getType(one), _block, null);
                 as.addParameter(aa);
+
+                //TraceManager.addDev("Adding parameter: " + splitted[i] + " " + splitted[i+1]);
+
 
 
             }

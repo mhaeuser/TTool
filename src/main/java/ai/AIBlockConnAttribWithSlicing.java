@@ -72,7 +72,8 @@ public class AIBlockConnAttribWithSlicing extends AIInteract {
             "{connections: [{ \"signal\": \"signal name\", \"nameOriginBlock\": \"Name of origin block\", \"nameDestinationBlock\": \"Name of " +
                     "destination block\"} ...]}" +
             "# Respect: do not provide a list of blocks, they are defined with the connections only. " +
-            "# Respect: a signal name is the form: name(list of int and bool attributes), for instance: sig1(int x, bool b). sig1(x) is not valid. " +
+            "# Respect: a signal name is the form: name(list of int and boolean), for instance: sig1(int x, bool b). sig1(x) is not " +
+            "valid. sig1(x::int) is not valid either" +
             "# Respect: a signal name can be used in only one connection. " +
             "# Respect: Use only attributes of type int or boolean. If you want to use \"String\" or another other attribute, use int." +
             "# Respect: each attribute must be of type \"int\" or \"bool\" only" +
@@ -129,7 +130,7 @@ public class AIBlockConnAttribWithSlicing extends AIInteract {
             }
             ArrayList<String> errors = null;
             try {
-                //TraceManager.addDev("Making specification from " + chatData.lastAnswer);
+                TraceManager.addDev("\n\nMaking specification from " + chatData.lastAnswer + "\n\n");
                 json = extractJSON();
                 if (stage == 0) {
                     namesOfBlocks = "";

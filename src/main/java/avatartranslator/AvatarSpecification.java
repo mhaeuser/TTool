@@ -80,7 +80,7 @@ public class AvatarSpecification extends AvatarElement implements IBSParamSpec {
     //private AvatarBroadcast broadcast;
     private String applicationCode;
     private Object informationSource; // Element from which the spec has been built
-    
+
     // For JSON return
     private static ArrayList<String> jsonErrors;
 
@@ -101,10 +101,10 @@ public class AvatarSpecification extends AvatarElement implements IBSParamSpec {
         this.libraryFunctions = new LinkedList<>();
     }
 
-    public AvatarRelation getAvatarRelationWithBlocks (AvatarBlock block1, AvatarBlock block2, boolean synchronous) {
-        for(AvatarRelation rel: relations) {
-            if ( (block1 == rel.block1) || (block1 == rel.block2) ) {
-                if ( (block2 == rel.block1) || (block2 == rel.block2) ) {
+    public AvatarRelation getAvatarRelationWithBlocks(AvatarBlock block1, AvatarBlock block2, boolean synchronous) {
+        for (AvatarRelation rel : relations) {
+            if ((block1 == rel.block1) || (block1 == rel.block2)) {
+                if ((block2 == rel.block1) || (block2 == rel.block2)) {
                     if (rel.isAsynchronous() == !synchronous) {
                         return rel;
                     }
@@ -683,14 +683,14 @@ public class AvatarSpecification extends AvatarElement implements IBSParamSpec {
         // We try to connect them
         // Unconnected signals are removed from their respective blocks
         HashMap<AvatarSignal, AvatarBlock> mapOfSignals = new HashMap<>();
-        for(AvatarBlock block: spec.getListOfBlocks()) {
-            for (AvatarSignal sig: block.getSignals()) {
+        for (AvatarBlock block : spec.getListOfBlocks()) {
+            for (AvatarSignal sig : block.getSignals()) {
                 mapOfSignals.put(sig, block);
             }
         }
 
         HashMap<AvatarSignal, AvatarBlock> connectedSignalsToBeRemoved = new HashMap<>();
-        for(AvatarSignal sig: mapOfSignals.keySet()) {
+        for (AvatarSignal sig : mapOfSignals.keySet()) {
             if (sig.isOut()) {
                 AvatarSignal inSig = spec.getSignalWithNameAndDirection(sig.getName(), AvatarSignal.IN);
                 if (inSig != null) {
@@ -729,7 +729,7 @@ public class AvatarSpecification extends AvatarElement implements IBSParamSpec {
 
                         } else {
                             jsonErrors.add("Signal " + sig.getName() + " of block " + mapOfSignals.get(sig).getName() + " cannot be " +
-                                            "connected to signal " + inSig.getName() + " of block " + mapOfSignals.get(inSig).getName() +
+                                    "connected to signal " + inSig.getName() + " of block " + mapOfSignals.get(inSig).getName() +
                                     " because their list of attributes is not compatible.");
                         }
                     }
@@ -740,17 +740,16 @@ public class AvatarSpecification extends AvatarElement implements IBSParamSpec {
             }
         }
 
-        for(AvatarSignal sig: connectedSignalsToBeRemoved.keySet()) {
+        for (AvatarSignal sig : connectedSignalsToBeRemoved.keySet()) {
             mapOfSignals.remove(sig);
         }
 
-        for(AvatarSignal sig: mapOfSignals.keySet()) {
-            jsonErrors.add("In block " + mapOfSignals.get(sig).getName() +" signal must be connected to another signal");
+        for (AvatarSignal sig : mapOfSignals.keySet()) {
+            jsonErrors.add("In block " + mapOfSignals.get(sig).getName() + " signal must be connected to another signal");
             if (tryToCorrectErrors) {
                 mapOfSignals.get(sig).removeAvatarSignal(sig);
             }
         }
-
 
 
         return spec;
@@ -805,7 +804,7 @@ public class AvatarSpecification extends AvatarElement implements IBSParamSpec {
                 jsonErrors.add("connection #" + i + " does not have a \"nameDestinationBlock\" element");
             }
 
-            if ( (sigName != null) &&  (blockOName != null)  &&  (blockDName != null) ) {
+            if ((sigName != null) && (blockOName != null) && (blockDName != null)) {
 
                 TraceManager.addDev("Handling signal " + sigName + " from " + blockOName + " to " + blockDName);
 
@@ -827,7 +826,8 @@ public class AvatarSpecification extends AvatarElement implements IBSParamSpec {
 
                 AvatarSignal asD;
                 if (blockO == blockD) {
-                    asD = AvatarSignal.isAValidSignalThenCreate("in " + sigName + "_in", blockD);
+                    asD = AvatarSignal.isAValidSignalThenCreate("in " + sigName + "_IN", blockD);
+                    TraceManager.addDev("Added in signal on ITSELF: " + asD.getName());
                 } else {
                     asD = AvatarSignal.isAValidSignalThenCreate("in " + sigName, blockD);
                 }
@@ -836,7 +836,7 @@ public class AvatarSpecification extends AvatarElement implements IBSParamSpec {
                     jsonErrors.add("The declaration of signal " + sigName + " is not valid for block " + blockDName);
                 }
 
-                if ( (asO != null) && (asD != null) ) {
+                if ((asO != null) && (asD != null)) {
                     AvatarRelation ar = spec.getAvatarRelationWithBlocks(blockO, blockD, true);
 
                     if (ar == null) {
@@ -871,7 +871,7 @@ public class AvatarSpecification extends AvatarElement implements IBSParamSpec {
 
 
         ArrayList<AvatarBlock> blocksToBeAdded = new ArrayList<>();
-        for(AvatarBlock _block: _as.getListOfBlocks()) {
+        for (AvatarBlock _block : _as.getListOfBlocks()) {
             AvatarBlock block = getBlockWithName(_block.getName());
             if (block == null) {
                 blocksToBeAdded.add(_block);
@@ -881,32 +881,34 @@ public class AvatarSpecification extends AvatarElement implements IBSParamSpec {
 
         ArrayList<AvatarSignal> signalsToBeAdded = new ArrayList<>();
 
-        for(AvatarBlock _block: _as.getListOfBlocks()) {
-            for(AvatarSignal _sig: _block.getSignals()) {
+        for (AvatarBlock _block : _as.getListOfBlocks()) {
+            for (AvatarSignal _sig : _block.getSignals()) {
                 AvatarBlock block = getBlockWithName(_block.getName());
-                AvatarSignal sig = block.getAvatarSignalWithName(_as.getName());
-                if (sig == null) {
-                    block.addSignal(_sig);
+                if (block != null) {
+                    AvatarSignal sig = block.getAvatarSignalWithName(_as.getName());
+                    if (sig == null) {
+                        block.addSignal(_sig);
+                    }
                 }
             }
         }
 
-        for(AvatarRelation _ar: _as.getRelations()) {
+        for (AvatarRelation _ar : _as.getRelations()) {
             AvatarBlock blockO = getBlockWithName(_ar.getBlock1().getName());
             AvatarBlock blockD = getBlockWithName(_ar.getBlock2().getName());
-            if ( (blockO != null) && (blockD != null) ) {
+            if ((blockO != null) && (blockD != null)) {
                 AvatarRelation ar = new AvatarRelation("relation", blockO, blockD, _ar.getReferenceObject());
                 ar.setAsynchronous(_ar.isAsynchronous());
                 ar.setPrivate(_ar.isPrivate());
                 addRelation(ar);
-                for(int i = 0; i<_ar.getSignals1().size(); i++) {
+                for (int i = 0; i < _ar.getSignals1().size(); i++) {
                     AvatarSignal _sig1 = _ar.getSignal1(i);
                     AvatarSignal _sig2 = _ar.getSignal2(i);
 
                     AvatarSignal sig1 = blockO.getAvatarSignalWithName(_sig1.getName());
                     AvatarSignal sig2 = blockD.getAvatarSignalWithName(_sig2.getName());
 
-                    if ( (sig1 != null) && (sig2 != null) ) {
+                    if ((sig1 != null) && (sig2 != null)) {
                         if (sig1.isCompatibleWith(sig2)) {
                             ar.addSignals(sig1, sig2);
                         }
@@ -921,32 +923,32 @@ public class AvatarSpecification extends AvatarElement implements IBSParamSpec {
     }
 
     public void makeMinimalStateMachines() {
-        for(AvatarBlock block: blocks) {
+        for (AvatarBlock block : blocks) {
             block.makeMinimalStateMachine();
         }
     }
 
     public void improveNames() {
-        for(AvatarBlock block: blocks) {
+        for (AvatarBlock block : blocks) {
             block.setName(Conversion.capitalizeFirstLetter(block.getName()));
-            for(AvatarAttribute aa: block.getAttributes()) {
+            for (AvatarAttribute aa : block.getAttributes()) {
                 aa.setName(Conversion.lowercaseFirstLetter(aa.getName()));
             }
-            for(AvatarMethod am: block.getMethods()) {
+            for (AvatarMethod am : block.getMethods()) {
                 am.setName(Conversion.lowercaseFirstLetter(am.getName()));
             }
-            for(AvatarSignal as: block.getSignals()) {
+            for (AvatarSignal as : block.getSignals()) {
                 as.setName(Conversion.lowercaseFirstLetter(as.getName()));
             }
         }
     }
-    
+
     public static ArrayList<String> getJSONErrors() {
         return jsonErrors;
     }
 
     public static String removeSpaces(String _input) {
-        return _input.trim().replaceAll(" ", "_");
+        return _input.trim().replaceAll("  ", " ");
     }
 
     public List<AvatarLibraryFunction> getListOfLibraryFunctions() {
@@ -1195,7 +1197,7 @@ public class AvatarSpecification extends AvatarElement implements IBSParamSpec {
     }
 
     public AvatarBlock getBlockWithSignal(String signalName) {
-        for(AvatarBlock b: blocks) {
+        for (AvatarBlock b : blocks) {
             if (b.getSignalByName(signalName) != null) {
                 return b;
             }
@@ -1204,8 +1206,8 @@ public class AvatarSpecification extends AvatarElement implements IBSParamSpec {
     }
 
     public AvatarBlock getBlockWithSignal(AvatarSignal as) {
-        for(AvatarBlock b: blocks) {
-            if (b.getSignals().contains(as)){
+        for (AvatarBlock b : blocks) {
+            if (b.getSignals().contains(as)) {
                 return b;
             }
         }
@@ -1213,8 +1215,8 @@ public class AvatarSpecification extends AvatarElement implements IBSParamSpec {
     }
 
     public AvatarSignal getSignalWithNameAndDirection(String name, int direction) {
-        for(AvatarBlock block: blocks) {
-            for(AvatarSignal as: block.getSignals()) {
+        for (AvatarBlock block : blocks) {
+            for (AvatarSignal as : block.getSignals()) {
                 if ((as.getSignalName().compareTo(name) == 0) && (as.getInOut() == direction)) {
                     return as;
                 }
@@ -1929,8 +1931,8 @@ public class AvatarSpecification extends AvatarElement implements IBSParamSpec {
     public boolean removeDuplicatedTransitions() {
         boolean b = false;
 
-        for(AvatarBlock ab: blocks) {
-             b = b || ab.getStateMachine().removeDuplicatedTransitions();
+        for (AvatarBlock ab : blocks) {
+            b = b || ab.getStateMachine().removeDuplicatedTransitions();
         }
         return b;
     }
@@ -1952,7 +1954,7 @@ public class AvatarSpecification extends AvatarElement implements IBSParamSpec {
             return sb;
         }
 
-        for(AvatarAttribute aa: _ab.getAttributes()) {
+        for (AvatarAttribute aa : _ab.getAttributes()) {
             sb.append(aa.toString() + "\n");
         }
         return sb;
@@ -1965,7 +1967,7 @@ public class AvatarSpecification extends AvatarElement implements IBSParamSpec {
             return sb;
         }
 
-        for(AvatarSignal as: _ab.getSignals()) {
+        for (AvatarSignal as : _ab.getSignals()) {
             sb.append(as.toString() + "\n");
         }
         return sb;
@@ -1973,7 +1975,7 @@ public class AvatarSpecification extends AvatarElement implements IBSParamSpec {
 
     public ArrayList<String> getAllBlockNames() {
         ArrayList<String> ret = new ArrayList<>();
-        for(AvatarBlock block: blocks) {
+        for (AvatarBlock block : blocks) {
             ret.add(block.getName());
         }
         return ret;

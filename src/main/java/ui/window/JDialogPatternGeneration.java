@@ -1339,7 +1339,7 @@ public class JDialogPatternGeneration extends JDialog implements ActionListener,
         cButtonUpdatePatternsAttributesValues.anchor = GridBagConstraints.LINE_START;
         buttonUpdateTaskAttributeValue = new JButton("Update");
         buttonUpdateTaskAttributeValue.setEnabled(false);
-        buttonUpdateTaskAttributeValue.setPreferredSize(new Dimension(75, 25));
+        buttonUpdateTaskAttributeValue.setPreferredSize(new Dimension(100, 50));
         buttonUpdateTaskAttributeValue.addActionListener(this);
         buttonUpdateTaskAttributeValue.setActionCommand("updateTaskAttributeValue");
         pannelButtonUpdatePatternsAttributesValues.add(buttonUpdateTaskAttributeValue, cButtonUpdatePatternsAttributesValues);

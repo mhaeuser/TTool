@@ -80,6 +80,11 @@ public class TMLChannel extends TMLCommunicationElement {
     private String SP = " ";
     private int priority;
     private int vc = 0;
+
+    //Security
+    private boolean ensureConf; // Ensure the confidentiality for this channel
+    private boolean ensureWeakAuth; // Ensure the weak authenticity for this channel
+    private boolean ensureStrongAuth; // Ensure the strong authenticity for this channel
     //A reference to the original origin and destination tasks
 
 
@@ -197,6 +202,29 @@ public class TMLChannel extends TMLCommunicationElement {
 
     public int getVC() {
         return vc;
+    }
+
+    public boolean isEnsureConf() {
+        return ensureConf;
+    }
+
+    public boolean isEnsureWeakAuth() {
+        return ensureWeakAuth;
+    }
+    public boolean isEnsureStrongAuth() {
+        return ensureStrongAuth;
+    }
+
+    public void setEnsureConf(boolean _ensureConf) {
+        ensureConf = _ensureConf;
+    }
+
+    public void setEnsureWeakAuth(boolean _ensureWeakAuth) {
+        ensureWeakAuth = _ensureWeakAuth;
+    }
+
+    public void setEnsureStrongAuth(boolean _ensureStrongAuth) {
+        ensureStrongAuth = _ensureStrongAuth;
     }
 
     public void setVC(int vc) {
@@ -653,6 +681,9 @@ public class TMLChannel extends TMLCommunicationElement {
 
         boolean ret =  checkConf == channel.checkConf &&
                 checkAuth == channel.checkAuth &&
+                ensureConf == channel.ensureConf &&
+                ensureWeakAuth == channel.ensureWeakAuth &&
+                ensureStrongAuth == channel.ensureStrongAuth &&
                 size == channel.size &&
                 type == channel.type &&
                 max == channel.max &&
@@ -728,6 +759,9 @@ public class TMLChannel extends TMLCommunicationElement {
         TMLChannel newC = new TMLChannel(getName(), getReferenceObject());
         newC.checkConf = isCheckConfChannel();
         newC.checkAuth = isCheckAuthChannel();
+        newC.ensureConf = isEnsureConf();
+        newC.ensureWeakAuth = isEnsureWeakAuth();
+        newC.ensureStrongAuth = isEnsureStrongAuth();
 
         newC.port = port;
         newC.ports = new ArrayList<>();

@@ -1669,23 +1669,17 @@ public class GTURTLEModeling {
                 TraceManager.addDev("portTask = " + portTask.getName());
                 if (chSec != null) {
                     TraceManager.addDev("channelsWithSec = " + chSec.getName());
-                    Boolean confToCheck = false;
-                    Boolean authWeakToCheck = false;
-                    Boolean authStrongToCheck = false;
                     if (portTask.getConfidentiality().toUpperCase().equals(PatternGeneration.WITH_CONFIDENTIALITY.toUpperCase())) {
                         TraceManager.addDev("channelsWithSec with conf ");
-                        chSec.checkConf = true;
-                        confToCheck = true;
+                        chSec.setEnsureConf(true);
                     }
                     if (portTask.getAuthenticity().toUpperCase().equals(PatternGeneration.WEAK_AUTHENTICITY.toUpperCase())) {
                         TraceManager.addDev("channelsWithSec with weak auth ");
-                        chSec.checkAuth = true;
-                        authWeakToCheck = true;
+                        chSec.setEnsureWeakAuth(true);
                     }
                     if (portTask.getAuthenticity().toUpperCase().equals(PatternGeneration.STRONG_AUTHENTICITY.toUpperCase())) {
                         TraceManager.addDev("channelsWithSec with strong auth");
-                        chSec.checkAuth = true;
-                        authStrongToCheck = true;
+                        chSec.setEnsureStrongAuth(true);
                     }
                     
                     //tmap = autoSecure(gui, "", tmap, arch, "100", "0", "100", confToCheck, authWeakToCheck, authStrongToCheck, new HashMap<String, java.util.List<String>>());

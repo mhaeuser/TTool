@@ -124,7 +124,7 @@ import tmltranslator.TMLWaitEvent;
 import tmltranslator.TMLWriteChannel;
 import tmltranslator.patternhandling.AttributeTaskJsonFile;
 import tmltranslator.patternhandling.PatternConfiguration;
-import tmltranslator.patternhandling.PatternGeneration;
+import tmltranslator.patternhandling.PatternCreation;
 import tmltranslator.patternhandling.PortTaskJsonFile;
 import tmltranslator.patternhandling.TaskPattern;
 import tmltranslator.patternhandling.TaskPorts;
@@ -142,7 +142,7 @@ import ui.util.IconManager;
  * @version 1.0 16/08/2023
  */
 
-public class JDialogPatternGeneration extends JDialog implements ActionListener, ListSelectionListener, MouseListener, Runnable,
+public class JDialogPatternHandling extends JDialog implements ActionListener, ListSelectionListener, MouseListener, Runnable,
         MasterProcessInterface {
 
     private static final Insets insets = new Insets(0, 0, 0, 0);
@@ -175,7 +175,7 @@ public class JDialogPatternGeneration extends JDialog implements ActionListener,
 
     int mode;
 
-    // Pattern Generation
+    // Pattern Creation
     String newPatternName;
     protected JTextField jFieldNewPatternName;
     protected JButton buttonAddAllTasksAsPattern, buttonAddSelectedTasksAsPattern, buttonRemoveAllTasksAsPattern, buttonRemoveSelectedTasksAsPattern;
@@ -185,7 +185,7 @@ public class JDialogPatternGeneration extends JDialog implements ActionListener,
     Map<String, String> tasksFullName = new LinkedHashMap<String, String>();
     JPanel jPanelPatternSelection;
 
-    // Pattern Integration
+    // Pattern Configuration
     Vector<String> listPatterns = new Vector<String>();
     Vector<String> tasksOfPatternWithExternalPort = new Vector<String>();
     Vector<String> externalPortsOfTaskInPattern = new Vector<String>();
@@ -203,7 +203,7 @@ public class JDialogPatternGeneration extends JDialog implements ActionListener,
     JCheckBox jCheckBoxConnectToNewPort;
     JCheckBox jCheckBoxAddConfidentiality;
     JLabel jLabelAddAuthenticity;
-    Vector<String> authenticityModes = new Vector<String>(Arrays.asList(PatternGeneration.WITHOUT_AUTHENTICITY, PatternGeneration.WEAK_AUTHENTICITY, PatternGeneration.STRONG_AUTHENTICITY));
+    Vector<String> authenticityModes = new Vector<String>(Arrays.asList(PatternCreation.WITHOUT_AUTHENTICITY, PatternCreation.WEAK_AUTHENTICITY, PatternCreation.STRONG_AUTHENTICITY));
     JComboBox<String> jComboBoxAddAuthenticity;
     JList<String> jListConnectedPorts;
     Vector<String> connectedPorts = new Vector<String>();
@@ -284,7 +284,7 @@ public class JDialogPatternGeneration extends JDialog implements ActionListener,
     
     List<String> busesOfModel = new ArrayList<String>();
 
-    // Pattern Integration with Json
+    // Pattern Integration
     Vector<String> listPatternsJson = new Vector<String>();
     JComboBox<String> jComboBoxPatternsJson;
     String patternJsonPathValue;
@@ -309,7 +309,7 @@ public class JDialogPatternGeneration extends JDialog implements ActionListener,
     /*
      * Creates new form
      */
-    public JDialogPatternGeneration(Frame f, MainGUI _mgui, String title, String _pathPatterns) {
+    public JDialogPatternHandling(Frame f, MainGUI _mgui, String title, String _pathPatterns) {
         super(f, title, Dialog.ModalityType.DOCUMENT_MODAL);
 
         mgui = _mgui;
@@ -413,12 +413,12 @@ public class JDialogPatternGeneration extends JDialog implements ActionListener,
         return gbc;
     }
 
-    protected void panelPatternGeneration() {
+    protected void panelPatternCreation() {
         JPanel jp01 = new JPanel();
         GridBagLayout gridbag01 = new GridBagLayout();
         GridBagConstraints c01 = new GridBagConstraints();
         jp01.setLayout(gridbag01);
-        jp01.setBorder(new javax.swing.border.TitledBorder("Pattern Generation"));
+        jp01.setBorder(new javax.swing.border.TitledBorder("Pattern Creation"));
 
         c01.weighty = 1.0;
         c01.weightx = 1.0;
@@ -504,15 +504,15 @@ public class JDialogPatternGeneration extends JDialog implements ActionListener,
         jp01.add(jPanelPatternSelection, c01);
         //c02.gridheight = 1;
 
-        jp1.add("Pattern Generation", jp01);
+        jp1.add("Pattern Creation", jp01);
     }
 
-    protected void panelPatternIntegration() {
+    protected void panelPatternConfiguration() {
         JPanel jp02 = new JPanel();
         GridBagLayout gridbag02 = new GridBagLayout();
         GridBagConstraints c02 = new GridBagConstraints();
         jp02.setLayout(gridbag02);
-        jp02.setBorder(new javax.swing.border.TitledBorder("Pattern Integration"));
+        jp02.setBorder(new javax.swing.border.TitledBorder("Pattern Selection and Configuration"));
 
         c02.weighty = 1.0;
         c02.weightx = 1.0;
@@ -622,7 +622,7 @@ public class JDialogPatternGeneration extends JDialog implements ActionListener,
         jpPatternConnetion.add(jLabelAddAuthenticity, cPatternConnetion);
         cPatternConnetion.gridx = 2;
         jComboBoxAddAuthenticity = new JComboBox<String>(authenticityModes);
-        jComboBoxAddAuthenticity.setSelectedIndex(authenticityModes.indexOf(PatternGeneration.WITHOUT_AUTHENTICITY));
+        jComboBoxAddAuthenticity.setSelectedIndex(authenticityModes.indexOf(PatternCreation.WITHOUT_AUTHENTICITY));
         jComboBoxAddAuthenticity.setEnabled(false);
         jComboBoxAddAuthenticity.setVisible(false);
         jComboBoxAddAuthenticity.addActionListener(this);
@@ -836,15 +836,15 @@ public class JDialogPatternGeneration extends JDialog implements ActionListener,
         c02.gridy = 3;
         jp02.add(jpOptions, c02);
 
-        jp1.add("Pattern Integration", jp02);
+        jp1.add("Pattern Selection and Configuration", jp02);
     }
 
-    protected void panelPatternIntegrationWithJson() {
+    protected void panelPatternIntegration() {
         JPanel jp02 = new JPanel();
         GridBagLayout gridbag02 = new GridBagLayout();
         GridBagConstraints c02 = new GridBagConstraints();
         jp02.setLayout(gridbag02);
-        jp02.setBorder(new javax.swing.border.TitledBorder("Pattern Integration With Json File"));
+        jp02.setBorder(new javax.swing.border.TitledBorder("Pattern Integration"));
 
         c02.weighty = 1.0;
         c02.weightx = 1.0;
@@ -884,7 +884,7 @@ public class JDialogPatternGeneration extends JDialog implements ActionListener,
         jpPatternSelection.add(jFieldPatternJsonPath, cPatternSelection);
         jp02.add(jpPatternSelection, c02);
 
-        jp1.add("Pattern Integration With Json", jp02);
+        jp1.add("Pattern Integration", jp02);
     }
 
     protected void initComponents() {
@@ -921,9 +921,10 @@ public class JDialogPatternGeneration extends JDialog implements ActionListener,
         jp2.add(stop);
         jp2.add(close);
 
-        panelPatternGeneration();
+        panelPatternCreation();
+        panelPatternConfiguration();
         panelPatternIntegration();
-        panelPatternIntegrationWithJson();
+
         c.add(jp1, BorderLayout.NORTH);
         c.add(jp2, BorderLayout.SOUTH);
     }
@@ -1436,11 +1437,11 @@ public class JDialogPatternGeneration extends JDialog implements ActionListener,
 
         for (PortTaskJsonFile  portTaskJsonFile : patternTasksAll.get(patternTaskName).getExternalPorts()) {
             if (portTaskJsonFile.getName().equals(patternTaskPortName)) {
-                if (portTaskJsonFile.getType().equals(PatternGeneration.CHANNEL)) {
+                if (portTaskJsonFile.getType().equals(PatternCreation.CHANNEL)) {
                     if (jCheckBoxAddConfidentiality.isSelected()) {
-                        portTaskJsonFile.setConfidentiality(PatternGeneration.WITH_CONFIDENTIALITY);
+                        portTaskJsonFile.setConfidentiality(PatternCreation.WITH_CONFIDENTIALITY);
                     } else {
-                        portTaskJsonFile.setConfidentiality(PatternGeneration.WITHOUT_CONFIDENTIALITY);
+                        portTaskJsonFile.setConfidentiality(PatternCreation.WITHOUT_CONFIDENTIALITY);
                     }
                     portTaskJsonFile.setAuthenticity(jComboBoxAddAuthenticity.getSelectedItem().toString());
                     break;
@@ -1448,15 +1449,15 @@ public class JDialogPatternGeneration extends JDialog implements ActionListener,
             }
         }
         
-        /*if (jCheckBoxAddConfidentiality.isSelected() || (jComboBoxAddAuthenticity.getSelectedIndex() >= 0 && !jComboBoxAddAuthenticity.getSelectedItem().toString().toUpperCase().equals(PatternGeneration.WITHOUT_AUTHENTICITY.toUpperCase()))) {
+        /*if (jCheckBoxAddConfidentiality.isSelected() || (jComboBoxAddAuthenticity.getSelectedIndex() >= 0 && !jComboBoxAddAuthenticity.getSelectedItem().toString().toUpperCase().equals(PatternCreation.WITHOUT_AUTHENTICITY.toUpperCase()))) {
             if (channelsWithSecurity.containsKey(patternTaskName)) {
                 boolean channelWithSecToUpdate = false;
                 for (PortTaskJsonFile pt : channelsWithSecurity.get(patternTaskName)) {
                     if (pt.getName().equals(patternTaskPortName)) {
                         if (jCheckBoxAddConfidentiality.isSelected()) {
-                            pt.setConfidentiality(PatternGeneration.WITH_CONFIDENTIALITY);
+                            pt.setConfidentiality(PatternCreation.WITH_CONFIDENTIALITY);
                         }
-                        if (jComboBoxAddAuthenticity.getSelectedIndex() >= 0 && !jComboBoxAddAuthenticity.getSelectedItem().toString().toUpperCase().equals(PatternGeneration.WITHOUT_AUTHENTICITY.toUpperCase())) {
+                        if (jComboBoxAddAuthenticity.getSelectedIndex() >= 0 && !jComboBoxAddAuthenticity.getSelectedItem().toString().toUpperCase().equals(PatternCreation.WITHOUT_AUTHENTICITY.toUpperCase())) {
                             pt.setAuthenticity(jComboBoxAddAuthenticity.getSelectedItem().toString());
                         }
                         channelWithSecToUpdate = true;
@@ -1467,9 +1468,9 @@ public class JDialogPatternGeneration extends JDialog implements ActionListener,
                     for (PortTaskJsonFile  portTaskJsonFile : patternTasksAll.get(patternTaskName).getExternalPorts()) {
                         if (portTaskJsonFile.getName().equals(patternTaskPortName)) {
                             if (jCheckBoxAddConfidentiality.isSelected()) {
-                                portTaskJsonFile.setConfidentiality(PatternGeneration.WITH_CONFIDENTIALITY);
+                                portTaskJsonFile.setConfidentiality(PatternCreation.WITH_CONFIDENTIALITY);
                             }
-                            if (jComboBoxAddAuthenticity.getSelectedIndex() >= 0 && !jComboBoxAddAuthenticity.getSelectedItem().toString().toUpperCase().equals(PatternGeneration.WITHOUT_AUTHENTICITY.toUpperCase())) {
+                            if (jComboBoxAddAuthenticity.getSelectedIndex() >= 0 && !jComboBoxAddAuthenticity.getSelectedItem().toString().toUpperCase().equals(PatternCreation.WITHOUT_AUTHENTICITY.toUpperCase())) {
                                 portTaskJsonFile.setAuthenticity(jComboBoxAddAuthenticity.getSelectedItem().toString());
                             }
                             channelsWithSecurity.get(patternTaskName).add(portTaskJsonFile);
@@ -1482,9 +1483,9 @@ public class JDialogPatternGeneration extends JDialog implements ActionListener,
                 for (PortTaskJsonFile  portTaskJsonFile : patternTasksAll.get(patternTaskName).getExternalPorts()) {
                     if (portTaskJsonFile.getName().equals(patternTaskPortName)) {
                         if (jCheckBoxAddConfidentiality.isSelected()) {
-                            portTaskJsonFile.setConfidentiality(PatternGeneration.WITH_CONFIDENTIALITY);
+                            portTaskJsonFile.setConfidentiality(PatternCreation.WITH_CONFIDENTIALITY);
                         }
-                        if (jComboBoxAddAuthenticity.getSelectedIndex() >= 0 && !jComboBoxAddAuthenticity.getSelectedItem().toString().toUpperCase().equals(PatternGeneration.WITHOUT_AUTHENTICITY.toUpperCase())) {
+                        if (jComboBoxAddAuthenticity.getSelectedIndex() >= 0 && !jComboBoxAddAuthenticity.getSelectedItem().toString().toUpperCase().equals(PatternCreation.WITHOUT_AUTHENTICITY.toUpperCase())) {
                             portTaskJsonFile.setAuthenticity(jComboBoxAddAuthenticity.getSelectedItem().toString());
                         }
                         channelWithSecInfo.add(portTaskJsonFile);
@@ -2044,29 +2045,29 @@ public class JDialogPatternGeneration extends JDialog implements ActionListener,
                             String typeSelectedPatternPort = patternTasksNotConnected.get(selectedPatternTask).getExternalPorts().get(selectedIndexPatternPort).getType();
                             TraceManager.addDev("modeSelectedPatternPort=" + modeSelectedPatternPort);
                             TraceManager.addDev("typeSelectedPatternPort=" + typeSelectedPatternPort);
-                            if (typeSelectedPatternPort.equals(PatternGeneration.CHANNEL)) {
+                            if (typeSelectedPatternPort.equals(PatternCreation.CHANNEL)) {
                                 TraceManager.addDev("selectedModelTask0=" + selectedModelTask);
-                                if (modeSelectedPatternPort.equals(PatternGeneration.MODE_INPUT)) {
+                                if (modeSelectedPatternPort.equals(PatternCreation.MODE_INPUT)) {
                                     TraceManager.addDev("selectedModelTas1k=" + selectedModelTask);
                                     TraceManager.addDev("portsTaskOfModelLeft.get(selectedModelTask).getWriteChannels()=" + portsTaskOfModelLeft.get(selectedModelTask).getWriteChannels().size());
                                     //portsOfTaskInModel = new Vector<String>(portsTaskOfModelLeft.get(selectedModelTask).getWriteChannels());
                                     for (String st : portsTaskOfModelLeft.get(selectedModelTask).getWriteChannels()) {
                                         portsOfTaskInModel.add(st);
                                     }
-                                } else if (modeSelectedPatternPort.equals(PatternGeneration.MODE_OUTPUT)) {
+                                } else if (modeSelectedPatternPort.equals(PatternCreation.MODE_OUTPUT)) {
                                     //portsOfTaskInModel = new Vector<String>(portsTaskOfModelLeft.get(selectedModelTask).getReadChannels());
                                     TraceManager.addDev("selectedModelTask2=" + selectedModelTask);
                                     for (String st : portsTaskOfModelLeft.get(selectedModelTask).getReadChannels()) {
                                         portsOfTaskInModel.add(st);
                                     }
                                 }
-                            } else if (typeSelectedPatternPort.equals(PatternGeneration.EVENT)) {
-                                if (modeSelectedPatternPort.equals(PatternGeneration.MODE_INPUT)) {
+                            } else if (typeSelectedPatternPort.equals(PatternCreation.EVENT)) {
+                                if (modeSelectedPatternPort.equals(PatternCreation.MODE_INPUT)) {
                                     //portsOfTaskInModel = new Vector<String>(portsTaskOfModelLeft.get(selectedModelTask).getSendEvents());
                                     for (String st : portsTaskOfModelLeft.get(selectedModelTask).getSendEvents()) {
                                         portsOfTaskInModel.add(st);
                                     }
-                                } else if (modeSelectedPatternPort.equals(PatternGeneration.MODE_OUTPUT)) {
+                                } else if (modeSelectedPatternPort.equals(PatternCreation.MODE_OUTPUT)) {
                                     //portsOfTaskInModel = new Vector<String>(portsTaskOfModelLeft.get(selectedModelTask).getWaitEvents());
                                     for (String st : portsTaskOfModelLeft.get(selectedModelTask).getWaitEvents()) {
                                         portsOfTaskInModel.add(st);
@@ -2102,12 +2103,12 @@ public class JDialogPatternGeneration extends JDialog implements ActionListener,
                         String selectedPatternTask = jComboBoxPatternsTaskWithExternalPort.getSelectedItem().toString();
                         int selectedIndexPatternPort = jComboBoxPatternExternalPortOfATask.getSelectedIndex();
                         String typeSelectedPatternPort = patternTasksNotConnected.get(selectedPatternTask).getExternalPorts().get(selectedIndexPatternPort).getType();
-                        if (typeSelectedPatternPort.equals(PatternGeneration.CHANNEL)){
+                        if (typeSelectedPatternPort.equals(PatternCreation.CHANNEL)){
                             String confSelectedPatternPort = patternTasksNotConnected.get(selectedPatternTask).getExternalPorts().get(selectedIndexPatternPort).getConfidentiality();
                             String authSelectedPatternPort = patternTasksNotConnected.get(selectedPatternTask).getExternalPorts().get(selectedIndexPatternPort).getAuthenticity();
                             jCheckBoxAddConfidentiality.setVisible(true);
                             jCheckBoxAddConfidentiality.setEnabled(true);
-                            if (confSelectedPatternPort.toUpperCase().equals(PatternGeneration.WITH_CONFIDENTIALITY.toUpperCase())) {
+                            if (confSelectedPatternPort.toUpperCase().equals(PatternCreation.WITH_CONFIDENTIALITY.toUpperCase())) {
                                 jCheckBoxAddConfidentiality.setSelected(true);
                             }
                             for (int indexModeAuth = 0; indexModeAuth < authenticityModes.size(); indexModeAuth++) {
@@ -2127,7 +2128,7 @@ public class JDialogPatternGeneration extends JDialog implements ActionListener,
                         jCheckBoxAddConfidentiality.setSelected(false);
                         jComboBoxAddAuthenticity.setEnabled(false);
                         jComboBoxAddAuthenticity.setVisible(false);
-                        jComboBoxAddAuthenticity.setSelectedIndex(authenticityModes.indexOf(PatternGeneration.WITHOUT_AUTHENTICITY));
+                        jComboBoxAddAuthenticity.setSelectedIndex(authenticityModes.indexOf(PatternCreation.WITHOUT_AUTHENTICITY));
                         jLabelAddAuthenticity.setVisible(false);
                     }
                 }
@@ -2203,7 +2204,7 @@ public class JDialogPatternGeneration extends JDialog implements ActionListener,
                         }*/
                         for(String st : patternTasksAll.keySet()) {
                             for (PortTaskJsonFile portTaskJsonFile : patternTasksAll.get(st).getExternalPorts()) {
-                                if (portTaskJsonFile.getType().equals(PatternGeneration.CHANNEL)) {
+                                if (portTaskJsonFile.getType().equals(PatternCreation.CHANNEL)) {
                                     boolean isChToMap = true;
                                     for (String chToMap : channelsToMap) {
                                         if (chToMap.split(TASK_CHANNEL_SEPARATOR)[1].equals(portTaskJsonFile.getName())) {
@@ -2217,7 +2218,7 @@ public class JDialogPatternGeneration extends JDialog implements ActionListener,
                                 }
                             }
                             for (PortTaskJsonFile portTaskJsonFile : patternTasksAll.get(st).getInternalPorts()) {
-                                if (portTaskJsonFile.getType().equals(PatternGeneration.CHANNEL)) {
+                                if (portTaskJsonFile.getType().equals(PatternCreation.CHANNEL)) {
                                     boolean isChToMap = true;
                                     for (String chToMap : channelsToMap) {
                                         if (chToMap.split(TASK_CHANNEL_SEPARATOR)[1].equals(portTaskJsonFile.getName())) {
@@ -2545,7 +2546,7 @@ public class JDialogPatternGeneration extends JDialog implements ActionListener,
     
             if (!findErr) {
                 mgui.gtm.createPattern(mgui, selectedTasksAsPattern, newPatternName, pathPatterns);
-                JLabel label = new JLabel("Pattern Generation Complete");
+                JLabel label = new JLabel("Pattern Creation Completed");
                 label.setAlignmentX(Component.LEFT_ALIGNMENT);
                 this.jta.add(label, this.createGbc(currentPosY));
             }
@@ -2581,8 +2582,8 @@ public class JDialogPatternGeneration extends JDialog implements ActionListener,
                 patternConfiguration.setUpdatedPatternAttributes(updatedPatternAttributes);
                 for (String taskName : patternTasksAll.keySet()) {
                     for (PortTaskJsonFile portTaskExt : patternTasksAll.get(taskName).getExternalPorts()) {
-                        if (portTaskExt.getType().equals(PatternGeneration.CHANNEL)) {
-                            if (portTaskExt.getConfidentiality().toUpperCase().equals(PatternGeneration.WITH_CONFIDENTIALITY.toUpperCase()) || !portTaskExt.getAuthenticity().toUpperCase().equals(PatternGeneration.WITHOUT_AUTHENTICITY.toUpperCase())) {
+                        if (portTaskExt.getType().equals(PatternCreation.CHANNEL)) {
+                            if (portTaskExt.getConfidentiality().toUpperCase().equals(PatternCreation.WITH_CONFIDENTIALITY.toUpperCase()) || !portTaskExt.getAuthenticity().toUpperCase().equals(PatternCreation.WITHOUT_AUTHENTICITY.toUpperCase())) {
                                 if (channelsWithSecurity.containsKey(taskName)) {
                                     channelsWithSecurity.get(taskName).add(portTaskExt);
                                 } else {
@@ -2594,8 +2595,8 @@ public class JDialogPatternGeneration extends JDialog implements ActionListener,
                         }
                     }
                     for (PortTaskJsonFile portTaskInt : patternTasksAll.get(taskName).getInternalPorts()) {
-                        if (portTaskInt.getType().equals(PatternGeneration.CHANNEL)) {
-                            if (portTaskInt.getConfidentiality().toUpperCase().equals(PatternGeneration.WITH_CONFIDENTIALITY.toUpperCase()) || !portTaskInt.getAuthenticity().toUpperCase().equals(PatternGeneration.WITHOUT_AUTHENTICITY.toUpperCase())) {
+                        if (portTaskInt.getType().equals(PatternCreation.CHANNEL)) {
+                            if (portTaskInt.getConfidentiality().toUpperCase().equals(PatternCreation.WITH_CONFIDENTIALITY.toUpperCase()) || !portTaskInt.getAuthenticity().toUpperCase().equals(PatternCreation.WITHOUT_AUTHENTICITY.toUpperCase())) {
                                 if (channelsWithSecurity.containsKey(taskName)) {
                                     channelsWithSecurity.get(taskName).add(portTaskInt);
                                 } else {
@@ -2618,7 +2619,7 @@ public class JDialogPatternGeneration extends JDialog implements ActionListener,
                 patternConfiguration.setChannelsWithSecurity(channelsWithSecurity);
                 mgui.gtm.createJsonPatternConfigFile(selectedPatternPath, selectedPatternName, patternConfiguration);
                 mgui.gtm.integratePattern(mgui, selectedPatternPath, selectedPatternName);
-                JLabel label = new JLabel("Pattern Integration Completed");
+                JLabel label = new JLabel("Pattern Configuration Completed");
                 label.setAlignmentX(Component.LEFT_ALIGNMENT);
                 this.jta.add(label, this.createGbc(currentPosY));
             }

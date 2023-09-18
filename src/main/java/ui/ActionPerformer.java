@@ -367,8 +367,8 @@ public class ActionPerformer {
             mgui.avatarStaticAnalysis();
         } else if (command.equals(mgui.actions[TGUIAction.ACT_AVATAR_EXECUTABLE_GENERATION].getActionCommand())) {
             mgui.avatarExecutableCodeGeneration();
-        } else if (command.equals(mgui.actions[TGUIAction.ACT_PATTERN_GENERATION].getActionCommand())) {
-            mgui.patternGeneration();
+        } else if (command.equals(mgui.actions[TGUIAction.ACT_PATTERN_HANDLING].getActionCommand())) {
+            mgui.patternHandling();
 
             // AVATAR BD
         } else if (command.equals(mgui.actions[TGUIAction.ABD_BLOCK].getActionCommand())) {

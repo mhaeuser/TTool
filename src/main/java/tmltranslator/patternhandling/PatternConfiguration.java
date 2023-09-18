@@ -12,7 +12,7 @@ import java.util.*;
 import java.util.Map.Entry;
 
 import myutil.TraceManager;
-import ui.window.JDialogPatternGeneration;
+import ui.window.JDialogPatternHandling;
 
  
 public class PatternConfiguration {
@@ -103,13 +103,13 @@ public class PatternConfiguration {
 
     public void loadConnectedPorts(Vector<String> connectedPortsFull) {
         for (String connectedPort : connectedPortsFull) {
-            String[] splitO = connectedPort.split(JDialogPatternGeneration.TASK_CHANNEL_SEPARATOR, 2);
+            String[] splitO = connectedPort.split(JDialogPatternHandling.TASK_CHANNEL_SEPARATOR, 2);
             String patternTaskName = splitO[0];
-            String[] splitCom = splitO[1].split(JDialogPatternGeneration.PORT_CONNECTION_SEPARATOR, 2);
+            String[] splitCom = splitO[1].split(JDialogPatternHandling.PORT_CONNECTION_SEPARATOR, 2);
             String patternTaskPortName = splitCom[0];
-            String[] splitComModel = splitCom[1].split(JDialogPatternGeneration.TASK_CHANNEL_SEPARATOR, 2);
+            String[] splitComModel = splitCom[1].split(JDialogPatternHandling.TASK_CHANNEL_SEPARATOR, 2);
             String modelTaskName = splitComModel[0];
-            String[] splitComModelPort = splitComModel[1].split(JDialogPatternGeneration.NEW_PORT_OPTION, 2);
+            String[] splitComModelPort = splitComModel[1].split(JDialogPatternHandling.NEW_PORT_OPTION, 2);
             String modelTaskPortName = splitComModelPort[0];
             if (portsConnection.containsKey(patternTaskName)) {
                 if (splitComModel[1].equals(modelTaskPortName)) {
@@ -123,7 +123,7 @@ public class PatternConfiguration {
                     portConnecMap[0] = patternTaskPortName;
                     portConnecMap[1] = modelTaskName;
                     portConnecMap[2] = modelTaskPortName;
-                    portConnecMap[3] = JDialogPatternGeneration.NEW_PORT_OPTION;
+                    portConnecMap[3] = JDialogPatternHandling.NEW_PORT_OPTION;
                     portsConnection.get(patternTaskName).add(portConnecMap);
                 }
             } else {
@@ -140,7 +140,7 @@ public class PatternConfiguration {
                     portConnecMap[0] = patternTaskPortName;
                     portConnecMap[1] = modelTaskName;
                     portConnecMap[2] = modelTaskPortName;
-                    portConnecMap[3] = JDialogPatternGeneration.NEW_PORT_OPTION;
+                    portConnecMap[3] = JDialogPatternHandling.NEW_PORT_OPTION;
                     ArrayList<String[]> portConnecMapList = new ArrayList<String[]>();
                     portConnecMapList.add(portConnecMap);
                     portsConnection.put(patternTaskName, portConnecMapList);
@@ -151,9 +151,9 @@ public class PatternConfiguration {
 
     public void loadPortsConfig(Vector<String> portsConfigFull) {
         for (String configuredPort : portsConfigFull) {
-            String[] configuredPortSplit = configuredPort.split(JDialogPatternGeneration.TASK_CHANNEL_SEPARATOR);
-            String[] portConfigRemoveSplit = configuredPortSplit[1].split(JDialogPatternGeneration.PORT_CONFIGURATION_SEPARATOR + JDialogPatternGeneration.REMOVE_PORT_OPTION);
-            String[] portConfigMergeSplit = configuredPortSplit[1].split(JDialogPatternGeneration.PORT_CONFIGURATION_SEPARATOR + JDialogPatternGeneration.MERGE_PORT_OPTION);
+            String[] configuredPortSplit = configuredPort.split(JDialogPatternHandling.TASK_CHANNEL_SEPARATOR);
+            String[] portConfigRemoveSplit = configuredPortSplit[1].split(JDialogPatternHandling.PORT_CONFIGURATION_SEPARATOR + JDialogPatternHandling.REMOVE_PORT_OPTION);
+            String[] portConfigMergeSplit = configuredPortSplit[1].split(JDialogPatternHandling.PORT_CONFIGURATION_SEPARATOR + JDialogPatternHandling.MERGE_PORT_OPTION);
             if (portsConfig.containsKey(configuredPortSplit[0])) {
                 if (!configuredPortSplit[1].equals(portConfigRemoveSplit[0])) {
                     Entry<String,String> portConfig = new AbstractMap.SimpleEntry<>(portConfigRemoveSplit[0], "");
@@ -176,13 +176,13 @@ public class PatternConfiguration {
     
     public void loadMappedTasks(Vector<String> mappedTasks) {
         for (String mappedTask : mappedTasks) {
-            String[] mappedTaskSplitSameHw = mappedTask.split(JDialogPatternGeneration.MAP_TASK_IN_SAME_HW_SEPARATOR);
-            String[] mappedTaskSplitNewHw = mappedTask.split(JDialogPatternGeneration.MAP_TASK_IN_NEW_HW_SEPARATOR);
+            String[] mappedTaskSplitSameHw = mappedTask.split(JDialogPatternHandling.MAP_TASK_IN_SAME_HW_SEPARATOR);
+            String[] mappedTaskSplitNewHw = mappedTask.split(JDialogPatternHandling.MAP_TASK_IN_NEW_HW_SEPARATOR);
             if (mappedTaskSplitSameHw.length > 1) {
-                Entry<String,String> taskMap = new AbstractMap.SimpleEntry<>(JDialogPatternGeneration.SAME_HW, mappedTaskSplitSameHw[1]);
+                Entry<String,String> taskMap = new AbstractMap.SimpleEntry<>(JDialogPatternHandling.SAME_HW, mappedTaskSplitSameHw[1]);
                 tasksMapping.put(mappedTaskSplitSameHw[0], taskMap);
             } else if (mappedTaskSplitNewHw.length > 1) {
-                Entry<String,String> taskMap = new AbstractMap.SimpleEntry<>(JDialogPatternGeneration.NEW_HW, mappedTaskSplitNewHw[1]);
+                Entry<String,String> taskMap = new AbstractMap.SimpleEntry<>(JDialogPatternHandling.NEW_HW, mappedTaskSplitNewHw[1]);
                 tasksMapping.put(mappedTaskSplitNewHw[0], taskMap);
             }
         }
@@ -190,21 +190,21 @@ public class PatternConfiguration {
 
     public void loadMappedChannels(Vector<String> mappedChannels) {
         for (String mappedChannel : mappedChannels) {
-            String[] mappedChannelSplit= mappedChannel.split(JDialogPatternGeneration.TASK_CHANNEL_SEPARATOR, 2);
-            String[] mappedChannelSplitSameMem = mappedChannelSplit[1].split(JDialogPatternGeneration.MAP_CHANNEL_IN_SAME_MEMORY_SEPARATOR);
-            String[] mappedChannelSplitNewMem = mappedChannelSplit[1].split(JDialogPatternGeneration.MAP_CHANNEL_IN_NEW_MEMORY_SEPARATOR);
+            String[] mappedChannelSplit= mappedChannel.split(JDialogPatternHandling.TASK_CHANNEL_SEPARATOR, 2);
+            String[] mappedChannelSplitSameMem = mappedChannelSplit[1].split(JDialogPatternHandling.MAP_CHANNEL_IN_SAME_MEMORY_SEPARATOR);
+            String[] mappedChannelSplitNewMem = mappedChannelSplit[1].split(JDialogPatternHandling.MAP_CHANNEL_IN_NEW_MEMORY_SEPARATOR);
             if (channelsMapping.containsKey(mappedChannelSplit[0])) {
                 if (mappedChannelSplitSameMem.length > 1) {
                     String[] channelMap = new String[4];
-                    String[] mappedChannelSplitSameMemTaskChannel = mappedChannelSplitSameMem[1].split(JDialogPatternGeneration.TASK_CHANNEL_SEPARATOR, 2);
-                    channelMap[0] = JDialogPatternGeneration.SAME_MEMORY;
+                    String[] mappedChannelSplitSameMemTaskChannel = mappedChannelSplitSameMem[1].split(JDialogPatternHandling.TASK_CHANNEL_SEPARATOR, 2);
+                    channelMap[0] = JDialogPatternHandling.SAME_MEMORY;
                     channelMap[1] = mappedChannelSplitSameMem[0];
                     channelMap[2] = mappedChannelSplitSameMemTaskChannel[0];
                     channelMap[3] = mappedChannelSplitSameMemTaskChannel[1];
                     channelsMapping.get(mappedChannelSplit[0]).add(channelMap);
                 } else if (mappedChannelSplitNewMem.length > 1) {
                     String[] channelMap = new String[3];
-                    channelMap[0] = JDialogPatternGeneration.NEW_MEMORY;
+                    channelMap[0] = JDialogPatternHandling.NEW_MEMORY;
                     channelMap[1] = mappedChannelSplitNewMem[0];
                     channelMap[2] = mappedChannelSplitNewMem[1];
                     channelsMapping.get(mappedChannelSplit[0]).add(channelMap);
@@ -212,8 +212,8 @@ public class PatternConfiguration {
             } else {
                 if (mappedChannelSplitSameMem.length > 1) {
                     String[] channelMap = new String[4];
-                    String[] mappedChannelSplitSameMemTaskChannel = mappedChannelSplitSameMem[1].split(JDialogPatternGeneration.TASK_CHANNEL_SEPARATOR, 2);
-                    channelMap[0] = JDialogPatternGeneration.SAME_MEMORY;
+                    String[] mappedChannelSplitSameMemTaskChannel = mappedChannelSplitSameMem[1].split(JDialogPatternHandling.TASK_CHANNEL_SEPARATOR, 2);
+                    channelMap[0] = JDialogPatternHandling.SAME_MEMORY;
                     channelMap[1] = mappedChannelSplitSameMem[0];
                     channelMap[2] = mappedChannelSplitSameMemTaskChannel[0];
                     channelMap[3] = mappedChannelSplitSameMemTaskChannel[1];
@@ -222,7 +222,7 @@ public class PatternConfiguration {
                     channelsMapping.put(mappedChannelSplit[0], channelMapList);
                 } else if (mappedChannelSplitNewMem.length > 1) {
                     String[] channelMap = new String[3];
-                    channelMap[0] = JDialogPatternGeneration.NEW_MEMORY;
+                    channelMap[0] = JDialogPatternHandling.NEW_MEMORY;
                     channelMap[1] = mappedChannelSplitNewMem[0];
                     channelMap[2] = mappedChannelSplitNewMem[1];
                     ArrayList<String[]> channelMapList = new ArrayList<String[]>();
@@ -235,7 +235,7 @@ public class PatternConfiguration {
 
     public void loadClonedTasks(Vector<String> _clonedTasks) {
         for (String clonedTask : _clonedTasks) {
-            String[] clonedTaskSplit = clonedTask.split(JDialogPatternGeneration.CLONE_TASK_SEPARATOR);
+            String[] clonedTaskSplit = clonedTask.split(JDialogPatternHandling.CLONE_TASK_SEPARATOR);
             if (clonedTaskSplit.length > 1) {
                 clonedTasks.put(clonedTaskSplit[0], clonedTaskSplit[1]);
             }

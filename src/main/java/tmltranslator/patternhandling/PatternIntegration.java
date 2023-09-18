@@ -12,7 +12,7 @@ import myutil.FileUtils;
 import myutil.TraceManager;
 import rationals.properties.isNormalized;
 import tmltranslator.*;
-import ui.window.JDialogPatternGeneration;
+import ui.window.JDialogPatternHandling;
 import ui.window.TraceData;
 
 import java.io.File;
@@ -59,14 +59,14 @@ public class PatternIntegration implements Runnable {
 	}
 
     public void run() {
-    	TraceManager.addDev("Creating Pattern");
+    	TraceManager.addDev("Integrating Pattern");
         if (tmapModel == null) {
             return;
         }
-
         TMLModeling<?> tmlmNew = tmapModel.getTMLModeling();
         for (TMLTask task : tmlmNew.getTasks()) {
             String[] taskNameSplit = task.getName().split("__");
+            TraceManager.addDev("task.getName()==" + task.getName());
             task.setName(taskNameSplit[taskNameSplit.length-1]);
         }
         for (TMLChannel ch : tmlmNew.getChannels()) {
@@ -311,11 +311,11 @@ public class PatternIntegration implements Runnable {
                                 TraceManager.addDev("renamePatternChannelsName-1 : portConnection[1]= " + portConnection[1]);
                                 TraceManager.addDev("renamePatternChannelsName-1 : portConnection[2]= " + portConnection[2]);
                                 if (portConnection[0].equals(extPort.getName()) && portConnection[2].equals(extPort.getName()) && portConnection.length == 3) {
-                                    if (tmlmModel.getChannelByName(extPort.name).getOriginTask().getName().equals(portConnection[1]) && extPort.mode.equals(PatternGeneration.MODE_INPUT)) {
+                                    if (tmlmModel.getChannelByName(extPort.name).getOriginTask().getName().equals(portConnection[1]) && extPort.mode.equals(PatternCreation.MODE_INPUT)) {
                                         toRename = false;
                                         break;
                                     }
-                                    if (tmlmModel.getChannelByName(extPort.name).getDestinationTask().getName().equals(portConnection[1]) && extPort.mode.equals(PatternGeneration.MODE_OUTPUT)) {
+                                    if (tmlmModel.getChannelByName(extPort.name).getDestinationTask().getName().equals(portConnection[1]) && extPort.mode.equals(PatternCreation.MODE_OUTPUT)) {
                                         toRename = false;
                                         break;
                                     }
@@ -373,11 +373,11 @@ public class PatternIntegration implements Runnable {
                         if (patternConfiguration.getPortsConnection().containsKey(taskName)) {
                             for (String[] portConnection : patternConfiguration.getPortsConnection().get(taskName)) {
                                 if (portConnection[0].equals(extPort.getName()) && portConnection[2].equals(extPort.getName()) && portConnection.length == 3) {
-                                    if (tmlmModel.getEventByName(extPort.name).getOriginTask().getName().equals(portConnection[1]) && extPort.mode.equals(PatternGeneration.MODE_INPUT)) {
+                                    if (tmlmModel.getEventByName(extPort.name).getOriginTask().getName().equals(portConnection[1]) && extPort.mode.equals(PatternCreation.MODE_INPUT)) {
                                         toRename = false;
                                         break;
                                     }
-                                    if (tmlmModel.getEventByName(extPort.name).getDestinationTask().getName().equals(portConnection[1]) && extPort.mode.equals(PatternGeneration.MODE_OUTPUT)) {
+                                    if (tmlmModel.getEventByName(extPort.name).getDestinationTask().getName().equals(portConnection[1]) && extPort.mode.equals(PatternCreation.MODE_OUTPUT)) {
                                         toRename = false;
                                         break;
                                     }
@@ -724,8 +724,8 @@ public class PatternIntegration implements Runnable {
         List<TMLActivityElement> actElemsToAdd = new ArrayList<TMLActivityElement>();
         for (PortTaskJsonFile pTaskJson : tp.externalPorts) {
             if (pTaskJson.name.equals(_portPatternName)) {
-                if (pTaskJson.getMode().equals(PatternGeneration.MODE_INPUT)) {
-                    if (pTaskJson.getType().equals(PatternGeneration.CHANNEL)) {
+                if (pTaskJson.getMode().equals(PatternCreation.MODE_INPUT)) {
+                    if (pTaskJson.getType().equals(PatternCreation.CHANNEL)) {
                         _taskToAddPort.addWriteTMLChannel(_tmlmModel.getChannelByName(_portPatternName)); 
                         for (TMLActivityElement acElem : adTaskToAddPort.getElements()) {
                             if (acElem instanceof TMLActivityElementChannel) {
@@ -756,7 +756,7 @@ public class PatternIntegration implements Runnable {
                                 }
                             }
                         }
-                    } else if (pTaskJson.getType().equals(PatternGeneration.EVENT)) {
+                    } else if (pTaskJson.getType().equals(PatternCreation.EVENT)) {
                         _taskToAddPort.addTMLEvent(_tmlmModel.getEventByName(_portPatternName)); 
                         _tmlmModel.getEventByName(_portPatternName).setOriginTask(_taskToAddPort);
                         for (TMLActivityElement acElem : adTaskToAddPort.getElements()) {
@@ -818,8 +818,8 @@ public class PatternIntegration implements Runnable {
                             }
                         }
                     }
-                } else if (pTaskJson.getMode().equals(PatternGeneration.MODE_OUTPUT)) {
-                    if (pTaskJson.getType().equals(PatternGeneration.CHANNEL)) {
+                } else if (pTaskJson.getMode().equals(PatternCreation.MODE_OUTPUT)) {
+                    if (pTaskJson.getType().equals(PatternCreation.CHANNEL)) {
                         _taskToAddPort.addReadTMLChannel(_tmlmModel.getChannelByName(_portPatternName));
                         for (TMLActivityElement acElem : adTaskToAddPort.getElements()) {
                             if (acElem instanceof TMLActivityElementChannel) {
@@ -850,7 +850,7 @@ public class PatternIntegration implements Runnable {
                                 }
                             }
                         }
-                    } else if (pTaskJson.getType().equals(PatternGeneration.EVENT)) {
+                    } else if (pTaskJson.getType().equals(PatternCreation.EVENT)) {
                         _taskToAddPort.addTMLEvent(_tmlmModel.getEventByName(_portPatternName));
                         _tmlmModel.getEventByName(_portPatternName).setDestinationTask(_taskToAddPort);
                         for (TMLActivityElement acElem : adTaskToAddPort.getElements()) {
@@ -945,8 +945,8 @@ public class PatternIntegration implements Runnable {
                     TMLActivity adTaskToAddPort = taskToAddPort.getActivityDiagram();
                     for (PortTaskJsonFile pTaskJson : tp.externalPorts) {
                         if (pTaskJson.name.equals(elemP[0])) {
-                            if (pTaskJson.getMode().equals(PatternGeneration.MODE_INPUT)) {
-                                if (pTaskJson.getType().equals(PatternGeneration.CHANNEL)) {
+                            if (pTaskJson.getMode().equals(PatternCreation.MODE_INPUT)) {
+                                if (pTaskJson.getType().equals(PatternCreation.CHANNEL)) {
                                     taskToAddPort.addWriteTMLChannel(_tmlmModel.getChannelByName(elemP[0])); 
                                     for (TMLActivityElement acElem : adTaskToAddPort.getElements()) {
                                         if (acElem instanceof TMLActivityElementChannel) {
@@ -964,7 +964,7 @@ public class PatternIntegration implements Runnable {
                                             }
                                         }
                                     }
-                                } else if (pTaskJson.getType().equals(PatternGeneration.EVENT)) {
+                                } else if (pTaskJson.getType().equals(PatternCreation.EVENT)) {
                                     taskToAddPort.addTMLEvent(_tmlmModel.getEventByName(elemP[0])); 
                                     _tmlmModel.getEventByName(elemP[0]).setOriginTask(taskToAddPort);
                                     for (TMLActivityElement acElem : adTaskToAddPort.getElements()) {
@@ -981,8 +981,8 @@ public class PatternIntegration implements Runnable {
                                         }
                                     }
                                 }
-                            } else if (pTaskJson.getMode().equals(PatternGeneration.MODE_OUTPUT)) {
-                                if (pTaskJson.getType().equals(PatternGeneration.CHANNEL)) {
+                            } else if (pTaskJson.getMode().equals(PatternCreation.MODE_OUTPUT)) {
+                                if (pTaskJson.getType().equals(PatternCreation.CHANNEL)) {
                                     taskToAddPort.addReadTMLChannel(_tmlmModel.getChannelByName(elemP[0]));
                                     for (TMLActivityElement acElem : adTaskToAddPort.getElements()) {
                                         if (acElem instanceof TMLActivityElementChannel) {
@@ -1000,7 +1000,7 @@ public class PatternIntegration implements Runnable {
                                             }
                                         }
                                     }
-                                } else if (pTaskJson.getType().equals(PatternGeneration.EVENT)) {
+                                } else if (pTaskJson.getType().equals(PatternCreation.EVENT)) {
                                     taskToAddPort.addTMLEvent(_tmlmModel.getEventByName(elemP[0]));
                                     _tmlmModel.getEventByName(elemP[0]).setDestinationTask(taskToAddPort);
                                     for (TMLActivityElement acElem : adTaskToAddPort.getElements()) {
@@ -1061,7 +1061,7 @@ public class PatternIntegration implements Runnable {
                                 if (ae instanceof TMLReadChannel) {
                                     TMLReadChannel aeRead = (TMLReadChannel) ae;
                                     if (aeRead.getChannel(0).getName().equals(chInModel.getName())) {
-                                        TraceManager.addDev("replace: " + chInModel.getName() + " with " + chInModel.getName());
+                                        TraceManager.addDev("replace: " + chInModel.getName() + " with " + chInPattern.getName());
                                         aeRead.replaceChannelWith(chInModel, chInPattern);
                                     }
                                 }
@@ -1071,6 +1071,12 @@ public class PatternIntegration implements Runnable {
                         } else if (chInModel.getOriginTask().equals(modelTask)) {
                             chInModel.setDestinationTask(patternTask);
                             chInModel.setPorts(chInModel.getOriginPort(), new TMLPort(chInModel.getName(), chInModel.getReferenceObject()));
+                            for (PortTaskJsonFile pt : patternConfiguration.getChannelsWithSecurity().get(patternTaskName)) {
+                                if (pt.getName().equals(patternTaskPortName)) {
+                                    pt.name = chInModel.getName();
+                                }
+                            }
+                            
                             for (TMLActivityElement ae : patternTask.getActivityDiagram().getElements()) {
                                 if (ae instanceof TMLReadChannel) {
                                     TMLReadChannel aeRead = (TMLReadChannel) ae;
@@ -1085,12 +1091,12 @@ public class PatternIntegration implements Runnable {
                             evtInPattern.setDestinationTask(modelTask);
                             evtInPattern.setPorts(evtInPattern.getOriginPort(), new TMLPort(evtInPattern.getName(), evtInPattern.getReferenceObject()));
                             _tmlmModel.addEvent(evtInPattern);
-                            renamedChannels.put(evtInModel.getName(), evtInModel.getName());
+                            renamedChannels.put(evtInModel.getName(), evtInPattern.getName());
                             for (TMLActivityElement ae : modelTask.getActivityDiagram().getElements()) {
                                 if (ae instanceof TMLWaitEvent) {
                                     TMLWaitEvent aeWait = (TMLWaitEvent) ae;
                                     if (aeWait.getEvent().getName().equals(evtInModel.getName())) {
-                                        aeWait.replaceEventWith(evtInModel, evtInModel);
+                                        aeWait.replaceEventWith(evtInModel, evtInPattern);
                                     }
                                 }
                             }
@@ -1277,7 +1283,7 @@ public class PatternIntegration implements Runnable {
             String relatedMapping = _taskMapping.get(taskName).getValue();
             TMLTask taskToMap = _tmapModel.getTaskByName(taskName);
             if (taskToMap != null) {
-                if (modeMapping.equals(JDialogPatternGeneration.SAME_HW)) {
+                if (modeMapping.equals(JDialogPatternHandling.SAME_HW)) {
                     TMLTask inSameTask = _tmapModel.getTaskByName(relatedMapping);
                     if (inSameTask != null) {
                         HwExecutionNode hwMapTask = _tmapModel.getHwNodeOf(inSameTask);
@@ -1285,7 +1291,7 @@ public class PatternIntegration implements Runnable {
                             _tmapModel.addTaskToHwExecutionNode(taskToMap, hwMapTask);
                         }
                     }
-                } else if (modeMapping.equals(JDialogPatternGeneration.NEW_HW)) {
+                } else if (modeMapping.equals(JDialogPatternHandling.NEW_HW)) {
                     HwBus bus = _tmlarchModel.getHwBusByName(relatedMapping);
                     if (bus != null) {
                         String nameCPU = "CPU_" + taskName;
@@ -1324,7 +1330,7 @@ public class PatternIntegration implements Runnable {
                 TraceManager.addDev("channelToMapName= " + channelToMapName);
                 if (channelToMap != null) {
                     TraceManager.addDev("channelToMap != null");
-                    if (modeMapping.equals(JDialogPatternGeneration.SAME_MEMORY)) {
+                    if (modeMapping.equals(JDialogPatternHandling.SAME_MEMORY)) {
                         String sameChannel = channelMap[3];
                         TraceManager.addDev("sameChannel= " + sameChannel);
                         TMLChannel inSameChannel = _tmapModel.getChannelByName(sameChannel);
@@ -1342,7 +1348,7 @@ public class PatternIntegration implements Runnable {
                                 }   
                             }
                         }
-                    } else if (modeMapping.equals(JDialogPatternGeneration.NEW_MEMORY)) {
+                    } else if (modeMapping.equals(JDialogPatternHandling.NEW_MEMORY)) {
                         String busName = channelMap[2];
                         HwBus bus = _tmlarchModel.getHwBusByName(busName);
                         if (bus != null) {

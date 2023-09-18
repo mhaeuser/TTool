@@ -21,7 +21,7 @@ import java.util.*;
 
 
 public class SecurityGenerationForTMAP implements Runnable {
-    String name;
+    //String name;
     TMLMapping<?> map;
     String encComp;
     String overhead;
@@ -46,9 +46,9 @@ public class SecurityGenerationForTMAP implements Runnable {
     Map<String, SecurityPattern> channelSecMap = new HashMap<String, SecurityPattern>();
     TMLMapping<?> newMap;
 
-    public SecurityGenerationForTMAP(String name, TMLMapping<?> map, String encComp, String overhead, String decComp, Map<String, List<String>> selectedCPUTasks) {
+    public SecurityGenerationForTMAP(TMLMapping<?> map, String encComp, String overhead, String decComp, Map<String, List<String>> selectedCPUTasks) {
 
-        this.name = name;
+        //this.name = name;
         this.map = map;
         this.newMap = map;
         this.overhead = overhead;

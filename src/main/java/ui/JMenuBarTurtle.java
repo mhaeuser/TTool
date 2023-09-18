@@ -648,8 +648,8 @@ public class JMenuBarTurtle extends JMenuBar {
         menuItem.setName("CodeG Executable");
         menuItem.addMouseListener(mgui.mouseHandler);
 
-        menuItem = codeG.add(mgui.actions[TGUIAction.ACT_PATTERN_GENERATION]);
-        menuItem.setName("CodeG Pattern Generation");
+        menuItem = codeG.add(mgui.actions[TGUIAction.ACT_PATTERN_HANDLING]);
+        menuItem.setName("CodeG Pattern Handling");
         menuItem.addMouseListener(mgui.mouseHandler);
     
         // View

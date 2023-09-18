@@ -74,9 +74,10 @@ import tmltranslator.*;
 import tmltranslator.modelcompiler.TMLModelCompiler;
 import tmltranslator.patternhandling.PatternConfig2Json;
 import tmltranslator.patternhandling.PatternConfiguration;
-import tmltranslator.patternhandling.PatternGeneration;
+import tmltranslator.patternhandling.PatternCreation;
 import tmltranslator.patternhandling.PatternIntegration;
 import tmltranslator.patternhandling.PortTaskJsonFile;
+import tmltranslator.patternhandling.SecurityGenerationForTMAP;
 import tmltranslator.patternhandling.TMRGeneration;
 import tmltranslator.patternhandling.TaskPattern;
 import tmltranslator.toautomata.TML2AUT;
@@ -1636,7 +1637,7 @@ public class GTURTLEModeling {
 
     @SuppressWarnings("unchecked")
     public void createPattern(MainGUI gui, List<String> selectedTasks, String patternName, String patternsPath) {
-        PatternGeneration pattern = new PatternGeneration(selectedTasks, patternName, patternsPath, tmap);
+        PatternCreation pattern = new PatternCreation(selectedTasks, patternName, patternsPath, tmap);
         pattern.startThread();
     }
 
@@ -1650,15 +1651,15 @@ public class GTURTLEModeling {
         TraceManager.addDev("patternPath= " + patternPath);
         TraceManager.addDev("patternName= " + patternName);
         TraceManager.addDev("configPatternPath= " + configPatternPath);
+        String appTabName = ((TGComponent)tmap.getTMLModeling().getReference()).getTDiagramPanel().tp.getNameOfTab();
         PatternConfig2Json patternConfig2Json = new PatternConfig2Json(configPatternPath);
         patternConfig2Json.json2patternConfiguration();
         PatternConfiguration patternConfiguration = patternConfig2Json.getPaternConfiguration();
         LinkedHashMap<String, TaskPattern> patternTasks = TaskPattern.parsePatternJsonFile(patternPath, patternName+".json");
         PatternIntegration patternInteg = new PatternIntegration(patternPath, patternName, patternConfiguration, patternTasks, tmap);
         tmap = (TMLMapping<TGComponent>) patternInteg.startThread();
+
         LinkedHashMap<String, List<PortTaskJsonFile>> channelsWithSec = patternConfiguration.getChannelsWithSecurity();
-        TMLArchiPanel arch = (TMLArchiPanel) gui.tabs.get(gui.getCurrentSelectedIndex());
-        TraceManager.addDev("arch= " + arch.getNameOfTab());
         boolean hasSecChannel = false;
         for (String taskOfChannelWithSec : channelsWithSec.keySet()) {
             for (PortTaskJsonFile portTask : channelsWithSec.get(taskOfChannelWithSec)) {
@@ -1669,27 +1670,26 @@ public class GTURTLEModeling {
                 TraceManager.addDev("portTask = " + portTask.getName());
                 if (chSec != null) {
                     TraceManager.addDev("channelsWithSec = " + chSec.getName());
-                    if (portTask.getConfidentiality().toUpperCase().equals(PatternGeneration.WITH_CONFIDENTIALITY.toUpperCase())) {
+                    if (portTask.getConfidentiality().toUpperCase().equals(PatternCreation.WITH_CONFIDENTIALITY.toUpperCase())) {
                         TraceManager.addDev("channelsWithSec with conf ");
                         chSec.setEnsureConf(true);
                     }
-                    if (portTask.getAuthenticity().toUpperCase().equals(PatternGeneration.WEAK_AUTHENTICITY.toUpperCase())) {
+                    if (portTask.getAuthenticity().toUpperCase().equals(PatternCreation.WEAK_AUTHENTICITY.toUpperCase())) {
                         TraceManager.addDev("channelsWithSec with weak auth ");
                         chSec.setEnsureWeakAuth(true);
                     }
-                    if (portTask.getAuthenticity().toUpperCase().equals(PatternGeneration.STRONG_AUTHENTICITY.toUpperCase())) {
+                    if (portTask.getAuthenticity().toUpperCase().equals(PatternCreation.STRONG_AUTHENTICITY.toUpperCase())) {
                         TraceManager.addDev("channelsWithSec with strong auth");
                         chSec.setEnsureStrongAuth(true);
                     }
                     
                     //tmap = autoSecure(gui, "", tmap, arch, "100", "0", "100", confToCheck, authWeakToCheck, authStrongToCheck, new HashMap<String, java.util.List<String>>());
-                    //SecurityGeneration secgen = new SecurityGeneration(gui, "", tmap, arch, "100", "0", "100", confToCheck, authWeakToCheck, authStrongToCheck, new HashMap<String, java.util.List<String>>());
-                    //tmap = secgen.startThread();
+                    
                     
                     //GTMLModeling gtm = new GTMLModeling(newarch, true);
                     //tmap = gtm.translateToTMLMapping(true, true);
                     //listE = gtm.getCorrespondanceTable();
-                    TMLModeling<?> tmlmNew = tmap.getTMLModeling();
+                    /*TMLModeling<?> tmlmNew = tmap.getTMLModeling();
                     for (TMLTask task : tmlmNew.getTasks()) {
                         String[] taskNameSplit = task.getName().split("__");
                         task.setName(taskNameSplit[taskNameSplit.length-1]);
@@ -1705,20 +1705,62 @@ public class GTURTLEModeling {
                     for (TMLRequest req : tmlmNew.getRequests()) {
                         String[] requestNameSplit = req.getName().split("__");
                         req.setName(requestNameSplit[requestNameSplit.length-1]);
-                    }
-                    chSec.checkAuth = false;
-                    chSec.checkConf = false;
+                    }*/
                     hasSecChannel = true;
                 }
             }
         }
         if (hasSecChannel) {
             TraceManager.addDev("hasSecChannel");
+            if (appTabName != "") {
+                TraceManager.addDev("appName="+appTabName);
+                for (TMLTask task : tmap.getTMLModeling().getTasks()) {
+                    String[] taskNameSplit = task.getName().split("__");
+                    if (taskNameSplit.length == 1) {
+                        task.setName(appTabName + "__" + task.getName());
+                    }
+                }
+                for (TMLChannel ch : tmap.getTMLModeling().getChannels()) {
+                    String[] channelNameSplit = ch.getName().split("__");
+                    if (channelNameSplit.length == 1) {
+                        ch.setName(appTabName + "__" + ch.getName());
+                    }
+                }
+                for (TMLEvent evt : tmap.getTMLModeling().getEvents()) {
+                    String[] eventNameSplit = evt.getName().split("__");
+                    if (eventNameSplit.length == 1) {
+                        evt.setName(appTabName + "__" + evt.getName());
+                    }
+                }
+                for (TMLRequest req : tmap.getTMLModeling().getRequests()) {
+                    String[] requestNameSplit = req.getName().split("__");
+                    if (requestNameSplit.length == 1) {
+                        req.setName(appTabName + "__" + req.getName());
+                    }
+                }
+            }
+            SecurityGenerationForTMAP secgen = new SecurityGenerationForTMAP(tmap, "100", "0", "100", new HashMap<String, java.util.List<String>>());
+            tmap = (TMLMapping<TGComponent>) secgen.startThread();
+            for (TMLTask task : tmap.getTMLModeling().getTasks()) {
+                String[] taskNameSplit = task.getName().split("__");
+                task.setName(taskNameSplit[taskNameSplit.length-1]);
+            }
+            for (TMLChannel ch : tmap.getTMLModeling().getChannels()) {
+                String[] channelNameSplit = ch.getName().split("__");
+                ch.setName(channelNameSplit[channelNameSplit.length-1]);
+            }
+            for (TMLEvent evt : tmap.getTMLModeling().getEvents()) {
+                String[] eventNameSplit = evt.getName().split("__");
+                evt.setName(eventNameSplit[eventNameSplit.length-1]);
+            }
+            for (TMLRequest req : tmap.getTMLModeling().getRequests()) {
+                String[] requestNameSplit = req.getName().split("__");
+                req.setName(requestNameSplit[requestNameSplit.length-1]);
+            }
             autoMapKeys();
         }
         try {
             String archTabName = ((CorrespondanceTGElement)(tmap.getCorrespondanceList())).getTG(tmap.getArch().getFirstCPU()).getTDiagramPanel().tp.getNameOfTab();
-            String appTabName = ((TGComponent)tmap.getTMLModeling().getReference()).getTDiagramPanel().tp.getNameOfTab();
             gui.drawTMLAndTMAPSpecification(tmap, appTabName + "_" + patternName, archTabName + "_" + patternName);
         } catch (MalformedTMLDesignException e) {
             TraceManager.addDev("Error when Drawing TML");

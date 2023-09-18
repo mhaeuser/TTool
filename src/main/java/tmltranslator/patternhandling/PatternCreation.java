@@ -1,7 +1,7 @@
 package tmltranslator.patternhandling;
 /**
- * Class PatternGeneration
- * Pattern Generation in separate thread
+ * Class PatternCreation
+ * Pattern Creation in separate thread
  * Creation: 18/08/2023
  *
  * @author Jawher JERRAY
@@ -21,7 +21,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
  
-public class PatternGeneration implements Runnable {
+public class PatternCreation implements Runnable {
     public final static String MODE_INPUT = "input";
     public final static String MODE_OUTPUT = "output";
     public final static String CHANNEL = "channel";
@@ -47,7 +47,7 @@ public class PatternGeneration implements Runnable {
     String patternsPath;
 	TMLMapping<?> tmap;
 
-    public PatternGeneration(List<String> _selectedTasks, String _patternName, String _patternsPath, TMLMapping<?> tmap) {
+    public PatternCreation(List<String> _selectedTasks, String _patternName, String _patternsPath, TMLMapping<?> tmap) {
 		this.selectedTasks = _selectedTasks;
 		this.patternName = _patternName;
 		this.patternsPath = _patternsPath;
@@ -61,7 +61,7 @@ public class PatternGeneration implements Runnable {
 			t.join();
 		}
 		catch (Exception e) {
-			TraceManager.addDev("Error in Pattern Generation Thread");
+			TraceManager.addDev("Error in Pattern Creation Thread");
 		}
 		return;
 	}

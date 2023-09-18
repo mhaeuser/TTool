@@ -54,49 +54,49 @@ public class TaskPattern {
         
         JSONArray patternTasks = new JSONArray(jsonFilecontent);
         for (int i = 0; i < patternTasks.length(); i++) {
-            String taskName = patternTasks.getJSONObject(i).getString(PatternGeneration.NAME);
+            String taskName = patternTasks.getJSONObject(i).getString(PatternCreation.NAME);
             
-            JSONArray attributes = patternTasks.getJSONObject(i).getJSONArray(PatternGeneration.ATTRIBUTES);
+            JSONArray attributes = patternTasks.getJSONObject(i).getJSONArray(PatternCreation.ATTRIBUTES);
             List<AttributeTaskJsonFile> attributeTaskList = new ArrayList<AttributeTaskJsonFile>();
             for (int j = 0; j < attributes.length(); j++) {
-                String attribName = attributes.getJSONObject(j).getString(PatternGeneration.NAME);
-                String attribType = attributes.getJSONObject(j).getString(PatternGeneration.TYPE);
-                String attribValue = attributes.getJSONObject(j).getString(PatternGeneration.VALUE);
+                String attribName = attributes.getJSONObject(j).getString(PatternCreation.NAME);
+                String attribType = attributes.getJSONObject(j).getString(PatternCreation.TYPE);
+                String attribValue = attributes.getJSONObject(j).getString(PatternCreation.VALUE);
                 AttributeTaskJsonFile attributeTaskJsonFile = new AttributeTaskJsonFile(attribName, attribType, attribValue);
                 attributeTaskList.add(attributeTaskJsonFile);
             }
             //patternTasksAttributes.put(taskName, attributeTaskList);
 
-            JSONArray externalPorts = patternTasks.getJSONObject(i).getJSONArray(PatternGeneration.EXTERNALPORTS);
+            JSONArray externalPorts = patternTasks.getJSONObject(i).getJSONArray(PatternCreation.EXTERNALPORTS);
             List<PortTaskJsonFile> externalPortsTaskList = new ArrayList<PortTaskJsonFile>();
             for (int j = 0; j < externalPorts.length(); j++) {
-                String externalPortName = externalPorts.getJSONObject(j).getString(PatternGeneration.NAME);
-                String externalPortType = externalPorts.getJSONObject(j).getString(PatternGeneration.TYPE);
-                String externalPortMode = externalPorts.getJSONObject(j).getString(PatternGeneration.MODE);
+                String externalPortName = externalPorts.getJSONObject(j).getString(PatternCreation.NAME);
+                String externalPortType = externalPorts.getJSONObject(j).getString(PatternCreation.TYPE);
+                String externalPortMode = externalPorts.getJSONObject(j).getString(PatternCreation.MODE);
                 TraceManager.addDev("externalPortName= "+ externalPortName);
                 PortTaskJsonFile externalPortTaskJsonFile = new PortTaskJsonFile(externalPortName, externalPortType, externalPortMode);
-                if (externalPorts.getJSONObject(j).has(PatternGeneration.CONFIDENTIALITY)) {
-                    externalPortTaskJsonFile.setConfidentiality(externalPorts.getJSONObject(j).getString(PatternGeneration.CONFIDENTIALITY));
+                if (externalPorts.getJSONObject(j).has(PatternCreation.CONFIDENTIALITY)) {
+                    externalPortTaskJsonFile.setConfidentiality(externalPorts.getJSONObject(j).getString(PatternCreation.CONFIDENTIALITY));
                 }
-                if (externalPorts.getJSONObject(j).has(PatternGeneration.AUTHENTICITY)) {
-                    externalPortTaskJsonFile.setAuthenticity(externalPorts.getJSONObject(j).getString(PatternGeneration.AUTHENTICITY));
+                if (externalPorts.getJSONObject(j).has(PatternCreation.AUTHENTICITY)) {
+                    externalPortTaskJsonFile.setAuthenticity(externalPorts.getJSONObject(j).getString(PatternCreation.AUTHENTICITY));
                 }
                 externalPortsTaskList.add(externalPortTaskJsonFile);
             }
             //patternTasksExternalPorts.put(taskName, externalPortsTaskList);
 
-            JSONArray internalPorts = patternTasks.getJSONObject(i).getJSONArray(PatternGeneration.INTERNALPORTS);
+            JSONArray internalPorts = patternTasks.getJSONObject(i).getJSONArray(PatternCreation.INTERNALPORTS);
             List<PortTaskJsonFile> internalPortsTaskList = new ArrayList<PortTaskJsonFile>();
             for (int j = 0; j < internalPorts.length(); j++) {
-                String internalPortName = internalPorts.getJSONObject(j).getString(PatternGeneration.NAME);
-                String internalPortType = internalPorts.getJSONObject(j).getString(PatternGeneration.TYPE);
-                String internalPortMode = internalPorts.getJSONObject(j).getString(PatternGeneration.MODE);
+                String internalPortName = internalPorts.getJSONObject(j).getString(PatternCreation.NAME);
+                String internalPortType = internalPorts.getJSONObject(j).getString(PatternCreation.TYPE);
+                String internalPortMode = internalPorts.getJSONObject(j).getString(PatternCreation.MODE);
                 PortTaskJsonFile internalPortTaskJsonFile = new PortTaskJsonFile(internalPortName, internalPortType, internalPortMode);
-                if (internalPorts.getJSONObject(j).has(PatternGeneration.CONFIDENTIALITY)) {
-                    internalPortTaskJsonFile.setConfidentiality(internalPorts.getJSONObject(j).getString(PatternGeneration.CONFIDENTIALITY));
+                if (internalPorts.getJSONObject(j).has(PatternCreation.CONFIDENTIALITY)) {
+                    internalPortTaskJsonFile.setConfidentiality(internalPorts.getJSONObject(j).getString(PatternCreation.CONFIDENTIALITY));
                 }
-                if (internalPorts.getJSONObject(j).has(PatternGeneration.AUTHENTICITY)) {
-                    internalPortTaskJsonFile.setAuthenticity(internalPorts.getJSONObject(j).getString(PatternGeneration.AUTHENTICITY));
+                if (internalPorts.getJSONObject(j).has(PatternCreation.AUTHENTICITY)) {
+                    internalPortTaskJsonFile.setAuthenticity(internalPorts.getJSONObject(j).getString(PatternCreation.AUTHENTICITY));
                 }
                 internalPortsTaskList.add(internalPortTaskJsonFile);
             }

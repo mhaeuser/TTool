@@ -71,8 +71,8 @@ public  class JToolBarMainTurtle extends JToolBar implements ActionListener     
             -1, TGUIAction.ACT_ZOOM_LESS, TGUIAction.ACT_SHOW_ZOOM, TGUIAction.ACT_ZOOM_MORE, -1, -1, TGUIAction.ACT_MODEL_CHECKING};
 
     // Avatar
-    private JButton  avatarSimu, avatarFVUPPAAL, avatarFVProVerif, avatarFVStaticAnalysis, avatarCodeGeneration, avatarMC, patterGeneration;
-    private JMenuItem avatarSimuMI, avatarFVUPPAALMI, avatarFVProVerifMI, avatarFVStaticAnalysisMI, avatarCodeGenerationMI, avatarMCMI, patterGenerationMI;
+    private JButton  avatarSimu, avatarFVUPPAAL, avatarFVProVerif, avatarFVStaticAnalysis, avatarCodeGeneration, avatarMC, patterHandling;
+    private JMenuItem avatarSimuMI, avatarFVUPPAALMI, avatarFVProVerifMI, avatarFVStaticAnalysisMI, avatarCodeGenerationMI, avatarMCMI, patterHandlingMI;
 
     // Other
     private JButton genrtlotos, genlotos, genuppaal, gendesign, genMapping, dse, dseZ3, noc;
@@ -223,9 +223,9 @@ public  class JToolBarMainTurtle extends JToolBar implements ActionListener     
         avatarFVStaticAnalysis.addMouseListener(mgui.mouseHandler);
         avatarFVStaticAnalysisMI = addMenu(mgui.actions[TGUIAction.ACT_AVATAR_FV_STATICANALYSIS]);
 
-        patterGeneration = add(mgui.actions[TGUIAction.ACT_PATTERN_GENERATION]);
-        patterGeneration.addMouseListener(mgui.mouseHandler);
-        patterGenerationMI = addMenu(mgui.actions[TGUIAction.ACT_PATTERN_GENERATION]);
+        patterHandling = add(mgui.actions[TGUIAction.ACT_PATTERN_HANDLING]);
+        patterHandling.addMouseListener(mgui.mouseHandler);
+        patterHandlingMI = addMenu(mgui.actions[TGUIAction.ACT_PATTERN_HANDLING]);
 
 
         addSeparator();
@@ -440,8 +440,8 @@ public  class JToolBarMainTurtle extends JToolBar implements ActionListener     
         avatarCodeGeneration.setVisible(b);
         avatarFVStaticAnalysisMI.setVisible(b);
         avatarCodeGenerationMI.setVisible(b);
-        patterGeneration.setVisible(b);
-        patterGenerationMI.setVisible(b);
+        patterHandling.setVisible(b);
+        patterHandlingMI.setVisible(b);
 
         if (genrtlotosMI != null) {
             genrtlotosMI.setVisible(!b);
@@ -595,8 +595,8 @@ public  class JToolBarMainTurtle extends JToolBar implements ActionListener     
         avatarFVStaticAnalysis.setVisible(!b);
         avatarFVUPPAALMI.setVisible(!b);
         avatarFVStaticAnalysisMI.setVisible(!b);
-        patterGeneration.setVisible(!b);
-        patterGenerationMI.setVisible(!b);
+        patterHandling.setVisible(!b);
+        patterHandlingMI.setVisible(!b);
 
         if (avatarFVProVerif != null) {
             avatarFVProVerif.setVisible(b);

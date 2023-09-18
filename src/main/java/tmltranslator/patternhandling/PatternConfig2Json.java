@@ -12,7 +12,7 @@ import myutil.FileUtils;
 import myutil.TraceManager;
 import rationals.properties.isNormalized;
 import tmltranslator.*;
-import ui.window.JDialogPatternGeneration;
+import ui.window.JDialogPatternHandling;
 import ui.window.TraceData;
 
 import java.io.File;
@@ -224,11 +224,11 @@ public class PatternConfig2Json {
                     JSONObject jo = new JSONObject();
                     jo.put(CHANNEL_TO_MAP, chMapping[1]);
                     jo.put(TASK_OF_CHANNEL_TO_MAP, task);
-                    if (chMapping[0].equals(JDialogPatternGeneration.SAME_MEMORY)) {
+                    if (chMapping[0].equals(JDialogPatternHandling.SAME_MEMORY)) {
                         jo.put(CHANNEL_MAPPED_IN_SAME_MEM_AS,chMapping[3]);
                         jo.put(TASK_OF_CHANNEL_SAME_MEM, chMapping[2]);
                     }
-                    if (chMapping[0].equals(JDialogPatternGeneration.NEW_MEMORY)) {
+                    if (chMapping[0].equals(JDialogPatternHandling.NEW_MEMORY)) {
                         jo.put(CHANNEL_MAPPED_IN_NEW_MEM_CONNECTED_TO_BUS,chMapping[2]);
                     }
                     ja.put(jo);
@@ -248,9 +248,9 @@ public class PatternConfig2Json {
                 for (AttributeTaskJsonFile attributeTask : _updatedPatternAttributes.get(task)) {
                     JSONObject jo = new JSONObject();
                     jo.put(TASK_ATTRIBUTE_NAME, task);
-                    jo.put(PatternGeneration.NAME, attributeTask.getName());
-                    jo.put(PatternGeneration.TYPE, attributeTask.getType());
-                    jo.put(PatternGeneration.VALUE, attributeTask.getValue());
+                    jo.put(PatternCreation.NAME, attributeTask.getName());
+                    jo.put(PatternCreation.TYPE, attributeTask.getType());
+                    jo.put(PatternCreation.VALUE, attributeTask.getValue());
                     ja.put(jo);
                 }
             }
@@ -267,11 +267,11 @@ public class PatternConfig2Json {
                 for (PortTaskJsonFile portTask : _channelsWithSec.get(task)) {
                     JSONObject jo = new JSONObject();
                     jo.put(TASK_CHANNEL_WITH_SECURITY_NAME, task);
-                    jo.put(PatternGeneration.NAME, portTask.getName());
-                    jo.put(PatternGeneration.TYPE, portTask.getType());
-                    jo.put(PatternGeneration.MODE, portTask.getMode());
-                    jo.put(PatternGeneration.CONFIDENTIALITY, portTask.getConfidentiality());
-                    jo.put(PatternGeneration.AUTHENTICITY, portTask.getAuthenticity());
+                    jo.put(PatternCreation.NAME, portTask.getName());
+                    jo.put(PatternCreation.TYPE, portTask.getType());
+                    jo.put(PatternCreation.MODE, portTask.getMode());
+                    jo.put(PatternCreation.CONFIDENTIALITY, portTask.getConfidentiality());
+                    jo.put(PatternCreation.AUTHENTICITY, portTask.getAuthenticity());
                     ja.put(jo);
                 }
             }
@@ -285,11 +285,11 @@ public class PatternConfig2Json {
         LinkedHashMap<String, List<PortTaskJsonFile>> _channelsWithSec = new LinkedHashMap<String, List<PortTaskJsonFile>>();
         for (int j = 0; j < ja.length(); j++) {
             String taskName = ja.getJSONObject(j).getString(TASK_CHANNEL_WITH_SECURITY_NAME);
-            String channelName = ja.getJSONObject(j).getString(PatternGeneration.NAME);
-            String channelType = ja.getJSONObject(j).getString(PatternGeneration.TYPE);
-            String channelMode = ja.getJSONObject(j).getString(PatternGeneration.MODE);
-            String channelConf = ja.getJSONObject(j).getString(PatternGeneration.CONFIDENTIALITY);
-            String channelAuth = ja.getJSONObject(j).getString(PatternGeneration.AUTHENTICITY);
+            String channelName = ja.getJSONObject(j).getString(PatternCreation.NAME);
+            String channelType = ja.getJSONObject(j).getString(PatternCreation.TYPE);
+            String channelMode = ja.getJSONObject(j).getString(PatternCreation.MODE);
+            String channelConf = ja.getJSONObject(j).getString(PatternCreation.CONFIDENTIALITY);
+            String channelAuth = ja.getJSONObject(j).getString(PatternCreation.AUTHENTICITY);
             if (_channelsWithSec.containsKey(taskName)) {
                 PortTaskJsonFile portTask = new PortTaskJsonFile(channelName, channelType, channelMode);
                 portTask.setConfidentiality(channelConf);
@@ -311,9 +311,9 @@ public class PatternConfig2Json {
         LinkedHashMap<String, List<AttributeTaskJsonFile>> _updatedPatternAttributes = new LinkedHashMap<String, List<AttributeTaskJsonFile>>();
         for (int j = 0; j < ja.length(); j++) {
             String taskName = ja.getJSONObject(j).getString(TASK_ATTRIBUTE_NAME);
-            String attributeName = ja.getJSONObject(j).getString(PatternGeneration.NAME);
-            String attributeType = ja.getJSONObject(j).getString(PatternGeneration.TYPE);
-            String attributeValue = ja.getJSONObject(j).getString(PatternGeneration.VALUE);
+            String attributeName = ja.getJSONObject(j).getString(PatternCreation.NAME);
+            String attributeType = ja.getJSONObject(j).getString(PatternCreation.TYPE);
+            String attributeValue = ja.getJSONObject(j).getString(PatternCreation.VALUE);
             if (_updatedPatternAttributes.containsKey(taskName)) {
                 AttributeTaskJsonFile attrib = new AttributeTaskJsonFile(attributeName, attributeType, attributeValue);
                 _updatedPatternAttributes.get(taskName).add(attrib);
@@ -347,14 +347,14 @@ public class PatternConfig2Json {
             if (_channelsMapping.containsKey(taskOfChannelToMap)) {
                 if (channelMappedInSameMem != "") {
                     String[] channelMap = new String[4];
-                    channelMap[0] = JDialogPatternGeneration.SAME_MEMORY;
+                    channelMap[0] = JDialogPatternHandling.SAME_MEMORY;
                     channelMap[1] = channelToMap;
                     channelMap[2] = taskOfChannelSameMem;
                     channelMap[3] = channelMappedInSameMem;
                     _channelsMapping.get(taskOfChannelToMap).add(channelMap);
                 } else if (channelMappedInNewMem != "") {
                     String[] channelMap = new String[3];
-                    channelMap[0] = JDialogPatternGeneration.NEW_MEMORY;
+                    channelMap[0] = JDialogPatternHandling.NEW_MEMORY;
                     channelMap[1] = channelToMap;
                     channelMap[2] = channelMappedInNewMem;
                     _channelsMapping.get(taskOfChannelToMap).add(channelMap);
@@ -363,14 +363,14 @@ public class PatternConfig2Json {
                 List<String[]> channelMapList = new ArrayList<String[]>();
                 if (channelMappedInSameMem != "") {
                     String[] channelMap = new String[4];
-                    channelMap[0] = JDialogPatternGeneration.SAME_MEMORY;
+                    channelMap[0] = JDialogPatternHandling.SAME_MEMORY;
                     channelMap[1] = channelToMap;
                     channelMap[2] = taskOfChannelSameMem;
                     channelMap[3] = channelMappedInSameMem;
                     channelMapList.add(channelMap);
                 } else if (channelMappedInNewMem != "") {
                     String[] channelMap = new String[3];
-                    channelMap[0] = JDialogPatternGeneration.NEW_MEMORY;
+                    channelMap[0] = JDialogPatternHandling.NEW_MEMORY;
                     channelMap[1] = channelToMap;
                     channelMap[2] = channelMappedInNewMem;
                     channelMapList.add(channelMap);
@@ -387,10 +387,10 @@ public class PatternConfig2Json {
             for (String task : _tasksMapping.keySet()) {
                 JSONObject jo = new JSONObject();
                 jo.put(TASK_TO_MAP, task);
-                if (_tasksMapping.get(task).getKey().equals(JDialogPatternGeneration.SAME_HW)) {
+                if (_tasksMapping.get(task).getKey().equals(JDialogPatternHandling.SAME_HW)) {
                     jo.put(TASK_MAPPED_IN_SAME_HW_AS, _tasksMapping.get(task).getValue());
                 }
-                if (_tasksMapping.get(task).getKey().equals(JDialogPatternGeneration.NEW_HW)) {
+                if (_tasksMapping.get(task).getKey().equals(JDialogPatternHandling.NEW_HW)) {
                     jo.put(TASK_MAPPED_IN_NEW_HW_CONNECTED_TO_BUS, _tasksMapping.get(task).getValue());
                 }
                 ja.put(jo);
@@ -414,9 +414,9 @@ public class PatternConfig2Json {
                 taskMappedInSameHw = ja.getJSONObject(j).getString(TASK_MAPPED_IN_SAME_HW_AS);
             }
             if (taskMappedInSameHw != "") {
-                _tasksMapping.put(taskToMap, new AbstractMap.SimpleEntry<String, String>(JDialogPatternGeneration.SAME_HW, taskMappedInSameHw));
+                _tasksMapping.put(taskToMap, new AbstractMap.SimpleEntry<String, String>(JDialogPatternHandling.SAME_HW, taskMappedInSameHw));
             } else if (taskMappedInNewHw != "") {
-                _tasksMapping.put(taskToMap, new AbstractMap.SimpleEntry<String, String>(JDialogPatternGeneration.NEW_HW, taskMappedInNewHw));
+                _tasksMapping.put(taskToMap, new AbstractMap.SimpleEntry<String, String>(JDialogPatternHandling.NEW_HW, taskMappedInNewHw));
             }
         }
         return _tasksMapping;
@@ -433,7 +433,7 @@ public class PatternConfig2Json {
                     jo.put(MODEL_TASK, conn[1]);
                     jo.put(MODEL_PORT, conn[2]);
                     
-                    if (conn.length>=4 && conn[3].equals(JDialogPatternGeneration.NEW_PORT_OPTION)) {
+                    if (conn.length>=4 && conn[3].equals(JDialogPatternHandling.NEW_PORT_OPTION)) {
                         jo.put(NEW_PORT, "true");
                     }
                     ja.put(jo);

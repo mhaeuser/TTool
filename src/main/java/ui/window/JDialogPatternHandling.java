@@ -1975,6 +1975,12 @@ public class JDialogPatternHandling extends JDialog implements ActionListener, L
                     connectedPorts.removeAllElements();
                     connectedPortsFull.removeAllElements();
                     jListConnectedPorts.setListData(connectedPorts);
+                    portsConfig.removeAllElements();
+                    configuredPorts.removeAllElements();
+                    mappedTasks.removeAllElements();
+                    tasksToMap.removeAllElements();
+                    channelsToMap.removeAllElements();
+                    mappedChannels.removeAllElements();
                 }
                 if (evt.getSource() == jComboBoxPatternsTaskWithExternalPort) {
                     externalPortsOfTaskInPattern.removeAllElements();
@@ -1993,29 +1999,42 @@ public class JDialogPatternHandling extends JDialog implements ActionListener, L
                     if (tasksOfPatternWithExternalPort.size() == 0) {
                         removeConfigPorts.setEnabled(true);
                         configuredPorts.removeAllElements();
-                        jListConfigPorts.setListData(configuredPorts);
                         portsConfig.removeAllElements();
                         portsTaskConfig = getPortsToConfig(portsTaskOfModelAll, portsTaskOfModelLeft, mgui.gtm.getTMLMapping().getTMLModeling());
                         for (String st : portsTaskConfig.keySet()) {
                             for (String wc : portsTaskConfig.get(st).getWriteChannels()) {
-                                portsConfig.add(st + TASK_CHANNEL_SEPARATOR + wc);
+                                //portsConfig.add(st + TASK_CHANNEL_SEPARATOR + wc);
+                                configuredPorts.add(st + TASK_CHANNEL_SEPARATOR + wc + PORT_CONFIGURATION_SEPARATOR + REMOVE_PORT_OPTION);
                             }
                             for (String rc : portsTaskConfig.get(st).getReadChannels()) {
-                                portsConfig.add(st + TASK_CHANNEL_SEPARATOR + rc);
+                                //portsConfig.add(st + TASK_CHANNEL_SEPARATOR + rc);
+                                configuredPorts.add(st + TASK_CHANNEL_SEPARATOR + rc + PORT_CONFIGURATION_SEPARATOR + REMOVE_PORT_OPTION);
                             }
                             for (String se : portsTaskConfig.get(st).getSendEvents()) {
-                                portsConfig.add(st + TASK_CHANNEL_SEPARATOR + se);
+                                //portsConfig.add(st + TASK_CHANNEL_SEPARATOR + se);
+                                configuredPorts.add(st + TASK_CHANNEL_SEPARATOR + se + PORT_CONFIGURATION_SEPARATOR + REMOVE_PORT_OPTION);
                             }
                             for (String we : portsTaskConfig.get(st).getWaitEvents()) {
-                                portsConfig.add(st + TASK_CHANNEL_SEPARATOR + we);
+                                //portsConfig.add(st + TASK_CHANNEL_SEPARATOR + we);
+                                configuredPorts.add(st + TASK_CHANNEL_SEPARATOR + we + PORT_CONFIGURATION_SEPARATOR + REMOVE_PORT_OPTION);
                             }
                         }
+                        jListConfigPorts.setListData(configuredPorts);
                         jComboBoxPortsConfig.setSelectedIndex(-1);
                         jComboBoxPortsConfig.setEnabled(true);
                     } else {
+                        configuredPorts.removeAllElements();
+                        jListConfigPorts.setListData(configuredPorts);
                         portsConfig.removeAllElements();
                         jComboBoxPortsConfig.setEnabled(false);
                         removeConfigPorts.setEnabled(false);
+                        mappedTasks.removeAllElements();
+                        tasksToMap.removeAllElements();
+                        channelsToMap.removeAllElements();
+                        mappedChannels.removeAllElements();
+                        buttonTasksMapInArch.setEnabled(false);
+                        buttonChannelsMapInArch.setEnabled(false);
+                        buttonUpdatePatternsAttributes.setEnabled(false);
                     }
                 }
                 if (evt.getSource() == jComboBoxPatternExternalPortOfATask) {
@@ -2169,7 +2188,7 @@ public class JDialogPatternHandling extends JDialog implements ActionListener, L
                         jRadioPortConfigRemove.setEnabled(false);
                         jRadioPortConfigMerge.setEnabled(false);
                     }
-                    if (portsConfig.size() == 0) {
+                    if (portsConfig.size() == 0 && tasksOfPatternWithExternalPort.size() == 0) {
                         tasksToMap.removeAllElements();
                         tasksToMapInSameHw.removeAllElements();
                         mappedTasks.removeAllElements();

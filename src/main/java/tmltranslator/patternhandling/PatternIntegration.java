@@ -1071,9 +1071,11 @@ public class PatternIntegration implements Runnable {
                         } else if (chInModel.getOriginTask().equals(modelTask)) {
                             chInModel.setDestinationTask(patternTask);
                             chInModel.setPorts(chInModel.getOriginPort(), new TMLPort(chInModel.getName(), chInModel.getReferenceObject()));
-                            for (PortTaskJsonFile pt : patternConfiguration.getChannelsWithSecurity().get(patternTaskName)) {
-                                if (pt.getName().equals(patternTaskPortName)) {
-                                    pt.name = chInModel.getName();
+                            if (patternConfiguration.getChannelsWithSecurity().containsKey(patternTaskName)) {
+                                for (PortTaskJsonFile pt : patternConfiguration.getChannelsWithSecurity().get(patternTaskName)) {
+                                    if (pt.getName().equals(patternTaskPortName)) {
+                                        pt.name = chInModel.getName();
+                                    }
                                 }
                             }
                             

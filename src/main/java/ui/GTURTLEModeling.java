@@ -1673,14 +1673,18 @@ public class GTURTLEModeling {
                     if (portTask.getConfidentiality().toUpperCase().equals(PatternCreation.WITH_CONFIDENTIALITY.toUpperCase())) {
                         TraceManager.addDev("channelsWithSec with conf ");
                         chSec.setEnsureConf(true);
+                        chSec.checkConf = true;
                     }
                     if (portTask.getAuthenticity().toUpperCase().equals(PatternCreation.WEAK_AUTHENTICITY.toUpperCase())) {
                         TraceManager.addDev("channelsWithSec with weak auth ");
                         chSec.setEnsureWeakAuth(true);
+                        chSec.checkAuth = true;
                     }
                     if (portTask.getAuthenticity().toUpperCase().equals(PatternCreation.STRONG_AUTHENTICITY.toUpperCase())) {
                         TraceManager.addDev("channelsWithSec with strong auth");
                         chSec.setEnsureStrongAuth(true);
+                        chSec.setEnsureWeakAuth(true);
+                        chSec.checkAuth = true;
                     }
                     
                     //tmap = autoSecure(gui, "", tmap, arch, "100", "0", "100", confToCheck, authWeakToCheck, authStrongToCheck, new HashMap<String, java.util.List<String>>());
@@ -1739,7 +1743,7 @@ public class GTURTLEModeling {
                     }
                 }
             }
-            SecurityGenerationForTMAP secgen = new SecurityGenerationForTMAP(tmap, "100", "0", "100", new HashMap<String, java.util.List<String>>());
+            SecurityGenerationForTMAP secgen = new SecurityGenerationForTMAP(appTabName, tmap, "100", "0", "100", new HashMap<String, java.util.List<String>>());
             tmap = (TMLMapping<TGComponent>) secgen.startThread();
             for (TMLTask task : tmap.getTMLModeling().getTasks()) {
                 String[] taskNameSplit = task.getName().split("__");

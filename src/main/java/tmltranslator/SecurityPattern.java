@@ -122,6 +122,7 @@ public class SecurityPattern {
         this.size = secPattern.size;
         this.decTime = secPattern.decTime;
         this.encTime = secPattern.encTime;
+        this.originTask = secPattern.originTask;
     }
 
     public String toXML() {

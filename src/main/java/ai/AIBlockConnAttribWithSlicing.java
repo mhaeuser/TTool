@@ -247,6 +247,10 @@ public class AIBlockConnAttribWithSlicing extends AIInteract {
     }
 
     private String getBlockNames(String _spec, ArrayList<String> _errors) throws org.json.JSONException {
+        if (_spec == null) {
+            _errors.add("No \"blocks\" array in json");
+            return "";
+        }
         int indexStart = _spec.indexOf('{');
         int indexStop = _spec.lastIndexOf('}');
 

@@ -1043,8 +1043,12 @@ public class AvatarBlock extends AvatarElement implements AvatarStateMachineOwne
 
     // Returns errors as String
     public ArrayList<String> makeStateMachineFromJSON(String _jsonSpec, boolean forceIfIncorrectExpression) {
+        ArrayList<String> errors = new ArrayList<>();
+
         if (_jsonSpec == null) {
-            return null;
+            errors.add("Empty json spec, please, propose something even if you lack information, or return an empty state machine (a start state " +
+                    "and a stop state");
+            return errors;
         }
 
         asm.clear();
@@ -1052,7 +1056,6 @@ public class AvatarBlock extends AvatarElement implements AvatarStateMachineOwne
         asm.addElement(startState);
         asm.setStartState(startState);
 
-        ArrayList<String> errors = new ArrayList<>();
         JSONObject mainObject;
 
         try {
@@ -1094,12 +1097,16 @@ public class AvatarBlock extends AvatarElement implements AvatarStateMachineOwne
                         JSONArray transitionsJSON = state0.getJSONArray("transitions");
                         for (int j = 0; j < transitionsJSON.length(); j++) {
                             JSONObject transitions0 = transitionsJSON.getJSONObject(j);
-                            String destinationState = transitions0.getString("destinationstate");
+                            String destinationState = "";
+                            try {
+                                 destinationState = transitions0.getString("destinationstate");
+                            } catch (Exception e) {
+                                destinationState = transitions0.getString("destinationState");
+                            }
                             if (destinationState == null) {
                                 //TraceManager.addDev("A transition has no destination: \"destinationstate\"");
                                 // Looping on itself
                                 destinationState = name;
-
                                 //errors.add("A transition has no destination: \"destinationstate\"");
                             }
                             destinationState = AvatarSpecification.removeSpaces(destinationState);
@@ -1127,6 +1134,7 @@ public class AvatarBlock extends AvatarElement implements AvatarStateMachineOwne
                                     TraceManager.addDev("The following guard " + guard + " is incorrect");
                                     errors.add("The following guard " + guard + " is incorrect");
                                 } else {
+                                    TraceManager.addDev("GUARD. Adding the following guard: " + guard);
                                     at.setGuard(guard);
                                 }
 
@@ -1252,6 +1260,7 @@ public class AvatarBlock extends AvatarElement implements AvatarStateMachineOwne
 
 
                                         }
+
                                         // signal sending / receiving
                                         else if (isASignalAction(action.trim())) {
                                             TraceManager.addDev("Handing communication action: " + action);
@@ -1261,6 +1270,7 @@ public class AvatarBlock extends AvatarElement implements AvatarStateMachineOwne
                                             AvatarSignal as = getAvatarSignalWithName(sigName);
 
                                             if (as == null) {
+                                                TraceManager.addDev("No signal named \"" + sigName + "\" in block \"" + getName() + "\"");
                                                 errors.add("No signal named \"" + sigName + "\" in block \"" + getName() + "\"" );
                                             } else {
                                                 AvatarActionOnSignal aaos = new AvatarActionOnSignal(
@@ -1269,7 +1279,8 @@ public class AvatarBlock extends AvatarElement implements AvatarStateMachineOwne
                                                 AvatarTransition atBis =
                                                         new AvatarTransition(this, "name" + "_from_" + sigName, getReferenceObject());
                                                 asm.addElement(atBis);
-
+                                                TraceManager.addDev("Adding AAOS for signal named \"" + sigName + "\" in block \"" + getName() +
+                                                        "\"");
                                                 AvatarStateMachineElement asme = at.getNext(0);
                                                 at.removeAllNexts();
                                                 at.addNext(aaos);
@@ -1304,6 +1315,9 @@ public class AvatarBlock extends AvatarElement implements AvatarStateMachineOwne
                 }
 
             }
+
+            asm.removeEmptyTransitionsOnSameState(this);
+
         } catch (org.json.JSONException e) {
             errors.add("Invalid JSON: " + e.getMessage());
         }
@@ -1316,13 +1330,11 @@ public class AvatarBlock extends AvatarElement implements AvatarStateMachineOwne
 
     public static boolean isASignalAction(String s) {
         int index = s.indexOf('(');
-        if (index == -1) {
-            return false;
+        if (index != -1) {
+            s = s.substring(0, index);
         }
 
-        String tmp = s.substring(0, index);
-
-        return tmp.trim().matches("[A-Za-z_][A-Za-z0-9_]*");
+        return s.trim().matches("[A-Za-z_][A-Za-z0-9_]*");
     }
 
     public ArrayList<String> addAttributesFromJSON(String _jsonSpec) {
@@ -1348,7 +1360,7 @@ public class AvatarBlock extends AvatarElement implements AvatarStateMachineOwne
                 }
 
                 AvatarType at;
-                if (type.compareTo("boolean") == 0) {
+                if (type.compareTo("boolean") == 0 || (type.compareTo("bool") == 0)) {
                     at = AvatarType.BOOLEAN;
                 } else if (type.compareTo("int") == 0){
                     at = AvatarType.INTEGER;

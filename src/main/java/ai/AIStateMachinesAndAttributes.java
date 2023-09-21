@@ -143,8 +143,8 @@ public class AIStateMachinesAndAttributes extends AIInteract implements AISysMLV
             AvatarBlock b = specification.getBlockWithName(blockName);
             questionT = QUESTION_IDENTIFY_STATE_MACHINE[0] + blockName;
             if (b != null) {
-                questionT += ". This block has the following attributes: " + specification.getStringAttributes(b);
-                questionT += ". This block has the following signals: " + specification.getStringSignals(b);
+                questionT += "\nThis block has the following attributes:\n " + specification.getStringAttributes(b);
+                questionT += "\nThis block has the following signals:\n " + specification.getStringSignals(b);
             }
             while (!done && cpt < max) {
                 done = true;

@@ -821,7 +821,7 @@ public class AvatarSpecification extends AvatarElement implements IBSParamSpec {
 
                 AvatarSignal asO = AvatarSignal.isAValidSignalThenCreate("out " + sigName, blockO);
                 if (asO == null) {
-                    jsonErrors.add("The declaration of signal " + sigName + " is not valid for block " + blockOName);
+                    jsonErrors.add("The declaration of the out signal " + sigName + " is not valid for block " + blockOName);
                 }
 
                 AvatarSignal asD;
@@ -833,7 +833,7 @@ public class AvatarSpecification extends AvatarElement implements IBSParamSpec {
                 }
 
                 if (asD == null) {
-                    jsonErrors.add("The declaration of signal " + sigName + " is not valid for block " + blockDName);
+                    jsonErrors.add("The declaration of the in signal " + sigName + " is not valid for block " + blockDName);
                 }
 
                 if ((asO != null) && (asD != null)) {
@@ -1132,7 +1132,7 @@ public class AvatarSpecification extends AvatarElement implements IBSParamSpec {
         StringBuffer sb = new StringBuffer("Blocks:\n");
         //TraceManager.addDev("TS Block");
         for (AvatarBlock block : blocks) {
-            if (isRecursive) {
+            if (!isRecursive) {
                 sb.append("*** " + block.toString() + "\n");
             } else {
                 sb.append("*** " + block.toStringRecursive() + "\n");

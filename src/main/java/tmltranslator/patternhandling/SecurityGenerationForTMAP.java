@@ -20,8 +20,8 @@ import java.util.*;
 
 
 public class SecurityGenerationForTMAP implements Runnable {
-    String appTabName;
-    TMLMapping<?> map;
+    String appName;
+    TMLMapping<?> tmap;
     String encComp;
     String overhead;
     String decComp;
@@ -45,19 +45,19 @@ public class SecurityGenerationForTMAP implements Runnable {
     Map<String, SecurityPattern> channelSecMap = new HashMap<String, SecurityPattern>();
     TMLMapping<?> newMap;
 
-    public SecurityGenerationForTMAP(String appTabName, TMLMapping<?> map, String encComp, String overhead, String decComp, Map<String, List<String>> selectedCPUTasks) {
+    public SecurityGenerationForTMAP(String appName, TMLMapping<?> tmap, String encComp, String overhead, String decComp, Map<String, List<String>> selectedCPUTasks) {
 
-        this.appTabName = appTabName;
-        this.map = map;
-        this.newMap = map;
+        this.appName = appName;
+        this.tmap = tmap;
+        this.newMap = tmap;
         this.overhead = overhead;
         this.decComp = decComp;
         this.encComp = encComp;
         this.selectedCPUTasks = selectedCPUTasks;
     }
     
-    public void proverifAnalysis(TMLMapping<?> map, List<String> nonAuthChans, List<String> nonConfChans, boolean checkAuthProverif) {
-        if (map == null) {
+    public void proverifAnalysis(TMLMapping<?> tmap, List<String> nonAuthChans, List<String> nonConfChans, boolean checkAuthProverif) {
+        if (tmap == null) {
             TraceManager.addDev("No mapping");
             return;
         }
@@ -65,8 +65,8 @@ public class SecurityGenerationForTMAP implements Runnable {
         //Perform ProVerif Analysis
 
         Object o = null;
-        if (map.getTMLModeling().getReference() instanceof TGComponent) {
-            o = ((TGComponent)(map.getTMLModeling().getReference())).getTDiagramPanel().tp;
+        if (tmap.getTMLModeling().getReference() instanceof TGComponent) {
+            o = ((TGComponent)(tmap.getTMLModeling().getReference())).getTDiagramPanel().tp;
         }
 
         TML2Avatar t2a = new TML2Avatar(newMap, false, true, o);
@@ -108,10 +108,10 @@ public class SecurityGenerationForTMAP implements Runnable {
                     nonConfChans.add(pragma.getArg().getBlock().getName() + "__" + pragma.getArg().getName());
                     TraceManager.addDev("SECGEN:" + pragma.getArg().getBlock().getName() + "." + pragma.getArg().getName() + " is not secret");
 
-                    TMLChannel chan = map.getTMLModeling().getChannelByShortName(pragma.getArg().getName().replaceAll("_chData", ""));
+                    TMLChannel chan = tmap.getTMLModeling().getChannelByShortName(pragma.getArg().getName().replaceAll("_chData", ""));
 
                     if (chan == null) {
-                        chan = map.getTMLModeling().getChannelByOriginPortName(pragma.getArg().getName().replaceAll("_chData", ""));
+                        chan = tmap.getTMLModeling().getChannelByOriginPortName(pragma.getArg().getName().replaceAll("_chData", ""));
                     }
 
                     if (chan == null) {
@@ -157,7 +157,7 @@ public class SecurityGenerationForTMAP implements Runnable {
             TraceManager.addDev("SECGEN. Error in Security Generation Thread");
             System.out.println("SECGEN. Error in Security Generation Thread");
         }
-        return map;
+        return tmap;
     }
 
     public boolean portInTask(TMLTask task, String portName) {
@@ -183,8 +183,8 @@ public class SecurityGenerationForTMAP implements Runnable {
     }
 
     public void run() {
-        String title = appTabName;
-        // oldmodel = map.getTMLModeling();
+        String title = appName;
+        // oldmodel = tmap.getTMLModeling();
         Map<TMLTask, HashSet<TMLTask>> toSecure = new HashMap<TMLTask, HashSet<TMLTask>>();
         Map<TMLTask, HashSet<TMLTask>> toSecureRev = new HashMap<TMLTask, HashSet<TMLTask>>();
         Map<TMLTask, HashSet<String>> secOutChannels = new HashMap<TMLTask, HashSet<String>>();
@@ -197,7 +197,7 @@ public class SecurityGenerationForTMAP implements Runnable {
         Map<TMLTask, HashSet<String>> hsmSecInChannels = new HashMap<TMLTask, HashSet<String>>();
         Map<TMLTask, HashSet<String>> hsmSecOutChannels = new HashMap<TMLTask, HashSet<String>>();
 
-        //TraceManager.addDev("mapping " + map.getSummaryTaskMapping());
+        //TraceManager.addDev("mapping " + tmap.getSummaryTaskMapping());
 
         //   Map<String, HSMChannel> secChannels = new HashMap<String, HSMChannel>();
         //Map<String, HSMChannel> hsmChannels = new HashMap<String, HSMChannel>();
@@ -212,7 +212,7 @@ public class SecurityGenerationForTMAP implements Runnable {
 
         }
 
-        TMLModeling<?> tmlmodel = map.getTMLModeling();
+        TMLModeling<?> tmlmodel = tmap.getTMLModeling();
         //Proverif Analysis channels
         List<String> nonAuthChans = new ArrayList<String>();
         List<String> nonConfChans = new ArrayList<String>();
@@ -223,7 +223,7 @@ public class SecurityGenerationForTMAP implements Runnable {
                 break;
             }
         }
-        proverifAnalysis(map, nonAuthChans, nonConfChans, checkAuthProverif);
+        proverifAnalysis(tmap, nonAuthChans, nonConfChans, checkAuthProverif);
 
         
         List<TMLChannel> channels = tmlmodel.getChannels();
@@ -238,13 +238,13 @@ public class SecurityGenerationForTMAP implements Runnable {
         //System.out.println("NonConf " + nonConfChans);
 
         //Create clone of Component Diagram + Activity diagrams to secure
-        //        TMLComponentDesignPanel tmlcdp = map.getTMLCDesignPanel();
+        //        TMLComponentDesignPanel tmlcdp = tmap.getTMLCDesignPanel();
 
         //TMLComponentTaskDiagramPanel tcdp = tmlcdp.tmlctdp;
-        //Create clone of architecture panel and map tasks to it
+        //Create clone of architecture panel and tmap tasks to it
         //newarch.renameMapping(tabName, tabName + "_" + name);
 
-        for (TMLTask task : map.getTMLModeling().getTasks()) {
+        for (TMLTask task : tmap.getTMLModeling().getTasks()) {
             HashSet<String> tmp = new HashSet<String>();
             HashSet<String> tmp2 = new HashSet<String>();
             HashSet<TMLTask> tmp3 = new HashSet<TMLTask>();
@@ -270,8 +270,8 @@ public class SecurityGenerationForTMAP implements Runnable {
             hsmSecOutChannels.put(task, tmp10);
 
         }
-        //ToSecure keeps a map of origin task: {dest task} for which security operators need to be added
-        //ToSecureRev keeps a map of dest task: {origin task} for which security operators need to be added
+        //ToSecure keeps a tmap of origin task: {dest task} for which security operators need to be added
+        //ToSecureRev keeps a tmap of dest task: {origin task} for which security operators need to be added
 
         //SecOutChannels are channels which need symmetric encryption operators added
         //SecInChannels are channels which need sym decryption operators added
@@ -284,7 +284,7 @@ public class SecurityGenerationForTMAP implements Runnable {
         //hsmSecOutChannels need to send data to the hsm to encrypt before sending channel data
 
         //With the proverif results, check which channels need to be secured
-        for (TMLTask task : map.getTMLModeling().getTasks()) {
+        for (TMLTask task : tmap.getTMLModeling().getTasks()) {
             //Check if all channel operators are secured
             TMLActivity taskAD = task.getActivityDiagram(); //FIXME getActivityDiagramName( task ) )
             if (taskAD == null) {
@@ -618,7 +618,7 @@ public class SecurityGenerationForTMAP implements Runnable {
         }
         //Add a HSM Task for each selected CPU on the component diagram, add associated channels, etc
         for (String cpuName : selectedCPUTasks.keySet()) {
-            TMLTask hsm = new TMLTask("HSM_" + cpuName, map.getTMLModeling().getTasks().get(0).getReferenceObject(), null);
+            TMLTask hsm = new TMLTask("HSM_" + cpuName, tmap.getTMLModeling().getTasks().get(0).getReferenceObject(), null);
 
             TMLAttribute index = new TMLAttribute("channelIndex", new TMLType(TMLType.NATURAL), "0");
             hsm.addAttribute(index);
@@ -692,7 +692,7 @@ public class SecurityGenerationForTMAP implements Runnable {
             //Add a private bus to Hardware Accelerator with the task for hsm
 
             //Find the CPU the task is mapped to
-            TMLArchitecture arch = map.getArch();
+            TMLArchitecture arch = tmap.getArch();
             HwCPU cpu = arch.getHwCPUByName(cpuName);
 
             if (cpu == null) {
@@ -708,9 +708,9 @@ public class SecurityGenerationForTMAP implements Runnable {
             arch.addHwNode(hwa);
             
             //Add hsm task to hwa
-            TMLTask task = map.getTaskByName("HSM_" + cpuName);
+            TMLTask task = tmap.getTaskByName("HSM_" + cpuName);
             if (task != null) {
-                map.addTaskToHwExecutionNode(task, hwa);
+                tmap.addTaskToHwExecutionNode(task, hwa);
             }
             //Add bus connecting the cpu and HWA
             HwBus bus = new HwBus("HSMBus_" + cpuName);
@@ -764,24 +764,24 @@ public class SecurityGenerationForTMAP implements Runnable {
                     HwMemory memToPutChannel = null;
                     for (TMLChannel chan : chans2) {
                         if (chan.isCheckAuthChannel()) {
-                            TMLChannel sameChannel = map.getChannelByName(chan.getName().split("__")[1]);
-                            HwMemory memoryOfChannel = map.getMemoryOfChannel(sameChannel);
+                            TMLChannel sameChannel = tmap.getChannelByName(chan.getName().split("__")[1]);
+                            HwMemory memoryOfChannel = tmap.getMemoryOfChannel(sameChannel);
                             if (memoryOfChannel != null) {
                                 count_chans += 1;
                                 if (count_chans == 1) {
                                     memToPutChannel = memoryOfChannel;
-                                    //map.addCommToHwCommNode(channel, memToPutChannel);
+                                    //tmap.addCommToHwCommNode(channel, memToPutChannel);
                                 }
-                                for (HwCommunicationNode mappedNode : map.getAllCommunicationNodesOfChannel(sameChannel)) {
+                                for (HwCommunicationNode mappedNode : tmap.getAllCommunicationNodesOfChannel(sameChannel)) {
                                     if (!(mappedNode instanceof HwMemory)) {
-                                        map.addCommToHwCommNode(channel, mappedNode);
+                                        tmap.addCommToHwCommNode(channel, mappedNode);
                                     }
                                 }
                             }
                         }
                     }
                     if (count_chans > 0) {
-                        map.addCommToHwCommNode(channel, memToPutChannel);
+                        tmap.addCommToHwCommNode(channel, memToPutChannel);
                     }
                 }
             }
@@ -1402,9 +1402,9 @@ public class SecurityGenerationForTMAP implements Runnable {
     }
 
     public void buildHSMActivityDiagram(String cpuName) {
-        TMLModeling<?> tmlmodel = map.getTMLModeling();
+        TMLModeling<?> tmlmodel = tmap.getTMLModeling();
         //Build HSM Activity diagram
-        TMLTask task = map.getTaskByName("HSM_" + cpuName);
+        TMLTask task = tmap.getTaskByName("HSM_" + cpuName);
         TMLActivity taskAD = task.getActivityDiagram();
         if (taskAD == null) {
             return;
@@ -1627,6 +1627,137 @@ public class SecurityGenerationForTMAP implements Runnable {
             }
 
         }
+    }
+
+    public TMLMapping<?> autoMapKeys() {
+        if (tmap == null) {
+            return tmap;
+        }
+        List<HwLink> links = new ArrayList<>();
+        links.addAll(tmap.getArch().getHwLinks()); 
+        //Find all Security Patterns, if they don't have an associated memory at encrypt and decrypt, tmap them
+        TMLModeling<?> tmlm = tmap.getTMLModeling();
+        if (tmlm.securityTaskMap == null) {
+            return tmap;
+        }
+        for (SecurityPattern sp : tmlm.securityTaskMap.keySet()) {
+            if (sp.type.equals(SecurityPattern.SYMMETRIC_ENC_PATTERN) || sp.type.equals(SecurityPattern.MAC_PATTERN) || sp.type.equals(SecurityPattern.ASYMMETRIC_ENC_PATTERN)) {
+                for (TMLTask t : tmlm.securityTaskMap.get(sp)) {
+                    HwExecutionNode node1 = tmap.getHwNodeOf(t);
+                    boolean taskMappedToCPU = false;
+                    if (node1!=null) {
+                        if (node1 instanceof HwCPU) {
+                            HwCPU cpuNode = (HwCPU) node1;
+                            taskMappedToCPU = true;
+                            boolean keyMappedtoMem = false;
+                            HwLink lastLink = null;
+                            for (HwLink link : links) {
+                                if (!keyMappedtoMem && link.hwnode == node1) {
+                                    lastLink = link;
+                                    if (link.bus.privacy == 1) {
+                                        HwBus curBus = link.bus;
+                                        boolean keyFound = false;
+                                        HwMemory memNodeToMap = null;
+                                        outer:
+                                        for (HwLink linkBus : links) {
+                                            if (linkBus.bus == curBus) {
+                                                if (linkBus.hwnode instanceof HwMemory) {
+                                                    memNodeToMap = (HwMemory) linkBus.hwnode;
+                                                    List<SecurityPattern> keys = tmap.getMappedPatterns(memNodeToMap);
+                                                    if (keys.contains(sp)) {
+                                                        keyFound = true;
+                                                        keyMappedtoMem = true;
+                                                        break outer;
+                                                    }
+                                                }
+                                            }
+                                        }
+                                        if (!keyFound) {
+                                            if (memNodeToMap != null) {
+                                                TraceManager.addDev("Adding " + sp.name + " key to " + memNodeToMap.getName());
+                                                tmap.addSecurityPattern(memNodeToMap, sp);
+                                                keyMappedtoMem = true;
+                                            } else {
+                                                HwMemory newHwMemory = new HwMemory(cpuNode.getName() + "KeysMemory");
+                                                TraceManager.addDev("Creating new memory: " + newHwMemory.getName());
+                                                tmap.getArch().addHwNode(newHwMemory);
+                                                
+                                                //Connect Bus and Memory
+                                                HwLink linkNewMemWithBus = new HwLink("link_" + newHwMemory.getName() + "_to_" + curBus.getName());
+                                                linkNewMemWithBus.bus = curBus;
+                                                linkNewMemWithBus.hwnode = newHwMemory;
+                                                tmap.getArch().addHwLink(linkNewMemWithBus);
+                                                links.add(linkNewMemWithBus);
+                                                
+                                                tmap.addSecurityPattern(memNodeToMap, sp);
+                                                TraceManager.addDev("Adding " + sp.name + " key to " + newHwMemory.getName());
+                                                keyMappedtoMem = true;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                            if (!keyMappedtoMem) {
+                                if (lastLink != null) {
+                                    HwBus lastBusNode = lastLink.bus;
+                                    HwCPU cpuArchiNode = cpuNode;
+
+                                    HwBridge newBridge = new HwBridge(cpuNode.getName() + "KeysBrigde");
+                                    tmap.getArch().addHwNode(newBridge);
+
+                                    HwBus newPrivateBus = new HwBus(cpuNode.getName() + "KeysPrivateBus");
+                                    newPrivateBus.privacy = HwBus.BUS_PRIVATE;
+                                    tmap.getArch().addHwNode(newPrivateBus);
+                                   
+                                    HwMemory memNodeToMap = new HwMemory(cpuNode.getName() + "KeysMemory");
+                                    TraceManager.addDev("Creating new memory: " + memNodeToMap.getName());
+                                    tmap.getArch().addHwNode(memNodeToMap);
+
+                                    tmap.addSecurityPattern(memNodeToMap, sp);
+                                    TraceManager.addDev("Adding " + sp.name + " key to " + memNodeToMap.getName());
+                                    keyMappedtoMem = true;
+
+                                    //Connect Bus and Memory
+                                    HwLink newLinkBusMemory = new HwLink("Link_"+newPrivateBus.getName() + "_" + memNodeToMap.getName());
+                                    newLinkBusMemory.setNodes(newPrivateBus, memNodeToMap);
+                                    links.add(newLinkBusMemory);
+
+                                    //Connect new Private Bus and Bridge
+                                    HwLink newLinkPrivateBusBridge = new HwLink("Link_"+newPrivateBus.getName() + "_" + newBridge.getName());
+                                    newLinkPrivateBusBridge.setNodes(newPrivateBus, newBridge);
+                                    links.add(newLinkPrivateBusBridge);
+
+                                    //Connect Public Bus and Bridge
+                                    HwLink newLinkPublicBusBridge = new HwLink("Link_"+lastBusNode.getName() + "_" + newBridge.getName());
+                                    newLinkPublicBusBridge.setNodes(lastLink.bus, newBridge);
+                                    links.add(newLinkPublicBusBridge);
+
+                                    //Connect new Private Bus and CPU
+                                    HwLink newLinkPrivateBusCPU = new HwLink("Link_"+newPrivateBus.getName() + "_" + cpuArchiNode.getName());
+                                    newLinkPrivateBusCPU.setNodes(newPrivateBus, cpuArchiNode);
+                                    links.add(newLinkPrivateBusCPU);
+
+
+                                    //Disconnect Public Bus and CPU
+                                    for (HwLink li: links) {
+                                        if (li.bus == lastLink.bus && li.hwnode == cpuNode) {
+                                            TraceManager.addDev("Disconnect :" + li.bus.getName() + " and " + li.hwnode.getName());
+                                            links.remove(li);
+                                            break;
+                                        }       
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    if (!taskMappedToCPU) {
+                        TraceManager.addDev(t.getTaskName() + " has to be mapped to a CPU!");
+                    }
+                }
+            }
+        }
+        TraceManager.addDev("Mapping finished");
+        return tmap;
     }
 
     class HSMChannel {

@@ -1321,6 +1321,11 @@ public class PatternIntegration implements Runnable {
         return _tmapModel;
     }
 
+    public TMLMapping<?> mapTasksInArchAuto(TMLMapping<?> _tmapModel, LinkedHashMap<String, Entry<String, String>> _taskMapping) {
+        
+        return _tmapModel;
+    }
+
     public TMLMapping<?> mapChannelsInArch(TMLMapping<?> _tmapModel, LinkedHashMap<String, List<String[]>> _channelMapping) {
         TMLArchitecture _tmlarchModel =  _tmapModel.getArch();
         for (String taskName : _channelMapping.keySet()) {

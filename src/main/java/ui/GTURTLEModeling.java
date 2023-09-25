@@ -1745,6 +1745,7 @@ public class GTURTLEModeling {
             }
             SecurityGenerationForTMAP secgen = new SecurityGenerationForTMAP(appTabName, tmap, "100", "0", "100", new HashMap<String, java.util.List<String>>());
             tmap = (TMLMapping<TGComponent>) secgen.startThread();
+            tmap = (TMLMapping<TGComponent>) secgen.autoMapKeys();
             for (TMLTask task : tmap.getTMLModeling().getTasks()) {
                 String[] taskNameSplit = task.getName().split("__");
                 task.setName(taskNameSplit[taskNameSplit.length-1]);
@@ -1761,7 +1762,6 @@ public class GTURTLEModeling {
                 String[] requestNameSplit = req.getName().split("__");
                 req.setName(requestNameSplit[requestNameSplit.length-1]);
             }
-            autoMapKeys();
         }
         try {
             String archTabName = ((CorrespondanceTGElement)(tmap.getCorrespondanceList())).getTG(tmap.getArch().getFirstCPU()).getTDiagramPanel().tp.getNameOfTab();

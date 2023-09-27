@@ -208,7 +208,6 @@ public class ModeManager {
             actions[TGUIAction.ACT_AVATAR_FV_STATICANALYSIS].setEnabled(true);
             actions[TGUIAction.ACT_AVATAR_EXECUTABLE_GENERATION].setEnabled(true);
             actions[TGUIAction.ACT_AVATAR_MODEL_CHECKER].setEnabled(true);
-            actions[TGUIAction.ACT_PATTERN_HANDLING].setEnabled(true);
             break;
         case MainGUI.ATTACKTREE_SYNTAXCHECKING_OK:
             actions[TGUIAction.ACT_AVATAR_SIM].setEnabled(true);
@@ -217,7 +216,6 @@ public class ModeManager {
             actions[TGUIAction.ACT_AVATAR_FV_STATICANALYSIS].setEnabled(false);
             actions[TGUIAction.ACT_AVATAR_EXECUTABLE_GENERATION].setEnabled(false);
             actions[TGUIAction.ACT_AVATAR_MODEL_CHECKER].setEnabled(true);
-            actions[TGUIAction.ACT_PATTERN_HANDLING].setEnabled(true);
             break;
         case MainGUI.FAULTTREE_SYNTAXCHECKING_OK:
             actions[TGUIAction.ACT_AVATAR_SIM].setEnabled(true);
@@ -226,7 +224,6 @@ public class ModeManager {
             actions[TGUIAction.ACT_AVATAR_FV_STATICANALYSIS].setEnabled(false);
             actions[TGUIAction.ACT_AVATAR_EXECUTABLE_GENERATION].setEnabled(false);
             actions[TGUIAction.ACT_AVATAR_MODEL_CHECKER].setEnabled(true);
-            actions[TGUIAction.ACT_PATTERN_HANDLING].setEnabled(true);
             break;
         case MainGUI.REQ_OK:
             // actions[TGUIAction.ACT_VIEW_MATRIX].setEnabled(true);

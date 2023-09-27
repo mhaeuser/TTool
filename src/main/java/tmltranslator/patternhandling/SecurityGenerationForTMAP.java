@@ -301,6 +301,9 @@ public class SecurityGenerationForTMAP implements Runnable {
                 if (chan.isBasicChannel()) {
                     portNames.add(chan.getOriginPort().getName());
                     portNames.add(chan.getDestinationPort().getName());
+                    TraceManager.addDev("chan.getName()=" + chan.getName());
+                    TraceManager.addDev("chan.getOriginTask().getName()=" + chan.getOriginTask().getName());
+                    TraceManager.addDev("chan.getDestinationTask().getName()=" + chan.getDestinationTask().getName());
                     if (nonConfChans.contains(chan.getOriginTask().getName().split("__")[1] + "__" + chan.getOriginPort().getName() + "_chData")) {
                         nonConf = true;
                         TraceManager.addDev("SECGEN. non conf basic ch = true");
@@ -396,6 +399,7 @@ public class SecurityGenerationForTMAP implements Runnable {
                             } else {
                                 if (!secInChannels.get(chan.getDestinationTask()).contains(chanName)) {
                                     secInChannels.get(chan.getDestinationTask()).add(chanName);
+                                    TraceManager.addDev("add in 399 :" + chan.getName());
                                     if (chan.isEnsureStrongAuth()) {
                                         nonceInChannels.get(chan.getDestinationTask()).add(chanName);
                                     }
@@ -454,6 +458,7 @@ public class SecurityGenerationForTMAP implements Runnable {
                             } else {
                                 if (!secInChannels.get(chan.getDestinationTask()).contains(chanName)) {
                                     secInChannels.get(chan.getDestinationTask()).add(chanName);
+                                    TraceManager.addDev("add in 457");
                                     if (chan.isEnsureStrongAuth()) {
                                         nonceInChannels.get(chan.getDestinationTask()).add(chanName);
                                     }
@@ -511,6 +516,7 @@ public class SecurityGenerationForTMAP implements Runnable {
                                     } else {
                                         if (!secInChannels.get(dest).contains(chanName)) {
                                             secInChannels.get(dest).add(chanName);
+                                            TraceManager.addDev("add in 514");
 										/*if (chan.checkAuth && autoStrongAuth) {
 										  nonceInChannels.get(dest).add(chanName);
 										  }*/
@@ -571,6 +577,7 @@ public class SecurityGenerationForTMAP implements Runnable {
                                     } else {
                                         if (!secInChannels.get(dest).contains(chanName)) {
                                             secInChannels.get(dest).add(chanName);
+                                            TraceManager.addDev("add in 574");
 										/*if (chan.checkAuth && autoStrongAuth) {
 										  nonceInChannels.get(dest).add(chanName);
 										  }*/
@@ -763,16 +770,17 @@ public class SecurityGenerationForTMAP implements Runnable {
                     int count_chans = 0;
                     HwMemory memToPutChannel = null;
                     for (TMLChannel chan : chans2) {
+                        TraceManager.addDev("chan= " + chan.getName());
                         if (chan.isCheckAuthChannel()) {
-                            TMLChannel sameChannel = tmap.getChannelByName(chan.getName().split("__")[1]);
-                            HwMemory memoryOfChannel = tmap.getMemoryOfChannel(sameChannel);
+                            TraceManager.addDev("chan check= " + chan.getName());
+                            HwMemory memoryOfChannel = tmap.getMemoryOfChannel(chan);
                             if (memoryOfChannel != null) {
                                 count_chans += 1;
                                 if (count_chans == 1) {
                                     memToPutChannel = memoryOfChannel;
                                     //tmap.addCommToHwCommNode(channel, memToPutChannel);
                                 }
-                                for (HwCommunicationNode mappedNode : tmap.getAllCommunicationNodesOfChannel(sameChannel)) {
+                                for (HwCommunicationNode mappedNode : tmap.getAllCommunicationNodesOfChannel(chan)) {
                                     if (!(mappedNode instanceof HwMemory)) {
                                         tmap.addCommToHwCommNode(channel, mappedNode);
                                     }
@@ -834,6 +842,17 @@ public class SecurityGenerationForTMAP implements Runnable {
                     encC.securityPattern = new SecurityPattern(channelSecMap.get(channel));
                     encC.securityPattern.setProcess(SecurityPattern.ENCRYPTION_PROCESS);
                     encC.setAction(Integer.toString(channelSecMap.get(channel).encTime));
+                    tmlmodel.addSecurityPattern(channelSecMap.get(channel));
+                    if (tmlmodel.securityTaskMap.containsKey(channelSecMap.get(channel))) {
+                        if (!tmlmodel.securityTaskMap.get(channelSecMap.get(channel)).contains(task)) {
+                            tmlmodel.securityTaskMap.get(channelSecMap.get(channel)).add(task);
+                        }
+                    } else {
+                        List<TMLTask> listTask = new ArrayList<TMLTask>();
+                        listTask.add(task);
+                        tmlmodel.securityTaskMap.put(channelSecMap.get(channel), listTask);
+                    }
+                    
                     TMLActivityElement prevElem = taskAD.getPrevious(elem);
                     if (nonceOutChannels.get(task).contains(channel)) {
                         //Receive any nonces if ensuring authenticity
@@ -866,7 +885,7 @@ public class SecurityGenerationForTMAP implements Runnable {
                         taskAD.addElement(rd);
                         //Move encryption operator after receive nonce component
                         if (tmlc != null) {
-                            channelSecMap.get(channel).nonce = "nonce_" + tmlc.getDestinationTask().getName().split("__")[1] + "_" + tmlc.getOriginTask().getName().split("__")[1];
+                            encC.securityPattern.nonce = "nonce_" + tmlc.getDestinationTask().getName().split("__")[1] + "_" + tmlc.getOriginTask().getName().split("__")[1];
                         }
                     }
                     prevElem = taskAD.getPrevious(elem);
@@ -920,6 +939,16 @@ public class SecurityGenerationForTMAP implements Runnable {
                     encC.securityPattern = new SecurityPattern(channelSecMap.get(channel));
                     encC.securityPattern.setProcess(SecurityPattern.ENCRYPTION_PROCESS);
                     encC.setAction(Integer.toString(channelSecMap.get(channel).encTime));
+                    tmlmodel.addSecurityPattern(channelSecMap.get(channel));
+                    if (tmlmodel.securityTaskMap.containsKey(channelSecMap.get(channel))) {
+                        if (!tmlmodel.securityTaskMap.get(channelSecMap.get(channel)).contains(task)) {
+                            tmlmodel.securityTaskMap.get(channelSecMap.get(channel)).add(task);
+                        }
+                    } else {
+                        List<TMLTask> listTask = new ArrayList<TMLTask>();
+                        listTask.add(task);
+                        tmlmodel.securityTaskMap.put(channelSecMap.get(channel), listTask);
+                    }
 
                     TMLActivityElement prevElem = taskAD.getPrevious(elem);
                     if (nonceOutChannels.get(task).contains(channel)) {
@@ -951,7 +980,7 @@ public class SecurityGenerationForTMAP implements Runnable {
                         rd.addNext(elem);
                         taskAD.addElement(rd);
                         if (tmlc != null) {
-                            channelSecMap.get(channel).nonce = "nonce_" + tmlc.getDestinationTask().getName().split("__")[1] + "_" + tmlc.getOriginTask().getName().split("__")[1];
+                            encC.securityPattern.nonce = "nonce_" + tmlc.getDestinationTask().getName().split("__")[1] + "_" + tmlc.getOriginTask().getName().split("__")[1];
                         }
                     }
                     //Add encryption operator
@@ -1146,6 +1175,16 @@ public class SecurityGenerationForTMAP implements Runnable {
                         nonce.securityPattern.setProcess(SecurityPattern.ENCRYPTION_PROCESS);
                         nonce.setAction(Integer.toString(secNonce.encTime));
                         
+                        tmlmodel.addSecurityPattern(secNonce);
+                        if (tmlmodel.securityTaskMap.containsKey(secNonce)) {
+                            if (!tmlmodel.securityTaskMap.get(secNonce).contains(task)) {
+                                tmlmodel.securityTaskMap.get(secNonce).add(task);
+                            }
+                        } else {
+                            List<TMLTask> listTask = new ArrayList<TMLTask>();
+                            listTask.add(task);
+                            tmlmodel.securityTaskMap.put(secNonce, listTask);
+                        }
                         
                         taskAD.addElement(nonce);
                         wr.setNewNext(chan, nonce);
@@ -1249,6 +1288,18 @@ public class SecurityGenerationForTMAP implements Runnable {
                         nonce.securityPattern = secNonce;
                         nonce.securityPattern.setProcess(SecurityPattern.ENCRYPTION_PROCESS);
                         nonce.setAction(Integer.toString(secNonce.encTime));
+
+                        tmlmodel.addSecurityPattern(secNonce);
+                        if (tmlmodel.securityTaskMap.containsKey(secNonce)) {
+                            if (!tmlmodel.securityTaskMap.get(secNonce).contains(task)) {
+                                tmlmodel.securityTaskMap.get(secNonce).add(task);
+                            }
+                        } else {
+                            List<TMLTask> listTask = new ArrayList<TMLTask>();
+                            listTask.add(task);
+                            tmlmodel.securityTaskMap.put(secNonce, listTask);
+                        }
+
                         taskAD.addElement(nonce);
                         fromStart.setNewNext(readChannel, nonce);
 
@@ -1285,6 +1336,16 @@ public class SecurityGenerationForTMAP implements Runnable {
                     TMLExecC dec = new TMLExecC(channelSecMap.get(readChannel.getChannel(0).getName().replaceAll(title + "__", "")).name, taskAD.getReferenceObject());
                     dec.securityPattern = new SecurityPattern(channelSecMap.get(readChannel.getChannel(0).getName().replaceAll(title + "__", "")));
                     dec.setAction(Integer.toString(dec.securityPattern.encTime));
+                    tmlmodel.addSecurityPattern(channelSecMap.get(readChannel.getChannel(0).getName().replaceAll(title + "__", "")));
+                    if (tmlmodel.securityTaskMap.containsKey(channelSecMap.get(readChannel.getChannel(0).getName().replaceAll(title + "__", "")))) {
+                        if (!tmlmodel.securityTaskMap.get(channelSecMap.get(readChannel.getChannel(0).getName().replaceAll(title + "__", ""))).contains(task)) {
+                            tmlmodel.securityTaskMap.get(channelSecMap.get(readChannel.getChannel(0).getName().replaceAll(title + "__", ""))).add(task);
+                        }
+                    } else {
+                        List<TMLTask> listTask = new ArrayList<TMLTask>();
+                        listTask.add(task);
+                        tmlmodel.securityTaskMap.put(channelSecMap.get(readChannel.getChannel(0).getName().replaceAll(title + "__", "")), listTask);
+                    }
                     dec.securityPattern.setProcess(SecurityPattern.DECRYPTION_PROCESS);
                     taskAD.addElement(dec);
                     dec.addNext(readChannel.getNextElement(0));
@@ -1331,14 +1392,26 @@ public class SecurityGenerationForTMAP implements Runnable {
                 for (TMLActivityElement elem : channelInstances) {
                     TMLReadChannel readChannel = (TMLReadChannel) elem;
                     fromStart = taskAD.getPrevious(elem);
+                    TraceManager.addDev("0 readChannel= " + readChannel.getChannel(0).getName());
                     if (nonceInChannels.get(task).contains(channel)) {
                         //Create a nonce operator and a write channel operator
-                        
+                        TraceManager.addDev("0 has Nonce ");
                         TMLExecC nonce = new TMLExecC("nonce_" + tmlc.getDestinationTask().getName().split("__")[1] + "_" + tmlc.getOriginTask().getName().split("__")[1], taskAD.getReferenceObject());
                         SecurityPattern secNonce = new SecurityPattern(nonce.getName(), SecurityPattern.NONCE_PATTERN, overhead, "", encComp, decComp, "", "", "");
                         nonce.securityPattern = secNonce;
                         nonce.securityPattern.setProcess(SecurityPattern.ENCRYPTION_PROCESS);
                         nonce.setAction(Integer.toString(secNonce.encTime));
+
+                        tmlmodel.addSecurityPattern(secNonce);
+                        if (tmlmodel.securityTaskMap.containsKey(secNonce)) {
+                            if (!tmlmodel.securityTaskMap.get(secNonce).contains(task)) {
+                                tmlmodel.securityTaskMap.get(secNonce).add(task);
+                            }
+                        } else {
+                            List<TMLTask> listTask = new ArrayList<TMLTask>();
+                            listTask.add(task);
+                            tmlmodel.securityTaskMap.put(secNonce, listTask);
+                        }
 
                         taskAD.addElement(nonce);
                         fromStart.setNewNext(elem, nonce);
@@ -1380,6 +1453,18 @@ public class SecurityGenerationForTMAP implements Runnable {
                     dec.securityPattern = new SecurityPattern(channelSecMap.get(readChShortName));
                     dec.securityPattern.setProcess(SecurityPattern.DECRYPTION_PROCESS);
                     dec.setAction(Integer.toString(channelSecMap.get(readChShortName).encTime));
+
+                    tmlmodel.addSecurityPattern(channelSecMap.get(readChShortName));
+                    if (tmlmodel.securityTaskMap.containsKey(channelSecMap.get(readChShortName))) {
+                        if (!tmlmodel.securityTaskMap.get(channelSecMap.get(readChShortName)).contains(task)) {
+                            tmlmodel.securityTaskMap.get(channelSecMap.get(readChShortName)).add(task);
+                        }
+                    } else {
+                        List<TMLTask> listTask = new ArrayList<TMLTask>();
+                        listTask.add(task);
+                        tmlmodel.securityTaskMap.put(channelSecMap.get(readChShortName), listTask);
+                    }
+
                     taskAD.addElement(dec);
                     dec.addNext(readChannel.getNextElement(0));
                     readChannel.setNewNext(readChannel.getNextElement(0), dec);
@@ -1482,6 +1567,18 @@ public class SecurityGenerationForTMAP implements Runnable {
                     dec.securityPattern = new SecurityPattern(channelSecMap.get(ch.name));
                     dec.securityPattern.setProcess(SecurityPattern.DECRYPTION_PROCESS);
                     dec.setAction(Integer.toString(channelSecMap.get(ch.name).encTime));
+
+                    tmlmodel.addSecurityPattern(channelSecMap.get(ch.name));
+                    if (tmlmodel.securityTaskMap.containsKey(channelSecMap.get(ch.name))) {
+                        if (!tmlmodel.securityTaskMap.get(channelSecMap.get(ch.name)).contains(task)) {
+                            tmlmodel.securityTaskMap.get(channelSecMap.get(ch.name)).add(task);
+                        }
+                    } else {
+                        List<TMLTask> listTask = new ArrayList<TMLTask>();
+                        listTask.add(task);
+                        tmlmodel.securityTaskMap.put(channelSecMap.get(ch.name), listTask);
+                    }
+
                     taskAD.addElement(dec);
                     rd.addNext(dec);
 
@@ -1492,6 +1589,17 @@ public class SecurityGenerationForTMAP implements Runnable {
                     enc.securityPattern = new SecurityPattern(channelSecMap.get(ch.name));
                     enc.securityPattern.setProcess(SecurityPattern.ENCRYPTION_PROCESS);
                     enc.setAction(Integer.toString(channelSecMap.get(ch.name).encTime));
+
+                    tmlmodel.addSecurityPattern(channelSecMap.get(ch.name));
+                    if (tmlmodel.securityTaskMap.containsKey(channelSecMap.get(ch.name))) {
+                        if (!tmlmodel.securityTaskMap.get(channelSecMap.get(ch.name)).contains(task)) {
+                            tmlmodel.securityTaskMap.get(channelSecMap.get(ch.name)).add(task);
+                        }
+                    } else {
+                        List<TMLTask> listTask = new ArrayList<TMLTask>();
+                        listTask.add(task);
+                        tmlmodel.securityTaskMap.put(channelSecMap.get(ch.name), listTask);
+                    }
                     
                     if (ch.secType == HSMChannel.SENC) {
                         enc.securityPattern.type = SecurityPattern.SYMMETRIC_ENC_PATTERN;
@@ -1574,6 +1682,17 @@ public class SecurityGenerationForTMAP implements Runnable {
                     dec.securityPattern = new SecurityPattern(channelSecMap.get(ch.name));
                     dec.securityPattern.setProcess(SecurityPattern.DECRYPTION_PROCESS);
                     dec.setAction(Integer.toString(channelSecMap.get(ch.name).encTime));
+
+                    tmlmodel.addSecurityPattern(channelSecMap.get(ch.name));
+                    if (tmlmodel.securityTaskMap.containsKey(channelSecMap.get(ch.name))) {
+                        if (!tmlmodel.securityTaskMap.get(channelSecMap.get(ch.name)).contains(task)) {
+                            tmlmodel.securityTaskMap.get(channelSecMap.get(ch.name)).add(task);
+                        }
+                    } else {
+                        List<TMLTask> listTask = new ArrayList<TMLTask>();
+                        listTask.add(task);
+                        tmlmodel.securityTaskMap.put(channelSecMap.get(ch.name), listTask);
+                    }
                     
                     taskAD.addElement(dec);
 
@@ -1595,6 +1714,18 @@ public class SecurityGenerationForTMAP implements Runnable {
                     enc.securityPattern = new SecurityPattern(channelSecMap.get(ch.name));
                     enc.securityPattern.setProcess(SecurityPattern.ENCRYPTION_PROCESS);
                     enc.setAction(Integer.toString(channelSecMap.get(ch.name).encTime));
+
+                    tmlmodel.addSecurityPattern(channelSecMap.get(ch.name));
+                    if (tmlmodel.securityTaskMap.containsKey(channelSecMap.get(ch.name))) {
+                        if (!tmlmodel.securityTaskMap.get(channelSecMap.get(ch.name)).contains(task)) {
+                            tmlmodel.securityTaskMap.get(channelSecMap.get(ch.name)).add(task);
+                        }
+                    } else {
+                        List<TMLTask> listTask = new ArrayList<TMLTask>();
+                        listTask.add(task);
+                        tmlmodel.securityTaskMap.put(channelSecMap.get(ch.name), listTask);
+                    }
+
                     if (ch.secType == HSMChannel.SENC) {
                         enc.securityPattern.type = SecurityPattern.SYMMETRIC_ENC_PATTERN;
                     } else if (ch.secType == HSMChannel.AENC) {
@@ -1633,8 +1764,6 @@ public class SecurityGenerationForTMAP implements Runnable {
         if (tmap == null) {
             return tmap;
         }
-        List<HwLink> links = new ArrayList<>();
-        links.addAll(tmap.getArch().getHwLinks()); 
         //Find all Security Patterns, if they don't have an associated memory at encrypt and decrypt, tmap them
         TMLModeling<?> tmlm = tmap.getTMLModeling();
         if (tmlm.securityTaskMap == null) {
@@ -1651,7 +1780,8 @@ public class SecurityGenerationForTMAP implements Runnable {
                             taskMappedToCPU = true;
                             boolean keyMappedtoMem = false;
                             HwLink lastLink = null;
-                            for (HwLink link : links) {
+                            for (int i=0; i < tmap.getArch().getHwLinks().size(); i++) {
+                                HwLink link = tmap.getArch().getHwLinks().get(i);
                                 if (!keyMappedtoMem && link.hwnode == node1) {
                                     lastLink = link;
                                     if (link.bus.privacy == 1) {
@@ -1659,7 +1789,7 @@ public class SecurityGenerationForTMAP implements Runnable {
                                         boolean keyFound = false;
                                         HwMemory memNodeToMap = null;
                                         outer:
-                                        for (HwLink linkBus : links) {
+                                        for (HwLink linkBus : tmap.getArch().getHwLinks()) {
                                             if (linkBus.bus == curBus) {
                                                 if (linkBus.hwnode instanceof HwMemory) {
                                                     memNodeToMap = (HwMemory) linkBus.hwnode;
@@ -1684,12 +1814,9 @@ public class SecurityGenerationForTMAP implements Runnable {
                                                 
                                                 //Connect Bus and Memory
                                                 HwLink linkNewMemWithBus = new HwLink("link_" + newHwMemory.getName() + "_to_" + curBus.getName());
-                                                linkNewMemWithBus.bus = curBus;
-                                                linkNewMemWithBus.hwnode = newHwMemory;
-                                                tmap.getArch().addHwLink(linkNewMemWithBus);
-                                                links.add(linkNewMemWithBus);
-                                                
-                                                tmap.addSecurityPattern(memNodeToMap, sp);
+                                                linkNewMemWithBus.setNodes(curBus, newHwMemory);
+                                                tmap.getArch().getHwLinks().add(linkNewMemWithBus);
+                                                tmap.addSecurityPattern(newHwMemory, sp);
                                                 TraceManager.addDev("Adding " + sp.name + " key to " + newHwMemory.getName());
                                                 keyMappedtoMem = true;
                                             }
@@ -1707,6 +1834,11 @@ public class SecurityGenerationForTMAP implements Runnable {
 
                                     HwBus newPrivateBus = new HwBus(cpuNode.getName() + "KeysPrivateBus");
                                     newPrivateBus.privacy = HwBus.BUS_PRIVATE;
+                                    for (TMLElement elem : tmap.getLisMappedChannels(lastBusNode)) {
+                                        if (elem instanceof TMLChannel) {
+                                            tmap.addCommToHwCommNode(elem, newPrivateBus);
+                                        }
+                                    }
                                     tmap.getArch().addHwNode(newPrivateBus);
                                    
                                     HwMemory memNodeToMap = new HwMemory(cpuNode.getName() + "KeysMemory");
@@ -1720,31 +1852,35 @@ public class SecurityGenerationForTMAP implements Runnable {
                                     //Connect Bus and Memory
                                     HwLink newLinkBusMemory = new HwLink("Link_"+newPrivateBus.getName() + "_" + memNodeToMap.getName());
                                     newLinkBusMemory.setNodes(newPrivateBus, memNodeToMap);
-                                    links.add(newLinkBusMemory);
+                                    tmap.getArch().addHwLink(newLinkBusMemory);
 
                                     //Connect new Private Bus and Bridge
                                     HwLink newLinkPrivateBusBridge = new HwLink("Link_"+newPrivateBus.getName() + "_" + newBridge.getName());
                                     newLinkPrivateBusBridge.setNodes(newPrivateBus, newBridge);
-                                    links.add(newLinkPrivateBusBridge);
+                                    tmap.getArch().addHwLink(newLinkPrivateBusBridge);
 
                                     //Connect Public Bus and Bridge
                                     HwLink newLinkPublicBusBridge = new HwLink("Link_"+lastBusNode.getName() + "_" + newBridge.getName());
                                     newLinkPublicBusBridge.setNodes(lastLink.bus, newBridge);
-                                    links.add(newLinkPublicBusBridge);
+                                    tmap.getArch().addHwLink(newLinkPublicBusBridge);
 
                                     //Connect new Private Bus and CPU
                                     HwLink newLinkPrivateBusCPU = new HwLink("Link_"+newPrivateBus.getName() + "_" + cpuArchiNode.getName());
                                     newLinkPrivateBusCPU.setNodes(newPrivateBus, cpuArchiNode);
-                                    links.add(newLinkPrivateBusCPU);
+                                    tmap.getArch().addHwLink(newLinkPrivateBusCPU);
 
 
                                     //Disconnect Public Bus and CPU
-                                    for (HwLink li: links) {
+                                    HwLink linkToRemove = null;
+                                    for (HwLink li: tmap.getArch().getHwLinks()) {
                                         if (li.bus == lastLink.bus && li.hwnode == cpuNode) {
                                             TraceManager.addDev("Disconnect :" + li.bus.getName() + " and " + li.hwnode.getName());
-                                            links.remove(li);
+                                            linkToRemove = li;
                                             break;
                                         }       
+                                    }
+                                    if (linkToRemove != null) {
+                                        tmap.getArch().getHwLinks().remove(linkToRemove);
                                     }
                                 }
                             }

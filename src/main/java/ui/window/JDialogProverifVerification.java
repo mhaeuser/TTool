@@ -140,6 +140,10 @@ public class JDialogProverifVerification extends JDialog implements ActionListen
     private static boolean PI_CALCULUS = true;
     public static int LOOP_ITERATION = 1;
 
+    public static String ADD_CONFIDENTIALITY = "Conf";
+    public static String ADD_WEAK_AUTHENTICITY = "Integrity";
+    public static String ADD_STRONG_AUTHENTICITY = "Strong Authenticity";
+
     private static boolean DRAW_AVATAR = false;
 
     protected MainGUI mgui;
@@ -166,6 +170,11 @@ public class JDialogProverifVerification extends JDialog implements ActionListen
     Vector<String> ignoredTasks = new Vector<String>();
     JList<String> listSelected;
     JList<String> listIgnored;
+
+    Vector<String> selectedChannelsToAddSec = new Vector<String>();
+    Vector<String> ignoredChannelsToAddSec = new Vector<String>();
+    JList<String> listSelectedChannelsToAddSec;
+    JList<String> listIgnoredChannelsToAddSec;
 
     //Patterns
     Vector<String> listPatterns = new Vector<String>(Arrays.asList("TMR"));
@@ -223,6 +232,7 @@ public class JDialogProverifVerification extends JDialog implements ActionListen
     protected JTextField encTime, decTime, secOverhead;
     protected JComboBox<String> addtoCPU;
 	protected JButton allValidated, addOneValidated, allIgnored, addOneIgnored;
+	protected JButton addAllChannelsToAddSec, addOneChannelToAddSec, removeAllChannelsToAddSec, removeOneChannelToAddSec;
 
     protected JCheckBox removeForkAndJoin;
 
@@ -308,16 +318,25 @@ public class JDialogProverifVerification extends JDialog implements ActionListen
             }
         }
 
-        for (int i=0; i<mgui.gtm.getTMLMapping().getMappedTasks().size(); i++) {
-            String taskFullName = mgui.gtm.getTMLMapping().getMappedTasks().get(i).getName();
-            String taskShortName = taskFullName.split("__")[taskFullName.split("__").length - 1];
-            allTasksFullName.add(taskFullName);
-            allTasksAsReceiver.add(taskShortName);
-            allTasksAsMainSensor.add(taskShortName);
-            allTasksAsSecondSensor.add(taskShortName);
-            allTasksAsThirdSensor.add(taskShortName);
-        } 
         currPanel = mgui.getCurrentTURTLEPanel();
+        
+        if (currPanel instanceof TMLArchiPanel) {
+            for (int i=0; i < mgui.gtm.getTMLMapping().getTMLModeling().getChannels().size(); i++) {
+                String channelFullName = mgui.gtm.getTMLMapping().getTMLModeling().getChannels().get(i).getName();
+                String channelShortName = channelFullName.split("__")[channelFullName.split("__").length - 1];
+                ignoredChannelsToAddSec.add(channelShortName);
+            }
+
+            for (int i=0; i<mgui.gtm.getTMLMapping().getMappedTasks().size(); i++) {
+                String taskFullName = mgui.gtm.getTMLMapping().getMappedTasks().get(i).getName();
+                String taskShortName = taskFullName.split("__")[taskFullName.split("__").length - 1];
+                allTasksFullName.add(taskFullName);
+                allTasksAsReceiver.add(taskShortName);
+                allTasksAsMainSensor.add(taskShortName);
+                allTasksAsSecondSensor.add(taskShortName);
+                allTasksAsThirdSensor.add(taskShortName);
+            }
+        }
 
         initComponents();
         myInitComponents();
@@ -765,29 +784,89 @@ public class JDialogProverifVerification extends JDialog implements ActionListen
         autoStrongAuth = new JCheckBox("Add security (Strong Authenticity)");
         autoStrongAuth.setEnabled(false);
         jp02.add(autoStrongAuth, c01);
-
 		autoStrongAuth.addActionListener(this);
 		
+        listIgnoredChannelsToAddSec = new JList<String>(ignoredChannelsToAddSec);
+        JPanel panelListChannelsAddSec = new JPanel();
+        panelListChannelsAddSec.setPreferredSize(new Dimension(250, 150));
+        GridBagConstraints cListChannelsAddSec = new GridBagConstraints();
+		cListChannelsAddSec.gridwidth = 1;
+		cListChannelsAddSec.gridheight = 1;
+		cListChannelsAddSec.fill= GridBagConstraints.BOTH;
+     	listIgnoredChannelsToAddSec.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+     	listIgnoredChannelsToAddSec.addListSelectionListener(this);
+
+        JScrollPane scrollPane1ChannelsToAddSec = new JScrollPane(listIgnoredChannelsToAddSec);
+        scrollPane1ChannelsToAddSec.setPreferredSize(new Dimension(250, 150));
+        panelListChannelsAddSec.add(scrollPane1ChannelsToAddSec, BorderLayout.WEST);
+
+        JPanel buttonPanelChannelsToAddSec = new JPanel();
+        GridBagConstraints cButtonChannelsToAddSec = new GridBagConstraints();
+        cButtonChannelsToAddSec.gridwidth = GridBagConstraints.REMAINDER;
+        cButtonChannelsToAddSec.gridheight = 1;
+
+        addAllChannelsToAddSec = new JButton(IconManager.imgic50);
+        addAllChannelsToAddSec.setPreferredSize(new Dimension(50, 25));
+        addAllChannelsToAddSec.setEnabled(false);
+        addAllChannelsToAddSec.addActionListener(this);
+        addAllChannelsToAddSec.setActionCommand("addAllChannelsToAddSec");
+        buttonPanelChannelsToAddSec.add(addAllChannelsToAddSec, cButtonChannelsToAddSec);
+
+        addOneChannelToAddSec = new JButton(IconManager.imgic48);
+        addOneChannelToAddSec.setPreferredSize(new Dimension(50, 25));
+        addOneChannelToAddSec.setEnabled(false);
+        addOneChannelToAddSec.addActionListener(this);
+        addOneChannelToAddSec.setActionCommand("addOneChannelToAddSec");
+        buttonPanelChannelsToAddSec.add(addOneChannelToAddSec, cButtonChannelsToAddSec);
+
+        buttonPanelChannelsToAddSec.add(new JLabel(" "), cButtonChannelsToAddSec);
+
+        removeOneChannelToAddSec = new JButton(IconManager.imgic46);
+        removeOneChannelToAddSec.setEnabled(false);
+        removeOneChannelToAddSec.addActionListener(this);
+        removeOneChannelToAddSec.setPreferredSize(new Dimension(50, 25));
+        removeOneChannelToAddSec.setActionCommand("removeOneChannelToAddSec");
+        buttonPanelChannelsToAddSec.add(removeOneChannelToAddSec, cButtonChannelsToAddSec);
+
+        removeAllChannelsToAddSec = new JButton(IconManager.imgic44);
+        removeAllChannelsToAddSec.setEnabled(false);
+        removeAllChannelsToAddSec.addActionListener(this);
+        removeAllChannelsToAddSec.setPreferredSize(new Dimension(50, 25));
+        removeAllChannelsToAddSec.setActionCommand("removeAllChannelsToAddSec");
+        buttonPanelChannelsToAddSec.add(removeAllChannelsToAddSec, cButtonChannelsToAddSec);
+        buttonPanelChannelsToAddSec.setPreferredSize(new Dimension(50, 150));
+        panelListChannelsAddSec.add(buttonPanelChannelsToAddSec, cListChannelsAddSec);
+
+        listSelectedChannelsToAddSec = new JList<String>(selectedChannelsToAddSec);
+        listSelectedChannelsToAddSec.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+        listSelectedChannelsToAddSec.addListSelectionListener(this);
+        JScrollPane scrollPane2ChannelsToAddSec = new JScrollPane(listSelectedChannelsToAddSec);
+        scrollPane2ChannelsToAddSec.setPreferredSize(new Dimension(250, 150));
+        panelListChannelsAddSec.add(scrollPane2ChannelsToAddSec, BorderLayout.CENTER);
+        panelListChannelsAddSec.setPreferredSize(new Dimension(600, 175));
+        panelListChannelsAddSec.setMinimumSize(new Dimension(600, 175));
+        c01.gridheight = 10;
+        jp02.add(panelListChannelsAddSec, c01);
+
 		addHSM = new JCheckBox("Add HSM to component:");
         addHSM.addActionListener(this);
 		addHSM.setEnabled(false);
 		jp02.add(addHSM, c01);
 		
-		
 		listIgnored = new JList<String>(ignoredTasks);
 
 
 		listPanel = new JPanel();
-		listPanel.setPreferredSize(new Dimension(250, 200));
+		listPanel.setPreferredSize(new Dimension(250, 150));
 		GridBagConstraints c02 = new GridBagConstraints();
 		c02.gridwidth=1;
 		c02.gridheight=1;
 		c02.fill= GridBagConstraints.BOTH;
-     	listIgnored.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION );
+     	listIgnored.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 
         listIgnored.addListSelectionListener(this);
         JScrollPane scrollPane1 = new JScrollPane(listIgnored);
-        scrollPane1.setPreferredSize(new Dimension(250, 200));
+        scrollPane1.setPreferredSize(new Dimension(250, 150));
         listPanel.add(scrollPane1, BorderLayout.WEST);
 
         JPanel buttonPanel = new JPanel();
@@ -829,7 +908,7 @@ public class JDialogProverifVerification extends JDialog implements ActionListen
         allIgnored.setActionCommand("allIgnored");
         buttonPanel.add(allIgnored, c13);
         listPanel.add(buttonPanel, c02);
-        buttonPanel.setPreferredSize(new Dimension(50, 200));
+        buttonPanel.setPreferredSize(new Dimension(50, 150));
 
 		allIgnored.setEnabled(false);
 		
@@ -839,10 +918,10 @@ public class JDialogProverifVerification extends JDialog implements ActionListen
         listSelected.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
         listSelected.addListSelectionListener(this);
         JScrollPane scrollPane2 = new JScrollPane(listSelected);
-        scrollPane2.setPreferredSize(new Dimension(250, 200));
+        scrollPane2.setPreferredSize(new Dimension(250, 150));
         listPanel.add(scrollPane2, BorderLayout.CENTER);
-        listPanel.setPreferredSize(new Dimension(600, 250));
-        listPanel.setMinimumSize(new Dimension(600, 250));
+        listPanel.setPreferredSize(new Dimension(600, 175));
+        listPanel.setMinimumSize(new Dimension(600, 175));
         c01.gridheight = 10;
         jp02.add(listPanel, c01);
         c02.gridheight = 1;
@@ -1086,6 +1165,84 @@ public class JDialogProverifVerification extends JDialog implements ActionListen
         setButtons();
     }
 
+    private void addAllChannelsToAddSec() {
+        for(String ch : ignoredChannelsToAddSec) {
+            String toAdd = ch;
+            if (autoConf.isSelected() || autoStrongAuth.isSelected() || autoWeakAuth.isSelected()) {
+                toAdd += ":";
+                if (autoConf.isSelected()) {
+                    toAdd += " " + ADD_CONFIDENTIALITY + " +"; 
+                }
+                if (autoStrongAuth.isSelected()) {
+                    toAdd += " " + ADD_STRONG_AUTHENTICITY + " +"; 
+                } else if (autoWeakAuth.isSelected()) {
+                    toAdd += " " + ADD_WEAK_AUTHENTICITY + " +"; 
+                }
+                toAdd = toAdd.substring(0, toAdd.length() - 2);
+            }
+            selectedChannelsToAddSec.add(toAdd);
+        }
+        ignoredChannelsToAddSec.removeAllElements();
+        listIgnoredChannelsToAddSec.setListData(ignoredChannelsToAddSec);
+        listSelectedChannelsToAddSec.setListData(selectedChannelsToAddSec);
+        setButtons();
+    }
+
+    private void removeAllChannelsToAddSec() {
+        for(String ch : selectedChannelsToAddSec) {
+            ignoredChannelsToAddSec.add(ch.split(": ")[0]);
+        }
+        selectedChannelsToAddSec.removeAllElements();
+        listIgnoredChannelsToAddSec.setListData(ignoredChannelsToAddSec);
+        listSelectedChannelsToAddSec.setListData(selectedChannelsToAddSec);
+        setButtons();
+    }
+
+    private void addOneChannelToAddSec() {
+        int[] list = listIgnoredChannelsToAddSec.getSelectedIndices();
+        Vector<String> v = new Vector<String>();
+        String o;
+
+        for (int i = 0; i < list.length; i++) {
+            o = ignoredChannelsToAddSec.elementAt(list[i]);
+            String toAdd = o;
+            if (autoConf.isSelected() || autoStrongAuth.isSelected() || autoWeakAuth.isSelected()) {
+                toAdd += ":";
+                if (autoConf.isSelected()) {
+                    toAdd += " " + ADD_CONFIDENTIALITY + " +"; 
+                }
+                if (autoStrongAuth.isSelected()) {
+                    toAdd += " " + ADD_STRONG_AUTHENTICITY + " +"; 
+                } else if (autoWeakAuth.isSelected()) {
+                    toAdd += " " + ADD_WEAK_AUTHENTICITY + " +"; 
+                }
+                toAdd = toAdd.substring(0, toAdd.length() - 2);
+            }
+            selectedChannelsToAddSec.addElement(toAdd);
+            v.addElement(o);
+        }
+        ignoredChannelsToAddSec.removeAll(v);
+        listIgnoredChannelsToAddSec.setListData(ignoredChannelsToAddSec);
+        listSelectedChannelsToAddSec.setListData(selectedChannelsToAddSec);
+        setButtons();
+    }
+
+    private void removeOneChannelToAddSec() {
+        int[] list = listSelectedChannelsToAddSec.getSelectedIndices();
+        Vector<String> v = new Vector<String>();
+        String o;
+
+        for (int i = 0; i < list.length; i++) {
+            o = selectedChannelsToAddSec.elementAt(list[i]);
+            ignoredChannelsToAddSec.addElement(o.split(": ")[0]);
+            v.addElement(o);
+        }
+        selectedChannelsToAddSec.removeAll(v);
+        listIgnoredChannelsToAddSec.setListData(ignoredChannelsToAddSec);
+        listSelectedChannelsToAddSec.setListData(selectedChannelsToAddSec);
+        setButtons();
+    }
+
     @Override
     public void actionPerformed(ActionEvent evt) {
         String command = evt.getActionCommand();
@@ -1176,6 +1333,14 @@ public class JDialogProverifVerification extends JDialog implements ActionListen
                     allValidated();
                 } else if (command.equals("allIgnored")) {
                     allIgnored();
+                }  else if (command.equals("addAllChannelsToAddSec")) {
+                    addAllChannelsToAddSec();
+                } else if (command.equals("removeAllChannelsToAddSec")) {
+                    removeAllChannelsToAddSec();
+                } else if (command.equals("addOneChannelToAddSec")) {
+                    addOneChannelToAddSec();
+                } else if (command.equals("removeOneChannelToAddSec")) {
+                    removeOneChannelToAddSec();
                 } else if (command.equals("addChannelMainSensor")) {
                     addChannelMainSensor();
                 } else if (command.equals("removeChannelMainSensor")) {
@@ -1216,8 +1381,33 @@ public class JDialogProverifVerification extends JDialog implements ActionListen
                         autoConf.setSelected(false);
                         autoWeakAuth.setSelected(false);
                         autoStrongAuth.setSelected(false);
+                        addHSM.setSelected(false);
+
+                        autoConf.setEnabled(false);
+                        autoWeakAuth.setEnabled(false);
+                        autoStrongAuth.setEnabled(false);
+                        allIgnored();
+                        removeAllChannelsToAddSec();
+                    }
+
+                    if (!autoWeakAuth.isSelected()) {
+                        autoStrongAuth.setSelected(false);
                     }
                 }
+                if (evt.getSource() == autoSec || evt.getSource() == autoConf || evt.getSource() == autoWeakAuth) {
+                    if (autoSec.isSelected() && (autoWeakAuth.isSelected() || autoConf.isSelected())) {
+                        addAllChannelsToAddSec.setEnabled(true);
+                        addOneChannelToAddSec.setEnabled(true);
+                        removeAllChannelsToAddSec.setEnabled(true);
+                        removeOneChannelToAddSec.setEnabled(true);
+                    } else {
+                        addAllChannelsToAddSec.setEnabled(false);
+                        addOneChannelToAddSec.setEnabled(false);
+                        removeAllChannelsToAddSec.setEnabled(false);
+                        removeOneChannelToAddSec.setEnabled(false);
+                    }
+                }
+
                 if (evt.getSource() == custom) {
                     encTime.setEnabled(custom.isSelected());
                     decTime.setEnabled(custom.isSelected());
@@ -1500,13 +1690,14 @@ public class JDialogProverifVerification extends JDialog implements ActionListen
                             //mgui.gtm.addHSM(mgui, selectedCpuTasks);
                         }
                         if (autoConf.isSelected() || autoWeakAuth.isSelected() || autoStrongAuth.isSelected()) {
-                            if (custom.isSelected()) {
+                            /*if (custom.isSelected()) {
                                 map = mgui.gtm.autoSecure(mgui, encCC, secOv, decCC, autoConf.isSelected(), autoWeakAuth.isSelected(),
                                         autoStrongAuth.isSelected(), selectedCpuTasks);
                             } else {
                                 map = mgui.gtm.autoSecure(mgui, "100", "0", "100", autoConf.isSelected(),
                                         autoWeakAuth.isSelected(), autoStrongAuth.isSelected(), selectedCpuTasks);
-                            }
+                            }*/
+                            mgui.gtm.autoSecure(mgui, encCC, secOv, decCC, selectedChannelsToAddSec, selectedCpuTasks);
                         }
                     } 
                     else if (autoMapKeys.isSelected()) {

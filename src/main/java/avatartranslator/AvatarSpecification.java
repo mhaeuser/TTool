@@ -721,7 +721,7 @@ public class AvatarSpecification extends AvatarElement implements IBSParamSpec {
                             }
 
                             ar.addSignals(sig, inSig);
-                            TraceManager.addDev("Connecting " + sig.getName() + " to " + inSig.getName());
+                            TraceManager.addDev("----------> Connecting " + sig.getName() + " to " + inSig.getName());
 
                             connectedSignalsToBeRemoved.put(sig, blockO);
                             connectedSignalsToBeRemoved.put(inSig, blockD);
@@ -754,6 +754,34 @@ public class AvatarSpecification extends AvatarElement implements IBSParamSpec {
 
         return spec;
 
+    }
+
+    // We remove all non-connected blocks if at least two blocks have a relation
+    public void removeNonConnectedBlocks() {
+        boolean found = false;
+        for (AvatarRelation ar : relations) {
+            if (ar.getBlock1() != ar.getBlock2()) {
+                found = true;
+                break;
+            }
+        }
+        if (found) {
+            ArrayList<AvatarBlock> toBeRemovedNotConnected = new ArrayList<>();
+            for (AvatarBlock ab : getListOfBlocks()) {
+                boolean foundBlock = false;
+                for (AvatarRelation ar : relations) {
+                    if (ar.getBlock1() == ab || ar.getBlock2() == ab) {
+                        foundBlock = true;
+                        break;
+                    }
+                }
+                if (!foundBlock) {
+                    toBeRemovedNotConnected.add(ab);
+                }
+            }
+            getListOfBlocks().removeAll(toBeRemovedNotConnected);
+
+        }
     }
 
     public static AvatarSpecification fromJSONConnection(String _spec, String _name, Object _referenceObject, boolean tryToCorrectErrors) {
@@ -822,35 +850,37 @@ public class AvatarSpecification extends AvatarElement implements IBSParamSpec {
                 AvatarSignal asO = AvatarSignal.isAValidSignalThenCreate("out " + sigName, blockO);
                 if (asO == null) {
                     jsonErrors.add("The declaration of the out signal " + sigName + " is not valid for block " + blockOName);
-                }
-
-                AvatarSignal asD;
-                if (blockO == blockD) {
-                    asD = AvatarSignal.isAValidSignalThenCreate("in " + sigName + "_IN", blockD);
-                    TraceManager.addDev("Added in signal on ITSELF: " + asD.getName());
                 } else {
-                    asD = AvatarSignal.isAValidSignalThenCreate("in " + sigName, blockD);
-                }
 
-                if (asD == null) {
-                    jsonErrors.add("The declaration of the in signal " + sigName + " is not valid for block " + blockDName);
-                }
-
-                if ((asO != null) && (asD != null)) {
-                    AvatarRelation ar = spec.getAvatarRelationWithBlocks(blockO, blockD, true);
-
-                    if (ar == null) {
-                        ar = new AvatarRelation("relation", blockO, blockD, _referenceObject);
-                        ar.setAsynchronous(false);
-                        ar.setPrivate(true);
-                        spec.addRelation(ar);
+                    AvatarSignal asD;
+                    if (blockO == blockD) {
+                        asD = AvatarSignal.isAValidSignalThenCreate("in " + sigName + "_IN", blockD);
+                        TraceManager.addDev("Added in signal on ITSELF: " + asD.getName());
+                    } else {
+                        asD = AvatarSignal.isAValidSignalThenCreate("in " + sigName, blockD);
                     }
 
-                    blockO.addSignal(asO);
-                    blockD.addSignal(asD);
-                    ar.addSignals(asO, asD);
-                    TraceManager.addDev("Connecting " + asO.getName() + " to " + asD.getName());
+                    if (asD == null) {
+                        jsonErrors.add("The declaration of the in signal " + sigName + " is not valid for block " + blockDName);
+                    } else {
 
+                        if ((asO != null) && (asD != null)) {
+                            AvatarRelation ar = spec.getAvatarRelationWithBlocks(blockO, blockD, true);
+
+                            if (ar == null) {
+                                ar = new AvatarRelation("relation", blockO, blockD, _referenceObject);
+                                ar.setAsynchronous(false);
+                                ar.setPrivate(true);
+                                spec.addRelation(ar);
+                            }
+
+                            blockO.addSignal(asO);
+                            blockD.addSignal(asD);
+                            ar.addSignals(asO, asD);
+                            TraceManager.addDev("Connecting " + asO.getName() + " to " + asD.getName());
+                        }
+
+                    }
                 }
 
 
@@ -858,6 +888,8 @@ public class AvatarSpecification extends AvatarElement implements IBSParamSpec {
 
 
         }
+
+        spec.removeNonConnectedBlocks();
 
         return spec;
 

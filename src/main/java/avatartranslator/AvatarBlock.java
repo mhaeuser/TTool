@@ -1134,8 +1134,18 @@ public class AvatarBlock extends AvatarElement implements AvatarStateMachineOwne
                                     TraceManager.addDev("The following guard " + guard + " is incorrect");
                                     errors.add("The following guard " + guard + " is incorrect");
                                 } else {
-                                    TraceManager.addDev("GUARD. Adding the following guard: " + guard);
-                                    at.setGuard(guard);
+                                    // Looking for invalid guards
+                                    String tmp = myutil.Conversion.replaceAllChar(guard, ' ', " ");
+                                    if (!myutil.Conversion.containsAlphanumericFollowedByParenthesis(tmp)) {
+                                        TraceManager.addDev("GUARD. Adding the following guard: " + guard);
+                                        at.setGuard(guard);
+                                        if (guard.matches("[a-zA-Z][a-zA-Z_0-9]*")) {
+                                            AvatarAttribute aa = getAvatarAttributeWithName(guard);
+                                            if (aa == null) {
+                                                addAttribute(new AvatarAttribute(guard, AvatarType.BOOLEAN, this, this.getReferenceObject()));
+                                            }
+                                        }
+                                    }
                                 }
 
                                 // Check if the guard is valid
@@ -1161,10 +1171,13 @@ public class AvatarBlock extends AvatarElement implements AvatarStateMachineOwne
 
                                 if ((af != 0) && (!forceIfIncorrectExpression)){
                                     TraceManager.addDev("The following after clause \"" + afterS + "\" is incorrect (maybe the attribute does not exist?" +
-                                            " In that case, directly use a numerical value)");
+                                            " In that case, directly use an integer value with no unit)");
                                     errors.add("The following after clause \"" + afterS + "\" is incorrect (maybe the attribute does not exist?" +
-                                            " In that case, directly use a numerical value)");
+                                            " In that case, directly use an integer value with no unit)");
                                 } else {
+                                    // Replace real number with integer number .Something -> 1 ; x.something -> x
+
+                                    String afterSTmp = myutil.Conversion.replaceWithCeiling(afterS);
                                     at.setDelays(afterS, afterS);
                                 }
 

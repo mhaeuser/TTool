@@ -84,6 +84,7 @@ public class AIStateMachinesAndAttributes extends AIInteract implements AISysMLV
                     "# Respect: the attribute of an action is named by its identifier, do not reference its block. " ,
                     "# Respect: a state machine can use only the attribute of its block. " ,
                     "# Respect: A guard cannot contain a reference to a signal. " ,
+                    "# Respect: An after accepts only integer, and not units must be specified. " ,
                     "# Respect: To reference the attribute \"x\" of block \"B\", use \"x\" and never \"B.x\" nor \"B::x\"" };
 
 

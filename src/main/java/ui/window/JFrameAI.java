@@ -789,7 +789,7 @@ public class JFrameAI extends JFrame implements ActionListener {
             enableDisableActions();
             endTime = System.currentTimeMillis();
             GraphicLib.appendToPaneSafe(console, "Done. Total time: " + (endTime - startTime) + " ms\n", Color.black);
-            
+            TraceManager.addDev("Done. Total time: " + (endTime - startTime) + " ms");
         }
 
 

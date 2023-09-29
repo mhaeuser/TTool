@@ -536,6 +536,10 @@ public class TMLADReadChannel extends TADComponentWithoutSubcomponents/* Issue #
         return isAttacker;
     }
 
+    public void setIsAttacker(boolean _isAttacker) {
+        isAttacker = _isAttacker;
+    }
+
     @Override
     public int getType() {
         return TGComponentManager.TMLAD_READ_CHANNEL;

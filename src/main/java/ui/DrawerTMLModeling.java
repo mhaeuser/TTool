@@ -674,6 +674,8 @@ public class DrawerTMLModeling  {
             read.setSamples(readT.getNbOfSamples());
             if (readT.securityPattern != null) {
                 read.setSecurityContext(readT.securityPattern.name);
+                read.setEncForm(readT.getEncForm());
+                read.setIsAttacker(readT.isAttacker());
             }
             return read;
 
@@ -718,6 +720,8 @@ public class DrawerTMLModeling  {
 
             if (writeT.securityPattern != null) {
                 write.setSecurityContext(writeT.securityPattern.name);
+                write.setEncForm(writeT.getEncForm());
+                write.setIsAttacker(writeT.isAttacker());
             }
 
             return write;

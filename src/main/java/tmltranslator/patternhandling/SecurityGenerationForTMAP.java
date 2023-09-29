@@ -18,6 +18,8 @@ import ui.TGComponent;
 import java.io.Reader;
 import java.util.*;
 
+import org.apache.batik.anim.timing.Trace;
+
 
 public class SecurityGenerationForTMAP implements Runnable {
     String appName;
@@ -363,7 +365,7 @@ public class SecurityGenerationForTMAP implements Runnable {
                             TraceManager.addDev("362: " + chan.getOriginTask().getName().split("__")[1]);
                             if (hsmTasks.contains(chan.getOriginTask().getName().split("__")[1])) {
                                 SecurityPattern secPattern = new SecurityPattern("hsmSec_" + secName, SecurityPattern.SYMMETRIC_ENC_PATTERN, overhead, "", encComp, decComp, "", "", "");
-                                secPattern.originTask = chan.getOriginTask().getName().replaceAll(title + "__", "");
+                                secPattern.originTask = "HSM_" + taskHSMMap.get(chan.getOriginTask().getName().replaceAll(title + "__", ""));
                                 channelSecMap.put(chanName, secPattern);
                                 TraceManager.addDev("portInTask=" + portInTask(chan.getOriginTask(), chanName));
                                 TraceManager.addDev("hsmSecOutChannels=" + hsmSecOutChannels.get(chan.getOriginTask()).contains(chanName));
@@ -425,7 +427,7 @@ public class SecurityGenerationForTMAP implements Runnable {
                             }
                             if (hsmTasks.contains(chan.getOriginTask().getName().split("__")[1])) {
                                 SecurityPattern secPattern = new SecurityPattern("hsmSec_" + secName, SecurityPattern.SYMMETRIC_ENC_PATTERN, overhead, "", encComp, decComp, "", "", "");
-                                secPattern.originTask = chan.getOriginTask().getName().replaceAll(title + "__", "");
+                                secPattern.originTask = "HSM_" + taskHSMMap.get(chan.getOriginTask().getName().replaceAll(title + "__", ""));
                                 channelSecMap.put(chanName, secPattern);
                                 if (!hsmSecOutChannels.get(chan.getOriginTask()).contains(chanName) && portInTask(chan.getOriginTask(), chanName)) {
                                     HSMChannel hsmchan = new HSMChannel(chanName, chan.getOriginTask().getName().split("__")[1], HSMChannel.MAC);
@@ -483,7 +485,7 @@ public class SecurityGenerationForTMAP implements Runnable {
 								  }*/
                                     if (hsmTasks.contains(orig.getName().split("__")[1])) {
                                         SecurityPattern secPattern = new SecurityPattern("hsmSec_" + secName, SecurityPattern.SYMMETRIC_ENC_PATTERN, overhead, "", encComp, decComp, "", "", "");
-                                        secPattern.originTask = orig.getName().replaceAll(title + "__", "");
+                                        secPattern.originTask = "HSM_" + taskHSMMap.get(orig.getName().replaceAll(title + "__", ""));
                                         channelSecMap.put(chanName, secPattern);
                                         if (!hsmSecOutChannels.get(orig).contains(chanName) && portInTask(orig, chanName)) {
                                             HSMChannel hsmchan = new HSMChannel(chanName, orig.getName().split("__")[1], HSMChannel.SENC);
@@ -543,7 +545,7 @@ public class SecurityGenerationForTMAP implements Runnable {
 								  }*/
                                     if (hsmTasks.contains(orig.getName().split("__")[1])) {
                                         SecurityPattern secPattern = new SecurityPattern("hsmSec_" + secName, SecurityPattern.SYMMETRIC_ENC_PATTERN, overhead, "", encComp, decComp, "", "", "");
-                                        secPattern.originTask = orig.getName().replaceAll(title + "__", "");
+                                        secPattern.originTask = "HSM_" + taskHSMMap.get(orig.getName().replaceAll(title + "__", ""));
                                         channelSecMap.put(chanName, secPattern);
                                         if (!hsmSecOutChannels.get(orig).contains(chanName) && portInTask(orig, chanName)) {
                                             HSMChannel hsmchan = new HSMChannel(chanName, orig.getName().split("__")[1], HSMChannel.MAC);
@@ -678,21 +680,43 @@ public class SecurityGenerationForTMAP implements Runnable {
                 for (ChannelData hsmChan : hsmChans) {
                     if (!hsmChan.isChan) {
                         TMLRequest request = new TMLRequest(hsmChan.name, hsm.getReferenceObject());
-                        request.addOriginTask(hsm);
-                        request.setDestinationTask(comp);
+                        TraceManager.addDev("request= " + hsmChan.name);
+                        TraceManager.addDev("originTask = " + hsm.getName());
+                        TraceManager.addDev("desTask = " + comp.getName());
+                        if (hsmChan.isOrigin) {
+                            request.addOriginTask(hsm);
+                            request.setDestinationTask(comp);
+                        } else {
+                            request.addOriginTask(comp);
+                            request.setDestinationTask(hsm);
+                        }
                         hsm.setRequest(request);
                         comp.setRequest(request);
                         request.addParam(new TMLType(TMLType.NATURAL));
                         tmlmodel.addRequest(request);
                     } else {
                         TMLChannel channel = new TMLChannel(hsmChan.name, hsm.getReferenceObject());
-                        channel.setOriginTask(hsm);
-                        channel.setDestinationTask(comp);
                         channel.setPorts(new TMLPort(channel.getName(), channel.getReferenceObject()), new TMLPort(channel.getName(), channel.getReferenceObject()));
-                        hsm.addWriteTMLChannel(channel);
-                        hsm.addTMLChannel(channel); /// IN TMLChannel and WriteTMLChannel ??
-                        comp.addReadTMLChannel(channel);
-                        comp.addTMLChannel(channel);
+                        TraceManager.addDev("channel= " + hsmChan.name);
+                        TraceManager.addDev("originTask = " + hsm.getName());
+                        TraceManager.addDev("desTask = " + comp.getName());
+                        if (hsmChan.isOrigin) {
+                            channel.setOriginTask(hsm);
+                            channel.setDestinationTask(comp);
+                            comp.addReadTMLChannel(channel);
+                            hsm.addWriteTMLChannel(channel);
+                        } else {
+                            channel.setOriginTask(comp);
+                            channel.setDestinationTask(hsm);
+                            hsm.addReadTMLChannel(channel);
+                            comp.addWriteTMLChannel(channel);
+                        }
+                        
+                        
+                        
+                        //hsm.addTMLChannel(channel); /// IN TMLChannel and WriteTMLChannel ??
+                        
+                        //comp.addTMLChannel(channel);
                         tmlmodel.addChannel(channel);
                     }
                 }
@@ -748,6 +772,16 @@ public class SecurityGenerationForTMAP implements Runnable {
             linkMemoryWithBus.hwnode = mem;
             arch.addHwLink(linkMemoryWithBus);
         }
+        TraceManager.addDev("BEFORE");
+        for (TMLTask task : tmlmodel.getTasks()) {
+            TraceManager.addDev("taskkk = " + task.getName());
+            for (TMLActivityElement elem : task.getActivityDiagram().getElements()) {
+                if (elem instanceof TMLExecC) {
+                    TMLExecC ex = (TMLExecC) elem;
+                    TraceManager.addDev("execC: " + ex.getName() + " sec: pattern: name : " + ex.securityPattern.name + " process: " + + ex.securityPattern.process);
+                }
+            }
+        }
 
         for (TMLTask task : toSecureRev.keySet()) {
             // TraceManager.addDev("Adding nonces to " + task.getName());
@@ -767,9 +801,9 @@ public class SecurityGenerationForTMAP implements Runnable {
                     channel.setDestinationTask(task2);
                     channel.setPorts(new TMLPort(channel.getName(), channel.getReferenceObject()), new TMLPort(channel.getName(), channel.getReferenceObject()));
                     task.addWriteTMLChannel(channel);
-                    task.addTMLChannel(channel); /// IN TMLChannel and WriteTMLChannel ??
+                    //task.addTMLChannel(channel); /// IN TMLChannel and WriteTMLChannel ??
                     task2.addReadTMLChannel(channel);
-                    task2.addTMLChannel(channel);
+                    //task2.addTMLChannel(channel);
                     tmlmodel.addChannel(channel);
                     
                     List<TMLChannel> chans2 = tmlmodel.getChannelsFromMe(task2);
@@ -1042,25 +1076,21 @@ public class SecurityGenerationForTMAP implements Runnable {
                     writeChannel.setEncForm(true);
                     fromStart = taskAD.getPrevious(chan);
 
-                    TMLSendRequest req = new TMLSendRequest("startHSM_" + taskHSMMap.get(task.getName().split("__")[1]), taskAD.getReferenceObject());
-                    //TMLADSendRequest req = new TMLADSendRequest(xpos, ypos + yShift, tad.getMinX(), tad.getMaxX(), tad.getMinY(), tad.getMaxY(), false, null, tad);
-                    //req.setRequestName("startHSM_" + taskHSMMap.get(task.getName().split("__")[1]));
-                    TraceManager.addDev("chanNam="+chanName);
-                    for (String st : channelIndexMap.keySet()) {
-                        TraceManager.addDev("channelIndexMap="+st);
+                    TMLSendRequest reqSend = new TMLSendRequest("startHSM_" + taskHSMMap.get(task.getName().split("__")[1]), taskAD.getReferenceObject());
+                    
+                    TMLRequest req = tmlmodel.getRequestByName(reqSend.getName());
+                    if (req != null) {
+                        reqSend.setRequest(req);
                     }
-                    for (String st : channelIndexMap.keySet()) {
-                        TraceManager.addDev("channelIndexMap.value="+channelIndexMap.get(st));
-                    }
-                    if (req.getNbOfParams() > 0) {
-                        req.setParam(Integer.toString(channelIndexMap.get(chanName)), 0);
+
+                    if (reqSend.getNbOfParams() > 0) {
+                        reqSend.setParam(Integer.toString(channelIndexMap.get(chanName)), 0);
                     } else {
-                        req.addParam(Integer.toString(channelIndexMap.get(chanName)));
+                        reqSend.addParam(Integer.toString(channelIndexMap.get(chanName)));
                     }
                     
-
-                    fromStart.setNewNext(chan, req);
-                    taskAD.addElement(req);
+                    fromStart.setNewNext(chan, reqSend);
+                    taskAD.addElement(reqSend);
                     //Add write channel operator
                     TMLWriteChannel wr = new TMLWriteChannel("data_" + chanName + "_" + task.getName().split("__")[1], taskAD.getReferenceObject());
                     if (tmlmodel.getChannelByName(wr.getName()) != null) {
@@ -1068,11 +1098,13 @@ public class SecurityGenerationForTMAP implements Runnable {
                     } else if (tmlmodel.getChannelByShortName(wr.getName()) != null) {
                         wr.addChannel(tmlmodel.getChannelByShortName(wr.getName()));
                     }
-                    wr.setNbOfSamples("1");
+                    TraceManager.addDev("write channel: " + wr.getName() + " in task: " + task.getName());
+                    TraceManager.addDev("channel: " + wr.getChannel(0).getName() + " in task: " + task.getName());
+                    wr.setNbOfSamples("1"); 
                     wr.setEncForm(false);
                     wr.securityPattern = channelSecMap.get(chanName);
                     taskAD.addElement(wr);
-                    req.addNext(wr);
+                    reqSend.addNext(wr);
                     wr.addNext(chan);
                     //Receive any nonces if ensuring authenticity
                     if (nonceOutChannels.get(task).contains(channel)) {
@@ -1102,7 +1134,7 @@ public class SecurityGenerationForTMAP implements Runnable {
                         taskAD.addElement(rd);
                         wr.setNewNext(chan, rd);;
 
-                        TMLWriteChannel wr2 = new TMLWriteChannel("data_" + chanName + "_" + task.getName().split("__")[1], taskAD);
+                        TMLWriteChannel wr2 = new TMLWriteChannel("data_" + chanName + "_" + task.getName().split("__")[1], taskAD.getReferenceObject());
                         if (tmlmodel.getChannelByName(wr2.getName()) != null) {
                             wr2.addChannel(tmlmodel.getChannelByName(wr2.getName()));
                         } else if (tmlmodel.getChannelByShortName(wr2.getName()) != null) {
@@ -1166,15 +1198,19 @@ public class SecurityGenerationForTMAP implements Runnable {
                 
                     fromStart = taskAD.getPrevious(chan);
                    
-                    TMLSendRequest req = new TMLSendRequest("startHSM_" + taskHSMMap.get(task.getName().split("__")[1]), taskAD.getReferenceObject());
-
-                    if (req.getNbOfParams() > 0) {
-                        req.setParam(Integer.toString(channelIndexMap.get(chanName)), 0);
-                    } else {
-                        req.addParam(Integer.toString(channelIndexMap.get(chanName)));
+                    TMLSendRequest reqSend = new TMLSendRequest("startHSM_" + taskHSMMap.get(task.getName().split("__")[1]), taskAD.getReferenceObject());
+                    TraceManager.addDev("reqSend0="+reqSend.getName());
+                    TMLRequest req = tmlmodel.getRequestByName(reqSend.getName());
+                    if (req != null) {
+                        reqSend.setRequest(req);
                     }
-                    taskAD.addElement(req);
-                    fromStart.setNewNext(chan, req);
+                    if (reqSend.getNbOfParams() > 0) {
+                        reqSend.setParam(Integer.toString(channelIndexMap.get(chanName)), 0);
+                    } else {
+                        reqSend.addParam(Integer.toString(channelIndexMap.get(chanName)));
+                    }
+                    taskAD.addElement(reqSend);
+                    fromStart.setNewNext(chan, reqSend);
 
                     //Add write channel operator
                     TMLWriteChannel wr = new TMLWriteChannel("data_" + chanName + "_" + task.getName().split("__")[1], taskAD.getReferenceObject());
@@ -1183,12 +1219,14 @@ public class SecurityGenerationForTMAP implements Runnable {
                     } else if (tmlmodel.getChannelByShortName(wr.getName()) != null) {
                         wr.addChannel(tmlmodel.getChannelByShortName(wr.getName()));
                     }
+                    TraceManager.addDev("write channel: " + wr.getName() + " in task: " + task.getName());
+                    TraceManager.addDev("channel: " + wr.getChannel(0).getName() + " in task: " + task.getName());
                     wr.securityPattern = channelSecMap.get(chanName);
                     wr.setNbOfSamples("1");
                     taskAD.addElement(wr);
 
                     //Add connector between request and write
-                    req.addNext(wr);
+                    reqSend.addNext(wr);
                     wr.addNext(chan);
                 
                     if (nonceInChannels.get(task).contains(channel)) {
@@ -1511,6 +1549,16 @@ public class SecurityGenerationForTMAP implements Runnable {
                 }
             }
         }
+        TraceManager.addDev("AFTER");
+        for (TMLTask task : tmlmodel.getTasks()) {
+            TraceManager.addDev("taskkk = " + task.getName());
+            for (TMLActivityElement elem : task.getActivityDiagram().getElements()) {
+                if (elem instanceof TMLExecC) {
+                    TMLExecC ex = (TMLExecC) elem;
+                    TraceManager.addDev("execC: " + ex.getName() + " sec: pattern: name : " + ex.securityPattern.name + " process: " + + ex.securityPattern.process);
+                }
+            }
+        }
         return;
     }
 
@@ -1577,8 +1625,10 @@ public class SecurityGenerationForTMAP implements Runnable {
                     choice2 = new TMLChoice("choice2", taskAD.getReferenceObject());
                     taskAD.addElement(choice2);
                     //Connect new choice operator to top choice
+                    choice.addGuard("");
                     choice.addNext(choice2);
                 }
+                choice2.addGuard("[channelIndex==" + channelIndexMap.get(ch.name) + "]");
                 TMLReadChannel rd = new TMLReadChannel("data_" + ch.name + "_" + ch.task, taskAD.getReferenceObject());
                 rd.addChannel(tmlmodel.getChannelByName("data_" + ch.name + "_" + ch.task));
                 rd.securityPattern = channelSecMap.get(ch.name);
@@ -1587,11 +1637,29 @@ public class SecurityGenerationForTMAP implements Runnable {
                 //Connect choice and readchannel
                 choice2.addNext(rd);
 
+                //Recieve plaintext data if encrypting
+                if (ch.secType != HSMChannel.DEC) {
+                    rd.setEncForm(false);
+                }
+
+                //If needed, receive nonce from task
+                if (!ch.nonceName.equals("")) {
+                    rd = new TMLReadChannel(("data_" + ch.name + "_" + ch.task), taskAD.getReferenceObject());
+                    rd.addChannel(tmlmodel.getChannelByName("data_" + ch.name + "_" + ch.task));
+                    rd.securityPattern = channelSecMap.get(ch.nonceName);
+                    rd.setNbOfSamples("1"); 
+                    taskAD.addElement(rd);
+
+                    choice2.getNextElement(choice2.getNbNext()-1).addNext(rd);
+                }
+
+
                 TMLWriteChannel wr = new TMLWriteChannel("retData_" + ch.name + "_" + ch.task, taskAD.getReferenceObject());
                 wr.addChannel(tmlmodel.getChannelByName("retData_" + ch.name + "_" + ch.task));
                 taskAD.addElement(wr);
                 wr.securityPattern = channelSecMap.get(ch.name);
                 wr.setNbOfSamples("1");
+                TraceManager.addDev("HSMChannel: ch =" + ch.name + " secType=" + ch.secType);
                 if (ch.secType == HSMChannel.DEC) {
                     TMLExecC dec = new TMLExecC(channelSecMap.get(ch.name).name, taskAD.getReferenceObject());
                     dec.securityPattern = new SecurityPattern(channelSecMap.get(ch.name));
@@ -1614,6 +1682,12 @@ public class SecurityGenerationForTMAP implements Runnable {
 
                     //Connect decrypt and writechannel
                     dec.addNext(wr);
+                    //Add Stop
+                    TMLStopState stop = new TMLStopState("stop", taskAD.getReferenceObject());
+                    taskAD.addElement(stop);
+
+                    //Connext stop and write channel
+                    wr.addNext(stop);
                 } else {
                     TMLExecC enc = new TMLExecC(channelSecMap.get(ch.name).name, taskAD.getReferenceObject());
                     enc.securityPattern = new SecurityPattern(channelSecMap.get(ch.name));
@@ -1670,7 +1744,6 @@ public class SecurityGenerationForTMAP implements Runnable {
                 rd.addChannel(tmlmodel.getChannelByName("data_" + ch.name + "_" + ch.task));
                 rd.securityPattern = channelSecMap.get(ch.name);
                 rd.setNbOfSamples("1"); 
-                rd.setNbOfSamples("1"); 
                 taskAD.addElement(rd);
 
                 //Recieve plaintext data if encrypting
@@ -1689,7 +1762,7 @@ public class SecurityGenerationForTMAP implements Runnable {
                     rd.setNbOfSamples("1"); 
                     taskAD.addElement(rd);
 
-                    choice.getNextElement(0).addNext(rd);
+                    choice.getNextElement(choice.getNbNext()-1).addNext(rd);
 
                 }
 
@@ -1704,8 +1777,9 @@ public class SecurityGenerationForTMAP implements Runnable {
                 wr.setNbOfSamples("1");
                 wr.securityPattern = channelSecMap.get(ch.name);
                 taskAD.addElement(wr);
-
+                TraceManager.addDev("0 HSMChannel: ch =" + ch.name + " secType=" + ch.secType);
                 if (ch.secType == HSMChannel.DEC) {
+                    TraceManager.addDev("Add Decrypt operator");
                     //Add Decrypt operator
                     TMLExecC dec = new TMLExecC(channelSecMap.get(ch.name).name, taskAD.getReferenceObject());
                     dec.securityPattern = new SecurityPattern(channelSecMap.get(ch.name));
@@ -1728,7 +1802,7 @@ public class SecurityGenerationForTMAP implements Runnable {
                     //Connect decrypt and readchannel
                     rd.addNext(dec);
 
-                    //Connect encrypt and writechannel
+                    //Connect decrypt and writechannel
                     dec.addNext(wr);
 
                     //Add Stop
@@ -1737,8 +1811,12 @@ public class SecurityGenerationForTMAP implements Runnable {
 
                     //Connect stop and write channel
                     wr.addNext(stop);
+                    TraceManager.addDev("rd.getEncForm()=" + rd.getEncForm());
+                    TraceManager.addDev("wr.getEncForm()=" + wr.getEncForm());
+                    TraceManager.addDev("dec.securityPattern.getProcess=" + dec.securityPattern.process);
 
                 } else {
+                    TraceManager.addDev("Add Encrypt operator");
                     TMLExecC enc = new TMLExecC(channelSecMap.get(ch.name).name, taskAD.getReferenceObject());
                     enc.securityPattern = new SecurityPattern(channelSecMap.get(ch.name));
                     enc.securityPattern.setProcess(SecurityPattern.ENCRYPTION_PROCESS);
@@ -1779,7 +1857,9 @@ public class SecurityGenerationForTMAP implements Runnable {
                     //Add Stop
                     TMLStopState stop = new TMLStopState("stop", taskAD.getReferenceObject());
                     taskAD.addElement(stop);
-
+                    TraceManager.addDev("rd.getEncForm()=" + rd.getEncForm());
+                    TraceManager.addDev("wr.getEncForm()=" + wr.getEncForm());
+                    TraceManager.addDev("enc.securityPattern.getProcess=" + enc.securityPattern.process);
                     //Connect stop and write channel
                     wr.addNext(stop);
                 }

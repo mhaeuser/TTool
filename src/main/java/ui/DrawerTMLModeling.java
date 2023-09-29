@@ -479,8 +479,10 @@ public class DrawerTMLModeling  {
             TGComponent newOne = createGUIComponentFromTMLComponent(nextTML, firstGUI, comp, activityPanel);
             if (newOne != null) {
                 // Add component to panel, and then connect it to the previous component if possible
-                activityPanel.addBuiltComponent(newOne);
-                connectComponents(firstGUI, newOne, activityPanel);
+                if (newOne != firstGUI) {
+                    activityPanel.addBuiltComponent(newOne);
+                    connectComponents(firstGUI, newOne, activityPanel);
+                }
                 drawRecursiveBehaviour(t, activity, nextTML, comp, newOne, activityPanel);
             }
         }
@@ -493,6 +495,29 @@ public class DrawerTMLModeling  {
         //TraceManager.addDev("Current first elt:" + elt);
 
         if (elt instanceof TMLActionState) {
+
+            String action = ((TMLActionState)elt).getAction();
+
+            if (action.contains("__req")) {
+                // Reading arguments?
+                int index = action.indexOf("=");
+                if (index > -1) {
+                    String var = action.substring(0, index).trim();
+                    if (var.length() > 0) {
+                        TMLADReadRequestArg readReq;
+                        if (firstGUI instanceof TMLADReadRequestArg) {
+                            readReq = ((TMLADReadRequestArg)firstGUI);
+                        } else {
+                            readReq = new TMLADReadRequestArg(firstGUI.getX(), firstGUI.getY()+getYDep(), activityPanel.getMinX(),
+                                    activityPanel.getMaxX(), activityPanel.getMinY(), activityPanel.getMaxY(), true, null, activityPanel);
+                        }
+                        readReq.setParam(readReq.realNbOfParams(), var);
+                        readReq.makeValue();
+                        return readReq;
+                    }
+                }
+            }
+
             TMLADActionState actionState = new TMLADActionState(firstGUI.getX(), firstGUI.getY()+getYDep(), activityPanel.getMinX(),
                     activityPanel.getMaxX(), activityPanel.getMinY(), activityPanel.getMaxY(), true, null, activityPanel);
             actionState.setValue( ((TMLActionState)elt).getAction());

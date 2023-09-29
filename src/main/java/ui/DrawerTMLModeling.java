@@ -513,6 +513,8 @@ public class DrawerTMLModeling  {
                         }
                         readReq.setParam(readReq.realNbOfParams(), var);
                         readReq.makeValue();
+
+                        comp.removeAllAttributesWithPattern("__req");
                         return readReq;
                     }
                 }

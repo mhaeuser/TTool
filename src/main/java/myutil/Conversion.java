@@ -898,5 +898,26 @@ public class Conversion {
         }
     }
 
+    public static boolean containsAlphanumericFollowedByParenthesis(String input) {
+        Pattern pattern = Pattern.compile("[A-Za-z0-9_]+\\(");
+        Matcher matcher = pattern.matcher(input);
+        return matcher.find();
+    }
+
+
+    public static String replaceWithCeiling(String expr) {
+        Pattern floatPattern = Pattern.compile("\\d+\\.\\d+");  // Pattern for float numbers
+        Matcher matcher = floatPattern.matcher(expr);
+
+        StringBuffer result = new StringBuffer();
+        while (matcher.find()) {
+            double value = Double.parseDouble(matcher.group());
+            int ceilingValue = (int) Math.ceil(value);
+            matcher.appendReplacement(result, String.valueOf(ceilingValue));
+        }
+        matcher.appendTail(result);
+        return result.toString();
+    }
+
 
 } // Class Conversion

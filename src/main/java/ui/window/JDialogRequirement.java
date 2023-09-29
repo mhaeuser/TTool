@@ -67,7 +67,7 @@ public class JDialogRequirement extends JDialogBase implements ActionListener  {
     
     public static String[] kinds = {"Safety", "Functional", "Non-functional", "Performance", "Privacy", "Confidentiality", "Non-repudiation",
             "Controlled access (authorization)", "Availability", "Immunity", "Integrity", "Data origin authenticity", "Freshness", "Business",
-            "Stakeholder need", "Other"};
+            "Stakeholder need", "Certification", "Other"};
     
 	
     private boolean regularClose;

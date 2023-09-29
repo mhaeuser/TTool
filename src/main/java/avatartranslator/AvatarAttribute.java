@@ -61,7 +61,6 @@ public class AvatarAttribute extends AvatarLeftHand implements NameChecker.NameS
 
     private AvatarStateMachineOwner block;
 
-
     public AvatarAttribute(String _name, AvatarType _type, AvatarStateMachineOwner _block, Object _referenceObject) {
         super(_name, _referenceObject);
         /*if (_type == -1) {

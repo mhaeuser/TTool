@@ -501,6 +501,8 @@ public class JFrameAI extends JFrame implements ActionListener {
             return;
         }
 
+        TraceManager.addDev("\n\nSpecification to draw: " + ((AvatarSpecification) input).toString() + "\n\n");
+
         mgui.drawAvatarSpecification((AvatarSpecification) input);
         inform("State machine of blocks added to diagram from ai answer\n");
     }
@@ -629,7 +631,7 @@ public class JFrameAI extends JFrame implements ActionListener {
         int index = listOfPossibleActions.getSelectedIndex();
         Font tmpFont = console.getFont();
         console.setFont(tmpFont.deriveFont(Font.BOLD));
-        GraphicLib.appendToPane(console, "Your selection: " + INFOS[index] + "\n", Color.darkGray);
+        GraphicLib.appendToPaneSafe(console, "Your selection: " + INFOS[index] + "\n", Color.darkGray);
         console.setFont(tmpFont);
     }
 
@@ -786,8 +788,8 @@ public class JFrameAI extends JFrame implements ActionListener {
             //GraphicLib.appendToPane(selectedChat().answer, "\nAI:" + text + "\n", Color.red);
             enableDisableActions();
             endTime = System.currentTimeMillis();
-            GraphicLib.appendToPane(console, "Done. Total time: " + (endTime - startTime) + " ms\n", Color.black);
-            
+            GraphicLib.appendToPaneSafe(console, "Done. Total time: " + (endTime - startTime) + " ms\n", Color.black);
+            TraceManager.addDev("Done. Total time: " + (endTime - startTime) + " ms");
         }
 
 

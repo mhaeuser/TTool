@@ -84,6 +84,7 @@ public class AIStateMachinesAndAttributes extends AIInteract implements AISysMLV
                     "# Respect: the attribute of an action is named by its identifier, do not reference its block. " ,
                     "# Respect: a state machine can use only the attribute of its block. " ,
                     "# Respect: A guard cannot contain a reference to a signal. " ,
+                    "# Respect: An after accepts only integer, and not units must be specified. " ,
                     "# Respect: To reference the attribute \"x\" of block \"B\", use \"x\" and never \"B.x\" nor \"B::x\"" };
 
 
@@ -143,8 +144,8 @@ public class AIStateMachinesAndAttributes extends AIInteract implements AISysMLV
             AvatarBlock b = specification.getBlockWithName(blockName);
             questionT = QUESTION_IDENTIFY_STATE_MACHINE[0] + blockName;
             if (b != null) {
-                questionT += ". This block has the following attributes: " + specification.getStringAttributes(b);
-                questionT += ". This block has the following signals: " + specification.getStringSignals(b);
+                questionT += "\nThis block has the following attributes:\n " + specification.getStringAttributes(b);
+                questionT += "\nThis block has the following signals:\n " + specification.getStringSignals(b);
             }
             while (!done && cpt < max) {
                 done = true;

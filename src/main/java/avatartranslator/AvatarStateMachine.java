@@ -1968,6 +1968,33 @@ public class AvatarStateMachine extends AvatarElement {
         }
     }
 
+    public void removeEmptyTransitionsOnSameState(AvatarBlock _block) {
+        ArrayList<AvatarStateMachineElement> toBeRemoved = new ArrayList<>();
+
+        for (AvatarStateMachineElement elt : elements) {
+            if (elt instanceof AvatarTransition) {
+                AvatarTransition at = (AvatarTransition)elt;
+                if (at.isEmpty()) {
+                    AvatarStateMachineElement previous = getPreviousElementOf(at);
+                    AvatarStateMachineElement next = at.getNext(0);
+                    if (( previous != null) && (next != null)) {
+                        if ((previous == next) && (previous instanceof AvatarState)) {
+                            toBeRemoved.add(at);
+                        }
+                    }
+                }
+            }
+        }
+
+        for(AvatarStateMachineElement elt : toBeRemoved) {
+            AvatarStateMachineElement previous = getPreviousElementOf(elt);
+            if (previous != null) {
+                previous.removeNext(elt);
+            }
+            elements.remove(elt);
+        }
+    }
+
     // groups together transitions to avoid extra states
     public void groupUselessTransitions(AvatarBlock _block) {
         ArrayList<AvatarState> toBeRemoved = new ArrayList<>();

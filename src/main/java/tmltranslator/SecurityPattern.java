@@ -50,6 +50,7 @@ import java.util.Objects;
 public class SecurityPattern {
     public final static int ENCRYPTION_PROCESS = 1;
     public final static int DECRYPTION_PROCESS = 2;
+
     public final static String SYMMETRIC_ENC_PATTERN = "Symmetric Encryption";
     public final static String ASYMMETRIC_ENC_PATTERN = "Asymmetric Encryption";
     public final static String MAC_PATTERN = "MAC";
@@ -72,7 +73,7 @@ public class SecurityPattern {
     public String formula;
     public String key;
     public String algorithm = "";
-    public int process = 0; 
+    public int process = 0;  // encrypt or decrypt
 
     public SecurityPattern(String _name, String _type, String _overhead, String _size, String _enctime, String _dectime, String _nonce,
                            String _formula, String _key) {

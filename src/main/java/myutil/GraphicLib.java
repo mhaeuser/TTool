@@ -843,5 +843,15 @@ public final class GraphicLib {
         tp.replaceSelection(msg);
     }
 
+    public static synchronized void appendToPaneSafe(JTextPane tp, String msg, Color c) {
+        Runnable  runnable = new Runnable() {
+            public void run(){
+                appendToPane(tp, msg, c);
+            }
+        };
+        SwingUtilities.invokeLater(runnable);
+    }
+
+
 
 }

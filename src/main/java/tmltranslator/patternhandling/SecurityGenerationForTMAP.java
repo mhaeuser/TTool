@@ -772,16 +772,6 @@ public class SecurityGenerationForTMAP implements Runnable {
             linkMemoryWithBus.hwnode = mem;
             arch.addHwLink(linkMemoryWithBus);
         }
-        TraceManager.addDev("BEFORE");
-        for (TMLTask task : tmlmodel.getTasks()) {
-            TraceManager.addDev("taskkk = " + task.getName());
-            for (TMLActivityElement elem : task.getActivityDiagram().getElements()) {
-                if (elem instanceof TMLExecC) {
-                    TMLExecC ex = (TMLExecC) elem;
-                    TraceManager.addDev("execC: " + ex.getName() + " sec: pattern: name : " + ex.securityPattern.name + " process: " + + ex.securityPattern.process);
-                }
-            }
-        }
 
         for (TMLTask task : toSecureRev.keySet()) {
             // TraceManager.addDev("Adding nonces to " + task.getName());
@@ -1549,16 +1539,6 @@ public class SecurityGenerationForTMAP implements Runnable {
                 }
             }
         }
-        TraceManager.addDev("AFTER");
-        for (TMLTask task : tmlmodel.getTasks()) {
-            TraceManager.addDev("taskkk = " + task.getName());
-            for (TMLActivityElement elem : task.getActivityDiagram().getElements()) {
-                if (elem instanceof TMLExecC) {
-                    TMLExecC ex = (TMLExecC) elem;
-                    TraceManager.addDev("execC: " + ex.getName() + " sec: pattern: name : " + ex.securityPattern.name + " process: " + + ex.securityPattern.process);
-                }
-            }
-        }
         return;
     }
 
@@ -1594,11 +1574,11 @@ public class SecurityGenerationForTMAP implements Runnable {
             TMLAttribute attrib = new TMLAttribute("channelIndex", new TMLType(TMLType.NATURAL), "0");
             task.addAttribute(attrib);
         }
-        if (task.getAttributeByName("getArg_0") == null) {
-            TMLAttribute attrib = new TMLAttribute("getArg_0", new TMLType(TMLType.NATURAL), "0");
+        if (task.getAttributeByName("arg0__req") == null) {
+            TMLAttribute attrib = new TMLAttribute("arg0__req", new TMLType(TMLType.NATURAL), "0");
             task.addAttribute(attrib);
         }
-        req.setAction("channelIndex = getArg_0");
+        req.setAction("channelIndex = arg0__req");
         taskAD.addElement(req);
         //Connect start and readrequest
         start.addNext(req);

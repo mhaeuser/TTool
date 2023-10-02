@@ -942,6 +942,16 @@ public class TMLCPrimitiveComponent extends TGCScalableWithInternalComponent imp
 
       }*/
 
+    public void removeAllAttributesWithPattern(String pattern) {
+        ArrayList<TAttribute> toBeRemoved = new ArrayList<>();
+        for(TAttribute t: getAttributeList()) {
+            if (t.getName().contains(pattern)) {
+                toBeRemoved.add(t);
+            }
+        }
+        getAttributeList().removeAll(toBeRemoved);
+    }
+
     @Override
     public String toString() {
         if (nameOfArchi == null) {
@@ -973,6 +983,8 @@ public class TMLCPrimitiveComponent extends TGCScalableWithInternalComponent imp
         }
         return nes;
     }
+
+
 
 
 }

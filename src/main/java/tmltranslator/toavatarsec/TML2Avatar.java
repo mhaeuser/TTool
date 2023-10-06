@@ -1406,7 +1406,7 @@ public class TML2Avatar {
                             AvatarAttribute attr = block.getAvatarAttributeWithName(ch.getOriginPort().getName() + "_chData");
                             if (attr != null) {
                                 attrsToCheck.add(ch.getOriginPort().getName() + "_chData");
-                                avspec.addPragma(new AvatarPragmaSecret("#Confidentiality " + block.getName() + "." + ch.getName() +
+                                avspec.addPragma(new AvatarPragmaSecret("#Confidentiality " + block.getName() + "." + ch.getOriginPort().getName() +
                                         "_chData", ch.getReferenceObject(), attr));
                             }
                         }
@@ -1875,17 +1875,19 @@ public class TML2Avatar {
             AvatarAttribute loop_index = new AvatarAttribute("loop_index", AvatarType.INTEGER, block, null);
             block.addAttribute(loop_index);
             for (TMLAttribute attr : task.getAttributes()) {
-                AvatarType type;
-                if (attr.getType().getType() == TMLType.NATURAL) {
-                    type = AvatarType.INTEGER;
-                } else if (attr.getType().getType() == TMLType.BOOLEAN) {
-                    type = AvatarType.BOOLEAN;
-                } else {
-                    type = AvatarType.UNDEFINED;
+                if (!attr.getName().endsWith("__req")) {
+                    AvatarType type;
+                    if (attr.getType().getType() == TMLType.NATURAL) {
+                        type = AvatarType.INTEGER;
+                    } else if (attr.getType().getType() == TMLType.BOOLEAN) {
+                        type = AvatarType.BOOLEAN;
+                    } else {
+                        type = AvatarType.UNDEFINED;
+                    }
+                    AvatarAttribute avattr = new AvatarAttribute(attr.getName(), type, block, null);
+                    avattr.setInitialValue(attr.getInitialValue());
+                    block.addAttribute(avattr);
                 }
-                AvatarAttribute avattr = new AvatarAttribute(attr.getName(), type, block, null);
-                avattr.setInitialValue(attr.getInitialValue());
-                block.addAttribute(avattr);
             }
             //AvatarTransition last;
             AvatarStateMachine asm = block.getStateMachine();
@@ -1985,7 +1987,7 @@ public class TML2Avatar {
                             } else {
                                 type = AvatarType.UNDEFINED;
                             }
-                            String nameNewAtt = req.getName() + "_" + req.getID() + "_" + i + "_" + req.getParam(i);
+                            String nameNewAtt = "arg"+ (i+1) +"_req";
                             if (block.getAvatarAttributeWithName(nameNewAtt) == null) {
                                 AvatarAttribute avattr = new AvatarAttribute(nameNewAtt, type, block, null);
                                 avattr.setInitialValue(req.getParam(i));

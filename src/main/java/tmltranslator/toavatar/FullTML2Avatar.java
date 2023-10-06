@@ -48,6 +48,8 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.apache.batik.anim.timing.Trace;
+
 /**
  * Class FullTML2Avatar
  * Creation: 29/02/2016
@@ -374,17 +376,19 @@ public class FullTML2Avatar {
             block.addAttribute(loop_index);
 
             for (TMLAttribute attr : task.getAttributes()) {
-                AvatarType type;
-                if (attr.getType().getType() == TMLType.NATURAL) {
-                    type = AvatarType.INTEGER;
-                } else if (attr.getType().getType() == TMLType.BOOLEAN) {
-                    type = AvatarType.BOOLEAN;
-                } else {
-                    type = AvatarType.UNDEFINED;
+                if (!attr.getName().endsWith("__req")) {
+                    AvatarType type;
+                    if (attr.getType().getType() == TMLType.NATURAL) {
+                        type = AvatarType.INTEGER;
+                    } else if (attr.getType().getType() == TMLType.BOOLEAN) {
+                        type = AvatarType.BOOLEAN;
+                    } else {
+                        type = AvatarType.UNDEFINED;
+                    }
+                    AvatarAttribute avattr = new AvatarAttribute(attr.getName(), type, block, null);
+                    avattr.setInitialValue(attr.getInitialValue());
+                    block.addAttribute(avattr);
                 }
-                AvatarAttribute avattr = new AvatarAttribute(reworkStringName(attr.getName()), type, block, null);
-                avattr.setInitialValue(attr.getInitialValue());
-                block.addAttribute(avattr);
             }
             //AvatarTransition last;
             AvatarStateMachine asm = block.getStateMachine();

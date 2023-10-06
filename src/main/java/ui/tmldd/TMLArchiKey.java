@@ -67,10 +67,11 @@ public class TMLArchiKey extends TGCWithoutInternalComponent implements Swallowe
 //    protected int fileX = 20;
 //    protected int fileY = 25;
 //    protected int cran = 5;
+    private static final int SPACE = 6;
 	private static final int KEY_OFFSET_Y = 5;
-	private static final int KEY_OFFSET_X = 20;
+	private static final int KEY_OFFSET_X = 15;
 
-    //protected String oldValue = "";
+    protected String oldValue = "";
     protected String referenceKey = "TMLKey";
     protected String typeName = "key";
     protected int priority = 5; // Between 0 and 10
@@ -132,32 +133,35 @@ public class TMLArchiKey extends TGCWithoutInternalComponent implements Swallowe
     protected void internalDrawing(Graphics g) {
 
     	// Issue #31
-//    	if (oldValue.compareTo(value) != 0) {
-//            setValue(value, g);
-//        }
-    	checkWidth( g );
+        if (oldValue.compareTo(value) != 0) {
+            setValue(value, g);
+        }
 
+        // Issue #31
+        final int space = scale( SPACE );
+        final int keyOffsetX = scale( KEY_OFFSET_X + SPACE);
+        final int keyOffsetY = scale( KEY_OFFSET_Y);
+        final int shaftWidth = scale( 3 );
+
+        checkWidth( g );
+    
         g.drawRect(x, y, width, height);
         Color c = g.getColor();
         g.setColor(ColorManager.MEMORY_BOX_2);
         g.fillRect(x+1, y+1, width-1, height-1);
         g.setColor(c);
-
-        // Issue #31
-        final int keyOffsetX = scale( KEY_OFFSET_X );
-        final int keyOffsetY = scale( KEY_OFFSET_Y );
-        final int shaftWidth = scale( 3 );
         
         // Key head
-		g.fillOval(x+width-keyOffsetX, y+keyOffsetY, height/3, height/3);
+        final int keyHeadDiameter = scale(13);
+		g.fillOval(x+width-keyOffsetX, y+keyOffsetY, keyHeadDiameter, keyHeadDiameter);
 		
 		// Key shaft
-		g.fillRect(x+width-keyOffsetY-keyOffsetX/2,y+keyOffsetY, shaftWidth/*3*/, height*3/4-keyOffsetY);
+		g.fillRect(x+width-keyOffsetX+space,y+keyOffsetY, shaftWidth/*3*/, height*3/4-keyOffsetY);
 		
 		// key teeth
 		final int teethLength = scale( 8 );
-		g.fillRect(x+width-keyOffsetY-keyOffsetX/2, y+height*3/4, teethLength/*8*/, shaftWidth/*3*/);
-		g.fillRect(x+width-keyOffsetY-keyOffsetX/2, y+height*2/3, teethLength/*8*/, shaftWidth/*3*/);
+		g.fillRect(x+width-keyOffsetX+space, y+height*3/4, teethLength/*8*/, shaftWidth/*3*/);
+		g.fillRect(x+width-keyOffsetX+space, y+height*2/3, teethLength/*8*/, shaftWidth/*3*/);
 /*
         //g.drawRoundRect(x, y, width, height, arc, arc);
         g.drawLine(x+width-space-fileX, y + space, x+width-space-fileX, y+space+fileY);
@@ -181,18 +185,22 @@ public class TMLArchiKey extends TGCWithoutInternalComponent implements Swallowe
     }
 
     // Issue #31
-    //private void setValue(String val/*, Graphics g*/) {
-//    	oldValue = value;
-//    	int w  = fileX + g.getFontMetrics().stringWidth(value) + textX;
-//    	int w1 = Math.max(minWidth, w);
-//
-//    	//TraceManager.addDev("      Width=" + width + " w1=" + w1 + " value=" + value);
-//    	if (w1 != width) {
-//    		width = w1;
-//    		resizeWithFather();
-//    	}
-    	//TraceManager.addDev("      Width=" + width + " w1=" + w1 + " value=" + value);
-//    }
+    public void setValue(String val, Graphics g) {
+        oldValue = val;
+        int w  = g.getFontMetrics().stringWidth(val);
+
+        // Issue #31
+        final int keyOffsetX = scale( KEY_OFFSET_X + SPACE);
+
+        int w1 = Math.max(minWidth, w + 2 * textX + keyOffsetX /*fileX + space*/);
+
+        //
+        if (w1 != width) {
+            width = w1;
+            resizeWithFather();
+        }
+        //
+    }
 
     @Override
     public void resizeWithFather() {

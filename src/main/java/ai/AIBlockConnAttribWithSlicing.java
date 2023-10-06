@@ -100,7 +100,7 @@ public class AIBlockConnAttribWithSlicing extends AIInteract {
             "typical system blocks and their connections. Do respect the JSON format, and provide only JSON (no explanation before or after).\n",
             
             "From the previous JSON and system specification, find the typical attributes of all blocks by imagining all the necessary attributes " +
-                    "that would be needed for the state machine diagram of each block. "};
+                    "that would be needed for the state machine diagram of each block. Do give them respecting the specified JSON format"};
 
     public String namesOfBlocks = "";
 

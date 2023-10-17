@@ -68,7 +68,8 @@ import java.util.ArrayList;;
  */
 public class JDialogLoadingNetworkModel extends javax.swing.JFrame implements ActionListener, Runnable, LoaderFacilityInterface, CallbackLoaderInterface {
 
-    public final static String[] FEATURES = {"all", "diplodocus", "avatar", "sysml-sec", "assumptions", "requirements", "attacktrees", "properties", "partitioning", "analysis", "design", "prototyping", "securityprotocol", "codegeneration"};
+    public final static String[] FEATURES = {"all", "diplodocus", "avatar", "sysml-sec", "assumptions", "requirements", "attacktrees", "properties",
+            "partitioning", "analysis", "design", "prototyping", "securityprotocol", "codegeneration"};
 
     public final static String[] PROPS = {"safety", "security", "performance"};
 
@@ -270,13 +271,13 @@ public class JDialogLoadingNetworkModel extends javax.swing.JFrame implements Ac
                 String inputLine = null;
                 NetworkModel nm = null;
                 while ((inputLine = in.readLine()) != null) {
-                    if (inputLine.startsWith("#FILE")) {
+                    if (inputLine.toUpperCase().startsWith("#FILE")) {
                         //TraceManager.addDev("Loading network model: " + inputLine.substring(5).trim());
                         nm = new NetworkModel(inputLine.substring(5).trim());
                         listOfModels.add(nm);
                     }
 
-                    if (inputLine.startsWith("-FEATURES")) {
+                    if (inputLine.toUpperCase().startsWith("-FEATURES")) {
                         if (nm != null) {
                             String tmp = inputLine.substring(9, inputLine.length()).trim().toLowerCase();
                             for (int i = 1; i < FEATURES.length; i++) {
@@ -286,7 +287,7 @@ public class JDialogLoadingNetworkModel extends javax.swing.JFrame implements Ac
                         }
                     }
 
-                    if (inputLine.startsWith("-PROPS")) {
+                    if (inputLine.toUpperCase().startsWith("-PROPS")) {
                         if (nm != null) {
                             String tmp = inputLine.substring(6, inputLine.length()).trim().toLowerCase();
                             for (int i = 0; i < PROPS.length; i++) {
@@ -296,20 +297,20 @@ public class JDialogLoadingNetworkModel extends javax.swing.JFrame implements Ac
                         }
                     }
 
-                    if (inputLine.startsWith("-AUTHOR")) {
+                    if (inputLine.toUpperCase().startsWith("-AUTHOR")) {
                         if (nm != null) {
                             nm.author = inputLine.substring(7, inputLine.length()).trim();
                         }
                     }
 
 
-                    if (inputLine.startsWith("-DESCRIPTION")) {
+                    if (inputLine.toUpperCase().startsWith("-DESCRIPTION")) {
                         if (nm != null) {
                             nm.description = inputLine.substring(12, inputLine.length()).trim();
                         }
                     }
 
-                    if (inputLine.startsWith("-IMG")) {
+                    if (inputLine.toUpperCase().startsWith("-IMG")) {
                         if (nm != null) {
                             nm.image = inputLine.substring(4, inputLine.length()).trim();
                             //TraceManager.addDev("Dealing with image:" + nm.image);

@@ -1897,6 +1897,27 @@ public class TML2Avatar {
                 //Create iteration attribute
                 AvatarAttribute req_loop_index = new AvatarAttribute("req_loop_index", AvatarType.INTEGER, block, null);
                 block.addAttribute(req_loop_index);
+                for (Object obj : tmlmodel.getRequestsToMe(task)) {
+                    TMLRequest req = (TMLRequest) obj;
+                    for (int i = 0; i < req.getNbOfParams(); i++) {
+                        if (block.getAvatarAttributeWithName(req.getParam(i)) == null) {
+                            AvatarType type;
+                            if (req.getParam(i).matches("-?\\d+")) {
+                                type = AvatarType.INTEGER;
+                            } else if (req.getParam(i).matches("(?i)^(true|false)")) {
+                                type = AvatarType.BOOLEAN;
+                            } else {
+                                type = AvatarType.UNDEFINED;
+                            }
+                            String nameNewAtt = "arg"+ (i+1) +"_req";
+                            if (block.getAvatarAttributeWithName(nameNewAtt) == null) {
+                                AvatarAttribute avattr = new AvatarAttribute(nameNewAtt, type, block, null);
+                                avattr.setInitialValue(req.getParam(i));
+                                block.addAttribute(avattr);
+                            }
+                        }
+                    }
+                }
 
                 //TMLRequest request= tmlmodel.getRequestToMe(task);
                 //Oh this is fun...let's restructure the state machine
@@ -1978,25 +1999,8 @@ public class TML2Avatar {
 						block.addAttribute(requestData);*/
                     for (int i = 0; i < req.getNbOfParams(); i++) {
                         if (block.getAvatarAttributeWithName(req.getParam(i)) == null) {
-                            //Throw Error
-                            AvatarType type;
-                            if (req.getParam(i).matches("-?\\d+")) {
-                                type = AvatarType.INTEGER;
-                            } else if (req.getParam(i).matches("(?i)^(true|false)")) {
-                                type = AvatarType.BOOLEAN;
-                            } else {
-                                type = AvatarType.UNDEFINED;
-                            }
                             String nameNewAtt = "arg"+ (i+1) +"_req";
-                            if (block.getAvatarAttributeWithName(nameNewAtt) == null) {
-                                AvatarAttribute avattr = new AvatarAttribute(nameNewAtt, type, block, null);
-                                avattr.setInitialValue(req.getParam(i));
-                                block.addAttribute(avattr);
-                                as.addValue(avattr.getName());
-                                TraceManager.addDev("Missing Attribute " + req.getParam(i));
-                            } else {
-                                as.addValue(block.getAvatarAttributeWithName(nameNewAtt).getName());
-                            }
+                            as.addValue(block.getAvatarAttributeWithName(nameNewAtt).getName());
                         } else {
                             //	Add parameter to signal and actiononsignal
                             as.addValue(req.getParam(i));

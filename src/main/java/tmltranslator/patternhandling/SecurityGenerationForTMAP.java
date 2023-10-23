@@ -751,13 +751,53 @@ public class SecurityGenerationForTMAP implements Runnable {
         }*/
 
         for (String cpuName : selectedCPUTasks.keySet()) {
+
+            for (TMLTask task : toSecureRev.keySet()) {
+                // TraceManager.addDev("Adding nonces to " + task.getName());
+                List<TMLChannel> chans = tmlmodel.getChannelsFromMe(task);
+
+                for (TMLTask task2 : toSecureRev.get(task)) {
+                    boolean addChan = true;
+                    for (TMLChannel chan : chans) {
+                        if (chan.getDestinationTask() == task2) {
+                            addChan = false;
+                        }
+                    }
+
+                    if (addChan) {
+                        TMLChannel channel = new TMLChannel("nonceCh" + task.getName().split("__")[1] + "_" + task2.getName().split("__")[1], task.getReferenceObject());
+                        if (tmlmodel.getChannelByName(channel.getName()) == null) {
+                            if (hsmTasks.contains(task.getName().replaceAll(title + "__", ""))) {
+                                channel.setOriginTask(tmap.getTaskByName("HSM_" + taskHSMMap.get(task.getName().replaceAll(title + "__", ""))));
+                                tmap.getTaskByName("HSM_" + taskHSMMap.get(task.getName().replaceAll(title + "__", ""))).addWriteTMLChannel(channel);
+                            } else {
+                                channel.setOriginTask(task);
+                                task.addWriteTMLChannel(channel);
+                            }
+
+                            if (hsmTasks.contains(task2.getName().replaceAll(title + "__", ""))) {
+                                channel.setDestinationTask(tmap.getTaskByName("HSM_" + taskHSMMap.get(task2.getName().replaceAll(title + "__", ""))));
+                                tmap.getTaskByName("HSM_" + taskHSMMap.get(task2.getName().replaceAll(title + "__", ""))).addReadTMLChannel(channel);
+                            } else {
+                                channel.setDestinationTask(task2);
+                                task2.addReadTMLChannel(channel);
+                            }
+                            
+                            channel.setPorts(new TMLPort(channel.getName(), channel.getReferenceObject()), new TMLPort(channel.getName(), channel.getReferenceObject()));
+                            tmlmodel.addChannel(channel);
+                        }
+                        
+                    }
+                }
+            }
+            
             buildHSMActivityDiagram(cpuName);
             //Add a private bus to Hardware Accelerator with the task for hsm
 
             //Find the CPU the task is mapped to
             TMLArchitecture arch = tmap.getArch();
             HwCPU cpu = arch.getHwCPUByName(cpuName);
-
+            
             if (cpu == null) {
                 return;
             }
@@ -775,21 +815,43 @@ public class SecurityGenerationForTMAP implements Runnable {
             if (task != null) {
                 tmap.addTaskToHwExecutionNode(task, hwa);
             }
-            //Add bus connecting the cpu and HWA
+            //Add bus to be connecting to the HWA
             HwBus bus = new HwBus("HSMBus_" + cpuName);
             bus.privacy = HwBus.BUS_PRIVATE;
             arch.addHwNode(bus);
 
+            //Add bridge to be connecting to the 2 buses
+            HwBridge bridge = new HwBridge("HSMBridge_" + cpuName);
+            arch.addHwNode(bridge);
+            
+            //get bus connected to CPU
+            HwBus busOfCPU = null;
+            for (HwLink link : tmap.getArch().getHwLinks()) {
+                if (link.hwnode == cpu) {
+                    busOfCPU = link.bus;
+                    break;
+                }
+            }
+
             for (TMLChannel ch : hsmChannelsToMap.get(cpuName)) {
                 tmap.addCommToHwCommNode(ch, mem);
                 tmap.addCommToHwCommNode(ch, bus);
+                tmap.addCommToHwCommNode(ch, busOfCPU);
             }
 
-            //Connect Bus and CPU
-            HwLink linkCPUWithBus = new HwLink("link_" + cpu.getName() + "_to_" + bus.getName());
-            linkCPUWithBus.bus = bus;
-            linkCPUWithBus.hwnode = cpu;
-            arch.addHwLink(linkCPUWithBus);
+            //Connect new Bus and Bridge
+            HwLink linkBridgeWithNewBus = new HwLink("link_" + bridge.getName() + "_to_" + bus.getName());
+            linkBridgeWithNewBus.bus = bus;
+            linkBridgeWithNewBus.hwnode = bridge;
+            arch.addHwLink(linkBridgeWithNewBus);
+
+            //Connect the Bus of CPU and Bridge
+            if (busOfCPU != null) {
+                HwLink linkBridgeWithBus = new HwLink("link_" + bridge.getName() + "_to_" + busOfCPU.getName());
+                linkBridgeWithBus.bus = busOfCPU;
+                linkBridgeWithBus.hwnode = bridge;
+                arch.addHwLink(linkBridgeWithBus);
+            }
 
             //Connect Bus and HWA
             HwLink linkHWAWithBus = new HwLink("link_" + hwa.getName() + "_to_" + bus.getName());
@@ -806,54 +868,79 @@ public class SecurityGenerationForTMAP implements Runnable {
 
         for (TMLTask task : toSecureRev.keySet()) {
             // TraceManager.addDev("Adding nonces to " + task.getName());
-            List<TMLChannel> chans = tmlmodel.getChannelsFromMe(task);
 
             for (TMLTask task2 : toSecureRev.get(task)) {
-                boolean addChan = true;
+                TMLChannel channel = tmlmodel.getChannelByShortName("nonceCh" + task.getName().split("__")[1] + "_" + task2.getName().split("__")[1]);
+                
+                List<TMLChannel> chans, chans2;
+                
+                chans = tmlmodel.getChannelsToMe(task);
+                HwMemory memToPutChannel = null;
                 for (TMLChannel chan : chans) {
-                    if (chan.getDestinationTask() == task2) {
-                        addChan = false;
+                    if (chan.isCheckAuthChannel()) {
+                        for (HwCommunicationNode mappedNode : tmap.getAllCommunicationNodesOfChannel(chan)) {
+                            if (!(mappedNode instanceof HwMemory)) {
+                                if (!tmap.isCommNodeMappedOn(channel, mappedNode)) {
+                                    tmap.addCommToHwCommNode(channel, mappedNode);
+                                }
+                            }
+                        }
+                        HwMemory memoryOfChannel = tmap.getMemoryOfChannel(chan);
+                        if (memoryOfChannel != null) {
+                            memToPutChannel = memoryOfChannel;
+                        }
                     }
                 }
-
-                if (addChan) {
-                    TMLChannel channel = new TMLChannel("nonceCh" + task.getName().split("__")[1] + "_" + task2.getName().split("__")[1], task.getReferenceObject());
-                    channel.setOriginTask(task);
-                    channel.setDestinationTask(task2);
-                    channel.setPorts(new TMLPort(channel.getName(), channel.getReferenceObject()), new TMLPort(channel.getName(), channel.getReferenceObject()));
-                    task.addWriteTMLChannel(channel);
-                    //task.addTMLChannel(channel); /// IN TMLChannel and WriteTMLChannel ??
-                    task2.addReadTMLChannel(channel);
-                    //task2.addTMLChannel(channel);
-                    tmlmodel.addChannel(channel);
-                    
-                    List<TMLChannel> chans2 = tmlmodel.getChannelsFromMe(task2);
-                    int count_chans = 0;
-                    HwMemory memToPutChannel = null;
-                    for (TMLChannel chan : chans2) {
-                        if (chan.isCheckAuthChannel()) {
-                            HwMemory memoryOfChannel = tmap.getMemoryOfChannel(chan);
-                            if (memoryOfChannel != null) {
-                                count_chans += 1;
-                                if (count_chans == 1) {
-                                    memToPutChannel = memoryOfChannel;
-                                    //tmap.addCommToHwCommNode(channel, memToPutChannel);
+                
+                if (hsmTasks.contains(task.getName().replaceAll(title + "__", ""))) {
+                    chans = tmlmodel.getChannelsFromMe(tmap.getTaskByName("HSM_" + taskHSMMap.get(task.getName().replaceAll(title + "__", ""))));
+                    for (TMLChannel chan : chans) {
+                        for (HwCommunicationNode mappedNode : tmap.getAllCommunicationNodesOfChannel(chan)) {
+                            if (!(mappedNode instanceof HwMemory)) {
+                                if (!tmap.isCommNodeMappedOn(channel, mappedNode)) {
+                                    tmap.addCommToHwCommNode(channel, mappedNode);
                                 }
-                                for (HwCommunicationNode mappedNode : tmap.getAllCommunicationNodesOfChannel(chan)) {
-                                    if (!(mappedNode instanceof HwMemory)) {
-                                        if (!tmap.isCommNodeMappedOn(channel, mappedNode)) {
-                                            tmap.addCommToHwCommNode(channel, mappedNode);
-                                        }
-                                    }
+                            }
+                        }
+                        HwMemory memoryOfChannel = tmap.getMemoryOfChannel(chan);
+                        if (memoryOfChannel != null) {
+                            memToPutChannel = memoryOfChannel;
+                        }
+                    }
+                }
+                if (memToPutChannel != null) {
+                    if (!tmap.isCommNodeMappedOn(channel, memToPutChannel)) {
+                        tmap.addCommToHwCommNode(channel, memToPutChannel);
+                    }
+                }
+                chans2 = tmlmodel.getChannelsFromMe(task2);
+                for (TMLChannel chan2 : chans2) {
+                    if (chan2.isCheckAuthChannel()) {
+                        for (HwCommunicationNode mappedNode : tmap.getAllCommunicationNodesOfChannel(chan2)) {
+                            if (!(mappedNode instanceof HwMemory)) {
+                                if (!tmap.isCommNodeMappedOn(channel, mappedNode)) {
+                                    tmap.addCommToHwCommNode(channel, mappedNode);
                                 }
                             }
                         }
                     }
-                    if (count_chans > 0) {
-                        if (!tmap.isCommNodeMappedOn(channel, memToPutChannel)) {
-                            tmap.addCommToHwCommNode(channel, memToPutChannel);
+                }
+
+                if (hsmTasks.contains(task2.getName().replaceAll(title + "__", ""))) {
+                    chans2 = tmlmodel.getChannelsToMe(tmap.getTaskByName("HSM_" + taskHSMMap.get(task2.getName().replaceAll(title + "__", ""))));
+                    for (TMLChannel chan2 : chans2) {
+                        for (HwCommunicationNode mappedNode : tmap.getAllCommunicationNodesOfChannel(chan2)) {
+                            if (!(mappedNode instanceof HwMemory)) {
+                                if (!tmap.isCommNodeMappedOn(channel, mappedNode)) {
+                                    tmap.addCommToHwCommNode(channel, mappedNode);
+                                }
+                            }
                         }
                     }
+                }
+                TraceManager.addDev("Starrt  channel = ");
+                for (HwCommunicationNode mappedNode : tmap.getAllCommunicationNodesOfChannel(channel)) {
+                    TraceManager.addDev("channel = " + channel.getName() + " mappedNode = " + mappedNode.getName());
                 }
             }
         }
@@ -1124,7 +1211,7 @@ public class SecurityGenerationForTMAP implements Runnable {
                     reqSend.addNext(wr);
                     wr.addNext(chan);
                     //Receive any nonces if ensuring authenticity
-                    if (nonceOutChannels.get(task).contains(channel)) {
+                    /* if (nonceOutChannels.get(task).contains(channel)) {
                         //Read nonce from rec task
 
                         List<TMLChannel> matches = tmlmodel.getChannels(tmlc.getDestinationTask(), tmlc.getOriginTask());
@@ -1164,7 +1251,7 @@ public class SecurityGenerationForTMAP implements Runnable {
                         taskAD.addElement(wr2);
                         reqSend.setNewNext(wr, wr2);
                         wr2.addNext(wr);
-                    }
+                    } */
 
                     //Read channel operator to receive hsm data
                     TMLReadChannel rd2 = new TMLReadChannel("retData_" + chanName + "_" + task.getName().split("__")[1], taskAD.getReferenceObject());
@@ -1229,7 +1316,8 @@ public class SecurityGenerationForTMAP implements Runnable {
                         reqSend.addParam(Integer.toString(channelIndexMap.get(chanName)));
                     }
                     taskAD.addElement(reqSend);
-                    chan.setNewNext(nextReadCh, reqSend);
+                    fromStart.setNewNext(chan, reqSend);
+                    reqSend.addNext(chan);
 
                     //Add write channel operator
                     TMLWriteChannel wr = new TMLWriteChannel("data_" + chanName + "_" + task.getName().split("__")[1], taskAD.getReferenceObject());
@@ -1243,10 +1331,10 @@ public class SecurityGenerationForTMAP implements Runnable {
                     taskAD.addElement(wr);
 
                     //Add connector between request and write
-                    reqSend.addNext(wr);
+                    chan.setNewNext(nextReadCh, wr);
                     
                 
-                    if (nonceInChannels.get(task).contains(channel)) {
+                    /*if (nonceInChannels.get(task).contains(channel)) {
                         //Create a nonce operator and a write channel operator
                         TMLExecC nonce = new TMLExecC("nonce_" + tmlc.getDestinationTask().getName().split("__")[1] + "_" + tmlc.getOriginTask().getName().split("__")[1], taskAD.getReferenceObject());
                         SecurityPattern secNonce = new SecurityPattern(nonce.getName(), SecurityPattern.NONCE_PATTERN, overhead, "", encComp, decComp, "", "", "");
@@ -1311,7 +1399,7 @@ public class SecurityGenerationForTMAP implements Runnable {
 
                         reqSend.setNewNext(wr, wr2);
                         wr2.addNext(wr);
-                    }
+                    }*/
 
 
                     //Add read channel operator
@@ -1363,55 +1451,55 @@ public class SecurityGenerationForTMAP implements Runnable {
                     readChannel.securityPattern = channelSecMap.get(readChannel.getChannel(0).getName().replaceAll(title + "__", ""));
                     //Create nonce and send it
                     if (nonceInChannels.get(task).contains(channel)) {
-                        //Create a nonce operator and a write channel operator
                         TMLExecC nonce = new TMLExecC("nonce_" + tmlc.getDestinationTask().getName().split("__")[1] + "_" + tmlc.getOriginTask().getName().split("__")[1], taskAD.getReferenceObject());
                         SecurityPattern secNonce = new SecurityPattern(nonce.getName(), SecurityPattern.NONCE_PATTERN, overhead, "", encComp, decComp, "", "", "");
-                        
                         nonce.securityPattern = secNonce;
                         nonce.securityPattern.setProcess(SecurityPattern.ENCRYPTION_PROCESS);
                         nonce.setAction(Integer.toString(secNonce.encTime));
-
-                        tmlmodel.addSecurityPattern(secNonce);
-                        if (tmlmodel.securityTaskMap.containsKey(secNonce)) {
-                            if (!tmlmodel.securityTaskMap.get(secNonce).contains(task)) {
-                                tmlmodel.securityTaskMap.get(secNonce).add(task);
+                        if (!taskAD.getElements().contains(nonce)) {
+                            //Create a nonce operator and a write channel operator
+                            tmlmodel.addSecurityPattern(secNonce);
+                            if (tmlmodel.securityTaskMap.containsKey(secNonce)) {
+                                if (!tmlmodel.securityTaskMap.get(secNonce).contains(task)) {
+                                    tmlmodel.securityTaskMap.get(secNonce).add(task);
+                                }
+                            } else {
+                                List<TMLTask> listTask = new ArrayList<TMLTask>();
+                                listTask.add(task);
+                                tmlmodel.securityTaskMap.put(secNonce, listTask);
                             }
-                        } else {
-                            List<TMLTask> listTask = new ArrayList<TMLTask>();
-                            listTask.add(task);
-                            tmlmodel.securityTaskMap.put(secNonce, listTask);
+                            TMLActivityElement first = taskAD.getFirst();
+                            TMLActivityElement nextFirst = first.getNextElement(0);
+                            taskAD.addElement(nonce);
+                            first.setNewNext(nextFirst, nonce);
+                            TMLWriteChannel wr = new TMLWriteChannel("", taskAD.getReferenceObject());
+                            //Send nonce along channel, the newly created nonce channel or an existing channel with the matching sender and receiver
+                            //Find matching channels
+                            List<TMLChannel> matches = tmlmodel.getChannels(tmlc.getDestinationTask(), tmlc.getOriginTask());
+
+                            if (matches.size() > 0) {
+                                wr.setName(matches.get(0).getName().replaceAll(title + "__", ""));
+                                if (tmlmodel.getChannelByName(wr.getName()) != null) {
+                                    wr.addChannel(tmlmodel.getChannelByName(wr.getName()));
+                                } else if (tmlmodel.getChannelByShortName(wr.getName()) != null) {
+                                    wr.addChannel(tmlmodel.getChannelByShortName(wr.getName()));
+                                }
+                            } else {
+                                wr.setName("nonceCh" + tmlc.getDestinationTask().getName().split("__")[1] + "_" + tmlc.getOriginTask().getName().split("__")[1]);
+                                if (tmlmodel.getChannelByName(wr.getName()) != null) {
+                                    wr.addChannel(tmlmodel.getChannelByName(wr.getName()));
+                                } else if (tmlmodel.getChannelByShortName(wr.getName()) != null) {
+                                    wr.addChannel(tmlmodel.getChannelByShortName(wr.getName()));
+                                }
+                            }
+                            secNonce.originTask = wr.getChannel(0).getOriginTask().getName().replaceAll(title + "__", "");
+                            //send the nonce along the channel
+                            wr.setNbOfSamples("1");
+                            wr.securityPattern = secNonce;
+                            taskAD.addElement(wr);
+                            nonce.addNext(wr);
+                            wr.addNext(nextFirst);
                         }
-
-                        taskAD.addElement(nonce);
-                        fromStart.setNewNext(readChannel, nonce);
-
-                        TMLWriteChannel wr = new TMLWriteChannel("", taskAD.getReferenceObject());
-                        //Send nonce along channel, the newly created nonce channel or an existing channel with the matching sender and receiver
-                        //Find matching channels
-                        List<TMLChannel> matches = tmlmodel.getChannels(tmlc.getDestinationTask(), tmlc.getOriginTask());
-
-                        if (matches.size() > 0) {
-                            wr.setName(matches.get(0).getName().replaceAll(title + "__", ""));
-                            if (tmlmodel.getChannelByName(wr.getName()) != null) {
-                                wr.addChannel(tmlmodel.getChannelByName(wr.getName()));
-                            } else if (tmlmodel.getChannelByShortName(wr.getName()) != null) {
-                                wr.addChannel(tmlmodel.getChannelByShortName(wr.getName()));
-                            }
-                        } else {
-                            wr.setName("nonceCh" + tmlc.getDestinationTask().getName().split("__")[1] + "_" + tmlc.getOriginTask().getName().split("__")[1]);
-                            if (tmlmodel.getChannelByName(wr.getName()) != null) {
-                                wr.addChannel(tmlmodel.getChannelByName(wr.getName()));
-                            } else if (tmlmodel.getChannelByShortName(wr.getName()) != null) {
-                                wr.addChannel(tmlmodel.getChannelByShortName(wr.getName()));
-                            }
-                        }
-                        secNonce.originTask = wr.getChannel(0).getOriginTask().getName().replaceAll(title + "__", "");
-                        //send the nonce along the channel
-                        wr.setNbOfSamples("1");
-                        wr.securityPattern = secNonce;
-                        taskAD.addElement(wr);
-                        nonce.addNext(wr);
-                        wr.addNext(readChannel);
                     }
 
                     //Add decryption operator if it does not already exist
@@ -1481,47 +1569,50 @@ public class SecurityGenerationForTMAP implements Runnable {
                         nonce.securityPattern = secNonce;
                         nonce.securityPattern.setProcess(SecurityPattern.ENCRYPTION_PROCESS);
                         nonce.setAction(Integer.toString(secNonce.encTime));
-
-                        tmlmodel.addSecurityPattern(secNonce);
-                        if (tmlmodel.securityTaskMap.containsKey(secNonce)) {
-                            if (!tmlmodel.securityTaskMap.get(secNonce).contains(task)) {
-                                tmlmodel.securityTaskMap.get(secNonce).add(task);
+                        if (!taskAD.getElements().contains(nonce)) {
+                            tmlmodel.addSecurityPattern(secNonce);
+                            if (tmlmodel.securityTaskMap.containsKey(secNonce)) {
+                                if (!tmlmodel.securityTaskMap.get(secNonce).contains(task)) {
+                                    tmlmodel.securityTaskMap.get(secNonce).add(task);
+                                }
+                            } else {
+                                List<TMLTask> listTask = new ArrayList<TMLTask>();
+                                listTask.add(task);
+                                tmlmodel.securityTaskMap.put(secNonce, listTask);
                             }
-                        } else {
-                            List<TMLTask> listTask = new ArrayList<TMLTask>();
-                            listTask.add(task);
-                            tmlmodel.securityTaskMap.put(secNonce, listTask);
+
+                            taskAD.addElement(nonce);
+                            TMLActivityElement first = taskAD.getFirst();
+                            TMLActivityElement nextFirst = first.getNextElement(0);
+                            first.setNewNext(nextFirst, nonce);
+                            TMLWriteChannel wr = new TMLWriteChannel("", taskAD.getReferenceObject());
+                            //Send nonce along channel, the newly created nonce channel or an existing channel with the matching sender and receiver
+                            //Find matching channels
+                            List<TMLChannel> matches = tmlmodel.getChannels(tmlc.getDestinationTask(), tmlc.getOriginTask());
+
+                            if (matches.size() > 0) {
+                                wr.setName(matches.get(0).getName().replaceAll(title + "__", ""));
+                                if (tmlmodel.getChannelByName(wr.getName()) != null) {
+                                    wr.addChannel(tmlmodel.getChannelByName(wr.getName()));
+                                } else if (tmlmodel.getChannelByShortName(wr.getName()) != null) {
+                                    wr.addChannel(tmlmodel.getChannelByShortName(wr.getName()));
+                                }
+                            } else {
+                                wr.setName("nonceCh" + tmlc.getDestinationTask().getName().split("__")[1] + "_" + tmlc.getOriginTask().getName().split("__")[1]);
+                                if (tmlmodel.getChannelByName(wr.getName()) != null) {
+                                    wr.addChannel(tmlmodel.getChannelByName(wr.getName()));
+                                } else if (tmlmodel.getChannelByShortName(wr.getName()) != null) {
+                                    wr.addChannel(tmlmodel.getChannelByShortName(wr.getName()));
+                                }
+                            }
+                            secNonce.originTask = wr.getChannel(0).getOriginTask().getName().replaceAll(title + "__", "");
+                            //send the nonce along the channel
+                            wr.setNbOfSamples("1");
+                            wr.securityPattern = secNonce;
+                            taskAD.addElement(wr);
+                            nonce.addNext(wr);
+                            wr.addNext(nextFirst);
                         }
-
-                        taskAD.addElement(nonce);
-                        fromStart.setNewNext(elem, nonce);
-                        TMLWriteChannel wr = new TMLWriteChannel("", taskAD.getReferenceObject());
-                        //Send nonce along channel, the newly created nonce channel or an existing channel with the matching sender and receiver
-                        //Find matching channels
-                        List<TMLChannel> matches = tmlmodel.getChannels(tmlc.getDestinationTask(), tmlc.getOriginTask());
-
-                        if (matches.size() > 0) {
-                            wr.setName(matches.get(0).getName().replaceAll(title + "__", ""));
-                            if (tmlmodel.getChannelByName(wr.getName()) != null) {
-                                wr.addChannel(tmlmodel.getChannelByName(wr.getName()));
-                            } else if (tmlmodel.getChannelByShortName(wr.getName()) != null) {
-                                wr.addChannel(tmlmodel.getChannelByShortName(wr.getName()));
-                            }
-                        } else {
-                            wr.setName("nonceCh" + tmlc.getDestinationTask().getName().split("__")[1] + "_" + tmlc.getOriginTask().getName().split("__")[1]);
-                            if (tmlmodel.getChannelByName(wr.getName()) != null) {
-                                wr.addChannel(tmlmodel.getChannelByName(wr.getName()));
-                            } else if (tmlmodel.getChannelByShortName(wr.getName()) != null) {
-                                wr.addChannel(tmlmodel.getChannelByShortName(wr.getName()));
-                            }
-                        }
-                        secNonce.originTask = wr.getChannel(0).getOriginTask().getName().replaceAll(title + "__", "");
-                        //send the nonce along the channel
-                        wr.setNbOfSamples("1");
-                        wr.securityPattern = secNonce;
-                        taskAD.addElement(wr);
-                        nonce.addNext(wr);
-                        wr.addNext(elem);
                     }
 
                     //Now add the decrypt operator
@@ -1591,7 +1682,6 @@ public class SecurityGenerationForTMAP implements Runnable {
             start.addNext(stop);
             return;
         }
-
         TMLActionState req = new TMLActionState("action", taskAD.getReferenceObject());
         if (task.getAttributeByName("channelIndex") == null) {
             TMLAttribute attrib = new TMLAttribute("channelIndex", new TMLType(TMLType.NATURAL), "0");
@@ -1606,11 +1696,84 @@ public class SecurityGenerationForTMAP implements Runnable {
         //Connect start and readrequest
         start.addNext(req);
 
+        TMLActivityElement lastCurElem = req;
+        for (HSMChannel ch : hsmChannelMap.get(cpuName)) {
+            if (!ch.nonceName.equals("")) {
+                if (ch.secType == HSMChannel.DEC) {
+                    TMLExecC nonce = new TMLExecC("nonce_" + ch.task + "_" + tmlmodel.getChannelByShortName(ch.name).getOriginTask().getName().replaceAll(appName + "__", ""), taskAD.getReferenceObject());
+                    SecurityPattern secNonce = new SecurityPattern(nonce.getName(), SecurityPattern.NONCE_PATTERN, overhead, "", encComp, decComp, "", "", "");
+                    nonce.securityPattern = secNonce;
+                    nonce.securityPattern.setProcess(SecurityPattern.ENCRYPTION_PROCESS);
+                    nonce.setAction(Integer.toString(secNonce.encTime));
+                    if (!taskAD.getElements().contains(nonce)) {
+                        tmlmodel.addSecurityPattern(secNonce);
+                        if (tmlmodel.securityTaskMap.containsKey(secNonce)) {
+                            if (!tmlmodel.securityTaskMap.get(secNonce).contains(task)) {
+                                tmlmodel.securityTaskMap.get(secNonce).add(task);
+                            }
+                        } else {
+                            List<TMLTask> listTask = new ArrayList<TMLTask>();
+                            listTask.add(task);
+                            tmlmodel.securityTaskMap.put(secNonce, listTask);
+                        }
+
+                        taskAD.addElement(nonce);
+
+                        if (lastCurElem.getNbNext()>0) {
+                            lastCurElem.setNewNext(lastCurElem.getNextElement(0), nonce);
+                        } else {
+                            lastCurElem.addNext(nonce);
+                        }
+                        TMLWriteChannel wr = new TMLWriteChannel("", taskAD.getReferenceObject());
+                        wr.setName("nonceCh" + ch.task + "_" + tmlmodel.getChannelByShortName(ch.name).getOriginTask().getName().split("__")[1]);
+                        if (tmlmodel.getChannelByName(wr.getName()) != null) {
+                            wr.addChannel(tmlmodel.getChannelByName(wr.getName()));
+                        } else if (tmlmodel.getChannelByShortName(wr.getName()) != null) {
+                            wr.addChannel(tmlmodel.getChannelByShortName(wr.getName()));
+                        }
+                        secNonce.originTask = task.getName();
+                        //send the nonce along the channel
+                        wr.setNbOfSamples("1");
+                        wr.securityPattern = secNonce;
+                        taskAD.addElement(wr);
+                        nonce.addNext(wr);
+                        lastCurElem = wr;
+                    }
+                } else {
+                    //If we need to receive a nonce
+                    TMLReadChannel rd = new TMLReadChannel("", taskAD.getReferenceObject());
+                    //Receive any nonces if ensuring authenticity
+                    TraceManager.addDev("ch.name==" + ch.name);
+                    for (TMLChannel ch0 : tmlmodel.getChannels()) {
+                        TraceManager.addDev("ch0.name==" + ch0.getName());
+                    }
+                    rd.setName("nonceCh" + tmlmodel.getChannelByShortName(ch.name).getDestinationTask().getName().replaceAll(appName + "__", "") + "_" + ch.task);
+                    if (tmlmodel.getChannelByName(rd.getName()) != null) {
+                        rd.addChannel(tmlmodel.getChannelByName(rd.getName()));
+                    } else if (tmlmodel.getChannelByShortName(rd.getName()) != null) {
+                        rd.addChannel(tmlmodel.getChannelByShortName(rd.getName()));
+                    }
+                    SecurityPattern secPatternNonce = new SecurityPattern("nonce_" + tmlmodel.getChannelByShortName(ch.name).getDestinationTask().getName().replaceAll(appName + "__", "") + "_" + ch.task, SecurityPattern.NONCE_PATTERN, overhead, "", encComp, decComp, "", "", "");
+                    secPatternNonce.originTask = rd.getChannel(0).getOriginTask().getName().replaceAll(appName + "__", "");
+                    rd.securityPattern = secPatternNonce;
+                    rd.setNbOfSamples("1");
+                    if (lastCurElem.getNbNext() > 0) {
+                        lastCurElem.setNewNext(lastCurElem.getNextElement(0), rd);
+                    } else {
+                        lastCurElem.addNext(rd);
+                    }
+                    lastCurElem = rd;
+                    taskAD.addElement(rd);
+                }
+            }
+        }
+       
+
         TMLChoice choice = new TMLChoice("choice", taskAD.getReferenceObject());
         taskAD.addElement(choice);
 
-        //Connect readrequest and choice
-        req.addNext(choice);
+        //Connect lastCurElem and choice
+        lastCurElem.addNext(choice);
 
         //Allows 9 channels max to simplify the diagram
 
@@ -1641,7 +1804,7 @@ public class SecurityGenerationForTMAP implements Runnable {
                 
                 TMLActivityElement prevRd = choice2;
                 //If needed, receive nonce from task
-                if (!ch.nonceName.equals("")) {
+                /*if (!ch.nonceName.equals("")) {
                     //Connect choice and readchannel
                     TMLReadChannel rdNonce = new TMLReadChannel(("data_" + ch.name + "_" + ch.task), taskAD.getReferenceObject());
                     rdNonce.addChannel(tmlmodel.getChannelByName("data_" + ch.name + "_" + ch.task));
@@ -1653,7 +1816,7 @@ public class SecurityGenerationForTMAP implements Runnable {
                     //choice2.getNextElement(choice2.getNbNext()-1).addNext(rd);
                     choice2.addNext(rdNonce);
                     prevRd = rdNonce;
-                }
+                }*/
                 
                 TMLReadChannel rd = new TMLReadChannel("data_" + ch.name + "_" + ch.task, taskAD.getReferenceObject());
                 rd.addChannel(tmlmodel.getChannelByName("data_" + ch.name + "_" + ch.task));
@@ -1755,7 +1918,7 @@ public class SecurityGenerationForTMAP implements Runnable {
                 
                 TMLActivityElement prevRd = choice;
                 //If needed, receive nonce from task
-                if (!ch.nonceName.equals("")) {
+                /*if (!ch.nonceName.equals("")) {
                     TMLReadChannel rdNonce = new TMLReadChannel(("data_" + ch.name + "_" + ch.task), taskAD.getReferenceObject());
                     rdNonce.addChannel(tmlmodel.getChannelByName("data_" + ch.name + "_" + ch.task));
                     rdNonce.securityPattern = new SecurityPattern(ch.nonceName, SecurityPattern.NONCE_PATTERN, overhead, "", encComp, decComp, "", "", "");
@@ -1765,7 +1928,7 @@ public class SecurityGenerationForTMAP implements Runnable {
 
                     choice.addNext(rdNonce);
                     prevRd = rdNonce;
-                }
+                }*/
 
                 TMLReadChannel rd = new TMLReadChannel("data_" + ch.name + "_" + ch.task, taskAD.getReferenceObject());
                 rd.addChannel(tmlmodel.getChannelByName("data_" + ch.name + "_" + ch.task));

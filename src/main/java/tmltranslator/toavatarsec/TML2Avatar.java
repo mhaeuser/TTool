@@ -1310,7 +1310,7 @@ public class TML2Avatar {
                         }
 
                         secChannelMap.get(ae.securityPattern.name).add(ch.getName());
-                        if (aec.getEncForm()) {
+                        if (!ae.securityPattern.type.equals(SecurityPattern.NONCE_PATTERN)) {
                             as.addValue(ae.securityPattern.name + "_encrypted");
                             AvatarAttribute data = new AvatarAttribute(ae.securityPattern.name + "_encrypted", AvatarType.INTEGER, block, null);
                             block.addAttribute(data);
@@ -1451,7 +1451,7 @@ public class TML2Avatar {
                     } else {
                         //send encrypted data 
                         //
-                        if (aec.getEncForm()) {
+                        if (!ae.securityPattern.type.equals(SecurityPattern.NONCE_PATTERN)) {
                             as.addValue(ae.securityPattern.name + "_encrypted");
                             AvatarAttribute data = new AvatarAttribute(ae.securityPattern.name + "_encrypted", AvatarType.INTEGER, block, null);
                             block.addAttribute(data);

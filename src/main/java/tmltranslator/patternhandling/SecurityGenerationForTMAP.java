@@ -963,7 +963,7 @@ public class SecurityGenerationForTMAP implements Runnable {
                             for (int i=0; i < wChannel.getNbOfChannels(); i++) {
                                 if (channel.equals(wChannel.getChannel(i).getName().replaceAll(title + "__", "")) && wChannel.securityPattern == null) {
                                     wChannel.securityPattern = channelSecMap.get(channel);
-                                    wChannel.setEncForm(true);
+                                    // wChannel.setEncForm(true);
                                 }
                             }
                         }
@@ -1058,7 +1058,7 @@ public class SecurityGenerationForTMAP implements Runnable {
                             for (int i=0; i < wChannel.getNbOfChannels(); i++) {
                                 if (channel.equals(wChannel.getChannel(i).getName().replaceAll(title + "__", "")) && wChannel.securityPattern == null) {
                                     wChannel.securityPattern = channelSecMap.get(channel); 
-                                    wChannel.setEncForm(true);
+                                    // wChannel.setEncForm(true);
                                 }
                             }
                         }
@@ -1092,7 +1092,7 @@ public class SecurityGenerationForTMAP implements Runnable {
                         continue;
                     }
                     writeChannel.securityPattern = channelSecMap.get(channel);
-                    writeChannel.setEncForm(true);
+                    // writeChannel.setEncForm(true);
                     fromStart = taskAD.getPrevious(chan);
 
                     TMLSendRequest reqSend = new TMLSendRequest("startHSM_" + taskHSMMap.get(task.getName().split("__")[1]), taskAD.getReferenceObject());
@@ -1118,7 +1118,7 @@ public class SecurityGenerationForTMAP implements Runnable {
                         wr.addChannel(tmlmodel.getChannelByShortName(wr.getName()));
                     }
                     wr.setNbOfSamples("1"); 
-                    wr.setEncForm(false);
+                    // wr.setEncForm(false);
                     //wr.securityPattern = channelSecMap.get(chanName);
                     taskAD.addElement(wr);
                     reqSend.addNext(wr);
@@ -1213,7 +1213,7 @@ public class SecurityGenerationForTMAP implements Runnable {
                         continue;
                     }
                     readChannel.securityPattern = channelSecMap.get(chanName);
-                    readChannel.setEncForm(true);
+                    // readChannel.setEncForm(true);
                 
                     fromStart = taskAD.getPrevious(chan);
                     TMLActivityElement nextReadCh = chan.getNextElement(0);
@@ -1324,7 +1324,7 @@ public class SecurityGenerationForTMAP implements Runnable {
                     }
                     //rd.securityPattern = channelSecMap.get(chanName);
                     rd.setNbOfSamples("1"); 
-                    rd.setEncForm(false);
+                    // rd.setEncForm(false);
                     taskAD.addElement(rd);
 
                     wr.addNext(rd);
@@ -1439,7 +1439,7 @@ public class SecurityGenerationForTMAP implements Runnable {
                             for (int i=0; i<rdOfSameCh.getNbOfChannels(); i++) {
                                 if (channel.equals(rdOfSameCh.getChannel(i).getName().replaceAll(title + "__", "")) && rdOfSameCh.securityPattern == null) {
                                     rdOfSameCh.securityPattern = channelSecMap.get(channel);
-                                    rdOfSameCh.setEncForm(true);
+                                    // rdOfSameCh.setEncForm(true);
                                 }
                             }
                         }
@@ -1527,7 +1527,7 @@ public class SecurityGenerationForTMAP implements Runnable {
                     //Now add the decrypt operator
                     String readChShortName = readChannel.getChannel(0).getName().replaceAll(title + "__", "");
                     readChannel.securityPattern = channelSecMap.get(readChShortName);
-                    readChannel.setEncForm(true);
+                    // readChannel.setEncForm(true);
                     //Add decryption operator if it does not already exist
                     TMLExecC dec = new TMLExecC(channelSecMap.get(readChShortName).name, taskAD.getReferenceObject());
                     dec.securityPattern = new SecurityPattern(channelSecMap.get(readChShortName));
@@ -1556,7 +1556,7 @@ public class SecurityGenerationForTMAP implements Runnable {
                                 String readSameChShortName = rdOfSameCh.getChannel(i).getName().replaceAll(title + "__", "");
                                 if (channel.equals(readSameChShortName) && rdOfSameCh.securityPattern == null) {
                                     rdOfSameCh.securityPattern = channelSecMap.get(readSameChShortName);
-                                    rdOfSameCh.setEncForm(true);
+                                    // rdOfSameCh.setEncForm(true);
                                 }
                             }
                         }
@@ -1662,9 +1662,9 @@ public class SecurityGenerationForTMAP implements Runnable {
                 taskAD.addElement(rd);
                 prevRd.addNext(rd);
                 //Recieve plaintext data if encrypting
-                if (ch.secType != HSMChannel.DEC) {
+                /* if (ch.secType != HSMChannel.DEC) {
                     rd.setEncForm(false);
-                }
+                } */
 
                 TMLWriteChannel wr = new TMLWriteChannel("retData_" + ch.name + "_" + ch.task, taskAD.getReferenceObject());
                 wr.addChannel(tmlmodel.getChannelByName("retData_" + ch.name + "_" + ch.task));
@@ -1774,9 +1774,9 @@ public class SecurityGenerationForTMAP implements Runnable {
                 taskAD.addElement(rd);
 
                 //Recieve plaintext data if encrypting
-                if (ch.secType != HSMChannel.DEC) {
+                /* if (ch.secType != HSMChannel.DEC) {
                     rd.setEncForm(false);
-                }
+                } */
 
                 //Connect choice and readchannel
                 prevRd.addNext(rd);
@@ -1786,9 +1786,9 @@ public class SecurityGenerationForTMAP implements Runnable {
                 wr.addChannel(tmlmodel.getChannelByName("retData_" + ch.name + "_" + ch.task));
 
                 //Return plaintext data if decrypting
-                if (ch.secType == HSMChannel.DEC) {
+                /* if (ch.secType == HSMChannel.DEC) {
                     wr.setEncForm(false);
-                }
+                } */
                 wr.setNbOfSamples("1");
                 
                 taskAD.addElement(wr);

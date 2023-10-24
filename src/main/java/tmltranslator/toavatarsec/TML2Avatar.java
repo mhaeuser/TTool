@@ -78,6 +78,7 @@ public class TML2Avatar {
     boolean security = false;
     private TMLMapping<?> tmlmap;
     private TMLModeling<?> tmlmodel;
+    private Set<SecurityPattern> keysPublicBus = new HashSet<SecurityPattern>();
     private Map<SecurityPattern, List<AvatarAttribute>> symKeys = new HashMap<SecurityPattern, List<AvatarAttribute>>();
     private Map<SecurityPattern, List<AvatarAttribute>> pubKeys = new HashMap<SecurityPattern, List<AvatarAttribute>>();
     private Map<String, String> nameMap = new HashMap<String, String>();
@@ -104,6 +105,12 @@ public class TML2Avatar {
         for (TMLTask t1 : tmlmodel.getTasks()) {
             List<SecurityPattern> keys = new ArrayList<SecurityPattern>();
             accessKeys.put(t1, keys);
+            for (HwLink link : links) {
+                if (link.bus.privacy == HwBus.BUS_PUBLIC &&  link.hwnode instanceof HwMemory) {
+                    List<SecurityPattern> patterns = tmlmap.getMappedPatterns((HwMemory) link.hwnode);
+                    keysPublicBus.addAll(patterns);
+                }
+            }
 
             HwExecutionNode node1 = tmlmap.getHwNodeOf(t1);
             //Try to find memory using only private buses from origin
@@ -2071,7 +2078,6 @@ public class TML2Avatar {
 
         }
 
-
         // Add authenticity pragmas
         for (String s : signalAuthOriginMap.keySet()) {
             for (AvatarAttributeState attributeStateOrigin : signalAuthOriginMap.get(s)) {
@@ -2469,7 +2475,20 @@ public class TML2Avatar {
                 for (AvatarAttribute key : symKeys.get(sp)) {
                     keys = keys + " " + key.getBlock().getName() + "." + key.getName();
                 }
-                avspec.addPragma(new AvatarPragmaInitialKnowledge("#InitialSessionKnowledge " + keys, null, symKeys.get(sp), true));
+                avspec.addPragma(new AvatarPragmaInitialKnowledge("#InitialSystemKnowledge " + keys, null, symKeys.get(sp), true));
+            }
+        }
+        
+        for (SecurityPattern sp : keysPublicBus) {
+            for (TMLTask taskPattern : tmlmodel.securityTaskMap.get(sp)) {
+                AvatarBlock b = taskBlockMap.get(taskPattern);
+                AvatarAttribute attrib = b.getAvatarAttributeWithName("key_"+sp.getName());
+                if (attrib!=null) {
+                    LinkedList<AvatarAttribute> arguments = new LinkedList<AvatarAttribute>();
+                    arguments.add(attrib);
+                    avspec.addPragma(new AvatarPragmaPublic("#Public " + b.getName() + "." + attrib.getName(), null, arguments));
+                }
+                
             }
         }
         for (SecurityPattern sp : pubKeys.keySet()) {

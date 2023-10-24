@@ -185,7 +185,9 @@ public class PatternIntegration implements Runnable {
         tmapModel = makeConnectionBetweenPatternAndModel(tmapModel, tmapPattern, patternConfiguration.getPortsConnection(), patternTasks);        
         tmapModel = configDisconnectedChannels(tmapModel, patternConfiguration.getPortsConfig(), renamedChannels);
         tmapModel = mapTasksInArch(tmapModel, patternConfiguration.getTasksMapping());
+        tmapModel = mapTasksInArchAuto(tmapModel, tmapPattern, patternConfiguration.getTasksMapping().keySet(), patternConfiguration, patternTasks);
         tmapModel = mapChannelsInArch(tmapModel, patternConfiguration.getChannelsMapping());
+        tmapModel = mapChannelsInArchAuto(tmapModel, tmapPattern, patternConfiguration.getTasksMapping().keySet(), patternConfiguration, patternTasks);
 
         TraceManager.addDev("Model elems result :");
 
@@ -1321,10 +1323,266 @@ public class PatternIntegration implements Runnable {
         return _tmapModel;
     }
 
-    public TMLMapping<?> mapTasksInArchAuto(TMLMapping<?> _tmapModel, LinkedHashMap<String, Entry<String, String>> _taskMapping) {
-        
+    public TMLMapping<?> mapTasksInArchAuto(TMLMapping<?> _tmapModel, TMLMapping<?> _tmapPattern, Set<String> mappedTasks, PatternConfiguration _patternConfiguration, LinkedHashMap<String, TaskPattern> _patternTasks) {
+        TMLModeling<?> tmlmModel = _tmapModel.getTMLModeling();
+        TMLModeling<?> tmlmPattern = _tmapPattern.getTMLModeling();
+        Map<TMLTask, TMLTask> correspTasks = correspondenceForTasks(_tmapModel, _tmapPattern, _patternConfiguration, _patternTasks);
+        Map<TMLTask, TMLTask> correspondenceForClonedTasks = correspondenceForClonedTasks(_tmapModel, _tmapPattern, mappedTasks, _patternConfiguration, _patternTasks);
+        LinkedHashMap<String, TaskPattern> _patternTasksSorted = new LinkedHashMap<String, TaskPattern>();
+        LinkedHashMap<String, TaskPattern> _patternTasksInEnd = new LinkedHashMap<String, TaskPattern>();
+        for (String taskName : _patternTasks.keySet()) {
+            if (_patternTasks.get(taskName).getExternalPorts().size() == 0) {
+                _patternTasksInEnd.put(taskName, _patternTasks.get(taskName));
+            } else {
+                _patternTasksSorted.put(taskName, _patternTasks.get(taskName));
+            }
+        }
+        _patternTasksSorted.putAll(_patternTasksInEnd);
+        outerloop:
+        for (String taskName : _patternTasksSorted.keySet()) {
+            TMLTask task = tmlmPattern.getTMLTaskByName(taskName);
+            if (task != null && !mappedTasks.contains(taskName)) {
+                HwExecutionNode hwMapTask = _tmapPattern.getHwNodeOf(task);
+                HashSet<TMLTask> tasksInThisCPU = _tmapPattern.getLisMappedTasks(hwMapTask);
+                for (TMLTask taskInCPU : tasksInThisCPU) {
+                    if (_patternTasks.containsKey(taskInCPU.getName())) {
+                        TMLTask taskInModel = tmlmModel.getTMLTaskByName(taskInCPU.getName());
+                        HwExecutionNode hwMapTaskInModel = _tmapModel.getHwNodeOf(taskInModel);
+                        if (hwMapTaskInModel != null) {
+                            TMLTask taskToMap = tmlmModel.getTMLTaskByName(taskName);
+                            _tmapModel.addTaskToHwExecutionNode(taskToMap, hwMapTaskInModel);
+                            break outerloop;
+                        }
+                    } else if (correspTasks.containsKey(taskInCPU)) {
+                        TMLTask taskInModel = tmlmModel.getTMLTaskByName((correspTasks.get(taskInCPU)).getName());
+                        HwExecutionNode hwMapTaskInModel = _tmapModel.getHwNodeOf(taskInModel);
+                        if (hwMapTaskInModel != null) {
+                            TMLTask taskToMap = tmlmModel.getTMLTaskByName(taskName);
+                            _tmapModel.addTaskToHwExecutionNode(taskToMap, hwMapTaskInModel);
+                            break outerloop;
+                        }
+                    }
+                }
+                String nameNewCPU = hwMapTask.getName();
+                HwExecutionNode newCPU = _tmapModel.getHwExecutionNodeByName(nameNewCPU);
+                int ind = 0;
+                while (newCPU != null) {
+                    nameNewCPU = hwMapTask.getName() + ind;
+                    newCPU = _tmapModel.getHwExecutionNodeByName(nameNewCPU);
+                    ind += 1;
+                }
+                HwCPU _newCpu = new HwCPU(nameNewCPU);
+                TMLTask taskToMap = tmlmModel.getTMLTaskByName(taskName);
+                _tmapModel.addTaskToHwExecutionNode(taskToMap, _newCpu);
+                _tmapModel.getArch().addHwNode(_newCpu);
+                HwBus bus = null;
+                for (TMLChannel ch : tmlmModel.getChannelsFromMe(taskToMap)) {
+                    TMLTask taskInConn = ch.getDestinationTask();
+                    HwExecutionNode hwOfTaskInConn = _tmapModel.getHwNodeOf(taskInConn);
+                    if (hwOfTaskInConn != null) {
+                        for (HwLink link : _tmapModel.getArch().getHwLinks()) {
+                            if (link.hwnode == hwOfTaskInConn) {
+                                bus = link.bus;
+                            }
+                        }
+                    }
+                }
+                for (TMLChannel ch : tmlmModel.getChannelsToMe(taskToMap)) {
+                    TMLTask taskInConn = ch.getOriginTask();
+                    HwExecutionNode hwOfTaskInConn = _tmapModel.getHwNodeOf(taskInConn);
+                    if (hwOfTaskInConn != null) {
+                        for (HwLink link : _tmapModel.getArch().getHwLinks()) {
+                            if (link.hwnode == hwOfTaskInConn) {
+                                bus = link.bus;
+                            }
+                        }
+                    }
+                }
+                if (bus == null) {
+                    int nbConnections = 0 ; 
+                    for (HwNode busModel : _tmapModel.getArch().getBUSs()) {
+                        if (busModel instanceof HwBus) {
+                            int curNbConnections = 0 ;
+                            for (HwLink link : _tmapModel.getArch().getHwLinks()) {
+                                if (link.bus == busModel) {
+                                    nbConnections += 1;
+                                }
+                            }
+                            if (curNbConnections > nbConnections) {
+                                bus = (HwBus) busModel;
+                                nbConnections = curNbConnections;
+                            }
+                        }
+                    }
+                    
+                }
+                
+                HwLink linkNewCPUWithBus = new HwLink("link_" + _newCpu.getName() + "_to_" + bus.getName());
+                linkNewCPUWithBus.bus = bus;
+                linkNewCPUWithBus.hwnode = _newCpu;
+                _tmapModel.getArch().addHwLink(linkNewCPUWithBus);
+            }
+        }
+        outerloop1:
+        for (String taskName : _patternConfiguration.getClonedTasks().keySet()) {
+            TMLTask task = tmlmModel.getTMLTaskByName(taskName);
+            if (task != null && !mappedTasks.contains(taskName)) {
+                TMLTask taskInPattern = correspondenceForClonedTasks.get(task);
+
+                HwExecutionNode hwMapTask = _tmapPattern.getHwNodeOf(taskInPattern);
+                HashSet<TMLTask> tasksInThisCPU = _tmapPattern.getLisMappedTasks(hwMapTask);
+                for (TMLTask taskInCPU : tasksInThisCPU) {
+                    if (_patternTasks.containsKey(taskInCPU.getName())) {
+                        TMLTask taskInModel = tmlmModel.getTMLTaskByName(taskInCPU.getName());
+                        HwExecutionNode hwMapTaskInModel = _tmapModel.getHwNodeOf(taskInModel);
+                        if (hwMapTaskInModel != null) {
+                            _tmapModel.addTaskToHwExecutionNode(task, hwMapTaskInModel);
+                            break outerloop1;
+                        }
+                    } else if (correspTasks.containsKey(taskInCPU)) {
+                        TMLTask taskInModel = tmlmModel.getTMLTaskByName((correspTasks.get(taskInCPU)).getName());
+                        HwExecutionNode hwMapTaskInModel = _tmapModel.getHwNodeOf(taskInModel);
+                        if (hwMapTaskInModel != null) {
+                            _tmapModel.addTaskToHwExecutionNode(task, hwMapTaskInModel);
+                            break outerloop1;
+                        }
+                    }
+                }
+                String nameNewCPU = hwMapTask.getName();
+                HwExecutionNode newCPU = _tmapModel.getHwExecutionNodeByName(nameNewCPU);
+                int ind = 0;
+                while (newCPU != null) {
+                    nameNewCPU = hwMapTask.getName() + ind;
+                    newCPU = _tmapModel.getHwExecutionNodeByName(nameNewCPU);
+                    ind += 1;
+                }
+                HwCPU _newCpu = new HwCPU(nameNewCPU);
+                TMLTask taskToMap = tmlmModel.getTMLTaskByName(taskName);
+                _tmapModel.addTaskToHwExecutionNode(taskToMap, _newCpu);
+                _tmapModel.getArch().addHwNode(_newCpu);
+
+                HwBus bus = null;
+                for (TMLChannel ch : tmlmModel.getChannelsFromMe(taskToMap)) {
+                    TMLTask taskInConn = ch.getDestinationTask();
+                    HwExecutionNode hwOfTaskInConn = _tmapModel.getHwNodeOf(taskInConn);
+                    if (hwOfTaskInConn != null) {
+                        for (HwLink link : _tmapModel.getArch().getHwLinks()) {
+                            if (link.hwnode == hwOfTaskInConn) {
+                                bus = link.bus;
+                            }
+                        }
+                    }
+                }
+                for (TMLChannel ch : tmlmModel.getChannelsToMe(taskToMap)) {
+                    TMLTask taskInConn = ch.getOriginTask();
+                    HwExecutionNode hwOfTaskInConn = _tmapModel.getHwNodeOf(taskInConn);
+                    if (hwOfTaskInConn != null) {
+                        for (HwLink link : _tmapModel.getArch().getHwLinks()) {
+                            if (link.hwnode == hwOfTaskInConn) {
+                                bus = link.bus;
+                            }
+                        }
+                    }
+                }
+                if (bus == null) {
+                    int nbConnections = 0 ; 
+                    for (HwNode busModel : _tmapModel.getArch().getBUSs()) {
+                        if (busModel instanceof HwBus) {
+                            int curNbConnections = 0 ;
+                            for (HwLink link : _tmapModel.getArch().getHwLinks()) {
+                                if (link.bus == busModel) {
+                                    nbConnections += 1;
+                                }
+                            }
+                            if (curNbConnections > nbConnections) {
+                                bus = (HwBus) busModel;
+                                nbConnections = curNbConnections;
+                            }
+                        }
+                    }
+                }
+                HwLink linkNewCPUWithBus = new HwLink("link_" + _newCpu.getName() + "_to_" + bus.getName());
+                linkNewCPUWithBus.bus = bus;
+                linkNewCPUWithBus.hwnode = _newCpu;
+                _tmapModel.getArch().addHwLink(linkNewCPUWithBus);
+
+            }
+        }
+
         return _tmapModel;
     }
+
+    // Find correspondence between Tasks of the pattern model and the cloned tasks of current Model 
+    public Map<TMLTask, TMLTask> correspondenceForClonedTasks(TMLMapping<?> _tmapModel, TMLMapping<?> _tmapPattern, Set<String> mappedTasks, PatternConfiguration _patternConfiguration, LinkedHashMap<String, TaskPattern> _patternTasks) {
+        TMLModeling<?> tmlmModel = _tmapModel.getTMLModeling();
+        TMLModeling<?> tmlmPattern = _tmapPattern.getTMLModeling();
+        List <String> clonedTasksToMap = new ArrayList<String>();
+        // List <TMLTask> patternTasksToMap = new ArrayList<TMLTask>();
+        for (String taskName : _patternConfiguration.getClonedTasks().keySet()) {
+            TMLTask task = tmlmModel.getTMLTaskByName(taskName);
+            if (task != null && !mappedTasks.contains(taskName)) {
+                clonedTasksToMap.add(task.getName());
+            }
+        }
+        /* for (String taskName : _patternTasks.keySet()) {
+            TMLTask task = tmlmModel.getTMLTaskByName(taskName);
+            if (task != null && !mappedTasks.contains(taskName)) {
+                patternTasksToMap.add(task);
+            }
+        } */
+        Map<TMLTask, TMLTask> correspTasks = new HashMap<TMLTask, TMLTask>();
+        for (String taskPatternName : _patternConfiguration.getPortsConnection().keySet()) {
+            for (String[] pc : _patternConfiguration.getPortsConnection().get(taskPatternName)) {
+                if (clonedTasksToMap.contains(pc[1])) {
+                    TMLChannel chInPattern = tmlmPattern.getChannelByName(pc[0]);
+                    String modeChInPattern = "";
+                    for (PortTaskJsonFile pt : _patternTasks.get(taskPatternName).getExternalPorts()) {
+                        if (pt.getName().equals(pc[0])) {
+                            modeChInPattern = pt.getMode();
+                            break;
+                        }
+                    }
+                    if (chInPattern != null) {
+                        if (modeChInPattern.equals(PatternCreation.MODE_INPUT)) {
+                            correspTasks.put(tmlmModel.getTMLTaskByName(pc[1]), chInPattern.getOriginTask());
+                        } else if (modeChInPattern.equals(PatternCreation.MODE_OUTPUT)) {
+                            correspTasks.put(tmlmModel.getTMLTaskByName(pc[1]), chInPattern.getDestinationTask());
+                        }
+                        
+                    }
+                }
+            }
+        }
+        return correspTasks;
+    }
+
+    // Find correspondence between Tasks of the pattern model and the tasks of current Model 
+    public Map<TMLTask, TMLTask> correspondenceForTasks(TMLMapping<?> _tmapModel, TMLMapping<?> _tmapPattern, PatternConfiguration _patternConfiguration, LinkedHashMap<String, TaskPattern> _patternTasks) {
+        TMLModeling<?> tmlmModel = _tmapModel.getTMLModeling();
+        TMLModeling<?> tmlmPattern = _tmapPattern.getTMLModeling();
+        Map<TMLTask, TMLTask> correspTasks = new HashMap<TMLTask, TMLTask>();
+        for (String taskPatternName : _patternConfiguration.getPortsConnection().keySet()) {
+            for (String[] pc : _patternConfiguration.getPortsConnection().get(taskPatternName)) {
+                TMLChannel chInPattern = tmlmPattern.getChannelByName(pc[0]);
+                String modeChInPattern = "";
+                for (PortTaskJsonFile pt : _patternTasks.get(taskPatternName).getExternalPorts()) {
+                    if (pt.getName().equals(pc[0])) {
+                        modeChInPattern = pt.getMode();
+                        break;
+                    }
+                }
+                if (chInPattern != null) {
+                    if (modeChInPattern.equals(PatternCreation.MODE_INPUT)) {
+                        correspTasks.put(chInPattern.getOriginTask(), tmlmModel.getTMLTaskByName(pc[1]));
+                    } else if (modeChInPattern.equals(PatternCreation.MODE_OUTPUT)) {
+                        correspTasks.put(chInPattern.getDestinationTask(), tmlmModel.getTMLTaskByName(pc[1]));
+                    }
+                }
+            }
+        }
+        return correspTasks;
+    }
+
 
     public TMLMapping<?> mapChannelsInArch(TMLMapping<?> _tmapModel, LinkedHashMap<String, List<String[]>> _channelMapping) {
         TMLArchitecture _tmlarchModel =  _tmapModel.getArch();
@@ -1387,6 +1645,237 @@ public class PatternIntegration implements Runnable {
         return _tmapModel;
     }
 
+    public TMLMapping<?> mapChannelsInArchAuto(TMLMapping<?> _tmapModel, TMLMapping<?> _tmapPattern, Set<String> mappedTasks, PatternConfiguration _patternConfiguration, LinkedHashMap<String, TaskPattern> _patternTasks) {
+        TMLModeling<?> tmlmModel = _tmapModel.getTMLModeling();
+        TMLModeling<?> tmlmPattern = _tmapPattern.getTMLModeling();
+        Map<TMLTask, TMLTask> correspTasks = correspondenceForTasks(_tmapModel, _tmapPattern, _patternConfiguration, _patternTasks);
+        Map<TMLTask, TMLTask> correspondenceForClonedTasks = correspondenceForClonedTasks(_tmapModel, _tmapPattern, mappedTasks, _patternConfiguration, _patternTasks);
+        LinkedHashMap<String, TaskPattern> _patternTasksSorted = new LinkedHashMap<String, TaskPattern>();
+        LinkedHashMap<String, TaskPattern> _patternTasksInEnd = new LinkedHashMap<String, TaskPattern>();
+        for (String taskName : _patternTasks.keySet()) {
+            if (_patternTasks.get(taskName).getExternalPorts().size() == 0) {
+                _patternTasksInEnd.put(taskName, _patternTasks.get(taskName));
+            } else {
+                _patternTasksSorted.put(taskName, _patternTasks.get(taskName));
+            }
+        }
+        _patternTasksSorted.putAll(_patternTasksInEnd);
+        outerloop:
+        for (String taskName : _patternTasksSorted.keySet()) {
+            TMLTask task = tmlmPattern.getTMLTaskByName(taskName);
+            if (task != null && !mappedTasks.contains(taskName)) {
+                HwExecutionNode hwMapTask = _tmapPattern.getHwNodeOf(task);
+                HashSet<TMLTask> tasksInThisCPU = _tmapPattern.getLisMappedTasks(hwMapTask);
+                for (TMLTask taskInCPU : tasksInThisCPU) {
+                    if (_patternTasks.containsKey(taskInCPU.getName())) {
+                        TMLTask taskInModel = tmlmModel.getTMLTaskByName(taskInCPU.getName());
+                        HwExecutionNode hwMapTaskInModel = _tmapModel.getHwNodeOf(taskInModel);
+                        if (hwMapTaskInModel != null) {
+                            TMLTask taskToMap = tmlmModel.getTMLTaskByName(taskName);
+                            _tmapModel.addTaskToHwExecutionNode(taskToMap, hwMapTaskInModel);
+                            break outerloop;
+                        }
+                    } else if (correspTasks.containsKey(taskInCPU)) {
+                        TMLTask taskInModel = tmlmModel.getTMLTaskByName((correspTasks.get(taskInCPU)).getName());
+                        HwExecutionNode hwMapTaskInModel = _tmapModel.getHwNodeOf(taskInModel);
+                        if (hwMapTaskInModel != null) {
+                            TMLTask taskToMap = tmlmModel.getTMLTaskByName(taskName);
+                            _tmapModel.addTaskToHwExecutionNode(taskToMap, hwMapTaskInModel);
+                            break outerloop;
+                        }
+                    }
+                }
+                String nameNewCPU = hwMapTask.getName();
+                HwExecutionNode newCPU = _tmapModel.getHwExecutionNodeByName(nameNewCPU);
+                int ind = 0;
+                while (newCPU != null) {
+                    nameNewCPU = hwMapTask.getName() + ind;
+                    newCPU = _tmapModel.getHwExecutionNodeByName(nameNewCPU);
+                    ind += 1;
+                }
+                HwCPU _newCpu = new HwCPU(nameNewCPU);
+                TMLTask taskToMap = tmlmModel.getTMLTaskByName(taskName);
+                _tmapModel.addTaskToHwExecutionNode(taskToMap, _newCpu);
+                _tmapModel.getArch().addHwNode(_newCpu);
+                HwBus bus = null;
+                for (TMLChannel ch : tmlmModel.getChannelsFromMe(taskToMap)) {
+                    TMLTask taskInConn = ch.getDestinationTask();
+                    HwExecutionNode hwOfTaskInConn = _tmapModel.getHwNodeOf(taskInConn);
+                    if (hwOfTaskInConn != null) {
+                        for (HwLink link : _tmapModel.getArch().getHwLinks()) {
+                            if (link.hwnode == hwOfTaskInConn) {
+                                bus = link.bus;
+                            }
+                        }
+                    }
+                }
+                for (TMLChannel ch : tmlmModel.getChannelsToMe(taskToMap)) {
+                    TMLTask taskInConn = ch.getOriginTask();
+                    HwExecutionNode hwOfTaskInConn = _tmapModel.getHwNodeOf(taskInConn);
+                    if (hwOfTaskInConn != null) {
+                        for (HwLink link : _tmapModel.getArch().getHwLinks()) {
+                            if (link.hwnode == hwOfTaskInConn) {
+                                bus = link.bus;
+                            }
+                        }
+                    }
+                }
+                if (bus == null) {
+                    int nbConnections = 0 ; 
+                    for (HwNode busModel : _tmapModel.getArch().getBUSs()) {
+                        if (busModel instanceof HwBus) {
+                            int curNbConnections = 0 ;
+                            for (HwLink link : _tmapModel.getArch().getHwLinks()) {
+                                if (link.bus == busModel) {
+                                    nbConnections += 1;
+                                }
+                            }
+                            if (curNbConnections > nbConnections) {
+                                bus = (HwBus) busModel;
+                                nbConnections = curNbConnections;
+                            }
+                        }
+                    }
+                    
+                }
+                
+                HwLink linkNewCPUWithBus = new HwLink("link_" + _newCpu.getName() + "_to_" + bus.getName());
+                linkNewCPUWithBus.bus = bus;
+                linkNewCPUWithBus.hwnode = _newCpu;
+                _tmapModel.getArch().addHwLink(linkNewCPUWithBus);
+            }
+        }
+        outerloop1:
+        for (String taskName : _patternConfiguration.getClonedTasks().keySet()) {
+            TMLTask task = tmlmModel.getTMLTaskByName(taskName);
+            if (task != null && !mappedTasks.contains(taskName)) {
+                TMLTask taskInPattern = correspondenceForClonedTasks.get(task);
+
+                HwExecutionNode hwMapTask = _tmapPattern.getHwNodeOf(taskInPattern);
+                HashSet<TMLTask> tasksInThisCPU = _tmapPattern.getLisMappedTasks(hwMapTask);
+                for (TMLTask taskInCPU : tasksInThisCPU) {
+                    if (_patternTasks.containsKey(taskInCPU.getName())) {
+                        TMLTask taskInModel = tmlmModel.getTMLTaskByName(taskInCPU.getName());
+                        HwExecutionNode hwMapTaskInModel = _tmapModel.getHwNodeOf(taskInModel);
+                        if (hwMapTaskInModel != null) {
+                            _tmapModel.addTaskToHwExecutionNode(task, hwMapTaskInModel);
+                            break outerloop1;
+                        }
+                    } else if (correspTasks.containsKey(taskInCPU)) {
+                        TMLTask taskInModel = tmlmModel.getTMLTaskByName((correspTasks.get(taskInCPU)).getName());
+                        HwExecutionNode hwMapTaskInModel = _tmapModel.getHwNodeOf(taskInModel);
+                        if (hwMapTaskInModel != null) {
+                            _tmapModel.addTaskToHwExecutionNode(task, hwMapTaskInModel);
+                            break outerloop1;
+                        }
+                    }
+                }
+                String nameNewCPU = hwMapTask.getName();
+                HwExecutionNode newCPU = _tmapModel.getHwExecutionNodeByName(nameNewCPU);
+                int ind = 0;
+                while (newCPU != null) {
+                    nameNewCPU = hwMapTask.getName() + ind;
+                    newCPU = _tmapModel.getHwExecutionNodeByName(nameNewCPU);
+                    ind += 1;
+                }
+                HwCPU _newCpu = new HwCPU(nameNewCPU);
+                TMLTask taskToMap = tmlmModel.getTMLTaskByName(taskName);
+                _tmapModel.addTaskToHwExecutionNode(taskToMap, _newCpu);
+                _tmapModel.getArch().addHwNode(_newCpu);
+
+                HwBus bus = null;
+                for (TMLChannel ch : tmlmModel.getChannelsFromMe(taskToMap)) {
+                    TMLTask taskInConn = ch.getDestinationTask();
+                    HwExecutionNode hwOfTaskInConn = _tmapModel.getHwNodeOf(taskInConn);
+                    if (hwOfTaskInConn != null) {
+                        for (HwLink link : _tmapModel.getArch().getHwLinks()) {
+                            if (link.hwnode == hwOfTaskInConn) {
+                                bus = link.bus;
+                            }
+                        }
+                    }
+                }
+                for (TMLChannel ch : tmlmModel.getChannelsToMe(taskToMap)) {
+                    TMLTask taskInConn = ch.getOriginTask();
+                    HwExecutionNode hwOfTaskInConn = _tmapModel.getHwNodeOf(taskInConn);
+                    if (hwOfTaskInConn != null) {
+                        for (HwLink link : _tmapModel.getArch().getHwLinks()) {
+                            if (link.hwnode == hwOfTaskInConn) {
+                                bus = link.bus;
+                            }
+                        }
+                    }
+                }
+                if (bus == null) {
+                    int nbConnections = 0 ; 
+                    for (HwNode busModel : _tmapModel.getArch().getBUSs()) {
+                        if (busModel instanceof HwBus) {
+                            int curNbConnections = 0 ;
+                            for (HwLink link : _tmapModel.getArch().getHwLinks()) {
+                                if (link.bus == busModel) {
+                                    nbConnections += 1;
+                                }
+                            }
+                            if (curNbConnections > nbConnections) {
+                                bus = (HwBus) busModel;
+                                nbConnections = curNbConnections;
+                            }
+                        }
+                    }
+                }
+                HwLink linkNewCPUWithBus = new HwLink("link_" + _newCpu.getName() + "_to_" + bus.getName());
+                linkNewCPUWithBus.bus = bus;
+                linkNewCPUWithBus.hwnode = _newCpu;
+                _tmapModel.getArch().addHwLink(linkNewCPUWithBus);
+
+            }
+        }
+
+        return _tmapModel;
+    }
+
+    // Find correspondence between Channels of the pattern model and the channels of cloned tasks of current Model 
+    public Map<TMLChannel, TMLChannel> correspondenceForClonedChannels(TMLMapping<?> _tmapModel, TMLMapping<?> _tmapPattern, Set<String> mappedTasks, PatternConfiguration _patternConfiguration, LinkedHashMap<String, TaskPattern> _patternTasks) {
+        TMLModeling<?> tmlmModel = _tmapModel.getTMLModeling();
+        TMLModeling<?> tmlmPattern = _tmapPattern.getTMLModeling();
+        List <String> clonedTasksToMap = new ArrayList<String>();
+        // List <TMLTask> patternTasksToMap = new ArrayList<TMLTask>();
+        for (String taskName : _patternConfiguration.getClonedTasks().keySet()) {
+            TMLTask task = tmlmModel.getTMLTaskByName(taskName);
+            if (task != null && !mappedTasks.contains(taskName)) {
+                clonedTasksToMap.add(task.getName());
+            }
+        }
+        Map<TMLChannel, TMLChannel> correspChannels = new HashMap<TMLChannel, TMLChannel>();
+        for (String taskPatternName : _patternConfiguration.getPortsConnection().keySet()) {
+            for (String[] pc : _patternConfiguration.getPortsConnection().get(taskPatternName)) {
+                if (clonedTasksToMap.contains(pc[1])) {
+                    TMLChannel chInPattern = tmlmPattern.getChannelByName(pc[0]);
+
+                    if (chInPattern != null) {
+                        correspChannels.put(tmlmModel.getChannelByName(pc[2]), chInPattern);
+                    }
+                }
+            }
+        }
+        return correspChannels;
+    }
+
+    // Find correspondence between channels of the pattern model and the channels of current Model 
+    public Map<TMLChannel, TMLChannel> correspondenceForChannels(TMLMapping<?> _tmapModel, TMLMapping<?> _tmapPattern, PatternConfiguration _patternConfiguration, LinkedHashMap<String, TaskPattern> _patternTasks) {
+        TMLModeling<?> tmlmModel = _tmapModel.getTMLModeling();
+        TMLModeling<?> tmlmPattern = _tmapPattern.getTMLModeling();
+        Map<TMLChannel, TMLChannel> correspChannels = new HashMap<TMLChannel, TMLChannel>();
+        for (String taskPatternName : _patternConfiguration.getPortsConnection().keySet()) {
+            for (String[] pc : _patternConfiguration.getPortsConnection().get(taskPatternName)) {
+                TMLChannel chInPattern = tmlmPattern.getChannelByName(pc[0]);
+                if (chInPattern != null) {
+                   correspChannels.put(chInPattern, tmlmModel.getChannelByName(pc[2]));
+                }
+            }
+        }
+        return correspChannels;
+    }
 
     @SuppressWarnings("unchecked")
     public TMLMapping<?> getTMLMappingOfPattern(String _path, String fileName) {

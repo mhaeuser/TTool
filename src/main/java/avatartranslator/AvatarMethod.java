@@ -67,6 +67,8 @@ public class AvatarMethod extends AvatarElement implements NameChecker.NameStart
             "Message hash(Message msg)",
             "Message MAC(Message msg, Key k)",
             "bool verifyMAC(Message msg, Key k, Message macmsg)",
+            "Message host(Key k)",
+            "Key getKey(Message msg)",
             "Message concat2(Message msg1, Message msg2)",
             "Message concat3(Message msg1, Message msg2, Message msg3)",
             "Message concat4(Message msg1, Message msg2, Message msg3, Message msg4)",

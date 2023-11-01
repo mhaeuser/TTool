@@ -18,3 +18,5 @@
 /bin
 /release
 /TTool_install
+
+/ttool-cli/build

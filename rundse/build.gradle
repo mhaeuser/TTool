@@ -36,7 +36,7 @@ dependencies {
 
     implementation name:'jautomata-core'
     implementation name:'com.microsoft.z3'
-    compileOnly name: 'jna-3.3.0'
+    compileOnly name: 'jna-5.13.0'
     implementation name: 'jgrapht-core-1.3.0'
     implementation name: 'jgrapht-ext-1.3.0'
     implementation name: 'jgrapht-io-1.3.0'

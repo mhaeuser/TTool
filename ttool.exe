@@ -2,6 +2,6 @@
 java -version
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 cd ${DIR}/bin;
-java -cp . -Xmx4096m -jar ttool.jar -config config.xml -experimental -debug -avatar -uppaal -launcher -interact -openlast
+java --module-path=${DIR}/libs/graal-sdk-23.1.1.jar:${DIR}/libs/truffle-api-23.1.1.jar:${DIR}/libs/polyglot-23.1.1.jar:${DIR}/libs/truffle-compiler-23.1.1.jar:${DIR}/libs/word-23.1.1.jar:${DIR}/libs/collections-23.1.1.jar --upgrade-module-path=${DIR}/libs/compiler-23.1.1.jar:${DIR}/libs/compiler-management-23.1.1.jar -Dpolyglotimpl.DisableClassPathIsolation=true -Dpolyglotimpl.TraceClassPathIsolation=true -XX:+UnlockExperimentalVMOptions -XX:+EnableJVMCI -Dpolyglot.engine.WarnInterpreterOnly=false -cp . -Xmx4096m -jar ttool.jar -config config.xml -experimental -debug -avatar -uppaal -launcher -interact -openlast
 
  

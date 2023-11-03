@@ -10,4 +10,9 @@ Class-Path: opencloud.jar  JavaPlot.jar  derbynet.jar
   jgrapht-core-1.3.0.jar  jgrapht-ext-1.3.0.jar
   jgrapht-io-1.3.0.jar  jgraphx-3.4.1.3.jar
   json-java.jar  jfreechart-1.6.0.jar
+  polyglot-23.1.1.jar  word-23.1.1.jar  nativeimage-23.1.1.jar
+  collections-23.1.1.jar  js-language-23.1.1.jar  graal-sdk-23.1.1.jar
+  truffle-api-23.1.1.jar  regex-23.1.1.jar  icu4j-74.1.jar icu4j-23.1.1.jar
+  truffle-compiler-23.1.1.jar  compiler-23.1.1.jar  compiler-management-23.1.1.jar
+
 Main-Class: Main

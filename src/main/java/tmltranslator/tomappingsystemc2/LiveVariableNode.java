@@ -42,9 +42,8 @@ package tmltranslator.tomappingsystemc2;
 import myutil.TraceManager;
 import tmltranslator.*;
 
-import javax.script.ScriptEngine;
-import javax.script.ScriptEngineManager;
-import javax.script.ScriptException;
+import org.graalvm.polyglot.Context;
+import org.graalvm.polyglot.Value;
 import java.util.LinkedList;
 
 public class LiveVariableNode {
@@ -217,18 +216,20 @@ public class LiveVariableNode {
 
     //public static int evaluate(String string) throws IllegalArgumentException{
     public String evaluate(String expression) throws IllegalArgumentException {
-        ScriptEngine engine = new ScriptEngineManager().getEngineByName("JavaScript");
-        try {
-            //Object object = engine.eval("eval("+string+")");
+        try (Context context = Context.newBuilder("js").build()) {
+            //context.eval("js", "eval("+string+")");
+            //Value object = context.getBindings("js");
             //TraceManager.addDev("Expression=" + expression);
-            engine.eval(expression);
-            Object object = engine.get("xx_xx");
+            context.eval("js", expression);
+            Value bindings = context.getBindings("js");
+            Value object = bindings.getMember("xx_xx");
+            context.close();
             if (object != null) {
                 String result = "";
-                if (object instanceof Number) {
-                    result = Integer.toString(((Number) (object)).intValue());
-                } else if (object instanceof Boolean) {
-                    result = object.toString();
+                if (object.isNumber()) {
+                    result = Integer.toString(object.asInt());
+                } else if (object.isBoolean()) {
+                    result = object.asBoolean() ? "true" : "false";
                 } else {
                     throw new IllegalArgumentException("Input is neither Integer nor Boolean: '" + expression + "'");
                 }
@@ -236,7 +237,7 @@ public class LiveVariableNode {
             } else {
                 throw new IllegalArgumentException("Invalid expression: '" + expression + "'");
             }
-        } catch (ScriptException e) {
+        } catch (Exception e) {
             //TraceManager.addDev("expression=" + expression);
             throw new IllegalArgumentException("Invalid input: '" + expression + "'", e);
         }

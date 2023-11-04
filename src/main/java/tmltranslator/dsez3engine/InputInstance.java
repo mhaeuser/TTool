@@ -108,7 +108,7 @@ public class InputInstance {
         for (Object tmlTask : tmlm.getTasks()) {
             TMLTask taskCast = (TMLTask) tmlTask;
 
-            if ((taskCast.getWriteChannels().isEmpty()) && (!taskCast.getReadChannels().isEmpty()))
+            if ((taskCast.getWriteChannels().isEmpty()))
                 finalTask = taskCast;
         }
 

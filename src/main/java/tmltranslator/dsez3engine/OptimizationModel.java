@@ -802,10 +802,10 @@ public class OptimizationModel {
 
         // Calculating end time of last task
         TMLTask finalTask = inputInstance.getFinalTask(inputInstance.getModeling());
-        int finalTaskIndex = inputInstance.getModeling().getTasks().indexOf(inputInstance.getFinalTask(inputInstance.getModeling()));
+        int finalTaskIndex = inputInstance.getModeling().getTasks().indexOf(finalTask);
         ArithExpr wcet_last = ctx.mkInt(0);
         int l = 0;
-        for (HwExecutionNode hwNode : inputInstance.getFeasibleCPUs(inputInstance.getFinalTask(inputInstance.getModeling()))) {
+        for (HwExecutionNode hwNode : inputInstance.getFeasibleCPUs(finalTask)) {
             int p = inputInstance.getArchitecture().getCPUs().indexOf(hwNode);
             wcet_last = ctx.mkAdd(wcet_last, ctx.mkMul(X[finalTaskIndex][p], ctx.mkInt(inputInstance.getWCET(finalTask, hwNode))));
             l += 1;

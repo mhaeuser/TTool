@@ -8,11 +8,12 @@ package tmltranslator.patternhandling;
  * @version 1.0 25/10/2023
  */
  
-import myutil.TraceManager;
 import tmltranslator.*;
 
  
 public class PatternCloneTask {
+    public final static String CLONE_TASK_SEPARATOR = " clone of ";
+
     String clonedTask;
     String taskToClone;
 
@@ -25,7 +26,7 @@ public class PatternCloneTask {
         return clonedTask;
     }
 
-    public String getSameHwAs() {
+    public String getTaskToClone() {
         return taskToClone;
     }
 
@@ -36,6 +37,11 @@ public class PatternCloneTask {
 
     public void setTaskToClone(String _taskToClone) {
         taskToClone = _taskToClone;
+    }
+
+    public String getStringDisplay() {
+        return (clonedTask + CLONE_TASK_SEPARATOR + taskToClone);
+        
     }
   
 }

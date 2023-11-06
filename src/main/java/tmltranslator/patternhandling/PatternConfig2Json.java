@@ -8,42 +8,41 @@ package tmltranslator.patternhandling;
  * @version 1.0 05/09/2023
  */
  
-import myutil.FileUtils;
-import myutil.TraceManager;
-import rationals.properties.isNormalized;
 import tmltranslator.*;
-import ui.window.JDialogPatternHandling;
-import ui.window.TraceData;
 
-import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.*;
-import java.util.Map.Entry;
 
-import javax.swing.JDialog;
-
-import org.apache.batik.anim.timing.Trace;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
  
 public class PatternConfig2Json {
+    public final static String TASK_MAPPING_ORIGIN = "Origin";
+    public final static String TASK_MAPPING_ORIGIN_PATTERN = "Pattern";
+    public final static String TASK_MAPPING_ORIGIN_CLONE = "Clone";
+    public final static String TASK_MAPPING_ORIGIN_MODEL = "Model";
     public final static String TASK_MAPPING = "Task_Mapping";
     public final static String TASK_TO_MAP = "Task_To_Map";
     public final static String TASK_MAPPED_IN_SAME_HW_AS = "Task_Mapped_In_Same_HW_As";
+    public final static String TASK_MAPPED_IN_SAME_HW_AS_ORIGIN = "Origin_Task_Mapped_In_Same_HW_As";
     public final static String TASK_MAPPED_IN_NEW_HW_CONNECTED_TO_BUS = "Task_Mapped_In_New_HW";
 
+    public final static String CHANNEL_MAPPING_ORIGIN = "Origin";
+    public final static String CHANNEL_MAPPING_ORIGIN_PATTERN = "Pattern";
+    public final static String CHANNEL_MAPPING_ORIGIN_CLONE = "Clone";
+    public final static String CHANNEL_MAPPING_ORIGIN_MODEL = "Model";
     public final static String CHANNEL_MAPPING = "Channel_Mapping";
     public final static String TASK_OF_CHANNEL_TO_MAP = "Task_Of_Channel_To_Map";
     public final static String CHANNEL_TO_MAP = "Channel_To_Map";
     public final static String CHANNEL_MAPPED_IN_SAME_MEM_AS = "Channel_Mapped_In_Same_Mem_As";
     public final static String TASK_OF_CHANNEL_SAME_MEM = "Task_Of_Channel_Same_Mem_As";
+    public final static String CHANNEL_MAPPED_IN_SAME_MEM_AS_ORIGIN = "Origin_Channel_Mapped_In_Same_Mem_As";
     public final static String CHANNEL_MAPPED_IN_NEW_MEM_CONNECTED_TO_BUS = "Channel_Mapped_In_New_Mem";
 
     public final static String CHANNEL_CONFIG = "Channel_Configuration";
@@ -136,13 +135,13 @@ public class PatternConfig2Json {
 
     }
 
-    JSONArray addClonedTasksInJsonFile(LinkedHashMap<String, String> _clonedTasks) {
+    JSONArray addClonedTasksInJsonFile(List<PatternCloneTask> _clonedTasks) {
         JSONArray ja = new JSONArray();
         try {
-            for (String clone : _clonedTasks.keySet()) {
+            for (PatternCloneTask cloneTask : _clonedTasks) {
                 JSONObject jo = new JSONObject();
-                jo.put(CLONE_OF_TASK, clone);
-                jo.put(CLONED_TASK, _clonedTasks.get(clone));
+                jo.put(CLONE_OF_TASK, cloneTask.getTaskToClone());
+                jo.put(CLONED_TASK, cloneTask.getClonedTask());
                 ja.put(jo);
             }
         } catch (JSONException e) {
@@ -151,32 +150,30 @@ public class PatternConfig2Json {
         return ja;
     }
 
-    LinkedHashMap<String, String> getClonedTasksFromJsonFile(JSONArray ja) {
-        LinkedHashMap<String, String> _clonedTasks = new LinkedHashMap<String, String>();
-
+    List<PatternCloneTask> getClonedTasksFromJsonFile(JSONArray ja) {
+        List<PatternCloneTask> _clonedTasks = new ArrayList<PatternCloneTask>();
         for (int j = 0; j < ja.length(); j++) {
             String cloneOfTask = ja.getJSONObject(j).getString(CLONE_OF_TASK);
             String clonedTask = ja.getJSONObject(j).getString(CLONED_TASK);
-            _clonedTasks.put(cloneOfTask, clonedTask);
+            PatternCloneTask cloneTask = new PatternCloneTask(clonedTask, cloneOfTask);
+            _clonedTasks.add(cloneTask);
         }
         return _clonedTasks;
     }
 
-    JSONArray addPortsConfigurationInJsonFile(LinkedHashMap<String, List<Entry<String, String>>> _portsConfig) {
+    JSONArray addPortsConfigurationInJsonFile(List<PatternPortsConfig> _portsConfig) {
         JSONArray ja = new JSONArray();
         try {
-            for (String task : _portsConfig.keySet()) {
-                for (Entry<String, String> portConf : _portsConfig.get(task)) {
-                    JSONObject jo = new JSONObject();
-                    jo.put(CHANNEL_TO_CONFIG, portConf.getKey());
-                    jo.put(TASK_OF_CHANNEL_TO_CONFIG, task);
-                    if (portConf.getValue().equals("")) {
-                        jo.put(CHANNEL_TO_REMOVE, "true");
-                    } else {
-                        jo.put(CHANNEL_TO_REMOVE, portConf.getValue());
-                    }
-                    ja.put(jo);
-                } 
+            for (PatternPortsConfig portConfig : _portsConfig) {
+                JSONObject jo = new JSONObject();
+                jo.put(CHANNEL_TO_CONFIG, portConfig.getChannelToConfig());
+                jo.put(TASK_OF_CHANNEL_TO_CONFIG, portConfig.getTaskOfChannelToConfig());
+                if (portConfig.isChannelToRemove()) {
+                    jo.put(CHANNEL_TO_REMOVE, "true");
+                } else {
+                    jo.put(CHANNEL_TO_MERGE_WITH, portConfig.getMergeWith());
+                }
+                ja.put(jo);
             }
         } catch (JSONException e) {
             e.printStackTrace();
@@ -184,56 +181,51 @@ public class PatternConfig2Json {
         return ja;
     }
 
-    LinkedHashMap<String, List<Entry<String, String>>> getPortsConfigurationFromJsonFile(JSONArray ja) {
-        LinkedHashMap<String, List<Entry<String, String>>> _portsConfig = new LinkedHashMap<String, List<Entry<String, String>>>();
+    List<PatternPortsConfig> getPortsConfigurationFromJsonFile(JSONArray ja) {
+        List<PatternPortsConfig> _portsConfig = new ArrayList<PatternPortsConfig>();
         for (int j = 0; j < ja.length(); j++) {
             String taskOfChToConfig = ja.getJSONObject(j).getString(TASK_OF_CHANNEL_TO_CONFIG);
             String chToConfig = ja.getJSONObject(j).getString(CHANNEL_TO_CONFIG);
-            String chToMergeWith = "";
+            PatternPortsConfig portConfig = new PatternPortsConfig(taskOfChToConfig, chToConfig);
             if (ja.getJSONObject(j).has(CHANNEL_TO_MERGE_WITH)) {
-                chToMergeWith = ja.getJSONObject(j).getString(CHANNEL_TO_MERGE_WITH);
+                portConfig.setMergeWith(ja.getJSONObject(j).getString(CHANNEL_TO_MERGE_WITH));
+            }else if (ja.getJSONObject(j).has(CHANNEL_TO_REMOVE)) {
+                portConfig.setIsChannelToRemove(true);
             }
-            String chToRemove = "";
-            if (ja.getJSONObject(j).has(CHANNEL_TO_REMOVE)) {
-                chToRemove = ja.getJSONObject(j).getString(CHANNEL_TO_REMOVE);
-            }
-            if (_portsConfig.containsKey(taskOfChToConfig)) {
-                if (chToMergeWith != "") {
-                    _portsConfig.get(taskOfChToConfig).add(new AbstractMap.SimpleEntry<String, String>(chToConfig, chToMergeWith));
-                } else if (chToRemove != "") {
-                    _portsConfig.get(taskOfChToConfig).add(new AbstractMap.SimpleEntry<String, String>(chToConfig, ""));
-                }
-            } else {
-                List<Entry<String, String>> portConf = new ArrayList<Entry<String, String>>();
-                if (chToMergeWith != "") {
-                    portConf.add(new AbstractMap.SimpleEntry<String, String>(chToConfig, chToMergeWith));
-                } else if (chToRemove != "") {
-                    portConf.add(new AbstractMap.SimpleEntry<String, String>(chToConfig, ""));
-                }
-                _portsConfig.put(taskOfChToConfig, portConf);
-            }
+            _portsConfig.add(portConfig);
         }
         return _portsConfig;
     }
 
-    JSONArray addChannelsMappingInJsonFile(LinkedHashMap<String, List<String[]>> _channelsMapping) {
+    JSONArray addChannelsMappingInJsonFile(List<MappingPatternChannel> _channelsMapping) {
         JSONArray ja = new JSONArray();
         try {
-            for (String task : _channelsMapping.keySet()) {
-                for (String[] chMapping : _channelsMapping.get(task)) {
-                    JSONObject jo = new JSONObject();
-                    jo.put(CHANNEL_TO_MAP, chMapping[1]);
-                    jo.put(TASK_OF_CHANNEL_TO_MAP, task);
-                    if (chMapping[0].equals(JDialogPatternHandling.SAME_MEMORY)) {
-                        jo.put(CHANNEL_MAPPED_IN_SAME_MEM_AS,chMapping[3]);
-                        jo.put(TASK_OF_CHANNEL_SAME_MEM, chMapping[2]);
-                    }
-                    if (chMapping[0].equals(JDialogPatternHandling.NEW_MEMORY)) {
-                        jo.put(CHANNEL_MAPPED_IN_NEW_MEM_CONNECTED_TO_BUS,chMapping[2]);
-                    }
-                    ja.put(jo);
+            for (MappingPatternChannel channelMapping : _channelsMapping) {
+                JSONObject jo = new JSONObject();
+                jo.put(CHANNEL_TO_MAP, channelMapping.getChannelToMapName());
+                jo.put(TASK_OF_CHANNEL_TO_MAP, channelMapping.getTaskOfChannelToMap());
+                if (channelMapping.getOrigin() == MappingPatternChannel.ORIGIN_CLONE) {
+                    jo.put(CHANNEL_MAPPING_ORIGIN, CHANNEL_MAPPING_ORIGIN_CLONE);
+                } else if (channelMapping.getOrigin() == MappingPatternChannel.ORIGIN_PATTERN) {
+                    jo.put(CHANNEL_MAPPING_ORIGIN, CHANNEL_MAPPING_ORIGIN_PATTERN);
+                } else if (channelMapping.getOrigin() == MappingPatternChannel.ORIGIN_MODEL) {
+                    jo.put(CHANNEL_MAPPING_ORIGIN, CHANNEL_MAPPING_ORIGIN_MODEL);
                 }
-                
+                if (channelMapping.getChannelInSameMemAs() != null && channelMapping.getTaskOfChannelInSameMem() != null) {
+                    jo.put(CHANNEL_MAPPED_IN_SAME_MEM_AS, channelMapping.getChannelInSameMemAs());
+                    jo.put(TASK_OF_CHANNEL_SAME_MEM, channelMapping.getTaskOfChannelInSameMem());
+                    if (channelMapping.getSameMemAsOrigin() == MappingPatternChannel.ORIGIN_CLONE) {
+                        jo.put(CHANNEL_MAPPED_IN_SAME_MEM_AS_ORIGIN, CHANNEL_MAPPING_ORIGIN_CLONE);
+                    } else if (channelMapping.getSameMemAsOrigin() == MappingPatternChannel.ORIGIN_PATTERN) {
+                        jo.put(CHANNEL_MAPPED_IN_SAME_MEM_AS_ORIGIN, CHANNEL_MAPPING_ORIGIN_PATTERN);
+                    } else if (channelMapping.getSameMemAsOrigin() == MappingPatternChannel.ORIGIN_MODEL) {
+                        jo.put(CHANNEL_MAPPED_IN_SAME_MEM_AS_ORIGIN, CHANNEL_MAPPING_ORIGIN_MODEL);
+                    }
+                }
+                if (channelMapping.getBusNameForNewMem() != null) {
+                    jo.put(CHANNEL_MAPPED_IN_NEW_MEM_CONNECTED_TO_BUS, channelMapping.getBusNameForNewMem());
+                }
+                ja.put(jo);
             }
         } catch (JSONException e) {
             e.printStackTrace();
@@ -260,20 +252,27 @@ public class PatternConfig2Json {
         return ja;
     }
 
-    JSONArray addChannelsWithSecurityInJsonFile(LinkedHashMap<String, List<PortTaskJsonFile>> _channelsWithSec) {
+    JSONArray addChannelsWithSecurityInJsonFile(List<PatternChannelWithSecurity> _channelsWithSec) {
         JSONArray ja = new JSONArray();
         try {
-            for (String task : _channelsWithSec.keySet()) {
-                for (PortTaskJsonFile portTask : _channelsWithSec.get(task)) {
-                    JSONObject jo = new JSONObject();
-                    jo.put(TASK_CHANNEL_WITH_SECURITY_NAME, task);
-                    jo.put(PatternCreation.NAME, portTask.getName());
-                    jo.put(PatternCreation.TYPE, portTask.getType());
-                    jo.put(PatternCreation.MODE, portTask.getMode());
-                    jo.put(PatternCreation.CONFIDENTIALITY, portTask.getConfidentiality());
-                    jo.put(PatternCreation.AUTHENTICITY, portTask.getAuthenticity());
-                    ja.put(jo);
+            for (PatternChannelWithSecurity channelWithSec : _channelsWithSec) {
+                JSONObject jo = new JSONObject();
+                jo.put(TASK_CHANNEL_WITH_SECURITY_NAME, channelWithSec.getChannelTaskName());
+                jo.put(PatternCreation.NAME, channelWithSec.getChannelName());
+                jo.put(PatternCreation.MODE, channelWithSec.getChannelMode());
+                if (channelWithSec.isConfidential()) {
+                    jo.put(PatternCreation.CONFIDENTIALITY, PatternCreation.WITH_CONFIDENTIALITY);
+                } else {
+                    jo.put(PatternCreation.CONFIDENTIALITY, PatternCreation.WITHOUT_CONFIDENTIALITY);
                 }
+                if (channelWithSec.getAuthenticity() == PatternChannelWithSecurity.NO_AUTHENTICITY) {
+                    jo.put(PatternCreation.AUTHENTICITY, PatternCreation.WITHOUT_AUTHENTICITY);
+                } else if (channelWithSec.getAuthenticity() == PatternChannelWithSecurity.WEAK_AUTHENTICITY) {
+                    jo.put(PatternCreation.AUTHENTICITY, PatternCreation.WEAK_AUTHENTICITY);
+                } else if (channelWithSec.getAuthenticity() == PatternChannelWithSecurity.STRONG_AUTHENTICITY) {
+                    jo.put(PatternCreation.AUTHENTICITY, PatternCreation.STRONG_AUTHENTICITY);
+                }
+                ja.put(jo);
             }
         } catch (JSONException e) {
             e.printStackTrace();
@@ -281,28 +280,29 @@ public class PatternConfig2Json {
         return ja;
     }
 
-    LinkedHashMap<String, List<PortTaskJsonFile>> getChannelsWithSecurityFromJsonFile(JSONArray ja) {
-        LinkedHashMap<String, List<PortTaskJsonFile>> _channelsWithSec = new LinkedHashMap<String, List<PortTaskJsonFile>>();
+    List<PatternChannelWithSecurity> getChannelsWithSecurityFromJsonFile(JSONArray ja) {
+        List<PatternChannelWithSecurity> _channelsWithSec = new ArrayList<PatternChannelWithSecurity>();
         for (int j = 0; j < ja.length(); j++) {
             String taskName = ja.getJSONObject(j).getString(TASK_CHANNEL_WITH_SECURITY_NAME);
             String channelName = ja.getJSONObject(j).getString(PatternCreation.NAME);
-            String channelType = ja.getJSONObject(j).getString(PatternCreation.TYPE);
             String channelMode = ja.getJSONObject(j).getString(PatternCreation.MODE);
             String channelConf = ja.getJSONObject(j).getString(PatternCreation.CONFIDENTIALITY);
             String channelAuth = ja.getJSONObject(j).getString(PatternCreation.AUTHENTICITY);
-            if (_channelsWithSec.containsKey(taskName)) {
-                PortTaskJsonFile portTask = new PortTaskJsonFile(channelName, channelType, channelMode);
-                portTask.setConfidentiality(channelConf);
-                portTask.setAuthenticity(channelAuth);
-                _channelsWithSec.get(taskName).add(portTask);
-            } else {
-                List<PortTaskJsonFile> listPortTask = new ArrayList<PortTaskJsonFile>();
-                PortTaskJsonFile portTask = new PortTaskJsonFile(channelName, channelType, channelMode);
-                portTask.setConfidentiality(channelConf);
-                portTask.setAuthenticity(channelAuth);
-                listPortTask.add(portTask);
-                _channelsWithSec.put(taskName, listPortTask);
+            PatternChannelWithSecurity channelWithSecurity = new PatternChannelWithSecurity(taskName, channelName, channelMode);
+            if (channelConf.toLowerCase().equals(PatternCreation.WITHOUT_CONFIDENTIALITY.toLowerCase())) {
+                channelWithSecurity.setIsConfidential(false);
+            } else if (channelConf.toLowerCase().equals(PatternCreation.WITH_CONFIDENTIALITY.toLowerCase())) {
+                channelWithSecurity.setIsConfidential(true);
             }
+            if (channelAuth.toLowerCase().equals(PatternCreation.WITHOUT_AUTHENTICITY.toLowerCase())) {
+                channelWithSecurity.setAuthenticity(PatternChannelWithSecurity.NO_AUTHENTICITY);
+            } else if (channelAuth.toLowerCase().equals(PatternCreation.WEAK_AUTHENTICITY.toLowerCase())) {
+                channelWithSecurity.setAuthenticity(PatternChannelWithSecurity.WEAK_AUTHENTICITY);
+            } else if (channelAuth.toLowerCase().equals(PatternCreation.STRONG_AUTHENTICITY.toLowerCase())) {
+                channelWithSecurity.setAuthenticity(PatternChannelWithSecurity.STRONG_AUTHENTICITY);
+            }
+            
+            _channelsWithSec.add(channelWithSecurity);
         }
         return _channelsWithSec;
     }
@@ -327,71 +327,65 @@ public class PatternConfig2Json {
         return _updatedPatternAttributes;
     }
 
-    LinkedHashMap<String, List<String[]>> getChannelsMappingFromJsonFile(JSONArray ja) {
-        LinkedHashMap<String, List<String[]>> _channelsMapping = new LinkedHashMap<String, List<String[]>>();
+    List<MappingPatternChannel> getChannelsMappingFromJsonFile(JSONArray ja) {
+        List<MappingPatternChannel> _channelsMapping = new ArrayList<MappingPatternChannel>();
         for (int j = 0; j < ja.length(); j++) {
             String channelToMap = ja.getJSONObject(j).getString(CHANNEL_TO_MAP);
             String taskOfChannelToMap = ja.getJSONObject(j).getString(TASK_OF_CHANNEL_TO_MAP);
-            String channelMappedInSameMem = "";
-            if (ja.getJSONObject(j).has(CHANNEL_MAPPED_IN_SAME_MEM_AS)) {
-                channelMappedInSameMem = ja.getJSONObject(j).getString(CHANNEL_MAPPED_IN_SAME_MEM_AS);
+            int originChannel = -1;
+            String channelToMapOrigin = ja.getJSONObject(j).getString(CHANNEL_MAPPING_ORIGIN);
+            if (channelToMapOrigin.equals(CHANNEL_MAPPING_ORIGIN_CLONE)) {
+                originChannel = MappingPatternChannel.ORIGIN_CLONE;
+            } else if (channelToMapOrigin.equals(CHANNEL_MAPPING_ORIGIN_PATTERN)) {
+                originChannel = MappingPatternChannel.ORIGIN_PATTERN;
+            } else if (channelToMapOrigin.equals(CHANNEL_MAPPING_ORIGIN_MODEL)) {
+                originChannel = MappingPatternChannel.ORIGIN_MODEL;
             }
-            String taskOfChannelSameMem = "";
-            if (ja.getJSONObject(j).has(TASK_OF_CHANNEL_SAME_MEM)) {
-                taskOfChannelSameMem = ja.getJSONObject(j).getString(TASK_OF_CHANNEL_SAME_MEM);
-            }
-            String channelMappedInNewMem = "";
-            if (ja.getJSONObject(j).has(CHANNEL_MAPPED_IN_NEW_MEM_CONNECTED_TO_BUS)) {
-                channelMappedInNewMem = ja.getJSONObject(j).getString(CHANNEL_MAPPED_IN_NEW_MEM_CONNECTED_TO_BUS);
-            }
-            if (_channelsMapping.containsKey(taskOfChannelToMap)) {
-                if (channelMappedInSameMem != "") {
-                    String[] channelMap = new String[4];
-                    channelMap[0] = JDialogPatternHandling.SAME_MEMORY;
-                    channelMap[1] = channelToMap;
-                    channelMap[2] = taskOfChannelSameMem;
-                    channelMap[3] = channelMappedInSameMem;
-                    _channelsMapping.get(taskOfChannelToMap).add(channelMap);
-                } else if (channelMappedInNewMem != "") {
-                    String[] channelMap = new String[3];
-                    channelMap[0] = JDialogPatternHandling.NEW_MEMORY;
-                    channelMap[1] = channelToMap;
-                    channelMap[2] = channelMappedInNewMem;
-                    _channelsMapping.get(taskOfChannelToMap).add(channelMap);
+            MappingPatternChannel mappingPatternChannel = new MappingPatternChannel(taskOfChannelToMap, channelToMap, originChannel);
+
+            if (ja.getJSONObject(j).has(CHANNEL_MAPPED_IN_SAME_MEM_AS) && ja.getJSONObject(j).has(TASK_OF_CHANNEL_SAME_MEM)) {
+                int sameMemAsOrigin = -1;
+                String sameChannelMemAsOrigin =  ja.getJSONObject(j).getString(CHANNEL_MAPPED_IN_SAME_MEM_AS_ORIGIN);
+                if (sameChannelMemAsOrigin.equals(CHANNEL_MAPPING_ORIGIN_CLONE)) {
+                    sameMemAsOrigin = MappingPatternChannel.ORIGIN_CLONE;
+                } else if (sameChannelMemAsOrigin.equals(TASK_MAPPING_ORIGIN_PATTERN)) {
+                    sameMemAsOrigin = MappingPatternChannel.ORIGIN_PATTERN;
+                } else if (sameChannelMemAsOrigin.equals(TASK_MAPPING_ORIGIN_MODEL)) {
+                    sameMemAsOrigin = MappingPatternChannel.ORIGIN_MODEL;
                 }
-            } else {
-                List<String[]> channelMapList = new ArrayList<String[]>();
-                if (channelMappedInSameMem != "") {
-                    String[] channelMap = new String[4];
-                    channelMap[0] = JDialogPatternHandling.SAME_MEMORY;
-                    channelMap[1] = channelToMap;
-                    channelMap[2] = taskOfChannelSameMem;
-                    channelMap[3] = channelMappedInSameMem;
-                    channelMapList.add(channelMap);
-                } else if (channelMappedInNewMem != "") {
-                    String[] channelMap = new String[3];
-                    channelMap[0] = JDialogPatternHandling.NEW_MEMORY;
-                    channelMap[1] = channelToMap;
-                    channelMap[2] = channelMappedInNewMem;
-                    channelMapList.add(channelMap);
-                }
-                _channelsMapping.put(taskOfChannelToMap, channelMapList);
+                mappingPatternChannel.setTaskAndChannelInSameMem(ja.getJSONObject(j).getString(TASK_OF_CHANNEL_SAME_MEM), ja.getJSONObject(j).getString(CHANNEL_MAPPED_IN_SAME_MEM_AS), sameMemAsOrigin);
+            }else if (ja.getJSONObject(j).has(CHANNEL_MAPPED_IN_NEW_MEM_CONNECTED_TO_BUS)) {
+                mappingPatternChannel.setBusNameForNewMem(ja.getJSONObject(j).getString(CHANNEL_MAPPED_IN_NEW_MEM_CONNECTED_TO_BUS));
             }
+            _channelsMapping.add(mappingPatternChannel);
+            
         }
         return _channelsMapping;
     }
 
-    JSONArray addTasksMappingInJsonFile(LinkedHashMap<String, Entry<String, String>> _tasksMapping) {
+    JSONArray addTasksMappingInJsonFile(List<MappingPatternTask> _tasksMapping) {
         JSONArray ja = new JSONArray();
         try {
-            for (String task : _tasksMapping.keySet()) {
+            for (MappingPatternTask taskMapping : _tasksMapping) {
                 JSONObject jo = new JSONObject();
-                jo.put(TASK_TO_MAP, task);
-                if (_tasksMapping.get(task).getKey().equals(JDialogPatternHandling.SAME_HW)) {
-                    jo.put(TASK_MAPPED_IN_SAME_HW_AS, _tasksMapping.get(task).getValue());
+                jo.put(TASK_TO_MAP, taskMapping.getTaskToMapName());
+                if (taskMapping.getOrigin() == MappingPatternTask.ORIGIN_CLONE) {
+                    jo.put(TASK_MAPPING_ORIGIN, TASK_MAPPING_ORIGIN_CLONE);
+                } else if (taskMapping.getOrigin() == MappingPatternTask.ORIGIN_PATTERN) {
+                    jo.put(TASK_MAPPING_ORIGIN, TASK_MAPPING_ORIGIN_PATTERN);
                 }
-                if (_tasksMapping.get(task).getKey().equals(JDialogPatternHandling.NEW_HW)) {
-                    jo.put(TASK_MAPPED_IN_NEW_HW_CONNECTED_TO_BUS, _tasksMapping.get(task).getValue());
+                if (taskMapping.getSameHwAs() != null) {
+                    jo.put(TASK_MAPPED_IN_SAME_HW_AS, taskMapping.getSameHwAs());
+                    if (taskMapping.getSameHwAsOrigin() == MappingPatternTask.ORIGIN_CLONE) {
+                        jo.put(TASK_MAPPED_IN_SAME_HW_AS_ORIGIN, TASK_MAPPING_ORIGIN_CLONE);
+                    } else if (taskMapping.getSameHwAsOrigin() == MappingPatternTask.ORIGIN_PATTERN) {
+                        jo.put(TASK_MAPPED_IN_SAME_HW_AS_ORIGIN, TASK_MAPPING_ORIGIN_PATTERN);
+                    } else if (taskMapping.getSameHwAsOrigin() == MappingPatternTask.ORIGIN_MODEL) {
+                        jo.put(TASK_MAPPED_IN_SAME_HW_AS_ORIGIN, TASK_MAPPING_ORIGIN_MODEL);
+                    }
+                    
+                } else if (taskMapping.getBusNameForNewHw() != null) {
+                    jo.put(TASK_MAPPED_IN_NEW_HW_CONNECTED_TO_BUS, taskMapping.getBusNameForNewHw());
                 }
                 ja.put(jo);
             }
@@ -401,43 +395,53 @@ public class PatternConfig2Json {
         return ja;
     }
 
-    LinkedHashMap<String, Entry<String, String>> getTasksMappingFromJsonFile(JSONArray ja) {
-        LinkedHashMap<String, Entry<String, String>> _tasksMapping = new LinkedHashMap<String, Entry<String, String>>();
+    List<MappingPatternTask> getTasksMappingFromJsonFile(JSONArray ja) {
+        List<MappingPatternTask> _tasksMapping = new ArrayList<MappingPatternTask>();
         for (int j = 0; j < ja.length(); j++) {
             String taskToMap = ja.getJSONObject(j).getString(TASK_TO_MAP);
-            String taskMappedInNewHw = "";
+            String taskToMapOrigin = ja.getJSONObject(j).getString(TASK_MAPPING_ORIGIN);
+            int origin = -1;
+            if (taskToMapOrigin.equals(TASK_MAPPING_ORIGIN_CLONE)) {
+                origin = MappingPatternTask.ORIGIN_CLONE;
+            } else if (taskToMapOrigin.equals(TASK_MAPPING_ORIGIN_PATTERN)) {
+                origin = MappingPatternTask.ORIGIN_PATTERN;
+            }
+            MappingPatternTask mappingPatternTask = new MappingPatternTask(taskToMap, origin);
             if (ja.getJSONObject(j).has(TASK_MAPPED_IN_NEW_HW_CONNECTED_TO_BUS)) {
-                taskMappedInNewHw = ja.getJSONObject(j).getString(TASK_MAPPED_IN_NEW_HW_CONNECTED_TO_BUS);
+                mappingPatternTask.setBusNameForNewHw(ja.getJSONObject(j).getString(TASK_MAPPED_IN_NEW_HW_CONNECTED_TO_BUS));
+            } else if (ja.getJSONObject(j).has(TASK_MAPPED_IN_SAME_HW_AS)) {
+                int sameHwAsOrigin = -1;
+                String sameTaskHwAsOrigin = ja.getJSONObject(j).getString(TASK_MAPPED_IN_SAME_HW_AS_ORIGIN);
+                if (sameTaskHwAsOrigin.equals(TASK_MAPPING_ORIGIN_CLONE)) {
+                    sameHwAsOrigin = MappingPatternTask.ORIGIN_CLONE;
+                } else if (sameTaskHwAsOrigin.equals(TASK_MAPPING_ORIGIN_PATTERN)) {
+                    sameHwAsOrigin = MappingPatternTask.ORIGIN_PATTERN;
+                } else if (sameTaskHwAsOrigin.equals(TASK_MAPPING_ORIGIN_MODEL)) {
+                    sameHwAsOrigin = MappingPatternTask.ORIGIN_MODEL;
+                }
+                mappingPatternTask.setSameHwAs(ja.getJSONObject(j).getString(TASK_MAPPED_IN_SAME_HW_AS), sameHwAsOrigin);
             }
-            String taskMappedInSameHw = "";
-            if (ja.getJSONObject(j).has(TASK_MAPPED_IN_SAME_HW_AS)) {
-                taskMappedInSameHw = ja.getJSONObject(j).getString(TASK_MAPPED_IN_SAME_HW_AS);
-            }
-            if (taskMappedInSameHw != "") {
-                _tasksMapping.put(taskToMap, new AbstractMap.SimpleEntry<String, String>(JDialogPatternHandling.SAME_HW, taskMappedInSameHw));
-            } else if (taskMappedInNewHw != "") {
-                _tasksMapping.put(taskToMap, new AbstractMap.SimpleEntry<String, String>(JDialogPatternHandling.NEW_HW, taskMappedInNewHw));
-            }
+            _tasksMapping.add(mappingPatternTask);
         }
         return _tasksMapping;
     }
 
-    JSONArray addConnectionInJsonFile(LinkedHashMap<String,List<String[]>> _portsConnection) {
+    JSONArray addConnectionInJsonFile(List<PatternConnection> _portsConnection) {
         JSONArray ja = new JSONArray();
         try {
-            for (String taskPattern : _portsConnection.keySet()) {
-                for (String[] conn : _portsConnection.get(taskPattern)) {
-                    JSONObject jo = new JSONObject();
-                    jo.put(PATTERN_TASK, taskPattern);
-                    jo.put(PATTERN_PORT, conn[0]);
-                    jo.put(MODEL_TASK, conn[1]);
-                    jo.put(MODEL_PORT, conn[2]);
-                    
-                    if (conn.length>=4 && conn[3].equals(JDialogPatternHandling.NEW_PORT_OPTION)) {
-                        jo.put(NEW_PORT, "true");
-                    }
-                    ja.put(jo);
+            for (PatternConnection portsConnection : _portsConnection) {
+                JSONObject jo = new JSONObject();
+                jo.put(PATTERN_TASK, portsConnection.getPatternTaskName());
+                jo.put(PATTERN_PORT, portsConnection.getPatternChannel());
+                jo.put(MODEL_TASK, portsConnection.getModelTaskName());
+                jo.put(MODEL_PORT, portsConnection.getModelChannelName());
+                
+                if (portsConnection.isNewPort()) {
+                    jo.put(NEW_PORT, "true");
+                } else {
+                    jo.put(NEW_PORT, "false");
                 }
+                ja.put(jo);
                 
             }
         } catch (JSONException e) {
@@ -446,50 +450,17 @@ public class PatternConfig2Json {
         return ja;
     }
 
-    LinkedHashMap<String, List<String[]>> getConnectionFromJsonFile(JSONArray ja) {
-        LinkedHashMap<String, List<String[]>> _portsConnection = new LinkedHashMap<String, List<String[]>>();
+    List<PatternConnection> getConnectionFromJsonFile(JSONArray ja) {
+        List<PatternConnection> _portsConnection = new ArrayList<PatternConnection>();
         for (int j = 0; j < ja.length(); j++) {
             String patternTask = ja.getJSONObject(j).getString(PATTERN_TASK);
             String patternPort = ja.getJSONObject(j).getString(PATTERN_PORT);
             String modelTask = ja.getJSONObject(j).getString(MODEL_TASK);
             String modelPort = ja.getJSONObject(j).getString(MODEL_PORT);
-            String newPort = "";
-            if (ja.getJSONObject(j).has(NEW_PORT)) {
-                newPort = ja.getJSONObject(j).getString(NEW_PORT);
-            }
-            if (_portsConnection.containsKey(patternTask)) {
-                if (newPort != "") {
-                    String[] conn = new String[4];
-                    conn[0] = patternPort;
-                    conn[1] = modelTask;
-                    conn[2] = modelPort;
-                    conn[3] = newPort;
-                    _portsConnection.get(patternTask).add(conn);
-                } else {
-                    String[] conn = new String[3];
-                    conn[0] = patternPort;
-                    conn[1] = modelTask;
-                    conn[2] = modelPort;
-                    _portsConnection.get(patternTask).add(conn);
-                }
-            } else {
-                List<String[]> portConnec = new ArrayList<String[]>();
-                if (newPort != "") {
-                    String[] conn = new String[4];
-                    conn[0] = patternPort;
-                    conn[1] = modelTask;
-                    conn[2] = modelPort;
-                    conn[3] = newPort;
-                    portConnec.add(conn);
-                } else {
-                    String[] conn = new String[3];
-                    conn[0] = patternPort;
-                    conn[1] = modelTask;
-                    conn[2] = modelPort;
-                    portConnec.add(conn);
-                }
-                _portsConnection.put(patternTask, portConnec);
-            }
+            String newPort =  ja.getJSONObject(j).getString(NEW_PORT);
+            boolean isNewPort = Boolean.parseBoolean(newPort);
+            PatternConnection patternConnection = new PatternConnection(patternTask, patternPort, modelTask, modelPort, isNewPort);
+            _portsConnection.add(patternConnection);
         }
         return _portsConnection;
     }

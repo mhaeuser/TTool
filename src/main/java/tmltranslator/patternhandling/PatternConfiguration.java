@@ -9,23 +9,21 @@ package tmltranslator.patternhandling;
  */
  
 import java.util.*;
-import java.util.Map.Entry;
 
 import myutil.TraceManager;
-import ui.window.JDialogPatternHandling;
 
  
 public class PatternConfiguration {
 
-    LinkedHashMap<String, List<String[]>> portsConnection; 
-    LinkedHashMap<String, String> clonedTasks; 
-    LinkedHashMap<String, List<Entry<String, String>>> portsConfig; 
-    LinkedHashMap<String, Entry<String, String>> tasksMapping;
-    LinkedHashMap<String, List<String[]>> channelsMapping;
+    List<PatternConnection> portsConnection; 
+    List<PatternCloneTask> clonedTasks; 
+    List<PatternPortsConfig> portsConfig; 
+    List<MappingPatternTask> tasksMapping;
+    List<MappingPatternChannel> channelsMapping;
     LinkedHashMap<String, List<AttributeTaskJsonFile>> updatedPatternAttributes;
-    LinkedHashMap<String, List<PortTaskJsonFile>> channelsWithSecurity;
+    List<PatternChannelWithSecurity> channelsWithSecurity;
 
-    public PatternConfiguration(LinkedHashMap<String, List<String[]>> portsConnection, LinkedHashMap<String, String> clonedTasks, LinkedHashMap<String, List<Entry<String, String>>> portsConfig, LinkedHashMap<String, Entry<String, String>> tasksMapping, LinkedHashMap<String,List<String[]>> channelsMapping, LinkedHashMap<String, List<AttributeTaskJsonFile>> updatedPatternAttributes, LinkedHashMap<String, List<PortTaskJsonFile>> channelsWithSecurity) {
+    public PatternConfiguration(List<PatternConnection> portsConnection, List<PatternCloneTask> clonedTasks, List<PatternPortsConfig> portsConfig, List<MappingPatternTask> tasksMapping, List<MappingPatternChannel> channelsMapping, LinkedHashMap<String, List<AttributeTaskJsonFile>> updatedPatternAttributes, List<PatternChannelWithSecurity> channelsWithSecurity) {
         this.portsConnection = portsConnection;
         this.clonedTasks = clonedTasks;
         this.portsConfig = portsConfig;
@@ -36,32 +34,32 @@ public class PatternConfiguration {
     }
 
     public PatternConfiguration() {
-        this.portsConnection = new LinkedHashMap<String, List<String[]>>();
-        this.clonedTasks = new LinkedHashMap<String, String>();
-        this.portsConfig = new LinkedHashMap<String, List<Entry<String, String>>>();
-        this.tasksMapping = new LinkedHashMap<String, Entry<String, String>>();
-        this.channelsMapping = new LinkedHashMap<String, List<String[]>>();
+        this.portsConnection = new ArrayList<PatternConnection>();
+        this.clonedTasks = new ArrayList<PatternCloneTask>();
+        this.portsConfig = new ArrayList<PatternPortsConfig>();
+        this.tasksMapping = new ArrayList<MappingPatternTask>();
+        this.channelsMapping = new ArrayList<MappingPatternChannel>();
         this.updatedPatternAttributes = new LinkedHashMap<String, List<AttributeTaskJsonFile>>();
-        this.channelsWithSecurity = new LinkedHashMap<String, List<PortTaskJsonFile>>();
+        this.channelsWithSecurity = new ArrayList<PatternChannelWithSecurity>();
     }
 
-    public LinkedHashMap<String,List<String[]>> getPortsConnection() {
+    public List<PatternConnection> getPortsConnection() {
         return portsConnection;
     }
 
-    public LinkedHashMap<String, String> getClonedTasks() {
+    public List<PatternCloneTask> getClonedTasks() {
         return clonedTasks;
     }
 
-    public LinkedHashMap<String, List<Entry<String, String>>> getPortsConfig() {
+    public List<PatternPortsConfig> getPortsConfig() {
         return portsConfig;
     }
 
-    public LinkedHashMap<String, Entry<String, String>> getTasksMapping() {
+    public List<MappingPatternTask> getTasksMapping() {
         return tasksMapping;
     }
 
-    public LinkedHashMap<String,List<String[]>> getChannelsMapping() {
+    public List<MappingPatternChannel> getChannelsMapping() {
         return channelsMapping;
     }
 
@@ -69,27 +67,27 @@ public class PatternConfiguration {
         return updatedPatternAttributes;
     }
 
-    public LinkedHashMap<String, List<PortTaskJsonFile>> getChannelsWithSecurity() {
+    public List<PatternChannelWithSecurity> getChannelsWithSecurity() {
         return channelsWithSecurity;
     }
 
-    public void setPortsConnection(LinkedHashMap<String,List<String[]>> _portsConnection) {
+    public void setPortsConnection(List<PatternConnection> _portsConnection) {
         portsConnection = _portsConnection;
     }
 
-    public void setClonedTasks(LinkedHashMap<String, String> _clonedTasks) {
+    public void setClonedTasks(List<PatternCloneTask> _clonedTasks) {
         clonedTasks = _clonedTasks;
     }
 
-    public void setPortsConfig(LinkedHashMap<String, List<Entry<String, String>>> _portsConfig) {
+    public void setPortsConfig(List<PatternPortsConfig> _portsConfig) {
         portsConfig = _portsConfig;
     }
 
-    public void setTasksMapping(LinkedHashMap<String, Entry<String, String>> _tasksMapping) {
+    public void setTasksMapping(List<MappingPatternTask> _tasksMapping) {
         tasksMapping = _tasksMapping;
     }
 
-    public void setChannelsMapping(LinkedHashMap<String,List<String[]>> _channelsMapping) {
+    public void setChannelsMapping(List<MappingPatternChannel> _channelsMapping) {
         channelsMapping = _channelsMapping;
     }
 
@@ -97,11 +95,31 @@ public class PatternConfiguration {
         updatedPatternAttributes = _updatedPatternAttributes;
     }
 
-    public void setChannelsWithSecurity(LinkedHashMap<String, List<PortTaskJsonFile>> _channelsWithSecurity) {
+    public void addPortsConnection(PatternConnection _portsConnection) {
+        portsConnection.add(_portsConnection);
+    }
+
+    public void addClonedTasks(PatternCloneTask _clonedTasks) {
+        clonedTasks.add(_clonedTasks);
+    }
+
+    public void addPortsConfig(PatternPortsConfig _portsConfig) {
+        portsConfig.add(_portsConfig);
+    }
+
+    public void addTasksMapping(MappingPatternTask _tasksMapping) {
+        tasksMapping.add(_tasksMapping);
+    }
+
+    public void addChannelsMapping(MappingPatternChannel _channelsMapping) {
+        channelsMapping.add(_channelsMapping);
+    }
+
+    public void setChannelsWithSecurity(List<PatternChannelWithSecurity> _channelsWithSecurity) {
         channelsWithSecurity = _channelsWithSecurity;
     }
 
-    public void loadConnectedPorts(Vector<String> connectedPortsFull) {
+    /*public void loadConnectedPorts(Vector<String> connectedPortsFull) {
         for (String connectedPort : connectedPortsFull) {
             String[] splitO = connectedPort.split(JDialogPatternHandling.TASK_CHANNEL_SEPARATOR, 2);
             String patternTaskName = splitO[0];
@@ -240,5 +258,5 @@ public class PatternConfiguration {
                 clonedTasks.put(clonedTaskSplit[0], clonedTaskSplit[1]);
             }
         }
-    }
+    }*/
 }

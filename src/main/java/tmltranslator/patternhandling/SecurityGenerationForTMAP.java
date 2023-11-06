@@ -18,8 +18,6 @@ import ui.TGComponent;
 import java.io.Reader;
 import java.util.*;
 
-import org.apache.batik.anim.timing.Trace;
-
 
 public class SecurityGenerationForTMAP implements Runnable {
     String appName;

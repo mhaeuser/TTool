@@ -8,7 +8,6 @@ package tmltranslator.patternhandling;
  * @version 1.0 28/08/2023
  */
  
-import myutil.TraceManager;
 import tmltranslator.*;
 
  

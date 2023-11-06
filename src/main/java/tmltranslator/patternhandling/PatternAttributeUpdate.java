@@ -1,6 +1,6 @@
 package tmltranslator.patternhandling;
 /**
- * Class MappingPatternTask
+ * Class PatternAttributeUpdate
  * 
  * Creation: 25/10/2023
  *
@@ -8,7 +8,6 @@ package tmltranslator.patternhandling;
  * @version 1.0 25/10/2023
  */
  
-import myutil.TraceManager;
 import tmltranslator.*;
 
  

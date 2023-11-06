@@ -59,7 +59,7 @@ import java.util.Vector;
 public class Interpreter implements Runnable, TerminalProviderInterface {
 
     public final static Command[] commands = {new Action(), new Chat(), new Help(), new HelpTTool(), new History(), new Print(),
-            new Plan(), new PluginAction(), new Quit(),
+            new Plan(), new PluginAction(), new PatternHandling(), new Quit(),
             new TestSpecific(), new TML(), new Set(), new Wait(), new Robot(), new BF(), new SimulatorScript()};
 
     // Errors

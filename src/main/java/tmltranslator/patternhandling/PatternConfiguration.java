@@ -119,6 +119,10 @@ public class PatternConfiguration {
         channelsWithSecurity = _channelsWithSecurity;
     }
 
+    public void removeClonedTask(PatternCloneTask _clonedTasks) {
+        clonedTasks.remove(_clonedTasks);
+    }
+
     /*public void loadConnectedPorts(Vector<String> connectedPortsFull) {
         for (String connectedPort : connectedPortsFull) {
             String[] splitO = connectedPort.split(JDialogPatternHandling.TASK_CHANNEL_SEPARATOR, 2);

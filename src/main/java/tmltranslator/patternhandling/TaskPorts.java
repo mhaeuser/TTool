@@ -13,6 +13,11 @@ import tmltranslator.*;
 import java.util.*;
 
 public class TaskPorts {
+    public final static int WRITE_CHANNEL = 1;
+    public final static int READ_CHANNEL = 2;
+    public final static int SEND_EVENT = 3;
+    public final static int WAIT_EVENT = 4;
+
     List<String> writeChannels = new ArrayList<String>();
     List<String> readChannels = new ArrayList<String>();
     List<String> sendEvents = new ArrayList<String>();
@@ -40,6 +45,13 @@ public class TaskPorts {
 
     public List<String> getWaitEvents() {
         return waitEvents;
+    }
+
+    public void removePort(String port) {
+        writeChannels.remove(port);
+        readChannels.remove(port);
+        sendEvents.remove(port);
+        waitEvents.remove(port);
     }
 
     public static LinkedHashMap<String, TaskPorts> getListPortsTask(TMLModeling<?> tmlmodel) {
@@ -74,5 +86,36 @@ public class TaskPorts {
             listPortsTask.put(task.getName(), portTask);
         }
         return listPortsTask;
+    }
+
+    public static TaskPorts cloneTaskPort(TaskPorts taskPorts) {
+        List<String> wcs = new ArrayList<String>(taskPorts.getWriteChannels());
+        List<String> rcs = new ArrayList<String>(taskPorts.getReadChannels());
+        List<String> ses = new ArrayList<String>(taskPorts.getSendEvents());
+        List<String> wes = new ArrayList<String>(taskPorts.getWaitEvents());
+        return new TaskPorts(wcs, rcs, ses, wes);
+    }
+
+    public int getPortTypeByName(String portName) {
+        if (writeChannels.contains(portName)) {
+            return WRITE_CHANNEL;
+        } else if (readChannels.contains(portName)) {
+            return READ_CHANNEL;
+        } else if (sendEvents.contains(portName)) {
+            return SEND_EVENT;
+        } else if (waitEvents.contains(portName)) {
+            return WAIT_EVENT;
+        }
+        return 0;
+    }
+
+    public static LinkedHashMap<String, TaskPorts> getPortsTaskOfModelLeft(LinkedHashMap<String, TaskPorts> _portsTaskOfModelAll, List<PatternConnection> patternConnections) {
+        LinkedHashMap<String, TaskPorts> portsTaskModelLeft = new LinkedHashMap<String, TaskPorts>(_portsTaskOfModelAll);
+        for (PatternConnection patternConnection: patternConnections) {
+            if (portsTaskModelLeft.containsKey(patternConnection.getModelTaskName())) {
+                portsTaskModelLeft.get(patternConnection.getModelTaskName()).removePort(patternConnection.getModelChannelName());
+            }
+        }
+        return portsTaskModelLeft;
     }
 }

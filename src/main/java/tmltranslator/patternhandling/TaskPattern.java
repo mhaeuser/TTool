@@ -106,5 +106,35 @@ public class TaskPattern {
         }
         return tasksPattern;
     }
-    
+
+    public void removeExternalPort(String port) {
+        PortTaskJsonFile exPortToRemove = null; 
+        for (PortTaskJsonFile exPort : externalPorts) {
+            if (exPort.getName().equals(port)) {
+                exPortToRemove = exPort;
+            }
+        }
+        externalPorts.remove(exPortToRemove);
+    }
+
+    public static LinkedHashMap<String, TaskPattern> getPatternTasksLeft(LinkedHashMap<String, TaskPattern> _patternTasksAll, List<PatternConnection> patternConnections) {
+        LinkedHashMap<String, TaskPattern> patternTasksLeft = new LinkedHashMap<String, TaskPattern>(_patternTasksAll);
+        for (PatternConnection patternConnection: patternConnections) {
+            if (patternTasksLeft.containsKey(patternConnection.getPatternTaskName())) {
+                patternTasksLeft.get(patternConnection.getModelTaskName()).removeExternalPort(patternConnection.getPatternChannel());
+                if (patternTasksLeft.get(patternConnection.getModelTaskName()).getExternalPorts().size() == 0) {
+                    patternTasksLeft.remove(patternConnection.getModelTaskName());
+                }
+            }
+        }
+        return patternTasksLeft;
+    }
+    public PortTaskJsonFile getExternalPortByName(String portName) {
+        for (PortTaskJsonFile exPort : externalPorts) {
+            if (exPort.getName().equals(portName)) {
+                return exPort;
+            }
+        }
+        return null;
+    }
 }

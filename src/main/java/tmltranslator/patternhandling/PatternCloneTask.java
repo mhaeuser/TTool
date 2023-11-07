@@ -8,6 +8,8 @@ package tmltranslator.patternhandling;
  * @version 1.0 25/10/2023
  */
  
+import java.util.List;
+
 import tmltranslator.*;
 
  
@@ -44,4 +46,12 @@ public class PatternCloneTask {
         
     }
   
+    public static PatternCloneTask isAClonedTask(List<PatternCloneTask> clonedTasks, String taskName) {
+        for (PatternCloneTask patternCloneTask : clonedTasks) {
+            if (patternCloneTask.getClonedTask().equals(taskName)) {
+                return patternCloneTask;
+            }
+        }
+        return null;
+    }
 }

@@ -41,6 +41,7 @@ package avatartranslator.directsimulation;
 
 import avatartranslator.*;
 import avatartranslator.intboolsolver.AvatarIBSExpressions;
+import avatartranslator.intboolsolver.AvatarIBSStdParser;
 import avatartranslator.intboolsolver.AvatarIBSolver;
 import avatartranslator.modelchecker.SpecificationBlock;
 import myutil.*;

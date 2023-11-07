@@ -40,6 +40,7 @@
 package avatartranslator.directsimulation;
 
 import avatartranslator.*;
+import avatartranslator.intboolsolver.AvatarIBSolver;
 import myutil.CSVObject;
 import myutil.TraceManager;
 
@@ -177,6 +178,9 @@ public class AvatarSpecificationSimulation {
 
         // Robustness
         avspec.makeRobustness();
+
+        // Reset parser
+        AvatarIBSolver.clearAttributes();
 
         // remove FIFOs
         //avspec.removeFIFOs(2);

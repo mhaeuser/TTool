@@ -8,6 +8,10 @@ package tmltranslator.patternhandling;
  * @version 1.0 25/10/2023
  */
  
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+
 import tmltranslator.*;
 
  
@@ -77,5 +81,47 @@ public class MappingPatternTask {
             return (taskToMapName + MAP_TASK_IN_NEW_HW_SEPARATOR + busNameForNewHw);
         }
     }
+
+    public static List<MappingPatternTask> getTasksToMap(LinkedHashMap<String, TaskPattern> _allPatternTasks, List<String> _cloneTasks) {
+        List<MappingPatternTask> tasksToMap = new ArrayList<MappingPatternTask>();
+        for (String taskPattern : _allPatternTasks.keySet()) {
+            MappingPatternTask taskToMap = new MappingPatternTask(taskPattern, ORIGIN_PATTERN);
+            tasksToMap.add(taskToMap);
+        }
+        for (String taskClone : _cloneTasks) {
+            MappingPatternTask taskToMap = new MappingPatternTask(taskClone, ORIGIN_CLONE);
+            tasksToMap.add(taskToMap);
+        }
+        return tasksToMap;
+    }
+
+    public static List<MappingPatternTask> getTasksLeftToMap(List<MappingPatternTask> _mappedTasks, List<MappingPatternTask> _allTasksToMap) {
+        List<MappingPatternTask> tasksLeftToMap = new ArrayList<MappingPatternTask>();
+        for (MappingPatternTask taskToMap : _allTasksToMap) {
+            boolean isLeftToMap = true;
+            for (MappingPatternTask mappedTask : _mappedTasks) {
+                if (taskToMap.getTaskToMapName().equals(mappedTask.getTaskToMapName())) {
+                    isLeftToMap = false;
+                    break;
+                }
+            }
+            if (isLeftToMap) {
+                tasksLeftToMap.add(taskToMap);
+            }
+        }
+        return tasksLeftToMap;
+    }
     
+    // public static List<String> getListTasksToMapWith(List<MappingPatternTask> _mappedTasks, List<String> _cloneTasks) {
+    //     List<MappingPatternTask> tasksToMap = new ArrayList<MappingPatternTask>();
+    //     for (String taskPattern : _allPatternTasks.keySet()) {
+    //         MappingPatternTask taskToMap = new MappingPatternTask(taskPattern, ORIGIN_PATTERN);
+    //         tasksToMap.add(taskToMap);
+    //     }
+    //     for (String taskClone : _cloneTasks) {
+    //         MappingPatternTask taskToMap = new MappingPatternTask(taskClone, ORIGIN_CLONE);
+    //         tasksToMap.add(taskToMap);
+    //     }
+    //     return tasksToMap;
+    // }
 }

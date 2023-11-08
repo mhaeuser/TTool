@@ -44,6 +44,7 @@ public class TaskPattern {
     }
 
     public static LinkedHashMap<String, TaskPattern> parsePatternJsonFile(String pathPatternFoler, String fileName) {
+        TraceManager.addDev("path=" + pathPatternFoler+"/"+fileName);
         Path jsonFilePath = Path.of(pathPatternFoler+"/"+fileName);
         String jsonFilecontent = "";
         LinkedHashMap<String, TaskPattern> tasksPattern = new LinkedHashMap<String, TaskPattern>();
@@ -119,11 +120,16 @@ public class TaskPattern {
 
     public static LinkedHashMap<String, TaskPattern> getPatternTasksLeft(LinkedHashMap<String, TaskPattern> _patternTasksAll, List<PatternConnection> patternConnections) {
         LinkedHashMap<String, TaskPattern> patternTasksLeft = new LinkedHashMap<String, TaskPattern>(_patternTasksAll);
+        for (String taskPattern: _patternTasksAll.keySet()) {
+            if (_patternTasksAll.get(taskPattern).getExternalPorts().size() == 0) {
+                patternTasksLeft.remove(taskPattern);
+            }
+        }
         for (PatternConnection patternConnection: patternConnections) {
             if (patternTasksLeft.containsKey(patternConnection.getPatternTaskName())) {
-                patternTasksLeft.get(patternConnection.getModelTaskName()).removeExternalPort(patternConnection.getPatternChannel());
-                if (patternTasksLeft.get(patternConnection.getModelTaskName()).getExternalPorts().size() == 0) {
-                    patternTasksLeft.remove(patternConnection.getModelTaskName());
+                patternTasksLeft.get(patternConnection.getPatternTaskName()).removeExternalPort(patternConnection.getPatternChannel());
+                if (patternTasksLeft.get(patternConnection.getPatternTaskName()).getExternalPorts().size() == 0) {
+                    patternTasksLeft.remove(patternConnection.getPatternTaskName());
                 }
             }
         }

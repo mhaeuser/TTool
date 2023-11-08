@@ -164,4 +164,21 @@ public class MappingPatternChannel {
 
         return mappingPatternChannels;
     }
+
+    public static List<MappingPatternChannel> getChannelsLeftToMap(List<MappingPatternChannel> _mappedChannels, List<MappingPatternChannel> _allChannelsToMap) {
+        List<MappingPatternChannel> channelsLeftToMap = new ArrayList<MappingPatternChannel>();
+        for (MappingPatternChannel channelToMap : _allChannelsToMap) {
+            boolean isLeftToMap = true;
+            for (MappingPatternChannel mappedChannel : _mappedChannels) {
+                if (channelToMap.getChannelToMapName().equals(mappedChannel.getChannelToMapName()) && channelToMap.getTaskOfChannelToMap().equals(mappedChannel.getTaskOfChannelToMap())) {
+                    isLeftToMap = false;
+                    break;
+                }
+            }
+            if (isLeftToMap) {
+                channelsLeftToMap.add(channelToMap);
+            }
+        }
+        return channelsLeftToMap;
+    }
 }

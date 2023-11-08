@@ -1,6 +1,9 @@
 package cli;
 
 import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -8,12 +11,18 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Vector;
 
+
+import myutil.TraceManager;
+import tmltranslator.HwNode;
+import tmltranslator.TMLChannel;
+import tmltranslator.TMLEvent;
 import tmltranslator.TMLMapping;
 import tmltranslator.TMLMappingTextSpecification;
-import tmltranslator.TMLModeling;
+import tmltranslator.TMLRequest;
 import tmltranslator.TMLTask;
 import tmltranslator.patternhandling.AttributeTaskJsonFile;
 import tmltranslator.patternhandling.MappingPatternChannel;
+import tmltranslator.patternhandling.MappingPatternTask;
 import tmltranslator.patternhandling.PatternChannelWithSecurity;
 import tmltranslator.patternhandling.PatternCloneTask;
 import tmltranslator.patternhandling.PatternConfiguration;
@@ -43,16 +52,24 @@ public class PatternHandling extends Command {
     private final static String TASK_TO_CLONE_NOT_EXIST = "Task to clone does not exist";
     private final static String TASK_NOT_EXIST = "Task does not exist";
     private final static String PATTERN_TASK_NOT_EXIST = "Pattern task does not exist or all its external ports are already connected";
-    private final static String PATTERN_PORT_NOT_EXIST = "Pattern port does not exist or its already connected";
+    private final static String PATTERN_PORT_NOT_EXIST = "Pattern port does not exist or it's already connected";
     private final static String MODEL_TASK_NOT_EXIST = "Model task does not exist";
     private final static String MODEL_PORT_NOT_EXIST = "Model port does not exist or its already used";
+    private final static String MODEL_PORT_CONFIG_NOT_EXIST = "Model port does not exist or it's already configured";
+    private final static String MODEL_PORT_MERGE_WITH_NOT_EXIST = "Model port to merge with does not exist or can't be used";
     private final static String PORTS_TYPES_NOT_MATCH = "The selected port in pattern side does not match with the selected port in the model side";
     private final static String ATTRIBUTE_NOT_EXIST = "Attribute does not exist";
     private final static String VALUE_BAD = "Unreadable value";
+    private final static String TASK_TO_MAP_NOT_EXIST = "Task to map does not exist or it's already mapped";
+    private final static String TASK_IN_SAME_HW_MAP_NOT_EXIST = "Selected task in same HW does not exist or can't be used";
+    private final static String CHANNEL_TO_MAP_NOT_EXIST = "Channel to map does not exist or it's already mapped";
+    private final static String CHANNEL_IN_SAME_MEM_MAP_NOT_EXIST = "Selected channel in same memory does not exist or can't be used";
+    private final static String BUS_NOT_EXIST = "Bus does not exist";
+    private final static String CONFIG_JSON_FILE_NOT_EXIST = "Config json file does not exist";
     // PatternHandling commands
-    private final static String CREATE = "create";
-    private final static String CONFIGURE = "select-configure";
-    private final static String INTEGRATE = "integrate";
+    private final static String CREATE = "create-pattern";
+    private final static String CONFIGURE = "configure-pattern";
+    private final static String INTEGRATE = "apply-pattern";
     private final static String DIPLO_LOAD_TMAP = "diplodocus-load-tmap";
 
     private TMLMapping<?> tmap;
@@ -64,9 +81,14 @@ public class PatternHandling extends Command {
     private String selectedPatternPath, selectedPatternName;
     private PatternConfiguration patternConfiguration = new PatternConfiguration();
     LinkedHashMap<String, TaskPattern> patternTasksAll, patternTasksLeft;
-    LinkedHashMap<String, TaskPorts> portsTaskOfModelAll;// = new LinkedHashMap<String, TaskPorts>();
-    LinkedHashMap<String, TaskPorts> portsTaskModelLeft;// = new LinkedHashMap<String, TaskPorts>();
-        
+    LinkedHashMap<String, TaskPorts> portsTaskOfModelAll = new LinkedHashMap<String, TaskPorts>();
+    LinkedHashMap<String, TaskPorts> portsTaskModelLeft;
+    List<PatternPortsConfig> portsLeftToConfig;
+    List<MappingPatternTask> tasksLeftToMap;
+    List<MappingPatternChannel> channelsLeftToMap;
+
+    private String selectedPatternToIntergrate, selectedJsonFilePath;
+
     public PatternHandling() {
 
     }
@@ -247,7 +269,7 @@ public class PatternHandling extends Command {
 
         // Create Pattern
         Command configurePattern = new Command() {
-            final String [] options = {"-s", "-p", "-sp", "-ct", "-ctr", "-co", "-cor", "-col", "-plnc", "-pl", "-t", "-cpl", "-cpd","-cpm","-cpr","-tcl","-tcm", "-tcn", "-tcr", "-mcl", "-mcm", "-mcn", "-mcr", "-ua", "-m"};
+            final String [] options = {"-s", "-p", "-sp", "-ct", "-ctr", "-co", "-cor", "-col", "-plnc", "-pl", "-t", "-cptl", "-cpd", "-cpm", "-cpml", "-cpr", "-cpl", "-tctl", "-tcm", "-tcml", "-tcn", "-tcr", "-tcl", "-mctl", "-mcm", "-mcml", "-mcn", "-mcr", "-mcl", "-ua", "-m"};
             public String getCommand() {
                 return CONFIGURE;
             }
@@ -274,18 +296,24 @@ public class PatternHandling extends Command {
                 + "-plnc \tget the list of pattern's ports that are not yet connected\n"
                 + "-pl TASK.PORT \tget list of available ports in model that could be used to connect with PORT (pattern side)\n"
                 + "-t \tget all tasks of the model\n"
-                + "-cpl \tget list of ports to be configured\n"
+                + "-cptl \tget list of ports to be configured\n"
                 + "-cpd [TASK.PORT] [ALL]\tchoose removing PORT as decision (or ALL to remove all the ports)\n"
                 + "-cpm TASK.PORT1 PORT2\tchoose merging PORT1 with PORT2 as decision\n"
+                + "-cpml TASK.PORT\tget list of ports that can be merge with TASK.PORT\n"
                 + "-cpr TASK.PORT\tremove the configuration decision for PORT\n"
-                + "-tcl \tget list of tasks to be mapped \n"
+                + "-cpl \tget list of configured ports\n"
+                + "-tctl \tget list of tasks to be mapped \n"
                 + "-tcm TASK1 TASK2\tmap TASK1 in same CPU as TASK2\n"
+                + "-tcml\tmap get list of tasks that can be used to map in same CPU\n"
                 + "-tcn TASK BUS\tmap TASK in new CPU linked to bus BUS\n"
                 + "-tcr TASK\tremove the mapping of TASK\n"
-                + "-mcl \tmap get list of channels to be mapped \n"
+                + "-tcl \tget list of mapped tasks\n"
+                + "-mctl \tmap get list of channels to be mapped\n"
                 + "-mcm TASK1.CHANNEL1 TASK2.CHANNEL2\tmap CHANNEL1 in same memory and buses as CHANNEL2\n"
+                + "-mcml\tmap get list of channels that can be used to map in same Memory\n"
                 + "-mcn TASK.CHANNEL BUS\tmap CHANNEL in new memory linked to bus BUS\n"
                 + "-mcr TASK.CHANNEL\tremove the mapping of CHANNEL\n"
+                + "-mcl \tmap get list of mapped channels\n"
                 + "-ua TASK ATTRIBUTE VALUE \tput the value VALUE of attribute ATTRIBUTE of the task TASK\n"
                 + "-m \tmake the configuration of the pattern\n";
             }
@@ -304,7 +332,21 @@ public class PatternHandling extends Command {
                         for (TMLTask task : tmap.getTMLModeling().getTasks()) {
                             String[] taskNameSplit = task.getName().split("__");
                             allTasksOfModel.add(taskNameSplit[taskNameSplit.length-1]);
+                            task.setName(taskNameSplit[taskNameSplit.length-1]);
                         }
+                        for (TMLChannel ch : tmap.getTMLModeling().getChannels()) {
+                            String[] chNameSplit = ch.getName().split("__");
+                            ch.setName(chNameSplit[chNameSplit.length-1]);
+                        }
+                        for (TMLEvent evt : tmap.getTMLModeling().getEvents()) {
+                            String[] evtNameSplit = evt.getName().split("__");
+                            evt.setName(evtNameSplit[evtNameSplit.length-1]);
+                        }
+                        for (TMLRequest req : tmap.getTMLModeling().getRequests()) {
+                            String[] reqNameSplit = req.getName().split("__");
+                            req.setName(reqNameSplit[reqNameSplit.length-1]);
+                        }
+
                     }
                 }
 
@@ -324,10 +366,8 @@ public class PatternHandling extends Command {
                             listPatterns = getFoldersName(patternsPath);
                             if (listPatterns.contains(argumentsOfOption.get(0))) {
                                 selectedPatternName = argumentsOfOption.get(0);
-                                patternTasksAll = TaskPattern.parsePatternJsonFile(patternsPath+"/"+patternName, patternName+".json");
-                                //patternTasksLeft = TaskPattern.parsePatternJsonFile(patternsPath+"/"+patternName, patternName+".json");
+                                patternTasksAll = TaskPattern.parsePatternJsonFile(patternsPath+selectedPatternName, selectedPatternName+".json");
                                 portsTaskOfModelAll = TaskPorts.getListPortsTask(tmap.getTMLModeling());
-                                //portsTaskOfModelLeft = TaskPorts.getListPortsTask(tmap.getTMLModeling());
                             } else {
                                 //selectedPatternName = null;
                                 return PATTERN_NOT_EXIST;
@@ -391,7 +431,9 @@ public class PatternHandling extends Command {
                             
                             PatternCloneTask patterClone = new PatternCloneTask(clonedTask, selectedTaskToClone);
                             patternConfiguration.addClonedTasks(patterClone);
-                            
+                            for (String t : portsTaskOfModelAll.keySet()) {
+                                TraceManager.addDev("t =" + t );
+                            }
                             //portsTaskOfModelLeft.put(clonedTask, TaskPorts.cloneTaskPort(portsTaskOfModelAll.get(selectedTaskToClone)));
                             portsTaskOfModelAll.put(clonedTask, TaskPorts.cloneTaskPort(portsTaskOfModelAll.get(selectedTaskToClone)));
                             
@@ -459,7 +501,7 @@ public class PatternHandling extends Command {
                             int auth = -1;
                             for (int ind = 0; ind < argumentsOfOption.size(); ind++) {
                                 if (ind == 0) {
-                                    String[] taskPort = argumentsOfOption.get(ind).split(".");
+                                    String[] taskPort = argumentsOfOption.get(ind).split("\\.");
                                     if (taskPort.length == 2) {
                                         patternTask = taskPort[0];
                                         patternPort = taskPort[1];
@@ -467,7 +509,7 @@ public class PatternHandling extends Command {
                                         return Interpreter.BAD;
                                     }
                                 } else if (ind == 1) {
-                                    String[] taskPort = argumentsOfOption.get(ind).split(".");
+                                    String[] taskPort = argumentsOfOption.get(ind).split("\\.");
                                     if (taskPort.length == 2) {
                                         modelTask = taskPort[0];
                                         modelPort = taskPort[1];
@@ -505,22 +547,25 @@ public class PatternHandling extends Command {
                             } else {
                                 return MODEL_TASK_NOT_EXIST;
                             }
-                            if (portModelType == 0) {
+                            if (portModelType == 0 && !isNewPort) {
                                 return MODEL_PORT_NOT_EXIST;
                             }
                             boolean samePortType = false;
-                            if (portPattern.getType().equals(PatternCreation.CHANNEL) && portPattern.getMode().equals(PatternCreation.MODE_INPUT) && portModelType == TaskPorts.WRITE_CHANNEL) {
-                                samePortType = true;
-                            } else if (portPattern.getType().equals(PatternCreation.CHANNEL) && portPattern.getMode().equals(PatternCreation.MODE_OUTPUT) && portModelType == TaskPorts.READ_CHANNEL) {
-                                samePortType = true;
-                            } else if (portPattern.getType().equals(PatternCreation.EVENT) && portPattern.getMode().equals(PatternCreation.MODE_INPUT) && portModelType == TaskPorts.SEND_EVENT) {
-                                samePortType = true;
-                            } else if (portPattern.getType().equals(PatternCreation.EVENT) && portPattern.getMode().equals(PatternCreation.MODE_OUTPUT) && portModelType == TaskPorts.WAIT_EVENT) {
-                                samePortType = true;
-                            } else {
-                                return PORTS_TYPES_NOT_MATCH;
+                            if (!isNewPort) {
+                                if (portPattern.getType().equals(PatternCreation.CHANNEL) && portPattern.getMode().equals(PatternCreation.MODE_INPUT) && portModelType == TaskPorts.WRITE_CHANNEL) {
+                                    samePortType = true;
+                                } else if (portPattern.getType().equals(PatternCreation.CHANNEL) && portPattern.getMode().equals(PatternCreation.MODE_OUTPUT) && portModelType == TaskPorts.READ_CHANNEL) {
+                                    samePortType = true;
+                                } else if (portPattern.getType().equals(PatternCreation.EVENT) && portPattern.getMode().equals(PatternCreation.MODE_INPUT) && portModelType == TaskPorts.SEND_EVENT) {
+                                    samePortType = true;
+                                } else if (portPattern.getType().equals(PatternCreation.EVENT) && portPattern.getMode().equals(PatternCreation.MODE_OUTPUT) && portModelType == TaskPorts.WAIT_EVENT) {
+                                    samePortType = true;
+                                } else {
+                                    return PORTS_TYPES_NOT_MATCH;
+                                }
                             }
-                            if (samePortType) {
+                            
+                            if (samePortType || isNewPort) {
                                 if (isConf) {
                                     portPattern.setConfidentiality(PatternCreation.WITH_CONFIDENTIALITY);
                                 }
@@ -568,7 +613,7 @@ public class PatternHandling extends Command {
                             List<PatternConnection> patternConnectionsToRemove = new ArrayList<PatternConnection>();
                             for (String argumentOfOption : argumentsOfOption) {
                                 String patternTaskToRemove = null, patternPortToRemove = null;
-                                String[] taskPortToRemove = argumentOfOption.split(".");
+                                String[] taskPortToRemove = argumentOfOption.split("\\.");
                                 boolean taskPortExist = false;
                                 if (taskPortToRemove.length == 2) {
                                     patternTaskToRemove = taskPortToRemove[0];
@@ -610,6 +655,9 @@ public class PatternHandling extends Command {
                                 argumentsOfOption.add(commands[i+1]);
                                 i += 1;
                             }
+                            for (String arg : argumentsOfOption) {
+                                TraceManager.addDev("arg=" + arg);
+                            }
                             if (argumentsOfOption.size() != 1) {
                                 return Interpreter.BAD;
                             }
@@ -617,13 +665,16 @@ public class PatternHandling extends Command {
                                 return NO_PATTERN_SELECTED;
                             }
                             String patternTaskSelected = null, patternPortSelected = null;
-                            String[] taskPort = argumentsOfOption.get(0).split(".");
+                            String[] taskPort = argumentsOfOption.get(0).split("\\.");
+                            TraceManager.addDev("taskPort.length=" + taskPort.length);
                             if (taskPort.length == 2) {
                                 patternTaskSelected = taskPort[0];
                                 patternPortSelected = taskPort[1];
                             } else {
                                 return Interpreter.BAD;
                             }
+                            TraceManager.addDev("patternTaskSelected=" +patternTaskSelected);
+                            TraceManager.addDev("patternPortSelected=" +patternPortSelected);
                             patternTasksLeft = TaskPattern.getPatternTasksLeft(patternTasksAll, patternConfiguration.getPortsConnection());
                             portsTaskModelLeft = TaskPorts.getPortsTaskOfModelLeft(portsTaskOfModelAll, patternConfiguration.getPortsConnection());
                             PortTaskJsonFile portPatternSelected;
@@ -676,6 +727,185 @@ public class PatternHandling extends Command {
                             }
                             interpreter.print(printTasks);
                             break;    
+                        case "-cptl":
+                            while (i+1 < commands.length && !Arrays.asList(options).contains(commands[i+1])) {
+                                argumentsOfOption.add(commands[i+1]);
+                                i += 1;
+                            }
+                            if (argumentsOfOption.size() != 0) {
+                                return Interpreter.BAD;
+                            }
+                            patternTasksLeft = TaskPattern.getPatternTasksLeft(patternTasksAll, patternConfiguration.getPortsConnection());
+                            
+                            if (patternTasksLeft.keySet().size() != 0) {
+                                return PATTERN_NOT_CONNECTED;
+                            }
+
+                            portsTaskModelLeft = TaskPorts.getPortsTaskOfModelLeft(portsTaskOfModelAll, patternConfiguration.getPortsConnection());
+                            portsLeftToConfig = PatternPortsConfig.getPortsLeftToConfig(portsTaskOfModelAll, portsTaskModelLeft, patternConfiguration.getClonedTasksName(), patternConfiguration.getPortsConfig(), tmap.getTMLModeling());
+                            interpreter.print("The ports that need to be configured are :");
+                            for (PatternPortsConfig portToConfig : portsLeftToConfig) {
+                                interpreter.print(portToConfig.getTaskOfChannelToConfig() + "." + portToConfig.getChannelToConfig());
+                            }
+                            
+                            break;
+                        case "-cpd":
+                            while (i+1 < commands.length && !Arrays.asList(options).contains(commands[i+1])) {
+                                argumentsOfOption.add(commands[i+1]);
+                                i += 1;
+                            }
+                            if (argumentsOfOption.size() == 0) {
+                                return Interpreter.BAD;
+                            }
+                            patternTasksLeft = TaskPattern.getPatternTasksLeft(patternTasksAll, patternConfiguration.getPortsConnection());
+                            if (patternTasksLeft.keySet().size() != 0) {
+                                return PATTERN_NOT_CONNECTED;
+                            }
+                            for (String argumentOfOption : argumentsOfOption) {
+                                if (argumentOfOption.equals("ALL")) {
+                                    portsTaskModelLeft = TaskPorts.getPortsTaskOfModelLeft(portsTaskOfModelAll, patternConfiguration.getPortsConnection());
+                                    portsLeftToConfig = PatternPortsConfig.getPortsLeftToConfig(portsTaskOfModelAll, portsTaskModelLeft, patternConfiguration.getClonedTasksName(), patternConfiguration.getPortsConfig(), tmap.getTMLModeling());
+                                    for (PatternPortsConfig portConfig : portsLeftToConfig) {
+                                        portConfig.setIsChannelToRemove(true);
+                                        patternConfiguration.getPortsConfig().add(portConfig);
+                                    }
+                                } else {
+                                    String modelTaskToConfig = null, modelPortToConfig = null;
+                                    String[] taskPortToConfig = argumentOfOption.split("\\.");
+                                    if (taskPortToConfig.length == 2) {
+                                        modelTaskToConfig = taskPortToConfig[0];
+                                        modelPortToConfig = taskPortToConfig[1];
+                                        portsTaskModelLeft = TaskPorts.getPortsTaskOfModelLeft(portsTaskOfModelAll, patternConfiguration.getPortsConnection());
+                                        portsLeftToConfig = PatternPortsConfig.getPortsLeftToConfig(portsTaskOfModelAll, portsTaskModelLeft, patternConfiguration.getClonedTasksName(), patternConfiguration.getPortsConfig(), tmap.getTMLModeling());
+                                        boolean isConfigured = false;
+                                        for (PatternPortsConfig portConfig : portsLeftToConfig) {
+                                            if (portConfig.getTaskOfChannelToConfig().equals(modelTaskToConfig) && portConfig.getChannelToConfig().equals(modelPortToConfig)) {
+                                                portConfig.setIsChannelToRemove(true);
+                                                patternConfiguration.getPortsConfig().add(portConfig);
+                                                isConfigured = true;
+                                                break;
+                                            }
+                                        }
+                                        if (!isConfigured) {
+                                            return MODEL_PORT_CONFIG_NOT_EXIST;
+                                        }
+                                    } else {
+                                        return Interpreter.BAD;
+                                    }
+                                }
+                            }
+                            break;
+                        case "-cpm":
+                            while (i+1 < commands.length && !Arrays.asList(options).contains(commands[i+1])) {
+                                argumentsOfOption.add(commands[i+1]);
+                                i += 1;
+                            }
+                            if (argumentsOfOption.size() != 2) {
+                                return Interpreter.BAD;
+                            }
+                            patternTasksLeft = TaskPattern.getPatternTasksLeft(patternTasksAll, patternConfiguration.getPortsConnection());
+                            if (patternTasksLeft.keySet().size() != 0) {
+                                return PATTERN_NOT_CONNECTED;
+                            }
+                            PatternPortsConfig portToConfig = null;
+                            String modelTaskToConfig = null, modelPortToConfig = null;
+                            for (int ind = 0; ind < argumentsOfOption.size(); ind++) {
+                                if (ind == 0) {
+                                    String[] taskPortToConfig = argumentsOfOption.get(ind).split("\\.");
+                                    if (taskPortToConfig.length == 2) {
+                                        modelTaskToConfig = taskPortToConfig[0];
+                                        modelPortToConfig = taskPortToConfig[1];
+                                        portsTaskModelLeft = TaskPorts.getPortsTaskOfModelLeft(portsTaskOfModelAll, patternConfiguration.getPortsConnection());
+                                        portsLeftToConfig = PatternPortsConfig.getPortsLeftToConfig(portsTaskOfModelAll, portsTaskModelLeft, patternConfiguration.getClonedTasksName(), patternConfiguration.getPortsConfig(), tmap.getTMLModeling());
+                                        boolean isConfigured = false;
+                                        for (PatternPortsConfig portConfig : portsLeftToConfig) {
+                                            if (portConfig.getTaskOfChannelToConfig().equals(modelTaskToConfig) && portConfig.getChannelToConfig().equals(modelPortToConfig)) {
+                                                portToConfig = portConfig;
+                                                isConfigured = true;
+                                                break;
+                                            }
+                                        }
+                                        if (!isConfigured) {
+                                            return MODEL_PORT_CONFIG_NOT_EXIST;
+                                        }
+                                    } else {
+                                        return Interpreter.BAD;
+                                    }
+                                } else if (ind == 1) {
+                                    if (portToConfig != null) {
+                                        List<PatternPortsConfig> portsToConfig = PatternPortsConfig.getPortsToConfig(portsTaskOfModelAll, portsTaskModelLeft, patternConfiguration.getClonedTasksName(), tmap.getTMLModeling());
+                                        List<String> portsCanBeMergedWith = PatternPortsConfig.getPortsCanBeMergedWith(portsTaskOfModelAll, portsToConfig, modelTaskToConfig);
+                                        if (portsCanBeMergedWith.contains(argumentsOfOption.get(ind))) {
+                                            portToConfig.setMergeWith(argumentsOfOption.get(ind));
+                                            patternConfiguration.getPortsConfig().add(portToConfig);
+                                        } else {
+                                            return MODEL_PORT_MERGE_WITH_NOT_EXIST;
+                                        }
+                                    }
+                                }
+                            }
+                            break;
+                        case "-cpml":
+                            while (i+1 < commands.length && !Arrays.asList(options).contains(commands[i+1])) {
+                                argumentsOfOption.add(commands[i+1]);
+                                i += 1;
+                            }
+                            if (argumentsOfOption.size() != 1) {
+                                return Interpreter.BAD;
+                            }
+                            patternTasksLeft = TaskPattern.getPatternTasksLeft(patternTasksAll, patternConfiguration.getPortsConnection());
+                            if (patternTasksLeft.keySet().size() != 0) {
+                                return PATTERN_NOT_CONNECTED;
+                            }
+                            String[] taskPortToConfig = argumentsOfOption.get(0).split("\\.");
+                            if (taskPortToConfig.length == 2) {
+                                if (!portsTaskOfModelAll.containsKey(taskPortToConfig[0])) {
+                                    return TASK_NOT_EXIST;
+                                }
+                                portsTaskModelLeft = TaskPorts.getPortsTaskOfModelLeft(portsTaskOfModelAll, patternConfiguration.getPortsConnection());
+                                List<PatternPortsConfig> portsToConfig = PatternPortsConfig.getPortsToConfig(portsTaskOfModelAll, portsTaskModelLeft, patternConfiguration.getClonedTasksName(), tmap.getTMLModeling());
+                                List<String> portsCanBeMergedWith = PatternPortsConfig.getPortsCanBeMergedWith(portsTaskOfModelAll, portsToConfig, taskPortToConfig[0]);
+                                interpreter.print("List of ports that can be merge with " + taskPortToConfig[0] +"." + taskPortToConfig[1] +":");
+                                for (String portCanBeMergedWith : portsCanBeMergedWith) {
+                                    interpreter.print(portCanBeMergedWith);
+                                }
+                            } else {
+                                return Interpreter.BAD;
+                            }
+                            break;
+                        case "-cpr":
+                            while (i+1 < commands.length && !Arrays.asList(options).contains(commands[i+1])) {
+                                argumentsOfOption.add(commands[i+1]);
+                                i += 1;
+                            }
+                            if (argumentsOfOption.size() == 0) {
+                                return Interpreter.BAD;
+                            }
+                            patternTasksLeft = TaskPattern.getPatternTasksLeft(patternTasksAll, patternConfiguration.getPortsConnection());
+                            if (patternTasksLeft.keySet().size() != 0) {
+                                return PATTERN_NOT_CONNECTED;
+                            }
+                            List<PatternPortsConfig> patternPortsConfigToRemove = new ArrayList<PatternPortsConfig>();
+                            for (int ind = 0; ind < argumentsOfOption.size(); ind++) {
+                                String[] taskPortToRemove = argumentsOfOption.get(ind).split("\\.");
+                                if (taskPortToRemove.length == 2) {
+                                    boolean isPortConfigToRemoveExist = false;
+                                    for (PatternPortsConfig patternPortsConfig : patternConfiguration.getPortsConfig()) {
+                                        if (patternPortsConfig.getTaskOfChannelToConfig().equals(taskPortToRemove[0]) && patternPortsConfig.getChannelToConfig().equals(taskPortToRemove[1])) {
+                                            patternPortsConfigToRemove.add(patternPortsConfig);
+                                            isPortConfigToRemoveExist = true;
+                                            break;
+                                        }
+                                    }
+                                    if (!isPortConfigToRemoveExist) {
+                                        interpreter.print(argumentsOfOption.get(ind) + " does not exist, it will not be removed.");
+                                    }
+                                } else {
+                                    interpreter.print(argumentsOfOption.get(ind) + ": " + Interpreter.BAD);
+                                }
+                            }
+                            patternConfiguration.getPortsConfig().removeAll(patternPortsConfigToRemove);
+                            break;
                         case "-cpl":
                             while (i+1 < commands.length && !Arrays.asList(options).contains(commands[i+1])) {
                                 argumentsOfOption.add(commands[i+1]);
@@ -684,31 +914,205 @@ public class PatternHandling extends Command {
                             if (argumentsOfOption.size() != 0) {
                                 return Interpreter.BAD;
                             }
-                            
                             patternTasksLeft = TaskPattern.getPatternTasksLeft(patternTasksAll, patternConfiguration.getPortsConnection());
                             if (patternTasksLeft.keySet().size() != 0) {
                                 return PATTERN_NOT_CONNECTED;
                             }
-                            List<String> clonedTasksAll = new ArrayList<String>();
-                            for (PatternCloneTask cloneT : patternConfiguration.getClonedTasks()) {
-                                clonedTasksAll.add(cloneT.getClonedTask());
+                            interpreter.print("List of configured ports:");
+                            for (PatternPortsConfig patternPortsConfig : patternConfiguration.getPortsConfig()) {
+                                interpreter.print(patternPortsConfig.getStringDisplay());
                             }
-                            portsTaskModelLeft = TaskPorts.getPortsTaskOfModelLeft(portsTaskOfModelAll, patternConfiguration.getPortsConnection());
-                            List<PatternPortsConfig> portsToConfig = PatternPortsConfig.getPortsToConfig(portsTaskOfModelAll, portsTaskModelLeft, clonedTasksAll, tmap.getTMLModeling());
-                            interpreter.print("The ports that need to be configured are :");
-                            for (PatternPortsConfig portToConfig : portsToConfig) {
-                                boolean isToConfig = true;
-                                for (PatternPortsConfig portConfigured : patternConfiguration.getPortsConfig()) {
-                                    if (portToConfig.getTaskOfChannelToConfig().equals(portConfigured.getTaskOfChannelToConfig()) && portToConfig.getChannelToConfig().equals(portConfigured.getChannelToConfig())) {
-                                        isToConfig = false;
+                            break;
+                        case "-tctl":
+                            while (i+1 < commands.length && !Arrays.asList(options).contains(commands[i+1])) {
+                                argumentsOfOption.add(commands[i+1]);
+                                i += 1;
+                            }
+                            if (argumentsOfOption.size() != 0) {
+                                return Interpreter.BAD;
+                            }
+                            patternTasksLeft = TaskPattern.getPatternTasksLeft(patternTasksAll, patternConfiguration.getPortsConnection());
+                            if (patternTasksLeft.keySet().size() != 0) {
+                                return PATTERN_NOT_CONNECTED;
+                            }
+                            tasksLeftToMap = MappingPatternTask.getTasksLeftToMap(patternConfiguration.getTasksMapping(), MappingPatternTask.getTasksToMap(patternTasksAll, patternConfiguration.getClonedTasksName()));
+                            interpreter.print("The tasks that need to be mapped are :");
+                            for (MappingPatternTask taskMap : tasksLeftToMap) {
+                                interpreter.print(taskMap.getTaskToMapName());
+                            }
+                            break;
+                        case "-tcm":
+                            while (i+1 < commands.length && !Arrays.asList(options).contains(commands[i+1])) {
+                                argumentsOfOption.add(commands[i+1]);
+                                i += 1;
+                            }
+                            if (argumentsOfOption.size() != 2) {
+                                return Interpreter.BAD;
+                            }
+                            patternTasksLeft = TaskPattern.getPatternTasksLeft(patternTasksAll, patternConfiguration.getPortsConnection());
+                            if (patternTasksLeft.keySet().size() != 0) {
+                                return PATTERN_NOT_CONNECTED;
+                            }
+                            List<MappingPatternTask> allTasksToMap = MappingPatternTask.getTasksToMap(patternTasksAll, patternConfiguration.getClonedTasksName());
+                            tasksLeftToMap = MappingPatternTask.getTasksLeftToMap(patternConfiguration.getTasksMapping(), allTasksToMap);
+                            boolean taskToMapExist = false;
+                            MappingPatternTask taskToMap = null; 
+                            for (MappingPatternTask taskMap : tasksLeftToMap) {
+                                if (taskMap.getTaskToMapName().equals(argumentsOfOption.get(0))) {
+                                    taskToMap = taskMap;
+                                    taskToMapExist = true;
+                                    break;
+                                }
+                            }
+                            if (!taskToMapExist) {
+                                return TASK_TO_MAP_NOT_EXIST;
+                            }
+                            boolean taskSameHwExist = false;
+                            int originSameTask = 0;
+                            if (allTasksOfModel.contains(argumentsOfOption.get(1))) {
+                                taskSameHwExist = true;
+                                originSameTask = MappingPatternTask.ORIGIN_MODEL;
+                            }
+                            if (!taskSameHwExist) {
+                                for (MappingPatternTask taskMap : patternConfiguration.getTasksMapping()) {
+                                    if (taskMap.getTaskToMapName().equals(argumentsOfOption.get(1))) {
+                                        taskSameHwExist = true;
+                                        originSameTask = taskMap.getOrigin();
                                         break;
                                     }
                                 }
-                                if (isToConfig) {
-                                    interpreter.print(portToConfig.getTaskOfChannelToConfig() + "." + portToConfig.getChannelToConfig());
+                            }
+                            if (!taskSameHwExist) {
+                                return TASK_IN_SAME_HW_MAP_NOT_EXIST;
+                            }
+                            if (taskSameHwExist && taskToMapExist) {
+                                taskToMap.setSameHwAs(argumentsOfOption.get(1), originSameTask);
+                                patternConfiguration.getTasksMapping().add(taskToMap);
+                            }
+                            break;
+                        case "-tcml":
+                            while (i+1 < commands.length && !Arrays.asList(options).contains(commands[i+1])) {
+                                argumentsOfOption.add(commands[i+1]);
+                                i += 1;
+                            }
+                            if (argumentsOfOption.size() != 0) {
+                                return Interpreter.BAD;
+                            }
+                            patternTasksLeft = TaskPattern.getPatternTasksLeft(patternTasksAll, patternConfiguration.getPortsConnection());
+                            if (patternTasksLeft.keySet().size() != 0) {
+                                return PATTERN_NOT_CONNECTED;
+                            }
+                            interpreter.print("The list of tasks that can be used to map in same CPU:");
+                            for (String taskMap : allTasksOfModel) {
+                                interpreter.print(taskMap);
+                            }
+                            for (MappingPatternTask taskMap : patternConfiguration.getTasksMapping()) {
+                                interpreter.print(taskMap.getTaskToMapName());
+                            }
+                            break;
+                        case "-tcn":
+                            while (i+1 < commands.length && !Arrays.asList(options).contains(commands[i+1])) {
+                                argumentsOfOption.add(commands[i+1]);
+                                i += 1;
+                            }
+                            if (argumentsOfOption.size() != 2) {
+                                return Interpreter.BAD;
+                            }
+                            patternTasksLeft = TaskPattern.getPatternTasksLeft(patternTasksAll, patternConfiguration.getPortsConnection());
+                            if (patternTasksLeft.keySet().size() != 0) {
+                                return PATTERN_NOT_CONNECTED;
+                            }
+                            tasksLeftToMap = MappingPatternTask.getTasksLeftToMap(patternConfiguration.getTasksMapping(), MappingPatternTask.getTasksToMap(patternTasksAll, patternConfiguration.getClonedTasksName()));
+                            boolean taskToMapInNewCPUExist = false;
+                            MappingPatternTask taskToMapInNewCPU = null; 
+                            for (MappingPatternTask taskMap : tasksLeftToMap) {
+                                if (taskMap.getTaskToMapName().equals(argumentsOfOption.get(0))) {
+                                    taskToMapInNewCPU = taskMap;
+                                    taskToMapInNewCPUExist = true;
+                                    break;
                                 }
                             }
-                            break; 
+                            if (!taskToMapInNewCPUExist) {
+                                return TASK_TO_MAP_NOT_EXIST;
+                            }
+                            boolean busNewCPUExist = false;
+                            for (HwNode bus : tmap.getArch().getBUSs()) {
+                                if (bus.getName().equals(argumentsOfOption.get(1))) {
+                                    busNewCPUExist = true;
+                                    break;
+                                }
+                            }
+                            if (!busNewCPUExist) {
+                                return BUS_NOT_EXIST;
+                            }
+                            if (taskToMapInNewCPUExist && busNewCPUExist) {
+                                taskToMapInNewCPU.setBusNameForNewHw(argumentsOfOption.get(1));
+                                patternConfiguration.getTasksMapping().add(taskToMapInNewCPU);
+                            }
+                            break;
+                        case "-tcr":
+                            while (i+1 < commands.length && !Arrays.asList(options).contains(commands[i+1])) {
+                                argumentsOfOption.add(commands[i+1]);
+                                i += 1;
+                            }
+                            if (argumentsOfOption.size() == 0) {
+                                return Interpreter.BAD;
+                            }
+                            patternTasksLeft = TaskPattern.getPatternTasksLeft(patternTasksAll, patternConfiguration.getPortsConnection());
+                            if (patternTasksLeft.keySet().size() != 0) {
+                                return PATTERN_NOT_CONNECTED;
+                            }
+                            List<MappingPatternTask> mappingTasksToRemove = new ArrayList<MappingPatternTask>();
+                            boolean isMappingTaskToRemoveExist = false;
+                            for (int ind = 0; ind < argumentsOfOption.size(); ind++) {
+                                for (MappingPatternTask mappingTask : patternConfiguration.getTasksMapping()) {
+                                    if (mappingTask.getTaskToMapName().equals(argumentsOfOption.get(ind))) {
+                                        mappingTasksToRemove.add(mappingTask);
+                                        isMappingTaskToRemoveExist = true;
+                                        break;
+                                    }
+                                }
+                                if (!isMappingTaskToRemoveExist) {
+                                    interpreter.print(argumentsOfOption.get(ind) + " does not exist, it will not be removed.");
+                                }
+                            }
+                            patternConfiguration.getTasksMapping().removeAll(mappingTasksToRemove);
+                            break;
+                        case "-tcl":
+                            while (i+1 < commands.length && !Arrays.asList(options).contains(commands[i+1])) {
+                                argumentsOfOption.add(commands[i+1]);
+                                i += 1;
+                            }
+                            if (argumentsOfOption.size() != 0) {
+                                return Interpreter.BAD;
+                            }
+                            patternTasksLeft = TaskPattern.getPatternTasksLeft(patternTasksAll, patternConfiguration.getPortsConnection());
+                            if (patternTasksLeft.keySet().size() != 0) {
+                                return PATTERN_NOT_CONNECTED;
+                            }
+                            interpreter.print("list of mapped tasks:");
+                            for (MappingPatternTask mappingTask : patternConfiguration.getTasksMapping()) {
+                                interpreter.print(mappingTask.getStringDisplay());
+                            }
+                            break;
+                        case "-mctl":
+                            while (i+1 < commands.length && !Arrays.asList(options).contains(commands[i+1])) {
+                                argumentsOfOption.add(commands[i+1]);
+                                i += 1;
+                            }
+                            if (argumentsOfOption.size() != 0) {
+                                return Interpreter.BAD;
+                            }
+                            patternTasksLeft = TaskPattern.getPatternTasksLeft(patternTasksAll, patternConfiguration.getPortsConnection());
+                            if (patternTasksLeft.keySet().size() != 0) {
+                                return PATTERN_NOT_CONNECTED;
+                            }
+                            channelsLeftToMap = MappingPatternChannel.getChannelsLeftToMap(patternConfiguration.getChannelsMapping(), MappingPatternChannel.getChannelsToMap(patternConfiguration.getPortsConnection(), patternTasksAll,patternConfiguration.getClonedTasks()));
+                            interpreter.print("The channels that need to be mapped are :");
+                            for (MappingPatternChannel channelMap : channelsLeftToMap) {
+                                interpreter.print(channelMap.getTaskOfChannelToMap() + "." + channelMap.getChannelToMapName());
+                            }
+                            break;
                         case "-mcm":
                             while (i+1 < commands.length && !Arrays.asList(options).contains(commands[i+1])) {
                                 argumentsOfOption.add(commands[i+1]);
@@ -717,47 +1121,178 @@ public class PatternHandling extends Command {
                             if (argumentsOfOption.size() != 2) {
                                 return Interpreter.BAD;
                             }
-                            if (selectedPatternName == null) {
-                                return NO_PATTERN_SELECTED;
+                            patternTasksLeft = TaskPattern.getPatternTasksLeft(patternTasksAll, patternConfiguration.getPortsConnection());
+                            if (patternTasksLeft.keySet().size() != 0) {
+                                return PATTERN_NOT_CONNECTED;
                             }
-                            String taskOfChannelToMap;
-                            String channelToMap;
-                            int origin = MappingPatternChannel.ORIGIN_CLONE;
-                            String[] taskChannelToMap = argumentsOfOption.get(0).split(".");
-                            if (taskChannelToMap.length == 2) {
-                                taskOfChannelToMap = taskChannelToMap[0];
-                                channelToMap = taskChannelToMap[1];
-                            } else {
-                                return Interpreter.BAD;
+                            String[] channelTaskToMap = argumentsOfOption.get(0).split("\\.");
+                            if (channelTaskToMap.length != 2) {
+                                return argumentsOfOption.get(0) + ": " + Interpreter.BAD;
                             }
-                            String taskOfChannelSameHw;
-                            String channelSameHw;
-                            String[] taskChannelSameHw = argumentsOfOption.get(1).split(".");
-                            if (taskChannelSameHw.length == 2) {
-                                taskOfChannelSameHw = taskChannelSameHw[0];
-                                channelSameHw = taskChannelSameHw[1];
-                            } else {
-                                return Interpreter.BAD;
+                            String[] channelTaskSameMem = argumentsOfOption.get(1).split("\\.");
+                            if (channelTaskSameMem.length != 2) {
+                                return argumentsOfOption.get(1) + ": " + Interpreter.BAD;
                             }
-                            for (String patternName : patternTasksAll.keySet()) {
-                                if (patternName.equals(taskOfChannelToMap)) {
-                                    for (PortTaskJsonFile port : patternTasksAll.get(patternName).getInternalPorts()) {
-                                        if (port.getName().equals(channelToMap)) {
-                                            origin = MappingPatternChannel.ORIGIN_PATTERN;
-                                            break;
-                                        }
-                                    }
-                                    for (PortTaskJsonFile port : patternTasksAll.get(patternName).getExternalPorts()) {
-                                        if (port.getName().equals(channelToMap)) {
-                                            origin = MappingPatternChannel.ORIGIN_PATTERN;
-                                            break;
-                                        }
+                            List<MappingPatternChannel> allChannelsToMap = MappingPatternChannel.getChannelsToMap(patternConfiguration.getPortsConnection(), patternTasksAll,patternConfiguration.getClonedTasks());
+                            channelsLeftToMap = MappingPatternChannel.getChannelsLeftToMap(patternConfiguration.getChannelsMapping(), allChannelsToMap);
+                            boolean channelToMapExist = false;
+                            MappingPatternChannel channelToMap = null; 
+                            for (MappingPatternChannel channelMap : channelsLeftToMap) {
+                                if (channelMap.getTaskOfChannelToMap().equals(channelTaskToMap[0]) && channelMap.getChannelToMapName().equals(channelTaskToMap[1])) {
+                                    channelToMap = channelMap;
+                                    channelToMapExist = true;
+                                    break;
+                                }
+                            }
+                            if (!channelToMapExist) {
+                                return CHANNEL_TO_MAP_NOT_EXIST;
+                            }
+                            boolean channelSameHwExist = false;
+                            int originSameChannel = 0;
+                            for(String st : portsTaskOfModelAll.keySet()) {
+                                if (!patternConfiguration.getClonedTasksName().contains(st)) {
+                                    for (String wc : portsTaskOfModelAll.get(st).getWriteChannels()) {
+                                        if (st.equals(channelTaskSameMem[0]) && wc.equals(channelTaskSameMem[1])) {
+                                            originSameChannel = MappingPatternTask.ORIGIN_MODEL;
+                                            channelSameHwExist = true;
+                                        } 
                                     }
                                 }
                             }
-                            MappingPatternChannel channelMapping = new MappingPatternChannel(taskOfChannelToMap, channelToMap, origin);
-                            channelMapping.setTaskAndChannelInSameMem(taskOfChannelSameHw, channelSameHw, i);
-                            patternConfiguration.addChannelsMapping(channelMapping);
+                            if (!channelSameHwExist) {
+                                for (MappingPatternChannel channelMap : patternConfiguration.getChannelsMapping()) {
+                                    if (channelMap.getTaskOfChannelToMap().equals(channelTaskSameMem[0]) && channelMap.getChannelToMapName().equals(channelTaskSameMem[1])) {
+                                        channelSameHwExist = true;
+                                        originSameChannel = channelMap.getOrigin();
+                                        break;
+                                    }
+                                }
+                            }
+                            if (!channelSameHwExist) {
+                                return CHANNEL_IN_SAME_MEM_MAP_NOT_EXIST;
+                            }
+                            if (channelSameHwExist && channelToMapExist) {
+                                channelToMap.setTaskAndChannelInSameMem(channelTaskSameMem[0], channelTaskSameMem[1], originSameChannel);
+                                patternConfiguration.getChannelsMapping().add(channelToMap);
+                            }
+                            break;
+                        case "-mcml":
+                            while (i+1 < commands.length && !Arrays.asList(options).contains(commands[i+1])) {
+                                argumentsOfOption.add(commands[i+1]);
+                                i += 1;
+                            }
+                            if (argumentsOfOption.size() != 0) {
+                                return Interpreter.BAD;
+                            }
+                            patternTasksLeft = TaskPattern.getPatternTasksLeft(patternTasksAll, patternConfiguration.getPortsConnection());
+                            if (patternTasksLeft.keySet().size() != 0) {
+                                return PATTERN_NOT_CONNECTED;
+                            }
+                            interpreter.print("The list of channels that can be used to map in same memory:");
+                            for(String st : portsTaskOfModelAll.keySet()) {
+                                if (!patternConfiguration.getClonedTasksName().contains(st)) {
+                                    for (String wc : portsTaskOfModelAll.get(st).getWriteChannels()) {
+                                        interpreter.print(st + "." + wc);
+                                    }
+                                }
+                            }
+                            for (MappingPatternChannel channelMap : patternConfiguration.getChannelsMapping()) {
+                                interpreter.print(channelMap.getTaskOfChannelToMap() + "." + channelMap.getChannelToMapName());
+                            }
+                            break;
+                        case "-mcn":
+                            while (i+1 < commands.length && !Arrays.asList(options).contains(commands[i+1])) {
+                                argumentsOfOption.add(commands[i+1]);
+                                i += 1;
+                            }
+                            if (argumentsOfOption.size() != 2) {
+                                return Interpreter.BAD;
+                            }
+                            patternTasksLeft = TaskPattern.getPatternTasksLeft(patternTasksAll, patternConfiguration.getPortsConnection());
+                            if (patternTasksLeft.keySet().size() != 0) {
+                                return PATTERN_NOT_CONNECTED;
+                            }
+                            String[] channelTaskToMapNew = argumentsOfOption.get(0).split("\\.");
+                            if (channelTaskToMapNew.length != 2) {
+                                return argumentsOfOption.get(0) + ": " + Interpreter.BAD;
+                            }
+                            channelsLeftToMap = MappingPatternChannel.getChannelsLeftToMap(patternConfiguration.getChannelsMapping(), MappingPatternChannel.getChannelsToMap(patternConfiguration.getPortsConnection(), patternTasksAll,patternConfiguration.getClonedTasks()));
+                            boolean channelToMapInNewMemExist = false;
+                            MappingPatternChannel channelToMapInNewMem = null; 
+                            for (MappingPatternChannel channelMap : channelsLeftToMap) {
+                                if (channelMap.getTaskOfChannelToMap().equals(channelTaskToMapNew[0]) && channelMap.getChannelToMapName().equals(channelTaskToMapNew[1])) {
+                                    channelToMapInNewMem = channelMap;
+                                    channelToMapInNewMemExist = true;
+                                    break;
+                                }
+                            }
+                            if (!channelToMapInNewMemExist) {
+                                return CHANNEL_TO_MAP_NOT_EXIST;
+                            }
+                            boolean busNewMemExist = false;
+                            for (HwNode bus : tmap.getArch().getBUSs()) {
+                                if (bus.getName().equals(argumentsOfOption.get(1))) {
+                                    busNewMemExist = true;
+                                    break;
+                                }
+                            }
+                            if (!busNewMemExist) {
+                                return BUS_NOT_EXIST;
+                            }
+                            if (channelToMapInNewMemExist && busNewMemExist) {
+                                channelToMapInNewMem.setBusNameForNewMem(argumentsOfOption.get(1));
+                                patternConfiguration.getChannelsMapping().add(channelToMapInNewMem);
+                            }
+                            break;
+                        case "-mcr":
+                            while (i+1 < commands.length && !Arrays.asList(options).contains(commands[i+1])) {
+                                argumentsOfOption.add(commands[i+1]);
+                                i += 1;
+                            }
+                            if (argumentsOfOption.size() == 0) {
+                                return Interpreter.BAD;
+                            }
+                            patternTasksLeft = TaskPattern.getPatternTasksLeft(patternTasksAll, patternConfiguration.getPortsConnection());
+                            if (patternTasksLeft.keySet().size() != 0) {
+                                return PATTERN_NOT_CONNECTED;
+                            }
+                            List<MappingPatternChannel> mappingChannelsToRemove = new ArrayList<MappingPatternChannel>();
+                            boolean isMappingChannelToRemoveExist = false;
+                            for (int ind = 0; ind < argumentsOfOption.size(); ind++) {
+                                String[] channelTaskToRem = argumentsOfOption.get(ind).split("\\.");
+                                if (channelTaskToRem.length != 2) {
+                                    interpreter.print(argumentsOfOption.get(ind) + ": " + Interpreter.BAD);
+                                    break;
+                                }
+                                for (MappingPatternChannel mappingChannel : patternConfiguration.getChannelsMapping()) {
+                                    if (mappingChannel.getTaskOfChannelToMap().equals(channelTaskToRem[0]) && mappingChannel.getChannelToMapName().equals(channelTaskToRem[1])) {
+                                        mappingChannelsToRemove.add(mappingChannel);
+                                        isMappingChannelToRemoveExist = true;
+                                        break;
+                                    }
+                                }
+                                if (!isMappingChannelToRemoveExist) {
+                                    interpreter.print(argumentsOfOption.get(ind) + " does not exist, it will not be removed.");
+                                }
+                            }
+                            patternConfiguration.getChannelsMapping().removeAll(mappingChannelsToRemove);
+                            break;
+                        case "-mcl":
+                            while (i+1 < commands.length && !Arrays.asList(options).contains(commands[i+1])) {
+                                argumentsOfOption.add(commands[i+1]);
+                                i += 1;
+                            }
+                            if (argumentsOfOption.size() != 0) {
+                                return Interpreter.BAD;
+                            }
+                            patternTasksLeft = TaskPattern.getPatternTasksLeft(patternTasksAll, patternConfiguration.getPortsConnection());
+                            if (patternTasksLeft.keySet().size() != 0) {
+                                return PATTERN_NOT_CONNECTED;
+                            }
+                            interpreter.print("list of mapped channels:");
+                            for (MappingPatternChannel mappedChannel : patternConfiguration.getChannelsMapping()) {
+                                interpreter.print(mappedChannel.getStringDisplay());
+                            }
                             break;
                         case "-ua":
                             while (i+1 < commands.length && !Arrays.asList(options).contains(commands[i+1])) {
@@ -816,7 +1351,17 @@ public class PatternHandling extends Command {
                             if (argumentsOfOption.size() != 0) {
                                 return Interpreter.BAD;
                             }
-                            if (patternName != null && !patternName.equals("") && selectedTasks.size() != 0) {
+                            patternTasksLeft = TaskPattern.getPatternTasksLeft(patternTasksAll, patternConfiguration.getPortsConnection());
+                            if (patternTasksLeft.keySet().size() != 0) {
+                                return PATTERN_NOT_CONNECTED;
+                            }
+                            portsTaskModelLeft = TaskPorts.getPortsTaskOfModelLeft(portsTaskOfModelAll, patternConfiguration.getPortsConnection());
+                            portsLeftToConfig = PatternPortsConfig.getPortsLeftToConfig(portsTaskOfModelAll, portsTaskModelLeft, patternConfiguration.getClonedTasksName(), patternConfiguration.getPortsConfig(), tmap.getTMLModeling());
+                            if (portsLeftToConfig.size() != 0) {
+                                return PORT_CONFIGURATION_NOT_FINISHED;
+                            }
+                            if (selectedPatternName != null && !selectedPatternName.equals("")) {
+                                selectedPatternPath = patternsPath + selectedPatternName;
                                 interpreter.mgui.gtm.createJsonPatternConfigFile(selectedPatternPath, selectedPatternName, patternConfiguration);
                             } else {
                                 return NO_NAME_NO_TASK_FOR_PATTERN;
@@ -876,9 +1421,121 @@ public class PatternHandling extends Command {
             }
         };
 
+        Command integratePattern = new Command() {
+            final String [] options = {"-l", "-n", "-p", "-m"};
+            public String getCommand() {
+                return INTEGRATE;
+            }
 
+            public String getShortCommand() {
+                return "a";
+            }
+
+            public String getDescription() {
+                return "Inegrate a pattern to a model by giving a name to the pattern and the path of the configuration file";
+            }
+
+            public String getUsage() {
+                return "[OPTION]... [NAME] [PATH]\n"
+                + "-l NAME\tlist of available patterns\n"
+                + "-n NAME\tselect a pattern by its name\n"
+                + "-p PATH\tpath of the configuration json file\n"
+                + "-m \tmake the pattern\n";
+            }
+
+            public String executeCommand(String command, Interpreter interpreter) {
+                if (!interpreter.isTToolStarted()) {
+                    return Interpreter.TTOOL_NOT_STARTED;
+                }
+                
+                if (tmap == null) {
+                    tmap =  interpreter.mgui.gtm.getTMLMapping();
+                    if (tmap == null) {
+                        return Interpreter.TMAP_NO_SPEC + "\nLoad a TMAP Spec using " + DIPLO_LOAD_TMAP + " command or move to Arch tab.";
+                    } else {
+                        allTasksOfModel.clear();
+                        for (TMLTask task : tmap.getTMLModeling().getTasks()) {
+                            String[] taskNameSplit = task.getName().split("__");
+                            allTasksOfModel.add(taskNameSplit[taskNameSplit.length-1]);
+                        }
+                    }
+                }
+                String[] commands = command.split(" ");
+                for (int i = 0; i < commands.length; i++) {
+                    List<String> argumentsOfOption = new ArrayList<String>();
+                    switch (commands[i]) {
+                        case "-l":
+                            while (i+1 < commands.length && !Arrays.asList(options).contains(commands[i+1])) {
+                                argumentsOfOption.add(commands[i+1]);
+                                i += 1;
+                            }
+                            if (argumentsOfOption.size() != 0) {
+                                return Interpreter.BAD;
+                            }
+                            listPatterns = getFoldersName(patternsPath);
+                            interpreter.print("There is " + listPatterns.size() + " pattern(s):");
+                            int cont = 1;
+                            for (String pattern : listPatterns) {
+                                interpreter.print(cont + ". " + pattern);
+                                cont++;
+                            }
+                            break;
+                        case "-n":
+                            while (i+1 < commands.length && !Arrays.asList(options).contains(commands[i+1])) {
+                                argumentsOfOption.add(commands[i+1]);
+                                i += 1;
+                            }
+                            if (argumentsOfOption.size() != 1) {
+                                return Interpreter.BAD;
+                            }
+                            listPatterns = getFoldersName(patternsPath);
+                            if (listPatterns.contains(argumentsOfOption.get(0))) {
+                                selectedPatternToIntergrate = argumentsOfOption.get(0);
+                            } else {
+                                return PATTERN_NOT_EXIST;
+                            }
+                            break;
+                        case "-p":
+                            while (i+1 < commands.length && !Arrays.asList(options).contains(commands[i+1])) {
+                                argumentsOfOption.add(commands[i+1]);
+                                i += 1;
+                            }
+                            if (argumentsOfOption.size() != 1) {
+                                return Interpreter.BAD;
+                            }
+                            Path path = Paths.get(argumentsOfOption.get(0));
+                                
+                            if (Files.exists(path)) {
+                                selectedJsonFilePath = argumentsOfOption.get(0);
+                            } else {
+                                return CONFIG_JSON_FILE_NOT_EXIST;
+                            }
+                            break;
+                        case "-m":
+                            while (i+1 < commands.length && !Arrays.asList(options).contains(commands[i+1])) {
+                                argumentsOfOption.add(commands[i+1]);
+                                i += 1;
+                            }
+                            if (argumentsOfOption.size() != 0) {
+                                return Interpreter.BAD;
+                            }
+                            if (selectedJsonFilePath != null && selectedPatternToIntergrate != null) {
+                                TraceManager.addDev("selectedJsonFilePath= " + selectedJsonFilePath);
+                                TraceManager.addDev("selectedPatternToIntergrate= " + selectedPatternToIntergrate);
+                                String selectedPatternPathToIntergrate = patternsPath + selectedPatternToIntergrate + "/";
+                                interpreter.mgui.gtm.integratePattern(interpreter.mgui, selectedPatternPathToIntergrate, selectedPatternToIntergrate, selectedJsonFilePath);
+                            }
+                            break;
+                        default:
+                            return Interpreter.BAD;
+                    }
+                }
+                return null;
+            }
+        };
         addAndSortSubcommand(createPattern);
         addAndSortSubcommand(configurePattern);
+        addAndSortSubcommand(integratePattern);
         addAndSortSubcommand(diplodocusLoadTMAP);
     }
 

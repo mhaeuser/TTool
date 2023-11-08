@@ -51,6 +51,14 @@ public class PatternConfiguration {
         return clonedTasks;
     }
 
+    public List<String> getClonedTasksName() {
+        List<String> cloneTasksName = new ArrayList<String>();
+        for (PatternCloneTask clonedTask : clonedTasks) {
+            cloneTasksName.add(clonedTask.getClonedTask());
+        }
+        return cloneTasksName;
+    }
+
     public List<PatternPortsConfig> getPortsConfig() {
         return portsConfig;
     }

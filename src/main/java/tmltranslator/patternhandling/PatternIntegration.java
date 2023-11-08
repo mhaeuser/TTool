@@ -1790,6 +1790,7 @@ public class PatternIntegration implements Runnable {
                     HwLink linkNewMemWithBus = new HwLink("link_" + _newMem.getName() + "_to_" + bus.getName());
                     linkNewMemWithBus.bus = bus;
                     linkNewMemWithBus.hwnode = _newMem;
+                    _tmapModel.addCommToHwCommNode(chToMap, bus);
                     _tmapModel.getArch().addHwLink(linkNewMemWithBus);
                 }
             }

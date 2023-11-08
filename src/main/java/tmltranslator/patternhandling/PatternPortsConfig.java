@@ -161,4 +161,89 @@ public class PatternPortsConfig {
 
         return portsToConf;
     }
+
+    public static List<PatternPortsConfig> getPortsLeftToConfig(LinkedHashMap<String, TaskPorts> _portsTaskOfModelAll, LinkedHashMap<String, TaskPorts> _portsTaskOfModelLeft, List<String> _clonedTasks, List<PatternPortsConfig> _configuredPorts, TMLModeling<?> tmlmodel) {
+        List<PatternPortsConfig> portsLeftToConf = new ArrayList<PatternPortsConfig>();
+        List<PatternPortsConfig> portsToConfig = PatternPortsConfig.getPortsToConfig(_portsTaskOfModelAll, _portsTaskOfModelLeft, _clonedTasks, tmlmodel);
+        for (PatternPortsConfig portToConfig : portsToConfig) {
+            boolean isToConfig = true;
+            for (PatternPortsConfig portConfigured : _configuredPorts) {
+                if (portToConfig.getTaskOfChannelToConfig().equals(portConfigured.getTaskOfChannelToConfig()) && portToConfig.getChannelToConfig().equals(portConfigured.getChannelToConfig())) {
+                    isToConfig = false;
+                    break;
+                }
+            }
+            if (isToConfig) {
+                portsLeftToConf.add(portToConfig);
+            }
+        }
+        return portsLeftToConf;
+    }
+
+    public static List<String> getPortsCanBeMergedWith(LinkedHashMap<String, TaskPorts> _portsTaskOfModelAll, List<PatternPortsConfig> _allPortsToConfig, String _taskOfPortToConfig) {
+        List<String> portsCanBeMergedWith = new ArrayList<String>();
+        if (_portsTaskOfModelAll.containsKey(_taskOfPortToConfig)) {
+            for (String wr : _portsTaskOfModelAll.get(_taskOfPortToConfig).getWriteChannels()) {
+                boolean canBeMergedWith = true;
+                for (PatternPortsConfig portToConfig : _allPortsToConfig) {
+                    if (portToConfig.getTaskOfChannelToConfig().equals(_taskOfPortToConfig) && portToConfig.getChannelToConfig().equals(wr)) {
+                        canBeMergedWith = false;
+                        break;
+                    }
+                }
+                if (canBeMergedWith) {
+                    portsCanBeMergedWith.add(wr);
+                }
+            }
+            for (String wr : _portsTaskOfModelAll.get(_taskOfPortToConfig).getWriteChannels()) {
+                boolean canBeMergedWith = true;
+                for (PatternPortsConfig portToConfig : _allPortsToConfig) {
+                    if (portToConfig.getTaskOfChannelToConfig().equals(_taskOfPortToConfig) && portToConfig.getChannelToConfig().equals(wr)) {
+                        canBeMergedWith = false;
+                        break;
+                    }
+                }
+                if (canBeMergedWith) {
+                    portsCanBeMergedWith.add(wr);
+                }
+            }
+            for (String rd : _portsTaskOfModelAll.get(_taskOfPortToConfig).getReadChannels()) {
+                boolean canBeMergedWith = true;
+                for (PatternPortsConfig portToConfig : _allPortsToConfig) {
+                    if (portToConfig.getTaskOfChannelToConfig().equals(_taskOfPortToConfig) && portToConfig.getChannelToConfig().equals(rd)) {
+                        canBeMergedWith = false;
+                        break;
+                    }
+                }
+                if (canBeMergedWith) {
+                    portsCanBeMergedWith.add(rd);
+                }
+            }
+            for (String sd : _portsTaskOfModelAll.get(_taskOfPortToConfig).getSendEvents()) {
+                boolean canBeMergedWith = true;
+                for (PatternPortsConfig portToConfig : _allPortsToConfig) {
+                    if (portToConfig.getTaskOfChannelToConfig().equals(_taskOfPortToConfig) && portToConfig.getChannelToConfig().equals(sd)) {
+                        canBeMergedWith = false;
+                        break;
+                    }
+                }
+                if (canBeMergedWith) {
+                    portsCanBeMergedWith.add(sd);
+                }
+            }
+            for (String we : _portsTaskOfModelAll.get(_taskOfPortToConfig).getWaitEvents()) {
+                boolean canBeMergedWith = true;
+                for (PatternPortsConfig portToConfig : _allPortsToConfig) {
+                    if (portToConfig.getTaskOfChannelToConfig().equals(_taskOfPortToConfig) && portToConfig.getChannelToConfig().equals(we)) {
+                        canBeMergedWith = false;
+                        break;
+                    }
+                }
+                if (canBeMergedWith) {
+                    portsCanBeMergedWith.add(we);
+                }
+            }
+        }
+        return portsCanBeMergedWith;
+    }
 }

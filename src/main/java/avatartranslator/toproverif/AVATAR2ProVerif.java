@@ -39,6 +39,7 @@
 package avatartranslator.toproverif;
 
 import avatartranslator.*;
+import avatartranslator.intboolsolver.AvatarIBSolver;
 import common.ConfigurationTTool;
 import myutil.FileException;
 import myutil.FileUtils;
@@ -449,6 +450,9 @@ public class AVATAR2ProVerif implements AvatarTranslator {
         this.avspec.removeLibraryFunctionCalls();
 
         this.avspec.removeTimers();
+
+        // Reset parser
+        AvatarIBSolver.clearAttributes();
 
         this.dummyDataCounter = 0;
 

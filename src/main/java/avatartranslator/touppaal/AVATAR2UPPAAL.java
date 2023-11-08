@@ -39,6 +39,7 @@
 package avatartranslator.touppaal;
 
 import avatartranslator.*;
+import avatartranslator.intboolsolver.AvatarIBSolver;
 import common.SpecConfigTTool;
 import myutil.Conversion;
 import myutil.FileException;
@@ -163,6 +164,9 @@ public class AVATAR2UPPAAL {
         avspec.removeLibraryFunctionCalls();
         avspec.removeTimers();
         //avspec.removeElseGuards();
+
+        // Reset parser
+        AvatarIBSolver.clearAttributes();
 
 
         //avspec.removeFIFOs(2);

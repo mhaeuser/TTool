@@ -942,11 +942,11 @@ public class JDialogProverifVerification extends JDialog implements ActionListen
 
 
                 String cmd = exe2.getText().trim();
-                File proverifVerifier= new File(cmd);
+                /*File proverifVerifier= new File(cmd);
                 if (!proverifVerifier.exists()) {
                     mode = NOT_STARTED; setButtons();
                     throw new ProVerifVerificationException(cmd + ": Proverif prover not found");
-                }
+                }*/
 
                 // Must test if this command corresponds to ProVerif
                 this.rshc = new RshClient(hostProVerif);
@@ -964,7 +964,7 @@ public class JDialogProverifVerification extends JDialog implements ActionListen
 
                 if (!foundProverif) {
                     mode = NOT_STARTED; setButtons();
-                    throw new ProVerifVerificationException(cmd + ": invalid Proverif prover");
+                    throw new ProVerifVerificationException("\"" + cmd + "\" refers to an invalid Proverif prover");
                 }
 
 

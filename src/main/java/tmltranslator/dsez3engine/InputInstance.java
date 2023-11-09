@@ -31,9 +31,13 @@ public class InputInstance {
         for (HwNode hwNode : architecture.getHwNodes()) {
             if (hwNode instanceof HwExecutionNode) {
 
-                if ((((HwExecutionNode) hwNode).supportOperation(tmlTask.getOperation()) ) || (((HwExecutionNode) hwNode).getOperation().equals(" ")))
-                    feasibleCPUs.add((HwExecutionNode) hwNode);
-
+                if (tmlTask == null) {
+                    if( (((HwExecutionNode) hwNode).getOperation().equals(" ")))
+                        feasibleCPUs.add( (HwExecutionNode) hwNode);
+                } else {
+                    if ((((HwExecutionNode) hwNode).supportOperation(tmlTask.getOperation())) || (((HwExecutionNode) hwNode).getOperation().equals(" ")))
+                        feasibleCPUs.add((HwExecutionNode) hwNode);
+                }
             }
 
         }

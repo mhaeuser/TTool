@@ -140,6 +140,8 @@ public class JDialogProverifVerification extends JDialog implements ActionListen
 
     private static boolean DRAW_AVATAR = false;
 
+    private JLabel labelError;
+
     protected MainGUI mgui;
     private AvatarDesignPanel adp;
 
@@ -795,6 +797,7 @@ public class JDialogProverifVerification extends JDialog implements ActionListen
         }
         CODE_PATH = code1.getText();
         EXECUTE_PATH = exe2.getText();
+
         if (stateReachabilityAll.isSelected()) {
             REACHABILITY_OPTION = REACHABILITY_ALL;
         } else if (stateReachabilitySelected.isSelected()) {
@@ -897,6 +900,10 @@ public class JDialogProverifVerification extends JDialog implements ActionListen
                 mode = NOT_STARTED;
             }
             else {
+
+
+
+
                 testGo();
                 pathCode = code1.getText().trim();
 
@@ -929,11 +936,37 @@ public class JDialogProverifVerification extends JDialog implements ActionListen
                         privateChannelDup.isSelected(),
                         loopLimit.getText())
                         ) {
+                    mode = NOT_STARTED; setButtons();
                     throw new ProVerifVerificationException("Could not generate proverif code");
                 }
 
 
                 String cmd = exe2.getText().trim();
+                File proverifVerifier= new File(cmd);
+                if (!proverifVerifier.exists()) {
+                    mode = NOT_STARTED; setButtons();
+                    throw new ProVerifVerificationException(cmd + ": Proverif prover not found");
+                }
+
+                // Must test if this command corresponds to ProVerif
+                this.rshc = new RshClient(hostProVerif);
+                this.rshc.setCmd(cmd + " -help");
+                this.rshc.sendExecuteCommandRequest();
+                RshClientReader readerHelp = this.rshc.getDataReaderFromProcess();
+                BufferedReader bReader = new BufferedReader(readerHelp);
+                String str;
+                boolean foundProverif = false;
+                while ((str = bReader.readLine()) != null) {
+                    if (str.contains("Proverif")) {
+                        foundProverif = true;
+                    }
+                }
+
+                if (!foundProverif) {
+                    mode = NOT_STARTED; setButtons();
+                    throw new ProVerifVerificationException(cmd + ": invalid Proverif prover");
+                }
+
 
                 if (this.typedLanguage.isSelected()) {
                     cmd += " -in pitype ";
@@ -950,6 +983,7 @@ public class JDialogProverifVerification extends JDialog implements ActionListen
                 this.rshc.setCmd(cmd);
                 this.rshc.sendExecuteCommandRequest();
                 RshClientReader reader = this.rshc.getDataReaderFromProcess();
+
 
                 if (this.pvoa == null) {
                     this.pvoa = mgui.gtm.getProVerifOutputAnalyzer();
@@ -973,13 +1007,16 @@ public class JDialogProverifVerification extends JDialog implements ActionListen
 
             }
         } catch (LauncherException | ProVerifVerificationException le) {
-            JLabel label = new JLabel("Error: " + le.getMessage());
-            label.setAlignmentX(Component.LEFT_ALIGNMENT);
-            this.jta.add(label, this.createGbc(0));
-            mode = STOPPED;
+            this.jta.removeAll();
+            labelError = new JLabel("Error: " + le.getMessage());
+            labelError.setAlignmentX(Component.LEFT_ALIGNMENT);
+            this.jta.add(labelError, this.createGbc(0));
+            mode = NOT_STARTED;
         } catch (InterruptedException ie) {
+            TraceManager.addDev("Proverif thread interrupted: " + ie.getMessage());
             mode = NOT_STARTED;
         } catch (FileException e) {
+            TraceManager.addDev("Proverif file couldnot be generated: " + e.getMessage());
             System.err.println(e.getMessage() + " : Can't generate proverif file.");
         } catch (Exception e) {
             mode = STOPPED;
@@ -1109,7 +1146,7 @@ public class JDialogProverifVerification extends JDialog implements ActionListen
             this.results = this.pvoa.getResults();
             
             if (this.results.keySet().size() == 0) {
-                label = new JLabel("ERROR: no properties to prove");
+                label = new JLabel("ERROR: no properties to be proved");
                 label.setAlignmentX(Component.LEFT_ALIGNMENT);
                 this.jta.add(label, this.createGbc(0));
             }

@@ -254,6 +254,8 @@
 <Method value="Key getpk(Message cert)" />
 <Method value="Key DH(Key pubK, Key privK)" />
 <Method value="Message hash(Message msg)" />
+<Method value="Message host(Key k)" />
+<Method value="Key getKey(Message msg)" />
 </extraparam>
 </SUBCOMPONENT>
 <SUBCOMPONENT type="5000" id="123" index="8" uid="32384080-e86a-41de-b441-4f6ae88f1cbe" >
@@ -333,6 +335,8 @@
 <Method value="Key getpk(Message cert)" />
 <Method value="Key DH(Key pubK, Key privK)" />
 <Method value="Message hash(Message msg)" />
+<Method value="Message host(Key k)" />
+<Method value="Key getKey(Message msg)" />
 </extraparam>
 </SUBCOMPONENT>
 
@@ -1635,6 +1639,8 @@
 <Method value="Key getpk(Message cert)" />
 <Method value="Key DH(Key pubK, Key privK)" />
 <Method value="Message hash(Message msg)" />
+<Method value="Message host(Key k)" />
+<Method value="Key getKey(Message msg)" />
 </extraparam>
 </SUBCOMPONENT>
 <SUBCOMPONENT type="5000" id="898" index="8" uid="cc150a1e-1348-4fa4-98a9-3a612b6184cc" >
@@ -1717,6 +1723,8 @@
 <Method value="Key getpk(Message cert)" />
 <Method value="Key DH(Key pubK, Key privK)" />
 <Method value="Message hash(Message msg)" />
+<Method value="Message host(Key k)" />
+<Method value="Key getKey(Message msg)" />
 </extraparam>
 </SUBCOMPONENT>
 
@@ -3738,6 +3746,8 @@
 <Method value="Key getpk(Message cert)" />
 <Method value="Key DH(Key pubK, Key privK)" />
 <Method value="Message hash(Message msg)" />
+<Method value="Message host(Key k)" />
+<Method value="Key getKey(Message msg)" />
 </extraparam>
 </SUBCOMPONENT>
 <SUBCOMPONENT type="5000" id="2065" index="8" uid="52a07889-a0b4-45e9-a97a-a5a5e144d49b" >
@@ -3825,6 +3835,8 @@
 <Method value="Key getpk(Message cert)" />
 <Method value="Key DH(Key pubK, Key privK)" />
 <Method value="Message hash(Message msg)" />
+<Method value="Message host(Key k)" />
+<Method value="Key getKey(Message msg)" />
 </extraparam>
 </SUBCOMPONENT>
 <SUBCOMPONENT type="5000" id="2106" index="9" uid="7a040a26-feb9-4e9a-a609-908679df2a0b" >
@@ -3910,6 +3922,8 @@
 <Method value="get2(Message msg, Message msg1, Message msg2)" />
 <Method value="get3(Message msg, Message msg1, Message msg2, Message msg3)" />
 <Method value="get4(Message msg, Message msg1, Message msg2, Message msg3, Message msg4)" />
+<Method value="Message host(Key k)" />
+<Method value="Key getKey(Message msg)" />
 </extraparam>
 </SUBCOMPONENT>
 
@@ -6797,6 +6811,8 @@
 <Method value="Key getpk(Message cert)" />
 <Method value="Key DH(Key pubK, Key privK)" />
 <Method value="Message hash(Message msg)" />
+<Method value="Message host(Key k)" />
+<Method value="Key getKey(Message msg)" />
 </extraparam>
 </SUBCOMPONENT>
 <SUBCOMPONENT type="5000" id="3683" index="8" uid="58e32c17-1811-4588-ab32-863569a17a48" >
@@ -6874,6 +6890,8 @@
 <Method value="Key getpk(Message cert)" />
 <Method value="Key DH(Key pubK, Key privK)" />
 <Method value="Message hash(Message msg)" />
+<Method value="Message host(Key k)" />
+<Method value="Key getKey(Message msg)" />
 </extraparam>
 </SUBCOMPONENT>
 

@@ -1648,16 +1648,8 @@ public class GTURTLEModeling {
     
     @SuppressWarnings("unchecked")
     public void integratePattern(MainGUI gui, String patternPath, String patternName,  String configPatternPath) {
-        TraceManager.addDev("patternPath= " + patternPath);
-        TraceManager.addDev("patternName= " + patternName);
-        TraceManager.addDev("configPatternPath= " + configPatternPath);
+        tmap = (TMLMapping<TGComponent>) integratePatternTMAP(patternPath, patternName, configPatternPath);
         String appTabName = ((TGComponent)tmap.getTMLModeling().getReference()).getTDiagramPanel().tp.getNameOfTab();
-        PatternConfig2Json patternConfig2Json = new PatternConfig2Json(configPatternPath);
-        patternConfig2Json.json2patternConfiguration();
-        PatternConfiguration patternConfiguration = patternConfig2Json.getPaternConfiguration();
-        LinkedHashMap<String, TaskPattern> patternTasks = TaskPattern.parsePatternJsonFile(patternPath, patternName+".json");
-        PatternIntegration patternInteg = new PatternIntegration(patternPath, patternName, patternConfiguration, patternTasks, tmap);
-        tmap = (TMLMapping<TGComponent>) patternInteg.startThread();
         try {
             String archTabName = ((CorrespondanceTGElement)(tmap.getCorrespondanceList())).getTG(tmap.getArch().getFirstCPU()).getTDiagramPanel().tp.getNameOfTab();
             gui.drawTMLAndTMAPSpecification(tmap, appTabName + "_" + patternName, archTabName + "_" + patternName);
@@ -1665,9 +1657,31 @@ public class GTURTLEModeling {
             TraceManager.addDev("Error when Drawing TML");
         }
     }
+    
+    @SuppressWarnings("unchecked")
+    public TMLMapping<?> integratePatternTMAP(String patternPath, String patternName,  String configPatternPath) {
+        TraceManager.addDev("patternPath= " + patternPath);
+        TraceManager.addDev("patternName= " + patternName);
+        TraceManager.addDev("configPatternPath= " + configPatternPath);
+        PatternConfig2Json patternConfig2Json = new PatternConfig2Json(configPatternPath);
+        patternConfig2Json.json2patternConfiguration();
+        PatternConfiguration patternConfiguration = patternConfig2Json.getPaternConfiguration();
+        LinkedHashMap<String, TaskPattern> patternTasks = TaskPattern.parsePatternJsonFile(patternPath, patternName+".json");
+        PatternIntegration patternInteg = new PatternIntegration(patternPath, patternName, patternConfiguration, patternTasks, tmap);
+        TMLMapping<?> tmapPattern = patternInteg.startThread();
+        return tmapPattern;
+    }
 
     public void createJsonPatternConfigFile(String patternPath, String patternName, PatternConfiguration patternConfiguration) {
         PatternConfig2Json patternConfig2Json = new PatternConfig2Json(patternPath+"/"+patternName+"-config.json", patternConfiguration);
+        patternConfig2Json.patternConfiguration2Json();
+    }
+
+    public void createJsonPatternConfigFile(String pathConfigJsonFile, PatternConfiguration patternConfiguration) {
+        if (!pathConfigJsonFile.endsWith(".json")) {
+            pathConfigJsonFile += ".json";
+        }
+        PatternConfig2Json patternConfig2Json = new PatternConfig2Json(pathConfigJsonFile, patternConfiguration);
         patternConfig2Json.patternConfiguration2Json();
     }
     

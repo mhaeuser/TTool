@@ -119,22 +119,56 @@ public class TaskPattern {
     }
 
     public static LinkedHashMap<String, TaskPattern> getPatternTasksLeft(LinkedHashMap<String, TaskPattern> _patternTasksAll, List<PatternConnection> patternConnections) {
-        LinkedHashMap<String, TaskPattern> patternTasksLeft = new LinkedHashMap<String, TaskPattern>(_patternTasksAll);
+        LinkedHashMap<String, TaskPattern> patternTasksLeft = new LinkedHashMap<String, TaskPattern>();
         for (String taskPattern: _patternTasksAll.keySet()) {
+            for (PortTaskJsonFile portTask : _patternTasksAll.get(taskPattern).getExternalPorts()) {
+                boolean isPortMapped = false;
+                for (PatternConnection patternConnection: patternConnections) {
+                    if (taskPattern.equals(patternConnection.getPatternTaskName()) && portTask.getName().equals(patternConnection.getPatternChannel())) {
+                        isPortMapped = true;
+                        break;
+                    }
+                }
+                if (!isPortMapped) {
+                    if (patternTasksLeft.containsKey(taskPattern)) {
+                        patternTasksLeft.get(taskPattern).getExternalPorts().add(portTask);
+                    } else {
+                        List<PortTaskJsonFile> portsExternal = new ArrayList<PortTaskJsonFile>();
+                        List<PortTaskJsonFile> portsInternal = new ArrayList<PortTaskJsonFile>();
+                        List<AttributeTaskJsonFile> attributes = new ArrayList<AttributeTaskJsonFile>();
+                        portsExternal.add(portTask);
+                        TaskPattern tp = new TaskPattern(attributes, portsInternal, portsExternal);
+                        patternTasksLeft.put(taskPattern, tp);
+                    }
+                }
+            }
+        }
+        /*for (String taskPattern: _patternTasksAll.keySet()) {
+            TaskPattern tp = new TaskPattern(_patternTasksAll.get(taskPattern).getAttributes(), _patternTasksAll.get(taskPattern).getInternalPorts(), _patternTasksAll.get(taskPattern).getExternalPorts());
+            patternTasksLeft.put(taskPattern, tp);
+        }
+        
+        for (String taskPattern: _patternTasksAll.keySet()) {
+            TraceManager.addDev("_patternTasks: task=" + taskPattern);
+            for (PortTaskJsonFile portTask : _patternTasksAll.get(taskPattern).getExternalPorts()) {
+                TraceManager.addDev("Port=" + portTask.getName());
+            }
             if (_patternTasksAll.get(taskPattern).getExternalPorts().size() == 0) {
                 patternTasksLeft.remove(taskPattern);
             }
         }
         for (PatternConnection patternConnection: patternConnections) {
+            TraceManager.addDev("patternConnection=" + patternConnection.getStringDisplay());
             if (patternTasksLeft.containsKey(patternConnection.getPatternTaskName())) {
                 patternTasksLeft.get(patternConnection.getPatternTaskName()).removeExternalPort(patternConnection.getPatternChannel());
                 if (patternTasksLeft.get(patternConnection.getPatternTaskName()).getExternalPorts().size() == 0) {
                     patternTasksLeft.remove(patternConnection.getPatternTaskName());
                 }
             }
-        }
+        }*/
         return patternTasksLeft;
     }
+
     public PortTaskJsonFile getExternalPortByName(String portName) {
         for (PortTaskJsonFile exPort : externalPorts) {
             if (exPort.getName().equals(portName)) {

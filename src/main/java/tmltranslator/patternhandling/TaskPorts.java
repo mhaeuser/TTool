@@ -110,12 +110,75 @@ public class TaskPorts {
     }
 
     public static LinkedHashMap<String, TaskPorts> getPortsTaskOfModelLeft(LinkedHashMap<String, TaskPorts> _portsTaskOfModelAll, List<PatternConnection> patternConnections) {
-        LinkedHashMap<String, TaskPorts> portsTaskModelLeft = new LinkedHashMap<String, TaskPorts>(_portsTaskOfModelAll);
+        
+        LinkedHashMap<String, TaskPorts> portsTaskModelLeft = new LinkedHashMap<String, TaskPorts>();
+        for (String task: _portsTaskOfModelAll.keySet()) {
+            List<String> wcs = new ArrayList<String>();
+            List<String> rcs = new ArrayList<String>();
+            List<String> ses = new ArrayList<String>();
+            List<String> wes = new ArrayList<String>();
+            TaskPorts tp = new TaskPorts(wcs, rcs, ses, wes);
+            portsTaskModelLeft.put(task, tp);
+            for (String wr : _portsTaskOfModelAll.get(task).getWriteChannels()) {
+                boolean isMappedPort = false;
+                for (PatternConnection patternConnection: patternConnections) {
+                   if (patternConnection.getModelTaskName().equals(task) && patternConnection.getModelChannelName().equals(wr) && !patternConnection.isNewPort()) {
+                        isMappedPort = true;
+                        break;
+                   }
+                }
+                if (!isMappedPort) {
+                    portsTaskModelLeft.get(task).getWriteChannels().add(wr);
+                }
+            }
+            for (String rd : _portsTaskOfModelAll.get(task).getReadChannels()) {
+                boolean isMappedPort = false;
+                for (PatternConnection patternConnection: patternConnections) {
+                   if (patternConnection.getModelTaskName().equals(task) && patternConnection.getModelChannelName().equals(rd) && !patternConnection.isNewPort()) {
+                        isMappedPort = true;
+                        break;
+                   }
+                }
+                if (!isMappedPort) {
+                    portsTaskModelLeft.get(task).getReadChannels().add(rd);
+                }
+            }
+            for (String se : _portsTaskOfModelAll.get(task).getSendEvents()) {
+                boolean isMappedPort = false;
+                for (PatternConnection patternConnection: patternConnections) {
+                   if (patternConnection.getModelTaskName().equals(task) && patternConnection.getModelChannelName().equals(se) && !patternConnection.isNewPort()) {
+                        isMappedPort = true;
+                        break;
+                   }
+                }
+                if (!isMappedPort) {
+                    portsTaskModelLeft.get(task).getSendEvents().add(se);
+                }
+            }
+            for (String we : _portsTaskOfModelAll.get(task).getWaitEvents()) {
+                boolean isMappedPort = false;
+                for (PatternConnection patternConnection: patternConnections) {
+                   if (patternConnection.getModelTaskName().equals(task) && patternConnection.getModelChannelName().equals(we) && !patternConnection.isNewPort()) {
+                        isMappedPort = true;
+                        break;
+                   }
+                }
+                if (!isMappedPort) {
+                    portsTaskModelLeft.get(task).getWaitEvents().add(we);
+                }
+            }
+        }
+        /*LinkedHashMap<String, TaskPorts> portsTaskModelLeft = new LinkedHashMap<String, TaskPorts>(_portsTaskOfModelAll);
         for (PatternConnection patternConnection: patternConnections) {
             if (portsTaskModelLeft.containsKey(patternConnection.getModelTaskName())) {
                 portsTaskModelLeft.get(patternConnection.getModelTaskName()).removePort(patternConnection.getModelChannelName());
             }
         }
+        for (PatternConnection patternConnection: patternConnections) {
+            if (portsTaskModelLeft.containsKey(patternConnection.getModelTaskName())) {
+                portsTaskModelLeft.get(patternConnection.getModelTaskName()).removePort(patternConnection.getModelChannelName());
+            }
+        }*/
         return portsTaskModelLeft;
     }
 }

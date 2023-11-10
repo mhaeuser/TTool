@@ -1100,7 +1100,8 @@ public class PatternIntegration implements Runnable {
                 }
 
                 List<TMLActivityElement> elemsToRemove = new ArrayList<TMLActivityElement>();
-                for (TMLActivityElement acElem : adTask.getElements()) {
+                for (int ind = 0; ind < adTask.getElements().size() ; ind ++) {
+                    TMLActivityElement acElem = adTask.getElements().get(ind);
                     if (acElem instanceof TMLActivityElementChannel) {
                         TMLActivityElementChannel acElemChannel = (TMLActivityElementChannel) acElem;
                         for (int indexChannel = 0 ; indexChannel < acElemChannel.getNbOfChannels() ; indexChannel++) { 
@@ -1121,6 +1122,7 @@ public class PatternIntegration implements Runnable {
                                         newNextElem.clearNexts();
                                         newNextElem.addNext(nextElem);
                                         elemsToRemove.add(acElem);
+                                        adTask.addElement(newNextElem);
                                     } catch (TMLCheckingError err) {
 
                                     }

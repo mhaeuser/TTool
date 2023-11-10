@@ -2341,50 +2341,8 @@ public class JDialogPatternHandling extends JDialog implements ActionListener, L
                 int selectedPatternIndex = jComboBoxPatterns.getSelectedIndex();
                 String selectedPatternPath = pathPatterns+listPatterns.get(selectedPatternIndex)+"/";
                 String selectedPatternName = listPatterns.get(selectedPatternIndex);
-              
-                for (String taskName : patternTasksAll.keySet()) {
-                    for (PortTaskJsonFile portTaskExt : patternTasksAll.get(taskName).getExternalPorts()) {
-                        if (portTaskExt.getType().equals(PatternCreation.CHANNEL)) {
-                            if (portTaskExt.getConfidentiality().toUpperCase().equals(PatternCreation.WITH_CONFIDENTIALITY.toUpperCase()) || !portTaskExt.getAuthenticity().toUpperCase().equals(PatternCreation.WITHOUT_AUTHENTICITY.toUpperCase())) {
-                                PatternChannelWithSecurity patternChannelWithSecurity = new PatternChannelWithSecurity(taskName, portTaskExt.getName(), portTaskExt.getMode());
-                                if (portTaskExt.getConfidentiality().toUpperCase().equals(PatternCreation.WITH_CONFIDENTIALITY.toUpperCase())) {
-                                    patternChannelWithSecurity.setIsConfidential(true);
-                                } else if (portTaskExt.getConfidentiality().toUpperCase().equals(PatternCreation.WITHOUT_CONFIDENTIALITY.toUpperCase())) {
-                                    patternChannelWithSecurity.setIsConfidential(false);
-                                }
-                                if (portTaskExt.getAuthenticity().toUpperCase().equals(PatternCreation.WITHOUT_AUTHENTICITY.toUpperCase())) {
-                                    patternChannelWithSecurity.setAuthenticity(PatternChannelWithSecurity.NO_AUTHENTICITY);
-                                } else if (portTaskExt.getAuthenticity().toUpperCase().equals(PatternCreation.WEAK_AUTHENTICITY.toUpperCase())) {
-                                    patternChannelWithSecurity.setAuthenticity(PatternChannelWithSecurity.WEAK_AUTHENTICITY);
-                                } else if (portTaskExt.getAuthenticity().toUpperCase().equals(PatternCreation.STRONG_AUTHENTICITY.toUpperCase())) {
-                                    patternChannelWithSecurity.setAuthenticity(PatternChannelWithSecurity.STRONG_AUTHENTICITY);
-                                }
-                                channelsWithSecurity.add(patternChannelWithSecurity);
-                            }
-                        }
-                    }
-                    for (PortTaskJsonFile portTaskInt : patternTasksAll.get(taskName).getInternalPorts()) {
-                        if (portTaskInt.getType().equals(PatternCreation.CHANNEL)) {
-                            if (portTaskInt.getConfidentiality().toUpperCase().equals(PatternCreation.WITH_CONFIDENTIALITY.toUpperCase()) || !portTaskInt.getAuthenticity().toUpperCase().equals(PatternCreation.WITHOUT_AUTHENTICITY.toUpperCase())) {
-                                PatternChannelWithSecurity patternChannelWithSecurity = new PatternChannelWithSecurity(taskName, portTaskInt.getName(), portTaskInt.getMode());
-                                if (portTaskInt.getConfidentiality().toUpperCase().equals(PatternCreation.WITH_CONFIDENTIALITY.toUpperCase())) {
-                                    patternChannelWithSecurity.setIsConfidential(true);
-                                } else if (portTaskInt.getConfidentiality().toUpperCase().equals(PatternCreation.WITHOUT_CONFIDENTIALITY.toUpperCase())) {
-                                    patternChannelWithSecurity.setIsConfidential(false);
-                                }
-                                if (portTaskInt.getAuthenticity().toUpperCase().equals(PatternCreation.WITHOUT_AUTHENTICITY.toUpperCase())) {
-                                    patternChannelWithSecurity.setAuthenticity(PatternChannelWithSecurity.NO_AUTHENTICITY);
-                                } else if (portTaskInt.getAuthenticity().toUpperCase().equals(PatternCreation.WEAK_AUTHENTICITY.toUpperCase())) {
-                                    patternChannelWithSecurity.setAuthenticity(PatternChannelWithSecurity.WEAK_AUTHENTICITY);
-                                } else if (portTaskInt.getAuthenticity().toUpperCase().equals(PatternCreation.STRONG_AUTHENTICITY.toUpperCase())) {
-                                    patternChannelWithSecurity.setAuthenticity(PatternChannelWithSecurity.STRONG_AUTHENTICITY);
-                                }
-                                channelsWithSecurity.add(patternChannelWithSecurity);
-                            }
-                        }
-                    }
-                }
                 PatternConfiguration patternConfiguration = new PatternConfiguration(patternConnectionList, clonedTasksList, configuredPortsList, mappedTasksList, mappedChannelsList, updatedPatternAttributes, channelsWithSecurity);
+                patternConfiguration.loadChannelsWithSecurity(patternTasksAll);
                 mgui.gtm.createJsonPatternConfigFile(selectedPatternPath, selectedPatternName, patternConfiguration);
                 mgui.gtm.integratePattern(mgui, selectedPatternPath, selectedPatternName);
                 JLabel label = new JLabel("Pattern Configuration Completed");

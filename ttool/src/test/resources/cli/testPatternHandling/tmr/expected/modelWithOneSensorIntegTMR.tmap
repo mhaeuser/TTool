@@ -37,36 +37,14 @@ TMLMAPPING
     SET ModelOneSensor__sensorData priority 0
     MAP BusEnvironmentPrivate ModelOneSensor__sensorData
     SET ModelOneSensor__sensorData priority 0
-    MAP MemoryEnvironment ModelOneSensor__resA
-    SET ModelOneSensor__resA priority 0
-    MAP BusEnvironment ModelOneSensor__resA
-    SET ModelOneSensor__resA priority 0
-    MAP MainBus ModelOneSensor__resA
-    SET ModelOneSensor__resA priority 0
-    MAP BusReceiver ModelOneSensor__resA
-    SET ModelOneSensor__resA priority 0
-    MAP BusReceiverPrivate ModelOneSensor__resA
-    SET ModelOneSensor__resA priority 0
-    MAP BusEnvironmentPrivate ModelOneSensor__resA
-    SET ModelOneSensor__resA priority 0
-    MAP Memory_resultData ModelOneSensor__resultData
-    SET ModelOneSensor__resultData priority 0
-    MAP BusReceiver ModelOneSensor__resultData
-    SET ModelOneSensor__resultData priority 0
-    MAP BusEnvironment ModelOneSensor__sensorData1
-    SET ModelOneSensor__sensorData1 priority 0
-    MAP MainBus ModelOneSensor__sensorData1
+    MAP Memory_sensorData ModelOneSensor__sensorData1
     SET ModelOneSensor__sensorData1 priority 0
     MAP BusReceiver ModelOneSensor__sensorData1
     SET ModelOneSensor__sensorData1 priority 0
-    MAP BusReceiverPrivate ModelOneSensor__sensorData1
-    SET ModelOneSensor__sensorData1 priority 0
-    MAP BusEnvironmentPrivate ModelOneSensor__sensorData1
-    SET ModelOneSensor__sensorData1 priority 0
-    MAP MemoryB ModelOneSensor__sensorData1
-    SET ModelOneSensor__sensorData1 priority 0
-    MAP MainBus ModelOneSensor__sensorData1
-    SET ModelOneSensor__sensorData1 priority 0
+    MAP Memory_sensorData ModelOneSensor__resA
+    SET ModelOneSensor__resA priority 0
+    MAP BusReceiver ModelOneSensor__resA
+    SET ModelOneSensor__resA priority 0
     MAP BusEnvironment ModelOneSensor__sensorData0
     SET ModelOneSensor__sensorData0 priority 0
     MAP MainBus ModelOneSensor__sensorData0
@@ -81,25 +59,37 @@ TMLMAPPING
     SET ModelOneSensor__sensorData0 priority 0
     MAP MainBus ModelOneSensor__sensorData0
     SET ModelOneSensor__sensorData0 priority 0
-    MAP MemoryEnvironment ModelOneSensor__resC
+    MAP Memory_sensorData ModelOneSensor__resultData
+    SET ModelOneSensor__resultData priority 0
+    MAP BusReceiver ModelOneSensor__resultData
+    SET ModelOneSensor__resultData priority 0
+    MAP BusEnvironment ModelOneSensor__resultData
+    SET ModelOneSensor__resultData priority 0
+    MAP MainBus ModelOneSensor__resultData
+    SET ModelOneSensor__resultData priority 0
+    MAP BusReceiverPrivate ModelOneSensor__resultData
+    SET ModelOneSensor__resultData priority 0
+    MAP BusEnvironmentPrivate ModelOneSensor__resultData
+    SET ModelOneSensor__resultData priority 0
+    MAP Memory_sensorData ModelOneSensor__resC
+    SET ModelOneSensor__resC priority 0
+    MAP BusReceiver ModelOneSensor__resC
     SET ModelOneSensor__resC priority 0
     MAP BusEnvironment ModelOneSensor__resC
     SET ModelOneSensor__resC priority 0
     MAP MainBus ModelOneSensor__resC
     SET ModelOneSensor__resC priority 0
-    MAP BusReceiver ModelOneSensor__resC
-    SET ModelOneSensor__resC priority 0
     MAP BusReceiverPrivate ModelOneSensor__resC
     SET ModelOneSensor__resC priority 0
     MAP BusEnvironmentPrivate ModelOneSensor__resC
     SET ModelOneSensor__resC priority 0
-    MAP MemoryEnvironment ModelOneSensor__resB
+    MAP Memory_sensorData ModelOneSensor__resB
+    SET ModelOneSensor__resB priority 0
+    MAP BusReceiver ModelOneSensor__resB
     SET ModelOneSensor__resB priority 0
     MAP BusEnvironment ModelOneSensor__resB
     SET ModelOneSensor__resB priority 0
     MAP MainBus ModelOneSensor__resB
-    SET ModelOneSensor__resB priority 0
-    MAP BusReceiver ModelOneSensor__resB
     SET ModelOneSensor__resB priority 0
     MAP BusReceiverPrivate ModelOneSensor__resB
     SET ModelOneSensor__resB priority 0

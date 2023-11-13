@@ -22,8 +22,8 @@ pa sc -tctl
 pa sc -tcn SensorClone1 BusEnvironment
 pa sc -tcm SensorClone2 SensorClone1
 pa sc -tcn Voter MainBus
-pa sc -mcm InterpreterA.resA Sensor.sensorData
-pa sc -mcn Voter.resultData BusReceiver
+pa sc -mcn SensorClone1.sensorData BusReceiver
+pa sc -mcm InterpreterA.resA SensorClone1.sensorData
 pa sc -mctl
 pa sc -ua Timer dataReceivingTimeout 1000
 pa sc -m resources/test/cli/testPatternHandling/tmr/modelWithOneSensor-config.json

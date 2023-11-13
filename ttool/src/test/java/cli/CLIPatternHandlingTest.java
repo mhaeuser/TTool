@@ -63,6 +63,11 @@ import myutil.TraceManager;
 import org.junit.Test;
 import test.AbstractTest;
 import tmltranslator.compareTMLTest.CompareTML;
+import tmltranslator.compareTMLTest.CompareTMAP;
+import tmltranslator.TMLMapping;
+import tmltranslator.TMLMappingTextSpecification;
+import tmltranslator.TMLSyntaxChecking;
+import tmltranslator.TMLError;
 
 
 public class CLIPatternHandlingTest extends AbstractTest implements InterpreterOutputInterface {
@@ -88,25 +93,23 @@ public class CLIPatternHandlingTest extends AbstractTest implements InterpreterO
     }
 	
     public void exit(int reason) {
-	    System.out.println("Exit reason=" + reason);
+	    TraceManager.addDev("Exit reason=" + reason);
 	    assertTrue(reason == 0);
     }
 
     public void printError(String error) {
-        System.out.println("Error=" + error);
+        TraceManager.addDev("Error=" + error);
     }
 
     public void print(String s) {
-	    System.out.println("info from interpreter:" + s);
+	    TraceManager.addDev("info from interpreter:" + s);
 	    outputResult.append(s);
     }
 	
 	@Test
     public void testIntegratingTMR() throws Exception {
-        System.out.println("getBaseResourcesDir:> " + getBaseResourcesDir());
         String filePathCreateTMR = getBaseResourcesDir() + PATH_PATTERNS[0] +  PATH_CLI_TO_CREATE_PATTERNS[0];
         String script;
-        System.out.println("filePathCreateTMR:> " + filePathCreateTMR);
         outputResult = new StringBuilder();
 
         File f = new File(filePathCreateTMR);
@@ -131,7 +134,6 @@ public class CLIPatternHandlingTest extends AbstractTest implements InterpreterO
             Interpreter interpretConfigModel = new Interpreter(scriptConfig, (InterpreterOutputInterface)this, false);
             interpretConfigModel.interpret();
 
-
             String filePathApplyToModel = getBaseResourcesDir() + PATH_PATTERNS[0] +  PATH_CLI_TO_APPLY_TMR_IN_MODELS[i];
             String scriptApplyToModel;
             outputResult = new StringBuilder();
@@ -143,17 +145,51 @@ public class CLIPatternHandlingTest extends AbstractTest implements InterpreterO
             interpretApplyToModel.interpret();
            
             String filePathObtainedTmap = OBTAINED_MODELS_PATH + OBTAINED_MODELS_AFTER_INTEGRATING_TMR_TMAP[i];
+            String folderPathObtainedTmap = filePathObtainedTmap.substring(0, filePathObtainedTmap.lastIndexOf("/")+1);
+            String fileName = filePathObtainedTmap.split("/")[filePathObtainedTmap.split("/").length -1];
+            String modelName = fileName.split("\\.")[0];
             File fObtainedTmap = new File(filePathObtainedTmap);
             assertTrue(myutil.FileUtils.checkFileForOpen(fObtainedTmap));
-            String obtainedOutputTmap = myutil.FileUtils.loadFileData(fObtainedTmap);
+
+            TMLMappingTextSpecification tmts = new TMLMappingTextSpecification(modelName);
+            TraceManager.addDev("Loading file: " + fObtainedTmap.getAbsolutePath());
+            String obtainedOutputTmap = null;
+            try {
+                obtainedOutputTmap = myutil.FileUtils.loadFileData(fObtainedTmap);
+            } catch (Exception e) {
+                TraceManager.addDev("Exception executing: loading " + modelName);
+                assertTrue(false);
+            }
+            TraceManager.addDev("Testing spec " + modelName);
+            assertTrue(obtainedOutputTmap != null);
+            TraceManager.addDev("Going to parse " + modelName);
+            boolean parsed = tmts.makeTMLMapping(obtainedOutputTmap, folderPathObtainedTmap);
+            assertTrue(parsed);
+
+            TraceManager.addDev("Checking syntax " + modelName);
+            // Checking syntax
+            TMLMapping tmap = tmts.getTMLMapping();
+
+            TMLSyntaxChecking syntax = new TMLSyntaxChecking(tmap);
+            syntax.checkSyntax();
+
+            if (syntax.hasErrors() > 0) {
+                for (TMLError error: syntax.getErrors()) {
+                    TraceManager.addDev("Error: " + error.toString());
+                }
+
+            }
+            assertTrue(syntax.hasErrors() == 0);
+
+
             String filePathExpectedTmap = getBaseResourcesDir() + PATH_PATTERNS[0] + EXPECTED_MODELS_AFTER_INTEGRATING_TMR_TMAP[i];
             File fExpectedTmap = new File(filePathExpectedTmap);
             assertTrue(myutil.FileUtils.checkFileForOpen(fExpectedTmap));
             String expectedOutputTmap = myutil.FileUtils.loadFileData(fExpectedTmap);
-            //System.out.println("\nExpected:>" + expectedOutputTmap + "<");
-            //System.out.println("\nObtained:>" + obtainedOutputTmap + "<");
-            CompareTML ctmap = new CompareTML();
-            assertTrue("comparing between 2 TMAP files", ctmap.compareTML(fObtainedTmap, fExpectedTmap));
+            //TraceManager.addDev("\nExpected:>" + expectedOutputTmap + "<");
+            //TraceManager.addDev("\nObtained:>" + obtainedOutputTmap + "<");
+            CompareTMAP ctmap = new CompareTMAP();
+            assertTrue("comparing between 2 TMAP files", ctmap.CompareTMAPFiles(fObtainedTmap, fExpectedTmap));
             
 
             String filePathObtainedTarchi = OBTAINED_MODELS_PATH + OBTAINED_MODELS_AFTER_INTEGRATING_TMR_TARCHI[i];
@@ -164,10 +200,10 @@ public class CLIPatternHandlingTest extends AbstractTest implements InterpreterO
             File fExpectedTarchi = new File(filePathExpectedTarchi);
             assertTrue(myutil.FileUtils.checkFileForOpen(fExpectedTarchi));
             String expectedOutputTarchi = myutil.FileUtils.loadFileData(fExpectedTarchi);
-            CompareTML ctarchi = new CompareTML();
-            assertTrue("comparing between 2 Tarchi files", ctarchi.compareTML(fObtainedTarchi, fExpectedTarchi));
-            //System.out.println("\nExpected Tarchi:>" + expectedOutputTarchi + "<");
-            //System.out.println("\nObtained Tarchi:>" + obtainedOutputTarchi + "<");
+            CompareTMAP ctarchi = new CompareTMAP();
+            assertTrue("comparing between 2 Tarchi files", ctarchi.CompareTMAPFiles(fObtainedTarchi, fExpectedTarchi));
+            //TraceManager.addDev("\nExpected Tarchi:>" + expectedOutputTarchi + "<");
+            //TraceManager.addDev("\nObtained Tarchi:>" + obtainedOutputTarchi + "<");
 
             String filePathObtainedTML = OBTAINED_MODELS_PATH + OBTAINED_MODELS_AFTER_INTEGRATING_TMR_TML[i];
             File fObtainedTML = new File(filePathObtainedTML);
@@ -179,8 +215,8 @@ public class CLIPatternHandlingTest extends AbstractTest implements InterpreterO
             String expectedOutputTML = myutil.FileUtils.loadFileData(fExpectedTML);
             CompareTML ctml = new CompareTML();
             assertTrue("comparing between 2 TML files", ctml.compareTML(fObtainedTML, fExpectedTML));
-            //System.out.println("\nExpected TML:>" + expectedOutputTML + "<");
-            //System.out.println("\nObtained TML:>" + obtainedOutputTML + "<");
+            //TraceManager.addDev("\nExpected TML:>" + expectedOutputTML + "<");
+            //TraceManager.addDev("\nObtained TML:>" + obtainedOutputTML + "<");
         }
         
     }

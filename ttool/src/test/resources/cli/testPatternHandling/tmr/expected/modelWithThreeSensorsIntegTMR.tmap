@@ -15,10 +15,10 @@ TMLMAPPING
     SET ModelThreeSensors__Sensor2 priority 0
     MAP CPUEnvironment ModelThreeSensors__Sensor1
     SET ModelThreeSensors__Sensor1 priority 0
-    MAP CPUEnvironment ModelThreeSensors__InterpreterA
-    SET ModelThreeSensors__InterpreterA priority 0
     MAP CPU_InterpreterB ModelThreeSensors__InterpreterB
     SET ModelThreeSensors__InterpreterB priority 0
+    MAP CPU_InterpreterB ModelThreeSensors__InterpreterA
+    SET ModelThreeSensors__InterpreterA priority 0
     MAP CPU_InterpreterB ModelThreeSensors__Voter
     SET ModelThreeSensors__Voter priority 0
     MAP CPU_InterpreterB ModelThreeSensors__InterpreterC
@@ -65,11 +65,11 @@ TMLMAPPING
     SET ModelThreeSensors__resultData priority 0
     MAP MainBus ModelThreeSensors__resultData
     SET ModelThreeSensors__resultData priority 0
-    MAP BusReceiver ModelThreeSensors__resultData
+    MAP BusEnvironmentPrivate ModelThreeSensors__resultData
     SET ModelThreeSensors__resultData priority 0
     MAP BusReceiverPrivate ModelThreeSensors__resultData
     SET ModelThreeSensors__resultData priority 0
-    MAP BusEnvironmentPrivate ModelThreeSensors__resultData
+    MAP BusReceiver ModelThreeSensors__resultData
     SET ModelThreeSensors__resultData priority 0
     MAP MemoryVoter ModelThreeSensors__resultData
     SET ModelThreeSensors__resultData priority 0
@@ -81,11 +81,11 @@ TMLMAPPING
     SET ModelThreeSensors__resA priority 0
     MAP MainBus ModelThreeSensors__resA
     SET ModelThreeSensors__resA priority 0
-    MAP BusReceiver ModelThreeSensors__resA
+    MAP BusEnvironmentPrivate ModelThreeSensors__resA
     SET ModelThreeSensors__resA priority 0
     MAP BusReceiverPrivate ModelThreeSensors__resA
     SET ModelThreeSensors__resA priority 0
-    MAP BusEnvironmentPrivate ModelThreeSensors__resA
+    MAP BusReceiver ModelThreeSensors__resA
     SET ModelThreeSensors__resA priority 0
     MAP MemoryVoter ModelThreeSensors__resC
     SET ModelThreeSensors__resC priority 0
@@ -93,11 +93,11 @@ TMLMAPPING
     SET ModelThreeSensors__resC priority 0
     MAP MainBus ModelThreeSensors__resC
     SET ModelThreeSensors__resC priority 0
-    MAP BusReceiver ModelThreeSensors__resC
+    MAP BusEnvironmentPrivate ModelThreeSensors__resC
     SET ModelThreeSensors__resC priority 0
     MAP BusReceiverPrivate ModelThreeSensors__resC
     SET ModelThreeSensors__resC priority 0
-    MAP BusEnvironmentPrivate ModelThreeSensors__resC
+    MAP BusReceiver ModelThreeSensors__resC
     SET ModelThreeSensors__resC priority 0
     MAP MemoryVoter ModelThreeSensors__resB
     SET ModelThreeSensors__resB priority 0
@@ -105,10 +105,10 @@ TMLMAPPING
     SET ModelThreeSensors__resB priority 0
     MAP MainBus ModelThreeSensors__resB
     SET ModelThreeSensors__resB priority 0
-    MAP BusReceiver ModelThreeSensors__resB
+    MAP BusEnvironmentPrivate ModelThreeSensors__resB
     SET ModelThreeSensors__resB priority 0
     MAP BusReceiverPrivate ModelThreeSensors__resB
     SET ModelThreeSensors__resB priority 0
-    MAP BusEnvironmentPrivate ModelThreeSensors__resB
+    MAP BusReceiver ModelThreeSensors__resB
     SET ModelThreeSensors__resB priority 0
 ENDTMLMAPPING

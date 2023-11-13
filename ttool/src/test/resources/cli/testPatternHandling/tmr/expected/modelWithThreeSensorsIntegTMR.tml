@@ -1,6 +1,6 @@
 // TML Application - FORMAT 0.2
 // Application: tmr
-// Generated: Sun Nov 12 15:40:56 CET 2023
+// Generated: Mon Nov 13 12:40:36 CET 2023
 
 // PRAGMAS
 
@@ -84,8 +84,8 @@ TASK ModelThreeSensors__Receiver
     
     //Behavior
     FOR(; ; )
-        READ ModelThreeSensors__resultData 1
         WAIT ModelThreeSensors__moveto_FAIL_SAFE x
+        READ ModelThreeSensors__resultData 1
         EXECI executeSensor
     ENDFOR
 ENDTASK

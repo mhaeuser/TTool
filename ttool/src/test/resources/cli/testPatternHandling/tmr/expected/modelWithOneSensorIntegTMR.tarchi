@@ -138,13 +138,9 @@ SET CPU_Voter execiTime 1
 SET CPU_Voter execcTime 1
 SET CPU_Voter clockDivider 1
 
-NODE MEMORY Memory_resultData
-SET Memory_resultData byteDataSize 4
-SET Memory_resultData clockDivider 1
-
-NODE MEMORY MemoryB
-SET MemoryB byteDataSize 4
-SET MemoryB clockDivider 1
+NODE MEMORY Memory_sensorData
+SET Memory_sensorData byteDataSize 4
+SET Memory_sensorData clockDivider 1
 
 NODE MEMORY MemoryC
 SET MemoryC byteDataSize 4
@@ -214,14 +210,10 @@ NODE LINK link_CPU_Voter_to_MainBus
 SET link_CPU_Voter_to_MainBus node CPU_Voter
 SET link_CPU_Voter_to_MainBus bus MainBus
 SET link_CPU_Voter_to_MainBus priority 0
-NODE LINK link_Memory_resultData_to_BusReceiver
-SET link_Memory_resultData_to_BusReceiver node Memory_resultData
-SET link_Memory_resultData_to_BusReceiver bus BusReceiver
-SET link_Memory_resultData_to_BusReceiver priority 0
-NODE LINK link_MemoryB_to_MainBus
-SET link_MemoryB_to_MainBus node MemoryB
-SET link_MemoryB_to_MainBus bus MainBus
-SET link_MemoryB_to_MainBus priority 0
+NODE LINK link_Memory_sensorData_to_BusReceiver
+SET link_Memory_sensorData_to_BusReceiver node Memory_sensorData
+SET link_Memory_sensorData_to_BusReceiver bus BusReceiver
+SET link_Memory_sensorData_to_BusReceiver priority 0
 NODE LINK link_MemoryC_to_MainBus
 SET link_MemoryC_to_MainBus node MemoryC
 SET link_MemoryC_to_MainBus bus MainBus

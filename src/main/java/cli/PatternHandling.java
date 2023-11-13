@@ -11,7 +11,9 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Vector;
 
+import org.apache.regexp.recompile;
 
+import myutil.FileUtils;
 import myutil.TraceManager;
 import tmltranslator.HwNode;
 import tmltranslator.TMLChannel;
@@ -19,6 +21,7 @@ import tmltranslator.TMLEvent;
 import tmltranslator.TMLMapping;
 import tmltranslator.TMLMappingTextSpecification;
 import tmltranslator.TMLRequest;
+import tmltranslator.TMLSyntaxChecking;
 import tmltranslator.TMLTask;
 import tmltranslator.patternhandling.AttributeTaskJsonFile;
 import tmltranslator.patternhandling.MappingPatternChannel;
@@ -32,6 +35,7 @@ import tmltranslator.patternhandling.PatternPortsConfig;
 import tmltranslator.patternhandling.PortTaskJsonFile;
 import tmltranslator.patternhandling.TaskPattern;
 import tmltranslator.patternhandling.TaskPorts;
+import ui.GTURTLEModeling;
 import ui.TMLArchiPanel;
 import ui.TURTLEPanel;
 import ui.window.JDialogSystemCGeneration;
@@ -70,6 +74,7 @@ public class PatternHandling extends Command {
     private final static String CHANNEL_IN_SAME_MEM_MAP_NOT_EXIST = "Selected channel in same memory does not exist or can't be used";
     private final static String BUS_NOT_EXIST = "Bus does not exist";
     private final static String CONFIG_JSON_FILE_NOT_EXIST = "Config json file does not exist";
+    private final static String CONFIG_JSON_FILE_MISSING = "Path of the configuration json is missing or no pattern is selected";
     // PatternHandling commands
     private final static String CREATE = "create-pattern";
     private final static String CONFIGURE = "configure-pattern";
@@ -77,6 +82,7 @@ public class PatternHandling extends Command {
     private final static String DIPLO_LOAD_TMAP = "diplodocus-load-tmap";
 
     private TMLMapping<?> tmap;
+    private String tabName = "";
     private String patternName, patternsPath = "../ttool/build/resources/main/patterns/";
     private HashSet<String> selectedTasks = new HashSet<String>();
     private HashSet<String> allTasksOfModel = new HashSet<String>();
@@ -137,7 +143,7 @@ public class PatternHandling extends Command {
             public String getUsage() {
                 return "[OPTION]... [NAME] [PATH] [TASKS]\n"
                 + "-n NAME\tset a name for the pattern to create\n"
-                + "-p PATHE\tset a path for the files that will be generated for the pattern\n"
+                + "-p PATH\tset a path for the files that will be generated for the pattern\n"
                 + "-a TASKS\tselect tasks to add to the pattern (seperated by a space)\n"
                 + "-l \tget the list of selected tasks to be added to the pattern\n"
                 + "-t \tget all tasks of the model\n"
@@ -146,40 +152,47 @@ public class PatternHandling extends Command {
             }
 
             public String executeCommand(String command, Interpreter interpreter) {
-                if (!interpreter.isTToolStarted()) {
+                /*if (!interpreter.isTToolStarted()) {
                     return Interpreter.TTOOL_NOT_STARTED;
-                }
+                }*/
                 
                 if (tmap == null) {
-                    TURTLEPanel tp = interpreter.mgui.getCurrentTURTLEPanel();
-                    if (!(tp instanceof TMLArchiPanel)) {
-                        return "Current panel does not contain TMAP (NB: you can load a textual TMAP Spec using " + DIPLO_LOAD_TMAP +" or move to Arch panel.)";
-                    }
-                    if(!interpreter.mgui.checkModelingSyntax(tp, true)) {
-                        return SYNTAX_ERROR + "in current panel (NB: you can load a textual TMAP Spec using " + DIPLO_LOAD_TMAP +")";
-                    }
-                    tmap = interpreter.mgui.gtm.getTMLMapping();
-                    nullifyAll();
-                    if (tmap == null) {
-                        return Interpreter.TMAP_NO_SPEC + "\nLoad a textual TMAP Spec using " + DIPLO_LOAD_TMAP + " command or move to Arch panel.";
+                    if (interpreter.mgui != null) {
+                        TURTLEPanel tp = interpreter.mgui.getCurrentTURTLEPanel();
+                        if (!(tp instanceof TMLArchiPanel)) {
+                            return "Current panel does not contain TMAP (NB: you can load a textual TMAP Spec using " + DIPLO_LOAD_TMAP +" or move to Arch panel.)";
+                        }
+                        if(!interpreter.mgui.checkModelingSyntax(tp, true)) {
+                            return SYNTAX_ERROR + "in current panel (NB: you can load a textual TMAP Spec using " + DIPLO_LOAD_TMAP +")";
+                        }
+                        tmap = interpreter.mgui.gtm.getTMLMapping();
+                        nullifyAll();
+                        if (tmap == null) {
+                            return Interpreter.TMAP_NO_SPEC + "\nLoad a textual TMAP Spec using " + DIPLO_LOAD_TMAP + " command or move to Arch panel.";
+                        } else {
+                            for (TMLTask task : tmap.getTMLModeling().getTasks()) {
+                                String[] taskNameSplit = task.getName().split("__");
+                                allTasksOfModel.add(taskNameSplit[taskNameSplit.length-1]);
+                                if (taskNameSplit.length > 1) {
+                                    tabName = taskNameSplit[0];
+                                } 
+                                task.setName(taskNameSplit[taskNameSplit.length-1]);
+                            }
+                            for (TMLChannel ch : tmap.getTMLModeling().getChannels()) {
+                                String[] chNameSplit = ch.getName().split("__");
+                                ch.setName(chNameSplit[chNameSplit.length-1]);
+                            }
+                            for (TMLEvent evt : tmap.getTMLModeling().getEvents()) {
+                                String[] evtNameSplit = evt.getName().split("__");
+                                evt.setName(evtNameSplit[evtNameSplit.length-1]);
+                            }
+                            for (TMLRequest req : tmap.getTMLModeling().getRequests()) {
+                                String[] reqNameSplit = req.getName().split("__");
+                                req.setName(reqNameSplit[reqNameSplit.length-1]);
+                            }
+                        }
                     } else {
-                        for (TMLTask task : tmap.getTMLModeling().getTasks()) {
-                            String[] taskNameSplit = task.getName().split("__");
-                            allTasksOfModel.add(taskNameSplit[taskNameSplit.length-1]);
-                            task.setName(taskNameSplit[taskNameSplit.length-1]);
-                        }
-                        for (TMLChannel ch : tmap.getTMLModeling().getChannels()) {
-                            String[] chNameSplit = ch.getName().split("__");
-                            ch.setName(chNameSplit[chNameSplit.length-1]);
-                        }
-                        for (TMLEvent evt : tmap.getTMLModeling().getEvents()) {
-                            String[] evtNameSplit = evt.getName().split("__");
-                            evt.setName(evtNameSplit[evtNameSplit.length-1]);
-                        }
-                        for (TMLRequest req : tmap.getTMLModeling().getRequests()) {
-                            String[] reqNameSplit = req.getName().split("__");
-                            req.setName(reqNameSplit[reqNameSplit.length-1]);
-                        }
+                        return Interpreter.TTOOL_NOT_STARTED;
                     }
                 }
 
@@ -288,7 +301,7 @@ public class PatternHandling extends Command {
                                 return Interpreter.BAD;
                             }
                             if (patternName != null && !patternName.equals("") && selectedTasks.size() != 0) {
-                                interpreter.mgui.gtm.createPattern(new ArrayList<String>(selectedTasks), patternName, patternsPath);
+                                GTURTLEModeling.createPatternFromTmap(new ArrayList<String>(selectedTasks), patternName, patternsPath, tmap);
                                 selectedTasks.clear();
                                 patternName = null;
                             } else {
@@ -358,40 +371,47 @@ public class PatternHandling extends Command {
             }
 
             public String executeCommand(String command, Interpreter interpreter) {
-                if (!interpreter.isTToolStarted()) {
+                /*if (!interpreter.isTToolStarted()) {
                     return Interpreter.TTOOL_NOT_STARTED;
-                }
+                }*/
                 
                 if (tmap == null) {
-                    TURTLEPanel tp = interpreter.mgui.getCurrentTURTLEPanel();
-                    if (!(tp instanceof TMLArchiPanel)) {
-                        return "Current panel does not contain TMAP (NB: you can load a textual TMAP Spec using " + DIPLO_LOAD_TMAP +" or move to Arch panel.)";
-                    }
-                    if(!interpreter.mgui.checkModelingSyntax(tp, true)) {
-                        return SYNTAX_ERROR + "in current panel (NB: you can load a textual TMAP Spec using " + DIPLO_LOAD_TMAP +")";
-                    }
-                    tmap = interpreter.mgui.gtm.getTMLMapping();
-                    nullifyAll();
-                    if (tmap == null) {
-                        return Interpreter.TMAP_NO_SPEC + "\nLoad a textual TMAP Spec using " + DIPLO_LOAD_TMAP + " command or move to Arch panel.";
+                    if (interpreter.mgui != null) {
+                        TURTLEPanel tp = interpreter.mgui.getCurrentTURTLEPanel();
+                        if (!(tp instanceof TMLArchiPanel)) {
+                            return "Current panel does not contain TMAP (NB: you can load a textual TMAP Spec using " + DIPLO_LOAD_TMAP +" or move to Arch panel.)";
+                        }
+                        if(!interpreter.mgui.checkModelingSyntax(tp, true)) {
+                            return SYNTAX_ERROR + "in current panel (NB: you can load a textual TMAP Spec using " + DIPLO_LOAD_TMAP +")";
+                        }
+                        tmap = interpreter.mgui.gtm.getTMLMapping();
+                        nullifyAll();
+                        if (tmap == null) {
+                            return Interpreter.TMAP_NO_SPEC + "\nLoad a textual TMAP Spec using " + DIPLO_LOAD_TMAP + " command or move to Arch panel.";
+                        } else {
+                            for (TMLTask task : tmap.getTMLModeling().getTasks()) {
+                                String[] taskNameSplit = task.getName().split("__");
+                                allTasksOfModel.add(taskNameSplit[taskNameSplit.length-1]);
+                                if (taskNameSplit.length > 1) {
+                                    tabName = taskNameSplit[0];
+                                } 
+                                task.setName(taskNameSplit[taskNameSplit.length-1]);
+                            }
+                            for (TMLChannel ch : tmap.getTMLModeling().getChannels()) {
+                                String[] chNameSplit = ch.getName().split("__");
+                                ch.setName(chNameSplit[chNameSplit.length-1]);
+                            }
+                            for (TMLEvent evt : tmap.getTMLModeling().getEvents()) {
+                                String[] evtNameSplit = evt.getName().split("__");
+                                evt.setName(evtNameSplit[evtNameSplit.length-1]);
+                            }
+                            for (TMLRequest req : tmap.getTMLModeling().getRequests()) {
+                                String[] reqNameSplit = req.getName().split("__");
+                                req.setName(reqNameSplit[reqNameSplit.length-1]);
+                            }
+                        }
                     } else {
-                        for (TMLTask task : tmap.getTMLModeling().getTasks()) {
-                            String[] taskNameSplit = task.getName().split("__");
-                            allTasksOfModel.add(taskNameSplit[taskNameSplit.length-1]);
-                            task.setName(taskNameSplit[taskNameSplit.length-1]);
-                        }
-                        for (TMLChannel ch : tmap.getTMLModeling().getChannels()) {
-                            String[] chNameSplit = ch.getName().split("__");
-                            ch.setName(chNameSplit[chNameSplit.length-1]);
-                        }
-                        for (TMLEvent evt : tmap.getTMLModeling().getEvents()) {
-                            String[] evtNameSplit = evt.getName().split("__");
-                            evt.setName(evtNameSplit[evtNameSplit.length-1]);
-                        }
-                        for (TMLRequest req : tmap.getTMLModeling().getRequests()) {
-                            String[] reqNameSplit = req.getName().split("__");
-                            req.setName(reqNameSplit[reqNameSplit.length-1]);
-                        }
+                        return Interpreter.TTOOL_NOT_STARTED;
                     }
                 }
 
@@ -437,6 +457,9 @@ public class PatternHandling extends Command {
                             if (folderPattern.isDirectory()) {
                                 selectedPatternName = argumentsOfOption.get(0).split("/")[argumentsOfOption.get(0).split("/").length-1];
                                 selectedPatternPath =  argumentsOfOption.get(0);
+                                if (!selectedPatternName.endsWith("/")) {
+                                    selectedPatternPath += "/";
+                                }
                                 patternTasksAll = TaskPattern.parsePatternJsonFile(selectedPatternPath, selectedPatternName+".json");
                                 portsTaskOfModelAll = TaskPorts.getListPortsTask(tmap.getTMLModeling());
                                 patternConfiguration = new PatternConfiguration();
@@ -1458,7 +1481,7 @@ public class PatternHandling extends Command {
                                 argumentsOfOption.add(commands[i+1]);
                                 i += 1;
                             }
-                            if (argumentsOfOption.size() != 0) {
+                            if (argumentsOfOption.size() > 1) {
                                 return Interpreter.BAD;
                             }
                             patternTasksLeft = TaskPattern.getPatternTasksLeft(patternTasksAll, patternConfiguration.getPortsConnection());
@@ -1473,13 +1496,13 @@ public class PatternHandling extends Command {
                             if (argumentsOfOption.size() == 0) {
                                 if (selectedPatternName != null && !selectedPatternName.equals("")) {
                                     patternConfiguration.loadChannelsWithSecurity(patternTasksAll);
-                                    interpreter.mgui.gtm.createJsonPatternConfigFile(selectedPatternPath, selectedPatternName, patternConfiguration);
+                                    GTURTLEModeling.createJsonPatternConfigFile(selectedPatternPath, selectedPatternName, patternConfiguration);
                                 } else {
                                     return NO_NAME_NO_TASK_FOR_PATTERN;
                                 }
                             } else if (argumentsOfOption.size() == 1) {
                                 patternConfiguration.loadChannelsWithSecurity(patternTasksAll);
-                                interpreter.mgui.gtm.createJsonPatternConfigFile(argumentsOfOption.get(0), patternConfiguration);
+                                GTURTLEModeling.createJsonPatternConfigFile(argumentsOfOption.get(0), patternConfiguration);
                             }
                             break;
                         default:
@@ -1512,9 +1535,9 @@ public class PatternHandling extends Command {
             }
 
             public String executeCommand(String command, Interpreter interpreter) {
-                if (!interpreter.isTToolStarted()) {
+                /*if (!interpreter.isTToolStarted()) {
                     return Interpreter.TTOOL_NOT_STARTED;
-                }
+                }*/
 
                 String[] commands = command.split(" ");
                 for (String cmd : commands) {
@@ -1524,34 +1547,48 @@ public class PatternHandling extends Command {
                     return Interpreter.BAD;
                 }
                 if (commands.length == 1 && commands[0] != "") {
-                    TMLMappingTextSpecification<?> ts = interpreter.mgui.loadTMAPTxt(commands[0]);
-                    if (ts == null) {
-                        return "Fail to load TMAP specification";
+                    String tmlFileName = commands[0].split("/")[commands[0].split("/").length-1];
+                    String tmlFilePath = commands[0].substring(0, commands[0].lastIndexOf("/")+1);
+                    TMLMappingTextSpecification<Class<?>>  ts = new TMLMappingTextSpecification<Class<?>>(tmlFileName);
+                    File f = new File(commands[0]);
+                    String spec = null;
+                    try {
+                        spec = FileUtils.loadFileData(f);
+                    } catch (Exception e) {
+                        System.out.println("Exception loading " + tmlFileName);
                     }
-                    if (ts.getErrors().size() > 0) {
-                        return "TMAP specification has errors";
-                    }
+                    boolean parsed = ts.makeTMLMapping(spec, tmlFilePath);
                     tmap = ts.getTMLMapping();
+                    // Checking syntax
+                    TMLSyntaxChecking syntax = new TMLSyntaxChecking(tmap);
+                    syntax.checkSyntax();
                     nullifyAll();
                 } else {
-                    TURTLEPanel tp = interpreter.mgui.getCurrentTURTLEPanel();
-                    if (!(tp instanceof TMLArchiPanel)) {
-                        return "Current diagram is invalid for formal verification";
-                    }
-                    if(!interpreter.mgui.checkModelingSyntax(tp, true)) {
-                        return SYNTAX_ERROR;
-                    }
+                    if (interpreter.mgui != null) {
+                        TURTLEPanel tp = interpreter.mgui.getCurrentTURTLEPanel();
+                        if (!(tp instanceof TMLArchiPanel)) {
+                            return "Current diagram is invalid for formal verification";
+                        }
+                        if(!interpreter.mgui.checkModelingSyntax(tp, true)) {
+                            return SYNTAX_ERROR;
+                        }
 
-                    tmap = interpreter.mgui.gtm.getTMLMapping();
-                    nullifyAll();
-                    if (tmap == null) {
-                        return "Fail to load TMAP specification"; 
+                        tmap = interpreter.mgui.gtm.getTMLMapping();
+                        nullifyAll();
+                        if (tmap == null) {
+                            return "Fail to load TMAP specification"; 
+                        }
+                    } else {
+                        return Interpreter.TTOOL_NOT_STARTED;
                     }
                 }
                 
                 for (TMLTask task : tmap.getTMLModeling().getTasks()) {
                     String[] taskNameSplit = task.getName().split("__");
                     allTasksOfModel.add(taskNameSplit[taskNameSplit.length-1]);
+                    if (taskNameSplit.length > 1) {
+                        tabName = taskNameSplit[0];
+                    } 
                     task.setName(taskNameSplit[taskNameSplit.length-1]);
                 }
                 for (TMLChannel ch : tmap.getTMLModeling().getChannels()) {
@@ -1572,7 +1609,7 @@ public class PatternHandling extends Command {
         };
 
         Command integratePattern = new Command() {
-            final String [] options = {"-l", "-n", "-p", "-pc", "-g", "-m"};
+            final String [] options = {"-l", "-n", "-p", "-pc", "-g", "-d"};
             public String getCommand() {
                 return INTEGRATE;
             }
@@ -1591,46 +1628,53 @@ public class PatternHandling extends Command {
                 + "-n NAME\tselect a pattern by its name\n"
                 + "-p PATH\tselect a pattern by the path of its folder\n"
                 + "-pc PATH\tpath of the configuration json file\n"
-                + "-g [PATH]\tgenerate TMAP file of the model after intergrating the pattern, you can optionally specify the path of this new tmap file\n"
-                + "-m \tmake the pattern\n";
+                + "-g [PATH] [NAME]\tgenerate TMAP file of the model after intergrating the pattern, you can optionally specify the path of this new tmap file and its name\n"
+                + "-d \tdraw the new model after integrating the pattern\n";
             }
             
             @SuppressWarnings("unchecked")
             public String executeCommand(String command, Interpreter interpreter) {
-                if (!interpreter.isTToolStarted()) {
+                /*if (!interpreter.isTToolStarted()) {
                     return Interpreter.TTOOL_NOT_STARTED;
-                }
+                }*/
                 
                 if (tmap == null) {
-                    TURTLEPanel tp = interpreter.mgui.getCurrentTURTLEPanel();
-                    if (!(tp instanceof TMLArchiPanel)) {
-                        return "Current panel does not contain TMAP (NB: you can load a textual TMAP Spec using " + DIPLO_LOAD_TMAP +" or move to Arch panel.)";
-                    }
-                    if(!interpreter.mgui.checkModelingSyntax(tp, true)) {
-                        return SYNTAX_ERROR + "in current panel (NB: you can load a textual TMAP Spec using " + DIPLO_LOAD_TMAP +")";
-                    }
-                    tmap = interpreter.mgui.gtm.getTMLMapping();
-                    nullifyAll();
-                    if (tmap == null) {
-                        return Interpreter.TMAP_NO_SPEC + "\nLoad a textual TMAP Spec using " + DIPLO_LOAD_TMAP + " command or move to Arch panel.";
+                    if (interpreter.mgui != null) {
+                        TURTLEPanel tp = interpreter.mgui.getCurrentTURTLEPanel();
+                        if (!(tp instanceof TMLArchiPanel)) {
+                            return "Current panel does not contain TMAP (NB: you can load a textual TMAP Spec using " + DIPLO_LOAD_TMAP +" or move to Arch panel.)";
+                        }
+                        if(!interpreter.mgui.checkModelingSyntax(tp, true)) {
+                            return SYNTAX_ERROR + "in current panel (NB: you can load a textual TMAP Spec using " + DIPLO_LOAD_TMAP +")";
+                        }
+                        tmap = interpreter.mgui.gtm.getTMLMapping();
+                        nullifyAll();
+                        if (tmap == null) {
+                            return Interpreter.TMAP_NO_SPEC + "\nLoad a textual TMAP Spec using " + DIPLO_LOAD_TMAP + " command or move to Arch panel.";
+                        } else {
+                            for (TMLTask task : tmap.getTMLModeling().getTasks()) {
+                                String[] taskNameSplit = task.getName().split("__");
+                                allTasksOfModel.add(taskNameSplit[taskNameSplit.length-1]);
+                                if (taskNameSplit.length > 1) {
+                                    tabName = taskNameSplit[0];
+                                } 
+                                task.setName(taskNameSplit[taskNameSplit.length-1]);
+                            }
+                            for (TMLChannel ch : tmap.getTMLModeling().getChannels()) {
+                                String[] chNameSplit = ch.getName().split("__");
+                                ch.setName(chNameSplit[chNameSplit.length-1]);
+                            }
+                            for (TMLEvent evt : tmap.getTMLModeling().getEvents()) {
+                                String[] evtNameSplit = evt.getName().split("__");
+                                evt.setName(evtNameSplit[evtNameSplit.length-1]);
+                            }
+                            for (TMLRequest req : tmap.getTMLModeling().getRequests()) {
+                                String[] reqNameSplit = req.getName().split("__");
+                                req.setName(reqNameSplit[reqNameSplit.length-1]);
+                            }
+                        }
                     } else {
-                        for (TMLTask task : tmap.getTMLModeling().getTasks()) {
-                            String[] taskNameSplit = task.getName().split("__");
-                            allTasksOfModel.add(taskNameSplit[taskNameSplit.length-1]);
-                            task.setName(taskNameSplit[taskNameSplit.length-1]);
-                        }
-                        for (TMLChannel ch : tmap.getTMLModeling().getChannels()) {
-                            String[] chNameSplit = ch.getName().split("__");
-                            ch.setName(chNameSplit[chNameSplit.length-1]);
-                        }
-                        for (TMLEvent evt : tmap.getTMLModeling().getEvents()) {
-                            String[] evtNameSplit = evt.getName().split("__");
-                            evt.setName(evtNameSplit[evtNameSplit.length-1]);
-                        }
-                        for (TMLRequest req : tmap.getTMLModeling().getRequests()) {
-                            String[] reqNameSplit = req.getName().split("__");
-                            req.setName(reqNameSplit[reqNameSplit.length-1]);
-                        }
+                        return Interpreter.TTOOL_NOT_STARTED;
                     }
                 }
                 String[] commands = command.split(" ");
@@ -1680,7 +1724,10 @@ public class PatternHandling extends Command {
                             File folderPattern = new File(argumentsOfOption.get(0));
                             if (folderPattern.isDirectory()) {
                                 selectedPatternToIntergrate = argumentsOfOption.get(0).split("/")[argumentsOfOption.get(0).split("/").length-1];
-                                selectedPatternPathToIntergrate =  argumentsOfOption.get(0);
+                                selectedPatternPathToIntergrate = argumentsOfOption.get(0);
+                                if (!selectedPatternPathToIntergrate.endsWith("/")) {
+                                    selectedPatternPathToIntergrate += "/";
+                                }
                             } else {
                                 return PATTERN_NOT_EXIST;
                             }
@@ -1695,7 +1742,6 @@ public class PatternHandling extends Command {
                                 return Interpreter.BAD;
                             }
                             Path path = Paths.get(argumentsOfOption.get(0));
-                                
                             if (Files.exists(path)) {
                                 selectedJsonFilePath = argumentsOfOption.get(0);
                             } else {
@@ -1707,37 +1753,71 @@ public class PatternHandling extends Command {
                                 argumentsOfOption.add(commands[i+1]);
                                 i += 1;
                             }
-                            if (argumentsOfOption.size() > 1) {
+                            if (argumentsOfOption.size() != 0 && argumentsOfOption.size() != 2) {
                                 return Interpreter.BAD;
                             }
                             if (selectedJsonFilePath != null && selectedPatternToIntergrate != null) {
                                 TraceManager.addDev("selectedJsonFilePath= " + selectedJsonFilePath);
                                 TraceManager.addDev("selectedPatternToIntergrate= " + selectedPatternToIntergrate);
                                 
-                                TMLMapping<?> tmapGen = interpreter.mgui.gtm.integratePatternTMAP(selectedPatternPathToIntergrate, selectedPatternToIntergrate, selectedJsonFilePath);
-                                if (argumentsOfOption.size() == 0) {
-                                    TMLMapping<?> tmapPrev = interpreter.mgui.gtm.getTMLMapping();
-                                    interpreter.mgui.gtm.setTMLMapping(tmapGen);
-                                    String tmp = interpreter.mgui.generateTMLTxt();
-                                    interpreter.mgui.gtm.setTMLMapping(tmapPrev);
-                                    if (tmp == null) {
-                                        return "TML generation failed";
-                                    } else {
-                                        return "TML spec generated in: " + tmp;
+                                TMLMapping<?> tmapGen = GTURTLEModeling.integratePatternTMAP(tabName, selectedPatternPathToIntergrate, selectedPatternToIntergrate, selectedJsonFilePath, tmap);
+                                if (tabName != "") {
+                                    for (TMLTask task : tmap.getTMLModeling().getTasks()) {
+                                        String[] taskNameSplit = task.getName().split("__");
+                                        if (taskNameSplit.length == 1) {
+                                            task.setName(tabName + "__" + task.getName());
+                                        }
                                     }
-                                } else if (argumentsOfOption.size() == 1) {
-                                    TMLMappingTextSpecification<Class<?>> spec = new TMLMappingTextSpecification<Class<?>>(selectedPatternToIntergrate);
-                                    spec.toTextFormat((TMLMapping<Class<?>>) tmapGen);
+                                    for (TMLChannel ch : tmap.getTMLModeling().getChannels()) {
+                                        String[] channelNameSplit = ch.getName().split("__");
+                                        if (channelNameSplit.length == 1) {
+                                            ch.setName(tabName + "__" + ch.getName());
+                                        }
+                                    }
+                                    for (TMLEvent evt : tmap.getTMLModeling().getEvents()) {
+                                        String[] eventNameSplit = evt.getName().split("__");
+                                        if (eventNameSplit.length == 1) {
+                                            evt.setName(tabName + "__" + evt.getName());
+                                        }
+                                    }
+                                    for (TMLRequest req : tmap.getTMLModeling().getRequests()) {
+                                        String[] requestNameSplit = req.getName().split("__");
+                                        if (requestNameSplit.length == 1) {
+                                            req.setName(tabName + "__" + req.getName());
+                                        }
+                                    }
+                                }
+                                TMLMappingTextSpecification<Class<?>> spec = new TMLMappingTextSpecification<Class<?>>(selectedPatternToIntergrate);
+                                spec.toTextFormat((TMLMapping<Class<?>>) tmapGen);
+                                if (argumentsOfOption.size() == 0) {
+                                    String folderGenTmap = selectedJsonFilePath.substring(0, selectedJsonFilePath.lastIndexOf("/"));
+                                    if (!folderGenTmap.endsWith("/")) {
+                                        folderGenTmap += "/";
+                                    }
                                     try {
-                                        Files.createDirectories(Paths.get(argumentsOfOption.get(0)));
-                                        spec.saveFile(argumentsOfOption.get(0), selectedPatternToIntergrate);
+                                        Files.createDirectories(Paths.get(folderGenTmap));
+                                        spec.saveFile(folderGenTmap, "spec");
+                                    } catch (Exception e) {
+                                        return "Files could not be saved: " + e.getMessage();
+                                    }
+                                } else if (argumentsOfOption.size() == 2) {
+                                    String folderGenTmap = argumentsOfOption.get(0);
+                                    String nameGenTmap = argumentsOfOption.get(1);
+                                    if (!folderGenTmap.endsWith("/")) {
+                                        folderGenTmap += "/";
+                                    }
+                                    try {
+                                        Files.createDirectories(Paths.get(folderGenTmap));
+                                        spec.saveFile(folderGenTmap, nameGenTmap);
                                     } catch (Exception e) {
                                         return "Files could not be saved: " + e.getMessage();
                                     }
                                 }
+                            } else {
+                                return CONFIG_JSON_FILE_MISSING;
                             }
                             break;
-                        case "-m":
+                        case "-d":
                             while (i+1 < commands.length && !Arrays.asList(options).contains(commands[i+1])) {
                                 argumentsOfOption.add(commands[i+1]);
                                 i += 1;
@@ -1745,11 +1825,17 @@ public class PatternHandling extends Command {
                             if (argumentsOfOption.size() != 0) {
                                 return Interpreter.BAD;
                             }
-                            if (selectedJsonFilePath != null && selectedPatternToIntergrate != null) {
-                                TraceManager.addDev("selectedJsonFilePath= " + selectedJsonFilePath);
-                                TraceManager.addDev("selectedPatternToIntergrate= " + selectedPatternToIntergrate);
-                                
-                                interpreter.mgui.gtm.integratePattern(interpreter.mgui, selectedPatternPathToIntergrate, selectedPatternToIntergrate, selectedJsonFilePath);
+                            if (interpreter.mgui != null) {
+                                if (selectedJsonFilePath != null && selectedPatternToIntergrate != null) {
+                                    TraceManager.addDev("selectedJsonFilePath= " + selectedJsonFilePath);
+                                    TraceManager.addDev("selectedPatternToIntergrate= " + selectedPatternToIntergrate);
+                                    
+                                    interpreter.mgui.gtm.integratePattern(interpreter.mgui, selectedPatternPathToIntergrate, selectedPatternToIntergrate, selectedJsonFilePath);
+                                } else {
+                                    return CONFIG_JSON_FILE_MISSING;
+                                }
+                            } else {
+                                return Interpreter.TTOOL_NOT_STARTED;
                             }
                             break;
                         default:

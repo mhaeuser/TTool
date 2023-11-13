@@ -18,6 +18,7 @@ import java.util.Map.Entry;
 
  
 public class PatternIntegration implements Runnable {
+    String appTab;
     String patternPath;
     String patternName;
     PatternConfiguration patternConfiguration;
@@ -36,7 +37,8 @@ public class PatternIntegration implements Runnable {
     //List<TMLChannel> channelsFromPatternToMap = new ArrayList<TMLChannel>();
     //List<TMLChannel> channelsFromClonedToMap = new ArrayList<TMLChannel>();
 
-    public PatternIntegration(String _patternPath, String _patternName, PatternConfiguration _patternConfiguration, LinkedHashMap<String, TaskPattern> _patternTasks, TMLMapping<?> _tmapModel) {
+    public PatternIntegration(String _appTab, String _patternPath, String _patternName, PatternConfiguration _patternConfiguration, LinkedHashMap<String, TaskPattern> _patternTasks, TMLMapping<?> _tmapModel) {
+		this.appTab = _appTab;
 		this.patternPath = _patternPath;
 		this.patternName = _patternName;
 		this.patternConfiguration = _patternConfiguration;
@@ -61,44 +63,9 @@ public class PatternIntegration implements Runnable {
         if (tmapModel == null) {
             return;
         }
-        String appTab = "";
-        TMLModeling<?> tmlmNew = tmapModel.getTMLModeling();
-        for (TMLTask task : tmlmNew.getTasks()) {
-            String[] taskNameSplit = task.getName().split("__");
-            task.setName(taskNameSplit[taskNameSplit.length-1]);
-            appTab = taskNameSplit[0];
-        }
-        for (TMLChannel ch : tmlmNew.getChannels()) {
-            String[] channelNameSplit = ch.getName().split("__");
-            ch.setName(channelNameSplit[channelNameSplit.length-1]);
-        }
-        for (TMLEvent evt : tmlmNew.getEvents()) {
-            String[] eventNameSplit = evt.getName().split("__");
-            evt.setName(eventNameSplit[eventNameSplit.length-1]);
-        }
-        for (TMLRequest req : tmlmNew.getRequests()) {
-            String[] requestNameSplit = req.getName().split("__");
-            req.setName(requestNameSplit[requestNameSplit.length-1]);
-        }
+        tmapModel = removePrefixNames(tmapModel);
         tmapPattern = getTMLMappingOfPattern(patternPath, patternName);
-        TMLModeling<?> tmlmPattern = tmapPattern.getTMLModeling();
-        for (TMLTask task : tmlmPattern.getTasks()) {
-            String[] taskNameSplit = task.getName().split("__");
-            task.setName(taskNameSplit[taskNameSplit.length-1]);
-        }
-        for (TMLChannel ch : tmlmPattern.getChannels()) {
-            String[] channelNameSplit = ch.getName().split("__");
-            ch.setName(channelNameSplit[channelNameSplit.length-1]);
-        }
-        for (TMLEvent evt : tmlmPattern.getEvents()) {
-            String[] eventNameSplit = evt.getName().split("__");
-            evt.setName(eventNameSplit[eventNameSplit.length-1]);
-        }
-        for (TMLRequest req : tmlmPattern.getRequests()) {
-            String[] requestNameSplit = req.getName().split("__");
-            req.setName(requestNameSplit[requestNameSplit.length-1]);
-        }
-
+        tmapPattern = removePrefixNames(tmapPattern);
         tmapModel = addClonedTask(tmapModel, patternConfiguration);
         renamePatternTasksName();
         renamePatternChannelsName();
@@ -130,6 +97,7 @@ public class PatternIntegration implements Runnable {
         tmapModel = mapChannelsInArch(tmapModel, patternConfiguration.getChannelsMapping());
         tmapModel = mapChannelsInArchAuto(tmapModel, tmapPattern, patternConfiguration.getTasksMapping(), patternConfiguration.getChannelsMapping(), patternConfiguration, patternTasks);
         tmapModel = generateSecurityForChannels(tmapModel, tmapPattern, patternConfiguration, patternTasks, appTab);
+        tmapModel = putBackPrefixNames(tmapModel, appTab);
 	}
 
     public TMLMapping<?> addClonedTask(TMLMapping<?> _tmapModel, PatternConfiguration _patternConfiguration) {
@@ -1891,50 +1859,12 @@ public class PatternIntegration implements Runnable {
             TraceManager.addDev("hasSecChannel");
             if (_appTabName != "") {
                 TraceManager.addDev("appName=" + _appTabName);
-                for (TMLTask task : _tmapModel.getTMLModeling().getTasks()) {
-                    String[] taskNameSplit = task.getName().split("__");
-                    if (taskNameSplit.length == 1) {
-                        task.setName(_appTabName + "__" + task.getName());
-                    }
-                }
-                for (TMLChannel ch : _tmapModel.getTMLModeling().getChannels()) {
-                    String[] channelNameSplit = ch.getName().split("__");
-                    if (channelNameSplit.length == 1) {
-                        ch.setName(_appTabName + "__" + ch.getName());
-                    }
-                }
-                for (TMLEvent evt : _tmapModel.getTMLModeling().getEvents()) {
-                    String[] eventNameSplit = evt.getName().split("__");
-                    if (eventNameSplit.length == 1) {
-                        evt.setName(_appTabName + "__" + evt.getName());
-                    }
-                }
-                for (TMLRequest req : _tmapModel.getTMLModeling().getRequests()) {
-                    String[] requestNameSplit = req.getName().split("__");
-                    if (requestNameSplit.length == 1) {
-                        req.setName(_appTabName + "__" + req.getName());
-                    }
-                }
+                _tmapModel = putBackPrefixNames(_tmapModel, _appTabName);
             
                 SecurityGenerationForTMAP secgen = new SecurityGenerationForTMAP(_appTabName, _tmapModel, "100", "0", "100", new HashMap<String, java.util.List<String>>());
                 _tmapModel = secgen.startThread();
                 _tmapModel = secgen.autoMapKeys();
-                for (TMLTask task : _tmapModel.getTMLModeling().getTasks()) {
-                    String[] taskNameSplit = task.getName().split("__");
-                    task.setName(taskNameSplit[taskNameSplit.length-1]);
-                }
-                for (TMLChannel ch : _tmapModel.getTMLModeling().getChannels()) {
-                    String[] channelNameSplit = ch.getName().split("__");
-                    ch.setName(channelNameSplit[channelNameSplit.length-1]);
-                }
-                for (TMLEvent evt : _tmapModel.getTMLModeling().getEvents()) {
-                    String[] eventNameSplit = evt.getName().split("__");
-                    evt.setName(eventNameSplit[eventNameSplit.length-1]);
-                }
-                for (TMLRequest req : _tmapModel.getTMLModeling().getRequests()) {
-                    String[] requestNameSplit = req.getName().split("__");
-                    req.setName(requestNameSplit[requestNameSplit.length-1]);
-                }
+                _tmapModel = removePrefixNames(_tmapModel);
             }
         }
         return _tmapModel;
@@ -1947,6 +1877,56 @@ public class PatternIntegration implements Runnable {
             }
         }
         return null;
+    }
+
+    public TMLMapping<?> putBackPrefixNames(TMLMapping<?> _tmapModel, String _appTabName) {
+        if (_appTabName != "") {
+            for (TMLTask task : _tmapModel.getTMLModeling().getTasks()) {
+                String[] taskNameSplit = task.getName().split("__");
+                if (taskNameSplit.length == 1) {
+                    task.setName(_appTabName + "__" + task.getName());
+                }
+            }
+            for (TMLChannel ch : _tmapModel.getTMLModeling().getChannels()) {
+                String[] channelNameSplit = ch.getName().split("__");
+                if (channelNameSplit.length == 1) {
+                    ch.setName(_appTabName + "__" + ch.getName());
+                }
+            }
+            for (TMLEvent evt : _tmapModel.getTMLModeling().getEvents()) {
+                String[] eventNameSplit = evt.getName().split("__");
+                if (eventNameSplit.length == 1) {
+                    evt.setName(_appTabName + "__" + evt.getName());
+                }
+            }
+            for (TMLRequest req : _tmapModel.getTMLModeling().getRequests()) {
+                String[] requestNameSplit = req.getName().split("__");
+                if (requestNameSplit.length == 1) {
+                    req.setName(_appTabName + "__" + req.getName());
+                }
+            }
+        }
+        return _tmapModel;
+    }
+
+    public TMLMapping<?> removePrefixNames(TMLMapping<?> _tmapModel) {
+        for (TMLTask task : _tmapModel.getTMLModeling().getTasks()) {
+            String[] taskNameSplit = task.getName().split("__");
+            task.setName(taskNameSplit[taskNameSplit.length-1]);
+        }
+        for (TMLChannel ch : _tmapModel.getTMLModeling().getChannels()) {
+            String[] channelNameSplit = ch.getName().split("__");
+            ch.setName(channelNameSplit[channelNameSplit.length-1]);
+        }
+        for (TMLEvent evt : _tmapModel.getTMLModeling().getEvents()) {
+            String[] eventNameSplit = evt.getName().split("__");
+            evt.setName(eventNameSplit[eventNameSplit.length-1]);
+        }
+        for (TMLRequest req : _tmapModel.getTMLModeling().getRequests()) {
+            String[] requestNameSplit = req.getName().split("__");
+            req.setName(requestNameSplit[requestNameSplit.length-1]);
+        }
+        return _tmapModel;
     }
 
     @SuppressWarnings("unchecked")

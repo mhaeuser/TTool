@@ -1,0 +1,37 @@
+// TML Application - FORMAT 0.2
+// Application: modelWithOneSensor.xml
+// Generated: Sat Nov 11 15:57:04 CET 2023
+
+// PRAGMAS
+
+// Channels
+CHANNEL ModelOneSensor__sensorData BRNBW 4 OUT ModelOneSensor__Sensor IN ModelOneSensor__Receiver
+VCCHANNEL ModelOneSensor__sensorData 0
+
+// Events
+
+// Requests
+
+TASK ModelOneSensor__Receiver
+    TASKOP
+    //Local variables
+    int executeSensor = 10
+    
+    //Behavior
+    FOR( ; ; )
+        READ ModelOneSensor__sensorData 1
+        EXECI executeSensor
+    ENDFOR
+ENDTASK
+
+TASK ModelOneSensor__Sensor
+    TASKOP
+    //Local variables
+    
+    //Behavior
+    FOR( ; ; )
+        WRITE ModelOneSensor__sensorData 1
+        DELAY 10 ms isActiveDelay false
+    ENDFOR
+ENDTASK
+

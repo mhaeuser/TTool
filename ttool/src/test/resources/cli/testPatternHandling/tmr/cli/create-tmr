@@ -1,0 +1,9 @@
+pa dltmap ../src/test/resources/cli/testPatternHandling/tmr/input/tmrPattern.tmap
+pa c -n tmr
+pa c -p resources/test/cli/testPatternHandling/
+pa c -t
+pa c -a Voter Timer InterpreterA InterpreterB
+pa c -r Timer
+pa c -a InterpreterC Timer
+pa c -l
+pa c -m

@@ -1,0 +1,223 @@
+// Master clock frequency - in MHz
+MASTERCLOCKFREQUENCY 200
+
+NODE BRIDGE BridgeV_Voter
+SET BridgeV_Voter bufferByteSize 4
+SET BridgeV_Voter clockDivider 1
+
+NODE BRIDGE BridgeC_Voter
+SET BridgeC_Voter bufferByteSize 4
+SET BridgeC_Voter clockDivider 1
+
+NODE BRIDGE BridgeB_Voter
+SET BridgeB_Voter bufferByteSize 4
+SET BridgeB_Voter clockDivider 1
+
+NODE BRIDGE BridgeA_Voter
+SET BridgeA_Voter bufferByteSize 4
+SET BridgeA_Voter clockDivider 1
+
+NODE BUS BusVoter
+SET BusVoter byteDataSize 4
+SET BusVoter pipelineSize 1
+SET BusVoter arbitration 0
+SET BusVoter sliceTime 10000
+SET BusVoter burstSize 100
+SET BusVoter privacy public
+SET BusVoter clockDivider 1
+
+NODE BUS BusC
+SET BusC byteDataSize 4
+SET BusC pipelineSize 1
+SET BusC arbitration 0
+SET BusC sliceTime 10000
+SET BusC burstSize 100
+SET BusC privacy public
+SET BusC clockDivider 1
+
+NODE BUS BusB
+SET BusB byteDataSize 4
+SET BusB pipelineSize 1
+SET BusB arbitration 0
+SET BusB sliceTime 10000
+SET BusB burstSize 100
+SET BusB privacy public
+SET BusB clockDivider 1
+
+NODE BUS BusA
+SET BusA byteDataSize 4
+SET BusA pipelineSize 1
+SET BusA arbitration 0
+SET BusA sliceTime 10000
+SET BusA burstSize 100
+SET BusA privacy public
+SET BusA clockDivider 1
+
+NODE CPU user
+SET user nbOfCores 1
+SET user byteDataSize 4
+SET user pipelineSize 5
+SET user goIdleTime 10
+SET user maxConsecutiveIdleCycles 10
+SET user taskSwitchingTime 20
+SET user branchingPredictionPenalty 2
+SET user cacheMiss 5
+SET user schedulingPolicy 0
+SET user sliceTime 10000
+SET user execiTime 1
+SET user execcTime 1
+SET user clockDivider 1
+
+NODE BUS BusV
+SET BusV byteDataSize 4
+SET BusV pipelineSize 1
+SET BusV arbitration 0
+SET BusV sliceTime 10000
+SET BusV burstSize 100
+SET BusV privacy public
+SET BusV clockDivider 1
+
+NODE MEMORY MemoryVoter
+SET MemoryVoter byteDataSize 4
+SET MemoryVoter clockDivider 1
+
+NODE CPU voter
+SET voter nbOfCores 8
+SET voter byteDataSize 4
+SET voter pipelineSize 5
+SET voter goIdleTime 10
+SET voter maxConsecutiveIdleCycles 10
+SET voter taskSwitchingTime 20
+SET voter branchingPredictionPenalty 2
+SET voter cacheMiss 5
+SET voter schedulingPolicy 0
+SET voter sliceTime 10000
+SET voter execiTime 1
+SET voter execcTime 1
+SET voter clockDivider 1
+
+NODE CPU sensorC
+SET sensorC nbOfCores 4
+SET sensorC byteDataSize 4
+SET sensorC pipelineSize 5
+SET sensorC goIdleTime 10
+SET sensorC maxConsecutiveIdleCycles 10
+SET sensorC taskSwitchingTime 20
+SET sensorC branchingPredictionPenalty 2
+SET sensorC cacheMiss 5
+SET sensorC schedulingPolicy 0
+SET sensorC sliceTime 10000
+SET sensorC execiTime 1
+SET sensorC execcTime 1
+SET sensorC clockDivider 1
+
+NODE MEMORY MemoryB
+SET MemoryB byteDataSize 4
+SET MemoryB clockDivider 1
+
+NODE CPU sensorA
+SET sensorA nbOfCores 4
+SET sensorA byteDataSize 4
+SET sensorA pipelineSize 5
+SET sensorA goIdleTime 10
+SET sensorA maxConsecutiveIdleCycles 10
+SET sensorA taskSwitchingTime 20
+SET sensorA branchingPredictionPenalty 2
+SET sensorA cacheMiss 5
+SET sensorA schedulingPolicy 0
+SET sensorA sliceTime 10000
+SET sensorA execiTime 1
+SET sensorA execcTime 1
+SET sensorA clockDivider 1
+
+NODE CPU sensorB
+SET sensorB nbOfCores 4
+SET sensorB byteDataSize 4
+SET sensorB pipelineSize 5
+SET sensorB goIdleTime 10
+SET sensorB maxConsecutiveIdleCycles 10
+SET sensorB taskSwitchingTime 20
+SET sensorB branchingPredictionPenalty 2
+SET sensorB cacheMiss 5
+SET sensorB schedulingPolicy 0
+SET sensorB sliceTime 10000
+SET sensorB execiTime 1
+SET sensorB execcTime 1
+SET sensorB clockDivider 1
+
+NODE MEMORY MemoryC
+SET MemoryC byteDataSize 4
+SET MemoryC clockDivider 1
+
+NODE MEMORY MemoryA
+SET MemoryA byteDataSize 4
+SET MemoryA clockDivider 1
+
+NODE LINK link_BridgeV_Voter_to_BusV
+SET link_BridgeV_Voter_to_BusV node BridgeV_Voter
+SET link_BridgeV_Voter_to_BusV bus BusV
+SET link_BridgeV_Voter_to_BusV priority 0
+NODE LINK link_BridgeV_Voter_to_BusVoter
+SET link_BridgeV_Voter_to_BusVoter node BridgeV_Voter
+SET link_BridgeV_Voter_to_BusVoter bus BusVoter
+SET link_BridgeV_Voter_to_BusVoter priority 0
+NODE LINK link_voter_to_BusVoter
+SET link_voter_to_BusVoter node voter
+SET link_voter_to_BusVoter bus BusVoter
+SET link_voter_to_BusVoter priority 0
+NODE LINK link_BridgeA_Voter_to_BusVoter
+SET link_BridgeA_Voter_to_BusVoter node BridgeA_Voter
+SET link_BridgeA_Voter_to_BusVoter bus BusVoter
+SET link_BridgeA_Voter_to_BusVoter priority 0
+NODE LINK link_BridgeB_Voter_to_BusVoter
+SET link_BridgeB_Voter_to_BusVoter node BridgeB_Voter
+SET link_BridgeB_Voter_to_BusVoter bus BusVoter
+SET link_BridgeB_Voter_to_BusVoter priority 0
+NODE LINK link_BridgeC_Voter_to_BusVoter
+SET link_BridgeC_Voter_to_BusVoter node BridgeC_Voter
+SET link_BridgeC_Voter_to_BusVoter bus BusVoter
+SET link_BridgeC_Voter_to_BusVoter priority 0
+NODE LINK link_BridgeC_Voter_to_BusC
+SET link_BridgeC_Voter_to_BusC node BridgeC_Voter
+SET link_BridgeC_Voter_to_BusC bus BusC
+SET link_BridgeC_Voter_to_BusC priority 0
+NODE LINK link_BridgeB_Voter_to_BusB
+SET link_BridgeB_Voter_to_BusB node BridgeB_Voter
+SET link_BridgeB_Voter_to_BusB bus BusB
+SET link_BridgeB_Voter_to_BusB priority 0
+NODE LINK link_BridgeA_Voter_to_BusA
+SET link_BridgeA_Voter_to_BusA node BridgeA_Voter
+SET link_BridgeA_Voter_to_BusA bus BusA
+SET link_BridgeA_Voter_to_BusA priority 0
+NODE LINK link_user_to_BusV
+SET link_user_to_BusV node user
+SET link_user_to_BusV bus BusV
+SET link_user_to_BusV priority 0
+NODE LINK link_MemoryC_to_BusC
+SET link_MemoryC_to_BusC node MemoryC
+SET link_MemoryC_to_BusC bus BusC
+SET link_MemoryC_to_BusC priority 0
+NODE LINK link_MemoryB_to_BusB
+SET link_MemoryB_to_BusB node MemoryB
+SET link_MemoryB_to_BusB bus BusB
+SET link_MemoryB_to_BusB priority 0
+NODE LINK link_sensorC_to_BusC
+SET link_sensorC_to_BusC node sensorC
+SET link_sensorC_to_BusC bus BusC
+SET link_sensorC_to_BusC priority 0
+NODE LINK link_sensorB_to_BusB
+SET link_sensorB_to_BusB node sensorB
+SET link_sensorB_to_BusB bus BusB
+SET link_sensorB_to_BusB priority 0
+NODE LINK link_MemoryA_to_BusA
+SET link_MemoryA_to_BusA node MemoryA
+SET link_MemoryA_to_BusA bus BusA
+SET link_MemoryA_to_BusA priority 0
+NODE LINK link_sensorA_to_BusA
+SET link_sensorA_to_BusA node sensorA
+SET link_sensorA_to_BusA bus BusA
+SET link_sensorA_to_BusA priority 0
+NODE LINK link_MemoryVoter_to_BusV
+SET link_MemoryVoter_to_BusV node MemoryVoter
+SET link_MemoryVoter_to_BusV bus BusV
+SET link_MemoryVoter_to_BusV priority 0

@@ -1,0 +1,4 @@
+pa dltmap ../src/test/resources/cli/testPatternHandling/tmr/input/modelsToIntegrateTMR/modelWithOneSensor.tmap
+pa a -p resources/test/cli/testPatternHandling/tmr/
+pa a -pc resources/test/cli/testPatternHandling/tmr/modelWithOneSensor-config.json
+pa a -g resources/test/cli/testPatternHandling/tmr/modelsAfterIntegratingTMR/ modelWithOneSensorIntegTMR

@@ -1,0 +1,194 @@
+// TML Application - FORMAT 0.2
+// Application: tmr
+// Generated: Sun Nov 12 15:27:46 CET 2023
+
+// PRAGMAS
+
+// Channels
+CHANNEL ModelOneSensor__resA BRBW 8 8 OUT ModelOneSensor__InterpreterA IN ModelOneSensor__Voter
+VCCHANNEL ModelOneSensor__resA 0
+CONFCHANNEL ModelOneSensor__resA
+AUTHCHANNEL ModelOneSensor__resA
+CHANNEL ModelOneSensor__resB BRBW 8 8 OUT ModelOneSensor__InterpreterB IN ModelOneSensor__Voter
+VCCHANNEL ModelOneSensor__resB 0
+CONFCHANNEL ModelOneSensor__resB
+AUTHCHANNEL ModelOneSensor__resB
+CHANNEL ModelOneSensor__resC BRBW 8 8 OUT ModelOneSensor__InterpreterC IN ModelOneSensor__Voter
+VCCHANNEL ModelOneSensor__resC 0
+CONFCHANNEL ModelOneSensor__resC
+AUTHCHANNEL ModelOneSensor__resC
+CHANNEL ModelOneSensor__resultData BRBW 8 8 OUT ModelOneSensor__Voter IN ModelOneSensor__Receiver
+VCCHANNEL ModelOneSensor__resultData 0
+CONFCHANNEL ModelOneSensor__resultData
+AUTHCHANNEL ModelOneSensor__resultData
+CHANNEL ModelOneSensor__sensorData BRNBW 4 OUT ModelOneSensor__Sensor IN ModelOneSensor__InterpreterA
+VCCHANNEL ModelOneSensor__sensorData 0
+CHANNEL ModelOneSensor__sensorData0 BRNBW 4 OUT ModelOneSensor__SensorClone2 IN ModelOneSensor__InterpreterC
+VCCHANNEL ModelOneSensor__sensorData0 0
+CHANNEL ModelOneSensor__sensorData1 BRNBW 4 OUT ModelOneSensor__SensorClone1 IN ModelOneSensor__InterpreterB
+VCCHANNEL ModelOneSensor__sensorData1 0
+
+// Events
+EVENT ModelOneSensor__evtA() NIB 8 ModelOneSensor__InterpreterA ModelOneSensor__Voter
+EVENT ModelOneSensor__evtB() NIB 8 ModelOneSensor__InterpreterB ModelOneSensor__Voter
+EVENT ModelOneSensor__evtC() NIB 8 ModelOneSensor__InterpreterC ModelOneSensor__Voter
+EVENT ModelOneSensor__evtTimeout() NIB 8 ModelOneSensor__Timer ModelOneSensor__Voter
+EVENT ModelOneSensor__moveto_FAIL_SAFE(bool) NIB 8 ModelOneSensor__Voter ModelOneSensor__Receiver
+
+// Requests
+
+TASK ModelOneSensor__InterpreterA
+    TASKOP
+    //Local variables
+    int size = 50
+    int sizeA = 10
+    
+    //Behavior
+    READ ModelOneSensor__sensorData size
+    EXECC size
+    NOTIFY ModelOneSensor__evtA
+    WRITE ModelOneSensor__resA sizeA
+ENDTASK
+
+TASK ModelOneSensor__InterpreterB
+    TASKOP
+    //Local variables
+    int size = 50
+    int sizeB = 10
+    
+    //Behavior
+    READ ModelOneSensor__sensorData1 size
+    EXECC size
+    NOTIFY ModelOneSensor__evtB
+    WRITE ModelOneSensor__resB sizeB
+ENDTASK
+
+TASK ModelOneSensor__InterpreterC
+    TASKOP
+    //Local variables
+    int size = 50
+    int sizeC = 10
+    
+    //Behavior
+    READ ModelOneSensor__sensorData0 size
+    EXECC size
+    NOTIFY ModelOneSensor__evtC
+    WRITE ModelOneSensor__resC sizeC
+ENDTASK
+
+TASK ModelOneSensor__Receiver
+    TASKOP
+    //Local variables
+    int executeSensor = 10
+    bool x = false
+    
+    //Behavior
+    FOR(; ; )
+        WAIT ModelOneSensor__moveto_FAIL_SAFE x
+        READ ModelOneSensor__resultData 1
+        EXECI executeSensor
+    ENDFOR
+ENDTASK
+
+TASK ModelOneSensor__Sensor
+    TASKOP
+    //Local variables
+    
+    //Behavior
+    FOR(; ; )
+        WRITE ModelOneSensor__sensorData 1
+        DELAY 10 ms isActiveDelay false
+    ENDFOR
+ENDTASK
+
+TASK ModelOneSensor__SensorClone1
+    TASKOP
+    //Local variables
+    
+    //Behavior
+    FOR(; ; )
+        WRITE ModelOneSensor__sensorData1 1
+        DELAY 10 ms isActiveDelay false
+    ENDFOR
+ENDTASK
+
+TASK ModelOneSensor__SensorClone2
+    TASKOP
+    //Local variables
+    
+    //Behavior
+    FOR(; ; )
+        WRITE ModelOneSensor__sensorData0 1
+        DELAY 10 ms isActiveDelay false
+    ENDFOR
+ENDTASK
+
+TASK ModelOneSensor__Timer
+    TASKOP
+    //Local variables
+    int dataReceivingTimeout = 1000
+    
+    //Behavior
+    DELAY dataReceivingTimeout ns isActiveDelay false
+    NOTIFY ModelOneSensor__evtTimeout
+ENDTASK
+
+TASK ModelOneSensor__Voter
+    TASKOP
+    //Local variables
+    bool x = false
+    int interpreteTime = 5
+    bool dataProcessed = false
+    int indexA = 0
+    int indexB = 0
+    int indexC = 0
+    int sizeA = 10
+    int sizeB = 10
+    int sizeC = 10
+    int i = 0
+    
+    //Behavior
+    FOR(i=0; i<3; )
+        SELECTEVT
+            CASE ModelOneSensor__evtTimeout
+                i=3
+            ENDCASE
+            CASE ModelOneSensor__evtC
+                READ ModelOneSensor__resC sizeC
+                indexC=indexC+1
+                IF (indexC==1)
+                    i=i+1
+                ELSE
+                ENDIF
+            ENDCASE
+            CASE ModelOneSensor__evtB
+                READ ModelOneSensor__resB sizeB
+                indexB=indexB+1
+                IF (indexB==1)
+                    i=i+1
+                ELSE
+                ENDIF
+            ENDCASE
+            CASE ModelOneSensor__evtA
+                READ ModelOneSensor__resA sizeA
+                indexA=indexA+1
+                IF (indexA==1)
+                    i=i+1
+                ELSE
+                ENDIF
+            ENDCASE
+        ENDSELECTEVT
+    ENDFOR
+    EXECC interpreteTime
+    RAND
+        CASERAND 50
+            x=true
+        ENDCASERAND
+        CASERAND 50
+            x=false
+        ENDCASERAND
+    ENDRAND
+    NOTIFY ModelOneSensor__moveto_FAIL_SAFE x
+    WRITE ModelOneSensor__resultData 1
+ENDTASK
+

@@ -2343,7 +2343,7 @@ public class JDialogPatternHandling extends JDialog implements ActionListener, L
                 String selectedPatternName = listPatterns.get(selectedPatternIndex);
                 PatternConfiguration patternConfiguration = new PatternConfiguration(patternConnectionList, clonedTasksList, configuredPortsList, mappedTasksList, mappedChannelsList, updatedPatternAttributes, channelsWithSecurity);
                 patternConfiguration.loadChannelsWithSecurity(patternTasksAll);
-                mgui.gtm.createJsonPatternConfigFile(selectedPatternPath, selectedPatternName, patternConfiguration);
+                GTURTLEModeling.createJsonPatternConfigFile(selectedPatternPath, selectedPatternName, patternConfiguration);
                 mgui.gtm.integratePattern(mgui, selectedPatternPath, selectedPatternName);
                 JLabel label = new JLabel("Pattern Configuration Completed");
                 label.setAlignmentX(Component.LEFT_ALIGNMENT);

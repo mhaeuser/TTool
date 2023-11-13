@@ -10,8 +10,6 @@ package tmltranslator.patternhandling;
  
 import java.util.*;
 
-import myutil.TraceManager;
-
  
 public class PatternConfiguration {
 

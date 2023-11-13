@@ -28,10 +28,6 @@ public class PatternConnection {
     String modelTaskName;
     String modelChannelName;
     Boolean isNewPort;
-    String newNameOfTaskInModel;
-    String newNameOfChannelInModel;
-    //Boolean isConf;
-    //int auth;
 
     public PatternConnection(String patternTaskName, String patternChannel, String modelTaskName, String modelChannelName, Boolean isNewPort) {
         this.patternTaskName = patternTaskName;
@@ -61,22 +57,6 @@ public class PatternConnection {
         return isNewPort;
     }
 
-    public String getNewNameOfTaskInModel() {
-        return newNameOfTaskInModel;
-    }
-
-    public String getNewNameOfChannelInModel() {
-        return newNameOfChannelInModel;
-    }
-
-    /*public Boolean isConfidential() {
-        return isConf;
-    }
-
-    public int getAuthenticity() {
-        return auth;
-    }*/
-
     public void setPatternTaskName(String _patternTaskName) {
         patternTaskName = _patternTaskName;
     }
@@ -96,23 +76,6 @@ public class PatternConnection {
     public void setIsNewPort(Boolean _isNewPort) {
         isNewPort = _isNewPort;
     }
-
-    public void setNewNameOfTaskInModel(String _newNameOfTaskInModel) {
-        newNameOfTaskInModel = _newNameOfTaskInModel;
-    }
-
-    public void setNewNameOfChannelInModel(String _newNameOfChannelInModel) {
-        newNameOfChannelInModel = _newNameOfChannelInModel;
-    }
-
-    /*public void setIsConfidential(Boolean _isConf) {
-        isConf = _isConf;
-    }
-
-    public void setAuthenticity(int _auth) {
-        auth = _auth;
-    }*/
-
 
     public String getStringDisplay() {
         if (isNewPort) {

@@ -1635,19 +1635,16 @@ public class GTURTLEModeling {
         }
     }
 
-    @SuppressWarnings("unchecked")
     public void createPattern(List<String> selectedTasks, String patternName, String patternsPath) {
         PatternCreation pattern = new PatternCreation(selectedTasks, patternName, patternsPath, tmap);
         pattern.startThread();
     }
 
-    @SuppressWarnings("unchecked")
     public static void createPatternFromTmap(List<String> selectedTasks, String patternName, String patternsPath, TMLMapping<?> _tmap) {
         PatternCreation pattern = new PatternCreation(selectedTasks, patternName, patternsPath, _tmap);
         pattern.startThread();
     }
 
-    @SuppressWarnings("unchecked")
     public void integratePattern(MainGUI gui, String patternPath, String patternName) {
         integratePattern(gui, patternPath, patternName,  patternPath+"/"+patternName+"-config.json");
     }
@@ -1664,11 +1661,7 @@ public class GTURTLEModeling {
         }
     }
     
-    @SuppressWarnings("unchecked")
     public static TMLMapping<?> integratePatternTMAP(String appTab, String patternPath, String patternName, String configPatternPath, TMLMapping<?> _tmap) {
-        TraceManager.addDev("patternPath= " + patternPath);
-        TraceManager.addDev("patternName= " + patternName);
-        TraceManager.addDev("configPatternPath= " + configPatternPath);
         PatternConfig2Json patternConfig2Json = new PatternConfig2Json(configPatternPath);
         patternConfig2Json.json2patternConfiguration();
         PatternConfiguration patternConfiguration = patternConfig2Json.getPaternConfiguration();

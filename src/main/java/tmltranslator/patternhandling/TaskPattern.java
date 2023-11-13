@@ -8,7 +8,6 @@ package tmltranslator.patternhandling;
  * @version 1.0 28/08/2023
  */
  
-import myutil.TraceManager;
 import tmltranslator.*;
 
 import java.io.IOException;
@@ -44,7 +43,6 @@ public class TaskPattern {
     }
 
     public static LinkedHashMap<String, TaskPattern> parsePatternJsonFile(String pathPatternFoler, String fileName) {
-        TraceManager.addDev("path=" + pathPatternFoler+"/"+fileName);
         Path jsonFilePath = Path.of(pathPatternFoler+"/"+fileName);
         String jsonFilecontent = "";
         LinkedHashMap<String, TaskPattern> tasksPattern = new LinkedHashMap<String, TaskPattern>();
@@ -74,7 +72,6 @@ public class TaskPattern {
                 String externalPortName = externalPorts.getJSONObject(j).getString(PatternCreation.NAME);
                 String externalPortType = externalPorts.getJSONObject(j).getString(PatternCreation.TYPE);
                 String externalPortMode = externalPorts.getJSONObject(j).getString(PatternCreation.MODE);
-                TraceManager.addDev("externalPortName= "+ externalPortName);
                 PortTaskJsonFile externalPortTaskJsonFile = new PortTaskJsonFile(externalPortName, externalPortType, externalPortMode);
                 if (externalPorts.getJSONObject(j).has(PatternCreation.CONFIDENTIALITY)) {
                     externalPortTaskJsonFile.setConfidentiality(externalPorts.getJSONObject(j).getString(PatternCreation.CONFIDENTIALITY));

@@ -11,10 +11,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Vector;
 
-import org.apache.regexp.recompile;
-
 import myutil.FileUtils;
-import myutil.TraceManager;
 import tmltranslator.HwNode;
 import tmltranslator.TMLChannel;
 import tmltranslator.TMLEvent;
@@ -38,7 +35,6 @@ import tmltranslator.patternhandling.TaskPorts;
 import ui.GTURTLEModeling;
 import ui.TMLArchiPanel;
 import ui.TURTLEPanel;
-import ui.window.JDialogSystemCGeneration;
 
 /**
  * Class PatternHandling
@@ -456,6 +452,7 @@ public class PatternHandling extends Command {
                             File folderPattern = new File(argumentsOfOption.get(0));
                             if (folderPattern.isDirectory()) {
                                 selectedPatternName = argumentsOfOption.get(0).split("/")[argumentsOfOption.get(0).split("/").length-1];
+                                selectedPatternName = selectedPatternName.split("\\.")[0];
                                 selectedPatternPath =  argumentsOfOption.get(0);
                                 if (!selectedPatternName.endsWith("/")) {
                                     selectedPatternPath += "/";
@@ -531,10 +528,6 @@ public class PatternHandling extends Command {
                             
                             PatternCloneTask patterClone = new PatternCloneTask(clonedTask, selectedTaskToClone);
                             patternConfiguration.addClonedTasks(patterClone);
-                            for (String t : portsTaskOfModelAll.keySet()) {
-                                TraceManager.addDev("t =" + t );
-                            }
-                            //portsTaskOfModelLeft.put(clonedTask, TaskPorts.cloneTaskPort(portsTaskOfModelAll.get(selectedTaskToClone)));
                             portsTaskOfModelAll.put(clonedTask, TaskPorts.cloneTaskPort(portsTaskOfModelAll.get(selectedTaskToClone)));
                             
                             break;
@@ -765,9 +758,6 @@ public class PatternHandling extends Command {
                                 argumentsOfOption.add(commands[i+1]);
                                 i += 1;
                             }
-                            for (String arg : argumentsOfOption) {
-                                TraceManager.addDev("arg=" + arg);
-                            }
                             if (argumentsOfOption.size() != 1) {
                                 return Interpreter.BAD;
                             }
@@ -776,15 +766,12 @@ public class PatternHandling extends Command {
                             }
                             String patternTaskSelected = null, patternPortSelected = null;
                             String[] taskPort = argumentsOfOption.get(0).split("\\.");
-                            TraceManager.addDev("taskPort.length=" + taskPort.length);
                             if (taskPort.length == 2) {
                                 patternTaskSelected = taskPort[0];
                                 patternPortSelected = taskPort[1];
                             } else {
                                 return Interpreter.BAD;
                             }
-                            TraceManager.addDev("patternTaskSelected=" +patternTaskSelected);
-                            TraceManager.addDev("patternPortSelected=" +patternPortSelected);
                             patternTasksLeft = TaskPattern.getPatternTasksLeft(patternTasksAll, patternConfiguration.getPortsConnection());
                             portsTaskModelLeft = TaskPorts.getPortsTaskOfModelLeft(portsTaskOfModelAll, patternConfiguration.getPortsConnection());
                             PortTaskJsonFile portPatternSelected;
@@ -1540,9 +1527,6 @@ public class PatternHandling extends Command {
                 }*/
 
                 String[] commands = command.split(" ");
-                for (String cmd : commands) {
-                    TraceManager.addDev("cmd = " + cmd);
-                }
                 if (commands.length > 1) {
                     return Interpreter.BAD;
                 }
@@ -1757,9 +1741,6 @@ public class PatternHandling extends Command {
                                 return Interpreter.BAD;
                             }
                             if (selectedJsonFilePath != null && selectedPatternToIntergrate != null) {
-                                TraceManager.addDev("selectedJsonFilePath= " + selectedJsonFilePath);
-                                TraceManager.addDev("selectedPatternToIntergrate= " + selectedPatternToIntergrate);
-                                
                                 TMLMapping<?> tmapGen = GTURTLEModeling.integratePatternTMAP(tabName, selectedPatternPathToIntergrate, selectedPatternToIntergrate, selectedJsonFilePath, tmap);
                                 if (tabName != "") {
                                     for (TMLTask task : tmap.getTMLModeling().getTasks()) {
@@ -1827,9 +1808,6 @@ public class PatternHandling extends Command {
                             }
                             if (interpreter.mgui != null) {
                                 if (selectedJsonFilePath != null && selectedPatternToIntergrate != null) {
-                                    TraceManager.addDev("selectedJsonFilePath= " + selectedJsonFilePath);
-                                    TraceManager.addDev("selectedPatternToIntergrate= " + selectedPatternToIntergrate);
-                                    
                                     interpreter.mgui.gtm.integratePattern(interpreter.mgui, selectedPatternPathToIntergrate, selectedPatternToIntergrate, selectedJsonFilePath);
                                 } else {
                                     return CONFIG_JSON_FILE_MISSING;

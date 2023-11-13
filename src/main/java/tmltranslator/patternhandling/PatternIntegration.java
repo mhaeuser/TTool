@@ -69,22 +69,6 @@ public class PatternIntegration implements Runnable {
         tmapModel = addClonedTask(tmapModel, patternConfiguration);
         renamePatternTasksName();
         renamePatternChannelsName();
-        TraceManager.addDev("%% tasksClonedIntoModel:");
-        for (String tas : tasksClonedIntoModel.keySet()) {
-            TraceManager.addDev("Clone task name in config:" + tas + "  Clone task name in Model:" + tasksClonedIntoModel.get(tas));
-        }
-        TraceManager.addDev("%% tasksOfPatternIntoModel:");
-        for (String tas : tasksOfPatternIntoModel.keySet()) {
-            TraceManager.addDev("Pattern task name in config:" + tas + "  Pattern task name in Model:" + tasksOfPatternIntoModel.get(tas));
-        }
-        TraceManager.addDev("%% channelsClonedIntoModel:");
-        for (Entry<String, String> chT : channelsClonedIntoModel.keySet()) {
-            TraceManager.addDev("channel name in config:" + chT.getValue() + " of task: " + chT.getKey() + "  Clone channel name in Model:" + channelsClonedIntoModel.get(chT));
-        }
-        TraceManager.addDev("%% channelsOfPatternIntoModel:");
-        for (Entry<String, String> chT : channelsOfPatternIntoModel.keySet()) {
-            TraceManager.addDev("channel Of pattern name in config:" + chT.getValue() + " of task: " + chT.getKey() + "  Pattern channel name in Model:" + channelsOfPatternIntoModel.get(chT));
-        }
         tmapPattern = updatePatternTasksAttributes(tmapPattern, patternConfiguration.getUpdatedPatternAttributes());
         tmapModel = addPatternTasksInModel(tmapModel, tmapPattern, patternTasks);
         tmapModel = addPatternInternalChannelsInModel(tmapModel, tmapPattern, patternTasks);
@@ -138,7 +122,7 @@ public class PatternIntegration implements Runnable {
                                     channelNameWithIndex = modelChannelName + indexChannel;
                                 }
                                 //oldNewChannelsClonedTaskName.put(modelChannelName, channelNameWithIndex);
-                                TraceManager.addDev("Channel : old =" + modelChannelName + " New=" + channelNameWithIndex);
+                                //TraceManager.addDev("Channel : old =" + modelChannelName + " New=" + channelNameWithIndex);
                                 //patternConnection.setModelChannelName(channelNameWithIndex);
                                 channelsClonedIntoModel.put(Map.entry(clonedTask, modelChannelName), channelNameWithIndex);
                             } else if (_tmlmModel.getEventByName(modelChannelName) != null) {
@@ -204,14 +188,14 @@ public class PatternIntegration implements Runnable {
                                     }
                                     if (aeChannel.getChannel(i).getOriginPort() != null) {
                                         aeChannel.getChannel(i).getOriginPort().setName(channelsClonedIntoModel.get(Map.entry(taskClone.getName(), aeChannel.getChannel(i).getName())));
-                                        TraceManager.addDev("Port Origin New Name = " + aeChannel.getChannel(i).getOriginPort().getName());
+                                        //TraceManager.addDev("Port Origin New Name = " + aeChannel.getChannel(i).getOriginPort().getName());
                                     }
                                     if (aeChannel.getChannel(i).getDestinationPort() != null) {
                                         aeChannel.getChannel(i).getDestinationPort().setName(channelsClonedIntoModel.get(Map.entry(taskClone.getName(), aeChannel.getChannel(i).getName())));
                                     }
-                                    TraceManager.addDev("Name Channel Clone Before =" + aeChannel.getChannel(i).getName());
+                                    //TraceManager.addDev("Name Channel Clone Before =" + aeChannel.getChannel(i).getName());
                                     aeChannel.getChannel(i).setName(channelsClonedIntoModel.get(Map.entry(taskClone.getName(), aeChannel.getChannel(i).getName())));
-                                    TraceManager.addDev("Name Channel Clone After =" + aeChannel.getChannel(i).getName());
+                                    //TraceManager.addDev("Name Channel Clone After =" + aeChannel.getChannel(i).getName());
                                     if (_tmlmModel.getChannelByName(aeChannel.getChannel(i).getName()) == null) {
                                         _tmlmModel.addChannel(aeChannel.getChannel(i));
                                         //channelsFromClonedToMap.add(aeChannel.getChannel(i));
@@ -261,7 +245,7 @@ public class PatternIntegration implements Runnable {
 
     public TMLMapping<?> removeNotUsedChannelsInClonedTask(TMLMapping<?> _tmapModel, HashMap<TMLTask, List<TMLActivityElement>> _clonedTaskToRemoveElems) {
         for (TMLTask taskClone : _clonedTaskToRemoveElems.keySet()) {
-            TraceManager.addDev("removeNotUsed: taskClone=" + taskClone.getName());
+            //TraceManager.addDev("removeNotUsed: taskClone=" + taskClone.getName());
             List<TMLActivityElement> _aeElemsToRemove = _clonedTaskToRemoveElems.get(taskClone);
             for (TMLActivityElement ae : _aeElemsToRemove) {
                 TMLActivityElement prevElem =  taskClone.getActivityDiagram().getPrevious(ae);
@@ -353,7 +337,6 @@ public class PatternIntegration implements Runnable {
                         }
                         extPort.name = channelNameWithIndex;*/
                         channelsOfPatternIntoModel.put(Map.entry(taskName, extPort.getName()), channelNameWithIndex);
-                        TraceManager.addDev("oldNewChannelName.containsKey(extPort.name) else  :" + extPort.getName());
                         
                     } else if (tmlmModel.getEventByName(extPort.getName()) != null) {
                         int indexEvent = 0;
@@ -367,7 +350,6 @@ public class PatternIntegration implements Runnable {
                         eventPattern.setName(eventNameWithIndex);
                         extPort.name = eventNameWithIndex;*/
                         channelsOfPatternIntoModel.put(Map.entry(taskName, extPort.getName()), eventNameWithIndex);
-                        TraceManager.addDev("else if oldNewEventName.containsKey(extPort.name)  else :" + extPort.name);
                     } else if (channelsOfPatternIntoModel.containsValue(extPort.getName()) || channelsClonedIntoModel.containsValue(extPort.getName())) {
                         int index = 0;
                         String nameWithIndex = extPort.getName() + index;
@@ -441,7 +423,6 @@ public class PatternIntegration implements Runnable {
                     if (_tmlmModel.getTMLTaskByName(tasksOfPatternIntoModel.get(taskName)) == null) {
                         taskPattern.setName(tasksOfPatternIntoModel.get(taskName));
                         _tmlmModel.addTask(taskPattern);
-                        TraceManager.addDev("addPatternTasksInModel: taskName=" + tasksOfPatternIntoModel.get(taskName));
                     }
                 }
             }
@@ -882,13 +863,9 @@ public class PatternIntegration implements Runnable {
             TMLChannel chInPattern = _tmlmPattern.getChannelByName(patternTaskPortName);
             TMLEvent evtInPattern = _tmlmPattern.getEventByName(patternTaskPortName);
 
-            TraceManager.addDev("patternTaskName =  " + patternTaskName);
-            TraceManager.addDev("patternTaskPortName =  " + patternTaskPortName);
-            TraceManager.addDev("modelTaskName =  " + modelTaskName);
-            TraceManager.addDev("modelTaskPortName =  " + modelTaskPortName);
             if (portConnection.isANewChannelRequired(_portsConnection, patternTasks, _patternCloneTasks)) {
                 if (chInPattern != null) {
-                    TraceManager.addDev("New channel !");
+                    //TraceManager.addDev("New channel !");
                     try {
                         TMLChannel chToAdd = chInPattern.deepClone(_tmlmPattern);
                         chToAdd.setName(channelsOfPatternIntoModel.get(Map.entry(patternTaskName, patternTaskPortName)));
@@ -907,17 +884,15 @@ public class PatternIntegration implements Runnable {
                                 TMLActivityElementChannel aeCh = (TMLActivityElementChannel) ae;
                                 if (aeCh.getChannel(0).getName().equals(chInPattern.getName())) {
                                     aeCh.replaceChannelWith(aeCh.getChannel(0), chToAdd);
-                                    TraceManager.addDev("Pattern Task : Replace channel : " + chInPattern.getName() + " with : " + chToAdd.getName());
+                                    //TraceManager.addDev("Pattern Task : Replace channel : " + chInPattern.getName() + " with : " + chToAdd.getName());
                                 }
                             }
                         }
                         if (portConnection.isNewPort()) {
                             String modelTaskNameForNewPort = modelTaskPortName;
-                            TraceManager.addDev("Before : modelTaskNameForNewPort=" + modelTaskNameForNewPort);
                             if (renamedModelChannels.containsKey(Map.entry(portConnection.getModelTaskName(), portConnection.getModelChannelName()))) {
                                 modelTaskNameForNewPort = renamedModelChannels.get(Map.entry(portConnection.getModelTaskName(), portConnection.getModelChannelName()));
                             }
-                            TraceManager.addDev("After : modelTaskNameForNewPort=" + modelTaskNameForNewPort);
                             _tmapModel = addNewPortToATask(_tmapModel, _patternTasks, modelTask, patternTaskName, patternTaskPortName, modelTaskNameForNewPort);
                         } else {
                             for (TMLActivityElement ae : modelTask.getActivityDiagram().getElements()) {
@@ -925,7 +900,7 @@ public class PatternIntegration implements Runnable {
                                     TMLActivityElementChannel aeCh = (TMLActivityElementChannel) ae;
                                     if (aeCh.getChannel(0).getName().equals(chInModel.getName())) {
                                         aeCh.replaceChannelWith(aeCh.getChannel(0), chToAdd);
-                                        TraceManager.addDev("model Task : Replace channel : " + chInModel.getName() + " with : " + chToAdd.getName());
+                                        //TraceManager.addDev("model Task : Replace channel : " + chInModel.getName() + " with : " + chToAdd.getName());
                                         renamedModelChannels.put(Map.entry(portConnection.getModelTaskName(), portConnection.getModelChannelName()), chToAdd.getName());
                                     }
                                 }
@@ -934,7 +909,7 @@ public class PatternIntegration implements Runnable {
                     } catch (TMLCheckingError err) {
                     }
                 } else if (evtInPattern != null) {
-                    TraceManager.addDev("New event !");
+                    //TraceManager.addDev("New event !");
                     try {
                         TMLEvent evtToAdd = evtInPattern.deepClone(_tmlmPattern);
                         evtToAdd.setName(channelsOfPatternIntoModel.get(Map.entry(patternTaskName, patternTaskPortName)));
@@ -953,7 +928,7 @@ public class PatternIntegration implements Runnable {
                                 TMLActivityElementEvent aeEvt = (TMLActivityElementEvent) ae;
                                 if (aeEvt.getEvent().getName().equals(evtInPattern.getName())) {
                                     aeEvt.replaceEventWith(aeEvt.getEvent(), evtToAdd);
-                                    TraceManager.addDev("Pattern Task : Replace event : " + evtInPattern.getName() + " with : " + evtToAdd.getName());
+                                    //TraceManager.addDev("Pattern Task : Replace event : " + evtInPattern.getName() + " with : " + evtToAdd.getName());
                                 }
                             }
                         }
@@ -969,7 +944,7 @@ public class PatternIntegration implements Runnable {
                                     TMLActivityElementEvent aeEvt = (TMLActivityElementEvent) ae;
                                     if (aeEvt.getEvent().getName().equals(evtInModel.getName())) {
                                         aeEvt.replaceEventWith(aeEvt.getEvent(), evtToAdd);
-                                        TraceManager.addDev("model Task : Replace event : " + evtInModel.getName() + " with : " + evtToAdd.getName());
+                                        //TraceManager.addDev("model Task : Replace event : " + evtInModel.getName() + " with : " + evtToAdd.getName());
                                         renamedModelChannels.put(Map.entry(portConnection.getModelTaskName(), portConnection.getModelChannelName()), evtToAdd.getName());
                                     }
                                 }
@@ -980,7 +955,7 @@ public class PatternIntegration implements Runnable {
                 }
             } else {
                 if (chInModel != null) {
-                    TraceManager.addDev("Existant channel !");
+                    //TraceManager.addDev("Existant channel !");
                     if (relatedPortInPattern.getMode().equals(PatternCreation.MODE_INPUT)) {
                         chInModel.setDestinationTask(patternTaskInModel);
                         chInModel.setPorts(chInModel.getOriginPort(), new TMLPort(chInModel.getName(), chInModel.getReferenceObject()));
@@ -994,13 +969,13 @@ public class PatternIntegration implements Runnable {
                             TMLActivityElementChannel aeCh = (TMLActivityElementChannel) ae;
                             if (aeCh.getChannel(0).getName().equals(chInPattern.getName())) {
                                 aeCh.replaceChannelWith(aeCh.getChannel(0), chInModel);
-                                TraceManager.addDev("Replace channel : " + chInPattern.getName() + " with : " + chInModel.getName());
+                                //TraceManager.addDev("Replace channel : " + chInPattern.getName() + " with : " + chInModel.getName());
                             }
                         }
                     }
                 }
                 if (evtInModel != null) {
-                    TraceManager.addDev("Existant event !");
+                    //TraceManager.addDev("Existant event !");
                     if (relatedPortInPattern.getMode().equals(PatternCreation.MODE_INPUT)) {
                         evtInModel.setDestinationTask(patternTaskInModel);
                         evtInModel.setPorts(evtInModel.getOriginPort(), new TMLPort(evtInModel.getName(), evtInModel.getReferenceObject()));
@@ -1014,7 +989,7 @@ public class PatternIntegration implements Runnable {
                             TMLActivityElementEvent aeEvt = (TMLActivityElementEvent) ae;
                             if (aeEvt.getEvent().getName().equals(evtInPattern.getName())) {
                                 aeEvt.replaceEventWith(aeEvt.getEvent(), evtInModel);
-                                TraceManager.addDev("Replace event : " + evtInPattern.getName() + " with : " + evtInModel.getName());
+                                //TraceManager.addDev("Replace event : " + evtInPattern.getName() + " with : " + evtInModel.getName());
                             }
                         }
                     }
@@ -1026,7 +1001,7 @@ public class PatternIntegration implements Runnable {
 
     public TMLMapping<?> configDisconnectedChannels(TMLMapping<?> _tmapModel, List<PatternPortsConfig> _portsConfig) {
         TMLModeling<?> _tmlmModel = _tmapModel.getTMLModeling();
-        TraceManager.addDev("configDisconnectedChannels");
+
         for (PatternPortsConfig portConfig : _portsConfig) {
             TMLTask task = _tmlmModel.getTMLTaskByName(portConfig.getTaskOfChannelToConfig());
             //String portName = portDecision.getKey();
@@ -1125,7 +1100,7 @@ public class PatternIntegration implements Runnable {
                     }
                 }
                 for (TMLActivityElement elemToRemove : elemsToRemove) {
-                    TraceManager.addDev("elemToRemove = " + elemToRemove.getName());
+                    //TraceManager.addDev("elemToRemove = " + elemToRemove.getName());
                     adTask.removeElement(elemToRemove);
                 }
             } 
@@ -1242,12 +1217,12 @@ public class PatternIntegration implements Runnable {
             mappedTasks.add(mappingPatternTask.getTaskToMapName());
         }
         Map<TMLTask, TMLTask> correspondenceForClonedTasks = correspondenceForClonedTasks(_tmapModel, _tmapPattern, mappedTasks, _patternConfiguration, _patternTasks);
-        for (TMLTask correspTask : correspTasks.keySet()) {
+        /*for (TMLTask correspTask : correspTasks.keySet()) {
             TraceManager.addDev("correspTask: In pattern :" + correspTask.getName() + " In model : " + correspTasks.get(correspTask).getName());
         }
         for (TMLTask correspTask : correspondenceForClonedTasks.keySet()) {
             TraceManager.addDev("correspondenceForClonedTasks: In Model :" + correspTask.getName() + " In pattern : " + correspondenceForClonedTasks.get(correspTask).getName());
-        } 
+        }*/ 
         LinkedHashMap<String, TaskPattern> _patternTasksSorted = new LinkedHashMap<String, TaskPattern>();
         LinkedHashMap<String, TaskPattern> _patternTasksInEnd = new LinkedHashMap<String, TaskPattern>();
         for (String taskName : _patternTasks.keySet()) {
@@ -1557,7 +1532,6 @@ public class PatternIntegration implements Runnable {
             }
             TMLChannel channelToMap = _tmapModel.getChannelByName(channelToMapNameInModel);
             if (channelToMap != null) {
-                TraceManager.addDev("channelToMap != null");
                 if (channelMapping.getChannelInSameMemAs() != null) {
                     String sameChannel = channelMapping.getChannelInSameMemAs();
                     String sameChannelTask = channelMapping.getTaskOfChannelInSameMem();
@@ -1567,18 +1541,14 @@ public class PatternIntegration implements Runnable {
                     } else if (channelMapping.getSameMemAsOrigin() == MappingPatternChannel.ORIGIN_PATTERN && channelsOfPatternIntoModel.containsKey(Map.entry(sameChannelTask, sameChannel))) {
                         sameChannelInModel =  channelsOfPatternIntoModel.get(Map.entry(sameChannelTask, sameChannel));
                     }
-                    TraceManager.addDev("sameChannel= " + sameChannel);
                     TMLChannel inSameChannel = _tmapModel.getChannelByName(sameChannelInModel);
                     if (inSameChannel != null) {
-                        TraceManager.addDev("inSameChannel != null");
                         HwMemory memoryOfSameChannel = _tmapModel.getMemoryOfChannel(inSameChannel);
                         if (memoryOfSameChannel != null) {
                             _tmapModel.addCommToHwCommNode(channelToMap, memoryOfSameChannel);
-                            TraceManager.addDev("memoryOfSameChannel != null");
                         }
                         for (HwCommunicationNode mappedNode : _tmapModel.getAllCommunicationNodesOfChannel(inSameChannel)) {
                             if (mappedNode instanceof HwBus) {
-                                TraceManager.addDev("mappedNode instanceof HwBus");
                                 _tmapModel.addCommToHwCommNode(channelToMap, mappedNode);
                             }   
                         }
@@ -1615,13 +1585,12 @@ public class PatternIntegration implements Runnable {
 
     public TMLMapping<?> mapChannelsInArchAuto(TMLMapping<?> _tmapModel, TMLMapping<?> _tmapPattern, List<MappingPatternTask> _mappingPatternTasks, List<MappingPatternChannel> _mappingPatternChannels, PatternConfiguration _patternConfiguration, LinkedHashMap<String, TaskPattern> _patternTasks) {
         Map<TMLChannel, TMLChannel> correspChannels = correspondenceForChannels(_tmapModel, _tmapPattern, _patternConfiguration, _patternTasks);
-        for (TMLChannel corresp : correspChannels.keySet()) {
+        /*for (TMLChannel corresp : correspChannels.keySet()) {
             TraceManager.addDev("chInPattern=" + corresp.getName() + " chInModel=" + correspChannels.get(corresp).getName());
-        }
+        }*/
         List<MappingPatternChannel> allChannelsToMap = MappingPatternChannel.getChannelsToMap(_patternConfiguration.getPortsConnection(), _patternTasks, _patternConfiguration.getClonedTasks());
         List<MappingPatternChannel> channelsToMapAuto = new ArrayList<MappingPatternChannel>();
         for (MappingPatternChannel mappingPatternChannel : allChannelsToMap) {
-            TraceManager.addDev("getTaskOfChannelToMap: " + mappingPatternChannel.getTaskOfChannelToMap() + " getChannelToMapName: " + mappingPatternChannel.getChannelToMapName() + " getOrigin: " + mappingPatternChannel.getOrigin());
             boolean isMapped = false;
             for (MappingPatternChannel mappedPatternChannel : _mappingPatternChannels) {
                 if (mappingPatternChannel.getChannelToMapName().equals(mappedPatternChannel.getChannelToMapName()) && mappingPatternChannel.getTaskOfChannelToMap().equals(mappedPatternChannel.getTaskOfChannelToMap())) {
@@ -1638,22 +1607,16 @@ public class PatternIntegration implements Runnable {
             String taskOfChToMapName = mappingPatternChannel.getTaskOfChannelToMap();
             TMLChannel chToMap = null;
             TMLChannel chInPattern = null;
-            TraceManager.addDev("chToMapName: " + chToMapName + " taskOfChToMapName: " + taskOfChToMapName);
             if (mappingPatternChannel.getOrigin() == MappingPatternChannel.ORIGIN_CLONE) {
                 String chToMapNameInModel = channelsClonedIntoModel.get(Map.entry(taskOfChToMapName, chToMapName));
                 chToMap = _tmapModel.getChannelByName(chToMapNameInModel);
-                TraceManager.addDev("ORIGIN_CLONE: chToMap=" + chToMap.getName());
                 chInPattern = getKeyByValue(correspChannels, chToMap);
-                TraceManager.addDev("ORIGIN_CLONE: chInPattern=" + chInPattern.getName());
             } else if (mappingPatternChannel.getOrigin() == MappingPatternChannel.ORIGIN_PATTERN) {
                 chInPattern = _tmapPattern.getChannelByName(chToMapName);
                 chToMap = _tmapModel.getChannelByName(channelsOfPatternIntoModel.get(Map.entry(taskOfChToMapName, chToMapName)));
-                TraceManager.addDev("ORIGIN_PATTERN: chInPattern=" + chInPattern.getName());
-                TraceManager.addDev("ORIGIN_PATTERN: chToMap=" + chToMap.getName());
             }
             if (chToMap != null && chInPattern != null) {
                 ArrayList<HwCommunicationNode> hwComsOfChannel = _tmapPattern.getAllCommunicationNodesOfChannel(chInPattern);
-                TraceManager.addDev("hwComsOfChannel size=" + hwComsOfChannel.size());
                 Boolean chIsMappedToMem = false;
                 Boolean chIsMappedToBuses = false;
                 for (HwCommunicationNode hwComOfChannel : hwComsOfChannel) {
@@ -1835,19 +1798,15 @@ public class PatternIntegration implements Runnable {
         for (PatternChannelWithSecurity channelWithSec : _patternConfiguration.getChannelsWithSecurity()) {
             TMLChannel chSec = correspChannels.get(_tmapPattern.getChannelByName(channelWithSec.getChannelName()));
             if (chSec != null) {
-                TraceManager.addDev("channelsWithSec = " + chSec.getName());
                 if (channelWithSec.isConfidential()) {
-                    TraceManager.addDev("channelsWithSec with conf ");
                     chSec.setEnsureConf(true);
                     chSec.checkConf = true;
                 }
                 if (channelWithSec.getAuthenticity() == PatternChannelWithSecurity.WEAK_AUTHENTICITY) {
-                    TraceManager.addDev("channelsWithSec with weak auth ");
                     chSec.setEnsureWeakAuth(true);
                     chSec.checkAuth = true;
                 }
                 if (channelWithSec.getAuthenticity() == PatternChannelWithSecurity.STRONG_AUTHENTICITY) {
-                    TraceManager.addDev("channelsWithSec with strong auth");
                     chSec.setEnsureStrongAuth(true);
                     chSec.setEnsureWeakAuth(true);
                     chSec.checkAuth = true;
@@ -1858,7 +1817,6 @@ public class PatternIntegration implements Runnable {
         if (hasSecChannel) {
             TraceManager.addDev("hasSecChannel");
             if (_appTabName != "") {
-                TraceManager.addDev("appName=" + _appTabName);
                 _tmapModel = putBackPrefixNames(_tmapModel, _appTabName);
             
                 SecurityGenerationForTMAP secgen = new SecurityGenerationForTMAP(_appTabName, _tmapModel, "100", "0", "100", new HashMap<String, java.util.List<String>>());

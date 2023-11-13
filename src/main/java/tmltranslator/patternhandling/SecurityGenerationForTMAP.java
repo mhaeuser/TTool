@@ -933,10 +933,6 @@ public class SecurityGenerationForTMAP implements Runnable {
                         }
                     }
                 }
-                TraceManager.addDev("Starrt  channel = " + channel.getName());
-                for (HwCommunicationNode mappedNode : tmap.getAllCommunicationNodesOfChannel(channel)) {
-                    TraceManager.addDev("channel = " + channel.getName() + " mappedNode = " + mappedNode.getName());
-                }
             }
         }
 
@@ -1798,10 +1794,6 @@ public class SecurityGenerationForTMAP implements Runnable {
                         //If we need to receive a nonce
                         TMLReadChannel rd = new TMLReadChannel("", taskAD.getReferenceObject());
                         //Receive any nonces if ensuring authenticity
-                        TraceManager.addDev("ch.name==" + ch.name);
-                        for (TMLChannel ch0 : tmlmodel.getChannels()) {
-                            TraceManager.addDev("ch0.name==" + ch0.getName());
-                        }
                         rd.setName("nonceCh" + tmlmodel.getChannelByShortName(ch.name).getDestinationTask().getName().replaceAll(appName + "__", "") + "_" + ch.task);
                         if (tmlmodel.getChannelByName(rd.getName()) != null) {
                             rd.addChannel(tmlmodel.getChannelByName(rd.getName()));

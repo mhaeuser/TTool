@@ -44,6 +44,7 @@ import java.util.List;
 import java.util.Vector;
 
 import avatartranslator.*;
+import avatartranslator.intboolsolver.AvatarIBSolver;
 import common.SpecConfigTTool;
 import myutil.Conversion;
 import myutil.FileException;
@@ -161,6 +162,9 @@ public class AVATAR2CPOSIX {
         avspec.removeCompositeStates();
         avspec.removeLibraryFunctionCalls();
         avspec.removeTimers();
+
+        // Reset parser
+        AvatarIBSolver.clearAttributes();
 
         //TraceManager.addDev("AVATAR2CPOSIX avspec=" + avspec);
 

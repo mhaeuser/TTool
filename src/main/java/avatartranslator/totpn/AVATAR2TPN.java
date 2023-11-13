@@ -42,6 +42,7 @@
 package avatartranslator.totpn;
 
 import avatartranslator.*;
+import avatartranslator.intboolsolver.AvatarIBSolver;
 import myutil.TraceManager;
 import tpndescription.Place;
 import tpndescription.TPN;
@@ -103,6 +104,9 @@ public class AVATAR2TPN {
         avspec.removeCompositeStates();
         avspec.removeLibraryFunctionCalls ();
         avspec.removeTimers();
+
+        // Reset parser
+        AvatarIBSolver.clearAttributes();
 
         makeBlocks();
 

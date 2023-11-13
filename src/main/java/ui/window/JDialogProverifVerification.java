@@ -146,6 +146,8 @@ public class JDialogProverifVerification extends JDialog implements ActionListen
 
     private static boolean DRAW_AVATAR = false;
 
+    private JLabel labelError;
+
     protected MainGUI mgui;
     private AvatarDesignPanel adp;
 
@@ -1489,6 +1491,7 @@ public class JDialogProverifVerification extends JDialog implements ActionListen
         }
         CODE_PATH = code1.getText();
         EXECUTE_PATH = exe2.getText();
+
         if (stateReachabilityAll.isSelected()) {
             REACHABILITY_OPTION = REACHABILITY_ALL;
         } else if (stateReachabilitySelected.isSelected()) {
@@ -1921,7 +1924,7 @@ public class JDialogProverifVerification extends JDialog implements ActionListen
             this.results = this.pvoa.getResults();
             
             if (this.results.keySet().size() == 0) {
-                label = new JLabel("ERROR: no properties to prove");
+                label = new JLabel("ERROR: no properties to be proved");
                 label.setAlignmentX(Component.LEFT_ALIGNMENT);
                 this.jta.add(label, this.createGbc(0));
             }

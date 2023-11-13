@@ -41,6 +41,7 @@ package avatartranslator.modelchecker;
 
 import avatartranslator.*;
 import avatartranslator.intboolsolver.AvatarIBSExpressions;
+import avatartranslator.intboolsolver.AvatarIBSolver;
 import myutil.BoolExpressionEvaluator;
 import myutil.Conversion;
 import myutil.IntExpressionEvaluator;
@@ -925,6 +926,9 @@ public class AvatarModelChecker implements Runnable, myutil.Graph {
         spec.sortAttributes();
         spec.setAttributeOptRatio(compressionFactor);
         spec.generateAllExpressionSolvers();
+
+        // Reset parser
+        AvatarIBSolver.clearAttributes();
 
 
         prepareTransitions();

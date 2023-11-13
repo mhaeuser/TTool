@@ -758,6 +758,7 @@ public class AvatarSpecification extends AvatarElement implements IBSParamSpec {
 
     // We remove all non-connected blocks if at least two blocks have a relation
     public void removeNonConnectedBlocks() {
+        TraceManager.addDev("Removing non connected blocks");
         boolean found = false;
         for (AvatarRelation ar : relations) {
             if (ar.getBlock1() != ar.getBlock2()) {
@@ -779,7 +780,12 @@ public class AvatarSpecification extends AvatarElement implements IBSParamSpec {
                     toBeRemovedNotConnected.add(ab);
                 }
             }
-            getListOfBlocks().removeAll(toBeRemovedNotConnected);
+
+            if (toBeRemovedNotConnected.size() > 0) {
+                TraceManager.addDev("Found blocks to be removed: " + toBeRemovedNotConnected.size() + " blocks");
+                getListOfBlocks().removeAll(toBeRemovedNotConnected);
+            }
+
 
         }
     }

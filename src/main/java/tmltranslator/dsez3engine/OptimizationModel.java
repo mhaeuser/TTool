@@ -800,7 +800,7 @@ public class OptimizationModel {
 
         //Creating an expression for latency
 
-        //Calculating end time of last task
+        // Calculating end time of last task
         TMLTask finalTask = inputInstance.getFinalTask(inputInstance.getModeling());
         int finalTaskIndex = inputInstance.getModeling().getTasks().indexOf(inputInstance.getFinalTask(inputInstance.getModeling()));
         ArithExpr wcet_last = ctx.mkInt(0);

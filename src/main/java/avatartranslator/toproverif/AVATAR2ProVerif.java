@@ -39,6 +39,7 @@
 package avatartranslator.toproverif;
 
 import avatartranslator.*;
+import avatartranslator.intboolsolver.AvatarIBSolver;
 import common.ConfigurationTTool;
 import myutil.FileException;
 import myutil.FileUtils;
@@ -72,6 +73,8 @@ public class AVATAR2ProVerif implements AvatarTranslator {
     private final static String TRUE = "TRUE";
     private final static String FALSE = "FALSE";
     private final static String PK_PK = "pk";
+    private final static String HOST = "host";
+    private final static String GETKEY = "getKey";
     private final static String PK_ENCRYPT = "aencrypt";
     private final static String PK_DECRYPT = "adecrypt";
     private final static String PK_SIGN = "sign";
@@ -448,6 +451,9 @@ public class AVATAR2ProVerif implements AvatarTranslator {
 
         this.avspec.removeTimers();
 
+        // Reset parser
+        AvatarIBSolver.clearAttributes();
+
         this.dummyDataCounter = 0;
 
         List<AvatarAttribute> allKnowledge = this.makeStartingProcess();
@@ -512,6 +518,12 @@ public class AVATAR2ProVerif implements AvatarTranslator {
 
         this.spec.addDeclaration(new ProVerifComment("HASH"));
         this.spec.addDeclaration(new ProVerifFunc(HASH_HASH, new String[]{"bitstring"}, "bitstring"));
+
+        this.spec.addDeclaration(new ProVerifComment("Key and host"));
+        this.spec.addDeclaration(new ProVerifFunc(HOST, new String[]{"bitstring"}, "bitstring"));
+        this.spec.addDeclaration(new ProVerifReduc(new ProVerifVar[]{new ProVerifVar("x", "bitstring")}, GETKEY + " (" + HOST + " (x)) = " +
+                "x"));
+
 
         this.spec.addDeclaration(new ProVerifComment("Channel"));
         this.spec.addDeclaration(new ProVerifVar(CH_MAINCH, "channel"));

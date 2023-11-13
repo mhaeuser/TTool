@@ -177,13 +177,13 @@
 <Signal value="out chout(Message msg)" attached="true" />
 </extraparam>
 </COMPONENT>
-<SUBCOMPONENT type="5000" id="82" index="7" uid="a1c44cc9-9334-4d03-8988-e402248c1447" >
+<SUBCOMPONENT type="5000" id="82" index="7" uid="32384080-e86a-41de-b441-4f6ae88f1cbe" >
 <father id="164" num="0" />
-<cdparam x="263" y="233" />
-<sizeparam width="139" height="126" minWidth="5" minHeight="2" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
+<cdparam x="36" y="233" />
+<sizeparam width="215" height="126" minWidth="5" minHeight="2" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <hidden value="false" />
-<cdrectangleparam minX="0" maxX="299" minY="0" maxY="93" />
-<infoparam name="Block0" value="Bob" />
+<cdrectangleparam minX="0" maxX="223" minY="0" maxY="93" />
+<infoparam name="Block0" value="Alice" />
 <new d="false" />
 <TGConnectingPoint num="0" id="42" />
 <TGConnectingPoint num="1" id="43" />
@@ -228,10 +228,10 @@
 <extraparam>
 <blockType data="cryptoblock" color="-4072719" />
 <CryptoBlock value="true" />
+<Attribute access="0" var="0" id="secretData" value="" type="8" typeOther="" />
 <Attribute access="0" var="0" id="m" value="" type="5" typeOther="Message" />
-<Attribute access="0" var="0" id="m2" value="" type="5" typeOther="Message" />
+<Attribute access="0" var="0" id="m1" value="" type="5" typeOther="Message" />
 <Attribute access="0" var="0" id="sk" value="" type="5" typeOther="Key" />
-<Attribute access="0" var="0" id="receivedData" value="" type="8" typeOther="" />
 <Method value="Message encrypt(Message msg, Key k)" />
 <Method value="Message decrypt(Message msg, Key k)" />
 <Method value="Message sencrypt(Message msg, Key k)" />
@@ -254,15 +254,17 @@
 <Method value="Key getpk(Message cert)" />
 <Method value="Key DH(Key pubK, Key privK)" />
 <Method value="Message hash(Message msg)" />
+<Method value="Message host(Key k)" />
+<Method value="Key getKey(Message msg)" />
 </extraparam>
 </SUBCOMPONENT>
-<SUBCOMPONENT type="5000" id="123" index="8" uid="32384080-e86a-41de-b441-4f6ae88f1cbe" >
+<SUBCOMPONENT type="5000" id="123" index="8" uid="a1c44cc9-9334-4d03-8988-e402248c1447" >
 <father id="164" num="1" />
-<cdparam x="36" y="233" />
-<sizeparam width="215" height="126" minWidth="5" minHeight="2" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
+<cdparam x="263" y="233" />
+<sizeparam width="139" height="126" minWidth="5" minHeight="2" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <hidden value="false" />
-<cdrectangleparam minX="0" maxX="223" minY="0" maxY="93" />
-<infoparam name="Block0" value="Alice" />
+<cdrectangleparam minX="0" maxX="299" minY="0" maxY="93" />
+<infoparam name="Block0" value="Bob" />
 <new d="false" />
 <TGConnectingPoint num="0" id="83" />
 <TGConnectingPoint num="1" id="84" />
@@ -307,10 +309,10 @@
 <extraparam>
 <blockType data="cryptoblock" color="-4072719" />
 <CryptoBlock value="true" />
-<Attribute access="0" var="0" id="secretData" value="" type="8" typeOther="" />
 <Attribute access="0" var="0" id="m" value="" type="5" typeOther="Message" />
-<Attribute access="0" var="0" id="m1" value="" type="5" typeOther="Message" />
+<Attribute access="0" var="0" id="m2" value="" type="5" typeOther="Message" />
 <Attribute access="0" var="0" id="sk" value="" type="5" typeOther="Key" />
+<Attribute access="0" var="0" id="receivedData" value="" type="8" typeOther="" />
 <Method value="Message encrypt(Message msg, Key k)" />
 <Method value="Message decrypt(Message msg, Key k)" />
 <Method value="Message sencrypt(Message msg, Key k)" />
@@ -333,6 +335,8 @@
 <Method value="Key getpk(Message cert)" />
 <Method value="Key DH(Key pubK, Key privK)" />
 <Method value="Message hash(Message msg)" />
+<Method value="Message host(Key k)" />
+<Method value="Key getKey(Message msg)" />
 </extraparam>
 </SUBCOMPONENT>
 
@@ -1555,13 +1559,13 @@
 <Signal value="out chout(Message msg)" attached="true" />
 </extraparam>
 </COMPONENT>
-<SUBCOMPONENT type="5000" id="857" index="7" uid="e802e723-57b4-4734-af20-cddadacc10e6" >
+<SUBCOMPONENT type="5000" id="857" index="7" uid="cc150a1e-1348-4fa4-98a9-3a612b6184cc" >
 <father id="939" num="0" />
-<cdparam x="36" y="233" />
-<sizeparam width="215" height="126" minWidth="5" minHeight="2" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
+<cdparam x="263" y="233" />
+<sizeparam width="139" height="126" minWidth="5" minHeight="2" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <hidden value="false" />
-<cdrectangleparam minX="0" maxX="223" minY="0" maxY="93" />
-<infoparam name="Block0" value="Alice" />
+<cdrectangleparam minX="0" maxX="299" minY="0" maxY="93" />
+<infoparam name="Block0" value="Bob" />
 <new d="false" />
 <TGConnectingPoint num="0" id="817" />
 <TGConnectingPoint num="1" id="818" />
@@ -1606,13 +1610,13 @@
 <extraparam>
 <blockType data="cryptoblock" color="-4072719" />
 <CryptoBlock value="true" />
-<Attribute access="0" var="0" id="secretData" value="" type="8" typeOther="" />
 <Attribute access="0" var="0" id="m" value="" type="5" typeOther="Message" />
-<Attribute access="0" var="0" id="m1" value="" type="5" typeOther="Message" />
+<Attribute access="0" var="0" id="m2" value="" type="5" typeOther="Message" />
 <Attribute access="0" var="0" id="sk" value="" type="5" typeOther="Key" />
-<Attribute access="0" var="0" id="pubK" value="" type="5" typeOther="Key" />
+<Attribute access="0" var="0" id="receivedData" value="" type="8" typeOther="" />
 <Attribute access="0" var="0" id="privK" value="" type="5" typeOther="Key" />
-<Attribute access="0" var="0" id="bobPubK" value="" type="5" typeOther="Key" />
+<Attribute access="0" var="0" id="pubK" value="" type="5" typeOther="Key" />
+<Attribute access="0" var="0" id="alicePubK" value="" type="5" typeOther="Key" />
 <Method value="Message encrypt(Message msg, Key k)" />
 <Method value="Message decrypt(Message msg, Key k)" />
 <Method value="Message sencrypt(Message msg, Key k)" />
@@ -1635,15 +1639,17 @@
 <Method value="Key getpk(Message cert)" />
 <Method value="Key DH(Key pubK, Key privK)" />
 <Method value="Message hash(Message msg)" />
+<Method value="Message host(Key k)" />
+<Method value="Key getKey(Message msg)" />
 </extraparam>
 </SUBCOMPONENT>
-<SUBCOMPONENT type="5000" id="898" index="8" uid="cc150a1e-1348-4fa4-98a9-3a612b6184cc" >
+<SUBCOMPONENT type="5000" id="898" index="8" uid="e802e723-57b4-4734-af20-cddadacc10e6" >
 <father id="939" num="1" />
-<cdparam x="263" y="233" />
-<sizeparam width="139" height="126" minWidth="5" minHeight="2" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
+<cdparam x="36" y="233" />
+<sizeparam width="215" height="126" minWidth="5" minHeight="2" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <hidden value="false" />
-<cdrectangleparam minX="0" maxX="299" minY="0" maxY="93" />
-<infoparam name="Block0" value="Bob" />
+<cdrectangleparam minX="0" maxX="223" minY="0" maxY="93" />
+<infoparam name="Block0" value="Alice" />
 <new d="false" />
 <TGConnectingPoint num="0" id="858" />
 <TGConnectingPoint num="1" id="859" />
@@ -1688,13 +1694,13 @@
 <extraparam>
 <blockType data="cryptoblock" color="-4072719" />
 <CryptoBlock value="true" />
+<Attribute access="0" var="0" id="secretData" value="" type="8" typeOther="" />
 <Attribute access="0" var="0" id="m" value="" type="5" typeOther="Message" />
-<Attribute access="0" var="0" id="m2" value="" type="5" typeOther="Message" />
+<Attribute access="0" var="0" id="m1" value="" type="5" typeOther="Message" />
 <Attribute access="0" var="0" id="sk" value="" type="5" typeOther="Key" />
-<Attribute access="0" var="0" id="receivedData" value="" type="8" typeOther="" />
-<Attribute access="0" var="0" id="privK" value="" type="5" typeOther="Key" />
 <Attribute access="0" var="0" id="pubK" value="" type="5" typeOther="Key" />
-<Attribute access="0" var="0" id="alicePubK" value="" type="5" typeOther="Key" />
+<Attribute access="0" var="0" id="privK" value="" type="5" typeOther="Key" />
+<Attribute access="0" var="0" id="bobPubK" value="" type="5" typeOther="Key" />
 <Method value="Message encrypt(Message msg, Key k)" />
 <Method value="Message decrypt(Message msg, Key k)" />
 <Method value="Message sencrypt(Message msg, Key k)" />
@@ -1717,6 +1723,8 @@
 <Method value="Key getpk(Message cert)" />
 <Method value="Key DH(Key pubK, Key privK)" />
 <Method value="Message hash(Message msg)" />
+<Method value="Message host(Key k)" />
+<Method value="Key getKey(Message msg)" />
 </extraparam>
 </SUBCOMPONENT>
 
@@ -3653,13 +3661,13 @@
 <Signal value="out chout(Message msg)" attached="true" />
 </extraparam>
 </COMPONENT>
-<SUBCOMPONENT type="5000" id="2024" index="7" uid="f24348ab-6d4a-40e6-a942-342d6222b23f" >
+<SUBCOMPONENT type="5000" id="2024" index="7" uid="7a040a26-feb9-4e9a-a609-908679df2a0b" >
 <father id="2147" num="0" />
-<cdparam x="263" y="108" />
-<sizeparam width="139" height="126" minWidth="5" minHeight="2" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
+<cdparam x="115" y="249" />
+<sizeparam width="261" height="83" minWidth="5" minHeight="2" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <hidden value="false" />
-<cdrectangleparam minX="0" maxX="299" minY="0" maxY="218" />
-<infoparam name="Block0" value="Bob" />
+<cdrectangleparam minX="0" maxX="177" minY="0" maxY="261" />
+<infoparam name="Block0" value="CA" />
 <new d="false" />
 <TGConnectingPoint num="0" id="1984" />
 <TGConnectingPoint num="1" id="1985" />
@@ -3704,30 +3712,18 @@
 <extraparam>
 <blockType data="cryptoblock" color="-4072719" />
 <CryptoBlock value="true" />
-<Attribute access="0" var="0" id="m" value="" type="5" typeOther="Message" />
-<Attribute access="0" var="0" id="m2" value="" type="5" typeOther="Message" />
-<Attribute access="0" var="0" id="sk" value="" type="5" typeOther="Key" />
-<Attribute access="0" var="0" id="receivedData" value="" type="8" typeOther="" />
 <Attribute access="0" var="0" id="privK" value="" type="5" typeOther="Key" />
 <Attribute access="0" var="0" id="pubK" value="" type="5" typeOther="Key" />
 <Attribute access="0" var="0" id="alicePubK" value="" type="5" typeOther="Key" />
-<Attribute access="0" var="0" id="CAPubK" value="" type="5" typeOther="Key" />
+<Attribute access="0" var="0" id="bobPubK" value="" type="5" typeOther="Key" />
 <Attribute access="0" var="0" id="aliceID" value="" type="8" typeOther="" />
+<Attribute access="0" var="0" id="bobID" value="" type="8" typeOther="" />
+<Attribute access="0" var="0" id="m" value="" type="5" typeOther="Message" />
+<Attribute access="0" var="0" id="newK" value="" type="5" typeOther="Key" />
+<Attribute access="0" var="0" id="newCert" value="" type="5" typeOther="Message" />
 <Attribute access="0" var="0" id="m1" value="" type="5" typeOther="Message" />
-<Attribute access="0" var="0" id="sig" value="" type="5" typeOther="Message" />
-<Attribute access="0" var="0" id="certOK" value="" type="4" typeOther="" />
-<Method value="Message encrypt(Message msg, Key k)" />
-<Method value="Message decrypt(Message msg, Key k)" />
-<Method value="Message sencrypt(Message msg, Key k)" />
-<Method value="Message sdecrypt(Message msg, Key k)" />
-<Method value="Message MAC(Message msg, Key k)" />
-<Method value="bool verifyMAC(Message msg, Key k, Message macmsg)" />
-<Method value="Message concat2(Message msg1, Message msg2)" />
-<Method value="Message concat3(Message msg1, Message msg2, Message msg3)" />
-<Method value="Message concat4(Message msg1, Message msg2, Message msg3, Message msg4)" />
-<Method value="get2(Message msg, Message msg1, Message msg2)" />
-<Method value="get3(Message msg, Message msg1, Message msg2, Message msg3)" />
-<Method value="get4(Message msg, Message msg1, Message msg2, Message msg3, Message msg4)" />
+<Attribute access="0" var="0" id="m2" value="" type="5" typeOther="Message" />
+<Attribute access="0" var="0" id="newID" value="" type="8" typeOther="" />
 <Method value="Message aencrypt(Message msg, Key k)" />
 <Method value="Message adecrypt(Message msg, Key k)" />
 <Method value="Key pk(Key k)" />
@@ -3736,8 +3732,20 @@
 <Method value="Message cert(Key k, Message msg)" />
 <Method value="bool verifyCert(Message cert, Key k)" />
 <Method value="Key getpk(Message cert)" />
+<Method value="Message sencrypt(Message msg, Key k)" />
+<Method value="Message sdecrypt(Message msg, Key k)" />
 <Method value="Key DH(Key pubK, Key privK)" />
 <Method value="Message hash(Message msg)" />
+<Method value="Message MAC(Message msg, Key k)" />
+<Method value="bool verifyMAC(Message msg, Key k, Message macmsg)" />
+<Method value="Message concat2(Message msg1, Message msg2)" />
+<Method value="Message concat3(Message msg1, Message msg2, Message msg3)" />
+<Method value="Message concat4(Message msg1, Message msg2, Message msg3, Message msg4)" />
+<Method value="get2(Message msg, Message msg1, Message msg2)" />
+<Method value="get3(Message msg, Message msg1, Message msg2, Message msg3)" />
+<Method value="get4(Message msg, Message msg1, Message msg2, Message msg3, Message msg4)" />
+<Method value="Message host(Key k)" />
+<Method value="Key getKey(Message msg)" />
 </extraparam>
 </SUBCOMPONENT>
 <SUBCOMPONENT type="5000" id="2065" index="8" uid="52a07889-a0b4-45e9-a97a-a5a5e144d49b" >
@@ -3825,15 +3833,17 @@
 <Method value="Key getpk(Message cert)" />
 <Method value="Key DH(Key pubK, Key privK)" />
 <Method value="Message hash(Message msg)" />
+<Method value="Message host(Key k)" />
+<Method value="Key getKey(Message msg)" />
 </extraparam>
 </SUBCOMPONENT>
-<SUBCOMPONENT type="5000" id="2106" index="9" uid="7a040a26-feb9-4e9a-a609-908679df2a0b" >
+<SUBCOMPONENT type="5000" id="2106" index="9" uid="f24348ab-6d4a-40e6-a942-342d6222b23f" >
 <father id="2147" num="2" />
-<cdparam x="115" y="249" />
-<sizeparam width="261" height="83" minWidth="5" minHeight="2" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
+<cdparam x="263" y="108" />
+<sizeparam width="139" height="126" minWidth="5" minHeight="2" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <hidden value="false" />
-<cdrectangleparam minX="0" maxX="177" minY="0" maxY="261" />
-<infoparam name="Block0" value="CA" />
+<cdrectangleparam minX="0" maxX="299" minY="0" maxY="218" />
+<infoparam name="Block0" value="Bob" />
 <new d="false" />
 <TGConnectingPoint num="0" id="2066" />
 <TGConnectingPoint num="1" id="2067" />
@@ -3878,30 +3888,22 @@
 <extraparam>
 <blockType data="cryptoblock" color="-4072719" />
 <CryptoBlock value="true" />
+<Attribute access="0" var="0" id="m" value="" type="5" typeOther="Message" />
+<Attribute access="0" var="0" id="m2" value="" type="5" typeOther="Message" />
+<Attribute access="0" var="0" id="sk" value="" type="5" typeOther="Key" />
+<Attribute access="0" var="0" id="receivedData" value="" type="8" typeOther="" />
 <Attribute access="0" var="0" id="privK" value="" type="5" typeOther="Key" />
 <Attribute access="0" var="0" id="pubK" value="" type="5" typeOther="Key" />
 <Attribute access="0" var="0" id="alicePubK" value="" type="5" typeOther="Key" />
-<Attribute access="0" var="0" id="bobPubK" value="" type="5" typeOther="Key" />
+<Attribute access="0" var="0" id="CAPubK" value="" type="5" typeOther="Key" />
 <Attribute access="0" var="0" id="aliceID" value="" type="8" typeOther="" />
-<Attribute access="0" var="0" id="bobID" value="" type="8" typeOther="" />
-<Attribute access="0" var="0" id="m" value="" type="5" typeOther="Message" />
-<Attribute access="0" var="0" id="newK" value="" type="5" typeOther="Key" />
-<Attribute access="0" var="0" id="newCert" value="" type="5" typeOther="Message" />
 <Attribute access="0" var="0" id="m1" value="" type="5" typeOther="Message" />
-<Attribute access="0" var="0" id="m2" value="" type="5" typeOther="Message" />
-<Attribute access="0" var="0" id="newID" value="" type="8" typeOther="" />
-<Method value="Message aencrypt(Message msg, Key k)" />
-<Method value="Message adecrypt(Message msg, Key k)" />
-<Method value="Key pk(Key k)" />
-<Method value="Message sign(Message msg, Key k)" />
-<Method value="bool verifySign(Message msg1, Message sig, Key k)" />
-<Method value="Message cert(Key k, Message msg)" />
-<Method value="bool verifyCert(Message cert, Key k)" />
-<Method value="Key getpk(Message cert)" />
+<Attribute access="0" var="0" id="sig" value="" type="5" typeOther="Message" />
+<Attribute access="0" var="0" id="certOK" value="" type="4" typeOther="" />
+<Method value="Message encrypt(Message msg, Key k)" />
+<Method value="Message decrypt(Message msg, Key k)" />
 <Method value="Message sencrypt(Message msg, Key k)" />
 <Method value="Message sdecrypt(Message msg, Key k)" />
-<Method value="Key DH(Key pubK, Key privK)" />
-<Method value="Message hash(Message msg)" />
 <Method value="Message MAC(Message msg, Key k)" />
 <Method value="bool verifyMAC(Message msg, Key k, Message macmsg)" />
 <Method value="Message concat2(Message msg1, Message msg2)" />
@@ -3910,6 +3912,18 @@
 <Method value="get2(Message msg, Message msg1, Message msg2)" />
 <Method value="get3(Message msg, Message msg1, Message msg2, Message msg3)" />
 <Method value="get4(Message msg, Message msg1, Message msg2, Message msg3, Message msg4)" />
+<Method value="Message aencrypt(Message msg, Key k)" />
+<Method value="Message adecrypt(Message msg, Key k)" />
+<Method value="Key pk(Key k)" />
+<Method value="Message sign(Message msg, Key k)" />
+<Method value="bool verifySign(Message msg1, Message sig, Key k)" />
+<Method value="Message cert(Key k, Message msg)" />
+<Method value="bool verifyCert(Message cert, Key k)" />
+<Method value="Key getpk(Message cert)" />
+<Method value="Key DH(Key pubK, Key privK)" />
+<Method value="Message hash(Message msg)" />
+<Method value="Message host(Key k)" />
+<Method value="Key getKey(Message msg)" />
 </extraparam>
 </SUBCOMPONENT>
 
@@ -6722,13 +6736,13 @@
 <Signal value="out chout(Message msg)" attached="true" />
 </extraparam>
 </COMPONENT>
-<SUBCOMPONENT type="5000" id="3642" index="7" uid="7bb99390-2a74-452a-8601-e344bd028850" >
+<SUBCOMPONENT type="5000" id="3642" index="7" uid="58e32c17-1811-4588-ab32-863569a17a48" >
 <father id="3724" num="0" />
-<cdparam x="263" y="233" />
-<sizeparam width="139" height="126" minWidth="5" minHeight="2" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
+<cdparam x="36" y="233" />
+<sizeparam width="215" height="126" minWidth="5" minHeight="2" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <hidden value="false" />
-<cdrectangleparam minX="0" maxX="299" minY="0" maxY="93" />
-<infoparam name="Block0" value="Bob" />
+<cdrectangleparam minX="0" maxX="223" minY="0" maxY="93" />
+<infoparam name="Block0" value="Alice" />
 <new d="false" />
 <TGConnectingPoint num="0" id="3602" />
 <TGConnectingPoint num="1" id="3603" />
@@ -6773,8 +6787,8 @@
 <extraparam>
 <blockType data="cryptoblock" color="-4072719" />
 <CryptoBlock value="true" />
+<Attribute access="0" var="0" id="secretData" value="" type="8" typeOther="" />
 <Attribute access="0" var="0" id="m" value="" type="5" typeOther="Message" />
-<Attribute access="0" var="0" id="receivedData" value="" type="8" typeOther="" />
 <Method value="Message encrypt(Message msg, Key k)" />
 <Method value="Message decrypt(Message msg, Key k)" />
 <Method value="Message sencrypt(Message msg, Key k)" />
@@ -6797,15 +6811,17 @@
 <Method value="Key getpk(Message cert)" />
 <Method value="Key DH(Key pubK, Key privK)" />
 <Method value="Message hash(Message msg)" />
+<Method value="Message host(Key k)" />
+<Method value="Key getKey(Message msg)" />
 </extraparam>
 </SUBCOMPONENT>
-<SUBCOMPONENT type="5000" id="3683" index="8" uid="58e32c17-1811-4588-ab32-863569a17a48" >
+<SUBCOMPONENT type="5000" id="3683" index="8" uid="7bb99390-2a74-452a-8601-e344bd028850" >
 <father id="3724" num="1" />
-<cdparam x="36" y="233" />
-<sizeparam width="215" height="126" minWidth="5" minHeight="2" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
+<cdparam x="263" y="233" />
+<sizeparam width="139" height="126" minWidth="5" minHeight="2" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <hidden value="false" />
-<cdrectangleparam minX="0" maxX="223" minY="0" maxY="93" />
-<infoparam name="Block0" value="Alice" />
+<cdrectangleparam minX="0" maxX="299" minY="0" maxY="93" />
+<infoparam name="Block0" value="Bob" />
 <new d="false" />
 <TGConnectingPoint num="0" id="3643" />
 <TGConnectingPoint num="1" id="3644" />
@@ -6850,8 +6866,8 @@
 <extraparam>
 <blockType data="cryptoblock" color="-4072719" />
 <CryptoBlock value="true" />
-<Attribute access="0" var="0" id="secretData" value="" type="8" typeOther="" />
 <Attribute access="0" var="0" id="m" value="" type="5" typeOther="Message" />
+<Attribute access="0" var="0" id="receivedData" value="" type="8" typeOther="" />
 <Method value="Message encrypt(Message msg, Key k)" />
 <Method value="Message decrypt(Message msg, Key k)" />
 <Method value="Message sencrypt(Message msg, Key k)" />
@@ -6874,6 +6890,8 @@
 <Method value="Key getpk(Message cert)" />
 <Method value="Key DH(Key pubK, Key privK)" />
 <Method value="Message hash(Message msg)" />
+<Method value="Message host(Key k)" />
+<Method value="Key getKey(Message msg)" />
 </extraparam>
 </SUBCOMPONENT>
 

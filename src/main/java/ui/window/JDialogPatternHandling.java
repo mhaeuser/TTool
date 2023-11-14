@@ -127,7 +127,7 @@ import ui.interactivesimulation.JFrameSimulationSDPanel;
 import ui.util.IconManager;
 
 /**
- * Class JDialogProverifVerification
+ * Class JDialogPatternHandling
  * Dialog for managing the generation of Patterns
  *
  * Creation: 16/08/2023

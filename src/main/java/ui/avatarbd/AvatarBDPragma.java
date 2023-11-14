@@ -381,7 +381,7 @@ public class AvatarBDPragma extends TGCScalableWithoutInternalComponent {
     public boolean editOnDoubleClick(JFrame frame) {
         String oldValue = value;
 
-        JDialogPragma jdn = new JDialogPragma(frame, "Setting the security pragmas", value);
+        JDialogPragma jdn = new JDialogPragma(frame, getTDiagramPanel().getMGUI(), "Setting the security pragmas", value);
         jdn.setSize(500, 700);
         AvatarBDPanel abdp = (AvatarBDPanel) tdp;
         jdn.blockAttributeMap = abdp.getBlockStrings(true, false, false);

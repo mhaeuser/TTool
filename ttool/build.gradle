@@ -51,7 +51,7 @@ dependencies {
     implementation name: 'assertj/assertj-swing/3.8.0/assertj-swing-3.8.0-sources'
     implementation name: 'assertj/assertj-swing-junit/3.8.0/assertj-swing-junit-3.8.0'
     implementation name: 'assertj/assertj-swing-junit/3.8.0/assertj-swing-junit-3.8.0-sources'
-    implementation name: 'jna-5.13.0'
+    implementation name: 'jna-3.3.0'
     implementation name: 'jgrapht-core-1.3.0'
     implementation name: 'jgrapht-ext-1.3.0'
     implementation name: 'jgrapht-io-1.3.0'

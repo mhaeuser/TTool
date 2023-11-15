@@ -1902,11 +1902,13 @@ public class MainGUI implements ActionListener, WindowListener, KeyListener, Per
         TraceManager.addDev("Draw Spec 4");
     }
 
-    public void drawTMLSpecification(TMLModeling tmlm, String title) throws MalformedTMLDesignException {
-        DateFormat dateFormat = new SimpleDateFormat("_yyyyMMdd_HHmmss");
-        Date date = new Date();
-        String dateAndTime = dateFormat.format(date);
-        String tabName = title + "_" + dateAndTime;
+    public void drawTMLSpecification(TMLModeling tmlm, String title, String suffix) throws MalformedTMLDesignException {
+        if (suffix == "" || suffix == null) {
+            DateFormat dateFormat = new SimpleDateFormat("_yyyyMMdd_HHmmss");
+            Date date = new Date();
+            suffix = dateFormat.format(date);
+        } 
+        String tabName = title + "_" + suffix;
         TraceManager.addDev("Draw TML Spec 1");
         int index = createTMLComponentDesign(tabName);
         TraceManager.addDev("Draw TML Spec 2");
@@ -1917,11 +1919,13 @@ public class MainGUI implements ActionListener, WindowListener, KeyListener, Per
         TraceManager.addDev("Draw TML Spec 4");
     }
 
-    public void drawTMAPSpecification(TMLMapping tmap, String title) throws MalformedTMLDesignException {
-        DateFormat dateFormat = new SimpleDateFormat("_yyyyMMdd_HHmmss");
-        Date date = new Date();
-        String dateAndTime = dateFormat.format(date);
-        String tabName = title + "_" + dateAndTime;
+    public void drawTMAPSpecification(TMLMapping tmap, String title, String suffix) throws MalformedTMLDesignException {
+        if (suffix == "" || suffix == null) {
+            DateFormat dateFormat = new SimpleDateFormat("_yyyyMMdd_HHmmss");
+            Date date = new Date();
+            suffix = dateFormat.format(date);
+        } 
+        String tabName = title + "_" + suffix;
         TraceManager.addDev("Draw TMAP Spec 1");
         int index = createTMLArchitecture(tabName + "_Mapping");
         TraceManager.addDev("Draw TMAP Spec 2");
@@ -1932,7 +1936,7 @@ public class MainGUI implements ActionListener, WindowListener, KeyListener, Per
         TraceManager.addDev("Draw TMAP Spec 4");
     }
 
-    public void drawTMLAndTMAPSpecification(TMLMapping tmap, String titleApp, String titleArch) throws MalformedTMLDesignException {
+    /*public void drawTMLAndTMAPSpecification(TMLMapping tmap, String titleApp, String titleArch) throws MalformedTMLDesignException {
         DateFormat dateFormat = new SimpleDateFormat("HHmmss");
         Date date = new Date();
         String dateAndTime = dateFormat.format(date);
@@ -1955,7 +1959,7 @@ public class MainGUI implements ActionListener, WindowListener, KeyListener, Per
         DrawerTMAPModeling drawerArch = new DrawerTMAPModeling(this);
         drawerArch.drawTMAPModelingPanel(tmap, tmlap);
         TraceManager.addDev("Draw TMAP Spec 4");
-    }
+    }*/
 
     // Creates the status bar.
     private JLabel createStatusBar() {
@@ -5627,7 +5631,10 @@ public class MainGUI implements ActionListener, WindowListener, KeyListener, Per
             }
 
             try {
-                drawTMLSpecification(ts.getTMLModeling(), tmlfile.getName());
+                DateFormat dateFormat = new SimpleDateFormat("_yyyyMMdd_HHmmss");
+                Date date = new Date();
+                String dateAndTime = dateFormat.format(date);
+                drawTMLSpecification(ts.getTMLModeling(), tmlfile.getName(), dateAndTime);
             } catch (MalformedTMLDesignException e) {
                 TraceManager.addDev("Error in drawing spec: " + e.getMessage());
                 status.setText("ERROR: " + e.getMessage());
@@ -5663,9 +5670,12 @@ public class MainGUI implements ActionListener, WindowListener, KeyListener, Per
             TMLMapping tmap = ts.getTMLMapping();
 
             try {
-                drawTMLSpecification(tmap.getTMLModeling(), tmlfile.getName());
+                DateFormat dateFormat = new SimpleDateFormat("_yyyyMMdd_HHmmss");
+                Date date = new Date();
+                String dateAndTime = dateFormat.format(date);
+                drawTMLSpecification(tmap.getTMLModeling(), tmlfile.getName(), dateAndTime);
                 TraceManager.addDev("Drawing TMAP spec");
-                drawTMAPSpecification(tmap, tmlfile.getName());
+                drawTMAPSpecification(tmap, tmlfile.getName(), dateAndTime);
             } catch (MalformedTMLDesignException e) {
                 TraceManager.addDev("Error in drawing spec: " + e.getMessage());
                 status.setText("ERROR: " + e.getMessage());

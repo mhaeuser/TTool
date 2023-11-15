@@ -960,7 +960,10 @@ public class Action extends Command implements ProVerifOutputListener {
                 }
 
                 try {
-                    interpreter.mgui.drawTMLSpecification(tmlm, commands[0]);
+                    DateFormat dateFormat = new SimpleDateFormat("_yyyyMMdd_HHmmss");
+                    Date date = new Date();
+                    String dateAndTime = dateFormat.format(date);
+                    interpreter.mgui.drawTMLSpecification(tmlm, commands[0], dateAndTime);
                 } catch (MalformedTMLDesignException e) {
                     TraceManager.addDev("Exception in drawing spec: " + e.getMessage());
                     return e.getMessage();
@@ -1007,8 +1010,11 @@ public class Action extends Command implements ProVerifOutputListener {
 
 
                 try {
-                    interpreter.mgui.drawTMLSpecification(tmlm, commands[0]);
-                    interpreter.mgui.drawTMAPSpecification(tmap, commands[0]);
+                    DateFormat dateFormat = new SimpleDateFormat("_yyyyMMdd_HHmmss");
+                    Date date = new Date();
+                    String dateAndTime = dateFormat.format(date);
+                    interpreter.mgui.drawTMLSpecification(tmlm, commands[0], dateAndTime);
+                    interpreter.mgui.drawTMAPSpecification(tmap, commands[0], dateAndTime);
                 } catch (MalformedTMLDesignException e) {
                     TraceManager.addDev("Exception in drawing spec: " + e.getMessage());
                     return e.getMessage();

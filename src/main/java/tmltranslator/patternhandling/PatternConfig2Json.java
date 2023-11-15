@@ -114,18 +114,17 @@ public class PatternConfig2Json {
     public PatternConfiguration getPaternConfiguration() {
         return patternConfiguration;
     }
-	
+    
     public PatternConfig2Json(String _patternPathName, PatternConfiguration _patternConfiguration) {
-		this.patternConfigurationPathName = _patternPathName;
-		this.patternConfiguration = _patternConfiguration;
-	}
+        this.patternConfigurationPathName = _patternPathName;
+        this.patternConfiguration = _patternConfiguration;
+    }
     
     public PatternConfig2Json(String _patternPathName) {
-		this.patternConfigurationPathName = _patternPathName;
+        this.patternConfigurationPathName = _patternPathName;
         this.patternConfiguration = new PatternConfiguration();
-	}
+    }
 
-	
     public void patternConfiguration2Json() {
         try {
             FileWriter file = new FileWriter(patternConfigurationPathName);

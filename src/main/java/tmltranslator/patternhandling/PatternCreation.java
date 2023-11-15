@@ -81,32 +81,32 @@ public class PatternCreation implements Runnable {
     public final static String INTERNALPORTS = "internalPorts";
     public final static String ATTRIBUTES = "attributes";
 
-	private List<String> selectedTasks;
-	private String patternName;
+    private List<String> selectedTasks;
+    private String patternName;
     private String patternsPath;
-	private TMLMapping<?> tmap;
+    private TMLMapping<?> tmap;
 
     public PatternCreation(List<String> _selectedTasks, String _patternName, String _patternsPath, TMLMapping<?> tmap) {
-		this.selectedTasks = _selectedTasks;
-		this.patternName = _patternName;
-		this.patternsPath = _patternsPath;
-		this.tmap = tmap;
-	}
+        this.selectedTasks = _selectedTasks;
+        this.patternName = _patternName;
+        this.patternsPath = _patternsPath;
+        this.tmap = tmap;
+    }
     
-	public void startThread() {
-		Thread t = new Thread(this);
-		t.start();
-		try {
-			t.join();
-		}
-		catch (Exception e) {
-			TraceManager.addDev("Error in Pattern Creation Thread");
-		}
-		return;
-	}
+    public void startThread() {
+        Thread t = new Thread(this);
+        t.start();
+        try {
+            t.join();
+        }
+        catch (Exception e) {
+            TraceManager.addDev("Error in Pattern Creation Thread");
+        }
+        return;
+    }
 
     public void run() {
-    	TraceManager.addDev("Creating Pattern");
+        TraceManager.addDev("Creating Pattern");
         if (tmap == null) {
             return;
         }
@@ -135,7 +135,7 @@ public class PatternCreation implements Runnable {
             } 
         }
         
-	}
+    }
 
     @SuppressWarnings("unchecked")
     public boolean generateTMLTxt(String _title) {

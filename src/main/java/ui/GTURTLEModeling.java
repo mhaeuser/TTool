@@ -1629,7 +1629,11 @@ public class GTURTLEModeling {
         try {
             String archTabName = ((CorrespondanceTGElement)(tmap.getCorrespondanceList())).getTG(tmap.getArch().getFirstCPU()).getTDiagramPanel().tp.getNameOfTab();
             String appTabName = ((TGComponent)tmap.getTMLModeling().getReference()).getTDiagramPanel().tp.getNameOfTab();
-            gui.drawTMLAndTMAPSpecification(tmap, appTabName + "_tmr", archTabName + "_tmr");
+            DateFormat dateFormat = new SimpleDateFormat("_yyyyMMdd_HHmmss");
+            Date date = new Date();
+            String dateAndTime = dateFormat.format(date);
+            gui.drawTMLSpecification(tmap.getTMLModeling(), appTabName + "_tmr", dateAndTime);
+            gui.drawTMAPSpecification(tmap, archTabName + "_tmr", dateAndTime);
         } catch (MalformedTMLDesignException e) {
             TraceManager.addDev("Error when Drawing TML");
         }
@@ -1655,7 +1659,11 @@ public class GTURTLEModeling {
         tmap = (TMLMapping<TGComponent>) integratePatternTMAP(appTabName, patternPath, patternName, configPatternPath, tmap);
         try {
             String archTabName = ((CorrespondanceTGElement)(tmap.getCorrespondanceList())).getTG(tmap.getArch().getFirstCPU()).getTDiagramPanel().tp.getNameOfTab();
-            gui.drawTMLAndTMAPSpecification(tmap, appTabName + "_" + patternName, archTabName + "_" + patternName);
+            DateFormat dateFormat = new SimpleDateFormat("_yyyyMMdd_HHmmss");
+            Date date = new Date();
+            String dateAndTime = dateFormat.format(date);
+            gui.drawTMLSpecification(tmap.getTMLModeling(), appTabName + "_" + patternName, dateAndTime);
+            gui.drawTMAPSpecification(tmap, archTabName + "_" + patternName, dateAndTime);
         } catch (MalformedTMLDesignException e) {
             TraceManager.addDev("Error when Drawing TML");
         }
@@ -1836,7 +1844,11 @@ public class GTURTLEModeling {
 
             try {
                 String archTabName = ((CorrespondanceTGElement)(tmap.getCorrespondanceList())).getTG(tmap.getArch().getFirstCPU()).getTDiagramPanel().tp.getNameOfTab();
-                gui.drawTMLAndTMAPSpecification(tmap, appTabName + "_enc", archTabName + "_enc");
+                DateFormat dateFormat = new SimpleDateFormat("_yyyyMMdd_HHmmss");
+                Date date = new Date();
+                String dateAndTime = dateFormat.format(date);
+                gui.drawTMLSpecification(tmap.getTMLModeling(), appTabName + "_enc", dateAndTime);
+                gui.drawTMAPSpecification(tmap, archTabName + "_enc", dateAndTime);
             } catch (MalformedTMLDesignException e) {
                 TraceManager.addDev("Error when Drawing TML");
             }

@@ -53,36 +53,36 @@ import tmltranslator.*;
 import java.util.*;
  
 public class TMRGeneration implements Runnable {
-	private Map<String, List<String>> selectedSensorsTasks;
-	private String selectedRecieverTask;
+    private Map<String, List<String>> selectedSensorsTasks;
+    private String selectedRecieverTask;
     private String interpretersCompTime;
     private String voterCompTime;
     private String voterTimeOut;
-	private TMLMapping<?> tmap;
+    private TMLMapping<?> tmap;
 
     public TMRGeneration(Map<String, List<String>> selectedSensorsTasks, String selectedRecieverTask, String interpretersCompTime, String voterCompTime, String voterTimeOut, TMLMapping<?> tmap) {
-		this.selectedSensorsTasks = selectedSensorsTasks;
-		this.selectedRecieverTask = selectedRecieverTask;
-		this.interpretersCompTime = interpretersCompTime;
-		this.voterCompTime = voterCompTime;
-		this.voterTimeOut = voterTimeOut;
-		this.tmap = tmap;
-	}
+        this.selectedSensorsTasks = selectedSensorsTasks;
+        this.selectedRecieverTask = selectedRecieverTask;
+        this.interpretersCompTime = interpretersCompTime;
+        this.voterCompTime = voterCompTime;
+        this.voterTimeOut = voterTimeOut;
+        this.tmap = tmap;
+    }
     
-	public TMLMapping<?> startThread() {
-		Thread t = new Thread(this);
-		t.start();
-		try {
-			t.join();
-		}
-		catch (Exception e) {
-			TraceManager.addDev("Error in TMR Generation Thread");
-		}
-		return tmap;
-	}
+    public TMLMapping<?> startThread() {
+        Thread t = new Thread(this);
+        t.start();
+        try {
+            t.join();
+        }
+        catch (Exception e) {
+            TraceManager.addDev("Error in TMR Generation Thread");
+        }
+        return tmap;
+    }
 
     public void run() {
-    	TraceManager.addDev("Adding TMR");
+        TraceManager.addDev("Adding TMR");
         if (tmap == null) {
             return;
         }
@@ -139,7 +139,7 @@ public class TMRGeneration implements Runnable {
             }
             tmap = tmrIntegration(tmap, channelsSensorReceiverList, parameters);
         }
-	} 
+    } 
 
     TMLMapping<?> duplicateSensor(TMLMapping<?> _tmap, List<TMLChannel> _channelsBetweenSensorAndReceiver, String newSensorName) {
 

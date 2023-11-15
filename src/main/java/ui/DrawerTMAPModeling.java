@@ -46,6 +46,7 @@ import ui.tmlcompd.TMLCPortConnector;
 import ui.tmldd.*;
 
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -100,6 +101,7 @@ public class DrawerTMAPModeling {
             return;
         }
 
+        tmap.NullifyAutomata();
         TMLSyntaxChecking syntax = new TMLSyntaxChecking(tmap);
         syntax.checkSyntax();
         if (syntax.hasErrors() > 0) {
@@ -309,6 +311,10 @@ public class DrawerTMAPModeling {
             if (splitName.length >= 2) {
                 artifact.setTaskName(splitName[1]);
                 artifact.setReferenceTaskName(splitName[0]);
+            } else if (splitName.length == 1) {
+                String tabName = ((TGComponent)tmap.getTMLModeling().getReference()).getTDiagramPanel().tp.getNameOfTab();
+                artifact.setTaskName(refAndName);
+                artifact.setReferenceTaskName(tabName);
             } else {
                 artifact.setTaskName(refAndName);
             }
@@ -328,30 +334,82 @@ public class DrawerTMAPModeling {
         List<TMLElement> elts = tmap.getMappedCommunicationElement();
 
         check(oncommnodes.size() == elts.size(), "Tasks and execution nodes in mapping should be of the same dimension");
+        boolean isMultiMapping = false;
+        List<TMLElement> mappedElems = new ArrayList<TMLElement>();
+        for (TMLElement elem : elts) {
+            if (!mappedElems.contains(elem)) {
+                if (elem instanceof TMLChannel) {
+                    TMLChannel ch = (TMLChannel) elem;
+                    ArrayList<HwCommunicationNode> commNodes = tmap.getAllCommunicationNodesOfChannel(ch);
+                    for (HwCommunicationNode node : commNodes) {
+                        if (node instanceof HwMemory) {
+                            TGComponent tgc = nodeMap.get(node);
+                            check(tgc != null, "No graphical component corresponding to communication node " + node.getName());
+                            check(tgc instanceof SwallowTGComponent && tgc instanceof TMLArchiElementInterface,
+                                    "Invalid graphical component for task " + node.getName());
 
-        for(cpt=0; cpt < oncommnodes.size(); cpt ++) {
-            HwCommunicationNode node = oncommnodes.get(cpt);
-            TMLElement elt = elts.get(cpt);
+                            Point p = getRandomCoordinate(tgc);
+                            TMLArchiCommunicationArtifact artifact = new TMLArchiCommunicationArtifact(p.x, p.y, panel.getMinX(), panel.getMaxX(),
+                                    panel.getMinY(), panel.getMaxY(), false, tgc, panel);
+                            
+                            String refAndName = elem.getName();
+                            String[] splitName = refAndName.split("__");
+                            if (splitName.length >= 2) {
+                                artifact.setCommunicationName(splitName[1]);
+                                artifact.setReferenceCommunicationName(splitName[0]);
+                            } else if (splitName.length == 1) {
+                                String tabName = ((TGComponent)tmap.getTMLModeling().getReference()).getTDiagramPanel().tp.getNameOfTab();
+                                artifact.setCommunicationName(refAndName);
+                                artifact.setReferenceCommunicationName(tabName);
+                            } else {
+                                artifact.setCommunicationName(refAndName);
+                            }
+                            ArrayList<String> otherCommNames = new ArrayList<String>();
+                            for (HwCommunicationNode otherNode : commNodes) {
+                                if (otherNode != node) {
+                                    otherCommNames.add(otherNode.getName());
+                                }
+                            }
+                            artifact.addNewOtherCommunicationNames(otherCommNames);
+                            panel.addComponent(artifact, p.x, p.y, true, true);
+                            isMultiMapping = true;
+                            mappedElems.add(elem);
+                            break;
+                        }
+                    }
+                }
+                if (!isMultiMapping) {
+                    for(cpt=0; cpt < oncommnodes.size(); cpt ++) {
+                        TMLElement elt = elts.get(cpt);
+                        if (elem.equals(elt)) {
+                            HwCommunicationNode node = oncommnodes.get(cpt);
+                        
+                            TGComponent tgc = nodeMap.get(node);
+                            check(tgc != null, "No graphical component corresponding to communication node " + node.getName());
+                            check(tgc instanceof SwallowTGComponent && tgc instanceof TMLArchiElementInterface,
+                                    "Invalid graphical component for task " + node.getName());
 
-            TGComponent tgc = nodeMap.get(node);
-            check(tgc != null, "No graphical component corresponding to communication node " + node.getName());
-            check(tgc instanceof SwallowTGComponent && tgc instanceof TMLArchiElementInterface,
-                    "Invalid graphical component for task " + node.getName());
-
-            Point p = getRandomCoordinate(tgc);
-            TMLArchiCommunicationArtifact artifact = new TMLArchiCommunicationArtifact(p.x, p.y, panel.getMinX(), panel.getMaxX(),
-                    panel.getMinY(), panel.getMaxY(), false, tgc, panel);
-
-            String refAndName = elt.getName();
-            String[] splitName = refAndName.split("__");
-            if (splitName.length >= 2) {
-                artifact.setCommunicationName(splitName[1]);
-                artifact.setReferenceCommunicationName(splitName[0]);
-            } else {
-                artifact.setCommunicationName(refAndName);
+                            Point p = getRandomCoordinate(tgc);
+                            TMLArchiCommunicationArtifact artifact = new TMLArchiCommunicationArtifact(p.x, p.y, panel.getMinX(), panel.getMaxX(),
+                                    panel.getMinY(), panel.getMaxY(), false, tgc, panel);
+                            String refAndName = elt.getName();
+                            String[] splitName = refAndName.split("__");
+                            if (splitName.length >= 2) {
+                                artifact.setCommunicationName(splitName[1]);
+                                artifact.setReferenceCommunicationName(splitName[0]);
+                            } else if (splitName.length == 1) {
+                                String tabName = ((TGComponent)tmap.getTMLModeling().getReference()).getTDiagramPanel().tp.getNameOfTab();
+                                artifact.setCommunicationName(refAndName);
+                                artifact.setReferenceCommunicationName(tabName);
+                            } else {
+                                artifact.setCommunicationName(refAndName);
+                            }
+                            panel.addComponent(artifact, p.x, p.y, true, true);
+                        }
+                    }
+                    mappedElems.add(elem);
+                }
             }
-
-            panel.addComponent(artifact, p.x, p.y, true, true);
         }
     }
 

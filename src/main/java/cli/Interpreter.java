@@ -59,7 +59,7 @@ import java.util.Vector;
 public class Interpreter implements Runnable, TerminalProviderInterface {
 
     public final static Command[] commands = {new Action(), new Chat(), new Help(), new HelpTTool(), new History(), new Print(),
-            new Plan(), new PluginAction(), new Quit(),
+            new Plan(), new PluginAction(), new PatternHandling(), new Quit(),
             new TestSpecific(), new TML(), new Set(), new Wait(), new Robot(), new BF(), new SimulatorScript()};
 
     // Errors
@@ -150,6 +150,26 @@ public class Interpreter implements Runnable, TerminalProviderInterface {
     private void printPrompt(int lineNb) {
         System.out.print("" + lineNb + " -> ");
         System.out.flush();
+    }
+
+    public String interpretUntilError() {
+        Scanner scanner = new Scanner(script);
+        currentLine = 0;
+        while (scanner.hasNextLine()) {
+            String line = scanner.nextLine();
+            currentLine++;
+            for (String subCommand: line.split(";")) {
+                executeLine(subCommand, currentLine, false);
+                if (error != "" && error != null) {
+                    scanner.close();
+                    return error;
+                }
+            }
+        }
+        scanner.close();
+        printInterface.print("All done. See you soon.");
+        printInterface.exit(0);
+        return null;
     }
 
     public void interpret() {

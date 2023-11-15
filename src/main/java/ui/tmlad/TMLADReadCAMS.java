@@ -109,7 +109,7 @@ public class TMLADReadCAMS extends TADComponentWithoutSubcomponents/* Issue #69 
 
     public int reachabilityInformation;
 
-	public boolean isEncForm = true;
+	// public boolean isEncForm = true;
 	
     public TMLADReadCAMS(int _x, int _y, int _minX, int _maxX, int _minY, int _maxY, boolean _pos, TGComponent _father, TDiagramPanel _tdp) {
         super(_x, _y, _minX, _maxX, _minY, _maxY, _pos, _father, _tdp);
@@ -200,9 +200,9 @@ public class TMLADReadCAMS extends TADComponentWithoutSubcomponents/* Issue #69 
 
         if (!securityContext.equals("")) {
         	c = g.getColor();
-	        if (!isEncForm){
+	        /* if (!isEncForm){
 	        	g.setColor(Color.RED);
-	        }
+	        } */
             g.drawString("sec:" + securityContext, x + 3 * width / 4, y + height + textY1 - decSec);
             g.setColor(c);
         }
@@ -307,14 +307,14 @@ public class TMLADReadCAMS extends TADComponentWithoutSubcomponents/* Issue #69 
         tab1.help = help;
 
         TabInfo tab2 = new TabInfo("Security");
-        labels = new String[3];
-        values = new String[3];
+        labels = new String[2];
+        values = new String[2];
         labels[0] = "Security Pattern";
         values[0] = securityContext;
         labels[1] = "Attacker?";
         values[1] = isAttacker ? "Yes" : "No";
-        labels[2] = "Encrypted Form?";
-        values[2] = isEncForm ? "Yes" : "No";        
+        // labels[2] = "Encrypted Form?";
+        // values[2] = isEncForm ? "Yes" : "No";        
         help = new ArrayList<String[]>();
         String[] choice = new String[]{"Yes", "No"};
         help.add(tdp.getMGUI().getCurrentCryptoConfig());
@@ -323,7 +323,7 @@ public class TMLADReadCAMS extends TADComponentWithoutSubcomponents/* Issue #69 
         tab2.labels=labels;
         tab2.values =  values;
         tab2.help = help;
-        tab2.helpButtom = new String[]{null, "cryptographicconfiguration.html", "cryptographicconfiguration.html"};
+        tab2.helpButtom = new String[]{null, "cryptographicconfiguration.html"};
 
         List<TabInfo> tabs = new ArrayList<>();
         tabs.add(tab1);
@@ -340,7 +340,7 @@ public class TMLADReadCAMS extends TADComponentWithoutSubcomponents/* Issue #69 
             nbOfSamples = jdmsat.getString(0, 1);
             securityContext = jdmsat.getString(1, 0);
             isAttacker = jdmsat.getString(1, 1).equals("Yes");
-            isEncForm = jdmsat.getString(1, 2).equals("Yes");
+            // isEncForm = jdmsat.getString(1, 2).equals("Yes");
             makeValue();
             return true;
         }
@@ -364,8 +364,8 @@ public class TMLADReadCAMS extends TADComponentWithoutSubcomponents/* Issue #69 
         sb.append(securityContext);
         sb.append("\" isAttacker=\"");
         sb.append(isAttacker ? "Yes" : "No");
-        sb.append("\" isEncForm=\"");
-        sb.append(isEncForm ? "Yes" : "No");
+        // sb.append("\" isEncForm=\"");
+        // sb.append(isEncForm ? "Yes" : "No");
         sb.append("\" />\n");
         sb.append("</extraparam>\n");
         return new String(sb);
@@ -392,12 +392,12 @@ public class TMLADReadCAMS extends TADComponentWithoutSubcomponents/* Issue #69 
                                 nbOfSamples = elt.getAttribute("nbOfSamples");
                                 securityContext = elt.getAttribute("secPattern");
                                 isAttacker = elt.getAttribute("isAttacker").equals("Yes");
-                                isEncForm = elt.getAttribute("isEncForm").equals("Yes");    
+                                /* isEncForm = elt.getAttribute("isEncForm").equals("Yes");    
                                 if (elt.getAttribute("isEncForm").equals("") || !elt.hasAttribute("isEncForm")){
                                 	if (!securityContext.equals("")){
                                 		isEncForm=true;
                                 	}
-                                }
+                                } */
                             }
                         }
                     }
@@ -437,13 +437,13 @@ public class TMLADReadCAMS extends TADComponentWithoutSubcomponents/* Issue #69 
         stateOfError = _stateAction;
     }
 
-    public boolean getEncForm(){
+    /* public boolean getEncForm(){
 		return isEncForm;
 	}
 		
 	public void setEncForm(boolean encForm){
 		isEncForm=encForm;
-	}
+	} */
 
 
     public void setChannelName(String s) {

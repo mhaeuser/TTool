@@ -1,0 +1,16 @@
+pa dltmap ../src/test/resources/cli/testPatternHandling/tmr/input/modelsToIntegrateTMR/modelWithThreeSensors.tmap
+pa sc -p resources/test/cli/testPatternHandling/tmr/
+pa sc -sp
+pa sc -ctl
+pa sc -plnc
+pa sc -pl InterpreterC.dataC
+pa sc -co InterpreterA.dataA Sensor1.sensorData1
+pa sc -co InterpreterB.dataB Sensor2.sensorData2
+pa sc -co InterpreterC.dataC Sensor3.sensorData3
+pa sc -co Voter.resultData Receiver.sensorData1
+pa sc -co Voter.moveto_FAIL_SAFE Receiver.sensorData1 NEW
+pa sc -cpd ALL
+pa sc -tcn InterpreterB MainBus
+pa sc -tcm InterpreterA InterpreterB
+pa sc -ua Timer dataReceivingTimeout 500
+pa sc -m resources/test/cli/testPatternHandling/tmr/modelWithThreeSensors-config.json

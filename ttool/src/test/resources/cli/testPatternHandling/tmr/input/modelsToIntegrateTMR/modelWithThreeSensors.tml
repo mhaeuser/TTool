@@ -1,0 +1,65 @@
+// TML Application - FORMAT 0.2
+// Application: modelWithThreeSensors.xml
+// Generated: Sat Nov 11 16:00:27 CET 2023
+
+// PRAGMAS
+
+// Channels
+CHANNEL ModelThreeSensors__sensorData1 BRNBW 4 OUT ModelThreeSensors__Sensor1 IN ModelThreeSensors__Receiver
+VCCHANNEL ModelThreeSensors__sensorData1 0
+CHANNEL ModelThreeSensors__sensorData2 BRNBW 4 OUT ModelThreeSensors__Sensor2 IN ModelThreeSensors__Receiver
+VCCHANNEL ModelThreeSensors__sensorData2 0
+CHANNEL ModelThreeSensors__sensorData3 BRNBW 4 OUT ModelThreeSensors__Sensor3 IN ModelThreeSensors__Receiver
+VCCHANNEL ModelThreeSensors__sensorData3 0
+
+// Events
+
+// Requests
+
+TASK ModelThreeSensors__Receiver
+    TASKOP
+    //Local variables
+    int executeSensor = 10
+    
+    //Behavior
+    FOR( ; ; )
+        READ ModelThreeSensors__sensorData1 1
+        READ ModelThreeSensors__sensorData2 1
+        READ ModelThreeSensors__sensorData3 1
+        EXECI executeSensor
+    ENDFOR
+ENDTASK
+
+TASK ModelThreeSensors__Sensor1
+    TASKOP
+    //Local variables
+    
+    //Behavior
+    FOR( ; ; )
+        WRITE ModelThreeSensors__sensorData1 1
+        DELAY 10 ms isActiveDelay false
+    ENDFOR
+ENDTASK
+
+TASK ModelThreeSensors__Sensor2
+    TASKOP
+    //Local variables
+    
+    //Behavior
+    FOR( ; ; )
+        WRITE ModelThreeSensors__sensorData2 1
+        DELAY 10 ms isActiveDelay false
+    ENDFOR
+ENDTASK
+
+TASK ModelThreeSensors__Sensor3
+    TASKOP
+    //Local variables
+    
+    //Behavior
+    FOR( ; ; )
+        WRITE ModelThreeSensors__sensorData3 1
+        DELAY 10 ms isActiveDelay false
+    ENDFOR
+ENDTASK
+

@@ -961,7 +961,7 @@ public class SecurityGeneration implements Runnable {
                             TMLADWriteChannel wChannel = (TMLADWriteChannel) tg;
                             if (channel.equals(wChannel.getChannelName()) && wChannel.getSecurityContext().equals("")) {
                                 wChannel.setSecurityContext(channelSecMap.get(channel));
-                                wChannel.setEncForm(true);
+                                // wChannel.setEncForm(true);
 
                             }
                         }
@@ -1059,7 +1059,7 @@ public class SecurityGeneration implements Runnable {
                             TMLADWriteChannel wChannel = (TMLADWriteChannel) tg;
                             if (channel.equals(wChannel.getChannelName()) && wChannel.getSecurityContext().equals("")) {
                                 wChannel.setSecurityContext(channelSecMap.get(channel));
-                                wChannel.setEncForm(true);
+                                // wChannel.setEncForm(true);
                                 tad.repaint();
                             }
                         }
@@ -1097,7 +1097,7 @@ public class SecurityGeneration implements Runnable {
                         continue;
                     }
                     writeChannel.setSecurityContext(channelSecMap.get(chanName));
-                    writeChannel.setEncForm(true);
+                    // writeChannel.setEncForm(true);
                     xpos = chan.getX();
                     ypos = chan.getY();
                     fromStart = tad.findTGConnectorEndingAt(chan.getTGConnectingPointAtIndex(0));
@@ -1129,7 +1129,7 @@ public class SecurityGeneration implements Runnable {
                     //Add write channel operator
                     wr = new TMLADWriteChannel(xpos, ypos + yShift, tad.getMinX(), tad.getMaxX(), tad.getMinY(), tad.getMaxY(), false, null, tad);
                     wr.setChannelName("data_" + chanName + "_" + task.getName().split("__")[1]);
-                    wr.setEncForm(false);
+                    // wr.setEncForm(false);
                     wr.setSecurityContext(channelSecMap.get(chanName));
                     tad.addComponent(wr, xpos, ypos + yShift, false, true);
 
@@ -1248,7 +1248,7 @@ public class SecurityGeneration implements Runnable {
                         continue;
                     }
                     readChannel.setSecurityContext(channelSecMap.get(chanName));
-                    readChannel.setEncForm(true);
+                    // readChannel.setEncForm(true);
                     xpos = chan.getX() + 1;
                     ypos = chan.getY() + 1;
                     fromStart = tad.findTGConnectorStartingAt(chan.getTGConnectingPointAtIndex(1));
@@ -1364,7 +1364,7 @@ public class SecurityGeneration implements Runnable {
                     TMLADReadChannel rd = new TMLADReadChannel(xpos, ypos + yShift, tad.getMinX(), tad.getMaxX(), tad.getMinY(), tad.getMaxY(), false, null, tad);
                     rd.setChannelName("retData_" + chanName + "_" + task.getName().split("__")[1]);
                     rd.setSecurityContext(channelSecMap.get(chanName));
-                    rd.setEncForm(false);
+                    // rd.setEncForm(false);
                     tad.addComponent(rd, xpos, ypos + yShift, false, true);
 
                     fromStart.setP2(rd.getTGConnectingPointAtIndex(0));
@@ -1495,7 +1495,7 @@ public class SecurityGeneration implements Runnable {
 
                             if (channel.equals(readChannel.getChannelName()) && readChannel.getSecurityContext().equals("")) {
                                 readChannel.setSecurityContext(channelSecMap.get(readChannel.getChannelName()));
-                                readChannel.setEncForm(true);
+                                // readChannel.setEncForm(true);
 
                             }
                         }
@@ -1595,7 +1595,7 @@ public class SecurityGeneration implements Runnable {
                     //Now add the decrypt operator
                     yShift += 40;
                     readChannel.setSecurityContext(channelSecMap.get(readChannel.getChannelName()));
-                    readChannel.setEncForm(true);
+                    // readChannel.setEncForm(true);
                     tad.repaint();
                     //Add decryption operator if it does not already exist
                     xpos = readChannel.getX();
@@ -1616,7 +1616,7 @@ public class SecurityGeneration implements Runnable {
                             readChannel = (TMLADReadChannel) tg;
                             if (channel.equals(readChannel.getChannelName()) && readChannel.getSecurityContext().equals("")) {
                                 readChannel.setSecurityContext(channelSecMap.get(readChannel.getChannelName()));
-                                readChannel.setEncForm(true);
+                                // readChannel.setEncForm(true);
 
                             }
                         }
@@ -1828,9 +1828,9 @@ public class SecurityGeneration implements Runnable {
                 tad.addComponent(rd, xc, 300, false, true);
 
                 //Recieve plaintext data if encrypting
-                if (ch.secType != HSMChannel.DEC) {
+                /* if (ch.secType != HSMChannel.DEC) {
                     rd.setEncForm(false);
-                }
+                } */
 
                 //Connect choice and readchannel
 
@@ -1868,9 +1868,9 @@ public class SecurityGeneration implements Runnable {
                 wr.setChannelName("retData_" + ch.name + "_" + ch.task);
 
                 //Return plaintext data if decrypting
-                if (ch.secType == HSMChannel.DEC) {
+                /* if (ch.secType == HSMChannel.DEC) {
                     wr.setEncForm(false);
-                }
+                } */
 
 
                 tad.addComponent(wr, xc, 600, false, true);

@@ -1,0 +1,29 @@
+pa dltmap ../src/test/resources/cli/testPatternHandling/tmr/input/modelsToIntegrateTMR/modelWithOneSensor.tmap
+pa sc -p resources/test/cli/testPatternHandling/tmr/
+pa sc -sp
+pa sc -ct SensorClone Sensor
+pa sc -ct SensorClone2 Sensor
+pa sc -ctl
+pa sc -ctr SensorClone
+pa sc -ct SensorClone1 Sensor
+pa sc -plnc
+pa sc -pl InterpreterC.dataC
+pa sc -co InterpreterA.dataA Sensor.sensorData
+pa sc -co InterpreterB.dataB SensorClone1.sensorData 
+pa sc -co InterpreterC.dataC SensorClone2.sensorData
+pa sc -co Voter.resultData Receiver.sensorData
+pa sc -cor InterpreterA.dataA
+pa sc -co InterpreterA.dataA Sensor.sensorData
+pa sc -co Voter.moveto_FAIL_SAFE Receiver.sensorData NEW
+pa sc -col
+pa sc -cptl
+pa sc -cpd ALL
+pa sc -tctl
+pa sc -tcn SensorClone1 BusEnvironment
+pa sc -tcm SensorClone2 SensorClone1
+pa sc -tcn Voter MainBus
+pa sc -mcn SensorClone1.sensorData BusReceiver
+pa sc -mcm InterpreterA.resA SensorClone1.sensorData
+pa sc -mctl
+pa sc -ua Timer dataReceivingTimeout 1000
+pa sc -m resources/test/cli/testPatternHandling/tmr/modelWithOneSensor-config.json

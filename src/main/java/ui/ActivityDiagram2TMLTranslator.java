@@ -375,7 +375,7 @@ public class ActivityDiagram2TMLTranslator {
                         } else {
                             tmlreadchannel = new TMLReadChannel("read channel", tgc);
                             tmlreadchannel.setNbOfSamples(modifyString(((TMLADReadChannel) tgc).getSamplesValue()));
-                            tmlreadchannel.setEncForm(((TMLADReadChannel) tgc).getEncForm());
+                            // tmlreadchannel.setEncForm(((TMLADReadChannel) tgc).getEncForm());
                             tmlreadchannel.addChannel(channel);
                             //security pattern
                             if (securityPatterns.get(((TMLADReadChannel) tgc).getSecurityContext()) != null) {
@@ -411,7 +411,6 @@ public class ActivityDiagram2TMLTranslator {
                             if (tmltask.isAttacker()) {
                                 tmlreadchannel.setAttacker(true);
                             }
-                            activity.addElement(tmlreadchannel);
                             addElement(activity, tmlreadchannel, tgc);
                             ((BasicErrorHighlight) tgc).setStateAction(ErrorHighlight.OK);
                             corrTgElement.addCor(tmlreadchannel, tgc);
@@ -763,7 +762,7 @@ public class ActivityDiagram2TMLTranslator {
 
                         tmlwritechannel = new TMLWriteChannel("write channel", tgc);
                         tmlwritechannel.setNbOfSamples(modifyString(((TMLADWriteChannel) tgc).getSamplesValue()));
-                        tmlwritechannel.setEncForm(((TMLADWriteChannel) tgc).getEncForm());
+                        // tmlwritechannel.setEncForm(((TMLADWriteChannel) tgc).getEncForm());
 
 
                         for (int i = 0; i < channels.length; i++) {

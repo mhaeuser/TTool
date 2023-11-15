@@ -1,0 +1,194 @@
+// TML Application - FORMAT 0.2
+// Application: tmr
+// Generated: Mon Nov 13 12:40:36 CET 2023
+
+// PRAGMAS
+
+// Channels
+CHANNEL ModelThreeSensors__resA BRBW 8 8 OUT ModelThreeSensors__InterpreterA IN ModelThreeSensors__Voter
+VCCHANNEL ModelThreeSensors__resA 0
+CONFCHANNEL ModelThreeSensors__resA
+AUTHCHANNEL ModelThreeSensors__resA
+CHANNEL ModelThreeSensors__resB BRBW 8 8 OUT ModelThreeSensors__InterpreterB IN ModelThreeSensors__Voter
+VCCHANNEL ModelThreeSensors__resB 0
+CONFCHANNEL ModelThreeSensors__resB
+AUTHCHANNEL ModelThreeSensors__resB
+CHANNEL ModelThreeSensors__resC BRBW 8 8 OUT ModelThreeSensors__InterpreterC IN ModelThreeSensors__Voter
+VCCHANNEL ModelThreeSensors__resC 0
+CONFCHANNEL ModelThreeSensors__resC
+AUTHCHANNEL ModelThreeSensors__resC
+CHANNEL ModelThreeSensors__resultData BRBW 8 8 OUT ModelThreeSensors__Voter IN ModelThreeSensors__Receiver
+VCCHANNEL ModelThreeSensors__resultData 0
+CONFCHANNEL ModelThreeSensors__resultData
+AUTHCHANNEL ModelThreeSensors__resultData
+CHANNEL ModelThreeSensors__sensorData1 BRNBW 4 OUT ModelThreeSensors__Sensor1 IN ModelThreeSensors__InterpreterA
+VCCHANNEL ModelThreeSensors__sensorData1 0
+CHANNEL ModelThreeSensors__sensorData2 BRNBW 4 OUT ModelThreeSensors__Sensor2 IN ModelThreeSensors__InterpreterB
+VCCHANNEL ModelThreeSensors__sensorData2 0
+CHANNEL ModelThreeSensors__sensorData3 BRNBW 4 OUT ModelThreeSensors__Sensor3 IN ModelThreeSensors__InterpreterC
+VCCHANNEL ModelThreeSensors__sensorData3 0
+
+// Events
+EVENT ModelThreeSensors__evtA() NIB 8 ModelThreeSensors__InterpreterA ModelThreeSensors__Voter
+EVENT ModelThreeSensors__evtB() NIB 8 ModelThreeSensors__InterpreterB ModelThreeSensors__Voter
+EVENT ModelThreeSensors__evtC() NIB 8 ModelThreeSensors__InterpreterC ModelThreeSensors__Voter
+EVENT ModelThreeSensors__evtTimeout() NIB 8 ModelThreeSensors__Timer ModelThreeSensors__Voter
+EVENT ModelThreeSensors__moveto_FAIL_SAFE(bool) NIB 8 ModelThreeSensors__Voter ModelThreeSensors__Receiver
+
+// Requests
+
+TASK ModelThreeSensors__InterpreterA
+    TASKOP
+    //Local variables
+    int size = 50
+    int sizeA = 10
+    
+    //Behavior
+    READ ModelThreeSensors__sensorData1 size
+    EXECC size
+    NOTIFY ModelThreeSensors__evtA
+    WRITE ModelThreeSensors__resA sizeA
+ENDTASK
+
+TASK ModelThreeSensors__InterpreterB
+    TASKOP
+    //Local variables
+    int size = 50
+    int sizeB = 10
+    
+    //Behavior
+    READ ModelThreeSensors__sensorData2 size
+    EXECC size
+    NOTIFY ModelThreeSensors__evtB
+    WRITE ModelThreeSensors__resB sizeB
+ENDTASK
+
+TASK ModelThreeSensors__InterpreterC
+    TASKOP
+    //Local variables
+    int size = 50
+    int sizeC = 10
+    
+    //Behavior
+    READ ModelThreeSensors__sensorData3 size
+    EXECC size
+    NOTIFY ModelThreeSensors__evtC
+    WRITE ModelThreeSensors__resC sizeC
+ENDTASK
+
+TASK ModelThreeSensors__Receiver
+    TASKOP
+    //Local variables
+    int executeSensor = 10
+    bool x = false
+    
+    //Behavior
+    FOR(; ; )
+        WAIT ModelThreeSensors__moveto_FAIL_SAFE x
+        READ ModelThreeSensors__resultData 1
+        EXECI executeSensor
+    ENDFOR
+ENDTASK
+
+TASK ModelThreeSensors__Sensor1
+    TASKOP
+    //Local variables
+    
+    //Behavior
+    FOR(; ; )
+        WRITE ModelThreeSensors__sensorData1 1
+        DELAY 10 ms isActiveDelay false
+    ENDFOR
+ENDTASK
+
+TASK ModelThreeSensors__Sensor2
+    TASKOP
+    //Local variables
+    
+    //Behavior
+    FOR(; ; )
+        WRITE ModelThreeSensors__sensorData2 1
+        DELAY 10 ms isActiveDelay false
+    ENDFOR
+ENDTASK
+
+TASK ModelThreeSensors__Sensor3
+    TASKOP
+    //Local variables
+    
+    //Behavior
+    FOR(; ; )
+        WRITE ModelThreeSensors__sensorData3 1
+        DELAY 10 ms isActiveDelay false
+    ENDFOR
+ENDTASK
+
+TASK ModelThreeSensors__Timer
+    TASKOP
+    //Local variables
+    int dataReceivingTimeout = 500
+    
+    //Behavior
+    DELAY dataReceivingTimeout ns isActiveDelay false
+    NOTIFY ModelThreeSensors__evtTimeout
+ENDTASK
+
+TASK ModelThreeSensors__Voter
+    TASKOP
+    //Local variables
+    bool x = false
+    int interpreteTime = 5
+    bool dataProcessed = false
+    int indexA = 0
+    int indexB = 0
+    int indexC = 0
+    int sizeA = 10
+    int sizeB = 10
+    int sizeC = 10
+    int i = 0
+    
+    //Behavior
+    FOR(i=0; i<3; )
+        SELECTEVT
+            CASE ModelThreeSensors__evtTimeout
+                i=3
+            ENDCASE
+            CASE ModelThreeSensors__evtC
+                READ ModelThreeSensors__resC sizeC
+                indexC=indexC+1
+                IF (indexC==1)
+                    i=i+1
+                ELSE
+                ENDIF
+            ENDCASE
+            CASE ModelThreeSensors__evtB
+                READ ModelThreeSensors__resB sizeB
+                indexB=indexB+1
+                IF (indexB==1)
+                    i=i+1
+                ELSE
+                ENDIF
+            ENDCASE
+            CASE ModelThreeSensors__evtA
+                READ ModelThreeSensors__resA sizeA
+                indexA=indexA+1
+                IF (indexA==1)
+                    i=i+1
+                ELSE
+                ENDIF
+            ENDCASE
+        ENDSELECTEVT
+    ENDFOR
+    EXECC interpreteTime
+    RAND
+        CASERAND 50
+            x=true
+        ENDCASERAND
+        CASERAND 50
+            x=false
+        ENDCASERAND
+    ENDRAND
+    NOTIFY ModelThreeSensors__moveto_FAIL_SAFE x
+    WRITE ModelThreeSensors__resultData 1
+ENDTASK
+

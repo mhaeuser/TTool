@@ -1,0 +1,54 @@
+TMLSPEC
+    #include "modelWithThreeSensors.tml"
+ENDTMLSPEC
+
+TMLARCHI
+    #include "modelWithThreeSensors.tarchi"
+ENDTMLARCHI
+
+TMLMAPPING
+    MAP CPUReceiver ModelThreeSensors__Receiver
+    SET ModelThreeSensors__Receiver priority 0
+    MAP CPUEnvironment ModelThreeSensors__Sensor3
+    SET ModelThreeSensors__Sensor3 priority 0
+    MAP CPUEnvironment ModelThreeSensors__Sensor2
+    SET ModelThreeSensors__Sensor2 priority 0
+    MAP CPUEnvironment ModelThreeSensors__Sensor1
+    SET ModelThreeSensors__Sensor1 priority 0
+    MAP MemoryEnvironment ModelThreeSensors__sensorData3
+    SET ModelThreeSensors__sensorData3 priority 0
+    MAP BusEnvironment ModelThreeSensors__sensorData3
+    SET ModelThreeSensors__sensorData3 priority 0
+    MAP MainBus ModelThreeSensors__sensorData3
+    SET ModelThreeSensors__sensorData3 priority 0
+    MAP BusReceiverPrivate ModelThreeSensors__sensorData3
+    SET ModelThreeSensors__sensorData3 priority 0
+    MAP BusEnvironmentPrivate ModelThreeSensors__sensorData3
+    SET ModelThreeSensors__sensorData3 priority 0
+    MAP BusReceiver ModelThreeSensors__sensorData3
+    SET ModelThreeSensors__sensorData3 priority 0
+    MAP MemoryEnvironment ModelThreeSensors__sensorData1
+    SET ModelThreeSensors__sensorData1 priority 0
+    MAP BusEnvironment ModelThreeSensors__sensorData1
+    SET ModelThreeSensors__sensorData1 priority 0
+    MAP MainBus ModelThreeSensors__sensorData1
+    SET ModelThreeSensors__sensorData1 priority 0
+    MAP BusReceiver ModelThreeSensors__sensorData1
+    SET ModelThreeSensors__sensorData1 priority 0
+    MAP BusReceiverPrivate ModelThreeSensors__sensorData1
+    SET ModelThreeSensors__sensorData1 priority 0
+    MAP BusEnvironmentPrivate ModelThreeSensors__sensorData1
+    SET ModelThreeSensors__sensorData1 priority 0
+    MAP MemoryEnvironment ModelThreeSensors__sensorData2
+    SET ModelThreeSensors__sensorData2 priority 0
+    MAP BusEnvironment ModelThreeSensors__sensorData2
+    SET ModelThreeSensors__sensorData2 priority 0
+    MAP MainBus ModelThreeSensors__sensorData2
+    SET ModelThreeSensors__sensorData2 priority 0
+    MAP BusEnvironmentPrivate ModelThreeSensors__sensorData2
+    SET ModelThreeSensors__sensorData2 priority 0
+    MAP BusReceiverPrivate ModelThreeSensors__sensorData2
+    SET ModelThreeSensors__sensorData2 priority 0
+    MAP BusReceiver ModelThreeSensors__sensorData2
+    SET ModelThreeSensors__sensorData2 priority 0
+ENDTMLMAPPING

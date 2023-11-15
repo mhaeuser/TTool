@@ -61,10 +61,12 @@ import java.io.OutputStreamWriter;
 import java.io.PipedInputStream;
 import java.io.PipedOutputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -138,6 +140,10 @@ public class JDialogProverifVerification extends JDialog implements ActionListen
     private static boolean PI_CALCULUS = true;
     public static int LOOP_ITERATION = 1;
 
+    public static String ADD_CONFIDENTIALITY = "Conf";
+    public static String ADD_WEAK_AUTHENTICITY = "Integrity";
+    public static String ADD_STRONG_AUTHENTICITY = "Strong Authenticity";
+
     private static boolean DRAW_AVATAR = false;
 
     private JLabel labelError;
@@ -167,10 +173,48 @@ public class JDialogProverifVerification extends JDialog implements ActionListen
     JList<String> listSelected;
     JList<String> listIgnored;
 
+    Vector<String> selectedChannelsToAddSec = new Vector<String>();
+    Vector<String> ignoredChannelsToAddSec = new Vector<String>();
+    JList<String> listSelectedChannelsToAddSec;
+    JList<String> listIgnoredChannelsToAddSec;
+
+    //Patterns
+    Vector<String> listPatterns = new Vector<String>(Arrays.asList("TMR"));
+    
+    JComboBox<String> jComboBoxPatterns;
+    JComboBox<String> listCompSelectReceiver;
+    JComboBox<String> listCompSelectMainSensor, listChannelsMainSensor;
+    JComboBox<String> listCompSelectSecondSensor, listChannelsSecondSensor;
+    JComboBox<String> listCompSelectThirdSensor, listChannelsThirdSensor;
+    Vector<String> allTasksFullName = new Vector<String>();
+    Vector<String> allTasksAsReceiver = new Vector<String>();
+    Vector<String> allTasksAsMainSensor = new Vector<String>();
+    Vector<String> allTasksAsSecondSensor = new Vector<String>();
+    Vector<String> allTasksAsThirdSensor = new Vector<String>();
+    Vector<String> allChannelsMainSensor = new Vector<String>();
+    Vector<String> allChannelsSecondSensor = new Vector<String>();
+    Vector<String> allChannelsThirdSensor = new Vector<String>();
+    JButton addChannelFromMainSensor, removeChannelFromMainSensor, moveUpChannelFromMainSensor, moveDownChannelFromMainSensor;
+    JButton addChannelFromSecondSensor, removeChannelFromSecondSensor, moveUpChannelFromSecondSensor, moveDownChannelFromSecondSensor;
+    JButton addChannelFromThirdSensor, removeChannelFromThirdSensor, moveUpChannelFromThirdSensor, moveDownChannelFromThirdSensor;
+    JList<String> listSelectedChannelsMainSensor;
+    JList<String> listSelectedChannelsSecondSensor;
+    JList<String> listSelectedChannelsThirdSensor;
+    Vector<String> selectedChannelsMainSensor = new Vector<String>();
+    Vector<String> selectedChannelsSecondSensor = new Vector<String>();
+    Vector<String> selectedChannelsThirdSensor = new Vector<String>();
+    Map<String, List<String>> selectedSensors = new LinkedHashMap<String, List<String>>();
+
+    protected JCheckBox selectTwoSensors;
+    protected JTextField interpretersCompTime, voterCompTime, voterTimeOut;
+    protected static String interpretersCompTimeDefault = "10";
+    protected static String voterCompTimeDefault = "10";
+    protected static String voterTimeOutDefault = "1000";
 
     protected static String encCC = "100";
     protected static String decCC = "100";
     protected static String secOv = "100";
+
     private ProVerifOutputAnalyzer pvoa;
 
     //components
@@ -190,6 +234,7 @@ public class JDialogProverifVerification extends JDialog implements ActionListen
     protected JTextField encTime, decTime, secOverhead;
     protected JComboBox<String> addtoCPU;
 	protected JButton allValidated, addOneValidated, allIgnored, addOneIgnored;
+	protected JButton addAllChannelsToAddSec, addOneChannelToAddSec, removeAllChannelsToAddSec, removeOneChannelToAddSec;
 
     protected JCheckBox removeForkAndJoin;
 
@@ -274,7 +319,26 @@ public class JDialogProverifVerification extends JDialog implements ActionListen
                 taskCpuMap.put(task, cpu);
             }
         }
+
         currPanel = mgui.getCurrentTURTLEPanel();
+        
+        if (currPanel instanceof TMLArchiPanel) {
+            for (int i=0; i < mgui.gtm.getTMLMapping().getTMLModeling().getChannels().size(); i++) {
+                String channelFullName = mgui.gtm.getTMLMapping().getTMLModeling().getChannels().get(i).getName();
+                String channelShortName = channelFullName.split("__")[channelFullName.split("__").length - 1];
+                ignoredChannelsToAddSec.add(channelShortName);
+            }
+
+            for (int i=0; i<mgui.gtm.getTMLMapping().getMappedTasks().size(); i++) {
+                String taskFullName = mgui.gtm.getTMLMapping().getMappedTasks().get(i).getName();
+                String taskShortName = taskFullName.split("__")[taskFullName.split("__").length - 1];
+                allTasksFullName.add(taskFullName);
+                allTasksAsReceiver.add(taskShortName);
+                allTasksAsMainSensor.add(taskShortName);
+                allTasksAsSecondSensor.add(taskShortName);
+                allTasksAsThirdSensor.add(taskShortName);
+            }
+        }
 
         initComponents();
         myInitComponents();
@@ -309,6 +373,376 @@ public class JDialogProverifVerification extends JDialog implements ActionListen
         gbc.weightx = 1.0;
         gbc.weighty = 1.0;
         return gbc;
+    }
+
+    Vector<String> getListChannelsBetweenTwoTasks(String originTaskName, String destinationTaskName) {
+        Vector<String> channels = new Vector<String>();
+        if (mgui.gtm.getTMLMapping().getTaskByName(originTaskName) != null && mgui.gtm.getTMLMapping().getTaskByName(destinationTaskName) != null) {
+            if (mgui.gtm.getTMLMapping().getTaskByName(originTaskName).getWriteChannels().size() > 0) {
+                for (int i=0; i < mgui.gtm.getTMLMapping().getTaskByName(destinationTaskName).getReadChannels().size(); i++) {
+                    for (int j=0 ; j < mgui.gtm.getTMLMapping().getTaskByName(destinationTaskName).getReadChannels().get(i).getNbOfChannels(); j++) {
+                        for (int k=0; k < mgui.gtm.getTMLMapping().getTaskByName(originTaskName).getWriteChannels().size(); k++) {
+                            for (int l=0; l < mgui.gtm.getTMLMapping().getTaskByName(originTaskName).getWriteChannels().get(k).getNbOfChannels(); l++) {
+                                if (mgui.gtm.getTMLMapping().getTaskByName(originTaskName).getWriteChannels().get(k).getChannel(l) == mgui.gtm.getTMLMapping().getTaskByName(destinationTaskName).getReadChannels().get(i).getChannel(j)) {
+                                    String channelLongName = mgui.gtm.getTMLMapping().getTaskByName(destinationTaskName).getReadChannels().get(i).getChannel(j).getName();
+                                    String channelShortName = channelLongName.split("__")[channelLongName.split("__").length - 1];
+                                    if (!channels.contains(channelShortName)) {
+                                        channels.add(channelShortName);
+                                    }
+                                }
+                            }
+                        }
+                    } 
+                }
+            }
+        }
+        return channels;
+    }
+
+    protected void panelAutoPattern() {
+        JPanel jp03 = new JPanel();
+        GridBagLayout gridbag03 = new GridBagLayout();
+        GridBagConstraints c03 = new GridBagConstraints();
+        jp03.setLayout(gridbag03);
+        jp03.setBorder(new javax.swing.border.TitledBorder("Auto add Pattern"));
+
+        c03.weighty = 1.0;
+        c03.weightx = 1.0;
+        c03.fill = GridBagConstraints.HORIZONTAL;
+        c03.gridheight = 1;
+        c03.gridwidth = 2;
+        jp03.add(new JLabel("Select Pattern:"), c03);
+        c03.gridwidth = GridBagConstraints.REMAINDER;
+        jComboBoxPatterns = new JComboBox<String>(listPatterns);
+        jp03.add(jComboBoxPatterns, c03);
+
+        jp03.add(new JLabel("Select receiver Component:"), c03);
+        c03.gridwidth = GridBagConstraints.REMAINDER;
+        listCompSelectReceiver = new JComboBox<String>(allTasksAsReceiver);
+        listCompSelectReceiver.setSelectedIndex(-1);
+        listCompSelectReceiver.addActionListener(this);
+        
+        jp03.add(listCompSelectReceiver, c03);
+        c03.gridwidth = GridBagConstraints.REMAINDER;
+
+        jp03.add(new JLabel("Select a sensor and its ports for which a TMR will be integrated:"), c03);
+        c03.gridwidth = 2;
+        listCompSelectMainSensor = new JComboBox<String>(allTasksAsMainSensor);
+        listCompSelectMainSensor.setSelectedIndex(-1);
+        listCompSelectMainSensor.addActionListener(this);
+        jp03.add(listCompSelectMainSensor, c03);
+        c03.gridwidth = GridBagConstraints.REMAINDER;
+
+        listChannelsMainSensor = new JComboBox<String>(allChannelsMainSensor);
+        listChannelsMainSensor.setSelectedIndex(-1);
+        listChannelsMainSensor.addActionListener(this);
+        jp03.add(listChannelsMainSensor, c03);
+        c03.gridwidth = GridBagConstraints.REMAINDER;
+
+        listSelectedChannelsMainSensor = new JList<String>(selectedChannelsMainSensor);
+		JPanel panelSelectChannelsMainSensor = new JPanel();
+		panelSelectChannelsMainSensor.setPreferredSize(new Dimension(200, 100));
+        listSelectedChannelsMainSensor.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+
+        listSelectedChannelsMainSensor.addListSelectionListener(this);
+        JScrollPane scrollPaneSelectedChannelsMainSensor = new JScrollPane(listSelectedChannelsMainSensor);
+        scrollPaneSelectedChannelsMainSensor.setPreferredSize(new Dimension(200, 100));
+        panelSelectChannelsMainSensor.add(scrollPaneSelectedChannelsMainSensor, BorderLayout.WEST);
+        
+        JPanel selectChannelsMainSensorPanel = new JPanel();
+        GridBagConstraints c13MainSensor = new GridBagConstraints();
+        c13MainSensor.gridwidth = GridBagConstraints.REMAINDER;
+        c13MainSensor.gridheight = 1;
+        addChannelFromMainSensor = new JButton("+");
+        addChannelFromMainSensor.setPreferredSize(new Dimension(50, 25));
+        addChannelFromMainSensor.addActionListener(this);
+        addChannelFromMainSensor.setActionCommand("addChannelMainSensor");
+        selectChannelsMainSensorPanel.add(addChannelFromMainSensor, c13MainSensor);
+
+        removeChannelFromMainSensor = new JButton("-");
+        removeChannelFromMainSensor.setPreferredSize(new Dimension(50, 25));
+        removeChannelFromMainSensor.addActionListener(this);
+        removeChannelFromMainSensor.setActionCommand("removeChannelMainSensor");
+        selectChannelsMainSensorPanel.add(removeChannelFromMainSensor, c13MainSensor);
+
+        moveUpChannelFromMainSensor = new JButton(IconManager.imgic78);
+        moveUpChannelFromMainSensor.setPreferredSize(new Dimension(50, 25));
+        moveUpChannelFromMainSensor.addActionListener(this);
+        moveUpChannelFromMainSensor.setActionCommand("moveUpChannelMainSensor");
+        selectChannelsMainSensorPanel.add(moveUpChannelFromMainSensor, c13MainSensor);
+
+        moveDownChannelFromMainSensor = new JButton(IconManager.imgic79);
+        moveDownChannelFromMainSensor.setPreferredSize(new Dimension(50, 25));
+        moveDownChannelFromMainSensor.addActionListener(this);
+        moveDownChannelFromMainSensor.setActionCommand("moveDownChannelMainSensor");
+        selectChannelsMainSensorPanel.add(moveDownChannelFromMainSensor, c13MainSensor);
+
+        panelSelectChannelsMainSensor.add(selectChannelsMainSensorPanel, c03);
+        jp03.add(panelSelectChannelsMainSensor, c03);
+
+
+		GridBagConstraints c04 = new GridBagConstraints();
+        c04.weighty = 1.0;
+        c04.weightx = 1.0;
+		c04.gridwidth = GridBagConstraints.REMAINDER;
+        c04.gridheight = 1;
+		c04.fill= GridBagConstraints.HORIZONTAL;
+        jp03.add(new JLabel(""), c04);
+
+        selectTwoSensors = new JCheckBox("Select two other sensors");
+        jp03.add(selectTwoSensors, c03);
+        selectTwoSensors.addActionListener(this);
+
+        c03.gridwidth = 2;
+        listCompSelectSecondSensor = new JComboBox<String>(allTasksAsSecondSensor);
+        listCompSelectSecondSensor.setSelectedIndex(-1);
+        listCompSelectSecondSensor.setEnabled(false);
+        listCompSelectSecondSensor.addActionListener(this);
+        jp03.add(listCompSelectSecondSensor, c03);
+        c03.gridwidth = GridBagConstraints.REMAINDER;
+
+        listChannelsSecondSensor = new JComboBox<String>(allChannelsSecondSensor);
+        listChannelsSecondSensor.setSelectedIndex(-1);
+        listChannelsSecondSensor.setEnabled(false);
+        listChannelsSecondSensor.addActionListener(this);
+        jp03.add(listChannelsSecondSensor, c03);
+        c03.gridwidth = GridBagConstraints.REMAINDER;
+
+        listSelectedChannelsSecondSensor = new JList<String>(selectedChannelsSecondSensor);
+		JPanel panelSelectChannelsSecondSensor = new JPanel();
+		panelSelectChannelsSecondSensor.setPreferredSize(new Dimension(200, 100));
+        listSelectedChannelsSecondSensor.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+
+        listSelectedChannelsSecondSensor.addListSelectionListener(this);
+        JScrollPane scrollPaneSelectedChannelsSecondSensor = new JScrollPane(listSelectedChannelsSecondSensor);
+        scrollPaneSelectedChannelsSecondSensor.setPreferredSize(new Dimension(200, 100));
+        panelSelectChannelsSecondSensor.add(scrollPaneSelectedChannelsSecondSensor, BorderLayout.WEST);
+        
+        JPanel selectChannelsSecondSensorPanel = new JPanel();
+        GridBagConstraints c13SecondSensor = new GridBagConstraints();
+        c13SecondSensor.gridwidth = GridBagConstraints.REMAINDER;
+        c13SecondSensor.gridheight = 1;
+        addChannelFromSecondSensor = new JButton("+");
+        addChannelFromSecondSensor.setEnabled(false);
+        addChannelFromSecondSensor.setPreferredSize(new Dimension(50, 25));
+        addChannelFromSecondSensor.addActionListener(this);
+        addChannelFromSecondSensor.setActionCommand("addChannelSecondSensor");
+        selectChannelsSecondSensorPanel.add(addChannelFromSecondSensor, c13SecondSensor);
+
+        removeChannelFromSecondSensor = new JButton("-");
+        removeChannelFromSecondSensor.setEnabled(false);
+        removeChannelFromSecondSensor.setPreferredSize(new Dimension(50, 25));
+        removeChannelFromSecondSensor.addActionListener(this);
+        removeChannelFromSecondSensor.setActionCommand("removeChannelSecondSensor");
+        selectChannelsSecondSensorPanel.add(removeChannelFromSecondSensor, c13SecondSensor);
+
+        moveUpChannelFromSecondSensor = new JButton(IconManager.imgic78);
+        moveUpChannelFromSecondSensor.setEnabled(false);
+        moveUpChannelFromSecondSensor.setPreferredSize(new Dimension(50, 25));
+        moveUpChannelFromSecondSensor.addActionListener(this);
+        moveUpChannelFromSecondSensor.setActionCommand("moveUpChannelSecondSensor");
+        selectChannelsSecondSensorPanel.add(moveUpChannelFromSecondSensor, c13SecondSensor);
+
+        moveDownChannelFromSecondSensor = new JButton(IconManager.imgic79);
+        moveDownChannelFromSecondSensor.setEnabled(false);
+        moveDownChannelFromSecondSensor.setPreferredSize(new Dimension(50, 25));
+        moveDownChannelFromSecondSensor.addActionListener(this);
+        moveDownChannelFromSecondSensor.setActionCommand("moveDownChannelSecondSensor");
+        selectChannelsSecondSensorPanel.add(moveDownChannelFromSecondSensor, c13SecondSensor);
+
+        panelSelectChannelsSecondSensor.add(selectChannelsSecondSensorPanel, c04);
+        jp03.add(panelSelectChannelsSecondSensor, c04);
+
+        c03.gridwidth = 2;
+        listCompSelectThirdSensor = new JComboBox<String>(allTasksAsThirdSensor);
+        listCompSelectThirdSensor.setSelectedIndex(-1);
+        listCompSelectThirdSensor.setEnabled(false);
+        listCompSelectThirdSensor.addActionListener(this);
+        jp03.add(listCompSelectThirdSensor, c03);
+        c03.gridwidth = GridBagConstraints.REMAINDER;
+
+        listChannelsThirdSensor = new JComboBox<String>(allChannelsThirdSensor);
+        listChannelsThirdSensor.setSelectedIndex(-1);
+        listChannelsThirdSensor.setEnabled(false);
+        listChannelsThirdSensor.addActionListener(this);
+        jp03.add(listChannelsThirdSensor, c03);
+        c03.gridwidth = GridBagConstraints.REMAINDER;
+
+        listSelectedChannelsThirdSensor = new JList<String>(selectedChannelsThirdSensor);
+		JPanel panelSelectChannelsThirdSensor = new JPanel();
+		panelSelectChannelsThirdSensor.setPreferredSize(new Dimension(200, 100));
+        listSelectedChannelsThirdSensor.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+
+        listSelectedChannelsThirdSensor.addListSelectionListener(this);
+        JScrollPane scrollPaneSelectedChannelsThirdSensor = new JScrollPane(listSelectedChannelsThirdSensor);
+        scrollPaneSelectedChannelsThirdSensor.setPreferredSize(new Dimension(200, 100));
+        panelSelectChannelsThirdSensor.add(scrollPaneSelectedChannelsThirdSensor, BorderLayout.WEST);
+        
+        JPanel selectChannelsThirdSensorPanel = new JPanel();
+        GridBagConstraints c13ThirdSensor = new GridBagConstraints();
+        c13ThirdSensor.gridwidth = GridBagConstraints.REMAINDER;
+        c13ThirdSensor.gridheight = 1;
+        addChannelFromThirdSensor = new JButton("+");
+        addChannelFromThirdSensor.setEnabled(false);
+        addChannelFromThirdSensor.setPreferredSize(new Dimension(50, 25));
+        addChannelFromThirdSensor.addActionListener(this);
+        addChannelFromThirdSensor.setActionCommand("addChannelThirdSensor");
+        selectChannelsThirdSensorPanel.add(addChannelFromThirdSensor, c13ThirdSensor);
+
+        removeChannelFromThirdSensor = new JButton("-");
+        removeChannelFromThirdSensor.setEnabled(false);
+        removeChannelFromThirdSensor.setPreferredSize(new Dimension(50, 25));
+        removeChannelFromThirdSensor.addActionListener(this);
+        removeChannelFromThirdSensor.setActionCommand("removeChannelThirdSensor");
+        selectChannelsThirdSensorPanel.add(removeChannelFromThirdSensor, c13ThirdSensor);
+
+        moveUpChannelFromThirdSensor = new JButton(IconManager.imgic78);
+        moveUpChannelFromThirdSensor.setEnabled(false);
+        moveUpChannelFromThirdSensor.setPreferredSize(new Dimension(50, 25));
+        moveUpChannelFromThirdSensor.addActionListener(this);
+        moveUpChannelFromThirdSensor.setActionCommand("moveUpChannelThirdSensor");
+        selectChannelsThirdSensorPanel.add(moveUpChannelFromThirdSensor, c13ThirdSensor);
+
+        moveDownChannelFromThirdSensor = new JButton(IconManager.imgic79);
+        moveDownChannelFromThirdSensor.setEnabled(false);
+        moveDownChannelFromThirdSensor.setPreferredSize(new Dimension(50, 25));
+        moveDownChannelFromThirdSensor.addActionListener(this);
+        moveDownChannelFromThirdSensor.setActionCommand("moveDownChannelThirdSensor");
+        selectChannelsThirdSensorPanel.add(moveDownChannelFromThirdSensor, c13ThirdSensor);
+
+        panelSelectChannelsThirdSensor.add(selectChannelsThirdSensorPanel, c04);
+        jp03.add(panelSelectChannelsThirdSensor, c04);
+
+        jp03.add(new JLabel("Interpreters computation time:"), c04);
+        c04.gridwidth = GridBagConstraints.REMAINDER;
+        interpretersCompTime = new JTextField(interpretersCompTimeDefault);
+        jp03.add(interpretersCompTime, c04);
+        jp03.add(new JLabel("Voter computation time:"), c04);
+        c04.gridwidth = GridBagConstraints.REMAINDER;
+        voterCompTime = new JTextField(voterCompTimeDefault);
+        jp03.add(voterCompTime, c04);
+        jp03.add(new JLabel("Timeout voter:"), c04);
+        c04.gridwidth = GridBagConstraints.REMAINDER;
+        voterTimeOut = new JTextField(voterTimeOutDefault);
+        jp03.add(voterTimeOut, c04);
+        if (currPanel instanceof TMLArchiPanel) {
+            //Can only secure a mapping
+            jp1.add("Auto add Pattern", jp03);
+        }
+    }
+
+    private void addChannelMainSensor() {
+        if (listChannelsMainSensor.getSelectedIndex() >= 0) {
+            String selectedChannel = listChannelsMainSensor.getSelectedItem().toString();
+            if (selectedChannel != "" && !selectedChannelsMainSensor.contains(selectedChannel)) {
+                selectedChannelsMainSensor.addElement(selectedChannel);
+                listSelectedChannelsMainSensor.setListData(selectedChannelsMainSensor);
+            }
+        }
+    }
+
+    private void removeChannelMainSensor() {
+        int selectedChannelIndex = listSelectedChannelsMainSensor.getSelectedIndex();
+        if (selectedChannelIndex >= 0) {
+            selectedChannelsMainSensor.remove(selectedChannelIndex);
+            listSelectedChannelsMainSensor.setListData(selectedChannelsMainSensor);
+        }
+    }
+
+    private void moveUpChannelMainSensor() {
+        int selectedChannelIndex = listSelectedChannelsMainSensor.getSelectedIndex();
+        String selectedChannel = listSelectedChannelsMainSensor.getSelectedValue();
+        if (selectedChannelIndex > 0) {
+            selectedChannelsMainSensor.remove(selectedChannelIndex);
+            selectedChannelsMainSensor.add(selectedChannelIndex-1, selectedChannel);
+            listSelectedChannelsMainSensor.setListData(selectedChannelsMainSensor);
+        }
+    }
+
+    private void moveDownChannelMainSensor() {
+        int selectedChannelIndex = listSelectedChannelsMainSensor.getSelectedIndex();
+        String selectedChannel = listSelectedChannelsMainSensor.getSelectedValue();
+        if (selectedChannelIndex < selectedChannelsMainSensor.size()-1 && selectedChannelIndex >= 0) {
+            selectedChannelsMainSensor.remove(selectedChannelIndex);
+            selectedChannelsMainSensor.add(selectedChannelIndex+1, selectedChannel);  
+            listSelectedChannelsMainSensor.setListData(selectedChannelsMainSensor);
+        }
+    }
+
+    private void addChannelSecondSensor() {
+        if (listChannelsSecondSensor.getSelectedIndex() >= 0) {
+            String selectedChannel = listChannelsSecondSensor.getSelectedItem().toString();
+            if (selectedChannel != "" && !selectedChannelsSecondSensor.contains(selectedChannel)) {
+                selectedChannelsSecondSensor.addElement(selectedChannel);
+                listSelectedChannelsSecondSensor.setListData(selectedChannelsSecondSensor);
+            }
+        }
+    }
+
+    private void removeChannelSecondSensor() {
+        int selectedChannelIndex = listSelectedChannelsSecondSensor.getSelectedIndex();
+        if (selectedChannelIndex >= 0) {
+            selectedChannelsSecondSensor.remove(selectedChannelIndex);
+            listSelectedChannelsSecondSensor.setListData(selectedChannelsSecondSensor);
+        }
+    }
+
+    private void moveUpChannelSecondSensor() {
+        int selectedChannelIndex = listSelectedChannelsSecondSensor.getSelectedIndex();
+        String selectedChannel = listSelectedChannelsSecondSensor.getSelectedValue();
+        if (selectedChannelIndex > 0) {
+            selectedChannelsSecondSensor.remove(selectedChannelIndex);
+            selectedChannelsSecondSensor.add(selectedChannelIndex-1, selectedChannel);
+            listSelectedChannelsSecondSensor.setListData(selectedChannelsSecondSensor);
+        } 
+    }
+
+    private void moveDownChannelSecondSensor() {
+        int selectedChannelIndex = listSelectedChannelsSecondSensor.getSelectedIndex();
+        String selectedChannel = listSelectedChannelsSecondSensor.getSelectedValue();
+        if (selectedChannelIndex < selectedChannelsSecondSensor.size()-1 && selectedChannelIndex >= 0) {
+            selectedChannelsSecondSensor.remove(selectedChannelIndex);
+            selectedChannelsSecondSensor.add(selectedChannelIndex+1, selectedChannel);
+            listSelectedChannelsSecondSensor.setListData(selectedChannelsSecondSensor);
+        }
+    }
+
+    private void addChannelThirdSensor() {
+        if (listChannelsThirdSensor.getSelectedIndex() >= 0) {
+            String selectedChannel = listChannelsThirdSensor.getSelectedItem().toString();
+            if (selectedChannel != "" && !selectedChannelsThirdSensor.contains(selectedChannel)) {
+                selectedChannelsThirdSensor.addElement(selectedChannel);
+                listSelectedChannelsThirdSensor.setListData(selectedChannelsThirdSensor);
+            }
+        }
+    }
+
+    private void removeChannelThirdSensor() {
+        int selectedChannelIndex = listSelectedChannelsThirdSensor.getSelectedIndex();
+        if (selectedChannelIndex >= 0) {
+            selectedChannelsThirdSensor.remove(selectedChannelIndex);
+            listSelectedChannelsThirdSensor.setListData(selectedChannelsThirdSensor);
+        }
+    }
+
+    private void moveUpChannelThirdSensor() {
+        int selectedChannelIndex = listSelectedChannelsThirdSensor.getSelectedIndex();
+        String selectedChannel = listSelectedChannelsThirdSensor.getSelectedValue();
+        if (selectedChannelIndex > 0) {
+            selectedChannelsThirdSensor.remove(selectedChannelIndex);
+            selectedChannelsThirdSensor.add(selectedChannelIndex-1, selectedChannel);
+            listSelectedChannelsThirdSensor.setListData(selectedChannelsThirdSensor); 
+        }
+    }
+
+    private void moveDownChannelThirdSensor() {
+        int selectedChannelIndex = listSelectedChannelsThirdSensor.getSelectedIndex();
+        String selectedChannel = listSelectedChannelsThirdSensor.getSelectedValue();
+        if (selectedChannelIndex < selectedChannelsThirdSensor.size()-1 && selectedChannelIndex >= 0) {
+            selectedChannelsThirdSensor.remove(selectedChannelIndex);
+            selectedChannelsThirdSensor.add(selectedChannelIndex+1, selectedChannel);  
+            listSelectedChannelsThirdSensor.setListData(selectedChannelsThirdSensor);
+        }
     }
 
     protected void initComponents() {
@@ -352,29 +786,89 @@ public class JDialogProverifVerification extends JDialog implements ActionListen
         autoStrongAuth = new JCheckBox("Add security (Strong Authenticity)");
         autoStrongAuth.setEnabled(false);
         jp02.add(autoStrongAuth, c01);
-
 		autoStrongAuth.addActionListener(this);
 		
+        listIgnoredChannelsToAddSec = new JList<String>(ignoredChannelsToAddSec);
+        JPanel panelListChannelsAddSec = new JPanel();
+        panelListChannelsAddSec.setPreferredSize(new Dimension(250, 150));
+        GridBagConstraints cListChannelsAddSec = new GridBagConstraints();
+		cListChannelsAddSec.gridwidth = 1;
+		cListChannelsAddSec.gridheight = 1;
+		cListChannelsAddSec.fill= GridBagConstraints.BOTH;
+     	listIgnoredChannelsToAddSec.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+     	listIgnoredChannelsToAddSec.addListSelectionListener(this);
+
+        JScrollPane scrollPane1ChannelsToAddSec = new JScrollPane(listIgnoredChannelsToAddSec);
+        scrollPane1ChannelsToAddSec.setPreferredSize(new Dimension(250, 150));
+        panelListChannelsAddSec.add(scrollPane1ChannelsToAddSec, BorderLayout.WEST);
+
+        JPanel buttonPanelChannelsToAddSec = new JPanel();
+        GridBagConstraints cButtonChannelsToAddSec = new GridBagConstraints();
+        cButtonChannelsToAddSec.gridwidth = GridBagConstraints.REMAINDER;
+        cButtonChannelsToAddSec.gridheight = 1;
+
+        addAllChannelsToAddSec = new JButton(IconManager.imgic50);
+        addAllChannelsToAddSec.setPreferredSize(new Dimension(50, 25));
+        addAllChannelsToAddSec.setEnabled(false);
+        addAllChannelsToAddSec.addActionListener(this);
+        addAllChannelsToAddSec.setActionCommand("addAllChannelsToAddSec");
+        buttonPanelChannelsToAddSec.add(addAllChannelsToAddSec, cButtonChannelsToAddSec);
+
+        addOneChannelToAddSec = new JButton(IconManager.imgic48);
+        addOneChannelToAddSec.setPreferredSize(new Dimension(50, 25));
+        addOneChannelToAddSec.setEnabled(false);
+        addOneChannelToAddSec.addActionListener(this);
+        addOneChannelToAddSec.setActionCommand("addOneChannelToAddSec");
+        buttonPanelChannelsToAddSec.add(addOneChannelToAddSec, cButtonChannelsToAddSec);
+
+        buttonPanelChannelsToAddSec.add(new JLabel(" "), cButtonChannelsToAddSec);
+
+        removeOneChannelToAddSec = new JButton(IconManager.imgic46);
+        removeOneChannelToAddSec.setEnabled(false);
+        removeOneChannelToAddSec.addActionListener(this);
+        removeOneChannelToAddSec.setPreferredSize(new Dimension(50, 25));
+        removeOneChannelToAddSec.setActionCommand("removeOneChannelToAddSec");
+        buttonPanelChannelsToAddSec.add(removeOneChannelToAddSec, cButtonChannelsToAddSec);
+
+        removeAllChannelsToAddSec = new JButton(IconManager.imgic44);
+        removeAllChannelsToAddSec.setEnabled(false);
+        removeAllChannelsToAddSec.addActionListener(this);
+        removeAllChannelsToAddSec.setPreferredSize(new Dimension(50, 25));
+        removeAllChannelsToAddSec.setActionCommand("removeAllChannelsToAddSec");
+        buttonPanelChannelsToAddSec.add(removeAllChannelsToAddSec, cButtonChannelsToAddSec);
+        buttonPanelChannelsToAddSec.setPreferredSize(new Dimension(50, 150));
+        panelListChannelsAddSec.add(buttonPanelChannelsToAddSec, cListChannelsAddSec);
+
+        listSelectedChannelsToAddSec = new JList<String>(selectedChannelsToAddSec);
+        listSelectedChannelsToAddSec.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+        listSelectedChannelsToAddSec.addListSelectionListener(this);
+        JScrollPane scrollPane2ChannelsToAddSec = new JScrollPane(listSelectedChannelsToAddSec);
+        scrollPane2ChannelsToAddSec.setPreferredSize(new Dimension(250, 150));
+        panelListChannelsAddSec.add(scrollPane2ChannelsToAddSec, BorderLayout.CENTER);
+        panelListChannelsAddSec.setPreferredSize(new Dimension(600, 175));
+        panelListChannelsAddSec.setMinimumSize(new Dimension(600, 175));
+        c01.gridheight = 10;
+        jp02.add(panelListChannelsAddSec, c01);
+
 		addHSM = new JCheckBox("Add HSM to component:");
         addHSM.addActionListener(this);
 		addHSM.setEnabled(false);
 		jp02.add(addHSM, c01);
 		
-		
 		listIgnored = new JList<String>(ignoredTasks);
 
 
 		listPanel = new JPanel();
-		listPanel.setPreferredSize(new Dimension(250, 200));
+		listPanel.setPreferredSize(new Dimension(250, 150));
 		GridBagConstraints c02 = new GridBagConstraints();
 		c02.gridwidth=1;
 		c02.gridheight=1;
 		c02.fill= GridBagConstraints.BOTH;
-     	listIgnored.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION );
+     	listIgnored.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 
         listIgnored.addListSelectionListener(this);
         JScrollPane scrollPane1 = new JScrollPane(listIgnored);
-        scrollPane1.setPreferredSize(new Dimension(250, 200));
+        scrollPane1.setPreferredSize(new Dimension(250, 150));
         listPanel.add(scrollPane1, BorderLayout.WEST);
 
         JPanel buttonPanel = new JPanel();
@@ -416,7 +910,7 @@ public class JDialogProverifVerification extends JDialog implements ActionListen
         allIgnored.setActionCommand("allIgnored");
         buttonPanel.add(allIgnored, c13);
         listPanel.add(buttonPanel, c02);
-        buttonPanel.setPreferredSize(new Dimension(50, 200));
+        buttonPanel.setPreferredSize(new Dimension(50, 150));
 
 		allIgnored.setEnabled(false);
 		
@@ -426,10 +920,10 @@ public class JDialogProverifVerification extends JDialog implements ActionListen
         listSelected.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
         listSelected.addListSelectionListener(this);
         JScrollPane scrollPane2 = new JScrollPane(listSelected);
-        scrollPane2.setPreferredSize(new Dimension(250, 200));
+        scrollPane2.setPreferredSize(new Dimension(250, 150));
         listPanel.add(scrollPane2, BorderLayout.CENTER);
-        listPanel.setPreferredSize(new Dimension(600, 250));
-        listPanel.setMinimumSize(new Dimension(600, 250));
+        listPanel.setPreferredSize(new Dimension(600, 175));
+        listPanel.setMinimumSize(new Dimension(600, 175));
         c01.gridheight = 10;
         jp02.add(listPanel, c01);
         c02.gridheight = 1;
@@ -609,6 +1103,7 @@ public class JDialogProverifVerification extends JDialog implements ActionListen
             //Can only secure a mapping
             jp1.add("Automated Security", jp02);
         }
+        panelAutoPattern();
         c.add(jp1, BorderLayout.NORTH);
         c.add(jp2, BorderLayout.SOUTH);
 
@@ -669,6 +1164,84 @@ public class JDialogProverifVerification extends JDialog implements ActionListen
         selectedTasks.removeAllElements();
         listIgnored.setListData(ignoredTasks);
         listSelected.setListData(selectedTasks);
+        setButtons();
+    }
+
+    private void addAllChannelsToAddSec() {
+        for(String ch : ignoredChannelsToAddSec) {
+            String toAdd = ch;
+            if (autoConf.isSelected() || autoStrongAuth.isSelected() || autoWeakAuth.isSelected()) {
+                toAdd += ":";
+                if (autoConf.isSelected()) {
+                    toAdd += " " + ADD_CONFIDENTIALITY + " +"; 
+                }
+                if (autoStrongAuth.isSelected()) {
+                    toAdd += " " + ADD_STRONG_AUTHENTICITY + " +"; 
+                } else if (autoWeakAuth.isSelected()) {
+                    toAdd += " " + ADD_WEAK_AUTHENTICITY + " +"; 
+                }
+                toAdd = toAdd.substring(0, toAdd.length() - 2);
+            }
+            selectedChannelsToAddSec.add(toAdd);
+        }
+        ignoredChannelsToAddSec.removeAllElements();
+        listIgnoredChannelsToAddSec.setListData(ignoredChannelsToAddSec);
+        listSelectedChannelsToAddSec.setListData(selectedChannelsToAddSec);
+        setButtons();
+    }
+
+    private void removeAllChannelsToAddSec() {
+        for(String ch : selectedChannelsToAddSec) {
+            ignoredChannelsToAddSec.add(ch.split(": ")[0]);
+        }
+        selectedChannelsToAddSec.removeAllElements();
+        listIgnoredChannelsToAddSec.setListData(ignoredChannelsToAddSec);
+        listSelectedChannelsToAddSec.setListData(selectedChannelsToAddSec);
+        setButtons();
+    }
+
+    private void addOneChannelToAddSec() {
+        int[] list = listIgnoredChannelsToAddSec.getSelectedIndices();
+        Vector<String> v = new Vector<String>();
+        String o;
+
+        for (int i = 0; i < list.length; i++) {
+            o = ignoredChannelsToAddSec.elementAt(list[i]);
+            String toAdd = o;
+            if (autoConf.isSelected() || autoStrongAuth.isSelected() || autoWeakAuth.isSelected()) {
+                toAdd += ":";
+                if (autoConf.isSelected()) {
+                    toAdd += " " + ADD_CONFIDENTIALITY + " +"; 
+                }
+                if (autoStrongAuth.isSelected()) {
+                    toAdd += " " + ADD_STRONG_AUTHENTICITY + " +"; 
+                } else if (autoWeakAuth.isSelected()) {
+                    toAdd += " " + ADD_WEAK_AUTHENTICITY + " +"; 
+                }
+                toAdd = toAdd.substring(0, toAdd.length() - 2);
+            }
+            selectedChannelsToAddSec.addElement(toAdd);
+            v.addElement(o);
+        }
+        ignoredChannelsToAddSec.removeAll(v);
+        listIgnoredChannelsToAddSec.setListData(ignoredChannelsToAddSec);
+        listSelectedChannelsToAddSec.setListData(selectedChannelsToAddSec);
+        setButtons();
+    }
+
+    private void removeOneChannelToAddSec() {
+        int[] list = listSelectedChannelsToAddSec.getSelectedIndices();
+        Vector<String> v = new Vector<String>();
+        String o;
+
+        for (int i = 0; i < list.length; i++) {
+            o = selectedChannelsToAddSec.elementAt(list[i]);
+            ignoredChannelsToAddSec.addElement(o.split(": ")[0]);
+            v.addElement(o);
+        }
+        selectedChannelsToAddSec.removeAll(v);
+        listIgnoredChannelsToAddSec.setListData(ignoredChannelsToAddSec);
+        listSelectedChannelsToAddSec.setListData(selectedChannelsToAddSec);
         setButtons();
     }
 
@@ -762,6 +1335,38 @@ public class JDialogProverifVerification extends JDialog implements ActionListen
                     allValidated();
                 } else if (command.equals("allIgnored")) {
                     allIgnored();
+                }  else if (command.equals("addAllChannelsToAddSec")) {
+                    addAllChannelsToAddSec();
+                } else if (command.equals("removeAllChannelsToAddSec")) {
+                    removeAllChannelsToAddSec();
+                } else if (command.equals("addOneChannelToAddSec")) {
+                    addOneChannelToAddSec();
+                } else if (command.equals("removeOneChannelToAddSec")) {
+                    removeOneChannelToAddSec();
+                } else if (command.equals("addChannelMainSensor")) {
+                    addChannelMainSensor();
+                } else if (command.equals("removeChannelMainSensor")) {
+                    removeChannelMainSensor();
+                } else if (command.equals("moveUpChannelMainSensor")) {
+                    moveUpChannelMainSensor();
+                } else if (command.equals("moveDownChannelMainSensor")) {
+                    moveDownChannelMainSensor();
+                } else if (command.equals("addChannelSecondSensor")) {
+                    addChannelSecondSensor();
+                } else if (command.equals("removeChannelSecondSensor")) {
+                    removeChannelSecondSensor();
+                } else if (command.equals("moveUpChannelSecondSensor")) {
+                    moveUpChannelSecondSensor();
+                } else if (command.equals("moveDownChannelSecondSensor")) {
+                    moveDownChannelSecondSensor();
+                } else if (command.equals("addChannelThirdSensor")) {
+                    addChannelThirdSensor();
+                } else if (command.equals("removeChannelThirdSensor")) {
+                    removeChannelThirdSensor();
+                } else if (command.equals("moveUpChannelThirdSensor")) {
+                    moveUpChannelThirdSensor();
+                } else if (command.equals("moveDownChannelThirdSensor")) {
+                    moveDownChannelThirdSensor();
                 }
                 if (evt.getSource() == autoConf || evt.getSource() == autoSec || evt.getSource() == autoMapKeys || evt.getSource() == autoWeakAuth || evt.getSource()==addHSM) {
                     //autoWeakAuth.setEnabled(autoConf.isSelected());
@@ -778,12 +1383,101 @@ public class JDialogProverifVerification extends JDialog implements ActionListen
                         autoConf.setSelected(false);
                         autoWeakAuth.setSelected(false);
                         autoStrongAuth.setSelected(false);
+                        addHSM.setSelected(false);
+
+                        autoConf.setEnabled(false);
+                        autoWeakAuth.setEnabled(false);
+                        autoStrongAuth.setEnabled(false);
+                        allIgnored();
+                        removeAllChannelsToAddSec();
+                    }
+
+                    if (!autoWeakAuth.isSelected()) {
+                        autoStrongAuth.setSelected(false);
                     }
                 }
+                if (evt.getSource() == autoSec || evt.getSource() == autoConf || evt.getSource() == autoWeakAuth) {
+                    if (autoSec.isSelected() && (autoWeakAuth.isSelected() || autoConf.isSelected())) {
+                        addAllChannelsToAddSec.setEnabled(true);
+                        addOneChannelToAddSec.setEnabled(true);
+                        removeAllChannelsToAddSec.setEnabled(true);
+                        removeOneChannelToAddSec.setEnabled(true);
+                    } else {
+                        addAllChannelsToAddSec.setEnabled(false);
+                        addOneChannelToAddSec.setEnabled(false);
+                        removeAllChannelsToAddSec.setEnabled(false);
+                        removeOneChannelToAddSec.setEnabled(false);
+                    }
+                }
+
                 if (evt.getSource() == custom) {
                     encTime.setEnabled(custom.isSelected());
                     decTime.setEnabled(custom.isSelected());
                     secOverhead.setEnabled(custom.isSelected());
+                }
+                if (evt.getSource() == selectTwoSensors) {
+                    addChannelFromSecondSensor.setEnabled(selectTwoSensors.isSelected());
+                    removeChannelFromSecondSensor.setEnabled(selectTwoSensors.isSelected());
+                    moveUpChannelFromSecondSensor.setEnabled(selectTwoSensors.isSelected());
+                    moveDownChannelFromSecondSensor.setEnabled(selectTwoSensors.isSelected());
+                    listCompSelectSecondSensor.setEnabled(selectTwoSensors.isSelected());
+                    listChannelsSecondSensor.setEnabled(selectTwoSensors.isSelected());
+
+                    addChannelFromThirdSensor.setEnabled(selectTwoSensors.isSelected());
+                    removeChannelFromThirdSensor.setEnabled(selectTwoSensors.isSelected());
+                    moveUpChannelFromThirdSensor.setEnabled(selectTwoSensors.isSelected());
+                    moveDownChannelFromThirdSensor.setEnabled(selectTwoSensors.isSelected());
+                    listCompSelectThirdSensor.setEnabled(selectTwoSensors.isSelected());
+                    listChannelsThirdSensor.setEnabled(selectTwoSensors.isSelected());
+                }
+                if (evt.getSource() == listCompSelectReceiver || evt.getSource() == listCompSelectMainSensor) {
+                    int selectedReceiverIndex = listCompSelectReceiver.getSelectedIndex();
+                    int selectedMainSensorIndex = listCompSelectMainSensor.getSelectedIndex();
+                    listChannelsMainSensor.removeAllItems();
+                    if (selectedMainSensorIndex >= 0 && selectedReceiverIndex >= 0 && selectedMainSensorIndex != selectedReceiverIndex) {
+                        allChannelsMainSensor = getListChannelsBetweenTwoTasks(allTasksFullName.get(selectedMainSensorIndex), allTasksFullName.get(selectedReceiverIndex));
+                        
+                        for(String chName : allChannelsMainSensor) {
+                            listChannelsMainSensor.addItem(chName);
+                        }
+                    }
+                    listChannelsMainSensor.setSelectedItem(-1);
+                    listChannelsMainSensor.addActionListener(this);
+                    selectedChannelsMainSensor.removeAllElements();
+                    listSelectedChannelsMainSensor.setListData(selectedChannelsMainSensor);
+                }
+
+                if (evt.getSource() == listCompSelectReceiver || evt.getSource() == listCompSelectSecondSensor) {
+                    int selectedReceiverIndex = listCompSelectReceiver.getSelectedIndex();
+                    int selectedSecondSensorIndex = listCompSelectSecondSensor.getSelectedIndex();
+                    listChannelsSecondSensor.removeAllItems();
+                    if (selectedReceiverIndex >= 0 && selectedSecondSensorIndex >= 0  && selectedSecondSensorIndex!=selectedReceiverIndex) {
+                        allChannelsSecondSensor = getListChannelsBetweenTwoTasks(allTasksFullName.get(selectedSecondSensorIndex), allTasksFullName.get(selectedReceiverIndex));
+                        
+                        for(String chName : allChannelsSecondSensor) {
+                            listChannelsSecondSensor.addItem(chName);
+                        }
+                    }
+                    listChannelsSecondSensor.setSelectedItem(-1);
+                    listChannelsSecondSensor.addActionListener(this);
+                    selectedChannelsSecondSensor.removeAllElements();
+                    listSelectedChannelsSecondSensor.setListData(selectedChannelsSecondSensor);
+                }
+                if (evt.getSource() == listCompSelectReceiver || evt.getSource() == listCompSelectThirdSensor) {
+                    int selectedReceiverIndex = listCompSelectReceiver.getSelectedIndex();
+                    int selectedThirdSensorIndex = listCompSelectThirdSensor.getSelectedIndex();
+                    listChannelsThirdSensor.removeAllItems();
+                    if (selectedReceiverIndex >= 0 && selectedThirdSensorIndex >= 0  && selectedThirdSensorIndex!=selectedReceiverIndex) {
+                        allChannelsThirdSensor = getListChannelsBetweenTwoTasks(allTasksFullName.get(selectedThirdSensorIndex), allTasksFullName.get(selectedReceiverIndex));
+                        
+                        for(String chName : allChannelsThirdSensor) {
+                            listChannelsThirdSensor.addItem(chName);
+                        }
+                    }
+                    listChannelsThirdSensor.setSelectedItem(-1);
+                    listChannelsThirdSensor.addActionListener(this);
+                    selectedChannelsThirdSensor.removeAllElements();
+                    listSelectedChannelsThirdSensor.setListData(selectedChannelsThirdSensor);
                 }
         }
     }
@@ -857,176 +1551,260 @@ public class JDialogProverifVerification extends JDialog implements ActionListen
         TraceManager.addDev("Thread started");
         File testFile;
         Map<String, List<String>> selectedCpuTasks = new HashMap<String, java.util.List<String>>();
-        try {
-            if (jp1.getSelectedIndex() == 1) {
-            	if (autoSec.isSelected()){
-	                encCC = encTime.getText();
-	                decCC = decTime.getText();
-	                secOv = secOverhead.getText();
-	                TMLMapping map;
-	                if (addHSM.isSelected() && selectedTasks.size()>0) {
-	                	
-
-                    	for (String task : selectedTasks) {
-                        	String cpu = taskCpuMap.get(task);
-                        	if (selectedCpuTasks.containsKey(cpu)) {
-                            	selectedCpuTasks.get(cpu).add(task);
-                        	} else {
-                            	ArrayList<String> tasks = new ArrayList<String>();
-                            	tasks.add(task);
-                            	selectedCpuTasks.put(cpu, tasks);
-                        	}
-                    	}
-                    	//mgui.gtm.addHSM(mgui, selectedCpuTasks);
-	                }
-		            if (autoConf.isSelected() || autoWeakAuth.isSelected() || autoStrongAuth.isSelected()) {
-                    	if (custom.isSelected()) {
-                    	    map = mgui.gtm.autoSecure(mgui, encCC, secOv, decCC, autoConf.isSelected(), autoWeakAuth.isSelected(),
-                                    autoStrongAuth.isSelected(), selectedCpuTasks);
-                    	} else {
-                        	map = mgui.gtm.autoSecure(mgui, "100", "0", "100", autoConf.isSelected(),
-                                    autoWeakAuth.isSelected(), autoStrongAuth.isSelected(), selectedCpuTasks);
-                    	}
-                	}
-                } 
-                else if (autoMapKeys.isSelected()) {
-                    mgui.gtm.autoMapKeys();
-                }
-            	
-                jta.removeAll();
-                JLabel label = new JLabel("Security Generation Complete");
-            	label.setAlignmentX(Component.LEFT_ALIGNMENT);
-            	this.jta.add(label, this.createGbc(0));
-                mode = NOT_STARTED;
+        int currentPosY = 0;
+        int stepY = 10; 
+        if (jp1.getSelectedIndex() == 2) {
+            interpretersCompTimeDefault = interpretersCompTime.getText();
+            voterCompTimeDefault = voterCompTime.getText();
+            voterTimeOutDefault = voterTimeOut.getText();
+            jta.removeAll();
+            boolean findErr = false;
+            if (listCompSelectReceiver.getSelectedIndex() < 0) {
+                JLabel label = new JLabel("ERROR: Receiver not selected");
+                label.setAlignmentX(Component.LEFT_ALIGNMENT);
+                this.jta.add(label, this.createGbc(currentPosY));
+                currentPosY += stepY;
+                findErr = true;
             }
-            else {
-
-
-
-
-                testGo();
-                pathCode = code1.getText().trim();
-
-                SpecConfigTTool.checkAndCreateProverifDir(pathCode);
-
-                pathCode += "pvspec";
-                testFile = new File(pathCode);
-
-
-                File dir = testFile.getParentFile();
-
-                if (dir == null || !dir.exists()) {
-                    mode = STOPPED;
-                    setButtons();
-                    throw new ProVerifVerificationException("Error: invalid file: " + pathCode);
-                }
-
-
-                if (testFile.exists()) {
-                    // FIXME Raise error if modified since last
-                    TraceManager.addDev("FILE EXISTS!!!");
-                }
-
-
-                if (!mgui.gtm.generateProVerifFromAVATAR(
-                        pathCode,
-                        stateReachabilityAll.isSelected() ? REACHABILITY_ALL :
-                                stateReachabilitySelected.isSelected() ? REACHABILITY_SELECTED : REACHABILITY_NONE,
-                        typedLanguage.isSelected(),
-                        privateChannelDup.isSelected(),
-                        loopLimit.getText())
-                        ) {
-                    mode = NOT_STARTED; setButtons();
-                    throw new ProVerifVerificationException("Could not generate proverif code");
-                }
-
-
-                String cmd = exe2.getText().trim();
-                /*File proverifVerifier= new File(cmd);
-                if (!proverifVerifier.exists()) {
-                    mode = NOT_STARTED; setButtons();
-                    throw new ProVerifVerificationException(cmd + ": Proverif prover not found");
-                }*/
-
-                // Must test if this command corresponds to ProVerif
-                this.rshc = new RshClient(hostProVerif);
-                this.rshc.setCmd(cmd + " -help");
-                this.rshc.sendExecuteCommandRequest();
-                RshClientReader readerHelp = this.rshc.getDataReaderFromProcess();
-                BufferedReader bReader = new BufferedReader(readerHelp);
-                String str;
-                boolean foundProverif = false;
-                while ((str = bReader.readLine()) != null) {
-                    if (str.contains("Proverif")) {
-                        foundProverif = true;
-                    }
-                }
-
-                if (!foundProverif) {
-                    mode = NOT_STARTED; setButtons();
-                    throw new ProVerifVerificationException("\"" + cmd + "\" refers to an invalid Proverif prover");
-                }
-
-
-                if (this.typedLanguage.isSelected()) {
-                    cmd += " -in pitype ";
-                } else {
-                    cmd += " -in pi ";
-                }
-
-                cmd += pathCode;
-                TraceManager.addDev("Executing command:" + cmd);
-
-                testGo();
-
-                this.rshc = new RshClient(hostProVerif);
-                this.rshc.setCmd(cmd);
-                this.rshc.sendExecuteCommandRequest();
-                RshClientReader reader = this.rshc.getDataReaderFromProcess();
-
-
-                if (this.pvoa == null) {
-                    this.pvoa = mgui.gtm.getProVerifOutputAnalyzer();
-                    this.pvoa.addListener(this);
-                }
-                //try {
-                    this.pvoa.analyzeOutput(reader, typedLanguage.isSelected());
-                /*} catch (Exception e) {
-                    TraceManager.addDev("Traces could not be analyzed: " + e.getMessage());
-                }*/
-
-                mgui.modelBacktracingProVerif(pvoa);
-
-                if (drawAvatarDesign != null) {
-                    if (drawAvatarDesign.isSelected()) {
-                        mgui.drawAvatarSpecification(mgui.gtm.getAvatarSpecification());
-                    }
-                }
-
-                mode = NOT_STARTED;
-
+            if (listCompSelectMainSensor.getSelectedIndex() < 0) {
+                JLabel label = new JLabel("ERROR: Main Sensor not selected");
+                label.setAlignmentX(Component.LEFT_ALIGNMENT);
+                this.jta.add(label, this.createGbc(currentPosY));
+                currentPosY += stepY;
+                findErr = true;
             }
-        } catch (LauncherException | ProVerifVerificationException le) {
-            this.jta.removeAll();
-            labelError = new JLabel("Error: " + le.getMessage());
-            labelError.setAlignmentX(Component.LEFT_ALIGNMENT);
-            this.jta.add(labelError, this.createGbc(0));
+            if (listCompSelectMainSensor.getSelectedItem() == listCompSelectReceiver.getSelectedItem()) {
+                JLabel label = new JLabel("ERROR: Receiver and Main Sensor must be different");
+                label.setAlignmentX(Component.LEFT_ALIGNMENT);
+                this.jta.add(label, this.createGbc(currentPosY));
+                currentPosY += stepY;
+                findErr = true;
+            }
+            if (selectedChannelsMainSensor.size() == 0) {
+                JLabel label = new JLabel("ERROR: No Channel of main sensor is selected");
+                label.setAlignmentX(Component.LEFT_ALIGNMENT);
+                this.jta.add(label, this.createGbc(currentPosY));
+                currentPosY += stepY;
+                findErr = true;
+            }
+            if (selectTwoSensors.isSelected() && listCompSelectSecondSensor.getSelectedIndex() < 0) {
+                JLabel label = new JLabel("ERROR: Second Sensor not selected");
+                label.setAlignmentX(Component.LEFT_ALIGNMENT);
+                this.jta.add(label, this.createGbc(currentPosY));
+                currentPosY += stepY;
+                findErr = true;
+            }
+            if (selectTwoSensors.isSelected() && selectedChannelsSecondSensor.size() == 0) {
+                JLabel label = new JLabel("ERROR: No Channel of second sensor is selected");
+                label.setAlignmentX(Component.LEFT_ALIGNMENT);
+                this.jta.add(label, this.createGbc(currentPosY));
+                currentPosY += stepY;
+                findErr = true;
+            }
+            if (selectTwoSensors.isSelected() && listCompSelectThirdSensor.getSelectedIndex() < 0) {
+                JLabel label = new JLabel("ERROR: Third Sensor not selected");
+                label.setAlignmentX(Component.LEFT_ALIGNMENT);
+                this.jta.add(label, this.createGbc(currentPosY));
+                currentPosY += stepY;
+                findErr = true;
+            }
+            if (selectTwoSensors.isSelected() && selectedChannelsThirdSensor.size() == 0) {
+                JLabel label = new JLabel("ERROR: No Channel of third sensor is selected");
+                label.setAlignmentX(Component.LEFT_ALIGNMENT);
+                this.jta.add(label, this.createGbc(currentPosY));
+                currentPosY += stepY;
+                findErr = true;
+            }
+            if (selectTwoSensors.isSelected() && (selectedChannelsThirdSensor.size() != selectedChannelsSecondSensor.size() || selectedChannelsThirdSensor.size() != selectedChannelsMainSensor.size() || selectedChannelsMainSensor.size() != selectedChannelsSecondSensor.size())) {
+                JLabel label = new JLabel("ERROR: The number of selected channels is not the same for the 3 sensors");
+                label.setAlignmentX(Component.LEFT_ALIGNMENT);
+                this.jta.add(label, this.createGbc(currentPosY));
+                currentPosY += stepY;
+                findErr = true;
+            }
+            if (selectTwoSensors.isSelected() && listCompSelectMainSensor.getSelectedItem() == listCompSelectSecondSensor.getSelectedItem()) {
+                JLabel label = new JLabel("ERROR: Main and second Sensors must be different");
+                label.setAlignmentX(Component.LEFT_ALIGNMENT);
+                this.jta.add(label, this.createGbc(currentPosY));
+                currentPosY += stepY;
+                findErr = true;
+            }
+            if (selectTwoSensors.isSelected() && listCompSelectSecondSensor.getSelectedItem() == listCompSelectThirdSensor.getSelectedItem()) {
+                JLabel label = new JLabel("ERROR: Second and third Sensors must be different");
+                label.setAlignmentX(Component.LEFT_ALIGNMENT);
+                this.jta.add(label, this.createGbc(currentPosY));
+                currentPosY += stepY;
+                findErr = true;
+            }
+            if (selectTwoSensors.isSelected() && listCompSelectMainSensor.getSelectedItem() == listCompSelectThirdSensor.getSelectedItem()) {
+                JLabel label = new JLabel("ERROR: Main and third Sensors must be different");
+                label.setAlignmentX(Component.LEFT_ALIGNMENT);
+                this.jta.add(label, this.createGbc(currentPosY));
+                currentPosY += stepY;
+                findErr = true;
+            }
+            if (selectTwoSensors.isSelected() && listCompSelectReceiver.getSelectedItem() == listCompSelectSecondSensor.getSelectedItem()) {
+                JLabel label = new JLabel("ERROR: Receiver and second Sensor must be different");
+                label.setAlignmentX(Component.LEFT_ALIGNMENT);
+                this.jta.add(label, this.createGbc(currentPosY));
+                currentPosY += stepY;
+                findErr = true;
+            }
+            if (selectTwoSensors.isSelected() && listCompSelectReceiver.getSelectedItem() == listCompSelectThirdSensor.getSelectedItem()) {
+                JLabel label = new JLabel("ERROR: Receiver and third Sensor must be different");
+                label.setAlignmentX(Component.LEFT_ALIGNMENT);
+                this.jta.add(label, this.createGbc(currentPosY));
+                currentPosY += stepY;
+                findErr = true;
+            }
+            if (!findErr) {
+                selectedSensors.put(listCompSelectMainSensor.getSelectedItem().toString(), selectedChannelsMainSensor);
+                if (selectTwoSensors.isSelected()) {
+                    selectedSensors.put(listCompSelectSecondSensor.getSelectedItem().toString(), selectedChannelsSecondSensor);
+                    selectedSensors.put(listCompSelectThirdSensor.getSelectedItem().toString(), selectedChannelsThirdSensor);
+                }
+                mgui.gtm.addPattern(mgui, selectedSensors, listCompSelectReceiver.getSelectedItem().toString(), interpretersCompTimeDefault, voterCompTimeDefault, voterTimeOutDefault);
+                JLabel label = new JLabel("Pattern Generation Complete");
+                label.setAlignmentX(Component.LEFT_ALIGNMENT);
+                this.jta.add(label, this.createGbc(currentPosY));
+            }
             mode = NOT_STARTED;
-        } catch (InterruptedException ie) {
-            TraceManager.addDev("Proverif thread interrupted: " + ie.getMessage());
-            mode = NOT_STARTED;
-        } catch (FileException e) {
-            TraceManager.addDev("Proverif file couldnot be generated: " + e.getMessage());
-            System.err.println(e.getMessage() + " : Can't generate proverif file.");
-        } catch (Exception e) {
-            mode = STOPPED;
-            TraceManager.addDev("General exception in ProVerif proof or trace generation: " + e.getMessage());
-            //throw e;
+        } else {
+            try {
+                if (jp1.getSelectedIndex() == 1) {
+                    if (autoSec.isSelected()){
+                        encCC = encTime.getText();
+                        decCC = decTime.getText();
+                        secOv = secOverhead.getText();
+                        TMLMapping map;
+                        if (addHSM.isSelected() && selectedTasks.size()>0) {
+                            
+
+                            for (String task : selectedTasks) {
+                                String cpu = taskCpuMap.get(task);
+                                if (selectedCpuTasks.containsKey(cpu)) {
+                                    selectedCpuTasks.get(cpu).add(task);
+                                } else {
+                                    ArrayList<String> tasks = new ArrayList<String>();
+                                    tasks.add(task);
+                                    selectedCpuTasks.put(cpu, tasks);
+                                }
+                            }
+                            //mgui.gtm.addHSM(mgui, selectedCpuTasks);
+                        }
+                        if (autoConf.isSelected() || autoWeakAuth.isSelected() || autoStrongAuth.isSelected()) {
+                            /*if (custom.isSelected()) {
+                                map = mgui.gtm.autoSecure(mgui, encCC, secOv, decCC, autoConf.isSelected(), autoWeakAuth.isSelected(),
+                                        autoStrongAuth.isSelected(), selectedCpuTasks);
+                            } else {
+                                map = mgui.gtm.autoSecure(mgui, "100", "0", "100", autoConf.isSelected(),
+                                        autoWeakAuth.isSelected(), autoStrongAuth.isSelected(), selectedCpuTasks);
+                            }*/
+                            mgui.gtm.autoSecure(mgui, encCC, secOv, decCC, selectedChannelsToAddSec, selectedCpuTasks);
+                        }
+                    } 
+                    else if (autoMapKeys.isSelected()) {
+                        mgui.gtm.autoMapKeys();
+                    }
+                    
+                    jta.removeAll();
+                    JLabel label = new JLabel("Security Generation Complete");
+                    label.setAlignmentX(Component.LEFT_ALIGNMENT);
+                    this.jta.add(label, this.createGbc(0));
+                    mode = NOT_STARTED;
+                }
+                else {
+                    testGo();
+                    pathCode = code1.getText().trim();
+
+                    SpecConfigTTool.checkAndCreateProverifDir(pathCode);
+
+                    pathCode += "pvspec";
+                    testFile = new File(pathCode);
+
+
+                    File dir = testFile.getParentFile();
+
+                    if (dir == null || !dir.exists()) {
+                        mode = STOPPED;
+                        setButtons();
+                        throw new ProVerifVerificationException("Error: invalid file: " + pathCode);
+                    }
+
+
+                    if (testFile.exists()) {
+                        // FIXME Raise error if modified since last
+                        TraceManager.addDev("FILE EXISTS!!!");
+                    }
+
+
+                    if (!mgui.gtm.generateProVerifFromAVATAR(
+                            pathCode,
+                            stateReachabilityAll.isSelected() ? REACHABILITY_ALL :
+                                    stateReachabilitySelected.isSelected() ? REACHABILITY_SELECTED : REACHABILITY_NONE,
+                            typedLanguage.isSelected(),
+                            privateChannelDup.isSelected(),
+                            loopLimit.getText())
+                            ) {
+                        throw new ProVerifVerificationException("Could not generate proverif code");
+                    }
+
+
+                    String cmd = exe2.getText().trim();
+
+                    if (this.typedLanguage.isSelected()) {
+                        cmd += " -in pitype ";
+                    } else {
+                        cmd += " -in pi ";
+                    }
+
+                    cmd += pathCode;
+                    TraceManager.addDev("Executing command:" + cmd);
+
+                    testGo();
+
+                    this.rshc = new RshClient(hostProVerif);
+                    this.rshc.setCmd(cmd);
+                    this.rshc.sendExecuteCommandRequest();
+                    RshClientReader reader = this.rshc.getDataReaderFromProcess();
+
+                    if (this.pvoa == null) {
+                        this.pvoa = mgui.gtm.getProVerifOutputAnalyzer();
+                        this.pvoa.addListener(this);
+                    }
+                    //try {
+                        this.pvoa.analyzeOutput(reader, typedLanguage.isSelected());
+                    /*} catch (Exception e) {
+                        TraceManager.addDev("Traces could not be analyzed: " + e.getMessage());
+                    }*/
+
+                    mgui.modelBacktracingProVerif(pvoa);
+
+                    if (drawAvatarDesign != null) {
+                        if (drawAvatarDesign.isSelected()) {
+                            mgui.drawAvatarSpecification(mgui.gtm.getAvatarSpecification());
+                        }
+                    }
+
+                    mode = NOT_STARTED;
+
+                }
+            } catch (LauncherException | ProVerifVerificationException le) {
+                JLabel label = new JLabel("Error: " + le.getMessage());
+                label.setAlignmentX(Component.LEFT_ALIGNMENT);
+                this.jta.add(label, this.createGbc(0));
+                mode = STOPPED;
+            } catch (InterruptedException ie) {
+                mode = NOT_STARTED;
+            } catch (FileException e) {
+                System.err.println(e.getMessage() + " : Can't generate proverif file.");
+            } catch (Exception e) {
+                mode = STOPPED;
+                TraceManager.addDev("General exception in ProVerif proof or trace generation: " + e.getMessage());
+                //throw e;
+            }
         }
-
-
         setButtons();
-
     }
 
     protected void setButtons() {

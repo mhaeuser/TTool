@@ -112,7 +112,7 @@ public class TMLADWriteChannel extends TADComponentWithoutSubcomponents/* Issue 
     public final static int NOT_REACHABLE = 2;
 
 
-	public boolean isEncForm = true;
+	// public boolean isEncForm = true;
 
     private int securityMaxX;
 
@@ -205,9 +205,9 @@ public class TMLADWriteChannel extends TADComponentWithoutSubcomponents/* Issue 
         }
         if (!securityContext.equals("")) {
 	        c = g.getColor();
-	        if (!isEncForm){
+	        /* if (!isEncForm){
 	        	g.setColor(Color.RED);
-	        }
+	        } */
             drawSingleString(g,"sec:" + securityContext, x + 3 * width / 4, y + height + textY - scale( 4 ) );
 
             if (!tdp.isScaled()) {
@@ -349,14 +349,14 @@ public class TMLADWriteChannel extends TADComponentWithoutSubcomponents/* Issue 
         tab1.help = help;
 
         TabInfo tab2 = new TabInfo("Security");
-        labels = new String[3];
-        values = new String[3];
+        labels = new String[2];
+        values = new String[2];
         labels[0] = "Security Pattern";
         values[0] = securityContext;
         labels[1] = "Attacker?";
         values[1] = isAttacker ? "Yes" : "No";
-        labels[2] = "Encrypted Form?";
-        values[2] = isEncForm ? "Yes" : "No";        
+        // labels[2] = "Encrypted Form?";
+        // values[2] = isEncForm ? "Yes" : "No";        
         help = new ArrayList<String[]>();
 
         help.add(tdp.getMGUI().getCurrentCryptoConfig());
@@ -365,7 +365,7 @@ public class TMLADWriteChannel extends TADComponentWithoutSubcomponents/* Issue 
         tab2.labels=labels;
         tab2.values =  values;
         tab2.help = help;
-        tab2.helpButtom = new String[]{null, "cryptographicconfiguration.html", "cryptographicconfiguration.html"};
+        tab2.helpButtom = new String[]{null, "cryptographicconfiguration.html"};
 
         List<TabInfo> tabs = new ArrayList<>();
         tabs.add(tab1);
@@ -383,7 +383,7 @@ public class TMLADWriteChannel extends TADComponentWithoutSubcomponents/* Issue 
             nbOfSamples = jdmsat.getString(0, 1);
             securityContext = jdmsat.getString(1, 0);
             isAttacker = jdmsat.getString(1, 1).equals("Yes");
-            isEncForm = jdmsat.getString(1, 2).equals("Yes");
+            // isEncForm = jdmsat.getString(1, 2).equals("Yes");
             makeValue();
             
             return true;
@@ -403,8 +403,8 @@ public class TMLADWriteChannel extends TADComponentWithoutSubcomponents/* Issue 
         sb.append(securityContext);
         sb.append("\" isAttacker=\"");
         sb.append(isAttacker ? "Yes" : "No");
-        sb.append("\" isEncForm=\"");
-        sb.append(isEncForm ? "Yes" : "No");
+        // sb.append("\" isEncForm=\"");
+        // sb.append(isEncForm ? "Yes" : "No");
         sb.append("\" />\n");
         sb.append("</extraparam>\n");
         return new String(sb);
@@ -432,12 +432,12 @@ public class TMLADWriteChannel extends TADComponentWithoutSubcomponents/* Issue 
                                 nbOfSamples = elt.getAttribute("nbOfSamples");
                                 securityContext = elt.getAttribute("secPattern");
                                 isAttacker = elt.getAttribute("isAttacker").equals("Yes");
-                                isEncForm = elt.getAttribute("isEncForm").equals("Yes");                                   
+                                /* isEncForm = elt.getAttribute("isEncForm").equals("Yes");                                   
                                 if (elt.getAttribute("isEncForm").equals("") || !elt.hasAttribute("isEncForm")){
                                 	if (!securityContext.equals("")){
                                 		isEncForm=true;
                                 	}
-                                }
+                                } */
                             }
                         }
                     }
@@ -486,14 +486,18 @@ public class TMLADWriteChannel extends TADComponentWithoutSubcomponents/* Issue 
         return isAttacker;
     }
 
-	public boolean getEncForm(){
+    public void setIsAttacker(boolean _isAttacker) {
+        isAttacker = _isAttacker;
+    }
+
+	/* public boolean getEncForm(){
 		return isEncForm;
 	}
 	
 	
 	public void setEncForm(boolean encForm){
 		isEncForm=encForm;
-	}
+	} */
 
     @Override
     public void setStateAction(int _stateAction) {

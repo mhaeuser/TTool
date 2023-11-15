@@ -152,6 +152,7 @@ public class ModeManager {
             actions[TGUIAction.ACT_GEN_LOTOS].setEnabled(true);
             if (mgui.getCurrentTURTLEPanel() instanceof TMLArchiPanel) {
                 actions[TGUIAction.ACT_GEN_MAPPING].setEnabled(true);
+                actions[TGUIAction.ACT_PATTERN_HANDLING].setEnabled(true);
             }
             actions[TGUIAction.ACT_DSE].setEnabled(true);
             actions[TGUIAction.ACT_DSE_Z3].setEnabled(true);
@@ -269,6 +270,7 @@ public class ModeManager {
             actions[TGUIAction.ACT_AVATAR_FV_PROVERIF].setEnabled(false);
             actions[TGUIAction.ACT_AVATAR_FV_STATICANALYSIS].setEnabled(false);
             actions[TGUIAction.ACT_AVATAR_EXECUTABLE_GENERATION].setEnabled(false);           
+            actions[TGUIAction.ACT_PATTERN_HANDLING].setEnabled(false);           
             break;
         case MainGUI.METHO_CHANGED:
             actions[TGUIAction.ACT_GEN_RTLOTOS].setEnabled(false);
@@ -319,6 +321,7 @@ public class ModeManager {
             actions[TGUIAction.ACT_AVATAR_FV_PROVERIF].setEnabled(false);
             actions[TGUIAction.ACT_AVATAR_FV_STATICANALYSIS].setEnabled(false);
             actions[TGUIAction.ACT_AVATAR_EXECUTABLE_GENERATION].setEnabled(false);            
+            actions[TGUIAction.ACT_PATTERN_HANDLING].setEnabled(false);            
             break;
 
         case MainGUI.MODEL_SAVED:

@@ -1,0 +1,190 @@
+// TML Application - FORMAT 0.2
+// Application: tmrPattern.xml
+// Generated: Sat Nov 11 15:19:32 CET 2023
+
+// PRAGMAS
+
+// Channels
+CHANNEL TMR__dataA BRBW 8 8 OUT TMR__SensorA IN TMR__InterpreterA
+VCCHANNEL TMR__dataA 0
+CONFCHANNEL TMR__dataA
+AUTHCHANNEL TMR__dataA
+CHANNEL TMR__dataB BRBW 8 8 OUT TMR__SensorB IN TMR__InterpreterB
+VCCHANNEL TMR__dataB 0
+CONFCHANNEL TMR__dataB
+AUTHCHANNEL TMR__dataB
+CHANNEL TMR__dataC BRBW 8 8 OUT TMR__SensorC IN TMR__InterpreterC
+VCCHANNEL TMR__dataC 0
+CONFCHANNEL TMR__dataC
+AUTHCHANNEL TMR__dataC
+CHANNEL TMR__resA BRBW 8 8 OUT TMR__InterpreterA IN TMR__Voter
+VCCHANNEL TMR__resA 0
+CONFCHANNEL TMR__resA
+AUTHCHANNEL TMR__resA
+CHANNEL TMR__resB BRBW 8 8 OUT TMR__InterpreterB IN TMR__Voter
+VCCHANNEL TMR__resB 0
+CONFCHANNEL TMR__resB
+AUTHCHANNEL TMR__resB
+CHANNEL TMR__resC BRBW 8 8 OUT TMR__InterpreterC IN TMR__Voter
+VCCHANNEL TMR__resC 0
+CONFCHANNEL TMR__resC
+AUTHCHANNEL TMR__resC
+CHANNEL TMR__resultData BRBW 8 8 OUT TMR__Voter IN TMR__User
+VCCHANNEL TMR__resultData 0
+CONFCHANNEL TMR__resultData
+AUTHCHANNEL TMR__resultData
+
+// Events
+EVENT TMR__evtA__TMR__evtA() NIB 8 TMR__InterpreterA TMR__Voter
+EVENT TMR__evtB__TMR__evtB() NIB 8 TMR__InterpreterB TMR__Voter
+EVENT TMR__evtC__TMR__evtC() NIB 8 TMR__InterpreterC TMR__Voter
+EVENT TMR__evtTimeout__TMR__evtTimeout() NIB 8 TMR__Timer TMR__Voter
+EVENT TMR__moveto_FAIL_SAFE__TMR__moveto_FAIL_SAFE(bool) NIB 8 TMR__Voter TMR__User
+
+// Requests
+
+TASK TMR__InterpreterA
+    TASKOP
+    //Local variables
+    int size = 50
+    int sizeA = 10
+    
+    //Behavior
+    READ TMR__dataA size
+    EXECC size
+    NOTIFY TMR__evtA__TMR__evtA
+    WRITE TMR__resA sizeA
+ENDTASK
+
+TASK TMR__InterpreterB
+    TASKOP
+    //Local variables
+    int size = 50
+    int sizeB = 10
+    
+    //Behavior
+    READ TMR__dataB size
+    EXECC size
+    NOTIFY TMR__evtB__TMR__evtB
+    WRITE TMR__resB sizeB
+ENDTASK
+
+TASK TMR__InterpreterC
+    TASKOP
+    //Local variables
+    int size = 50
+    int sizeC = 10
+    
+    //Behavior
+    READ TMR__dataC size
+    EXECC size
+    NOTIFY TMR__evtC__TMR__evtC
+    WRITE TMR__resC sizeC
+ENDTASK
+
+TASK TMR__SensorA
+    TASKOP
+    //Local variables
+    int size = 50
+    
+    //Behavior
+    WRITE TMR__dataA size
+ENDTASK
+
+TASK TMR__SensorB
+    TASKOP
+    //Local variables
+    int size = 50
+    
+    //Behavior
+    WRITE TMR__dataB size
+ENDTASK
+
+TASK TMR__SensorC
+    TASKOP
+    //Local variables
+    int size = 50
+    
+    //Behavior
+    WRITE TMR__dataC size
+ENDTASK
+
+TASK TMR__Timer
+    TASKOP
+    //Local variables
+    int dataReceivingTimeout = 2500
+    
+    //Behavior
+    DELAY dataReceivingTimeout ns isActiveDelay false
+    NOTIFY TMR__evtTimeout__TMR__evtTimeout
+ENDTASK
+
+TASK TMR__User
+    TASKOP
+    //Local variables
+    bool x
+    
+    //Behavior
+    WAIT TMR__moveto_FAIL_SAFE__TMR__moveto_FAIL_SAFE x
+    READ TMR__resultData 1
+ENDTASK
+
+TASK TMR__Voter
+    TASKOP
+    //Local variables
+    bool x
+    int interpreteTime = 5
+    bool dataProcessed = false
+    int indexA = 0
+    int indexB = 0
+    int indexC = 0
+    int sizeA = 10
+    int sizeB = 10
+    int sizeC = 10
+    int i = 0
+    
+    //Behavior
+    FOR(i=0; i<3; )
+        SELECTEVT
+            CASE TMR__evtTimeout__TMR__evtTimeout
+                i=3
+            ENDCASE
+            CASE TMR__evtC__TMR__evtC
+                READ TMR__resC sizeC
+                indexC=indexC+1
+                IF (indexC==1)
+                    i=i+1
+                ELSE
+                ENDIF
+            ENDCASE
+            CASE TMR__evtB__TMR__evtB
+                READ TMR__resB sizeB
+                indexB=indexB+1
+                IF (indexB==1)
+                    i=i+1
+                ELSE
+                ENDIF
+            ENDCASE
+            CASE TMR__evtA__TMR__evtA
+                READ TMR__resA sizeA
+                indexA=indexA+1
+                IF (indexA==1)
+                    i=i+1
+                ELSE
+                ENDIF
+            ENDCASE
+        ENDSELECTEVT
+    ENDFOR
+    EXECC interpreteTime
+    RAND
+        CASERAND 50
+            x=true
+        ENDCASERAND
+        CASERAND 50
+            x=false
+        ENDCASERAND
+    ENDRAND
+    NOTIFY TMR__moveto_FAIL_SAFE__TMR__moveto_FAIL_SAFE x
+    WRITE TMR__resultData 1
+ENDTASK
+

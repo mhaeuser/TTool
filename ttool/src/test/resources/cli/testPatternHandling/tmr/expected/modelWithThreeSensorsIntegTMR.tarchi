@@ -1,0 +1,193 @@
+// Master clock frequency - in MHz
+MASTERCLOCKFREQUENCY 200
+
+NODE BRIDGE BridgeEnvironmentPrivate
+SET BridgeEnvironmentPrivate bufferByteSize 4
+SET BridgeEnvironmentPrivate clockDivider 1
+
+NODE BRIDGE BridgeReceiverPrivate
+SET BridgeReceiverPrivate bufferByteSize 4
+SET BridgeReceiverPrivate clockDivider 1
+
+NODE BUS BusEnvironmentPrivate
+SET BusEnvironmentPrivate byteDataSize 4
+SET BusEnvironmentPrivate pipelineSize 1
+SET BusEnvironmentPrivate arbitration 0
+SET BusEnvironmentPrivate sliceTime 10000
+SET BusEnvironmentPrivate burstSize 100
+SET BusEnvironmentPrivate privacy private
+SET BusEnvironmentPrivate clockDivider 1
+
+NODE BUS BusReceiverPrivate
+SET BusReceiverPrivate byteDataSize 4
+SET BusReceiverPrivate pipelineSize 1
+SET BusReceiverPrivate arbitration 0
+SET BusReceiverPrivate sliceTime 10000
+SET BusReceiverPrivate burstSize 100
+SET BusReceiverPrivate privacy private
+SET BusReceiverPrivate clockDivider 1
+
+NODE MEMORY MemoryEnvironmentPrivate
+SET MemoryEnvironmentPrivate byteDataSize 4
+SET MemoryEnvironmentPrivate clockDivider 1
+
+NODE MEMORY MemoryReceiverPrivate
+SET MemoryReceiverPrivate byteDataSize 4
+SET MemoryReceiverPrivate clockDivider 1
+
+NODE MEMORY MemoryReceiver
+SET MemoryReceiver byteDataSize 4
+SET MemoryReceiver clockDivider 1
+
+NODE MEMORY MemoryEnvironment
+SET MemoryEnvironment byteDataSize 4
+SET MemoryEnvironment clockDivider 1
+
+NODE CPU CPUReceiver
+SET CPUReceiver nbOfCores 1
+SET CPUReceiver byteDataSize 4
+SET CPUReceiver pipelineSize 5
+SET CPUReceiver goIdleTime 10
+SET CPUReceiver maxConsecutiveIdleCycles 10
+SET CPUReceiver taskSwitchingTime 20
+SET CPUReceiver branchingPredictionPenalty 2
+SET CPUReceiver cacheMiss 5
+SET CPUReceiver schedulingPolicy 0
+SET CPUReceiver sliceTime 10000
+SET CPUReceiver execiTime 1
+SET CPUReceiver execcTime 1
+SET CPUReceiver clockDivider 1
+
+NODE CPU CPUEnvironment
+SET CPUEnvironment nbOfCores 1
+SET CPUEnvironment byteDataSize 4
+SET CPUEnvironment pipelineSize 5
+SET CPUEnvironment goIdleTime 10
+SET CPUEnvironment maxConsecutiveIdleCycles 10
+SET CPUEnvironment taskSwitchingTime 20
+SET CPUEnvironment branchingPredictionPenalty 2
+SET CPUEnvironment cacheMiss 5
+SET CPUEnvironment schedulingPolicy 0
+SET CPUEnvironment sliceTime 10000
+SET CPUEnvironment execiTime 1
+SET CPUEnvironment execcTime 1
+SET CPUEnvironment clockDivider 1
+
+NODE BUS BusReceiver
+SET BusReceiver byteDataSize 4
+SET BusReceiver pipelineSize 1
+SET BusReceiver arbitration 0
+SET BusReceiver sliceTime 10000
+SET BusReceiver burstSize 100
+SET BusReceiver privacy public
+SET BusReceiver clockDivider 1
+
+NODE BUS BusEnvironment
+SET BusEnvironment byteDataSize 4
+SET BusEnvironment pipelineSize 1
+SET BusEnvironment arbitration 0
+SET BusEnvironment sliceTime 10000
+SET BusEnvironment burstSize 100
+SET BusEnvironment privacy public
+SET BusEnvironment clockDivider 1
+
+NODE BRIDGE BridgeReceiver
+SET BridgeReceiver bufferByteSize 4
+SET BridgeReceiver clockDivider 1
+
+NODE BRIDGE BridgeEnvironment
+SET BridgeEnvironment bufferByteSize 4
+SET BridgeEnvironment clockDivider 1
+
+NODE BUS MainBus
+SET MainBus byteDataSize 4
+SET MainBus pipelineSize 1
+SET MainBus arbitration 0
+SET MainBus sliceTime 10000
+SET MainBus burstSize 100
+SET MainBus privacy public
+SET MainBus clockDivider 1
+
+NODE CPU CPU_InterpreterB
+SET CPU_InterpreterB nbOfCores 1
+SET CPU_InterpreterB byteDataSize 4
+SET CPU_InterpreterB pipelineSize 5
+SET CPU_InterpreterB goIdleTime 10
+SET CPU_InterpreterB maxConsecutiveIdleCycles 10
+SET CPU_InterpreterB taskSwitchingTime 20
+SET CPU_InterpreterB branchingPredictionPenalty 2
+SET CPU_InterpreterB cacheMiss 5
+SET CPU_InterpreterB schedulingPolicy 0
+SET CPU_InterpreterB sliceTime 10000
+SET CPU_InterpreterB execiTime 1
+SET CPU_InterpreterB execcTime 1
+SET CPU_InterpreterB clockDivider 1
+
+NODE MEMORY MemoryVoter
+SET MemoryVoter byteDataSize 4
+SET MemoryVoter clockDivider 1
+
+NODE LINK link_MemoryEnvironmentPrivate_to_BusEnvironmentPrivate
+SET link_MemoryEnvironmentPrivate_to_BusEnvironmentPrivate node MemoryEnvironmentPrivate
+SET link_MemoryEnvironmentPrivate_to_BusEnvironmentPrivate bus BusEnvironmentPrivate
+SET link_MemoryEnvironmentPrivate_to_BusEnvironmentPrivate priority 0
+NODE LINK link_BridgeEnvironmentPrivate_to_BusEnvironmentPrivate
+SET link_BridgeEnvironmentPrivate_to_BusEnvironmentPrivate node BridgeEnvironmentPrivate
+SET link_BridgeEnvironmentPrivate_to_BusEnvironmentPrivate bus BusEnvironmentPrivate
+SET link_BridgeEnvironmentPrivate_to_BusEnvironmentPrivate priority 0
+NODE LINK link_BridgeEnvironmentPrivate_to_BusEnvironment
+SET link_BridgeEnvironmentPrivate_to_BusEnvironment node BridgeEnvironmentPrivate
+SET link_BridgeEnvironmentPrivate_to_BusEnvironment bus BusEnvironment
+SET link_BridgeEnvironmentPrivate_to_BusEnvironment priority 0
+NODE LINK link_MemoryReceiverPrivate_to_BusReceiverPrivate
+SET link_MemoryReceiverPrivate_to_BusReceiverPrivate node MemoryReceiverPrivate
+SET link_MemoryReceiverPrivate_to_BusReceiverPrivate bus BusReceiverPrivate
+SET link_MemoryReceiverPrivate_to_BusReceiverPrivate priority 0
+NODE LINK link_BridgeReceiverPrivate_to_BusReceiverPrivate
+SET link_BridgeReceiverPrivate_to_BusReceiverPrivate node BridgeReceiverPrivate
+SET link_BridgeReceiverPrivate_to_BusReceiverPrivate bus BusReceiverPrivate
+SET link_BridgeReceiverPrivate_to_BusReceiverPrivate priority 0
+NODE LINK link_BridgeReceiverPrivate_to_BusReceiver
+SET link_BridgeReceiverPrivate_to_BusReceiver node BridgeReceiverPrivate
+SET link_BridgeReceiverPrivate_to_BusReceiver bus BusReceiver
+SET link_BridgeReceiverPrivate_to_BusReceiver priority 0
+NODE LINK link_CPUEnvironment_to_BusEnvironmentPrivate
+SET link_CPUEnvironment_to_BusEnvironmentPrivate node CPUEnvironment
+SET link_CPUEnvironment_to_BusEnvironmentPrivate bus BusEnvironmentPrivate
+SET link_CPUEnvironment_to_BusEnvironmentPrivate priority 0
+NODE LINK link_MemoryEnvironment_to_BusEnvironment
+SET link_MemoryEnvironment_to_BusEnvironment node MemoryEnvironment
+SET link_MemoryEnvironment_to_BusEnvironment bus BusEnvironment
+SET link_MemoryEnvironment_to_BusEnvironment priority 0
+NODE LINK link_BridgeEnvironment_to_BusEnvironment
+SET link_BridgeEnvironment_to_BusEnvironment node BridgeEnvironment
+SET link_BridgeEnvironment_to_BusEnvironment bus BusEnvironment
+SET link_BridgeEnvironment_to_BusEnvironment priority 0
+NODE LINK link_BridgeEnvironment_to_MainBus
+SET link_BridgeEnvironment_to_MainBus node BridgeEnvironment
+SET link_BridgeEnvironment_to_MainBus bus MainBus
+SET link_BridgeEnvironment_to_MainBus priority 0
+NODE LINK link_BridgeReceiver_to_BusReceiver
+SET link_BridgeReceiver_to_BusReceiver node BridgeReceiver
+SET link_BridgeReceiver_to_BusReceiver bus BusReceiver
+SET link_BridgeReceiver_to_BusReceiver priority 0
+NODE LINK link_BridgeReceiver_to_MainBus
+SET link_BridgeReceiver_to_MainBus node BridgeReceiver
+SET link_BridgeReceiver_to_MainBus bus MainBus
+SET link_BridgeReceiver_to_MainBus priority 0
+NODE LINK link_CPUReceiver_to_BusReceiverPrivate
+SET link_CPUReceiver_to_BusReceiverPrivate node CPUReceiver
+SET link_CPUReceiver_to_BusReceiverPrivate bus BusReceiverPrivate
+SET link_CPUReceiver_to_BusReceiverPrivate priority 0
+NODE LINK link_MemoryReceiver_to_BusReceiver
+SET link_MemoryReceiver_to_BusReceiver node MemoryReceiver
+SET link_MemoryReceiver_to_BusReceiver bus BusReceiver
+SET link_MemoryReceiver_to_BusReceiver priority 0
+NODE LINK link_CPU_InterpreterB_to_MainBus
+SET link_CPU_InterpreterB_to_MainBus node CPU_InterpreterB
+SET link_CPU_InterpreterB_to_MainBus bus MainBus
+SET link_CPU_InterpreterB_to_MainBus priority 0
+NODE LINK link_MemoryVoter_to_BusReceiverPrivate
+SET link_MemoryVoter_to_BusReceiverPrivate node MemoryVoter
+SET link_MemoryVoter_to_BusReceiverPrivate bus BusReceiverPrivate
+SET link_MemoryVoter_to_BusReceiverPrivate priority 0

@@ -209,6 +209,11 @@ public class DrawerTMLModeling  {
                 }
             }
         }
+        String longName = task.getName();
+        int index = longName.indexOf("__");
+        if (index <= 0) {
+            task.setName(panel.getNameOfTab() + "__" + longName);
+        }
 
     }
 
@@ -281,6 +286,12 @@ public class DrawerTMLModeling  {
             p2.checkWeakAuthStatus = TMLCPrimitivePort.TOCHECK;
         }
 
+        String longName = chan.getName();
+        int index = longName.indexOf("__");
+        if (index <= 0) {
+            chan.setName(panel.getNameOfTab() + "__" + longName);
+        }
+
     }
 
     // Assumes 1 to 1 event
@@ -315,6 +326,12 @@ public class DrawerTMLModeling  {
 
         // Connecting the ports
         addPortConnector(p1, p2, panel);
+
+        String longName = evt.getName();
+        int index = longName.indexOf("__");
+        if (index <= 0) {
+            evt.setName(panel.getNameOfTab() + "__" + longName);
+        }
 
     }
 
@@ -355,6 +372,12 @@ public class DrawerTMLModeling  {
 
             // Connecting the ports
             addPortConnector(p1, p2, panel);
+        }
+
+        String longName = req.getName();
+        int index = longName.indexOf("__");
+        if (index <= 0) {
+            req.setName(panel.getNameOfTab() + "__" + longName);
         }
 
     }
@@ -678,6 +701,8 @@ public class DrawerTMLModeling  {
             read.setSamples(readT.getNbOfSamples());
             if (readT.securityPattern != null) {
                 read.setSecurityContext(readT.securityPattern.name);
+                // read.setEncForm(readT.getEncForm());
+                read.setIsAttacker(readT.isAttacker());
             }
             return read;
 
@@ -722,6 +747,8 @@ public class DrawerTMLModeling  {
 
             if (writeT.securityPattern != null) {
                 write.setSecurityContext(writeT.securityPattern.name);
+                // write.setEncForm(writeT.getEncForm());
+                write.setIsAttacker(writeT.isAttacker());
             }
 
             return write;

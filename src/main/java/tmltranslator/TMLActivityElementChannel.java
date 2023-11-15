@@ -56,7 +56,7 @@ public abstract class TMLActivityElementChannel extends TMLActivityElement {
     protected ArrayList<TMLChannel> channels;
     protected String nbOfSamples;
     private boolean isAttacker;
-    protected boolean isEncForm; //If the Cryptographic
+    // protected boolean isEncForm; //If the Cryptographic
 
     public TMLActivityElementChannel(String _name, Object _referenceObject) {
         super(_name, _referenceObject);
@@ -96,13 +96,13 @@ public abstract class TMLActivityElementChannel extends TMLActivityElement {
         return nbOfSamples;
     }
 
-    public boolean getEncForm() {
+    /* public boolean getEncForm() {
         return isEncForm;
     }
 
     public void setEncForm(boolean form) {
         isEncForm = form;
-    }
+    } */
 
     public void replaceChannelWith(TMLChannel oldChan, TMLChannel newChan) {
         if (channels.contains(oldChan)) {
@@ -130,8 +130,8 @@ public abstract class TMLActivityElementChannel extends TMLActivityElement {
         if (!super.equalSpec(o)) return false;
         TMLActivityElementChannel tmlActEltChannel = (TMLActivityElementChannel) o;
         return Objects.equals(nbOfSamples, ((TMLActivityElementChannel) o).getNbOfSamples()) &&
-                isAttacker == tmlActEltChannel.isAttacker() &&
-                isEncForm == tmlActEltChannel.getEncForm();
+                isAttacker == tmlActEltChannel.isAttacker()/*  &&
+                isEncForm == tmlActEltChannel.getEncForm() */;
 
     }
 
@@ -139,7 +139,7 @@ public abstract class TMLActivityElementChannel extends TMLActivityElement {
         super.fillValues(newElt, tmlm);
         newElt.setNbOfSamples(getNbOfSamples());
         newElt.setAttacker(isAttacker);
-        newElt.setEncForm(getEncForm());
+        // newElt.setEncForm(getEncForm());
 
         for(TMLChannel channel: channels) {
             TMLChannel ch = tmlm.getChannelByName(channel.getName());

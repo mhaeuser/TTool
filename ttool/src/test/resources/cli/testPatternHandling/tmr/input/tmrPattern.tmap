@@ -1,0 +1,70 @@
+TMLSPEC
+    #include "tmrPattern.tml"
+ENDTMLSPEC
+
+TMLARCHI
+    #include "tmrPattern.tarchi"
+ENDTMLARCHI
+
+TMLMAPPING
+    MAP user TMR__User
+    SET TMR__User priority 0
+    MAP voter TMR__Timer
+    SET TMR__Timer priority 0
+    MAP voter TMR__Voter
+    SET TMR__Voter priority 0
+    MAP voter TMR__InterpreterA
+    SET TMR__InterpreterA priority 0
+    MAP voter TMR__InterpreterB
+    SET TMR__InterpreterB priority 0
+    MAP voter TMR__InterpreterC
+    SET TMR__InterpreterC priority 0
+    MAP sensorC TMR__SensorC
+    SET TMR__SensorC priority 0
+    MAP sensorA TMR__SensorA
+    SET TMR__SensorA priority 0
+    MAP sensorB TMR__SensorB
+    SET TMR__SensorB priority 0
+    MAP MemoryVoter TMR__resultData
+    SET TMR__resultData priority 0
+    MAP BusV TMR__resultData
+    SET TMR__resultData priority 0
+    MAP BusVoter TMR__resultData
+    SET TMR__resultData priority 0
+    MAP MemoryVoter TMR__resA
+    SET TMR__resA priority 0
+    MAP BusV TMR__resA
+    SET TMR__resA priority 0
+    MAP BusVoter TMR__resA
+    SET TMR__resA priority 0
+    MAP MemoryVoter TMR__resC
+    SET TMR__resC priority 0
+    MAP BusV TMR__resC
+    SET TMR__resC priority 0
+    MAP BusVoter TMR__resC
+    SET TMR__resC priority 0
+    MAP MemoryVoter TMR__resB
+    SET TMR__resB priority 0
+    MAP BusV TMR__resB
+    SET TMR__resB priority 0
+    MAP BusVoter TMR__resB
+    SET TMR__resB priority 0
+    MAP MemoryB TMR__dataB
+    SET TMR__dataB priority 0
+    MAP BusB TMR__dataB
+    SET TMR__dataB priority 0
+    MAP BusVoter TMR__dataB
+    SET TMR__dataB priority 0
+    MAP MemoryC TMR__dataC
+    SET TMR__dataC priority 0
+    MAP BusC TMR__dataC
+    SET TMR__dataC priority 0
+    MAP BusVoter TMR__dataC
+    SET TMR__dataC priority 0
+    MAP MemoryA TMR__dataA
+    SET TMR__dataA priority 0
+    MAP BusA TMR__dataA
+    SET TMR__dataA priority 0
+    MAP BusVoter TMR__dataA
+    SET TMR__dataA priority 0
+ENDTMLMAPPING

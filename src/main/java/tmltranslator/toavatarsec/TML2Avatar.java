@@ -78,6 +78,7 @@ public class TML2Avatar {
     boolean security = false;
     private TMLMapping<?> tmlmap;
     private TMLModeling<?> tmlmodel;
+    private Set<SecurityPattern> keysPublicBus = new HashSet<SecurityPattern>();
     private Map<SecurityPattern, List<AvatarAttribute>> symKeys = new HashMap<SecurityPattern, List<AvatarAttribute>>();
     private Map<SecurityPattern, List<AvatarAttribute>> pubKeys = new HashMap<SecurityPattern, List<AvatarAttribute>>();
     private Map<String, String> nameMap = new HashMap<String, String>();
@@ -104,6 +105,12 @@ public class TML2Avatar {
         for (TMLTask t1 : tmlmodel.getTasks()) {
             List<SecurityPattern> keys = new ArrayList<SecurityPattern>();
             accessKeys.put(t1, keys);
+            for (HwLink link : links) {
+                if (link.bus.privacy == HwBus.BUS_PUBLIC &&  link.hwnode instanceof HwMemory) {
+                    List<SecurityPattern> patterns = tmlmap.getMappedPatterns((HwMemory) link.hwnode);
+                    keysPublicBus.addAll(patterns);
+                }
+            }
 
             HwExecutionNode node1 = tmlmap.getHwNodeOf(t1);
             //Try to find memory using only private buses from origin
@@ -1310,7 +1317,7 @@ public class TML2Avatar {
                         }
 
                         secChannelMap.get(ae.securityPattern.name).add(ch.getName());
-                        if (aec.getEncForm()) {
+                        if (!ae.securityPattern.type.equals(SecurityPattern.NONCE_PATTERN)) {
                             as.addValue(ae.securityPattern.name + "_encrypted");
                             AvatarAttribute data = new AvatarAttribute(ae.securityPattern.name + "_encrypted", AvatarType.INTEGER, block, null);
                             block.addAttribute(data);
@@ -1406,7 +1413,7 @@ public class TML2Avatar {
                             AvatarAttribute attr = block.getAvatarAttributeWithName(ch.getOriginPort().getName() + "_chData");
                             if (attr != null) {
                                 attrsToCheck.add(ch.getOriginPort().getName() + "_chData");
-                                avspec.addPragma(new AvatarPragmaSecret("#Confidentiality " + block.getName() + "." + ch.getName() +
+                                avspec.addPragma(new AvatarPragmaSecret("#Confidentiality " + block.getName() + "." + ch.getOriginPort().getName() +
                                         "_chData", ch.getReferenceObject(), attr));
                             }
                         }
@@ -1451,7 +1458,7 @@ public class TML2Avatar {
                     } else {
                         //send encrypted data 
                         //
-                        if (aec.getEncForm()) {
+                        if (!ae.securityPattern.type.equals(SecurityPattern.NONCE_PATTERN)) {
                             as.addValue(ae.securityPattern.name + "_encrypted");
                             AvatarAttribute data = new AvatarAttribute(ae.securityPattern.name + "_encrypted", AvatarType.INTEGER, block, null);
                             block.addAttribute(data);
@@ -1875,17 +1882,19 @@ public class TML2Avatar {
             AvatarAttribute loop_index = new AvatarAttribute("loop_index", AvatarType.INTEGER, block, null);
             block.addAttribute(loop_index);
             for (TMLAttribute attr : task.getAttributes()) {
-                AvatarType type;
-                if (attr.getType().getType() == TMLType.NATURAL) {
-                    type = AvatarType.INTEGER;
-                } else if (attr.getType().getType() == TMLType.BOOLEAN) {
-                    type = AvatarType.BOOLEAN;
-                } else {
-                    type = AvatarType.UNDEFINED;
+                if (!attr.getName().endsWith("__req")) {
+                    AvatarType type;
+                    if (attr.getType().getType() == TMLType.NATURAL) {
+                        type = AvatarType.INTEGER;
+                    } else if (attr.getType().getType() == TMLType.BOOLEAN) {
+                        type = AvatarType.BOOLEAN;
+                    } else {
+                        type = AvatarType.UNDEFINED;
+                    }
+                    AvatarAttribute avattr = new AvatarAttribute(attr.getName(), type, block, null);
+                    avattr.setInitialValue(attr.getInitialValue());
+                    block.addAttribute(avattr);
                 }
-                AvatarAttribute avattr = new AvatarAttribute(attr.getName(), type, block, null);
-                avattr.setInitialValue(attr.getInitialValue());
-                block.addAttribute(avattr);
             }
             //AvatarTransition last;
             AvatarStateMachine asm = block.getStateMachine();
@@ -1895,6 +1904,27 @@ public class TML2Avatar {
                 //Create iteration attribute
                 AvatarAttribute req_loop_index = new AvatarAttribute("req_loop_index", AvatarType.INTEGER, block, null);
                 block.addAttribute(req_loop_index);
+                for (Object obj : tmlmodel.getRequestsToMe(task)) {
+                    TMLRequest req = (TMLRequest) obj;
+                    for (int i = 0; i < req.getNbOfParams(); i++) {
+                        if (block.getAvatarAttributeWithName(req.getParam(i)) == null) {
+                            AvatarType type;
+                            if (req.getParam(i).matches("-?\\d+")) {
+                                type = AvatarType.INTEGER;
+                            } else if (req.getParam(i).matches("(?i)^(true|false)")) {
+                                type = AvatarType.BOOLEAN;
+                            } else {
+                                type = AvatarType.UNDEFINED;
+                            }
+                            String nameNewAtt = "arg"+ (i+1) +"_req";
+                            if (block.getAvatarAttributeWithName(nameNewAtt) == null) {
+                                AvatarAttribute avattr = new AvatarAttribute(nameNewAtt, type, block, null);
+                                avattr.setInitialValue(req.getParam(i));
+                                block.addAttribute(avattr);
+                            }
+                        }
+                    }
+                }
 
                 //TMLRequest request= tmlmodel.getRequestToMe(task);
                 //Oh this is fun...let's restructure the state machine
@@ -1922,7 +1952,7 @@ public class TML2Avatar {
 
                 for (AvatarStateMachineElement e : elementList) {
                     e.setName(processName(e.getName(), e.getID()));
-                    stateObjectMap.put(task.getName().split("__")[1] + "__" + e.getName(), e.getReferenceObject());
+                    stateObjectMap.put(task.getName().split("__")[task.getName().split("__").length-1] + "__" + e.getName(), e.getReferenceObject());
 
                     if (e instanceof AvatarStopState) {
                         //ignore it
@@ -1976,25 +2006,8 @@ public class TML2Avatar {
 						block.addAttribute(requestData);*/
                     for (int i = 0; i < req.getNbOfParams(); i++) {
                         if (block.getAvatarAttributeWithName(req.getParam(i)) == null) {
-                            //Throw Error
-                            AvatarType type;
-                            if (req.getParam(i).matches("-?\\d+")) {
-                                type = AvatarType.INTEGER;
-                            } else if (req.getParam(i).matches("(?i)^(true|false)")) {
-                                type = AvatarType.BOOLEAN;
-                            } else {
-                                type = AvatarType.UNDEFINED;
-                            }
-                            String nameNewAtt = req.getName() + "_" + req.getID() + "_" + i + "_" + req.getParam(i);
-                            if (block.getAvatarAttributeWithName(nameNewAtt) == null) {
-                                AvatarAttribute avattr = new AvatarAttribute(nameNewAtt, type, block, null);
-                                avattr.setInitialValue(req.getParam(i));
-                                block.addAttribute(avattr);
-                                as.addValue(avattr.getName());
-                                TraceManager.addDev("Missing Attribute " + req.getParam(i));
-                            } else {
-                                as.addValue(block.getAvatarAttributeWithName(nameNewAtt).getName());
-                            }
+                            String nameNewAtt = "arg"+ (i+1) +"_req";
+                            as.addValue(block.getAvatarAttributeWithName(nameNewAtt).getName());
                         } else {
                             //	Add parameter to signal and actiononsignal
                             as.addValue(req.getParam(i));
@@ -2030,7 +2043,7 @@ public class TML2Avatar {
                 for (AvatarStateMachineElement e : elementList) {
                     e.setName(processName(e.getName(), e.getID()));
                     asm.addElement(e);
-                    stateObjectMap.put(task.getName().split("__")[1] + "__" + e.getName(), e.getReferenceObject());
+                    stateObjectMap.put(task.getName().split("__")[task.getName().split("__").length-1] + "__" + e.getName(), e.getReferenceObject());
                 }
                 asm.setStartState((AvatarStartState) elementList.get(0));
             }
@@ -2064,7 +2077,6 @@ public class TML2Avatar {
             }
 
         }
-
 
         // Add authenticity pragmas
         for (String s : signalAuthOriginMap.keySet()) {
@@ -2463,7 +2475,20 @@ public class TML2Avatar {
                 for (AvatarAttribute key : symKeys.get(sp)) {
                     keys = keys + " " + key.getBlock().getName() + "." + key.getName();
                 }
-                avspec.addPragma(new AvatarPragmaInitialKnowledge("#InitialSessionKnowledge " + keys, null, symKeys.get(sp), true));
+                avspec.addPragma(new AvatarPragmaInitialKnowledge("#InitialSystemKnowledge " + keys, null, symKeys.get(sp), true));
+            }
+        }
+        
+        for (SecurityPattern sp : keysPublicBus) {
+            for (TMLTask taskPattern : tmlmodel.securityTaskMap.get(sp)) {
+                AvatarBlock b = taskBlockMap.get(taskPattern);
+                AvatarAttribute attrib = b.getAvatarAttributeWithName("key_"+sp.getName());
+                if (attrib!=null) {
+                    LinkedList<AvatarAttribute> arguments = new LinkedList<AvatarAttribute>();
+                    arguments.add(attrib);
+                    avspec.addPragma(new AvatarPragmaPublic("#Public " + b.getName() + "." + attrib.getName(), null, arguments));
+                }
+                
             }
         }
         for (SecurityPattern sp : pubKeys.keySet()) {

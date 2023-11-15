@@ -1,16 +1,15 @@
-pa dltmap ../src/test/resources/cli/testPatternHandling/tmr/input/modelsToIntegrateTMR/modelWithThreeSensors.tmap
-pa sc -p resources/test/cli/testPatternHandling/tmr/
-pa sc -sp
-pa sc -ctl
-pa sc -plnc
-pa sc -pl InterpreterC.dataC
-pa sc -co InterpreterA.dataA Sensor1.sensorData1
-pa sc -co InterpreterB.dataB Sensor2.sensorData2
-pa sc -co InterpreterC.dataC Sensor3.sensorData3
-pa sc -co Voter.resultData Receiver.sensorData1
-pa sc -co Voter.moveto_FAIL_SAFE Receiver.sensorData1 NEW
-pa sc -cpd ALL
-pa sc -tcn InterpreterB MainBus
-pa sc -tcm InterpreterA InterpreterB
-pa sc -ua Timer dataReceivingTimeout 500
-pa sc -m resources/test/cli/testPatternHandling/tmr/modelWithThreeSensors-config.json
+pa dltmap ../src/test/resources/cli/testPatternHandling/tmr/input/modelsToIntegrateTMR/modelWithThreeSensors.tmap  # Path of the model in which we will integrate the pattern.
+pa sc -p resources/test/cli/testPatternHandling/tmr/  # Path of the pattern that we want to integrate.
+pa sc -sp  # Get the name of the selected pattern.
+pa sc -plnc  # Get the list of pattern's ports that should be connected.
+pa sc -pl InterpreterC.dataC  # Get the list of available ports in model that could be used to connect with InterpreterC.dataC.
+pa sc -co InterpreterA.dataA Sensor1.sensorData1  # Connect InterpreterA.dataA (pattern side) with Sensor1.sensorData1 (model side).
+pa sc -co InterpreterB.dataB Sensor2.sensorData2  # Connect InterpreterB.dataB (pattern side) with Sensor2.sensorData2 (model side).
+pa sc -co InterpreterC.dataC Sensor3.sensorData3  # Connect InterpreterC.dataC (pattern side) with Sensor3.sensorData3 (model side).
+pa sc -co Voter.resultData Receiver.sensorData1  # Connect Voter.resultData (pattern side) with Sensor.sensorData (model side).
+pa sc -co Voter.moveto_FAIL_SAFE Receiver.sensorData1 NEW  # Connect Voter.moveto_FAIL_SAFE (pattern side) with a New port.
+pa sc -cpd ALL  # Choose to remove all the ports as decision.
+pa sc -tcn InterpreterB MainBus  # Map task InterpreterB in a new CPU that will be linked to the bus MainBus.
+pa sc -tcm InterpreterA InterpreterB  # Map task InterpreterA in the same CPU as InterpreterB.
+pa sc -ua Timer dataReceivingTimeout 500  # Change the value of the attribut dataReceivingTimeout to 500.
+pa sc -m resources/test/cli/testPatternHandling/tmr/modelWithThreeSensors-config.json  # Create the configuration json file by giving a name and a path for this json file.

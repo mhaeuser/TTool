@@ -12,9 +12,6 @@ pa sc -co InterpreterA.dataA Sensor.sensorData  # Connect InterpreterA.dataA (pa
 pa sc -co InterpreterB.dataB SensorClone1.sensorData  # Connect InterpreterB.dataB (pattern side) with SensorClone1.sensorData (model side).
 pa sc -co InterpreterC.dataC SensorClone2.sensorData  # Connect InterpreterC.dataC (pattern side) with SensorClone2.sensorData (model side).
 pa sc -co Voter.resultData Receiver.sensorData  # Connect Voter.resultData (pattern side) with Receiver.sensorData (model side).
-pa sc -cor InterpreterA.dataA  # Remove the connection of InterpreterA.dataA.
-pa sc -co InterpreterA.dataA Sensor.sensorData  # Connect InterpreterA.dataA (pattern side) with Sensor.sensorData (model side).
-pa sc -co Voter.moveto_FAIL_SAFE Receiver.sensorData NEW  # Connect Voter.moveto_FAIL_SAFE (pattern side) with a New port.
 pa sc -col  # get the list of connections already made.
 pa sc -cptl  # get list of ports to be configured.
 pa sc -cpd ALL  # Choose to remove all the ports as decision.
@@ -26,4 +23,4 @@ pa sc -mcn SensorClone1.sensorData BusReceiver  # Map channel SensorClone1.senso
 pa sc -mcm InterpreterA.resA SensorClone1.sensorData  # Map channel InterpreterA.resA in the same Memory as SensorClone1.sensorData.
 pa sc -mctl  # Get list of channels to be mapped.
 pa sc -ua Timer dataReceivingTimeout 1000  # Change the value of the attribut dataReceivingTimeout to 1000.
-pa sc -m resources/test/cli/testPatternHandling/tmr/modelWithOneSensor-config.json  # Create the configuration json file by giving a name and a path for this json file.
+pa sc -m resources/test/cli/testPatternHandling/tmr/modelWithOneSensor-incomplete-config.json  # Create the configuration json file by giving a name and a path for this json file.

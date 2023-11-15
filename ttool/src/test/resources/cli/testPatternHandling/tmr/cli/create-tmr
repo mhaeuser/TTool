@@ -1,9 +1,9 @@
-pa dltmap ../src/test/resources/cli/testPatternHandling/tmr/input/tmrPattern.tmap
-pa c -n tmr
-pa c -p resources/test/cli/testPatternHandling/
-pa c -t
-pa c -a Voter Timer InterpreterA InterpreterB
-pa c -r Timer
-pa c -a InterpreterC Timer
-pa c -l
-pa c -m
+pa dltmap ../src/test/resources/cli/testPatternHandling/tmr/input/tmrPattern.tmap  # Path of the model from which we will create a pattern.
+pa c -n tmr  # Give a name to the pattern to create.
+pa c -p resources/test/cli/testPatternHandling/  # Path where patthern files will be created.
+pa c -t  # Show the tasks names of the model "tmrPattern".
+pa c -a Voter Timer InterpreterA InterpreterB  # Select the tasks that will make up the pattern.
+pa c -r Timer  # Remove the task Timer from the list of tasks that will make up the pattern.
+pa c -a InterpreterC Timer  # Add new elements in the previous list of tasks.
+pa c -l  # Get the current tasks that will constitue the pattern.
+pa c -m  # Make the pattern.

@@ -1,4 +1,4 @@
-pa dltmap ../src/test/resources/cli/testPatternHandling/tmr/input/modelsToIntegrateTMR/modelWithThreeSensors.tmap
-pa a -p resources/test/cli/testPatternHandling/tmr/
-pa a -pc resources/test/cli/testPatternHandling/tmr/modelWithThreeSensors-config.json
-pa a -g resources/test/cli/testPatternHandling/tmr/modelsAfterIntegratingTMR/ modelWithThreeSensorsIntegTMR
+pa dltmap ../src/test/resources/cli/testPatternHandling/tmr/input/modelsToIntegrateTMR/modelWithThreeSensors.tmap  # Path of the model in which we will integrate the pattern.
+pa a -p resources/test/cli/testPatternHandling/tmr/  # Path of the pattern that we want to integrate.
+pa a -pc resources/test/cli/testPatternHandling/tmr/modelWithThreeSensors-config.json  # Path of the configuration json file.
+pa a -g resources/test/cli/testPatternHandling/tmr/modelsAfterIntegratingTMR/ modelWithThreeSensorsIntegTMR  # Generate TMAP file of the model after intergrating the pattern. The generated file will be located in the given path and will have "modelWithThreeSensorsIntegTMR" as name.

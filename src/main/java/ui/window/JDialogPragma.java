@@ -38,7 +38,10 @@
 
 package ui.window;
 
+import help.HelpEntry;
+import help.HelpManager;
 import myutil.TraceManager;
+import ui.MainGUI;
 import ui.util.IconManager;
 import ui.sysmlv2.*;
 
@@ -83,12 +86,15 @@ public class JDialogPragma extends JDialogBase implements ActionListener {
     public Map<String, List<String>> blockAttributeMap = new HashMap<>();
     public Map<String, List<String>> blockStateMap = new HashMap<>();
 
+    protected MainGUI mgui;
+
     /*
      * Creates new form
      */
-    public JDialogPragma(Frame f, String title, String _text) {
+    public JDialogPragma(Frame f, MainGUI _mgui, String title, String _text) {
         super(f, title, true);
         text = _text;
+        mgui = _mgui;
 
         initComponents();
         pack();
@@ -309,9 +315,16 @@ public class JDialogPragma extends JDialogBase implements ActionListener {
         c.setLayout(new BorderLayout());
         //setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);	
         helpPopup = new JPopupMenu();
-        JTextArea jft = new JTextArea("Pragma Guidelines: \n #Authenticity: Compare if two Attributes are equal at given states \n #Confidentiality: Query whether the attacker knows the value of this attribute. \n #PublicConstant: Declare string as public constant \n #PrivateConstant: Declare string as private constant \n #InitialSessionKnowledge: Knowledge at the start of each session\n #InitialSystemKnowledge: Knowledge at the start of the system \n #PrivatePublicKeys: Set two attribute of a block as Private and Public Key respectively \n #Public: Declare variable public \n #SecrecyAssumption: Assume attribute confidential, but query to verify \n #Secret: See #Confidentiality");
-        jft.setEditable(false);
-        helpPopup.add(jft);
+        //JTextArea jft = new JTextArea("Pragma Guidelines: \n #Authenticity: Compare if two Attributes are equal at given states \n " +
+        //"#Confidentiality: Query whether the attacker knows the value of this attribute. \n #PublicConstant: Declare string as public " +
+         //        "constant \n #PrivateConstant: Declare string as private constant \n #InitialSessionKnowledge: Knowledge at the start of each " +
+        //        "session\n #InitialSystemKnowledge: Knowledge at the start of the system \n #PrivatePublicKeys: Set two attribute of a block as " +
+        //        "Private and Public Key respectively \n #Public: Declare variable public \n #SecrecyAssumption: Assume attribute confidential,
+        //        but query to verify \n #Secret: See #Confidentiality");
+        //jft.setEditable(false);
+        //helpPopup.add(jft);
+        helpPopup.add(new JLabel(IconManager.imgic7009));
+        helpPopup.setPreferredSize(new Dimension(600, 900));
         textarea = new JTextArea();
 
         textarea.setEditable(true);
@@ -429,11 +442,20 @@ public class JDialogPragma extends JDialogBase implements ActionListener {
     }
 
     public void help() {
-        if (!helpPopup.isVisible()) {
+        /*if (!helpPopup.isVisible()) {
             helpPopup.show(help, 20, 20);
         } else {
             helpPopup.setVisible(false);
+        }*/
+        if (mgui == null) {
+            TraceManager.addDev("Null mgui");
+            return;
         }
+
+        HelpManager hm = mgui.getHelpManager();
+        HelpEntry he = hm.getHelpEntryWithHTMLFile("avatarsecuritypragmas.html");
+        mgui.openHelpFrame(he);
+
     }
 
     public String getText() {

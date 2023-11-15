@@ -413,6 +413,7 @@ public class JDialogSafetyPragma extends JDialogBase implements ActionListener {
     public void help() {
         if (mgui == null) {
             TraceManager.addDev("Null mgui");
+            return;
         }
 
         HelpManager hm = mgui.getHelpManager();

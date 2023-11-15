@@ -53,12 +53,12 @@ import tmltranslator.*;
 import java.util.*;
  
 public class TMRGeneration implements Runnable {
-	Map<String, List<String>> selectedSensorsTasks;
-	String selectedRecieverTask;
-    String interpretersCompTime;
-    String voterCompTime;
-    String voterTimeOut;
-	TMLMapping<?> tmap;
+	private Map<String, List<String>> selectedSensorsTasks;
+	private String selectedRecieverTask;
+    private String interpretersCompTime;
+    private String voterCompTime;
+    private String voterTimeOut;
+	private TMLMapping<?> tmap;
 
     public TMRGeneration(Map<String, List<String>> selectedSensorsTasks, String selectedRecieverTask, String interpretersCompTime, String voterCompTime, String voterTimeOut, TMLMapping<?> tmap) {
 		this.selectedSensorsTasks = selectedSensorsTasks;

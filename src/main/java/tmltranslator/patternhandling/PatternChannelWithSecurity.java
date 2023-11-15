@@ -55,11 +55,11 @@ public class PatternChannelWithSecurity {
     public static final int WEAK_AUTHENTICITY = 1; 
     public static final int STRONG_AUTHENTICITY = 2;
 
-    String channelTaskName;
-    String channelName;
-    String channelMode;
-    Boolean isConf;
-    int auth;
+    private String channelTaskName;
+    private String channelName;
+    private String channelMode;
+    private Boolean isConf;
+    private int auth;
 
     public PatternChannelWithSecurity(String channelTaskName, String channelName, String channelMode) {
         this.channelTaskName = channelTaskName;

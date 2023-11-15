@@ -59,9 +59,9 @@ import org.json.JSONArray;
 
  
 public class TaskPattern {
-    List<AttributeTaskJsonFile> attributes;
-    List<PortTaskJsonFile> internalPorts;
-    List<PortTaskJsonFile> externalPorts;
+    private List<AttributeTaskJsonFile> attributes;
+    private List<PortTaskJsonFile> internalPorts;
+    private List<PortTaskJsonFile> externalPorts;
 
     public TaskPattern(List<AttributeTaskJsonFile> attributes, List<PortTaskJsonFile>  internalPorts, List<PortTaskJsonFile>  externalPorts) {
         this.attributes = attributes;

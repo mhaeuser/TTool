@@ -81,10 +81,10 @@ public class PatternCreation implements Runnable {
     public final static String INTERNALPORTS = "internalPorts";
     public final static String ATTRIBUTES = "attributes";
 
-	List<String> selectedTasks;
-	String patternName;
-    String patternsPath;
-	TMLMapping<?> tmap;
+	private List<String> selectedTasks;
+	private String patternName;
+    private String patternsPath;
+	private TMLMapping<?> tmap;
 
     public PatternCreation(List<String> _selectedTasks, String _patternName, String _patternsPath, TMLMapping<?> tmap) {
 		this.selectedTasks = _selectedTasks;

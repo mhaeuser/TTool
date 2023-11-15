@@ -53,6 +53,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 import common.ConfigurationTTool;
 import common.SpecConfigTTool;
@@ -68,6 +69,7 @@ import tmltranslator.TMLMapping;
 import tmltranslator.TMLMappingTextSpecification;
 import tmltranslator.TMLSyntaxChecking;
 import tmltranslator.TMLError;
+import cli.PatternHandling;
 
 
 public class CLIPatternHandlingTest extends AbstractTest implements InterpreterOutputInterface {
@@ -86,7 +88,12 @@ public class CLIPatternHandlingTest extends AbstractTest implements InterpreterO
     private static final String OBTAINED_MODELS_AFTER_INTEGRATING_TMR_TMAP [] = {"modelsAfterIntegratingTMR/modelWithOneSensorIntegTMR.tmap", "modelsAfterIntegratingTMR/modelWithThreeSensorsIntegTMR.tmap"};
     private static final String OBTAINED_MODELS_AFTER_INTEGRATING_TMR_TARCHI [] = {"modelsAfterIntegratingTMR/modelWithOneSensorIntegTMR.tarchi", "modelsAfterIntegratingTMR/modelWithThreeSensorsIntegTMR.tarchi"};
     private static final String OBTAINED_MODELS_AFTER_INTEGRATING_TMR_TML [] = {"modelsAfterIntegratingTMR/modelWithOneSensorIntegTMR.tml", "modelsAfterIntegratingTMR/modelWithThreeSensorsIntegTMR.tml"};
+    
+    private static final String PATH_CLI_CONFIGURATION_WITH_ERRORS_TMR_IN_MODELS [] = {"cli/incomplete-configuration-tmr-for-modelWithOneSensor"};
+
     private StringBuilder outputResult;
+    private List<String> errorOutputs = new ArrayList<String>();
+    
 	
 	public CLIPatternHandlingTest() {
 	    //
@@ -99,6 +106,7 @@ public class CLIPatternHandlingTest extends AbstractTest implements InterpreterO
 
     public void printError(String error) {
         TraceManager.addDev("Error=" + error);
+        errorOutputs.add(error);
     }
 
     public void print(String s) {
@@ -217,6 +225,24 @@ public class CLIPatternHandlingTest extends AbstractTest implements InterpreterO
             assertTrue("comparing between 2 TML files", ctml.compareTML(fObtainedTML, fExpectedTML));
             //TraceManager.addDev("\nExpected TML:>" + expectedOutputTML + "<");
             //TraceManager.addDev("\nObtained TML:>" + obtainedOutputTML + "<");
+        }
+
+        for (int i = 0; i < PATH_CLI_CONFIGURATION_WITH_ERRORS_TMR_IN_MODELS.length; i++) {
+            String filePathConfigModel = getBaseResourcesDir() + PATH_PATTERNS[0] +  PATH_CLI_CONFIGURATION_WITH_ERRORS_TMR_IN_MODELS[i];
+            String scriptConfig;
+            outputResult = new StringBuilder();
+            File fConfig = new File(filePathConfigModel);
+            assertTrue(myutil.FileUtils.checkFileForOpen(fConfig));
+            scriptConfig = myutil.FileUtils.loadFileData(fConfig);
+            assertTrue(scriptConfig.length() > 0);
+            Interpreter interpretConfigModel = new Interpreter(scriptConfig, (InterpreterOutputInterface)this, false);
+            String interp = interpretConfigModel.interpretUntilError();
+            assertTrue("expected error: ", interp.equals(PatternHandling.PATTERN_NOT_CONNECTED));
+            
+            //TraceManager.addDev("\noutputResult:>" + outputResult);
+            //assertTrue("comparing between 2 TML files", outputResult.equals(PatternHandling.PATTERN_NOT_CONNECTED));
+            
+
         }
         
     }

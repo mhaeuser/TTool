@@ -107,8 +107,8 @@ public class PatternConfig2Json {
     public final static String CHANNELS_WITH_SECURITY_IN_PATTERN = "Channels_With_Security_In_Pattern";
     public final static String TASK_CHANNEL_WITH_SECURITY_NAME = "Task_Name_Channel";
 
-    String patternConfigurationPathName;
-    PatternConfiguration patternConfiguration;  
+    private String patternConfigurationPathName;
+    private PatternConfiguration patternConfiguration;  
 
 
     public PatternConfiguration getPaternConfiguration() {

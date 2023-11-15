@@ -63,13 +63,13 @@ public class MappingPatternChannel {
     public final static int ORIGIN_CLONE = 1;
     public final static int ORIGIN_MODEL = 2;
 
-    String taskOfChannelToMap;
-    String channelToMapName;
-    int origin;
-    String taskOfChannelInSameMem;
-    String channelInSameMemAs;
-    int sameMemAsOrigin;
-    String busNameForNewMem;
+    private String taskOfChannelToMap;
+    private String channelToMapName;
+    private int origin;
+    private String taskOfChannelInSameMem;
+    private String channelInSameMemAs;
+    private int sameMemAsOrigin;
+    private String busNameForNewMem;
     
 
     public MappingPatternChannel(String taskOfChannelToMap, String channelToMapName, int origin) {

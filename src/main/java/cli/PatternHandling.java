@@ -89,7 +89,7 @@ public class PatternHandling extends Command {
 
     private final static String PATTERN_NOT_EXIST = "Pattern does not exist";
     private final static String NO_PATTERN_SELECTED = "No pattern selected";
-    private final static String PATTERN_NOT_CONNECTED = "Some pattern ports are not connected yet";
+    public final static String PATTERN_NOT_CONNECTED = "Some pattern ports are not connected yet";
     private final static String PORT_CONFIGURATION_NOT_FINISHED = "Some ports configuration are missing";
     private final static String CLONE_TASK_EXIST = "Cloned task already exists";
     private final static String TASK_TO_CLONE_NOT_EXIST = "Task to clone does not exist";

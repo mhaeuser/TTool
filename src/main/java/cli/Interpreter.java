@@ -152,6 +152,26 @@ public class Interpreter implements Runnable, TerminalProviderInterface {
         System.out.flush();
     }
 
+    public String interpretUntilError() {
+        Scanner scanner = new Scanner(script);
+        currentLine = 0;
+        while (scanner.hasNextLine()) {
+            String line = scanner.nextLine();
+            currentLine++;
+            for (String subCommand: line.split(";")) {
+                executeLine(subCommand, currentLine, false);
+                if (error != "" && error != null) {
+                    scanner.close();
+                    return error;
+                }
+            }
+        }
+        scanner.close();
+        printInterface.print("All done. See you soon.");
+        printInterface.exit(0);
+        return null;
+    }
+
     public void interpret() {
         Scanner scanner = new Scanner(script);
         currentLine = 0;

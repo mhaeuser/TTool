@@ -57,24 +57,22 @@ import java.util.Map.Entry;
 
  
 public class PatternIntegration implements Runnable {
-    String appTab;
-    String patternPath;
-    String patternName;
-    PatternConfiguration patternConfiguration;
-    LinkedHashMap<String, TaskPattern> patternTasks;
-	TMLMapping<?> tmapModel;
-	TMLMapping<?> tmapPattern;
+    private String appTab;
+    private String patternPath;
+    private String patternName;
+    private PatternConfiguration patternConfiguration;
+    private LinkedHashMap<String, TaskPattern> patternTasks;
+	private TMLMapping<?> tmapModel;
+	private TMLMapping<?> tmapPattern;
 
-    HashMap<String, String> tasksClonedIntoModel = new HashMap<String, String>();
-    HashMap<Entry<String, String>, String> channelsClonedIntoModel = new HashMap<Entry<String, String>, String>();
+    private HashMap<String, String> tasksClonedIntoModel = new HashMap<String, String>();
+    private HashMap<Entry<String, String>, String> channelsClonedIntoModel = new HashMap<Entry<String, String>, String>();
 
-    HashMap<String, String> tasksOfPatternIntoModel = new HashMap<String, String>();
-    HashMap<Entry<String, String>, String> channelsOfPatternIntoModel = new HashMap<Entry<String, String>, String>();
+    private HashMap<String, String> tasksOfPatternIntoModel = new HashMap<String, String>();
+    private HashMap<Entry<String, String>, String> channelsOfPatternIntoModel = new HashMap<Entry<String, String>, String>();
 
-    HashMap<Entry<String, String>, String> renamedModelChannels = new HashMap<Entry<String, String>, String>();
-    HashMap<TMLTask, List<TMLActivityElement>> clonedTasksToRemElems = new HashMap<TMLTask, List<TMLActivityElement>>();
-    //List<TMLChannel> channelsFromPatternToMap = new ArrayList<TMLChannel>();
-    //List<TMLChannel> channelsFromClonedToMap = new ArrayList<TMLChannel>();
+    private HashMap<Entry<String, String>, String> renamedModelChannels = new HashMap<Entry<String, String>, String>();
+    private HashMap<TMLTask, List<TMLActivityElement>> clonedTasksToRemElems = new HashMap<TMLTask, List<TMLActivityElement>>();
 
     public PatternIntegration(String _appTab, String _patternPath, String _patternName, PatternConfiguration _patternConfiguration, LinkedHashMap<String, TaskPattern> _patternTasks, TMLMapping<?> _tmapModel) {
 		this.appTab = _appTab;
@@ -342,7 +340,6 @@ public class PatternIntegration implements Runnable {
 
     public void renamePatternChannelsName() {
         TMLModeling<?> tmlmModel = tmapModel.getTMLModeling();
-        TMLModeling<?> tmlmPattern = tmapPattern.getTMLModeling();
         //Map<String, String> oldNewChannelName = new HashMap<String,String>();
         //Map<String, String> oldNewEventName = new HashMap<String,String>();
         for (String taskName : patternTasks.keySet()) {
@@ -379,7 +376,7 @@ public class PatternIntegration implements Runnable {
                         
                     } else if (tmlmModel.getEventByName(extPort.getName()) != null) {
                         int indexEvent = 0;
-                        String eventNameWithIndex = extPort.name + indexEvent;
+                        String eventNameWithIndex = extPort.getName() + indexEvent;
                         while (tmlmModel.getEventByName(eventNameWithIndex) != null  || channelsOfPatternIntoModel.containsValue(eventNameWithIndex) || channelsClonedIntoModel.containsValue(eventNameWithIndex)) {
                             indexEvent += 1;
                             eventNameWithIndex= extPort.getName() + indexEvent;
@@ -477,7 +474,7 @@ public class PatternIntegration implements Runnable {
         try {
             TMLModeling<?> _tmlmPatternClone = _tmlmPattern.deepClone();
             for (String taskName : _patternTasks.keySet()) {
-                for (PortTaskJsonFile portTask : _patternTasks.get(taskName).internalPorts) {
+                for (PortTaskJsonFile portTask : _patternTasks.get(taskName).getInternalPorts()) {
                     TMLChannel channelPattern = _tmlmPatternClone.getChannelByName(portTask.getName());
                     TMLEvent eventPattern = _tmlmPatternClone.getEventByName(portTask.getName());
                     if (portTask.getMode().equals(PatternCreation.MODE_OUTPUT)) {
@@ -564,8 +561,8 @@ public class PatternIntegration implements Runnable {
         List<TMLActivityElement> actElemsToAdd = new ArrayList<TMLActivityElement>();
         TMLChannel channelInModel = _tmlmModel.getChannelByName(channelsOfPatternIntoModel.get(Map.entry(_patternTaskName, _portPatternName)));
         TMLEvent eventInModel = _tmlmModel.getEventByName(channelsOfPatternIntoModel.get(Map.entry(_patternTaskName, _portPatternName)));
-        for (PortTaskJsonFile pTaskJson : tp.externalPorts) {
-            if (pTaskJson.name.equals(_portPatternName)) {
+        for (PortTaskJsonFile pTaskJson : tp.getExternalPorts()) {
+            if (pTaskJson.getName().equals(_portPatternName)) {
                 if (pTaskJson.getMode().equals(PatternCreation.MODE_INPUT)) {
                     if (pTaskJson.getType().equals(PatternCreation.CHANNEL)) {
                         _taskToAddPort.addWriteTMLChannel(channelInModel); 

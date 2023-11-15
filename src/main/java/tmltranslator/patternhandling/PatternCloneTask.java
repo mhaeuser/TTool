@@ -55,8 +55,8 @@ import tmltranslator.*;
 public class PatternCloneTask {
     public final static String CLONE_TASK_SEPARATOR = " clone of ";
 
-    String clonedTask;
-    String taskToClone;
+    private String clonedTask;
+    private String taskToClone;
 
     public PatternCloneTask(String clonedTask, String taskToClone) {
         this.clonedTask = clonedTask;

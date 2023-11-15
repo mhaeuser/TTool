@@ -59,10 +59,10 @@ public class PatternPortsConfig {
     public final static String MERGE_PORT_OPTION = " Merge with ";
     public final static String TASK_CHANNEL_SEPARATOR = "::";
 
-    String taskOfChannelToConfig;
-    String channelToConfig;
-    Boolean isChannelToRemove;
-    String mergeWith;
+    private String taskOfChannelToConfig;
+    private String channelToConfig;
+    private Boolean isChannelToRemove;
+    private String mergeWith;
 
     public PatternPortsConfig(String taskOfChannelToConfig, String channelToConfig) {
         this.taskOfChannelToConfig = taskOfChannelToConfig;

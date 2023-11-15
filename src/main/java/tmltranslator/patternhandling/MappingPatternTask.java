@@ -62,11 +62,11 @@ public class MappingPatternTask {
     public final static int ORIGIN_CLONE = 1;
     public final static int ORIGIN_MODEL = 2;
 
-    String taskToMapName;
-    String sameHwAs;
-    int sameHwAsOrigin;
-    String busNameForNewHw;
-    int origin;
+    private String taskToMapName;
+    private String sameHwAs;
+    private int sameHwAsOrigin;
+    private String busNameForNewHw;
+    private int origin;
 
     public MappingPatternTask(String taskToMapName, int origin) {
         this.taskToMapName = taskToMapName;

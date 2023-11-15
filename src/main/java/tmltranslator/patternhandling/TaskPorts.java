@@ -57,10 +57,10 @@ public class TaskPorts {
     public final static int SEND_EVENT = 3;
     public final static int WAIT_EVENT = 4;
 
-    List<String> writeChannels = new ArrayList<String>();
-    List<String> readChannels = new ArrayList<String>();
-    List<String> sendEvents = new ArrayList<String>();
-    List<String> waitEvents = new ArrayList<String>();
+    private List<String> writeChannels = new ArrayList<String>();
+    private List<String> readChannels = new ArrayList<String>();
+    private List<String> sendEvents = new ArrayList<String>();
+    private List<String> waitEvents = new ArrayList<String>();
 
     public TaskPorts(List<String> writeChannels, List<String> readChannels, List<String> sendEvents, List<String> waitEvents) {
         this.writeChannels = writeChannels;

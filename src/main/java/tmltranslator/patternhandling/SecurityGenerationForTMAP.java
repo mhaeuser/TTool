@@ -67,33 +67,27 @@ import java.util.*;
 
 
 public class SecurityGenerationForTMAP implements Runnable {
-    String appName;
-    TMLMapping<?> tmap;
-    String encComp;
-    String overhead;
-    String decComp;
-    Map<String, List<String>> selectedCPUTasks;
-    int channelIndex = 0;
+    private String appName;
+    private TMLMapping<?> tmap;
+    private String encComp;
+    private String overhead;
+    private String decComp;
+    private Map<String, List<String>> selectedCPUTasks;
+    private int channelIndex = 0;
 
-    AVATAR2ProVerif avatar2proverif;
-    AvatarSpecification avatarspec;
-    ProVerifSpec proverif;
-    Map<String, HSMChannel> hsmChannels = new HashMap<String, HSMChannel>();
+    private AVATAR2ProVerif avatar2proverif;
 
-    Map<String, HSMChannel> secChannels = new HashMap<String, HSMChannel>();
+    private Map<String, Integer> channelIndexMap = new HashMap<String, Integer>();
 
-    Map<String, Integer> channelIndexMap = new HashMap<String, Integer>();
+    private Map<String, List<HSMChannel>> hsmChannelMap = new HashMap<String, List<HSMChannel>>();
 
-    Map<String, List<HSMChannel>> hsmChannelMap = new HashMap<String, List<HSMChannel>>();
+    private Map<String, String> taskHSMMap = new HashMap<String, String>();
+    private List<String> hsmTasks = new ArrayList<String>();
 
-    Map<String, String> taskHSMMap = new HashMap<String, String>();
-    List<String> hsmTasks = new ArrayList<String>();
-
-    Map<String, SecurityPattern> channelSecMap = new HashMap<String, SecurityPattern>();
-    TMLMapping<?> newMap;
+    private Map<String, SecurityPattern> channelSecMap = new HashMap<String, SecurityPattern>();
+    private TMLMapping<?> newMap;
 
     public SecurityGenerationForTMAP(String appName, TMLMapping<?> tmap, String encComp, String overhead, String decComp, Map<String, List<String>> selectedCPUTasks) {
-
         this.appName = appName;
         this.tmap = tmap;
         this.newMap = tmap;
@@ -125,7 +119,7 @@ public class SecurityGenerationForTMAP implements Runnable {
 
         avatar2proverif = new AVATAR2ProVerif(avatarspec);
         try {
-            proverif = avatar2proverif.generateProVerif(true, true, 3, true, true);
+            ProVerifSpec proverif = avatar2proverif.generateProVerif(true, true, 3, true, true);
             //warnings = avatar2proverif.getWarnings();
 
             if (!avatar2proverif.saveInFile("pvspec")) {

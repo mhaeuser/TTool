@@ -52,13 +52,13 @@ import java.util.*;
  
 public class PatternConfiguration {
 
-    List<PatternConnection> portsConnection; 
-    List<PatternCloneTask> clonedTasks; 
-    List<PatternPortsConfig> portsConfig; 
-    List<MappingPatternTask> tasksMapping;
-    List<MappingPatternChannel> channelsMapping;
-    LinkedHashMap<String, List<AttributeTaskJsonFile>> updatedPatternAttributes;
-    List<PatternChannelWithSecurity> channelsWithSecurity;
+    private List<PatternConnection> portsConnection; 
+    private List<PatternCloneTask> clonedTasks; 
+    private List<PatternPortsConfig> portsConfig; 
+    private List<MappingPatternTask> tasksMapping;
+    private List<MappingPatternChannel> channelsMapping;
+    private LinkedHashMap<String, List<AttributeTaskJsonFile>> updatedPatternAttributes;
+    private List<PatternChannelWithSecurity> channelsWithSecurity;
 
     public PatternConfiguration(List<PatternConnection> portsConnection, List<PatternCloneTask> clonedTasks, List<PatternPortsConfig> portsConfig, List<MappingPatternTask> tasksMapping, List<MappingPatternChannel> channelsMapping, LinkedHashMap<String, List<AttributeTaskJsonFile>> updatedPatternAttributes, List<PatternChannelWithSecurity> channelsWithSecurity) {
         this.portsConnection = portsConnection;

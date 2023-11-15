@@ -51,11 +51,11 @@ import tmltranslator.*;
 
  
 public class PortTaskJsonFile {
-    String name;
-    String type;
-    String mode;
-    String confidentiality;
-    String authenticity;
+    private String name;
+    private String type;
+    private String mode;
+    private String confidentiality;
+    private String authenticity;
 
     public PortTaskJsonFile(String name, String type, String mode) {
         this.name = name;

@@ -51,9 +51,9 @@ import tmltranslator.*;
 
  
 public class AttributeTaskJsonFile {
-    String name;
-    String type;
-    String value;
+    private String name;
+    private String type;
+    private String value;
 
     public AttributeTaskJsonFile(String name, String type, String value) {
         this.name = name;

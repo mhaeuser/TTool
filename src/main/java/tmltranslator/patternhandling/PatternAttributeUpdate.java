@@ -51,9 +51,9 @@ import tmltranslator.*;
 
  
 public class PatternAttributeUpdate {
-    String taskOfAttributeToUpdate;
-    String attributeName;
-    String newAttributeValue;
+    private String taskOfAttributeToUpdate;
+    private String attributeName;
+    private String newAttributeValue;
 
     public PatternAttributeUpdate(String taskOfAttributeToUpdate, String attributeName, String newAttributeValue) {
         this.taskOfAttributeToUpdate = taskOfAttributeToUpdate;

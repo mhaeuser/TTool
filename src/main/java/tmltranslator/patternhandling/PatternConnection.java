@@ -62,11 +62,11 @@ public class PatternConnection {
     public final static String NEW_PORT_OPTION = " New port";
     public final static String TASK_CHANNEL_SEPARATOR = "::";
 
-    String patternTaskName;
-    String patternChannel;
-    String modelTaskName;
-    String modelChannelName;
-    Boolean isNewPort;
+    private String patternTaskName;
+    private String patternChannel;
+    private String modelTaskName;
+    private String modelChannelName;
+    private Boolean isNewPort;
 
     public PatternConnection(String patternTaskName, String patternChannel, String modelTaskName, String modelChannelName, Boolean isNewPort) {
         this.patternTaskName = patternTaskName;

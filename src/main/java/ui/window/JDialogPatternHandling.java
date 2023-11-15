@@ -52,33 +52,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.io.PipedInputStream;
-import java.io.PipedOutputStream;
-import java.nio.charset.Charset;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.LinkedHashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Vector;
-import java.util.Map.Entry;
 
-import javax.swing.Box;
 import javax.swing.ButtonGroup;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
@@ -87,9 +68,7 @@ import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JList;
-import javax.swing.JMenuItem;
 import javax.swing.JPanel;
-import javax.swing.JPopupMenu;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
@@ -123,7 +102,6 @@ import tmltranslator.patternhandling.PortTaskJsonFile;
 import tmltranslator.patternhandling.TaskPattern;
 import tmltranslator.patternhandling.TaskPorts;
 import ui.*;
-import ui.interactivesimulation.JFrameSimulationSDPanel;
 import ui.util.IconManager;
 
 /**
@@ -139,7 +117,6 @@ import ui.util.IconManager;
 public class JDialogPatternHandling extends JDialog implements ActionListener, ListSelectionListener, MouseListener, Runnable,
         MasterProcessInterface {
 
-    private static final Insets insets = new Insets(0, 0, 0, 0);
     private static final Insets WEST_INSETS = new Insets(0, 0, 0, 0);
 
     protected MainGUI mgui;
@@ -148,148 +125,141 @@ public class JDialogPatternHandling extends JDialog implements ActionListener, L
     protected final static int STARTED = 2;
     protected final static int STOPPED = 3;
 
-    String pathPatterns;
-    TURTLEPanel currPanel;
+    private String pathPatterns;
 
-    int mode;
+    private int mode;
 
     // Pattern Creation
-    String newPatternName;
-    protected JTextField jFieldNewPatternName;
-    protected JButton buttonAddAllTasksAsPattern, buttonAddSelectedTasksAsPattern, buttonRemoveAllTasksAsPattern, buttonRemoveSelectedTasksAsPattern;
-    JList<String> jListNoSelectedTasksAsPattern, jListSelectedTasksAsPattern;
-    Vector<String> selectedTasksAsPattern = new Vector<String>();
-    Vector<String> noSelectedTasksAsPattern = new Vector<String>();
-    Map<String, String> tasksFullName = new LinkedHashMap<String, String>();
-    JPanel jPanelPatternSelection;
+    private String newPatternName;
+    private JTextField jFieldNewPatternName;
+    private JButton buttonAddAllTasksAsPattern, buttonAddSelectedTasksAsPattern, buttonRemoveAllTasksAsPattern, buttonRemoveSelectedTasksAsPattern;
+    private JList<String> jListNoSelectedTasksAsPattern, jListSelectedTasksAsPattern;
+    private Vector<String> selectedTasksAsPattern = new Vector<String>();
+    private Vector<String> noSelectedTasksAsPattern = new Vector<String>();
+    private Map<String, String> tasksFullName = new LinkedHashMap<String, String>();
+    private JPanel jPanelPatternSelection;
 
     // Pattern Configuration
-    Vector<String> listPatterns = new Vector<String>();
-    Vector<String> tasksOfPatternWithExternalPort = new Vector<String>();
-    Vector<String> externalPortsOfTaskInPattern = new Vector<String>();
-    Vector<String> tasksOfModel = new Vector<String>();
-    Vector<String> portsOfTaskInModel = new Vector<String>();
-    JComboBox<String> jComboBoxPatterns;
-    JComboBox<String> jComboBoxPatternsTaskWithExternalPort;
-    DefaultComboBoxModel<String> modelPatternsTaskWithExternalPort = new DefaultComboBoxModel<>(tasksOfPatternWithExternalPort);
-    JComboBox<String> jComboBoxPatternExternalPortOfATask;
-    DefaultComboBoxModel<String> modelPatternExternalPortOfATask = new DefaultComboBoxModel<>(externalPortsOfTaskInPattern);
-    JComboBox<String> jComboBoxModelsTask;
-    DefaultComboBoxModel<String> modelTask = new DefaultComboBoxModel<>(tasksOfModel);
-    JComboBox<String> jComboBoxModelsPortOfTask;
-    DefaultComboBoxModel<String> modelPortOfATask = new DefaultComboBoxModel<>(portsOfTaskInModel);
-    JCheckBox jCheckBoxConnectToNewPort;
-    JCheckBox jCheckBoxAddConfidentiality;
-    JLabel jLabelAddAuthenticity;
-    Vector<String> authenticityModes = new Vector<String>(Arrays.asList(PatternCreation.WITHOUT_AUTHENTICITY, PatternCreation.WEAK_AUTHENTICITY, PatternCreation.STRONG_AUTHENTICITY));
-    JComboBox<String> jComboBoxAddAuthenticity;
-    JList<String> jListConnectedPorts;
-    Vector<String> connectedPorts = new Vector<String>();
-    List<PatternConnection> patternConnectionList = new ArrayList<PatternConnection>();
-    JButton addConnectionBetweenSelectedPorts, removeConnectionBetweenPorts;
-    //JPanel jPanelPatternIntegration;
-    JButton buttonCloneTask, buttonAddPortInTask;
-    Vector<String> portsConfig = new Vector<String>();
-    JComboBox<String> jComboBoxPortsConfig;
-    DefaultComboBoxModel<String> modelPortsConfig = new DefaultComboBoxModel<>(portsConfig);
-    ButtonGroup portsConfigGroup;
-    JRadioButton jRadioPortConfigRemove, jRadioPortConfigMerge;
-    Vector<String> portsConfigMerge = new Vector<String>();
-    DefaultComboBoxModel<String> modelPortsConfigMerge = new DefaultComboBoxModel<>(portsConfigMerge);
-    JComboBox<String> jComboBoxPortsConfigMerge;
-    JList<String> jListConfigPorts;
-    Vector<String> configuredPorts = new Vector<String>();
-    List<PatternPortsConfig> configuredPortsList = new ArrayList<PatternPortsConfig>();
-    JButton addConfigPorts, removeConfigPorts;
-    JButton buttonTasksMapInArch;
-    JButton buttonChannelsMapInArch;
-    JButton buttonUpdatePatternsAttributes;
+    private Vector<String> listPatterns = new Vector<String>();
+    private Vector<String> tasksOfPatternWithExternalPort = new Vector<String>();
+    private Vector<String> externalPortsOfTaskInPattern = new Vector<String>();
+    private Vector<String> tasksOfModel = new Vector<String>();
+    private Vector<String> portsOfTaskInModel = new Vector<String>();
+    private JComboBox<String> jComboBoxPatterns;
+    private JComboBox<String> jComboBoxPatternsTaskWithExternalPort;
+    private DefaultComboBoxModel<String> modelPatternsTaskWithExternalPort = new DefaultComboBoxModel<>(tasksOfPatternWithExternalPort);
+    private JComboBox<String> jComboBoxPatternExternalPortOfATask;
+    private DefaultComboBoxModel<String> modelPatternExternalPortOfATask = new DefaultComboBoxModel<>(externalPortsOfTaskInPattern);
+    private JComboBox<String> jComboBoxModelsTask;
+    private DefaultComboBoxModel<String> modelTask = new DefaultComboBoxModel<>(tasksOfModel);
+    private JComboBox<String> jComboBoxModelsPortOfTask;
+    private DefaultComboBoxModel<String> modelPortOfATask = new DefaultComboBoxModel<>(portsOfTaskInModel);
+    private JCheckBox jCheckBoxConnectToNewPort;
+    private JCheckBox jCheckBoxAddConfidentiality;
+    private JLabel jLabelAddAuthenticity;
+    private Vector<String> authenticityModes = new Vector<String>(Arrays.asList(PatternCreation.WITHOUT_AUTHENTICITY, PatternCreation.WEAK_AUTHENTICITY, PatternCreation.STRONG_AUTHENTICITY));
+    private JComboBox<String> jComboBoxAddAuthenticity;
+    private JList<String> jListConnectedPorts;
+    private Vector<String> connectedPorts = new Vector<String>();
+    private List<PatternConnection> patternConnectionList = new ArrayList<PatternConnection>();
+    private JButton addConnectionBetweenSelectedPorts, removeConnectionBetweenPorts;
+    private JButton buttonCloneTask;
+    private Vector<String> portsConfig = new Vector<String>();
+    private JComboBox<String> jComboBoxPortsConfig;
+    private DefaultComboBoxModel<String> modelPortsConfig = new DefaultComboBoxModel<>(portsConfig);
+    private ButtonGroup portsConfigGroup;
+    private JRadioButton jRadioPortConfigRemove, jRadioPortConfigMerge;
+    private Vector<String> portsConfigMerge = new Vector<String>();
+    private DefaultComboBoxModel<String> modelPortsConfigMerge = new DefaultComboBoxModel<>(portsConfigMerge);
+    private JComboBox<String> jComboBoxPortsConfigMerge;
+    private JList<String> jListConfigPorts;
+    private Vector<String> configuredPorts = new Vector<String>();
+    private List<PatternPortsConfig> configuredPortsList = new ArrayList<PatternPortsConfig>();
+    private JButton addConfigPorts, removeConfigPorts;
+    private JButton buttonTasksMapInArch;
+    private JButton buttonChannelsMapInArch;
+    private JButton buttonUpdatePatternsAttributes;
 
-    Vector<String> tasksCanBeCloned = new Vector<String>();
-    DefaultComboBoxModel<String> modelTaskToClone = new DefaultComboBoxModel<>(tasksCanBeCloned);
-    JComboBox<String> jComboBoxTaskToClone;
-    String newClonedTaskName;
-    protected JTextField jFieldNewClonedTaskName;
-    JButton addClonedTask, removeClonedTask;
-    JList<String> jListClonedTasks;
-    Vector<String> clonedTasks = new Vector<String>();
-    List<PatternCloneTask> clonedTasksList = new ArrayList<PatternCloneTask>();
+    private Vector<String> tasksCanBeCloned = new Vector<String>();
+    private DefaultComboBoxModel<String> modelTaskToClone = new DefaultComboBoxModel<>(tasksCanBeCloned);
+    private JComboBox<String> jComboBoxTaskToClone;
+    private String newClonedTaskName;
+    private JTextField jFieldNewClonedTaskName;
+    private JButton addClonedTask, removeClonedTask;
+    private JList<String> jListClonedTasks;
+    private Vector<String> clonedTasks = new Vector<String>();
+    private List<PatternCloneTask> clonedTasksList = new ArrayList<PatternCloneTask>();
 
-    ButtonGroup mapTaskGroup;
-    JRadioButton jRadioMapTaskInExistingHw, jRadioMapTaskInNewHw;
-    Vector<String> tasksToMap = new Vector<String>();
-    List<MappingPatternTask> tasksToMapList = new ArrayList<MappingPatternTask>();
-    Vector<String> tasksToMapInSameHw = new Vector<String>();
-    List<MappingPatternTask> tasksToMapInSameHwList = new ArrayList<MappingPatternTask>();
-    Vector<String> busToLinkNewHw = new Vector<String>();
-    DefaultComboBoxModel<String> modelTaskToMap = new DefaultComboBoxModel<>(tasksToMap);
-    DefaultComboBoxModel<String> modelMapTaskInSameHwAs = new DefaultComboBoxModel<>(tasksToMapInSameHw);
-    JComboBox<String> jComboBoxTaskToMap, jComboBoxMapTaskInSameHwAs, jComboBoxMapTaskInNewHw;
-    JButton addMappedTask, removeMappedTask;
-    JList<String> jListMappedTasks;
-    Vector<String> mappedTasks = new Vector<String>();
-    List<MappingPatternTask> mappedTasksList = new ArrayList<MappingPatternTask>();
+    private ButtonGroup mapTaskGroup;
+    private JRadioButton jRadioMapTaskInExistingHw, jRadioMapTaskInNewHw;
+    private Vector<String> tasksToMap = new Vector<String>();
+    private List<MappingPatternTask> tasksToMapList = new ArrayList<MappingPatternTask>();
+    private Vector<String> tasksToMapInSameHw = new Vector<String>();
+    private List<MappingPatternTask> tasksToMapInSameHwList = new ArrayList<MappingPatternTask>();
+    private Vector<String> busToLinkNewHw = new Vector<String>();
+    private DefaultComboBoxModel<String> modelTaskToMap = new DefaultComboBoxModel<>(tasksToMap);
+    private DefaultComboBoxModel<String> modelMapTaskInSameHwAs = new DefaultComboBoxModel<>(tasksToMapInSameHw);
+    private JComboBox<String> jComboBoxTaskToMap, jComboBoxMapTaskInSameHwAs, jComboBoxMapTaskInNewHw;
+    private JButton addMappedTask, removeMappedTask;
+    private JList<String> jListMappedTasks;
+    private Vector<String> mappedTasks = new Vector<String>();
+    private List<MappingPatternTask> mappedTasksList = new ArrayList<MappingPatternTask>();
 
-    ButtonGroup mapChannelGroup;
-    JRadioButton jRadioMapChannelInExistingMem, jRadioMapChannelInNewMem;
-    Vector<String> channelsToMap = new Vector<String>();
-    List<MappingPatternChannel> channelsToMapList = new ArrayList<MappingPatternChannel>();
-    Vector<String> channelsToMapInSameMem = new Vector<String>();
-    List<MappingPatternChannel> channelsToMapInSameMemList = new ArrayList<MappingPatternChannel>();
-    Vector<String> busToLinkNewMem = new Vector<String>();
-    DefaultComboBoxModel<String> modelChannelToMap = new DefaultComboBoxModel<>(channelsToMap);
-    DefaultComboBoxModel<String> modelMapChannelInSameMemAs = new DefaultComboBoxModel<>(channelsToMapInSameMem);
-    JComboBox<String> jComboBoxChannelToMap, jComboBoxMapChannelInSameMemAs, jComboBoxMapChannelInNewMem;
-    JButton addMappedChannel, removeMappedChannel;
-    JList<String> jListMappedChannels;
-    Vector<String> mappedChannels = new Vector<String>();
-    List<MappingPatternChannel> mappedChannelsList = new ArrayList<MappingPatternChannel>();
+    private ButtonGroup mapChannelGroup;
+    private JRadioButton jRadioMapChannelInExistingMem, jRadioMapChannelInNewMem;
+    private Vector<String> channelsToMap = new Vector<String>();
+    private List<MappingPatternChannel> channelsToMapList = new ArrayList<MappingPatternChannel>();
+    private Vector<String> channelsToMapInSameMem = new Vector<String>();
+    private List<MappingPatternChannel> channelsToMapInSameMemList = new ArrayList<MappingPatternChannel>();
+    private Vector<String> busToLinkNewMem = new Vector<String>();
+    private DefaultComboBoxModel<String> modelChannelToMap = new DefaultComboBoxModel<>(channelsToMap);
+    private DefaultComboBoxModel<String> modelMapChannelInSameMemAs = new DefaultComboBoxModel<>(channelsToMapInSameMem);
+    private JComboBox<String> jComboBoxChannelToMap, jComboBoxMapChannelInSameMemAs, jComboBoxMapChannelInNewMem;
+    private JButton addMappedChannel, removeMappedChannel;
+    private JList<String> jListMappedChannels;
+    private Vector<String> mappedChannels = new Vector<String>();
+    private List<MappingPatternChannel> mappedChannelsList = new ArrayList<MappingPatternChannel>();
 
-    Vector<String> tasksToUpdateAttributes = new Vector<String>();
-    DefaultComboBoxModel<String> modelTasksToUpdateAttributes = new DefaultComboBoxModel<>(tasksToUpdateAttributes);
-    JComboBox<String> jComboBoxTasksToUpdateAttributes;
-    Vector<String> attributesOfTaskToUpdate = new Vector<String>();
-    DefaultComboBoxModel<String> modelAttributesOfTaskToUpdate = new DefaultComboBoxModel<>(attributesOfTaskToUpdate);
-    JComboBox<String> jComboBoxAttributesOfTaskToUpdate;
-    String newTaskAttibuteValue;
-    protected JTextField jFieldNewTaskAttibuteValue;
-    JButton buttonUpdateTaskAttributeValue;
+    private Vector<String> tasksToUpdateAttributes = new Vector<String>();
+    private DefaultComboBoxModel<String> modelTasksToUpdateAttributes = new DefaultComboBoxModel<>(tasksToUpdateAttributes);
+    private JComboBox<String> jComboBoxTasksToUpdateAttributes;
+    private Vector<String> attributesOfTaskToUpdate = new Vector<String>();
+    private DefaultComboBoxModel<String> modelAttributesOfTaskToUpdate = new DefaultComboBoxModel<>(attributesOfTaskToUpdate);
+    private JComboBox<String> jComboBoxAttributesOfTaskToUpdate;
+    private String newTaskAttibuteValue;
+    private JTextField jFieldNewTaskAttibuteValue;
+    private JButton buttonUpdateTaskAttributeValue;
     
 
     //LinkedHashMap<String, List<AttributeTaskJsonFile>> patternTasksAttributes = new LinkedHashMap<String, List<AttributeTaskJsonFile>>();
     //LinkedHashMap<String, List<PortTaskJsonFile>> patternTasksExternalPorts = new LinkedHashMap<String, List<PortTaskJsonFile>>();
     //LinkedHashMap<String, List<PortTaskJsonFile>> patternTasksInternalPorts = new LinkedHashMap<String, List<PortTaskJsonFile>>();
-    LinkedHashMap<String, TaskPattern> patternTasksAll = new LinkedHashMap<String, TaskPattern>();
-    LinkedHashMap<String, TaskPattern> patternTasksNotConnected = new LinkedHashMap<String, TaskPattern>();
-    LinkedHashMap<String, TaskPorts> portsTaskOfModelAll = new LinkedHashMap<String, TaskPorts>();
-    LinkedHashMap<String, TaskPorts> portsTaskOfModelLeft = new LinkedHashMap<String, TaskPorts>();
-    List<PatternPortsConfig> portsTaskConfig = new ArrayList<PatternPortsConfig>();
-    LinkedHashMap<String, List<AttributeTaskJsonFile>> updatedPatternAttributes = new LinkedHashMap<String, List<AttributeTaskJsonFile>>();
-    List<PatternChannelWithSecurity> channelsWithSecurity = new ArrayList<PatternChannelWithSecurity>();
+    private LinkedHashMap<String, TaskPattern> patternTasksAll = new LinkedHashMap<String, TaskPattern>();
+    private LinkedHashMap<String, TaskPattern> patternTasksNotConnected = new LinkedHashMap<String, TaskPattern>();
+    private LinkedHashMap<String, TaskPorts> portsTaskOfModelAll = new LinkedHashMap<String, TaskPorts>();
+    private LinkedHashMap<String, TaskPorts> portsTaskOfModelLeft = new LinkedHashMap<String, TaskPorts>();
+    private List<PatternPortsConfig> portsTaskConfig = new ArrayList<PatternPortsConfig>();
+    private LinkedHashMap<String, List<AttributeTaskJsonFile>> updatedPatternAttributes = new LinkedHashMap<String, List<AttributeTaskJsonFile>>();
+    private List<PatternChannelWithSecurity> channelsWithSecurity = new ArrayList<PatternChannelWithSecurity>();
     
-    List<String> busesOfModel = new ArrayList<String>();
+    private List<String> busesOfModel = new ArrayList<String>();
 
     // Pattern Integration
-    Vector<String> listPatternsJson = new Vector<String>();
-    JComboBox<String> jComboBoxPatternsJson;
-    String patternJsonPathValue;
-    protected JTextField jFieldPatternJsonPath;
+    private Vector<String> listPatternsJson = new Vector<String>();
+    private JComboBox<String> jComboBoxPatternsJson;
+    private String patternJsonPathValue;
+    private JTextField jFieldPatternJsonPath;
 
     //components
-    protected JScrollPane jsp;
-    protected JPanel jta;
+    private JScrollPane jsp;
+    private JPanel jta;
     private JButton startButton;
-    protected JButton stop;
-    protected JButton close;
-
-    public TGHelpButton myButton;
-    public static String helpString = "securityverification.html";
-
+    private JButton stop;
+    private JButton close;
     private boolean go = false;
 
-    protected RshClient rshc;
-
-    protected JTabbedPane jp1;
+    private RshClient rshc;
+    private JTabbedPane jp1;
 
     /*
      * Creates new form
@@ -324,7 +294,6 @@ public class JDialogPatternHandling extends JDialog implements ActionListener, L
             tasksFullName.put(taskShortName, taskFullName);
             noSelectedTasksAsPattern.add(taskShortName);
         } 
-        currPanel = mgui.getCurrentTURTLEPanel();
         listPatterns = getFoldersName(_pathPatterns);
         listPatternsJson = getFoldersName(_pathPatterns);
         portsTaskOfModelAll = TaskPorts.getListPortsTask(mgui.gtm.getTMLMapping().getTMLModeling());
@@ -1875,7 +1844,6 @@ public class JDialogPatternHandling extends JDialog implements ActionListener, L
                         jComboBoxModelsPortOfTask.setEnabled(true);
                         jCheckBoxConnectToNewPort.setEnabled(true);
                         String selectedModelTask = jComboBoxModelsTask.getSelectedItem().toString();
-                        TaskPorts pT = portsTaskOfModelLeft.get(selectedModelTask);
                         String selectedPatternTask = jComboBoxPatternsTaskWithExternalPort.getSelectedItem().toString();
                         int selectedIndexPatternPort = jComboBoxPatternExternalPortOfATask.getSelectedIndex();
                         
@@ -1917,8 +1885,6 @@ public class JDialogPatternHandling extends JDialog implements ActionListener, L
                             for (String st : portsTaskOfModelAll.get(selectedModelTask).getWaitEvents()) {
                                 portsOfTaskInModel.add(st);
                             }
-                        }
-                        for (String st : portsOfTaskInModel) {
                         }
                         
                     } else {
@@ -2246,12 +2212,6 @@ public class JDialogPatternHandling extends JDialog implements ActionListener, L
         setButtons();
         go = true;
         t.start();
-    }
-
-    private void testGo() throws InterruptedException {
-        if (!go) {
-            throw new InterruptedException("Stopped by user");
-        }
     }
 
     @Override

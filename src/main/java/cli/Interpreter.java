@@ -203,7 +203,10 @@ public class Interpreter implements Runnable, TerminalProviderInterface {
         if (line.startsWith("#")) {
 
         } else {
-
+            int lineContainComment = line.indexOf("#");
+            if (lineContainComment > 0) {
+                line = line.substring(0, lineContainComment);
+            }
             formerCommands.add(line);
 
             // Replace all double space by one unique space

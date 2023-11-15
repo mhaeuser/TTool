@@ -371,13 +371,13 @@ public class JDialogPatternHandling extends JDialog implements ActionListener, L
         jp01.add(labelSelectPattern, c01);
         //addComponent(jp01, labelSelectPattern, 0, curY, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH);
         jListNoSelectedTasksAsPattern = new JList<String>(noSelectedTasksAsPattern);
-		jPanelPatternSelection = new JPanel();
-		jPanelPatternSelection.setPreferredSize(new Dimension(250, 200));
-		GridBagConstraints c02 = new GridBagConstraints();
-		c02.gridwidth = 1;
-		c02.gridheight = 1;
-		c02.fill= GridBagConstraints.BOTH;
-     	jListNoSelectedTasksAsPattern.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+        jPanelPatternSelection = new JPanel();
+        jPanelPatternSelection.setPreferredSize(new Dimension(250, 200));
+        GridBagConstraints c02 = new GridBagConstraints();
+        c02.gridwidth = 1;
+        c02.gridheight = 1;
+        c02.fill= GridBagConstraints.BOTH;
+         jListNoSelectedTasksAsPattern.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 
         jListNoSelectedTasksAsPattern.addListSelectionListener(this);
         JScrollPane scrollPane1 = new JScrollPane(jListNoSelectedTasksAsPattern);
@@ -394,14 +394,14 @@ public class JDialogPatternHandling extends JDialog implements ActionListener, L
         buttonAddAllTasksAsPattern.addActionListener(this);
         buttonAddAllTasksAsPattern.setActionCommand("allTasksSelectedAsPattern");
         buttonPanel.add(buttonAddAllTasksAsPattern, c13);
-		//buttonAddAllTasksAsPattern.setEnabled(false);
+        //buttonAddAllTasksAsPattern.setEnabled(false);
 
         buttonAddSelectedTasksAsPattern = new JButton(IconManager.imgic48);
         buttonAddSelectedTasksAsPattern.setPreferredSize(new Dimension(50, 25));
         buttonAddSelectedTasksAsPattern.addActionListener(this);
         buttonAddSelectedTasksAsPattern.setActionCommand("addTaskAsPattern");
         buttonPanel.add(buttonAddSelectedTasksAsPattern, c13);
-		//buttonAddSelectedTasksAsPattern.setEnabled(false);
+        //buttonAddSelectedTasksAsPattern.setEnabled(false);
 
         buttonPanel.add(new JLabel(" "), c13);
 
@@ -410,7 +410,7 @@ public class JDialogPatternHandling extends JDialog implements ActionListener, L
         buttonRemoveSelectedTasksAsPattern.setPreferredSize(new Dimension(50, 25));
         buttonRemoveSelectedTasksAsPattern.setActionCommand("removeTaskAsPattern");
         buttonPanel.add(buttonRemoveSelectedTasksAsPattern, c13);
-		//buttonRemoveSelectedTasksAsPattern.setEnabled(false);
+        //buttonRemoveSelectedTasksAsPattern.setEnabled(false);
 
         buttonRemoveAllTasksAsPattern = new JButton(IconManager.imgic44);
         buttonRemoveAllTasksAsPattern.addActionListener(this);
@@ -419,8 +419,8 @@ public class JDialogPatternHandling extends JDialog implements ActionListener, L
         buttonPanel.add(buttonRemoveAllTasksAsPattern, c13);
         jPanelPatternSelection.add(buttonPanel, c02);
         buttonPanel.setPreferredSize(new Dimension(50, 200));
-		//buttonRemoveAllTasksAsPattern.setEnabled(false);
-		
+        //buttonRemoveAllTasksAsPattern.setEnabled(false);
+        
         jListSelectedTasksAsPattern = new JList<String>(selectedTasksAsPattern);
 
         jListSelectedTasksAsPattern.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
@@ -563,7 +563,7 @@ public class JDialogPatternHandling extends JDialog implements ActionListener, L
 
 
         jListConnectedPorts = new JList<String>(connectedPorts);
-		JPanel jPanelPatternIntegration = new JPanel();
+        JPanel jPanelPatternIntegration = new JPanel();
         jPanelPatternIntegration.setLayout(new GridBagLayout());
         GridBagConstraints cPatternIntegration = new GridBagConstraints();
         cPatternIntegration.gridx = 0;
@@ -572,7 +572,7 @@ public class JDialogPatternHandling extends JDialog implements ActionListener, L
         cPatternIntegration.fill = GridBagConstraints.HORIZONTAL;
         cPatternIntegration.anchor = GridBagConstraints.LINE_START;
         
-		//jPanelPatternIntegration.setPreferredSize(new Dimension(600, 130));
+        //jPanelPatternIntegration.setPreferredSize(new Dimension(600, 130));
         jListConnectedPorts.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 
         jListConnectedPorts.addListSelectionListener(this);
@@ -678,10 +678,10 @@ public class JDialogPatternHandling extends JDialog implements ActionListener, L
         //cPortConfigurationMain.gridwidth = GridBagConstraints.REMAINDER;
 
         jListConfigPorts = new JList<String>(configuredPorts);
-		JPanel jPanelConfigPorts = new JPanel(new GridBagLayout());
+        JPanel jPanelConfigPorts = new JPanel(new GridBagLayout());
         jPanelConfigPorts.setLayout(new GridBagLayout());
         GridBagConstraints cConfigPorts = new GridBagConstraints();
-		//jPanelConfigPorts.setPreferredSize(new Dimension(200, 100));
+        //jPanelConfigPorts.setPreferredSize(new Dimension(200, 100));
         jListConfigPorts.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 
         jListConfigPorts.addListSelectionListener(this);
@@ -967,7 +967,7 @@ public class JDialogPatternHandling extends JDialog implements ActionListener, L
 
 
         jListMappedTasks = new JList<String>(mappedTasks);
-		JPanel jPanelMappedTasks = new JPanel();
+        JPanel jPanelMappedTasks = new JPanel();
         jPanelMappedTasks.setLayout(new GridBagLayout());
         GridBagConstraints cMappedTasks = new GridBagConstraints();
         cMappedTasks.gridx = 0;
@@ -1077,7 +1077,7 @@ public class JDialogPatternHandling extends JDialog implements ActionListener, L
 
 
         jListMappedChannels = new JList<String>(mappedChannels);
-		JPanel jPanelMappedChannels = new JPanel();
+        JPanel jPanelMappedChannels = new JPanel();
         jPanelMappedChannels.setLayout(new GridBagLayout());
         GridBagConstraints cMappedChannels = new GridBagConstraints();
         cMappedChannels.gridx = 0;
@@ -1163,7 +1163,7 @@ public class JDialogPatternHandling extends JDialog implements ActionListener, L
         jpCloneTask.add(jFieldNewClonedTaskName, cCloneTask);
 
         jListClonedTasks = new JList<String>(clonedTasks);
-		JPanel jPanelClonedTasks = new JPanel();
+        JPanel jPanelClonedTasks = new JPanel();
         jPanelClonedTasks.setLayout(new GridBagLayout());
         GridBagConstraints cClonedTasks = new GridBagConstraints();
         cClonedTasks.gridx = 0;

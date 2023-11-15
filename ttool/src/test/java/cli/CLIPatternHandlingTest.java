@@ -94,14 +94,13 @@ public class CLIPatternHandlingTest extends AbstractTest implements InterpreterO
     private StringBuilder outputResult;
     private List<String> errorOutputs = new ArrayList<String>();
     
-	
-	public CLIPatternHandlingTest() {
-	    //
+    public CLIPatternHandlingTest() {
+        //
     }
-	
+    
     public void exit(int reason) {
-	    TraceManager.addDev("Exit reason=" + reason);
-	    assertTrue(reason == 0);
+        TraceManager.addDev("Exit reason=" + reason);
+        assertTrue(reason == 0);
     }
 
     public void printError(String error) {
@@ -110,11 +109,11 @@ public class CLIPatternHandlingTest extends AbstractTest implements InterpreterO
     }
 
     public void print(String s) {
-	    TraceManager.addDev("info from interpreter:" + s);
-	    outputResult.append(s);
+        TraceManager.addDev("info from interpreter:" + s);
+        outputResult.append(s);
     }
-	
-	@Test
+    
+    @Test
     public void testIntegratingTMR() throws Exception {
         String filePathCreateTMR = getBaseResourcesDir() + PATH_PATTERNS[0] +  PATH_CLI_TO_CREATE_PATTERNS[0];
         String script;

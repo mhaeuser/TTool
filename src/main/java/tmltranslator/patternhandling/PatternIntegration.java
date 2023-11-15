@@ -62,8 +62,8 @@ public class PatternIntegration implements Runnable {
     private String patternName;
     private PatternConfiguration patternConfiguration;
     private LinkedHashMap<String, TaskPattern> patternTasks;
-	private TMLMapping<?> tmapModel;
-	private TMLMapping<?> tmapPattern;
+    private TMLMapping<?> tmapModel;
+    private TMLMapping<?> tmapPattern;
 
     private HashMap<String, String> tasksClonedIntoModel = new HashMap<String, String>();
     private HashMap<Entry<String, String>, String> channelsClonedIntoModel = new HashMap<Entry<String, String>, String>();
@@ -75,28 +75,28 @@ public class PatternIntegration implements Runnable {
     private HashMap<TMLTask, List<TMLActivityElement>> clonedTasksToRemElems = new HashMap<TMLTask, List<TMLActivityElement>>();
 
     public PatternIntegration(String _appTab, String _patternPath, String _patternName, PatternConfiguration _patternConfiguration, LinkedHashMap<String, TaskPattern> _patternTasks, TMLMapping<?> _tmapModel) {
-		this.appTab = _appTab;
-		this.patternPath = _patternPath;
-		this.patternName = _patternName;
-		this.patternConfiguration = _patternConfiguration;
-		this.patternTasks = _patternTasks;
-		this.tmapModel = _tmapModel;
-	}
+        this.appTab = _appTab;
+        this.patternPath = _patternPath;
+        this.patternName = _patternName;
+        this.patternConfiguration = _patternConfiguration;
+        this.patternTasks = _patternTasks;
+        this.tmapModel = _tmapModel;
+    }
     
-	public TMLMapping<?> startThread() {
-		Thread t = new Thread(this);
-		t.start();
-		try {
-			t.join();
-		}
-		catch (Exception e) {
-			TraceManager.addDev("Error in Pattern Integration Thread");
-		}
-		return tmapModel;
-	}
+    public TMLMapping<?> startThread() {
+        Thread t = new Thread(this);
+        t.start();
+        try {
+            t.join();
+        }
+        catch (Exception e) {
+            TraceManager.addDev("Error in Pattern Integration Thread");
+        }
+        return tmapModel;
+    }
 
     public void run() {
-    	TraceManager.addDev("Integrating Pattern");
+        TraceManager.addDev("Integrating Pattern");
         if (tmapModel == null) {
             return;
         }
@@ -119,7 +119,7 @@ public class PatternIntegration implements Runnable {
         tmapModel = mapChannelsInArchAuto(tmapModel, tmapPattern, patternConfiguration.getTasksMapping(), patternConfiguration.getChannelsMapping(), patternConfiguration, patternTasks);
         tmapModel = generateSecurityForChannels(tmapModel, tmapPattern, patternConfiguration, patternTasks, appTab);
         tmapModel = putBackPrefixNames(tmapModel, appTab);
-	}
+    }
 
     public TMLMapping<?> addClonedTask(TMLMapping<?> _tmapModel, PatternConfiguration _patternConfiguration) {
         TMLModeling<?> _tmlmModel = _tmapModel.getTMLModeling();

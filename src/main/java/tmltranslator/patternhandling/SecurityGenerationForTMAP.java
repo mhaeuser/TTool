@@ -446,11 +446,11 @@ public class SecurityGenerationForTMAP implements Runnable {
                                 if (!toSecureRev.get(chan.getDestinationTask()).contains(chan.getOriginTask())) {
                                     toSecureRev.get(chan.getDestinationTask()).add(chan.getOriginTask());
                                 }
-								/*}
-								  else {
-								  TMLChannel chantmp = oldmodel.getChannelByShortName("__"+chan.getName());
-								  System.out.println("Channel found "+ chantmp);
-								  }*/
+                                /*}
+                                  else {
+                                  TMLChannel chantmp = oldmodel.getChannelByShortName("__"+chan.getName());
+                                  System.out.println("Channel found "+ chantmp);
+                                  }*/
 
                             }
                             if (hsmTasks.contains(chan.getOriginTask().getName().split("__")[1])) {
@@ -505,11 +505,11 @@ public class SecurityGenerationForTMAP implements Runnable {
                             for (TMLTask dest : chan.getDestinationTasks()) {
                                 if (chan.isEnsureConf() && nonConf) {
                                     toSecure.get(orig).add(dest);
-								/*if (chan.checkAuth && autoStrongAuth) {
-								  if (!toSecureRev.get(dest).contains(orig)) {
-								  toSecureRev.get(dest).add(orig);
-								  }
-								  }*/
+                                /*if (chan.checkAuth && autoStrongAuth) {
+                                  if (!toSecureRev.get(dest).contains(orig)) {
+                                  toSecureRev.get(dest).add(orig);
+                                  }
+                                  }*/
                                     if (hsmTasks.contains(orig.getName().split("__")[1])) {
                                         SecurityPattern secPattern = new SecurityPattern("hsmSec_" + secName, SecurityPattern.SYMMETRIC_ENC_PATTERN, overhead, "", encComp, decComp, "", "", "");
                                         secPattern.originTask = "HSM_" + taskHSMMap.get(orig.getName().replaceAll(title + "__", ""));
@@ -519,10 +519,10 @@ public class SecurityGenerationForTMAP implements Runnable {
                                             hsmChannelMap.get(taskHSMMap.get(orig.getName().split("__")[1])).add(hsmchan);
                                             hsmSecOutChannels.get(orig).add(chanName);
 
-										/*	if (chan.checkAuth && autoStrongAuth) {
-											nonceOutChannels.get(orig).add(chanName);
-											hsmchan.nonceName="nonce_" + dest.getName().split("__")[1] + "_" + orig.getName().split("__")[1];
-											}*/
+                                        /*    if (chan.checkAuth && autoStrongAuth) {
+                                            nonceOutChannels.get(orig).add(chanName);
+                                            hsmchan.nonceName="nonce_" + dest.getName().split("__")[1] + "_" + orig.getName().split("__")[1];
+                                            }*/
                                         }
                                     } else {
                                         if (!secOutChannels.get(orig).contains(chanName)) {
@@ -530,9 +530,9 @@ public class SecurityGenerationForTMAP implements Runnable {
                                             SecurityPattern secPattern = new SecurityPattern("autoEncrypt_" + secName, SecurityPattern.SYMMETRIC_ENC_PATTERN, overhead, "", encComp, decComp, "", "", "");
                                             secPattern.originTask = orig.getName().replaceAll(title + "__", "");
                                             channelSecMap.put(chanName, secPattern);
-										/* if (chan.checkAuth && autoStrongAuth) {
-										   nonceOutChannels.get(orig).add(chanName);
-										   }*/
+                                        /* if (chan.checkAuth && autoStrongAuth) {
+                                           nonceOutChannels.get(orig).add(chanName);
+                                           }*/
                                         }
                                     }
 
@@ -541,34 +541,34 @@ public class SecurityGenerationForTMAP implements Runnable {
                                             HSMChannel hsmchan = new HSMChannel(chanName, dest.getName().split("__")[1], HSMChannel.DEC);
                                             hsmChannelMap.get(taskHSMMap.get(dest.getName().split("__")[1])).add(hsmchan);
                                             hsmSecInChannels.get(dest).add(chanName);
-										/*	if (chan.checkAuth && autoStrongAuth) {
-											nonceInChannels.get(dest).add(chanName);
-											hsmchan.nonceName="nonce_" + dest.getName().split("__")[1] + "_" + orig.getName().split("__")[1];
-											}*/
+                                        /*    if (chan.checkAuth && autoStrongAuth) {
+                                            nonceInChannels.get(dest).add(chanName);
+                                            hsmchan.nonceName="nonce_" + dest.getName().split("__")[1] + "_" + orig.getName().split("__")[1];
+                                            }*/
                                         }
                                     } else {
                                         if (!secInChannels.get(dest).contains(chanName)) {
                                             secInChannels.get(dest).add(chanName);
-										/*if (chan.checkAuth && autoStrongAuth) {
-										  nonceInChannels.get(dest).add(chanName);
-										  }*/
+                                        /*if (chan.checkAuth && autoStrongAuth) {
+                                          nonceInChannels.get(dest).add(chanName);
+                                          }*/
                                         }
                                     }
 
                                 } else if (chan.isEnsureWeakAuth() && nonAuth) {
                                     toSecure.get(orig).add(dest);
-								/*	if (autoStrongAuth) {
-								/*  		if (chan.getOriginTask().getReferenceObject() instanceof TMLCPrimitiveComponent && chan.getDestinationTask().getReferenceObject() instanceof TMLCPrimitiveComponent) {*/
-								/*if (!toSecureRev.get(dest).contains(orig)) {
-								  toSecureRev.get(dest).add(orig);
-								  }*/
-								/*}
-								  else {
-								  TMLChannel chantmp = oldmodel.getChannelByShortName("__"+chan.getName());
-								  System.out.println("Channel found "+ chantmp);
-								  }
+                                /*    if (autoStrongAuth) {
+                                /*          if (chan.getOriginTask().getReferenceObject() instanceof TMLCPrimitiveComponent && chan.getDestinationTask().getReferenceObject() instanceof TMLCPrimitiveComponent) {*/
+                                /*if (!toSecureRev.get(dest).contains(orig)) {
+                                  toSecureRev.get(dest).add(orig);
+                                  }*/
+                                /*}
+                                  else {
+                                  TMLChannel chantmp = oldmodel.getChannelByShortName("__"+chan.getName());
+                                  System.out.println("Channel found "+ chantmp);
+                                  }
 
-								  }*/
+                                  }*/
                                     if (hsmTasks.contains(orig.getName().split("__")[1])) {
                                         SecurityPattern secPattern = new SecurityPattern("hsmSec_" + secName, SecurityPattern.SYMMETRIC_ENC_PATTERN, overhead, "", encComp, decComp, "", "", "");
                                         secPattern.originTask = "HSM_" + taskHSMMap.get(orig.getName().replaceAll(title + "__", ""));
@@ -578,10 +578,10 @@ public class SecurityGenerationForTMAP implements Runnable {
                                             hsmChannelMap.get(taskHSMMap.get(orig.getName().split("__")[1])).add(hsmchan);
                                             hsmSecOutChannels.get(orig).add(chanName);
 
-										/*if (autoStrongAuth) {
-										  nonceOutChannels.get(orig).add(chanName);
-										  hsmchan.nonceName="nonce_" + dest.getName().split("__")[1] + "_" + orig.getName().split("__")[1];
-										  }*/
+                                        /*if (autoStrongAuth) {
+                                          nonceOutChannels.get(orig).add(chanName);
+                                          hsmchan.nonceName="nonce_" + dest.getName().split("__")[1] + "_" + orig.getName().split("__")[1];
+                                          }*/
                                         }
                                     } else {
                                         if (!macInChannels.get(orig).contains(chanName)) {
@@ -589,9 +589,9 @@ public class SecurityGenerationForTMAP implements Runnable {
                                             SecurityPattern secPattern = new SecurityPattern("autoEncrypt_" + secName, SecurityPattern.SYMMETRIC_ENC_PATTERN, overhead, "", encComp, decComp, "", "", "");
                                             secPattern.originTask = orig.getName().replaceAll(title + "__", "");
                                             channelSecMap.put(chanName, secPattern);
-										/*   if (autoStrongAuth) {
-										     nonceOutChannels.get(orig).add(chanName);
-										     }*/
+                                        /*   if (autoStrongAuth) {
+                                             nonceOutChannels.get(orig).add(chanName);
+                                             }*/
                                         }
                                     }
 
@@ -601,17 +601,17 @@ public class SecurityGenerationForTMAP implements Runnable {
                                             HSMChannel hsmchan = new HSMChannel(chanName, dest.getName().split("__")[1], HSMChannel.DEC);
                                             hsmChannelMap.get(taskHSMMap.get(dest.getName().split("__")[1])).add(hsmchan);
                                             hsmSecInChannels.get(dest).add(chanName);
-										/*if (chan.checkAuth && autoStrongAuth) {
-										  nonceInChannels.get(dest).add(chanName);
-										  hsmchan.nonceName="nonce_" + dest.getName().split("__")[1] + "_" + orig.getName().split("__")[1];
-										  }*/
+                                        /*if (chan.checkAuth && autoStrongAuth) {
+                                          nonceInChannels.get(dest).add(chanName);
+                                          hsmchan.nonceName="nonce_" + dest.getName().split("__")[1] + "_" + orig.getName().split("__")[1];
+                                          }*/
                                         }
                                     } else {
                                         if (!secInChannels.get(dest).contains(chanName)) {
                                             secInChannels.get(dest).add(chanName);
-										/*if (chan.checkAuth && autoStrongAuth) {
-										  nonceInChannels.get(dest).add(chanName);
-										  }*/
+                                        /*if (chan.checkAuth && autoStrongAuth) {
+                                          nonceInChannels.get(dest).add(chanName);
+                                          }*/
                                         }
                                     }
                                 }
@@ -1057,7 +1057,7 @@ public class SecurityGenerationForTMAP implements Runnable {
                             //Receive any nonces if ensuring authenticity
                             TMLReadChannel rd = new TMLReadChannel("", taskAD.getReferenceObject());
                             //System.out.println("tmlc " + tmlc);
-                            //					System.out.println("Checking "+ tmlc.getDestinationTask() + " " + tmlc.getOriginTask());
+                            //System.out.println("Checking "+ tmlc.getDestinationTask() + " " + tmlc.getOriginTask());
                             List<TMLChannel> matches = tmlmodel.getChannels(tmlc.getDestinationTask(), tmlc.getOriginTask());
 
                             if (matches.size() > 0) {

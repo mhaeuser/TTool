@@ -362,11 +362,11 @@ public class AVATAR2SysMLV2 {
 
         if (!isExcluded("state")) {
             for (AvatarStateMachineElement asme : asm.getListOfElements()) {
-                if (!isExcluded("state")) {
+                //if (!isExcluded("state")) {
                     if (asme instanceof AvatarState) {
                         ret.append(STATE + " " + asme.getName() + END);
                     }
-                }
+                //}
             }
 
             ret.append(CR);

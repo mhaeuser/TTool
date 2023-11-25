@@ -339,7 +339,7 @@ std::map<TMLTask *, std::string> SchedulableDevice::HWTIMELINE2HTML(std::ostring
   TransactionList _transactListClone;
   std::string taskList = iTracetaskList.c_str();
   maxScale = 0;
-  for (int z = 0; z < _transactList.size(); z++)
+  for (unsigned int  z = 0; z < _transactList.size(); z++)
   {
     std::string taskName = _transactList[z]->getCommand()->getTask()->toString();
     std::size_t pos = taskList.find(taskName); /*pos1 = position of "bin" if we working with open model*/

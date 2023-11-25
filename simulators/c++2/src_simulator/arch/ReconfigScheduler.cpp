@@ -80,7 +80,7 @@ TMLTime ReconfigScheduler::schedule(TMLTime iEndSchedule){
 	    std::cout<<"taskName "<<taskName.substr(indexTask+1,taskNameLength)<<std::endl;
 #endif
         // set priority to task base on order of user
-        for(int z = 0; z < getTaskOrder.size(); z++){
+        for(unsigned int z = 0; z < getTaskOrder.size(); z++){
              std::string::size_type position=getTaskOrder[z].find(taskName.substr(indexTask+1,taskNameLength));
                     if(position!=_tempTaskOrder.npos){
                         (*i)->setPriority(z);

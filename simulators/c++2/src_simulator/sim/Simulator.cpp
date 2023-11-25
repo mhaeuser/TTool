@@ -1489,9 +1489,9 @@ std::string to_string(const T &n)
   return stm.str();
 }
 
-int countLineNumber(std::string &filename)
+unsigned int countLineNumber(std::string &filename)
 {
-  int number_of_lines = 0;
+  unsigned int number_of_lines = 0;
   std::string line;
   std::ifstream myfile(filename.c_str());
 
@@ -1565,10 +1565,10 @@ ServerIF *Simulator::run(int iLen, char **iArgs)
   aArgString = getArgs("-signals", "signals.txt", iLen, iArgs);
   if (!aArgString.empty())
   {
-    int lineNumber = countLineNumber(aArgString);
+    unsigned int lineNumber = countLineNumber(aArgString);
     std::vector<std::string> parameters = readFromFile(aArgString);
     std::string aNewCmd;
-    int previousTransTime = 0;
+    unsigned int previousTransTime = 0;
     if ((parameters.size() != (lineNumber * 4)))
     {
       std::cout << "Error: Wrong format, each line should contains 4 parameters.\n";
@@ -1577,7 +1577,7 @@ ServerIF *Simulator::run(int iLen, char **iArgs)
     {
       if (lineNumber != 0)
       {
-        for (int i = 0; i < lineNumber; i++)
+        for (unsigned int i = 0; i < lineNumber; i++)
         {
           std::string channelName = _simComp->getChannelList(parameters[i * 4 + 1]);
           TMLChannel *t = _simComp->getChannelByName(channelName);

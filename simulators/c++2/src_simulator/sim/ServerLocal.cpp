@@ -49,7 +49,7 @@ int ServerLocal::run(){
 	char aCmd[BUFFER_SIZE];
 	int aNumberOfBytes;
 	if (aCmdFileH.is_open()){
-		std::cout << "Reading command file " << aCmdFileH << std::endl;
+		std::cout << "Reading command file " << _cmdFile << std::endl;
 		while(!(_syncInfo->_terminate || aCmdFileH.eof())) {
 			aCmdFileH.getline(aCmd,BUFFER_SIZE-1);
 			aNumberOfBytes=strlen(aCmd);

@@ -2542,7 +2542,13 @@ void Simulator::decodeCommand(std::string iCmd, std::ostream &iXmlOutStream)
     aInpStream >> aParam1;
 
     std::cout << "printhtis" << std::endl;
-    std::cout << TAG_MSGo << oLastTrans->toString() << aStrParam << TAG_MSGc << std::endl;
+    std::string oLastTransString;
+    if (oLastTrans == NULL) {
+      oLastTransString = "<null>";
+    } else {
+      oLastTransString = oLastTrans->toString();
+    }
+    std::cout << TAG_MSGo << oLastTransString << aStrParam << TAG_MSGc << std::endl;
     switch (aParam1)
     {
     case 0:

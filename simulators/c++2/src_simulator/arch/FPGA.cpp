@@ -1272,7 +1272,7 @@ void FPGA::schedule2HTML(std::ofstream &myfile)
         unsigned int aLength = aCurrTrans->getOperationLength();
 
         // Issue #4
-        TMLTask *task = aCurrTrans->getCommand()->getTask();
+        //  TMLTask *task = aCurrTrans->getCommand()->getTask();
         //	std::cout<<"what is this task?"<<task->toString()<<std::endl;
         const std::string cellClass = determineHTMLCellClass(nextCellClassIndex);
         if (!(!(aCurrTrans->getCommand()->getActiveDelay()) && aCurrTrans->getCommand()->isDelayTransaction()))

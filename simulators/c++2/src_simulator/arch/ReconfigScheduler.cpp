@@ -49,9 +49,9 @@ ReconfigScheduler::ReconfigScheduler(const std::string& iName, Priority iPrio, W
 TMLTime ReconfigScheduler::schedule(TMLTime iEndSchedule){
   std::cout<<"reconfig scheduler"<<std::endl;
 	TaskList::iterator i;
-	TMLTransaction *aMarkerPast=0, *aMarkerFuture=0,*aTempTrans;
+	TMLTransaction *aMarkerPast=0, *aTempTrans;
 	TMLTask* aTempTask;
-	TMLTime aTransTimeFuture=-1,aRunnableTime,aLowestRunnableTimePast=-1;;
+	TMLTime aRunnableTime,aLowestRunnableTimePast=-1;;
 	WorkloadSource *aSourcePast=0, *aSourceFuture=0;  //NEW
 	std::vector<std::string> getTaskOrder;
     std::string _tempTaskOrder, taskOrderCopy;

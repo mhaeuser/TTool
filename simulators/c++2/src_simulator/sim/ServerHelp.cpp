@@ -95,12 +95,10 @@ void ServerHelp::parseHtml(std::string filePath) {
     std::string searchEnd = "</tr>";
     std::string delimiter = "</td>";
 //    std::string breakLine = "<br />";
-    unsigned int curLine = 0;
 
     std::istringstream data(filePath.c_str());
 
     while(std::getline(data, line)) {
-        curLine++;
         if (line.find(searchStart1, 0) != std::string::npos || line.find(searchStart2, 0) != std::string::npos) {
             check = true;
             continue;

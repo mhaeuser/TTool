@@ -51,7 +51,7 @@ TMLTime OrderScheduler::schedule(TMLTime iEndSchedule){
 	TaskList::iterator i;
 
     //std::cout << _name << ": Schedule called \n";
-    TMLTransaction *anOldTransaction = _nextTransaction, *aTempTrans;
+    TMLTransaction *aTempTrans;
     TMLTime aLowestRunnableTimeFuture=-1, aRunnableTime, aLowestRunnableTimePast=-1;
     WorkloadSource *aSourcePast=0, *aSourceFuture=0;
         //std::cout << _name << ": Second if\n";

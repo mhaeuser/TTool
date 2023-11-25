@@ -12,7 +12,7 @@ LTHREAD = -pthread
 
 DEBUG  = -g
 PROFILE = -pg
-OTHER  = -Wall
+OTHER  = -Werror -Wall -Wextra -pedantic -Wno-error=deprecated-declarations -Wno-unused-parameter -Wno-parentheses-equality -Wno-self-assign-field -Wno-c++11-long-long -Wno-long-long
 SOLARIS_SPECIFIC = -lsocket -lnsl
 TRY    = -Wno-deprecated
 #make  = $(OPT) $(OTHER) $(TRY) 

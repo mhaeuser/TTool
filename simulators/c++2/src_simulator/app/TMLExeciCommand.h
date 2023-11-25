@@ -68,7 +68,7 @@ public:
 	std::string toShortString() const;
 	std::string toShortString(TMLLength aLength, TMLLength aProgress) const;
 	inline std::string getCommandStr() const {return "exe";}
-    inline unsigned int getExecType() override {return _execType;}
+    inline unsigned int getExecType() {return _execType;}
 protected:
 	TMLCommand* prepareNextTransaction();
 	///Pointer to the function returning the length of the command

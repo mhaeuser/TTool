@@ -64,6 +64,7 @@ Ludovic Apvrille, Renaud Pacalet
 #include <netinet/in.h>
 #include <pthread.h>
 #include <dlfcn.h> 
+#include <assert.h>
 
 #define xx__VARS(a1, a2, a3, a4, a5, a6, a7, a8, ...) (void*)&(a1), sizeof(a1), (void*)&(a2), sizeof(a2), (void*)&(a3), sizeof(a3), (void*)&(a4), sizeof(a4), (void*)&(a5), sizeof(a5), (void*)&(a6), sizeof(a6), (void*)&(a7), sizeof(a7), (void*)&(a8), sizeof(a8)
 #define xx__SIZE(a1, a2, a3, a4, a5, a6, a7, a8, ...) sizeof(a1)+sizeof(a2)+sizeof(a3)+sizeof(a4)+sizeof(a5)+sizeof(a6)+sizeof(a7)+sizeof(a8)
@@ -138,15 +139,14 @@ public:
 */
 template<typename T>
 T* array(unsigned int noArgs, T arg1 ...){
-	T arg=arg1;
+	assert(noArgs > 0);
 	T* newArray;
 	unsigned int i;
 	va_list args; // argument list
 	va_start(args, arg1); // initialize args
 	newArray=new T[noArgs];
-	for (i=0;i<noArgs;i++){
-		newArray[i]=arg;
-		arg=va_arg(args, T);
+	for (i=1;i<noArgs;i++){
+		newArray[i]=va_arg(args, T);
 	}
 	va_end(args); // clean up args
 	return newArray;

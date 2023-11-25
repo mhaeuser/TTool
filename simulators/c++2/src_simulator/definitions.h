@@ -72,6 +72,7 @@ Ludovic Apvrille, Renaud Pacalet
 #include <sys/resource.h>
 #include <unistd.h>
 #include "penalties.h"
+#include <assert.h>
 
 
 #define WRITE_STREAM(s,v) s.write((char*) &v,sizeof(v)); 
@@ -775,15 +776,15 @@ inline T StringToNum(const std::string& iStr){
 */
 template<typename T>
 T* array(unsigned int noArgs, T arg1 ...){
-	T arg=arg1;
+	assert(noArgs > 0);
 	T* newArray;
 	unsigned int i;
 	va_list args; // argument list
 	va_start(args, arg1); // initialize args
 	newArray=new T[noArgs];
-	for (i=0;i<noArgs;i++){
-		newArray[i]=arg;
-		arg=va_arg(args, T);
+	newArray[0] = arg1;
+	for (i=1;i<noArgs;i++){
+		newArray[i]=va_arg(args, T);
 	}
 	va_end(args); // clean up args
 	return newArray;

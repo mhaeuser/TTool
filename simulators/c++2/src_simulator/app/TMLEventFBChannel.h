@@ -161,11 +161,10 @@ public:
 	}
 
 	TMLLength insertSamples(TMLLength iNbOfSamples, Parameter* iParam){
-		TMLLength aNbToInsert;
+		TMLLength aNbToInsert = 0;
 		if (iNbOfSamples==0){
 			this->_content=0;
 			this->_paramQueue.clear();
-			aNbToInsert=0;
 		}else if(_length-this->_content>0) {
 			aNbToInsert=1;
 			this->_content+=aNbToInsert;
@@ -177,11 +176,10 @@ public:
 	}
 	
 	TMLLength removeSamples(TMLLength iNbOfSamples) {
-		TMLLength aNbToRemove;
+		TMLLength aNbToRemove = 0;
 		if (iNbOfSamples==0) {
 			this->_content=0;
 			this->_paramQueue.clear();
-			aNbToRemove=0;
 		} else if (this->_content>0) {
 			aNbToRemove=1;
 			this->_content-=aNbToRemove;

@@ -63,7 +63,7 @@ Ludovic Apvrille, Renaud Pacalet
   c -= b;  c ^= rot(b, 4);  b += a; \
 }
 
-#define ifinal(a,b,c) \
+#define ihfinal(a,b,c) \
 { \
   b += rot(a,14); b ^= a;\
   a += rot(c,4);  a ^= c;\
@@ -73,7 +73,7 @@ Ludovic Apvrille, Renaud Pacalet
   c += rot(b,14); c ^= b;\
 }
 
-#define final(a,b,c) \
+#define hfinal(a,b,c) \
 { \
   c ^= b; c -= rot(b,14); \
   a ^= c; a -= rot(c,11); \
@@ -121,7 +121,7 @@ public:
 	
 	/*void removeValue(HashValueType iVal){
 		if(_finalized){
-  			ifinal(_a, _b, _c);
+  			ihfinal(_a, _b, _c);
 			_finalized=false;
 		}
 		switch(_state){
@@ -137,7 +137,7 @@ public:
 			_result = _c;
 			if(_state!=0){
 				HashValueType aA = _a, aB=_b;
-				final(aA, aB, _result);
+				hfinal(aA, aB, _result);
 				_finalized=true;
 			}
 		}

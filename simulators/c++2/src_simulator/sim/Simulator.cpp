@@ -1124,6 +1124,8 @@ bool Simulator::simulate(TMLTransaction *&oLastTrans) {
   //  bool isHanging = false;
   //  long countMaxTrans = 0;
 
+  oLastTrans = NULL;
+
 #ifdef DEBUG_KERNEL
   std::cout << "kernel:simulate: first schedule" << std::endl;
 #endif

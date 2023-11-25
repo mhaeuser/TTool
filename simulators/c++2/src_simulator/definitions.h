@@ -842,7 +842,7 @@ namespace std{
 		return p1->_time > p2->_time;
 	}
 	};
-};
+}
 
 ///Priority queue for SignalChangeData objects, keeps track of the temporal ordering of signal changes (for VCD output)
 typedef std::priority_queue<SignalChangeData*, std::vector<SignalChangeData*>, std::greater<SignalChangeData*> > SignalChangeQueue;

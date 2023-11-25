@@ -106,9 +106,9 @@ public class Penalties {
 
         data = FILE_HEADER + "\n";
         if (mustHandlePenalties) {
-            data += ACTIVATED;
+            data += ACTIVATED + "\n";
         } else {
-            data += NOT_ACTIVATED;
+            data += NOT_ACTIVATED + "\n";
         }
 
         try {

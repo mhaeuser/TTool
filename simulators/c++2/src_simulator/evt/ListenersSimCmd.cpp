@@ -159,7 +159,7 @@ CondBreakpoint::CondBreakpoint(SimComponents* iSimComp, std::string iCond, TMLTa
 		std::cout << "Error " << dlerror() << " occurred when opening shared library.\n";
 		return;
 	}
-	_condFunc = (BreakCondFunc) dlsym( _dlHandle, "condFunc");
+	_condFunc = (BreakCondFunc)(intptr_t) dlsym( _dlHandle, "condFunc");
 	if (dlerror() != NULL) {
 		std::cout << "Error when getting function handle\n";
     		return;

@@ -157,6 +157,7 @@ void TMLTask::getNextSignalChange(bool iInit, SignalChangeData* oSigData){
 				  new (oSigData) SignalChangeData(RUNNING, aCurrTrans->getStartTimeOperation(), this);
 				  break;
 				}
+				// fall through
 			case END_TRANS:
 				if (aCurrTrans->getRunnableTime() == _previousTransEndTime){
 					//outp << VCD_PREFIX << vcdValConvert(RUNNABLE) << "ta" << _ID;

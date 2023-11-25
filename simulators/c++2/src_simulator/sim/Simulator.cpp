@@ -2475,6 +2475,7 @@ void Simulator::decodeCommand(std::string iCmd, std::ostream &iXmlOutStream)
     case 3: // XML
       aGlobMsg << TAG_MSGo << "Schedule output in XML format" << TAG_MSGc << std::endl;
       schedule2XML(anEntityMsg, aStrParam);
+      break;
     case 4:
     { // Timeline diagram
       aGlobMsg << TAG_MSGo << "Schedule output in timeline format" << TAG_MSGc << std::endl;
@@ -2745,6 +2746,7 @@ void Simulator::decodeCommand(std::string iCmd, std::ostream &iXmlOutStream)
     std::cout << "Calculate latencies between " << aParam1 << " and " << aParam2 << std::endl;
     addLatencyIds(aParam1, aParam2);
     std::cout << "latencies " << &anEntityMsg << std::endl;
+    break;
   case 25: // Get list of all transactions belogn to a task
     aInpStream >> aStrParam;
     std::cout << "Get list of all transactions belong to " << aStrParam << std::endl;

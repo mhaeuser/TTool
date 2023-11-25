@@ -348,6 +348,7 @@ void Bus::getNextSignalChange(bool iInit, SignalChangeData* oSigData){
 					//return 0;
 					return;
 				}
+				// fall through
 			case END_IDLE_BUS:
 			std::cout<<"BUS END_IDLE_BUS"<<std::endl;
 				if (aCurrTrans->getCommand()->getTask()==aCurrTrans->getChannel()->getBlockedReadTask()){

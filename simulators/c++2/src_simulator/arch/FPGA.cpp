@@ -859,7 +859,7 @@ std::map<TMLTask *, std::string> FPGA::HWTIMELINE2HTML(std::ostringstream &myfil
         {
           tempReconfigIdle << " ";
         }
-        if (aBlanks >= 0 && (!(aCurrTrans->getCommand()->getActiveDelay()) && aCurrTrans->getCommand()->isDelayTransaction()))
+        if (!(aCurrTrans->getCommand()->getActiveDelay()) && aCurrTrans->getCommand()->isDelayTransaction())
         {
           listScale.push_back(aBlanks + 1);
           tempString << tempBlanks + 1;
@@ -1074,7 +1074,7 @@ void FPGA::HW2HTML(std::ofstream &myfile)
           isBlankTooBig = true;
           changeCssClass = true;
         }
-        if (aBlanks >= 0 && (!(aCurrTrans->getCommand()->getActiveDelay()) && aCurrTrans->getCommand()->isDelayTransaction()))
+        if (!(aCurrTrans->getCommand()->getActiveDelay()) && aCurrTrans->getCommand()->isDelayTransaction())
         {
           listScale.push_back(aBlanks + 1);
           tempString << tempBlanks + 1;
@@ -1238,7 +1238,7 @@ void FPGA::schedule2HTML(std::ofstream &myfile)
           changeCssClass = true;
         }
 
-        if (aBlanks >= 0 && (!(aCurrTrans->getCommand()->getActiveDelay()) && aCurrTrans->getCommand()->isDelayTransaction()))
+        if (!(aCurrTrans->getCommand()->getActiveDelay()) && aCurrTrans->getCommand()->isDelayTransaction())
         {
           listScale.push_back(aBlanks + 1);
           tempString << tempBlanks + 1;

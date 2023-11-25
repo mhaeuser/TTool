@@ -574,7 +574,7 @@ void TMLTask::schedule2HTML(std::ofstream& myfile) const {
 			isBlankTooBig = true;
 			changeCssClass = true;
 		}
-		if ( aBlanks >= 0 && (!(aCurrTrans->getCommand()->getActiveDelay()) && aCurrTrans->getCommand()->isDelayTransaction()) ){
+		if (!(aCurrTrans->getCommand()->getActiveDelay()) && aCurrTrans->getCommand()->isDelayTransaction()){
 			listScale.push_back(aBlanks+1);
 			tempString << tempBlanks+1;
 			if (beg + 1 > listScaleTime.back()) {

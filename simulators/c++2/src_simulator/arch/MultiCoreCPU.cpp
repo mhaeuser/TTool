@@ -611,7 +611,7 @@ std::cout << std::endl << "---- Multicore HTML ----- " << std::endl;
         isBlankTooBig = true;
         changeCssClass = true;
     }
-    if ( aBlanks >= 0 && (!(aCurrTrans->getCommand()->getActiveDelay()) && aCurrTrans->getCommand()->isDelayTransaction()) ){
+    if (!(aCurrTrans->getCommand()->getActiveDelay()) && aCurrTrans->getCommand()->isDelayTransaction()){
 
         listScale.push_back(aBlanks+1);
         std::cout << "ListScale: " << (aBlanks+1) << '\n';

@@ -400,7 +400,7 @@ std::map<TMLTask *, std::string> SchedulableDevice::HWTIMELINE2HTML(std::ostring
         isBlankTooBig = true;
         changeCssClass = true;
       }
-      if (aBlanks >= 0 && (!(aCurrTrans->getCommand()->getActiveDelay()) && aCurrTrans->getCommand()->isDelayTransaction()))
+      if (!(aCurrTrans->getCommand()->getActiveDelay()) && aCurrTrans->getCommand()->isDelayTransaction())
       {
         // std::cout << "Case blank #1: assign transaction " << aCurrTrans->toShortString() << std::endl;
         listScale.push_back(aBlanks + 1);
@@ -647,7 +647,7 @@ void SchedulableDevice::HW2HTML(std::ofstream &myfile) const
         isBlankTooBig = true;
         changeCssClass = true;
       }
-      if (aBlanks >= 0 && (!(aCurrTrans->getCommand()->getActiveDelay()) && aCurrTrans->getCommand()->isDelayTransaction()))
+      if (!(aCurrTrans->getCommand()->getActiveDelay()) && aCurrTrans->getCommand()->isDelayTransaction())
       {
         listScale.push_back(aBlanks + 1);
         tempString << tempBlanks + 1;
@@ -834,7 +834,7 @@ void SchedulableDevice::schedule2HTML(std::ofstream &myfile) const
         isBlankTooBig = true;
         changeCssClass = true;
       }
-      if (aBlanks >= 0 && (!(aCurrTrans->getCommand()->getActiveDelay()) && aCurrTrans->getCommand()->isDelayTransaction()))
+      if (!(aCurrTrans->getCommand()->getActiveDelay()) && aCurrTrans->getCommand()->isDelayTransaction())
       {
 
         listScale.push_back(aBlanks + 1);

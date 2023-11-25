@@ -267,7 +267,7 @@ std::cout << std::endl << "---- CPU HTML ----- " << std::endl;
 
         
 
-        if (aBlanks >= 0 && (!(aCurrTrans->getCommand()->getActiveDelay()) && aCurrTrans->getCommand()->isDelayTransaction()))
+        if (!(aCurrTrans->getCommand()->getActiveDelay()) && aCurrTrans->getCommand()->isDelayTransaction())
         {
           listScale.push_back(aBlanks + 1);
           std::cout << "ListScale: " <<  (aBlanks + 1) << std::endl;
@@ -518,7 +518,7 @@ void CPU::HW2HTML(std::ofstream &myfile) const
           isBlankTooBig = true;
           changeCssClass = true;
         }
-        if (aBlanks >= 0 && (!(aCurrTrans->getCommand()->getActiveDelay()) && aCurrTrans->getCommand()->isDelayTransaction()))
+        if (!(aCurrTrans->getCommand()->getActiveDelay()) && aCurrTrans->getCommand()->isDelayTransaction())
         {
           listScale.push_back(aBlanks + 1);
           tempString << tempBlanks + 1;
@@ -699,7 +699,7 @@ void CPU::schedule2HTML(std::ofstream &myfile) const
           isBlankTooBig = true;
           changeCssClass = true;
         }
-        if (aBlanks >= 0 && (!(aCurrTrans->getCommand()->getActiveDelay()) && aCurrTrans->getCommand()->isDelayTransaction()))
+        if (!(aCurrTrans->getCommand()->getActiveDelay()) && aCurrTrans->getCommand()->isDelayTransaction())
         {
           listScale.push_back(aBlanks + 1);
           tempString << tempBlanks + 1;

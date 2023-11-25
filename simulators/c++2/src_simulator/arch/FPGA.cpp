@@ -476,6 +476,8 @@ void FPGA::getNextSignalChange(bool iInit, SignalChangeData *oSigData)
           new (oSigData) SignalChangeData(END_TASK_TRANS, aCurrTrans->getStartTime(), this);
 
           break;
+        case END_PENALTY_TRANS:
+          break;
         }
       }
       break;

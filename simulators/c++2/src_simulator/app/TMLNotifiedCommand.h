@@ -63,6 +63,8 @@ public:
 	virtual ~TMLNotifiedCommand(){}
 	void execute();
 	inline TMLChannel* getChannel() const {return dynamic_cast<TMLChannel*>(_channel);}
+	inline unsigned int getNbOfChannels() const {return 1;}
+  inline TMLChannel* getChannel(unsigned int iIndex) const {return getChannel();}
 	std::string toString() const;
 	std::string toString(TMLLength aLength, TMLLength aProgress) const;
 	std::string toShortString() const;
